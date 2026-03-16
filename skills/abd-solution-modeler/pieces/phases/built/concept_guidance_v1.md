@@ -12,7 +12,6 @@ This phase should identify the domain's likely:
 - **Actors**
 - **Epics**
 
-**Interaction detail:** Story Map Skeleton: Epics, Sub-Epics, some stories where possible.
 
 ## Trigger
 
@@ -48,13 +47,17 @@ Add stories where evident from context; defer Trigger, Response, scenarios, step
 Identify:
 
 1. **Candidate Concepts**
-   - include only concepts that appear central to the domain
-   - prefer concepts that participate in interactions or state changes
+   - include concepts that participate in interactions or state changes
    - avoid example-only roles unless they are real domain concepts
+   - **enumerate subtypes with distinct mechanics** — when the context describes multiple variants of a concept (e.g. "payment methods: CreditCard, BankTransfer, DigitalWallet, BuyNowPayLater...") and each variant has its own rules (different validation, settlement, fee structure, reversal process), list EACH variant as a separate concept, not as an enum on the parent. A subtype is a concept when it has its own mechanics; it's an enum value when it's just a label.
+   - **check for category hierarchies** — when the context groups things into categories (e.g. "retail promotions: volume discounts, loyalty rewards, bundle offers, clearance markdowns") with different rules per category (different eligibility, stacking, expiry), model each category as a concept
+   - **read chunks for mechanical depth, not just chapter summaries** — scan the actual chunk text for every distinct rule, formula, or state transition. A mechanic that has its own trigger, its own conditions, its own state transitions, or its own interaction rules is a concept, not a property.
+   - **organize concepts into type / subtype / related** — for every concept that has subtypes with distinct mechanics, list the subtypes indented under the parent in the markdown output and in `concept_hierarchy` in the JSON output. Use `-> related:` to link associated concepts that collaborate but are not subtypes. This initial hierarchy map feeds directly into later phases — getting it right here avoids rediscovery.
 
 2. **Candidate Modules**
    - group concepts around likely mechanisms
    - modules should be broad and provisional
+   - **a variation axis with its own rules, interactions, and state is a strong candidate for a module**
 
 3. **Likely Mechanisms**
    - name mechanisms that appear to organize multiple rules
@@ -80,19 +83,23 @@ Populate `noise_filters` in the JSON output with strings that identify low-value
 **CRITICAL:** Only include strings that appear **exclusively** in worthless chunks. Do NOT include strings like chapter headers or book titles that also appear in good rule content — they appear in headers of every chunk and will cause the entire corpus to be filtered out.
 
 ## Output quality rules
-- stay shallow
-- prefer fewer, stronger concepts over long noun lists
+- prefer breadth AND depth over brevity — missing a concept is worse than listing a marginal one
 - do not include formulas or exact rule math
 - if uncertain, mark as **candidate**, not final
 - every concept should have a short interaction-oriented statement
 - every epic should be grounded in **Concept** language
 - every concept named in the interaction skeleton must exist in the guidance output
+- **concept count drives extraction quality** — the extraction script (Phase 3) can only find evidence for concepts you name here. If you list "Transaction" as one concept, all transaction subtypes get lumped together. If you list "Purchase", "Refund", "Chargeback" separately, extraction separates them. Err on the side of MORE concepts.
+
+## Alias quality rules
+- **no short aliases (2-3 characters)** — aliases like "TX", "CC", "PO", "SL" will false-match common letter pairs in English text and poison the evidence. Use full phrases ("transaction", "credit card", "purchase order", "service level").
+- **no ambiguous common words** — aliases like "order", "item", "status", "type", "level", "plan", "rate" will match too broadly. Use compound phrases that are unambiguous in context (e.g. "service plan" not "plan"; "line item" not "item").
+- **test each alias mentally** — would this string appear in text that has NOTHING to do with this concept? If yes, don't use it.
 
 ## Outputs
 
 1. `generated/domain/concept_guidance.md`
 2. `generated/domain/concept_guidance.json`
-3. `generated/interaction_model/interaction_tree.md` (Story Map Skeleton: Epics, Sub-Epics, some stories)
 
 ## Markdown output shape
 
@@ -106,9 +113,19 @@ Populate `noise_filters` in the JSON output with strings that identify low-value
 
 ## Concepts (candidate)
 
-**ConceptA** — interacts with **ConceptB**
-**ConceptB** — modifies **ConceptC**
-**ConceptC** — results from **ConceptA**
+**Transaction** — exchange of value between parties
+  **Purchase** : Transaction — forward payment, creates obligation
+  **Refund** : Transaction — reversal, requires original purchase
+  **Chargeback** : Transaction — disputed reversal, involves issuer
+  -> related: **PaymentMethod**, **Receipt**
+
+**PaymentMethod** — instrument used to settle a **Transaction**
+  **CreditCard** : PaymentMethod — delayed settlement, supports chargeback
+  **BankTransfer** : PaymentMethod — immediate settlement, no reversal
+  **DigitalWallet** : PaymentMethod — tokenized, delegates to underlying method
+  -> related: **Transaction**, **Fee**
+
+**Receipt** — proof of completed **Transaction**
 
 ## Mechanisms (likely)
 
@@ -122,8 +139,8 @@ Populate `noise_filters` in the JSON output with strings that identify low-value
 ## Extraction Guidance
 
 ### Priority Concepts
-- **ConceptA**
-- **ConceptB**
+- **Transaction**
+- **PaymentMethod**
 
 ### Priority Mechanisms
 - **MechanismA**
@@ -134,18 +151,37 @@ Populate `noise_filters` in the JSON output with strings that identify low-value
 - axis b
 
 ### Synonym Hints
-- **ConceptA**: alias 1, alias 2
-- **ConceptB**: alias 3, alias 4
+- **Transaction**: transaction
+- **Purchase**: purchase, buy
+- **Refund**: refund, return payment
 ```
+
+**Hierarchy notation in markdown:**
+- Indent subtypes under parent with `**Subtype** : Parent` notation
+- `-> related:` line lists associated concepts (not subtypes)
+- Top-level concepts with no parent stay unindented
+- Leaf concepts with no children get a single line
 
 ## Required JSON shape (concept_guidance_v1.json)
 
 ```json
 {
-  "priority_concepts": ["ConceptA", "ConceptB"],
+  "priority_concepts": ["Transaction", "Purchase", "Refund", "Chargeback", "PaymentMethod", "CreditCard", "BankTransfer"],
   "concept_aliases": {
-    "ConceptA": ["alias 1", "alias 2"],
-    "ConceptB": ["alias 3", "alias 4"]
+    "Transaction": ["transaction"],
+    "Purchase": ["purchase", "buy"],
+    "Refund": ["refund", "return payment"],
+    "PaymentMethod": ["payment method"]
+  },
+  "concept_hierarchy": {
+    "Transaction": {
+      "subtypes": ["Purchase", "Refund", "Chargeback"],
+      "related": ["PaymentMethod", "Receipt"]
+    },
+    "PaymentMethod": {
+      "subtypes": ["CreditCard", "BankTransfer", "DigitalWallet"],
+      "related": ["Transaction", "Fee"]
+    }
   },
   "priority_mechanisms": ["MechanismA", "MechanismB"],
   "priority_actors": ["ActorA", "ActorB"],
@@ -158,6 +194,12 @@ Populate `noise_filters` in the JSON output with strings that identify low-value
   "focus_sections": ["section a", "section b"]
 }
 ```
+
+**`concept_hierarchy` rules:**
+- All subtypes MUST also appear in `priority_concepts` (so extraction finds them individually)
+- `subtypes` = "is-a" — subtype has its own distinct mechanics, inherits from parent
+- `related` = "works-with" — collaborates but is not a subtype
+- Only list parents that have subtypes or notable related concepts; leaf concepts with no children can be omitted from hierarchy
 
 ## Checkpoint 1
 
@@ -198,100 +240,6 @@ impact: HIGH
 
 **DO NOT** invent workflows or mechanics not present in the context.
 - Example (wrong): Story "Express checkout" or concept "LoyaltyPoints" when context never mentions them. Right: Omit; if needed, state assumption.
-
-
----
-
-
-
-## Interaction Tree Rules (4)
-
-Apply these rules when producing the interaction tree output for this phase.
-
----
-title: Verb-noun format
-impact: HIGH
-order: 1
----
-
-## Verb-noun format
-
-Use verb-noun format for epic/story/step names and steps. Actor documented separately. Use active voice, base verb forms, and business language for all interaction text. Use behavioral language — describe what happens, not how it's implemented. Use domain concepts in steps (Given/When/Then) — not UI labels. Applies to all nodes (epic, story, step, scenario), including steps in or out of scenarios.
-**DO** use Actor → verb noun [qualifiers]. Actor is documented separately, NOT in the name.
-- Names: "Places Order" (actor: Customer); "Validates Payment" (actor: System); "Process Order Payment".
-- **Step format** — strategy may specify When/Then (strict) or vanilla (verb-noun). Show both:
-  - **When/Then:** `When **User** browses countries; Then **System** displays list of **Country** options`.
-  - **Vanilla:** `User submits form`, `System validates payment`, `Select item from list`.
-- Use base verb forms (infinitive/imperative): "Select Tokens", "Group Minions", "Process Payment".
-- Use behavioral terms: "When user enters name; Then system saves character information" (not "system writes to JSON").
-- Use domain concepts in steps: "User selects **Country**", "User enters **PaymentDetails**" (not "User clicks dropdown", "User fills form field").
-
-**DO NOT** include actor in name, use noun-only, gerunds, or third-person singular.
-**DO NOT** use technical implementation terms (config, json, api, sql, class, method). Use behavioral language instead.
-- Wrong: "Customer Places Order" (actor in name). Right: "Places Order" (actor: Customer).
-- Wrong: "Order submission", "Payment processing", "Form validation" (noun-only). Right: "Submit order", "Process payment", "Validate form".
-- Wrong: "Submitting order", "Selects item", "Displays confirmation" (gerund/third-person). Right: "Submit order", "Select item", "Display confirmation".
-- Wrong: "Then system saves to JSON file", "Then system parses XML", "Then system executes SQL query" (technical). Right: "Then system saves configuration data", "Then system processes data", "Then system retrieves data".
-- Wrong: "User clicks dropdown", "User fills form field", "User submits button" (UI). Right: "User selects **Country**", "User enters **PaymentDetails**", "User submits payment".
-
-
----
-
----
-title: Outcome-oriented language
-impact: HIGH
-order: 2
----
-
-## Outcome-oriented language
-
-Use outcome-oriented language over mechanism-oriented language. Focus on what is created or achieved, not how it's shown or communicated.
-
-**DO** use verbs that describe artifacts and outcomes — name concepts by what they ARE or CREATE.
-- Example (right): "System → displays power activation animation" (not "Visualizing Power Activation"); "System → provides combat outcome feedback" (not "Showing Combat Results"); "System → displays hit indicators" (not "Displaying Hit Information").
-
-**DO NOT** use generic communication or mechanism verbs.
-- Example (wrong): "Visualizing Power Activation", "Showing Combat Results", "Displaying Hit Information", "Presenting Configuration Options".
-- Wrong: "Showing results", "Displaying information", "Visualizing data", "Presenting options", "Providing settings", "Enabling features", "Allowing access".
-
-
----
-
----
-title: Story granularity
-impact: MEDIUM-HIGH
-order: 4
----
-
-## Story granularity
-
-**DO** break down by distinct requirements areas, distinct concept structure, or workflow steps; sufficient stories to capture rule detail.
-- Example (right): Story "View Product Details", Story "Make Payment" (each has distinct logic). Story "Drive Bike", Story "Drive Car" (concept structure differs).
-
-**DO NOT** collapse large rule sections into one story.
-- Example (wrong): Story "All combat effects" or "All attack types" when the context has dozens of distinct rules. Right: Story "Apply damage effect", Story "Apply condition effect", Story "Resolve melee attack", etc.
-
-
----
-
----
-title: Small and testable
-impact: HIGH
-order: 5
----
-
-## Small and testable
-
-Stories must be testable as complete interactions and deliverable independently. Story = testable outcome; Step = implementation detail.
-
-**DO** create stories that can be tested and delivered independently.
-- Example (right): "Customer → places order" (testable: order created, payment processed).
-- Story = User/system outcome (testable independently with clear acceptance criteria).
-- Step = Implementation detail (not testable alone, verified as part of parent story test).
-
-**DO NOT** create stories too small to test meaningfully or make implementation steps into stories.
-- Example (wrong): "Add order button" (can't test without full order flow); "Display error message" (can't test without validation context).
-- Wrong: "Convert Diagram to StoryGraph Format", "Serialize Components to JSON", "Calculate Component Positions" (implementation steps, not testable alone).
 
 
 ---

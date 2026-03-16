@@ -5,7 +5,6 @@
 
 Add relationships and composition between concepts.
 
-**Interaction detail:** Add Triggering-Actor and Responding-Actor per story; additional stories as gleaned from structure; add long name; initiating and resulting state; pre-conditions.
 
 ## Trigger
 
@@ -15,14 +14,15 @@ structural model, relationships, composition, collaborators
 
 - define composition relationships
 - attach collaborators
+- **Ground relationships in `evidence/relationships.json`** — scan the relationship evidence for `from_entity` → `type` → `to_entity` patterns. Only add relationships that evidence supports. Cite the evidence (e.g. `[rel_0042: "raw text"]`).
+- **Use `evidence/states.json` for state-based relationships** — states describe what conditions/states concepts can be in, which reveals lifecycle and escalation relationships.
+- **Use `evidence/decisions.json` for conditional relationships** — decisions describe when/if/must/cannot rules that reveal invariants and dependencies between concepts.
 
 ## Inputs
 
-`generated/domain/concept_model.md`, `generated/interaction_model/interaction_tree.md`
 
 ## Outputs
 
-`generated/domain/structural_model.md`, `generated/interaction_model/interaction_tree.md`
 
 
 ---
@@ -136,7 +136,7 @@ impact: HIGH
 
 **DO** recognize and use interaction patterns when describing Trigger → Response:
 
-| Pattern | Description | Interaction Tree mapping |
+| Pattern | Description | Domain Model mapping |
 |---------|-------------|--------------------------|
 | **Producer-Consumer** | One-way; producer sends; consumer reacts | Trigger from one actor; Response from another; no return flow |
 | **Client-Server** | Two-way; client requests; server responds | Trigger (request) → Response (reply); may chain to further interactions |
@@ -179,148 +179,6 @@ impact: HIGH
 **DO NOT** have both a primitive property AND a relationship to a class that holds the same value. Two sources of truth create inconsistency.
 
 - Example (wrong): Character has `Number power_level` property AND an aggregation to PowerLevel class (which has `Number level`). Two places to get the same value — which is authoritative?
-
-
----
-
-
-
-## Interaction Tree Rules (7)
-
-Apply these rules when producing the interaction tree output for this phase.
-
----
-title: Verb-noun format
-impact: HIGH
-order: 1
----
-
-## Verb-noun format
-
-Use verb-noun format for epic/story/step names and steps. Actor documented separately. Use active voice, base verb forms, and business language for all interaction text. Use behavioral language — describe what happens, not how it's implemented. Use domain concepts in steps (Given/When/Then) — not UI labels. Applies to all nodes (epic, story, step, scenario), including steps in or out of scenarios.
-**DO** use Actor → verb noun [qualifiers]. Actor is documented separately, NOT in the name.
-- Names: "Places Order" (actor: Customer); "Validates Payment" (actor: System); "Process Order Payment".
-- **Step format** — strategy may specify When/Then (strict) or vanilla (verb-noun). Show both:
-  - **When/Then:** `When **User** browses countries; Then **System** displays list of **Country** options`.
-  - **Vanilla:** `User submits form`, `System validates payment`, `Select item from list`.
-- Use base verb forms (infinitive/imperative): "Select Tokens", "Group Minions", "Process Payment".
-- Use behavioral terms: "When user enters name; Then system saves character information" (not "system writes to JSON").
-- Use domain concepts in steps: "User selects **Country**", "User enters **PaymentDetails**" (not "User clicks dropdown", "User fills form field").
-
-**DO NOT** include actor in name, use noun-only, gerunds, or third-person singular.
-**DO NOT** use technical implementation terms (config, json, api, sql, class, method). Use behavioral language instead.
-- Wrong: "Customer Places Order" (actor in name). Right: "Places Order" (actor: Customer).
-- Wrong: "Order submission", "Payment processing", "Form validation" (noun-only). Right: "Submit order", "Process payment", "Validate form".
-- Wrong: "Submitting order", "Selects item", "Displays confirmation" (gerund/third-person). Right: "Submit order", "Select item", "Display confirmation".
-- Wrong: "Then system saves to JSON file", "Then system parses XML", "Then system executes SQL query" (technical). Right: "Then system saves configuration data", "Then system processes data", "Then system retrieves data".
-- Wrong: "User clicks dropdown", "User fills form field", "User submits button" (UI). Right: "User selects **Country**", "User enters **PaymentDetails**", "User submits payment".
-
-
----
-
----
-title: Outcome-oriented language
-impact: HIGH
-order: 2
----
-
-## Outcome-oriented language
-
-Use outcome-oriented language over mechanism-oriented language. Focus on what is created or achieved, not how it's shown or communicated.
-
-**DO** use verbs that describe artifacts and outcomes — name concepts by what they ARE or CREATE.
-- Example (right): "System → displays power activation animation" (not "Visualizing Power Activation"); "System → provides combat outcome feedback" (not "Showing Combat Results"); "System → displays hit indicators" (not "Displaying Hit Information").
-
-**DO NOT** use generic communication or mechanism verbs.
-- Example (wrong): "Visualizing Power Activation", "Showing Combat Results", "Displaying Hit Information", "Presenting Configuration Options".
-- Wrong: "Showing results", "Displaying information", "Visualizing data", "Presenting options", "Providing settings", "Enabling features", "Allowing access".
-
-
----
-
----
-title: Story granularity
-impact: MEDIUM-HIGH
-order: 4
----
-
-## Story granularity
-
-**DO** break down by distinct requirements areas, distinct concept structure, or workflow steps; sufficient stories to capture rule detail.
-- Example (right): Story "View Product Details", Story "Make Payment" (each has distinct logic). Story "Drive Bike", Story "Drive Car" (concept structure differs).
-
-**DO NOT** collapse large rule sections into one story.
-- Example (wrong): Story "All combat effects" or "All attack types" when the context has dozens of distinct rules. Right: Story "Apply damage effect", Story "Apply condition effect", Story "Resolve melee attack", etc.
-
-
----
-
----
-title: Small and testable
-impact: HIGH
-order: 5
----
-
-## Small and testable
-
-Stories must be testable as complete interactions and deliverable independently. Story = testable outcome; Step = implementation detail.
-
-**DO** create stories that can be tested and delivered independently.
-- Example (right): "Customer → places order" (testable: order created, payment processed).
-- Story = User/system outcome (testable independently with clear acceptance criteria).
-- Step = Implementation detail (not testable alone, verified as part of parent story test).
-
-**DO NOT** create stories too small to test meaningfully or make implementation steps into stories.
-- Example (wrong): "Add order button" (can't test without full order flow); "Display error message" (can't test without validation context).
-- Wrong: "Convert Diagram to StoryGraph Format", "Serialize Components to JSON", "Calculate Component Positions" (implementation steps, not testable alone).
-
-
----
-
----
-title: Supporting actor and Response
-impact: MEDIUM-HIGH
----
-
-## Supporting actor and Response
-
-**DO** treat Supporting as the system (or subsystem) that responds — use Actor → System exchange; keep Epic-level (and Sub-epic) Response coarse-grained — what is true after the actor triggers at that level.
-- Example (right): "System saves campaign PL"; "System persists budget"; Epic "Build a Character" → Response "System creates valid Character for Campaign".
-
-**DO NOT** frame Supporting as a human or use human-to-human exchange; do not use story-level or sub-epic-level detail in Epic-level or Sub-epic Response.
-- Example (wrong): "GM sets and communicates"; "Player tells GM"; Epic "Build a Character" → Response "System applies cost formula; deducts PP; validates traits" (that belongs in stories). Right: Epic Response "System creates valid Character for Campaign".
-
-
----
-
----
-title: Interactions inheritance — Resulting-State
-impact: HIGH
----
-
-## Resulting-State inheritance
-
-**DO** apply the same inheritance rules to Resulting-State as Pre-Condition — shared on parent, child-specific on child. At Epic/Sub-epic level, express as a single, high-level outcome; use outcome language only (what is true afterward). Resulting-State is the state that results from the interaction (see `core.md`).
-- Example (right): Parent: "Cart populated"; Child: "Shopping Cart: empty → has-items". Epic: "Character is built and valid within campaign PL and PP limits"; "validation result recorded".
-
-**DO NOT** duplicate Resulting-State across levels or use action language in Resulting-State. Do not use intermediate steps, granular outcomes, or behavior/action language in Epic/Sub-epic Resulting-State.
-- Example (wrong): "System validates" or "System records"; Epic "Build a Character" → "Character has PP budget allocated"; "Character is fully built; Character has all traits; Character validated against PL". Right: "validation result recorded"; Epic "Character is built and valid within campaign PL and PP limits".
-
-
----
-
----
-title: Interactions inheritance — Triggering-State
-impact: MEDIUM-HIGH
----
-
-## Triggering-State inheritance
-
-**DO** place Triggering-State at the level where it applies to all descendants. Epic holds trigger state for rules that apply to all children (e.g. user access to payment types by country). Epics (including epic children of epics) group; they do not add trigger/response state. Stories inherit Pre-Condition, Triggering-Actor, and Responding-Actor from Epic. Triggering-State qualifies the interaction (e.g. selecting an option of a certain type). See `core.md`.
-- Example (right): Epic "Make Checks": Triggering-State: User has access to Check, Modifier, DifficultyClass. Story: inherits; adds only when story-specific.
-
-**DO NOT** put Triggering-State at a level if it applies only to specific scenarios or stories — place it on those nodes. Do not put concepts on individual stories when they apply to multiple — promote to parent.
-- Example (wrong): Epic "Make Checks" has no Triggering-State but each story has different access rules — promote shared rules to Epic. Right: Epic has rules that apply to all children.
 
 
 ---

@@ -86,3 +86,8 @@ def interaction_model_dir() -> Path:
 def evidence_dir() -> Path:
     """Evidence files: terms.json, actions.json, evidence_graph.json, etc."""
     return output_dir() / "evidence"
+
+
+def no_tree() -> bool:
+    """When True, interaction tree generation, rules, and validation are disabled."""
+    return bool(workspace_config().get("no_tree", False))

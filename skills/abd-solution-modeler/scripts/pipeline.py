@@ -14,6 +14,7 @@ from _config import (
     domain_dir as _domain_dir_fn,
     interaction_model_dir as _interaction_model_dir_fn,
     evidence_dir as _evidence_dir_fn,
+    no_tree as _no_tree_fn,
 )
 
 _SCRIPTS_DIR = _SKILL_DIR / "scripts"
@@ -60,12 +61,16 @@ def _rules_for_phase(phase_name: str) -> list[Path]:
     """Collect only cross-phase rules (no prefix) and rules for this exact phase.
 
     No accumulation — each phase gets its own rules plus cross-phase rules only.
+    Skips interaction-tree rules when no_tree is enabled.
     """
     prefix = _PHASE_TO_PREFIX.get(phase_name)
     if prefix is None:
         return []
+    artifact_dirs = [_RULES_DIR / "domain"]
+    if not _no_tree_fn():
+        artifact_dirs.append(_RULES_DIR / "interaction-tree")
     rules: list[Path] = []
-    for artifact_dir in (_RULES_DIR / "domain", _RULES_DIR / "interaction-tree"):
+    for artifact_dir in artifact_dirs:
         if not artifact_dir.exists():
             continue
         for rule_file in sorted(artifact_dir.glob("*.md")):
@@ -104,6 +109,8 @@ def _get_artifact_path(artifact_folder: str) -> Path | None:
 
 def _phase_target_files(phase_name: str, artifact_folder: str) -> list[Path]:
     """Return only the output file(s) for this phase in the given artifact folder."""
+    if artifact_folder == "interaction-tree" and _no_tree_fn():
+        return []
     target_dir = _get_artifact_path(artifact_folder)
     if target_dir is None or not target_dir.exists():
         return []
@@ -200,7 +207,10 @@ _CODE_RUNNERS = {
 
 
 def _ensure_workspace_dirs() -> None:
-    for d in (_domain_dir_fn(), _interaction_model_dir_fn(), _evidence_dir_fn()):
+    dirs = [_domain_dir_fn(), _evidence_dir_fn()]
+    if not _no_tree_fn():
+        dirs.append(_interaction_model_dir_fn())
+    for d in dirs:
         d.mkdir(parents=True, exist_ok=True)
 
 
@@ -306,7 +316,10 @@ def _cmd_validate(name: str) -> None:
         print("\n---\n")
 
     print("\n## Output Files to Validate\n")
-    for p in (_domain_dir_fn(), _interaction_model_dir_fn()):
+    validate_dirs = [_domain_dir_fn()]
+    if not _no_tree_fn():
+        validate_dirs.append(_interaction_model_dir_fn())
+    for p in validate_dirs:
         if p.exists():
             for f in sorted(p.glob("*.md")):
                 print(f"- `{f}`")

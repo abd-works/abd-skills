@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 """Build AGENTS.md from pieces and build phase files with baked-in rules."""
 import json
+import re
 import shutil
+import sys
 from pathlib import Path
 
 _SKILL_DIR = Path(__file__).resolve().parent.parent
@@ -9,6 +11,9 @@ _PIECES_DIR = _SKILL_DIR / "pieces"
 _PHASES_DIR = _PIECES_DIR / "phases"
 _BUILT_DIR = _PHASES_DIR / "built"
 _RULES_DIR = _SKILL_DIR / "rules"
+
+sys.path.insert(0, str(_SKILL_DIR / "scripts"))
+from _config import no_tree as _no_tree_from_config
 
 _CONTENT_ORDER = [
     "introduction.md",
@@ -56,16 +61,20 @@ def _parse_order(rule_path: Path) -> int:
     return 999
 
 
-def _rules_for_phase(phase_name: str) -> list[Path]:
+def _rules_for_phase(phase_name: str, skip_tree: bool = False) -> list[Path]:
     """Collect only cross-phase rules (no prefix) and rules for this exact phase.
 
     No accumulation — each phase gets its own rules plus cross-phase rules only.
+    When skip_tree is True, rules from the interaction-tree directory are excluded.
     """
     prefix = _PHASE_TO_PREFIX.get(phase_name)
     if prefix is None:
         return []
+    artifact_dirs = [_RULES_DIR / "domain"]
+    if not skip_tree:
+        artifact_dirs.append(_RULES_DIR / "interaction-tree")
     rules: list[Path] = []
-    for artifact_dir in (_RULES_DIR / "domain", _RULES_DIR / "interaction-tree"):
+    for artifact_dir in artifact_dirs:
         if not artifact_dir.exists():
             continue
         for rule_file in sorted(artifact_dir.glob("*.md")):
@@ -82,7 +91,41 @@ def _rules_for_phase(phase_name: str) -> list[Path]:
     return rules
 
 
-def build_phases() -> int:
+_TREE_LINE_PATTERNS = [
+    re.compile(r"interaction_tree\.md", re.IGNORECASE),
+    re.compile(r"interaction_model/", re.IGNORECASE),
+    re.compile(r"^\*\*Interaction detail", re.IGNORECASE),
+    re.compile(r"^###?\s+Interaction tree\s*$", re.IGNORECASE),
+]
+
+_TREE_INLINE_SUBS = [
+    (re.compile(r"\s*and Interaction Tree Format", re.IGNORECASE), ""),
+    (re.compile(r"Interaction Tree Format and\s*", re.IGNORECASE), ""),
+    (re.compile(r"\s*and interaction tree", re.IGNORECASE), ""),
+    (re.compile(r",?\s*interaction[_ ]tree\s*\([^)]*\)", re.IGNORECASE), ""),
+    (re.compile(r"- examples: list of domain concept tables in interaction tree using this concept", re.IGNORECASE), ""),
+    (re.compile(r'in interaction tree', re.IGNORECASE), "in domain model"),
+    (re.compile(r'synchronized with interaction tree', re.IGNORECASE), "validated"),
+    (re.compile(r'from the interaction tree', re.IGNORECASE), "from the domain model"),
+    (re.compile(r',?\s*interaction tree structure', re.IGNORECASE), ""),
+    (re.compile(r'Interaction Tree mapping', re.IGNORECASE), "Domain Model mapping"),
+]
+
+
+def _strip_tree_references(text: str) -> str:
+    """Remove interaction-tree references from content."""
+    lines = text.split("\n")
+    filtered = []
+    for line in lines:
+        if any(p.search(line) for p in _TREE_LINE_PATTERNS):
+            continue
+        for pat, repl in _TREE_INLINE_SUBS:
+            line = pat.sub(repl, line)
+        filtered.append(line)
+    return "\n".join(filtered)
+
+
+def build_phases(no_tree: bool = False) -> int:
     """Build phase files with baked-in rules into phases/built/."""
     if _BUILT_DIR.exists():
         shutil.rmtree(_BUILT_DIR)
@@ -96,8 +139,11 @@ def build_phases() -> int:
             count += 1
             continue
 
-        parts = [phase_file.read_text(encoding="utf-8").strip()]
-        rules = _rules_for_phase(phase_name)
+        phase_text = phase_file.read_text(encoding="utf-8").strip()
+        if no_tree:
+            phase_text = _strip_tree_references(phase_text)
+        parts = [phase_text]
+        rules = _rules_for_phase(phase_name, skip_tree=no_tree)
         if rules:
             domain_rules = [r for r in rules if r.parent.name == "domain"]
             interaction_rules = [r for r in rules if r.parent.name == "interaction-tree"]
@@ -105,7 +151,10 @@ def build_phases() -> int:
                 parts.append(f"\n\n---\n\n## Domain Model Rules ({len(domain_rules)})\n")
                 parts.append("Apply these rules when producing the domain model output for this phase.\n")
                 for r in domain_rules:
-                    parts.append(r.read_text(encoding="utf-8").strip())
+                    rule_text = r.read_text(encoding="utf-8").strip()
+                    if no_tree:
+                        rule_text = _strip_tree_references(rule_text)
+                    parts.append(rule_text)
                     parts.append("\n\n---\n")
             if interaction_rules:
                 parts.append(f"\n\n## Interaction Tree Rules ({len(interaction_rules)})\n")
@@ -117,19 +166,22 @@ def build_phases() -> int:
         output = _BUILT_DIR / phase_file.name
         output.write_text("\n".join(parts) + "\n", encoding="utf-8")
         count += 1
-        print(f"  {phase_name}: {len(rules)} rules")
+        label = f"{phase_name}: {len(rules)} rules"
+        if no_tree:
+            label += " (no-tree)"
+        print(f"  {label}")
 
     return count
 
 
-def build_agents(skill_path: Path | None = None) -> Path:
+def build_agents(skill_path: Path | None = None, no_tree: bool = False) -> Path:
     """Assemble pieces into AGENTS.md. Returns output path."""
     skill_path = skill_path or _SKILL_DIR
     skill_path = skill_path.resolve()
     content_dir = skill_path / "pieces"
     output_path = skill_path / "AGENTS.md"
 
-    content_order = _CONTENT_ORDER
+    content_order = list(_CONTENT_ORDER)
     config_path = skill_path / "conf" / "abd-config.json"
     if config_path.exists():
         try:
@@ -139,11 +191,17 @@ def build_agents(skill_path: Path | None = None) -> Path:
         except (json.JSONDecodeError, KeyError):
             pass
 
+    if no_tree:
+        content_order = [f for f in content_order if f != "interaction_tree.md"]
+
     parts: list[str] = []
     for fname in content_order:
         p = content_dir / fname
         if p.exists():
-            parts.append(p.read_text(encoding="utf-8").strip())
+            piece_text = p.read_text(encoding="utf-8").strip()
+            if no_tree:
+                piece_text = _strip_tree_references(piece_text)
+            parts.append(piece_text)
             parts.append("\n\n---\n\n")
 
     text = "".join(parts).rstrip()
@@ -154,9 +212,13 @@ def build_agents(skill_path: Path | None = None) -> Path:
 
 
 if __name__ == "__main__":
+    no_tree = "--no-tree" in sys.argv or _no_tree_from_config()
+    if no_tree:
+        print("Mode: --no-tree (interaction tree disabled)\n")
+
     print("Building phase files...")
-    n = build_phases()
+    n = build_phases(no_tree=no_tree)
     print(f"Built {n} phase files in {_BUILT_DIR}\n")
 
-    out = build_agents()
+    out = build_agents(no_tree=no_tree)
     print(f"Wrote {out}")
