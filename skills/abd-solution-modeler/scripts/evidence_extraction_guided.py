@@ -4,7 +4,7 @@ Domain-agnostic guided evidence extraction.
 
 Inputs:
 - rule_chunks.json
-- concept_guidance_v1.json
+- concept_guidance.json
 
 Outputs:
 - terms.json
@@ -162,13 +162,124 @@ _REJECT_PATTERNS = [
     re.compile(r"<!--\s*Source:"),  # HTML comment metadata
     re.compile(r"file:///|-->\s*CHAPTER|section\s+\d+\s*\|"),  # HTML/file path fragments
 ]
-_REJECT_FRAGMENTS = {
-    "alternatively", "otherwise", "compare", "the gm", "the gadgeteer",
-    "the battlesuit", "the construct", "the crime fighter", "the elemental",
-    "the energy controller", "the martial artist", "the mimic", "the mystic",
-    "the paragon", "the powerhouse", "the psychic", "the shapeshifter",
-    "the speedster", "the summoner", "the weapon master", "the weather controller",
+# ---------------------------------------------------------------------------
+# Skill-level block list defaults (always applied)
+# Workspace can extend each section via evidence/block_list.json
+# ---------------------------------------------------------------------------
+
+_SKILL_BLOCK_LIST: dict = {
+    "_comment": "Skill-level defaults. Workspace extends these via evidence/block_list.json.",
+    "weak_object_tokens": [
+        "the", "this", "that", "these", "those",
+        "for", "you", "they", "them", "their",
+        "some", "all", "any", "each", "both", "many", "most",
+        "normally", "additionally", "essentially", "generally",
+        "his", "her", "its", "our", "your",
+        "perhaps", "other", "others", "another",
+        "it", "he", "she", "we",
+        "move", "make", "use", "take", "get",
+        "like", "finally", "every", "always", "never", "often",
+        "simply", "instead", "already", "still",
+        "however", "therefore", "thus", "hence", "otherwise",
+    ],
+    "junk_predicates": [
+        "then", "part of", "lead to", "leads to",
+        "result in", "results in", "associated with",
+        "changes to", "change to",
+    ],
+    "junk_term_names": [
+        "source", "file", "heroeshandbook",
+        "the", "a", "an",
+    ],
+    "stop_words": [
+        "you", "your", "this", "that", "these", "those", "they", "them", "their",
+        "for", "some", "each", "all", "any", "both", "many", "most", "more",
+        "when", "where", "with", "once", "since", "while", "after", "before",
+        "there", "here", "however", "like", "one", "two", "see", "note",
+        "will", "may", "can", "must", "would", "should", "could",
+        "the gm", "gm", "also", "even", "only", "just", "very",
+    ],
+    "reject_fragments": [
+        "alternatively", "otherwise", "compare", "the gm", "the gadgeteer",
+        "the battlesuit", "the construct", "the crime fighter", "the elemental",
+        "the energy controller", "the martial artist", "the mimic", "the mystic",
+        "the paragon", "the powerhouse", "the psychic", "the shapeshifter",
+        "the speedster", "the summoner", "the weapon master", "the weather controller",
+    ],
 }
+
+
+def _load_block_list(workspace_root: "Path | None") -> dict:
+    """Merge skill defaults with workspace solution/evidence/block_list.json (if it exists)."""
+    merged: dict = {k: list(v) if isinstance(v, list) else v
+                    for k, v in _SKILL_BLOCK_LIST.items()}
+    if not workspace_root:
+        return merged
+    # Try solution/evidence/ first (preferred), fall back to evidence/ at workspace root
+    for candidate in [
+        workspace_root / "solution" / "evidence" / "block_list.json",
+        workspace_root / "evidence" / "block_list.json",
+    ]:
+        if candidate.exists():
+            path = candidate
+            break
+    else:
+        return merged
+    if not path.exists():
+        return merged
+    try:
+        ws = json.loads(path.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, OSError):
+        return merged
+    for section in ("weak_object_tokens", "junk_predicates", "junk_term_names", "reject_fragments", "stop_words"):
+        if section in ws:
+            existing = set(merged.get(section, []))
+            merged[section] = list(existing | {x.lower() for x in ws[section]})
+    return merged
+
+
+def _make_filters(block_list: dict) -> tuple[set, set, set, set, set]:
+    """Return (weak_object_tokens, junk_predicates, junk_term_names, reject_fragments, stop_words) as sets."""
+    return (
+        set(block_list.get("weak_object_tokens", [])),
+        set(block_list.get("junk_predicates", [])),
+        {n.lower() for n in block_list.get("junk_term_names", [])},
+        {f.lower() for f in block_list.get("reject_fragments", [])},
+        {w.lower() for w in block_list.get("stop_words", [])},
+    )
+
+
+# Module-level sets (populated after workspace is known; defaults used until then)
+_WEAK_OBJECT_TOKENS: set = set(_SKILL_BLOCK_LIST["weak_object_tokens"])
+_JUNK_PREDICATES: set = set(_SKILL_BLOCK_LIST["junk_predicates"])
+_JUNK_TERM_NAMES: set = set(_SKILL_BLOCK_LIST["junk_term_names"])
+_REJECT_FRAGMENTS: set = set(_SKILL_BLOCK_LIST["reject_fragments"])
+_STOP_WORDS: set = {w.lower() for w in _SKILL_BLOCK_LIST["stop_words"]}
+
+
+def _init_filters(workspace_root: "Path | None") -> None:
+    """Call once at startup to merge workspace block list into module-level sets."""
+    global _WEAK_OBJECT_TOKENS, _JUNK_PREDICATES, _JUNK_TERM_NAMES, _REJECT_FRAGMENTS, _STOP_WORDS
+    bl = _load_block_list(workspace_root)
+    _WEAK_OBJECT_TOKENS, _JUNK_PREDICATES, _JUNK_TERM_NAMES, _REJECT_FRAGMENTS, _STOP_WORDS = _make_filters(bl)
+
+
+_LEADING_ARTICLE_RE = re.compile(r"^(a|an|the)\s+", re.IGNORECASE)
+
+
+def _strip_leading_article(obj: str) -> str:
+    """Strip leading 'A', 'An', 'The' from an object value."""
+    return _LEADING_ARTICLE_RE.sub("", obj).strip()
+
+
+def _is_weak_object(obj: str) -> bool:
+    cleaned = _strip_leading_article(obj)
+    first = cleaned.split()[0].lower().rstrip(".,;:") if cleaned.strip() else ""
+    return first in _WEAK_OBJECT_TOKENS or not cleaned.strip()
+
+
+def _is_junk_term(name: str) -> bool:
+    return name.strip().lower() in _JUNK_TERM_NAMES
 
 
 def is_candidate_rule_prose(sentence: str) -> bool:
@@ -187,7 +298,7 @@ def is_candidate_rule_prose(sentence: str) -> bool:
     for pat in _REJECT_PATTERNS:
         if pat.search(s):
             return False
-    if lower in _REJECT_FRAGMENTS:
+    if lower in _REJECT_FRAGMENTS or any(lower.startswith(f) for f in _REJECT_FRAGMENTS if len(f) > 10):
         return False
     if lower.startswith("the ") and len(s.split()) <= 4:  # "The GM", "The Gadgeteer"
         return False
@@ -246,9 +357,13 @@ def is_heading_like(term: str) -> bool:
     """Reject title-case terms that are headings, not domain concepts."""
     if not term or len(term) < 3:
         return True
+    if "\n" in term:
+        return True
     if term.isupper() and len(term) > 4:
         return True
     if term.upper().startswith("CHAPTER"):
+        return True
+    if re.match(r"^\d+\d+$", term.strip()):  # doubled page numbers e.g. "249249"
         return True
     words = term.split()
     if len(words) > 3:
@@ -321,6 +436,12 @@ def extract_terms(chunks, guidance, alias_to_canonical):
     for i, (term, count) in enumerate(counts.most_common()):
         if count < 2 and term not in guidance.get("priority_concepts", []):
             continue
+        if is_heading_like(term):
+            continue
+        if _is_junk_term(term):
+            continue
+        if term.strip().lower() in _STOP_WORDS:
+            continue
         out.append({
             "term_id": f"term_{i:04d}",
             "name": term,
@@ -355,13 +476,16 @@ def extract_actions(chunks, guidance, alias_to_canonical):
 
             if rel and len(term_candidates) >= 2:
                 subject = alias_to_canonical.get(norm(term_candidates[0]), term_candidates[0])
-                obj = alias_to_canonical.get(norm(term_candidates[1]), term_candidates[1])
+                obj = _strip_leading_article(alias_to_canonical.get(norm(term_candidates[1]), term_candidates[1]))
+                predicate = rel.group(1).lower()
                 if subject not in priority_set and obj not in priority_set:
+                    continue
+                if _is_weak_object(obj) or predicate in _JUNK_PREDICATES:
                     continue
                 out.append({
                     "action_id": f"act_{len(out):04d}",
                     "subject": subject,
-                    "predicate": rel.group(1).lower(),
+                    "predicate": predicate,
                     "object": obj,
                     "source_chunk": cid,
                     "raw": sent,
@@ -373,13 +497,16 @@ def extract_actions(chunks, guidance, alias_to_canonical):
 
             if res and len(term_candidates) >= 2:
                 subject = alias_to_canonical.get(norm(term_candidates[0]), term_candidates[0])
-                obj = alias_to_canonical.get(norm(term_candidates[-1]), term_candidates[-1])
+                obj = _strip_leading_article(alias_to_canonical.get(norm(term_candidates[-1]), term_candidates[-1]))
+                predicate = res.group(1).lower()
                 if subject not in priority_set and obj not in priority_set:
+                    continue
+                if _is_weak_object(obj) or predicate in _JUNK_PREDICATES:
                     continue
                 out.append({
                     "action_id": f"act_{len(out):04d}",
                     "subject": subject,
-                    "predicate": res.group(1).lower(),
+                    "predicate": predicate,
                     "object": obj,
                     "source_chunk": cid,
                     "raw": sent,
@@ -393,8 +520,10 @@ def extract_actions(chunks, guidance, alias_to_canonical):
                 REL_HINT_RE.search(sent) or RESULT_RE.search(sent) or COMPARISON_RE.search(sent)
             ):
                 subject = alias_to_canonical.get(norm(term_candidates[0]), term_candidates[0])
-                obj = alias_to_canonical.get(norm(term_candidates[1]), term_candidates[1])
+                obj = _strip_leading_article(alias_to_canonical.get(norm(term_candidates[1]), term_candidates[1]))
                 if subject not in priority_set and obj not in priority_set:
+                    continue
+                if _is_weak_object(obj):
                     continue
                 out.append({
                     "action_id": f"act_{len(out):04d}",
@@ -434,6 +563,10 @@ def extract_decisions(chunks, guidance, alias_to_canonical):
             m = CONDITIONAL_RE.search(sent)
             trigger = m.group(1).lower() if m else ""
             condition = sent[m.end():].strip() if m else sent
+            if len(condition) < 30:
+                continue
+            if condition.split()[0].lower().rstrip(".,;:") in _WEAK_OBJECT_TOKENS:
+                continue
             out.append({
                 "decision_id": f"dec_{len(out):04d}",
                 "trigger": trigger,
@@ -507,7 +640,9 @@ def extract_relationships(chunks, guidance, alias_to_canonical):
                 continue
             rel = REL_HINT_RE.search(sent).group(1).lower()
             from_entity = alias_to_canonical.get(norm(term_candidates[0]), term_candidates[0])
-            to_entity = alias_to_canonical.get(norm(term_candidates[1]), term_candidates[1])
+            to_entity = _strip_leading_article(alias_to_canonical.get(norm(term_candidates[1]), term_candidates[1]))
+            if _is_weak_object(to_entity) or rel in _JUNK_PREDICATES:
+                continue
             out.append({
                 "relationship_id": f"rel_{len(out):04d}",
                 "from_entity": from_entity,
@@ -558,7 +693,7 @@ def extract_modifiers(chunks, guidance, alias_to_canonical):
 def main():
     parser = argparse.ArgumentParser(description="Guided evidence extraction")
     parser.add_argument("--input", "-i", required=True, help="Path to rule_chunks.json")
-    parser.add_argument("--guidance", "-g", required=True, help="Path to concept_guidance_v1.json")
+    parser.add_argument("--guidance", "-g", required=True, help="Path to concept_guidance.json")
     parser.add_argument("--output-dir", "-o", required=True, help="Output directory")
     args = parser.parse_args()
 
@@ -566,6 +701,16 @@ def main():
     guidance_path = Path(args.guidance)
     out_dir = Path(args.output_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
+
+    # Load and merge workspace block list (evidence/block_list.json)
+    import sys as _sys
+    _skill_dir = Path(__file__).resolve().parent.parent
+    _sys.path.insert(0, str(_skill_dir / "scripts"))
+    try:
+        from _config import workspace_root as _ws_root
+        _init_filters(_ws_root())
+    except Exception:
+        _init_filters(None)
 
     chunks_raw = load_json(rule_path)
     chunks = chunks_raw.get("rule_chunks") or chunks_raw.get("chunks") or [] if isinstance(chunks_raw, dict) else chunks_raw

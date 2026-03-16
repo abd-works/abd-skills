@@ -1,12 +1,11 @@
-# Phase 11 — Refined Domain Model
+# Phase 10 — Refined Domain Model
 
-**Actor:** AI | **Full spec:** [requirements.md](../../docs/requirements.md) § Phase 11
-
+**Actor:** AI | 
 ## Purpose
 
 Clean structure and finalize modules.
 
-**Interaction detail:** Scenarios (group steps by condition). Failure-Modes, Constraints. Required before Scenario Walkthrough — you cannot walk through scenarios without scenarios.
+**Interaction detail:** Add Scenarios (group steps by condition), Failure-Modes, Constraints — and examples.
 
 ## Trigger
 
@@ -24,7 +23,7 @@ refined domain model, scenarios, failure modes, constraints
 
 ## Outputs
 
-`refined_domain_model.md`, `interaction_tree.md`
+`generated/domain/refined_domain_model.md`, `generated/interaction_model/interaction_tree.md`
 
 ## Checkpoint 5
 

@@ -3,8 +3,11 @@ Chunk converted markdown into smaller pieces for agent memory.
 
 Usage:
   python chunk_markdown.py --path <source_folder> [--memory <memory_name>]
+  python chunk_markdown.py --path <source_folder> --output <output_dir>
 
-Run from workspace root. Reads .md from source folder, writes chunked output to memory/<name>/ (no chunked subfolder).
+Run from workspace root. Reads .md from source folder, writes chunked output to:
+  --output <dir>   : exact directory (absolute or relative to cwd)
+  --memory <name>  : memory/<name>/ under workspace root (default)
 Run convert_to_markdown.py first. Excludes chunked output (__slide_, __section_) from input.
 """
 
@@ -148,7 +151,7 @@ def chunk_file(md_path: Path, conv_root: Path, chunk_root: Path) -> int:
     return written
 
 
-def _run_path_mode(source_path: str, memory_name_override: str | None = None) -> None:
+def _run_path_mode(source_path: str, memory_name_override: str | None = None, output_override: str | None = None) -> None:
     p = Path(source_path)
     if p.is_absolute():
         src_root = p
@@ -163,10 +166,15 @@ def _run_path_mode(source_path: str, memory_name_override: str | None = None) ->
             print(f"Path not found: {source_path}")
             return
 
-    memory_name = memory_name_override or src_root.name
-    # When source is a "context" folder, write chunks into it (not memory/context/)
-    into_source = src_root.name == "context"
-    chunk_base = src_root if into_source else MEMORY / memory_name
+    if output_override:
+        chunk_base = Path(output_override)
+        if not chunk_base.is_absolute():
+            chunk_base = Path.cwd() / chunk_base
+        dest = str(chunk_base)
+    else:
+        memory_name = memory_name_override or src_root.name
+        chunk_base = MEMORY / memory_name
+        dest = f"memory/{memory_name}/"
 
     md_files = sorted(
         f for f in src_root.rglob("*.md")
@@ -178,7 +186,6 @@ def _run_path_mode(source_path: str, memory_name_override: str | None = None) ->
         print("Run convert_to_markdown.py --memory <path> first.")
         return
 
-    dest = f"context/" if into_source else f"memory/{memory_name}/"
     print(f"Source: {src_root}  ({len(md_files)} files) -> {dest}\n")
     total = 0
     for i, f in enumerate(md_files, 1):
@@ -197,24 +204,25 @@ def _run_path_mode(source_path: str, memory_name_override: str | None = None) ->
     print(f"\nDone: {total} chunks.")
 
 
+def _get_arg(flag: str) -> str | None:
+    if flag in sys.argv:
+        idx = sys.argv.index(flag)
+        if idx + 1 < len(sys.argv):
+            return sys.argv[idx + 1]
+    return None
+
+
 def main():
-    path_arg = None
-    memory_arg = None
-    if "--path" in sys.argv:
-        idx = sys.argv.index("--path")
-        if idx + 1 < len(sys.argv):
-            path_arg = sys.argv[idx + 1]
-    if "--memory" in sys.argv:
-        idx = sys.argv.index("--memory")
-        if idx + 1 < len(sys.argv):
-            memory_arg = sys.argv[idx + 1]
+    path_arg   = _get_arg("--path")
+    memory_arg = _get_arg("--memory")
+    output_arg = _get_arg("--output")
     if path_arg:
-        _run_path_mode(path_arg, memory_name_override=memory_arg)
+        _run_path_mode(path_arg, memory_name_override=memory_arg, output_override=output_arg)
         return
     if memory_arg:
         _run_path_mode(memory_arg)
         return
-    print("Usage: python chunk_markdown.py --path <source_folder> [--memory <memory_name>]")
+    print("Usage: python chunk_markdown.py --path <source_folder> [--memory <name> | --output <dir>]")
 
 
 if __name__ == "__main__":

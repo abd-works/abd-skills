@@ -1,17 +1,19 @@
-<!-- section: story_synthesizer.interaction.model -->
-# Interaction Model
+
+
+# Interaction Tree
 
 An interaction is a single meaningful exchange between two actors that results in either a retrieval of state or a change of state.
 
 ## Interaction
 
-- **Name** — name of the interaction. **Ground in domain:** Every epic, story, scenario, and step must be grounded in domain language — either in the name or in the statement — using `**Concept**` (double stars, capitalization). Domain concepts must appear in `**Concept**` format so the domain conditions are described.
+- **Name** — name of the interaction. **Ground in domain:** Every epic, story, scenario, and step must be grounded in domain language — either in the name or in the statement — using `**Concept`** (double stars, capitalization). Domain concepts must appear in `**Concept**` format so the domain conditions are described.
 - **Statement** — one-sentence trigger and response; include domain concepts where appropriate.
 
 **Name and statement (all nodes):** Use active verb language. Short name first, longer statement in brackets. Format: `Node: Short Name (Longer statement.)` — e.g. `Step 1: Browse Country for Payment (When **User** browses countries; Then **System** displays...)`. Name is always verb-noun or subject-qualifier; statement is always the longer sentence. **Epic statement:** Describe the scope of the epic (broad flows), not a single interaction. **Story/Step statement:** One trigger and response.
+
 - **Impacts** — zero or more (see Impact below)
 - **Constraints** — zero or more. Qualitative instructions on how this interaction is structured. A constraint may be a sentence, a reference to a collection of files, or (most commonly) a reference to a markdown file. Constraints are inherited from high to low (parent → child).
-- **Pre-Condition** — label only. What must be true before. State qualifies through the label. Use `**Concept**` to reference domain concepts; each must exist in the Domain Model.
+- **Pre-Condition** — label only. What must be true before. State qualifies through the label. Use `**Concept`** to reference domain concepts; each must exist in the Domain Model.
 - **Trigger** — Triggering-Actor, Behavior (label), Triggering-State. Triggering-State is any state that qualifies the interaction (e.g. selecting an option of a certain type). Labels reference domain concepts; examples live on the interaction.
 - **Response** — Responding-Actor, Behavior (label), Resulting-State. Resulting-State is the state that results from the interaction. Labels reference domain concepts; examples live on the interaction.
 - **Examples** — collection of tables at the interaction level. One per concept referenced in labels. Pre-Condition, Trigger, and Response reference these through their labels; examples live on the interaction. Identify examples from boundary values, distinct scenarios, and representative combinations from steps and state.
@@ -23,6 +25,7 @@ An interaction is a single meaningful exchange between two actors that results i
 **Epics from context (not slices):** **DO NOT** name epics after slices. Epics and sub-epics come from the larger context (goal, domain, concept map, evidence) — they are functional. Place slice stories under appropriate sub-epics. Mark remainder as estimated.
 
 **Node Hierarchy**
+
 - Epic - Can nest to have epic children or story children. An epic whose parent is an epic is sometimes called a sub-epic. Names are typically simple verb-noun.
 - Story - Smallest unit of testable value that is independently delivered. Names are typically simple verb-noun.
 - Scenario - Groups steps; optional container for a story. Names describe the primary conditions tested in the scenario. Split scenarios when pre-conditions differ, success vs failure paths, or different branches.
@@ -47,23 +50,26 @@ The **story** is the backbone of all the work above and below it. It is the cent
 **Commonly Generated Fields Vary By Node Type:**
 Any node level can use any field. Exceptions are always possible. The table below lists what we commonly generate for each node.
 
-| Node | Commonly generated | Case By Case Generated |
-|------|--------------------|------------------------|
-| Epic | Triggering-Actor, Responding-Actor, Name (Verb Noun), Impact, Constraints | Pre-Condition, Triggering-State, Resulting-State, Examples, Failure-Modes|
-| Story | Trigger , Response ; Name (Verb Noun), Examples, Pre-Condition (eg BDD background, Given, And); Failure-Modes, Constraints |
-| Scenario | Trigger, Response, Pre-Condition (eg BDD Given, And); Examples |
-| Step | Trigger, Response,(When, And, Then, And); Examples; Constraints (when step-specific) |
+
+| Node     | Commonly generated                                                                                                         | Case By Case Generated                                                    |
+| -------- | -------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------- |
+| Epic     | Triggering-Actor, Responding-Actor, Name (Verb Noun), Impact, Constraints                                                  | Pre-Condition, Triggering-State, Resulting-State, Examples, Failure-Modes |
+| Story    | Trigger , Response ; Name (Verb Noun), Examples, Pre-Condition (eg BDD background, Given, And); Failure-Modes, Constraints |                                                                           |
+| Scenario | Trigger, Response, Pre-Condition (eg BDD Given, And); Examples                                                             |                                                                           |
+| Step     | Trigger, Response,(When, And, Then, And); Examples; Constraints (when step-specific)                                       |                                                                           |
+
 
 **Nodes inherit attributes from their parents.**
 Child nodes inherit state, examples, pre-conditions, actors, domain concepts, and constraints. You can show inherited attributes explicitly in square brackets (e.g. `Triggering-Actor: [User]`, `Examples: [Logged In User, Active Session]`) so readers see which values came from the parent. When you use brackets, update them if the parent changes. **Inheritance applies either way** — even when you don't show brackets, the inherited values still apply to the child. See Interaction Tree Inheritance for conventions.
 
 **Inheritance that we often want to call out explicitly through the [inherited thing] notation**
+
 - **Epic from Epic:** Domain concepts. Lower-level epics (sub-epics) often use the inherited domain concepts from their parent epic.
 - **Story from Epic:** Triggering-Actor, Responding-Actor, Pre-Condition, Examples based on Pre-Condition, domain concepts.
 - **Scenario from Story:** Almost nothing needs to be explicitly stated.
 - **Step from Story:** Triggering-Actor and Responding-Actor are often used, eg [User] and [System] from the story or higher. Exception: when a step is system-triggered (e.g. "When **System** receives payment type selection"), that step may override Triggering-Actor.
 
-**Domain grounding:** Every epic, story, scenario, and step must be grounded in domain language. This primarily comes from the interactions (e.g., trigger and response) if they have been defined, but if they have not been defined, then it would come from the name or the statement. When trigger and response have been defined, the name is based on those, but sometimes we don't define these for a node, and just define the name at first. In either case, all of the above need to be grounded using `**Concept**` (double stars on both sides, capitalization). Avoid generic terms; use `**Country**`, `**PaymentType**`, etc., not "country" or "payment type". Concepts must come from the Domain Model here. Concept identified as part of exploring the interaction tree should be added to the Domain Model and vice versa. When we add things to the Domain Model, we should explore which interactions require those and update accordingly.
+**Domain grounding:** Every epic, story, scenario, and step must be grounded in domain language. This primarily comes from the interactions (e.g., trigger and response) if they have been defined, but if they have not been defined, then it would come from the name or the statement. When trigger and response have been defined, the name is based on those, but sometimes we don't define these for a node, and just define the name at first. In either case, all of the above need to be grounded using `**Concept`** (double stars on both sides, capitalization). Avoid generic terms; use `**Country**`, `**PaymentType**`, etc., not "country" or "payment type". Concepts must come from the Domain Model here. Concept identified as part of exploring the interaction tree should be added to the Domain Model and vice versa. When we add things to the Domain Model, we should explore which interactions require those and update accordingly.
 
 Concepts are placed at the level of the interaction hierarchy where they apply to all descendants. Every `**Concept**` must exist in the Domain Model — no drift.
 
@@ -114,6 +120,7 @@ An interaction may have an **impact**. Impacts apply at any level of the hierarc
 ### Constraints
 
 Any node at any level can have one or more **constraints** — qualitative instructions on how this interaction is shaped. A constraint may be:
+
 - A sentence (inline text)
 - A reference to a collection of files that describe the constraint
 - Most commonly: a reference to a markdown file
@@ -122,17 +129,19 @@ Constraints are inherited from high to low (parent → child). Typically at epic
 
 ---
 
-<!-- section: story_synthesizer.interaction.inheritance -->
+
+
 ## Interaction Tree Inheritance
 
 Attributes from a parent node are inherited by child nodes. **Brackets indicate inherited values.** Use `[value]` or `[inherited]` so readers see what applies at each level; if the parent changes, update bracketed values in children.
 
-**Inherited attributes:** Examples, actors. Place concepts at the lowest level where they apply to all descendants. Concepts are indicated by `**Concept**` in labels — no separate list.
+**Inherited attributes:** Examples, actors. Place concepts at the lowest level where they apply to all descendants. Concepts are indicated by `**Concept`** in labels — no separate list.
 
 **Convention:** `Triggering-Actor: [User]`, `Responding-Actor: [System]` — brackets mean "from parent." Unbracketed values are defined on this node. Use Title Case for field names; hyphens for compound terms (e.g. Pre-Condition); no dot notation.
 
 **Guidelines for inherited values:**
-- **Statement by level:** Epic statement describes the *scope* of the epic — the broad flows it encompasses — not a single interaction. Use `**Concept**` to ground in domain. Good: (**User** triggers **PaymentType** flows that vary by **Country**; **System** validates and executes per **Country**.) Bad: (**User** selects **Country** and **PaymentType**; **System** validates.) — that describes one story, not an epic. Story statement: one trigger and response. Step statement: When/Then for that step.
+
+- **Statement by level:** Epic statement describes the *scope* of the epic — the broad flows it encompasses — not a single interaction. Use `**Concept`** to ground in domain. Good: (**User** triggers **PaymentType** flows that vary by **Country**; **System** validates and executes per **Country**.) Bad: (**User** selects **Country** and **PaymentType**; **System** validates.) — that describes one story, not an epic. Story statement: one trigger and response. Step statement: When/Then for that step.
 - **Pre-Condition:** Never use `Pre-Condition: [inherited]` alone. Always include the label (bracketed) so readers see what applies.
 - **Triggering-Actor / Responding-Actor:** Use `[User]` or `[System]` at every trigger/response so the actor is visible without looking up. Use Title Case; no dot notation (e.g. `Triggering-Actor`, not `trigger.actor`).
 - **Examples:** Live on the interaction. Use `[inherited]` when tables come from parent; list the qualitative names (e.g. `[Logged In User, Active User Session, User Payment Type Access]`). Include step-specific or story-specific examples unbracketed.
@@ -146,47 +155,51 @@ Attributes from a parent node are inherited by child nodes. **Brackets indicate 
 
 ---
 
-<!-- section: story_synthesizer.interaction.example -->
+
+
 ## Complete Example
 
-A typical reference hierarchy for making a country-specific payment (trigger, make transaction, fulfill). **Concepts** are referenced via `**Concept**` in labels. **Examples** live on the interaction. Pre-Condition, Trigger, and Response qualify through their labels. Epic holds rules that apply to all children (e.g. user access to payment types by country). Epics group; they do not add trigger/response state. Stories inherit from Epic. One story is taken to full detail with scenario and steps. (Other epics and stories not yet filled out.)
+A typical reference hierarchy for making a country-specific payment (trigger, make transaction, fulfill). **Concepts** are referenced via `**Concept`** in labels. **Examples** live on the interaction. Pre-Condition, Trigger, and Response qualify through their labels. Epic holds rules that apply to all children (e.g. user access to payment types by country). Epics group; they do not add trigger/response state. Stories inherit from Epic. One story is taken to full detail with scenario and steps. (Other epics and stories not yet filled out.)
 
 **Hierarchy levels:** Epic → Story → Scenario → Step (epics can nest; an epic child of an epic is sometimes called a sub-epic)
 
 **Name and statement:** Active verb language, short name first, statement in brackets (see Interaction).
 
-<!-- section: story_synthesizer.interaction.example.hierarchy -->
+
+
 ### Hierarchy
 
 #### Epic: Make **Country**-specific **PaymentType** (**User** triggers **PaymentType** flows that vary by **Country**; **System** validates and executes per **Country**.)
+
 - Triggering-Actor: User
 - Responding-Actor: System
 - Pre-Condition: Given **User** is logged in; And **User** has an active **Session**; And **User** has access to **PaymentType** in **Country** (see **UserPaymentAccess**)
 - Examples:
-  Logged In User:
-  | scenario   | user_name | user_role   |
-  |------------|-----------|-------------|
-  | success    | Jane Doe  | Payer       |
-  | payment-type-not-available | Jane Doe  | Payer       |
-  ===
-  Active User Session:
-  | scenario   | user_name | session_id | expires_at |
-  |------------|-----------|------------|------------|
-  | success    | Jane Doe  | sess-001   | 2025-03-08  |
-  | payment-type-not-available | Jane Doe  | sess-001   | 2025-03-08  |
-  ===
-  User Payment Type Access:
-  | scenario   | user_name | country_code | country_name  | payment_type   | available |
-  |------------|-----------|--------------|---------------|----------------|-----------|
-  | success    | Jane Doe  | US          | United States | wire           | yes       |
-  | success    | Jane Doe  | MX          | Mexico        | wire           | yes       |
-  | payment-type-not-available | Jane Doe  | MX          | Mexico        | ach            | no        |
-  ===
-  Payment Type Field Types:
-  | payment_type | fields |
-  |--------------|--------|
-  | wire         | amount, currency, beneficiary_id, swift_code |
-  | ach          | amount, currency, beneficiary_id, routing_number, account_number |
+Logged In User:
+
+  | scenario                   | user_name                                                        | user_role      |
+  | -------------------------- | ---------------------------------------------------------------- | -------------- |
+  | success                    | Jane Doe                                                         | Payer          |
+  | payment-type-not-available | Jane Doe                                                         | Payer          |
+  | ===                        |                                                                  |                |
+  | Active User Session:       |                                                                  |                |
+  | scenario                   | user_name                                                        | session_id     |
+  | ------------               | -----------                                                      | ------------   |
+  | success                    | Jane Doe                                                         | sess-001       |
+  | payment-type-not-available | Jane Doe                                                         | sess-001       |
+  | ===                        |                                                                  |                |
+  | User Payment Type Access:  |                                                                  |                |
+  | scenario                   | user_name                                                        | country_code   |
+  | ------------               | -----------                                                      | -------------- |
+  | success                    | Jane Doe                                                         | US             |
+  | success                    | Jane Doe                                                         | MX             |
+  | payment-type-not-available | Jane Doe                                                         | MX             |
+  | ===                        |                                                                  |                |
+  | Payment Type Field Types:  |                                                                  |                |
+  | payment_type               | fields                                                           |                |
+  | --------------             | --------                                                         |                |
+  | wire                       | amount, currency, beneficiary_id, swift_code                     |                |
+  | ach                        | amount, currency, beneficiary_id, routing_number, account_number |                |
 
   #### Story: **User** Triggers **Country**-Specific **PaymentType** (**User** determines **Country** and **PaymentType**; **System** validates and confirms.)
   - Pre-Condition: [Given **User** is logged in; And **User** has an active **Session**; And **User** has access to **PaymentType** in **Country** (see **UserPaymentAccess**)]
@@ -200,151 +213,164 @@ A typical reference hierarchy for making a country-specific payment (trigger, ma
     - Responding-Actor: [System]
     - Behavior: validates **PaymentDetails** and confirms success
 
-<!-- section: story_synthesizer.interaction.example.steps -->
-  ##### Scenario: Success — payment validated and confirmed
 
-  ###### Steps
 
-  - Step 1: Browse Country for Payment (When **User** browses countries; Then **System** displays list of **Country** options available for **PaymentType**)
-    - Trigger:
-      - Triggering-Actor: [User]
-      - Behavior: browses countries
-    - Response:
-      - Responding-Actor: [System]
-      - Behavior: displays list of **Country** options available for payment
+##### Scenario: Success — payment validated and confirmed
 
-  - Step 2: Select Country and Display Payment Types (When **User** selects **Country**; Then **System** displays all available **PaymentType** options for that country)
-    - Trigger:
-      - Triggering-Actor: [User]
-      - Behavior: selects **Country**
-    - Response:
-      - Responding-Actor: [System]
-      - Behavior: displays all available **PaymentType** options for that country
-    - Examples:
-      Selected Country:
+###### Steps
 
-      | scenario | country_code | country_name  |
-      |----------|--------------|---------------|
-      | success  | US           | United States |
-
-      ===
-      PaymentType:
-
-      | scenario | country_code | payment_type |
-      |----------|--------------|--------------|
-      | success  | US           | wire         |
-      | success  | US           | ach         |
-
-  - Step 3: Select Payment Type and Start Payment (When **User** selects **PaymentType** and clicks start payment; Then **System** prepares payment form for that **PaymentType**)
-    - Trigger:
-      - Triggering-Actor: [User]
-      - Behavior: selects **PaymentType** and clicks start payment
-    - Response:
-      - Responding-Actor: [System]
-      - Behavior: prepares payment form for that type
-    - Examples:
-      Selected PaymentType:
-
-      | scenario | payment_type |
-      |----------|--------------|
-      | success  | wire         |
-
-  - Step 4: Display Payment Details Based on Payment Type (When **System** receives payment type selection; Then **System** displays **PaymentDetails** with fields appropriate to the selected **PaymentType**)
-    - Trigger:
-      - Triggering-Actor: [System]
-      - Behavior: receives payment type selection
-    - Response:
-      - Responding-Actor: [System]
-      - Behavior: displays **PaymentDetails** with fields from **PaymentTypeFieldTypes** for the selected **PaymentType**
-
-  - Step 5: Make Payment and Successfully Validate It (When **User** enters valid **PaymentDetails** and submits; Then **System** validates the payment and confirms success)
-    - Trigger:
-      - Triggering-Actor: [User]
-      - Behavior: enters valid **PaymentDetails** and submits
-    - Response:
-      - Responding-Actor: [System]
-      - Behavior: validates the payment and confirms success
-    - Examples:
-      PaymentDetails (wire):
-
-      | scenario | payment_type | amount  | currency | beneficiary_id | swift_code |
-      |----------|--------------|--------|----------|----------------|------------|
-      | success  | wire         | 1000.00 | USD      | ben-001        | SWIFT123   |
-
-  - Step 6: Make Payment and Validation Fails (When **User** enters invalid **PaymentDetails** and submits; Then **System** validates and returns validation errors)
-    - Trigger:
-      - Triggering-Actor: [User]
-      - Behavior: enters invalid **PaymentDetails** and submits
-    - Response:
-      - Responding-Actor: [System]
-      - Behavior: validates and returns validation errors
-    - Examples:
-      PaymentDetails (wire):
-
-      | scenario                | payment_type | amount  | currency | beneficiary_id | swift_code |
-      |-------------------------|--------------|--------|----------|----------------|------------|
-      | invalid-payment-details | wire         | 1000.00 | USD      | invalid-id     | SWIFT123   |
-
-  ##### Scenario: Payment type not available for country
-
-  ###### Steps
-
-  - Step 1: Browse Country for Payment (When **User** browses countries; Then **System** displays list of **Country** options available for payment)
-    - Trigger:
-      - Triggering-Actor: [User]
-      - Behavior: browses countries
-    - Response:
-      - Responding-Actor: [System]
-      - Behavior: displays list of **Country** options available for payment
-
-  - Step 2: Select Country and Attempt Unavailable Payment Type (When **User** selects **Country** where a **PaymentType** is not available; And **User** selects that **PaymentType** and clicks start payment; Then **System** indicates payment type not available for that country)
-    - Trigger:
-      - Triggering-Actor: [User]
-      - Behavior: selects **Country**; then selects **PaymentType** and clicks start payment
-    - Response:
-      - Responding-Actor: [System]
-      - Behavior: indicates payment type not available for that country
-    - Examples:
-      Selected Country:
-
-      | scenario                   | country_code | country_name |
-      |----------------------------|--------------|--------------|
-      | payment-type-not-available | MX           | Mexico       |
-
-      ===
-      Selected PaymentType (selected, not available for country):
-
-      | scenario                   | payment_type |
-      |----------------------------|--------------|
-      | payment-type-not-available | ach          |
-
-  #### Epic: Submit **PaymentDetails** for **PaymentType**
-    - Pre-Condition: [Given **User** is logged in; And **User** has an active **Session**; And **User** has access to **PaymentType** in **Country** (see **UserPaymentAccess**)]
-    - Examples: [Logged In User, Active User Session, User Payment Type Access]
+- Step 1: Browse Country for Payment (When **User** browses countries; Then **System** displays list of **Country** options available for **PaymentType**)
+  - Trigger:
     - Triggering-Actor: [User]
+    - Behavior: browses countries
+  - Response:
     - Responding-Actor: [System]
-
-  #### Story: **User** submits **PaymentDetails** for **Country**-specific **PaymentType**
-    - Pre-Condition: [Given **User** is logged in; And **User** has an active **Session**; And **User** has access to **PaymentType** in **Country** (see **UserPaymentAccess**)]
-    - Examples: [Logged In User, Active User Session, User Payment Type Access]
+    - Behavior: displays list of **Country** options available for payment
+- Step 2: Select Country and Display Payment Types (When **User** selects **Country**; Then **System** displays all available **PaymentType** options for that country)
+  - Trigger:
     - Triggering-Actor: [User]
+    - Behavior: selects **Country**
+  - Response:
     - Responding-Actor: [System]
+    - Behavior: displays all available **PaymentType** options for that country
+  - Examples:
+  Selected Country:
 
-  #### Epic: Fulfill **Payment** settlement
-    - Pre-Condition: [Given **User** is logged in; And **User** has an active **Session**; And **User** has access to **PaymentType** in **Country** (see **UserPaymentAccess**)]
-    - Examples: [Logged In User, Active User Session, User Payment Type Access]
-    - Triggering-Actor: [User]
-    - Responding-Actor: [System]
+    | scenario | country_code | country_name  |
+    | -------- | ------------ | ------------- |
+    | success  | US           | United States |
 
-  #### Story: **User** completes **Payment** settlement
-    - Pre-Condition: [Given **User** is logged in; And **User** has an active **Session**; And **User** has access to **PaymentType** in **Country** (see **UserPaymentAccess**)]
-    - Examples: [Logged In User, Active User Session, User Payment Type Access]
+    ===
+    PaymentType:
+
+    | scenario | country_code | payment_type |
+    | -------- | ------------ | ------------ |
+    | success  | US           | wire         |
+    | success  | US           | ach          |
+
+- Step 3: Select Payment Type and Start Payment (When **User** selects **PaymentType** and clicks start payment; Then **System** prepares payment form for that **PaymentType**)
+  - Trigger:
     - Triggering-Actor: [User]
+    - Behavior: selects **PaymentType** and clicks start payment
+  - Response:
     - Responding-Actor: [System]
+    - Behavior: prepares payment form for that type
+  - Examples:
+  Selected PaymentType:
+
+    | scenario | payment_type |
+    | -------- | ------------ |
+    | success  | wire         |
+
+- Step 4: Display Payment Details Based on Payment Type (When **System** receives payment type selection; Then **System** displays **PaymentDetails** with fields appropriate to the selected **PaymentType**)
+  - Trigger:
+    - Triggering-Actor: [System]
+    - Behavior: receives payment type selection
+  - Response:
+    - Responding-Actor: [System]
+    - Behavior: displays **PaymentDetails** with fields from **PaymentTypeFieldTypes** for the selected **PaymentType**
+- Step 5: Make Payment and Successfully Validate It (When **User** enters valid **PaymentDetails** and submits; Then **System** validates the payment and confirms success)
+  - Trigger:
+    - Triggering-Actor: [User]
+    - Behavior: enters valid **PaymentDetails** and submits
+  - Response:
+    - Responding-Actor: [System]
+    - Behavior: validates the payment and confirms success
+  - Examples:
+  PaymentDetails (wire):
+
+    | scenario | payment_type | amount  | currency | beneficiary_id | swift_code |
+    | -------- | ------------ | ------- | -------- | -------------- | ---------- |
+    | success  | wire         | 1000.00 | USD      | ben-001        | SWIFT123   |
+
+- Step 6: Make Payment and Validation Fails (When **User** enters invalid **PaymentDetails** and submits; Then **System** validates and returns validation errors)
+  - Trigger:
+    - Triggering-Actor: [User]
+    - Behavior: enters invalid **PaymentDetails** and submits
+  - Response:
+    - Responding-Actor: [System]
+    - Behavior: validates and returns validation errors
+  - Examples:
+  PaymentDetails (wire):
+
+    | scenario                | payment_type | amount  | currency | beneficiary_id | swift_code |
+    | ----------------------- | ------------ | ------- | -------- | -------------- | ---------- |
+    | invalid-payment-details | wire         | 1000.00 | USD      | invalid-id     | SWIFT123   |
+
+
+##### Scenario: Payment type not available for country
+
+###### Steps
+
+- Step 1: Browse Country for Payment (When **User** browses countries; Then **System** displays list of **Country** options available for payment)
+  - Trigger:
+    - Triggering-Actor: [User]
+    - Behavior: browses countries
+  - Response:
+    - Responding-Actor: [System]
+    - Behavior: displays list of **Country** options available for payment
+- Step 2: Select Country and Attempt Unavailable Payment Type (When **User** selects **Country** where a **PaymentType** is not available; And **User** selects that **PaymentType** and clicks start payment; Then **System** indicates payment type not available for that country)
+  - Trigger:
+    - Triggering-Actor: [User]
+    - Behavior: selects **Country**; then selects **PaymentType** and clicks start payment
+  - Response:
+    - Responding-Actor: [System]
+    - Behavior: indicates payment type not available for that country
+  - Examples:
+  Selected Country:
+
+    | scenario                   | country_code | country_name |
+    | -------------------------- | ------------ | ------------ |
+    | payment-type-not-available | MX           | Mexico       |
+
+    ===
+    Selected PaymentType (selected, not available for country):
+
+    | scenario                   | payment_type |
+    | -------------------------- | ------------ |
+    | payment-type-not-available | ach          |
+
+
+#### Epic: Submit **PaymentDetails** for **PaymentType**
+
+```
+- Pre-Condition: [Given **User** is logged in; And **User** has an active **Session**; And **User** has access to **PaymentType** in **Country** (see **UserPaymentAccess**)]
+- Examples: [Logged In User, Active User Session, User Payment Type Access]
+- Triggering-Actor: [User]
+- Responding-Actor: [System]
+```
+
+#### Story: **User** submits **PaymentDetails** for **Country**-specific **PaymentType**
+
+```
+- Pre-Condition: [Given **User** is logged in; And **User** has an active **Session**; And **User** has access to **PaymentType** in **Country** (see **UserPaymentAccess**)]
+- Examples: [Logged In User, Active User Session, User Payment Type Access]
+- Triggering-Actor: [User]
+- Responding-Actor: [System]
+```
+
+#### Epic: Fulfill **Payment** settlement
+
+```
+- Pre-Condition: [Given **User** is logged in; And **User** has an active **Session**; And **User** has access to **PaymentType** in **Country** (see **UserPaymentAccess**)]
+- Examples: [Logged In User, Active User Session, User Payment Type Access]
+- Triggering-Actor: [User]
+- Responding-Actor: [System]
+```
+
+#### Story: **User** completes **Payment** settlement
+
+```
+- Pre-Condition: [Given **User** is logged in; And **User** has an active **Session**; And **User** has access to **PaymentType** in **Country** (see **UserPaymentAccess**)]
+- Examples: [Logged In User, Active User Session, User Payment Type Access]
+- Triggering-Actor: [User]
+- Responding-Actor: [System]
+```
 
 ---
 
-<!-- section: story_synthesizer.interaction.output -->
+
+
 ## Output Format
 
 **Output path:** `<workspace>/story-synthesizer/interactions/interaction-tree.md`
@@ -353,12 +379,14 @@ Format specification for the Interaction Tree output. See the Complete Example a
 
 **Constraints:** Any node can have a `Constraints:` collection — qualitative instructions on how the interaction is shaped. Each constraint may be a sentence, a file path, or (most commonly) a markdown reference. Inherited high to low. Typically at epic or story level; may appear in steps.
 
-<!-- section: story_synthesizer.interaction.output.hierarchy -->
+
+
 ### Epics and Stories View (Hierarchy)
 
 The tree view: Epic → Epic/Story children. Each node shows name, actors, and inherited vs own fields.
 
 **Epic (filled out — has Examples)**
+
 - Heading: `# Epic: <name using **Domain Concepts**> (<statement>)`
 - `- Triggering-Actor:` value
 - `- Responding-Actor:` value
@@ -367,6 +395,7 @@ The tree view: Epic → Epic/Story children. Each node shows name, actors, and i
 - `- Examples:` state table block (see Example Block Format below)
 
 **Epic (not filled out — inherits only)**
+
 - Heading: `## Epic: <name using **Domain Concepts**> (<statement>)`
 - `- Constraints:` [inherited] or own collection
 - `- Pre-Condition:` [full inherited label]
@@ -375,6 +404,7 @@ The tree view: Epic → Epic/Story children. Each node shows name, actors, and i
 - `- Responding-Actor:` [System] (or other actor)
 
 **Story (filled out — has Trigger, Response, Failure-Modes, Scenarios)**
+
 - Heading: `### Story: <name using **Domain Concepts**> (<statement>)` — same pattern as Epic
 - `- Pre-Condition:` [inherited]
 - `- Failure-Modes:` bullet list (up to 3)
@@ -385,6 +415,7 @@ The tree view: Epic → Epic/Story children. Each node shows name, actors, and i
 - Step items (see Story Details View)
 
 **Story (not filled out)**
+
 - Heading: `#### Story:` + **Name**
 - `- Constraints:` [inherited] or own collection
 - `- Pre-Condition:` [inherited]
@@ -392,26 +423,31 @@ The tree view: Epic → Epic/Story children. Each node shows name, actors, and i
 - `- Triggering-Actor:` [inherited]
 - `- Responding-Actor:` [inherited]
 
-<!-- section: story_synthesizer.interaction.output.details -->
+
+
 ### Story Details View (Drill-down)
 
 When a story is expanded: Scenarios, Steps, and per-step Trigger/Response/Examples.
 
 **Step (no Examples)**
+
 - `- Step N: <name using **Domain Concepts**> (When/Then <statement>)`
 - `- Constraints:` [inherited] or own (when step-specific)
 - `- Trigger:` [inherited], Behavior
 - `- Response:` [inherited], Behavior
 
 **Step (with Examples)**
+
 - Same as Step (no Examples), plus `- Examples:` block
 - Each table: label, blank line, header row, separator row, data rows
 - Each table is a separate block; blank line between tables
 
 **Step (system-triggered)**
+
 - Triggering-Actor overridden to [System] when the step is system-triggered (e.g. "When **System** receives...")
 
 **Example table**
+
 - Always add a qualifier in parentheses: `ConceptName (qualifier):`
 - **Scenario column:** Required on entity tables. Use kebab-case (e.g. success, invalid-details, not-available).
 - **Inherited examples:** Show as `Examples: [Table Name 1, Table Name 2, ...]` — list names, not tables.
@@ -434,13 +470,17 @@ Entity table (scenario + fields):
   | other-case | val1   | val2   | val3   | val4   | val5   |
 ```
 
-<!-- section: story_synthesizer.interaction.output.headings -->
+
+
 ### Heading Levels
 
-| Level | Use |
-|-------|-----|
-| `#` | Epic |
-| `##` | Child Epic (Every level of nesting at a header level) |
-| `###` | Story (Assuming only two levels of epic nesting) |
-| `####` | Scenario (Assuming only two levels of epic nesting) |
-| `#####` | Steps (Assuming only two levels of epic nesting) |
+
+| Level   | Use                                                   |
+| ------- | ----------------------------------------------------- |
+| `#`     | Epic                                                  |
+| `##`    | Child Epic (Every level of nesting at a header level) |
+| `###`   | Story (Assuming only two levels of epic nesting)      |
+| `####`  | Scenario (Assuming only two levels of epic nesting)   |
+| `#####` | Steps (Assuming only two levels of epic nesting)      |
+
+

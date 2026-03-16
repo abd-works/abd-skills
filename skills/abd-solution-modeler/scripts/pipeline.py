@@ -1,215 +1,442 @@
 #!/usr/bin/env python3
-"""Orchestrate pipeline phases. Run phase N or full pipeline. AI phases: print instructions."""
-import json
+"""Orchestrate pipeline phases by name. AI phases print instructions; code phases run scripts."""
+import importlib
 import subprocess
 import sys
 from pathlib import Path
 
 _SKILL_DIR = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(_SKILL_DIR / "scripts"))
+from _config import (
+    chunk_index_path as _chunk_index_path_fn,
+    context_path as _context_path_fn,
+    context_dir as _context_dir_fn,
+    domain_dir as _domain_dir_fn,
+    interaction_model_dir as _interaction_model_dir_fn,
+    evidence_dir as _evidence_dir_fn,
+)
+
 _SCRIPTS_DIR = _SKILL_DIR / "scripts"
 _PIECES_DIR = _SKILL_DIR / "pieces"
-_CODE_PHASES = {1, 3, 4}
-_AI_PHASES = {2, 5, 6, 7, 8, 9, 10, 11, 12, 13}
-_ALL_PHASES = _CODE_PHASES | _AI_PHASES
+_RULES_DIR = _SKILL_DIR / "rules"
+_SCANNERS_DIR = _SCRIPTS_DIR / "scanners"
 
-_PHASE_FILES = {
-    1: "normalize_context.md",
-    2: "concept_guidance_v1.md",
-    3: "evidence_extraction.md",
-    4: "evidence_graph.md",
-    5: "concept_guidance_v2.md",
-    6: "interaction_tree_structure.md",
-    7: "concept_model.md",
-    8: "structural_model.md",
-    9: "behavior_model.md",
-    10: "variation_model.md",
-    11: "refined_domain_model.md",
-    12: "scenario_walkthrough.md",
-    13: "validated_domain_model.md",
+_PHASES = [
+    "normalize_context",
+    "concept_guidance_v1",
+    "evidence_extraction",
+    "evidence_graph",
+    "concept_guidance_v2",
+    "concept_model",
+    "structural_model",
+    "behavior_model",
+    "variation_model",
+    "refined_domain_model",
+    "model_assessment",
+    "final_domain_model",
+]
+
+_CODE_PHASES = {"normalize_context", "evidence_extraction", "evidence_graph"}
+
+_PHASE_PREFIXES = [
+    "concept-guidance", "concept-model", "structural",
+    "behavior", "variation", "refined", "validated",
+]
+
+_PHASE_TO_PREFIX = {
+    "concept_guidance_v1": "concept-guidance",
+    "concept_guidance_v2": "concept-guidance",
+    "concept_model": "concept-model",
+    "structural_model": "structural",
+    "behavior_model": "behavior",
+    "variation_model": "variation",
+    "refined_domain_model": "refined",
+    "model_assessment": "validated",
+    "final_domain_model": "validated",
 }
 
 
-def _output_dir() -> Path:
-    """Resolve output directory from config or default."""
-    config_path = _SKILL_DIR / "conf" / "abd-config.json"
-    if config_path.exists():
-        try:
-            cfg = json.loads(config_path.read_text(encoding="utf-8"))
-            out = cfg.get("output_dir", "solution")
-            workspace = cfg.get("solution_workspace")
-            if workspace:
-                return Path(workspace).resolve() / out
-            return Path.cwd() / out
-        except (json.JSONDecodeError, OSError):
-            pass
-    return Path.cwd() / "solution"
+def _rules_for_phase(phase_name: str) -> list[Path]:
+    """Collect only cross-phase rules (no prefix) and rules for this exact phase.
+
+    No accumulation — each phase gets its own rules plus cross-phase rules only.
+    """
+    prefix = _PHASE_TO_PREFIX.get(phase_name)
+    if prefix is None:
+        return []
+    rules: list[Path] = []
+    for artifact_dir in (_RULES_DIR / "domain", _RULES_DIR / "interaction-tree"):
+        if not artifact_dir.exists():
+            continue
+        for rule_file in sorted(artifact_dir.glob("*.md")):
+            has_prefix = False
+            for known in _PHASE_PREFIXES:
+                if rule_file.stem.startswith(known + "-"):
+                    has_prefix = True
+                    if known == prefix:
+                        rules.append(rule_file)
+                    break
+            if not has_prefix:
+                rules.append(rule_file)
+    return rules
 
 
-def _config() -> dict:
-    """Load config."""
-    config_path = _SKILL_DIR / "conf" / "abd-config.json"
-    if config_path.exists():
-        try:
-            return json.loads(config_path.read_text(encoding="utf-8"))
-        except (json.JSONDecodeError, OSError):
-            pass
-    return {}
+_PHASE_OUTPUT_FILES: dict[str, dict[str, list[str]]] = {
+    "concept_guidance_v1": {"domain": ["concept_guidance.md"], "interaction-tree": ["interaction_tree.md"]},
+    "concept_guidance_v2": {"domain": ["concept_guidance.md"], "interaction-tree": ["interaction_tree.md"]},
+    "concept_model":       {"domain": ["concept_model.md"],    "interaction-tree": ["interaction_tree.md"]},
+    "structural_model":    {"domain": ["structural_model.md"], "interaction-tree": ["interaction_tree.md"]},
+    "behavior_model":      {"domain": ["behavior_model.md"],   "interaction-tree": ["interaction_tree.md"]},
+    "variation_model":     {"domain": ["variation_model.md"],  "interaction-tree": ["interaction_tree.md"]},
+    "refined_domain_model": {"domain": ["refined_domain_model.md"], "interaction-tree": ["interaction_tree.md"]},
+    "model_assessment":    {"domain": ["model_assessment.md"], "interaction-tree": ["interaction_tree.md"]},
+    "final_domain_model":  {"domain": ["final_domain_model.md"], "interaction-tree": ["interaction_tree.md"]},
+}
 
 
-def _run_phase_1() -> bool:
-    """Phase 1: normalize context. Returns True on success."""
+def _get_artifact_path(artifact_folder: str) -> Path | None:
+    if artifact_folder == "domain":
+        return _domain_dir_fn()
+    elif artifact_folder == "interaction-tree":
+        return _interaction_model_dir_fn()
+    return None
+
+
+def _phase_target_files(phase_name: str, artifact_folder: str) -> list[Path]:
+    """Return only the output file(s) for this phase in the given artifact folder."""
+    target_dir = _get_artifact_path(artifact_folder)
+    if target_dir is None or not target_dir.exists():
+        return []
+    filenames = _PHASE_OUTPUT_FILES.get(phase_name, {}).get(artifact_folder)
+    if filenames:
+        return [target_dir / f for f in filenames if (target_dir / f).exists()]
+    return sorted(target_dir.glob("*.md"))
+
+
+def _find_scanner(rule_path: Path) -> type | None:
+    """Find scanner class for a rule by convention: rule stem with underscores.
+
+    Looks for a .py module matching the rule stem. Finds the first BaseScanner
+    subclass in that module (class names may not match the filename convention).
+    """
+    from scanners.base import BaseScanner
+    module_name = rule_path.stem.replace("-", "_")
+    scanner_path = _SCANNERS_DIR / f"{module_name}.py"
+    if not scanner_path.exists():
+        return None
+    try:
+        mod = importlib.import_module(f"scanners.{module_name}")
+        for attr_name in dir(mod):
+            attr = getattr(mod, attr_name)
+            if isinstance(attr, type) and issubclass(attr, BaseScanner) and attr is not BaseScanner:
+                return attr
+        return None
+    except (ImportError, AttributeError):
+        return None
+
+
+# ---------------------------------------------------------------------------
+# Code phase runners
+# ---------------------------------------------------------------------------
+
+def _run_normalize_context() -> bool:
     import os
-    cfg = _config()
-    out = _output_dir()
-    chunk_index = os.environ.get("_ABD_CHUNK_INDEX") or cfg.get("chunk_index_path")
-    context_path = os.environ.get("_ABD_CONTEXT_PATH") or cfg.get("context_path")
-
-    args = [sys.executable, str(_SCRIPTS_DIR / "normalize_context.py"), "-o", str(out / "rule_chunks.json")]
+    context_out = str(_context_dir_fn())
+    _ci = _chunk_index_path_fn()
+    _cp = _context_path_fn()
+    chunk_index = os.environ.get("_ABD_CHUNK_INDEX") or (str(_ci) if _ci else None)
+    context_path = os.environ.get("_ABD_CONTEXT_PATH") or (str(_cp) if _cp else None)
+    base = [sys.executable, str(_SCRIPTS_DIR / "normalize_context.py"), "-o", context_out]
     if chunk_index:
         idx = Path(chunk_index).resolve()
-        if idx.exists():
-            args = [sys.executable, str(_SCRIPTS_DIR / "normalize_context.py"), "--chunk-index", str(idx), "-o", str(out / "rule_chunks.json")]
-        else:
+        if not idx.exists():
             print(f"chunk_index_path not found: {idx}", file=sys.stderr)
             return False
+        args = base[:-2] + ["--chunk-index", str(idx), "-o", context_out]
     elif context_path:
         ctx = Path(context_path).resolve()
-        if ctx.exists():
-            args = [sys.executable, str(_SCRIPTS_DIR / "normalize_context.py"), "--context-path", str(ctx), "-o", str(out / "rule_chunks.json")]
-        else:
+        if not ctx.exists():
             print(f"context_path not found: {ctx}", file=sys.stderr)
             return False
+        args = base[:-2] + ["--context-path", str(ctx), "-o", context_out]
     else:
-        print("Phase 1 requires chunk_index_path or context_path in conf/abd-config.json.", file=sys.stderr)
+        print("normalize_context requires chunk_index_path or context_path in workspace solution.conf.", file=sys.stderr)
         return False
-
-    r = subprocess.run(args, cwd=str(_SKILL_DIR))
-    return r.returncode == 0
+    return subprocess.run(args, cwd=str(_SKILL_DIR)).returncode == 0
 
 
-def _run_phase_3() -> bool:
-    """Phase 3: guided evidence extraction. Returns True on success."""
-    out = _output_dir()
-    guidance = out / "concept_guidance_v1.json"
+def _run_evidence_extraction() -> bool:
+    ctx = _context_dir_fn()
+    domain = _domain_dir_fn()
+    evidence = _evidence_dir_fn()
+    guidance = domain / "concept_guidance.json"
     if not guidance.exists():
-        print("Phase 3 requires concept_guidance_v1.json from Phase 2. Run Phase 2 first.", file=sys.stderr)
+        print("evidence_extraction requires concept_guidance.json — run concept_guidance_v1 first.", file=sys.stderr)
         return False
     args = [
-        sys.executable,
-        str(_SCRIPTS_DIR / "evidence_extraction_guided.py"),
-        "-i", str(out / "rule_chunks.json"),
+        sys.executable, str(_SCRIPTS_DIR / "evidence_extraction_guided.py"),
+        "-i", str(ctx / "context_chunks.json"),
         "-g", str(guidance),
-        "-o", str(out),
+        "-o", str(evidence),
     ]
-    r = subprocess.run(args, cwd=str(_SKILL_DIR))
-    return r.returncode == 0
+    return subprocess.run(args, cwd=str(_SKILL_DIR)).returncode == 0
 
 
-def _run_phase_4() -> bool:
-    """Phase 4: build evidence graph. Returns True on success."""
-    out = _output_dir()
+def _run_evidence_graph() -> bool:
+    evidence = _evidence_dir_fn()
     args = [
-        sys.executable,
-        str(_SCRIPTS_DIR / "evidence_graph.py"),
-        "-i", str(out),
-        "-o", str(out / "evidence_graph.json"),
+        sys.executable, str(_SCRIPTS_DIR / "evidence_graph.py"),
+        "-i", str(evidence),
+        "-o", str(evidence / "evidence_graph.json"),
     ]
-    r = subprocess.run(args, cwd=str(_SKILL_DIR))
-    return r.returncode == 0
+    return subprocess.run(args, cwd=str(_SKILL_DIR)).returncode == 0
 
 
-def _run_phase(phase: int) -> None:
-    """Run a single phase. Code phases: invoke script. AI phases: print phase file."""
-    if phase not in _ALL_PHASES:
-        print(f"Unknown phase {phase}. Use 1–13.", file=sys.stderr)
+_CODE_RUNNERS = {
+    "normalize_context": _run_normalize_context,
+    "evidence_extraction": _run_evidence_extraction,
+    "evidence_graph": _run_evidence_graph,
+}
+
+
+def _ensure_workspace_dirs() -> None:
+    for d in (_domain_dir_fn(), _interaction_model_dir_fn(), _evidence_dir_fn()):
+        d.mkdir(parents=True, exist_ok=True)
+
+
+def _ensure_utf8() -> None:
+    if sys.stdout.encoding and sys.stdout.encoding.lower() not in ("utf-8", "utf8"):
+        sys.stdout.reconfigure(encoding="utf-8")
+
+
+# ---------------------------------------------------------------------------
+# Commands
+# ---------------------------------------------------------------------------
+
+def _cmd_generate(name: str) -> None:
+    """Layer 1: Print built phase spec (phase instructions + baked-in rules)."""
+    if name not in _PHASES:
+        valid = ", ".join(_PHASES)
+        print(f"Unknown phase '{name}'. Valid phases: {valid}", file=sys.stderr)
         sys.exit(1)
 
-    phase_file = _PIECES_DIR / "phases" / _PHASE_FILES[phase]
-    if not phase_file.exists():
-        print(f"Phase file missing: {phase_file}", file=sys.stderr)
+    _ensure_workspace_dirs()
+
+    built_file = _PIECES_DIR / "phases" / "built" / f"{name}.md"
+    phase_file = _PIECES_DIR / "phases" / f"{name}.md"
+    target = built_file if built_file.exists() else phase_file
+    if not target.exists():
+        print(f"Phase file missing: {target}", file=sys.stderr)
+        print("Run: python scripts/assemble_agents.py  (builds phases/built/)", file=sys.stderr)
         sys.exit(1)
 
-    if phase in _CODE_PHASES:
-        ok = False
-        if phase == 1:
-            ok = _run_phase_1()
-        elif phase == 3:
-            ok = _run_phase_3()
-        elif phase == 4:
-            ok = _run_phase_4()
-        if not ok:
+    if name in _CODE_PHASES:
+        if not _CODE_RUNNERS[name]():
             sys.exit(1)
         return
 
-    # AI phases: print phase file for agent to use
-    if sys.stdout.encoding and sys.stdout.encoding.lower() not in ("utf-8", "utf8"):
-        sys.stdout.reconfigure(encoding="utf-8")
-    content = phase_file.read_text(encoding="utf-8")
-    print(content)
+    _ensure_utf8()
+    print(target.read_text(encoding="utf-8"))
+
+    # Auto-generate DrawIO after mandatory phases
+    if name in _DRAWIO_MANDATORY_PHASES:
+        print(f"\n[pipeline] Generating DrawIO diagram for {name}...", file=sys.stderr)
+        _cmd_drawio(name)
 
 
-def _run_pipeline(stop_at: int | None = None) -> None:
-    """Run phases 1–N. Stop at checkpoint or stop_at."""
-    end = min(stop_at or 13, 13)
-    for n in range(1, end + 1):
-        print(f"\n--- Phase {n} ---\n", file=sys.stderr)
-        _run_phase(n)
+def _cmd_scan(name: str) -> None:
+    """Layer 2: Run scanners against output files for rules up to the given phase."""
+    if name not in _PHASES:
+        valid = ", ".join(_PHASES)
+        print(f"Unknown phase '{name}'. Valid phases: {valid}", file=sys.stderr)
+        sys.exit(1)
+
+    _ensure_workspace_dirs()
+    rules = _rules_for_phase(name)
+    violations: list = []
+    scanners_run = 0
+
+    for rule_path in rules:
+        scanner_cls = _find_scanner(rule_path)
+        if scanner_cls is None:
+            continue
+        scanners_run += 1
+        scanner = scanner_cls()
+        artifact = rule_path.parent.name
+        for target_file in _phase_target_files(name, artifact):
+            content = target_file.read_text(encoding="utf-8")
+            violations.extend(scanner.scan(content, str(target_file)))
+
+    print(f"Scanners run: {scanners_run}", file=sys.stderr)
+    if violations:
+        for v in violations:
+            sev = getattr(v, "severity", "MEDIUM")
+            rule_id = getattr(v, "rule_id", "unknown")
+            msg = getattr(v, "message", str(v))
+            loc = getattr(v, "location", "")
+            print(f"[{sev}] {rule_id}: {msg}")
+            if loc:
+                print(f"  at: {loc}")
+        print(f"\n{len(violations)} violation(s) found.", file=sys.stderr)
+        sys.exit(1)
+    else:
+        print("No violations found.", file=sys.stderr)
+
+
+def _cmd_validate(name: str) -> None:
+    """Layer 3: Print rules + validation checklist + output paths for AI validation pass."""
+    if name not in _PHASES:
+        valid = ", ".join(_PHASES)
+        print(f"Unknown phase '{name}'. Valid phases: {valid}", file=sys.stderr)
+        sys.exit(1)
+
+    _ensure_utf8()
+
+    checklist = _PIECES_DIR / "validation.md"
+    if checklist.exists():
+        print(checklist.read_text(encoding="utf-8").strip())
+        print("\n\n---\n\n")
+
+    rules = _rules_for_phase(name)
+    print(f"## Rules — Validate Output Against Each ({len(rules)} rules)\n")
+    print("For each rule below, check whether the output complies.")
+    print("Report: rule name, violation, location, proposed fix.\n")
+    for r in rules:
+        print(r.read_text(encoding="utf-8").strip())
+        print("\n---\n")
+
+    print("\n## Output Files to Validate\n")
+    for p in (_domain_dir_fn(), _interaction_model_dir_fn()):
+        if p.exists():
+            for f in sorted(p.glob("*.md")):
+                print(f"- `{f}`")
+
+
+# ---------------------------------------------------------------------------
+# Stage 2 phases that produce domain model files (optional DrawIO after each)
+# ---------------------------------------------------------------------------
+_STAGE2_PHASES = {
+    "concept_model", "structural_model", "behavior_model",
+    "variation_model", "refined_domain_model", "final_domain_model",
+}
+
+# Phases after which DrawIO is always generated (mandatory)
+_DRAWIO_MANDATORY_PHASES = {"final_domain_model"}
+
+
+def _cmd_drawio(phase: str | None = None) -> None:
+    """Generate DrawIO class diagram from the latest domain model file.
+
+    Looks for <phase>-domain.md or domain.md in generated/domain/.
+    Output: generated/domain/<stem>.drawio
+    """
+    domain = _domain_dir_fn()
+    if not domain.exists():
+        print(f"Domain dir not found: {domain}", file=sys.stderr)
+        sys.exit(1)
+
+    # Determine input file
+    target: Path | None = None
+    if phase:
+        # Try phase-specific delta file first, then latest domain model
+        candidates = sorted(domain.glob(f"*{phase}*.md")) + sorted(domain.glob("final_domain_model.md")) + sorted(domain.glob("*.md"))
+        for c in candidates:
+            if c.suffix == ".md" and not c.name.startswith("."):
+                target = c
+                break
+    else:
+        # Prefer validated → refined → any domain model
+        for preferred in ("final_domain_model.md", "refined_domain_model.md"):
+            p = domain / preferred
+            if p.exists():
+                target = p
+                break
+        if not target:
+            mds = sorted(domain.glob("*.md"))
+            target = mds[-1] if mds else None
+
+    if not target or not target.exists():
+        print(f"No domain model .md found in {domain}", file=sys.stderr)
+        sys.exit(1)
+
+    output = target.with_suffix(".drawio")
+    args = [
+        sys.executable, str(_SCRIPTS_DIR / "model_to_drawio.py"),
+        str(target), "--output", str(output),
+    ]
+    r = subprocess.run(args, cwd=str(_SKILL_DIR))
+    if r.returncode == 0:
+        print(f"DrawIO diagram -> {output}")
+    else:
+        sys.exit(r.returncode)
+
+
+def _cmd_pipeline(stop_at: str | None = None) -> None:
+    end = _PHASES.index(stop_at) + 1 if stop_at and stop_at in _PHASES else len(_PHASES)
+    for name in _PHASES[:end]:
+        print(f"\n--- {name} ---\n", file=sys.stderr)
+        _cmd_generate(name)
 
 
 def _main() -> None:
     args = sys.argv[1:]
     if not args:
-        print("Usage: pipeline.py run <phase> [--chunk-index PATH] [--context-path PATH]")
-        print("       pipeline.py pipeline [--stop N] [--chunk-index PATH] [--context-path PATH]")
-        print("  run <phase>   Run phase 1–13. AI phases print instructions.")
-        print("  pipeline     Run phases 1–N (default 13).")
-        print("  --chunk-index PATH   Override config for Phase 1 (chunk_index.json)")
-        print("  --context-path PATH  Override config for Phase 1 (folder of .md)")
+        names = " | ".join(_PHASES)
+        print(f"Usage: pipeline.py generate <phase> [render-diagram]")
+        print(f"       pipeline.py scan <phase>")
+        print(f"       pipeline.py validate <phase>")
+        print(f"       pipeline.py drawio [<phase>]")
+        print(f"       pipeline.py pipeline [--stop <phase>]")
+        print(f"  Phases: {names}")
         sys.exit(1)
 
-    # Parse overrides
-    chunk_override = None
-    context_override = None
-    if "--chunk-index" in args:
-        i = args.index("--chunk-index")
-        if i + 1 < len(args):
-            chunk_override = args.pop(i + 1)
-            args.pop(i)
-    if "--context-path" in args:
-        i = args.index("--context-path")
-        if i + 1 < len(args):
-            context_override = args.pop(i + 1)
-            args.pop(i)
-
-    # Store overrides for phase 1 (used by _run_phase_1)
-    if chunk_override or context_override:
-        import os
-        os.environ["_ABD_CHUNK_INDEX"] = chunk_override or ""
-        os.environ["_ABD_CONTEXT_PATH"] = context_override or ""
+    for flag, var in [("--chunk-index", "_ABD_CHUNK_INDEX"), ("--context-path", "_ABD_CONTEXT_PATH")]:
+        if flag in args:
+            i = args.index(flag)
+            if i + 1 < len(args):
+                import os
+                os.environ[var] = args.pop(i + 1)
+                args.pop(i)
 
     cmd = args[0].lower()
-    if cmd == "run":
+
+    if cmd in ("generate", "run"):
         if len(args) < 2:
-            print("Usage: pipeline.py run <phase>", file=sys.stderr)
+            print("Usage: pipeline.py generate <phase> [render-diagram]", file=sys.stderr)
             sys.exit(1)
-        try:
-            phase = int(args[1])
-        except ValueError:
-            print("Phase must be 1–13.", file=sys.stderr)
+        phase = args[1].lower()
+        render_diagram = "render-diagram" in [a.lower() for a in args[2:]]
+        _cmd_generate(phase)
+        if render_diagram and phase not in _DRAWIO_MANDATORY_PHASES:
+            print(f"\n[pipeline] Generating DrawIO diagram for {phase}...", file=sys.stderr)
+            _cmd_drawio(phase)
+
+    elif cmd == "scan":
+        if len(args) < 2:
+            print("Usage: pipeline.py scan <phase>", file=sys.stderr)
             sys.exit(1)
-        _run_phase(phase)
+        _cmd_scan(args[1].lower())
+
+    elif cmd == "validate":
+        if len(args) < 2:
+            print("Usage: pipeline.py validate <phase>", file=sys.stderr)
+            sys.exit(1)
+        _cmd_validate(args[1].lower())
+
+    elif cmd == "drawio":
+        phase_arg = args[1].lower() if len(args) > 1 else None
+        _cmd_drawio(phase_arg)
+
     elif cmd == "pipeline":
         stop = None
         if "--stop" in args:
             i = args.index("--stop")
             if i + 1 < len(args):
-                try:
-                    stop = int(args[i + 1])
-                except ValueError:
-                    pass
-        _run_pipeline(stop)
+                stop = args[i + 1].lower()
+        _cmd_pipeline(stop)
+
     else:
-        print(f"Unknown command: {cmd}", file=sys.stderr)
+        print(f"Unknown command: '{cmd}'. Use 'generate', 'scan', 'validate', 'drawio', or 'pipeline'.", file=sys.stderr)
         sys.exit(1)
 
 

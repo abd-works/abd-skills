@@ -49,7 +49,7 @@ def _build_graph(evidence_dir: Path) -> dict:
         if not isinstance(act, dict):
             continue
         subj = act.get("subject", "").strip()
-        verb = act.get("verb", "").strip()
+        verb = act.get("predicate", "").strip()
         obj = act.get("object", "").strip()
         if subj and verb:
             performs.append({

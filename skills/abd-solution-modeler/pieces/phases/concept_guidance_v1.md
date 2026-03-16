@@ -1,7 +1,6 @@
 # Phase 2 — Concept Guidance v1
 
-**Actor:** AI | **Full spec:** [requirements.md](../../docs/requirements.md) § Phase 2
-
+**Actor:** AI | 
 ## Purpose
 
 Create the **initial domain hypothesis** that will guide extraction.
@@ -13,7 +12,7 @@ This phase should identify the domain's likely:
 - **Actors**
 - **Epics**
 
-**Interaction detail:** Epic skeleton only. Epic names; no sub-epics, stories, state, scenarios, or steps.
+**Interaction detail:** Story Map Skeleton: Epics, Sub-Epics, some stories where possible.
 
 ## Trigger
 
@@ -33,21 +32,16 @@ Do **not** include:
 - service/manager/resolver concepts unless explicitly present in the source domain
 
 ## Interaction detail
-Only produce:
-- **Epic skeleton**
-- Epic names
-- short epic statements
+Produce:
+- **Story Map Skeleton** — Epics, Sub-Epics, some stories where possible
+- Epic names and short statements
+- Sub-epics under epics where evident
+- Stories where evident from context
 
-Do **not** produce:
-- sub-epics
-- stories
-- scenarios
-- steps
-- examples
-- state labels
+Add stories where evident from context; defer Trigger, Response, scenarios, steps to later phases.
 
 ## Inputs
-- `rule_chunks.json`
+- `context/context_chunks.json`
 
 ## Instructions
 
@@ -72,6 +66,18 @@ Identify:
 5. **Likely Epics**
    - broad domain interaction areas only
    - epic names should be verb-noun and domain-grounded
+   - **scan `context/context_chunks.json` for verb clusters** — groups of action verbs (grab, restrain, redirect, etc.) that don't fit an existing epic suggest a missing epic; do not rely on background knowledge alone to identify epics
+
+## Noise Filter Instructions
+
+Populate `noise_filters` in the JSON output with strings that identify low-value chunks from this specific source material. Always include generic defaults, then add domain-specific terms you observe in the chunks.
+
+**Always include these defaults:**
+- `"table of contents"`, `"appendix"`, `"index"`, `"license"`
+
+**Add domain-specific terms** — scan chunks for repeated noise: archetype random-table row labels, second-person tutorial prose, license text, roll-table instructions. 
+
+**CRITICAL:** Only include strings that appear **exclusively** in worthless chunks. Do NOT include strings like chapter headers or book titles that also appear in good rule content — they appear in headers of every chunk and will cause the entire corpus to be filtered out.
 
 ## Output quality rules
 - stay shallow
@@ -84,14 +90,14 @@ Identify:
 
 ## Outputs
 
-1. `domain_concept_guidance_v1.md`
-2. `concept_guidance_v1.json`
-3. `interaction_tree.md` (epic skeleton only)
+1. `generated/domain/concept_guidance.md`
+2. `generated/domain/concept_guidance.json`
+3. `generated/interaction_model/interaction_tree.md` (Story Map Skeleton: Epics, Sub-Epics, some stories)
 
 ## Markdown output shape
 
 ```text
-# Domain Concept Guidance v1
+# Domain Concept Guidance
 
 ## Modules
 
@@ -100,7 +106,7 @@ Identify:
 
 ## Concepts (candidate)
 
-**ConceptA** [foundational] — interacts with **ConceptB**
+**ConceptA** — interacts with **ConceptB**
 **ConceptB** — modifies **ConceptC**
 **ConceptC** — results from **ConceptA**
 
@@ -144,7 +150,11 @@ Identify:
   "priority_mechanisms": ["MechanismA", "MechanismB"],
   "priority_actors": ["ActorA", "ActorB"],
   "variation_axes": ["axis a", "axis b"],
-  "noise_filters": ["license", "table of contents", "ads"],
+  "noise_filters": [
+    "table of contents", "appendix", "index", "license",
+    "chapter header repeated", "title page",
+    "<domain-specific noise terms you identified from chunks>"
+  ],
   "focus_sections": ["section a", "section b"]
 }
 ```

@@ -1,12 +1,11 @@
-# Phase 8 — Structural Model
+# Phase 7 — Structural Model
 
-**Actor:** AI | **Full spec:** [requirements.md](../../docs/requirements.md) § Phase 8
-
+**Actor:** AI | 
 ## Purpose
 
 Add relationships and composition between concepts.
 
-**Interaction detail:** Triggering-Actor and Responding-Actor per story (who starts, who responds). Structure only; no Trigger/Response behavior yet.
+**Interaction detail:** Add Triggering-Actor and Responding-Actor per story; additional stories as gleaned from structure; add long name; initiating and resulting state; pre-conditions.
 
 ## Trigger
 
@@ -19,8 +18,8 @@ structural model, relationships, composition, collaborators
 
 ## Inputs
 
-`concept_model.md`, `interaction_tree.md`
+`generated/domain/concept_model.md`, `generated/interaction_model/interaction_tree.md`
 
 ## Outputs
 
-`structural_model.md`, `interaction_tree.md`
+`generated/domain/structural_model.md`, `generated/interaction_model/interaction_tree.md`
