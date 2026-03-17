@@ -157,7 +157,9 @@ def _is_noise(text: str, patterns: list[str]) -> bool:
 
 
 def _load_workspace_filters() -> list[str]:
-    """Load workspace-specific noise filters from concept_guidance.json if it exists."""
+    """Load workspace-specific noise filters from concept_guidance.json if it exists.
+    Used only when re-running Phase 1 after Phase 4 (Concept synthesis) has produced
+    concept_guidance.json. On first run, returns [] since the file does not exist yet."""
     try:
         from _config import domain_dir
         guidance_path = domain_dir() / "concept_guidance.json"

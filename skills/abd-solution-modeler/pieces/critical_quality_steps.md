@@ -48,3 +48,5 @@ When recording corrections:
 - **DO** or **DO NOT** rule
 - **Example (wrong):** What was done incorrectly
 - **Example (correct):** What it should be
+- **Scanner or rule:** (if applicable) Name of scanner or rule that caught the error
+- **Likely source:** (if known) One of: code issue | prompt issue | rule priority | rule guidance quality

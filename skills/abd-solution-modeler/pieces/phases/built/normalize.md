@@ -13,7 +13,6 @@ normalize context, chunk context, prepare context, convert context to memory
 ## Inputs
 
 - `chunk_index_path` or `context_path` from `solution.conf`
-- Optional: `generated/domain/concept_guidance.json` for workspace-specific noise filters (when present)
 
 ## Instructions
 
@@ -21,7 +20,6 @@ normalize context, chunk context, prepare context, convert context to memory
 - Assign stable IDs (hash of path + content prefix)
 - Preserve source location
 - Apply default noise filters (TOC, section headers, page numbers, short header-only chunks)
-- Apply workspace filters from concept_guidance.json if it exists
 - Do not interpret text
 - Write filtered chunks to output
 
@@ -36,6 +34,8 @@ Default filters remove:
 - Chunks that are mostly repeated headers (e.g. same chapter title 3+ times)
 
 Use `--no-filter` to skip filtering (for debugging).
+
+**Note:** The script may apply additional workspace filters from `concept_guidance.json` when re-running after Phase 4 (Concept synthesis). 
 
 ## Outputs
 
