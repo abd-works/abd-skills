@@ -1,0 +1,1505 @@
+{
+  "edges": [
+    {
+      "from": "The",
+      "to": "Set",
+      "count": 4099
+    },
+    {
+      "from": "Avison",
+      "to": "Set",
+      "count": 3532
+    },
+    {
+      "from": "The",
+      "to": "Marmo",
+      "count": 3260
+    },
+    {
+      "from": "The",
+      "to": "Damage",
+      "count": 3209
+    },
+    {
+      "from": "Sanguine",
+      "to": "Set",
+      "count": 2923
+    },
+    {
+      "from": "Avison",
+      "to": "The",
+      "count": 2908
+    },
+    {
+      "from": "Avison",
+      "to": "Marmo",
+      "count": 2860
+    },
+    {
+      "from": "The",
+      "to": "Simian",
+      "count": 2688
+    },
+    {
+      "from": "Avison",
+      "to": "Damage",
+      "count": 2596
+    },
+    {
+      "from": "Hekawi",
+      "to": "Set",
+      "count": 2581
+    },
+    {
+      "from": "Sanguine",
+      "to": "Marmo",
+      "count": 2365
+    },
+    {
+      "from": "Hekawi",
+      "to": "The",
+      "count": 2360
+    },
+    {
+      "from": "The",
+      "to": "Powers",
+      "count": 2303
+    },
+    {
+      "from": "Sanguine",
+      "to": "The",
+      "count": 2263
+    },
+    {
+      "from": "Avison",
+      "to": "Simian",
+      "count": 2236
+    },
+    {
+      "from": "The",
+      "to": "Advantages",
+      "count": 2156
+    },
+    {
+      "from": "Sanguine",
+      "to": "Damage",
+      "count": 2151
+    },
+    {
+      "from": "The",
+      "to": "Fortitude",
+      "count": 2144
+    },
+    {
+      "from": "Wolfen",
+      "to": "Set",
+      "count": 2107
+    },
+    {
+      "from": "Lord Sanguine",
+      "to": "Set",
+      "count": 2106
+    },
+    {
+      "from": "The",
+      "to": "Guild",
+      "count": 2098
+    },
+    {
+      "from": "Hekawi",
+      "to": "Marmo",
+      "count": 2090
+    },
+    {
+      "from": "Marmo",
+      "to": "Set",
+      "count": 2012
+    },
+    {
+      "from": "Emerald City",
+      "to": "Set",
+      "count": 1974
+    },
+    {
+      "from": "Emerald City",
+      "to": "The",
+      "count": 1969
+    },
+    {
+      "from": "Avison",
+      "to": "Powers",
+      "count": 1929
+    },
+    {
+      "from": "Avison",
+      "to": "Guild",
+      "count": 1924
+    },
+    {
+      "from": "Hekawi",
+      "to": "Damage",
+      "count": 1891
+    },
+    {
+      "from": "The",
+      "to": "Expertise",
+      "count": 1874
+    },
+    {
+      "from": "Damage",
+      "to": "Set",
+      "count": 1873
+    },
+    {
+      "from": "The",
+      "to": "Will",
+      "count": 1859
+    },
+    {
+      "from": "Sanguine",
+      "to": "Simian",
+      "count": 1849
+    },
+    {
+      "from": "Avison",
+      "to": "Advantages",
+      "count": 1846
+    },
+    {
+      "from": "Avison",
+      "to": "Fortitude",
+      "count": 1746
+    },
+    {
+      "from": "Set",
+      "to": "Marmo",
+      "count": 1728
+    },
+    {
+      "from": "The",
+      "to": "Dodge",
+      "count": 1709
+    },
+    {
+      "from": "Lord Sanguine",
+      "to": "Marmo",
+      "count": 1705
+    },
+    {
+      "from": "Wolfen",
+      "to": "Marmo",
+      "count": 1705
+    },
+    {
+      "from": "The",
+      "to": "Close",
+      "count": 1691
+    },
+    {
+      "from": "Set",
+      "to": "Damage",
+      "count": 1673
+    },
+    {
+      "from": "Wolfen",
+      "to": "The",
+      "count": 1665
+    },
+    {
+      "from": "The",
+      "to": "Resisted",
+      "count": 1650
+    },
+    {
+      "from": "Hekawi",
+      "to": "Simian",
+      "count": 1634
+    },
+    {
+      "from": "Set",
+      "to": "Simian",
+      "count": 1601
+    },
+    {
+      "from": "Sanguine",
+      "to": "Powers",
+      "count": 1597
+    },
+    {
+      "from": "Emerald City",
+      "to": "Marmo",
+      "count": 1595
+    },
+    {
+      "from": "Sanguine",
+      "to": "Guild",
+      "count": 1591
+    },
+    {
+      "from": "Guild",
+      "to": "Set",
+      "count": 1586
+    },
+    {
+      "from": "Avison",
+      "to": "Will",
+      "count": 1581
+    },
+    {
+      "from": "Avison",
+      "to": "Close",
+      "count": 1581
+    },
+    {
+      "from": "Lord Sanguine",
+      "to": "The",
+      "count": 1563
+    },
+    {
+      "from": "Wolfen",
+      "to": "Damage",
+      "count": 1541
+    },
+    {
+      "from": "Sanguine",
+      "to": "Advantages",
+      "count": 1537
+    },
+    {
+      "from": "Lord Sanguine",
+      "to": "Damage",
+      "count": 1532
+    },
+    {
+      "from": "Damage",
+      "to": "The",
+      "count": 1497
+    },
+    {
+      "from": "Emerald City",
+      "to": "Damage",
+      "count": 1466
+    },
+    {
+      "from": "Avison",
+      "to": "Resisted",
+      "count": 1465
+    },
+    {
+      "from": "Avison",
+      "to": "Expertise",
+      "count": 1461
+    },
+    {
+      "from": "Damage",
+      "to": "Marmo",
+      "count": 1456
+    },
+    {
+      "from": "Sanguine",
+      "to": "Fortitude",
+      "count": 1452
+    },
+    {
+      "from": "Avison",
+      "to": "Dodge",
+      "count": 1449
+    },
+    {
+      "from": "The",
+      "to": "Skills",
+      "count": 1448
+    },
+    {
+      "from": "Powers",
+      "to": "Set",
+      "count": 1443
+    },
+    {
+      "from": "Set",
+      "to": "The",
+      "count": 1442
+    },
+    {
+      "from": "Fire",
+      "to": "Set",
+      "count": 1428
+    },
+    {
+      "from": "Marmo",
+      "to": "Simian",
+      "count": 1416
+    },
+    {
+      "from": "Hekawi",
+      "to": "Guild",
+      "count": 1406
+    },
+    {
+      "from": "The",
+      "to": "Toughness",
+      "count": 1403
+    },
+    {
+      "from": "Hekawi",
+      "to": "Powers",
+      "count": 1402
+    },
+    {
+      "from": "The",
+      "to": "Perception",
+      "count": 1390
+    },
+    {
+      "from": "The",
+      "to": "Deception",
+      "count": 1368
+    },
+    {
+      "from": "Marmo",
+      "to": "Damage",
+      "count": 1349
+    },
+    {
+      "from": "Hekawi",
+      "to": "Advantages",
+      "count": 1339
+    },
+    {
+      "from": "Lord Sanguine",
+      "to": "Simian",
+      "count": 1333
+    },
+    {
+      "from": "Wolfen",
+      "to": "Simian",
+      "count": 1333
+    },
+    {
+      "from": "Perception",
+      "to": "Set",
+      "count": 1327
+    },
+    {
+      "from": "Simian",
+      "to": "Set",
+      "count": 1323
+    },
+    {
+      "from": "Sanguine",
+      "to": "Will",
+      "count": 1321
+    },
+    {
+      "from": "Sanguine",
+      "to": "Close",
+      "count": 1319
+    },
+    {
+      "from": "Set",
+      "to": "Fortitude",
+      "count": 1312
+    },
+    {
+      "from": "Close",
+      "to": "Set",
+      "count": 1312
+    },
+    {
+      "from": "Avison",
+      "to": "Sanguine",
+      "count": 1310
+    },
+    {
+      "from": "The",
+      "to": "Avison",
+      "count": 1304
+    },
+    {
+      "from": "Advantages",
+      "to": "Set",
+      "count": 1303
+    },
+    {
+      "from": "Damage",
+      "to": "Powers",
+      "count": 1293
+    },
+    {
+      "from": "Will",
+      "to": "Set",
+      "count": 1268
+    },
+    {
+      "from": "Hekawi",
+      "to": "Avison",
+      "count": 1267
+    },
+    {
+      "from": "Hekawi",
+      "to": "Fortitude",
+      "count": 1267
+    },
+    {
+      "from": "Powers",
+      "to": "Damage",
+      "count": 1261
+    },
+    {
+      "from": "Expertise",
+      "to": "Damage",
+      "count": 1253
+    },
+    {
+      "from": "Emerald City",
+      "to": "Simian",
+      "count": 1247
+    },
+    {
+      "from": "Guild",
+      "to": "Marmo",
+      "count": 1239
+    },
+    {
+      "from": "Avison",
+      "to": "Perception",
+      "count": 1226
+    },
+    {
+      "from": "Damage",
+      "to": "Advantages",
+      "count": 1222
+    },
+    {
+      "from": "The",
+      "to": "Sanguine",
+      "count": 1220
+    },
+    {
+      "from": "Set",
+      "to": "Advantages",
+      "count": 1210
+    },
+    {
+      "from": "Set",
+      "to": "Powers",
+      "count": 1209
+    },
+    {
+      "from": "The",
+      "to": "Defense",
+      "count": 1209
+    },
+    {
+      "from": "Sanguine",
+      "to": "Resisted",
+      "count": 1209
+    },
+    {
+      "from": "Sanguine",
+      "to": "Expertise",
+      "count": 1202
+    },
+    {
+      "from": "The",
+      "to": "Parry",
+      "count": 1197
+    },
+    {
+      "from": "Marmo",
+      "to": "The",
+      "count": 1195
+    },
+    {
+      "from": "Advantages",
+      "to": "Damage",
+      "count": 1187
+    },
+    {
+      "from": "Dodge",
+      "to": "Set",
+      "count": 1185
+    },
+    {
+      "from": "Sanguine",
+      "to": "Dodge",
+      "count": 1181
+    },
+    {
+      "from": "Avison",
+      "to": "Deception",
+      "count": 1177
+    },
+    {
+      "from": "Avison",
+      "to": "Skills",
+      "count": 1177
+    },
+    {
+      "from": "The",
+      "to": "Abilities",
+      "count": 1174
+    },
+    {
+      "from": "The",
+      "to": "STA",
+      "count": 1167
+    },
+    {
+      "from": "Guild",
+      "to": "Simian",
+      "count": 1165
+    },
+    {
+      "from": "The",
+      "to": "Overcome",
+      "count": 1161
+    },
+    {
+      "from": "Wolfen",
+      "to": "Powers",
+      "count": 1159
+    },
+    {
+      "from": "Fire",
+      "to": "Marmo",
+      "count": 1155
+    },
+    {
+      "from": "Emerald City",
+      "to": "Avison",
+      "count": 1154
+    },
+    {
+      "from": "Damage",
+      "to": "Simian",
+      "count": 1150
+    },
+    {
+      "from": "The",
+      "to": "Defenses",
+      "count": 1148
+    },
+    {
+      "from": "Lord Sanguine",
+      "to": "Guild",
+      "count": 1147
+    },
+    {
+      "from": "Wolfen",
+      "to": "Guild",
+      "count": 1147
+    },
+    {
+      "from": "Lord Sanguine",
+      "to": "Powers",
+      "count": 1145
+    },
+    {
+      "from": "Hekawi",
+      "to": "Will",
+      "count": 1144
+    },
+    {
+      "from": "Hekawi",
+      "to": "Close",
+      "count": 1142
+    },
+    {
+      "from": "Powers",
+      "to": "The",
+      "count": 1133
+    },
+    {
+      "from": "The",
+      "to": "FGT",
+      "count": 1131
+    },
+    {
+      "from": "Perception",
+      "to": "Damage",
+      "count": 1126
+    },
+    {
+      "from": "The",
+      "to": "Unarmed",
+      "count": 1125
+    },
+    {
+      "from": "Fire",
+      "to": "The",
+      "count": 1123
+    },
+    {
+      "from": "Damage",
+      "to": "Fortitude",
+      "count": 1116
+    },
+    {
+      "from": "Hekawi",
+      "to": "Sanguine",
+      "count": 1112
+    },
+    {
+      "from": "Powers",
+      "to": "Marmo",
+      "count": 1109
+    },
+    {
+      "from": "Set",
+      "to": "Expertise",
+      "count": 1108
+    },
+    {
+      "from": "The",
+      "to": "AGL",
+      "count": 1106
+    },
+    {
+      "from": "The",
+      "to": "DEX",
+      "count": 1106
+    },
+    {
+      "from": "The",
+      "to": "AWE",
+      "count": 1106
+    },
+    {
+      "from": "The",
+      "to": "Offense",
+      "count": 1106
+    },
+    {
+      "from": "The",
+      "to": "Totals",
+      "count": 1106
+    },
+    {
+      "from": "The",
+      "to": "INT",
+      "count": 1105
+    },
+    {
+      "from": "The",
+      "to": "PRE",
+      "count": 1104
+    },
+    {
+      "from": "Will",
+      "to": "Damage",
+      "count": 1103
+    },
+    {
+      "from": "Wolfen",
+      "to": "Advantages",
+      "count": 1103
+    },
+    {
+      "from": "The",
+      "to": "Initiative",
+      "count": 1102
+    },
+    {
+      "from": "Lord Sanguine",
+      "to": "Advantages",
+      "count": 1098
+    },
+    {
+      "from": "Emerald City",
+      "to": "Powers",
+      "count": 1086
+    },
+    {
+      "from": "Hekawi",
+      "to": "Expertise",
+      "count": 1085
+    },
+    {
+      "from": "Marmo",
+      "to": "Fortitude",
+      "count": 1082
+    },
+    {
+      "from": "Emerald City",
+      "to": "Guild",
+      "count": 1073
+    },
+    {
+      "from": "Avison",
+      "to": "Lord Sanguine",
+      "count": 1073
+    },
+    {
+      "from": "The",
+      "to": "Earth",
+      "count": 1069
+    },
+    {
+      "from": "The",
+      "to": "Ranged",
+      "count": 1066
+    },
+    {
+      "from": "Hekawi",
+      "to": "Resisted",
+      "count": 1066
+    },
+    {
+      "from": "Avison",
+      "to": "Toughness",
+      "count": 1061
+    },
+    {
+      "from": "Hekawi",
+      "to": "Dodge",
+      "count": 1060
+    },
+    {
+      "from": "Fire",
+      "to": "Damage",
+      "count": 1060
+    },
+    {
+      "from": "Perception",
+      "to": "The",
+      "count": 1051
+    },
+    {
+      "from": "When",
+      "to": "Set",
+      "count": 1046
+    },
+    {
+      "from": "Perception",
+      "to": "Marmo",
+      "count": 1045
+    },
+    {
+      "from": "Fortitude",
+      "to": "Set",
+      "count": 1044
+    },
+    {
+      "from": "Wolfen",
+      "to": "Fortitude",
+      "count": 1043
+    },
+    {
+      "from": "Simian",
+      "to": "Damage",
+      "count": 1043
+    },
+    {
+      "from": "Dodge",
+      "to": "Damage",
+      "count": 1041
+    },
+    {
+      "from": "Lord Sanguine",
+      "to": "Fortitude",
+      "count": 1038
+    },
+    {
+      "from": "The",
+      "to": "They",
+      "count": 1036
+    },
+    {
+      "from": "Emerald City",
+      "to": "Advantages",
+      "count": 1035
+    },
+    {
+      "from": "Close",
+      "to": "Marmo",
+      "count": 1033
+    },
+    {
+      "from": "The",
+      "to": "This",
+      "count": 1031
+    },
+    {
+      "from": "The",
+      "to": "Complications",
+      "count": 1030
+    },
+    {
+      "from": "Expertise",
+      "to": "Set",
+      "count": 1029
+    },
+    {
+      "from": "Will",
+      "to": "The",
+      "count": 1027
+    },
+    {
+      "from": "Expertise",
+      "to": "Powers",
+      "count": 1026
+    },
+    {
+      "from": "Avison",
+      "to": "Defense",
+      "count": 1025
+    },
+    {
+      "from": "Powers",
+      "to": "Advantages",
+      "count": 1021
+    },
+    {
+      "from": "The",
+      "to": "Motivation",
+      "count": 1020
+    },
+    {
+      "from": "Resisted",
+      "to": "Set",
+      "count": 1015
+    },
+    {
+      "from": "Avison",
+      "to": "Parry",
+      "count": 1005
+    },
+    {
+      "from": "Avison",
+      "to": "Overcome",
+      "count": 1004
+    },
+    {
+      "from": "Advantages",
+      "to": "Marmo",
+      "count": 1001
+    },
+    {
+      "from": "They",
+      "to": "Set",
+      "count": 1000
+    },
+    {
+      "from": "Will",
+      "to": "Marmo",
+      "count": 991
+    },
+    {
+      "from": "Close",
+      "to": "Damage",
+      "count": 989
+    },
+    {
+      "from": "Avison",
+      "to": "Earth",
+      "count": 988
+    },
+    {
+      "from": "Emerald City",
+      "to": "Fortitude",
+      "count": 982
+    },
+    {
+      "from": "Sanguine",
+      "to": "Skills",
+      "count": 982
+    },
+    {
+      "from": "Sanguine",
+      "to": "Deception",
+      "count": 981
+    },
+    {
+      "from": "Marmo",
+      "to": "Powers",
+      "count": 981
+    },
+    {
+      "from": "Set",
+      "to": "Resisted",
+      "count": 979
+    },
+    {
+      "from": "Marmo",
+      "to": "Advantages",
+      "count": 979
+    },
+    {
+      "from": "Avison",
+      "to": "Offense",
+      "count": 973
+    },
+    {
+      "from": "Avison",
+      "to": "Initiative",
+      "count": 973
+    },
+    {
+      "from": "Avison",
+      "to": "Totals",
+      "count": 973
+    },
+    {
+      "from": "Avison",
+      "to": "Abilities",
+      "count": 973
+    },
+    {
+      "from": "Avison",
+      "to": "Defenses",
+      "count": 973
+    },
+    {
+      "from": "Earth",
+      "to": "Set",
+      "count": 971
+    },
+    {
+      "from": "Avison",
+      "to": "STA",
+      "count": 969
+    },
+    {
+      "from": "Avison",
+      "to": "AGL",
+      "count": 969
+    },
+    {
+      "from": "Avison",
+      "to": "DEX",
+      "count": 969
+    },
+    {
+      "from": "Avison",
+      "to": "FGT",
+      "count": 969
+    },
+    {
+      "from": "Avison",
+      "to": "INT",
+      "count": 969
+    },
+    {
+      "from": "Avison",
+      "to": "AWE",
+      "count": 969
+    },
+    {
+      "from": "Avison",
+      "to": "PRE",
+      "count": 969
+    },
+    {
+      "from": "Sanguine",
+      "to": "Perception",
+      "count": 966
+    },
+    {
+      "from": "Damage",
+      "to": "Guild",
+      "count": 966
+    },
+    {
+      "from": "Resisted",
+      "to": "Damage",
+      "count": 962
+    },
+    {
+      "from": "Damage",
+      "to": "Skills",
+      "count": 962
+    },
+    {
+      "from": "Advantages",
+      "to": "The",
+      "count": 962
+    },
+    {
+      "from": "Advantages",
+      "to": "Powers",
+      "count": 958
+    },
+    {
+      "from": "Damage",
+      "to": "Dodge",
+      "count": 956
+    },
+    {
+      "from": "Emerald City",
+      "to": "Sanguine",
+      "count": 955
+    },
+    {
+      "from": "Dodge",
+      "to": "The",
+      "count": 953
+    },
+    {
+      "from": "Wolfen",
+      "to": "Will",
+      "count": 949
+    },
+    {
+      "from": "Simian",
+      "to": "Marmo",
+      "count": 949
+    },
+    {
+      "from": "The",
+      "to": "Lord Sanguine",
+      "count": 948
+    },
+    {
+      "from": "Set",
+      "to": "Will",
+      "count": 945
+    },
+    {
+      "from": "Wolfen",
+      "to": "Close",
+      "count": 945
+    },
+    {
+      "from": "Damage",
+      "to": "Will",
+      "count": 943
+    },
+    {
+      "from": "Lord Sanguine",
+      "to": "Will",
+      "count": 942
+    },
+    {
+      "from": "Lord Sanguine",
+      "to": "Close",
+      "count": 940
+    },
+    {
+      "from": "Expertise",
+      "to": "Advantages",
+      "count": 939
+    },
+    {
+      "from": "The",
+      "to": "MPH",
+      "count": 930
+    },
+    {
+      "from": "Set",
+      "to": "Guild",
+      "count": 930
+    },
+    {
+      "from": "Fortitude",
+      "to": "Damage",
+      "count": 928
+    },
+    {
+      "from": "Hekawi",
+      "to": "Perception",
+      "count": 928
+    },
+    {
+      "from": "Sanguine",
+      "to": "Avison",
+      "count": 926
+    },
+    {
+      "from": "Avison",
+      "to": "Unarmed",
+      "count": 926
+    },
+    {
+      "from": "Dodge",
+      "to": "Marmo",
+      "count": 923
+    },
+    {
+      "from": "Avison",
+      "to": "Complications",
+      "count": 921
+    },
+    {
+      "from": "Avison",
+      "to": "Motivation",
+      "count": 921
+    },
+    {
+      "from": "Marmo",
+      "to": "Expertise",
+      "count": 921
+    },
+    {
+      "from": "Guild",
+      "to": "Damage",
+      "count": 921
+    },
+    {
+      "from": "Heroes",
+      "to": "Set",
+      "count": 920
+    },
+    {
+      "from": "Avison",
+      "to": "Ranged",
+      "count": 918
+    },
+    {
+      "from": "Hekawi",
+      "to": "Lord Sanguine",
+      "count": 913
+    },
+    {
+      "from": "Emerald City",
+      "to": "Will",
+      "count": 911
+    },
+    {
+      "from": "Expertise",
+      "to": "The",
+      "count": 907
+    },
+    {
+      "from": "Fire",
+      "to": "Simian",
+      "count": 903
+    },
+    {
+      "from": "Guild",
+      "to": "The",
+      "count": 899
+    },
+    {
+      "from": "Fortitude",
+      "to": "The",
+      "count": 896
+    },
+    {
+      "from": "The",
+      "to": "You",
+      "count": 893
+    },
+    {
+      "from": "Avison",
+      "to": "Wolfen",
+      "count": 892
+    },
+    {
+      "from": "Close",
+      "to": "The",
+      "count": 891
+    },
+    {
+      "from": "Emerald City",
+      "to": "Close",
+      "count": 890
+    },
+    {
+      "from": "Will",
+      "to": "Powers",
+      "count": 887
+    },
+    {
+      "from": "The",
+      "to": "Strength",
+      "count": 884
+    },
+    {
+      "from": "Expertise",
+      "to": "Skills",
+      "count": 883
+    },
+    {
+      "from": "The",
+      "to": "Removable",
+      "count": 882
+    },
+    {
+      "from": "They",
+      "to": "The",
+      "count": 879
+    },
+    {
+      "from": "Sanguine",
+      "to": "Toughness",
+      "count": 876
+    },
+    {
+      "from": "Powers",
+      "to": "Simian",
+      "count": 874
+    },
+    {
+      "from": "Avison",
+      "to": "They",
+      "count": 872
+    },
+    {
+      "from": "Perception",
+      "to": "Powers",
+      "count": 870
+    },
+    {
+      "from": "Wolfen",
+      "to": "Resisted",
+      "count": 869
+    },
+    {
+      "from": "This",
+      "to": "The",
+      "count": 866
+    },
+    {
+      "from": "Heroes",
+      "to": "The",
+      "count": 866
+    },
+    {
+      "from": "Hekawi",
+      "to": "Wolfen",
+      "count": 866
+    },
+    {
+      "from": "Wolfen",
+      "to": "Expertise",
+      "count": 866
+    },
+    {
+      "from": "When",
+      "to": "The",
+      "count": 863
+    },
+    {
+      "from": "Damage",
+      "to": "Expertise",
+      "count": 860
+    },
+    {
+      "from": "Lord Sanguine",
+      "to": "Resisted",
+      "count": 860
+    },
+    {
+      "from": "Emerald City",
+      "to": "Expertise",
+      "count": 858
+    },
+    {
+      "from": "Powers",
+      "to": "Fortitude",
+      "count": 857
+    },
+    {
+      "from": "Hekawi",
+      "to": "Deception",
+      "count": 856
+    },
+    {
+      "from": "Hekawi",
+      "to": "Skills",
+      "count": 855
+    },
+    {
+      "from": "Advantages",
+      "to": "Skills",
+      "count": 854
+    },
+    {
+      "from": "Sanguine",
+      "to": "Defense",
+      "count": 854
+    },
+    {
+      "from": "Avison",
+      "to": "MPH",
+      "count": 850
+    },
+    {
+      "from": "Lord Sanguine",
+      "to": "Expertise",
+      "count": 850
+    },
+    {
+      "from": "Powers",
+      "to": "Skills",
+      "count": 847
+    },
+    {
+      "from": "The",
+      "to": "Wolfen",
+      "count": 846
+    },
+    {
+      "from": "Wolfen",
+      "to": "Dodge",
+      "count": 846
+    },
+    {
+      "from": "Deception",
+      "to": "Set",
+      "count": 845
+    },
+    {
+      "from": "Skills",
+      "to": "Damage",
+      "count": 842
+    },
+    {
+      "from": "Set",
+      "to": "Dodge",
+      "count": 842
+    },
+    {
+      "from": "Perception",
+      "to": "Simian",
+      "count": 840
+    },
+    {
+      "from": "Simian",
+      "to": "Fortitude",
+      "count": 840
+    },
+    {
+      "from": "Will",
+      "to": "Advantages",
+      "count": 839
+    },
+    {
+      "from": "Set",
+      "to": "Close",
+      "count": 838
+    },
+    {
+      "from": "Lord Sanguine",
+      "to": "Dodge",
+      "count": 837
+    },
+    {
+      "from": "Set",
+      "to": "Skills",
+      "count": 835
+    },
+    {
+      "from": "When",
+      "to": "Marmo",
+      "count": 834
+    },
+    {
+      "from": "Wolfen",
+      "to": "Sanguine",
+      "count": 834
+    },
+    {
+      "from": "Dodge",
+      "to": "Powers",
+      "count": 830
+    },
+    {
+      "from": "Emerald City",
+      "to": "Resisted",
+      "count": 828
+    },
+    {
+      "from": "Sanguine",
+      "to": "Parry",
+      "count": 826
+    },
+    {
+      "from": "Sanguine",
+      "to": "Overcome",
+      "count": 824
+    },
+    {
+      "from": "Emerald City",
+      "to": "Dodge",
+      "count": 818
+    },
+    {
+      "from": "Sanguine",
+      "to": "Earth",
+      "count": 817
+    },
+    {
+      "from": "Marmo",
+      "to": "Resisted",
+      "count": 817
+    },
+    {
+      "from": "Close",
+      "to": "Simian",
+      "count": 813
+    },
+    {
+      "from": "The",
+      "to": "Gamemaster",
+      "count": 811
+    },
+    {
+      "from": "The",
+      "to": "When",
+      "count": 811
+    },
+    {
+      "from": "Sanguine",
+      "to": "STA",
+      "count": 811
+    },
+    {
+      "from": "Sanguine",
+      "to": "AGL",
+      "count": 811
+    },
+    {
+      "from": "Sanguine",
+      "to": "DEX",
+      "count": 811
+    },
+    {
+      "from": "Sanguine",
+      "to": "FGT",
+      "count": 811
+    },
+    {
+      "from": "Sanguine",
+      "to": "INT",
+      "count": 811
+    },
+    {
+      "from": "Sanguine",
+      "to": "AWE",
+      "count": 811
+    },
+    {
+      "from": "Sanguine",
+      "to": "PRE",
+      "count": 811
+    },
+    {
+      "from": "Sanguine",
+      "to": "Offense",
+      "count": 811
+    },
+    {
+      "from": "Sanguine",
+      "to": "Initiative",
+      "count": 811
+    },
+    {
+      "from": "Sanguine",
+      "to": "Totals",
+      "count": 811
+    },
+    {
+      "from": "Sanguine",
+      "to": "Abilities",
+      "count": 811
+    },
+    {
+      "from": "Sanguine",
+      "to": "Defenses",
+      "count": 811
+    }
+  ],
+  "node_count": 200
+}

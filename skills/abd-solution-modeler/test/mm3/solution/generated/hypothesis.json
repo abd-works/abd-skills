@@ -1,0 +1,14 @@
+{
+  "concept_guidance": {
+    "priority_concepts": [
+      "Damage", "Strength", "Perception", "Expertise", "Dodge", "Toughness",
+      "Powers", "Attack", "Defense", "Character", "Effect", "Check",
+      "Target", "Roll", "Modifier", "Ability", "Power", "Action"
+    ],
+    "concept_aliases": {},
+    "priority_mechanisms": [],
+    "variation_axes": [],
+    "noise_filters": [],
+    "focus_sections": []
+  }
+}

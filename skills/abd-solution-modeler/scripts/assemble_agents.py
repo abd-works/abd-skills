@@ -31,19 +31,25 @@ _PHASE_PREFIXES = [
     "behavior", "variation", "refined", "validated",
 ]
 
+# Concept-anchored pipeline phases (must match pipeline.py)
+_PHASES = [
+    "normalize", "configure_extraction", "extract_concepts", "concept_synthesis",
+    "extract_evidence", "index", "structure", "behavior", "variation",
+    "consolidate", "assess", "finalize",
+]
+
 _PHASE_TO_PREFIX = {
-    "concept_guidance_v1": "concept-guidance",
-    "concept_guidance_v2": "concept-guidance",
-    "concept_model": "concept-model",
-    "structural_model": "structural",
-    "behavior_model": "behavior",
-    "variation_model": "variation",
-    "refined_domain_model": "refined",
-    "model_assessment": "validated",
-    "final_domain_model": "validated",
+    "configure_extraction": "concept-guidance",
+    "concept_synthesis": "concept-guidance",
+    "structure": "structural",
+    "behavior": "behavior",
+    "variation": "variation",
+    "consolidate": "refined",
+    "assess": "validated",
+    "finalize": "validated",
 }
 
-_CODE_PHASES = {"normalize_context", "evidence_extraction", "evidence_graph"}
+_CODE_PHASES = {"normalize", "extract_concepts", "extract_evidence", "index"}
 
 
 def _parse_order(rule_path: Path) -> int:
@@ -70,7 +76,7 @@ def _rules_for_phase(phase_name: str, skip_tree: bool = False) -> list[Path]:
     prefix = _PHASE_TO_PREFIX.get(phase_name)
     if prefix is None:
         return []
-    artifact_dirs = [_RULES_DIR / "domain"]
+    artifact_dirs = [_RULES_DIR / "domain", _RULES_DIR / "generated"]
     if not skip_tree:
         artifact_dirs.append(_RULES_DIR / "interaction-tree")
     rules: list[Path] = []
@@ -145,10 +151,12 @@ def build_phases(no_tree: bool = False) -> int:
     _clear_built_dir()
 
     count = 0
-    for phase_file in sorted(_PHASES_DIR.glob("*.md")):
-        phase_name = phase_file.stem
+    for phase_name in _PHASES:
+        phase_file = _PHASES_DIR / f"{phase_name}.md"
+        if not phase_file.exists():
+            continue
         if phase_name in _CODE_PHASES:
-            shutil.copy2(phase_file, _BUILT_DIR / phase_file.name)
+            shutil.copy2(phase_file, _BUILT_DIR / f"{phase_name}.md")
             count += 1
             continue
 
@@ -164,11 +172,18 @@ def build_phases(no_tree: bool = False) -> int:
             parts = [quality_steps, f"\n\n---\n\n{phase_text}"]
         else:
             parts = [phase_text]
-        # Inject domain model and interaction tree format specs after phase instructions, before rules
-        domain_spec_path = _PIECES_DIR / "domain.md"
-        if domain_spec_path.exists():
-            domain_spec = domain_spec_path.read_text(encoding="utf-8").strip()
-            parts.append(f"\n\n---\n\n# Domain Model Format\n\n{domain_spec}")
+        # Inject format specs after phase instructions, before rules
+        solution_model_phases = {"structure", "behavior", "variation", "consolidate", "assess", "finalize"}
+        if phase_name in solution_model_phases:
+            solution_spec_path = _PIECES_DIR / "solution_model.md"
+            if solution_spec_path.exists():
+                solution_spec = solution_spec_path.read_text(encoding="utf-8").strip()
+                parts.append(f"\n\n---\n\n# Solution Model Format\n\n{solution_spec}")
+        else:
+            domain_spec_path = _PIECES_DIR / "domain.md"
+            if domain_spec_path.exists():
+                domain_spec = domain_spec_path.read_text(encoding="utf-8").strip()
+                parts.append(f"\n\n---\n\n# Domain Model Format\n\n{domain_spec}")
         tree_spec_path = _PIECES_DIR / "interaction_tree.md"
         if not no_tree and tree_spec_path.exists():
             tree_spec = tree_spec_path.read_text(encoding="utf-8").strip()
@@ -177,6 +192,7 @@ def build_phases(no_tree: bool = False) -> int:
         if rules:
             domain_rules = [r for r in rules if r.parent.name == "domain"]
             interaction_rules = [r for r in rules if r.parent.name == "interaction-tree"]
+            generated_rules = [r for r in rules if r.parent.name == "generated"]
             if domain_rules:
                 parts.append(f"\n\n---\n\n## Domain Model Rules ({len(domain_rules)})\n")
                 parts.append("Apply these rules when producing the domain model output for this phase.\n")
@@ -192,8 +208,17 @@ def build_phases(no_tree: bool = False) -> int:
                 for r in interaction_rules:
                     parts.append(r.read_text(encoding="utf-8").strip())
                     parts.append("\n\n---\n")
+            if generated_rules:
+                parts.append(f"\n\n## Solution Model Rules ({len(generated_rules)})\n")
+                parts.append("Apply these rules when producing solution_model.json for this phase.\n")
+                for r in generated_rules:
+                    rule_text = r.read_text(encoding="utf-8").strip()
+                    if no_tree:
+                        rule_text = _strip_tree_references(rule_text)
+                    parts.append(rule_text)
+                    parts.append("\n\n---\n")
 
-        output = _BUILT_DIR / phase_file.name
+        output = _BUILT_DIR / f"{phase_name}.md"
         output.write_text("\n".join(parts) + "\n", encoding="utf-8")
         count += 1
         label = f"{phase_name}: {len(rules)} rules"

@@ -14,6 +14,12 @@ from _config import (
     domain_dir as _domain_dir_fn,
     interaction_model_dir as _interaction_model_dir_fn,
     evidence_dir as _evidence_dir_fn,
+    generated_dir as _generated_dir_fn,
+    concept_signals_dir as _concept_signals_dir_fn,
+    hypothesis_path as _hypothesis_path_fn,
+    extraction_config_path as _extraction_config_path_fn,
+    evidence_index_path as _evidence_index_path_fn,
+    solution_model_path as _solution_model_path_fn,
     no_tree as _no_tree_fn,
 )
 
@@ -22,22 +28,23 @@ _PIECES_DIR = _SKILL_DIR / "pieces"
 _RULES_DIR = _SKILL_DIR / "rules"
 _SCANNERS_DIR = _SCRIPTS_DIR / "scanners"
 
+# Concept-anchored pipeline: 12 phases per docs/concept-anchored-pipeline-overview.md
 _PHASES = [
-    "normalize_context",
-    "concept_guidance_v1",
-    "evidence_extraction",
-    "evidence_graph",
-    "concept_guidance_v2",
-    "concept_model",
-    "structural_model",
-    "behavior_model",
-    "variation_model",
-    "refined_domain_model",
-    "model_assessment",
-    "final_domain_model",
+    "normalize",           # 1: Code - context_chunks.json
+    "configure_extraction",  # 2: AI - extraction_config.json
+    "extract_concepts",    # 3: Code - concept signals
+    "concept_synthesis",   # 4: AI - hypothesis.json
+    "extract_evidence",    # 5: Code - evidence/*.json
+    "index",               # 6: Code - evidence_index.json
+    "structure",           # 7: AI - solution_model.json v1
+    "behavior",            # 8: AI - solution_model.json v2
+    "variation",           # 9: AI - solution_model.json v3
+    "consolidate",         # 10: AI - solution_model.json v4
+    "assess",              # 11: AI+Human - assessment.json
+    "finalize",            # 12: AI - solution_model.json final
 ]
 
-_CODE_PHASES = {"normalize_context", "evidence_extraction", "evidence_graph"}
+_CODE_PHASES = {"normalize", "extract_concepts", "extract_evidence", "index"}
 
 _PHASE_PREFIXES = [
     "concept-guidance", "concept-model", "structural",
@@ -45,15 +52,14 @@ _PHASE_PREFIXES = [
 ]
 
 _PHASE_TO_PREFIX = {
-    "concept_guidance_v1": "concept-guidance",
-    "concept_guidance_v2": "concept-guidance",
-    "concept_model": "concept-model",
-    "structural_model": "structural",
-    "behavior_model": "behavior",
-    "variation_model": "variation",
-    "refined_domain_model": "refined",
-    "model_assessment": "validated",
-    "final_domain_model": "validated",
+    "configure_extraction": "concept-guidance",
+    "concept_synthesis": "concept-guidance",
+    "structure": "structural",
+    "behavior": "behavior",
+    "variation": "variation",
+    "consolidate": "refined",
+    "assess": "validated",
+    "finalize": "validated",
 }
 
 
@@ -66,7 +72,7 @@ def _rules_for_phase(phase_name: str) -> list[Path]:
     prefix = _PHASE_TO_PREFIX.get(phase_name)
     if prefix is None:
         return []
-    artifact_dirs = [_RULES_DIR / "domain"]
+    artifact_dirs = [_RULES_DIR / "domain", _RULES_DIR / "generated"]
     if not _no_tree_fn():
         artifact_dirs.append(_RULES_DIR / "interaction-tree")
     rules: list[Path] = []
@@ -87,15 +93,14 @@ def _rules_for_phase(phase_name: str) -> list[Path]:
 
 
 _PHASE_OUTPUT_FILES: dict[str, dict[str, list[str]]] = {
-    "concept_guidance_v1": {"domain": ["concept_guidance.md"], "interaction-tree": ["interaction_tree.md"]},
-    "concept_guidance_v2": {"domain": ["concept_guidance.md"], "interaction-tree": ["interaction_tree.md"]},
-    "concept_model":       {"domain": ["concept_model.md"],    "interaction-tree": ["interaction_tree.md"]},
-    "structural_model":    {"domain": ["structural_model.md"], "interaction-tree": ["interaction_tree.md"]},
-    "behavior_model":      {"domain": ["behavior_model.md"],   "interaction-tree": ["interaction_tree.md"]},
-    "variation_model":     {"domain": ["variation_model.md"],  "interaction-tree": ["interaction_tree.md"]},
-    "refined_domain_model": {"domain": ["refined_domain_model.md"], "interaction-tree": ["interaction_tree.md"]},
-    "model_assessment":    {"domain": ["model_assessment.md"], "interaction-tree": ["interaction_tree.md"]},
-    "final_domain_model":  {"domain": ["final_domain_model.md"], "interaction-tree": ["interaction_tree.md"]},
+    "configure_extraction": {"generated": ["extraction_config.json"]},
+    "concept_synthesis": {"generated": ["hypothesis.json"]},
+    "structure": {"generated": ["solution_model.json"]},
+    "behavior": {"generated": ["solution_model.json"]},
+    "variation": {"generated": ["solution_model.json"]},
+    "consolidate": {"generated": ["solution_model.json"]},
+    "assess": {"generated": ["assessment.json"]},
+    "finalize": {"generated": ["solution_model.json"]},
 }
 
 
@@ -104,6 +109,8 @@ def _get_artifact_path(artifact_folder: str) -> Path | None:
         return _domain_dir_fn()
     elif artifact_folder == "interaction-tree":
         return _interaction_model_dir_fn()
+    elif artifact_folder == "generated":
+        return _generated_dir_fn()
     return None
 
 
@@ -172,42 +179,68 @@ def _run_normalize_context() -> bool:
     return subprocess.run(args, cwd=str(_SKILL_DIR)).returncode == 0
 
 
-def _run_evidence_extraction() -> bool:
+def _run_extract_concepts() -> bool:
     ctx = _context_dir_fn()
-    domain = _domain_dir_fn()
+    signals = _concept_signals_dir_fn()
+    chunks_path = ctx / "context_chunks.json"
+    if not chunks_path.exists():
+        print("extract_concepts requires context_chunks.json — run normalize first.", file=sys.stderr)
+        return False
+    config_path = _extraction_config_path_fn()
+    args = [
+        sys.executable, str(_SCRIPTS_DIR / "extract_concepts.py"),
+        "-i", str(chunks_path),
+        "-o", str(signals),
+    ]
+    if config_path.exists():
+        args = args[:-2] + ["-c", str(config_path), "-o", str(signals)]
+    return subprocess.run(args, cwd=str(_SKILL_DIR)).returncode == 0
+
+
+def _run_extract_evidence() -> bool:
+    ctx = _context_dir_fn()
     evidence = _evidence_dir_fn()
-    guidance = domain / "concept_guidance.json"
-    if not guidance.exists():
-        print("evidence_extraction requires concept_guidance.json — run concept_guidance_v1 first.", file=sys.stderr)
+    hypothesis = _hypothesis_path_fn()
+    guidance = _domain_dir_fn() / "concept_guidance.json"
+    guidance_path = hypothesis if hypothesis.exists() else guidance
+    if not guidance_path.exists():
+        print("extract_evidence requires hypothesis.json — run concept_synthesis first.", file=sys.stderr)
         return False
     args = [
         sys.executable, str(_SCRIPTS_DIR / "evidence_extraction_guided.py"),
         "-i", str(ctx / "context_chunks.json"),
-        "-g", str(guidance),
+        "-g", str(guidance_path),
         "-o", str(evidence),
     ]
     return subprocess.run(args, cwd=str(_SKILL_DIR)).returncode == 0
 
 
-def _run_evidence_graph() -> bool:
+def _run_index() -> bool:
     evidence = _evidence_dir_fn()
     args = [
-        sys.executable, str(_SCRIPTS_DIR / "evidence_graph.py"),
+        sys.executable, str(_SCRIPTS_DIR / "evidence_index.py"),
         "-i", str(evidence),
-        "-o", str(evidence / "evidence_graph.json"),
+        "-o", str(_evidence_index_path_fn()),
     ]
     return subprocess.run(args, cwd=str(_SKILL_DIR)).returncode == 0
 
 
 _CODE_RUNNERS = {
-    "normalize_context": _run_normalize_context,
-    "evidence_extraction": _run_evidence_extraction,
-    "evidence_graph": _run_evidence_graph,
+    "normalize": _run_normalize_context,
+    "extract_concepts": _run_extract_concepts,
+    "extract_evidence": _run_extract_evidence,
+    "index": _run_index,
 }
 
 
 def _ensure_workspace_dirs() -> None:
-    dirs = [_domain_dir_fn(), _evidence_dir_fn()]
+    dirs = [
+        _context_dir_fn(),
+        _concept_signals_dir_fn(),
+        _evidence_dir_fn(),
+        _generated_dir_fn(),
+        _domain_dir_fn(),
+    ]
     if not _no_tree_fn():
         dirs.append(_interaction_model_dir_fn())
     for d in dirs:
@@ -316,68 +349,107 @@ def _cmd_validate(name: str) -> None:
         print("\n---\n")
 
     print("\n## Output Files to Validate\n")
-    validate_dirs = [_domain_dir_fn()]
+    validate_dirs = [_domain_dir_fn(), _generated_dir_fn()]
     if not _no_tree_fn():
         validate_dirs.append(_interaction_model_dir_fn())
     for p in validate_dirs:
         if p.exists():
             for f in sorted(p.glob("*.md")):
                 print(f"- `{f}`")
+            for f in sorted(p.glob("*.json")):
+                if f.name in ("solution_model.json", "assessment.json", "hypothesis.json", "extraction_config.json"):
+                    print(f"- `{f}`")
 
 
 # ---------------------------------------------------------------------------
 # Stage 2 phases that produce domain model files (optional DrawIO after each)
 # ---------------------------------------------------------------------------
 _STAGE2_PHASES = {
-    "concept_model", "structural_model", "behavior_model",
-    "variation_model", "refined_domain_model", "final_domain_model",
+    "structure", "behavior", "variation", "consolidate", "assess", "finalize",
 }
 
 # Phases after which DrawIO is always generated (mandatory)
-_DRAWIO_MANDATORY_PHASES = {"final_domain_model"}
+_DRAWIO_MANDATORY_PHASES = {"finalize"}
+
+
+def _solution_model_to_md(solution_model_path: Path) -> str:
+    """Convert solution_model.json concepts to domain-model markdown for DrawIO."""
+    import json
+    data = json.loads(solution_model_path.read_text(encoding="utf-8"))
+    concepts = data.get("concepts", [])
+    lines = ["# Module: Domain"]
+    for c in concepts:
+        name = c.get("id", c.get("name", "Unknown"))
+        base = c.get("inherits", c.get("inherits_from", c.get("base", "")))
+        heading = f"## {name}" + (f" : {base}" if base else "")
+        lines.append(heading)
+        for p in c.get("properties", []):
+            pname = p.get("name", p) if isinstance(p, dict) else p
+            ptype = p.get("type", "?") if isinstance(p, dict) else "?"
+            lines.append(f"- {pname} : {ptype}")
+        for op in c.get("operations", []):
+            oname = op.get("name", op) if isinstance(op, dict) else op
+            ret = op.get("returns", "?") if isinstance(op, dict) else "?"
+            lines.append(f"- {oname}() → {ret}")
+        lines.append("")
+    return "\n".join(lines)
 
 
 def _cmd_drawio(phase: str | None = None) -> None:
-    """Generate DrawIO class diagram from the latest domain model file.
+    """Generate DrawIO class diagram from solution_model.json or domain model .md.
 
-    Looks for <phase>-domain.md or domain.md in generated/domain/.
-    Output: generated/domain/<stem>.drawio
+    Prefers solution_model.json in generated/; falls back to domain/*.md.
+    Output: generated/domain/solution_model.drawio or <stem>.drawio
     """
+    generated = _generated_dir_fn()
     domain = _domain_dir_fn()
-    if not domain.exists():
-        print(f"Domain dir not found: {domain}", file=sys.stderr)
-        sys.exit(1)
+    solution_model = generated / "solution_model.json"
 
-    # Determine input file
     target: Path | None = None
-    if phase:
-        # Try phase-specific delta file first, then latest domain model
-        candidates = sorted(domain.glob(f"*{phase}*.md")) + sorted(domain.glob("final_domain_model.md")) + sorted(domain.glob("*.md"))
-        for c in candidates:
-            if c.suffix == ".md" and not c.name.startswith("."):
-                target = c
-                break
+    output: Path | None = None
+    temp_md: Path | None = None
+    if solution_model.exists():
+        # Convert solution_model.json to temp markdown for model_to_drawio
+        import tempfile
+        md_content = _solution_model_to_md(solution_model)
+        fd, path = tempfile.mkstemp(suffix=".md", text=True)
+        Path(path).write_text(md_content, encoding="utf-8")
+        target = Path(path)
+        temp_md = target
+        domain.mkdir(parents=True, exist_ok=True)
+        output = domain / "solution_model.drawio"
     else:
-        # Prefer validated → refined → any domain model
-        for preferred in ("final_domain_model.md", "refined_domain_model.md"):
-            p = domain / preferred
-            if p.exists():
-                target = p
-                break
-        if not target:
-            mds = sorted(domain.glob("*.md"))
-            target = mds[-1] if mds else None
+        if not domain.exists():
+            print(f"Domain dir not found: {domain}", file=sys.stderr)
+            sys.exit(1)
+        if phase:
+            candidates = sorted(domain.glob(f"*{phase}*.md")) + sorted(domain.glob("*.md"))
+            for c in candidates:
+                if c.suffix == ".md" and not c.name.startswith("."):
+                    target = c
+                    break
+        else:
+            for preferred in ("final_domain_model.md", "refined_domain_model.md"):
+                p = domain / preferred
+                if p.exists():
+                    target = p
+                    break
+            if not target:
+                mds = sorted(domain.glob("*.md"))
+                target = mds[-1] if mds else None
+        output = target.with_suffix(".drawio") if target else None
 
     if not target or not target.exists():
-        print(f"No domain model .md found in {domain}", file=sys.stderr)
-        sys.exit(1)
+        print(f"No solution_model.json or domain .md found — skipping DrawIO.", file=sys.stderr)
+        return
 
-    output = target.with_suffix(".drawio")
     args = [
         sys.executable, str(_SCRIPTS_DIR / "model_to_drawio.py"),
         str(target), "--output", str(output),
     ]
     r = subprocess.run(args, cwd=str(_SKILL_DIR))
+    if temp_md and temp_md.exists():
+        temp_md.unlink(missing_ok=True)
     if r.returncode == 0:
         print(f"DrawIO diagram -> {output}")
     else:

@@ -1,4 +1,4 @@
-# Phase 1 — Normalize Context
+# Phase 1 — Normalize
 
 **Actor:** Code
 
@@ -45,7 +45,7 @@ Use `--no-filter` to skip filtering (for debugging).
 ## Run
 
 ```bash
-python scripts/pipeline.py run normalize_context
+python scripts/pipeline.py generate normalize
 ```
 
 Script: `scripts/normalize_context.py`

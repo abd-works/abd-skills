@@ -52,38 +52,38 @@ When recording corrections:
 
 ---
 
-# Phase 6 — Concept Model
+# Phase 4 — Concept Synthesis
 
-**Actor:** AI | 
+**Actor:** AI
+
 ## Purpose
 
-Identify core concepts and modules. Convert refined concepts into class-like model.
-
-**Interaction detail:** Same depth as concept guidance but more fleshed out; more sub-epics; epics can have stories. Link concepts to stories. No Trigger, Response, steps yet.
+Merge concept signals from Phase 3 into a hypothesis. Output: `hypothesis.json` with concept_guidance.
 
 ## Trigger
 
-concept model, core concepts, link concepts to stories
+concept synthesis, hypothesis, concept guidance, merge signals
 
 ## Inputs
 
-`generated/domain/concept_guidance.md`, `generated/domain/concept_guidance.json`, `evidence/terms.json`, `evidence/actions.json`, `generated/interaction_model/interaction_tree.md`
+- `concept_signals/*.json` — term_candidates, definition_candidates, dependency_actions, cooccurrence_graph, table_vocabularies
 
 ## Instructions
 
-- Convert refined concepts into class-like model with properties and operations
-- **Ground properties and operations in `evidence/terms.json` and `evidence/actions.json`** — do not invent from background knowledge; use extracted evidence to confirm what each concept actually does
-- **Cite evidence** — for each property and operation, include the evidence ID or raw text snippet that supports it (e.g. `[act_0042: "raw text"]`). If you cannot find evidence for a property/operation, mark it `[UNGROUNDED]` and consider removing it.
-- **Read the concept guidance first** — the concept guidance describes what each concept does in interaction-oriented terms. Convert those descriptions into properties and operations. Do not skip concepts from the guidance.
-- **Use `concept_hierarchy` as starting point** — the guidance JSON contains `concept_hierarchy` with subtypes and related concepts. Use this as the initial inheritance and composition map. Subtypes become `: Parent` concepts in the model. Related concepts become collaborators. Do not rediscover hierarchy from scratch — refine what guidance provides.
-- **Verify subtype vs enum before modeling** — before creating a subtype section, scan actions.json and terms.json for that subtype. If the evidence shows same logic across variants (only label differs), use `EnumType property_name {value1, value2}` on the parent instead of a subtype. Do not create both a type enum and mirroring subtypes.
-- **Each subtype must have its own first-class section** — for every subtype in `concept_hierarchy`, create a `### **SubtypeName** : Parent` entry with its own properties, operations, collaborators, and composition. Each subtype gets its own definition reflecting its distinct mechanics. Do not collapse subtypes into a parent's `Subtypes:` line only.
-- **Read evidence files per concept** — for each concept, scan actions.json for entries where `matched_concepts` includes that concept name, and scan terms.json for the concept's term entry. Use the `raw` field text to derive properties and invariants.
-- **Do not substitute background knowledge** — if the evidence says "X works like Y", model what the evidence says, not what you know about X from training data. The evidence may be from a domain you've seen before, but this model must reflect THIS source material's rules, not the canonical rules.
+Synthesize concepts from the signals. Produce `hypothesis.json` with:
+
+- **concepts** — candidate concepts with names
+- **concept_guidance** (optional) — priority concepts, aliases, mechanisms, actors, variation axes, noise filters for Phase 5
 
 ## Outputs
 
-`generated/domain/concept_model.md`, `generated/interaction_model/interaction_tree.md`
+- `generated/hypothesis.json`
+
+## Run
+
+```bash
+python scripts/pipeline.py generate concept_synthesis
+```
 
 
 ---
@@ -325,99 +325,22 @@ AnotherConcept (qualifier):
 
 ---
 
-## Domain Model Rules (7)
+## Domain Model Rules (4)
 
 Apply these rules when producing the domain model output for this phase.
 
 ---
-title: Model Instances, Not Smashed Properties
+title: Speculation and assumptions
 impact: HIGH
 ---
 
-## Model Instances, Not Smashed Properties
+## Speculation and assumptions
 
-**DO** consider when a concept is best represented as instances/examples (objects in diagram) vs smashing it into a property or method.
+**DO** state an assumption when something is unclear.
+- Example (right): "Assumption: Shipping Address is provided before checkout"; "Assumption: Loyalty points not in scope".
 
-**DO** model context with tables as one or more concepts with relationships.
-
-**DO** model instances and examples explicitly when structure matters.
-
-**DO NOT** smash complex objects with multiple concepts into a single property or method.
-
-
----
-
----
-title: Domain Model — Standard Types for Properties
-impact: HIGH
----
-
-## Standard Types for Properties
-
-**DO** use standard types for Properties when defining concepts:
-
-| Type | Use when | Example |
-|------|----------|---------|
-| **String** | Text, names, labels | `Customer.name`, `Product.sku` |
-| **Number** | Quantities, amounts, counts | `Cart.total`, `LineItem.quantity` |
-| **Boolean** | Yes/no, flags | `Order.isPaid`, `Cart.isEmpty` |
-| **List** | Ordered collection | `Cart.lineItems` (List of LineItem) |
-| **Dictionary** | Key-value mapping | `Product.attributes`, `Config.settings` |
-| **UniqueID** | Identifier, reference | `Order.customerId`, `LineItem.productId` |
-| **Instant** | Point in time (ISO 8601) | `Order.createdAt`, `Payment.processedAt` |
-
-| **EnumType** | Fixed set of valid values | `ModifierType type {bonus, penalty}`, `ActionType action_type {standard, move, free, reaction}` |
-
-Use `List<T>` or `Dictionary<K,V>` when element types matter.
-
-**DO** use a named enum type when a property has a constrained set of valid values. Format: `EnumType property_name {value1, value2, value3}`.
-
-**DO NOT** use `String` with parenthetical options (e.g., `String type (bonus/penalty)`). Strings imply free-form text; constrained options are a distinct type.
-
-- Example (wrong): `String type (bonus/penalty)`, `String attack_type (close/ranged)`.
-- Example (right): `ModifierType type {bonus, penalty}`, `AttackType attack_type {close, ranged}`.
-
-
----
-
----
-title: Subtypes as first-class concepts
-impact: HIGH
----
-
-## Subtypes as first-class concepts
-
-**DO** give each subtype its own `### **SubtypeName** : Parent` section with its own properties, operations, collaborators, and composition. Subtypes inherit from parent but have distinct mechanics — model those mechanics explicitly.
-
-**DO** ground each subtype's definition in evidence. Scan `actions.json` and `terms.json` for the subtype name (e.g. Purchase, Refund, Chargeback) and derive properties/operations from what the evidence says that subtype does.
-
-**DO NOT** list subtypes only in a parent's `Subtypes:` line without creating first-class sections for them.
-
-**DO NOT** collapse subtypes that have distinct rules (e.g. Purchase vs Refund vs Chargeback each have different validation, settlement, reversal) into a single parent definition.
-
-- Example (wrong): `### **Transaction**` with `Subtypes: Purchase, Refund, Chargeback` and no separate sections for Purchase, Refund, Chargeback.
-- Example (right): `### **Transaction**` plus `### **Purchase** : Transaction`, `### **Refund** : Transaction`, `### **Chargeback** : Transaction`, etc., each with its own properties, operations, and collaborators.
-
-
----
-
----
-title: Subtypes vs enum — verify before modeling
-impact: HIGH
----
-
-## Subtypes vs enum — verify before modeling
-
-**DO** before creating a subtype section: verify actions.json and terms.json show different mechanics for that subtype. Different properties, operations, or resolution paths = subtype. Same logic, different label = enum on parent.
-
-**DO** use `EnumType property_name {value1, value2}` when the evidence shows same behavior across variants. Do not create subtype sections for enum-like variation.
-
-**DO NOT** create subtype sections from concept_hierarchy without evidence check. If concept_guidance listed Purchase, Refund, Chargeback as Transaction subtypes but the evidence treats them identically (same validation, same settlement flow), convert to `TransactionType type {purchase, refund, chargeback}` on Transaction.
-
-**DO NOT** have both a type enum and mirroring subtypes. If Transaction has `TransactionType type {purchase, refund, chargeback}`, do not also create Purchase, Refund, Chargeback as subtypes.
-
-- Example (right): Transaction has Purchase, Refund, Chargeback as subtypes — evidence shows Purchase has forward-payment validation, Refund has reversal rules and original-required check, Chargeback has issuer workflow. Each has distinct mechanics.
-- Example (wrong): Transaction has Purchase, Return, Exchange as subtypes when the rules only categorize by label. Right: Transaction with `TransactionType type {purchase, return, exchange}`.
+**DO NOT** speculate beyond the provided material or invent mechanics when unclear.
+- Example (wrong): Story "Apply loyalty points at checkout" when context never mentions loyalty. Right: Omit, or state "Assumption: Loyalty points not in scope."
 
 
 ---
@@ -484,7 +407,7 @@ impact: HIGH
 
 
 
-## Interaction Tree Rules (5)
+## Interaction Tree Rules (4)
 
 Apply these rules when producing the interaction tree output for this phase.
 
@@ -533,27 +456,6 @@ Use outcome-oriented language over mechanism-oriented language. Focus on what is
 **DO NOT** use generic communication or mechanism verbs.
 - Example (wrong): "Visualizing Power Activation", "Showing Combat Results", "Displaying Hit Information", "Presenting Configuration Options".
 - Wrong: "Showing results", "Displaying information", "Visualizing data", "Presenting options", "Providing settings", "Enabling features", "Allowing access".
-
-
----
-
----
-title: Hierarchy — approximately 4 to 9 children
-impact: MEDIUM
-order: 3
----
-
-## Hierarchy — approximately 4 to 9 children
-
-Any node (epic, story, scenario) has approximately 4–9 children. Does not apply to steps. For stories, count **steps** as children (not scenarios).
-**DO** keep child count in the 4–9 range for manageable granularity.
-- Epic: ~4–9 sub-epics or stories.
-- Story: ~4–9 steps (total across scenarios; scenarios are containers, not counted).
-- Scenario: ~4–9 steps.
-
-**DO NOT** create nodes with many more than 9 children — split or regroup.
-- Wrong: Epic with 15 stories (split into sub-epics).
-- Wrong: Story with 12 steps (consider splitting story or grouping steps into scenarios).
 
 
 ---

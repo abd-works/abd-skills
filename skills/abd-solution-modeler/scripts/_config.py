@@ -84,8 +84,38 @@ def interaction_model_dir() -> Path:
 
 
 def evidence_dir() -> Path:
-    """Evidence files: terms.json, actions.json, evidence_graph.json, etc."""
+    """Evidence files: terms.json, actions.json, evidence_index.json, etc."""
     return output_dir() / "evidence"
+
+
+def concept_signals_dir() -> Path:
+    """Concept signal outputs from Phase 3: term_candidates.json, definition_candidates.json, etc."""
+    return output_dir() / "concept_signals"
+
+
+def hypothesis_path() -> Path:
+    """hypothesis.json from Phase 4 (concept synthesis)."""
+    return generated_dir() / "hypothesis.json"
+
+
+def extraction_config_path() -> Path:
+    """extraction_config.json from Phase 2 (configure extraction)."""
+    return generated_dir() / "extraction_config.json"
+
+
+def evidence_index_path() -> Path:
+    """evidence_index.json from Phase 6 (index)."""
+    return evidence_dir() / "evidence_index.json"
+
+
+def solution_model_path() -> Path:
+    """solution_model.json from Phases 7-12 (single artifact from Structure onward)."""
+    return generated_dir() / "solution_model.json"
+
+
+def assessment_path() -> Path:
+    """assessment.json from Phase 11 (Assess)."""
+    return generated_dir() / "assessment.json"
 
 
 def no_tree() -> bool:

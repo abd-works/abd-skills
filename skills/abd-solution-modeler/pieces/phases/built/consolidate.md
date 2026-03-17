@@ -52,195 +52,82 @@ When recording corrections:
 
 ---
 
-# Phase 5 — Concept Guidance v2
+# Phase 10 — Consolidate
 
-**Actor:** AI | 
+**Actor:** AI
+
 ## Purpose
 
-Refine domain structure using evidence graph.
-
-**Domain detail:** Refined concepts, modules.
-
-**Interaction detail:** Same — Epics, Sub-Epics, some stories where possible.
+Detect anemia, over-centralization, orphans; fix anti-patterns; add examples to stories.
 
 ## Trigger
 
-refine concepts, concept guidance v2, second-cut domain, epics and stories, interaction tree structure, refine structure, story placement
+consolidate, refine, anti-patterns, examples
 
 ## Inputs
 
-`generated/domain/concept_guidance.md`, `evidence/evidence_graph.json`, `evidence/terms.json`, `generated/interaction_model/interaction_tree.md`
+- `generated/solution_model.json` v3 (from Variation)
 
 ## Instructions
 
-### Domain
-- merge duplicate concepts
-- split overloaded concepts
-- **detect hidden concepts by scanning `evidence/terms.json`** — do not rely on background knowledge; surface terms that appear frequently but are not yet in the concept list
-- **coverage check per module** — for each module, read `context/context_chunks.json` chunks that mention module concepts and verify EVERY distinct subsystem, variant, or mechanic in those chunks is named as a concept. If a chunk describes a mechanic with its own trigger, its own conditions, its own state transitions, or its own interaction rules and it's not in the concept list, add it. Do not stop at the top 20-30 terms; scan the FULL term list.
-- **split overloaded variation axes** — if a variation axis from v1 (e.g. "payment method: Credit, Debit, Wire, Wallet") lists items that each have distinct mechanics (own validation, own settlement, own fee rules), promote each to a separate concept. A variation axis is for cosmetic variants (visa vs mastercard branding); a concept is for mechanical variants (CreditPayment vs WireTransfer vs DigitalWallet).
-- **check for missing category concepts** — scan evidence for grouping patterns (e.g. "standard plans", "enterprise plans", "custom plans"). If each group has different rules, eligibility, or pricing mechanics, each group is a concept.
-- **check for missing interaction concepts** — scan evidence for interaction variants with distinct mechanics (e.g. batch processing vs real-time processing, synchronous vs asynchronous flows, approval workflows vs auto-approval). If each variant has its own rules, it's a concept.
-- refine modules — a module should be created when a subsystem has its own internal concepts, interactions, and rules (e.g. a dispute resolution subsystem with dispute types, escalation stages, and resolution outcomes is a module, not a line item under Billing)
-- refine operations cautiously
-- **alias cleanup** — remove any aliases that are 2-3 characters long or common English words. These poison extraction with false positives.
-- **refine concept hierarchy** — review the `concept_hierarchy` from v1. Check that subtypes are correctly placed under their parent. Split subtypes that are too broad; merge subtypes that are really the same mechanic with a different name. Add new subtypes surfaced by evidence. Update `-> related:` links based on evidence relationships. Ensure every subtype still appears in `priority_concepts`.
-- **reclassify enum-as-subtype** — for each subtype, verify evidence shows different mechanics. If the source treats variants identically (same logic, different label), reclassify as enum on parent. Check for parent + type enum + subtypes that mirror the enum — use one representation, not both.
-
-### Interaction tree
-- refine epic structure from v1
-- add sub-epics under each epic
-- place story names under sub-epics where evident
-- Epics, Sub-Epics, some stories where possible — defer Trigger, Response, scenarios, steps to later phases
-- **scan `performs` edges in `evidence/evidence_graph.json` for predicate clusters** — groups of verbs (e.g. grab, restrain, choke, redirect) that don't map to any existing epic indicate a missing epic or sub-epic; do not assume the v1 epic list is complete
+- Detect and fix: anemia (concept with no operations), over-centralization (one concept does too much), orphans (unused concepts)
+- Add examples to concepts and steps
 
 ## Outputs
 
-`generated/domain/concept_guidance.md`, `generated/interaction_model/interaction_tree.md` (Epics, Sub-Epics, some stories)
+`generated/solution_model.json` v4 — concepts gain examples; interaction_tree gains examples on steps
 
 
 ---
 
-# Domain Model Format
+# Solution Model Format
 
-# Domain Model Format
+# Solution Model Format (solution_model.json)
 
-## Module
+From Phase 7 onward, the single artifact is `solution_model.json`. Schema:
 
-Heading: `## Module: <name>`
+## Sections
 
-```
-## Module: <name>
-- concepts — **ConceptA**, **ConceptB**, **ConceptC**
-- examples: at end of module, after all concepts; one table per concept; shared scenario links the module
-```
+- **concepts** — Array of concept objects. Each has: id, module, kind, inherits, summary, properties, operations, relationships, behavior_refs, story_refs, evidence_refs.
+- **behaviors** — Array of behavior objects. Each has: id, name, owner, collaborators, linked_steps, story_refs, evidence_refs.
+- **interaction_tree** — Object with epics array. Each epic has sub_epics; each sub_epic has stories. Each story has: id, name, actors, steps, scenarios. Each step has: id, name, linked_behaviors, trigger, response.
+- **evidence_refs** — Registry: actions, decisions, states, relationships keyed by ID. Concepts and behaviors reference these IDs.
 
-## Domain Concept
+## Concept
 
-Heading: `### **ConceptName** : <BaseConcept if any>`
-One-liner description of the purpose of the concept
-
-```
-**ConceptName** : <BaseConcept if any>
-- <type> property
-      <collaborating concepts if any>
-      Invariant: <constraint on this property>
-- <type> operation(<param>, ...) → <return>
-      <collaborating concepts if any>
-      Invariant: <constraint enforced by this operation>
-- Interactions: interaction nodes this concept is used by
-```
-
-## Examples
-
-**## Examples** (at end of module, after all concepts — one table per concept, shared scenario links all):
-```
-ConceptName (qualifier):
-| scenario | property1 | property2 |
-|----------|-----------|-----------|
-| module-scenario.phase | val1 | val2 |
-===
-AnotherConcept (qualifier):
-| scenario | property1 |
-|----------|-----------|
-| module-scenario.phase | val1 |
+```json
+{
+  "id": "Character",
+  "module": "Core",
+  "kind": "aggregate_root",
+  "inherits": null,
+  "summary": "The entity that performs actions.",
+  "properties": [],
+  "operations": [],
+  "relationships": [{"type": "owns", "target": "AbilityScore", "cardinality": "1..*"}],
+  "behavior_refs": ["beh_activate"],
+  "story_refs": ["story_resolve_attack"],
+  "evidence_refs": ["act_0042", "rel_0012"]
+}
 ```
 
-- One scenario prefix for the module (e.g. `monthly-operations`); sub-phases allowed (e.g. `monthly-operations.after-payroll`)
-- Qualifier in parentheses after concept name
-- Scenario column required; kebab-case
-- Columns match concept property names
-- `===` separator between tables
+## Behavior
 
-### Invariants
-
-Place invariants under the specific property or operation they apply to — not as a separate section. Format: `Invariant: <constraint>`.
-
-```
-- Number balance
-      Invariant: balance >= 0
-- debit(amount) → Boolean
-      Invariant: amount <= balance
+```json
+{
+  "id": "beh_activate",
+  "name": "activate",
+  "owner": "Character",
+  "collaborators": ["Attack", "Effect"],
+  "linked_steps": ["step_activate_attack"],
+  "story_refs": ["story_resolve_attack"],
+  "evidence_refs": ["act_0042", "dec_0001"]
+}
 ```
 
-## Guidelines
+## Step
 
-- Prefer **composition** over inheritance
-- Use `Dictionary<K,V>` when items are keyed
-- Use `List<T>` only when ordering matters
-- Avoid central "service/manager" concepts
-- Use `EnumType name {value1, value2}` for constrained options — not `String` with parenthetical options
-
-## Example — Connected Concepts with Tables
-
-Account holds funds; transactions record deposits and withdrawals. The balance is what’s available.
-
-```
-## Module: Accounts
-- concepts — **Account**, **Transaction**
-
-### **Account**
-
-Holds funds. You deposit (credit) or withdraw (debit). Balance is what you have available.
-
-- String name
-- List<**Transaction**> transactions
-      **Transaction** — history of deposits and withdrawals
-- balance() → Number
-      current available funds
-- debit(amount) → Boolean
-      withdraws funds; fails if insufficient
-      **Transaction** — adds a withdrawal record
-- credit(amount) → void
-      deposits funds
-      **Transaction** — adds a deposit record
-
-- Interactions: Debit Account, Credit Account
-
-### **Transaction**
-
-A deposit or withdrawal. Belongs to an account.
-
-- **Account** account
-      **Account** — which account this affects
-- Number amount
-- String type {debit, credit}
-
-- Interactions:  Debit Account, Credit Account
-
-### examples
-
-Account (selected):
-| scenario                             | name            | balance  |
-|--------------------------------------|-----------------|----------|
-| monthly-operations.main-checking     | Main Checking   | 3247.50  |
-| monthly-operations.main-checking-od  | Main Checking   | 42.00    |
-| monthly-operations.savings           | Savings         | 500.00   |
-===
-Transaction (recorded):
-| scenario                             | account         | amount   | type   |
-|--------------------------------------|-----------------|----------|--------|
-| monthly-operations.main-checking     | Main Checking   | 2400.00  | credit |
-| monthly-operations.main-checking     | Main Checking   | 1000.00  | credit |
-| monthly-operations.main-checking     | Main Checking   | 142.50   | debit  |
-| monthly-operations.main-checking     | Main Checking   | 10.00    | debit  |
-| monthly-operations.main-checking-od  | Main Checking   | 500.00   | credit |
-| monthly-operations.main-checking-od  | Main Checking   | 458.00   | debit  |
-| monthly-operations.savings           | Savings         | 500.00   | credit |
-```
-
-One scenario per account. Balance = sum of transactions (credits − debits) for that account in that scenario. Main Checking: 3247.50 = 2400 + 1000 − 142.50 − 10. Overdraft: 42 = 500 − 458. Savings: 500 = 500.
-
-## Validation Checklist
-
-- [ ] Format: `**Concept** : <Base Concept if any>`
-- [ ] Module has examples: one table per concept, shared scenario, `===` separator
-- [ ] Properties, operations, collaborating concepts listed
-- [ ] Each concept referenced via `**Concept**` in interaction tree must exist here
-- [ ] Invariants under specific property/operation they apply to
-- [ ] No implementation details (APIs, services, databases, UI components, code)
-- [ ] No speculation beyond the provided material
-- [ ] Everything at logical/domain level
+Each step has at least one linked_behavior. Scenarios group steps (e.g. hit vs miss).
 
 
 ---
@@ -338,25 +225,9 @@ AnotherConcept (qualifier):
 
 ---
 
-## Domain Model Rules (4)
+## Domain Model Rules (9)
 
 Apply these rules when producing the domain model output for this phase.
-
----
-title: Speculation and assumptions
-impact: HIGH
----
-
-## Speculation and assumptions
-
-**DO** state an assumption when something is unclear.
-- Example (right): "Assumption: Shipping Address is provided before checkout"; "Assumption: Loyalty points not in scope".
-
-**DO NOT** speculate beyond the provided material or invent mechanics when unclear.
-- Example (wrong): Story "Apply loyalty points at checkout" when context never mentions loyalty. Right: Omit, or state "Assumption: Loyalty points not in scope."
-
-
----
 
 ---
 title: Derive from context
@@ -418,9 +289,137 @@ impact: HIGH
 
 ---
 
+---
+title: Anemia / Centralization Critique
+impact: HIGH
+---
+
+## Anemia / Centralization Critique
+
+Explicitly attack the candidate model before accepting it. This phase is mandatory.
+
+**Look for:**
+- Centralized handlers, resolvers, or managers
+- Anemic entities with no decisions
+- Objects that are just data bags
+- Config-holder pseudo-objects
+- Orphan concepts (referenced but not modeled)
+- State with no owner
+- Rules with no owner
+- Fake inheritance (shared fields, no shared semantics)
+- Type, mode, or effect switches that should be polymorphism
+- Orchestration making domain decisions
+- Relationships with no behavioral significance
+
+**AI must propose minimal corrections** for each issue found.
+
+**DO NOT** truncate. Full Model Assessment requires an explicit anemia critique table covering all issue types (centralized handlers, anemic entities, data bags, orphan concepts, state with no owner, rules with no owner, fake inheritance, type switches, orchestration making domain decisions). Persist the full assessment in run-N-ooad.md. A one-line note is insufficient.
 
 
-## Interaction Tree Rules (4)
+---
+
+---
+title: Domain Model — Wirfs-Brock Role Stereotypes
+impact: MEDIUM
+---
+
+## Concept Roles (Optional)
+
+When clarifying how a concept participates in interactions, you may assign a **role**:
+
+| Role | Responsibility | Example |
+|------|----------------|---------|
+| **Information Holder** | Knows and provides information | Customer, Order, Product |
+| **Structurer** | Maintains relationships between objects | Cart (holds line items) |
+| **Service Provider** | Performs work; often stateless | TaxCalculator, Validator |
+| **Coordinator** | Delegates to others | CheckoutController |
+| **Controller** | Handles system events; represents use case | ProcessOrderHandler |
+| **Interfacer** | Connects to outside world | PaymentGateway, EmailSender |
+
+
+---
+
+---
+title: Domain Model — Domain Language
+impact: HIGH
+---
+
+## Use Domain Language from Source
+
+**DO** use domain language from stories and acceptance criteria. Mine vocabulary from source material.
+
+**DO** use standard types (String, Number, Boolean, List, Dictionary, UniqueID, Instant) for Properties; prefer domain concepts over scattering primitives. See domain-ooa-property-types.
+
+**DO** write Operation names in natural English (Calculates total, Validates inventory, Is exhausted when fully redeemed).
+
+**DO NOT** use Hold, Get, Has as defaults — find domain-specific verbs (Is identified by, Defines, Starts valid at, Expires at).
+
+**DO NOT** use Manager, Service, Handler, Factory suffixes for concept names.
+
+**DO NOT** use abbreviations or technical jargon when simple English works.
+
+
+---
+
+---
+title: Domain Model — Integrate Concepts
+impact: HIGH
+---
+
+## Nest Related Capabilities Under Parent
+
+**DO** integrate related capabilities under a parent concept (e.g. Character Animation with multiple Operations, not separate Walk Animation, Run Animation concepts).
+
+**DO** group concepts by business domain, not technical layers (Data Layer, Business Logic Layer).
+
+**DO NOT** create separate concepts with the same noun when they should be one (PortfolioValue, PortfolioRisk, PortfolioAllocation → Portfolio).
+
+**DO NOT** split related capabilities into separate sibling concepts (PortfolioValue, PortfolioRisk as separate concepts when they belong under Portfolio).
+
+**DO NOT** group by technical layers or implementation patterns (Factories, Builders, Repositories).
+
+
+---
+
+---
+title: Domain Model — Module Folder Mapping
+impact: LOW
+---
+
+## When Mapping to Code
+
+**DO** when mapping to code, use Module = folder path in dot notation (e.g. `actions.render`, `repl_cli.cli_bot`).
+
+**DO NOT** use `src/` prefix or slashes — use dots for nesting (e.g. `repl_cli.cli_bot`, not `src/repl_cli` or `repl_cli/cli_bot`).
+
+**Note:** Applies when the synthesizer output is mapped to existing or planned code structure. Synthesizer may run before code exists — rule is optional when applicable.
+
+
+---
+
+---
+title: Domain Model — Resource Concept Naming
+impact: HIGH
+---
+
+## Concepts as Resources
+
+**DO** name concepts as nouns (resources): Order, Portfolio, Voucher, not OrderManager, InstructionPreparer.
+
+**DO** give concepts both Properties and Operations where behavior exists — no anemic concepts (only Properties, no Operations).
+
+**DO NOT** use Manager/Service/Handler/Preparer/Builder suffixes. Name after the resource itself.
+
+**DO NOT** create concepts that are only data carriers with no Operations.
+
+**DO NOT** pass another concept's data to it — concepts own their data. Encapsulation: don't pass another concept's Properties as parameters to its Operations.
+
+
+---
+
+
+
+## Interaction Tree Rules (6)
 
 Apply these rules when producing the interaction tree output for this phase.
 
@@ -508,6 +507,64 @@ Stories must be testable as complete interactions and deliverable independently.
 **DO NOT** create stories too small to test meaningfully or make implementation steps into stories.
 - Example (wrong): "Add order button" (can't test without full order flow); "Display error message" (can't test without validation context).
 - Wrong: "Convert Diagram to StoryGraph Format", "Serialize Components to JSON", "Calculate Component Positions" (implementation steps, not testable alone).
+
+
+---
+
+---
+title: Background vs scenario setup
+impact: MEDIUM
+---
+
+## Shared setup as Pre-Condition with Examples at story level
+
+**Background** (BDD) = **Pre-Condition with Examples at the story level**. Scenarios below inherit that Pre-Condition and Examples. No separate Background section — use the interaction hierarchy.
+
+**DO** put shared setup as Pre-Condition with Examples on the story (or epic). Use Given/And only — state, not actions. Use **Concept** notation. Scenarios show inherited Pre-Condition and Examples in brackets.
+
+**Example (right):**
+
+```
+#### Story: User Triggers Country-Specific PaymentType
+- Pre-Condition: Given **User** is logged in; And **User** has an active **Session**; And **User** has access to **PaymentType** in **Country** (see **UserPaymentAccess**)
+- Examples:
+  Logged In User:
+  | scenario   | user_name | user_role |
+  |------------|-----------|-----------|
+  | success    | Jane Doe  | Payer     |
+  ===
+  Active User Session:
+  | scenario   | user_name | session_id | expires_at |
+  |------------|-----------|------------|------------|
+  | success    | Jane Doe  | sess-001   | 2025-03-08 |
+
+##### Scenario: Success — payment validated and confirmed
+- Pre-Condition: [Given **User** is logged in; And **User** has an active **Session**; And **User** has access to **PaymentType** in **Country** (see **UserPaymentAccess**)]
+- Examples: [Logged In User, Active User Session]
+
+###### Steps
+- Step 1: Browse Country for Payment ...
+```
+
+**DO NOT** repeat setup in each scenario when it applies to all. Do not put actions in Pre-Condition — only state (Given/And). Do not use a separate "Background" block; use story-level Pre-Condition + Examples and inheritance.
+
+**Example (wrong):** Each scenario repeats full Given/And and example tables. **Right:** Story holds Pre-Condition + Examples; scenarios show `[inherited]` or list names.
+
+
+---
+
+---
+title: Failure modes
+impact: MEDIUM
+---
+
+## Failure modes
+
+**DO** limit failure modes to a maximum of 3 per interaction; derive from domain rules, state conditions, or authorization.
+- Example (right): "Insufficient balance"; "Account suspended"; "Cart is empty"; "Payment type not available for country".
+
+**DO NOT** include infrastructure or technical failures.
+- Example (wrong): "Database timeout"; "Network unreachable"; "Server crash". Right: "Insufficient balance"; "Account suspended".
 
 
 ---

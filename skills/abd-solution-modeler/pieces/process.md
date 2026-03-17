@@ -1,19 +1,19 @@
 # Process
 
-Pipeline: Context → Model → Validate. `pipeline.py` orchestrates all phases.
+Pipeline: 12-phase concept-anchored. `pipeline.py` orchestrates all phases.
 
-- Code phases — run scripts directly (normalize, extract, graph)
-- `generate <phase>` — prints built phase spec from `phases/built/` (phase instructions + baked-in rules)
-- `scan <phase>` — runs programmatic scanners against generated output
-- `validate <phase>` — prints rules for adversarial AI validation pass
+- **Code phases** — run scripts directly (normalize, extract_concepts, extract_evidence, index)
+- **AI phases** — `generate <phase>` prints built phase spec from `phases/built/` (phase instructions + baked-in rules)
+- **Scan** — `scan <phase>` runs programmatic scanners against generated output
+- **Validate** — `validate <phase>` prints rules for adversarial AI validation pass
 
 **Workspace layout** (relative to `output_dir`):
 
 - `context/` — context_chunks.json
-- `evidence/` — terms.json, actions.json, decisions.json, states.json, relationships.json, modifiers.json, evidence_graph.json
-- `generated/domain/` — concept_guidance.md, concept_guidance.json, concept_model.md, structural_model.md, behavior_model.md, variation_model.md, refined_domain_model.md, model_assessment.md, final_domain_model.md
-- `generated/interaction_model/` — interaction_tree.md
-- `generated/deltas/` — phase version snapshots
+- `concept_signals/` — term_candidates.json, definition_candidates.json, dependency_actions.json, cooccurrence_graph.json, table_vocabularies.json
+- `evidence/` — terms.json, actions.json, decisions.json, states.json, relationships.json, evidence_index.json
+- `generated/` — extraction_config.json, hypothesis.json, solution_model.json, assessment.json
+- `generated/domain/` — legacy .md outputs, solution_model.drawio
 
 **Match user phrase to phase Trigger** — each phase file has a `## Trigger` section; run that phase when the user says one of those phrases.
 
@@ -21,44 +21,28 @@ Pipeline: Context → Model → Validate. `pipeline.py` orchestrates all phases.
 
 ---
 
-## Stage 1: Context (Phases 1–5)
+## Phases 1–6: Context and Evidence
 
-
-| Phase | Actor            | Ref                                                                 | Outputs                                                                                                           |
-| ----- | ---------------- | ------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
-| 1     | Code             | [normalize_context.md](phases/normalize_context.md)                 | rule_chunks.json                                                                                                  |
-| 2     | AI               | [concept_guidance_v1.md](phases/concept_guidance_v1.md)             | concept_guidance.md, concept_guidance.json, interaction_tree (Story Map Skeleton: Epics, Sub-Epics, some stories) |
-| —     | **Checkpoint 1** | Verify domain framing: concepts, modules, mechanisms, actors, epics | —                                                                                                                 |
-| 3     | Code             | [evidence_extraction.md](phases/evidence_extraction.md)             | terms.json, actions.json, decisions.json, states.json, relationships.json, modifiers.json                         |
-| 4     | Code             | [evidence_graph.md](phases/evidence_graph.md)                       | evidence_graph.json                                                                                               |
-| —     | **Checkpoint 2** | Verify rule coverage: evidence graph covers rules                   | —                                                                                                                 |
-| 5     | AI               | [concept_guidance_v2.md](phases/concept_guidance_v2.md)             | concept_guidance.md (refined), interaction_tree (Epics, Sub-Epics, some stories)                                  |
-| —     | **Checkpoint 3** | Verify structure: epic/sub-epic/story placement                     | —                                                                                                                 |
-
+| # | Phase | Actor | Output |
+|---|-------|-------|--------|
+| 1 | Normalize | Code | context_chunks.json |
+| 2 | Configure extraction | AI | extraction_config.json |
+| 3 | Extract Concepts | Code | concept_signals/*.json |
+| 4 | Concept synthesis | AI | hypothesis.json |
+| 5 | Extract evidence | Code | evidence/*.json |
+| 6 | Index | Code | evidence_index.json |
 
 ---
 
-## Stage 2: Model (Phases 6–10)
+## Phases 7–12: Solution Model
 
+From Phase 7 onward, a single artifact: `solution_model.json` (concepts, behaviors, interaction_tree, evidence_refs).
 
-| Phase | Actor            | Ref                                                       | Outputs                                                                                                 |
-| ----- | ---------------- | --------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
-| 6     | AI               | [concept_model.md](phases/concept_model.md)               | concept_model.md, interaction_tree (more fleshed out; more sub-epics; epics can have stories)           |
-| 7     | AI               | [structural_model.md](phases/structural_model.md)         | structural_model.md, interaction_tree (+ Triggering/Responding-Actor, long name, state, pre-conditions) |
-| 8     | AI               | [behavior_model.md](phases/behavior_model.md)             | behavior_model.md, interaction_tree (+ Trigger, Response, steps)                                        |
-| 9     | AI               | [variation_model.md](phases/variation_model.md)           | variation_model.md, interaction_tree (+ variation detail)                                               |
-| 10    | AI               | [refined_domain_model.md](phases/refined_domain_model.md) | refined_domain_model.md, interaction_tree (+ Scenarios, Failure-Modes, Constraints, examples)           |
-| —     | **Checkpoint 5** | Verify structural validation: modules, boundaries         | —                                                                                                       |
-
-
----
-
-## Stage 3: Assess (Phases 11–12)
-
-
-| Phase | Actor    | Ref                                                   | Outputs                                                 |
-| ----- | -------- | ----------------------------------------------------- | ------------------------------------------------------- |
-| 11    | AI+Human | [model_assessment.md](phases/model_assessment.md)     | model_assessment.md                                     |
-| 12    | AI       | [final_domain_model.md](phases/final_domain_model.md) | final_domain_model.md, interaction_tree (with Examples) |
-
-
+| # | Phase | Actor | Output |
+|---|-------|-------|--------|
+| 7 | Structure | AI | solution_model.json v1 |
+| 8 | Behavior | AI | solution_model.json v2 |
+| 9 | Variation | AI | solution_model.json v3 |
+| 10 | Consolidate | AI | solution_model.json v4 |
+| 11 | Assess | AI+Human | assessment.json |
+| 12 | Finalize | AI | solution_model.json final |

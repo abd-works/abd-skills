@@ -31,14 +31,17 @@ Transforms raw context (rules, requirements, documentation) into a **Domain mode
 
 ## Pipeline
 
-1. **Context** (Phases 1–5) — Normalize, extract evidence, build graph, concept guidance
-2. **Model** (Phases 6–11) — Interaction tree structure → domain model progression
-3. **Validate** (Phases 12–13) — Scenario walkthrough, add Examples
+12-phase concept-anchored pipeline (see `docs/concept-anchored-pipeline-overview.md`):
+
+1. **Phases 1–6** — Normalize, configure extraction, extract concepts, concept synthesis, extract evidence, index
+2. **Phases 7–12** — Structure, Behavior, Variation, Consolidate, Assess, Finalize (single artifact: solution_model.json)
 
 ## Scripts
 
 Run from workspace root. Scripts in `skills/abd-solution-modeler/scripts/`.
 
-- `pipeline.py run <phase>` — Run phase N (1–13)
-- `pipeline.py pipeline` — Run phases 1–N in sequence
-- `assemble_agents.py` — Assemble AGENTS.md from content pieces. Run after editing `pieces/*.md`.
+- `pipeline.py generate <phase>` — Run phase (code phases execute; AI phases print instructions)
+- `pipeline.py scan <phase>` — Run scanners against output
+- `pipeline.py validate <phase>` — Print rules for validation
+- `pipeline.py pipeline [--stop <phase>]` — Run phases 1–12 in sequence
+- `assemble_agents.py` — Assemble AGENTS.md and build phase files. Run after editing `pieces/*.md`.

@@ -700,9 +700,9 @@ def extract_modifiers(chunks, guidance, alias_to_canonical):
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Guided evidence extraction")
-    parser.add_argument("--input", "-i", required=True, help="Path to rule_chunks.json")
-    parser.add_argument("--guidance", "-g", required=True, help="Path to concept_guidance.json")
+    parser = argparse.ArgumentParser(description="Guided evidence extraction (Phase 5)")
+    parser.add_argument("--input", "-i", required=True, help="Path to context_chunks.json")
+    parser.add_argument("--guidance", "-g", required=True, help="Path to hypothesis.json or concept_guidance.json")
     parser.add_argument("--output-dir", "-o", required=True, help="Output directory")
     args = parser.parse_args()
 
@@ -724,7 +724,9 @@ def main():
     chunks_raw = load_json(rule_path)
     chunks = chunks_raw.get("rule_chunks") or chunks_raw.get("chunks") or [] if isinstance(chunks_raw, dict) else chunks_raw
 
-    guidance = load_json(guidance_path)
+    guidance_raw = load_json(guidance_path)
+    # Support hypothesis.json (Phase 4 output) or concept_guidance.json
+    guidance = guidance_raw.get("concept_guidance", guidance_raw) if isinstance(guidance_raw, dict) else guidance_raw
     alias_to_canonical, _ = build_alias_index(guidance)
 
     terms = extract_terms(chunks, guidance, alias_to_canonical)
@@ -739,11 +741,12 @@ def main():
     dump_json(out_dir / "decisions.json", decisions)
     dump_json(out_dir / "states.json", states)
     dump_json(out_dir / "relationships.json", relationships)
-    dump_json(out_dir / "modifiers.json", modifiers)
+    # modifiers.json deprecated per concept-anchored pipeline
+    dump_json(out_dir / "modifiers.json", [])
 
     print(
         f"Wrote {len(terms)} terms, {len(actions)} actions, {len(decisions)} decisions, "
-        f"{len(states)} states, {len(relationships)} relationships, {len(modifiers)} modifiers to {out_dir}"
+        f"{len(states)} states, {len(relationships)} relationships to {out_dir}"
     )
 
 

@@ -52,179 +52,82 @@ When recording corrections:
 
 ---
 
-# Phase 7 — Structural Model
+# Phase 11 — Assess
 
-**Actor:** AI | 
+**Actor:** AI + Human
+
 ## Purpose
 
-Add relationships and composition between concepts.
-
-**Interaction detail:** Add Triggering-Actor and Responding-Actor per story; additional stories as gleaned from structure; add long name; initiating and resulting state; pre-conditions.
+Produce model assessment: consistency, coverage, completeness, type field vs subtype (mechanical difference test).
 
 ## Trigger
 
-structural model, relationships, composition, collaborators
-
-## Instructions
-
-- define composition relationships
-- attach collaborators
-- **Preserve subtype structure** — each subtype from concept_model must have its own section with its own composition and collaborators. Do not collapse subtypes into the parent.
-- **Ground relationships in `evidence/relationships.json`** — scan the relationship evidence for `from_entity` → `type` → `to_entity` patterns. Only add relationships that evidence supports. Cite the evidence (e.g. `[rel_0042: "raw text"]`).
-- **Use `evidence/states.json` for state-based relationships** — states describe what conditions/states concepts can be in, which reveals lifecycle and escalation relationships.
-- **Use `evidence/decisions.json` for conditional relationships** — decisions describe when/if/must/cannot rules that reveal invariants and dependencies between concepts.
+assess, model assessment, consistency, coverage, completeness
 
 ## Inputs
 
-`generated/domain/concept_model.md`, `generated/interaction_model/interaction_tree.md`
+- `generated/solution_model.json` v4 (from Consolidate)
+
+## Instructions
+
+- Produce assessment.json with: consistency, coverage, completeness, type-field-vs-subtype
+- No late "walkthrough" verification — incremental verification happens in Phases 7–8
 
 ## Outputs
 
-`generated/domain/structural_model.md`, `generated/interaction_model/interaction_tree.md`
+`generated/assessment.json`
 
 
 ---
 
-# Domain Model Format
+# Solution Model Format
 
-# Domain Model Format
+# Solution Model Format (solution_model.json)
 
-## Module
+From Phase 7 onward, the single artifact is `solution_model.json`. Schema:
 
-Heading: `## Module: <name>`
+## Sections
 
-```
-## Module: <name>
-- concepts — **ConceptA**, **ConceptB**, **ConceptC**
-- examples: at end of module, after all concepts; one table per concept; shared scenario links the module
-```
+- **concepts** — Array of concept objects. Each has: id, module, kind, inherits, summary, properties, operations, relationships, behavior_refs, story_refs, evidence_refs.
+- **behaviors** — Array of behavior objects. Each has: id, name, owner, collaborators, linked_steps, story_refs, evidence_refs.
+- **interaction_tree** — Object with epics array. Each epic has sub_epics; each sub_epic has stories. Each story has: id, name, actors, steps, scenarios. Each step has: id, name, linked_behaviors, trigger, response.
+- **evidence_refs** — Registry: actions, decisions, states, relationships keyed by ID. Concepts and behaviors reference these IDs.
 
-## Domain Concept
+## Concept
 
-Heading: `### **ConceptName** : <BaseConcept if any>`
-One-liner description of the purpose of the concept
-
-```
-**ConceptName** : <BaseConcept if any>
-- <type> property
-      <collaborating concepts if any>
-      Invariant: <constraint on this property>
-- <type> operation(<param>, ...) → <return>
-      <collaborating concepts if any>
-      Invariant: <constraint enforced by this operation>
-- Interactions: interaction nodes this concept is used by
-```
-
-## Examples
-
-**## Examples** (at end of module, after all concepts — one table per concept, shared scenario links all):
-```
-ConceptName (qualifier):
-| scenario | property1 | property2 |
-|----------|-----------|-----------|
-| module-scenario.phase | val1 | val2 |
-===
-AnotherConcept (qualifier):
-| scenario | property1 |
-|----------|-----------|
-| module-scenario.phase | val1 |
+```json
+{
+  "id": "Character",
+  "module": "Core",
+  "kind": "aggregate_root",
+  "inherits": null,
+  "summary": "The entity that performs actions.",
+  "properties": [],
+  "operations": [],
+  "relationships": [{"type": "owns", "target": "AbilityScore", "cardinality": "1..*"}],
+  "behavior_refs": ["beh_activate"],
+  "story_refs": ["story_resolve_attack"],
+  "evidence_refs": ["act_0042", "rel_0012"]
+}
 ```
 
-- One scenario prefix for the module (e.g. `monthly-operations`); sub-phases allowed (e.g. `monthly-operations.after-payroll`)
-- Qualifier in parentheses after concept name
-- Scenario column required; kebab-case
-- Columns match concept property names
-- `===` separator between tables
+## Behavior
 
-### Invariants
-
-Place invariants under the specific property or operation they apply to — not as a separate section. Format: `Invariant: <constraint>`.
-
-```
-- Number balance
-      Invariant: balance >= 0
-- debit(amount) → Boolean
-      Invariant: amount <= balance
+```json
+{
+  "id": "beh_activate",
+  "name": "activate",
+  "owner": "Character",
+  "collaborators": ["Attack", "Effect"],
+  "linked_steps": ["step_activate_attack"],
+  "story_refs": ["story_resolve_attack"],
+  "evidence_refs": ["act_0042", "dec_0001"]
+}
 ```
 
-## Guidelines
+## Step
 
-- Prefer **composition** over inheritance
-- Use `Dictionary<K,V>` when items are keyed
-- Use `List<T>` only when ordering matters
-- Avoid central "service/manager" concepts
-- Use `EnumType name {value1, value2}` for constrained options — not `String` with parenthetical options
-
-## Example — Connected Concepts with Tables
-
-Account holds funds; transactions record deposits and withdrawals. The balance is what’s available.
-
-```
-## Module: Accounts
-- concepts — **Account**, **Transaction**
-
-### **Account**
-
-Holds funds. You deposit (credit) or withdraw (debit). Balance is what you have available.
-
-- String name
-- List<**Transaction**> transactions
-      **Transaction** — history of deposits and withdrawals
-- balance() → Number
-      current available funds
-- debit(amount) → Boolean
-      withdraws funds; fails if insufficient
-      **Transaction** — adds a withdrawal record
-- credit(amount) → void
-      deposits funds
-      **Transaction** — adds a deposit record
-
-- Interactions: Debit Account, Credit Account
-
-### **Transaction**
-
-A deposit or withdrawal. Belongs to an account.
-
-- **Account** account
-      **Account** — which account this affects
-- Number amount
-- String type {debit, credit}
-
-- Interactions:  Debit Account, Credit Account
-
-### examples
-
-Account (selected):
-| scenario                             | name            | balance  |
-|--------------------------------------|-----------------|----------|
-| monthly-operations.main-checking     | Main Checking   | 3247.50  |
-| monthly-operations.main-checking-od  | Main Checking   | 42.00    |
-| monthly-operations.savings           | Savings         | 500.00   |
-===
-Transaction (recorded):
-| scenario                             | account         | amount   | type   |
-|--------------------------------------|-----------------|----------|--------|
-| monthly-operations.main-checking     | Main Checking   | 2400.00  | credit |
-| monthly-operations.main-checking     | Main Checking   | 1000.00  | credit |
-| monthly-operations.main-checking     | Main Checking   | 142.50   | debit  |
-| monthly-operations.main-checking     | Main Checking   | 10.00    | debit  |
-| monthly-operations.main-checking-od  | Main Checking   | 500.00   | credit |
-| monthly-operations.main-checking-od  | Main Checking   | 458.00   | debit  |
-| monthly-operations.savings           | Savings         | 500.00   | credit |
-```
-
-One scenario per account. Balance = sum of transactions (credits − debits) for that account in that scenario. Main Checking: 3247.50 = 2400 + 1000 − 142.50 − 10. Overdraft: 42 = 500 − 458. Savings: 500 = 500.
-
-## Validation Checklist
-
-- [ ] Format: `**Concept** : <Base Concept if any>`
-- [ ] Module has examples: one table per concept, shared scenario, `===` separator
-- [ ] Properties, operations, collaborating concepts listed
-- [ ] Each concept referenced via `**Concept**` in interaction tree must exist here
-- [ ] Invariants under specific property/operation they apply to
-- [ ] No implementation details (APIs, services, databases, UI components, code)
-- [ ] No speculation beyond the provided material
-- [ ] Everything at logical/domain level
+Each step has at least one linked_behavior. Scenarios group steps (e.g. hit vs miss).
 
 
 ---
@@ -322,7 +225,7 @@ AnotherConcept (qualifier):
 
 ---
 
-## Domain Model Rules (9)
+## Domain Model Rules (4)
 
 Apply these rules when producing the domain model output for this phase.
 
@@ -387,144 +290,39 @@ impact: HIGH
 ---
 
 ---
-title: Domain Model — Bidirectional Relationships
-impact: MEDIUM
----
-
-## When A References B, B Should Reference A
-
-**DO** when Concept A has a Property or Operation that references B (non-primitive), B should have a corresponding reference to A — same relationship, both perspectives.
-
-**DO** use relationship names that describe the relationship from each concept's viewpoint (Order contains LineItem; LineItem belongs to Order).
-
-**DO NOT** require bidirectional mapping for primitives (String, Number, Boolean, etc.).
-
-**DO NOT** use mismatched collaborators — the bidirectional pair must describe the SAME relationship from both sides.
-
-## Creator → Created Back-Reference
-
-**DO** when a concept creates another during execution (dependency "creates"), and the created object needs to navigate back to access creator state during its lifecycle, model a `source` reference property on the created object with an association edge back to the creator. Both the creates dependency AND the source association are needed.
-
-- Example (right): Invoice creates Payment (dependency "creates"). Payment has `Invoice source` property (association back). Payment navigates `source.line_items`, `source.customer`. Diagram shows both edges.
-
-**DO NOT** model created objects as isolated snapshots when they need live access to creator state. A copied `Number amount` loses navigation to the creator's line items and customer.
-
-- Example (wrong): Payment has `Number amount` but no reference to the Invoice that created it — can't navigate to line items, customer, or order.
-
-
----
-
----
-title: Domain Model — Caller, Receiver, State Mapping
+title: Scenario / Message Walkthrough Validation
 impact: HIGH
 ---
 
-## Caller, Receiver, Message → Trigger and Response
+## Scenario / Message Walkthrough
 
-**DO** map OOA caller/receiver/message to the interaction model:
-- **Caller** → Triggering-Actor (who starts the interaction)
-- **Receiver** → Responding-Actor (who receives and responds)
-- **Message** → Behavior in Trigger (what is requested) and Behavior in Response (what is done)
+Make sure the model can actually behave. A model that looks elegant but fails in message flow is not good OOAD.
 
-**DO** ensure every concept that participates as caller or receiver exists in the Domain Model with Properties and Operations that support that participation.
+**Run walkthroughs for:**
+- Happy path
+- Error path
+- Edge case
+- Exception path
+- Stateful repetition
+- Alternate variation mode
+- Recovery, retry, or cancellation where relevant
 
-## State Before / State After → Pre-Condition, Triggering-State, Resulting-State
+**Validate at two levels:**
 
-**DO** map OOA state before/after to interaction fields:
-- **State Before** → Pre-Condition (what must be true) + Triggering-State (state that qualifies the trigger)
-- **State After** → Resulting-State (state that results from the response)
+**Scenario flow:** What happens in the domain?
 
-**DO** reference domain concepts in these labels via `**Concept**` so state flows are traceable to the Domain Model.
+**Message flow:** Which object sends what message to whom? Does the receiver know enough to act? Is the sender delegating a decision or making it centrally?
 
-## Event as Trigger
+**This step exposes:** missing objects, misplaced behavior, centralization, fake relationships, state with no owner.
 
-**DO** treat an **event** as the **Trigger** that causes the **Response**. The Trigger (Triggering-Actor, Behavior, Triggering-State) is the stimulus; the Response (Responding-Actor, Behavior, Resulting-State) is the reaction. Events often appear as user actions, system triggers, or state changes that qualify the interaction.
-
-
----
-
----
-title: Domain Model — Composition and Aggregation
-impact: HIGH
----
-
-## Composition vs Aggregation
-
-**DO** when a concept "has" another concept, distinguish:
-
-| Relationship | Meaning | Lifecycle | Example |
-|--------------|---------|-----------|---------|
-| **Composition** | Strong has-a; part cannot exist without whole | Shared — part dies with whole | Order and LineItem; Book and Page |
-| **Aggregation** | Weak has-a; whole has no meaning without multiple instances of the same part (e.g. crowd, flock, mob) | Independent | Crowd (people); Flock (birds); Cart and Product |
-
-**DO** prefer composition and aggregation over inheritance for concept relationships. Inheritance couples types tightly; composition/aggregation keep flexibility.
-
-## Sequence Diagrams
-
-**DO NOT** generate sequence diagrams. Object flow and walkthrough strategies (object-to-object interactions) are in scope; formal sequence diagrams are not.
-
-
----
-
----
-title: Domain Model — Interaction Patterns
-impact: HIGH
----
-
-## Interaction Patterns
-
-**DO** recognize and use interaction patterns when describing Trigger → Response:
-
-| Pattern | Description | Interaction Tree mapping |
-|---------|-------------|--------------------------|
-| **Producer-Consumer** | One-way; producer sends; consumer reacts | Trigger from one actor; Response from another; no return flow |
-| **Client-Server** | Two-way; client requests; server responds | Trigger (request) → Response (reply); may chain to further interactions |
-| **Coordinator** | One object orchestrates several others | Epic or Story where one concept delegates to multiple collaborators |
-
-
----
-
----
-title: Domain Model — Parts Manage Their Own State
-impact: HIGH
----
-
-## Parts Manage Their Own State
-
-**DO** let each concept manage its own properties through its own invariants. A container holds references to its parts (composition/aggregation) but does not orchestrate their configuration. Each part knows its own rules.
-
-- Example (right): Order has `Dictionary line_items` (composition). LineItem has `Number quantity` with invariant `subtotal = quantity × unit_price`. OrderTotal has `validate_threshold(min) → Boolean`. Each concept owns its rules — Order just holds references.
-
-**DO NOT** put `configure_X()`, `set_X()`, or orchestration methods on the container that delegate to owned objects. If LineItem knows how to compute its subtotal from quantity and price, that's LineItem's concern.
-
-- Example (wrong): Order has `configure_line_item(sku, qty) → LineItem`, `configure_payment(method, amount) → Payment`, `validate_order_total() → Boolean`. Order is orchestrating what each part should do instead of letting parts manage themselves.
-
-**Related rules:** [domain-ooa-traverse-from-root](domain-ooa-traverse-from-root.md) — traverse from root; source owns creation. [domain-ooa-model-instances-not-smashed](domain-ooa-model-instances-not-smashed.md) — model instances, not smashed properties.
-
-
----
-
----
-title: Domain Model — Single Source of Truth
-impact: HIGH
----
-
-## No Duplicate Primitive and Relationship for Same Value
-
-**DO** when a concept has its own class with behavior (operations, invariants), reference it through a relationship only. The owning class accesses the value through the relationship. One source of truth.
-
-- Example (right): Order has aggregation to OrderTotal. Order gets the total value through its OrderTotal reference. No redundant `Number total` property on Order.
-
-**DO NOT** have both a primitive property AND a relationship to a class that holds the same value. Two sources of truth create inconsistency.
-
-- Example (wrong): Order has `Number total` property AND an aggregation to OrderTotal class (which has `Number amount`). Two places to get the same value — which is authoritative?
+**DO NOT** truncate. Full Model Assessment requires multiple scenario walkthroughs with message flow (happy path, error path, edge case, stateful repetition, alternate variation, recovery where relevant). Persist the full assessment in run-N-ooad.md. A one-line note is insufficient.
 
 
 ---
 
 
 
-## Interaction Tree Rules (7)
+## Interaction Tree Rules (6)
 
 Apply these rules when producing the interaction tree output for this phase.
 
@@ -617,49 +415,52 @@ Stories must be testable as complete interactions and deliverable independently.
 ---
 
 ---
-title: Supporting actor and Response
-impact: MEDIUM-HIGH
----
-
-## Supporting actor and Response
-
-**DO** treat Supporting as the system (or subsystem) that responds — use Actor → System exchange; keep Epic-level (and Sub-epic) Response coarse-grained — what is true after the actor triggers at that level.
-- Example (right): "System saves campaign PL"; "System persists budget"; Epic "Build a Character" → Response "System creates valid Character for Campaign".
-
-**DO NOT** frame Supporting as a human or use human-to-human exchange; do not use story-level or sub-epic-level detail in Epic-level or Sub-epic Response.
-- Example (wrong): "GM sets and communicates"; "Player tells GM"; Epic "Build a Character" → Response "System applies cost formula; deducts PP; validates traits" (that belongs in stories). Right: Epic Response "System creates valid Character for Campaign".
-
-
----
-
----
-title: Interactions inheritance — Resulting-State
+title: Example tables match Domain Model
 impact: HIGH
 ---
 
-## Resulting-State inheritance
+## Example tables must align with Domain Model
 
-**DO** apply the same inheritance rules to Resulting-State as Pre-Condition — shared on parent, child-specific on child. At Epic/Sub-epic level, express as a single, high-level outcome; use outcome language only (what is true afterward). Resulting-State is the state that results from the interaction (see `core.md`).
-- Example (right): Parent: "Cart populated"; Child: "Shopping Cart: empty → has-items". Epic: "Character is built and valid within campaign PL and PP limits"; "validation result recorded".
+**DO** ensure every example table corresponds to a domain concept in the Domain Model. Table columns must match the concept's properties. Table relationships must match the Domain Model's concept relationships (composition, aggregation). Every `**Concept**` referenced in Pre-Condition, Trigger, or Response labels must have a corresponding example table (or inherit one). Every example table must be referenced via `**Concept**` in labels — no orphaned tables.
+- Example (right): Domain Model has `Country` with properties `country_code`, `country_name`. Example table: `Selected Country: | scenario | country_code | country_name |`. Domain Model has `User` → `Session` (composition). Tables appear in order: `Logged In User`, then `Active User Session` — relationship expressed through table ordering.
 
-**DO NOT** duplicate Resulting-State across levels or use action language in Resulting-State. Do not use intermediate steps, granular outcomes, or behavior/action language in Epic/Sub-epic Resulting-State.
-- Example (wrong): "System validates" or "System records"; Epic "Build a Character" → "Character has PP budget allocated"; "Character is fully built; Character has all traits; Character validated against PL". Right: "validation result recorded"; Epic "Character is built and valid within campaign PL and PP limits".
+**DO** use source entity data in tables, not aggregated or calculated values. Show the actual records that produce the outcome. If a scenario computes a result, the table shows the inputs, not the output count.
+- Example (right): `UpdateReport (renames): | original_name | new_name | parent |` — shows actual renamed entities.
+- Example (wrong): `UpdateReport: | renames_count | new_count | | 1 | 2 |` — counts defer real work; where do these numbers come from?
+
+**DO** express table relationships through table ordering and qualifier names — not through ID columns. IDs are implementation concerns. Domain Model says `Epic` contains `SubEpic`; tables appear in that order: `Epic` first, then `SubEpic (child of Epic)`.
+- Example (right): `User: | user_name | user_role |` then `Session: | user_name | session_id | expires_at |` — connected by domain attribute, not by `user_id` foreign key.
+
+**DO NOT** have `**Concept**` in labels without a matching example table. Do not have example tables that no label references. Do not invent column names not in the Domain Model — use the concept's actual property names.
+- Example (wrong): Steps reference `**PaymentType**` but no PaymentType example table exists. Or: `Entitlement` table exists but no step mentions `**Entitlement**`.
+- Example (wrong): Domain has `recipient_name` but table uses `payee` or `beneficiary_label`.
+
+**DO NOT** flatten related concepts into one table or use lookup-style tables with ID columns for joining. Each concept gets its own table; relationships are expressed through ordering and qualifiers.
+- Example (wrong): `| enterprise_id | recipient_id | account_id |` — flat table loses relationship structure. Right: separate tables for Enterprise, Recipient, Account in domain relationship order.
 
 
 ---
 
 ---
-title: Interactions inheritance — Triggering-State
-impact: MEDIUM-HIGH
+title: Scaffold pattern not enumeration
+impact: HIGH
 ---
 
-## Triggering-State inheritance
+## Scaffold pattern not enumeration
 
-**DO** place Triggering-State at the level where it applies to all descendants. Epic holds trigger state for rules that apply to all children (e.g. user access to payment types by country). Epics (including epic children of epics) group; they do not add trigger/response state. Stories inherit Pre-Condition, Triggering-Actor, and Responding-Actor from Epic. Triggering-State qualifies the interaction (e.g. selecting an option of a certain type). See `core.md`.
-- Example (right): Epic "Make Checks": Triggering-State: User has access to Check, Modifier, DifficultyClass. Story: inherits; adds only when story-specific.
+The first cut of `interaction-tree.md` and `domain-model.md` establishes the pattern for each epic. Later phases expand and refine. If the first cut enumerates everything, later phases have nothing to do.
 
-**DO NOT** put Triggering-State at a level if it applies only to specific scenarios or stories — place it on those nodes. Do not put concepts on individual stories when they apply to multiple — promote to parent.
-- Example (wrong): Epic "Make Checks" has no Triggering-State but each story has different access rules — promote shared rules to Epic. Right: Epic has rules that apply to all children.
+**DO** detail 2-3 representative stories per epic/sub-epic with full fields (Trigger, Response, Pre-Condition, domain concepts). List remaining stories by name only with "N more stories following this pattern based on [specific items]."
+- Example (right): Two stories under a sub-epic shown in full with Trigger/Response and domain concepts; then "4 more stories following this pattern: [Story A], [Story B], [Story C], [Story D]."
+
+**DO** have the session scaffold reference the output files and list every story by name with exact counts. Mark which stories have full trigger/response detail *(detailed)* and which are listed by name only. Use "N detailed + N more = total" counts per sub-epic that sum to the epic total.
+- Example (right): Session scaffold says "See `interaction-tree.md` for full trigger/response detail on stories marked *(detailed)*." then lists: "Configure **Abilities** (2 stories): Set **AbilityRank** *(detailed)*, Validate **AbilityRank** *(detailed)*". Epic total: "16 sub-epics, 66 stories".
+- Example (right): "Configure **Damage** Powers [MG1] (1 detailed + 4 more = 5 stories): Configure **Damage** *(detailed)*, 4 more following this pattern: Configure **Blast**, Configure **MentalBlast**, Configure **EnergyAura**, Configure **Strike**"
+- Example (wrong): "Configure **Damage** Powers | 5 | DamageEffect, ResistanceCheck" — a table row with a count and concept names but no story names, no *(detailed)* markers, no reference to where the full content lives.
+- Example (wrong): "~55 stories" when the actual count is 66 — approximate counts lose trust and make it impossible to verify completeness.
+
+**DO NOT** enumerate every story with full detail in the first cut. The first cut is not the finished map — it is the pattern that runs expand.
+- Example (wrong): All 6 stories in a sub-epic shown with full Trigger, Response, Pre-Condition, and domain concepts in the first-cut interaction-tree.md. Runs then have nothing to add for that sub-epic.
 
 
 ---

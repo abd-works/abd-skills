@@ -1,0 +1,1202 @@
+[
+  {
+    "term_id": "term_0000",
+    "name": "You",
+    "count": 936,
+    "weighted_score": 936.0
+  },
+  {
+    "term_id": "term_0001",
+    "name": "The",
+    "count": 617,
+    "weighted_score": 617.0
+  },
+  {
+    "term_id": "term_0002",
+    "name": "CHAPTER",
+    "count": 519,
+    "weighted_score": 531.0
+  },
+  {
+    "term_id": "term_0003",
+    "name": "Damage",
+    "count": 345,
+    "weighted_score": 345.0
+  },
+  {
+    "term_id": "term_0004",
+    "name": "This",
+    "count": 288,
+    "weighted_score": 288.0
+  },
+  {
+    "term_id": "term_0005",
+    "name": "Strength",
+    "count": 230,
+    "weighted_score": 230.0
+  },
+  {
+    "term_id": "term_0006",
+    "name": "Perception",
+    "count": 210,
+    "weighted_score": 210.0
+  },
+  {
+    "term_id": "term_0007",
+    "name": "Expertise",
+    "count": 205,
+    "weighted_score": 205.0
+  },
+  {
+    "term_id": "term_0008",
+    "name": "Dodge",
+    "count": 199,
+    "weighted_score": 199.0
+  },
+  {
+    "term_id": "term_0009",
+    "name": "POWERS",
+    "count": 196,
+    "weighted_score": 196.0
+  },
+  {
+    "term_id": "term_0010",
+    "name": "Powers",
+    "count": 195,
+    "weighted_score": 195.0
+  },
+  {
+    "term_id": "term_0011",
+    "name": "For",
+    "count": 193,
+    "weighted_score": 193.0
+  },
+  {
+    "term_id": "term_0012",
+    "name": "Toughness",
+    "count": 185,
+    "weighted_score": 185.0
+  },
+  {
+    "term_id": "term_0013",
+    "name": "Will",
+    "count": 168,
+    "weighted_score": 168.0
+  },
+  {
+    "term_id": "term_0014",
+    "name": "SECRET ORIGINS",
+    "count": 166,
+    "weighted_score": 166.0
+  },
+  {
+    "term_id": "term_0015",
+    "name": "Fortitude",
+    "count": 165,
+    "weighted_score": 165.0
+  },
+  {
+    "term_id": "term_0016",
+    "name": "Advantages",
+    "count": 150,
+    "weighted_score": 150.0
+  },
+  {
+    "term_id": "term_0017",
+    "name": "Skills",
+    "count": 141,
+    "weighted_score": 141.0
+  },
+  {
+    "term_id": "term_0018",
+    "name": "Roll",
+    "count": 140,
+    "weighted_score": 140.0
+  },
+  {
+    "term_id": "term_0019",
+    "name": "Immunity",
+    "count": 132,
+    "weighted_score": 132.0
+  },
+  {
+    "term_id": "term_0020",
+    "name": "Limited",
+    "count": 129,
+    "weighted_score": 129.0
+  },
+  {
+    "term_id": "term_0021",
+    "name": "Deception",
+    "count": 121,
+    "weighted_score": 121.0
+  },
+  {
+    "term_id": "term_0022",
+    "name": "Resisted",
+    "count": 120,
+    "weighted_score": 120.0
+  },
+  {
+    "term_id": "term_0023",
+    "name": "They",
+    "count": 117,
+    "weighted_score": 117.0
+  },
+  {
+    "term_id": "term_0024",
+    "name": "Ranged",
+    "count": 116,
+    "weighted_score": 116.0
+  },
+  {
+    "term_id": "term_0025",
+    "name": "Parry",
+    "count": 114,
+    "weighted_score": 114.0
+  },
+  {
+    "term_id": "term_0026",
+    "name": "Abilities",
+    "count": 113,
+    "weighted_score": 113.0
+  },
+  {
+    "term_id": "term_0027",
+    "name": "Action",
+    "count": 113,
+    "weighted_score": 113.0
+  },
+  {
+    "term_id": "term_0028",
+    "name": "Insight",
+    "count": 110,
+    "weighted_score": 110.0
+  },
+  {
+    "term_id": "term_0029",
+    "name": "When",
+    "count": 110,
+    "weighted_score": 110.0
+  },
+  {
+    "term_id": "term_0030",
+    "name": "Gamemaster",
+    "count": 108,
+    "weighted_score": 108.0
+  },
+  {
+    "term_id": "term_0031",
+    "name": "Athletics",
+    "count": 106,
+    "weighted_score": 106.0
+  },
+  {
+    "term_id": "term_0032",
+    "name": "Close",
+    "count": 106,
+    "weighted_score": 106.0
+  },
+  {
+    "term_id": "term_0033",
+    "name": "Your",
+    "count": 105,
+    "weighted_score": 105.0
+  },
+  {
+    "term_id": "term_0034",
+    "name": "MPH",
+    "count": 100,
+    "weighted_score": 100.0
+  },
+  {
+    "term_id": "term_0035",
+    "name": "SKILLS",
+    "count": 98,
+    "weighted_score": 98.0
+  },
+  {
+    "term_id": "term_0036",
+    "name": "Senses",
+    "count": 98,
+    "weighted_score": 98.0
+  },
+  {
+    "term_id": "term_0037",
+    "name": "Attack",
+    "count": 96,
+    "weighted_score": 96.0
+  },
+  {
+    "term_id": "term_0038",
+    "name": "Unarmed",
+    "count": 96,
+    "weighted_score": 96.0
+  },
+  {
+    "term_id": "term_0039",
+    "name": "Affliction",
+    "count": 94,
+    "weighted_score": 94.0
+  },
+  {
+    "term_id": "term_0040",
+    "name": "Technology",
+    "count": 93,
+    "weighted_score": 93.0
+  },
+  {
+    "term_id": "term_0041",
+    "name": "Overcome",
+    "count": 92,
+    "weighted_score": 92.0
+  },
+  {
+    "term_id": "term_0042",
+    "name": "Some",
+    "count": 91,
+    "weighted_score": 91.0
+  },
+  {
+    "term_id": "term_0043",
+    "name": "Stealth",
+    "count": 90,
+    "weighted_score": 90.0
+  },
+  {
+    "term_id": "term_0044",
+    "name": "Sustained",
+    "count": 90,
+    "weighted_score": 90.0
+  },
+  {
+    "term_id": "term_0045",
+    "name": "Movement",
+    "count": 90,
+    "weighted_score": 90.0
+  },
+  {
+    "term_id": "term_0046",
+    "name": "Removable",
+    "count": 88,
+    "weighted_score": 88.0
+  },
+  {
+    "term_id": "term_0047",
+    "name": "Flight",
+    "count": 88,
+    "weighted_score": 88.0
+  },
+  {
+    "term_id": "term_0048",
+    "name": "Equipment",
+    "count": 86,
+    "weighted_score": 86.0
+  },
+  {
+    "term_id": "term_0049",
+    "name": "Set",
+    "count": 86,
+    "weighted_score": 86.0
+  },
+  {
+    "term_id": "term_0050",
+    "name": "MASTERMINDS",
+    "count": 85,
+    "weighted_score": 85.0
+  },
+  {
+    "term_id": "term_0051",
+    "name": "Intimidation",
+    "count": 83,
+    "weighted_score": 83.0
+  },
+  {
+    "term_id": "term_0052",
+    "name": "MUTANTS",
+    "count": 83,
+    "weighted_score": 83.0
+  },
+  {
+    "term_id": "term_0053",
+    "name": "Each",
+    "count": 82,
+    "weighted_score": 82.0
+  },
+  {
+    "term_id": "term_0054",
+    "name": "Ranged Damage",
+    "count": 81,
+    "weighted_score": 81.0
+  },
+  {
+    "term_id": "term_0055",
+    "name": "Acrobatics",
+    "count": 80,
+    "weighted_score": 80.0
+  },
+  {
+    "term_id": "term_0056",
+    "name": "Defenses",
+    "count": 79,
+    "weighted_score": 79.0
+  },
+  {
+    "term_id": "term_0057",
+    "name": "Protection",
+    "count": 78,
+    "weighted_score": 78.0
+  },
+  {
+    "term_id": "term_0058",
+    "name": "STRENGTH",
+    "count": 77,
+    "weighted_score": 77.0
+  },
+  {
+    "term_id": "term_0059",
+    "name": "PRESENCE",
+    "count": 75,
+    "weighted_score": 75.0
+  },
+  {
+    "term_id": "term_0060",
+    "name": "AWARENESS",
+    "count": 74,
+    "weighted_score": 74.0
+  },
+  {
+    "term_id": "term_0061",
+    "name": "STAMINA",
+    "count": 73,
+    "weighted_score": 73.0
+  },
+  {
+    "term_id": "term_0062",
+    "name": "AGILITY",
+    "count": 73,
+    "weighted_score": 73.0
+  },
+  {
+    "term_id": "term_0063",
+    "name": "DEXTERITY",
+    "count": 73,
+    "weighted_score": 73.0
+  },
+  {
+    "term_id": "term_0064",
+    "name": "FIGHTING",
+    "count": 73,
+    "weighted_score": 73.0
+  },
+  {
+    "term_id": "term_0065",
+    "name": "INTELLECT",
+    "count": 73,
+    "weighted_score": 73.0
+  },
+  {
+    "term_id": "term_0066",
+    "name": "Speed",
+    "count": 73,
+    "weighted_score": 73.0
+  },
+  {
+    "term_id": "term_0067",
+    "name": "Defense",
+    "count": 73,
+    "weighted_score": 73.0
+  },
+  {
+    "term_id": "term_0068",
+    "name": "Motivation",
+    "count": 71,
+    "weighted_score": 71.0
+  },
+  {
+    "term_id": "term_0069",
+    "name": "Stamina",
+    "count": 69,
+    "weighted_score": 69.0
+  },
+  {
+    "term_id": "term_0070",
+    "name": "The GM",
+    "count": 69,
+    "weighted_score": 69.0
+  },
+  {
+    "term_id": "term_0071",
+    "name": "Accurate",
+    "count": 64,
+    "weighted_score": 64.0
+  },
+  {
+    "term_id": "term_0072",
+    "name": "Insubstantial",
+    "count": 64,
+    "weighted_score": 64.0
+  },
+  {
+    "term_id": "term_0073",
+    "name": "STA",
+    "count": 62,
+    "weighted_score": 62.0
+  },
+  {
+    "term_id": "term_0074",
+    "name": "Concealment",
+    "count": 61,
+    "weighted_score": 61.0
+  },
+  {
+    "term_id": "term_0075",
+    "name": "Effect",
+    "count": 60,
+    "weighted_score": 60.0
+  },
+  {
+    "term_id": "term_0076",
+    "name": "All",
+    "count": 59,
+    "weighted_score": 59.0
+  },
+  {
+    "term_id": "term_0077",
+    "name": "Personal",
+    "count": 59,
+    "weighted_score": 59.0
+  },
+  {
+    "term_id": "term_0078",
+    "name": "Persuasion",
+    "count": 57,
+    "weighted_score": 57.0
+  },
+  {
+    "term_id": "term_0079",
+    "name": "FGT",
+    "count": 57,
+    "weighted_score": 57.0
+  },
+  {
+    "term_id": "term_0080",
+    "name": "ABILITIES",
+    "count": 56,
+    "weighted_score": 56.0
+  },
+  {
+    "term_id": "term_0081",
+    "name": "Alternate Effects",
+    "count": 56,
+    "weighted_score": 56.0
+  },
+  {
+    "term_id": "term_0082",
+    "name": "Marmo",
+    "count": 56,
+    "weighted_score": 56.0
+  },
+  {
+    "term_id": "term_0083",
+    "name": "STR",
+    "count": 54,
+    "weighted_score": 54.0
+  },
+  {
+    "term_id": "term_0084",
+    "name": "With",
+    "count": 54,
+    "weighted_score": 54.0
+  },
+  {
+    "term_id": "term_0085",
+    "name": "Choose One",
+    "count": 53,
+    "weighted_score": 53.0
+  },
+  {
+    "term_id": "term_0086",
+    "name": "Cost",
+    "count": 53,
+    "weighted_score": 53.0
+  },
+  {
+    "term_id": "term_0087",
+    "name": "AGL",
+    "count": 53,
+    "weighted_score": 53.0
+  },
+  {
+    "term_id": "term_0088",
+    "name": "DEX",
+    "count": 53,
+    "weighted_score": 53.0
+  },
+  {
+    "term_id": "term_0089",
+    "name": "INT",
+    "count": 53,
+    "weighted_score": 53.0
+  },
+  {
+    "term_id": "term_0090",
+    "name": "AWE",
+    "count": 53,
+    "weighted_score": 53.0
+  },
+  {
+    "term_id": "term_0091",
+    "name": "PRE",
+    "count": 53,
+    "weighted_score": 53.0
+  },
+  {
+    "term_id": "term_0092",
+    "name": "Offense",
+    "count": 53,
+    "weighted_score": 53.0
+  },
+  {
+    "term_id": "term_0093",
+    "name": "Variable",
+    "count": 52,
+    "weighted_score": 52.0
+  },
+  {
+    "term_id": "term_0094",
+    "name": "See",
+    "count": 52,
+    "weighted_score": 52.0
+  },
+  {
+    "term_id": "term_0095",
+    "name": "Heroes",
+    "count": 52,
+    "weighted_score": 52.0
+  },
+  {
+    "term_id": "term_0096",
+    "name": "Avison",
+    "count": 52,
+    "weighted_score": 52.0
+  },
+  {
+    "term_id": "term_0097",
+    "name": "GADGETS",
+    "count": 51,
+    "weighted_score": 51.0
+  },
+  {
+    "term_id": "term_0098",
+    "name": "GEAR",
+    "count": 51,
+    "weighted_score": 51.0
+  },
+  {
+    "term_id": "term_0099",
+    "name": "Range",
+    "count": 51,
+    "weighted_score": 51.0
+  },
+  {
+    "term_id": "term_0100",
+    "name": "Princess",
+    "count": 51,
+    "weighted_score": 51.0
+  },
+  {
+    "term_id": "term_0101",
+    "name": "Penetrating",
+    "count": 50,
+    "weighted_score": 50.0
+  },
+  {
+    "term_id": "term_0102",
+    "name": "Totals",
+    "count": 49,
+    "weighted_score": 49.0
+  },
+  {
+    "term_id": "term_0103",
+    "name": "Leaping",
+    "count": 48,
+    "weighted_score": 48.0
+  },
+  {
+    "term_id": "term_0104",
+    "name": "TOUGHNESS",
+    "count": 47,
+    "weighted_score": 47.0
+  },
+  {
+    "term_id": "term_0105",
+    "name": "Duration",
+    "count": 46,
+    "weighted_score": 46.0
+  },
+  {
+    "term_id": "term_0106",
+    "name": "ACTION",
+    "count": 46,
+    "weighted_score": 46.0
+  },
+  {
+    "term_id": "term_0107",
+    "name": "Free",
+    "count": 46,
+    "weighted_score": 46.0
+  },
+  {
+    "term_id": "term_0108",
+    "name": "Sanguine",
+    "count": 46,
+    "weighted_score": 46.0
+  },
+  {
+    "term_id": "term_0109",
+    "name": "Investigation",
+    "count": 45,
+    "weighted_score": 45.0
+  },
+  {
+    "term_id": "term_0110",
+    "name": "Regeneration",
+    "count": 45,
+    "weighted_score": 45.0
+  },
+  {
+    "term_id": "term_0111",
+    "name": "One",
+    "count": 45,
+    "weighted_score": 45.0
+  },
+  {
+    "term_id": "term_0112",
+    "name": "Subtle",
+    "count": 45,
+    "weighted_score": 45.0
+  },
+  {
+    "term_id": "term_0113",
+    "name": "Permanent",
+    "count": 44,
+    "weighted_score": 44.0
+  },
+  {
+    "term_id": "term_0114",
+    "name": "Vehicles",
+    "count": 44,
+    "weighted_score": 44.0
+  },
+  {
+    "term_id": "term_0115",
+    "name": "Move",
+    "count": 43,
+    "weighted_score": 43.0
+  },
+  {
+    "term_id": "term_0116",
+    "name": "Take",
+    "count": 43,
+    "weighted_score": 43.0
+  },
+  {
+    "term_id": "term_0117",
+    "name": "That",
+    "count": 43,
+    "weighted_score": 43.0
+  },
+  {
+    "term_id": "term_0118",
+    "name": "Standard",
+    "count": 43,
+    "weighted_score": 43.0
+  },
+  {
+    "term_id": "term_0119",
+    "name": "Agility",
+    "count": 43,
+    "weighted_score": 43.0
+  },
+  {
+    "term_id": "term_0120",
+    "name": "Simian",
+    "count": 43,
+    "weighted_score": 43.0
+  },
+  {
+    "term_id": "term_0121",
+    "name": "Power Attack",
+    "count": 42,
+    "weighted_score": 42.0
+  },
+  {
+    "term_id": "term_0122",
+    "name": "Choose",
+    "count": 42,
+    "weighted_score": 42.0
+  },
+  {
+    "term_id": "term_0123",
+    "name": "Hand",
+    "count": 42,
+    "weighted_score": 42.0
+  },
+  {
+    "term_id": "term_0124",
+    "name": "DODGE",
+    "count": 41,
+    "weighted_score": 41.0
+  },
+  {
+    "term_id": "term_0125",
+    "name": "PARRY",
+    "count": 41,
+    "weighted_score": 41.0
+  },
+  {
+    "term_id": "term_0126",
+    "name": "FORTITUDE",
+    "count": 41,
+    "weighted_score": 41.0
+  },
+  {
+    "term_id": "term_0127",
+    "name": "WILL",
+    "count": 41,
+    "weighted_score": 41.0
+  },
+  {
+    "term_id": "term_0128",
+    "name": "COMBAT",
+    "count": 41,
+    "weighted_score": 41.0
+  },
+  {
+    "term_id": "term_0129",
+    "name": "Stunned",
+    "count": 41,
+    "weighted_score": 41.0
+  },
+  {
+    "term_id": "term_0130",
+    "name": "Super",
+    "count": 41,
+    "weighted_score": 41.0
+  },
+  {
+    "term_id": "term_0131",
+    "name": "DEFENSE",
+    "count": 41,
+    "weighted_score": 41.0
+  },
+  {
+    "term_id": "term_0132",
+    "name": "Awareness",
+    "count": 41,
+    "weighted_score": 41.0
+  },
+  {
+    "term_id": "term_0133",
+    "name": "Vulnerable",
+    "count": 40,
+    "weighted_score": 40.0
+  },
+  {
+    "term_id": "term_0134",
+    "name": "Flat",
+    "count": 40,
+    "weighted_score": 40.0
+  },
+  {
+    "term_id": "term_0135",
+    "name": "Luck",
+    "count": 39,
+    "weighted_score": 39.0
+  },
+  {
+    "term_id": "term_0136",
+    "name": "Magic",
+    "count": 39,
+    "weighted_score": 39.0
+  },
+  {
+    "term_id": "term_0137",
+    "name": "Dazed",
+    "count": 39,
+    "weighted_score": 39.0
+  },
+  {
+    "term_id": "term_0138",
+    "name": "Complications",
+    "count": 39,
+    "weighted_score": 39.0
+  },
+  {
+    "term_id": "term_0139",
+    "name": "Characters",
+    "count": 39,
+    "weighted_score": 39.0
+  },
+  {
+    "term_id": "term_0140",
+    "name": "GAMEMASTERING",
+    "count": 39,
+    "weighted_score": 39.0
+  },
+  {
+    "term_id": "term_0141",
+    "name": "Once",
+    "count": 39,
+    "weighted_score": 39.0
+  },
+  {
+    "term_id": "term_0142",
+    "name": "Earth",
+    "count": 39,
+    "weighted_score": 39.0
+  },
+  {
+    "term_id": "term_0143",
+    "name": "Weaken",
+    "count": 38,
+    "weighted_score": 38.0
+  },
+  {
+    "term_id": "term_0144",
+    "name": "Impervious",
+    "count": 38,
+    "weighted_score": 38.0
+  },
+  {
+    "term_id": "term_0145",
+    "name": "There",
+    "count": 38,
+    "weighted_score": 38.0
+  },
+  {
+    "term_id": "term_0146",
+    "name": "Intellect",
+    "count": 38,
+    "weighted_score": 38.0
+  },
+  {
+    "term_id": "term_0147",
+    "name": "Hekawi",
+    "count": 38,
+    "weighted_score": 38.0
+  },
+  {
+    "term_id": "term_0148",
+    "name": "Guild",
+    "count": 38,
+    "weighted_score": 38.0
+  },
+  {
+    "term_id": "term_0149",
+    "name": "Summon",
+    "count": 37,
+    "weighted_score": 37.0
+  },
+  {
+    "term_id": "term_0150",
+    "name": "Power",
+    "count": 37,
+    "weighted_score": 37.0
+  },
+  {
+    "term_id": "term_0151",
+    "name": "Defensive Roll",
+    "count": 37,
+    "weighted_score": 37.0
+  },
+  {
+    "term_id": "term_0152",
+    "name": "Healing",
+    "count": 37,
+    "weighted_score": 37.0
+  },
+  {
+    "term_id": "term_0153",
+    "name": "Emerald City",
+    "count": 37,
+    "weighted_score": 37.0
+  },
+  {
+    "term_id": "term_0154",
+    "name": "Sleight",
+    "count": 37,
+    "weighted_score": 37.0
+  },
+  {
+    "term_id": "term_0155",
+    "name": "Alternate Effect",
+    "count": 36,
+    "weighted_score": 36.0
+  },
+  {
+    "term_id": "term_0156",
+    "name": "Enhanced Strength",
+    "count": 36,
+    "weighted_score": 36.0
+  },
+  {
+    "term_id": "term_0157",
+    "name": "Ranged Combat",
+    "count": 36,
+    "weighted_score": 36.0
+  },
+  {
+    "term_id": "term_0158",
+    "name": "Initiative",
+    "count": 36,
+    "weighted_score": 36.0
+  },
+  {
+    "term_id": "term_0159",
+    "name": "Defenseless",
+    "count": 35,
+    "weighted_score": 35.0
+  },
+  {
+    "term_id": "term_0160",
+    "name": "ADVENTURE",
+    "count": 35,
+    "weighted_score": 35.0
+  },
+  {
+    "term_id": "term_0161",
+    "name": "Benefit",
+    "count": 34,
+    "weighted_score": 34.0
+  },
+  {
+    "term_id": "term_0162",
+    "name": "Close Combat",
+    "count": 34,
+    "weighted_score": 34.0
+  },
+  {
+    "term_id": "term_0163",
+    "name": "Instant",
+    "count": 34,
+    "weighted_score": 34.0
+  },
+  {
+    "term_id": "term_0164",
+    "name": "Teleport",
+    "count": 34,
+    "weighted_score": 34.0
+  },
+  {
+    "term_id": "term_0165",
+    "name": "Array",
+    "count": 34,
+    "weighted_score": 34.0
+  },
+  {
+    "term_id": "term_0166",
+    "name": "Improved Initiative",
+    "count": 33,
+    "weighted_score": 33.0
+  },
+  {
+    "term_id": "term_0167",
+    "name": "Linked",
+    "count": 33,
+    "weighted_score": 33.0
+  },
+  {
+    "term_id": "term_0168",
+    "name": "These",
+    "count": 33,
+    "weighted_score": 33.0
+  },
+  {
+    "term_id": "term_0169",
+    "name": "Feature",
+    "count": 33,
+    "weighted_score": 33.0
+  },
+  {
+    "term_id": "term_0170",
+    "name": "Make",
+    "count": 33,
+    "weighted_score": 33.0
+  },
+  {
+    "term_id": "term_0171",
+    "name": "Incapacitated",
+    "count": 33,
+    "weighted_score": 33.0
+  },
+  {
+    "term_id": "term_0172",
+    "name": "Features",
+    "count": 33,
+    "weighted_score": 33.0
+  },
+  {
+    "term_id": "term_0173",
+    "name": "Gamemasters",
+    "count": 33,
+    "weighted_score": 33.0
+  },
+  {
+    "term_id": "term_0174",
+    "name": "ADVANTAGES",
+    "count": 32,
+    "weighted_score": 32.0
+  },
+  {
+    "term_id": "term_0175",
+    "name": "Communication",
+    "count": 32,
+    "weighted_score": 32.0
+  },
+  {
+    "term_id": "term_0176",
+    "name": "Fire",
+    "count": 32,
+    "weighted_score": 32.0
+  },
+  {
+    "term_id": "term_0177",
+    "name": "Vision",
+    "count": 32,
+    "weighted_score": 32.0
+  },
+  {
+    "term_id": "term_0178",
+    "name": "Lord Sanguine",
+    "count": 32,
+    "weighted_score": 32.0
+  },
+  {
+    "term_id": "term_0179",
+    "name": "Evasion",
+    "count": 31,
+    "weighted_score": 31.0
+  },
+  {
+    "term_id": "term_0180",
+    "name": "While",
+    "count": 31,
+    "weighted_score": 31.0
+  },
+  {
+    "term_id": "term_0181",
+    "name": "Effects",
+    "count": 31,
+    "weighted_score": 31.0
+  },
+  {
+    "term_id": "term_0182",
+    "name": "FLAWS",
+    "count": 31,
+    "weighted_score": 31.0
+  },
+  {
+    "term_id": "term_0183",
+    "name": "EXTRAS",
+    "count": 31,
+    "weighted_score": 31.0
+  },
+  {
+    "term_id": "term_0184",
+    "name": "Area",
+    "count": 31,
+    "weighted_score": 31.0
+  },
+  {
+    "term_id": "term_0185",
+    "name": "Selective",
+    "count": 31,
+    "weighted_score": 31.0
+  },
+  {
+    "term_id": "term_0186",
+    "name": "Skill Mastery",
+    "count": 31,
+    "weighted_score": 31.0
+  },
+  {
+    "term_id": "term_0187",
+    "name": "Growth",
+    "count": 31,
+    "weighted_score": 31.0
+  },
+  {
+    "term_id": "term_0188",
+    "name": "Wolfen",
+    "count": 31,
+    "weighted_score": 31.0
+  },
+  {
+    "term_id": "term_0189",
+    "name": "DEFENSES",
+    "count": 30,
+    "weighted_score": 30.0
+  },
+  {
+    "term_id": "term_0190",
+    "name": "Size",
+    "count": 30,
+    "weighted_score": 30.0
+  },
+  {
+    "term_id": "term_0191",
+    "name": "However",
+    "count": 30,
+    "weighted_score": 30.0
+  },
+  {
+    "term_id": "term_0192",
+    "name": "Failure",
+    "count": 30,
+    "weighted_score": 30.0
+  },
+  {
+    "term_id": "term_0193",
+    "name": "Hindered",
+    "count": 30,
+    "weighted_score": 30.0
+  },
+  {
+    "term_id": "term_0194",
+    "name": "Create",
+    "count": 30,
+    "weighted_score": 30.0
+  },
+  {
+    "term_id": "term_0195",
+    "name": "Precise",
+    "count": 30,
+    "weighted_score": 30.0
+  },
+  {
+    "term_id": "term_0196",
+    "name": "COST PER RANK",
+    "count": 30,
+    "weighted_score": 30.0
+  },
+  {
+    "term_id": "term_0197",
+    "name": "FLAT",
+    "count": 30,
+    "weighted_score": 30.0
+  },
+  {
+    "term_id": "term_0198",
+    "name": "Init",
+    "count": 30,
+    "weighted_score": 30.0
+  },
+  {
+    "term_id": "term_0199",
+    "name": "Dexterity",
+    "count": 30,
+    "weighted_score": 30.0
+  }
+]
