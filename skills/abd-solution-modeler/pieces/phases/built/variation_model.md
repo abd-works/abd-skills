@@ -67,13 +67,13 @@ variation model, inheritance, strategy, variation paths
 
 ## Inputs
 
-`modifiers.json`, `terms.json`, `decisions.json`, `interaction_tree.md`
+`terms.json`, `decisions.json`, `interaction_tree.md`
 
 ## Instructions
 
 - **Build inheritance hierarchies from `terms.json`** — scan for subtype candidates (e.g. named Effect subtypes, Check subtypes) rather than relying on background knowledge
 - **Build variation paths from `decisions.json`** — conditional branches are in the extracted decisions
-- Model Extras/Flaws from `modifiers.json`
+- **Subtype vs type-field:** Prefer type fields when variants share the same flow and differ only by value (e.g. color, size). Use subtypes only when variants have distinct data or behavior. See `variation-axes-from-rules-not-toc.md`.
 
 ## Outputs
 

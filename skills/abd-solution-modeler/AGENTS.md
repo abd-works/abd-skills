@@ -28,7 +28,7 @@ Pipeline: Context → Model → Validate. `pipeline.py` orchestrates all phases.
 **Workspace layout** (relative to `output_dir`):
 
 - `context/` — context_chunks.json
-- `evidence/` — terms.json, actions.json, decisions.json, states.json, relationships.json, modifiers.json, evidence_graph.json
+- `evidence/` — terms.json, actions.json, decisions.json, states.json, relationships.json, evidence_graph.json *(modifiers.json deprecated — removed)*
 - `generated/domain/` — concept_guidance.md, concept_guidance.json, concept_model.md, structural_model.md, behavior_model.md, variation_model.md, refined_domain_model.md, model_assessment.md, final_domain_model.md
 - `generated/interaction_model/` — interaction_tree.md
 - `generated/deltas/` — phase version snapshots
@@ -47,7 +47,7 @@ Pipeline: Context → Model → Validate. `pipeline.py` orchestrates all phases.
 | 1     | Code             | [normalize_context.md](phases/normalize_context.md)                 | rule_chunks.json                                                                                                  |
 | 2     | AI               | [concept_guidance_v1.md](phases/concept_guidance_v1.md)             | concept_guidance.md, concept_guidance.json, interaction_tree (Story Map Skeleton: Epics, Sub-Epics, some stories) |
 | —     | **Checkpoint 1** | Verify domain framing: concepts, modules, mechanisms, actors, epics | —                                                                                                                 |
-| 3     | Code             | [evidence_extraction.md](phases/evidence_extraction.md)             | terms.json, actions.json, decisions.json, states.json, relationships.json, modifiers.json                         |
+| 3     | Code             | [evidence_extraction.md](phases/evidence_extraction.md)             | terms.json, actions.json, decisions.json, states.json, relationships.json                                         |
 | 4     | Code             | [evidence_graph.md](phases/evidence_graph.md)                       | evidence_graph.json                                                                                               |
 | —     | **Checkpoint 2** | Verify rule coverage: evidence graph covers rules                   | —                                                                                                                 |
 | 5     | AI               | [concept_guidance_v2.md](phases/concept_guidance_v2.md)             | concept_guidance.md (refined), interaction_tree (Epics, Sub-Epics, some stories)                                  |
