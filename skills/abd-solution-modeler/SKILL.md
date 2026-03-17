@@ -12,17 +12,17 @@ metadata:
 
 # abd-solution-modeler
 
-Transforms raw context (rules, requirements, documentation) into a **validated OO domain model** and **interaction tree**. Pipeline: Guidance → Sketch → Refine. Process is code-driven — scripts orchestrate phases; AI produces output when a phase invokes it.
+Transforms raw context (rules, requirements, documentation) into a **Domain model** and **Interaction tree (Story Map)**. Pipeline: Guidance → Sketch → Refine. Process is code-driven — scripts orchestrate phases; AI produces output when a phase invokes it.
 
 ## When to Activate
 
 - User asks to "model domain", "build interaction tree", "extract domain from rules"
 - Wants to "solution model" from rulebooks, specs, or documentation
-- Has context and wants to produce validated OOAD model + interaction tree
+- Has context and wants to produce validated Object Oriented Domain Model + interaction tree (Story Map and Story Spec By Exampled)
 
 ## Dependencies
 
-**abd-context-to-memory** — Use for context preparation (chunk, index). Run before Phase 1 if source is documents. See `docs/plan.md` for wiring.
+**abd-context-to-memory** — Use for context preparation (chunk, index). Run before Phase 1 if source is documents. See `pieces/process.md` for details.
 
 ## Spec and Plan
 

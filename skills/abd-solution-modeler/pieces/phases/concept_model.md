@@ -13,7 +13,7 @@ concept model, core concepts, link concepts to stories
 
 ## Inputs
 
-`generated/domain/concept_guidance.md`, `evidence/terms.json`, `evidence/actions.json`, `generated/interaction_model/interaction_tree.md`
+`generated/domain/concept_guidance.md`, `generated/domain/concept_guidance.json`, `evidence/terms.json`, `evidence/actions.json`, `generated/interaction_model/interaction_tree.md`
 
 ## Instructions
 
@@ -22,6 +22,8 @@ concept model, core concepts, link concepts to stories
 - **Cite evidence** — for each property and operation, include the evidence ID or raw text snippet that supports it (e.g. `[act_0042: "raw text"]`). If you cannot find evidence for a property/operation, mark it `[UNGROUNDED]` and consider removing it.
 - **Read the concept guidance first** — the concept guidance describes what each concept does in interaction-oriented terms. Convert those descriptions into properties and operations. Do not skip concepts from the guidance.
 - **Use `concept_hierarchy` as starting point** — the guidance JSON contains `concept_hierarchy` with subtypes and related concepts. Use this as the initial inheritance and composition map. Subtypes become `: Parent` concepts in the model. Related concepts become collaborators. Do not rediscover hierarchy from scratch — refine what guidance provides.
+- **Verify subtype vs enum before modeling** — before creating a subtype section, scan actions.json and terms.json for that subtype. If the evidence shows same logic across variants (only label differs), use `EnumType property_name {value1, value2}` on the parent instead of a subtype. Do not create both a type enum and mirroring subtypes.
+- **Each subtype must have its own first-class section** — for every subtype in `concept_hierarchy`, create a `### **SubtypeName** : Parent` entry with its own properties, operations, collaborators, and composition. Each subtype gets its own definition reflecting its distinct mechanics. Do not collapse subtypes into a parent's `Subtypes:` line only.
 - **Read evidence files per concept** — for each concept, scan actions.json for entries where `matched_concepts` includes that concept name, and scan terms.json for the concept's term entry. Use the `raw` field text to derive properties and invariants.
 - **Do not substitute background knowledge** — if the evidence says "X works like Y", model what the evidence says, not what you know about X from training data. The evidence may be from a domain you've seen before, but this model must reflect THIS source material's rules, not the canonical rules.
 

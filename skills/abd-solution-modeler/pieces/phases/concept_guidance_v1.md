@@ -51,6 +51,8 @@ Identify:
    - include concepts that participate in interactions or state changes
    - avoid example-only roles unless they are real domain concepts
    - **enumerate subtypes with distinct mechanics** — when the context describes multiple variants of a concept (e.g. "payment methods: CreditCard, BankTransfer, DigitalWallet, BuyNowPayLater...") and each variant has its own rules (different validation, settlement, fee structure, reversal process), list EACH variant as a separate concept, not as an enum on the parent. A subtype is a concept when it has its own mechanics; it's an enum value when it's just a label.
+   - **subtype vs enum checklist** — for each subtype in concept_hierarchy, verify: does the evidence show different properties, operations, or resolution mechanics? If not, model as enum on parent (e.g. `EffectType type {attack, control, defense, general}`), not as subtypes.
+   - **do not derive subtypes from ToC** — table of contents and section headers list names; they do not prove distinct mechanics. Read the actual rule text for each variant before creating a subtype.
    - **check for category hierarchies** — when the context groups things into categories (e.g. "retail promotions: volume discounts, loyalty rewards, bundle offers, clearance markdowns") with different rules per category (different eligibility, stacking, expiry), model each category as a concept
    - **read chunks for mechanical depth, not just chapter summaries** — scan the actual chunk text for every distinct rule, formula, or state transition. A mechanic that has its own trigger, its own conditions, its own state transitions, or its own interaction rules is a concept, not a property.
    - **organize concepts into type / subtype / related** — for every concept that has subtypes with distinct mechanics, list the subtypes indented under the parent in the markdown output and in `concept_hierarchy` in the JSON output. Use `-> related:` to link associated concepts that collaborate but are not subtypes. This initial hierarchy map feeds directly into later phases — getting it right here avoids rediscovery.
@@ -71,6 +73,14 @@ Identify:
    - broad domain interaction areas only
    - epic names should be verb-noun and domain-grounded
    - **scan `context/context_chunks.json` for verb clusters** — groups of action verbs (grab, restrain, redirect, etc.) that don't fit an existing epic suggest a missing epic; do not rely on background knowledge alone to identify epics
+   - **high-complexity areas are epic candidates** — when the source describes many named variants, each with its own rules, that area is likely an epic. Do not collapse into one variation axis or one concept. Model as an epic with sub-epics and stories per variant type.
+
+6. **Variation Axes** (in Extraction Guidance)
+   - **variation axis = dimension of mechanical difference** — switching from one value to another changes the *rules* that apply (triggers, resolution, state transitions). If it only changes which value a variable has (same rules, different input), it is NOT a variation axis.
+   - **variable values are not axes** — e.g. "payment method (credit card, bank transfer)", "order status (pending, shipped)", "customer tier (gold, silver)" are just different values of a variable. Same mechanism, different input. Do not list as variation axes.
+   - **derive from rule text, not ToC or headers** — for each axis, you must have read the actual rules. ToC and headers name things; they do not prove distinct mechanics.
+   - **do not collapse many mechanical variants into one axis** — when the source has many named variants, each with distinct rules, either list the mechanically distinct variants or treat as an epic.
+   - **checklist** — before adding each axis: (a) Which chunks did I read? (b) What distinct mechanics does each variant have? (c) Is this a variable's values or a real mechanical dimension?
 
 ## Noise Filter Instructions
 

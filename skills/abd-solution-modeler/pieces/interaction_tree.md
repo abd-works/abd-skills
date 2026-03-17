@@ -18,13 +18,15 @@ Epic → Sub-Epic → Story → Scenario → Step
 - **Response** — Responding-Actor, Behavior
 - **Pre-Condition** — label only (Given/And)
 - **Failure-Modes** — bullet list, max 3; rule/state based only (no infrastructure failures)
+- **Domain Concepts** - Domain Concepts related to Interaction, must exist in the domain model
 - **Examples** — tables per concept
+
 
 ### Commonly Generated Fields Per Node
 
 | Node | Commonly Generated | Case-by-Case |
 |------|--------------------|--------------|
-| Epic | Triggering-Actor, Responding-Actor, Name, Pre-Condition, Examples | Constraints |
+| Epic | Triggering-Actor, Responding-Actor, Name, Pre-Condition | Constraints |
 | Story | Trigger, Response, Name, Examples, Pre-Condition, Failure-Modes | Constraints |
 | Scenario | Trigger, Response, Pre-Condition, Examples | |
 | Step | Trigger, Response, Examples | Constraints (when step-specific) |
@@ -39,14 +41,14 @@ Parent → child; use `[brackets]` for inherited values (e.g. `Triggering-Actor:
 
 ## Example Tables
 
-Tables live on the interaction. One per concept referenced in labels.
+Tables live on the interaction. One per concept referenced in labels, should be identical to examples in the domain model
 
 ```
 ConceptName (qualifier):
 | scenario | field1 | field2 |
 |----------|--------|--------|
 | success  | val1   | val2   |
-===
+
 AnotherConcept (qualifier):
 | scenario | field1 |
 |----------|--------|

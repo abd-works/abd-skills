@@ -31,6 +31,7 @@ refine concepts, concept guidance v2, second-cut domain, epics and stories, inte
 - refine operations cautiously
 - **alias cleanup** — remove any aliases that are 2-3 characters long or common English words. These poison extraction with false positives.
 - **refine concept hierarchy** — review the `concept_hierarchy` from v1. Check that subtypes are correctly placed under their parent. Split subtypes that are too broad; merge subtypes that are really the same mechanic with a different name. Add new subtypes surfaced by evidence. Update `-> related:` links based on evidence relationships. Ensure every subtype still appears in `priority_concepts`.
+- **reclassify enum-as-subtype** — for each subtype, verify evidence shows different mechanics. If the source treats variants identically (same logic, different label), reclassify as enum on parent. Check for parent + type enum + subtypes that mirror the enum — use one representation, not both.
 
 ### Interaction tree
 - refine epic structure from v1

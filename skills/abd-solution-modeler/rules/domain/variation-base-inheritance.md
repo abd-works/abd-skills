@@ -8,12 +8,12 @@ impact: HIGH
 ### Concepts that share structure — should they extend a common base?
 
 **Check each cluster** for shared protocol and shared invariants. When concepts share:
-- (a) cost or acquisition mechanics
-- (b) participation in validation (e.g. PL caps)
-- (c) lifecycle (bought/allocated during build)
+- (a) amount or currency mechanics
+- (b) participation in validation (e.g. threshold caps)
+- (c) lifecycle (created/processed during workflow)
 - (d) membership in a parent's collection
 
-…then a common base may be appropriate. Shared protocol: `cost()`, participation in validation, acquisition via budget.
+…then a common base may be appropriate. Shared protocol: `amount()`, participation in validation, contribution to totals.
 
 **Look for:**
 - Missing base — concepts that share acquisition, cost, and validation role but lack a common supertype
@@ -23,4 +23,4 @@ impact: HIGH
 
 **DO NOT** defer to future refinement. When concepts share protocol (cost, acquisition, validation role, lifecycle, membership in a parent's collection), introduce the shared base in the current phase. Do not say "consider base in future refinement" when the protocol is shared now.
 
-**AI must propose minimal corrections** (e.g. add CharacterTrait as base for AbilityRank, Defense, Skill, Advantage).
+**AI must propose minimal corrections** (e.g. add FinancialRecord as base for Invoice, LineItem, Payment).

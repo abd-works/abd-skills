@@ -278,6 +278,15 @@ def _is_weak_object(obj: str) -> bool:
     return first in _WEAK_OBJECT_TOKENS or not cleaned.strip()
 
 
+def _is_junk_object(obj: str) -> bool:
+    """Reject objects that are table fragments or junk (too long, structural)."""
+    if not obj or len(obj) > 50:
+        return True
+    lower = obj.lower()
+    junk_patterns = ("per rank effects", "one of the following", "examples of", "ex- amples of", "when the critical hit")
+    return any(p in lower for p in junk_patterns)
+
+
 def _is_junk_term(name: str) -> bool:
     return name.strip().lower() in _JUNK_TERM_NAMES
 
@@ -480,7 +489,7 @@ def extract_actions(chunks, guidance, alias_to_canonical):
                 predicate = rel.group(1).lower()
                 if subject not in priority_set and obj not in priority_set:
                     continue
-                if _is_weak_object(obj) or predicate in _JUNK_PREDICATES:
+                if _is_weak_object(obj) or _is_junk_object(obj) or predicate in _JUNK_PREDICATES:
                     continue
                 out.append({
                     "action_id": f"act_{len(out):04d}",
@@ -501,7 +510,7 @@ def extract_actions(chunks, guidance, alias_to_canonical):
                 predicate = res.group(1).lower()
                 if subject not in priority_set and obj not in priority_set:
                     continue
-                if _is_weak_object(obj) or predicate in _JUNK_PREDICATES:
+                if _is_weak_object(obj) or _is_junk_object(obj) or predicate in _JUNK_PREDICATES:
                     continue
                 out.append({
                     "action_id": f"act_{len(out):04d}",
@@ -523,7 +532,7 @@ def extract_actions(chunks, guidance, alias_to_canonical):
                 obj = _strip_leading_article(alias_to_canonical.get(norm(term_candidates[1]), term_candidates[1]))
                 if subject not in priority_set and obj not in priority_set:
                     continue
-                if _is_weak_object(obj):
+                if _is_weak_object(obj) or _is_junk_object(obj):
                     continue
                 out.append({
                     "action_id": f"act_{len(out):04d}",

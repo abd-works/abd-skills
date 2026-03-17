@@ -7,8 +7,8 @@ impact: HIGH
 
 **DO** when a concept has its own class with behavior (operations, invariants), reference it through a relationship only. The owning class accesses the value through the relationship. One source of truth.
 
-- Example (right): Character has aggregation to PowerLevel. Character gets the level value through its PowerLevel reference. No redundant `Number power_level` property on Character.
+- Example (right): Order has aggregation to OrderTotal. Order gets the total value through its OrderTotal reference. No redundant `Number total` property on Order.
 
 **DO NOT** have both a primitive property AND a relationship to a class that holds the same value. Two sources of truth create inconsistency.
 
-- Example (wrong): Character has `Number power_level` property AND an aggregation to PowerLevel class (which has `Number level`). Two places to get the same value — which is authoritative?
+- Example (wrong): Order has `Number total` property AND an aggregation to OrderTotal class (which has `Number amount`). Two places to get the same value — which is authoritative?

@@ -19,7 +19,7 @@ _CONTENT_ORDER = [
     "introduction.md",
     "context_prep.md",
     "process.md",
-    "validation.md",
+    "critical_quality_steps.md",
     "domain.md",
     "interaction_tree.md",
     "drawio.md",
@@ -125,11 +125,24 @@ def _strip_tree_references(text: str) -> str:
     return "\n".join(filtered)
 
 
+def _clear_built_dir() -> None:
+    """Clear built dir contents without rmtree (avoids Windows PermissionError when files are open)."""
+    if not _BUILT_DIR.exists():
+        return
+    for p in _BUILT_DIR.iterdir():
+        try:
+            if p.is_file():
+                p.unlink()
+            else:
+                shutil.rmtree(p)
+        except OSError:
+            pass  # skip locked files
+
+
 def build_phases(no_tree: bool = False) -> int:
     """Build phase files with baked-in rules into phases/built/."""
-    if _BUILT_DIR.exists():
-        shutil.rmtree(_BUILT_DIR)
-    _BUILT_DIR.mkdir(parents=True)
+    _BUILT_DIR.mkdir(parents=True, exist_ok=True)
+    _clear_built_dir()
 
     count = 0
     for phase_file in sorted(_PHASES_DIR.glob("*.md")):
@@ -142,7 +155,24 @@ def build_phases(no_tree: bool = False) -> int:
         phase_text = phase_file.read_text(encoding="utf-8").strip()
         if no_tree:
             phase_text = _strip_tree_references(phase_text)
-        parts = [phase_text]
+        # Inject critical_quality_steps at the top of every AI phase
+        quality_path = _PIECES_DIR / "critical_quality_steps.md"
+        if not quality_path.exists():
+            quality_path = _PIECES_DIR / "validation.md"
+        if quality_path.exists():
+            quality_steps = quality_path.read_text(encoding="utf-8").strip()
+            parts = [quality_steps, f"\n\n---\n\n{phase_text}"]
+        else:
+            parts = [phase_text]
+        # Inject domain model and interaction tree format specs after phase instructions, before rules
+        domain_spec_path = _PIECES_DIR / "domain.md"
+        if domain_spec_path.exists():
+            domain_spec = domain_spec_path.read_text(encoding="utf-8").strip()
+            parts.append(f"\n\n---\n\n# Domain Model Format\n\n{domain_spec}")
+        tree_spec_path = _PIECES_DIR / "interaction_tree.md"
+        if not no_tree and tree_spec_path.exists():
+            tree_spec = tree_spec_path.read_text(encoding="utf-8").strip()
+            parts.append(f"\n\n---\n\n# Interaction Tree Format\n\n{tree_spec}")
         rules = _rules_for_phase(phase_name, skip_tree=no_tree)
         if rules:
             domain_rules = [r for r in rules if r.parent.name == "domain"]
@@ -197,6 +227,8 @@ def build_agents(skill_path: Path | None = None, no_tree: bool = False) -> Path:
     parts: list[str] = []
     for fname in content_order:
         p = content_dir / fname
+        if fname == "critical_quality_steps.md" and not p.exists():
+            p = content_dir / "validation.md"  # fallback
         if p.exists():
             piece_text = p.read_text(encoding="utf-8").strip()
             if no_tree:
