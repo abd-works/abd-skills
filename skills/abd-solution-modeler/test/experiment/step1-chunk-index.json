@@ -1,0 +1,208 @@
+{
+  "generated_from": "step1-output-v2.json",
+  "note": "Sampled coverage only \u2014 built from the chunks read during Step 1 (30% of corpus). Not complete. Re-run after any edit to the source output JSON.",
+  "chunk_count": 12,
+  "chunks": {
+    "4cd63373be61": {
+      "modules": [
+        "Resolution",
+        "Character",
+        "Combat"
+      ],
+      "concepts": [
+        "Check",
+        "Degree",
+        "ExtraEffort",
+        "Condition"
+      ],
+      "epics": [
+        "Resolve **Check**",
+        "Build **Character**",
+        "Resolve Combat Exchange"
+      ],
+      "stories": [
+        "Use Extra Effort [defer]",
+        "Recover from **Condition**"
+      ]
+    },
+    "714405399e02": {
+      "modules": [
+        "Resolution",
+        "Character Traits",
+        "Combat"
+      ],
+      "concepts": [
+        "Check",
+        "Ability",
+        "Defense",
+        "Condition"
+      ],
+      "epics": [
+        "Resolve **Check**",
+        "Configure **Character Traits**",
+        "Resolve Combat Exchange"
+      ],
+      "stories": [
+        "Resist **Effect**",
+        "Set **Ability** Rank",
+        "Apply **Condition** to **Defense**",
+        "Resist Damage"
+      ]
+    },
+    "6b20869c8bc9": {
+      "modules": [
+        "Resolution",
+        "Combat"
+      ],
+      "concepts": [
+        "Action"
+      ],
+      "epics": [
+        "Resolve **Check**",
+        "Resolve Combat Exchange"
+      ],
+      "stories": [
+        "Make Opposed **Check**",
+        "Make Attack"
+      ]
+    },
+    "89a1fc58a123": {
+      "modules": [
+        "Resolution",
+        "Character Traits"
+      ],
+      "concepts": [
+        "Skill"
+      ],
+      "epics": [
+        "Resolve **Check**"
+      ],
+      "stories": [
+        "Make Skill **Check**"
+      ]
+    },
+    "d4cad3e10e05": {
+      "modules": [
+        "Character",
+        "Character Traits",
+        "Powers"
+      ],
+      "concepts": [
+        "Character",
+        "PowerLevel",
+        "Complication",
+        "Effect",
+        "Modifier"
+      ],
+      "epics": [
+        "Build **Character**",
+        "Configure **Character Traits**",
+        "Build **Power**"
+      ],
+      "stories": [
+        "Select **Complication**",
+        "Validate **Character** Sheet",
+        "Advance **Character**",
+        "Apply **Extra** to **Effect**",
+        "Apply **Flaw** to **Effect**",
+        "Build **Power** Array"
+      ]
+    },
+    "792ccb4b72a0": {
+      "modules": [
+        "Character"
+      ],
+      "concepts": [
+        "Character",
+        "HeroPoint",
+        "Complication"
+      ],
+      "epics": [
+        "Build **Character**"
+      ],
+      "stories": [
+        "Spend **HeroPoint**",
+        "Earn **HeroPoint** from **Complication**"
+      ]
+    },
+    "94d3158e4b6b": {
+      "modules": [
+        "Character Traits"
+      ],
+      "concepts": [
+        "Skill"
+      ],
+      "epics": [
+        "Configure **Character Traits**"
+      ],
+      "stories": [
+        "Train **Skill**"
+      ]
+    },
+    "2b979f00a098": {
+      "modules": [
+        "Character Traits"
+      ],
+      "concepts": [
+        "Advantage"
+      ],
+      "epics": [
+        "Configure **Character Traits**"
+      ],
+      "stories": [
+        "Select **Advantage**"
+      ]
+    },
+    "481ffcf3c778": {
+      "modules": [
+        "Character Traits"
+      ],
+      "concepts": [
+        "Advantage"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "2b9b77a24290": {
+      "modules": [
+        "Powers"
+      ],
+      "concepts": [
+        "Power",
+        "Effect"
+      ],
+      "epics": [
+        "Build **Power**"
+      ],
+      "stories": [
+        "Select and Rank **Effect**"
+      ]
+    },
+    "05f80df9e48f": {
+      "modules": [
+        "Powers"
+      ],
+      "concepts": [
+        "Power"
+      ],
+      "epics": [
+        "Build **Power**"
+      ],
+      "stories": [
+        "Activate **Effect** in Play [defer]"
+      ]
+    },
+    "086d54227650": {
+      "modules": [
+        "Combat"
+      ],
+      "concepts": [],
+      "epics": [
+        "Resolve Combat Exchange"
+      ],
+      "stories": [
+        "Execute Maneuver"
+      ]
+    }
+  }
+}
