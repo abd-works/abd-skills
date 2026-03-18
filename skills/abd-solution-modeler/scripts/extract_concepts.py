@@ -330,14 +330,18 @@ def _extract_np_candidates(chunks: list[dict], config: dict) -> list[dict]:
     )
 
     counts: Counter = Counter()
+    chunk_ids: dict[str, set[str]] = defaultdict(set)
     for chunk in chunks:
         text = chunk.get("text", "")
         if _is_noise(text, noise) or _is_exclamation_heavy(text, config):
             continue
+        cid = chunk.get("chunk_id", "")
         for m in np_re.finditer(text):
             phrase = m.group(1).strip()
             if len(phrase) > 4:
                 counts[phrase] += 1
+                if cid:
+                    chunk_ids[phrase].add(cid)
 
     exclude_head = set(np_cfg.get("exclude_head_nouns", []))
     out = []
@@ -348,13 +352,16 @@ def _extract_np_candidates(chunks: list[dict], config: dict) -> list[dict]:
         head = words[-1] if words else ""
         if head in exclude_head:
             continue
-        out.append({
+        entry: dict = {
             "np_id": f"np_{i:04d}",
             "phrase": phrase,
             "word_count": len(words),
             "count": count,
             "head_noun": head,
-        })
+        }
+        if chunk_ids.get(phrase):
+            entry["chunk_ids"] = sorted(chunk_ids[phrase])
+        out.append(entry)
     return out
 
 

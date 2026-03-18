@@ -1,0 +1,29 @@
+{
+  "concept_exclusions": [
+    "he", "she", "we", "do", "does", "etc", "and", "or", "the", "a", "an",
+    "it", "is", "as", "to", "of", "in", "on", "at", "its", "him", "her",
+    "us", "them", "if", "but", "so", "be", "been", "being", "have", "has",
+    "had", "can", "may", "will", "would", "could", "should", "must",
+    "doctor", "dr", "mr", "mrs", "ms", "miss", "mister", "mistress",
+    "thus", "that", "too", "while", "whatever",
+    "whether", "whe", "what", "who", "which", "where", "why", "how",
+    "for example", "for instance", "such as", "as well as"
+  ],
+  "noise_filters": [
+    "POWERS EXTRAS",
+    "SECRET ORIGINS DEFENSES Once",
+    "SKILLS HIDING OPERATING If"
+  ],
+  "concept_aliases": {
+    "Gamemaster": ["GM"],
+    "Difficulty Class": ["DC"],
+    "Strength": ["STR"],
+    "Dexterity": ["DEX"],
+    "Fighting": ["FGT"],
+    "Agility": ["AGL"],
+    "Intellect": ["INT"],
+    "Stamina": ["STA"],
+    "Awareness": ["AWE"],
+    "Presence": ["PRE"]
+  }
+}

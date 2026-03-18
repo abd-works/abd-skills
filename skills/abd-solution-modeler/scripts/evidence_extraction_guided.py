@@ -43,6 +43,37 @@ def uniq(seq):
             out.append(item)
     return out
 
+def _normalize_guidance(guidance: dict[str, Any], guidance_path: Path) -> dict[str, Any]:
+    """Normalize hypothesis.json format into concept_guidance shape for extraction."""
+    out = dict(guidance)
+    # Derive priority_concepts from concepts dict when missing (hypothesis from Phase 4/5)
+    if not out.get("priority_concepts") and "concepts" in out and isinstance(out["concepts"], dict):
+        out["priority_concepts"] = list(out["concepts"].keys())
+    # Merge concept_guidance.json from workspace when present
+    try:
+        from _config import workspace_root
+        ws = workspace_root()
+        if ws:
+            cg_path = ws / "solution" / "concept_guidance.json"
+            if not cg_path.exists():
+                cg_path = ws / "concept_guidance.json"
+            if cg_path.exists() and cg_path.resolve() != guidance_path.resolve():
+                cg = load_json(cg_path)
+                for key in ("concept_aliases", "noise_filters", "focus_sections", "priority_mechanisms", "variation_axes"):
+                    if key in cg and cg[key] and not out.get(key):
+                        out[key] = cg[key]
+                if cg.get("concept_aliases"):
+                    existing = out.get("concept_aliases", {})
+                    merged = dict(existing)
+                    for k, v in cg["concept_aliases"].items():
+                        if k not in merged:
+                            merged[k] = v
+                    out["concept_aliases"] = merged
+    except Exception:
+        pass
+    return out
+
+
 def build_alias_index(guidance: dict[str, Any]) -> tuple[dict[str, str], set[str]]:
     alias_to_canonical: dict[str, str] = {}
     canonicals: set[str] = set()
@@ -725,8 +756,10 @@ def main():
     chunks = chunks_raw.get("rule_chunks") or chunks_raw.get("chunks") or [] if isinstance(chunks_raw, dict) else chunks_raw
 
     guidance_raw = load_json(guidance_path)
-    # Support hypothesis.json (Phase 4 output) or concept_guidance.json
+    # Support hypothesis.json (Phase 4/5 output) or concept_guidance.json
     guidance = guidance_raw.get("concept_guidance", guidance_raw) if isinstance(guidance_raw, dict) else guidance_raw
+    # Normalize hypothesis format: derive priority_concepts from concepts dict when missing
+    guidance = _normalize_guidance(guidance, guidance_path)
     alias_to_canonical, _ = build_alias_index(guidance)
 
     terms = extract_terms(chunks, guidance, alias_to_canonical)

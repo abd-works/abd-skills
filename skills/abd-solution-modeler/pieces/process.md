@@ -3,6 +3,7 @@
 Pipeline: Context → Model → Assess. `pipeline.py` orchestrates all phases.
 
 - Code phases — run scripts directly (normalize, concept_index, evidence_extraction, evidence_index)
+- AI phases — **the AI does the work** (concept_synthesis, structure, behavior, variation, consolidate, assess, finalize). Do NOT write scripts for AI phases. Read inputs, reason, produce output directly.
 - `generate <phase>` — prints built phase spec from `phases/built/` (phase instructions + baked-in rules)
 - `scan <phase>` — runs programmatic scanners against generated output
 - `validate <phase>` — prints rules for adversarial AI validation pass

@@ -22,6 +22,11 @@ concept index, hypothesis, concept guidance, merge signals
 - **registries** — `actions` (act_XXXX from dep_id), `decisions`, `states`, `relationships`; Phase 3 provides actions only; Phase 6 (`evidence_extraction`) fills the rest
 - **concept_guidance** — priority_concepts, concept_aliases, mechanisms, actors, variation_axes, noise_filters for Phase 5 (Concept Synthesis)
 
+**Workspace curation:** `solution/concept_guidance.json` can override:
+
+- **priority_concepts** — list of **foundational** concepts in order of importance. Not volume-based (e.g. a base type like "Transaction" matters more than a frequent subtype like "Refund"). Curate by domain structure.
+- **concept_aliases** — canonical → [alias] mappings (e.g. `"Transaction": ["Txn"]`)
+
 `chunk_ids` are aggregated from all evidence signals: tf_weights, dependency_verbs, definition_patterns, table_mining, enumeration_patterns, contrast_patterns, verb_interaction.sample_interactions.
 
 ## Outputs

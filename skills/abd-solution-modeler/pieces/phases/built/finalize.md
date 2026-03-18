@@ -4,6 +4,19 @@
 
 ---
 
+## DO NOT write scripts for AI phases
+
+**AI phases = the AI does the work.** You read the inputs, reason about them, and produce the output directly.
+
+**DO** read the inputs (hypothesis.json, evidence/, context chunks), analyze them, and edit/write the output files yourself.
+
+**DO NOT** write a Python (or other) script to "run" the phase. Do not create `synthesize_concepts.py`, `build_structure.py`, or similar. The pipeline has no script runners for AI phases — by design. Writing a script delegates the cognitive work to code; the AI must perform it.
+
+Wrong: "I'll create a script that merges concepts and builds hierarchy."
+Right: "I'll read the hypothesis and actions, curate concepts, build the hierarchy from evidence, and write the refined hypothesis.json."
+
+---
+
 ## Step 0 — Deep Scan of Evidence and Conceptual Guidance (REQUIRED FIRST)
 
 Before generating any output, you MUST:

@@ -9,3 +9,6 @@ venv/
 # OS
 .DS_Store
 Thumbs.db
+
+# Scanner caches
+.surnames_cache

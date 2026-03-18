@@ -4,6 +4,19 @@
 
 ---
 
+## DO NOT write scripts for AI phases
+
+**AI phases = the AI does the work.** You read the inputs, reason about them, and produce the output directly.
+
+**DO** read the inputs (hypothesis.json, evidence/, context chunks), analyze them, and edit/write the output files yourself.
+
+**DO NOT** write a Python (or other) script to "run" the phase. Do not create `synthesize_concepts.py`, `build_structure.py`, or similar. The pipeline has no script runners for AI phases — by design. Writing a script delegates the cognitive work to code; the AI must perform it.
+
+Wrong: "I'll create a script that merges concepts and builds hierarchy."
+Right: "I'll read the hypothesis and actions, curate concepts, build the hierarchy from evidence, and write the refined hypothesis.json."
+
+---
+
 ## Step 0 — Deep Scan of Evidence and Conceptual Guidance (REQUIRED FIRST)
 
 Before generating any output, you MUST:
@@ -563,6 +576,144 @@ Stories must be testable as complete interactions and deliverable independently.
 **DO NOT** create stories too small to test meaningfully or make implementation steps into stories.
 - Example (wrong): "Add order button" (can't test without full order flow); "Display error message" (can't test without validation context).
 - Wrong: "Convert Diagram to StoryGraph Format", "Serialize Components to JSON", "Calculate Component Positions" (implementation steps, not testable alone).
+
+
+---
+
+
+
+## Hypothesis Rules (10)
+
+Apply these rules when producing hypothesis.json for this phase.
+
+---
+phases: [concept_synthesis]
+order: 10
+---
+
+## Merge alias concepts into canonical
+
+**DO** merge alias concepts into their canonical using `concept_guidance.concept_aliases`. If concept_aliases has "Account": ["ACCT"], then concepts must NOT contain both "ACCT" and "Account" as separate entries.
+
+**DO NOT** leave abbreviation concepts (ACCT, REV, CUST, SKU, etc.) as separate concepts when concept_aliases maps them to a canonical.
+
+
+---
+
+---
+phases: [concept_synthesis]
+order: 20
+---
+
+## No extraction artifacts as concepts
+
+**DO NOT** leave extraction artifacts as separate concepts: "All Transactions", "All Orders", "Rev", "Cust", "Compli", "Transac", "COST PER ITEM An".
+
+**DO** merge "All X" → "X", truncations → full form, fragments → cleaned form.
+
+
+---
+
+---
+phases: [concept_synthesis]
+order: 30
+---
+
+## No nonsense concepts
+
+**DO NOT** leave non-words, typos, proper nouns, or garbage as concepts. Remove: Smith, Choose, Choose One, Although, Because, McDonald, Acme Corp.
+
+**DO** remove instruction phrases mistaken for concepts ("Choose", "Select One" from rule text).
+
+
+---
+
+---
+phases: [concept_synthesis]
+order: 40
+---
+
+## No section headers as concepts
+
+**DO NOT** leave section headers, ToC labels, or structural categories as concepts. Remove: BALANCE SHEET, INCOME STATEMENT, CHECKOUT, PRODUCT CATALOG, COST PER ITEM, THE BASICS, SERVICE TIERS.
+
+**DO** remove concepts that are structural labels rather than domain entities.
+
+
+---
+
+---
+phases: [concept_synthesis]
+order: 50
+---
+
+## Merge singular/plural variants
+
+**DO** merge singular/plural variants into one canonical (usually singular). Do NOT leave both "Account" and "Accounts", "Order" and "Orders", "Customer" and "Customers" as separate concepts.
+
+
+---
+
+---
+phases: [concept_synthesis]
+order: 60
+---
+
+## Actions reference valid concepts
+
+**DO** ensure every action's subject and object (when non-empty) reference a concept in the concepts dict. Orphan references (subject/object not in concepts) indicate merged/removed concepts whose actions were not updated.
+
+
+---
+
+---
+phases: [concept_synthesis]
+order: 70
+---
+
+## All concepts have evidence
+
+**DO** ensure each concept has at least one of: term_ids, chunk_ids, performs, receives. Concepts with no evidence are noise and should be removed.
+
+
+---
+
+---
+phases: [concept_synthesis]
+order: 80
+---
+
+## Concept names are valid domain terms
+
+**DO NOT** use single instruction verbs (Choose, Apply, Because) or article+noun fragments ("A Transaction", "The Balance") as concept names.
+
+**DO** use domain nouns or noun phrases (Account, Order, Subscription, Customer).
+
+
+---
+
+---
+phases: [concept_synthesis]
+order: 90
+---
+
+## concept_hierarchy derived from evidence
+
+**DO** build concept_hierarchy from evidence (shared mechanics, co-occurrence in actions, subtype patterns). Parent and child names must exist in concepts.
+
+**DO NOT** infer hierarchy from chapter titles or ToC alone.
+
+
+---
+
+---
+phases: [concept_synthesis]
+order: 95
+---
+
+## performs/receives match actions registry
+
+**DO** ensure each concept's performs list contains only act_ids where that concept is subject; receives only act_ids where that concept is object. After merge/remove, rebuild performs/receives from actions.
 
 
 ---

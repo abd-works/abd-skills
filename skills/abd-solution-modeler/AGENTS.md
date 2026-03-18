@@ -21,6 +21,7 @@ Use **abd-context-to-memory** before Phase 1 if source is documents:
 Pipeline: Context → Model → Assess. `pipeline.py` orchestrates all phases.
 
 - Code phases — run scripts directly (normalize, concept_index, evidence_extraction, evidence_index)
+- AI phases — **the AI does the work** (concept_synthesis, structure, behavior, variation, consolidate, assess, finalize). Do NOT write scripts for AI phases. Read inputs, reason, produce output directly.
 - `generate <phase>` — prints built phase spec from `phases/built/` (phase instructions + baked-in rules)
 - `scan <phase>` — runs programmatic scanners against generated output
 - `validate <phase>` — prints rules for adversarial AI validation pass
@@ -83,6 +84,19 @@ From Phase 8 onward, a single artifact: `solution_model.json` (concepts, behavio
 # Critical Quality Steps
 
 **These steps MUST be followed for every AI phase. No exceptions.**
+
+---
+
+## DO NOT write scripts for AI phases
+
+**AI phases = the AI does the work.** You read the inputs, reason about them, and produce the output directly.
+
+**DO** read the inputs (hypothesis.json, evidence/, context chunks), analyze them, and edit/write the output files yourself.
+
+**DO NOT** write a Python (or other) script to "run" the phase. Do not create `synthesize_concepts.py`, `build_structure.py`, or similar. The pipeline has no script runners for AI phases — by design. Writing a script delegates the cognitive work to code; the AI must perform it.
+
+Wrong: "I'll create a script that merges concepts and builds hierarchy."
+Right: "I'll read the hypothesis and actions, curate concepts, build the hierarchy from evidence, and write the refined hypothesis.json."
 
 ---
 

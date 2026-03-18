@@ -44,6 +44,19 @@ _PHASES_PHASE_ONLY = {"configure_concept_extraction_parameters"}
 # domain/solution/interaction format spec files into the built phase prompt.
 _PHASES_NO_FORMAT_SPECS = {"concept_synthesis"}
 
+# Phase -> (label, output_file) for generated rules section
+_GENERATED_OUTPUT = {
+    "concept_synthesis": ("Hypothesis", "hypothesis.json"),
+    "concept_extraction": ("Extraction Config", "extraction_config.json"),
+    "assess": ("Assessment", "assessment.json"),
+}
+_DEFAULT_GENERATED_OUTPUT = ("Solution Model", "solution_model.json")
+
+
+def _generated_output_for_phase(phase_name: str) -> tuple[str, str]:
+    return _GENERATED_OUTPUT.get(phase_name, _DEFAULT_GENERATED_OUTPUT)
+
+
 from _rules import rules_for_phase as _rules_for_phase
 
 
@@ -168,8 +181,9 @@ def build_phases(no_tree: bool = False) -> int:
                     parts.append(r.read_text(encoding="utf-8").strip())
                     parts.append("\n\n---\n")
             if generated_rules:
-                parts.append(f"\n\n## Solution Model Rules ({len(generated_rules)})\n")
-                parts.append("Apply these rules when producing solution_model.json for this phase.\n")
+                out_label, out_file = _generated_output_for_phase(phase_name)
+                parts.append(f"\n\n## {out_label} Rules ({len(generated_rules)})\n")
+                parts.append(f"Apply these rules when producing {out_file} for this phase.\n")
                 for r in generated_rules:
                     rule_text = r.read_text(encoding="utf-8").strip()
                     if no_tree:

@@ -4,3196 +4,1924 @@ Full render of `concept_signals.json`. All 12 signals with complete content.
 
 ## noise_filters
 
-table of contents, acknowledgments, foreword, preface, writing and design, editing and development, green ronin staff, playtesters:, publisher:, www.greenronin.com, www.mutantsandmasterminds.com, open game license, power point totals:, offense: init, defense: dodge, pl10pl10
+table of contents, appendix, index, license, copyright, acknowledgments, foreword, preface, Next-to-Instant Heroes, Using the Quickstart, Green Ronin Publishing, Open Game License
 
 ---
 
 ## 1. tf_weights
 
-*160 terms*
+*200 terms*
 
 | term_id | name | count | weighted_score |
 |---------|------|-------|----------------|
-| term_0004 | Damage | 191 | 219.0 |
-| term_0005 | Strength | 184 | 196.0 |
-| term_0008 | Perception | 135 | 139.0 |
-| term_0010 | Toughness | 131 | 155.0 |
-| term_0011 | Dodge | 127 | 139.0 |
-| term_0013 | Immunity | 111 | 119.0 |
-| term_0014 | Limited | 107 | 123.0 |
-| term_0015 | Expertise | 106 | 122.0 |
-| term_0016 | Fortitude | 105 | 113.0 |
-| term_0018 | Will | 95 | 111.0 |
-| term_0019 | Action | 94 | 98.0 |
-| term_0023 | Insight | 83 | 83.0 |
-| term_0024 | Deception | 82 | 90.0 |
-| term_0025 | Sustained | 82 | 90.0 |
-| term_0027 | Affliction | 80 | 84.0 |
-| term_0028 | Powers | 78 | 82.0 |
-| term_0029 | Resisted | 78 | 78.0 |
-| term_0031 | Gamemaster | 76 | 104.0 |
-| term_0032 | Movement | 70 | 74.0 |
-| term_0034 | Attack | 69 | 73.0 |
-| term_0035 | The GM | 69 | 85.0 |
-| term_0036 | Technology | 68 | 68.0 |
-| term_0038 | Athletics | 67 | 75.0 |
-| term_0040 | MPH | 63 | 63.0 |
-| term_0041 | Senses | 62 | 62.0 |
-| term_0042 | Removable | 62 | 66.0 |
-| term_0043 | Flight | 61 | 69.0 |
-| term_0044 | STRENGTH | 60 | 60.0 |
-| term_0045 | Ranged Damage | 60 | 60.0 |
-| term_0046 | Stealth | 59 | 59.0 |
-| term_0047 | Effect | 59 | 71.0 |
-| term_0048 | Protection | 58 | 66.0 |
-| term_0049 | PRESENCE | 58 | 58.0 |
-| term_0050 | Intimidation | 57 | 57.0 |
-| term_0051 | Insubstantial | 57 | 57.0 |
-| term_0052 | Accurate | 57 | 57.0 |
-| term_0053 | Stamina | 57 | 69.0 |
-| term_0054 | AWARENESS | 57 | 57.0 |
-| term_0055 | Personal | 57 | 57.0 |
-| term_0056 | Acrobatics | 56 | 60.0 |
-| term_0057 | Speed | 56 | 56.0 |
-| term_0058 | Parry | 56 | 60.0 |
-| term_0059 | STAMINA | 56 | 56.0 |
-| term_0060 | AGILITY | 56 | 56.0 |
-| term_0061 | DEXTERITY | 56 | 56.0 |
-| term_0062 | FIGHTING | 56 | 56.0 |
-| term_0063 | INTELLECT | 56 | 56.0 |
-| term_0064 | Ranged | 55 | 59.0 |
-| term_0067 | Alternate Effects | 51 | 55.0 |
-| term_0069 | Cost | 51 | 63.0 |
-| term_0070 | Concealment | 49 | 53.0 |
-| term_0071 | Range | 49 | 49.0 |
-| term_0073 | Motivation | 46 | 50.0 |
-| term_0074 | Variable | 46 | 74.0 |
-| term_0075 | Princess | 46 | 58.0 |
-| term_0076 | Equipment | 45 | 61.0 |
-| term_0077 | Duration | 45 | 45.0 |
-| term_0078 | Free | 43 | 43.0 |
-| term_0080 | Standard | 42 | 42.0 |
-| term_0081 | Persuasion | 41 | 45.0 |
-| term_0082 | Abilities | 41 | 45.0 |
-| term_0086 | Close | 40 | 40.0 |
-| term_0087 | Flat | 40 | 44.0 |
-| term_0088 | Subtle | 38 | 54.0 |
-| term_0090 | Regeneration | 37 | 37.0 |
-| term_0091 | Characters | 36 | 44.0 |
-| term_0092 | Heroes | 36 | 36.0 |
-| term_0093 | Alternate Effect | 35 | 43.0 |
-| term_0096 | Advantages | 34 | 34.0 |
-| term_0097 | Penetrating | 34 | 34.0 |
-| term_0098 | Permanent | 34 | 38.0 |
-| term_0099 | Choose | 34 | 34.0 |
-| term_0100 | Luck | 33 | 33.0 |
-| term_0101 | Healing | 33 | 33.0 |
-| term_0102 | Leaping | 33 | 33.0 |
-| term_0103 | Weaken | 33 | 33.0 |
-| term_0107 | Agility | 32 | 48.0 |
-| term_0109 | Stunned | 32 | 32.0 |
-| term_0110 | Instant | 32 | 32.0 |
-| term_0111 | GAMEMASTERING | 32 | 32.0 |
-| term_0112 | Investigation | 31 | 31.0 |
-| term_0113 | Dazed | 31 | 35.0 |
-| term_0114 | TOUGHNESS | 31 | 31.0 |
-| term_0115 | Enhanced Strength | 31 | 31.0 |
-| term_0116 | EXTRAS | 31 | 31.0 |
-| term_0117 | FLAWS | 31 | 31.0 |
-| term_0118 | Hand | 30 | 38.0 |
-| term_0119 | Communication | 30 | 50.0 |
-| term_0120 | Intellect | 30 | 42.0 |
-| term_0121 | Vulnerable | 30 | 30.0 |
-| term_0122 | Features | 30 | 38.0 |
-| term_0125 | Sleight | 29 | 29.0 |
-| term_0126 | Linked | 29 | 29.0 |
-| term_0127 | Awareness | 29 | 45.0 |
-| term_0128 | Failure | 29 | 65.0 |
-| term_0129 | Gamemasters | 29 | 29.0 |
-| term_0131 | Teleport | 28 | 32.0 |
-| term_0132 | Area | 28 | 28.0 |
-| term_0134 | Power | 28 | 40.0 |
-| term_0135 | RANK | 28 | 28.0 |
-| term_0136 | Effects | 28 | 36.0 |
-| term_0137 | Improved Initiative | 27 | 27.0 |
-| term_0138 | THE BASICS | 27 | 27.0 |
-| term_0139 | Incapacitated | 27 | 31.0 |
-| term_0140 | Example | 27 | 51.0 |
-| term_0141 | Magic | 27 | 31.0 |
-| term_0142 | Continuous | 27 | 31.0 |
-| term_0143 | GENERAL | 27 | 27.0 |
-| term_0144 | Move | 26 | 26.0 |
-| term_0145 | Power Attack | 26 | 26.0 |
-| term_0146 | Nullify | 26 | 30.0 |
-| term_0147 | Impervious | 26 | 30.0 |
-| term_0148 | Once | 26 | 34.0 |
-| term_0149 | Size | 26 | 26.0 |
-| term_0150 | Close Combat | 25 | 29.0 |
-| term_0151 | Create | 25 | 25.0 |
-| term_0152 | Selective | 25 | 29.0 |
-| term_0153 | Constructs | 25 | 25.0 |
-| term_0155 | Adventure | 25 | 25.0 |
-| term_0156 | Super | 25 | 25.0 |
-| term_0157 | Defenseless | 25 | 25.0 |
-| term_0158 | DODGE | 25 | 25.0 |
-| term_0159 | PARRY | 25 | 25.0 |
-| term_0160 | FORTITUDE | 25 | 25.0 |
-| term_0161 | WILL | 25 | 25.0 |
-| term_0163 | Vehicles | 24 | 24.0 |
-| term_0164 | Benefit | 24 | 24.0 |
-| term_0165 | Skill Mastery | 24 | 24.0 |
-| term_0166 | Feature | 24 | 24.0 |
-| term_0167 | Precise | 24 | 24.0 |
-| term_0169 | However | 24 | 28.0 |
-| term_0170 | Enhanced | 24 | 24.0 |
-| term_0171 | Evasion | 23 | 23.0 |
-| term_0172 | Growth | 23 | 27.0 |
-| term_0173 | Dexterity | 23 | 27.0 |
-| term_0174 | Presence | 23 | 27.0 |
-| term_0175 | Two | 23 | 23.0 |
-| term_0177 | Unarmed | 23 | 23.0 |
-| term_0178 | Move Object | 22 | 22.0 |
-| term_0179 | Quickness | 22 | 30.0 |
-| term_0180 | Like | 22 | 30.0 |
-| term_0181 | SKILL | 22 | 22.0 |
-| term_0182 | TOTAL | 22 | 22.0 |
-| term_0183 | RANKED | 22 | 22.0 |
-| term_0184 | Close Attack | 21 | 21.0 |
-| term_0185 | Summon | 21 | 25.0 |
-| term_0186 | Innate | 21 | 25.0 |
-| term_0187 | Note | 21 | 21.0 |
-| term_0188 | Hindered | 21 | 21.0 |
-| term_0189 | Enhanced Defenses | 21 | 21.0 |
-| term_0190 | Cold | 21 | 21.0 |
-| term_0191 | Treatment | 20 | 20.0 |
-| term_0192 | Rank | 20 | 32.0 |
-| term_0193 | The Basics | 20 | 20.0 |
-| term_0194 | Wall | 20 | 20.0 |
-| term_0195 | Energy Control | 20 | 24.0 |
-| term_0196 | Illusion | 19 | 31.0 |
-| term_0197 | Transform | 19 | 35.0 |
-| term_0198 | Sense | 19 | 31.0 |
-| term_0199 | Dependent | 19 | 27.0 |
+| term_0000 | You | 894 | 902.0 |
+| term_0001 | The | 574 | 718.0 |
+| term_0002 | CHAPTER | 515 | 515.0 |
+| term_0003 | Damage | 342 | 357.0 |
+| term_0004 | This | 279 | 359.0 |
+| term_0005 | Strength | 224 | 232.0 |
+| term_0006 | Perception | 205 | 207.0 |
+| term_0007 | POWERS | 196 | 196.0 |
+| term_0008 | Dodge | 195 | 201.0 |
+| term_0009 | Expertise | 187 | 191.0 |
+| term_0010 | For | 186 | 196.0 |
+| term_0011 | Powers | 182 | 185.0 |
+| term_0012 | Toughness | 178 | 190.0 |
+| term_0013 | SECRET ORIGINS | 166 | 166.0 |
+| term_0014 | Will | 163 | 171.0 |
+| term_0015 | Fortitude | 159 | 163.0 |
+| term_0016 | Advantages | 144 | 145.0 |
+| term_0017 | Roll | 140 | 140.0 |
+| term_0018 | Skills | 135 | 137.0 |
+| term_0019 | Immunity | 131 | 135.0 |
+| term_0020 | Limited | 128 | 136.0 |
+| term_0021 | Resisted | 120 | 120.0 |
+| term_0022 | Deception | 118 | 122.0 |
+| term_0023 | Ranged | 114 | 116.0 |
+| term_0024 | They | 112 | 114.0 |
+| term_0025 | Parry | 111 | 113.0 |
+| term_0026 | Action | 110 | 112.0 |
+| term_0027 | Abilities | 108 | 110.0 |
+| term_0028 | When | 107 | 115.0 |
+| term_0029 | Athletics | 105 | 109.0 |
+| term_0030 | Insight | 104 | 104.0 |
+| term_0031 | Close | 104 | 104.0 |
+| term_0032 | MPH | 100 | 100.0 |
+| term_0033 | Your | 98 | 124.0 |
+| term_0034 | SKILLS | 97 | 97.0 |
+| term_0035 | Senses | 97 | 97.0 |
+| term_0036 | Unarmed | 96 | 96.0 |
+| term_0037 | Affliction | 93 | 95.0 |
+| term_0038 | Technology | 92 | 92.0 |
+| term_0039 | Overcome | 92 | 92.0 |
+| term_0040 | Attack | 90 | 92.0 |
+| term_0041 | Stealth | 89 | 89.0 |
+| term_0042 | Gamemaster | 89 | 105.0 |
+| term_0043 | Movement | 88 | 90.0 |
+| term_0044 | Sustained | 88 | 92.0 |
+| term_0045 | Flight | 87 | 91.0 |
+| term_0046 | Removable | 86 | 88.0 |
+| term_0047 | Some | 86 | 91.0 |
+| term_0048 | Set | 84 | 98.0 |
+| term_0049 | Ranged Damage | 81 | 81.0 |
+| term_0050 | Intimidation | 80 | 80.0 |
+| term_0051 | Each | 80 | 94.0 |
+| term_0052 | Acrobatics | 79 | 81.0 |
+| term_0053 | Equipment | 79 | 85.0 |
+| term_0054 | STRENGTH | 77 | 77.0 |
+| term_0055 | Protection | 76 | 80.0 |
+| term_0056 | Defenses | 75 | 75.0 |
+| term_0057 | PRESENCE | 75 | 75.0 |
+| term_0058 | AWARENESS | 74 | 74.0 |
+| term_0059 | STAMINA | 73 | 73.0 |
+| term_0060 | AGILITY | 73 | 73.0 |
+| term_0061 | DEXTERITY | 73 | 73.0 |
+| term_0062 | FIGHTING | 73 | 73.0 |
+| term_0063 | INTELLECT | 73 | 73.0 |
+| term_0064 | Motivation | 70 | 78.0 |
+| term_0065 | Speed | 70 | 70.0 |
+| term_0066 | MASTERMINDS | 70 | 90.0 |
+| term_0067 | Defense | 69 | 71.0 |
+| term_0068 | MUTANTS | 67 | 83.0 |
+| term_0069 | Stamina | 65 | 71.0 |
+| term_0070 | Insubstantial | 63 | 63.0 |
+| term_0071 | Accurate | 63 | 63.0 |
+| term_0072 | The GM | 60 | 66.0 |
+| term_0073 | Effect | 60 | 66.0 |
+| term_0074 | Concealment | 59 | 61.0 |
+| term_0075 | STA | 57 | 57.0 |
+| term_0076 | Personal | 57 | 57.0 |
+| term_0077 | ABILITIES | 56 | 56.0 |
+| term_0078 | Alternate Effects | 56 | 62.0 |
+| term_0079 | Marmo | 56 | 64.0 |
+| term_0080 | FGT | 55 | 55.0 |
+| term_0081 | Persuasion | 54 | 56.0 |
+| term_0082 | Choose One | 53 | 53.0 |
+| term_0083 | STR | 53 | 53.0 |
+| term_0084 | AGL | 53 | 53.0 |
+| term_0085 | DEX | 53 | 53.0 |
+| term_0086 | INT | 53 | 53.0 |
+| term_0087 | AWE | 53 | 53.0 |
+| term_0088 | PRE | 53 | 53.0 |
+| term_0089 | With | 52 | 54.0 |
+| term_0090 | Avison | 52 | 58.0 |
+| term_0091 | Variable | 51 | 65.0 |
+| term_0092 | Offense | 51 | 51.0 |
+| term_0093 | Cost | 51 | 57.0 |
+| term_0094 | All | 50 | 52.0 |
+| term_0095 | GEAR | 50 | 50.0 |
+| term_0096 | Heroes | 50 | 50.0 |
+| term_0097 | Princess | 50 | 56.0 |
+| term_0098 | GADGETS | 50 | 50.0 |
+| term_0099 | Penetrating | 49 | 51.0 |
+| term_0100 | Range | 49 | 49.0 |
+| term_0101 | Totals | 49 | 49.0 |
+| term_0102 | See | 48 | 52.0 |
+| term_0103 | Leaping | 47 | 47.0 |
+| term_0104 | TOUGHNESS | 47 | 47.0 |
+| term_0105 | Free | 46 | 46.0 |
+| term_0106 | Sanguine | 46 | 46.0 |
+| term_0107 | Duration | 45 | 45.0 |
+| term_0108 | Regeneration | 44 | 44.0 |
+| term_0109 | Subtle | 44 | 52.0 |
+| term_0110 | ACTION | 44 | 44.0 |
+| term_0111 | One | 44 | 58.0 |
+| term_0112 | Standard | 43 | 43.0 |
+| term_0113 | Simian | 43 | 49.0 |
+| term_0114 | Investigation | 42 | 42.0 |
+| term_0115 | Vehicles | 42 | 42.0 |
+| term_0116 | Permanent | 42 | 44.0 |
+| term_0117 | Choose | 42 | 42.0 |
+| term_0118 | Move | 41 | 41.0 |
+| term_0119 | That | 41 | 49.0 |
+| term_0120 | Take | 41 | 41.0 |
+| term_0121 | DEFENSE | 41 | 41.0 |
+| term_0122 | DODGE | 41 | 41.0 |
+| term_0123 | PARRY | 41 | 41.0 |
+| term_0124 | WILL | 41 | 41.0 |
+| term_0125 | FORTITUDE | 41 | 41.0 |
+| term_0126 | Hand | 40 | 44.0 |
+| term_0127 | Power Attack | 40 | 40.0 |
+| term_0128 | Flat | 40 | 42.0 |
+| term_0129 | GAMEMASTERING | 40 | 40.0 |
+| term_0130 | Super | 39 | 39.0 |
+| term_0131 | Stunned | 39 | 39.0 |
+| term_0132 | Once | 39 | 45.0 |
+| term_0133 | Dazed | 38 | 40.0 |
+| term_0134 | COMBAT | 38 | 38.0 |
+| term_0135 | Hekawi | 38 | 40.0 |
+| term_0136 | Guild | 38 | 40.0 |
+| term_0137 | Luck | 37 | 37.0 |
+| term_0138 | Impervious | 37 | 39.0 |
+| term_0139 | Agility | 37 | 45.0 |
+| term_0140 | Vulnerable | 37 | 37.0 |
+| term_0141 | Magic | 37 | 39.0 |
+| term_0142 | Sleight | 36 | 36.0 |
+| term_0143 | Defensive Roll | 36 | 36.0 |
+| term_0144 | Summon | 36 | 38.0 |
+| term_0145 | Weaken | 36 | 36.0 |
+| term_0146 | There | 36 | 42.0 |
+| term_0147 | Characters | 36 | 40.0 |
+| term_0148 | Power | 36 | 42.0 |
+| term_0149 | Complications | 36 | 40.0 |
+| term_0150 | Earth | 36 | 42.0 |
+| term_0151 | Enhanced Strength | 36 | 36.0 |
+| term_0152 | Ranged Combat | 35 | 37.0 |
+| term_0153 | Healing | 35 | 35.0 |
+| term_0154 | Alternate Effect | 35 | 39.0 |
+| term_0155 | Awareness | 35 | 43.0 |
+| term_0156 | Array | 34 | 34.0 |
+| term_0157 | Teleport | 33 | 35.0 |
+| term_0158 | ADVENTURE | 33 | 33.0 |
+| term_0159 | Intellect | 33 | 37.0 |
+| term_0160 | Initiative | 32 | 32.0 |
+| term_0161 | Close Combat | 32 | 34.0 |
+| term_0162 | Linked | 32 | 34.0 |
+| term_0163 | Make | 32 | 32.0 |
+| term_0164 | Incapacitated | 32 | 34.0 |
+| term_0165 | These | 32 | 32.0 |
+| term_0166 | Vision | 32 | 32.0 |
+| term_0167 | Emerald City | 32 | 40.0 |
+| term_0168 | Fire | 32 | 32.0 |
+| term_0169 | Instant | 32 | 32.0 |
+| term_0170 | Lord Sanguine | 32 | 38.0 |
+| term_0171 | ADVANTAGES | 31 | 31.0 |
+| term_0172 | Improved Initiative | 31 | 31.0 |
+| term_0173 | Communication | 31 | 41.0 |
+| term_0174 | Defenseless | 31 | 31.0 |
+| term_0175 | Effects | 31 | 35.0 |
+| term_0176 | EXTRAS | 31 | 31.0 |
+| term_0177 | FLAWS | 31 | 31.0 |
+| term_0178 | Wolfen | 31 | 35.0 |
+| term_0179 | Benefit | 30 | 30.0 |
+| term_0180 | Evasion | 30 | 30.0 |
+| term_0181 | Skill Mastery | 30 | 30.0 |
+| term_0182 | Growth | 30 | 32.0 |
+| term_0183 | Area | 30 | 30.0 |
+| term_0184 | Selective | 30 | 32.0 |
+| term_0185 | While | 30 | 38.0 |
+| term_0186 | Features | 30 | 32.0 |
+| term_0187 | DEFENSES | 30 | 30.0 |
+| term_0188 | Init | 30 | 30.0 |
+| term_0189 | FLAT | 30 | 30.0 |
+| term_0190 | COST PER RANK | 30 | 30.0 |
+| term_0191 | Blackbird | 30 | 30.0 |
+| term_0192 | Create | 29 | 29.0 |
+| term_0193 | Feature | 29 | 29.0 |
+| term_0194 | Quickness | 29 | 33.0 |
+| term_0195 | Precise | 29 | 29.0 |
+| term_0196 | Since | 29 | 31.0 |
+| term_0197 | Failure | 29 | 47.0 |
+| term_0198 | Hindered | 29 | 29.0 |
+| term_0199 | Gamemasters | 29 | 29.0 |
 
 ## 2. definition_patterns
 
-*1364 definitions*
+*488 definitions*
 
-- **def_0000** | concept: Powers | chunk: 89a1fc58a123
-  > uidelines.  POWERS  Powers are special abilities beyond those of ordinary hu- man beings. They’re like advanta
-- **def_0001** | concept: Checks | chunk: dd71074ce318
-  > ing supervillains!  Checks are used to resolve all outcomes in MUTANTS & MAS- TERMINDS,  so  once  you  unders
-- **def_0002** | concept: Checks | chunk: dd71074ce318
-  > Adventure chapter.  Checks are made against a difficulty class or DC, a num- ber set by the GM, which your che
-- **def_0003** | concept: Compelled | chunk: 9c9f9b5a490d
-  > ls.  •  •  •  •  •  Compelled: A compelled character is directed by an outside force, but struggling against it
-- **def_0004** | concept: Controlled | chunk: 9c9f9b5a490d
-  > ersedes compelled.  Controlled:  A  controlled  character  has  no  free  will; the character’s actions each turn
-- **def_0005** | concept: Dazed | chunk: 9c9f9b5a490d
-  > olling, character.  Dazed:  A  dazed  character  is  limited  to  free  actions and a single standard action
-- **def_0006** | concept: Debilitated | chunk: 9c9f9b5a490d
-  > supersedes dazed.  Debilitated: The character has one or more abilities lowered below –5. (See Debilitated Abili
-- **def_0007** | concept: Defenseless | chunk: 9c9f9b5a490d
-  > bilities chapter.)  Defenseless: A defenseless character has active de- fense  bonuses  of  0.  Attackers  can  m
-- **def_0008** | concept: Disabled | chunk: b551e66974e2
-  > •  •  •  •  •  •  Disabled:  A  disabled  character  is  at  a  –5  circum- stance  penalty  on  checks.  If
-- **def_0009** | concept: Fatigued | chunk: b551e66974e2
-  > persedes disabled.  Fatigued: Fatigued characters are hindered. Characters recover from a fatigued condition a
-- **def_0010** | concept: Hindered | chunk: b551e66974e2
-  > r an hour of rest.  Hindered: A hindered character moves at half normal speed (–1 speed rank). Immobile supers
-- **def_0011** | concept: Immobile | chunk: b551e66974e2
-  > persedes hindered.  Immobile: Immobile characters have no movement speed and cannot move from the spot they oc
-- **def_0012** | concept: Impaired | chunk: b551e66974e2
-  > another condition.  Impaired:  An  impaired  character  is  at  a  –2  circum- stance penalty on checks. If the
-- **def_0013** | concept: Normal | chunk: b551e66974e2
-  > persedes impaired.  Normal: The character is unharmed and unaffected by other conditions, acting normally.
-- **def_0014** | concept: Stunned | chunk: b551e66974e2
-  > , acting normally.  Stunned: Stunned characters cannot take any actions, including free actions  Transformed:
-- **def_0015** | concept: Transformed | chunk: b551e66974e2
-  > uding free actions  Transformed: Transformed  characters  have  some  or all of their traits altered by an outsid
-- **def_0016** | concept: Unaware | chunk: b551e66974e2
-  > wer power points).  Unaware: The character is completely unaware of his surroundings, unable to make interact
-- **def_0017** | concept: Vulnerable | chunk: b551e66974e2
-  > ’s unaware senses.  Vulnerable:  Vulnerable  characters  are  limited  in their  ability  to  defend  themselves,
-- **def_0018** | concept: Asleep | chunk: 7a6d568a6006
-  > •  •  •  •  •  •  Asleep:  While  asleep,  a  character  is  defenseless, stunned,  and  unaware.  A  heari
-- **def_0019** | concept: Blind | chunk: 7a6d568a6006
-  > resistance check.  Blind:  The  character  cannot  see.  Everything  ef- fectively  has  full  visual  conc
-- **def_0020** | concept: Bound | chunk: 7a6d568a6006
-  > sion is a factor.  Bound: A bound character is defenseless, immobile, and impaired.  Deaf: The  character
-- **def_0021** | concept: Deaf | chunk: 7a6d568a6006
-  > ile, and impaired.  Deaf: The  character  cannot  hear,  giving  everything total  auditory  concealment
-- **def_0022** | concept: Dying | chunk: 7a6d568a6006
-  > lls in Chapter 3).  Dying: A dying character is incapacitated (defense- less, stunned, and unaware) and nea
-- **def_0023** | concept: Entranced | chunk: 7a6d568a6006
-  > e Powers chapter).  Entranced: An entranced character is stunned, tak- ing  no  actions  other  than  paying  a
-- **def_0024** | concept: Exhausted | chunk: 7a6d568a6006
-  > 10 + effect rank).  Exhausted: Exhausted characters are near collapse. They are impaired and hindered. Characte
-- **def_0025** | concept: Incapacitated | chunk: 7a6d568a6006
-  > able surroundings.  Incapacitated:  An  incapacitated  character  is  de- fenseless, stunned, and unaware. Incapacit
-- **def_0026** | concept: Paralyzed | chunk: 7a6d568a6006
-  > eps them standing.  Paralyzed: A paralyzed character is defenseless, immo- bile, and physically stunned, frozen
-- **def_0027** | concept: Prone | chunk: 7a6d568a6006
-  > vement whatsoever.  Prone: A prone character is lying on the ground, receiv- ing a –5 circumstance penalty
-- **def_0028** | concept: Restrained | chunk: 7a6d568a6006
-  > is a move action.  Restrained:  A  restrained  character  is  hindered  and vulnerable.  If  the  restraints  ar
-- **def_0029** | concept: Staggered | chunk: 7a6d568a6006
-  > raining character.  Staggered: A staggered character is dazed and hin- dered.  Surprised: A surprised character
-- **def_0030** | concept: Surprised | chunk: 7a6d568a6006
-  > ed and hin- dered.  Surprised: A surprised character is stunned and vul- nerable,  caught  off-guard  and  ther
-- **def_0031** | concept: Heroes | chunk: 7a6d568a6006
-  > to avoid attacks.  Heroes  are  sometimes  called  upon  to  perform  feats  be- yond even their amazing abili
-- **def_0032** | concept: Skill Modifier | chunk: 301ee8a15809
-  > g limits:  •  •  •  Skill Modifier: Your hero’s total modifier with any skill (ability rank + skill rank + advantage
-- **def_0033** | concept: Acceptance | chunk: 079ee72c1633
-  > the following:  •  Acceptance:  The  hero  feels  different  or  isolated (perhaps for being a non-human in huma
-- **def_0034** | concept: Doing Good | chunk: 079ee72c1633
-  > •  •  •  •  •  •  Doing Good: Some heroes fight the good fight sim- ply because it’s the right thing to do and
-- **def_0035** | concept: Greed | chunk: 079ee72c1633
-  > a mentor or idol.  Greed: There are those motivated by nothing more than the opportunity to make a profit
-- **def_0036** | concept: Justice | chunk: 079ee72c1633
-  > t-mongering peers.  Justice: An overwhelming thirst for justice drives some heroes, a need to see the innocen
-- **def_0037** | concept: Patriotism | chunk: 079ee72c1633
-  > th of a loved one.  Patriotism:  Heroes  are  often  devoted  to  the  ideals of their home (or adopted) nation,
-- **def_0038** | concept: Recognition | chunk: 079ee72c1633
-  > ion, that matters.  Recognition: Some heroes just want recognition or attention, and dressing up in a bright cost
-- **def_0039** | concept: Responsibility | chunk: 079ee72c1633
-  > ves the spotlight.  Responsibility:  The  responsibility  of  having  great power can be a heavy burden but some hero
-- **def_0040** | concept: Thrills | chunk: 079ee72c1633
-  > who inspired them.  Thrills: For some the life of a superhero is all about excitement, thrills, danger, and c
-- **def_0041** | concept: Motivation | chunk: 079ee72c1633
-  > hero’s motivation?  Motivation is a complication because it often determines what a hero will do in a particular
-- **def_0042** | concept: Accident | chunk: 457931504c50
-  > es, include:  •  •  Accident: You cause or suffer some sort of accident. Perhaps a stray blast damages a build
-- **def_0043** | concept: Addiction | chunk: 457931504c50
-  > ving the accident.  Addiction: You need something, whether for physi- cal or psychological reasons. You’ll go o
-- **def_0044** | concept: Disability | chunk: 457931504c50
-  > ts on their lives.  Disability: You are limited by a particular disability, such as being blind, deaf, or parapl
-- **def_0045** | concept: Enemy | chunk: 457931504c50
-  > from time to time.  Enemy: You have an enemy, or enemies, trying to do you harm. The GM can have your enemy
-- **def_0046** | concept: Fame | chunk: 457931504c50
-  > get a hero point.  Fame:  You’re  a  public  figure,  known  almost  every- where you go, hounded by the m
-- **def_0047** | concept: Hatred | chunk: 457931504c50
-  > ous complications.  Hatred: You have an irrational hatred of something, leading you to actively oppose the o
-- **def_0048** | concept: Honor | chunk: 457931504c50
-  > r better judgment.  Honor: You  have  a  strong  personal  code  of  honor. Generally  this  means  you  wo
-- **def_0049** | concept: Identity | chunk: 457931504c50
-  > f a moral dilemma.  Identity: Heroes often maintain secret identities, cre- ating various complications as the
-- **def_0050** | concept: Obsession | chunk: 457931504c50
-  > es in one persona.  Obsession: You’re obsessed with a particular subject and pursue it to the exclusion of all
-- **def_0051** | concept: Phobia | chunk: 457931504c50
-  > few complications.  Phobia: You’re irrationally afraid of something. When confronted with it you have to fig
-- **def_0052** | concept: HOOD | chunk: 93337a63364b
-  > 2: SECRET ORIGINS  HOOD: COMPLICATIONS AND UP-FRONT REWARDS  Some roleplaying game systems include compli
-- **def_0053** | concept: Prejudice | chunk: 93337a63364b
-  > n comes into play.  Prejudice: You are part of a minority group subject to  the  prejudices  of  others,  which
-- **def_0054** | concept: Quirk | chunk: 93337a63364b
-  > this complication.  Quirk:  Complications  can  often  come  from  various personality  quirks:  likes,  dis
-- **def_0055** | concept: Relationship | chunk: 93337a63364b
-  > uble for the hero.  Relationship: The  important  people  in  a  hero’s  life are  a  source  of  strength,  but
-- **def_0056** | concept: Reputation | chunk: 93337a63364b
-  > eking to find out.  Reputation:  You  have  a  bad  reputation,  affecting what  others  think  of  you  (whether
-- **def_0057** | concept: Responsibility | chunk: 93337a63364b
-  > o not as a result.  Responsibility:  You  have  various  demands  on  your time and attention. Responsibilities inclu
-- **def_0058** | concept: Rivalry | chunk: 93337a63364b
-  > nd other problems.  Rivalry: You feel a strong sense of competition with a person or group and have to do you
-- **def_0059** | concept: Secret | chunk: 93337a63364b
-  > every opportunity.  Secret:  You  have  something  potentially  damag- ing  or  embarrassing  you’re  hiding
-- **def_0060** | concept: Temper | chunk: 93337a63364b
-  > al your secret.  •  Temper: Certain things just set you off. When you lose your temper you lash out at whate
-- **def_0061** | concept: What | chunk: 6890e166bca9
-  > r character:  NAME  What is your character’s name? That is to say, what is the name  the  hero  uses  in  p
-- **def_0062** | concept: Scientist | chunk: 1af862ab5396
-  > ult.  13-16  17-20  Scientist: You work as a scientist and/or have natural talent in that area.  Wealthy: Wheth
-- **def_0063** | concept: Wealthy | chunk: 1af862ab5396
-  > lent in that area.  Wealthy: Whether you inherited or earned it, you’re a part of the upper-crust of society.
-- **def_0064** | concept: Genius | chunk: 1af862ab5396
-  > ell-informed  1-12  Genius: You’re incredibly intelligent and likely had a hand in creating your battlesuit.
-- **def_0065** | concept: Military | chunk: 1af862ab5396
-  > UCKY  13-18  19-20  Military: You were trained by the military as a soldier or scientist and may have received
-- **def_0066** | concept: Accidental | chunk: 1af862ab5396
-  > tlesuit from them.  Accidental: You chanced upon your armor somehow, either the armor’s creation was a one- time
-- **def_0067** | concept: Combatant | chunk: 1af862ab5396
-  > results.  1-4  5-8  Combatant: You have natural talent or you’ve been trained in combat, both in armor and out.
-- **def_0068** | concept: Inventor | chunk: 1af862ab5396
-  > in armor and out.  Inventor: You know your way around technology, have a headquarters, and can build gadgets
-- **def_0069** | concept: Lucky | chunk: 1af862ab5396
-  > given time.  9-12  Lucky: Things are easy for you.  Beginner’s Luck, Luck 2, Redirect, Teamwork  SCIENTIST
-- **def_0070** | concept: People Person | chunk: 1af862ab5396
-  > the results.  1-4  People Person: You’re good with people and in business.  5-16  Sciences: You’re well educated.
-- **def_0071** | concept: Sciences | chunk: 1af862ab5396
-  > in business.  5-16  Sciences: You’re well educated.  17-20  Student: You’re young, but you still know a thing
-- **def_0072** | concept: Student | chunk: 1af862ab5396
-  > l educated.  17-20  Student: You’re young, but you still know a thing or two.  PERSON  Expertise: Business 4,
-- **def_0073** | concept: Expertise | chunk: 1af862ab5396
-  > ng or two.  PERSON  Expertise: Business 4, Insight 4, Perception 4, Persuasion 4  SCIENCES  Expertise: Science
-- **def_0074** | concept: Expertise | chunk: 1af862ab5396
-  > uasion 4  SCIENCES  Expertise: Science 6, Perception 4, Technology 6  STUDENT  Expertise: Science 4, Perception
-- **def_0075** | concept: Expertise | chunk: 1af862ab5396
-  > hnology 6  STUDENT  Expertise: Science 4, Perception 4, Persuasion 4, Technology 4  POWERS  Weapon Array (24 po
-- **def_0076** | concept: Ability Amplifier | chunk: e087f7a0b70b
-  > curate 4 • 1 point  Ability Amplifier: Enhanced Defenses 16 (Dodge 4,  Fortitude 4, Parry 4, Will 4), Removable (-3 poi
-- **def_0077** | concept: Armored Shell | chunk: e087f7a0b70b
-  > oints) • 13 points  Armored Shell: Impervious Protection 8, Removable (-3  points) • 13 points  Sealed Systems: Imm
-- **def_0078** | concept: Sealed Systems | chunk: e087f7a0b70b
-  > oints) • 13 points  Sealed Systems: Immunity 10 (Life Support), Removable (-2  points) • 8 points  Roll 1d20 once an
-- **def_0079** | concept: Gravity Drivers | chunk: e087f7a0b70b
-  > result.  1-7  8-10  Gravity Drivers: Flight 7 (250 MPH), Removable  (-3 points) • 11 points  •  Space Flight: Movemen
-- **def_0080** | concept: Locomotion Systems | chunk: e087f7a0b70b
-  > ravel 1) • 1 point  Locomotion Systems: Speed 7 (250 MPH); Leaping 4 (120 feet); Movement 2 (Choose two: Safe Fall, Swin
-- **def_0081** | concept: Rocket Turbines | chunk: e087f7a0b70b
-  > oints) • 12 points  Rocket Turbines: Flight 7 (250 MPH), Removable  (-3 points) • 11 points  11-17  •  Aquatic Turbin
-- **def_0082** | concept: Teleport-Tech | chunk: e087f7a0b70b
-  > ) • 1 point  18-20  Teleport-Tech: Teleport 3 (250 feet), Easy, Extended (8 miles), Change Direction, Change Veloci
-- **def_0083** | concept: Communication Systems | chunk: e087f7a0b70b
-  > oints) • 12 points  Communication Systems: Radio Communication 2,  Removable (-2 points) • 6 points  Sensors: Senses 2 (Ext
-- **def_0084** | concept: Sensors | chunk: e087f7a0b70b
-  > points) • 6 points  Sensors: Senses 2 (Extended Vision, Infravision), Removable  (-0 points) • 2 points  DEFE
-- **def_0085** | concept: Identity | chunk: e087f7a0b70b
-  > AL  16  12  150  •  Identity: The Battlesuit often has a secret identity he or she tries to protect.  •  Motiv
-- **def_0086** | concept: Relationship | chunk: e087f7a0b70b
-  > t shortcomings.  •  Relationship: The Battlesuit is often surrounded by friends or loved ones that often become en
-- **def_0087** | concept: Golem | chunk: e087f7a0b70b
-  > d the result.  1-4  Golem: You were literally assembled in some way. You’re a golem, living statue, some so
-- **def_0088** | concept: Technological | chunk: e087f7a0b70b
-  > nimate form.  5-12  Technological: You’re a robot, android, or some other sort of technological construct.  13-20
-- **def_0089** | concept: Undead | chunk: e087f7a0b70b
-  > construct.  13-20  Undead: You died, but you’ve been brought back to (some semblance of ) life as a zombie,
-- **def_0090** | concept: Brawler | chunk: d329357e5091
-  > 6-10  1-10  11-15  Brawler: You know how to use your strength to your advantage.  Dabbler: You have some mag
-- **def_0091** | concept: Dabbler | chunk: d329357e5091
-  > to your advantage.  Dabbler: You have some magical or technological knowledge and can create useful devices o
-- **def_0092** | concept: Perfect Recall | chunk: d329357e5091
-  > artifacts.  16-20  Perfect Recall: You have an uncanny memory.  BRUTE  Athletics 6, Intimidation 6  EXPERT  Percept
-- **def_0093** | concept: Blast | chunk: d329357e5091
-  > d the result.  1-5  Blast: Ranged Damage 8, Accurate 6 • 22 points  Elemental Body: Enhanced Advantages 6 (
-- **def_0094** | concept: Elemental Body | chunk: d329357e5091
-  > rate 6 • 22 points  Elemental Body: Enhanced Advantages 6 (Close  Attack 6); plus roll 1d20 once:  1-5  6-10  11-15
-- **def_0095** | concept: Damaging Aura | chunk: d329357e5091
-  > 6-10  11-15  16-20  Damaging Aura: Reaction Damage 6  • 22 points  Gaseous Form: Flight 3 (16 MPH);  Insubstantial
-- **def_0096** | concept: Gaseous Form | chunk: d329357e5091
-  > age 6  • 22 points  Gaseous Form: Flight 3 (16 MPH);  Insubstantial 2 (Gaseous) • 22 points  Liquid Form: Concealm
-- **def_0097** | concept: Liquid Form | chunk: d329357e5091
-  > seous) • 22 points  Liquid Form: Concealment 10 (All  Senses; Limited—In Liquid, Passive); Insubstantial 1 (Liqui
-- **def_0098** | concept: Particulate Form | chunk: d329357e5091
-  > 0 MPH) • 22 points  Particulate Form: Elongation 2 (30 feet); Insubstantial 2 (Particulate); Movement 2 (Permeate 2) •
-- **def_0099** | concept: Unstoppable | chunk: d329357e5091
-  > rate Attack  11-20  Unstoppable: Enhanced Strength 4; Enhanced Trait 2 (Close Attack 2); Immortality 5; Regenerat
-- **def_0100** | concept: Brute | chunk: d329357e5091
-  > the results.  1-5  Brute: You’re big and intimidating.  6-10  Expert: You know a lot about magic or techno
-- **def_0101** | concept: Expert | chunk: d329357e5091
-  > ntimidating.  6-10  Expert: You know a lot about magic or technology.  11-15  Seeker: You’re looking for clu
-- **def_0102** | concept: Seeker | chunk: d329357e5091
-  > technology.  11-15  Seeker: You’re looking for clues to your origin or past.  16-20  Sneak: You’re stealthy.
-- **def_0103** | concept: Sneak | chunk: d329357e5091
-  > in or past.  16-20  Sneak: You’re stealthy.  1-4  Blast: Ranged Damage 9, Accurate 4 • 22 points  5-8  Retr
-- **def_0104** | concept: Blast | chunk: d329357e5091
-  > ’re stealthy.  1-4  Blast: Ranged Damage 9, Accurate 4 • 22 points  5-8  Retractable Claws and Combat Compu
-- **def_0105** | concept: Juggernaut | chunk: d329357e5091
-  > ints  13-16  17-20  Juggernaut: Enhanced Strength 4; Enhanced Trait 2 (Close Attack 2); Immortality 5; Leaping 2
-- **def_0106** | concept: Repeater | chunk: d329357e5091
-  > feet) • 22 points  Repeater: Ranged Mutliattack Damage 6, Accurate 4  • 22 points
-- **def_0107** | concept: Bestial | chunk: a67593d532fb
-  > 1-7  8-14  15-20  Bestial: Enhanced Traits 16 (Close Attack 8, Diehard, Evasion, Improved Critical (Unarmed
-- **def_0108** | concept: Wraith | chunk: a67593d532fb
-  > 6 MPH) • 22 points  Wraith: Flight 1 (4 MPH); Insubstantial 4,  Concentration, Distracting; Strength-based D
-- **def_0109** | concept: Damage Resistance | chunk: a67593d532fb
-  > ack 6) • 22 points  Damage Resistance: Impervious Protection 8 • 16 points  Unliving: Immunity 38 (Aging, Critical Hits
-- **def_0110** | concept: Unliving | chunk: a67593d532fb
-  > tion 8 • 16 points  Unliving: Immunity 38 (Aging, Critical Hits, Fortitude effects,  Sensory Affliction effect
-- **def_0111** | concept: Unnatural Speed | chunk: a67593d532fb
-  > tion 2 • 16 points  Unnatural Speed: Enhanced Defenses 16 (Dodge  10, Parry 6) • 16 points  Unnatural Toughness: Enha
-- **def_0112** | concept: Unnatural Toughness | chunk: a67593d532fb
-  > rry 6) • 16 points  Unnatural Toughness: Enhanced Defenses 8 (Dodge 6, Parry 2); Impervious Protection 4 • 16 points  Rol
-- **def_0113** | concept: Inhuman Brain | chunk: a67593d532fb
-  > sult.  1-12  13-20  Inhuman Brain: Immunity 10 (Mental effects)  • 10 points  Almost Human: Enhanced Defenses 5 (Wi
-- **def_0114** | concept: Almost Human | chunk: a67593d532fb
-  > ects)  • 10 points  Almost Human: Enhanced Defenses 5 (Will 5);  Immunity 5 (Emotion effects) • 10 points  DEFENSE
-- **def_0115** | concept: Enemy | chunk: a67593d532fb
-  > ever it can.  •  •  Enemy:  The  Construct  could  be  a  rogue  android, golem,  or  summoned  elemental  h
-- **def_0116** | concept: Prejudice | chunk: a67593d532fb
-  > l for some reason.  Prejudice: Constructs often appear inhuman, which causes others to react poorly to it.  •
-- **def_0117** | concept: Dark Avenger | chunk: a67593d532fb
-  > result.  1-8  9-15  Dark Avenger: Your life changed in a single, horrifying moment. Since then you’ve trained your
-- **def_0118** | concept: Detective | chunk: a67593d532fb
-  > ment of vengeance.  Detective: Physically you’re a match for most men, but mentally you’re a giant, able to fer
-- **def_0119** | concept: Inventor | chunk: a67593d532fb
-  > detectives.  16-20  Inventor: You fight crime using gadgets that you’ve created or modified.  AVENGER  STRENGT
-- **def_0120** | concept: Crime Fighters | chunk: a67593d532fb
-  > e outside sources.  Crime Fighters are normal men or women who’ve trained for years to become physically and mentally
-- **def_0121** | concept: Incredible Presence | chunk: a37758230a66
-  > 1-8  9-15  16-20  Incredible Presence: You are physically impressive or otherwise intimidating. You also a natural lead
-- **def_0122** | concept: Wealthy Socialite | chunk: a37758230a66
-  > a natural leader.  Wealthy Socialite: You are wealthy and know a lot of people.  World Traveler: You have traveled the
-- **def_0123** | concept: World Traveler | chunk: a37758230a66
-  > w a lot of people.  World Traveler: You have traveled the world, met people everywhere, and learned a number of lang
-- **def_0124** | concept: Criminologist | chunk: a37758230a66
-  > gain.  1-10  11-15  Criminologist: You study your enemies and know how they think and behave.  Scientist: You are a
-- **def_0125** | concept: Scientist | chunk: a37758230a66
-  > think and behave.  Scientist: You are a trained scientist and capable of inventing gadgets of your own.  16-20
-- **def_0126** | concept: Expertise | chunk: dcdc4c459ab6
-  > stery (Technology)  Expertise: Streetwise 4, Insight 5, Investigation 6, Perception 5  SLEUTH  SNEAK  Skill Mas
-- **def_0127** | concept: Acrobat | chunk: dcdc4c459ab6
-  > the result.  1-10  Acrobat: You’re a trained acrobat, capable of incredible feats of agility.  11-15 Martial
-- **def_0128** | concept: Thief | chunk: dcdc4c459ab6
-  > ed fighter.  16-20  Thief: You’re a trained thief, able to disappear with a moment’s notice.  ACROBAT  Evas
-- **def_0129** | concept: Close Combat | chunk: dcdc4c459ab6
-  > (Stealth)  SKILLS  Close Combat: Unarmed 6  Take the skill listed above, then if you rolled Dark Aveng- er  for
-- **def_0130** | concept: Athlete | chunk: dcdc4c459ab6
-  > Expert again.  1-4  Athlete: You’re physically capable and impressive.  5-8  Avenger: You’ve trained yourself
-- **def_0131** | concept: Avenger | chunk: dcdc4c459ab6
-  > d impressive.  5-8  Avenger: You’ve trained yourself in a number of useful skills.  5-10  6-10  9-12  Expert:
-- **def_0132** | concept: Expert | chunk: dcdc4c459ab6
-  > 5-10  6-10  9-12  Expert: You know a lot about some subjects.  13-16  Investigator: You’ve studied investi
-- **def_0133** | concept: Investigator | chunk: dcdc4c459ab6
-  > e subjects.  13-16  Investigator: You’ve studied investigation and other forms of observation.  17-20  Sneak: You’
-- **def_0134** | concept: Sneak | chunk: dcdc4c459ab6
-  > bservation.  17-20  Sneak: You’re stealthy.  ATHLETE  Acrobatics 6, Athletics 8, Intimidation 6  AVENGER  E
-- **def_0135** | concept: Expertise | chunk: dcdc4c459ab6
-  > idation 6  AVENGER  Expertise: Streetwise 6, Intimidation 8, Vehicles 6  11-15  16-20  Advantage: Equipment 10
-- **def_0136** | concept: Advantage | chunk: dcdc4c459ab6
-  > es 6  11-15  16-20  Advantage: Equipment 10 (Equipment listed immediately below) Smartphone • 2 points Headquar
-- **def_0137** | concept: Features | chunk: dcdc4c459ab6
-  > dium, Toughness: 8; Features: Communications, Computer, Concealed, Garage, Gym, Living Space, Power System, Se
-- **def_0138** | concept: Motorcycle | chunk: dcdc4c459ab6
-  > System • 10 points  Motorcycle: Medium; Str 1; Speed 6; Defense 10;  Toughness 8 • 10 points  Knife: Strength-ba
-- **def_0139** | concept: Knife | chunk: dcdc4c459ab6
-  > ness 8 • 10 points  Knife: Strength-based Damage 1, Improved Critical  • 2 points  Customized Heavy Pistol
-- **def_0140** | concept: Customized Assault Rifle | chunk: dcdc4c459ab6
-  > rate 2 • 10 points  Customized Assault Rifle: Ranged Multiattack  Damage 5, Accurate • 16 points  GADGETS  Advantage: Equipmen
-- **def_0141** | concept: Advantage | chunk: dcdc4c459ab6
-  > 16 points  GADGETS  Advantage: Equipment 3 (Headquarters) Headquarters—Size: Large, Toughness: 10; Features: Co
-- **def_0142** | concept: Features | chunk: dcdc4c459ab6
-  > rge, Toughness: 10; Features: Communications, Computer, Concealed, Fire Prevention System, Gym, Infirmary, Lab
-- **def_0143** | concept: Combat Suit | chunk: dcdc4c459ab6
-  > d the result.  1-5  Combat Suit: Enhanced Strength 1; Leaping 1 (15 feet); Movement 2 (Wall-crawling 2); Protecti
-- **def_0144** | concept: Flight Suit | chunk: dcdc4c459ab6
-  > points) • 7 points  Flight Suit: Flight 5 (60 MPH), Wings;  Senses 1 (Ultravision); Strength-based Damage 1, Move
-- **def_0145** | concept: Gimmick Gadgets | chunk: dcdc4c459ab6
-  > points) • 7 points  Gimmick Gadgets: Ranged Damage 5, Accurate, AE: Ranged Cloud Area Affliction 3 (Resisted and Over
-- **def_0146** | concept: Stealth Suit | chunk: dcdc4c459ab6
-  > points) • 7 points  Stealth Suit: Concealment 4 (All  Visual), Passive; Ranged Affliction 6 (Resisted and Overcome
-- **def_0147** | concept: Advantage | chunk: 04f4880a6e63
-  > NS  HIGHTECH GEAR  Advantage: Equipment 10 (Equipment listed immediately below)  Smartphone, Restraints, Flash
-- **def_0148** | concept: Features | chunk: 04f4880a6e63
-  > uge, Toughness: 10; Features: Communications, Computer, Concealed, Garage, Gym, Laboratory, Living Space, Powe
-- **def_0149** | concept: Motorcycle | chunk: 04f4880a6e63
-  > rkshop • 15 points  Motorcycle: Medium; Str 1; Speed 6; Defense 10;  Toughness 8 • 10 points  Swingline: Movemen
-- **def_0150** | concept: Swingline | chunk: 04f4880a6e63
-  > ness 8 • 10 points  Swingline: Movement 1 (Swinging) • 2 points  Utility Belt • 17 points  11-20  •  Bolos: Ran
-- **def_0151** | concept: Enemy | chunk: 04f4880a6e63
-  > rom having fun?  •  Enemy: The Crime Fighter usually has at least one vil- lain central to his or her exist
-- **def_0152** | concept: Embodiment | chunk: 04f4880a6e63
-  > fail-  1-10  11-20  Embodiment: You are a sentient incarnation of an elemental force.  Transformed: You are a hu
-- **def_0153** | concept: Transformed | chunk: 04f4880a6e63
-  > n elemental force.  Transformed: You are a human whose body has been transformed into something other than flesh
-- **def_0154** | concept: Imposing | chunk: 04f4880a6e63
-  > d the result.  1-8  Imposing: Your form is fearsome and impressive.  9-12  Overseer: You tend to take a guidin
-- **def_0155** | concept: Overseer | chunk: 04f4880a6e63
-  > impressive.  9-12  Overseer: You tend to take a guiding role.  13-20  Unobtrusive: You blend into the backgro
-- **def_0156** | concept: Unobtrusive | chunk: 04f4880a6e63
-  > iding role.  13-20  Unobtrusive: You blend into the background and stay out of the way.  IMPOSING  Daze (Choose O
-- **def_0157** | concept: The Elemental | chunk: 04f4880a6e63
-  > tently.  ELEMENTAL  The Elemental is a being composed of a pure element, usu- ally one of the classical four element
-- **def_0158** | concept: Android Host | chunk: b511fe78f53a
-  > result.  1-5  6-20  Android Host: Enhanced Strength 6, Reduced  Stamina 7 (Stamina —); Enhanced Defenses 8 (Dodge
-- **def_0159** | concept: Gaseous Form | chunk: b511fe78f53a
-  > tion 8 • 34 points  Gaseous Form: Visual Concealment 4, Partial; Enhanced Advantages 2 (Defensive Roll 2); Enhance
-- **def_0160** | concept: Flight | chunk: b511fe78f53a
-  > ing on this table.  Flight: Flight 7 (250 MPH) • 14 points  1-5  6-10  Native: You are well versed in or hav
-- **def_0161** | concept: Native | chunk: b511fe78f53a
-  > points  1-5  6-10  Native: You are well versed in or have researched the properties of your element.  Pilot
-- **def_0162** | concept: Pilot/Driver | chunk: b511fe78f53a
-  > s of your element.  Pilot/Driver: You are proficient in the care and use of planes or cars.  11-15  Scientist: You
-- **def_0163** | concept: Scientist | chunk: b511fe78f53a
-  > es or cars.  11-15  Scientist: You are knowledgeable in the sciences.  16-20  Soldier: You are a former militar
-- **def_0164** | concept: Soldier | chunk: b511fe78f53a
-  > e sciences.  16-20  Soldier: You are a former military man.  Air Control: Array (24 points plus 2 Alternate E
-- **def_0165** | concept: Air Control | chunk: b511fe78f53a
-  > rmer military man.  Air Control: Array (24 points plus 2 Alternate Effects)  •  Air Blast: Ranged Damage 12 • 24
-- **def_0166** | concept: Expertise | chunk: b511fe78f53a
-  > e Effects.  NATIVE  Expertise: Elements 8, Perception 4  PILOT/DRIVER  Expertise: Repair 4, Vehicles 8  SCIENTI
-- **def_0167** | concept: Expertise | chunk: b511fe78f53a
-  > on 4  PILOT/DRIVER  Expertise: Repair 4, Vehicles 8  SCIENTIST  Expertise: Science 8, Technology 4  SOLDIER  At
-- **def_0168** | concept: Expertise | chunk: b511fe78f53a
-  > icles 8  SCIENTIST  Expertise: Science 8, Technology 4  SOLDIER  Athletics 4, Expertise: Military 8  POWERS  1-
-- **def_0169** | concept: Elemental Constitution | chunk: b511fe78f53a
-  > ng Dodge • 1 point  Elemental Constitution: Immunity 12 (Critical Hits, Life  Support) • 12 points  Earthen Body: Enhanced S
-- **def_0170** | concept: Earthen Body | chunk: b511fe78f53a
-  > pport) • 12 points  Earthen Body: Enhanced Strength 8; Impervious Protection  8 • 32 points  Reconstitution: Regen
-- **def_0171** | concept: Reconstitution | chunk: b511fe78f53a
-  > ion  8 • 32 points  Reconstitution: Regeneration 10, Source (Element) • 5 points  Roll 1d20 once and record the resu
-- **def_0172** | concept: Clay Form | chunk: b511fe78f53a
-  > d the result.  1-4  Clay Form: Elongation 4; Insubstantial 1; Morph 4  (Any Form); Movement3 (Slithering, Sure-
-- **def_0173** | concept: Air Elemental | chunk: b511fe78f53a
-  > peed 2 • 37 points  Air Elemental: You have a body formed from air or are a wind entity. Possibly, you may inhabit
-- **def_0174** | concept: Earth Elemental | chunk: b511fe78f53a
-  > ct with the world.  Earth Elemental: You are formed of earth, clay, sand, or rock; alternatively, you might even be a
-- **def_0175** | concept: Fire Elemental | chunk: b511fe78f53a
-  > d plant elemental.  Fire Elemental: You are made of living fire, held together by sheer willpower or a containment s
-- **def_0176** | concept: Water Elemental | chunk: b511fe78f53a
-  > inment suit.  5-10  Water Elemental: You are comprised of water in one of its forms: liquid, ice, or vapor.  1-5  6-1
-- **def_0177** | concept: Earth Form | chunk: b511fe78f53a
-  > 11-15  16-20  64  Earth Form: Burrowing 6 (4 MPH); Movement 2  (Permeate (Earth), Sure-Footed); Senses 1 (Rang
-- **def_0178** | concept: Earth Control | chunk: b511fe78f53a
-  > ndings • 15 points  Earth Control: Perception Ranged Move Object 10,  Limited to Earthen Materials • 20 points
-- **def_0179** | concept: Particulate Form | chunk: 685941d4ae65
-  > s • 1 point  11-14  Particulate Form: Elongation 7; Insubstantial 2;  Movement 2 (Slithering, Sure-Footed); Speed 2; V
-- **def_0180** | concept: Sandstorm | chunk: 685941d4ae65
-  > artial • 23 points  Sandstorm: Environment 5 (Visibility -5; 500 feet  radius) • 10 points  Plant Form: Visual
-- **def_0181** | concept: Plant Form | chunk: 685941d4ae65
-  > adius) • 10 points  Plant Form: Visual Concealment 4, Limited: in  vegetation; Immunity 2 (Plant Powers); Telepo
-- **def_0182** | concept: Plant Control | chunk: 685941d4ae65
-  > lants) • 13 points  Plant Control: Array (20 points + four Alternate Effects)  •  Plant Toxin: Cumulative Afflictio
-- **def_0183** | concept: Rock Form | chunk: 685941d4ae65
-  > (Plants) • 1 point  Rock Form: Reaction Damage 7 (to being hit),  Limited to effect rank or Damage rank, whiche
-- **def_0184** | concept: Flame Form | chunk: 685941d4ae65
-  > oint  15-17  18-20  Flame Form: Immunity 5 (Fire Damage); Insubstantial 3,  Permanent • 20 points  Flight: Fligh
-- **def_0185** | concept: Flight | chunk: 685941d4ae65
-  > manent • 20 points  Flight: Flight 6 (120 MPH) • 12 points  Roll 1d20 once and record the result.  1-10  Con
-- **def_0186** | concept: Containment Suit | chunk: 685941d4ae65
-  > the result.  1-10  Containment Suit: Enhanced Strength 6, Affects Corporeal 8, Removable (-4 points) • 16 points  11-
-- **def_0187** | concept: Flaming Aura | chunk: 685941d4ae65
-  > • 16 points  11-20  Flaming Aura: Reaction Damage 4 • 16 points  Fire Control: Array (24 points plus two Alternate
-- **def_0188** | concept: Fire Control | chunk: 685941d4ae65
-  > mage 4 • 16 points  Fire Control: Array (24 points plus two Alternate Effects)  •  Fire Blast: Ranged Damage 12 •
-- **def_0189** | concept: Liquid Form | chunk: 685941d4ae65
-  > the result.  1-10  Liquid Form: Visual Concealment 4, Limited: in  Liquid; Elongation 8; Immunity 2 (water effec
-- **def_0190** | concept: Water Control | chunk: 85cc7f979174
-  > SECRET ORIGINS  65  Water Control: Array (20 points + four Alternate  Effects)  •  Water Blast: Ranged Damage 10 •
-- **def_0191** | concept: Ice Form | chunk: 85cc7f979174
-  > s • 1 point  11-15  Ice Form: Enhanced Strength 8; Immunity 7 (cold damage, ice effects); Impervious Protectio
-- **def_0192** | concept: Ice Slide | chunk: 85cc7f979174
-  > ision) • 45 points  Ice Slide: Flight 5 (60 MPH), Platform • 5 points  Ice Control: Array (20 points + four Alt
-- **def_0193** | concept: Ice Control | chunk: 85cc7f979174
-  > latform • 5 points  Ice Control: Array (20 points + four Alternate Effects)  •  Ice Blast: Ranged Damage 10 • 20
-- **def_0194** | concept: Accident | chunk: 85cc7f979174
-  > nhuman form.  •  •  Accident:  Many  Elementals  have  difficulty  interact- ing with others due to their natur
-- **def_0195** | concept: Enemy | chunk: 85cc7f979174
-  > st their presence.  Enemy: Elementals may have a rivalry or feel enmity towards their diametric opposite (f
-- **def_0196** | concept: Charismatic | chunk: 85cc7f979174
-  > d the result.  1-6  Charismatic: You have a powerful force of personality.  7-14 Hotheaded: You are impetuous and
-- **def_0197** | concept: Vapor Form | chunk: 85cc7f979174
-  > or serene.  16-20  Vapor Form: Roll for the powers of an Air Elemental instead, using water vapor as your form’
-- **def_0198** | concept: Aggressive | chunk: 6e090a5bf703
-  > the results.  1-4  Aggressive: You like to take the offensive.  5-7  8-11  12-13  14-16  17-20  Disciplined: Yo
-- **def_0199** | concept: Disciplined | chunk: 6e090a5bf703
-  > 2-13  14-16  17-20  Disciplined: You were trained to fight smartly and as part of a team.  Intimidating: You use
-- **def_0200** | concept: Intimidating | chunk: 6e090a5bf703
-  > as part of a team.  Intimidating: You use your powers in a loud and impressive fashion.  Hidden Reserves: When you
-- **def_0201** | concept: Hidden Reserves | chunk: 6e090a5bf703
-  > mpressive fashion.  Hidden Reserves: When you need to, you can push yourself and your powers to amazing levels.  Prec
-- **def_0202** | concept: Precise | chunk: 6e090a5bf703
-  > to amazing levels.  Precise: You are careful and exact in using your powers.  Wisecracker: Your powers give y
-- **def_0203** | concept: Wisecracker | chunk: 6e090a5bf703
-  > using your powers.  Wisecracker: Your powers give you great confidence, and you let everyone know it.  AGGRESSIVE
-- **def_0204** | concept: Ranged Combat | chunk: 13ce58f9b33f
-  > RIGINS  67  SKILLS  Ranged Combat: Energy Control 5, Choose One: Deception 7 or Intimidation 7  Take the skills lis
-- **def_0205** | concept: Athlete | chunk: 13ce58f9b33f
-  > the results.  1-4  Athlete: You have undergone intensive physical training.  5-8  Cool: You’re young and tre
-- **def_0206** | concept: Cool | chunk: 13ce58f9b33f
-  > cal training.  5-8  Cool: You’re young and trendy  9-10  Observant: You are alert and watchful.  11-14  Po
-- **def_0207** | concept: Observant | chunk: 13ce58f9b33f
-  > g and trendy  9-10  Observant: You are alert and watchful.  11-14  Popular: You know how to deal with people.
-- **def_0208** | concept: Popular | chunk: 13ce58f9b33f
-  > d watchful.  11-14  Popular: You know how to deal with people.  15-18  Pilot/Driver: You are a skilled race c
-- **def_0209** | concept: Pilot/Driver | chunk: 13ce58f9b33f
-  > ith people.  15-18  Pilot/Driver: You are a skilled race car driver or hotshot pilot.  19-20  Sly: You’re sneaky a
-- **def_0210** | concept: Sly | chunk: 13ce58f9b33f
-  > shot pilot.  19-20  Sly: You’re sneaky and low-key.  ATHLETE  Acrobatics 4, Athletics 4  COOL  Expertise:
-- **def_0211** | concept: Expertise | chunk: 13ce58f9b33f
-  > Athletics 4  COOL  Expertise: Popular Culture 4, Perception 4  As a descriptor, substitute any one energy type
-- **def_0212** | concept: Cold | chunk: 13ce58f9b33f
-  > lt.  1-3  4-5  6-7  Cold: You emit cold or remove heat.  Cosmic: You wield the very versatile and primal c
-- **def_0213** | concept: Cosmic | chunk: 13ce58f9b33f
-  > ld or remove heat.  Cosmic: You wield the very versatile and primal cosmic energy.  Darkness: You control da
-- **def_0214** | concept: Darkness | chunk: 13ce58f9b33f
-  > mal cosmic energy.  Darkness: You control darkness—be it shadow, void, or some other-dimensional force—or else
-- **def_0215** | concept: Electrical | chunk: 13ce58f9b33f
-  > btract light.  8-9  Electrical: You generate electricity.  10-12  Fire: You produce flame and heat.  13  14  15-
-- **def_0216** | concept: Fire | chunk: 13ce58f9b33f
-  > lectricity.  10-12  Fire: You produce flame and heat.  13  14  15-16  17-18  19  20  Hellfire: You control
-- **def_0217** | concept: Hellfire | chunk: 13ce58f9b33f
-  > -16  17-18  19  20  Hellfire: You control an extra-dimensional, flame-like energy.  Light: You generate intens
-- **def_0218** | concept: Light | chunk: 13ce58f9b33f
-  > flame-like energy.  Light: You generate intense light and heat.  Magnetic: You generate magnetic fields and
-- **def_0219** | concept: Magnetic | chunk: 13ce58f9b33f
-  > se light and heat.  Magnetic: You generate magnetic fields and manipulate ferrous metals.  Plasma: You project
-- **def_0220** | concept: Plasma | chunk: 13ce58f9b33f
-  > te ferrous metals.  Plasma: You project super-heated gas, or plasma.  Sonic: You manipulate and generate sou
-- **def_0221** | concept: Sonic | chunk: 13ce58f9b33f
-  > ed gas, or plasma.  Sonic: You manipulate and generate sound.  Vibration: You produce and control vibration
-- **def_0222** | concept: Vibration | chunk: 13ce58f9b33f
-  > nd generate sound.  Vibration: You produce and control vibration and resonant frequencies.  OBSERVANT  Investig
-- **def_0223** | concept: Energy Control | chunk: 13ce58f9b33f
-  > record the result.  Energy Control: Array (24 points, plus 3 points of  Alternate Effects)  •  Energy Blast: Ranged
-- **def_0224** | concept: Quick Change | chunk: 13ce58f9b33f
-  > age 12 • 24 points  Quick Change: Feature 1 (transform into costume as  1-10  a free action) • 1 point  11-15  16-
-- **def_0225** | concept: Energy Control | chunk: 13ce58f9b33f
-  > Alternate Effects.  Energy Control: Array (24 points, plus 4 points of  Alternate Effects)  •  Energy Blast: Ranged
-- **def_0226** | concept: Energy Control | chunk: 13ce58f9b33f
-  > Alternate Effects.  Energy Control: Array (25 points, plus 3 points of  Alternate Effects)  Roll 1d20 once and recor
-- **def_0227** | concept: Choose One Extra | chunk: 14dd371ce972
-  > cealment 4 Attack,  Choose One Extra: Burst Area or Cloud Area • 1 point  •  Snare: Cumulative Ranged Affliction 8 (Re
-- **def_0228** | concept: Energy Immunity | chunk: 14dd371ce972
-  > bject 12 • 1 point  Energy Immunity: Immunity 5 (Energy Control type damage)  • 5 points  Roll 1d20 once and record t
-- **def_0229** | concept: Energy Absorption | chunk: 14dd371ce972
-  > 1-5  6-10  11-20  Energy Absorption: Enhanced Strength 10, Fades;  Enhanced Stamina 10, Fades • 20 points  Energy Shi
-- **def_0230** | concept: Energy Shield | chunk: 14dd371ce972
-  > Fades • 20 points  Energy Shield: Enhanced Defenses 10 (Dodge 5, Parry 5); Impervious Protection 5, Sustained • 20
-- **def_0231** | concept: Force Field | chunk: 14dd371ce972
-  > tained • 20 points  Force Field: Impervious Protection 10, Sustained  • 20 points  Energy Sense: Senses 1 (Energy
-- **def_0232** | concept: Energy Sense | chunk: 14dd371ce972
-  > ained  • 20 points  Energy Sense: Senses 1 (Energy type Awareness) • 1 point  Roll  1d20  twice  (re-roll  if  you
-- **def_0233** | concept: Energy Aura | chunk: 14dd371ce972
-  > results.  1-4  5-8  Energy Aura: Reaction Damage 4, Activation  (Standard Action, -2 points) • 14 points  Energy
-- **def_0234** | concept: Energy Form | chunk: 14dd371ce972
-  > oints) • 14 points  Energy Form: Insubstantial 3 (Energy Control type),  Activation (Move Action, -1 point) • 14
-- **def_0235** | concept: Flight | chunk: 14dd371ce972
-  > • 14 points  9-16  Flight: Flight 7 (250 MPH) • 14 points  17-18  Scry: Visual Remote Sensing 14 (60 miles)
-- **def_0236** | concept: Scry | chunk: 14dd371ce972
-  > • 14 points  17-18  Scry: Visual Remote Sensing 14 (60 miles), Medium (presence or conductor of Energy Con
-- **def_0237** | concept: Transmit | chunk: 14dd371ce972
-  > oints  7-14  19-20  Transmit: Teleport 14 (60 miles), Medium (presence or conductor of Energy Control type) •
-- **def_0238** | concept: Power Loss | chunk: 14dd371ce972
-  > their power.  •  •  Power Loss: Energy Controllers may suffer diminished use of their powers under descriptor-de
-- **def_0239** | concept: Rivalry | chunk: 14dd371ce972
-  > ry), and so forth.  Rivalry: Energy Controllers often have a rivalry with an  Energy  Controller  who  comman
-- **def_0240** | concept: Adventurer | chunk: 14dd371ce972
-  > d the result.  1-6  Adventurer: You’ve always enjoyed pushing the boundaries, in science and in life.  Gimmick:
-- **def_0241** | concept: Gimmick | chunk: 14dd371ce972
-  > ience and in life.  Gimmick: Your genius is concentrated into a particular field of study, such as force fiel
-- **def_0242** | concept: Scientist | chunk: 1081db3c43af
-  > ORIGINS  69  15-20  Scientist: At heart, you’re a scientist. You’re always working on something in the lab, but
-- **def_0243** | concept: Close Combat | chunk: 1081db3c43af
-  > llionaire)  SKILLS  Close Combat: Unarmed or Gadgets 6, Expertise: Science 10, Ranged Combat: Gadgets 6, Technolog
-- **def_0244** | concept: Ranged Combat | chunk: 1081db3c43af
-  > ertise: Science 10, Ranged Combat: Gadgets 6, Technology 10, Vehicles 4  Take the skills listed above, then roll 1d
-- **def_0245** | concept: Businessman/woman | chunk: 1081db3c43af
-  > result.  1-5  6-10  Businessman/woman: You know how to run a business.  Explorer: You have the skills necessary to expl
-- **def_0246** | concept: Explorer | chunk: 1081db3c43af
-  > to run a business.  Explorer: You have the skills necessary to explore new places.  11-15  Investigator: You’r
-- **def_0247** | concept: Investigator | chunk: 1081db3c43af
-  > new places.  11-15  Investigator: You’re a talented detective.  16-20  Infiltrator: You’re stealthy.  BUSINESSMAN/
-- **def_0248** | concept: Infiltrator | chunk: 1081db3c43af
-  > detective.  16-20  Infiltrator: You’re stealthy.  BUSINESSMAN/WOMAN  Expertise: Business 5, Insight 6, Persuasio
-- **def_0249** | concept: Expertise | chunk: 1081db3c43af
-  > BUSINESSMAN/WOMAN  Expertise: Business 5, Insight 6, Persuasion 5  EXPLORER  Athletics 7, Perception 5, Stealt
-- **def_0250** | concept: Athletic | chunk: 1081db3c43af
-  > d the result.  1-5  Athletic: You take care of yourself and are physically fit.  6-10  Natural Leader: You’re
-- **def_0251** | concept: Natural Leader | chunk: 1081db3c43af
-  > sically fit.  6-10  Natural Leader: You’re a natural leader.  11-15  Tinkerer: You’re constantly tinkering with your
-- **def_0252** | concept: Tinkerer | chunk: 1081db3c43af
-  > ral leader.  11-15  Tinkerer: You’re constantly tinkering with your inventions and are able to get the most ou
-- **def_0253** | concept: Well-to-do Inventor | chunk: 1081db3c43af
-  > ut of them.  16-20  Well-to-do Inventor: You either inherited wealth or have made money off some of your more mundane inv
-- **def_0254** | concept: Energy Projector Device | chunk: 1081db3c43af
-  > ship  70  1-4  5-7  Energy Projector Device: Ranged Damage 8, Accurate 2; AE: Ranged Affliction 8 (Resisted and Overcome by F
-- **def_0255** | concept: Force Armor | chunk: 1081db3c43af
-  > oints) • 17 points  Force Armor: Enhanced Strength 8; AE: Burst Area Affliction 8 (Resisted and Overcome by Forti
-- **def_0256** | concept: Gimmick Blaster | chunk: 1081db3c43af
-  > oints) • 17 points  Gimmick Blaster: Array (24 points, plus 3 points of Alternate Effects), Easily Removable (-10 poi
-- **def_0257** | concept: Energy Blast | chunk: db8b2bdf371a
-  > 2: SECRET ORIGINS  Energy Blast: Ranged Damage 12  Take the Gimmick Blaster and Energy Blast (above), plus roll 1
-- **def_0258** | concept: Personal Combat Enhancers | chunk: db8b2bdf371a
-  > e 8, Penetrating 8  Personal Combat Enhancers: Enhanced Advantage  11 (All-out Attack, Defensive Attack, Evasion, Extraordinary
-- **def_0259** | concept: Physical Boosters | chunk: db8b2bdf371a
-  > 8-12  13-14  15-16  Physical Boosters: Enhanced Strength 8; Leaping  2 (30 feet); Quickness 2; Speed 2 (8 MPH); Activat
-- **def_0260** | concept: High-tech Arsenal | chunk: db8b2bdf371a
-  > • 17 point  17-20  High-tech Arsenal: Ray Gun (Ranged Damage 12, AE: Power Truncheon (Strength-based Damage 8), AE: St
-- **def_0261** | concept: Displacer Field | chunk: db8b2bdf371a
-  > point) • 13 points  Displacer Field: Enhanced Defenses (Dodge 6, Parry 6) Linked to Protection 4, Sustained, Removabl
-- **def_0262** | concept: Energy-Absorbing Body Suit | chunk: db8b2bdf371a
-  > • 13 points  11-15  Energy-Absorbing Body Suit: Protection 10,  Impervious 6, Removable (-3 points) • 13 points  16-20  Force Fi
-- **def_0263** | concept: Force Field | chunk: db8b2bdf371a
-  > • 13 points  16-20  Force Field: Immunity 6 (Critical Hits, Cold, Heat,  High Pressure, Radiation) Linked to Prot
-- **def_0264** | concept: Biological Overclocking | chunk: db8b2bdf371a
-  > 5-8  9-16  17-20  Biological Overclocking: Enhanced Advantage 1 (Move-by Action); Leaping 2 (30 feet); Quickness 2; Speed 5
-- **def_0265** | concept: Boot Jets | chunk: db8b2bdf371a
-  > points) • 8 points  Boot Jets: Leaping 5 (250 feet); Feature 1 (Can  Hover); Movement 1 (Safe Fall); Speed 2 (8
-- **def_0266** | concept: Flight Harness | chunk: db8b2bdf371a
-  > points) • 8 points  Flight Harness: Flight 5 (60 MPH), Removable (-2  points) • 8 points  Personal Teleporter: Telep
-- **def_0267** | concept: Personal Teleporter | chunk: db8b2bdf371a
-  > points) • 8 points  Personal Teleporter: Teleport 4 (500 feet), Increased Mass (100 lbs.), Turnabout, Removable (-2 point
-- **def_0268** | concept: Low-Level Telepath | chunk: db8b2bdf371a
-  > 9-12  13-16  17-20  Low-Level Telepath: Communication 1 (Mental),  Concentration, Limited—Only with friends/loved ones •
-- **def_0269** | concept: Mental Database | chunk: db8b2bdf371a
-  > ed ones • 2 points  Mental Database: Enhanced Advantage 1  (Assessment), Enhanced Skill 1 (Insight 2) • 2 points  Phy
-- **def_0270** | concept: Physically Fit | chunk: db8b2bdf371a
-  > ight 2) • 2 points  Physically Fit: Speed 2 (8 MPH), Stacks with other  Speed effects • 2 points  Polymath: Quicknes
-- **def_0271** | concept: Polymath | chunk: db8b2bdf371a
-  > effects • 2 points  Polymath: Quickness 4, Limited to Mental Tasks, Stacks with other Quickness effects • 2 po
-- **def_0272** | concept: Technopath | chunk: db8b2bdf371a
-  > effects • 2 points  Technopath: Comprehend 2 (Machines), Distracting  • 2 points  DEFENSES  DODGE +6  PARRY +4
-- **def_0273** | concept: Accident | chunk: db8b2bdf371a
-  > 23  150  •  •  •  Accident: Gadgets can be temperamental things, so it’s not unimaginable that sometimes a G
-- **def_0274** | concept: Enemy | chunk: db8b2bdf371a
-  > lems for the hero.  Enemy: For some reason, Gadgeteers tend to have a nemesis who believes they need to pro
-- **def_0275** | concept: Fame | chunk: db8b2bdf371a
-  > to the Gadgeteer.  Fame:  Gadgeteers  often  don’t  hide  their  identities from the public and in fact mi
-- **def_0276** | concept: Relationship | chunk: c8f2e2af058e
-  > of mental problem.  Relationship:  Gadgeteers  often  have  a  number  of important  people  in  their  life,  eith
-- **def_0277** | concept: Mystic Endowment | chunk: c8f2e2af058e
-  > fast to be human.  Mystic Endowment: You have unlocked your body’s potential by cultivating your inner energy.  15-20
-- **def_0278** | concept: Armed Fighter | chunk: c8f2e2af058e
-  > d the result.  1-6  Armed Fighter: You are an expert with exotic weapons.  7-13 Wealthy: You are well connected and
-- **def_0279** | concept: Well Traveled | chunk: c8f2e2af058e
-  > d and rich.  14-20  Well Traveled: You have walked the world righting wrongs and challenging senseis.  FIGHTER  Equ
-- **def_0280** | concept: Earth | chunk: c8f2e2af058e
-  > results.  1-4  5-8  Earth: You are steadfast and stable.  Fire: You are dynamic and creative.  9-12 Metal:
-- **def_0281** | concept: Fire | chunk: c8f2e2af058e
-  > adfast and stable.  Fire: You are dynamic and creative.  9-12 Metal: You are transformative and quick.  13
-- **def_0282** | concept: Crane | chunk: 6717e2899e27
-  > d the result.  1-4  Crane: You avoid direct confrontation, countering and pinpointing weaknesses.  5-8  Dra
-- **def_0283** | concept: Dragon | chunk: 6717e2899e27
-  > g weaknesses.  5-8  Dragon: Your style emphasizes versatility and balance.  9-12  13-16  Monastic: You learn
-- **def_0284** | concept: Monastic | chunk: 6717e2899e27
-  > ance.  9-12  13-16  Monastic: You learned your martial arts from a temple or mystical city.  Ninja: You are sk
-- **def_0285** | concept: Ninja | chunk: 6717e2899e27
-  > or mystical city.  Ninja: You are skilled in the arts of stealth and assassination.  17-20  Soldier: You w
-- **def_0286** | concept: Soldier | chunk: 6717e2899e27
-  > assination.  17-20  Soldier: You were trained by the military.  AGENT  Acrobatics 4, Athletics 4, Close Comba
-- **def_0287** | concept: Leopard | chunk: 6717e2899e27
-  > Treatment  4  9-12  Leopard: You rely on sheer speed and eschew defense.  NINJA  13-16  Snake: You fight from
-- **def_0288** | concept: Snake | chunk: 6717e2899e27
-  > nse.  NINJA  13-16  Snake: You fight from unusual stances and positions to catch your opponent off-guard.
-- **def_0289** | concept: Tiger | chunk: 6717e2899e27
-  > off-guard.  17-20  Tiger: You strike with great strength and ferocity.  CRANE  Defensive Attack, Evasion,
-- **def_0290** | concept: Agent | chunk: 6717e2899e27
-  > the results.  1-4  Agent: You work with a government or private spy agency.  5-8  Mercenary: You contract
-- **def_0291** | concept: Mercenary | chunk: 6717e2899e27
-  > e spy agency.  5-8  Mercenary: You contract out your fighting skills.  Acrobatics 6, Athletics 4, Close Combat:
-- **def_0292** | concept: Chi Mastery | chunk: 6717e2899e27
-  > for Combat Powers.  Chi Mastery: Array (12 points plus 3 Alternate  Effects) • 15 points (this cost includes the
-- **def_0293** | concept: Death Touch | chunk: 6717e2899e27
-  > 8-11  12-14  15-17  Death Touch: Progressive Weaken Stamina 4 (Resisted by Fortitude)  Flurry of Blows: Selective
-- **def_0294** | concept: Iron Fist | chunk: 6717e2899e27
-  > the attack’s rank)  Iron Fist: Strength-based Damage 5,  Penetrating 8, Inaccurate  Mental Weapon: Damage 6, Al
-- **def_0295** | concept: Mental Weapon | chunk: 6717e2899e27
-  > ting 8, Inaccurate  Mental Weapon: Damage 6, Alternate  Resistance (Will)  Nerve Strike: Cumulative Affliction 6  (
-- **def_0296** | concept: Nerve Strike | chunk: 6717e2899e27
-  > Resistance (Will)  Nerve Strike: Cumulative Affliction 6  (Resisted and Overcome by Fortitude; Dazed, Stunned, Pa
-- **def_0297** | concept: Restorative Chi | chunk: 6717e2899e27
-  > Paralyzed)  18-20  Restorative Chi: Healing 6  13-16  17-20  Missile Redirection: Immunity 5 (Thrown  Weapons), Conc
-- **def_0298** | concept: Missile Redirection | chunk: 6717e2899e27
-  > ng 6  13-16  17-20  Missile Redirection: Immunity 5 (Thrown  Weapons), Concentration Duration, Reflect, Redirect • 15 poi
-- **def_0299** | concept: Untouchable | chunk: 6717e2899e27
-  > direct • 15 points  Untouchable: Immunity 30 (attacks targeting Parry),  Concentration Duration • 15 points
-- **def_0300** | concept: Chi Sense | chunk: cefb93c1d699
-  > 5-8  9-12  17-20  Chi Sense: Senses 5 (Danger Sense; Detect Life—  Acute, Radius, Ranged) • 5 points  Meditat
-- **def_0301** | concept: Meditation | chunk: cefb93c1d699
-  > Ranged) • 5 points  Meditation: Immunity 5 (choose five: aging, cold, disease, heat, need for sleep, poison, sta
-- **def_0302** | concept: Perfect Serenity | chunk: cefb93c1d699
-  > stained • 5 points  Perfect Serenity: Immunity 5 (interaction effects)  • 5 points  Weightless Step: Leaping 3 (60 ft.
-- **def_0303** | concept: Weightless Step | chunk: cefb93c1d699
-  > fects)  • 5 points  Weightless Step: Leaping 3 (60 ft.); Movement 1  (Trackless) • 5 points  DEFENSE  DODGE +6  PARRY
-- **def_0304** | concept: Honor | chunk: cefb93c1d699
-  > excitement.  •  •  Honor: Some Martial Artists live by a warrior’s code of honor or a life of ascetic disc
-- **def_0305** | concept: Rivalry | chunk: cefb93c1d699
-  > scetic discipline.  Rivalry: Martial Artists often have a nemesis or fated rival against whom they measure th
-- **def_0306** | concept: Blank Slate | chunk: cefb93c1d699
-  > result.  1-8  9-12  Blank Slate: You are equally capable of pursuing any path.  Metamind: Your great mental capac
-- **def_0307** | concept: Metamind | chunk: cefb93c1d699
-  > pursuing any path.  Metamind: Your great mental capacity allows you to master anything.  13-20  Perfect Weapon
-- **def_0308** | concept: Perfect Weapon | chunk: cefb93c1d699
-  > r anything.  13-20  Perfect Weapon: You are a weapon created specifically to use your opponent’s powers against them
-- **def_0309** | concept: Complementary | chunk: cefb93c1d699
-  > the results.  1-4  Complementary: You are good at fitting in where needed.  5-8  Discerning: You are good at sizin
-- **def_0310** | concept: Discerning | chunk: cefb93c1d699
-  > where needed.  5-8  Discerning: You are good at sizing up people.  9-11  Engramatic: You’ve retained a little fr
-- **def_0311** | concept: Engramatic | chunk: cefb93c1d699
-  > g up people.  9-11  Engramatic: You’ve retained a little fragment of everyone you’ve mimicked.  12-13  Innocent:
-- **def_0312** | concept: Innocent | chunk: cefb93c1d699
-  > e mimicked.  12-13  Innocent: You are naïve and pure.  14-16  Incisive: You know exactly which buttons to push
-- **def_0313** | concept: Incisive | chunk: cefb93c1d699
-  > e and pure.  14-16  Incisive: You know exactly which buttons to push.  17-18  Spontaneous: You don’t let your
-- **def_0314** | concept: Spontaneous | chunk: cefb93c1d699
-  > ns to push.  17-18  Spontaneous: You don’t let your past dictate your actions.  19-20  Subtle: You stay out of th
-- **def_0315** | concept: Subtle | chunk: cefb93c1d699
-  > ur actions.  19-20  Subtle: You stay out of the way.  COMPLEMENTARY  Set-up, Teamwork  DISCERNING  Assessmen
-- **def_0316** | concept: Dynamic | chunk: 267bbd73af09
-  > the results.  1-3  Dynamic: You are a good all-around athlete.  4-7  Empathic: You understand what makes oth
-- **def_0317** | concept: Empathic | chunk: 267bbd73af09
-  > ound athlete.  4-7  Empathic: You understand what makes other people tick.  8-10  Furtive: You don’t like to s
-- **def_0318** | concept: Furtive | chunk: 267bbd73af09
-  > people tick.  8-10  Furtive: You don’t like to stand out.  11-14  Inscrutable: Your emotions are difficult to
-- **def_0319** | concept: Inscrutable | chunk: 267bbd73af09
-  > stand out.  11-14  Inscrutable: Your emotions are difficult to read.  15-18 Observant: Little escapes your notic
-- **def_0320** | concept: Sponge | chunk: 267bbd73af09
-  > our notice.  19-20  Sponge: You possess an open and receptive mind.  DYNAMIC  Acrobatics 6, Athletics 6  EMP
-- **def_0321** | concept: Expertise | chunk: 267bbd73af09
-  > rception 6  SPONGE  Expertise: Current Events 4, Expertise: Popular Culture 4, Investigation 4  POWERS  Roll 1d
-- **def_0322** | concept: Animal Mimicry | chunk: 267bbd73af09
-  > d the result.  1-2  Animal Mimicry: Variable 10 (50 points, to mimic Traits of one animal at a time), Continuous • 8
-- **def_0323** | concept: Mental Duplication | chunk: 267bbd73af09
-  > inuous • 80 points  Mental Duplication: Mind Reading 10, Limited to Duplicated mind; Variable 10 (50 points, for duplica
-- **def_0324** | concept: Nemesis | chunk: 267bbd73af09
-  > y Will • 80 points  Nemesis: Variable 8 (40 points, for traits suitable for confronting a particular opponent
-- **def_0325** | concept: Object Mimicry | chunk: 267bbd73af09
-  > Action • 80 points  Object Mimicry: Variable 8 (40 points, for traits of  object touched), Reaction • 80 points  3-4
-- **def_0326** | concept: Power Duplication | chunk: 267bbd73af09
-  > 4  5-6  7-9  10-13  Power Duplication: Variable 10 (50 points, for  duplicating one target’s powers), Continuous • 80 p
-- **def_0327** | concept: Power Theft | chunk: 267bbd73af09
-  > • 80 points  14-15  Power Theft: Cumulative Affliction 12 (Resisted  and Overcome by Will; Powers Impaired, Power
-- **def_0328** | concept: Reflex Memory | chunk: 267bbd73af09
-  > • 80 points  16-17  Reflex Memory: Variable 8 (40 points, for observed Skills and Advantages), Continuous, Free Act
-- **def_0329** | concept: Android Body | chunk: 267bbd73af09
-  > • 80 points  18-20  Android Body: Immunity 30 (Fortitude Effects), Reduced Traits (Stamina —, Fortitude —); Protec
-- **def_0330** | concept: Power Duplication | chunk: 267bbd73af09
-  > tion 5 • 16 points  Power Duplication: Variable 8 (40 points, for  duplicating a target’s powers), Continuous • 64 poin
-- **def_0331** | concept: Addiction | chunk: 267bbd73af09
-  > di- viduals.  •  •  Addiction: A Mimic may actually need or somehow derive sustenance from duplicating the trai
-- **def_0332** | concept: Quirk | chunk: 267bbd73af09
-  > raits of oth- ers.  Quirk: Mimics may inadvertently absorb a portion of their subject’s personality and eve
-- **def_0333** | concept: Host | chunk: 75c6a0d7757a
-  > d the result.  1-6  Host: You’re the host of a mystical being which gives you access to supernatural power
-- **def_0334** | concept: Magical Heritage | chunk: 75c6a0d7757a
-  > ural powers.  7-13  Magical Heritage: Your family has a long history of being blessed with magical powers... or perhap
-- **def_0335** | concept: Mystic Master | chunk: 75c6a0d7757a
-  > t’s cursed.  14-20  Mystic Master: You’ve trained long and hard to master the mystic arts.  HOST  STRENGTH 1 STAMIN
-- **def_0336** | concept: Centered | chunk: 75c6a0d7757a
-  > d the result.  1-5  Centered: You’ve trained yourself to remain calm and centered, no matter what.  6-10  Ench
-- **def_0337** | concept: Powerful Connection | chunk: 3e277f7add29
-  > RET ORIGINS  11-15  Powerful Connection: You have a strong connection or mastery over the magic at your command.  16-20
-- **def_0338** | concept: Expertise | chunk: 3e277f7add29
-  > elective • 1 point  Expertise: Magic 10, Insight 6, Perception 4  Take the skills listed above, then roll 1d20
-- **def_0339** | concept: Affecting Presence | chunk: 3e277f7add29
-  > ) • 27 points  1-8  Affecting Presence: You have the skills necessary to explore new places.  9-14  Occult Investigator:
-- **def_0340** | concept: Occult Investigator | chunk: 3e277f7add29
-  > new places.  9-14  Occult Investigator: You make it a point to investigate unusual crimes. You may even consult for the
-- **def_0341** | concept: Prestidigitator | chunk: 3e277f7add29
-  > the police.  15-20  Prestidigitator: You’ve studied the art of deception.  PRESENCE  Intimidation 4, Persuasion 4  IN
-- **def_0342** | concept: Magic Spells | chunk: 3e277f7add29
-  > of Hand 4  POWERS  Magic Spells: Array (24 points, plus 5 points of Alternate  Effects)  •  Magical Blast: Ranged
-- **def_0343** | concept: Additional Magic Spells | chunk: 3e277f7add29
-  > d the result.  1-8  Additional Magic Spells: Roll 1d20 three times (re- roll if you get the same result twice) and add them t
-- **def_0344** | concept: Immortal | chunk: 3e277f7add29
-  > point  9-10  11-20  Immortal: Immortality 1, Immunity 1 (Aging)  • 3 points  Mystic Awareness: Senses 3 (Mysti
-- **def_0345** | concept: Mystic Awareness | chunk: 3e277f7add29
-  > Aging)  • 3 points  Mystic Awareness: Senses 3 (Mystic Awareness,  Analytical, Radius) • 3 points
-- **def_0346** | concept: Accident | chunk: a8c6225b93ed
-  > 24  150  •  •  •  Accident:  The  Mystic  commands  incredible  super- natural powers, but sometimes those po
-- **def_0347** | concept: Enemy | chunk: a8c6225b93ed
-  > to be dealt with.  Enemy: Some Mystics are plagued by enemies who want to displace them or steal their pow
-- **def_0348** | concept: Honor | chunk: a8c6225b93ed
-  > steal their power.  Honor:  It’s  not  uncommon  for  a  Mystic  to  follow  a code of conduct that keeps th
-- **def_0349** | concept: Prejudice | chunk: a8c6225b93ed
-  > cast their spells.  Prejudice: Some Mystics are surrounded by an aura of “otherness”  that  sets  them  apart
-- **def_0350** | concept: Superhuman | chunk: a8c6225b93ed
-  > me outside source.  Superhuman: You’re a powerful mutant, alien, or human who’s gained incredible abilities.  Ve
-- **def_0351** | concept: Vessel | chunk: a8c6225b93ed
-  > redible abilities.  Vessel: You are the vessel for the power of a god or some other supernatural force.  ACT
-- **def_0352** | concept: Athlete | chunk: a8c6225b93ed
-  > the results.  1-4  Athlete: You’re either a natural athlete or have had extensive training.  5-8  Leader: Yo
-- **def_0353** | concept: Leader | chunk: a8c6225b93ed
-  > ive training.  5-8  Leader: You’re a natural at leading others.  9-10  Lucky: You’re extraordinarily lucky.
-- **def_0354** | concept: Lucky | chunk: a8c6225b93ed
-  > ding others.  9-10  Lucky: You’re extraordinarily lucky.  11-13  Resources: You have extensive resources.
-- **def_0355** | concept: Resources | chunk: a8c6225b93ed
-  > rily lucky.  11-13  Resources: You have extensive resources.  14-17  18-20  Warrior: You’re either naturally ta
-- **def_0356** | concept: Warrior | chunk: a8c6225b93ed
-  > ces.  14-17  18-20  Warrior: You’re either naturally talented at fighting or have trained in fighting styles.
-- **def_0357** | concept: Wealthy | chunk: a8c6225b93ed
-  > n fighting styles.  Wealthy: Whether you inherited or earned it, you’re wealthy.  ATHLETE  Extraordinary Effo
-- **def_0358** | concept: Paragons | chunk: a8c6225b93ed
-  > witches.  PARAGON  Paragons are what people first think of when they think of superheroes. A Paragon is nearly
-- **def_0359** | concept: Super-strength | chunk: d5fc086574e9
-  > eadquarters)  8-14  Super-strength: Enhanced Strength 4 • 8 points  15-20  Soldier: Enhanced Trait 4 (Close Attack 4
-- **def_0360** | concept: Soldier | chunk: d5fc086574e9
-  > • 8 points  15-20  Soldier: Enhanced Trait 4 (Close Attack 4); Power-  lifting 4 • 8 points  Headquarters—Si
-- **def_0361** | concept: Immunities | chunk: d5fc086574e9
-  > se, Move-by Action  Immunities: Immunity 10 (Life Support) • 10 points  Invulnerability: Protection 4 • 4 points
-- **def_0362** | concept: Invulnerability | chunk: d5fc086574e9
-  > pport) • 10 points  Invulnerability: Protection 4 • 4 points  Roll 1d20 once and record the result.  WEALTHY  Benefit
-- **def_0363** | concept: Flight | chunk: d5fc086574e9
-  > ire)  SKILLS  1-15  Flight: Flight 8 (500 MPH) • 16 points  16-20  Super Movement: Speed 3 (16 MPH); Leaping
-- **def_0364** | concept: Super Movement | chunk: d5fc086574e9
-  > • 16 points  16-20  Super Movement: Speed 3 (16 MPH); Leaping 7  (900 feet); Movement 3 (Swinging, Wall-crawling 2)
-- **def_0365** | concept: Athlete | chunk: d5fc086574e9
-  > le otherwise.  1-5  Athlete: You’re a trained athlete.  6-10  Broad Training: You have a broad set of skills
-- **def_0366** | concept: Broad Training | chunk: d5fc086574e9
-  > ned athlete.  6-10  Broad Training: You have a broad set of skills from your education or experiences.  11-15  Chari
-- **def_0367** | concept: Charismatic | chunk: d5fc086574e9
-  > xperiences.  11-15  Charismatic: You’re good with people.  16-20  Learned: You’re well educated, with some techno
-- **def_0368** | concept: Learned | chunk: d5fc086574e9
-  > ith people.  16-20  Learned: You’re well educated, with some technological training.  ATHLETE  Acrobatics 6,
-- **def_0369** | concept: Improved Invulnerability | chunk: d5fc086574e9
-  > NG  1-4  5-7  8-11  Improved Invulnerability: Impervious Toughness 6  • 6 points  Inhuman Physiology: Enhanced Advantage 1  (D
-- **def_0370** | concept: Inhuman Physiology | chunk: d5fc086574e9
-  > ness 6  • 6 points  Inhuman Physiology: Enhanced Advantage 1  (Diehard); Immunity 2 (Critical Hits); Regeneration 3 • 6
-- **def_0371** | concept: Enhanced Senses | chunk: d5fc086574e9
-  > ation 3 • 6 points  Enhanced Senses: Senses 6 (Extended Auditory 2, Extended Vision 2, Microscopic Vision, Ultra- Hea
-- **def_0372** | concept: Telepathy | chunk: d5fc086574e9
-  > • 6 points  16-18  Telepathy: Mental Communication 1, Subtle 2  • 6 points  19-20  Traveler: Movement 3 (Dimen
-- **def_0373** | concept: Traveler | chunk: d5fc086574e9
-  > • 6 points  19-20  Traveler: Movement 3 (Dimension Travel 3) • 6 points  Expertise: (Choose One) 4, Insight 2
-- **def_0374** | concept: Find Weakness | chunk: d5fc086574e9
-  > ake Find Weakness:  Find Weakness: Strength-based Damage 4; Enhanced  Advantage 4 (Close Attack 4) • 8 points  Roll
-- **def_0375** | concept: Powerful | chunk: d5fc086574e9
-  > 4  TOTAL  150  1-7  Powerful: Enhanced Strength 2, Enhanced  Advantage 2 (Close Attack 2); Power-lifting 2  •
-- **def_0376** | concept: Identity | chunk: 1631a649fb6e
-  > RET ORIGINS  79  •  Identity:  The  Paragon  often  hides  his  or  her  true identity  from  the  rest  of  th
-- **def_0377** | concept: Prejudice | chunk: 1631a649fb6e
-  > ferent Advantages.  Prejudice:  Some  Paragons  are  appear  inhuman  in some way and are treated with distrust
-- **def_0378** | concept: Relationship | chunk: 1631a649fb6e
-  > ear by the public.  Relationship:  Paragons  often  have  a  large  number of  friends,  family,  or  fans  that  g
-- **def_0379** | concept: Alternate Form | chunk: 1631a649fb6e
-  > result.  1-6  7-14  Alternate Form: You are made of a highly resistant material like metal or stone.  Innate Power:
-- **def_0380** | concept: Innate Power | chunk: 1631a649fb6e
-  > ke metal or stone.  Innate Power: You’re an alien or are from some hidden offshoot of humanity with incredible pow
-- **def_0381** | concept: Driven | chunk: 1631a649fb6e
-  > ts.  1-2  4-6  7-8  Driven: You’re capable of pushing yourself beyond your limits. Regularly.  Fighter: You
-- **def_0382** | concept: Fighter | chunk: 1631a649fb6e
-  > limits. Regularly.  Fighter: You know how to fight and mix up your blows as needed.  Good with Crowds: You ca
-- **def_0383** | concept: Popular | chunk: 1631a649fb6e
-  > elming odds.  9-10  Popular: You have friends you can call on.  11-13  Team Player: You know your role on a t
-- **def_0384** | concept: Team Player | chunk: 1631a649fb6e
-  > an call on.  11-13  Team Player: You know your role on a team.  14-17  Tough: You know how to take a hit.  18-20
-- **def_0385** | concept: Tough | chunk: 1631a649fb6e
-  > on a team.  14-17  Tough: You know how to take a hit.  18-20 Quick: You’re faster than you look.  DRIVEN
-- **def_0386** | concept: The Powerhouse | chunk: 1631a649fb6e
-  > ar type of attack.  The Powerhouse is the strongest one there is! Where other archetypes spread their points out amon
-- **def_0387** | concept: Close Combat | chunk: 997bf2eca013
-  > Initiative  SKILLS  Close Combat: Unarmed 2  Take  the  skill  listed  above,  then  roll  1d20  twice  (re-roll
-- **def_0388** | concept: Athlete | chunk: 997bf2eca013
-  > results.  1-4  5-8  Athlete: You’re a trained athlete.  Ex-Military: You used to be in the armed forces.  9-1
-- **def_0389** | concept: Ex-Military | chunk: 997bf2eca013
-  > a trained athlete.  Ex-Military: You used to be in the armed forces.  9-12  Charmer: You have a way with people.
-- **def_0390** | concept: Charmer | chunk: 997bf2eca013
-  > rmed forces.  9-12  Charmer: You have a way with people.  13-16  Rough Upbringing: You were raised on the str
-- **def_0391** | concept: Rough Upbringing | chunk: 997bf2eca013
-  > ith people.  13-16  Rough Upbringing: You were raised on the streets or have had a hard life.  17-20  Sharp Mind: You’
-- **def_0392** | concept: Sharp Mind | chunk: 997bf2eca013
-  > hard life.  17-20  Sharp Mind: You’re difficult to fool.  ATHLETE  Athletics 4, Perception 4, Ranged Combat: Th
-- **def_0393** | concept: Energy Blast | chunk: 997bf2eca013
-  > l).  1-3  4-6  7-9  Energy Blast: Ranged Damage 10, Accurate 5,  Distracting, Tiring • 10 points  Foot Stomp: Line
-- **def_0394** | concept: Foot Stomp | chunk: 997bf2eca013
-  > Tiring • 10 points  Foot Stomp: Line Area Damage 10, Powerhouse and target must be in contact with the same surf
-- **def_0395** | concept: Groundstrike | chunk: 997bf2eca013
-  > urface • 10 points  Groundstrike: Burst Area Affliction 10 (Resisted  and Overcome by Fortitude; Dazed and Hindere
-- **def_0396** | concept: Shockwave | chunk: 997bf2eca013
-  > ints  10-12  13-14  Shockwave: Burst Area Damage 10, Powerhouse and targets must be in contact with the same su
-- **def_0397** | concept: Super-Breath | chunk: 997bf2eca013
-  > urface • 10 points  Super-Breath: Close Range Cone Area Move Object 5, Limited to moving toward and away, Linked t
-- **def_0398** | concept: Thunderclap | chunk: 997bf2eca013
-  > • 10 points  18-20  Thunderclap: Cone Area Affliction 10 (Resisted and Overcome by Fortitude; Dazed, Stunned), Li
-- **def_0399** | concept: Expertise | chunk: 997bf2eca013
-  > oints  EX-MILITARY  Expertise: Military 4, Perception 4, Ranged Combat: Throwing 4  CHARMER  Deception 4, Insig
-- **def_0400** | concept: Expertise | chunk: 997bf2eca013
-  > the  table below.  Expertise: Streetwise 4, Intimidation 6, Perception 2  Super-Stamina: Enhanced Stamina 10 •
-- **def_0401** | concept: Super-Stamina | chunk: 997bf2eca013
-  > on 6, Perception 2  Super-Stamina: Enhanced Stamina 10 • 20 points  MIND  Expertise: (Choose One) 4, Insight 4, Per
-- **def_0402** | concept: Invulnerability | chunk: 997bf2eca013
-  > Powers table  1-3  Invulnerability: Immunity 10 (Choose one common power descriptor: Cold, Electricity, Fire, Magic,
-- **def_0403** | concept: Life Support | chunk: 997bf2eca013
-  > • 10 points  4-10  Life Support: Immunity 10 (Life Support) • 10 points  1-3  4-6  7-11  12-20  Density: Growth 8
-- **def_0404** | concept: Density | chunk: 997bf2eca013
-  > 4-6  7-11  12-20  Density: Growth 8 (-4 Dodge & Parry, +8 Strength, +8 Stamina), Does Not Modify Size, Spee
-- **def_0405** | concept: Growth | chunk: 997bf2eca013
-  > • 20 points  11-13  Growth: Growth 8 (-4 Dodge & Parry, -8 Stealth, +4 Intimidation, +8 Strength, +8 Stamina
-- **def_0406** | concept: Solid Form | chunk: 997bf2eca013
-  > tion 4 • 20 points  Solid Form: Activation (Move Action, -1 point), Enhanced Ability 8 (Strength 8); Immunity 2
-- **def_0407** | concept: Resistant | chunk: 997bf2eca013
-  > ting 3 • 20 points  Resistant: Immunity 10 (choose two 5-point  immunities: Alteration effects, sensory Afflict
-- **def_0408** | concept: Thick Skin | chunk: 997bf2eca013
-  > • 10 points  14-20  Thick Skin: Impervious Toughness 10 • 10 points  Super-Strength: Enhanced Strength 8; Power-
-- **def_0409** | concept: Super-Strength | chunk: 997bf2eca013
-  > ess 10 • 10 points  Super-Strength: Enhanced Strength 8; Power-  Roll 1d20 once and record the result.  lifting 4 •
-- **def_0410** | concept: Damage | chunk: 997bf2eca013
-  > nreliable (only the Damage is Unreliable) • 10 points  15-17  Cut Loose!: Penetrating 10 on Strength • 10 poi
-- **def_0411** | concept: Burrowing | chunk: 442f2e5a5a37
-  > T ORIGINS  81  1-3  Burrowing: Burrowing 6 (4 MPH), Penetrating • 12  points  4-8  Flight: Flight 6 (120 MPH) •
-- **def_0412** | concept: Flight | chunk: 442f2e5a5a37
-  > • 12  points  4-8  Flight: Flight 6 (120 MPH) • 12 points  9-14  Super-Leaping: Leaping 12 (4 miles) • 12 p
-- **def_0413** | concept: Super-Leaping | chunk: 442f2e5a5a37
-  > • 12 points  9-14  Super-Leaping: Leaping 12 (4 miles) • 12 points  15-20  Super-Movement: Speed 5 (60 MPH); Leapi
-- **def_0414** | concept: Super-Movement | chunk: 442f2e5a5a37
-  > • 12 points  15-20  Super-Movement: Speed 5 (60 MPH); Leaping 7  (1,000 feet) • 12 points  Roll 1d20 once and record
-- **def_0415** | concept: Enhanced Senses | chunk: 442f2e5a5a37
-  > 1-14  15-17  18-20  Enhanced Senses: Senses 5 (Extended Auditory 2, Extended Vision 2, Low-light Vision) • 5 points
-- **def_0416** | concept: Fast Recovery | chunk: 442f2e5a5a37
-  > Vision) • 5 points  Fast Recovery: Regeneration 4, Enhanced  Advantage 1 (Diehard) • 5 points  Faster: Depending on
-- **def_0417** | concept: Faster | chunk: 442f2e5a5a37
-  > iehard) • 5 points  Faster: Depending on the Movement Power you rolled; Burrowing: add 1 rank of Penetrating
-- **def_0418** | concept: Super-Leaping | chunk: 442f2e5a5a37
-  > fect of Swimming 6; Super-Leaping: add 5 ranks of Leaping; Super- Movement: add 2 ranks of Speed and 3 ranks of Lea
-- **def_0419** | concept: Movement | chunk: 442f2e5a5a37
-  > of Leaping; Super- Movement: add 2 ranks of Speed and 3 ranks of Leaping • 5 points  Immortal: Immortality 2,
-- **def_0420** | concept: Immortal | chunk: 442f2e5a5a37
-  > Leaping • 5 points  Immortal: Immortality 2, Enhanced Advantage 1  (Diehard) • 5 points  Like Hitting a Brick
-- **def_0421** | concept: Pliable Form | chunk: 442f2e5a5a37
-  > ating 1 • 5 points  Pliable Form: Elongation 1 (15 feet); Movement 2  (Permeate, Safe Fall) • 5 points  DEFENSE  D
-- **def_0422** | concept: Identity | chunk: 442f2e5a5a37
-  > AL  13  10  150  •  Identity:  Some  Powerhouses  keep  their  identity  a secret  from  the  rest  of  the  wo
-- **def_0423** | concept: Prejudice | chunk: 442f2e5a5a37
-  > eturn to it often.  Prejudice: The Powerhouse often looks unusual and struggles with feeling isolated or like a
-- **def_0424** | concept: Relationship | chunk: 442f2e5a5a37
-  > ed like a monster!  Relationship: The Powerhouse typically has a small group of friends he or she relies on for hu
-- **def_0425** | concept: In-Born | chunk: 442f2e5a5a37
-  > d the result.  1-8  In-Born: Your powers are due to the fact that you’re a mutant or a member of a psychic ra
-- **def_0426** | concept: Psychic Warrior | chunk: 442f2e5a5a37
-  > sychic race.  9-14  Psychic Warrior: You’ve trained your mind and body to work as one and have tapped into a vast psi
-- **def_0427** | concept: Wild Talent | chunk: 442f2e5a5a37
-  > e of power.  15-20  Wild Talent: Your abilities sprang seemingly from nowhere, or are the result of an accident o
-- **def_0428** | concept: Charmed Life | chunk: c1c422470246
-  > 5-8  9-12  13-16  Charmed Life: You live a charmed life; maybe you’re just lucky, but maybe it’s low-level psion
-- **def_0429** | concept: Contemplative | chunk: c1c422470246
-  > o can say?  POWERS  Contemplative: You are always calm and controlled.  Perfect Mind: You use a greater percentage
-- **def_0430** | concept: Perfect Mind | chunk: c1c422470246
-  > lm and controlled.  Perfect Mind: You use a greater percentage of your mind.  Thought Leader: You use your abiliti
-- **def_0431** | concept: Thought Leader | chunk: c1c422470246
-  > tage of your mind.  Thought Leader: You use your abilities to help others reach greater heights.  Roll  1d20  once
-- **def_0432** | concept: Trained Fighter | chunk: c1c422470246
-  > the result.  17-20  Trained Fighter: You know how to fight.  LIFE  Attractive, Fascinate (Persuasion), Luck  CONTEMPL
-- **def_0433** | concept: Charmer | chunk: c1c422470246
-  > results.  1-4  5-8  Charmer: You’re good with people.  Dabbler: You dabble in whatever interests you.  9-12
-- **def_0434** | concept: Dabbler | chunk: c1c422470246
-  > good with people.  Dabbler: You dabble in whatever interests you.  9-12  Ninja: You have been trained in the
-- **def_0435** | concept: Ninja | chunk: c1c422470246
-  > terests you.  9-12  Ninja: You have been trained in the way of the ninja.  13-16  17-20  Sneak: You’re snea
-- **def_0436** | concept: Sneak | chunk: c1c422470246
-  > nja.  13-16  17-20  Sneak: You’re sneaky and underhanded when you need to be.  11-15  Student: You’re a hig
-- **def_0437** | concept: Student | chunk: c1c422470246
-  > need to be.  11-15  Student: You’re a high-school, college, or post- graduate student.  CHARMER  Deception 4,
-- **def_0438** | concept: Psionic | chunk: c1c422470246
-  > ht 4, Persuasion 4  Psionic: Take Telepathy, listed immediately below,  then roll on the Psionic Table.  Tele
-- **def_0439** | concept: Telepathy | chunk: c1c422470246
-  > the Psionic Table.  Telepathy: Mind Reading 5 Linked to Area Mental  Communication 3 • 25 points  Psionic Table
-- **def_0440** | concept: Psionic Table | chunk: c1c422470246
-  > tion 3 • 25 points  Psionic Table: Roll 1d20 once and record the result as the first power of an array, then roll 1
-- **def_0441** | concept: ESP | chunk: c1c422470246
-  > t roll).  1-3  4-7  ESP: Remote Sensing 6 (Normal Visual, Normal Auditory, Mental) • 24 points  Mental Bl
-- **def_0442** | concept: Mental Blast | chunk: c1c422470246
-  > ental) • 24 points  Mental Blast: Perception Range Damage  6, Resisted by Will • 24 points  1-10  8-11  Psi-Knife:
-- **def_0443** | concept: Psi-Knife | chunk: c1c422470246
-  > points  1-10  8-11  Psi-Knife: Damage 8, Penetrating 4,  Accurate 4, Resisted by Will • 24 points  12-14  15-17
-- **def_0444** | concept: Psionic Invisibility | chunk: c1c422470246
-  > ints  12-14  15-17  Psionic Invisibility: Concealment 10,  Affects Others, Limited—Concealment only works against beings w
-- **def_0445** | concept: Sleep Touch | chunk: c1c422470246
-  > each 3 • 24 points  Sleep Touch: Cumulative Affliction 9  (Resisted by Dodge, Overcome by Will; Fatigued, Exhaust
-- **def_0446** | concept: Telekinetic Weapon | chunk: c1c422470246
-  > btle 2 • 24 points  Telekinetic Weapon: Damage 8,  18-20  Accurate 4, Affects Insubstantial 2, Penetrating 8, Reach, Spl
-- **def_0447** | concept: Mentalist | chunk: c1c422470246
-  > Split • 24 points  Mentalist: Take Telepathy, listed immediately below, then roll on the Mentalist Table as di
-- **def_0448** | concept: Telepathy | chunk: c1c422470246
-  > Table as directed.  Telepathy: Mind Reading 5 Linked to Area Mental  Communication 3 • 25 points  Mentalist Tab
-- **def_0449** | concept: Mentalist Table | chunk: c1c422470246
-  > tion 3 • 25 points  Mentalist Table: Roll 1d20 once and record the result as the first power of an array, then roll 1
-- **def_0450** | concept: ESP | chunk: c1c422470246
-  > first roll).  1-3  ESP: Remote Sensing 6 (Normal Visual, Normal Auditory, Mental) • 24 points
-- **def_0451** | concept: Induce Blindness | chunk: 8757660124bd
-  > 5-16  17-19  11-15  Induce Blindness: Perception Range  Cumulative Affliction 8 (Resisted and Overcome by Will; Visual
-- **def_0452** | concept: Mental Blast | chunk: 8757660124bd
-  > sense • 24 points  Mental Blast: Perception Range Damage  1-5  6, Resisted by Will • 24 points  Mental Illusions:
-- **def_0453** | concept: Mental Illusions | chunk: 8757660124bd
-  > y Will • 24 points  Mental Illusions: Illusion 6 (All Senses), Feedback, Resistible by Will, Selective • 24 points  Me
-- **def_0454** | concept: Mental Paralysis | chunk: 8757660124bd
-  > ective • 24 points  Mental Paralysis: Perception Range  Cumulative Affliction 6 (Resisted and Overcome by Will; Dazed,
-- **def_0455** | concept: Mind Control | chunk: 8757660124bd
-  > lyzed) • 24 points  Mind Control: Perception Range  Cumulative Affliction 6 (Resisted and Overcome by Will; Dazed,
-- **def_0456** | concept: Weaken Resolve | chunk: 8757660124bd
-  > d) • 24 points  20  Weaken Resolve: Perception Range  Weaken Will 8 • 24 points  Telekinetic: Take Telekinesis, list
-- **def_0457** | concept: Telekinetic | chunk: 8757660124bd
-  > Will 8 • 24 points  Telekinetic: Take Telekinesis, listed immediately  below, then roll on the Telekinetic Table.
-- **def_0458** | concept: Telekinesis | chunk: 8757660124bd
-  > Telekinetic Table.  Telekinesis: Move Object 10, Accurate 4 • 24 points  Telekinetic Table: Roll 1d20 once and re
-- **def_0459** | concept: Telekinetic Table | chunk: 8757660124bd
-  > rate 4 • 24 points  Telekinetic Table: Roll 1d20 once and record the result as the first power in an array, then roll 1
-- **def_0460** | concept: Telekinetic Column | chunk: 8757660124bd
-  > ).  1-3  4-7  8-12  Telekinetic Column: Line Area 2 (60  feet) Damage 8 • 24 points  Telekinetic Constructs: Create 8,
-- **def_0461** | concept: Telekinetic Constructs | chunk: 8757660124bd
-  > mage 8 • 24 points  Telekinetic Constructs: Create 8,  Movable • 24 points  Telekinetic Bolt: Ranged Damage 10,  Accurate 4
-- **def_0462** | concept: Telekinetic Bolt | chunk: 8757660124bd
-  > ovable • 24 points  Telekinetic Bolt: Ranged Damage 10,  Accurate 4 • 24 points  16-20  13-14  Telekinetic Grab: Range
-- **def_0463** | concept: Telekinetic Grab | chunk: 8757660124bd
-  > ints  16-20  13-14  Telekinetic Grab: Ranged Concentration  Affliction 10 (Resisted by Dodge, Overcome by Damage; Hind
-- **def_0464** | concept: Precognitive Reactions | chunk: 8757660124bd
-  > rry 4) • 20 points  Precognitive Reactions: Enhanced Advantages 8 (Defensive Roll 4, Evasion 2, Improved Defense, Improved I
-- **def_0465** | concept: Psychokinetic Shield | chunk: 8757660124bd
-  > rry 6) • 20 points  Psychokinetic Shield: Protection 10, Impervious 5,  Sustained, Linked to Immunity 10 (Mental effects),
-- **def_0466** | concept: Telekinetic Shield | chunk: 8757660124bd
-  > Effect • 20 points  Telekinetic Shield: Impervious Protection 10,  Sustained • 20 points  6-10  11-15  16-20  Roll 1d20
-- **def_0467** | concept: Levitation | chunk: 8757660124bd
-  > d the result.  1-2  Levitation: Flight 2 (8 MPH), Subtle • 5 points  3-6  7-8  Mental Awareness: Senses (Mental
-- **def_0468** | concept: Mental Awareness | chunk: 8757660124bd
-  > 5 points  3-6  7-8  Mental Awareness: Senses (Mental Awareness,  Acute, Detect, Radius, Range) • 5 points  Telekinetic
-- **def_0469** | concept: Telekinetic Flight | chunk: 8757660124bd
-  > Range) • 5 points  Telekinetic Flight: Flight 5 (60 MPH), Distracting •  5 points  9-10  Telekinetic Hands: Move Object
-- **def_0470** | concept: Telekinetic Hands | chunk: 8757660124bd
-  > •  5 points  9-10  Telekinetic Hands: Move Object 2, Precise • 5 points  11-12  Telepathic Translation: Comprehend Lan
-- **def_0471** | concept: Telepathic Translation | chunk: 8757660124bd
-  > • 5 points  11-12  Telepathic Translation: Comprehend Languages 3 (Speak, Understand, Understood), Noticeable • 5 points  1
-- **def_0472** | concept: Inhuman | chunk: 8757660124bd
-  > 5-16  17-18  19-20  Inhuman: Immunity 5 (Critical Hits, Disease, Poison, and Choose one environmental conditi
-- **def_0473** | concept: Immortal | chunk: 8757660124bd
-  > Vacuum) • 5 points  Immortal: Immortality 2; Immunity 1 (Aging) • 5  points  Space-bending: Teleport 2 (120 fe
-- **def_0474** | concept: Space-bending | chunk: 8757660124bd
-  > Aging) • 5  points  Space-bending: Teleport 2 (120 feet), Accurate,  Distracting, Subtle • 5 points  15-16  Telekin
-- **def_0475** | concept: Telekinetic Hammer | chunk: 8757660124bd
-  > • 5 points  15-16  Telekinetic Hammer: Ranged Burst Area  Damage 8 • 24 points  DEFENSE  17-18  Telekinetic Snare: Rang
-- **def_0476** | concept: Telekinetic Snare | chunk: 8757660124bd
-  > ts  DEFENSE  17-18  Telekinetic Snare: Ranged Cumulative Affliction 10 (Resisted by Dodge, Overcome by Damage; Hindered
-- **def_0477** | concept: Telekinetic Weapon | chunk: 8757660124bd
-  > GHNESS +0  WILL +8  Telekinetic Weapon: Damage 8,  19-20  Accurate 4, Affects Insubstantial 2, Penetrating 8, Reach, Spl
-- **def_0478** | concept: Identity | chunk: 8757660124bd
-  > lists you want.  •  Identity: Psychics often keep their identities and the fact that they have powers a secret
-- **def_0479** | concept: Everyman | chunk: 818544ba2429
-  > the result.  1-10  Everyman: You’re an ordinary, everyday Joe. Or you’re an alien being or construct made to
-- **def_0480** | concept: Smart Alec | chunk: 818544ba2429
-  > ction  9-12  13-16  Smart Alec: You never stop talking. Sometimes people want to hit you.  Spontaneous: You have
-- **def_0481** | concept: Spontaneous | chunk: 818544ba2429
-  > e want to hit you.  Spontaneous: You have poor impulse control, which is actually a blessing in combat.  17-20 We
-- **def_0482** | concept: Close Combat | chunk: 818544ba2429
-  > y Wealthy)  SKILLS  Close Combat: Unarmed 8  Take the skill listed above, then roll 1d20 twice and record the resu
-- **def_0483** | concept: Adventurer | chunk: 818544ba2429
-  > result).  1-4  5-8  Adventurer: You like action and adventure and you have the skills to keep you alive while pu
-- **def_0484** | concept: Explorer | chunk: 818544ba2429
-  > ile pursuing them.  Explorer: You’re well traveled and know how to blaze your own trails.  9-12  Infiltrator:
-- **def_0485** | concept: Infiltrator | chunk: 818544ba2429
-  > own trails.  9-12  Infiltrator: You’re a trained deceiver and infiltrator.  13-16  Investigator: You’re a talent
-- **def_0486** | concept: Investigator | chunk: 818544ba2429
-  > nfiltrator.  13-16  Investigator: You’re a talented detective.  17-20  Researcher: You’ve been educated in technol
-- **def_0487** | concept: Researcher | chunk: 818544ba2429
-  > detective.  17-20  Researcher: You’ve been educated in technology and a field of interest.  ADVENTURER  Athleti
-- **def_0488** | concept: Fast Reaction Speed | chunk: 818544ba2429
-  > Perception 4  1-4  Fast Reaction Speed: You have excellent reaction times.  RESEARCHER  5-8  Inventor: You love gadgets,
-- **def_0489** | concept: Inventor | chunk: 818544ba2429
-  > .  RESEARCHER  5-8  Inventor: You love gadgets, especially building them!  Expertise (Choose One) 6, Technolog
-- **def_0490** | concept: Shapeshifter | chunk: cfadcb33d64b
-  > d the result.  1-3  Shapeshifter: Variable 9 (45 points, for assuming  different shapes), Move Action • 72 points
-- **def_0491** | concept: Size-Changer | chunk: cfadcb33d64b
-  > Action • 72 points  Size-Changer: Roll 1d20 once or choose Giant Size or Shrinking. You may take the other power a
-- **def_0492** | concept: Density Decrease | chunk: cfadcb33d64b
-  > Size power.  11-20  Density Decrease: Insubstantial 4 (Incorporeal, affected by magic), Reaction, Linked to Flight 1 (
-- **def_0493** | concept: Disruption Attacks | chunk: cfadcb33d64b
-  > aring), Continuous; Disruption Attacks: Array (24 points), Incorporeal Weapon (Affects Corporeal Damage 12, Resisted by
-- **def_0494** | concept: Combat | chunk: cfadcb33d64b
-  > ced Skill -4 (Close Combat: Unarmed -8) (Note: the Innate Understanding of Powers abilities only work when n
-- **def_0495** | concept: Specific Shapeshifter | chunk: cfadcb33d64b
-  > ints  14-16  17-20  Specific Shapeshifter: Variable 9 (45 points, for  assuming different shapes), Continuous, Limited (Cho
-- **def_0496** | concept: Stretcher | chunk: cfadcb33d64b
-  > Action • 72 points  Stretcher: Strength-based Damage 6; Elongation 8 (1,800 feet); Enhanced Advantages 14 (Accu
-- **def_0497** | concept: Fame | chunk: cfadcb33d64b
-  > AL  16  24  150  •  Fame:  Many  Shapeshifters  (especially  heroic  ones) don’t worry about hiding their i
-- **def_0498** | concept: Giant Size | chunk: cfadcb33d64b
-  > f their new world.  Giant Size: Growth 10 (40 feet tall; +10 Str,  +10 Sta, -5 Dodge, -5 Parry, -10, Stealth, +5
-- **def_0499** | concept: Combat | chunk: cfadcb33d64b
-  > nced Skill 1 (Close Combat: Unarmed -2, Intimidation +4) and Immunity 5 (Bullets) and Impervious Toughness 1
-- **def_0500** | concept: Shrinking | chunk: cfadcb33d64b
-  > oint)) • 72 points  Shrinking: Shrinking 12 (6 inches tall; +6  Dodge, +6 Parry, +12 Stealth, -6 Intimidation,
-- **def_0501** | concept: Density-Changer | chunk: cfadcb33d64b
-  > 1-10  4-8  11-20  Density-Changer: Roll 1d20 once or choose Density Increase or Density Decrease. You may take the
-- **def_0502** | concept: Density Increase | chunk: cfadcb33d64b
-  > ntage.  9-13  1-10  Density Increase: Growth 5 (3 tons; +5 Str, +5 Sta), Density (does not modify defenses, size, spee
-- **def_0503** | concept: Combat | chunk: cfadcb33d64b
-  > ced Skill -1 (Close Combat: Unarmed -2) and Immunity 17 (Life Support, Bullets, Critical Hits) and Imperviou
-- **def_0504** | concept: Density Decrease | chunk: cfadcb33d64b
-  > are active or when Density Decrease is active) • 72 points  14-16  17-20  Specific Shapeshifter: Variable 9 (45 points
-- **def_0505** | concept: Relationships | chunk: 5e2f6b7f48fe
-  > lasting injury.  •  Relationships:  Shapeshifters  often  have  close friends and family around them.  SPEEDSTER  Sp
-- **def_0506** | concept: Veteran | chunk: 5e2f6b7f48fe
-  > 1-10  11-15  16-20  Veteran: You’re an experienced hero who has come into his own.  Youth: You’re still just
-- **def_0507** | concept: Youth | chunk: 5e2f6b7f48fe
-  > come into his own.  Youth: You’re still just an impulsive kid, new to the scene and experimenting with your
-- **def_0508** | concept: Old-Timer | chunk: 5e2f6b7f48fe
-  > with your powers.  Old-Timer: You’ve seen a lot more than most heroes, but you’re not quite ready to hang up y
-- **def_0509** | concept: Fighter | chunk: 17270869c240
-  > d the result.  1-5  Fighter: You were trained in combat.  6-10  Nimble: You are quick-footed.  11-15  Prodigy
-- **def_0510** | concept: Nimble | chunk: 17270869c240
-  > d in combat.  6-10  Nimble: You are quick-footed.  11-15  Prodigy: You have learned a little bit of everythi
-- **def_0511** | concept: Prodigy | chunk: 17270869c240
-  > ick-footed.  11-15  Prodigy: You have learned a little bit of everything.  16-20  Team-Player: You have exper
-- **def_0512** | concept: Team-Player | chunk: 17270869c240
-  > everything.  16-20  Team-Player: You have experience working as part of a super-team.  FIGHTER  Close Attack 2, E
-- **def_0513** | concept: Athlete | chunk: 17270869c240
-  > results.  1-4  5-8  Athlete: You are a trained athlete.  Charmer: People like you.  9-12  Police: You work in
-- **def_0514** | concept: Charmer | chunk: 17270869c240
-  > a trained athlete.  Charmer: People like you.  9-12  Police: You work in law enforcement.  13-16  Scientist:
-- **def_0515** | concept: Police | chunk: 17270869c240
-  > le like you.  9-12  Police: You work in law enforcement.  13-16  Scientist: You are an expert in a field of
-- **def_0516** | concept: Scientist | chunk: 17270869c240
-  > nforcement.  13-16  Scientist: You are an expert in a field of science.  17-20  Thief: You’ve operated outside
-- **def_0517** | concept: Thief | chunk: 17270869c240
-  > of science.  17-20  Thief: You’ve operated outside the law.  16-20  ATHLETE  Acrobatics 4, Athletics 8, Per
-- **def_0518** | concept: Running | chunk: 17270869c240
-  > record the result.  Running: Roll 1d20 once:  1-10  Gravity-Defying Runner: Movement 3 (Wall-crawling 2, Wate
-- **def_0519** | concept: Gravity-Defying Runner | chunk: 17270869c240
-  > l 1d20 once:  1-10  Gravity-Defying Runner: Movement 3 (Wall-crawling 2, Water Walking), Limited to While Moving; Quickness
-- **def_0520** | concept: Rapid Metabolism | chunk: 17270869c240
-  > 1-10  11-15  16-20  Rapid Metabolism: Immunity 1 (Poison); Quickness 11; Regeneration 5; Speed 11 (4,000 MPH) • 28 poi
-- **def_0521** | concept: Time-Traveler | chunk: 17270869c240
-  > 0 MPH) • 28 points  Time-Traveler: Movement 3 (Time  Travel—any time); Quickness 10; Senses 4 (Precognition), Check
-- **def_0522** | concept: Flying | chunk: 17270869c240
-  > • 28 points  11-15  Flying: Roll 1d20 once:  Cosmic Speedster: Flight 9 (1,000 MPH);  Immunity 6 (cold, heat
-- **def_0523** | concept: Cosmic Speedster | chunk: 17270869c240
-  > g: Roll 1d20 once:  Cosmic Speedster: Flight 9 (1,000 MPH);  Immunity 6 (cold, heat, radiation, suffocation, vacuum);
-- **def_0524** | concept: Hypersonic | chunk: 17270869c240
-  > vel 1) • 28 points  Hypersonic: Flight 14 (32,000 MPH) • 28  points  Hyper-Speed: Flight 10 (2,000 MPH);  Quickn
-- **def_0525** | concept: Hyper-Speed | chunk: 17270869c240
-  > MPH) • 28  points  Hyper-Speed: Flight 10 (2,000 MPH);  Quickness 8 • 28 points  1-5  6-15  16-20  Teleporting:
-- **def_0526** | concept: Teleporting | chunk: 17270869c240
-  > 1-5  6-15  16-20  Teleporting: Roll 1d20 once:  1-5  6-10  Dimensional Walker: Movement 3  (Dimension Travel—an
-- **def_0527** | concept: Dimensional Walker | chunk: 17270869c240
-  > 0 once:  1-5  6-10  Dimensional Walker: Movement 3  (Dimension Travel—any dimension); Teleport 11 (8 miles) • 28 points
-- **def_0528** | concept: Proximal | chunk: 17270869c240
-  > miles) • 28 points  Proximal: Teleport 9 (2 miles), Accurate,  Turnabout • 28 points  Transmit: Teleport 9 (2
-- **def_0529** | concept: Transmit | chunk: 17270869c240
-  > nabout • 28 points  Transmit: Teleport 9 (2 miles), Easy,  11-15  Extended (500 miles), Medium (Choose One), T
-- **def_0530** | concept: World-Walker | chunk: 17270869c240
-  > • 28 points  16-20  World-Walker: Teleport 9 (2 miles), Extended (500 miles), Turnabout • 28 points  Speedster Stu
-- **def_0531** | concept: Speedster Stunts | chunk: 17270869c240
-  > nabout • 28 points  Speedster Stunts: Array (20 points plus 1 point of Al- ternate Effect)  Roll 1d20 once and record
-- **def_0532** | concept: Disruption | chunk: 17270869c240
-  > e.  1-2  3-4  5-10  Disruption: Penetrating Damage 9, Accurate 2 • 20  points  Kinetic Theft: Ranged Affliction
-- **def_0533** | concept: Kinetic Theft | chunk: 17270869c240
-  > ate 2 • 20  points  Kinetic Theft: Ranged Affliction 9 (Resisted and  Overcome by Will; Hindered, Immobile, Paralyz
-- **def_0534** | concept: Rapid Attack | chunk: 17270869c240
-  > lyzed), Accurate 2  Rapid Attack: Selective Multiattack Damage 6,  Accurate 2 • 20 points  88
-- **def_0535** | concept: Rapid Fire | chunk: ffc525f7d497
-  > RET ORIGINS  11-14  Rapid Fire: Selective Ranged Multiattack Damage 4,  Accurate 4 • 20 points  15-18  Sonic Boo
-- **def_0536** | concept: Sonic Boom | chunk: ffc525f7d497
-  > • 20 points  15-18  Sonic Boom: Burst Area Damage 10 • 20 points  19-20  Vertigo Attack: Cumulative Affliction 9
-- **def_0537** | concept: Vertigo Attack | chunk: ffc525f7d497
-  > • 20 points  19-20  Vertigo Attack: Cumulative Affliction 9 (Resisted and Overcome by Fortitude; Dazed, Stunned, Inc
-- **def_0538** | concept: Air Control | chunk: ffc525f7d497
-  > e Effect  1-4  5-6  Air Control: Cone Area Move Object 10, Close  Range • 1 point  Anchor: Simultaneous Nullify M
-- **def_0539** | concept: Anchor | chunk: ffc525f7d497
-  > e  Range • 1 point  Anchor: Simultaneous Nullify Movement Effects 10  • 1 point  7-8  Phase Shift: Insubstan
-- **def_0540** | concept: Phase Shift | chunk: ffc525f7d497
-  > 10  • 1 point  7-8  Phase Shift: Insubstantial 4 • 1 point  9-10  11-20  Temporal/Dimensional Duplicate: Summon D
-- **def_0541** | concept: Temporal/Dimensional Duplicate | chunk: ffc525f7d497
-  > point  9-10  11-20  Temporal/Dimensional Duplicate: Summon Duplicate 10, Active, Feedback • 1 point  Roll on the table above instead
-- **def_0542** | concept: Bullet | chunk: ffc525f7d497
-  > record the result.  Bullet: Enhanced Defenses 12 (Dodge 6, Parry 6);  Protection 8, Impervious • 28 points
-- **def_0543** | concept: Hard Target | chunk: ffc525f7d497
-  > rvious • 28 points  Hard Target: Enhanced Advantages 6 (Defensive  Roll 3, Improved Initiative 3), Enhanced Defen
-- **def_0544** | concept: Natural Selection | chunk: ffc525f7d497
-  > ry 11) • 28 points  Natural Selection: Enhanced Agility 2, Enhanced Stamina 2, Enhanced Defenses 20 (Dodge 10, Parry 10
-- **def_0545** | concept: Duplicator | chunk: ffc525f7d497
-  > oints  1-10  11-20  Duplicator: You can summon duplicates of yourself.  Summoner: You can summon creatures from
-- **def_0546** | concept: Summoner | chunk: ffc525f7d497
-  > cates of yourself.  Summoner: You can summon creatures from other dimensions or seemingly from nowhere.  DEFEN
-- **def_0547** | concept: Quirk | chunk: ffc525f7d497
-  > e cut off.  POWERS  Quirk:  Speedsters  often  find  the  mundane  world moves  too  slowly  for  their  tas
-- **def_0548** | concept: Relationships | chunk: ffc525f7d497
-  > edibly hot-headed.  Relationships: Speedsters often rely on their friends, relatives, or loved ones to stay grounde
-- **def_0549** | concept: The Summoner | chunk: ffc525f7d497
-  > 6  17-20  SUMMONER  The Summoner is an archetype that covers a lot of ground, from heroes who create duplicates of
-- **def_0550** | concept: Aristocrat | chunk: 8ad0833a1563
-  > rception 6  POWERS  Aristocrat: You used your powers to gain wealth and social status.  1-5  6-10  Heartthrob: P
-- **def_0551** | concept: Heartthrob | chunk: 8ad0833a1563
-  > status.  1-5  6-10  Heartthrob: People are attracted to your dark and handsome looks.  11-15  Savage: You deligh
-- **def_0552** | concept: Savage | chunk: 8ad0833a1563
-  > some looks.  11-15  Savage: You delight in your strength and power.  16-20  Wilder: You are comfortable in t
-- **def_0553** | concept: Wilder | chunk: 8ad0833a1563
-  > and power.  16-20  Wilder: You are comfortable in the wild and possibly more bestial or feral than others o
-- **def_0554** | concept: Bestial | chunk: 8ad0833a1563
-  > t.  1-4  5-8  9-12  Bestial: You are feral and powerful.  Mysterious: You are enigmatic and secretive.  Refin
-- **def_0555** | concept: Mysterious | chunk: 8ad0833a1563
-  > eral and powerful.  Mysterious: You are enigmatic and secretive.  Refined: You are experienced with the finer th
-- **def_0556** | concept: Refined | chunk: 8ad0833a1563
-  > tic and secretive.  Refined: You are experienced with the finer things in… life.  13-16  Teen: You are young
-- **def_0557** | concept: Teen | chunk: 8ad0833a1563
-  > s in… life.  13-16  Teen: You are young and exploring your newfound powers.  17-20  Tempter: You are cunni
-- **def_0558** | concept: Tempter | chunk: 8ad0833a1563
-  > und powers.  17-20  Tempter: You are cunning and deceitful.  BESTIAL  Athletics 6, Intimidation 12, Perceptio
-- **def_0559** | concept: Brutish Strength | chunk: 8ad0833a1563
-  > s you rolled.  1-6  Brutish Strength: Enhanced Strength 4 • 8 points  7-12  13-20  Devilish Speed: Enhanced Advantages
-- **def_0560** | concept: Devilish Speed | chunk: 8ad0833a1563
-  > oints  7-12  13-20  Devilish Speed: Enhanced Advantages 6 (Close Attack 4, Improved Initiative 2); Quickness 2 • 8 p
-- **def_0561** | concept: Supernatural Might | chunk: 8ad0833a1563
-  > kness 2 • 8 points  Supernatural Might: Enhanced Strength 2; Power- lifting 2; Enhanced Advantages 2 (Close Attack 2) •
-- **def_0562** | concept: Demonic Physiology | chunk: 8ad0833a1563
-  > • 8 points  DEMON  Demonic Physiology: Protection 3 • 3 points  Hellfire Control: Array (20 points plus 1 Alternate Eff
-- **def_0563** | concept: Hellfire Control | chunk: 8ad0833a1563
-  > ction 3 • 3 points  Hellfire Control: Array (20 points plus 1 Alternate Effect) • 21  points total  Roll 1d20 once and
-- **def_0564** | concept: Hellfire Form | chunk: 8ad0833a1563
-  > ) • 20 points  1-5  Hellfire Form: Insubstantial 3 (Hellfire) • 15 points  6-10  Immortal: Immortality 5, Regenerat
-- **def_0565** | concept: Supernatural Resistance | chunk: bc6e8d2fe577
-  > SECRET ORIGINS  93  Supernatural Resistance: Roll 1d20 three times (re-roll if you get the same result twice) and record the
-- **def_0566** | concept: Spider-Climb | chunk: bc6e8d2fe577
-  > oints  8-14  15-20  Spider-Climb: Movement 1 (Wall-crawling)  • 2 points  Vampire Bite: Weaken Stamina 4, Grab-bas
-- **def_0567** | concept: Vampire Bite | chunk: bc6e8d2fe577
-  > wling)  • 2 points  Vampire Bite: Weaken Stamina 4, Grab-based  • 2 points  WEREWOLF  Thick Skin: Protection 3; Im
-- **def_0568** | concept: Thick Skin | chunk: bc6e8d2fe577
-  > 2 points  WEREWOLF  Thick Skin: Protection 3; Impervious Toughness 9, Lim- ited—Not versus magical or silver wea
-- **def_0569** | concept: Deathly Howl | chunk: bc6e8d2fe577
-  > rifice • 20 points  Deathly Howl: Auditory Perception Area Affliction 10 (Resisted and Overcome by Will; Dazed and
-- **def_0570** | concept: Demonic Cape | chunk: bc6e8d2fe577
-  > points  1-4  5-10  Demonic Cape: Flight 6 (120 MPH), Gliding,  11-20  Removable (-1 point) • 5 points  Demonic Mo
-- **def_0571** | concept: Demonic Movement | chunk: bc6e8d2fe577
-  > point) • 5 points  Demonic Movement: Leaping 2 (30 feet); Speed 3  (16 MPH) • 5 points  11-16 Giant Bat Wings: Flight
-- **def_0572** | concept: Hellrider | chunk: bc6e8d2fe577
-  > • 5 points  17-20  Hellrider: Movement 2 (Wall-crawling, Water  Walking), Limited to While Moving; Speed 6 (12
-- **def_0573** | concept: Blood Drain | chunk: bc6e8d2fe577
-  > 5 points  VAMPIRE  Blood Drain: Regeneration 10, Source (Blood) • 5 points  Roll 1d20 once and record the result
-- **def_0574** | concept: Living Vampire | chunk: bc6e8d2fe577
-  > result.  1-5  6-20  Living Vampire: Enhanced Stamina 13; Immunity  4 (aging, disease, need for sleep, poison); Imper
-- **def_0575** | concept: Undead Invulnerability | chunk: bc6e8d2fe577
-  > ness 8 • 38 points  Undead Invulnerability: Immunity 30 (Fortitude effects); Impervious Protection 8, Limited—Not against bl
-- **def_0576** | concept: Dominate | chunk: bc6e8d2fe577
-  > rifice • 20 points  Dominate: Perception Ranged Affliction 10 (Resisted  and Overcome by Will; Entranced, Comp
-- **def_0577** | concept: Mist Form | chunk: bc6e8d2fe577
-  > endent • 20 points  Mist Form: Insubstantial 2, Linked to Flight 5 (60  MPH) • 20 points  Roll 1d20 once and re
-- **def_0578** | concept: Human Transformation | chunk: bc6e8d2fe577
-  > 9-12  13-16  17-20  Human Transformation: Morph 1 (Human Form)  • 5 points  Loping Movement: Leaping 2 (30 feet); Speed 3
-- **def_0579** | concept: Loping Movement | chunk: bc6e8d2fe577
-  > Form)  • 5 points  Loping Movement: Leaping 2 (30 feet); Speed 3 (16  MPH) • 5 points  Sharp Claws: Penetrating 5 on
-- **def_0580** | concept: Sharp Claws | chunk: bc6e8d2fe577
-  > 6  MPH) • 5 points  Sharp Claws: Penetrating 5 on Strength Damage  • 5 points  Wolf Senses: Senses 5 (Danger Sens
-- **def_0581** | concept: Wolf Senses | chunk: bc6e8d2fe577
-  > Damage  • 5 points  Wolf Senses: Senses 5 (Danger Sense, Low-light Vision, Acute and Tracking Olfactory, Ultra- H
-- **def_0582** | concept: Wolf Transformation | chunk: bc6e8d2fe577
-  > earing) • 5 points  Wolf Transformation: Morph 1 (Wolf Form)  • 5 points  DEFENSE  DEMON/WEREWOLF  PARRY +2  FORTITUDE +5
-- **def_0583** | concept: Power Loss | chunk: f8e903dbf3d7
-  > for good.  •  •  •  Power Loss: Some Supernatural Creatures only have their powers at night, or lose their power
-- **def_0584** | concept: Reputation | chunk: f8e903dbf3d7
-  > its lost humanity.  Reputation:  Most  humans  regard  Supernatural Creatures with fear and hatred as a result of
-- **def_0585** | concept: Arthropod | chunk: f8e903dbf3d7
-  > ntages table.  1-4  Arthropod: Your totem is a spider, scorpion, wasp, or even an insect swarm.  5-8  Avian: Yo
-- **def_0586** | concept: Avian | chunk: f8e903dbf3d7
-  > insect swarm.  5-8  Avian: Your totem is a bird like a falcon or owl.  9-14  15-17  18-20  Carnivoran: Your
-- **def_0587** | concept: Carnivoran | chunk: f8e903dbf3d7
-  > 9-14  15-17  18-20  Carnivoran: Your totem is a carnivore from the canine, lupine, or feline family.  Pachyderm:
-- **def_0588** | concept: Pachyderm | chunk: f8e903dbf3d7
-  > or feline family.  Pachyderm: Your totem is a massive, thick-hided mammal, such as an elephant or rhinoceros.
-- **def_0589** | concept: Reptile | chunk: f8e903dbf3d7
-  > ant or rhinoceros.  Reptile: Your totem is a reptile, such as a crocodile, lizard, or snake.  ARTHROPOD  Roll
-- **def_0590** | concept: Active | chunk: f8e903dbf3d7
-  > t.  1-4  5-8  9-12  Active: You are in constant motion.  Catch and Hold: You like to grab hold of your prey.
-- **def_0591** | concept: Mystic | chunk: f8e903dbf3d7
-  > hold of your prey.  Mystic: Your mind focuses more on the spiritual than the physical.  13-16  Playful: Your
-- **def_0592** | concept: Playful | chunk: f8e903dbf3d7
-  > e physical.  13-16  Playful: Your combat style reflects your mischievous nature.  17-20  Sneaky: You are sly
-- **def_0593** | concept: Sneaky | chunk: f8e903dbf3d7
-  > ous nature.  17-20  Sneaky: You are sly and devious.  STRENGTH 8 STAMINA 7  AGILITY 7 DEXTERITY 3  FIGHTING
-- **def_0594** | concept: The Totem | chunk: f8e903dbf3d7
+- **def_0000** | concept: Skills | chunk: 34cb0222a3bd
+  > all ca- pabilities. Skills are a refinement of those basic abilities into specific areas of endeavor. For example
+- **def_0001** | concept: Acrobatics | chunk: 89a1fc58a123
+  > agility covered by Acrobatics is 13 (6 plus 7). Obviously, training in a skill makes characters more effective at
+- **def_0002** | concept: There | chunk: 89a1fc58a123
+  > to  name  a  few. There  is  a  direct  relationship between rank and measure, as shown on the Measure- ments
+- **def_0003** | concept: This | chunk: 903a8c445c1a
+  > is automatic, too. This is one of the ways the Gamemaster’s judg- ment and intervention is important in the
+- **def_0004** | concept: This | chunk: 7420eccba7af
+  > cifically looking. This is a case of routine opposition, in which case the DC for the active character’s ch
+- **def_0005** | concept: In cases where a check | chunk: 7420eccba7af
+  > apter for details.  In cases where a check is a simple test of one character’s capability  against  another,  with  no  luck  in
+- **def_0006** | concept: This | chunk: 7420eccba7af
+  > cifically looking. This is a case of routine opposition, in which case the DC for the active character’s chec
+- **def_0007** | concept: Much of the time a check | chunk: 7420eccba7af
+  > ter’s check is the  Much of the time a check is a simple pass-fail, it either suc- ceeds,  or  it  does  not.  In  other  cases,
+- **def_0008** | concept: THE BASICS | chunk: 02d77d753dd0
+  > BASICS  CHAPTER 1: THE BASICS  is one degree of success, just as a result of 8 is one degree of failure.  There is
+- **def_0009** | concept: There | chunk: 02d77d753dd0
+  > degree of failure.  There is no limit to the number of degrees a check may have, although more than two degre
+- **def_0010** | concept: A resistance check | chunk: 0b30704b97a2
+  > ious power effects. A resistance check is a d20 roll +  the  appropriate  defense  (typically  Dodge,  Fortitude, Toughness,
+- **def_0011** | concept: The game effect | chunk: 9c9f9b5a490d
+  > g caught off-guard. The game effect is the same (the hero’s active defenses  are  reduced),  so  it  is  easier  to  just
+- **def_0012** | concept: They | chunk: 9c9f9b5a490d
+  > le  game  modifier. They are the “building blocks” of conditions, much as ef- fects  are  the  basic  building  b
+- **def_0013** | concept: Standing up from a prone position | chunk: 7a6d568a6006
+  > cters are hindered. Standing up from a prone position is a move action.  Restrained:  A  restrained  character  is  hindered  and vulnerabl
+- **def_0014** | concept: Since hero points | chunk: 4742b3550bee
+  > them or lose them! Since hero points are a finite resource, players need  to  manage  them  carefully,  spending  them  at
+- **def_0015** | concept: What | chunk: a25964ce768c
+  > you want to create. What are the hero’s basic abilities? What are the hero’s powers? What’s the hero’s origin? Yo
+- **def_0016** | concept: What | chunk: a25964ce768c
+  > ’s basic abilities? What are the hero’s powers? What’s the hero’s origin? You may want to take a look at the arch
+- **def_0017** | concept: This | chunk: 301ee8a15809
+  > ocused superhumans. This is the power level of the Sentinels, characters like Bowman and Seven, and a great
+- **def_0018** | concept: This | chunk: 301ee8a15809
+  > ll stuff” as well). This is the level of the “heavy-hitters” of the Freedom League.  Power level is a value
+- **def_0019** | concept: This | chunk: 301ee8a15809
+  > ocused superhumans. This is the power level of the Sentinels, characters like Bowman and Seven, and a great many
+- **def_0020** | concept: This | chunk: 301ee8a15809
+  > ll stuff” as well). This is the level of the “heavy-hitters” of the Freedom League.  Power level is a value set
+- **def_0021** | concept: Power level | chunk: 301ee8a15809
+  > he Freedom League.  Power level is a value set by the Gamemaster for the series as a whole. It places certain limits
+- **def_0022** | concept: The Gamemaster | chunk: 6d18f5cb0ab3
+  > er level.  Example: The Gamemaster is creating a villain for a power level 10 series. The bad guy has a +8 total attac
+- **def_0023** | concept: This | chunk: 6d18f5cb0ab3
+  > entirely new ones. This is typically a re- sult of the transformed condition, either due to a power or enco
+- **def_0024** | concept: Motivation | chunk: 079ee72c1633
+  > hero’s motivation?  Motivation is a complication because it often determines what a hero will do in a particular s
+- **def_0025** | concept: Motivation | chunk: 079ee72c1633
+  > hero’s motivation?  Motivation is a complication because it often determines what a hero will do in a particular sit
+- **def_0026** | concept: What | chunk: 457931504c50
+  > stice in the world. What is stronger, the hero’s patriotism or the desire to see the truth known and justice
+- **def_0027** | concept: This | chunk: 93337a63364b
+  > rm of a hero point. This means that although the hero has to deal with some “bad stuff” from time to time, ther
+- **def_0028** | concept: NAME  What | chunk: 6890e166bca9
+  > ut your character:  NAME  What is your character’s name? That is to say, what is the name  the  hero  uses  in  pu
+- **def_0029** | concept: That | chunk: 6890e166bca9
+  > r character’s name? That is to say, what is the name  the  hero  uses  in  public,  that  appears  in  one-i
+- **def_0030** | concept: Second World War | chunk: f877c8ee4307
+  > ho fought  in  the  Second World War  is  likely  to  have  a  differ- ent worldview than a modern teenager who just acqui
+- **def_0031** | concept: This | chunk: f877c8ee4307
+  > in the public eye. This means no juggling two separate lives, but also no refuge from the media, adoring fans,
+- **def_0032** | concept: A costume | chunk: f877c8ee4307
+  > o’s looks? COSTUME  A costume is a big part of a superhero’s appearance. Like code  names,  most  heroes  have  a
+- **def_0033** | concept: This | chunk: 7f0cf6f57819
+  > MASTERMINDS story. This represents the experi- ence and confidence the heroes have gained, along with other factors
+- **def_0034** | concept: Energy Controller | chunk: 803cb2a8c272
+  > main option for an Energy Controller is the type of energy the hero wields. See Energy Control in the Powers chapter for
+- **def_0035** | concept: The main option for an Energy Controller | chunk: 803cb2a8c272
+  > 1 point.  OPTIONS  The main option for an Energy Controller is the type of energy the hero wields. See Energy Control in the Powers chapter for som
+- **def_0036** | concept: The Rook | chunk: eab98ce0e1fc
+  > otivation--Justice: The Rook is looking to bring justice to those who deserve it—whether it be the victims of a
+- **def_0037** | concept: Rook | chunk: eab98ce0e1fc
+  > y: No one knows the Rook is actually Jack Cooper, and he plans to  keep it that way for as long as he can.
+- **def_0038** | concept: Princess | chunk: da1c0758b454
+  > ht off, Julia knows Princess is strong, really strong. So she assigns her Strength 12; higher than PL10, but sti
+- **def_0039** | concept: That Strength | chunk: da1c0758b454
+  > close combat bonus. That Strength is enough for Princess to lift a hundred tons! She  can heft that car with ease! Ju
+- **def_0040** | concept: Jessica | chunk: 919d7063d0ae
+  > ret.  Relationship: Jessica is in a serious, long-term relationship with Mitchell Allen, who’s aware of her dua
+- **def_0041** | concept: No one can tell Jessica and Princess | chunk: 919d7063d0ae
+  > nizable: Feature 1 (No one can tell Jessica and Princess are the same ___________________________________________________________________________
+- **def_0042** | concept: There | chunk: ebf52e380812
+  > ter, and more fun.  There are a few different ways to use the character gen- erator.  Gamemasters  and  players
+- **def_0043** | concept: Descriptors | chunk: ebf52e380812
+  > Gems built into it. Descriptors are a simple way to customize your character and make it unique and interesting compar
+- **def_0044** | concept: This | chunk: e5eb32b8480c
+  > u find interesting. This is not cheating! Simply because these tables are in this book doesn’t make them “ru
+- **def_0045** | concept: This | chunk: e5eb32b8480c
+  > for that Archetype. This is your hero, so take the Compli- cations  that  make  the  most  sense  to  you.
+- **def_0046** | concept: This | chunk: e5eb32b8480c
+  > bit, if necessary. This is your hero, after all! Gamemaster, you should work with your players to swap arou
+- **def_0047** | concept: Instances in which this | chunk: e5eb32b8480c
+  > r the one you need. Instances in which this is a problem should be rare, but they can happen.  Another aspect of “pulling it all
+- **def_0048** | concept: MASTERMINDS Quickstart Character Generator | chunk: cb4093e23f62
+  > NDOM  The MUTANTS & MASTERMINDS Quickstart Character Generator is random, but it’s not 100% random. It was built to create a character that fits w
+- **def_0049** | concept: The Battlesuit | chunk: e087f7a0b70b
+  > .  •  Relationship: The Battlesuit is often surrounded by friends or loved ones that often become entangled in plots f
+- **def_0050** | concept: Construct | chunk: a67593d532fb
+  > in. Regardless, the Construct is a hero because it wants to be accepted by the rest of humanity.  •  Motivation—D
+- **def_0051** | concept: Construct | chunk: a67593d532fb
+  > who  believes the Construct is evil for some reason.  Prejudice: Constructs often appear inhuman, which causes
+- **def_0052** | concept: Construct | chunk: a67593d532fb
+  > in. Regardless, the Construct is a hero because it wants to be accepted by the rest of humanity.  •  Motivation—Doi
+- **def_0053** | concept: You | chunk: a37758230a66
+  > behave.  Scientist: You are a trained scientist and capable of inventing gadgets of your own.  16-20  Sleuth:
+- **def_0054** | concept: ELEMENTAL  The Elemental | chunk: 04f4880a6e63
+  > hero consistently.  ELEMENTAL  The Elemental is a being composed of a pure element, usu- ally one of the classical four elements
+- **def_0055** | concept: The Elemental | chunk: 04f4880a6e63
+  > tently.  ELEMENTAL  The Elemental is a being composed of a pure element, usu- ally one of the classical four elements o
+- **def_0056** | concept: You | chunk: 04f4880a6e63
+  > 11-20  Embodiment: You are a sentient incarnation of an elemental force.  Transformed: You are a human whose
+- **def_0057** | concept: You | chunk: 04f4880a6e63
+  > orce.  Transformed: You are a human whose body has been transformed into something other than flesh and blood.
+- **def_0058** | concept: You | chunk: b511fe78f53a
+  > s.  16-20  Soldier: You are a former military man.  Air Control: Array (24 points plus 2 Alternate Effects)  •
+- **def_0059** | concept: You | chunk: 13ce58f9b33f
+  > 5-18  Pilot/Driver: You are a skilled race car driver or hotshot pilot.  19-20  Sly: You’re sneaky and low-key
+- **def_0060** | concept: You | chunk: c8f2e2af058e
+  > 1-6  Armed Fighter: You are an expert with exotic weapons.  7-13 Wealthy: You are well connected and rich.  14-
+- **def_0061** | concept: You | chunk: cefb93c1d699
+  > 20  Perfect Weapon: You are a weapon created specifically to use your opponent’s powers against them.  SLATE
+- **def_0062** | concept: You | chunk: 267bbd73af09
+  > lts.  1-3  Dynamic: You are a good all-around athlete.  4-7  Empathic: You understand what makes other people
+- **def_0063** | concept: A Paragon | chunk: a8c6225b93ed
+  > ink of superheroes. A Paragon is nearly perfect in every way: fast, strong, tough, often has the ability to fly,
+- **def_0064** | concept: You | chunk: a8c6225b93ed
+  > abilities.  Vessel: You are the vessel for the power of a god or some other supernatural force.  ACTION  STRENGT
+- **def_0065** | concept: The Paragon | chunk: 1631a649fb6e
+  > ivation—Doing Good: The Paragon is motivat- ed to be a hero because it’s the right thing to do.  •  Motivation—Patr
+- **def_0066** | concept: The  Paragon | chunk: 1631a649fb6e
+  > vation—Patriotism:  The  Paragon  is  a  patriot and fights to uphold the ideals of his or her country.  •  Motivation
+- **def_0067** | concept: The  Paragon | chunk: 1631a649fb6e
+  > on—Responsibility:  The  Paragon  is  often motivated  by  the  belief  that  with  power  comes  re- sponsibility.  •
+- **def_0068** | concept: Paragon | chunk: 1631a649fb6e
+  > akness: Because the Paragon is so powerful in so many ways, he or she often suffers from a crippling weakness t
+- **def_0069** | concept: The Powerhouse | chunk: 1631a649fb6e
+  > ar type of attack.  The Powerhouse is the strongest one there is! Where other archetypes spread their points out among
+- **def_0070** | concept: Powerhouse | chunk: 1631a649fb6e
+  > n.  In  fights, the Powerhouse is always on the front line, tearing it up and,  even  so,  is  usually  the  last
+- **def_0071** | concept: The Powerhouse | chunk: 1631a649fb6e
+  > ar type of attack.  The Powerhouse is the strongest one there is! Where other archetypes spread their points out amongst a
+- **def_0072** | concept: Damage | chunk: 997bf2eca013
+  > nreliable (only the Damage is Unreliable) • 10 points  15-17  Cut Loose!: Penetrating 10 on Strength • 10 poin
+- **def_0073** | concept: Psychic | chunk: 442f2e5a5a37
+  > ther common type of Psychic is the ninja-like combatant who combines stealth and mental powers to devastating e
+- **def_0074** | concept: Psychic | chunk: 442f2e5a5a37
+  > ther common type of Psychic is the ninja-like combatant who combines stealth and mental powers to devastating effec
+- **def_0075** | concept: Density Decrease | chunk: cfadcb33d64b
+  > are active or when Density Decrease is active) • 72 points  14-16  17-20  Specific Shapeshifter: Variable 9 (45 points,
+- **def_0076** | concept: You | chunk: 17270869c240
+  > 1-4  5-8  Athlete: You are a trained athlete.  Charmer: People like you.  9-12  Police: You work in law enfor
+- **def_0077** | concept: You | chunk: 17270869c240
+  > 13-16  Scientist: You are an expert in a field of science.  17-20  Thief: You’ve operated outside the law.  1
+- **def_0078** | concept: SUMMONER  The Summoner | chunk: ffc525f7d497
+  > 5-12  13-16  17-20  SUMMONER  The Summoner is an archetype that covers a lot of ground, from heroes who create duplicates of t
+- **def_0079** | concept: The Summoner | chunk: ffc525f7d497
+  > 6  17-20  SUMMONER  The Summoner is an archetype that covers a lot of ground, from heroes who create duplicates of them
+- **def_0080** | concept: There | chunk: ffc525f7d497
+  > combat abilities.  There are a few options for the duplicator: a Martial Artist, and Energy Controller, and a P
+- **def_0081** | concept: Twin | chunk: dd5713402cfd
+  > uplicates means the Twin is 3 points short of the total allowed by its power level and the Triplets are 5 po
+- **def_0082** | concept: You | chunk: c8f8dadd6203
+  > esult.  1-7  Demon: You are a creature from the nether realms, such as a hellspawn, revenant, or incubus.  8-1
+- **def_0083** | concept: You | chunk: c8f8dadd6203
+  > us.  8-14  Vampire: You are an undead creature that survives by preying on others and you possess supernatural
+- **def_0084** | concept: The Totem | chunk: f8e903dbf3d7
   > ENESS 3 PRESENCE 3  The Totem is a superhero whose powers are closely tied to a particular animal. The Totem may
-- **def_0595** | concept: Dominating | chunk: ac75d3f2b9e6
-  > d the result.  1-5  Dominating: You are afforded respect by other creatures.  6-10  Predator: You are on the top
-- **def_0596** | concept: Predator | chunk: ac75d3f2b9e6
-  > r creatures.  6-10  Predator: You are on the top of the food chain.  11-15  Trickster: You are a cunning prank
-- **def_0597** | concept: Trickster | chunk: ac75d3f2b9e6
-  > food chain.  11-15  Trickster: You are a cunning prankster.  16-20 Wise: You are astute and perceptive.  DOMINA
-- **def_0598** | concept: Altruistic | chunk: ac75d3f2b9e6
-  > .  DOMINATING  1-5  Altruistic: You value the group over the individual.  Athletics 4, Intimidation 12, Percepti
-- **def_0599** | concept: Cooperative | chunk: ac75d3f2b9e6
-  > 6-10  11-15  16-20  Cooperative: You are accustomed to a codependent community.  Egoistic: You look out for yours
-- **def_0600** | concept: Egoistic | chunk: ac75d3f2b9e6
-  > pendent community.  Egoistic: You look out for yourself and your own survival.  Vengeful: You go out of your w
-- **def_0601** | concept: Vengeful | chunk: ac75d3f2b9e6
-  > your own survival.  Vengeful: You go out of your way to spite others, even at cost to yourself.  ALTRUISTIC  I
-- **def_0602** | concept: Awakened | chunk: ac75d3f2b9e6
-  > 1-6  7-12  13-20  Awakened: You are an unusual member of your species with a human intellect and perhaps eve
-- **def_0603** | concept: Invocation | chunk: ac75d3f2b9e6
-  > even a human form.  Invocation: You were granted your powers by calling upon the animal spirits.  Mutation: You
-- **def_0604** | concept: Mutation | chunk: ac75d3f2b9e6
-  > he animal spirits.  Mutation: You came upon your powers through a freak accident.  AWAKENED  Athletics 6, Perc
-- **def_0605** | concept: Climbing | chunk: ac75d3f2b9e6
-  > lt.  SCORPION  1-5  Climbing: Movement 2 (Wall-crawling 2) • 4 points  Sting: Progressive Weaken Stamina 10, A
-- **def_0606** | concept: Sting | chunk: ac75d3f2b9e6
-  > ling 2) • 4 points  Sting: Progressive Weaken Stamina 10, Accurate 2  • 32 points  SPIDER  Spider-Movement:
-- **def_0607** | concept: Spider-Movement | chunk: ac75d3f2b9e6
-  > 32 points  SPIDER  Spider-Movement: Leaping 2 (30 feet); Movement  3 (Swinging, Wall-crawling 2) • 8 points  Spider
-- **def_0608** | concept: Spider Senses | chunk: ac75d3f2b9e6
-  > ling 2) • 8 points  Spider Senses: Senses 4 (Danger Sense, Darkvision,  Ranged Touch) • 4 points  6-10  Web Snare:
-- **def_0609** | concept: Web Snare | chunk: ac75d3f2b9e6
-  > ) • 4 points  6-10  Web Snare: Ranged Cumulative Affliction 6  (Resisted by Dodge, Overcome by Damage; Hindered
-- **def_0610** | concept: Blinding Barrage | chunk: ac75d3f2b9e6
-  > 5 • 1 point  SWARM  Blinding Barrage: Burst Area Visual (All)  Concealment Attack 4 • 12 points  11-15  Flight: Flight
-- **def_0611** | concept: Flight | chunk: ac75d3f2b9e6
-  > • 12 points  11-15  Flight: Flight 5 (60 MPH) • 10 points  Swarm Perception: Senses 2 (Danger Sense, Radius
-- **def_0612** | concept: Swarm Perception | chunk: ac75d3f2b9e6
-  > 0 MPH) • 10 points  Swarm Perception: Senses 2 (Danger Sense, Radius  (Vision)) • 2 points  Swarm: Insubstantial 2, In
-- **def_0613** | concept: Insect Senses | chunk: 43d5c758bf78
-  > CRET ORIGINS  WASP  Insect Senses: Senses 4 (Acute Smell, Darkvision,  Ranged Touch) • 4 points  16-20  Sting: Cumu
-- **def_0614** | concept: Sting | chunk: 43d5c758bf78
-  > • 4 points  16-20  Sting: Cumulative Affliction 8 (Resisted and Overcome by Fortitude; Impaired, Disabled,
-- **def_0615** | concept: Bite | chunk: 43d5c758bf78
-  > he result.  CANINE  Bite: Strength-based Damage 3, Improved Critical,  Wings: Flight 6 (120 MPH), Wings •
-- **def_0616** | concept: Wings | chunk: 43d5c758bf78
-  > Improved Critical,  Wings: Flight 6 (120 MPH), Wings • 6 points  Penetrating 3 • 7 points  Canine Senses: S
-- **def_0617** | concept: Canine Senses | chunk: 43d5c758bf78
-  > ating 3 • 7 points  Canine Senses: Senses 3 (Low-light Vision, Acute  and Tracking Olfactory) • 3 points  1-10  Can
-- **def_0618** | concept: Canine Movement | chunk: 43d5c758bf78
-  > ) • 3 points  1-10  Canine Movement: Leaping 2 (30 feet); Speed 4 (30  Talons: Strength-based Damage 1, Accurate 2, F
-- **def_0619** | concept: Talons | chunk: 43d5c758bf78
-  > feet); Speed 4 (30  Talons: Strength-based Damage 1, Accurate 2, Fast Grab  MPH) • 6 points  • 4 points  Rol
-- **def_0620** | concept: Flight | chunk: 43d5c758bf78
-  > he result.  FALCON  Flight: Flight 6 (120 MPH), Wings • 6 points  Keen Eyesight: Senses 3 (Extended 2 and Ra
-- **def_0621** | concept: Keen Eyesight | chunk: 43d5c758bf78
-  > , Wings • 6 points  Keen Eyesight: Senses 3 (Extended 2 and Rapid  Vision) • 3 points  1-10  Sonic Scream: Cone Are
-- **def_0622** | concept: Sonic Scream | chunk: 43d5c758bf78
-  > ) • 3 points  1-10  Sonic Scream: Cone Area Affliction 9 (Resisted  and Overcome by Fortitude; Dazed and Auditory
-- **def_0623** | concept: Nightvision | chunk: 43d5c758bf78
-  > points  11-20  OWL  Nightvision: Senses 2 (Extended Vision, Low-light  Vision) • 2 points  11-20  Shriek: Cone Ar
-- **def_0624** | concept: Shriek | chunk: 43d5c758bf78
-  > • 2 points  11-20  Shriek: Cone Area Affliction 8 (Resisted and Overcome by Will; Dazed and Vulnerable, Stu
-- **def_0625** | concept: Silent Flight | chunk: 43d5c758bf78
-  > tated) • 24 points  Silent Flight: Flight 5 (60 MPH), Subtle, Wings • 6 points  Howl: Auditory Perception Area Affl
-- **def_0626** | concept: Howl | chunk: 43d5c758bf78
-  > , Wings • 6 points  Howl: Auditory Perception Area Affliction  10 (Resisted and Overcome by Will; Dazed an
-- **def_0627** | concept: Claws | chunk: 43d5c758bf78
-  > 20 points  FELINE  Claws: Strength-based Damage 1, Accurate,  Improved Critical • 3 points  Feline Senses:
-- **def_0628** | concept: Feline Senses | chunk: 43d5c758bf78
-  > ritical • 3 points  Feline Senses: Senses 3 (Low-light Vision, Acute and  Tracking Olfactory) • 3 points  Feline Mo
-- **def_0629** | concept: Feline Movement | chunk: 43d5c758bf78
-  > actory) • 3 points  Feline Movement: Leaping 3 (60 feet); Movement 3 (Safe Fall, Sure-footed, Trackless); Movement 1
-- **def_0630** | concept: Black Cat | chunk: 43d5c758bf78
-  > d the result.  1-5  Black Cat: Reaction Visual Perception  Area Affliction 5 (Resisted by Dodge, Overcome by Wi
-- **def_0631** | concept: Jinx | chunk: 75f616f43b9d
-  > S  97  6-10  11-15  Jinx: Selective Burst Area Luck Control 2 (negate hero or luck point, force re-roll),
-- **def_0632** | concept: Lucky Cat | chunk: 75f616f43b9d
-  > Luck 5 • 15 points  Lucky Cat: Selective Burst Area Luck  Control 2 (grant re-roll, bestow luck point), Luck 5
-- **def_0633** | concept: Nine Lives | chunk: 75f616f43b9d
-  > • 15 points  16-20  Nine Lives: Immortality 15, Limited: only works eight times • 15 points  Thick Hide: Protect
-- **def_0634** | concept: Thick Hide | chunk: 75f616f43b9d
-  > times • 15 points  Thick Hide: Protection 4, Impervious 11 • 15 points  Roll 1d20 once and record the result.
-- **def_0635** | concept: Immovable | chunk: 75f616f43b9d
-  > nd • 1 point  1-10  Immovable: Immunity 10 (being moved), Sustained  • 10 points  Power-Lifting: Enhanced Stren
-- **def_0636** | concept: Power-Lifting | chunk: 75f616f43b9d
-  > ained  • 10 points  Power-Lifting: Enhanced Strength 4, Limited to  Lifting • 4 points  Trunk: Extra Limb 1, Elonga
-- **def_0637** | concept: Trunk | chunk: 75f616f43b9d
-  > Lifting • 4 points  Trunk: Extra Limb 1, Elongation 1 • 2 points  Tusks: Strength-based Damage 2, Improved
-- **def_0638** | concept: Tusks | chunk: 75f616f43b9d
-  > ation 1 • 2 points  Tusks: Strength-based Damage 2, Improved Critical 2  • 4 points  RHINO  Armored Plates:
-- **def_0639** | concept: Armored Plates | chunk: 75f616f43b9d
-  > • 4 points  RHINO  Armored Plates: Immunity 4 (critical hits, self-  inflicted slam damage) • 4 points  11-20  Grea
-- **def_0640** | concept: Great Horn | chunk: 75f616f43b9d
-  > • 4 points  11-20  Great Horn: Strength-based Damage 3, Improved  Critical 2 • 5 points  Unstoppable Charge: Pe
-- **def_0641** | concept: Unstoppable Charge | chunk: 75f616f43b9d
-  > tical 2 • 5 points  Unstoppable Charge: Penetrating 15 on Damage,  Limited to slam attacks; Speed 4 (30 MPH) • 12 points
-- **def_0642** | concept: Reptilian Movement | chunk: 75f616f43b9d
-  > 0 MPH) • 12 points  Reptilian Movement: Movement 1 (Slithering) • 2 points  Heat Sensing Pits: Senses 1 (Infravision) •
-- **def_0643** | concept: Heat Sensing Pits | chunk: 75f616f43b9d
-  > hering) • 2 points  Heat Sensing Pits: Senses 1 (Infravision) • 1 points  Scaly Hide: Protection 2 • 2 points  Roll 1d2
-- **def_0644** | concept: Scaly Hide | chunk: 75f616f43b9d
-  > vision) • 1 points  Scaly Hide: Protection 2 • 2 points  Roll 1d20 once and record the result.  CROCODILE  Aquat
-- **def_0645** | concept: Aquatic | chunk: 75f616f43b9d
-  > result.  CROCODILE  Aquatic: Movement 1 (Environmental Adaptation—  Aquatic), Swimming 6 (30 MPH) • 8 points
-- **def_0646** | concept: Brute Strength | chunk: 75f616f43b9d
-  > H) • 8 points  1-6  Brute Strength: Enhanced Strength 2 • 4 points  Regrowth: Regeneration 2 • 2 points  Rending Bit
-- **def_0647** | concept: Regrowth | chunk: 75f616f43b9d
-  > ength 2 • 4 points  Regrowth: Regeneration 2 • 2 points  Rending Bite: Strength-based Damage 2, Improved  Crit
-- **def_0648** | concept: Rending Bite | chunk: 75f616f43b9d
-  > ation 2 • 2 points  Rending Bite: Strength-based Damage 2, Improved  Critical, Secondary Effect • 17 points  LIZAR
-- **def_0649** | concept: Paralyzing Spit | chunk: 75f616f43b9d
-  > 17 points  LIZARD  Paralyzing Spit: Affliction 10 (Resisted by Dodge,  Overcome by Fortitude; Dazed, Stunned, Paraly
-- **def_0650** | concept: Prehensile Tail | chunk: 75f616f43b9d
-  > each 3 • 15 points  Prehensile Tail: Elongation 1, Extra Limb 1 • 2 points  Regrowth: Regeneration 1, Persistent • 2
-- **def_0651** | concept: Regrowth | chunk: 75f616f43b9d
-  > Limb 1 • 2 points  Regrowth: Regeneration 1, Persistent • 2 points  Speedy: Leaping 2 (30 feet); Movement 2 (
-- **def_0652** | concept: Speedy | chunk: 75f616f43b9d
-  > sistent • 2 points  Speedy: Leaping 2 (30 feet); Movement 2 (Wall-  crawling 2); Speed 3 (16 MPH) • 9 points
-- **def_0653** | concept: Tensile Strength | chunk: 75f616f43b9d
-  > s  7-13  98  SNAKE  Tensile Strength: Elongation 4 (120 feet); Enhanced  14-20  Strength 4, Limited to Grabs • 8 point
-- **def_0654** | concept: Venomous Bite | chunk: 75f616f43b9d
-  > o Grabs • 8 points  Venomous Bite: Progressive Weaken Stamina 7 (Resisted by Fortitude), Accurate 2 • 23 points  DE
-- **def_0655** | concept: Enemy | chunk: 75f616f43b9d
-  > power.  •  •  •  •  Enemy:  The  Totem  often  has  an  extensive  rogues gallery  consisting  of  other  To
-- **def_0656** | concept: Identity | chunk: 75f616f43b9d
-  > ies to the hero’s.  Identity: The Totem may transform between a normal, powerless form and a more animalistic,
-- **def_0657** | concept: Prejudice | chunk: 75f616f43b9d
-  > stic, heroic form.  Prejudice:  The  Totem  may  have  an  unusual  appear- ance or display strange powers that
-- **def_0658** | concept: Quirk | chunk: 75f616f43b9d
-  > ighten the public.  Quirk: The Totem often has personality traits associ- ated with his totem animal—traits
-- **def_0659** | concept: Altered Human | chunk: 75f616f43b9d
-  > sult.  1-10  11-20  Altered Human: Through nature or nurture, you have become greater than human.  Otherworldly: Yo
-- **def_0660** | concept: Otherworldly | chunk: 75f616f43b9d
-  > reater than human.  Otherworldly: You are the exemplar of a mythical or otherworldly race.
-- **def_0661** | concept: Field General | chunk: 872471930ea9
-  > the results.  1-5  Field General: You know how to lead in battle.  6-10  Hunter: You honed your talents hunting th
-- **def_0662** | concept: Hunter | chunk: 872471930ea9
-  > d in battle.  6-10  Hunter: You honed your talents hunting the most dangerous game or bounties.  11-15  Myst
-- **def_0663** | concept: Mysterious Past | chunk: 872471930ea9
-  > r bounties.  11-15  Mysterious Past: Your memories are lost or implanted but you demonstrate competence in unexpected
-- **def_0664** | concept: Survivor | chunk: 872471930ea9
-  > cted areas.  16-20  Survivor: You are always the last one standing.  ADVANTAGES—FIELD GENERAL  Inspire, Leader
-- **def_0665** | concept: Advanced | chunk: 872471930ea9
-  > d the result.  1-4  Advanced: You come from a society more highly developed than our own.  5-8  Charismatic: Y
-- **def_0666** | concept: Charismatic | chunk: 872471930ea9
-  > than our own.  5-8  Charismatic: You have a way with people.  9-12  Cultured: You are well learned and articulate
-- **def_0667** | concept: Cultured | chunk: 872471930ea9
-  > with people.  9-12  Cultured: You are well learned and articulate.  13-16 Military: You are experienced in the
-- **def_0668** | concept: Expertise | chunk: 872471930ea9
-  > uasion 6  CULTURED  Expertise: History 6, Persuasion 6  MILITARY  Expertise: Tactics 6, Intimidation 6  ADVANTA
-- **def_0669** | concept: Expertise | chunk: 872471930ea9
-  > uasion 6  MILITARY  Expertise: Tactics 6, Intimidation 6  ADVANTAGES—MYSTERIOUS PAST  MYSTICAL  Beginner’s Luck
-- **def_0670** | concept: Agile | chunk: 872471930ea9
-  > d the result.  1-5  Agile: You seldom suffer a solid hit.  6-10  Daring: You fight with a devil-may-care at
-- **def_0671** | concept: Daring | chunk: 872471930ea9
-  > a solid hit.  6-10  Daring: You fight with a devil-may-care attitude.  11-15  Grappler: You like to keep you
-- **def_0672** | concept: Grappler | chunk: 872471930ea9
-  > e attitude.  11-15  Grappler: You like to keep your opponents right in front of you.  16-20  Skillful: You fig
-- **def_0673** | concept: Skillful | chunk: 872471930ea9
-  > ont of you.  16-20  Skillful: You fight with flair and precision.  1-4  Animalistic: Comprehend Animals 2; Enh
-- **def_0674** | concept: Animalistic | chunk: 872471930ea9
-  > nd precision.  1-4  Animalistic: Comprehend Animals 2; Enhanced  Stamina 2; Enhanced Skill 2 (Perception 4); Sens
-- **def_0675** | concept: Cybernetic Implants | chunk: 301534069c2d
-  > T ORIGINS  99  5-8  Cybernetic Implants: Enhanced Awareness  2; Enhanced Advantages 2 (Eidetic Memory, Improved Initiativ
-- **def_0676** | concept: Healing Factor | chunk: 301534069c2d
-  > • 16 points  9-15  Healing Factor: Enhanced Stamina 2; Immunity 2 (disease, poison); Regeneration 10 • 16 points  1
-- **def_0677** | concept: Tactical Mastermind | chunk: 301534069c2d
-  > • 16 points  16-20  Tactical Mastermind: Enhanced Intellect 2,  Enhanced Awareness 2; Enhanced Advantages 3 (Defensive Ro
-- **def_0678** | concept: Alien | chunk: 301534069c2d
-  > 7-11  12-17  18-20  Alien: Enhanced Stamina 2; Immunity 7 (Cold, Heat, Pressure, Radiation, Suffocation, Va
-- **def_0679** | concept: Aquatic | chunk: 301534069c2d
-  > eness) • 16 points  Aquatic: Enhanced Stamina 2; Immunity 3 (Cold,  Drowning, Pressure); Movement 1 (Environm
-- **def_0680** | concept: Exemplar | chunk: 301534069c2d
-  > 0 MPH) • 16 points  Exemplar: Enhanced Stamina 1, Enhanced  Awareness 1, Enhanced Defenses 2 (Dodge 1, Parry 1
-- **def_0681** | concept: Immortal | chunk: 301534069c2d
-  > 0 MPH) • 16 points  Immortal: Enhanced Awareness 2; Immortality 5, Limited (choose effect); Immunity 3 (Aging,
-- **def_0682** | concept: Winged | chunk: 301534069c2d
-  > tion 2 • 16 points  Winged: Enhanced Awareness 2, Enhanced  Defenses 4 (Dodge 2, Parry 2); Flight 6 (120 MPH
-- **def_0683** | concept: Unique Weapon | chunk: 301534069c2d
-  > the result.  11-20  Unique Weapon: Strength-based Damage 3,  Accurate, Penetrating 10 plus roll 1d20 once:  1-5  6-
-- **def_0684** | concept: Atom Slicer | chunk: 301534069c2d
-  > 0 once:  1-5  6-10  Atom Slicer: Weaken Toughness 10,  Penetrating 2, Linked to Damage, Easily Removable (-10 poi
-- **def_0685** | concept: Boom Staff | chunk: 301534069c2d
-  > oints) • 16 points  Boom Staff: Movement 3 (Space Travel  3), Portal; Easily Removable (-10 points) • 16  points
-- **def_0686** | concept: Dimension Cutter | chunk: 301534069c2d
-  > 16  points  11-15  Dimension Cutter: Movement 3  (Dimension Travel 3), Portal; Easily Removable (-10 points) • 16 poi
-- **def_0687** | concept: Thundering Mallet | chunk: 301534069c2d
-  > • 16 points  16-20  Thundering Mallet: Cumulative Affliction 10 (Resisted and Overcome by Fortitude; Vulnerable, Defens
-- **def_0688** | concept: Beastly Strength | chunk: 301534069c2d
-  > l ties.  1-7  8-13  Beastly Strength: Enhanced Strength 5; Leaping 6  •  Motivation—Thrills: The  warrior  may  have
-- **def_0689** | concept: Berserker Rage | chunk: 301534069c2d
-  > n to court danger.  Berserker Rage: Enhanced Strength 2, Enhanced Advantages 3 (Close Attack 3); Immunity 10 (Emotio
-- **def_0690** | concept: Living Weapon | chunk: 301534069c2d
-  > • 16 points  14-20  Living Weapon: Strength-based Damage 2,  Multiattack 7, Selective 7 • 16 points  OTHERWORLDLY
-- **def_0691** | concept: Brawler | chunk: 301534069c2d
-  > d the result.  1-5  Brawler: Enhanced Strength 3, Enhanced Advantages 2 (Close Attack 2); Vambraces: Immunity
-- **def_0692** | concept: Strong Warrior | chunk: 301534069c2d
-  > oints) • 16 points  Strong Warrior: Enhanced Strength 5; Battle  6-10  Armor: Impervious Toughness 7, Removable (-1
-- **def_0693** | concept: Armor | chunk: 301534069c2d
-  > th 5; Battle  6-10  Armor: Impervious Toughness 7, Removable (-1 point) • 16 points  The  Weapon  Master  i
-- **def_0694** | concept: Enhanced | chunk: 301534069c2d
-  > d the result.  1-5  Enhanced: You gained your martial prowess through accident or experimentation.  6-13  Natu
-- **def_0695** | concept: Natural | chunk: 301534069c2d
-  > rimentation.  6-13  Natural: You were born to wield your chosen weapon.  14-20  Self-Made: You reached this l
-- **def_0696** | concept: Self-Made | chunk: 301534069c2d
-  > sen weapon.  14-20  Self-Made: You reached this level of ability through intensive training.  100
-- **def_0697** | concept: Fast | chunk: 5610c4e8f961
-  > d the result.  1-5  Fast: You often hit your opponent before he has a chance to react.  6-10  Imposing: Op
-- **def_0698** | concept: Imposing | chunk: 5610c4e8f961
-  > ce to react.  6-10  Imposing: Opponents find you unsettling.  11-15 Quick: You are shifty and hard to hit.  16
-- **def_0699** | concept: Tricky | chunk: 5610c4e8f961
-  > ard to hit.  16-20  Tricky: Your antics distract your opponents.  FAST  Improved Initiative, Takedown  IMPOS
-- **def_0700** | concept: Alert | chunk: 5610c4e8f961
-  > SKILLS  1-4  5-8  Alert: You are ready to fight at any moment.  Dead Eye: Your aim is impeccable.  9-11
-- **def_0701** | concept: Dead Eye | chunk: 5610c4e8f961
-  > ght at any moment.  Dead Eye: Your aim is impeccable.  9-11  Field Commander: You have led others into battle.
-- **def_0702** | concept: Field Commander | chunk: 5610c4e8f961
-  > impeccable.  9-11  Field Commander: You have led others into battle.  12-14  Master Tactician: You can spot and take
-- **def_0703** | concept: Master Tactician | chunk: 5610c4e8f961
-  > nto battle.  12-14  Master Tactician: You can spot and take advantage of an enemy’s weakness.  15-17  Peak Conditionin
-- **def_0704** | concept: Peak Conditioning | chunk: 5610c4e8f961
-  > s weakness.  15-17  Peak Conditioning: You are incredibly fit.  18-20  Reactive Fighter: You are a fast, adaptive comba
-- **def_0705** | concept: Reactive Fighter | chunk: 5610c4e8f961
-  > edibly fit.  18-20  Reactive Fighter: You are a fast, adaptive combatant, capable of fighting blind or adjusting for d
-- **def_0706** | concept: Set II | chunk: 5610c4e8f961
-  > Uncanny Dodge  EYE  Set II: Close Combat: (Choose One) 6, Ranged Combat:  Weapon 8  Improved Aim, Improved C
-- **def_0707** | concept: Soldier | chunk: 5610c4e8f961
-  > (Persuasion)  1-5  Soldier: You trained in the military.  6-10  Time-Displaced: You come from a different ti
-- **def_0708** | concept: Time-Displaced | chunk: 5610c4e8f961
-  > he military.  6-10  Time-Displaced: You come from a different time, wielding unusual weapons.
-- **def_0709** | concept: Vigilante | chunk: 1b8011530852
-  > 101  11-15  16-20  Vigilante: You use your weapons to fight crime and injustice.  Weaponsmith: You craft your
-- **def_0710** | concept: Weaponsmith | chunk: 1b8011530852
-  > ime and injustice.  Weaponsmith: You craft your own weapons and even augment them with the latest technology.  SO
-- **def_0711** | concept: Expertise | chunk: 1b8011530852
-  > chnology.  SOLDIER  Expertise: Military 6, Vehicles 6  TIME-DISPLACED  PERSONALITY  Deception 8, Intimidation 8
-- **def_0712** | concept: Expertise | chunk: 1b8011530852
-  > suasion 10  POWERS  Expertise: History 6, Choose One: Expertise: Magic 6 or Technology 6  VIGILANTE  Roll 1d20
-- **def_0713** | concept: Expertise | chunk: 1b8011530852
-  > record the result.  Expertise: Streetwise 6, Investigation 6  WEAPONSMITH  Expertise: Weapons 6, Technology 6
-- **def_0714** | concept: Expertise | chunk: 1b8011530852
-  > ion 6  WEAPONSMITH  Expertise: Weapons 6, Technology 6  Roll 1d20 once and record the result.  1-6  Flamboyant:
-- **def_0715** | concept: Flamboyant | chunk: 1b8011530852
-  > d the result.  1-6  Flamboyant: You fight with great flair.  7-14  Instinctive: You let your well-honed reflexes
-- **def_0716** | concept: Instinctive | chunk: 1b8011530852
-  > great flair.  7-14  Instinctive: You let your well-honed reflexes take over.  15-20  Sneaky: You prefer to avoid
-- **def_0717** | concept: Sneaky | chunk: 1b8011530852
-  > take over.  15-20  Sneaky: You prefer to avoid a direct confrontation.  FLAMBOYANT  Acrobatics 8, Athletics
-- **def_0718** | concept: Assertive | chunk: 1b8011530852
-  > result.  1-4  5-8  Assertive: You know how and when to take charge.  Cunning: You are good at manipulating oth
-- **def_0719** | concept: Cunning | chunk: 1b8011530852
-  > en to take charge.  Cunning: You are good at manipulating others.  9-12  Empathic: You seem to understand oth
-- **def_0720** | concept: Empathic | chunk: 1b8011530852
-  > ting others.  9-12  Empathic: You seem to understand others.  13-16  Forceful Personality: Others seem to inst
-- **def_0721** | concept: Forceful Personality | chunk: 1b8011530852
-  > and others.  13-16  Forceful Personality: Others seem to instinctively respect you.  17-20  Smooth Talker: You know how to
-- **def_0722** | concept: Smooth Talker | chunk: 1b8011530852
-  > espect you.  17-20  Smooth Talker: You know how to get your way.  ASSERTIVE  Insight 8, Intimidation 8, Persuasion
-- **def_0723** | concept: Standard Arrow | chunk: 1b8011530852
-  > ) • 9 points total  Standard Arrow: Ranged Damage 5 • 10 points  Roll 1d20 five times (re-roll if you get the same r
-- **def_0724** | concept: Magic Sword | chunk: 19a54c3b3576
-  > ECRET ORIGINS  6-9  Magic Sword: Strength-based Damage 3 (6 Damage with Strength), Multiattack 6, Penetrating 6,
-- **def_0725** | concept: Modified Nunchaku | chunk: 19a54c3b3576
-  > ints  10-11  12-13  Modified Nunchaku: Strength-based Damage 2 (5 Damage with Strength), Multiattack 5, Improved Grab,
-- **def_0726** | concept: Perfect Aim | chunk: 19a54c3b3576
-  > points) • 9 points  Perfect Aim: Perception Range Damage 5, Easily Removable (ranged or improvised weapon, -6 poi
-- **def_0727** | concept: Rapid Shot | chunk: 19a54c3b3576
-  > • 9 points  14-15  Rapid Shot: Ranged Multiattack Damage 5, Easily Removable (ranged weapon, -6 points) • 9 poi
-- **def_0728** | concept: Super-Shield | chunk: 19a54c3b3576
-  > • 9 points  16-20  Super-Shield: Array (13 points plus 2 points of  Alternate Effects), Easily Removable (-6 poin
-- **def_0729** | concept: Blindsight | chunk: 19a54c3b3576
-  > 3-6  7-10  11-12  Blindsight: Senses 6 (Accurate, Analytical and  Extended Hearing, Hearing Counters Illusion)
-- **def_0730** | concept: Catlike Balance | chunk: 19a54c3b3576
-  > lusion) • 6 points  Catlike Balance: Enhanced Skills 2 (Acrobatics 4), Leaping 2 (30 feet), Movement 1 (Safe Fall) •
-- **def_0731** | concept: Healing Factor | chunk: 19a54c3b3576
-  > e Fall) • 6 points  Healing Factor: Immunity 1 (Disease); Regeneration  5 • 6 points  Probing Sight: Mind Reading 4,
-- **def_0732** | concept: Probing Sight | chunk: 19a54c3b3576
-  > tion  5 • 6 points  Probing Sight: Mind Reading 4, Limited to Surface Thoughts, Visually Sense-Dependent; Senses 4
-- **def_0733** | concept: Reinforced Body | chunk: 19a54c3b3576
-  > • 6 points  13-14  Reinforced Body: Impervious Toughness 6 • 6 points  15-16  17-20  Resilient: Immunity 6 (Cold, Dr
-- **def_0734** | concept: Resilient | chunk: 19a54c3b3576
-  > ints  15-16  17-20  Resilient: Immunity 6 (Cold, Drowning, Heat, Need for Sleep, Pressure, Starvation and Thirs
-- **def_0735** | concept: Super-Soldier | chunk: 19a54c3b3576
-  > Thirst) • 6 points  Super-Soldier: Enhanced Fortitude 2, Regeneration  2; Speed 2 (8 MPH) • 6 points  DEFENSE  DODG
-- **def_0736** | concept: Disability | chunk: 19a54c3b3576
-  > he does.  •  •  •  Disability:  The  Weapon  Master  has  a  disability  of some sort, such as blindness or only
-- **def_0737** | concept: Honor | chunk: 19a54c3b3576
-  > skills or powers.  Honor:  The  Weapon  Master  abides  by  a  warrior’s code of honor.  Rival: The Weapon
-- **def_0738** | concept: Rival | chunk: 19a54c3b3576
-  > r’s code of honor.  Rival: The Weapon Master has a foil—another Weap- on Master who tries to outdo him at e
-- **def_0739** | concept: Conjurer | chunk: 19a54c3b3576
-  > result.  1-7  8-14  Conjurer: You appeal to the forces of nature to grant you your powers.  Psionic: You contr
-- **def_0740** | concept: Psionic | chunk: 19a54c3b3576
-  > t you your powers.  Psionic: You control the weather through force of will.  15-20  Technological: You use sc
-- **def_0741** | concept: Technological | chunk: 19a54c3b3576
-  > ce of will.  15-20  Technological: You use scientific means to manipulate the weather.  CONJURER  STRENGTH 1 STAMIN
-- **def_0742** | concept: Adapted | chunk: fd5ed2485118
-  > ORIGINS  103  1-4  Adapted: You learned to brave the elements.  5-8  9-12  Divine: Your powers reflect those
-- **def_0743** | concept: Divine | chunk: fd5ed2485118
-  > ements.  5-8  9-12  Divine: Your powers reflect those of an ancient storm god.  Facilitator: You are good at
-- **def_0744** | concept: Facilitator | chunk: fd5ed2485118
-  > ancient storm god.  Facilitator: You are good at using your power to help out others.  13-16  Raging: You are as
-- **def_0745** | concept: Raging | chunk: fd5ed2485118
-  > out others.  13-16  Raging: You are as tempestuous as the storms you control.  17-20  Sovereign: You are reg
-- **def_0746** | concept: Sovereign | chunk: fd5ed2485118
-  > ou control.  17-20  Sovereign: You are regarded as royalty by your people.  Take the skill listed above, then r
-- **def_0747** | concept: Attuned | chunk: fd5ed2485118
-  > d the result.  1-5  Attuned: You’re sensitive to your surroundings.  6-10  Organic: You understand how nature
-- **def_0748** | concept: Organic | chunk: fd5ed2485118
-  > urroundings.  6-10  Organic: You understand how nature works.  11-15  Sneak: You have a shady past.  16-20  S
-- **def_0749** | concept: Sneak | chunk: fd5ed2485118
-  > ture works.  11-15  Sneak: You have a shady past.  16-20  Spirited: You are full of energy.  ATTUNED  ADAPT
-- **def_0750** | concept: Spirited | chunk: fd5ed2485118
-  > shady past.  16-20  Spirited: You are full of energy.  ATTUNED  ADAPTED  Expertise: (Choose One) 8, Insight 8,
-- **def_0751** | concept: Expertise | chunk: fd5ed2485118
-  > Effort, Ritualist  Expertise: Biology 8, Perception 4, Persuasion 8, Treatment 4  SNEAK  FACILITATOR  Deceptio
-- **def_0752** | concept: Weather Control | chunk: fd5ed2485118
-  > midation 8  POWERS  Weather Control: Array (30 points, Dynamic plus 4 Dynamic  Alternate Effects) • 39 points  Roll 1
-- **def_0753** | concept: Dense Fog | chunk: e17d1554782d
-  > 2: SECRET ORIGINS  Dense Fog: Visual (All) Concealment 4 Attack, Burst  1-8  Arc Riding: Leaping 10 • 10 point
-- **def_0754** | concept: Arc Riding | chunk: e17d1554782d
-  > Attack, Burst  1-8  Arc Riding: Leaping 10 • 10 points  Weather Control array as Dynamic Alternate Effects (re-
-- **def_0755** | concept: Arctic Freeze | chunk: e17d1554782d
-  > ame result twice).  Arctic Freeze: Ranged Cumulative Affliction 10 (Resisted by Dodge, Overcome by Damage; Hindered
-- **def_0756** | concept: Dazzling Strike | chunk: e17d1554782d
-  > Degree • 30 points  Dazzling Strike: Ranged Cumulative Affliction 10  (Resisted and Overcome by Fortitude; Vision and
-- **def_0757** | concept: Downdraft | chunk: e17d1554782d
-  > ective • 28 points  Downdraft: Ranged Affliction 10 (Resisted and  Overcome by Strength; Hindered and Impaired,
-- **def_0758** | concept: Glacier | chunk: e17d1554782d
-  > covery • 30 points  Glacier: Create 9, Continuous, Innate, Linked to Environment 2 (Cold, Impede Movement 1)
-- **def_0759** | concept: Hailstorm | chunk: e17d1554782d
-  > ent 1) • 30 points  Hailstorm: Ranged Cloud Area Damage 9, Indirect 2  (falling from above) • 30 points  Lightn
-- **def_0760** | concept: Lightning Bolt | chunk: e17d1554782d
-  > above) • 30 points  Lightning Bolt: Ranged Damage 12, Accurate 3, Indirect 3 (any point downwards) • 30 points  Stor
-- **def_0761** | concept: Stormy Weather | chunk: e17d1554782d
-  > wards) • 30 points  Stormy Weather: Environment 10 (2 miles; Cold,  Impede Movement, Visibility) • 30 points  Tornad
-- **def_0762** | concept: Tornado | chunk: e17d1554782d
-  > ility) • 30 points  Tornado: Cylinder Area Move Object 10,  Concentration Duration, Damaging • 30 points  Win
-- **def_0763** | concept: Wind Screen | chunk: e17d1554782d
-  > maging • 30 points  Wind Screen: Deflect 10, Cylinder Area (×3), Limited  to Attacks Targeting Dodge • 30 points
-- **def_0764** | concept: Aquatic | chunk: e17d1554782d
-  > d the result.  1-5  Aquatic: Immunity 3 (Cold, Drowning, Pressure), Senses 5 (Darkvision, Accurate and Extend
-- **def_0765** | concept: Cold Immunity | chunk: e17d1554782d
-  > • 10 points  6-10  Cold Immunity: Immunity 10 (Cold effects) • 10 points  11-20  Weather-Proof: Immunity 10 (Weath
-- **def_0766** | concept: Weather-Proof | chunk: e17d1554782d
-  > • 10 points  11-20  Weather-Proof: Immunity 10 (Weather effects)  • 10 points  Roll 1d20 once and record the result
-- **def_0767** | concept: Force Field | chunk: e17d1554782d
-  > 1-7  8-14  15-20  Force Field: Impervious Protection 8, Sustained  • 16 points  Vigorous: Enhanced Stamina 3; E
-- **def_0768** | concept: Vigorous | chunk: e17d1554782d
-  > ained  • 16 points  Vigorous: Enhanced Stamina 3; Enhanced Defenses  10 (Dodge 5, Parry 5), Sustained • 16 poi
-- **def_0769** | concept: Wind Shield | chunk: e17d1554782d
-  > tained • 16 points  Wind Shield: Enhanced Defenses 16 (Dodge 8, Parry  8), Sustained • 16 points  Roll 1d20 once
-- **def_0770** | concept: Swimming | chunk: e17d1554782d
-  > record the result.  Swimming: Movement 1 (Environmental  9-12  Adaptation—Aquatic); Swimming 8 (120 MPH), Stac
-- **def_0771** | concept: Accident | chunk: e17d1554782d
-  > she can.  •  •  •  Accident: A Weather Controller’s power may fluctu- ate according to her mood, which may le
-- **def_0772** | concept: Fame | chunk: e17d1554782d
-  > - dictable storms.  Fame: A Weather Controller’s powers are difficult to hide, often resulting in a public
-- **def_0773** | concept: Phobia | chunk: e17d1554782d
-  > a public identity.  Phobia:  A  Weather  Controller  sometimes  displays fear  of  open  spaces  or  certain
-- **def_0774** | concept: Here | chunk: 238fc7bd4809
-  > 3: ABILITIES  107  Here are descriptions of the eight abilities and what they represent.  STRENGTH (STR)  I
-- **def_0775** | concept: Stamina | chunk: 238fc7bd4809
-  > • • STAMINA (STA)  Stamina  is  health,  endurance,  and  overall  physical  resil- ience.  Stamina  is  impor
-- **def_0776** | concept: Agility | chunk: 238fc7bd4809
-  > ly.  AGILITY (AGL)  Agility is balance, grace, speed, and overall physical coor- dination. Your Agility rank a
-- **def_0777** | concept: Dexterity | chunk: 238fc7bd4809
-  > .  DEXTERITY (DEX)  Dexterity  is  a  measure  of  hand-eye  coordination,  preci- sion, and manual dexterity. Yo
-- **def_0778** | concept: Presence | chunk: 238fc7bd4809
-  > y.  PRESENCE (PRE)  Presence  is  force  of  personality,  persuasiveness,  leader- ship  ability  and  (to  a
-- **def_0779** | concept: Strength | chunk: db250ced1e81
-  > as follows:  •  •  Strength:  A  creature  with  no  Strength  is  incapable of exerting any physical force, e
-- **def_0780** | concept: Stamina | chunk: db250ced1e81
-  > ove (like a tree).  Stamina: A creature with no Stamina has no physical body (like a ghost) or is not a livin
-- **def_0781** | concept: Dexterity | chunk: d1e949b40c7a
-  > Fortitude defense.  Dexterity: A creature with no Dexterity cannot manip- ulate objects and hence cannot make p
-- **def_0782** | concept: Agility | chunk: d1e949b40c7a
-  > physical attacks.  Agility: A creature with no Agility is unable to move its body under its own power and ha
-- **def_0783** | concept: Presence | chunk: d1e949b40c7a
-  > hey are alive).  •  Presence: Creatures without Presence are unable to interact and immune to interaction skil
-- **def_0784** | concept: Fighting | chunk: d1e949b40c7a
-  > cter and the game.  Fighting: A creature with no Fighting is incapable of making any sort of close attack (but
-- **def_0785** | concept: Intellect | chunk: d1e949b40c7a
-  > n the first place!  Intellect: A creature with no Intellect is an automa- ton, lacking free will and operating
-- **def_0786** | concept: Awareness | chunk: d1e949b40c7a
-  > s no Will defense.  Awareness:  Anything  with  no  Awareness  is  com- pletely unaware and also has no Presence
-- **def_0787** | concept: Defenses | chunk: 714405399e02
-  > , Parry, and Will.  Defenses  are  also  used  to  measure  the  ability  to  over- come certain effects, involvi
-- **def_0788** | concept: Skills | chunk: 33e0c08724ff
-  > d in this chapter.  Skills are learned abilities, a combination of training (the skill) and natural talent (an
-- **def_0789** | concept: Skill Name | chunk: 7db012c9a682
-  > owing information:  Skill Name: What the skill is called. GMs may feel free to change the names of some skills t
-- **def_0790** | concept: Ability | chunk: 7db012c9a682
-  > game, if desired.  Ability:  The  ability  that  applies  a  modifier  to  the  skill check.  Trained Only: I
-- **def_0791** | concept: Trained Only | chunk: 7db012c9a682
-  > the  skill check.  Trained Only: If “Trained Only” is included on the line be- low the skill’s name, you must hav
-- **def_0792** | concept: Interaction | chunk: 0b483461d2f8
-  > more information.  Interaction: If “Interaction” is included on the line below the skill’s name, it is an intera
-- **def_0793** | concept: Manipulation | chunk: 0b483461d2f8
-  > interaction skill.  Manipulation:  If “Manipulation”  is  included  on  the  line below the skill’s name, it is a m
-- **def_0794** | concept: Requires Tools | chunk: 0b483461d2f8
-  > anipulation skill.  Requires Tools: If “Requires Tools” is included on the line below the skill’s name, you need to
-- **def_0795** | concept: Combat | chunk: 2df9d8dcc068
-  > Swords,  but  Close Combat: Melee Weapons is too broad. Close Combat: Un- armed  is  an  option,  meaning  s
-- **def_0796** | concept: Deception | chunk: 4e205a3c2745
-  > ence • Interaction  Deception is the skill of getting others to believe what you want them to believe. It covers
-- **def_0797** | concept: Disguise | chunk: f41e7b13c82a
-  > up under scrutiny.  Disguise  is  heavily  dependent  on  circumstances:  favor- able ones include appropriate c
-- **def_0798** | concept: Expertise | chunk: f41e7b13c82a
-  > ect • Trained Only  Expertise  is  a  broad  skill  encompassing  knowledge  and training in a variety of special
-- **def_0799** | concept: HOOD | chunk: 9132e0aa79c8
-  > TER 4: SKILLS  119  HOOD: CHARACTER EXPERTISE VS. PLAYER EXPERTISE  Expertise skills measure what your cha
-- **def_0800** | concept: Since Rocky | chunk: 9a2865ac841b
-  > ranks  are  tied). Since Rocky is attempting the same effect on every member of the group, he makes a single oppo
-- **def_0801** | concept: Combat | chunk: bb3e97c13b71
-  > :  Guns  or  Ranged Combat: Fire Control, but Ranged Combat: Powers is too broad.  Ranged  Combat:  Throwing
-- **def_0802** | concept: Heroes | chunk: a92e401b2501
-  > PTER 5: ADVANTAGES  Heroes are more than just skilled, they often have amazing advantages, beyond the abilitie
-- **def_0803** | concept: Advantages | chunk: a92e401b2501
-  > doing them better.  Advantages are rated in ranks and bought with power points, just like abilities and skills. Ad
-- **def_0804** | concept: Advantages | chunk: a92e401b2501
-  > vantage’s heading.  Advantages are categorized as one of four types:  •  •  •  •  Combat  Advantages  are  useful
-- **def_0805** | concept: Use Expertise | chunk: 9ab4a1de72d2
-  > mally with animals. Use Expertise: Magic to create temporary magical devices. Circumstance bonus to interaction bas
-- **def_0806** | concept: Use Expertise | chunk: 9ab4a1de72d2
-  > ditional languages. Use Expertise: Magic to create and perform rituals. Make routine checks with one skill under an
-- **def_0807** | concept: Ambidexterity | chunk: 6dd3b64a2720
-  > in some settings).  Ambidexterity:  You  are  equally  adept  using  either hand,  suffering  no  circumstance  pena
-- **def_0808** | concept: Cipher | chunk: 6dd3b64a2720
-  > u don’t have one).  Cipher:  Your  true  history  is  well  hidden,  making  it difficult to dig up informati
-- **def_0809** | concept: Status | chunk: 6dd3b64a2720
-  > ent and personnel.  Status: By virtue of birth or achievement, you have special  status.  Examples  include
-- **def_0810** | concept: Boxing | chunk: 481ffcf3c778
-  > clude:  •  •  •  •  Boxing: All-out Attack, Defensive Attack, Improved Critical (Unarmed), Power Attack, Tak
-- **def_0811** | concept: Judo | chunk: 481ffcf3c778
-  > Attack, Takedown.  Judo: Accurate Attack, Defensive Attack, Improved Disarm, Improved Grab, Improved Hold
-- **def_0812** | concept: Kung Fu | chunk: 481ffcf3c778
-  > ld, Improved Trip.  Kung Fu: Defensive Attack, Improved Critical (Unarmed), Improved Smash, Improved Trip, In
-- **def_0813** | concept: Sword-fighting | chunk: 481ffcf3c778
-  > r Attack, Startle.  Sword-fighting: Accurate Attack, Defensive Attack, Improved Disarm, Improved Initiative, Power A
-- **def_0814** | concept: Ultimate Aim | chunk: 4eeee75475f7
-  > e series.  •  •  •  Ultimate Aim: When  you  take  a  standard  action  to aim an attack (see Aim, page 246), you
-- **def_0815** | concept: Ultimate Resistance | chunk: 4eeee75475f7
-  > c or critical hit.  Ultimate Resistance: You can spend a hero point to apply a 20 result to a resistance check with one d
-- **def_0816** | concept: Ultimate Skill | chunk: 4eeee75475f7
-  > re this advantage.  Ultimate Skill: You can spend a hero point to apply a 20 result to checks with a particular skil
-- **def_0817** | concept: Allegiances | chunk: 087066c7a800
-  > effect noticeable.  Allegiances:  Anarchy,  Balance,  Chaos,  Evil,  Good,  Jus- tice, Law, Liberty, Tyranny  Elem
-- **def_0818** | concept: Elements | chunk: 087066c7a800
-  > , Liberty, Tyranny  Elements: Air, Earth, Fire, Plant, Water, Weather  Energy:  Acid,  Chemical,  Cold,  Cosmi
-- **def_0819** | concept: Energy | chunk: 087066c7a800
-  > nt, Water, Weather  Energy:  Acid,  Chemical,  Cold,  Cosmic,  Darkness,  Elec- tricity, Gravity, Heat, Kinet
-- **def_0820** | concept: Phenomena | chunk: 087066c7a800
-  > , Sonic, Vibration  Phenomena:  Colors,  Dimensions,  Dreams,  Entropy, Ideas,  Luck,  Madness,  Memes,  Mind,
-- **def_0821** | concept: Sources | chunk: 087066c7a800
-  > ace, Thought, Time  Sources:  Alien,  Biological,  Chi,  Divine,  Magic,  Mystic, Mutant,  Preternatural,  Pri
-- **def_0822** | concept: Visual | chunk: c84a4002269b
-  > re:  •  •  •  •  •  Visual: normal sight, darkvision, infravision, low-light vision, microscopic vision, ult
-- **def_0823** | concept: Auditory | chunk: c84a4002269b
-  > sion, X-Ray vision  Auditory: normal hearing, sonar (accurate ultrason- ic), ultrasonic hearing  Olfactory: no
-- **def_0824** | concept: Olfactory | chunk: c84a4002269b
-  > ultrasonic hearing  Olfactory: normal smell and taste, scent  Tactile: normal touch, tremorsense  Radio: radio,
-- **def_0825** | concept: Tactile | chunk: c84a4002269b
-  > l and taste, scent  Tactile: normal touch, tremorsense  Radio: radio, radar (accurate radio)  •  Mental: ment
-- **def_0826** | concept: Radio | chunk: c84a4002269b
-  > touch, tremorsense  Radio: radio, radar (accurate radio)  •  Mental: mental awareness, Mind Reading, Precog
-- **def_0827** | concept: Special | chunk: c84a4002269b
-  > ion, Postcognition  Special: This is the catchall for other sensory descrip- tors  not  given  above,  includ
-- **def_0828** | concept: Standard | chunk: c84a4002269b
-  > use an effect.  •  Standard: Using the effect requires a standard action.  •  Move: Using the effect requires
-- **def_0829** | concept: Free | chunk: c84a4002269b
-  > e action.  •  •  •  Free: It requires a free action to use or activate the effect.  Once  an  effect  is
-- **def_0830** | concept: Reaction | chunk: c84a4002269b
-  > or off in a turn.  Reaction:  It  requires  no  action  to  use  the  effect.  It operates  automatically  in
-- **def_0831** | concept: None | chunk: c84a4002269b
-  > such as an attack.  None: It requires no action to use the effect. It is al- ways active.
-- **def_0832** | concept: Personal | chunk: 2b9b77a24290
-  > rs.  •  •  •  •  •  Personal: The effect works only on you, the user.  Close: The effect can target anyone or
-- **def_0833** | concept: Close | chunk: 2b9b77a24290
-  > on you, the user.  Close: The effect can target anyone or anything you touch. Touching an unwilling subjec
-- **def_0834** | concept: Ranged | chunk: 2b9b77a24290
-  > e subject’s Parry.  Ranged:  The  effect  works  at  a  distance,  limited  by perception  and  path  and  re
-- **def_0835** | concept: Perception | chunk: 2b9b77a24290
-  > apter for details.  Perception: The effect works on any target you can perceive  with  an  accurate  sense,  wit
-- **def_0836** | concept: Rank | chunk: 2b9b77a24290
-  > cannot affect it.  Rank:  The  effect’s  range  or  area  of  effect  is  deter- mined by its rank, as giv
-- **def_0837** | concept: Sustained | chunk: 2b9b77a24290
-  > , the effect ends.  Sustained: You can keep a sustained effect going by taking  a  free  action  each  round  t
-- **def_0838** | concept: Continuous | chunk: 2b9b77a24290
-  > , the effect ends.  Continuous:  The  effect  lasts  as  long  as  you  wish, without  any  action  required  on
-- **def_0839** | concept: Permanent | chunk: 2b9b77a24290
-  > t (a free action).  Permanent: The effect is always active and cannot be deactivated, even if you want to. A pe
-- **def_0840** | concept: Instant | chunk: 2b9b77a24290
-  > tance check.  •  •  Instant:  When  used,  the  effect  occurs  and  ends  in the same turn, although its resu
-- **def_0841** | concept: Concentration | chunk: 2b9b77a24290
-  > esults may linger.  Concentration: You can keep a concentration effect going by taking a standard action each round
-- **def_0842** | concept: Action | chunk: 40cf06e030f1
-  > cal order.  ATTACK  Action: Standard • Range: Close Duration: Instant • Cost: 1 point per rank  TYPE  You ca
-- **def_0843** | concept: Duration | chunk: 40cf06e030f1
-  > dard • Range: Close Duration: Instant • Cost: 1 point per rank  TYPE  You can impose some debilitating conditi
-- **def_0844** | concept: Success | chunk: 40cf06e030f1
-  > liction rank + 10]  Success: No effect.  Failure  (one  degree):  The  target  is  dazed,  entranced, fatigue
-- **def_0845** | concept: Alternate Resistance | chunk: 40cf06e030f1
-  > your own.  EXTRAS  Alternate Resistance: Some Afflictions may be initially re- sisted by Dodge, representing the need for
-- **def_0846** | concept: Name | chunk: 40cf06e030f1
-  > ge Duration • Cost  Name: What the effect is called.  Type: The type of effect.  Action: The action requir
-- **def_0847** | concept: Type | chunk: 40cf06e030f1
-  > effect is called.  Type: The type of effect.  Action: The action required to use the effect: standard, mo
-- **def_0848** | concept: Action | chunk: 40cf06e030f1
-  > he type of effect.  Action: The action required to use the effect: standard, move, free, reaction, or none.
-- **def_0849** | concept: Range | chunk: 40cf06e030f1
-  > reaction, or none.  Range: The range at which the effect operates: person- al, close, ranged, perception, o
-- **def_0850** | concept: Duration | chunk: 40cf06e030f1
-  > rception, or rank.  Duration: The effect’s duration: instant, concentration, sustained, continuous, or permane
-- **def_0851** | concept: Cost | chunk: 40cf06e030f1
-  > ous, or permanent.  Cost: How many power points the base effect costs per rank.  A  description  of  the
-- **def_0852** | concept: Concentration | chunk: 40cf06e030f1
-  > +0 cost per rank.  Concentration: Once you have hit with a Concentration Affliction,  so  long  as  you  continue
-- **def_0853** | concept: Cumulative | chunk: 40cf06e030f1
-  > +1 cost per rank.  Cumulative: Normally, an Affliction does not have a cumu- lative effect on the same target,
-- **def_0854** | concept: Name | chunk: 373c8323a9b6
-  > Modifier(s) • Cost  Name: What the power is called. Feel free to mod- ify the name to suit how you’re usin
-- **def_0855** | concept: Effects | chunk: 373c8323a9b6
-  > e using the power.  Effects: The power’s effect or effects are listed by name.  Modifiers:  Any  modifiers  a
-- **def_0856** | concept: Modifiers | chunk: 373c8323a9b6
-  > re listed by name.  Modifiers:  Any  modifiers  applying  to  the  effect are  listed  with  it.  If  a  power
-- **def_0857** | concept: Cost | chunk: 373c8323a9b6
-  > licable modifiers.  Cost: Lastly, the power’s cost is given. This is a cost per rank of the power if it ha
-- **def_0858** | concept: Effect | chunk: 373c8323a9b6
-  > additional ranks.  Effect: Varies, Activation • effects total –1 or 2 points  isting degrees on the target.
-- **def_0859** | concept: Progressive | chunk: 373c8323a9b6
-  > +1 cost per rank.  Progressive: This modifier causes an Affliction to increase incrementally  without  any  effo
-- **def_0860** | concept: Instant Recovery | chunk: 373c8323a9b6
-  > t per rank.  FLAWS  Instant Recovery: Similar to the Reversible extra (see p. 196),  the  target  of  an  Affliction
-- **def_0861** | concept: Energy | chunk: 373c8323a9b6
-  > •  •  •  •  •  •  Energy: You are made up of energy, such as fire or electricity: Damage (close or ranged)
-- **def_0862** | concept: Gaseous | chunk: 373c8323a9b6
-  > t (Energy Medium).  Gaseous: You are a cloud of gas, like fog or mist: Affliction (Suffocate), Concealment (V
-- **def_0863** | concept: Ghost | chunk: 373c8323a9b6
-  > d Insubstantial 2.  Ghost: You are incorporeal and invisible, largely unaffected by the physical world: Con
-- **def_0864** | concept: Heroic | chunk: 373c8323a9b6
-  > d Insubstantial 4.  Heroic: You have a distinct “hero” form, in addition to your “normal” form. Essentially,
-- **def_0865** | concept: Liquid | chunk: 373c8323a9b6
-  > from time to time.  Liquid: You are made up of liquid (such as water): Affliction (Suffocate), Concealment (
-- **def_0866** | concept: Particulate | chunk: 373c8323a9b6
-  > l 1, and Swimming.  Particulate: Your body is composed of a granular or particulate substance like sand, dust, sa
-- **def_0867** | concept: Shadow | chunk: 373c8323a9b6
-  > ment (Slithering).  Shadow: You transform into a living shadow: Concealment (Visual, Limited to Darkness and
-- **def_0868** | concept: Solid | chunk: 373c8323a9b6
-  > g, Wall-crawling).  Solid: You are made up of a hard solid substance like stone or metal: Enhanced Stamina,
-- **def_0869** | concept: Swarm | chunk: 373c8323a9b6
-  > y, and Protection.  Swarm: Your “body” is actually thousands of other tiny creatures: insects, worms, even
-- **def_0870** | concept: Two-Dimensional | chunk: 373c8323a9b6
-  > g, Wall-crawling).  Two-Dimensional: You can flatten yourself to become almost infinitely thin: Concealment (Visual,
-- **def_0871** | concept: Limited Degree | chunk: 661dd344a1d2
-  > –1 cost per rank.  Limited Degree: Your Affliction is limited to no more than two degrees of effect. With two appli
-- **def_0872** | concept: Action | chunk: 661dd344a1d2
-  > URROWING  MOVEMENT  Action: Free • Range: Personal Duration: Sustained • Cost: 1 point per rank  You can bur
-- **def_0873** | concept: Duration | chunk: 661dd344a1d2
-  > e • Range: Personal Duration: Sustained • Cost: 1 point per rank  You can burrow through the ground, leaving a
-- **def_0874** | concept: Penetrating | chunk: 661dd344a1d2
-  > r details). EXTRAS  Penetrating:  Normally,  the  hardness  of  the  ground  af- fects  only  the  speed  at  whic
-- **def_0875** | concept: Ranged | chunk: 661dd344a1d2
-  > 1 point per rank.  Ranged: This extra either allows you to create tunnels at a greater distance (without ha
-- **def_0876** | concept: Limited | chunk: 661dd344a1d2
-  > t per rank.  FLAWS  Limited:  Burrowing  may  be  limited  to  certain  circum- stances  or  materials,  such
-- **def_0877** | concept: Effect | chunk: 661dd344a1d2
-  > and  soil  BLAST  Effect: Ranged Damage • 2 points per rank  You  can  make  a  damaging  ranged  attack.
-- **def_0878** | concept: Action | chunk: 661dd344a1d2
-  > per rank.  SENSORY  Action: Free • Range: Rank Duration: Sustained • Cost: 4 points per rank  You  can  comm
-- **def_0879** | concept: Duration | chunk: 661dd344a1d2
-  > Free • Range: Rank Duration: Sustained • Cost: 4 points per rank  You  can  communicate  over  a  distance  u
-- **def_0880** | concept: Visual | chunk: 661dd344a1d2
-  > on.  •  •  •  •  •  Visual: laser or fiber optic link  Auditory: ultrasonic or infrasonic beam, “ventriloqui
-- **def_0881** | concept: Auditory | chunk: 661dd344a1d2
-  > r fiber optic link  Auditory: ultrasonic or infrasonic beam, “ventriloquism”  Olfactory: pheromones or chemica
-- **def_0882** | concept: Olfactory | chunk: 661dd344a1d2
-  > m, “ventriloquism”  Olfactory: pheromones or chemical markers  Tactile: vibratory carrier wave  Radio: AM, FM,
-- **def_0883** | concept: Tactile | chunk: 661dd344a1d2
-  > r chemical markers  Tactile: vibratory carrier wave  Radio: AM, FM, and short-wave radio bands, micro- waves
-- **def_0884** | concept: Radio | chunk: 661dd344a1d2
-  > atory carrier wave  Radio: AM, FM, and short-wave radio bands, micro- waves  •  Mental: telepathic transmis
-- **def_0885** | concept: Worldwide | chunk: 661dd344a1d2
-  > oss a small nation  Worldwide: anywhere on Earth (or a similar-sized planet)  Unlimited: effectively anywhere
-- **def_0886** | concept: Unlimited | chunk: 661dd344a1d2
-  > ilar-sized planet)  Unlimited: effectively anywhere  Communication is instantaneous with any subject within you
-- **def_0887** | concept: Communication | chunk: 661dd344a1d2
-  > fectively anywhere  Communication is instantaneous with any subject within your range.  The  recipient  of  your  co
-- **def_0888** | concept: Area | chunk: 2ec68f50f56a
-  > nsmissions. EXTRAS  Area: You  can  broadcast  omni-directionally  to  every  re- ceiver  within  your  ma
-- **def_0889** | concept: Dimensional | chunk: 2ec68f50f56a
-  > +1 cost per rank.  Dimensional:  Communication  with  this  modifier  can bridge  dimensional  barriers,  reachin
-- **def_0890** | concept: Rapid | chunk: 2ec68f50f56a
-  > on. Flat +1 point.  Rapid: Your  communication  occurs  10  times  faster  than normal speech. Each additio
-- **def_0891** | concept: Selective | chunk: 2ec68f50f56a
-  > th. Flat +1 point.  Selective:  If  you  have  the  Area  extra,  you  can  choose which receiver(s) within rang
-- **def_0892** | concept: Subtle | chunk: 2ec68f50f56a
-  > +1 cost per rank.  Subtle:  Your  Communication  cannot  be  “overheard”  (it is encrypted, scrambled, or ot
-- **def_0893** | concept: Limited | chunk: 2ec68f50f56a
-  > r 2 points.  FLAWS  Limited:  Communication  may  be  limited  to  only  mem- bers of a particular group, such
-- **def_0894** | concept: Sense-Dependent | chunk: 2ec68f50f56a
-  > itself  is  already Sense-Dependent:  Communication sense-dependent  (in  that  the  subject(s)  must  be  able to  se
-- **def_0895** | concept: Action | chunk: 2ec68f50f56a
-  > per rank.  SENSORY  Action: None • Range: Personal Duration: Permanent• Cost: 2 points per rank  You  can  c
-- **def_0896** | concept: Duration | chunk: 2ec68f50f56a
-  > e • Range: Personal Duration: Permanent• Cost: 2 points per rank  You  can  comprehend  different  sorts  of
-- **def_0897** | concept: Communication | chunk: 2ec68f50f56a
-  > er effect). If your Communication  is  blocked  in  any  way,  the  other  effect doesn’t work. -1 cost per rank.  SE
-- **def_0898** | concept: Type | chunk: 437f5039e60f
-  > he setting.  FLAWS  Type: You can only comprehend a broad type of subject (only elves, canines, avians, or
-- **def_0899** | concept: Action | chunk: 437f5039e60f
-  > per rank.  SENSORY  Action: Free • Range: Personal Duration: Sustained • Cost: 2 points per rank  You gain t
-- **def_0900** | concept: Duration | chunk: 437f5039e60f
-  > e • Range: Personal Duration: Sustained • Cost: 2 points per rank  You gain total concealment from a particula
-- **def_0901** | concept: Affects Others | chunk: 437f5039e60f
-  > n tactile.  EXTRAS  Affects Others: This modifier allows you to grant Conceal- ment to others while you are touching
-- **def_0902** | concept: Area | chunk: 437f5039e60f
-  > +1 cost per rank.  Area: Concealment with Affects Others (previously) or At- tack (immediately following)
-- **def_0903** | concept: Attack | chunk: 437f5039e60f
-  > +1 cost per rank.  Attack:  Use  this  extra  for  a  Concealment  effect  you  can impose on others (whethe
-- **def_0904** | concept: Precise | chunk: 437f5039e60f
-  > +0 cost per rank.  Precise: You can vary your Concealment at will as a free action:  going  from  total  to
-- **def_0905** | concept: Blending | chunk: 437f5039e60f
-  > at +1 point. FLAWS  Blending: You “blend” into the background. Your Conceal- ment only functions as long as yo
-- **def_0906** | concept: Limited | chunk: 437f5039e60f
-  > -1 cost per rank.  Limited: Your Concealment only works under certain condi- tions, such as in fog, shadows,
-- **def_0907** | concept: Partial | chunk: 437f5039e60f
-  > -1 cost per rank.  Partial: Your effect provides partial rather than total con- cealment (see Concealment, p
-- **def_0908** | concept: Passive | chunk: 437f5039e60f
-  > -1 cost per rank.  Passive: Your Concealment only lasts until you do some- thing requiring an attack or effe
-- **def_0909** | concept: Resistible | chunk: 437f5039e60f
-  > -1 cost per rank.  Resistible:  Your  Concealment  offers  a  resistance  check (chose  a  defense  when  the  f
-- **def_0910** | concept: Action | chunk: fe13616b260d
-  > 3  CREATE  CONTROL  Action: Standard • Range: Ranged Duration: Sustained • Cost: 2 points per rank  You  can
-- **def_0911** | concept: Duration | chunk: fe13616b260d
-  > ard • Range: Ranged Duration: Sustained • Cost: 2 points per rank  You  can  form  solid  objects  essentially
-- **def_0912** | concept: HOOD | chunk: fe13616b260d
-  > rank.  A  trapped  HOOD: CREATE VS. SUMMON  Create  and  Summon  are  similar  effects:  both  “create” t
-- **def_0913** | concept: Continuous | chunk: fe13616b260d
-  > cumulative. EXTRAS  Continuous:  Continuous  Create  makes  objects  that  re- main until they are destroyed, nul
-- **def_0914** | concept: Impervious | chunk: fe13616b260d
-  > +1 cost per rank.  Impervious: Applied to Create, this extra makes the ob- jects’ Toughness Impervious. +1 cost
-- **def_0915** | concept: Innate | chunk: fe13616b260d
-  > +1 cost per rank.  Innate: Continuous or Permanent Create with this modi- fier makes objects that cannot be
-- **def_0916** | concept: Movable | chunk: fe13616b260d
-  > t). Flat +1 point.  Movable:  You  can  move  your  created  objects  around with a Move Object effect at your
-- **def_0917** | concept: Precise | chunk: fe13616b260d
-  > +1 cost per rank.  Precise:  You  can  create  more  precise  and  detailed  ob- jects. The exact parameters
-- **def_0918** | concept: Selective | chunk: fe13616b260d
-  > il. Flat +1 point.  Selective: You can make your created objects selectively “transparent”  to  attacks,  block
-- **def_0919** | concept: Stationary | chunk: c7946753c154
-  > +1 cost per rank.  Stationary:  Your  created  objects  can  hang  immobile in  the  air. They  resist  being  m
-- **def_0920** | concept: Subtle | chunk: c7946753c154
-  > +0 cost per rank.  Subtle:  This  modifier  either  makes  created  objects  not noticeable as constructs fo
-- **def_0921** | concept: Tether | chunk: c7946753c154
-  > lat +1or 2 points.  Tether: You  have  a  connection  to  your  created  objects, allowing  you  to  exert
-- **def_0922** | concept: Feedback | chunk: c7946753c154
-  > lat 1 point. FLAWS  Feedback: You may suffer damage when your created ob- jects are damaged (see the Feedback
-- **def_0923** | concept: Permanent | chunk: c7946753c154
-  > -1 cost per rank.  Permanent:  Permanent  created  objects  last  until  de- stroyed or nullified. Unlike Conti
-- **def_0924** | concept: Proportional | chunk: c7946753c154
-  > Sustained effect).  Proportional: Your  created  objects  have  a  total  volume rank plus Toughness rank equal to
-- **def_0925** | concept: Effect | chunk: c7946753c154
-  > per rank.  DAZZLE  Effect:  Ranged,  Cumulative  Affliction,  Limited  to  One Sense • 2 points per rank  Yo
-- **def_0926** | concept: Action | chunk: 7f148070d8bb
-  > 55  DAMAGE  ATTACK  Action: Standard • Range: Close Duration: Instant • Cost: 1 point per rank  You can infl
-- **def_0927** | concept: Duration | chunk: 7f148070d8bb
-  > dard • Range: Close Duration: Instant • Cost: 1 point per rank  You can inflict damage on a target by making a
-- **def_0928** | concept: Success | chunk: 7f148070d8bb
-  > [Damage rank + 15]  Success : The damage has no effect.  Failure (one degree): The target has a –1 circumstanc
-- **def_0929** | concept: Effect | chunk: 7f148070d8bb
-  > th with it or not.  Effect: Summon Duplicate, Active • 3 points per rank  You  can  create  a  duplicate  of
-- **def_0930** | concept: Strength Damage | chunk: 7f148070d8bb
-  > ts,  a  character’s Strength Damage is close range and instant duration by default.  If  you  choose,  a  Damage  effe
-- **def_0931** | concept: Action | chunk: f1bc1ad153ee
-  > DEFLECT  DEFENSE  Action: Standard • Range: Ranged Duration: Instant • Cost: 1 point per rank  You can act
-- **def_0932** | concept: Duration | chunk: f1bc1ad153ee
-  > ard • Range: Ranged Duration: Instant • Cost: 1 point per rank  You can actively defend for characters other t
-- **def_0933** | concept: Action | chunk: f1bc1ad153ee
-  > e or Parry. EXTRAS  Action: Because it requires the defend action, Deflect cannot take less than a standard
-- **def_0934** | concept: Reflect | chunk: f1bc1ad153ee
-  > rea and Selective.  Reflect: You can reflect attacks back at the attacker as a free action. First, you must s
-- **def_0935** | concept: Redirect | chunk: f1bc1ad153ee
-  > +1 cost per rank.  Redirect: You can redirect attacks you successfully deflect at any target within the attac
-- **def_0936** | concept: Effect | chunk: f1bc1ad153ee
-  > +1 cost per rank.  Effect: Perception Ranged Move Object, Limited to Ele- ment • 2 points per rank  You can
-- **def_0937** | concept: Action | chunk: 05f80df9e48f
-  > WERS  157  GENERAL  Action: Free • Range: Personal Duration: Sustained • Cost: 1 point per rank  ample,  Enh
-- **def_0938** | concept: Duration | chunk: 05f80df9e48f
-  > e • Range: Personal Duration: Sustained • Cost: 1 point per rank  ample,  Enhanced  Strength  5  increases  yo
-- **def_0939** | concept: Action | chunk: 05f80df9e48f
-  > d by PL).  GENERAL  Action: Free • Range: Personal Duration: Sustained • Cost: As base Trait  You  can  temp
-- **def_0940** | concept: Duration | chunk: 05f80df9e48f
-  > e • Range: Personal Duration: Sustained • Cost: As base Trait  You  can  temporarily  improve  one  of  your
-- **def_0941** | concept: Limited | chunk: 05f80df9e48f
-  > So, for ex-  FLAWS  Limited: Enhanced Traits are often Limited in some fash- ion,  such  as  Nighttime  (or
-- **def_0942** | concept: Permanent | chunk: 05f80df9e48f
-  > –1 cost per rank.  Permanent:  At  no  change  in  cost,  your  Enhanced  Trait may  be  a  permanent  improvem
-- **def_0943** | concept: Enhanced Trait | chunk: 05f80df9e48f
-  > ifferences are that Enhanced Trait is a power effect, rather than a natural trait, and as an effect it can be combine
-- **def_0944** | concept: Effect | chunk: cf5b8ba8408b
-  > CHAPTER 6: POWERS  Effect: Damage, Reaction • 4 points per rank  Effect: Ranged Damage • 2 points per rank
-- **def_0945** | concept: Effect | chunk: cf5b8ba8408b
-  > 4 points per rank  Effect: Ranged Damage • 2 points per rank  You can surround your body with an aura of da
-- **def_0946** | concept: Reduced Trait | chunk: cf5b8ba8408b
-  > der your control).  Reduced Trait: One or more of your traits is lowered while others  are  enhanced. This  flaw  i
-- **def_0947** | concept: Action | chunk: cf5b8ba8408b
-  > page 20).  CONTROL  Action: Standard • Range: Rank Duration: Sustained • Cost: 1–2 points per rank  You  can
-- **def_0948** | concept: Duration | chunk: cf5b8ba8408b
-  > ndard • Range: Rank Duration: Sustained • Cost: 1–2 points per rank  You  can  change  the  environment  in  a
-- **def_0949** | concept: Effect | chunk: cf5b8ba8408b
-  > eate extreme heat.  Effect: Enhanced Trait, Fades, Reaction • as base trait  You  take  the  energy  from  a
-- **def_0950** | concept: Energy Control | chunk: cf5b8ba8408b
-  > the Blast power).  Energy Control is further defined by the addition of Alter- nate Effects (see Alternate Effects,
-- **def_0951** | concept: Rebound | chunk: cf5b8ba8408b
-  > , rank. However, if Rebound is hit again on the following turn for Dam- age  4,  he  gains  up  to  4  ranks
-- **def_0952** | concept: Selective | chunk: afba8b4a5938
-  > s chapter). EXTRAS  Selective: With this extra you can vary the environment within your affected area, affectin
-- **def_0953** | concept: Action | chunk: afba8b4a5938
-  > per rank.  GENERAL  Action: None • Range: Personal Duration: Permanent • Cost: 1 point per rank  You  have
-- **def_0954** | concept: Duration | chunk: afba8b4a5938
-  > e • Range: Personal Duration: Permanent • Cost: 1 point per rank  You  have  extra  manipulative  limbs,  such
-- **def_0955** | concept: HOOD | chunk: afba8b4a5938
-  > free), you gain a  HOOD: EXTRA LIMBS, NOT EXTRA ACTIONS  As a default, Extra Limbs do not grant character
-- **def_0956** | concept: Continuous | chunk: afba8b4a5938
-  > character’s limbs.  Continuous: Continuous  Extra  Limbs  are  a  power  effect you can turn on and off at will,
-- **def_0957** | concept: Projection | chunk: afba8b4a5938
-  > +1 cost per rank.  Projection: Your  Extra  Limbs  are  merely  a  projection  of your power rather than an ext
-- **def_0958** | concept: Sustained | chunk: afba8b4a5938
-  > +1 cost per rank.  Sustained: Sustained Extra Limbs can be turned on or off (growing or forming the additional
-- **def_0959** | concept: Distracting | chunk: afba8b4a5938
-  > t per rank.  FLAWS  Distracting:  Coordinating  the  actions  of  your  multiple limbs is difficult, so you are vu
-- **def_0960** | concept: Action | chunk: afba8b4a5938
-  > FEATURE  GENERAL  Action: None • Range: Personal Duration: Permanent • Cost: 1 point per rank  You  have
-- **def_0961** | concept: Duration | chunk: afba8b4a5938
-  > e • Range: Personal Duration: Permanent • Cost: 1 point per rank  You  have  one  or  more  minor  features,
-- **def_0962** | concept: Insulating Fur | chunk: 7663d2fb489a
-  > atsoever.  •  •  •  Insulating Fur: You have a layer of fur that protects you from intense heat and cold, giving you
-- **def_0963** | concept: Internal Compartment | chunk: 7663d2fb489a
-  > hose environments.  Internal Compartment: You can carry a portion of your carrying capacity inside your body! You have a p
-- **def_0964** | concept: Action | chunk: 7663d2fb489a
-  > FLIGHT  MOVEMENT  Action: Free • Range: Personal Duration: Sustained • Cost: 2 points per rank  You  can
-- **def_0965** | concept: Duration | chunk: 7663d2fb489a
-  > e • Range: Personal Duration: Sustained • Cost: 2 points per rank  You  can  fly  through  the  air,  includin
-- **def_0966** | concept: Aquatic | chunk: 7663d2fb489a
-  > ffect rank. EXTRAS  Aquatic: You can move underwater as easily as in the air. You have a water speed equal to
-- **def_0967** | concept: Continuous | chunk: 7663d2fb489a
-  > t.  Flat +1 point.  Continuous: Continuous Flight operates even when the user  is  incapacitated  or  otherwise
-- **def_0968** | concept: Effect | chunk: 7663d2fb489a
-  > when  unable  to  Effect: Protection, Sustained • 1 point per rank  You can surround your body with a prot
-- **def_0969** | concept: Subtle | chunk: 7663d2fb489a
-  > +1 cost per rank.  Subtle:  The  default  Flight  effect  is  noticeable,  whether from the rush of air, the
-- **def_0970** | concept: Concentration | chunk: 7663d2fb489a
-  > r 2 points.  FLAWS  Concentration:  Flight  requiring  concentration  means you can fly, but can’t do much else at t
-- **def_0971** | concept: Distracting | chunk: 7663d2fb489a
-  > –1 cost per rank.  Distracting: You  are  not  very  maneuverable  and  there- fore  vulnerable  while  flying
-- **def_0972** | concept: Gliding | chunk: 7663d2fb489a
-  > –1 cost per rank.  Gliding: You  fly  by  gliding  on  wind  currents. Your  maxi- mum  gliding  distance  i
-- **def_0973** | concept: Levitation | chunk: a9a5f596da97
-  > TER 6: POWERS  161  Levitation: You can only move vertically, straight up and down, and not side to side, althou
-- **def_0974** | concept: Platform | chunk: a9a5f596da97
-  > –1 cost per rank.  Platform: Your Flight is reliant on some sort of platform on which  you  stand  or  sit.
-- **def_0975** | concept: Wings | chunk: a9a5f596da97
-  > –1 cost per rank.  Wings: You have wings that allow you to fly, but they run the risk of being fouled or r
-- **def_0976** | concept: Action | chunk: a9a5f596da97
-  > .  GROWTH  GENERAL  Action: Free • Range: Personal Duration: Sustained • Cost: 2 points per rank  You can te
-- **def_0977** | concept: Duration | chunk: a9a5f596da97
-  > e • Range: Personal Duration: Sustained • Cost: 2 points per rank  You can temporarily increase your size, gai
-- **def_0978** | concept: Permanent | chunk: a9a5f596da97
-  > Toughness. EXTRAS  Permanent: Permanent Growth,  typically  with  In- nate, suits giant-sized char- acters  an
-- **def_0979** | concept: Action | chunk: a9a5f596da97
-  > HEALING  GENERAL  Action: Standard • Range: Close Duration: Instant • Cost: 2 points per rank  You can hea
-- **def_0980** | concept: Duration | chunk: a9a5f596da97
-  > dard • Range: Close Duration: Instant • Cost: 2 points per rank  You can heal Damage conditions by touching a
-- **def_0981** | concept: Action | chunk: fc4ed8309dc8
-  > 6: POWERS  EXTRAS  Action: This extra reduces the action required for you to use Healing. You cannot use He
-- **def_0982** | concept: Affects Objects | chunk: fc4ed8309dc8
-  > +1 cost per rank.  Affects Objects: Your Healing can also “heal” damage to non-living  subjects.  You  make  a  Heal
-- **def_0983** | concept: Area | chunk: fc4ed8309dc8
-  > +1 cost per rank.  Area: Healing with this extra grants the same benefit to all subjects in the affected
-- **def_0984** | concept: Energizing | chunk: fc4ed8309dc8
-  > +1 cost per rank.  Energizing: You can heal the fatigued and exhausted con- ditions as well as damage condition
-- **def_0985** | concept: Perception | chunk: fc4ed8309dc8
-  > +1 cost per rank.  Perception: Applied to Ranged Healing (following), Per- ception Ranged Healing does not requ
-- **def_0986** | concept: Persistent | chunk: fc4ed8309dc8
-  > +1 cost per rank.  Persistent: Your  Healing  can  remove  even  Incurable  ef- fects (see the Incurable modifi
-- **def_0987** | concept: Ranged | chunk: fc4ed8309dc8
-  > r). Flat +1 point.  Ranged:  Ranged  Healing  requires  an  attack  check  to “touch” the subject with the He
-- **def_0988** | concept: Limited | chunk: fc4ed8309dc8
-  > –1 cost per rank.  Limited: Examples of ways in which Healing may be Lim- ited include: One Type of Damage (
-- **def_0989** | concept: Temporary | chunk: fc4ed8309dc8
-  > –1 cost per rank.  Temporary:  The  benefits  of  your  Healing  are  temporary, lasting for one hour. The subj
-- **def_0990** | concept: Action | chunk: fc4ed8309dc8
-  > ILLUSION  CONTROL  Action: Standard • Range: Perception Duration: Sustained • Cost: 1–5 points per rank  Yo
-- **def_0991** | concept: Duration | chunk: fc4ed8309dc8
-  > • Range: Perception Duration: Sustained • Cost: 1–5 points per rank  You can control others’ senses to create
-- **def_0992** | concept: Restorative | chunk: fc4ed8309dc8
-  > check (10 + rank).  Restorative: Your Healing effect can restore power points removed by Weaken effects with the
-- **def_0993** | concept: Resurrection | chunk: fc4ed8309dc8
-  > covers by 1 rank.  Resurrection: You can restore life to the dead! If the sub- ject has been dead for fewer minut
-- **def_0994** | concept: Selective | chunk: fc4ed8309dc8
-  > +1 cost per rank.  Selective: Area Healing may have this extra, allowing you to  choose  who  in  the  area  d
-- **def_0995** | concept: Stabilize | chunk: fc4ed8309dc8
-  > +1 cost per rank.  Stabilize: You don’t need to make a Healing check to sta- bilize  a  dying  character,  you
-- **def_0996** | concept: Empathic | chunk: fc4ed8309dc8
-  > at +1 point. FLAWS  Empathic: When  you  successfully  cure  someone  else  of a condition, you acquire the co
-- **def_0997** | concept: Independent | chunk: 44f0396c2518
-  > ude the following.  Independent: Your active illusions only require a free action to maintain, rather than a stan
-- **def_0998** | concept: Selective | chunk: 44f0396c2518
-  > +1 cost per rank.  Selective:  You  choose  who  perceives  your  Illusion  and who doesn’t. +1 cost per rank.
-- **def_0999** | concept: Feedback | chunk: 44f0396c2518
-  > DISBELIEVE!  FLAWS  Feedback:  Although  Illusion  does  not  have  a  physical “manifestation” per se, it can
-- **def_1000** | concept: Ranged | chunk: 44f0396c2518
-  > –1 cost per rank.  Ranged:  It  is  left  to  the  GM’s  discretion  whether  or  not Illusion’s range can b
-- **def_1001** | concept: Resistible | chunk: 44f0396c2518
-  > –1 cost per rank.  Resistible:  Illusions  Resistible  by Will  are  typically  halluci- natory effects projecte
-- **def_1002** | concept: Action | chunk: 44f0396c2518
-  > per rank.  DEFENSE  Action: None • Range: Personal Duration: Permanent • Cost: 2 points per rank  Keep in mi
-- **def_1003** | concept: Duration | chunk: 44f0396c2518
-  > e • Range: Personal Duration: Permanent • Cost: 2 points per rank  Keep in mind characters don’t get to make a
-- **def_1004** | concept: Illusion | chunk: 44f0396c2518
-  > ee action.  EXTRAS  Illusion is a broad-ranging effect, usable for a number of different things. A few common c
-- **def_1005** | concept: Limited | chunk: ba29424008f5
-  > R 6: POWERS  FLAWS  Limited: You must specify a reasonably common effect (or set of uncommon effects) that ke
-- **def_1006** | concept: Action | chunk: ba29424008f5
-  > IMMUNITY  DEFENSE  Action: None • Range: Personal Duration: Permanent • Cost: 1 point per rank  You are imm
-- **def_1007** | concept: Duration | chunk: ba29424008f5
-  > e • Range: Personal Duration: Permanent • Cost: 1 point per rank  You are immune to certain effects, automatic
-- **def_1008** | concept: Affects Others | chunk: ba29424008f5
-  > ey may be.  EXTRAS  Affects Others: This extra allows you to grant the benefits of your Immunity to others by touch.
-- **def_1009** | concept: Sustained | chunk: ba29424008f5
-  > +1 cost per rank.  Sustained:  Sustained  duration  Immunity  may  be  suit- able  for  certain  types  of  pow
-- **def_1010** | concept: Ranged | chunk: ba29424008f5
-  > +0 cost per rank.  Ranged: Affects Others Immunity may have this extra, al- lowing it to grant its benefits
-- **def_1011** | concept: Reflect | chunk: ba29424008f5
-  > +1 cost per rank.  Reflect: You can reflect attacks to which you are immune back at the attacker as a free a
-- **def_1012** | concept: Redirect | chunk: ba29424008f5
-  > +1 cost per rank.  Redirect: You can redirect attacks to which are you are im- mune at any other target withi
-- **def_1013** | concept: Action | chunk: 92b89ee67633
-  > WERS  165  GENERAL  Action: Free • Range: Personal Duration: Sustained • Cost: 5 points per rank  pass throu
-- **def_1014** | concept: Duration | chunk: 92b89ee67633
-  > e • Range: Personal Duration: Sustained • Cost: 5 points per rank  pass through solid objects permeable to you
-- **def_1015** | concept: Effect | chunk: 92b89ee67633
-  > normally. You can  Effect: Visual Concealment • 4 or 8 points  You  can  vanish  from  sight  at  will,  ga
-- **def_1016** | concept: Attack | chunk: 92b89ee67633
-  > +1 cost per rank.  Attack: Applied to Insubstantial, this extra makes it into a close range effect able to
-- **def_1017** | concept: Attack | chunk: 92b89ee67633
-  > or an Insubstantial Attack  is  Dodge,  although  it  can  be  Fortitude  or Will,  as best suits the effect’s
-- **def_1018** | concept: Continuous | chunk: 706d511e685d
-  > maximum distance.  Continuous:  Extending  the  effect’s  duration  to  continu- ous allows you to remain Insubs
-- **def_1019** | concept: Innate | chunk: 706d511e685d
-  > +1 cost per rank.  Innate: Use this modifier if your character’s form is natu- rally  or  innately  Insubst
-- **def_1020** | concept: Precise | chunk: 706d511e685d
-  > on. Flat +1 point.  Precise: This modifier allows you to selectively make some portions of your body insubsta
-- **def_1021** | concept: Progressive | chunk: 706d511e685d
-  > nd. Flat +1 point.  Progressive:  You  can  assume  lower  ranked  forms  of  In- substantial, but you must progre
-- **def_1022** | concept: Reaction | chunk: 706d511e685d
-  > +0 cost per rank.  Reaction: Becoming Insubstantial is normally a free action, meaning  you  can’t  switch  t
-- **def_1023** | concept: Subtle | chunk: 706d511e685d
-  > +1 cost per rank.  Subtle:  This  extra  makes  your  Insubstantial  nature  less noticeable  to  observers.
-- **def_1024** | concept: Absent Strength | chunk: 706d511e685d
-  > r 2 points.  FLAWS  Absent Strength: This flaw applies only to rank 1 Insub- stantial and removes your effective Stre
-- **def_1025** | concept: Permanent | chunk: 706d511e685d
-  > ct. Flat –1 point.  Permanent: You are always Insubstantial; you cannot as- sume  solid  form,  although  your
-- **def_1026** | concept: Action | chunk: 706d511e685d
-  > LEAPING  MOVEMENT  Action: Free • Range: Personal Duration: Instant • Cost: 1 point per rank  You  can  mak
-- **def_1027** | concept: Duration | chunk: 706d511e685d
-  > e • Range: Personal Duration: Instant • Cost: 1 point per rank  You  can  make  prodigious  leaps,  far  more
-- **def_1028** | concept: Affects Others | chunk: 706d511e685d
-  > direction. EXTRAS  Affects Others: You can give someone you are touching the  ability  to  leap  like  you  do  whi
-- **def_1029** | concept: Acrobatics Check Required | chunk: 706d511e685d
-  > st per rank. FLAWS  Acrobatics Check Required: In order to use Leaping, you must make an Acrobatics skill check (DC 10). Each p
-- **def_1030** | concept: Full Power | chunk: 706d511e685d
-  > –1 cost per rank.  Full Power: With this flaw, you can only leap your maxi- mum  distance;  you  can  make  sho
-- **def_1031** | concept: Action | chunk: 706d511e685d
-  > –1 point.  CONTROL  Action: Reaction • Range: Perception Duration: Instant • Cost: 3 points per rank  You ca
-- **def_1032** | concept: Duration | chunk: 706d511e685d
-  > • Range: Perception Duration: Instant • Cost: 3 points per rank  You can use hero points or ranks of Luck to a
-- **def_1033** | concept: Area | chunk: 6e58428e1e90
-  > OWERS  167  EXTRAS  Area: Your Luck Control effect works equally on all targets in the affected area. You
-- **def_1034** | concept: Luck | chunk: 6e58428e1e90
-  > +1 cost per rank.  Luck: Each rank in this extra gives you the benefit of a rank in the Luck advantage (s
-- **def_1035** | concept: Selective | chunk: 6e58428e1e90
-  > per rank of Luck.  Selective: This extra, applied to Area Luck Control, allows you to choose who in the area i
-- **def_1036** | concept: Action | chunk: 6e58428e1e90
-  > t per rank.  FLAWS  Action: If the action required for Luck Control is increased beyond a reaction, it is on
-- **def_1037** | concept: Effect | chunk: 6e58428e1e90
-  > ing your turn each  Effect:  Perception  Ranged  Damage,  Resisted  by  Will  • 4 points per rank  You can st
-- **def_1038** | concept: Effect | chunk: 6e58428e1e90
-  > at 1 point.  MAGIC  Effect: Ranged Damage • 2 points per rank  You are a sorcerer, witch, or wizard, able to
-- **def_1039** | concept: Ranged | chunk: 9c7fcc5049c4
-  > –1 cost per rank.  Ranged: Luck Control normally requires no attack check; if Ranged, it does. –1 cost per
-- **def_1040** | concept: Resistible | chunk: 9c7fcc5049c4
-  > –1 cost per rank.  Resistible: Targets  of  your  Luck  Control  get  a  resistance check—usually Dodge or Will
-- **def_1041** | concept: Side Effect | chunk: 9c7fcc5049c4
-  > –1 cost per rank.  Side Effect: As a particular side effect of Luck Control, if your  effort  to  alter  luck  f
-- **def_1042** | concept: Effect | chunk: 9c7fcc5049c4
-  > per rank.  SENSORY  Effect:  Perception  Ranged,  Cumulative  Affliction,  Re- sisted by Will • 4 points per
-- **def_1043** | concept: Action | chunk: 9c7fcc5049c4
-  > check against it!  Action: Standard • Range: Perception Duration: Sustained • Cost: 2 point per rank  MIMIC
-- **def_1044** | concept: Duration | chunk: 9c7fcc5049c4
-  > • Range: Perception Duration: Sustained • Cost: 2 point per rank  MIMIC  You can read another character’s mind
-- **def_1045** | concept: Memory | chunk: 9c7fcc5049c4
-  > know that as well.  Memory: You can read the subject’s memo- ries  and  recollections.  This  allows  you  t
-- **def_1046** | concept: Subconscious | chunk: 9c7fcc5049c4
-  > memory per round.  Subconscious:  You  can  read  memories from the target’s subconscious, things even the  target
-- **def_1047** | concept: Effect | chunk: 9c7fcc5049c4
-  > s ends the effect.  Effect: Variable, Move Action • 8 points per rank  You can duplicate the traits of anoth
-- **def_1048** | concept: Cumulative | chunk: 9c7fcc5049c4
-  > ts contact. EXTRAS  Cumulative: Your Mind Reading adds any further degrees of success to the existing degree on
-- **def_1049** | concept: Effortless | chunk: 9c7fcc5049c4
-  > +1 cost per rank.  Effortless: Trying again after two or more degrees of fail- ure does not require extra effor
-- **def_1050** | concept: Sensory Link | chunk: 9c7fcc5049c4
-  > +1 cost per rank.  Sensory Link: You can “tap into” the senses of your sub- jects, perceiving what they perceive
-- **def_1051** | concept: Control | chunk: 9c7fcc5049c4
-  > ecks  against  Mind Control are cumulative. You can also apply the Progres- sive modifier (see the Affliction e
-- **def_1052** | concept: Some Mimics | chunk: 9c7fcc5049c4
-  > law to this power.  Some Mimics are Limited to only copying subjects they can touch, requiring a successful close a
-- **def_1053** | concept: Subtle | chunk: 765269f2e7c2
-  > TER 6: POWERS  169  Subtle:  As  a  mental  sensory  effect,  Mind  Reading  has  a degree  of  subtlety,  on
-- **def_1054** | concept: Close | chunk: 765269f2e7c2
-  > r 2 points.  FLAWS  Close: Applied to Ranged Mind Reading, Close Mind Read- ing requires a close attack che
-- **def_1055** | concept: Feedback | chunk: 765269f2e7c2
-  > –1 cost per rank.  Feedback: You suffer Feedback if a subject you are reading is harmed, using your Mind Read
-- **def_1056** | concept: Ranged | chunk: 765269f2e7c2
-  > –1 cost per rank.  Ranged: Ranged Mind Reading requires a ranged attack check in addition to the effect’s n
-- **def_1057** | concept: Sense-Dependent | chunk: 765269f2e7c2
-  > –1 cost per rank.  Sense-Dependent: Your Mind Reading is dependent on a  sense  other  than  just  having  to  accur
-- **def_1058** | concept: Action | chunk: 765269f2e7c2
-  > k.  MORPH  GENERAL  Action: Free • Range: Personal Duration: Sustained • Cost: 5 points per rank  You can al
-- **def_1059** | concept: Duration | chunk: 765269f2e7c2
-  > e • Range: Personal Duration: Sustained • Cost: 5 points per rank  You can alter your appearance. Your traits
-- **def_1060** | concept: Reading | chunk: 765269f2e7c2
-  > ect).  Subtle  Mind Reading is less detectable, requiring a DC 20 Perception check  for  either  type  of  cha
-- **def_1061** | concept: Attack | chunk: c46c64c84f63
-  > is chapter. EXTRAS  Attack:  A  Morph  Attack  imposes  a  different  appearance on  the  target  creature.
-- **def_1062** | concept: Metamorph | chunk: c46c64c84f63
-  > +0 cost per rank.  Metamorph:  Morph  only  changes  your  appearance;  you still  have  all  the  traits  of
-- **def_1063** | concept: Resistible | chunk: c46c64c84f63
-  > f Metamorph. FLAWS  Resistible: A Morph effect Resistible by Will is most likely a mental illusion of some sort.
-- **def_1064** | concept: Action | chunk: c46c64c84f63
-  > per rank.  CONTROL  Action: Standard • Range: Ranged Duration: Sustained • Cost: 2 points per rank  You  can
-- **def_1065** | concept: Duration | chunk: c46c64c84f63
-  > ard • Range: Ranged Duration: Sustained • Cost: 2 points per rank  You  can  move  objects  at  a  distance  w
-- **def_1066** | concept: Continuous | chunk: c46c64c84f63
-  > or details. EXTRAS  Continuous:  Move  Move  Object  generally  cannot  have a continuous duration, since it is a
-- **def_1067** | concept: Damaging | chunk: c46c64c84f63
-  > +1 cost per rank.  Damaging: Your effect can inflict damage, like an appli- cation of normal Strength with da
-- **def_1068** | concept: Perception | chunk: c46c64c84f63
-  > Throwing Mastery.  Perception:  Perception  Ranged  Move  Object  can  affect any object you can accurately perc
-- **def_1069** | concept: Precise | chunk: c46c64c84f63
-  > +1 cost per rank.  Precise: Move Object with this modifier can be used for tasks involving fine manipulation
-- **def_1070** | concept: Subtle | chunk: c46c64c84f63
-  > on. Flat +1 point.  Subtle: The default version of Move Object involves some noticeable  manifestation  like
-- **def_1071** | concept: Close | chunk: c46c64c84f63
-  > nt per rank. FLAWS  Close: Since Move Object works on things at a distance by definition, it cannot general
-- **def_1072** | concept: Concentration | chunk: 3739eabb7a65
-  > TER 6: POWERS  171  Concentration:  Concentration  Move  Object  requires more attention to maintain. You cannot con
-- **def_1073** | concept: Limited Direction | chunk: 3739eabb7a65
-  > –1 cost per rank.  Limited Direction: You can only move objects in a par- ticular direction or path, such as only up a
-- **def_1074** | concept: Limited Material | chunk: 3739eabb7a65
-  > –1 cost per rank.  Limited Material: You can only move a particular type of object or material, such as only metals,
-- **def_1075** | concept: Action | chunk: 3739eabb7a65
-  > MOVEMENT  MOVEMENT  Action: Free • Range: Personal Duration: Sustained • Cost: 2 points per rank  You have a
-- **def_1076** | concept: Duration | chunk: 3739eabb7a65
-  > e • Range: Personal Duration: Sustained • Cost: 2 points per rank  You have a special form of movement. For ea
-- **def_1077** | concept: Permeate | chunk: 3739eabb7a65
-  > ob- jects, either.  Permeate  is  often  Limited  to  a  particular  substance  like earth,  ice,  or  metal,  f
-- **def_1078** | concept: HOOD | chunk: 150cf8210923
-  > our modifier rank.  HOOD: TIME, SPACE, AND DIMENSION TRAVEL  TRACKLESS  You leave no trail and cannot be t
-- **def_1079** | concept: Action | chunk: 150cf8210923
-  > .  NULLIFY  ATTACK  Action: Standard • Range: Ranged Duration: Instant • Cost: 1 point per rank  Nullify  ca
-- **def_1080** | concept: Duration | chunk: 150cf8210923
-  > ard • Range: Ranged Duration: Instant • Cost: 1 point per rank  Nullify  can  counter  particular  effects  of
-- **def_1081** | concept: Affects Insubstantial | chunk: 150cf8210923
-  > tra effort. EXTRAS  Affects Insubstantial: Nullify does not require this modi- fier to affect insubstantial targets, or the
-- **def_1082** | concept: Alternate Resistance | chunk: 150cf8210923
-  > targets normally.  Alternate Resistance: Nullify may require a Fortitude rath- er than a Will check to represent an effec
-- **def_1083** | concept: Area | chunk: 150cf8210923
-  > a defined effect.  Area:  An  Area  Nullify  effect  works  on  all  targets  in  the area. Make a single
-- **def_1084** | concept: Broad | chunk: 150cf8210923
-  > +1 cost per rank.  Broad: Broad Nullify can counter effects of a particularly broad  descriptor  like  mag
-- **def_1085** | concept: Concentration | chunk: 150cf8210923
-  > +1 cost per rank.  Concentration:  Any  countered  effect  is  suppressed  and cannot be re-activated while you con
-- **def_1086** | concept: Simultaneous | chunk: 150cf8210923
-  > +1 cost per rank.  Simultaneous:  Simultaneous  Nullify  can  counter  all  ef- fects  of  a  particular  descript
-- **def_1087** | concept: Effortless | chunk: 150cf8210923
-  > +1 cost per rank.  Effortless: Trying again after two or more degrees of fail- ure  does  not  require  extra
-- **def_1088** | concept: Precise | chunk: b054d3b34f13
-  > TER 6: POWERS  173  Precise: If you can Nullify multiple effects, this modifier al- lows you to choose which
-- **def_1089** | concept: Randomize | chunk: b054d3b34f13
-  > ot. Flat +1 point.  Randomize: Rather than being countered, the effect(s) tar- geted by your Nullify acquire th
-- **def_1090** | concept: Selective | chunk: b054d3b34f13
-  > +0 cost per rank.  Selective: If you have an Area Nullify effect, this extra al- lows you to choose who in the
-- **def_1091** | concept: Sustained | chunk: b054d3b34f13
-  > +1 cost per rank.  Sustained:  If  this  modifier  is  applied  to  Concentration Nullify, keeping the countere
-- **def_1092** | concept: Side Effect | chunk: b054d3b34f13
-  > t per rank.  FLAWS  Side Effect: If you fail to nullify an effect, you might suffer some kind of “backlash” or si
-- **def_1093** | concept: Action | chunk: b054d3b34f13
-  > per rank.  DEFENSE  Action: None • Range: Personal Duration: Permanent • Cost: 1 point per rank  Protection
-- **def_1094** | concept: Duration | chunk: b054d3b34f13
-  > e • Range: Personal Duration: Permanent • Cost: 1 point per rank  Protection shields you against damage, givin
-- **def_1095** | concept: Sustained | chunk: b054d3b34f13
-  > Toughness.  FLAWS  Sustained:  Your  Protection  is  a  sustained  effect,  rather than permanent. The effect c
-- **def_1096** | concept: Action | chunk: b054d3b34f13
-  > QUICKNESS  GENERAL  Action: Free • Range: Personal Duration: Sustained • Cost: 1 point per rank  You  can  p
-- **def_1097** | concept: Duration | chunk: b054d3b34f13
-  > e • Range: Personal Duration: Sustained • Cost: 1 point per rank  You  can  perform  routine  tasks—anything
-- **def_1098** | concept: Action | chunk: c87ce883452a
-  > per rank.  DEFENSE  Action: None • Range: Personal Duration: Permanent • Cost: 1 point per rank  You recover
-- **def_1099** | concept: Duration | chunk: c87ce883452a
-  > e • Range: Personal Duration: Permanent • Cost: 1 point per rank  You recover quickly from damage. Remove pena
-- **def_1100** | concept: Persistent | chunk: c87ce883452a
-  > that rate. EXTRAS  Persistent:  You  can  regenerate  even  Incurable  damage conditions (see the Incurable modi
-- **def_1101** | concept: Source | chunk: c87ce883452a
-  > st per rank. FLAWS  Source: Your Regeneration only works when you have ac- cess  to  a  particular  source
-- **def_1102** | concept: Action | chunk: c87ce883452a
-  > per rank.  SENSORY  Action: Free • Range: Rank Duration: Sustained • Cost: 1–5 points per rank  You can disp
-- **def_1103** | concept: Duration | chunk: c87ce883452a
-  > Free • Range: Rank Duration: Sustained • Cost: 1–5 points per rank  You can displace one or more of your sens
-- **def_1104** | concept: Effect | chunk: c87ce883452a
-  > ss.  POWER-LIFTING  Effect: Enhanced Strength, Limited to Lifting • 1 point per rank  Your lifting and carry
-- **def_1105** | concept: Dimensional | chunk: c87ce883452a
-  > rroundings. EXTRAS  Dimensional:  This  modifier  allows  you  to  extend  your Remote Sensing into other dimensio
-- **def_1106** | concept: No Conduit | chunk: c87ce883452a
-  > nk of Dimensional.  No Conduit: Sensory effects targeted where you have dis- placed your senses do not affect yo
-- **def_1107** | concept: Simultaneous | chunk: 7419fe5693f8
-  > +1 cost per rank.  Simultaneous:  You  can  use  both  Remote  Sensing  and your normal senses at the same time, p
-- **def_1108** | concept: Subtle | chunk: 7419fe5693f8
-  > +1 cost per rank.  Subtle: Remote Sensing already has a degree of subtlety. Ap- plying 1 rank of Subtle to
-- **def_1109** | concept: Feedback | chunk: 7419fe5693f8
-  > k of Subtle. FLAWS  Feedback:  With  this  flaw,  damaging  attacks  directed  at where you displaced your sens
-- **def_1110** | concept: Medium | chunk: 7419fe5693f8
-  > –1 cost per rank.  Medium: You  require  a  medium  for  your  Remote  Sens- ing, such as shadows, flames,
-- **def_1111** | concept: Noticeable | chunk: 7419fe5693f8
-  > –1 cost per rank.  Noticeable: Remote Sensing with this flaw has an easily noticeable display, like a glowing s
-- **def_1112** | concept: Sense-Dependent | chunk: 7419fe5693f8
-  > t). Flat –1 point.  Sense-Dependent:  Remote  Sensing  is  already  Sense- Dependent  and  cannot  apply  this  flaw.
-- **def_1113** | concept: Action | chunk: 7419fe5693f8
-  > .  SENSES  SENSORY  Action: None • Range: Personal Duration: Permanent • Cost: 1 point per rank  One or more
-- **def_1114** | concept: Duration | chunk: 7419fe5693f8
-  > e • Range: Personal Duration: Permanent • Cost: 1 point per rank  One or more of your senses are improved, or
-- **def_1115** | concept: Dimensional | chunk: 0f75307c0dea
-  > +1 cost per rank.  Dimensional:  This  modifier  allows  you  to  extend  your senses  into  other  dimensions.
-- **def_1116** | concept: Innate | chunk: 0f75307c0dea
-  > TRACKING  1 RANK  Innate: Senses, particularly those of aliens or constructs like robots, may be Innate, a
-- **def_1117** | concept: Ranged | chunk: 0f75307c0dea
-  > eed while tracking  Ranged: Likewise, the Ranged extra only applies to Sens- es that Affect Others, extendin
-- **def_1118** | concept: Affects Others | chunk: 0f75307c0dea
-  > ht sources. EXTRAS  Affects Others: You can grant the benefits of one or more Senses to another character. Apply Aff
-- **def_1119** | concept: Area | chunk: 0f75307c0dea
-  > +1 cost per rank.  Area: The Area modifier only applies to Senses that Af- fect Others, and only to exten
-- **def_1120** | concept: Limited | chunk: 0f75307c0dea
-  > benefits to every-  Limited:  Some  Senses  may  be  Limited  to  only  sensing certain  things  or  only  und
-- **def_1121** | concept: Noticeable | chunk: 0f75307c0dea
-  > –1 cost per rank.  Noticeable: Senses with this flaw are particularly notice- able in some way: your eyes may g
-- **def_1122** | concept: Unreliable | chunk: 0f75307c0dea
-  > or. Flat –1 point.  Unreliable:  Some  Senses  may  be  unreliable;  the  GM makes checks for reliability when th
-- **def_1123** | concept: Effect | chunk: b60c97b07a3c
-  > TER 6: POWERS  179  Effect: Variable (assumed forms), Move Action • 8 points per rank  You  can  transform
-- **def_1124** | concept: Action | chunk: b60c97b07a3c
-  > SHRINKING  GENERAL  Action: Free • Range: Personal Duration: Sustained • Cost: 2 points per rank  You can te
-- **def_1125** | concept: Duration | chunk: b60c97b07a3c
-  > e • Range: Personal Duration: Sustained • Cost: 2 points per rank  You can temporarily decrease your size, bec
-- **def_1126** | concept: Atomic | chunk: b60c97b07a3c
-  > penalties. EXTRAS  Atomic: At Shrinking 20 (and size rank –7), you can shrink down to the molecular or even
-- **def_1127** | concept: Action | chunk: b60c97b07a3c
-  > .  SPEED  MOVEMENT  Action: Free • Range: Personal Duration: Sustained • Cost: 1 point per rank  You  can  m
-- **def_1128** | concept: Duration | chunk: b60c97b07a3c
-  > e • Range: Personal Duration: Sustained • Cost: 1 point per rank  You  can  move  faster  than  normal.  You
-- **def_1129** | concept: Action | chunk: b60c97b07a3c
-  > .  SUMMON  CONTROL  Action: Standard • Range: Close Duration: Sustained • Cost: 2 points per rank  You  can
-- **def_1130** | concept: Duration | chunk: b60c97b07a3c
-  > dard • Range: Close Duration: Sustained • Cost: 2 points per rank  You  can  call  upon  another  creature—a
-- **def_1131** | concept: Shapeshift | chunk: b60c97b07a3c
-  > rm possesses them.  Shapeshift is often further Limited by the specific types of forms the character can assume,
-- **def_1132** | concept: Summon | chunk: b60c97b07a3c
-  > e rank of the Sum-  Summon is a useful effect; it doesn’t cost much to summon up a gang of minions, giving yo
-- **def_1133** | concept: Active | chunk: c58c7a144f00
-  > e page 245. EXTRAS  Active: Your minions are particularly independent and do not have the dazed condition, h
-- **def_1134** | concept: Controlled | chunk: c58c7a144f00
-  > +1 cost per rank.  Controlled: Your  minions  all  have  the  controlled  condi- tion (see Controlled in The Ba
-- **def_1135** | concept: Heroic | chunk: c58c7a144f00
-  > +1 cost per rank.  Heroic: The creatures you summon are not subject to the minion rules, but treated like n
-- **def_1136** | concept: Effect | chunk: c58c7a144f00
-  > ly cautious  SLEEP  Effect:  Ranged  Affliction,  Resisted  by  Fortitude  • 2 points per rank  You  cause  a
-- **def_1137** | concept: Horde | chunk: c58c7a144f00
-  > +2 cost per rank.  Horde: If you have Multiple Minions (see following) you may  take  a  standard  action
-- **def_1138** | concept: Sleep | chunk: c58c7a144f00
-  > p as they succumb.  Sleep  is  not  normally  cumulative,  but  you  can  apply the  Cumulative  or  Progress
-- **def_1139** | concept: Effect | chunk: 7b2254220623
-  > POWERS  181  SNARE  Effect:  Ranged,  Cumulative  Affliction,  Extra  Condition, Resisted by Dodge, Limited D
-- **def_1140** | concept: Mental Link | chunk: 7b2254220623
-  > no change in cost.  Mental Link: You  have  a  mental  link  with  your  minions, allowing you to communicate wit
-- **def_1141** | concept: Effect | chunk: 7b2254220623
-  > per rank.  STRIKE  Effect: Damage • 1 point per rank  You  inflict  additional  damage  in  close  combat.
-- **def_1142** | concept: Sacrifice | chunk: 7b2254220623
-  > ore infor- mation.  Sacrifice: When you are hit with an effect requiring a resis- tance check, you can spend a
-- **def_1143** | concept: Attitude | chunk: 7b2254220623
-  > t per rank.  FLAWS  Attitude: Your summoned minions are less than coopera- tive: indifferent or even unfriendl
-- **def_1144** | concept: Resistible | chunk: 7b2254220623
-  > –2 cost per rank.  Resistible:  Your  minions  get  an  appropriate  resistance check  (typically Will)  against
-- **def_1145** | concept: Effect | chunk: f45e1af7c8dc
-  > CHAPTER 6: POWERS  Effect: Ranged, Progressive Affliction, Resisted by Forti- tude • 4 points per rank  You
-- **def_1146** | concept: Action | chunk: f45e1af7c8dc
-  > SWIMMING  MOVEMENT  Action: Free • Range: Personal Duration: Sustained • Cost: 1 point per rank  You can swi
-- **def_1147** | concept: Duration | chunk: f45e1af7c8dc
-  > e • Range: Personal Duration: Sustained • Cost: 1 point per rank  You can swim fast. You have a water speed eq
-- **def_1148** | concept: Action | chunk: f45e1af7c8dc
-  > TELEPORT  MOVEMENT  Action: Move • Range: Rank Duration: Instant • Cost: 2 points per rank  You can move ins
-- **def_1149** | concept: Duration | chunk: f45e1af7c8dc
-  > Move • Range: Rank Duration: Instant • Cost: 2 points per rank  You can move instantly from place to place wi
-- **def_1150** | concept: Accurate | chunk: f45e1af7c8dc
-  > ilar power. EXTRAS  Accurate: You don’t need to know or accurately sense your destination to teleport there, j
-- **def_1151** | concept: Effect | chunk: f45e1af7c8dc
-  > rank.  SUPER-SPEED  Effect: Enhanced Initiative, Quickness, Speed • 3 points per rank  You are fast! Each ra
-- **def_1152** | concept: Change Direction | chunk: f45e1af7c8dc
-  > with Super-Speed.  Change Direction: You can change your direction or ori- entation after a teleport. Flat +1 point.
-- **def_1153** | concept: Change Velocity | chunk: f45e1af7c8dc
-  > rt. Flat +1 point.  Change Velocity: You can teleport “at rest” to your desti- nation. Among other things, this means
-- **def_1154** | concept: Easy | chunk: f45e1af7c8dc
-  > ge. Flat +1 point.  Easy: You are not dazed or vulnerable when making ex- tended teleports (following). +1
-- **def_1155** | concept: Extended | chunk: f45e1af7c8dc
-  > +1 cost per rank.  Extended: You can take two move actions to make an ex- tended teleport with a distance ran
-- **def_1156** | concept: Increased Mass | chunk: f45e1af7c8dc
-  > +1 cost per rank.  Increased Mass: You can carry additional mass when you teleport equal to your rank in this extra
-- **def_1157** | concept: Portal | chunk: f45e1af7c8dc
-  > in Increased Mass.  Portal: You open a portal or gateway between two points as a free action. The portal is
-- **def_1158** | concept: Turnabout | chunk: f45e1af7c8dc
-  > +2 cost per rank.  Turnabout: You can teleport, take a standard action, and teleport back to your starting poi
-- **def_1159** | concept: Medium | chunk: f45e1af7c8dc
-  > –1 cost per rank.  Medium:  You  require  a  medium  for  your  teleportation, such as electrical or telepho
-- **def_1160** | concept: Teleport | chunk: f45e1af7c8dc
-  > our desti- nation.  Teleport is meant for use on or around a planet. For things like traveling to distant plane
-- **def_1161** | concept: Action | chunk: 2f5c20c3ef2c
-  > TRANSFORM  CONTROL  Action: Standard • Range: Close Duration: Sustained • Cost: 2-5 points per rank  You can
-- **def_1162** | concept: Duration | chunk: 2f5c20c3ef2c
-  > dard • Range: Close Duration: Sustained • Cost: 2-5 points per rank  You can change objects into other objects
-- **def_1163** | concept: Action | chunk: 2f5c20c3ef2c
-  > VARIABLE  GENERAL  Action: Standard • Range: Personal Duration: Sustained • Cost: 7 points per rank  You ca
-- **def_1164** | concept: Duration | chunk: 2f5c20c3ef2c
-  > d • Range: Personal Duration: Sustained • Cost: 7 points per rank  You can gain or use potentially any effect
-- **def_1165** | concept: Transform | chunk: 2f5c20c3ef2c
-  > nto repaired ones.  Transform is a powerful effect, particularly in the hands of a cunning player. To a degree,
-- **def_1166** | concept: Transform | chunk: 2f5c20c3ef2c
-  > eep  in  mind  that Transform  is  normally  sustained;  the  target  isn’t  truly destroyed unless the effect is
-- **def_1167** | concept: Transform | chunk: 2f5c20c3ef2c
-  > for a large item).  Transform  is  generally  just  another  way  of “removing”  a device or equipment, considere
-- **def_1168** | concept: Action | chunk: daeb5804fb93
-  > efinition.  EXTRAS  Action: You can change the configuration of your effect faster, although only a Reaction
-- **def_1169** | concept: Affects Others | chunk: daeb5804fb93
-  > +3 cost per rank.  Affects Others: You can grant effects to someone else. The subject granted the use of the effect
-- **def_1170** | concept: Perception | chunk: daeb5804fb93
-  > +1 cost per rank.  Perception: Applied to a Ranged Affects Others Variable, this extra allows you to grant the
-- **def_1171** | concept: Ranged | chunk: daeb5804fb93
-  > +1 cost per rank.  Ranged:  A Variable  effect  with  Affects  Others  may  have the Ranged extra to improve
-- **def_1172** | concept: Limited | chunk: daeb5804fb93
-  > t per rank.  FLAWS  Limited: As noted in the description, a Variable effect must be limited by certain descri
-- **def_1173** | concept: Slow | chunk: 44458c4fcb7e
-  > treat it as such.  Slow: You can only reconfigure your Variable effect outside of action time. You might
-- **def_1174** | concept: Action | chunk: 44458c4fcb7e
-  > k.  WEAKEN  ATTACK  Action: Standard • Range: Close Duration: Instant • Cost: 1 point per rank  You can temp
-- **def_1175** | concept: Duration | chunk: 44458c4fcb7e
-  > dard • Range: Close Duration: Instant • Cost: 1 point per rank  You can temporarily lower one of a target’s tr
-- **def_1176** | concept: Success | chunk: 44458c4fcb7e
-  > [10 + Weaken rank]  Success: No effect.  Failure: The target loses power points from the affected trait  equa
-- **def_1177** | concept: Failure | chunk: 44458c4fcb7e
-  > uccess: No effect.  Failure: The target loses power points from the affected trait  equal  to  the  differenc
-- **def_1178** | concept: Affects Objects | chunk: 72dc60c2e6cf
-  > 6: POWERS  EXTRAS  Affects Objects: Weaken with this modifier works on inani- mate objects, although the effect can
-- **def_1179** | concept: Broad | chunk: 72dc60c2e6cf
-  > ects Only Objects.  Broad: You can Weaken any of a broad set of traits, one at a time suited to your effect
-- **def_1180** | concept: Concentration | chunk: 72dc60c2e6cf
-  > +1 cost per rank.  Concentration: Once you have hit with a Concentration Weaken, so long as you continue to take a
-- **def_1181** | concept: Incurable | chunk: 72dc60c2e6cf
-  > +1 cost per rank.  Incurable: Weaken with this modifier cannot have its ef- fects  countered  by  another  pow
-- **def_1182** | concept: Precise | chunk: 72dc60c2e6cf
-  > point.  MODIFIERS  Precise: A Weaken effect capable of reducing more than one trait at once can have this mo
-- **def_1183** | concept: Progressive | chunk: 72dc60c2e6cf
-  > g). Flat +1 point.  Progressive:  A  Progressive  Weaken  effect  reduces  the affected  traits  each  round  unti
-- **def_1184** | concept: Selective | chunk: 72dc60c2e6cf
-  > +2 cost per rank.  Selective: This extra is applied to an Area Weaken so it only affects some targets and not
-- **def_1185** | concept: Simultaneous | chunk: 72dc60c2e6cf
-  > +1 cost per rank.  Simultaneous: If applied to a Broad Weaken, this extra al- lows it to affect all of the traits
-- **def_1186** | concept: Effect | chunk: 0713e58acd4e
-  > smaller, effects.  Effect is less noticeable (1 point) or not noticeable (2 points).  Makes a permanent effe
-- **def_1187** | concept: Burst | chunk: 5ec359de437f
-  > ns:  •  •  •  •  •  Burst: The effect fills a sphere with a 30-foot radius (distance  rank  0).  Bursts  on
-- **def_1188** | concept: Cloud | chunk: 5ec359de437f
-  > adius  and height.  Cloud: The effect fills a sphere with a 15-foot radius (distance  rank  –1)  that  ling
-- **def_1189** | concept: Cone | chunk: 5ec359de437f
-  > radius and height.  Cone:  The  effect  fills  a  cone  with  a  length,  width, and height of 60 feet (dis
-- **def_1190** | concept: Cylinder | chunk: 5ec359de437f
-  > heir final height.  Cylinder: The effect fills a cylinder 30 feet in radius and height (distance rank 0).  Lin
-- **def_1191** | concept: Line | chunk: 5ec359de437f
-  > (distance rank 0).  Line:  The  effect  fills  a  path  6  feet  wide  and  30  feet long  (distance  ranks
-- **def_1192** | concept: Perception | chunk: 5ec359de437f
-  > al ranks for that.  Perception: The effect works on anyone able to per- ceive the target point with a particular
-- **def_1193** | concept: Shapeable | chunk: 5ec359de437f
-  > rather than 1.  •  Shapeable: The effect fills a volume of 30 cubic feet (volume rank 5), and you may shape th
-- **def_1194** | concept: Close | chunk: 5ec359de437f
-  > ges as follows:  •  Close: An effect must be at least close range in order to apply Area (personal range ef
-- **def_1195** | concept: Ranged | chunk: 068f6ea2c39b
-  > s Others modifier.  Ranged:  A  ranged  area  effect  can  be  placed  any- where within the effect’s range,
-- **def_1196** | concept: Perception | chunk: 068f6ea2c39b
-  > the origin point.  Perception: A perception area effect can be placed anywhere  the  user  can  accurately  per
-- **def_1197** | concept: Concentration | chunk: aa5babc5f423
-  > lowing options:  •  Concentration: When applied to an instant duration effect, this modifier makes it maintainable
-- **def_1198** | concept: Continuous | chunk: aa5babc5f423
-  > going effects.  •  Continuous: When  applied  to  a  sustained  duration effect, this modifier makes it continu
-- **def_1199** | concept: Ranged | chunk: aa5babc5f423
-  > st per rank.  •  •  Ranged:  Applied  to  a  close  effect,  this  modifier makes it a ranged effect.  Percep
-- **def_1200** | concept: Perception | chunk: aa5babc5f423
-  > t a ranged effect.  Perception:  When  applied  to  a  ranged  effect,  this modifier makes it perception range.
-- **def_1201** | concept: Impervious | chunk: aa5babc5f423
+- **def_0085** | concept: The Totem | chunk: f8e903dbf3d7
+  > ENESS 3 PRESENCE 3  The Totem is a superhero whose powers are closely tied to a particular animal. The Totem may ha
+- **def_0086** | concept: Your totem | chunk: f8e903dbf3d7
+  > e.  1-4  Arthropod: Your totem is a spider, scorpion, wasp, or even an insect swarm.  5-8  Avian: Your totem is a bi
+- **def_0087** | concept: Your totem | chunk: f8e903dbf3d7
+  > swarm.  5-8  Avian: Your totem is a bird like a falcon or owl.  9-14  15-17  18-20  Carnivoran: Your totem is a carn
+- **def_0088** | concept: Your totem | chunk: f8e903dbf3d7
+  > 18-20  Carnivoran: Your totem is a carnivore from the canine, lupine, or feline family.  Pachyderm: Your totem is a
+- **def_0089** | concept: Your totem | chunk: f8e903dbf3d7
+  > family.  Pachyderm: Your totem is a massive, thick-hided mammal, such as an elephant or rhinoceros.  Reptile: Your t
+- **def_0090** | concept: Your totem | chunk: f8e903dbf3d7
+  > inoceros.  Reptile: Your totem is a reptile, such as a crocodile, lizard, or snake.  ARTHROPOD  Roll 1d20 once and r
+- **def_0091** | concept: You | chunk: ac75d3f2b9e6
+  > 11-15  Trickster: You are a cunning prankster.  16-20 Wise: You are astute and perceptive.  DOMINATING  1-5
+- **def_0092** | concept: You | chunk: ac75d3f2b9e6
+  > 2  13-20  Awakened: You are an unusual member of your species with a human intellect and perhaps even a human f
+- **def_0093** | concept: You | chunk: 75f616f43b9d
+  > man.  Otherworldly: You are the exemplar of a mythical or otherworldly race.
+- **def_0094** | concept: The  Weapon  Master | chunk: 301534069c2d
+  > point) • 16 points  The  Weapon  Master  is  recognized  for  his  dedication  to perfecting the use of a signature weapon an
+- **def_0095** | concept: You | chunk: 5610c4e8f961
+  > Reactive Fighter: You are a fast, adaptive combatant, capable of fighting blind or adjusting for difficult s
+- **def_0096** | concept: The  Weapon  Master | chunk: 19a54c3b3576
+  > ation—Recognition:  The  Weapon  Master  is driven by a need to be recognized as the best at what he does.  •  •  •  Disabil
+- **def_0097** | concept: Stamina | chunk: 238fc7bd4809
+  > • • STAMINA (STA)  Stamina  is  health,  endurance,  and  overall  physical  resil- ience.  Stamina  is  importa
+- **def_0098** | concept: Stamina | chunk: 238fc7bd4809
+  > cal  resil- ience.  Stamina  is  important  because  it  affects  a  charac- ter’s ability to resist most forms o
+- **def_0099** | concept: Agility | chunk: 238fc7bd4809
+  > ly.  AGILITY (AGL)  Agility is balance, grace, speed, and overall physical coor- dination. Your Agility rank ap
+- **def_0100** | concept: Dexterity | chunk: 238fc7bd4809
+  > .  DEXTERITY (DEX)  Dexterity  is  a  measure  of  hand-eye  coordination,  preci- sion, and manual dexterity. Your
+- **def_0101** | concept: Awareness | chunk: 238fc7bd4809
+  > covers  reasoning,  Awareness  describes common sense and intuition, what some might call “wis- dom.” A character with a
+- **def_0102** | concept: Presence | chunk: 238fc7bd4809
+  > y.  PRESENCE (PRE)  Presence  is  force  of  personality,  persuasiveness,  leader- ship  ability  and  (to  a  le
+- **def_0103** | concept: Dexterity | chunk: db250ced1e81
+  > gth,  Agility,  or  Dexterity  means the  hero  collapses:  defenseless,  immobilized,  and stunned (although still c
+- **def_0104** | concept: Debilitated  Stamina | chunk: db250ced1e81
+  > scious and aware).  Debilitated  Stamina  means  the  hero  is  dying,  and suffers  a  –5  modifier  on  Fortitude  checks  to
+- **def_0105** | concept: Debilitated  Fighting | chunk: db250ced1e81
+  > eath on top of it.  Debilitated  Fighting  means  the  hero  is  dazed  and defenseless, and cannot make close attacks.  Debilitat
+- **def_0106** | concept: Presence | chunk: db250ced1e81
+  > t,  Awareness,  or  Presence means the hero is unaware and remains so until re- stored to at least a –5 rank in the
+- **def_0107** | concept: Strength | chunk: db250ced1e81
+  > creature  with  no  Strength  is  incapable of exerting any physical force, either because it has no physical form
+- **def_0108** | concept: Agility | chunk: d1e949b40c7a
+  > A creature with no Agility is unable to move its body under its own power and has no Dodge de- fense.  defense
+- **def_0109** | concept: Fighting | chunk: d1e949b40c7a
+  > A creature with no Fighting is incapable of making any sort of close attack (but may still be able to launch ra
+- **def_0110** | concept: Intellect | chunk: d1e949b40c7a
+  > A creature with no Intellect is an automa- ton, lacking free will and operating entirely on simple instinct  or
+- **def_0111** | concept: Intellect | chunk: d1e949b40c7a
+  > .  Anything with no Intellect is immune to mental effects and in- teraction skills and has no Will defense.  Awar
+- **def_0112** | concept: Awareness | chunk: d1e949b40c7a
+  > Anything  with  no  Awareness  is  com- pletely unaware and also has no Presence. It is an in- animate object, not
+- **def_0113** | concept: A creature with no Intellect | chunk: d1e949b40c7a
+  > place!  Intellect: A creature with no Intellect is an automa- ton, lacking free will and operating entirely on simple instinct  or  pr
+- **def_0114** | concept: Toughness | chunk: 714405399e02
+  > greater-than-normal Toughness is virtually always some sort of special ability. See the Advantages and Powers cha
+- **def_0115** | concept: This | chunk: 714405399e02
+  > rticular  at- tack. This  is  the  appropriate  defense,  plus  10,  just  like  a routine  check  (indeed,  i
+- **def_0116** | concept: This | chunk: 714405399e02
+  > 10), and so forth. This is referred to as “targeting” a defense, such as “targets Dodge” or “targets Will”.
+- **def_0117** | concept: This | chunk: 714405399e02
+  > iggered, and so on. This is referred to as “resisting,” such as “resisted by Fortitude” or “resisted by Dodg
+- **def_0118** | concept: Safe to say the character | chunk: 7db012c9a682
+  > 15 (a tough task). Safe to say the character is a pro, able to routinely han- dle tasks that would prove too much for someone less
+- **def_0119** | concept: Not having the proper tools | chunk: 0b483461d2f8
+  > s to use the skill. Not having the proper tools is a –5 circum- stance penalty to the skill check (see Circumstance Modi- fiers, page
+- **def_0120** | concept: Success | chunk: 5b37523dc91b
+  > The GM sets the DC. Success means you accomplish the maneu- ver,  while  failure  means  you  do  not,  and  two
+- **def_0121** | concept: Failure | chunk: 5b37523dc91b
+  > he DC of the climb. Failure means you fall.  At the GM’s discretion, certain kinds of climbing attempts might  req
+- **def_0122** | concept: Melee Weapons | chunk: 2df9d8dcc068
+  > but  Close Combat: Melee Weapons is too broad. Close Combat: Un- armed  is  an  option,  meaning  skill  with  unarm
+- **def_0123** | concept: Interaction  Deception | chunk: 4e205a3c2745
+  > CEPTION  Presence • Interaction  Deception is the skill of getting others to believe what you want them to believe. It covers
+- **def_0124** | concept: Deception | chunk: 4e205a3c2745
+  > ence • Interaction  Deception is the skill of getting others to believe what you want them to believe. It covers thin
+- **def_0125** | concept: The deception | chunk: 4e205a3c2745
+  > t much either way.  The deception is a little hard to believe or puts the target at some kind of risk.  The deception i
+- **def_0126** | concept: There | chunk: 4e205a3c2745
+  > +0  +5  +10  +20  There are a number of factors to consider when choosing skills for your MUTANTS & MASTERMIND
+- **def_0127** | concept: Disguise | chunk: f41e7b13c82a
+  > up under scrutiny.  Disguise  is  heavily  dependent  on  circumstances:  favor- able ones include appropriate cos
+- **def_0128** | concept: Trained Only  Expertise | chunk: f41e7b13c82a
+  > ERTISE  Intellect • Trained Only  Expertise  is  a  broad  skill  encompassing  knowledge  and training in a variety of specializ
+- **def_0129** | concept: Each | chunk: f41e7b13c82a
+  > es and scholarship. Each is considered a separate skill and training in each is acquired separately, so  a
+- **def_0130** | concept: The DC | chunk: f41e7b13c82a
+  > g a legal question. The DC is 10 for easy questions, 15 for basic questions, and 20 or higher for difficult qu
+- **def_0131** | concept: Rocky | chunk: 9a2865ac841b
+  > xample).  Example:  Rocky  is  facing  down  Pack-Rat  in  one of his many bolt holes around Emerald City when
+- **def_0132** | concept: Since Rocky | chunk: 9a2865ac841b
+  > ranks  are  tied). Since Rocky is attempting the same effect on every member of the group, he makes a single oppos
+- **def_0133** | concept: Failure | chunk: bb3e97c13b71
+  > and  so  forth).  Failure  means no change, and more than a degree of failure worsens the subject’s attitude by o
+- **def_0134** | concept: Powers | chunk: bb3e97c13b71
+  > but Ranged Combat: Powers is too broad.  Ranged  Combat:  Throwing  is  an  option  and  in- cludes both thro
+- **def_0135** | concept: Throwing | chunk: bb3e97c13b71
+  > .  Ranged  Combat:  Throwing  is  an  option  and  in- cludes both thrown weapons and objects a character sim- ply
+- **def_0136** | concept: Bandit | chunk: 5f561d435c81
+  > ample:  The  Rubber-Bandit  is  robbing  a  muse- um of some of its valuables when a security guard passes  by
+- **def_0137** | concept: Escaping from a grab | chunk: 5f561d435c81
+  > cket  Power Effect  Escaping from a grab is an Acrobatics or Athletics check. See Grab in the Conflict section and Contorting,
+- **def_0138** | concept: Failure | chunk: f6ef830f7b6b
+  > e to the structure. Failure means the explosive does not go off as planned, while more than one degree of failure
+- **def_0139** | concept: Failure | chunk: f6ef830f7b6b
+  > sired  disarm  DC.  Failure  means  the explosive fails to go off as planned. Two or more degrees of failure mean th
+- **def_0140** | concept: The DC | chunk: f6ef830f7b6b
+  > a Technology check. The DC is usually 10, unless the person who set the deto- nator chose a higher disarm DC (
+- **def_0141** | concept: The check to revive | chunk: d5441abe7f45
+  > Adventure chapter). The check to revive is a standard action. A suc- cessful  check  removes  the  condition.  Other  conditi
+- **def_0142** | concept: If there | chunk: a92e401b2501
+  > ll and power ranks. If there is a maximum number of ranks a character can take, it’s listed in parentheses after t
+- **def_0143** | concept: This | chunk: b2722c49426d
+  > e 248, for details. This is a good advantage for skilled unarmed combatants fo- cused more on speed than str
+- **def_0144** | concept: This | chunk: 473141849a66
+  > Adventure chapter). This is a good martial arts advantage for unarmed fighters.  SKILL  You ignore the circu
+- **def_0145** | concept: This | chunk: 473141849a66
+  > Adventure chapter). This is a good martial arts advantage for unarmed fighters.  SKILL  You ignore the circums
+- **def_0146** | concept: This minion | chunk: 3a7f34326ad9
+  > follower or minion. This minion is an indepen- dent  character  with  a  power  point  total  of  (advantage rank x 15
+- **def_0147** | concept: This | chunk: 2f722833852f
+  > to your modifier). This is not a natural 20, but is treated as a roll of 20 in all other respects. You choo
+- **def_0148** | concept: Your sidekick | chunk: 2f722833852f
+  > be less than yours. Your sidekick is an NPC, but automatically helpful  and  loyal  to  you.  Gamemasters  should  gener
+- **def_0149** | concept: The GM | chunk: 4eeee75475f7
+  > l Ultimate Efforts. The GM is free to add others suitable to the series.  •  •  •  Ultimate Aim: When  you  ta
+- **def_0150** | concept: Her Environment | chunk: de33a93804de
+  > s Concealment area. Her Environment is the power to control the weather, giving it the descriptor “weather.” If the her
+- **def_0151** | concept: Lightning | chunk: de33a93804de
+  > ct same descriptor. Lightning is a form of electricity. A certain amount of flexibility is built into descriptors
+- **def_0152** | concept: Her Environment | chunk: de33a93804de
+  > s Concealment area. Her Environment is the power to control the weather, giving it the descriptor “weather.” If the hero- i
+- **def_0153** | concept: Lightning | chunk: de33a93804de
+  > ct same descriptor. Lightning is a form of electricity. A certain amount of flexibility is built into descriptors,
+- **def_0154** | concept: This | chunk: c84a4002269b
+  > cognition  Special: This is the catchall for other sensory descrip- tors  not  given  above,  including  unu
+- **def_0155** | concept: This | chunk: c84a4002269b
+  > cognition  Special: This is the catchall for other sensory descrip- tors  not  given  above,  including  unusual
+- **def_0156** | concept: The GM | chunk: 1d915e6497ab
+  > counter each other. The GM is the final arbiter as to whether or not an effect with a particular descriptor ca
+- **def_0157** | concept: Johnny | chunk: 1d915e6497ab
+  > Lady Liberty wins, Johnny is free of Mastermind’s control. If she fails, the Freedom League will have to come
+- **def_0158** | concept: The GM | chunk: 1d915e6497ab
+  > counter each other. The GM is the final arbiter as to whether or not an effect with a particular descriptor can co
+- **def_0159** | concept: This | chunk: 373c8323a9b6
+  > er’s cost is given. This is a cost per rank of the power if it has a ranked effect, oth- erwise it is a flat
+- **def_0160** | concept: This | chunk: 373c8323a9b6
+  > er’s cost is given. This is a cost per rank of the power if it has a ranked effect, oth- erwise it is a flat c
+- **def_0161** | concept: You | chunk: 373c8323a9b6
+  > Medium).  Gaseous: You are a cloud of gas, like fog or mist: Affliction (Suffocate), Concealment (Visual, Att
+- **def_0162** | concept: Your Affliction | chunk: 661dd344a1d2
+  > k.  Limited Degree: Your Affliction is limited to no more than two degrees of effect. With two applications of this mod
+- **def_0163** | concept: Communication | chunk: 661dd344a1d2
+  > fectively anywhere  Communication is instantaneous with any subject within your range.  The  recipient  of  your  com
+- **def_0164** | concept: Communication | chunk: 661dd344a1d2
+  > ,  if  they  wish.  Communication  is  lan- guage-dependent; you and the subject must share a com- mon language (see Co
+- **def_0165** | concept: Your Communication | chunk: 661dd344a1d2
+  > language barriers). Your Communication is point-to-point (sent to a single receiver within your range).  Activating  your
+- **def_0166** | concept: This | chunk: 2ec68f50f56a
+  > by a factor of 10. This is useful for high-speed computer  links, “deep  sharing”  psychic  rapports,  and
+- **def_0167** | concept: This | chunk: 2ec68f50f56a
+  > n,  and  so  forth. This  is  in  addition to limitations imposed by medium (that is, requiring sub- jects to
+- **def_0168** | concept: Communication | chunk: 2ec68f50f56a
+  > er effect). If your Communication  is  blocked  in  any  way,  the  other  effect doesn’t work. -1 cost per rank.  SENS
+- **def_0169** | concept: This | chunk: 437f5039e60f
+  > nt the Concealment. This is one reason Visual Concealment costs extra.  At the Gamemaster’s discretion, a su
+- **def_0170** | concept: Concealment | chunk: 437f5039e60f
+  > s  and  not others. Concealment is normally all-or-nothing: either you are concealed to the full amount of your eff
+- **def_0171** | concept: Failure | chunk: c7946753c154
+  > y the Dazzle power. Failure means it persists.  Multiple Dazzle effects against the same sense are cu- mulative. I
+- **def_0172** | concept: Damage | chunk: 7f148070d8bb
+  > xact nature of your Damage is up to you, with the GM’s approval; it can be anything from a powerful im- pact t
+- **def_0173** | concept: Damage | chunk: 7f148070d8bb
+  > tance check against Damage is dead.  Strength provides a “built-in” Damage effect: the ability to hit things!
+- **def_0174** | concept: Strength Damage | chunk: 7f148070d8bb
+  > ts,  a  character’s Strength Damage is close range and instant duration by default.  If  you  choose,  a  Damage  effec
+- **def_0175** | concept: Attacking an object held or worn by another character | chunk: 7f148070d8bb
+  > 5 bonus to effect.  Attacking an object held or worn by another character is a smash action (see Smash in the Actions section of Chap- ter 8 for more details).
+- **def_0176** | concept: Range | chunk: f1bc1ad153ee
+  > cumstance modifier. Range is mea- sured from you to the target of the attack you are deflecting.  Like the de
+- **def_0177** | concept: Element  Control | chunk: f1bc1ad153ee
+  > tone, for example.  Element  Control  is  further  refined  with  various  Alter- nate Effects (see Alternate Effects, pag
+- **def_0178** | concept: Enhanced Trait | chunk: 05f80df9e48f
+  > ction.  The cost of Enhanced Trait is the same per rank as acquir- ing a rank in the affected trait. The key differenc
+- **def_0179** | concept: Enhanced Trait | chunk: 05f80df9e48f
+  > ifferences are that Enhanced Trait is a power effect, rather than a natural trait, and as an effect it can be combined
+- **def_0180** | concept: There | chunk: 05f80df9e48f
+  > (see Extra Effort). There is no ac- tion to use a Permanent Enhanced Trait, as it is always ac- tive. +0 cost
+- **def_0181** | concept: The cost of Enhanced Trait | chunk: 05f80df9e48f
+  > is a free action.  The cost of Enhanced Trait is the same per rank as acquir- ing a rank in the affected trait. The key differences a
+- **def_0182** | concept: Enhanced Trait | chunk: 05f80df9e48f
+  > ifferences are that Enhanced Trait is a power effect, rather than a natural trait, and as an effect it can be combined w
+- **def_0183** | concept: Energy Control | chunk: cf5b8ba8408b
+  > the Blast power).  Energy Control is further defined by the addition of Alter- nate Effects (see Alternate Effects, p
+- **def_0184** | concept: Rebound | chunk: cf5b8ba8408b
+  > , rank. However, if Rebound is hit again on the following turn for Dam- age  4,  he  gains  up  to  4  ranks  o
+- **def_0185** | concept: Each of the following | chunk: cf5b8ba8408b
+  > entire continent!  Each of the following is a separate Environment effect. If you have one you can acquire others as Alternate
+- **def_0186** | concept: Your rank | chunk: cf5b8ba8408b
+  > com- pletely faded. Your rank is the limit of how much it can increase, however.  Example:  Rebound  has  rank  11  E
+- **def_0187** | concept: This | chunk: 7663d2fb489a
+  > mmunity, page 165). This  is  the  Swimming  power  as  an  Alternate  Effect.  Flat +1 point.  Continuous: Co
+- **def_0188** | concept: Force  Field | chunk: 7663d2fb489a
+  > ined  effect,  your Force  Field  is  noticeable,  unless  you  apply  the  Subtle modifier. Force Fields are often Im
+- **def_0189** | concept: Flight | chunk: 7663d2fb489a
+  > ese traces. If your Flight is completely Subtle, you do not need to make Stealth checks to move silently while
+- **def_0190** | concept: Your Flight | chunk: a9a5f596da97
+  > er rank.  Platform: Your Flight is reliant on some sort of platform on which  you  stand  or  sit.  If  you  fail
+- **def_0191** | concept: EXTRAS  Illusion | chunk: 44f0396c2518
+  > nly a free action.  EXTRAS  Illusion is a broad-ranging effect, usable for a number of different things. A few common co
+- **def_0192** | concept: This | chunk: 44f0396c2518
+  > ceive the illusion. This is a net +0 modifier, for the same base cost. MY ALLY, MY ENEMY  A common Illusion
+- **def_0193** | concept: Illusion | chunk: 44f0396c2518
+  > ee action.  EXTRAS  Illusion is a broad-ranging effect, usable for a number of different things. A few common cons
+- **def_0194** | concept: This | chunk: 44f0396c2518
+  > ceive the illusion. This is a net +0 modifier, for the same base cost. MY ALLY, MY ENEMY  A common Illusion tr
+- **def_0195** | concept: Immunity | chunk: ba29424008f5
+  > to certain things. Immunity is intended to provide this option in MU- MASTERMINDS. It’s simpler at some point t
+- **def_0196** | concept: Some Immunity effects | chunk: ba29424008f5
+  > rvious Toughness).  Some Immunity effects are a matter of degree. For exam- ple, “immunity to cold” can range from the environme
+- **def_0197** | concept: Insubstantial Attack | chunk: 92b89ee67633
+  > t resistance for an Insubstantial Attack  is  Dodge,  although  it  can  be  Fortitude  or Will,  as best suits the effect’s d
+- **def_0198** | concept: Becoming Insubstantial | chunk: 706d511e685d
+  > er rank.  Reaction: Becoming Insubstantial is normally a free action, meaning  you  can’t  switch  to  an  Insubstantial  form
+- **def_0199** | concept: Luck Control | chunk: 6e58428e1e90
+  > action required for Luck Control is increased beyond a reaction, it is only usable during your turn each  Effect:  P
+- **def_0200** | concept: You | chunk: 6e58428e1e90
+  > 2 points per rank  You are a sorcerer, witch, or wizard, able to cast a variety of magical spells. Your basic
+- **def_0201** | concept: Your basic default effect | chunk: 6e58428e1e90
+  > of magical spells. Your basic default effect is a Blast of eldritch  force,  able  to  inflict  Ranged  Damage  (see  the Blast po
+- **def_0202** | concept: Subtle  Mind Reading | chunk: 765269f2e7c2
+  > Senses  effect).  Subtle  Mind Reading is less detectable, requiring a DC 20 Perception check  for  either  type  of  char
+- **def_0203** | concept: Your Mind Reading | chunk: 765269f2e7c2
+  > .  Sense-Dependent: Your Mind Reading is dependent on a  sense  other  than  just  having  to  accurately  sense  the tar
+- **def_0204** | concept: Morph Attack | chunk: c46c64c84f63
+  > formed condition, a Morph Attack is entirely cos- metic: you can’t change the target’s traits other than ap- pearanc
+- **def_0205** | concept: Metamorph | chunk: c46c64c84f63
+  > if you retain them. Metamorph is best suited to characters with defined sets of alternate traits. For a char- act
+- **def_0206** | concept: Will | chunk: c46c64c84f63
+  > ffect Resistible by Will is most likely a mental illusion of some sort. Observers who succeed on the Will  r
+- **def_0207** | concept: This | chunk: c46c64c84f63
+  > n your Morph guise. This is in addition to the usual Perception check to penetrate your disguise. If you hav
+- **def_0208** | concept: This | chunk: c46c64c84f63
+  > t of this chapter). This is in addition to using extra effort to further increase your rank (see Extra Effor
+- **def_0209** | concept: This | chunk: 3739eabb7a65
+  > n),  and  so forth. This is useful for “gravitic” or “magnetic” versions of the effect. –1 cost per rank.  L
+- **def_0210** | concept: Permeate | chunk: 3739eabb7a65
+  > ob- jects, either.  Permeate  is  often  Limited  to  a  particular  substance  like earth,  ice,  or  metal,  for
+- **def_0211** | concept: So Space Travel | chunk: 150cf8210923
+  > ing that mat- ters. So Space Travel is largely defined in terms of “how far can you go between scenes?” The same is tru
+- **def_0212** | concept: There | chunk: 150cf8210923
+  > the initial effect. There is no difference in cost, but to be able to do both, take one Area Nullify as an Al
+- **def_0213** | concept: Your  Protection | chunk: b054d3b34f13
+  > FLAWS  Sustained:  Your  Protection  is  a  sustained  effect,  rather than permanent. The effect can be turned on and of
+- **def_0214** | concept: Remote  Sensing | chunk: c87ce883452a
+  > types  (so  visual  Remote  Sensing  is  2  points  per  rank). You can use perception range sensory effects via Remote S
+- **def_0215** | concept: This | chunk: 7419fe5693f8
+  > lays of each other. This means you’re more capable of taking physical action while also using  your  Remote  Se
+- **def_0216** | concept: Remote  Sensing | chunk: 7419fe5693f8
+  > Sense-Dependent:  Remote  Sensing  is  already  Sense- Dependent  and  cannot  apply  this  flaw.  Another  effect migh
+- **def_0217** | concept: Cost | chunk: 7419fe5693f8
+  > ccurate for humans. Cost is 2 ranks for one sense, 4 for an entire sense type. ACUTE  1-2 RANKS  You can sen
+- **def_0218** | concept: Cost | chunk: 7419fe5693f8
+  > y acute for humans. Cost is 1 rank for one sense, 2 for an entire sense type.  1-2 RANKS  Beyond  even  acut
+- **def_0219** | concept: Cost | chunk: 7419fe5693f8
+  > are not analytical. Cost is 1 rank for one sense, 2 for an entire sense type. AWARENESS  1 RANK  You  can  s
+- **def_0220** | concept: RANK  This | chunk: 813c952ca178
+  > t it isn’t real.  1 RANK  This  is  essentially  the  same  as  Counters  Concealment (Darkness). DETECT  1-2 RANKS
+- **def_0221** | concept: Failure | chunk: 813c952ca178
+  > ise round (if any). Failure means you are surprised (although, if you have  Uncanny  Dodge,  you  are  not  vulner
+- **def_0222** | concept: The Gamemaster | chunk: 5731b0e9cb2f
+  > hey leave be- hind. The Gamemaster is the final judge on how long the trail remains visible. VISION  1 RANK  You can v
+- **def_0223** | concept: Cost | chunk: 5731b0e9cb2f
+  > tiny things nearby. Cost is 1 rank for dust-sized  objects,  2  ranks  for  cellular-sized,  3  ranks  for D
+- **def_0224** | concept: The sense of smell | chunk: 5731b0e9cb2f
+  > acute nor accurate. The sense of smell is a radius sense, how- ever, able to pick up on scents coming from any direc- tion.
+- **def_0225** | concept: The Gamemaster | chunk: 5731b0e9cb2f
+  > hey leave be- hind. The Gamemaster is the final judge on how long the trail remains visible. VISION  1 RANK  You can view
+- **def_0226** | concept: This | chunk: 0f75307c0dea
+  > WERS  tion effect). This is the base sense of the radio sense type. It’s ranged, radius, and acute by defaul
+- **def_0227** | concept: Cost | chunk: 0f75307c0dea
+  > radius for humans. Cost is 1 rank for use with one sense, 2 ranks for one sense type. RANGED  1 RANK  You c
+- **def_0228** | concept: Precognition | chunk: 0f75307c0dea
+  > ention.  Generally, Precognition is best treated as a plot device for the GM to provide information to the player as
+- **def_0229** | concept: This | chunk: 0f75307c0dea
+  > WERS  tion effect). This is the base sense of the radio sense type. It’s ranged, radius, and acute by default.
+- **def_0230** | concept: Shapeshift | chunk: b60c97b07a3c
+  > rm possesses them.  Shapeshift is often further Limited by the specific types of forms the character can assume, s
+- **def_0231** | concept: Summon | chunk: b60c97b07a3c
+  > e rank of the Sum-  Summon is a useful effect; it doesn’t cost much to summon up a gang of minions, giving you
+- **def_0232** | concept: Summon | chunk: b60c97b07a3c
+  > e rank of the Sum-  Summon is a useful effect; it doesn’t cost much to summon up a gang of minions, giving you a
+- **def_0233** | concept: Sleep | chunk: c58c7a144f00
+  > p as they succumb.  Sleep  is  not  normally  cumulative,  but  you  can  apply the  Cumulative  or  Progressiv
+- **def_0234** | concept: There | chunk: 7b2254220623
+  > ss and immobilized. There is no additional effect for three or more degrees of failure.  The resistance check
+- **def_0235** | concept: Snare | chunk: 7b2254220623
+  > k to break out of a Snare is based on Damage (including Strength Damage) or Sleight of Hand, either breaking
+- **def_0236** | concept: This | chunk: 7b2254220623
+  > slipping out of it. This is part of the power’s Alternate Resistance, with no change in cost.  Mental Link:
+- **def_0237** | concept: Teleport | chunk: f45e1af7c8dc
+  > our desti- nation.  Teleport is meant for use on or around a planet. For things like traveling to distant planet
+- **def_0238** | concept: Transform | chunk: 2f5c20c3ef2c
+  > nto repaired ones.  Transform is a powerful effect, particularly in the hands of a cunning player. To a degree, T
+- **def_0239** | concept: This | chunk: 2f5c20c3ef2c
+  > (both Afflictions). This is perfectly allowable; use the rules for other effects as guidelines on how to han
+- **def_0240** | concept: Transform | chunk: 2f5c20c3ef2c
+  > eep  in  mind  that Transform  is  normally  sustained;  the  target  isn’t  truly destroyed unless the effect is c
+- **def_0241** | concept: Transform | chunk: 2f5c20c3ef2c
+  > ormal. Continu- ous Transform is irreversible except by using another Trans- form effect to turn the target back
+- **def_0242** | concept: Transform | chunk: 2f5c20c3ef2c
+  > for a large item).  Transform  is  generally  just  another  way  of “removing”  a device or equipment, considered
+- **def_0243** | concept: Transform | chunk: 2f5c20c3ef2c
+  > nto repaired ones.  Transform is a powerful effect, particularly in the hands of a cunning player. To a degree, Tra
+- **def_0244** | concept: This | chunk: daeb5804fb93
+  > even more limited. This is highly situational and left to the Gamemaster’s judgment. An ex- ample  is  a Va
+- **def_0245** | concept: This | chunk: 44458c4fcb7e
+  > sibly hero points). This is why the Magic power given later in this chapter, for example, is not a Variable
+- **def_0246** | concept: Variable effect | chunk: 44458c4fcb7e
+  > ractice.  In short, Variable effect is a “last resort” in power design, and the GM should treat it as such.  Slow: You ca
+- **def_0247** | concept: This | chunk: 72dc60c2e6cf
+  > he objects possess. This is most often applied to Weaken Toughness  for  an  effect  that  can  weaken  both
+- **def_0248** | concept: Area  Damage | chunk: 25d04efd242a
+  > effect,  but  the  Area  Damage  is  only  rank 4. So the first 4 ranks of the Caliber’s Damage effect have the Burst
+- **def_0249** | concept: Alternate Effects | chunk: 25d04efd242a
+  > section.) A set of Alternate Effects is called an array.  An Alternate Effect can have any rank, or combination of modif
+- **def_0250** | concept: Effect | chunk: 0713e58acd4e
+  > smaller, effects.  Effect is less noticeable (1 point) or not noticeable (2 points).  Makes a permanent effec
+- **def_0251** | concept: That | chunk: 138e63aeed36
+  > Alternate Effects. That is what the power stunts rules are for, after all: so you do not have to fill up ch
+- **def_0252** | concept: Alternate Effect | chunk: 138e63aeed36
+  > r 2 power points an Alternate Effect is dynamic; it can share  power  points  with  other  Dynamic  Alternate  Ef- fects
+- **def_0253** | concept: This | chunk: 068f6ea2c39b
+  > e else in the area. This is the equivalent of the +1 Affects Others modifier.  Ranged:  A  ranged  area  eff
+- **def_0254** | concept: Will | chunk: 068f6ea2c39b
+  > Generally Dodge or Will is the most appropriate. A successful check negates the effect.  You  must  also  d
+- **def_0255** | concept: Feature | chunk: 068f6ea2c39b
+  > this section); the Feature is an intrinsic part of the overall power, rather than separate.  192
+- **def_0256** | concept: This | chunk: 068f6ea2c39b
+  > e else in the area. This is the equivalent of the +1 Affects Others modifier.  Ranged:  A  ranged  area  effect
+- **def_0257** | concept: Generally Dodge or Will | chunk: 068f6ea2c39b
+  > ade into an attack. Generally Dodge or Will is the most appropriate. A successful check negates the effect.  You  must  also  defin
+- **def_0258** | concept: Feature | chunk: 068f6ea2c39b
+  > this section); the Feature is an intrinsic part of the overall power, rather than separate.  192
+- **def_0259** | concept: Impervious | chunk: aa5babc5f423
   > xtra description).  Impervious is primarily intended for Toughness resistance checks, to handle characters immune
-- **def_1202** | concept: Acrobatics | chunk: 9c685bbd4830
-  > y require include:  Acrobatics: Suitable for effects requiring a measure of coordination or complex maneuvering.
-- **def_1203** | concept: Deception | chunk: 9c685bbd4830
-  > mplex maneuvering.  Deception:  Good  for  effects  intended  to  deceive, particularly sensory effects like Con
-- **def_1204** | concept: Expertise | chunk: 9c685bbd4830
-  > ffects like Morph.  Expertise:  An  Expertise  skill  check  might  represent having  to  know  something  about
-- **def_1205** | concept: Intimidation | chunk: 9c685bbd4830
-  > of your next turn.  Intimidation:  Useful  for  effects  intended  to  inspire fear as well as similar offensive ef
-- **def_1206** | concept: Stealth | chunk: 9c685bbd4830
-  > -1 COST PER RANK  Stealth:  Best  suited  to  sensory  effects,  particularly Concealment.  Technology:  Ope
-- **def_1207** | concept: Technology | chunk: 9c685bbd4830
-  > larly Concealment.  Technology:  Operating  a  complex  device  may  re- quire a Technology check.  Each time you
-- **def_1208** | concept: Tiring | chunk: 7ade13289c0f
-  > with extra effort.  Tiring is often applied to just some ranks of an effect to rep- resent a higher level of
-- **def_1209** | concept: HOOD | chunk: ebca8c9dc40a
-  > wants to continue  HOOD: DEVICES VS. EQUIPMENT  There can sometimes be a fine line between devices (Remov
-- **def_1210** | concept: Armor | chunk: 83acf5380dc1
-  > g powers:  •  •  •  Armor:  Protection  is  the  foundation  power  for  a battlesuit. Whether it is armor p
-- **def_1211** | concept: Attacks | chunk: 83acf5380dc1
-  > ields or the like.  Attacks:  Battlesuits  are  typically  equipped  with some kind of weapon or weapons, base
-- **def_1212** | concept: Immunity | chunk: 83acf5380dc1
-  > e Powers chapter).  Immunity: A part of the protection a battlesuit offers is  a  sealed  environment,  offeri
-- **def_1213** | concept: Sensors | chunk: 83acf5380dc1
-  > ovement effect.  •  Sensors:  Battlesuits  often  come equipped with a suite of sensors providing Senses. Dark
-- **def_1214** | concept: Weapons | chunk: 1d151f074127
-  > -science.  WEAPONS  Weapons are common devices, ranging from super-pow- ered versions of ordinary weapons like
-- **def_1215** | concept: Success | chunk: 1d151f074127
-  > ntion’s point cost  Success means the invention is complete and functional. Failure means the invention doesn’t w
-- **def_1216** | concept: Failure | chunk: 1d151f074127
-  > ete and functional. Failure means the invention doesn’t work. Three or more degrees of failure may result in a mi
-- **def_1217** | concept: HOOD | chunk: 115dd3a349cb
-  > e Skills chapter).  HOOD: AMMO, BATTERIES, AND CHARGES  Lots of equipment has a limited lifespan: guns run
-- **def_1218** | concept: Equipment | chunk: 115dd3a349cb
-  > evices.  EQUIPMENT  Equipment  is  acquired  with  points  from  the  Equipment advantage. Each piece of equipmen
-- **def_1219** | concept: Camera | chunk: 0fd663d0761a
-  > them out entirely.  Camera:  A  digital  or  film  camera  for  taking  still  images. Most cameras have a ca
-- **def_1220** | concept: Cell Phone | chunk: 0fd663d0761a
-  > ch as photography.  Cell Phone: A small handheld or headset unit for commu- nication. The battery lasts for appr
-- **def_1221** | concept: Commlink | chunk: 0fd663d0761a
-  > nd providing data.  Commlink: A tiny button-sized device for radio commu- nication  with  an  effective  range
-- **def_1222** | concept: Computer | chunk: 0fd663d0761a
-  > ams use commlinks.  Computer: A computer includes keyboard, mouse, moni- tor, printer, modem, and other standa
-- **def_1223** | concept: Equipment | chunk: 0fd663d0761a
-  > operating limits.  Equipment is subject to damage, malfunctions, and loss, even more so than devices with the R
-- **def_1224** | concept: Parabolic Microphone | chunk: 952d6212a75a
-  > e with IR vision).  Parabolic Microphone: This apparatus has a gun-like mi- crophone with an attached set of headphones. A
-- **def_1225** | concept: Handcuffs | chunk: 952d6212a75a
-  > o catch criminals.  Handcuffs: Handcuffs are restraints designed to lock two limbs—normally the wrists—of a pri
-- **def_1226** | concept: Lock Release Gun | chunk: 952d6212a75a
-  > to pick the lock).  Lock Release Gun: This small, pistol-like device automati- cally disables and opens cheap and aver
-- **def_1227** | concept: Restraints | chunk: 952d6212a75a
-  > ffect other locks.  Restraints: Similar to handcuffs are plastic restraints, used in cases where authorities nee
-- **def_1228** | concept: Binoculars | chunk: 952d6212a75a
-  > their activities.  Binoculars: Standard binoculars allow the user to make visu- al Perception checks at a great
-- **def_1229** | concept: Concealable Microphone | chunk: 952d6212a75a
-  > distance penalty.  Concealable Microphone: A tiny receiver usable as a lis- tening device. It has a broadcast range of abou
-- **def_1230** | concept: Mini-Tracer | chunk: 952d6212a75a
-  > ophone to find it.  Mini-Tracer:  A  tiny  radio  transmitter  with  an  adhesive backing.  It  requires  a  succe
-- **def_1231** | concept: Night Vision Goggles | chunk: 952d6212a75a
-  > of about 2 miles.  Night Vision Goggles: Night vision goggles use passive light gathering to improve vision in near-dark
-- **def_1232** | concept: Flash Goggles | chunk: 952d6212a75a
-  > urban, and arctic.  Flash Goggles: These tinted eye-coverings provide pro- tection  against  blinding  light,  gran
-- **def_1233** | concept: Flashlight | chunk: 952d6212a75a
-  > ving bright light.  Flashlight:  Flashlights  negate  penalties  for  darkness within  their  illuminated  areas.
-- **def_1234** | concept: Fire Extinguisher | chunk: 952d6212a75a
-  > across at its end.  Fire Extinguisher: This portable apparatus uses a chemi- cal  spray  to  extinguish  small  fires.
-- **def_1235** | concept: Gas Mask | chunk: 952d6212a75a
-  > for two such uses.  Gas Mask: This apparatus covers the face and connects to a chemical air filter canister to
-- **def_1236** | concept: GPS | chunk: 952d6212a75a
-  > r 12 hours of use.  GPS:  Global  positioning  system  receivers  use  signals from GPS satellites to dete
-- **def_1237** | concept: Multi-tool | chunk: 952d6212a75a
-  > ly works outdoors.  Multi-tool: This  device  contains  several  different  screw- drivers,  a  knife  blade  or
-- **def_1238** | concept: Rebreather | chunk: 952d6212a75a
-  > in all situations.  Rebreather: A small cylinder that fits over the mouth and provides two minutes (20 rounds) o
-- **def_1239** | concept: Gear | chunk: 952d6212a75a
-  > uffocation checks.  Gear: A back-mounted oxygen cylinder and face- mask, used for diving. SCUBA (Self-Cont
-- **def_1240** | concept: Tear Gas Pellets | chunk: 80099a87d308
-  > tage).  WEAPONS  •  Tear Gas Pellets: Ranged Cloud Area Affliction 4 (Resisted by Fortitude; Dazed and Vision Impaired
-- **def_1241** | concept: Explosives | chunk: 80099a87d308
-  > sed  • 1 point.  •  Explosives: Ranged Burst Area Damage 5 • 1 point.  •  Cutting Torch: Damage 1 Linked to Weak
-- **def_1242** | concept: Flash-Bangs | chunk: 80099a87d308
-  > ss 1 • 1 point.  •  Flash-Bangs: Ranged Burst Area Cumulative Affliction 4 (Resisted and Overcome by Will; Visual
-- **def_1243** | concept: Sleep Gas Pellets | chunk: 80099a87d308
-  > d • 1 point.  •  •  Sleep Gas Pellets: Ranged Cloud Area Affliction 3 (Resisted and Overcome by Fortitude; Fatigued, Ex
-- **def_1244** | concept: Smoke Pellets | chunk: 80099a87d308
-  > Asleep) • 1 point.  Smoke Pellets: Ranged Cloud Area Visual Concealment Attack • 1 point.  Weapons of various sorts
-- **def_1245** | concept: Category | chunk: 2c3d57c2a1b3
-  > 4  3  6  6  3  5  Category: Melee weapons are categorized as simple, ar- chaic, and exotic.  Effect: The eff
-- **def_1246** | concept: Effect | chunk: 2c3d57c2a1b3
-  > chaic, and exotic.  Effect: The effect a hit with the weapon causes, typically Damage,  although  some  mode
-- **def_1247** | concept: Critical | chunk: 2c3d57c2a1b3
-  > o certain effects.  Critical: The threat range for a critical hit with the weap- on. Some weapons have a large
-- **def_1248** | concept: Cost | chunk: 2c3d57c2a1b3
-  > ritical advantage.  Cost: This is the weapon’s cost in points. Characters pay this cost from their equipme
-- **def_1249** | concept: Brass Knuckles | chunk: 2c3d57c2a1b3
-  > regular equipment.  Brass Knuckles: Pieces of molded metal fitting over the fingers, brass knuckles add +1 damage to
-- **def_1250** | concept: Club | chunk: 2c3d57c2a1b3
-  > armored gauntlets.  Club: Any of a number of blunt weapons used to strike, including  nightsticks,  batons
-- **def_1251** | concept: Knife | chunk: 2c3d57c2a1b3
-  > be only Damage 1.  Knife: A bladed weapon with a length less than 18 inches or  so. This  includes  dagger
-- **def_1252** | concept: Pepper Spray | chunk: 2c3d57c2a1b3
-  > ves, among others.  Pepper Spray: A liquid sprayed in a target’s face at close range to blind them.  Stun Gun: A s
-- **def_1253** | concept: Stun Gun | chunk: 2c3d57c2a1b3
-  > nge to blind them.  Stun Gun: A stun gun hits its target with a surge of elec- tricity,  an  Affliction  that
-- **def_1254** | concept: Battleaxe | chunk: 2c3d57c2a1b3
-  > ally incapacitate.  Battleaxe: A heavy-bladed axe that can be wielded with one or two hands.  Sword:  A  blade
-- **def_1255** | concept: Sword | chunk: 2c3d57c2a1b3
-  > one or two hands.  Sword:  A  blade  between  18  and  30  or  more  inches  in length,  single  or  double
-- **def_1256** | concept: Spear | chunk: 2c3d57c2a1b3
-  > d similar weapons.  Spear: A bladed pole-arm. Most spears can also be thrown as a ranged attack.  Warhammer
-- **def_1257** | concept: Warhammer | chunk: 2c3d57c2a1b3
-  > s a ranged attack.  Warhammer:  A  heavy  hammer  or  mace  that  can  be wielded with one or two hands. Warhamm
-- **def_1258** | concept: Chain | chunk: 2c3d57c2a1b3
-  > s a ranged attack.  Chain:  A  length  of  chain  can  strike  targets  up  to  10  ft. away (Reach 2) and p
-- **def_1259** | concept: Chainsaw | chunk: 2c3d57c2a1b3
-  > d Trip advantages.  Chainsaw: A tool that sometimes sees use as a weapon, particularly against zombies and oth
-- **def_1260** | concept: Nunchaku | chunk: 2c3d57c2a1b3
-  > ot Strength-based.  Nunchaku:  A  popular  martial  arts  weapon,  made  of  two wooden shafts connected by a s
-- **def_1261** | concept: Whip | chunk: 2c3d57c2a1b3
-  > or rope or chain.  Whip: A whip can strike targets up to 15 ft. away (Reach 3) and provides the benefits
-- **def_1262** | concept: Shotgun | chunk: 81d16734de2e
-  > serious firepower.  Shotgun: A shotgun can fire shot, which does Damage 5 with Accurate 1 due to the spread,
-- **def_1263** | concept: Bow | chunk: 81d16734de2e
-  > targeting system.  Bow: Although outdated, some heroes and villains favor the bow as a weapon and it can
-- **def_1264** | concept: Crossbow | chunk: 81d16734de2e
-  > andled as devices.  Crossbow: Similar to a bow, and used for the same reasons.  Blaster pistol: A pistol that
-- **def_1265** | concept: Taser | chunk: 81d16734de2e
-  > ul bolt of energy.  Taser: A compressed-air weapon firing a pair of darts. On impact  they  release  a  pow
-- **def_1266** | concept: Flamethrower | chunk: 81d16734de2e
-  > esistance, DC 15).  Flamethrower: A flamethrower shoots a stream or arc of fire Damage as Cone or Line Area and ca
-- **def_1267** | concept: Bolos | chunk: dc5f9b168c4e
-  > t fire that turn).  Bolos: A set of weighted cords intended to entangle an opponent  with  a  Snare  Afflic
-- **def_1268** | concept: Boomerang | chunk: dc5f9b168c4e
-  > apter for details.  Boomerang: A common throwing weapon for heroes, a thrown boomerang returns to the thrower’s
-- **def_1269** | concept: Javelin | chunk: dc5f9b168c4e
-  > acker’s next turn.  Javelin: Light, flexible spears intended to be thrown. Jav- elins can also be used in mel
-- **def_1270** | concept: Shuriken | chunk: dc5f9b168c4e
-  > d in melee combat.  Shuriken: Flat metal stars or spikes for throwing. Shuriken can be thrown in groups as a M
-- **def_1271** | concept: Laser Sight | chunk: dc5f9b168c4e
-  > 1 equipment point.  Laser Sight: A laser sight projects a non-damaging laser beam showing where the weapon is aim
-- **def_1272** | concept: Suppressor | chunk: c9e9523951b6
-  > 16  12  16  15  30  Suppressor: A suppressor muffles the noise of a ballistic weapon, giving it Subtle 1 and mak
-- **def_1273** | concept: Targeting Scope | chunk: c9e9523951b6
-  > ring to detect it.  Targeting Scope: A targeting scope gives a weapon the benefits  of  the  Improved  Aim  advantage
-- **def_1274** | concept: Dynamite | chunk: c9e9523951b6
-  > acitated effects).  Dynamite: A common explosive. The damage on the ta- ble is for a single stick of dynamite.
-- **def_1275** | concept: Category | chunk: c9e9523951b6
-  > following traits:  Category:  Armors  are  categorized  as  archaic  (ancient styles of armor like chain- and
-- **def_1276** | concept: Effect | chunk: c9e9523951b6
-  > against attacks).  Effect: The effect of most armor is Protection, sometimes with  the  Impervious  modifie
-- **def_1277** | concept: Cost | chunk: c9e9523951b6
-  > nd Parry defenses.  Cost: This is the armor’s cost in points. Characters pay this cost from their equipmen
-- **def_1278** | concept: Leather | chunk: c9e9523951b6
-  > owers in some way.  Leather: This can be archaic plates of boiled leather or a modern heavy leather jacket.
-- **def_1279** | concept: HOOD | chunk: 042be12e9222
-  > 7: GADGETS & GEAR  HOOD: SUPER-SHIELDS  Just as power armor is a device version of otherwise or- dinary e
-- **def_1280** | concept: Chain-mail | chunk: 042be12e9222
-  > ge effect with it.  Chain-mail: A shirt of heavy metal chain, often with a coif (hood) to cover the wearer’s hea
-- **def_1281** | concept: Plate-mail | chunk: 042be12e9222
-  > the wearer’s head.  Plate-mail:  This  is  chain-mail  augmented  with  a  metal breastplate, greaves (leg-guards
-- **def_1282** | concept: Full-plate | chunk: 042be12e9222
-  > cers and soldiers.  Full-plate:  A  full  (and  heavy!)  suit  of  articulated  metal plates, like that worn by m
-- **def_1283** | concept: Vehicles | chunk: 042be12e9222
-  > eans to get around. Vehicles are used primarily for transportation, although they may come with additional capab
-- **def_1284** | concept: Alarm | chunk: 80d802c96f20
-  > •  •  •  •  •  •  Alarm: The vehicle has an alarm system that goes off when an unauthorized access or act
-- **def_1285** | concept: Caltrops | chunk: 80d802c96f20
-  > DC increases by 5.  Caltrops: A vehicle may be equipped with a dispenser for caltrops, spikes meant to damage
-- **def_1286** | concept: Navigation System | chunk: 80d802c96f20
-  > DC increases by 5.  Navigation System: The vehicle is equipped with a navigation system that grants a +5 circumstance b
-- **def_1287** | concept: Oil Slick | chunk: 80d802c96f20
-  > ted to navigation.  Oil Slick: The vehicle can release an oil slick, cover- ing a 20-ft. by 20-ft. area and for
-- **def_1288** | concept: Remote Control | chunk: 80d802c96f20
-  > a standard action.  Remote Control: The vehicle’s owner can operate it remotely using a transmitter and control devi
-- **def_1289** | concept: Features | chunk: 80d802c96f20
-  > mpact on game play. Features are “optional extras” for vehicles and cost 1 point each. The GM can determine if o
-- **def_1290** | concept: Armor | chunk: 6802eda7b562
-  > & GEAR  •  •  •  •  Armor: Armor provides Protection for a vehicle in addi- tion to its normal Toughness, p
-- **def_1291** | concept: Cloaking Device | chunk: 6802eda7b562
-  > per +1 Toughness.  Cloaking Device: A vehicle may have a “cloaking de- vice” granting Concealment from visual senses
-- **def_1292** | concept: Immunity | chunk: 6802eda7b562
-  > ll visual senses).  Immunity:  Vehicles  normally  provide immunity to  the  normal  hazards  of  environments
-- **def_1293** | concept: Smokescreen | chunk: 6802eda7b562
-  > mospheric hazards.  Smokescreen:  The  vehicle  can  release  a  cloud  of thick smoke or mist that provides an Ar
-- **def_1294** | concept: Tanks | chunk: c51168f2be2c
-  > ly sized vehicles.  Tanks are heavily armed and  armored  vehicles. The standard tank has Tough- Impervious n
-- **def_1295** | concept: Cutters | chunk: c51168f2be2c
-  > e sea-going ships.  Cutters are used by the Coast Guard and the Navy. They’re often equipped with light machine
-- **def_1296** | concept: Destroyers | chunk: c51168f2be2c
-  > t- tack Damage 6).  Destroyers  are  main  naval  ships,  carrying  heavy  guns (Ranged Damage 10, Burst Area 8).
-- **def_1297** | concept: Submarines | chunk: c51168f2be2c
-  > ) and heavy armor.  Submarines are equipped with torpedoes (Ranged Dam- age  8,  Burst  Area  5)  and  often  ball
-- **def_1298** | concept: Mole-machines | chunk: c51168f2be2c
-  > al Travel) effect.  Mole-machines are classic weapons for underground vil- lains,  consisting  of  a  metallic  cylin
-- **def_1299** | concept: Toughness | chunk: 03bc5d87aec7
-  > vel) or their basic Toughness is increased by 50%, which option should be agreed  upon  by  both  player  and  G
-- **def_1300** | concept: Size | chunk: ab446868e7fe
-  > for their heroes.  Size: Gargantuan Toughness: 14 Features: Communications, Computer, Concealed, Dock, Fi
-- **def_1301** | concept: Size | chunk: ab446868e7fe
-  > SCRAPER (5 FLOORS)  Size:  Medium  Toughness:  8  Features:  Communications, Computer,  Concealed,  Garage,
-- **def_1302** | concept: Size | chunk: ab446868e7fe
-  > ystem • 10 points.  Size:  Large  Toughness:  10  Features:  Communications, Computer,  Defense  System,  F
-- **def_1303** | concept: Size | chunk: ab446868e7fe
-  > points.  MOON-BASE  Size:  Awesome Toughness:  20  Features:  Combat  Simulator, Communications, Computer,
-- **def_1304** | concept: Size | chunk: ab446868e7fe
-  > oints.  Infirmary,  Size:  Huge  Toughness:  10  Features:  Communications, Computer,  Concealed,  Dock,  G
-- **def_1305** | concept: Size | chunk: ab446868e7fe
-  > kshop • 19 points.  Size:  Colossal  Toughness:  20  Features:  Combat  Simulator, Communications, Computer
-- **def_1306** | concept: Size | chunk: ab446868e7fe
-  > oints.  Infirmary,  Size:  Huge  Toughness:  14  Features:  Communications, Computer, Concealed, Defense Sy
-- **def_1307** | concept: Size | chunk: ab446868e7fe
-  > ystem • 19 points.  Size: Medium Toughness: 10 Features: Concealed, Dual-Size (Huge),  Laboratory,  Librar
-- **def_1308** | concept: Size | chunk: ab446868e7fe
-  > kshop • 12 points.  Size:  Large  Toughness:  12  Features:  Combat  Simulator, Communications,  Computer,
-- **def_1309** | concept: Constructs | chunk: ab446868e7fe
-  > y a Summon effect.  Constructs are created exactly like other characters, using the guidelines in the Secret Origi
-- **def_1310** | concept: Constructs | chunk: ab446868e7fe
-  > following section.  Constructs are subject to the same power level limits as other characters and the Gamemaster s
-- **def_1311** | concept: Undead | chunk: 6be13e770e51
-  > -  AWE -1  POWERS  Undead: Immunity 30 (Fortitude effects), Protection 3  OFFENSE  PL2  PRE -  Constructs
-- **def_1312** | concept: Armor | chunk: 6be13e770e51
-  > d)  4 (+4)  POWERS  Armor: Protection 10, Impervious 6 • 16 points  Robot: Immunity 30 (Fortitude effects)
-- **def_1313** | concept: Robot | chunk: 6be13e770e51
-  > ious 6 • 16 points  Robot: Immunity 30 (Fortitude effects) • 30 points  DEFENSE  DODGE  PARRY  WILL  0  1
-- **def_1314** | concept: Armor | chunk: 6be13e770e51
-  > T -  AWE 0  POWERS  Armor: Protection 12, Impervious  • 24 points  Giant: Growth 16, Continuous, Permanent,
-- **def_1315** | concept: Giant | chunk: 6be13e770e51
-  > vious  • 24 points  Giant: Growth 16, Continuous, Permanent, Innate  • 33 points  Robot: Immunity 30 (Forti
-- **def_1316** | concept: Robot | chunk: 6be13e770e51
-  > nnate  • 33 points  Robot: Immunity 30 (Fortitude) • 30 points  3  0  1  4  PL8  PRE -  OFFENSE  OFFENSE  I
-- **def_1317** | concept: Alcohol | chunk: 821fc06edf41
-  > lly severe nausea.  Alcohol: Impaired and disabled are the most common conditions, perhaps dazed and stunned
-- **def_1318** | concept: Pesticides | chunk: 821fc06edf41
-  > or food poisoning.  Pesticides: Common Affliction conditions include impaired and disabled, although a large eno
-- **def_1319** | concept: Chloroform | chunk: 821fc06edf41
-  > leading to death.  Chloroform: Affliction with dazed, stunned, and incapacitated effects.  Cobra venom: Typical
-- **def_1320** | concept: Curare | chunk: 821fc06edf41
-  > sted by Fortitude.  Curare: Affliction with dazed and hindered, stunned and immobilized, and incapacitated e
-- **def_1321** | concept: Cyanide | chunk: 821fc06edf41
-  > he target’s heart.  Cyanide: Fortitude Damage effect.  Nerve gas: Affliction with dazed and impaired, stunned
-- **def_1322** | concept: Malaria | chunk: 821fc06edf41
-  > and incapacitated.  Malaria: Affliction with impaired, disabled, and incapacitated.  Typhoid: Affliction with
-- **def_1323** | concept: Typhoid | chunk: 821fc06edf41
-  > and incapacitated.  Typhoid: Affliction with dazed, stunned, and incapacitated.  Rabies: Affliction with impa
-- **def_1324** | concept: Rabies | chunk: 821fc06edf41
-  > and incapacitated.  Rabies: Affliction with impaired, compelled (paranoid and violent behavior), and incapac
-- **def_1325** | concept: Leprosy | chunk: 821fc06edf41
-  > and incapacitated.  Leprosy: Affliction with impaired, disabled, and incapacitated.  AIDS: Weaken Fortitude,
-- **def_1326** | concept: AIDS | chunk: 821fc06edf41
-  > and incapacitated.  AIDS: Weaken Fortitude, leading to other opportunistic infections.  Smallpox: Afflicti
-- **def_1327** | concept: Smallpox | chunk: 821fc06edf41
-  > nistic infections.  Smallpox: Affliction with hindered and impaired, disabled, and incapacitated linked with W
-- **def_1328** | concept: Increased Effect | chunk: 7973bfe6a35b
-  > termined:  •  •  •  Increased Effect: The critical hit increases the diffi- culty to resist the attack’s effect by +5.
-- **def_1329** | concept: Success | chunk: 7ed36e3d5075
-  > [Damage rank + 15]  Success : The damage has no effect.  Failure (one degree): The target has a –1 circumstanc
-- **def_1330** | concept: Strength Damage | chunk: 7ed36e3d5075
-  > ts,  a  character’s Strength Damage is close range and instant duration by default.  If you choose, a Damage effect ca
-- **def_1331** | concept: Princess | chunk: b6064e74b184
-  > s, what do you do?  Princess: I jump from the pier onto the deck of the ship as my move action, landing right
-- **def_1332** | concept: Princess | chunk: b6064e74b184
-  > t a routine check?  Princess: No, I’ll roll for it. Princess’ player rolls an Intimidation check with her bonu
-- **def_1333** | concept: Ultramarine | chunk: b6064e74b184
-  > e, it’s your turn.  Ultramarine: Like shooting fish in a barrel… I surge up out of the water on the other side of
-- **def_1334** | concept: Ultramarine | chunk: b6064e74b184
-  > dation check, too?  Ultramarine: No, I think I’d rather ready an attack with my netline, if any of the smugglers
-- **def_1335** | concept: Rook | chunk: b6064e74b184
-  > what to do. Rook?  Rook: Okay, let’s end this quick. I glide down towards the deck, toss a flash bomb in
-- **def_1336** | concept: Ultramarine | chunk: b6064e74b184
-  > go for their guns…  Ultramarine: I fire my netline at the nearest one!  GM: Okay. That shifts you to just after R
-- **def_1337** | concept: Ultramarine | chunk: b6064e74b184
-  > your attack check.  Ultramarine: Rolls a 9, with a +10 attack bonus. I got a 19.  GM: Knowing that well exceeds t
-- **def_1338** | concept: Princess | chunk: 84157ccb1121
-  > e order. Princess?  Princess: I’m going to punch-out one of the smugglers! “Hey, watch the couture, boys!”  GM
-- **def_1339** | concept: Princess | chunk: 84157ccb1121
-  > rmed attack check.  Princess: Rolls, gets a natural 20. A critical hit!  GM: Glances at Princess’ Strength of
-- **def_1340** | concept: Princess | chunk: 84157ccb1121
-  > resistance check.  Princess: Rolls a 5 for a total of 13. Um… 13?  GM: Compares it against the DC of 19. Two
-- **def_1341** | concept: Ultramarine | chunk: 84157ccb1121
-  > -like servo- claw.  Ultramarine: Trawler!  GM: In Trawler’s voice. Who did you think was running this operation,
-- **def_1342** | concept: Ultramarine | chunk: 84157ccb1121
-  > oes? Now back off!  Ultramarine: Is it my turn?  GM: No. It would be, but you delayed until after Rook, remember?
-- **def_1343** | concept: Rook | chunk: 84157ccb1121
-  > d the smug- glers.  Rook: I don’t think my weapons will do much against Trawler’s armor. Can I help Prince
-- **def_1344** | concept: Rook | chunk: 84157ccb1121
-  > lp cut through it.  Rook: Okay, I’ll do that.  GM: Since the net is immobile, do you want to roll or make
-- **def_1345** | concept: Rook | chunk: 84157ccb1121
-  > e a routine check?  Rook: If I roll, I get a damage bonus, right? The GM nods. Okay, I’ll roll for it. Rol
-- **def_1346** | concept: Ultramarine | chunk: 84157ccb1121
-  > t’s your turn now.  Ultramarine: Good, I’m going after Trawler! I fire a laser at her. We’ll see whose armor can
-- **def_1347** | concept: Minions | chunk: db54782984cc
-  > effects.  MINIONS  Minions  are  minor  characters  subject  to  special  rules  in combat, and generally easie
-- **def_1348** | concept: Odds | chunk: 3f5cd9a1056e
-  > ap, have it go off. Odds are the heroes only end up captured and will have the opportunity to escape and thw
-- **def_1349** | concept: Players | chunk: a74c30c36b5b
-  > everyone has fun.  Players  are  a  cunning  lot,  so  it’s  a  virtual  certainty  that, sooner  or  later,  t
-- **def_1350** | concept: Extra Effort | chunk: 39d0d8261dec
-  > luses and minuses.  Extra Effort: When players want their characters to pull  off  something  outlandish,  rather
-- **def_1351** | concept: Hero Points | chunk: 39d0d8261dec
-  > r a lot of ground.  Hero Points: Like extra effort, hero points allow char- acters to pull off amazing stunts. If
-- **def_1352** | concept: Even Gamemasters | chunk: 39d0d8261dec
-  > n the comic books.  Even Gamemasters are only human. Sooner or later, you’ll make a mistake, whether it’s forgetting a p
-- **def_1353** | concept: City | chunk: 63430f7e2ad6
-  > yers where New York City is, for example.  If  your  M&M  game  is  set  in  the  modern-day  world,  you m
-- **def_1354** | concept: Heroes | chunk: 45ba36bcd3d5
-  > mpact on the world. Heroes are often faced with intense moral dilemmas and conflicts,  such  as  supporting  a
-- **def_1355** | concept: Power Level | chunk: 5ae673e60fcd
-  > u going.  LEGACIES  Power Level: 8–10 • Scale: Local Setting: Modern • Style: Grayscale  You’ve  known  each  oth
-- **def_1356** | concept: Setting | chunk: 5ae673e60fcd
-  > 8–10 • Scale: Local Setting: Modern • Style: Grayscale  You’ve  known  each  other  all  your  lives,  played
-- **def_1357** | concept: Power Level | chunk: 5ae673e60fcd
-  > villains?  HEROES  Power Level: 7–9 • Scale: Regional Setting: Historical • Style: Light  Power Level: 10–12 • S
-- **def_1358** | concept: Setting | chunk: 5ae673e60fcd
-  > 9 • Scale: Regional Setting: Historical • Style: Light  Power Level: 10–12 • Scale: Global Setting: Modern •
-- **def_1359** | concept: Power Level | chunk: 5ae673e60fcd
-  > cal • Style: Light  Power Level: 10–12 • Scale: Global Setting: Modern • Style: Grayscale  The  local  big-league
-- **def_1360** | concept: Setting | chunk: 5ae673e60fcd
-  > –12 • Scale: Global Setting: Modern • Style: Grayscale  The  local  big-league  super-team  has  disbanded;
-- **def_1361** | concept: Power Level | chunk: 5ae673e60fcd
-  > ious team returns?  Power Level: 12-15 • Scale: Multiversal Setting: The multiverse • Style: Grayscale  America i
-- **def_1362** | concept: Setting | chunk: 5ae673e60fcd
-  > Scale: Multiversal Setting: The multiverse • Style: Grayscale  America is threatened by the growing threat o
-- **def_1363** | concept: America | chunk: 5ae673e60fcd
-  > • Style: Grayscale  America is threatened by the growing threat of the Axis powers. President Roosevelt sends
+- **def_0260** | concept: An effect with this modifier | chunk: b53c348dec5d
+  > TE  FLAT • 1 POINT  An effect with this modifier is an innate part of your na- ture  and  unaffected  by  Nullify  (see  the  Nullify
+- **def_0261** | concept: This | chunk: 1094aa03eba1
+  > l claps of thunder. This  is  a  Ranged  Damage  effect  (lightning),  cost- ing 2 points per rank, Linked to
+- **def_0262** | concept: This | chunk: 1094aa03eba1
+  > ering event occurs. This is similar to the Triggered modifier (later in this section) but reaction effects d
+- **def_0263** | concept: The GM | chunk: 1094aa03eba1
+  > ence, and so forth. The GM is the final arbiter as to whether or not a triggering circumstance is suitable for
+- **def_0264** | concept: Multiattack against five targets | chunk: 1094aa03eba1
+  > argets. So making a Multiattack against five targets is a –5 penalty to each attack check. If you miss one target, you may still attempt t
+- **def_0265** | concept: The GM | chunk: 1094aa03eba1
+  > ence, and so forth. The GM is the final arbiter as to whether or not a triggering circumstance is suitable for a p
+- **def_0266** | concept: This | chunk: bfdbb051d926
+  > ng  touching  him.  This  is  a  Reaction Damage effect, causing Damage when Doctor Shock is touched. Of cours
+- **def_0267** | concept: Doctor Shock | chunk: bfdbb051d926
+  > causing Damage when Doctor Shock is touched. Of course, Doctor Shock’s aura zaps any- one  or  anything  touching  h
+- **def_0268** | concept: This | chunk: bfdbb051d926
+  > not affected by it. This is most useful for area effects (see the Area extra). You must  TRIGGERED  FLAT • 1
+- **def_0269** | concept: The benefit | chunk: bfdbb051d926
+  > permanent effects). The benefit is the sustained effect can be improved using extra effort, includ- ing using it to per
+- **def_0270** | concept: The drawback | chunk: bfdbb051d926
+  > rform power stunts. The drawback is the effect  requires  a  free  action  each  turn  to  maintain  it,  and being unab
+- **def_0271** | concept: PER RANK  If Activation | chunk: d2a75d4d379e
+  > h.  FLAT • -1 POINT PER RANK  If Activation is not automatic, apply the Check Required flaw to the entire power as well and hav
+- **def_0272** | concept: Activation | chunk: d2a75d4d379e
+  > t effect to have an Activation is appropri- ate based on the specific effect and any others it is com- bined with
+- **def_0273** | concept: This | chunk: d2a75d4d379e
+  > strong  rock-form.  This  is  a  combination of  the  Enhanced  Strength,  Impervious  Protec- tion,  and  Pow
+- **def_0274** | concept: Three ranks | chunk: 9c685bbd4830
+  > feet, and 10 feet. Three ranks is the maximum a character can have in this flaw.  -1 COST PER RANK  Using  a  Distract
+- **def_0275** | concept: PER RANK  A  Quirk | chunk: 82504504b374
+  > RK  FLAT • -1 POINT PER RANK  A  Quirk  is  some  minor  nuisance  attached  to  an  effect, essentially  the  reverse  of
+- **def_0276** | concept: A  Quirk | chunk: 82504504b374
+  > re  under Extras).  A  Quirk  is  generally  worth,  at  most,  2–3  power points, and many are simply 1-point fla
+- **def_0277** | concept: Quirk | chunk: 82504504b374
+  > GM should ensure a Quirk is truly a flaw (albeit a minor one) and not simply part of the pow- er’s descripto
+- **def_0278** | concept: Lamprey has a draining touch that | chunk: 82504504b374
+  > reaction.  Example: Lamprey has a draining touch that is a Grab-Based  Weaken  Strength  effect.  So  the  mon- strous  villain  has  to  t
+- **def_0279** | concept: This | chunk: ffb72d59f44c
+  > ring  action  time. This  means opponents can generally only remove the power after de- feating you (leaving you
+- **def_0280** | concept: Success | chunk: 87f598748db8
+  > e resistance check. Success means the target has managed to avert his eyes, cover his ears, etc. and the effect do
+- **def_0281** | concept: Tiring | chunk: 7ade13289c0f
+  > with extra effort.  Tiring is often applied to just some ranks of an effect to rep- resent a higher level of t
+- **def_0282** | concept: Accidental powers | chunk: 6793b6d4a926
+  > include:  •  •  •  Accidental powers are the result of random chance or  accident:  being  struck  by  lightning,  doused  in
+- **def_0283** | concept: Fire | chunk: c73e4c4738ad
+  > by  the  God  of  Fire  is  a bestowed origin with a divine source, using fire as the me- dium to cause its
+- **def_0284** | concept: Technological powers | chunk: c73e4c4738ad
+  > rom other sources.  Technological powers are the result of technology, machines and technological devices. Although tech- nologic
+- **def_0285** | concept: This | chunk: 872291c50bc3
+  > work in game terms. This is the key element. While de- scriptors may imply certain interactions or minor ben
+- **def_0286** | concept: This | chunk: 872291c50bc3
+  > work in game terms. This is the key element. While de- scriptors may imply certain interactions or minor benefit
+- **def_0287** | concept: This | chunk: d7e831fa5f41
+  > effect for one use. This is like any other power  stunt  and  the  changed  or  additional  descriptors are
+- **def_0288** | concept: Removable | chunk: ebca8c9dc40a
+  > ifact, which is why Removable is a flaw for those powers.  Just like other powers, devices cost power points (alb
+- **def_0289** | concept: This | chunk: ebca8c9dc40a
+  > ee action. Neither. This is just a descriptor for various at- tack effect powers. Since the “weapons” can’t
+- **def_0290** | concept: A device | chunk: ebca8c9dc40a
+  > t robots.  DEVICES  A device is an item that provides a particular power effect or set of effects. While devices ar
+- **def_0291** | concept: Removable | chunk: ebca8c9dc40a
+  > ifact, which is why Removable is a flaw for those powers.  Just like other powers, devices cost power points (albei
+- **def_0292** | concept: The key concept here | chunk: ebca8c9dc40a
+  > e it against them). The key concept here is the use of the device is tem- porary, something that happens during a single scene o
+- **def_0293** | concept: Protection | chunk: 83acf5380dc1
+  > :  •  •  •  Armor:  Protection  is  the  foundation  power  for  a battlesuit. Whether it is armor plating, metallic
+- **def_0294** | concept: This | chunk: 83acf5380dc1
+  > wearer’s  Strength. This  is  typically  a combination of Enhanced Strength and Lim- ited ranks of Enhanced St
+- **def_0295** | concept: This | chunk: 1d151f074127
+  > n  the  invention.  This  is  a Technology skill check the GM should make in secret. The DC is 10 + the invent
+- **def_0296** | concept: The DC | chunk: 1d151f074127
+  > uld make in secret. The DC is 10 + the invention’s total power point cost, including all modifiers except Remo
+- **def_0297** | concept: The  DC | chunk: 1d151f074127
+  > logy  skill  check. The  DC  is  10  +  the  invention’s  power point  cost  and  you  can  make  it  as  a  rout
+- **def_0298** | concept: Success | chunk: 1d151f074127
+  > ntion’s point cost  Success means the invention is complete and functional. Failure means the invention doesn’t wo
+- **def_0299** | concept: Failure | chunk: 1d151f074127
+  > ete and functional. Failure means the invention doesn’t work. Three or more degrees of failure may result in a mis
+- **def_0300** | concept: One example | chunk: 1d151f074127
+  > Alternate Effects. One example is an array of magic rings, each with its own effect, but only usable one at a time.
+- **def_0301** | concept: Failure | chunk: 3788ea99174b
+  > perform the ritual. Failure means the ritual does not work and the time and effort is wasted.  212
+- **def_0302** | concept: EQUIPMENT  Equipment | chunk: 115dd3a349cb
+  > them from devices.  EQUIPMENT  Equipment  is  acquired  with  points  from  the  Equipment advantage. Each piece of equipment
+- **def_0303** | concept: This | chunk: 115dd3a349cb
+  > only one at a time. This is typically a multi- function  item,  or  a  kit  or  collection  of  various  sma
+- **def_0304** | concept: This | chunk: 115dd3a349cb
+  > a particular time. This is essentially an equipment  “power  stunt”—a  one-time  use  of  the  item for  on
+- **def_0305** | concept: A utility belt | chunk: 80099a87d308
+  > pact carrying case. A utility belt is an array of Alter- nate Equipment. Some characters may have a Removable array of de
+- **def_0306** | concept: This | chunk: 2c3d57c2a1b3
+  > l advantage.  Cost: This is the weapon’s cost in points. Characters pay this cost from their equipment point
+- **def_0307** | concept: This | chunk: 2c3d57c2a1b3
+  > l advantage.  Cost: This is the weapon’s cost in points. Characters pay this cost from their equipment points to
+- **def_0308** | concept: Their Damage | chunk: 81d16734de2e
+  > asers and blasters. Their Damage is generally not Strength-based.  Like melee weapons, ranged weapons have category,
+- **def_0309** | concept: Each | chunk: dc5f9b168c4e
+  > ns in this section. Each is considered a feature cost- ing 1 equipment point.  Laser Sight: A laser sight pr
+- **def_0310** | concept: Switching between ammo types | chunk: dc5f9b168c4e
+  > than lethal damage. Switching between ammo types is a move action (a free action for a character with the Quick Draw advantage).
+- **def_0311** | concept: This | chunk: c9e9523951b6
+  > ry defenses.  Cost: This is the armor’s cost in points. Characters pay this cost from their equipment points
+- **def_0312** | concept: This | chunk: c9e9523951b6
+  > ry defenses.  Cost: This is the armor’s cost in points. Characters pay this cost from their equipment points to
+- **def_0313** | concept: This | chunk: 042be12e9222
+  > bly Strength-based. This is best handled as an Alternate Effect of the shield, mean- ing you can’t use it bo
+- **def_0314** | concept: This | chunk: 042be12e9222
+  > head.  Plate-mail:  This  is  chain-mail  augmented  with  a  metal breastplate, greaves (leg-guards) and arm-
+- **def_0315** | concept: Just as power armor | chunk: 042be12e9222
+  > OOD: SUPER-SHIELDS  Just as power armor is a device version of otherwise or- dinary equipment armor, some heroes (and, less o
+- **def_0316** | concept: Dimension hopper | chunk: c51168f2be2c
+  > centric inventors.  Dimension hopper is a van-sized vehicle capable of mov- ing between dimensions like a rank 3 Movement
+- **def_0317** | concept: Its speed | chunk: c51168f2be2c
+  > through the earth. Its speed is a Burrowing effect (see page 151).  Time  machines  may  be  enclosed  vehicles,
+- **def_0318** | concept: This | chunk: 5cc7dcb2c08f
+  > r in this section). This is more common for villains, who have back-up plans and secret bases they can retre
+- **def_0319** | concept: A combat simulator | chunk: 5cc7dcb2c08f
+  > of the Gamemaster.  A combat simulator is a special room equipped with vari- ous devices intended to test characters’ powers
+- **def_0320** | concept: Toughness | chunk: 03bc5d87aec7
+  > vel) or their basic Toughness is increased by 50%, which option should be agreed  upon  by  both  player  and  GM
+- **def_0321** | concept: This | chunk: 03bc5d87aec7
+  > ve there full-time. This is usually a number of residents equal to the HQ’s power level comfortably (pos- si
+- **def_0322** | concept: A laboratory | chunk: 03bc5d87aec7
+  > rate base feature.  A laboratory is a facility for performing scientific tests or experiments. It contains all the nec
+- **def_0323** | concept: SEALED  This | chunk: 9f103da0da38
+  > HQ’s power level.  SEALED  This  is  similar  to  the  Isolated  feature,  except  the  lair  is sealed off from the
+- **def_0324** | concept: This | chunk: 9f103da0da38
+  > i- cated workshop.  This is similar to the Concealed feature except the head- quarters is not so much concea
+- **def_0325** | concept: Presence | chunk: 05327100448d
+  > tel- lect  but  no  Presence  is  intelligent  but  non-sentient  (not self-aware) and a construct needs a rank in
+- **def_0326** | concept: Impaired and disabled | chunk: 821fc06edf41
+  > e nausea.  Alcohol: Impaired and disabled are the most common conditions, perhaps dazed and stunned for severe drunkenness, as for
+- **def_0327** | concept: Damage | chunk: 7ed36e3d5075
+  > ce  check  against  Damage  is dead.  Strength provides a “built-in” Damage effect: the ability to hit things!
+- **def_0328** | concept: Strength Damage | chunk: 7ed36e3d5075
+  > ts,  a  character’s Strength Damage is close range and instant duration by default.  If you choose, a Damage effect can
+- **def_0329** | concept: The following | chunk: b6064e74b184
+  > N & ADVENTURE  241  The following is an example of the M&M rules in action during a conflict scene.  Three heroes: Princ
+- **def_0330** | concept: Princess | chunk: 84157ccb1121
+  > surprise attack, so Princess is vulnerable and her Dodge is halved to 4, rather than 8, making the DC a 14.  …a
+- **def_0331** | concept: Dodge | chunk: 84157ccb1121
+  > vulnerable and her Dodge is halved to 4, rather than 8, making the DC a 14.  …a steel mesh net launches out
+- **def_0332** | concept: Trawler | chunk: 84157ccb1121
+  > vage operator” like Trawler is involved? As the conflict continues, the heroes will find out!
+- **def_0333** | concept: And what kind of contraband | chunk: 84157ccb1121
+  > n take out Trawler? And what kind of contraband are the smugglers moving that a “salvage operator” like Trawler is involved? As the conf
+- **def_0334** | concept: Attacking an object held or worn by another character | chunk: 03f345278ec9
+  > 5 bonus to effect.  Attacking an object held or worn by another character is a smash action (see the Smash maneuver).  If an attacker’s intention is to bend, b
+- **def_0335** | concept: This | chunk: f62657e080ad
+  > a standard action. This is like a team check (see Team  Checks  in  The  Basics  chapter): You  make  an  a
+- **def_0336** | concept: Dropping a held item | chunk: aa72b8f17fa7
+  > sarm the defender.  Dropping a held item is a free action (although dropping or  throwing  an  item  with  the  intention  of
+- **def_0337** | concept: Readying | chunk: 9136b6d87e68
+  > on your next turn. Readying is a standard action, so you can move as well.  If you come to your next turn and h
+- **def_0338** | concept: Since maintaining a grab | chunk: 9136b6d87e68
+  > ) while do- ing so. Since maintaining a grab is a free action, you can take a standard action to inflict your Strength damage to a
+- **def_0339** | concept: Readying | chunk: 9136b6d87e68
+  > on your next turn. Readying is a standard action, so you can move as well.  If you come to your next turn and hav
+- **def_0340** | concept: A maneuver | chunk: 9136b6d87e68
+  > ur readied action.  A maneuver is a different way of performing a particular action. For example, a defensive attack
+- **def_0341** | concept: ADVENTURE | chunk: 3df9e8cdc695
+  > CHAPTER 8: ACTION & ADVENTURE  is designed to emulate the superhero comic books, so characters generally bounce ba
+- **def_0342** | concept: This | chunk: 3df9e8cdc695
+  > apter for details). This is largely how the comics handle them; most of the time, heroes bounce back from th
+- **def_0343** | concept: Character death | chunk: 3df9e8cdc695
+  > character.  DEATH  Character death is a relatively rare happenstance in the comic books. Technically, it’s not so much r
+- **def_0344** | concept: While Gamemastering | chunk: f47cb1a00aa5
+  > epts in game terms. While Gamemastering is a big responsibility, it’s not as hard as it might seem, and providing a fun and
+- **def_0345** | concept: Gamemaster | chunk: f47cb1a00aa5
+  > their actions, the Gamemaster is responsible for everything else that happens in the game. A good GM tries to mak
+- **def_0346** | concept: This | chunk: f47cb1a00aa5
+  > he Basics chapter). This is intentional; the average character only really fails at an average task when hur
+- **def_0347** | concept: While Gamemastering | chunk: f47cb1a00aa5
+  > epts in game terms. While Gamemastering is a big responsibility, it’s not as hard as it might seem, and providing a fun and e
+- **def_0348** | concept: A good guideline to keep in mind | chunk: f47cb1a00aa5
+  > Points, page 20.)  A good guideline to keep in mind is the chance of an aver- age character (with a modifier of 0) succeeding at an av- era
+- **def_0349** | concept: Difficulty | chunk: 3f5cd9a1056e
+  > the adventure, that Difficulty is low enough that anyone with an unimpaired (0 or higher) Awareness can succeed at
+- **def_0350** | concept: This | chunk: 3f5cd9a1056e
+  > ly know the result. This is usu- ally  the  case  for  any  sort  of  check  where  the  characters don’t  i
+- **def_0351** | concept: M Gamemaster | chunk: 3f5cd9a1056e
+  > to get into as a M&M Gamemaster is asking your players to not only tell you the outcomes of their die rolls and tes
+- **def_0352** | concept: If you decide it | chunk: 3f5cd9a1056e
+  > ption, for example. If you decide it is a DC 10 Perception  check  to  pick  up  on  some  clue  or  bit  of  in- formatio
+- **def_0353** | concept: Odds | chunk: 3f5cd9a1056e
+  > ap, have it go off. Odds are the heroes only end up captured and will have the opportunity to escape and thwart t
+- **def_0354** | concept: This | chunk: a74c30c36b5b
+  > or highly adverse). This is true whether you’re trying to use a skill, make an attack, use a power, or what
+- **def_0355** | concept: This | chunk: 489d1a2f08e9
+  > immediate  death. This  is  a  particularly  harsh  option  to  impose,  but heroes still gain the benefit o
+- **def_0356** | concept: Another common element in the comics | chunk: 76509b5547eb
+  > ary disagreements.  Another common element in the comics is the loner char- acter: dressed in black, often trained in stealth, and prefer- ring
+- **def_0357** | concept: Far worse | chunk: 76509b5547eb
+  > along with the bit. Far worse is a team of loners, none of whom get  along! You  can  accommodate  some  loner  cha
+- **def_0358** | concept: MASTERMINDS game | chunk: 76509b5547eb
+  > reating a MUTANTS & MASTERMINDS game is a fairly simple process. First, define the threat around which the adventure revol
+- **def_0359** | concept: There | chunk: 76509b5547eb
+  > master!  HEROES...  There are a number of things to consider when you begin planning  an  adventure,  including
+- **def_0360** | concept: This | chunk: 240aaf1d833c
+  > o earn hero points. This means the early encounters in the adventure don’t have to go well for the heroes. In f
+- **def_0361** | concept: Odds | chunk: 240aaf1d833c
+  > es  weren’t around. Odds are the players aren’t going to just allow the aliens to get away with their crimes. Per
+- **def_0362** | concept: This | chunk: d8d02c3f73e4
+  > the grand fi- nale. This is when the heroes confront the major threat of the  adventure  and  have  a  real
+- **def_0363** | concept: That | chunk: d8d02c3f73e4
+  > nd fun as possible. That means the finale should be challenging; encouraging the players to spend all those her
+- **def_0364** | concept: This | chunk: 1d1d62ae4331
+  > course of a series. This represents the experience and confi- dence the heroes have gained, along with other factors
+- **def_0365** | concept: The key difference | chunk: 1d1d62ae4331
+  > earn those points. The key difference is the play- ers decide when and how they spend their hero points. So  you’re  not  nec
+- **def_0366** | concept: Earth | chunk: 0b17a88e35d9
+  > SAL  At this scale, Earth is just one small part of the vast uni- verse,  and  the  heroes  regularly  travel
+- **def_0367** | concept: This | chunk: 0b17a88e35d9
+  > among  the  stars. This is the scale for cosmic heroes such as an interstellar police force, or for far-fut
+- **def_0368** | concept: There | chunk: 0b17a88e35d9
+  > tend to be grander. There is a majesty to the vastness of space or an infinity of other realities that’s hard
+- **def_0369** | concept: This | chunk: 0b17a88e35d9
+  > among  the  stars. This is the scale for cosmic heroes such as an interstellar police force, or for far-future
+- **def_0370** | concept: There | chunk: 0b17a88e35d9
+  > tend to be grander. There is a majesty to the vastness of space or an infinity of other realities that’s hard t
+- **def_0371** | concept: This approach | chunk: 63430f7e2ad6
+  > f our modern world. This approach is the easiest one by far, since there isn’t as much you have to make up. You don’t hav
+- **def_0372** | concept: That | chunk: 45ba36bcd3d5
+  > to  maintain  it.  That  means  creating  adventures  and  en- counters suited to that style and encouraging the
+- **def_0373** | concept: Problem solving | chunk: 45ba36bcd3d5
+  > in  need of help). Problem solving is a matter of either combat or clever thinking, and roleplaying is an opportunity fo
+- **def_0374** | concept: Grayscale  America | chunk: 5ae673e60fcd
+  > multiverse • Style: Grayscale  America is threatened by the growing threat of the Axis powers. President Roosevelt sends a
+- **def_0375** | concept: The crime lord presented here | chunk: 6805431193d6
+  > n  be  problematic. The crime lord presented here is a fairly small fish; Game- masters should make any changes needed to increase the
+- **def_0376** | concept: Emerald City | chunk: d421725a8d2c
+  > … a city in crisis. Emerald City is a thriving Pa- cific Northwest metropolis, a port city known as a home to hardy
+- **def_0377** | concept: Emerald City | chunk: d421725a8d2c
+  > leepy Pacific town, Emerald City is a hub of high-tech, alien activity, and superhuman struggle—a city in need of he
+- **def_0378** | concept: Emerald City | chunk: d421725a8d2c
+  > touched,  giving  Emerald City is located in the Pacific Northwest, centered on a sheltered inner peninsula juttin
+- **def_0379** | concept: Ghost Town | chunk: d421725a8d2c
+  > shake the heavens!  Ghost Town is an adventure for Mutants & Masterminds. It is intended for a group of three to f
+- **def_0380** | concept: Professor  Salinas | chunk: d421725a8d2c
+  > ead of the Center.  Professor  Salinas  is  a  charismatic  academic,  popular  with his  students,  and  he  has  worked  f
+- **def_0381** | concept: Salinas | chunk: d421725a8d2c
+  > How- ever, as much Salinas is concerned with the Center’s reputa- tion and stability, he’s also concerned with
+- **def_0382** | concept: Moon | chunk: d421725a8d2c
+  > Fire of the Sun and Moon is a small statue about two feet tall, carved of whalebone joined and inlaid with g
+- **def_0383** | concept: Tonight | chunk: d421725a8d2c
+  > ing each new moon.  Tonight is a new moon.  SCENE 2  COMBAT  By  proceeding  immediately  to  Angel  Island,  t
+- **def_0384** | concept: Angel Island | chunk: d421725a8d2c
+  > t of their ritual.  Angel Island is a small island not far from Emerald City in the middle of the Albian River. Sinc
+- **def_0385** | concept: Following | chunk: d421725a8d2c
+  > eil to come inside. Following is a short list of the most prominent effects heroes will experience:  •  •  •  •
+- **def_0386** | concept: Avison | chunk: d421725a8d2c
+  > r: The geography of Avison is rough- ly that of Angel Island (or at least, the island in the late eighteenth c
+- **def_0387** | concept: Emerald Star | chunk: d421725a8d2c
+  > eroes’ visit to the Emerald Star is their chance to re- cover after their quick succession of battles on either side
+- **def_0388** | concept: Doctor  Clock | chunk: d421725a8d2c
+  > trange new  world.  Doctor  Clock  is  as  friendly  and  curious  as Longhunter  is  taciturn  and  guarded,  but  ans
+- **def_0389** | concept: Longhunter | chunk: d421725a8d2c
+  > y  and  curious  as Longhunter  is  taciturn  and  guarded,  but  answers  any questions  the  players  have  about
+- **def_0390** | concept: Doctor Clock | chunk: d421725a8d2c
+  > the outside world. Doctor Clock is happy to offer his services as a healer, if needed, as well as the use of any of
+- **def_0391** | concept: Lord Sanguine | chunk: d421725a8d2c
+  > e out in the mists, Lord Sanguine is beginning a ritual…but the heroes need to get the artifacts to Doctor Clock to f
+- **def_0392** | concept: THE HEART  The Kingsheart | chunk: d421725a8d2c
+  > SCENE 5A: STEALING THE HEART  The Kingsheart is the mummified heart of the Spanish king Peter I, taken by the then-mortal Lord S
+- **def_0393** | concept: Kingsheart | chunk: d421725a8d2c
+  > k suspects that the Kingsheart  is  often  passed  from  one  witch  to  another, constantly used as a focus for the
+- **def_0394** | concept: Kingsheart | chunk: d421725a8d2c
+  > e Sons, finding the Kingsheart is a big job. In each of the twelve trees there are between one and four huts, each
+- **def_0395** | concept: Kingsheart | chunk: d421725a8d2c
+  > daub.  Though  the  Kingsheart  is  precious  to  the  witches,  their homes and brethren are more so: if the heroes
+- **def_0396** | concept: Shroud | chunk: d421725a8d2c
+  > TICS  Capturing the Shroud is another challenge altogether. Any Blood Monk attacked by the heroes shrieks loud
+- **def_0397** | concept: The  Blood  Monk | chunk: d421725a8d2c
+  > lities  it  grants. The  Blood  Monk  is also able to cast off strands of the Shroud once per round in an attempt to enta
+- **def_0398** | concept: Shroud | chunk: d421725a8d2c
+  > od Monk wearing the Shroud is defeated, the  Shroud’s limited intelligence is triggered and it teleports to th
+- **def_0399** | concept: Singing | chunk: d421725a8d2c
+  > m, Black- bird.  •  Singing is protection from the powers of Lord Sanguine—  his dark chaos can’t swallow the b
+- **def_0400** | concept: Avison | chunk: d421725a8d2c
+  > ve acclimated to in Avison is gone, and they’re once again back on the shores of Angel Island, with the aftern
+- **def_0401** | concept: Moon | chunk: d421725a8d2c
+  > Fire of the Sun and Moon is gone, but there’s an impression in the ground that marks it as having been here.
+- **def_0402** | concept: Emerald City | chunk: d421725a8d2c
+  > sion: ev- eryone in Emerald City is gone, like they never existed.  In fact, the only sign of life is Lord Sanguine,
+- **def_0403** | concept: Emerald City | chunk: d421725a8d2c
+  > e near the Cannery. Emerald City is now Lord Sanguine’s kingdom,  and  with  a  wave  of  his  hand  his  subjects
+- **def_0404** | concept: Sanguine | chunk: d421725a8d2c
+  > move into the city Sanguine is easy to spot. He’s taller than some  284  downtown  buildings,  and  the  heroes
+- **def_0405** | concept: The Owl | chunk: d421725a8d2c
+  > ritual is underway. The Owl is eager to complete the task, to con- tain Sanguine and take responsibility as Avi
+- **def_0406** | concept: Blackbird | chunk: d421725a8d2c
+  > ivation—Misguided:  Blackbird is obsessed  with  Lord  Sanguine  and  will  do  anything  to  serve him and his d
+- **def_0407** | concept: Doctor  Clock | chunk: d421725a8d2c
+  > ation—Doing  Good:  Doctor  Clock is  driven  by  mysteries  and  enigmas,  by  seeking  answers  to questions  that
+- **def_0408** | concept: Doctor  Clock | chunk: d421725a8d2c
+  > .  Like  Sanguine,  Doctor  Clock  is  a  Catalonian mystic  and  senses  a  bond  to  the  blood  lord,  feeling  that
+- **def_0409** | concept: Kestrel | chunk: d421725a8d2c
+  > stical  abilities,  Kestrel  is  obsessed  with the witch-woman and will do anything to help or protect her. Fath
+- **def_0410** | concept: Kestrel | chunk: d421725a8d2c
+  > her. Father’s Son: Kestrel is a demigod and is quick to remind mere mortals of his superiority… but is also ke
+- **def_0411** | concept: Longhunter | chunk: d421725a8d2c
+  > with Daniel Boone, Longhunter  is  determined  to  prove  she’s  the  best  hunter around. She often clashes with o
+- **def_0412** | concept: Blood Monk | chunk: d421725a8d2c
+  > attack in groups, a Blood Monk is  absolutely  willing  to  sacrifice  an  ally  if  it  might  mean  a better outc
+- **def_0413** | concept: GEOGRAPHY  Freedom  City | chunk: d421725a8d2c
+  > ng satellite base.  GEOGRAPHY  Freedom  City  is  situated  along  the  coast  at  the  conflu- ence of the Wading and South River
+- **def_0414** | concept: West End | chunk: d421725a8d2c
+  > he east. Beyond the West End is a collection of suburbs—Ashton, Green- bank, and Grenville—and the Wharton State
+- **def_0415** | concept: Freedom City | chunk: d421725a8d2c
+  > on of all freedom.  Freedom City is home to more heroes than any other city in  the  world  (rivaled  only  by  Emer
+- **def_0416** | concept: This | chunk: d421725a8d2c
+  > y.  The  Next-Gen:  This  is  the  unofficial  nickname  for the upper-class students of the Claremont Academy
+- **def_0417** | concept: Freedom  City | chunk: d421725a8d2c
+  > per  headquarters,  Freedom  City is  always  in  need  of  heroes  to  lend  a  helping  hand,  and knows how to lay
+- **def_0418** | concept: Apes | chunk: d421725a8d2c
+  > es!  Time  of  the  Apes  is  an  adventure  for  Mutants  &  Master- minds. It is intended for a group of fou
+- **def_0419** | concept: Set | chunk: d421725a8d2c
+  > page  305), Marmo-Set is all the more determined to master the an- cient plague magic on Earth-Prime.  Th
+- **def_0420** | concept: Bola | chunk: d421725a8d2c
+  > the  Guild,  the  Bola  is  (relatively  speaking)  the most  likeable  member,  despite  his  open,  unapol
+- **def_0421** | concept: Firebug | chunk: d421725a8d2c
+  > maniac  mind,  the  Firebug  is  the most  straightforward  Guild  member.  Very  little  can  dis- tract him fro
+- **def_0422** | concept: Robbery | chunk: d421725a8d2c
+  > al paeans to them.  Robbery  is all about style for the Huckster,  so he always uses whatever means display the
+- **def_0423** | concept: Looking  Glass | chunk: d421725a8d2c
+  > ably selfish  lot,  Looking  Glass  is  content  to  commit  crimes aided only by the person she loves most: herself. If
+- **def_0424** | concept: Maple | chunk: d421725a8d2c
+  > of America. If the Maple is silent, it’s a clear sign he’s been knocked unconscious.  The Weather Mistress i
+- **def_0425** | concept: The Weather Mistress | chunk: d421725a8d2c
+  > ocked unconscious.  The Weather Mistress is ever the sarcastic, rude, belittling smart-ass. This is partly her being her nat
+- **def_0426** | concept: This | chunk: d421725a8d2c
+  > littling smart-ass. This is partly her being her natural embittered self, and partly her Taunt advantage bro
+- **def_0427** | concept: Success | chunk: d421725a8d2c
+  > e are left, etc.).  Success means a hero notices what appears to be a mass of gathering black clouds over the ocea
+- **def_0428** | concept: Looking Glass | chunk: d421725a8d2c
+  > erything of value. Looking Glass is on the same floor, tak- ing whatever “pretty things” (like gemstones) interest h
+- **def_0429** | concept: Huckster | chunk: d421725a8d2c
+  > o with bravery, the Huckster is al- ways one of the last to run from a losing fight. He just can’t leave a crowd
+- **def_0430** | concept: Firebug | chunk: d421725a8d2c
+  > 95  Of the lot, the Firebug is most difficult to get anything useful from. He’s such a basket case all he does
+- **def_0431** | concept: Mad Maple | chunk: d421725a8d2c
+  > ile. Similarly, the Mad Maple is too full of long-winded political rants to be a good stool pigeon, and is likewi
+- **def_0432** | concept: ACTION  Looking Glass | chunk: d421725a8d2c
+  > this knowledge now. ACTION  Looking Glass is ready to talk, but she’s mostly interested manufacturing  some  state’s  evidenc
+- **def_0433** | concept: Huckster | chunk: d421725a8d2c
+  > one Island (but the Huckster is not  above  bluffing  that  he  does,  if  he  thinks  it  will  gain him some a
+- **def_0434** | concept: Set | chunk: d421725a8d2c
+  > nd reverence, Marmo-Set is pri- marily motivated by self-aggrandizement using the pow- er  he  believes  hi
+- **def_0435** | concept: League | chunk: d421725a8d2c
+  > with the Free- dom League is a bunch of talking, super-powered apes called the Primate Patrol. No, seriously!
+- **def_0436** | concept: Simian | chunk: d421725a8d2c
+  > tempt for humanity, Simian is unfailingly reasonable and polite during this encounter. This is noticeably out
+- **def_0437** | concept: This | chunk: d421725a8d2c
+  > ing this encounter. This is noticeably out of character for him, but there is a method to his seeming madnes
+- **def_0438** | concept: Simian | chunk: d421725a8d2c
+  > supervillain  Dr.  Simian  is  absolutely honest and genuine in his claim to know Marmo-Set and Choshech’s weak
+- **def_0439** | concept: Simian | chunk: d421725a8d2c
+  > d itself, however.) Simian is so agree- able he will, if asked, even put down his martini and snuff out his fr
+- **def_0440** | concept: Simian | chunk: d421725a8d2c
+  > . A relaxed, polite Simian is already enjoying a cigar and pre- paring  a  batch  of  perfect  (shaken,  not
+- **def_0441** | concept: Simian | chunk: d421725a8d2c
+  > shech’s weaknesses, Simian is supremely, cooly confident  the  super-humans  will  fail  without  him  and  be
+- **def_0442** | concept: Simian | chunk: d421725a8d2c
+  > him.  If  present,  Simian  is  coldly  focused  on  the  business  at hand. His choice of actions remains very
+- **def_0443** | concept: Set | chunk: d421725a8d2c
+  > animal fury.  Marmo-Set is driven by power and, given his current abili- ties,  he’s  dangerously  overconf
+- **def_0444** | concept: Professor  Victor | chunk: d421725a8d2c
+  > nality re-emerges,  Professor  Victor  is  surprised  by  the  (to  him) sudden  change  of  surroundings.  Finding  the  p
+- **def_0445** | concept: Set | chunk: d421725a8d2c
+  > s attack that Marmo-Set is especially keen on protecting his noggin. Alternately, the Gamemaster can rule a
+- **def_0446** | concept: Set | chunk: d421725a8d2c
+  > ll details.)  Marmo-Set  is  still  learning  how  best  to  use  Choshech’s powers,  but  unlike  Scene  2,
+- **def_0447** | concept: Bola | chunk: d421725a8d2c
+  > Guild member, the Bola is a committed thief. Obsession: A lifelong, incorrigible womanizer, the Bola’s gre
+- **def_0448** | concept: Johnny  Goff | chunk: d421725a8d2c
+  > the Firebug.  302  Johnny  Goff  is  a  born  salesman,  maybe  the  best  who ever lived. Selling ice to Eskimos was
+- **def_0449** | concept: Huckster | chunk: d421725a8d2c
+  > Like  them,  the  Huckster  is  all  about  the  sales pitch, but his spellbinding blarney is always a prelude t
+- **def_0450** | concept: Robbery | chunk: d421725a8d2c
+  > for a buck. Quirk: Robbery is all about style for the Huckster, so he always uses  whatever  gadget  displays
+- **def_0451** | concept: Huckster | chunk: d421725a8d2c
+  > o with bravery, the Huckster is always one of the last to run from a losing fight. He just can’t leave a crowd w
+- **def_0452** | concept: Looking  Glass | chunk: d421725a8d2c
+  > a  Guild member,  Looking  Glass  is  extremely  covetous  of  rare “pretty things.” Obsession: Even more than her lov
+- **def_0453** | concept: Looking Glass | chunk: d421725a8d2c
+  > her love of riches, Looking Glass is consumed by both her maniacal passion for mirrors as well as her own overriding
+- **def_0454** | concept: The  Mad  Maple | chunk: d421725a8d2c
+  > vation—Patriotism:  The  Mad  Maple  is utterly consumed by his fanatical vision of Canada as the source of  all  the  w
+- **def_0455** | concept: Marguerite Frey | chunk: d421725a8d2c
+  > people  have  said  Marguerite Frey is the most beautiful girl in the world. She heard it so often it wasn’t long befor
+- **def_0456** | concept: She | chunk: d421725a8d2c
+  > t the Weather Vane. She is aware of the Doctor’s ruthless reputation and fully realizes his interest in her
+- **def_0457** | concept: Marguerite | chunk: d421725a8d2c
+  > sly  wealthy,  but  Marguerite  is  accustomed  to  having everything handed to her. There was nothing left for her
+- **def_0458** | concept: Canada | chunk: d421725a8d2c
+  > ist group convinced Canada is being kept from its greater destiny by the U.S.— that his tendencies towards pol
+- **def_0459** | concept: Victor | chunk: d421725a8d2c
+  > ild-mannered  Prof. Victor  is  re- nowned on Earth-Ape as a leading archaeological scholar on  Ancient  Apegypt
+- **def_0460** | concept: Sorcery Array | chunk: d421725a8d2c
+  > f Set, Marmo- Set’s Sorcery Array is lowered by 6 points, with all Alternate Effects adjusted  accordingly.  Without
+- **def_0461** | concept: Sorcery Array | chunk: d421725a8d2c
+  > Set,  Marmo-Set’s Sorcery Array is lowered by 18 points, with all Alternate Effects adjusted accordingly. Identity:
+- **def_0462** | concept: Doctor  Simian | chunk: d421725a8d2c
+  > ivation—Obsession:  Doctor  Simian  is  a mad scientific genius driven by ambition and revenge, who feels it is his duty
+- **def_0463** | concept: Doctor Simian | chunk: d421725a8d2c
+  > ip remains cordial. Doctor Simian is still one of the Foundry’s loyal customers and contractors.  Ultimately,  Simian
+- **def_0464** | concept: Damage | chunk: d421725a8d2c
+  > s a character harm. Damage is resisted by Toughness.  damage  condition:  A  condition  imposed  by  a  damage
+- **def_0465** | concept: Emerald City | chunk: d421725a8d2c
+  > … a city in crisis. Emerald City is a thriving Pa- cific Northwest metropolis, a port city known as a home to hardy pi
+- **def_0466** | concept: Emerald City | chunk: d421725a8d2c
+  > leepy Pacific town, Emerald City is a hub of high-tech, alien activity, and superhuman struggle—a city in need of hero
+- **def_0467** | concept: Ghost Town | chunk: d421725a8d2c
+  > shake the heavens!  Ghost Town is an adventure for Mutants & Masterminds. It is intended for a group of three to five
+- **def_0468** | concept: The Fire of the Sun and Moon | chunk: d421725a8d2c
+  > teers information.  The Fire of the Sun and Moon is a small statue about two feet tall, carved of whalebone joined and inlaid with gol
+- **def_0469** | concept: The name of that group | chunk: d421725a8d2c
+  > board have refused. The name of that group is the Sons of the  A story is told by Hekawi elders:  “In the time of our father’s fat
+- **def_0470** | concept: It is said the rain | chunk: d421725a8d2c
+  > ky of the val- ley. It is said the rain is the tears of their mother weeping for her missing children and the thunder is their
+- **def_0471** | concept: Tonight | chunk: d421725a8d2c
+  > ing each new moon.  Tonight is a new moon.  SCENE 2  COMBAT  By  proceeding  immediately  to  Angel  Island,  the
+- **def_0472** | concept: Angel Island | chunk: d421725a8d2c
+  > t of their ritual.  Angel Island is a small island not far from Emerald City in the middle of the Albian River. Since
+- **def_0473** | concept: There | chunk: d421725a8d2c
+  > ave him surrounded. There are a dozen farmers scattered among the knee-high rows in the field, and though they’r
+- **def_0474** | concept: Following | chunk: d421725a8d2c
+  > eil to come inside. Following is a short list of the most prominent effects heroes will experience:  •  •  •  •  Sp
+- **def_0475** | concept: Hekawi farmers | chunk: d421725a8d2c
+  > lothing. These same Hekawi farmers are the ones talking excitedly about Nkl’kl’wechshn as they point at Wolfen felled by th
+- **def_0476** | concept: The three artifacts | chunk: d421725a8d2c
+  > OMBAT, ROLEPLAYING  The three artifacts are the Shroud of Allard Aymon, held by the Blood Monks at the mission in the hills abov
+- **def_0477** | concept: On the bottom deck | chunk: d421725a8d2c
+  > f tools in between. On the bottom deck is a eighteenth-century “garage”, a stable for his horse Quijano and hers, Utsidihi,
+- **def_0478** | concept: The Kingsheart | chunk: d421725a8d2c
+  > STEALING THE HEART  The Kingsheart is the mummified heart of the Spanish king Peter I, taken by the then-mortal Lord Sangu
+- **def_0479** | concept: Kingsheart | chunk: d421725a8d2c
+  > e Sons, finding the Kingsheart is a big job. In each of the twelve trees there are between one and four huts, each a
+- **def_0480** | concept: Wolfen | chunk: d421725a8d2c
+  > recognize that the Wolfen are an offshoot of them; as such, the Wolfen also refuse to battle any hero whose power
+- **def_0481** | concept: The heroes who | chunk: d421725a8d2c
+  > wer point.  MORE?!  The heroes who are the new guardians of the gateway to Avison now feel a connection to the artifact—and
+- **def_0482** | concept: Kestrel | chunk: d421725a8d2c
+  > her. Father’s Son: Kestrel is a demigod and is quick to remind mere mortals of his superiority… but is also keen
+- **def_0483** | concept: West End | chunk: d421725a8d2c
+  > he east. Beyond the West End is a collection of suburbs—Ashton, Green- bank, and Grenville—and the Wharton State F
+- **def_0484** | concept: League | chunk: d421725a8d2c
+  > with the Free- dom League is a bunch of talking, super-powered apes called the Primate Patrol. No, seriously!
+- **def_0485** | concept: Bola | chunk: d421725a8d2c
+  > Guild member, the Bola is a committed thief. Obsession: A lifelong, incorrigible womanizer, the Bola’s great
+- **def_0486** | concept: Frey | chunk: d421725a8d2c
+  > e  said  Marguerite Frey is the most beautiful girl in the world. She heard it so often it wasn’t long before sh
+- **def_0487** | concept: Following | chunk: d421725a8d2c
+  > GLOSSARY GLOSSARY  Following are a collection of important terms used throughout MUTANTS & MASTERMINDS. The definit
 
 ## 3. dependency_verbs
 
-*162 dependencies*
+*524 dependencies*
 
-- **dep_0000** Accurate **affects** Corporeal
+- **dep_0000** Untrained Skill **checks** Interaction Skills
+  > 113 Untrained Skill Checks ......113 Interaction Skills ..................114 Manipulation Skills .............114 DESCRIPTIONS....
+- **dep_0001** Effect **checks** Effect Parameters
+  > 145 Effect Checks ........................145 Effect Parameters ................145 Countering Effects ..............147 EFFECTS ...........
+- **dep_0002** Accurate **affects** Corporeal
   > 187 Applying Modifiers .............187 Extras .......................................188 Accurate ...............................188 Affects Corporeal ...............188 Affects Insubstantial .......
-- **dep_0001** Athletics **overcome** Technology
-  > DIFFICULTY (DC)  EXAMPLE (SKILL USED)  Very easy (0)  Notice something in plain sight (Perception)  Easy (5)  Climb a knotted rope (Athletics)  Average (10)  Tough (15)  Challenging (20)  Formidable (
-- **dep_0002** Power **imposes** Skill Modifier
-  > Power level imposes the following limits:  •  •  •  Skill Modifier: Your hero’s total modifier with any skill (ability rank + skill rank + advantage modifiers) cannot exceed  the  series  power  level
-- **dep_0003** Other **uses** Accident
-  > Other  possible  complications,  and  their  uses  in  adven- tures, include:  •  •  Accident: You cause or suffer some sort of accident
-- **dep_0004** Assessment **requires** Intimidation
-  > For example, you might get the Daze (Intimidation), Skill Mastery (Technol- ogy),  or  Assessment  advantages,  each  of  which  requires a  specific  skill  to  work  correctly:  Intimidation,  Techn
-- **dep_0005** Ranged Affliction **resisted** Dodge
-  > 1-2  •  Electrified Shell: Reaction Damage 6 • 1 point  3-4  5-7  8-9  10-12  13-15  16-18  19-20  •  Electro-Stunner: Ranged Affliction 10 (Resisted by Dodge and Overcome by Fortitude
-- **dep_0006** Ranged Affliction **resisted** Dodge
-  > Dazed, Stunned, Incapacitated), Accurate 4 • 1 point  •  Plasma Bolts: Ranged Multiattack Damage 6,  Accurate 6 • 1 point  •  Force Capsule: Ranged Affliction 10 (Resisted  by Dodge and Overcome by Da
-- **dep_0007** Ranged Cumulative Affliction **resisted** Dodge
-  > Toughness 8 • 10 points  Swingline: Movement 1 (Swinging) • 2 points  Utility Belt • 17 points  11-20  •  Bolos: Ranged Cumulative Affliction 4 (Resisted by Dodge, Overcome by Damage
-- **dep_0008** Ranged Affliction **resisted** Dodge
-  > Dazed, Stunned, Incapacitated) • 1 point  7-10  •  Tornado: Cylinder Area Move Object 8,  Concentration Duration, Damaging • 1 point  11-13  •  Wind Binding: Ranged Affliction 12 (Resisted  by Dodge,
-- **dep_0009** Cumulative Affliction **resisted** Dodge
-  > •  Earth Blast: Ranged Damage 10 • 1 point  5-10  •  Earthen Snare: Cumulative Affliction 10 (Resisted by Dodge, Overcome by Damage
-- **dep_0010** Burst Area
+- **dep_0003** THE BASICS **has** Agility
+  > CHAPTER 1: THE BASICS  99  a hero has Agility 6 and is trained in Acrobatics (with a rank of 7) then the character’s bonus for checks involving feats of agility covered by Acrobatics is 13 (6 plus 7)
+- **dep_0004** For **have** Powers
+  > For full descriptions of the various effects powers can have, see the Powers chapter
+- **dep_0005** The **has** MUTANTS
+  > (You can find a metric version of the Mea- surements Table in the back of the book.)  The relationship between rank and measure has a num- ber of uses in MUTANTS & MASTERMINDS
+- **dep_0006** Gamemaster **has** Okay
+  > All the Gamemaster has to say in response to the player’s declaration is: “Okay, roll a Fighting check to hit the villain,” letting the rest of the description stand as what happens
+- **dep_0007** For **checks** Action
+  > For detailed examples of how to use checks in the game and their effects, see the Action & Adventure chapter
+- **dep_0008** Deception **rolls** Insight
+  > You roll a Deception check, while the GM rolls an Insight check for your target
+- **dep_0009** Opposed **checks** Gamemaster
+  > Opposed checks offer the Gamemaster a useful tool for comparing the efforts of two characters quickly and eas- ily
+- **dep_0010** One **includes** TOOLS
 
-Cumulative Affliction **resisted** Dodge
-  > 1-4  5-8  9-12  13-16  17-20  •  Animate Tree: Summon 10,  Controlled, Limited to Size and Availability of tree • 1 point  •  Entanglement: Burst Area  Cumulative Affliction 10 (Resisted by Dodge, Ove
-- **dep_0011** Limited **requires** Ambient Plant
+Some
+  > One example includes the following: TOOLS  Some  tasks  require  tools
+- **dep_0011** Parry **attacks** Dodge
+  > The difficulty is your target’s  defense  class:  Parry  for  close  attacks,  Dodge  for ranged attacks
+- **dep_0012** Attackers **attacks** Rou
+  > Attackers  can  make  attacks  on defenseless  opponents  as  routine  checks  (see  Rou- tine Checks)
+- **dep_0013** Defenseless **checks** Prone
+  > Defenseless  characters  are  often  prone,  providing opponents with an additional bonus to attack checks (see Prone, later in this section)
+- **dep_0014** This **attacks** Surprise  Attack
+  > This  may  al- low  for  surprise  attacks  on  the  unaware  character (see  Surprise  Attack  in  the  Action  &  Adventure chapter)
+- **dep_0015** You **have** Advantages
+  > You  can  spend  a  hero  point  to  gain  the  benefits  of  one rank of a advantage you don’t already have until the end of your next turn (see the Advantages chapter)
+- **dep_0016** You **rolls** Luck Control
+  > You cannot spend hero  points  on  die  rolls  made  by  the  GM  or  other  players without the Luck Control effect (see the Powers chapter)
+- **dep_0017** Even **have** Options
+  > Even if the archetype does not have an Options section that does not mean you cannot customize the archetype to suit the type of hero you want to play
+- **dep_0018** Routine **checks** The Basics
+  > Power  level  is  an  overall  measure  of  effectiveness  and power,  primarily  combat  ability,  but  also  generally  what sort of tasks a character can be expected to accomplish on a routine basi
+- **dep_0019** Power **have** Toughness
+  > Power level 10 heroes may have a balance of attack and effect, defense and resistance, or may go for being stronger on one side than the other, having great combat skill, but comparatively limited dam
+- **dep_0020** Raven **have** King
+  > Those lacking superhuman powers (such as the Raven) have amazing levels of skill and resources to draw upon while the superhuman types are often among the most capable in their particular area, often
+- **dep_0021** Complications **have** Gamemaster
+  > Complications have a specific use in the game as well: they give the Gamemaster a “handle” on your hero, different challenges to introduce or include in adventures
+- **dep_0022** Descriptors **have** Detect
+  > At the GM’s option motivation can function as a descriptor for powers (see Descriptors, page 204), allowing character to  have  a  power  affecting  only  subjects  with  a  particular motivation,  fo
+- **dep_0023** Other **uses** Accident
+  > Other  possible  complications,  and  their  uses  in  adven- tures, include:  •  •  Accident: You cause or suffer some sort of accident
+- **dep_0024** THEME
+
+Maybe **has** Paladin
+  > THEME  Maybe  the  character  has  a  theme  or  style  suggesting  a name: Paladin might be a medieval knight displaced into the present day, with a magical sword and armor
+- **dep_0025** SOUND
+
+Some **have** Kis
+  > SOUND  Some  code-names  don’t  really  have  anything  to  do  with  a character’s powers or background—they just sound cool: Kis- met, Scion, Animus, Damask, and so forth
+- **dep_0026** Buzcinski **have** Stretch
+  > They  may  also  be  nicknames,  such  as “Dash” for someone with the name Dashell, or “Buzz” for someone  with  the  name  Buzcinski,  or  whatever  other nickname a character may have, such as “Stre
+- **dep_0027** Either **have** Earth
+  > Either all members of the race have similar powers or particular conditions (lighter gravity, solar radiation, etc.) grant them powers while on Earth
+- **dep_0028** Heroes **have** Enemy
+  > Heroes who gained their powers through training may have rivals or foes who trained with them (see the Enemy and Rivalry complica- tions later in this chapter)
+- **dep_0029** For **have** World War II
+  > For example, the hero might have fought in World War II but ended up in the present day due to time travel or sus- pended animation
+- **dep_0030** Technology **checks** SKILLS
+
+Expertise
+  > Accurate Attack, Improvised Tools, Inventor, Ranged Attack 2, Ranged Attack 4, Second Chance (Technology checks)  SKILLS  Expertise: (Choose one of Business, Engineering, or Science) 5 (+10), Insight
+- **dep_0031** Powerhouse **targets** Groundstrike
+  > CHAPTER 2: SECRET ORIGINS  43  Power Point Totals:  Abilities 36 + Powers 84  + Advantages 1 + Skills  17 + Defenses 12  = 150  PL10PL10  STRENGTH 12 STAMINA 14  POWERS  AGILITY 1 DEXTERITY 1  FIGHTIN
+- **dep_0032** Powerhouse **targets** Leaping
+  > Vulnerable, Defenseless), Instant Recovery, Limited Degree, Limited: Both the Powerhouse and its targets must be in contact with the ground • 1 point  Leaping: Leaping 10 • 10 points  Super-Stamina: E
+- **dep_0033** Toughness **checks** SKILLS
+
+Close  Combat
+  > 1,600 tons) • 20 points  All-out Attack, Power Attack,  Ultimate Effort (Toughness checks)  SKILLS  Close  Combat:  Unarmed  2  (+8),  Expertise:  Choose  One  6  (+6), Insight  5  (+6),  Intimidation
+- **dep_0034** His **has** Toughness
+  > His hero has Toughness 3 from his Stamina and his Toughness defense can be up to 6, given his Dodge and Parry of 14
+- **dep_0035** Jon **grants** Toughness
+  > The Defensive Roll advantage catches Jon’s attention immediately: it grants improved Toughness by using agility to “roll” with attacks
+- **dep_0036** Princess **has** Jessica Prentiss
+  > Julia suggests that Princess just has a “qual- ity”  about  her  that  keeps  people  from  realizing  she and “Jessica Prentiss” are one and the same
+- **dep_0037** Julia **has** Princess
+  > Julia has 24 points left for Princess’ defenses and skills
+- **dep_0038** Princess **have** PL10
+  > Lastly, skills: Princess can have a total skill bonus up to +20 (PL10 + 10) but Julia doesn’t imagine any of her skills are going to be that high
+- **dep_0039** Toughness **checks** Well
+  > CHAPTER 2: SECRET ORIGINS CHAPTER 2: SECRET ORIGINS  CHAPTER 2: SECRET ORIGINS  Hero: ____________________________________     Player: ____________________________  Princess  Julia  Identity: ________
+- **dep_0040** The **rolls** Archetype
+  > The  number  of  rolls  you have to make depends on the Archetype you get
+- **dep_0041** Weather Controller **rolls** Powers
+  > For ex- ample, the Battlesuit, Mystic, and Weather Controller all require a fair number of rolls to determine their Powers and Alternate Effects, while the Mimic, Shapeshifter, and Summoner require fe
+- **dep_0042** Finally **rolls** Descriptors
+  > Finally,  there’s  the combination method  in  which  you make some random rolls and choose some options your- self (or choose not to take some random results in favor of  Descriptors like special eff
+- **dep_0043** Simply **have** Instead
+  > Simply because these tables are in this book doesn’t make them “rules” that you have to “follow.” Instead, consider them play aids with guidelines to make it easier to create your character…because th
+- **dep_0044** Once **have** Compli
+  > Once you have your character’s various traits and Compli- cations determined and on paper, you’re ready to play
+- **dep_0045** Assessment **requires** Intimidation
+  > For example, you might get the Daze (Intimidation), Skill Mastery (Technol- ogy),  or  Assessment  advantages,  each  of  which  requires a  specific  skill  to  work  correctly:  Intimidation,  Techn
+- **dep_0046** Once **have** Hero  Points
+  > You can get individual Power Profile PDFs, or the collected book at http://www.greenronin.com/store/category/power- profiles.html  Once  you’re  playing  the  game,  have  a  little  experience using
+- **dep_0047** Most Con **have** Construct
+  > Most Con- structs are solid, but it’s possible to have a Construct made of fire, water, or just about anything else
+- **dep_0048** Equipment **have** Powers
+  > Dazed and Visually Impaired, Stunned and Visually Disabled), Extra Condition, Limited Degree • 1 point  DEFENSES  DODGE +7  PARRY +5  FORTITUDE +4  TOUGHNESS +0  WILL +8  ABILITIES  POWERS  68  7/0*
+- **dep_0049** Limited **attacks** Targeting Dodge
+  > Hindered and Vulnerable, Immobile and Defenseless), Extra Condition, Limited Degree • 1 point  14-17  •  Wind Control: Move Object 12 • 1 point  18-20  •  Wind Screen: Deflect 12, Cylinder Area (×2),
+- **dep_0050** SECRET ORIGINS
+
+The Elementals **have** Insubstantial
+  > CHAPTER 2: SECRET ORIGINS CHAPTER 2: SECRET ORIGINS  CHAPTER 2: SECRET ORIGINS  The Elementals described here generally have traits such as Insubstantial default to Permanent
+- **dep_0051** Such **have** Sustained
+  > Such elementals may have Sustained powers and possibly the Activation Flaw if the transformation takes time or effort
+- **dep_0052** Abilities **have** Innate
+  > Alternately, the elementals who are considered Embodiments (as rolled on the Abilities) may have Innate forms that can- not be turned off even by nullification effects
+- **dep_0053** Limited **requires** Ambient Plant
   > Hindered and Vulnerable, Defenseless and Immobile), Extra Condition, Limited to Two Degrees, Limited: Requires Ambient Plant-life • 1 point  •  Plant Perception: Remote Sensing 5 (All Senses), Medium
-- **dep_0012** Burst Area Affliction **resisted** Fortitude
-  > •  Groundstrike: Burst Area Affliction 10 (Resisted by Fortitude, Overcome by Dodge
-- **dep_0013** Both
+- **dep_0054** Both
 Elemental **targets** Shockwave
   > Dazed and Vulnerable, Stunned and Prone), Extra Condition, Limited to Two Degrees, Limited—Both Elemental and targets must be in contact with the ground • 1 point  •  Shockwave: Burst Area Damage 10,
-- **dep_0014** Enhanced Strength **affects** Corporeal
+- **dep_0055** Enhanced Strength **affects** Corporeal
   > 1-10  Containment Suit: Enhanced Strength 6, Affects Corporeal 8, Removable (-4 points) • 16 points  11-20  Flaming Aura: Reaction Damage 4 • 16 points  Fire Control: Array (24 points plus two Alterna
-- **dep_0015** Ranged Affliction **resisted** Dodge
-  > Dazed, Stunned, Incapacitated) • 1 point  •  Hard Water Objects: Create 10  • 1 point  •  Move Water: Perception Ranged Move Object 10, Limited to Water • 1 point  •  Watery Snare: Ranged Affliction 1
-- **dep_0016** Cumulative Affliction **resisted** Dodge
-  > Fatigued, Exhausted, Incapacitated) • 1 point  •  Cold Field: Environment 10 (Extreme  Cold) • 1 point  •  Ice Shapes: Create 6, Continuous,  Innate • 1 point  •  Icy Snare: Cumulative Affliction 10 (
-- **dep_0017** Ranged Damage **affects** Insubstantial
+- **dep_0056** Ranged Damage **affects** Insubstantial
   > 1-2  3-6  7-9  10-11  12-13  14-16  17-18  19-20  •  Enervating Blast: Ranged Damage  12, Incurable • 25 points  •  Homing Blast: Ranged Damage 12,  Homing • 25 points  •  Invisible Blast: Ranged Dama
-- **dep_0018** Cumulative Ranged Affliction **resisted** Dodge
-  > 1-2  3-4  5-6  •  Dazzle: Cumulative Ranged Affliction 12 (Resisted  by Dodge, Overcome by Fortitude
-- **dep_0019** Ranged **affects** Objects Weaken
+- **dep_0057** SECRET ORIGINS
+
+DEFENSES
+
+Once **have** Energy Control
+  > CHAPTER 2: SECRET ORIGINS CHAPTER 2: SECRET ORIGINS  CHAPTER 2: SECRET ORIGINS  DEFENSES  Once you have the first power in your Energy Control ar- ray,  roll  1d20  three  times  on  the  Alternate  E
+- **dep_0058** Ranged **affects** Objects Weaken
 
 Toughness
   > Impaired, Disabled, Unaware), Limited to One Sense (Choose one sense: Vision or Auditory) • 1 point  •  Disintegrate: Ranged Affects Objects Weaken  Toughness 8 • 1 point  •  Energy Burst: Choose One:
-- **dep_0020** Cumulative Ranged Affliction **resisted** Dodge
-  > Choose two: Cold, Heat, Impede Movement, Light, Visibility) • 1 point  •  Obscure: Ranged Visual Concealment 4 Attack,  Choose One Extra: Burst Area or Cloud Area • 1 point  •  Snare: Cumulative Range
-- **dep_0021** Easily Removable **includes** Alternate
+- **dep_0059** Energy Controllers **have** Energy  Controller
+  > Rivalry: Energy Controllers often have a rivalry with an  Energy  Controller  who  commands  an  opposed descriptor
+- **dep_0060** Easily Removable **includes** Alternate
 Effects
   > Activation—Move Action (-1 point), Removable (-4 points) • 17 points  Gimmick Blaster: Array (24 points, plus 3 points of Alternate Effects), Easily Removable (-10 points) • 17 points (this cost inclu
-- **dep_0022** Ranged Affliction **resisted** Dodge
-  > Dazed, Stunned, Incapacitated)  Ranged Affliction 12 (Resisted by Dodge, Overcome by Damage
-- **dep_0023** Ranged Affliction **resisted** Dodge
-  > Dazed, Stunned, Incapacitated)), AE: Force Capsule Grenade (Ranged Affliction 12 (Resisted by Dodge, Overcome by Damage
-- **dep_0024** Alternate
+- **dep_0061** Gadgeteers **have** Gadgeteer
+  > Enemy: For some reason, Gadgeteers tend to have a nemesis who believes they need to prove how supe- rior he, she, or it is compared to the Gadgeteer
+- **dep_0062** Gad **have** Gadgeteer
+  > •  •  Quirk—Psychological Problems: Perhaps the Gad- geteer’s  devices  have  slowly  been  poisoning  his or  her  mind,  or  biofeedback  caused  by  improperly functioning cybernetics or other mech
+- **dep_0063** Alternate
 
 Effects **includes** Alternate Effects
   > Chi Mastery: Array (12 points plus 3 Alternate  Effects) • 15 points (this cost includes the cost of the Alternate Effects)  Roll 1d20 four times (re-roll if you get the same result twice) and record
-- **dep_0025** Progressive Weaken
-Stamina **resisted** Fortitude
-  > 1-3  4-7  8-11  12-14  15-17  Death Touch: Progressive Weaken Stamina 4 (Resisted by Fortitude)  Flurry of Blows: Selective Multiattack 5, Variable Descriptor 2 (any attack effect you wield, up to the
-- **dep_0026** MYSTIC
+- **dep_0064** Immunity **attacks** Parry
+  > Dazed, Stunned, Paralyzed)  18-20  Restorative Chi: Healing 6  13-16  17-20  Missile Redirection: Immunity 5 (Thrown  Weapons), Concentration Duration, Reflect, Redirect • 15 points  Untouchable: Immu
+- **dep_0065** MYSTIC
 
 The  Mystic **uses** Earth
   > CHAPTER 2: SECRET ORIGINS  75  MYSTIC  The  Mystic  commands  vast  magical  powers  and  uses them  to  defend  the  Earth  from  otherworldly  threats  as well  as  to  combat  the  evils  found  ju
-- **dep_0027** Ranged Damage **resisted** Will
-  > Enhanced Trait 6 (Close Attack 6) • 1 point  •  Ghost Hands: Perception Move Object 7, Precise,  Subtle 2 • 1 point  •  Healing Hand: Healing 5, Energizing, Persistent,  Restorative, Stabilize • 1 poi
-- **dep_0028** Dimension
+- **dep_0066** Will **checks** ENCHANTER
+
+Artificer
+  > CENTERED  Fearless, Ultimate Effort (Will checks)  ENCHANTER  Artificer, Skill Mastery (Expertise: Magic)  3-4  5-6  7-8  9-10  11-12  13-14  CONNECTION  15-16  Accurate Attack, Power Attack  ARTS  Ri
+- **dep_0067** Dimension
 
 Travel **affects** Others
   > Insubstantial 4 (Incorporeal) • 1 point  •  Hex: Luck Control 4 (All Options),  Luck 5 • 1 point  •  Illusory Appearance: Morph 2,  Attack, Burst Area, Selective • 1 point  •  Invisibility: Concealmen
-- **dep_0029** Teleport **affects** Others
+- **dep_0068** Mystics **have** Complication
+  > •  •  Power  Loss:  Mystics  often  have  the  Complication that  prevents  them  from  using  their  powers  when they can’t move and/or speak to cast their spells
+- **dep_0069** Teleport **affects** Others
   > Features: Communications, Computer, Gym, Infirmary, Isolated, Laboratory, Library, Living Space, Personnel, Power System, Security System, Teleport (Affects Others), Workshop • 20 points  WARRIOR  All
-- **dep_0030** Powerhouse **targets** Super
+- **dep_0070** WILL **have** Man
+  > Regeneration 3 • 6 points  Enhanced Senses: Senses 6 (Extended Auditory 2, Extended Vision 2, Microscopic Vision, Ultra- Hearing) • 6 points  12-15 Quickness: Quickness 6 • 6 points  16-18  Telepathy:
+- **dep_0071** The **have** Man
+  > Power-lifting 2  • 8 points  *The first number is if you have the Man of Action set of Abilities and the second number if you have the Superhu- man or Vessel set of Abilities
+- **dep_0072** Toughness **checks** QUICK
+
+Improved Initiative
+
+SKILLS
+
+Close
+  > CHAPTER 2: SECRET ORIGINS CHAPTER 2: SECRET ORIGINS  CHAPTER 2: SECRET ORIGINS  PLAYER  Interpose  TOUGH  Ultimate Effort (Toughness checks)  QUICK  Improved Initiative  SKILLS  Close Combat: Unarmed
+- **dep_0073** Powerhouse **targets** Super
   > Dazed and Hindered, Stunned and Prone, Incapacitated), Extra Condition, Instant Recovery, Powerhouse and target must be in contact with the same surface • 10 points  10-12  13-14  Shockwave: Burst Are
-- **dep_0031** Perception Range Damage **resisted** Will
+- **dep_0074** Will **checks** MIND
+
+Eidetic Memory
+  > LIFE  Attractive, Fascinate (Persuasion), Luck  CONTEMPLATIVE  Fearless, Trance, Ultimate Effort (Will checks)  MIND  Eidetic Memory, Jack-of-all-trades, Ultimate Effort (Will checks),  LEADER  Choose
+- **dep_0075** Concealment **affects** Others
   > 1-3  4-7  ESP: Remote Sensing 6 (Normal Visual, Normal Auditory, Mental) • 24 points  Mental Blast: Perception Range Damage  6, Resisted by Will • 24 points  1-10  8-11  Psi-Knife: Damage 8, Penetrati
-- **dep_0032** Accurate **affects** Insubstantial
+- **dep_0076** Accurate **affects** Insubstantial
   > Fatigued, Exhausted, Asleep), Accurate 3, Insidious, Subtle 2 • 24 points  Telekinetic Weapon: Damage 8,  18-20  Accurate 4, Affects Insubstantial 2, Penetrating 8, Reach, Split • 24 points  Mentalist
-- **dep_0033** Perception Range Damage **resisted** Will
-  > Visually Impaired, Visually Disabled, Visually Unaware), Limited to one sense • 24 points  Mental Blast: Perception Range Damage  1-5  6, Resisted by Will • 24 points  Mental Illusions: Illusion 6 (Al
-- **dep_0034** Ranged Concentration
-
-Affliction **resisted** Dodge
-  > 1-3  4-7  8-12  Telekinetic Column: Line Area 2 (60  feet) Damage 8 • 24 points  Telekinetic Constructs: Create 8,  Movable • 24 points  Telekinetic Bolt: Ranged Damage 10,  Accurate 4 • 24 points  16
-- **dep_0035** Ranged Cumulative
-Affliction **resisted** Dodge
-  > Immunity 1 (Aging) • 5  points  Space-bending: Teleport 2 (120 feet), Accurate,  Distracting, Subtle • 5 points  15-16  Telekinetic Hammer: Ranged Burst Area  Damage 8 • 24 points  DEFENSE  17-18  Tel
-- **dep_0036** Accurate **affects** Insubstantial
+- **dep_0077** Accurate **affects** Insubstantial
   > Hindered and Vulnerable, Defenseless and Immobile), Accurate 4, Extra Condition, Limited Degree, Limited— There must be materials about to bind the target • 24 points  DODGE +6  PARRY +4  FORTITUDE +5
-- **dep_0037** Quirk **requires** Concealment
+- **dep_0078** Quirk **requires** Concealment
   > 11-20  Density Decrease: Insubstantial 4 (Incorporeal, affected by magic), Reaction, Linked to Flight 1 (4 MPH), Limited to air-walking, and Immunity 10 (Life Support), Quirk: immunity to suffocation
-- **dep_0038** Incorporeal Weapon **affects** Corporeal
-Damage
+- **dep_0079** Disruption **attacks** Array
   > Disruption Attacks: Array (24 points), Incorporeal Weapon (Affects Corporeal Damage 12, Resisted by Fortitude, Limited to the Toughness of object used as weapon), AE: Disrupt Electronics (Close Range
-- **dep_0039** Ranged Cumulative Affliction **resisted** Dodge
-  > Movement  3 (Swinging, Wall-crawling 2) • 8 points  Spider Senses: Senses 4 (Danger Sense, Darkvision,  Ranged Touch) • 4 points  6-10  Web Snare: Ranged Cumulative Affliction 6  (Resisted by Dodge, O
-- **dep_0040** Reaction Visual Perception
+- **dep_0080** Toughness **checks** Enhanced Defenses
+  > +10 Str,  +10 Sta, -5 Dodge, -5 Parry, -10, Stealth, +5 Intimidation, +1 Speed), Continuous, Linked to Enhanced Advantages 8 (Accurate Attack, Great Endurance, Improved Grab, Improved Hold, Improved S
+- **dep_0081** Dodge **checks** Impervious Protection
+  > +6  Dodge, +6 Parry, +12 Stealth, -6 Intimidation, -1 Speed), Continuous, Normal Strength, Linked to Damage 8, Limited—Growth Punch (1 rank of Damage per rank of Shrinking you grow up from) and Enhanc
+- **dep_0082** Toughness **checks** Enhanced
+Advantages
+  > +5 Str, +5 Sta), Density (does not modify defenses, size, speed, or skills), Continuous, Linked to Enhanced Abilities 10 (Enhanced Stamina 5, Enhanced Strength 5, 1 rank of Stamina and Strength per ra
+- **dep_0083** Your **has** Abilities
+  > Your  character  has  the  same  Abilities  as  his  or  her summoned duplicate
+- **dep_0084** DUPLICATOR
 
-Area Affliction **resisted** Dodge
-  > 1-5  Black Cat: Reaction Visual Perception  Area Affliction 5 (Resisted by Dodge, Overcome by Will
-- **dep_0041** Burst Area Affliction **resisted** Dodge
-  > ELEPHANT  Groundstrike (Alternate Effect of Strength Damage):  Burst Area Affliction 10 (Resisted by Dodge, Overcome by Fortitude
-- **dep_0042** Limited **targets** Immovable
+Roll **have** Duplicator
+  > DUPLICATOR  Roll  1d20  once  on  this  table  if  you  have  the  Duplicator set  of  Abilities  to  determine  if  you  summon  a  Twin  (a single duplicate) or Triplets (two duplicates)
+- **dep_0085** Your **has** Summon Twin
+  > Your base form has the same abilities, powers, advantages, skills, defenses, and totals as the summoned characters, but with the addition of the Summon Twin or Summon Triplets power
+- **dep_0086** SUMMONER
+
+Roll **have** Summoner
+  > Super-Tough (Immunity 10 (Life Support), Impervious Toughness 4)  14-20  Advantages: Accurate Attack, All-out Attack, Diehard, Fast Grab, Set-up 2, Takedown, Teamwork  Skills: Athletics 3 (+11), Intim
+- **dep_0087** Note **have** Summon
+  > Note: the summoned creature may not have minions, a headquarters, or any other traits the GM decides are outside the scope of the Summon power), Controlled, Heroic, Mental Link • 51 points  Roll 1d20
+- **dep_0088** Damage **affects** Corporeal
+  > CHAPTER 2: SECRET ORIGINS  91  SHADOWS  PL 6  4  AGL  STR STA  —  DEX  0  FGT INT  0  6  AWE 0  PRE  0 0  Powers: Claws (Strength-based Damage 2, Affects Corporeal), Float (Flight 1 (4 MPH), Shadow Fo
+- **dep_0089** Strength **affects** Corporeal
+  > Permanent), Protection 4, Strength Affects Corporeal)  Skills: Perception 4 (+4), Stealth 12 (+12)  Offense: Init +0, Claws +6 (Close, Damage 6)  Defense: Dodge 6, Parry 6, Fort Immune, Tou 4, Will 5
+- **dep_0090** A Summoner **have** Summoner
+  > Relationship: A Summoner may have friends or fam- ily to whom he’s responsible—but it may be that the Summoner needs to keep his summoned creature(s) happy as well
+- **dep_0091** The Summoner **have** Controlled
+  > The Summoner may have Controlled minions,  but  that  doesn’t  mean  he  can  be  mean  to them and still expect them to show up
+- **dep_0092** Abilities **have** Abilities
+  > CHAPTER 2: SECRET ORIGINS CHAPTER 2: SECRET ORIGINS  CHAPTER 2: SECRET ORIGINS  *If you rolled Vampire for Abilities, then you have Abilities 44, Powers 73, and Defenses 17
+- **dep_0093** Limited **targets** Immovable
   > Hindered and Vulnerable, Stunned and Prone), Extra Condition, Limited to Two Degrees, Limited to targets on the ground • 1 point  1-10  Immovable: Immunity 10 (being moved), Sustained  • 10 points  Po
-- **dep_0043** Affliction **resisted** Dodge
-  > CROCODILE  Aquatic: Movement 1 (Environmental Adaptation—  Aquatic), Swimming 6 (30 MPH) • 8 points  1-6  Brute Strength: Enhanced Strength 2 • 4 points  Regrowth: Regeneration 2 • 2 points  Rending B
-- **dep_0044** Progressive Weaken Stamina **resisted** Fortitude
-  > Enhanced  14-20  Strength 4, Limited to Grabs • 8 points  Venomous Bite: Progressive Weaken Stamina 7 (Resisted by Fortitude), Accurate 2 • 23 points  DEFENSE  DODGE +6  PARRY +4  FORTITUDE +4  TOUGHN
-- **dep_0045** Set II **uses** Background
+- **dep_0094** The  Totem **has** Totem
+  > •  •  •  •  Enemy:  The  Totem  often  has  an  extensive  rogues gallery  consisting  of  other  Totem  archetypes,  par- ticularly those whose totem animals are natural en- emies to the hero’s
+- **dep_0095** They **have** Martial Artists
+  > They  are  versatile  and have many of the skills of Martial Artists and Weapon Mas- ters  but  the  strength  and  power  to  fight  alongside  the Paragons and Powerhouses
+- **dep_0096** Toughness **checks** HUMAN
+
+Roll
+  > ADVANCED  Technology 6, Vehicles 6  CHARISMATIC  Insight 6, Persuasion 6  CULTURED  Expertise: History 6, Persuasion 6  MILITARY  Expertise: Tactics 6, Intimidation 6  ADVANTAGES—MYSTERIOUS PAST  MYST
+- **dep_0097** Set II **uses** Background
   > Acrobatics 4, Athletics 4, Expertise: (Choose One) 6  Take the skills listed above, then choose between Set I or Set II below (you may wait to make this choice until after you  know  what  weapon  you
-- **dep_0046** Ranged
-Affliction **resisted** Dodge
-  > 1-2  3-4  5-6  7-8  1-5  9-10  11-12  13-14  15-16  17-18  19-20  •  Boomerang Arrow: Ranged Damage  4, Homing, Subtle • 1 point  •  Boxing Glove Arrow: Ranged Affliction 5 (Resisted by Dodge, Overcom
-- **dep_0047** Unreliable **uses** Flare Arrow
+- **dep_0098** Unreliable **uses** Flare Arrow
   > Dazed, Stunned, Incapacitated) • 1 point  •  Cable Arrow: Movement 1  (Swinging) • 1 point (if you get this result twice, place the Cable Arrow outside the array instead for 2 points): Cable Arrow: Mo
-- **dep_0048** Unreliable **uses** Net Arrow
+- **dep_0099** Unreliable **uses** Net Arrow
   > Fatigued, Exhausted, Asleep), Unreliable (five uses) • 1 point  •  Net Arrow: Ranged Affliction 5  (Resisted by Dodge, Overcome by Damage
-- **dep_0049** Ranged Cumulative Affliction **resisted** Dodge
-  > Arctic Freeze: Ranged Cumulative Affliction 10 (Resisted by Dodge, Overcome by Damage
-- **dep_0050** Agility **decreases** Agility
-  > Likewise,  if  the  hero’s  Agility  bonus decreases, his Agility-based skills and Dodge suffer
-- **dep_0051** Debilitated  Stamina **suffers** Fortitude
-  > Debilitated  Stamina  means  the  hero  is  dying,  and suffers  a  –5  modifier  on  Fortitude  checks  to  avoid death on top of it
-- **dep_0052** Fortitude **overcome** Dodge
-  > So you might make a Fortitude re- sistance check for your hero to overcome a toxin, for ex- ample, or a Dodge resistance check to avoid a trap just as it is triggered, and so on
-- **dep_0053** Manipulation **requires** Tools
+- **dep_0100** The Weapon Master **has** Weap
+  > Rival: The Weapon Master has a foil—another Weap- on Master who tries to outdo him at every turn
+- **dep_0101** Limited **attacks** Targeting Dodge
+  > Cold,  Impede Movement, Visibility) • 30 points  Tornado: Cylinder Area Move Object 10,  Concentration Duration, Damaging • 30 points  Wind Screen: Deflect 10, Cylinder Area (×3), Limited  to Attacks
+- **dep_0102** Your Strength **applies** Damage
+  > Your Strength rank applies to:  •  Damage dealt by your unarmed and strength-based attacks
+- **dep_0103** Your Stamina **applies** Toughness
+  > Your Stamina modifier applies to:  • •  •  Toughness defense, for resisting damage
+- **dep_0104** Your Agility **applies** Dodge
+  > Your Agility rank applies to:  •  • • •  Dodge defense, for avoiding ranged attacks and oth- er hazards
+- **dep_0105** Your Dexterity **applies** Attack
+  > Your Dexterity rank applies to:  • • •  Attack checks for ranged attacks
+- **dep_0106** Your Fighting **applies** Attack
+  > Your Fighting rank applies to:  • •  Attack checks for close attacks
+- **dep_0107** Your Intellect **applies** Expertise
+  > Your Intellect modifier applies to:  •  •  Expertise,  Investigation, Technology,  and Treatment skill checks
+- **dep_0108** Intellect **have** Awareness
+  > On the other hand, a  not  so  bright  (low  Intellect)  character  may  have  great deal of common sense (high Awareness)
+- **dep_0109** Your Awareness **applies** Will
+  > Your Awareness modifier applies to:  •  Will defense, for resisting attacks on your mind
+- **dep_0110** Your Presence **applies** Deception
+  > Your Presence modifier applies to:  • •  Deception, Intimidation, and Persuasion skill checks
+- **dep_0111** Enhanced  Abilities **have** Extra Effort
+  > The  key  differences  between  Enhanced Abilities  and  normal  ability  ranks  are  Enhanced  Abilities can be nullified (normal abilities cannot, see Nullify, page 173)  and  Enhanced  Abilities  c
+- **dep_0112** Agility **has** Dodge
+  > Agility: A creature with no Agility is unable to move its body under its own power and has no Dodge de- fense
+- **dep_0113** Fighting **attacks** Dexterity
+  > Fighting: A creature with no Fighting is incapable of making any sort of close attack (but may still be able to launch ranged attacks, if it has Dexterity)
+- **dep_0114** Intellect **has** Will
+  > Anything with no Intellect is immune to mental effects and in- teraction skills and has no Will defense
+- **dep_0115** Awareness **has** Presence
+  > Awareness:  Anything  with  no  Awareness  is  com- pletely unaware and also has no Presence
+- **dep_0116** Objects **have** Inanimate
+  > Objects are immune to mental effects and interaction skills, and have no  Inanimate  objects  have  no  abilities  other  than  their Toughness
+- **dep_0117** Animate **have** Strength
+  > Animate, but nonliving, constructs such as ro- bots or zombies have Strength, Agility, and Dexterity, and may  have  ranks  of  Awareness  and  Presence  (if  aware  of their environment or capable of
+- **dep_0118** They **have** Intellect
+  > They may have Intellect (if capable  of  independent  thought),  but  have  no  Stamina (since  they  are  not  living  things)
+- **dep_0119** You **grants** Power Level
+  > You can increase your defenses above the values granted by your ability ranks by spending pow- er points: 1 power point grants you an additional rank in a  defense,  up  to  the  limits  imposed  by
+- **dep_0120** This **targets** Dodge
+  > This is referred to as “targeting” a defense, such as “targets Dodge” or “targets Will”
+- **dep_0121** See **checks** Generally
+  > (See Checks, page 12, for more information.)  Generally, if you attempt a task requiring a skill you don’t have, you make a skill check as normal
+- **dep_0122** The  Basics **checks** Routine  Checks
+  > CHAPTER 4: SKILLS  113  You can get a general idea of just how good a particu- lar character’s skill bonus is using the general difficulty class  guidelines  given  in  The  Basics  along  with  the r
+- **dep_0123** Characters **have** Team
+Checks
+  > Characters lacking the ability to use manipulation skills can still have ranks in them and use them to oversee or assist the work of others (see Team Checks, page 16)
+- **dep_0124** Manipulation **requires** Tools
 
 The
   > Ability • Trained Only • Interaction • Manipulation • Requires Tools  The skill name line and the line below it contain the fol- lowing information:  Skill Name: What the skill is called
-- **dep_0054** Figuring **requires** Investigation
-  > Example: Figuring out a particular clue involving a government conspiracy requires an Investigation or Expertise: Poli- tics check
-- **dep_0055** However **allows** Expertise
-  > However, the GM allows a hero to substitute an Expertise: Law check with a –2 circumstance penalty, as the knowledge is related, but outside the character’s specific field
-- **dep_0056** Insight **overcome** Deception
-  > Make  an  Insight  check  when  called  to  do  so  to  resist  or overcome  the  effects  of  certain  interaction  skills,  such as  Deception  or  Intimidation
-- **dep_0057** Perception **allows** Investigation
-  > Perception allows you to immediately notice things, while an Investigation check allows you to pick up on details with some effort
-- **dep_0058** Discerning **requires** Perception
+- **dep_0125** Fighting
+
+You **checks** Attack  Check
+  > SWIMMING  DC  +5  +5  +5  MODIFIERS  Rescuing another character who cannot swim  Rough or choppy water  +1 speed rank (up to your full ground speed)  +10  Stormy or turbulent water  Fighting  You’re t
+- **dep_0126** For **checks** Fighting
+  > For a broader bonus to attack checks that is less than simply raising  Fighting  rank,  see  the  Close  Attack  advantage  in the Advantages chapter
+- **dep_0127** For **have** Persuasion
+  > For example, one character might have a high Persuasion skill based on the character’s extensive training in negotiation, debate, and management
+- **dep_0128** For **have** Expertise
+  > For example, most adults have some sort of Expertise skill as their occupation with at least 3 to 5 ranks (more if they’re especially good at their job)
+- **dep_0129** Characters **have** Technology
+  > Characters working with technology may have the Technology skill even if it doesn’t apply to their powers
+- **dep_0130** Com **have** DCs
+  > Com- plex messages or messages trying to communicate new information have DCs of 15 or 20, respectively
+- **dep_0131** Each **have** Expertise
+  > Each is considered a separate skill and training in each is acquired separately, so  a  former  police  officer  turned  district  attorney  might have  Expertise:  Police  Officer  and  Expertise:  L
+- **dep_0132** The Basics **checks** Routine Checks
+  > The GM sets DCs for specific tasks using the guidelines provided in The Basics chapter under Checks, keeping in mind that most job-related checks should be considered routine (see Routine Checks in th
+- **dep_0133** Rocky **has** Get
+  > Rocky has no interest in hurting a bunch of kids, so he bellows, “Get  outta  the  way  or  I’ll  knock  your  blocks  off!” and his player decides to use Rocky’s routine Intimi- dation check of 18 to
+- **dep_0134** Thugs **have** Insight
+  > The street kids are all Thugs, so they have a resistance rank  of  0  (their  Insight  and  Will  ranks  are  tied)
+- **dep_0135** Unfortunately **rolls** Rocky
+  > Unfortunately, the GM rolls a 13, which isn’t enough  to  beat  Rocky’s  18
+- **dep_0136** Discerning **requires** Perception
   > Discerning details—such  as  clearly  hearing  conversation  or  reading fine  text—requires  at  least  three  degrees  of  success  on the Perception check
-- **dep_0059** Doing **reduces** Technology
-  > Doing this reduces the repair DC by an additional 5 (for a total of –10 to the DC to build the item), and allows you to make the Technology check as a standard action
-- **dep_0060** Manipulation **requires** Tools
+- **dep_0137** Perception **checks** HEARING
+
+Make
+  > The common sorts of Perception checks are: HEARING  Make a check against a DC based on how loud the noise is or against an opposed Stealth check
+- **dep_0138** Perception **checks** Powers
+  > You  can  make  Perception  checks  involving  other  sense types as well (see the Powers chapter for more on sense  types)
+- **dep_0139** Perception **checks** Powers
+  > Various  sensory  effects  provide  modifiers  on  Perception checks (see the Powers chapter for details)
+- **dep_0140** Dexterity
+
+You **checks** Attack  Check
+  > Dexterity  You’re  trained  with  a  particular  type  of  ranged  attack, giving  you  a  bonus  to  your  attack  checks  with  it  equal to  your  skill  rank  (see  Attack  Check  in  The  Basics
+- **dep_0141** For **checks** Dexterity
+  > For a broader bonus to attack checks that is less than simply raising Dexterity rank, see the Ranged Attack advantage in the Advantages chapter
+- **dep_0142** Bandit **has** Sleight
+  > Bandit has Sleight of Hand +12 and adds that to the roll of a die
+- **dep_0143** SKILLS
+
+HIDING
+
+OPERATING
+
+If **have** Stealth
+  > CHAPTER 4: SKILLS CHAPTER 4: SKILLS  CHAPTER 4: SKILLS  HIDING  OPERATING  If you have cover or concealment, make a Stealth check, opposed by an observer’s Perception check, to hide and go unnoticed
+- **dep_0144** Manipulation **requires** Tools
 
 Technology
   > Intellect • Trained Only • Manipulation • Requires Tools  Technology  covers  operating,  building,  repairing,  and generally working with technological devices and equip- ment
-- **dep_0061** Disarming **requires** Technology
+- **dep_0145** This **requires** Technology
+  > This requires at least a minute and a DC 10 Technology check
+- **dep_0146** The GM **have** TIME RANK
+
+EXAMPLES
+
+Simple
+
+Moderate
+  > The GM makes the check, so you don’t know exactly how well you have done until the explosive  DC  15  20  25  30  TIME RANK  EXAMPLES  Simple  Moderate  Complex  Advanced  10 (2 hours)  electronic tim
+- **dep_0147** Disarming **requires** Technology
   > Disarming an explosive also requires a Technology check
-- **dep_0062** Manipulation **requires** Tools
+- **dep_0148** INVENTING
+
+If **have** Inventor
+  > INVENTING  If you have the Inventor advantage (see the Advantages chapter),  you  can  use  Technology  to  create  inventions, temporary devices
+- **dep_0149** Manipulation **requires** Tools
 
 STABILIZE
 
 You
   > Intellect • Trained Only • Manipulation • Requires Tools  STABILIZE  You’re trained in treating injuries and ailments
-- **dep_0063** Athletics **uses** Trip
+- **dep_0150** Vehicle **checks** MANEUVER
+
+Easy
+  > You can also make Vehicle checks to perform various ma- neuvers with a vehicle:  MANEUVER  Easy (low-speed turn)  Average (sudden reverse, dodging obstacles)  Difficult (tight turns)  Challenging (boo
+- **dep_0151** Defensive Roll **has** Defensive Roll
+  > Ranks in a advantage are noted with a number after the advantage’s name, such as “Defensive Roll 2” (for a character who has taken two ranks in the Defensive Roll advantage), just like skill and power
+- **dep_0152** Characters **have** Intellect
+  > Characters normally have a –10 circumstance penalty to use interac- tion skills on animals, due to their Intellect and lack of lan- guage
+- **dep_0153** Choose **have** Insight
+  > Choose a target you can accurately perceive and have the GM make a secret Insight check for you as a free action, opposed by the target’s Deception check result
+- **dep_0154** You **have** Dodge
+  > EVASION  COMBAT, RANKED (2)  You  have  a  +2  circumstance  bonus  to  Dodge  resistance checks  to  avoid  area  effects  (see  the  Area  extra  in  the Powers  chapter)
+- **dep_0155** Perception **checks** Favored Foe
+  > You gain a +2 circumstance  bonus  on  Deception,  Intimidation,  Insight, and Perception checks dealing with your Favored Foe
+- **dep_0156** COMBAT
+
+You **have** Disarm
+  > COMBAT  You have no penalty to your attack check when attempt- ing to disarm an opponent and they do not get the op- portunity to disarm you (see Disarm in the Action & Ad- venture chapter)
+- **dep_0157** COMBAT
+
+You **have** Smash
+  > COMBAT  You have no penalty to attack checks to hit an object held by another character (see Smash in the Action & Adven- ture chapter)
+- **dep_0158** Athletics **uses** Trip
   > When  making  a  trip  attack,  make  an  opposed  check  of your Acrobatics or Athletics against your opponent’s Ac-  robatics  or  Athletics,  you  choose  which  your  opponent uses to defend, rath
-- **dep_0064** Multiple **uses** Inspire
+- **dep_0159** Unarmed **checks** Close Combat
+  > COMBAT, RANKED  When  wielding  an  improvised  close  combat  weapon— anything from a chair to a telephone pole or entire car— you use your Close Combat: Unarmed skill bonus for at- tack checks with
+- **dep_0160** Multiple **uses** Inspire
   > Multiple uses of Inspire do not stack, only the highest bonus applies
-- **dep_0065** Flight **grants** Flight
+- **dep_0161** Team **checks** The Basics
+  > When  you support a team check (see Team Checks in The Basics chapter)  you  have  a  +5  circumstance  bonus  to  your check
+- **dep_0162** This **applies** Aid
+  > This  bonus  also  applies  to  the  Aid  action  and Team Attacks
+- **dep_0163** You **checks** Routine  Checks
+  > You can make routine checks with that skill even  when  under  pressure  (see  Routine  Checks  in  The Basics  chapter)
+- **dep_0164** Will **checks** Suffocation
+  > While in the trance you add your Awareness rank to your Stamina rank to de- termine how long you can hold your breath and you use the higher of your Fortitude or Will defenses for resistance checks  a
+- **dep_0165** This **inflicts** Smash
+  > This re- quires an attack check and inflicts normal damage to the weapon if it hits (see Smash in the Action & Adventure chapter)
+- **dep_0166** For **has** Damage
+  > For  example,  a weather-controlling  heroine  has  the  following  effects: Damage,  Concealment,  and  Environment
+- **dep_0167** Her  Damage **has** Damage
+  > Her  Damage effect  is  the  power  to  throw  lightning  bolts,  so  it  has  the descriptor  “lightning.”  If  a  villain  can  absorb  electricity, then his power works against the heroine’s Damage
+- **dep_0168** Blast **have** ZAP
+  > For example, a Blast effect might  have  a  visible  beam  or  make  a  loud  noise  (ZAP!)  or both
+- **dep_0169** Flight **grants** Flight
   > So, for example, the ac- tion of the Flight effect is “free” and activating it grants the character a Flight speed rank equal to the effect rank
-- **dep_0066** Touching **requires** Parry
+- **dep_0170** Many **checks** Routine Checks
+  > difficulty class  Many  power  effects  allow  for  routine  checks  involving their  use,  generally  specified  in  the  effect’s  description (see Routine Checks in The Basics chapter)
+- **dep_0171** Opposed **checks** The  Basics
+  > In  some  cases,  usually  when  one  effect  is  used  directly against  another,  or  against  a  particular  trait  like  an  abil- ity or skill, an opposed check is called for (see Opposed Checks
+- **dep_0172** Touching **requires** Parry
   > Touching an unwilling subject requires an un- armed attack check against the subject’s Parry
-- **dep_0067** Movement **allows** Movement
-  > Note  that  Burrowing  differs  from  the  Permeate  effect  of Movement, which allows you to pass through an obstacle like the ground at your normal speed without disturbing it at all (see Movement f
-- **dep_0068** EXTRAS **affects** Others
+- **dep_0173** Toughness **checks** Continu
+  > You can’t forgo Toughness checks, but you may choose to discontinue the use of effects with a duration of Continu- ous or Sustained that grant a Toughness bonus in order to lower your resistance
+- **dep_0174** Siren **rolls** White Knight
+  > Siren’s  player  rolls  a  result  of  26  while  the GM rolls a result of 19 for White Knight
+- **dep_0175** Mastermind **has** Johnny  Rocket
+  > Example:  Mastermind  has  placed  Johnny  Rocket under  his  mental  control  (an  Affliction  effect)
+- **dep_0176** Lady
+Liberty **has** Nul
+  > Lady Liberty has the power to break such bonds (the Nul- lify effect)
+- **dep_0177** The **resists** For
+  > The target resists with For- titude or Will defense (chosen when you take the effect):  Fortitude or Will vs
+- **dep_0178** Once **have** Concentration
+Affliction
+  > Concentration: Once you have hit with a Concentration Affliction,  so  long  as  you  continue  to  take  a  standard action  each  turn  to  maintain  the  effect,  the  target  must make  a  new  re
+- **dep_0179** Afflictions **have** Limited Degree
+  > Since  mutually  incompatible  condi- tions  are  largely  wasted,  Afflictions  with  this  extra  often have the Limited Degree flaw as well
+- **dep_0180** Essentially **have** Activa
+  > Essentially, all your powers have the Activa- tion modifier
+- **dep_0181** This **affects** Oth
+  > Ranged: This extra either allows you to create tunnels at a greater distance (without having to be at the end-point of the tunnel as it forms) or, in conjunction with Affects Oth- ers, allows you to g
+- **dep_0182** Selective **have** Area
+  > Selective:  If  you  have  the  Area  extra,  you  can  choose which receiver(s) within range get your Communication, excluding  everyone  else
+- **dep_0183** This **have** Communica
+  > This  is  in  addition to limitations imposed by medium (that is, requiring sub- jects to have a means of picking up on the Communica- tion)
+- **dep_0184** Visual Conceal **attacks** Concealment
+  > Thus, foes with Visual Conceal- ment (the most common accurate sense) can be quite effective against characters relying on perception range attacks, unless the attacker has an unusual accurate sense t
+- **dep_0185** You **have** Insubstantial
+  > You cannot have concealment from tactile senses, since that requires being incorporeal (see the Insubstantial effect)
+- **dep_0186** EXTRAS **affects** Others
   > EXTRAS  Affects Others: This modifier allows you to grant Conceal- ment to others while you are touching them, or at range, if you also apply the Range modifier
-- **dep_0069** Concealment **affects** Others
+- **dep_0187** Concealment **affects** Others
   > Area: Concealment with Affects Others (previously) or At- tack (immediately following) may have this extra, affecting everything  in  the  area
-- **dep_0070** Imposing **requires** Affliction
+- **dep_0188** This **requires** Dodge
+  > This requires both an attack check against the target’s Dodge and a Dodge resistance  check  against  the  effect’s  rank
+- **dep_0189** Imposing **requires** Affliction
   > Imposing conditions on the target other than just trapping them requires a separate effect, such as Affliction (see Afflic- tion in this chapter), which you may wish to acquire as an Alternate Effect
-- **dep_0071** Toughness **targets** Dodge
+- **dep_0190** The **inflicts** Toughness
   > The object inflicts damage equal to its Toughness, and targets get a Dodge check to evade the falling object
-- **dep_0072** Success **removes** Dazzle
-  > Success  removes  the  condition imposed by the Dazzle power
-- **dep_0073** Strength **reduces** Dam
-  > However,  any  decrease  in  your Strength reduces the amount you can add to your Dam- age, and negative Strength subtracts from your Damage
-- **dep_0074** Likewise **prevents** Strength
-  > Likewise, anything that prevents you from exerting your Strength  also  stops  you  from  using  a  Strength-based Damage  effect
-- **dep_0075** Objects **targets** Stamina
+- **dep_0191** Unless **have** Tether
+  > Unless you have the Tether ex- tra  or  the  Movable  extra,  you  cannot  move  a  stationary created object once it’s placed any more than anyone else can
+- **dep_0192** You **have** Strength
+  > Tether: You  have  a  connection  to  your  created  objects, allowing  you  to  exert  your  own  Strength  to  move  them (provided you are strong enough to do so)
+- **dep_0193** Your **have** Toughness
+  > Proportional: Your  created  objects  have  a  total  volume rank plus Toughness rank equal to your Create rank, rather  than both volume and Toughness up to your rank
+- **dep_0194** The **resists** Toughness
+  > The target resists with Toughness:  Toughness vs
+- **dep_0195** Toughness **checks** Damage
+  > The  circumstance  penalties  to Toughness  checks  are  cu- mulative,  so  a  target  who  fails  three  resistance  checks against  Damage,  each  with  one  degree  of  failure,  has  a total –3 pe
+- **dep_0196** Strength **inflicts** Penetrating
+  > You can apply effect modifiers to the Dam- age your Strength inflicts, making it Penetrating or even an  Area  effect
+- **dep_0197** You **have** Alternate  Effects
+  > You  can  also  have  Alternate  Effects  for your Strength Damage
+- **dep_0198** You **have** Duplication
+  > You must have this power at a rank equal to your own power point total (not counting Duplication), divided by 15, and rounded up for your duplicate to possess your full  abilities
+- **dep_0199** Objects **targets** Stamina
   > Objects  (targets  lacking  a  Stamina  rank)  take  damage similar to other targets
-- **dep_0076** Because **requires** Deflect
+- **dep_0200** Inanimate **attacks** Finishing Attack
+  > Inanimate objects are defenseless by definition and there- fore subject to finishing attacks (see Finishing Attack in the  Action  &  Adventure  chapter):  essentially,  you  can choose  between  maki
+- **dep_0201** The GM **have** Tough
+  > The GM decides the brick, mortar, and heavy beams have a toughness of 9 and makes a Tough- ness  check,  rolling  a  5,  against  a  DC  30  (Lady  Lib- erty’s Damage +15)
+- **dep_0202** Equipment **has** Toughness
+  > Equipment has Toughness based on its material
+- **dep_0203** Devices **have** Toughness
+  > Devices have a base Toughness equal to the total points in the device divided by 5 (rounded down, minimum of 1)
+- **dep_0204** Stamina **have** Regeneration
+  > Objects, having no Stamina, do not recover from damage unless they have an effect like Regeneration
+- **dep_0205** Deflect **attacks** Dodge
+  > Like the defend action, Deflect does not work against area effects  or  perception  ranged  attacks,  nor  versus  attacks targeting defenses other than Dodge or Parry
+- **dep_0206** Because **requires** Deflect
   > EXTRAS  Action: Because it requires the defend action, Deflect cannot take less than a standard action
-- **dep_0077** Enhanced  Strength **increases** Strength
-  > CHAPTER 6: POWERS  157  GENERAL  Action: Free • Range: Personal Duration: Sustained • Cost: 1 point per rank  ample,  Enhanced  Strength  5  increases  your  Strength  by +5 while it is active
-- **dep_0078** Aura **damages** Selective
+- **dep_0207** You **attacks** Reflect
+  > Redirect: You can redirect attacks you successfully deflect at any target within the attack’s normal range, as Reflect, above
+- **dep_0208** You **have** Reflect
+  > You must have the Reflect extra to take this one
+- **dep_0209** Aura **targets** Selective
   > If your Aura damages some targets but not others, apply the Selective or Lim- ited modifiers (depending on whether or not the selec- tivity is under your control)
-- **dep_0079** Cold **targets** Affliction
+- **dep_0210** Cold **targets** Affliction
   > For example, Cold Control  might  let  you  lower  the  surrounding  tempera- ture (Environment – Cold) or trap targets in ice (Affliction, see  the  Snare  version)
-- **dep_0080** Dam **gains** Strength
-  > However, if Rebound is hit again on the following turn for Dam- age  4,  he  gains  up  to  4  ranks  of  Strength,  up  to  his maximum again
-- **dep_0081** Absorption **includes** Protection
+- **dep_0211** Further **attacks** Enhanced
+Trait
+  > Further  attacks  can “top  off”  your  Enhanced Trait, restoring it to its full rank again, before it is com- pletely faded
+- **dep_0212** Rebound **has** Energy  Absorption
+  > Example:  Rebound  has  rank  11  Energy  Absorption that applies the energy of kinetic attacks to Strength
+- **dep_0213** Absorption **includes** Protection
   > Absorption often includes the additional ef- fect of Protection (Impervious and often Limited to the absorbed type of attack) or even Immunity to the ab- sorbed  attack
-- **dep_0082** Growth **adds** Strength
-  > Each  rank  of  Growth  adds  1  rank  to  your  Strength  and Stamina  (constructs  add  1  rank  to  Strength  and Tough- ness if they lack Stamina) and adds 1 rank to your mass
-- **dep_0083** Every **adds** Intimidation
-  > Every  two  ranks  adds  a  +1  bonus  to  Intimidation
-- **dep_0084** Ranged  Healing **requires** Healing
+- **dep_0214** All **have** Benefit
+  > All additional limbs except your dominant limb are considered your “off-hand.” If you have the Benefit (Ambidexterity) advantage, you have no off-hand penalties with any of your limbs
+- **dep_0215** The  Feature **have** MUTANTS
+  > The  Feature  effect  is  intended  to  round  out  various minor traits and abilities characters might have, but it is entirely optional and not meant to burden MUTANTS & MASTERMINDS character design
+- **dep_0216** You **have** Flight
+  > You have a water speed equal to your Flight rank, minus 2, subject to the usual rules for swimming (see the Athletics skill description for details)
+- **dep_0217** Growth **have** Strength
+  > So  at  Growth  8,  you  have  +8  Strength  and Stamina,  +4  to  Intimidation,  +1  Speed,  but  -8  to Stealth,  –4  Dodge  and  Parry,  and  you  are  size rank 0 (around 30 feet tall)
+- **dep_0218** Ranged  Healing **requires** Healing
   > Ranged:  Ranged  Healing  requires  an  attack  check  to “touch” the subject with the Healing effect
-- **dep_0085** Objects **affects** Objects
+- **dep_0219** You **have** Res
+  > You can have the Res- urrection modifier for Healing, but if you successfully use it, you die
+- **dep_0220** This **have** Immortality
+  > This may not be as bad as it seems if you have Immortality, allowing you to return to life (see the Immor- tality effect for details)
+- **dep_0221** Objects **affects** Objects
   > Limited: Examples of ways in which Healing may be Lim- ited include: One Type of Damage (such as energy or blud- geoning  damage),  Objects  (in  conjunction  with  Affects Objects), Others (you can’t
-- **dep_0086** EXTRAS **affects** Others
+- **dep_0222** Illusion **has** Resistible
+  > This type of Illusion has the Resistible by Will flaw and the Selective extra, since the illusionist can choose whether or not to project the illusion into a par- ticular subject’s mind, and therefore
+- **dep_0223** Although  Illusion **have** Feedback
+  > FLAWS  Feedback:  Although  Illusion  does  not  have  a  physical “manifestation” per se, it can apply this flaw, in which case a  successful  damaging  attack  on  one  of  your  illusions causes yo
+- **dep_0224** The **requires** Damage
+  > The sec- ond requires 5 ranks and only provides immunity to cold Damage effects
+- **dep_0225** EXTRAS **affects** Others
   > EXTRAS  Affects Others: This extra allows you to grant the benefits of your Immunity to others by touch
-- **dep_0087** Ranged **affects** Others Immunity
+- **dep_0226** Ranged **affects** Others Immunity
   > Ranged: Affects Others Immunity may have this extra, al- lowing it to grant its benefits at range
-- **dep_0088** Will **affects** Insubstantial
+- **dep_0227** You **attacks** Reflect
+  > Redirect: You can redirect attacks to which are you are im- mune at any other target within the attack’s normal range, as Reflect, above
+- **dep_0228** You **have** Reflect
+  > You must have the Reflect extra to take this one
+- **dep_0229** You **have** Immunity
+  > You  can  pass through solid matter at your normal speed and you have Immunity to Physical and Energy Damage
+- **dep_0230** Will **affects** Insubstantial
   > Sensory effects (other than tactile) and those targeting Will still work on you,  as  do  effects  with  the  Affects  Insubstantial  modi- fier
-- **dep_0089** Strength **affects** Corporeal
+- **dep_0231** You **have** Strength
   > You have no effective Strength and cannot affect the physical world, except with effects with the Affects Corporeal mod- ifier
-- **dep_0090** Toughness **resisted** Fortitude
-  > If  you  revert  to  solid  form  while  inside  a solid  object  for  any  reason,  you  suffer  damage  equal  to the object’s Toughness, resisted by your Fortitude
-- **dep_0091** EXTRAS **affects** Corporeal
+- **dep_0232** This **requires** Toughness
+  > This  requires  a  move  action,  and  reduces  the falling damage by the cushioning character’s Toughness bonus (representing flexibility in this case)
+- **dep_0233** You **have** Strength
+  > You have no effective Strength in gaseous form, but have Immunity to Physical Damage
+- **dep_0234** You **have** Strength
+  > You  have  no  effective Strength, but have Immunity to Physical Damage
+- **dep_0235** Energy **attacks** Immunity
+  > Energy attacks  (other  than  the  energy  making  up  your  form,  to which you have Immunity) damage you normally
+- **dep_0236** Unless **have** Immunity
+  > Unless you have Immunity to Suffocation, you must hold your breath while passing through a solid object, and you can  suffocate
+- **dep_0237** EXTRAS **affects** Corporeal
   > EXTRAS  Affects  Corporeal:  This  extra  is  required  for  any  effect that works on corporeal targets while you are incorporeal
-- **dep_0092** Insubstantial **targets** Insubstantial
+- **dep_0238** Insubstantial **targets** Insubstantial
   > Attack: Applied to Insubstantial, this extra makes it into a close range effect able to turn targets Insubstantial
-- **dep_0093** Insubstantial  Attack **affects** Corporeal
+- **dep_0239** Insubstantial  Attack **have** Affects
+Corporeal
   > You must  be  able  to  physically  touch  the  target  to  make  an Insubstantial  Attack,  meaning  it  must  have  the  Affects Corporeal  modifier  to  use  it  while  you  are  incorporeal
-- **dep_0094** Extending **allows** Insubstantial
-  > Continuous:  Extending  the  effect’s  duration  to  continu- ous allows you to remain Insubstantial until you choose to return to your corporeal form
-- **dep_0095** Rank **requires** Perception
+- **dep_0240** For **have** Progressive Insubstantial
+  > For example if you have Progressive Insubstantial 3, you can assume fluid, gaseous, or energy forms, but to assume energy form, you must first progress through fluid and gaseous, becoming less and les
+- **dep_0241** Rank **requires** Perception
   > Rank  1  requires  a  Perception check (DC 20) to detect that you are Insubstantial, while 2 ranks mean you look entirely normal in Insubstantial form (which may cause opponents to waste effort on you
-- **dep_0096** Insub **removes** Strength
+- **dep_0242** This **applies** Insub
   > FLAWS  Absent Strength: This flaw applies only to rank 1 Insub- stantial and removes your effective Strength while in that form, leaving you with limited ability to affect the physical world like the
-- **dep_0097** EXTRAS **affects** Others
+- **dep_0243** EXTRAS **affects** Others
   > EXTRAS  Affects Others: You can give someone you are touching the  ability  to  leap  like  you  do  while  the  effect  lasts
-- **dep_0098** Perception  Ranged  Damage **resisted** Will
+- **dep_0244** For **have** You
+  > For each rank you have in this effect, choose one of the following capa- bilities:  •  •  •  •  You can spend a hero point or use Luck on another character’s behalf, with the normal benefits
+- **dep_0245** You **uses** Luck
+  > You can spend one of your hero point or uses of the Luck  advantage  to  negate  someone  else’s  use  of  a hero point, use of their Luck advantage, or a Game- master-imposed  complication  (at  the
+- **dep_0246** You **targets** Damage
   > FLAWS  Action: If the action required for Luck Control is increased beyond a reaction, it is only usable during your turn each  Effect:  Perception  Ranged  Damage,  Resisted  by  Will  • 4 points per
-- **dep_0099** Resistible **targets** Luck  Control
+- **dep_0247** Magic **have** Alternate Effects
+  > However,  like  the  Energy  Control  power,  Magic  can have a wide range of Alternate Effects, each a separate spell you have mastered
+- **dep_0248** All Magic **have** Blast
+  > All Magic effects have the “magic” descriptor regardless of their other descriptors, so a Blast of flames conjured with magic has both the “magic” and “fire” descriptors, for example
+- **dep_0249** Magicians **have** Power  Loss
+  > Magicians  often  have  a  Power  Loss  complication  (see Complications  in  The  Basics  chapter):  if  they  are  un- able to freely speak and gesture to cast their spells, they cannot  use  Magic
+- **dep_0250** Resistible **targets** Luck  Control
   > Resistible: Targets  of  your  Luck  Control  get  a  resistance check—usually Dodge or Will—to avoid its effects
-- **dep_0100** Affliction **imposes** Morph Attack
-  > Unlike  an  Affliction  that  imposes the transformed condition, a Morph Attack is entirely cos- metic: you can’t change the target’s traits other than ap- pearance
-- **dep_0101** Metamorph **targets** Metamorph
-  > If you have the Metamorph extra, then targets that resist your effect treat you as if you had your normal traits, and not those granted by your Metamorph form
-- **dep_0102** Objects **targets** Strength
+- **dep_0251** Degrees **checks** Mind
+Control
+  > Degrees  of  failure  on  resistance  checks  against  Mind Control are cumulative
+- **dep_0252** With **requires** Extra  Effort
+  > With  two  or  more  degrees  of  failure,  any  re- newed  attempt  in  that  scene  requires  extra  effort  (see Extra  Effort)
+- **dep_0253** Mimic **has** Mimic
+  > You gain (Mimic rank x 5) power points worth of traits the target has, up to a maximum of the target’s rank, and limited by the total power points you can Mimic
+- **dep_0254** For **have** Mind Reading
+  > For exam- ple, if you have one degree of contact and make another Mind Reading check, getting one degree, you now have two degrees of contact
+- **dep_0255** Mind  Reading **has** Mental  Awareness
+  > CHAPTER 6: POWERS  169  Subtle:  As  a  mental  sensory  effect,  Mind  Reading  has  a degree  of  subtlety,  only  noticeable  to  the  subject  or  to characters  with  an  appropriate  mental  sen
+- **dep_0256** Sensory Link **have** Sensory Link
+  > Limited to Sensory Link: If you have the Sensory Link extra and this flaw, you can only tap into a subject’s senses, you cannot read their thoughts or memories
+- **dep_0257** Deception **checks** Disguise
+  > You gain a +20 bonus to Deception checks to disguise yourself as the form you assume (see the Disguise guidelines for Deception)
+- **dep_0258** This **have** Metamorph
+  > This  modifier allows  you  to  have  an  alternate  set  of  traits,  essentially  a complete  alternate  character  you  change  into,  one  set  of traits per rank in Metamorph
+- **dep_0259** They **have** Morph
+  > They  must  also  have traits  suitable  to  your  Morph  effect
+- **dep_0260** All **have** Morph
+  > All of your forms must have your full Morph effect as well
+- **dep_0261** Objects **targets** Strength
   > Objects thrown into targets as attacks base their damage off your power rank as if it were your Strength rank
-- **dep_0103** Reaching **requires** Dimension
+- **dep_0262** Permeate **attacks** Cover
+  > Permeate  provides  no protection  against  attacks,  although  you  do  gain  cover while inside an object (see Cover, page 244)
+- **dep_0263** For **attacks** Insubstantial
+  > For the abil- ity to allow things (including attacks) to pass through you, see the Insubstantial effect
+- **dep_0264** Reaching **requires** Dimension
   > Reaching alternate timelines or parallel worlds requires at least 2 ranks of Dimension-Travel
-- **dep_0104** EXTRAS **affects** Insubstantial
+- **dep_0265** You **have** Concealment
+  > You can walk across the surface of soft sand or snow without leaving tracks and you have total concealment from tremorsense (see Concealment, page 244)
+- **dep_0266** EXTRAS **affects** Insubstantial
   > EXTRAS  Affects Insubstantial: Nullify does not require this modi- fier to affect insubstantial targets, or the Insubstantial ef- fect itself
-- **dep_0105** Communication
-Link **extends** Dimen
-  > If  you apply the Dimensional modifier to your Communication Link, it extends to other dimensions as well (see Dimen- sional under Power Modifiers for details)
-- **dep_0106** EXTRAS **affects** Others
+- **dep_0267** Selective **have** Area Nullify
+  > Selective: If you have an Area Nullify effect, this extra al- lows you to choose who in the area is affected, nullifying some targets and not others
+- **dep_0268** Routine **checks** The Ba
+  > QUICKNESS  GENERAL  Action: Free • Range: Personal Duration: Sustained • Cost: 1 point per rank  You  can  perform  routine  tasks—anything  that  can  be done as a routine check (see Routine Checks i
+- **dep_0269** Non **checks** Quickness
+  > Non-routine checks are not affected by Quickness, nor is movement speed
+- **dep_0270** Toughness **checks** Regeneration
+  > Remove penalties to your  Toughness  checks  due  to  damage  equal  to  your Regeneration rank each minute
+- **dep_0271** Speed **attacks** Quickness
+  > See  Super-Speed  for  some  examples  of  the  su- per-fast attacks speedsters might have, in addition to their Quickness
+- **dep_0272** Your **have** Remote Sensing
+  > Your sen- sory-point is considered to have partial cover from attacks and you use your Remote Sensing rank as your Toughness defense against any successful attack
+- **dep_0273** Another **have** Remote
+  > Another  effect might potentially have the flaw Remote-Sensing Depen- dent, such as an Affliction that targets only remote view- ers observing a target or an area as a means of blocking or deterring t
+- **dep_0274** Failure **have** Uncanny  Dodge
+  > Failure means you are surprised (although, if you have  Uncanny  Dodge,  you  are  not  vulnerable)
+- **dep_0275** Each **have** Perception
+  > Each additional time you apply this option, your range increases by an additional factor of 10, so 1 rank means you have a –1 to Perception checks per 100 feet, 2 ranks makes it –1 per 1,000 feet, and
+- **dep_0276** Thus **has** Sense
+  > Thus it is close range and has none of the Sense qualities
+- **dep_0277** RANK
+
+You **has** Perception
+  > RANGED  1 RANK  You can use a sense that normally has no range (taste or touch  in  humans)  to  make  Perception  checks  at  range, with the normal –1 per 10 feet modifier
+- **dep_0278** Ranged **applies** Sens
+  > For 2 ranks, you can move at full normal speed while tracking  Ranged: Likewise, the Ranged extra only applies to Sens- es that Affect Others, extending the distance at which you can grant their benef
+- **dep_0279** EXTRAS **affects** Others
   > EXTRAS  Affects Others: You can grant the benefits of one or more Senses to another character
-- **dep_0107** Apply **affects** Others
+- **dep_0280** Apply **affects** Others
   > Apply Affects Others only to the ranks of the chosen sense(s)
-- **dep_0108** Shrinking **reduces** Strength
-  > Every  4  ranks  of  Shrinking  reduces  your  size rank by 1 (normal humans are size rank –2 by default) and each reduction in size rank subtracts 1 from your Strength and every two reductions in siz
-- **dep_0109** Ranged  Affliction **resisted** Fortitude
-  > Gamemasters should be particularly cautious  SLEEP  Effect:  Ranged  Affliction,  Resisted  by  Fortitude  • 2 points per rank  You  cause  a  the  target  to  feel  tremendous  weariness
-- **dep_0110** Extra  Condition **resisted** Dodge
-  > CHAPTER 6: POWERS  181  SNARE  Effect:  Ranged,  Cumulative  Affliction,  Extra  Condition, Resisted by Dodge, Limited Degree • 3 points per rank  You can restrain a target with bonds of ice, glue, we
-- **dep_0111** Strength **adds** Strength
-  > Your Strike  either  substitutes  for  your  Strength  damage  or adds  to  it,  if  it  is  Strength-based,  see  the  Damage  ef- fect for details
-- **dep_0112** Progressive Affliction **resisted** Forti
-  > CHAPTER 6: POWERS CHAPTER 6: POWERS  CHAPTER 6: POWERS  Effect: Ranged, Progressive Affliction, Resisted by Forti- tude • 4 points per rank  You  render  the  target  unable  to  breathe
-- **dep_0113** What **affects** Transform
+- **dep_0281** The Area **applies** Senses
+  > Area: The Area modifier only applies to Senses that Af- fect Others, and only to extend their benefits to every-  Limited:  Some  Senses  may  be  Limited  to  only  sensing certain  things  or  only
+- **dep_0282** For **checks** Senses
+  > For this rea- son, the GM should make all reliability checks for Senses in secret, just informing the player of what the character does (or does not) notice
+- **dep_0283** Shrinking **have** Stealth
+  > So  at  Shrinking  12,  you  are  size  rank  –5  (about  6  inches tall),  and  have  a  +6  bonus  to  active  defenses  and  +12 Stealth bonus, but –3 Strength, –1 speed, and –6 Intimida- tion pena
+- **dep_0284** Gamemasters **have** Team Checks
+  > Second, Gamemasters may wish to have groups of minions use team checks (see Team Checks in The Basics chapter) rather than rolling their actions separately
+- **dep_0285** POWERS **have** Minions
+  > CHAPTER 6: POWERS CHAPTER 6: POWERS  CHAPTER 6: POWERS  level  mon  effect  used  to  create it,  is  subject  to  the  normal limits,  and power cannot  have  minions  of  its own, either from this e
+- **dep_0286** Minions **have** Initiative
+  > Minions  have their  own initiative  (see Initiative  in  the  Action  & Adventure  chapter)  and act starting on the round after you summon them
+- **dep_0287** You **have** Variable Type
+  > You  always  have  the  same minion  unless  you  apply the Variable Type modifier, allowing  you  to  summon different  minions
+- **dep_0288** Your **have** Controlled
+  > Controlled: Your  minions  all  have  the  controlled  condi- tion (see Controlled in The Basics chapter)
+- **dep_0289** Horde **have** Multiple Minions
+  > Horde: If you have Multiple Minions (see following) you may  take  a  standard  action  to  summon  any  number  of minions up to your maximum amount
+- **dep_0290** You **have** Communication Link
+  > Mental Link: You  have  a  mental  link  with  your  minions, allowing you to communicate with them and issue orders telepathically like the Communication Link effect (see the Senses effects in this c
+- **dep_0291** You **have** Swimming
+  > You have a water speed equal to your Swimming  rank  –2,  subject  to  the  usual  rules  for  swim- ming (see the Athletics skill description for details)
+- **dep_0292** Speed **have** Air Control
+  > Heroes with Super-Speed often have additional powers based on their speed, particularly things like Air Control (whipping  up  powerful  winds,  see  Element  Control, previously) or modifiers to thei
+- **dep_0293** You **have** Extended
+  > You must have the Extended extra, and this flaw ef- fectively makes it a +0 modifier
+- **dep_0294** What **affects** Transform
   > What you can transform affects cost per rank:  •  2 points: Transform one thing or substance into one other thing or substance, such as metal into wood, iron into glass, or broken objects into repaire
-- **dep_0114** Transforming **requires** Transform
+- **dep_0295** Transforming **requires** Transform
   > Transforming living or otherwise animate beings as op- posed to inanimate matter requires an effect other than Transform
-- **dep_0115** Transforming **requires** Dodge
+- **dep_0296** Stamina **checks** Will
+  > When dealing with non-living creatures (those ab- sent Stamina) capable of resistance checks (possessing Will) the GM may permit Transform to function like an Affliction against them
+- **dep_0297** Transforming **requires** Dodge
   > Transforming  someone’s  devices  or  equipment  requires targeting  them  first:  characters  can  make  Dodge  resis- tance  checks  for  their  held  or  worn  items,  with  a  +5  cir- cumstance b
-- **dep_0116** Targeting **requires** Dodge
+- **dep_0298** Targeting **requires** Dodge
   > Targeting  a  worn  suit  of  armor  requires  an  attack  check and allows the wearer a Dodge resistance check (with no modifier for a large item)
-- **dep_0117** Ranged **affects** Others Variable
+- **dep_0299** The GM **has** Variable
+  > The GM has final say as to whether or not a particular use of a Variable effect is appropriate and may veto your allocations, if necessary
+- **dep_0300** Ranged **affects** Others Variable
   > Perception: Applied to a Ranged Affects Others Variable, this extra allows you to grant the benefits of the effect to any target you can accurately perceive
-- **dep_0118** A Variable **affects** Others
+- **dep_0301** A Variable **affects** Others
   > Ranged:  A Variable  effect  with  Affects  Others  may  have the Ranged extra to improve the range at which you can grant the effect to another
-- **dep_0119** Any **uses** Weaken
+- **dep_0302** Variable **have** Magic
+  > This is why the Magic power given later in this chapter, for example, is not a Variable effect: most powers in the game have the potential to do “stunts” via extra effort, so the “variability” of Magi
+- **dep_0303** Multiple **checks** Weaken
+  > Multiple failed resistance checks against a Weaken effect are cumulative, up to a maximum of the Weaken rank, at  which  point  the  effect  cannot  weaken  the  trait  further
+- **dep_0304** Any **uses** Weaken
   > Any further uses of Weaken on the subject have no effect until the ability recovers to a rank of at least –5
-- **dep_0120** Weaken **affects** Objects
+- **dep_0305** Weaken **affects** Objects
   > Weaken with Affects Objects and the right descriptor(s) can lower the traits provided by a device (see the Removable flaw in this chapter and the Gadgets & Gear chapter)
-- **dep_0121** POWERS
+- **dep_0306** This **applies** Weaken
+  > This also applies to equipment, although it tends to have fewer traits to weaken, and the GM should feel  free  to  disallow  any  Weaken  effects  that  don’t  make reasonable  sense
+- **dep_0307** POWERS
 
 EXTRAS **affects** Objects
   > CHAPTER 6: POWERS CHAPTER 6: POWERS  CHAPTER 6: POWERS  EXTRAS  Affects Objects: Weaken with this modifier works on inani- mate objects, although the effect can still only affect traits the objects po
-- **dep_0122** Since Protection **increases** Impervious Protection Limited
-  > Since Protection costs 1 point per rank, the  –2  modifier  increases  the  number  of  ranks  per power point, so the final cost is 1 power point per 3 ranks of Impervious Protection Limited to Blunt
-- **dep_0123** COST PER RANK
-
-This **allows** Fortitude
-  > +0 OR +1 COST PER RANK  This modifier allows effects normally resisted by Fortitude to  work  on  non-living  objects  (those  with  no  Stamina)
-- **dep_0124** POWERS
+- **dep_0308** Once **have** Concentration
+Weaken
+  > Concentration: Once you have hit with a Concentration Weaken, so long as you continue to take a standard action each turn to maintain the effect, the target must make a new resistance check against it
+- **dep_0309** Weaken **have** Restorative
+Healing
+  > Incurable: Weaken with this modifier cannot have its ef- fects  countered  by  another  power  (such  as  Restorative Healing) without the Persistent modifier
+- **dep_0310** Example **has** Protection
+  > Example: A hero has Protection, which costs 1 point per rank
+- **dep_0311** Damage **have** Burst Area
+  > So the first 4 ranks of the Caliber’s Damage effect have the Burst Area modifier, costing 1 point more (or 3 per rank)
+- **dep_0312** Even **has** Area Damage
+  > Even if he misses, the main target has to resist the Area Damage 4, since the micro-rocket explodes close by
+- **dep_0313** Generally **applies** Heal
+  > Generally, this extra applies to effects like Heal or Weaken, allowing them to work on objects in the same way as they do  living  creatures
+- **dep_0314** Damage **have** Dazzle
+  > For example, a Damage effect with  the  descriptor  of “laser”  might  have  a  visual  Dazzle as an Alternate Effect: the same light beam can be used to damage or blind a target, just not both at onc
+- **dep_0315** This **have** Damage
+  > This allows  you  to  have  two  versions  of  a  Damage  effect,  for example: such as a fire blast and an ice blast
+- **dep_0316** POWERS
 
 EXTRAS
 
@@ -3203,1415 +1931,1080 @@ COST
 
 Accurate **affects** Corporeal
   > CHAPTER 6: POWERS CHAPTER 6: POWERS  CHAPTER 6: POWERS  EXTRAS  NAME  COST  Accurate  1 flat per rank  +2 attack check bonus per rank  Affects Corporeal  1 flat per rank  Effect works on corporeal bei
-- **dep_0125** Potential **targets** Dodge
+- **dep_0317** Alternate Effect **has** Alternate Effects
+  > Essen- tially, each Alternate Effect has to have all of the others as Alternate Effects
+- **dep_0318** That **have** Alternate Effects
+  > That is what the power stunts rules are for, after all: so you do not have to fill up character sheets with minor Alternate Effects a hero will rarely ever use
+- **dep_0319** Arrays **have** Gamemasters
+  > Arrays should have some unifying theme beyond “all the powers I want my hero to have,” and Gamemasters should feel free to veto inap- propriate arrays lacking a strong theme
+- **dep_0320** Create **has** Dynamic
+  > The base effect (Create) has a 1-point modifier to make it  Dynamic,  and  each  additional  effect  added  to the array costs 2 points (1 for the Alternate Effect, 1  to  make  it  Dynamic  as  well)
+- **dep_0321** Dynamic  Alternate  Ef **have** Dynamic
+Alternate Effects
+  > it can share  power  points  with  other  Dynamic  Alternate  Ef- fects, allowing them all to operate at the same time, but at reduced effectiveness (so you must have two Dynamic Alternate Effects for
+- **dep_0322** Potential **targets** Dodge
   > Potential  targets  in  the  area  are  permitted a  Dodge  resistance  check  (DC  10  +  effect  rank)  to  avoid some of the effect (reflecting ducking for cover, dodging  190
-- **dep_0126** POINT PER RANK
-
-This **allows** Dimensional Travel
-  > FLAT • 1 POINT PER RANK  This  modifier  may  apply  to  an  effect  that  allows  you  to carry or affect a set amount of mass, typically a movement effect like Dimensional Travel or Teleport
-- **dep_0127** Increasing **requires** Affects Others
+- **dep_0323** This **includes** Sense
+  > This modifier includes the Sense-Depen- dent flaw (see Flaws) so it cannot be applied again
+- **dep_0324** This **affects** Others
+  > This is the equivalent of the +1 Affects Others modifier
+- **dep_0325** Mastermind **has** Burst Area Affliction
+  > Example: Mastermind has a Burst Area Affliction, al- lowing him to seize control of the minds of everyone in  the  affected  area
+- **dep_0326** Master **has** Burst Area Afflic
+  > Conversely, Fear-Master has a Burst Area Afflic- tion as well—his fear-inducing gas
+- **dep_0327** Increasing **requires** Affects Others
   > Increasing the range of an effect from personal to close requires either the Affects Others or Attack extras (see their descriptions)
-- **dep_0128** Since Damage **requires** Toughness
+- **dep_0328** Since Damage **requires** Toughness
   > Since Damage requires a Toughness check and Affliction requires a Dodge check, the target checks against them sepa- rately, making a Toughness resistance check against the damage of the lightning and
-- **dep_0129** Multiattack **targets** Multiattack
+- **dep_0329** Multiattack **targets** Multiattack
   > You can use Multiattack to hit multiple targets at once by “walking” or “spraying” the Multiattack across an arc
-- **dep_0130** POINT PER RANK
-
-Your **overcomes** Impervious Resistance
-  > FLAT • 1 POINT PER RANK  Your effect overcomes Impervious Resistance to a degree
-- **dep_0131** Affliction **suffers** Affliction
-  > So, for example, if you hit a target with a Secondary Damage Effect then, on the fol- lowing round, hit with an Affliction, the target suffers both the Affliction and the Secondary Damage
-- **dep_0132** COST PER RANK
+- **dep_0330** You **have** Penetrating
+  > You cannot have a Penetrating rank greater than your effect rank
+- **dep_0331** The GM **has** Precise
+  > The GM has final say as to what tasks can be performed with a Precise effect and may require an ability, skill, or power check to deter- mine the degree of precision with any given task
+- **dep_0332** You **have** You
+  > (You have to  be  able  to  shoot  at  them  to  get  them  to  keep  their heads  down  or  this  maneuver  won’t  work.) You  cannot lay  down  a  covering  attack  for  an  ally  in  close  combat
+- **dep_0333** For **have** Selective
+  > For  the  ability  to  choose  to  have  some  triggering  cir- cumstances  activate  the  effect  and  some  not,  apply  the Selective modifier as well
+- **dep_0334** If  Doctor  Shock **have** Selec
+  > If  Doctor  Shock  possessed  the  ability to have his aura only damage people and things he wants it to damage, he would need to have the Selec- tive modifier applied to the effect as well
+- **dep_0335** Triggered **have** Variable Trigger
+  > You  can  apply  an  additional  rank  of Triggered  to  have  a Variable Trigger, allowing you to change the effect’s trig- ger each time you set it
+- **dep_0336** The GM **have** Activation
+  > The GM should decide if allow- ing a permanent effect to have an Activation is appropri- ate based on the specific effect and any others it is com- bined with in the power
+- **dep_0337** Stonewall **applies** Activation
+  > Stonewall’s  player applies  the  Activation  flaw  to  the  power,  saying Stonewall has to concentrate and take a standard action  to  assume  his  rock-form
+- **dep_0338** Example **has** Senses
+  > Example: A spellcaster has Senses 4 (Detect Magic, Ranged,  Acute,  Analyze)  with  Expertise:  Magic Check Required 4
+- **dep_0339** Skill **checks** Acrobatics
+  > Skill checks an effect may require include:  Acrobatics: Suitable for effects requiring a measure of coordination or complex maneuvering
+- **dep_0340** This **applies** Create
+  > This  flaw  only  applies  to  effects  with  physical (or  apparently  physical)  manifestations,  such  as  Create, Illusion,  or  Summon,  for  example
+- **dep_0341** COST PER RANK
 
 An **requires** Grab
   > GRAB-BASED  -1 COST PER RANK  An attack effect with this flaw requires you to successfully grab a target before using the effect (see Grab, page 248)
-- **dep_0133** Removable **reduces** Ultra
-  > So the Removable flaw reduces the cost of the Ultra- marine  armor  by  20  points,  from  98  to  78  power points
-- **dep_0134** The  Side  Effect **affects** Side Effects
+- **dep_0342** Lamprey **has** Grab
+  > Example: Lamprey has a draining touch that is a Grab-Based  Weaken  Strength  effect
+- **dep_0343** For **targets** Protection
+  > For example, an attack effect that does less damage against targets with Protection (to represent a diminished ability to penetrate armor, for example) applies the Limited flaw to only those ranks tha
+- **dep_0344** Mental Communication **have** Quirks
+  > On the other hand, a shapeshifter unable to change color (losing some of the power’s utility), or a telepath unable to lie while using Mental Communication, do have Quirks to their powers
+- **dep_0345** You **have** Nullify
+  > You  can  have  a  device  or  power-object  as  a descriptor without this flaw, if you wish, in which case the power cannot be removed or taken away from you with- out a complication applied by the G
+- **dep_0346** The  Side  Effect **affects** Side Effects
   > The  Side  Effect  does not require an attack check and only affects you, although the GM may permit some Side Effects with the Area modi- fier on a case-by-case basis
-- **dep_0135** Alternately **uses** Fades
+- **dep_0347** For **have** Damage
+  > For example, a hero might have a rank 12 Damage effect, but routinely use only 8 ranks of it
+- **dep_0348** Alternately **have** Fades
   > Alternately,  instead  of  having  a  reliability  roll,  you  can choose to have five uses where your effect works normal- ly, then it stops working altogether until you can “recover” it in some way
-- **dep_0136** Situations **uses** Alternate Effect
+- **dep_0349** Caliber **has** Equipment
+  > Example: A gun-toting vigilante, Caliber has a variety of guns (acquired via the Equipment advantage)
+- **dep_0350** Although **have** MUTANTS
+  > Although descriptors don’t always have significant game effects in MUTANTS & MASTERMINDS, they’re perhaps the most important element in providing color and character to the powers of heroes and villai
+- **dep_0351** Take **has** Affliction
+  > Take a taser-like weapon able to stun the nervous system of its target: it has an invented origin (someone designed  and  built  it),  a  techno- logical source (it’s a technological device with a bat
+- **dep_0352** Situations **uses** Alternate Effect
   > Situations where creative uses of descriptors have a significant game effect can be handled as power stunts: pick the effect that best suits the desired outcome and treat it as an Alternate Effect of
-- **dep_0137** The DC **increases** Makeshift
-  > The DC of the con- struction check increases to 20, but still well within Makeshift’s skill
-- **dep_0138** Repairing **requires** Technology
+- **dep_0353** The **uses** Healing
+  > The hero uses extra effort (and possibly a hero point) and gets a one-shot use of Healing to stabilize the dying victim
+- **dep_0354** Impervious Protection **have** Sustained  Protection
+  > Some  battle- suits provide Impervious Protection and some have Sustained  Protection  in  the  form  of  built-in  force fields or the like
+- **dep_0355** Strength **have** Strength
+  > •  Strength: A battlesuit might have ser- vomotors  or  other  mechanisms  to  mag- nify  the  wearer’s  Strength
+- **dep_0356** Weapons **have** Alternate
+Effects
+  > Weapons often have several different attacks as Alternate Effects
+- **dep_0357** Just **have** Equipment
+  > Just because a character happens to own a cell phone, laptop computer, car, or a home does not mean the char- acter is expected to have ranks in the Equipment advan- tage
+- **dep_0358** Powers **has** Ranged
+Damage
+  > An  item’s  cost  is  based  on  its  effects  and  features,  just like a power (see the Powers chapter for more informa- tion), so a ranged weapon has a cost based on its Ranged Damage  rank
+- **dep_0359** Equipment **have** Alternate Effect
+  > Equipment can have the Alternate Effect modifier (see the Extras section of the Powers chapter), such as a weapon capable of different modes of opera- tion, or a reconfigurable tool
+- **dep_0360** Characters **have** Alternate Equipment
+  > Characters can also have Alternate Equipment, an array of items usable only one at a time
+- **dep_0361** Repairing **requires** Technology
   > Repairing  an  item  requires  a Technology  check
-- **dep_0139** Clothing **grants** Stealth
+- **dep_0362** AND CHARGES
+
+Lots **has** SCUBA
+  > HOOD: AMMO, BATTERIES, AND CHARGES  Lots of equipment has a limited lifespan: guns run out of ammo, cars run out of gas, SCUBA tanks run out of oxygen, and batteries run out of juice
+- **dep_0363** The **have** Gamemaster
+  > The material in this book assumes equipment and devices have effectively unlimited use, except when the GM declares a complication, and that heroes properly maintain, charge, reload, and refuel their
+- **dep_0364** Steel **have** Toughness
+  > Steel cuffs have Toughness 9 and are DC 20 to escape using Sleight of Hand (or Technology to pick the lock)
+- **dep_0365** Clothing **grants** Stealth
   > Night vi-  Camo  Clothing:  Clothing  in  the  right  camouflage  pat- tern  for  the  environment  grants  a  +5  equipment  bonus on  Stealth  checks  in  that  environment
-- **dep_0140** Ranged Cloud
-Area Affliction **resisted** Fortitude
-  > WEAPONS  •  Tear Gas Pellets: Ranged Cloud Area Affliction 4 (Resisted by Fortitude
-- **dep_0141** Ranged Cumulative
-
-Affliction **resisted** Dodge
-  > •  Bolos: Ranged Cumulative  Affliction 3 (Resisted by Dodge, Overcome by Damage
-- **dep_0142** Dam **targets** Protection
+- **dep_0366** These **checks** Dazzle
+  > Flash Goggles: These tinted eye-coverings provide pro- tection  against  blinding  light,  granting  a  +5  equipment bonus  to  resistance  checks  against  visual  Dazzle  attacks involving bright l
+- **dep_0367** Some **have** Removable
+  > Some characters may have a Removable array of devices instead, allowing for far more unusual ef- fects than run-of-the-mill equipment
+- **dep_0368** They **have** Strength
+  > They typically have a Strength-based Damage effect (see the  Damage  effect  in  the  Powers  chapter),  adding  the wielder’s Strength rank to the weapon’s damage rank
+- **dep_0369** The **has** Powers
+  > The effect has the normal cost given in the Powers chapter
+- **dep_0370** Dam **targets** Protection
   > Shotgun: A shotgun can fire shot, which does Damage 5 with Accurate 1 due to the spread, but Limited to Dam- age 3 against targets with Protection
-- **dep_0143** Penetrating **overcome** Impervious
-  > 20  20  20  20  20  20  20  19-20  20  19-20  20  20  20  —  —  20  20  20  20  20  4  6  8  9  12  10  15  11  6  7  10  16  10  13  15  27  6  2  4  3  also  Penetrating,  to  help  overcome  Imperv
-- **dep_0144** LIBRARY
+- **dep_0371** The **resists** Damage
+  > The primary target hit by the rocket resists explosive Damage 10, while all other targets in the burst area resist Damage 7
+- **dep_0372** This **grants** Accurate
+  > This grants a Accurate 1 to the weapon it’s attached, which grants a +2 bonus on attack checks with that weapon
+- **dep_0373** Armor **has** Category
+  > Armor has the following traits:  Category:  Armors  are  categorized  as  archaic  (ancient styles of armor like chain- and plate-mail), modern (typi- cally bulletproof composites and synthetics), and
+- **dep_0374** Vehicles **have** Size
+  > Vehicles  have  the  following  traits:  Size,  Strength,  Speed, Defense, and Toughness
+- **dep_0375** Some **have** Sustained
+Protection
+  > Some  vehicles  may  have  Sustained Protection (such as force screens) instead of, or in addi- tion to, Permanent Protection
+- **dep_0376** Cloaking Device **have** Concealment
+  > Cloaking Device: A vehicle may have a “cloaking de- vice” granting Concealment from visual senses
+- **dep_0377** Some **have** Concealment
+  > Some vehicles  may  also  have  Concealment  from  auditory senses or things such as radar, giving them a “stealth mode.” 4 points (normal vision or all of another sense type) or 8 points (all visual
+- **dep_0378** The **has** Tough
+  > The standard tank has Tough- Impervious ness  12  and  comes equipped  with  a  can- non  (Ranged  Damage  10, Burst Area 6) and a heavy machine gun (Ranged Multiattack Damage 6)
+- **dep_0379** Battleships **have** Ranged Damage
+  > Battleships have massive gun batteries (Ranged Damage 13, Burst Area 9) and heavy armor
+- **dep_0380** Fighter **have** Ranged  Multiattack
+Damage
+  > Fighter  jets  have  machine  guns  (Ranged  Multiattack Damage  6)  and  air-to-air  missiles  (Ranged  Damage  11, Burst Area 8, Homing 6)
+- **dep_0381** Bombers **have** Burst Area Damage
+  > Bombers may have machine guns and missiles, but also have powerful bombs (Burst Area Damage 12 or higher) they can drop on targets
+- **dep_0382** Space **have** Ranged Dam
+  > Space cruisers have larger beam weapons (Ranged Dam- age 12) and often energy torpedoes (Ranged Damage 12, Burst Area 10, Homing 8)
+- **dep_0383** Space **have** Ranged Damage
+  > Space  battleships  have  the  most  massive  weapons: blaster cannons (Ranged Damage 15) and high-powered energy  torpedoes  (Ranged  Damage  15,  Burst  Area  12, Homing 8)
+- **dep_0384** Teams **have** Gamemaster
+  > Teams may even pool their equipment points to have a headquarters they share, with the Gamemaster’s approval
+- **dep_0385** Headquarters **have** Size
+  > Headquarters  have  two  main  traits—Size  and  Tough- ness—and a number of possible Features
+- **dep_0386** Heroes **have** Technology
+  > Heroes  often  have  access  to  special government  channels,  while  a  successful  Technology skill check (DC 25) can grant a user illegal access to re- stricted systems
+- **dep_0387** DUAL SIZE
 
-A **allows** Knowledge
-  > LIBRARY  A library allows for use of various Knowledge skills when doing  research
-- **dep_0145** Conversely **allows** Temporal Limbo
-  > Conversely,  it  allows  characters  in a slowed Temporal Limbo to pass great amounts of time outside without aging, perhaps allowing for long periods of self-imposed exile or contemplation
-- **dep_0146** Teleport **affects** Others
+The **has** Size
+  > DUAL SIZE  The  headquarters  has  two  separate  Size  categories:  its inside category (purchased normally), which determines the  structure’s  interior  space,  and  an  outside  category, one or m
+- **dep_0388** Headquarters **have** Dimensional Portal
+  > Headquarters that have no “exterior” structure, such as an extra-dimensional fortress accessed by a magical talisman, do not have this feature, but instead have things like Dimensional Portal, Isolate
+- **dep_0389** HQs **have** Equipment
+  > Given the equip- ment point costs of most HQs, team members rarely have to devote more than a single rank of the Equipment ad- vantage to their headquarters, an any excess points may also cover things
+- **dep_0390** Teleport **affects** Others
   > MOON-BASE  Size:  Awesome Toughness:  20  Features:  Combat  Simulator, Communications, Computer, Defense System, Fire Prevention Isolated, System,  Gym,  Hangar,  Holding  Cells, Laboratory, Living S
-- **dep_0147** Teleport **affects** Others
+- **dep_0391** Teleport **affects** Others
   > Size:  Colossal  Toughness:  20  Features:  Combat  Simulator, Communications, Computer, Defense System, Fire Prevention System,  Gym,  Hangar,  Holding  Cells, Isolated, Laboratory,  Living  Space,
-- **dep_0148** Catching **requires** Dexterity
+- **dep_0392** Non **have** NPCs
+  > Non-player  character  constructs  have  their  power  level determined the same as other NPCs
+- **dep_0393** ABILITIES
+
+Constructs **have** Stamina
+  > ABILITIES  Constructs have no Stamina, because they are not living beings
+- **dep_0394** Constructs **have** Intel
+  > Constructs also have either no Intel- lect and Presence ranks or no Strength and Agility ranks
+- **dep_0395** They **have** Dexterity
+  > They  can have Dexterity, used for manipulating remotes and such
+- **dep_0396** Like **have** Toughness
+  > Like inanimate objects, constructs have a Toughness rank, which measures their ability to resist damage
+- **dep_0397** Make **checks** You
+  > •  Make  any  necessary  resistance  checks  to  recover  You  can  use  extra  effort  in  order  to  take  an  additional standard or move action on your turn (see Extra Effort on page 19)
+- **dep_0398** Perception **checks** Investigate
+  > Similarly, heroes might  make  Perception  checks  to  pick  up  on  particular clues, Investigate checks to gather and analyze them, and Expertise  checks  to  figure  out  the  villain’s  riddle  be
+- **dep_0399** How **have** Fortitude
+  > How  often  characters  have  to  make  Fortitude  checks  de- pends on the conditions
+- **dep_0400** Catching **requires** Dexterity
   > Catching a falling person or object requires a Dexterity check  (DC  5)
-- **dep_0149** Damage **resisted** Fortitude
-  > Mustard gas: Affliction with impaired, disabled, and incapacitated effects, linked with a Damage effect resisted by Fortitude
-- **dep_0150** Damage **resisted** Fortitude
-  > CHAPTER 8: ACTION & ADVENTURE  239  ing  Damage  resisted  by  Fortitude
-- **dep_0151** Damage **requires** Toughness
+- **dep_0401** Poisons **have** Afflic
+  > Poisons generally  have  one  of  several  effects  particularly  Afflic- tion, Damage, or Weaken
+- **dep_0402** Some **have** Linked
+  > Some poisons may even have multiple  Linked  effects
+- **dep_0403** Heroes **have** Immunity
+  > Heroes able to ignore the effects of deep space must have Immunity to suffocation, vacuum, and radiation, at a mini- mum
+- **dep_0404** Affliction **checks** Dazzle
+  > The  added  effect  can  be  anything  the  player can  reasonably  describe  and  justify  as  adjunct  to the original effect: an Affliction (useful for all sorts of “gut checks,” blows to the head
+- **dep_0405** Damage **requires** Toughness
   > CHAPTER 8: ACTION & ADVENTURE CHAPTER 8: ACTION & ADVENTURE  CHAPTER 8: ACTION & ADVENTURE  DAMAGE  A successful attack with a Damage effect requires the tar- get to make a Toughness resistance check
-- **dep_0152** Strength **reduces** Damage
-  > However,  any  decrease  in  your  Strength  reduces the amount you can add to your Damage, and negative Strength  subtracts  from  your  Damage
-- **dep_0153** Likewise **prevents** Strength
-  > Likewise,  any- thing that prevents you from exerting your Strength also stops you from using a Strength-based Damage effect
-- **dep_0154** Trawler **suffers** Toughness
-  > Trawler suffers both a –1 to Toughness checks and a dazed condition
-- **dep_0155** Objects **targets** Stamina
+- **dep_0406** Toughness **checks** Damage
+  > The  circumstance  penalties  to Toughness  checks  are  cu- mulative,  so  a  target  who  fails  three  resistance  checks against  Damage,  each  with  one  degree  of  failure,  has  a total –3 pe
+- **dep_0407** Strength **inflicts** Penetrating
+  > You can apply effect modifiers to the Dam- age your Strength inflicts, making it Penetrating or even an  Area  effect
+- **dep_0408** You **have** Alternate  Effects
+  > You  can  also  have  Alternate  Effects  for your Strength Damage
+- **dep_0409** Princess **rolls** Intimidation
+  > Princess’ player rolls an Intimidation check with her bonus of +6
+- **dep_0410** The **checks** Princess
+  > The smug- glers are impaired (–2 on their checks) until the end of Princess’ next turn
+- **dep_0411** Rook **has** Move
+  > Normally, a character wouldn’t be able to move, attack, and then move again as Rook does here, but he has the Move-by Action advantage, which allows him to split his movement in the round before and a
+- **dep_0412** The GM **rolls** Dodge
+  > The GM rolls Dodge resistance checks for the smugglers caught in Rook’s flash bomb burst: 20, 3, 8, and 19
+- **dep_0413** Dodge **checks** Fortitude
+  > The successful Dodge checks make their Fortitude resistance checks against DC 11, while the failed checks resist DC 13 again: 12 and 2, plus 12 and 11
+- **dep_0414** Dodge **rolls** Dodge
+  > GM: Knowing that well exceeds the smuggler’s Dodge defense of 12, rolls a Dodge resistance check, getting a 16, minus the impaired penalty from Princess’ Intimidation for a 14 vs
+- **dep_0415** Princess **have** Impervious Toughness
+  > Two smugglers shoot at Ultramarine and three shoot at Princess, but they both have Impervious Toughness 8
+- **dep_0416** The GM **rolls** Princess
+  > Then, suddenly…  The GM rolls an attack check against Princess, getting a 15 result
+- **dep_0417** The GM **checks** Toughness
+  > The GM checks the net’s Toughness of 9 against DC 25 (15 + 5 for the talons + 5 for the critical), generating a 23 result
+- **dep_0418** Dodge DC **rolls** Toughness
+  > That beats Trawler’s Dodge DC of 16, so the GM rolls a Toughness resistance check
+- **dep_0419** Trawler **has** Toughness
+  > Trawler has Toughness 10 and the GM rolls a 9
+- **dep_0420** The **have** Trawler
+  > Trawler staggers back, clearly dazed by the blast…  The heroes have Trawler and her smugglers on the ropes, but will Princess get free in time to help
+- **dep_0421** Objects **targets** Stamina
   > CHAPTER 8: ACTION & ADVENTURE  243  Objects  (targets  lacking  a  Stamina  rank)  take  damage similar to other targets
-- **dep_0156** Cover **grants** Dodge
+- **dep_0422** Inanimate **attacks** Finishing Attack
+  > Inanimate objects are defenseless by definition and there- fore subject to finishing attacks (see the Finishing Attack maneuver): essentially, you can choose between making your attack on the object a
+- **dep_0423** Equipment **has** Toughness
+  > Equipment has Toughness based on its material
+- **dep_0424** Devices **have** Toughness
+  > Devices have a base Toughness equal to the total points in the device divided by 5 (rounded down, minimum of 1)
+- **dep_0425** Stamina **have** Regeneration
+  > Objects, having no Stamina, do not recover from damage unless they have an effect like Regeneration
+- **dep_0426** Area **checks** Area
+  > MATERIAL  TOUGHNESS  Paper  Soil  Glass  Ice  Rope  Wood  Stone  Iron  Reinforced Concrete  Steel  Titanium  Super-alloys  RECOVERY  0  0  1  1  1  3  5  7  8  9  15  20+  Perception and Area effects
+- **dep_0427** Most **attacks** Dodge
+  > Most attacks target your active defenses, Dodge and Parry: close attacks target Parry while ranged attacks target Dodge
+- **dep_0428** Cover **grants** Dodge
   > Defense Class = defense + 10  Cover  also  grants  a  circumstance  bonus  to  Dodge  resis- tance  checks  against  area  effects  equal  to  its  penalty  to attack checks, so long as the target has
-- **dep_0157** What **targets** Routine  Checks
+- **dep_0429** Dodge **have** Parry
+  > So  the  aforementioned  hero  with Parry  11  and  Dodge  9  would  have  ranks  of  Parry  6  and Dodge 5 while vulnerable
+- **dep_0430** What **checks** Routine  Checks
   > What’s more, attackers can make attack checks against defenseless targets as routine checks (see Routine  Checks  in  The  Basics  chapter),  meaning  a  hit is guaranteed with an attack bonus of 0 or
-- **dep_0158** Dropping **requires** Stand
+- **dep_0431** Team **checks** The  Basics
+  > This is like a team check (see Team  Checks  in  The  Basics  chapter): You  make  an  at- tack check against DC 10
+- **dep_0432** Dropping **requires** Stand
   > Dropping  to  a  prone  position  is  a  free  action,  although getting up requires a move action (see Stand)
-- **dep_0159** Damage **resisted** Will
-  > So attacks all doing Damage against Toughness can combine, but not with a Mental Blast, for example, which is a Damage effect, but resisted by Will rather than Toughness
-- **dep_0160** Keep **allows** Routine  Checks
+- **dep_0433** Routine **checks** The  Basics
+  > When you attack a defenseless target at close range, you can  choose  to  make  the  attack  as  a  routine  check  (see Routine  Checks  in  The  Basics  chapter)
+- **dep_0434** Surprise **attacks** Surprise
+  > Surprise attacks occur during the surprise round of a conflict (see Surprise earlier in this chapter) and may also occur as a result of stealth or concealment, allowing you to sneak up on a target
+- **dep_0435** See Team **checks** The Basics
+  > See Team Checks in The Basics chapter for more
+- **dep_0436** Stamina **have** Regeneration
+  > Objects, having no Stamina, do not recover from damage unless they have an effect like Regeneration
+- **dep_0437** Routine **checks** The
+Basics
   > Keep in mind that this chance of success on a task allows a character to automatically succeed at that task as a rou- tine  check  (see  Routine  Checks,  following,  and  in  The Basics chapter)
-- **dep_0161** Break **overcome** Bluff
-  > Very easy  Easy  Average  Tough  Challenging  Formidable  Heroic  Super-Heroic  Nearly Impossible  DC  0  5  10  15  20  25  30  35  40  EXAMPLE  FOR 55%  See something large in plain sight  None (aut
+- **dep_0438** Grad **checks** Chapter
+  > Likewise,  a  major  modifier  effectively changes the degree of a graded check by one (see Grad- ed Checks in Chapter 1)
+- **dep_0439** The **checks** Mind Read
+  > The same is true for checks involving powers like Mind Read- ing or Precognition, and certain interaction checks, since the player doesn’t necessarily know the target’s initial at- titude or exactly h
+- **dep_0440** Every **has** Difficulty Class
+  > Every  task—from  making  an  attack  to  avoiding  harm  to figuring out a gadget—has a Difficulty Class or DC, a value that tells you how hard that task is to perform
+- **dep_0441** Gamemasters **have** Modifiers
+  > Gamemasters  have  three  major  tools  to  help  them  say “yes” to their players:  •  Modifiers:  Remember  the  GM’s  rule  of  thumb:  if something  generally  aids  or  makes  a  task  easier  fo
+- **dep_0442** For **have** NPCs
+  > For example, if you have a story wherein mind-controlled heroes try to upstage the player characters, then go right ahead and have the NPCs steal their thunder
+- **dep_0443** This **requires** Gamemaster
+  > This sort of  game  requires  the  Gamemaster  to  define  the  game world or multiverse, but a good setting can result in a very memorable series
+- **dep_0444** They **have** Larger
+  > They are likely among the most powerful  and  influential  heroes  and  have  comparable  Larger scale series, on the other hand, tend to be grander
+- **dep_0445** You **have** New York
+City
+  > You don’t have to explain to your players where New York City is, for example
+- **dep_0446** Does **have** President
+  > Does your two-fisted hero have the guts to pass up the glory of answering the President’s call to serve a higher cause
+- **dep_0447** The Eastern District **includes** Asian
+  > The Eastern District includes the Asian neighborhoods of Jadetown and Little Osaka
+- **dep_0448** HEROES
+
+Although Emerald City **have** East Coast
+  > HEROES  Although Emerald City does not have the long heroic his- tory of its East Coast counterpart, the wake of the Silver Storm  and  other  recent  events  have  made  it  a  hotbed of  superhuman
+- **dep_0449** MarsTech **has** City
+  > Recognizing that Emerald City needs heroes, local philan- thropist Maximillian Mars, billionaire CEO of MarsTech, has put his wealth, resources, and influence behind an effort to cultivate  and  suppo
+- **dep_0450** Cryptid Clans **have** Sons
+  > But there  are  some  who  remember  Avison:  Hekawi  mystics and rogue bird-men from the Cryptid Clans have banded together  as  the  Sons  of  the  Sky  and  are  determined  to unlock  the  gateway
+- **dep_0451** Professor  Salinas **has** Center
+  > Professor  Salinas  is  a  charismatic  academic,  popular  with his  students,  and  he  has  worked  for  years  to  make  the Center both a respected and popular institution
+- **dep_0452** Salinas **has** Stanley
+  > Salinas,  who’s  escorting  the heroes, explains why the statue is such an important part of the museum’s collection: it has been dated to the eigh- teenth century, not long before the Stanley-Mallory
+- **dep_0453** Moon **has** Emerald
+  > The Fire of the Sun and Moon has always been one of the cultural  center’s  most  popular  curiosities,  on  display  be- neath a sign reading “Emerald’s Lost Colony?” and even fea- tured on the cover
+- **dep_0454** Magic **has** Ritualist
+  > An Expertise: Magic skill check (DC 20, the character receives a major advantage (+5) on the check if he or she also has the Ritualist advantage) spots sigils written in soot on the walls beneath the
+- **dep_0455** Salinas **have** Investigation
+  > Salinas suspects a missing security guard might have been involved in the robbery, but an Investigation check (DC 15) finds the guard dead, stuffed into an air duct high up on a wall near an unlocked
+- **dep_0456** Hekawi **have** Native  American  Cultural  Center
+  > Put together, all this suddenly sounds familiar to Profes- sor Salinas: several times a fringe group of Hekawi mystics have  asked  the  Native  American  Cultural  Center  to  lend out the Fire of th
+- **dep_0457** Angel  Island **have** Sons
+  > SCENE 2  COMBAT  By  proceeding  immediately  to  Angel  Island,  the  heroes have a chance to catch the Sons of the Sky in the midst of their ritual
+- **dep_0458** Since **has** National Audu
+  > Since the 1930s, the island has been a bird sanctuary in the care of the National Audu- bon Society, whose namesake had longed (but ultimately failed)  to  visit  the  island  almost  a  century  earl
+- **dep_0459** This **includes** TACTICS
+
+The Sons
+  > (This includes three patrolling the skies above the site, who noted the heroes’ approach and alerted the warriors, unless they were particularly cautious.) TACTICS  The Sons of the Sky have a common c
+- **dep_0460** Actually **have** Wolfen
+  > Actually, the werewolves were already attacking the farm- ers  working  a  small  vegetable  field,  but  now  the  heroes have arrived in the middle of the battle-in-progress and the werewolves—whom
+- **dep_0461** All Will **checks** Fearless
+  > All Will checks are made at -2,  unless  the  hero  has  the  Fearless  advantage  or an appropriate Immunity
+- **dep_0462** Similarly **have** Improved Critical
+  > Similarly,  any  powers  with  magical  descriptors operate as if they have one level (or one additional level) of the Improved Critical advantage
+- **dep_0463** OUTCOME
+
+In **have** Hekawi
+  > OUTCOME  In the aftermath, the heroes notice that the farmers have Hekawi  features,  but  wear  European-style  clothing
+- **dep_0464** Longhunter **have** Avison
+  > Doctor  Clock  is  as  friendly  and  curious  as Longhunter  is  taciturn  and  guarded,  but  answers  any questions  the  players  have  about  them  or  Avison  (see their character profiles and t
+- **dep_0465** Finally **have** Doctor Clock
+  > Finally, after the heroes have had a chance to rest and re- cover and he has heard their story, Doctor Clock explains that it is no mistake they have been brought together:  Long ago to you—but not so
+- **dep_0466** Now **has** Fire
+  > Now  the  gate  has  been reopened,  and  the  Fire  of  the  Sun  and  Moon  has been  drawn  back  to  the  brothers—to  Lord  San- guine
+- **dep_0467** Avison **has** Clock
+  > Each of Sanguine’s three allies on Avison has been given a token of his power, and Clock believes that if those ar- tifacts  can  be  recovered,  he  can  follow  their  combined mystical trail to Lor
+- **dep_0468** Professor Salinas **have** Fire
+  > (If you’re looking to hurry the heroes, you might remind them that Professor Salinas hoped to have the Fire of the Sun and Moon back at the Native American Cultural Center at the end of the week… less
+- **dep_0469** Perception **has** Extended
+  > After  the  heroes  recover  the  first  artifact,  a  Perception check (DC 20, only DC 10 if a hero has Extended or Acute Hearing) allows them to hear chanting on the wind
+- **dep_0470** Hekawi **have** Heroes
+  > With  all  three  artifacts,  all  heroes  can  clearly  make  out the  chanting,  in  a  mix  of  Latin  and  Hekawi,  if  they  have  Heroes  from  the  twenty-first  century  have  flying  cars, an
+- **dep_0471** Though **has** Huge
+  > Though  the  boat  is  only  eighty  feet  long—with  the twenty-foot  diameter  paddlewheel  mounted  on  each sidecovering much of that—and with three decks that make it thirty feet wide and tall, t
+- **dep_0472** Blackbird **has** Witchwings
+  > Held  through  the  centuries  by  his  lover,  the  witch-woman Blackbird, she has in turn entrusted the heart to her own fol- lowers in the flying coven called the Witchwings
+- **dep_0473** Luckily **have** Avian
+  > Luckily,  the  heroes  have  both  inadvertent  allies  and  a distraction:  Avian  members  of  the  Sons  of  the  Sky  have also found the trees, and are mounting an aerial attack
+- **dep_0474** Avison **have** Sons
+  > the  check  begins  with  the  Avians  as  Unfa- vorable, and can be improved to Indifferent if the heroes reveal that they know of Avison’s origins or have deduced that  the  Sons  have  come  to  re
+- **dep_0475** However **attacks** Sons
+  > However,  if  any  hero  attacks  any  member  of  the Sons, their attitude will revert to Hostile
+- **dep_0476** Perception **has** Expertise
+  > An Insight or Perception check (DC 25, or DC 20 if the hero has Expertise: Tactics) allows a hero to see that while the witches are protecting each and every nest, their numbers are doubled on one par
+- **dep_0477** Blood Monk **requires** Grab
+  > Rescuing a captured local from the clutches of a Blood Monk requires an opposed Grab check
+- **dep_0478** Wolfen **have** Clans
+  > as such, the Wolfen also refuse to battle any hero whose powers or background have a connection to the Clans for the same reason they won’t accept Longhunter’s challenge
+- **dep_0479** Once **have** Wolfen
+  > Once the heroes have chosen a champion, the Wolfen rep- resentative leads them into the cave
+- **dep_0480** Lord  Sanguine **have** Hekawi
+  > SCENE 6  COMBAT, ROLEPLAYING  The  three  relics  recovered,  Lord  Sanguine  can  now  be found, and the heroes have a chance to rescue the Hekawi brother-gods and interfere with the vampire lord’s p
+- **dep_0481** Insight **checks** Sons
+  > Please let us fly, not to flee  in  shame,  but  to  gather  our  people  and  help you make this right.”  283  Insight checks or other means of divining the motivation of the Sons show only truth in
+- **dep_0482** Crown Tower **has** Sons
+  > The Owl gasps to the heroes, “…any two…can be guardians…volunteer…they must…hold the arti- fact against the monster…do not…fail….”  Hundreds of Sanguine’s minions are gathered at the base of the Crown
+- **dep_0483** Blackbird **uses** Ensorcel
+  > TACTICS  If given the opportunity, Blackbird uses her Ensorcel pow- er and attempts to bring one or more of the heroes under her  control,  but  unleashes  her  Eldritch  Fire  if  the  heroes attack
+- **dep_0484** Avison **have** Hekawi
+  > For  bringing  the  brothers back  from  Avison  the  heroes  have  the  appreciation  and thanks of the Hekawi and at least the Sky Clan, as well as that of the Sons of the Sky in particular
+- **dep_0485** Now **have** Rafael
+  > Now fantastically  wealthy,  the  family  paid  to  have  Rafael  re- leased from his apprenticeship only to choose a new path for the boy by sending him to study medicine
+- **dep_0486** Ranged  Damage **affects** Insubstantial
+  > During  her  journey  across  the  continent,  Longhunter befriended  each  native  tribe  she  encountered,  assisting  287  PL10  WARRIOR (MINIONS)  MR7/PL6  STR  3  STA  4  AGL  5  DEX  6  FGT  7
+- **dep_0487** Damage **affects** Insubstantial
+  > Cover and Concealment), Quick Draw, Ranged Attack 3, Throwing Mastery, Tracking, Uncanny Dodge  Skills:  Acrobatics  7  (+12),  Athletics  8  (+11),  Close  Combat: Wildtouched  3  (+10),  Deception
+- **dep_0488** Their **have** Sanguine
+  > Their numbers have since been augmented by peas- ants  dragged  into  their  corrupted  mission,  though  only Sanguine  himself  can  fully  convert  them  into  vampires
+- **dep_0489** Ranged Damage **affects** Insubstantial
+  > Spirit Blast (Ranged Damage 7, Affects Insubstantial, Secondary  Effect)
+- **dep_0490** Damage **affects** Insubstantial
+  > Water Wisdom  (Array  (16  points),  River’s Touch (Healing 5, Restorative, Stabilize), Shield of the Mother (Reaction Damage 4, being touched))  Advantages: Eidetic Memory, Ritualist  Skills:  Decept
+- **dep_0491** The Downtown **has** Riverside
+  > The Downtown area has artsy Riverside and the waterfront, bustling Midtown, and ritzy Parkside, as well as the high-tech of the North End and the urban de- cay of The Fens
+- **dep_0492** Star Island **has** Republic
+  > Beyond the shores of Freedom and the watchful Lonely Point  Naval  Station  lie  a  number  of  islands,  including Blackstone,  the  home  of  a  federal  maximum-security prison for super-criminals
+- **dep_0493** Seven **have** Freedom League
+  > HEROES  and Seven have gone on to join the Freedom League, and many of its students have similar dreams
+- **dep_0494** Freedom **has** Earth
+  > VILLAINS  Of course, Freedom needs its heroes, as it also has more super-criminals  than  any  place  on  Earth
+- **dep_0495** Set **has** Choshech
+  > Surreptitiously,  Marmo- Set has located the most powerful remaining plague ava- tar, Choshech
+- **dep_0496** The Guild **has** Freedom City
+  > The Guild “has been planning this job for months!” includ- ing waiting until most of Freedom City’s famous superhe- roes are known to be busy elsewhere
+- **dep_0497** Huckster **has** Freedom City
+  > DC 20 Although the Thieves’ Guild was originally a loose, widely scattered alliance, the Huckster has de- cided the arrangement suits him and persuaded the others to continue working together regularl
+- **dep_0498** Stealth **checks** Guild
+  > By  exercising  proper  caution when  approaching  (and  succeeding  at  some  opposed Stealth skill checks), the good guys can catch the Guild off-guard, so combat begins with a surprise round (see S
+- **dep_0499** Tricking **uses** Deception
+  > He’s especially fond of outwitting heroes with the Feinting or Tricking uses of Deception (see page 119), then  dispatching them with a gadget when they least expect it
+- **dep_0500** While **has** Huckster
+  > While it has nothing to do with bravery, the Huckster is al- ways one of the last to run from a losing fight
+- **dep_0501** Persuasion **checks** Favorable
+  > The Bola especially wants to spend some time with any female heroes  present,  so  Persuasion  skill  checks  attempted  by female characters treat him as Favorable, and he defends against Deception c
+- **dep_0502** Once **have** Scene
+  > Once the heroes have sampled an indicative amount of their wrath, the villains need to promptly exit, intact and in triumph, to properly set the stage for the events of Scene 3
+- **dep_0503** Once **have** Marmo
+  > Once the heroes have taken enough lumps to successfully deliver the “these villains are scary bad” message, a cack- ling Marmo-Set orders Choshech to Teleport them both to Scene  4
+- **dep_0504** Set **have** Whether
+  > The cackling Marmo-Set exits with a sneering, “I  shall  return,  more  powerful  than  you  can  imagine—and you so-called heroes have shown me the place of power!”  Whether  the  heroes  come  to  h
+- **dep_0505** Whether **has** Scene
+  > Whether they accept or decline, the heroes’ decision has a major effect on the adventure’s outcome in Scene 4
+- **dep_0506** Choshech **attacks** Pyramid Plaza
+  > 299  SCENE 4 POWER   COMBAT, INVESTIGATION  Marmo-Set—still  mind-controlling  Choshech—attacks Pyramid Plaza in search of ancient mystic artifacts which will make him nearly omnipotent
+- **dep_0507** Ranged Multiattack
+Weaken Toughness **affects** Objects Only
+  > Impaired, Disabled, Unaware), Cumulative, Limited to Visual Sense), AE: Laser Bolas (Ranged Multiattack Damage 8, Penetrating 5), AE: Razor Bolas (Ranged Multiattack Damage 8, Homing, Penetrating 5),
+- **dep_0508** Guild **have** Freedom City
+  > Recently,  the  Guild  members  have  all  more  or  less  set- tled in Freedom City and made at least a show of going straight
+- **dep_0509** The **have** Freedom
+  > The  members have  run  afoul  of  most  of  Freedom’s  superheroes  in  the process, but have developed a particular rivalry with their most frequent opponent, Johnny Rocket
+- **dep_0510** Rocket **has** Thieves
+  > Rocket has put the Thieves’ Guild behind bars multiple times, but the members never seem to stay there
+- **dep_0511** Ranged  Weaken
+Toughness **affects** Only  Objects
+  > Impaired, Disabled,  Unaware),  Limited  to  Visual  Only),  AE:  “Johnny Spaceman”  Rocket  Pogo  Stick  (Leaping  9  (1/2  mile)),  AE: “Johnny  Supermodel”  Weight-loss  Tonic  (Ranged  Weaken Toug
+- **dep_0512** While **has** Huckster
+  > While  it has nothing to do with bravery, the Huckster is always one of the last to run from a losing fight
+- **dep_0513** Guild **have** Huckster
+  > The  other  Guild  members  have  a  classic  love/hate  rela- tionship  with  the  Huckster
+- **dep_0514** Ranged
+Weaken Toughness **affects** Only Objects
+  > Ice  Staff  (Dynamic  Array  (21  points), Easily  Removable  (-18  points)  Cold  Blast  (Ranged  Damage  7, Alternate  Resistance  (Fortitude)),  AE:  Absolute  Zero  (Ranged Weaken Toughness 10, Af
+- **dep_0515** Since **have** Marguerite
+Frey
+  > Since  her  early  childhood,  people  have  said  Marguerite Frey is the most beautiful girl in the world
+- **dep_0516** Stratos **has** Weather  Mistress
+  > Stratos  has  expressed  both an  amorous  interest  in  the  Weather  Mistress  and  collegial inquiries about the Weather Vane
+- **dep_0517** Patenting **have** Marguerite
+  > Patenting  her  discoveries  would  have  made  her  fabu- lously  wealthy,  but  Marguerite  is  accustomed  to  having everything handed to her
+- **dep_0518** Several **grants** Cline
+  > Several years, many research grants, and numerous failures later, Cline finally hit upon the discovery she sought
+- **dep_0519** Cortney Cline **has** Weather Mistress
+  > She still didn’t feel the scales of fate were balanced and set out to steal the riches life “owed her all along.” Since then, Cortney Cline has pervert- ed the forces of nature to sate her greed as th
+- **dep_0520** Infamy **have** Jeremiah
+  > Infamy, though his previous cli- ents could scarcely have recognized him  Jeremiah could do nothing else but agree, and was equal- ly bereft of resistance when Infamy offered to make him just such an
+- **dep_0521** Vulnerable **attacks** Impervious
+Protection
+  > Vulnerable  to  light-based  attacks),  Impervious Protection 4
+- **dep_0522** Freedom Leaguer Johnny Rocket **has** Simian
+  > In particular Freedom Leaguer Johnny Rocket has proven a thorn in Simian’s side
+- **dep_0523** This **attacks** Surprise  Attack
+  > This may allow for surprise attacks on the unaware char- acter  (see  Surprise  Attack  in  the  Action  &  Adventure chapter)
 
 ## 4. np_mining
 
-*147 noun phrases*
+*150 noun phrases*
 
 | phrase | count | head_noun |
 |--------|-------|-----------|
-| Ranged Damage | 58 | Damage |
-| Alternate Effects | 49 | Effects |
+| Ranged Damage | 80 | Damage |
+| Alternate Effects | 54 | Effects |
+| Choose One | 53 | One |
+| Power Attack | 36 | Attack |
+| Enhanced Strength | 36 | Strength |
+| Defensive Roll | 35 | Roll |
 | Alternate Effect | 35 | Effect |
-| Enhanced Strength | 31 | Strength |
-| Improved Initiative | 25 | Initiative |
-| Close Combat | 24 | Combat |
-| Power Attack | 23 | Attack |
-| Skill Mastery | 23 | Mastery |
+| Ranged Combat | 34 | Combat |
+| Emerald City | 32 | City |
+| Lord Sanguine | 32 | Sanguine |
+| Close Combat | 31 | Combat |
+| Improved Initiative | 29 | Initiative |
+| Skill Mastery | 29 | Mastery |
+| Energy Control | 27 | Control |
+| Improved Critical | 24 | Critical |
+| Limited Degree | 24 | Degree |
 | Personal
 Duration | 23 | Duration |
-| Enhanced Defenses | 21 | Defenses |
-| Close Attack | 19 | Attack |
-| Move Object | 19 | Object |
-| Limited Degree | 19 | Degree |
-| Energy Control | 19 | Control |
+| Accurate Attack | 22 | Attack |
+| Close Attack | 22 | Attack |
+| Move Object | 22 | Object |
+| Enhanced Defenses | 22 | Defenses |
+| The Basics | 20 | Basics |
+| Doctor Clock | 20 | Clock |
+| Ranged Affliction | 19 | Affliction |
+| Defensive Attack | 18 | Attack |
+| Remote Sensing | 18 | Sensing |
 | Affects Others | 18 | Others |
-| Improved Critical | 17 | Critical |
-| Remote Sensing | 17 | Sensing |
-| Ranged Affliction | 17 | Affliction |
-| Defensive Attack | 16 | Attack |
-| Defensive Roll | 16 | Roll |
+| Without Defensive Roll | 18 | Roll |
+| Mind Reading | 17 | Reading |
+| Ranged  Damage | 17 | Damage |
+| Ultimate Effort | 16 | Effort |
 | The Gamemaster | 16 | Gamemaster |
-| Mind Reading | 15 | Reading |
+| Security System | 16 | System |
+| Impervious Protection | 16 | Protection |
+| Impervious Toughness | 15 | Toughness |
+| Power Point Totals | 15 | Totals |
+| Burst Area | 15 | Area |
 | Enhanced Advantages | 15 | Advantages |
-| Ranged Combat | 14 | Combat |
-| Accurate Attack | 14 | Attack |
-| Security System | 14 | System |
-| Impervious Protection | 14 | Protection |
-| Uncanny Dodge | 13 | Dodge |
-| Impervious Toughness | 13 | Toughness |
+| Freedom City | 15 | City |
+| Uncanny Dodge | 14 | Dodge |
+| Move Action | 14 | Action |
+| Extra Condition | 14 | Condition |
+| Cumulative Affliction | 14 | Affliction |
+| Eidetic Memory | 13 | Memory |
+| Improved Grab | 13 | Grab |
+| Improved Trip | 13 | Trip |
+| Easily Removable | 13 | Removable |
+| Enhanced Stamina | 13 | Stamina |
+| Close  Combat | 13 | Combat |
 | Extra
 Condition | 13 | Condition |
-| Extra Condition | 13 | Condition |
-| Ultimate Effort | 12 | Effort |
+| Instant Up | 12 | Up |
 | Enhanced Trait | 12 | Trait |
-| Move Action | 12 | Action |
+| Power Level | 12 | Level |
 | Great Endurance | 11 | Endurance |
-| Improved Grab | 11 | Grab |
-| Cumulative Affliction | 10 | Affliction |
-| Burst Area | 10 | Area |
-| Enhanced Stamina | 10 | Stamina |
+| Precise Attack | 11 | Attack |
+| Ranged Attack | 11 | Attack |
+| Life Support | 11 | Support |
+| Ranged Burst Area Damage | 11 | Damage |
+| Living Space | 11 | Space |
+| Reaction Damage | 11 | Damage |
+| Ranged Multiattack Damage | 11 | Damage |
+| Energy Blast | 11 | Blast |
+| Lord  Sanguine | 11 | Sanguine |
+| Favored Environment | 10 | Environment |
+| Improved Hold | 10 | Hold |
+| Danger Sense | 10 | Sense |
 | Strength Damage | 10 | Damage |
-| Eidetic Memory | 9 | Memory |
-| Improved Trip | 9 | Trip |
-| Instant Up | 9 | Up |
-| Power Level | 9 | Level |
+| Current  Events | 10 | Events |
+| Fast Grab | 9 | Grab |
+| Plain Sight | 9 | Sight |
+| Improved Smash | 9 | Smash |
+| Improvised Tools | 9 | Tools |
 | Critical Hits | 9 | Hits |
-| Living Space | 9 | Space |
-| Reaction Damage | 9 | Damage |
-| Improved Hold | 8 | Hold |
-| Precise Attack | 8 | Attack |
-| Extra Effort | 8 | Effort |
-| Power  Loss | 8 | Loss |
-| Easily Removable | 8 | Removable |
-| Two Degrees | 8 | Degrees |
-| Danger Sense | 8 | Sense |
 | Easily
-Removable | 8 | Removable |
+Removable | 9 | Removable |
+| Safe Fall | 9 | Fall |
+| Power System | 9 | System |
+| The  Basics | 9 | Basics |
+| Easily  Removable | 9 | Removable |
+| Agile Feint | 8 | Feint |
+| Extraordinary Effort | 8 | Effort |
+| Improved Defense | 8 | Defense |
+| Quick Draw | 8 | Draw |
+| Extra Effort | 8 | Effort |
+| Enhanced Advantage | 8 | Advantage |
+| Power  Loss | 8 | Loss |
+| Burst Area Damage | 8 | Damage |
+| Extended Vision | 8 | Vision |
+| Two Degrees | 8 | Degrees |
 | Trained Only | 8 | Only |
-| Extraordinary Effort | 7 | Effort |
-| Plain Sight | 7 | Sight |
+| Albian River | 8 | River |
+| Cryptid Clans | 8 | Clans |
+| Freedom  City | 8 | City |
+| Improved Disarm | 7 | Disarm |
+| Luck Control | 7 | Control |
 | Martial Artist | 7 | Artist |
-| Enhanced Advantage | 7 | Advantage |
-| Power System | 7 | System |
-| Ranged Multiattack Damage | 7 | Damage |
-| Ranged Burst Area Damage | 7 | Damage |
-| Life Support | 7 | Support |
-| Safe Fall | 7 | Fall |
+| Affects Insubstantial | 7 | Insubstantial |
+| Alternate  Effect | 7 | Effect |
+| Ranged
+Combat | 7 | Combat |
 | Visual Concealment | 7 | Concealment |
-| Burst Area Damage | 7 | Damage |
-| Energy Blast | 7 | Blast |
 | Living  Space | 7 | Space |
+| Mental Link | 7 | Link |
+| Ranged  Combat | 7 | Combat |
+| Extra  Condition | 7 | Condition |
 | Remote  Sensing | 7 | Sensing |
-| Agile Feint | 6 | Feint |
-| Fast Grab | 6 | Grab |
-| Favored Environment | 6 | Environment |
-| Improved Disarm | 6 | Disarm |
-| Improved Smash | 6 | Smash |
-| Luck Control | 6 | Control |
-| Affects Insubstantial | 6 | Insubstantial |
+| Burst  Area | 7 | Area |
+| Emerald  City | 7 | City |
+| Doctor  Clock | 7 | Clock |
+| Blood Monks | 7 | Monks |
+| Looking Glass | 7 | Glass |
+| Animal Empathy | 6 | Empathy |
+| Grabbing Finesse | 6 | Finesse |
 | Increased Mass | 6 | Mass |
+| Freedom League | 6 | League |
+| Doing Good | 6 | Good |
 | Alternate  Effects | 6 | Effects |
+| Improved
+Initiative | 6 | Initiative |
+| Burst Area Affliction | 6 | Affliction |
+| Mental Blast | 6 | Blast |
+| Ranged Cumulative Affliction | 6 | Affliction |
 | Visually Disabled | 6 | Disabled |
+| Concentration Duration | 6 | Duration |
 | Enhanced Skill | 6 | Skill |
+| Current Events | 6 | Events |
+| Multiple Minions | 6 | Minions |
 | Weaken Stamina | 6 | Stamina |
 | Close
 Duration | 6 | Duration |
-| Ranged  Damage | 6 | Damage |
-| Grabbing Finesse | 5 | Finesse |
-| Improved Defense | 5 | Defense |
+| Ranged
+Damage | 6 | Damage |
+| Emerald Star | 6 | Star |
+| Blood Monk | 6 | Monk |
+| Mad Maple | 6 | Maple |
+| Favored Foe | 5 | Foe |
 | Extra Limbs | 5 | Limbs |
 | Crime Fighter | 5 | Fighter |
+| Energy Controller | 5 | Controller |
 | Affects Objects | 5 | Objects |
 | Alternate Resistance | 5 | Resistance |
+| Secondary Effect | 5 | Effect |
 | Check Required | 5 | Required |
 | Routine Checks | 5 | Checks |
-| Alternate  Effect | 5 | Effect |
-| Doing Good | 5 | Good |
 | The  Gamemaster | 5 | Gamemaster |
-| Extended Vision | 5 | Vision |
-| Ranged Cumulative Affliction | 5 | Affliction |
-| Concentration Duration | 5 | Duration |
+| Enhanced Dodge | 5 | Dodge |
+| Ranged Cloud Area Affliction | 5 | Affliction |
+| Enhanced
+Strength | 5 | Strength |
+| Choose  One | 5 | One |
+| Power
+Attack | 5 | Attack |
+| Improved  Initiative | 5 | Initiative |
 | Alternate
 Effects | 5 | Effects |
+| Power Loss | 5 | Loss |
 | Dimension Travel | 5 | Travel |
-| The Totem | 5 | Totem |
-| Routine  Checks | 5 | Checks |
-| Ranged
-Damage | 5 | Damage |
-| Enhanced Abilities | 4 | Abilities |
-| Animal Empathy | 4 | Empathy |
-| Favored Foe | 4 | Foe |
-| Improvised Weapon | 4 | Weapon |
-| Ranged Attack | 4 | Attack |
-| Hero Points | 4 | Points |
-| Extended Range | 4 | Range |
-| Secondary Effect | 4 | Effect |
-| Variable Descriptor | 4 | Descriptor |
-| Side Effect | 4 | Effect |
-| Free Action | 4 | Action |
-| The  Paragon | 4 | Paragon |
-| Fire Prevention System | 4 | System |
-| Space Travel | 4 | Travel |
-| Enhanced Traits | 4 | Traits |
-| Ranged Cloud Area Affliction | 4 | Affliction |
-| Visually Impaired | 4 | Impaired |
-| Air Control | 4 | Control |
-| Burst Area Affliction | 4 | Affliction |
-| Fire Control | 4 | Control |
-| Visually Unaware | 4 | Unaware |
-| One Sense | 4 | Sense |
-| Impede Movement | 4 | Movement |
-| Popular Culture | 4 | Culture |
-| Power  System | 4 | System |
-| Flight Harness | 4 | Harness |
-| Mystic Endowment | 4 | Endowment |
-| Magic Spells | 4 | Spells |
-| Giant Size | 4 | Size |
-| Density Decrease | 4 | Decrease |
-| Enhanced
-Advantages | 4 | Advantages |
-| Close
-Combat | 4 | Combat |
-| Multiple Minions | 4 | Minions |
-| Enhanced Awareness | 4 | Awareness |
-| The  Weapon  Master | 4 | Master |
-| Extra  Effort | 4 | Effort |
-| Rank
-Duration | 4 | Duration |
-| Ranged
-Duration | 4 | Duration |
-| Enhanced  Trait | 4 | Trait |
-| Extra  Limbs | 4 | Limbs |
-| Burst  Area | 4 | Area |
-| Alternate Equipment | 4 | Equipment |
-| Defense  System | 4 | System |
-| Defense System | 4 | System |
+| Foot Stomp | 5 | Stomp |
 
 ## 5. cooccurrence
 
-*160 nodes, 500 edges*
+*200 nodes, 300 edges*
 
 | from | to | count |
 |------|-----|-------|
-| Damage | Strength | 38 |
-| Dodge | Fortitude | 33 |
-| Dodge | Strength | 29 |
-| Damage | Dodge | 29 |
+| CHAPTER | You | 165 |
+| CHAPTER | The | 160 |
+| CHAPTER | This | 124 |
+| The | You | 116 |
+| The | This | 102 |
+| CHAPTER | For | 97 |
+| CHAPTER | Damage | 92 |
+| CHAPTER | Perception | 85 |
+| This | You | 83 |
+| CHAPTER | Strength | 81 |
+| For | The | 78 |
+| For | You | 72 |
+| For | This | 71 |
+| CHAPTER | Powers | 68 |
+| CHAPTER | Dodge | 66 |
+| CHAPTER | Toughness | 65 |
+| CHAPTER | Fortitude | 62 |
+| CHAPTER | They | 60 |
+| CHAPTER | Your | 59 |
+| CHAPTER | Some | 57 |
+| CHAPTER | Will | 57 |
+| CHAPTER | Each | 56 |
+| You | Your | 56 |
+| CHAPTER | Limited | 55 |
+| Perception | You | 55 |
+| CHAPTER | Immunity | 53 |
+| CHAPTER | When | 53 |
+| CHAPTER | POWERS | 52 |
+| Strength | You | 52 |
+| CHAPTER | Insight | 51 |
+| CHAPTER | Gamemaster | 51 |
+| CHAPTER | Expertise | 50 |
+| The | When | 50 |
+| Some | The | 50 |
+| Damage | Strength | 49 |
+| CHAPTER | SECRET ORIGINS | 48 |
+| Damage | The | 48 |
+| CHAPTER | Technology | 47 |
+| CHAPTER | Protection | 47 |
+| CHAPTER | MASTERMINDS | 47 |
+| Each | The | 47 |
+| When | You | 47 |
+| CHAPTER | Intimidation | 46 |
+| CHAPTER | Roll | 46 |
+| Damage | You | 46 |
+| CHAPTER | Stealth | 45 |
+| The | They | 45 |
+| Powers | The | 45 |
+| Dodge | You | 45 |
+| CHAPTER | Flight | 44 |
+| CHAPTER | Senses | 44 |
+| Gamemaster | The | 44 |
+| Strength | The | 44 |
+| The | Toughness | 44 |
+| Toughness | You | 44 |
+| Athletics | CHAPTER | 43 |
+| CHAPTER | MUTANTS | 43 |
+| Each | This | 43 |
+| Each | You | 43 |
+| Abilities | CHAPTER | 42 |
+| MASTERMINDS | The | 42 |
+| Insight | Perception | 41 |
+| CHAPTER | Movement | 41 |
+| CHAPTER | The GM | 41 |
+| Dodge | The | 41 |
+| AWARENESS | CHAPTER | 41 |
+| Perception | Stealth | 40 |
+| Advantages | CHAPTER | 40 |
+| Attack | CHAPTER | 40 |
+| Action | CHAPTER | 40 |
+| Perception | The | 40 |
+| CHAPTER | Parry | 40 |
+| CHAPTER | STAMINA | 40 |
+| CHAPTER | DEXTERITY | 40 |
+| CHAPTER | FIGHTING | 40 |
+| CHAPTER | INTELLECT | 40 |
+| CHAPTER | PRESENCE | 40 |
+| CHAPTER | Ranged Damage | 40 |
+| CHAPTER | Ranged | 40 |
+| DEXTERITY | STAMINA | 40 |
+| FIGHTING | STAMINA | 40 |
+| INTELLECT | STAMINA | 40 |
+| AWARENESS | STAMINA | 40 |
+| PRESENCE | STAMINA | 40 |
+| DEXTERITY | FIGHTING | 40 |
+| DEXTERITY | INTELLECT | 40 |
+| AWARENESS | DEXTERITY | 40 |
+| DEXTERITY | PRESENCE | 40 |
+| FIGHTING | INTELLECT | 40 |
+| AWARENESS | FIGHTING | 40 |
+| FIGHTING | PRESENCE | 40 |
+| AWARENESS | INTELLECT | 40 |
+| INTELLECT | PRESENCE | 40 |
+| AWARENESS | PRESENCE | 40 |
+| POWERS | You | 40 |
+| Expertise | Perception | 39 |
+| MASTERMINDS | MUTANTS | 39 |
+| This | When | 39 |
+| The | Your | 39 |
+| CHAPTER | Resisted | 39 |
+| POWERS | The | 39 |
+| CHAPTER | Deception | 38 |
+| Damage | Immunity | 38 |
+| Damage | Protection | 38 |
+| CHAPTER | Sustained | 38 |
+| MUTANTS | The | 38 |
+| Roll | You | 38 |
+| Gamemaster | You | 38 |
+| They | This | 38 |
+| Dodge | Fortitude | 38 |
+| CHAPTER | MPH | 38 |
+| POWERS | This | 38 |
+| CHAPTER | Speed | 37 |
+| They | You | 37 |
+| Some | This | 37 |
+| Will | You | 37 |
+| Damage | Dodge | 37 |
+| Limited | You | 37 |
+| CHAPTER | Persuasion | 36 |
+| Gamemaster | This | 36 |
+| The | Will | 36 |
+| This | Toughness | 36 |
+| Fortitude | You | 36 |
+| Damage | This | 36 |
+| CHAPTER | Unarmed | 36 |
+| Damage | Fortitude | 36 |
+| Fortitude | Strength | 36 |
+| Affliction | CHAPTER | 35 |
+| Damage | Flight | 35 |
+| Powers | You | 35 |
+| Dodge | Parry | 35 |
+| Damage | Perception | 35 |
+| Dodge | Strength | 35 |
+| The | The GM | 34 |
+| Perception | This | 34 |
+| CHAPTER | Cost | 34 |
+| CHAPTER | See | 33 |
+| For | Some | 33 |
+| Powers | This | 33 |
+| This | Your | 33 |
+| Damage | Limited | 33 |
+| CHAPTER | Range | 33 |
+| Acrobatics | CHAPTER | 32 |
+| Perception | Technology | 32 |
+| CHAPTER | With | 32 |
+| Strength | This | 32 |
+| Each | For | 32 |
+| For | They | 32 |
+| CHAPTER | Overcome | 32 |
+| The GM | You | 32 |
+| Insight | You | 32 |
+| CHAPTER | Close | 32 |
+| SECRET ORIGINS | You | 32 |
+| Flight | MPH | 32 |
+| Damage | MPH | 32 |
+| Cost | You | 32 |
+| Expertise | Insight | 31 |
+| Intimidation | Perception | 31 |
+| Perception | Persuasion | 31 |
+| CHAPTER | Equipment | 31 |
+| MASTERMINDS | This | 31 |
+| For | Gamemaster | 31 |
+| Some | You | 31 |
+| Expertise | You | 31 |
+| Fortitude | Will | 31 |
+| Damage | Ranged Damage | 31 |
+| Range | You | 31 |
+| CHAPTER | Skills | 30 |
+| With | You | 30 |
+| MASTERMINDS | You | 30 |
+| For | When | 30 |
+| The GM | This | 30 |
+| Fortitude | The | 30 |
+| Dodge | Will | 30 |
+| Damage | Powers | 30 |
+| Damage | Unarmed | 30 |
+| Damage | Resisted | 30 |
+| Fortitude | Resisted | 30 |
+| Strength | Toughness | 30 |
+| Overcome | Resisted | 30 |
+| Immunity | You | 30 |
+| Intimidation | You | 30 |
+| Athletics | Perception | 29 |
+| Intimidation | Stealth | 29 |
+| CHAPTER | Concealment | 29 |
+| Damage | Movement | 29 |
+| CHAPTER | Motivation | 29 |
+| CHAPTER | Stamina | 29 |
+| Speed | Strength | 29 |
+| See | The | 29 |
+| Action | The | 29 |
+| Perception | Strength | 29 |
+| CHAPTER | Take | 29 |
+| Perception | Unarmed | 29 |
+| Alternate Effects | CHAPTER | 29 |
+| Limited | Strength | 29 |
+| Sustained | You | 29 |
+| Affliction | The | 29 |
 | Cost | Range | 29 |
-| Insight | Perception | 27 |
-| Damage | Immunity | 27 |
-| Damage | Protection | 27 |
-| Dodge | Parry | 27 |
-| Fortitude | Strength | 27 |
-| Damage | Fortitude | 27 |
-| Perception | Stealth | 26 |
-| Strength | Toughness | 26 |
-| Expertise | Perception | 25 |
-| Expertise | Insight | 24 |
-| Dodge | Toughness | 24 |
-| Fortitude | Will | 24 |
-| AGILITY | STAMINA | 24 |
-| DEXTERITY | STAMINA | 24 |
-| FIGHTING | STAMINA | 24 |
-| INTELLECT | STAMINA | 24 |
-| AWARENESS | STAMINA | 24 |
-| PRESENCE | STAMINA | 24 |
-| AGILITY | DEXTERITY | 24 |
-| AGILITY | FIGHTING | 24 |
-| AGILITY | INTELLECT | 24 |
-| AGILITY | AWARENESS | 24 |
-| AGILITY | PRESENCE | 24 |
-| DEXTERITY | FIGHTING | 24 |
-| DEXTERITY | INTELLECT | 24 |
-| AWARENESS | DEXTERITY | 24 |
-| DEXTERITY | PRESENCE | 24 |
-| FIGHTING | INTELLECT | 24 |
-| AWARENESS | FIGHTING | 24 |
-| FIGHTING | PRESENCE | 24 |
-| AWARENESS | INTELLECT | 24 |
-| INTELLECT | PRESENCE | 24 |
-| AWARENESS | PRESENCE | 24 |
-| Damage | Limited | 24 |
-| Fortitude | Resisted | 23 |
-| Fortitude | Immunity | 23 |
-| Damage | Toughness | 23 |
-| Perception | Persuasion | 22 |
-| Damage | Flight | 22 |
-| Speed | Strength | 22 |
-| Dodge | Will | 22 |
-| Damage | Resisted | 22 |
-| Limited | Strength | 22 |
-| Expertise | Persuasion | 21 |
-| Perception | Technology | 21 |
-| Damage | Movement | 21 |
-| Dodge | Resisted | 21 |
-| Immunity | Strength | 21 |
-| Limited | Resisted | 21 |
-| Range | Sustained | 21 |
-| Expertise | Technology | 20 |
-| Insight | Persuasion | 20 |
-| Flight | Immunity | 20 |
-| Flight | Movement | 20 |
-| Immunity | Movement | 20 |
-| Limited | Sustained | 20 |
-| Stamina | Strength | 20 |
-| Powers | Strength | 20 |
-| Dazed | Stunned | 20 |
-| Resisted | Stunned | 20 |
-| Flight | MPH | 20 |
-| MPH | Movement | 20 |
-| Dodge | Limited | 20 |
-| Cost | Sustained | 20 |
-| Affliction | Damage | 19 |
-| Immunity | Protection | 19 |
-| Limited | Senses | 19 |
-| Action | Adventure | 19 |
-| Fortitude | Toughness | 19 |
-| Dazed | Resisted | 19 |
-| Flight | Senses | 19 |
-| MPH | Senses | 19 |
-| PARRY | TOUGHNESS | 19 |
-| PARRY | WILL | 19 |
-| TOUGHNESS | WILL | 19 |
-| Protection | Strength | 19 |
-| Immunity | Limited | 19 |
-| Fortitude | Limited | 19 |
-| Deception | Perception | 18 |
-| Insight | Intimidation | 18 |
-| Leaping | Movement | 18 |
-| Gamemaster | Powers | 18 |
-| Fortitude | Parry | 18 |
-| Defenseless | Vulnerable | 18 |
-| Resisted | Vulnerable | 18 |
-| Immunity | Resisted | 18 |
-| Fortitude | Stunned | 18 |
-| Damage | Speed | 18 |
-| Movement | Senses | 18 |
-| FORTITUDE | PARRY | 18 |
-| FORTITUDE | TOUGHNESS | 18 |
-| FORTITUDE | WILL | 18 |
-| Damage | Ranged Damage | 18 |
-| Deception | Insight | 17 |
-| Deception | Intimidation | 17 |
-| Intimidation | Perception | 17 |
-| Intimidation | Stealth | 17 |
-| Perception | Strength | 17 |
-| Toughness | Will | 17 |
-| Fortitude | Incapacitated | 17 |
-| Powers | Toughness | 17 |
-| Perception | Toughness | 17 |
-| Perception | Will | 17 |
-| Incapacitated | Resisted | 17 |
-| Accurate | Resisted | 17 |
-| Defenseless | Resisted | 17 |
-| MPH | Resisted | 17 |
-| Movement | Resisted | 17 |
-| Dodge | Immunity | 17 |
-| Dazed | Fortitude | 17 |
-| Accurate | Damage | 17 |
-| Damage | Penetrating | 17 |
-| Damage | MPH | 17 |
-| Damage | Senses | 17 |
-| Flight | Strength | 17 |
-| Immunity | MPH | 17 |
-| Immunity | Speed | 17 |
-| Immunity | Senses | 17 |
-| Movement | Speed | 17 |
-| Limited | Perception | 17 |
-| Limited | MPH | 17 |
-| Limited | Movement | 17 |
-| Protection | Toughness | 17 |
-| Limited | Protection | 17 |
-| Athletics | Perception | 16 |
-| Deception | Expertise | 16 |
-| Insight | Stealth | 16 |
-| Investigation | Perception | 16 |
-| Hand | Perception | 16 |
-| Hand | Sleight | 16 |
-| Limited | Speed | 16 |
-| Accurate | Limited | 16 |
-| Gamemaster | The GM | 16 |
-| Fortitude | Powers | 16 |
-| Powers | The GM | 16 |
-| Strength | Will | 16 |
-| Hindered | Resisted | 16 |
-| Resisted | Strength | 16 |
-| Flight | Resisted | 16 |
-| Dodge | Vulnerable | 16 |
-| Fortitude | Movement | 16 |
-| Incapacitated | Stunned | 16 |
-| Damage | Vulnerable | 16 |
-| Damage | Parry | 16 |
-| Movement | Strength | 16 |
-| Senses | Strength | 16 |
-| Motivation | PARRY | 16 |
-| Motivation | TOUGHNESS | 16 |
-| Motivation | WILL | 16 |
-| Flight | Limited | 16 |
-| Fortitude | Protection | 16 |
-| Strength | Sustained | 16 |
-| Expertise | Intimidation | 15 |
-| Expertise | Stealth | 15 |
-| Perception | Sleight | 15 |
-| Persuasion | Stealth | 15 |
-| Parry | Toughness | 15 |
-| Defenseless | Stunned | 15 |
-| Hindered | Vulnerable | 15 |
-| Stunned | Vulnerable | 15 |
-| Gamemaster | Will | 15 |
-| Damage | Powers | 15 |
-| Parry | Strength | 15 |
-| Fortitude | Stamina | 15 |
-| Fortitude | Speed | 15 |
-| Intimidation | Strength | 15 |
-| Resisted | Senses | 15 |
-| Dodge | Stunned | 15 |
-| Dodge | MPH | 15 |
-| Dodge | Movement | 15 |
-| Fortitude | Vulnerable | 15 |
-| Dazed | Incapacitated | 15 |
-| Damage | Dazed | 15 |
-| Damage | Stunned | 15 |
-| MPH | Strength | 15 |
-| Immunity | PARRY | 15 |
-| Immunity | TOUGHNESS | 15 |
-| Immunity | WILL | 15 |
-| MPH | Speed | 15 |
-| FORTITUDE | Motivation | 15 |
-| Ranged Damage | Resisted | 15 |
-| Dodge | Sustained | 15 |
-| Immunity | Sustained | 15 |
-| Cost | Limited | 15 |
-| Cost | Flat | 15 |
-| Acrobatics | Athletics | 14 |
-| Athletics | Expertise | 14 |
-| Deception | Persuasion | 14 |
-| Deception | Stealth | 14 |
-| Intimidation | Persuasion | 14 |
-| Stealth | Technology | 14 |
-| Damage | Leaping | 14 |
-| Flight | Leaping | 14 |
-| Flight | Protection | 14 |
-| Regeneration | Speed | 14 |
-| Senses | Speed | 14 |
-| Limited | Penetrating | 14 |
-| Acrobatics | Strength | 14 |
-| The GM | Toughness | 14 |
-| Defenseless | Hindered | 14 |
-| Attack | Toughness | 14 |
-| Leaping | Strength | 14 |
-| Dodge | Stamina | 14 |
-| Dodge | Speed | 14 |
-| Resisted | Speed | 14 |
-| Dazed | Dodge | 14 |
-| Dodge | Hindered | 14 |
-| Defenseless | Dodge | 14 |
-| Dodge | Flight | 14 |
-| Defenseless | Fortitude | 14 |
-| Flight | Fortitude | 14 |
-| Fortitude | MPH | 14 |
-| Dazed | Strength | 14 |
-| Strength | Stunned | 14 |
-| Damage | Defenseless | 14 |
-| Flight | Vulnerable | 14 |
-| MPH | Vulnerable | 14 |
-| Penetrating | Strength | 14 |
-| Immunity | Will | 14 |
-| FORTITUDE | Immunity | 14 |
-| Flight | Speed | 14 |
-| Leaping | MPH | 14 |
-| MPH | PARRY | 14 |
-| MPH | TOUGHNESS | 14 |
-| MPH | WILL | 14 |
-| Movement | Wall | 14 |
-| Leaping | Senses | 14 |
-| Limited | Ranged Damage | 14 |
-| Ranged Damage | Strength | 14 |
-| Enhanced Strength | Strength | 14 |
-| Enhanced Strength | Immunity | 14 |
-| Equipment | Toughness | 14 |
-| Protection | Resisted | 14 |
-| Dodge | Protection | 14 |
-| Limited | Stunned | 14 |
-| Hindered | Limited | 14 |
-| Limited | Vulnerable | 14 |
-| Damage | Sustained | 14 |
-| Alternate Effect | Damage | 14 |
-| Insight | Will | 14 |
-| Limited | Range | 14 |
-| Range | Standard | 14 |
-| Free | Range | 14 |
-| Cost | Toughness | 14 |
-| Flat | Range | 14 |
-| Athletics | Stealth | 13 |
-| Deception | Technology | 13 |
-| Expertise | Investigation | 13 |
-| Insight | Technology | 13 |
-| Hand | Stealth | 13 |
-| Perception | The GM | 13 |
-| Strength | The GM | 13 |
-| Dazed | Defenseless | 13 |
-| Characters | Powers | 13 |
-| Hindered | Stunned | 13 |
-| Attack | Fortitude | 13 |
-| Dodge | Powers | 13 |
-| Stamina | Toughness | 13 |
-| Features | Toughness | 13 |
-| Alternate Effects | Ranged Damage | 13 |
-| Accurate | Ranged Damage | 13 |
-| Alternate Effects | Dodge | 13 |
-| Alternate Effects | Damage | 13 |
-| Alternate Effects | Strength | 13 |
-| Resisted | Will | 13 |
-| PARRY | Resisted | 13 |
-| Resisted | TOUGHNESS | 13 |
-| Resisted | WILL | 13 |
-| Dodge | Incapacitated | 13 |
-| Accurate | Dodge | 13 |
-| Dodge | Senses | 13 |
-| Fortitude | Senses | 13 |
-| Fortitude | PARRY | 13 |
-| Fortitude | TOUGHNESS | 13 |
-| Fortitude | WILL | 13 |
-| Dazed | Vulnerable | 13 |
-| Accurate | Strength | 13 |
-| Accurate | Movement | 13 |
-| Damage | Hindered | 13 |
-| Damage | Will | 13 |
-| Damage | Removable | 13 |
-| Damage | PARRY | 13 |
-| Damage | TOUGHNESS | 13 |
-| Damage | WILL | 13 |
-| Movement | Vulnerable | 13 |
-| Senses | Vulnerable | 13 |
-| Defenseless | Flight | 13 |
-| Defenseless | MPH | 13 |
-| Immunity | Motivation | 13 |
-| FORTITUDE | MPH | 13 |
-| Movement | PARRY | 13 |
-| Movement | TOUGHNESS | 13 |
-| Movement | WILL | 13 |
-| PARRY | Senses | 13 |
-| Senses | TOUGHNESS | 13 |
-| Senses | WILL | 13 |
-| Concealment | Perception | 13 |
-| Enhanced Strength | Flight | 13 |
-| Insubstantial | Limited | 13 |
-| Damage | Enhanced Strength | 13 |
-| Attack | Damage | 13 |
-| Protection | Speed | 13 |
-| Ranged Damage | Stunned | 13 |
-| Dazed | Limited | 13 |
-| Defenseless | Limited | 13 |
-| Limited | Will | 13 |
-| Damage | Stamina | 13 |
-| Affliction | Dodge | 13 |
-| Cost | Standard | 13 |
-| Affliction | Cost | 13 |
-| Cost | Free | 13 |
-| Range | Toughness | 13 |
-| Cost | Strength | 13 |
-| Athletics | Deception | 12 |
-| Athletics | Intimidation | 12 |
-| Athletics | Persuasion | 12 |
-| Insight | Investigation | 12 |
-| Investigation | Stealth | 12 |
-| Investigation | Technology | 12 |
-| Sleight | Stealth | 12 |
-| Affliction | Immunity | 12 |
-| Immunity | Leaping | 12 |
-| Movement | Protection | 12 |
-| Motivation | Senses | 12 |
-| Limited | Regeneration | 12 |
-| Accurate | Senses | 12 |
-| Senses | Sustained | 12 |
-| Alternate Effect | Limited | 12 |
-| Limited | Linked | 12 |
-| Limited | Selective | 12 |
-| Gamemaster | Strength | 12 |
-| Abilities | Strength | 12 |
-| Agility | Strength | 12 |
-| Action | Perception | 12 |
-| Action | Strength | 12 |
-| Stealth | Strength | 12 |
-| Dodge | The GM | 12 |
-| The GM | Will | 12 |
-| Fortitude | Perception | 12 |
-| Attack | Dodge | 12 |
-| Regeneration | Strength | 12 |
-| Attack | Strength | 12 |
-| Leaping | Speed | 12 |
-| Dodge | Motivation | 12 |
-| Motivation | Strength | 12 |
-| STAMINA | STRENGTH | 12 |
-| AGILITY | STRENGTH | 12 |
-| DEXTERITY | STRENGTH | 12 |
-| FIGHTING | STRENGTH | 12 |
-| INTELLECT | STRENGTH | 12 |
-| AWARENESS | STRENGTH | 12 |
-| PRESENCE | STRENGTH | 12 |
-| Ranged Damage | Toughness | 12 |
-| Alternate Effects | Immunity | 12 |
-| Penetrating | Resisted | 12 |
-| FORTITUDE | Resisted | 12 |
-| Dodge | PARRY | 12 |
-| Dodge | TOUGHNESS | 12 |
-| Dodge | WILL | 12 |
-| Accurate | Fortitude | 12 |
-| Fortitude | Hindered | 12 |
-| FORTITUDE | Fortitude | 12 |
-| Accurate | Stunned | 12 |
-| Immunity | Stunned | 12 |
-| MPH | Stunned | 12 |
-| Movement | Stunned | 12 |
-| Damage | Incapacitated | 12 |
-| Incapacitated | Vulnerable | 12 |
-| Defenseless | Incapacitated | 12 |
-| Incapacitated | Strength | 12 |
-| Accurate | Vulnerable | 12 |
-| Accurate | MPH | 12 |
-| Damage | FORTITUDE | 12 |
-| Damage | Motivation | 12 |
-| Hindered | Immunity | 12 |
-| Hindered | MPH | 12 |
-| Strength | Vulnerable | 12 |
-| Immunity | Vulnerable | 12 |
-| Defenseless | Movement | 12 |
-| Immunity | Penetrating | 12 |
-| MPH | Penetrating | 12 |
-| Flight | PARRY | 12 |
-| Flight | TOUGHNESS | 12 |
-| Flight | WILL | 12 |
-| MPH | Motivation | 12 |
-| FORTITUDE | Movement | 12 |
-| FORTITUDE | Senses | 12 |
-| Movement | Ranged Damage | 12 |
-| Enhanced Strength | MPH | 12 |
-| Concealment | Limited | 12 |
-| Enhanced Strength | Limited | 12 |
-| Enhanced Strength | Movement | 12 |
-| Immunity | Regeneration | 12 |
-| Motivation | STAMINA | 12 |
-| AGILITY | Motivation | 12 |
-| DEXTERITY | Motivation | 12 |
-| FIGHTING | Motivation | 12 |
-| INTELLECT | Motivation | 12 |
-| AWARENESS | Motivation | 12 |
-| Motivation | PRESENCE | 12 |
-| Perception | Resisted | 12 |
-| Dazed | Ranged Damage | 12 |
-| Incapacitated | Ranged Damage | 12 |
-| Ranged Damage | Vulnerable | 12 |
-| Defenseless | Ranged Damage | 12 |
-| Enhanced Strength | Resisted | 12 |
-| Dodge | Ranged Damage | 12 |
-| Alternate Effect | Strength | 12 |
-| Damage | Impervious | 12 |
-| Impervious | Protection | 12 |
-| Limited | PARRY | 12 |
-| Limited | TOUGHNESS | 12 |
-| Limited | WILL | 12 |
-| Perception | Subtle | 12 |
-| Dodge | Linked | 12 |
-| Range | Will | 12 |
-| Sustained | Toughness | 12 |
-| Free | Sustained | 12 |
-| Flat | Sustained | 12 |
-| Range | Strength | 12 |
-| Athletics | Technology | 11 |
-| Expertise | Vehicles | 11 |
-| Intimidation | Technology | 11 |
-| Investigation | Persuasion | 11 |
-| Perception | Vehicles | 11 |
-| Persuasion | Technology | 11 |
-| Concealment | Damage | 11 |
-| Flight | Insubstantial | 11 |
-| Immunity | Insubstantial | 11 |
-| Insubstantial | Movement | 11 |
-| Limited | Motivation | 11 |
-| Penetrating | Speed | 11 |
-| Speed | Sustained | 11 |
-| Accurate | Penetrating | 11 |
-| Attack | Limited | 11 |
-| Impervious | Sustained | 11 |
-| Dexterity | Strength | 11 |
-| Agility | Stamina | 11 |
-| Athletics | Strength | 11 |
-| Insight | Strength | 11 |
-| Parry | Will | 11 |
-| Action | Dodge | 11 |
-| Action | Will | 11 |
-| Gamemaster | Toughness | 11 |
-| Speed | Toughness | 11 |
-| Attack | Perception | 11 |
-| Fortitude | Unarmed | 11 |
-| Dodge | Perception | 11 |
-| Dodge | Intimidation | 11 |
-| Powers | Stamina | 11 |
-| Expertise | Toughness | 11 |
-| Perception | Ranged Damage | 11 |
-| Accurate | Perception | 11 |
-| Alternate Effects | Resisted | 11 |
-| Alternate Effects | Fortitude | 11 |
-| Parry | Resisted | 11 |
-| Removable | Resisted | 11 |
-| Motivation | Resisted | 11 |
-| Dodge | Penetrating | 11 |
-| Dodge | FORTITUDE | 11 |
-| Fortitude | Removable | 11 |
-| Fortitude | Motivation | 11 |
-| Accurate | Dazed | 11 |
-| Dazed | Hindered | 11 |
-| Dazed | Immunity | 11 |
-| Dazed | MPH | 11 |
-| Dazed | Movement | 11 |
-| Dazed | Speed | 11 |
-| Flight | Stunned | 11 |
-| Speed | Stunned | 11 |
-| Accurate | Defenseless | 11 |
-| Flight | Hindered | 11 |
-| Hindered | Movement | 11 |
-| Defenseless | Strength | 11 |
-| Defenseless | Senses | 11 |
-| Flight | Penetrating | 11 |
-| Movement | Penetrating | 11 |
-| Removable | Strength | 11 |
-| PARRY | Strength | 11 |
-| Strength | TOUGHNESS | 11 |
-| Strength | WILL | 11 |
-| Immunity | Parry | 11 |
-| Immunity | Teleport | 11 |
-| Flight | Wall | 11 |
-| FORTITUDE | Flight | 11 |
-| MPH | Wall | 11 |
-| Motivation | Movement | 11 |
-| PARRY | Speed | 11 |
-| Speed | TOUGHNESS | 11 |
-| Speed | WILL | 11 |
-| Leaping | PARRY | 11 |
-| Leaping | TOUGHNESS | 11 |
-| Leaping | WILL | 11 |
-| Damage | Perception | 11 |
-| Damage | Stealth | 11 |
+| Deception | Perception | 28 |
+| All | CHAPTER | 28 |
+| Flight | Immunity | 28 |
+| CHAPTER | Regeneration | 28 |
+| Accurate | CHAPTER | 28 |
+| CHAPTER | Impervious | 28 |
+| CHAPTER | One | 28 |
+| CHAPTER | There | 28 |
+| MUTANTS | This | 28 |
+| For | MASTERMINDS | 28 |
+| Powers | Strength | 28 |
+| Stealth | You | 28 |
+| Dodge | Toughness | 28 |
+| This | Will | 28 |
+| Flight | Senses | 28 |
+| Perception | Ranged | 28 |
+| CHAPTER | TOUGHNESS | 28 |
+| Immunity | Strength | 28 |
+| Fortitude | Immunity | 28 |
+| Damage | Toughness | 28 |
+| Expertise | Technology | 27 |
+| CHAPTER | Leaping | 27 |
+| The | With | 27 |
+| Advantages | Powers | 27 |
+| Technology | You | 27 |
+| Action | You | 27 |
+| Athletics | You | 27 |
+| Dodge | This | 27 |
+| MPH | Senses | 27 |
+| Damage | Senses | 27 |
+| CHAPTER | Choose One | 27 |
+| AGILITY | CHAPTER | 27 |
+| AGILITY | STAMINA | 27 |
+| AGILITY | DEXTERITY | 27 |
+| AGILITY | FIGHTING | 27 |
+| AGILITY | INTELLECT | 27 |
+| AGILITY | AWARENESS | 27 |
+| AGILITY | PRESENCE | 27 |
+| Perception | Will | 27 |
+| Senses | You | 27 |
+| For | POWERS | 27 |
+| Cost | The | 27 |
+| Cost | This | 27 |
+| Flight | Movement | 26 |
+| Immunity | Protection | 26 |
+| CHAPTER | Penetrating | 26 |
+| CHAPTER | Characters | 26 |
+| For | MUTANTS | 26 |
+| Technology | The | 26 |
+| CHAPTER | Dazed | 26 |
+| Abilities | Powers | 26 |
+| Limited | Perception | 26 |
+| Flight | Strength | 26 |
+| Damage | Speed | 26 |
+| MPH | Movement | 26 |
+| Damage | Parry | 26 |
+| Resisted | You | 26 |
+| Range | The | 26 |
+| CHAPTER | Investigation | 25 |
+| CHAPTER | Vehicles | 25 |
+| Athletics | Stealth | 25 |
+| Expertise | Stealth | 25 |
+| Insight | Intimidation | 25 |
+| Insight | Persuasion | 25 |
+| CHAPTER | Defensive Roll | 25 |
+| CHAPTER | Removable | 25 |
+| MUTANTS | You | 25 |
+| Abilities | You | 25 |
+| Powers | Skills | 25 |
+| MASTERMINDS | Some | 25 |
+| Deception | You | 25 |
+| Fortitude | Parry | 25 |
+| Fortitude | Toughness | 25 |
+| CHAPTER | Stunned | 25 |
+| CHAPTER | Vulnerable | 25 |
+| AWARENESS | Perception | 25 |
+| Immunity | MPH | 25 |
+| Close | Perception | 25 |
+| Close | Damage | 25 |
+| Abilities | Perception | 25 |
+| Damage | Stealth | 25 |
+| Movement | Strength | 25 |
+| Movement | Senses | 25 |
+| Immunity | Limited | 25 |
+| Limited | Resisted | 25 |
+| AWARENESS | You | 25 |
+| Resisted | Roll | 25 |
+| Overcome | Roll | 25 |
+| Damage | Roll | 25 |
+| Movement | You | 25 |
+| Range | This | 25 |
+| CHAPTER | Sleight | 24 |
+| CHAPTER | Hand | 24 |
+| Athletics | Expertise | 24 |
+| Athletics | Intimidation | 24 |
+| Expertise | Intimidation | 24 |
+| CHAPTER | Move | 24 |
+| Flight | Protection | 24 |
+| Immunity | Movement | 24 |
+| Alternate Effect | CHAPTER | 24 |
+| CHAPTER | Subtle | 24 |
 
 ## 6. table_mining
 
-*165 tables*
+*0 tables*
 
-- DIFFICULTY (DC)
-
-EXAMPLE (SKILL USED)
-- TASK
-
-SKILL
-- LEVEL
-
-STARTING
-
-POWER
-- LEVEL
-
-STARTING
-- GENIUS
-
-STRENGTH
-- MILITARY
-
-STRENGTH
-- ACCIDENTAL
-
-FIGHTING
-- DEFENSES
-
-DODGE
-- GOLEM
-
-STRENGTH
-- TECHNOLOGICAL
-
-STRENGTH
-- UNDEAD
-
-AGILITY
-- DEFENSES
-
-DODGE
-- AVENGER
-
-STRENGTH
-- DETECTIVE
-
-STRENGTH
-- INVENTOR
-
-STRENGTH
-- CRIMINOLOGIST
-
-EXPERT
-- SCIENTIST
-
-INVESTIGATOR
-- SLEUTH
-
-SNEAK
-- DEFENSES
-
-DODGE
-- EMBODIMENT
-
-STRENGTH
-- TRANSFORMED
-
-STRENGTH
-- CHARISMATIC
-
-DEFENSE
-
-DODGE
-- HOTHEADED
-
-STRENGTH
-- RESERVED
-
-STRENGTH
-- ADVENTURER
-
-STRENGTH
-- GIMMICK
-
-AGILITY
-- SCIENTIST
-
-FIGHTING
-- DEFENSES
-
-DODGE
-- CONTROL
-
-STRENGTH
-- ENDOWMENT
-
-STRENGTH
-- POWER
-
-AGILITY
-- DEFENSE
-
-DODGE
-- SLATE
-
-STRENGTH
-- METAMIND
-
-STRENGTH
-- WEAPON
-
-STRENGTH
-- DEFENSES
-
-DODGE
-- HOST
-
-STRENGTH
-- HERITAGE
-
-STRENGTH
-- MASTER
-
-AGILITY
-- DEFENSE
-
-DODGE
-- ACTION
-
-STRENGTH
-- SUPERHUMAN
-
-STRENGTH
-- VESSEL
-
-AGILITY
-- DEFENSE
-
-LEARNED
-- SUPERHUMAN/VESSEL
-
-DODGE
-- FORM
-
-STRENGTH
-- POWER
-
-STRENGTH
-- MUTATE/MUTANT
-
-STRENGTH
-- DEFENSE
-
-DODGE
-- IN-BORN
-
-STRENGTH
-- WARRIOR
-
-STRENGTH
-- TALENT
-
-STRENGTH
-- EVERYMAN
-
-STRENGTH
-- WHIZ
-
-STRENGTH
-- DEFENSE
-
-DODGE
-- VETERAN
-
-STRENGTH
-- YOUTH
-
-AGILITY
-- OLD-TIMER
-
-FIGHTING
-- DEFENSE
-
-DUPLICATOR
-
-DODGE
-- SUMMONER
-
-STRENGTH
-- WEREWOLF
-
-STRENGTH
-- DEFENSE
-
-DEMON/WEREWOLF
-
-PARRY
-- VAMPIRE
-
-DODGE
-- TOTEM
-
-AVIAN
-
-STRENGTH
-- CARNIVORAN
-
-STRENGTH
-- PACHYDERM
-
-STRENGTH
-- REPTILE
-
-AGILITY
-- ABILITIES
-
-STRENGTH
-- MYSTIC
-
-MUTATION
-- DEFENSE
-
-DODGE
-- HUMAN
-
-STRENGTH
-- OTHERWORLDLY
-
-STRENGTH
-- SURVIVOR
-
-POWERS
-- DEFENSE
-
-DODGE
-- ENHANCED
-
-STRENGTH
-- NATURAL
-
-AGILITY
-- SELF-MADE
-
-FIGHTING
-- TIME-DISPLACED
-
-PERSONALITY
-- DEFENSE
-
-DODGE
-- CONJURER
-
-STRENGTH
-- PSIONIC
-
-AGILITY
-- TECHNOLOGICAL
-
-STRENGTH
-- ATTUNED
-
-ADAPTED
-- ORGANIC
-
-DIVINE
-- SNEAK
-
-FACILITATOR
-- DEFENSE
-
-DODGE
-- STRENGTH (STR)
-
-INTELLECT (INT)
-- DODGE
-
-WILL
-- SKILLS
-
-ABILITY
-- SWIMMING
-
-DC
-- ATTITUDES
-
-ATTITUDE
-
-EFFECT
-- HIDING
-
-OPERATING
-- TIME RANK
-
-EXAMPLES
-- ATTACK
-
-COMBAT
-- ARTIFICER
-
-SKILL
-- CHOKEHOLD
-
-COMBAT
-- CONNECTED
-
-SKILL
-- CONTACTS
-
-SKILL
-- DIEHARD
-
-GENERAL
-- FAST GRAB
-
-COMBAT
-- FEARLESS
-
-GENERAL
-- JACK-OF-ALL-TRADES
-
-SKILL
-
-GENERAL
-- INTERPOSE
-
-GENERAL
-- INVENTOR
-
-SKILL
-- COMBAT
-
-MINION
-- ACTION
-
-COMBAT
-- REDIRECT
-
-COMBAT
-- RITUALIST
-
-SKILL
-- TAUNT
-
-SKILL
-- TEAMWORK
-
-GENERAL
-- TRACKING
-
-SKILL
-
-SKILL
-- STARTLE
-
-SKILL
-- TRANCE
-
-GENERAL
-- WELL-INFORMED
-
-SKILL
-- ACTION
-
-RANGE
-
-DURATION
-
-COST
-- TYPE
-
-ACTION
-
-RANGE
-
-DURATION
-
-COST
-- BURROWING
-
-MOVEMENT
-- RANK
-
-DISTANCE
-- CREATE
-
-CONTROL
-- DAMAGE
-
-ATTACK
-- MATERIAL
-
-TOUGHNESS
-- DEFLECT
-
-DEFENSE
-- FEATURE
-
-GENERAL
-- FLIGHT
-
-MOVEMENT
-- GROWTH
-
-GENERAL
-- HEALING
-
-GENERAL
-- ILLUSION
-
-CONTROL
-- IMMUNITY
-
-DEFENSE
-- LEAPING
-
-MOVEMENT
-- MORPH
-
-GENERAL
-- MOVEMENT
-
-MOVEMENT
-- NULLIFY
-
-ATTACK
-- QUICKNESS
-
-GENERAL
-- SENSES
-
-SENSORY
-- SHRINKING
-
-GENERAL
-- SPEED
-
-MOVEMENT
-- SUMMON
-
-CONTROL
-- SWIMMING
-
-MOVEMENT
-- TELEPORT
-
-MOVEMENT
-- TRANSFORM
-
-CONTROL
-- VARIABLE
-
-GENERAL
-- WEAKEN
-
-ATTACK
-- EXTRAS
-
-NAME
-
-COST
-- FLAWS
-
-NAME
-
-COST
-- DEVICES
-
-MISHAPS
-- WEAPON
-
-EFFECT
-
-CRITICAL
-
-COST
-- WEAPON
-
-EFFECT
-
-CRITICAL
-
-COST
-- ITEM
-
-EFFECT
-
-GRENADES
-
-DC
-
-COST
-- ARMOR
-
-ARMOR
-
-EFFECT
-
-COST
-- SIZE (RANK)
-
-EXAMPLES
-
-STRENGTH
-
-TOUGHNESS
-
-DEFENSE
-- FEATURES
-
-POWERS
-- NAME
-
-SIZE
-
-STRENGTH
-
-SPEED
-
-DEFENSE
-
-TOUGHNESS
-
-COST
-
-VEHICLES
-- COST
-
-EXAMPLES
-- ZOMBIE
-
-STR
-- OFFENSE
-
-PL2
-
-PRE
-- PL5
-
-PRE
-- ROBOT
-
-STR
-- DEFENSE
-
-DODGE
-
-PARRY
-
-WILL
-- PL8
-
-PRE
-- OFFENSE
-
-OFFENSE
-- DEFENSE
-
-DODGE
-
-PARRY
-
-WILL
-- DEFENSE
-
-DODGE
-
-PARRY
-
-WILL
-- MATERIAL
-
-TOUGHNESS
-- NO COVER
-
-COVER
-- DELAY
-
-NO ACTION
+—
 
 ## 7. enumeration_patterns
 
-*12 enumerations*
+*62 enumerations*
 
-- **graded checks**: —notably skill, result-
-ing in a bonus or penal
-- **action being chosen by**: another, controlling character. As usual
-- **heroes you can create**: television, or  movies.  Take  a  look  through
-- **heroes**: such as through
-intimidation, psychology, or trickery.
-ABILITIES
-
-Roll 1d20 once
+- **The abilities**: Strength, Stamina, Agility, Dexterity, Fighting, Intellect, Awareness, Presence, me
+- **Some adventures**: forming a story arc or mini-series. The
+- **A character**: reduce
+the circumstance penalty to –2.
+- **Resistance checks**: graded
+- **strained character is immobile but**: vul-
+nerable, caught  off-guard, therefore  unabl
+- **You deduce the villain**: weakened by de-
+foliants
+- **A name**: based on the hero’s origin, power source, nation (or even world) of birth, Thunder
+- **Macabre**: all about magic, Miss, Ms., Doctor, Sir, Lord, Lady, Madam  or  even  royal  titles
+like  King, Queen
+- **One hero**: dedicated to the ideals of
+truth, justice, cheerful while
+- **but playing a hero who is effective in a game with which they**: completely unfamiliar. Plus
 - **observation**: Athletics 8, Intimidation 6
 
 AVENGER
 
 Expertise: Streetwise 6, Intimidation 8
+- **tals**: able to transform between their elemental, a flesh
+- **but it**: still expect them to show u
+- **Totems**: par-
+ticularly those whose totem
+- **ness**: an “absent-minded professor” type
+- **damage**: for resisting damage.
+Fortitude defense
+- **ray**: considered one power
 - **unarmed combat maneuvers**: includ-
 ing, but not limited to, grabbing or tripping.
-- **Expertise**: . This list is by no means exhaustive, the characters in it.
+- **looked**: DC 5
+- **checks**: +15 for a
+- **ray**: considered one power
+- **It**: a type of creature
+(aliens, animals, constructs, mutants, undead, etc.), a pro-
+fession (soldiers, police officers, Yakuza
+- **and**: RANKED
 
-Art, Business, Carpentry, Cooking, Criminal, Current
+Choose a particular hazard, such as falling, being tripped, triggering  traps, mind  control  (or  another  fairly  specif
+- **A hero**: immune to fire, heat, for example
+- **although they**: able
+to counter ongoing effects, the
+- **Some Afflictions**: initially re-
+sisted by Dodge
+- **hard materials**: considered
+Impervious to Burrowing
+- **They**: made of solidified energy, “hardened” water
+or  air, transmuted  bulk  matter, ice, stone, or  some  other
+medium
+- **and**: able to more effectively defend yourself
 - **conceal**: -
 ment. For 1 point per rank, you  can  shed  light
 as brigh
-- **ac**: -
-tions:  standard, move, free
+- **no matter how unpleasant it**: :
+spoiled or particularly gross or spicy food
+- **Examples of ways in which Healing**: Objects  (in  conjunction  with  Affects
+Objects), Others (you can’t use Healing on yourself), or Self
+(you can only
+- **ited**: Objects  (in  conjunction  with  Affects
+Objects), Others (you can’t use Healing on yourself), or Self
+(you can only use Healing on your
+- **whatever they**: such as the power to maintain a life
+support “bub
+- **An extended sense**: limited by conditions like the
+- **Your visions**: obscure, cryptic, with  a  DC  ranging  fro
+- **Skill checks an effect may require**: particularly sensory effects like Concealment or
+- **pecially since the attack**: do ha
+- **amples of origin descriptors**: doused  in
+chemicals, exposed to exotic radiation, so forth.
+The circumstances of an acci
+- **Examples of power sources**: like a squid’s ink or a
 - **energy**: from electro-
 magnetic (electricity, light, radio, radiation, etc.) to gravity, kinetic energy, or an exotic
 source like divine, magical, psionic
-- **energy**: from electro-
-magnetic (electricity, light, radio, radiation, etc.) to gravity, kinetic energy, or an exotic
-source like divine, magical, psionic
-- **actions characters can take are standard**: move, free, reaction. In a normal round, you can per-
-form a standard action, a move action, reactions
-actions as your GM allows.
+- **which**: normal equipment imbued
+with  magical  properties, are  examp
+- **A vehicle**: equipped with a dispenser
+for caltrops
+- **It**: camouflaged behind a false façade, buried underground, while a conce
+- **A laboratory**: required for certain Expertise, Inves-
+tigation, or Technology skill checks
+- **It**: a structure with no doors, windows, or  other  outside  access, designated  guests
+may enter, although the GM should determine me
+- **although they**: automatically  fail  Strength, Agility  checks.  They  can
+have Dexterity, used for manipulating remotes, such.
+- **not requiring an attack check**: used in a team at-
 
-S
+tack, count the effect as having one degree of success, count
+the combined degrees of succe
+- **then it**: too low
+- **a particular rule**: problematic, then by all means, cha
+- **there**: times when a particular
+combination of abilities, talk to the player
+- **The main ways of dealing with this issue**: proper application
+of hero point awards, some gu
+- **although sometimes their victory**: find out any rema
+- **heroes**: as high as PL15
+- **Heroes who overcome a supervillain**: ”  but  they  may  allow  heroes  to
+keep t
+- **A near future setting**: quite similar to the modern-
+day, with the addition of some new technology, cybernetic, genetic modifications, adva
+- **strong that any character with magical awareness**: Lord Sanguine shrieks in pain, grows even more
+rapidly, he grows explo
+- **For the clearest explanation of what each term means it**: from –5 to
+20 or more
+- **One power or effect that**: substi-
+tuted for another, but not usable at the same time
+- **They**: now the organization, its lead-
+er, the Big Brain, wants control over Emerald City, the tremendous oppor
+- **threats to stalk the streets of Freedom**: banded together for mutual pro-
+tection
+- **The  Guild  members**: the  Bola, named  for
+the trick weapons he uses, the Firebug, a flamethrow-
+er-toting  pyromaniac, the  Huckster, Lookin
 
 ## 8. contrast_patterns
 
-*3 contrasts*
+*0 contrasts*
 
-- You can use Intimidation, Deception to feint in
-  > s.  STARTLE  SKILL  You can use Intimidation rather than Deception to feint in combat (see Feint under the Deception skill description). Targets resist with I
-- Will, Toughness
-  > ct, but resisted by Will rather than Toughness.  The attackers must all delay to the same point in the ini- tiative order (tha
-- Will, Toughness
-  > Damage effect, but resisted by Will rather than Toughness.  The attackers must all delay to the same point in the ini- tiative order (tha
 
 ## 9. actor_detection
 
-*12 actors*
+*18 actors*
 
-- Character (count: 686)
-- Hero (count: 458)
-- Heroes (count: 368)
-- Gm (count: 296)
-- Player (count: 250)
-- Gamemaster (count: 136)
-- Villain (count: 113)
-- Minion (count: 112)
-- User (count: 35)
-- The GM (count: 15)
+- Hero (count: 1244)
+- Character (count: 737)
+- Gm (count: 300)
+- Player (count: 271)
+- Gamemaster (count: 191)
+- Villain (count: 155)
+- System (count: 125)
+- User (count: 36)
+- The GM (count: 21)
 - The  GM (count: 4)
+- Heroes (count: 1)
+- Hero Points (count: 1)
+- Characters (count: 1)
 - The Gamemaster (count: 1)
+- The  Gamemaster (count: 1)
+- Gamemasters (count: 1)
+- Operator (count: 1)
+- M Gamemaster (count: 1)
 
 ## 10. topic_modeling
 
-*8 clusters*
+*10 clusters*
 
+- 
+- 
 - 
 - 
 - 
@@ -4627,213 +3020,196 @@ S
 
 | rank | concept | degree | normalized |
 |------|---------|--------|------------|
-| 1 | Strength | 811 | 0.0521 |
-| 2 | Damage | 737 | 0.0473 |
-| 3 | Dodge | 681 | 0.0437 |
-| 4 | Fortitude | 579 | 0.0372 |
-| 5 | Limited | 565 | 0.0363 |
-| 6 | Resisted | 497 | 0.0319 |
-| 7 | Immunity | 490 | 0.0315 |
-| 8 | Perception | 433 | 0.0278 |
-| 9 | Movement | 425 | 0.0273 |
-| 10 | MPH | 376 | 0.0241 |
-| 11 | Flight | 366 | 0.0235 |
-| 12 | Toughness | 337 | 0.0216 |
-| 13 | Senses | 305 | 0.0196 |
-| 14 | Speed | 303 | 0.0195 |
-| 15 | Motivation | 264 | 0.0169 |
-| 16 | Stunned | 258 | 0.0166 |
-| 17 | Vulnerable | 254 | 0.0163 |
-| 18 | Will | 236 | 0.0152 |
-| 19 | PARRY | 235 | 0.0151 |
-| 20 | TOUGHNESS | 235 | 0.0151 |
-| 21 | WILL | 235 | 0.0151 |
-| 22 | Dazed | 231 | 0.0148 |
-| 23 | Defenseless | 227 | 0.0146 |
-| 24 | Accurate | 212 | 0.0136 |
-| 25 | Ranged Damage | 199 | 0.0128 |
+| 1 | CHAPTER | 4180 | 0.1712 |
+| 2 | You | 1847 | 0.0756 |
+| 3 | The | 1437 | 0.0588 |
+| 4 | This | 1053 | 0.0431 |
+| 5 | Damage | 919 | 0.0376 |
+| 6 | Perception | 756 | 0.031 |
+| 7 | For | 593 | 0.0243 |
+| 8 | Strength | 579 | 0.0237 |
+| 9 | Dodge | 418 | 0.0171 |
+| 10 | Fortitude | 381 | 0.0156 |
+| 11 | Toughness | 358 | 0.0147 |
+| 12 | Powers | 331 | 0.0136 |
+| 13 | AWARENESS | 318 | 0.013 |
+| 14 | Immunity | 315 | 0.0129 |
+| 15 | STAMINA | 267 | 0.0109 |
+| 16 | DEXTERITY | 267 | 0.0109 |
+| 17 | FIGHTING | 267 | 0.0109 |
+| 18 | INTELLECT | 267 | 0.0109 |
+| 19 | PRESENCE | 267 | 0.0109 |
+| 20 | Will | 260 | 0.0106 |
+| 21 | Expertise | 259 | 0.0106 |
+| 22 | Flight | 249 | 0.0102 |
+| 23 | MASTERMINDS | 242 | 0.0099 |
+| 24 | Some | 241 | 0.0099 |
+| 25 | Limited | 238 | 0.0097 |
 
 ## 12. verb_interaction
 
-*top_verbs: 25, concept_verb_scores: 30, sample_interactions: 100*
+*top_verbs: 12, concept_verb_scores: 30, sample_interactions: 100*
 
 **top_verbs:**
+- checks
 - attacks
-- overcome
-- resisted
 - requires
 - targets
-- allows
 - affects
-- rolls
+- applies
 - uses
-- increases
-- includes
-- reduces
+- rolls
 - grants
-- adds
-- recovers
-- loses
-- removes
-- gains
-- moves
-- suffers
-- imposes
-- supersedes
-- overcomes
-- prevents
-- creates
+- includes
+- inflicts
+- resists
 
 **concept_verb_scores:**
 | concept | score |
 |---------|-------|
-| Resisted | 182 |
-| Fortitude | 108 |
-| Will | 91 |
-| Dodge | 90 |
-| Damage | 88 |
-| Limited | 60 |
-| Strength | 54 |
-| Toughness | 40 |
-| Accurate | 38 |
-| Stunned | 32 |
-| Ranged Affliction | 32 |
-| Dazed | 31 |
-| Incapacitated | 30 |
-| Ranged Damage | 26 |
-| Penetrating | 25 |
-| Affects Others | 24 |
+| You | 69 |
+| The | 67 |
+| This | 56 |
+| Dodge | 56 |
+| Damage | 53 |
+| Limited | 52 |
+| Toughness | 51 |
+| Fortitude | 38 |
+| Will | 38 |
+| Perception | 36 |
+| CHAPTER | 27 |
+| Strength | 27 |
+| Expertise | 24 |
+| Parry | 23 |
+| Attack | 22 |
+| For | 22 |
 | Immunity | 22 |
-| Cumulative Affliction | 22 |
-| Selective | 20 |
-| Insubstantial | 20 |
-| Affliction | 19 |
-| Concealment | 18 |
-| Attack | 17 |
-| Precise | 17 |
-| Unreliable | 17 |
-| Effect | 17 |
-| Subtle | 16 |
-| Perception | 16 |
-| Movement | 16 |
-| Stamina | 15 |
+| Affects Others | 20 |
+| Deception | 20 |
+| Penetrating | 19 |
+| Resisted | 19 |
+| Accurate | 17 |
+| Area | 17 |
+| Acrobatics | 17 |
+| Ranged | 16 |
+| Stealth | 16 |
+| Insubstantial | 16 |
+| Insight | 15 |
+| Powers | 15 |
+| Technology | 15 |
 
 **sample_interactions:**
+- Untrained Skill Checks **checks** Interaction Skills
+- Effect Checks **checks** Effect Parameters
 - Applying Modifiers **affects** Extras
 - Attacks **attacks** Defenses
+- CHAPTER **checks** THE BASICS
 - You **uses** Mea
 - Whenever **requires** MUTANTS
-- DIFFICULTY **overcome** EXAMPLE
+- Acrobatics **checks** Gamemaster
+- CHAPTER **checks** THE BASICS
+CHAPTER
+- Checks **checks** MUTANTS
+- For **checks** Action
+- DC
+
+DC **checks** Four
 - You **rolls** Deception
+- Opposed **checks** Gamemaster
+- MUTANTS **applies** MASTERMINDS
 - One **includes** TOOLS
 
 Some
 - The **attacks** Parry
 - Attackers **attacks** Rou
+- Defenseless **checks** Prone
+- CHAPTER **checks** THE BASICS
+- Attack  Disabled **applies** Fighting  Dis
+- Attack Impaired **applies** Fighting Im
+- Unaware **checks** The
 - This **attacks** Surprise  Attack
-- When **gains** Fortitude
+- Three **checks** Fortitude
 - You **rolls** Luck Control
-- CHAPTER **allows** SECRET ORIGINS
-CHAPTER
-- Power **imposes** Skill Modifier
+- Power **checks** Routine Checks
 - Other **uses** Accident
-- Speedster **allows** Quickness
+- The Gadgeteer **checks** Quick
+- Similarly **checks** Martial  Artist
+- Accurate Attack **checks** Improvised Tools
+- CHAPTER **targets** SECRET ORIGINS
+- Vulnerable **targets** Defenseless
+- All **checks** Attack
+- The Defensive Roll **grants** Jon
+- The **grants** Gamemaster
+- CHAPTER **checks** SECRET ORIGINS
+CHAPTER
 - Hero **includes** Handbook
 - The **rolls** Archetype
 - For **rolls** Battlesuit
 - Finally **rolls** Descriptors
 - For **requires** Daze
-- Electrified Shell **resisted** Reaction Damage
-- Dazed **resisted** Stunned
 - Weakness **attacks** Some  Battlesuits
-- Weakness **suffers** The Construct
-- Removable **resisted** Gimmick Gadgets
-- Ranged Affliction **resisted** Resisted
-- Toughness **resisted** Swingline
-- Power **resisted** Knuckles
-- Dazed **resisted** Stunned
-- Suffocation **resisted** Progressive Ranged Affliction
-- Dazed **resisted** Stunned
 - Hindered **attacks** Vulnerable
-- Earth Blast **resisted** Ranged Damage
-- Teleport **resisted** Medium
-- Animate Tree **resisted** Summon
 - Hindered **requires** Vulnerable
-- Groundstrike **resisted** Burst Area Affliction
 - Dazed **targets** Vulnerable
 - Containment Suit **affects** Enhanced Strength
-- Asphyxiate **resisted** Burst Area Progressive Affliction
-- Dazed **resisted** Stunned
-- Dehydrate **resisted** Cumulative Affliction
-- Fatigued **resisted** Exhausted
-- Dazed **resisted** Stunned
-- Cold Blast **resisted** Ranged Affliction
-- Fatigued **resisted** Exhausted
 - Enervating Blast **affects** Ranged Damage
-- Dazzle **resisted** Cumulative Ranged Affliction
 - Impaired **affects** Disabled
-- Choose **resisted** Cold
-- Ranged Affliction **resisted** Resisted
-- Burst Area
-Affliction **resisted** Resisted
 - Activation **includes** Move Action
-- Create **resisted** Continuous
-- Dazed **resisted** Stunned
-- Vulnerable **resisted** Defenseless
-- Activation **resisted** Move Action
-- Dazed **resisted** Stunned
-- Motivation **creates** Doing  Good
 - Chi Mastery **includes** Array
-- Death Touch **resisted** Progressive Weaken
-Stamina
 - Dazed **attacks** Stunned
-- Metamind **allows** Your
-- Variable **resisted** Continuous
 - CHAPTER **uses** SECRET ORIGINS
-- Enhanced Trait **resisted** Close Attack
+- CENTERED
+
+Fearless **checks** Ultimate Effort
 - Insubstantial **affects** Incorporeal
-- Power  Loss **prevents** Mystics
 - Features **affects** Communications
-- Weakness **suffers** Because
-- Energy Blast **resisted** Ranged Damage
+- CHAPTER **checks** SECRET ORIGINS
+CHAPTER
 - Dazed **targets** Hindered
-- Another **combines** Psychic
-- ESP **resisted** Remote Sensing
+- LIFE
+
+Attractive **checks** Fascinate
+- ESP **affects** Remote Sensing
 - Fatigued **affects** Exhausted
-- CHAPTER **resisted** SECRET ORIGINS
-- Visually Impaired **resisted** Visually Disabled
-- Dazed **resisted** Stunned
-- Telekinetic Column **resisted** Line Area
-- Immunity **resisted** Aging
 - Hindered **affects** Vulnerable
 - Density Decrease **requires** Insubstantial
 - Disruption Attacks **attacks** Array
-- Disruption **resisted** Penetrating Damage
-- CHAPTER **resisted** SECRET ORIGINS
-CHAPTER
-- POWERS
-
-Quirk **moves** Speedsters
-- Fire Breath **resisted** Cone Area Damage
-- Entranced **resisted** Compelled
-- Brother **resisted** Wolves
-- Children **resisted** Night
-- Movement **resisted** Swinging
-- CHAPTER **resisted** SECRET ORIGINS
-CHAPTER
-- FALCON
-
-Flight **resisted** Flight
-- Dazed **resisted** Auditory
-Impaired
-- Dazed **resisted** Vulnerable
-- Black Cat **resisted** Reaction Visual Perception
-
-Area Affliction
-- ELEPHANT
-
-Groundstrike **resisted** Alternate Effect
+- Str **checks** Sta
+- Dodge **checks** Parry
+- Str **checks** Sta
+- CHAPTER **affects** SECRET ORIGINS
+- Permanent **affects** Protection
 - Hindered **targets** Vulnerable
-- CROCODILE
+- ADVANCED
 
-Aquatic **resisted** Movement
+Technology **checks** Vehicles
+- Acrobatics **uses** Athletics
+- Dazed **uses** Stunned
+- Fatigued **uses** Exhausted
+- Hindered **uses** Vulnerable
+- Cold **attacks** Impede Movement
+- For **affects** Strength
+- Your Strength **applies** Damage
+- Your Stamina **applies** Toughness
+- Your Agility **applies** Dodge
+- Acrobatics **checks** Stealth
+- Your Dexterity **applies** Attack
+- Sleight **checks** Hand
+- FIGHTING **attacks** FGT
+- Your Fighting **applies** Attack
+- Your Intellect **applies** Expertise
+- Your Awareness **applies** Will
+- Insight **checks** Perception
+- Your Presence **applies** Deception
+- Debilitated  Strength **rolls** Agility
+- Debilitated  Stamina **checks** Fortitude
+- Dexterity **attacks** Dexterity
+- Fighting **attacks** Fighting
+- Animate **attacks** Strength
+- You **grants** Power Level
+- This **targets** Dodge
+- See Checks **checks** Generally
+- CHAPTER **checks** SKILLS
+- Characters **checks** Team
+Checks
+- This **uses** MUTANTS
