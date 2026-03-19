@@ -1073,4 +1073,62 @@ PASS 1 (AI): 267 chunks, 40 batches, 100% text/chunk
   ],
   "cross_module_relationships": []
 }
-``
+```
+```json
+{
+  "chunk_id": "5e2f6b7f48fe",
+  "primary_concepts": [
+    {"concept": "Ability", "module": "Character Traits", "evidence_type": "mention", "note": "Abilities define character capabilities."},
+    {"concept": "Skill", "module": "Character Traits", "evidence_type": "mention", "note": "Skills are part of character traits."}
+  ],
+  "cross_module_relationships": []
+}
+```
+```json
+{
+  "chunk_id": "17270869c240",
+  "primary_concepts": [
+    {"concept": "Skill", "module": "Character Traits", "evidence_type": "mention", "note": "Skills define character capabilities."},
+    {"concept": "Ability", "module": "Character Traits", "evidence_type": "mention", "note": "Abilities define what a character can do."}
+  ],
+  "cross_module_relationships": []
+}
+```
+```json
+{
+  "chunk_id": "ffc525f7d497",
+  "primary_concepts": [
+    {"concept": "Power", "module": "Powers", "evidence_type": "mention", "note": "Powers define extraordinary abilities."},
+    {"concept": "Ability", "module": "Character Traits", "evidence_type": "mention", "note": "Abilities define character capabilities."}
+  ],
+  "cross_module_relationships": []
+}
+```
+--- END STREAM ---
+[01:38:37] P1 Batch  13/40  status=ok        concepts= 16  rels= 0  batch_time=253.7s  total=711s
+
+--- AI STREAM P1-14/40 ---
+```json
+{
+  "chunk_id": "aa943c38ef67",
+  "primary_concepts": [
+    {"concept": "Power", "module": "Powers", "evidence_type": "definition", "note": "Defines extraordinary abilities."},
+    {"concept": "Ability", "module": "Character Traits", "evidence_type": "definition", "note": "Defines what a character can do."},
+    {"concept": "Advantage", "module": "Character Traits", "evidence_type": "definition", "note": "Defines benefits a character has."},
+    {"concept": "Skill", "module": "Character Traits", "evidence_type": "definition", "note": "Defines character's proficiency."},
+    {"concept": "Defense", "module": "Character Traits", "evidence_type": "definition", "note": "Defines character's protective capabilities."},
+    {"concept": "Condition", "module": "Combat", "evidence_type": "definition", "note": "Defines states affecting characters."}
+  ],
+  "cross_module_relationships": [
+    {
+      "from": {"concept": "Power", "module": "Powers"},
+      "relationship": "constrained_by",
+      "to": {"concept": "PowerLevel", "module": "Character"},
+      "justification": "Powers are constrained by Power Level caps.",
+      "chunk": "aa943c38ef67"
+    },
+    {
+      "from": {"concept": "Ability", "module": "Character Traits"},
+      "relationship": "constrained_by",
+      "to": {"concept": "PowerLevel", "module": "Character"},
+      "justification": "Abilities are

@@ -1007,3 +1007,108 @@ PASS 1 (AI): 267 chunks, 20 batches, 50% text/chunk
   ],
   "cross_module_relationships": [
     {
+      "from": {"concept": "Perception", "module": "Character Traits"},
+      "relationship": "uses",
+      "to": {"concept": "Check", "module": "Resolution"},
+      "justification": "Perception checks are resolved by rolling against a DC.",
+      "chunk": "e47577e0b729"
+    }
+  ]
+}
+```
+```json
+{
+  "chunk_id": "bb3e97c13b71",
+  "primary_concepts": [
+    {"concept": "Persuasion", "module": "Character Traits", "evidence_type": "rule", "note": "Used to improve attitudes."},
+    {"concept": "Attitude", "module": "Character Traits", "evidence_type": "mention", "note": "Describes the subject's response."}
+  ],
+  "cross_module_relationships": [
+    {
+      "from": {"concept": "Persuasion", "module": "Character Traits"},
+      "relationship": "uses",
+      "to": {"concept": "Attitude", "module": "Character Traits"},
+      "justification": "Persuasion affects the subject's attitude.",
+      "chunk": "bb3e97c13b71"
+    }
+  ]
+}
+```
+```json
+{
+  "chunk_id": "5f561d435c81",
+  "primary_concepts": [
+    {"concept": "Sleight of Hand", "module": "Character Traits", "evidence_type": "rule", "note": "Used for stealing and tricks."},
+    {"concept": "Perception", "module": "Character Traits", "evidence_type": "mention", "note": "Opposes Sleight of Hand checks."}
+  ],
+  "cross_module_relationships": [
+    {
+      "from": {"concept": "Sleight of Hand", "module": "Character Traits"},
+      "relationship": "targets",
+      "to": {"concept": "Perception", "module": "Character Traits"},
+      "justification": "Sleight of Hand checks are opposed by Perception checks.",
+      "chunk": "5f561d435c81"
+    }
+  ]
+}
+```
+```json
+{
+  "chunk_id": "86e82163c6b8",
+  "primary_concepts": [
+    {"concept": "Stealth", "module": "Character Traits", "evidence_type": "rule", "note": "Used to hide and go unnoticed."},
+    {"concept": "Perception", "module": "Character Traits", "evidence_type": "mention", "note": "Opposes Stealth checks."}
+  ],
+  "cross_module_relationships": [
+    {
+      "from": {"concept": "Stealth", "module": "Character Traits"},
+      "relationship": "targets",
+      "to": {"concept": "Perception", "module": "Character Traits"},
+      "justification": "Stealth checks are opposed by Perception checks.",
+      "chunk": "86e82163c6b8"
+    }
+  ]
+}
+```
+```json
+{
+  "chunk_id": "f6ef830f7b6b",
+  "primary_concepts": [
+    {"concept": "Technology", "module": "Character Traits", "evidence_type": "rule", "note": "Used for disarming explosives."},
+    {"concept": "Check", "module": "Resolution", "evidence_type": "mention", "note": "DC for Technology checks."}
+  ],
+  "cross_module_relationships": [
+    {
+      "from": {"concept": "Technology", "module": "Character Traits"},
+      "relationship": "uses",
+      "to": {"concept": "Check", "module": "Resolution"},
+      "justification": "Technology checks are resolved by rolling against a DC.",
+      "chunk": "f6ef830f7b6b"
+    }
+  ]
+}
+```
+```json
+{
+  "chunk_id": "d5441abe7f45",
+  "primary_concepts": [
+    {"concept": "Treatment", "module": "Character Traits", "evidence_type": "rule", "note": "Used to stabilize and treat injuries."},
+    {"concept": "Check", "module": "Resolution", "evidence_type": "mention", "note": "DC for Treatment checks."}
+  ],
+  "cross_module_relationships": [
+    {
+      "from": {"concept": "Treatment", "module": "Character Traits"},
+      "relationship": "uses",
+      "to": {"concept": "Check", "module": "Resolution"},
+      "justification": "Treatment checks are resolved by rolling against a DC.",
+      "chunk": "d5441abe7f45"
+    }
+  ]
+}
+```
+```json
+{
+  "chunk_id": "a92e401b2501",
+  "primary_concepts": [
+    {"concept": "Advantage", "module": "Character Traits", "evidence_type": "definition", "note": "Special abilities that allow heroes to break rules."},
+    {"concept": "Power Point", "module": "Character",

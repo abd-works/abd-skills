@@ -2,13 +2,13 @@
   "option": "F",
   "description": "AI reads 100% of each chunk's text. Code enriches with full text using discovered concepts.",
   "chunk_pct": 100.0,
-  "ai_calls": 12,
+  "ai_calls": 13,
   "ai_model": "gpt-4o-mini",
-  "elapsed_seconds": 457.061,
+  "elapsed_seconds": 710.804,
   "chunk_count": 267,
-  "pass1_batches_complete": 12,
+  "pass1_batches_complete": 13,
   "pass1_batches_total": 40,
-  "total_concept_mentions": 226,
+  "total_concept_mentions": 242,
   "total_relationships_detected": 32,
   "errors": 2,
   "status": "pass1",
@@ -2618,6 +2618,172 @@
       "source": "HeroesHandbook.md__section_123",
       "classified_by": "ai",
       "concept_count": 0,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "c1c422470246",
+      "primary_concepts": [
+        {
+          "concept": "Ability",
+          "module": "Character Traits",
+          "evidence_type": "mention",
+          "note": "Abilities define what a character can do."
+        },
+        {
+          "concept": "Skill",
+          "module": "Character Traits",
+          "evidence_type": "mention",
+          "note": "Skills are part of character traits."
+        },
+        {
+          "concept": "Power",
+          "module": "Powers",
+          "evidence_type": "mention",
+          "note": "Powers define extraordinary abilities."
+        },
+        {
+          "concept": "PowerLevel",
+          "module": "Character",
+          "evidence_type": "mention",
+          "note": "Power Level caps constrain character traits."
+        }
+      ],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_124",
+      "classified_by": "ai",
+      "concept_count": 4,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "8757660124bd",
+      "primary_concepts": [
+        {
+          "concept": "Power",
+          "module": "Powers",
+          "evidence_type": "mention",
+          "note": "Powers are defined by effects and costs."
+        },
+        {
+          "concept": "Effect",
+          "module": "Powers",
+          "evidence_type": "mention",
+          "note": "Effects are part of powers."
+        }
+      ],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_126",
+      "classified_by": "ai",
+      "concept_count": 2,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "818544ba2429",
+      "primary_concepts": [
+        {
+          "concept": "Ability",
+          "module": "Character Traits",
+          "evidence_type": "mention",
+          "note": "Abilities define character capabilities."
+        },
+        {
+          "concept": "Skill",
+          "module": "Character Traits",
+          "evidence_type": "mention",
+          "note": "Skills are part of character traits."
+        }
+      ],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_127",
+      "classified_by": "ai",
+      "concept_count": 2,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "cfadcb33d64b",
+      "primary_concepts": [
+        {
+          "concept": "Power",
+          "module": "Powers",
+          "evidence_type": "mention",
+          "note": "Powers define extraordinary abilities."
+        },
+        {
+          "concept": "Effect",
+          "module": "Powers",
+          "evidence_type": "mention",
+          "note": "Effects are part of powers."
+        }
+      ],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_129",
+      "classified_by": "ai",
+      "concept_count": 2,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "5e2f6b7f48fe",
+      "primary_concepts": [
+        {
+          "concept": "Ability",
+          "module": "Character Traits",
+          "evidence_type": "mention",
+          "note": "Abilities define character capabilities."
+        },
+        {
+          "concept": "Skill",
+          "module": "Character Traits",
+          "evidence_type": "mention",
+          "note": "Skills are part of character traits."
+        }
+      ],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_130",
+      "classified_by": "ai",
+      "concept_count": 2,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "17270869c240",
+      "primary_concepts": [
+        {
+          "concept": "Skill",
+          "module": "Character Traits",
+          "evidence_type": "mention",
+          "note": "Skills define character capabilities."
+        },
+        {
+          "concept": "Ability",
+          "module": "Character Traits",
+          "evidence_type": "mention",
+          "note": "Abilities define what a character can do."
+        }
+      ],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_132",
+      "classified_by": "ai",
+      "concept_count": 2,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "ffc525f7d497",
+      "primary_concepts": [
+        {
+          "concept": "Power",
+          "module": "Powers",
+          "evidence_type": "mention",
+          "note": "Powers define extraordinary abilities."
+        },
+        {
+          "concept": "Ability",
+          "module": "Character Traits",
+          "evidence_type": "mention",
+          "note": "Abilities define character capabilities."
+        }
+      ],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_133",
+      "classified_by": "ai",
+      "concept_count": 2,
       "relationship_count": 0
     }
   ]
