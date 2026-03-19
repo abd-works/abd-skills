@@ -1,4 +1,4 @@
-# Step 1 — Discover Modules and Epics (v3)
+# Step 1 — Discover Modules and Epics
 
 ## Purpose
 
@@ -204,9 +204,9 @@ Index as you discover — not deferred. Three buckets per module/epic pair:
 
 ## Output
 
-Two files, then run the index script.
+Two files, then run the index script. Step 1 creates `output.json`; Step 2 deepens it; Step 3 canonicalizes it.
 
-### `test/experiment/step1-output-v3.json`
+### `test/experiment/output.json`
 
 ```json
 {
@@ -254,7 +254,7 @@ Two files, then run the index script.
 }
 ```
 
-### `test/experiment/step1-readable-v3.md`
+### `test/experiment/readable.md`
 
 One section per pair:
 
@@ -286,10 +286,10 @@ One section per pair:
 Run all four scanners immediately after writing the JSON output. Each scanner corresponds to one rule file in `test/experiment/rules/`. Scanners highlight gaps — the AI determines whether each violation is a genuine gap, false positive, or needs a `[defer]` flag.
 
 ```
-python test/experiment/scripts/scan_chunks_must_be_referenced.py --input test/experiment/step1-output-v3.json
-python test/experiment/scripts/scan_no_duplicates.py --input test/experiment/step1-output-v3.json
-python test/experiment/scripts/scan_epic_requires_confirming_stories.py --input test/experiment/step1-output-v3.json
-python test/experiment/scripts/scan_no_junk_concepts.py --input test/experiment/step1-output-v3.json
+python test/experiment/scripts/scan_chunks_must_be_referenced.py --input test/experiment/output.json
+python test/experiment/scripts/scan_no_duplicates.py --input test/experiment/output.json
+python test/experiment/scripts/scan_epic_requires_confirming_stories.py --input test/experiment/output.json
+python test/experiment/scripts/scan_no_junk_concepts.py --input test/experiment/output.json
 ```
 
 | Scanner | Rule file | What it checks |
@@ -315,12 +315,12 @@ The scanner will pick these up on the next run. This file is cumulative — add 
 ### Pass 2 — Build chunk index (code)
 
 ```
-python test/experiment/scripts/build_chunk_index.py --input test/experiment/step1-output-v3.json --output test/experiment/step1-chunk-index-v3.json
+python test/experiment/scripts/build_chunk_index.py --input test/experiment/output.json --output test/experiment/chunk-index.json
 ```
 
 ### Pass 3 — Adversarial validation (AI)
 
-Re-read `step1-output-v3.json` against each rule as a checklist. Be adversarial — look for violations the scanner cannot catch:
+Re-read `output.json` against each rule as a checklist. Be adversarial — look for violations the scanner cannot catch:
 
 - Any module name derived from a chapter title or ToC entry?
 - Any concept name that is a section header, proper noun, or single common word?
@@ -335,7 +335,7 @@ Report each violation with: rule name, location in JSON, proposed fix. Fix all v
 
 ## Stop for Review
 
-Present the readable summary (`step1-readable-v3.md`) and ask:
+Present the readable summary (`readable.md`) and ask:
 
 1. Does this list capture all major areas of the corpus?
 2. Are any module/epic pairs wrong or misnamed?

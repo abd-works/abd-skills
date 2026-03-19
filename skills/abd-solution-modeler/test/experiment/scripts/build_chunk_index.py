@@ -1,19 +1,19 @@
 #!/usr/bin/env python3
-"""Build reverse chunk index from a step output JSON.
+"""Build reverse chunk index from the evolving output JSON.
 
-Reads step1-output-v2.json (or any step output with the same structure)
-and produces a chunk_index.json that maps each chunk_id to the concepts,
+Reads output.json (Step 1 creates it; Step 2 deepens it; Step 3 canonicalizes it)
+and produces chunk-index.json that maps each chunk_id to the concepts,
 epics, stories, and modules it was cited in.
 
 This is a derived artifact — always regenerated from the source output JSON.
 Never edit it by hand.
 
 Usage:
-    python test/experiment/scripts/build_chunk_index.py --input <step_output.json> --output <chunk_index.json>
+    python test/experiment/scripts/build_chunk_index.py --input <output.json> --output <chunk-index.json>
 
 Defaults (relative to test/experiment/):
-    --input   step1-output-v2.json
-    --output  step1-chunk-index.json
+    --input   output.json
+    --output  chunk-index.json
 """
 import argparse
 import json
@@ -86,13 +86,13 @@ def main():
     parser = argparse.ArgumentParser(description="Build reverse chunk index from step output JSON.")
     parser.add_argument(
         "--input",
-        default=str(experiment_dir / "step1-output-v2.json"),
-        help="Path to step output JSON (default: test/experiment/step1-output-v2.json)",
+        default=str(experiment_dir / "output.json"),
+        help="Path to output JSON (default: test/experiment/output.json)",
     )
     parser.add_argument(
         "--output",
-        default=str(experiment_dir / "step1-chunk-index.json"),
-        help="Path to write chunk index JSON (default: test/experiment/step1-chunk-index.json)",
+        default=str(experiment_dir / "chunk-index.json"),
+        help="Path to write chunk index JSON (default: test/experiment/chunk-index.json)",
     )
     args = parser.parse_args()
 

@@ -1,0 +1,158 @@
+{
+  "generated_from": "step1-output-v3.json",
+  "note": "Sampled coverage only \u2014 built from the chunks read during Step 1 (30% of corpus). Not complete. Re-run after any edit to the source output JSON.",
+  "chunk_count": 12,
+  "chunks": {
+    "4cd63373be61": {
+      "modules": [
+        "Resolution",
+        "Character",
+        "Combat"
+      ],
+      "concepts": [
+        "Check",
+        "Degree",
+        "ExtraEffort",
+        "Condition"
+      ],
+      "epics": [
+        "Resolve **Check**"
+      ],
+      "stories": []
+    },
+    "714405399e02": {
+      "modules": [
+        "Resolution",
+        "Character Traits",
+        "Combat"
+      ],
+      "concepts": [
+        "Check",
+        "Ability",
+        "Defense",
+        "Condition"
+      ],
+      "epics": [
+        "Resolve **Check**",
+        "Configure **Character Traits**"
+      ],
+      "stories": []
+    },
+    "6b20869c8bc9": {
+      "modules": [
+        "Resolution",
+        "Combat"
+      ],
+      "concepts": [
+        "Action"
+      ],
+      "epics": [
+        "Resolve Combat Exchange"
+      ],
+      "stories": []
+    },
+    "d4cad3e10e05": {
+      "modules": [
+        "Character",
+        "Character Traits",
+        "Powers"
+      ],
+      "concepts": [
+        "Character",
+        "PowerLevel",
+        "Complication",
+        "Effect",
+        "Modifier"
+      ],
+      "epics": [
+        "Build **Character**",
+        "Configure **Character Traits**",
+        "Build **Power**"
+      ],
+      "stories": []
+    },
+    "792ccb4b72a0": {
+      "modules": [
+        "Character"
+      ],
+      "concepts": [
+        "Character",
+        "HeroPoint",
+        "Complication"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "94d3158e4b6b": {
+      "modules": [
+        "Character Traits"
+      ],
+      "concepts": [
+        "Skill"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "2b979f00a098": {
+      "modules": [
+        "Character Traits"
+      ],
+      "concepts": [
+        "Advantage"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "481ffcf3c778": {
+      "modules": [
+        "Character Traits"
+      ],
+      "concepts": [
+        "Advantage"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "89a1fc58a123": {
+      "modules": [
+        "Character Traits"
+      ],
+      "concepts": [
+        "Skill"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "2b9b77a24290": {
+      "modules": [
+        "Powers"
+      ],
+      "concepts": [
+        "Power",
+        "Effect"
+      ],
+      "epics": [
+        "Build **Power**"
+      ],
+      "stories": []
+    },
+    "05f80df9e48f": {
+      "modules": [
+        "Powers"
+      ],
+      "concepts": [
+        "Power"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "086d54227650": {
+      "modules": [
+        "Combat"
+      ],
+      "concepts": [],
+      "epics": [],
+      "stories": []
+    }
+  }
+}

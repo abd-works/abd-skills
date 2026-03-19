@@ -28,7 +28,7 @@ definitely junk. Borderline names require AI judgment.
 Usage (standalone):
     python test/experiment/scripts/scan_no_junk_concepts.py [--input <path>]
 
-Default input: test/experiment/step1-output-v3.json
+Default input: test/experiment/output.json
 Exit code 0 = no violations. Exit code 1 = violations found.
 """
 import argparse
@@ -236,7 +236,7 @@ def main() -> int:
     )
     parser.add_argument(
         "--input",
-        default=str(experiment_dir / "step1-output-v3.json"),
+        default=str(experiment_dir / "output.json"),
         help="Path to step output JSON",
     )
     args = parser.parse_args()
