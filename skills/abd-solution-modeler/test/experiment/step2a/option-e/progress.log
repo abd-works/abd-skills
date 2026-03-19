@@ -1,0 +1,973 @@
+Option E progress log
+Model: gpt-4o-mini
+Started: 2026-03-19 00:29:15
+============================================================
+Code pass: 267 chunks. 45 targeted for AI.
+
+--- AI STREAM batch 1 ---
+```json
+{
+  "chunk_id": "9b8b75c1b5e7",
+  "primary_concepts": [
+    {"concept": "Character", "module": "Character", "evidence_type": "definition", "note": "Aggregate root holding hero traits and resources."},
+    {"concept": "PowerLevel", "module": "Character", "evidence_type": "mention", "note": "Constrained by Power Level caps."},
+    {"concept": "Ability", "module": "Character Traits", "evidence_type": "table", "note": "Strength, Stamina, Agility, Dexterity, Fighting, Intellect, Awareness, Presence."},
+    {"concept": "Defense", "module": "Character Traits", "evidence_type": "table", "note": "Armor and Toughness."},
+    {"concept": "Skill", "module": "Character Traits", "evidence_type": "table", "note": "Expertise, Insight, Perception, Persuasion, Technology."},
+    {"concept": "Power", "module": "Powers", "evidence_type": "table", "note": "Battlesuit, Boot Jets, Comm System, Life Support System, Sensors, Servo Motors, Force Beams, Tactical Computer."},
+    {"concept": "Advantage", "module": "Character Traits", "evidence_type": "table", "note": "Accurate Attack, Improvised Tools, Inventor, Ranged Attack."},
+    {"concept": "Condition", "module": "Combat", "evidence_type": "mention", "note": "Conditions related to combat."}
+  ],
+  "cross_module_relationships": [
+    {
+      "from": {"concept": "Ability", "module": "Character Traits"},
+      "relationship": "constrained_by",
+      "to": {"concept": "PowerLevel", "module": "Character"},
+      "justification": "Abilities are bought from the same Power Point budget and subject to Power Level caps.",
+      "chunk": "9b8b75c1b5e7"
+    },
+    {
+      "from": {"concept": "Defense", "module": "Character Traits"},
+      "relationship": "constrained_by",
+      "to": {"concept": "PowerLevel", "module": "Character"},
+      "justification": "Defenses are bought from the same Power Point budget and subject to Power Level caps.",
+      "chunk": "9b8b75c1b5e7"
+    },
+    {
+      "from": {"concept": "Skill", "module": "Character Traits"},
+      "relationship": "constrained_by",
+      "to": {"concept": "PowerLevel", "module": "Character"},
+      "justification": "Skills are bought from the same Power Point budget and subject to Power Level caps.",
+      "chunk": "9b8b75c1b5e7"
+    },
+    {
+      "from": {"concept": "Power", "module": "Powers"},
+      "relationship": "constrained_by",
+      "to": {"concept": "PowerLevel", "module": "Character"},
+      "justification": "Powers are bought from the same Power Point budget and subject to Power Level caps.",
+      "chunk": "9b8b75c1b5e7"
+    },
+    {
+      "from": {"concept": "Advantage", "module": "Character Traits"},
+      "relationship": "constrained_by",
+      "to": {"concept": "PowerLevel", "module": "Character"},
+      "justification": "Advantages are bought from the same Power Point budget and subject to Power Level caps.",
+      "chunk": "9b8b75c1b5e7"
+    }
+  ]
+}
+```
+
+```json
+{
+  "chunk_id": "6c8715df5e97",
+  "primary_concepts": [
+    {"concept": "Character", "module": "Character", "evidence_type": "definition", "note": "Aggregate root holding hero traits and resources."},
+    {"concept": "PowerLevel", "module": "Character", "evidence_type": "mention", "note": "Constrained by Power Level caps."},
+    {"concept": "Ability", "module": "Character Traits", "evidence_type": "table", "note": "Strength, Stamina, Agility, Dexterity, Fighting, Intellect, Awareness, Presence."},
+    {"concept": "Defense", "module": "Character Traits", "evidence_type": "table", "note": "Armor and Toughness."},
+    {"concept": "Skill", "module": "Character Traits", "evidence_type": "table", "note": "Investigation, Perception, Persuasion, Technology, Vehicles."},
+    {"concept": "Power", "module": "Powers", "evidence_type": "table", "note": "Armored, Unliving, Options."},
+    {"concept": "Condition", "module": "Combat", "evidence_type": "mention", "note": "Conditions related to combat."}
+  ],
+  "cross_module_relationships": [
+    {
+      "from": {"concept": "Ability", "module": "Character Traits"},
+      "relationship": "constrained_by",
+      "to": {"concept": "PowerLevel", "module": "Character"},
+      "justification": "Abilities are bought from the same Power Point budget and subject to Power Level caps.",
+      "chunk": "6c8715df5e97"
+    },
+    {
+      "from": {"concept": "Defense", "module": "Character Traits"},
+      "relationship": "constrained_by",
+      "to": {"concept": "PowerLevel", "module": "Character"},
+      "justification": "Defenses are bought from the same Power Point budget and subject to Power Level caps.",
+      "chunk": "6c8715df5e97"
+    },
+    {
+      "from": {"concept": "Skill", "module": "Character Traits"},
+      "relationship": "constrained_by",
+      "to": {"concept": "PowerLevel", "module": "Character"},
+      "justification": "Skills are bought from the same Power Point budget and subject to Power Level caps.",
+      "chunk": "6c8715df5e97"
+    },
+    {
+      "from": {"concept": "Power", "module": "Powers"},
+      "relationship": "constrained_by",
+      "to": {"concept": "PowerLevel", "module": "Character"},
+      "justification": "Powers are bought from the same Power Point budget and subject to Power Level caps.",
+      "chunk": "6c8715df5e97"
+    }
+  ]
+}
+```
+
+```json
+{
+  "chunk_id": "803cb2a8c272",
+  "primary_concepts": [
+    {"concept": "Character", "module": "Character", "evidence_type": "definition", "note": "Aggregate root holding hero traits and resources."},
+    {"concept": "PowerLevel", "module": "Character", "evidence_type": "mention", "note": "Constrained by Power Level caps."},
+    {"concept": "Ability", "module": "Character Traits", "evidence_type": "table", "note": "Strength, Stamina, Agility, Dexterity, Fighting, Intellect, Awareness, Presence."},
+    {"concept": "Defense", "module": "Character Traits", "evidence_type": "table", "note": "Force Field and Toughness."},
+    {"concept": "Skill", "module": "Character Traits", "evidence_type": "table", "note": "Acrobatics, Deception, Insight, Perception, Persuasion, Ranged Combat."},
+    {"concept": "Power", "module": "Powers", "evidence_type": "table", "note": "Energy Aura, Energy Control, Energy Immunity, Flight."},
+    {"concept": "Condition", "module": "Combat", "evidence_type": "mention", "note": "Conditions related to combat."}
+  ],
+  "cross_module_relationships": [
+    {
+      "from": {"concept": "Ability", "module": "Character Traits"},
+      "relationship": "constrained_by",
+      "to": {"concept": "PowerLevel", "module": "Character"},
+      "justification": "Abilities are bought from the same Power Point budget and subject to Power Level caps.",
+      "chunk": "803cb2a8c272"
+    },
+    {
+      "from": {"concept": "Defense", "module": "Character Traits"},
+      "relationship": "constrained_by",
+      "to": {"concept": "PowerLevel", "module": "Character"},
+      "justification": "Defenses are bought from the same Power Point budget and subject to Power Level caps.",
+      "chunk": "803cb2a8c272"
+    },
+    {
+      "from": {"concept": "Skill", "module": "Character Traits"},
+      "relationship": "constrained_by",
+      "to": {"concept": "PowerLevel", "module": "Character"},
+      "justification": "Skills are bought from the same Power Point budget and subject to Power Level caps.",
+      "chunk": "803cb2a8c272"
+    },
+    {
+      "from": {"concept": "Power", "module": "Powers"},
+      "relationship": "constrained_by",
+      "to": {"concept": "PowerLevel", "module": "Character"},
+      "justification": "Powers are bought from the same Power Point budget and subject to Power Level caps.",
+      "chunk": "803cb2a8c272
+--- END STREAM ---
+[00:30:05] AI Batch   1/9  status=ok        new_concepts= 12  new_rels= 9  batch_time=49.1s  total=50s
+
+--- AI STREAM batch 2 ---
+{
+  "chunk_id": "3c75d5b04a0e",
+  "primary_concepts": [
+    {"concept": "PowerPoint", "module": "Character", "evidence_type": "table", "note": "Power Point Totals for character traits"},
+    {"concept": "Ability", "module": "CharacterTraits", "evidence_type": "stat_block", "note": "Strength, Stamina, Agility, Dexterity, Fighting, Intellect, Awareness, Presence"},
+    {"concept": "Power", "module": "Powers", "evidence_type": "stat_block", "note": "Powers listed with effects and costs"},
+    {"concept": "Skill", "module": "CharacterTraits", "evidence_type": "stat_block", "note": "Skills listed with ranks"},
+    {"concept": "Defense", "module": "CharacterTraits", "evidence_type": "stat_block", "note": "Defenses listed with values"}
+  ],
+  "cross_module_relationships": [
+    {
+      "from": {"concept": "PowerPoint", "module": "Character"},
+      "relationship": "constrained_by",
+      "to": {"concept": "PowerLevel", "module": "Character"},
+      "justification": "Power Point budget constrained by Power Level caps",
+      "chunk": "3c75d5b04a0e"
+    },
+    {
+      "from": {"concept": "Ability", "module": "CharacterTraits"},
+      "relationship": "constrained_by",
+      "to": {"concept": "PowerLevel", "module": "Character"},
+      "justification": "Abilities bought from the same Power Point budget and subject to Power Level caps",
+      "chunk": "3c75d5b04a0e"
+    },
+    {
+      "from": {"concept": "Power", "module": "Powers"},
+      "relationship": "constrained_by",
+      "to": {"concept": "PowerLevel", "module": "Character"},
+      "justification": "Powers purchased at a per-rank cost constrained by Power Level caps",
+      "chunk": "3c75d5b04a0e"
+    },
+    {
+      "from": {"concept": "Skill", "module": "CharacterTraits"},
+      "relationship": "constrained_by",
+      "to": {"concept": "PowerLevel", "module": "Character"},
+      "justification": "Skills bought from the same Power Point budget and subject to Power Level caps",
+      "chunk": "3c75d5b04a0e"
+    },
+    {
+      "from": {"concept": "Defense", "module": "CharacterTraits"},
+      "relationship": "constrained_by",
+      "to": {"concept": "PowerLevel", "module": "Character"},
+      "justification": "Defenses bought from the same Power Point budget and subject to Power Level caps",
+      "chunk": "3c75d5b04a0e"
+    }
+  ]
+}
+{
+  "chunk_id": "f97fb5b16662",
+  "primary_concepts": [
+    {"concept": "PowerPoint", "module": "Character", "evidence_type": "table", "note": "Power Point Totals for character traits"},
+    {"concept": "Ability", "module": "CharacterTraits", "evidence_type": "stat_block", "note": "Strength, Stamina, Agility, Dexterity, Fighting, Intellect, Awareness, Presence"},
+    {"concept": "Power", "module": "Powers", "evidence_type": "stat_block", "note": "Powers listed with effects and costs"},
+    {"concept": "Skill", "module": "CharacterTraits", "evidence_type": "stat_block", "note": "Skills listed with ranks"},
+    {"concept": "Defense", "module": "CharacterTraits", "evidence_type": "stat_block", "note": "Defenses listed with values"}
+  ],
+  "cross_module_relationships": [
+    {
+      "from": {"concept": "PowerPoint", "module": "Character"},
+      "relationship": "constrained_by",
+      "to": {"concept": "PowerLevel", "module": "Character"},
+      "justification": "Power Point budget constrained by Power Level caps",
+      "chunk": "f97fb5b16662"
+    },
+    {
+      "from": {"concept": "Ability", "module": "CharacterTraits"},
+      "relationship": "constrained_by",
+      "to": {"concept": "PowerLevel", "module": "Character"},
+      "justification": "Abilities bought from the same Power Point budget and subject to Power Level caps",
+      "chunk": "f97fb5b16662"
+    },
+    {
+      "from": {"concept": "Power", "module": "Powers"},
+      "relationship": "constrained_by",
+      "to": {"concept": "PowerLevel", "module": "Character"},
+      "justification": "Powers purchased at a per-rank cost constrained by Power Level caps",
+      "chunk": "f97fb5b16662"
+    },
+    {
+      "from": {"concept": "Skill", "module": "CharacterTraits"},
+      "relationship": "constrained_by",
+      "to": {"concept": "PowerLevel", "module": "Character"},
+      "justification": "Skills bought from the same Power Point budget and subject to Power Level caps",
+      "chunk": "f97fb5b16662"
+    },
+    {
+      "from": {"concept": "Defense", "module": "CharacterTraits"},
+      "relationship": "constrained_by",
+      "to": {"concept": "PowerLevel", "module": "Character"},
+      "justification": "Defenses bought from the same Power Point budget and subject to Power Level caps",
+      "chunk": "f97fb5b16662"
+    }
+  ]
+}
+{
+  "chunk_id": "9575430bef02",
+  "primary_concepts": [
+    {"concept": "PowerPoint", "module": "Character", "evidence_type": "table", "note": "Power Point Totals for character traits"},
+    {"concept": "Ability", "module": "CharacterTraits", "evidence_type": "stat_block", "note": "Strength, Stamina, Agility, Dexterity, Fighting, Intellect, Awareness, Presence"},
+    {"concept": "Power", "module": "Powers", "evidence_type": "stat_block", "note": "Powers listed with effects and costs"},
+    {"concept": "Skill", "module": "CharacterTraits", "evidence_type": "stat_block", "note": "Skills listed with ranks"},
+    {"concept": "Defense", "module": "CharacterTraits", "evidence_type": "stat_block", "note": "Defenses listed with values"}
+  ],
+  "cross_module_relationships": [
+    {
+      "from": {"concept": "PowerPoint", "module": "Character"},
+      "relationship": "constrained_by",
+      "to": {"concept": "PowerLevel", "module": "Character"},
+      "justification": "Power Point budget constrained by Power Level caps",
+      "chunk": "9575430bef02"
+    },
+    {
+      "from": {"concept": "Ability", "module": "CharacterTraits"},
+      "relationship": "constrained_by",
+      "to": {"concept": "PowerLevel", "module": "Character"},
+      "justification": "Abilities bought from the same Power Point budget and subject to Power Level caps",
+      "chunk": "9575430bef02"
+    },
+    {
+      "from": {"concept": "Power", "module": "Powers"},
+      "relationship": "constrained_by",
+      "to": {"concept": "PowerLevel", "module": "Character"},
+      "justification": "Powers purchased at a per-rank cost constrained by Power Level caps",
+      "chunk": "9575430bef02"
+    },
+    {
+      "from": {"concept": "Skill", "module": "CharacterTraits"},
+      "relationship": "constrained_by",
+      "to": {"concept": "PowerLevel", "module": "Character"},
+      "justification": "Skills bought from the same Power Point budget and subject to Power Level caps",
+      "chunk": "9575430bef02"
+    },
+    {
+      "from": {"concept": "Defense", "module": "CharacterTraits"},
+      "relationship": "constrained_by",
+      "to": {"concept": "PowerLevel", "module": "Character"},
+      "justification": "Defenses bought from the same Power Point budget and subject to Power Level caps",
+      "chunk": "9575430bef02"
+    }
+  ]
+}
+{
+  "chunk_id": "634190f2dd84",
+  "primary_concepts": [
+    {"concept": "PowerPoint", "module": "Character", "evidence_type": "table", "note": "Power Point Totals for character traits"},
+    {"concept": "Ability", "module": "CharacterTraits", "evidence_type": "stat_block", "note": "Strength, Stamina, Agility, Dexterity, Fighting, Intellect, Awareness, Presence"},
+    {"concept": "Power", "module": "Powers", "evidence_type": "stat_block", "note": "Powers listed with effects and costs"},
+    {"concept": "Skill", "module": "CharacterTraits", "evidence_type": "stat_block", "note": "Skills listed with ranks"},
+    {"concept": "Defense", "module": "CharacterTraits", "evidence_type": "stat_block", "note
+--- END STREAM ---
+[00:30:49] AI Batch   2/9  status=ok        new_concepts=  9  new_rels=15  batch_time=44.8s  total=95s
+
+--- AI STREAM batch 3 ---
+```json
+{
+  "chunk_id": "9b4ab26032fa",
+  "primary_concepts": [
+    {"concept": "Character", "module": "Character", "evidence_type": "definition", "note": "Character traits and powers defined"},
+    {"concept": "PowerLevel", "module": "Powers", "evidence_type": "mention", "note": "Power Level cap indicated"},
+    {"concept": "Ability", "module": "Character Traits", "evidence_type": "table", "note": "Abilities listed with values"},
+    {"concept": "Power", "module": "Powers", "evidence_type": "table", "note": "Powers listed with costs"},
+    {"concept": "Skill", "module": "Character Traits", "evidence_type": "table", "note": "Skills listed with values"},
+    {"concept": "Defense", "module": "Character Traits", "evidence_type": "table", "note": "Defenses listed with values"},
+    {"concept": "Condition", "module": "Combat", "evidence_type": "mention", "note": "Combat conditions implied"}
+  ],
+  "cross_module_relationships": [
+    {
+      "from": {"concept": "Ability", "module": "Character Traits"},
+      "relationship": "constrained_by",
+      "to": {"concept": "PowerLevel", "module": "Powers"},
+      "justification": "Abilities are purchased within a Power Point budget constrained by Power Level caps.",
+      "chunk": "9b4ab26032fa"
+    },
+    {
+      "from": {"concept": "Power", "module": "Powers"},
+      "relationship": "constrained_by",
+      "to": {"concept": "PowerLevel", "module": "Powers"},
+      "justification": "Powers are defined at a per-rank cost, constrained by Power Level caps.",
+      "chunk": "9b4ab26032fa"
+    },
+    {
+      "from": {"concept": "Skill", "module": "Character Traits"},
+      "relationship": "constrained_by",
+      "to": {"concept": "PowerLevel", "module": "Powers"},
+      "justification": "Skills are purchased within a Power Point budget constrained by Power Level caps.",
+      "chunk": "9b4ab26032fa"
+    },
+    {
+      "from": {"concept": "Defense", "module": "Character Traits"},
+      "relationship": "constrained_by",
+      "to": {"concept": "PowerLevel", "module": "Powers"},
+      "justification": "Defenses are purchased within a Power Point budget constrained by Power Level caps.",
+      "chunk": "9b4ab26032fa"
+    }
+  ]
+}
+```
+```json
+{
+  "chunk_id": "ab9b367b750f",
+  "primary_concepts": [
+    {"concept": "Character", "module": "Character", "evidence_type": "definition", "note": "Character traits and powers defined"},
+    {"concept": "PowerLevel", "module": "Powers", "evidence_type": "mention", "note": "Power Level cap indicated"},
+    {"concept": "Ability", "module": "Character Traits", "evidence_type": "table", "note": "Abilities listed with values"},
+    {"concept": "Power", "module": "Powers", "evidence_type": "table", "note": "Powers listed with costs"},
+    {"concept": "Skill", "module": "Character Traits", "evidence_type": "table", "note": "Skills listed with values"},
+    {"concept": "Condition", "module": "Combat", "evidence_type": "mention", "note": "Combat conditions implied"}
+  ],
+  "cross_module_relationships": [
+    {
+      "from": {"concept": "Ability", "module": "Character Traits"},
+      "relationship": "constrained_by",
+      "to": {"concept": "PowerLevel", "module": "Powers"},
+      "justification": "Abilities are purchased within a Power Point budget constrained by Power Level caps.",
+      "chunk": "ab9b367b750f"
+    },
+    {
+      "from": {"concept": "Power", "module": "Powers"},
+      "relationship": "constrained_by",
+      "to": {"concept": "PowerLevel", "module": "Powers"},
+      "justification": "Powers are defined at a per-rank cost, constrained by Power Level caps.",
+      "chunk": "ab9b367b750f"
+    },
+    {
+      "from": {"concept": "Skill", "module": "Character Traits"},
+      "relationship": "constrained_by",
+      "to": {"concept": "PowerLevel", "module": "Powers"},
+      "justification": "Skills are purchased within a Power Point budget constrained by Power Level caps.",
+      "chunk": "ab9b367b750f"
+    }
+  ]
+}
+```
+```json
+{
+  "chunk_id": "919d7063d0ae",
+  "primary_concepts": [
+    {"concept": "Character", "module": "Character", "evidence_type": "definition", "note": "Character sheet with traits and powers"},
+    {"concept": "PowerLevel", "module": "Powers", "evidence_type": "mention", "note": "Power Level cap indicated"},
+    {"concept": "Ability", "module": "Character Traits", "evidence_type": "table", "note": "Abilities listed with values"},
+    {"concept": "Skill", "module": "Character Traits", "evidence_type": "table", "note": "Skills listed with values"},
+    {"concept": "Defense", "module": "Character Traits", "evidence_type": "table", "note": "Defenses listed with values"},
+    {"concept": "Condition", "module": "Combat", "evidence_type": "mention", "note": "Combat conditions implied"}
+  ],
+  "cross_module_relationships": [
+    {
+      "from": {"concept": "Ability", "module": "Character Traits"},
+      "relationship": "constrained_by",
+      "to": {"concept": "PowerLevel", "module": "Powers"},
+      "justification": "Abilities are purchased within a Power Point budget constrained by Power Level caps.",
+      "chunk": "919d7063d0ae"
+    },
+    {
+      "from": {"concept": "Skill", "module": "Character Traits"},
+      "relationship": "constrained_by",
+      "to": {"concept": "PowerLevel", "module": "Powers"},
+      "justification": "Skills are purchased within a Power Point budget constrained by Power Level caps.",
+      "chunk": "919d7063d0ae"
+    },
+    {
+      "from": {"concept": "Defense", "module": "Character Traits"},
+      "relationship": "constrained_by",
+      "to": {"concept": "PowerLevel", "module": "Powers"},
+      "justification": "Defenses are purchased within a Power Point budget constrained by Power Level caps.",
+      "chunk": "919d7063d0ae"
+    }
+  ]
+}
+```
+```json
+{
+  "chunk_id": "1af862ab5396",
+  "primary_concepts": [
+    {"concept": "Character", "module": "Character", "evidence_type": "definition", "note": "Character traits and abilities defined"},
+    {"concept": "Ability", "module": "Character Traits", "evidence_type": "mention", "note": "Abilities mentioned"},
+    {"concept": "Skill", "module": "Character Traits", "evidence_type": "mention", "note": "Skills mentioned"},
+    {"concept": "Condition", "module": "Combat", "evidence_type": "mention", "note": "Combat conditions implied"}
+  ],
+  "cross_module_relationships": []
+}
+```
+```json
+{
+  "chunk_id": "d329357e5091",
+  "primary_concepts": [
+    {"concept": "Character", "module": "Character", "evidence_type": "definition", "note": "Character traits and powers defined"},
+    {"concept": "PowerLevel", "module": "Powers", "evidence_type": "mention", "note": "Power Level cap indicated"},
+    {"concept": "Ability", "module": "Character Traits", "evidence_type": "table", "note": "Abilities listed with values"},
+    {"concept": "Power", "module": "Powers", "evidence_type": "table", "note": "Powers listed with costs"},
+    {"concept": "Skill", "module": "Character Traits", "evidence_type": "table", "note": "Skills listed with values"},
+    {"concept": "Condition", "module": "Combat", "evidence_type": "mention", "note": "Combat conditions implied"}
+  ],
+  "cross_module_relationships": [
+    {
+      "from": {"concept": "Ability", "module": "Character Traits"},
+      "relationship": "constrained_by",
+      "to": {"concept": "PowerLevel", "module": "Powers"},
+      "justification": "Abilities are purchased within a Power Point budget constrained by Power Level caps.",
+      "chunk": "d329357e5091"
+    },
+    {
+      "from": {"concept": "Power", "module": "Powers"},
+      "relationship": "constrained_by",
+      "to": {"concept": "PowerLevel", "module": "Powers"},
+      "justification": "Powers are defined at a per-rank cost, constrained
+--- END STREAM ---
+[00:31:34] AI Batch   3/9  status=ok        new_concepts= 19  new_rels=10  batch_time=44.9s  total=139s
+
+--- AI STREAM batch 4 ---
+```json
+{
+  "chunk_id": "a67593d532fb",
+  "primary_concepts": [
+    {"concept": "Power", "module": "Powers", "evidence_type": "example", "note": "Various powers of undead characters with point costs"},
+    {"concept": "Ability", "module": "Character Traits", "evidence_type": "example", "note": "Enhanced Traits and other abilities listed"},
+    {"concept": "Defense", "module": "Character Traits", "evidence_type": "example", "note": "Defensive traits of undead characters"},
+    {"concept": "Condition", "module": "Combat", "evidence_type": "example", "note": "Conditions related to powers like Affliction"}
+  ],
+  "cross_module_relationships": [
+    {
+      "from": {"concept": "Power", "module": "Powers"},
+      "relationship": "constrained_by",
+      "to": {"concept": "PowerLevel", "module": "Character"},
+      "justification": "Powers are purchased at a per-rank cost, constrained by Power Level caps.",
+      "chunk": "a67593d532fb"
+    },
+    {
+      "from": {"concept": "Ability", "module": "Character Traits"},
+      "relationship": "constrained_by",
+      "to": {"concept": "PowerLevel", "module": "Character"},
+      "justification": "Abilities are bought from the same Power Point budget and subject to Power Level caps.",
+      "chunk": "a67593d532fb"
+    }
+  ]
+}
+```
+```json
+{
+  "chunk_id": "a37758230a66",
+  "primary_concepts": [
+    {"concept": "Ability", "module": "Character Traits", "evidence_type": "example", "note": "Character abilities listed for Detective and Inventor"},
+    {"concept": "Advantage", "module": "Character Traits", "evidence_type": "example", "note": "Advantages related to character backgrounds"}
+  ],
+  "cross_module_relationships": [
+    {
+      "from": {"concept": "Ability", "module": "Character Traits"},
+      "relationship": "constrained_by",
+      "to": {"concept": "PowerLevel", "module": "Character"},
+      "justification": "Abilities are bought from the same Power Point budget and subject to Power Level caps.",
+      "chunk": "a37758230a66"
+    }
+  ]
+}
+```
+```json
+{
+  "chunk_id": "85cc7f979174",
+  "primary_concepts": [
+    {"concept": "Power", "module": "Powers", "evidence_type": "example", "note": "Water Control array and its effects"},
+    {"concept": "Effect", "module": "Powers", "evidence_type": "example", "note": "Various effects listed under Water Control"}
+  ],
+  "cross_module_relationships": [
+    {
+      "from": {"concept": "Power", "module": "Powers"},
+      "relationship": "constrained_by",
+      "to": {"concept": "PowerLevel", "module": "Character"},
+      "justification": "Powers are purchased at a per-rank cost, constrained by Power Level caps.",
+      "chunk": "85cc7f979174"
+    }
+  ]
+}
+```
+```json
+{
+  "chunk_id": "6e090a5bf703",
+  "primary_concepts": [
+    {"concept": "Ability", "module": "Character Traits", "evidence_type": "example", "note": "Character abilities listed for Hotheaded and Reserved"},
+    {"concept": "Advantage", "module": "Character Traits", "evidence_type": "example", "note": "Advantages related to character traits"}
+  ],
+  "cross_module_relationships": [
+    {
+      "from": {"concept": "Ability", "module": "Character Traits"},
+      "relationship": "constrained_by",
+      "to": {"concept": "PowerLevel", "module": "Character"},
+      "justification": "Abilities are bought from the same Power Point budget and subject to Power Level caps.",
+      "chunk": "6e090a5bf703"
+    }
+  ]
+}
+```
+```json
+{
+  "chunk_id": "14dd371ce972",
+  "primary_concepts": [
+    {"concept": "Defense", "module": "Character Traits", "evidence_type": "example", "note": "Defensive traits listed"},
+    {"concept": "Power", "module": "Powers", "evidence_type": "example", "note": "Energy Control array and its effects"}
+  ],
+  "cross_module_relationships": [
+    {
+      "from": {"concept": "Power", "module": "Powers"},
+      "relationship": "constrained_by",
+      "to": {"concept": "PowerLevel", "module": "Character"},
+      "justification": "Powers are purchased at a per-rank cost, constrained by Power Level caps.",
+      "chunk": "14dd371ce972"
+    }
+  ]
+}
+```
+--- END STREAM ---
+[00:32:06] AI Batch   4/9  status=ok        new_concepts=  9  new_rels= 6  batch_time=31.3s  total=171s
+
+--- AI STREAM batch 5 ---
+```json
+{
+  "chunk_id": "c8f2e2af058e",
+  "primary_concepts": [],
+  "cross_module_relationships": []
+}
+```
+```json
+{
+  "chunk_id": "cefb93c1d699",
+  "primary_concepts": [
+    {"concept": "Ability", "module": "Character Traits", "evidence_type": "mention", "note": "Abilities listed in context of Mystic Endowment"},
+    {"concept": "Power", "module": "Powers", "evidence_type": "table", "note": "Utility Powers and their costs"},
+    {"concept": "Defense", "module": "Character Traits", "evidence_type": "stat block", "note": "Defenses listed with values"},
+    {"concept": "Skill", "module": "Character Traits", "evidence_type": "stat block", "note": "Skills listed with values"}
+  ],
+  "cross_module_relationships": [
+    {
+      "from": {"concept": "Ability", "module": "Character Traits"},
+      "relationship": "constrained_by",
+      "to": {"concept": "PowerLevel", "module": "Character"},
+      "justification": "Abilities are purchased from the Power Point budget",
+      "chunk": "cefb93c1d699"
+    },
+    {
+      "from": {"concept": "Defense", "module": "Character Traits"},
+      "relationship": "constrained_by",
+      "to": {"concept": "PowerLevel", "module": "Character"},
+      "justification": "Defenses are part of the character's traits under Power Level caps",
+      "chunk": "cefb93c1d699"
+    },
+    {
+      "from": {"concept": "Skill", "module": "Character Traits"},
+      "relationship": "constrained_by",
+      "to": {"concept": "PowerLevel", "module": "Character"},
+      "justification": "Skills are purchased from the Power Point budget",
+      "chunk": "cefb93c1d699"
+    }
+  ]
+}
+```
+```json
+{
+  "chunk_id": "267bbd73af09",
+  "primary_concepts": [
+    {"concept": "Skill", "module": "Character Traits", "evidence_type": "table", "note": "Skills listed with values"},
+    {"concept": "Power", "module": "Powers", "evidence_type": "table", "note": "Powers listed with costs"}
+  ],
+  "cross_module_relationships": [
+    {
+      "from": {"concept": "Skill", "module": "Character Traits"},
+      "relationship": "constrained_by",
+      "to": {"concept": "PowerLevel", "module": "Character"},
+      "justification": "Skills are purchased from the Power Point budget",
+      "chunk": "267bbd73af09"
+    },
+    {
+      "from": {"concept": "Power", "module": "Powers"},
+      "relationship": "constrained_by",
+      "to": {"concept": "PowerLevel", "module": "Character"},
+      "justification": "Powers are purchased at a per-rank cost from the Power Point budget",
+      "chunk": "267bbd73af09"
+    }
+  ]
+}
+```
+```json
+{
+  "chunk_id": "75c6a0d7757a",
+  "primary_concepts": [
+    {"concept": "Ability", "module": "Character Traits", "evidence_type": "table", "note": "Abilities listed with values"},
+    {"concept": "Power", "module": "Powers", "evidence_type": "table", "note": "Powers listed with costs"}
+  ],
+  "cross_module_relationships": [
+    {
+      "from": {"concept": "Ability", "module": "Character Traits"},
+      "relationship": "constrained_by",
+      "to": {"concept": "PowerLevel", "module": "Character"},
+      "justification": "Abilities are purchased from the Power Point budget",
+      "chunk": "75c6a0d7757a"
+    },
+    {
+      "from": {"concept": "Power", "module": "Powers"},
+      "relationship": "constrained_by",
+      "to": {"concept": "PowerLevel", "module": "Character"},
+      "justification": "Powers are purchased at a per-rank cost from the Power Point budget",
+      "chunk": "75c6a0d7757a"
+    }
+  ]
+}
+```
+```json
+{
+  "chunk_id": "1631a649fb6e",
+  "primary_concepts": [
+    {"concept": "Character", "module": "Character", "evidence_type": "definition", "note": "Character motivations and identity"},
+    {"concept": "Complication", "module": "Character", "evidence_type": "mention", "note": "Power Loss and Prejudice as complications"}
+  ],
+  "cross_module_relationships": []
+}
+```
+--- END STREAM ---
+[00:32:32] AI Batch   5/9  status=ok        new_concepts=  5  new_rels= 7  batch_time=26.3s  total=197s
+
+--- AI STREAM batch 6 ---
+```json
+{
+  "chunk_id": "c1c422470246",
+  "primary_concepts": [
+    {"concept": "Ability", "module": "Character Traits", "evidence_type": "table", "note": "Strength, Stamina, Agility, Dexterity, Fighting, Intellect, Awareness, Presence"},
+    {"concept": "Skill", "module": "Character Traits", "evidence_type": "table", "note": "Acrobatics, Perception, Stealth, Deception, Insight, Expertise"},
+    {"concept": "Power", "module": "Powers", "evidence_type": "mention", "note": "Powers like Contemplative, Perfect Mind, Thought Leader"},
+    {"concept": "Advantage", "module": "Character Traits", "evidence_type": "mention", "note": "Advantages like Attractive, Fascinate, Luck"},
+    {"concept": "Defense", "module": "Character Traits", "evidence_type": "mention", "note": "Defensive traits not explicitly listed but implied in context"}
+  ],
+  "cross_module_relationships": []
+}
+```
+
+```json
+{
+  "chunk_id": "818544ba2429",
+  "primary_concepts": [
+    {"concept": "Ability", "module": "Character Traits", "evidence_type": "table", "note": "Everyman, Whiz"},
+    {"concept": "Complication", "module": "Character", "evidence_type": "mention", "note": "Quirk—Impressionable"},
+    {"concept": "Motivation", "module": "Character", "evidence_type": "mention", "note": "Motivation—Responsibility"}
+  ],
+  "cross_module_relationships": []
+}
+```
+
+```json
+{
+  "chunk_id": "5e2f6b7f48fe",
+  "primary_concepts": [
+    {"concept": "Ability", "module": "Character Traits", "evidence_type": "table", "note": "Veteran, Youth, Old-Timer"},
+    {"concept": "Motivation", "module": "Character", "evidence_type": "mention", "note": "Motivation—Doing Good, Recognition, Thrills"}
+  ],
+  "cross_module_relationships": []
+}
+```
+
+```json
+{
+  "chunk_id": "aa943c38ef67",
+  "primary_concepts": [
+    {"concept": "Power", "module": "Powers", "evidence_type": "table", "note": "Energy Control, Energy Blast, Energy Field, etc."},
+    {"concept": "Ability", "module": "Character Traits", "evidence_type": "table", "note": "Strength, Stamina, Agility, Dexterity, Fighting, Intellect, Awareness, Presence"},
+    {"concept": "Skill", "module": "Character Traits", "evidence_type": "table", "note": "Acrobatics, Athletics, Expertise, Perception"},
+    {"concept": "Advantage", "module": "Character Traits", "evidence_type": "table", "note": "Advantages like Accurate Attack, Power Attack, Teamwork"},
+    {"concept": "Defense", "module": "Character Traits", "evidence_type": "table", "note": "Dodge, Parry, Fortitude, Toughness, Will"}
+  ],
+  "cross_module_relationships": []
+}
+```
+
+```json
+{
+  "chunk_id": "c8f8dadd6203",
+  "primary_concepts": [
+    {"concept": "Ability", "module": "Character Traits", "evidence_type": "table", "note": "Strength, Agility, Awareness"},
+    {"concept": "Power", "module": "Powers", "evidence_type": "table", "note": "Claws, Float, Shadow Form"},
+    {"concept": "Skill", "module": "Character Traits", "evidence_type": "table", "note": "Perception, Stealth"},
+    {"concept": "Defense", "module": "Character Traits", "evidence_type": "table", "note": "Dodge, Parry, Fortitude, Toughness, Will"}
+  ],
+  "cross_module_relationships": []
+}
+```
+--- END STREAM ---
+[00:32:53] AI Batch   6/9  status=ok        new_concepts= 13  new_rels= 0  batch_time=21.4s  total=218s
+
+--- AI STREAM batch 7 ---
+```json
+{
+  "chunk_id": "8ad0833a1563",
+  "primary_concepts": [
+    {"concept": "Ability", "module": "Character Traits", "evidence_type": "stat_block", "note": "Strength, Stamina, Agility, Dexterity, Fighting, Intellect, Awareness, Presence"},
+    {"concept": "Skill", "module": "Character Traits", "evidence_type": "stat_block", "note": "Expertise, Insight, Perception, Persuasion, Deception, Technology, Streetwise"},
+    {"concept": "Power", "module": "Powers", "evidence_type": "stat_block", "note": "Powers like Aristocrat, Heartthrob, Savage, Wilder"},
+    {"concept": "Advantage", "module": "Character Traits", "evidence_type": "stat_block", "note": "Various advantages associated with powers"},
+    {"concept": "Defense", "module": "Character Traits", "evidence_type": "stat_block", "note": "Defenses not explicitly listed but implied in context"}
+  ],
+  "cross_module_relationships": []
+}
+```
+
+```json
+{
+  "chunk_id": "f8e903dbf3d7",
+  "primary_concepts": [
+    {"concept": "Ability", "module": "Character Traits", "evidence_type": "stat_block", "note": "Abilities, Powers, Defenses"},
+    {"concept": "Power", "module": "Powers", "evidence_type": "mention", "note": "Powers associated with supernatural creatures"},
+    {"concept": "Complication", "module": "Character", "evidence_type": "mention", "note": "Motivations and weaknesses of supernatural creatures"}
+  ],
+  "cross_module_relationships": []
+}
+```
+
+```json
+{
+  "chunk_id": "ac75d3f2b9e6",
+  "primary_concepts": [
+    {"concept": "Ability", "module": "Character Traits", "evidence_type": "stat_block", "note": "Abilities like Daze, Redirect, Taunt"},
+    {"concept": "Skill", "module": "Character Traits", "evidence_type": "stat_block", "note": "Expertise, Investigation, Technology"},
+    {"concept": "Power", "module": "Powers", "evidence_type": "stat_block", "note": "Powers like Dominating, Altruistic, Cooperative, Egoistic, Vengeful"}
+  ],
+  "cross_module_relationships": []
+}
+```
+
+```json
+{
+  "chunk_id": "872471930ea9",
+  "primary_concepts": [
+    {"concept": "Ability", "module": "Character Traits", "evidence_type": "stat_block", "note": "Strength, Stamina, Agility, Dexterity, Fighting, Intellect, Awareness, Presence"},
+    {"concept": "Advantage", "module": "Character Traits", "evidence_type": "stat_block", "note": "Various advantages listed for Human and Otherworldly"},
+    {"concept": "Power", "module": "Powers", "evidence_type": "mention", "note": "Implied powers associated with advantages"}
+  ],
+  "cross_module_relationships": []
+}
+```
+
+```json
+{
+  "chunk_id": "19a54c3b3576",
+  "primary_concepts": [
+    {"concept": "Power", "module": "Powers", "evidence_type": "stat_block", "note": "Weapons and their associated powers"},
+    {"concept": "Modifier", "module": "Powers", "evidence_type": "stat_block", "note": "Modifiers for weapon effects like Damage, Multiattack, Penetrating"}
+  ],
+  "cross_module_relationships": []
+}
+```
+--- END STREAM ---
+[00:33:16] AI Batch   7/9  status=ok        new_concepts= 12  new_rels= 0  batch_time=22.6s  total=241s
+
+--- AI STREAM batch 8 ---
+{
+  "chunk_id": "fd5ed2485118",
+  "primary_concepts": [
+    {"concept": "Character Trait", "module": "Character Traits", "evidence_type": "example", "note": "Examples of character traits and skills."},
+    {"concept": "Skill", "module": "Character Traits", "evidence_type": "example", "note": "List of skills with associated values."},
+    {"concept": "Power", "module": "Powers", "evidence_type": "example", "note": "Example of a power with point cost."}
+  ],
+  "cross_module_relationships": [
+    {
+      "from": {"concept": "Skill", "module": "Character Traits"},
+      "relationship": "constrained_by",
+      "to": {"concept": "Power Point", "module": "Character"},
+      "justification": "Skills are purchased from the Power Point budget.",
+      "chunk": "fd5ed2485118"
+    },
+    {
+      "from": {"concept": "Power", "module": "Powers"},
+      "relationship": "constrained_by",
+      "to": {"concept": "Power Level", "module": "Character"},
+      "justification": "Powers are subject to Power Level caps.",
+      "chunk": "fd5ed2485118"
+    }
+  ]
+}
+
+{
+  "chunk_id": "e6cd24549519",
+  "primary_concepts": [
+    {"concept": "Power", "module": "Powers", "evidence_type": "table", "note": "Table of powers with action, range, duration, and cost."}
+  ],
+  "cross_module_relationships": []
+}
+
+{
+  "chunk_id": "2c3d57c2a1b3",
+  "primary_concepts": [
+    {"concept": "Weapon", "module": "Gadgets & Gear", "evidence_type": "table", "note": "Table of weapons with effects and costs."},
+    {"concept": "Effect", "module": "Powers", "evidence_type": "definition", "note": "Effects caused by weapon hits."}
+  ],
+  "cross_module_relationships": [
+    {
+      "from": {"concept": "Effect", "module": "Powers"},
+      "relationship": "produces",
+      "to": {"concept": "Weapon", "module": "Gadgets & Gear"},
+      "justification": "Weapons produce effects upon hitting a target.",
+      "chunk": "2c3d57c2a1b3"
+    }
+  ]
+}
+
+{
+  "chunk_id": "f17aca40747b",
+  "primary_concepts": [
+    {"concept": "Vehicle", "module": "Gadgets & Gear", "evidence_type": "table", "note": "Table of vehicles with attributes."}
+  ],
+  "cross_module_relationships": []
+}
+
+{
+  "chunk_id": "5cc7dcb2c08f",
+  "primary_concepts": [
+    {"concept": "Headquarters", "module": "Gadgets & Gear", "evidence_type": "definition", "note": "Description of headquarters and their traits."},
+    {"concept": "Size", "module": "Gadgets & Gear", "evidence_type": "definition", "note": "Size trait of headquarters."},
+    {"concept": "Toughness", "module": "Gadgets & Gear", "evidence_type": "definition", "note": "Toughness trait of headquarters."}
+  ],
+  "cross_module_relationships": []
+}
+--- END STREAM ---
+[00:33:44] AI Batch   8/9  status=ok        new_concepts=  6  new_rels= 3  batch_time=28.5s  total=270s
+
+--- AI STREAM batch 9 ---
+```json
+{
+  "chunk_id": "6be13e770e51",
+  "primary_concepts": [
+    {"concept": "Construct", "module": "Combat", "evidence_type": "definition", "note": "Constructs suffer damage like inanimate objects."},
+    {"concept": "Power", "module": "Powers", "evidence_type": "mention", "note": "Damage effect referenced."},
+    {"concept": "Skill", "module": "Character Traits", "evidence_type": "mention", "note": "Technology skill for repairing."},
+    {"concept": "Ability", "module": "Character Traits", "evidence_type": "mention", "note": "Zombie and Robot abilities listed."},
+    {"concept": "Defense", "module": "Character Traits", "evidence_type": "mention", "note": "Defense stats for constructs."}
+  ],
+  "cross_module_relationships": [
+    {
+      "from": {"concept": "Construct", "module": "Combat"},
+      "relationship": "uses",
+      "to": {"concept": "Damage", "module": "Powers"},
+      "justification": "Constructs suffer damage like inanimate objects.",
+      "chunk": "6be13e770e51"
+    },
+    {
+      "from": {"concept": "Skill", "module": "Character Traits"},
+      "relationship": "targets",
+      "to": {"concept": "Repair", "module": "Powers"},
+      "justification": "Technology skill description for repairing damaged objects.",
+      "chunk": "6be13e770e51"
+    }
+  ]
+}
+```
+
+```json
+{
+  "chunk_id": "598bd6ff5a02",
+  "primary_concepts": [
+    {"concept": "Power Level", "module": "Character", "evidence_type": "definition", "note": "Limits imposed by the series power level."},
+    {"concept": "Power Point", "module": "Character", "evidence_type": "mention", "note": "Earned through adventuring."},
+    {"concept": "Trait", "module": "Character Traits", "evidence_type": "mention", "note": "Encourages diversification of traits."}
+  ],
+  "cross_module_relationships": [
+    {
+      "from": {"concept": "Power Point", "module": "Character"},
+      "relationship": "constrained_by",
+      "to": {"concept": "Power Level", "module": "Character"},
+      "justification": "Limits imposed by the series power level.",
+      "chunk": "598bd6ff5a02"
+    }
+  ]
+}
+```
+
+```json
+{
+  "chunk_id": "1a59d1dc4a9a",
+  "primary_concepts": [
+    {"concept": "Character", "module": "Character", "evidence_type": "definition", "note": "Collection of characters for use in games."},
+    {"concept": "Archetype", "module": "Character", "evidence_type": "mention", "note": "Characters represent various archetypes."}
+  ],
+  "cross_module_relationships": []
+}
+```
+
+```json
+{
+  "chunk_id": "60fdef9305c6",
+  "primary_concepts": [
+    {"concept": "Ability", "module": "Character Traits", "evidence_type": "mention", "note": "Abilities and their stats listed."},
+    {"concept": "Equipment", "module": "Character Traits", "evidence_type": "mention", "note": "Equipment and advantages listed."},
+    {"concept": "Skill", "module": "Character Traits", "evidence_type": "mention", "note": "Skills and their ranks listed."},
+    {"concept": "Defense", "module": "Character Traits", "evidence_type": "mention", "note": "Defense stats provided."}
+  ],
+  "cross_module_relationships": [
+    {
+      "from": {"concept": "Ability", "module": "Character Traits"},
+      "relationship": "produces",
+      "to": {"concept": "Defense", "module": "Character Traits"},
+      "justification": "Abilities contribute to defense totals.",
+      "chunk": "60fdef9305c6"
+    }
+  ]
+}
+```
+
+```json
+{
+  "chunk_id": "6805431193d6",
+  "primary_concepts": [
+    {"concept": "Ability", "module": "Character Traits", "evidence_type": "mention", "note": "Abilities and their stats listed."},
+    {"concept": "Equipment", "module": "Character Traits", "evidence_type": "mention", "note": "Equipment and advantages listed."},
+    {"concept": "Skill", "module": "Character Traits", "evidence_type": "mention", "note": "Skills and their ranks listed."},
+    {"concept": "Defense", "module": "Character Traits", "evidence_type": "mention", "note": "Defense stats provided."}
+  ],
+  "cross_module_relationships": [
+    {
+      "from": {"concept": "Ability", "module": "Character Traits"},
+      "relationship": "produces",
+      "to": {"concept": "Defense", "module": "Character Traits"},
+      "justification": "Abilities contribute to defense totals.",
+      "chunk": "6805431193d6"
+    }
+  ]
+}
+```
+--- END STREAM ---
+[00:34:08] AI Batch   9/9  status=ok        new_concepts= 12  new_rels= 5  batch_time=23.8s  total=293s
+
+COMPLETE  elapsed=293.4s  ai_calls=9  ai_new_concepts=97  ai_new_rels=55  errors=0

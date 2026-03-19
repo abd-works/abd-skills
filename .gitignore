@@ -12,3 +12,8 @@ Thumbs.db
 
 # Scanner caches
 .surnames_cache
+
+# Secrets
+.secrets
+*.secrets
+.env*

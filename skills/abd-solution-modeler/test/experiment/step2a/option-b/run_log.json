@@ -1,0 +1,11 @@
+{
+  "option": "B",
+  "elapsed_seconds": 1308.312,
+  "chunk_count": 267,
+  "ai_calls": 91,
+  "ai_model": "gpt-4o-mini",
+  "total_concept_mentions": 994,
+  "total_relationships_detected": 339,
+  "errors": 0,
+  "status": "complete"
+}

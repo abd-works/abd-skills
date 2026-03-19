@@ -1,0 +1,2168 @@
+{
+  "option": "F",
+  "description": "AI reads 50% of each chunk's text. Code enriches with full text using discovered concepts.",
+  "chunk_pct": 50.0,
+  "ai_calls": 8,
+  "ai_model": "gpt-4o-mini",
+  "elapsed_seconds": 380.966,
+  "chunk_count": 267,
+  "pass1_batches_complete": 8,
+  "pass1_batches_total": 20,
+  "total_concept_mentions": 158,
+  "total_relationships_detected": 3,
+  "errors": 2,
+  "status": "pass1",
+  "evidence": [
+    {
+      "chunk_id": "3b8ffcc9664a",
+      "primary_concepts": [],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_000",
+      "classified_by": "ai",
+      "concept_count": 0,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "d7b66eaede2d",
+      "primary_concepts": [
+        {
+          "concept": "Ability",
+          "module": "Character Traits",
+          "evidence_type": "mention",
+          "note": "Chapter title"
+        }
+      ],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_001",
+      "classified_by": "ai",
+      "concept_count": 1,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "94d3158e4b6b",
+      "primary_concepts": [
+        {
+          "concept": "Skill",
+          "module": "Character Traits",
+          "evidence_type": "mention",
+          "note": "Chapter title"
+        }
+      ],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_002",
+      "classified_by": "ai",
+      "concept_count": 1,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "2b979f00a098",
+      "primary_concepts": [
+        {
+          "concept": "Advantage",
+          "module": "Character Traits",
+          "evidence_type": "mention",
+          "note": "Chapter title"
+        }
+      ],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_003",
+      "classified_by": "ai",
+      "concept_count": 1,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "27cd3f53557a",
+      "primary_concepts": [
+        {
+          "concept": "Power",
+          "module": "Powers",
+          "evidence_type": "mention",
+          "note": "Chapter title"
+        }
+      ],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_004",
+      "classified_by": "ai",
+      "concept_count": 1,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "4cd63373be61",
+      "primary_concepts": [
+        {
+          "concept": "Check",
+          "module": "Resolution",
+          "evidence_type": "mention",
+          "note": "Chapter title"
+        }
+      ],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_005",
+      "classified_by": "ai",
+      "concept_count": 1,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "d4cad3e10e05",
+      "primary_concepts": [
+        {
+          "concept": "Character",
+          "module": "Character",
+          "evidence_type": "mention",
+          "note": "Chapter title"
+        }
+      ],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_006",
+      "classified_by": "ai",
+      "concept_count": 1,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "09235587c16c",
+      "primary_concepts": [
+        {
+          "concept": "Action",
+          "module": "Combat",
+          "evidence_type": "mention",
+          "note": "Chapter title"
+        }
+      ],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_007",
+      "classified_by": "ai",
+      "concept_count": 1,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "6b20869c8bc9",
+      "primary_concepts": [
+        {
+          "concept": "Condition",
+          "module": "Combat",
+          "evidence_type": "mention",
+          "note": "Chapter title"
+        }
+      ],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_008",
+      "classified_by": "ai",
+      "concept_count": 1,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "9865e6185ff0",
+      "primary_concepts": [
+        {
+          "concept": "Check",
+          "module": "Resolution",
+          "evidence_type": "definition",
+          "note": "Describes the core mechanic of the game."
+        },
+        {
+          "concept": "Degree",
+          "module": "Resolution",
+          "evidence_type": "definition",
+          "note": "Describes how success or failure is determined."
+        }
+      ],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_009",
+      "classified_by": "ai",
+      "concept_count": 2,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "34cb0222a3bd",
+      "primary_concepts": [
+        {
+          "concept": "Check",
+          "module": "Resolution",
+          "evidence_type": "rule",
+          "note": "Describes the core mechanic for resolving actions."
+        },
+        {
+          "concept": "DC",
+          "module": "Resolution",
+          "evidence_type": "definition",
+          "note": "Defines difficulty class."
+        }
+      ],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_011",
+      "classified_by": "ai",
+      "concept_count": 2,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "89a1fc58a123",
+      "primary_concepts": [
+        {
+          "concept": "Skill",
+          "module": "Character Traits",
+          "evidence_type": "mention",
+          "note": "Discusses the impact of training in skills."
+        },
+        {
+          "concept": "Advantage",
+          "module": "Character Traits",
+          "evidence_type": "mention",
+          "note": "Describes advantages and their ranks."
+        }
+      ],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_013",
+      "classified_by": "ai",
+      "concept_count": 2,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "c570ac3e08b5",
+      "primary_concepts": [
+        {
+          "concept": "Rank",
+          "module": "Character Traits",
+          "evidence_type": "table",
+          "note": "Measurement table for mass, time, and distance."
+        }
+      ],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_014",
+      "classified_by": "ai",
+      "concept_count": 1,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "903a8c445c1a",
+      "primary_concepts": [
+        {
+          "concept": "Check",
+          "module": "Resolution",
+          "evidence_type": "definition",
+          "note": "Describes how checks are made."
+        },
+        {
+          "concept": "Degree",
+          "module": "Resolution",
+          "evidence_type": "definition",
+          "note": "Explains how to determine time and throwing distance."
+        }
+      ],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_016",
+      "classified_by": "ai",
+      "concept_count": 2,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "dd71074ce318",
+      "primary_concepts": [
+        {
+          "concept": "Check",
+          "module": "Resolution",
+          "evidence_type": "rule",
+          "note": "Describes how checks resolve actions."
+        },
+        {
+          "concept": "DC",
+          "module": "Resolution",
+          "evidence_type": "definition",
+          "note": "Defines difficulty class and examples."
+        }
+      ],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_017",
+      "classified_by": "ai",
+      "concept_count": 2,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "7420eccba7af",
+      "primary_concepts": [
+        {
+          "concept": "Check",
+          "module": "Resolution",
+          "evidence_type": "definition",
+          "note": "Mechanic for resolving uncertain outcomes"
+        },
+        {
+          "concept": "Degree",
+          "module": "Resolution",
+          "evidence_type": "definition",
+          "note": "Indicates level of success or failure"
+        }
+      ],
+      "cross_module_relationships": [
+        {
+          "from": {
+            "concept": "Check",
+            "module": "Resolution"
+          },
+          "relationship": "uses",
+          "to": {
+            "concept": "Deception",
+            "module": "Character Traits"
+          },
+          "justification": "Checks are made to resolve actions like bluffing",
+          "chunk": "7420eccba7af"
+        },
+        {
+          "from": {
+            "concept": "Check",
+            "module": "Resolution"
+          },
+          "relationship": "uses",
+          "to": {
+            "concept": "Insight",
+            "module": "Character Traits"
+          },
+          "justification": "Checks are made to resolve actions like bluffing",
+          "chunk": "7420eccba7af"
+        }
+      ],
+      "source": "HeroesHandbook.md__section_019",
+      "classified_by": "ai",
+      "concept_count": 2,
+      "relationship_count": 2
+    },
+    {
+      "chunk_id": "02d77d753dd0",
+      "primary_concepts": [
+        {
+          "concept": "Degree",
+          "module": "Resolution",
+          "evidence_type": "definition",
+          "note": "Indicates levels of success or failure in checks"
+        }
+      ],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_020",
+      "classified_by": "ai",
+      "concept_count": 1,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "0b30704b97a2",
+      "primary_concepts": [
+        {
+          "concept": "Check",
+          "module": "Resolution",
+          "evidence_type": "definition",
+          "note": "Mechanic for determining outcomes in team efforts"
+        },
+        {
+          "concept": "Condition",
+          "module": "Combat",
+          "evidence_type": "definition",
+          "note": "Describes penalties and bonuses in checks"
+        }
+      ],
+      "cross_module_relationships": [
+        {
+          "from": {
+            "concept": "Check",
+            "module": "Resolution"
+          },
+          "relationship": "uses",
+          "to": {
+            "concept": "Condition",
+            "module": "Combat"
+          },
+          "justification": "Conditions affect the outcome of checks",
+          "chunk": "0b30704b97a2"
+        }
+      ],
+      "source": "HeroesHandbook.md__section_022",
+      "classified_by": "ai",
+      "concept_count": 2,
+      "relationship_count": 1
+    },
+    {
+      "chunk_id": "9c9f9b5a490d",
+      "primary_concepts": [
+        {
+          "concept": "Condition",
+          "module": "Combat",
+          "evidence_type": "definition",
+          "note": "Describes various game modifiers affecting characters"
+        }
+      ],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_023",
+      "classified_by": "ai",
+      "concept_count": 1,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "b551e66974e2",
+      "primary_concepts": [
+        {
+          "concept": "Condition",
+          "module": "Combat",
+          "evidence_type": "definition",
+          "note": "Describes specific conditions affecting character performance"
+        }
+      ],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_025",
+      "classified_by": "ai",
+      "concept_count": 1,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "7a6d568a6006",
+      "primary_concepts": [
+        {
+          "concept": "Condition",
+          "module": "Combat",
+          "evidence_type": "definition",
+          "note": "Describes combined conditions and their effects"
+        }
+      ],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_026",
+      "classified_by": "ai",
+      "concept_count": 1,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "4742b3550bee",
+      "primary_concepts": [
+        {
+          "concept": "Power",
+          "module": "Powers",
+          "evidence_type": "definition",
+          "note": "Mechanic for enhancing hero abilities"
+        },
+        {
+          "concept": "Effect",
+          "module": "Powers",
+          "evidence_type": "definition",
+          "note": "Describes the results of powers and their modifications"
+        },
+        {
+          "concept": "HeroPoint",
+          "module": "Character",
+          "evidence_type": "definition",
+          "note": "Resource for enhancing gameplay and character actions"
+        }
+      ],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_028",
+      "classified_by": "ai",
+      "concept_count": 3,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "792ccb4b72a0",
+      "primary_concepts": [
+        {
+          "concept": "HeroPoint",
+          "module": "Character",
+          "evidence_type": "definition",
+          "note": "Resource for re-rolling and gaining advantages"
+        },
+        {
+          "concept": "Advantage",
+          "module": "Character Traits",
+          "evidence_type": "definition",
+          "note": "Special benefits that enhance character abilities"
+        }
+      ],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_029",
+      "classified_by": "ai",
+      "concept_count": 2,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "a25964ce768c",
+      "primary_concepts": [
+        {
+          "concept": "Character",
+          "module": "Character",
+          "evidence_type": "definition",
+          "note": "Aggregate root for hero traits and resources"
+        },
+        {
+          "concept": "PowerLevel",
+          "module": "Character",
+          "evidence_type": "definition",
+          "note": "Limits and guidelines for character creation"
+        },
+        {
+          "concept": "Ability",
+          "module": "Character Traits",
+          "evidence_type": "definition",
+          "note": "Core traits defining character capabilities"
+        }
+      ],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_033",
+      "classified_by": "ai",
+      "concept_count": 3,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "ce0b31ad3e24",
+      "primary_concepts": [],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_034",
+      "classified_by": "ai",
+      "concept_count": 0,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "179f10a90f72",
+      "primary_concepts": [
+        {
+          "concept": "PowerLevel",
+          "module": "Character",
+          "evidence_type": "definition",
+          "note": "Guidelines for character power and abilities"
+        },
+        {
+          "concept": "Ability",
+          "module": "Character Traits",
+          "evidence_type": "definition",
+          "note": "Core traits defining character capabilities"
+        }
+      ],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_036",
+      "classified_by": "ai",
+      "concept_count": 2,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "301ee8a15809",
+      "primary_concepts": [],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_037",
+      "classified_by": "ai",
+      "concept_count": 0,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "6d18f5cb0ab3",
+      "primary_concepts": [
+        {
+          "concept": "Character",
+          "module": "Character",
+          "evidence_type": "definition",
+          "note": "Aggregate root for hero traits and resources"
+        },
+        {
+          "concept": "PowerLevel",
+          "module": "Character",
+          "evidence_type": "definition",
+          "note": "Limits for character creation and balance"
+        }
+      ],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_039",
+      "classified_by": "ai",
+      "concept_count": 2,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "079ee72c1633",
+      "primary_concepts": [
+        {
+          "concept": "Complication",
+          "module": "Character",
+          "evidence_type": "definition",
+          "note": "Challenges that provide roleplaying opportunities"
+        },
+        {
+          "concept": "HeroPoint",
+          "module": "Character",
+          "evidence_type": "definition",
+          "note": "Resource earned through complications"
+        }
+      ],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_040",
+      "classified_by": "ai",
+      "concept_count": 2,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "457931504c50",
+      "primary_concepts": [
+        {
+          "concept": "Complication",
+          "module": "Character",
+          "evidence_type": "definition",
+          "note": "Challenges that provide roleplaying opportunities"
+        },
+        {
+          "concept": "Motivation",
+          "module": "Character",
+          "evidence_type": "definition",
+          "note": "Drives character actions and decisions"
+        }
+      ],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_042",
+      "classified_by": "ai",
+      "concept_count": 2,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "93337a63364b",
+      "primary_concepts": [
+        {
+          "concept": "Complication",
+          "module": "Character",
+          "evidence_type": "definition",
+          "note": "Complications provide a pay-as-you-go reward system."
+        },
+        {
+          "concept": "HeroPoint",
+          "module": "Character",
+          "evidence_type": "definition",
+          "note": "Players earn hero points by engaging with complications."
+        }
+      ],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_043",
+      "classified_by": "ai",
+      "concept_count": 2,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "6890e166bca9",
+      "primary_concepts": [],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_045",
+      "classified_by": "ai",
+      "concept_count": 0,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "73f84062d601",
+      "primary_concepts": [
+        {
+          "concept": "Power",
+          "module": "Powers",
+          "evidence_type": "definition",
+          "note": "Heroes can gain powers through various origins."
+        }
+      ],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_046",
+      "classified_by": "ai",
+      "concept_count": 1,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "f877c8ee4307",
+      "primary_concepts": [
+        {
+          "concept": "Character",
+          "module": "Character",
+          "evidence_type": "definition",
+          "note": "A character's age influences their traits."
+        }
+      ],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_048",
+      "classified_by": "ai",
+      "concept_count": 1,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "7f0cf6f57819",
+      "primary_concepts": [
+        {
+          "concept": "Ability",
+          "module": "Character Traits",
+          "evidence_type": "definition",
+          "note": "Age may influence the choice of certain traits."
+        }
+      ],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_049",
+      "classified_by": "ai",
+      "concept_count": 1,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "e05fc680a484",
+      "primary_concepts": [],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_051",
+      "classified_by": "ai",
+      "concept_count": 0,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "9b8b75c1b5e7",
+      "primary_concepts": [
+        {
+          "concept": "PowerLevel",
+          "module": "Character",
+          "evidence_type": "definition",
+          "note": "Character stats are defined within a power level."
+        }
+      ],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_052",
+      "classified_by": "ai",
+      "concept_count": 1,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "6c8715df5e97",
+      "primary_concepts": [
+        {
+          "concept": "Power",
+          "module": "Powers",
+          "evidence_type": "definition",
+          "note": "Power point totals include various character attributes."
+        }
+      ],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_054",
+      "classified_by": "ai",
+      "concept_count": 1,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "c0c1858f03fe",
+      "primary_concepts": [
+        {
+          "concept": "Skill",
+          "module": "Character Traits",
+          "evidence_type": "definition",
+          "note": "Skills are part of the character's total power points."
+        }
+      ],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_055",
+      "classified_by": "ai",
+      "concept_count": 1,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "803cb2a8c272",
+      "primary_concepts": [
+        {
+          "concept": "Power",
+          "module": "Powers",
+          "evidence_type": "definition",
+          "note": "Power point totals include various powers."
+        }
+      ],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_057",
+      "classified_by": "ai",
+      "concept_count": 1,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "8558df91a0a1",
+      "primary_concepts": [
+        {
+          "concept": "Advantage",
+          "module": "Character Traits",
+          "evidence_type": "definition",
+          "note": "Advantages are crucial for character archetypes."
+        }
+      ],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_058",
+      "classified_by": "ai",
+      "concept_count": 1,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "e53b2f1b3ca2",
+      "primary_concepts": [
+        {
+          "concept": "Advantage",
+          "module": "Character Traits",
+          "evidence_type": "definition",
+          "note": "Advantages contribute to the character's total power points."
+        }
+      ],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_060",
+      "classified_by": "ai",
+      "concept_count": 1,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "c53b199f9ade",
+      "primary_concepts": [
+        {
+          "concept": "Ability",
+          "module": "Character Traits",
+          "evidence_type": "definition",
+          "note": "Abilities are part of the character's total power points."
+        }
+      ],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_061",
+      "classified_by": "ai",
+      "concept_count": 1,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "3c75d5b04a0e",
+      "primary_concepts": [
+        {
+          "concept": "Power",
+          "module": "Powers",
+          "evidence_type": "definition",
+          "note": "Powers are defined within the character's total power points."
+        }
+      ],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_063",
+      "classified_by": "ai",
+      "concept_count": 1,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "f97fb5b16662",
+      "primary_concepts": [
+        {
+          "concept": "Power",
+          "module": "Powers",
+          "evidence_type": "definition",
+          "note": "Powers are defined within the character's total power points."
+        }
+      ],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_064",
+      "classified_by": "ai",
+      "concept_count": 1,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "9575430bef02",
+      "primary_concepts": [
+        {
+          "concept": "Power",
+          "module": "Powers",
+          "evidence_type": "definition",
+          "note": "Defines extraordinary abilities."
+        },
+        {
+          "concept": "Effect",
+          "module": "Powers",
+          "evidence_type": "mention",
+          "note": "Shockwave and Groundstrike are examples of effects."
+        },
+        {
+          "concept": "Ability",
+          "module": "Character Traits",
+          "evidence_type": "mention",
+          "note": "Abilities listed with their point costs."
+        },
+        {
+          "concept": "Defense",
+          "module": "Character Traits",
+          "evidence_type": "mention",
+          "note": "Defenses are part of the character traits."
+        }
+      ],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_066",
+      "classified_by": "ai",
+      "concept_count": 4,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "634190f2dd84",
+      "primary_concepts": [
+        {
+          "concept": "Power",
+          "module": "Powers",
+          "evidence_type": "definition",
+          "note": "Defines extraordinary abilities."
+        },
+        {
+          "concept": "Effect",
+          "module": "Powers",
+          "evidence_type": "mention",
+          "note": "Mental Awareness and Telekinesis are examples of effects."
+        },
+        {
+          "concept": "Ability",
+          "module": "Character Traits",
+          "evidence_type": "mention",
+          "note": "Abilities listed with their point costs."
+        }
+      ],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_067",
+      "classified_by": "ai",
+      "concept_count": 3,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "8d5f5f31a27f",
+      "primary_concepts": [
+        {
+          "concept": "Power",
+          "module": "Powers",
+          "evidence_type": "definition",
+          "note": "Defines extraordinary abilities."
+        },
+        {
+          "concept": "Effect",
+          "module": "Powers",
+          "evidence_type": "mention",
+          "note": "Shapeshift is an example of an effect."
+        },
+        {
+          "concept": "Ability",
+          "module": "Character Traits",
+          "evidence_type": "mention",
+          "note": "Abilities listed with their point costs."
+        }
+      ],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_069",
+      "classified_by": "ai",
+      "concept_count": 3,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "9b4ab26032fa",
+      "primary_concepts": [
+        {
+          "concept": "Power",
+          "module": "Powers",
+          "evidence_type": "definition",
+          "note": "Defines extraordinary abilities."
+        },
+        {
+          "concept": "Effect",
+          "module": "Powers",
+          "evidence_type": "mention",
+          "note": "Fast Attack and Fast Defense are examples of effects."
+        },
+        {
+          "concept": "Ability",
+          "module": "Character Traits",
+          "evidence_type": "mention",
+          "note": "Abilities listed with their point costs."
+        }
+      ],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_070",
+      "classified_by": "ai",
+      "concept_count": 3,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "b95c26d52ee0",
+      "primary_concepts": [
+        {
+          "concept": "Power",
+          "module": "Powers",
+          "evidence_type": "definition",
+          "note": "Defines extraordinary abilities."
+        },
+        {
+          "concept": "Effect",
+          "module": "Powers",
+          "evidence_type": "mention",
+          "note": "Super-Strength is an example of an effect."
+        },
+        {
+          "concept": "Ability",
+          "module": "Character Traits",
+          "evidence_type": "mention",
+          "note": "Abilities listed with their point costs."
+        },
+        {
+          "concept": "Condition",
+          "module": "Combat",
+          "evidence_type": "mention",
+          "note": "Toughness and other defenses are conditions."
+        }
+      ],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_072",
+      "classified_by": "ai",
+      "concept_count": 4,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "ab9b367b750f",
+      "primary_concepts": [
+        {
+          "concept": "Power",
+          "module": "Powers",
+          "evidence_type": "definition",
+          "note": "Defines extraordinary abilities."
+        },
+        {
+          "concept": "Effect",
+          "module": "Powers",
+          "evidence_type": "mention",
+          "note": "Blocking and Crippling Strike are examples of effects."
+        },
+        {
+          "concept": "Ability",
+          "module": "Character Traits",
+          "evidence_type": "mention",
+          "note": "Abilities listed with their point costs."
+        }
+      ],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_073",
+      "classified_by": "ai",
+      "concept_count": 3,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "02269b6c9ef6",
+      "primary_concepts": [
+        {
+          "concept": "Character",
+          "module": "Character",
+          "evidence_type": "definition",
+          "note": "Aggregate root holding all hero traits."
+        },
+        {
+          "concept": "PowerLevel",
+          "module": "Character",
+          "evidence_type": "mention",
+          "note": "Character is designed for a power level 10 game."
+        },
+        {
+          "concept": "HeroPoint",
+          "module": "Character",
+          "evidence_type": "mention",
+          "note": "Hero points are part of character resources."
+        },
+        {
+          "concept": "Complication",
+          "module": "Character",
+          "evidence_type": "mention",
+          "note": "Complications are part of character traits."
+        },
+        {
+          "concept": "ExtraEffort",
+          "module": "Character",
+          "evidence_type": "mention",
+          "note": "Extra effort is part of character traits."
+        }
+      ],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_075",
+      "classified_by": "ai",
+      "concept_count": 5,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "eab98ce0e1fc",
+      "primary_concepts": [
+        {
+          "concept": "Character",
+          "module": "Character",
+          "evidence_type": "definition",
+          "note": "Aggregate root holding all hero traits."
+        },
+        {
+          "concept": "PowerLevel",
+          "module": "Character",
+          "evidence_type": "mention",
+          "note": "Character is designed for a power level 10 game."
+        },
+        {
+          "concept": "HeroPoint",
+          "module": "Character",
+          "evidence_type": "mention",
+          "note": "Hero points are part of character resources."
+        },
+        {
+          "concept": "Complication",
+          "module": "Character",
+          "evidence_type": "mention",
+          "note": "Complications are part of character traits."
+        },
+        {
+          "concept": "ExtraEffort",
+          "module": "Character",
+          "evidence_type": "mention",
+          "note": "Extra effort is part of character traits."
+        }
+      ],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_076",
+      "classified_by": "ai",
+      "concept_count": 5,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "da1c0758b454",
+      "primary_concepts": [],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_078",
+      "classified_by": "ai",
+      "concept_count": 0,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "919d7063d0ae",
+      "primary_concepts": [
+        {
+          "concept": "Character",
+          "module": "Character",
+          "evidence_type": "definition",
+          "note": "Aggregate root holding all hero traits."
+        },
+        {
+          "concept": "PowerLevel",
+          "module": "Character",
+          "evidence_type": "mention",
+          "note": "Character is designed for a power level 10 game."
+        },
+        {
+          "concept": "HeroPoint",
+          "module": "Character",
+          "evidence_type": "mention",
+          "note": "Hero points are part of character resources."
+        },
+        {
+          "concept": "Complication",
+          "module": "Character",
+          "evidence_type": "mention",
+          "note": "Complications are part of character traits."
+        },
+        {
+          "concept": "ExtraEffort",
+          "module": "Character",
+          "evidence_type": "mention",
+          "note": "Extra effort is part of character traits."
+        }
+      ],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_079",
+      "classified_by": "ai",
+      "concept_count": 5,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "ebf52e380812",
+      "primary_concepts": [
+        {
+          "concept": "Character",
+          "module": "Character",
+          "evidence_type": "definition",
+          "note": "Aggregate root holding all hero traits."
+        },
+        {
+          "concept": "PowerLevel",
+          "module": "Character",
+          "evidence_type": "mention",
+          "note": "Character is designed for a power level 10 game."
+        },
+        {
+          "concept": "HeroPoint",
+          "module": "Character",
+          "evidence_type": "mention",
+          "note": "Hero points are part of character resources."
+        },
+        {
+          "concept": "Complication",
+          "module": "Character",
+          "evidence_type": "mention",
+          "note": "Complications are part of character traits."
+        },
+        {
+          "concept": "ExtraEffort",
+          "module": "Character",
+          "evidence_type": "mention",
+          "note": "Extra effort is part of character traits."
+        }
+      ],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_081",
+      "classified_by": "ai",
+      "concept_count": 5,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "e5eb32b8480c",
+      "primary_concepts": [],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_082",
+      "classified_by": "ai",
+      "concept_count": 0,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "cb4093e23f62",
+      "primary_concepts": [],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_084",
+      "classified_by": "ai",
+      "concept_count": 0,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "1af862ab5396",
+      "primary_concepts": [
+        {
+          "concept": "Ability",
+          "module": "Character Traits",
+          "evidence_type": "mention",
+          "note": "Abilities listed with their point costs."
+        },
+        {
+          "concept": "Power",
+          "module": "Powers",
+          "evidence_type": "definition",
+          "note": "Defines extraordinary abilities."
+        }
+      ],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_085",
+      "classified_by": "ai",
+      "concept_count": 2,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "e087f7a0b70b",
+      "primary_concepts": [
+        {
+          "concept": "Power",
+          "module": "Powers",
+          "evidence_type": "definition",
+          "note": "Defines extraordinary abilities."
+        },
+        {
+          "concept": "Effect",
+          "module": "Powers",
+          "evidence_type": "mention",
+          "note": "Examples of effects listed for weapons."
+        }
+      ],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_087",
+      "classified_by": "ai",
+      "concept_count": 2,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "d329357e5091",
+      "primary_concepts": [
+        {
+          "concept": "Ability",
+          "module": "Character Traits",
+          "evidence_type": "mention",
+          "note": "Abilities listed for characters"
+        },
+        {
+          "concept": "Power",
+          "module": "Powers",
+          "evidence_type": "mention",
+          "note": "Powers associated with character types"
+        },
+        {
+          "concept": "Skill",
+          "module": "Character Traits",
+          "evidence_type": "mention",
+          "note": "Skills listed for characters"
+        }
+      ],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_088",
+      "classified_by": "ai",
+      "concept_count": 3,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "a67593d532fb",
+      "primary_concepts": [
+        {
+          "concept": "Ability",
+          "module": "Character Traits",
+          "evidence_type": "mention",
+          "note": "Abilities listed for Undead"
+        },
+        {
+          "concept": "Power",
+          "module": "Powers",
+          "evidence_type": "mention",
+          "note": "Powers associated with Undead"
+        },
+        {
+          "concept": "Defense",
+          "module": "Character Traits",
+          "evidence_type": "mention",
+          "note": "Defenses listed for Undead"
+        }
+      ],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_090",
+      "classified_by": "ai",
+      "concept_count": 3,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "a37758230a66",
+      "primary_concepts": [
+        {
+          "concept": "Ability",
+          "module": "Character Traits",
+          "evidence_type": "mention",
+          "note": "Abilities listed for Detective and Inventor"
+        },
+        {
+          "concept": "Skill",
+          "module": "Character Traits",
+          "evidence_type": "mention",
+          "note": "Skills listed for characters"
+        },
+        {
+          "concept": "Advantage",
+          "module": "Character Traits",
+          "evidence_type": "mention",
+          "note": "Advantages listed for characters"
+        }
+      ],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_091",
+      "classified_by": "ai",
+      "concept_count": 3,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "dcdc4c459ab6",
+      "primary_concepts": [
+        {
+          "concept": "Skill",
+          "module": "Character Traits",
+          "evidence_type": "mention",
+          "note": "Skills listed for various character types"
+        },
+        {
+          "concept": "Ability",
+          "module": "Character Traits",
+          "evidence_type": "mention",
+          "note": "Abilities listed for various character types"
+        }
+      ],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_093",
+      "classified_by": "ai",
+      "concept_count": 2,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "04f4880a6e63",
+      "primary_concepts": [
+        {
+          "concept": "Equipment",
+          "module": "Powers",
+          "evidence_type": "mention",
+          "note": "High-tech gear listed"
+        },
+        {
+          "concept": "Power",
+          "module": "Powers",
+          "evidence_type": "mention",
+          "note": "Powers associated with equipment"
+        }
+      ],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_094",
+      "classified_by": "ai",
+      "concept_count": 2,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "b511fe78f53a",
+      "primary_concepts": [
+        {
+          "concept": "Ability",
+          "module": "Character Traits",
+          "evidence_type": "mention",
+          "note": "Abilities listed for Overseer and Unobtrusive"
+        },
+        {
+          "concept": "Skill",
+          "module": "Character Traits",
+          "evidence_type": "mention",
+          "note": "Skills listed for characters"
+        },
+        {
+          "concept": "Power",
+          "module": "Powers",
+          "evidence_type": "mention",
+          "note": "Powers associated with characters"
+        }
+      ],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_096",
+      "classified_by": "ai",
+      "concept_count": 3,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "685941d4ae65",
+      "primary_concepts": [
+        {
+          "concept": "Power",
+          "module": "Powers",
+          "evidence_type": "mention",
+          "note": "Powers associated with Elementals"
+        },
+        {
+          "concept": "Ability",
+          "module": "Character Traits",
+          "evidence_type": "mention",
+          "note": "Abilities listed for Elementals"
+        }
+      ],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_097",
+      "classified_by": "ai",
+      "concept_count": 2,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "85cc7f979174",
+      "primary_concepts": [
+        {
+          "concept": "Power",
+          "module": "Powers",
+          "evidence_type": "mention",
+          "note": "Powers associated with Water Control"
+        },
+        {
+          "concept": "Ability",
+          "module": "Character Traits",
+          "evidence_type": "mention",
+          "note": "Abilities listed for Water Control"
+        }
+      ],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_099",
+      "classified_by": "ai",
+      "concept_count": 2,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "6e090a5bf703",
+      "primary_concepts": [
+        {
+          "concept": "Ability",
+          "module": "Character Traits",
+          "evidence_type": "mention",
+          "note": "Abilities listed for Hotheaded and Reserved"
+        },
+        {
+          "concept": "Skill",
+          "module": "Character Traits",
+          "evidence_type": "mention",
+          "note": "Skills listed for characters"
+        }
+      ],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_100",
+      "classified_by": "ai",
+      "concept_count": 2,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "13ce58f9b33f",
+      "primary_concepts": [
+        {
+          "concept": "Skill",
+          "module": "Character Traits",
+          "evidence_type": "mention",
+          "note": "Skills listed for Energy Controllers"
+        },
+        {
+          "concept": "Ability",
+          "module": "Character Traits",
+          "evidence_type": "mention",
+          "note": "Abilities listed for Energy Controllers"
+        }
+      ],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_102",
+      "classified_by": "ai",
+      "concept_count": 2,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "14dd371ce972",
+      "primary_concepts": [
+        {
+          "concept": "Power",
+          "module": "Powers",
+          "evidence_type": "mention",
+          "note": "Powers associated with Energy Control"
+        },
+        {
+          "concept": "Defense",
+          "module": "Character Traits",
+          "evidence_type": "mention",
+          "note": "Defenses listed for Energy Controllers"
+        }
+      ],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_103",
+      "classified_by": "ai",
+      "concept_count": 2,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "1081db3c43af",
+      "primary_concepts": [
+        {
+          "concept": "Ability",
+          "module": "Character Traits",
+          "evidence_type": "mention",
+          "note": "Abilities listed for Tinkerer and Inventor"
+        },
+        {
+          "concept": "Skill",
+          "module": "Character Traits",
+          "evidence_type": "mention",
+          "note": "Skills listed for characters"
+        },
+        {
+          "concept": "Power",
+          "module": "Powers",
+          "evidence_type": "mention",
+          "note": "Powers associated with characters"
+        }
+      ],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_105",
+      "classified_by": "ai",
+      "concept_count": 3,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "db8b2bdf371a",
+      "primary_concepts": [
+        {
+          "concept": "Power",
+          "module": "Powers",
+          "evidence_type": "mention",
+          "note": "Powers associated with Gimmick Blaster"
+        },
+        {
+          "concept": "Ability",
+          "module": "Character Traits",
+          "evidence_type": "mention",
+          "note": "Abilities listed for characters"
+        }
+      ],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_106",
+      "classified_by": "ai",
+      "concept_count": 2,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "c8f2e2af058e",
+      "primary_concepts": [
+        {
+          "concept": "Ability",
+          "module": "Character Traits",
+          "evidence_type": "mention",
+          "note": "Abilities listed for Gadgeteers"
+        },
+        {
+          "concept": "Power",
+          "module": "Powers",
+          "evidence_type": "mention",
+          "note": "Powers associated with Gadgeteers"
+        }
+      ],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_108",
+      "classified_by": "ai",
+      "concept_count": 2,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "6717e2899e27",
+      "primary_concepts": [
+        {
+          "concept": "Ability",
+          "module": "Character Traits",
+          "evidence_type": "mention",
+          "note": "Abilities listed for martial arts styles"
+        },
+        {
+          "concept": "Skill",
+          "module": "Character Traits",
+          "evidence_type": "mention",
+          "note": "Skills listed for martial arts styles"
+        }
+      ],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_109",
+      "classified_by": "ai",
+      "concept_count": 2,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "cefb93c1d699",
+      "primary_concepts": [
+        {
+          "concept": "Ability",
+          "module": "Character Traits",
+          "evidence_type": "mention",
+          "note": "Abilities are rolled for Mystic Endowment."
+        },
+        {
+          "concept": "Power",
+          "module": "Powers",
+          "evidence_type": "mention",
+          "note": "Utility Powers are mentioned."
+        }
+      ],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_111",
+      "classified_by": "ai",
+      "concept_count": 2,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "267bbd73af09",
+      "primary_concepts": [
+        {
+          "concept": "Skill",
+          "module": "Character Traits",
+          "evidence_type": "mention",
+          "note": "Skills are rolled and recorded."
+        },
+        {
+          "concept": "Power",
+          "module": "Powers",
+          "evidence_type": "mention",
+          "note": "Powers are rolled and recorded."
+        }
+      ],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_112",
+      "classified_by": "ai",
+      "concept_count": 2,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "75c6a0d7757a",
+      "primary_concepts": [
+        {
+          "concept": "Ability",
+          "module": "Character Traits",
+          "evidence_type": "mention",
+          "note": "Abilities are rolled for Mystic."
+        },
+        {
+          "concept": "Power",
+          "module": "Powers",
+          "evidence_type": "mention",
+          "note": "Powers are described for the Mystic."
+        }
+      ],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_114",
+      "classified_by": "ai",
+      "concept_count": 2,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "3e277f7add29",
+      "primary_concepts": [
+        {
+          "concept": "Ability",
+          "module": "Character Traits",
+          "evidence_type": "mention",
+          "note": "Abilities are rolled for Mystic."
+        },
+        {
+          "concept": "Power",
+          "module": "Powers",
+          "evidence_type": "mention",
+          "note": "Powers are described for the Mystic."
+        }
+      ],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_115",
+      "classified_by": "ai",
+      "concept_count": 2,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "a8c6225b93ed",
+      "primary_concepts": [
+        {
+          "concept": "Ability",
+          "module": "Character Traits",
+          "evidence_type": "mention",
+          "note": "Abilities are listed for the Mystic."
+        },
+        {
+          "concept": "Power",
+          "module": "Powers",
+          "evidence_type": "mention",
+          "note": "Powers are described for the Mystic."
+        }
+      ],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_117",
+      "classified_by": "ai",
+      "concept_count": 2,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "d5fc086574e9",
+      "primary_concepts": [
+        {
+          "concept": "Complication",
+          "module": "Character",
+          "evidence_type": "mention",
+          "note": "Complications are listed for the Mystic."
+        }
+      ],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_118",
+      "classified_by": "ai",
+      "concept_count": 1,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "1631a649fb6e",
+      "primary_concepts": [
+        {
+          "concept": "Complication",
+          "module": "Character",
+          "evidence_type": "mention",
+          "note": "Complications are listed for the Paragon."
+        }
+      ],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_120",
+      "classified_by": "ai",
+      "concept_count": 1,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "997bf2eca013",
+      "primary_concepts": [
+        {
+          "concept": "Skill",
+          "module": "Character Traits",
+          "evidence_type": "mention",
+          "note": "Skills are listed for the Player."
+        },
+        {
+          "concept": "Power",
+          "module": "Powers",
+          "evidence_type": "mention",
+          "note": "Powers are rolled for the Player."
+        }
+      ],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_121",
+      "classified_by": "ai",
+      "concept_count": 2,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "442f2e5a5a37",
+      "primary_concepts": [
+        {
+          "concept": "Ability",
+          "module": "Character Traits",
+          "evidence_type": "mention",
+          "note": "Abilities are listed for the Powerhouse."
+        },
+        {
+          "concept": "Complication",
+          "module": "Character",
+          "evidence_type": "mention",
+          "note": "Complications are listed for the Powerhouse."
+        }
+      ],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_123",
+      "classified_by": "ai",
+      "concept_count": 2,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "c1c422470246",
+      "primary_concepts": [
+        {
+          "concept": "Skill",
+          "module": "Character Traits",
+          "evidence_type": "mention",
+          "note": "Skills are listed for various archetypes."
+        }
+      ],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_124",
+      "classified_by": "ai",
+      "concept_count": 1,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "8757660124bd",
+      "primary_concepts": [
+        {
+          "concept": "Power",
+          "module": "Powers",
+          "evidence_type": "mention",
+          "note": "Powers are listed for various abilities."
+        }
+      ],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_126",
+      "classified_by": "ai",
+      "concept_count": 1,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "818544ba2429",
+      "primary_concepts": [
+        {
+          "concept": "Complication",
+          "module": "Character",
+          "evidence_type": "mention",
+          "note": "Complications are listed for Psychics."
+        }
+      ],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_127",
+      "classified_by": "ai",
+      "concept_count": 1,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "cfadcb33d64b",
+      "primary_concepts": [
+        {
+          "concept": "Power",
+          "module": "Powers",
+          "evidence_type": "mention",
+          "note": "Powers are listed for Shapeshifters."
+        }
+      ],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_129",
+      "classified_by": "ai",
+      "concept_count": 1,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "5e2f6b7f48fe",
+      "primary_concepts": [
+        {
+          "concept": "Complication",
+          "module": "Character",
+          "evidence_type": "mention",
+          "note": "Complications are listed for Shapeshifters."
+        }
+      ],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_130",
+      "classified_by": "ai",
+      "concept_count": 1,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "17270869c240",
+      "primary_concepts": [
+        {
+          "concept": "Skill",
+          "module": "Character Traits",
+          "evidence_type": "mention",
+          "note": "Skills are listed for various archetypes."
+        }
+      ],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_132",
+      "classified_by": "ai",
+      "concept_count": 1,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "ffc525f7d497",
+      "primary_concepts": [],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_133",
+      "classified_by": "ai",
+      "concept_count": 0,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "aa943c38ef67",
+      "primary_concepts": [],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_135",
+      "classified_by": "ai",
+      "concept_count": 0,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "dd5713402cfd",
+      "primary_concepts": [],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_136",
+      "classified_by": "ai",
+      "concept_count": 0,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "c8f8dadd6203",
+      "primary_concepts": [],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_138",
+      "classified_by": "ai",
+      "concept_count": 0,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "8ad0833a1563",
+      "primary_concepts": [],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_139",
+      "classified_by": "ai",
+      "concept_count": 0,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "bc6e8d2fe577",
+      "primary_concepts": [],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_141",
+      "classified_by": "ai",
+      "concept_count": 0,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "f8e903dbf3d7",
+      "primary_concepts": [],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_142",
+      "classified_by": "ai",
+      "concept_count": 0,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "ac75d3f2b9e6",
+      "primary_concepts": [],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_144",
+      "classified_by": "ai",
+      "concept_count": 0,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "43d5c758bf78",
+      "primary_concepts": [],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_145",
+      "classified_by": "ai",
+      "concept_count": 0,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "75f616f43b9d",
+      "primary_concepts": [],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_147",
+      "classified_by": "ai",
+      "concept_count": 0,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "872471930ea9",
+      "primary_concepts": [],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_148",
+      "classified_by": "ai",
+      "concept_count": 0,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "301534069c2d",
+      "primary_concepts": [],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_150",
+      "classified_by": "ai",
+      "concept_count": 0,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "5610c4e8f961",
+      "primary_concepts": [],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_151",
+      "classified_by": "ai",
+      "concept_count": 0,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "1b8011530852",
+      "primary_concepts": [],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_153",
+      "classified_by": "ai",
+      "concept_count": 0,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "19a54c3b3576",
+      "primary_concepts": [],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_154",
+      "classified_by": "ai",
+      "concept_count": 0,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "fd5ed2485118",
+      "primary_concepts": [],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_156",
+      "classified_by": "ai",
+      "concept_count": 0,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "e17d1554782d",
+      "primary_concepts": [],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_157",
+      "classified_by": "ai",
+      "concept_count": 0,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "9aad078a59d7",
+      "primary_concepts": [],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_161",
+      "classified_by": "ai",
+      "concept_count": 0,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "238fc7bd4809",
+      "primary_concepts": [],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_163",
+      "classified_by": "ai",
+      "concept_count": 0,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "db250ced1e81",
+      "primary_concepts": [],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_164",
+      "classified_by": "ai",
+      "concept_count": 0,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "d1e949b40c7a",
+      "primary_concepts": [],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_166",
+      "classified_by": "ai",
+      "concept_count": 0,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "714405399e02",
+      "primary_concepts": [],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_167",
+      "classified_by": "ai",
+      "concept_count": 0,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "33e0c08724ff",
+      "primary_concepts": [],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_171",
+      "classified_by": "ai",
+      "concept_count": 0,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "7db012c9a682",
+      "primary_concepts": [],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_173",
+      "classified_by": "ai",
+      "concept_count": 0,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "0b483461d2f8",
+      "primary_concepts": [],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_174",
+      "classified_by": "ai",
+      "concept_count": 0,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "5b37523dc91b",
+      "primary_concepts": [],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_176",
+      "classified_by": "ai",
+      "concept_count": 0,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "2df9d8dcc068",
+      "primary_concepts": [],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_177",
+      "classified_by": "ai",
+      "concept_count": 0,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "4e205a3c2745",
+      "primary_concepts": [],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_179",
+      "classified_by": "ai",
+      "concept_count": 0,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "f41e7b13c82a",
+      "primary_concepts": [],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_180",
+      "classified_by": "ai",
+      "concept_count": 0,
+      "relationship_count": 0
+    },
+    {
+      "chunk_id": "9132e0aa79c8",
+      "primary_concepts": [],
+      "cross_module_relationships": [],
+      "source": "HeroesHandbook.md__section_182",
+      "classified_by": "ai",
+      "concept_count": 0,
+      "relationship_count": 0
+    }
+  ]
+}

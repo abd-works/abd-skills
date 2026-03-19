@@ -1,0 +1,11 @@
+{
+  "option": "D",
+  "elapsed_seconds": 0.315,
+  "chunk_count": 267,
+  "ai_calls": 1,
+  "ai_model": "claude-haiku-4-5",
+  "code_classified": 265,
+  "ai_classified": 2,
+  "total_concept_mentions": 1323,
+  "total_relationships_detected": 267
+}

@@ -1,0 +1,14 @@
+{
+  "option": "E",
+  "elapsed_seconds": 293.421,
+  "chunk_count": 267,
+  "ai_calls": 9,
+  "ai_targeted_chunks": 45,
+  "ai_model": "gpt-4o-mini",
+  "ai_new_concepts": 97,
+  "ai_new_relationships": 55,
+  "total_concept_mentions": 1420,
+  "total_relationships_detected": 322,
+  "errors": 0,
+  "status": "complete"
+}

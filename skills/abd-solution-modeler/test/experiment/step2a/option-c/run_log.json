@@ -1,0 +1,9 @@
+{
+  "option": "C",
+  "elapsed_seconds": 0.652,
+  "chunk_count": 267,
+  "ai_calls": 0,
+  "total_concept_mentions": 1323,
+  "total_relationships_detected": 386,
+  "chunks_with_no_evidence": 2
+}

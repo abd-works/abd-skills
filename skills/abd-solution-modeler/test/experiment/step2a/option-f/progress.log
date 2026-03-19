@@ -1,0 +1,1076 @@
+Option F progress log
+Model: gpt-4o-mini  chunk-pct: 100%  Chunks: 267
+Auto batch size: 7 (avg 1022 tokens sent/chunk)
+Started: 2026-03-19 01:26:46
+============================================================
+
+PASS 1 (AI): 267 chunks, 40 batches, 100% text/chunk
+
+--- AI STREAM P1-1/40 ---
+```json
+{"chunk_id":"3b8ffcc9664a","primary_concepts":[],"cross_module_relationships":[]}
+```
+```json
+{"chunk_id":"d7b66eaede2d","primary_concepts":[{"concept":"Ability","module":"Character Traits","evidence_type":"mention","note":"Abilities are part of character traits."},{"concept":"Rank","module":"Character Traits","evidence_type":"mention","note":"Ranks are associated with abilities."}],"cross_module_relationships":[]}
+```
+```json
+{"chunk_id":"94d3158e4b6b","primary_concepts":[{"concept":"Skill","module":"Character Traits","evidence_type":"mention","note":"Skills are part of character traits."}],"cross_module_relationships":[]}
+```
+```json
+{"chunk_id":"2b979f00a098","primary_concepts":[{"concept":"Advantage","module":"Character Traits","evidence_type":"mention","note":"Advantages are part of character traits."}],"cross_module_relationships":[]}
+```
+```json
+{"chunk_id":"27cd3f53557a","primary_concepts":[{"concept":"Power","module":"Powers","evidence_type":"mention","note":"Powers are defined in this chapter."},{"concept":"Effect","module":"Powers","evidence_type":"mention","note":"Effects are part of powers."}],"cross_module_relationships":[]}
+```
+```json
+{"chunk_id":"4cd63373be61","primary_concepts":[{"concept":"Check","module":"Resolution","evidence_type":"mention","note":"Checks are part of the core mechanic."},{"concept":"Condition","module":"Combat","evidence_type":"mention","note":"Conditions are mentioned in gameplay."},{"concept":"ExtraEffort","module":"Character","evidence_type":"mention","note":"Extra Effort is a gameplay mechanic."},{"concept":"HeroPoint","module":"Character","evidence_type":"mention","note":"Hero Points are part of gameplay."}],"cross_module_relationships":[]}
+```
+```json
+{"chunk_id":"d4cad3e10e05","primary_concepts":[{"concept":"PowerLevel","module":"Character","evidence_type":"mention","note":"Power Level is discussed in character design."},{"concept":"Complication","module":"Character","evidence_type":"mention","note":"Complications are part of character design."}],"cross_module_relationships":[]}
+```
+--- END STREAM ---
+[01:26:57] P1 Batch   1/40  status=ok        concepts= 12  rels= 0  batch_time=10.9s  total=11s
+
+--- AI STREAM P1-2/40 ---
+```json
+{
+  "chunk_id": "09235587c16c",
+  "primary_concepts": [],
+  "cross_module_relationships": []
+}
+```
+```json
+{
+  "chunk_id": "6b20869c8bc9",
+  "primary_concepts": [
+    {"concept": "Action", "module": "Combat", "evidence_type": "definition", "note": "Types of actions in combat"},
+    {"concept": "Condition", "module": "Combat", "evidence_type": "definition", "note": "Conditions affecting characters during combat"}
+  ],
+  "cross_module_relationships": []
+}
+```
+```json
+{
+  "chunk_id": "9865e6185ff0",
+  "primary_concepts": [
+    {"concept": "Character", "module": "Character", "evidence_type": "definition", "note": "Overview of character creation and roles"},
+    {"concept": "PowerLevel", "module": "Character", "evidence_type": "definition", "note": "Power Level caps for character traits"},
+    {"concept": "HeroPoint", "module": "Character", "evidence_type": "definition", "note": "Hero point pool for characters"},
+    {"concept": "Complication", "module": "Character", "evidence_type": "definition", "note": "Challenges characters must overcome"},
+    {"concept": "ExtraEffort", "module": "Character", "evidence_type": "definition", "note": "Mechanics for characters to push beyond limits"}
+  ],
+  "cross_module_relationships": []
+}
+```
+```json
+{
+  "chunk_id": "34cb0222a3bd",
+  "primary_concepts": [
+    {"concept": "Check", "module": "Resolution", "evidence_type": "definition", "note": "Mechanic for resolving actions"},
+    {"concept": "Degree", "module": "Resolution", "evidence_type": "definition", "note": "Degree of success or failure in actions"},
+    {"concept": "Ability", "module": "Character Traits", "evidence_type": "definition", "note": "Basic traits defining character capabilities"},
+    {"concept": "Skill", "module": "Character Traits", "evidence_type": "definition", "note": "Refined abilities for specific tasks"},
+    {"concept": "Advantage", "module": "Character Traits", "evidence_type": "definition", "note": "Minor benefits characters possess"}
+  ],
+  "cross_module_relationships": []
+}
+```
+```json
+{
+  "chunk_id": "89a1fc58a123",
+  "primary_concepts": [
+    {"concept": "Power", "module": "Powers", "evidence_type": "definition", "note": "Extraordinary abilities beyond normal traits"},
+    {"concept": "Effect", "module": "Powers", "evidence_type": "definition", "note": "Describes what a power does"},
+    {"concept": "Modifier", "module": "Powers", "evidence_type": "definition", "note": "Adjustments to power effects"},
+    {"concept": "Complication", "module": "Character", "evidence_type": "definition", "note": "Challenges that add depth to characters"}
+  ],
+  "cross_module_relationships": []
+}
+```
+```json
+{
+  "chunk_id": "c570ac3e08b5",
+  "primary_concepts": [
+    {"concept": "Power", "module": "Powers", "evidence_type": "table", "note": "Rank and measure relationships for powers"},
+    {"concept": "Effect", "module": "Powers", "evidence_type": "table", "note": "Rank scale for power effects"},
+    {"concept": "Modifier", "module": "Powers", "evidence_type": "table", "note": "Rank scale for modifiers"}
+  ],
+  "cross_module_relationships": []
+}
+```
+```json
+{
+  "chunk_id": "903a8c445c1a",
+  "primary_concepts": [
+    {"concept": "Check", "module": "Resolution", "evidence_type": "definition", "note": "Mechanic for determining outcomes"},
+    {"concept": "Ability", "module": "Character Traits", "evidence_type": "definition", "note": "Traits used in checks"},
+    {"concept": "Skill", "module": "Character Traits", "evidence_type": "definition", "note": "Specific areas of expertise for checks"},
+    {"concept": "Condition", "module": "Combat", "evidence_type": "definition", "note": "Effects of actions on characters"}
+  ],
+  "cross_module_relationships": []
+}
+```
+--- END STREAM ---
+[01:27:15] P1 Batch   2/40  status=ok        concepts= 23  rels= 0  batch_time=18.0s  total=29s
+
+--- AI STREAM P1-3/40 ---
+```json
+{
+  "chunk_id": "dd71074ce318",
+  "primary_concepts": [
+    {"concept": "Check", "module": "Resolution", "evidence_type": "definition", "note": "Checks resolve uncertain outcomes."},
+    {"concept": "Degree", "module": "Resolution", "evidence_type": "definition", "note": "Degree of success or failure determines outcomes."},
+    {"concept": "Action", "module": "Combat", "evidence_type": "definition", "note": "Actions are part of the structured exchange in combat."},
+    {"concept": "Condition", "module": "Combat", "evidence_type": "definition", "note": "Conditions affect characters during combat."}
+  ],
+  "cross_module_relationships": []
+}
+```
+```json
+{
+  "chunk_id": "7420eccba7af",
+  "primary_concepts": [
+    {"concept": "Check", "module": "Resolution", "evidence_type": "definition", "note": "Checks can be opposed."},
+    {"concept": "Degree", "module": "Resolution", "evidence_type": "definition", "note": "Degrees of success and failure are determined."},
+    {"concept": "Skill", "module": "Character Traits", "evidence_type": "mention", "note": "Skills are used in checks."}
+  ],
+  "cross_module_relationships": [
+    {
+      "from": {"concept": "Check", "module": "Resolution"},
+      "relationship": "uses",
+      "to": {"concept": "Skill", "module": "Character Traits"},
+      "justification": "Checks are made using skills.",
+      "chunk": "7420eccba7af"
+    }
+  ]
+}
+```
+```json
+{
+  "chunk_id": "02d77d753dd0",
+  "primary_concepts": [
+    {"concept": "Degree", "module": "Resolution", "evidence_type": "definition", "note": "Degrees of success or failure are defined."},
+    {"concept": "Check", "module": "Resolution", "evidence_type": "definition", "note": "Checks can have degrees."}
+  ],
+  "cross_module_relationships": []
+}
+```
+```json
+{
+  "chunk_id": "0b30704b97a2",
+  "primary_concepts": [
+    {"concept": "Check", "module": "Resolution", "evidence_type": "definition", "note": "Team checks involve multiple characters."},
+    {"concept": "Action", "module": "Combat", "evidence_type": "definition", "note": "Actions are part of the combat system."}
+  ],
+  "cross_module_relationships": [
+    {
+      "from": {"concept": "Check", "module": "Resolution"},
+      "relationship": "uses",
+      "to": {"concept": "Action", "module": "Combat"},
+      "justification": "Checks determine actions in combat.",
+      "chunk": "0b30704b97a2"
+    }
+  ]
+}
+```
+```json
+{
+  "chunk_id": "9c9f9b5a490d",
+  "primary_concepts": [
+    {"concept": "Condition", "module": "Combat", "evidence_type": "definition", "note": "Conditions affect characters in the game."},
+    {"concept": "Check", "module": "Resolution", "evidence_type": "definition", "note": "Checks can be used to resolve actions."}
+  ],
+  "cross_module_relationships": []
+}
+```
+```json
+{
+  "chunk_id": "b551e66974e2",
+  "primary_concepts": [
+    {"concept": "Condition", "module": "Combat", "evidence_type": "definition", "note": "Basic conditions are defined."}
+  ],
+  "cross_module_relationships": []
+}
+```
+```json
+{
+  "chunk_id": "7a6d568a6006",
+  "primary_concepts": [
+    {"concept": "Condition", "module": "Combat", "evidence_type": "definition", "note": "Combined conditions are described."},
+    {"concept": "Power", "module": "Powers", "evidence_type": "mention", "note": "Powers can reference conditions."}
+  ],
+  "cross_module_relationships": [
+    {
+      "from": {"concept": "Condition", "module": "Combat"},
+      "relationship": "produces",
+      "to": {"concept": "Power", "module": "Powers"},
+      "justification": "Conditions can be referenced in power effects.",
+      "chunk": "7a6d568a6006"
+    }
+  ]
+}
+```
+--- END STREAM ---
+[01:27:39] P1 Batch   3/40  status=ok        concepts= 16  rels= 3  batch_time=24.1s  total=53s
+
+--- AI STREAM P1-4/40 ---
+```json
+{
+  "chunk_id": "4742b3550bee",
+  "primary_concepts": [
+    {"concept": "HeroPoint", "module": "Character", "evidence_type": "definition", "note": "Resource for players to influence the game"},
+    {"concept": "ExtraEffort", "module": "Character", "evidence_type": "definition", "note": "Mechanic allowing temporary boosts at a cost"},
+    {"concept": "Complication", "module": "Character", "evidence_type": "definition", "note": "Challenges that can earn hero points"},
+    {"concept": "Power", "module": "Powers", "evidence_type": "definition", "note": "Extraordinary abilities defined by effects"},
+    {"concept": "Effect", "module": "Powers", "evidence_type": "definition", "note": "Specific outcomes of powers"},
+    {"concept": "Condition", "module": "Combat", "evidence_type": "definition", "note": "States affecting characters during combat"}
+  ],
+  "cross_module_relationships": [
+    {
+      "from": {"concept": "HeroPoint", "module": "Character"},
+      "relationship": "uses",
+      "to": {"concept": "ExtraEffort", "module": "Character"},
+      "justification": "Spending hero points allows using extra effort without fatigue",
+      "chunk": "4742b3550bee"
+    },
+    {
+      "from": {"concept": "Complication", "module": "Character"},
+      "relationship": "produces",
+      "to": {"concept": "HeroPoint", "module": "Character"},
+      "justification": "Complications can earn hero points",
+      "chunk": "4742b3550bee"
+    },
+    {
+      "from": {"concept": "Power", "module": "Powers"},
+      "relationship": "modifies",
+      "to": {"concept": "Effect", "module": "Powers"},
+      "justification": "Powers are defined by their effects",
+      "chunk": "4742b3550bee"
+    },
+    {
+      "from": {"concept": "Condition", "module": "Combat"},
+      "relationship": "impairs",
+      "to": {"concept": "ExtraEffort", "module": "Character"},
+      "justification": "Conditions like fatigue affect the use of extra effort",
+      "chunk": "4742b3550bee"
+    }
+  ]
+}
+```
+```json
+{
+  "chunk_id": "792ccb4b72a0",
+  "primary_concepts": [
+    {"concept": "HeroPoint", "module": "Character", "evidence_type": "definition", "note": "Resource for players to influence the game"},
+    {"concept": "Advantage", "module": "CharacterTraits", "evidence_type": "definition", "note": "Special benefits characters can gain"},
+    {"concept": "Effect", "module": "Powers", "evidence_type": "definition", "note": "Specific outcomes of powers"},
+    {"concept": "Condition", "module": "Combat", "evidence_type": "definition", "note": "States affecting characters during combat"}
+  ],
+  "cross_module_relationships": [
+    {
+      "from": {"concept": "HeroPoint", "module": "Character"},
+      "relationship": "uses",
+      "to": {"concept": "Advantage", "module": "CharacterTraits"},
+      "justification": "Hero points can be spent to gain advantages temporarily",
+      "chunk": "792ccb4b72a0"
+    },
+    {
+      "from": {"concept": "HeroPoint", "module": "Character"},
+      "relationship": "uses",
+      "to": {"concept": "Effect", "module": "Powers"},
+      "justification": "Hero points can be spent to counter effects",
+      "chunk": "792ccb4b72a0"
+    },
+    {
+      "from": {"concept": "HeroPoint", "module": "Character"},
+      "relationship": "modifies",
+      "to": {"concept": "Condition", "module": "Combat"},
+      "justification": "Hero points can be used to remove conditions",
+      "chunk": "792ccb4b72a0"
+    }
+  ]
+}
+```
+```json
+{
+  "chunk_id": "a25964ce768c",
+  "primary_concepts": [
+    {"concept": "Character", "module": "Character", "evidence_type": "definition", "note": "Aggregate root holding hero traits and resources"},
+    {"concept": "PowerLevel", "module": "Character", "evidence_type": "definition", "note": "Limits on character creation based on GM's choice"},
+    {"concept": "Ability", "module": "CharacterTraits", "evidence_type": "definition", "note": "Core traits defining what a character can do"},
+    {"concept": "Skill", "module": "CharacterTraits", "evidence_type": "definition", "note": "Specific areas of expertise for characters"},
+    {"concept": "Power", "module": "Powers", "evidence_type": "definition", "note": "Extraordinary abilities defined by effects"}
+  ],
+  "cross_module_relationships": []
+}
+```
+```json
+{
+  "chunk_id": "ce0b31ad3e24",
+  "primary_concepts": [
+    {"concept": "Character", "module": "Character", "evidence_type": "definition", "note": "Aggregate root holding hero traits and resources"},
+    {"concept": "PowerLevel", "module": "Character", "evidence_type": "definition", "note": "Limits on character creation based on GM's choice"},
+    {"concept": "Ability", "module": "CharacterTraits", "evidence_type": "definition", "note": "Core traits defining what a character can do"},
+    {"concept": "Skill", "module": "CharacterTraits", "evidence_type": "definition", "note": "Specific areas of expertise for characters"},
+    {"concept": "Advantage", "module": "CharacterTraits", "evidence_type": "definition", "note": "Special benefits characters can gain"},
+    {"concept": "Power", "module": "Powers", "evidence_type": "definition", "note": "Extraordinary abilities defined by effects"}
+  ],
+  "cross_module_relationships": []
+}
+```
+```json
+{
+  "chunk_id": "179f10a90f72",
+  "primary_concepts": [
+    {"concept": "Character", "module": "Character", "evidence_type": "definition", "note": "Aggregate root holding hero traits and resources"},
+    {"concept": "PowerLevel", "module": "Character", "evidence_type": "definition", "note": "Limits on character creation based on GM's choice"},
+    {"concept": "Ability", "module": "CharacterTraits", "evidence_type": "definition", "note": "Core traits defining what a character can do"},
+    {"concept": "Skill", "module": "CharacterTraits", "evidence_type": "definition", "note": "Specific areas of expertise for characters"},
+    {"concept": "Advantage", "module": "CharacterTraits", "evidence_type": "definition", "note": "Special benefits characters can gain"},
+    {"concept": "Power", "module": "Powers", "evidence_type": "definition", "note": "Extraordinary abilities defined by effects"},
+    {"concept": "Complication", "module": "Character", "evidence_type": "definition", "note": "Challenges that can earn hero points"}
+  ],
+  "cross_module_relationships": []
+}
+```
+```json
+{
+  "chunk_id": "301ee8a15809",
+  "primary_concepts": [
+    {"concept": "PowerLevel", "module": "Character", "evidence_type": "definition", "note": "Limits on character creation based on GM's choice"},
+    {"concept": "Character", "module": "Character", "evidence_type": "definition", "note": "Aggregate root holding hero traits and resources"},
+    {"concept": "Ability", "module": "CharacterTraits", "evidence_type": "definition", "note": "Core traits defining what a character can do"},
+    {"concept": "Skill", "module": "CharacterTraits", "evidence_type": "definition", "note": "Specific areas of expertise for characters"},
+    {"concept": "Advantage", "module": "CharacterTraits", "evidence_type": "definition", "note": "Special benefits characters can gain"},
+    {"concept": "Power", "module": "Powers", "evidence_type": "definition", "note": "Extraordinary abilities defined by effects"}
+  ],
+  "cross_module_relationships": []
+}
+```
+```json
+{
+  "chunk_id": "6d18f5cb0ab3",
+  "primary_concepts": [
+    {"concept": "PowerLevel", "module": "Character", "evidence_type": "definition", "note": "Limits on character creation based on GM's choice"},
+    {"concept": "Character", "module": "Character", "evidence_type": "definition", "note": "Aggregate root holding hero traits and resources"},
+    {"concept": "Ability", "module": "CharacterTraits", "evidence_type": "definition", "note": "Core traits defining what a character can do"},
+    {"concept": "Skill", "module": "CharacterTraits", "evidence_type": "definition", "note": "Specific areas of expertise for characters"},
+    {"concept": "Advantage", "module": "CharacterTraits", "evidence_type": "definition", "note": "Special benefits characters can gain"},
+    {"concept": "Power", "module": "Powers", "evidence_type": "definition", "note": "Extraordinary abilities defined by effects"}
+  ],
+  "cross_module_relationships": []
+}
+```
+--- END STREAM ---
+[01:28:12] P1 Batch   4/40  status=ok        concepts= 40  rels= 7  batch_time=32.9s  total=86s
+
+--- AI STREAM P1-5/40 ---
+{
+  "chunk_id": "079ee72c1633",
+  "primary_concepts": [
+    {"concept": "Complication", "module": "Character", "evidence_type": "definition", "note": "Complications provide challenges and earn hero points."},
+    {"concept": "HeroPoint", "module": "Character", "evidence_type": "definition", "note": "Hero points are earned through complications."},
+    {"concept": "Motivation", "module": "Character", "evidence_type": "definition", "note": "Motivation is a type of complication that influences hero actions."}
+  ],
+  "cross_module_relationships": []
+}
+{
+  "chunk_id": "457931504c50",
+  "primary_concepts": [
+    {"concept": "Motivation", "module": "Character", "evidence_type": "definition", "note": "Motivation can affect powers and interactions."},
+    {"concept": "Power", "module": "Powers", "evidence_type": "mention", "note": "Motivation can function as a descriptor for powers."},
+    {"concept": "PowerLoss", "module": "Character", "evidence_type": "definition", "note": "Power Loss can occur from changes in motivation."}
+  ],
+  "cross_module_relationships": []
+}
+{
+  "chunk_id": "93337a63364b",
+  "primary_concepts": [
+    {"concept": "Complication", "module": "Character", "evidence_type": "definition", "note": "Complications provide challenges and earn hero points."},
+    {"concept": "HeroPoint", "module": "Character", "evidence_type": "definition", "note": "Hero points are awarded for dealing with complications."}
+  ],
+  "cross_module_relationships": []
+}
+{
+  "chunk_id": "6890e166bca9",
+  "primary_concepts": [
+    {"concept": "Character", "module": "Character", "evidence_type": "definition", "note": "Character creation involves choosing a name and origin."},
+    {"concept": "Power", "module": "Powers", "evidence_type": "mention", "note": "Powers can influence the character's name."}
+  ],
+  "cross_module_relationships": []
+}
+{
+  "chunk_id": "73f84062d601",
+  "primary_concepts": [
+    {"concept": "Power", "module": "Powers", "evidence_type": "definition", "note": "Powers can be gained through various origins."},
+    {"concept": "Origin", "module": "Character", "evidence_type": "definition", "note": "Origins describe how a hero gains powers."}
+  ],
+  "cross_module_relationships": []
+}
+{
+  "chunk_id": "f877c8ee4307",
+  "primary_concepts": [
+    {"concept": "Character", "module": "Character", "evidence_type": "definition", "note": "Character's age can influence traits and abilities."}
+  ],
+  "cross_module_relationships": []
+}
+{
+  "chunk_id": "7f0cf6f57819",
+  "primary_concepts": [
+    {"concept": "Character", "module": "Character", "evidence_type": "definition", "note": "Character's personality and goals are important for depth."},
+    {"concept": "PowerPoint", "module": "Character", "evidence_type": "definition", "note": "Power points are awarded for completed adventures."},
+    {"concept": "PowerLevel", "module": "Character", "evidence_type": "definition", "note": "Power level limits advancement of traits."}
+  ],
+  "cross_module_relationships": []
+}
+--- END STREAM ---
+[01:28:31] P1 Batch   5/40  status=ok        concepts= 16  rels= 0  batch_time=18.8s  total=105s
+
+--- AI STREAM P1-6/40 ---
+{
+  "chunk_id": "e05fc680a484",
+  "primary_concepts": [
+    {"concept": "Advantage", "module": "Character Traits", "evidence_type": "mention", "note": "Archetypes rely on advantages"},
+    {"concept": "Power", "module": "Powers", "evidence_type": "mention", "note": "Mimic duplicates powers"},
+    {"concept": "HeroPoint", "module": "Character", "evidence_type": "mention", "note": "Mytics reserve hero points for power stunts"},
+    {"concept": "PowerLevel", "module": "Character", "evidence_type": "mention", "note": "Archetypes designed for power level 10"},
+    {"concept": "Ability", "module": "Character Traits", "evidence_type": "mention", "note": "Archetypes have various abilities"},
+    {"concept": "Skill", "module": "Character Traits", "evidence_type": "mention", "note": "Skills are part of character traits"},
+    {"concept": "ExtraEffort", "module": "Character", "evidence_type": "mention", "note": "Mytics may use extra effort for power stunts"}
+  ],
+  "cross_module_relationships": [
+    {
+      "from": {"concept": "Advantage", "module": "Character Traits"},
+      "relationship": "uses",
+      "to": {"concept": "Power", "module": "Powers"},
+      "justification": "Some advantages and powers work together",
+      "chunk": "e05fc680a484"
+    },
+    {
+      "from": {"concept": "Power", "module": "Powers"},
+      "relationship": "targets",
+      "to": {"concept": "Ability", "module": "Character Traits"},
+      "justification": "Mimic duplicates powers which are abilities",
+      "chunk": "e05fc680a484"
+    }
+  ]
+}
+{
+  "chunk_id": "9b8b75c1b5e7",
+  "primary_concepts": [
+    {"concept": "Power", "module": "Powers", "evidence_type": "definition", "note": "Details of powers and their effects"},
+    {"concept": "Ability", "module": "Character Traits", "evidence_type": "definition", "note": "Character abilities listed"},
+    {"concept": "Defense", "module": "Character Traits", "evidence_type": "definition", "note": "Defense values provided"},
+    {"concept": "Skill", "module": "Character Traits", "evidence_type": "definition", "note": "Skills and their ranks listed"}
+  ],
+  "cross_module_relationships": []
+}
+{
+  "chunk_id": "6c8715df5e97",
+  "primary_concepts": [
+    {"concept": "Power", "module": "Powers", "evidence_type": "definition", "note": "Details of powers and their effects"},
+    {"concept": "Ability", "module": "Character Traits", "evidence_type": "definition", "note": "Character abilities listed"},
+    {"concept": "Defense", "module": "Character Traits", "evidence_type": "definition", "note": "Defense values provided"},
+    {"concept": "Skill", "module": "Character Traits", "evidence_type": "definition", "note": "Skills and their ranks listed"}
+  ],
+  "cross_module_relationships": []
+}
+{
+  "chunk_id": "c0c1858f03fe",
+  "primary_concepts": [
+    {"concept": "Ability", "module": "Character Traits", "evidence_type": "definition", "note": "Character abilities listed"},
+    {"concept": "Skill", "module": "Character Traits", "evidence_type": "definition", "note": "Skills and their ranks listed"},
+    {"concept": "Defense", "module": "Character Traits", "evidence_type": "definition", "note": "Defense values provided"}
+  ],
+  "cross_module_relationships": []
+}
+{
+  "chunk_id": "803cb2a8c272",
+  "primary_concepts": [
+    {"concept": "Power", "module": "Powers", "evidence_type": "definition", "note": "Details of powers and their effects"},
+    {"concept": "Ability", "module": "Character Traits", "evidence_type": "definition", "note": "Character abilities listed"},
+    {"concept": "Defense", "module": "Character Traits", "evidence_type": "definition", "note": "Defense values provided"},
+    {"concept": "Skill", "module": "Character Traits", "evidence_type": "definition", "note": "Skills and their ranks listed"}
+  ],
+  "cross_module_relationships": []
+}
+{
+  "chunk_id": "8558df91a0a1",
+  "primary_concepts": [
+    {"concept": "Power", "module": "Powers", "evidence_type": "definition", "note": "Details of powers and their effects"},
+    {"concept": "Ability", "module": "Character Traits", "evidence_type": "definition", "note": "Character abilities listed"},
+    {"concept": "Defense", "module": "Character Traits", "evidence_type": "definition", "note": "Defense values provided"},
+    {"concept": "Skill", "module": "Character Traits", "evidence_type": "definition", "note": "Skills and their ranks listed"},
+    {"concept": "Advantage", "module": "Character Traits", "evidence_type": "definition", "note": "Character advantages listed"}
+  ],
+  "cross_module_relationships": []
+}
+{
+  "chunk_id": "e53b2f1b3ca2",
+  "primary_concepts": [
+    {"concept": "Power", "module": "Powers", "evidence_type": "definition", "note": "Details of powers and their effects"},
+    {"concept": "Ability", "module": "Character Traits", "evidence_type": "definition", "note": "Character abilities listed"},
+    {"concept": "Defense", "module": "Character Traits", "evidence_type": "definition", "note": "Defense values provided"},
+    {"concept": "Skill", "module": "Character Traits", "evidence_type": "definition", "note": "Skills and their ranks listed"}
+  ],
+  "cross_module_relationships": []
+}
+--- END STREAM ---
+[01:28:55] P1 Batch   6/40  status=ok        concepts= 31  rels= 2  batch_time=24.1s  total=129s
+
+--- AI STREAM P1-7/40 ---
+```json
+{
+  "chunk_id": "c53b199f9ade",
+  "primary_concepts": [
+    {"concept": "Power", "module": "Powers", "evidence_type": "definition", "note": "Mimic is a power with specific traits."},
+    {"concept": "Ability", "module": "Character Traits", "evidence_type": "definition", "note": "Strength, Stamina, Agility, etc. are abilities."},
+    {"concept": "Skill", "module": "Character Traits", "evidence_type": "definition", "note": "Deception, Insight, etc. are skills."},
+    {"concept": "Condition", "module": "Combat", "evidence_type": "definition", "note": "Conditions may apply based on powers."}
+  ],
+  "cross_module_relationships": []
+}
+```
+```json
+{
+  "chunk_id": "3c75d5b04a0e",
+  "primary_concepts": [
+    {"concept": "Power", "module": "Powers", "evidence_type": "definition", "note": "Various powers listed with point costs."},
+    {"concept": "Ability", "module": "Character Traits", "evidence_type": "definition", "note": "Strength, Stamina, Agility, etc. are abilities."},
+    {"concept": "Skill", "module": "Character Traits", "evidence_type": "definition", "note": "Expertise, Insight, etc. are skills."}
+  ],
+  "cross_module_relationships": []
+}
+```
+```json
+{
+  "chunk_id": "f97fb5b16662",
+  "primary_concepts": [
+    {"concept": "Power", "module": "Powers", "evidence_type": "definition", "note": "Powers like Flight and Invulnerability are defined."},
+    {"concept": "Ability", "module": "Character Traits", "evidence_type": "definition", "note": "Strength, Stamina, Agility, etc. are abilities."},
+    {"concept": "Skill", "module": "Character Traits", "evidence_type": "definition", "note": "Expertise, Insight, etc. are skills."}
+  ],
+  "cross_module_relationships": []
+}
+```
+```json
+{
+  "chunk_id": "9575430bef02",
+  "primary_concepts": [
+    {"concept": "Power", "module": "Powers", "evidence_type": "definition", "note": "Powers like Shockwave and Groundstrike are defined."},
+    {"concept": "Ability", "module": "Character Traits", "evidence_type": "definition", "note": "Strength, Stamina, Agility, etc. are abilities."},
+    {"concept": "Skill", "module": "Character Traits", "evidence_type": "definition", "note": "Close Combat, Expertise, etc. are skills."}
+  ],
+  "cross_module_relationships": []
+}
+```
+```json
+{
+  "chunk_id": "634190f2dd84",
+  "primary_concepts": [
+    {"concept": "Power", "module": "Powers", "evidence_type": "definition", "note": "Powers like Telekinesis and Telepathy are defined."},
+    {"concept": "Ability", "module": "Character Traits", "evidence_type": "definition", "note": "Strength, Stamina, Agility, etc. are abilities."},
+    {"concept": "Skill", "module": "Character Traits", "evidence_type": "definition", "note": "Expertise, Insight, etc. are skills."}
+  ],
+  "cross_module_relationships": []
+}
+```
+```json
+{
+  "chunk_id": "8d5f5f31a27f",
+  "primary_concepts": [
+    {"concept": "Power", "module": "Powers", "evidence_type": "definition", "note": "Shapeshift is a power with specific traits."},
+    {"concept": "Ability", "module": "Character Traits", "evidence_type": "definition", "note": "Strength, Stamina, Agility, etc. are abilities."},
+    {"concept": "Skill", "module": "Character Traits", "evidence_type": "definition", "note": "Close Combat, Deception, etc. are skills."}
+  ],
+  "cross_module_relationships": []
+}
+```
+```json
+{
+  "chunk_id": "9b4ab26032fa",
+  "primary_concepts": [
+    {"concept": "Power", "module": "Powers", "evidence_type": "definition", "note": "Powers like Fast Attack and Super-Speed are defined."},
+    {"concept": "Ability", "module": "Character Traits", "evidence_type": "definition", "note": "Strength, Stamina, Agility, etc. are abilities."},
+    {"concept": "Skill", "module": "Character Traits", "evidence_type": "definition", "note": "Acrobatics, Close Combat, etc. are skills."}
+  ],
+  "cross_module_relationships": []
+}
+```
+--- END STREAM ---
+[01:29:25] P1 Batch   7/40  status=ok        concepts= 22  rels= 0  batch_time=29.9s  total=159s
+
+--- AI STREAM P1-8/40 ---
+```json
+{
+  "chunk_id": "b95c26d52ee0",
+  "primary_concepts": [
+    {"concept": "Ability", "module": "Character Traits", "evidence_type": "definition", "note": "Abilities define what a character can do."},
+    {"concept": "Power", "module": "Powers", "evidence_type": "definition", "note": "Powers are extraordinary abilities."},
+    {"concept": "Advantage", "module": "Character Traits", "evidence_type": "definition", "note": "Advantages are traits that provide benefits."},
+    {"concept": "Skill", "module": "Character Traits", "evidence_type": "definition", "note": "Skills represent a character's trained abilities."},
+    {"concept": "Defense", "module": "Character Traits", "evidence_type": "definition", "note": "Defenses protect a character from harm."},
+    {"concept": "Condition", "module": "Combat", "evidence_type": "definition", "note": "Conditions affect a character's performance."}
+  ],
+  "cross_module_relationships": [
+    {
+      "from": {"concept": "Ability", "module": "Character Traits"},
+      "relationship": "constrained_by",
+      "to": {"concept": "Power Level", "module": "Character"},
+      "justification": "Abilities are purchased within a Power Point budget constrained by Power Level caps.",
+      "chunk": "b95c26d52ee0"
+    },
+    {
+      "from": {"concept": "Power", "module": "Powers"},
+      "relationship": "constrained_by",
+      "to": {"concept": "Power Level", "module": "Character"},
+      "justification": "Powers are constrained by Power Level caps.",
+      "chunk": "b95c26d52ee0"
+    },
+    {
+      "from": {"concept": "Defense", "module": "Character Traits"},
+      "relationship": "uses",
+      "to": {"concept": "Ability", "module": "Character Traits"},
+      "justification": "Defenses are derived from abilities.",
+      "chunk": "b95c26d52ee0"
+    }
+  ]
+}
+```
+```json
+{
+  "chunk_id": "ab9b367b750f",
+  "primary_concepts": [
+    {"concept": "Ability", "module": "Character Traits", "evidence_type": "definition", "note": "Abilities define what a character can do."},
+    {"concept": "Power", "module": "Powers", "evidence_type": "definition", "note": "Powers are extraordinary abilities."},
+    {"concept": "Advantage", "module": "Character Traits", "evidence_type": "definition", "note": "Advantages provide benefits."},
+    {"concept": "Skill", "module": "Character Traits", "evidence_type": "definition", "note": "Skills represent trained abilities."},
+    {"concept": "Defense", "module": "Character Traits", "evidence_type": "definition", "note": "Defenses protect a character."}
+  ],
+  "cross_module_relationships": [
+    {
+      "from": {"concept": "Ability", "module": "Character Traits"},
+      "relationship": "constrained_by",
+      "to": {"concept": "Power Level", "module": "Character"},
+      "justification": "Abilities are purchased within a Power Point budget constrained by Power Level caps.",
+      "chunk": "ab9b367b750f"
+    },
+    {
+      "from": {"concept": "Power", "module": "Powers"},
+      "relationship": "constrained_by",
+      "to": {"concept": "Power Level", "module": "Character"},
+      "justification": "Powers are constrained by Power Level caps.",
+      "chunk": "ab9b367b750f"
+    },
+    {
+      "from": {"concept": "Defense", "module": "Character Traits"},
+      "relationship": "uses",
+      "to": {"concept": "Ability", "module": "Character Traits"},
+      "justification": "Defenses are derived from abilities.",
+      "chunk": "ab9b367b750f"
+    }
+  ]
+}
+```
+```json
+{
+  "chunk_id": "02269b6c9ef6",
+  "primary_concepts": [
+    {"concept": "Character", "module": "Character", "evidence_type": "definition", "note": "The aggregate root holding all hero traits."},
+    {"concept": "Ability", "module": "Character Traits", "evidence_type": "definition", "note": "Abilities define what a character can do."},
+    {"concept": "Skill", "module": "Character Traits", "evidence_type": "definition", "note": "Skills represent trained abilities."},
+    {"concept": "Advantage", "module": "Character Traits", "evidence_type": "definition", "note": "Advantages provide benefits."},
+    {"concept": "Complication", "module": "Character", "evidence_type": "definition", "note": "Complications are narrative elements that add depth."}
+  ],
+  "cross_module_relationships": [
+    {
+      "from": {"concept": "Ability", "module": "Character Traits"},
+      "relationship": "constrained_by",
+      "to": {"concept": "Power Level", "module": "Character"},
+      "justification": "Abilities are purchased within a Power Point budget constrained by Power Level caps.",
+      "chunk": "02269b6c9ef6"
+    },
+    {
+      "from": {"concept": "Skill", "module": "Character Traits"},
+      "relationship": "constrained_by",
+      "to": {"concept": "Power Level", "module": "Character"},
+      "justification": "Skills are purchased within a Power Point budget constrained by Power Level caps.",
+      "chunk": "02269b6c9ef6"
+    },
+    {
+      "from": {"concept": "Advantage", "module": "Character Traits"},
+      "relationship": "constrained_by",
+      "to": {"concept": "Power Level", "module": "Character"},
+      "justification": "Advantages are purchased within a Power Point budget constrained by Power Level caps.",
+      "chunk": "02269b6c9ef6"
+    }
+  ]
+}
+```
+```json
+{
+  "chunk_id": "eab98ce0e1fc",
+  "primary_concepts": [
+    {"concept": "Character", "module": "Character", "evidence_type": "definition", "note": "The aggregate root holding all hero traits."},
+    {"concept": "Ability", "module": "Character Traits", "evidence_type": "definition", "note": "Abilities define what a character can do."},
+    {"concept": "Skill", "module": "Character Traits", "evidence_type": "definition", "note": "Skills represent trained abilities."},
+    {"concept": "Advantage", "module": "Character Traits", "evidence_type": "definition", "note": "Advantages provide benefits."},
+    {"concept": "Complication", "module": "Character", "evidence_type": "definition", "note": "Complications are narrative elements that add depth."}
+  ],
+  "cross_module_relationships": [
+    {
+      "from": {"concept": "Ability", "module": "Character Traits"},
+      "relationship": "constrained_by",
+      "to": {"concept": "Power Level", "module": "Character"},
+      "justification": "Abilities are purchased within a Power Point budget constrained by Power Level caps.",
+      "chunk": "eab98ce0e1fc"
+    },
+    {
+      "from": {"concept": "Skill", "module": "Character Traits"},
+      "relationship": "constrained_by",
+      "to": {"concept": "Power Level", "module": "Character"},
+      "justification": "Skills are purchased within a Power Point budget constrained by Power Level caps.",
+      "chunk": "eab98ce0e1fc"
+    },
+    {
+      "from": {"concept": "Advantage", "module": "Character Traits"},
+      "relationship": "constrained_by",
+      "to": {"concept": "Power Level", "module": "Character"},
+      "justification": "Advantages are purchased within a Power Point budget constrained by Power Level caps.",
+      "chunk": "eab98ce0e1fc"
+    }
+  ]
+}
+```
+```json
+{
+  "chunk_id": "da1c0758b454",
+  "primary_concepts": [
+    {"concept": "Ability", "module": "Character Traits", "evidence_type": "definition", "note": "Abilities define what a character can do."},
+    {"concept": "Power", "module": "Powers", "evidence_type": "definition", "note": "Powers are extraordinary abilities."},
+    {"concept": "Advantage", "module": "Character Traits", "evidence_type": "definition", "note": "Advantages provide benefits."},
+    {"concept": "Skill", "module": "Character Traits", "evidence_type": "definition", "note": "Skills represent trained abilities."},
+    {"concept": "Complication", "module": "Character", "evidence_type": "definition", "note": "Complications are narrative elements that add depth."}
+  ],
+  "cross_module_relationships": [
+    {
+      "from": {"concept": "Ability", "module": "Character Traits"},
+      "relationship": "constrained_by",
+      "to": {"concept": "Power Level", "module": "Character"},
+      "justification": "Abilities are purchased within a Power Point budget constrained by Power Level caps.",
+      "chunk": "da1c0758b454"
+    },
+    {
+      "from": {"concept": "Power", "module": "Powers"},
+      "relationship": "constrained_by",
+      "to": {"concept": "Power Level", "module": "Character"},
+      "justification": "Powers are constrained by Power Level caps.",
+      "chunk": "da1c0758b454"
+    },
+    {
+      "from": {"concept": "Skill", "module": "Character Traits"},
+      "relationship": "constrained_by",
+      "to": {"concept": "Power Level", "module": "Character"},
+      "justification": "Skills are purchased within a Power Point budget constrained by Power Level caps.",
+      "chunk": "da1c0758b454"
+    },
+    {
+      "from": {"concept": "Advantage", "module": "Character Traits"},
+      "relationship": "constrained_by",
+      "to": {"concept": "Power Level", "module": "Character"},
+      "justification": "Advantages are purchased within a Power Point budget constrained by Power Level caps.",
+      "chunk": "da1c0758b454"
+    }
+  ]
+}
+```
+```json
+{
+  "chunk_id": "919d7063d0ae",
+  "primary_concepts": [
+    {"concept": "Ability", "module": "Character Traits", "evidence_type": "definition", "note": "Abilities define what a character can do."},
+    {"concept": "Power", "module": "Powers", "evidence_type": "definition", "note": "Powers are extraordinary abilities."},
+    {"concept": "Advantage", "module": "Character Traits", "evidence_type": "definition", "note": "Advantages provide benefits."},
+    {"concept": "Skill", "module": "Character Traits", "evidence_type": "definition", "note": "Skills represent trained abilities."},
+    {"concept": "Complication", "module": "Character", "evidence_type": "definition", "note": "Complications are narrative elements that add depth."}
+  ],
+  "cross_module_relationships": [
+    {
+      "from": {"concept": "Ability", "module": "Character Traits"},
+      "relationship": "constrained_by",
+      "to": {"concept": "Power Level", "module": "Character"},
+      "justification": "Abilities are purchased within a Power Point budget constrained by Power Level caps.",
+      "chunk": "919d7063d0ae"
+    },
+    {
+      "from": {"concept": "Power", "module": "Powers"},
+      "relationship": "constrained_by",
+      "to": {"concept": "Power Level", "module": "Character"},
+      "justification": "Powers are constrained by Power Level caps.",
+      "chunk": "919d7063d0ae"
+    },
+    {
+      "from": {"concept": "Skill", "module": "Character Traits"},
+      "relationship": "constrained_by",
+      "to": {"concept": "Power Level", "module": "Character"},
+      "justification": "Skills are purchased within a Power Point budget constrained by Power Level caps.",
+      "chunk": "919d7063d0ae"
+    },
+    {
+      "from": {"concept": "Advantage", "module": "Character Traits"},
+      "relationship": "constrained_by",
+      "to": {"concept": "Power Level", "module": "Character"},
+      "justification": "Advantages are purchased within a Power Point budget constrained by Power Level caps.",
+      "chunk": "919d7063d0ae"
+    }
+  ]
+}
+```
+```json
+{
+  "chunk_id": "ebf52e380812",
+  "primary_concepts": [],
+  "cross_module_relationships": []
+}
+```
+--- END STREAM ---
+[01:31:16] P1 Batch   8/40  status=ok        concepts= 31  rels=20  batch_time=111.7s  total=270s
+
+--- AI STREAM P1-9/40 ---
+```json
+{
+  "chunk_id": "e5eb32b8480c",
+  "primary_concepts": [
+    {"concept": "Complication", "module": "Character", "evidence_type": "definition", "note": "Challenges that make a hero's life interesting."},
+    {"concept": "PowerLevel", "module": "Character", "evidence_type": "mention", "note": "Character should be appropriate for a Power Level 10 game."},
+    {"concept": "ExtraEffort", "module": "Character", "evidence_type": "mention", "note": "Players can customize their characters."}
+  ],
+  "cross_module_relationships": []
+}
+```
+```json
+{
+  "chunk_id": "cb4093e23f62",
+  "primary_concepts": [
+    {"concept": "Power", "module": "Powers", "evidence_type": "mention", "note": "Powers section provides examples of powers."},
+    {"concept": "HeroPoint", "module": "Character", "evidence_type": "mention", "note": "Hero Points can be used for Alternate Effects."},
+    {"concept": "PowerLevel", "module": "Character", "evidence_type": "mention", "note": "Character will have abilities appropriate for Power Level 10."}
+  ],
+  "cross_module_relationships": []
+}
+```
+```json
+{
+  "chunk_id": "1af862ab5396",
+  "primary_concepts": [
+    {"concept": "Ability", "module": "Character Traits", "evidence_type": "mention", "note": "Abilities are rolled for character creation."},
+    {"concept": "Advantage", "module": "Character Traits", "evidence_type": "mention", "note": "Advantages are part of character traits."},
+    {"concept": "Skill", "module": "Character Traits", "evidence_type": "mention", "note": "Skills are rolled for character creation."}
+  ],
+  "cross_module_relationships": []
+}
+```
+```json
+{
+  "chunk_id": "e087f7a0b70b",
+  "primary_concepts": [
+    {"concept": "Power", "module": "Powers", "evidence_type": "mention", "note": "Powers are added to the Weapon Array."},
+    {"concept": "Ability", "module": "Character Traits", "evidence_type": "mention", "note": "Abilities are part of character creation."}
+  ],
+  "cross_module_relationships": []
+}
+```
+```json
+{
+  "chunk_id": "d329357e5091",
+  "primary_concepts": [
+    {"concept": "Power", "module": "Powers", "evidence_type": "mention", "note": "Powers are defined for Constructs."},
+    {"concept": "Ability", "module": "Character Traits", "evidence_type": "mention", "note": "Abilities are rolled for character creation."}
+  ],
+  "cross_module_relationships": []
+}
+```
+```json
+{
+  "chunk_id": "a67593d532fb",
+  "primary_concepts": [
+    {"concept": "Power", "module": "Powers", "evidence_type": "mention", "note": "Powers are defined for Undead."},
+    {"concept": "Ability", "module": "Character Traits", "evidence_type": "mention", "note": "Abilities are rolled for character creation."}
+  ],
+  "cross_module_relationships": []
+}
+```
+```json
+{
+  "chunk_id": "a37758230a66",
+  "primary_concepts": [
+    {"concept": "Ability", "module": "Character Traits", "evidence_type": "mention", "note": "Abilities are rolled for character creation."},
+    {"concept": "Advantage", "module": "Character Traits", "evidence_type": "mention", "note": "Advantages are part of character traits."}
+  ],
+  "cross_module_relationships": []
+}
+```
+--- END STREAM ---
+[01:31:36] P1 Batch   9/40  status=ok        concepts= 17  rels= 0  batch_time=19.9s  total=290s
+
+--- AI STREAM P1-10/40 ---
+```json
+{
+  "chunk_id": "dcdc4c459ab6",
+  "primary_concepts": [
+    {"concept": "Skill", "module": "Character Traits", "evidence_type": "mention", "note": "Skills are part of character traits."},
+    {"concept": "Ability", "module": "Character Traits", "evidence_type": "mention", "note": "Abilities are part of character traits."},
+    {"concept": "Power", "module": "Powers", "evidence_type": "mention", "note": "Powers are defined by abilities."},
+    {"concept": "Equipment", "module": "Character", "evidence_type": "mention", "note": "Equipment is part of character resources."}
+  ],
+  "cross_module_relationships": []
+}
+```
+
+```json
+{
+  "chunk_id": "04f4880a6e63",
+  "primary_concepts": [
+    {"concept": "Equipment", "module": "Character", "evidence_type": "mention", "note": "Equipment is part of character resources."},
+    {"concept": "Ability", "module": "Character Traits", "evidence_type": "mention", "note": "Abilities are part of character traits."},
+    {"concept": "Power", "module": "Powers", "evidence_type": "mention", "note": "Powers are defined by abilities."}
+  ],
+  "cross_module_relationships": []
+}
+```
+
+```json
+{
+  "chunk_id": "b511fe78f53a",
+  "primary_concepts": [
+    {"concept": "Ability", "module": "Character Traits", "evidence_type": "mention", "note": "Abilities are part of character traits."},
+    {"concept": "Power", "module": "Powers", "evidence_type": "mention", "note": "Powers are defined by abilities."},
+    {"concept": "Skill", "module": "Character Traits", "evidence_type": "mention", "note": "Skills are part of character traits."}
+  ],
+  "cross_module_relationships": []
+}
+```
+
+```json
+{
+  "chunk_id": "685941d4ae65",
+  "primary_concepts": [
+    {"concept": "Power", "module": "Powers", "evidence_type": "mention", "note": "Powers are defined by abilities."},
+    {"concept": "Ability", "module": "Character Traits", "evidence_type": "mention", "note": "Abilities are part of character traits."}
+  ],
+  "cross_module_relationships": []
+}
+```
+
+```json
+{
+  "chunk_id": "85cc7f979174",
+  "primary_concepts": [
+    {"concept": "Power", "module": "Powers", "evidence_type": "mention", "note": "Powers are defined by abilities."},
+    {"concept": "Ability", "module": "Character Traits", "evidence_type": "mention", "note": "Abilities are part of character traits."}
+  ],
+  "cross_module_relationships": []
+}
+```
+
+```json
+{
+  "chunk_id": "6e090a5bf703",
+  "primary_concepts": [
+    {"concept": "Ability", "module": "Character Traits", "evidence_type": "mention", "note": "Abilities are part of character traits."},
+    {"concept": "Skill", "module": "Character Traits", "evidence_type": "mention", "note": "Skills are part of character traits."}
+  ],
+  "cross_module_relationships": []
+}
+```
+
+```json
+{
+  "chunk_id": "13ce58f9b33f",
+  "primary_concepts": [
+    {"concept": "Power", "module": "Powers", "evidence_type": "mention", "note": "Powers are defined by abilities."},
+    {"concept": "Skill", "module": "Character Traits", "evidence_type": "mention", "note": "Skills are part of character traits."}
+  ],
+  "cross_module_relationships": []
+}
+```
+--- END STREAM ---
+[01:31:59] P1 Batch  10/40  status=ok        concepts= 18  rels= 0  batch_time=22.2s  total=312s
+
+--- AI STREAM P1-11/40 ---
+```json
+{
+  "chunk_id": "14dd371ce972",
+  "primary_concepts": [
+    {"concept": "Power", "module": "Powers", "evidence_type": "mention", "note": "Various powers listed as Alternate Effects"},
+    {"concept": "Ability", "module": "Character Traits", "evidence_type": "mention", "note": "Abilities and defenses listed"},
+    {"concept": "Defense", "module": "Character Traits", "evidence_type": "mention", "note": "Defenses listed for characters"},
+    {"concept": "Condition", "module": "Combat", "evidence_type": "mention", "note": "Conditions associated with powers"},
+    {"concept": "Action", "module": "Combat", "evidence_type": "mention", "note": "Actions related to powers and abilities"}
+  ],
+  "cross_module_relationships": []
+}
+```
+```json
+{
+  "chunk_id": "1081db3c43af",
+  "primary_concepts": [
+    {"concept": "Skill", "module": "Character Traits", "evidence_type": "mention", "note": "Skills listed for characters"},
+    {"concept": "Ability", "module": "Character Traits", "evidence_type": "mention", "note": "Abilities listed for characters"},
+    {"concept": "Power", "module": "Powers", "evidence_type": "mention", "note": "Powers listed for characters"},
+    {"concept": "Advantage", "module": "Character Traits", "evidence_type": "mention", "note": "Advantages listed for characters"}
+  ],
+  "cross_module_relationships": []
+}
+```
+```json
+{
+  "chunk_id": "db8b2bdf371a",
+ [01:34:19] P1 Batch  11/40  status=api_erro  concepts=  0  rels= 0  batch_time=140.5s  total=453s
+
+--- AI STREAM P1-12/40 ---
+[01:34:23] P1 Batch  12/40  status=api_erro  concepts=  0  rels= 0  batch_time=4.1s  total=457s
+
+--- AI STREAM P1-13/40 ---
+```json
+{
+  "chunk_id": "c1c422470246",
+  "primary_concepts": [
+    {"concept": "Ability", "module": "Character Traits", "evidence_type": "mention", "note": "Abilities define what a character can do."},
+    {"concept": "Skill", "module": "Character Traits", "evidence_type": "mention", "note": "Skills are part of character traits."},
+    {"concept": "Power", "module": "Powers", "evidence_type": "mention", "note": "Powers define extraordinary abilities."},
+    {"concept": "PowerLevel", "module": "Character", "evidence_type": "mention", "note": "Power Level caps constrain character traits."}
+  ],
+  "cross_module_relationships": []
+}
+```
+```json
+{
+  "chunk_id": "8757660124bd",
+  "primary_concepts": [
+    {"concept": "Power", "module": "Powers", "evidence_type": "mention", "note": "Powers are defined by effects and costs."},
+    {"concept": "Effect", "module": "Powers", "evidence_type": "mention", "note": "Effects are part of powers."}
+  ],
+  "cross_module_relationships": []
+}
+```
+```json
+{
+  "chunk_id": "818544ba2429",
+  "primary_concepts": [
+    {"concept": "Ability", "module": "Character Traits", "evidence_type": "mention", "note": "Abilities define character capabilities."},
+    {"concept": "Skill", "module": "Character Traits", "evidence_type": "mention", "note": "Skills are part of character traits."}
+  ],
+  "cross_module_relationships": []
+}
+```
+```json
+{
+  "chunk_id": "cfadcb33d64b",
+  "primary_concepts": [
+    {"concept": "Power", "module": "Powers", "evidence_type": "mention", "note": "Powers define extraordinary abilities."},
+    {"concept": "Effect", "module": "Powers", "evidence_type": "mention", "note": "Effects are part of powers."}
+  ],
+  "cross_module_relationships": []
+}
+``
