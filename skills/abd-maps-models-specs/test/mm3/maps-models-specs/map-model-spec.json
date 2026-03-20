@@ -2,489 +2,215 @@
   "modules_and_epics": [
     {
       "module": {
-        "name": "Resolution",
-        "description": "The single mechanic that resolves all uncertain outcomes: roll d20, add modifier, compare to DC; degree of success or failure determines what happens next.",
-        "description_chunk": "4cd63373be61",
+        "name": "Check Resolution",
+        "description": "Mechanism for resolving checks (d20 + modifier vs DC) and degrees of success or failure; includes skill checks, opposed checks, and resistance checks.",
+        "description_chunk": "unit_00048",
         "concepts": [
           {
             "name": "Check",
             "foundational": true,
-            "chunk_ids": ["4cd63373be61", "714405399e02"],
-            "owns": "Whether an action succeeds or fails and by how much — the core resolution decision.",
-            "owns_chunk": "4cd63373be61",
-            "properties": [
-              { "definition": "Number modifier", "chunk": "714405399e02" },
-              { "definition": "Number difficulty_class", "chunk": "714405399e02" }
-            ],
-            "operations": [
-              { "definition": "resolve() → Degree", "chunk": "4cd63373be61" }
-            ]
+            "chunk_ids": ["unit_00048", "unit_00306", "unit_01220"],
+            "owns": "Determines success or failure by comparing roll result to DC; produces degree of success or failure.",
+            "owns_chunk": "unit_00048",
+            "properties": [],
+            "operations": []
           },
           {
-            "name": "Degree",
-            "foundational": true,
-            "chunk_ids": ["4cd63373be61"],
-            "owns": "How far above or below DC a result landed — drives what consequence applies.",
-            "owns_chunk": "4cd63373be61",
-            "properties": [
-              { "definition": "EnumType value {success, failure, critical_success, critical_failure}", "chunk": "4cd63373be61" }
-            ],
+            "name": "DifficultyClass",
+            "foundational": false,
+            "chunk_ids": ["unit_01220"],
+            "owns": "Target number for a check; varies by task (e.g. DC 10 simple to DC 25+ advanced).",
+            "owns_chunk": "unit_01220",
+            "properties": [],
             "operations": []
           }
         ]
       },
       "epic": {
-        "name": "Resolve **Check**",
-        "statement": "**Player** or **GM** calls for a **Check** when an outcome is uncertain; **System** compares result to **DifficultyClass** and returns a **Degree**.",
-        "statement_chunk": "4cd63373be61",
+        "name": "Resolve Check",
+        "statement": "**Player** or **System** rolls d20 + modifier; result is compared to DC to determine degree of success or failure.",
+        "statement_chunk": "unit_00048",
         "triggering_actor": "Player or GM",
         "responding_actor": "System",
-        "pre_condition": "Given an action with uncertain outcome is declared; And a **DifficultyClass** or opposing **Defense** is set",
-        "pre_condition_chunk": "714405399e02",
-        "stories": [
-          {
-            "name": "Make Skill **Check**",
-            "chunk": "89a1fc58a123",
-            "trigger": "**Player** declares a skill action and rolls **Check**",
-            "response": "**System** compares to **DifficultyClass** and returns **Degree**"
-          },
-          {
-            "name": "Resist **Effect**",
-            "chunk": "714405399e02",
-            "trigger": "**System** triggers resistance **Check** when **Effect** targets **Character**",
-            "response": "**System** applies **Condition** based on **Degree** of failure"
-          },
-          {
-            "name": "Make Opposed **Check**",
-            "chunk": "6b20869c8bc9",
-            "trigger": "**Player** rolls **Check** against another **Character**'s active **Check**",
-            "response": "**System** compares both results and returns winner by margin"
-          }
-        ]
+        "pre_condition": null,
+        "pre_condition_chunk": null,
+        "confirming_stories": ["Resolve skill check", "Resolve opposed check", "Resolve resistance check"]
       },
       "chunk_ids": {
-        "identified": ["4cd63373be61", "714405399e02", "6b20869c8bc9"],
-        "provisional": ["89a1fc58a123"],
+        "identified": ["unit_00048", "unit_00306", "unit_01220"],
+        "provisional": ["unit_04061"],
         "ambiguous": []
       }
     },
     {
       "module": {
-        "name": "Character",
-        "description": "The aggregate root holding all hero traits and resources — purchased within a Power Point budget constrained by Power Level caps; also owns the hero point pool, complications, and extra effort.",
-        "description_chunk": "d4cad3e10e05",
+        "name": "Conflict and Actions",
+        "description": "Action round, initiative order, and action types (standard, move, free, reaction) during conflicts.",
+        "description_chunk": "unit_00048",
         "concepts": [
           {
-            "name": "Character",
+            "name": "ActionRound",
             "foundational": true,
-            "chunk_ids": ["d4cad3e10e05", "792ccb4b72a0"],
-            "owns": "Whether the sheet is valid — total cost within budget and all Power Level caps met.",
-            "owns_chunk": "d4cad3e10e05",
-            "properties": [
-              { "definition": "Number power_points_budget", "chunk": "d4cad3e10e05" },
-              { "definition": "Number power_level", "chunk": "d4cad3e10e05" },
-              { "definition": "Dictionary<String, Trait> traits", "chunk": "d4cad3e10e05" },
-              { "definition": "List<Power> powers", "chunk": "d4cad3e10e05" },
-              { "definition": "List<Complication> complications", "chunk": "d4cad3e10e05" },
-              { "definition": "Number hero_point_pool", "chunk": "792ccb4b72a0" }
-            ],
-            "operations": [
-              { "definition": "validate() → Boolean", "chunk": "d4cad3e10e05" },
-              { "definition": "total_cost() → Number", "chunk": "d4cad3e10e05" },
-              { "definition": "advance(awarded_pp: Number) → void", "chunk": "d4cad3e10e05" }
-            ]
-          },
-          {
-            "name": "PowerLevel",
-            "foundational": true,
-            "chunk_ids": ["d4cad3e10e05"],
-            "owns": "The cap on combined attack+effect and defense+resistance trait pairs — enforces game balance.",
-            "owns_chunk": "d4cad3e10e05",
-            "properties": [
-              { "definition": "Number rank", "chunk": "d4cad3e10e05" }
-            ],
-            "operations": [
-              { "definition": "validate_pair(offensive: Number, defensive: Number) → Boolean", "chunk": "d4cad3e10e05" }
-            ]
-          },
-          {
-            "name": "HeroPoint",
-            "foundational": false,
-            "chunk_ids": ["792ccb4b72a0"],
-            "owns": "What the player can trade it for — re-roll, condition recovery, inspiration, or counter attempt.",
-            "owns_chunk": "792ccb4b72a0",
+            "chunk_ids": ["unit_00048", "unit_00862", "unit_04149"],
+            "owns": "Orders turns by initiative; constrains what actions (standard, move, free, reaction) can be taken.",
+            "owns_chunk": "unit_00862",
             "properties": [],
-            "operations": [
-              { "definition": "spend(use: HeroPointUse) → void", "chunk": "792ccb4b72a0" }
-            ]
-          },
-          {
-            "name": "Complication",
-            "foundational": false,
-            "chunk_ids": ["d4cad3e10e05", "792ccb4b72a0"],
-            "owns": "When invoked, creates a story problem for the character; triggers award of a HeroPoint.",
-            "owns_chunk": "d4cad3e10e05",
-            "properties": [
-              { "definition": "String description", "chunk": "d4cad3e10e05" }
-            ],
             "operations": []
           },
           {
-            "name": "ExtraEffort",
+            "name": "Initiative",
             "foundational": false,
-            "chunk_ids": ["4cd63373be61"],
-            "owns": "[defer] — extra effort trades fatigue for a bonus action or enhanced effect; interacts with HeroPoint recovery. chunk: 4cd63373be61",
-            "owns_chunk": "4cd63373be61",
+            "chunk_ids": ["unit_00862"],
+            "owns": "Determines order of action in conflict (d20 + initiative modifier).",
+            "owns_chunk": "unit_00862",
             "properties": [],
             "operations": []
           }
         ]
       },
       "epic": {
-        "name": "Build **Character**",
-        "statement": "**Player** allocates **PowerPoints** across traits within **PowerLevel** caps; **System** validates the sheet is legal.",
-        "statement_chunk": "d4cad3e10e05",
-        "triggering_actor": "Player",
-        "responding_actor": "System",
-        "pre_condition": "Given **PowerLevel** is set; And **PowerPoints** budget is established",
-        "pre_condition_chunk": "d4cad3e10e05",
-        "stories": [
+        "name": "Run Action Round",
+        "statement": "**System** establishes initiative order; **Player** and **System** take actions (standard, move, free, reaction) within the round.",
+        "statement_chunk": "unit_04149",
+        "triggering_actor": "GM",
+        "responding_actor": "Player and System",
+        "pre_condition": null,
+        "pre_condition_chunk": null,
+        "confirming_stories": ["Determine initiative order", "Take standard action", "Apply conditions from actions"]
+      },
+      "chunk_ids": {
+        "identified": ["unit_00048", "unit_00862", "unit_04149"],
+        "provisional": [],
+        "ambiguous": []
+      }
+    },
+    {
+      "module": {
+        "name": "Damage and Recovery",
+        "description": "Damage resistance check (Toughness vs rank+15), degrees of failure (penalty, dazed, staggered, incapacitated, dying), and recovery.",
+        "description_chunk": "unit_04061",
+        "concepts": [
           {
-            "name": "Select **Complication**",
-            "chunk": "d4cad3e10e05",
-            "trigger": "**Player** chooses **Complications** for the **Character**",
-            "response": "**System** records them; no PP cost"
+            "name": "DamageResistance",
+            "foundational": true,
+            "chunk_ids": ["unit_04061", "unit_01999"],
+            "owns": "Resolves damage effect via Toughness check; applies degree-based conditions (penalty, dazed, staggered, incapacitated, dying).",
+            "owns_chunk": "unit_04061",
+            "properties": [],
+            "operations": []
           },
           {
-            "name": "Validate **Character** Sheet",
-            "chunk": "d4cad3e10e05",
-            "trigger": "**Player** submits completed **Character** for validation",
-            "response": "**System** checks total cost and **PowerLevel** caps; returns valid or violations"
-          },
-          {
-            "name": "Advance **Character**",
-            "chunk": "d4cad3e10e05",
-            "trigger": "**Player** spends awarded **PowerPoints** on new or improved traits",
-            "response": "**System** applies costs and revalidates **PowerLevel** caps"
-          },
-          {
-            "name": "Spend **HeroPoint**",
-            "chunk": "792ccb4b72a0",
-            "trigger": "**Player** spends a **HeroPoint** at a moment of need",
-            "response": "**System** applies the chosen benefit — re-roll, recovery, inspiration, or counter"
-          },
-          {
-            "name": "Earn **HeroPoint** from **Complication**",
-            "chunk": "792ccb4b72a0",
-            "trigger": "**GM** invokes a **Character**'s **Complication** to create a story problem",
-            "response": "**System** awards one **HeroPoint** to the **Player**"
-          },
-          {
-            "name": "Use Extra Effort [defer]",
-            "chunk": "4cd63373be61",
-            "trigger": "**Player** declares extra effort to enhance an action",
-            "response": "**System** grants bonus; applies fatigue cost — full mechanics deferred to Step 2"
+            "name": "Recovery",
+            "foundational": false,
+            "chunk_ids": ["unit_01999"],
+            "owns": "Removes damage conditions over time (e.g. one condition per minute of rest); Healing/Regeneration can speed this.",
+            "owns_chunk": "unit_01999",
+            "properties": [],
+            "operations": []
           }
         ]
       },
+      "epic": {
+        "name": "Resolve Damage",
+        "statement": "**System** resolves damage resistance check; **Target** receives condition by degree of failure; recovery removes conditions over time.",
+        "statement_chunk": "unit_04061",
+        "triggering_actor": "Attacker / Effect",
+        "responding_actor": "Target / System",
+        "pre_condition": null,
+        "pre_condition_chunk": null,
+        "confirming_stories": ["Resolve damage resistance check", "Apply damage condition", "Recover from damage"]
+      },
       "chunk_ids": {
-        "identified": ["d4cad3e10e05", "792ccb4b72a0", "4cd63373be61"],
-        "provisional": ["9865e6185ff0"],
+        "identified": ["unit_04061", "unit_01999"],
+        "provisional": [],
         "ambiguous": []
       }
     },
     {
       "module": {
         "name": "Character Traits",
-        "description": "The purchased traits that define what a character can do — abilities, defenses, skills, and advantages — all bought from the same Power Point budget and subject to Power Level caps.",
-        "description_chunk": "d4cad3e10e05",
+        "description": "Allocation of power points to abilities, skills, advantages, powers, and complications; constrained by power level.",
+        "description_chunk": "unit_00518",
         "concepts": [
           {
-            "name": "Ability",
+            "name": "PowerPoint",
             "foundational": true,
-            "chunk_ids": ["714405399e02"],
-            "owns": "The modifier contributed to its associated checks and derived defense values.",
-            "owns_chunk": "714405399e02",
-            "properties": [
-              { "definition": "EnumType name {Strength, Stamina, Agility, Dexterity, Fighting, Intellect, Awareness, Presence}", "chunk": "714405399e02" },
-              { "definition": "Number rank", "chunk": "714405399e02" }
-            ],
-            "operations": [
-              { "definition": "modifier() → Number", "chunk": "714405399e02" }
-            ]
-          },
-          {
-            "name": "Defense",
-            "foundational": true,
-            "chunk_ids": ["714405399e02"],
-            "owns": "The difficulty class attackers must beat, and whether it is active or impaired by a Condition.",
-            "owns_chunk": "714405399e02",
-            "properties": [
-              { "definition": "EnumType type {Dodge, Parry, Fortitude, Toughness, Will}", "chunk": "714405399e02" },
-              { "definition": "Number rank", "chunk": "714405399e02" },
-              { "definition": "Boolean is_active", "chunk": "714405399e02" }
-            ],
-            "operations": [
-              { "definition": "defense_class() → Number", "chunk": "714405399e02" }
-            ]
-          },
-          {
-            "name": "Skill",
-            "foundational": false,
-            "chunk_ids": ["94d3158e4b6b", "89a1fc58a123"],
-            "owns": "The trained bonus added to a specific ability check; whether a check can be made untrained.",
-            "owns_chunk": "94d3158e4b6b",
-            "properties": [
-              { "definition": "String name", "chunk": "94d3158e4b6b" },
-              { "definition": "Number rank", "chunk": "94d3158e4b6b" },
-              { "definition": "Ability linked_ability", "chunk": "89a1fc58a123" }
-            ],
-            "operations": [
-              { "definition": "bonus() → Number", "chunk": "89a1fc58a123" }
-            ]
+            "chunk_ids": ["unit_00518", "unit_03879"],
+            "owns": "Budget for buying abilities, skills, advantages, powers (1 PP per advantage or rank; abilities/skills/powers have costs).",
+            "owns_chunk": "unit_00518",
+            "properties": [],
+            "operations": []
           },
           {
             "name": "Advantage",
             "foundational": false,
-            "chunk_ids": ["481ffcf3c778", "2b979f00a098"],
-            "owns": "The specific rule or tradeoff it grants — combat modifier, fortune effect, or general capability.",
-            "owns_chunk": "481ffcf3c778",
-            "properties": [
-              { "definition": "EnumType type {combat, fortune, general, skill}", "chunk": "2b979f00a098" },
-              { "definition": "Boolean ranked", "chunk": "2b979f00a098" }
-            ],
+            "chunk_ids": ["unit_03879", "unit_00518"],
+            "owns": "Character option purchased with power points (1 per advantage or rank).",
+            "owns_chunk": "unit_00518",
+            "properties": [],
             "operations": []
           }
         ]
       },
       "epic": {
-        "name": "Configure **Character Traits**",
-        "statement": "**Player** purchases **Ability** ranks, **Skills**, and **Advantages** with **PowerPoints**; **System** derives **Defense** values and validates **PowerLevel** compliance.",
-        "statement_chunk": "714405399e02",
+        "name": "Build Character",
+        "statement": "**Player** spends power points on abilities, skills, advantages, powers, and details within power level limits.",
+        "statement_chunk": "unit_00518",
         "triggering_actor": "Player",
         "responding_actor": "System",
-        "pre_condition": "Given **Character** exists with **PowerLevel** set and **PowerPoints** available",
-        "pre_condition_chunk": "d4cad3e10e05",
-        "stories": [
-          {
-            "name": "Set **Ability** Rank",
-            "chunk": "714405399e02",
-            "trigger": "**Player** assigns rank to an **Ability**",
-            "response": "**System** deducts cost and recalculates derived **Defense** values"
-          },
-          {
-            "name": "Train **Skill**",
-            "chunk": "94d3158e4b6b",
-            "trigger": "**Player** spends **PowerPoints** on **Skill** ranks",
-            "response": "**System** records rank; adds to linked **Ability** modifier for that skill's checks"
-          },
-          {
-            "name": "Select **Advantage**",
-            "chunk": "2b979f00a098",
-            "trigger": "**Player** picks an **Advantage** during creation or advancement",
-            "response": "**System** records it and applies the rule or tradeoff it grants"
-          },
-          {
-            "name": "Apply **Condition** to **Defense**",
-            "chunk": "714405399e02",
-            "trigger": "**Character** gains Vulnerable or Defenseless **Condition**",
-            "response": "**System** halves active **Defense** ranks (Vulnerable) or sets to 0 (Defenseless)"
-          }
-        ]
+        "pre_condition": null,
+        "pre_condition_chunk": null,
+        "confirming_stories": ["Allocate ability ranks", "Choose advantages", "Select powers within PL"]
       },
       "chunk_ids": {
-        "identified": ["714405399e02", "94d3158e4b6b", "2b979f00a098", "481ffcf3c778"],
-        "provisional": ["89a1fc58a123"],
+        "identified": ["unit_00518", "unit_03879", "unit_00177"],
+        "provisional": [],
         "ambiguous": []
       }
     },
     {
       "module": {
-        "name": "Powers",
-        "description": "The system for defining extraordinary abilities: named Effects purchased at a per-rank cost, adjusted by Extras and Flaws, constrained by PowerLevel caps.",
-        "description_chunk": "2b9b77a24290",
+        "name": "Powers and Effects",
+        "description": "Power effects, modifiers (extras and flaws), descriptors, and cost; application of effects in conflict.",
+        "description_chunk": "unit_02684",
         "concepts": [
-          {
-            "name": "Power",
-            "foundational": true,
-            "chunk_ids": ["2b9b77a24290", "05f80df9e48f"],
-            "owns": "The final per-rank cost after extras and flaws, and whether the effect is currently active.",
-            "owns_chunk": "2b9b77a24290",
-            "properties": [
-              { "definition": "Effect effect", "chunk": "2b9b77a24290" },
-              { "definition": "Number rank", "chunk": "2b9b77a24290" },
-              { "definition": "List<Modifier> extras", "chunk": "d4cad3e10e05" },
-              { "definition": "List<Modifier> flaws", "chunk": "d4cad3e10e05" },
-              { "definition": "EnumType action {standard, move, free, reaction, none}", "chunk": "2b9b77a24290" },
-              { "definition": "EnumType range {personal, close, ranged, perception}", "chunk": "2b9b77a24290" },
-              { "definition": "EnumType duration {instant, concentration, sustained, continuous, permanent}", "chunk": "2b9b77a24290" }
-            ],
-            "operations": [
-              { "definition": "cost_per_rank() → Number", "chunk": "2b9b77a24290" },
-              { "definition": "activate() → ActivationResult", "chunk": "05f80df9e48f" }
-            ]
-          },
           {
             "name": "Effect",
             "foundational": true,
-            "chunk_ids": ["2b9b77a24290", "d4cad3e10e05"],
-            "owns": "What resistance check type applies, what DC the effect sets, and what happens on each degree of failure.",
-            "owns_chunk": "2b9b77a24290",
-            "properties": [
-              { "definition": "Number base_cost_per_rank", "chunk": "2b9b77a24290" },
-              { "definition": "EnumType resistance_check {Dodge, Fortitude, Toughness, Will, none}", "chunk": "2b9b77a24290" },
-              { "definition": "Effect subtypes [defer] — the named effects (Affliction, Damage, Healing, Move Object, etc.) exist as distinct mechanics; full taxonomy deferred to Step 2. chunk: d4cad3e10e05", "chunk": "d4cad3e10e05" }
-            ],
-            "operations": [
-              { "definition": "resolve(rank: Number, target: Character) → Degree", "chunk": "2b9b77a24290" }
-            ]
+            "chunk_ids": ["unit_02684", "unit_03032", "unit_01697"],
+            "owns": "Named mechanical effect (e.g. Weaken, Damage) with rank, modifiers, and cost; may be noticeable or subtle.",
+            "owns_chunk": "unit_02684",
+            "properties": [],
+            "operations": []
           },
           {
             "name": "Modifier",
             "foundational": false,
-            "chunk_ids": ["d4cad3e10e05"],
-            "owns": "How much it adjusts the effect's cost per rank — adding (Extra) or subtracting (Flaw).",
-            "owns_chunk": "d4cad3e10e05",
-            "properties": [
-              { "definition": "EnumType kind {extra, flaw}", "chunk": "d4cad3e10e05" },
-              { "definition": "Number cost_adjustment", "chunk": "d4cad3e10e05" },
-              { "definition": "EnumType scope {per_rank, flat}", "chunk": "d4cad3e10e05" }
-            ],
+            "chunk_ids": ["unit_02684", "unit_03032"],
+            "owns": "Extra or flaw that changes effect cost or behavior (e.g. Removable, Concentration, Affects Objects).",
+            "owns_chunk": "unit_02684",
+            "properties": [],
             "operations": []
           }
         ]
       },
       "epic": {
-        "name": "Build **Power**",
-        "statement": "**Player** selects an **Effect**, sets rank, and applies **Modifiers** to define a **Power** within **PowerPoints** budget and **PowerLevel** caps.",
-        "statement_chunk": "2b9b77a24290",
+        "name": "Configure Power",
+        "statement": "**Player** defines effects with rank, modifiers, and descriptors; **System** enforces cost and PL limits.",
+        "statement_chunk": "unit_02684",
         "triggering_actor": "Player",
         "responding_actor": "System",
-        "pre_condition": "Given **Character** has unspent **PowerPoints**; And **PowerLevel** is set",
-        "pre_condition_chunk": "d4cad3e10e05",
-        "stories": [
-          {
-            "name": "Select and Rank **Effect**",
-            "chunk": "2b9b77a24290",
-            "trigger": "**Player** chooses an **Effect** and sets its rank",
-            "response": "**System** calculates base cost and validates against **PowerLevel** cap for attack effects"
-          },
-          {
-            "name": "Apply **Extra** to **Effect**",
-            "chunk": "d4cad3e10e05",
-            "trigger": "**Player** applies an **Extra** to enhance the **Effect**",
-            "response": "**System** increases cost per rank by the Extra's adjustment"
-          },
-          {
-            "name": "Apply **Flaw** to **Effect**",
-            "chunk": "d4cad3e10e05",
-            "trigger": "**Player** applies a **Flaw** to accept a limitation",
-            "response": "**System** reduces cost per rank by the Flaw's adjustment (minimum 1)"
-          },
-          {
-            "name": "Build **Power** Array",
-            "chunk": "d4cad3e10e05",
-            "trigger": "**Player** groups **Effects** under a shared base cost",
-            "response": "**System** prices base at highest Effect cost; each alternate costs 1PP"
-          },
-          {
-            "name": "Activate **Effect** in Play [defer]",
-            "chunk": "05f80df9e48f",
-            "trigger": "**Character** uses a **Power** during a scene",
-            "response": "**System** resolves **Effect** against target — full activation mechanics deferred to Step 2"
-          }
-        ]
+        "pre_condition": null,
+        "pre_condition_chunk": null,
+        "confirming_stories": ["Apply extra to effect", "Apply flaw to effect", "Resolve power resistance"]
       },
       "chunk_ids": {
-        "identified": ["2b9b77a24290", "05f80df9e48f", "d4cad3e10e05"],
-        "provisional": ["9c7fcc5049c4", "068f6ea2c39b", "7ade13289c0f"],
-        "ambiguous": []
-      }
-    },
-    {
-      "module": {
-        "name": "Combat",
-        "description": "The structured exchange of attacks, defenses, and conditions — initiative, action economy, attack resolution, and condition accumulation.",
-        "description_chunk": "6b20869c8bc9",
-        "concepts": [
-          {
-            "name": "Action",
-            "foundational": true,
-            "chunk_ids": ["6b20869c8bc9"],
-            "owns": "Which type a character can take on their turn and what it can accomplish.",
-            "owns_chunk": "6b20869c8bc9",
-            "properties": [
-              { "definition": "EnumType type {standard, move, free, reaction, none}", "chunk": "6b20869c8bc9" }
-            ],
-            "operations": [
-              { "definition": "is_available(character: Character) → Boolean", "chunk": "6b20869c8bc9" }
-            ]
-          },
-          {
-            "name": "Condition",
-            "foundational": true,
-            "chunk_ids": ["4cd63373be61", "714405399e02"],
-            "owns": "What actions become unavailable at each severity level and how recovery progresses.",
-            "owns_chunk": "4cd63373be61",
-            "properties": [
-              { "definition": "EnumType severity {impaired, disabled, staggered, incapacitated, dying, dead}", "chunk": "4cd63373be61" },
-              { "definition": "Number toughness_penalty", "chunk": "714405399e02" }
-            ],
-            "operations": [
-              { "definition": "worsen() → Condition", "chunk": "4cd63373be61" },
-              { "definition": "recover() → Condition", "chunk": "4cd63373be61" }
-            ]
-          }
-        ]
-      },
-      "epic": {
-        "name": "Resolve Combat Exchange",
-        "statement": "**Player** or **GM** declares an **Action** targeting another **Character**; **System** resolves the **Check** sequence and applies the resulting **Condition** or state change.",
-        "statement_chunk": "6b20869c8bc9",
-        "triggering_actor": "Player or GM",
-        "responding_actor": "System",
-        "pre_condition": "Given **Character** has an **Action** available this turn; And a valid target exists",
-        "pre_condition_chunk": "6b20869c8bc9",
-        "stories": [
-          {
-            "name": "Make Attack",
-            "chunk": "6b20869c8bc9",
-            "trigger": "**Player** declares attack **Action** and rolls attack **Check**",
-            "response": "**System** compares to **Defense** class; if hit, triggers resistance **Check**"
-          },
-          {
-            "name": "Resist Damage",
-            "chunk": "714405399e02",
-            "trigger": "**System** triggers Toughness **Check** against damage **Effect** DC",
-            "response": "**System** applies **Condition** per **Degree** of failure on Toughness **Check**"
-          },
-          {
-            "name": "Execute Maneuver",
-            "chunk": "086d54227650",
-            "trigger": "**Player** declares a combat maneuver as part of attack **Action**",
-            "response": "**System** applies the tradeoff (attack/defense/effect adjustment) before resolving **Check**"
-          },
-          {
-            "name": "Recover from **Condition**",
-            "chunk": "4cd63373be61",
-            "trigger": "**Player** takes Recover **Action** or **Character** rests between scenes",
-            "response": "**System** removes one **Condition** step immediately or per minute of rest"
-          }
-        ]
-      },
-      "chunk_ids": {
-        "identified": ["6b20869c8bc9", "086d54227650", "4cd63373be61", "714405399e02"],
-        "provisional": ["800b98bbc634"],
+        "identified": ["unit_02684", "unit_03032", "unit_01697", "unit_00665"],
+        "provisional": [],
         "ambiguous": []
       }
     }
   ],
-  "open_questions": [
-    "[uncertain] Effect subtypes — the named effects (Affliction, Damage, Healing, Move Object, Teleport, etc.) each have distinct mechanics. Should they be modeled as subtypes of Effect or as an enum? Needs targeted chunk reading in Step 2. chunk: d4cad3e10e05",
-    "[defer] ExtraEffort full mechanics — evidence exists (extra effort trades fatigue for bonus action/enhanced effect) but interaction with HeroPoint recovery and Conditions not fully read. chunk: 4cd63373be61",
-    "[defer] Activate Effect in play — Power has activate() operation but the full resolution sequence (countering, sustained maintenance, concentration) not read in depth. chunk: 05f80df9e48f",
-    "[uncertain] Gamemastering — NPC creation uses same Character rules; encounter design and series tone are GM guidance not domain concepts. Probably no module needed but confirm before Step 2.",
-    "[uncertain] Equipment and Gear — devices are Powers with Removable flaw (already in Powers); pure equipment comes from the Equipment Advantage (already in Character Traits). Likely no separate module needed."
-  ],
-  "cross_cutting_notes": "PowerLevel [cross-cutting] — Character (budget owner) + Powers (cap enforcement on effect rank). Resolution (Check + Degree) [cross-cutting] — every module depends on it; model first. HeroPoint [cross-cutting] — Character (pool owner) + Complication (award trigger) + Advantage/Fortune (spend interaction). Condition [cross-cutting] — Combat (applied by damage) + Character Traits/Defense (impairs active defenses) + Character (ExtraEffort fatigue)."
+  "open_questions": [],
+  "cross_cutting_notes": "Condition (e.g. Weakened, dazed, staggered) appears in both Conflict and Actions and Damage and Recovery; may be [cross-cutting] once deepened. Check (roll vs DC) is used by resistance checks in Damage and by skill/opposed checks in Check Resolution."
 }

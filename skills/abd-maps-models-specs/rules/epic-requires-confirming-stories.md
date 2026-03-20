@@ -2,7 +2,7 @@
 rule_id: epic-requires-confirming-stories
 phases: [step1]
 order: 30
-scanner: mms_scan_epic_requires_confirming_stories.py
+scanner: scanners/epic_requires_confirming_stories.py
 impact: HIGH
 ---
 
@@ -10,7 +10,7 @@ impact: HIGH
 
 An epic with fewer than two confirming stories has not been sufficiently validated. The confirming stories are not the deliverable — they are the evidence that the epic describes a real, coherent functional area with independently testable behaviors underneath it.
 
-The scanner (`mms_scan_epic_requires_confirming_stories.py`) highlights epics with fewer than two confirming stories. It does not determine what the missing stories should be — that judgment belongs to the AI.
+The scanner (`scanners/epic_requires_confirming_stories.py`) highlights epics with fewer than two confirming stories. It does not determine what the missing stories should be — that judgment belongs to the AI.
 
 **DO** include at least two story names in `confirming_stories` for every epic.
 

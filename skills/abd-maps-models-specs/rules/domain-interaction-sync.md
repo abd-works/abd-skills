@@ -2,7 +2,7 @@
 title: Domain–Story Map Sync
 impact: HIGH
 tags: [step2, step3, step5, step6, domain, interaction, sync]
-scanner: mms_scan_domain_interaction_sync.py
+scanner: scanners/domain_interaction_sync.py
 ---
 
 ## Every Concept Must Participate in at Least One Story

@@ -2,7 +2,7 @@
 rule_id: no-junk-concepts
 phases: [step1]
 order: 40
-scanner: mms_scan_no_junk_concepts.py
+scanner: scanners/no_junk_concepts.py
 impact: HIGH
 ---
 
@@ -10,7 +10,7 @@ impact: HIGH
 
 Concept names that are section headers, all-caps labels, proper nouns, truncations, or instruction phrases indicate that document structure leaked into the domain model. These are not domain concepts — they are artifacts of how the source was written.
 
-The scanner (`mms_scan_no_junk_concepts.py`) flags concept names that match known bad patterns. It does not determine whether a specific name is valid — names that are borderline or context-dependent require AI judgment.
+The scanner (`scanners/no_junk_concepts.py`) flags concept names that match known bad patterns. It does not determine whether a specific name is valid — names that are borderline or context-dependent require AI judgment.
 
 **DO** name concepts as domain nouns that hold state or own decisions.
 - Right: "Check", "Ability", "PowerLevel", "Condition", "Modifier"

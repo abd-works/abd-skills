@@ -2,7 +2,7 @@
 title: Stories Must Have Trigger and Response
 impact: HIGH
 tags: [step2, step3, step5, step6, interaction, stories]
-scanner: mms_scan_stories_have_trigger_response.py
+scanner: scanners/stories_have_trigger_response.py
 ---
 
 ## Every Story Must Have Trigger and Response

@@ -2,7 +2,7 @@
 title: Concepts Must Have Owns
 impact: HIGH
 tags: [step2, step3, step5, step6, domain, concepts]
-scanner: mms_scan_concepts_have_owns.py
+scanner: scanners/concepts_have_owns.py
 ---
 
 ## Every Concept Must Have Decision Ownership

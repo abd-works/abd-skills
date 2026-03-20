@@ -2,7 +2,7 @@
 rule_id: evidence-schema-valid
 phases: [step4]
 order: 15
-scanner: mms_scan_evidence_schema.py
+scanner: scanners/evidence_schema.py
 impact: MEDIUM
 ---
 
@@ -10,7 +10,7 @@ impact: MEDIUM
 
 Step 5 reads evidence files. Malformed JSON blocks the structure phase.
 
-The scanner (`mms_scan_evidence_schema.py`) validates that each evidence file parses as valid JSON.
+The scanner (`scan_evidence_schema.py`) validates that each evidence file parses as valid JSON.
 
 **DO** produce valid JSON. Expected structure: object with concept keys or a `concepts` object mapping concept names to evidence arrays.
 

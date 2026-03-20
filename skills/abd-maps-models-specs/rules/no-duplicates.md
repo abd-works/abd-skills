@@ -2,7 +2,7 @@
 rule_id: no-duplicates
 phases: [step1, step3, step5, step6]
 order: 20
-scanner: mms_scan_no_duplicates.py
+scanner: scanners/no_duplicates.py
 impact: HIGH
 ---
 
@@ -10,7 +10,7 @@ impact: HIGH
 
 Duplicate names indicate a collision — two things being called the same thing in the same context. This is always a modeling error at Step 1: either the same concept was named twice (remove one), or two distinct concepts share a name (rename one to distinguish them).
 
-The scanner (`mms_scan_no_duplicates.py`) highlights duplicate names. It does not determine which entry to keep or how to rename — that judgment belongs to the AI.
+The scanner (`scanners/no_duplicates.py`) highlights duplicate names. It does not determine which entry to keep or how to rename — that judgment belongs to the AI.
 
 **DO** ensure concept names are unique within their module.
 

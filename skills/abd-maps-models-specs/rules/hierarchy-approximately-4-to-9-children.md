@@ -2,7 +2,7 @@
 title: Hierarchy — Approximately 4 to 9 Children
 impact: MEDIUM
 tags: [step2, step3, step5, step6, hierarchy, epic, story]
-scanner: mms_scan_hierarchy_sizing.py
+scanner: scanners/hierarchy_sizing.py
 ---
 
 ## Keep Child Count in 4–9 Range

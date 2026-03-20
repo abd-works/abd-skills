@@ -1,4 +1,4 @@
-"""Shared config for abd-map-model-spec-synthesizer scripts.
+"""Shared config for abd-maps-models-specs scripts.
 
 Config is split across two files:
   conf/abd-config.json   — skill-level: solution_workspace only (points to workspace root)

@@ -2,7 +2,7 @@
 rule_id: chunks-must-be-referenced
 phases: [step1]
 order: 10
-scanner: mms_scan_chunks_must_be_referenced.py
+scanner: scanners/chunks_must_be_referenced.py
 impact: HIGH
 ---
 
@@ -10,7 +10,7 @@ impact: HIGH
 
 Every field that makes an evidence claim must include a chunk reference. An uncited claim is speculation — it cannot be verified, cannot be navigated in Step 2, and cannot be included in the reverse index.
 
-The scanner (`mms_scan_chunks_must_be_referenced.py`) highlights missing citations. It does not determine whether a missing citation is a genuine gap or a false positive — that judgment belongs to the AI in the adversarial validation pass.
+The scanner (`scanners/chunks_must_be_referenced.py`) highlights missing citations. It does not determine whether a missing citation is a genuine gap or a false positive — that judgment belongs to the AI in the adversarial validation pass.
 
 **DO** cite a chunk on every evidence-bearing field:
 

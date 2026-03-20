@@ -1,0 +1,17 @@
+{
+  "option": "F",
+  "chunk_pct": 100.0,
+  "elapsed_seconds": 4.099,
+  "chunk_count": 103,
+  "ai_calls": 1,
+  "ai_model": "gpt-4o-mini",
+  "auto_batch_size": 235,
+  "avg_tokens_sent_per_chunk": 34,
+  "discovered_concepts": 0,
+  "pass2_new_concepts": 18,
+  "pass2_new_relationships": 0,
+  "total_concept_mentions": 18,
+  "total_relationships_detected": 0,
+  "errors": 1,
+  "status": "complete"
+}

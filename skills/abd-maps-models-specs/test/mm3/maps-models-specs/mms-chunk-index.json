@@ -1,208 +1,162 @@
 {
   "generated_from": "map-model-spec.json",
-  "note": "Sampled coverage only \u2014 built from the chunks read during Step 1 (30% of corpus). Not complete. Re-run after any edit to the source output JSON.",
-  "chunk_count": 12,
+  "note": "Reverse index for AI lookup in Steps 6\u20137. Reflects chunks cited in map-model-spec.json. Full corpus coverage comes from Step 8 evidence extraction. Re-run after any edit to the source output JSON.",
+  "chunk_count": 14,
   "chunks": {
-    "4cd63373be61": {
+    "unit_00048": {
       "modules": [
-        "Resolution",
-        "Character",
-        "Combat"
+        "Check Resolution",
+        "Conflict and Actions"
       ],
       "concepts": [
         "Check",
-        "Degree",
-        "ExtraEffort",
-        "Condition"
+        "ActionRound"
       ],
       "epics": [
-        "Resolve **Check**",
-        "Build **Character**",
-        "Resolve Combat Exchange"
+        "Resolve Check"
       ],
-      "stories": [
-        "Use Extra Effort [defer]",
-        "Recover from **Condition**"
-      ]
+      "stories": []
     },
-    "714405399e02": {
+    "unit_00306": {
       "modules": [
-        "Resolution",
-        "Character Traits",
-        "Combat"
+        "Check Resolution"
+      ],
+      "concepts": [
+        "Check"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_01220": {
+      "modules": [
+        "Check Resolution"
       ],
       "concepts": [
         "Check",
-        "Ability",
-        "Defense",
-        "Condition"
+        "DifficultyClass"
       ],
-      "epics": [
-        "Resolve **Check**",
-        "Configure **Character Traits**",
-        "Resolve Combat Exchange"
-      ],
-      "stories": [
-        "Resist **Effect**",
-        "Set **Ability** Rank",
-        "Apply **Condition** to **Defense**",
-        "Resist Damage"
-      ]
+      "epics": [],
+      "stories": []
     },
-    "6b20869c8bc9": {
+    "unit_00862": {
       "modules": [
-        "Resolution",
-        "Combat"
+        "Conflict and Actions"
       ],
       "concepts": [
-        "Action"
+        "ActionRound",
+        "Initiative"
       ],
-      "epics": [
-        "Resolve **Check**",
-        "Resolve Combat Exchange"
-      ],
-      "stories": [
-        "Make Opposed **Check**",
-        "Make Attack"
-      ]
+      "epics": [],
+      "stories": []
     },
-    "89a1fc58a123": {
+    "unit_04149": {
       "modules": [
-        "Resolution",
-        "Character Traits"
+        "Conflict and Actions"
       ],
       "concepts": [
-        "Skill"
+        "ActionRound"
       ],
       "epics": [
-        "Resolve **Check**"
+        "Run Action Round"
       ],
-      "stories": [
-        "Make Skill **Check**"
-      ]
+      "stories": []
     },
-    "d4cad3e10e05": {
+    "unit_04061": {
       "modules": [
-        "Character",
-        "Character Traits",
-        "Powers"
+        "Damage and Recovery"
       ],
       "concepts": [
-        "Character",
-        "PowerLevel",
-        "Complication",
-        "Effect",
-        "Modifier"
+        "DamageResistance"
       ],
       "epics": [
-        "Build **Character**",
-        "Configure **Character Traits**",
-        "Build **Power**"
+        "Resolve Damage"
       ],
-      "stories": [
-        "Select **Complication**",
-        "Validate **Character** Sheet",
-        "Advance **Character**",
-        "Apply **Extra** to **Effect**",
-        "Apply **Flaw** to **Effect**",
-        "Build **Power** Array"
-      ]
+      "stories": []
     },
-    "792ccb4b72a0": {
+    "unit_01999": {
       "modules": [
-        "Character"
+        "Damage and Recovery"
       ],
       "concepts": [
-        "Character",
-        "HeroPoint",
-        "Complication"
+        "DamageResistance",
+        "Recovery"
       ],
-      "epics": [
-        "Build **Character**"
-      ],
-      "stories": [
-        "Spend **HeroPoint**",
-        "Earn **HeroPoint** from **Complication**"
-      ]
+      "epics": [],
+      "stories": []
     },
-    "94d3158e4b6b": {
+    "unit_00518": {
       "modules": [
         "Character Traits"
       ],
       "concepts": [
-        "Skill"
-      ],
-      "epics": [
-        "Configure **Character Traits**"
-      ],
-      "stories": [
-        "Train **Skill**"
-      ]
-    },
-    "2b979f00a098": {
-      "modules": [
-        "Character Traits"
-      ],
-      "concepts": [
+        "PowerPoint",
         "Advantage"
       ],
       "epics": [
-        "Configure **Character Traits**"
+        "Build Character"
       ],
-      "stories": [
-        "Select **Advantage**"
-      ]
+      "stories": []
     },
-    "481ffcf3c778": {
+    "unit_03879": {
       "modules": [
         "Character Traits"
       ],
       "concepts": [
+        "PowerPoint",
         "Advantage"
       ],
       "epics": [],
       "stories": []
     },
-    "2b9b77a24290": {
+    "unit_00177": {
       "modules": [
-        "Powers"
-      ],
-      "concepts": [
-        "Power",
-        "Effect"
-      ],
-      "epics": [
-        "Build **Power**"
-      ],
-      "stories": [
-        "Select and Rank **Effect**"
-      ]
-    },
-    "05f80df9e48f": {
-      "modules": [
-        "Powers"
-      ],
-      "concepts": [
-        "Power"
-      ],
-      "epics": [
-        "Build **Power**"
-      ],
-      "stories": [
-        "Activate **Effect** in Play [defer]"
-      ]
-    },
-    "086d54227650": {
-      "modules": [
-        "Combat"
+        "Character Traits"
       ],
       "concepts": [],
-      "epics": [
-        "Resolve Combat Exchange"
+      "epics": [],
+      "stories": []
+    },
+    "unit_02684": {
+      "modules": [
+        "Powers and Effects"
       ],
-      "stories": [
-        "Execute Maneuver"
-      ]
+      "concepts": [
+        "Effect",
+        "Modifier"
+      ],
+      "epics": [
+        "Configure Power"
+      ],
+      "stories": []
+    },
+    "unit_03032": {
+      "modules": [
+        "Powers and Effects"
+      ],
+      "concepts": [
+        "Effect",
+        "Modifier"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_01697": {
+      "modules": [
+        "Powers and Effects"
+      ],
+      "concepts": [
+        "Effect"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_00665": {
+      "modules": [
+        "Powers and Effects"
+      ],
+      "concepts": [],
+      "epics": [],
+      "stories": []
     }
   }
 }

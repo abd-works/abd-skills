@@ -2,7 +2,7 @@
 rule_id: evidence-files-exist
 phases: [step4]
 order: 5
-scanner: mms_scan_evidence_files_exist.py
+scanner: scanners/evidence_files_exist.py
 impact: HIGH
 ---
 
@@ -10,7 +10,7 @@ impact: HIGH
 
 Step 4 produces four evidence files. Step 5 expects all four. Missing files indicate incomplete extraction.
 
-The scanner (`mms_scan_evidence_files_exist.py`) checks that all four files exist.
+The scanner (`scanners/evidence_files_exist.py`) checks that all four files exist.
 
 **DO** produce:
 - `evidence/actions.json`
