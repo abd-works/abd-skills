@@ -1,0 +1,23 @@
+{
+  "schema_version": "0.1",
+  "description": "Reference shapes for MM3 OO alignment — critic compares emitted map/model/spec text against these names/relationships (fixture, not extracted).",
+  "core_types": [
+    "Check",
+    "Trait",
+    "Skill",
+    "Ability",
+    "Defense",
+    "Power",
+    "Effect",
+    "Damage",
+    "Affliction",
+    "Modifier",
+    "Extra",
+    "Flaw"
+  ],
+  "expected_relationships": [
+    {"from": "Power", "to": "Effect", "kind": "contains_or_applies"},
+    {"from": "Damage", "to": "AttackEffect", "kind": "specializes"},
+    {"from": "Affliction", "to": "AttackEffect", "kind": "specializes"}
+  ]
+}

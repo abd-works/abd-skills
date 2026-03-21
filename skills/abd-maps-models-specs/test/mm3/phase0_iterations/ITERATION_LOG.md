@@ -10,6 +10,7 @@ python scripts/apply_modeling_kind_heuristics.py
 python scripts/validate_modeling_kind_sidecar.py --golden
 python scripts/generate_context_bundle_manifest.py
 python scripts/sample_domain_rule_review.py
+python scripts/orchestrator_loop.py --min-iterations 10 --max-iterations 20
 ```
 
 **Fingerprints (run-time):** see `phase0_audit_metrics.json` → `handbook_sha256`, `generated_at`.
@@ -66,6 +67,13 @@ python scripts/sample_domain_rule_review.py
 - **Updated:** `docs/modeling_kind_sidecar_v1.md` — v2 behavior, golden path, schema link.
 - **Result (725 units):** `toc_or_nav_noise` **215**, `domain_rule_candidate` **229**, `definition_candidate` **165** (remaining kinds unchanged vs v1 counts where applicable).
 - **Residual risk:** dense **table / measure** lines (e.g. MASS ladder) can score as TOC-like — tune in v3 or require LLM for `domain_rule_candidate` promotion.
+
+## Iteration 8 — Orchestrator API loop (planner / runner / critic)
+
+- **Built:** `scripts/orchestrator_loop.py` — runs pipeline each tick; writes `test/mm3/orchestration/plans/`, `runner/`, `critic/`; optional **`ORCHESTRATOR_AGENT_URL`** POST for custom planner markdown.
+- **Built:** `scripts/critic_mm3_domain.py` + `rules/mm3_domain_critic.json` — MM3 OO invariants (checks, traits, powers/effects, damage+affliction, modifiers); scores `map-model-spec.md` + corpus.
+- **Built:** `test/mm3/maps-models-specs/mm3_target_ontology.json`, `map-model-spec.md` (stub for critic keyword alignment).
+- **Docs:** `docs/orchestrator.md`
 
 ---
 

@@ -1,0 +1,47 @@
+{
+  "schema_version": "1",
+  "description": "MM3 / M&M domain invariants for OO extraction — critic uses these to score models and corpus alignment (not TOC taxonomy).",
+  "invariants": [
+    {
+      "id": "checks_are_core",
+      "severity": "high",
+      "summary": "Check resolution is central: regular, attack, defense, opposed, skill, ability checks share a common resolution family.",
+      "model_keywords": ["Check", "check", "OpposedCheck", "AttackCheck", "DefenseCheck", "SkillCheck", "AbilityCheck"],
+      "corpus_keywords": ["check", "opposed", "attack roll", "defense", "DC", "resistance check"]
+    },
+    {
+      "id": "traits_resolve_checks",
+      "severity": "high",
+      "summary": "Anything that routinely participates in check resolution is usually a trait (skills, abilities, defenses). Effects can also impose or resist checks; traits are the durable character capabilities.",
+      "model_keywords": ["Trait", "Skill", "Ability", "Defense", "Stamina"],
+      "corpus_keywords": ["skill", "ability", "defense", "trait", "bonus"]
+    },
+    {
+      "id": "powers_contain_effects",
+      "severity": "high",
+      "summary": "Powers are containers; they apply one or more Effects. Effect categories (sensory, attack, movement, …) are not the same as book TOC section titles.",
+      "model_keywords": ["Power", "Effect", "extras", "flaws"],
+      "anti_model_keywords": ["Power extends Effect"],
+      "corpus_keywords": ["power", "effect", "extras", "flaws", "rank"]
+    },
+    {
+      "id": "damage_affliction_under_attack",
+      "severity": "medium",
+      "summary": "Damage and Affliction are attack-style effects with shared structure; Affliction is configurable vs fixed resistance paths.",
+      "model_keywords": ["Damage", "Affliction", "Attack"],
+      "corpus_keywords": ["damage", "affliction", "resistance", "toughness"]
+    },
+    {
+      "id": "modifiers_separate_family",
+      "severity": "medium",
+      "summary": "Modifiers (extras/flaws) are a large cross-cutting family; categorize by behavior — not one-to-one with effect categories.",
+      "model_keywords": ["Modifier", "Extra", "Flaw"],
+      "corpus_keywords": ["extra", "flaw", "modifier"]
+    }
+  ],
+  "notes_for_automated_critic": [
+    "Do not promote TOC lines to domain types.",
+    "Distinguish book chapter headings from effect categories.",
+    "Candidate concepts from evidence still need a promotion gate — sidecar modeling_kind is not approval."
+  ]
+}
