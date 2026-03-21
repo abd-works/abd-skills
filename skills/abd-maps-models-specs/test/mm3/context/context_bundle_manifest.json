@@ -1,6 +1,6 @@
 {
   "schema_version": "v1",
-  "generated_at": "2026-03-21T07:29:39.401337+00:00",
+  "generated_at": "2026-03-21T07:31:47.465680+00:00",
   "context_root": "test/mm3/context",
   "artifacts": {
     "context_index.json": {
@@ -12,7 +12,7 @@
       "bytes": 141346
     },
     "phase0_audit_metrics.json": {
-      "sha256": "3988464ac05a8b89dd59bba022e85fd8414b9b4b01955b48d5f321ef048a44cd",
+      "sha256": "13d5e77cfc20e57cb01d710e03998bf0ec1adec8bcc5b3e0a7b8fc3bb5b88a08",
       "bytes": 1632
     }
   }

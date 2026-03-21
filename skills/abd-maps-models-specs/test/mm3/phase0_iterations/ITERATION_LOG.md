@@ -88,6 +88,21 @@ Short cross-cut: three critics agree the **corpus is worth keeping** and **`mode
 - **Orchestrator:** `--gold-map`, `--critic-model`; default gold `docs/reference/mm3-map-model-solution-reference.md`.
 - **Docs:** `docs/orchestrator.md`, `docs/reference/README.md`.
 
+## Iteration 11 — Process continuation (morning run, 2026-03-22)
+
+Per [`plan/PROCESS-PLAN.md`](../../../plan/PROCESS-PLAN.md) **Execution order** §1–3: re-ran the **green path** on current `test/mm3/context/` (Phase 0 gate remains **Adopt + extend**; sidecar v2 unchanged this run).
+
+| Step | Command | Result |
+| ---- | ------- | ------ |
+| Phase 0 metrics | `python scripts/phase0_audit.py` | 725/725 index↔chunk; `handbook_sha256` refreshed in `phase0_audit_metrics.json` |
+| Heuristics v2 | `python scripts/apply_modeling_kind_heuristics.py` | Distribution unchanged vs golden (165 / 215 / 229 / …) |
+| Validator | `python scripts/validate_modeling_kind_sidecar.py --golden` | **OK** |
+| Bundle | `python scripts/generate_context_bundle_manifest.py` | `context_bundle_manifest.json` updated |
+| Spot-check | `python scripts/sample_domain_rule_review.py` | First-12 samples for `domain_rule_candidate` + `toc_or_nav_noise` |
+| Orchestrator | `orchestrator_loop.py` `--stop-on-score 0.96` `--critic-model` … `--run-prefix process-20260322-am` | **overall_score 0.967**, `pipeline_ok` true (iteration 1 stop) |
+
+**Next (process):** Phase 1 **merge preconditions** from iteration 6 — optional **JSON Schema** for forward-index rows with `reason` populated; or proceed to **Phase 2** (terms & mechanisms queue) once you want narrative artifacts beyond the MM3 critic + `map-model-spec.md`.
+
 ## Iteration 9 — OO analysis & design foundation (map/model/spec)
 
 - **Replaced stub:** `test/mm3/maps-models-specs/map-model-spec.md` — bounded context, **Check** specialization family, **Trait** vs **Power**, composition **Power → Effect**, **AttackEffect** ← **Damage** / **Affliction**, **Modifier** family, collaboration diagram, anti-patterns (TOC ≠ types, Power does not extend Effect).
