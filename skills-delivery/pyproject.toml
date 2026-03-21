@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "skills-delivery"
+version = "0.1.0"
+description = "Agentic orchestration for Agile by Design skill authoring (LangGraph)."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  # LangGraph stack — pin versions when implementation starts
+  # "langgraph>=0.2",
+  # "langchain-core>=0.3",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.0",
+  "ruff>=0.6",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
