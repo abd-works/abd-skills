@@ -5,7 +5,11 @@ __pycache__/
 .venv/
 venv/
 .env
+# Secrets: match repo root and any skill nested conf/ (e.g. skills/*/conf/.secrets)
 conf/.secrets
+**/conf/.secrets
+skills/abd-maps-models-specs/conf/Untitled
+skills/abd-maps-models-specs/parts/Untitled
 
 # OS
 .DS_Store
