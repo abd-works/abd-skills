@@ -26,7 +26,7 @@ import subprocess
 import sys
 from pathlib import Path
 
-# Resolve script dir for _config
+# Resolve script dir for _config (required — no flat/skill-only mode)
 _SCRIPT_DIR = Path(__file__).resolve().parent
 if str(_SCRIPT_DIR) not in sys.path:
     sys.path.insert(0, str(_SCRIPT_DIR))
@@ -209,19 +209,17 @@ def main():
     parser.add_argument("--no-reparse", action="store_true", help="Skip deleting chunks and re-running parse (default: delete and re-parse)")
     args = parser.parse_args()
 
-    ws_root: Path | None = None
     try:
-        from _config import workspace_root, workspace_config, context_path
-        ws_root = workspace_root()
-    except ImportError:
-        pass
-
-    config_path = Path(args.config).resolve() if args.config else None
-    if not config_path and ws_root:
-        config_path = ws_root / "solution.conf"
-    if not config_path or not config_path.exists():
-        print("Error: solution.conf not found. Specify --config or set solution_workspace.", file=sys.stderr)
+        import _config
+    except ImportError as e:
+        print(f"Error: could not import _config: {e}", file=sys.stderr)
         sys.exit(1)
+
+    if args.config:
+        _config.set_solution_conf_override(Path(args.config))
+
+    ws_root = _config.workspace_root()
+    config_path = _config.solution_conf_path()
 
     # Resolve markdown source
     path: Path | None = None
@@ -229,13 +227,8 @@ def main():
     if args.path:
         path = Path(args.path).resolve()
         md_files = sorted(f for f in path.rglob("*.md") if "images" not in f.parts)
-    elif ws_root:
-        cfg = {}
-        if config_path.exists():
-            try:
-                cfg = json.loads(config_path.read_text(encoding="utf-8"))
-            except json.JSONDecodeError:
-                pass
+    else:
+        cfg = _config.workspace_config()
         for candidate in [ws_root / cfg.get("source_path", ""), ws_root / "docs", ws_root / "maps-models-specs", ws_root]:
             if candidate.exists():
                 md_files = sorted(f for f in candidate.rglob("*.md") if "images" not in f.parts)
@@ -285,7 +278,7 @@ def main():
         workspace_root = config_path.parent
         # path is the folder containing the sampled md (e.g. docs/ or workspace root)
         parse_path = path
-        if not args.path and ws_root:
+        if not args.path:
             # Discovered path may be a subdir; parse expects workspace root
             parse_path = ws_root
         if _clear_context_and_reparse(config_path, workspace_root, parse_path):

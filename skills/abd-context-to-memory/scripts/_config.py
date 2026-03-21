@@ -4,19 +4,30 @@ import os
 import sys
 from pathlib import Path
 
-# Load .env from cwd (memory root when run via index_memory) or skill folder
-try:
-    from dotenv import load_dotenv
-    for p in [Path.cwd(), Path(__file__).resolve().parent.parent]:
-        env_file = p / ".env"
-        if env_file.exists():
-            load_dotenv(env_file)
-            break
-except ImportError:
-    pass
-
 _SCRIPTS = Path(__file__).resolve().parent
 _SKILL_ROOT = _SCRIPTS.parent
+# Repo root: agilebydesign-skills/ (parent of skills/)
+_SKILLS_REPO_ROOT = _SKILL_ROOT.parent.parent
+
+# Load env: repo conf/ (.secrets, .env), then skill .env, then cwd .env (overrides)
+try:
+    from dotenv import load_dotenv
+
+    # Repo conf wins over stale OPENAI_API_KEY inherited from the shell / OS env.
+    _conf_dir = _SKILLS_REPO_ROOT / "conf"
+    for fname in (".secrets", ".env"):
+        _env_path = _conf_dir / fname
+        if _env_path.exists():
+            load_dotenv(_env_path, override=True)
+    _skill_env = _SKILL_ROOT / ".env"
+    if _skill_env.exists():
+        load_dotenv(_skill_env, override=True)
+    # Project cwd .env last — overrides repo conf for per-project keys
+    _cwd_env = Path.cwd() / ".env"
+    if _cwd_env.exists():
+        load_dotenv(_cwd_env, override=True)
+except ImportError:
+    pass
 
 
 def _expand_path(p: str) -> Path:

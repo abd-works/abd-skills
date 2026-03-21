@@ -2,6 +2,7 @@
 
 ## State Concepts (Add Context to Memory)
 
+- **ContextRoot** — Named entry in `roots/roots.json` with a folder `roots/<name>/` and optional junction `roots/<name>/chunked` → absolute `memory_path` (chunked output for indexing)
 - **ContentSource** — Original artifact (PDF, PPTX, DOCX, XLSX, etc.) in supported format
 - **Markdown** — Converted artifact; full fidelity; stored alongside original
 - **Chunk** — Split unit of markdown for retrieval; by slide, heading, or whole file

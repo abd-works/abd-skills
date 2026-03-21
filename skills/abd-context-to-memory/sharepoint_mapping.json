@@ -1,4 +1,10 @@
 {
   "description": "OneDrive path prefix -> SharePoint base URL for shareable links. When source is under OneDrive, markdown gets SharePoint URLs usable by anyone. Add mappings for your OneDrive roots.",
-  "mappings": []
+  "mappings": [
+    {
+      "onedrive_prefix": "OneDrive - Agile by Design",
+      "sharepoint_base": "https://agilebydesign.sharepoint.com/sites/AgileByDesign/Shared%20Documents",
+      "sharepoint_query": "csf=1&web=1"
+    }
+  ]
 }

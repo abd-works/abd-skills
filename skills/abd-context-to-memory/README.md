@@ -6,6 +6,7 @@ Convert documents (PDF, PPTX, DOCX, XLSX, etc.) to markdown and chunk for agent 
 
 - **Convert**: `pip install "markitdown[all]"` then `python scripts/convert_to_markdown.py --memory <source_path>`
 - **RAG**: `pip install -r requirements-rag.txt` then `python scripts/index_memory.py --path <source_folder>`
-- **Build**: `python scripts/build.py` to assemble AGENTS.md
+- **Context roots** (multiple memory trees): `python scripts/add_root.py --name <n>` and `python scripts/link_chunked.py --root <n>` — see SKILL.md *Context roots*
+- **Build**: `python scripts/build.py` to assemble AGENTS.md (requires ace-shaping)
 
 Set `CONTENT_MEMORY_ROOT` if workspace root differs from cwd.

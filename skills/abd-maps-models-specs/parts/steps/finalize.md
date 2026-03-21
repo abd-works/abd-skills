@@ -1,18 +1,18 @@
-# Step 10 — Finalize
+# Finalize
 
 ## Purpose
 
-AI phases: behavior, variation, consolidate, assess, finalize. Produce the validated map-model-spec.
+AI steps: behavior, variation, consolidate, assess, finalize. Produce the validated map-model-spec.
 
 ---
 
 ## Inputs
 
-- `map-model-spec.json` — structured output from Step 9
+- `map-model-spec.json` — structured output from **[Structure](../process.md)** (Stage 3)
 
 ---
 
-## Phases
+## Activities
 
 1. **Behavior** — Assign operations to concepts. Link behaviors to steps. Group steps into scenarios.
 
@@ -28,7 +28,7 @@ AI phases: behavior, variation, consolidate, assess, finalize. Produce the valid
 
 ## Rules
 
-These rules apply after finalization. All structural rules from earlier steps still apply. Step 7 adds final-quality checks.
+These rules apply after finalization. All structural rules from earlier steps still apply. **Finalize** adds final-quality checks.
 
 Full rule files: `rules/`
 
@@ -63,7 +63,7 @@ Full rule files: `rules/`
 
 ### All structural rules (reuse)
 
-Run the same scanners as Step 6. The final output must pass all structural checks:
+Run the same scanners as **[Concept Classes and Stories](../process.md)** (and scaffold scanners as needed). The final output must pass all structural checks:
 
 ```
 python scripts/scanners/no_duplicates.py --input map-model-spec.json

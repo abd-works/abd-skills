@@ -14,10 +14,10 @@ import os
 import sys
 from pathlib import Path
 
-from _config import ROOT, ensure_root
+from _config import ROOT, MEMORY, ensure_root
 
 ensure_root()
-RAG_DIR = ROOT / "data" / "rag"
+RAG_DIR = MEMORY / "rag"
 INDEX_FILE = RAG_DIR / "index.faiss"
 METADATA_FILE = RAG_DIR / "metadata.json"
 EMBEDDING_MODEL = "text-embedding-3-small"

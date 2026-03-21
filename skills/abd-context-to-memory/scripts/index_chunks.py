@@ -1,14 +1,13 @@
 #!/usr/bin/env python3
-"""Build chunk index from markdown chunks. Required for abd-story-synthesizer evidence extraction.
+"""Build chunk index from markdown chunks (reverse index: chunk ID -> path, heading, size).
 
-Validates chunk readiness, builds chunk_index.json with stable IDs, source locations,
-and section mapping. Does NOT re-chunk. Run after chunk_markdown (or when chunks exist).
+Use for evidence lookup: which chunk file and section a passage came from. Does NOT re-chunk.
+Run after chunk_markdown. Output lives under the same memory root as the chunks.
 
 Usage:
   python index_chunks.py --context-path <chunk_folder> [--output <path>]
 
-When --output is omitted and context-path is under a skill space with story-synthesizer,
-writes to <skill_space>/story-synthesizer/context/chunk_index.json.
+When --output is omitted, writes to <context_path>/chunk_index.json (under memory).
 """
 import argparse
 import hashlib
@@ -84,19 +83,13 @@ def analyze_chunks(context_path: Path) -> dict:
 
 
 def _default_output_path(context_path: Path) -> Path:
-    """Write to workspace/story-synthesizer/context/chunk_index.json.
-    E.g. mm3e/context -> mm3e/story-synthesizer/context/chunk_index.json
-    """
-    ctx = context_path.resolve()
-    workspace = ctx.parent
-    synth_context = workspace / "story-synthesizer" / "context"
-    synth_context.mkdir(parents=True, exist_ok=True)
-    return synth_context / "chunk_index.json"
+    """Write alongside chunks: <context_path>/chunk_index.json (under memory)."""
+    return context_path.resolve() / "chunk_index.json"
 
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Build chunk index for abd-story-synthesizer. Run after chunk_markdown."
+        description="Build chunk index (chunk_id -> path, heading). Run after chunk_markdown."
     )
     parser.add_argument("--context-path", required=True, help="Path to chunked context directory")
     parser.add_argument("--output", default=None, help="Output path for chunk_index.json")

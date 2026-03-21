@@ -30,28 +30,36 @@ Usage:
     python classify_chunks.py --spec map-model-spec.json
     python classify_chunks.py --chunk-pct 50 --spec path/to/map-model-spec.json
 
-Requires: OPENAI_API_KEY (loaded from .secrets)
+Requires: OPENAI_API_KEY (loaded from conf/.secrets)
 """
 import argparse
 import json
 import math
 import os
 import re
+import sys
 import time
 from pathlib import Path
 
 # ── Secrets ───────────────────────────────────────────────────────────────────
 def _load_secrets():
-    secrets_path = Path(__file__).resolve().parent.parent.parent / ".secrets"
+    # Skill root = parent of scripts/; load from conf/.secrets
+    skill_root = Path(__file__).resolve().parent.parent
+    secrets_path = skill_root / "conf" / ".secrets"
     if not secrets_path.exists():
         return
     for line in secrets_path.read_text(encoding="utf-8").splitlines():
         line = line.strip()
-        if line and not line.startswith("#") and "=" in line:
+        if not line or line.startswith("#"):
+            continue
+        if "=" in line:
             key, _, value = line.partition("=")
             key, value = key.strip(), value.strip()
-            if key and not os.environ.get(key):
-                os.environ[key] = value
+            if key:
+                os.environ[key] = value  # file wins over any existing env
+        elif line.startswith("sk-"):
+            # Bare key line (no OPENAI_API_KEY= prefix)
+            os.environ["OPENAI_API_KEY"] = line
 
 _load_secrets()
 
@@ -458,12 +466,25 @@ def merge_evidence_into_spec(evidence_by_id: dict[str, dict], spec: dict) -> dic
 # ── Main ──────────────────────────────────────────────────────────────────────
 def main():
     base = Path(__file__).resolve().parent
+    if str(base) not in sys.path:
+        sys.path.insert(0, str(base))
+    try:
+        import _config
+    except ImportError as e:
+        print(f"ERROR: could not import _config: {e}", file=sys.stderr)
+        return 1
 
     parser = argparse.ArgumentParser()
-    parser.add_argument("--spec", default=str(base.parent / "map-model-spec.json"),
-                        help="Path to map-model-spec.json. Read for module context; written with merged evidence.")
-    parser.add_argument("--chunks", default=str(base.parent / "test/mm3/context"),
-                        help="Path to context_chunks.json (legacy) or context dir with context_index.json + chunks/")
+    parser.add_argument(
+        "--spec",
+        default=str(_config.map_model_spec_path()),
+        help="Path to map-model-spec.json. Read for module context; written with merged evidence.",
+    )
+    parser.add_argument(
+        "--chunks",
+        default=str(_config.context_path()),
+        help="Context dir with context_index.json + chunks/*.md",
+    )
     parser.add_argument("--model", default="gpt-4o-mini")
     parser.add_argument("--chunk-pct", type=float, default=100.0,
                         help="Percent of each chunk's text to send to AI. Default 100 (full text).")
@@ -549,6 +570,7 @@ def main():
 
         if status != "ok":
             errors += 1
+            write_progress(progress_path, f"  ERROR: {status}")
 
         elapsed_total = time.time() - t_start
         progress_line = (

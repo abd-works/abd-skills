@@ -1,4 +1,4 @@
-# Step 9 — Structure
+# Structure
 
 ## Purpose
 
@@ -8,14 +8,14 @@ AI builds the full model from the canonical scaffold plus evidence. Properties, 
 
 ## Inputs
 
-- `map-model-spec.json` — canonical scaffold from Step 7
+- `map-model-spec.json` — canonical scaffold from **[Integrate and Harmonize](../process.md)** (Stage 2)
 - `evidence/` — actions.json, decisions.json, states.json, relationships.json
 
 ---
 
 ## Process
 
-AI phase. Read the scaffold and evidence. For each module/epic pair:
+AI step. Read the scaffold and evidence. For each module/epic pair:
 
 1. **Domain model** — Populate properties, operations, invariants from evidence. Assign types. Add inheritance where subtypes are finalized.
 2. **Story map** — Populate stories with Trigger, Response, Pre-Condition, Failure-Modes. Add scenarios and steps. Ground in `**Concept**`.
@@ -36,40 +36,40 @@ Full rule files: `rules/`
 
 **DO** populate properties, operations, and invariants from `evidence/` when evidence exists for a concept.
 
-**DO NOT** ignore evidence — Step 7 merges scaffold with evidence. Empty evidence for a concept is acceptable; populated evidence must be reflected.
+**DO NOT** ignore evidence — **Structure** merges scaffold with evidence. Empty evidence for a concept is acceptable; populated evidence must be reflected.
 
 ---
 
 ### No duplicates (reuse)
-*Scanner: `scan_no_duplicates.py` → Rule: `no-duplicates.md`*
+*Scanner: `scripts/scanners/no_duplicates.py` → Rule: `no-duplicates.md`*
 
 **DO** ensure concept and module names remain unique.
 
 ---
 
 ### Domain–story map sync (reuse)
-*Scanner: `scan_domain_interaction_sync.py` → Rule: `domain-interaction-sync.md`*
+*Scanner: `scripts/scanners/domain_interaction_sync.py` → Rule: `domain-interaction-sync.md`*
 
 **DO** ensure every concept participates in at least one story.
 
 ---
 
 ### Hierarchy sizing (reuse)
-*Scanner: `scan_hierarchy_sizing.py` → Rule: `hierarchy-approximately-4-to-9-children.md`*
+*Scanner: `scripts/scanners/hierarchy_sizing.py` → Rule: `hierarchy-approximately-4-to-9-children.md`*
 
 **DO** keep child count in the 4–9 range.
 
 ---
 
 ### Concepts must have owns (reuse)
-*Scanner: `scan_concepts_have_owns.py` → Rule: `concepts-must-have-owns.md`*
+*Scanner: `scripts/scanners/concepts_have_owns.py` → Rule: `concepts-must-have-owns.md`*
 
 **DO** ensure every concept has an `owns` field.
 
 ---
 
 ### Stories must have trigger and response (reuse)
-*Scanner: `scan_stories_have_trigger_response.py` → Rule: `stories-must-have-trigger-response.md`*
+*Scanner: `scripts/scanners/stories_have_trigger_response.py` → Rule: `stories-must-have-trigger-response.md`*
 
 **DO** ensure every story has trigger and response.
 

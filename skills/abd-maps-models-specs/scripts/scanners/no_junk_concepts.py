@@ -73,8 +73,12 @@ def _load_defaults(skill_dir: Path) -> dict:
 
 def _load_domain_config(input_path: Path) -> dict:
     """Look for junk config: generated/junk_config.json (workspace) or mms-junk-config.json alongside input."""
+    scripts_dir = Path(__file__).resolve().parent.parent
+    if str(scripts_dir) not in sys.path:
+        sys.path.insert(0, str(scripts_dir))
     try:
         from _config import junk_config_path
+
         p = junk_config_path()
         if p and p.exists():
             return json.loads(p.read_text(encoding="utf-8"))
@@ -239,14 +243,17 @@ def scan(
 
 def main() -> int:
     script_dir = Path(__file__).resolve().parent
-    skill_dir = script_dir.parent
-
-    # Default input: workspace map_model_spec_path or skill_dir
+    skill_dir = script_dir.parent  # scripts/ (for mms-junk-defaults.json at skill root = parent.parent)
+    scripts_dir = script_dir.parent
+    if str(scripts_dir) not in sys.path:
+        sys.path.insert(0, str(scripts_dir))
     try:
-        from _config import map_model_spec_path, workspace_root
-        default_input = str(map_model_spec_path()) if workspace_root() else str(skill_dir / "map-model-spec.json")
-    except ImportError:
-        default_input = str(skill_dir / "map-model-spec.json")
+        from _config import map_model_spec_path
+
+        default_input = str(map_model_spec_path())
+    except ImportError as e:
+        print(f"Error: could not import _config: {e}", file=sys.stderr)
+        return 1
 
     parser = argparse.ArgumentParser(
         description=f"Junk concept name scanner. Rule: {RULE_ID}"
@@ -264,12 +271,10 @@ def main() -> int:
         return 1
 
     # Report which config files are active
-    try:
-        from _config import junk_config_path
-        domain_cfg = junk_config_path()
-    except ImportError:
-        domain_cfg = input_path.parent / "mms-junk-config.json"
-    defaults_path = skill_dir / "mms-junk-defaults.json"
+    from _config import junk_config_path
+
+    domain_cfg = junk_config_path()
+    defaults_path = skill_dir.parent / "mms-junk-defaults.json"
     print(f"  Config: {defaults_path.name} ({'found' if defaults_path.exists() else 'not found'})")
     print(f"  Config: junk ({'found at ' + str(domain_cfg) if domain_cfg and domain_cfg.exists() else 'not found — running with defaults only'})")
 

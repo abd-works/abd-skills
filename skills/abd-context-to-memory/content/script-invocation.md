@@ -2,7 +2,7 @@
 
 Run from workspace root.
 
-**Memory root (ROOT):** When running the full pipeline with `--path` or default context, ROOT is derived from the source folder (parent of source path). Memory and index are stored alongside the source project. Set `CONTENT_MEMORY_ROOT` only when running `--memory` without a source (chunk+embed only).
+**Memory root (ROOT):** With **`--path`**, ROOT is the **source folder** you pass. Chunks go to **`ROOT/memory/`** (or **`parent/memory/context/`** when the folder is named `context`). RAG follows the embed step under that tree. Set `CONTENT_MEMORY_ROOT` only when running `--memory` without a source (chunk+embed only).
 
 **Dependencies**: `pip install "markitdown[all]"` (convert)
 
@@ -28,6 +28,32 @@ python scripts/link_workspace_source.py --workspace "Scotia Talent Journey Based
 ```
 
 **When to run:** Before `convert_to_markdown.py --memory` for a folder, if the user requests adding that content to memory and the link is not yet present.
+
+## add_root.py
+
+Registers a **context root** and optional **chunked** junction for multi-root workspaces. Manifest: `roots/roots.json`; each root lives under `roots/<name>/`.
+
+**Usage:**
+```bash
+python scripts/add_root.py --name <name> [--memory-path <path>] [--workspace <dir>]
+```
+
+- `--name`: Folder name under `roots/` (normalized to lowercase, spaces → underscores).
+- `--memory-path`: If set, creates `roots/<name>/chunked` as a junction/symlink to this folder (must exist for junction to succeed).
+- `--workspace`: Workspace root (default: current directory).
+
+**When to run:** User says "add a new root" or you need to register another content/memory pair in `roots/roots.json`.
+
+## link_chunked.py
+
+Creates `roots/<name>/chunked` → memory folder (where chunked markdown lives). Uses `memory_path` from `roots.json` for that root if `--memory-path` is omitted.
+
+**Usage:**
+```bash
+python scripts/link_chunked.py --root <name> [--memory-path <path>] [--workspace <dir>]
+```
+
+**When to run:** User says "add something to this root" or you need to (re)link the chunked junction after `memory_path` is known.
 
 ## convert_to_markdown.py
 
@@ -137,24 +163,38 @@ Full pipeline: convert → chunk → sync SharePoint → embed. Builds or update
 
 **Dependencies**: `pip install -r skills/abd-context-to-memory/requirements-rag.txt` (OpenAI API key for embeddings)
 
-**API key**: Set `OPENAI_API_KEY` in a `.env` file in the memory root (e.g. `mm3e-experiment/.env`) or as an environment variable.
+**API key**: Prefer `agilebydesign-skills/conf/.secrets` or `conf/.env` (same `KEY=value` format as dotenv)—loaded automatically by `scripts/_config.py`. Optionally set `OPENAI_API_KEY` in the project `.env` (cwd; overrides repo conf) or in the environment.
 
 **Usage:**
 ```bash
 python scripts/index_memory.py --path <source_folder>
+python scripts/index_memory.py --path <source_folder> --memory-root <hub_root>
+python scripts/index_memory.py --path <source_folder> --junction-workspace <hub_root>
+python scripts/index_memory.py --path <source_folder> --no-junction
 python scripts/index_memory.py --memory <memory_name>
 python scripts/index_memory.py
 python scripts/index_memory.py --replace
 ```
 
 - `--path`: Source folder (e.g. `source/JBOM` or `Assets/04 Service Offering`). Full pipeline: convert → chunk → sync SharePoint → embed. Or chunk + embed if convert already ran.
-- `--memory`: Memory folder name (chunk + embed only; convert already ran).
-- **No args:** When `skill_space_path` is set (in `skill-config.json` or `abd-story-synthesizer/conf/abd-config.json`), automatically runs on `{skill_space_path}/context`. Use when the user says "add to memory" or "refresh memory" without specifying a folder.
+- **Hub junction (after successful `--path`):** **`hub/<source_folder_name>` → absolute path to that source’s memory folder** (usually `<source>/memory`, or `<parent>/memory/context` when `--path` ends in `context`). `--memory-root` and `--junction-workspace` are aliases for the hub directory. Order: explicit flag, else `ABD_CONTENT_ROOT`, else cwd. Skip with `--no-junction` or `SKIP_MEMORY_JUNCTION=1`.
+- `--memory`: Memory folder name (chunk + embed only; convert already ran). Does **not** create a workspace junction (use `--path` for full ingest + junction).
+- **No args:** When `skill_space_path` is set (in `skill-config.json` or `abd-story-synthesizer/conf/abd-config.json`), automatically runs on `{skill_space_path}/context`. Use when the user says "add to memory" or "refresh memory" without specifying a folder. Junction creation applies when this default `--path` flow completes successfully.
 - `--replace`: Rebuild entire vector index from all memory (drops existing index).
 
-**Memory root:** ROOT is derived from the source path (parent of source folder). When the source folder is named `context`, chunks are written **into** the context folder (e.g. `project/context/`), not into `memory/context/`. Index is stored in `{source_parent}/data/rag/`.
+**Memory root:** For **`--path "<source>"`**, normal flow uses **`source/memory/`** for chunks. Exception: **`--path` …/ `context`** uses **`parent`** as project root, chunks at **`memory/context/`**. Embed/RAG paths follow `embed_and_index` for that tree.
 
 **When to run:** After adding or updating content; before first semantic search.
+
+## embed_and_index.py
+
+Builds/updates the FAISS + embeddings index under **`memory/rag/`** (relative to `CONTENT_MEMORY_ROOT` / cwd).
+
+- **`--memory <name>`:** Index chunks under **`memory/<name>/`** only.
+- **No `--memory`:** Indexes **(1)** every **subfolder** of **`assets/`** (each should be a junction to a topic `memory` tree — **abd_content** hub layout); chunk paths in metadata are prefixed with the folder name; **(2)** plus any **`memory/**/*.md`** (legacy). Produces **one** combined index at **`memory/rag/`**.
+- **`--replace`:** Rebuild the index from scratch (use after adding `assets/` junctions or bulk chunk changes).
+
+**Hub example (`abd_content`):** `cd` to `abd_content`, set `CONTENT_MEMORY_ROOT` to that folder, then `python scripts/embed_and_index.py --replace`.
 
 ## search_memory.py
 

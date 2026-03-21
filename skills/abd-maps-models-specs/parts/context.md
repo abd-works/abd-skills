@@ -1,6 +1,6 @@
 # Stage 1 — Extract Context
 
-**Prerequisite:** Source documents (PDF, DOCX, PPTX, XLSX, HTML, etc.) in a folder.
+**Prerequisites:** (1) `conf/abd-config.json` sets **required** `solution_workspace` and that directory contains `solution.conf` (see `conf/README.md`). (2) Source documents (PDF, DOCX, PPTX, XLSX, HTML, etc.) in a folder under that workspace (or passed explicitly to scripts).
 
 ## Purpose
 

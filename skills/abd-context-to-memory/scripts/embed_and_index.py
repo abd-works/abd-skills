@@ -8,9 +8,14 @@ Usage:
   python embed_and_index.py [--memory <memory_name>]
   python embed_and_index.py  # index all memory
 
-Run from workspace root. Reads chunked .md from memory/<name>/ (no chunked subfolder).
-Writes to data/rag/. Requires: pip install openai faiss-cpu numpy
-Set OPENAI_API_KEY environment variable.
+Run with CONTENT_MEMORY_ROOT (or cwd) = content hub (e.g. abd_content).
+
+- **With `--memory <name>`:** reads `memory/<name>/*.md`.
+- **With no `--memory`:** reads (1) each **subfolder** under **`assets/`** (junctions to remote
+  `memory` trees) — chunk paths in metadata are prefixed with that folder name; (2) any `memory/**/*.md`
+  under the hub (legacy flat layout). Writes a **single** index to **`memory/rag/`**.
+
+Requires: pip install openai faiss-cpu numpy. Set OPENAI_API_KEY.
 """
 
 import json
@@ -22,7 +27,7 @@ from pathlib import Path
 from _config import ROOT, MEMORY, ensure_root
 
 ensure_root()
-RAG_DIR = ROOT / "data" / "rag"
+RAG_DIR = MEMORY / "rag"
 EMBEDDINGS_FILE = RAG_DIR / "embeddings.npy"
 METADATA_FILE = RAG_DIR / "metadata.json"
 CHECKPOINT_EMBED = RAG_DIR / "checkpoint_embeddings.npy"
@@ -73,20 +78,13 @@ def _chunk_text_for_embed(text: str) -> str:
     return "\n".join(lines).strip()
 
 
-def collect_chunks(memory_name: str | None) -> list[tuple[Path, str, dict]]:
-    """Collect chunk files from memory folder. Returns [(path, text, metadata), ...].
-    Chunked files are in memory/<name>/*.md (no chunked subfolder).
-    When memory_name is 'context', also check ROOT/context (chunks written into source folder).
-    """
-    chunks = []
-    # When memory_name is "context", chunks may be in ROOT/context (written into source)
-    if memory_name == "context" and (ROOT / "context").exists():
-        base = ROOT / "context"
-    else:
-        base = MEMORY / memory_name if memory_name else MEMORY
-    if not base.exists():
+def _collect_chunks_under_base(
+    base: Path, *, path_prefix: str | None = None
+) -> list[tuple[Path, str, dict]]:
+    """Walk base for *.md; optional path_prefix for metadata path (hub assets junction name)."""
+    chunks: list[tuple[Path, str, dict]] = []
+    if not base.is_dir():
         return chunks
-
     for md_path in base.rglob("*.md"):
         if "images" in md_path.parts:
             continue
@@ -99,19 +97,49 @@ def collect_chunks(memory_name: str | None) -> list[tuple[Path, str, dict]]:
         if len(clean) < 20:
             continue
         try:
-            rel = md_path.relative_to(base)
+            rel_str = md_path.relative_to(base).as_posix()
         except ValueError:
             try:
-                rel = md_path.relative_to(ROOT)
+                rel_str = md_path.relative_to(ROOT).as_posix()
             except ValueError:
-                rel = md_path
+                rel_str = md_path.name
+        if path_prefix:
+            rel_str = f"{path_prefix}/{rel_str}"
         meta = {
-            "source": source or str(rel),
-            "path": str(rel),
+            "source": source or rel_str,
+            "path": rel_str,
             "file": md_path.name,
         }
         chunks.append((md_path, clean, meta))
     return chunks
+
+
+def collect_chunks(memory_name: str | None) -> list[tuple[Path, str, dict]]:
+    """Collect chunk files. Returns [(path, text, metadata), ...].
+
+    - memory_name ``context``: ROOT/context (chunks in source tree).
+    - memory_name set: MEMORY/<name>/*.md
+    - memory_name None: **assets/<topic_junction>/** each subdir (hub layout) plus MEMORY/**/*.md (legacy).
+    """
+    if memory_name == "context" and (ROOT / "context").exists():
+        return _collect_chunks_under_base(ROOT / "context", path_prefix=None)
+
+    if memory_name:
+        base = MEMORY / memory_name
+        if not base.is_dir():
+            return []
+        return _collect_chunks_under_base(base, path_prefix=None)
+
+    # Aggregate hub: junctions under assets/ + optional flat memory/
+    out: list[tuple[Path, str, dict]] = []
+    assets_dir = ROOT / "assets"
+    if assets_dir.is_dir():
+        for item in sorted(assets_dir.iterdir()):
+            if item.is_dir():
+                out.extend(_collect_chunks_under_base(item, path_prefix=item.name))
+    if MEMORY.is_dir():
+        out.extend(_collect_chunks_under_base(MEMORY, path_prefix=None))
+    return out
 
 
 def _embed_with_openai(
@@ -264,9 +292,12 @@ def main():
 
     chunks = collect_chunks(memory_name)
     if not chunks:
-        scope = f"memory/{memory_name}" if memory_name else "memory/"
+        if memory_name:
+            scope = f"memory/{memory_name}"
+        else:
+            scope = "assets/*/ (junction subfolders) and memory/"
         print(f"No chunks found under {scope}")
-        print("Run convert_to_markdown and chunk_markdown first.")
+        print("Run convert_to_markdown and chunk_markdown first, or add junctions under assets/.")
         return
 
     print(f"Indexing {len(chunks)} chunks...")

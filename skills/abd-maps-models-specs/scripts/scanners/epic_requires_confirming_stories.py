@@ -1,10 +1,15 @@
-"""Scanner: every epic must have at least two confirming story names.
+"""Scanner: every epic must have at least one confirming story name.
 
 Rule: epic-requires-confirming-stories
 Rule file: rules/epic-requires-confirming-stories.md
 
-Highlights epics with fewer than two confirming stories. Does NOT determine
-what the missing stories should be. The AI resolves each violation.
+This enforces a **minimum (1)** so no epic is left with an empty
+`confirming_stories` list. **Add as many story names as needed** to validate
+foundational concepts for that epic — there is **no** upper bound; do **not**
+treat two as a target. Step prose and modeling drive sufficiency, not a count.
+
+Highlights epics with zero confirming stories. Does NOT determine what stories
+to add. The AI resolves each violation.
 
 Usage (standalone):
     python scripts/scanners/epic_requires_confirming_stories.py [--input <path>]
@@ -39,7 +44,7 @@ class Violation:
 
 
 RULE_ID = "epic-requires-confirming-stories"
-MIN_STORIES = 2
+MIN_STORIES = 1
 
 
 def scan(data: dict, source_path: str = "") -> list[Violation]:
@@ -73,12 +78,16 @@ def scan(data: dict, source_path: str = "") -> list[Violation]:
 
 def main() -> int:
     script_dir = Path(__file__).resolve().parent
-    skill_dir = script_dir.parent
+    scripts_dir = script_dir.parent
+    if str(scripts_dir) not in sys.path:
+        sys.path.insert(0, str(scripts_dir))
     try:
         from _config import default_map_model_spec_path
+
         default_input = str(default_map_model_spec_path())
-    except ImportError:
-        default_input = str(skill_dir / "map-model-spec.json")
+    except ImportError as e:
+        print(f"Error: could not import _config: {e}", file=sys.stderr)
+        return 1
 
     parser = argparse.ArgumentParser(
         description=f"Epic confirming stories scanner. Rule: {RULE_ID}"
@@ -103,7 +112,10 @@ def main() -> int:
     violations = scan(data, source_path=str(input_path))
 
     if not violations:
-        print(f"PASS [{RULE_ID}] — all epics have at least {MIN_STORIES} confirming stories in {input_path.name}")
+        print(
+            f"PASS [{RULE_ID}] — all epics have at least {MIN_STORIES} "
+            f"confirming story name(s) in {input_path.name}"
+        )
         return 0
 
     print(f"VIOLATIONS [{RULE_ID}] — {len(violations)} epic(s) in {input_path.name}")

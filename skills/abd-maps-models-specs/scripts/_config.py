@@ -1,16 +1,36 @@
 """Shared config for abd-maps-models-specs scripts.
 
 Config is split across two files:
-  conf/abd-config.json   — skill-level: solution_workspace only (points to workspace root)
+  conf/abd-config.json   — skill-level: **required** `solution_workspace` (path to workspace root)
   <workspace>/solution.conf — workspace-level: output_dir, context_path, chunk_index_path
 
-When solution_workspace is set, all paths resolve relative to the workspace.
-When not set, scripts fall back to skill_dir (flat layout at skill root).
+There is **no** skill-root-only / flat layout. If `solution_workspace` is missing, invalid, or
+`solution.conf` is absent, importing callers get a clear error when they first resolve paths.
+
+Optional: call `set_solution_conf_override(Path)` before any path resolution so
+`--config` points at a specific solution.conf under the same workspace root.
 """
+from __future__ import annotations
+
 import json
+import sys
 from pathlib import Path
 
 _SKILL_DIR = Path(__file__).resolve().parent.parent
+
+# Set by parse_and_curate / discover_context_structure when passing --config
+_SOLUTION_CONF_OVERRIDE: Path | None = None
+
+
+def set_solution_conf_override(path: Path | None) -> None:
+    """If set, path must be an existing file whose parent equals declared_workspace_root()."""
+    global _SOLUTION_CONF_OVERRIDE
+    _SOLUTION_CONF_OVERRIDE = path.resolve() if path else None
+
+
+def _die(msg: str) -> None:
+    print(f"abd-maps-models-specs: {msg}", file=sys.stderr)
+    sys.exit(1)
 
 
 def _load_json(path: Path) -> dict:
@@ -24,85 +44,99 @@ def skill_config() -> dict:
     return _load_json(_SKILL_DIR / "conf" / "abd-config.json")
 
 
-def workspace_root() -> Path | None:
-    ws = skill_config().get("solution_workspace")
-    if ws:
-        p = Path(ws)
-        if not p.is_absolute():
-            p = _SKILL_DIR / p
-        return p.resolve()
-    return None
+def declared_workspace_root() -> Path:
+    """Path from conf/abd-config.json — directory that contains solution.conf."""
+    data = skill_config()
+    ws = data.get("solution_workspace")
+    if ws is None or (isinstance(ws, str) and not str(ws).strip()):
+        _die(
+            'conf/abd-config.json must set non-empty "solution_workspace" '
+            "(path to the workspace root directory that contains solution.conf)."
+        )
+    p = Path(ws)
+    if not p.is_absolute():
+        p = _SKILL_DIR / p
+    p = p.resolve()
+    if not p.is_dir():
+        _die(f"solution_workspace is not a directory: {p}")
+    return p
+
+
+def solution_conf_path() -> Path:
+    """Active solution.conf: override (if set) or <declared_workspace_root>/solution.conf."""
+    root = declared_workspace_root()
+    if _SOLUTION_CONF_OVERRIDE is not None:
+        p = _SOLUTION_CONF_OVERRIDE
+        if not p.is_file():
+            _die(f"solution config file not found: {p}")
+        if p.parent.resolve() != root.resolve():
+            _die(
+                f"--config must be under solution_workspace ({root}); got parent {p.parent}"
+            )
+        return p
+    p = root / "solution.conf"
+    if not p.is_file():
+        _die(f"missing solution.conf at {p} (required under solution_workspace)")
+    return p
+
+
+def workspace_root() -> Path:
+    """Same as declared_workspace_root — all paths in solution.conf are relative to this."""
+    return declared_workspace_root()
 
 
 def workspace_config() -> dict:
-    ws = workspace_root()
-    if ws:
-        return _load_json(ws / "solution.conf")
-    return {}
+    return _load_json(solution_conf_path())
 
 
 def output_dir() -> Path:
-    """Resolve output directory: workspace/solution.conf → output_dir, relative to workspace root."""
+    """Resolve output directory from solution.conf → output_dir, relative to workspace root."""
     ws = workspace_root()
-    if ws:
-        out = workspace_config().get("output_dir", "solution")
-        return ws / out
-    return _SKILL_DIR
+    out = workspace_config().get("output_dir", "solution")
+    return ws / out
 
 
-def context_path() -> Path | None:
-    """Resolve context_path from workspace/solution.conf, relative to workspace root.
-    Default: output_dir/context (e.g. maps-models-specs/context)."""
+def context_path() -> Path:
+    """Context dir: chunks/*.md and context_index.json."""
     ws = workspace_root()
-    if ws:
-        ctx = workspace_config().get("context_path")
-        if ctx:
-            return ws / ctx
-        # Default: output_dir/context
-        return output_dir() / "context"
-    return None
+    ctx = workspace_config().get("context_path")
+    if ctx:
+        return ws / ctx
+    return output_dir() / "context"
 
 
-def context_chunks_path() -> Path | None:
-    """Path to context_chunks.json. None when no workspace."""
-    ctx = context_path()
-    return (ctx / "context_chunks.json") if ctx else None
+def context_index_path() -> Path:
+    """Path to context_index.json (manifest + indexes)."""
+    return context_path() / "context_index.json"
 
 
-def chunk_index_path() -> Path | None:
-    """Resolve chunk_index_path from workspace/solution.conf. Default: output_dir/mms-chunk-index.json."""
+def chunk_index_path() -> Path:
+    """chunk_index_path from solution.conf, or default output_dir/mms-chunk-index.json."""
     ws = workspace_root()
-    if ws:
-        p = workspace_config().get("chunk_index_path")
-        if p:
-            return ws / p
-        return output_dir() / "mms-chunk-index.json"
-    return None
+    p = workspace_config().get("chunk_index_path")
+    if p:
+        return ws / p
+    return output_dir() / "mms-chunk-index.json"
 
 
 def generated_dir() -> Path:
-    """Root for generated outputs (junk_config.json, etc.)."""
     return output_dir() / "generated"
 
 
 def evidence_dir() -> Path:
-    """Evidence files: actions.json, decisions.json, states.json, relationships.json."""
     return output_dir() / "evidence"
 
 
 def map_model_spec_path() -> Path:
-    """map-model-spec.json path."""
     return output_dir() / "map-model-spec.json"
 
 
 def junk_config_path() -> Path | None:
-    """Junk config for no-junk-concepts scanner. Tries: generated/junk_config.json, mms-junk-config.json."""
+    """Junk config for no-junk-concepts scanner."""
     out = output_dir()
-    # Prefer generated/junk_config.json (mm3 layout)
     p = generated_dir() / "junk_config.json"
     if p.exists():
         return p
-    # Fallback: mms-junk-config.json next to map-model-spec
     p = out / "mms-junk-config.json"
     if p.exists():
         return p
@@ -110,15 +144,12 @@ def junk_config_path() -> Path | None:
 
 
 def default_map_model_spec_path() -> Path:
-    """Default input for scanners: workspace output_dir or skill_dir."""
-    return map_model_spec_path() if workspace_root() else _SKILL_DIR / "map-model-spec.json"
+    return map_model_spec_path()
 
 
 def default_evidence_dir() -> Path:
-    """Default evidence dir for scanners: workspace or skill_dir."""
-    return evidence_dir() if workspace_root() else _SKILL_DIR / "evidence"
+    return evidence_dir()
 
 
 def default_chunk_index_path() -> Path:
-    """Default chunk index path for build script."""
-    return output_dir() / "mms-chunk-index.json" if workspace_root() else _SKILL_DIR / "mms-chunk-index.json"
+    return chunk_index_path()

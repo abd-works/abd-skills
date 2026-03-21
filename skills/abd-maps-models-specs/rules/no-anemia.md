@@ -1,19 +1,111 @@
 ---
 rule_id: no-anemia
-phases: [step6]
-order: 20
+phases: [step2, step3, step5]
+order: 35
+scanner: null
 impact: MEDIUM
 ---
 
-## Concepts That Own Decisions Must Have Operations
+## No anemic concepts (manual / assessment)
 
-An anemic concept is a data bag — properties only, no behavior. When a concept owns a decision or enforces a rule, it should have operations that enact that behavior.
+An anemic concept is a named bucket with no properties, no operations, and a vague `owns` — it does not carry enough structure to validate or implement.
 
-There is no scanner for this rule. It requires domain judgment — the AI assesses whether each concept's `owns` implies operations that are missing.
+There is **no automated scanner** for this rule in this package. Apply it during adversarial validation and assessment.
 
-**DO** ensure concepts with `owns` have corresponding operations. The concept that "Decides degree of success from d20 + modifier vs DC" should have an operation like `roll() → Degree` or `resolve() → Result`.
+**DO** give each concept at least one property or operation when the source supports it, and make `owns` state a specific decision.
 
-**DO NOT** leave concepts as pure data when the domain clearly implies behavior. If the concept owns a decision, it needs an operation to perform it.
+```json
+{
+  "modules_and_epics": [
+    {
+      "module": {
+        "name": "Retail",
+        "concepts": [
+          {
+            "name": "Promotion",
+            "owns": "Owns which discount rules apply to a cart line and in what order",
+            "owns_chunk": "chunk-r2",
+            "chunk_ids": ["chunk-r2"],
+            "properties": [
+              { "definition": "String code", "chunk": "chunk-r2" },
+              {
+                "definition": "EnumType stackPolicy { exclusive, additive }",
+                "chunk": "chunk-r2"
+              }
+            ],
+            "operations": [
+              {
+                "definition": "apply(cart: Cart, line: LineItem) -> MoneyAmount",
+                "chunk": "chunk-r2"
+              }
+            ]
+          }
+        ]
+      },
+      "epic": { "name": "Placeholder", "stories": [] }
+    }
+  ]
+}
+```
 
-- Right: Check has `owns: "Decides degree..."` and `operations: ["roll() → Degree"]`
-- Wrong: Check has `owns: "Decides degree..."` but only `properties: [...]` and no operations
+**DO NOT** leave a concept as only a name and generic owns.
+
+```json
+{
+  "modules_and_epics": [
+    {
+      "module": {
+        "name": "Retail",
+        "concepts": [
+          {
+            "name": "Promotion",
+            "owns": "Handles promotions",
+            "owns_chunk": "chunk-r2",
+            "chunk_ids": ["chunk-r2"]
+          }
+        ]
+      },
+      "epic": { "name": "Placeholder", "stories": [] }
+    }
+  ]
+}
+```
+
+No properties, no operations, vague owns — anemic.
+
+**DO NOT** split one cohesive rule across three empty shells.
+
+```json
+{
+  "modules_and_epics": [
+    {
+      "module": {
+        "name": "Retail",
+        "concepts": [
+          {
+            "name": "PromotionRules",
+            "owns": "Rules",
+            "owns_chunk": "chunk-r2",
+            "chunk_ids": ["chunk-r2"]
+          },
+          {
+            "name": "PromotionEngine",
+            "owns": "Engine",
+            "owns_chunk": "chunk-r2",
+            "chunk_ids": ["chunk-r2"]
+          },
+          {
+            "name": "PromotionResult",
+            "owns": "Result",
+            "owns_chunk": "chunk-r2",
+            "chunk_ids": ["chunk-r2"]
+          }
+        ]
+      },
+      "epic": { "name": "Placeholder", "stories": [] }
+    }
+  ]
+}
+```
+
+Three names, no structure — fold into one concept or add real properties/operations.

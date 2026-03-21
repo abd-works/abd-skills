@@ -99,12 +99,16 @@ def scan(data: dict, source_path: str = "") -> list[Violation]:
 
 def main() -> int:
     script_dir = Path(__file__).resolve().parent
-    skill_dir = script_dir.parent
+    scripts_dir = script_dir.parent
+    if str(scripts_dir) not in sys.path:
+        sys.path.insert(0, str(scripts_dir))
     try:
         from _config import default_map_model_spec_path
+
         default_input = str(default_map_model_spec_path())
-    except ImportError:
-        default_input = str(skill_dir / "map-model-spec.json")
+    except ImportError as e:
+        print(f"Error: could not import _config: {e}", file=sys.stderr)
+        return 1
 
     parser = argparse.ArgumentParser(
         description=f"Story trigger/response scanner. Rule: {RULE_ID}"

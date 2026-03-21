@@ -13,10 +13,22 @@ Prints the same to stdout.
 """
 import json
 import sys
-from pathlib import Path
 from collections import defaultdict
+from pathlib import Path
 
-path = Path(sys.argv[1]) if len(sys.argv) > 1 else Path(__file__).parent.parent / "map-model-spec.json"  # parent.parent = skill root
+_script_dir = Path(__file__).resolve().parent
+if str(_script_dir) not in sys.path:
+    sys.path.insert(0, str(_script_dir))
+
+try:
+    from _config import map_model_spec_path
+
+    _default_spec = map_model_spec_path()
+except ImportError as e:
+    print(f"Error: could not import _config: {e}", file=sys.stderr)
+    sys.exit(1)
+
+path = Path(sys.argv[1]) if len(sys.argv) > 1 else _default_spec
 data = json.loads(path.read_text(encoding="utf-8"))
 option_dir = path.parent
 

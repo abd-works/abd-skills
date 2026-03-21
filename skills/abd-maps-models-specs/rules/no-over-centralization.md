@@ -1,19 +1,96 @@
 ---
 rule_id: no-over-centralization
-phases: [step6]
-order: 25
+phases: [step2, step3, step5]
+order: 36
+scanner: null
 impact: MEDIUM
 ---
 
-## Distribute Responsibility — No Central Manager
+## No god object (manual / assessment)
 
-A single "manager", "service", or "controller" concept that does everything is an anti-pattern. Responsibility should be distributed to the concepts that own the decisions.
+A god object owns every decision in the domain — dozens of unrelated properties and operations on one concept, with other concepts reduced to dumb data holders.
 
-There is no scanner for this rule. It requires design judgment — the AI assesses whether operations are over-centralized.
+There is **no automated scanner** for this rule in this package. Apply it during adversarial validation and assessment.
 
-**DO** assign operations to the concepts that own the decisions. Prefer composition — concepts collaborate; no single concept orchestrates everything.
+**DO** distribute ownership so each concept owns a coherent slice of decisions.
 
-**DO NOT** create a central concept that holds most operations while other concepts are anemic. Spread operations to the concepts that naturally own them.
+```json
+{
+  "modules_and_epics": [
+    {
+      "module": {
+        "name": "Retail",
+        "concepts": [
+          {
+            "name": "Cart",
+            "owns": "Owns line items and running totals before checkout",
+            "owns_chunk": "chunk-r1",
+            "chunk_ids": ["chunk-r1"],
+            "properties": [
+              { "definition": "List<LineItem> lines", "chunk": "chunk-r1" }
+            ],
+            "operations": [
+              {
+                "definition": "addLine(sku: String, qty: Number) -> void",
+                "chunk": "chunk-r1"
+              }
+            ]
+          },
+          {
+            "name": "TaxCalculator",
+            "owns": "Owns jurisdiction rules and tax lines for a cart",
+            "owns_chunk": "chunk-r3",
+            "chunk_ids": ["chunk-r3"],
+            "operations": [
+              {
+                "definition": "compute(cart: Cart) -> List<TaxLine>",
+                "chunk": "chunk-r3"
+              }
+            ]
+          }
+        ]
+      },
+      "epic": { "name": "Placeholder", "stories": [] }
+    }
+  ]
+}
+```
 
-- Right: Check has roll(); DifficultyClass has value; Result has degree. Each owns its part.
-- Wrong: CheckResolver has resolveCheck(), getDC(), computeDegree() — one concept does it all
+**DO NOT** pile unrelated domains onto one concept.
+
+```json
+{
+  "modules_and_epics": [
+    {
+      "module": {
+        "name": "Retail",
+        "concepts": [
+          {
+            "name": "OrderSystem",
+            "owns": "Owns cart, tax, payment, shipping, inventory, promotions, and user profiles",
+            "owns_chunk": "chunk-r1",
+            "chunk_ids": ["chunk-r1"],
+            "properties": [
+              { "definition": "List<LineItem> lines", "chunk": "chunk-r1" },
+              { "definition": "MoneyAmount tax", "chunk": "chunk-r1" },
+              { "definition": "String cardToken", "chunk": "chunk-r1" },
+              { "definition": "String trackingNumber", "chunk": "chunk-r1" },
+              { "definition": "Number stockOnHand", "chunk": "chunk-r1" }
+            ],
+            "operations": [
+              { "definition": "checkout() -> void", "chunk": "chunk-r1" },
+              { "definition": "ship() -> void", "chunk": "chunk-r1" },
+              { "definition": "chargeCard() -> void", "chunk": "chunk-r1" }
+            ]
+          }
+        ]
+      },
+      "epic": { "name": "Placeholder", "stories": [] }
+    }
+  ]
+}
+```
+
+Single concept absorbing cart, tax, payment, shipping, inventory — god object.
+
+**DO NOT** make every other concept an empty DTO while one concept holds all behavior — split by bounded context from the corpus.

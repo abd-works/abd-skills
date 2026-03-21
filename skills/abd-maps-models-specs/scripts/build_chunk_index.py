@@ -83,16 +83,20 @@ def build_index(data: dict) -> dict:
 
 
 def main():
+    import sys
+
     script_dir = Path(__file__).resolve().parent
-    skill_dir = script_dir.parent
+    if str(script_dir) not in sys.path:
+        sys.path.insert(0, str(script_dir))
 
     try:
         from _config import default_map_model_spec_path, default_chunk_index_path
+
         default_input = str(default_map_model_spec_path())
         default_output = str(default_chunk_index_path())
-    except ImportError:
-        default_input = str(skill_dir / "map-model-spec.json")
-        default_output = str(skill_dir / "mms-chunk-index.json")
+    except ImportError as e:
+        print(f"Error: could not import _config: {e}", file=sys.stderr)
+        sys.exit(1)
 
     parser = argparse.ArgumentParser(description="Build reverse chunk index from step output JSON.")
     parser.add_argument(

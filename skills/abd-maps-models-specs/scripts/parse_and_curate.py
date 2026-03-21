@@ -28,6 +28,10 @@ import sys
 from collections import Counter, defaultdict
 from pathlib import Path
 
+_SCRIPT_DIR = Path(__file__).resolve().parent
+if str(_SCRIPT_DIR) not in sys.path:
+    sys.path.insert(0, str(_SCRIPT_DIR))
+
 
 def _normalize_whitespace(text: str) -> str:
     return re.sub(r"\s+", " ", text).strip()
@@ -923,41 +927,24 @@ def main():
     parser.add_argument("--add", metavar="FILE", default=None, help="Add single markdown file (parse only this file)")
     args = parser.parse_args()
 
-    # Load config
-    config: dict = {}
-    ws_root: Path | None = None
     try:
-        from _config import workspace_config, workspace_root as _ws_root, context_path as _context_path
-        ws_root = _ws_root()
-        config = workspace_config() if ws_root else {}
-        get_context_path = _context_path
-    except ImportError:
-        get_context_path = None
+        import _config
+    except ImportError as e:
+        print(f"Error: could not import _config: {e}", file=sys.stderr)
+        sys.exit(1)
 
     if args.config:
-        cfg_path = Path(args.config).resolve()
-        if cfg_path.exists():
-            try:
-                config = json.loads(cfg_path.read_text(encoding="utf-8"))
-            except json.JSONDecodeError as e:
-                print(f"Warning: could not parse config: {e}", file=sys.stderr)
-    elif args.path:
-        # Load config from path so we get source_path for exclusive parsing
-        cfg_path = Path(args.path).resolve() / "solution.conf"
-        if cfg_path.exists():
-            try:
-                config = json.loads(cfg_path.read_text(encoding="utf-8"))
-            except json.JSONDecodeError:
-                pass
+        _config.set_solution_conf_override(Path(args.config))
+
+    config = _config.workspace_config()
+    ws_root = _config.workspace_root()
+    get_context_path = _config.context_path
 
     # Resolve output dir early (for skip check)
     if args.output:
         out_dir = Path(args.output).resolve()
-    elif get_context_path and ws_root:
-        ctx = get_context_path()
-        out_dir = ctx if ctx else None
     else:
-        out_dir = None
+        out_dir = get_context_path()
 
     # Skip if already parsed (unless --force)
     if out_dir and out_dir.exists() and not args.force:
@@ -1001,9 +988,6 @@ def main():
 
     else:
         # Discover source from workspace
-        if not ws_root:
-            print("Error: No workspace. Specify --path <markdown_folder>.", file=sys.stderr)
-            sys.exit(1)
         source_path = config.get("source_path")
         candidates: list[Path] = []
         if source_path:
@@ -1029,11 +1013,8 @@ def main():
     if not out_dir:
         if args.output:
             out_dir = Path(args.output).resolve()
-        elif get_context_path and ws_root:
-            ctx = get_context_path()
-            out_dir = ctx if ctx else path / "context"
         else:
-            out_dir = path / "context"
+            out_dir = get_context_path()
 
     out_dir.mkdir(parents=True, exist_ok=True)
     chunks_dir = out_dir / "chunks"

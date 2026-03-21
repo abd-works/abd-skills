@@ -79,14 +79,17 @@ def scan(scaffold_path: Path, evidence_dir: Path) -> list[tuple[str, str, str]]:
 
 def main() -> int:
     script_dir = Path(__file__).resolve().parent
-    skill_dir = script_dir.parent
+    scripts_dir = script_dir.parent
+    if str(scripts_dir) not in sys.path:
+        sys.path.insert(0, str(scripts_dir))
     try:
-        from _config import default_map_model_spec_path, default_evidence_dir
+        from _config import default_evidence_dir, default_map_model_spec_path
+
         default_scaffold = str(default_map_model_spec_path())
         default_evidence = str(default_evidence_dir())
-    except ImportError:
-        default_scaffold = str(skill_dir / "map-model-spec.json")
-        default_evidence = str(skill_dir / "evidence")
+    except ImportError as e:
+        print(f"Error: could not import _config: {e}", file=sys.stderr)
+        return 1
 
     parser = argparse.ArgumentParser(
         description=f"Evidence scaffold refs scanner. Rule: {RULE_ID}"

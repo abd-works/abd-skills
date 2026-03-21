@@ -1,5 +1,6 @@
 {
   "name": "abd-context-to-memory",
-  "version": "1.1.0",
+  "version": "1.2.0",
+  "content_memory_root": "C:/Users/thoma/OneDrive - Agile by Design/Shared Documents",
   "content_memory_sharepoint_url": "https://agilebydesign.sharepoint.com/sites/AgileByDesign/Shared%20Documents/Assets"
 }

@@ -1,21 +1,95 @@
 ---
 rule_id: no-duplicates
-phases: [step1, step3, step5, step6]
-order: 20
-scanner: scanners/no_duplicates.py
+phases: [step1, step2, step3, step5]
+order: 15
+scanner: scripts/scanners/no_duplicates.py
 impact: HIGH
 ---
 
-## Names must be unique within their scope
+## No duplicate names at the same scope
 
-Duplicate names indicate a collision — two things being called the same thing in the same context. This is always a modeling error at Step 1: either the same concept was named twice (remove one), or two distinct concepts share a name (rename one to distinguish them).
+The same name must not appear twice among siblings at the same level: duplicate module names, duplicate concept names within a module, duplicate epic names at the same parent, duplicate story names under the same epic or sub-epic.
 
-The scanner (`scanners/no_duplicates.py`) highlights duplicate names. It does not determine which entry to keep or how to rename — that judgment belongs to the AI.
+The scanner (`scripts/scanners/no_duplicates.py`) flags collisions.
 
-**DO** ensure concept names are unique within their module.
+**DO** use distinct names or merge duplicates into one entry with combined evidence.
 
-**DO** ensure module names are unique across the entire output.
+```json
+{
+  "modules_and_epics": [
+    {
+      "module": { "name": "Retail", "concepts": [] },
+      "epic": { "name": "Checkout", "stories": [] }
+    },
+    {
+      "module": { "name": "Payments", "concepts": [] },
+      "epic": { "name": "Settlement", "stories": [] }
+    }
+  ]
+}
+```
 
-**DO NOT** have two concepts with the same name in the same module. If two chunks describe the same concept, merge them into one entry with both chunk_ids.
+```json
+{
+  "name": "Retail",
+  "concepts": [
+    {
+      "name": "Cart",
+      "owns": "Owns line items before checkout",
+      "owns_chunk": "chunk-a",
+      "chunk_ids": ["chunk-a"]
+    },
+    {
+      "name": "Promotion",
+      "owns": "Owns discount rules",
+      "owns_chunk": "chunk-b",
+      "chunk_ids": ["chunk-b"]
+    }
+  ]
+}
+```
 
-**DO NOT** have two modules with the same name. If two areas of the domain share a name, one of them is misnamed.
+**DO NOT** repeat the same module name in `modules_and_epics[]`.
+
+```json
+{
+  "modules_and_epics": [
+    { "module": { "name": "Retail", "concepts": [] }, "epic": { "name": "A", "stories": [] } },
+    { "module": { "name": "Retail", "concepts": [] }, "epic": { "name": "B", "stories": [] } }
+  ]
+}
+```
+
+**DO NOT** repeat concept names within one module.
+
+```json
+{
+  "name": "Retail",
+  "concepts": [
+    {
+      "name": "Cart",
+      "owns": "Owns line items",
+      "owns_chunk": "chunk-a",
+      "chunk_ids": ["chunk-a"]
+    },
+    {
+      "name": "Cart",
+      "owns": "Owns totals display",
+      "owns_chunk": "chunk-c",
+      "chunk_ids": ["chunk-c"]
+    }
+  ]
+}
+```
+
+**DO NOT** repeat story names under the same parent.
+
+```json
+{
+  "name": "Checkout",
+  "stories": [
+    { "name": "Apply tax", "trigger": "…", "response": "…" },
+    { "name": "Apply tax", "trigger": "…", "response": "…" }
+  ]
+}
+```

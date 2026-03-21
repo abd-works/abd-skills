@@ -1,0 +1,533 @@
+{
+  "batch_id": 3,
+  "chunk_ids_read": [
+    "unit_03349",
+    "unit_03364",
+    "unit_03381",
+    "unit_03391",
+    "unit_03415",
+    "unit_03421",
+    "unit_03441",
+    "unit_03450",
+    "unit_03475",
+    "unit_03499",
+    "unit_03522",
+    "unit_03561",
+    "unit_03574",
+    "unit_03591",
+    "unit_03607",
+    "unit_03622",
+    "unit_03628",
+    "unit_03644",
+    "unit_03657",
+    "unit_03663",
+    "unit_03672",
+    "unit_03680",
+    "unit_03696",
+    "unit_03702",
+    "unit_03729",
+    "unit_03735",
+    "unit_03751",
+    "unit_03784",
+    "unit_03792",
+    "unit_03847",
+    "unit_03875",
+    "unit_03887",
+    "unit_03913",
+    "unit_03921",
+    "unit_03937",
+    "unit_03943_merged",
+    "unit_03970",
+    "unit_03976",
+    "unit_03995",
+    "unit_04012",
+    "unit_04024",
+    "unit_04040",
+    "unit_04059",
+    "unit_04074",
+    "unit_04085",
+    "unit_04100",
+    "unit_04108",
+    "unit_04128_merged",
+    "unit_04147",
+    "unit_04242",
+    "unit_04248",
+    "unit_04273",
+    "unit_04279"
+  ],
+  "open_questions": [
+    "unit_03381: Projectile-weapons chunk is garbled (repeated effect names without table structure); cannot recover rank/cost rows from text alone.",
+    "unit_03441: Shields/armor lines mix stat bonuses with unrelated equipment names; unclear which numbers map to which traits.",
+    "unit_03561: SPACE VEHICLES chunk is numeric fragment only (12 14 14 16) with no labels.",
+    "unit_03680: PERSONNEL feature text is truncated mid-sentence; staffing rules incomplete.",
+    "unit_03696: SECRET feature excerpt starts mid-rule; rebuild timing/conditions not fully stated.",
+    "unit_03875, unit_03887: Single-number or numeric noise chunks; no interpretable rule.",
+    "unit_03976: ENVIRONMENTAL HAZARDS opens a topic but cuts off before hazard mechanics.",
+    "unit_04074: Narrative play-example opener only; no additional mechanical spine beyond flavor.",
+    "unit_04128_merged: MINIONS text is corrupted (bullet gaps, Parry/Dodge sentence spliced in); routine-check and worst-degree rules need a clean K-read.",
+    "unit_04248: FINISHING ATTACK cuts off before full routine-check rule is stated.",
+    "Equipment/vehicles/HQ features (many chunks): rich setting content; mapping to the six spine modules often indirect (effect ranks, DCs, checks) and may need Equipment chapter pairing."
+  ],
+  "cross_cutting_notes": "Batch 3 mixes gear, vehicles, headquarters, constructs, and conflict chapters. Effect ranks and Affliction/Fortitude DCs tie equipment examples to Powers and ResistanceCheck; attack and defense class tie Abilities to Checks; suffocation, falling, poisons, and hazards link Rank/Measurement intuitions to Fortitude/Toughness loops; minions and Impervous examples alter default attack and resistance resolution. Many chunks are tables, lists, or PDF fragments—concepts stay hypothesis/scaffolded pending cleaner source reads.",
+  "concept_additions": [
+    {
+      "module_name": "Ranks and measures",
+      "concept": {
+        "name": "CombatRoundDurationEstimate",
+        "foundational": true,
+        "evidence_stage": "scaffolded",
+        "owns": "Owns that one action round represents about six seconds of in-world time when turn order and per-turn limits matter.",
+        "owns_chunk": "unit_03913",
+        "chunk_ids": ["unit_03913"],
+        "extends": "MeasurementTable",
+        "properties": [],
+        "operations": []
+      }
+    },
+    {
+      "module_name": "Ranks and measures",
+      "concept": {
+        "name": "FallDamageRankFromDistanceRank",
+        "foundational": true,
+        "evidence_stage": "scaffolded",
+        "owns": "Owns fall damage as base rank 4 plus twice the distance rank fallen, capped at rank 16, before other surface or catcher adjustments.",
+        "owns_chunk": "unit_03995",
+        "chunk_ids": ["unit_03995"],
+        "extends": "Rank",
+        "properties": [],
+        "operations": []
+      }
+    },
+    {
+      "module_name": "Ranks and measures",
+      "concept": {
+        "name": "EnvironmentalHazardIntensityExamples",
+        "foundational": true,
+        "evidence_stage": "hypothesis",
+        "owns": "Owns example ranked intensities for radiation sources and fire/heats (torch through chemical accelerants) as a hazard reference scale fragment.",
+        "owns_chunk": "unit_04024",
+        "chunk_ids": ["unit_04024"],
+        "extends": "MeasurementTable",
+        "properties": [],
+        "operations": []
+      }
+    },
+    {
+      "module_name": "Ranks and measures",
+      "concept": {
+        "name": "VehicleSizeCategoryPointCost",
+        "foundational": true,
+        "evidence_stage": "hypothesis",
+        "owns": "Owns that vehicles default to medium size and each step up in size category costs one power point, adjusting base Strength, Toughness, and Defense (exact deltas truncated in chunk).",
+        "owns_chunk": "unit_03450",
+        "chunk_ids": ["unit_03450", "unit_03475"],
+        "extends": "Rank",
+        "properties": [],
+        "operations": []
+      }
+    },
+    {
+      "module_name": "Abilities",
+      "concept": {
+        "name": "ConstructAdvantageAbilityGate",
+        "foundational": true,
+        "evidence_stage": "scaffolded",
+        "owns": "Owns that constructs cannot take advantages that require abilities the construct does not have (parallel to skill restrictions).",
+        "owns_chunk": "unit_03751",
+        "chunk_ids": ["unit_03751"],
+        "extends": "Ability",
+        "properties": [],
+        "operations": []
+      }
+    },
+    {
+      "module_name": "Abilities",
+      "concept": {
+        "name": "StaminaBreathHoldRoundBudget",
+        "foundational": true,
+        "evidence_stage": "scaffolded",
+        "owns": "Owns holding breath for ten rounds plus rounds equal to twice Stamina rank before suffocation Fortitude checks begin.",
+        "owns_chunk": "unit_03995",
+        "chunk_ids": ["unit_03995"],
+        "extends": "Stamina",
+        "properties": [],
+        "operations": []
+      }
+    },
+    {
+      "module_name": "Checks and tasks",
+      "concept": {
+        "name": "AttackCheckVersusDefenseClass",
+        "foundational": true,
+        "evidence_stage": "scaffolded",
+        "owns": "Owns attack resolution as d20 plus attack bonus meeting or beating the target defense class to hit.",
+        "owns_chunk": "unit_04040",
+        "chunk_ids": ["unit_04040"],
+        "extends": "Check",
+        "properties": [],
+        "operations": []
+      }
+    },
+    {
+      "module_name": "Checks and tasks",
+      "concept": {
+        "name": "RoutineAttackCheckAgainstMinion",
+        "foundational": true,
+        "evidence_stage": "hypothesis",
+        "owns": "Owns that non-minions may treat attack checks against minions as routine checks (minion combat chunk partially corrupted).",
+        "owns_chunk": "unit_04128_merged",
+        "chunk_ids": ["unit_04128_merged"],
+        "extends": "Check",
+        "properties": [],
+        "operations": []
+      }
+    },
+    {
+      "module_name": "Checks and tasks",
+      "concept": {
+        "name": "TechnologyRestrictedCommunicationsDC",
+        "foundational": true,
+        "evidence_stage": "scaffolded",
+        "owns": "Owns DC 25 on a Technology skill check to gain illegal access to restricted communication systems when the GM allows.",
+        "owns_chunk": "unit_03622",
+        "chunk_ids": ["unit_03622"],
+        "extends": "DifficultyClass",
+        "properties": [],
+        "operations": []
+      }
+    },
+    {
+      "module_name": "Checks and tasks",
+      "concept": {
+        "name": "CatchFallingTargetDexterityDC",
+        "foundational": true,
+        "evidence_stage": "scaffolded",
+        "owns": "Owns DC 5 Dexterity check to catch a falling person or object, then subtract catcher Strength (or GM-approved power rank) from fall damage rank for split remainder damage.",
+        "owns_chunk": "unit_03995",
+        "chunk_ids": ["unit_03995"],
+        "extends": "DifficultyClass",
+        "properties": [],
+        "operations": []
+      }
+    },
+    {
+      "module_name": "Checks and tasks",
+      "concept": {
+        "name": "AllOutAttackDefenseForAttackTrade",
+        "foundational": true,
+        "evidence_stage": "scaffolded",
+        "owns": "Owns voluntarily taking up to -2 on Dodge and Parry until start of next turn to add up to +2 attack bonus, with defenses not below +0 and attack not more than doubled.",
+        "owns_chunk": "unit_04242",
+        "chunk_ids": ["unit_04242"],
+        "extends": "Check",
+        "properties": [],
+        "operations": []
+      }
+    },
+    {
+      "module_name": "Checks and tasks",
+      "concept": {
+        "name": "StandardAndMoveActionPerCombatRound",
+        "foundational": true,
+        "evidence_stage": "scaffolded",
+        "owns": "Owns that during a combat round a character can take one standard action and one move action on their turn (in addition to free/reaction rules elsewhere).",
+        "owns_chunk": "unit_03921",
+        "chunk_ids": ["unit_03921"],
+        "extends": "Check",
+        "properties": [],
+        "operations": []
+      }
+    },
+    {
+      "module_name": "Checks and tasks",
+      "concept": {
+        "name": "ReactionVersusFreeActionTiming",
+        "foundational": true,
+        "evidence_stage": "scaffolded",
+        "owns": "Owns that reactions are like free actions in speed but can occur off-turn in response to events, unlike conscious free actions on your turn.",
+        "owns_chunk": "unit_03937",
+        "chunk_ids": ["unit_03937"],
+        "extends": "Check",
+        "properties": [],
+        "operations": []
+      }
+    },
+    {
+      "module_name": "Skills",
+      "concept": {
+        "name": "TechnologySkillHQCommunicationsUse",
+        "foundational": true,
+        "evidence_stage": "scaffolded",
+        "owns": "Owns Technology skill as the gate for illegal access to restricted bands on headquarters communications gear, given user clearance and GM permission.",
+        "owns_chunk": "unit_03622",
+        "chunk_ids": ["unit_03622"],
+        "extends": "Skill",
+        "properties": [],
+        "operations": []
+      }
+    },
+    {
+      "module_name": "Skills",
+      "concept": {
+        "name": "AcrobaticsMitigateFallDistance",
+        "foundational": true,
+        "evidence_stage": "hypothesis",
+        "owns": "Owns Acrobatics skill allowing falls from greater distances without damage (exact thresholds not in this chunk).",
+        "owns_chunk": "unit_03995",
+        "chunk_ids": ["unit_03995"],
+        "extends": "Skill",
+        "properties": [],
+        "operations": []
+      }
+    },
+    {
+      "module_name": "Skills",
+      "concept": {
+        "name": "TechnologyRepairDamagedObjects",
+        "foundational": true,
+        "evidence_stage": "scaffolded",
+        "owns": "Owns using the Technology skill guidelines to repair damaged objects that lack Stamina-based natural recovery (per conflict recovery discussion).",
+        "owns_chunk": "unit_04279",
+        "chunk_ids": ["unit_04279", "unit_04100"],
+        "extends": "Skill",
+        "properties": [],
+        "operations": []
+      }
+    },
+    {
+      "module_name": "Powers",
+      "concept": {
+        "name": "EquipmentAfflictionFortitudeDCExample",
+        "foundational": true,
+        "evidence_stage": "hypothesis",
+        "owns": "Owns taser as compressed-air darts imposing Affliction resisted by Fortitude at DC 15 (equipment-stated effect parameters).",
+        "owns_chunk": "unit_03364",
+        "chunk_ids": ["unit_03364"],
+        "extends": "PowerEffect",
+        "properties": [],
+        "operations": []
+      }
+    },
+    {
+      "module_name": "Powers",
+      "concept": {
+        "name": "ConstructArchetypePowerExamples",
+        "foundational": true,
+        "evidence_stage": "hypothesis",
+        "owns": "Owns sample construct power packages (e.g. undead Fortitude Immunity; armor Protection; robot Fortitude Immunity; giant Growth) as minion-scale references.",
+        "owns_chunk": "unit_03847",
+        "chunk_ids": ["unit_03784", "unit_03847"],
+        "extends": "PowerEffect",
+        "properties": [],
+        "operations": []
+      }
+    },
+    {
+      "module_name": "Powers",
+      "concept": {
+        "name": "AlternateVehicleEquipmentPointPricing",
+        "foundational": true,
+        "evidence_stage": "scaffolded",
+        "owns": "Owns paying full equipment cost for the most expensive vehicle and one equipment point per additional vehicle of same or lesser cost (Alternate Equipment pattern for vehicles).",
+        "owns_chunk": "unit_03499",
+        "chunk_ids": ["unit_03499"],
+        "extends": "PowerPoints",
+        "properties": [],
+        "operations": []
+      }
+    },
+    {
+      "module_name": "Powers",
+      "concept": {
+        "name": "HeadquartersDefenseSystemEffectCap",
+        "foundational": true,
+        "evidence_stage": "scaffolded",
+        "owns": "Owns HQ defense emplacements using attack effects costing no more than twice headquarters power level, with attack bonus equal to that power level.",
+        "owns_chunk": "unit_03628",
+        "chunk_ids": ["unit_03628"],
+        "extends": "PowerEffect",
+        "properties": [],
+        "operations": []
+      }
+    },
+    {
+      "module_name": "Combat resolution",
+      "concept": {
+        "name": "TurnStartEndsUntilNextTurnEffects",
+        "foundational": true,
+        "evidence_stage": "scaffolded",
+        "owns": "Owns ending effects that last until the start of your next turn when that turn begins (partial turn-start checklist).",
+        "owns_chunk": "unit_03943_merged",
+        "chunk_ids": ["unit_03943_merged"],
+        "extends": "Condition",
+        "properties": [],
+        "operations": []
+      }
+    },
+    {
+      "module_name": "Combat resolution",
+      "concept": {
+        "name": "ToughnessResistanceAfterDamageHit",
+        "foundational": true,
+        "evidence_stage": "scaffolded",
+        "owns": "Owns that a successful hit with Damage forces a Toughness resistance check.",
+        "owns_chunk": "unit_04059",
+        "chunk_ids": ["unit_04059"],
+        "extends": "ResistanceCheck",
+        "properties": [],
+        "operations": []
+      }
+    },
+    {
+      "module_name": "Combat resolution",
+      "concept": {
+        "name": "SuffocationFortitudeEscalation",
+        "foundational": true,
+        "evidence_stage": "scaffolded",
+        "owns": "Owns repeating Fortitude checks (DC 10 +1 per prior success) each round after breath limit; failure leads to incapacitated then dying unless breathing restored; Immunity to Suffocation bypasses.",
+        "owns_chunk": "unit_03995",
+        "chunk_ids": ["unit_03995"],
+        "extends": "ResistanceCheck",
+        "properties": [],
+        "operations": []
+      }
+    },
+    {
+      "module_name": "Combat resolution",
+      "concept": {
+        "name": "ConditionsFromResistanceFailure",
+        "foundational": true,
+        "evidence_stage": "scaffolded",
+        "owns": "Owns that failed resistance checks against attacks impose conditions by effect type and failure degree, referencing effect text and Conditions in Basics.",
+        "owns_chunk": "unit_04147",
+        "chunk_ids": ["unit_04147"],
+        "extends": "Condition",
+        "properties": [],
+        "operations": []
+      }
+    },
+    {
+      "module_name": "Combat resolution",
+      "concept": {
+        "name": "AreaAndPerceptionAutomaticEffectResolution",
+        "foundational": true,
+        "evidence_stage": "scaffolded",
+        "owns": "Owns that Perception and Area attacks skip attack checks, cannot crit or miss, and ignore attack-check modifiers including maneuvers.",
+        "owns_chunk": "unit_04108",
+        "chunk_ids": ["unit_04108"],
+        "extends": "Check",
+        "properties": [],
+        "operations": []
+      }
+    },
+    {
+      "module_name": "Combat resolution",
+      "concept": {
+        "name": "ImperviousSkipsUnneededAttackRoll",
+        "foundational": true,
+        "evidence_stage": "hypothesis",
+        "owns": "Owns skipping attack rolls when incoming damage cannot overcome Impervious Toughness threshold (play-example: guns vs Impervious 8).",
+        "owns_chunk": "unit_04085",
+        "chunk_ids": ["unit_04085"],
+        "extends": "ResistanceCheck",
+        "properties": [],
+        "operations": []
+      }
+    },
+    {
+      "module_name": "Combat resolution",
+      "concept": {
+        "name": "MinionCombatResolutionPackage",
+        "foundational": true,
+        "evidence_stage": "hypothesis",
+        "owns": "Owns bundled minion combat exceptions: no critical hits vs non-minions; failed resistance suffers worst effect degree; routine attacks allowed for non-minions (chunk partially corrupted).",
+        "owns_chunk": "unit_04128_merged",
+        "chunk_ids": ["unit_04128_merged"],
+        "extends": "Condition",
+        "properties": [],
+        "operations": []
+      }
+    },
+    {
+      "module_name": "Combat resolution",
+      "concept": {
+        "name": "DamageConditionMinuteRecovery",
+        "foundational": true,
+        "evidence_stage": "scaffolded",
+        "owns": "Owns living targets removing one damage condition per minute of rest from most severe downward; Healing/Regeneration accelerates; objects without Stamina need repair instead.",
+        "owns_chunk": "unit_04279",
+        "chunk_ids": ["unit_04279", "unit_04100"],
+        "extends": "Condition",
+        "properties": [],
+        "operations": []
+      }
+    },
+    {
+      "module_name": "Combat resolution",
+      "concept": {
+        "name": "HeroDeathVersusMinionLethality",
+        "foundational": true,
+        "evidence_stage": "scaffolded",
+        "owns": "Owns rare, staged PC death path versus simpler minion elimination on successful attack plus intent; slam damage immunity ranks referenced.",
+        "owns_chunk": "unit_04273",
+        "chunk_ids": ["unit_04273"],
+        "extends": "Condition",
+        "properties": [],
+        "operations": []
+      }
+    },
+    {
+      "module_name": "Combat resolution",
+      "concept": {
+        "name": "OptionalInitiativeForTimedChallenge",
+        "foundational": true,
+        "evidence_stage": "scaffolded",
+        "owns": "Owns GM discretion to skip initiative when order is irrelevant, or roll initiative when timing matters (e.g. collapse after first round, hazards with initiative).",
+        "owns_chunk": "unit_03970",
+        "chunk_ids": ["unit_03970"],
+        "extends": "Check",
+        "properties": [],
+        "operations": []
+      }
+    }
+  ],
+  "chunk_bucket_additions": [
+    {
+      "module_name": "Ranks and measures",
+      "identified": ["unit_03913", "unit_03995", "unit_04024", "unit_03450", "unit_03475"],
+      "provisional": ["unit_03381", "unit_04012", "unit_03574"],
+      "ambiguous": ["unit_03381", "unit_03561"]
+    },
+    {
+      "module_name": "Abilities",
+      "identified": ["unit_03751", "unit_03995"],
+      "provisional": ["unit_03735"],
+      "ambiguous": []
+    },
+    {
+      "module_name": "Checks and tasks",
+      "identified": ["unit_04040", "unit_04128_merged", "unit_03622", "unit_03995", "unit_04242", "unit_03921", "unit_03937"],
+      "provisional": ["unit_04248"],
+      "ambiguous": ["unit_04128_merged"]
+    },
+    {
+      "module_name": "Skills",
+      "identified": ["unit_03622", "unit_03995", "unit_04279", "unit_04100"],
+      "provisional": [],
+      "ambiguous": []
+    },
+    {
+      "module_name": "Powers",
+      "identified": ["unit_03364", "unit_03784", "unit_03847", "unit_03499", "unit_03628", "unit_03391", "unit_03415", "unit_03349"],
+      "provisional": ["unit_03751", "unit_03574"],
+      "ambiguous": ["unit_03349"]
+    },
+    {
+      "module_name": "Combat resolution",
+      "identified": ["unit_03943_merged", "unit_04059", "unit_03995", "unit_04147", "unit_04108", "unit_04085", "unit_04128_merged", "unit_04279", "unit_04273", "unit_03970"],
+      "provisional": ["unit_03913", "unit_04074"],
+      "ambiguous": ["unit_04128_merged", "unit_03976"]
+    }
+  ],
+  "epic_statement_updates": []
+}

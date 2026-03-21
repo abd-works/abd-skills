@@ -1,6 +1,29 @@
+# Domain Model
+
+## Purpose
+
+The **domain model** describes the **state and structure** that the story map refers to. It holds **modules** and **domain concepts**: the things that hold state, get operated on, and participate as callers, receivers, and collaborators in interactions. Every `**Concept**` referenced in the story map must exist in the domain model — no drift between tree and model.
+
+## What goes in the Domain Model
+
+- **Modules** — A **grouping of tightly related concepts that collaborate around the same mechanism**. Each module has a name and a list of concepts. Each module typically maps to one area (or page) of the class diagram.
+- **Domain concepts** — A **domain concept holds state and can be operated on** (equates to a class in OO code). **Concepts participate as callers, receivers, and collaborators in interactions; state flows through Pre-Condition, Triggering-State, and Resulting-State** in the story map. Each concept has:
+  - **Properties** — with types, optional collaborating concepts and invariants. Use standard types: String, Number, Boolean, List, Dictionary, UniqueID, Instant. Use `List<T>` or `Dictionary<K,V>` when element types matter. **Type selection:** Use `Dictionary<K,V>` when items are accessed by key (name, type, id) — most "has many" relationships where you look up by name. Use `List<T>` only when order matters and items are accessed by position. Default to Dictionary for named domain collections.
+  - **Operations** — with optional collaborating concepts and invariants. Interactions in the story map should be reverse-engineerable to operations on the domain model.
+  - **Base-Concept** (optional) — parent for inheritance. **Foundational** — tag `[foundational]` for concepts that are the base classes everything else extends from (the stable core).
+- **Concept relationships** — When a concept "has" another: **composition** (strong has-a; part cannot exist without whole) or **aggregation** (weak has-a; whole has no meaning without multiple instances of the same part — e.g. crowd, flock, mob). Prefer composition/aggregation over inheritance.
+- **Examples** — At the end of each module, one table per concept, shared scenario linking the module. Scenario column required; qualifier in parentheses after concept name; columns match concept properties.
+- **Invariants** — Under the specific property or operation they apply to, not a separate section.
+
+**What does not go in:** Implementation details (APIs, services, databases, UI components, code). No speculation beyond the provided material. Everything at logical/domain level.
+
+---
+
 # Domain Model Format
 
 ## Module
+
+A grouping of tightly related concepts that collaborate around the same mechanism. Name + list of concepts; typically maps to one area (or page) of the class diagram.
 
 Heading: `## Module: <name>`
 
@@ -11,6 +34,8 @@ Heading: `## Module: <name>`
 ```
 
 ## Domain Concept
+
+A domain concept holds state and can be operated on (equates to a class in OO code). Concepts participate as callers, receivers, and collaborators in interactions; state flows through Pre-Condition, Triggering-State, and Resulting-State.
 
 Heading: `### **ConceptName** : <BaseConcept if any>`
 One-liner description of the purpose of the concept
@@ -25,6 +50,14 @@ One-liner description of the purpose of the concept
       Invariant: <constraint enforced by this operation>
 - Interactions: interaction nodes this concept is used by
 ```
+
+### Foundational classes
+
+A **foundational class** is a domain concept tagged `[foundational]`. These are the **base classes that everything else extends from** — the stable core that repeats across the system. Later slices add concepts that extend or use foundational classes; the foundational classes themselves remain stable.
+
+There is one domain model, not separate "foundational" and "full" models. The tag distinguishes core classes from extensions.
+
+Example: in a payments system, Account + Transaction + ValidationRule collaborate the same way whether you're processing a wire transfer, ACH, or direct debit. Those three are foundational. Wire, ACH, and direct debit are extensions added in later slices.
 
 ## Examples
 
@@ -60,11 +93,35 @@ Place invariants under the specific property or operation they apply to — not 
 
 ## Guidelines
 
-- Prefer **composition** over inheritance
-- Use `Dictionary<K,V>` when items are keyed
-- Use `List<T>` only when ordering matters
-- Avoid central "service/manager" concepts
-- Use `EnumType name {value1, value2}` for constrained options — not `String` with parenthetical options
+- Prefer **composition/aggregation** over inheritance (composition = strong has-a; aggregation = weak has-a where whole has no meaning without multiple instances of the same part).
+- **Type selection:** Use `Dictionary<K,V>` when items are accessed by key (name, type, id); use `List<T>` only when order/position matters (e.g. turn order, sequential steps). Default to Dictionary for named domain collections.
+- Avoid central "service/manager" concepts.
+- Use `EnumType name {value1, value2}` for constrained options — not `String` with parenthetical options.
+
+## map-model-spec.json — scaffold extensions (foundational spine + breadth)
+
+These fields extend the domain view in JSON (see **`parts/process.md`** and **`parts/steps/modules-epics-foundational-spine.md`** / **`parts/steps/modules-epics-scaffold-breadth.md`**). They align markdown **`[foundational]`** tags with machine-readable structure.
+
+| Field | Where | Purpose |
+|--------|--------|---------|
+| **`phase`** | root | Named pipeline **step** from **`parts/process.md`** (e.g. **`Modules and Epics`**, **`Concept Classification`**) — not a numeric id. |
+| **`phase_note`** | root | Optional free-text note (status, counters, session notes). |
+| **`module.foundational`** | `module` | `true` when this row carries the **foundational spine** (3–7 mechanisms); omit or `false` for peripheral modules. |
+| **`module.depends_on`** | `module` | Array of `{ dependent_concepts, module, provides_concepts, reason }` — consumer → provider (see rule **`module-depends-on`**). |
+| **`concept.evidence_stage`** | each `concept` | `hypothesis` (foundational spine / early scaffold breadth) → `scaffolded` (breadth **K** reads) → `deepened` (concept classes and stories). |
+| **`concept.foundational`** | each `concept` | `true` for stable core types that repeat across mechanisms (same intent as **`[foundational]`** in prose). |
+| **`concept.extends`** | each `concept` | Optional string: **immediate superclass** concept name. Maps prose **`### **Child** : Parent**`** — the parent named after the colon. **Omit** (or `null`) for root/base concepts in a hierarchy. Parent must exist elsewhere in **`modules_and_epics`** (any module); **`no-duplicates`** keeps names unique. If inheritance is real but parent lives in another module, still set **`extends`** and ensure **`depends_on`** / **`open_questions`** reflect the cross-module edge. |
+
+**Inheritance in JSON vs markdown**
+
+| Markdown (`parts/domain.md` — Domain Concept) | `map-model-spec.json` |
+|-----------------------------------------------|------------------------|
+| `### **SkillCheck** : **Check**` | `"name": "SkillCheck", "extends": "Check"` |
+| `### **Check**` (no parent named) | no **`extends`** field (root for that branch) |
+
+**Composition vs extends:** “has-a” (properties referencing other concepts) stays in **`properties[]` / `operations[]`** with collaborating types. “is-a” subtype layering uses **`extends`** plus shared **`owns`** / evidence on the child.
+
+Epic and confirming-story naming still follow **`parts/story-map.md`**; module naming stays **noun phrase**, epic/story **Verb Noun** (rule **`verb-noun-module-epic-story`**). **`concepts[].name`** and domain words in **`epic.statement`** / **`confirming_stories`** must match **exactly (100%)** — rule **`scaffold-concept-story-name-alignment`**; non-negotiable.
 
 ## Example — Connected Concepts with Tables
 
@@ -125,6 +182,60 @@ Transaction (recorded):
 ```
 
 One scenario per account. Balance = sum of transactions (credits − debits) for that account in that scenario. Main Checking: 3247.50 = 2400 + 1000 − 142.50 − 10. Overdraft: 42 = 500 − 458. Savings: 500 = 500.
+
+## Example — Domain model for country-specific payment
+
+A single module with several concepts that collaborate around payment by country and type (e.g. wire, ACH). Structure only; examples tables would follow the same format as above.
+
+```
+## Module: Payment
+- concepts — **Country**, **PaymentType**, **UserPaymentAccess**, **PaymentDetails**, **User**, **Session**, **PaymentTypeFieldTypes**
+
+### **Country**
+- String country_code
+- String country_name
+- lookup(code) → **Country**
+- list_available() → List<**Country**>
+
+### **PaymentType**
+- String payment_type {wire, ach, …}
+- List<**PaymentTypeFieldTypes**> fields
+- get_fields_for_type(payment_type) → fields
+- validate_availability_for_country(**Country**, payment_type) → Boolean
+
+### **UserPaymentAccess**
+- String user_name
+- **Country** country
+- **PaymentType** payment_type
+- Boolean available
+- check(**User**, **Country**, **PaymentType**) → Boolean
+
+### **PaymentDetails**
+- **PaymentType** payment_type
+- Number amount
+- String currency
+- String beneficiary_id
+- String swift_code | routing_number, account_number (type-specific)
+- validate() → Boolean
+- submit() → result
+
+### **User**
+- String user_name
+- String user_role
+- has_session() → Boolean
+- has_access(**Country**, **PaymentType**) → Boolean
+
+### **Session**
+- String session_id
+- Instant expires_at
+- is_active() → Boolean
+- extend() → void
+
+### **PaymentTypeFieldTypes**
+- String payment_type
+- List<String> fields
+- get_fields(payment_type) → List<String>
+```
 
 ## Validation Checklist
 

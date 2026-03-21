@@ -582,7 +582,7 @@ Stories must be testable as complete interactions and deliverable independently.
 
 
 
-## Hypothesis Rules (10)
+## Hypothesis Rules (9)
 
 Apply these rules when producing hypothesis.json for this phase.
 
@@ -702,18 +702,6 @@ order: 90
 **DO** build concept_hierarchy from evidence (shared mechanics, co-occurrence in actions, subtype patterns). Parent and child names must exist in concepts.
 
 **DO NOT** infer hierarchy from chapter titles or ToC alone.
-
-
----
-
----
-phases: [concept_synthesis]
-order: 95
----
-
-## performs/receives match actions registry
-
-**DO** ensure each concept's performs list contains only act_ids where that concept is subject; receives only act_ids where that concept is object. After merge/remove, rebuild performs/receives from actions.
 
 
 ---

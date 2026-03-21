@@ -1,28 +1,139 @@
 ---
 rule_id: no-junk-concepts
-phases: [step1]
-order: 40
-scanner: scanners/no_junk_concepts.py
+phases: [step2, step3, step5]
+order: 30
+scanner: scripts/scanners/no_junk_concepts.py
 impact: HIGH
 ---
 
-## Concept names must be domain nouns — not labels, headers, or garbage
+## No junk concepts
 
-Concept names that are section headers, all-caps labels, proper nouns, truncations, or instruction phrases indicate that document structure leaked into the domain model. These are not domain concepts — they are artifacts of how the source was written.
+A concept is junk if it is a synonym of another concept, a UI label with no decision ownership, a database table name mistaken for domain meaning, or a passive noun with no rules.
 
-The scanner (`scanners/no_junk_concepts.py`) flags concept names that match known bad patterns. It does not determine whether a specific name is valid — names that are borderline or context-dependent require AI judgment.
+The scanner (`scripts/scanners/no_junk_concepts.py`) flags likely junk. Borderline cases are resolved in assessment.
 
-**DO** name concepts as domain nouns that hold state or own decisions.
-- Right: "Check", "Ability", "PowerLevel", "Condition", "Modifier"
+**DO** merge synonyms into one concept with `aliases` (or one canonical name and evidence that ties alternate terms to the same chunk).
 
-**DO NOT** use section headers or all-caps document labels as concept names.
-- Wrong: "THE BASICS", "CHAPTER 6", "POWERS", "GAME PLAY", "EFFECTS", "ACTION"
+```json
+{
+  "modules_and_epics": [
+    {
+      "module": {
+        "name": "Retail",
+        "concepts": [
+          {
+            "name": "ShoppingCart",
+            "aliases": ["Basket", "Cart"],
+            "owns": "Owns line items and running totals before checkout",
+            "owns_chunk": "chunk-retail-cart-1",
+            "chunk_ids": ["chunk-retail-cart-1"]
+          }
+        ]
+      },
+      "epic": { "name": "Placeholder", "stories": [] }
+    }
+  ]
+}
+```
 
-**DO NOT** use proper nouns — character names, setting names, organization names, product names.
-- Wrong: "Paragon", "Speedster", "Freedom City", "Green Ronin"
+```json
+{
+  "modules_and_epics": [
+    {
+      "module": {
+        "name": "Retail",
+        "concepts": [
+          {
+            "name": "InventoryReservation",
+            "owns": "Owns whether stock is held for an order line and for how long",
+            "owns_chunk": "chunk-retail-inv-2",
+            "chunk_ids": ["chunk-retail-inv-2"]
+          }
+        ]
+      },
+      "epic": { "name": "Placeholder", "stories": [] }
+    }
+  ]
+}
+```
 
-**DO NOT** use instruction phrases, connectors, or single common words that are not domain terms.
-- Wrong: "Choose", "Choose One", "Although", "Because", "Select", "Apply"
+**DO NOT** introduce parallel concepts for the same decision with only naming drift.
 
-**DO NOT** use truncations or fragments.
-- Wrong: "Insub", "Aff", "Dam", "Init", "Abil"
+```json
+{
+  "modules_and_epics": [
+    {
+      "module": {
+        "name": "Retail",
+        "concepts": [
+          {
+            "name": "ShoppingCart",
+            "owns": "Owns line items before checkout",
+            "owns_chunk": "chunk-retail-cart-1",
+            "chunk_ids": ["chunk-retail-cart-1"]
+          },
+          {
+            "name": "Basket",
+            "owns": "Owns line items before checkout",
+            "owns_chunk": "chunk-retail-cart-1",
+            "chunk_ids": ["chunk-retail-cart-1"]
+          }
+        ]
+      },
+      "epic": { "name": "Placeholder", "stories": [] }
+    }
+  ]
+}
+```
+
+Two concepts, same `owns` and same chunks — junk duplicate.
+
+**DO NOT** model passive containers as concepts when they carry no rules.
+
+```json
+{
+  "modules_and_epics": [
+    {
+      "module": {
+        "name": "Ops",
+        "concepts": [
+          {
+            "name": "OrderHeaderRow",
+            "owns": "Row in the orders table",
+            "owns_chunk": "chunk-db-99",
+            "chunk_ids": ["chunk-db-99"]
+          }
+        ]
+      },
+      "epic": { "name": "Placeholder", "stories": [] }
+    }
+  ]
+}
+```
+
+Table shape is not domain ownership — fold into `Order` or drop.
+
+**DO NOT** invent concepts for every UI string.
+
+```json
+{
+  "modules_and_epics": [
+    {
+      "module": {
+        "name": "UI",
+        "concepts": [
+          {
+            "name": "SubmitButton",
+            "owns": "The button the user clicks",
+            "owns_chunk": "chunk-mockup-1",
+            "chunk_ids": ["chunk-mockup-1"]
+          }
+        ]
+      },
+      "epic": { "name": "Placeholder", "stories": [] }
+    }
+  ]
+}
+```
+
+UI chrome is not a domain concept unless the source assigns it explicit behavioral rules.

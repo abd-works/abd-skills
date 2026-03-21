@@ -1,0 +1,1702 @@
+{
+  "generated_from": "map-model-spec.json",
+  "note": "Reverse index for AI lookup in Steps 6\u20137. Reflects chunks cited in map-model-spec.json. Full corpus coverage comes from Step 8 evidence extraction. Re-run after any edit to the source output JSON.",
+  "chunk_count": 173,
+  "chunks": {
+    "unit_00232": {
+      "modules": [
+        "Ranks and measures"
+      ],
+      "concepts": [
+        "Rank",
+        "MeasurementTable"
+      ],
+      "epics": [
+        "Translate measurements"
+      ],
+      "stories": []
+    },
+    "unit_00222_merged": {
+      "modules": [
+        "Ranks and measures"
+      ],
+      "concepts": [
+        "MeasurementTable"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_00248": {
+      "modules": [
+        "Ranks and measures"
+      ],
+      "concepts": [
+        "TimeMeasureRow"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_00984": {
+      "modules": [
+        "Ranks and measures"
+      ],
+      "concepts": [
+        "AthleticsJumpDistanceFromCheck"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_01997": {
+      "modules": [
+        "Ranks and measures"
+      ],
+      "concepts": [
+        "MaterialToughnessOrdinalScale"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_02207": {
+      "modules": [
+        "Ranks and measures"
+      ],
+      "concepts": [],
+      "epics": [],
+      "stories": []
+    },
+    "unit_02329": {
+      "modules": [
+        "Ranks and measures"
+      ],
+      "concepts": [],
+      "epics": [],
+      "stories": []
+    },
+    "unit_02562": {
+      "modules": [
+        "Ranks and measures"
+      ],
+      "concepts": [],
+      "epics": [],
+      "stories": []
+    },
+    "unit_03450": {
+      "modules": [
+        "Ranks and measures"
+      ],
+      "concepts": [
+        "VehicleSizeCategoryPointCost"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_03475": {
+      "modules": [
+        "Ranks and measures"
+      ],
+      "concepts": [
+        "VehicleSizeCategoryPointCost"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_03913": {
+      "modules": [
+        "Ranks and measures"
+      ],
+      "concepts": [
+        "CombatRoundDurationEstimate"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_03995": {
+      "modules": [
+        "Ranks and measures",
+        "Abilities",
+        "Checks and tasks",
+        "Skills",
+        "Combat resolution"
+      ],
+      "concepts": [
+        "FallDamageRankFromDistanceRank",
+        "StaminaBreathHoldRoundBudget",
+        "CatchFallingTargetDexterityDC",
+        "AcrobaticsMitigateFallDistance",
+        "SuffocationFortitudeEscalation"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_04024": {
+      "modules": [
+        "Ranks and measures"
+      ],
+      "concepts": [
+        "EnvironmentalHazardIntensityExamples"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_00015": {
+      "modules": [
+        "Abilities"
+      ],
+      "concepts": [
+        "Ability",
+        "AbilityRank"
+      ],
+      "epics": [
+        "Express abilities"
+      ],
+      "stories": []
+    },
+    "unit_00749": {
+      "modules": [
+        "Abilities"
+      ],
+      "concepts": [
+        "AbilityRankPurchase"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_00775_merged": {
+      "modules": [
+        "Abilities"
+      ],
+      "concepts": [
+        "Stamina"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_00793_merged": {
+      "modules": [
+        "Abilities"
+      ],
+      "concepts": [
+        "Awareness"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_00810_merged": {
+      "modules": [
+        "Abilities"
+      ],
+      "concepts": [
+        "AbilityRankPurchase"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_00907": {
+      "modules": [
+        "Abilities",
+        "Skills"
+      ],
+      "concepts": [
+        "InteractionTargetMentalThreshold",
+        "InteractionSkill"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_03751": {
+      "modules": [
+        "Abilities"
+      ],
+      "concepts": [
+        "ConstructAdvantageAbilityGate"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_00266": {
+      "modules": [
+        "Checks and tasks"
+      ],
+      "concepts": [
+        "Check"
+      ],
+      "epics": [
+        "Resolve checks"
+      ],
+      "stories": []
+    },
+    "unit_00167": {
+      "modules": [
+        "Checks and tasks"
+      ],
+      "concepts": [],
+      "epics": [],
+      "stories": []
+    },
+    "unit_00280": {
+      "modules": [
+        "Checks and tasks"
+      ],
+      "concepts": [
+        "CriticalSuccess"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_00282": {
+      "modules": [
+        "Checks and tasks"
+      ],
+      "concepts": [
+        "Check",
+        "DifficultyClass"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_00326": {
+      "modules": [
+        "Checks and tasks"
+      ],
+      "concepts": [
+        "OpposedCheck"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_00347": {
+      "modules": [
+        "Checks and tasks"
+      ],
+      "concepts": [
+        "ToolingPenalty"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_00891": {
+      "modules": [
+        "Checks and tasks"
+      ],
+      "concepts": [
+        "SkillCheckModifierSources"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_00937": {
+      "modules": [
+        "Checks and tasks"
+      ],
+      "concepts": [
+        "PrecariousSurfaceMovementCheck"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_00965": {
+      "modules": [
+        "Checks and tasks"
+      ],
+      "concepts": [
+        "AcrobaticsTaskMenu"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_00978": {
+      "modules": [
+        "Checks and tasks"
+      ],
+      "concepts": [
+        "ClimbCircumstanceModifierTable"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_01026": {
+      "modules": [
+        "Checks and tasks"
+      ],
+      "concepts": [
+        "DeceptionBelievabilityDCAdjustment"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_01130_merged": {
+      "modules": [
+        "Checks and tasks"
+      ],
+      "concepts": [
+        "ForensicEvidenceAnalysisCheck"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_01160": {
+      "modules": [
+        "Checks and tasks"
+      ],
+      "concepts": [
+        "VisualPerceptionVisibilityDC"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_01226": {
+      "modules": [
+        "Checks and tasks"
+      ],
+      "concepts": [
+        "JuryRiggedRepairCheck"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_01256": {
+      "modules": [
+        "Checks and tasks"
+      ],
+      "concepts": [
+        "SecurityOrTrapDCLadder"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_01644_merged": {
+      "modules": [
+        "Checks and tasks"
+      ],
+      "concepts": [
+        "UltimateEffortFixedResult"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_02056": {
+      "modules": [
+        "Checks and tasks"
+      ],
+      "concepts": [],
+      "epics": [],
+      "stories": []
+    },
+    "unit_02137": {
+      "modules": [
+        "Checks and tasks"
+      ],
+      "concepts": [
+        "OpposedEffectCheck"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_02160": {
+      "modules": [
+        "Checks and tasks"
+      ],
+      "concepts": [
+        "OpposedEffectCheck"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_02972": {
+      "modules": [
+        "Checks and tasks",
+        "Skills"
+      ],
+      "concepts": [
+        "SkillCheckPicksEffectTask"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_03296_s2": {
+      "modules": [
+        "Checks and tasks"
+      ],
+      "concepts": [],
+      "epics": [],
+      "stories": []
+    },
+    "unit_03622": {
+      "modules": [
+        "Checks and tasks",
+        "Skills"
+      ],
+      "concepts": [
+        "TechnologyRestrictedCommunicationsDC",
+        "TechnologySkillHQCommunicationsUse"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_03921": {
+      "modules": [
+        "Checks and tasks"
+      ],
+      "concepts": [
+        "StandardAndMoveActionPerCombatRound"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_03937": {
+      "modules": [
+        "Checks and tasks"
+      ],
+      "concepts": [
+        "ReactionVersusFreeActionTiming"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_04040": {
+      "modules": [
+        "Checks and tasks"
+      ],
+      "concepts": [
+        "AttackCheckVersusDefenseClass"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_04128_merged": {
+      "modules": [
+        "Checks and tasks",
+        "Combat resolution"
+      ],
+      "concepts": [
+        "RoutineAttackCheckAgainstMinion",
+        "MinionCombatResolutionPackage"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_04242": {
+      "modules": [
+        "Checks and tasks"
+      ],
+      "concepts": [
+        "AllOutAttackDefenseForAttackTrade"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_02269": {
+      "modules": [
+        "Checks and tasks",
+        "Powers"
+      ],
+      "concepts": [
+        "OpposedEffectCheck"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_00025": {
+      "modules": [
+        "Skills"
+      ],
+      "concepts": [
+        "Skill",
+        "SkillCheck"
+      ],
+      "epics": [
+        "Apply skills"
+      ],
+      "stories": []
+    },
+    "unit_00029": {
+      "modules": [
+        "Skills"
+      ],
+      "concepts": [
+        "SkillCatalog"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_00306": {
+      "modules": [
+        "Skills"
+      ],
+      "concepts": [
+        "OpposedSkillPairing"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_00925": {
+      "modules": [
+        "Skills"
+      ],
+      "concepts": [],
+      "epics": [],
+      "stories": []
+    },
+    "unit_01006": {
+      "modules": [
+        "Skills"
+      ],
+      "concepts": [
+        "CloseCombatSkillSpecialization"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_01032": {
+      "modules": [
+        "Skills"
+      ],
+      "concepts": [],
+      "epics": [],
+      "stories": []
+    },
+    "unit_01043": {
+      "modules": [
+        "Skills"
+      ],
+      "concepts": [
+        "CovertMessageSkillExchange"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_01066": {
+      "modules": [
+        "Skills"
+      ],
+      "concepts": [
+        "ExpertiseRoutineAndPlayerBoundary"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_01075": {
+      "modules": [
+        "Skills"
+      ],
+      "concepts": [
+        "InsightVersusIllusion"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_01089": {
+      "modules": [
+        "Skills"
+      ],
+      "concepts": [
+        "CovertMessageSkillExchange"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_01113": {
+      "modules": [
+        "Skills"
+      ],
+      "concepts": [
+        "InvestigationVersusPerceptionSearch"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_01176": {
+      "modules": [
+        "Skills"
+      ],
+      "concepts": [
+        "PersuasionAttitudeShift"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_01184": {
+      "modules": [
+        "Skills"
+      ],
+      "concepts": [
+        "SleightOfHandContortionAndObservation"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_01202": {
+      "modules": [
+        "Skills"
+      ],
+      "concepts": [
+        "SleightOfHandContortionAndObservation"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_01218": {
+      "modules": [
+        "Skills"
+      ],
+      "concepts": [
+        "StealthTailingProcedure"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_01247": {
+      "modules": [
+        "Skills"
+      ],
+      "concepts": [
+        "TechnologyInventingPrerequisite"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_01274": {
+      "modules": [
+        "Skills"
+      ],
+      "concepts": [
+        "TreatmentDiagnosisAndAilmentAssist"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_01280": {
+      "modules": [
+        "Skills"
+      ],
+      "concepts": [
+        "TreatmentDiagnosisAndAilmentAssist"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_02096": {
+      "modules": [
+        "Skills"
+      ],
+      "concepts": [],
+      "epics": [],
+      "stories": []
+    },
+    "unit_02232": {
+      "modules": [
+        "Skills",
+        "Powers"
+      ],
+      "concepts": [
+        "PowerModifierCatalog"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_03208": {
+      "modules": [
+        "Skills"
+      ],
+      "concepts": [],
+      "epics": [],
+      "stories": []
+    },
+    "unit_03254": {
+      "modules": [
+        "Skills"
+      ],
+      "concepts": [],
+      "epics": [],
+      "stories": []
+    },
+    "unit_03292": {
+      "modules": [
+        "Skills"
+      ],
+      "concepts": [],
+      "epics": [],
+      "stories": []
+    },
+    "unit_04100": {
+      "modules": [
+        "Skills",
+        "Combat resolution"
+      ],
+      "concepts": [
+        "TechnologyRepairDamagedObjects",
+        "DamageConditionMinuteRecovery"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_04279": {
+      "modules": [
+        "Skills",
+        "Combat resolution"
+      ],
+      "concepts": [
+        "TechnologyRepairDamagedObjects",
+        "DamageConditionMinuteRecovery"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_00038": {
+      "modules": [
+        "Powers"
+      ],
+      "concepts": [
+        "PowerEffect",
+        "PowerPoints"
+      ],
+      "epics": [
+        "Acquire powers"
+      ],
+      "stories": []
+    },
+    "unit_00056": {
+      "modules": [
+        "Powers"
+      ],
+      "concepts": [
+        "PowerPoints"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_00220": {
+      "modules": [
+        "Powers"
+      ],
+      "concepts": [
+        "Advantage"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_00433": {
+      "modules": [
+        "Powers"
+      ],
+      "concepts": [
+        "ExtraEffortPowerSurge"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_00502": {
+      "modules": [
+        "Powers"
+      ],
+      "concepts": [
+        "PowerLevel"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_00518": {
+      "modules": [
+        "Powers"
+      ],
+      "concepts": [
+        "Advantage"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_00532": {
+      "modules": [
+        "Powers"
+      ],
+      "concepts": [],
+      "epics": [],
+      "stories": []
+    },
+    "unit_00549": {
+      "modules": [
+        "Powers"
+      ],
+      "concepts": [],
+      "epics": [],
+      "stories": []
+    },
+    "unit_00695": {
+      "modules": [
+        "Powers"
+      ],
+      "concepts": [
+        "Descriptor"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_01317": {
+      "modules": [
+        "Powers"
+      ],
+      "concepts": [
+        "AdvantageRankAndDescriptionPattern"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_01362_merged": {
+      "modules": [
+        "Powers"
+      ],
+      "concepts": [
+        "AdvantageNameGroupings"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_01682": {
+      "modules": [
+        "Powers"
+      ],
+      "concepts": [
+        "PowerEffectStandardCostPerRank"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_01695": {
+      "modules": [
+        "Powers"
+      ],
+      "concepts": [
+        "SeriesRequiredDescriptorRule"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_01705": {
+      "modules": [
+        "Powers"
+      ],
+      "concepts": [
+        "PowerEffectType"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_01711": {
+      "modules": [
+        "Powers"
+      ],
+      "concepts": [
+        "DefensePowerEffectPattern"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_01733": {
+      "modules": [
+        "Powers"
+      ],
+      "concepts": [
+        "PowerActivationAndResolution"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_01764": {
+      "modules": [
+        "Powers"
+      ],
+      "concepts": [
+        "PowerEffectNameTableFragment"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_01783": {
+      "modules": [
+        "Powers"
+      ],
+      "concepts": [
+        "PowerEffectNameTableFragment"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_01792_merged": {
+      "modules": [
+        "Powers",
+        "Combat resolution"
+      ],
+      "concepts": [
+        "EffectResistanceWaiverRules"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_01824": {
+      "modules": [
+        "Powers"
+      ],
+      "concepts": [
+        "PowerEffectSummaryLine"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_01833": {
+      "modules": [
+        "Powers"
+      ],
+      "concepts": [
+        "PowerExtraSection"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_01844": {
+      "modules": [
+        "Powers"
+      ],
+      "concepts": [
+        "SamplePowerWriteupSchema"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_01846": {
+      "modules": [
+        "Powers"
+      ],
+      "concepts": [
+        "SamplePowerWriteupSchema"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_01855": {
+      "modules": [
+        "Powers"
+      ],
+      "concepts": [
+        "AlternateFormDescriptorPackages"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_01872": {
+      "modules": [
+        "Powers"
+      ],
+      "concepts": [
+        "BlastRangedDamageEffect"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_01897": {
+      "modules": [
+        "Powers"
+      ],
+      "concepts": [
+        "CommunicationLimitedFlaw"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_01919": {
+      "modules": [
+        "Powers"
+      ],
+      "concepts": [
+        "PerceptionRangeTargetingAndConcealment"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_01928": {
+      "modules": [
+        "Powers"
+      ],
+      "concepts": [
+        "ConcealmentEffectExtras"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_01955": {
+      "modules": [
+        "Powers"
+      ],
+      "concepts": [
+        "CreateEffectExtras"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_02025": {
+      "modules": [
+        "Powers"
+      ],
+      "concepts": [
+        "EnhancedTraitLimitedAndPermanent"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_02043": {
+      "modules": [
+        "Powers"
+      ],
+      "concepts": [],
+      "epics": [],
+      "stories": []
+    },
+    "unit_02070": {
+      "modules": [
+        "Powers"
+      ],
+      "concepts": [
+        "PowerModifierCatalog"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_02123": {
+      "modules": [
+        "Powers"
+      ],
+      "concepts": [
+        "PowerModifierCatalog"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_02154": {
+      "modules": [
+        "Powers"
+      ],
+      "concepts": [
+        "PowerModifierCatalog"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_02189": {
+      "modules": [
+        "Powers"
+      ],
+      "concepts": [
+        "PowerModifierCatalog"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_02213": {
+      "modules": [
+        "Powers"
+      ],
+      "concepts": [],
+      "epics": [],
+      "stories": []
+    },
+    "unit_02301": {
+      "modules": [
+        "Powers"
+      ],
+      "concepts": [],
+      "epics": [],
+      "stories": []
+    },
+    "unit_02310": {
+      "modules": [
+        "Powers"
+      ],
+      "concepts": [
+        "PowerModifierCatalog"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_02337": {
+      "modules": [
+        "Powers"
+      ],
+      "concepts": [],
+      "epics": [],
+      "stories": []
+    },
+    "unit_02352": {
+      "modules": [
+        "Powers"
+      ],
+      "concepts": [],
+      "epics": [],
+      "stories": []
+    },
+    "unit_02361_s1": {
+      "modules": [
+        "Powers"
+      ],
+      "concepts": [
+        "PowerModifierCatalog"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_02388": {
+      "modules": [
+        "Powers"
+      ],
+      "concepts": [
+        "PowerModifierCatalog"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_02397": {
+      "modules": [
+        "Powers"
+      ],
+      "concepts": [
+        "PowerModifierCatalog"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_02408": {
+      "modules": [
+        "Powers"
+      ],
+      "concepts": [
+        "PowerModifierCatalog"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_02489": {
+      "modules": [
+        "Powers"
+      ],
+      "concepts": [],
+      "epics": [],
+      "stories": []
+    },
+    "unit_02539": {
+      "modules": [
+        "Powers"
+      ],
+      "concepts": [],
+      "epics": [],
+      "stories": []
+    },
+    "unit_02593": {
+      "modules": [
+        "Powers"
+      ],
+      "concepts": [],
+      "epics": [],
+      "stories": []
+    },
+    "unit_02618": {
+      "modules": [
+        "Powers"
+      ],
+      "concepts": [
+        "PowerModifierCatalog"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_02655": {
+      "modules": [
+        "Powers"
+      ],
+      "concepts": [
+        "PowerModifierCatalog"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_02668_s2": {
+      "modules": [
+        "Powers"
+      ],
+      "concepts": [
+        "PowerModifierCatalog"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_02677": {
+      "modules": [
+        "Powers"
+      ],
+      "concepts": [],
+      "epics": [],
+      "stories": []
+    },
+    "unit_02692": {
+      "modules": [
+        "Powers"
+      ],
+      "concepts": [
+        "PowerModifierCatalog"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_02719": {
+      "modules": [
+        "Powers"
+      ],
+      "concepts": [],
+      "epics": [],
+      "stories": []
+    },
+    "unit_02751_s1": {
+      "modules": [
+        "Powers"
+      ],
+      "concepts": [
+        "AlternateEffectArray"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_02776": {
+      "modules": [
+        "Powers"
+      ],
+      "concepts": [],
+      "epics": [],
+      "stories": []
+    },
+    "unit_03036": {
+      "modules": [
+        "Powers"
+      ],
+      "concepts": [],
+      "epics": [],
+      "stories": []
+    },
+    "unit_03055": {
+      "modules": [
+        "Powers"
+      ],
+      "concepts": [
+        "PowerModifierCatalog"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_03090": {
+      "modules": [
+        "Powers"
+      ],
+      "concepts": [
+        "DescriptorLayer"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_03129": {
+      "modules": [
+        "Powers"
+      ],
+      "concepts": [
+        "DescriptorLayer"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_03142": {
+      "modules": [
+        "Powers"
+      ],
+      "concepts": [
+        "DescriptorLayer"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_03166": {
+      "modules": [
+        "Powers"
+      ],
+      "concepts": [
+        "PowerModifierCatalog"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_03202": {
+      "modules": [
+        "Powers"
+      ],
+      "concepts": [],
+      "epics": [],
+      "stories": []
+    },
+    "unit_03214": {
+      "modules": [
+        "Powers"
+      ],
+      "concepts": [],
+      "epics": [],
+      "stories": []
+    },
+    "unit_03248": {
+      "modules": [
+        "Powers"
+      ],
+      "concepts": [
+        "AlternateEffectArray"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_03270": {
+      "modules": [
+        "Powers"
+      ],
+      "concepts": [],
+      "epics": [],
+      "stories": []
+    },
+    "unit_03278": {
+      "modules": [
+        "Powers"
+      ],
+      "concepts": [],
+      "epics": [],
+      "stories": []
+    },
+    "unit_03349": {
+      "modules": [
+        "Powers"
+      ],
+      "concepts": [],
+      "epics": [],
+      "stories": []
+    },
+    "unit_03364": {
+      "modules": [
+        "Powers"
+      ],
+      "concepts": [
+        "EquipmentAfflictionFortitudeDCExample"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_03391": {
+      "modules": [
+        "Powers"
+      ],
+      "concepts": [],
+      "epics": [],
+      "stories": []
+    },
+    "unit_03415": {
+      "modules": [
+        "Powers"
+      ],
+      "concepts": [],
+      "epics": [],
+      "stories": []
+    },
+    "unit_03499": {
+      "modules": [
+        "Powers"
+      ],
+      "concepts": [
+        "AlternateVehicleEquipmentPointPricing"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_03628": {
+      "modules": [
+        "Powers"
+      ],
+      "concepts": [
+        "HeadquartersDefenseSystemEffectCap"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_03784": {
+      "modules": [
+        "Powers"
+      ],
+      "concepts": [
+        "ConstructArchetypePowerExamples"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_03847": {
+      "modules": [
+        "Powers"
+      ],
+      "concepts": [
+        "ConstructArchetypePowerExamples"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_00080": {
+      "modules": [
+        "Powers"
+      ],
+      "concepts": [
+        "Descriptor"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_00439": {
+      "modules": [
+        "Powers"
+      ],
+      "concepts": [
+        "ExtraEffortPowerSurge"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_00524": {
+      "modules": [
+        "Powers"
+      ],
+      "concepts": [
+        "PowerLevel"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_00729": {
+      "modules": [
+        "Powers"
+      ],
+      "concepts": [
+        "PowerLevel"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_00385": {
+      "modules": [
+        "Combat resolution"
+      ],
+      "concepts": [
+        "Condition"
+      ],
+      "epics": [
+        "Track combat state"
+      ],
+      "stories": []
+    },
+    "unit_00363_merged": {
+      "modules": [
+        "Combat resolution"
+      ],
+      "concepts": [
+        "ResistanceCheck"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_00387_merged": {
+      "modules": [
+        "Combat resolution"
+      ],
+      "concepts": [
+        "BasicCondition"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_00412": {
+      "modules": [
+        "Combat resolution"
+      ],
+      "concepts": [
+        "BasicCondition"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_00856": {
+      "modules": [
+        "Combat resolution"
+      ],
+      "concepts": [
+        "ActiveDefenseDegradation"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_00862": {
+      "modules": [
+        "Combat resolution"
+      ],
+      "concepts": [
+        "InitiativeCheck"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_01107": {
+      "modules": [
+        "Combat resolution"
+      ],
+      "concepts": [
+        "IntimidationDemoralize"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_01423_merged": {
+      "modules": [
+        "Combat resolution"
+      ],
+      "concepts": [
+        "FightingStyleAdvantageBundleExamples"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_01979": {
+      "modules": [
+        "Combat resolution"
+      ],
+      "concepts": [
+        "DamageResistanceDegreeOutcomes"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_02252": {
+      "modules": [
+        "Combat resolution"
+      ],
+      "concepts": [],
+      "epics": [],
+      "stories": []
+    },
+    "unit_02604": {
+      "modules": [
+        "Combat resolution"
+      ],
+      "concepts": [],
+      "epics": [],
+      "stories": []
+    },
+    "unit_02878": {
+      "modules": [
+        "Combat resolution"
+      ],
+      "concepts": [
+        "CoveringAttack"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_03324": {
+      "modules": [
+        "Combat resolution"
+      ],
+      "concepts": [],
+      "epics": [],
+      "stories": []
+    },
+    "unit_03341": {
+      "modules": [
+        "Combat resolution"
+      ],
+      "concepts": [],
+      "epics": [],
+      "stories": []
+    },
+    "unit_03943_merged": {
+      "modules": [
+        "Combat resolution"
+      ],
+      "concepts": [
+        "TurnStartEndsUntilNextTurnEffects"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_03970": {
+      "modules": [
+        "Combat resolution"
+      ],
+      "concepts": [
+        "OptionalInitiativeForTimedChallenge"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_04059": {
+      "modules": [
+        "Combat resolution"
+      ],
+      "concepts": [
+        "ToughnessResistanceAfterDamageHit"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_04085": {
+      "modules": [
+        "Combat resolution"
+      ],
+      "concepts": [
+        "ImperviousSkipsUnneededAttackRoll"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_04108": {
+      "modules": [
+        "Combat resolution"
+      ],
+      "concepts": [
+        "AreaAndPerceptionAutomaticEffectResolution"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_04147": {
+      "modules": [
+        "Combat resolution"
+      ],
+      "concepts": [
+        "ConditionsFromResistanceFailure"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_04273": {
+      "modules": [
+        "Combat resolution"
+      ],
+      "concepts": [
+        "HeroDeathVersusMinionLethality"
+      ],
+      "epics": [],
+      "stories": []
+    },
+    "unit_00835": {
+      "modules": [
+        "Combat resolution"
+      ],
+      "concepts": [
+        "ActiveDefenseDegradation"
+      ],
+      "epics": [],
+      "stories": []
+    }
+  }
+}

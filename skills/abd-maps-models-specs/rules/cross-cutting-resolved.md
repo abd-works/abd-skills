@@ -1,20 +1,115 @@
 ---
 rule_id: cross-cutting-resolved
-phases: [step3]
-order: 5
-scanner: scanners/cross_cutting_resolved.py
+phases: [step5]
+order: 50
+scanner: scripts/scanners/cross_cutting_resolved.py
 impact: HIGH
 ---
 
-## All Cross-Cutting Items Must Be Resolved
+## Cross-cutting concerns must be resolved or explicitly deferred
 
-Step 3 produces a canonical scaffold. Every item that was flagged `[cross-cutting]` in Step 1 or 2 must be resolved before evidence extraction. Unresolved cross-cutting items indicate concepts or mechanics that span modules but have not been assigned a home — the scaffold is incomplete.
+When the same concept name appears in multiple modules, or when evidence shows shared infrastructure (logging, auth, notifications), document how it is handled — either assign a **home module** with `cross_cutting_notes`, or leave `cross_cutting_notes` empty only when the scanner finds **no** cross-cutting pattern to flag.
 
-The scanner (`scanners/cross_cutting_resolved.py`) flags non-empty `cross_cutting_notes` that still contain unresolved items.
+The scanner (`scripts/scanners/cross_cutting_resolved.py`) treats **non-empty** `cross_cutting_notes` as a violation until assessment marks the concern handled. Empty notes pass.
 
-**DO** resolve every cross-cutting item by:
-- Assigning it to a primary module (with rationale)
-- Creating a shared module when the concept is truly cross-cutting
-- Documenting in `open_questions` if human input is needed (with explicit question)
+**DO** keep `cross_cutting_notes` empty when concepts are cleanly scoped and names do not collide across modules.
 
-**DO NOT** leave `cross_cutting_notes` with unresolved entries. Move resolved items out; document decisions.
+```json
+{
+  "modules_and_epics": [
+    {
+      "module": {
+        "name": "Retail",
+        "cross_cutting_notes": "",
+        "concepts": [
+          {
+            "name": "Cart",
+            "owns": "Owns line items before checkout",
+            "owns_chunk": "chunk-r1",
+            "chunk_ids": ["chunk-r1"]
+          }
+        ]
+      },
+      "epic": { "name": "Checkout", "stories": [] }
+    },
+    {
+      "module": {
+        "name": "Payments",
+        "cross_cutting_notes": "",
+        "concepts": [
+          {
+            "name": "SettlementBatch",
+            "owns": "Owns batching and cut-off times for release",
+            "owns_chunk": "chunk-p1",
+            "chunk_ids": ["chunk-p1"]
+          }
+        ]
+      },
+      "epic": { "name": "Settlement", "stories": [] }
+    }
+  ]
+}
+```
+
+**DO** document the resolution in `cross_cutting_notes` when you intentionally share a concept — then clear or update notes in assessment once home module and boundaries are agreed.
+
+```json
+{
+  "name": "Retail",
+  "cross_cutting_notes": "Customer identity: home module is IAM; Retail stores only customerId foreign key — see IAM.CustomerAccount.",
+  "concepts": []
+}
+```
+
+**DO NOT** leave stale placeholder text in `cross_cutting_notes` through final delivery — the scanner flags non-empty notes.
+
+```json
+{
+  "name": "Retail",
+  "cross_cutting_notes": "TODO: figure out auth",
+  "concepts": []
+}
+```
+
+Non-empty — violation until resolved in assessment.
+
+**DO NOT** duplicate the same concept name in two modules without notes.
+
+```json
+{
+  "modules_and_epics": [
+    {
+      "module": {
+        "name": "Retail",
+        "cross_cutting_notes": "",
+        "concepts": [
+          {
+            "name": "CustomerAccount",
+            "owns": "Owns cart preferences",
+            "owns_chunk": "chunk-r1",
+            "chunk_ids": ["chunk-r1"]
+          }
+        ]
+      },
+      "epic": { "name": "Checkout", "stories": [] }
+    },
+    {
+      "module": {
+        "name": "IAM",
+        "cross_cutting_notes": "",
+        "concepts": [
+          {
+            "name": "CustomerAccount",
+            "owns": "Owns credentials and sessions",
+            "owns_chunk": "chunk-i1",
+            "chunk_ids": ["chunk-i1"]
+          }
+        ]
+      },
+      "epic": { "name": "Login", "stories": [] }
+    }
+  ]
+}
+```
+
+Same concept name, two modules, empty `cross_cutting_notes` — scanner may flag; assessment must rename, merge, or document.
