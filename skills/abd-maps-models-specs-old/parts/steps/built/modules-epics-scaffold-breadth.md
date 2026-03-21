@@ -8,7 +8,7 @@ Everything below is **what you must do** to finish this step.
 
 ---
 
-**Where this sits:** **`parts/process.md`** — **Stage 2: Map and Model**, process table **row 5 — Modules and Epics** (this document: **modules/epics scaffold (breadth)** / K-read breadth). **Row 4 — Foundational mechanisms** (foundational spine) must be done first (**`parts/steps/built/modules-epics-foundational-spine.md`**). That pass gives **you** the **concept-first spine**; in breadth **you** substantiate and expand **`concepts[]`** — **you do not** substitute epic lists for understanding.
+**Where this sits:** This file is the **modules/epics scaffold (breadth)** slice of **`parts/process.md`** (Stage 2 — **Modules and Epics**). **You must** complete the **foundational spine** (**`parts/steps/built/modules-epics-foundational-spine.md`**) first. That pass gives **you** the **concept-first spine**; in breadth **you** substantiate and expand **`concepts[]`** — **you do not** substitute epic lists for understanding.
 
 ## What you must achieve (non-negotiable)
 
@@ -16,107 +16,66 @@ Everything below is **what you must do** to finish this step.
 
 ### Overarching outcome (what this step is for)
 
-**Recording.** You persist the outcome in **`map-model-spec.json`**. Per module/epic pair:
-
-- You **cite** **`module.concepts[]`**: names, **`owns`** + **`owns_chunk`**, **`chunk_ids`** / evidence, **`evidence_stage`**, **`extends`**, optional **`properties`[] / `operations`[]** with **`chunk`**
-- You **define** **`module.depends_on`** for provider/consumer relationships
-- You **align** epics and **`confirming_stories`** with that model
-
-**§2** is the field checklist — not a second workflow.
-
-**Foundational object model.**
-
+**Foundational object model.** 
 - You **grow** each pair’s **`module.concepts[]`**
-- You **anchor** claims to chunks
+- You **anchor** claims to chunks, 
 - You **layer** base → categories → implementations
-- You promote **`evidence_stage`** toward **`scaffolded`** only where **full reads** substantiate the claims
-- You **edit** concepts **before** epics
+- You promote **`evidence_stage`** toward **`scaffolded`** 
 
-**Module dependencies.**
-
+**Module dependencies.** 
 - You make **wiring visible**
 - You define **`module.depends_on`** between provider and consumer modules
-- You define **concept-to-concept** shape (**`extends`**, **owns**, cross-cutting notes)
-- You connect **foundational** material to **extensions** and **categorization** — not hidden in story titles alone
+- You define  **concept-to-concept** shape (**`extends`**, **owns**, cross-cutting notes
+- You connect **foundational** material to **extensions** and **categorization** So it's not hidden in story titles alone
 
-**Validation through epics and stories.**
+**Validation through epics and stories.** **Epics** and **`confirming_stories`** **prove** the model: **`epic.statement`** and story vocabulary **must** line up with **`concepts[].name`** (**bold names**, **`statement_chunk`**, chunk-tied wording). **Edit order**: concepts first, epics second; **keep the two locked** (**`scaffold-concept-story-name-alignment`** — no story nouns without **`concepts[]`** rows).
 
-- You **prove** the model with **epics** and **`confirming_stories`**
-- You **align** **`epic.statement`** and story vocabulary to **`concepts[].name`** (**bold names**, **`statement_chunk`**, chunk-tied wording)
-- You **edit** concepts first, epics second
-- You **lock** concept names and story strings together (**`scaffold-concept-story-name-alignment`**) — **no** story nouns without **`concepts[]`** rows
+**Split work (brief).** When **K** is large, **sub-agents** or **batches** take **ranges** of the breadth-sorted id list, return **patches**; a **parent** merge reconciles one JSON (union **`chunk_ids`**, reconcile **`depends_on`**, dedupe questions). Optional: route by module/epic pair after ids are chosen.
 
-**Split work (brief).**
+**Support, not the point:** **K** reads, **§4** scanners, and **`build_chunk_index.py`** **support and verify** the spec.
 
-- You **split** work into consecutive **ranges** on the breadth-sorted id list (**sub-agents** or **batches**) when **breadth reads** are **many**
-- You **merge** returned **patches** into **one** JSON (union **`chunk_ids`**, reconcile **`depends_on`**, dedupe questions) — see step **4** in **§1** for **parent** merge
-- You **may** route by module/epic pair after ids are chosen
 
-**Verification (tools) vs. modeling (the actual work).**
-
-- **The work:** You **read** chunks and **edit** **`map-model-spec.json`** (**§1**) — concepts, epics, **`depends_on`**, chunk ties. That is what this step is **for**.
-- **The checks:** **§4** scanners and **`build_chunk_index.py`** **catch** mistakes in that JSON (missing refs, duplicates, epic/story rules, index freshness). **Run them after you edit**; they **do not** read the corpus for you or decide the model.
+**Recording.** You persist the outcome in **`map-model-spec.json`**: per module/epic pair, **cited** **`module.concepts[]`** (names, **`owns`** + **`owns_chunk`**, **`chunk_ids`** / evidence, **`evidence_stage`**, **`extends`**, optional **`properties`[] / `operations`[]** with **`chunk`**), **`module.depends_on`** for provider/consumer relationships, and aligned epics / **`confirming_stories`**. **§2** is the field checklist — not a second workflow.
 
 ---
 
 ## 1. What you must do (in order)
 
-**You** follow **one** ordered list below. **You** use **§2** as the field checklist while **you** execute steps **8–12** (concepts through **`depends_on`**).
+**One** ordered list. **§2** is the field checklist while you execute steps **8–12** (concepts through **`depends_on`**).
 
-1. **Context** — **You** resolve **`context_path`** → **`context_index.json`**.
-   - **You** set **N** = **`forward_index`** size
-   - **You** set **K** = round(0.3×N), band ⌊0.28N⌋–⌈0.32N⌉ (if N &lt; 10, at least max(1, round(0.3×N)))
-   - **You do not** store K, N, or a frozen chunk manifest in the spec
+1. **Context** — **You** resolve **`context_path`** → **`context_index.json`**. **N** = **`forward_index`** size; **K** = round(0.3×N), band ⌊0.28N⌋–⌈0.32N⌉ (if N &lt; 10, at least max(1, round(0.3×N))). **Do not** store K, N, or a frozen chunk manifest in the spec.
 
-2. **Open the spec** — **You** open **`map-model-spec.json`** (foundational spine **already** present).
+2. **Open the spec** — **`map-model-spec.json`** (already contains foundational spine).
 
-3. **Choose breadth reads** — **You** lexically sort chunk ids on **`forward_index`**.
-   - **You** set **K** = max(1, round(0.3×N))
-   - **You** pick **K** ids **spread** from first to last of the sorted list (stratified breadth — not one cluster)
-   - **You** keep chosen ids in **session notes / tally**, not in JSON
+3. **Choose breadth reads** — Lexical sort chunk ids on **`forward_index`**. **K** = max(1, round(0.3×N)). Pick **K** ids **spread** from first to last of the sorted list (stratified breadth — not one cluster). Keep chosen ids in **session notes / tally**, not in JSON.
 
-4. **Optional: batches / sub-agents** — When **K** is large, **you** assign consecutive **ranges** of the sorted list to batches or sub-agents.
-   - **You** collect **patches** from each batch (`modules_and_epics`, `open_questions`, `chunk_ids` buckets)
-   - **You** (**parent**) **merge** into **one** JSON: union **`chunk_ids`**, reconcile **`depends_on`**, dedupe questions
-   - **You may** route by module/epic pair after ids are chosen
+4. **Optional: batches / sub-agents** — For large **K**, assign consecutive **ranges** of the sorted list; each returns **patches** (`modules_and_epics`, `open_questions`, `chunk_ids` buckets). **Parent** merges (union **`chunk_ids`**, reconcile **`depends_on`**, dedupe questions). Optional: pair-scoped routing after ids are chosen.
 
-5. **Interactive AI** — **You** read chunks and **you** edit **`map-model-spec.json`** directly (optionally with an assistant). **You** need **no** Python driver for reading/editing.
+5. **Interactive AI** — **You** read chunks and edit **`map-model-spec.json`** directly (optionally with an assistant). **No** Python driver required for reading/editing.
 
-6. **Full-read pass** — **You** open **`chunks/<id>.md`** for chosen ids. **You** count **+1** only after a **full** read (**mandatory** full reads — **no** skim); **you** **stop** at **K**. When **you** split work, **you** follow step **4**.
+6. **Full-read pass** — Open **`chunks/<id>.md`** for chosen ids. **+1** only after a **full** read (**mandatory** full reads — **no** skim); **stop** at **K**. Use step **4** when splitting work.
 
-7. **While reading** — **You** note mechanisms, actors, ownership, cross-area ties.
-   - **You** map nouns to **new or existing `concepts[]`** (preferred) or **`open_questions`** / cross-cutting notes
-   - **You never** map **only** to a story title
+7. **While reading** — **You** note mechanisms, actors, ownership, cross-area ties; **you** map nouns to **new or existing `concepts[]`** (preferred) or **`open_questions`** / cross-cutting notes — **never** only to a story title.
 
-8. **Concepts first (primary)** — For each module/epic pair, **you** expand **`module.concepts[]`**. **You** satisfy **§2** domain (breadth):
-   - **You** chunk-anchor every claim
-   - **You** advance **`evidence_stage`**: **hypothesis → scaffolded** when **K** reads substantiate
-   - **You** use **`concept.extends`** for is-a; **`properties`[] / `operations`[]** with **`chunk`** for has-a
-   - **You** apply **concept layering** (base → categories → implementations)
-   - **You** apply **verb/noun** module/epic/story rules **after** the concept set for the pair is honest
+8. **Concepts first (primary)** — For each module/epic pair, **you** expand **`module.concepts[]`**. **You** satisfy **§2** domain (breadth): **chunk-anchor** every claim; **`evidence_stage`** **hypothesis → scaffolded** when **K** reads substantiate; **`concept.extends`** for is-a; **`properties`[] / `operations`[]** with **`chunk`** for has-a; **concept layering** (base → categories → implementations); **verb/noun** module/epic/story rules **after** the concept set for the pair is honest.
 
-9. **Epics and confirming stories (secondary)**
-   - **You** use **Verb Noun** epic names
-   - **You** write **`statement`** with **`**Concept**`** matching **`concepts[].name`**; **`statement_chunk`**
-   - **You** add optional **`pre_condition`** + **`pre_condition_chunk`**
-   - **You** write **`confirming_stories`** for **every** behavior needed to **validate foundational concepts** for that epic — **as many names as required**, no upper limit; **do not** treat “two” as a default or stopping point — **using** object nouns that already appear in **`concepts[].name`**
-   - If **you** need a distinct noun: **you** add the concept row in step **8**, **then** **you** name the story
+9. **Epics and confirming stories (secondary)** — **Verb Noun** epic names; **`statement`** with **`**Concept**`** matching **`concepts[].name`**; **`statement_chunk`**; optional **`pre_condition`** + **`pre_condition_chunk`**. **`confirming_stories`**: every behavior **K** justifies — **minimum two**, no artificial cap — **using object nouns that already appear in `concepts[].name`**. If a distinct noun is needed, **you** add the concept row in step **8**, **then** name the story.
 
-10. **Concept–story name alignment** — **You** make **`concepts[].name`** and story strings (**`epic.statement`** bold names, **`confirming_stories[]`** object nouns) **match 100%** — **`scaffold-concept-story-name-alignment`**, **non-negotiable**. **Default fix:** **you** add **`concepts[]`** rows + chunks.
+10. **Concept–story name alignment** — **`concepts[].name`** and story strings (**`epic.statement`** bold names, **`confirming_stories[]`** object nouns) **match 100%** — **`scaffold-concept-story-name-alignment`**, **non-negotiable**. **Default fix:** add **`concepts[]`** rows + chunks.
 
 11. **Track chunks** — **You** record per pair in **`chunk_ids.identified` / `provisional` / `ambiguous`**.
 
 12. **`module.depends_on`** — For each consumer module, **you** add **`depends_on`** (**`module-depends-on.md`**). **You** resolve duplicates (**`no-duplicates.md`**) first.
 
-13. **You must** generate **`map-model-spec.md`** from **`parts/templates/map-model-spec.md.template.md`**.
+13. **Optional** — **`map-model-spec.md`** from **`parts/templates/map-model-spec.md.template.md`**.
 
-14. **Scaffold scanners** — **You** run four commands (**§4**); **you** fix until **PASS**.
+14. **Scaffold scanners** — Four commands (**§4**); **you** fix until **PASS**.
 
-15. **`build_chunk_index.py`** — **You** run `python scripts/build_chunk_index.py` (config defaults or `--input` / `--output`); **you** keep **`mms-chunk-index.json`** current.
+15. **`build_chunk_index.py`** — `python scripts/build_chunk_index.py` (config defaults or `--input` / `--output`); keep **`mms-chunk-index.json`** current.
 
-16. **Human handoff** — **You** complete the **§5** checklist.
+16. **Human handoff** — **§5** checklist.
 
-**Rules:** **You do not** embed a pre-written **K** chunk-id list inside JSON. **You** take domain + story detail from **§2** and the baked **Rules**.
+**Rules:** **Do not** embed a pre-written **K** chunk-id list inside JSON. Domain + story detail: **§2** and baked **Rules**.
 
 ---
 
@@ -126,18 +85,15 @@ Everything below is **what you must do** to finish this step.
 
 *Domain (breadth JSON) — what you must satisfy:*
 
-- **Layering:** **you** structure base → subtypes → variants (**`parts/domain.md`** *What goes in* + **`concept-layering-scaffold`** rule)
-  - **is-a:** **`concept.extends`** = parent **`name`**
-  - **has-a:** **`properties`[] / `operations`[]** with **`chunk`** per asserted field (**`parts/domain.md`** — *Composition vs extends* under scaffold extensions table)
-- **`module.depends_on`:** **you** list providers from each consumer module (**`parts/domain.md`** + rule **`module-depends-on`**)
-- **`evidence_stage`:** **you** promote to **`scaffolded`** when **K** reads substantiate the **owns** / properties / operations **you** add (**`parts/domain.md`** — *map-model-spec.json* table)
+- **Layering:** **you** structure base → subtypes → variants (**`parts/domain.md`** *What goes in* + **`concept-layering-scaffold`** rule). **You** encode **is-a** with **`concept.extends`** = parent **`name`**; **you** encode **has-a** in **`properties`[] / `operations`[]** with **`chunk`** per asserted field (**`parts/domain.md`** — *Composition vs extends* under scaffold extensions table).
+- **`module.depends_on`:** **you** list providers from each consumer module (**`parts/domain.md`** + rule **`module-depends-on`**).
+- **`evidence_stage`:** **you** promote to **`scaffolded`** when **K** reads substantiate the **owns** / properties / operations **you** add (**`parts/domain.md`** — *map-model-spec.json* table).
 
 *Story map (breadth JSON) — what you must satisfy:*
 
-- **Epic** **`name`**: Verb Noun
-- **`statement`**: scope line with **`**Concept**`** for each domain noun **you** use (**`parts/story-map.md`** — *Epic* row + *Domain Grounding*)
-- Optional **`epic.pre_condition`** + **`pre_condition_chunk`** when **you** assert shared given-state (**`parts/story-map.md`** — *Pre-Condition*)
-- **`confirming_stories`**: one or **more** story names — as many as needed for concept validation, not a fixed pair; **you** keep names aligned with **`concepts[].name`** (**`parts/story-map.md`** — *Domain Grounding*)
+- **Epic** **`name`**: Verb Noun; **`statement`**: scope line with **`**Concept**`** for each domain noun **you** use (**`parts/story-map.md`** — *Epic* row + *Domain Grounding*).
+- Optional **`epic.pre_condition`** + **`pre_condition_chunk`** when **you** assert shared given-state (**`parts/story-map.md`** — *Pre-Condition*).
+- **`confirming_stories`**: all behaviors **K** supports; **you** keep names aligned with **`concepts[].name`** (**`parts/story-map.md`** — *Domain Grounding*).
 
 **Concept layering — what you must do**
 
@@ -160,15 +116,11 @@ Everything below is **what you must do** to finish this step.
 
 **Module**
 
-- **name**, **`foundational`**, **description** + **`description_chunk`**
-- **`depends_on`** (your step 12)
-- **concepts** with cited **`owns`**, optional **`extends`**, optional **`properties`[] / `operations`[]** (each with **`chunk`**) per the domain excerpt above
+- **name**, **`foundational`**, **description** + **`description_chunk`**, **`depends_on`** (your step 12), **concepts** with cited **`owns`**, optional **`extends`**, optional **`properties`[] / `operations`[]** (each with **`chunk`**) per the domain excerpt above.
 
 **Epic**
 
-- **Verb Noun** **name**
-- **statement** + **chunk**; actors; optional **pre_condition** + chunk
-- **confirming_stories** (≥ 1, **you** list **all** names needed to validate concepts — often **more** than two) per the story-map excerpt above
+- **Verb Noun** **name**; **statement** + **chunk**; actors; optional **pre_condition** + chunk; **confirming_stories** (≥ 2, **you** list all **K** supports) per the story-map excerpt above.
 
 **Chunk buckets** — **you** use **identified** / **provisional** / **ambiguous** per pair.
 
@@ -188,7 +140,7 @@ module.name (+ foundational: true|false)
     chunk_ids and/or chunk_evidence
     optional: extends (parent concept name), owns (+ owns_chunk), properties[] (+ chunk), operations[] (+ chunk), foundational?: true
 epic: name (Verb Noun), statement (+ statement_chunk), actors, pre_condition (+ chunk if present),
-      confirming_stories: ≥1 names (as many as needed), all justified
+      confirming_stories: min 2, all justified names
 pair chunk_ids: { identified, provisional, ambiguous }
 ```
 
@@ -1065,8 +1017,6 @@ impact: HIGH
 ## Every epic needs confirming stories
 
 An `epic.statement` makes a behavioral claim. At least one story under that epic (directly or via `sub_epics`) must **confirm** that claim — its `trigger` / `response` should exercise the same actors and domain concepts named in the statement.
-
-**How many names in `confirming_stories[]`:** As **many as required** so the **foundational concepts** that epic is responsible for are **validated** in story form — not a default of two, not a ceiling. Add story names until coverage is honest; the mechanical scanner only checks **at least one** non-empty name so the list is never empty.
 
 **Scaffold JSON (`confirming_stories[]` on the epic):** Domain nouns in those strings must **`concepts[].name`** **exactly** (100% match) — **`scaffold-concept-story-name-alignment`**. Non-negotiable alongside this rule.
 
