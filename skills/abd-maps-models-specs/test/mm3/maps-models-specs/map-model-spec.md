@@ -1,95 +1,38 @@
-# Map-Model-Spec (Step 4 scaffold)
+# MM3 test workspace — map-model-spec (Phase 4)
 
-## Module: Check Resolution | Epic: Resolve Check
+**Status:** Phase 4 foundational spine complete. **Human checkpoint** before Phase 5 (K ≈ 218 full chunk reads at 30% of N=725).
 
-**Module:** Mechanism for resolving checks (d20 + modifier vs DC) and degrees of success or failure; includes skill checks, opposed checks, and resistance checks. (chunk: unit_00048)
+## Spine summary
 
-**Concepts:**
-- **Check** [foundational] — Owns: Determines success or failure by comparing roll result to DC; produces degree of success or failure. (chunk: unit_00048)
-  - chunk_ids: [unit_00048, unit_00306, unit_01220]
-- **DifficultyClass** — Owns: Target number for a check; varies by task. (chunk: unit_01220)
-  - chunk_ids: [unit_01220]
+Six foundational **module + epic** pairs, `module.foundational: true`, concepts at `evidence_stage: "hypothesis"`, each concept has `owns`, `owns_chunk`, and `chunk_ids`.
 
-**Epic:** **Player** or **System** rolls d20 + modifier; result is compared to DC to determine degree of success or failure. (chunk: unit_00048)
-- Triggering-Actor: Player or GM | Responding-Actor: System
-- Confirming stories: Resolve skill check, Resolve opposed check, Resolve resistance check
+| Module | Epic | Core concepts |
+|--------|------|----------------|
+| Ranks and measures | Translate measurements | Rank, MeasurementTable |
+| Abilities | Express abilities | Ability, AbilityRank |
+| Checks and tasks | Resolve checks | Check, DifficultyClass |
+| Skills | Apply skills | Skill, SkillCheck |
+| Powers | Acquire powers | PowerEffect, PowerPoints |
+| Combat resolution | Track combat state | Condition, ResistanceCheck |
 
-**Chunk index:** identified: [unit_00048, unit_00306, unit_01220] | provisional: [unit_04061] | ambiguous: []
+## Artifacts
 
----
+- `map-model-spec.json` — canonical scaffold (Phase 4).
+- `context/context_index.json` — N=725 chunks; Phase 5 uses this for K-read and chunk index build.
 
-## Module: Conflict and Actions | Epic: Run Action Round
+## Scanners (run from skill root)
 
-**Module:** Action round, initiative order, and action types (standard, move, free, reaction) during conflicts. (chunk: unit_00048)
+```text
+python scripts/scanners/chunks_must_be_referenced.py --input test/mm3/maps-models-specs/map-model-spec.json
+python scripts/scanners/concepts_have_owns.py --input test/mm3/maps-models-specs/map-model-spec.json
+python scripts/scanners/no_duplicates.py --input test/mm3/maps-models-specs/map-model-spec.json
+python scripts/scanners/epic_requires_confirming_stories.py --input test/mm3/maps-models-specs/map-model-spec.json
+python scripts/scanners/no_junk_concepts.py --input test/mm3/maps-models-specs/map-model-spec.json
+```
 
-**Concepts:**
-- **ActionRound** [foundational] — Owns: Orders turns by initiative; constrains what actions can be taken. (chunk: unit_00862)
-  - chunk_ids: [unit_00048, unit_00862, unit_04149]
-- **Initiative** — Owns: Determines order of action in conflict (d20 + initiative modifier). (chunk: unit_00862)
-  - chunk_ids: [unit_00862]
+Last run: **PASS** on all of the above.
 
-**Epic:** **System** establishes initiative order; **Player** and **System** take actions within the round. (chunk: unit_04149)
-- Triggering-Actor: GM | Responding-Actor: Player and System
-- Confirming stories: Determine initiative order, Take standard action, Apply conditions from actions
+## Next
 
-**Chunk index:** identified: [unit_00048, unit_00862, unit_04149] | provisional: [] | ambiguous: []
-
----
-
-## Module: Damage and Recovery | Epic: Resolve Damage
-
-**Module:** Damage resistance check (Toughness vs rank+15), degrees of failure, and recovery. (chunk: unit_04061)
-
-**Concepts:**
-- **DamageResistance** [foundational] — Owns: Resolves damage effect via Toughness check; applies degree-based conditions. (chunk: unit_04061)
-  - chunk_ids: [unit_04061, unit_01999]
-- **Recovery** — Owns: Removes damage conditions over time; Healing/Regeneration can speed this. (chunk: unit_01999)
-  - chunk_ids: [unit_01999]
-
-**Epic:** **System** resolves damage resistance check; **Target** receives condition by degree of failure; recovery removes conditions. (chunk: unit_04061)
-- Triggering-Actor: Attacker / Effect | Responding-Actor: Target / System
-- Confirming stories: Resolve damage resistance check, Apply damage condition, Recover from damage
-
-**Chunk index:** identified: [unit_04061, unit_01999] | provisional: [] | ambiguous: []
-
----
-
-## Module: Character Traits | Epic: Build Character
-
-**Module:** Allocation of power points to abilities, skills, advantages, powers, and complications; constrained by power level. (chunk: unit_00518)
-
-**Concepts:**
-- **PowerPoint** [foundational] — Owns: Budget for buying abilities, skills, advantages, powers. (chunk: unit_00518)
-  - chunk_ids: [unit_00518, unit_03879]
-- **Advantage** — Owns: Character option purchased with power points (1 per advantage or rank). (chunk: unit_00518)
-  - chunk_ids: [unit_03879, unit_00518]
-
-**Epic:** **Player** spends power points on abilities, skills, advantages, powers within power level limits. (chunk: unit_00518)
-- Triggering-Actor: Player | Responding-Actor: System
-- Confirming stories: Allocate ability ranks, Choose advantages, Select powers within PL
-
-**Chunk index:** identified: [unit_00518, unit_03879, unit_00177] | provisional: [] | ambiguous: []
-
----
-
-## Module: Powers and Effects | Epic: Configure Power
-
-**Module:** Power effects, modifiers (extras and flaws), descriptors, and cost; application of effects in conflict. (chunk: unit_02684)
-
-**Concepts:**
-- **Effect** [foundational] — Owns: Named mechanical effect with rank, modifiers, and cost; may be noticeable or subtle. (chunk: unit_02684)
-  - chunk_ids: [unit_02684, unit_03032, unit_01697]
-- **Modifier** — Owns: Extra or flaw that changes effect cost or behavior. (chunk: unit_02684)
-  - chunk_ids: [unit_02684, unit_03032]
-
-**Epic:** **Player** defines effects with rank, modifiers, and descriptors; **System** enforces cost and PL limits. (chunk: unit_02684)
-- Triggering-Actor: Player | Responding-Actor: System
-- Confirming stories: Apply extra to effect, Apply flaw to effect, Resolve power resistance
-
-**Chunk index:** identified: [unit_02684, unit_03032, unit_01697, unit_00665] | provisional: [] | ambiguous: []
-
----
-
-## Cross-cutting notes
-
-Condition (e.g. Weakened, dazed, staggered) appears in both Conflict and Actions and Damage and Recovery; may be [cross-cutting] once deepened. Check (roll vs DC) is used by resistance checks in Damage and by skill/opposed checks in Check Resolution.
+1. Human review / approve foundational spine.
+2. Phase 5: deepen with `build_chunk_index.py` and full-read pass per process.

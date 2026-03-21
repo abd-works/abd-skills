@@ -1,216 +1,245 @@
 {
+  "phase": "4",
+  "phase_note": "Foundational mechanisms spine — hypothesis stage; Phase 5 will K-read corpus and scaffold details.",
+  "source_corpus": "HeroesHandbook",
+  "context_index": "context/context_index.json",
+  "N_chunks": 725,
+  "cross_cutting_notes": "",
+  "open_questions": [],
   "modules_and_epics": [
     {
       "module": {
-        "name": "Check Resolution",
-        "description": "Mechanism for resolving checks (d20 + modifier vs DC) and degrees of success or failure; includes skill checks, opposed checks, and resistance checks.",
-        "description_chunk": "unit_00048",
+        "name": "Ranks and measures",
+        "foundational": true,
+        "description": "Rank values map to concrete measurements (distance, time, mass, volume) via the measurements table.",
+        "description_chunk": "unit_00232",
+        "concepts": [
+          {
+            "name": "Rank",
+            "foundational": true,
+            "evidence_stage": "hypothesis",
+            "owns": "Owns which discrete step on the measurement scale applies to a quantity for a given rank.",
+            "owns_chunk": "unit_00232",
+            "chunk_ids": ["unit_00232"]
+          },
+          {
+            "name": "MeasurementTable",
+            "foundational": true,
+            "evidence_stage": "hypothesis",
+            "owns": "Owns the table mapping each rank row to concrete units (distance, time, mass, volume, etc.).",
+            "owns_chunk": "unit_00222_merged",
+            "chunk_ids": ["unit_00222_merged", "unit_00232"]
+          }
+        ]
+      },
+      "epic": {
+        "name": "Translate measurements",
+        "statement": "**Player** interprets **Rank** using **MeasurementTable** rows for distance, time, and related scales.",
+        "statement_chunk": "unit_00232",
+        "triggering_actor": "Player",
+        "responding_actor": "Gamemaster",
+        "confirming_stories": ["Lookup MeasurementTable", "Convert Rank"]
+      },
+      "chunk_ids": {
+        "identified": ["unit_00232", "unit_00222_merged"],
+        "provisional": [],
+        "ambiguous": []
+      }
+    },
+    {
+      "module": {
+        "name": "Abilities",
+        "foundational": true,
+        "description": "The eight abilities and their ranks define the hero's baseline capability profile.",
+        "description_chunk": "unit_00015",
+        "concepts": [
+          {
+            "name": "Ability",
+            "foundational": true,
+            "evidence_stage": "hypothesis",
+            "owns": "Owns which of the eight core abilities applies to a rolled or derived value.",
+            "owns_chunk": "unit_00015",
+            "chunk_ids": ["unit_00015"]
+          },
+          {
+            "name": "AbilityRank",
+            "foundational": true,
+            "evidence_stage": "hypothesis",
+            "owns": "Owns the numeric rank value for each ability on the hero sheet.",
+            "owns_chunk": "unit_00015",
+            "chunk_ids": ["unit_00015"]
+          }
+        ]
+      },
+      "epic": {
+        "name": "Express abilities",
+        "statement": "**Player** assigns and reads **Ability** and **AbilityRank** when building and playing the hero.",
+        "statement_chunk": "unit_00015",
+        "triggering_actor": "Player",
+        "responding_actor": "Gamemaster",
+        "confirming_stories": ["Read Ability rank", "Set Ability rank"]
+      },
+      "chunk_ids": {
+        "identified": ["unit_00015"],
+        "provisional": [],
+        "ambiguous": []
+      }
+    },
+    {
+      "module": {
+        "name": "Checks and tasks",
+        "foundational": true,
+        "description": "Tasks use checks against a Difficulty Class; degrees of success and failure interpret the margin.",
+        "description_chunk": "unit_00266",
         "concepts": [
           {
             "name": "Check",
             "foundational": true,
-            "chunk_ids": ["unit_00048", "unit_00306", "unit_01220"],
-            "owns": "Determines success or failure by comparing roll result to DC; produces degree of success or failure.",
-            "owns_chunk": "unit_00048",
-            "properties": [],
-            "operations": []
+            "evidence_stage": "hypothesis",
+            "owns": "Owns when a d20 roll plus modifiers is compared to a target to resolve a task outcome.",
+            "owns_chunk": "unit_00266",
+            "chunk_ids": ["unit_00266", "unit_00282"]
           },
           {
             "name": "DifficultyClass",
-            "foundational": false,
-            "chunk_ids": ["unit_01220"],
-            "owns": "Target number for a check; varies by task (e.g. DC 10 simple to DC 25+ advanced).",
-            "owns_chunk": "unit_01220",
-            "properties": [],
-            "operations": []
-          }
-        ]
-      },
-      "epic": {
-        "name": "Resolve Check",
-        "statement": "**Player** or **System** rolls d20 + modifier; result is compared to DC to determine degree of success or failure.",
-        "statement_chunk": "unit_00048",
-        "triggering_actor": "Player or GM",
-        "responding_actor": "System",
-        "pre_condition": null,
-        "pre_condition_chunk": null,
-        "confirming_stories": ["Resolve skill check", "Resolve opposed check", "Resolve resistance check"]
-      },
-      "chunk_ids": {
-        "identified": ["unit_00048", "unit_00306", "unit_01220"],
-        "provisional": ["unit_04061"],
-        "ambiguous": []
-      }
-    },
-    {
-      "module": {
-        "name": "Conflict and Actions",
-        "description": "Action round, initiative order, and action types (standard, move, free, reaction) during conflicts.",
-        "description_chunk": "unit_00048",
-        "concepts": [
-          {
-            "name": "ActionRound",
             "foundational": true,
-            "chunk_ids": ["unit_00048", "unit_00862", "unit_04149"],
-            "owns": "Orders turns by initiative; constrains what actions (standard, move, free, reaction) can be taken.",
-            "owns_chunk": "unit_00862",
-            "properties": [],
-            "operations": []
-          },
-          {
-            "name": "Initiative",
-            "foundational": false,
-            "chunk_ids": ["unit_00862"],
-            "owns": "Determines order of action in conflict (d20 + initiative modifier).",
-            "owns_chunk": "unit_00862",
-            "properties": [],
-            "operations": []
+            "evidence_stage": "hypothesis",
+            "owns": "Owns the fixed target number a check must meet or beat for success.",
+            "owns_chunk": "unit_00282",
+            "chunk_ids": ["unit_00282"]
           }
         ]
       },
       "epic": {
-        "name": "Run Action Round",
-        "statement": "**System** establishes initiative order; **Player** and **System** take actions (standard, move, free, reaction) within the round.",
-        "statement_chunk": "unit_04149",
-        "triggering_actor": "GM",
-        "responding_actor": "Player and System",
-        "pre_condition": null,
-        "pre_condition_chunk": null,
-        "confirming_stories": ["Determine initiative order", "Take standard action", "Apply conditions from actions"]
-      },
-      "chunk_ids": {
-        "identified": ["unit_00048", "unit_00862", "unit_04149"],
-        "provisional": [],
-        "ambiguous": []
-      }
-    },
-    {
-      "module": {
-        "name": "Damage and Recovery",
-        "description": "Damage resistance check (Toughness vs rank+15), degrees of failure (penalty, dazed, staggered, incapacitated, dying), and recovery.",
-        "description_chunk": "unit_04061",
-        "concepts": [
-          {
-            "name": "DamageResistance",
-            "foundational": true,
-            "chunk_ids": ["unit_04061", "unit_01999"],
-            "owns": "Resolves damage effect via Toughness check; applies degree-based conditions (penalty, dazed, staggered, incapacitated, dying).",
-            "owns_chunk": "unit_04061",
-            "properties": [],
-            "operations": []
-          },
-          {
-            "name": "Recovery",
-            "foundational": false,
-            "chunk_ids": ["unit_01999"],
-            "owns": "Removes damage conditions over time (e.g. one condition per minute of rest); Healing/Regeneration can speed this.",
-            "owns_chunk": "unit_01999",
-            "properties": [],
-            "operations": []
-          }
-        ]
-      },
-      "epic": {
-        "name": "Resolve Damage",
-        "statement": "**System** resolves damage resistance check; **Target** receives condition by degree of failure; recovery removes conditions over time.",
-        "statement_chunk": "unit_04061",
-        "triggering_actor": "Attacker / Effect",
-        "responding_actor": "Target / System",
-        "pre_condition": null,
-        "pre_condition_chunk": null,
-        "confirming_stories": ["Resolve damage resistance check", "Apply damage condition", "Recover from damage"]
-      },
-      "chunk_ids": {
-        "identified": ["unit_04061", "unit_01999"],
-        "provisional": [],
-        "ambiguous": []
-      }
-    },
-    {
-      "module": {
-        "name": "Character Traits",
-        "description": "Allocation of power points to abilities, skills, advantages, powers, and complications; constrained by power level.",
-        "description_chunk": "unit_00518",
-        "concepts": [
-          {
-            "name": "PowerPoint",
-            "foundational": true,
-            "chunk_ids": ["unit_00518", "unit_03879"],
-            "owns": "Budget for buying abilities, skills, advantages, powers (1 PP per advantage or rank; abilities/skills/powers have costs).",
-            "owns_chunk": "unit_00518",
-            "properties": [],
-            "operations": []
-          },
-          {
-            "name": "Advantage",
-            "foundational": false,
-            "chunk_ids": ["unit_03879", "unit_00518"],
-            "owns": "Character option purchased with power points (1 per advantage or rank).",
-            "owns_chunk": "unit_00518",
-            "properties": [],
-            "operations": []
-          }
-        ]
-      },
-      "epic": {
-        "name": "Build Character",
-        "statement": "**Player** spends power points on abilities, skills, advantages, powers, and details within power level limits.",
-        "statement_chunk": "unit_00518",
+        "name": "Resolve checks",
+        "statement": "**Player** rolls a **Check** against **DifficultyClass** and applies degree outcomes.",
+        "statement_chunk": "unit_00266",
         "triggering_actor": "Player",
-        "responding_actor": "System",
-        "pre_condition": null,
-        "pre_condition_chunk": null,
-        "confirming_stories": ["Allocate ability ranks", "Choose advantages", "Select powers within PL"]
+        "responding_actor": "Gamemaster",
+        "confirming_stories": ["Roll versus DifficultyClass", "Compare check margin"]
       },
       "chunk_ids": {
-        "identified": ["unit_00518", "unit_03879", "unit_00177"],
+        "identified": ["unit_00266", "unit_00282"],
         "provisional": [],
         "ambiguous": []
       }
     },
     {
       "module": {
-        "name": "Powers and Effects",
-        "description": "Power effects, modifiers (extras and flaws), descriptors, and cost; application of effects in conflict.",
-        "description_chunk": "unit_02684",
+        "name": "Skills",
+        "foundational": true,
+        "description": "Skills apply trained or untrained use of abilities to specific tasks, usually as skill checks.",
+        "description_chunk": "unit_00025",
         "concepts": [
           {
-            "name": "Effect",
+            "name": "Skill",
             "foundational": true,
-            "chunk_ids": ["unit_02684", "unit_03032", "unit_01697"],
-            "owns": "Named mechanical effect (e.g. Weaken, Damage) with rank, modifiers, and cost; may be noticeable or subtle.",
-            "owns_chunk": "unit_02684",
-            "properties": [],
-            "operations": []
+            "evidence_stage": "hypothesis",
+            "owns": "Owns which trained ability applies to a given category of task.",
+            "owns_chunk": "unit_00025",
+            "chunk_ids": ["unit_00025"]
           },
           {
-            "name": "Modifier",
-            "foundational": false,
-            "chunk_ids": ["unit_02684", "unit_03032"],
-            "owns": "Extra or flaw that changes effect cost or behavior (e.g. Removable, Concentration, Affects Objects).",
-            "owns_chunk": "unit_02684",
-            "properties": [],
-            "operations": []
+            "name": "SkillCheck",
+            "foundational": true,
+            "evidence_stage": "hypothesis",
+            "owns": "Owns the roll procedure when a skill (trained or untrained) applies to a task.",
+            "owns_chunk": "unit_00025",
+            "chunk_ids": ["unit_00025"]
           }
         ]
       },
       "epic": {
-        "name": "Configure Power",
-        "statement": "**Player** defines effects with rank, modifiers, and descriptors; **System** enforces cost and PL limits.",
-        "statement_chunk": "unit_02684",
+        "name": "Apply skills",
+        "statement": "**Player** invokes **Skill** and **SkillCheck** when a task calls for trained expertise.",
+        "statement_chunk": "unit_00025",
         "triggering_actor": "Player",
-        "responding_actor": "System",
-        "pre_condition": null,
-        "pre_condition_chunk": null,
-        "confirming_stories": ["Apply extra to effect", "Apply flaw to effect", "Resolve power resistance"]
+        "responding_actor": "Gamemaster",
+        "confirming_stories": ["Roll SkillCheck", "Declare Skill use"]
       },
       "chunk_ids": {
-        "identified": ["unit_02684", "unit_03032", "unit_01697", "unit_00665"],
+        "identified": ["unit_00025"],
+        "provisional": [],
+        "ambiguous": []
+      }
+    },
+    {
+      "module": {
+        "name": "Powers",
+        "foundational": true,
+        "description": "Powers are built from effects, ranked with power points, and expressed as abilities on the character.",
+        "description_chunk": "unit_00038",
+        "concepts": [
+          {
+            "name": "PowerEffect",
+            "foundational": true,
+            "evidence_stage": "hypothesis",
+            "owns": "Owns the mechanical effect definition and rank for a purchased power.",
+            "owns_chunk": "unit_00038",
+            "chunk_ids": ["unit_00038"]
+          },
+          {
+            "name": "PowerPoints",
+            "foundational": true,
+            "evidence_stage": "hypothesis",
+            "owns": "Owns the budget spent to build and rank powers on the character.",
+            "owns_chunk": "unit_00056",
+            "chunk_ids": ["unit_00056", "unit_00038"]
+          }
+        ]
+      },
+      "epic": {
+        "name": "Acquire powers",
+        "statement": "**Player** spends **PowerPoints** to define **PowerEffect** entries on the hero sheet.",
+        "statement_chunk": "unit_00038",
+        "triggering_actor": "Player",
+        "responding_actor": "Gamemaster",
+        "confirming_stories": ["Buy PowerEffect", "Spend PowerPoints"]
+      },
+      "chunk_ids": {
+        "identified": ["unit_00038", "unit_00056"],
+        "provisional": [],
+        "ambiguous": []
+      }
+    },
+    {
+      "module": {
+        "name": "Combat resolution",
+        "foundational": true,
+        "description": "Conditions track temporary states; resistance checks resolve many hostile effects.",
+        "description_chunk": "unit_00385",
+        "concepts": [
+          {
+            "name": "Condition",
+            "foundational": true,
+            "evidence_stage": "hypothesis",
+            "owns": "Owns which temporary status applies to a character and how it alters play.",
+            "owns_chunk": "unit_00385",
+            "chunk_ids": ["unit_00385"]
+          },
+          {
+            "name": "ResistanceCheck",
+            "foundational": true,
+            "evidence_stage": "hypothesis",
+            "owns": "Owns the saving throw against an effect when rules call for Fortitude, Will, or Dodge resistance.",
+            "owns_chunk": "unit_00363_merged",
+            "chunk_ids": ["unit_00363_merged"]
+          }
+        ]
+      },
+      "epic": {
+        "name": "Track combat state",
+        "statement": "**Gamemaster** applies **Condition** changes; **Player** rolls **ResistanceCheck** when targeted.",
+        "statement_chunk": "unit_00385",
+        "triggering_actor": "Gamemaster",
+        "responding_actor": "Player",
+        "confirming_stories": ["Apply Condition", "Roll ResistanceCheck"]
+      },
+      "chunk_ids": {
+        "identified": ["unit_00385", "unit_00363_merged"],
         "provisional": [],
         "ambiguous": []
       }
     }
-  ],
-  "open_questions": [],
-  "cross_cutting_notes": "Condition (e.g. Weakened, dazed, staggered) appears in both Conflict and Actions and Damage and Recovery; may be [cross-cutting] once deepened. Check (roll vs DC) is used by resistance checks in Damage and by skill/opposed checks in Check Resolution."
+  ]
 }
