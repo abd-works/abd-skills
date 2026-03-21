@@ -10,6 +10,8 @@ conf/.secrets
 **/conf/.secrets
 skills/abd-maps-models-specs/conf/Untitled
 skills/abd-maps-models-specs/parts/Untitled
+skills/abd-maps-models-specs-old/conf/Untitled
+skills/abd-maps-models-specs-old/parts/Untitled
 
 # OS
 .DS_Store
