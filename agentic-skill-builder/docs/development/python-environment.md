@@ -1,4 +1,4 @@
-# Python environment (Skills Delivery)
+# Python environment (agentic-skill-builder)
 
 ## Standard layout for this repo
 

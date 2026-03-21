@@ -3,9 +3,9 @@ requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "skills-delivery"
+name = "agentic-skill-builder"
 version = "0.1.0"
-description = "Agentic orchestration for Agile by Design skill authoring (LangGraph)."
+description = "Agentic skill builder — LangGraph orchestration for Agile by Design skill authoring."
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [

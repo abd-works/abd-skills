@@ -1,6 +1,6 @@
-# LangGraph agentic orchestration — Skills Delivery plan
+# LangGraph agentic orchestration — agentic-skill-builder plan
 
-**Status:** planning document (implementation lives in `skills-delivery/src/` when built).  
+**Status:** planning document (implementation lives in `agentic-skill-builder/src/` when built).  
 **Audience:** you (product/architecture) + implementers.  
 **Not normative for:** `abd-maps-models-specs` — treat that skill’s `plan/` and `scripts/orchestrator_loop.py` as **prior experiments**, not requirements.
 
@@ -167,7 +167,7 @@ That repo’s `docs/orchestrator.md` describes **Planner / Runner / Critic** wit
 - **Public / private split** for critique payloads.
 - **Iteration cap** and **stop-on-score** analogs for Expert dimensions (not only numeric — could be rubric thresholds).
 
-We do **not** assume the same scripts — **Skills Delivery** generalizes across skills.
+We do **not** assume the same scripts — **agentic-skill-builder** generalizes across skills.
 
 ---
 
@@ -206,7 +206,7 @@ These are **decision points**, not blockers for drafting code skeletons.
    - Do you want **best-of-N** skill trees (multiple builder attempts) before Operator, or serial only?
 
 6. **Naming**  
-   - Confirm **`skills-delivery`** as canonical repo folder vs renaming to **`Skills Delivery`** (space) — tooling prefers no spaces.
+   - Confirm **`agentic-skill-builder`** as the canonical repo folder (vs display name “Skills Delivery”) — tooling prefers no spaces.
 
 ---
 
@@ -225,7 +225,7 @@ These are **decision points**, not blockers for drafting code skeletons.
 
 ## 9. Open questions (for discussion)
 
-- Should **Operator** invoke **each skill’s** native scanners only, or also a **global** cross-skill linter maintained in `skills-delivery`?
+- Should **Operator** invoke **each skill’s** native scanners only, or also a **global** cross-skill linter maintained in `agentic-skill-builder`?
 - How much of **Builder** must be **deterministic code** vs **LLM-authored** file content? (Recommendation: deterministic skeleton + LLM fills **parts/** bodies.)
 - Do we publish a **JSON Schema** for `builder_manifest` for third-party skills?
 

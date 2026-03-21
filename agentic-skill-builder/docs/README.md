@@ -1,4 +1,4 @@
-# Skills Delivery documentation
+# Agentic skill builder — documentation
 
 | Document | Description |
 | -------- | ----------- |
