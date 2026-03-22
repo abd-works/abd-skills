@@ -1,0 +1,11 @@
+# Phase: Author
+
+## Steps
+
+1. Describe what this skill does in **`SKILL.md`**.
+2. Expand the process table in **`content/parts/process.md`** — one row per **phase**; put numbered steps **inside** phase files.
+3. Run **`python scripts/build.py`** to refresh **`AGENTS.md`**.
+
+## Anchor
+
+Establishes normative text and operator contract before domain-heavy automation.

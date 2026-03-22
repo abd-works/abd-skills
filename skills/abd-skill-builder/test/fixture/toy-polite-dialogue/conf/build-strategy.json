@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "skill_purpose": "Demonstrate polite multi-phase dialogue for the agentic skill builder operator/expert pipeline.",
+  "target_audience": "Agentic skill builder tests and humans learning the fixture layout.",
+  "scope_in": ["Four-phase pipeline", "rules + scanners example", "AGENTS.md from build.py"],
+  "scope_out": ["Production deployment", "Real LLM authoring"],
+  "pipeline_phases": ["greet", "introduce", "converse", "close"],
+  "operator_expectations": "compileall on scripts/, scripts/build.py, scanners including rule_scanner_bindings.",
+  "rules_and_scanners": "rules/*.md bound via rules/scanners.json to scanner_greet_warm and scanner_close_graceful.",
+  "artifacts": ["SKILL.md", "AGENTS.md", "rules/", "scripts/build.py"],
+  "constraints": "Toy fixture only; no network except optional expert critique.",
+  "notes": "Used as reference skill for §7–§8 LangGraph orchestration."
+}

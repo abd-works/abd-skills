@@ -8,12 +8,15 @@ Usage:
   python embed_and_index.py [--memory <memory_name>]
   python embed_and_index.py  # index all memory
 
-Run with CONTENT_MEMORY_ROOT (or cwd) = content hub (e.g. abd_content).
+Run with CONTENT_MEMORY_ROOT (or cwd) = **junction hub root** (local clone; not SharePoint).
 
 - **With `--memory <name>`:** reads `memory/<name>/*.md`.
-- **With no `--memory`:** reads (1) each **subfolder** under **`assets/`** (junctions to remote
-  `memory` trees) — chunk paths in metadata are prefixed with that folder name; (2) any `memory/**/*.md`
-  under the hub (legacy flat layout). Writes a **single** index to **`memory/rag/`**.
+- **With no `--memory`:** reads (1) each **subfolder** under **`<hub>/<junctions_dir>/`** (topic junctions →
+  remote `memory` trees). ``junctions_dir`` is per hub in ``conf/content_memory_roots.json`` (default ``assets``).
+  Chunk paths in metadata are prefixed with that folder name. (2) any ``memory/**/*.md`` under the hub (legacy).
+  Writes one **aggregate** index to ``rag_path`` for that hub (not inside the repo when pointed at SharePoint).
+  Override with ``CONTENT_MEMORY_RAG_PATH``, ``skill-config.json``, or ``rag_path`` in ``content_memory_roots.json``.
+- **With `--memory`:** writes to **`memory/rag/`** (per-topic tree, e.g. ``index_memory --path``).
 
 Requires: pip install openai faiss-cpu numpy. Set OPENAI_API_KEY.
 """
@@ -24,15 +27,12 @@ import re
 import sys
 from pathlib import Path
 
-from _config import ROOT, MEMORY, ensure_root
+from _config import ASSETS, MEMORY, ROOT, ensure_root, rag_dir_for_embed
 
 ensure_root()
-RAG_DIR = MEMORY / "rag"
-EMBEDDINGS_FILE = RAG_DIR / "embeddings.npy"
-METADATA_FILE = RAG_DIR / "metadata.json"
-CHECKPOINT_EMBED = RAG_DIR / "checkpoint_embeddings.npy"
-CHECKPOINT_PROGRESS = RAG_DIR / "checkpoint_progress.json"
 CHECKPOINT_INTERVAL = 200  # save every N batches
+# Subdirs under <junctions_dir>/ that are not topic junctions (reserved; local fallback rag may live here).
+_SKIP_JUNCTION_SUBDIRS = frozenset({"rag"})
 EMBEDDING_MODEL = "text-embedding-3-small"
 # text-embedding-3-small limit: 8191 tokens per input. ~4 chars/token.
 MAX_CHARS_PER_CHUNK = 8000  # ~2000 tokens, safe under 8191
@@ -119,7 +119,7 @@ def collect_chunks(memory_name: str | None) -> list[tuple[Path, str, dict]]:
 
     - memory_name ``context``: ROOT/context (chunks in source tree).
     - memory_name set: MEMORY/<name>/*.md
-    - memory_name None: **assets/<topic_junction>/** each subdir (hub layout) plus MEMORY/**/*.md (legacy).
+    - memory_name None: **<junctions_dir>/<topic_junction>/** each subdir (hub layout) plus MEMORY/**/*.md (legacy).
     """
     if memory_name == "context" and (ROOT / "context").exists():
         return _collect_chunks_under_base(ROOT / "context", path_prefix=None)
@@ -130,13 +130,16 @@ def collect_chunks(memory_name: str | None) -> list[tuple[Path, str, dict]]:
             return []
         return _collect_chunks_under_base(base, path_prefix=None)
 
-    # Aggregate hub: junctions under assets/ + optional flat memory/
+    # Aggregate hub: junctions under <hub>/<junctions_dir>/ + optional flat memory/
     out: list[tuple[Path, str, dict]] = []
-    assets_dir = ROOT / "assets"
-    if assets_dir.is_dir():
-        for item in sorted(assets_dir.iterdir()):
-            if item.is_dir():
-                out.extend(_collect_chunks_under_base(item, path_prefix=item.name))
+    junctions_root = ASSETS
+    if junctions_root.is_dir():
+        for item in sorted(junctions_root.iterdir()):
+            if not item.is_dir():
+                continue
+            if item.name in _SKIP_JUNCTION_SUBDIRS or item.name.startswith("."):
+                continue
+            out.extend(_collect_chunks_under_base(item, path_prefix=item.name))
     if MEMORY.is_dir():
         out.extend(_collect_chunks_under_base(MEMORY, path_prefix=None))
     return out
@@ -146,6 +149,9 @@ def _embed_with_openai(
     texts: list[str],
     metadata: list[dict],
     checkpoint_cb=None,
+    *,
+    checkpoint_embed: Path,
+    checkpoint_progress: Path,
 ) -> list[list[float]]:
     """Call OpenAI embedding API. Batches requests. Supports checkpoint/resume."""
     from openai import OpenAI
@@ -156,15 +162,15 @@ def _embed_with_openai(
     start_batch = 0
 
     # Resume from checkpoint if valid
-    if CHECKPOINT_PROGRESS.exists():
+    if checkpoint_progress.exists():
         try:
             import numpy as np
-            with open(CHECKPOINT_PROGRESS, encoding="utf-8") as f:
+            with open(checkpoint_progress, encoding="utf-8") as f:
                 prog = json.load(f)
             if prog.get("n_documents") == len(texts):
                 start_batch = prog.get("last_batch", 0)
-                if start_batch > 0 and CHECKPOINT_EMBED.exists():
-                    all_embeddings = np.load(CHECKPOINT_EMBED).tolist()
+                if start_batch > 0 and checkpoint_embed.exists():
+                    all_embeddings = np.load(checkpoint_embed).tolist()
                     if len(all_embeddings) == start_batch * BATCH_SIZE:
                         print(f"Resuming from batch {start_batch + 1}/{total}...", flush=True)
                     else:
@@ -188,8 +194,13 @@ def _embed_with_openai(
     return all_embeddings
 
 
-def index_chunks(chunks: list[tuple[Path, str, dict]], replace: bool = False) -> int:
-    """Embed chunks and save to FAISS + metadata."""
+def index_chunks(
+    chunks: list[tuple[Path, str, dict]],
+    replace: bool = False,
+    *,
+    rag_dir: Path,
+) -> int:
+    """Embed chunks and save to FAISS + metadata under ``rag_dir``."""
     if not chunks:
         return 0
 
@@ -206,7 +217,12 @@ def index_chunks(chunks: list[tuple[Path, str, dict]], replace: bool = False) ->
         print("Run: pip install openai faiss-cpu numpy")
         sys.exit(1)
 
-    RAG_DIR.mkdir(parents=True, exist_ok=True)
+    embeddings_file = rag_dir / "embeddings.npy"
+    metadata_file = rag_dir / "metadata.json"
+    checkpoint_embed = rag_dir / "checkpoint_embeddings.npy"
+    checkpoint_progress = rag_dir / "checkpoint_progress.json"
+
+    rag_dir.mkdir(parents=True, exist_ok=True)
 
     # Split long chunks into sub-chunks under API token limit
     expanded = []
@@ -230,21 +246,27 @@ def index_chunks(chunks: list[tuple[Path, str, dict]], replace: bool = False) ->
         })
 
     def save_checkpoint(batch_idx: int, emb: list, _meta: list):
-        np.save(CHECKPOINT_EMBED, np.array(emb, dtype="float32"))
-        with open(CHECKPOINT_PROGRESS, "w", encoding="utf-8") as f:
+        np.save(checkpoint_embed, np.array(emb, dtype="float32"))
+        with open(checkpoint_progress, "w", encoding="utf-8") as f:
             json.dump({"last_batch": batch_idx, "total_batches": (len(documents) + BATCH_SIZE - 1) // BATCH_SIZE, "n_documents": len(documents)}, f)
 
-    if replace and CHECKPOINT_PROGRESS.exists():
-        for f in (CHECKPOINT_EMBED, CHECKPOINT_PROGRESS):
+    if replace and checkpoint_progress.exists():
+        for f in (checkpoint_embed, checkpoint_progress):
             if f.exists():
                 f.unlink()
 
     print(f"Calling OpenAI embedding API ({len(documents)} chunks)...")
-    embeddings_list = _embed_with_openai(documents, new_metadata, checkpoint_cb=save_checkpoint)
+    embeddings_list = _embed_with_openai(
+        documents,
+        new_metadata,
+        checkpoint_cb=save_checkpoint,
+        checkpoint_embed=checkpoint_embed,
+        checkpoint_progress=checkpoint_progress,
+    )
     new_embeddings = np.array(embeddings_list, dtype="float32")
 
     # Clear checkpoint on success
-    for f in (CHECKPOINT_EMBED, CHECKPOINT_PROGRESS):
+    for f in (checkpoint_embed, checkpoint_progress):
         if f.exists():
             f.unlink()
     # L2 normalize for cosine similarity via dot product
@@ -252,12 +274,12 @@ def index_chunks(chunks: list[tuple[Path, str, dict]], replace: bool = False) ->
     norms[norms == 0] = 1
     new_embeddings = (new_embeddings / norms).astype("float32")
 
-    if replace or not EMBEDDINGS_FILE.exists():
+    if replace or not embeddings_file.exists():
         all_embeddings = new_embeddings.astype("float32")
         all_metadata = new_metadata
     else:
-        existing = np.load(EMBEDDINGS_FILE)
-        with open(METADATA_FILE, encoding="utf-8") as f:
+        existing = np.load(embeddings_file)
+        with open(metadata_file, encoding="utf-8") as f:
             raw = json.load(f)
             existing_meta = raw["chunks"] if isinstance(raw, dict) and "chunks" in raw else raw
         # Dedupe by path: drop existing entries whose path is in new chunks
@@ -266,14 +288,14 @@ def index_chunks(chunks: list[tuple[Path, str, dict]], replace: bool = False) ->
         all_embeddings = np.vstack([existing[keep], new_embeddings.astype("float32")])
         all_metadata = [existing_meta[i] for i in keep] + new_metadata
 
-    np.save(EMBEDDINGS_FILE, all_embeddings)
+    np.save(embeddings_file, all_embeddings)
     meta_out = {"model": EMBEDDING_MODEL, "chunks": all_metadata}
-    with open(METADATA_FILE, "w", encoding="utf-8") as f:
+    with open(metadata_file, "w", encoding="utf-8") as f:
         json.dump(meta_out, f, ensure_ascii=False, indent=None)
 
     index = faiss.IndexFlatIP(all_embeddings.shape[1])
     index.add(all_embeddings)
-    faiss.write_index(index, str(RAG_DIR / "index.faiss"))
+    faiss.write_index(index, str(rag_dir / "index.faiss"))
 
     return len(chunks)
 
@@ -290,19 +312,23 @@ def main():
             memory_name = Path(sys.argv[idx + 1]).name
     replace = "--replace" in sys.argv
 
+    rag_dir = rag_dir_for_embed(memory_name)
     chunks = collect_chunks(memory_name)
     if not chunks:
         if memory_name:
             scope = f"memory/{memory_name}"
         else:
-            scope = "assets/*/ (junction subfolders) and memory/"
+            scope = f"{ASSETS.name}/*/ (junction subfolders) and memory/"
         print(f"No chunks found under {scope}")
-        print("Run convert_to_markdown and chunk_markdown first, or add junctions under assets/.")
+        print(
+            "Run convert_to_markdown and chunk_markdown first, or add topic junctions under "
+            f"{ASSETS}."
+        )
         return
 
     print(f"Indexing {len(chunks)} chunks...")
-    n = index_chunks(chunks, replace=replace)
-    print(f"Done: {n} chunks indexed to {RAG_DIR}")
+    n = index_chunks(chunks, replace=replace, rag_dir=rag_dir)
+    print(f"Done: {n} chunks indexed to {rag_dir}")
 
 
 if __name__ == "__main__":

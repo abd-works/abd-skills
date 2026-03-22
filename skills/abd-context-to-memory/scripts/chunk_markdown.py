@@ -9,6 +9,10 @@ Run from workspace root. Reads .md from source folder, writes chunked output to:
   --output <dir>   : exact directory (absolute or relative to cwd)
   --memory <name>  : memory/<name>/ under workspace root (default)
 Run convert_to_markdown.py first. Excludes chunked output (__slide_, __section_) from input.
+
+**Layout:** With ``--output <source>/memory``, each converted file under ``<source>/notes/...`` yields
+chunks under ``<source>/memory/notes/...`` (mirror of subfolders). Markdown under ``<source>/memory/``
+is never used as input — that tree is output only — so you do not get ``memory/memory/`` nesting.
 """
 
 import re
@@ -102,6 +106,27 @@ def _is_chunked_output(path: Path) -> bool:
     return bool(re.search(r"__(?:slide|section|page)_\d+\.md$", path.name, re.IGNORECASE))
 
 
+def _is_under_source_memory_tree(md_path: Path, src_root: Path) -> bool:
+    """True if md_path is inside <src_root>/memory/ (chunk output tree — not convert input)."""
+    try:
+        rel = md_path.relative_to(src_root.resolve())
+    except ValueError:
+        return False
+    if not rel.parts:
+        return False
+    return rel.parts[0].casefold() == "memory"
+
+
+def _is_under_assets_rag_tree(md_path: Path, src_root: Path) -> bool:
+    """True if under <src_root>/assets/rag/ (vector index sidecar — not source content)."""
+    try:
+        rel = md_path.relative_to(src_root.resolve())
+    except ValueError:
+        return False
+    parts = [p.casefold() for p in rel.parts]
+    return len(parts) >= 2 and parts[0] == "assets" and parts[1] == "rag"
+
+
 def _extract_source_ref(text: str) -> tuple[str | None, str | None]:
     m = re.search(r"<!--\s*Source:\s*([^|]+)\s*\|\s*([^>]+)\s*-->", text)
     return (m.group(1).strip(), m.group(2).strip()) if m else (None, None)
@@ -177,9 +202,12 @@ def _run_path_mode(source_path: str, memory_name_override: str | None = None, ou
         dest = f"memory/{memory_name}/"
 
     md_files = sorted(
-        f for f in src_root.rglob("*.md")
+        f
+        for f in src_root.rglob("*.md")
         if "images" not in f.parts
         and not _is_chunked_output(f)
+        and not _is_under_source_memory_tree(f, src_root)
+        and not _is_under_assets_rag_tree(f, src_root)
     )
     if not md_files:
         print(f"No markdown in {src_root}")

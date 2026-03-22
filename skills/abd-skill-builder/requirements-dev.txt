@@ -1,0 +1,2 @@
+# Dev-only: pytest for smoke tests (see test/README.md)
+pytest>=7.0.0

@@ -4,7 +4,19 @@
 
 This plan describes a **repeatable** path from **source markdown** through **evidence**, **vocabulary layers**, **behavioral stories**, and **sparse domain types**, to a **validated** map / model / spec. It is written so principles can be **argued on merit**: each has **stated grounding** (research and established practice), not reactions to any prior attempt.
 
-**Fixture in scope:** `skills/abd-maps-models-specs/test/mm3/` — `HeroesHandbook.md`, `context/chunks/`, `context/context_index.json`.
+**Fixture in scope:** `skills/abd-maps-models-specs/test/mm3/` — operator paths and roles for canonical sources live in **`solution.conf` → `manifest_sources`** (MM3 lists `docs/HeroesHandbook.md`); `context/chunks/` and `context/context_index.json` **when present** (they may **not** exist yet—see Stage 1 below).
+
+**Not the skill package:** Generated pipeline artifacts go **only** under `test/mm3/abd-maps-models-specs/` (output root — same name as the skill **by convention**, not a second copy of the skill). The skill itself (plan, `SKILL.md`, automation) lives in `skills/abd-maps-models-specs/` **above** `test/`.
+
+---
+
+## Stages vs. “Phase 0” (read this)
+
+The **process table** in `content/parts/process.md` groups work into **stages** (e.g. Stage 1 — Context & evidence). **Stage 1 is not a maturity ladder** where you tick boxes to feel done.
+
+- **Phase 0** is a **readiness stage**: *Is the evidence package good enough to support downstream asks (terms, behavioral story map, sparse types)—honestly?* The substeps **0.1–0.3** are **questions you answer with documents + metrics + samples**, not a ritual “step” on a scale.
+- If you **already know** the answer is **no** (wrong grain, bad metadata, IDs unusable, or spot-check fails), **do not** perform a fake open “keep vs rebuild” debate—**document the finding** and **rebuild** per Phase 1.
+- **Phase 1** **does not assume** `chunks/` already exist. A normal greenfield path is **PDF (or other source) → canonical Markdown → first chunking + index** (see Phase 1). Phase 0’s criteria still define **what “good enough” means** for the **first** cut you ship from Phase 1.
 
 ---
 
@@ -21,7 +33,7 @@ These are **normative**: we implement the process **because** of them. If eviden
 | **Sparse, intentional domain types**        | Classic OO/domain modeling: types for things with **identity**, **lifecycle**, and **distinct** responsibilities (Evans, Rumbaugh-style information modeling).                                                                         | `concepts[]` holds **types** only where the problem space needs **separate** behavioral/state contracts; otherwise properties, enums, or terms.                                                                                                                                                                                                               | Small, explainable type system; composition where it fits.                                        | Unbounded type list; duplicate abstractions differing only by name.                                                                                      |
 | **Justified specialization**                | Liskov substitutability: subtyping where **substitution** is meaningful in the **operations** that matter.                                                                                                                             | `extends` (or equivalent) only where specialization is **semantically** warranted and **checked** against use.                                                                                                                                                                                                                                                | Predictable hierarchies; safe generalization.                                                     | Decorative inheritance; “is-a” from layout or co-occurrence alone.                                                                                       |
 | **Explicit variant representation**         | Analysis patterns: **enumeration** vs **classification hierarchy** (Fowler et al.); domain-driven choice per **family** of variation.                                                                                                  | For each variant family, record the **decision**: enum vs subtypes vs other, **before** mass property assignment.                                                                                                                                                                                                                                             | Consistent representation; fewer migration surprises.                                             | Defaulting to inheritance because it is fewer JSON fields.                                                                                               |
-| **Corpus understanding before type design** | Qualitative coding / corpus profiling; information architecture of large documents.                                                                                                                                                    | **Phase 0** produces **metrics and samples** on the evidence base **before** committing to chunk/index shape or to a full type set.                                                                                                                                                                                                                           | Right grain of evidence; prioritized reading; defensible gates.                                   | Modeling before knowing what the source actually contains.                                                                                               |
+| **Corpus understanding before type design** | Qualitative coding / corpus profiling; information architecture of large documents.                                                                                                                                                    | **Readiness for modeling** (Stage 1) produces **metrics and samples** on the evidence base **before** committing to a full type set. That may mean auditing an **existing** chunk/index **or** validating the **first** chunking pass against the same criteria.                                                                                                                                                                                                                           | Right grain of evidence; prioritized reading; defensible gates.                                   | Modeling before knowing what the source actually contains.                                                                                               |
 
 
 **Rule (cross-cutting):** **Where** something is anchored (evidence) and **what** it is in the model (term, story, property, type, …) are **different states**. The process may reuse the same `chunk_id` in more than one layer; each layer applies its own gate.
@@ -37,26 +49,32 @@ These are **normative**: we implement the process **because** of them. If eviden
 
 | Asset                                 | Role                                                                                                                             |
 | ------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
-| `test/mm3/docs/HeroesHandbook.md`     | Canonical **source** markdown for the MM3 fixture (pin version when it changes).                                                 |
+| `test/mm3/solution.conf`              | **Workspace config** — `manifest_sources[]`, `context_path`, `context_chunking_spec`, etc. (same layering as the prior skill).     |
+| `test/mm3/docs/HeroesHandbook.md`     | Canonical **source** markdown for the MM3 fixture (listed in `manifest_sources`; pin version when it changes).                     |
 | `test/mm3/context/chunks/unit_*.md`   | **Evidence units** — text + stable IDs for citation.                                                                             |
 | `test/mm3/context/context_index.json` | Index: **manifest** (sources, section counts) + **blocks** with `block_id`, `section_path`, `reason`, `evidence_type`, previews. |
+| `test/mm3/abd-maps-models-specs/`     | **Output only** — phase artifacts the skill **generates** (not the skill package; see folder README).                            |
 
 
-**Phase 0** decides whether this **evidence package** satisfies the **context contract** we need, or whether **chunking and indexing** should be **redefined** from `HeroesHandbook.md` under explicit rules (same principles; fresh artifacts).
+**Readiness (Phase 0)** decides whether an **evidence package**—when it exists—satisfies the **context contract**, or whether **chunking and indexing** must be **redefined** from canonical Markdown under explicit rules (same principles; fresh artifacts). When there is no package yet, **Phase 1** is where you **build** that package; Phase 0’s questions remain the **acceptance bar** for that build.
 
 ---
 
-## Phase 0 — Context readiness audit
+## Phase 0 — Context readiness (Stage 1: assessment, not a “maturity step”)
 
-**Goal:** Decide whether the **current** `context_index.json` + `chunks/` **implement the context contract** we need, or whether **chunking and indexing** should be **rebuilt** from `HeroesHandbook.md` under explicit rules.
+**Goal:** Answer one question: **Is this context good enough** for downstream modeling (terms, mechanisms, story map, sparse types)—**with traceability and promotion gates intact**?
 
-This phase is **analysis-first**. Deliverables are **documents + metrics**, not a full model.
+This is **analysis-first**. Deliverables are **documents + metrics + samples**, not a domain model.
+
+**Important:** Subsections **0.1–0.3** are **assessment prompts**, not a linear checklist you complete to “pass” a scale. If the honest answer is already **no** (e.g. MM3 today: **spot-check fails**—a modeler **cannot** tell what **not** to subclass from metadata alone), **record that** and move to **rebuild** (Phase 1). Do not pretend the decision is still open.
+
+**When `chunks/` do not exist yet:** You may **skip** a formal audit and treat Phase 0 as **embedded acceptance criteria** for the **first** chunking output from Phase 1—the same questions still apply before you freeze the contract.
 
 ### 0.1 Map the plumbing
 
-1. **ID mapping** — Document how `unit_*.md` relates to `blk_*` in `context_index.json` (one-to-one, many-to-one, naming convention). If the link is implicit or missing, **record that as debt**.
-2. **Coverage** — Does every chunk file appear in the index? Does every **domain-relevant** block have a chunk (or explicit exclusion)?
-3. **Version pin** — Hash or date for `HeroesHandbook.md` and for the **generator** that produced the index (if known).
+1. **ID mapping** — Document how chunk files relate to index rows (e.g. `unit_*.md` ↔ `blk_*` / `chunk_id`)—one-to-one, many-to-one, naming convention. If the link is implicit or missing, **record that as debt**.
+2. **Coverage** — Does every chunk file appear in the index? Does every **domain-relevant** block have a chunk (or **explicit** exclusion in the index)?
+3. **Version pin** — Hash or date for canonical **Markdown** (e.g. `HeroesHandbook.md`) and for the **generator** that produced the index (if known).
 
 ### 0.2 Corpus profile (quantitative)
 
@@ -74,29 +92,39 @@ Produce a **short report** (markdown or JSON summary):
 ### 0.3 Qualitative spot-check
 
 - Sample **N** chunks across chapters: definitions, tables, examples, rule blocks.
-- Ask: **Would a modeler** know, from metadata alone, what **not** to subclass? If **no**, Stage 1 must add `modeling_kind` (or equivalent) — either **fill** from existing fields or **re-run** extraction.
+- Ask: **Would a modeler** know, from metadata alone, what **not** to subclass? If **no**, the **canonical context** work must supply `modeling_kind` (or equivalent)—via **schema**, **re-chunking**, or **re-run** of extraction—not wishful thinking.
 
-### 0.4 Decision gate
+**MM3 (current fixture):** Treat the answer here as **no** until a rebuilt package proves otherwise.
 
-
-| Outcome                                                                            | Action                                                                                                                                                                                 |
-| ---------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Sufficient** — IDs stable, evidence types usable, mapping clear                  | **Adopt** current chunks + index; **extend** schema (e.g. `modeling_kind`, `modeling_priority`) in place or via sidecar JSON.                                                          |
-| **Insufficient** — noisy blocks dominate, chunk/blocks misaligned, or IDs unusable | **Restart context from source**: define **chunking rules** from `HeroesHandbook.md` (heading boundaries, min size, table handling), regenerate chunks + index, **version** the bundle. |
+### 0.4 Outcomes (honest, not theatrical)
 
 
-This gate is where a **deliberate** rebuild of context happens if the audit says so.
+| Outcome | Action |
+| --- | --- |
+| **Sufficient** — IDs stable, evidence types usable for gates, mapping clear; spot-check **yes** or fixable with a **small** schema extension | **Adopt** current chunks + index; **extend** schema (e.g. `modeling_kind`, `modeling_priority`) in place or via sidecar JSON, then **freeze** v1 in Phase 1. |
+| **Insufficient** — noisy blocks dominate, chunk/blocks misaligned, IDs unusable, or spot-check **no** | **Rebuild:** Phase 1 — **chunking spec** from canonical Markdown (often after **PDF → MD**), regenerate chunks + index, **version** the bundle. Record the decision and move to rebuild when the evidence fails the principles. |
 
 ---
 
-## Phase 1 — Canonical context layer (after Phase 0 is accepted or rebuilt)
+## Phase 1 — Canonical context: source Markdown → chunking → frozen contract
 
 **Goal:** A **single, versioned** contract for “what evidence is,” independent of map/model/spec JSON.
+
+**Do not assume** pre-existing `chunks/`. Typical upstream steps:
+
+1. **Canonical source Markdown** — Often **`HeroesHandbook.md`** produced by **PDF (or DOCX, etc.) → Markdown** conversion. Pin version (hash/date) of the **source file** and of the **converter** when relevant.
+2. **First chunking + index** — Chunking is **designed** (not ad hoc splits) so downstream work can honor the **principles**:
+   - **Provenance-first evidence:** stable `chunk_id` / anchors; traceable citations.
+   - **Layered vocabulary / promotion:** per-chunk **evidence typing** (and related fields) so **terms** vs **types** stays honest—**citation ≠ class**.
+   - **Corpus understanding before type design:** grain supports **stratified reading**; **noise** is labeled and excluded **explicitly** in the index, not silently dropped.
+   - **Spot-check test:** metadata should make it **plausible** to see what is **not** a subtype candidate (`modeling_kind` or equivalent).
+
+**Automation:** implement **one** Phase 1 context-build path under **`skills/abd-maps-models-specs/scripts/`** (see [`docs/context-package.md`](../docs/context-package.md) — runnable pipeline is part of Phase 1, not a separate pre-phase): canonical Markdown → rules in `context_chunking_spec.yaml` → `chunks/` + `context_index.json`. **Rules first**, then code.
 
 ### 1.1 Artifacts
 
 - `chunk-index.json` (or evolved `context_index.json`) with at minimum: `chunk_id`, `source_anchor`, `modeling_kind`, `evidence_type`, `modeling_priority`, optional `candidate_terms[]`.
-- **Rules:** `example` / `narrative_aside` / `metadata/noise` **cannot** promote to `extends` or `concepts[]` without a **promotion** record.
+- **Rules:** Promotion of `example` / `narrative_aside` / `metadata/noise` into `extends` or `concepts[]` uses an explicit **promotion** record.
 
 ### 1.2 Validation
 
@@ -105,8 +133,23 @@ This gate is where a **deliberate** rebuild of context happens if the audit says
 
 ### 1.3 Exit criteria
 
-- Phase 0 decision documented.
+- Readiness outcome **documented** (adopt vs rebuild—and **rebuild** is expected when starting from a bad or missing package).
 - Index schema **frozen** as v1 of the **context contract** for this skill.
+
+### 1.4 Phase 1 package (how Phase 1 proves provenance)
+
+Principles are not enough: **Phase 1** must be specified as **files, validators, and config**—not “whatever the script outputs.” The normative detail lives in **[`docs/context-package.md`](../docs/context-package.md)**. Summary:
+
+| Mechanism | What we use |
+| --- | --- |
+| **Single pipeline** | Runnable automation under **`skills/abd-maps-models-specs/scripts/`** — one Phase 1 context builder entry point per [`context-package.md`](../docs/context-package.md). |
+| **Chunk files** | `test/mm3/context/chunks/{chunk_id}.md` with YAML front matter: `chunk_id`, `source` (canonical path + **line range and/or heading_path**), `evidence_type`, `modeling_kind`. |
+| **Index** | `test/mm3/context/context_index.json`: `manifest.sources[]` with **sha256** of canonical handbook; `manifest.generator`; `blocks[]` with duplicate `source_anchor` + previews; optional `excluded[]`. |
+| **Config** | `test/mm3/context_chunking_spec.yaml` — section/chapter break rules, split limits, taxonomy enums (operators edit **this**, not scattered magic in multiple scripts). |
+| **Code vs LLM** | **Deterministic** Python applies the spec and writes chunks + index. Optional LLM may **refine** `evidence_type` / `modeling_kind` **after** blocks exist; output must still pass the same validator. |
+| **Validation** | `scripts/validate_context_contract.py` — bidirectional chunk ↔ index, line bounds, duplicate IDs. Phase 0/CI use this as the **hard** gate. |
+
+Downstream (Phases 2–8): same doc spells out **inputs/outputs**, how **`build_phase2_artifacts.py`** must cite `chunk_id`s, how **`validate_phase3_story_map.py`** checks `evidence_chunk_ids[]` against the index, and how Phases 4–8 use JSON, prompts, or scanners—so each step has an implementable shape.
 
 ---
 
@@ -128,7 +171,7 @@ This gate is where a **deliberate** rebuild of context happens if the audit says
 
 **Exit:** Every story has a **clear** behavioral reading and **traceability** to concepts; no story exists solely to **match strings** in the type list. Every story states its **anchor** (read path, write path, or both)—not every story requires **mutation** of the core write model.
 
-**Why before domain types (Phase 4)?** Short rationale for humans and for steering AI away from “types first”: [`docs/why-story-mapping-first.md`](../docs/why-story-mapping-first.md).
+**Why before domain types (Phase 4)?** Short rationale: [`docs/why-story-mapping-first.md`](../docs/why-story-mapping-first.md).
 
 ---
 
@@ -170,13 +213,13 @@ This gate is where a **deliberate** rebuild of context happens if the audit says
 
 ## Execution order (what to do next)
 
-1. **Run Phase 0** on the **current** `test/mm3/context/` tree — produce the **audit report** and the **keep vs rebuild** decision.
-2. If **rebuild**: implement **Phase 1** from `HeroesHandbook.md` + an explicit **chunking spec** (rules **written first**, then scripts).
-3. If **keep**: add **sidecar** or **migrate** `context_index.json` into the **canonical** schema with `modeling_kind` filled (LLM batch or rules + spot-check).
-4. Only then: **Phase 2** onward in order.
-5. **Phase 2**: run `python scripts/build_phase2_artifacts.py` — emits `test/mm3/phase2/` (terms, mechanisms, candidate queue). See [`docs/phase2_terms_and_mechanisms.md`](../docs/phase2_terms_and_mechanisms.md). Re-run `generate_context_bundle_manifest.py` to record phase2 hashes.
-6. **Phase 3**: maintain `test/mm3/phase3/mm3_story_map.json` (behavioral epics/stories with **anchor** + `term_refs` / evidence). Validate with `python scripts/validate_phase3_story_map.py`. See [`docs/phase3_behavioral_story_map.md`](../docs/phase3_behavioral_story_map.md). Re-run `generate_context_bundle_manifest.py` for phase3 hash.
-7. **Phase 4–8**: types → variants → deepen → integrate → validate/render (per sections above).
+1. **Context path A — Greenfield or known bad:** Ensure **canonical Markdown** (e.g. PDF → `HeroesHandbook.md`). **Write the chunking spec** (what grain, what metadata, what exclusions), then implement **Phase 1** (chunks + index + version pin). Use **Phase 0** questions as **acceptance** for that package before freezing v1.
+2. **Context path B — Existing `context/`:** Run **readiness** (Phase 0: metrics + spot-check)—**or** skip straight to rebuild if you already know it fails (e.g. MM3: spot-check **no**).
+3. If **adopt with extensions:** migrate or sidecar into canonical schema; fill `modeling_kind`; **freeze** v1.
+4. If **rebuild or first build:** complete Phase 1; **freeze** the Phase 1 package (see **§1.4** below and [`docs/context-package.md`](../docs/context-package.md)).
+5. Only then: **Phase 2** onward in order — run `python scripts/build_phase2_artifacts.py` — emits `test/mm3/abd-maps-models-specs/phase2/` (terms, mechanisms, candidate queue). See [`docs/terms-mechanisms-contract.md`](../docs/terms-mechanisms-contract.md). Re-run `generate_context_bundle_manifest.py` to record phase2 hashes.
+6. **Phase 3**: maintain `test/mm3/abd-maps-models-specs/phase3/mm3_story_map.json` (behavioral epics/stories with **anchor** + `term_refs` / `evidence_chunk_ids`). Validate with `python scripts/validate_phase3_story_map.py` (extend per [`docs/behavioral-story-map.md`](../docs/behavioral-story-map.md)). Re-run `generate_context_bundle_manifest.py` for phase3 hash.
+7. **Phase 4–8**: types → variants → deepen → integrate → validate/render (per sections above and [`docs/pipeline_invariants.md`](../docs/pipeline_invariants.md)).
 
 ---
 
@@ -184,7 +227,7 @@ This gate is where a **deliberate** rebuild of context happens if the audit says
 
 Another domain (another handbook) should be able to:
 
-1. Supply **source markdown** and run **Phase 0–1** with the same **context contract**.
+1. Supply **source material** (typically **PDF → Markdown**, then chunking) and land on the **same context contract** after Phase 1 (frozen index + rules).
 2. Run **2–8** such that **relationships** and **types** follow **explicit** gates and the **principles table**—not accidental **co-occurrence** or **string matching**.
 
 ---

@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "skill_purpose": "{{skill_purpose}}",
+  "target_audience": "Cursor agent or human author extending this skill.",
+  "scope_in": ["Normative content under content/parts/", "Operator-checked scripts"],
+  "scope_out": [],
+  "pipeline_phases": ["author", "build", "validate"],
+  "operator_expectations": "compileall scripts; build.py produces AGENTS.md; scanners pass.",
+  "rules_and_scanners": "Add rules/*.md and rules/scanners.json when you add governance rules.",
+  "artifacts": ["SKILL.md", "AGENTS.md", "skill-config.json"],
+  "constraints": "",
+  "notes": "Fill skill_purpose for agentic-skill-builder strategize / strategy_complete."
+}

@@ -266,6 +266,15 @@ def _run_memory_mode(
         files.extend(_walk_with_logical_path(root, logical_prefix))
     files.sort(key=lambda x: str(x[1]))
 
+    def _under_assets_rag(p: Path) -> bool:
+        parts = [x.casefold() for x in p.parts]
+        for i in range(len(parts) - 1):
+            if parts[i] == "assets" and parts[i + 1] == "rag":
+                return True
+        return False
+
+    files = [(f, lr) for f, lr in files if not _under_assets_rag(f)]
+
     if not files:
         print(f"No supported files in {src_full}")
         return

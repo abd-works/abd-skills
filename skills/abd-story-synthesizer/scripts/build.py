@@ -22,7 +22,7 @@ def _run_validate(target_path: Path | None = None) -> None:
     print(f"Scanner mode: {mode}")
 
     engine_root = _skill_dir  # Always the synthesizer skill; never changes
-    # Use workspace_path from config (skill_space_path) when set; else engine_root
+    # Use workspace_path from config (active_skill_workspace / legacy keys) when set; else engine_root
     try:
         engine = AgileContextEngine(engine_root=engine_root).load()
         out_dir = (engine.workspace_path or engine_root) / "story-synthesizer"
@@ -60,8 +60,16 @@ def _run_validate(target_path: Path | None = None) -> None:
         print("Validation passed: no violations")
 
 
+def _solution_workspace_from_config(config: dict) -> str | None:
+    for key in ("active_skill_workspace", "solution_workspace", "skill_space_path"):
+        v = config.get(key)
+        if v is not None and str(v).strip():
+            return str(v).strip()
+    return None
+
+
 def _discover_context() -> None:
-    """Scan skill_space_path for context* files/folders and update the skill space's abd-config.json."""
+    """Scan solution workspace for context* files/folders and update the skill space's abd-config.json."""
     engine_root = _skill_dir
     config_path = engine_root / "conf" / "abd-config.json"
     if not config_path.exists():
@@ -69,14 +77,14 @@ def _discover_context() -> None:
         sys.exit(1)
 
     config = json.loads(config_path.read_text(encoding="utf-8"))
-    skill_space = config.get("skill_space_path")
+    skill_space = _solution_workspace_from_config(config)
     if not skill_space:
-        print("ERROR: skill_space_path not set in conf/abd-config.json. Set work area first.", file=sys.stderr)
+        print("ERROR: solution_workspace not set in conf/abd-config.json. Set work area first.", file=sys.stderr)
         sys.exit(1)
 
     skill_space_path = Path(skill_space).resolve()
     if not skill_space_path.exists():
-        print(f"ERROR: skill_space_path does not exist: {skill_space_path}", file=sys.stderr)
+        print(f"ERROR: skill workspace path does not exist: {skill_space_path}", file=sys.stderr)
         sys.exit(1)
 
     discovered = []
@@ -107,6 +115,7 @@ def _discover_context() -> None:
     ss_config_path.write_text(json.dumps(ss_config, indent=2), encoding="utf-8")
 
     print(json.dumps({
+        "solution_workspace": str(skill_space_path),
         "skill_space_path": str(skill_space_path),
         "config_written_to": str(ss_config_path),
         "manual_paths": manual,
@@ -116,12 +125,13 @@ def _discover_context() -> None:
 
 
 def _get_config() -> None:
-    """Print engine_root, skill_space_path, config_path as JSON. Use when agent needs to know paths."""
+    """Print engine_root, solution_workspace, config_path as JSON. Use when agent needs to know paths."""
     engine_root = _skill_dir
     config_path = engine_root / "conf" / "abd-config.json"
     result = {
         "engine_root": str(engine_root.resolve()),
         "config_path": str(config_path.resolve()),
+        "solution_workspace": None,
         "skill_space_path": None,
     }
     if config_path.exists():
@@ -129,8 +139,9 @@ def _get_config() -> None:
             engine = AgileContextEngine(engine_root=engine_root).load()
             if engine.workspace_path:
                 p = str(engine.workspace_path.resolve())
+                result["solution_workspace"] = p
                 result["skill_space_path"] = p
-                result["skill_path"] = p  # shorthand for skill_space_path
+                result["skill_path"] = p
             result["strategy_path"] = str(engine.strategy_path.resolve()) if engine.strategy_path else None
             result["context_paths"] = [str(p) for p in engine.context_paths]
         except Exception:

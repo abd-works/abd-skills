@@ -14,12 +14,9 @@ import os
 import sys
 from pathlib import Path
 
-from _config import ROOT, MEMORY, ensure_root
+from _config import ensure_root, resolve_search_rag_dir
 
 ensure_root()
-RAG_DIR = MEMORY / "rag"
-INDEX_FILE = RAG_DIR / "index.faiss"
-METADATA_FILE = RAG_DIR / "metadata.json"
 EMBEDDING_MODEL = "text-embedding-3-small"
 DEFAULT_K = 5
 
@@ -47,15 +44,23 @@ def search(query: str, k: int = DEFAULT_K) -> list[dict]:
         print("Run: pip install openai faiss-cpu numpy", file=sys.stderr)
         sys.exit(1)
 
-    if not INDEX_FILE.exists() or not METADATA_FILE.exists():
-        print("No vector index found. Run embed_and_index.py first.", file=sys.stderr)
+    rag_dir = resolve_search_rag_dir()
+    index_file = rag_dir / "index.faiss"
+    metadata_file = rag_dir / "metadata.json"
+
+    if not index_file.exists() or not metadata_file.exists():
+        print(
+            "No vector index found. Run embed_and_index.py first "
+            f"(expected under {rag_dir}).",
+            file=sys.stderr,
+        )
         sys.exit(1)
 
-    with open(METADATA_FILE, encoding="utf-8") as f:
+    with open(metadata_file, encoding="utf-8") as f:
         data = json.load(f)
     metadata = data["chunks"] if isinstance(data, dict) and "chunks" in data else data
 
-    index = faiss.read_index(str(INDEX_FILE))
+    index = faiss.read_index(str(index_file))
 
     q_embedding = np.array(_embed_query(query), dtype="float32")
     q_norm = np.linalg.norm(q_embedding)

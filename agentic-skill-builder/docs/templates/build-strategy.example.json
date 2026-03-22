@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "skill_purpose": "One sentence: what this skill helps users accomplish end-to-end.",
+  "target_audience": "Who runs it (e.g. Cursor agent, CLI, human author) and their context.",
+  "scope_in": [
+    "Included concern or artifact",
+    "Another in-scope item"
+  ],
+  "scope_out": [
+    "Explicit non-goals or exclusions"
+  ],
+  "pipeline_phases": [
+    "Optional ordered phases the skill should follow (e.g. ingest → build → validate)"
+  ],
+  "operator_expectations": "Structural checks: compileall paths, build script, scanner list, rules/scanners.json bindings.",
+  "rules_and_scanners": "How markdown rules map to scanner scripts for this skill.",
+  "artifacts": [
+    "SKILL.md",
+    "AGENTS.md or generated handbook",
+    "scripts/"
+  ],
+  "constraints": "Secrets, API limits, repo layout, or time constraints.",
+  "notes": "Anything else the orchestrator or builder should respect."
+}

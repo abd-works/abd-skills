@@ -1,0 +1,9 @@
+{
+  "name": "toy-polite-dialogue",
+  "version": "0.1.0",
+  "operator": {
+    "compileall_paths": ["scripts"],
+    "build_script": "scripts/build.py",
+    "scanners": ["scripts/scanner_politeness.py"]
+  }
+}

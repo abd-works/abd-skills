@@ -1,0 +1,16 @@
+{
+  "name": "abd-maps-models-specs",
+  "version": "0.1.0",
+  "delivery": {
+    "mode": "static_built",
+    "modes": ["static_built", "runtime_injection"]
+  },
+  "operator": {
+    "compileall_paths": ["scripts"],
+    "build_script": "scripts/build.py",
+    "scanners": [
+      "scripts/scanner_pipeline_outputs.py",
+      "scripts/scanners/chunks_must_be_referenced.py"
+    ]
+  }
+}

@@ -1,0 +1,7 @@
+# Process — {{skill_name}}
+
+**Pipeline:** Author → Build → Validate
+
+| # | Phase | Actor | Ref |
+|---|--------|-------|-----|
+| 1 | Author content | Human / AI | [author](phases/author.md) |

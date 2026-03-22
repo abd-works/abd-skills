@@ -1,0 +1,13 @@
+{
+  "name": "abd-skill-builder",
+  "version": "0.1.0",
+  "delivery": {
+    "mode": "static_built",
+    "modes": ["static_built", "runtime_injection"]
+  },
+  "operator": {
+    "compileall_paths": ["scripts"],
+    "build_script": "scripts/build.py",
+    "scanners": ["scripts/scanner_skill_builder_layout.py"]
+  }
+}

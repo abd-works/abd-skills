@@ -9,9 +9,9 @@ description = "Agentic skill builder — LangGraph orchestration for Agile by De
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
-  # LangGraph stack — pin versions when implementation starts
-  # "langgraph>=0.2",
-  # "langchain-core>=0.3",
+  "langgraph>=1.0",
+  "langgraph-checkpoint-sqlite>=3.0",
+  "openai>=1.40",
 ]
 
 [project.optional-dependencies]
@@ -20,8 +20,15 @@ dev = [
   "ruff>=0.6",
 ]
 
+[project.scripts]
+agentic-skill-builder = "agentic_skill_builder.cli:main"
+
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["test"]
 
 [tool.ruff]
 line-length = 100

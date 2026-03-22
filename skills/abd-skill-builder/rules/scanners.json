@@ -1,0 +1,6 @@
+{
+  "version": 1,
+  "comment": "No rule_scanner_bindings yet; operator.scanners lists scanner_skill_builder_layout.py",
+  "rule_scanner_bindings": [],
+  "scanners": ["scripts/scanner_skill_builder_layout.py"]
+}

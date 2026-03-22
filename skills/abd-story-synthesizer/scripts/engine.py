@@ -55,8 +55,9 @@ class AgileContextEngine:
                 self.skills.append(skill)
 
         if self.skills:
-            if config.skill_space_path:
-                self.workspace_path = Path(config.skill_space_path).resolve()
+            wr = config.workspace_root
+            if wr:
+                self.workspace_path = Path(wr).resolve()
             else:
                 self.workspace_path = self._skill_space_from_path(self.skills[0].path)
             self._load_skill_space_context_paths()

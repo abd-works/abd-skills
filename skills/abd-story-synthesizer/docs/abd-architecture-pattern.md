@@ -67,22 +67,22 @@ The engine is the **single source of truth** for:
 
 | Location | Responsibility |
 |----------|----------------|
-| `skills/agile-skill-build/scripts/scaffold.py` | Parses CLI args (e.g. `--name`, `--path`); calls `Engine.scaffold_skill(name, path)`. Does **not** define structure. |
-| `skills/agile-skill-build/scripts/build.py` | Invokes engine build API. Assembles content per engine conventions. |
+| `skills/abd-skill-builder/scripts/scaffold_skill.py` | Parses CLI args (e.g. `--name`, `--path`); calls `Engine.scaffold_skill(name, path)`. Does **not** define structure. |
+| `skills/abd-skill-builder/scripts/build.py` | Invokes engine build API. Assembles content per engine conventions. |
 | `skills/abd-<name>/scripts/*.py` | Any skill script: parses params, delegates to engine. No structural logic. |
 
 ### Script Invocation Markdown (AI Guidance)
 
 Each skill includes **Markdown that instructs the AI on how to call the Python scripts**. The AI reads this to know:
 
-- Which script to run (e.g. `scripts/scaffold.py`, `scripts/build.py`)
+- Which script to run (e.g. `scripts/scaffold_skill.py`, `scripts/build.py`)
 - What parameters to pass (e.g. `--name`, `--path`, `--skill-space`)
 - When to call (e.g. after content is complete, before strategy creation)
 - What to expect (success output, error handling, next steps)
 
 | Location | Purpose |
 |----------|---------|
-| `skills/agile-skill-build/content/script-invocation.md` | How to invoke scaffold.py, build.py; params, examples, sequencing. |
+| `skills/abd-skill-builder/SKILL.md` and `skills/abd-skill-builder/content/parts/phases/scaffold.md` | How to invoke scaffold/build; params, examples, sequencing. |
 | `skills/abd-<name>/content/script-invocation.md` | Per-skill script usage when the skill has scripts. Optional if skill has no scripts. |
 
 This Markdown is part of the skill content. The AI reads it before invoking Python and follows it when orchestrating the workflow (e.g. Create Abd-Skill, Gather Context).
@@ -145,7 +145,7 @@ agilebydesign-skills/
 │   │   ├── AGENTS.md
 │   │   ├── SKILL.md
 │   │   └── README.md
-│   ├── agile-skill-build/  # Scaffold + build skill
+│   ├── abd-skill-builder/  # Scaffold + build skill (standards + scaffold)
 │   └── ...
 └── README.md
 ```
@@ -237,14 +237,14 @@ Domain concepts for Create Abd-Skill, mapped to implementation: exact file path,
 | `AssembledAgent.path` | `skills/abd-<name>/AGENTS.md` |
 | `AssembledAgent.content` | Merged Markdown: core + process + strategy + output + validation (in order) |
 
-#### BuildAbdSkill (agile-skill-build)
+#### BuildAbdSkill (abd-skill-builder)
 
 | Concept / Property / Operator | Implementation |
 |------------------------------|----------------|
-| Skill root | `skills/agile-skill-build/` |
-| Scaffold script | `skills/agile-skill-build/scripts/scaffold.py` |
-| Build script (for agile-skill-build itself) | `skills/agile-skill-build/scripts/build.py` |
-| Script invocation guidance | `skills/agile-skill-build/content/script-invocation.md` (Markdown) — AI reads to know how to call scaffold.py, build.py |
+| Skill root | `skills/abd-skill-builder/` |
+| Scaffold script | `skills/abd-skill-builder/scripts/scaffold_skill.py` |
+| Build script (for abd-skill-builder itself) | `skills/abd-skill-builder/scripts/build.py` |
+| Script invocation guidance | `skills/abd-skill-builder/SKILL.md`, `content/parts/phases/scaffold.md` (Markdown) — AI reads to know how to call scaffold/build scripts |
 
 #### Scaffold spec (engine)
 
@@ -293,7 +293,7 @@ skills/abd-<name>/
 │   └── *.md                   # rule markdown if any
 ├── scripts/
 │   ├── build.py
-│   ├── scaffold.py            # (agile-skill-build only)
+│   ├── scaffold_skill.py      # (abd-skill-builder only)
 │   └── ...                    # other scripts
 ├── AGENTS.md                  # assembled agent file (output of build)
 ├── SKILL.md                   # skill descriptor

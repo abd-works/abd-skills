@@ -235,6 +235,28 @@ def scaffold_skill(name: str, path: str | Path, engine_root: str | Path | None =
     if not skill_config.exists():
         skill_config.write_text(json.dumps({"name": name, "version": "0.1.0"}, indent=2), encoding="utf-8")
 
+    conf_dir = path / "conf"
+    conf_dir.mkdir(parents=True, exist_ok=True)
+    abd_cfg = conf_dir / "abd-config.json"
+    if not abd_cfg.exists():
+        abd_cfg.write_text(
+            json.dumps({"solution_workspace": "."}, indent=2) + "\n",
+            encoding="utf-8",
+        )
+    conf_readme = conf_dir / "README.md"
+    if not conf_readme.exists():
+        conf_readme.write_text(
+            """# Workspace configuration
+
+## `abd-config.json` (required)
+
+Set **`solution_workspace`** (mandatory) to the root of the **solution workspace** where this skill runs.
+
+Deprecated: **`skill_space_path`** — same meaning; prefer **`solution_workspace`**.
+""",
+            encoding="utf-8",
+        )
+
     return path
 
 

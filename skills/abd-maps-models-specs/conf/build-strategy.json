@@ -1,0 +1,36 @@
+{
+  "version": 1,
+  "skill_purpose": "Run a provenance-first pipeline from corpus markdown to layered terms, mechanisms, behavioral story maps, and sparse domain types with explicit validation gates and reproducible bundle manifests under the MM3 fixture.",
+  "target_audience": "Authors and operators running this skill locally; reviewers of map-model-spec artifacts.",
+  "scope_in": [
+    "Phase 0 context audit and metrics",
+    "Phase 2 terms / mechanisms / candidate queue JSON",
+    "Phase 3 behavioral story map validation",
+    "Bundle manifest hashing for test/mm3 sources and outputs"
+  ],
+  "scope_out": [
+    "Full LLM extraction of chunks from canonical markdown (Phase 1 rebuild — separate tooling; sources from solution.conf manifest_sources)",
+    "Production deployment beyond the skill repo"
+  ],
+  "pipeline_phases": [
+    "phase0_context_audit",
+    "validate_context_contract (skip if no index)",
+    "build_phase2_artifacts",
+    "validate_phase3_story_map (optional)",
+    "chunks_must_be_referenced on map-model-spec.json (skip if absent)",
+    "generate_context_bundle_manifest"
+  ],
+  "operator_expectations": "compileall on scripts; build.py runs pipeline; scanner_pipeline_outputs.py checks phase0 + phase2 files exist.",
+  "rules_and_scanners": "Curated markdown rules under rules/ with YAML phase_files; build inlines per content/built/phases/*.md. Validators: validate_context_contract.py, validate_phase3_story_map.py (story evidence vs index), scanners/chunks_must_be_referenced.py (map-model-spec citations), scanner_pipeline_outputs.py, manifest.",
+  "artifacts": [
+    "SKILL.md",
+    "AGENTS.md",
+    "content/parts/process.md",
+    "content/parts/phases/*.md",
+    "plan/*.md",
+    "docs/*.md",
+    "test/mm3/abd-maps-models-specs/**"
+  ],
+  "constraints": "Secrets not required for pipeline smoke; OpenAI only if expert critique invoked externally.",
+  "notes": "Output root is test/mm3/abd-maps-models-specs/ — not the skill package root."
+}

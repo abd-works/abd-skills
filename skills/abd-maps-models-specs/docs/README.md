@@ -1,18 +1,32 @@
-# `docs/` — long-lived documentation
+# abd-maps-models-specs — documentation
 
-Put **durable** reference material here: pipeline analysis, architecture rationale, operator guides—content that should remain useful after the v2 build is “done.”
+Long-lived reference for the skill: **why** (principles), **what order** (execution), **construct-specific** norms (Phase 1 package, Phase 2 terms, Phase 3 story map, …), and **domain / story** prose. These files are written so an operator can run the pipeline without prior context from a planning session or chat history.
 
-**Git version branches** (milestones): see [`VERSION-BRANCHES.md`](VERSION-BRANCHES.md) (`abd-maps-models-specs/v1-*`, `v2-*`, …).
-
-**Contrast:** `plan/` holds **working** plans you may **discard** after milestones; `docs/` is what you expect the next maintainer (or you in six months) to read.
-
-## Contents
+## Read first
 
 | Document | Purpose |
-| -------- | ------- |
-| [`why-story-mapping-first.md`](why-story-mapping-first.md) | **Why** story mapping (behavior) comes before sparse domain types—user context and AI steer; complements Phase 3 in `plan/PROCESS-PLAN.md`. |
-| [`modeling_kind_sidecar_v1.md`](modeling_kind_sidecar_v1.md) | **`modeling_kind` sidecar** (v1 payload, **v2** body TOC heuristics) — promotion gate helper; golden regression + JSON Schema under `docs/schemas/`. |
-| [`orchestrator.md`](orchestrator.md) | **Autonomous loop** — planner / runner / critic; public scores = corpus + rules; optional gold map → `private_gap_analysis` (critic-only, not planner). |
-| [`reference/README.md`](reference/README.md) | **Gold map / ontology** — human + critic-private gap analysis; not builder input. |
-| [`phase2_terms_and_mechanisms.md`](phase2_terms_and_mechanisms.md) | **Phase 2** — terms layer, mechanisms, candidate queue; promotion rule vs `concepts[]`. |
-| [`phase3_behavioral_story_map.md`](phase3_behavioral_story_map.md) | **Phase 3** — behavioral story map (anchors, term refs, evidence); validator script. |
+|----------|---------|
+| [`principles-and-rules.md`](principles-and-rules.md) | Principles table, cross-cutting rules, how to revise a principle, fixture inventory |
+| [`execution-and-success.md`](execution-and-success.md) | Execution order (what to do next) + reusable success definition |
+| [`context-corpus.md`](context-corpus.md) | Chunk/index contract; how the corpus is built and validated in this skill |
+| [`pipeline_invariants.md`](pipeline_invariants.md) | Cross-cutting gates: layers 1–4 and promotion discipline |
+| [`context-package.md`](context-package.md) | **Phase 1 only:** provenance, single script surface, validation |
+
+## Domain and story artifacts
+
+| Document | Purpose |
+|----------|---------|
+| [`domain-model.md`](domain-model.md) | Modules, concepts, properties, operations, examples, `map-model-spec` JSON fields |
+| [`story-map-narrative.md`](story-map-narrative.md) | Full interaction-tree story map (epic → step), tables, grounding — complements **behavioral** Phase 3 JSON |
+| [`terms-mechanisms-contract.md`](terms-mechanisms-contract.md) | Terms, mechanisms, candidate queue — layers before `concepts[]` |
+| [`behavioral-story-map.md`](behavioral-story-map.md) | Story map **shape** (actor, behavior, anchor) **and** rationale for stories before domain types |
+
+## Where normative process lives
+
+Anything that **must** land in **`AGENTS.md`** or other generated agent context is authored under **`content/parts/`** (and, when a skill merges bases + rules + roles, the **staged** output can live under **`content/built/`** before the final file). **`docs/`** is **reference** you open beside the skill—schemas, contracts, long-form narrative—not a substitute for those sources unless the build copies them in.
+
+Construct docs under `docs/` (schemas, artifact contracts, long-lived reference) are **not** duplicates of `content/parts/` for process steps; they **complement** them with one construct per file where useful (per [skill documentation standards](../abd-skill-builder/docs/documentation-standards.md)).
+
+- **Stage and phase table:** [`../content/parts/process.md`](../content/parts/process.md)
+- **Per-phase steps:** [`../content/parts/phases/`](../content/parts/phases/)
+- **Generated agent view:** [`../AGENTS.md`](../AGENTS.md) — run `python scripts/build.py` from the skill root

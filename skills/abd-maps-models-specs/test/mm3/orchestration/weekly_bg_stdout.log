@@ -1,0 +1,26 @@
+[weekly] Starting week 1/20 -> --run-prefix weekly-01
+Orchestration complete. Summary: [
+  {
+    "iteration": 18,
+    "pipeline_ok": true,
+    "critic_exit": 0,
+    "overall_score": 0.962,
+    "critic_json": "C:\\dev\\agilebydesign-skills\\skills\\abd-maps-models-specs\\test\\mm3\\orchestration\\weekly-01\\critic\\critic_018.json"
+  },
+  {
+    "iteration": 19,
+    "pipeline_ok": true,
+    "critic_exit": 0,
+    "overall_score": 0.962,
+    "critic_json": "C:\\dev\\agilebydesign-skills\\skills\\abd-maps-models-specs\\test\\mm3\\orchestration\\weekly-01\\critic\\critic_019.json"
+  },
+  {
+    "iteration": 20,
+    "pipeline_ok": true,
+    "critic_exit": 0,
+    "overall_score": 0.962,
+    "critic_json": "C:\\dev\\agilebydesign-skills\\skills\\abd-maps-models-specs\\test\\mm3\\orchestration\\weekly-01\\critic\\critic_020.json"
+  }
+]
+State: C:\dev\agilebydesign-skills\skills\abd-maps-models-specs\test\mm3\orchestration\weekly-01\state.json
+[weekly] Sleeping 604800s until next week…

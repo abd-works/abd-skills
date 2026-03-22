@@ -188,10 +188,10 @@ python scripts/index_memory.py --replace
 
 ## embed_and_index.py
 
-Builds/updates the FAISS + embeddings index under **`memory/rag/`** (relative to `CONTENT_MEMORY_ROOT` / cwd).
+Builds/updates the FAISS + embeddings index (relative to `CONTENT_MEMORY_ROOT` / cwd).
 
-- **`--memory <name>`:** Index chunks under **`memory/<name>/`** only.
-- **No `--memory`:** Indexes **(1)** every **subfolder** of **`assets/`** (each should be a junction to a topic `memory` tree — **abd_content** hub layout); chunk paths in metadata are prefixed with the folder name; **(2)** plus any **`memory/**/*.md`** (legacy). Produces **one** combined index at **`memory/rag/`**.
+- **`--memory <name>`:** Index chunks under **`memory/<name>/`** only. Writes index to **`memory/rag/`** (per-topic / project tree).
+- **No `--memory`:** Indexes **(1)** every **subfolder** of **`assets/`** except reserved **`rag/`** when it sits under `assets/` (each other entry should be a junction to a topic `memory` tree — hub layout for **abd_content**, RPG content, etc.); chunk paths in metadata are prefixed with the folder name; **(2)** plus any **`memory/**/*.md`** (legacy). Produces **one** combined index; **default output** is **`assets/rag/`**, or a **configurable** aggregate folder (`CONTENT_MEMORY_RAG_PATH`, `content_memory_rag_path` in `skill-config.json`, or `rag_path` per hub in `conf/content_memory_roots.json`) so the vector store can live on OneDrive/SharePoint.
 - **`--replace`:** Rebuild the index from scratch (use after adding `assets/` junctions or bulk chunk changes).
 
 **Hub example (`abd_content`):** `cd` to `abd_content`, set `CONTENT_MEMORY_ROOT` to that folder, then `python scripts/embed_and_index.py --replace`.

@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""Emit context_bundle_manifest.json with SHA-256 of key artifacts."""
+"""Record hashes for workspace sources and phase outputs — bundle manifest."""
+
 from __future__ import annotations
 
 import hashlib
@@ -7,14 +8,19 @@ import json
 from datetime import datetime, timezone
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[1]
-CTX = ROOT / "test" / "mm3" / "context"
-PHASE2 = ROOT / "test" / "mm3" / "phase2"
-PHASE3 = ROOT / "test" / "mm3" / "phase3"
-OUT = CTX / "context_bundle_manifest.json"
+from _config import (
+    CONTEXT_INDEX,
+    OUT_ROOT,
+    PHASE0,
+    PHASE2,
+    SKILL_ROOT,
+    resolved_manifest_sources,
+)
 
 
-def sha256_file(path: Path) -> str:
+def _hash_file(path: Path) -> str | None:
+    if not path.is_file():
+        return None
     h = hashlib.sha256()
     with open(path, "rb") as f:
         for chunk in iter(lambda: f.read(1 << 20), b""):
@@ -23,52 +29,26 @@ def sha256_file(path: Path) -> str:
 
 
 def main() -> None:
-    files = [
-        CTX / "context_index.json",
-        CTX / "modeling_kind_sidecar.json",
-        CTX / "phase0_audit_metrics.json",
-    ]
-    artifacts: dict[str, object] = {}
-    for p in files:
-        if p.is_file():
-            rel = p.relative_to(CTX).as_posix()
-            artifacts[rel] = {"sha256": sha256_file(p), "bytes": p.stat().st_size}
-        else:
-            artifacts[p.name] = {"missing": True}
+    sources: dict[str, str | None] = {}
+    for abs_p, _role, rel in resolved_manifest_sources():
+        sources[rel] = _hash_file(abs_p)
+    sources["context/context_index.json"] = _hash_file(CONTEXT_INDEX)
 
-    phase2_artifacts: dict[str, object] = {}
-    for name in (
-        "mm3_terms_layer.json",
-        "mm3_mechanisms.json",
-        "mm3_candidate_queue.json",
-        "phase2_build_summary.json",
-    ):
-        p = PHASE2 / name
-        if p.is_file():
-            rel = f"test/mm3/phase2/{name}"
-            phase2_artifacts[rel] = {
-                "sha256": sha256_file(p),
-                "bytes": p.stat().st_size,
-            }
-
-    phase3_artifacts: dict[str, object] = {}
-    p3 = PHASE3 / "mm3_story_map.json"
-    if p3.is_file():
-        phase3_artifacts["test/mm3/phase3/mm3_story_map.json"] = {
-            "sha256": sha256_file(p3),
-            "bytes": p3.stat().st_size,
-        }
-
-    payload = {
-        "schema_version": "v1",
+    manifest = {
+        "schema": "bundle_manifest/v1",
         "generated_at": datetime.now(timezone.utc).isoformat(),
-        "context_root": str(CTX.relative_to(ROOT)).replace("\\", "/"),
-        "artifacts": artifacts,
-        "phase2": phase2_artifacts if phase2_artifacts else None,
-        "phase3": phase3_artifacts if phase3_artifacts else None,
+        "sources": sources,
+        "outputs": {
+            "phase0_audit_metrics.json": _hash_file(PHASE0 / "phase0_audit_metrics.json"),
+            "mm3_terms_layer.json": _hash_file(PHASE2 / "mm3_terms_layer.json"),
+            "mm3_mechanisms.json": _hash_file(PHASE2 / "mm3_mechanisms.json"),
+            "mm3_candidate_queue.json": _hash_file(PHASE2 / "mm3_candidate_queue.json"),
+        },
     }
-    OUT.write_text(json.dumps(payload, indent=2), encoding="utf-8")
-    print("Wrote", OUT)
+    OUT_ROOT.mkdir(parents=True, exist_ok=True)
+    out = OUT_ROOT / "context_bundle_manifest.json"
+    out.write_text(json.dumps(manifest, indent=2), encoding="utf-8")
+    print(f"Wrote {out.relative_to(SKILL_ROOT)}")
 
 
 if __name__ == "__main__":

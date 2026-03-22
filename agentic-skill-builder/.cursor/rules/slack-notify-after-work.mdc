@@ -1,0 +1,33 @@
+---
+description: Optional Slack ping after meaningful work when webhook is configured (Slack deferred otherwise)
+globs: agentic-skill-builder/**/*
+alwaysApply: false
+---
+
+# Slack ping after completing work (agentic-skill-builder)
+
+**Slack is deferred** until **`AGENTIC_SKILL_BUILDER_SLACK_WEBHOOK_URL`** is set (Incoming Webhook from api.slack.com). See **`docs/plans/langgraph-agentic-orchestration-plan.md`** — **Execution status — Slack**. Until then, **do not** treat Slack as required; summarize completion **in Cursor chat** only.
+
+When **`conf/.secrets`** contains a valid **Slack Incoming Webhook** URL (hostname **hooks.slack.com**) and you finish a **meaningful** change or milestone (feature, wiring, docs that close a loop — not a one-line typo), you **may** send a Slack notification so the human can return when ready.
+
+## How (only if webhook is configured)
+
+From the **agentic-skill-builder** repo root:
+
+```bash
+python scripts/notify_slack.py "Short summary: what you did. Reply **keep going** in Cursor when ready."
+```
+
+If you omit the message, the script sends a default **completion ping** that asks them to say **keep going**.
+
+Set **`AGENTIC_SKILL_BUILDER_SLACK_NOTIFY_USER_ID`** to Jeff’s Slack **member ID** (starts with `U`) so pings **@jeff.anderson** via `<@U…>` — plain `@jeff.anderson` text does not notify in webhooks.
+
+If the webhook is **missing or invalid**, **skip** the script; state in chat that Slack is off and give the summary there — do not pretend the ping was delivered.
+
+## Code
+
+Implementation lives in **`src/agentic_skill_builder/slack_notify.py`** (`notify_slack`, `post_slack_incoming_webhook`). LangGraph HITL nodes should call the same helpers when Slack is enabled.
+
+## Do not spam
+
+One ping per **completed** task or batch — not after every micro-edit.

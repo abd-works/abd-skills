@@ -12,9 +12,9 @@ ROOT (memory storage) for --path: the **source folder you pass**. Chunks live un
 (topic flow) or `<parent>/memory/context/` when the folder is named `context`. Set CONTENT_MEMORY_ROOT
 only when running --memory without a source (chunk+embed only).
 
-After a successful --path pipeline, creates **<hub>/<source_folder_name> -> <source>/memory**
-under the memory hub root (default: cwd, ABD_CONTENT_ROOT, or --junction-workspace / --memory-root).
-Skip with --no-junction or SKIP_MEMORY_JUNCTION=1.
+After a successful --path pipeline, creates **<hub>/<junctions_dir>/<source_folder_name> -> <source>/memory**
+(``junctions_dir`` from ``content_memory_roots.json``, default ``assets``). Hub root: cwd,
+**ABD_CONTENT_ROOT**, or **--memory-root** / **--junction-workspace**. Skip with --no-junction or SKIP_MEMORY_JUNCTION=1.
 
 Chunk index: index_chunks runs after chunk; writes chunk_index.json to story-synthesizer/context/
 when that path exists. Required for abd-story-synthesizer evidence extraction.
