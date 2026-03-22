@@ -1,0 +1,11 @@
+{
+  "_comment": "Copy to YOUR workspace as conf/content_memory_roots.json — do not commit real paths in the skill repo.",
+  "roots": [
+    {
+      "path": "C:/path/to/your/content-hub",
+      "label": "my_hub",
+      "junctions_dir": "assets",
+      "rag_path": "~/OneDrive - YourTenant/Shared Documents/SomeLibrary/.rag"
+    }
+  ]
+}

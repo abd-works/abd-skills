@@ -1,28 +1,43 @@
-# Shared secrets (skills repo)
+# Content memory — workspace configuration
 
-Put **machine-local** API keys here so **abd-context-to-memory** (and any script that imports `skills/abd-context-to-memory/scripts/_config.py`) can load them without copying keys into each project.
+**Hub lists and RAG paths are workspace-specific.** They do **not** live in this skill repo.
 
-## Files (optional; either or both)
+## Where configuration goes
 
-| File       | Purpose                                      |
-|-----------|-----------------------------------------------|
-| `.secrets`| `OPENAI_API_KEY=...` (dotenv-style, one per line) |
-| `.env`    | Same format; use if you prefer the usual name   |
+| File | Location | Purpose |
+|------|----------|---------|
+| **`content_memory_roots.json`** | **Your workspace**, e.g. `abd_content/conf/content_memory_roots.json` | List of junction hubs: `path`, `rag_path`, optional `junctions_dir`. |
+| **`content_memory_workspace.json`** | Optional, **your workspace** `conf/` | Pointer: `{ "workspace_root": "C:/dev/abd_content" }` — used when scripts run from another directory and cannot find `content_memory_roots.json` by walking cwd. |
+| **`content_memory_roots.example.json`** | **This repo** (`conf/`) | Template only — copy into your workspace and edit paths. |
 
-Do **not** commit real keys. Add `conf/.secrets` to `.gitignore` if your team keeps this file only locally.
+## How the skill finds `content_memory_roots.json`
 
-## Format
+Resolution order (first match wins):
 
-```
-OPENAI_API_KEY=sk-...
-```
+1. **`CONTENT_MEMORY_ROOTS_CONFIG`** — absolute path to the JSON file.
+2. **`CONTENT_MEMORY_WORKSPACE`** — directory of the workspace; loads `conf/content_memory_roots.json` or `content_memory_roots.json` there.
+3. **`CONTENT_MEMORY_ROOT`** — usually the hub root (e.g. `abd_content`); loads `conf/content_memory_roots.json` under it.
+4. Walk **current working directory** upward for `conf/content_memory_roots.json` or `content_memory_roots.json`.
+5. Walk cwd for **`conf/content_memory_workspace.json`**, then read **`workspace_root`** and load that workspace’s `conf/content_memory_roots.json`.
 
-Lines starting with `#` are ignored by `python-dotenv`.
+There is **no** default hub list in the skill package.
 
-## Load order
+## Schema (`roots[]`)
 
-1. `conf/.secrets` then `conf/.env` (repo root = parent of `skills/`)
-2. `skills/abd-context-to-memory/.env`
-3. Current working directory `.env` (overrides earlier values for the same keys)
+| Field | Required | Meaning |
+|-------|------------|---------|
+| **`path`** | Yes | Absolute path to the **hub root** (local). Set **`CONTENT_MEMORY_ROOT`** to this when running embed/search for that hub. |
+| **`rag_path`** | Yes* | Where the **combined** FAISS index is stored. *Use env overrides if omitted. |
+| **`label`** | No | Short name for docs. |
+| **`junctions_dir`** | No | Local subfolder under `path` for topic junctions (default **`assets`**). |
 
-Repo `conf/` files are loaded with **override enabled** so a correct key in `conf/.secrets` wins over a stale `OPENAI_API_KEY` left in your shell or OS environment. Your project’s cwd `.env` still loads last and can override repo conf for that run.
+## Overrides (single run)
+
+| Env | Effect |
+|-----|--------|
+| **`CONTENT_MEMORY_ROOTS_CONFIG`** | Explicit path to `content_memory_roots.json`. |
+| **`CONTENT_MEMORY_WORKSPACE`** | Workspace directory containing `conf/content_memory_roots.json`. |
+| **`CONTENT_MEMORY_JUNCTIONS_DIR`** | Overrides `junctions_dir` for the current **`CONTENT_MEMORY_ROOT`**. |
+| **`CONTENT_MEMORY_RAG_PATH`** | Overrides aggregate RAG directory. |
+
+**Example workspace:** `C:\dev\abd_content\conf\content_memory_roots.json`

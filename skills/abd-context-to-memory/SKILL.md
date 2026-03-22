@@ -9,7 +9,7 @@ description: >-
 license: MIT
 metadata:
   author: agilebydesign
-  version: "1.2.3"
+  version: "1.2.4"
 ---
 
 # Ace-Context-to-Memory
@@ -24,7 +24,7 @@ Converts source documents to markdown and chunks them for agent memory. Pipeline
 - Has added new files and wants them processed
 - **"Use memory" / semantic retrieval:** User says "use memory", "search memory", "what does memory say about X", "from our content", "from ABD materials", "what do we have on [topic]" — run `search_memory "<query>"` and inject results into your response
 - **Adding content from any folder:** When adding a folder's content to memory, run `link_workspace_source.py --path <folder>` first (on request) if the link does not yet exist
-- **Memory hub junctions (e.g. `abd_content`):** **`index_memory --path "<source folder>"`** writes chunks under **`<source>/memory/`** (or **`…/memory/context/`** when the folder is named `context`). After a successful run it **auto-creates** **`<hub>/<source_folder_name>` → `<absolute path to that source’s memory folder>`** (junction name = last segment of the source path; invalid characters sanitized). Hub root: **`--memory-root`** or **`--junction-workspace`**, else **`ABD_CONTENT_ROOT`**, else cwd. **`--no-junction`** to skip. **No `roots/`** unless explicitly wanted. See **Chunk junctions** below.
+- **Junction-only hubs (generic, reusable):** Configure hubs in **your workspace** (e.g. **`abd_content/conf/content_memory_roots.json`**), not inside the skill repo. Copy **`agilebydesign-skills/conf/content_memory_roots.example.json`** as a template. Each entry needs **`path`** (local hub root) and **`rag_path`** (where the **aggregate** FAISS index lives — usually **not** inside `path`, e.g. SharePoint). Optional **`junctions_dir`** (default **`assets`**) is the **local** subfolder under `path` where topic junctions live — name it anything (`links`, `sources`, …); it is **not** tied to SharePoint’s “Assets” library name. **`index_memory --path "<source folder>"`** writes chunks under **`<source>/memory/`** and auto-creates **`<hub>/<junctions_dir>/<source_folder_name>` → that `memory` folder**. Hub root: **`--memory-root`** / **`--junction-workspace`**, **`ABD_CONTENT_ROOT`**, or cwd. **`--no-junction`** to skip. **`CONTENT_MEMORY_JUNCTIONS_DIR`** overrides `junctions_dir` for one run. Discovery: **`CONTENT_MEMORY_WORKSPACE`**, **`CONTENT_MEMORY_ROOTS_CONFIG`**, walk cwd, or **`conf/content_memory_workspace.json`**. See **`agilebydesign-skills/conf/README.md`**.
 
 ## CRITICAL: Respect User Scope
 
@@ -52,7 +52,7 @@ Use `link_workspace_source.py` to create links before converting.
 
 ## Chunk junctions and optional `roots/` manifest
 
-**Default (e.g. `abd_content`):** After **`index_memory.py --path "<source>"`**, auto-junction is **`<hub>/<source_folder_name>` → `<source>/memory`** (or **`…/memory/context`** for a `context` folder). Hub root: **`--memory-root`** / **`--junction-workspace`**, **`ABD_CONTENT_ROOT`**, or cwd. Disable with **`--no-junction`** or **`SKIP_MEMORY_JUNCTION=1`**. **Legacy** `assets/...` or `chunked_*` layouts exist in `memory_junction.ensure_memory_junction` for manual use only—not the default `index_memory` path. **Do not** use `roots/` unless the user explicitly wants that structure.
+**Default:** After **`index_memory.py --path "<source>"`**, auto-junction is **`<hub>/<junctions_dir>/<source_folder_name>` → `<source>/memory`** (`junctions_dir` from **`content_memory_roots.json`**, default **`assets`**; or **`…/memory/context`** for a `context` folder). Hub root: **`--memory-root`** / **`--junction-workspace`**, **`ABD_CONTENT_ROOT`**, or cwd. Disable with **`--no-junction`** or **`SKIP_MEMORY_JUNCTION=1`**. **Legacy** `chunked_*` layouts exist in `memory_junction.ensure_memory_junction` for manual use only. **Do not** use `roots/` unless the user explicitly wants that structure.
 
 **Optional `roots/` layout:** For workspaces that want a **manifest** (`roots/roots.json`) and `roots/<name>/chunked`, each junction points at the absolute **memory** folder for that tree.
 
@@ -83,10 +83,10 @@ Run scripts from workspace root; use `--workspace <path>` if the working directo
 ## Pipeline Overview
 
 1. **Convert**: Use `markitdown` to convert supported files to markdown. Images extracted and referenced. **SharePoint links**: When source is in OneDrive, SharePoint URLs are auto-injected from `sharepoint_mapping.json` so links work for anyone.
-2. **Chunk**: Split large markdown by slides (decks) or headings (docs). Small files stay as single chunks.
+2. **Chunk**: Split large markdown by slides (decks) or headings (docs). Small files stay as single chunks. Output goes under **`<source>/memory/`**, mirroring subfolders (e.g. `notes/` → `memory/notes/`). **`.md` under `<source>/memory/` is never chunk input** (avoids `memory/memory/` duplication).
 3. **Index chunks**: Build `chunk_index.json` (reverse index: chunk ID → path, heading, size) alongside the chunk folder under `memory/`. Use for evidence lookup (which chunk file/section a passage came from).
 4. **Sync SharePoint URLs**: Replace source paths with SharePoint URLs; fix URL order; add `wdSlideIndex` (pptx) / `page` (pdf) for direct slide/page links. Run automatically in `index_memory --path` pipeline.
-5. **Embed + Index** (RAG): Embed chunks (OpenAI), store embeddings and FAISS index under `memory/rag/` for semantic search.
+5. **Embed + Index** (RAG): Embed chunks (OpenAI), store embeddings and FAISS index for semantic search. **Hub** (aggregate, no `--memory`): set **`rag_path`** per hub in **`conf/content_memory_roots.json`** (required for junction hubs — index usually **off** the clone, e.g. SharePoint **`.rag`**). Fallback: **`<hub>/<junctions_dir>/rag`**. Overrides: **`CONTENT_MEMORY_RAG_PATH`**, **`content_memory_rag_path`** in `skill-config.json`. **Per-topic** (`--memory` / `index_memory --path`): **`memory/rag/`** under that root.
 
 ## Semantic Search (RAG)
 
@@ -119,7 +119,7 @@ Run from workspace root. Scripts in `skills/abd-context-to-memory/scripts/`.
 - `convert_to_markdown.py --memory <source_path>` — folder (all supported files). When source is in OneDrive, SharePoint URLs are auto-injected via `sharepoint_mapping.json`.
 - `chunk_markdown.py --path <source_folder> [--memory <memory_name>]` — reads from source, writes to memory/<name>/
 - `index_chunks.py --context-path <chunk_folder> [--output <path>]` — build chunk_index.json (chunk_id → path, heading). Run after chunk. Writes to `<chunk_folder>/chunk_index.json` by default (under memory).
-- `embed_and_index.py [--memory <memory_name>] [--replace]` — embed chunks from memory/<name>/; writes to memory/rag/ (FAISS + metadata). Called by index_memory.
+- `embed_and_index.py [--memory <memory_name>] [--replace]` — embed chunks; aggregate hub writes to configurable RAG dir (default **`assets/rag/`**) or **`memory/rag/`** (when `--memory` set). Called by index_memory.
 - `sync_sharepoint_urls.py [--memory <memory_name>]` — run after chunk when source has `source/... | https://...`; replaces with SharePoint URL, fixes URL order, adds `wdSlideIndex` (pptx) / `page` (pdf) for direct links
 - `add_sharepoint_mapping.py --prefix "OneDrive - X" --base "<url>"` — add OneDrive→SharePoint mapping. Paste URL from browser; script derives base. Use when convert warns about missing mapping.
 
