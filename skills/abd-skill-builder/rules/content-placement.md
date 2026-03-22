@@ -8,6 +8,6 @@
 | **`content/parts/phases/`** | Phase markdown (e.g. **`scaffold.md`**, **`migrate.md`**) — sequenced work units. |
 | **`content/parts/process.md`** | Process table + pipeline overview; links into **`library/`** and **`phases/`**. |
 | **`rules/`** | Governance rules (this file, scanners binding) — **not** merged as full library bodies unless you explicitly add them to **`build.py`**. |
-| **`docs/`** | **Non-runtime** only: planning deltas (**`standards-delta.md`**), short **stubs** pointing at **`content/parts/library/`** for humans browsing the repo, and copies like **`docs/authoring-checklist.md`** in **other** skills. |
+| **`docs/`** | **Non-runtime** only. In **abd-skill-builder**: **`standards-delta.md`** only. **Authoring checklist** working copies live under **`<skill>/docs/authoring-checklist.md`** in the skill or workspace you edit (scaffold copies from **`library/`**). Merge/delivery lookup: skill **`README.md`**. No duplicate stubs of **`library/`** bodies. |
 
 **Do not** put instruction bodies that **`build.py`** must merge only under **`docs/`** — move them to **`library/`** or **`phases/`** and leave **`docs/`** as index or narrative.

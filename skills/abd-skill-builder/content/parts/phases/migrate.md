@@ -20,8 +20,8 @@ Walk the skill root and note:
 | Area | Look at |
 |------|---------|
 | **Entry** | `SKILL.md` frontmatter, description |
-| **Authoring checklist** | `docs/authoring-checklist.md` — copy from [`../library/authoring-checklist.md`](../library/authoring-checklist.md) in **abd-skill-builder** if missing; check off **`- [ ]` → `- [x]`** as you go (resume from first unchecked) |
-| **docs/ vs parts** | **`docs/`** — non-runtime only (manuals, plans, architecture, authoring checklist). **Mergeable / operation-time** markdown lives under **`content/parts/`** (and **`library/`**, **`rules/`**). If **`docs/`** holds instruction bodies that should merge, **move** them into **`parts/`** and leave **`docs/`** as index or narrative only (see **`skill-repo-standards.md`**) |
+| **Authoring checklist** | In **each skill** (or workspace): **`docs/authoring-checklist.md`** — copy from [`../library/authoring-checklist.md`](../library/authoring-checklist.md) in **abd-skill-builder** if missing; check off **`- [ ]` → `- [x]`** as you go (resume from first unchecked). **abd-skill-builder** does not keep a checklist under its own **`docs/`**. |
+| **docs/ vs parts** | **`docs/`** — non-runtime only (manuals, plans, architecture, optional checklist copies, **`standards-delta.md`** in **abd-skill-builder** only). **Mergeable / operation-time** markdown lives under **`content/parts/`** (and **`library/`**, **`rules/`**). If **`docs/`** holds instruction bodies that should merge, **move** them into **`parts/`** and leave **`docs/`** as index or narrative only (see **`skill-repo-standards.md`**) |
 | **Operator** | `skill-config.json` → `operator.*`, paths on disk |
 | **Delivery** | `delivery.mode`, `AGENTS.md`, `content/built/` if `static_built` |
 | **Content** | `content/parts/process.md`, phase slugs, `build.py` merge order |
@@ -60,7 +60,7 @@ Optional: group by **Operator** vs **content** vs **tests** so fixes can be batc
 Then:
 
 - Apply **only** agreed fixes (edits, new files, `skill-config.json` updates).
-- Re-run **operator** checks (`compileall`, `build.py`, scanners) after substantive changes.
+- Re-run **operator** checks (Python compile check, `build.py`, scanners) after substantive changes.
 - Update the delta report: mark rows **fixed**, **deferred**, or **accepted risk**.
 
 ---

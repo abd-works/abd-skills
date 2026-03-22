@@ -12,13 +12,13 @@
 
 **Normative layout/operator rules** stay in **`skill-repo-standards.md`** and **`skill-standards-section-3.md`** (under **`content/parts/library/`** in **abd-skill-builder**). **How the IDE uses the skill** (AGENTS.md, `process.md`, code vs AI-chat phases, `generate_prompt`): **`process-approach.md`**.
 
-**Runtime vs `docs/`:** All markdown (and other content) that **pertains to how the skill is used at operation time** — merged or injected by **`build.py`**, read as phase bodies, or otherwise part of the **runnable** package — lives under **`content/parts/`** (and **`library/`**, **`rules/`**, etc. per norms). **`docs/`** is **only** for **non-runtime** material: user manuals, plans, architecture, authoring checklists. **Do not** stash mergeable instruction content in **`docs/`**.
+**Runtime vs `docs/`:** All markdown (and other content) that **pertains to how the skill is used at operation time** — merged or injected by **`build.py`**, read as phase bodies, or otherwise part of the **runnable** package — lives under **`content/parts/`** (and **`library/`**, **`rules/`**, etc. per norms). **`docs/`** is **only** for **non-runtime** material: user manuals, plans, architecture, optional authoring-checklist copies, standards deltas. **Do not** stash mergeable instruction content in **`docs/`**. (**abd-skill-builder** itself only keeps **`docs/standards-delta.md`**; copy this checklist to **`<your-skill>/docs/authoring-checklist.md`** when you track work.)
 
 ---
 
 ## Before you start (every session)
 
-- [ ] **Working copy:** This checklist lives at **`docs/authoring-checklist.md`** inside **the skill repo** (not only in `abd-skill-builder`). If you don’t have it yet, **copy** this file there now.
+- [ ] **Working copy:** Copy **`content/parts/library/authoring-checklist.md`** (from **abd-skill-builder**) to **`docs/authoring-checklist.md`** inside **the skill you are building** (under **`active_skill_workspace`** / your project). **abd-skill-builder** does not maintain its own **`docs/authoring-checklist.md`**.
 - [ ] **Resume:** Find the **first unchecked** `- [ ]` below and continue from there.
 - [ ] **Optional:** Note the date and “stopped at §…” in **Gaps / follow-ups** at the bottom when pausing.
 - [ ] **`docs/` vs `content/parts/`:** No **runtime** markdown under **`docs/`** — phases, library bodies, and anything **`build.py`** merges/injects stay in **`parts/`**. **`docs/`** = manuals, architecture, migration notes, **authoring-checklist** only.
@@ -83,7 +83,7 @@ Normative row: **Documentation focus** in **`skill-repo-standards.md`**.
 - [ ] **One** **`build.py`** — no second hidden merge pipeline.
 - [ ] **`process.md`**, **`phases/*.md`**, **`build.py`** updated **together** when adding/changing a phase.
 - [ ] **`content/parts/library/`** chunks added and wired in **`build.py`** where needed.
-- [ ] **Injection map** in **`build.py` docstring** and/or **`docs/delivery.md`** (aligns with §4).
+- [ ] **Injection map** in **`build.py` docstring** and/or skill **`README.md`** (aligns with §4).
 - [ ] **`python scripts/build.py`** run after structural edits; **`AGENTS.md`** / **`content/built/`** committed if **`static_built`**.
 
 **Ask:** “Which files do we **edit** vs **add**? Where is the **ordered phase list** in **`build.py`**?”
@@ -135,7 +135,7 @@ Normative row: **Documentation focus** in **`skill-repo-standards.md`**.
 See **`abd-skill-builder`** [`delivery-modes.md`](content/parts/library/delivery-modes.md) (canonical: `skills/abd-skill-builder/content/parts/library/delivery-modes.md`).
 
 - [ ] **`AGENTS.md`** assembled (both modes).
-- [ ] **Injection / merge map** documented (paths per operation, order, equivalence to static) — **`README`**, **`docs/delivery.md`** (narrative/lookup **only**; sources remain under **`content/parts/`**), **`build.py`**, or manifest — so mode can change later.
+- [ ] **Injection / merge map** documented (paths per operation, order, equivalence to static) — **`README`**, **`build.py`**, or manifest — so mode can change later (narrative-only; sources remain under **`content/parts/`**).
 - [ ] **`delivery.mode`** set: **`static_built`** or **`runtime_injection`**.
 - [ ] If **`static_built`**: **`build.py`** run; **`content/built/`** (and peers) committed; traceable to map.
 - [ ] If **`runtime_injection`**: runtime follows documented map (or deltas documented).
@@ -162,7 +162,7 @@ See **`abd-skill-builder`** [`delivery-modes.md`](content/parts/library/delivery
 - [ ] **`SKILL.md`** + frontmatter.
 - [ ] **`skill-config.json`** paths match disk.
 - [ ] **`python scripts/build.py`** exits **0**.
-- [ ] **`compileall`** on **`operator.compileall_paths`** passes.
+- [ ] **Python compile check** on **`operator.compileall_paths`** passes (Operator uses Python’s **`compileall`** under the hood).
 - [ ] **Scanner** scripts exit **0** (if any).
 
 **Ask:** “Operator green?”
@@ -186,6 +186,6 @@ Use for **resume notes** (date, last § completed, blockers):
 
 ## How to use this file
 
-1. **Copy** into **your skill** as **`docs/authoring-checklist.md`** before deep work.
+1. **Copy** into **your skill** (or workspace) as **`docs/authoring-checklist.md`** before deep work — from **`abd-skill-builder`** **`content/parts/library/authoring-checklist.md`**.
 2. Check **`- [x]`** only when done; **first unchecked** = resume point.
 3. Pull updates from **`abd-skill-builder`** canonical copy when standards change.

@@ -16,4 +16,4 @@ It is the **staged merge** of `content/parts/process.md` and every `content/part
 
 Use **`phases/`** when you need a single self-contained phase context (e.g. EA / injection); use **`agents-staged.md` / `AGENTS.md`** for the full pipeline view.
 
-See [abd-skill-builder/docs/documentation-standards.md](../../../abd-skill-builder/docs/documentation-standards.md) for the agent-facing vs reference split.
+See [abd-skill-builder/content/parts/library/documentation-standards.md](../../../abd-skill-builder/content/parts/library/documentation-standards.md) for the agent-facing vs reference split.

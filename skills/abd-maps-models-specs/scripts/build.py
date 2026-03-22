@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Skill build (see abd-skill-builder/docs/documentation-standards.md):
+Skill build (see abd-skill-builder/content/parts/library/documentation-standards.md):
 
 1. Merge content/parts/process.md + content/parts/phases/*.md → content/built/agents-staged.md
    (staged: link-rewritten; operator preamble removed from merged output; first # in each file

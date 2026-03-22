@@ -25,7 +25,7 @@ Long-lived reference for the skill: **why** (principles), **what order** (execut
 
 Anything that **must** land in **`AGENTS.md`** or other generated agent context is authored under **`content/parts/`** (and, when a skill merges bases + rules + roles, the **staged** output can live under **`content/built/`** before the final file). **`docs/`** is **reference** you open beside the skill—schemas, contracts, long-form narrative—not a substitute for those sources unless the build copies them in.
 
-Construct docs under `docs/` (schemas, artifact contracts, long-lived reference) are **not** duplicates of `content/parts/` for process steps; they **complement** them with one construct per file where useful (per [skill documentation standards](../abd-skill-builder/docs/documentation-standards.md)).
+Construct docs under `docs/` (schemas, artifact contracts, long-lived reference) are **not** duplicates of `content/parts/` for process steps; they **complement** them with one construct per file where useful (per [skill documentation standards](../abd-skill-builder/content/parts/library/documentation-standards.md)).
 
 - **Stage and phase table:** [`../content/parts/process.md`](../content/parts/process.md)
 - **Per-phase steps:** [`../content/parts/phases/`](../content/parts/phases/)

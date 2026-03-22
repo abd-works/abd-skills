@@ -57,7 +57,7 @@ Set **`AGENTIC_SKILL_BUILDER_SLACK_NOTIFY_USER_ID`** in **`conf/.secrets`** to J
 - The same JSON holds **other build-intent fields** (e.g. `target_audience`, `scope_in` / `scope_out`, `pipeline_phases`, …). They are **separate keys** in the file — **not** part of the **`skill_purpose`** string — and they **enrich** the **`strategy`** object that the stub **builder** passes into **`builder_manifest`** for downstream tooling.
 - When someone says **“skill_purpose and related build-intent fields for strategize / delivery graph”**, they mean **this whole JSON** the strategize node loads, with **`skill_purpose`** as the **required headline** field — not that the other fields are *contained in* or *appended to* **`skill_purpose`**.
 
-**Greenfield skills (human + AI):** Use **`../skills/abd-skill-builder/docs/skill-authoring-checklist.md`** — ask / AI-suggest / track checkboxes for rules & scanners, library parts, cross-cutting concepts, **`delivery.mode`**, and operator sign-off.
+**Greenfield skills (human + AI):** Use **`../skills/abd-skill-builder/content/parts/library/authoring-checklist.md`** — copy to **`<your-skill>/docs/authoring-checklist.md`** (or your workspace) when tracking work; ask / AI-suggest / track checkboxes for rules & scanners, library parts, cross-cutting concepts, **`delivery.mode`**, and operator sign-off.
 
 **Operator / Expert:** **`operator.run_operator()`** runs `compileall`, `python scripts/build.py`, then declared scanner scripts. **`expert.run_expert()`** calls OpenAI with **`conf/expert_rubric.yaml`** (skipped or API-safe fallback if no key / auth failure).
 

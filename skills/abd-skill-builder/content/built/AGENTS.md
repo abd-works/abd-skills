@@ -4,22 +4,100 @@
 
 # Process — abd-skill-builder
 
-**Pipeline:** Standards + authoring checklist → **Scaffold or migrate** → Pass Operator
+**In order:** Standards & checklist → **Scaffold or migrate** → **Operator** (automated checks)
 
-| # | Phase | Actor | Ref |
-|---|--------|-------|-----|
-| 1 | Read standards & work **[authoring checklist](library/authoring-checklist.md)** (ask / AI-suggest / track) | Human / AI | [index](library/skill-repo-standards.md), [full §3](library/skill-standards-section-3.md) |
-| 2a | **Scaffold** new skill directory | Code | [scaffold](phases/scaffold.md) |
-| 2b | **Or migrate** existing skill — delta report, user picks fixes | Human / AI | **[migrate to standards](phases/migrate.md)** |
-| 3 | Run Operator (`compileall`, `build.py`, scanners) | Code | (agentic-skill-builder `operator`) |
+## Outcome of this process
 
+You finish with a **skill** where the instructions you give the model **match what the skill actually says**, so work does not drift off-script. **Stages and phases** break the work into clear chunks; **steps** sit in phase files; **checklists** help you pick up after a break or a handoff. **Rules** say what must stay true; **scanners** and the other **automated checks** (Python validity on the paths you configured, **build**, scripts listed in config) **catch** when the **files in the repo** no longer match those rules. *Inputs, scripts, templates, and “done” outputs are spelled out in the **phase tables** below—not in a separate inventory.*
+
+## High-level principles
+
+- **Instructions match the skill:** Build prompts and injected text from what the skill already wrote in **library/**, **phases/**, and **rules/**—not off-the-cuff chat.
+- **Stages, phases, and checklists:** The process **table** is the map; **steps** live inside phase files. **Checklists** (including the authoring checklist) keep long or stop-and-start work ordered so you can resume.
+- **Quality process (rules → scan → assess → fix):** Keep must-holds in **rules/**, and **bring those rules into what the model sees**—prompt or injected sections—so work is **guided**, not guessed. Then **run scans** (small scripts or checklists). Then **check** the result against the rules (by eye or with automation). Then **fix** and **log** corrections so the next pass improves. Before you **commit**, the **Operator** checks still run: **Python files** in the folders listed in `**skill-config.json`** must **compile** (syntax/validity), then `**build.py`**, then **scanners**. *Same idea at full depth (iterate with corrections):* [abd-shaping](../../../../backup/abd-shaping/SKILL.md).
+- **Assemble from parts:** You author a skill as **parts**—process, **library/**, phase files, **rules/**—and **build** stitches them into the **whole** the tools load (**AGENTS.md**, and—when you choose **static** delivery—checked-in slices under **content/built/**). **Dynamic** delivery still uses the same parts; the executor **combines them at run time** instead of reading a pre-merged file. Either way the **parts** are the source of truth; the **whole** must not drift. **Scaffold** (**scaffold_skill.py**) vs **migrate** (**phases/migrate.md**) is only how you **create or fix** the folder; phase order stays in this file’s **#** column and **build.py**’s lists—not in filenames. *Details:* [delivery-modes](library/delivery-modes.md).
+
+## Stage 1 — Plan
+
+### Purpose
+
+Load the **standards in `library/`** and the **authoring checklist** so scaffold/migrate work targets the same rules (§3, operator, `**delivery.mode`**, `**test/**` expectations). If the skill resolves paths outside its install folder, set `**conf/abd-config.json**` → `**active_skill_workspace**` (customer or solution tree).
+
+### What you produce
+
+- Confirmed understanding of **§3** directory rules and **process table** semantics.
+- A tracked checklist (copy `**library/authoring-checklist.md`** to `**<skill>/docs/authoring-checklist.md`** in the skill you are editing) with `**- [ ]` / `- [x]**` progress.
+
+### How you know you succeeded
+
+You can say where the **authoritative** text lives (**library/** vs **docs/**), and you have a **first unchecked** checklist item to pick up next time if work pauses.
+
+
+| #   | Phase                                | Description                                                                                                                               | Actor      | Input                                                                                                                                                                                                                                                                            | Output                                                       | Scripts | Ref                                                                                                                               |
+| --- | ------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------- | ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------ | ------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | Read standards & authoring checklist | You open the index and full §3, then work the checklist (ask / AI-suggest / track). This grounds every later file move in the same norms. | Human / AI | **library/** files: [index](library/skill-repo-standards.md), [§3](library/skill-standards-section-3.md), [checklist](library/authoring-checklist.md); optional copy of checklist under **your skill** **docs/**; **workspace** routing via **conf/abd-config.json** when needed | Updated checklist boxes; clear picture of checks vs delivery | —       | [index](library/skill-repo-standards.md), [§3](library/skill-standards-section-3.md), [checklist](library/authoring-checklist.md) |
+
+
+---
+
+## Stage 2 — Create or fix the skill
+
+### Purpose
+
+Either **emit** a new compliant **skill** (**greenfield**) or **align** an existing one (**migrate**) without silent wholesale rewrites.
+
+### What you produce
+
+- **Greenfield:** New directory with scaffolded `**SKILL.md`**, `**skill-config.json`**, `**conf/**`, `**content/parts/**`, `**scripts/**`, `**rules/**`, `**test/**`.
+- **Migrate:** Delta report (gaps vs standards) and **only** user-approved edits.
+
+### How you know you succeeded
+
+- Greenfield: `**python scripts/build.py`** runs in the new skill; Operator can run against it.
+- Migrate: Delta rows are **fixed**, **deferred**, or **accepted risk** with rationale.
+
+
+| #   | Phase                        | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               | Actor      | Input                                                                  | Output                                                                                                           | Scripts                                                                                     | Ref                            |
+| --- | ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- | ---------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- | ------------------------------ |
+| 2a  | Scaffold new skill directory | You choose a **kebab-case** skill id and run the scaffold. It copies from **templates/** at the skill root (`SKILL.md.template`, `process.md.template`, `child_build.py.template`, …), creates **conf/**, **content/parts/**, **scripts/**, **rules/**, **test/**, and copies **authoring-checklist.md** into the new skill **docs/**. You get a minimal **process.md**; replace or enrich it with the **team process plate** (**content/parts/templates/process-team.md.template**; see **content/parts/templates/README.md**) when you need stages, inputs/outputs, and a full phase table. Then run `**python scripts/build.py`** in the new skill so **AGENTS.md** and **content/built/** (if static) match **content/parts/**. Heavier skills may add **scripts/generate_prompt.py** (optional phase prompt helper). | Code       | `**--name`**, `**--out**` (empty or non-existent path); **templates/** | **New skill** tree; **docs/authoring-checklist.md**; built **AGENTS.md** + **content/built/** after **build.py** | `**python scripts/scaffold_skill.py`**; then `**python scripts/build.py**` in the new skill | [scaffold](phases/scaffold.md) |
+| 2b  | Migrate existing skill       | You inventory the skill on disk (**SKILL.md**, **skill-config.json**, **scripts/build.py**, **content/parts/**), compare to standards, write a **delta** table (e.g. **docs/standards-delta.md** pattern), and fix **only** what the user selects—no silent full rewrites.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | Human / AI | Path to existing skill                                                 | Delta markdown; targeted patches; user-approved edits only                                                       | — (optional helper scripts per skill)                                                       | [migrate](phases/migrate.md)   |
+
+
+---
+
+## Stage 3 — Structural validation (Operator)
+
+### Purpose
+
+Show the **skill** **passes automated checks**: Python files under the configured folders compile (syntax check), **build** finishes, scanners return success. For a minimal valid layout reference, see **agentic-skill-builder**’s **test/fixture/toy-polite-dialogue/** (not a product deliverable).
+
+### What you produce
+
+- Exit code **0** from `**operator.run_operator()`** (or the same steps by hand: **Python compile check** on configured paths, `**python scripts/build.py`**, then **scanners**).
+- **AGENTS.md** and **content/built/AGENTS.md** byte-match when static delivery; both reflect the latest **content/parts/**.
+
+### How you know you succeeded
+
+CI or local check run succeeds; `**skill-config.json`** paths match files on disk.
+
+
+| #   | Phase        | Description                                                                                                                                                                                                                                                                                                                                                                                                                  | Actor | Input                                      | Output                                                                            | Scripts                                                                                                         | Ref                                                                         |
+| --- | ------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- | ------------------------------------------ | --------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
+| 3   | Run Operator | You run the structural gate: **Python compile check** on the paths in **skill-config.json**, then `**python scripts/build.py`**, then each **scanner** listed there (this repo includes `**scripts/scanner_skill_builder_layout.py`** for layout sanity). Fix failures in the source files—not by editing **AGENTS.md** by hand when **build** owns it. The **skill** should match §3; **build** exit **0**; scanners **0**. | Code  | The skill directory; **skill-config.json** | Exit **0**; **AGENTS.md** + **content/built/** consistent with **content/parts/** | **agentic-skill-builder** **operator** (or same steps manually); `**python scripts/build.py`**; listed scanners | [agentic-skill-builder README](../../../../agentic-skill-builder/README.md) |
+
+
+---
+
+## Team process plate (other skills)
+
+To author a **maps-models-specs–style** `**process.md`** (outcome, principles, inputs/outputs, per-stage tables), start from `**content/parts/templates/process-team.md.template`** and `**content/parts/templates/README.md**`.
 ## Library (merged standards)
 
 ### Library: documentation-standards.md
 
 # Skill documentation standards
 
-**Canonical:** `skills/abd-skill-builder/content/parts/library/documentation-standards.md` (merged into **`AGENTS.md`**; **`docs/documentation-standards.md`** is a stub link).
+**Canonical:** `skills/abd-skill-builder/content/parts/library/documentation-standards.md` (merged into **`AGENTS.md`**).
 
 Use these rules when you author or refactor **process**, **phase docs**, optional **`docs/`** reference, staged **`content/built/`** output, and **AGENTS.md** for any Open Agent Skill. They prevent tangled cross-cutting docs and unreadable process prose.
 
@@ -168,7 +246,7 @@ Declare the mode in **`skill-config.json`** so tools, CI, and humans agree:
 2. **In what order** they are merged / concatenated / injected.
 3. **How** that matches the **static** merge (same semantics as **`build.py`**, or **deliberate differences** called out).
 
-Keep this in a **single lookup** place — e.g. **`README`**, **`docs/delivery.md`**, a manifest in **`build.py`**, or a **generated manifest** checked in next to **`built/`** — so someone can **change `delivery.mode` later** without re-deriving paths from scattered files. The only thing that changes is **when** material is materialized (build vs runtime), not **what** the skill is allowed to omit from documentation.
+Keep this in a **single lookup** place — e.g. skill **`README.md`**, a manifest in **`build.py`**, or a **generated manifest** checked in next to **`built/`** — so someone can **change `delivery.mode` later** without re-deriving paths from scattered files. The only thing that changes is **when** material is materialized (build vs runtime), not **what** the skill is allowed to omit from documentation.
 
 ## Mode (a) — `static_built`
 
@@ -204,11 +282,13 @@ Per §3.3, a skill may expose **`--assembly static|dynamic`** (or equivalent) **
 
 ## Who consumes what
 
-| Artifact | Who uses it | How |
-| --- | --- | --- |
-| **`AGENTS.md`** (skill root) | **IDE / assistant** | Loaded **automatically** by many tools as context for the repo. It orients the model: pipeline, links, where `process.md` lives. **No one “opens `built/` by hand” as the primary workflow** — the chat does not browse the tree to find instructions; **you tell it what to do** using **`process.md`** and phase docs. |
-| **`content/parts/process.md`** (or `pieces/process.md` in some skills) | **Human + chat** | **Map of phases**: table rows are **phases**, **Ref** links to phase files. The skill should tell users to **read / `@`-reference** this file to know **how to execute** a given phase (order, actor, script). Example pattern: `@agilebydesign-skills/skills/<skill-id>/content/parts/process.md`. |
-| **Built phase text** (`phases/built/`, `content/built/`, …) | **Build pipeline + optional `generate_prompt`** | **Generated** outputs — **not** “what autonomous agents read first.” They exist so you can **materialize** a full instruction block for an AI phase (static mode) or **diff in git** under `static_built` delivery. |
+
+| Artifact                                                               | Who uses it                                     | How                                                                                                                                                                                                                                                                                                                      |
+| ---------------------------------------------------------------------- | ----------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `**AGENTS.md`** (skill root)                                           | **IDE / assistant**                             | Loaded **automatically** by many tools as context for the repo. It orients the model: pipeline, links, where `process.md` lives. **No one “opens `built/` by hand” as the primary workflow** — the chat does not browse the tree to find instructions; **you tell it what to do** using `**process.md`** and phase docs. |
+| `**content/parts/process.md**` (or `pieces/process.md` in some skills) | **Human + chat**                                | **Map of phases**: table rows are **phases**, **Ref** links to phase files. The skill should tell users to **read / `@`-reference** this file to know **how to execute** a given phase (order, actor, script). Example pattern: `@agilebydesign-skills/skills/<skill-id>/content/parts/process.md`.                      |
+| **Built phase text** (`phases/built/`, `content/built/`, …)            | **Build pipeline + optional `generate_prompt`** | **Generated** outputs — **not** “what autonomous agents read first.” They exist so you can **materialize** a full instruction block for an AI phase (static mode) or **diff in git** under `static_built` delivery.                                                                                                      |
+
 
 ## Phase kinds (two execution styles)
 
@@ -224,31 +304,43 @@ Per §3.3, a skill may expose **`--assembly static|dynamic`** (or equivalent) **
 - **CLI shape (contract):** support a **phase selector**, e.g. `python scripts/generate_prompt.py --phase <phase_slug>` (some teams use `phase:<name>` as a single token; equivalent intent).
 - **Two modes** (both end with “text the user pastes or tool injects into chat”):
 
-| Mode | What it does | When to use |
-| --- | --- | --- |
-| **Dynamic** | Builds one **string** by **collecting every section** required for that phase (source phase markdown, `library/` fragments, applicable `rules/`, manifest order in `skill-config.json` / `build.py`). | Fast iteration; single source of truth; no checked-in blob for that phase. |
-| **Static** | Uses **pre-generated** phase text already written under the skill’s **built tree** (convention: `content/parts/phases/built/<phase_slug>.md` or `phases/built/<phase_slug>.md` — **document the path in the skill**). **Grab the whole file** as the instruction block. | Reproducible snapshots, CI, “exactly what shipped last release.” |
+
+| Mode        | What it does                                                                                                                                                                                                                                                            | When to use                                                                |
+| ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| **Dynamic** | Builds one **string** by **collecting every section** required for that phase (source phase markdown, `library/` fragments, applicable `rules/`, manifest order in `skill-config.json` / `build.py`).                                                                   | Fast iteration; single source of truth; no checked-in blob for that phase. |
+| **Static**  | Uses **pre-generated** phase text already written under the skill’s **built tree** (convention: `content/parts/phases/built/<phase_slug>.md` or `phases/built/<phase_slug>.md` — **document the path in the skill**). **Grab the whole file** as the instruction block. | Reproducible snapshots, CI, “exactly what shipped last release.”           |
+
 
 In **either** mode, the **outcome** is: **the IDE chat has the right block of instructions** to follow for that phase — not “the agent navigates to `built/` like a filesystem API.”
 
 ## What `build.py` is for
 
-- **`scripts/build.py`** merges **process + library + phases (+ rules where applicable)** into **`AGENTS.md`** and any **`content/built/`** slices per **`delivery.mode`**.
-- It is the **authoritative** driver for **this** skill repo. **`generate_prompt`** is **orthogonal**: it answers “what text do I put in chat **for this AI phase**?” while **`build.py`** answers “what ships in **AGENTS.md** / static bundles?”
+- `**scripts/build.py`** merges **process + library + phases (+ rules where applicable)** into `**AGENTS.md`** and any `**content/built/**` slices per `**delivery.mode**`.
+- It is the **authoritative** driver for **this** skill repo. `**generate_prompt`** is **orthogonal**: it answers “what text do I put in chat **for this AI phase**?” while `**build.py`** answers “what ships in **AGENTS.md** / static bundles?”
 
 ## Relation to §3
 
-- **Stages / phases / steps** table semantics: [`skill-standards-section-3.md`](skill-standards-section-3.md).
+- **Stages / phases / steps** table semantics: `[skill-standards-section-3.md](skill-standards-section-3.md)`.
 - **Rule file naming, assembly flags:** same §3 doc.
-- **Delivery modes (`static_built` vs `runtime_injection`):** [`delivery-modes.md`](delivery-modes.md).
+- **Delivery modes (`static_built` vs `runtime_injection`):** `[delivery-modes.md](delivery-modes.md)`.
+
+## Team process plate (rich `process.md`)
+
+For skills that need the same **shape** as **abd-maps-models-specs** — **outcome**, **principles**, **inputs / outputs**, **stages**, and a **wide phase table** (Description, Actor, Input, Output, Scripts) — start from the **team template**:
+
+- **`content/parts/templates/process-team.md.template`** (in **abd-skill-builder**)
+- **`content/parts/templates/README.md`** — how it relates to scaffold’s minimal **`templates/process.md.template`**
+
+Copy the plate into **your** skill as **`content/parts/process.md`**, replace `{{skill_name}}`, add phases and **Ref** links, then run **`python scripts/build.py`**. The **abd-skill-builder** **`process.md`** demonstrates the same structure at production quality.
 
 ## Extending a new skill
 
-1. Add **`content/parts/process.md`** with phase rows and **Ref**s.
+1. Add `**content/parts/process.md`** with phase rows and **Ref**s (or start from **`process-team.md.template`** above).
 2. For each **code phase**, document script + I/O in the phase file.
-3. For each **AI-chat phase**, either wire **`generate_prompt`** (dynamic/static) or document a manual copy-paste path until scripted.
-4. Run **`python scripts/build.py`** so **`AGENTS.md`** stays the IDE-facing bundle.
-5. Keep **`process-approach.md`** behaviors in **`README`** or **`docs/delivery.md`** in one paragraph so consumers know how your skill expects IDE + chat to work.
+3. For each **AI-chat phase**, either wire `**generate_prompt`** (dynamic/static) or document a manual copy-paste path until scripted.
+4. Run `**python scripts/build.py**` so `**AGENTS.md**` stays the IDE-facing bundle.
+5. Keep `**process-approach.md**` behaviors in `**README.md**` in one paragraph so consumers know how your skill expects IDE + chat to work.
+
 
 ### Library: authoring-checklist.md
 
@@ -266,13 +358,13 @@ In **either** mode, the **outcome** is: **the IDE chat has the right block of in
 
 **Normative layout/operator rules** stay in **`skill-repo-standards.md`** and **`skill-standards-section-3.md`** (under **`content/parts/library/`** in **abd-skill-builder**). **How the IDE uses the skill** (AGENTS.md, `process.md`, code vs AI-chat phases, `generate_prompt`): **`process-approach.md`**.
 
-**Runtime vs `docs/`:** All markdown (and other content) that **pertains to how the skill is used at operation time** — merged or injected by **`build.py`**, read as phase bodies, or otherwise part of the **runnable** package — lives under **`content/parts/`** (and **`library/`**, **`rules/`**, etc. per norms). **`docs/`** is **only** for **non-runtime** material: user manuals, plans, architecture, authoring checklists. **Do not** stash mergeable instruction content in **`docs/`**.
+**Runtime vs `docs/`:** All markdown (and other content) that **pertains to how the skill is used at operation time** — merged or injected by **`build.py`**, read as phase bodies, or otherwise part of the **runnable** package — lives under **`content/parts/`** (and **`library/`**, **`rules/`**, etc. per norms). **`docs/`** is **only** for **non-runtime** material: user manuals, plans, architecture, optional authoring-checklist copies, standards deltas. **Do not** stash mergeable instruction content in **`docs/`**. (**abd-skill-builder** itself only keeps **`docs/standards-delta.md`**; copy this checklist to **`<your-skill>/docs/authoring-checklist.md`** when you track work.)
 
 ---
 
 ## Before you start (every session)
 
-- [ ] **Working copy:** This checklist lives at **`docs/authoring-checklist.md`** inside **the skill repo** (not only in `abd-skill-builder`). If you don’t have it yet, **copy** this file there now.
+- [ ] **Working copy:** Copy **`content/parts/library/authoring-checklist.md`** (from **abd-skill-builder**) to **`docs/authoring-checklist.md`** inside **the skill you are building** (under **`active_skill_workspace`** / your project). **abd-skill-builder** does not maintain its own **`docs/authoring-checklist.md`**.
 - [ ] **Resume:** Find the **first unchecked** `- [ ]` below and continue from there.
 - [ ] **Optional:** Note the date and “stopped at §…” in **Gaps / follow-ups** at the bottom when pausing.
 - [ ] **`docs/` vs `content/parts/`:** No **runtime** markdown under **`docs/`** — phases, library bodies, and anything **`build.py`** merges/injects stay in **`parts/`**. **`docs/`** = manuals, architecture, migration notes, **authoring-checklist** only.
@@ -337,7 +429,7 @@ Normative row: **Documentation focus** in **`skill-repo-standards.md`**.
 - [ ] **One** **`build.py`** — no second hidden merge pipeline.
 - [ ] **`process.md`**, **`phases/*.md`**, **`build.py`** updated **together** when adding/changing a phase.
 - [ ] **`content/parts/library/`** chunks added and wired in **`build.py`** where needed.
-- [ ] **Injection map** in **`build.py` docstring** and/or **`docs/delivery.md`** (aligns with §4).
+- [ ] **Injection map** in **`build.py` docstring** and/or skill **`README.md`** (aligns with §4).
 - [ ] **`python scripts/build.py`** run after structural edits; **`AGENTS.md`** / **`content/built/`** committed if **`static_built`**.
 
 **Ask:** “Which files do we **edit** vs **add**? Where is the **ordered phase list** in **`build.py`**?”
@@ -389,7 +481,7 @@ Normative row: **Documentation focus** in **`skill-repo-standards.md`**.
 See **`abd-skill-builder`** [`delivery-modes.md`](content/parts/library/delivery-modes.md) (canonical: `skills/abd-skill-builder/content/parts/library/delivery-modes.md`).
 
 - [ ] **`AGENTS.md`** assembled (both modes).
-- [ ] **Injection / merge map** documented (paths per operation, order, equivalence to static) — **`README`**, **`docs/delivery.md`** (narrative/lookup **only**; sources remain under **`content/parts/`**), **`build.py`**, or manifest — so mode can change later.
+- [ ] **Injection / merge map** documented (paths per operation, order, equivalence to static) — **`README`**, **`build.py`**, or manifest — so mode can change later (narrative-only; sources remain under **`content/parts/`**).
 - [ ] **`delivery.mode`** set: **`static_built`** or **`runtime_injection`**.
 - [ ] If **`static_built`**: **`build.py`** run; **`content/built/`** (and peers) committed; traceable to map.
 - [ ] If **`runtime_injection`**: runtime follows documented map (or deltas documented).
@@ -416,7 +508,7 @@ See **`abd-skill-builder`** [`delivery-modes.md`](content/parts/library/delivery
 - [ ] **`SKILL.md`** + frontmatter.
 - [ ] **`skill-config.json`** paths match disk.
 - [ ] **`python scripts/build.py`** exits **0**.
-- [ ] **`compileall`** on **`operator.compileall_paths`** passes.
+- [ ] **Python compile check** on **`operator.compileall_paths`** passes (Operator uses Python’s **`compileall`** under the hood).
 - [ ] **Scanner** scripts exit **0** (if any).
 
 **Ask:** “Operator green?”
@@ -440,7 +532,7 @@ Use for **resume notes** (date, last § completed, blockers):
 
 ## How to use this file
 
-1. **Copy** into **your skill** as **`docs/authoring-checklist.md`** before deep work.
+1. **Copy** into **your skill** (or workspace) as **`docs/authoring-checklist.md`** before deep work — from **`abd-skill-builder`** **`content/parts/library/authoring-checklist.md`**.
 2. Check **`- [x]`** only when done; **first unchecked** = resume point.
 3. Pull updates from **`abd-skill-builder`** canonical copy when standards change.
 
@@ -454,7 +546,7 @@ Use for **resume notes** (date, last § completed, blockers):
 
 **Builder vs Operator (summary):** [`builder-vs-operator.md`](builder-vs-operator.md) — **scaffold / generation** path vs **`operator.run_operator()`** validation today.
 
-**Authoring checklist (human + AI):** [`authoring-checklist.md`](authoring-checklist.md) — **copy into each skill** as **`docs/authoring-checklist.md`**; work through **`- [ ]` / `- [x]`** items so work can **resume after interruption** (first unchecked box = continue here). Covers scaffold verification, rules/scanners, **library**, **`delivery.mode`**, **`test/`**, operator.
+**Authoring checklist (human + AI):** [`authoring-checklist.md`](authoring-checklist.md) — **copy into the skill or workspace** you are editing as **`docs/authoring-checklist.md`** (not stored in **abd-skill-builder**’s **`docs/`**); work through **`- [ ]` / `- [x]`** items so work can **resume after interruption** (first unchecked box = continue here). Covers scaffold verification, rules/scanners, **library**, **`delivery.mode`**, **`test/`**, operator.
 
 **Migrating an existing skill:** [`../phases/migrate.md`](../phases/migrate.md) — inventory → compare to standards → **delta report** → **user chooses which gaps to fix** (no silent full rewrites).
 
@@ -468,16 +560,16 @@ Use for **resume notes** (date, last § completed, blockers):
 |------|------------|
 | **Entry** | `SKILL.md` at skill root (frontmatter: `name`, `description`). |
 | **Operator config** | `skill-config.json` — `operator.compileall_paths`, `operator.build_script`, `operator.scanners`. |
-| **Agent delivery** | `skill-config.json` — `delivery.mode`: **`static_built`** (pre-generate per-operation slices into **`content/built/`**) or **`runtime_injection`** (resolve the **same** sources at run time). **Only** that choice differs — always document **which paths** feed each operation, **merge order**, and **equivalence** to static output, in a **lookup** place (`README`, **`docs/delivery.md`**, **`build.py`** manifest, or emitted manifest) so the team can switch modes later. **`AGENTS.md`** in **both** modes. See **`abd-skill-builder`** [`delivery-modes.md`](delivery-modes.md) (canonical: **`content/parts/library/delivery-modes.md`**). |
+| **Agent delivery** | `skill-config.json` — `delivery.mode`: **`static_built`** (pre-generate per-operation slices into **`content/built/`**) or **`runtime_injection`** (resolve the **same** sources at run time). **Only** that choice differs — always document **which paths** feed each operation, **merge order**, and **equivalence** to static output, in a **lookup** place (skill **`README.md`**, **`build.py`** manifest, or emitted manifest) so the team can switch modes later. **`AGENTS.md`** in **both** modes. See **`abd-skill-builder`** [`delivery-modes.md`](delivery-modes.md) (canonical: **`content/parts/library/delivery-modes.md`**). |
 | **Authoring prose (normative for writers)** | [`documentation-standards.md`](documentation-standards.md) — voice, where content belongs, process tables; complements **`docs/` vs `content/parts/`** rule. |
 | **Workspace routing** | [`workspace-config.md`](workspace-config.md) — **`skill_path`**, **`skill_workspace`**, **`conf/abd-config.json`** keys. |
 | **Build intent** | `conf/build-strategy.json` — strategize loads this **whole JSON**; **`skill_purpose`** must be non-empty for **`strategy_complete`** (minimum to finish strategize). Other keys are **siblings** that enrich **`strategy`** / **`builder_manifest`** — they are **not** part of the **`skill_purpose`** text. See **`agentic-skill-builder/README.md`** (Strategizer). |
 | **Normative content** | `content/parts/` — process table rows are **phases**; **steps** inside phase files. Phase markdown files use **descriptive slugs** (`terms-mechanisms.md`, …) — **not** `phase-NN-…` or phase numbers in **H1** titles; pipeline order is **only** in `process.md` (# column) + `build.py` merge list (see **`skill-standards-section-3.md`**). |
-| **docs/ (non-runtime only)** | **`docs/`** is for material **not** consumed as merged/injected skill payload at operation time: **user manuals**, **migration/planning notes**, **architecture**, **authoring checklists**, and **narrative** descriptions of delivery (e.g. what **`docs/delivery.md`** explains — the **lookup** still points at real paths under **`content/parts/`**). **Do not** put markdown (or other assets) in **`docs/`** that **`build.py` merges**, **injects**, or **ships** as the runnable instruction body for phases/operations — that belongs under **`content/parts/`** (including **`library/`**, **`phases/`**, **`process.md`**, **`rules/`** as applicable). |
+| **docs/ (non-runtime only)** | **`docs/`** is for material **not** consumed as merged/injected skill payload at operation time: **user manuals**, **migration/planning notes**, **architecture**, optional **authoring-checklist** copies, **standards deltas**. In **abd-skill-builder**, **`docs/`** is only **`standards-delta.md`** — delivery merge order lives in **`README.md`**. **Do not** put markdown (or other assets) in **`docs/`** that **`build.py` merges**, **injects**, or **ships** as the runnable instruction body for phases/operations — that belongs under **`content/parts/`** (including **`library/`**, **`phases/`**, **`process.md`**, **`rules/`** as applicable). |
 | **Library** | `content/parts/library/` — **cross-cutting** material reused across more than one phase: definitions, tables, glossaries, named concepts. The library **is** the home for cross-cutting content; do not maintain a parallel “cross-cutting” layer elsewhere. **`docs/`** may hold a **short index** pointing into **`library/`**; **bodies** live in **`library/`**; merge order lives in **`build.py`**. |
 | **Rules** | `rules/*.md` or `content/parts/rules/*.md`; optional `rules/scanners.json`. |
 | **Scripts** | `scripts/build.py` (**required** — merge/injection driver; scaffold template is minimal; extend with explicit phase order + per-operation bundles as in **`abd-maps-models-specs`** when needed), scanners, optional `_config.py`. See **`authoring-checklist.md`** → *Base scaffold*. |
-| **Tests & fixtures** | **`test/`** — all automated tests for the skill (pytest, smoke scripts, etc.) that exercise **`scripts/`**; optional **`test/fixture/<scenario>/`** for frozen inputs/snapshots; optional **`test/<workspace>/`** dirs when **`conf/abd-config.json`** uses **`active_skill_workspace`** (path relative to skill root). Example: **`abd-maps-models-specs/test/`** — workspace **`test/mm3`**, fixture **`test/fixture/mm3/`**. **`abd-skill-builder`** itself **does include** **`test/`** (see **`test/README.md`** + **`test/fixture/toy-polite-dialogue/`**) even though **pytest `test_*.py` files** are still optional follow-ups — do not read “pytest wiring pending” as “no **`test/`** folder.” **Operator today** only runs **`compileall`** on **`operator.compileall_paths`** (usually **`["scripts"]`**) — it does **not** install or run **pytest**. If automated tests are **in scope**, add the **wiring** below. |
+| **Tests & fixtures** | **`test/`** — all automated tests for the skill (pytest, smoke scripts, etc.) that exercise **`scripts/`**; optional **`test/fixture/<scenario>/`** for frozen inputs/snapshots; optional **`test/<workspace>/`** dirs when **`conf/abd-config.json`** uses **`active_skill_workspace`** (path relative to skill root). Example: **`abd-maps-models-specs/test/`** — workspace **`test/mm3`**, fixture **`test/fixture/mm3/`**. **`abd-skill-builder`** itself **does include** **`test/`** (see **`test/README.md`** + **`test/fixture/toy-polite-dialogue/`**) even though **pytest `test_*.py` files** are still optional follow-ups — do not read “pytest wiring pending” as “no **`test/`** folder.” **Operator today** only runs a **Python compile check** on **`operator.compileall_paths`** (usually **`["scripts"]`**; implemented with **`compileall`**) — it does **not** install or run **pytest**. If automated tests are **in scope**, add the **wiring** below. |
 | **Agent bundle (always)** | `AGENTS.md` — assembled agent bundle (skill-wide “how it works”); typically generated by `build.py`; **not** gated on `delivery.mode`. |
 | **Built slices (operation-time, static mode)** | `content/built/` — pre-merged process + library + rules per skill layout when `delivery.mode` is **`static_built`**. |
 | **Documentation focus (this skill only)** | Process plans, **rules**, and **docs** describe **what this skill does** — in positive, runnable terms for **this** package. **Do not** use them as a running commentary on how this skill **differs** from another skill, or why it **doesn’t** do something “because another skill does.” That is **local context in time**, not part of the durable skill. **Dependencies** (other skills, tools, repos, contracts) are **explicit** — names, links, versions — in a **Dependencies** section, `README`, or build-strategy notes. That is **not** the same as narrating deltas to sibling work. |
@@ -504,7 +596,7 @@ If the skill should run **pytest** (or similar) under **`test/`**, do **not** as
 
 1. `SKILL.md` present.
 2. `skill-config.json` parses; `operator` block consistent with files on disk.
-3. `compileall` passes on declared paths.
+3. Python files on declared paths pass a **compile check** (Operator uses **`compileall`**).
 4. `python scripts/build.py` exits 0.
 5. Each listed **scanner** exits 0.
 6. **`rule_scanner_bindings`**: each `rule` and `scanner` path exists.
@@ -537,7 +629,7 @@ This **`abd-skill-builder`** skill ships **templates + `scaffold_skill.py`** as 
 | **Normative content**           | Under /`content/parts/`                                                                                           | Plans, operations, domain narrative — **not** dumped only in chat.                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
 | `**docs/` (non-runtime)**       | /`docs/` at skill root                                                                                            | **User manuals**, **migration/planning notes**, **architecture**, **authoring checklists**, and **narrative** descriptions of delivery. **Do not** put markdown here that `build.py` **merges**, **injects**, or **ships** as the runnable phase/operation body — that belongs under `**content/parts/`** (including `**library/`**, `**phases/`**, `**process.md**`, `**rules/**`).                                                                                                                                   |
 | **Phase markdown (source)**     | e.g. /`content/parts/phases/<descriptive-slug>.md`, or one doc per phase with step sections — paths vary by skill | **One row in the process table = one phase.** **Steps** (numbered sub-procedures, “Step 1…”, checklists) are written **inside** this markdown as **normative content of the phase**, not as their own table rows. **Do not** encode execution order in filenames or H1 titles (`phase-02-foo.md`, `# Phase 2 — …`): order belongs in `**process.md`** (the `#` column) and in `**scripts/build.py`**’s explicit file list. Use **stable descriptive** kebab-case slugs so renumbering the plan does not force renames. |
-| **Built phase markdown**        | `content/parts/phases/built/<descriptive-slug>.md` and/or `content/built/…` per skill layout | **Generated** from source phase bodies + rules via `scripts/build.py`. **Authors do not hand-edit `built/`.** These files are **materialized instruction blobs** for **static** AI-chat phases and for **`static_built`** delivery — consumed by **`generate_prompt`** (or pasted into chat), **not** by “agents browsing the repo” as the primary UX. IDEs load **`AGENTS.md`**; see [`process-approach.md`](process-approach.md). Folder layout (`phases/built` vs `content/built`) is per skill; document it in **`README`** / **`docs/delivery.md`**.                                                                                                                                                                                                            |
+| **Built phase markdown**        | `content/parts/phases/built/<descriptive-slug>.md` and/or `content/built/…` per skill layout | **Generated** from source phase bodies + rules via `scripts/build.py`. **Authors do not hand-edit `built/`.** These files are **materialized instruction blobs** for **static** AI-chat phases and for **`static_built`** delivery — consumed by **`generate_prompt`** (or pasted into chat), **not** by “agents browsing the repo” as the primary UX. IDEs load **`AGENTS.md`**; see [`process-approach.md`](process-approach.md). Folder layout (`phases/built` vs `content/built`) is per skill; document it in **`README.md`**.                                                                                                                                                                                                            |
 | **Atomic rules**                | `content/parts/rules/*.md` (or top-level `rules/` in simpler skills)                                              | One concern per file where possible; **names** should encode **phase** and/or **domain concept** + rule name (see §3.2).                                                                                                                                                                                                                                                                                                                                                                                               |
 | **Roles**                       | `roles/*-role.md`                                                                                                 | One file per **user/agent role** the skill assumes.                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
 | **Process**                     | `content/parts/process.md` or staged process docs                                                                 | **Summary table: each row is a phase** (linked by **Ref** to phase markdown). Stages group those rows. **Steps** appear only **inside** the linked phase files.                                                                                                                                                                                                                                                                                                                                                        |
@@ -650,7 +742,7 @@ Other skills in the monorepo **illustrate** patterns (long `AGENTS.md`, phased p
 
 **Generation / scaffold (“builder” in the loose sense):** Anything that **emits** a new skill tree — typically **`abd-skill-builder`’s `scripts/scaffold_skill.py`** plus templates — producing `SKILL.md`, `skill-config.json`, phase markdown, `rules/` stubs, `scripts/build.py`, optional scanners. Output should match **§3** layout and avoid embedding customer “gold” solutions in the template.
 
-**Operator (structural gate):** **`agentic-skill-builder`** **`operator.run_operator()`** — validates `skill-config.json`, runs **`compileall`** on **`operator.compileall_paths`**, runs **`operator.build_script`** (typically `python scripts/build.py`), runs **scanners** from **`skill-config.json`**. It does **not** create greenfield skills; that is **`scaffold_skill.py`** and authoring.
+**Operator (structural gate):** **`agentic-skill-builder`** **`operator.run_operator()`** — validates `skill-config.json`, runs a **Python compile check** on the paths in **`operator.compileall_paths`** (the implementation uses Python’s **`compileall`** module), runs **`operator.build_script`** (typically `python scripts/build.py`), runs **scanners** from **`skill-config.json`**. It does **not** create greenfield skills; that is **`scaffold_skill.py`** and authoring.
 
 **This skill’s role:** Ship **standards** under **`content/parts/library/`**, **process + phases**, **`scaffold_skill.py`**, and **templates** so authors get a compliant tree first, then Operator keeps it green.
 
@@ -663,11 +755,11 @@ For an **existing** skill tree (not greenfield), use **[`migrate.md`](migrate.md
 
 ## Steps (greenfield)
 
-1. **Authoring checklist:** Open **[`../library/authoring-checklist.md`](../library/authoring-checklist.md)** (in **abd-skill-builder** or copy into the new skill as `docs/authoring-checklist.md`). Work **A → B → C** (ask questions, AI suggestions, check boxes) for build intent, rules/scanners, library, cross-cutting concepts, **`delivery.mode`**, then operator sign-off.
+1. **Authoring checklist:** Open **[`../library/authoring-checklist.md`](../library/authoring-checklist.md)** (in **abd-skill-builder**; copy into **your new skill** as `docs/authoring-checklist.md` — scaffold does this). Work **A → B → C** (ask questions, AI suggestions, check boxes) for build intent, rules/scanners, library, cross-cutting concepts, **`delivery.mode`**, then operator sign-off.
 2. Choose a **skill id** (directory name; kebab-case recommended).
 3. Run `python scripts/scaffold_skill.py --name <id> --out <parent>/<id>`.
 4. Edit `conf/build-strategy.json` — set **`skill_purpose`** (required for `strategy_complete` in the delivery graph). Add other keys from the template as needed; they are **separate fields**, not part of the **`skill_purpose`** string.
-5. Flesh out `content/parts/process.md` and phase files; add rules and scanners as needed (see checklist §2–5).
+5. Flesh out **`content/parts/process.md`** and phase files. For a **rich** process doc (outcome, principles, inputs/outputs, staged tables like **abd-maps-models-specs**), copy/adapt **`content/parts/templates/process-team.md.template`** (team process plate) from **abd-skill-builder**; see **`library/process-approach.md`** → *Team process plate*. Add rules and scanners as needed (see checklist §2–5).
 6. Add tests under **`test/`** (scaffold emits **`test/README.md`**); put fixtures in **`test/fixture/…`** and any **`active_skill_workspace`** under **`test/<name>/`** per **[`../library/skill-repo-standards.md`](../library/skill-repo-standards.md)**.
 7. Run `python scripts/build.py`, then `agentic-skill-builder run --skill-path <path>` or equivalent Operator checks.
 
@@ -699,8 +791,8 @@ Walk the skill root and note:
 | Area | Look at |
 |------|---------|
 | **Entry** | `SKILL.md` frontmatter, description |
-| **Authoring checklist** | `docs/authoring-checklist.md` — copy from [`../library/authoring-checklist.md`](../library/authoring-checklist.md) in **abd-skill-builder** if missing; check off **`- [ ]` → `- [x]`** as you go (resume from first unchecked) |
-| **docs/ vs parts** | **`docs/`** — non-runtime only (manuals, plans, architecture, authoring checklist). **Mergeable / operation-time** markdown lives under **`content/parts/`** (and **`library/`**, **`rules/`**). If **`docs/`** holds instruction bodies that should merge, **move** them into **`parts/`** and leave **`docs/`** as index or narrative only (see **`skill-repo-standards.md`**) |
+| **Authoring checklist** | In **each skill** (or workspace): **`docs/authoring-checklist.md`** — copy from [`../library/authoring-checklist.md`](../library/authoring-checklist.md) in **abd-skill-builder** if missing; check off **`- [ ]` → `- [x]`** as you go (resume from first unchecked). **abd-skill-builder** does not keep a checklist under its own **`docs/`**. |
+| **docs/ vs parts** | **`docs/`** — non-runtime only (manuals, plans, architecture, optional checklist copies, **`standards-delta.md`** in **abd-skill-builder** only). **Mergeable / operation-time** markdown lives under **`content/parts/`** (and **`library/`**, **`rules/`**). If **`docs/`** holds instruction bodies that should merge, **move** them into **`parts/`** and leave **`docs/`** as index or narrative only (see **`skill-repo-standards.md`**) |
 | **Operator** | `skill-config.json` → `operator.*`, paths on disk |
 | **Delivery** | `delivery.mode`, `AGENTS.md`, `content/built/` if `static_built` |
 | **Content** | `content/parts/process.md`, phase slugs, `build.py` merge order |
@@ -739,7 +831,7 @@ Optional: group by **Operator** vs **content** vs **tests** so fixes can be batc
 Then:
 
 - Apply **only** agreed fixes (edits, new files, `skill-config.json` updates).
-- Re-run **operator** checks (`compileall`, `build.py`, scanners) after substantive changes.
+- Re-run **operator** checks (Python compile check, `build.py`, scanners) after substantive changes.
 - Update the delta report: mark rows **fixed**, **deferred**, or **accepted risk**.
 
 ---

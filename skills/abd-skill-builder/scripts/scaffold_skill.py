@@ -81,10 +81,10 @@ def scaffold(out: Path, *, name: str, description: str, purpose: str) -> None:
     if checklist_src.is_file():
         shutil.copyfile(checklist_src, docs_dir / "authoring-checklist.md")
     else:
-        print("Warning: skill-authoring-checklist.md not found; skip docs/authoring-checklist.md", file=sys.stderr)
+        print("Warning: content/parts/library/authoring-checklist.md not found; skip docs/authoring-checklist.md", file=sys.stderr)
 
     print(f"Scaffolded skill at {out.resolve()}")
-    print("docs/authoring-checklist.md — track progress with - [ ] / - [x]; resume from first unchecked box.")
+    print("docs/authoring-checklist.md in the new skill — track progress with - [ ] / - [x]; resume from first unchecked box.")
     print("conf/abd-config.json must set active_skill_workspace (mandatory). Edit it, then: python scripts/build.py")
 
 

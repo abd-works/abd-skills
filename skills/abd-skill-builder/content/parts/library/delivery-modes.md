@@ -33,7 +33,7 @@ Declare the mode in **`skill-config.json`** so tools, CI, and humans agree:
 2. **In what order** they are merged / concatenated / injected.
 3. **How** that matches the **static** merge (same semantics as **`build.py`**, or **deliberate differences** called out).
 
-Keep this in a **single lookup** place — e.g. **`README`**, **`docs/delivery.md`**, a manifest in **`build.py`**, or a **generated manifest** checked in next to **`built/`** — so someone can **change `delivery.mode` later** without re-deriving paths from scattered files. The only thing that changes is **when** material is materialized (build vs runtime), not **what** the skill is allowed to omit from documentation.
+Keep this in a **single lookup** place — e.g. skill **`README.md`**, a manifest in **`build.py`**, or a **generated manifest** checked in next to **`built/`** — so someone can **change `delivery.mode` later** without re-deriving paths from scattered files. The only thing that changes is **when** material is materialized (build vs runtime), not **what** the skill is allowed to omit from documentation.
 
 ## Mode (a) — `static_built`
 

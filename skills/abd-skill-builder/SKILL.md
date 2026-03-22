@@ -1,6 +1,6 @@
 ---
 name: abd-skill-builder
-description: Portable standards, templates, and scaffold for skills.sh-style packages — aligns with Operator checks (compileall, build.py, scanners) and the layout rules in this skill’s library.
+description: Portable standards, templates, and scaffold for skills.sh-style packages — aligns with Operator checks (Python compile validity, build.py, scanners) and the layout rules in this skill’s library.
 ---
 
 # Abd skill builder (standards + scaffold)
@@ -12,10 +12,10 @@ This skill is the **agent-portable** home for **repository skill standards** and
 | Piece | Role |
 |-------|------|
 | **`agentic-skill-builder`** (Python package) | **Orchestration** (ingest → strategize → … → **operator** → expert). Structural validation is **`operator.run_operator()`** — not the graph’s optional builder stub. |
-| **`operator.run_operator()`** | The **structural gate**: `SKILL.md`, `skill-config.json`, `compileall`, `scripts/build.py`, scanners, optional `rules/scanners.json` bindings. |
+| **`operator.run_operator()`** | The **structural gate**: `SKILL.md`, `skill-config.json`, Python compile check on configured paths, `scripts/build.py`, scanners, optional `rules/scanners.json` bindings. |
 | **This skill (`abd-skill-builder`)** | **Normative docs** under **`content/parts/library/`**, **templates**, and **`scripts/scaffold_skill.py`** so agents/humans can **create a skill from scratch** without hand-copying the toy fixture. |
 
-Use **`content/parts/library/builder-vs-operator.md`** (also stubbed as **`docs/builder-vs-operator.md`**) for **scaffold/generation** vs **Operator validation**.
+Use **`content/parts/library/builder-vs-operator.md`** for **scaffold/generation** vs **Operator validation**.
 
 ## When to use
 
@@ -33,11 +33,12 @@ python scripts/scaffold_skill.py --name my-skill --out /path/to/my-skill
 python scripts/build.py
 ```
 
-- **Delivery / merge order / `content/built/`:** **`docs/delivery.md`**
-- **Full §3 (all tables and subsections):** **`content/parts/library/skill-standards-section-3.md`** — **what** to put where (stages/phases/steps, process tables, optional domain+story-map pattern, rule naming, static vs dynamic assembly). Shortcuts under **`docs/`** point here.
+- **Delivery / merge order / `content/built/`:** **`README.md`** (section *Delivery & merge order*)
+- **Full §3 (all tables and subsections):** **`content/parts/library/skill-standards-section-3.md`** — **what** to put where (stages/phases/steps, process tables, optional domain+story-map pattern, rule naming, static vs dynamic assembly).
 - **Index + Operator checklist:** **`content/parts/library/skill-repo-standards.md`**
-- **Authoring checklist** (human + AI — rules/scanners, library, cross-cutting concepts, delivery mode, `test/` folder, sign-off): **`content/parts/library/authoring-checklist.md`**; working copy **`docs/authoring-checklist.md`** (copy to other skills as **`docs/authoring-checklist.md`**).
+- **Authoring checklist** (human + AI — rules/scanners, library, cross-cutting concepts, delivery mode, `test/` folder, sign-off): **`content/parts/library/authoring-checklist.md`** — copy to **`<skill>/docs/authoring-checklist.md`** in the skill or workspace you are editing (not kept under **`abd-skill-builder/docs/`**).
 - **Migrate existing skill** (delta report → user chooses fixes): **`content/parts/phases/migrate.md`**
+- **Team process plate** (rich **`process.md`** like **abd-maps-models-specs**): **`content/parts/templates/process-team.md.template`** — see **`content/parts/library/process-approach.md`** (*Team process plate*).
 - **Phase markdown files:** use **descriptive kebab-case slugs** (`story-map.md`, `terms-mechanisms.md`) — **not** `phase-00-…` filenames or `# Phase N —` H1 titles. Pipeline order lives in **`process.md`** (# column) and **`build.py`**’s merge list (§3.1 table + naming bullets in **`skill-standards-section-3.md`**).
 
 ## See also

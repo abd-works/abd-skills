@@ -1,0 +1,93 @@
+# Process — {{skill_name}}
+
+**Pipeline (navigation spine):** *Stage 1 short phrase* → *Stage 2* → *Stage 3* (edit to match your skill)
+
+## Outcome of this process
+
+When you finish the pipeline, you will have: *one paragraph — ultimate deliverable(s), operator-green skill, or customer-facing artifact state.*
+
+## High-level principles
+
+- **Linear phases:** One row per **phase** in the master table below; **steps** stay inside each phase’s markdown under **`content/parts/phases/`**.
+- **Normative contracts:** Cross-cutting rules live under **`content/parts/library/`**; the process table **Ref** column links to phase bodies, not duplicated prose.
+- **Code vs AI:** **Code** runs scripts to exit codes and files; **AI / Human** follow phase instructions (see **`library/process-approach.md`** in **abd-skill-builder**).
+- **Delivery:** Declare **`delivery.mode`** in **`skill-config.json`**; run **`python scripts/build.py`** after changing **`content/parts/`** when using **`static_built`**.
+
+## Scripts and templates (this skill)
+
+| Item | Role |
+|------|------|
+| **`scripts/build.py`** | Merges **`process.md`**, **`library/`**, phases, rules (per skill) into **`AGENTS.md`** and optional **`content/built/`**. |
+| **`scripts/generate_prompt.py`** | Optional: emit AI-chat instruction blocks per phase (`--phase <slug>`, dynamic/static). |
+| **`templates/`** (skill root) | Scaffold sources for **`scaffold_skill.py`** — not the same as **`content/parts/templates/`** here. |
+| **`content/parts/templates/process-team.md.template`** (abd-skill-builder) | **Team process plate** to copy when authoring a rich **`process.md`**. |
+
+## Inputs (normative)
+
+| Kind | Default location | Pattern / structure | Required |
+|------|------------------|---------------------|----------|
+| **Skill package** | `<skill_path>/` | `SKILL.md`, `skill-config.json`, `scripts/build.py`, `content/parts/` | Yes |
+| **Workspace root** | `conf/abd-config.json` → **`active_skill_workspace`** | Absolute or relative to skill install | Yes for runs that write outside the skill |
+| **Build intent** | `conf/build-strategy.json` | JSON; **`skill_purpose`** non-empty for strategize complete | Per **agentic-skill-builder** |
+| *Add rows for your corpus, configs, fixtures.* | | | |
+
+## Outputs (normative)
+
+| Artifact | Ultimate state |
+|----------|----------------|
+| **`AGENTS.md`** | Regenerated; reflects current **`process.md`** + library + phases. |
+| **`content/built/`** | If **`static_built`**: pre-merged slices committed or produced in CI. |
+| *Add rows for phase artifacts (JSON, reports, etc.).* | |
+
+---
+
+## Stage 1 — *Title: e.g. Prepare & evidence*
+
+### Purpose
+
+*2–4 sentences: what this stage achieves and what gate it opens.*
+
+### What you produce
+
+- *Bullet list of concrete artifacts or decisions.*
+
+### How you know you succeeded
+
+*Short checklist or measurable criteria.*
+
+| # | Phase | Description | Actor | Input | Output | Scripts | Ref |
+|---|--------|-------------|-------|-------|--------|---------|-----|
+| 0 | *Phase name* | *2–3 sentences max.* | Human / Code / AI | *Paths or preconditions* | *Files or decisions* | *`scripts/...`* | [slug](phases/slug.md) |
+
+---
+
+## Stage 2 — *Title*
+
+### Purpose
+
+*…*
+
+### What you produce
+
+*…*
+
+### How you know you succeeded
+
+*…*
+
+| # | Phase | Description | Actor | Input | Output | Scripts | Ref |
+|---|--------|-------------|-------|-------|--------|---------|-----|
+| 1 | *…* | *…* | *…* | *…* | *…* | *…* | *…* |
+
+---
+
+## Stage 3 — *Title*
+
+*Repeat pattern as needed.*
+
+---
+
+## Relation to `AGENTS.md` and `process-approach.md`
+
+- **`AGENTS.md`** is the IDE-facing bundle; **`process.md`** is the **map** (stages + phase table + Ref).
+- Execution model (IDE, `generate_prompt`, code phases): **`abd-skill-builder`** **`content/parts/library/process-approach.md`**.

@@ -7,7 +7,7 @@ description: Maps, models, and specs pipeline — evidence-first context audit (
 
 Repeatable path from **source markdown** through **evidence**, **vocabulary**, **behavioral stories**, and **sparse domain types**, with explicit promotion gates.
 
-**Normative process:** [`content/parts/process.md`](content/parts/process.md) — one table row per **phase** (0–8); **steps** live in [`content/parts/phases/`](content/parts/phases/). **`python scripts/build.py`** writes [`content/built/agents-staged.md`](content/built/agents-staged.md) (staged merge), then **`AGENTS.md`** (same body + title), and **[`content/built/phases/`](content/built/phases/)** — one **built phase bundle** per phase (operator role + [`rules/*.md`](rules/README.md) filtered by YAML `phase_files` + library excerpts + phase steps). Operator preamble is **omitted** from the merge (it stays in source phase files); see [documentation standards](../abd-skill-builder/docs/documentation-standards.md).
+**Normative process:** [`content/parts/process.md`](content/parts/process.md) — one table row per **phase** (0–8); **steps** live in [`content/parts/phases/`](content/parts/phases/). **`python scripts/build.py`** writes [`content/built/agents-staged.md`](content/built/agents-staged.md) (staged merge), then **`AGENTS.md`** (same body + title), and **[`content/built/phases/`](content/built/phases/)** — one **built phase bundle** per phase (operator role + [`rules/*.md`](rules/README.md) filtered by YAML `phase_files` + library excerpts + phase steps). Operator preamble is **omitted** from the merge (it stays in source phase files); see [documentation standards](../abd-skill-builder/content/parts/library/documentation-standards.md).
 
 ## When to use
 

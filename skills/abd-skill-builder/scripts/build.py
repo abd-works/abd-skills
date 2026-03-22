@@ -2,7 +2,7 @@
 """Merge library + process + phases into AGENTS.md (explicit merge order).
 
 Also writes the same bundle to ``content/built/AGENTS.md`` when ``delivery.mode`` is ``static_built``
-(see ``docs/delivery.md``).
+(merge order and policy: skill root ``README.md`` — Delivery & merge order).
 """
 
 from __future__ import annotations
@@ -36,7 +36,7 @@ This directory holds **pre-merged** agent instructions for **`static_built`** de
 | --- | --- |
 | **`AGENTS.md`** | Byte-for-byte same merge as repo root **`AGENTS.md`** produced by **`scripts/build.py`**. |
 
-Sources and merge order: **`docs/delivery.md`**. Regenerate with:
+Sources and merge order: **`README.md`** (Delivery & merge order). Regenerate with:
 
 ```bash
 python scripts/build.py
