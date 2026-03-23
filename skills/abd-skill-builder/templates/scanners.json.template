@@ -1,6 +1,0 @@
-{
-  "version": 1,
-  "comment": "Add rule_scanner_bindings when you add paired rule + scanner files.",
-  "rule_scanner_bindings": [],
-  "scanners": ["scripts/scanner_smoke.py"]
-}

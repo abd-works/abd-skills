@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Phase 0 — Context readiness audit (see content/parts/process.md and phases/context-readiness.md).
+Phase 0 — Context chunking approach audit (see content/parts/process.md and phases/context-chunking-approach.md).
 
 Canonical source paths and roles come from solution.conf → manifest_sources[] (see conf/README.md).
 Writes metrics + decision gate under output_dir/phase0/.

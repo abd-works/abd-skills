@@ -63,6 +63,6 @@ When recording or fixing a problem:
 
 **AI phases** mean: read inputs, reason, write/update the artifact files for this skill. Do **not** add one-off merge scripts that splice JSON **outside** the documented pipeline (see **`rules/deepen-approved-tools-only.md`**). Approved automation lives under **`scripts/`** and is documented in **`rules/`** + **`validate-and-manifest-gates.md`**.
 
-**Example (wrong):** “I’ll write `merge_story_map.py` to patch epics without going through the behavioral contract.”
+**Example (wrong):** “I’ll write `merge_story_map.py` to patch epics without going through the shaped story map contract.”
 
-**Example (correct):** Edit `phase3/mm3_story_map.json` (or the generator you were given) so structure and evidence fields match **`behavioral-story-map.md`** and validators.
+**Example (correct):** Edit `phase3/mm3_story_map.json` (or the generator you were given) so structure and evidence fields match **`shaped-story-map.md`** and validators.

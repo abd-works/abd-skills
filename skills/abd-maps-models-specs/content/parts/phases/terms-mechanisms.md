@@ -1,19 +1,3 @@
-<!-- operator-role:start -->
-# Solution analyst role
-
-You work as a **solution analyst**: you turn **unstructured context** into **story maps**, **domain models**, and **story specifications**—without losing traceability to the source material. You are fluent in high-end Agile and analysis practices, including:
-
-- Story mapping
-- Object-oriented analysis and design
-- Evolutionary design
-- Acceptance criteria
-- Behavior-driven development
-- Task-driven development
-- Specification by example
-
-In **this** pipeline you still work from a **chunked, indexed corpus** (not a vague pile of notes). You produce vocabulary and mechanisms grounded in evidence, a behavioral story map, a sparse domain model, and integrated deliverables that pass automation. You keep **provenance** honest. You do **not** skip readiness or freeze a context package that downstream phases cannot cite.
-<!-- operator-role:end -->
-
 # Terms & mechanisms (layers A & B)
 
 
@@ -22,7 +6,7 @@ In **this** pipeline you still work from a **chunked, indexed corpus** (not a va
 
 
 
-**Authoritative context:** Phase 2 row in [`content/parts/process.md`](../process.md); this file expands that row.
+**Normative for Phase 2:** this document. [`process.md`](../process.md) is pipeline **summary** only (table row)—not the procedure.
 
 
 
@@ -30,7 +14,7 @@ In **this** pipeline you still work from a **chunked, indexed corpus** (not a va
 
 
 
-**Code** runs `scripts/build_phase2_artifacts.py`. **Human / AI** curate terms and mechanisms.
+**Code** runs `scripts/build_phase2_artifacts.py`, which writes **empty** `terms[]`, `mechanisms[]`, and `candidates[]` JSON files (schema shells only). **Human / AI** author all substantive content and cite evidence per the contract.
 
 
 
@@ -58,6 +42,6 @@ Promotion rule written: **candidate → concept** only through the **domain-type
 
 
 
-**Implementation notes:** [`docs/terms-mechanisms-contract.md`](../../../docs/terms-mechanisms-contract.md) (includes **inputs** and **`chunk_id` citation** rules for Phase 2).
+**Implementation notes:** [`terms-mechanisms-contract.md`](../library/terms-mechanisms-contract.md) (includes **inputs** and **`chunk_id` citation** rules for Phase 2).
 
 

@@ -24,7 +24,7 @@ Each rule file starts with **YAML frontmatter**:
 ---
 rule_id: my-rule-id
 phase_files:
-  - story-map.md
+  - shaped-story-map.md
   - domain-types.md
 ---
 ```
@@ -37,18 +37,18 @@ phase_files:
 ## Relationship to other repos
 
 - **abd-solution-modeler** and similar skills may use **different** phase names and JSON shapes. When a *concept* aligns (e.g. “cite chunks on substantive claims”), we **rewrite** the rule here for **our** artifacts (`mm3_terms_layer.json`, `mm3_story_map.json`, `map-model-spec`, `context_index.json`, …), not copy their prose.
-- **Scanners:** This skill’s **automated** checks live under `scripts/` (`validate_context_contract.py`, `validate_phase3_story_map.py`, `scanners/chunks_must_be_referenced.py`, `scanner_pipeline_outputs.py`, …). Rules describe **operator + AI** obligations; scripts enforce **what is implemented**.
+- **Scanners:** This skill’s **automated** checks live under `scripts/` and `scripts/scanners/` (see **`rules/scanners.json`** for rule ↔ scanner bindings). The **solution analyst** (or automation) runs the list configured under **`skill-config.json`** → `operator.scanners` (same paths as `scanners.json` → `scanners[]`; the JSON key remains `operator.scanners`). Legacy entry points `scripts/validate_context_contract.py` and `scripts/validate_phase3_story_map.py` delegate to the scanners. Rules describe **solution analyst + AI** obligations; scripts enforce **what is implemented**.
 
 ## Index
 
 | Rule file | Phases (bundle filenames) | Intent |
 |-----------|---------------------------|--------|
-| [stage-1-context-decisions.md](stage-1-context-decisions.md) | context-readiness, canonical-context | Readiness audit + frozen context package before vocabulary work |
+| [stage-1-context-decisions.md](stage-1-context-decisions.md) | context-chunking-approach, canonical-context | Readiness audit + Phase 1 context package before vocabulary work |
 | [evidence-citations-required.md](evidence-citations-required.md) | terms-mechanisms → validate-render | Substantive claims cite `chunk_id` / evidence fields |
-| [story-map-before-domain-types.md](story-map-before-domain-types.md) | story-map, domain-types | Behavioral map precedes sparse `concepts[]` |
+| [story-map-before-domain-types.md](story-map-before-domain-types.md) | shaped-story-map, domain-types | Shaped story map precedes sparse `concepts[]` |
 | [variant-decisions-before-deepen.md](variant-decisions-before-deepen.md) | variant-classification, deepen | Variant representation chosen before heavy property work |
-| [behavioral-story-shape.md](behavioral-story-shape.md) | story-map | Actor, anchor, evidence for stories |
-| [naming-module-epic-story.md](naming-module-epic-story.md) | story-map, domain-types, integrate | Verb–noun discipline and alignment |
+| [shaped-story-shape.md](shaped-story-shape.md) | shaped-story-map | Actor, anchor, evidence for stories |
+| [naming-module-epic-story.md](naming-module-epic-story.md) | shaped-story-map, domain-types, integrate | Verb–noun discipline and alignment |
 | [domain-types-and-deepen-quality.md](domain-types-and-deepen-quality.md) | domain-types, variant-classification, deepen | Promotion bar: owns, evidence, not anemic / centralized |
 | [integrate-coherence.md](integrate-coherence.md) | integrate | One coherent map / model / spec |
 | [deepen-approved-tools-only.md](deepen-approved-tools-only.md) | deepen | No ad-hoc merge scripts outside approved workflow |

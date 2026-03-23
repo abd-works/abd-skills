@@ -1,4 +1,4 @@
-"""Scanner for state-logical-domain-level rule. Detects implementation/technical terms in markdown."""
+"""Scanner for domain-logical-domain-level rule. Detects implementation/technical terms in markdown."""
 import re
 from pathlib import Path
 
@@ -35,7 +35,7 @@ TECHNICAL_PATTERNS = [
 class LogicalDomainScanner(BaseScanner):
     """Flags implementation/technical language in interaction tree and state model."""
 
-    rule_id = "state-logical-domain-level"
+    rule_id = "domain-logical-domain-level"
 
     def scan(self, content: str, source_path: str | Path | None = None) -> list[Violation]:
         violations: list[Violation] = []

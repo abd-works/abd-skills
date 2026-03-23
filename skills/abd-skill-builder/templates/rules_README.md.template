@@ -1,5 +1,0 @@
-# Rules
-
-Add atomic markdown rules here (one main concern per file where possible).
-
-Optional: **`scanners.json`** maps rules to **`scripts/`** scanners for the Operator — see **`abd-skill-builder`** `content/parts/library/skill-repo-standards.md`.

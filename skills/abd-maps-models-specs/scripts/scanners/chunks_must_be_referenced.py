@@ -8,7 +8,7 @@ Supports:
 - **MM3 extensions:** `evidence_chunk_ids[]` on concepts; `evidence_chunk_id` on properties/operations
   when `chunk` is absent.
 
-Does not validate IDs against `context_index.json` (use validate_context_contract + manual review);
+Does not validate IDs against `context_index.json` (use `scanners/context_index_contract.py` + manual review);
 this scanner checks *presence* of citations, matching the old pipeline’s role.
 
 Usage:

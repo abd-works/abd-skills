@@ -1,13 +1,10 @@
 # Workspace configuration
 
-## `abd-config.json` (optional for this skill)
+## `abd-config.json`
 
-| Key | Required | Meaning |
-| --- | --- | --- |
-| **`active_skill_workspace`** | For skills that operate on a customer tree | Root of the **skill workspace** (the project where this skill runs). Relative paths resolve from **`skill_path`** (the skill install directory). |
-| **`known_skill_workspaces`** | No | Optional list of other workspace roots. |
+This **is** the file: **[`abd-config.json`](abd-config.json)** at `skills/abd-skill-builder/conf/abd-config.json`. It lists **`active_skill_workspace`** and **`known_skill_workspaces`**. **Set `active_skill_workspace`** to the workspace root (relative paths resolve from **`skill_path`**). Other skills: **create `conf/abd-config.json`** with the **same keys** if you don’t have it yet—use this file as the reference, not a separate “template workflow.”
 
-**This skill** (`abd-skill-builder`) ships a minimal **`abd-config.json`** for template parity and local tests; routing is documented in [`../content/parts/library/workspace-config.md`](../content/parts/library/workspace-config.md).
+See **[`../parts/phases/workspace-and-config.md`](../parts/phases/workspace-and-config.md#skill-path-skill-workspace-and-configuration)** for **`skill_path`**, **`skill_workspace`**, and routing details (**Workspace and config**).
 
 ## Other files here
 

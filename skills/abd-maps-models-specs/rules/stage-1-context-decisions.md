@@ -1,17 +1,15 @@
 ---
 rule_id: stage-1-context-decisions
 phase_files:
-  - context-readiness.md
+  - context-chunking-approach.md
   - canonical-context.md
 ---
 
-## Stage 1 — context readiness and frozen package
+## Stage 1 — source structure (Phase 0) and Phase 1 context package
 
-**Process phases:** Phase **0** (readiness) and Phase **1** (canonical context build) in [`content/parts/process.md`](../content/parts/process.md).
+**Process phases:** Phase **0** (scan Markdown, **chunking rules**) and Phase **1** (build chunks + index) in [`content/parts/process.md`](../content/parts/process.md).
 
-**Readiness is a real decision.** Phase 0 produces metrics, samples, and an honest **adopt / extend-and-freeze / rebuild** position. If the corpus or chunk/index plumbing fails the principles in [`principles-and-rules.md`](../content/parts/library/principles-and-rules.md), you **record that** and fix upstream—not downstream modeling.
-
-**Phase 1 delivers a single enforceable contract.** Chunk files and `context_index.json` (plus manifest and chunking spec) must match [`context-package.md`](../content/parts/library/context-package.md). `validate_context_contract.py` is the **hard gate** when the index exists.
+**Phase 0** is **structural**: understand large sources and **encode `context_chunking_spec`**—not a pass/fail “readiness” gate. **Phase 1** **materializes** the contract: chunk files and `context_index.json` (plus manifest) must match [`context-spec.md`](../content/parts/library/context-spec.md). **`scripts/scanners/context_index_contract.py`** (legacy wrapper: `validate_context_contract.py`) is the **hard gate** when the index exists — see **`rules/scanners.json`**.
 
 **No vocabulary or types here.** Stage 1 does not introduce inheritance, `concepts[]`, or behavioral story text. You only **package and pin** evidence that later stages will cite by stable `chunk_id`.
 
@@ -19,8 +17,8 @@ Older pipelines mixed evidence layout with **map-model-spec** shapes. This skill
 
 **DO**
 
-- Exit Phase 0 with an explicit readiness position and honest gaps.
-- Make Phase 1 outputs consistent enough that **`validate_context_contract.py`** passes when the index is present.
+- Complete Phase 0 **chunking approach** (spec aligned with source structure) before or alongside first Phase 1 build.
+- Make Phase 1 outputs consistent enough that **`context_index_contract.py`** passes when the index is present.
 
 ```json
 {
@@ -34,7 +32,7 @@ Older pipelines mixed evidence layout with **map-model-spec** shapes. This skill
 
 **DON'T**
 
-- Declare Phase 1 “done” while chunk hashes and `context_index.json` disagree, or start **`concepts[]`** / behavioral story work before the index is stable.
+- Declare Phase 1 “done” while chunk hashes and `context_index.json` disagree, or start **`concepts[]`** / shaped story map work before the index is stable.
 
 ```json
 {
@@ -42,4 +40,4 @@ Older pipelines mixed evidence layout with **map-model-spec** shapes. This skill
 }
 ```
 
-Treat as **not ready** for Phase 2 until rebuilt or reconciled.
+Do not start Phase 2 vocabulary work until the index and chunks are **reconciled** and **`context_index_contract.py`** passes.

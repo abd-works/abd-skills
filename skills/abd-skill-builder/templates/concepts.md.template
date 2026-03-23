@@ -1,0 +1,88 @@
+<!--
+  CONCEPTS LIBRARY — copy to parts/library/concepts.md (or domain-concepts.md, etc.)
+  and add the filename to skill-config.json "library_files" + "PHASE_LIBRARY_SLICES"
+  for phases that should see this doc.
+
+  Phase markers (HTML comments, not shown in rendered Markdown):
+    <!-- abd:begin <phase-slug> -->
+    ... only included when assembling that phase ...
+    <!-- abd:end <phase-slug> -->
+
+  <phase-slug> must match a name from "phase_files" (e.g. plan-script-build).
+  Content outside any marker pair is included for every phase that lists this file.
+  generate_prompt / build.py apply filtering automatically when markers are present.
+-->
+
+# Concepts
+
+**Enduring reference** for domain **concepts**, structure, examples, and checks. Link your **`process.md`** pipeline here.
+
+---
+
+## Purpose
+
+**What this document is for** in one short paragraph: the role of the concept model, who consumes it, and how it stays aligned with phases and story/spec work.
+
+---
+
+## High-level content
+
+**Sections and pieces** — bullet list of the major chunks (e.g. modules, concept definitions, relationships, examples). Name only; detail lives below or in phase-scoped blocks.
+
+- …
+- …
+
+---
+
+## Format
+
+**How concepts are written** (headings, tables, property/operation notation, tags). Keep this **stable** so scanners and humans can rely on shape.
+
+- …
+
+---
+
+## Concepts and sections in detail
+
+**Normative rules** for naming, properties, operations, relationships, invariants. Put **cross-phase** rules here (outside markers). Put **phase-evolving** detail in **`abd:begin` / `abd:end`** blocks so each built phase prompt stays small.
+
+### Example: phase-scoped fragments
+
+Replace slugs with names from **your** `phase_files` in `skill-config.json`.
+
+<!-- abd:begin plan-script-build -->
+### Plan-time notes
+
+Concepts you only need while **planning** (inventory, deltas, skill-plan alignment). Omit or shorten once scaffold exists.
+
+<!-- abd:end plan-script-build -->
+
+<!-- abd:begin fill-scaffold-parts -->
+### Fill-time refinement
+
+Extra concept detail added when **filling** library and phases after scaffold.
+
+<!-- abd:end fill-scaffold-parts -->
+
+---
+
+## Examples
+
+**Concrete illustrations** (tables, mini scenarios, before/after). Optional phase markers if examples grow large.
+
+<!-- abd:begin scaffold -->
+### Scaffold example (optional)
+
+Minimal example relevant **during scaffold** only.
+
+<!-- abd:end scaffold -->
+
+---
+
+## Validation checklist
+
+**Before you treat the concept model as “done” for a slice**, confirm:
+
+- [ ] …
+- [ ] …
+- [ ] …

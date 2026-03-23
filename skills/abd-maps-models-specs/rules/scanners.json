@@ -1,0 +1,26 @@
+{
+  "comment": "rule_scanner_bindings ties governance rules to Operator scanners; operator.scanners in skill-config.json is the canonical run list (keep paths aligned).",
+  "rule_scanner_bindings": [
+    {
+      "rule_id": "stage-1-context-decisions",
+      "rule_file": "stage-1-context-decisions.md",
+      "scanner": "scripts/scanners/context_index_contract.py"
+    },
+    {
+      "rule_id": "shaped-story-shape",
+      "rule_file": "shaped-story-shape.md",
+      "scanner": "scripts/scanners/phase3_story_map_evidence.py"
+    },
+    {
+      "rule_id": "evidence-citations-required",
+      "rule_file": "evidence-citations-required.md",
+      "scanner": "scripts/scanners/chunks_must_be_referenced.py"
+    }
+  ],
+  "scanners": [
+    "scripts/scanner_pipeline_outputs.py",
+    "scripts/scanners/chunks_must_be_referenced.py",
+    "scripts/scanners/context_index_contract.py",
+    "scripts/scanners/phase3_story_map_evidence.py"
+  ]
+}

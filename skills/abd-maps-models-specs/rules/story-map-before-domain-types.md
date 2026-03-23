@@ -1,25 +1,25 @@
 ---
 rule_id: story-map-before-domain-types
 phase_files:
-  - story-map.md
+  - shaped-story-map.md
   - domain-types.md
 ---
 
-## Behavioral story map before sparse domain types
+## Shaped story map before sparse domain types
 
-**Process:** Phase **3** (behavioral story map) **before** Phase **4** (`concepts[]` promotion). See [`process.md`](../content/parts/process.md) and [`why-story-mapping-first.md`](../content/parts/library/why-story-mapping-first.md).
+**Process:** Phase **3** (shaped story map) **before** Phase **4** (`concepts[]` promotion). See [`process.md`](../content/parts/process.md) and [`story-map.md`](../content/parts/library/story-map.md#why-story-mapping-before-domain-types) (ordering rationale + interaction tree).
 
 If types land first, stories drift toward **nouns that already exist in `concepts[]`**, and alignment becomes **string-matching**, not **capability**. This pipeline orders **actor → behavior → anchor** in the story map **before** promotion decisions.
 
-At **story-map**, you produce `phase3/mm3_story_map.json` with **behavioral** stories—not a type checklist. See [`behavioral-story-map.md`](../content/parts/library/behavioral-story-map.md).
+At **shaped-story-map** (phase bundle), you produce `phase3/mm3_story_map.json` with **actor–behavior** stories—not a type checklist. See [`shaped-story-map.md`](../content/parts/library/shaped-story-map.md).
 
 At **domain-types**, promotion to `concepts[]` uses **explicit accept/reject** rationale against the **candidate queue** and the story map. You do **not** mint types because a heading matched a string; you mint them where **distinct behavioral contracts** are justified.
 
-Older “step” numbering mixed story and type work. Here, **phase filenames** (`story-map.md` vs `domain-types.md`) are the source of truth—not “step3” labels from another skill.
+Older “step” numbering mixed story and type work. Here, **phase filenames** (`shaped-story-map.md` vs `domain-types.md`) are the source of truth—not “step3” labels from another skill.
 
 **DO**
 
-- Complete `mm3_story_map.json` with actors, behavioral stories, and evidence **before** promoting `concepts[]`.
+- Complete `mm3_story_map.json` with actors, stories, and evidence **before** promoting `concepts[]`.
 
 ```json
 {
@@ -40,4 +40,4 @@ Older “step” numbering mixed story and type work. Here, **phase filenames** 
 }
 ```
 
-Types-first **without** a prior behavioral map—**violation** of this pipeline’s order.
+Types-first **without** a prior shaped story map—**violation** of this pipeline’s order.

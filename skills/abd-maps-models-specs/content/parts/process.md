@@ -1,25 +1,23 @@
 # Process — abd-maps-models-specs
 
-**Pipeline (navigation spine):** Context readiness → Canonical context → Terms & mechanisms → Story map → Domain types → Variants → Deepen → Integrate → Validate & render
-
-## Your role (single source of truth)
-
-The canonical operator narrative lives in **[operator-role.md](operator-role.md)**. The same text is **inserted at the top of every phase file** under `phases/` by `scripts/sync_operator_preamble.py` (between `<!-- operator-role:start -->` and `<!-- operator-role:end -->`). After editing `operator-role.md`, run that script, then `python scripts/build.py` to refresh `content/built/agents-staged.md` and `AGENTS.md`.
+**Pipeline (navigation spine):** Context chunking approach → Canonical context → Terms & mechanisms → Story map → Domain types → Variants → Deepen → Integrate → Validate & render
 
 ---
 
 ## How to use this document
 
-The **tables in each stage** list Phases 0 through 8 at the row level. You will open `[phases/](phases/)` for **step-by-step** instructions for a given phase. If you are reading `AGENTS.md`, the build merges this process section with the full text of every phase file below it.
+**Normative procedure** for each phase lives in **`content/parts/phases/<phase>.md`**. **This file** is a **summary only**: pipeline spine, staged goals, and a **one-row sketch** per phase in the tables—**not** a substitute for the phase document. Open `[phases/](phases/)` for authoritative steps, exit criteria, and artifacts. If you are reading `AGENTS.md`, the build merges this process section with the full text of every phase file below it.
 
-For long-form rules and artifact shapes, you will open **`content/parts/library/`** (normative contracts and narrative the skill injects or merges):
+For long-form rules and artifact shapes, you will open `**content/parts/library/`** (normative contracts and narrative the skill injects or merges):
 
 - [principles-and-rules.md](library/principles-and-rules.md) for principles and cross-cutting rules.
 - [execution-and-success.md](library/execution-and-success.md) for what to run next and what “done” means.
 - [pipeline_invariants.md](library/pipeline_invariants.md) for gates that apply across phases.
-- [context-package.md](library/context-package.md) and [terms-mechanisms-contract.md](library/terms-mechanisms-contract.md) (and the other rows in the documentation library below) when you need **construct-specific** norms.
+- [context-spec.md](library/context-spec.md) and [terms-mechanisms-contract.md](library/terms-mechanisms-contract.md) (and the other rows in the documentation library below) when you need **construct-specific** norms.
 
 You will keep `test/mm3/` as the fixture and output root for generated artifacts under `test/mm3/abd-maps-models-specs/` (see [fixture inventory](library/principles-and-rules.md#fixture-inventory-mm3)).
+
+**Phase tables — Actor column:** Each row names a **single** leading mode: **AI-led** (the agent carries the substantive work; humans review or accept per the phase file) or **Code-led** (scripts, validators, and emitters carry the repeatable steps). Do not read **Actor** as a list of separate roles; detail lives in **Script** and **Summary** and in `phases/<slug>.md`.
 
 ---
 
@@ -27,19 +25,19 @@ You will keep `test/mm3/` as the fixture and output root for generated artifacts
 
 ### Your role
 
-You establish a **defensible evidence base** before you name terms, write behavioral stories, or promote types. Everything you do here answers one question: *Is this corpus good enough, honestly, for the rest of this pipeline?*
+You establish a **defensible evidence base** before you name terms, author the shaped story map, or promote types. Stage 1 is **evidence layout**: **understand** the big Markdown and **encode chunking rules**, then **build** the chunk/index package the pipeline cites.
 
 ### What you must do
 
-- **Phase 0.** You will assess readiness. You must understand how chunks and the index relate, what the corpus contains, and whether metadata supports later decisions (for example, what should **not** be treated as a subtype). You will record a decision to **adopt**, **extend and freeze**, or **rebuild** the package. Details live in [context-readiness](phases/context-readiness.md).
-- **Phase 1.** You will define chunking in `context_chunking_spec.yaml` and produce `chunks/*.md` and `context_index.json` according to [context-package.md](library/context-package.md). You will run the Phase 1 pipeline in the **same** stage as the spec (not as a hidden pre-step). You will keep a manifest with source integrity (for example **sha256**) and generator provenance. Then you will run `validate_context_contract.py` when the index exists so the package is enforceable.
+- **Phase 0.** **§1 — Convert** sources to canonical Markdown where needed (own scripts/tooling). **§2–§4 —** **AI-led** pass over **`manifest_sources`**: draft **`context_chunking_spec`** and disclose assumptions/gaps; **human** secondary review—see [context-chunking-approach](phases/context-chunking-approach.md). This is **design**, not a pass/fail test. Skip a full re-run when the spec already matches current sources.
+- **Phase 1.** **`context_chunking_spec`** is named by **`solution.conf` → `context_chunking_spec`** (workspace-relative; default `context_chunking_spec.yaml`). You **produce** `chunks/*.md` and `context_index.json` per [context-spec.md](library/context-spec.md), keep manifest provenance (**sha256**, generator), and run `scripts/scanners/context_index_contract.py` (same as `validate_context_contract.py`) when the index exists. The spec is **not** shipped by the skill—you own it for your workspace.
 
 You do **not** introduce inheritance or `extends` edges here. You only **package and pin** evidence the later stages will cite by `chunk_id`.
 
 ### What you produce
 
-- A recorded **readiness** position.
-- When you build, a **frozen context package** that downstream work can treat as **the** evidence layer, without ad hoc files or mystery sources.
+- A **chunking spec** (AI draft + human-reviewed) aligned to how the sources are structured, when Phase 0 work is needed.
+- A **Phase 1 context package** (`chunks/*.md` + `context_index.json` + manifest) that downstream work treats as **the** evidence layer, without ad hoc files or mystery sources.
 
 ### How you know you succeeded
 
@@ -47,16 +45,16 @@ Stage 1 is **done for handoff** to Stages 2–4 only when **all** of the followi
 
 1. `**context_index.json`** exists and `**validate_context_contract.py` exits zero** (the context contract defines validity; nothing else counts as “validated”).
 2. **Chunk files** on disk match the index and the chunking spec—no orphan chunks, no missing files for referenced `chunk_id`s.
-3. A **manifest** pins sources and generator provenance (for example **sha256**), per [context-package.md](library/context-package.md).
-4. **Readiness** and **audit** outputs describe the **same** package you are freezing—not an aspiration or an older snapshot.
+3. A **manifest** pins sources and generator provenance (for example **sha256**), per [context-spec.md](library/context-spec.md).
+4. The **chunking spec** and built artifacts refer to the **same** source snapshot (no stale rules against new files).
 
-Until (1)–(4) are true, you **do not** start Stage 2. After they are true, Stages 2 through 4 may cite `chunk_id` without inventing provenance.
+Until (1)–(4) are true, you **do not** start Stage 2. After they are true, Stages 2 through 4 cite `chunk_id` from that Phase 1 context package only—**no** invented provenance.
 
 
-| #   | Phase                     | Actor        | Script                                                                                                                                                                                                                 | Ref                                                                                                     | Outputs (fixture)                                                            | Summary                                                                                                                                                                                                                                                                              |
-| --- | ------------------------- | ------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 0   | Context readiness         | Human + Code | `scripts/phase0_context_audit.py`; `scripts/validate_context_contract.py` (hard gate when `context_index.json` exists)                                                                                                 | [context-readiness](phases/context-readiness.md)                                                        | `phase0/phase0_audit_metrics.json`, finding                                  | You measure whether the corpus and chunk or index plumbing are fit for the rest of the pipeline. You profile what is in the package and record a decision to adopt it, extend and freeze it, or rebuild. The outcome is an evidence-backed readiness position, not a finished model. |
-| 1   | Canonical context (build) | Human + Code | `test/mm3/context_chunking_spec.yaml` (config); `scripts/validate_context_contract.py`; Phase 1 runnable pipeline per `[context-package.md](library/context-package.md)` (e.g. `build_context.py` when implemented) | [canonical-context](phases/canonical-context.md), `[context-package.md](library/context-package.md)` | `context/chunks/*.md` + `context/context_index.json` / frozen **v1** package | You write chunking rules, produce chunk files and a validated index, and pin sources in a manifest so provenance is enforceable. You validate the package when the index exists. The outcome is a frozen context package later work cites by `chunk_id`, without inventing files.    |
+| #   | Phase             | Actor     | Script                                                                                                                                                                                                                    | Ref                                                                                                  | Outputs (fixture)                                                             | Summary                                                                                                                                                                                                                                                                            |
+| --- | ----------------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 0   | Context chunking approach | AI-led | —                                                                                              | [context-chunking-approach](phases/context-chunking-approach.md)                                                     | **`solution.conf`** wired, **`context_chunking_spec`** (reviewed) | Agent reads **`manifest_sources`**, drafts **`context_chunking_spec`**, discloses assumptions/gaps; human configures workspace + reviews spec before Phase 1. Not a pass/fail assessment. Revisit when sources change.                       |
+| 1   | Canonical Context | Code-led | Chunking YAML from **`solution.conf` → `context_chunking_spec`**; Phase 1 emit per [context-spec.md](library/context-spec.md) (e.g. `build_context.py` when implemented); `scripts/scanners/context_index_contract.py` | [canonical-context](phases/canonical-context.md), `[context-spec.md](library/context-spec.md)` | `context/chunks/*.md` + `context/context_index.json` / **v1** context package | Deterministic emit + manifest + contract validation. Outcome: Phase 1 package cited by `chunk_id` downstream. |
 
 
 ---
@@ -65,12 +63,12 @@ Until (1)–(4) are true, you **do not** start Stage 2. After they are true, Sta
 
 ### Your role
 
-You separate **language** and **observable behavior** from **domain types**. You ground terms and mechanisms in the **frozen chunks**. You write a **behavioral** story map (who does what to which state) **before** you lock a sparse type system. Evidence and stories must lead type choices, not the reverse.
+You separate **language** and **observable behavior** from **domain types**. You ground terms and mechanisms in **context chunks** (indexed by `context_index.json`). You write a **shaped** story map (who does what to which state) **before** you lock a sparse type system. Evidence and stories must lead type choices, not the reverse.
 
 ### What you must do
 
-- **Phase 2.** You will consume the frozen index and chunks. You will emit **terms**, **mechanisms**, and a **candidate queue** (possible types with rationale, still not promoted). Automation and optional AI passes must cite `chunk_id` as [terms-mechanisms-contract.md](library/terms-mechanisms-contract.md) requires.
-- **Phase 3.** You will author `mm3_story_map.json` with actor, behavior, anchors, `term_refs`, and `evidence_chunk_ids` where stories are substantive. You will run `validate_phase3_story_map.py`. Details live in [terms-mechanisms](phases/terms-mechanisms.md) and [story-map](phases/story-map.md).
+- **Phase 2.** You will consume `**context_index.json`** and context chunks. You will emit **terms**, **mechanisms**, and a **candidate queue** (possible types with rationale, still not promoted). `**scripts/build_phase2_artifacts.py`** writes **empty** JSON scaffolds (`terms[]`, `mechanisms[]`, `candidates[]`) under `phase2/`; it does **not** read chunks or fill vocabulary. **Authors** (human or AI) edit those files and **must** cite `chunk_id` on substantive rows per [terms-mechanisms-contract.md](library/terms-mechanisms-contract.md).
+- **Phase 3.** You will author `mm3_story_map.json` with trigger/response, anchor, `term_refs`, and `evidence_chunk_ids` where stories are substantive. You will run `scripts/scanners/phase3_story_map_evidence.py` (same as `validate_phase3_story_map.py`). Details live in [terms-mechanisms](phases/terms-mechanisms.md) and [shaped-story-map](phases/shaped-story-map.md).
 
 You do **not** put types in `concepts[]` yet.
 
@@ -85,10 +83,10 @@ You do **not** put types in `concepts[]` yet.
 Your Phase 2 artifacts trace back to `chunk_id`s. Your story map reads as **interaction capability**, not a list aligned to a future type catalog. Substantive stories tie to evidence where it matters. **Promotion** to domain types waits for Stage 3.
 
 
-| #   | Phase                             | Actor      | Script                                 | Ref                                            | Outputs (fixture)                                                                | Summary                                                                                                                                                                                                                                       |
-| --- | --------------------------------- | ---------- | -------------------------------------- | ---------------------------------------------- | -------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 2   | Terms & mechanisms (layers 1 & 2) | Code + AI  | `scripts/build_phase2_artifacts.py`    | [terms-mechanisms](phases/terms-mechanisms.md) | `phase2/mm3_terms_layer.json`, `mm3_mechanisms.json`, `mm3_candidate_queue.json` | You derive terms, mechanisms, and a candidate type queue from the frozen chunks, with mandatory `chunk_id` citations. Automation may assist. The outcome is shared vocabulary and possible types that are still not promoted to `concepts[]`. |
-| 3   | Story map (behavioral)            | Human + AI | `scripts/validate_phase3_story_map.py` | [story-map](phases/story-map.md)               | `phase3/mm3_story_map.json`                                                      | You author a behavioral story map with actors, behaviors, anchors, and evidence links for substantive stories. You validate against the phase rules. The outcome is a JSON map of capabilities and interactions, not a type catalog.          |
+| #   | Phase                             | Actor   | Script                                          | Ref                                            | Outputs (fixture)                                                                | Summary                                                                                                                                                                                                                                                                    |
+| --- | --------------------------------- | ------- | ----------------------------------------------- | ---------------------------------------------- | -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 2   | Terms & mechanisms (layers 1 & 2) | AI-led  | `scripts/build_phase2_artifacts.py`             | [terms-mechanisms](phases/terms-mechanisms.md) | `phase2/mm3_terms_layer.json`, `mm3_mechanisms.json`, `mm3_candidate_queue.json` | `**build_phase2_artifacts.py`** emits **empty** schema shells; agent authors populate terms, mechanisms, and the candidate queue from context chunks with mandatory `chunk_id` citations per the contract. **Nothing** is promoted to `concepts[]` here. |
+| 3   | Shaped story map                  | AI-led  | `scripts/scanners/phase3_story_map_evidence.py` | [shaped-story-map](phases/shaped-story-map.md) | `phase3/mm3_story_map.json`                                                      | Agent authors shaped story map (trigger/response, anchors, evidence links); validator checks phase rules. Outcome: JSON map of capabilities and interactions, not a type catalog.                                            |
 
 
 ---
@@ -103,7 +101,7 @@ You add `concepts[]` only where stories and evidence justify **distinct** behavi
 
 - **Phase 4.** You will run the **promotion gate**: candidate to **concept** with per-type rationale and explicit rejections (for example, “just a property on X”).
 - **Phase 5.** You will write **variant decisions** per family (format is yours to standardize).
-- **Phase 6.** You will attach responsibilities, cross-type dependencies, and evidence to types in scope. Optional AI passes must still respect `chunk_id` discipline.
+- **Phase 6.** You will attach responsibilities, cross-type dependencies, and evidence to types in scope. Every substantive claim you add in AI-assisted passes **must** respect `chunk_id` discipline per the contract.
 
 ### What you produce
 
@@ -116,11 +114,11 @@ You add `concepts[]` only where stories and evidence justify **distinct** behavi
 Your types are explainable at the depth you chose. Variant rules are stable before rework. Every promoted type has evidence. You use `extends` only where real substitution behavior requires it.
 
 
-| #   | Phase                       | Actor      | Script | Ref                                                        | Outputs (fixture)                        | Summary                                                                                                                                                                                                                      |
-| --- | --------------------------- | ---------- | ------ | ---------------------------------------------------------- | ---------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 4   | Domain types (`concepts[]`) | Human + AI | —      | [domain-types](phases/domain-types.md)                     | Sparse types + rationale                 | You promote a minimal set of concepts from the candidate queue with per-type rationale and explicit rejections. The outcome is `concepts[]` only where behavior justifies a distinct contract, not a large upfront ontology. |
-| 5   | Variant classification      | Human + AI | —      | [variant-classification](phases/variant-classification.md) | Written variant decisions per family     | You decide how each variation family is represented before you assign properties broadly. The outcome is written variant decisions per family so structure stays stable through deepen.                                      |
-| 6   | Deepen                      | Human + AI | —      | [deepen](phases/deepen.md)                                 | Responsibilities, evidence, `depends_on` | You attach responsibilities, cross-type dependencies, and evidence to types in scope, still citing chunks where claims matter. The outcome is an arguable model reviewers can trace to the corpus.                           |
+| #   | Phase                       | Actor   | Script | Ref                                                        | Outputs (fixture)                        | Summary                                                                                                                                                                                                                      |
+| --- | --------------------------- | ------- | ------ | ---------------------------------------------------------- | ---------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 4   | Domain types (`concepts[]`) | AI-led  | —      | [domain-types](phases/domain-types.md)                     | Sparse types + rationale                 | Promote a minimal set of concepts from the candidate queue with per-type rationale and explicit rejections. Outcome: `concepts[]` only where behavior justifies a distinct contract, not a large upfront ontology. |
+| 5   | Variant classification      | AI-led  | —      | [variant-classification](phases/variant-classification.md) | Written variant decisions per family     | Decide how each variation family is represented before bulk property assignment. Outcome: written variant decisions per family so structure stays stable through deepen.                                      |
+| 6   | Deepen                      | AI-led  | —      | [deepen](phases/deepen.md)                                 | Responsibilities, evidence, `depends_on` | Attach responsibilities, cross-type dependencies, and evidence to types in scope, citing chunks where claims matter. Outcome: an arguable model traceable to the corpus.                           |
 
 
 ---
@@ -134,7 +132,7 @@ You merge parallel work into **one coherent** map, model, and spec (or a deliber
 ### What you must do
 
 - **Phase 7.** You will integrate synonyms, repoint references, and merge the story map with types and terms. You will **close** or **defer** remaining candidates with rationale.
-- **Phase 8.** You will run **scanners** and schema checks, **render** reports, update `generate_context_bundle_manifest.py`, and optionally run a critic pass against [principles and rules](library/principles-and-rules.md). You will wire **CI** on the MM3 fixture for the scope you care about.
+- **Phase 8.** You will run **scanners** and schema checks, **render** reports, update `generate_context_bundle_manifest.py`, and run a critic pass against [principles and rules](library/principles-and-rules.md) when you add that step to your workflow. You will wire **CI** on the MM3 fixture for the scope you care about.
 
 ### What you produce
 
@@ -144,48 +142,52 @@ You merge parallel work into **one coherent** map, model, and spec (or a deliber
 
 ### How you know you succeeded
 
-Your checks and manifest reproduce for the chosen scope. Your **CI** passes where you wired it. You can **explain** deliverables using provenance, behavioral stories, sparse types, and explicit variants without hand-waving.
+Your checks and manifest reproduce for the chosen scope. Your **CI** passes where you wired it. You can **explain** deliverables using provenance, the shaped story map, sparse types, and explicit variants without hand-waving.
 
 
-| #   | Phase             | Actor      | Script                                                   | Ref                                          | Outputs (fixture)                          | Summary                                                                                                                                                                                                                                  |
-| --- | ----------------- | ---------- | -------------------------------------------------------- | -------------------------------------------- | ------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 7   | Integrate         | Human + AI | —                                                        | [integrate](phases/integrate.md)             | Drained candidate queue → `map-model-spec` | You merge synonyms, align references, and combine story map with types and terms. You close or defer every remaining candidate with rationale. The outcome is one coherent map-model-spec narrative, or a deliberate split you document. |
-| 8   | Validate & render | Code + AI  | scanners, reports, `generate_context_bundle_manifest.py` | [validate-render](phases/validate-render.md) | CI checks, rendered reports, manifest      | You run scanners and schema checks, render reports, refresh the bundle manifest, and optionally wire CI. The outcome is reproducible validation and visible proof of quality for the chosen scope.                                       |
+| #   | Phase             | Actor     | Script                                                   | Ref                                          | Outputs (fixture)                          | Summary                                                                                                                                                                                                                                                                                                                                           |
+| --- | ----------------- | --------- | -------------------------------------------------------- | -------------------------------------------- | ------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 7   | Integrate         | AI-led    | —                                                        | [integrate](phases/integrate.md)             | Drained candidate queue → `map-model-spec` | Merge synonyms, align references, combine story map with types and terms; close or defer every remaining candidate with rationale. Outcome: one coherent map-model-spec narrative, or a documented deliberate split.                                                                                                          |
+| 8   | Validate & render | Code-led  | scanners, reports, `scripts/generate_context_bundle_manifest.py`, `scripts/build.py` | [validate-render](phases/validate-render.md) | CI checks, rendered reports, manifest      | `**build.py`** runs scanners, `**generate_context_bundle_manifest.py`**, and rule-example checks; wire CI in your host when you want automated runs. Outcome: reproducible validation and visible proof of quality for the scope you wire. |
 
 
 **Bundle manifest (cross-phase):** `scripts/generate_context_bundle_manifest.py` records hashes for sources and phase outputs. `scripts/build.py` invokes it.
 
 ### What `build.py` does for you
 
-`build.py` follows the phase order in this file. It does **not** run a separate “pre-pipeline” ahead of Phase 0.
+`build.py` does **not** run a separate “pre-pipeline” ahead of Phase 0. It does **not** generate `chunks/` or `context_index.json`; that is the **Phase 1** pipeline per [context-spec.md](library/context-spec.md).
 
-1. It merges this file and `phases/*.md` into **`content/built/agents-staged.md`**, then writes **`AGENTS.md`** (same body + title). The merge **drops** operator preamble blocks from phases; see [content/built/README.md](../built/README.md).
-2. It runs `phase0_context_audit.py` for Phase 0 readiness metrics. When `context_index.json` exists, it runs `validate_context_contract.py` in the same build. That step is a hard gate on the frozen Phase 1 package.
-3. It runs the **Phase 1** context build when that entry point exists. It may run `validate_context_contract.py` again afterward. Shapes and contracts are defined in [context-package.md](library/context-package.md).
-4. It runs `build_phase2_artifacts.py` after Phase 1 outputs exist and validate.
-5. It runs `validate_phase3_story_map.py` according to [behavioral-story-map.md](library/behavioral-story-map.md).
-6. It runs `generate_context_bundle_manifest.py` to record hashes of frozen inputs.
+`**python scripts/build.py --merge-only`** runs step **1** only (AGENTS + built phase bundles). **Skips** `test/mm3` fixture scripts.
 
-Until the Phase 1 entry point exists, you may produce `chunks/` and `context_index.json` by other means. When those files appear, `validate_context_contract.py` still enforces [context-package.md](library/context-package.md).
+`**python scripts/build.py`** (full pipeline) runs **1** then **2–7** in order:
+
+1. `**MapsContentAssembler`** — merges this file and `phases/*.md` into `**content/built/agents-staged.md`** and `**AGENTS.md**`; writes `**content/parts/phases/built/<slug>.md**` and `**content/built/phases/<slug>.md**`. Strips legacy solution-role markers from phase bodies in the merge. See [content/built/README.md](../built/README.md).
+2. `**scripts/scanners/context_index_contract.py**` — validates `**context_index.json**` when present (same behavior as `validate_context_contract.py`).
+3. `**scripts/build_phase2_artifacts.py**` — writes **empty** `phase2/mm3_terms_layer.json`, `mm3_mechanisms.json`, `mm3_candidate_queue.json` (schema shells only).
+4. `**scripts/scanners/phase3_story_map_evidence.py`** — validates Phase 3 story map JSON (same entry as `validate_phase3_story_map.py`).
+5. `**scripts/scanners/chunks_must_be_referenced.py`** — if `**map-model-spec.json**` exists at the path from `**_config.map_model_spec_path()**`, checks evidence fields cite chunks; if that file is **missing**, prints **skip** and exits **0**.
+6. `**scripts/generate_context_bundle_manifest.py`** — records hashes for sources and phase outputs.
+7. `**scripts/test_rule_examples.py`** — fails the build if any rule under `rules/` is missing `****DO****` / `****DON'T****`.
+
+**Authors** produce `chunks/` and `context_index.json` outside this script (Phase 1). When those files exist, step **2** enforces [context-spec.md](library/context-spec.md).
 
 ---
 
-## Documentation library (`docs/`)
+## Documentation library (`content/parts/library/`)
 
-The `docs/` folder is the reference library for this skill. Normative process lives in this file and in `phases/`. Construct-specific docs describe one artifact or phase. Cross-cutting docs state rules and order without copying every phase. When you change a stage or phase, you update this file and the phase files, and you align `docs/principles-and-rules.md` and `docs/execution-and-success.md`.
+Long-form contracts and narrative live under **`content/parts/library/`**. **`docs/README.md`** is an index that links into that folder (the `docs/` tree does not duplicate those files). Normative process lives in this file and in `phases/`. **Phase-specific narrative** (how to execute that phase end-to-end) belongs in **`phases/<slug>.md`**—e.g. **Phase 0** (AI-led spec + human review) in [`context-chunking-approach.md`](phases/context-chunking-approach.md); **Phase 1** build, coherence, and validation in [`canonical-context.md`](phases/canonical-context.md). **Shared** contracts (referenced by several phases or by validators) stay in the table below. Cross-cutting docs state rules and order without copying every phase. When you change a stage or phase, you update this file and the phase files, and you align [`principles-and-rules.md`](library/principles-and-rules.md) and [`execution-and-success.md`](library/execution-and-success.md).
 
 
-| Document                                                                | Role                                                                                                      |
-| ----------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
+| Document                                                             | Role                                                                                                      |
+| -------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
 | [principles-and-rules.md](library/principles-and-rules.md)           | Principles table, cross-cutting rules, fixture inventory                                                  |
 | [execution-and-success.md](library/execution-and-success.md)         | Execution order (what to do next) + reusable success definition                                           |
-| [context-package.md](library/context-package.md)                     | **Phase 1 only:** `chunks/`, `context_index.json`, manifest, chunking spec, validators, runnable pipeline |
-| [context-corpus.md](library/context-corpus.md)                       | How the chunked corpus fits the pipeline (conceptual + flow)                                              |
+| [context-spec.md](library/context-spec.md)                     | **Contract:** `chunks/`, `context_index.json`, manifest, chunking spec shapes (process: phase files + `phases/canonical-context.md`) |
 | [terms-mechanisms-contract.md](library/terms-mechanisms-contract.md) | Phase 2 artifacts + automation                                                                            |
-| [behavioral-story-map.md](library/behavioral-story-map.md)           | Phase 3 JSON, validation, rationale                                                                       |
+| [shaped-story-map.md](library/shaped-story-map.md)                   | Phase 3 JSON, validation, rationale                                                                       |
 | [pipeline_invariants.md](library/pipeline_invariants.md)             | Cross-cutting gates; layers 1–4; Phases 4–8 artifact summary                                              |
 | [domain-model.md](library/domain-model.md)                           | Modules, concepts, `map-model-spec` scaffold                                                              |
-| [story-map-narrative.md](library/story-map-narrative.md)             | Full interaction-tree story map (prose)                                                                   |
+| [story-map.md](library/story-map.md)                                 | Full interaction-tree story map (prose)                                                                   |
 | [README.md](library/README.md)                                       | Index of this library                                                                                     |
 
 

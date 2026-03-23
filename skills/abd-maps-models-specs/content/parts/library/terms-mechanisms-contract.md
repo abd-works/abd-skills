@@ -22,7 +22,7 @@ Promotion rule is explicit: **candidate → concept** only through the **Phase 4
 
 ## Normative automation (Phase 2)
 
-**Inputs:** Frozen **`context_index.json`** + **`chunks/`** from Phase 1 ([`context-package.md`](context-package.md)).
+**Inputs:** **`context_index.json`** + **`chunks/`** from Phase 1 ([`context-spec.md`](context-spec.md)).
 
 **Implementation expectations:**
 

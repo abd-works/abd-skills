@@ -1,137 +1,16 @@
 #!/usr/bin/env python3
-"""Validate phase3/mm3_story_map.json when present; otherwise no-op pass.
-
-Checks (see content/parts/library/behavioral-story-map.md):
-- Top-level ``epics[]``.
-- Recursive ``sub_epics`` / ``stories`` (story-graph–like nesting).
-- **Substantive** stories: non-empty ``anchor`` or ``actor`` or ``behavior`` require
-  non-empty ``evidence_chunk_ids[]``; each id must appear in ``context_index.json``
-  ``blocks[]`` when the index exists.
-- Stories with ``skip_evidence: true`` (or ``evidence_exempt: true``) skip citation checks.
-"""
+"""Compatibility CLI — delegates to ``scanners/phase3_story_map_evidence.py`` (Operator scanner)."""
 
 from __future__ import annotations
 
-import json
 import sys
-from typing import Iterator
+from pathlib import Path
 
-from _config import CONTEXT_INDEX, PHASE3, SKILL_ROOT
+_SCRIPTS = Path(__file__).resolve().parent
+if str(_SCRIPTS) not in sys.path:
+    sys.path.insert(0, str(_SCRIPTS))
 
-STORY_MAP = PHASE3 / "mm3_story_map.json"
-
-
-def _load_indexed_chunk_ids() -> set[str] | None:
-    if not CONTEXT_INDEX.is_file():
-        return None
-    try:
-        data = json.loads(CONTEXT_INDEX.read_text(encoding="utf-8"))
-    except json.JSONDecodeError:
-        return None
-    blocks = data.get("blocks")
-    if not isinstance(blocks, list):
-        return None
-    out: set[str] = set()
-    for b in blocks:
-        if isinstance(b, dict):
-            cid = b.get("chunk_id") or b.get("block_id")
-            if cid:
-                out.add(str(cid))
-    return out
-
-
-def _is_substantive_story(story: dict) -> bool:
-    if story.get("skip_evidence") or story.get("evidence_exempt"):
-        return False
-    for key in ("anchor", "actor", "behavior"):
-        v = story.get(key)
-        if isinstance(v, str) and v.strip():
-            return True
-    return False
-
-
-def _iter_stories_under_epic(epic: dict) -> Iterator[dict]:
-    for s in epic.get("stories") or []:
-        if isinstance(s, dict):
-            yield s
-    for sg in epic.get("story_groups") or []:
-        if not isinstance(sg, dict):
-            continue
-        for s in sg.get("stories") or []:
-            if isinstance(s, dict):
-                yield s
-    for child in epic.get("sub_epics") or []:
-        if isinstance(child, dict):
-            yield from _iter_stories_under_epic(child)
-
-
-def _iter_all_stories(data: dict) -> Iterator[tuple[str, dict]]:
-    for ei, epic in enumerate(data.get("epics") or []):
-        if not isinstance(epic, dict):
-            continue
-        ename = epic.get("name") or f"epic[{ei}]"
-        for story in _iter_stories_under_epic(epic):
-            yield ename, story
-
-
-def main() -> int:
-    PHASE3.mkdir(parents=True, exist_ok=True)
-    if not STORY_MAP.is_file():
-        print("validate_phase3: no mm3_story_map.json - skip (optional until authored)")
-        return 0
-    try:
-        data = json.loads(STORY_MAP.read_text(encoding="utf-8"))
-    except json.JSONDecodeError as e:
-        print("FAIL: invalid JSON", e, file=sys.stderr)
-        return 1
-    if "epics" not in data:
-        print("FAIL: mm3_story_map.json must have top-level epics[]", file=sys.stderr)
-        return 1
-    if not isinstance(data["epics"], list):
-        print("FAIL: epics must be a list", file=sys.stderr)
-        return 1
-
-    indexed = _load_indexed_chunk_ids()
-    errs: list[str] = []
-
-    for epic_name, story in _iter_all_stories(data):
-        if not _is_substantive_story(story):
-            continue
-        sname = story.get("name") or "<unnamed>"
-        raw = story.get("evidence_chunk_ids")
-        if not isinstance(raw, list) or len(raw) == 0:
-            errs.append(
-                f"story {epic_name!r} / {sname!r}: substantive (anchor/actor/behavior) "
-                "requires non-empty evidence_chunk_ids[]"
-            )
-            continue
-        ids = [str(x).strip() for x in raw if x is not None and str(x).strip()]
-        if not ids:
-            errs.append(
-                f"story {epic_name!r} / {sname!r}: evidence_chunk_ids[] is empty after trim"
-            )
-            continue
-        if indexed is not None:
-            for cid in ids:
-                if cid not in indexed:
-                    errs.append(
-                        f"story {epic_name!r} / {sname!r}: evidence_chunk_id {cid!r} "
-                        "not in context_index.json blocks[]"
-                    )
-
-    if errs:
-        for e in errs:
-            print(f"FAIL: {e}", file=sys.stderr)
-        return 1
-
-    n_stories = sum(1 for _ in _iter_all_stories(data))
-    idx_note = f"indexed_chunks={len(indexed)}" if indexed is not None else "no context_index (ids not resolved)"
-    print(
-        f"OK: {STORY_MAP.relative_to(SKILL_ROOT)} epics={len(data['epics'])} "
-        f"stories_visited={n_stories} {idx_note}"
-    )
-    return 0
-
+from scanners.phase3_story_map_evidence import main
 
 if __name__ == "__main__":
     raise SystemExit(main())

@@ -1,7 +1,0 @@
-# Built phase markdown (AI-chat phases)
-
-Files in this folder are **generated** — do not edit by hand. Add a step in **`scripts/build.py`** to emit `content/parts/phases/built/<phase>.md` when you need **static** prompt text for:
-
-`python scripts/generate_prompt.py --phase <phase> --mode static`
-
-Normative background: **abd-skill-builder** library **`process-approach.md`** (in the monorepo’s `abd-skill-builder` skill).

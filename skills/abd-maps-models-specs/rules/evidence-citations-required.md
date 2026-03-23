@@ -2,7 +2,7 @@
 rule_id: evidence-citations-required
 phase_files:
   - terms-mechanisms.md
-  - story-map.md
+  - shaped-story-map.md
   - domain-types.md
   - variant-classification.md
   - deepen.md
@@ -12,11 +12,11 @@ phase_files:
 
 ## Evidence claims must cite the corpus
 
-**Applies from Phase 2 onward** (after Stage 1 freezes chunks + index). Phases **2–8** in the process table.
+**Applies from Phase 2 onward** (after Phase 1 has validated **`context_index.json`** and context chunks). Phases **2–8** in the process table.
 
 **Where** something is anchored (Phase 1 `chunk_id` / block IDs) and **what** it becomes in later layers (term, mechanism, story, promoted concept, …) are **different moves**. This rule covers the **“where”**: any field that asserts substance about the source must remain traceable.
 
-Use the shapes in [`terms-mechanisms-contract.md`](../content/parts/library/terms-mechanisms-contract.md), [`behavioral-story-map.md`](../content/parts/library/behavioral-story-map.md), and [`domain-model.md`](../content/parts/library/domain-model.md)—not legacy JSON field names from other repos unless this skill’s output **actually** uses them.
+Use the shapes in [`terms-mechanisms-contract.md`](../content/parts/library/terms-mechanisms-contract.md), [`shaped-story-map.md`](../content/parts/library/shaped-story-map.md), and [`domain-model.md`](../content/parts/library/domain-model.md)—not legacy JSON field names from other repos unless this skill’s output **actually** uses them.
 
 **Automation:** `scripts/validate_phase3_story_map.py` (Phase 3); `scripts/scanners/chunks_must_be_referenced.py` when `maps-models-specs/map-model-spec.json` exists (skips if absent). Scanners catch misses; this rule states what “good” looks like for authoring.
 
@@ -45,4 +45,4 @@ Use the shapes in [`terms-mechanisms-contract.md`](../content/parts/library/term
 }
 ```
 
-Missing `chunk_id` on a substantive term—violation once Stage 1 is frozen.
+Missing `chunk_id` on a substantive term—violation once Phase 1 validates.

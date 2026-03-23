@@ -1,0 +1,57 @@
+ njh openslko
+ an — {{skill_title}}
+
+Fill this during **Stage 1 — Plan** (see **abd-skill-builder** `parts/process.md`). It lives under the **skill workspace** at **`docs/skill-plan.md`**. The **Authoring checklist** is a section of this file (not a second document). Replace placeholders; delete sections that do not apply.
+
+## Action checklist
+
+- [ ] **Delivery mode** chosen and recorded below (see `skill-config.json` → `delivery.mode`).
+- [ ] **Stages / phases** sketched (table or bullets); align with `content/parts/process.md` when it exists.
+- [ ] **Rules** and **scanners** listed or explicitly “none yet.”
+- [ ] **Library** components (which `library/` files or patterns the skill will inject / reference).
+- [ ] **Actor / role** (human vs AI vs mixed) for running the skill.
+- [ ] **Operator** chain understood: compile → `build.py` → scanners — what each protects.
+- [ ] **Workspace:** `conf/abd-config.json` → **`active_skill_workspace`** set accurately (scaffold fills this from **abd-skill-builder** `templates/abd-config.json.template`; relative paths resolve from **skill install**—see **Plan Script Build** → **Skill path, skill workspace, and configuration** in **`parts/phases/plan-script-build.md`**).
+- [ ] **Rules, scans, delivery:** how `rules/`, scanners, **AGENTS.md**, and **content/built/** stay aligned (static vs dynamic).
+
+## Delivery mode
+
+- **Choice:** `static_built` | `runtime_injection` (circle one; match `skill-config.json`).
+- **Rationale:**
+
+## Suggested stages and phases
+
+| # | Stage / phase | Purpose (one line) |
+| --- | --- | --- |
+| 1 | | |
+| 2 | | |
+
+## Suggested rules and scanners
+
+| Path | Role |
+| --- | --- |
+| `rules/…` | |
+| `scripts/…` (scanner) | |
+
+*If none yet, write “none — add in Stage 2.”*
+
+## Suggested library components
+
+- *Which norms or reusable text from **library/** (or skill-specific library) will the model see?*
+
+## Actor / role when using the skill
+
+- *Who runs phases (human, AI, tool); what the skill optimizes for.*
+
+## Operator, workspace, and delivery artifacts
+
+- **Static vs dynamic:** *How parts merge into **AGENTS.md** / **content/built/** vs runtime injection.*
+- **Operator chain:** Python compile (configured paths) → **`python scripts/build.py`** → scanners in **`skill-config.json`** — *what drift this catches.*
+- **`active_skill_workspace`:** *Same field as in **`conf/abd-config.json`** (scaffold seeds from **abd-skill-builder** `templates/abd-config.json.template`). Absolute path to **`skill_workspace`** preferred; **`.`** only if the skill install folder is the workspace.*
+- **Fit together:** *How **rules/**, scans, and built outputs must not contradict each other.*
+
+## Authoring checklist
+
+*Normative checkbox text is maintained in **abd-skill-builder** `library/authoring-checklist.md` (merged into **AGENTS.md**). **Scaffold** replaces the placeholder below with that body. If you still see **`{{authoring_checklist_body}}`**, paste the library file here (drop the first `#` title line) and merge updates when standards change.*
+
+{{authoring_checklist_body}}

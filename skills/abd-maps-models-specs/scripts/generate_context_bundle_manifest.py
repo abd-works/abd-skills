@@ -11,7 +11,6 @@ from pathlib import Path
 from _config import (
     CONTEXT_INDEX,
     OUT_ROOT,
-    PHASE0,
     PHASE2,
     SKILL_ROOT,
     resolved_manifest_sources,
@@ -39,7 +38,6 @@ def main() -> None:
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "sources": sources,
         "outputs": {
-            "phase0_audit_metrics.json": _hash_file(PHASE0 / "phase0_audit_metrics.json"),
             "mm3_terms_layer.json": _hash_file(PHASE2 / "mm3_terms_layer.json"),
             "mm3_mechanisms.json": _hash_file(PHASE2 / "mm3_mechanisms.json"),
             "mm3_candidate_queue.json": _hash_file(PHASE2 / "mm3_candidate_queue.json"),

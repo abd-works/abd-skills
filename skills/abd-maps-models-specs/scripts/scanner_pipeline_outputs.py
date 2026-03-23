@@ -1,15 +1,14 @@
 #!/usr/bin/env python3
-"""Operator scanner: Phase 0 audit exists; Phase 2 artifacts exist."""
+"""Operator scanner: Phase 2 artifacts exist."""
 
 from __future__ import annotations
 
 import sys
 from pathlib import Path
 
-from _config import PHASE0, PHASE2
+from _config import PHASE2
 
 REQUIRED = [
-    PHASE0 / "phase0_audit_metrics.json",
     PHASE2 / "mm3_terms_layer.json",
     PHASE2 / "mm3_mechanisms.json",
     PHASE2 / "mm3_candidate_queue.json",

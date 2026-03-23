@@ -5,7 +5,7 @@
    then skill_space_path (deprecated aliases).
 2. <skill_workspace>/solution.conf → output_dir, context_path, manifest_sources[], context_chunking_spec, …
 
-Paths in solution.conf are relative to the skill workspace root. See abd-skill-builder/content/parts/library/workspace-config.md.
+Paths in solution.conf are relative to the skill workspace root. See abd-skill-builder/parts/phases/plan-script-build.md (Skill path, skill workspace, and configuration).
 """
 from __future__ import annotations
 

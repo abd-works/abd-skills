@@ -1,4 +1,7 @@
 {
+  "skills": ["."],
+  "skills_config": { "order": ["."] },
   "active_skill_workspace": ".",
-  "known_skill_workspaces": []
+  "known_skill_workspaces": [],
+  "context_paths": []
 }

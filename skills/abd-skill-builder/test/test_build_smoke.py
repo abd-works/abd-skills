@@ -32,6 +32,19 @@ def test_root_and_built_agents_match() -> None:
     assert root_agents.startswith("# AGENTS — abd-skill-builder")
 
 
+def test_agents_includes_each_built_phase_body() -> None:
+    """AGENTS.md must embed the same assembly as ``phases/built/<slug>.md`` (real-time pipeline)."""
+    subprocess.run(
+        [sys.executable, str(ROOT / "scripts" / "build.py")],
+        cwd=ROOT,
+        check=True,
+    )
+    agents = (ROOT / "AGENTS.md").read_text(encoding="utf-8")
+    for slug in ("workspace-and-config", "scaffold", "fill-scaffold-parts"):
+        built = (ROOT / "parts" / "phases" / "built" / f"{slug}.md").read_text(encoding="utf-8")
+        assert built in agents, f"missing phases/built/{slug}.md body in AGENTS.md"
+
+
 def test_content_built_readme_exists_after_build() -> None:
     subprocess.run(
         [sys.executable, str(ROOT / "scripts" / "build.py")],

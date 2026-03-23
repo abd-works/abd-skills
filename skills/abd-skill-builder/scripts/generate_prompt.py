@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""Emit instruction text for an AI-chat phase (abd-skill-builder contract).
+"""Emit instruction text for a phase or operation slug (abd-skill-builder contract).
 
-This repo's phases live under content/parts/phases/ (scaffold, migrate). There is
-no phases/built/ here unless you add a build step — use --mode dynamic.
+Resolves the same slug namespace as ``skill-config.json`` ``phase_files`` and ``operation_sections``.
+``--mode static`` reads ``parts/phases/built/<slug>.md`` when present; otherwise assembles from sources.
 
-See content/parts/library/process-approach.md
+See parts/library/process-approach.md
 """
 
 from __future__ import annotations
@@ -13,27 +13,11 @@ import argparse
 import sys
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[1]
-PARTS = ROOT / "content" / "parts"
-PHASES = PARTS / "phases"
-BUILT = PHASES / "built"
+_SCRIPTS = Path(__file__).resolve().parent
+if str(_SCRIPTS) not in sys.path:
+    sys.path.insert(0, str(_SCRIPTS))
 
-
-def load_static(phase: str) -> str:
-    path = BUILT / f"{phase}.md"
-    if not path.is_file():
-        raise FileNotFoundError(
-            f"Missing built phase: {path.relative_to(ROOT)} — run a build step that writes "
-            "phases/built, or use --mode dynamic."
-        )
-    return path.read_text(encoding="utf-8")
-
-
-def load_dynamic(phase: str) -> str:
-    path = PHASES / f"{phase}.md"
-    if not path.is_file():
-        raise FileNotFoundError(f"Missing phase source: {path.relative_to(ROOT)}")
-    return path.read_text(encoding="utf-8")
+from engine import AgileContextEngine
 
 
 def main() -> int:
@@ -43,19 +27,26 @@ def main() -> int:
         except Exception:
             pass
     p = argparse.ArgumentParser(
-        description="Generate prompt instructions for an AI-chat phase (see library/process-approach.md)."
+        description="Generate prompt instructions for a phase or operation slug (see library/process-approach.md)."
     )
-    p.add_argument("--phase", required=True, help="Phase slug (filename without .md)")
+    p.add_argument(
+        "--phase",
+        required=True,
+        dest="slug",
+        help="Phase or operation slug (filename without .md for phases; operation name from skill-config)",
+    )
     p.add_argument(
         "--mode",
         choices=("static", "dynamic"),
         default="dynamic",
-        help="static = read phases/built/<phase>.md; dynamic = read phases/<phase>.md",
+        help="static = use phases/built/<slug>.md when present; else assemble from sources. dynamic = always assemble.",
     )
     ns = p.parse_args()
     try:
-        text = load_static(ns.phase) if ns.mode == "static" else load_dynamic(ns.phase)
-    except FileNotFoundError as e:
+        engine = AgileContextEngine().load()
+        form = "static" if ns.mode == "static" else "dynamic"
+        text = engine.prompt(ns.slug, form=form)
+    except (FileNotFoundError, KeyError, RuntimeError) as e:
         print(e, file=sys.stderr)
         return 1
     sys.stdout.write(text)

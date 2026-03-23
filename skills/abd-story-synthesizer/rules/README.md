@@ -1,56 +1,82 @@
-# Rules
+# Rules (`rules/`)
 
-Discovery, identification, and validation rules for the story synthesizer. Rules are Markdown files with YAML frontmatter.
+Governance rules for the story synthesizer: **DO** / **DO NOT** pairs, optional **scanner** hooks, and **operation-scoped injection** into prompts.
 
-**Rule format:** Each rule has a **DO** with example and a **DO NOT** with example.
+## Canonical frontmatter (new format)
 
-## Tag format (required)
-
-Each rule **must** have YAML frontmatter with `tags`:
+Every rule file **`*.md`** except this README uses **YAML frontmatter** followed by markdown body. **`scripts/instructions.py`** strips frontmatter when merging rules into **`story_synthesizer.validation.rules`**.
 
 ```yaml
 ---
-title: Rule name
+title: Short title
 impact: HIGH | MEDIUM | LOW
-tags: [discovery, story_map, story, domain]
+tags: [discovery, story_map, domain, ...]
+scanner: logical_domain          # key in scripts/scanners/registry.py SCANNER_BY_NAME; or null
+rule_id: domain-logical-domain-level   # optional; default = filename stem (hyphens)
+every_operation: false           # true = inject for every operation that loads validation.rules
+operations:                      # optional; explicit list — overrides prefix defaults below
+  - run_slice
+  - validate_slice
+pipeline_phases: [7, 8]          # optional doc only — aligns with pieces/process.md slice/validate stages
 ---
 ```
 
-**Tag set:** `discovery`, `exploration`, `specification`, `story_map`, `stories`, `domain`, `steps`, `steps_edge_cases`, `examples`, `scenarios`, `class_diagram`, `session`, `slices`, `interaction`, `story_map`, `ai_pass`
+### Defaults when `operations` is omitted
 
-**`session` and `slices` tags:** Rules tagged `session` or `slices` govern slice design and session creation. They are injected for `create_strategy` and `validate_session`. Use them when designing slices (size, cross-cutting, ordering, foundation inclusion).
+If **`every_operation`** is false and **`operations`** is absent, **`scripts/rule_frontmatter.py`** infers from the **filename stem** (longest prefix wins):
 
-**`class_diagram` tag:** Rules tagged `class_diagram` govern DrawIO class diagram rendering — positioning, edge routing, import conventions, hierarchy layout. These rules are injected when using the class diagram CLI tool (`drawio_class_cli.py`), not during synthesis runs. They apply alongside `domain` rules when rendering domain model changes to diagrams.
+| Prefix | Default operations (injected when listed in `skill-config` for that op) |
+|--------|------------------------------------------------------------------------|
+| `context-slice-` | `create_strategy`, `validate_session`, `run_slice`, `generate_slice`, `validate_run`, `validate_slice` |
+| `context-` | `concept_scan`, `model_discovery`, `model_validation` |
+| `domain-` | `model_discovery`, `model_validation`, `create_strategy`, `run_slice`, `generate_slice`, `validate_run`, `validate_slice` |
+| `interaction-` | same as `domain-` |
+| `session-` | `create_strategy`, `validate_session`, `run_slice`, `generate_slice`, `validate_slice` |
+| `correction-` | none (add explicit `operations:` if you wire these into prompts) |
+| `verb-` | `run_slice`, `generate_slice`, `validate_run`, `validate_slice`, `model_discovery`, `model_validation` |
+| `scaffold-` | `model_discovery`, `run_slice`, `generate_slice`, `validate_run`, `validate_slice` |
+| *(other stems)* | all operations that include `story_synthesizer.validation.rules` in **`skill-config.json`** |
 
-Use the tags that apply to the rule. Include a rule if any of its tags matches any tag the session/strategy declares in scope. Session type (Discovery, Exploration, Specification) determines scope; see `pieces/session.md` Session Types table.
+Override with explicit **`operations:`** when a rule should attach to a different set.
 
-**Validation is scoped to what you synthesize.** All runs get validated, but the rules injected depend on tags in scope — domain rules for domain output, step rules for steps, example rules for examples, etc. The engine filters rules by strategy tags so only relevant rules are injected.
+### Pipeline phases (documentation)
 
-## How to get rules injected
+Cross-reference **`pieces/process.md`** (Overall context → Session → Slice-runs):
 
-**You MUST call the build script** — rules are not in AGENTS.md alone. The Engine assembles sections and injects rules when you run:
+| Process stages (summary) | Typical operations using rules |
+|--------------------------|----------------------------------|
+| Phases 1–5 (overall context) | `concept_scan`, `model_discovery`, `model_validation` |
+| Session (strategy) | `create_strategy`, `validate_session`, `improve_strategy` |
+| Slice-runs (build / validate) | `run_slice`, `generate_slice`, `validate_run`, `validate_slice` |
 
-```bash
-cd <skill-root>/abd-story-synthesizer
-python scripts/build.py get_instructions create_strategy
-python scripts/build.py get_instructions run_slice [--strategy path/to/strategy.md]
-```
+`pipeline_phases` in frontmatter is **not** interpreted by code; it documents intent for authors.
 
-| Operation       | When to use                          | Injects rules |
-|----------------|--------------------------------------|----------------|
-| `create_strategy` | Strategy phase, identification criteria | Yes            |
-| `validate_session` | After creating strategy; validate slices against slice rules | Yes (with --strategy) |
-| `run_slice`       | Runs, slice output                   | Yes            |
-| `generate_slice`  | Alias for run_slice                   | Yes            |
-| `correct_run`     | Record missed corrections to run log  | No             |
-| `correct_session` | Incorporate corrections into strategy | No             |
-| `correct_skill`   | Promote corrections to skill rules    | No             |
-| `correct_all`     | All three correction layers in sequence | No           |
-| `validate_run`    | Validate current run output           | Yes            |
-| `validate_slice`  | Validate slice output                 | Yes            |
+## Tag format (required)
 
-**Do not skip this step.** The AI must run `get_instructions` and inject its output before producing any synthesis output. Rules are included automatically when the operation includes `story_synthesizer.validation.rules`.
+Keep **`tags:`** as today — session/strategy scoping and strategy documents; see the table in the previous README version. **`session`** / **`slices`** tags describe slice/session concerns; they are **not** the same as **`operations`** (which gate **injection**).
 
-## Validation scanners
+## Scanners
 
-Rules with frontmatter `scanner: <name>` are used by `python scripts/build.py validate` to run rule-based checks on the interaction tree and Domain Model. See `scripts/scanners/` for implementations.
+- **Code dispatch:** **`scripts/scanners/registry.py`** — **`SCANNER_BY_NAME`**, **`RULE_TO_SCANNER`**, **`get_ordered_scanners`**, **`run_scanners`**.
+- **JSON mirror:** **`rules/scanners.json`** — lists **`rule_to_scanner`** and **`scanner_names`** for tooling; **registry.py stays authoritative** — update both when you add a rule with a scanner or rename a stem.
+- **Registry without a rule file:** e.g. **`session-slice-not-epic-by-epic`** appears in **`RULE_TO_SCANNER`** but there is no matching **`rules/*.md`** yet; add the markdown rule or remove the mapping when you consolidate scanners.
+- **Rule file:** optional **`scanner:`** in frontmatter must match a key in **`SCANNER_BY_NAME`**, or **`null`** / omitted for AI-only rules.
+- **`python scripts/build.py validate`** runs scanners from the registry against `story-synthesizer/interaction-tree.md` and `domain-model.md` (see **`scripts/build.py`**).
+
+## How rules get injected
+
+**`get_instructions <operation>`** (via **`scripts/build.py`**) assembles sections from **`skill-config.json`** → **`operation_sections`**. When **`story_synthesizer.validation.rules`** is listed, **`rules/`** is merged with **frontmatter stripped** and **operation filter** applied (`rule_frontmatter.merge_rules_markdown_for_operation`).
+
+You **must** run **`get_instructions`** before synthesis; rules are **not** only in `AGENTS.md`.
+
+## Body format
+
+Each rule: **`##` title**, then **`**DO**`** / **`**DO NOT**`** (or **`**DO NOT**`**) sections with examples — unchanged from before.
+
+## Index maintenance
+
+When adding a rule:
+
+1. Name file **`{area}-{rule-slug}.md`** (hyphens) — **`rule_id`** defaults to stem.
+2. Set **`scanner:`** or **`null`**; add **`RULE_TO_SCANNER`** in **`registry.py`** if a new mapping; refresh **`rules/scanners.json`** (or run the generator from `registry` imports).
+3. Set **`operations:`** or rely on **prefix defaults**; use **`every_operation: true`** only for global rules.

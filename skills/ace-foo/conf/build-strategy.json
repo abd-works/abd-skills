@@ -1,0 +1,9 @@
+{
+  "version": 1,
+  "skill_purpose": "Demonstrate a minimal abd-skill-builder–aligned tree (process, phases, library, build, operator).",
+  "target_audience": "Authors copying this skill as a template.",
+  "scope_in": ["Example library shards", "Workspace phase", "AGENTS.md from build.py"],
+  "scope_out": ["Production workflows", "Customer-specific rules"],
+  "artifacts": ["SKILL.md", "AGENTS.md", "content/parts/", "scripts/build.py"],
+  "notes": "Placeholder content; replace library and phases for a real skill."
+}

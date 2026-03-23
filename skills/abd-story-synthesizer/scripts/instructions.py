@@ -32,7 +32,7 @@ class Instructions:
         pieces_dir = self.skill_path / "pieces"
 
         for sid in section_ids:
-            text = self._get_section_content(sid, pieces_dir)
+            text = self._get_section_content(sid, pieces_dir, operation)
             if text:
                 parts.append(text)
                 parts.append("\n\n---\n\n")
@@ -98,16 +98,14 @@ class Instructions:
     def sections_included(self, operation: str) -> list[str]:
         return list(self.operation_sections.get(operation, []))
 
-    def _get_section_content(self, section_id: str, pieces_dir: Path) -> str:
+    def _get_section_content(self, section_id: str, pieces_dir: Path, operation: str) -> str:
         if section_id.endswith(".rules") or "validation.rules" in section_id:
+            from rule_frontmatter import merge_rules_markdown_for_operation
+
             rules_dir = self.skill_path / "rules"
             if not rules_dir.exists():
                 return ""
-            parts: list[str] = []
-            for md in sorted(rules_dir.glob("*.md")):
-                parts.append(md.read_text(encoding="utf-8").strip())
-                parts.append("\n\n---\n\n")
-            return "".join(parts).rstrip() if parts else ""
+            return merge_rules_markdown_for_operation(rules_dir, operation)
 
         # Map section_id prefix to pieces file:
         # story_synthesizer.interaction.model -> interaction.md

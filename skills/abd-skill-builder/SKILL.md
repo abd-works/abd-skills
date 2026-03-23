@@ -33,12 +33,14 @@ python scripts/scaffold_skill.py --name my-skill --out /path/to/my-skill
 python scripts/build.py
 ```
 
+- **Workspace and config:** **`parts/phases/workspace-and-config.md`** (phase document under **`parts/phases/`**)
 - **Delivery / merge order / `content/built/`:** **`README.md`** (section *Delivery & merge order*)
-- **Full §3 (all tables and subsections):** **`content/parts/library/skill-standards-section-3.md`** — **what** to put where (stages/phases/steps, process tables, optional domain+story-map pattern, rule naming, static vs dynamic assembly).
-- **Index + Operator checklist:** **`content/parts/library/skill-repo-standards.md`**
-- **Authoring checklist** (human + AI — rules/scanners, library, cross-cutting concepts, delivery mode, `test/` folder, sign-off): **`content/parts/library/authoring-checklist.md`** — copy to **`<skill>/docs/authoring-checklist.md`** in the skill or workspace you are editing (not kept under **`abd-skill-builder/docs/`**).
-- **Migrate existing skill** (delta report → user chooses fixes): **`content/parts/phases/migrate.md`**
-- **Team process plate** (rich **`process.md`** like **abd-maps-models-specs**): **`content/parts/templates/process-team.md.template`** — see **`content/parts/library/process-approach.md`** (*Team process plate*).
+- **Full §3 (all tables and subsections):** **`parts/library/skill-standards-section-3.md`** — **what** to put where (stages/phases/steps, process tables, optional domain+story-map pattern, rule naming, static vs dynamic assembly).
+- **Index + Operator checklist:** **`parts/library/skill-repo-standards.md`**
+- **Authoring checklist** (human + AI — rules/scanners, library, cross-cutting concepts, delivery mode, `test/` folder, sign-off): **`parts/library/authoring-checklist.md`** — norms are worked in **`<skill>/docs/skill-plan.md`** under **## Authoring checklist** (scaffold injects; not kept under **`abd-skill-builder/docs/`**).
+- **Plan skill migration** (**1b** — inventory + **standards-delta** + user picks **IDs**): **`parts/phases/plan-migrate.md`**
+- **Migrate existing skill** (**2b** — execute **1b**): **`parts/phases/migrate.md`**
+- **Team process plate** (rich **`process.md`** like **abd-maps-models-specs**): **`templates/process-team.md.template`** — see **`parts/library/process-approach.md`** (*Team process plate*).
 - **Phase markdown files:** use **descriptive kebab-case slugs** (`story-map.md`, `terms-mechanisms.md`) — **not** `phase-00-…` filenames or `# Phase N —` H1 titles. Pipeline order lives in **`process.md`** (# column) and **`build.py`**’s merge list (§3.1 table + naming bullets in **`skill-standards-section-3.md`**).
 
 ## See also

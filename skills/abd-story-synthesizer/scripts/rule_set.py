@@ -39,7 +39,9 @@ class RuleSet:
 
         scanners_path = rules_dir / "scanners.json"
         if scanners_path.exists():
-            self.scanner_rules = json.loads(scanners_path.read_text(encoding="utf-8"))
+            data = json.loads(scanners_path.read_text(encoding="utf-8"))
+            # New shape: { "rule_to_scanner": {...}, "scanner_names": [...], "note": "..." }
+            self.scanner_rules = data
 
         for md in sorted(rules_dir.glob("*.md")):
             self.markdown_paths.append(md)

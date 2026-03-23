@@ -1,7 +1,7 @@
 ---
 rule_id: naming-module-epic-story
 phase_files:
-  - story-map.md
+  - shaped-story-map.md
   - domain-types.md
   - integrate.md
 ---

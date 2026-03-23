@@ -2,17 +2,19 @@
 
 Standalone skill for **repo layout standards**, **scaffolding new skills**, and **AGENTS.md assembly** — use it from any editor or agent without depending on a specific host app.
 
-**Normative bodies** live under **`content/parts/library/`** and **`content/parts/phases/`**. In **this** repo, **`docs/`** holds only **`standards-delta.md`** (inventory vs §3). **Authoring checklist** is canonical in **`content/parts/library/authoring-checklist.md`**; copy it to **`docs/authoring-checklist.md`** inside **your skill or workspace** when you need a writable checklist ( **`scaffold_skill.py`** does that for new skills). See **`rules/content-placement.md`**.
+**Normative bodies** live under **`parts/library/`** (or **`content/parts/library/`**) and **`parts/phases/`**. In **this** repo, **`docs/`** holds only **`standards-delta.md`** (inventory vs §3). **Authoring checklist** norms are canonical in **`parts/library/authoring-checklist.md`**; in **your** skill, work them under **`docs/skill-plan.md`** → **## Authoring checklist** ( **`scaffold_skill.py`** injects the library body into **`docs/skill-plan.md`** for new skills). See **`rules/content-placement.md`**.
 
 **Delivery:** **`skill-config.json`** → **`delivery.mode`**: **`static_built`**. Pre-merged outputs: root **`AGENTS.md`** and **`content/built/AGENTS.md`** (identical). Merge order and commit policy: **see [Delivery & merge order](#delivery--merge-order) below**. **Commit policy:** this repo commits **`content/built/*`** after meaningful part/build changes; teams may instead regenerate in CI and omit commits (document in your fork).
 
 ## Quick start
 
-- **§3 layout & content (normative):** `content/parts/library/skill-standards-section-3.md`
-- **Index + Operator checklist:** `content/parts/library/skill-repo-standards.md`
-- **Builder vs Operator:** `content/parts/library/builder-vs-operator.md`
-- **Authoring checklist (ask / AI-suggest / track):** `content/parts/library/authoring-checklist.md` — copy to **`<your-skill>/docs/authoring-checklist.md`** (or your workspace) when tracking work; not duplicated under **`abd-skill-builder/docs/`**
-- **Migrate existing skill to standards (deltas → user picks fixes):** `content/parts/phases/migrate.md`
+- **Workspace and config (`skill_path`, `conf/abd-config.json`, `active_skill_workspace`):** `parts/phases/workspace-and-config.md` (phase document — same folder as the other phase files)
+- **§3 layout & content (normative):** `parts/library/skill-standards-section-3.md`
+- **Index + Operator checklist:** `parts/library/skill-repo-standards.md`
+- **Builder vs Operator:** `parts/library/builder-vs-operator.md`
+- **Authoring checklist (ask / AI-suggest / track):** `parts/library/authoring-checklist.md` — lives as **## Authoring checklist** inside **`<your-skill>/docs/skill-plan.md`** (scaffold injects); not duplicated under **`abd-skill-builder/docs/`**
+- **Plan migration (existing skill — inventory + standards delta):** `content/parts/phases/plan-migrate.md` (**1b**)
+- **Migrate existing skill (execute 1b plan):** `content/parts/phases/migrate.md` (**2b**)
 - **Scaffold a new skill:**  
   `python scripts/scaffold_skill.py --name my-skill --out ../my-skill --purpose "…"`
 - **Build AGENTS.md (this skill):**  
@@ -38,7 +40,7 @@ cmd /c mklink /J "%USERPROFILE%\.cursor\skills\abd-skill-builder" "c:\dev\agileb
 
 ## Delivery & merge order
 
-**`skill-config.json`** declares **`delivery.mode`**: **`static_built`** (this repo). Optional alternate: **`runtime_injection`** (merge at load time in the host). Normative definitions: **`content/parts/library/delivery-modes.md`**.
+**`skill-config.json`** declares **`delivery.mode`**: **`static_built`** (this repo). Optional alternate: **`runtime_injection`** (merge at load time in the host). Normative definitions: **`parts/library/delivery-modes.md`**.
 
 ### What gets built
 
@@ -50,10 +52,10 @@ cmd /c mklink /J "%USERPROFILE%\.cursor\skills\abd-skill-builder" "c:\dev\agileb
 
 ### Merge order (`scripts/build.py`)
 
-1. **`content/parts/process.md`** — under section **Process**.
+1. **`parts/process.md`** — under section **Process** (this repo uses **`parts/`**; scaffolded skills may use **`content/parts/`** instead).
 2. **Library** (in order; matches **`LIBRARY_FILES`** in **`scripts/build.py`**):  
-   `documentation-standards.md`, `workspace-config.md`, `delivery-modes.md`, `process-approach.md`, `authoring-checklist.md`, `skill-repo-standards.md`, `skill-standards-section-3.md`, `builder-vs-operator.md` — each under **Library (merged standards)**.
-3. **Phases** (in order): **`content/parts/phases/scaffold.md`**, **`content/parts/phases/migrate.md`**.
+   `documentation-standards.md`, `delivery-modes.md`, `process-approach.md`, `authoring-checklist.md`, `skill-repo-standards.md`, `skill-standards-section-3.md`, `builder-vs-operator.md` — each under **Library (merged standards)**; workspace routing lives under **[Workspace and config](parts/phases/workspace-and-config.md)** (merged **`workspace-and-config`** body in **`AGENTS.md`**).
+3. **Phases** (in order): **`workspace-and-config.md`**, **`plan-script-build.md`**, **`plan-migrate.md`**, **`scaffold.md`**, **`migrate.md`**, **`fill-scaffold-parts.md`** — in **`parts/phases/`** here (**`content/parts/phases/`** is the alternate layout some skills use).
 
 Equivalence: **`runtime_injection`** would apply the same sequence when assembling the same bodies; only packaging differs.
 
@@ -65,6 +67,6 @@ python scripts/build.py
 
 ### Commit policy for `content/built/`
 
-This repo **commits** **`content/built/AGENTS.md`** and **`content/built/README.md`** after meaningful changes to **`content/parts/`** or **`scripts/build.py`**, so clones and **`static_built`** consumers see a consistent bundle without running the build first.
+This repo **commits** **`content/built/AGENTS.md`** and **`content/built/README.md`** after meaningful changes to **`parts/`** (or **`content/parts/`** if you use that layout) or **`scripts/build.py`**, so clones and **`static_built`** consumers see a consistent bundle without running the build first.
 
 Teams may choose to git-ignore built files and run **`build.py`** in CI instead — if so, document that in the fork’s **`README.md`** and stop committing **`content/built/*`**.

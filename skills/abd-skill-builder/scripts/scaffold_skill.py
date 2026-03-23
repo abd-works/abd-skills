@@ -29,18 +29,40 @@ def _apply(s: str, ctx: dict[str, str]) -> str:
     return out
 
 
+def _markdown_body_after_first_h1(md: str) -> str:
+    """Drop the first # title line so injected checklist can sit under skill-plan's own headings."""
+    lines = md.splitlines()
+    if lines and lines[0].startswith("# "):
+        lines = lines[1:]
+    while lines and not lines[0].strip():
+        lines.pop(0)
+    return "\n".join(lines).rstrip() + "\n"
+
+
 def scaffold(out: Path, *, name: str, description: str, purpose: str) -> None:
     if out.exists() and any(out.iterdir()):
         raise ValueError(f"refuse: {out} exists and is not empty")
     out.mkdir(parents=True, exist_ok=True)
 
     title = name.replace("-", " ").title()
+    checklist_src = ROOT / "content" / "parts" / "library" / "authoring-checklist.md"
+    if not checklist_src.is_file():
+        checklist_src = ROOT / "parts" / "library" / "authoring-checklist.md"
+    if checklist_src.is_file():
+        acl_body = _markdown_body_after_first_h1(checklist_src.read_text(encoding="utf-8"))
+    else:
+        acl_body = (
+            "*Authoring checklist source not found under `parts/library/`; "
+            "paste from **abd-skill-builder** `library/authoring-checklist.md` into this section.*\n"
+        )
+
     ctx = {
         "skill_name": name,
         "skill_title": title,
         "skill_description": description,
         "skill_summary": f"**{title}** — scaffolded skill. Replace this summary in SKILL.md.",
         "skill_purpose": purpose,
+        "authoring_checklist_body": acl_body,
     }
 
     (out / "SKILL.md").write_text(_apply(_load("SKILL.md.template"), ctx), encoding="utf-8")
@@ -64,6 +86,9 @@ def scaffold(out: Path, *, name: str, description: str, purpose: str) -> None:
     scripts.mkdir(parents=True, exist_ok=True)
     (scripts / "build.py").write_text(_apply(_load("child_build.py.template"), ctx), encoding="utf-8")
     (scripts / "generate_prompt.py").write_text(_apply(_load("generate_prompt.py.template"), ctx), encoding="utf-8")
+    gen_alias = ROOT / "scripts" / "generate.py"
+    if gen_alias.is_file():
+        shutil.copyfile(gen_alias, scripts / "generate.py")
     (scripts / "scanner_smoke.py").write_text(_apply(_load("child_scanner_smoke.py.template"), ctx), encoding="utf-8")
 
     rules = out / "rules"
@@ -77,14 +102,15 @@ def scaffold(out: Path, *, name: str, description: str, purpose: str) -> None:
 
     docs_dir = out / "docs"
     docs_dir.mkdir(parents=True, exist_ok=True)
-    checklist_src = ROOT / "content" / "parts" / "library" / "authoring-checklist.md"
-    if checklist_src.is_file():
-        shutil.copyfile(checklist_src, docs_dir / "authoring-checklist.md")
+
+    skill_plan_tmpl = TEMPLATES / "skill-plan.md.template"
+    if skill_plan_tmpl.is_file():
+        (docs_dir / "skill-plan.md").write_text(_apply(skill_plan_tmpl.read_text(encoding="utf-8"), ctx), encoding="utf-8")
     else:
-        print("Warning: content/parts/library/authoring-checklist.md not found; skip docs/authoring-checklist.md", file=sys.stderr)
+        print("Warning: templates/skill-plan.md.template not found; skip docs/skill-plan.md", file=sys.stderr)
 
     print(f"Scaffolded skill at {out.resolve()}")
-    print("docs/authoring-checklist.md in the new skill — track progress with - [ ] / - [x]; resume from first unchecked box.")
+    print("docs/skill-plan.md in the new skill — plan + authoring checklist (one file); track - [ ] / - [x] in the checklist section.")
     print("conf/abd-config.json must set active_skill_workspace (mandatory). Edit it, then: python scripts/build.py")
 
 

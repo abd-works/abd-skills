@@ -1,19 +1,21 @@
 # Domain model
 
-Enduring reference for **modules**, **`concepts[]`**, examples, and inheritance. **Process** follows Phases 0–8 in [`content/parts/process.md`](../content/parts/process.md) and [`docs/principles-and-rules.md`](principles-and-rules.md).
+Enduring reference for modules, `concepts[]`, examples, and inheritance.   
+
+See `[content/parts/process.md](../content/parts/process.md)` and `[principles-and-rules.md](principles-and-rules.md)`.
 
 ---
 
 ## Purpose
 
-The **domain model** describes the **state and structure** that the story map refers to. It holds **modules** and **domain concepts**: the things that hold state, get operated on, and participate as callers, receivers, and collaborators in interactions. Every `**Concept**` referenced in the story map **appears** in the domain model so the story tree and model stay aligned.
+The **domain model** describes the **state and structure** that the story map refers to. It holds **modules** and **domain concepts**: the things that hold state, get operated on, and participate as callers, receivers, and collaborators in interactions. Every `**Concept`** referenced in the story map **appears** in the domain model so the story tree and model stay aligned.
 
 ---
 
 ## What goes in the domain model
 
 - **Modules** — A **grouping of tightly related concepts that collaborate around the same mechanism**. Each module has a name and a list of concepts. Each module typically maps to one area (or page) of the class diagram.
-- **Domain concepts** — A **domain concept holds state and can be operated on** (equates to a class in OO code). **Concepts participate as callers, receivers, and collaborators in interactions; state flows through Pre-Condition, Triggering-State, and Resulting-State** in the story map. Each concept has:
+- **Domain concepts** — A **domain concept holds state and can be operated on** (equates to a class in OO code). **Concepts participate as callers, receivers, and collaborators in interactions; state is carried in Pre-Condition labels, **Trigger** / **Response** behavior text, and **Examples** tables in the story map (no separate Triggering-State / Resulting-State fields). Each concept has:
   - **Properties** — with types, optional collaborating concepts and invariants. Use standard types: String, Number, Boolean, List, Dictionary, UniqueID, Instant. Use `List<T>` or `Dictionary<K,V>` when element types matter. **Type selection:** Use `Dictionary<K,V>` when items are accessed by key (name, type, id) — most "has many" relationships where you look up by name. Use `List<T>` only when order matters and items are accessed by position. Default to Dictionary for named domain collections.
   - **Operations** — with optional collaborating concepts and invariants. Interactions in the story map should be reverse-engineerable to operations on the domain model.
   - **Base-Concept** (optional) — parent for inheritance. **Foundational** — tag `[foundational]` for concepts that are the base classes everything else extends from (the stable core).
@@ -25,7 +27,7 @@ The **domain model** describes the **state and structure** that the story map re
 
 ---
 
-## Domain model format (prose)
+## Domain model format
 
 ### Module
 
@@ -41,13 +43,14 @@ Heading: `## Module: <name>`
 
 ### Domain concept
 
-A domain concept holds state and can be operated on (equates to a class in OO code). Concepts participate as callers, receivers, and collaborators in interactions; state flows through Pre-Condition, Triggering-State, and Resulting-State.
+A domain concept holds state and can be operated on (equates to a class in OO code). Concepts participate as callers, receivers, and collaborators in interactions; state is carried in Pre-Condition labels, **Trigger** / **Response** behavior text, and **Examples** tables.
 
-Heading: `### **ConceptName** : <BaseConcept if any>`
+Heading: `### **Extension** : <BaseConcept if any>` — **Extension** is the subtype; **BaseConcept** is the immediate superclass (omit the `: BaseConcept` part when there is no inheritance).
+
 One-liner description of the purpose of the concept
 
 ```
-**ConceptName** : <BaseConcept if any>
+**Extension** : <BaseConcept if any>
 - <type> property
       <collaborating concepts if any>
       Invariant: <constraint on this property>
@@ -109,32 +112,36 @@ Place invariants under the specific property or operation they apply to — not 
 
 ## `map-model-spec.json` — scaffold extensions
 
-These fields extend the domain view in JSON. Align with **`[foundational]`** in prose and with Phases **4–7** in [`content/parts/process.md`](../content/parts/process.md) (domain types → variants → deepen → integrate). Older pipelines used separate `parts/steps/*` files; **this skill** encodes spine/breadth in **process + automation + scanners** on `map-model-spec`.
+These fields extend the domain view in JSON. Align with `**[foundational]`** in prose and with Phases **4–7** in `[content/parts/process.md](../content/parts/process.md)` (domain types → variants → deepen → integrate)..
 
-| Field | Where | Purpose |
-|--------|--------|---------|
-| **`phase`** | root | Named pipeline **step** from **`content/parts/process.md`** (e.g. domain types, variant classification) — not a numeric id only. |
-| **`phase_note`** | root | Optional free-text note (status, counters, session notes). |
-| **`module.foundational`** | `module` | `true` when this row carries the **foundational spine** (3–7 mechanisms); omit or `false` for peripheral modules. |
-| **`module.depends_on`** | `module` | Array of `{ dependent_concepts, module, provides_concepts, reason }` — consumer → provider (rule **module-depends-on** where scanners enforce it). |
-| **`concept.evidence_stage`** | each `concept` | `hypothesis` (foundational spine / early scaffold breadth) → `scaffolded` (breadth **K** reads) → `deepened` (concept classes and stories). |
-| **`concept.foundational`** | each `concept` | `true` for stable core types that repeat across mechanisms (same intent as **`[foundational]`** in prose). |
-| **`concept.extends`** | each `concept` | Optional string: **immediate superclass** concept name. Maps prose **`### **Child** : Parent**`** — the parent named after the colon. **Omit** (or `null`) for root/base concepts in a hierarchy. Parent must exist elsewhere in **`modules_and_epics`** (any module); **`no-duplicates`** keeps names unique. If inheritance is real but parent lives in another module, still set **`extends`** and ensure **`depends_on`** / **`open_questions`** reflect the cross-module edge. |
+
+| Field                            | Where          | Purpose                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| -------------------------------- | -------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `**phase`**                      | root           | Named pipeline **step** from `**content/parts/process.md`** (e.g. domain types, variant classification) — not a numeric id only.                                                                                                                                                                                                                                                                                                                   |
+| `**phase_note`**                 | root           | Optional free-text note (status, counters, session notes).                                                                                                                                                                                                                                                                                                                                                                                         |
+| `**module.foundational`**        | `module`       | `true` when this row carries the **foundational spine** (3–7 mechanisms); omit or `false` for peripheral modules.                                                                                                                                                                                                                                                                                                                                  |
+| `**module.depends_on`**          | `module`       | Array of `{ dependent_concepts, module, provides_concepts, reason }` — consumer → provider (rule **module-depends-on** where scanners enforce it).                                                                                                                                                                                                                                                                                                 |
+| `**concept.evidence_stage`**     | each `concept` | `hypothesis` (foundational spine / early scaffold breadth) → `scaffolded` (breadth **K** reads) → `deepened` (concept classes and stories).                                                                                                                                                                                                                                                                                                        |
+| `**concept.foundational`**       | each `concept` | `true` for stable core types that repeat across mechanisms (same intent as `**[foundational]`** in prose).                                                                                                                                                                                                                                                                                                                                         |
+| `**concept.name`** (inheritance) | each `concept` | **No separate `extends` field.** Encode **is-a** in `**name`** only, as `**Base:Extension`** (immediate superclass **:** subtype) — the same pair as prose `### **Extension** : **Base`**, packed into one string (e.g. `"Check:SkillCheck"`). Root concepts use a single name with no colon (e.g. `"Check"`). Parent and child must still resolve in `**modules_and_epics`**; use `**depends_on**` / `**open_questions**` for cross-module edges. |
+
 
 **Inheritance in JSON vs markdown**
 
-| Markdown (`docs/domain-model.md` — Domain Concept) | `map-model-spec.json` |
-|-----------------------------------------------|------------------------|
-| `### **SkillCheck** : **Check**` | `"name": "SkillCheck", "extends": "Check"` |
-| `### **Check**` (no parent named) | no **`extends`** field (root for that branch) |
 
-**Composition vs extends:** “has-a” (properties referencing other concepts) stays in **`properties[]` / `operations[]`** with collaborating types. “is-a” subtype layering uses **`extends`** plus shared **`owns`** / evidence on the child.
+| Markdown (Domain concept heading) | `map-model-spec.json`        |
+| --------------------------------- | ---------------------------- |
+| `### **SkillCheck** : **Check`**  | `"name": "Check:SkillCheck"` |
+| `### **Check`** (no parent)       | `"name": "Check"`            |
 
-Epic and confirming-story naming: see [`story-map-narrative.md`](story-map-narrative.md); module naming stays **noun phrase**, epic/story **Verb Noun** (verb-noun rule). **`concepts[].name`** and domain words in **`epic.statement`** / **`confirming_stories`** must match **exactly (100%)** — rule **scaffold-concept-story-name-alignment** where enforced.
+
+**Composition vs inheritance in `name`:** “has-a” (properties referencing other concepts) stays in `**properties[]` / `operations[]`** with collaborating types. “is-a” subtype layering uses `**Base:Extension`** in `**name`** (not a second field) plus shared `**owns`** / evidence on the subtype.
+
+Epic and confirming-story naming: see `[story-map.md](story-map.md)`; module naming stays **noun phrase**, epic/story **Verb Noun** (verb-noun rule). `**concepts[].name`** and domain words in `**epic.statement`** / `**confirming_stories`** must match **exactly (100%)** — rule **scaffold-concept-story-name-alignment** where enforced.
 
 ---
 
-## Example — connected concepts with tables
+## Example 1: Concept and Example Table
 
 Account holds funds; transactions record deposits and withdrawals. The balance is what's available.
 
@@ -196,7 +203,7 @@ One scenario per account. Balance = sum of transactions (credits − debits) for
 
 ---
 
-## Example — domain model for country-specific payment
+## Example  2: Domain model for country-specific payment
 
 A single module with several concepts that collaborate around payment by country and type (e.g. wire, ACH). Structure only; examples tables would follow the same format as above.
 
@@ -254,11 +261,12 @@ A single module with several concepts that collaborate around payment by country
 
 ## Validation checklist
 
-- [ ] Format: `**Concept** : <Base Concept if any>`
-- [ ] Module has examples: one table per concept, shared scenario, `===` separator
-- [ ] Properties, operations, collaborating concepts listed
-- [ ] Each concept referenced via `**Concept**` in story map must exist here (see [`story-map-narrative.md`](story-map-narrative.md))
-- [ ] Invariants under specific property/operation they apply to
-- [ ] No implementation details (APIs, services, databases, UI components, code)
-- [ ] No speculation beyond the provided material
-- [ ] Everything at logical/domain level
+- Format: `**Extension** : <Base Concept if any>` when there is inheritance; otherwise a single concept name (see `**Base:Extension**` in `map-model-spec.json` above)
+- Module has examples: one table per concept, shared scenario, `===` separator
+- Properties, operations, collaborating concepts listed
+- Each concept referenced via `**Concept**` in story map must exist here (see `[story-map.md](story-map.md)`)
+- Invariants under specific property/operation they apply to
+- No implementation details (APIs, services, databases, UI components, code)
+- No speculation beyond the provided material
+- Everything at logical/domain level
+

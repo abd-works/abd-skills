@@ -1,32 +1,22 @@
 #!/usr/bin/env python3
-"""Merge library + process + phases into AGENTS.md (explicit merge order).
+"""Merge library + process + phases into AGENTS.md; write phases/built/*.md (derived).
 
-Also writes the same bundle to ``content/built/AGENTS.md`` when ``delivery.mode`` is ``static_built``
-(merge order and policy: skill root ``README.md`` — Delivery & merge order).
+Merge order and delivery policy: skill root ``README.md`` — Delivery & merge order.
 """
 
 from __future__ import annotations
 
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-PARTS = ROOT / "content" / "parts"
-LIBRARY = PARTS / "library"
+_SCRIPTS = Path(__file__).resolve().parent
+if str(_SCRIPTS) not in sys.path:
+    sys.path.insert(0, str(_SCRIPTS))
+
+from assembler import ContentAssembler, load_skill_config
+
 BUILT_DIR = ROOT / "content" / "built"
-
-# Order matters: cross-cutting standards first, then index + §3, then builder summary.
-LIBRARY_FILES = (
-    "documentation-standards.md",
-    "workspace-config.md",
-    "delivery-modes.md",
-    "process-approach.md",
-    "authoring-checklist.md",
-    "skill-repo-standards.md",
-    "skill-standards-section-3.md",
-    "builder-vs-operator.md",
-)
-
-PHASE_FILES = ("scaffold", "migrate")
 
 BUILT_README = """# content/built/ — static_built outputs
 
@@ -43,34 +33,25 @@ python scripts/build.py
 ```
 """
 
+PHASES_BUILT_README = """# parts/phases/built/ — derived per-phase prompts
 
-def build_agents_text() -> str:
-    chunks: list[str] = ["# AGENTS — abd-skill-builder\n\n"]
+Files here are **generated** by **`scripts/build.py`**. Sources of truth: **`skill-config.json`**
+(`PHASE_LIBRARY_SLICES`, `phase_rules`, …) and **`parts/`** / **`rules/`**.
 
-    process = (PARTS / "process.md").read_text(encoding="utf-8")
-    chunks.append("## Process\n\n")
-    chunks.append(process)
-    chunks.append("\n")
+Regenerate:
 
-    chunks.append("## Library (merged standards)\n\n")
-    for name in LIBRARY_FILES:
-        p = LIBRARY / name
-        if not p.is_file():
-            raise FileNotFoundError(f"Missing library file: {p.relative_to(ROOT)}")
-        chunks.append(f"### Library: {name}\n\n")
-        chunks.append(p.read_text(encoding="utf-8"))
-        chunks.append("\n")
+```bash
+python scripts/build.py
+```
 
-    for slug in PHASE_FILES:
-        p = PARTS / "phases" / f"{slug}.md"
-        chunks.append(f"\n## Phase: {slug}\n\n")
-        chunks.append(p.read_text(encoding="utf-8"))
-
-    return "".join(chunks)
+**Runtime:** `python scripts/generate_prompt.py --phase <slug> --mode static` reads these files when present; otherwise assembles from sources (`dynamic`).
+"""
 
 
 def main() -> None:
-    text = build_agents_text()
+    cfg = load_skill_config(ROOT)
+    asm = ContentAssembler(ROOT, cfg)
+    text = asm.build_agents_text()
     out = ROOT / "AGENTS.md"
     out.write_text(text, encoding="utf-8")
     print(f"Wrote {out.relative_to(ROOT)}")
@@ -83,6 +64,14 @@ def main() -> None:
     built_readme = BUILT_DIR / "README.md"
     built_readme.write_text(BUILT_README, encoding="utf-8")
     print(f"Wrote {built_readme.relative_to(ROOT)}")
+
+    parts = asm.parts
+    built_phase_dir = parts / "phases" / "built"
+    built_phase_dir.mkdir(parents=True, exist_ok=True)
+    for p in asm.write_built_phases(built_phase_dir):
+        print(f"Wrote {p.relative_to(ROOT)}")
+    (built_phase_dir / "README.md").write_text(PHASES_BUILT_README, encoding="utf-8")
+    print(f"Wrote {(built_phase_dir / 'README.md').relative_to(ROOT)}")
 
 
 if __name__ == "__main__":
