@@ -2,7 +2,7 @@
 
 
 
-**Goal:** Automated checks (scanners, schema) + **rendered** reports; CI on MM3; optional **critic** checklist against the **principles table** in [`principles-and-rules.md`](../library/principles-and-rules.md).
+**Goal:** Automated checks (scanners, schema) + **rendered** reports; CI on your configured workspace; optional **critic** checklist against the **principles table** in [`principles.md`](../library/principles.md) and applicable **`rules/`** for the scope.
 
 
 
@@ -26,7 +26,7 @@
 
 2. Render reports as configured (paths under fixture output root).
 
-3. Optional: critique pass against [`principles-and-rules.md`](../library/principles-and-rules.md) (external expert or checklist).
+3. Optional: critique pass against [`principles.md`](../library/principles.md) and phase **Rules** / `rules/` (external expert or checklist).
 
 
 
@@ -34,6 +34,6 @@
 
 
 
-Reproducible validation + manifest; CI green for the MM3 fixture at the chosen scope.
+Reproducible validation + manifest; CI green for the chosen workspace at the chosen scope.
 
 

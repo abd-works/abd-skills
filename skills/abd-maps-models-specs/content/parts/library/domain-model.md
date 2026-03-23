@@ -2,7 +2,7 @@
 
 Enduring reference for modules, `concepts[]`, examples, and inheritance.   
 
-See `[content/parts/process.md](../content/parts/process.md)` and `[principles-and-rules.md](principles-and-rules.md)`.
+See `[content/parts/process.md](../content/parts/process.md)` and `[principles.md](principles.md)`.
 
 ---
 

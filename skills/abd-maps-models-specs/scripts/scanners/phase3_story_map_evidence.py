@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Scanner: ``phase3/mm3_story_map.json`` — structure + evidence_chunk_ids vs ``context_index.json``.
+Scanner: ``phase3/shaped_story_map.json`` — structure + evidence_chunk_ids vs ``context_index.json``.
 
 Rule: **shaped-story-shape** (see ``content/parts/library/shaped-story-map.md``)
 
@@ -10,8 +10,7 @@ Rule: **shaped-story-shape** (see ``content/parts/library/shaped-story-map.md``)
   each id must appear in ``context_index.json`` ``blocks[]`` when the index exists.
 - Stories with ``skip_evidence: true`` (or ``evidence_exempt: true``) skip citation checks.
 
-Exit 0 when ``mm3_story_map.json`` is absent (optional until authored). Same contract as legacy
-``scripts/validate_phase3_story_map.py``.
+Exit 0 when ``shaped_story_map.json`` is absent (optional until authored).
 """
 
 from __future__ import annotations
@@ -101,12 +100,12 @@ def _iter_all_stories(data: dict) -> Iterator[tuple[str, dict]]:
 
 def main() -> int:
     _ensure_config_path()
-    from _config import PHASE3, SKILL_ROOT
+    from _config import PHASE3, SHAPED_STORY_MAP_JSON, SKILL_ROOT
 
-    story_map = PHASE3 / "mm3_story_map.json"
+    story_map = PHASE3 / SHAPED_STORY_MAP_JSON
     PHASE3.mkdir(parents=True, exist_ok=True)
     if not story_map.is_file():
-        print(f"PASS [{RULE_ID}] — no mm3_story_map.json (optional until authored; skip)")
+        print(f"PASS [{RULE_ID}] — no {SHAPED_STORY_MAP_JSON} (optional until authored; skip)")
         return 0
     try:
         data = json.loads(story_map.read_text(encoding="utf-8"))
@@ -114,7 +113,10 @@ def main() -> int:
         print(f"FAIL [{RULE_ID}]: invalid JSON {e}", file=sys.stderr)
         return 1
     if "epics" not in data:
-        print(f"FAIL [{RULE_ID}]: mm3_story_map.json must have top-level epics[]", file=sys.stderr)
+        print(
+            f"FAIL [{RULE_ID}]: {SHAPED_STORY_MAP_JSON} must have top-level epics[]",
+            file=sys.stderr,
+        )
         return 1
     if not isinstance(data["epics"], list):
         print(f"FAIL [{RULE_ID}]: epics must be a list", file=sys.stderr)

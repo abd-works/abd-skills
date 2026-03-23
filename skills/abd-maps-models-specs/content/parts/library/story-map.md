@@ -40,9 +40,9 @@ This pipeline orders the **shaped story map** before **sparse domain types** (`c
 
 **Story-first** forces each slice of value to be stated as **actor → behavior → anchor** (what state is read, written, or queried). Types are then promoted only where the **story map and evidence** justify **distinct** behavioral contracts—not because a word appeared in a heading.
 
-**Read vs write:** A story may be anchored on **observation** or **query** only; mutation is not required. That matches the **behavioral description of value** principle in `[principles-and-rules.md](principles-and-rules.md)`.
+**Read vs write:** A story may be anchored on **observation** or **query** only; mutation is not required. That matches the **behavioral description of value** principle in `[principles.md](principles.md)`.
 
-See also: `[pipeline_invariants.md](pipeline_invariants.md)` (layers A–D), and `[shaped-story-map.md](shaped-story-map.md)` for the Phase 3 JSON shape and validators.
+See also: `[principles.md](principles.md)` (principles; checkable rules in `rules/`), and `[shaped-story-map.md](shaped-story-map.md)` for the Phase 3 JSON shape and validators.
 
 
 

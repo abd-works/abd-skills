@@ -15,6 +15,7 @@ Every skill that can target a **project tree** or needs unambiguous **where am I
 | **Heading & name** | Phase document **H1** and links: **Workspace and config** (not **Phase 0 — …** in the phase file’s **H1**). In **`parts/process.md`**, the **section** heading **Phase 0 — Workspace and config** is OK; the **process table** still uses the stable **Phase** column title above. |
 | **Config** | **`conf/abd-config.json`** at **`skill_path`** with **`active_skill_workspace`** (and optional **`known_skill_workspaces`**). Same **JSON shape** across skills; see **abd-skill-builder** reference **`conf/abd-config.json`**. |
 | **Merge / generate** | **`build.py`** should list **`workspace-and-config`** **first** in the phase merge list when that file exists; **`generate.py --phase workspace-and-config`** must resolve for AI-chat steps. |
+| **CLI — `active_skill_workspace`** | Every scaffolded skill includes **`scripts/set_workspace.py`** (copied from **abd-skill-builder**). **Process** row **0** **Scripts** cell must include the same wording as **abd-maps-models-specs** phase **Set workspace**: `` `python` [`scripts/set_workspace.py`](…) — no args prints current; `<path>` sets `active_skill_workspace` in `conf/abd-config.json` ([workspace-and-config](phases/workspace-and-config.md)) `` — then **`·`** and **`generate.py`** for the AI-chat phase when both apply. |
 
 Routing details are **not** duplicated inside **Plan** or **Scaffold** phase bodies—**link** to **`workspace-and-config.md`**.
 
@@ -32,9 +33,18 @@ Use this **seven-column** header (exact labels help readers and tooling):
 | **Actor** | **Who runs it:** Human / AI, Code, Human / AI + Code, etc. |
 | **Input** | **What you must have** to start: paths, prior artifacts, CLI flags, **not** the phase’s primary deliverable if that deliverable is produced **in** this phase (avoid listing **`docs/skill-plan.md`** as **Input** for **1a** when **1a** creates that file—use *library norms + target workspace* instead). |
 | **Output** | **Concrete artifacts** when the phase is done: files, directories, exit criteria. For **scaffold (2a)**, lead with the **scaffolded skill tree** ( **`SKILL.md`**, **`skill-config.json`**, **`conf/`**, **`content/parts/`** or **`parts/`**, **`scripts/`**, **`rules/`**, **`test/`**, **`docs/skill-plan.md`** ), then **`AGENTS.md` / `content/built/`** after **`build.py`**—not only the skill-plan template. |
-| **Scripts** | **Commands** with **entry script names**: `python scripts/generate.py --phase <slug>`, `python scripts/build.py`, **`scaffold_skill.py`**, scanners. One cell; use **`·`** between multiple commands. |
+| **Scripts** | **Commands** with **entry script names**: `python scripts/generate.py --phase <slug>`, `python scripts/build.py`, **`scaffold_skill.py`**. **Do not** pack **rule-bound scanners** here—those are skill-wide; document them under **Rules and automated checks** (see **[`rules-and-automated-checks.md`](rules-and-automated-checks.md)**) and run them via **`build.py`** / **`operator.build_pipeline`**. One cell; use **`·`** between multiple commands. |
 
 **Do not** use a vague **Output** that only points at a **template file** when the real outcome is a **written document** or **directory tree**—say the **path** under the skill (e.g. **`docs/skill-plan.md`**).
+
+### Maps / models / specs pipeline table (seven columns, `Script` + `Outputs` variant)
+
+Skills such as **abd-maps-models-specs** use the **same seven-column count** with different labels: **`#`**, **Phase**, **Summary**, **Actor**, **Script**, **Outputs**, **`Ref`**.
+
+- **`Summary`** is the **third** column (after **`#`** and **Phase**) so wide prose sits early in the row and previews well in Markdown renderers.
+- **`Ref`** is the **last** column (phase doc links stay the right-hand anchor).
+
+Keep **exact header labels** (**`Outputs`** for concrete artifacts and paths) so tables stay consistent across stages.
 
 ---
 

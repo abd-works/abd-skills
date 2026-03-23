@@ -1,9 +1,5 @@
 ---
 rule_id: domain-types-and-deepen-quality
-phase_files:
-  - domain-types.md
-  - variant-classification.md
-  - deepen.md
 ---
 
 ## Promotion and deepen: quality bar for concepts

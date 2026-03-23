@@ -146,6 +146,14 @@ def resolved_manifest_sources() -> list[tuple[Path, str, str]]:
     return out
 
 
+# --- Phase artifact basenames (under PHASE2 / PHASE3) ---
+
+TERMS_LAYER_JSON = "terms_layer.json"
+MECHANISMS_JSON = "mechanisms.json"
+CANDIDATE_QUEUE_JSON = "candidate_queue.json"
+SHAPED_STORY_MAP_JSON = "shaped_story_map.json"
+
+
 # --- Phase output dirs (under output_dir) ---
 
 
@@ -187,11 +195,6 @@ def _init_module_paths() -> None:
 
 
 _init_module_paths()
-
-_rms = resolved_manifest_sources()
-# First declared canonical file (scripts that still expect one Path); use resolved_manifest_sources() for all.
-HEROES_HANDBOOK = _rms[0][0] if _rms else source_path_dir() / "HeroesHandbook.md"
-MM3_FIXTURE = WORKSPACE_ROOT
 
 
 def map_model_spec_path() -> Path:

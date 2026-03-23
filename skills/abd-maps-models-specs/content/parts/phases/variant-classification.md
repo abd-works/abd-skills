@@ -16,7 +16,7 @@
 
 1. For each variant family, record the **decision**: enum vs subtypes vs other **before** bulk property assignment.
 
-2. Align with **Explicit variant representation** in [`principles-and-rules.md`](../library/principles-and-rules.md) / plan principles table.
+2. Align with **Explicit variant representation** in [`principles.md`](../library/principles.md) / plan principles table.
 
 
 

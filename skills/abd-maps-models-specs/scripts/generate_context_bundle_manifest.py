@@ -9,10 +9,13 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from _config import (
+    CANDIDATE_QUEUE_JSON,
     CONTEXT_INDEX,
+    MECHANISMS_JSON,
     OUT_ROOT,
     PHASE2,
     SKILL_ROOT,
+    TERMS_LAYER_JSON,
     resolved_manifest_sources,
 )
 
@@ -38,9 +41,9 @@ def main() -> None:
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "sources": sources,
         "outputs": {
-            "mm3_terms_layer.json": _hash_file(PHASE2 / "mm3_terms_layer.json"),
-            "mm3_mechanisms.json": _hash_file(PHASE2 / "mm3_mechanisms.json"),
-            "mm3_candidate_queue.json": _hash_file(PHASE2 / "mm3_candidate_queue.json"),
+            TERMS_LAYER_JSON: _hash_file(PHASE2 / TERMS_LAYER_JSON),
+            MECHANISMS_JSON: _hash_file(PHASE2 / MECHANISMS_JSON),
+            CANDIDATE_QUEUE_JSON: _hash_file(PHASE2 / CANDIDATE_QUEUE_JSON),
         },
     }
     OUT_ROOT.mkdir(parents=True, exist_ok=True)

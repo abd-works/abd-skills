@@ -1,5 +1,5 @@
 """
-MapsInstructions — phase bundles: solution role + YAML-filtered rules + library slice + phase body + critical quality.
+MapsInstructions — phase bundles: solution role, phase body, library slice, rules, then principles (critical quality).
 
 Extends Instructions (abd-skill-builder shape) with maps-specific section IDs (``maps.*``).
 """
@@ -10,7 +10,8 @@ from typing import TYPE_CHECKING
 
 from build_support import (
     demote_all_headings,
-    load_rule_files_for_phase,
+    load_rules_by_stems,
+    stems_for_phase_rules,
     slug_to_phase_fname,
     strip_solution_role_block_for_agents,
 )
@@ -22,9 +23,15 @@ if TYPE_CHECKING:
 
 MAPS_PREFIX = "maps."
 
+# Stage 1 — Context & evidence: omit the trailing critical-quality slot entirely (library already carries
+# `principles.md` where configured). Stage 2+ append `critical-quality-steps.md` + optional focus note.
+_STAGE_1_PHASE_SLUGS: frozenset[str] = frozenset(
+    ("set-workspace", "context-markdown", "context-chunking-approach", "canonical-context")
+)
+
 
 class MapsInstructions(Instructions):
-    """Assemble one phase prompt: solution role, rules (frontmatter-filtered), library, phase steps, critical quality."""
+    """Assemble one phase prompt: role → phase file → library → rules → principles (critical quality)."""
 
     def assemble_prompt(self, slug: str, *, include_context: bool = True) -> str:
         section_ids = self._section_ids_for_slug(slug)
@@ -50,9 +57,9 @@ class MapsInstructions(Instructions):
         if slug in self._phase_files:
             return [
                 f"{MAPS_PREFIX}solution",
-                f"{MAPS_PREFIX}rules",
-                f"{MAPS_PREFIX}library",
                 f"{MAPS_PREFIX}phase.{slug}",
+                f"{MAPS_PREFIX}library",
+                f"{MAPS_PREFIX}rules",
                 f"{MAPS_PREFIX}critical_quality",
             ]
         raise KeyError(f"Unknown slug (not in phase_files or operation_sections): {slug}")
@@ -77,18 +84,19 @@ class MapsInstructions(Instructions):
             if not op_path.is_file():
                 return ""
             op = demote_all_headings(op_path.read_text(encoding="utf-8"), 2)
-            return "## Solution analyst role\n\n" + op
+            return "## Role\n\n" + op
 
         if section_id == f"{MAPS_PREFIX}rules":
-            rules = load_rule_files_for_phase(rules_dir, phase_fname)
+            stems = stems_for_phase_rules(self._skill_config, phase_slug)
+            rules = load_rules_by_stems(rules_dir, stems)
             if rules:
                 inner = "\n\n".join(
                     f"### `{name}`\n\n{demote_all_headings(text, 2)}" for name, text in rules
                 )
             else:
                 inner = (
-                    "*No rules mapped to this phase in `rules/*.md`. "
-                    "Each rule file must declare `phase_files:` (or `every_phase: true`) in YAML frontmatter — see `rules/README.md`.*"
+                    "*No rules listed for this phase in `skill-config.json` → `phase_rules` / `every_phase_rules` "
+                    "(stems = rule basename without `.md`). See `rules/README.md`.*"
                 )
             return "## Rules\n\n" + inner
 
@@ -116,17 +124,21 @@ class MapsInstructions(Instructions):
                 return ""
             body = strip_solution_role_block_for_agents(p.read_text(encoding="utf-8"))
             body = demote_all_headings(body.strip() + "\n", 2)
-            return "## Phase steps (normative)\n\n" + body
+            return "## Phase\n\n" + body
 
         if section_id == f"{MAPS_PREFIX}critical_quality":
+            note = (cq_notes.get(phase_slug) or "").strip()
+            if phase_slug in _STAGE_1_PHASE_SLUGS:
+                # No trailing "## Principles" slot: Stage 1 bundles already include `principles.md` under
+                # Library where configured; a second heading duplicated that content.
+                return ""
             cq_path = pd / "library" / cq_lib
             if not cq_path.is_file():
                 raise FileNotFoundError(f"Missing {cq_path}")
             cq = demote_all_headings(cq_path.read_text(encoding="utf-8"), 2)
-            note = (cq_notes.get(phase_slug) or "").strip()
             block = cq.rstrip() + "\n"
             if note:
                 block = block + "\n" + note + "\n"
-            return "## Critical quality steps\n\n" + block
+            return "## Principles\n\n" + block
 
         return ""

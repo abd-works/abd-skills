@@ -8,6 +8,13 @@ Emit for an AI session:
 python scripts/generate.py --phase workspace-and-config
 ```
 
+**Command line (workspace pointer):** From the **skill package root** (the folder that contains **`scripts/`** and **`conf/`**), same as **abd-maps-models-specs** **Set workspace** / **`scripts/set_workspace.py`**:
+
+- `python scripts/set_workspace.py` — prints the configured workspace path string (first non-empty among **`active_skill_workspace`**, then deprecated **`solution_workspace`** / **`skill_space_path`**).
+- `python scripts/set_workspace.py <path>` — sets **`active_skill_workspace`** in **`conf/abd-config.json`** to **`<path>`** (resolved; stored **relative to the skill package** when that keeps the value portable, otherwise absolute). Also writes the same string to **`solution_workspace`** for tools that still read the legacy key. **`<path>`** must be an existing directory (the **skill workspace** root — project or solution tree you run against).
+
+Scaffold copies **`scripts/set_workspace.py`** from **abd-skill-builder** into every new skill.
+
 ---
 
 ## Purpose
@@ -23,7 +30,7 @@ Make  **`skill_workspace`**, and **`conf/abd-config.json`** unambiguous for **th
 | Term | Meaning |
 | --- | --- |
 | **`skill_path`** | The directory where this  **skill package is installed** (`SKILL.md`, `rules/`, `scripts/`, install-time **`conf/`**). **Workspace routing** (when used) reads **`conf/abd-config.json`** at **`skill_path`**: which **skill workspace** is active, and optionally **`known_skill_workspaces`**, so you can **switch** without hunting paths in prose. |
-| **`skill_workspace`** | The **root of the project or solution** you are working on right now (e.g. MM3, a customer repo). This is the **mandatory “where am I running?”** location. Context defaults (e.g. `context/`) are under this root unless you pass paths explicitly. **Anything generated, created, or rendered by the skill** goes under **`skill_workspace/<skill_directory_name>/`** unless the skill’s workspace config overrides the output folder. |
+| **`skill_workspace`** | The **root of the project or solution** you are working on right now (e.g. a customer repo). This is the **mandatory “where am I running?”** location. Context defaults (e.g. `context/`) are under this root unless you pass paths explicitly. **Anything generated, created, or rendered by the skill** goes under **`skill_workspace/<skill_directory_name>/`** unless the skill’s workspace config overrides the output folder. |
 | **Solution workspace** | Same **root** as **`skill_workspace`** in this pipeline: the solution/project tree—not the skill install folder. |
 
 ### Two levels of `conf/`

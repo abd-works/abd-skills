@@ -6,12 +6,17 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 
-from _config import PHASE2
+from _config import (
+    CANDIDATE_QUEUE_JSON,
+    MECHANISMS_JSON,
+    PHASE2,
+    TERMS_LAYER_JSON,
+)
 
 REQUIRED = [
-    PHASE2 / "mm3_terms_layer.json",
-    PHASE2 / "mm3_mechanisms.json",
-    PHASE2 / "mm3_candidate_queue.json",
+    PHASE2 / TERMS_LAYER_JSON,
+    PHASE2 / MECHANISMS_JSON,
+    PHASE2 / CANDIDATE_QUEUE_JSON,
 ]
 
 

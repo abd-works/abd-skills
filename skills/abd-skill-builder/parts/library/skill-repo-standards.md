@@ -4,6 +4,8 @@
 
 **Full normative §3 (all subsections):** [`skill-standards-section-3.md`](skill-standards-section-3.md) — directory and content conventions (**§3.1**), rule naming (**§3.2**), assembly (**§3.3**), reference notes (**§3.4**): stages/phases/steps, process tables, optional domain+story-map pattern, `AGENTS.md` / `content/built/`.
 
+**Rules + scanners + build pipeline (base framework):** [`rules-and-automated-checks.md`](rules-and-automated-checks.md) — **default** wiring: **`rules/scanners.json`** bindings, **`operator.build_pipeline`** for **`build.py`**, **`operator.scanners`** for Operator; **do not** hang scanners off individual **process** phases.
+
 **Builder vs Operator (summary):** [`builder-vs-operator.md`](builder-vs-operator.md) — **scaffold / generation** path vs **`operator.run_operator()`** validation today.
 
 **Authoring checklist (human + AI):** [`authoring-checklist.md`](authoring-checklist.md) — normative body merged into **AGENTS.md**; in each skill, work the **## Authoring checklist** section inside **`docs/skill-plan.md`** (scaffold injects this file there). **`- [ ]` / `- [x]`** so work can **resume after interruption** (first unchecked box = continue here). Covers scaffold verification, rules/scanners, **library**, **`delivery.mode`**, **`test/`**, operator.
@@ -19,7 +21,7 @@
 | Area | Convention |
 |------|------------|
 | **Entry** | `SKILL.md` at skill root (frontmatter: `name`, `description`). |
-| **Operator config** | `skill-config.json` — `operator.compileall_paths`, `operator.build_script`, `operator.scanners`. |
+| **Operator config** | `skill-config.json` — `operator.compileall_paths`, `operator.build_script`, **`operator.build_pipeline`** (post-merge steps for **`build.py`**), **`operator.scanners`** (Operator; align paths with rule-bound scanners). See **[`rules-and-automated-checks.md`](rules-and-automated-checks.md)**. |
 | **Agent delivery** | `skill-config.json` — `delivery.mode`: **`static_built`** (pre-generate per-operation slices into **`content/built/`**) or **`runtime_injection`** (resolve the **same** sources at run time). **Only** that choice differs — always document **which paths** feed each operation, **merge order**, and **equivalence** to static output, in a **lookup** place (skill **`README.md`**, **`build.py`** manifest, or emitted manifest) so the team can switch modes later. **`AGENTS.md`** in **both** modes. See **`abd-skill-builder`** [`delivery-modes.md`](delivery-modes.md) (canonical: **`content/parts/library/delivery-modes.md`**). |
 | **Authoring prose (normative for writers)** | [`documentation-standards.md`](documentation-standards.md) — voice, where content belongs, process tables; complements **`docs/` vs `content/parts/`** rule. |
 | **Workspace routing** | **[workspace-and-config](../phases/workspace-and-config.md#skill-path-skill-workspace-and-configuration)** — **`skill_path`**, **`skill_workspace`**, **`conf/abd-config.json`** keys (**Workspace and config**). |
@@ -30,7 +32,7 @@
 | **Phases** | `content/parts/phases/<slug>.md` — **person-to-process** instructions for **one** process-table row: I/O, **steps**, scripts, done criteria. **Link** to **`library/`** for deep definitions; avoid duplicating large normative blocks that belong in **`library/`** because multiple phases need them. |
 | **Rules** | `rules/*.md` or `content/parts/rules/*.md`; optional `rules/scanners.json`. |
 | **Scripts** | `scripts/build.py` (**required** — merge/injection driver; scaffold template is minimal; extend with explicit phase order + per-operation bundles as in **`abd-maps-models-specs`** when needed), scanners, optional `_config.py`. See **`authoring-checklist.md`** → *Base scaffold*. |
-| **Tests & fixtures** | **`test/`** — all automated tests for the skill (pytest, smoke scripts, etc.) that exercise **`scripts/`**; optional **`test/fixture/<scenario>/`** for frozen inputs/snapshots; optional **`test/<workspace>/`** dirs when **`conf/abd-config.json`** uses **`active_skill_workspace`** (path relative to skill root). Example: **`abd-maps-models-specs/test/`** — workspace **`test/mm3`**, fixture **`test/fixture/mm3/`**. **`abd-skill-builder`** itself **does include** **`test/`** (see **`test/README.md`** + **`test/fixture/toy-polite-dialogue/`**) even though **pytest `test_*.py` files** are still optional follow-ups — do not read “pytest wiring pending” as “no **`test/`** folder.” **Operator today** only runs a **Python compile check** on **`operator.compileall_paths`** (usually **`["scripts"]`**; implemented with **`compileall`**) — it does **not** install or run **pytest**. If automated tests are **in scope**, add the **wiring** below. |
+| **Tests & fixtures** | **`test/`** — all automated tests for the skill (pytest, smoke scripts, etc.) that exercise **`scripts/`**; optional **`test/fixture/<scenario>/`** for frozen inputs/snapshots; optional **`test/<workspace>/`** dirs when **`conf/abd-config.json`** uses **`active_skill_workspace`** (path relative to skill root). Example: **`abd-maps-models-specs/test/`** — workspace **`test/sample-workspace`**, optional fixture **`test/fixture/<scenario>/`**. **`abd-skill-builder`** itself **does include** **`test/`** (see **`test/README.md`** + **`test/fixture/toy-polite-dialogue/`**) even though **pytest `test_*.py` files** are still optional follow-ups — do not read “pytest wiring pending” as “no **`test/`** folder.” **Operator today** only runs a **Python compile check** on **`operator.compileall_paths`** (usually **`["scripts"]`**; implemented with **`compileall`**) — it does **not** install or run **pytest**. If automated tests are **in scope**, add the **wiring** below. |
 | **Agent bundle (always)** | `AGENTS.md` — assembled agent bundle (skill-wide “how it works”); typically generated by `build.py`; **not** gated on `delivery.mode`. |
 | **Built slices (operation-time, static mode)** | `content/built/` — pre-merged process + library + rules per skill layout when `delivery.mode` is **`static_built`**. |
 | **Documentation focus (this skill only)** | Process plans, **rules**, and **docs** describe **what this skill does** — in positive, runnable terms for **this** package. **Do not** use them as a running commentary on how this skill **differs** from another skill, or why it **doesn’t** do something “because another skill does.” That is **local context in time**, not part of the durable skill. **Dependencies** (other skills, tools, repos, contracts) are **explicit** — names, links, versions — in a **Dependencies** section, `README`, or build-strategy notes. That is **not** the same as narrating deltas to sibling work. |
@@ -59,8 +61,8 @@ If the skill should run **pytest** (or similar) under **`test/`**, do **not** as
 2. `skill-config.json` parses; `operator` block consistent with files on disk.
 3. Python files on declared paths pass a **compile check** (Operator uses **`compileall`**).
 4. `python scripts/build.py` exits 0.
-5. Each listed **scanner** exits 0.
-6. **`rule_scanner_bindings`**: each `rule` and `scanner` path exists.
+5. Each listed **scanner** in **`operator.scanners`** exits **0** (and any step in **`operator.build_pipeline`** that **`build.py`** runs also exits **0** when you rely on **`build.py`** as the full local gate).
+6. **`rule_scanner_bindings`** (in **`rules/scanners.json`** when used): each **`rule_file`** and **`scanner`** path exists.
 
 ---
 

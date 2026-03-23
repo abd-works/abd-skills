@@ -1,6 +1,10 @@
 # AI quality: normative rules, scanners, and review
 
-**Every rule in `rules/` is two things at once:** (1) **Normative advice** — prose the AI follows while authoring `mm3_story_map.json`, `map-model-spec.json`, terms/mechanisms JSON, etc. (2) **Checkable expectations** — where this repo ships a **scanner or validator** (`scripts/`), it catches common misses; where it does not, **you** still review against the rule text.
+**Scope:** Injected into **Principles** for **Stage 2+** built phase bundles only. **Stage 1** (set-workspace through canonical-context) omits this file — use that phase’s **Phase**, **Library**, and **Rules** only.
+
+---
+
+**Every rule in `rules/` is two things at once:** (1) **Normative advice** — prose the AI follows while authoring `shaped_story_map.json`, `map-model-spec.json`, terms/mechanisms JSON, etc. (2) **Checkable expectations** — where this repo ships a **scanner or validator** (`scripts/`), it catches common misses; where it does not, **you** still review against the rule text.
 
 **Example (wrong):** Relying only on “the build passed” while epics are vague labels and stories have no `evidence_chunk_ids[]`.
 
@@ -23,7 +27,7 @@ After you have files on disk, the pipeline can run:
 
 | Mechanism | What it does |
 | --------- | ------------ |
-| **`python scripts/build.py`** | Phase 0 audit, `validate_context_contract.py` (when index exists), Phase 2 artifacts, **`validate_phase3_story_map.py`**, **`scanners/chunks_must_be_referenced.py`**, bundle manifest. |
+| **`python scripts/build.py`** | Merge + docs, then **`operator.build_pipeline`**: rule-bound scanners (see **`rules/scanners.json`**), Phase 2 emit, pipeline-output check, manifest, **`test_rule_examples.py`**. |
 | Individual scripts | Same modules as above; use when iterating one concern. |
 
 **Example (wrong):** Bulk search-replace in JSON to “fix” names without updating evidence links.
@@ -54,7 +58,7 @@ When recording or fixing a problem:
 | **Rule** | Rule id or `rules/<file>.md` name |
 | **Example (wrong)** | What was done incorrectly |
 | **Example (correct)** | What it should be |
-| **Scanner or validator** | If applicable — e.g. `validate_phase3_story_map.py`, `chunks_must_be_referenced.py` |
+| **Scanner or validator** | If applicable — see **`rules/scanners.json`**; run via **`build.py`** pipeline |
 | **Likely source** | One of: prompt gap · rule not read · edge case · automation gap |
 
 ---
@@ -65,4 +69,4 @@ When recording or fixing a problem:
 
 **Example (wrong):** “I’ll write `merge_story_map.py` to patch epics without going through the shaped story map contract.”
 
-**Example (correct):** Edit `phase3/mm3_story_map.json` (or the generator you were given) so structure and evidence fields match **`shaped-story-map.md`** and validators.
+**Example (correct):** Edit `phase3/shaped_story_map.json` (or the generator you were given) so structure and evidence fields match **`shaped-story-map.md`** and validators.

@@ -1,14 +1,12 @@
 ---
 rule_id: validate-and-manifest-gates
-phase_files:
-  - validate-render.md
 ---
 
 ## Validate & render: reproducible gates
 
 **Phase 8** — scanners, schema checks, reports, bundle manifest, optional CI.
 
-**What “done” means here:** (1) **Context contract** — `scripts/scanners/context_index_contract.py` when `context_index.json` exists (legacy wrapper: `validate_context_contract.py`). (2) **Story map** — `scripts/scanners/phase3_story_map_evidence.py` when `mm3_story_map.json` exists (legacy wrapper: `validate_phase3_story_map.py`). (3) **Map-model-spec citations** — `scripts/scanners/chunks_must_be_referenced.py` when `map-model-spec.json` exists. (4) **Pipeline outputs** — `scanner_pipeline_outputs.py` per your wiring. (5) **Manifest** — `generate_context_bundle_manifest.py` for reproducibility.
+**What “done” means here:** Run **`python scripts/build.py`** so **`operator.build_pipeline`** executes. That pipeline includes the **rule-bound** steps registered in **`rules/scanners.json`** (context index contract, shaped story map evidence, chunk citations when artifacts exist), **`scanner_pipeline_outputs.py`**, **`generate_context_bundle_manifest.py`**, and **`test_rule_examples.py`**. Extend or reorder steps in **`skill-config.json`** if your host needs a different operator sequence.
 
 **Render:** Reports and diagrams must **trace** to the same artifacts validators use—not a one-off narrative that drifts from JSON.
 
@@ -19,7 +17,7 @@ phase_files:
 - Run **`python scripts/build.py`** (or the same validators in CI) before you call the slice “done”; keep manifest hashes aligned with published outputs.
 
 ```text
-build.py: context_index_contract → phase3_story_map_evidence → chunks_must_be_referenced → manifest
+build.py: operator.build_pipeline (see skill-config.json) — includes rule-bound scanners from rules/scanners.json
 ```
 
 **DON'T**

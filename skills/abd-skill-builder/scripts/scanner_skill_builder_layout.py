@@ -7,12 +7,14 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+# Canonical authoring layout: `parts/library/`. (Some checkouts mirror under `content/parts/library/`.)
+_LIBRARY = ROOT / "parts" / "library"
 REQUIRED = [
-    ROOT / "content" / "parts" / "library" / "skill-repo-standards.md",
-    ROOT / "content" / "parts" / "library" / "builder-vs-operator.md",
-    ROOT / "content" / "parts" / "library" / "skill-standards-section-3.md",
+    _LIBRARY / "skill-repo-standards.md",
+    _LIBRARY / "builder-vs-operator.md",
+    _LIBRARY / "skill-standards-section-3.md",
+    _LIBRARY / "rules-and-automated-checks.md",
     ROOT / "content" / "built" / "README.md",
-    ROOT / "docs" / "delivery.md",
     ROOT / "conf" / "README.md",
     ROOT / "conf" / "abd-config.json",
     ROOT / "scripts" / "scaffold_skill.py",

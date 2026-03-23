@@ -1,0 +1,13 @@
+{
+  "schema": "bundle_manifest/v1",
+  "generated_at": "2026-03-23T16:43:05.310672+00:00",
+  "sources": {
+    "context/HeroesHandbook.md": "85e548645f089afd7f98b04d4030edcf8c91700f8c76e5860a2fa5f79627a276",
+    "context/context_index.json": "6d97ab984ccbad6390d8bf1756d419f4837fece2c831cb9bf463802a7847f780"
+  },
+  "outputs": {
+    "terms_layer.json": "ab34e211ed0ff81acf1de3c56a35d651fcdc70052b0eebb687347873539f1ece",
+    "mechanisms.json": "f5c5790cae267f7ac92f682b4f72ad64214f166c82257bf125033f80b4c6c7fd",
+    "candidate_queue.json": "b9a3381e986acf2ab28efb7fce718f3da2ec641a011021b35d1391a49c020bf0"
+  }
+}

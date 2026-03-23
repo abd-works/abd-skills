@@ -2,7 +2,7 @@
 
 
 
-Long-lived reference for the skill: **why** (principles), **what order** (execution), **construct-specific** norms (Phase 1 package, Phase 2 terms, Phase 3 story map, …), and **domain / story** prose. These files are written so a **solution analyst** can run the pipeline without prior context from a planning session or chat history.
+Long-lived reference for the skill: **why** (principles), **construct-specific** norms (Phase 1 package, Phase 2 terms, Phase 3 story map, …), and **domain / story** prose. These files are written so a **solution analyst** can run the pipeline without prior context from a planning session or chat history. **Execution order** is in [`content/parts/process.md`](../content/parts/process.md) (not duplicated here).
 
 
 
@@ -18,14 +18,10 @@ Long-lived reference for the skill: **why** (principles), **what order** (execut
 
 |----------|---------|
 
-| [`principles-and-rules.md`](../content/parts/library/principles-and-rules.md) | Principles table, cross-cutting rules, how to revise a principle, fixture inventory |
-
-| [`execution-and-success.md`](../content/parts/library/execution-and-success.md) | Execution order (what to do next) + reusable success definition |
+| [`principles.md`](../content/parts/library/principles.md) | Principles table only (why we work this way); checkable rules live in `rules/` and phase bundles |
 
 | [`phases/context-chunking-approach.md`](../content/parts/phases/context-chunking-approach.md) | Phase 0 — scan big Markdown, write **context_chunking_spec** (structure, not pass/fail) |
 | [`phases/canonical-context.md`](../content/parts/phases/canonical-context.md) | Phase 1 — build chunks + index; evidence typing vs promotion |
-
-| [`pipeline_invariants.md`](../content/parts/library/pipeline_invariants.md) | Cross-cutting gates: layers 1–4 and promotion discipline |
 
 | [`context-spec.md`](../content/parts/library/context-spec.md) | **Phase 1 only:** provenance, single script surface, validation |
 

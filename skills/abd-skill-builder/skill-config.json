@@ -9,7 +9,8 @@
     "authoring-checklist.md",
     "skill-repo-standards.md",
     "skill-standards-section-3.md",
-    "builder-vs-operator.md"
+    "builder-vs-operator.md",
+    "rules-and-automated-checks.md"
   ],
   "phase_files": [
     "workspace-and-config",
@@ -25,7 +26,25 @@
   "agents_front": [],
   "agents_front_heading": "## Front matter",
   "PHASE_LIBRARY_SLICES": {},
-  "phase_rules": {},
+  "every_phase_rules": [],
+  "phase_rules": {
+    "workspace-and-config": [],
+    "plan-script-build": [],
+    "plan-migrate": [],
+    "scaffold": [],
+    "migrate": [],
+    "fill-scaffold-parts": []
+  },
+  "phase_bundle": {
+    "order": ["role", "phase", "library", "rules", "principles"],
+    "role_file": "solution-analyst-role.md",
+    "principles_file": "critical-quality-steps.md",
+    "role_heading": "## Role",
+    "phase_heading": "## Phase",
+    "library_heading": "## Library",
+    "rules_heading": "## Rules",
+    "principles_heading": "## Principles"
+  },
   "operation_sections": {},
   "delivery": {
     "mode": "static_built",
@@ -34,6 +53,7 @@
   "operator": {
     "compileall_paths": ["scripts"],
     "build_script": "scripts/build.py",
+    "build_pipeline": ["scripts/scanner_skill_builder_layout.py"],
     "scanners": ["scripts/scanner_skill_builder_layout.py"]
   }
 }

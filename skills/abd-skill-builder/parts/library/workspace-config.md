@@ -9,7 +9,7 @@ s filel path, skill workspace, and configuration (normative)
 | Term | Meaning |
 | --- | --- |
 | **`skill_path`** | The directory where the **skill package is installed** (`SKILL.md`, `rules/`, `scripts/`, install-time `conf/`). Almost nothing here is **about** a customer corpus or generated artifacts. What **must** live here for workspace routing is **`conf/abd-config.json`**: which **skill workspace** is active, and optionally which workspaces you have used before, so you can **switch** without hunting paths in prose. |
-| **`skill_workspace`** | The **root of the project or solution** you are working on right now (e.g. MM3, a customer repo). This is the **mandatory “where am I running?”** location. Context defaults (e.g. `context/`) are under this root unless you pass paths explicitly. **Anything generated, created, or rendered by the skill** goes under **`skill_workspace/<skill_directory_name>/`** unless the skill’s workspace config overrides the output folder. |
+| **`skill_workspace`** | The **root of the project or solution** you are working on right now (e.g. a customer repo). This is the **mandatory “where am I running?”** location. Context defaults (e.g. `context/`) are under this root unless you pass paths explicitly. **Anything generated, created, or rendered by the skill** goes under **`skill_workspace/<skill_directory_name>/`** unless the skill’s workspace config overrides the output folder. |
 | **Solution workspace** | Same **root** as **`skill_workspace`** in this pipeline: the solution/project tree—not the skill install folder. |
 
 ## Two levels of `conf/`

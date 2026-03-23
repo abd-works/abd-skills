@@ -1,14 +1,12 @@
 ---
 rule_id: deepen-approved-tools-only
-phase_files:
-  - deepen.md
 ---
 
 ## Deepen: approved tooling only
 
 **Phase 6** — responsibilities, evidence, `depends_on`, cross-type structure.
 
-Deepening is **reasoning-heavy**. You may use **chat**, **agent sessions**, or **small drivers** that the skill **documents** (see phase file and [`execution-and-success.md`](../content/parts/library/execution-and-success.md)).
+Deepening is **reasoning-heavy**. You may use **chat**, **agent sessions**, or **small drivers** that the skill **documents** (see phase file and [`content/parts/process.md`](../content/parts/process.md)).
 
 If this repo adds a **pair-chat** or similar driver, it belongs **here** as an **approved** path with the same token/scope discipline as the phase doc—not as a rogue script that bypasses review.
 

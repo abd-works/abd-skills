@@ -90,16 +90,8 @@ class AgileContextEngine:
         if not self.skills:
             raise RuntimeError("Engine has no skills; call load() after fixing conf/abd-config.json")
         skill = self.skills[0]
-        parts_dir = _resolve_parts_dir(skill.path)
-        built = parts_dir / "phases" / "built" / f"{slug}.md"
+        built = skill.path / "content" / "built" / "phases" / f"{slug}.md"
         if form == "static" and built.is_file():
             return built.read_text(encoding="utf-8")
         # static with missing/stale built file → assemble from sources
         return skill.instructions.assemble_prompt(slug)
-
-
-def _resolve_parts_dir(skill_path: Path) -> Path:
-    p = skill_path / "content" / "parts"
-    if (p / "process.md").is_file():
-        return p
-    return skill_path / "parts"

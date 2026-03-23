@@ -1,7 +1,5 @@
 ---
 rule_id: integrate-coherence
-phase_files:
-  - integrate.md
 ---
 
 ## Integrate: one coherent map, model, and spec

@@ -39,7 +39,7 @@ Prefer **you must**, **you will**, and **then you** (sequence) over passive voic
 | **Library shards** — definitions, glossaries, artifact shapes, naming, invariants for ideas that **span multiple phases** | `content/parts/library/<topic>.md` | Phase-local procedures, numbered runbooks, pipeline order, or “run `python scripts/…`” blocks that belong in **`phases/`**. |
 | **Baked agent instructions** — bases + rules + roles merged before `AGENTS.md` | Source fragments under `content/parts/`; **output of merge** under `content/built/` (or `phases/built/`) **before** final generation | Edit only the final `AGENTS.md` by hand when a build step should own the merge. |
 | **Standalone construct reference** — one artifact contract (schema, validators, chunk layout), diagrams, deep dives | `docs/<descriptive-name>.md` | Treat `docs/` as the **only** place agent-facing norms live; duplicate the “must do” into `content/parts/` or generate into `content/built/`. |
-| **Cross-cutting** — principles, execution order, invariants that apply across phases | Usually `docs/` (`principles-and-rules.md`, `execution-and-success.md`, `pipeline_invariants.md`); **link** from `content/parts/` where needed | Restate every phase inside them; **link** to the process table instead. |
+| **Cross-cutting** — principles, execution order, invariants that apply across phases | Usually `docs/` or `content/parts/library/` (e.g. principles prose); **governance rules** that vary by phase: **`skill-config.json`** → **`phase_rules`** / **`every_phase_rules`** + `rules/*.md` (see **`process-approach.md`**). **Link** from `content/parts/` where needed | Restate every phase inside cross-cutting docs; **link** to the process table instead. |
 
 **Reference-doc filenames:** Do **not** prefix `docs/` filenames with phase numbers (e.g. avoid `phase2_terms.md`). Use **descriptive kebab-case** slugs (`terms-mechanisms-contract.md`, `behavioral-story-map.md`). Phase order belongs in `process.md` and `content/parts/phases/`, not in filenames.
 
@@ -72,11 +72,11 @@ If a paragraph would still make sense **after renumbering or reordering phases**
 
 ## Process tables
 
-Keep the **stage narrative** at **intent and outcome**. The **table** holds actors, scripts, refs, and fixture paths.
+Keep the **stage narrative** at **intent and outcome**. The **table** holds actors, scripts, refs, and deliverable paths.
 
 Normative column meanings, the required **workspace** phase (**Phase 0** informally), **`Input`/`Output` rules**, and **`build.py`/`generate.py` alignment** are in **[`process-table-standards.md`](process-table-standards.md)**. Use that doc whenever you create or refactor **`process.md`** in another skill.
 
-Optional: an extra **Summary** column per row (**two or three sentences**) is allowed if you keep the abd-skill-builder **seven-column** shape as the default—do not drop **Input** / **Output** / **Scripts** in favor of summary-only rows.
+Optional: an extra **Summary** column per row (**two or three sentences**) is allowed if you keep the abd-skill-builder **seven-column** shape as the default—do not drop **Input** / **Output** / **Scripts** in favor of summary-only rows. For the **maps-models-specs**-style table (**`Script`**, **`Outputs`**, **`Ref`**), put **`Summary`** in the **third** column (after **`#`**, **Phase**) and **`Ref`** **last**—see **`process-table-standards.md`** § Maps / models / specs pipeline table.
 
 ## When you edit
 

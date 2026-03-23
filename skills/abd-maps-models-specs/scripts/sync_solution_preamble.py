@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """
 Remove legacy `<!-- solution-analyst-role:start -->` … `<!-- solution-analyst-role:end -->` blocks from
-source files under `content/parts/phases/` (not `phases/built/`).
+source files under `content/parts/phases/` (not `content/built/` — those are generated).
 
 **Canonical role text** lives in `content/parts/solution-analyst-role.md`. It is **not** duplicated in
-source phase files. **`python scripts/build.py`** (merge) assembles **built** phase bundles
-(`content/parts/phases/built/<slug>.md`, etc.) and injects the role there via `MapsInstructions`.
+source phase files. **`python scripts/build.py`** (merge) assembles **built** phase bundles under
+`content/built/phases/<slug>.md` and injects the role there via `MapsInstructions`.
 
 Run after a one-time cleanup or if a phase file still contains old markers:
 

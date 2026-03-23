@@ -1,13 +1,10 @@
 ---
 rule_id: variant-decisions-before-deepen
-phase_files:
-  - variant-classification.md
-  - deepen.md
 ---
 
 ## Variant representation before deep property work
 
-**Process:** Phase **5** (variant classification) **before** Phase **6** (deepen). See [`pipeline_invariants.md`](../content/parts/library/pipeline_invariants.md).
+**Process:** Phase **5** (variant classification) **before** Phase **6** (deepen). See [`content/parts/process.md`](../content/parts/process.md) for pipeline order.
 
 For each **family of variation**, decide **how** it is represented (enum vs subtypes vs other) **before** you spread properties and operations across types. Deepening (Phase 6) **assumes** those decisions are stable enough to argue responsibilities and `depends_on` without constant rework.
 

@@ -80,6 +80,11 @@ def scaffold(out: Path, *, name: str, description: str, purpose: str) -> None:
     built.mkdir(parents=True, exist_ok=True)
     (built / "README.md").write_text(_load("phases_built_README.md.template"), encoding="utf-8")
     (parts / "process.md").write_text(_apply(_load("process.md.template"), ctx), encoding="utf-8")
+    wac_src = ROOT / "parts" / "phases" / "workspace-and-config.md"
+    if not wac_src.is_file():
+        wac_src = ROOT / "content" / "parts" / "phases" / "workspace-and-config.md"
+    if wac_src.is_file():
+        shutil.copyfile(wac_src, phases / "workspace-and-config.md")
     (phases / "author.md").write_text(_apply(_load("phase_author.md.template"), ctx), encoding="utf-8")
 
     scripts = out / "scripts"
@@ -89,6 +94,9 @@ def scaffold(out: Path, *, name: str, description: str, purpose: str) -> None:
     gen_alias = ROOT / "scripts" / "generate.py"
     if gen_alias.is_file():
         shutil.copyfile(gen_alias, scripts / "generate.py")
+    ws_script = ROOT / "scripts" / "set_workspace.py"
+    if ws_script.is_file():
+        shutil.copyfile(ws_script, scripts / "set_workspace.py")
     (scripts / "scanner_smoke.py").write_text(_apply(_load("child_scanner_smoke.py.template"), ctx), encoding="utf-8")
 
     rules = out / "rules"
@@ -111,7 +119,10 @@ def scaffold(out: Path, *, name: str, description: str, purpose: str) -> None:
 
     print(f"Scaffolded skill at {out.resolve()}")
     print("docs/skill-plan.md in the new skill — plan + authoring checklist (one file); track - [ ] / - [x] in the checklist section.")
-    print("conf/abd-config.json must set active_skill_workspace (mandatory). Edit it, then: python scripts/build.py")
+    print(
+        "conf/abd-config.json must set active_skill_workspace (mandatory). "
+        "Use: python scripts/set_workspace.py <path> — or edit JSON — then: python scripts/build.py"
+    )
 
 
 def main() -> int:

@@ -56,32 +56,72 @@ def parse_rule_frontmatter(raw: str) -> tuple[dict[str, Any], str]:
     return meta, body
 
 
-def rule_applies_to_phase(meta: dict[str, Any], phase_fname: str) -> bool:
-    if meta.get("every_phase"):
-        return True
-    phases = meta.get("phase_files") or []
-    return phase_fname in phases
+def stems_for_phase_rules(skill_config: dict[str, Any], phase_slug: str) -> list[str]:
+    """Ordered rule stems (basename without ``.md``) for a phase: ``every_phase_rules`` then ``phase_rules[slug]``."""
+    every: list[str] = list(skill_config.get("every_phase_rules") or [])
+    per: list[str] = list((skill_config.get("phase_rules") or {}).get(phase_slug, []))
+    seen: set[str] = set()
+    out: list[str] = []
+    for s in every + per:
+        stem = str(s).strip()
+        if not stem or stem in seen:
+            continue
+        seen.add(stem)
+        out.append(stem)
+    return out
 
 
-def load_rule_files_for_phase(rules_dir: Path, phase_fname: str) -> list[tuple[str, str]]:
-    """Rule filename + body (frontmatter stripped) for this phase bundle only."""
-    out: list[tuple[str, str]] = []
+def configured_rule_stems(skill_config: dict[str, Any]) -> set[str]:
+    """All stems referenced by ``every_phase_rules`` and ``phase_rules``."""
+    stems: set[str] = set(skill_config.get("every_phase_rules") or [])
+    for slist in (skill_config.get("phase_rules") or {}).values():
+        for s in slist or []:
+            if str(s).strip():
+                stems.add(str(s).strip())
+    return stems
+
+
+def warn_orphan_rule_files(rules_dir: Path, skill_config: dict[str, Any]) -> None:
+    """Print a warning for each ``rules/*.md`` (except README) whose stem is not listed in skill-config rule lists."""
     if not rules_dir.is_dir():
-        return out
+        return
+    configured = configured_rule_stems(skill_config)
     for rp in sorted(rules_dir.glob("*.md")):
         if rp.name.lower() == "readme.md":
             continue
-        raw = rp.read_text(encoding="utf-8")
-        meta, body = parse_rule_frontmatter(raw)
-        if not rule_applies_to_phase(meta, phase_fname):
-            continue
-        if not meta.get("phase_files") and not meta.get("every_phase"):
+        stem = rp.stem
+        if stem not in configured:
             print(
-                f"Warning: rules/{rp.name} has no phase_files / every_phase — skipped. "
-                "Set YAML frontmatter (see rules/README.md).",
+                f"Warning: rules/{rp.name} is not listed in every_phase_rules or any phase_rules entry "
+                f"in skill-config.json — it will never be inlined into a phase bundle.",
                 flush=True,
             )
+
+
+def warn_unknown_phase_rule_keys(skill_config: dict[str, Any]) -> None:
+    """Print a warning if ``phase_rules`` contains keys not present in ``phase_files``."""
+    phases = set(skill_config.get("phase_files") or [])
+    pr_keys = set(skill_config.get("phase_rules") or {})
+    extra = pr_keys - phases
+    if extra:
+        print(
+            f"Warning: phase_rules has keys not in phase_files: {sorted(extra)}",
+            flush=True,
+        )
+
+
+def load_rules_by_stems(rules_dir: Path, stems: list[str]) -> list[tuple[str, str]]:
+    """Load ``rules/<stem>.md`` in order; return ``(filename, body)`` with YAML frontmatter stripped from body."""
+    out: list[tuple[str, str]] = []
+    if not rules_dir.is_dir():
+        return out
+    for stem in stems:
+        rp = rules_dir / f"{stem}.md"
+        if not rp.is_file():
+            print(f"Warning: phase_rules references missing rules/{stem}.md — skipped.", flush=True)
             continue
+        raw = rp.read_text(encoding="utf-8")
+        _meta, body = parse_rule_frontmatter(raw)
         body = body.strip() + "\n"
         if not body.strip():
             continue
@@ -105,6 +145,10 @@ def demote_all_headings(md: str, extra_levels: int = 2) -> str:
 
 def rewrite_links_for_agents_md(md: str, phase_files: list[str]) -> str:
     """Paths relative to skill root (AGENTS.md and agents-staged.md location)."""
+    # process.md lives under content/parts/ — ``../built/`` works there; AGENTS.md lives at skill root.
+    md = md.replace("](../built/", "](content/built/")
+    # process.md lives under content/parts/ — links to ../../scripts/ must work from skill root in AGENTS.md
+    md = md.replace("](../../scripts/", "](scripts/")
     md = md.replace("](../content/parts/library/", "](content/parts/library/")
     md = md.replace("../../../docs/", "docs/")
     md = md.replace("../../docs/", "docs/")
@@ -124,13 +168,15 @@ def rewrite_links_for_agents_md(md: str, phase_files: list[str]) -> str:
 
 
 def rewrite_links_for_phase_bundle(md: str, phase_files: list[str]) -> str:
-    """Links in bundle files live under content/built/phases/ or parts/phases/built/ — adjust skill-root paths."""
+    """Rewrite links for per-phase bundles under ``content/built/phases/`` (relative to that folder)."""
     md = rewrite_links_for_agents_md(md, phase_files)
-    # ``../content/parts/library/`` in rules → ``content/parts/library/`` in agents_md; then:
-    # Must run before blanket ``content/parts/`` → ``../../parts/`` (library lives under ``parts/library/``).
-    md = md.replace("](content/parts/library/", "](../../library/")
+    # From ``content/built/phases/<slug>.md``: ``../..`` = ``content/``; targets live under ``content/parts/``.
+    md = md.replace("](content/parts/library/", "](../../parts/library/")
+    md = md.replace("](content/parts/phases/", "](../../parts/phases/")
     md = md.replace("](content/parts/", "](../../parts/")
-    md = md.replace("](../content/parts/", "](../../parts/")
+    md = md.replace("](../content/parts/", "](../../../content/parts/")
+    md = md.replace("](../phases/", "](../../parts/phases/")
+    md = md.replace("](../library/", "](../../parts/library/")
     md = md.replace("](docs/", "](../../../docs/")
     return md
 

@@ -8,13 +8,14 @@ For an **existing** skill tree (not greenfield): **[`plan-migrate.md`](plan-migr
 
 ## Base scripts from abd-skill-builder (what scaffold emits)
 
-**`scripts/scaffold_skill.py`** in **abd-skill-builder** builds a new skill under **`--out`**. It writes **`scripts/`** using templates from **`abd-skill-builder/templates/`** and **copies** one file verbatim from this repo. After scaffold, you **extend** merge lists and phase slugs to match your **`parts/phases/*.md`** and **`parts/library/`**.
+**`scripts/scaffold_skill.py`** in **abd-skill-builder** builds a new skill under **`--out`**. It writes **`scripts/`** using templates from **`abd-skill-builder/templates/`** and **copies** **`generate.py`** and **`set_workspace.py`** verbatim from **abd-skill-builder** `scripts/`. After scaffold, you **extend** merge lists and phase slugs to match your **`parts/phases/*.md`** and **`parts/library/`**.
 
 | Script | Source | Role | What you extend |
 | --- | --- | --- | --- |
 | **`generate.py`** | **Copied** from **abd-skill-builder** `scripts/generate.py` | Thin CLI: loads **`generate_prompt.py`** and runs **`main()`**. | Almost never—keep in sync with builder if the contract changes. |
+| **`set_workspace.py`** | **Copied** from **abd-skill-builder** `scripts/set_workspace.py` | Prints or sets **`active_skill_workspace`** / legacy keys in **`conf/abd-config.json`** (same CLI as **abd-maps-models-specs**). | Almost never—keep in sync with builder. |
 | **`generate_prompt.py`** | **Template** `generate_prompt.py.template` (or equivalent in **`templates/`**) | Resolves **`parts/`** vs **`content/parts/`**, loads **`phases/<slug>.md`**, optional **`phases/built/`** for **`--mode static`**. | **`PARTS`** path logic; **`PHASES`**, **`BUILT`**; add flags only if the skill needs them. Every AI-chat phase must be reachable via **`python scripts/generate.py --phase <slug>`**. |
-| **`build.py`** | **Template** `child_build.py.template` | Merges **`process.md`** + **`library/*.md`** + **`phases/*.md`** → **`AGENTS.md`** (+ **`content/built/`**). | **`LIBRARY_FILES`** tuple (order); **`PHASE_FILES`** tuple (order—**must** start with **`workspace-and-config`** if that phase exists); **`PHASE_SECTION_HEADINGS`** for human **`##`** titles; **`_process_md_for_agents`** link rewrites for your paths; title **`# AGENTS — <skill>`**. |
+| **`build.py`** | **Template** `child_build.py.template` | Merges **`process.md`** + **`library/*.md`** + **`phases/*.md`** → **`AGENTS.md`** (+ **`content/built/`**); then runs **`operator.build_pipeline`** from **`skill-config.json`** (rule-bound scanners, emitters—see **[`../library/rules-and-automated-checks.md`](../library/rules-and-automated-checks.md)**). | **`LIBRARY_FILES`** tuple (order); **`PHASE_FILES`** tuple (order—**must** start with **`workspace-and-config`** if that phase exists); **`PHASE_SECTION_HEADINGS`** for human **`##`** titles; **`_process_md_for_agents`** link rewrites for your paths; title **`# AGENTS — <skill>`**; extend **`build.py`** to run **`build_pipeline`** if the template is older. |
 | **`scanner_smoke.py`** | **Template** `child_scanner_smoke.py.template` | Placeholder scanner exit **0**; Operator wiring via **`skill-config.json`**. | Replace or supplement with real scanners (e.g. layout, JSON schema); register in **`rules/scanners.json`**. |
 
 **abd-skill-builder** also ships **`scanner_skill_builder_layout.py`** — **not** copied to child skills by default; child skills use their own scanners.
@@ -30,7 +31,7 @@ For an **existing** skill tree (not greenfield): **[`plan-migrate.md`](plan-migr
 | **`conf/abd-config.json`** | From **`abd-config.json.template`** — set **`active_skill_workspace`** (see **[Workspace and config](workspace-and-config.md)**). |
 | **`parts/process.md`** or **`content/parts/process.md`** | From **`process.md.template`** — replace/enrich with **[`process-team.md.template`](../../templates/process-team.md.template)** and obey **[`process-table-standards.md`](../library/process-table-standards.md)**. |
 | **`docs/skill-plan.md`** | From **`skill-plan.md.template`** + injected **Authoring checklist** body. |
-| **`phases/workspace-and-config.md`** | **Not** always emitted by minimal scaffold—**add** **`workspace-and-config.md`** under **`parts/phases/`** (copy from **abd-skill-builder** or follow **`process-table-standards.md`**) so **Phase 0** / **Workspace and config** exists. Wire it **first** in **`build.py`** **`PHASE_FILES`** and add a process table row with **`#`** **`—`**. |
+| **`phases/workspace-and-config.md`** | **Not** always emitted by minimal scaffold—**add** **`workspace-and-config.md`** under **`parts/phases/`** (copy from **abd-skill-builder** or follow **`process-table-standards.md`**) so **Phase 0** / **Workspace and config** exists. Wire it **first** in **`build.py`** **`PHASE_FILES`** and add a process table row with **`#`** **`0`**. |
 
 If your **`templates/`** folder is missing files **`scaffold_skill.py` references** (`process.md.template`, `child_build.py.template`, etc.), pull them from **abd-skill-builder** or run scaffold from a complete **abd-skill-builder** checkout.
 

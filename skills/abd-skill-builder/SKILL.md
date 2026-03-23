@@ -1,6 +1,6 @@
 ---
 name: abd-skill-builder
-description: Portable standards, templates, and scaffold for skills.sh-style packages — aligns with Operator checks (Python compile validity, build.py, scanners) and the layout rules in this skill’s library.
+description: Portable standards, templates, and scaffold for skills.sh-style packages — aligns with Operator checks (Python compile validity, build.py, scanners) and the layout rules in this skill’s library. **Rule-bound automation** defaults to **`rules/scanners.json`** + **`operator.build_pipeline`** + **`operator.scanners`** per **`parts/library/rules-and-automated-checks.md`**.
 ---
 
 # Abd skill builder (standards + scaffold)
@@ -41,6 +41,7 @@ python scripts/build.py
 - **Plan skill migration** (**1b** — inventory + **standards-delta** + user picks **IDs**): **`parts/phases/plan-migrate.md`**
 - **Migrate existing skill** (**2b** — execute **1b**): **`parts/phases/migrate.md`**
 - **Team process plate** (rich **`process.md`** like **abd-maps-models-specs**): **`templates/process-team.md.template`** — see **`parts/library/process-approach.md`** (*Team process plate*).
+- **Rules in AI-chat phase bundles:** declare **`phase_rules`** and optional **`every_phase_rules`** in **`skill-config.json`** (rule file stem = basename without `.md`). **`scripts/instructions.py`** inlines them in **`phase_bundle`** order; see **`parts/library/process-approach.md`** (*Default `phase_bundle` order*). Scaffold template: **`templates/skill-config.json.template`**.
 - **Phase markdown files:** use **descriptive kebab-case slugs** (`story-map.md`, `terms-mechanisms.md`) — **not** `phase-00-…` filenames or `# Phase N —` H1 titles. Pipeline order lives in **`process.md`** (# column) and **`build.py`**’s merge list (§3.1 table + naming bullets in **`skill-standards-section-3.md`**).
 
 ## See also

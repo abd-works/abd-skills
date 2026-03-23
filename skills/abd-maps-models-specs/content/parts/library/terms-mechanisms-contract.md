@@ -2,13 +2,13 @@
 
 **Goal (Phase 2):** Glossary and **named processes** exist **before** sparse `concepts[]` (see [`content/parts/process.md`](../content/parts/process.md)).
 
-## Artifacts (under `test/mm3/abd-maps-models-specs/phase2/`)
+## Artifacts (under `<workspace>/<output_dir>/phase2/`)
 
 | File | Role |
 |------|------|
-| `mm3_terms_layer.json` | **Terms** — surface vocabulary + links to chunk IDs; not classes. |
-| `mm3_mechanisms.json` | **Mechanisms** — named workflows/lifecycles with steps + evidence. |
-| `mm3_candidate_queue.json` | **Candidate queue** — possible types with rationale; **not** in `concepts[]` until Phase 4 gate. |
+| `terms_layer.json` | **Terms** — surface vocabulary + links to chunk IDs; not classes. |
+| `mechanisms.json` | **Mechanisms** — named workflows/lifecycles with steps + evidence. |
+| `candidate_queue.json` | **Candidate queue** — possible types with rationale; **not** in `concepts[]` until Phase 4 gate. |
 
 ## Exit criterion
 

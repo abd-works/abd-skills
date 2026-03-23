@@ -2,10 +2,14 @@
 """Merge library + process + phases into AGENTS.md; write phases/built/*.md (derived).
 
 Merge order and delivery policy: skill root ``README.md`` — Delivery & merge order.
+
+After merge, runs optional post-merge steps from ``skill-config.json`` → ``operator.build_pipeline``
+(same base pattern as ``abd-maps-models-specs``). See ``parts/library/rules-and-automated-checks.md``.
 """
 
 from __future__ import annotations
 
+import subprocess
 import sys
 from pathlib import Path
 
@@ -36,7 +40,7 @@ python scripts/build.py
 PHASES_BUILT_README = """# parts/phases/built/ — derived per-phase prompts
 
 Files here are **generated** by **`scripts/build.py`**. Sources of truth: **`skill-config.json`**
-(`PHASE_LIBRARY_SLICES`, `phase_rules`, …) and **`parts/`** / **`rules/`**.
+(`PHASE_LIBRARY_SLICES`, `phase_rules`, `every_phase_rules`, `phase_bundle`, …) and **`parts/`** / **`rules/`**.
 
 Regenerate:
 
@@ -46,6 +50,13 @@ python scripts/build.py
 
 **Runtime:** `python scripts/generate_prompt.py --phase <slug> --mode static` reads these files when present; otherwise assembles from sources (`dynamic`).
 """
+
+
+def _run_script_relative_to_root(skill_root: Path, rel: str) -> None:
+    r = rel.replace("\\", "/").strip()
+    path = skill_root / r
+    print(f"--- {r} ---", flush=True)
+    subprocess.run([sys.executable, str(path)], cwd=str(skill_root), check=True)
 
 
 def main() -> None:
@@ -72,6 +83,13 @@ def main() -> None:
         print(f"Wrote {p.relative_to(ROOT)}")
     (built_phase_dir / "README.md").write_text(PHASES_BUILT_README, encoding="utf-8")
     print(f"Wrote {(built_phase_dir / 'README.md').relative_to(ROOT)}")
+
+    op = cfg.get("operator") or {}
+    pipeline: list[str] = list(op.get("build_pipeline") or [])
+    for step in pipeline:
+        _run_script_relative_to_root(ROOT, step)
+    if pipeline:
+        print("build.py: build_pipeline complete", flush=True)
 
 
 if __name__ == "__main__":

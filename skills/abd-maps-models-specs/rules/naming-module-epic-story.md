@@ -1,16 +1,12 @@
 ---
 rule_id: naming-module-epic-story
-phase_files:
-  - shaped-story-map.md
-  - domain-types.md
-  - integrate.md
 ---
 
 ## Naming: modules, epics, stories
 
 Names should read as **capabilities and behaviors**, not undifferentiated nouns. **Verb–noun** patterns at story level help reviewers see **who does what**.
 
-**Story map** (`mm3_story_map.json`): epic and story names stay **behaviorally legible** when integrated with terms from Phase 2.
+**Story map** (`shaped_story_map.json`): epic and story names stay **behaviorally legible** when integrated with terms from Phase 2.
 **Domain types** (`concepts[]` / module groupings): concept names are **domain language**, not framework jargon—avoid “Manager/Helper/Utils” unless the domain truly uses those words.
 **Integrate:** when merging synonyms, **preserve** behavioral readability—integration is not a license to collapse distinct capabilities into one vague label.
 

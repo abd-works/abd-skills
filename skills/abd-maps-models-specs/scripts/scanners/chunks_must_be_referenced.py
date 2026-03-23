@@ -5,7 +5,7 @@ Rule: evidence-citations-required (domain / map-model-spec slice)
 Supports:
 - Legacy **`modules_and_epics[]`** tree (module + epic + concepts) with `chunk_ids`,
   `chunk_evidence`, `description_chunk`, `statement_chunk`, `owns_chunk`, property/operation `chunk`.
-- **MM3 extensions:** `evidence_chunk_ids[]` on concepts; `evidence_chunk_id` on properties/operations
+- **Extended fields:** `evidence_chunk_ids[]` on concepts; `evidence_chunk_id` on properties/operations
   when `chunk` is absent.
 
 Does not validate IDs against `context_index.json` (use `scanners/context_index_contract.py` + manual review);

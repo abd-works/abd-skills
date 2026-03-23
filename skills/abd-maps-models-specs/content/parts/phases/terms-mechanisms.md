@@ -38,7 +38,7 @@ Promotion rule written: **candidate → concept** only through the **domain-type
 
 
 
-**Outputs:** `test/mm3/abd-maps-models-specs/phase2/mm3_terms_layer.json`, `mm3_mechanisms.json`, `mm3_candidate_queue.json`.
+**Outputs:** `<workspace>/<output_dir>/phase2/terms_layer.json`, `mechanisms.json`, `candidate_queue.json`.
 
 
 

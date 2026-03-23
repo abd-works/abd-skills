@@ -1,5 +1,5 @@
 {
-  "comment": "rule_scanner_bindings ties governance rules to Operator scanners; operator.scanners in skill-config.json is the canonical run list (keep paths aligned).",
+  "comment": "rule_scanner_bindings: which automated script enforces which rule. Post-merge execution order (emitters + these scanners + manifest + rule lint) lives in skill-config.json → operator.build_pipeline. The scanners[] array lists scanner scripts only (subset of build_pipeline).",
   "rule_scanner_bindings": [
     {
       "rule_id": "stage-1-context-decisions",

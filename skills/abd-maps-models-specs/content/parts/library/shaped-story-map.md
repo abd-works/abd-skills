@@ -1,8 +1,8 @@
 # Shaped story map
 
-Enduring reference for Phase 3 **`mm3_story_map.json`**: epics and stories expressed as **actor → behavior → anchor**, with traceability to the chunked corpus. The **prose** interaction tree (epic → scenario → step, Trigger/Response wording) lives in [`story-map.md`](story-map.md).
+Enduring reference for Phase 3 **`shaped_story_map.json`**: epics and stories expressed as **actor → behavior → anchor**, with traceability to the chunked corpus. The **prose** interaction tree (epic → scenario → step, Trigger/Response wording) lives in [`story-map.md`](story-map.md).
 
-See [`content/parts/process.md`](../content/parts/process.md) and [`principles-and-rules.md`](principles-and-rules.md).
+See [`content/parts/process.md`](../content/parts/process.md) and [`principles.md`](principles.md).
 
 ---
 
@@ -24,7 +24,7 @@ Stories must **not** exist solely to match strings in a future type list.
 
 ## Artifact location
 
-Fixture path (MM3): `test/mm3/abd-maps-models-specs/phase3/mm3_story_map.json`. Other workspaces: `phase3/mm3_story_map.json` under the configured output root (`OUT_ROOT` / phase3).
+**Path:** `phase3/shaped_story_map.json` under the workspace’s configured output root (`OUT_ROOT` from `solution.conf` → `output_dir`, conventionally `<skill_name>/`). The repo’s bundled example workspace uses `test/sample-workspace/` when `conf/abd-config.json` points there.
 
 ---
 

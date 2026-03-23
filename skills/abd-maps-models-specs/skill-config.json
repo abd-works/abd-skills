@@ -2,6 +2,8 @@
   "name": "abd-maps-models-specs",
   "version": "0.1.0",
   "phase_files": [
+    "set-workspace",
+    "context-markdown",
     "context-chunking-approach",
     "canonical-context",
     "terms-mechanisms",
@@ -16,26 +18,27 @@
     "shaped-story-map.md",
     "context-spec.md",
     "domain-model.md",
-    "execution-and-success.md",
-    "pipeline_invariants.md",
-    "principles-and-rules.md",
+    "principles.md",
     "story-map.md",
     "terms-mechanisms-contract.md"
   ],
   "PHASE_LIBRARY_SLICES": {
+    "set-workspace": [
+      "principles.md"
+    ],
+    "context-markdown": [
+      "principles.md"
+    ],
     "context-chunking-approach": [
-      "principles-and-rules.md",
-      "execution-and-success.md",
-      "pipeline_invariants.md"
+      "principles.md"
     ],
     "canonical-context": [
-      "principles-and-rules.md",
+      "principles.md",
       "context-spec.md"
     ],
     "terms-mechanisms": [
       "terms-mechanisms-contract.md",
-      "pipeline_invariants.md",
-      "principles-and-rules.md"
+      "principles.md"
     ],
     "shaped-story-map": [
       "shaped-story-map.md",
@@ -46,34 +49,72 @@
       "terms-mechanisms-contract.md"
     ],
     "variant-classification": [
-      "domain-model.md",
-      "pipeline_invariants.md"
+      "domain-model.md"
     ],
     "deepen": [
       "domain-model.md",
       "terms-mechanisms-contract.md"
     ],
     "integrate": [
-      "domain-model.md",
-      "pipeline_invariants.md",
-      "execution-and-success.md"
+      "domain-model.md"
     ],
     "validate-render": [
-      "principles-and-rules.md",
-      "pipeline_invariants.md",
-      "execution-and-success.md"
+      "principles.md"
+    ]
+  },
+  "every_phase_rules": [],
+  "phase_rules": {
+    "set-workspace": [],
+    "context-markdown": [],
+    "context-chunking-approach": [
+      "stage-1-context-decisions"
+    ],
+    "canonical-context": [
+      "stage-1-context-decisions"
+    ],
+    "terms-mechanisms": [
+      "evidence-citations-required"
+    ],
+    "shaped-story-map": [
+      "evidence-citations-required",
+      "naming-module-epic-story",
+      "shaped-story-shape",
+      "story-map-before-domain-types"
+    ],
+    "domain-types": [
+      "domain-types-and-deepen-quality",
+      "evidence-citations-required",
+      "naming-module-epic-story",
+      "story-map-before-domain-types"
+    ],
+    "variant-classification": [
+      "domain-types-and-deepen-quality",
+      "evidence-citations-required"
+    ],
+    "deepen": [
+      "deepen-approved-tools-only",
+      "domain-types-and-deepen-quality",
+      "evidence-citations-required",
+      "variant-decisions-before-deepen"
+    ],
+    "integrate": [
+      "evidence-citations-required",
+      "integrate-coherence",
+      "naming-module-epic-story"
+    ],
+    "validate-render": [
+      "evidence-citations-required",
+      "validate-and-manifest-gates"
     ]
   },
   "phase_critical_quality_notes": {
-    "context-chunking-approach": "**Focus (this phase):** Phase 0 \u2014 convert to canonical Markdown (\u00a71), wire **solution.conf** (\u00a72), scan structure and write **context_chunking_spec** (\u00a73\u2013\u00a74). No pass/fail \u201creadiness.\u201d No terms/story map.",
-    "canonical-context": "**Focus (this phase):** Phase 1 context package \u2014 chunks, context_index.json, manifest. Hard gate: **\u000balidate_context_contract.py** when the index is present.",
-    "terms-mechanisms": "**Focus (this phase):** Phase 2 terms/mechanisms \u2014 every substantive row cites **chunk_id** per contract. No promoted concepts[] yet.",
-    "shaped-story-map": "**Focus (this phase):** Phase 3 **mm3_story_map.json** \u2014 shaped story map, **evidence_chunk_ids[]**, scanner **phase3_story_map_evidence.py**. Read **shaped-story-map.md** + rule **shaped-story-shape**.",
-    "domain-types": "**Focus (this phase):** Phase 4 sparse types \u2014 promotion bar, **owns**, evidence; story map precedes types (rule **story-map-before-domain-types**).",
-    "variant-classification": "**Focus (this phase):** Phase 5 variant representation \u2014 explicit per-family decisions **before** deep property work (rule **\u000bariant-decisions-before-deepen**).",
-    "deepen": "**Focus (this phase):** Phase 6 deepen \u2014 responsibilities, depends_on, no anemic/god concepts; approved tooling only (rule **deepen-approved-tools-only**).",
-    "integrate": "**Focus (this phase):** Phase 7 integrate \u2014 one coherent map/model/spec; drain candidate queue; cross-cutting resolved or deferred in writing.",
-    "validate-render": "**Focus (this phase):** Phase 8 gates \u2014 **\build.py** pipeline, **chunks_must_be_referenced.py**, manifest, reproducible reports. Render traces to validated artifacts."
+    "terms-mechanisms": "**Focus (this phase):** Phase 4 terms/mechanisms \u2014 every substantive row cites **chunk_id** per contract. No promoted concepts[] yet.",
+    "shaped-story-map": "**Focus (this phase):** Phase 5 **shaped_story_map.json** \u2014 shaped story map, **evidence_chunk_ids[]**; rule **shaped-story-shape** (+ **scanners.json** binding). Read **shaped-story-map.md**.",
+    "domain-types": "**Focus (this phase):** Phase 6 sparse types \u2014 promotion bar, **owns**, evidence; story map precedes types (rule **story-map-before-domain-types**).",
+    "variant-classification": "**Focus (this phase):** Phase 7 variant representation \u2014 explicit per-family decisions **before** deep property work (rule **variant-decisions-before-deepen**).",
+    "deepen": "**Focus (this phase):** Phase 8 deepen \u2014 responsibilities, depends_on, no anemic/god concepts; approved tooling only (rule **deepen-approved-tools-only**).",
+    "integrate": "**Focus (this phase):** Phase 9 integrate \u2014 one coherent map/model/spec; drain candidate queue; cross-cutting resolved or deferred in writing.",
+    "validate-render": "**Focus (this phase):** Phase 10 gates \u2014 **build.py** pipeline, **evidence-citations-required** scanner, manifest, reproducible reports. Render traces to validated artifacts."
   },
   "critical_quality_library": "critical-quality-steps.md",
   "operation_sections": {},
@@ -86,16 +127,22 @@
       "runtime_injection"
     ]
   },
+  "generate_prompt": {
+    "assembly_mode": "static"
+  },
   "operator": {
     "compileall_paths": [
       "scripts"
     ],
     "build_script": "scripts/build.py",
-    "scanners": [
-      "scripts/scanner_pipeline_outputs.py",
-      "scripts/scanners/chunks_must_be_referenced.py",
+    "build_pipeline": [
       "scripts/scanners/context_index_contract.py",
-      "scripts/scanners/phase3_story_map_evidence.py"
+      "scripts/build_phase2_artifacts.py",
+      "scripts/scanner_pipeline_outputs.py",
+      "scripts/scanners/phase3_story_map_evidence.py",
+      "scripts/scanners/chunks_must_be_referenced.py",
+      "scripts/generate_context_bundle_manifest.py",
+      "scripts/test_rule_examples.py"
     ]
   }
 }

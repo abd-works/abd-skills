@@ -4,9 +4,8 @@ All **tests and test-only assets** for this skill live here (under **`skills/abd
 
 | Path | Role |
 |------|------|
-| **`mm3/`** | **Active skill workspace** for MM3 — referenced by **`conf/abd-config.json`** → `"active_skill_workspace": "test/mm3"`. Contains `solution.conf`, inputs, generated outputs under `abd-maps-models-specs/`, etc. (see **`mm3/README.md`** if present). |
-| **`fixture/mm3/`** | **Bundled MM3 fixture** — snapshot inputs, sample phase artifacts, and **`solution.conf`** for reproducible checks / docs. Not necessarily the same tree as a live `test/mm3` run. |
-| **`mm3/orchestration/`** | Example logs / orchestration artifacts (optional). |
+| **`sample-workspace/`** | **Bundled example skill workspace** — referenced by default **`conf/abd-config.json`** → `"active_skill_workspace": "test/sample-workspace"`. Contains `solution.conf`, sample sources, and generated outputs under `<output_dir>/` (see **`sample-workspace/README.md`**). |
+| **`fixture/<scenario>/`** | Optional frozen snapshots for reproducible checks (add per skill need). |
 
 **Convention:** Script tests target **`scripts/`**; workspaces and fixtures stay under **`test/`** so the skill package root stays clean.
 

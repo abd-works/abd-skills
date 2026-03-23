@@ -10,7 +10,7 @@ Rule: **stage-1-context-decisions** + norms in ``content/parts/library/context-s
 - ``manifest.sources[]`` sha256 checked against files resolved from solution.conf workspace paths.
 
 Exit 0 if ``context_index.json`` is missing (greenfield). Exit 1 on contract violations when index exists.
-Exit 0 on pass. Same behavior as legacy ``scripts/validate_context_contract.py``.
+Exit 0 on pass.
 """
 
 from __future__ import annotations

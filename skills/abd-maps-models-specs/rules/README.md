@@ -6,7 +6,7 @@ These are **atomic governance rules** for **this** skill only (`abd-maps-models-
 
 Every **`rules/*.md`** (except this README) must follow the **same structure as `abd-maps-models-specs-old/rules`:**
 
-1. **YAML frontmatter** — `rule_id`, `phase_files` (and optionally notes in this README).
+1. **YAML frontmatter** — `rule_id` only (phase attachment is **not** here — see below).
 2. **`##` Title** — one line naming the rule.
 3. **Guidance** — prose that explains intent, scope, scanners, and links to library docs. Use short paragraphs and bullets as needed (**no** separate “Intent” / “Examples” / **Bad:** / **Good:** headings—those are not the legacy shape).
 4. **`**DO**`** — on its own line (section header). Below it: bullets and/or **fenced examples** showing what to do (JSON, text, or pseudocode—match the old rules).
@@ -18,31 +18,24 @@ Every **`rules/*.md`** (except this README) must follow the **same structure as 
 
 ## How they attach to phases
 
-Each rule file starts with **YAML frontmatter**:
+**Authoritative mapping:** **`skill-config.json`** at the skill root, same pattern as **abd-skill-builder**:
 
-```yaml
----
-rule_id: my-rule-id
-phase_files:
-  - shaped-story-map.md
-  - domain-types.md
----
-```
+- **`phase_rules`** — object whose keys are **phase slugs** (same strings as **`phase_files`**, without `.md`). Each value is an ordered list of **rule stems**: the rule filename **without** `.md` (e.g. `shaped-story-shape` → `rules/shaped-story-shape.md`).
+- **`every_phase_rules`** — optional list of stems prepended to **every** phase’s rule list (deduplicated in order). Use sparingly.
 
-- **`phase_files`** — list of filenames under `content/parts/phases/` where this rule is **inlined** into the built bundle `content/built/phases/<same-name>.md`.
-- **`every_phase: true`** — include in **every** phase bundle (use sparingly).
+`scripts/build.py` / **`MapsInstructions`** load those files in list order, **strip** YAML frontmatter from the inlined body, and emit them under **Rules** in each built bundle (`content/built/phases/<slug>.md`).
 
-`scripts/build.py` **strips** the frontmatter from the inlined body so the bundle stays readable.
+If a rule file is **not** mentioned in `every_phase_rules` or any `phase_rules[...]` entry, **`build.py`** prints a **warning** (the rule would never be inlined).
 
 ## Relationship to other repos
 
-- **abd-solution-modeler** and similar skills may use **different** phase names and JSON shapes. When a *concept* aligns (e.g. “cite chunks on substantive claims”), we **rewrite** the rule here for **our** artifacts (`mm3_terms_layer.json`, `mm3_story_map.json`, `map-model-spec`, `context_index.json`, …), not copy their prose.
-- **Scanners:** This skill’s **automated** checks live under `scripts/` and `scripts/scanners/` (see **`rules/scanners.json`** for rule ↔ scanner bindings). The **solution analyst** (or automation) runs the list configured under **`skill-config.json`** → `operator.scanners` (same paths as `scanners.json` → `scanners[]`; the JSON key remains `operator.scanners`). Legacy entry points `scripts/validate_context_contract.py` and `scripts/validate_phase3_story_map.py` delegate to the scanners. Rules describe **solution analyst + AI** obligations; scripts enforce **what is implemented**.
+- **abd-solution-modeler** and similar skills may use **different** phase names and JSON shapes. When a *concept* aligns (e.g. “cite chunks on substantive claims”), we **rewrite** the rule here for **our** artifacts (`terms_layer.json`, `shaped_story_map.json`, `map-model-spec`, `context_index.json`, …), not copy their prose.
+- **Scanners:** Automated checks are **bound to rules** in **`rules/scanners.json`** → **`rule_scanner_bindings`**. **`python scripts/build.py`** runs the ordered **`skill-config.json`** → **`operator.build_pipeline`**, which includes those scanner scripts (plus emitters, manifest, rule-example lint). Rules describe **solution analyst + AI** obligations; scripts enforce **what is implemented**.
 
 ## Index
 
-| Rule file | Phases (bundle filenames) | Intent |
-|-----------|---------------------------|--------|
+| Rule file | Phases (see `skill-config.json` → `phase_rules`) | Intent |
+|-----------|--------------------------------------------------|--------|
 | [stage-1-context-decisions.md](stage-1-context-decisions.md) | context-chunking-approach, canonical-context | Readiness audit + Phase 1 context package before vocabulary work |
 | [evidence-citations-required.md](evidence-citations-required.md) | terms-mechanisms → validate-render | Substantive claims cite `chunk_id` / evidence fields |
 | [story-map-before-domain-types.md](story-map-before-domain-types.md) | shaped-story-map, domain-types | Shaped story map precedes sparse `concepts[]` |
@@ -54,4 +47,4 @@ phase_files:
 | [deepen-approved-tools-only.md](deepen-approved-tools-only.md) | deepen | No ad-hoc merge scripts outside approved workflow |
 | [validate-and-manifest-gates.md](validate-and-manifest-gates.md) | validate-render | Contract validators, story map check, manifest, CI |
 
-Edit **`phase_files`** when you add a new phase file or split a rule.
+When you add a phase or change which rules apply, edit **`phase_rules`** / **`every_phase_rules`** in **`skill-config.json`** and run **`python scripts/build.py`**.

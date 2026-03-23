@@ -53,9 +53,10 @@ Normative row: **Documentation focus** in **`skill-repo-standards.md`**.
 ### Scaffold files present and reviewed (check each)
 
 - [ ] **`SKILL.md`** — frontmatter + description make sense.
-- [ ] **`skill-config.json`** — `operator.*`, `delivery.mode` match intent.
+- [ ] **`skill-config.json`** — `operator.*`, `delivery.mode` match intent; if **`rules/*.md`** back AI-chat phases, **`phase_rules`** / **`every_phase_rules`** list every rule stem for the right **phase slug** (**[`process-approach.md`](process-approach.md)** — *rules* in the default **`phase_bundle`**).
 - [ ] **`conf/build-strategy.json`** — `skill_purpose` and siblings filled per Strategizer.
-- [ ] **`conf/abd-config.json`** — **`active_skill_workspace`** set (under **`test/`** when using a workspace).
+- [ ] **`conf/abd-config.json`** — **`active_skill_workspace`** set (under **`test/`** when using a workspace); optional CLI: **`python scripts/set_workspace.py <path>`**.
+- [ ] **`scripts/set_workspace.py`** — present (scaffold copies from **abd-skill-builder**).
 - [ ] **`conf/README.md`** — conf usage clear.
 - [ ] **`content/parts/process.md`** — pipeline table matches real phases.
 - [ ] **`content/parts/phases/`** — one file per row in **`process.md`** (add/rename beyond **`author.md`** as needed).
@@ -102,7 +103,7 @@ Normative row: **Documentation focus** in **`skill-repo-standards.md`**.
 ## 1. Process & phases
 
 - [ ] **`parts/process.md`** (or **`content/parts/process.md`**) lists the real pipeline (ordered phases) and follows **[`process-table-standards.md`](process-table-standards.md)** — column meanings, **Input**/**Output** semantics, **Scripts** cell.
-- [ ] **Workspace phase (Phase 0):** **`parts/phases/workspace-and-config.md`** exists; **`conf/abd-config.json`** + **`active_skill_workspace`** documented; first process row uses **`—`** in **`#`** and the phase name **Workspace and config** (see standards doc).
+- [ ] **Workspace phase (Phase 0):** **`parts/phases/workspace-and-config.md`** exists; **`conf/abd-config.json`** + **`active_skill_workspace`** documented; first process row uses **`0`** in **`#`** and the phase name **Workspace and config** (see standards doc).
 - [ ] Phase files use **descriptive slugs**; order matches **`process.md`** and **`build.py`** (explicit order if not sort order).
 - [ ] **`build.py`** phase list / merge keys updated when **`process.md`** changes.
 - [ ] **Phase vs library:** Each **`phases/<slug>.md`** is **procedure** for that phase (steps, scripts, checklists)—**not** a dump of cross-phase definitions (**[`documentation-standards.md`](documentation-standards.md)** → *Library vs phase documents*; **[`rules/content-placement.md`](../../rules/content-placement.md)**).
@@ -116,7 +117,8 @@ Normative row: **Documentation focus** in **`skill-repo-standards.md`**.
 - [ ] Decided if **`rules/`** is needed.
 - [ ] Listed planned **`rules/*.md`** files (one concern per file where possible).
 - [ ] Decided scanner vs doc-only for each rule cluster.
-- [ ] **`rules/scanners.json`** + **`skill-config.json`** `operator.scanners` aligned if scanners exist.
+- [ ] **Base framework** (when checks exist): read **[`rules-and-automated-checks.md`](rules-and-automated-checks.md)** — **`rules/scanners.json`** **`rule_scanner_bindings`** for each machine-checked rule; **`skill-config.json`** **`operator.build_pipeline`** lists ordered post-merge steps for **`build.py`**; **`operator.scanners`** lists the same scanner paths (or a superset) for **Operator** / CI.
+- [ ] **`process.md`** does **not** treat scanners as phase-local “script column” noise; skill-level **Rules and automated checks** (or link to **`rules-and-automated-checks.md`**) instead.
 
 **Ask:** “Machine-checked vs human-reviewed? What would each scanner inspect?”
 

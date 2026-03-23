@@ -1,12 +1,10 @@
 ---
 rule_id: shaped-story-shape
-phase_files:
-  - shaped-story-map.md
 ---
 
 ## Shaped story map: stories are observable, not labels
 
-**Artifact:** `phase3/mm3_story_map.json` (paths per [`shaped-story-map.md`](../content/parts/library/shaped-story-map.md)).
+**Artifact:** `phase3/shaped_story_map.json` (paths per [`shaped-story-map.md`](../content/parts/library/shaped-story-map.md)).
 
 Each **story** must have a clear **anchor**: what state or projection is read, written, forwarded, or queried—**silence is not allowed** for substantive stories. In JSON, **trigger** and **response** are each `{ "actor", "behavior" }` only—no separate Triggering-State / Resulting-State fields; state belongs in **behavior** text and **Examples** tables. Where the story is substantive, **`evidence_chunk_ids[]`** is non-empty and validates against the Phase 1 index.
 

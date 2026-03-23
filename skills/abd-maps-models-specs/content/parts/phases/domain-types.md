@@ -26,6 +26,6 @@
 
 
 
-Type count and rationale remain reviewable for the MM3 fixture at the chosen depth.
+Type count and rationale remain reviewable for the chosen workspace depth.
 
 

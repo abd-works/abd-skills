@@ -1,0 +1,2 @@
+# Optional: Phase 0 — convert PDF/DOCX/PPTX/etc. to canonical Markdown (convert_sources_to_markdown.py)
+markitdown[all]>=0.0.1

@@ -35,6 +35,21 @@
 
 In **either** mode, the **outcome** is: **the IDE chat has the right block of instructions** to follow for that phase — not “the agent navigates to `built/` like a filesystem API.”
 
+### Default `phase_bundle` order (`skill-config.json`)
+
+**abd-skill-builder** `Instructions` (used by `scripts/generate_prompt.py` and typical `scripts/build.py` merges) assembles **default** AI-chat phase text in this **normative order** unless `operation_sections` overrides the slug:
+
+1. **`role`** — optional: file under `content/parts/` (default basename `solution-analyst-role.md`). **Omitted** if the file is missing.
+2. **`phase`** — `content/parts/phases/<slug>.md` (or `parts/phases/`), with heading **`## Phase`** when `phase_bundle.phase_heading` is set.
+3. **`library`** — shards from **`PHASE_LIBRARY_SLICES`** for that slug, or all of **`library_files`** when the slice is absent; one **`## Library`** heading, then **`### \`file.md\``** per shard (with `abd:begin` / `abd:end` filtering). **Empty slice** → placeholder body under **`## Library`**.
+4. **`rules`** — **normative:** governance markdown inlined from **`rules/<stem>.md`** in manifest order. Stems come only from **`skill-config.json`**:
+   - **`every_phase_rules`** — array of stems (no `.md`) prepended for **every** phase, **deduplicated** in order (listed once even if also under a phase).
+   - **`phase_rules`** — object: keys are **phase slugs** (same strings as **`phase_files`**); values are ordered arrays of stems. Example: `"shaped-story-map": ["evidence-citations-required", "shaped-story-shape"]`.
+   **No stems** for a phase → placeholder body under **`## Rules`** (points authors to this doc). Rule files may keep optional YAML frontmatter (e.g. **`rule_id:`**); **`Instructions`** strips it before inlining so bundles stay readable. **Do not** use per-rule **`phase_files:`** frontmatter as the source of truth for which phase gets which rule — that duplicates the manifest and drifts; **abd-maps-models-specs** and **abd-skill-builder** both standardize on **`phase_rules` / `every_phase_rules`**.
+5. **`principles`** — optional: file under `content/parts/library/` (default `critical-quality-steps.md`). **Omitted** if missing.
+
+Configure (or copy defaults) via **`phase_bundle`** in **`skill-config.json`**: keys include **`order`**, **`role_file`**, **`principles_file`**, and optional **`role_heading`**, **`phase_heading`**, **`library_heading`**, **`rules_heading`**, **`principles_heading`**. **abd-skill-builder** ships the full default object so scaffolded skills inherit the same contract; **abd-maps-models-specs** uses **`MapsInstructions`**, which follows the same **`phase_rules` / `every_phase_rules`** contract (plus maps-only critical-quality notes).
+
 ### Library shards with phase markers (`abd:begin` / `abd:end`)
 
 A **`library/*.md`** file may wrap fragments in **`<!-- abd:begin <phase-slug> -->`** … **`<!-- abd:end <phase-slug> -->`** (same slug on both lines). When **`Instructions.assemble_prompt(<phase-slug>)`** runs (used by **`generate_prompt.py`** and **`build.py`** for **`phases/built/<slug>.md`**), the reader sees **all lines outside** those pairs **plus** only the **pair whose slug matches** the current phase. Slugs match **`phase_files`** in **`skill-config.json`** (e.g. **`plan-script-build`**). Files **without** markers are included in full whenever **`PHASE_LIBRARY_SLICES`** lists them for that phase. Authoring template: **`templates/concepts.md.template`**.

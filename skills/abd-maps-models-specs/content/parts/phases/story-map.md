@@ -14,7 +14,7 @@
 
 
 
-**Code** runs `scripts/scanners/phase3_story_map_evidence.py` (wrapper: `validate_phase3_story_map.py`). **Human / AI** maintain `mm3_story_map.json`.
+**Automated enforcement** is **rule-bound** ([shaped-story-shape](../../rules/shaped-story-shape.md), [scanners.json](../../rules/scanners.json)); it runs as part of **`python scripts/build.py`**. **Human / AI** maintain `shaped_story_map.json`.
 
 
 
@@ -42,7 +42,7 @@ Story map validated; **domain types** (`concepts[]`) follow after the shaped sto
 
 
 
-**Output:** `test/mm3/abd-maps-models-specs/phase3/mm3_story_map.json` (when present).
+**Output:** `phase3/shaped_story_map.json` under the workspace output root (when present).
 
 
 

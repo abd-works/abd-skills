@@ -4,9 +4,9 @@
 
 This plan describes a **repeatable** path from **source markdown** through **evidence**, **vocabulary layers**, **shaped story map**, and **sparse domain types**, to a **validated** map / model / spec. It is written so principles can be **argued on merit**: each has **stated grounding** (research and established practice), not reactions to any prior attempt.
 
-**Fixture in scope:** `skills/abd-maps-models-specs/test/mm3/` — workspace paths and roles for canonical sources live in **`solution.conf` → `manifest_sources`** (MM3 lists `docs/HeroesHandbook.md`); `context/chunks/` and `context/context_index.json` **when present** (they may **not** exist yet—see Stage 1 below).
+**Fixture in scope:** `skills/abd-maps-models-specs/test/sample-workspace/` — workspace paths and roles for canonical sources live in **`solution.conf` → `manifest_sources`** (the sample lists `docs/sample.md`); `context/chunks/` and `context/context_index.json` **when present** (they may **not** exist yet—see Stage 1 below).
 
-**Not the skill package:** Generated pipeline artifacts go **only** under `test/mm3/abd-maps-models-specs/` (output root — same name as the skill **by convention**, not a second copy of the skill). The skill itself (plan, `SKILL.md`, automation) lives in `skills/abd-maps-models-specs/` **above** `test/`.
+**Not the skill package:** Generated pipeline artifacts go **only** under `test/sample-workspace/abd-maps-models-specs/` (output root — same name as the skill **by convention**, not a second copy of the skill). The skill itself (plan, `SKILL.md`, automation) lives in `skills/abd-maps-models-specs/` **above** `test/`.
 
 ---
 
@@ -48,11 +48,11 @@ These are **normative**: we implement the process **because** of them. If eviden
 
 | Asset                                 | Role                                                                                                                             |
 | ------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
-| `test/mm3/solution.conf`              | **Workspace config** — `manifest_sources[]`, `context_path`, `context_chunking_spec`, etc. (same layering as the prior skill).     |
-| `test/mm3/docs/HeroesHandbook.md`     | Canonical **source** markdown for the MM3 fixture (listed in `manifest_sources`; pin version when it changes).                     |
-| `test/mm3/context/chunks/unit_*.md`   | **Evidence units** — text + stable IDs for citation.                                                                             |
-| `test/mm3/context/context_index.json` | Index: **manifest** (sources, section counts) + **blocks** with `block_id`, `section_path`, `reason`, `evidence_type`, previews. |
-| `test/mm3/abd-maps-models-specs/`     | **Output only** — phase artifacts the skill **generates** (not the skill package; see folder README).                            |
+| `test/sample-workspace/solution.conf`              | **Workspace config** — `manifest_sources[]`, `context_path`, `context_chunking_spec`, etc. (same layering as the prior skill).     |
+| `test/sample-workspace/docs/sample.md`     | Canonical **source** markdown for the bundled example (listed in `manifest_sources`; pin version when it changes).                     |
+| `test/sample-workspace/context/chunks/unit_*.md`   | **Evidence units** — text + stable IDs for citation.                                                                             |
+| `test/sample-workspace/context/context_index.json` | Index: **manifest** (sources, section counts) + **blocks** with `block_id`, `section_path`, `reason`, `evidence_type`, previews. |
+| `test/sample-workspace/abd-maps-models-specs/`     | **Output only** — phase artifacts the skill **generates** (not the skill package; see folder README).                            |
 
 
 **Phase 0** (**context chunking approach**): **AI** reads large canonical Markdown **before** you rely on citations; **drafts `context_chunking_spec`** and reports what it did; **human** reviews and lands the YAML—see `content/parts/phases/context-chunking-approach.md`. This is **not** a pass/fail “readiness” gate. **Phase 1** **builds** `chunks/` + `context_index.json` from that spec.
@@ -75,7 +75,7 @@ Normative steps live in **`content/parts/phases/context-chunking-approach.md`** 
 
 **Do not assume** pre-existing `chunks/`. Typical upstream steps:
 
-1. **Canonical source Markdown** — Often **`HeroesHandbook.md`** produced by **PDF (or DOCX, etc.) → Markdown** conversion. Pin version (hash/date) of the **source file** and of the **converter** when relevant.
+1. **Canonical source Markdown** — Often one or more `.md` files produced by **PDF (or DOCX, etc.) → Markdown** conversion. Pin version (hash/date) of the **source file** and of the **converter** when relevant.
 2. **First chunking + index** — Chunking is **designed** (not ad hoc splits) so downstream work can honor the **principles**:
    - **Provenance-first evidence:** stable `chunk_id` / anchors; traceable citations.
    - **Layered vocabulary / promotion:** per-chunk **evidence typing** (and related fields) so **terms** vs **types** stays honest—**citation ≠ class**.
@@ -106,13 +106,13 @@ Principles are not enough: **Phase 1** must be specified as **files, validators,
 | Mechanism | What we use |
 | --- | --- |
 | **Single pipeline** | Runnable automation under **`skills/abd-maps-models-specs/scripts/`** — one Phase 1 context builder entry point per [`context-spec.md`](../content/parts/library/context-spec.md). |
-| **Chunk files** | Under **`solution.conf` → `context_path`** (default `context/` under the workspace): `chunks/{chunk_id}.md` with YAML front matter: `chunk_id`, `source` (canonical path + **line range and/or heading_path**), `evidence_type`, `modeling_kind`. *Example paths when workspace is `test/mm3/`: `test/mm3/context/chunks/…`.* |
-| **Index** | `context_index.json` next to `chunks/` (e.g. `test/mm3/context/context_index.json` only when that is your workspace). `manifest.sources[]` with **sha256** of canonical handbook; `manifest.generator`; `blocks[]` with duplicate `source_anchor` + previews; optional `excluded[]`. |
-| **Config** | Chunking YAML named by **`solution.conf` → `context_chunking_spec`** (workspace-relative; default `context_chunking_spec.yaml`). *Example when workspace is `test/mm3/`: `test/mm3/context_chunking_spec.yaml`.* Section/chapter break rules, split limits, taxonomy enums—you edit **this file**, not scattered magic in multiple scripts. |
+| **Chunk files** | Under **`solution.conf` → `context_path`** (default `context/` under the workspace): `chunks/{chunk_id}.md` with YAML front matter: `chunk_id`, `source` (canonical path + **line range and/or heading_path**), `evidence_type`, `modeling_kind`. *Example paths when workspace is `test/sample-workspace/`: `test/sample-workspace/context/chunks/…`.* |
+| **Index** | `context_index.json` next to `chunks/` (e.g. `test/sample-workspace/context/context_index.json` only when that is your workspace). `manifest.sources[]` with **sha256** of canonical handbook; `manifest.generator`; `blocks[]` with duplicate `source_anchor` + previews; optional `excluded[]`. |
+| **Config** | Chunking YAML named by **`solution.conf` → `context_chunking_spec`** (workspace-relative; default `context_chunking_spec.yaml`). *Example when workspace is `test/sample-workspace/`: `test/sample-workspace/context_chunking_spec.yaml`.* Section/chapter break rules, split limits, taxonomy enums—you edit **this file**, not scattered magic in multiple scripts. |
 | **Code vs LLM** | **Deterministic** Python applies the spec and writes chunks + index. Optional LLM may **refine** `evidence_type` / `modeling_kind` **after** blocks exist; output must still pass the same validator. |
-| **Validation** | `scripts/validate_context_contract.py` — bidirectional chunk ↔ index, line bounds, duplicate IDs. Phase 0/CI use this as the **hard** gate. |
+| **Validation** | **`python scripts/build.py`** runs the **stage-1-context-decisions** check (scanner path in `rules/scanners.json`) — bidirectional chunk ↔ index, line bounds, duplicate IDs. |
 
-Downstream (Phases 2–8): same doc spells out **inputs/outputs**, how **`build_phase2_artifacts.py`** must cite `chunk_id`s, how **`validate_phase3_story_map.py`** checks `evidence_chunk_ids[]` against the index, and how Phases 4–8 use JSON, prompts, or scanners—so each step has an implementable shape.
+Downstream (Phases 2–8): same doc spells out **inputs/outputs**, how **`build_phase2_artifacts.py`** must cite `chunk_id`s, how the **shaped-story-shape** rule’s scanner checks `evidence_chunk_ids[]` against the index (via **`build.py`**), and how Phases 4–8 use JSON, prompts, or scanners—so each step has an implementable shape.
 
 ---
 
@@ -142,7 +142,7 @@ Downstream (Phases 2–8): same doc spells out **inputs/outputs**, how **`build_
 
 **Goal:** **Sparse** types; **reject gate** (“not just a property on a broader type”).
 
-**Exit:** Type count and **per-type rationale** remain tractable for the MM3 fixture at the chosen depth.
+**Exit:** Type count and **per-type rationale** remain tractable for the chosen workspace at the chosen depth.
 
 ---
 
@@ -170,19 +170,19 @@ Downstream (Phases 2–8): same doc spells out **inputs/outputs**, how **`build_
 
 ## Phase 8 — Validate & render
 
-**Goal:** Automated checks (scanners, schema) + **rendered** reports; CI on MM3; optional **critic** checklist against the **principles table** at the top of this document.
+**Goal:** Automated checks (scanners, schema) + **rendered** reports; CI on your configured workspace; optional **critic** checklist against the **principles table** at the top of this document.
 
 ---
 
 ## Execution order (what to do next)
 
-1. **Context path A — Greenfield or known bad:** Ensure **canonical Markdown** (e.g. PDF → `HeroesHandbook.md`). **Write the chunking spec** (what grain, what metadata, what exclusions), then implement **Phase 1** (chunks + index + version pin). Use **Phase 0** questions as **acceptance** for that package before freezing v1.
-2. **Context path B — Existing `context/`:** Run **readiness** (Phase 0: metrics + spot-check)—**or** skip straight to rebuild if you already know it fails (e.g. MM3: spot-check **no**).
+1. **Context path A — Greenfield or known bad:** Ensure **canonical Markdown** (e.g. PDF → handbook `.md`). **Write the chunking spec** (what grain, what metadata, what exclusions), then implement **Phase 1** (chunks + index + version pin). Use **Phase 0** questions as **acceptance** for that package before freezing v1.
+2. **Context path B — Existing `context/`:** Run **readiness** (Phase 0: metrics + spot-check)—**or** skip straight to rebuild if you already know it fails (e.g. spot-check says **no**).
 3. If **adopt with extensions:** migrate or sidecar into canonical schema; fill `modeling_kind`; **pin** v1 (manifest-backed).
 4. If **rebuild or first build:** complete Phase 1; **finalize** the Phase 1 context package (see **§1.4** below and [`content/parts/library/context-spec.md`](../content/parts/library/context-spec.md)).
-5. Only then: **Phase 2** onward in order — run `python scripts/build_phase2_artifacts.py` — emits `test/mm3/abd-maps-models-specs/phase2/` (terms, mechanisms, candidate queue). See [`content/parts/library/terms-mechanisms-contract.md`](../content/parts/library/terms-mechanisms-contract.md). Re-run `generate_context_bundle_manifest.py` to record phase2 hashes.
-6. **Phase 3**: maintain `test/mm3/abd-maps-models-specs/phase3/mm3_story_map.json` (epics/stories with **anchor** + `term_refs` / `evidence_chunk_ids`). Validate with `python scripts/validate_phase3_story_map.py` (extend per [`shaped-story-map.md`](../content/parts/library/shaped-story-map.md)). Re-run `generate_context_bundle_manifest.py` for phase3 hash.
-7. **Phase 4–8**: types → variants → deepen → integrate → validate/render (per sections above and [`content/parts/library/pipeline_invariants.md`](../content/parts/library/pipeline_invariants.md)).
+5. Only then: **Phase 2** onward in order — run `python scripts/build_phase2_artifacts.py` — emits `test/sample-workspace/abd-maps-models-specs/phase2/` (terms, mechanisms, candidate queue). See [`content/parts/library/terms-mechanisms-contract.md`](../content/parts/library/terms-mechanisms-contract.md). Re-run `generate_context_bundle_manifest.py` to record phase2 hashes.
+6. **Phase 3**: maintain `test/sample-workspace/abd-maps-models-specs/phase3/shaped_story_map.json` (epics/stories with **anchor** + `term_refs` / `evidence_chunk_ids`). Validate with **`python scripts/build.py`** (includes the **shaped-story-shape** scanner when `shaped_story_map.json` exists; extend per [`shaped-story-map.md`](../content/parts/library/shaped-story-map.md)). Re-run `generate_context_bundle_manifest.py` for phase3 hash.
+7. **Phase 4–8**: types → variants → deepen → integrate → validate/render (per [`content/parts/process.md`](../content/parts/process.md) and phase files).
 
 ---
 
