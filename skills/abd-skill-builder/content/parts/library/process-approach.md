@@ -37,16 +37,18 @@ In **either** mode, the **outcome** is: **the IDE chat has the right block of in
 
 ### Default `phase_bundle` order (`skill-config.json`)
 
-**abd-skill-builder** `Instructions` (used by `scripts/generate_prompt.py` and typical `scripts/build.py` merges) assembles **default** AI-chat phase text in this **normative order** unless `operation_sections` overrides the slug:
+**abd-skill-builder** `Instructions` (used by `scripts/generate_prompt.py` and typical `scripts/build.py` merges) follows **`phase_bundle.order`** — an array of section tokens — unless `operation_sections` overrides the slug. **Default in this repo and scaffold template:** **`["principles", "role", "phase", "library", "rules"]`** so **`critical-quality-steps.md`** ( **`## Principles`** ) leads every AI-chat bundle. Other skills may reorder (e.g. **`principles`** last) or omit tokens; missing optional files (**`role`**, **`principles`**) are skipped.
 
-1. **`role`** — optional: file under `content/parts/` (default basename `solution-analyst-role.md`). **Omitted** if the file is missing.
-2. **`phase`** — `content/parts/phases/<slug>.md` (or `parts/phases/`), with heading **`## Phase`** when `phase_bundle.phase_heading` is set.
-3. **`library`** — shards from **`PHASE_LIBRARY_SLICES`** for that slug, or all of **`library_files`** when the slice is absent; one **`## Library`** heading, then **`### \`file.md\``** per shard (with `abd:begin` / `abd:end` filtering). **Empty slice** → placeholder body under **`## Library`**.
-4. **`rules`** — **normative:** governance markdown inlined from **`rules/<stem>.md`** in manifest order. Stems come only from **`skill-config.json`**:
+Section tokens (each included only if listed in **`order`**):
+
+- **`principles`** — optional: file under `content/parts/library/` (default `critical-quality-steps.md`), heading **`principles_heading`**. **Omitted** if the file is missing.
+- **`role`** — optional: file under `content/parts/` (default basename `solution-analyst-role.md`). **Omitted** if the file is missing.
+- **`phase`** — `content/parts/phases/<slug>.md` (or `parts/phases/`), with heading **`## Phase`** when `phase_bundle.phase_heading` is set.
+- **`library`** — shards from **`PHASE_LIBRARY_SLICES`** for that slug, or all of **`library_files`** when the slice is absent; one **`## Library`** heading, then **`### \`file.md\``** per shard (with `abd:begin` / `abd:end` filtering). **Empty slice** → placeholder body under **`## Library`**.
+- **`rules`** — **normative:** governance markdown inlined from **`rules/<stem>.md`** in manifest order. Stems come only from **`skill-config.json`**:
    - **`every_phase_rules`** — array of stems (no `.md`) prepended for **every** phase, **deduplicated** in order (listed once even if also under a phase).
    - **`phase_rules`** — object: keys are **phase slugs** (same strings as **`phase_files`**); values are ordered arrays of stems. Example: `"shaped-story-map": ["evidence-citations-required", "shaped-story-shape"]`.
    **No stems** for a phase → placeholder body under **`## Rules`** (points authors to this doc). Rule files may keep optional YAML frontmatter (e.g. **`rule_id:`**); **`Instructions`** strips it before inlining so bundles stay readable. **Do not** use per-rule **`phase_files:`** frontmatter as the source of truth for which phase gets which rule — that duplicates the manifest and drifts; **abd-maps-models-specs** and **abd-skill-builder** both standardize on **`phase_rules` / `every_phase_rules`**.
-5. **`principles`** — optional: file under `content/parts/library/` (default `critical-quality-steps.md`). **Omitted** if missing.
 
 Configure (or copy defaults) via **`phase_bundle`** in **`skill-config.json`**: keys include **`order`**, **`role_file`**, **`principles_file`**, and optional **`role_heading`**, **`phase_heading`**, **`library_heading`**, **`rules_heading`**, **`principles_heading`**. **abd-skill-builder** ships the full default object so scaffolded skills inherit the same contract; **abd-maps-models-specs** uses **`MapsInstructions`**, which follows the same **`phase_rules` / `every_phase_rules`** contract (plus maps-only critical-quality notes).
 

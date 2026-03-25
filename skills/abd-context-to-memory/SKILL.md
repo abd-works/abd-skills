@@ -14,7 +14,7 @@ metadata:
 
 # Ace-Context-to-Memory
 
-Converts source documents to markdown and chunks them for agent memory. Pipeline: **convert** (documents → markdown + images) → **chunk** (markdown → smaller files) → **embed** (vector index for semantic search).
+Converts source documents to markdown and chunks them for agent memory. Pipeline: **convert** (documents → markdown + images) → **chunk** (markdown → smaller files); **embed** (vector index) is optional — **`index_memory --embed`** or **`embed_and_index.py`** separately.
 
 ## When to Activate
 
@@ -48,7 +48,7 @@ When the user refers to "OneDrive", "OneDrive folder", "slash OneDrive", or simi
 
 Use `link_workspace_source.py` to create links before converting.
 
-**Memory root:** For **`--path`**, ROOT is the **source folder** you pass (`memory/` holds chunks under that tree; RAG follows embed layout). Set `CONTENT_MEMORY_ROOT` only when running `--memory` without a source (chunk+embed only).
+**Memory root:** For **`--path`**, ROOT is the **source folder** you pass (`memory/` holds chunks). Embedding is separate unless **`--embed`**. Set `CONTENT_MEMORY_ROOT` only when running `--memory` without a source.
 
 ## Chunk junctions and optional `roots/` manifest
 
@@ -82,11 +82,11 @@ Run scripts from workspace root; use `--workspace <path>` if the working directo
 
 ## Pipeline Overview
 
-1. **Convert**: Use `markitdown` to convert supported files to markdown. Images extracted and referenced. **SharePoint links**: When source is in OneDrive, SharePoint URLs are auto-injected from `sharepoint_mapping.json` so links work for anyone.
-2. **Chunk**: Split large markdown by slides (decks) or headings (docs). Small files stay as single chunks. Output goes under **`<source>/memory/`**, mirroring subfolders (e.g. `notes/` → `memory/notes/`). **`.md` under `<source>/memory/` is never chunk input** (avoids `memory/memory/` duplication).
+1. **Convert**: Use `markitdown` to convert supported files to markdown under **`<topic_root>/markdown/…`**, parallel to **`memory/`** (same relative paths as originals). Images extracted and referenced. **SharePoint links**: When source is in OneDrive, SharePoint URLs are auto-injected from `sharepoint_mapping.json` so links work for anyone.
+2. **Chunk**: Split large markdown by slides (decks) or headings (docs). Small files stay as single chunks. For each stem, prefer **`markdown/…/<stem>.md`**, then legacy **`…/markdown/<stem>.md`**, else sibling **`<stem>.md`**, never both. Output under **`<source>/memory/`** mirrors subfolders **without** a `markdown` segment (e.g. `markdown/notes/x.md` → `memory/notes/…`). **`.md` under `<source>/memory/` is never chunk input** (avoids `memory/memory/` duplication).
 3. **Index chunks**: Build `chunk_index.json` (reverse index: chunk ID → path, heading, size) alongside the chunk folder under `memory/`. Use for evidence lookup (which chunk file/section a passage came from).
 4. **Sync SharePoint URLs**: Replace source paths with SharePoint URLs; fix URL order; add `wdSlideIndex` (pptx) / `page` (pdf) for direct slide/page links. Run automatically in `index_memory --path` pipeline.
-5. **Embed + Index** (RAG): Embed chunks (OpenAI), store embeddings and FAISS index for semantic search. **Hub** (aggregate, no `--memory`): set **`rag_path`** per hub in **`conf/content_memory_roots.json`** (required for junction hubs — index usually **off** the clone, e.g. SharePoint **`.rag`**). Fallback: **`<hub>/<junctions_dir>/rag`**. Overrides: **`CONTENT_MEMORY_RAG_PATH`**, **`content_memory_rag_path`** in `skill-config.json`. **Per-topic** (`--memory` / `index_memory --path`): **`memory/rag/`** under that root.
+5. **Embed + Index** (RAG): Not run by **`index_memory`** unless **`--embed`**. Otherwise run **`embed_and_index.py`** (hub aggregate) or **`index_memory --embed`** (per-topic **`memory/rag/`**). **Hub** (aggregate, no `--memory`): set **`rag_path`** per hub in **`conf/content_memory_roots.json`**, or use **`content_memory_rag_path`** / **`CONTENT_MEMORY_RAG_PATH`**. Fallback: **`<hub>/<junctions_dir>/rag`**.
 
 ## Semantic Search (RAG)
 
@@ -107,7 +107,7 @@ See `conf/README.md` in the skills repo. See `content/rag-retrieval.md` for trig
 Run from workspace root. Scripts in `skills/abd-context-to-memory/scripts/`.
 
 **RAG (vector search):**
-- `index_memory.py --path <source_folder> [--memory-root <hub>] [--junction-workspace <hub>] [--no-junction]` — full pipeline: convert → chunk → sync SharePoint → embed; then **`<hub>/<source name>`** junction to that source’s memory folder (see Chunk junctions)
+- `index_memory.py --path <source_folder> [--embed] [--memory-root <hub>] [--junction-workspace <hub>] [--no-junction]` — convert → chunk → sync SharePoint → **embed only with `--embed`** (default skips embed); optional **`<hub>/<source name>`** junction to that source’s memory folder
 - `index_memory.py` — when `skill_space_path` is set and no folder specified, runs on `{skill_space_path}/context` automatically
 - `index_memory.py --replace` — rebuild entire vector index from all memory
 - `search_memory.py "<query>" [--k 5] [--format text|json]` — semantic search; returns top-k chunks
@@ -115,11 +115,11 @@ Run from workspace root. Scripts in `skills/abd-context-to-memory/scripts/`.
 **Convert + chunk + index:**
 - `link_workspace_source.py --path <folder> [--name <link_name>]` or `--workspace <folder_name>` — **run on request** when adding content to memory; creates junction/symlink in `source/` so skills can access the folder
 - `add_root.py` / `link_chunked.py` — **only if the user wants a `roots/` layout**; otherwise use `mklink /J` (or symlink) on the workspace root to each `memory/` folder
-- `convert_to_markdown.py --file <file_path>` — **single file only** (use when user asks for one file); writes markdown alongside the source file (same folder)
+- `convert_to_markdown.py --file <file_path> [--topic-root <topic_folder>]` — **single file only** (use when user asks for one file); writes markdown under **`markdown/…`** under the topic root
 - `convert_to_markdown.py --memory <source_path>` — folder (all supported files). When source is in OneDrive, SharePoint URLs are auto-injected via `sharepoint_mapping.json`.
 - `chunk_markdown.py --path <source_folder> [--memory <memory_name>]` — reads from source, writes to memory/<name>/
 - `index_chunks.py --context-path <chunk_folder> [--output <path>]` — build chunk_index.json (chunk_id → path, heading). Run after chunk. Writes to `<chunk_folder>/chunk_index.json` by default (under memory).
-- `embed_and_index.py [--memory <memory_name>] [--replace]` — embed chunks; aggregate hub writes to configurable RAG dir (default **`assets/rag/`**) or **`memory/rag/`** (when `--memory` set). Called by index_memory.
+- `embed_and_index.py [--memory <memory_name>] [--replace]` — embed chunks; aggregate hub writes to configurable RAG dir (default **`assets/rag/`**) or **`memory/rag/`** (when `--memory` set). Called by **`index_memory`** only when **`--embed`** is passed.
 - `sync_sharepoint_urls.py [--memory <memory_name>]` — run after chunk when source has `source/... | https://...`; replaces with SharePoint URL, fixes URL order, adds `wdSlideIndex` (pptx) / `page` (pdf) for direct links
 - `add_sharepoint_mapping.py --prefix "OneDrive - X" --base "<url>"` — add OneDrive→SharePoint mapping. Paste URL from browser; script derives base. Use when convert warns about missing mapping.
 

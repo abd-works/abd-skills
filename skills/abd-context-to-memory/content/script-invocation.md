@@ -2,7 +2,7 @@
 
 Run from workspace root.
 
-**Memory root (ROOT):** With **`--path`**, ROOT is the **source folder** you pass. Chunks go to **`ROOT/memory/`** (or **`parent/memory/context/`** when the folder is named `context`). RAG follows the embed step under that tree. Set `CONTENT_MEMORY_ROOT` only when running `--memory` without a source (chunk+embed only).
+**Memory root (ROOT):** With **`--path`**, ROOT is the **source folder** you pass. Chunks go to **`ROOT/memory/`** (or **`parent/memory/context/`** when the folder is named `context`). **Embedding is off by default**; use **`--embed`** or run **`embed_and_index.py`** separately. Set `CONTENT_MEMORY_ROOT` only when running `--memory` without a source.
 
 **Dependencies**: `pip install "markitdown[all]"` (convert)
 
@@ -57,7 +57,7 @@ python scripts/link_chunked.py --root <name> [--memory-path <path>] [--workspace
 
 ## convert_to_markdown.py
 
-Converts source files to markdown. Writes .md alongside each source file (same folder).
+Converts source files to markdown. Writes each `.md` under **`<topic_root>/markdown/…`** mirroring the source tree (e.g. `notes/deck.pptx` → `markdown/notes/deck.md`). If the topic folder is named `context`, output is **`../markdown/…`** next to that folder. Does not walk into existing `markdown/` or `memory/` when discovering sources.
 
 **Single file (when user asks for one file):**
 ```bash
@@ -69,7 +69,7 @@ python scripts/convert_to_markdown.py --file <file_path>
 python scripts/convert_to_markdown.py --memory <source_path>
 ```
 
-- `--file`: Process ONLY the specified file. Use when user says "one file", "this file", "just X.pdf". Output: same folder as the source file.
+- `--file`: Process ONLY the specified file. Use when user says "one file", "this file", "just X.pdf". Output: **`markdown/…`** under the topic root (see `--topic-root`). Optional **`--topic-root`** when the file is not directly under the topic folder.
 - `--memory`: Process all supported files in folder. Tries under `Assets/` first, then workspace root.
 - **OneDrive → SharePoint auto-injection:** When source is under a configured OneDrive path (e.g. `OneDrive - Agile by Design`), SharePoint URLs are auto-injected from `sharepoint_mapping.json`. No `--sharepoint-base` needed. Add mappings in `skills/abd-context-to-memory/sharepoint_mapping.json`.
 - `--sharepoint-base <url>`: Override or use when source is not in OneDrive. Base URL to the folder (e.g. `https://.../Scotiabank/GTB`). Appends relative path and `?csf=1&web=1` (or `--sharepoint-query`).
@@ -77,16 +77,16 @@ python scripts/convert_to_markdown.py --memory <source_path>
 
 ## chunk_markdown.py
 
-Chunks converted markdown. Reads .md from source folder, writes to `memory/<name>/` (no chunked subfolder).
+Chunks markdown. For each logical document (folder + stem), prefers **`markdown/…/<stem>.md`** at the topic root, then legacy **`…/markdown/<stem>.md`**, otherwise sibling **`…/<stem>.md`**, never both. Writes chunks under **`memory/`** (or `--output`) mirroring the source tree **without** a `markdown` path segment. If **`--path`** points at a folder named **`context`**, the script scans the **parent** folder so markdown under **`../markdown/`** is included.
 
 **Usage:**
 ```bash
 python scripts/chunk_markdown.py --path <source_folder> [--memory <memory_name>]
 ```
 
-- `--path`: Source folder containing converted .md files
-- `--memory`: Optional. Memory folder name (default: last component of source path)
-- Run convert first. Excludes chunked output (__slide_, __section_) from input.
+- `--path`: Topic / source folder root
+- `--memory`: Optional. Memory folder name under workspace when not using `--output` (default: last component of source path)
+- Run convert first (or ensure `.md` exists). Excludes chunked output (__slide_, __section_) from input.
 
 ## sync_sharepoint_urls.py
 
@@ -159,7 +159,7 @@ If pdflatex is not installed: `pip install weasyprint` then use `--pdf-engine we
 
 ## index_memory.py
 
-Full pipeline: convert → chunk → sync SharePoint → embed. Builds or updates the vector index for semantic search.
+Default pipeline: convert → chunk → sync SharePoint (**no embed**). Pass **`--embed`** to also build/update per-topic vector index under that topic’s `memory/rag/`. For a **shared** hub index, run **`embed_and_index.py`** separately (no `--memory`).
 
 **Dependencies**: `pip install -r skills/abd-context-to-memory/requirements-rag.txt` (OpenAI API key for embeddings)
 
@@ -168,6 +168,8 @@ Full pipeline: convert → chunk → sync SharePoint → embed. Builds or update
 **Usage:**
 ```bash
 python scripts/index_memory.py --path <source_folder>
+python scripts/index_memory.py --path <source_folder> --embed   # also per-topic FAISS under memory/rag/
+python scripts/index_memory.py --path <source_folder> --skip-convert   # .md already beside sources; skip markitdown
 python scripts/index_memory.py --path <source_folder> --memory-root <hub_root>
 python scripts/index_memory.py --path <source_folder> --junction-workspace <hub_root>
 python scripts/index_memory.py --path <source_folder> --no-junction
@@ -176,15 +178,16 @@ python scripts/index_memory.py
 python scripts/index_memory.py --replace
 ```
 
-- `--path`: Source folder (e.g. `source/JBOM` or `Assets/04 Service Offering`). Full pipeline: convert → chunk → sync SharePoint → embed. Or chunk + embed if convert already ran.
+- `--path`: Source folder (e.g. `source/JBOM` or `Assets/04 Service Offering`). Default: convert → chunk → sync SharePoint. Add **`--embed`** for per-topic FAISS under `memory/rag/`.
+- `--embed`: Opt in to **`embed_and_index.py`** after sync (per-topic index). Omitted by default.
 - **Hub junction (after successful `--path`):** **`hub/<source_folder_name>` → absolute path to that source’s memory folder** (usually `<source>/memory`, or `<parent>/memory/context` when `--path` ends in `context`). `--memory-root` and `--junction-workspace` are aliases for the hub directory. Order: explicit flag, else `ABD_CONTENT_ROOT`, else cwd. Skip with `--no-junction` or `SKIP_MEMORY_JUNCTION=1`.
-- `--memory`: Memory folder name (chunk + embed only; convert already ran). Does **not** create a workspace junction (use `--path` for full ingest + junction).
+- `--memory`: Memory folder name (chunk + sync; **embed only with `--embed`**; convert already ran). Does **not** create a workspace junction (use `--path` for full ingest + junction).
 - **No args:** When `skill_space_path` is set (in `skill-config.json` or `abd-story-synthesizer/conf/abd-config.json`), automatically runs on `{skill_space_path}/context`. Use when the user says "add to memory" or "refresh memory" without specifying a folder. Junction creation applies when this default `--path` flow completes successfully.
 - `--replace`: Rebuild entire vector index from all memory (drops existing index).
 
-**Memory root:** For **`--path "<source>"`**, normal flow uses **`source/memory/`** for chunks. Exception: **`--path` …/ `context`** uses **`parent`** as project root, chunks at **`memory/context/`**. Embed/RAG paths follow `embed_and_index` for that tree.
+**Memory root:** For **`--path "<source>"`**, normal flow uses **`source/memory/`** for chunks. Exception: **`--path` …/ `context`** uses **`parent`** as project root, chunks at **`memory/context/`**. Per-topic embed uses **`embed_and_index`** only when **`--embed`** is set.
 
-**When to run:** After adding or updating content; before first semantic search.
+**When to run:** After adding or updating content. For **semantic search**, build an index with **`embed_and_index.py`** (aggregate hub) or **`--embed`** (per-topic).
 
 ## embed_and_index.py
 
@@ -255,12 +258,12 @@ Convert will auto-inject SharePoint URLs for any file under the configured OneDr
 
 ## Layout
 
-- **Converted markdown**: Written to **source folder** (alongside each source file)
-- **Chunked content**: Written to **memory/<name>/** (no chunked subfolder). Sync and embed operate on these files.
+- **Converted markdown**: Written to **`<parent>/markdown/`** per source file
+- **Chunked content**: Written under **memory/** (or `--output`), same relative layout as sources **minus** any `markdown` directory in the path. Sync and embed operate on these files.
 
 ## Key Behaviors
 
-1. **Run convert before chunk** — Convert writes .md to source folder; chunk reads from source and writes to memory/<name>/.
+1. **Run convert before chunk** — Convert writes `.md` under topic-level `markdown/`; chunk dedupes sibling vs `markdown/` and writes chunks to `memory/` without a `markdown` segment in paths.
 2. **SharePoint URLs** — When source is in OneDrive, convert auto-injects SharePoint URLs from `sharepoint_mapping.json`. `sync_sharepoint_urls` (in pipeline) makes links shareable and adds slide/page params.
 3. **Handle errors gracefully** — Some files may fail. Log and continue.
 4. **Long-running** — Large folders (100+ files) take time.

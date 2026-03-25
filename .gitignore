@@ -21,3 +21,11 @@ Thumbs.db
 
 # Scanner caches
 .surnames_cache
+
+# Local junction to topic memory (machine-specific path; mklink /J)
+skills/abd-context-to-memory/assets/Agile Thinking/
+skills/abd-context-to-memory/assets/Canadian Banking Engineering/
+skills/abd-context-to-memory/assets/GTB/
+
+# Aggregate FAISS + embeddings (rebuild: embed_and_index.py --replace from skill hub)
+skills/abd-context-to-memory/assets/rag/

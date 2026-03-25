@@ -9,6 +9,13 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 
 
+def _phases_built_dir() -> Path:
+    p = ROOT / "content" / "parts" / "phases" / "built"
+    if p.is_dir():
+        return p
+    return ROOT / "parts" / "phases" / "built"
+
+
 def test_build_py_exits_zero() -> None:
     r = subprocess.run(
         [sys.executable, str(ROOT / "scripts" / "build.py")],
@@ -40,9 +47,10 @@ def test_agents_includes_each_built_phase_body() -> None:
         check=True,
     )
     agents = (ROOT / "AGENTS.md").read_text(encoding="utf-8")
+    built_dir = _phases_built_dir()
     for slug in ("workspace-and-config", "scaffold", "fill-scaffold-parts"):
-        built = (ROOT / "parts" / "phases" / "built" / f"{slug}.md").read_text(encoding="utf-8")
-        assert built in agents, f"missing phases/built/{slug}.md body in AGENTS.md"
+        built = (built_dir / f"{slug}.md").read_text(encoding="utf-8")
+        assert built in agents, f"missing {built_dir.name}/{slug}.md body in AGENTS.md"
 
 
 def test_content_built_readme_exists_after_build() -> None:

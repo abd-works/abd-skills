@@ -9,7 +9,10 @@ Usage:
 When source is in OneDrive, SharePoint URLs are auto-injected from sharepoint_mapping.json
 so links work for anyone. Configure mappings in skills/abd-context-to-memory/sharepoint_mapping.json
 
-Run from workspace root. Writes markdown alongside each source file (same folder).
+Run from workspace root. Writes markdown under a single **topic-level** ``markdown/`` folder,
+parallel to ``memory/`` (e.g. ``notes/deck.pptx`` -> ``markdown/notes/deck.md``). If the topic
+folder is named ``context``, markdown goes next to it: ``../markdown/...``. Does not descend into
+``markdown`` or ``memory`` when discovering files to convert.
 Requires: pip install "markitdown[all]"
 
 CRITICAL: Use --file when user asks for ONE file. Use --memory only when user
@@ -52,6 +55,30 @@ except ImportError:
 from _config import ROOT, ASSETS, ensure_root
 
 ensure_root()
+
+# Converted markdown lives under ``<topic_root>/markdown/`` (parallel to ``<topic_root>/memory/``).
+MARKDOWN_SUBDIR = "markdown"
+
+
+def _markdown_tree_root(src_full: Path) -> Path:
+    """Directory under which relative paths mirror originals: ``<root>/markdown/...``."""
+    if src_full.name.casefold() == "context":
+        return src_full.parent / MARKDOWN_SUBDIR
+    return src_full / MARKDOWN_SUBDIR
+
+
+def _default_topic_root_for_file(p: Path) -> Path:
+    """Infer topic root for ``--file`` when ``--topic-root`` is omitted.
+
+    ``topic/file.ext`` → topic is ``file``'s parent. ``topic/sub/file.ext`` → topic is
+    ``parent.parent``. Deeper trees require ``--topic-root``.
+    """
+    parent = p.parent
+    anchor = p.anchor
+    # One subfolder under topic: drive|topic|sub → topic = parent.parent
+    if len(parent.parts) == len(anchor.parts) + 2:
+        return parent.parent
+    return parent
 
 SUPPORTED = {
     ".pdf", ".pptx", ".docx", ".xlsx", ".xls",
@@ -169,8 +196,13 @@ def convert_one(
     return out
 
 
-def _run_file_mode(file_path: str) -> None:
-    """Convert a single file to markdown. Only processes that file."""
+def _run_file_mode(file_path: str, topic_root: str | None = None) -> None:
+    """Convert a single file to markdown. Only processes that file.
+
+    Output: ``<topic_root>/markdown/<relative parent>/stem.md``. Pass ``--topic-root`` when the
+    file is not directly under the topic folder (e.g. ``topic/slides/x.pptx`` → topic root is
+    ``topic``, not ``slides``).
+    """
     p = Path(file_path)
     if not p.is_absolute():
         for base in (ASSETS, ROOT):
@@ -185,18 +217,30 @@ def _run_file_mode(file_path: str) -> None:
         print(f"Unsupported format: {p.suffix}. Supported: {sorted(SUPPORTED)}")
         return
 
-    out_dir = p.parent
+    if topic_root:
+        tr = Path(topic_root).expanduser().resolve()
+    else:
+        tr = _default_topic_root_for_file(p)
+    try:
+        rel = p.relative_to(tr)
+    except ValueError:
+        print(f"File is not under --topic-root {tr}. Resolve the path or set --topic-root.")
+        return
+
+    md_root = tr / MARKDOWN_SUBDIR
+    out_dir = md_root / rel.parent
     out_dir.mkdir(parents=True, exist_ok=True)
 
     print(f"File: {p.name} -> {out_dir}/\n")
     try:
-        memory_name = p.parent.name if p.parent != Path(".") else p.stem
-        logical_rel = Path(p.name)
+        memory_name = tr.name if tr != Path(".") else p.stem
+        logical_rel = rel
         out = convert_one(
             p,
             out_dir,
             memory_name=memory_name,
             logical_rel=logical_rel,
+            src_base=tr,
         )
         kb = out.stat().st_size // 1024
         print(f"Done: 1 file converted ({kb} KB)")
@@ -209,7 +253,9 @@ def _walk_with_logical_path(
 ) -> list[tuple[Path, Path]]:
     """Walk directory, yield (file_path, logical_rel) preserving logical structure through symlinks."""
     out: list[tuple[Path, Path]] = []
+    _SKIP_DIRS = frozenset({MARKDOWN_SUBDIR.casefold(), "memory"})
     for dirpath, dirnames, filenames in os.walk(root, followlinks=followlinks):
+        dirnames[:] = [d for d in dirnames if d.casefold() not in _SKIP_DIRS]
         dp = Path(dirpath)
         try:
             rel = dp.relative_to(root)
@@ -234,7 +280,7 @@ def _run_memory_mode(
     subfolders: list[str] | None = None,
     memory_name_override: str | None = None,
 ) -> None:
-    """Convert folder; write markdown alongside each source file (same folder)."""
+    """Convert folder; write markdown under ``<topic>/markdown/...`` mirroring the source tree."""
     p = Path(memory_path)
     if p.is_absolute():
         src_full = p
@@ -279,11 +325,13 @@ def _run_memory_mode(
         print(f"No supported files in {src_full}")
         return
 
-    print(f"Source: {src_full}  ({len(files)} files) -> same folder\n")
+    md_tree = _markdown_tree_root(src_full.resolve())
+    print(f"Source: {src_full}  ({len(files)} files) -> {md_tree}/...\n")
 
     ok, fail = [], []
     for i, (f, logical_rel) in enumerate(files, 1):
-        out_dir = f.parent
+        rel = f.relative_to(src_full.resolve())
+        out_dir = md_tree / rel.parent
         out_dir.mkdir(parents=True, exist_ok=True)
 
         label = str(logical_rel) if logical_rel != Path(".") else f.name
@@ -313,7 +361,9 @@ def _run_memory_mode(
 def main():
     file_idx = next((i for i, a in enumerate(sys.argv) if a == "--file"), None)
     if file_idx is not None and file_idx + 1 < len(sys.argv):
-        _run_file_mode(sys.argv[file_idx + 1])
+        tr_idx = next((i for i, a in enumerate(sys.argv) if a == "--topic-root"), None)
+        topic_root = sys.argv[tr_idx + 1] if tr_idx is not None and tr_idx + 1 < len(sys.argv) else None
+        _run_file_mode(sys.argv[file_idx + 1], topic_root=topic_root)
         return
 
     memory_idx = next((i for i, a in enumerate(sys.argv) if a == "--memory"), None)
@@ -335,7 +385,7 @@ def main():
         return
 
     print("Usage:")
-    print("  python convert_to_markdown.py --file <file_path>     # single file only")
+    print("  python convert_to_markdown.py --file <file_path> [--topic-root <topic_folder>]")
     print("  python convert_to_markdown.py --memory <source_path> # folder (all files)")
     print("  python convert_to_markdown.py --memory <source_path> --sharepoint-base <url> [--sharepoint-query <query>]")
     print("  python convert_to_markdown.py --memory <source_path> --folders <sub1> <sub2> ...  # process only these subfolders (for symlinked dirs)")

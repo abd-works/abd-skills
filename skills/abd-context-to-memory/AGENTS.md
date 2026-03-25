@@ -4,7 +4,7 @@
 
 - **ContextRoot** — Named entry in `roots/roots.json` with a folder `roots/<name>/` and optional junction `roots/<name>/chunked` → absolute `memory_path` (chunked output for indexing)
 - **ContentSource** — Original artifact (PDF, PPTX, DOCX, XLSX, etc.) in supported format
-- **Markdown** — Converted artifact; full fidelity; stored alongside original
+- **Markdown** — Converted artifact; full fidelity; stored under **`<parent>/markdown/`** next to the original
 - **Chunk** — Split unit of markdown for retrieval; by slide, heading, or whole file
 - **Memory** — Single memory entry; one per file; points to original and markdown
 - **Memories** — Collection of memories; nested by source structure
@@ -28,8 +28,8 @@
 **Story: Convert content sources to markdown**
 
 - **Required State**: Content in supported formats (PDF, PPTX, DOCX, XLSX, etc.)
-- **Response**: Skill converts original artifact in its entirety to markdown; markdown stored alongside original (same folder)
-- **Resulting State**: Markdown converted artifact available alongside original
+- **Response**: Skill converts original artifact in its entirety to markdown; markdown stored under **`markdown/`** next to that file’s folder
+- **Resulting State**: Markdown available under **`<parent>/markdown/`**; chunking prefers that copy over a sibling `.md` with the same stem
 - **Failure Modes**: Unsupported format; conversion fails; path invalid
 
 **Supported formats**: `.pdf`, `.pptx`, `.docx`, `.xlsx`, `.xls`, `.html`, `.htm`, `.txt`, `.csv`, `.json`, `.xml`
@@ -169,22 +169,23 @@ python scripts/add_sharepoint_mapping.py --path <file_in_onedrive> --base "<shar
 
 ## index_memory.py
 
-Full pipeline: convert → chunk → sync SharePoint → embed. Builds or updates the vector index for semantic search.
+Default pipeline: convert → chunk → sync SharePoint (**no embed**). Pass **`--embed`** for per-topic FAISS under `memory/rag/`. For a **shared** hub index, run **`embed_and_index.py`** (no `--memory`) separately.
 
-**Dependencies**: `pip install -r skills/ace-context-to-memory/requirements-rag.txt` (OpenAI API key for embeddings)
+**Dependencies**: markitdown for convert/chunk; `requirements-rag.txt` + API key only when embedding.
 
 **Usage:**
 ```bash
 python scripts/index_memory.py --path <source_folder>
+python scripts/index_memory.py --path <source_folder> --embed
 python scripts/index_memory.py --memory <memory_name>
 python scripts/index_memory.py --replace
 ```
 
-- `--path`: Source folder (e.g. `Assets/04 Service Offering`). Converts, chunks, embeds. Use for new content.
-- `--memory`: Memory name (folder under `memory/`). Chunks must already exist. Embeds and indexes.
-- `--replace`: Rebuild entire vector index from all memory (drops existing index).
+- `--path`: Source folder (e.g. `Assets/04 Service Offering`). Converts and chunks. Use **`--embed`** to embed.
+- `--memory`: Memory name (folder under `memory/`). Chunks must already exist. Embeds only with **`--embed`**.
+- `--replace`: Rebuild vector index via **`embed_and_index.py`** only (full index rebuild).
 
-**When to run:** After adding or updating content; before first semantic search.
+**When to run:** After adding or updating content. For semantic search, ensure **`embed_and_index.py`** or **`index_memory --embed`** has been run so an index exists.
 
 ## search_memory.py
 
@@ -249,6 +250,6 @@ Convert will auto-inject SharePoint URLs for any file under the configured OneDr
 2. **SharePoint URLs** — When source is in OneDrive, convert auto-injects SharePoint URLs from `sharepoint_mapping.json`. `sync_sharepoint_urls` (in pipeline) makes links shareable and adds slide/page params.
 3. **Handle errors gracefully** — Some files may fail. Log and continue.
 4. **Long-running** — Large folders (100+ files) take time.
-5. **RAG**: Run `index_memory` after adding content; run `search_memory` when user asks for memory retrieval.
+5. **RAG**: After adding content, run **`embed_and_index.py`** (aggregate) or **`index_memory --path … --embed`** (per-topic); run `search_memory` when the user asks for retrieval.
 
 ---

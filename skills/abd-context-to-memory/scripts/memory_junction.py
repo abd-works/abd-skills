@@ -31,6 +31,14 @@ def _safe_segment(name: str) -> str:
     return s or "memory_link"
 
 
+def _junction_link_segment(source_folder: Path) -> str:
+    """Folder name under hub/<junctions_dir>/; avoid ``memory`` / ``markdown`` as link names."""
+    n = source_folder.name
+    if n.casefold() in ("memory", "markdown"):
+        return _safe_segment(source_folder.parent.name)
+    return _safe_segment(n)
+
+
 def ensure_named_source_junction(
     hub_root: Path,
     *,
@@ -56,12 +64,15 @@ def ensure_named_source_junction(
             file=sys.stderr,
         )
         return False
-    name = _safe_segment(source_folder.name)
+    name = _junction_link_segment(source_folder)
     jd = junctions_dir_for_root(hub)
     junction_parent = hub / jd
-    link_path = (junction_parent / name).resolve()
+    junction_parent.mkdir(parents=True, exist_ok=True)
+    # Do not .resolve() link_path: on Windows, hub/<junctions_dir> may be a junction/symlink
+    # (e.g. to OneDrive). Resolving would map the link into the remote tree and mklink would
+    # target the wrong path (often ending in .../memory) and fail with access denied.
+    link_path = junction_parent / name
     try:
-        junction_parent.mkdir(parents=True, exist_ok=True)
         _create_junction(link_path, target)
         print(f"[junction] {link_path} -> {target}")
         return True

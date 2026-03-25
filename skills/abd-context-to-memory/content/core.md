@@ -4,7 +4,7 @@
 
 - **ContextRoot** — Named entry in `roots/roots.json` with a folder `roots/<name>/` and optional junction `roots/<name>/chunked` → absolute `memory_path` (chunked output for indexing)
 - **ContentSource** — Original artifact (PDF, PPTX, DOCX, XLSX, etc.) in supported format
-- **Markdown** — Converted artifact; full fidelity; stored alongside original
+- **Markdown** — Converted artifact; full fidelity; stored under **`<parent>/markdown/`** next to the original
 - **Chunk** — Split unit of markdown for retrieval; by slide, heading, or whole file
 - **Memory** — Single memory entry; one per file; points to original and markdown
 - **Memories** — Collection of memories; nested by source structure

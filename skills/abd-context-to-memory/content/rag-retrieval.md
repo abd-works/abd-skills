@@ -25,11 +25,11 @@ Run `search_memory "<query>"` when the user says:
 
 - RAG deps: `pip install -r .agents/skills/ace-context-to-memory/requirements-rag.txt`
 - `OPENAI_API_KEY` set (for embeddings)
-- Index must exist: run `index_memory` after adding content
+- Index must exist: run **`embed_and_index.py`** (hub aggregate) or **`index_memory --embed`** (per-topic) after adding content
 
 ## Architecture
 
 - **Chunk files** — File-based reference (e.g. "open the Agile Overview deck")
 - **Vector index** — Semantic search via `search_memory` for topic-based retrieval
 
-Pipeline: convert → chunk → (1) write chunk files (2) embed + index in FAISS.
+Pipeline: convert → chunk → chunk files on disk; **embed + FAISS** is a separate step (`embed_and_index.py` or `index_memory --embed`).

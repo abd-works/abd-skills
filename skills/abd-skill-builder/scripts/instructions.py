@@ -37,7 +37,7 @@ _DEFAULT_PHASE_FILES = (
 # Default assembly order for AI-chat phase prompts (`generate_prompt` / built bundles).
 # Skills override or extend via ``skill-config.json`` → ``phase_bundle``.
 _DEFAULT_PHASE_BUNDLE: dict = {
-    "order": ["role", "phase", "library", "rules", "principles"],
+    "order": ["principles", "role", "phase", "library", "rules"],
     "role_file": "solution-analyst-role.md",
     "principles_file": "critical-quality-steps.md",
     "role_heading": "## Role",
@@ -59,7 +59,7 @@ class Instructions:
     """Resolves section IDs and assembles markdown for a slug.
 
     Default phase slugs use ``phase_bundle`` from ``skill-config.json`` (see ``parts/library/process-approach.md``):
-    role → phase → library → rules → principles. Missing optional files (role, principles) are skipped.
+    principles → role → phase → library → rules (abd-skill-builder default). Missing optional files (role, principles) are skipped.
 
     **Rules:** Phase bundles pull ``rules/<stem>.md`` in order from ``phase_rules[<slug>]``, after stems in
     ``every_phase_rules`` (deduped). Stems are basenames without ``.md``. Optional YAML frontmatter in rule

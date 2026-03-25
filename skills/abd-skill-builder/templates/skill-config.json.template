@@ -13,7 +13,7 @@
     "author": []
   },
   "phase_bundle": {
-    "order": ["role", "phase", "library", "rules", "principles"],
+    "order": ["principles", "role", "phase", "library", "rules"],
     "role_file": "solution-analyst-role.md",
     "principles_file": "critical-quality-steps.md",
     "role_heading": "## Role",

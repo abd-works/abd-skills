@@ -7,9 +7,19 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-# Canonical authoring layout: `parts/library/`. (Some checkouts mirror under `content/parts/library/`.)
-_LIBRARY = ROOT / "parts" / "library"
+
+
+def _library_dir(root: Path) -> Path:
+    """Match `instructions._parts_dir`: prefer `content/parts/library` when `content/parts/process.md` exists."""
+    p = root / "content" / "parts"
+    if (p / "process.md").is_file():
+        return p / "library"
+    return root / "parts" / "library"
+
+
+_LIBRARY = _library_dir(ROOT)
 REQUIRED = [
+    _LIBRARY / "critical-quality-steps.md",
     _LIBRARY / "skill-repo-standards.md",
     _LIBRARY / "builder-vs-operator.md",
     _LIBRARY / "skill-standards-section-3.md",
