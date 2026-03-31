@@ -29,7 +29,11 @@ def main() -> None:
         json.dumps({"candidates": [], "schema": "phase2/v1"}, indent=2),
         encoding="utf-8",
     )
-    print(f"Wrote phase2 artifacts under {PHASE2.relative_to(SKILL_ROOT)}")
+    try:
+        shown = PHASE2.relative_to(SKILL_ROOT)
+    except ValueError:
+        shown = PHASE2
+    print(f"Wrote phase2 artifacts under {shown}")
 
 
 if __name__ == "__main__":
