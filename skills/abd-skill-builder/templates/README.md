@@ -1,13 +1,19 @@
-# Templates (`templates/`)
+# Templates — authoring instructions
 
-**Purpose:** Scaffold emits a new skill tree from these files. Some templates are **only** for **`docs/`** planning artifacts (non-runtime per §3).
+These files are **instructions for what to write**, not copy-paste starters. Each one explains the purpose, required fields, and authoring decisions for its counterpart in a built skill.
 
-| File | Use |
-|------|-----|
-| **`process-team.md.template`** | **Team process plate** — **Phase 0 (Workspace and config)** is **hard-coded** (same for every skill). Other sections use **`{{parameter}}`** placeholders (see the **PARAMETER MANIFEST** in the file). A **filled** example is **`parts/process.md`** in **abd-skill-builder** (same shape, real prose). Pair with **`parts/library/process-table-standards.md`** for table columns. |
-| **`skill-plan.md.template`** | **Stage 1 plan** — copied to **`docs/skill-plan.md`** by **`scaffold_skill.py`**, including **## Authoring checklist** (body injected from **`parts/library/authoring-checklist.md`**). Fill during Plan: delivery mode, stages/phases, rules/scanners, library components, role, operator/workspace/delivery, then track **`- [ ]`** in the checklist section. |
-| **`abd-config.json.template`** | **Workspace routing** — scaffold writes **`conf/abd-config.json`** from this file. It is **minimal JSON** (two keys), not an empty file: **`active_skill_workspace`** and **`known_skill_workspaces`**. See **`abd-config.json.template.md`** for a short explanation. Normative semantics: **`parts/phases/plan-script-build.md`** (**Skill path, skill workspace, and configuration**). |
-| **`skill-config.json.template`** | **Phase manifest** for scaffolded skills — includes **`phase_files`** aligned with **`process.md.template`**, **`every_phase_rules`**, **`phase_rules`** (one key per phase slug, each an array of rule **stems** without `.md`), and **`phase_bundle`** (role → phase → library → rules → principles). When you add **`rules/*.md`**, list stems under the right phase (and under **`every_phase_rules`** only if every phase needs the same rule). Normative detail: **`parts/library/process-approach.md`**. |
-| **`concepts.md.template`** | **Concepts / domain model** — lightweight **`parts/library/`** doc: purpose, high-level shape, format, detail, examples, validation checklist. Optional **`<!-- abd:begin <phase-slug> -->`** / **`<!-- abd:end <phase-slug> -->`** pairs match **`phase_files`** so **`generate_prompt`** / **`build.py`** include only the right fragments per phase (see **`parts/library/process-approach.md`**). |
+The filled scaffold versions — the actual ready-to-edit files dropped into a new skill — live in **`skill-scaffold/`** (sibling of this folder).
 
-**Scaffold:** `scripts/scaffold_skill.py` emits **`process.md`** from **`process.md.template`** (Phase **0** row matches **`process-team.md.template`** / **`parts/library/process-table-standards.md`** — including **`scripts/set_workspace.py`** in **Scripts**), copies **`parts/phases/workspace-and-config.md`** from **abd-skill-builder**, copies **`scripts/set_workspace.py`** into the new skill, **`conf/abd-config.json`** from **`abd-config.json.template`**, and **`docs/skill-plan.md`** (from **`skill-plan.md.template`**, with the authoring checklist section filled from **`parts/library/authoring-checklist.md`**). Replace or enrich **`process.md`** with the team plate when you need a richer pipeline doc.
+| File | What it documents |
+|------|-------------------|
+| [`abd-config.json.template.md`](abd-config.json.template.md) | How to fill `conf/abd-config.json` — workspace routing keys |
+| [`process.md.template`](process.md.template) | How to write a minimal `content/parts/process.md` |
+| [`process-team.md.template`](process-team.md.template) | How to write a rich multi-stage `process.md` with outcome, principles, and per-stage tables |
+| [`skill-config.json.template`](skill-config.json.template) | How to fill every field in `skill-config.json` |
+| [`skill-plan.md.template`](skill-plan.md.template) | How to fill `docs/skill-plan.md` — the Stage 1 planning document |
+
+## Relationship to skill-scaffold/
+
+`skill-scaffold/` contains the actual scaffold files with real structure and inline comments. `templates/` tells you **why** each field or section exists and what decisions to make when filling it in.
+
+Read the relevant `templates/` doc first to understand the shape, then edit the corresponding file in your new skill (copied from `skill-scaffold/`).

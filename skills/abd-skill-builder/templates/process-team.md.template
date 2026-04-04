@@ -1,129 +1,67 @@
-<!--
-  TEAM PROCESS PLATE — copy into content/parts/process.md (or parts/process.md).
+# `content/parts/process.md` — rich format authoring instructions
 
-  Substitution: {{name}} (double braces), same as scaffold SKILL.md.template / _apply().
+Use this format when the skill has distinct **planning**, **build**, and **validation** stages with their own purpose, outputs, and success criteria. For simple skills, use the minimal format described in [`process.md.template`](process.md.template).
 
-  PARAMETER MANIFEST (replace every {{…}} after copy):
-    {{skill_name}}                 — H1 title fragment (skill id or display name)
-    {{process_navigation_spine}}   — One line: left-to-right pipeline (links to phases, bold stage names)
-    {{outcome_paragraph}}          — Definition of “done”; Markdown
-    {{principle_1}} … {{principle_4}} — Full bullet lines (each usually starts with - **Label:** …)
-    {{stage_1_title}}              — e.g. Plan
-    {{stage_1_phase_docs_line}}    — Line starting **Phase docs:** with links to phase files
-    {{stage_1_table_rows}}       — Body rows for Stage 1 phase table
-    {{stage_2_title}}              — e.g. Create or fix the skill
-    {{stage_2_purpose}}            — ### Purpose body (Markdown)
-    {{stage_2_what_you_produce}}   — ### What you produce (bullets/paragraphs)
-    {{stage_2_success_criteria}}   — ### How you know you succeeded
-    {{stage_2_table_rows}}         — Body rows for Stage 2 phase table
-    {{stage_3_title}}              — e.g. Structural validation (Operator)
-    {{stage_3_purpose}}
-    {{stage_3_what_you_produce}}
-    {{stage_3_success_criteria}}
-    {{stage_3_table_rows}}
--->
+The filled scaffold copy (rich format) is not pre-built in `skill-scaffold/` — start from the minimal version there and add stages as needed.
 
-# Process — {{skill_name}}
+## Document structure
 
-## Navigation spine
+### H1 title
+```
+# Process — <skill name>
+```
 
-**What this section is:** One line the reader follows left to right—how **standards**, **Phase 0 (workspace)**, **plan**, **build/migrate**, **fill**, and **Operator** connect. Use links to `phases/<slug>.md` that exist in *your* skill. This is not boilerplate; it is the map readers scan first.
+### Navigation spine
+One line the reader follows left to right. Link to the phase files that exist in *your* skill. This is the map readers scan first — write it last, once you know the real phases.
 
-{{process_navigation_spine}}
+Example:
+```
+**Standards** → **[Workspace and config](phases/workspace-and-config.md)** → **Stage 1: Plan** → **Stage 2: Build** → **Operator**
+```
 
-## Outcome of this process
+### Outcome of this process
+What "finished" means for this skill: artifact state, how instructions stay aligned with files, how phases/rules/checks fit together. 2–4 sentences in prose.
 
-**What this section is:** What “finished” means for *this* skill: what artifact state you have, how instructions stay aligned with files, and how phases, rules, and checks fit together. Write in Markdown (paragraphs, *italic*, **bold**).
+### High-level principles
+Typically **four** bullets covering:
+1. How to author prompts (AI-chat discipline)
+2. How to use the process table (column rules, workspace row)
+3. Quality and Operator (build → scanners → re-read)
+4. How build and parts stay in sync
 
-{{outcome_paragraph}}
+### Phase 0 — Workspace and config
+**Hard-coded — copy verbatim from `skill-scaffold/content/parts/process.md`.** Do not modify the Phase 0 row; it is identical across all skills.
 
-## High-level principles
+### Stage sections (1, 2, 3, …)
+Each stage gets:
 
-**What this section is:** Usually **four** bullets—cross-cutting rules for authoring prompts, using the process table, quality/Operator, and build/parts. Each `{{principle_N}}` is one full bullet line (you may use `- **Label:** body` or a single line per principle).
+#### Stage header
+```
+## Stage N — <title>
+```
 
-- {{principle_1}}
-- {{principle_2}}
-- {{principle_3}}
-- {{principle_4}}
+#### Purpose
+What this stage achieves and what gate it opens before the next stage. 2–4 sentences.
 
-## Phase 0 — Workspace and config
+#### What you produce
+Concrete artifacts or decisions — use bullets.
 
-**What this section is:** **Hard-coded for every skill**—not a `{{parameter}}`. **Phase 0** is always **where the skill runs**: **`skill_path`** vs **`skill_workspace`**, **`conf/abd-config.json`**, **`active_skill_workspace`**, and (when applicable) scaffold **`conf/`**. **Doc:** and the **table row** below match **`parts/library/process-table-standards.md`** for the workspace row (**#** = **`0`**).
+#### How you know you succeeded
+Checklist or measurable criteria — use bullets.
 
-**Doc:** **[Workspace and config](phases/workspace-and-config.md)** — **`skill_path`**, **`skill_workspace`**, **`conf/abd-config.json`**, **`active_skill_workspace`**, two levels of **`conf/`** (not duplicated in later phases).
+#### Phase table
+Same columns as the minimal format. List only the phases in this stage.
 
-| #   | Phase                                            | Description                                                                                                                                                                                                                                                                                                                  | Actor      | Input                                                                                                                                                                                                                                | Output                                                                                                                                         | Scripts                                                    |
-| --- | ------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------- |
-| 0   | [Workspace and config](phases/workspace-and-config.md) | You nail **where the skill runs**: **`skill_path`** vs **`skill_workspace`**, install **`conf/abd-config.json`** (see **[`conf/abd-config.json`](../conf/abd-config.json)**), **set `active_skill_workspace`**, optional **`known_skill_workspaces`**, overrides, scaffold adding **`conf/`** when greenfield. | Human / AI | Skill directory; customer/project tree you target | **`conf/abd-config.json`** correct for this skill; terms unambiguous for later phases and **Operator** | `python` [`scripts/set_workspace.py`](../scripts/set_workspace.py) — no args prints current; `<path>` sets `active_skill_workspace` in `conf/abd-config.json` ([workspace-and-config](phases/workspace-and-config.md)) · [generate.py](../scripts/generate.py) — `python scripts/generate.py --phase workspace-and-config` |
+## Decisions to make when authoring
 
----
+| Decision | Where it shows |
+|----------|----------------|
+| How many stages? | Number of `## Stage N` sections |
+| What are the phase slugs? | Phase table `#` / `Phase` column + links to `phases/<slug>.md` |
+| Which phases are AI-chat vs code? | `Actor` column + `generate.py` in Scripts |
+| What does each stage gate? | `### How you know you succeeded` bullets |
+| What does the Operator validate? | Stage 3 (or final stage) purpose and table |
 
-## Stage 1 — {{stage_1_title}}
+## Relationship to skill-config.json
 
-**What this section is:** Planning stage: links to the phase docs that implement **1a / 1b** (or your naming), then the process-table rows for this stage only.
-
-{{stage_1_phase_docs_line}}
-
-| #   | Phase                                            | Description                                                                                                                                                                                                                                                                                                                              | Actor      | Input                                                                                                                                                                                                                                | Output                                                                                                                                           | Scripts                                                                                        |
-| --- | ------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------- |
-{{stage_1_table_rows}}
-
----
-
-## Stage 2 — {{stage_2_title}}
-
-### Purpose
-
-**What this subsection is:** What this stage achieves and what gate it opens before the next stage (2–4 sentences).
-
-{{stage_2_purpose}}
-
-### What you produce
-
-**What this subsection is:** Concrete artifacts or decisions (bullets recommended).
-
-{{stage_2_what_you_produce}}
-
-### How you know you succeeded
-
-**What this subsection is:** Checklist or measurable criteria (bullets recommended).
-
-{{stage_2_success_criteria}}
-
-| #   | Phase                                            | Description                                                                                                                                                                                                                                                                                                                  | Actor      | Input                                                                                                                                                                                                                                | Output                                                                                                                                         | Scripts                                                    |
-| --- | ------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------- |
-{{stage_2_table_rows}}
-
----
-
-## Stage 3 — {{stage_3_title}}
-
-### Purpose
-
-**What this subsection is:** What “passing” structural validation means (compile, build, scanners, optional fixtures).
-
-{{stage_3_purpose}}
-
-### What you produce
-
-**What this subsection is:** Exit codes, merged AGENTS/built outputs, or other Operator outputs.
-
-{{stage_3_what_you_produce}}
-
-### How you know you succeeded
-
-**What this subsection is:** How CI or local checks confirm success.
-
-{{stage_3_success_criteria}}
-
-| #   | Phase                                            | Description                                                                                                                                                                                                                                                                                                                  | Actor | Input                                                                                                                                                                                                                                | Output                                                                                                                                         | Scripts                                                    |
-| --- | ------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------- |
-{{stage_3_table_rows}}
-
----
-
-## Team process plate (other skills)
-
-**What this section is:** How someone in *another* repo copies this pattern—where the template file lives and what to read next. Paths below assume **`parts/process.md`** at the skill root; if your file is **`content/parts/process.md`**, use **`../../templates/…`** instead of **`../templates/…`**.
-
-To author a **rich** **`process.md`** (outcome, principles, per-stage tables), start from **[templates/process-team.md.template](../templates/process-team.md.template)** and **[templates/README.md](../templates/README.md)**.
+Every phase slug listed in the table must appear in `skill-config.json` → `phase_files`. Add them in order.

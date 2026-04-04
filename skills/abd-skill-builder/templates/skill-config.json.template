@@ -1,38 +1,84 @@
-{
-  "name": "{{skill_name}}",
-  "version": "0.1.0",
-  "library_files": [],
-  "phase_files": [
-    "workspace-and-config",
-    "author"
-  ],
-  "PHASE_LIBRARY_SLICES": {},
-  "every_phase_rules": [],
-  "phase_rules": {
-    "workspace-and-config": [],
-    "author": []
-  },
-  "phase_bundle": {
-    "order": ["principles", "role", "phase", "library", "rules"],
-    "role_file": "solution-analyst-role.md",
-    "principles_file": "critical-quality-steps.md",
-    "role_heading": "## Role",
-    "phase_heading": "## Phase",
-    "library_heading": "## Library",
-    "rules_heading": "## Rules",
-    "principles_heading": "## Principles"
-  },
-  "operation_sections": {},
-  "agents_front": [],
-  "agents_front_heading": "## Front matter",
-  "delivery": {
-    "mode": "static_built",
-    "modes": ["static_built", "runtime_injection"]
-  },
-  "operator": {
-    "compileall_paths": ["scripts"],
-    "build_script": "scripts/build.py",
-    "build_pipeline": ["scripts/scanner_smoke.py"],
-    "scanners": ["scripts/scanner_smoke.py"]
-  }
+# `skill-config.json` — authoring instructions
+
+`skill-config.json` is the **phase manifest** — it wires phases, rules, library files, and operator scripts together. The filled scaffold copy lives at [`skill-scaffold/skill-config.json`](../skill-scaffold/skill-config.json).
+
+## Top-level fields
+
+| Field | What to set |
+|-------|-------------|
+| `name` | Skill identifier — matches the repo/folder name. Use kebab-case. |
+| `version` | Semver string. Start at `"0.1.0"`. |
+
+## `library_files`
+
+Array of filenames (without path) from `content/parts/library/` that are injected into **every** phase bundle under `## Library`. Add a file here when it contains norms that apply across all phases. Example: `"documentation-standards.md"`.
+
+Leave `[]` if the skill has no shared library content — you can add later.
+
+## `phase_files`
+
+Array of phase slugs **in pipeline order**. Each slug must have a corresponding file at `content/parts/phases/<slug>.md`. The slug `workspace-and-config` is always first.
+
+```json
+"phase_files": ["workspace-and-config", "plan", "build", "validate"]
+```
+
+## `PHASE_LIBRARY_SLICES`
+
+Optional. Maps phase slug → array of library file names to inject **only** for that phase (in addition to `library_files`). Use when one phase needs a specialised norm file that others should not see.
+
+```json
+"PHASE_LIBRARY_SLICES": {
+  "build": ["build-norms.md"]
 }
+```
+
+Leave `{}` if not needed.
+
+## `every_phase_rules`
+
+Array of rule stems (filename without `.md`) from `rules/` that apply to **every** phase. Use sparingly — only add a rule here if truly universal. Most rules belong in `phase_rules`.
+
+## `phase_rules`
+
+Object mapping phase slug → array of rule stems that apply **only in that phase**.
+
+```json
+"phase_rules": {
+  "build": ["no-placeholder-output", "correct-header-hierarchy"],
+  "validate": ["scanner-coverage"]
+}
+```
+
+Every slug in `phase_files` should have an entry here, even if the array is empty.
+
+## `phase_bundle`
+
+Controls how the assembled prompt is structured for AI-chat phases. These values rarely need changing from the scaffold defaults.
+
+| Key | What it controls |
+|-----|-----------------|
+| `order` | Section order in the assembled prompt. Default: `["principles", "role", "phase", "library", "rules"]`. |
+| `role_file` | Filename of the role doc in `content/parts/`. |
+| `principles_file` | Filename of the principles doc (e.g. `critical-quality-steps.md`). |
+| `*_heading` | Markdown heading for each section in the assembled prompt. |
+
+## `delivery`
+
+| Key | Values | What to choose |
+|-----|--------|----------------|
+| `mode` | `"static_built"` or `"runtime_injection"` | **static_built** — `build.py` merges everything into `AGENTS.md` once; CI re-runs build when sources change. **runtime_injection** — `generate.py` assembles prompt slices on demand; no static `AGENTS.md`. Choose `static_built` for most skills. |
+| `modes` | Leave as `["static_built", "runtime_injection"]` | Documents available options. |
+
+## `operator`
+
+| Key | What to set |
+|-----|-------------|
+| `compileall_paths` | Directories Python's `compileall` checks. Usually `["scripts"]`. |
+| `build_script` | Path to the build script. Usually `"scripts/build.py"`. |
+| `build_pipeline` | Ordered list of scripts the operator runs after build. Include scanners here. |
+| `scanners` | Scripts that check for rule violations. Same list as `build_pipeline` if scanners are the only post-build step. |
+
+## `operation_sections` and `agents_front`
+
+Advanced — leave `{}` and `[]` unless you need custom AGENTS.md front-matter sections.

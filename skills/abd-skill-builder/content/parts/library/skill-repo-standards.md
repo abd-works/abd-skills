@@ -8,7 +8,7 @@
 
 **Builder vs Operator (summary):** [`builder-vs-operator.md`](builder-vs-operator.md) — **scaffold / generation** path vs **`operator.run_operator()`** validation today.
 
-**Authoring checklist (human + AI):** [`authoring-checklist.md`](authoring-checklist.md) — normative body merged into **AGENTS.md**; in each skill, work the **## Authoring checklist** section inside **`docs/skill-plan.md`** (scaffold injects this file there). **`- [ ]` / `- [x]`** so work can **resume after interruption** (first unchecked box = continue here). Covers scaffold verification, rules/scanners, **library**, **`delivery.mode`**, **`test/`**, operator.
+**Authoring checklist (human + AI):** [`authoring-checklist.md`](authoring-checklist.md) — normative body merged into **AGENTS.md**; in each skill, work the **## Authoring checklist** section inside **`docs/skill-plan.md`** (scaffold injects this file there). **`- [ ]` / `- [x]`** so work can **resume after interruption** (first unchecked box = continue here). Covers scaffold verification, rules/scanners, **library**, **`delivery.mode`**, **`test/`**, operator. **Scaffolding copy:** [`../../scaffolding/authoring-checklist.md`](../../scaffolding/authoring-checklist.md) — the version scaffold drops into new skills.
 
 **Migrating an existing skill:** [`../phases/plan-migrate.md`](../phases/plan-migrate.md) (**1b**) — inventory → compare to standards → **delta report** → **user chooses which gap IDs to fix**; then [`../phases/migrate.md`](../phases/migrate.md) (**2b**) — **execute** moves and patches for those IDs only (no silent full rewrites).
 

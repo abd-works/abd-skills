@@ -1,16 +1,16 @@
 """
-Instructions — assemble prompt text for a phase or operation slug (section IDs from skill-config.json).
+Instructions — assemble prompt text for a phase or operation slug.
 """
 from __future__ import annotations
 
 from pathlib import Path
 from typing import TYPE_CHECKING
 
-from rules_support import read_rule_body, stems_for_phase_rules
-from section_markers import filter_library_for_phase
+from rules import read_rule_body, stems_for_phase_rules
+from markers import filter_library_for_phase
 
 if TYPE_CHECKING:
-    from engine import AgileContextEngine
+    from skill import _EngineContext
 
 PREFIX = "abd_skill_builder."
 
@@ -34,7 +34,7 @@ _DEFAULT_PHASE_FILES = (
     "fill-scaffold-parts",
 )
 
-# Default assembly order for AI-chat phase prompts (`generate_prompt` / built bundles).
+# Default assembly order for AI-chat phase prompts.
 # Skills override or extend via ``skill-config.json`` → ``phase_bundle``.
 _DEFAULT_PHASE_BUNDLE: dict = {
     "order": ["principles", "role", "phase", "library", "rules"],
@@ -56,26 +56,18 @@ def _parts_dir(skill_path: Path) -> Path:
 
 
 class Instructions:
-    """Resolves section IDs and assembles markdown for a slug.
-
-    Default phase slugs use ``phase_bundle`` from ``skill-config.json`` (see ``parts/library/process-approach.md``):
-    principles → role → phase → library → rules (abd-skill-builder default). Missing optional files (role, principles) are skipped.
-
-    **Rules:** Phase bundles pull ``rules/<stem>.md`` in order from ``phase_rules[<slug>]``, after stems in
-    ``every_phase_rules`` (deduped). Stems are basenames without ``.md``. Optional YAML frontmatter in rule
-    files (e.g. ``rule_id``) is stripped before inlining.
-    """
+    """Resolves section IDs and assembles markdown for a slug."""
 
     def __init__(
         self,
         operation_sections: dict[str, list[str]],
         skill_path: Path,
-        engine: AgileContextEngine,
+        context: "_EngineContext",
         skill_config: dict,
     ):
         self.operation_sections = operation_sections
         self.skill_path = Path(skill_path).resolve()
-        self.engine = engine
+        self.context = context
         self._skill_config = skill_config
         self._library_files: tuple[str, ...] = tuple(
             skill_config.get("library_files", list(_DEFAULT_LIBRARY_FILES))
@@ -89,7 +81,6 @@ class Instructions:
             self._phase_bundle.update(raw_pb)
 
     def render_section_ids(self, section_ids: list[str]) -> str:
-        """Join section IDs the same way as a prompt body (no context block). Used for ``agents_front``."""
         if not section_ids:
             return ""
         parts: list[str] = []
@@ -174,7 +165,7 @@ class Instructions:
             return self._all_rules_text()
 
         if section_id.startswith(f"{PREFIX}rules."):
-            stem = section_id[len(f"{PREFIX}rules.") :]
+            stem = section_id[len(f"{PREFIX}rules."):]
             body = self._single_rule_text(stem)
             if not body.strip():
                 return ""
@@ -187,7 +178,7 @@ class Instructions:
             return proc.read_text(encoding="utf-8") if proc.is_file() else ""
 
         if section_id.startswith(f"{PREFIX}library."):
-            stem = section_id[len(f"{PREFIX}library.") :]
+            stem = section_id[len(f"{PREFIX}library."):]
             raw = self._read_library_raw(stem)
             body = filter_library_for_phase(raw, phase_slug)
             if not (body or "").strip():
@@ -195,7 +186,7 @@ class Instructions:
             return f"### `{stem}.md`\n\n{body.strip()}\n"
 
         if section_id.startswith(f"{PREFIX}phase."):
-            slug = section_id[len(f"{PREFIX}phase.") :]
+            slug = section_id[len(f"{PREFIX}phase."):]
             p = pd / "phases" / f"{slug}.md"
             if not p.is_file():
                 return ""
@@ -279,11 +270,11 @@ class Instructions:
             "**Execute these instructions.** You are the AI. Proceed directly to the task. Do not ask the user to paste, copy, or repeat these instructions elsewhere.",
             "",
         ]
-        if self.engine.workspace_path:
-            lines.append(f"**Workspace:** `{self.engine.workspace_path}`")
-        if self.engine.context_paths:
+        if self.context.workspace_path:
+            lines.append(f"**Workspace:** `{self.context.workspace_path}`")
+        if self.context.context_paths:
             lines.append("**Context paths:**")
-            for path in self.engine.context_paths:
+            for path in self.context.context_paths:
                 lines.append(f"- `{path}`")
         if len(lines) <= 2:
             return ""

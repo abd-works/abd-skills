@@ -1,57 +1,37 @@
- njh openslko
- an — {{skill_title}}
+# `docs/skill-plan.md` — authoring instructions
 
-Fill this during **Stage 1 — Plan** (see **abd-skill-builder** `parts/process.md`). It lives under the **skill workspace** at **`docs/skill-plan.md`**. The **Authoring checklist** is a section of this file (not a second document). Replace placeholders; delete sections that do not apply.
+`skill-plan.md` is the **Stage 1 planning document** — fill it at the start of building a skill, before writing any phase content. It lives at `docs/skill-plan.md` in your skill. The filled scaffold copy lives at [`skill-scaffold/docs/skill-plan.md`](../skill-scaffold/docs/skill-plan.md).
 
-## Action checklist
+## How to fill each section
 
-- [ ] **Delivery mode** chosen and recorded below (see `skill-config.json` → `delivery.mode`).
-- [ ] **Stages / phases** sketched (table or bullets); align with `content/parts/process.md` when it exists.
-- [ ] **Rules** and **scanners** listed or explicitly “none yet.”
-- [ ] **Library** components (which `library/` files or patterns the skill will inject / reference).
-- [ ] **Actor / role** (human vs AI vs mixed) for running the skill.
-- [ ] **Operator** chain understood: compile → `build.py` → scanners — what each protects.
-- [ ] **Workspace:** `conf/abd-config.json` → **`active_skill_workspace`** set accurately (scaffold fills this from **abd-skill-builder** `templates/abd-config.json.template`; relative paths resolve from **skill install**—see **Plan Script Build** → **Skill path, skill workspace, and configuration** in **`parts/phases/plan-script-build.md`**).
-- [ ] **Rules, scans, delivery:** how `rules/`, scanners, **AGENTS.md**, and **content/built/** stay aligned (static vs dynamic).
+### Action checklist
+Work through the checklist **top to bottom** before moving to Stage 2. Each item represents a decision or verification. Tick `- [x]` only when done. These are the gates before you start writing phase content.
 
-## Delivery mode
+### Delivery mode
+Choose one:
+- **`static_built`** — `build.py` assembles everything into `AGENTS.md` once. Re-run when sources change. Best for most skills.
+- **`runtime_injection`** — `generate.py` assembles prompt slices on demand per phase. Use when the skill must stay up-to-date without a build step.
 
-- **Choice:** `static_built` | `runtime_injection` (circle one; match `skill-config.json`).
-- **Rationale:**
+Record your choice and a one-line rationale. Must match `skill-config.json` → `delivery.mode`.
 
-## Suggested stages and phases
+### Suggested stages and phases
+Sketch the pipeline before creating any files. One row per phase. You don't need the final names yet — this is a planning table. Align with `content/parts/process.md` once you write it.
 
-| # | Stage / phase | Purpose (one line) |
-| --- | --- | --- |
-| 1 | | |
-| 2 | | |
+### Suggested rules and scanners
+List the rules you expect to need. For each rule, note the scanner (or "manual check" if no scanner yet). Write "none — add in Stage 2" if you have nothing yet.
 
-## Suggested rules and scanners
+### Suggested library components
+Which shared norms will the model see in every phase? List the library files you expect to create or reuse. These become entries in `skill-config.json` → `library_files`.
 
-| Path | Role |
-| --- | --- |
-| `rules/…` | |
-| `scripts/…` (scanner) | |
+### Actor / role when using the skill
+Who runs each phase — human, AI, or mixed? What does the skill optimise for (speed, consistency, correctness)? This shapes the role file.
 
-*If none yet, write “none — add in Stage 2.”*
+### Operator, workspace, and delivery artifacts
+Describe how the Operator chain works for this skill: Python compile → `build.py` → scanners. What drift does each step catch? Set `active_skill_workspace` here and confirm it matches `conf/abd-config.json`.
 
-## Suggested library components
+### Authoring checklist
+This section is **populated by scaffold** from `abd-skill-builder/content/parts/library/authoring-checklist.md`. If you are filling this manually, paste the checklist body from that file (drop the `# Skill authoring checklist` title line). Use `- [ ]` / `- [x]` to track progress. The first unchecked box is where you resume after an interruption.
 
-- *Which norms or reusable text from **library/** (or skill-specific library) will the model see?*
+## File location
 
-## Actor / role when using the skill
-
-- *Who runs phases (human, AI, tool); what the skill optimizes for.*
-
-## Operator, workspace, and delivery artifacts
-
-- **Static vs dynamic:** *How parts merge into **AGENTS.md** / **content/built/** vs runtime injection.*
-- **Operator chain:** Python compile (configured paths) → **`python scripts/build.py`** → scanners in **`skill-config.json`** — *what drift this catches.*
-- **`active_skill_workspace`:** *Same field as in **`conf/abd-config.json`** (scaffold seeds from **abd-skill-builder** `templates/abd-config.json.template`). Absolute path to **`skill_workspace`** preferred; **`.`** only if the skill install folder is the workspace.*
-- **Fit together:** *How **rules/**, scans, and built outputs must not contradict each other.*
-
-## Authoring checklist
-
-*Normative checkbox text is maintained in **abd-skill-builder** `library/authoring-checklist.md` (merged into **AGENTS.md**). **Scaffold** replaces the placeholder below with that body. If you still see **`{{authoring_checklist_body}}`**, paste the library file here (drop the first `#` title line) and merge updates when standards change.*
-
-{{authoring_checklist_body}}
+`docs/skill-plan.md` is a **non-runtime** file — it is never merged into `AGENTS.md` or injected into a phase bundle. Keep all runnable instruction content in `content/parts/`.

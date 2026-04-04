@@ -9,16 +9,19 @@ After merge, runs optional post-merge steps from ``skill-config.json`` → ``ope
 
 from __future__ import annotations
 
+import json
 import subprocess
 import sys
 from pathlib import Path
+from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 _SCRIPTS = Path(__file__).resolve().parent
 if str(_SCRIPTS) not in sys.path:
     sys.path.insert(0, str(_SCRIPTS))
 
-from assembler import ContentAssembler, load_skill_config
+from instructions import Instructions, _parts_dir
+from skill import _BuildTimeContext
 
 BUILT_DIR = ROOT / "content" / "built"
 
@@ -48,8 +51,95 @@ Regenerate:
 python scripts/build.py
 ```
 
-**Runtime:** `python scripts/generate_prompt.py --phase <slug> --mode static` reads these files when present; otherwise assembles from sources (`dynamic`).
+**Runtime:** `python scripts/generate.py --phase <slug> --mode static` reads these files when present; otherwise assembles from sources (`dynamic`).
 """
+
+
+def load_skill_config(skill_root: Path) -> dict[str, Any]:
+    p = skill_root / "skill-config.json"
+    if not p.is_file():
+        return {}
+    return json.loads(p.read_text(encoding="utf-8"))
+
+
+def _process_md_for_agents(process_text: str) -> str:
+    return (
+        process_text.replace("](../templates/", "](templates/")
+        .replace("](../scripts/", "](scripts/")
+        .replace("](../docs/", "](docs/")
+        .replace("](../conf/", "](conf/")
+        .replace("](../../conf/", "](conf/")
+    )
+
+
+class ContentAssembler:
+    """Single place for merge order: AGENTS + phases/built/*.md."""
+
+    def __init__(self, skill_root: Path, skill_config: dict[str, Any]):
+        self.root = Path(skill_root).resolve()
+        self.config = skill_config
+        self.parts = _parts_dir(self.root)
+        self.phase_files: tuple[str, ...] = tuple(
+            skill_config.get(
+                "phase_files",
+                [
+                    "workspace-and-config",
+                    "plan-script-build",
+                    "plan-migrate",
+                    "scaffold",
+                    "migrate",
+                    "fill-scaffold-parts",
+                ],
+            )
+        )
+        self.phase_section_headings: dict[str, str] = skill_config.get(
+            "phase_section_headings",
+            {"workspace-and-config": "Workspace and config"},
+        )
+        self.skill_name = skill_config.get("name", "abd-skill")
+
+    def _make_instructions(self) -> Instructions:
+        op = self.config.get("operation_sections", {})
+        return Instructions(op, self.root, _BuildTimeContext(), self.config)
+
+    def build_agents_text(self) -> str:
+        """AGENTS.md = Process + optional ``agents_front`` section IDs + one real-time assembly per phase."""
+        inst = self._make_instructions()
+        chunks: list[str] = [f"# AGENTS — {self.skill_name}\n\n"]
+
+        process = _process_md_for_agents((self.parts / "process.md").read_text(encoding="utf-8"))
+        chunks.append("## Process\n\n")
+        chunks.append(process)
+        chunks.append("\n")
+
+        front_ids: list[str] = list(self.config.get("agents_front", []))
+        front_heading = self.config.get("agents_front_heading", "## Front matter")
+        if front_ids:
+            if front_heading:
+                chunks.append(f"{front_heading}\n\n")
+            chunks.append(inst.render_section_ids(front_ids))
+            chunks.append("\n")
+
+        for slug in self.phase_files:
+            section_title = self.phase_section_headings.get(slug, f"Phase: {slug}")
+            chunks.append(f"\n## {section_title}\n\n")
+            chunks.append(inst.assemble_prompt(slug, include_context=False))
+
+        return "".join(chunks)
+
+    def build_phase_text(self, slug: str) -> str:
+        return self._make_instructions().assemble_prompt(slug, include_context=False)
+
+    def write_built_phases(self, out_dir: Path | None = None) -> list[Path]:
+        base = out_dir or (self.parts / "phases" / "built")
+        base.mkdir(parents=True, exist_ok=True)
+        written: list[Path] = []
+        for slug in self.phase_files:
+            text = self.build_phase_text(slug)
+            path = base / f"{slug}.md"
+            path.write_text(text, encoding="utf-8")
+            written.append(path)
+        return written
 
 
 def _run_script_relative_to_root(skill_root: Path, rel: str) -> None:

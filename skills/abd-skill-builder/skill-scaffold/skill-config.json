@@ -1,0 +1,50 @@
+{
+  "name": "my-skill",
+  "version": "0.1.0",
+
+  "library_files": [
+    "documentation-standards.md",
+    "process-table-standards.md"
+  ],
+
+  "phase_files": [
+    "workspace-and-config",
+    "author"
+  ],
+
+  "PHASE_LIBRARY_SLICES": {},
+
+  "every_phase_rules": [],
+
+  "phase_rules": {
+    "workspace-and-config": [],
+    "author": []
+  },
+
+  "phase_bundle": {
+    "order": ["principles", "role", "phase", "library", "rules"],
+    "role_file": "solution-analyst-role.md",
+    "principles_file": "critical-quality-steps.md",
+    "role_heading": "## Role",
+    "phase_heading": "## Phase",
+    "library_heading": "## Library",
+    "rules_heading": "## Rules",
+    "principles_heading": "## Principles"
+  },
+
+  "operation_sections": {},
+  "agents_front": [],
+  "agents_front_heading": "## Front matter",
+
+  "delivery": {
+    "mode": "static_built",
+    "modes": ["static_built", "runtime_injection"]
+  },
+
+  "operator": {
+    "compileall_paths": ["scripts"],
+    "build_script": "scripts/build.py",
+    "build_pipeline": ["scripts/scanner_smoke.py"],
+    "scanners": ["scripts/scanner_smoke.py"]
+  }
+}

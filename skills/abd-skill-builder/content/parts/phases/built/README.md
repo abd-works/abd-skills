@@ -9,4 +9,4 @@ Regenerate:
 python scripts/build.py
 ```
 
-**Runtime:** `python scripts/generate_prompt.py --phase <slug> --mode static` reads these files when present; otherwise assembles from sources (`dynamic`).
+**Runtime:** `python scripts/generate.py --phase <slug> --mode static` reads these files when present; otherwise assembles from sources (`dynamic`).

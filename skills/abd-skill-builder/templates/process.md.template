@@ -1,11 +1,58 @@
-# Process — {{skill_name}}
+# `content/parts/process.md` — authoring instructions
 
-**Pipeline:** [Workspace and config](phases/workspace-and-config.md) → [Author](phases/author.md) → Run Operator (structural checks)
+`process.md` defines the **phase pipeline** for the skill — what phases exist, what order they run, what each phase does, who runs it, and what scripts drive it.
 
-Routing details for **`conf/`** keys: see **[Workspace and config](phases/workspace-and-config.md)** — not repeated here.
+The filled scaffold copy lives at [`skill-scaffold/content/parts/process.md`](../skill-scaffold/content/parts/process.md).
 
-| #   | Phase                                            | Description                                                                                                                                                                                                                                                                                                                  | Actor      | Input                                                                                                                                                                                                                                | Output                                                                                                                                         | Scripts                                                    |
-| --- | ------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------- |
-| 0   | [Workspace and config](phases/workspace-and-config.md) | You nail **where the skill runs**: **`skill_path`** vs **`skill_workspace`**, install **`conf/abd-config.json`** (see **[`conf/abd-config.json`](../conf/abd-config.json)**), **set `active_skill_workspace`**, optional **`known_skill_workspaces`**, overrides, scaffold adding **`conf/`** when greenfield. | Human / AI | Skill directory; customer/project tree you target | **`conf/abd-config.json`** correct for this skill; terms unambiguous for later phases and **Operator** | `python` [`scripts/set_workspace.py`](../scripts/set_workspace.py) — no args prints current; `<path>` sets `active_skill_workspace` in `conf/abd-config.json` ([workspace-and-config](phases/workspace-and-config.md)) · [generate.py](../scripts/generate.py) — `python scripts/generate.py --phase workspace-and-config` |
-| 1   | [Author](phases/author.md)                       | Fill in **`SKILL.md`**, **`skill-config.json`**, **`parts/`** (or **`content/parts/`**), and **`scripts/`** per your plan. Replace this row when the real pipeline is known.                                                                                                                                                  | Human / AI | Skill plan; workspace                                                                                 | Runnable skill package                                                                                                                         | [generate.py](../scripts/generate.py) — `python scripts/generate.py --phase author` |
-| 3   | Run Operator                                     | Compile check on **`scripts/`**, then **`build.py`**, then scanners listed in **`skill-config.json`**.                                                                                                                                                                                                                      | Code       | **`skill-config.json`**; sources under **`content/parts/`**                                           | Exit **0**; **`AGENTS.md`** current                                                                                                            | `python scripts/build.py` · `python scripts/scanner_smoke.py` |
+## Minimal vs rich format
+
+There are two formats:
+
+| Format | When to use |
+|--------|-------------|
+| **Minimal** (single table) | Simple skills with 2–3 phases. One table covers all phases. |
+| **Rich** (multi-stage) | Skills with distinct planning, build, and validation stages. See [`process-team.md.template`](process-team.md.template) for instructions. |
+
+## Required sections (both formats)
+
+### H1 title
+
+```
+# Process — <skill name>
+```
+
+### Pipeline line
+
+One line showing left-to-right flow with links to phase files:
+
+```
+**Pipeline:** [Workspace and config](phases/workspace-and-config.md) → [Phase 1a](phases/1a.md) → ...
+```
+
+### Phase table
+
+Every phase gets one row. Columns — see `content/parts/library/process-table-standards.md` for full column definitions.
+
+| Column | What to write |
+|--------|---------------|
+| `#` | Phase number (0, 1, 2, …). Phase 0 is always Workspace and config. |
+| `Phase` | Link to phase file: `[Name](phases/slug.md)` |
+| `Description` | What the phase does — 1–3 sentences covering key decisions and outputs. Bold key terms. |
+| `Actor` | `Human / AI`, `Human`, `Code`, etc. |
+| `Input` | What the phase reads. |
+| `Output` | What the phase produces. |
+| `Scripts` | Runnable commands with links. Include `generate.py --phase <slug>` for AI-chat phases. |
+
+## Phase 0 — always the same
+
+Phase 0 is **Workspace and config** — it is identical across all skills. Copy the row verbatim from the scaffold; do not modify it.
+
+## Adding phases
+
+- Add a row to the table for each phase you define in `phases/`.
+- Add the phase slug to `skill-config.json` → `phase_files`.
+- Create the phase file at `content/parts/phases/<slug>.md`.
+
+## Navigation spine (rich format only)
+
+If using the rich format, add a `## Navigation spine` section above the table: one sentence the reader follows left to right showing how stages connect.
