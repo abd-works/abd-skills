@@ -42,6 +42,19 @@ Stories must **not** exist solely to match strings in a future type list.
 
 **Legacy:** Older files may use top-level **`actor`** / **`behavior`** on a story instead of nested **trigger** / **response**. Prefer **trigger** / **response** for new work.
 
+### Optional — realize Phase 2 mechanisms (recommended)
+
+When you use **`mechanisms.json`**, **procedural steps** belong here, not duplicated on mechanism rows. Optional story fields:
+
+| Field | Purpose |
+| ----- | -------- |
+| **`steps[]`** | Ordered short strings: user-visible or system-visible steps for **this** story’s slice of a mechanism (or the full flow if **`mechanism_story`**). |
+| **`realizes_mechanism`** | String: **`mechanisms[].name`** this story implements (or shares with other stories). |
+| **`mechanism_flow_order`** | Integer when **several** stories share the same **`realizes_mechanism`**: order in the end-to-end flow (1, 2, 3, …). |
+| **`mechanism_story`** | Boolean: **`true`** if this **single** story documents the **entire** named mechanism (e.g. one story holds the full **`steps[]`**). |
+
+**`mechanisms.json`** should list **`realized_by.paths`** pointing at these stories — see [`terms-mechanisms-contract.md`](terms-mechanisms-contract.md).
+
 ---
 
 ## Alignment with [`story-map.md`](story-map.md)
@@ -72,6 +85,7 @@ The full rationale (interaction tree + ordering) is in [`story-map.md`](story-ma
 - **`trigger`** / **`response`** — Each `{ "actor", "behavior" }` (or accepted legacy **`actor`** / **`behavior`**); **behavior** uses domain language; no extra parallel state columns.
 - **`evidence_chunk_ids[]`** — At least one id for substantive stories; each id must correspond to the Phase 1 corpus (same package downstream phases cite).
 - **`term_refs[]`** — Present when the story depends on Phase 2 terms; omit when not applicable.
+- If the story **realizes a mechanism** — **`steps[]`**, **`realizes_mechanism`**, and optional **`mechanism_flow_order`** / **`mechanism_story`** per the table above; keep **`trigger`** / **`response`** as the primary observable contract.
 
 **Quality**
 

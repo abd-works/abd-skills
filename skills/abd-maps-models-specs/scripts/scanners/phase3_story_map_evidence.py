@@ -9,6 +9,8 @@ Rule: **shaped-story-shape** (see ``content/parts/library/shaped-story-map.md``)
   or legacy top-level ``actor``/``behavior``, require non-empty ``evidence_chunk_ids[]``;
   each id must appear in ``context_index.json`` ``blocks[]`` when the index exists.
 - Stories with ``skip_evidence: true`` (or ``evidence_exempt: true``) skip citation checks.
+- When ``mechanisms.json`` exists, each non-empty ``realizes_mechanism`` on a story must match a
+  ``name`` in ``mechanisms[]`` (run ``mechanisms_contract`` earlier in the pipeline for JSON shape).
 
 Exit 0 when ``shaped_story_map.json`` is absent (optional until authored).
 """
@@ -23,6 +25,13 @@ from typing import Iterator
 RULE_ID = "phase3-story-map-evidence"
 
 
+def _display_path(path: Path, root: Path) -> str:
+    try:
+        return str(path.relative_to(root))
+    except ValueError:
+        return str(path)
+
+
 def _scripts_dir() -> Path:
     return Path(__file__).resolve().parents[1]
 
@@ -31,6 +40,26 @@ def _ensure_config_path() -> None:
     sd = _scripts_dir()
     if str(sd) not in sys.path:
         sys.path.insert(0, str(sd))
+
+
+def _load_mechanism_names() -> set[str] | None:
+    """Names from ``mechanisms.json`` when present and valid; ``None`` if file absent."""
+    from _config import MECHANISMS_JSON, OUT_ROOT
+
+    path = OUT_ROOT / MECHANISMS_JSON
+    if not path.is_file():
+        return None
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return None
+    names: set[str] = set()
+    for m in data.get("mechanisms") or []:
+        if isinstance(m, dict):
+            n = (m.get("name") or "").strip()
+            if n:
+                names.add(n)
+    return names
 
 
 def _load_indexed_chunk_ids() -> set[str] | None:
@@ -100,7 +129,7 @@ def _iter_all_stories(data: dict) -> Iterator[tuple[str, dict]]:
 
 def main() -> int:
     _ensure_config_path()
-    from _config import PHASE3, SHAPED_STORY_MAP_JSON, SKILL_ROOT
+    from _config import MECHANISMS_JSON, PHASE3, SHAPED_STORY_MAP_JSON, SKILL_ROOT
 
     story_map = PHASE3 / SHAPED_STORY_MAP_JSON
     PHASE3.mkdir(parents=True, exist_ok=True)
@@ -123,7 +152,18 @@ def main() -> int:
         return 1
 
     indexed = _load_indexed_chunk_ids()
+    mechanism_names = _load_mechanism_names()
     errs: list[str] = []
+
+    for epic_name, story in _iter_all_stories(data):
+        rm = story.get("realizes_mechanism")
+        if isinstance(rm, str) and rm.strip():
+            if mechanism_names is not None and rm.strip() not in mechanism_names:
+                sname = story.get("name") or "<unnamed>"
+                errs.append(
+                    f"story {epic_name!r} / {sname!r}: realizes_mechanism {rm.strip()!r} "
+                    f"has no matching mechanism name in {MECHANISMS_JSON}"
+                )
 
     for epic_name, story in _iter_all_stories(data):
         if not _is_substantive_story(story):
@@ -158,7 +198,7 @@ def main() -> int:
     n_stories = sum(1 for _ in _iter_all_stories(data))
     idx_note = f"indexed_chunks={len(indexed)}" if indexed is not None else "no context_index (ids not resolved)"
     print(
-        f"PASS [{RULE_ID}] — {story_map.relative_to(SKILL_ROOT)} epics={len(data['epics'])} "
+        f"PASS [{RULE_ID}] — {_display_path(story_map, SKILL_ROOT)} epics={len(data['epics'])} "
         f"stories_visited={n_stories} {idx_note}"
     )
     return 0

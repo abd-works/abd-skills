@@ -1,56 +1,69 @@
+#!/usr/bin/env python3
 """
-Emit a native diagrams.net (.drawio) class view from map-model-spec.json.
+Render map-model-spec.json → class diagram Draw.io (native mxfile).
 
-Implementation lives in **agile_bots** (`synchronizers.story_io.map_model_spec_drawio`) and uses the
-same **mxfile / mxCell** pipeline as story-map Draw.io output — not Mermaid.
-
-From skill root (with conf/abd-config.json → workspace containing map-model-spec.json):
-
-    python scripts/render_map_model_class_diagram.py
-
-Requires **agile_bots_root** in conf/abd-config.json or **AGILE_BOTS_ROOT** env.
+Uses vendored ``map_model_spec_drawio.py`` (aligned with agile_bots ``map_model_spec_drawio``).
 """
 from __future__ import annotations
 
 import argparse
-import subprocess
 import sys
 from pathlib import Path
 
-_SKILL_ROOT = Path(__file__).resolve().parents[1]
-if str(_SKILL_ROOT / "scripts") not in sys.path:
-    sys.path.insert(0, str(_SKILL_ROOT / "scripts"))
+ROOT = Path(__file__).resolve().parents[1]
+SCRIPTS = ROOT / "scripts"
+if str(SCRIPTS) not in sys.path:
+    sys.path.insert(0, str(SCRIPTS))
 
-from _config import agile_bots_root, map_model_spec_path, output_dir  # noqa: E402
+from _config import class_diagram_layout_plan_path, map_model_spec_path, output_dir
+from map_model_spec_drawio import write_map_model_class_diagram
+
+_DEFAULT_OUT_NAME = "map-model-class-diagram.drawio"
+
+
+def _resolved_layout_plan_path(args: argparse.Namespace, out_dir: Path) -> Path | None:
+    """Explicit ``--layout-plan``, else default JSON beside spec output if present and allowed."""
+    if getattr(args, "no_layout_plan", False):
+        return None
+    if args.layout_plan is not None:
+        p = args.layout_plan.resolve()
+        return p if p.is_file() else None
+    default = class_diagram_layout_plan_path()
+    return default if default.is_file() else None
 
 
 def main() -> None:
-    ap = argparse.ArgumentParser(
-        description="map-model-spec.json → map-model-class-diagram.drawio (via agile_bots)"
-    )
-    ap.add_argument(
+    default_spec = map_model_spec_path()
+    od = output_dir()
+    default_out = od / _DEFAULT_OUT_NAME
+
+    p = argparse.ArgumentParser(description="Render map-model-spec.json → class diagram Draw.io")
+    p.add_argument("--spec", type=Path, default=default_spec, help="Path to map-model-spec.json")
+    p.add_argument(
+        "--out",
         "--output",
-        "-o",
         type=Path,
-        help="Write .drawio here (default: <output_dir>/map-model-class-diagram.drawio)",
+        dest="out",
+        default=default_out,
+        help=f"Output .drawio path (default: <output_dir>/{_DEFAULT_OUT_NAME})",
     )
-    args = ap.parse_args()
+    p.add_argument(
+        "--layout-plan",
+        type=Path,
+        default=None,
+        help="Optional class-diagram-layout-plan.json (logical clusters). "
+        "Default: <output_dir>/class-diagram-layout-plan.json if that file exists.",
+    )
+    p.add_argument(
+        "--no-layout-plan",
+        action="store_true",
+        help="Do not load a layout plan (use tier+grid only), ignoring the default file.",
+    )
+    args = p.parse_args()
 
-    spec = map_model_spec_path()
-    if not spec.is_file():
-        print(f"abd-maps-models-specs: map-model-spec not found: {spec}", file=sys.stderr)
-        sys.exit(1)
-
-    root = agile_bots_root()
-    script = root / "scripts" / "render_map_model_drawio.py"
-    if not script.is_file():
-        print(f"abd-maps-models-specs: agile_bots script not found: {script}", file=sys.stderr)
-        sys.exit(1)
-
-    out = args.output if args.output else (output_dir() / "map-model-class-diagram.drawio")
-    out = out.resolve()
-    cmd = [sys.executable, str(script), "-i", str(spec), "-o", str(out)]
-    subprocess.run(cmd, check=True)
+    layout_plan = _resolved_layout_plan_path(args, od)
+    write_map_model_class_diagram(args.spec, args.out, layout_plan_path=layout_plan)
+    print(f"Wrote {args.out}")
 
 
 if __name__ == "__main__":

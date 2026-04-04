@@ -27,49 +27,53 @@ You work with **Provenance** and  **traceability**: You tie substantive claims a
 
 ### Terms & mechanisms (layers A & B)
 
-
-
 **Goal:** Glossary and **named processes** exist **before** sparse `concepts[]`.
 
-
-
-**Normative for Phase 2:** this document. [`process.md`](../../parts/process.md) is pipeline **summary** only (table row)—not the procedure.
-
-
+**Normative for Phase 4:** this document. [`process.md`](../../parts/process.md) is pipeline **summary** only (table row)—not the procedure.
 
 #### Actor
 
-
-
-**Code** runs `scripts/build_phase2_artifacts.py`, which writes **empty** `terms[]`, `mechanisms[]`, and `candidates[]` JSON files (schema shells only). **Human / AI** author all substantive content and cite evidence per the contract.
-
-
+**Code** runs `scripts/build_terms_mechanisms_scaffold.py`, which writes **empty** `terms[]`, `mechanisms[]`, and `candidates[]` JSON files (schema shells only). **Human / AI** author all substantive content and cite evidence per the contract.
 
 #### What this phase produces
 
-
-
 - **Terms** — surface vocabulary + chunk links; not classes.
 
-- **Mechanisms** — workflows/lifecycles with steps + evidence.
+- **Mechanisms** — named workflows/lifecycles: **description**, **evidence**, and **`realized_by`** pointing at **shaped story map** paths. **Procedural `steps[]`** live on **stories** in `shaped_story_map.json`, not duplicated in `mechanisms.json` ([`terms-mechanisms-contract.md`](../../parts/library/terms-mechanisms-contract.md)).
 
-- **Candidate queue** — “possible type” with rationale; **not** in `concepts[]` yet.
+- **Candidate queue** — "possible type" with rationale; **not** in `concepts[]` yet.
 
+#### Candidate extraction (mandatory)
 
+After terms and mechanisms are authored, **sweep every evidence chunk** in `context_index.json` to populate `candidate_queue.json`. This is not optional — the candidate queue feeds the domain-types phase and must be comprehensive.
+
+**Extraction procedure:**
+
+1. For each chunk in `context_index.json`, read the chunk `.md` body text.
+
+2. Extract every **noun that holds state, makes a decision, is acted upon, or owns a boundary** in the natural language of the evidence content. This is content-agnostic — chunks may be narrative, API spec, interview transcript, rules, definitions, or any other form.
+
+3. Deduplicate against existing `terms_layer.json` entries and previously extracted candidates.
+
+4. For each extracted entity, record in `candidate_queue.json`:
+   - `name` — the entity name
+   - `source_chunks[]` — all chunk IDs where this entity appears
+   - `extraction_rationale` — why this entity might be a domain concept (what behavior or state it exhibits in the evidence)
+   - `modeling_kind_composition` — the `modeling_kind` breakdown of its source chunks (e.g., `{"rule": 3, "example": 1}`)
+
+5. Also extract candidates from `mechanisms.json` — every entity **named** in a mechanism description or `realized_by` path that is not yet a term or candidate.
+
+6. Also extract candidates from `shaped_story_map.json` — every `anchor`, entity in `trigger`/`response`, or concept referenced in `steps[]` that is not yet a term or candidate.
+
+**Completeness check:** No entity that appears in a mechanism description or shaped story map anchor should be absent from both `terms_layer.json` and `candidate_queue.json` after this step.
 
 #### Exit
 
+Promotion rule written: **candidate → concept** only through the **domain-types** gate (Phase 6)—not by renaming a mention or string co-occurrence.
 
+**Outputs:** `<workspace>/<output_dir>/terms_layer.json`, `mechanisms.json`, `candidate_queue.json`.
 
-Promotion rule written: **candidate → concept** only through the **domain-types** gate (Phase 4)—not by renaming a mention or string co-occurrence.
-
-
-
-**Outputs:** `<workspace>/<output_dir>/phase2/terms_layer.json`, `mechanisms.json`, `candidate_queue.json`.
-
-
-
-**Implementation notes:** [`terms-mechanisms-contract.md`](../../parts/library/terms-mechanisms-contract.md) (includes **inputs** and **`chunk_id` citation** rules for Phase 2).
+**Implementation notes:** [`terms-mechanisms-contract.md`](../../parts/library/terms-mechanisms-contract.md) (includes **inputs**, **`chunk_id` citation**, **mechanism ↔ story map** linkage, and **candidate queue population contract**).
 
 
 ## Library
@@ -78,37 +82,83 @@ Promotion rule written: **candidate → concept** only through the **domain-type
 
 ### Terms & mechanisms contract
 
-**Goal (Phase 2):** Glossary and **named processes** exist **before** sparse `concepts[]` (see [`content/parts/process.md`](../../../content/parts/process.md)).
+**Goal:** Glossary and **named processes** exist **before** sparse `concepts[]` (see [`content/parts/process.md`](../../../content/parts/process.md)).
 
-#### Artifacts (under `<workspace>/<output_dir>/phase2/`)
+#### Artifacts (at `<workspace>/<output_dir>/` root, e.g. `spec/`)
 
 | File | Role |
 |------|------|
 | `terms_layer.json` | **Terms** — surface vocabulary + links to chunk IDs; not classes. |
-| `mechanisms.json` | **Mechanisms** — named workflows/lifecycles with steps + evidence. |
-| `candidate_queue.json` | **Candidate queue** — possible types with rationale; **not** in `concepts[]` until Phase 4 gate. |
+| `mechanisms.json` | **Mechanisms** — named workflows/lifecycles: **description**, **`evidence_chunk_ids[]`**, and **`realized_by`** pointing at **shaped story map** paths. **Do not** duplicate procedural **`steps[]` here** — those belong on **stories** in `shaped_story_map.json` (see below). |
+| `candidate_queue.json` | **Candidate queue** — possible types with rationale; **not** in `concepts[]` until the domain-types promotion gate. |
+
+#### Mechanisms and the shaped story map (normative)
+
+**Procedural steps** for a named process live on **stories**, not as a parallel list inside `mechanisms[]`.
+
+1. **Author or refine** the **shaped story map** so observable stories exist for the capability (see [`shaped-story-map.md`](../../parts/phases/shaped-story-map.md): **`steps[]`**, **`realizes_mechanism`**, **`mechanism_flow_order`**, **`mechanism_story`**).
+2. **Each mechanism row** in `mechanisms.json` includes:
+   - **`name`**, **`description`**, **`evidence_chunk_ids[]`** (substantive claims cite the corpus).
+   - **`realized_by`** — how this mechanism is realized in the map, for example:
+     - **`kind`**: `"single_story"` | `"ordered_stories"`
+     - **`paths`**: strings of the form `"<Epic> / <Sub-epic> / <Story name>"` (must match `shaped_story_map.json` hierarchy).
+     - **`note`** (optional): related stories or ordering hints.
+
+Automation and authors **must not** add a top-level **`steps`** array on mechanism objects in `mechanisms.json` for new work; use **`steps[]` on the realizing story or stories** in `shaped_story_map.json` instead.
 
 #### Exit criterion
 
-Promotion rule is explicit: **candidate → concept** only through the **Phase 4** gate, not by renaming a mention.
+Promotion rule is explicit: **candidate → concept** only through the **domain types** gate, not by renaming a mention.
 
 #### Automation
 
-`scripts/build_phase2_artifacts.py` initializes or refreshes these files (reads Phase 0 metrics when present; populates layers when Phase 1 contract exists).
+`scripts/build_terms_mechanisms_scaffold.py` writes **empty** scaffolds for the three files above. It does **not** read chunks or populate rows.
 
 ---
 
-#### Normative automation (Phase 2)
+#### Candidate queue population contract
 
-**Inputs:** **`context_index.json`** + **`chunks/`** from Phase 1 ([`context-spec.md`](context-spec.md)).
+After terms and mechanisms are authored, the candidate queue **must** be populated by sweeping all evidence. This is not optional — the candidate queue feeds Phase 6 (domain-types) and every entry will receive an explicit decision in the promotion ledger.
+
+##### What goes into the candidate queue
+
+Every **noun that holds state, makes a decision, is acted upon, or owns a boundary** extracted from:
+
+1. **`context_index.json` chunk bodies** — read the actual `.md` chunk text, not just metadata. Extract entities from the natural language regardless of chunk form (narrative, API spec, transcript, rules, definitions, etc.).
+2. **`mechanisms.json`** — every entity **named** in a mechanism `description` or `realized_by` path that is not already a term or candidate.
+3. **`shaped_story_map.json`** — every `anchor`, entity in `trigger`/`response`, or concept referenced in `steps[]` that is not already a term or candidate.
+
+##### Required fields per candidate
+
+| Field | Description |
+|-------|-------------|
+| `name` | The entity name |
+| `source_chunks[]` | All chunk IDs where this entity appears |
+| `extraction_rationale` | Why this entity might be a domain concept (what behavior or state it exhibits) |
+| `modeling_kind_composition` | Breakdown of `modeling_kind` values from its source chunks (e.g. `{"rule": 3, "example": 1}`) |
+
+##### Completeness check
+
+No entity that appears in a mechanism description or shaped story map anchor may be absent from **both** `terms_layer.json` and `candidate_queue.json` after this step. The mechanism-concept-coverage scanner enforces this at validation time.
+
+##### Deduplication
+
+Candidates are deduplicated against existing `terms_layer.json` entries and previously extracted candidates. A term that is already in the glossary does not need a candidate entry unless there is evidence it should be promoted to a concept (in which case it gets a candidate entry with rationale explaining the promotion case).
+
+---
+
+#### Normative automation (full extraction)
+
+**Inputs:** **`context_index.json`** + chunk **`*.md`** in **`context_path`** from the canonical-context stage ([`context-spec.md`](context-spec.md)).
 
 **Implementation expectations:**
 
 - **Code** reads chunks + index; builds term list and mechanism sketches with **`chunk_id` refs on every extracted item**.
-- **Optional:** LLM pass with a **checked-in** prompt template (e.g. `docs/prompts/phase2_terms.md`) for disambiguation; **must** output JSON that validates against **`phase2/v1`** and preserves/extends **`evidence_chunk_ids[]`**—not replace with prose.
-- **Implementation:** Phase 2 logic lives in **`build_phase2_artifacts.py`**; emitted JSON validates against **`phase2/v1`** and preserves **`evidence_chunk_ids[]`** on every extracted item.
+- **Mechanism extraction** should emit **`realized_by`** (or leave mechanisms empty until the shaped map exists) and **`steps[]` on stories** when generating both layers — **not** `steps` arrays inside `mechanisms.json`.
+- **Optional:** LLM pass with a **checked-in** prompt template (e.g. `docs/prompts/terms_mechanisms.md`) for disambiguation; **must** output JSON that validates against **`terms_mechanisms_queue/v1`** and preserves/extends **`evidence_chunk_ids[]`**—not replace with prose.
+- **Implementation:** Terms/mechanisms/candidate logic lives in tooling you add alongside **`build_terms_mechanisms_scaffold.py`**; emitted JSON validates against **`terms_mechanisms_queue/v1`** and preserves **`evidence_chunk_ids[]`** on every extracted item.
 
-Schema: **`phase2/v1`** as emitted by current `build_phase2_artifacts.py` (extend in place when implementing).
+Schema: **`terms_mechanisms_queue/v1`** as emitted by current **`build_terms_mechanisms_scaffold.py`** (empty arrays) and extended when you implement extraction (extend in place when implementing).
 
 
 ### `principles.md`
@@ -130,6 +180,54 @@ These are **normative**: we implement the process **because** of them. If eviden
 | **Explicit variant representation**         | Analysis patterns: **enumeration** vs **classification hierarchy** (Fowler et al.); domain-driven choice per **family** of variation.                                                                                                  | For each variant family, record the **decision**: enum vs subtypes vs other, **before** mass property assignment.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | Consistent representation; fewer migration surprises.                                             | Defaulting to inheritance because it is fewer JSON fields.                                                                                               |
 | **Corpus understanding before type design** | Qualitative coding / corpus profiling; information architecture of large documents.                                                                                                                                                    | **Phase 0** (context chunking approach): **AI** profiles big Markdown and **drafts chunking rules**; **human** reviews before you lean on citations; **Phase 1** builds the package. Revisit rules when sources change materially.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | Right grain of evidence; prioritized reading; defensible gates.                                   | Modeling before knowing what the source actually contains.                                                                                               |
 
+
+
+
+### `class-diagram-from-spec.md`
+
+### Class diagram from `map-model-spec.json`
+
+**When:** During **process phases 4–9** (terms & mechanisms through integrate), whenever you have **materially updated** the domain model in `**map-model-spec.json`**, re-run the generator so the class diagram file beside your spec stays aligned with promoted concepts, modules, and `**depends_on`**.
+
+**Continual refinement:** The Draw.io file is the **diagram half** of the same loop described in [domain-model.md](domain-model.md) → **Continual refinement — class definition + diagram**. As you add or tighten **properties**, **operations**, and **relationships** in the spec (and tag **`**newly added**`** in prose when useful), **re-render** so reviewers compare **code + diagram + narrative** in one pass. Do **not** treat the diagram as a one-time export at the end of Integrate unless the model truly did not change after that point.
+
+---
+
+#### Command (skill package)
+
+From the **abd-maps-models-specs** root (directory that contains `scripts/` and `skill-config.json`), with `**conf/abd-config.json`** pointing at the workspace that contains `**solution.conf`**:
+
+```bash
+python scripts/render_map_model_class_diagram.py
+```
+
+- **Input:** `<output_dir>/map-model-spec.json` (see `[domain-model.md](domain-model.md)` and your workspace `solution.conf`).
+- **Output:** `<output_dir>/map-model-class-diagram.drawio` — **native diagrams.net XML** (same `**mxfile` / `mxCell`** shape as agile_bots story-map Draw.io), with modules, concepts, members, and `**depends_on`** edges. Emitter lives in this skill: `**scripts/map_model_spec_drawio.py**` (keep in sync with `**agile_bots**` `synchronizers.story_io.map_model_spec_drawio` when changing output).
+
+**Prerequisite:** `conf/abd-config.json` must set `**active_skill_workspace`** (workspace with `**solution.conf`**) — same as other skill scripts.
+
+##### Optional layout plan (logical, not pixels)
+
+- **`map-model-spec.json`** remains the **source of truth** for classes, members, and edges.
+- Optionally add **`<output_dir>/class-diagram-layout-plan.json`** — **clusters** and **order** only (`schema_version`: `1`). The emitter turns that into x/y (padding, column width, gaps). If the file is missing or invalid, layout falls back to **inheritance tiers + grid** (previous behavior).
+- JSON Schema: `**schemas/class-diagram-layout-plan.schema.json**`. Minimal example: `**examples/class-diagram-layout-plan-minimal.json**`.
+- **Render CLI:** if `class-diagram-layout-plan.json` exists under `<output_dir>`, it is picked up automatically. Use `--no-layout-plan` to force tier+grid only, or `--layout-plan path/to/file.json` to point at a specific file.
+
+Optional path override:
+
+```bash
+python scripts/render_map_model_class_diagram.py --out path/to/custom-name.drawio
+```
+
+Re-running the command **replaces** the `.drawio` file. Manual edits in diagrams.net are **not** merged back into the layout-plan JSON; re-publish the JSON when you want the next render to follow a new logical layout.
+
+---
+
+#### Open in diagrams.net
+
+Open `**map-model-class-diagram.drawio`** in VS Code (Draw.io extension), diagrams.net desktop, or **app.diagrams.net** → **File → Open from…**. The file is native Draw.io XML (editable shapes).
+
+---
 
 
 
@@ -173,6 +271,82 @@ Use the shapes in [`terms-mechanisms-contract.md`](../../parts/library/terms-mec
 ```
 
 Missing `chunk_id` on a substantive term—violation once Phase 1 validates.
+
+
+### `class-diagram.md`
+
+#### Class diagram: readable layout and edges
+
+**Artifacts:** Emitted **`map-model-class-diagram.drawio`** next to **`map-model-spec.json`** (under workspace `output_dir`, usually `spec/`). Optionally **`class-diagram-layout-plan.json`** in the same folder supplies **logical** clusters and order (no coordinates); the emitter maps that to placement, then scanners run on the `.drawio` as today. Authoring guidance for **manual** layout in Draw.io matches this rule; the pipeline emitter should follow the same conventions when a layout plan is present.
+
+This rule is **partly machine-checked** by `scripts/scanners/class_diagram_layout.py` when the Draw.io file exists: **fails** on duplicate directed edges between the same class pair or overlapping class rectangles; **warns** on self-loops, very high per-class edge count, or extreme edge density (heuristics — not full aesthetic judgment). See also [`class-diagram-from-spec.md`](../../parts/library/class-diagram-from-spec.md).
+
+**Illustrative examples (open in Draw.io):** at the skill root, **`examples/class-diagram-good.drawio`** (readable flow) and **`examples/class-diagram-bad.drawio`** (intentionally crowded: duplicate edges, self-loop, all-to-all). Paths are sibling to **`rules/`** — `examples/…`.
+
+**Intent:** A class diagram should be **readable** along a **primary direction** (left→right and/or top→bottom). **Anchor** the canvas on **entry / scope** concepts; walk **abstract → concrete** and **core aggregates → parts** — do **not** lead with peripheral concepts. **Inheritance** may use angled connectors; **associations** should prefer **orthogonal** segments (horizontal/vertical with 90° corners). Avoid **overlapping** class boxes, **duplicate** connectors between the same pair, **self-loops** except when the model truly requires recursive structure (justify in spec). Prefer **multiple pages** or **swimlanes** over a single dense canvas.
+
+**DO**
+
+- Lay out classes so a reviewer can **follow the story** (e.g. user/session → space → memory → retrieval) in **lanes** or **rows**, not a uniform grid of unrelated neighbors.
+- Route **association** edges with **orthogonal** style where the tool allows; keep **crossing** and **bundle** count low — rearrange nodes before accepting spaghetti.
+- Split **very large** models across **pages** or **diagrams** rather than shrinking everything into one unreadable sheet.
+- After automated render, **adjust** positions and edge waypoints in Draw.io when the scanner or review flags density or overlap.
+
+**DON'T**
+
+- Place **every** class on a **fixed grid** with **default edge routing** only — produces edge soup (see bad example).
+- Add **duplicate** directed edges between the same two classes for the same relationship.
+- Use **self-edges** on ordinary aggregates without a modeled recursive need.
+- Allow **overlapping** class rectangles or **extreme** fan-in/fan-out on a single class without refactoring the diagram or the model.
+
+```text
+Good:  DomainRoot → Aggregate → Part   (primary row)
+       Aggregate → SideConcept         (branch downward)
+
+Bad:   N×M grid + all-pairs edges + duplicate A→B + self-loop on a random hot class
+```
+
+
+### `mechanisms-realized-by.md`
+
+#### Mechanisms use `realized_by`; procedural steps live on stories
+
+**Applies** when `mechanisms.json` is present under the workspace `output_dir` (e.g. `spec/`).
+
+**Automation:** `scripts/scanners/mechanisms_contract.py` (this skill’s `build_pipeline`). Validates structure of `mechanisms[]` and, when `shaped_story_map.json` exists, checks that each `realized_by.paths[]` entry matches a story path in the map.
+
+**DO**
+
+- Give each mechanism **`name`**, **`description`**, **`evidence_chunk_ids[]`**, and **`realized_by`** with **`kind`** (`single_story` or `ordered_stories`), non-empty **`paths[]`**, and optional **`note`**.
+- Put procedural **`steps[]`** on the **story** rows in `shaped_story_map.json`, not on mechanism objects.
+
+```json
+{
+  "name": "RAG chat turn",
+  "description": "...",
+  "evidence_chunk_ids": ["blk_abc"],
+  "realized_by": {
+    "kind": "ordered_stories",
+    "paths": [
+      "Epic / Sub-epic / First story",
+      "Epic / Sub-epic / Second story"
+    ]
+  }
+}
+```
+
+**DO NOT**
+
+- Add a **`steps`** or **`interaction_steps`** array on mechanism rows (use **`steps[]`** on stories in the shaped story map).
+
+```json
+{
+  "name": "Bad",
+  "steps": ["do this", "then that"]
+}
+```
+
+- Omit **`realized_by`** on mechanisms that are meant to be realized in the map once stories exist.
 
 
 ## Principles
@@ -250,4 +424,4 @@ When recording or fixing a problem:
 
 **Example (correct):** Edit `phase3/shaped_story_map.json` (or the generator you were given) so structure and evidence fields match **`shaped-story-map.md`** and validators.
 
-**Focus (this phase):** Phase 4 terms/mechanisms — every substantive row cites **chunk_id** per contract. No promoted concepts[] yet.
+**Focus (this phase):** Phase 4 terms/mechanisms — **chunk_id** per contract; **mechanisms** use **realized_by** → story map paths; procedural **steps[]** on stories, not duplicated in mechanisms. No promoted concepts[] yet.

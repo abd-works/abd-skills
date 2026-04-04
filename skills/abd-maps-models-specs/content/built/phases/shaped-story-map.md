@@ -41,7 +41,7 @@ You work with **Provenance** and  **traceability**: You tie substantive claims a
 
 
 
-**Automated enforcement** is **rule-bound** ([shaped-story-shape](../../rules/shaped-story-shape.md), [scanners.json](../../rules/scanners.json)); it runs as part of **`python scripts/build.py`**. **Human / AI** maintain `shaped_story_map.json`.
+**Automated enforcement** is **rule-bound** ([shaped-story-shape](../../rules/shaped-story-shape.md), [scanners.json](../../rules/scanners.json)); it runs as part of **`python scripts/build.py`**. **Human / AI** maintain **`shaped_story_map.json`** at the root of **`output_dir`** (see [domain-model.md](../../parts/library/domain-model.md) → **`map-model-spec.json`** scaffold extensions).
 
 
 
@@ -57,7 +57,9 @@ You work with **Provenance** and  **traceability**: You tie substantive claims a
 
 - **Query/read/forward** stories are as valid as **mutating** stories when the anchor is explicit.
 
-- Substantive stories carry **`evidence_chunk_ids[]`** referencing **`context_index.json`** / `chunks/` ([`shaped-story-map.md`](../../parts/library/shaped-story-map.md)); `phase3_story_map_evidence.py` extends to enforce this when authored.
+- Substantive stories carry **`evidence_chunk_ids[]`** referencing **`context_index.json`** and chunk `*.md` in **context_path** ([`shaped-story-map.md`](../../parts/library/shaped-story-map.md)); `phase3_story_map_evidence.py` enforces this for **`shaped_story_map.json`** when authored.
+
+- When **mechanisms** exist in Phase 2, stories may **realize** them: optional **`steps[]`**, **`realizes_mechanism`**, **`mechanism_flow_order`**, **`mechanism_story`** ([`shaped-story-map.md`](../../parts/library/shaped-story-map.md)); **`mechanisms.json`** lists **`realized_by`** paths — no duplicate **`steps`** on mechanism rows.
 
 
 
@@ -69,7 +71,7 @@ Story map validated; **domain types** (`concepts[]`) follow after the shaped sto
 
 
 
-**Output:** `phase3/shaped_story_map.json` under the workspace output root (when present).
+**Output:** `shaped_story_map.json` at the root of **`output_dir`** (e.g. `spec/shaped_story_map.json`).
 
 
 
@@ -124,6 +126,19 @@ Stories must **not** exist solely to match strings in a future type list.
 
 **Legacy:** Older files may use top-level **`actor`** / **`behavior`** on a story instead of nested **trigger** / **response**. Prefer **trigger** / **response** for new work.
 
+##### Optional — realize Phase 2 mechanisms (recommended)
+
+When you use **`mechanisms.json`**, **procedural steps** belong here, not duplicated on mechanism rows. Optional story fields:
+
+| Field | Purpose |
+| ----- | -------- |
+| **`steps[]`** | Ordered short strings: user-visible or system-visible steps for **this** story’s slice of a mechanism (or the full flow if **`mechanism_story`**). |
+| **`realizes_mechanism`** | String: **`mechanisms[].name`** this story implements (or shares with other stories). |
+| **`mechanism_flow_order`** | Integer when **several** stories share the same **`realizes_mechanism`**: order in the end-to-end flow (1, 2, 3, …). |
+| **`mechanism_story`** | Boolean: **`true`** if this **single** story documents the **entire** named mechanism (e.g. one story holds the full **`steps[]`**). |
+
+**`mechanisms.json`** should list **`realized_by.paths`** pointing at these stories — see [`terms-mechanisms-contract.md`](terms-mechanisms-contract.md).
+
 ---
 
 #### Alignment with [`story-map.md`](story-map.md)
@@ -154,6 +169,7 @@ The full rationale (interaction tree + ordering) is in [`story-map.md`](story-ma
 - **`trigger`** / **`response`** — Each `{ "actor", "behavior" }` (or accepted legacy **`actor`** / **`behavior`**); **behavior** uses domain language; no extra parallel state columns.
 - **`evidence_chunk_ids[]`** — At least one id for substantive stories; each id must correspond to the Phase 1 corpus (same package downstream phases cite).
 - **`term_refs[]`** — Present when the story depends on Phase 2 terms; omit when not applicable.
+- If the story **realizes a mechanism** — **`steps[]`**, **`realizes_mechanism`**, and optional **`mechanism_flow_order`** / **`mechanism_story`** per the table above; keep **`trigger`** / **`response`** as the primary observable contract.
 
 **Quality**
 
@@ -383,6 +399,54 @@ Available PaymentType for country:
 
 
 
+### `class-diagram-from-spec.md`
+
+### Class diagram from `map-model-spec.json`
+
+**When:** During **process phases 4–9** (terms & mechanisms through integrate), whenever you have **materially updated** the domain model in `**map-model-spec.json`**, re-run the generator so the class diagram file beside your spec stays aligned with promoted concepts, modules, and `**depends_on`**.
+
+**Continual refinement:** The Draw.io file is the **diagram half** of the same loop described in [domain-model.md](domain-model.md) → **Continual refinement — class definition + diagram**. As you add or tighten **properties**, **operations**, and **relationships** in the spec (and tag **`**newly added**`** in prose when useful), **re-render** so reviewers compare **code + diagram + narrative** in one pass. Do **not** treat the diagram as a one-time export at the end of Integrate unless the model truly did not change after that point.
+
+---
+
+#### Command (skill package)
+
+From the **abd-maps-models-specs** root (directory that contains `scripts/` and `skill-config.json`), with `**conf/abd-config.json`** pointing at the workspace that contains `**solution.conf`**:
+
+```bash
+python scripts/render_map_model_class_diagram.py
+```
+
+- **Input:** `<output_dir>/map-model-spec.json` (see `[domain-model.md](domain-model.md)` and your workspace `solution.conf`).
+- **Output:** `<output_dir>/map-model-class-diagram.drawio` — **native diagrams.net XML** (same `**mxfile` / `mxCell`** shape as agile_bots story-map Draw.io), with modules, concepts, members, and `**depends_on`** edges. Emitter lives in this skill: `**scripts/map_model_spec_drawio.py**` (keep in sync with `**agile_bots**` `synchronizers.story_io.map_model_spec_drawio` when changing output).
+
+**Prerequisite:** `conf/abd-config.json` must set `**active_skill_workspace`** (workspace with `**solution.conf`**) — same as other skill scripts.
+
+##### Optional layout plan (logical, not pixels)
+
+- **`map-model-spec.json`** remains the **source of truth** for classes, members, and edges.
+- Optionally add **`<output_dir>/class-diagram-layout-plan.json`** — **clusters** and **order** only (`schema_version`: `1`). The emitter turns that into x/y (padding, column width, gaps). If the file is missing or invalid, layout falls back to **inheritance tiers + grid** (previous behavior).
+- JSON Schema: `**schemas/class-diagram-layout-plan.schema.json**`. Minimal example: `**examples/class-diagram-layout-plan-minimal.json**`.
+- **Render CLI:** if `class-diagram-layout-plan.json` exists under `<output_dir>`, it is picked up automatically. Use `--no-layout-plan` to force tier+grid only, or `--layout-plan path/to/file.json` to point at a specific file.
+
+Optional path override:
+
+```bash
+python scripts/render_map_model_class_diagram.py --out path/to/custom-name.drawio
+```
+
+Re-running the command **replaces** the `.drawio` file. Manual edits in diagrams.net are **not** merged back into the layout-plan JSON; re-publish the JSON when you want the next render to follow a new logical layout.
+
+---
+
+#### Open in diagrams.net
+
+Open `**map-model-class-diagram.drawio`** in VS Code (Draw.io extension), diagrams.net desktop, or **app.diagrams.net** → **File → Open from…**. The file is native Draw.io XML (editable shapes).
+
+---
+
+
+
 ## Rules
 
 ### `evidence-citations-required.md`
@@ -425,6 +489,40 @@ Use the shapes in [`terms-mechanisms-contract.md`](../../parts/library/terms-mec
 Missing `chunk_id` on a substantive term—violation once Phase 1 validates.
 
 
+### `class-diagram.md`
+
+#### Class diagram: readable layout and edges
+
+**Artifacts:** Emitted **`map-model-class-diagram.drawio`** next to **`map-model-spec.json`** (under workspace `output_dir`, usually `spec/`). Optionally **`class-diagram-layout-plan.json`** in the same folder supplies **logical** clusters and order (no coordinates); the emitter maps that to placement, then scanners run on the `.drawio` as today. Authoring guidance for **manual** layout in Draw.io matches this rule; the pipeline emitter should follow the same conventions when a layout plan is present.
+
+This rule is **partly machine-checked** by `scripts/scanners/class_diagram_layout.py` when the Draw.io file exists: **fails** on duplicate directed edges between the same class pair or overlapping class rectangles; **warns** on self-loops, very high per-class edge count, or extreme edge density (heuristics — not full aesthetic judgment). See also [`class-diagram-from-spec.md`](../../parts/library/class-diagram-from-spec.md).
+
+**Illustrative examples (open in Draw.io):** at the skill root, **`examples/class-diagram-good.drawio`** (readable flow) and **`examples/class-diagram-bad.drawio`** (intentionally crowded: duplicate edges, self-loop, all-to-all). Paths are sibling to **`rules/`** — `examples/…`.
+
+**Intent:** A class diagram should be **readable** along a **primary direction** (left→right and/or top→bottom). **Anchor** the canvas on **entry / scope** concepts; walk **abstract → concrete** and **core aggregates → parts** — do **not** lead with peripheral concepts. **Inheritance** may use angled connectors; **associations** should prefer **orthogonal** segments (horizontal/vertical with 90° corners). Avoid **overlapping** class boxes, **duplicate** connectors between the same pair, **self-loops** except when the model truly requires recursive structure (justify in spec). Prefer **multiple pages** or **swimlanes** over a single dense canvas.
+
+**DO**
+
+- Lay out classes so a reviewer can **follow the story** (e.g. user/session → space → memory → retrieval) in **lanes** or **rows**, not a uniform grid of unrelated neighbors.
+- Route **association** edges with **orthogonal** style where the tool allows; keep **crossing** and **bundle** count low — rearrange nodes before accepting spaghetti.
+- Split **very large** models across **pages** or **diagrams** rather than shrinking everything into one unreadable sheet.
+- After automated render, **adjust** positions and edge waypoints in Draw.io when the scanner or review flags density or overlap.
+
+**DON'T**
+
+- Place **every** class on a **fixed grid** with **default edge routing** only — produces edge soup (see bad example).
+- Add **duplicate** directed edges between the same two classes for the same relationship.
+- Use **self-edges** on ordinary aggregates without a modeled recursive need.
+- Allow **overlapping** class rectangles or **extreme** fan-in/fan-out on a single class without refactoring the diagram or the model.
+
+```text
+Good:  DomainRoot → Aggregate → Part   (primary row)
+       Aggregate → SideConcept         (branch downward)
+
+Bad:   N×M grid + all-pairs edges + duplicate A→B + self-loop on a random hot class
+```
+
+
 ### `naming-module-epic-story.md`
 
 #### Naming: modules, epics, stories
@@ -461,11 +559,13 @@ Opaque labels—**violation** (reviewer cannot infer behavior or ownership).
 
 #### Shaped story map: stories are observable, not labels
 
-**Artifact:** `phase3/shaped_story_map.json` (paths per [`shaped-story-map.md`](../../parts/library/shaped-story-map.md)).
+**Artifact:** `shaped_story_map.json` at the root of **`output_dir`** (same fields and validation as in [`shaped-story-map.md`](../../../content/parts/phases/shaped-story-map.md)); **`map-model-spec.json`** holds modules and concepts only.
 
 Each **story** must have a clear **anchor**: what state or projection is read, written, forwarded, or queried—**silence is not allowed** for substantive stories. In JSON, **trigger** and **response** are each `{ "actor", "behavior" }` only—no separate Triggering-State / Resulting-State fields; state belongs in **behavior** text and **Examples** tables. Where the story is substantive, **`evidence_chunk_ids[]`** is non-empty and validates against the Phase 1 index.
 
-Where your narrative uses **Trigger** / **Response** (or When/Then on steps), they must describe **observable** interaction—not implementation trivia. This skill does **not** require a legacy DrawIO export; it requires **JSON + validation** that matches the **shaped story map** contract.
+Where your narrative uses **Trigger** / **Response** (or When/Then on steps), they must describe **observable** interaction—not implementation trivia. This skill does **not** require a legacy DrawIO export; it requires **`shaped_story_map.json` + validation** that matches the **shaped story** contract.
+
+**Optional:** Stories may include **`steps[]`** (ordered procedural bullets), **`realizes_mechanism`**, **`mechanism_flow_order`**, **`mechanism_story`** when linking to Phase 2 **mechanisms** — see [`shaped-story-map.md`](../../parts/library/shaped-story-map.md). The scanner does **not** require these fields; they are for **mechanism realization** and traceability.
 
 An **epic** without **stories** is incomplete for this phase—epics exist to group **confirming stories** for the shaped map, not to park vague themes.
 
@@ -512,7 +612,7 @@ An **epic** without **stories** is incomplete for this phase—epics exist to gr
 
 If types land first, stories drift toward **nouns that already exist in `concepts[]`**, and alignment becomes **string-matching**, not **capability**. This pipeline orders **actor → behavior → anchor** in the story map **before** promotion decisions.
 
-At **shaped-story-map** (phase bundle), you produce `phase3/shaped_story_map.json` with **actor–behavior** stories—not a type checklist. See [`shaped-story-map.md`](../../parts/library/shaped-story-map.md).
+At **shaped-story-map** (phase bundle), you produce **`shaped_story_map.json`** at the root of **`output_dir`** with **actor–behavior** stories—not a type checklist. See [`shaped-story-map.md`](../../../content/parts/phases/shaped-story-map.md).
 
 At **domain-types**, promotion to `concepts[]` uses **explicit accept/reject** rationale against the **candidate queue** and the story map. You do **not** mint types because a heading matched a string; you mint them where **distinct behavioral contracts** are justified.
 
@@ -520,7 +620,7 @@ Older “step” numbering mixed story and type work. Here, **phase filenames** 
 
 **DO**
 
-- Complete `shaped_story_map.json` with actors, stories, and evidence **before** promoting `concepts[]`.
+- Complete **`shaped_story_map.json`** with actors, stories, and evidence **before** promoting sparse `concepts[]` beyond the scaffold.
 
 ```json
 {
@@ -619,4 +719,4 @@ When recording or fixing a problem:
 
 **Example (correct):** Edit `phase3/shaped_story_map.json` (or the generator you were given) so structure and evidence fields match **`shaped-story-map.md`** and validators.
 
-**Focus (this phase):** Phase 5 **shaped_story_map.json** — shaped story map, **evidence_chunk_ids[]**; rule **shaped-story-shape** (+ **scanners.json** binding). Read **shaped-story-map.md**.
+**Focus (this phase):** Phase 5 **shaped_story_map.json** — **evidence_chunk_ids[]**; optional **steps[]** / **realizes_mechanism** for mechanism linkage; rule **shaped-story-shape** (+ **scanners.json**). Read **shaped-story-map.md**.

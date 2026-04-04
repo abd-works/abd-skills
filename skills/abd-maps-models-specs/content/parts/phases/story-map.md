@@ -30,7 +30,7 @@
 
 - **Query/read/forward** stories are as valid as **mutating** stories when the anchor is explicit.
 
-- Substantive stories carry **`evidence_chunk_ids[]`** referencing **`context_index.json`** / `chunks/` ([`shaped-story-map.md`](../library/shaped-story-map.md)); `phase3_story_map_evidence.py` extends to enforce this when authored.
+- Substantive stories carry **`evidence_chunk_ids[]`** referencing **`context_index.json`** and chunk `*.md` in **context_path** ([`shaped-story-map.md`](../library/shaped-story-map.md)); `phase3_story_map_evidence.py` extends to enforce this when authored.
 
 
 

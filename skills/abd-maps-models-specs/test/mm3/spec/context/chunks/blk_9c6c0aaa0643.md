@@ -1,0 +1,30 @@
+---
+chunk_id: blk_9c6c0aaa0643
+source:
+  canonical_path: context/HeroesHandbook.md
+  line_start: 34248
+  line_end: 34269
+evidence_type: rule
+modeling_kind: rule
+---
+SHARED HEADQUARTERS
+
+This is similar to the Concealed feature except the head-
+quarters is not so much concealed as it is “hiding in plain
+sight,” its existence as a headquarters unknown. So, for ex-
+ample, people assume the abandoned house on the hill
+or the old, closed-down factory are just that. This feature
+increases the DCs of checks to discover the lair—typically
+starting at DC 10—by +10, with each additional applica-
+tion increasing them by +5 to a maximum of +30 (for truly
+“top-secret” locations).
+
+A team of heroes most often has a headquarters they all
+share. In this case, the team members may divide up the
+equipment  point  cost  of  the  HQ  among  them  however
+they wish, usually as evenly as possible. Given the equip-
+ment point costs of most HQs, team members rarely have
+to devote more than a single rank of the Equipment ad-
+vantage to their headquarters, an any excess points may
+also cover things like team vehicles and equipment (com-
+mlinks, for example).

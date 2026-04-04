@@ -1,0 +1,39 @@
+---
+chunk_id: blk_d2e4bc8cedb7
+source:
+  canonical_path: context/HeroesHandbook.md
+  line_start: 26714
+  line_end: 26743
+evidence_type: rule
+modeling_kind: rule
+---
+POWER-LIFTING
+
+Effect: Enhanced Strength, Limited to Lifting • 1 point
+per rank
+
+Your lifting and carrying capacity is out of proportion
+with the rest of your Strength. Each rank in this power
+gives  you  +1  to  your  Strength  rank  for  determining
+how much weight you can lift and carry, but does not
+increase your Strength damage or other effects of your
+Strength rank.
+
+guidelines  given  in  the  description  of  the  Investigation
+skill.
+
+Remote Sensing costs 1 point per rank for one sense type,
+2 points per rank for two sense types, 3 points per rank for
+three, and 4 points per rank for four, and 5 points per rank
+for  all  of  your  senses.  Visual  senses  count  as  two  sense
+types  (so  visual  Remote  Sensing  is  2  points  per  rank).
+You can use perception range sensory effects via Remote
+Sensing if your effect applies to their sense type and an
+accurate sense (usually sight). Sensory effects targeted on
+the spot where you have displaced your senses affect you
+normally.
+
+Because  Remote  Sensing  overrides  your  normal  senses,
+you  are  vulnerable  (at  half  your  normal  active  defenses)
+while using it, since you are less aware of your immediate
+surroundings.

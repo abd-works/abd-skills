@@ -32,8 +32,9 @@ from maps_assembler import MapsContentAssembler, load_skill_config
 
 _DEFAULT_BUILD_PIPELINE: tuple[str, ...] = (
     "scripts/scanners/context_index_contract.py",
-    "scripts/build_phase2_artifacts.py",
+    "scripts/build_terms_mechanisms_scaffold.py",
     "scripts/scanner_pipeline_outputs.py",
+    "scripts/scanners/mechanisms_contract.py",
     "scripts/scanners/phase3_story_map_evidence.py",
     "scripts/scanners/chunks_must_be_referenced.py",
     "scripts/generate_context_bundle_manifest.py",

@@ -14,7 +14,7 @@
 
 
 
-**Automated enforcement** is **rule-bound** ([shaped-story-shape](../../rules/shaped-story-shape.md), [scanners.json](../../rules/scanners.json)); it runs as part of **`python scripts/build.py`**. **Human / AI** maintain `shaped_story_map.json`.
+**Automated enforcement** is **rule-bound** ([shaped-story-shape](../../rules/shaped-story-shape.md), [scanners.json](../../rules/scanners.json)); it runs as part of **`python scripts/build.py`**. **Human / AI** maintain **`shaped_story_map.json`** at the root of **`output_dir`** (see [domain-model.md](../library/domain-model.md) → **`map-model-spec.json`** scaffold extensions).
 
 
 
@@ -30,7 +30,9 @@
 
 - **Query/read/forward** stories are as valid as **mutating** stories when the anchor is explicit.
 
-- Substantive stories carry **`evidence_chunk_ids[]`** referencing **`context_index.json`** / `chunks/` ([`shaped-story-map.md`](../library/shaped-story-map.md)); `phase3_story_map_evidence.py` extends to enforce this when authored.
+- Substantive stories carry **`evidence_chunk_ids[]`** referencing **`context_index.json`** and chunk `*.md` in **context_path** ([`shaped-story-map.md`](../library/shaped-story-map.md)); `phase3_story_map_evidence.py` enforces this for **`shaped_story_map.json`** when authored.
+
+- When **mechanisms** exist in Phase 2, stories may **realize** them: optional **`steps[]`**, **`realizes_mechanism`**, **`mechanism_flow_order`**, **`mechanism_story`** ([`shaped-story-map.md`](../library/shaped-story-map.md)); **`mechanisms.json`** lists **`realized_by`** paths — no duplicate **`steps`** on mechanism rows.
 
 
 
@@ -42,7 +44,7 @@ Story map validated; **domain types** (`concepts[]`) follow after the shaped sto
 
 
 
-**Output:** `phase3/shaped_story_map.json` under the workspace output root (when present).
+**Output:** `shaped_story_map.json` at the root of **`output_dir`** (e.g. `spec/shaped_story_map.json`).
 
 
 

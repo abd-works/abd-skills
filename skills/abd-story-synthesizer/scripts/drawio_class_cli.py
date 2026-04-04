@@ -1,4 +1,15 @@
+# =============================================================================
+# GENERATED FILE — DO NOT EDIT MANUALLY
+# Canonical source: src/drawio/drawio_class_cli.py
+# Regenerate from repo root: python scripts/sync_drawio_vendor.py
+# Generated at: 2026-04-02T14:30:24+00:00
+# =============================================================================
 """
+CANONICAL SOURCE — edit only in agilebydesign-skills/src/drawio/drawio_class_cli.py
+
+Copies under skills/*/scripts/ are generated; do not edit them by hand.
+Regenerate: python scripts/sync_drawio_vendor.py (from repo root)
+
 DrawIO class diagram CLI — composable commands for building UML class diagrams.
 
 Usage:

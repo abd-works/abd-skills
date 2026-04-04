@@ -60,6 +60,36 @@ One-liner description of the purpose of the concept
 - Interactions: interaction nodes this concept is used by
 ```
 
+**Marking deltas:** When you **revise** an existing concept in a later pass (Deepen, Integrate, or a follow-up domain-types patch), append **`**newly added**`** on the line **immediately after** any **new** property or operation line so reviewers can see what changed since the previous version. Example:
+
+```
+### **Payment**
+
+…
+
+- Money authorizedAmount **newly added**
+      Invariant: authorizedAmount >= capturedAmount
+- authorize(amount) → Boolean **newly added**
+      **ComplianceGate** — precondition
+```
+
+(Use the same marker in parallel prose beside `map-model-spec.json` when you maintain a narrative module section; JSON has no standard field for this — rely on git history for `properties[]` / `operations[]` or a short `phase_note` on the spec root if you need machine-visible deltas.)
+
+### Continual refinement — class definition + diagram
+
+Where appropriate, treat each **domain concept** as a **living** definition that you **refine across phases**, not a one-shot dump at promotion time.
+
+| Phase / artifact | What to add | Force the property/operation format? |
+|------------------|-------------|--------------------------------------|
+| **Terms & mechanisms**, **shaped story map** | Vocabulary, mechanisms, anchors — **no** `concepts[]` yet | **No.** Do not fake classes. Collect **candidates** and **responsibilities** in queue / stories. |
+| **Domain types (promote)** | Sparse `concepts[]`, `owns`, evidence | **Partially.** Use formal **heading** (`### **Extension** : **Base**`) and **Interactions** when known; properties/operations **as soon as** evidence supports a typed line. If you only have **responsibility sentences**, keep those in `owns` / narrative until Deepen — **do not** invent parameters. |
+| **Variant classification** | Enum vs subtype decisions | **N/A** to line format; constrains **name** (`Base:Extension`) and families. |
+| **Deepen** | Evidence, `depends_on`, collaborations on **members** | **Yes, prefer.** Fold responsibilities into **`- <type> property`** and **`- <type> operation(...) → …`**; add **`**newly added**`** on lines first introduced this pass. |
+| **Integrate** | Synonyms, drained queue, reconciled edges | **Yes** where stable — final pass on prose **mirror** of JSON. |
+| **`map-model-spec.json`** | Source of truth for structure | Keep **properties[]** / **operations[]** aligned with the prose template above; same refinement rules apply in JSON editing. |
+
+**Class diagram:** After material updates to **`map-model-spec.json`**, re-run **`render_map_model_class_diagram.py`** (see [class-diagram-from-spec.md](class-diagram-from-spec.md)) so **`map-model-class-diagram.drawio`** stays the **visual twin** of the continually refined model. Optional: a short **ASCII** sketch in module notes for fast diff in review — not a substitute for the Draw.io artifact.
+
 ### Foundational classes
 
 A **foundational class** is a domain concept tagged `[foundational]`. These are the **base classes that everything else extends from** — the stable core that repeats across the system. Later slices add concepts that extend or use foundational classes; the foundational classes themselves remain stable.
@@ -110,10 +140,84 @@ Place invariants under the specific property or operation they apply to — not 
 
 ---
 
+## Promotion ledger (`promotion_ledger.json`)
+
+The **promotion ledger** is the audit trail for every candidate extracted during Phase 4 (terms-mechanisms). It lives alongside `map-model-spec.json` in the output directory and is populated during Phase 6 (domain-types).
+
+### Contract
+
+Every entry in `candidate_queue.json` **must** have a corresponding entry in `promotion_ledger.json`. No candidate may be silently ignored.
+
+### Source reading requirement
+
+Before deciding any candidate, the agent **must read source evidence** — not just JSON metadata:
+
+1. **`shaped_story_map.json`** — find every story where the candidate appears in `anchor`, `trigger`, `response`, `steps[]`, or `term_refs`. Read the full story context.
+2. **Original chunk `.md` files** — for every `evidence_chunk_id` cited on the candidate, open and read the actual markdown body. Do not make promotion decisions based on chunk IDs or previews alone.
+3. **`mechanisms.json`** — find any mechanism whose description names the candidate or whose `realized_by` paths include stories that reference the candidate.
+
+### Decision taxonomy
+
+| Decision | When to use | Action on `map-model-spec.json` |
+|---|---|---|
+| **`promote`** | Entity holds state, makes decisions, has a distinct lifecycle, or owns a behavioral boundary | Add to `concepts[]` with `owns` sentence, evidence chunks, rationale |
+| **`absorb`** | Entity is real but has no independent lifecycle — it is a property or operation on an existing concept | Add as property/operation on the absorbing concept; ledger records which concept absorbed it and why |
+| **`merge`** | Identity match — same entity, different names. One name survives; the other becomes a synonym | Keep one concept; add alias to `terms_layer.json`; ledger records merge rationale |
+| **`extend`** | Specialization — entity is a subtype with distinct behavior that justifies inheritance (LSP) | Promote child with `Base:Extension` naming and shared `owns`/evidence on subtype; ledger records LSP justification |
+| **`defer`** | Insufficient evidence today — but specific trigger for revisiting | Move to deferred section with trigger: "promote when [specific evidence arrives]" |
+| **`reject`** | True noise — not a domain entity at all (UI label, implementation detail, etc.) | Ledger records reason; no model change |
+
+### Absorb pathway
+
+When a candidate is **absorbed**, it becomes a property or operation on the absorbing concept rather than a standalone `concepts[]` entry. The ledger entry records:
+- `absorbing_concept` — which existing concept took ownership
+- `absorbed_as` — `property` or `operation`
+- `rationale` — why this entity lacks an independent lifecycle
+
+### Merge pathway
+
+When candidates are **merged**, they are recognized as the same entity with different names. The surviving name keeps its `concepts[]` entry; the alias is added to `terms_layer.json`. The ledger entry records:
+- `surviving_name` — the name that persists in the model
+- `merged_name` — the alias being collapsed
+- `rationale` — what evidence proves identity (same state, same operations, same lifecycle)
+
+### Extend pathway
+
+When a candidate is decided as **`extend`**, it becomes a subtype using `Base:Extension` naming. This decision must be grounded in the Liskov Substitution Principle: the extension has all the behavior of the base **plus** distinct additional behavior that the base does not have. The ledger entry records:
+- `base_concept` — the parent type
+- `extension_name` — the subtype
+- `lsp_justification` — what distinct behavior justifies the subtype (not just a different label)
+
+### Format
+
+```json
+{
+  "decisions": [
+    {
+      "candidate": "EntityName",
+      "decision": "promote | absorb | merge | extend | defer | reject",
+      "rationale": "Evidence-grounded explanation",
+      "source_chunks_read": ["blk_xxx", "blk_yyy"],
+      "stories_read": ["Story Name 1", "Story Name 2"],
+      "mechanisms_checked": ["Mechanism Name"],
+      "modeling_kind_composition": {"rule": 2, "definition": 1},
+      "action_taken": "Added to concepts[] in Module X / Absorbed as property on ConceptY / etc.",
+      "absorbing_concept": "ConceptY (only for absorb)",
+      "surviving_name": "EntityA (only for merge)",
+      "base_concept": "Base (only for extend)",
+      "trigger": "promote when [condition] (only for defer)"
+    }
+  ]
+}
+```
+
+---
+
 ## `map-model-spec.json` — scaffold extensions
 
 These fields extend the domain view in JSON. Align with `**[foundational]`** in prose and with Phases **4–7** in `[content/parts/process.md](../content/parts/process.md)` (domain types → variants → deepen → integrate)..
 
+Shaped stories live in **`phase3/shaped_story_map.json`** at the root of **`output_dir`** (see [shaped-story-map.md](../phases/shaped-story-map.md)); **`map-model-spec.json`** holds modules and **`concepts[]`** only.
 
 | Field                            | Where          | Purpose                                                                                                                                                                                                                                                                                                                                                                                                                                            |
 | -------------------------------- | -------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -138,6 +242,24 @@ These fields extend the domain view in JSON. Align with `**[foundational]`** in 
 **Composition vs inheritance in `name`:** “has-a” (properties referencing other concepts) stays in `**properties[]` / `operations[]`** with collaborating types. “is-a” subtype layering uses `**Base:Extension`** in `**name`** (not a second field) plus shared `**owns`** / evidence on the subtype.
 
 Epic and confirming-story naming: see `[story-map.md](story-map.md)`; module naming stays **noun phrase**, epic/story **Verb Noun** (verb-noun rule). `**concepts[].name`** and domain words in `**epic.statement`** / `**confirming_stories`** must match **exactly (100%)** — rule **scaffold-concept-story-name-alignment** where enforced.
+
+### Relationships between concepts — plan and checks
+
+**Primary (automated):** Rule **`map-model-relationships`** with scanner **`scripts/scanners/map_model_relationships.py`** runs in the **`build.py`** pipeline when **`map-model-spec.json`** exists. It enforces **reference integrity**: every **`depends_on[].concept`** names a declared **`concept.name`**; every **`module.depends_on`** entry references existing **module** names and **concept** names in **`dependent_concepts`** / **`provides_concepts`**. It does **not** check acyclicity or semantic relation types — only resolution. See **`[map-model-relationships-plan.md](map-model-relationships-plan.md)`** and **`[../../rules/map-model-relationships.md](../../rules/map-model-relationships.md)`**.
+
+#### Where to attach `depends_on` (pre- vs post-property)
+
+| Situation | Guidance |
+|-----------|----------|
+| **Before** properties/operations exist | **Concept-level** `depends_on` alone is OK as a scaffold. |
+| **After** properties and/or operations are filled in | **Authoritative** collaborations belong on **`properties[]` / `operations[]`** `depends_on` (who collaborates on which field or behavior). |
+| **Optional class-level** `depends_on` | Allowed as a **diagram summary** only if every peer also appears on **at least one** property or operation under that concept (**subset sync** — enforced by the scanner when members exist). |
+
+#### Optional product patterns (non-normative)
+
+Workspace specs may use extra concepts for RAG-style systems: e.g. **hub source tree** vs **chat UI** aggregates, **scope filters** from hub folders, **conversion → chunk → vector** artifacts, **folder-level pipeline rollup** from per-file stages. Name and module layout are **product-specific**; the skill only requires resolved names and the **`depends_on`** rules above.
+
+**Optional:** Narrative **scenario walkthroughs** ([`scenario-walkthrough-template.md`](scenario-walkthrough-template.md)) and sidecar **`scenario_walkthroughs.json`** beside **`map-model-spec.json`** stress-test collaborations against **`shaped_story_map.json`**; they do **not** replace structural validation.
 
 ---
 
@@ -262,6 +384,7 @@ A single module with several concepts that collaborate around payment by country
 ## Validation checklist
 
 - Format: `**Extension** : <Base Concept if any>` when there is inheritance; otherwise a single concept name (see `**Base:Extension**` in `map-model-spec.json` above)
+- **Continual refinement:** phased updates to the same concepts; **`**newly added**`** on new member lines when you want explicit deltas; class diagram re-rendered when `map-model-spec.json` changes materially (see [class-diagram-from-spec.md](class-diagram-from-spec.md))
 - Module has examples: one table per concept, shared scenario, `===` separator
 - Properties, operations, collaborating concepts listed
 - Each concept referenced via `**Concept**` in story map must exist here (see `[story-map.md](story-map.md)`)

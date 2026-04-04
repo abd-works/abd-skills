@@ -61,7 +61,7 @@ These are **normative**: we implement the process **because** of them. If eviden
 
 ## Phase 0 — Context chunking approach
 
-**Goal:** Understand how the handbook is **written** so chunking **rules** support the pipeline. **AI** drafts **`context_chunking_spec`** (and discloses assumptions); **human** accepts after review; optional **phase0** metrics for tuning. **Normative:** `content/parts/phases/context-chunking-approach.md`.
+**Goal:** Understand how the handbook is **written** so chunking **rules** support the pipeline. **AI** drafts **`context_chunking_spec`** (and discloses assumptions); **human** accepts after review; optional **context audit** metrics for tuning. **Normative:** `content/parts/phases/context-chunking-approach.md`.
 
 **When `chunks/` do not exist yet:** Phase 0 defines **how** you will chunk; Phase 1 **implements** that spec and the contract validator checks **shape**—not “did you pass readiness.”
 
@@ -112,7 +112,7 @@ Principles are not enough: **Phase 1** must be specified as **files, validators,
 | **Code vs LLM** | **Deterministic** Python applies the spec and writes chunks + index. Optional LLM may **refine** `evidence_type` / `modeling_kind` **after** blocks exist; output must still pass the same validator. |
 | **Validation** | **`python scripts/build.py`** runs the **stage-1-context-decisions** check (scanner path in `rules/scanners.json`) — bidirectional chunk ↔ index, line bounds, duplicate IDs. |
 
-Downstream (Phases 2–8): same doc spells out **inputs/outputs**, how **`build_phase2_artifacts.py`** must cite `chunk_id`s, how the **shaped-story-shape** rule’s scanner checks `evidence_chunk_ids[]` against the index (via **`build.py`**), and how Phases 4–8 use JSON, prompts, or scanners—so each step has an implementable shape.
+Downstream (Phases 2–8): same doc spells out **inputs/outputs**, how **terms/mechanisms/candidate** JSON must cite `chunk_id`s, how the **shaped-story-shape** rule’s scanner checks `evidence_chunk_ids[]` against the index (via **`build.py`**), and how later phases use JSON, prompts, or scanners—so each step has an implementable shape.
 
 ---
 
@@ -168,21 +168,21 @@ Downstream (Phases 2–8): same doc spells out **inputs/outputs**, how **`build_
 
 ---
 
-## Phase 8 — Validate & render
+## Phase 8 — Validate
 
-**Goal:** Automated checks (scanners, schema) + **rendered** reports; CI on your configured workspace; optional **critic** checklist against the **principles table** at the top of this document.
+**Goal:** Automated checks (scanners, schema) + **manifest and pipeline outputs**; CI on your configured workspace; optional **critic** checklist against the **principles table** at the top of this document. (Slug: **`validate`** — see [`content/parts/process.md`](../content/parts/process.md); process table uses **phase 10** for the same gate.)
 
 ---
 
 ## Execution order (what to do next)
 
 1. **Context path A — Greenfield or known bad:** Ensure **canonical Markdown** (e.g. PDF → handbook `.md`). **Write the chunking spec** (what grain, what metadata, what exclusions), then implement **Phase 1** (chunks + index + version pin). Use **Phase 0** questions as **acceptance** for that package before freezing v1.
-2. **Context path B — Existing `context/`:** Run **readiness** (Phase 0: metrics + spot-check)—**or** skip straight to rebuild if you already know it fails (e.g. spot-check says **no**).
+2. **Context path B — Existing `context/`:** Run **readiness** (**context audit**: metrics + spot-check)—**or** skip straight to rebuild if you already know it fails (e.g. spot-check says **no**).
 3. If **adopt with extensions:** migrate or sidecar into canonical schema; fill `modeling_kind`; **pin** v1 (manifest-backed).
 4. If **rebuild or first build:** complete Phase 1; **finalize** the Phase 1 context package (see **§1.4** below and [`content/parts/library/context-spec.md`](../content/parts/library/context-spec.md)).
-5. Only then: **Phase 2** onward in order — run `python scripts/build_phase2_artifacts.py` — emits `test/sample-workspace/abd-maps-models-specs/phase2/` (terms, mechanisms, candidate queue). See [`content/parts/library/terms-mechanisms-contract.md`](../content/parts/library/terms-mechanisms-contract.md). Re-run `generate_context_bundle_manifest.py` to record phase2 hashes.
-6. **Phase 3**: maintain `test/sample-workspace/abd-maps-models-specs/phase3/shaped_story_map.json` (epics/stories with **anchor** + `term_refs` / `evidence_chunk_ids`). Validate with **`python scripts/build.py`** (includes the **shaped-story-shape** scanner when `shaped_story_map.json` exists; extend per [`shaped-story-map.md`](../content/parts/library/shaped-story-map.md)). Re-run `generate_context_bundle_manifest.py` for phase3 hash.
-7. **Phase 4–8**: types → variants → deepen → integrate → validate/render (per [`content/parts/process.md`](../content/parts/process.md) and phase files).
+5. Only then: **Phase 2** onward in order — run `python scripts/build_terms_mechanisms_scaffold.py` — writes empty `terms_layer.json`, `mechanisms.json`, and `candidate_queue.json` under your workspace **`output_dir`** (e.g. `spec/`). See [`content/parts/library/terms-mechanisms-contract.md`](../content/parts/library/terms-mechanisms-contract.md). Re-run `generate_context_bundle_manifest.py` to record hashes for those files.
+6. **Phase 3**: maintain **`shaped_story_map.json`** at the root of **`output_dir`** (epics/stories with **anchor** + `term_refs` / `evidence_chunk_ids`; **`map-model-spec.json`** holds modules and concepts only). Validate with **`python scripts/build.py`** (includes **phase3-story-map-evidence** when the story map exists; extend per [`shaped-story-map.md`](../content/parts/phases/shaped-story-map.md)). Re-run `generate_context_bundle_manifest.py` for phase3 hash.
+7. **Phase 4–8** (this plan) / **6–10** ([`process.md`](../content/parts/process.md)): types → variants → deepen → integrate → **validate** (per phase files; CLI: `python scripts/generate_prompt.py --phase validate`).
 
 ---
 

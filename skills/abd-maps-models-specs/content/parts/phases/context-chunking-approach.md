@@ -65,7 +65,7 @@ The list of **`manifest_sources`** **`path`** values is the corpus this spec **m
 
 ---
 
-## 3. If `chunks/` and an index already exist
+## 3. If chunk `*.md` files under **context_path** and an index already exist
 
 **You will** feed learning back into the spec when asked—often **you** run another full chunking pass (structural report + draft YAML) and **Human (solution analyst)** **will** review again: coverage, misfiring defaults, new section shapes. That is **spec maintenance** for this phase—not canonical context’s contract validator.
 

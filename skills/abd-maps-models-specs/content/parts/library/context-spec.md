@@ -1,10 +1,10 @@
 # Context Specification (Phase 1)
 
-Enduring reference for `**chunks/*.md**`, `**context_index.json**`, **manifest** provenance, `**context_chunking_spec`** YAML (chunking rules the **solution analyst** maintains in the workspace—see `[solution-analyst-role.md](../solution-analyst-role.md)`), and the **contract** those artifacts must satisfy. **Process** lives in the phase files, not here: **Phase 0** (AI-led chunking spec + human review) `[phases/context-chunking-approach.md](../phases/context-chunking-approach.md)`; **Phase 1** (build, coherence, validate) `[phases/canonical-context.md](../phases/canonical-context.md)`. The **built** chunk files + index + manifest are sometimes called the **context package** in prose; **this file** is the **spec** that defines them.
+Enduring reference for chunk `**context/*.md**` (same folder as the index; no `chunks/` subfolder), `**context_index.json**`, **manifest** provenance, `**context_chunking_spec`** YAML (chunking rules the **solution analyst** maintains in the workspace—see `[solution-analyst-role.md](../solution-analyst-role.md)`), and the **contract** those artifacts must satisfy. **Process** lives in the phase files, not here: **Phase 0** (AI-led chunking spec + human review) `[phases/context-chunking-approach.md](../phases/context-chunking-approach.md)`; **Phase 1** (build, coherence, validate) `[phases/canonical-context.md](../phases/canonical-context.md)`. The **built** chunk files + index + manifest are sometimes called the **context package** in prose; **this file** is the **spec** that defines them.
 
 See `[content/parts/process.md](../content/parts/process.md)`, `[phases/context-chunking-approach.md](../phases/context-chunking-approach.md)`, `[phases/canonical-context.md](../phases/canonical-context.md)`, and `[conf/README.md](../../../conf/README.md)`.
 
-Paths resolve from `**<skill_path>/conf/abd-config.json`** → `**active_skill_workspace**` (skill workspace root), then `**<skill_workspace>/solution.conf**`. `scripts/_config.py` implements the same layering: `**manifest_sources[]**` and paths live in `solution.conf`, not hardcoded in Python. Deprecated: `solution_workspace`, `skill_space_path`.
+Paths resolve from `**<skill_path>/conf/abd-config.json`** → `**active_skill_workspace**` only (**absolute** path to the project workspace root), then `**<workspace>/solution.conf**`. `scripts/_config.py` reads no other keys for workspace. `**manifest_sources[]**` and paths live in `solution.conf`, not hardcoded in Python.
 
 ---
 
@@ -22,7 +22,7 @@ This specification is scoped to **structured evidence from canonical sources**. 
 
 ## What goes in a context spec (Phase 1)
 
-A **context spec** is not one file—it is the **whole contract** that ties together **context rules** (how to cut and label the corpus), **evidence units** (what each slice carries), **corpus bookkeeping** (which **source files** were inputs, **sha256** integrity for each, and `**manifest.generator`**—**which script and version** produced the chunks and index), and **enforcement** (validators implement the shapes below). **How** Phase 1 emits `**chunks/`** and `**context_index.json**` and which `**scripts/**` you run is **not** defined here—see `[phases/canonical-context.md](../phases/canonical-context.md)` (Phase 1); authoring `**context_chunking_spec`** from sources is `[phases/context-chunking-approach.md](../phases/context-chunking-approach.md)` (Phase 0). Together those answer: *what counts as a unit of evidence, how is it classified, and how do we prove it came from the declared sources?*
+A **context spec** is not one file—it is the **whole contract** that ties together **context rules** (how to cut and label the corpus), **evidence units** (what each slice carries), **corpus bookkeeping** (which **source files** were inputs, **sha256** integrity for each, and `**manifest.generator`**—**which script and version** produced the chunks and index), and **enforcement** (validators implement the shapes below). **How** Phase 1 emits chunk `*.md` files in **context_path** (same folder as the index—no `chunks/` subfolder) and `**context_index.json**`, and which `**scripts/**` you run is **not** defined here—see `[phases/canonical-context.md](../phases/canonical-context.md)` (Phase 1); authoring `**context_chunking_spec`** from sources is `[phases/context-chunking-approach.md](../phases/context-chunking-approach.md)` (Phase 0). Together those answer: *what counts as a unit of evidence, how is it classified, and how do we prove it came from the declared sources?*
 
 **Out of scope:** Domain model, story map, shaped story map JSON, `**concepts[]*`*—later phases consume this package under their own contracts.
 
@@ -33,7 +33,7 @@ A **context spec** is not one file—it is the **whole contract** that ties toge
 | ------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Canonical source list     | `manifest_sources[]` in `solution.conf`                                                                                                                   |
 | Chunking rules + taxonomy | `context_chunking_spec` YAML (path from `solution.conf`)                                                                                                  |
-| Evidence units            | `<context_path>/chunks/{chunk_id}.md`                                                                                                                     |
+| Evidence units            | `<context_path>/{chunk_id}.md` (flat; beside `context_index.json`)                                                                                        |
 | Index + manifest          | `<context_path>/context_index.json`                                                                                                                       |
 | Contract (shape rules)    | Defined **here** + **`rules/scanners.json`** (`rule_scanner_bindings` → **stage-1-context-decisions**); run **`python scripts/build.py`** so the pipeline executes that check — see `[canonical-context.md](../phases/canonical-context.md)` (**Validate**) |
 | Build pipeline / scripts  | `[canonical-context.md](../phases/canonical-context.md)` — **Scripts** table and **Order of work** (emit → coherence → validate)                                                       |
@@ -78,7 +78,7 @@ Authoritative **before** build: which canonical Markdown files count as sources.
 
 **Role:** Rules the **solution analyst** authors so the emit step knows **how** to split and default-label the corpus; `**taxonomy`** declares allowed `evidence_type` / `modeling_kind` values (closed-world for validators).
 
-- **Path:** Resolved from `solution.conf` → `context_chunking_spec` (relative to **workspace root**—see `scripts/_config.py` → `context_chunking_spec_path()`). Default basename is `context_chunking_spec.yaml` beside `solution.conf`. The bundled example sets `active_skill_workspace` to `test/sample-workspace` and keeps the YAML beside `solution.conf`—not required for every repo.
+- **Path:** Resolved from `solution.conf` → `context_chunking_spec` (relative to **workspace root**—see `scripts/_config.py` → `context_chunking_spec_path()`). Default basename is `context_chunking_spec.yaml` beside `solution.conf`. The bundled example under `test/sample-workspace/` uses `python scripts/set_workspace.py` with that folder’s **absolute** path; the YAML lives beside `solution.conf`—not required for every repo.
 - **Contents (minimum sections):**
   - `section_boundaries` — `section_break_regex`, `chapter_break_regex`, `all_caps_standalone`, limits. Edit when handbook layout changes.
   - `splitting` — min/max chunk size, table handling (keep table in one chunk vs split), heading capture rules.
@@ -106,11 +106,11 @@ defaults:
   modeling_kind: rule
 ```
 
-### Chunk files — `chunks/{chunk_id}.md`
+### Chunk files — `{chunk_id}.md` under **context_path**
 
 **Role:** One **evidence unit** per file: classification + provenance + body text. The index **summarizes** chunks; it does not replace them.
 
-- **Directory:** `<workspace>/<context_path>/chunks/` (`context_path` from `solution.conf`, default `context/chunks/`).
+- **Directory:** `<workspace>/<context_path>/` — chunk markdown lives **beside** `context_index.json` (`context_path` from `solution.conf`, default `<output_dir>/context`).
 - **Filename:** `{chunk_id}.md` where `chunk_id` matches `^[a-z0-9_]+$` (or project convention documented once—must match index).
 - **Body:** YAML **front matter** + Markdown **body** (body = evidence text only).
 
@@ -166,7 +166,7 @@ If you **never** need that split, defaults can keep both fields in sync—but `*
 
 Validators **must** verify line numbers against actual file line count when `line_`* is present.
 
-**Example (`context/chunks/chunk_capability_001.md`):**
+**Example (`context/chunk_capability_001.md`):**
 
 ```markdown
 ---
@@ -217,7 +217,7 @@ When a request is accepted, the system records the decision and notifies the act
 
 
 
-Forward indexes (`concept_seeds`, `reverse_indexes`) **supplement** `blocks[]` and chunk files; **citations** for modeling still resolve through `blocks[]` and `chunks/{chunk_id}.md`.
+Forward indexes (`concept_seeds`, `reverse_indexes`) **supplement** `blocks[]` and chunk files; **citations** for modeling still resolve through `blocks[]` and `{chunk_id}.md` in **context_path**.
 
 **Example (`context/context_index.json`, fragment):** same source path, `**chunk_capability_001`**, and preview text aligned with the chunk body above. The `**sha256**` is illustrative (computed from the real file bytes). *Bump `spec_version` when the schema breaks compatibility.*
 
@@ -262,8 +262,8 @@ Forward indexes (`concept_seeds`, `reverse_indexes`) **supplement** `blocks[]` a
 **Contract (when `context_index.json` exists)**
 
 - **Enforcement:** the skill’s **contract scanners** implement the checks below (see `[canonical-context.md](../phases/canonical-context.md)` — **Validate**, and `**rules/scanners.json`** for script paths).
-- Every `blocks[]` entry has a file `chunks/{chunk_id}.md`.
-- Every `chunks/*.md` is listed in `blocks[]` **or** listed under `excluded` with reason.
+- Every `blocks[]` entry has a file `{chunk_id}.md` beside `context_index.json`.
+- Every chunk `*.md` in that directory is listed in `blocks[]` **or** listed under `excluded` with reason.
 - Front matter parses; required keys present; `chunk_id` matches filename.
 - `source.line_*` within source file length; `canonical_path` matches a `manifest.sources[].path`.
 - No duplicate `chunk_id`.

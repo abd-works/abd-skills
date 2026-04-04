@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """
-Scanner: Phase 1 chunk/index contract (context_index.json ↔ chunks/*.md).
+Scanner: Phase 1 chunk/index contract (context_index.json ↔ ``context_path`` ``*.md``).
 
 Rule: **stage-1-context-decisions** + norms in ``content/parts/library/context-spec.md``
 
-- Bidirectional alignment: every ``blocks[]`` row has ``chunks/{chunk_id}.md``; every ``chunks/*.md`` is
-  indexed or listed under ``excluded``.
+- Bidirectional alignment: every ``blocks[]`` row has ``{chunk_id}.md`` beside the index; every chunk ``*.md`` in
+  ``context_path`` is indexed or listed under ``excluded``.
 - Optional: front matter contains ``chunk_id`` (lightweight parse, no PyYAML).
 - ``manifest.sources[]`` sha256 checked against files resolved from solution.conf workspace paths.
 
@@ -53,7 +53,14 @@ def _read_front_matter_keys(path: Path) -> dict[str, str]:
 
 def main() -> int:
     _ensure_config_path()
-    from _config import CHUNKS_DIR, CONTEXT_INDEX, SKILL_ROOT, workspace_root
+    from _config import CHUNKS_DIR, CONTEXT_INDEX, workspace_root
+
+    def _rel_ws(p: Path) -> str:
+        root = workspace_root()
+        try:
+            return str(p.relative_to(root))
+        except ValueError:
+            return str(p)
 
     if not CONTEXT_INDEX.is_file():
         print(f"PASS [{RULE_ID}] — no context_index.json (Phase 1 not built yet; skip)")
@@ -89,20 +96,20 @@ def main() -> int:
         if not chunk_path.is_file():
             print(
                 f"FAIL [{RULE_ID}]: index references missing chunk file "
-                f"{chunk_path.relative_to(SKILL_ROOT)}",
+                f"{_rel_ws(chunk_path)}",
                 file=sys.stderr,
             )
             return 1
         keys = _read_front_matter_keys(chunk_path)
         if "chunk_id" not in keys:
             print(
-                f"FAIL [{RULE_ID}]: {chunk_path.relative_to(SKILL_ROOT)} front matter missing chunk_id",
+                f"FAIL [{RULE_ID}]: {_rel_ws(chunk_path)} front matter missing chunk_id",
                 file=sys.stderr,
             )
             return 1
         if keys.get("chunk_id") != cid:
             print(
-                f"FAIL [{RULE_ID}]: {chunk_path.relative_to(SKILL_ROOT)} chunk_id mismatch "
+                f"FAIL [{RULE_ID}]: {_rel_ws(chunk_path)} chunk_id mismatch "
                 f"index={cid!r} file={keys.get('chunk_id')!r}",
                 file=sys.stderr,
             )
@@ -115,7 +122,7 @@ def main() -> int:
                 continue
             print(
                 f"FAIL [{RULE_ID}]: chunk file not in index blocks[] or excluded: "
-                f"{p.relative_to(SKILL_ROOT)}",
+                f"{_rel_ws(p)}",
                 file=sys.stderr,
             )
             return 1
@@ -141,7 +148,7 @@ def main() -> int:
                         file=sys.stderr,
                     )
 
-    print(f"PASS [{RULE_ID}] — {CONTEXT_INDEX.relative_to(SKILL_ROOT)} blocks={len(blocks)}")
+    print(f"PASS [{RULE_ID}] — {_rel_ws(CONTEXT_INDEX)} blocks={len(blocks)}")
     return 0
 
 

@@ -46,22 +46,20 @@ class AgileContextEngine:
 
         if self.skills:
             wr = self._config.workspace_root
-            if wr:
-                wp = Path(wr)
-                self.workspace_path = wp.resolve() if wp.is_absolute() else (Path.cwd() / wp).resolve()
-            else:
-                self.workspace_path = self._skill_space_from_path(self.skills[0].path)
+            if not wr:
+                raise RuntimeError(
+                    f'conf/abd-config.json must set non-empty "active_skill_workspace" '
+                    f"(absolute path): {self.config_path}"
+                )
+            wp = Path(wr)
+            if not wp.is_absolute():
+                raise RuntimeError(
+                    f'"active_skill_workspace" must be an absolute path in {self.config_path}'
+                )
+            self.workspace_path = wp.resolve()
             self._load_skill_space_context_paths()
 
         return self
-
-    def _skill_space_from_path(self, skill_path: Path) -> Path:
-        p = skill_path.resolve()
-        if p.parent.name == "skills" and p.parent.parent.name == ".agents":
-            return p.parent.parent.parent
-        if p.parent.name == "skills":
-            return p.parent.parent
-        return p.parent
 
     def _load_skill_space_context_paths(self) -> None:
         if not self.workspace_path:

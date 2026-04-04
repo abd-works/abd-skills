@@ -29,7 +29,7 @@ If a rule file is **not** mentioned in `every_phase_rules` or any `phase_rules[.
 
 ## Relationship to other repos
 
-- **abd-solution-modeler** and similar skills may use **different** phase names and JSON shapes. When a *concept* aligns (e.g. “cite chunks on substantive claims”), we **rewrite** the rule here for **our** artifacts (`terms_layer.json`, `shaped_story_map.json`, `map-model-spec`, `context_index.json`, …), not copy their prose.
+- **abd-solution-modeler** and similar skills may use **different** phase names and JSON shapes. When a *concept* aligns (e.g. “cite chunks on substantive claims”), we **rewrite** the rule here for **our** artifacts (`terms_layer.json`, `shaped_story_map.json`, `map-model-spec.json`, `context_index.json`, …), not copy their prose.
 - **Scanners:** Automated checks are **bound to rules** in **`rules/scanners.json`** → **`rule_scanner_bindings`**. **`python scripts/build.py`** runs the ordered **`skill-config.json`** → **`operator.build_pipeline`**, which includes those scanner scripts (plus emitters, manifest, rule-example lint). Rules describe **solution analyst + AI** obligations; scripts enforce **what is implemented**.
 
 ## Index
@@ -37,7 +37,7 @@ If a rule file is **not** mentioned in `every_phase_rules` or any `phase_rules[.
 | Rule file | Phases (see `skill-config.json` → `phase_rules`) | Intent |
 |-----------|--------------------------------------------------|--------|
 | [stage-1-context-decisions.md](stage-1-context-decisions.md) | context-chunking-approach, canonical-context | Readiness audit + Phase 1 context package before vocabulary work |
-| [evidence-citations-required.md](evidence-citations-required.md) | terms-mechanisms → validate-render | Substantive claims cite `chunk_id` / evidence fields |
+| [evidence-citations-required.md](evidence-citations-required.md) | terms-mechanisms → validate | Substantive claims cite `chunk_id` / evidence fields |
 | [story-map-before-domain-types.md](story-map-before-domain-types.md) | shaped-story-map, domain-types | Shaped story map precedes sparse `concepts[]` |
 | [variant-decisions-before-deepen.md](variant-decisions-before-deepen.md) | variant-classification, deepen | Variant representation chosen before heavy property work |
 | [shaped-story-shape.md](shaped-story-shape.md) | shaped-story-map | Actor, anchor, evidence for stories |
@@ -45,6 +45,7 @@ If a rule file is **not** mentioned in `every_phase_rules` or any `phase_rules[.
 | [domain-types-and-deepen-quality.md](domain-types-and-deepen-quality.md) | domain-types, variant-classification, deepen | Promotion bar: owns, evidence, not anemic / centralized |
 | [integrate-coherence.md](integrate-coherence.md) | integrate | One coherent map / model / spec |
 | [deepen-approved-tools-only.md](deepen-approved-tools-only.md) | deepen | No ad-hoc merge scripts outside approved workflow |
-| [validate-and-manifest-gates.md](validate-and-manifest-gates.md) | validate-render | Contract validators, story map check, manifest, CI |
+| [validate-and-manifest-gates.md](validate-and-manifest-gates.md) | validate | Contract validators, story map check, manifest, CI |
+| [class-diagram.md](class-diagram.md) | terms-mechanisms → integrate, validate | Readable Draw.io class diagram layout; examples in `examples/`; scanner on emitted `.drawio` |
 
 When you add a phase or change which rules apply, edit **`phase_rules`** / **`every_phase_rules`** in **`skill-config.json`** and run **`python scripts/build.py`**.

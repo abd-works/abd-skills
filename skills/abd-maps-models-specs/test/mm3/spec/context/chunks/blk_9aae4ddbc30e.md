@@ -1,0 +1,34 @@
+---
+chunk_id: blk_9aae4ddbc30e
+source:
+  canonical_path: context/HeroesHandbook.md
+  line_start: 36755
+  line_end: 36780
+evidence_type: rule
+modeling_kind: rule
+---
+TEAM ATTACK
+
+Multiple attackers can attempt to combine their attacks in
+order to overwhelm an opponent’s resistance. The attacks
+to be combined must have the same effect and resistance
+and be within 5 ranks of each other. So attacks all doing
+Damage against Toughness can combine, but not with a
+Mental Blast, for example, which is a Damage effect, but
+resisted by Will rather than Toughness.
+
+The attackers must all delay to the same point in the ini-
+tiative order (that of the slowest attacker). Each attacker
+makes an attack check against the target’s defense. Effects
+not requiring an attack check may be used in a team at-
+
+tack; count the effect as having one degree of success, if it
+is not the main attack.
+
+Take the largest effect rank of the attacks that hit and count
+the combined degrees of success for the other attacks: one
+degree  provides  a  +2  circumstance  bonus  to  the  rank  of
+the main attack, three or more provides a +5 circumstance
+bonus. Unlike a normal team check, degrees of failure do
+not reduce success; those attacks simply miss and have no
+effect. See Team Checks in The Basics chapter for more.

@@ -1,0 +1,37 @@
+---
+chunk_id: blk_178ced74b4c9
+source:
+  canonical_path: context/HeroesHandbook.md
+  line_start: 34870
+  line_end: 34898
+evidence_type: rule
+modeling_kind: rule
+---
+INITIATIVE
+
+The  order  in  which  characters  take  their  turns  is  deter-
+mined  by  initiative.  Base  initiative  bonus  is  equal  to
+the  character’s  Agility  rank.  Many  characters  have  ad-
+vantages or powers that modify their initiative, such as
+Improved Initiative. At the start of a conflict, roll an initia-
+tive check for each character:
+
+d20 + initiative modifier
+
+The  initiative  check  determines  what  order  characters
+act in, counting down from highest check result to low-
+est. Usually, the GM writes the names of the characters
+down in initiative order to move quickly from one char-
+acter to the next each round. You can also have all of the
+characters’ names listed on index cards you can reshuffle
+to fit the initiative order. If two characters have the same
+initiative result, they act in order of highest Dodge bo-
+nus first, then highest Agility and highest Awareness. If
+there is still a tie, each tied player should roll a die, with
+the highest roll going first. The GM may roll just once for
+an entire group of minions, giving them all the same ini-
+tiative.
+
+If characters enter a conflict after it’s begun, they roll ini-
+tiative when they join-in and act when their turn comes
+up in the existing order.

@@ -1,0 +1,45 @@
+---
+chunk_id: blk_6faabfee0e92
+source:
+  canonical_path: context/HeroesHandbook.md
+  line_start: 33661
+  line_end: 33697
+evidence_type: rule
+modeling_kind: rule
+---
+SPECIAL VEHICLES
+
+These are unique vehicles, most likely found in the posses-
+sion of supervillains, aliens, or eccentric inventors.
+
+Dimension hopper is a van-sized vehicle capable of mov-
+ing between dimensions like a rank 3 Movement (Dimen-
+sional Travel) effect.
+
+Mole-machines are classic weapons for underground vil-
+lains,  consisting  of  a  metallic  cylinder  with  treads  and  a
+rotating drill mounted on the front, allowing the machine
+to bore through the earth. Its speed is a Burrowing effect
+(see page 151).
+
+Time  machines  may  be  enclosed  vehicles,  from  cubes
+to spheres or even pods on legs or police boxes, or they
+can simply be open platforms or projectors. They provide
+a Movement (Time Travel) effect, typically rank 2 or 3, al-
+though some time machines may transmit only to a fixed
+point in time.
+
+CHAPTER 7: GADGETS & GEAR
+
+CHAPTER 7: GADGETS & GEAR
+
+CHAPTER 7: GADGETS & GEAR
+CHAPTER 7: GADGETS & GEAR
+
+225225
+
+MUTANTS & MASTERMINDS
+MUTANTS & MASTERMINDS
+
+DELUXE HERO’S HANDBOOK
+DELUXE HERO’S HANDBOOK

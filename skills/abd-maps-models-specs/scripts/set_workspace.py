@@ -1,12 +1,11 @@
 """CLI to read or set active_skill_workspace in conf/abd-config.json.
 
-Adapted from skills/abd-solution-modeler/scripts/workspace.py. This skill's
-canonical install key is active_skill_workspace; scripts/_config.py also accepts
-deprecated solution_workspace / skill_space_path.
+The skill package stores **one** value: which project directory (absolute path) contains
+`solution.conf`. There is no fallback or inference.
 
 Usage:
-    python scripts/set_workspace.py              # print configured workspace path
-    python scripts/set_workspace.py <path>       # set workspace (directory must exist)
+    python scripts/set_workspace.py              # print configured workspace (exit 1 if unset)
+    python scripts/set_workspace.py <path>       # set workspace (directory must exist; stored absolute)
 """
 from __future__ import annotations
 
@@ -16,6 +15,8 @@ from pathlib import Path
 
 SKILL_ROOT = Path(__file__).resolve().parents[1]
 CONFIG_PATH = SKILL_ROOT / "conf" / "abd-config.json"
+
+_LEGACY_KEYS = ("solution_workspace", "skill_space_path")
 
 
 def read_config() -> dict:
@@ -29,32 +30,26 @@ def write_config(cfg: dict) -> None:
     CONFIG_PATH.write_text(json.dumps(cfg, indent=2) + "\n", encoding="utf-8")
 
 
-def _workspace_path_string(data: dict) -> str | None:
-    for key in ("active_skill_workspace", "solution_workspace", "skill_space_path"):
-        v = data.get(key)
-        if v is None:
-            continue
-        s = str(v).strip()
-        if s:
-            return s
-    return None
-
-
-def _path_for_json(path: Path) -> str:
-    """Prefer repo-relative path when under the skill package root."""
-    resolved = path.resolve()
-    try:
-        rel = resolved.relative_to(SKILL_ROOT.resolve())
-        return rel.as_posix()
-    except ValueError:
-        return str(resolved)
+def _active_skill_workspace(data: dict) -> str | None:
+    v = data.get("active_skill_workspace")
+    if v is None:
+        return None
+    s = str(v).strip()
+    return s if s else None
 
 
 def main() -> None:
     if len(sys.argv) == 1:
         cfg = read_config()
-        ws = _workspace_path_string(cfg)
-        print(ws if ws else "(not set)")
+        ws = _active_skill_workspace(cfg)
+        if not ws:
+            print(
+                "abd-maps-models-specs: active_skill_workspace is not set in conf/abd-config.json",
+                file=sys.stderr,
+            )
+            print("Set it with: python scripts/set_workspace.py <path>", file=sys.stderr)
+            sys.exit(1)
+        print(ws)
     elif len(sys.argv) == 2:
         raw = Path(sys.argv[1])
         target = raw if raw.is_absolute() else (Path.cwd() / raw)
@@ -62,10 +57,11 @@ def main() -> None:
         if not target.is_dir():
             print(f"abd-maps-models-specs: not a directory: {target}", file=sys.stderr)
             sys.exit(1)
-        stored = _path_for_json(target)
+        stored = str(target)
         cfg = read_config()
+        for k in _LEGACY_KEYS:
+            cfg.pop(k, None)
         cfg["active_skill_workspace"] = stored
-        cfg["solution_workspace"] = stored
         write_config(cfg)
         print(f"active_skill_workspace set to: {stored}")
     else:

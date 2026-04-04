@@ -1,0 +1,40 @@
+---
+chunk_id: blk_48f1ebce6152
+source:
+  canonical_path: context/HeroesHandbook.md
+  line_start: 12438
+  line_end: 12469
+evidence_type: rule
+modeling_kind: rule
+---
+ABILITIES - PSYCHIC WARRIOR
+
+STRENGTH
+2
+STAMINA
+2
+
+AGILITY
+2
+DEXTERITY
+2
+
+FIGHTING
+4
+INTELLECT
+2
+
+AWARENESS
+4
+PRESENCE
+0
+
+8282
+
+CHAPTER 2: SECRET ORIGINS
+CHAPTER 2: SECRET ORIGINS
+
+CHAPTER 2: SECRET ORIGINS
+
+MUTANTS & MASTERMINDS
+MUTANTS & MASTERMINDS

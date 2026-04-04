@@ -27,33 +27,27 @@ You work with **Provenance** and  **traceability**: You tie substantive claims a
 
 ### Integrate
 
-
-
 **Goal:** Synonyms, repointing, **drain candidate queue** into final `map-model-spec` (or split artifacts if story map stays separate).
 
-
-
-**Normative for Phase 7:** this document. [`process.md`](../../parts/process.md) is pipeline **summary** only (table row)—not the procedure.
-
-
+**Normative for Phase 9:** this document. [`process.md`](../../parts/process.md) is pipeline **summary** only (table row)—not the procedure.
 
 #### Steps
 
-
-
 1. Reconcile synonyms and duplicate references.
 
-2. Move approved candidates from the queue into `concepts[]` / final spec per promotion rules.
+2. **Verify candidate queue is fully drained.** Every entry in `candidate_queue.json` must have a corresponding entry in `promotion_ledger.json` with one of: `promote`, `absorb`, `merge`, `extend`, `defer`, `reject`. If any candidate lacks a ledger entry, resolve it now using the decision taxonomy from [domain-types.md](../../parts/phases/domain-types.md).
 
-3. Keep **domain narrative** and **story map** aligned when both artifacts exist.
+3. For `defer` entries: verify the trigger condition is documented and actionable. If new evidence arrived during later phases, re-evaluate deferred candidates.
 
+4. Keep **domain narrative** and **story map** aligned when both artifacts exist.
 
+5. **Final pass on class-shaped prose:** Reconcile any remaining gaps between `map-model-spec.json` and the module **domain concept** blocks per [domain-model.md](../../parts/library/domain-model.md). Remove stale **`**newly added**`** markers if you are cutting a **release** snapshot (optional); otherwise leave them for one review cycle. Re-run **`render_map_model_class_diagram.py`** if the spec changed in this phase.
 
 #### Exit
 
-
-
-Single coherent map-model-spec (or documented split) ready for validation.
+- Single coherent map-model-spec (or documented split) ready for validation.
+- `promotion_ledger.json` has an entry for every candidate in the queue — no orphans.
+- All `defer` entries have documented trigger conditions.
 
 
 ## Library
@@ -122,6 +116,36 @@ One-liner description of the purpose of the concept
 - Interactions: interaction nodes this concept is used by
 ```
 
+**Marking deltas:** When you **revise** an existing concept in a later pass (Deepen, Integrate, or a follow-up domain-types patch), append **`**newly added**`** on the line **immediately after** any **new** property or operation line so reviewers can see what changed since the previous version. Example:
+
+```
+##### **Payment**
+
+…
+
+- Money authorizedAmount **newly added**
+      Invariant: authorizedAmount >= capturedAmount
+- authorize(amount) → Boolean **newly added**
+      **ComplianceGate** — precondition
+```
+
+(Use the same marker in parallel prose beside `map-model-spec.json` when you maintain a narrative module section; JSON has no standard field for this — rely on git history for `properties[]` / `operations[]` or a short `phase_note` on the spec root if you need machine-visible deltas.)
+
+##### Continual refinement — class definition + diagram
+
+Where appropriate, treat each **domain concept** as a **living** definition that you **refine across phases**, not a one-shot dump at promotion time.
+
+| Phase / artifact | What to add | Force the property/operation format? |
+|------------------|-------------|--------------------------------------|
+| **Terms & mechanisms**, **shaped story map** | Vocabulary, mechanisms, anchors — **no** `concepts[]` yet | **No.** Do not fake classes. Collect **candidates** and **responsibilities** in queue / stories. |
+| **Domain types (promote)** | Sparse `concepts[]`, `owns`, evidence | **Partially.** Use formal **heading** (`### **Extension** : **Base**`) and **Interactions** when known; properties/operations **as soon as** evidence supports a typed line. If you only have **responsibility sentences**, keep those in `owns` / narrative until Deepen — **do not** invent parameters. |
+| **Variant classification** | Enum vs subtype decisions | **N/A** to line format; constrains **name** (`Base:Extension`) and families. |
+| **Deepen** | Evidence, `depends_on`, collaborations on **members** | **Yes, prefer.** Fold responsibilities into **`- <type> property`** and **`- <type> operation(...) → …`**; add **`**newly added**`** on lines first introduced this pass. |
+| **Integrate** | Synonyms, drained queue, reconciled edges | **Yes** where stable — final pass on prose **mirror** of JSON. |
+| **`map-model-spec.json`** | Source of truth for structure | Keep **properties[]** / **operations[]** aligned with the prose template above; same refinement rules apply in JSON editing. |
+
+**Class diagram:** After material updates to **`map-model-spec.json`**, re-run **`render_map_model_class_diagram.py`** (see [class-diagram-from-spec.md](class-diagram-from-spec.md)) so **`map-model-class-diagram.drawio`** stays the **visual twin** of the continually refined model. Optional: a short **ASCII** sketch in module notes for fast diff in review — not a substitute for the Draw.io artifact.
+
 ##### Foundational classes
 
 A **foundational class** is a domain concept tagged `[foundational]`. These are the **base classes that everything else extends from** — the stable core that repeats across the system. Later slices add concepts that extend or use foundational classes; the foundational classes themselves remain stable.
@@ -169,6 +193,79 @@ Place invariants under the specific property or operation they apply to — not 
 - **Type selection:** Use `Dictionary<K,V>` when items are accessed by key (name, type, id); use `List<T>` only when order/position matters (e.g. turn order, sequential steps). Default to Dictionary for named domain collections.
 - Avoid central "service/manager" concepts.
 - Use `EnumType name {value1, value2}` for constrained options — not `String` with parenthetical options.
+
+---
+
+#### Promotion ledger (`promotion_ledger.json`)
+
+The **promotion ledger** is the audit trail for every candidate extracted during Phase 4 (terms-mechanisms). It lives alongside `map-model-spec.json` in the output directory and is populated during Phase 6 (domain-types).
+
+##### Contract
+
+Every entry in `candidate_queue.json` **must** have a corresponding entry in `promotion_ledger.json`. No candidate may be silently ignored.
+
+##### Source reading requirement
+
+Before deciding any candidate, the agent **must read source evidence** — not just JSON metadata:
+
+1. **`shaped_story_map.json`** — find every story where the candidate appears in `anchor`, `trigger`, `response`, `steps[]`, or `term_refs`. Read the full story context.
+2. **Original chunk `.md` files** — for every `evidence_chunk_id` cited on the candidate, open and read the actual markdown body. Do not make promotion decisions based on chunk IDs or previews alone.
+3. **`mechanisms.json`** — find any mechanism whose description names the candidate or whose `realized_by` paths include stories that reference the candidate.
+
+##### Decision taxonomy
+
+| Decision | When to use | Action on `map-model-spec.json` |
+|---|---|---|
+| **`promote`** | Entity holds state, makes decisions, has a distinct lifecycle, or owns a behavioral boundary | Add to `concepts[]` with `owns` sentence, evidence chunks, rationale |
+| **`absorb`** | Entity is real but has no independent lifecycle — it is a property or operation on an existing concept | Add as property/operation on the absorbing concept; ledger records which concept absorbed it and why |
+| **`merge`** | Identity match — same entity, different names. One name survives; the other becomes a synonym | Keep one concept; add alias to `terms_layer.json`; ledger records merge rationale |
+| **`extend`** | Specialization — entity is a subtype with distinct behavior that justifies inheritance (LSP) | Promote child with `Base:Extension` naming and shared `owns`/evidence on subtype; ledger records LSP justification |
+| **`defer`** | Insufficient evidence today — but specific trigger for revisiting | Move to deferred section with trigger: "promote when [specific evidence arrives]" |
+| **`reject`** | True noise — not a domain entity at all (UI label, implementation detail, etc.) | Ledger records reason; no model change |
+
+##### Absorb pathway
+
+When a candidate is **absorbed**, it becomes a property or operation on the absorbing concept rather than a standalone `concepts[]` entry. The ledger entry records:
+- `absorbing_concept` — which existing concept took ownership
+- `absorbed_as` — `property` or `operation`
+- `rationale` — why this entity lacks an independent lifecycle
+
+##### Merge pathway
+
+When candidates are **merged**, they are recognized as the same entity with different names. The surviving name keeps its `concepts[]` entry; the alias is added to `terms_layer.json`. The ledger entry records:
+- `surviving_name` — the name that persists in the model
+- `merged_name` — the alias being collapsed
+- `rationale` — what evidence proves identity (same state, same operations, same lifecycle)
+
+##### Extend pathway
+
+When a candidate is decided as **`extend`**, it becomes a subtype using `Base:Extension` naming. This decision must be grounded in the Liskov Substitution Principle: the extension has all the behavior of the base **plus** distinct additional behavior that the base does not have. The ledger entry records:
+- `base_concept` — the parent type
+- `extension_name` — the subtype
+- `lsp_justification` — what distinct behavior justifies the subtype (not just a different label)
+
+##### Format
+
+```json
+{
+  "decisions": [
+    {
+      "candidate": "EntityName",
+      "decision": "promote | absorb | merge | extend | defer | reject",
+      "rationale": "Evidence-grounded explanation",
+      "source_chunks_read": ["blk_xxx", "blk_yyy"],
+      "stories_read": ["Story Name 1", "Story Name 2"],
+      "mechanisms_checked": ["Mechanism Name"],
+      "modeling_kind_composition": {"rule": 2, "definition": 1},
+      "action_taken": "Added to concepts[] in Module X / Absorbed as property on ConceptY / etc.",
+      "absorbing_concept": "ConceptY (only for absorb)",
+      "surviving_name": "EntityA (only for merge)",
+      "base_concept": "Base (only for extend)",
+      "trigger": "promote when [condition] (only for defer)"
+    }
+  ]
+}
+```
 
 ---
 
@@ -343,6 +440,7 @@ A single module with several concepts that collaborate around payment by country
 #### Validation checklist
 
 - Format: `**Extension** : <Base Concept if any>` when there is inheritance; otherwise a single concept name (see `**Base:Extension**` in `map-model-spec.json` above)
+- **Continual refinement:** phased updates to the same concepts; **`**newly added**`** on new member lines when you want explicit deltas; class diagram re-rendered when `map-model-spec.json` changes materially (see [class-diagram-from-spec.md](class-diagram-from-spec.md))
 - Module has examples: one table per concept, shared scenario, `===` separator
 - Properties, operations, collaborating concepts listed
 - Each concept referenced via `**Concept**` in story map must exist here (see `[story-map.md](story-map.md)`)
@@ -538,60 +636,48 @@ Optional: consolidated **`depends_on`**, rename, or deferrals across walks.
 
 ### Class diagram from `map-model-spec.json`
 
-**When:** During **process phases 4–9** (terms & mechanisms through integrate), whenever you have **materially updated** the domain model in **`map-model-spec.json`**, re-run the generator so the **class diagram file** beside your spec stays aligned with promoted concepts, modules, and **`depends_on`**.
+**When:** During **process phases 4–9** (terms & mechanisms through integrate), whenever you have **materially updated** the domain model in `**map-model-spec.json`**, re-run the generator so the class diagram file beside your spec stays aligned with promoted concepts, modules, and `**depends_on`**.
 
-This is **human visualization**, not validation: Phase **10** (**validate**) still relies on **`python scripts/build.py`** and rule-bound scanners.
+**Continual refinement:** The Draw.io file is the **diagram half** of the same loop described in [domain-model.md](domain-model.md) → **Continual refinement — class definition + diagram**. As you add or tighten **properties**, **operations**, and **relationships** in the spec (and tag **`**newly added**`** in prose when useful), **re-render** so reviewers compare **code + diagram + narrative** in one pass. Do **not** treat the diagram as a one-time export at the end of Integrate unless the model truly did not change after that point.
 
 ---
 
 #### Command (skill package)
 
-From the **abd-maps-models-specs** root (directory that contains `scripts/` and `skill-config.json`), with **`conf/abd-config.json`** pointing at the workspace that contains **`solution.conf`**:
+From the **abd-maps-models-specs** root (directory that contains `scripts/` and `skill-config.json`), with `**conf/abd-config.json`** pointing at the workspace that contains `**solution.conf`**:
 
 ```bash
 python scripts/render_map_model_class_diagram.py
 ```
 
-- **Input:** `<output_dir>/map-model-spec.json` (see [`domain-model.md`](domain-model.md) and your workspace `solution.conf`).
-- **Output:** `<output_dir>/map-model-class-diagram.drawio` — **native diagrams.net XML** (same **`mxfile` / `mxCell`** stack as agile_bots story-map Draw.io), with modules, concepts, members, and **`depends_on`** edges.
+- **Input:** `<output_dir>/map-model-spec.json` (see `[domain-model.md](domain-model.md)` and your workspace `solution.conf`).
+- **Output:** `<output_dir>/map-model-class-diagram.drawio` — **native diagrams.net XML** (same `**mxfile` / `mxCell`** shape as agile_bots story-map Draw.io), with modules, concepts, members, and `**depends_on`** edges. Emitter lives in this skill: `**scripts/map_model_spec_drawio.py**` (keep in sync with `**agile_bots**` `synchronizers.story_io.map_model_spec_drawio` when changing output).
 
-**Prerequisite:** `conf/abd-config.json` must include **`agile_bots_root`** (absolute path to the **agile_bots** repo), or set environment variable **`AGILE_BOTS_ROOT`**. The skill invokes `agile_bots/scripts/render_map_model_drawio.py`.
+**Prerequisite:** `conf/abd-config.json` must set `**active_skill_workspace`** (workspace with `**solution.conf`**) — same as other skill scripts.
+
+##### Optional layout plan (logical, not pixels)
+
+- **`map-model-spec.json`** remains the **source of truth** for classes, members, and edges.
+- Optionally add **`<output_dir>/class-diagram-layout-plan.json`** — **clusters** and **order** only (`schema_version`: `1`). The emitter turns that into x/y (padding, column width, gaps). If the file is missing or invalid, layout falls back to **inheritance tiers + grid** (previous behavior).
+- JSON Schema: `**schemas/class-diagram-layout-plan.schema.json**`. Minimal example: `**examples/class-diagram-layout-plan-minimal.json**`.
+- **Render CLI:** if `class-diagram-layout-plan.json` exists under `<output_dir>`, it is picked up automatically. Use `--no-layout-plan` to force tier+grid only, or `--layout-plan path/to/file.json` to point at a specific file.
 
 Optional path override:
 
 ```bash
-python scripts/render_map_model_class_diagram.py --output path/to/custom-name.drawio
+python scripts/render_map_model_class_diagram.py --out path/to/custom-name.drawio
 ```
 
-Re-running the command **replaces** that file; any layout you applied in diagrams.net is **not** tracked by this skill.
+Re-running the command **replaces** the `.drawio` file. Manual edits in diagrams.net are **not** merged back into the layout-plan JSON; re-publish the JSON when you want the next render to follow a new logical layout.
 
 ---
 
 #### Open in diagrams.net
 
-Open **`map-model-class-diagram.drawio`** in VS Code (Draw.io extension), diagrams.net desktop, or **app.diagrams.net** → **File → Open from…** — no Mermaid import step.
+Open `**map-model-class-diagram.drawio`** in VS Code (Draw.io extension), diagrams.net desktop, or **app.diagrams.net** → **File → Open from…**. The file is native Draw.io XML (editable shapes).
 
 ---
 
-#### Relationship to other tooling
-
-- **agile_bots** **crc_bot** can emit **diagrams from `story-graph.json`** domain concepts — a **different** source than **`map-model-spec.json`**. For **this** skill’s published spec, use **`render_map_model_class_diagram.py`** so the diagram tracks **`modules_and_epics`** and **`depends_on`** in **`map-model-spec.json`** (rendered via **`synchronizers.story_io.map_model_spec_drawio`**).
-- **Story graph** outline/increment diagrams from the story-bot pipeline are **not** this artifact.
-
----
-
-#### Cadence
-
-| Phase slug | Process # | After you… |
-|------------|-------------|------------|
-| `terms-mechanisms` | 4 | Change terms/mechanisms that affect how you think about types (optional diagram; types may not exist yet). |
-| `shaped-story-map` | 5 | Extend or reshape stories that drive promotion (optional). |
-| `domain-types` | 6 | Add or promote **`concepts[]`** — **re-run the command** when the promoted set changes. |
-| `variant-classification` | 7 | Change variant strategy affecting type shape — refresh when useful. |
-| `deepen` | 8 | Add **`depends_on`**, properties, operations — **re-run** so edges and members update. |
-| `integrate` | 9 | Merge or drain queue into final spec — **re-run** before handoff. |
-
-Minimum practical habit: run the command **after** **`domain-types`** when concepts exist, and **again after `deepen` or `integrate`** when collaboration edges change.
 
 
 ## Rules
@@ -675,6 +761,40 @@ Older “cross-cutting resolved” rules assumed a different artifact layout. Th
 ```
 
 `OrderTotal` missing from model after merge—**violation** (broken alignment).
+
+
+### `class-diagram.md`
+
+#### Class diagram: readable layout and edges
+
+**Artifacts:** Emitted **`map-model-class-diagram.drawio`** next to **`map-model-spec.json`** (under workspace `output_dir`, usually `spec/`). Optionally **`class-diagram-layout-plan.json`** in the same folder supplies **logical** clusters and order (no coordinates); the emitter maps that to placement, then scanners run on the `.drawio` as today. Authoring guidance for **manual** layout in Draw.io matches this rule; the pipeline emitter should follow the same conventions when a layout plan is present.
+
+This rule is **partly machine-checked** by `scripts/scanners/class_diagram_layout.py` when the Draw.io file exists: **fails** on duplicate directed edges between the same class pair or overlapping class rectangles; **warns** on self-loops, very high per-class edge count, or extreme edge density (heuristics — not full aesthetic judgment). See also [`class-diagram-from-spec.md`](../../parts/library/class-diagram-from-spec.md).
+
+**Illustrative examples (open in Draw.io):** at the skill root, **`examples/class-diagram-good.drawio`** (readable flow) and **`examples/class-diagram-bad.drawio`** (intentionally crowded: duplicate edges, self-loop, all-to-all). Paths are sibling to **`rules/`** — `examples/…`.
+
+**Intent:** A class diagram should be **readable** along a **primary direction** (left→right and/or top→bottom). **Anchor** the canvas on **entry / scope** concepts; walk **abstract → concrete** and **core aggregates → parts** — do **not** lead with peripheral concepts. **Inheritance** may use angled connectors; **associations** should prefer **orthogonal** segments (horizontal/vertical with 90° corners). Avoid **overlapping** class boxes, **duplicate** connectors between the same pair, **self-loops** except when the model truly requires recursive structure (justify in spec). Prefer **multiple pages** or **swimlanes** over a single dense canvas.
+
+**DO**
+
+- Lay out classes so a reviewer can **follow the story** (e.g. user/session → space → memory → retrieval) in **lanes** or **rows**, not a uniform grid of unrelated neighbors.
+- Route **association** edges with **orthogonal** style where the tool allows; keep **crossing** and **bundle** count low — rearrange nodes before accepting spaghetti.
+- Split **very large** models across **pages** or **diagrams** rather than shrinking everything into one unreadable sheet.
+- After automated render, **adjust** positions and edge waypoints in Draw.io when the scanner or review flags density or overlap.
+
+**DON'T**
+
+- Place **every** class on a **fixed grid** with **default edge routing** only — produces edge soup (see bad example).
+- Add **duplicate** directed edges between the same two classes for the same relationship.
+- Use **self-edges** on ordinary aggregates without a modeled recursive need.
+- Allow **overlapping** class rectangles or **extreme** fan-in/fan-out on a single class without refactoring the diagram or the model.
+
+```text
+Good:  DomainRoot → Aggregate → Part   (primary row)
+       Aggregate → SideConcept         (branch downward)
+
+Bad:   N×M grid + all-pairs edges + duplicate A→B + self-loop on a random hot class
+```
 
 
 ### `naming-module-epic-story.md`

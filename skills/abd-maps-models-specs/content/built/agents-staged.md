@@ -79,7 +79,7 @@ Your terms-and-mechanisms artifacts trace back to `chunk_id`s. Your story map re
 | 4   | Terms & mechanisms (layers 1 & 2) | `**build_terms_mechanisms_scaffold.py`** emits **empty** schema shells; agent authors populate terms, mechanisms, and the candidate queue from context chunks with mandatory `chunk_id` citations per the contract. **Nothing** is promoted to `concepts[]` here. | AI-led | **1.** `python` `[scripts/generate_prompt.py](scripts/generate_prompt.py)` `--phase terms-mechanisms` **2.** `python` `[scripts/build_terms_mechanisms_scaffold.py](scripts/build_terms_mechanisms_scaffold.py)` (also via `build.py`); then author JSON per bundle | `<output_dir>/terms_layer.json`, `mechanisms.json`, `candidate_queue.json` | [terms-mechanisms](content/parts/phases/terms-mechanisms.md) |
 | 5   | Shaped story map                  | Agent authors shaped stories (trigger/response, anchors, evidence links). Outcome: JSON map of capabilities and interactions, not a type catalog.                                                                                                      | AI-led | **1.** `python` `[scripts/generate_prompt.py](scripts/generate_prompt.py)` `--phase shaped-story-map` **2.** Author `shaped_story_map.json` under **`output_dir`** per [shaped-story-map](content/parts/phases/shaped-story-map.md)                                | `shaped_story_map.json` (under **`output_dir`**, e.g. `spec/`)                                       | [shaped-story-map](content/parts/phases/shaped-story-map.md) |
 
-**Class diagram (optional):** Phases **4–9** ship the [class-diagram-from-spec.md](library/class-diagram-from-spec.md) slice in **`generate_prompt`**. Whenever **`map-model-spec.json`** is materially updated, run **`python scripts/render_map_model_class_diagram.py`** from the skill root to emit **native** **`map-model-class-diagram.drawio`** next to the spec (agile_bots **mxfile** pipeline; requires **`agile_bots_root`** in **`conf/abd-config.json`**). Open in diagrams.net / VS Code—human review only—**Phase 10** validation remains **`python scripts/build.py`**.
+**Class diagram:** Phases **4–9** ship the [class-diagram-from-spec.md](library/class-diagram-from-spec.md) slice in **`generate_prompt`**. **`python scripts/build.py`** runs **`scripts/render_map_model_class_diagram.py`** after map-model relationship checks, writing **`<output_dir>/map-model-class-diagram.drawio`** next to **`map-model-spec.json`** (**mxfile** / **mxCell**; vendored **`scripts/map_model_spec_drawio.py`**). Optional **`class-diagram-layout-plan.json`** under **`output_dir`** drives logical cluster layout (see library slice). You can also run **`python scripts/render_map_model_class_diagram.py`** alone with **`--spec`** / **`--out`**. Open in diagrams.net / VS Code for human review—**Phase 10** validation remains the full **`build.py`** pipeline.
 
 ---
 
@@ -91,15 +91,16 @@ You add `concepts[]` only where stories and evidence justify **distinct** behavi
 
 ### What you must do
 
-- **Domain types.** You will run the **promotion gate**: candidate to **concept** with per-type rationale and explicit rejections (for example, “just a property on X”).
-- **Variant classification.** You will write **variant decisions** per family (format is yours to standardize).
+- **Domain types.** You will run the **promotion gate**: for every candidate in `candidate_queue.json`, you **must read source evidence** (shaped story map, original chunk `.md` files, mechanisms) before deciding. Each candidate receives an explicit decision in `promotion_ledger.json` using the 6-decision taxonomy: `promote`, `absorb`, `merge`, `extend`, `defer`, `reject`. No candidate may be silently ignored. See [domain-types.md](content/parts/phases/domain-types.md).
+- **Variant classification.** You will write **variant decisions** per family using the LSP threshold: `enum` when variants share all operations, `separate_concepts` when any variant has distinct behavior. Default bias toward `separate_concepts` when in doubt. Cross-reference the promotion ledger — `extend` decisions constrain variant classification. See [variant-classification.md](content/parts/phases/variant-classification.md).
 - **Deepen.** You will attach responsibilities, cross-type dependencies, and evidence to types in scope. Every substantive claim you add in AI-assisted passes **must** respect `chunk_id` discipline per the contract.
 
 ### What you produce
 
-- A **small promoted set** with clear accept and reject rationale.
+- A **small promoted set** with clear accept and reject rationale, recorded in `promotion_ledger.json`.
 - **Per-family variant rules** before you churn structure.
 - **Deepen** artifacts: responsibilities, `depends_on`, and evidence links for types in scope.
+- **Continually refined** domain concept definitions (prose + `map-model-spec.json`) and a **re-rendered** class diagram when the model changes materially — see [domain-model.md](library/domain-model.md) → **Continual refinement** and [class-diagram-from-spec.md](library/class-diagram-from-spec.md).
 
 ### How you know you succeeded
 
@@ -108,8 +109,8 @@ Your types are explainable at the depth you chose. Variant rules are stable befo
 
 | #   | Phase                       | Summary                                                                                                                                                                                                            | Actor  | Phase automation                                                                                                                                                                                            | Outputs                                  | Ref                                                        |
 | --- | --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------- | ---------------------------------------------------------- |
-| 6   | Domain types (`concepts[]`) | Promote a minimal set of concepts from the candidate queue with per-type rationale and explicit rejections. Outcome: `concepts[]` only where behavior justifies a distinct contract, not a large upfront ontology. | AI-led | `python` `[scripts/generate_prompt.py](scripts/generate_prompt.py)` `--phase domain-types`; then promote per bundle and [domain-types](content/parts/phases/domain-types.md)                                        | Sparse types + rationale                 | [domain-types](content/parts/phases/domain-types.md)                     |
-| 7   | Variant classification      | Decide how each variation family is represented before bulk property assignment. Outcome: written variant decisions per family so structure stays stable through deepen.                                           | AI-led | `python` `[scripts/generate_prompt.py](scripts/generate_prompt.py)` `--phase variant-classification`; then record decisions per bundle and [variant-classification](content/parts/phases/variant-classification.md) | Written variant decisions per family     | [variant-classification](content/parts/phases/variant-classification.md) |
+| 6   | Domain types (`concepts[]`) | Read source evidence (stories, chunks, mechanisms) for each candidate. Decide every candidate via `promotion_ledger.json` (promote/absorb/merge/extend/defer/reject). Outcome: sparse `concepts[]` with full audit trail; no candidate silently ignored. | AI-led | `python` `[scripts/generate_prompt.py](scripts/generate_prompt.py)` `--phase domain-types`; then promote per bundle and [domain-types](content/parts/phases/domain-types.md)                                        | Sparse types + rationale + `promotion_ledger.json` | [domain-types](content/parts/phases/domain-types.md)                     |
+| 7   | Variant classification      | Decide how each variation family is represented (enum vs separate_concepts) using LSP threshold before bulk property assignment. Cross-reference promotion ledger `extend` decisions. Outcome: written variant decisions per family so structure stays stable through deepen. | AI-led | `python` `[scripts/generate_prompt.py](scripts/generate_prompt.py)` `--phase variant-classification`; then record decisions per bundle and [variant-classification](content/parts/phases/variant-classification.md) | Written variant decisions per family     | [variant-classification](content/parts/phases/variant-classification.md) |
 | 8   | Deepen                      | Attach responsibilities, cross-type dependencies, and evidence; write walkthroughs whose **Scope** lists **epic/story[/scenario]** from the story graph; patch **`map-model-spec.json`** from **Gaps** and revisit **`depends_on`** in this phase. Outcome: arguable model + reconciled edges. | AI-led | `python` `[scripts/generate_prompt.py](scripts/generate_prompt.py)` `--phase deepen`; then deepen per bundle and [deepen](content/parts/phases/deepen.md)                                                           | Responsibilities, evidence, `depends_on`, walkthroughs | [deepen](content/parts/phases/deepen.md)                                 |
 
 
@@ -123,7 +124,7 @@ You merge parallel work into **one coherent** map, model, and spec (or a deliber
 
 ### What you must do
 
-- **Integrate.** You will integrate synonyms, repoint references, and merge the story map with types and terms. You will **close** or **defer** remaining candidates with rationale.
+- **Integrate.** You will integrate synonyms, repoint references, and merge the story map with types and terms. You will verify that **every candidate** in `candidate_queue.json` has a corresponding entry in `promotion_ledger.json`. You will **close** or **defer** remaining candidates with rationale.
 - **Validate.** You will run `**python scripts/build.py`** (which executes the [configured pipeline](#what-buildpy-does-for-you) including **rule-bound** automated checks), emit the **bundle manifest** and other pipeline outputs, and run a critic pass against the **principles table** in [principles.md](library/principles.md) (and the phase **Rules** section / `rules/` where relevant) when you add that step to your workflow. You will wire **CI** on your chosen workspace (for example the bundled `test/sample-workspace`) for the scope you care about.
 
 ### What you produce
@@ -139,7 +140,7 @@ Your checks and manifest reproduce for the chosen scope. Your **CI** passes wher
 
 | #   | Phase             | Summary                                                                                                                                                                                                              | Actor    | Phase automation                                                                                                                                                                                                                                                                                 | Outputs                                    | Ref                                          |
 | --- | ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------ | -------------------------------------------- |
-| 9   | Integrate         | Merge synonyms, align references, combine story map with types and terms; close or defer every remaining candidate with rationale. Outcome: one coherent map-model-spec narrative, or a documented deliberate split. | AI-led   | `python` `[scripts/generate_prompt.py](scripts/generate_prompt.py)` `--phase integrate`; then integrate per bundle and [integrate](content/parts/phases/integrate.md)                                                                                                                                    | Drained candidate queue → `map-model-spec` | [integrate](content/parts/phases/integrate.md)             |
+| 9   | Integrate         | Merge synonyms, align references, combine story map with types and terms; verify every candidate in queue has a `promotion_ledger.json` entry; close or defer remaining candidates with rationale. Outcome: one coherent map-model-spec narrative with fully drained candidate queue. | AI-led   | `python` `[scripts/generate_prompt.py](scripts/generate_prompt.py)` `--phase integrate`; then integrate per bundle and [integrate](content/parts/phases/integrate.md)                                                                                                                                    | Drained candidate queue → `map-model-spec` | [integrate](content/parts/phases/integrate.md)             |
 | 10  | Validate | Reproducible validation and reporting: full `**build.py`** pipeline (see below), bundle manifest, rule-example lint; wire CI in your host when you want automated runs.                                              | Code-led | **1.** `python` `[scripts/generate_prompt.py](scripts/generate_prompt.py)` `--phase validate` **2.** `python` `[scripts/build.py](scripts/build.py)` (full pipeline); includes `scripts/generate_context_bundle_manifest.py` per [validate](content/parts/phases/validate.md) | CI checks, manifest, pipeline outputs      | [validate](content/parts/phases/validate.md) |
 
 
@@ -162,7 +163,7 @@ Same idea as **abd-story-synthesizer** ("validation uses **rules**; automation b
 `**python scripts/build.py`** (full pipeline) runs **1** then the ordered list in `**skill-config.json`** → `**operator.build_pipeline`** (default matches this skill's standard emitters, **rule-bound** scanners from [scanners.json](../../rules/scanners.json), manifest, rule-example lint):
 
 1. `**MapsContentAssembler`** — merges this file and `phases/*.md` into `**content/built/agents-staged.md`** and `**AGENTS.md`**; writes `**content/built/phases/<slug>.md`** (and `**content/built/README.md**`). See [built/phases/README.md](content/built/phases/README.md) and [content/built/README.md](content/built/README.md).
-2. Remaining entries in `**build_pipeline**` — typically: context index contract (rule **stage-1-context-decisions**), Phase 2 artifact emit, pipeline-output presence check, shaped story map evidence (rule **shaped-story-shape**), map-model-spec chunk citations (rule **evidence-citations-required**), **`depends_on` / `module.depends_on` resolution** (rule **map-model-relationships**), bundle manifest, `**test_rule_examples.py`**.
+2. Remaining entries in `**build_pipeline**` — typically: context index contract (rule **stage-1-context-decisions**), Phase 2 artifact emit, pipeline-output presence check, shaped story map evidence (rule **shaped-story-shape**), map-model-spec chunk citations (rule **evidence-citations-required**), **`depends_on` / `module.depends_on` resolution** (rule **map-model-relationships**), **`render_map_model_class_diagram.py`** → `<output_dir>/map-model-class-diagram.drawio` (see [class-diagram-from-spec.md](library/class-diagram-from-spec.md)), bundle manifest, `**test_rule_examples.py`**.
 
 **Authors** produce `chunks/` and `context_index.json` outside this script (canonical context). When those files exist, the pipeline's context-index step enforces [context-spec.md](library/context-spec.md) per **stage-1-context-decisions**.
 
@@ -461,49 +462,53 @@ Treat this as a **hard gate** before later stages cite `**chunk_id`**.
 
 ## Terms & mechanisms (layers A & B)
 
-
-
 **Goal:** Glossary and **named processes** exist **before** sparse `concepts[]`.
 
-
-
-**Normative for Phase 2:** this document. [`process.md`](content/parts/process.md) is pipeline **summary** only (table row)—not the procedure.
-
-
+**Normative for Phase 4:** this document. [`process.md`](content/parts/process.md) is pipeline **summary** only (table row)—not the procedure.
 
 ## Actor
 
-
-
 **Code** runs `scripts/build_terms_mechanisms_scaffold.py`, which writes **empty** `terms[]`, `mechanisms[]`, and `candidates[]` JSON files (schema shells only). **Human / AI** author all substantive content and cite evidence per the contract.
 
-
-
 ## What this phase produces
-
-
 
 - **Terms** — surface vocabulary + chunk links; not classes.
 
 - **Mechanisms** — named workflows/lifecycles: **description**, **evidence**, and **`realized_by`** pointing at **shaped story map** paths. **Procedural `steps[]`** live on **stories** in `shaped_story_map.json`, not duplicated in `mechanisms.json` ([`terms-mechanisms-contract.md`](content/parts/library/terms-mechanisms-contract.md)).
 
-- **Candidate queue** — “possible type” with rationale; **not** in `concepts[]` yet.
+- **Candidate queue** — "possible type" with rationale; **not** in `concepts[]` yet.
 
+## Candidate extraction (mandatory)
 
+After terms and mechanisms are authored, **sweep every evidence chunk** in `context_index.json` to populate `candidate_queue.json`. This is not optional — the candidate queue feeds the domain-types phase and must be comprehensive.
+
+**Extraction procedure:**
+
+1. For each chunk in `context_index.json`, read the chunk `.md` body text.
+
+2. Extract every **noun that holds state, makes a decision, is acted upon, or owns a boundary** in the natural language of the evidence content. This is content-agnostic — chunks may be narrative, API spec, interview transcript, rules, definitions, or any other form.
+
+3. Deduplicate against existing `terms_layer.json` entries and previously extracted candidates.
+
+4. For each extracted entity, record in `candidate_queue.json`:
+   - `name` — the entity name
+   - `source_chunks[]` — all chunk IDs where this entity appears
+   - `extraction_rationale` — why this entity might be a domain concept (what behavior or state it exhibits in the evidence)
+   - `modeling_kind_composition` — the `modeling_kind` breakdown of its source chunks (e.g., `{"rule": 3, "example": 1}`)
+
+5. Also extract candidates from `mechanisms.json` — every entity **named** in a mechanism description or `realized_by` path that is not yet a term or candidate.
+
+6. Also extract candidates from `shaped_story_map.json` — every `anchor`, entity in `trigger`/`response`, or concept referenced in `steps[]` that is not yet a term or candidate.
+
+**Completeness check:** No entity that appears in a mechanism description or shaped story map anchor should be absent from both `terms_layer.json` and `candidate_queue.json` after this step.
 
 ## Exit
 
-
-
-Promotion rule written: **candidate → concept** only through the **domain-types** gate (Phase 4)—not by renaming a mention or string co-occurrence.
-
-
+Promotion rule written: **candidate → concept** only through the **domain-types** gate (Phase 6)—not by renaming a mention or string co-occurrence.
 
 **Outputs:** `<workspace>/<output_dir>/terms_layer.json`, `mechanisms.json`, `candidate_queue.json`.
 
-
-
-**Implementation notes:** [`terms-mechanisms-contract.md`](content/parts/library/terms-mechanisms-contract.md) (includes **inputs**, **`chunk_id` citation**, and **mechanism ↔ story map** linkage).
+**Implementation notes:** [`terms-mechanisms-contract.md`](content/parts/library/terms-mechanisms-contract.md) (includes **inputs**, **`chunk_id` citation**, **mechanism ↔ story map** linkage, and **candidate queue population contract**).
 
 
 ---
@@ -565,64 +570,106 @@ Story map validated; **domain types** (`concepts[]`) follow after the shaped sto
 
 ## Domain types (`concepts[]`)
 
+**Goal:** **Sparse** types grounded in **full behavioral evidence**; **reject gate** ("not just a property on a broader type").
 
+**Normative for Phase 6:** this document. [`process.md`](content/parts/process.md) is pipeline **summary** only (table row)—not the procedure.
 
-**Goal:** **Sparse** types; **reject gate** (“not just a property on a broader type”).
+## Prerequisite
 
-
-
-**Normative for Phase 4:** this document. [`process.md`](content/parts/process.md) is pipeline **summary** only (table row)—not the procedure.
-
-
+`candidate_queue.json` must be **populated** by the mandatory candidate extraction sweep (see [terms-mechanisms.md](content/parts/phases/terms-mechanisms.md) — Candidate extraction). An empty queue means extraction was skipped — do not proceed.
 
 ## Steps
 
+### Step 0 — Read source evidence (mandatory before any decision)
 
+For **each candidate** in the queue, before deciding its fate:
 
-1. Promote candidates through **explicit** domain-types gate only (no string co-occurrence shortcuts).
+1. **Read `shaped_story_map.json`** — find every story where the candidate appears in `anchor`, `trigger`, `response`, `steps[]`, or `term_refs`. Read the full story context: what actor triggers it, what state the anchor describes, what steps the process follows. Stories reveal behavioral participation that the candidate name alone cannot convey.
 
-2. Record **per-type rationale**; keep type count tractable for the fixture depth.
+2. **Read the original chunk `.md` files** — for every `evidence_chunk_id` cited on the candidate (from the candidate queue, from mechanisms, from the story map), **open and read the actual markdown body**. The chunk text contains domain language, entities, verbs, and relationships that JSON metadata summaries cannot capture. Do not make promotion decisions based on chunk IDs or previews alone.
 
-3. Align prose and JSON with [`domain-model.md`](content/parts/library/domain-model.md) (modules, properties, **`Base:Extension`** in `concepts[].name` for inheritance — no separate `extends` field — examples).
+3. **Read `mechanisms.json`** — find any mechanism whose description names the candidate or whose `realized_by` paths include stories that reference the candidate. Mechanism participation is strong evidence of behavioral contract.
 
+### Step 1 — Decide each candidate via the promotion ledger
 
+Every candidate **must** receive an explicit decision. No candidate may be silently ignored. Record each decision in `promotion_ledger.json` (see [domain-model.md](content/parts/library/domain-model.md) — Promotion ledger).
+
+**Decision taxonomy:**
+
+| Decision | When to use | Action on `map-model-spec.json` |
+|---|---|---|
+| **`promote`** | Entity holds state, makes decisions, has a distinct lifecycle, or owns a behavioral boundary | Add to `concepts[]` with `owns` sentence, evidence chunks, rationale |
+| **`absorb`** | Entity is real but has no independent lifecycle — it is a property or operation on an existing concept | Add as property/operation on the absorbing concept; ledger records which concept absorbed it and why |
+| **`merge`** | Identity match — same entity, different names. One name survives; the other becomes a synonym | Keep one concept; add alias to `terms_layer.json`; ledger records merge rationale |
+| **`extend`** | Specialization — entity is a subtype with distinct behavior that justifies inheritance | Promote child with `Base:Extension` naming and shared `owns`/evidence on subtype; ledger records LSP justification |
+| **`defer`** | Insufficient evidence today — but specific trigger for revisiting | Move to deferred section with trigger: "promote when [specific evidence arrives]" |
+| **`reject`** | True noise — not a domain entity at all (UI label, implementation detail, etc.) | Ledger records reason; no model change |
+
+**`modeling_kind` weighting (from `context_index.json`):**
+
+Each candidate's `source_chunks[]` carry `modeling_kind` from the context index. Use the composition to bias decisions:
+
+- **Rule-backed** (majority `rule` or `definition` chunks): default bias toward **promote** unless specific absorb/merge/extend rationale exists.
+- **Definition-backed** (only `definition`, no `rule`): default bias toward **absorb as term** or **promote** if mechanism coverage exists.
+- **Example-only** (all chunks are `example`): default bias toward **defer** — examples illustrate but do not establish behavioral contracts.
+- **Mixed** (rule + example): treat as **rule-backed**.
+
+### Step 2 — Record per-type rationale
+
+For each promoted concept, record rationale grounded in the evidence you read in Step 0. Keep type count tractable for the fixture depth.
+
+### Step 3 — Align with domain-model contract
+
+Align prose and JSON with [`domain-model.md`](content/parts/library/domain-model.md) (modules, properties, **`Base:Extension`** in `concepts[].name` for inheritance — no separate `extends` field — examples).
+
+**Continual refinement:** For each **promoted** or **absorbed-as-member** concept, **start** the domain-model **class-shaped** block (heading + properties/operations) **where evidence allows** a typed line. Where you only have **`owns`** / rationale, **do not** force placeholder operations — Deepen will fold those into the [domain concept format](content/parts/library/domain-model.md#domain-concept). When you **do** add new property/operation lines in this phase, you may suffix **`**newly added**`** on those lines (first appearance in the model narrative).
+
+## Output
+
+- **`promotion_ledger.json`** — persisted alongside `map-model-spec.json`; every candidate from the queue has an entry.
+- **Updated `map-model-spec.json`** — promoted concepts added to `concepts[]`; absorbed entities added as properties/operations; merged concepts aliased.
 
 ## Exit
 
-
-
-Type count and rationale remain reviewable for the chosen workspace depth.
+- Every candidate in `candidate_queue.json` has a corresponding entry in `promotion_ledger.json`.
+- Type count and rationale remain reviewable for the chosen workspace depth.
+- No candidate was decided without reading its associated stories, chunk files, and mechanisms (Step 0).
 
 
 ---
 
 ## Variant classification
 
+**Goal:** Per family: **enum vs `extends`** **before** property churn. Default bias toward **`separate_concepts`** when evidence shows distinct behavioral contracts.
 
-
-**Goal:** Per family: **enum vs `extends`** **before** property churn.
-
-
-
-**Normative for Phase 5:** this document. [`process.md`](content/parts/process.md) is pipeline **summary** only (table row)—not the procedure.
-
-
+**Normative for Phase 7:** this document. [`process.md`](content/parts/process.md) is pipeline **summary** only (table row)—not the procedure.
 
 ## Steps
-
-
 
 1. For each variant family, record the **decision**: enum vs subtypes vs other **before** bulk property assignment.
 
 2. Align with **Explicit variant representation** in [`principles.md`](content/parts/library/principles.md) / plan principles table.
 
+3. **Apply the LSP threshold for `separate_concepts` vs `enum`:**
 
+   | Signal | Decision |
+   |---|---|
+   | Variants share **all** operations and state — only a label differs | `enum` on the parent concept |
+   | Variants share **most** operations but **one or more** have unique state, operations, or lifecycle | `separate_concepts` with `extends` (Base:Extension naming) |
+   | Variants have **no shared** operations — grouping is naming convenience only | `separate_concepts` as siblings (no inheritance) |
+   | Insufficient evidence to distinguish | `defer` with trigger condition |
+
+   **Bias:** When in doubt between `enum` and `separate_concepts`, prefer `separate_concepts`. It is cheaper to later collapse two concepts into an enum than to retroactively split an enum into concepts that needed distinct behavior all along. Record the specific behavioral difference that justifies `separate_concepts` in the `rationale` field of `variant_classification.json`.
+
+4. **Cross-reference the promotion ledger:** If a candidate was decided as `extend` in the promotion ledger (see [domain-types.md](content/parts/phases/domain-types.md)), the variant classification **must** be `separate_concepts` — not `enum`. The ledger decision takes precedence.
 
 ## Exit
 
-
-
-Written **variant decision** per family before bulk modeling.
+Written **variant decision** per family before bulk modeling. Each decision records:
+- The variant family name
+- The chosen representation (`enum`, `separate_concepts`, `defer`)
+- LSP-grounded rationale (which behavioral differences justify the choice)
+- Cross-reference to promotion ledger entries when applicable
 
 
 ---
@@ -645,6 +692,8 @@ Written **variant decision** per family before bulk modeling.
 
 1. Attach evidence citations to approved types; citations **support** claims—they do not **auto-create** types.
 
+1b. **Refine class definitions:** Move narrative-only responsibilities toward the [domain concept format](content/parts/library/domain-model.md#domain-concept) — **`- <type> property`** and **`- <type> operation(<param>, ...) → <return>`** with collaborating concepts and **Invariant:** lines where checkable. Mark **`**newly added**`** immediately after each property or operation line **first introduced in this Deepen pass** (or state “unchanged” if the pass only added evidence/`depends_on`).
+
 2. Model `depends_on` where appropriate (acyclic, reviewable). Pin collaborations to **properties** and **operations** once those exist; optional **`concept.depends_on`** only as a **subset** of member-level peers (see **`domain-model.md`** → map-model-spec relationships, rule **`map-model-relationships`**).
 
 3. **Scenario walkthroughs + relationship pass (when in scope):** Author object-flow walkthroughs per **`scenario-walkthrough-template.md`** (**Scope** = epic/story[/scenario] set from the graph files). After each walkthrough’s **Gaps** section, **update `map-model-spec.json`** for in-scope findings ( **`depends_on`**, responsibilities, evidence) per **`scenario-walkthrough-update-spec-on-gap`**, or record deferrals in **`open_questions`** / the candidate queue. **Revisit Step 2** if walks added or changed collaborations. This is the **same Deepen phase** — not deferred to Integrate for first-time edges.
@@ -664,33 +713,27 @@ Every type has **evidence** citations; relationships follow explicit gates from 
 
 ## Integrate
 
-
-
 **Goal:** Synonyms, repointing, **drain candidate queue** into final `map-model-spec` (or split artifacts if story map stays separate).
 
-
-
-**Normative for Phase 7:** this document. [`process.md`](content/parts/process.md) is pipeline **summary** only (table row)—not the procedure.
-
-
+**Normative for Phase 9:** this document. [`process.md`](content/parts/process.md) is pipeline **summary** only (table row)—not the procedure.
 
 ## Steps
 
-
-
 1. Reconcile synonyms and duplicate references.
 
-2. Move approved candidates from the queue into `concepts[]` / final spec per promotion rules.
+2. **Verify candidate queue is fully drained.** Every entry in `candidate_queue.json` must have a corresponding entry in `promotion_ledger.json` with one of: `promote`, `absorb`, `merge`, `extend`, `defer`, `reject`. If any candidate lacks a ledger entry, resolve it now using the decision taxonomy from [domain-types.md](content/parts/phases/domain-types.md).
 
-3. Keep **domain narrative** and **story map** aligned when both artifacts exist.
+3. For `defer` entries: verify the trigger condition is documented and actionable. If new evidence arrived during later phases, re-evaluate deferred candidates.
 
+4. Keep **domain narrative** and **story map** aligned when both artifacts exist.
 
+5. **Final pass on class-shaped prose:** Reconcile any remaining gaps between `map-model-spec.json` and the module **domain concept** blocks per [domain-model.md](content/parts/library/domain-model.md). Remove stale **`**newly added**`** markers if you are cutting a **release** snapshot (optional); otherwise leave them for one review cycle. Re-run **`render_map_model_class_diagram.py`** if the spec changed in this phase.
 
 ## Exit
 
-
-
-Single coherent map-model-spec (or documented split) ready for validation.
+- Single coherent map-model-spec (or documented split) ready for validation.
+- `promotion_ledger.json` has an entry for every candidate in the queue — no orphans.
+- All `defer` entries have documented trigger conditions.
 
 
 ---

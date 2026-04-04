@@ -1,23 +1,45 @@
 #!/usr/bin/env python3
+# =============================================================================
+# GENERATED FILE — DO NOT EDIT MANUALLY
+# Canonical source: src/drawio/model_to_drawio.py
+# Regenerate from repo root: python scripts/sync_drawio_vendor.py
+# Generated at: 2026-04-02T14:30:24+00:00
+# =============================================================================
 """
-Generate DrawIO class diagrams from domain-model.md.
+CANONICAL SOURCE — edit only in agilebydesign-skills/src/drawio/model_to_drawio.py
 
-Parses the domain model format:
+Copies under skills/*/scripts/ are generated; do not edit them by hand.
+Regenerate: python scripts/sync_drawio_vendor.py (from repo root)
+
+Generate DrawIO UML class diagrams.
+
+Primary input — **map-model-spec.json** (e.g. ``abd-answers/spec/map-model-spec.json``):
+  - ``modules_and_epics`` → modules with ``concepts`` (``name``, optional ``Base:Subtype`` in ``name``,
+    ``properties``, ``operations``).
+  - Optional ``cross_module_relationships``: ``{from, to, type}``.
+
+Optional **class-diagram-layout-plan.json** (same directory as spec or passed explicitly):
+  - Logical clusters and flow only (no x/y); emitter assigns geometry. If absent or invalid,
+    layout falls back to tier + grid from inheritance.
+
+Alternate input — **domain-model.md** (markdown, for other workspaces / legacy):
   # Module: X
   ## ClassName : BaseClass
   - property : Type
   - operation() → ReturnType
+  Plus the Relationships table for edges.
 
-And the Relationships table for edges.
-
-Usage:
-  python model_to_drawio.py <domain-model.md> [--output <file.drawio>]
+Usage (ABD Answers — JSON only):
+  python model_to_drawio.py path/to/map-model-spec.json [-o map-model-classes.drawio]
 """
 
 import argparse
+import json
 import re
 import sys
+import xml.etree.ElementTree as ET
 from pathlib import Path
+from typing import Any
 
 # Add scripts dir for drawio_tools import
 _scripts = Path(__file__).resolve().parent
@@ -36,6 +58,8 @@ from drawio_tools import (
     next_id,
     calc_cell_height,
 )
+
+from layout_plan import compute_positions_from_plan, load_layout_plan
 
 
 # Domain model format: - name : Type or - name : Type (desc)
@@ -153,11 +177,165 @@ def parse_domain_model(content: str):
     return modules, relationships
 
 
+def _format_prop_item(p):
+    if isinstance(p, str):
+        return p
+    if isinstance(p, dict):
+        n = (p.get("name") or "").strip()
+        t = (p.get("type") or "").strip()
+        return f"{n} : {t}" if t else n
+    return str(p)
+
+
+def _format_op_item(o):
+    if isinstance(o, str):
+        return o
+    if isinstance(o, dict):
+        name = (o.get("name") or o.get("signature") or "").strip()
+        ret = (o.get("return") or o.get("returns") or "").strip()
+        if name and ret:
+            return f"{name} → {ret}"
+        return name or str(o)
+    return str(o)
+
+
+def _depends_on_targets(obj: dict[str, Any]) -> list[str]:
+    out: list[str] = []
+    for d in obj.get("depends_on") or []:
+        if isinstance(d, dict):
+            c = d.get("concept")
+            if c:
+                t = str(c).strip()
+                if t:
+                    out.append(t)
+    return out
+
+
+def parse_map_model_spec_data(data: dict[str, Any]) -> tuple[list, list]:
+    """Parse map-model-spec dict into modules + relationships (same as JSON file load)."""
+    modules = []
+    relationships: list[dict[str, str]] = []
+    dep_seen: set[tuple[str, str]] = set()
+
+    def add_dependency(frm: str, to: str) -> None:
+        key = (frm, to)
+        if key in dep_seen:
+            return
+        dep_seen.add(key)
+        relationships.append({"from": frm, "to": to, "type": "dependency"})
+
+    for block in data.get("modules_and_epics") or []:
+        mod_data = block.get("module") or {}
+        mod_name = (mod_data.get("name") or "").strip()
+        if not mod_name:
+            continue
+        mod = {"name": mod_name, "concepts": []}
+        for raw in mod_data.get("concepts") or []:
+            raw_name = (raw.get("name") or "").strip()
+            if not raw_name:
+                continue
+            base = None
+            display_name = raw_name
+            if ":" in raw_name:
+                parent, child = raw_name.split(":", 1)
+                parent, child = parent.strip(), child.strip()
+                if parent and child:
+                    base = parent
+                    display_name = child
+                    relationships.append(
+                        {"from": parent, "to": child, "type": "inheritance"}
+                    )
+            concept = {
+                "name": display_name,
+                "base": base,
+                "properties": [_format_prop_item(p) for p in raw.get("properties") or []],
+                "operations": [_format_op_item(o) for o in raw.get("operations") or []],
+                "stereotype": raw.get("stereotype"),
+            }
+            mod["concepts"].append(concept)
+
+            for tgt in _depends_on_targets(raw):
+                add_dependency(display_name, tgt)
+            for p in raw.get("properties") or []:
+                if isinstance(p, dict):
+                    for tgt in _depends_on_targets(p):
+                        add_dependency(display_name, tgt)
+            for o in raw.get("operations") or []:
+                if isinstance(o, dict):
+                    for tgt in _depends_on_targets(o):
+                        add_dependency(display_name, tgt)
+        modules.append(mod)
+
+    for rel in data.get("cross_module_relationships") or []:
+        if not isinstance(rel, dict):
+            continue
+        frm = (rel.get("from") or "").strip()
+        to = (rel.get("to") or "").strip()
+        rtype = (rel.get("type") or "association").strip()
+        if frm and to:
+            relationships.append({"from": frm, "to": to, "type": rtype})
+
+    return modules, relationships
+
+
+def load_map_model_spec_json(path: Path):
+    """Load abd map-model-spec.json (modules_and_epics) into modules + relationships.
+
+    Concept names may use ``Base:Subtype`` (one colon): first segment is the parent type,
+    second is the class name shown on the diagram; an inheritance edge is added.
+    ``depends_on`` on concepts, properties, or operations becomes UML dependency edges.
+    Optional top-level ``cross_module_relationships``: list of {from, to, type}.
+    """
+    data = json.loads(path.read_text(encoding="utf-8"))
+    return parse_map_model_spec_data(data)
+
+
 def props_ops_for_drawio(concept):
     """Convert concept to DrawIO format: + name : Type and + op() → Return."""
     props = [f"+ {p}" for p in concept["properties"]]
     ops = [f"+ {o}" for o in concept["operations"]]
     return props, ops
+
+
+def _concept_cell_height(concept) -> float:
+    props, ops = props_ops_for_drawio(concept)
+    return float(calc_cell_height(len(props), len(ops), 0))
+
+
+def _tier_grid_positions(modules, relationships) -> dict[str, tuple[float, float]]:
+    """Default layout: inheritance tiers, grid within each tier."""
+    tiers = _compute_tiers(modules, relationships)
+    tier_to_concepts = {}
+    for mod in modules:
+        for concept in mod["concepts"]:
+            t = tiers.get(concept["name"], 0)
+            tier_to_concepts.setdefault(t, []).append(concept)
+
+    positions: dict[str, tuple[float, float]] = {}
+    col_width = 280
+    min_row_height = 100
+    cols_per_row = 5
+    tier_gap = 60
+    start_x, start_y = 40, 40
+
+    bottom_y = start_y
+    for tier in sorted(tier_to_concepts.keys()):
+        concepts = tier_to_concepts[tier]
+        y = bottom_y
+        x = start_x
+        row_max_h = 0
+        for j, concept in enumerate(concepts):
+            props, ops = props_ops_for_drawio(concept)
+            h = calc_cell_height(len(props), len(ops), 0)
+            row_max_h = max(row_max_h, h)
+            positions[concept["name"]] = (float(x), float(y))
+            x += col_width
+            if (j + 1) % cols_per_row == 0:
+                x = start_x
+                y += max(min_row_height, row_max_h) + 20
+                row_max_h = 0
+        bottom_y = y + max(min_row_height, row_max_h) + tier_gap
+    return positions
 
 
 def _compute_tiers(modules, relationships):
@@ -194,56 +372,36 @@ def _compute_tiers(modules, relationships):
     return name_to_tier
 
 
-def generate_drawio(modules, relationships, output_path):
-    """Create DrawIO file with one page containing all classes and edges.
-    Layout: hierarchy flow (bases at top, children below), no overlaps."""
+def _build_domain_mxfile(modules, relationships, layout_plan: dict | None = None):
+    """Build mxfile element tree: UML class cells + edges (same as map-model / domain model)."""
     mxfile = create_empty_mxfile()
     add_page(mxfile, "Domain Model")
     _, root = get_page(mxfile, "Domain Model")
 
-    tiers = _compute_tiers(modules, relationships)
-    # Group concepts by tier, preserve order within tier
-    tier_to_concepts = {}
-    for mod in modules:
-        for concept in mod["concepts"]:
-            t = tiers.get(concept["name"], 0)
-            tier_to_concepts.setdefault(t, []).append(concept)
+    positions: dict[str, tuple[float, float]]
+    if layout_plan:
+        planned = compute_positions_from_plan(modules, layout_plan, _concept_cell_height)
+        positions = planned if planned is not None else _tier_grid_positions(modules, relationships)
+    else:
+        positions = _tier_grid_positions(modules, relationships)
 
     name_to_id = {}
-    col_width = 280
-    min_row_height = 100
-    cols_per_row = 5
-    tier_gap = 60
-    start_x, start_y = 40, 40
-
-    bottom_y = start_y
-    for tier in sorted(tier_to_concepts.keys()):
-        concepts = tier_to_concepts[tier]
-        y = bottom_y
-        x = start_x
-        row_max_h = 0
-        for j, concept in enumerate(concepts):
+    for mod in modules:
+        for concept in mod["concepts"]:
+            nm = concept["name"]
+            x, y = positions[nm]
             props, ops = props_ops_for_drawio(concept)
-            h = calc_cell_height(len(props), len(ops), 0)
-            row_max_h = max(row_max_h, h)
             cell = create_class_cell(
                 root,
-                concept["name"],
+                nm,
                 base=concept.get("base"),
                 properties=props,
                 operations=ops,
                 x=x,
                 y=y,
             )
-            name_to_id[concept["name"]] = cell.get("id")
-            x += col_width
-            if (j + 1) % cols_per_row == 0:
-                x = start_x
-                y += max(min_row_height, row_max_h) + 20
-                row_max_h = 0
-        bottom_y = y + max(min_row_height, row_max_h) + tier_gap
+            name_to_id[nm] = cell.get("id")
 
-    # Add edges from Relationships table
     for rel in relationships:
         from_name, to_raw, rel_type = rel["from"], rel["to"], rel["type"].lower()
         to_names = [n.strip() for n in to_raw.split(",")]
@@ -256,7 +414,6 @@ def generate_drawio(modules, relationships, output_path):
             tgt_cell = find_cell_by_name(root, to_name)
             if src_cell is None or tgt_cell is None:
                 continue
-            # Inheritance: UML arrow child->parent. Table has From=parent, To=child.
             if edge_type == "inheritance":
                 src_id, tgt_id = tgt_cell.get("id"), src_cell.get("id")
             else:
@@ -266,13 +423,47 @@ def generate_drawio(modules, relationships, output_path):
             except ValueError:
                 pass
 
+    return mxfile
+
+
+def generate_drawio(modules, relationships, output_path, layout_plan: dict | None = None):
+    """Create DrawIO file with one page containing all classes and edges.
+
+    With ``layout_plan``, uses cluster geometry; otherwise tier + grid (inheritance order).
+    """
+    mxfile = _build_domain_mxfile(modules, relationships, layout_plan=layout_plan)
     save_drawio(output_path, mxfile)
     return output_path
 
 
+def map_model_spec_to_drawio_xml(spec: dict[str, Any], layout_plan: dict | None = None) -> str:
+    """map-model-spec dict → Draw.io XML string (UML class diagram, not story-map styling)."""
+    modules, relationships = parse_map_model_spec_data(spec)
+    mxfile = _build_domain_mxfile(modules, relationships, layout_plan=layout_plan)
+    return ET.tostring(mxfile, encoding="unicode", xml_declaration=True)
+
+
+def write_map_model_class_diagram(
+    spec_path: Path, out_path: Path, layout_plan_path: Path | None = None
+) -> None:
+    """map-model-spec.json path → `.drawio` file (UML class diagram).
+
+    Optional ``layout_plan_path``: JSON logical layout (``schema_version`` 1). Missing file → tier grid.
+    """
+    modules, relationships = load_map_model_spec_json(spec_path)
+    plan = load_layout_plan(layout_plan_path) if layout_plan_path else None
+    generate_drawio(modules, relationships, out_path, layout_plan=plan)
+
+
 def main():
-    parser = argparse.ArgumentParser(description="Generate DrawIO from domain-model.md")
-    parser.add_argument("model", type=Path, help="Path to domain-model.md")
+    parser = argparse.ArgumentParser(
+        description="Generate DrawIO class diagrams from map-model-spec.json (or domain-model.md)"
+    )
+    parser.add_argument(
+        "model",
+        type=Path,
+        help="Path to map-model-spec.json (preferred) or domain-model.md",
+    )
     parser.add_argument("--output", "-o", type=Path, default=None, help="Output .drawio path")
     args = parser.parse_args()
 
@@ -281,11 +472,16 @@ def main():
         print(f"Error: {model_path} not found", file=sys.stderr)
         sys.exit(1)
 
-    output_path = args.output or model_path.parent / "domain-class-diagram.drawio"
-    output_path = output_path.resolve()
+    suffix = model_path.suffix.lower()
+    if suffix == ".json":
+        modules, relationships = load_map_model_spec_json(model_path)
+        default_out = model_path.parent / "map-model-classes.drawio"
+    else:
+        content = model_path.read_text(encoding="utf-8")
+        modules, relationships = parse_domain_model(content)
+        default_out = model_path.parent / "domain-class-diagram.drawio"
 
-    content = model_path.read_text(encoding="utf-8")
-    modules, relationships = parse_domain_model(content)
+    output_path = (args.output or default_out).resolve()
 
     total_concepts = sum(len(m["concepts"]) for m in modules)
     print(f"Parsed {len(modules)} modules, {total_concepts} classes, {len(relationships)} relationships")

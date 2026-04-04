@@ -1,0 +1,28 @@
+---
+chunk_id: blk_b5de0e33bbbc
+source:
+  canonical_path: context/HeroesHandbook.md
+  line_start: 31674
+  line_end: 31693
+evidence_type: rule
+modeling_kind: rule
+---
+SURVIVAL GEAR
+
+Handcuffs: Handcuffs are restraints designed to lock two
+limbs—normally the wrists—of a prisoner together. They
+fit any medium or small humanoid. Handcuffs can only be
+placed on a defenseless or unresisting target. Steel cuffs
+have Toughness 9 and are DC 20 to escape using Sleight
+of Hand (or Technology to pick the lock).
+
+Lock Release Gun: This small, pistol-like device automati-
+cally disables and opens cheap and average mechanical
+locks operated by standard keys as a routine check. It does
+not affect other locks.
+
+Restraints: Similar to handcuffs are plastic restraints, used in
+cases where authorities need to restrain a large number of
+people and cuffs are impractical. They are generally Tough-
+ness 5 or so and DC 20 to escape with Sleight of Hand but
+cannot be removed except by cutting or breaking them.

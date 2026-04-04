@@ -7,18 +7,17 @@
 - **You must** ensure later work can cite `**chunk_id`** rows that exist on disk and in the index.
 - **You must not** invent files or leave mystery sources
 
-**Skill workspace:** **You will** treat the folder that contains `**solution.conf`** (selected by `**conf/abd-config.json` → `active_skill_workspace`**) as the root for every path in `**solution.conf`**—the same rules `**scripts/_config.py**` uses.
+**Project workspace:** **You will** treat the folder that contains `**solution.conf`** (the absolute path in `**conf/abd-config.json**` → `**active_skill_workspace**` only) as the root for every path in `**solution.conf`**—the same rules `**scripts/_config.py**` uses. That path is **not** under the skill package unless you deliberately put it there.
 
 ---
 
 ## Phase automation (emit)
 
-All paths are under the **abd-maps-models-specs** skill package (the folder that contains `scripts/` and `conf/`).
-
+Run Python scripts from the **abd-maps-models-specs** skill package (the folder that contains `scripts/` and `conf/`). **Outputs** (chunks, index, spec trees) resolve under the **project workspace** from `active_skill_workspace`, not under the skill package unless that path points there.
 
 | Script                                | Purpose                                                                                         |
 | ------------------------------------- | ----------------------------------------------------------------------------------------------- |
-| `**python scripts/build_context.py`** | Emit `chunks/*.md` and `context_index.json`. Optional: `--dry-run`, `--config <solution.conf>`. |
+| `**python scripts/build_context.py`** | Emit chunk `*.md` and `context_index.json` under `context_path` (flat). Optional: `--dry-run`, `--config <solution.conf>`. |
 
 
 Segmentation matches `**skills/abd-context-to-memory/scripts/chunk_markdown.py**`; implementation lives in `**scripts/context_chunk_from_memory.py**`. **Full schema** (front matter, index, manifest): [context-spec.md](../library/context-spec.md).
@@ -44,7 +43,7 @@ Work happens **in this order**: **code** (emit) → **AI** (coherence) → **cod
 
 **Outputs (under `<workspace>/<context_path>/`):**
 
-- `**chunks/{chunk_id}.md`** — one file per chunk; YAML front matter + body per [context-spec.md](../library/context-spec.md).
+- `**{chunk_id}.md`** — one file per chunk beside the index; YAML front matter + body per [context-spec.md](../library/context-spec.md).
 - `**context_index.json`** — `spec_version`, `**manifest**` (sources + hashes + generator id), `**blocks[]**` aligned to those files.
 
 **What the code does *not* do:** It does not decide whether a split is *wise* for your domain
@@ -60,7 +59,7 @@ The **rule-bound** automated check (see [stage-1-context-decisions](../../rules/
 **Inputs you use:**
 
 - The **original** canonical Markdown at the paths in `**manifest_sources[]`** (ground truth).
-- The emitted `**chunks/*.md`** and `**context_index.json**`.
+- The emitted chunk files (`*.md`) and **context_index.json**.
 
 **What you do:**
 
@@ -80,7 +79,7 @@ The **rule-bound** automated check (see [stage-1-context-decisions](../../rules/
 
 **Actor:** Automation for rule **stage-1-context-decisions** (scanner path in [scanners.json](../../rules/scanners.json)); executed from **`python scripts/build.py`** via **`operator.build_pipeline`**.
 
-**Inputs:** Existing `**context_index.json`** and `**chunks/*.md`** (and workspace paths from config). If there is **no** index yet, the check exits success (greenfield).
+**Inputs:** Existing **context_index.json** and chunk files (`*.md`) in **context_path** (and workspace paths from config). If there is **no** index yet, the check exits success (greenfield).
 
 **Outcome:** Exit **0** means the contract in [context-spec.md](../library/context-spec.md) is satisfied (e.g. every `blocks[]` row has a file, every chunk file is indexed or `**excluded`**, `chunk_id` in front matter matches filename, manifest/source checks as implemented). Exit **non-zero** means fix the artifacts and re-run **`build.py`**.
 

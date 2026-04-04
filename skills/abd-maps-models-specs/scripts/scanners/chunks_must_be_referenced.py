@@ -14,7 +14,7 @@ this scanner checks *presence* of citations, matching the old pipeline’s role.
 Usage:
     python scripts/scanners/chunks_must_be_referenced.py [--input <path>]
 
-Default input: `<output_dir>/maps-models-specs/map-model-spec.json`
+Default input: `<output_dir>/map-model-spec.json`
 Exit 0 = no violations. Exit 1 = violations found.
 """
 from __future__ import annotations

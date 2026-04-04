@@ -2,9 +2,8 @@
 Convert evidence sources to canonical Markdown (context markdown phase; after set workspace).
 
 Same conversion engine as **abd-context-to-memory** (`convert_to_markdown.py`): Microsoft
-MarkItDown. Writes `<stem>.md` next to each source file under the **skill workspace** root
-(the directory that contains `solution.conf`, from `conf/abd-config.json` →
-`active_skill_workspace`).
+MarkItDown. Writes `<stem>.md` next to each source file under the **project workspace** root
+(the absolute path in `conf/abd-config.json` → `active_skill_workspace`; directory that contains `solution.conf`).
 
 Documented workflow (from skill package root; see context-markdown.md):
 

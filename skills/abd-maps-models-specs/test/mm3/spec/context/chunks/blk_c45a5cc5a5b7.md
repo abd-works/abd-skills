@@ -1,0 +1,19 @@
+---
+chunk_id: blk_c45a5cc5a5b7
+source:
+  canonical_path: context/HeroesHandbook.md
+  line_start: 19853
+  line_end: 19862
+evidence_type: rule
+modeling_kind: rule
+---
+BUILDING
+
+The difficulty and time required to make an item depends
+on its complexity, as shown on the Building Items table. If
+your Technology check succeeds, you have made the item
+after the necessary time. If the check fails, you did not pro-
+duce a usable end result, and any time and materials are
+wasted. More than one degree of failure on the check may
+produce  an  accident  or  other  unfortunate  side-effect  at
+the GM’s discretion.

@@ -7,7 +7,7 @@ Same strategy:
 - Large docs (>200 lines): ``#`` / ``##`` boundaries (min 5 lines before flush), or CHAPTER markers
 - Small files: single chunk
 
-This module has no I/O; ``build_context.py`` writes ``chunks/*.md`` + ``context_index.json``.
+This module has no I/O; ``build_context.py`` writes chunk ``*.md`` + ``context_index.json`` under ``context_path``.
 """
 from __future__ import annotations
 

@@ -19,7 +19,6 @@ lives under ``spec`` with walkthroughs as the only sibling folder).
 from __future__ import annotations
 
 import json
-import os
 import sys
 from pathlib import Path
 
@@ -223,23 +222,12 @@ def map_model_spec_path() -> Path:
     return OUT_ROOT / "map-model-spec.json"
 
 
-def agile_bots_root() -> Path:
-    """Root of the agile_bots repo (for native Draw.io emitters)."""
-    data = skill_config()
-    r = data.get("agile_bots_root")
-    if r and str(r).strip():
-        p = Path(str(r).strip()).resolve()
-        if p.is_dir():
-            return p
-    env = os.environ.get("AGILE_BOTS_ROOT", "").strip()
-    if env:
-        p = Path(env).resolve()
-        if p.is_dir():
-            return p
-    _die(
-        'Set non-empty "agile_bots_root" in conf/abd-config.json (absolute path to the '
-        "agile_bots repository) or set environment variable AGILE_BOTS_ROOT."
-    )
+CLASS_DIAGRAM_LAYOUT_PLAN_JSON = "class-diagram-layout-plan.json"
+
+
+def class_diagram_layout_plan_path() -> Path:
+    """Optional logical layout JSON beside the spec (same directory as ``map_model_spec_path``)."""
+    return OUT_ROOT / CLASS_DIAGRAM_LAYOUT_PLAN_JSON
 
 
 def default_map_model_spec_path() -> Path:

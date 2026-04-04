@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Build AGENTS.md from content; get instructions for an operation; or run validation scanners."""
 import json
+import subprocess
 import sys
 from pathlib import Path
 
@@ -10,6 +11,23 @@ if str(_scripts_dir) not in sys.path:
     sys.path.insert(0, str(_scripts_dir))
 
 from engine import AgileContextEngine, build_skill
+
+
+def _sync_drawio_vendor() -> None:
+    """Copy shared src/drawio modules into this skill's scripts/ (generated headers)."""
+    repo_root = _skill_dir.parent.parent
+    sync_script = repo_root / "scripts" / "sync_drawio_vendor.py"
+    if not sync_script.is_file():
+        return
+    result = subprocess.run(
+        [sys.executable, str(sync_script)],
+        cwd=str(repo_root),
+    )
+    if result.returncode != 0:
+        print(
+            "WARNING: sync_drawio_vendor.py failed; continuing build.",
+            file=sys.stderr,
+        )
 
 
 def _run_validate(target_path: Path | None = None) -> None:
@@ -308,5 +326,6 @@ if __name__ == "__main__":
         target = Path(args[1]).resolve() if len(args) >= 2 else None
         _run_validate(target_path=target)
     else:
+        _sync_drawio_vendor()
         out = build_skill(_skill_dir, engine_root=_skill_dir)
         print(f"Wrote {out}")

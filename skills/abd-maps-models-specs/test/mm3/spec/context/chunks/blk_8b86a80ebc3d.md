@@ -1,0 +1,23 @@
+---
+chunk_id: blk_8b86a80ebc3d
+source:
+  canonical_path: context/HeroesHandbook.md
+  line_start: 19055
+  line_end: 19069
+evidence_type: rule
+modeling_kind: rule
+---
+UNDER THE HOOD: CHARACTER EXPERTISE VS. PLAYER EXPERTISE
+
+Expertise skills measure what your character knows about various things, whether you know anything about them or not.
+It’s fairly easy to measure what a hero knows by making the appropriate skill check or looking at the routine check value
+of (bonus +10).
+
+However, players may know things their characters do not, either because of the player’s life experience or knowledge
+of the game and its rules (and source material). In this case the Gamemaster may prefer players limit themselves to
+only what Expertise skills their heroes have rather than what they may or may not know about a given situation. The
+GM may bend this rule by allowing a player to spend a hero point to have a character act upon something he or she
+would have no way of knowing, calling it a “hunch” or a “lucky guess” (a version of the inspiration rule). See the Hero
+Points section for guidelines.
+
+If there’s a question as to how to handle an issue of player versus character expertise in the game, consult your Gamemaster.

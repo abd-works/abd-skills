@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Phase 1 — emit ``chunks/*.md`` + ``context_index.json`` for the active skill workspace.
+Phase 1 — emit chunk ``*.md`` + ``context_index.json`` under ``context_path`` (flat; no ``chunks/`` subfolder).
 
 Chunk **segmentation** matches ``skills/abd-context-to-memory/scripts/chunk_markdown.py`` (slides,
 ``#``/``##`` splits for large docs, CHAPTER markers, or whole small files). Optional
@@ -216,7 +216,7 @@ def main() -> int:
     if ns.dry_run:
         print("build_context.py dry-run:")
         print(f"  workspace: {root}")
-        print(f"  chunks_dir: {CHUNKS_DIR}")
+        print(f"  context_path (chunk *.md): {CHUNKS_DIR}")
         print(f"  index: {CONTEXT_INDEX}")
         print(f"  spec: {spec_path}")
         print(f"  defaults: evidence_type={evidence_type_d!r} modeling_kind={modeling_kind_d!r}")
@@ -291,10 +291,14 @@ def main() -> int:
     }
     CONTEXT_INDEX.parent.mkdir(parents=True, exist_ok=True)
     CONTEXT_INDEX.write_text(json.dumps(index, indent=2), encoding="utf-8")
-    print(
-        f"Wrote {len(blocks)} chunks under {CHUNKS_DIR.relative_to(SKILL_ROOT)}; "
-        f"index {CONTEXT_INDEX.relative_to(SKILL_ROOT)}"
-    )
+
+    def _rel(p: Path) -> str:
+        try:
+            return str(p.relative_to(SKILL_ROOT))
+        except ValueError:
+            return str(p)
+
+    print(f"Wrote {len(blocks)} chunks under {_rel(CHUNKS_DIR)}; index {_rel(CONTEXT_INDEX)}")
     return 0
 
 

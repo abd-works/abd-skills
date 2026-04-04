@@ -1,0 +1,30 @@
+---
+chunk_id: blk_a9c2523cbaec
+source:
+  canonical_path: context/HeroesHandbook.md
+  line_start: 35077
+  line_end: 35098
+evidence_type: rule
+modeling_kind: rule
+---
+CHALLENGES AND INITIATIVE
+
+Challenges may or may not involve initiative checks, de-
+pending on the nature of the challenge.
+
+If all of the characters get a turn and it does not particu-
+larly matter who goes first, then the Gamemaster can dis-
+pense with initiative for the challenge. For example, if the
+heroes  all  have  to  leap  across  a  chasm,  then  it  is  a  chal-
+lenge they must all complete, and it does not particularly
+matter which of them goes first or last in doing so (since
+their actions are all virtually simultaneous).
+
+With other challenges, it does matter who goes first, par-
+ticular when the challenge is timed in some fashion. So,
+for example, if the GM determines that part of a burning
+building will collapse after the first round, initiative may
+be  checked  to  see  which  heroes  go  before  the  collapse
+and who does not quite act fast enough. The same may
+be true of other traps or hazards, which can have initiative
+ranks of their own.

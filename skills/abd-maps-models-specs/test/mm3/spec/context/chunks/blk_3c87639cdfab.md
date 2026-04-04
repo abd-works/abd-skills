@@ -1,0 +1,47 @@
+---
+chunk_id: blk_3c87639cdfab
+source:
+  canonical_path: context/HeroesHandbook.md
+  line_start: 19078
+  line_end: 19115
+evidence_type: rule
+modeling_kind: rule
+---
+DEFAULTING TO RELATED AREAS OF EXPERTISE
+
+On occasion, the GM may decide that training in an Expertise skill provides some ability to deal with tasks covered by
+other, related, skills with a circumstance penalty to the skill check.
+
+Example: Figuring out a particular clue involving a government conspiracy requires an Investigation or Expertise: Poli-
+tics check. However, the GM allows a hero to substitute an Expertise: Law check with a –2 circumstance penalty, as the
+knowledge is related, but outside the character’s specific field. Expertise: Journalism might suffer a –5 penalty, but could
+still be useful (especially if the character works a legal or political beat as a reporter), while Expertise: Cooking is no help
+at all, and cannot be used for the check (unless the player comes up with a very clever explanation!)
+
+alongside  Expertise:  Science,  a  doctor  needs  training  in
+Treatment along with Expertise: Physician, and a trial law-
+yer  is  going  to  want  skill  in  Insight  and  Persuasion  (and
+possibly Deception) along with the training in the law that
+comes with Expertise: Lawyer.
+
+The ability modifier for Expertise is typically Intellect, but
+some areas of expertise may call for different abilities, per-
+haps depending on the task involved. For example, a tech-
+nical  expert  might  rely  on  Intellect  to  answer  questions
+and  handle  day-to-day  procedures,  but  need  Dexterity
+to  perform  the  actual  functions  of  the  job.  Performance
+skills, such as acting or music, may rely on Presence. The
+GM sets the ability modifier as needed for the specific Ex-
+pertise check.
+
+Characters with expertise in a profession are also assumed
+to be licensed or certified to practice it, if necessary. Prob-
+lems  like  licensing  issues,  professional  rivalries,  and  so
+forth  can  be  handled  as  complications  (see  Complica-
+tions in the Characteristics chapter).
+
+The GM may allow some Expertise checks to be made un-
+trained, especially for “unskilled” areas, measuring broad
+general  knowledge  and  life  experience,  but  even  then
+an untrained Expertise check cannot be routine, and the
+character can only handle easy or basic tasks or questions
