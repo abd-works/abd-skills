@@ -1,5 +1,5 @@
 """
-Engine config — schema for abd-config.json. Plain dataclass, no pydantic.
+Engine config — skill-config.json → workspace schema. Plain dataclass, no pydantic.
 """
 
 

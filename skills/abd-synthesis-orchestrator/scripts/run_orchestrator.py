@@ -18,9 +18,9 @@ Version control: --branch mode checks in skill changes, rolls back if output deg
 Engine (abd-story-synthesizer) = always relative to orchestrator (sibling skill).
 --skill-space = workspace root (e.g. mm3e); the content to synthesize.
 
-CONFIG: abd-config.json lives in abd-story-synthesizer/conf/. Engine root is always
-the synthesizer skill (never passed; never changes). skill_space_path in config
-points to the skill space (content only: goal.md, context/, docs/).
+CONFIG: skill-config.json lives at abd-story-synthesizer/skill-config.json. Engine root is always
+the synthesizer skill (never passed; never changes). Workspace keys under the ``workspace`` object
+point to the skill space (content only: goal.md, context/, docs/).
 
 Usage:
   python scripts/run_orchestrator.py --skill-space <path-to-workspace> [--slice N] [--checkpoint ...]
@@ -68,7 +68,7 @@ class RunState:
 
 
 def resolve_workspace_path(skill_space_root: Path) -> Path:
-    """Workspace = skill_space_root. No abd-config in skill space."""
+    """Workspace = skill_space_root. No skill workspace routing in skill space."""
     return skill_space_root
 
 
@@ -485,7 +485,7 @@ def main() -> int:
         type=Path,
         required=True,
         metavar="PATH",
-        help="Skill space root (workspace, e.g. mm3e) containing conf/abd-config.json",
+        help="Skill space root (workspace, e.g. mm3e) containing skill-config.json",
     )
     parser.add_argument(
         "--slice",

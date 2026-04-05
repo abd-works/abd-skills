@@ -1,19 +1,14 @@
-# Templates — authoring instructions
+# `templates/` — small extras only
 
-These files are **instructions for what to write**, not copy-paste starters. Each one explains the purpose, required fields, and authoring decisions for its counterpart in a built skill.
+**Canonical layout** for a new skill is **`templates/skill-scaffold/`** — real directories, example files, placeholders. **`scripts/scaffold_skill.py`** copies that tree into your output directory and applies `{{…}}` substitution.
 
-The filled scaffold versions — the actual ready-to-edit files dropped into a new skill — live in **`skill-scaffold/`** (sibling of this folder).
+**Universal scripts and shared library norms are not duplicated in the template:** after copying **`skill-scaffold/`** (including **`content/parts/library/required/`** — purpose, outline, role, principles), the scaffold copies **`content/parts/library/base/`** from **abd-skill-builder** into the new skill’s **`content/parts/library/base/`**, then copies **`scripts/base/build.py`**, **`scripts/base/generate.py`**, and **`scripts/base/set_workspace.py`** from **abd-skill-builder**’s **`scripts/`**, then copies **`scripts/base/`** in full. Child skills use the same **`Skill.load()`** / **`workspace_checklists`** pipeline and the same **`instructions._resolve_library_md`** order: **`library/<file>`** → **`library/required/<file>`** → **`library/base/<file>`**.
 
-| File | What it documents |
-|------|-------------------|
-| [`abd-config.json.template.md`](abd-config.json.template.md) | How to fill `conf/abd-config.json` — workspace routing keys |
-| [`process.md.template`](process.md.template) | How to write a minimal `content/parts/process.md` |
-| [`process-team.md.template`](process-team.md.template) | How to write a rich multi-stage `process.md` with outcome, principles, and per-stage tables |
-| [`skill-config.json.template`](skill-config.json.template) | How to fill every field in `skill-config.json` |
-| [`skill-plan.md.template`](skill-plan.md.template) | How to fill `docs/skill-plan.md` — the Stage 1 planning document |
+| Kind | Location |
+| --- | --- |
+| **What to write** in `skill-config.json`, `process.md`, `library/base/checklist.md` (norms) | **`content/parts/phases/plan-script-build.md`** (Stage 1); **`content/parts/library/process-phases.md`** for rich **`process.md`** and phase execution norms |
+| **Folder and file layout** | **`templates/skill-scaffold/`** under **abd-skill-builder** |
+| **`library/base/` in a scaffolded skill** | Copied from **abd-skill-builder** by **`scaffold_skill.py`** — includes **`checklist.md`**; see **`content/parts/library/base/checklist.md`** |
+| **Entrypoint + `base` scripts** | Copied from **`abd-skill-builder/scripts/`** and **`abd-skill-builder/scripts/base/`** — see **`content/parts/phases/scaffold.md`** |
 
-## Relationship to skill-scaffold/
-
-`skill-scaffold/` contains the actual scaffold files with real structure and inline comments. `templates/` tells you **why** each field or section exists and what decisions to make when filling it in.
-
-Read the relevant `templates/` doc first to understand the shape, then edit the corresponding file in your new skill (copied from `skill-scaffold/`).
+Keep codegen-only assets in **`templates/`** when they are **not** part of **`skill-scaffold/`**.

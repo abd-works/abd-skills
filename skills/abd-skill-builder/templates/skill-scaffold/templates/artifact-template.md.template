@@ -1,0 +1,21 @@
+# {{artifact name}} template
+
+<!-- This template defines the exact structure the AI must produce for this artifact.
+     The AI fills in the placeholders; the shape is guaranteed.
+     Filename convention: <artifact-name>.md.template -->
+
+## {{Section 1 heading}}
+
+{{Description of what goes here — one sentence.}}
+
+## {{Section 2 heading}}
+
+{{Description of what goes here.}}
+
+| Epic | Feature |Story |
+| -------- | -------- | -------- |
+| {{Epic.NaME}} | {{fEATYURE.NAME}} | {{STORY.NA,ME}} |
+
+## {{Section 3 heading — optional}}
+
+{{Description.}}

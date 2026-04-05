@@ -15,12 +15,28 @@ def _default_engine_root() -> Path:
     return Path(__file__).resolve().parent.parent
 
 
+WORKSPACE_CONTEXT_FILE = Path("conf") / "workspace-context.json"
+
+
+def _flatten_skill_config_for_engine(raw: dict) -> dict:
+    ws = raw.get("workspace")
+    if not isinstance(ws, dict):
+        ws = {}
+    return {
+        "skills": ws.get("skills", ["."]),
+        "skills_config": ws.get("skills_config") or {"order": ws.get("skills", ["."])},
+        "constraints": ws.get("constraints", []),
+        "context_paths": ws.get("context_paths", []),
+        "active_skill_workspace": ws.get("active_skill_workspace"),
+    }
+
+
 class AgileContextEngine:
-    """Engine: load conf/abd-config.json, attach one AbdSkill at skill root."""
+    """Engine: load skill-config.json → workspace, attach one AbdSkill at skill root."""
 
     def __init__(self, engine_root: str | Path | None = None):
         self.engine_root = Path(engine_root).resolve() if engine_root else _default_engine_root()
-        self.config_path = self.engine_root / "conf" / "abd-config.json"
+        self.config_path = self.engine_root / "skill-config.json"
         self.workspace_path: Path | None = None
         self.context_paths: list[Path] = []
         self.skills: list[MapsAbdSkill] = []
@@ -29,7 +45,8 @@ class AgileContextEngine:
     def load(self) -> AgileContextEngine:
         if not self.config_path.exists():
             raise FileNotFoundError(f"Config not found: {self.config_path}")
-        data = json.loads(self.config_path.read_text(encoding="utf-8"))
+        raw = json.loads(self.config_path.read_text(encoding="utf-8"))
+        data = _flatten_skill_config_for_engine(raw)
         if not data.get("skills"):
             data["skills"] = ["."]
         if not data.get("skills_config"):
@@ -48,7 +65,7 @@ class AgileContextEngine:
             wr = self._config.workspace_root
             if not wr:
                 raise RuntimeError(
-                    f'conf/abd-config.json must set non-empty "active_skill_workspace" '
+                    f'skill-config.json → workspace must set non-empty "active_skill_workspace" '
                     f"(absolute path): {self.config_path}"
                 )
             wp = Path(wr)
@@ -64,7 +81,7 @@ class AgileContextEngine:
     def _load_skill_space_context_paths(self) -> None:
         if not self.workspace_path:
             return
-        ss_config_path = self.workspace_path / "conf" / "abd-config.json"
+        ss_config_path = self.workspace_path / WORKSPACE_CONTEXT_FILE
         if not ss_config_path.exists():
             return
         try:
@@ -86,7 +103,7 @@ class AgileContextEngine:
     def prompt(self, slug: str, form: Literal["dynamic", "static"] = "dynamic") -> str:
         """Assemble prompt for phase or operation *slug*; static reads derived built file if present."""
         if not self.skills:
-            raise RuntimeError("Engine has no skills; call load() after fixing conf/abd-config.json")
+            raise RuntimeError("Engine has no skills; call load() after fixing skill-config.json → workspace")
         skill = self.skills[0]
         built = skill.path / "content" / "built" / "phases" / f"{slug}.md"
         if form == "static" and built.is_file():

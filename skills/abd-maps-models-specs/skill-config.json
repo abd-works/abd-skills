@@ -14,18 +14,8 @@
     "integrate",
     "validate"
   ],
-  "library_files": [
-    "shaped-story-map.md",
-    "context-spec.md",
-    "domain-model.md",
-    "map-model-relationships-plan.md",
-    "scenario-walkthrough-template.md",
-    "principles.md",
-    "story-map.md",
-    "terms-mechanisms-contract.md",
-    "class-diagram-from-spec.md"
-  ],
-  "PHASE_LIBRARY_SLICES": {
+  "library_files": [],
+  "phase_library": {
     "set-workspace": [
       "principles.md"
     ],
@@ -159,7 +149,7 @@
   "generate_prompt": {
     "assembly_mode": "static"
   },
-  "operator": {
+  "build": {
     "compileall_paths": [
       "scripts"
     ],
@@ -177,5 +167,15 @@
       "scripts/generate_context_bundle_manifest.py",
       "scripts/test_rule_examples.py"
     ]
+  },
+  "workspace": {
+    "skills": [
+      "."
+    ],
+    "skills_config": {
+      "order": [
+        "."
+      ]
+    }
   }
 }

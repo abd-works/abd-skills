@@ -4,7 +4,7 @@ Enduring reference for chunk `**context/*.md**` (same folder as the index; no `c
 
 See `[content/parts/process.md](../content/parts/process.md)`, `[phases/context-chunking-approach.md](../phases/context-chunking-approach.md)`, `[phases/canonical-context.md](../phases/canonical-context.md)`, and `[conf/README.md](../../../conf/README.md)`.
 
-Paths resolve from `**<skill_path>/conf/abd-config.json`** → `**active_skill_workspace**` only (**absolute** path to the project workspace root), then `**<workspace>/solution.conf**`. `scripts/_config.py` reads no other keys for workspace. `**manifest_sources[]**` and paths live in `solution.conf`, not hardcoded in Python.
+Paths resolve from `**<skill_path>/skill-config.json`** → `**active_skill_workspace**` only (**absolute** path to the project workspace root), then `**<workspace>/solution.conf**`. `scripts/_config.py` reads no other keys for workspace. `**manifest_sources[]**` and paths live in `solution.conf`, not hardcoded in Python.
 
 ---
 

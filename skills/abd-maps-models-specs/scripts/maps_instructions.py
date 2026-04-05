@@ -101,11 +101,11 @@ class MapsInstructions(Instructions):
             return "## Rules\n\n" + inner
 
         if section_id == f"{MAPS_PREFIX}library":
-            libs = self._phase_library_slices.get(phase_slug, [])
+            libs = self._merged_library_filenames(phase_slug)
             if not libs:
                 return (
                     "## Library\n\n"
-                    "*No library files listed for this phase in `PHASE_LIBRARY_SLICES` (see `skill-config.json`).*"
+                    "*No library files for this phase after merging `library_files` and `phase_library` (see `skill-config.json`).*"
                 )
             chunks: list[str] = []
             for lib in libs:

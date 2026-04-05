@@ -1,5 +1,5 @@
 """
-Engine config — abd-config.json schema. Uses pydantic if available, else plain dict.
+Engine config — skill-config.json → workspace schema. Uses pydantic if available, else plain dict.
 """
 from typing import Any
 

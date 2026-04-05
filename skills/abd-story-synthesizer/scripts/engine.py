@@ -9,6 +9,23 @@ from typing import Any
 from config import AbdConfig
 from abd_skill import AbdSkill
 
+WORKSPACE_CONTEXT_FILE = Path("conf") / "workspace-context.json"
+
+
+def _flatten_skill_config_for_engine(raw: dict) -> dict:
+    ws = raw.get("workspace")
+    if not isinstance(ws, dict):
+        ws = {}
+    return {
+        "skills": ws.get("skills", ["."]),
+        "skills_config": ws.get("skills_config") or {"order": ws.get("skills", ["."])},
+        "constraints": ws.get("constraints", []),
+        "context_paths": ws.get("context_paths", []),
+        "active_skill_workspace": ws.get("active_skill_workspace"),
+        "solution_workspace": ws.get("solution_workspace"),
+        "skill_space_path": ws.get("skill_space_path"),
+    }
+
 
 def _default_engine_root() -> Path:
     """Resolve engine root (parent of scripts/)."""
@@ -24,7 +41,7 @@ class AgileContextEngine:
         strategy_path_override: str | Path | None = None,
     ):
         self.engine_root = Path(engine_root).resolve() if engine_root else _default_engine_root()
-        self.config_path = self.engine_root / "conf" / "abd-config.json"
+        self.config_path = self.engine_root / "skill-config.json"
         self.strategy_path_override = Path(strategy_path_override).resolve() if strategy_path_override else None
         self.workspace_path: Path | None = None
         self.strategy_path: Path | None = None
@@ -35,7 +52,8 @@ class AgileContextEngine:
         """Load config; load skills; inject self into each skill."""
         if not self.config_path.exists():
             raise FileNotFoundError(f"Config not found: {self.config_path}")
-        data = json.loads(self.config_path.read_text(encoding="utf-8"))
+        raw = json.loads(self.config_path.read_text(encoding="utf-8"))
+        data = _flatten_skill_config_for_engine(raw)
         config = AbdConfig.model_validate(data)
 
         # Context paths — read from skill space config, not the synthesizer's config
@@ -66,10 +84,10 @@ class AgileContextEngine:
         return self
 
     def _load_skill_space_context_paths(self) -> None:
-        """Load context_paths from the skill space's own conf/abd-config.json."""
+        """Load context_paths from the skill space's conf/workspace-context.json."""
         if not self.workspace_path:
             return
-        ss_config_path = self.workspace_path / "conf" / "abd-config.json"
+        ss_config_path = self.workspace_path / WORKSPACE_CONTEXT_FILE
         if not ss_config_path.exists():
             return
         try:

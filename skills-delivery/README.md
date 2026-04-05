@@ -1,5 +1,5 @@
-# Moved
+# Deprecated placeholder
 
-This project lives under **`../agentic-skill-builder/`**.
+**`skills-delivery`** is not used. Skill authoring lives under **`skills/abd-skill-builder/`** (scaffold, standards, **`scripts/build.py`**).
 
-Do not add docs or code here — use **`agilebydesign-skills/agentic-skill-builder`** only.
+Do not add docs or code here.

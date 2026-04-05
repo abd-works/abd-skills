@@ -8,7 +8,7 @@
 
 ## Command (skill package)
 
-From the **abd-maps-models-specs** root (directory that contains `scripts/` and `skill-config.json`), with `**conf/abd-config.json`** pointing at the workspace that contains `**solution.conf`**:
+From the **abd-maps-models-specs** root (directory that contains `scripts/` and `skill-config.json`), with `**skill-config.json`** pointing at the workspace that contains `**solution.conf`**:
 
 ```bash
 python scripts/render_map_model_class_diagram.py
@@ -17,7 +17,7 @@ python scripts/render_map_model_class_diagram.py
 - **Input:** `<output_dir>/map-model-spec.json` (see `[domain-model.md](domain-model.md)` and your workspace `solution.conf`).
 - **Output:** `<output_dir>/map-model-class-diagram.drawio` — **native diagrams.net XML** (same `**mxfile` / `mxCell`** shape as agile_bots story-map Draw.io), with modules, concepts, members, and `**depends_on`** edges. Emitter lives in this skill: `**scripts/map_model_spec_drawio.py**` (keep in sync with `**agile_bots**` `synchronizers.story_io.map_model_spec_drawio` when changing output).
 
-**Prerequisite:** `conf/abd-config.json` must set `**active_skill_workspace`** (workspace with `**solution.conf`**) — same as other skill scripts.
+**Prerequisite:** `skill-config.json` must set `**active_skill_workspace`** (workspace with `**solution.conf`**) — same as other skill scripts.
 
 ### Optional layout plan (logical, not pixels)
 

@@ -182,7 +182,7 @@ python scripts/index_memory.py --replace
 - `--embed`: Opt in to **`embed_and_index.py`** after sync (per-topic index). Omitted by default.
 - **Hub junction (after successful `--path`):** **`hub/<source_folder_name>` → absolute path to that source’s memory folder** (usually `<source>/memory`, or `<parent>/memory/context` when `--path` ends in `context`). `--memory-root` and `--junction-workspace` are aliases for the hub directory. Order: explicit flag, else `ABD_CONTENT_ROOT`, else cwd. Skip with `--no-junction` or `SKIP_MEMORY_JUNCTION=1`.
 - `--memory`: Memory folder name (chunk + sync; **embed only with `--embed`**; convert already ran). Does **not** create a workspace junction (use `--path` for full ingest + junction).
-- **No args:** When `skill_space_path` is set (in `skill-config.json` or `abd-story-synthesizer/conf/abd-config.json`), automatically runs on `{skill_space_path}/context`. Use when the user says "add to memory" or "refresh memory" without specifying a folder. Junction creation applies when this default `--path` flow completes successfully.
+- **No args:** When `skill_space_path` is set (in `skill-config.json` or `abd-story-synthesizer/skill-config.json`), automatically runs on `{skill_space_path}/context`. Use when the user says "add to memory" or "refresh memory" without specifying a folder. Junction creation applies when this default `--path` flow completes successfully.
 - `--replace`: Rebuild entire vector index from all memory (drops existing index).
 
 **Memory root:** For **`--path "<source>"`**, normal flow uses **`source/memory/`** for chunks. Exception: **`--path` …/ `context`** uses **`parent`** as project root, chunks at **`memory/context/`**. Per-topic embed uses **`embed_and_index`** only when **`--embed`** is set.

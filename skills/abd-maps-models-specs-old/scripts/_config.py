@@ -1,7 +1,7 @@
 """Shared config for abd-maps-models-specs scripts.
 
 Config is split across two files:
-  conf/abd-config.json   — skill-level: **required** `solution_workspace` (path to workspace root)
+  skill-config.json   — skill-level: **required** `solution_workspace` (path to workspace root)
   <workspace>/solution.conf — workspace-level: output_dir, context_path, chunk_index_path
 
 There is **no** skill-root-only / flat layout. If `solution_workspace` is missing, invalid, or
@@ -41,16 +41,16 @@ def _load_json(path: Path) -> dict:
 
 
 def skill_config() -> dict:
-    return _load_json(_SKILL_DIR / "conf" / "abd-config.json")
+    return _load_json(_SKILL_DIR / "conf" / "skill-config.json")
 
 
 def declared_workspace_root() -> Path:
-    """Path from conf/abd-config.json — directory that contains solution.conf."""
+    """Path from skill-config.json — directory that contains solution.conf."""
     data = skill_config()
     ws = data.get("solution_workspace")
     if ws is None or (isinstance(ws, str) and not str(ws).strip()):
         _die(
-            'conf/abd-config.json must set non-empty "solution_workspace" '
+            'skill-config.json must set non-empty "solution_workspace" '
             "(path to the workspace root directory that contains solution.conf)."
         )
     p = Path(ws)

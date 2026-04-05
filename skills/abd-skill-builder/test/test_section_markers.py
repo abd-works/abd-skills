@@ -6,11 +6,11 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-_SCRIPTS = ROOT / "scripts"
-if str(_SCRIPTS) not in sys.path:
-    sys.path.insert(0, str(_SCRIPTS))
+_SCRIPTS_BASE = ROOT / "scripts" / "base"
+if str(_SCRIPTS_BASE) not in sys.path:
+    sys.path.insert(0, str(_SCRIPTS_BASE))
 
-from section_markers import filter_library_for_phase, has_phase_markers
+from markers import filter_library_for_phase, has_phase_markers
 
 
 def test_no_markers_returns_full_text() -> None:

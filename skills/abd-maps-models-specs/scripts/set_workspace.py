@@ -1,4 +1,4 @@
-"""CLI to read or set active_skill_workspace in conf/abd-config.json.
+"""CLI to read or set active_skill_workspace in skill-config.json → workspace.
 
 The skill package stores **one** value: which project directory (absolute path) contains
 `solution.conf`. There is no fallback or inference.
@@ -14,20 +14,20 @@ import sys
 from pathlib import Path
 
 SKILL_ROOT = Path(__file__).resolve().parents[1]
-CONFIG_PATH = SKILL_ROOT / "conf" / "abd-config.json"
+SKILL_CONFIG_PATH = SKILL_ROOT / "skill-config.json"
 
 _LEGACY_KEYS = ("solution_workspace", "skill_space_path")
 
 
-def read_config() -> dict:
-    if CONFIG_PATH.exists():
-        return json.loads(CONFIG_PATH.read_text(encoding="utf-8"))
+def load_skill_config() -> dict:
+    if SKILL_CONFIG_PATH.exists():
+        return json.loads(SKILL_CONFIG_PATH.read_text(encoding="utf-8"))
     return {}
 
 
-def write_config(cfg: dict) -> None:
-    CONFIG_PATH.parent.mkdir(parents=True, exist_ok=True)
-    CONFIG_PATH.write_text(json.dumps(cfg, indent=2) + "\n", encoding="utf-8")
+def save_skill_config(cfg: dict) -> None:
+    SKILL_CONFIG_PATH.parent.mkdir(parents=True, exist_ok=True)
+    SKILL_CONFIG_PATH.write_text(json.dumps(cfg, indent=2) + "\n", encoding="utf-8")
 
 
 def _active_skill_workspace(data: dict) -> str | None:
@@ -40,11 +40,12 @@ def _active_skill_workspace(data: dict) -> str | None:
 
 def main() -> None:
     if len(sys.argv) == 1:
-        cfg = read_config()
-        ws = _active_skill_workspace(cfg)
+        cfg = load_skill_config()
+        ws_block = cfg.get("workspace") if isinstance(cfg.get("workspace"), dict) else {}
+        ws = _active_skill_workspace(ws_block)
         if not ws:
             print(
-                "abd-maps-models-specs: active_skill_workspace is not set in conf/abd-config.json",
+                "abd-maps-models-specs: active_skill_workspace is not set in skill-config.json → workspace",
                 file=sys.stderr,
             )
             print("Set it with: python scripts/set_workspace.py <path>", file=sys.stderr)
@@ -58,11 +59,18 @@ def main() -> None:
             print(f"abd-maps-models-specs: not a directory: {target}", file=sys.stderr)
             sys.exit(1)
         stored = str(target)
-        cfg = read_config()
+        cfg = load_skill_config()
+        if "workspace" not in cfg or not isinstance(cfg.get("workspace"), dict):
+            cfg["workspace"] = {}
+        w = cfg["workspace"]
         for k in _LEGACY_KEYS:
-            cfg.pop(k, None)
-        cfg["active_skill_workspace"] = stored
-        write_config(cfg)
+            w.pop(k, None)
+        if not w.get("skills"):
+            w["skills"] = ["."]
+        if not w.get("skills_config"):
+            w["skills_config"] = {"order": w["skills"]}
+        w["active_skill_workspace"] = stored
+        save_skill_config(cfg)
         print(f"active_skill_workspace set to: {stored}")
     else:
         print("Usage: set_workspace.py [path]", file=sys.stderr)

@@ -1,0 +1,40 @@
+{
+  "name": "{{skill_name}}",
+  "version": "0.1.0",
+  "workspace": {
+    "active_skill_workspace": ".",
+    "known_skill_workspaces": [],
+    "context_paths": []
+  },
+  "library_files": [
+    "library-topic-template.md",
+    "outline.md",
+    "principles.md",
+    "critical-quality-steps.md",
+    "delivery-modes.md",
+    "process-phases.md",
+    "rules-and-scanners.md",
+    "workspace-config.md"
+  ],
+  "phase_files": [
+    "workspace-and-config",
+    "{{phase_file_1}}.md",
+    "{{phase_file_2}}.md"
+  ],
+  "phase_library": {},
+  "every_phase_rules": [],
+  "phase_rules": {
+    "workspace-and-config": [],
+    "author": []
+  },
+  "phase_bundle": {
+    "order": ["role", "principles", "phase", "library", "rules"],
+    "role_file": "role.md",
+    "principles_file": "principles.md",
+    "role_heading": "## Role",
+    "phase_heading": "## Phase",
+    "library_heading": "## Library",
+    "rules_heading": "## Rules",
+    "principles_heading": "## Principles"
+  }
+}

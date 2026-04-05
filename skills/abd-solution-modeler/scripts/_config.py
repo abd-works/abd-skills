@@ -1,7 +1,7 @@
 """Shared config for abd-solution-modeler scripts.
 
 Config is split across two files:
-  conf/abd-config.json   — skill-level: solution_workspace only
+  skill-config.json → workspace — skill-level: solution_workspace only
   <workspace>/solution.conf — workspace-level: output_dir, chunk_index_path, context_path
 """
 import json
@@ -18,7 +18,11 @@ def _load_json(path: Path) -> dict:
 
 
 def skill_config() -> dict:
-    return _load_json(_SKILL_DIR / "conf" / "abd-config.json")
+    raw = _load_json(_SKILL_DIR / "skill-config.json")
+    ws = raw.get("workspace")
+    if isinstance(ws, dict):
+        return ws
+    return {}
 
 
 def workspace_root() -> Path | None:

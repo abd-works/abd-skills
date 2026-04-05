@@ -16,7 +16,7 @@ Optional (tests / alternate ``solution.conf``)::
 
     python scripts/build_context.py --config <path/to/solution.conf>
 
-Configuration: ``<skill>/conf/abd-config.json`` → workspace root → ``solution.conf``
+Configuration: ``<skill>/skill-config.json`` → workspace root → ``solution.conf``
 (``manifest_sources[]``, ``context_path``, ``context_chunking_spec``) via ``_config.py``.
 """
 

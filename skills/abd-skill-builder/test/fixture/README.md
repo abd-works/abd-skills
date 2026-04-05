@@ -1,5 +1,5 @@
 # `toy-polite-dialogue`
 
-Minimal valid skill package: phases **greet → introduce → converse → close**, `scripts/build.py`, `skill-config.json` with `operator` block, rules + scanners.
+Minimal valid skill package: phases **greet → introduce → converse → close**, `scripts/base/build.py`, `skill-config.json` with a **`build`** block, rules + scanners.
 
-**Source of truth:** lives here under **`abd-skill-builder`** so standards and tooling do not depend on a copy inside **`agentic-skill-builder`**.
+**Source of truth:** lives here under **`abd-skill-builder`** for standards and tooling.

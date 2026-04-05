@@ -16,7 +16,7 @@ def main() -> int:
         return 1
     agents = ROOT / "AGENTS.md"
     if not agents.is_file():
-        print("FAIL: run scripts/build.py first (AGENTS.md missing)", file=sys.stderr)
+        print("FAIL: run scripts/base/build.py first (AGENTS.md missing)", file=sys.stderr)
         return 1
     body = agents.read_text(encoding="utf-8").lower()
     for needle in ("please", "thank"):

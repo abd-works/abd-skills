@@ -208,7 +208,7 @@ AgileContextEngine
      invariant: agile-context-engine/
 - Path config_path
      Path to engine config
-     invariant: e.g. conf/abd-config.json; config lives outside any workspace
+     invariant: e.g. skill-config.json; config lives outside any workspace
 - AceSkill[] skills
      List of registered abd-skills; each skill gets Engine injected at construction
 - Workspace workspace

@@ -131,7 +131,7 @@ agilebydesign-skills/
 │   │   │   ├── instructions.py
 │   │   │   └── build.py
 │   │   ├── conf/
-│   │   │   └── abd-config.json
+│   │   │   └── skill-config.json
 │   │   ├── content/       # Markdown: core, process, strategy, output, validation
 │   │   │   ├── core.md
 │   │   │   ├── process.md
@@ -150,13 +150,13 @@ agilebydesign-skills/
 └── README.md
 ```
 
-**Config path:** Project `conf/abd-config.json` (e.g. `mm3e/conf/abd-config.json`). Engine resolves via `engine_root` so config is always found.
+**Config path:** Project `skill-config.json` (e.g. `mm3e/skill-config.json`). Engine resolves via `engine_root` so config is always found.
 
 ---
 
 ### 1.4 Config Format
 
-**File:** `conf/abd-config.json`
+**File:** `skill-config.json`
 
 ```json
 {
@@ -184,7 +184,7 @@ Config format and paths are in §1.4 and §1.3.
 
 | Concept / Behavior | Implementation |
 |--------------------|----------------|
-| **Skills list** | Read from `conf/abd-config.json` → `skills` array (§1.4) |
+| **Skills list** | Read from `skill-config.json` → `skills` array (§1.4) |
 | **Per-skill load** | For each path in `skills`, instantiate `AbdSkill` at `skills/<path>/` |
 | **Rule set load** | Per skill: `rules/*.md` (Markdown), `rules/scanners.json` (JSON). Merge into unified `RuleSet` per skill. |
 | **Skill space** | Derived from skill path — parent of `.agents/skills` (or parent of `skills` when in engine). No config. |
@@ -493,7 +493,7 @@ class AbdConfig(BaseModel):
 
 | Artifact | Format | Location |
 |----------|--------|----------|
-| Engine config | JSON | `skills/abd-story-synthesizer/conf/abd-config.json` (or per-skill `conf/abd-config.json`) |
+| Engine config | JSON | `skills/abd-story-synthesizer/skill-config.json` (or per-skill `skill-config.json`) |
 | Skill content | Markdown | `skills/abd-<name>/content/*.md` (includes script-invocation.md for AI) |
 | Scanner rules | JSON | `skills/abd-<name>/rules/*.json` |
 | Assembled agent | Markdown | `skills/abd-<name>/AGENTS.md` |

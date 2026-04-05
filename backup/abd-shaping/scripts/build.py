@@ -17,8 +17,8 @@ def _get_instructions(operation: str) -> None:
     if sys.stdout.encoding and sys.stdout.encoding.lower() not in ("utf-8", "utf8"):
         sys.stdout.reconfigure(encoding="utf-8")
     engine_root = _skill_dir
-    config_path = _skill_dir / "conf" / "abd-config.json"
-    project_config = _skill_dir.parent.parent / "conf" / "abd-config.json"
+    config_path = _skill_dir / "conf" / "skill-config.json"
+    project_config = _skill_dir.parent.parent / "conf" / "skill-config.json"
     if project_config.exists():
         engine_root = _skill_dir.parent.parent
     elif not config_path.exists():

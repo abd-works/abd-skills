@@ -1,6 +1,0 @@
-{
-  "version": 1,
-  "comment": "Example skill: no rule/scanner bindings yet. Add rule_scanner_bindings when you introduce real rules.",
-  "rule_scanner_bindings": [],
-  "scanners": []
-}

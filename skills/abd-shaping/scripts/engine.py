@@ -9,6 +9,30 @@ from config import load_abd_config
 from abd_skill import AbdSkill
 
 
+def _flatten_skill_config_for_engine(raw: dict) -> dict:
+    ws = raw.get("workspace")
+    if isinstance(ws, dict):
+        return {
+            "skills": ws.get("skills", ["."]),
+            "skills_config": ws.get("skills_config") or {"order": ws.get("skills", ["."])},
+            "constraints": ws.get("constraints", []),
+            "context_paths": ws.get("context_paths", []),
+        }
+    if isinstance(raw.get("skills"), list):
+        return {
+            "skills": raw.get("skills", ["."]),
+            "skills_config": raw.get("skills_config") or {"order": raw.get("skills", ["."])},
+            "constraints": raw.get("constraints", []),
+            "context_paths": raw.get("context_paths", []),
+        }
+    return {
+        "skills": ["."],
+        "skills_config": {"order": ["."]},
+        "constraints": [],
+        "context_paths": [],
+    }
+
+
 def _default_engine_root() -> Path:
     """Resolve engine root (parent of scripts/)."""
     return Path(__file__).resolve().parent.parent
@@ -37,7 +61,7 @@ class AgileContextEngine:
 
     def __init__(self, engine_root: str | Path | None = None, strategy_path_override: Path | None = None):
         self.engine_root = Path(engine_root).resolve() if engine_root else _default_engine_root()
-        self.config_path = self.engine_root / "conf" / "abd-config.json"
+        self.config_path = self.engine_root / "skill-config.json"
         self.workspace_path: Path | None = None
         self.strategy_path: Path | None = None
         self.strategy_path_override: Path | None = strategy_path_override
@@ -49,7 +73,8 @@ class AgileContextEngine:
         """Load config; load skills; inject self into each skill."""
         if not self.config_path.exists():
             raise FileNotFoundError(f"Config not found: {self.config_path}")
-        data = json.loads(self.config_path.read_text(encoding="utf-8"))
+        raw = json.loads(self.config_path.read_text(encoding="utf-8"))
+        data = _flatten_skill_config_for_engine(raw)
         config = load_abd_config(data)
         self.context_paths = [
             (self.engine_root / p).resolve() if not Path(p).is_absolute() else Path(p).resolve()
@@ -233,26 +258,33 @@ def scaffold_skill(name: str, path: str | Path, engine_root: str | Path | None =
 
     skill_config = path / "skill-config.json"
     if not skill_config.exists():
-        skill_config.write_text(json.dumps({"name": name, "version": "0.1.0"}, indent=2), encoding="utf-8")
+        skill_config.write_text(
+            json.dumps(
+                {
+                    "name": name,
+                    "version": "0.1.0",
+                    "workspace": {
+                        "skills": ["."],
+                        "skills_config": {"order": ["."]},
+                        "context_paths": [],
+                        "solution_workspace": ".",
+                    },
+                },
+                indent=2,
+            ),
+            encoding="utf-8",
+        )
 
     conf_dir = path / "conf"
     conf_dir.mkdir(parents=True, exist_ok=True)
-    abd_cfg = conf_dir / "abd-config.json"
-    if not abd_cfg.exists():
-        abd_cfg.write_text(
-            json.dumps({"solution_workspace": "."}, indent=2) + "\n",
-            encoding="utf-8",
-        )
     conf_readme = conf_dir / "README.md"
     if not conf_readme.exists():
         conf_readme.write_text(
             """# Workspace configuration
 
-## `abd-config.json` (required)
+Optional **`workspace-context.json`** in this folder can list extra **`context_paths`** for tools that merge workspace-local settings.
 
-Set **`solution_workspace`** (mandatory) to the root of the **solution workspace** where this skill runs.
-
-Deprecated: **`skill_space_path`** — same meaning; prefer **`solution_workspace`**.
+Skill-level routing uses **`skill-config.json`** → **`workspace`** at the skill package root (see abd-skill-builder docs).
 """,
             encoding="utf-8",
         )

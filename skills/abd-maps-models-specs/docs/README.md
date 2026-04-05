@@ -53,7 +53,7 @@ Anything that **must** land in **`AGENTS.md`** or other generated agent context 
 
 
 
-Construct docs under `content/parts/library/` (schemas, artifact contracts, long-form narrative) **complement** phase steps; they are **not** duplicates of `content/parts/phases/` for process steps unless explicitly noted (per [skill documentation standards](../../abd-skill-builder/parts/library/documentation-standards.md)).
+Construct docs under `content/parts/library/` (schemas, artifact contracts, long-form narrative) **complement** phase steps; they are **not** duplicates of `content/parts/phases/` for process steps unless explicitly noted (see **abd-skill-builder** [`skill-structure-and-concepts.md`](../../abd-skill-builder/content/parts/library/skill-structure-and-concepts.md) — library vs phases, §3).
 
 
 

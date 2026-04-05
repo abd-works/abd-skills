@@ -13,12 +13,32 @@ if TYPE_CHECKING:
 
 PREFIX = "abd_skill_builder."
 
+
+def _normalize_phase_string_lists(d: dict) -> dict[str, list[str]]:
+    out: dict[str, list[str]] = {}
+    for k, v in d.items():
+        slug = str(k).strip()
+        if not slug:
+            continue
+        if isinstance(v, (list, tuple)):
+            out[slug] = [str(x).strip() for x in v if str(x).strip()]
+        else:
+            out[slug] = []
+    return out
+
+
+def _merge_phase_library_config(skill_config: dict) -> dict[str, list[str]]:
+    raw = skill_config.get("phase_library")
+    if isinstance(raw, dict):
+        return _normalize_phase_string_lists(raw)
+    return {}
+
+
 _DEFAULT_LIBRARY_FILES = (
-    "documentation-standards.md",
     "process-table-standards.md",
     "delivery-modes.md",
     "process-approach.md",
-    "authoring-checklist.md",
+    "scaffold-authoring-guide.md",
     "skill-repo-standards.md",
     "skill-standards-section-3.md",
     "builder-vs-operator.md",
@@ -59,8 +79,8 @@ class Instructions:
             skill_config.get("library_files", list(_DEFAULT_LIBRARY_FILES))
         )
         self._phase_files: tuple[str, ...] = tuple(skill_config.get("phase_files", list(_DEFAULT_PHASE_FILES)))
-        self._phase_library_slices: dict[str, list[str]] = skill_config.get("PHASE_LIBRARY_SLICES", {})
-        self._phase_rules: dict[str, list[str]] = skill_config.get("phase_rules", {})
+        self._phase_library_extra: dict[str, list[str]] = _merge_phase_library_config(skill_config)
+        self._phase_rules: dict[str, list[str]] = dict(skill_config.get("phase_rules") or {})
 
     def render_section_ids(self, section_ids: list[str]) -> str:
         """Join section IDs the same way as a prompt body (no context block). Used for ``agents_front``."""
@@ -101,8 +121,22 @@ class Instructions:
             return self._default_phase_section_ids(slug)
         raise KeyError(f"Unknown slug (not in phase_files or operation_sections): {slug}")
 
+    def _merged_library_filenames(self, slug: str) -> list[str]:
+        """``library_files`` for every phase, then ``phase_library[slug]`` extras (deduped, order preserved)."""
+        base = list(self._library_files)
+        extra = list(self._phase_library_extra.get(slug) or [])
+        seen: set[str] = set()
+        out: list[str] = []
+        for name in base + extra:
+            n = str(name).strip()
+            if not n or n in seen:
+                continue
+            seen.add(n)
+            out.append(n)
+        return out
+
     def _default_phase_section_ids(self, slug: str) -> list[str]:
-        libs = self._phase_library_slices.get(slug, list(self._library_files))
+        libs = self._merged_library_filenames(slug)
         ids: list[str] = []
         for fname in libs:
             stem = Path(fname).stem

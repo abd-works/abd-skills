@@ -18,7 +18,7 @@ def _phases_built_dir() -> Path:
 
 def test_build_py_exits_zero() -> None:
     r = subprocess.run(
-        [sys.executable, str(ROOT / "scripts" / "build.py")],
+        [sys.executable, str(ROOT / "scripts" / "base" / "build.py")],
         cwd=ROOT,
         capture_output=True,
         text=True,
@@ -29,7 +29,7 @@ def test_build_py_exits_zero() -> None:
 
 def test_root_and_built_agents_match() -> None:
     subprocess.run(
-        [sys.executable, str(ROOT / "scripts" / "build.py")],
+        [sys.executable, str(ROOT / "scripts" / "base" / "build.py")],
         cwd=ROOT,
         check=True,
     )
@@ -42,7 +42,7 @@ def test_root_and_built_agents_match() -> None:
 def test_agents_includes_each_built_phase_body() -> None:
     """AGENTS.md must embed the same assembly as ``phases/built/<slug>.md`` (real-time pipeline)."""
     subprocess.run(
-        [sys.executable, str(ROOT / "scripts" / "build.py")],
+        [sys.executable, str(ROOT / "scripts" / "base" / "build.py")],
         cwd=ROOT,
         check=True,
     )
@@ -55,7 +55,7 @@ def test_agents_includes_each_built_phase_body() -> None:
 
 def test_content_built_readme_exists_after_build() -> None:
     subprocess.run(
-        [sys.executable, str(ROOT / "scripts" / "build.py")],
+        [sys.executable, str(ROOT / "scripts" / "base" / "build.py")],
         cwd=ROOT,
         check=True,
     )

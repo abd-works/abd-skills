@@ -14,7 +14,7 @@ Pipeline: Context → Foundational spine → Modules/epics scaffold (breadth) �
 
 **Prerequisites:** Stage 1 — source documents (PDF, DOCX, PPTX, etc.). Stage 2+ — `context_index.json` and `chunks/*.md` under **`context_path`** from `solution.conf` (default `<output_dir>/context`).
 
-**Config:** `conf/abd-config.json` must set **`solution_workspace`** (workspace root with **`solution.conf`**). In `solution.conf`, **`output_dir`** holds map-model-spec.\*, mms-chunk-index.json, evidence/, summary.md, relationships.md, generated/; **`context_path`** holds context_index.json and chunks/. See `conf/README.md`. Scripts fail if workspace is missing or invalid.
+**Config:** `skill-config.json` must set **`solution_workspace`** (workspace root with **`solution.conf`**). In `solution.conf`, **`output_dir`** holds map-model-spec.\*, mms-chunk-index.json, evidence/, summary.md, relationships.md, generated/; **`context_path`** holds context_index.json and chunks/. See `conf/README.md`. Scripts fail if workspace is missing or invalid.
 
 **Two parallel artifacts produced at every pipeline step:**
 
@@ -483,7 +483,7 @@ AnotherConcept (qualifier):
 
 # Stage 1 — Extract Context
 
-**Prerequisites:** (1) `conf/abd-config.json` sets **required** `solution_workspace` and that directory contains `solution.conf` (see `conf/README.md`). (2) Source documents (PDF, DOCX, PPTX, XLSX, HTML, etc.) in a folder under that workspace (or passed explicitly to scripts).
+**Prerequisites:** (1) `skill-config.json` sets **required** `solution_workspace` and that directory contains `solution.conf` (see `conf/README.md`). (2) Source documents (PDF, DOCX, PPTX, XLSX, HTML, etc.) in a folder under that workspace (or passed explicitly to scripts).
 
 ## Purpose
 

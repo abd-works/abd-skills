@@ -1,16 +1,17 @@
 {
   "name": "abd-skill-builder",
   "version": "0.1.0",
+  "workspace": {
+    "active_skill_workspace": ".",
+    "known_skill_workspaces": [],
+    "context_paths": []
+  },
   "library_files": [
-    "documentation-standards.md",
-    "process-table-standards.md",
+    "Skill structure and concepts.md",
+    "critical-quality-steps.md",
     "delivery-modes.md",
-    "process-approach.md",
-    "authoring-checklist.md",
-    "skill-repo-standards.md",
-    "skill-standards-section-3.md",
-    "builder-vs-operator.md",
-    "rules-and-automated-checks.md"
+    "process-phases.md",
+    "rules-and-scanners.md"
   ],
   "phase_files": [
     "workspace-and-config",
@@ -23,9 +24,7 @@
   "phase_section_headings": {
     "workspace-and-config": "Workspace and config"
   },
-  "agents_front": [],
-  "agents_front_heading": "## Front matter",
-  "PHASE_LIBRARY_SLICES": {},
+  "phase_library": {},
   "every_phase_rules": [],
   "phase_rules": {
     "workspace-and-config": [],
@@ -36,24 +35,13 @@
     "fill-scaffold-parts": []
   },
   "phase_bundle": {
-    "order": ["principles", "role", "phase", "library", "rules"],
-    "role_file": "solution-analyst-role.md",
-    "principles_file": "critical-quality-steps.md",
+    "order": ["role", "principles", "phase", "library", "rules"],
+    "role_file": "role.md",
+    "principles_file": "principles.md",
     "role_heading": "## Role",
     "phase_heading": "## Phase",
     "library_heading": "## Library",
     "rules_heading": "## Rules",
     "principles_heading": "## Principles"
-  },
-  "operation_sections": {},
-  "delivery": {
-    "mode": "static_built",
-    "modes": ["static_built", "runtime_injection"]
-  },
-  "operator": {
-    "compileall_paths": ["scripts"],
-    "build_script": "scripts/build.py",
-    "build_pipeline": ["scripts/scanner_skill_builder_layout.py"],
-    "scanners": ["scripts/scanner_skill_builder_layout.py"]
   }
 }

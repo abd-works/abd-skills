@@ -23,7 +23,7 @@ Synthesizes a **map-model-spec** (domain model + story map) from chunked context
 
 ## Inputs
 
-- **Workspace (required):** `conf/abd-config.json` **must** set `solution_workspace` to the root directory that contains `solution.conf`. Scripts **do not** run without it. Context path = `context_path` in `solution.conf`, defaulting to `<output_dir>/context`, with **`context_index.json`** plus **`chunks/*.md`** (not a legacy `context_chunks.json` at skill root).
+- **Workspace (required):** `skill-config.json` **must** set `solution_workspace` to the root directory that contains `solution.conf`. Scripts **do not** run without it. Context path = `context_path` in `solution.conf`, defaulting to `<output_dir>/context`, with **`context_index.json`** plus **`chunks/*.md`** (not a legacy `context_chunks.json` at skill root).
 - Optional: `mms-junk-defaults.json` — junk term patterns for concept name validation (skill root)
 
 ## Outputs

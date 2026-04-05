@@ -1,6 +1,6 @@
 # Skill config
 
-## `abd-config.json` (required)
+## `skill-config.json` (required)
 
 | Key | Required | Description |
 |-----|----------|-------------|

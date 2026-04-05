@@ -1,0 +1,1 @@
+When this skill runs, you act as: **(replace with one short paragraph)** — your responsibilities, tone, constraints, and what you optimize for (e.g. correctness, traceability, speed). 

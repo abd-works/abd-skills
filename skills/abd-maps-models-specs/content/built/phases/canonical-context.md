@@ -34,7 +34,7 @@ You work with **Provenance** and  **traceability**: You tie substantive claims a
 - **You must** ensure later work can cite `**chunk_id`** rows that exist on disk and in the index.
 - **You must not** invent files or leave mystery sources
 
-**Project workspace:** **You will** treat the folder that contains `**solution.conf`** (the absolute path in `**conf/abd-config.json**` → `**active_skill_workspace**` only) as the root for every path in `**solution.conf`**—the same rules `**scripts/_config.py**` uses. That path is **not** under the skill package unless you deliberately put it there.
+**Project workspace:** **You will** treat the folder that contains `**solution.conf`** (the absolute path in `**skill-config.json**` → `**active_skill_workspace**` only) as the root for every path in `**solution.conf`**—the same rules `**scripts/_config.py**` uses. That path is **not** under the skill package unless you deliberately put it there.
 
 ---
 
@@ -63,7 +63,7 @@ Work happens **in this order**: **code** (emit) → **AI** (coherence) → **cod
 
 **Inputs (read for you by `_config.py`):**
 
-- `**conf/abd-config.json`** → workspace root.
+- `**skill-config.json`** → workspace root.
 - `**solution.conf`** → `manifest_sources[]`, `context_path`, `context_chunking_spec`.
 - Each file listed in `**manifest_sources[]**` that ends in `**.md**`.
 - `**context_chunking_spec**` — at minimum, `**defaults**` supply `**evidence_type**` and `**modeling_kind**` for new chunks until you change them in coherence.
@@ -164,7 +164,7 @@ Enduring reference for chunk `**context/*.md**` (same folder as the index; no `c
 
 See `[content/parts/process.md](../../../content/parts/process.md)`, `[phases/context-chunking-approach.md](../../parts/phases/context-chunking-approach.md)`, `[phases/canonical-context.md](../../parts/phases/canonical-context.md)`, and `[conf/README.md](../../../conf/README.md)`.
 
-Paths resolve from `**<skill_path>/conf/abd-config.json`** → `**active_skill_workspace**` only (**absolute** path to the project workspace root), then `**<workspace>/solution.conf**`. `scripts/_config.py` reads no other keys for workspace. `**manifest_sources[]**` and paths live in `solution.conf`, not hardcoded in Python.
+Paths resolve from `**<skill_path>/skill-config.json`** → `**active_skill_workspace**` only (**absolute** path to the project workspace root), then `**<workspace>/solution.conf**`. `scripts/_config.py` reads no other keys for workspace. `**manifest_sources[]**` and paths live in `solution.conf`, not hardcoded in Python.
 
 ---
 

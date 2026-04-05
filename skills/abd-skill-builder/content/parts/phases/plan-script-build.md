@@ -1,49 +1,51 @@
 # Phase — Plan Script Build
 
-This is **phase 1a** in [`../process.md`](../process.md) (**Stage 1 — Plan**). Read **library/** norms and produce **`docs/skill-plan.md`** in the skill workspace before scaffold. For **existing** skills, **migration planning** (inventory + **standards delta**) is **[`plan-migrate.md`](plan-migrate.md)** (**1b**), not this file. The **authoring checklist** is a **section inside** that file (not a second document); **scaffold** injects **[library/authoring-checklist.md](../library/authoring-checklist.md)** into the skill-plan template.
+This is **phase 1a** in [`../process.md`](../process.md) (**Stage 1 — Plan**). Read **library/** norms and **[how checklists are created](../library/base/checklist.md)** (stable under **`library/base/`**) together with **[skill-structure-and-concepts.md](../library/skill-structure-and-concepts.md#authoring-checklist--injector-body)** before **scaffold** or heavy edits. For **existing** skills, **migration planning** (inventory + **standards delta**) is **[`plan-migrate.md`](plan-migrate.md)** (**1b**), not this file.
 
-**Workspace, `conf/abd-config.json`, `active_skill_workspace`:** **[Workspace and config](workspace-and-config.md)** — full terms and keys under **[Skill path, skill workspace, and configuration](workspace-and-config.md#skill-path-skill-workspace-and-configuration)**. Do **not** re-derive routing here.
+**Checklists:** The **normative** description of checklist mechanics is **`content/parts/library/base/checklist.md`** (copied with **`library/base/`** when you scaffold). **Live** session progress is tracked under **`<active_skill_workspace>/<skill_name>/progress/`** by **`generate.py`** — see **`base/checklist.md`** and **`workspace_checklists.py`**.
+
+**Workspace, `skill-config.json`, `active_skill_workspace`:** **[Workspace and config](workspace-and-config.md)** — full terms and keys under **[Skill path, skill workspace, and configuration](workspace-and-config.md#skill-path-skill-workspace-and-configuration)**. Do **not** re-derive routing here.
 
 ## Purpose
 
-Load the **standards in `library/`** so **scaffold** (and, for existing skills, **plan-migrate** + **migrate**) work targets the same rules (§3, operator, **`delivery.mode`**, **`test/`** expectations). Capture the plan and trackable **`- [ ]` / `- [x]`** work in **one** workspace doc: **`docs/skill-plan.md`**, including the **## Authoring checklist** section (normative text from **library/authoring-checklist.md**).
+Load the **standards in `library/`** so **scaffold** (and, for existing skills, **plan-migrate** + **migrate**) work targets the same rules (§3, **`build.*`**, **`delivery.mode`**, **`test/`** expectations). Capture agreements on phases, delivery, and workspace in **`content/parts/process.md`** (and session notes if needed)—**not** a separate plan file under **`docs/`**.
 
 ## AI-chat phases: generate (what to read in the AI session)
 
-For any phase that you run as an **AI-chat** step (see **[`process-approach.md`](../library/process-approach.md)**), you **call the generator** with the **phase slug**, then **read the printed text** as the instructions for that session—not improvised prose.
+For any phase that you run as an **AI-chat** step (see **[`process-phases.md`](../library/process-phases.md)**), you **call the generator** with the **phase slug**, then **read the printed text** as the instructions for that session—not improvised prose.
 
 From the **skill root** (where **`scripts/`** lives):
 
 ```bash
-python scripts/generate.py --phase <phase_slug>
+python scripts/base/generate.py --phase <phase_slug>
 ```
 
 - **`<phase_slug>`** — filename of the phase markdown under **`parts/phases/`** (or **`content/parts/phases/`**), **without** `.md`. Example: this file is **`plan-script-build.md`** → `--phase plan-script-build`.
 - **`--mode dynamic`** (default) — reads **`phases/<slug>.md`** from source.
 - **`--mode static`** — reads **`phases/built/<slug>.md`** after **`build.py`** has materialized it (if your skill uses built phase blobs).
 
-**Scripts:** **[`generate.py`](../../scripts/generate.py)** (entry point) and **[`generate_prompt.py`](../../scripts/generate_prompt.py)** (same CLI). **`build.py`** assembles **AGENTS.md** / bundles; **`generate`** only answers “what instruction block for **this** AI phase?”—orthogonal jobs.
+**Scripts:** **[`generate.py`](../../scripts/base/generate.py)** (entry point) and **[`generate_prompt.py`](../../scripts/generate_prompt.py)** (same CLI). **`build.py`** assembles **AGENTS.md** / bundles; **`generate`** only answers “what instruction block for **this** AI phase?”—orthogonal jobs.
 
 ## What you produce
 
-- **`docs/skill-plan.md`** — from [skill-plan.md.template](../../templates/skill-plan.md.template): plan sections **and** the **Authoring checklist** section (paste or merge from **library/authoring-checklist.md** if you are not using scaffold).
+- Shared understanding of **library/** norms (including **`library/base/checklist.md`**), **delivery mode**, **phase order**, and **components** (reflected in **`content/parts/process.md`** and **`skill-config.json`**).
 
 ## How you know you succeeded
 
-**docs/skill-plan.md** exists under the workspace **docs/**; it reads like a coherent build plan with a working checklist section (first unchecked box = resume)—and you can point to **authoritative** norms in **library/** for anything you asserted.
+**`content/parts/process.md`** and **`skill-config.json`** reflect agreed pipeline and workspace; **`library/base/checklist.md`** is present (greenfield: copied with **`library/base/`** from **abd-skill-builder** via **`scaffold_skill.py`**). You know how **workspace `progress/`** checklists relate to **`generate.py`** (see **`base/checklist.md`**).
 
 ## Input / output / scripts (summary)
 
-**Inputs:** **`docs/skill-plan.md`** (plan + checklist). **`conf/`** / **`active_skill_workspace`** are covered in **[Workspace and config](workspace-and-config.md)**.
+**Inputs:** **library/** norms; target workspace. **`skill-config.json`** / **`active_skill_workspace`** are covered in **[Workspace and config](workspace-and-config.md)**.
 
 | | |
 | --- | --- |
-| **Input** | **`docs/skill-plan.md`** workspace (plan + **## Authoring checklist**). |
-| **Output** | **`docs/skill-plan.md`** — plan + **## Authoring checklist** (normative body from **library/authoring-checklist.md**). |
-| **Scripts / templates** | [skill-plan.md.template](../../templates/skill-plan.md.template) → `docs/skill-plan.md` (checklist injected at scaffold). For **AI-chat** phases: **`python scripts/generate.py --phase <slug>`** — see **[AI-chat phases: generate](#ai-chat-phases-generate-what-to-read-in-the-ai-session)** above. Planning does **not** require **build**. |
+| **Input** | **library/** norms; workspace where the skill package will live. |
+| **Output** | Process alignment in **`content/parts/process.md`** / **`skill-config.json`**; clarity on **`library/base/`** checklist norms and **`progress/`** checklists. |
+| **Scripts / templates** | **`scaffold_skill.py`** copies **`content/parts/library/base/`** from **abd-skill-builder**. For **AI-chat** phases: **`python scripts/base/generate.py --phase <slug>`** — see **[AI-chat phases: generate](#ai-chat-phases-generate-what-to-read-in-the-ai-session)** above. Planning does **not** require **build**. |
 
 ## Steps
 
-1. Open [skill-repo-standards](../library/skill-repo-standards.md), [skill-standards-section-3](../library/skill-standards-section-3.md), and [authoring-checklist](../library/authoring-checklist.md) (same content will live under **## Authoring checklist** in **`docs/skill-plan.md`**).
-2. Create **`docs/skill-plan.md`** from the skill-plan template (with checklist section filled—scaffold does this in one step when you scaffold a new skill).
-3. Work the checklist section and the rest of the plan; leave the next scaffold/migrate steps visible as unchecked until Stage 2.
+1. Open **[skill-structure-and-concepts.md](../library/skill-structure-and-concepts.md)** (repo layout, `skill-config.json` roles, **[authoring checklist — injector body](../library/skill-structure-and-concepts.md#authoring-checklist--injector-body)**) and **[checklist.md](../library/base/checklist.md)**.
+2. Ensure **`content/parts/library/base/checklist.md`** exists (greenfield: **scaffold** copies **`library/base/`**; existing skill: copy **`base/`** from **abd-skill-builder** or merge **`checklist.md`** only).
+3. Work through agreed process rows; leave the next scaffold/migrate steps visible until Stage 2.

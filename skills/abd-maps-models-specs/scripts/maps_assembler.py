@@ -136,7 +136,7 @@ class MapsContentAssembler:
             "Each bundle contains (in order):\n\n"
             "1. **Role** — `content/parts/solution-analyst-role.md` (headings demoted).\n"
             "2. **Phase** — source `content/parts/phases/<slug>.md` only (no embedded role).\n"
-            "3. **Library** — excerpts per **`PHASE_LIBRARY_SLICES`** in **`skill-config.json`**.\n"
+            "3. **Library** — excerpts from **`library_files`** plus **`phase_library[slug]`** in **`skill-config.json`**.\n"
             "4. **Rules** — `rules/*.md` inlined in order per **`phase_rules`** and **`every_phase_rules`** "
             "in **`skill-config.json`** (each entry is the rule file stem without `.md`, same as **abd-skill-builder** "
             "`phase_rules`).\n"

@@ -79,6 +79,9 @@ def _run_validate(target_path: Path | None = None) -> None:
 
 
 def _solution_workspace_from_config(config: dict) -> str | None:
+    ws = config.get("workspace")
+    if isinstance(ws, dict):
+        config = ws
     for key in ("active_skill_workspace", "solution_workspace", "skill_space_path"):
         v = config.get(key)
         if v is not None and str(v).strip():
@@ -87,17 +90,17 @@ def _solution_workspace_from_config(config: dict) -> str | None:
 
 
 def _discover_context() -> None:
-    """Scan solution workspace for context* files/folders and update the skill space's abd-config.json."""
+    """Scan solution workspace for context* files/folders and update the skill space's workspace-context.json."""
     engine_root = _skill_dir
-    config_path = engine_root / "conf" / "abd-config.json"
+    config_path = engine_root / "skill-config.json"
     if not config_path.exists():
-        print("ERROR: conf/abd-config.json not found. Set work area first.", file=sys.stderr)
+        print("ERROR: skill-config.json not found. Set work area first.", file=sys.stderr)
         sys.exit(1)
 
     config = json.loads(config_path.read_text(encoding="utf-8"))
     skill_space = _solution_workspace_from_config(config)
     if not skill_space:
-        print("ERROR: solution_workspace not set in conf/abd-config.json. Set work area first.", file=sys.stderr)
+        print("ERROR: solution workspace not set in skill-config.json → workspace. Set work area first.", file=sys.stderr)
         sys.exit(1)
 
     skill_space_path = Path(skill_space).resolve()
@@ -116,7 +119,7 @@ def _discover_context() -> None:
         elif item.is_file() and item.stem == "context":
             discovered.append(str(item.resolve()))
 
-    ss_config_path = skill_space_path / "conf" / "abd-config.json"
+    ss_config_path = skill_space_path / "conf" / "workspace-context.json"
     ss_config_path.parent.mkdir(parents=True, exist_ok=True)
     ss_config = {}
     if ss_config_path.exists():
@@ -145,7 +148,7 @@ def _discover_context() -> None:
 def _get_config() -> None:
     """Print engine_root, solution_workspace, config_path as JSON. Use when agent needs to know paths."""
     engine_root = _skill_dir
-    config_path = engine_root / "conf" / "abd-config.json"
+    config_path = engine_root / "skill-config.json"
     result = {
         "engine_root": str(engine_root.resolve()),
         "config_path": str(config_path.resolve()),
@@ -246,14 +249,17 @@ def _get_instructions(operation: str, strategy_path: Path | None = None) -> None
     if sys.stdout.encoding and sys.stdout.encoding.lower() not in ("utf-8", "utf8"):
         sys.stdout.reconfigure(encoding="utf-8")
     engine_root = _skill_dir  # Always the synthesizer skill; never changes
-    config_path = _skill_dir / "conf" / "abd-config.json"
+    config_path = _skill_dir / "skill-config.json"
     if not config_path.exists():
-        _skill_dir.joinpath("conf").mkdir(parents=True, exist_ok=True)
         config_path.write_text(
             json.dumps({
-                "skills": ["."],
-                "skills_config": {"order": ["."]},
-                "context_paths": [],
+                "name": "abd-story-synthesizer",
+                "version": "0.1.0",
+                "workspace": {
+                    "skills": ["."],
+                    "skills_config": {"order": ["."]},
+                    "context_paths": [],
+                },
             }, indent=2),
             encoding="utf-8",
         )

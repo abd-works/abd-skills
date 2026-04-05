@@ -4,10 +4,10 @@ This directory holds **pre-merged** agent instructions for **`static_built`** de
 
 | File | Role |
 | --- | --- |
-| **`AGENTS.md`** | Byte-for-byte same merge as repo root **`AGENTS.md`** produced by **`scripts/build.py`**. |
+| **`AGENTS.md`** | Byte-for-byte same merge as repo root **`AGENTS.md`** produced by **`scripts/base/build.py`**. |
 
 Sources and merge order: **`README.md`** (Delivery & merge order). Regenerate with:
 
 ```bash
-python scripts/build.py
+python scripts/base/build.py
 ```

@@ -64,9 +64,9 @@ def _get_skill_space_path() -> Path | None:
     """Skill workspace root (mandatory for cross-skill resolution when set). Priority:
     1. SOLUTION_WORKSPACE env
     2. SKILL_SPACE_PATH env (legacy alias)
-    3. Project conf/abd-config.json (cwd or parents) — active_skill_workspace, then solution_workspace, skill_space_path
-    4. skill-config.json — same keys
-    5. abd-story-synthesizer conf/abd-config.json (skills repo fallback)
+    3. Project skill-config.json (cwd or parents) — workspace.active_skill_workspace, then solution_workspace, skill_space_path
+    4. skill-config.json at skill root — same keys (top-level or under workspace)
+    5. abd-story-synthesizer skill-config.json (skills repo fallback)
     """
     if "SOLUTION_WORKSPACE" in os.environ:
         return _expand_path(os.environ["SOLUTION_WORKSPACE"])
@@ -79,13 +79,20 @@ def _get_skill_space_path() -> Path | None:
             return None
         return str(sw).strip()
 
-    # Check project config: conf/abd-config.json in cwd or parent dirs (when running from project)
+    def _workspace_block(cfg: dict) -> dict:
+        ws = cfg.get("workspace")
+        if isinstance(ws, dict):
+            return ws
+        return cfg
+
+    # Check project config: skill-config.json in cwd or parent dirs (when running from project)
     for check in [Path.cwd(), Path.cwd().parent]:
-        abd_config = check / "conf" / "abd-config.json"
-        if abd_config.exists():
+        sk = check / "skill-config.json"
+        if sk.exists():
             try:
-                with open(abd_config, encoding="utf-8") as f:
+                with open(sk, encoding="utf-8") as f:
                     cfg = json.load(f)
+                cfg = _workspace_block(cfg)
                 r = _root_from_abd(cfg)
                 if r:
                     return _expand_path(r)
@@ -96,17 +103,19 @@ def _get_skill_space_path() -> Path | None:
         try:
             with open(config_path, encoding="utf-8") as f:
                 cfg = json.load(f)
+            cfg = _workspace_block(cfg)
             for key in ("active_skill_workspace", "solution_workspace", "skill_space_path"):
                 if key in cfg and str(cfg[key]).strip():
                     return _expand_path(str(cfg[key]))
         except (json.JSONDecodeError, OSError):
             pass
-    # Fallback: sibling abd-story-synthesizer conf (skills repo)
-    abd_config = _SKILL_ROOT.parent / "abd-story-synthesizer" / "conf" / "abd-config.json"
-    if abd_config.exists():
+    # Fallback: sibling abd-story-synthesizer (skills repo)
+    synth_config = _SKILL_ROOT.parent / "abd-story-synthesizer" / "skill-config.json"
+    if synth_config.exists():
         try:
-            with open(abd_config, encoding="utf-8") as f:
+            with open(synth_config, encoding="utf-8") as f:
                 cfg = json.load(f)
+            cfg = _workspace_block(cfg)
             r = _root_from_abd(cfg)
             if r:
                 return _expand_path(r)

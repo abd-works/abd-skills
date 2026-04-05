@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 """
-Skill build (see abd-skill-builder/content/parts/library/documentation-standards.md).
+Skill build (merge contract aligned with abd-skill-builder ``Instructions`` / ``ContentAssembler``).
 
 1. ``MapsContentAssembler`` — AGENTS.md + agents-staged + per-phase bundles via ``MapsInstructions``
-   (role → phase body → ``PHASE_LIBRARY_SLICES`` → ``phase_rules`` / ``every_phase_rules`` → principles / critical quality).
+   (role → phase body → ``library_files`` + ``phase_library`` → ``phase_rules`` / ``every_phase_rules`` → principles / critical quality).
    Canonical built phases: ``content/built/phases/<slug>.md``.
-2. Manifest: ``skill-config.json`` (``phase_files``, ``PHASE_LIBRARY_SLICES``, ``phase_rules``, ``every_phase_rules``, ``phase_critical_quality_notes``).
-3. Post-merge pipeline: ordered steps from ``skill-config.json`` → ``operator.build_pipeline`` (emitters,
+2. Manifest: ``skill-config.json`` (``phase_files``, ``library_files``, ``phase_library``, ``phase_rules``, ``every_phase_rules``, ``phase_critical_quality_notes``).
+3. Post-merge pipeline: ordered steps from ``skill-config.json`` → ``build.build_pipeline`` (legacy key
+   ``operator`` still supported; emitters,
    rule-bound scanners, manifest, rule-example lint). Scanner scripts are tied to governance rules in
    ``rules/scanners.json`` → ``rule_scanner_bindings``. Use ``python scripts/build.py --merge-only`` to refresh
    static **instruction** outputs only (no active workspace fixture).
@@ -22,6 +23,7 @@ import argparse
 import subprocess
 import sys
 from pathlib import Path
+from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 SCRIPTS = ROOT / "scripts"
@@ -29,6 +31,16 @@ if str(SCRIPTS) not in sys.path:
     sys.path.insert(0, str(SCRIPTS))
 
 from maps_assembler import MapsContentAssembler, load_skill_config
+
+
+def _skill_build_cfg(cfg: dict[str, Any]) -> dict[str, Any]:
+    """Prefer top-level ``build``; fall back to legacy ``operator`` (same inner keys)."""
+    b = cfg.get("build")
+    if isinstance(b, dict) and b:
+        return b
+    op = cfg.get("operator")
+    return op if isinstance(op, dict) else {}
+
 
 _DEFAULT_BUILD_PIPELINE: tuple[str, ...] = (
     "scripts/scanners/context_index_contract.py",
@@ -69,7 +81,7 @@ def main() -> None:
         print("build.py: merge-only complete (pipeline skipped)")
         return
 
-    op = cfg.get("operator") or {}
+    op = _skill_build_cfg(cfg)
     pipeline: list[str] = list(op.get("build_pipeline") or _DEFAULT_BUILD_PIPELINE)
     for step in pipeline:
         _run_script_relative_to_root(step)

@@ -210,7 +210,7 @@ def build_agents(skill_path: Path | None = None, no_tree: bool = False) -> Path:
     output_path = skill_path / "AGENTS.md"
 
     content_order = list(_CONTENT_ORDER)
-    config_path = skill_path / "conf" / "abd-config.json"
+    config_path = skill_path / "skill-config.json"
     if config_path.exists():
         try:
             data = json.loads(config_path.read_text(encoding="utf-8"))

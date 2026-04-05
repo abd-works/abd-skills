@@ -1,6 +1,6 @@
 """Path resolution for abd-maps-models-specs — layered config (no hardcoded handbook paths).
 
-1. <skill_path>/conf/abd-config.json → **active_skill_workspace** only (absolute path to the directory
+1. <skill_path>/skill-config.json → **workspace.active_skill_workspace** only (absolute path to the directory
    containing solution.conf). No other keys are read for workspace; no relative resolution.
 2. <active_skill_workspace>/solution.conf → output_dir, context_path, manifest_sources[], …
 
@@ -46,7 +46,15 @@ def _load_json(path: Path) -> dict:
 
 
 def skill_config() -> dict:
-    return _load_json(SKILL_ROOT / "conf" / "abd-config.json")
+    """Workspace routing keys from ``skill-config.json`` → ``workspace`` object."""
+    p = SKILL_ROOT / "skill-config.json"
+    if not p.exists():
+        return {}
+    raw = _load_json(p)
+    ws = raw.get("workspace")
+    if isinstance(ws, dict):
+        return ws
+    return {}
 
 
 def _active_skill_workspace_string(data: dict) -> str | None:
@@ -62,7 +70,7 @@ def declared_workspace_root() -> Path:
     ws = _active_skill_workspace_string(data)
     if ws is None:
         _die(
-            'conf/abd-config.json must set non-empty string "active_skill_workspace" '
+            'skill-config.json → workspace must set non-empty string "active_skill_workspace" '
             "(absolute path to the directory that contains solution.conf). "
             "Set it with: python scripts/set_workspace.py <path>"
         )

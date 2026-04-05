@@ -1,10 +1,18 @@
 #!/usr/bin/env python3
 """
-Emit a new skill directory from packaged templates (standards: skill-repo-standards.md).
+Emit a new skill directory from ``templates/skill-scaffold/`` (norms: **abd-skill-builder** ``content/parts/library/skill-structure-and-concepts.md``).
 
-Does not invoke agentic-skill-builder; run Operator separately:
+Copies the template tree with ``{{…}}`` substitution (including ``content/parts/library/required/``
+— purpose, outline, role, principles templates), then copies **this repo's**
+``content/parts/library/base/`` (shared norms: checklist, critical-quality-steps, delivery-modes,
+rules-and-scanners, workspace-config) into the new skill's
+``content/parts/library/base/``, copies ``content/parts/library/process-phases.md`` to the
+new skill's ``content/parts/library/``, then copies the full ``scripts/base/`` tree
+(``build.py``, ``generate.py``, ``set_workspace.py``, ``instructions``, ``skill``, ``skill_root``, …)
+from **abd-skill-builder**. Only **scaffold_skill.py** stays at ``scripts/`` in the builder repo.
 
-  agentic-skill-builder run --skill-path <out>
+After scaffolding, validate the tree with **``python scripts/base/build.py``** (and any scanners in
+**``skill-config.json``**) before you commit.
 """
 
 from __future__ import annotations
@@ -15,11 +23,25 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-TEMPLATES = ROOT / "templates"
+BUILDER_BASE_SCRIPTS = ROOT / "scripts" / "base"
+BUILDER_LIBRARY_BASE = ROOT / "content" / "parts" / "library" / "base"
+SCAFFOLD = ROOT / "templates" / "skill-scaffold"
 
-
-def _load(name: str) -> str:
-    return (TEMPLATES / name).read_text(encoding="utf-8")
+_DEFAULT_PLACEHOLDERS: dict[str, str] = {
+    "phase_name": "Author",
+    "phase_slug": "author",
+    "phase_description": "Write and refine skill content (library, phases, rules).",
+    "phase_input": "Prior plan and workspace",
+    "phase_output": "Draft content under content/parts/",
+    "code_phase_name": "Plan script and build",
+    "code_phase_slug": "plan-script-build",
+    "code_phase_description": "Plan automation and wire scripts under scripts/<skill>.",
+    "code_phase_input": "Author phase output",
+    "code_phase_output": "Runnable scripts and build wiring",
+    "code_phase_script": "plan_build.py",
+    "description": "Describe what this script does after you add it.",
+    "rule_id": "example-rule",
+}
 
 
 def _apply(s: str, ctx: dict[str, str]) -> str:
@@ -29,104 +51,124 @@ def _apply(s: str, ctx: dict[str, str]) -> str:
     return out
 
 
-def _markdown_body_after_first_h1(md: str) -> str:
-    """Drop the first # title line so injected checklist can sit under skill-plan's own headings."""
-    lines = md.splitlines()
-    if lines and lines[0].startswith("# "):
-        lines = lines[1:]
-    while lines and not lines[0].strip():
-        lines.pop(0)
-    return "\n".join(lines).rstrip() + "\n"
+def _copy_scaffold_tree(out: Path, ctx: dict[str, str]) -> None:
+    if not SCAFFOLD.is_dir():
+        raise ValueError(f"missing skill scaffold directory: {SCAFFOLD}")
+
+    skill_name = ctx["skill_name"]
+    rule_id = ctx["rule_id"]
+
+    for src in sorted(SCAFFOLD.rglob("*")):
+        if src.is_dir():
+            continue
+        rel = src.relative_to(SCAFFOLD)
+
+        parts: list[str] = []
+        for p in rel.parts:
+            if p == "{{skill_name}}":
+                p = skill_name
+            if "{{rule_id}}" in p:
+                p = p.replace("{{rule_id}}", rule_id)
+            parts.append(p)
+        dst = out.joinpath(*parts)
+        dst.parent.mkdir(parents=True, exist_ok=True)
+
+        raw = src.read_bytes()
+        try:
+            text = raw.decode("utf-8")
+        except UnicodeDecodeError:
+            dst.write_bytes(raw)
+            continue
+
+        text = _apply(text, ctx)
+        if "my-skill" in text:
+            text = text.replace("my-skill", skill_name)
+        dst.write_text(text, encoding="utf-8")
+
+    phases = out / "content" / "parts" / "phases"
+    pt = phases / "phase-template.md"
+    if pt.is_file():
+        (phases / "author.md").write_text(pt.read_text(encoding="utf-8"), encoding="utf-8")
+    ct = phases / "code-phase-template.md"
+    if ct.is_file():
+        (phases / "plan-script-build.md").write_text(ct.read_text(encoding="utf-8"), encoding="utf-8")
+
+
+def _copy_builder_library_base(out: Path) -> None:
+    """Copy ``content/parts/library/base/`` from abd-skill-builder (shared norms, not duplicated in template)."""
+    if not BUILDER_LIBRARY_BASE.is_dir():
+        raise ValueError(f"missing builder library/base: {BUILDER_LIBRARY_BASE}")
+    dst = out / "content" / "parts" / "library" / "base"
+    dst.mkdir(parents=True, exist_ok=True)
+    for src in sorted(BUILDER_LIBRARY_BASE.iterdir()):
+        if src.is_file():
+            shutil.copy2(src, dst / src.name)
+
+
+def _copy_builder_process_phases_norm(out: Path) -> None:
+    """Copy merged process norms (``process-phases.md``) to the scaffolded skill's ``library/``."""
+    src = ROOT / "content" / "parts" / "library" / "process-phases.md"
+    if not src.is_file():
+        raise ValueError(f"missing builder library process-phases.md: {src}")
+    dst_lib = out / "content" / "parts" / "library"
+    dst_lib.mkdir(parents=True, exist_ok=True)
+    shutil.copy2(src, dst_lib / "process-phases.md")
+
+
+def _copy_canonical_base_scripts(out: Path) -> None:
+    """Copy ``scripts/base/`` support modules (instructions, skill, …) from abd-skill-builder."""
+    if not BUILDER_BASE_SCRIPTS.is_dir():
+        raise ValueError(f"missing builder scripts/base: {BUILDER_BASE_SCRIPTS}")
+    dst = out / "scripts" / "base"
+    if dst.exists():
+        shutil.rmtree(dst)
+    shutil.copytree(BUILDER_BASE_SCRIPTS, dst)
 
 
 def scaffold(out: Path, *, name: str, description: str, purpose: str) -> None:
     if out.exists() and any(out.iterdir()):
         raise ValueError(f"refuse: {out} exists and is not empty")
+
     out.mkdir(parents=True, exist_ok=True)
 
     title = name.replace("-", " ").title()
-    checklist_src = ROOT / "content" / "parts" / "library" / "authoring-checklist.md"
-    if not checklist_src.is_file():
-        checklist_src = ROOT / "parts" / "library" / "authoring-checklist.md"
-    if checklist_src.is_file():
-        acl_body = _markdown_body_after_first_h1(checklist_src.read_text(encoding="utf-8"))
-    else:
-        acl_body = (
-            "*Authoring checklist source not found under `parts/library/`; "
-            "paste from **abd-skill-builder** `library/authoring-checklist.md` into this section.*\n"
-        )
 
-    ctx = {
+    ctx: dict[str, str] = {
+        **_DEFAULT_PLACEHOLDERS,
         "skill_name": name,
         "skill_title": title,
         "skill_description": description,
         "skill_summary": f"**{title}** — scaffolded skill. Replace this summary in SKILL.md.",
         "skill_purpose": purpose,
-        "authoring_checklist_body": acl_body,
     }
 
-    (out / "SKILL.md").write_text(_apply(_load("SKILL.md.template"), ctx), encoding="utf-8")
-    (out / "skill-config.json").write_text(_apply(_load("skill-config.json.template"), ctx), encoding="utf-8")
-    conf = out / "conf"
-    conf.mkdir(parents=True, exist_ok=True)
-    (conf / "build-strategy.json").write_text(_apply(_load("build-strategy.json.template"), ctx), encoding="utf-8")
-    (conf / "abd-config.json").write_text(_apply(_load("abd-config.json.template"), ctx), encoding="utf-8")
-    (conf / "README.md").write_text(_apply(_load("conf_README.md.template"), ctx), encoding="utf-8")
-
-    parts = out / "content" / "parts"
-    phases = parts / "phases"
-    phases.mkdir(parents=True, exist_ok=True)
-    built = phases / "built"
-    built.mkdir(parents=True, exist_ok=True)
-    (built / "README.md").write_text(_load("phases_built_README.md.template"), encoding="utf-8")
-    (parts / "process.md").write_text(_apply(_load("process.md.template"), ctx), encoding="utf-8")
-    wac_src = ROOT / "parts" / "phases" / "workspace-and-config.md"
-    if not wac_src.is_file():
-        wac_src = ROOT / "content" / "parts" / "phases" / "workspace-and-config.md"
-    if wac_src.is_file():
-        shutil.copyfile(wac_src, phases / "workspace-and-config.md")
-    (phases / "author.md").write_text(_apply(_load("phase_author.md.template"), ctx), encoding="utf-8")
-
-    scripts = out / "scripts"
-    scripts.mkdir(parents=True, exist_ok=True)
-    (scripts / "build.py").write_text(_apply(_load("child_build.py.template"), ctx), encoding="utf-8")
-    (scripts / "generate_prompt.py").write_text(_apply(_load("generate_prompt.py.template"), ctx), encoding="utf-8")
-    gen_alias = ROOT / "scripts" / "generate.py"
-    if gen_alias.is_file():
-        shutil.copyfile(gen_alias, scripts / "generate.py")
-    ws_script = ROOT / "scripts" / "set_workspace.py"
-    if ws_script.is_file():
-        shutil.copyfile(ws_script, scripts / "set_workspace.py")
-    (scripts / "scanner_smoke.py").write_text(_apply(_load("child_scanner_smoke.py.template"), ctx), encoding="utf-8")
-
-    rules = out / "rules"
-    rules.mkdir(parents=True, exist_ok=True)
-    (rules / "README.md").write_text(_apply(_load("rules_README.md.template"), ctx), encoding="utf-8")
-    (rules / "scanners.json").write_text(_apply(_load("scanners.json.template"), ctx), encoding="utf-8")
-
-    test_dir = out / "test"
-    test_dir.mkdir(parents=True, exist_ok=True)
-    (test_dir / "README.md").write_text(_apply(_load("test_README.md.template"), ctx), encoding="utf-8")
-
-    docs_dir = out / "docs"
-    docs_dir.mkdir(parents=True, exist_ok=True)
-
-    skill_plan_tmpl = TEMPLATES / "skill-plan.md.template"
-    if skill_plan_tmpl.is_file():
-        (docs_dir / "skill-plan.md").write_text(_apply(skill_plan_tmpl.read_text(encoding="utf-8"), ctx), encoding="utf-8")
-    else:
-        print("Warning: templates/skill-plan.md.template not found; skip docs/skill-plan.md", file=sys.stderr)
+    _copy_scaffold_tree(out, ctx)
+    _copy_builder_library_base(out)
+    _copy_builder_process_phases_norm(out)
+    _copy_canonical_base_scripts(out)
 
     print(f"Scaffolded skill at {out.resolve()}")
-    print("docs/skill-plan.md in the new skill — plan + authoring checklist (one file); track - [ ] / - [x] in the checklist section.")
     print(
-        "conf/abd-config.json must set active_skill_workspace (mandatory). "
-        "Use: python scripts/set_workspace.py <path> — or edit JSON — then: python scripts/build.py"
+        "Shared library/base/ (including checklist.md): content/parts/library/base/ copied from "
+        "abd-skill-builder; refresh when standards change. See skill-structure-and-concepts.md "
+        "(## Authoring checklist — injector body)."
+    )
+    print(
+        "Live pipeline/phase checklists: after set_workspace, "
+        "`python scripts/base/generate.py --phase <slug>` creates missing files under "
+        "<active_skill_workspace>/<skill_name>/progress/ "
+        "(see abd-skill-builder content/parts/library/outline.md — Activity checklists, and scripts/base/workspace_checklists.py)."
+    )
+    print(
+        "skill-config.json → workspace.active_skill_workspace must be set for runtime. "
+        "Use: python scripts/base/set_workspace.py <path> — then: python scripts/base/build.py"
     )
 
 
 def main() -> int:
-    p = argparse.ArgumentParser(description="Create a skill skeleton from abd-skill-builder templates.")
+    p = argparse.ArgumentParser(
+        description="Create a skill skeleton from abd-skill-builder templates/skill-scaffold/.",
+    )
     p.add_argument("--name", required=True, help="Skill id / directory name (e.g. my-new-skill)")
     p.add_argument("--out", type=Path, required=True, help="Output directory (e.g. ../my-new-skill)")
     p.add_argument("--description", default="Scaffolded Open Agent Skill package.")

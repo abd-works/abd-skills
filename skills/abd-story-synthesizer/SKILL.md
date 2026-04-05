@@ -28,8 +28,8 @@ AI:   Concept scan → Behavior packets → Mechanisms → Decision ownership �
 
 | Location | Contains | Owns |
 |----------|----------|------|
-| `abd-story-synthesizer/conf/abd-config.json` | Engine config: `skills`, `skills_config`, **`solution_workspace`** (mandatory) | Which solution workspace to target |
-| `<skill-space>/conf/abd-config.json` | Skill space config: `context_paths` | Where context lives in this workspace |
+| `abd-story-synthesizer/skill-config.json` | Engine config: `skills`, `skills_config`, **`solution_workspace`** (mandatory) | Which solution workspace to target |
+| `<skill-space>/skill-config.json` | Skill space config: `context_paths` | Where context lives in this workspace |
 
 ## Rule Categories
 

@@ -1,13 +1,13 @@
 # Phase — Plan skill migration
 
-This is **phase 1b** in [`../process.md`](../process.md) (**Stage 1 — Plan**). Use it when the skill **already exists** and you need a **written plan** before **moving** anything: inventory, **compare to standards**, **delta table**, user **selection** of what to fix. **Execution** (moves, patches) is **[`migrate.md`](migrate.md)** (**Stage 2b**) — not here.
+This is **phase 1b** in [`../process.md`](../process.md) (**Stage 1 — Plan**). Use it when the skill **already exists** and you need a **written plan** before **moving** anything: inventory, **compare to standards**, **delta table**, user **selection** of what to fix. **Execution** (moves, patches) is **[`migrate.md`](migrate.md)** (after this plan) — not here.
 
 For **greenfield** planning (new skill, no tree yet), use **[`plan-script-build.md`](plan-script-build.md)** (**1a**).
 
 Emit this file for an AI session with:
 
 ```bash
-python scripts/generate.py --phase plan-migrate
+python scripts/base/generate.py --phase plan-migrate
 ```
 
 ---
@@ -30,27 +30,27 @@ Walk the skill root and note:
 | Area | Look at |
 |------|---------|
 | **Entry** | `SKILL.md` frontmatter, description |
-| **Authoring checklist** | In **each skill** (or workspace): **`docs/skill-plan.md`** → **## Authoring checklist** section (norms from [`../library/authoring-checklist.md`](../library/authoring-checklist.md)); check off **`- [ ]` → `- [x]`** as you go (resume from first unchecked). **abd-skill-builder** does not keep a separate checklist under its own **`docs/`**. |
-| **docs/ vs parts** | **`docs/`** — non-runtime only (manuals, plans, architecture, optional checklist copies, **`standards-delta.md`** in **abd-skill-builder** only). **Mergeable / operation-time** markdown lives under **`content/parts/`** (and **`library/`**, **`rules/`**). If **`docs/`** holds instruction bodies that should merge, **move** them into **`parts/`** and leave **`docs/`** as index or narrative only (see **`skill-repo-standards.md`**) |
-| **Operator** | `skill-config.json` → `operator.*`, paths on disk |
+| **Checklist reference** | **[How checklists are created](../library/base/checklist.md)** — stable **`content/parts/library/base/checklist.md`**; workspace **`…/progress/process-checklist.md`** and per-phase **`…/progress/<slug>-checklist.md`** from **`generate.py`**. Check off **`- [ ]` → `- [x]`** in **`progress/`** as you go. |
+| **docs/ vs parts** | **`docs/`** — non-runtime only (manuals, plans, architecture, optional checklist copies, **`standards-delta.md`** in **abd-skill-builder** only). **Mergeable / operation-time** markdown lives under **`content/parts/`** (and **`library/`**, **`rules/`**). If **`docs/`** holds instruction bodies that should merge, **move** them into **`parts/`** and leave **`docs/`** as index or narrative only (see **[skill-structure-and-concepts.md](../library/skill-structure-and-concepts.md)** — **`docs/` vs mergeable markdown**) |
+| **Build / validation** | `skill-config.json` → **`build.*`**, paths on disk |
 | **Delivery** | `delivery.mode`, `AGENTS.md`, `content/built/` if `static_built` |
 | **Content** | `content/parts/process.md`, phase slugs, `build.py` merge order |
 | **Library** | `content/parts/library/` — cross-cutting concepts (definitions, tables, glossaries) reused across phases; merge order in `build.py`; no second home for cross-cutting material outside **`library/`** |
 | **Rules / scanners** | `rules/`, `rules/scanners.json`, bindings |
-| **Scripts** | `scripts/build.py`, scanners, `compileall_paths` |
-| **Tests** | `test/` per **Tests & fixtures** in [`../library/skill-repo-standards.md`](../library/skill-repo-standards.md); pytest wiring if tests exist |
-| **ABD / workspace** | `conf/abd-config.json`, `active_skill_workspace` |
-| **Narrative / identity** | Phases, rules, `SKILL.md` describe **this skill’s** behavior — not chronic “vs other skill” or “we skip X because Y” stories (see **Documentation focus** in [`../library/skill-repo-standards.md`](../library/skill-repo-standards.md)). Dependencies listed **explicitly** where needed. |
+| **Scripts** | `scripts/base/build.py`, scanners, `compileall_paths` |
+| **Tests** | `test/` layout and expectations in **[skill-structure-and-concepts.md](../library/skill-structure-and-concepts.md#repository-shape-skill-package-root)** (repo table) and **[#validation-and-tests](../library/skill-structure-and-concepts.md#validation-and-tests)**; pytest wiring if tests exist |
+| **ABD / workspace** | `skill-config.json`, `active_skill_workspace` |
+| **Narrative / identity** | Phases, rules, `SKILL.md` describe **this skill’s** behavior — not chronic “vs other skill” or “we skip X because Y” stories (see **Skill identity** in **[skill-structure-and-concepts.md](../library/skill-structure-and-concepts.md#skill-identity)**). Dependencies listed **explicitly** where needed. |
 
 ### 2. Compare to standards
 
-For each row in **`skill-repo-standards.md`** (quick layout table) and the **§3** tables where applicable, mark:
+For each row in the **repository shape** table and the **`skill-config.json` / pipeline** guidance in **[skill-structure-and-concepts.md](../library/skill-structure-and-concepts.md)**, mark:
 
 - **Compliant** — matches normative text.
 - **Partial** — close but missing rename, doc, or wiring.
 - **Gap** — missing file, wrong shape, or contradicts standards.
 
-Use **[`skill-standards-section-3.md`](../library/skill-standards-section-3.md)** and **[`skill-repo-standards.md`](../library/skill-repo-standards.md)** as the bar.
+Use **[skill-structure-and-concepts.md](../library/skill-structure-and-concepts.md)** as the bar.
 
 ### 3. Delta report (written artifact)
 
@@ -60,7 +60,7 @@ Produce a **single markdown or table** the user can keep in the skill (e.g. **`d
 |----|------|----------------|---------------------|-------------------------|---------------|
 | D1 | … | … | … | … | … |
 
-Optional: group by **Operator** vs **content** vs **tests** so **[`migrate.md`](migrate.md)** can batch fixes.
+Optional: group by **validation** vs **content** vs **tests** so **[`migrate.md`](migrate.md)** can batch fixes.
 
 ### 4. Ask the user what to fix (next phase)
 
@@ -77,15 +77,5 @@ Record selections; **[`migrate.md`](migrate.md)** applies **only** those IDs.
 
 - **Be specific:** cite paths and standard sections (e.g. “§3.1 phase slugs”).
 - **Don’t** treat every cosmetic difference as high severity.
-- **Do** call out **operator** failures and **security**-sensitive paths (secrets, arbitrary paths) as **high**.
-- If **`pytest`** was requested but missing: reference **When automated tests are asked for** in **[`../library/skill-repo-standards.md`](../library/skill-repo-standards.md)**.
-
----
-
-## Related
-
-- **[`plan-script-build.md`](plan-script-build.md)** — **1a** (plan a **new** skill).
-- **[`migrate.md`](migrate.md)** — **2b** (execute moves and patches from this plan).
-- **[`fill-scaffold-parts.md`](fill-scaffold-parts.md)** — **2c** (author **`library/`** and **`rules/`** after the tree is right).
-- **[`../library/authoring-checklist.md`](../library/authoring-checklist.md)** — checklist norms in **`docs/skill-plan.md`**.
-- **[`../library/skill-repo-standards.md`](../library/skill-repo-standards.md)** — index of conventions.
+- **Do** call out **build/validation** failures and **security**-sensitive paths (secrets, arbitrary paths) as **high**.
+- If **`pytest`** was requested but missing: reference **[Validation and tests](../library/skill-structure-and-concepts.md#validation-and-tests)** in **skill-structure-and-concepts.md**.

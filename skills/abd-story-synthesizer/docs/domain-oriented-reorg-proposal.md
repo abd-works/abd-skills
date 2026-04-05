@@ -151,7 +151,7 @@ abd-story-synthesizer/
     *.md                    # unchanged
   conf/
     operations.yaml         # operation → pieces mapping
-    abd-config.json        # paths, skill_space, etc.
+    skill-config.json        # paths, skill_space, etc.
   scripts/
     build.py                # loads pieces, resolves refs, assembles
 ```

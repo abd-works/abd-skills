@@ -37,7 +37,7 @@ class AgileContextEngine:
 
     def __init__(self, engine_root: str | Path | None = None, strategy_path_override: Path | None = None):
         self.engine_root = Path(engine_root).resolve() if engine_root else _default_engine_root()
-        self.config_path = self.engine_root / "conf" / "abd-config.json"
+        self.config_path = self.engine_root / "conf" / "skill-config.json"
         self.workspace_path: Path | None = None
         self.strategy_path: Path | None = None
         self.strategy_path_override: Path | None = strategy_path_override
@@ -237,7 +237,7 @@ def scaffold_skill(name: str, path: str | Path, engine_root: str | Path | None =
 
     conf_dir = path / "conf"
     conf_dir.mkdir(parents=True, exist_ok=True)
-    abd_cfg = conf_dir / "abd-config.json"
+    abd_cfg = conf_dir / "skill-config.json"
     if not abd_cfg.exists():
         abd_cfg.write_text(
             json.dumps({"solution_workspace": "."}, indent=2) + "\n",
@@ -248,7 +248,7 @@ def scaffold_skill(name: str, path: str | Path, engine_root: str | Path | None =
         conf_readme.write_text(
             """# Workspace configuration
 
-## `abd-config.json` (required)
+## `skill-config.json` (required)
 
 Set **`solution_workspace`** (mandatory) to the root of the **solution workspace** where this skill runs.
 

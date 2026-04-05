@@ -350,7 +350,7 @@ file_map = {
 
 ### 6. conf/ and Root Files
 
-**UPDATE `conf/abd-config.json`**
+**UPDATE `skill-config.json`**
 
 - Add `evidence_paths` section for pipeline I/O directories
 

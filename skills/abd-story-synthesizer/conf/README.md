@@ -1,6 +1,6 @@
 # Workspace configuration
 
-## `abd-config.json`
+## `skill-config.json`
 
 | Key | Meaning |
 | --- | --- |

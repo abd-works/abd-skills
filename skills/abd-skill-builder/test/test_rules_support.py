@@ -6,9 +6,9 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / "scripts"))
+sys.path.insert(0, str(ROOT / "scripts" / "base"))
 
-from rules_support import parse_rule_frontmatter, rule_body_text, stems_for_phase_rules  # noqa: E402
+from rules import parse_rule_frontmatter, rule_body_text, stems_for_phase_rules  # noqa: E402
 
 
 def test_parse_rule_frontmatter_strips_and_keeps_rule_id() -> None:

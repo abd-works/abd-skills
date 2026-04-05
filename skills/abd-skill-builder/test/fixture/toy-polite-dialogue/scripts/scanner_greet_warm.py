@@ -22,7 +22,7 @@ def main() -> int:
         return 1
 
     if not AGENTS.is_file():
-        print("FAIL: run scripts/build.py first (AGENTS.md missing)", file=sys.stderr)
+        print("FAIL: run scripts/base/build.py first (AGENTS.md missing)", file=sys.stderr)
         return 1
     agents = AGENTS.read_text(encoding="utf-8")
     # Greet section must exist and mention acknowledgment / warm framing

@@ -31,12 +31,12 @@ Drives the full synthesis flow: create_strategy -> run_slice (per slice) -> vali
 
 ## Config Location (IMPORTANT)
 
-**abd-config.json MUST live in the synthesizer skill, NOT in the skill space.**
+**skill-config.json MUST live in the synthesizer skill, NOT in the skill space.**
 
 | Location | Contains | Config? |
 |----------|----------|---------|
-| `abd-story-synthesizer/conf/abd-config.json` | Engine config (skills, context_paths, skill_space_path) | **YES** — config goes here |
-| Skill space (e.g. `mm3e/`) | Content to synthesize (goal.md, context/, docs/) | **NO** — never put abd-config in the skill space |
+| `abd-story-synthesizer/skill-config.json` | Engine config (skills, context_paths, skill_space_path) | **YES** — config goes here |
+| Skill space (e.g. `mm3e/`) | Content to synthesize (goal.md, context/, docs/) | **NO** — never put skill workspace routing in the skill space |
 
 The skill space is the workspace/content root. The engine reads config from the synthesizer skill and uses `skill_space_path` in that config to find the workspace. 
 

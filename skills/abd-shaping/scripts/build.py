@@ -17,18 +17,24 @@ def _get_instructions(operation: str) -> None:
     if sys.stdout.encoding and sys.stdout.encoding.lower() not in ("utf-8", "utf8"):
         sys.stdout.reconfigure(encoding="utf-8")
     engine_root = _skill_dir
-    config_path = _skill_dir / "conf" / "abd-config.json"
-    project_config = _skill_dir.parent.parent / "conf" / "abd-config.json"
+    config_path = _skill_dir / "skill-config.json"
+    project_config = _skill_dir.parent.parent / "skill-config.json"
     if project_config.exists():
         engine_root = _skill_dir.parent.parent
     elif not config_path.exists():
-        _skill_dir.joinpath("conf").mkdir(parents=True, exist_ok=True)
         config_path.write_text(
-            json.dumps({
-                "skills": ["."],
-                "skills_config": {"order": ["."]},
-                "context_paths": [],
-            }, indent=2),
+            json.dumps(
+                {
+                    "name": "abd-shaping",
+                    "version": "0.1.0",
+                    "workspace": {
+                        "skills": ["."],
+                        "skills_config": {"order": ["."]},
+                        "context_paths": [],
+                    },
+                },
+                indent=2,
+            ),
             encoding="utf-8",
         )
     engine = AgileContextEngine(engine_root=engine_root).load()

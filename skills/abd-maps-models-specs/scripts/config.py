@@ -1,5 +1,5 @@
 """
-Engine config — conf/abd-config.json schema. Uses pydantic if available, else plain dict.
+Engine config — skill-config.json → workspace schema. Uses pydantic if available, else plain dict.
 Ported from abd-story-synthesizer (same contract).
 
 Workspace: only **active_skill_workspace** is used (absolute path). No deprecated aliases.

@@ -19,7 +19,7 @@ Everything below is **what you must do** to finish this step.
 
 **How you work here:** **You** skim **`context_index.json`**, document titles, TOC, and **titles** of chunks only (not counted toward **K**). **Domain + story shape for this step** — only the parts that apply here — are in **§2** (before templates). Core evidence rule: **you** only assert what **you** cite. See baked **Rules**.
 
-1. **Context** — **You** resolve **`context_path`** from **`conf/abd-config.json`** → **`solution_workspace`** → that workspace’s **`solution.conf`**. **You** open **`context_index.json`**. **You** record **N** = number of keys in **`forward_index`** (the breadth step uses **N** later to size its reads; **you** are **not** doing that sampling here).
+1. **Context** — **You** resolve **`context_path`** from **`skill-config.json`** → **`solution_workspace`** → that workspace’s **`solution.conf`**. **You** open **`context_index.json`**. **You** record **N** = number of keys in **`forward_index`** (the breadth step uses **N** later to size its reads; **you** are **not** doing that sampling here).
 
 2. **Open or create the spec** — **`output_dir`** from **`solution.conf`** → **`map-model-spec.json`**. **You** create the file if needed. **You** set **`workflow_step`** / **`workflow_note`** (or your pipeline’s equivalent) so this pass is clearly **foundational spine** work.
 

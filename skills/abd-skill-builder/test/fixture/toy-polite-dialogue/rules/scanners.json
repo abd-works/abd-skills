@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "comment": "rule_scanner_bindings documents which rule file each scanner enforces; scanners[] is the operator run list (deduped with skill-config.operator.scanners).",
+  "comment": "rule_scanner_bindings maps rules to scanner scripts. Optional scanners[] duplicates paths for tooling; build.py merges bindings + optional build.scanners + scripts/scanners/*.py.",
   "rule_scanner_bindings": [
     {
       "id": "greet_warm",

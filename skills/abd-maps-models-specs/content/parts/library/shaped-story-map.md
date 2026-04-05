@@ -24,7 +24,7 @@ Stories must **not** exist solely to match strings in a future type list.
 
 ## Artifact location
 
-**Path:** `phase3/shaped_story_map.json` under the workspace’s configured output root (`OUT_ROOT` from `solution.conf` → `output_dir`, conventionally `<skill_name>/`). The repo’s bundled example workspace uses `test/sample-workspace/` when `conf/abd-config.json` points there.
+**Path:** `phase3/shaped_story_map.json` under the workspace’s configured output root (`OUT_ROOT` from `solution.conf` → `output_dir`, conventionally `<skill_name>/`). The repo’s bundled example workspace uses `test/sample-workspace/` when `skill-config.json` points there.
 
 ---
 
