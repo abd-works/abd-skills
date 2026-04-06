@@ -1,0 +1,73 @@
+# AI quality: normative rules, scanners, and review
+
+**What this file is:** the **three-layer quality bar** for Stage 2+ work—how **you** use **`rules/`**, automation, and review so artifacts stay defensible, not only green in CI.
+
+**Scope:** Injected into **Principles** for **Stage 2+** built phase bundles only. **Stage 1** (set-workspace through canonical-context) omits this file — use that phase’s **Phase**, **Library**, and **Rules** only.
+
+---
+
+**Every rule in `rules/` is two things at once:** (1) **Normative advice** — prose **you will** follow while authoring `shaped_story_map.json`, `map-model-spec.json`, terms/mechanisms JSON, and related artifacts. (2) **Checkable expectations** — where this repo ships a **scanner or validator** under **`scripts/`**, it catches common misses; where it does not, **you must** still review against the rule text.
+
+**Example (wrong):** Relying only on “the build passed” while epics are vague labels and stories have no `evidence_chunk_ids[]`.
+
+**Example (correct):** **You will** read the **Rules** section in this bundle, produce artifacts that satisfy the spirit, run **`python scripts/build.py`** (or the relevant script) on your workspace, then **re-read** output against each applicable rule name.
+
+---
+
+## Layer 1 — Generate with rules
+
+**You will** apply **`rules/*.md`** that are inlined into this bundle (and related library docs) while generating or editing phase artifacts.
+
+**You will** treat **`**DO**`** / **`**DON'T**`** / **`**DO NOT**`** sections and **good vs bad** fragments inside each rule as the contract for *shape*, not only for CI.
+
+---
+
+## Layer 2 — Mechanical checks (this repo)
+
+**You will** run the pipeline after you have files on disk:
+
+| Mechanism | What it does |
+| --------- | ------------ |
+| **`python scripts/build.py`** | Merge + docs, then **`operator.build_pipeline`**: rule-bound scanners (see **`rules/scanners.json`**), Phase 2 emit, pipeline-output check, manifest, **`test_rule_examples.py`**. |
+| Individual scripts | Same modules as above; use when iterating one concern. |
+
+**Example (wrong):** Bulk search-replace in JSON to “fix” names without updating evidence links.
+
+**Example (correct):** **You will** fix violations reported by validators, re-run, and keep `chunk_id` / `evidence_chunk_ids[]` honest.
+
+Scanners are **necessary** for what they implement; they are **not sufficient** for semantic quality (e.g. wrong decomposition with valid IDs). **You must not** treat a clean scanner run as proof of good decomposition.
+
+---
+
+## Layer 3 — Adversarial pass (human or AI)
+
+**You will** ask, with clean tool output:
+
+- Does each **rule** that applies to this phase pass **by intent**, not only by letter?
+- Would a reviewer see **duplication**, **vague epics**, or **concepts without real responsibilities** even when JSON validates?
+
+**You will** use the **Corrections format** below when fixing issues.
+
+---
+
+## Corrections format
+
+**You will** record fixes using this shape:
+
+| Field | Content |
+| ----- | ------- |
+| **Rule** | Rule id or `rules/<file>.md` name |
+| **Example (wrong)** | What was done incorrectly |
+| **Example (correct)** | What it should be |
+| **Scanner or validator** | If applicable — see **`rules/scanners.json`**; run via **`build.py`** pipeline |
+| **Likely source** | One of: prompt gap · rule not read · edge case · automation gap |
+
+---
+
+## Do not delegate AI phases to throwaway scripts
+
+**AI phases** mean: read inputs, reason, write/update the artifact files for this skill. **You must not** add one-off merge scripts that splice JSON **outside** the documented pipeline (see **`rules/deepen-approved-tools-only.md`**). Approved automation lives under **`scripts/`** and is documented in **`rules/`** + **`validate-and-manifest-gates.md`**.
+
+**Example (wrong):** “I’ll write `merge_story_map.py` to patch epics without going through the shaped story map contract.”
+
+**Example (correct):** **You will** edit `phase3/shaped_story_map.json` (or the generator you were given) so structure and evidence fields match **`shaped-story-map.md`** and validators.

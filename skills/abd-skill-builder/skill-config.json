@@ -7,11 +7,14 @@
     "context_paths": []
   },
   "library_files": [
-    "Skill structure and concepts.md",
+    "skill-structure-and-concepts.md",
     "critical-quality-steps.md",
     "delivery-modes.md",
     "process-phases.md",
-    "rules-and-scanners.md"
+    "rules-and-scanners.md",
+    "checklist.md",
+    "workspace-config.md"
+
   ],
   "phase_files": [
     "workspace-and-config",

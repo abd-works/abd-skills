@@ -1,10 +1,28 @@
-# Nouns, verbs, rules, and states — payments example
+# Nouns, verbs, rules, and states
 
 **Skill:** abd-ooad — matches **Step 1: Read for nouns, verbs, rules, and states** in `SKILL.md`.
 
-**Source:** `garbled-payments-spec.md` (battle-test input).
+At this stage we do **not** decide which nouns become classes — only mark candidates and tensions.
 
-At this stage we do **not** decide which nouns become classes—only mark candidates and tensions.
+For the full anchor definition and the three-part anchor test — see `anchors` in this library.
+
+---
+
+## Anchor boundaries under test
+
+Step 1 is the first time anchors are tested by the full vocabulary of the source. As you extract nouns and verbs, actively watch for:
+
+- **Evidence that supports an anchor** — terms that clearly belong inside an anchor's module frame (future supporting classes or properties of the core class)
+- **Evidence that challenges an anchor** — a term that is referenced independently by multiple other concepts, suggesting it may need to be elevated to its own anchor
+- **Evidence that an anchor should be split** — the core class is doing two different things and the nouns in this pass separate cleanly into two groups
+
+Do not restructure anchors mid-step. Record any anchor boundary questions in the term registry (`Status: Ambiguous`, note the challenge). Evaluate at the `candidate-list` (CANDS) step.
+
+**At the end of Step 1, re-apply the anchor test** (from `anchors.md`) to any anchor whose boundary was challenged. Promote, demote, or split if the test now fails. Update the term registry and diagram accordingly before proceeding.
+
+---
+
+## Worked example — payments spec
 
 > **Continual refinement:** Aligns with **abd-maps-models-specs** [`domain-model.md`](../../abd-maps-models-specs/content/parts/library/domain-model.md) (*Domain concept* template, *Continual refinement — class definition + diagram*). In this payments thread, **`**newly added**`** marks a property or operation line **first introduced in this step file** (Steps 1–4 stay pre-notation; formal `- <type> property` / `operation(...) → return` lines begin at Step 5).
 
