@@ -41,6 +41,17 @@ Ask whether **“user”** / **payer** / **admin** are one abstraction or **smas
 ## Continual refinement (this step)
 
 - **Delta:** **signals and extract paths** (pricing, redirect, refund policy, notifier) — mostly narrative; new **types** introduced here get **`**newly added**`** on their first **property** / **operation** lines when promoted.
+
+---
+
+## Action Checklist
+
+- [ ] Have you identified any class with more than two distinct responsibilities?
+- [ ] Have you identified any class that contains both state management and policy enforcement?
+- [ ] Have you proposed concrete extractions (new types) for each bloat signal found?
+- [ ] Have you logged any deferral as explicit design debt with a rationale?
+- [ ] Have you noted carry-forward items to Step 10 (smashed abstractions)?
+
 ---
 
 ## Prompt

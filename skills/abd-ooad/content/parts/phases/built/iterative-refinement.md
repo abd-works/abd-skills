@@ -44,6 +44,17 @@ You are the **domain modeler and OOAD practitioner** using this skill: you provi
 
 ---
 
+## Action Checklist
+
+- [ ] Have you re-read the source material against the current model from the beginning?
+- [ ] Have you resolved contradictions between the spec and the model?
+- [ ] Have you updated class names, responsibilities, or relationships found to be inaccurate?
+- [ ] Have you logged any open questions or unresolvable contradictions as explicit design debt with a clear follow-up?
+- [ ] Have you updated the term registry with any name or classification changes?
+- [ ] Have you updated the class diagram to reflect all refinements from this pass?
+
+---
+
 ## Re-read checklist (payments)
 
 | Question | Action |
@@ -136,12 +147,14 @@ An anchor is a concept you expect to be present in the model from scan through f
 
 ## Anchor as module — what it looks like in outputs
 
-| Output | What anchor produces |
-|--------|---------------------|
-| `domain-scan-results.md` | Row in the anchors table: Module name, core class name, scan-visible supporting classes, basis |
-| `domain-scan-model.md` | Module section header + core class entry + supporting class entries with `[supporting class — ModuleName module]` annotation |
+
+| Output                     | What anchor produces                                                                                                            |
+| -------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| `domain-scan-results.md`   | Row in the anchors table: Module name, core class name, scan-visible supporting classes, basis                                  |
+| `domain-scan-model.md`     | Module section header + core class entry + supporting class entries with `[supporting class — ModuleName module]` annotation    |
 | `domain-scan-model.drawio` | One dashed frame per anchor; core class inside; supporting classes inside; cross-module relationships between core classes only |
-| `term-registry.md` | Core class → `anchor` classification; supporting classes → `candidate` classification with Module? column naming their module |
+| `term-registry.md`         | Core class → `anchor` classification; supporting classes → `candidate` classification with Module? column naming their module   |
+
 
 ---
 
@@ -149,7 +162,7 @@ An anchor is a concept you expect to be present in the model from scan through f
 
 Anchor status is not permanent. Anchors are your highest-confidence starting point, but subsequent phases will test and revise them:
 
-- **nouns-verbs-rules-and-states (NOUNS):** All bolded and defined terms in the source are extracted. Anchors are not re-evaluated here, but new candidates emerge that may challenge or subdivide existing anchor boundaries.
+- **nouns-verbs-rules-and-states (NOUNS):** All bolded and defined terms in the source are extracted. Anchors can be re-evaluated here, new candidates emerge willl challenge or subdivide existing anchor boundaries.
 - **candidate-list (CANDS):** Candidates are sorted and scored. At this stage, watch for candidates that score high enough on the anchor test to be promoted — or anchors whose core class fails the independence test and should be demoted.
 - **thing-vs-data-about-a-thing (THINGS):** Supporting classes inside anchor frames are evaluated here — each gets a class/property decision. If a supporting class earns class status, it may eventually warrant its own module frame in later phases.
 - **All subsequent phases:** Anchors drive the backbone of the model. Relationship decisions, responsibility assignments, and inheritance structures are all organized relative to anchor modules. Changes to anchor boundaries affect the whole model — flag them explicitly in the term registry before proceeding.
@@ -164,6 +177,126 @@ The absence of a matching core class is the clearest signal that you have not ye
 2. Read the relevant chapter(s) more carefully — the anchor often has its own defined term or dedicated section
 3. Ask: if another module needed to reference this cluster, what single class would it name?
 4. If no single class emerges after exploration, record the cluster as a **tension** in domain-scan-results.md and defer
+
+
+---
+
+### `scan-artifacts-and-strategy.md`
+
+# Scan artifacts and strategy
+
+Domain scan (OOAD **phase 1**) does not only produce a single “results” file. It establishes a **small set of workspace files** under `<workspace>/abd-ooad/` that work together. Some are **frozen findings** from the scan; others are **living documents** you update as modeling continues.
+
+For the scan procedure itself, see the **Domain scan** phase. This page explains **what each artifact is for** and how **`strategy.md`** relates to **`domain-scan-results.md`**.
+
+**Checkbox discipline:** Live ticks for pipeline position and phase steps belong only under **`<workspace>/abd-ooad/progress/`** — see **`library/base/checklist.md`** and **`library/strategy-execution-and-checklists.md`**. Do not put tick tables in `strategy.md`.
+
+---
+
+## The five scan outputs (always)
+
+Created during domain scan under `<workspace>/abd-ooad/`:
+
+| File | Role | Updates after scan? |
+|------|------|---------------------|
+| `domain-scan-results.md` | **Findings snapshot:** source map, anchor table, tensions. | Rarely — only if you correct a scan error. Do not put the forward plan here; that belongs in `strategy.md`. |
+| `strategy.md` | **Living strategy:** **modeling scope**, **execution plan (normative)** — which phases in what order and on what slice of context — plus **approach** and **dated pivots**. | **Yes** — whenever scope, order, or focus changes. |
+| `domain-scan-model.md` | Class sketch (markdown) at scan fidelity. | Yes, in later phases — not only during scan. |
+| `domain-scan-model.drawio` | Diagram at scan fidelity. | Same as model.md. |
+| `term-registry.md` | Terms, classification, confidence — seeded at scan. | **Yes** — every later phase updates Step / classification. |
+
+**Plus** (when workspace is configured): **`progress/`** checklists — see **`library/strategy-execution-and-checklists.md`**. **`generate.py`** creates **`process-checklist.md`**, **`<phase>-checklist.md`**, and (abd-ooad) **`strategy-run-checklist.md`** when templates exist and files are missing. Normative phase steps stay in **`content/parts/phases/<phase>.md`**. These are the **only** place for session tick marks.
+
+Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; they start when the skill’s later phases call for them.
+
+---
+
+## What `strategy.md` is for
+
+- Created at the end of domain scan as a **workspace file**, then **kept current** through extraction and later phases.
+- **Purpose:** (1) **scope** — what chapters, anchors, or files you model; (2) **execution plan** — ordered list of phase slugs with **per-step scope** (e.g. run nouns-verbs on Chapter 5, then the next three phases on Chapter 6); (3) short **why** in *Approach going forward* and **pivots** in *Ongoing strategic decisions*. Scan mechanics live in **`domain-scan-results.md`**.
+- **Template:** `templates/strategy.md`. Install as **`strategy.md`** (lowercase; avoid duplicate `STRATEGY.md` on case-insensitive disks).
+- After you finalize the execution plan, align **`progress/strategy-run-checklist.md`** with it (same phases and scope); that file holds **checkboxes** for “which phase is done,” while **`strategy.md`** stays **normative text** (no `- [ ]`).
+
+---
+
+## Checklist vs results vs strategy
+
+| Question | Answer |
+|----------|--------|
+| Where is the source map and anchor list? | `domain-scan-results.md` |
+| Where do I define “we model Chapter 5 first, then Chapter 6” and **which phases** per slice? | `strategy.md` → **Modeling scope** + **Execution plan (normative)** |
+| Where do I tick **which phases** we ran, **in order**, with **scope**? | **`abd-ooad/progress/strategy-run-checklist.md`** (keep in sync with `strategy.md`) |
+| Where do I tick **full** pipeline position (all phases)? | **`abd-ooad/progress/process-checklist.md`** (optional reference) |
+| Where do I tick **steps inside** the current phase? | **`abd-ooad/progress/<phase>-checklist.md`** |
+| Where do I tick domain-scan action steps? | **`abd-ooad/progress/domain-scan-checklist.md`** |
+| Can I merge checklist into strategy? | **No** — strategy holds the plan; ticks only under **`progress/`** |
+
+---
+
+## Going forward (phases after scan)
+
+1. **Strategy** — Keep **`strategy.md`** aligned with reality; append *Ongoing strategic decisions* when you pivot.
+2. **Strategy execution** — Tick **`progress/strategy-run-checklist.md`** as you **complete** each phase for its declared scope.
+3. **Phase work** — For the active phase, run **`generate.py --phase <slug>`** and tick **`progress/<slug>-checklist.md`** for action steps.
+4. **Registry** — Keep `term-registry.md` aligned with the current phase (Step column).
+5. **Results** — Touch `domain-scan-results.md` only for corrections to the original scan snapshot.
+
+---
+
+## References
+
+- Templates: `templates/domain-scan-results.md`, `templates/strategy.md`, `templates/strategy-run-checklist.md`
+- Strategy vs checklists: **`library/strategy-execution-and-checklists.md`**
+- Anchors: `anchors` in this library
+- Term registry: `term-registry` in this library
+- Checklist norm: `library/base/checklist.md`
+
+
+---
+
+### `strategy-execution-and-checklists.md`
+
+# Strategy execution and checklists (abd-ooad)
+
+OOAD uses **three** checklist layers under **`<workspace>/abd-ooad/progress/`**. Only **`strategy.md`** defines **scope** and **which phases in what order**; checklists are where you **tick** progress.
+
+---
+
+## Workflow
+
+1. **Domain scan** — produce scan artifacts (see **`scan-artifacts-and-strategy`**).
+2. **Strategy** — fill **`strategy.md`** from **`templates/strategy.md`**:
+   - **Modeling scope** — chapters, anchors, files, in/out of scope.
+   - **Execution plan (normative)** — ordered list of phase **slugs** (from **`skill-config.json` → `phase_files`**) plus **scope per step** (e.g. “nouns-verbs on Chapter 5 only”).
+   - **Approach going forward** + **Ongoing strategic decisions** — short narrative and dated pivots.
+3. **Align live checklists** — keep **`strategy-run-checklist.md`** in sync with the execution plan (same order and scope). Seed file: **`templates/strategy-run-checklist.md`** (created under **`progress/`** on first **`generate.py`** when missing).
+4. **Run phases** — for the **current** phase: `python scripts/base/generate.py --phase <slug>`. Tick **`strategy-run-checklist.md`** when a phase is **done** for its declared scope; tick **`<slug>-checklist.md`** for **steps inside** that phase.
+
+---
+
+## Three layers
+
+| Layer | File | What you tick |
+| --- | --- | --- |
+| **Strategy execution** | **`progress/strategy-run-checklist.md`** | **Which phases** you will run, **in order**, each with **scope** (matches **`strategy.md` → Execution plan**). Use this for “next three steps per chapter” or “whole pipeline on anchor X.” |
+| **Full pipeline (reference)** | **`progress/process-checklist.md`** | **Every** phase in **`phase_files`** — useful as a map; optional if you rely only on strategy-run. |
+| **Phase steps** | **`progress/<phase>-checklist.md`** | **Action checklist** copied from **`content/parts/phases/<phase>.md` → ## Action Checklist**. |
+
+**Normative rules** for pipeline + phase checklists: **`library/base/checklist.md`**. **Implementation:** **`scripts/base/workspace_checklists.py`**.
+
+---
+
+## What not to do
+
+- Do not put **checkboxes** in **`strategy.md`** — keep execution plan as **normative numbered/bulleted text**; ticks live under **`progress/`**.
+- Do not let **`strategy-run-checklist.md`** drift from **`strategy.md`** — after a pivot, update both and append a line under *Ongoing strategic decisions*.
+
+---
+
+## Phase slugs
+
+Use exact slugs from **`skill-config.json` → `phase_files`** (e.g. `nouns-verbs-rules-and-states`, `domain-scan`). Labels for humans are in **`phase_section_headings`**.
 
 
 ---
@@ -268,7 +401,102 @@ Do not hand-write `.drawio` XML. Do not create ad-hoc rectangle layouts. The CLI
 
 ---
 
-## Class Diagram — Workflow
+## Diagram Build Routine
+
+Every class diagram is built from the `.md` companion file. The `.md` is always created first and is the authoritative record. The diagram is then derived from it, component by component.
+
+### Step 1 — Read the MD file line by line
+
+Before writing a single CLI command, read the entire `.md` companion and extract:
+- Every class name and its stereotype
+- Every **scalar field** (primitive type, not a reference to another class)
+- Every invariant `{ }` line
+- Every multi-valued reference (these become arrows, NOT diagram fields)
+- Every single-valued reference to another class (also an arrow)
+
+**Diagram fields = scalars + invariants only.** Any field whose type is another class in the model must become a relationship arrow. Do not add it as a text field in the diagram — it is already represented by the arrow.
+
+### Step 2 — Add each class one at a time
+
+For each class:
+1. `add-class <Name> --stereotype <phase>` — stereotype goes in the class header, not as a field row
+2. Add only scalar fields: `add-field <Name> "+ fieldName: PrimitiveType"`
+3. Add invariants: `add-field <Name> "{ constraint text }"` — these will be post-processed to taller cell heights
+4. After each class, check the class rendered correctly before moving to the next
+
+**Stereotype rule:** Always use `--stereotype scan` (or the current phase) on `add-class`. Never add `<<scan>>` as a separate field row — this causes it to render as `<>` because draw.io HTML interprets `<scan>` as an HTML tag.
+
+**Type completeness rule:** Every type referenced in a field must have a class in the diagram. If `Character` has `powers: Power [0..*]`, then `Power` must be drawn as a class. There are no phantom types — if it appears in a field, it exists in the model.
+
+### Step 3 — Post-process constraint cell heights
+
+After all classes are added, run the height fixup:
+```python
+for cell in root.iter('mxCell'):
+    val = cell.get('value', '')
+    if val.startswith('{'):
+        geom = cell.find('mxGeometry')
+        if geom is not None:
+            geom.set('height', '52' if len(val) <= 60 else '78')
+```
+
+### Step 4 — Add module frames
+
+Run `add-frame` for each module, listing all member classes. Frames must be added AFTER all classes.
+
+### Step 5 — Add relationships
+
+For each relationship identified in Step 1:
+- Composition: `add-composition Whole Part --mult "n..*"` — multiplicity goes at the **part** (many) end, near the part class
+- Association: `add-association From To --label "name" --to-mult "0..*"`
+- Dependency: `add-dependency From To --stereotype "label"`
+
+Cross-module relationships connect core classes only (not frames). Before drawing any cross-module arrow, confirm there is a field on the source class that references the target — see `class-diagrams` → "Associations Require a Connecting Field".
+
+### Step 6 — Verify and fix layout
+
+```bash
+# Fix edge styles first (V3/V4)
+python scripts/drawio_cli.py fix-edge-styles --file <output>.drawio
+
+# Fix shared connection points (V5) — always run after adding relationships
+python scripts/drawio_cli.py fix-shared-endpoints --file <output>.drawio
+
+# Verify — check all rules V1–V6
+python scripts/drawio_cli.py verify --file <output>.drawio
+```
+
+The `fix-shared-endpoints` command detects classes where 2+ edges arrive or
+leave without explicit `entryX/Y` / `exitX/Y` constraints. It determines the
+dominant approach side (top / bottom / left / right) and distributes port
+coordinates evenly so arrowheads no longer pile up.
+
+After verify, address any remaining warnings:
+
+| Code | Severity | Meaning | Action |
+|------|----------|---------|--------|
+| V1 | ERROR | Class bounding boxes overlap | `relayout` |
+| V2 | ERROR | Subclass above superclass | `relayout` |
+| V3 | WARN | Wrong edge style for relationship type | `fix-edge-styles` |
+| V4 | WARN | Explicit waypoints on orthogonal edges | `fix-edge-styles` |
+| V5 | WARN | 2+ edges share unconstrained connection point | `fix-shared-endpoints` |
+| V6 | WARN | Straight edge passes through unrelated class | Move class or add waypoint manually |
+
+Then run the frame containment check (Python XML script) to confirm all classes are inside their frames.
+
+### Step 7 — AI layout pass
+
+The programmatic build will produce correct structure but imperfect visual routing. After running verify (with 0 errors), open the diagram and inspect for:
+- Any remaining V6 warnings — move the blocking class or add a manual bend point
+- Labels obscured by other elements (drag to clear space)
+- Any class that is outside its frame boundary (fix with `add-frame` or XML edit)
+
+This step is required when V6 warnings remain. Code cannot automatically route
+straight-line dependencies around obstacles — this requires a human layout
+decision. Note what was corrected so the post-processed version reflects the
+final intent.
+
+---
 
 ### Standard workflow (single classes, no modules)
 
@@ -298,8 +526,9 @@ python scripts/drawio_cli.py add-association <From> <To> --label "<label>" --fro
 python scripts/drawio_cli.py add-inheritance <Subclass> <Superclass> --file <output>.drawio
 python scripts/drawio_cli.py add-dependency <From> <To> --stereotype "<label>" --file <output>.drawio
 
-# 6. Fix edge styles and verify
+# 6. Fix edge styles, spread shared endpoints, then verify
 python scripts/drawio_cli.py fix-edge-styles --file <output>.drawio
+python scripts/drawio_cli.py fix-shared-endpoints --file <output>.drawio
 python scripts/drawio_cli.py verify --file <output>.drawio
 ```
 
@@ -334,8 +563,9 @@ python scripts/drawio_cli.py add-frame "<ModuleName>" --classes "<CoreClass>,<Su
 python scripts/drawio_cli.py add-composition <CoreA> <CoreB> --file <output>.drawio
 python scripts/drawio_cli.py add-dependency <CoreA> <CoreB> --stereotype "<label>" --file <output>.drawio
 
-# 6. Fix edge styles and verify
+# 6. Fix edge styles, spread shared endpoints, then verify
 python scripts/drawio_cli.py fix-edge-styles --file <output>.drawio
+python scripts/drawio_cli.py fix-shared-endpoints --file <output>.drawio
 python scripts/drawio_cli.py verify --file <output>.drawio
 ```
 
@@ -518,6 +748,50 @@ Use this decision tree to pick the correct relationship. When in doubt, choose t
 
 **Prompt to check yourself:**
 > "I am modeling [Class A] → [Class B]. Does A store B permanently? Is A the owner? If A is destroyed, does B die too? Is B a physical/logical part of A?"
+
+---
+
+## Collection Class Anti-Pattern
+
+Never invent wrapper types to represent multi-valued fields. Using `SkillSet`, `AbilitySet`, `PowerList`, or `AdvantageList` as class names implies there is a meaningful class there — but these are just collections with no behavior. They pollute the model.
+
+**Wrong:**
+```
++ skills: SkillSet
+```
+
+**Right:**
+```
++ skills: Skill [0..*]
+```
+
+Use cardinality notation directly on the field. The cardinality brackets go on the field entry in the diagram:
+
+```bash
+drawio_cli.py add-field Character "+ skills: Skill [0..*]"
+drawio_cli.py add-field Character "+ abilities: Ability [1..*]"
+drawio_cli.py add-field Character "+ powers: Power [0..*]"
+```
+
+The `[0..*]` or `[1..*]` tells you both the type and the multiplicity without introducing a phantom class. Only model a collection type as a real class if the collection itself has behavior, identity, or invariants of its own.
+
+---
+
+## Associations Require a Connecting Field
+
+Before drawing an association or dependency between two classes, you must be able to point to a **field** on the source class that holds a reference to the target. No field = no arrow.
+
+**Wrong:** Drawing `Character → Effect` because "Character uses Effects somewhere" — there is no field on Character that holds an Effect reference directly.
+
+**Right:** Tracing the actual path — `Character` has `powers: Power [0..*]`, and a `Power` wraps an `Effect`. The relationship between Character and Effect is therefore **through Power**, not direct. Draw `Character ◆── Power` and `Power → Effect`, not `Character → Effect` directly.
+
+**Protocol before drawing a cross-module relationship:**
+1. Identify the field on the source class that connects to the target
+2. If no such field exists yet, investigate the source material more deeply before drawing
+3. If the connection is definitely real but indirect (via an intermediate class), model the intermediate explicitly
+4. If after investigation you cannot find a direct field, the relationship does not exist at this fidelity — leave it out until extraction reveals the path
+
+This applies at all phases. At scan fidelity, prefer omitting a relationship over drawing an unsupported one.
 
 ---
 
@@ -811,7 +1085,82 @@ unnecessary bends when classes are repositioned.
 
 ---
 
-## 5. Readability: left-to-right, top-to-bottom reading order
+## 5. Multiple edges must not share an unconstrained connection point (V5)
+
+When two or more edges arrive at (or leave from) the same class without explicit
+`entryX`/`entryY` (or `exitX`/`exitY`) port constraints in their `style` string,
+Draw.io stacks them all at the same default midpoint — producing a visual pile-up
+where multiple arrowheads overlap and the diagram becomes unreadable.
+
+### ❌ Six compositions converging at the same bottom-centre of Character
+
+```xml
+<!-- All six arrive at the default bottom-centre of Character — they pile up -->
+<mxCell style="endArrow=diamondThin;endFill=1;edgeStyle=orthogonalEdgeStyle;..."
+        edge="1" source="Ability"      target="Character" parent="1">
+  <mxGeometry relative="1" as="geometry" />
+</mxCell>
+<mxCell style="endArrow=diamondThin;endFill=1;edgeStyle=orthogonalEdgeStyle;..."
+        edge="1" source="Skill"        target="Character" parent="1">
+  <mxGeometry relative="1" as="geometry" />
+</mxCell>
+<!-- … same for HeroPoint, Advantage, Complication, Power … -->
+```
+
+### ✓ Spread across the bottom side with explicit entry points
+
+```xml
+<!-- entryX evenly distributes 6 arrows across the bottom edge -->
+<mxCell style="endArrow=diamondThin;endFill=1;edgeStyle=orthogonalEdgeStyle;...
+               entryX=0.143;entryY=1;entryDx=0;entryDy=0;"
+        edge="1" source="Ability"  target="Character" parent="1">
+  <mxGeometry relative="1" as="geometry" />
+</mxCell>
+<mxCell style="endArrow=diamondThin;endFill=1;edgeStyle=orthogonalEdgeStyle;...
+               entryX=0.286;entryY=1;entryDx=0;entryDy=0;"
+        edge="1" source="Skill"    target="Character" parent="1">
+  <mxGeometry relative="1" as="geometry" />
+</mxCell>
+<!-- … and so on up to entryX=0.857 for the sixth arrow … -->
+```
+
+**Fix:** run `fix-shared-endpoints` — it determines the dominant approach side
+(top / bottom / left / right) and distributes `entryX`/`entryY` (or
+`exitX`/`exitY`) evenly across it for all unconstrained edges in the group.
+
+---
+
+## 6. Straight-line edges must not pass through unrelated classes (V6)
+
+Dependency edges (`dashed=1`, no `edgeStyle`) draw a straight diagonal line.
+When source and target are on opposite sides of the canvas that line can slice
+through intermediate class boxes, hiding those classes behind an unrelated arrow.
+
+The `verify` command checks straight-line edges by testing the segment from
+source-centre to target-centre against every third class's bounding box
+(shrunk by 5 px to avoid false positives at shared borders).
+
+### ❌ Dependency passes through an unrelated class
+
+```
+[Check] ————————————————→ [Effect]
+           ╱ Power ╲         (Power's box sits on the direct path)
+```
+
+### ✓ Resolved options
+
+1. **Reposition the blocking class** — move it off the arrow corridor; then
+   rerun `verify` to confirm V6 is clear.
+2. **Add an intermediate waypoint** manually in Draw.io to route the dependency
+   around the obstruction (add an `<Array as="points">` with one bend point,
+   or switch the edge to `edgeStyle=orthogonalEdgeStyle`).
+
+> Note: V6 is a **WARN** (not ERROR) because the obstruction is a layout
+> decision that requires human judgment to resolve correctly.
+
+---
+
+## 7. Readability: left-to-right, top-to-bottom reading order
 
 A diagram reads well when:
 

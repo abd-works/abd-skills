@@ -3,6 +3,8 @@ Ensure live workflow checklists under active_skill_workspace/<skill_name>/progre
 
 - process-checklist.md — one checkbox per phase (from skill-config.json → phase_files).
 - <phase-slug>-checklist.md — steps copied from ## Action Checklist in phases/<slug>.md.
+- strategy-run-checklist.md — optional; if templates/strategy-run-checklist.md exists in the skill,
+  copy to progress/ when missing (abd-ooad: execution order + scope vs strategy.md).
 
 Created on first run of ``python scripts/base/generate.py --phase <slug>`` when missing.
 Does not overwrite existing files.
@@ -106,10 +108,28 @@ def render_phase_checklist(skill_name: str, slug: str, task_lines: list[str]) ->
     return "\n".join(lines)
 
 
+def ensure_strategy_run_checklist(skill_path: Path, workspace: Path, skill_name: str) -> Path | None:
+    """
+    If the skill ships ``templates/strategy-run-checklist.md``, copy it to
+    ``progress/strategy-run-checklist.md`` when that file is missing.
+    """
+    tpl = skill_path / "templates" / "strategy-run-checklist.md"
+    if not tpl.is_file():
+        return None
+    prog = progress_dir(workspace, skill_name)
+    prog.mkdir(parents=True, exist_ok=True)
+    out = prog / "strategy-run-checklist.md"
+    if out.is_file():
+        return None
+    out.write_text(tpl.read_text(encoding="utf-8"), encoding="utf-8")
+    return out
+
+
 def ensure_workspace_checklists(skill: "Skill", phase_slug: str) -> tuple[Path | None, Path | None]:
     """
     If ``active_skill_workspace`` is set, ensure ``process-checklist.md`` and
     ``<phase_slug>-checklist.md`` exist under ``<workspace>/<name>/progress/``.
+    Optionally seeds ``strategy-run-checklist.md`` from the skill template when present.
 
     Returns ``(process_path_or_none, phase_path_or_none)`` for paths written this call.
     """
@@ -147,5 +167,7 @@ def ensure_workspace_checklists(skill: "Skill", phase_slug: str) -> tuple[Path |
             encoding="utf-8",
         )
         written_phase = p_phase
+
+    ensure_strategy_run_checklist(skill.path, workspace, skill_name)
 
     return written_process, written_phase

@@ -63,6 +63,17 @@ Encode **invariants** on **Payment** / **Refund** operations (sanctions, partial
 ## Continual refinement (this step)
 
 - **Delta:** **associations and cardinality** (**Order** ↔ **Payment**, **Payment** ↔ **Refund**, **Payment** ↔ **AuditEntry**, composition vs association) — document in **Concept relationships** / diagram; **`**newly added**`** on new relationship edges when mirroring to **`map-model-spec.json`**.
+
+---
+
+## Action Checklist
+
+- [ ] Have you defined the relationship type (composition, aggregation, association, dependency) for every pair?
+- [ ] Have you recorded cardinality (1..1, 1..*, 0..*) for each relationship?
+- [ ] Have you verified that composition correctly models ownership and lifecycle dependency?
+- [ ] Have you updated the class diagram with all relationships and cardinalities?
+- [ ] Have you noted carry-forward items to Step 8 (invariants)?
+
 ---
 
 ## Prompt

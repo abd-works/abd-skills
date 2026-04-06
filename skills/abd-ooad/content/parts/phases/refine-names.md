@@ -35,6 +35,17 @@
 ## Continual refinement (this step)
 
 - **Delta:** **ubiquitous language** — rename weak terms (**Processor** → **PaymentOrchestrator**, **PspConnector**, **Payer**, …); keep **events** and **UI** aligned; no duplicate **`**newly added**`** unless a rename introduces a **new** concept line.
+
+---
+
+## Action Checklist
+
+- [ ] Have you replaced all generic or weak names (Manager, Handler, Processor) with specific domain terms?
+- [ ] Are all names aligned with the language used in the source material (spec, interviews, wiki)?
+- [ ] Have you updated the class diagram to reflect every rename?
+- [ ] Have you updated `term-registry.md` with the new canonical names and removed old entries?
+- [ ] Have you verified that events, UI labels, and API names use the same spelling?
+
 ---
 
 ## Prompt

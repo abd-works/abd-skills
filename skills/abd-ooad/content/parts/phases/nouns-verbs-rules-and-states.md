@@ -177,6 +177,17 @@ Own (dispute), remove, hide (field).
 
 ---
 
+## Action Checklist
+
+- [ ] Have you extracted candidate nouns from every major section of the source material?
+- [ ] Have you extracted domain verbs (actions, operations, state changes)?
+- [ ] Have you identified at least three domain rules or constraints?
+- [ ] Have you recorded lifecycle states for at least the key candidate classes?
+- [ ] Have you noted synonyms, naming conflicts, and scope boundary noise for later steps?
+- [ ] Have you updated the term registry with all new terms found in this step?
+
+---
+
 ## Prompt
 
 > **Validate and fix when you find problems.** This step may surface bloat, unclear boundaries, missing invariants, naming drift, spec conflicts, or other robustness gaps. When you notice any of that in your work, **validate** and **fix** the model (or **map-model-spec.json** / class diagram) **before** moving on; record **explicit debt** only when you cannot fix yet, with a clear follow-up.

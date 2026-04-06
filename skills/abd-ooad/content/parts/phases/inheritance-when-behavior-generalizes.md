@@ -38,6 +38,17 @@ Formalize **abstract class vs interface** for **PaymentMethod** and **ports** fo
 ## Continual refinement (this step)
 
 - **Delta:** **PaymentMethod** family (**CardMethod**, **BankTransferMethod**, **WalletMethod**) as substitutable subtypes — add subtype concept headings per [`domain-model.md`](../../abd-maps-models-specs/content/parts/library/domain-model.md) (`### **Subtype** : **PaymentMethod**`) with **`**newly added**`** on subtype **operation** lines when first introduced.
+
+---
+
+## Action Checklist
+
+- [ ] Have you applied the "substitute without breaking callers" test before using inheritance?
+- [ ] Is each subtype genuinely behaviorally different from its siblings, not just data-different?
+- [ ] Have you avoided inheritance where composition would be a cleaner boundary?
+- [ ] Have you added subtype concept headings to the spec for every hierarchy introduced?
+- [ ] Have you noted carry-forward items to Step 12 (abstract classes and interfaces)?
+
 ---
 
 ## Prompt

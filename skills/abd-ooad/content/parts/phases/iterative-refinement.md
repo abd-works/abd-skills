@@ -8,6 +8,17 @@
 
 ---
 
+## Action Checklist
+
+- [ ] Have you re-read the source material against the current model from the beginning?
+- [ ] Have you resolved contradictions between the spec and the model?
+- [ ] Have you updated class names, responsibilities, or relationships found to be inaccurate?
+- [ ] Have you logged any open questions or unresolvable contradictions as explicit design debt with a clear follow-up?
+- [ ] Have you updated the term registry with any name or classification changes?
+- [ ] Have you updated the class diagram to reflect all refinements from this pass?
+
+---
+
 ## Re-read checklist (payments)
 
 | Question | Action |

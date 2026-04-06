@@ -45,6 +45,17 @@ Watch **Payment** for bloat as more rules arrive — split policies if needed.
 ## Continual refinement (this step)
 
 - **Delta:** **invariants** tied to **`Payment.initiate`**, **`capture`**, **`settle`**, **`Refund.request`**, append-only **AuditEntry** — add **`Invariant:`** lines under the matching **property** / **operation** in the spec (see [`domain-model.md`](../../abd-maps-models-specs/content/parts/library/domain-model.md)); mark **`**newly added**`** when first attaching each invariant to a member line.
+
+---
+
+## Action Checklist
+
+- [ ] Have you identified at least one invariant per major aggregate?
+- [ ] Is each invariant expressed as a condition that must always be true, not a procedure?
+- [ ] Are all invariants attached to the relevant `property` or `operation` line in the spec?
+- [ ] Have you documented open decisions (e.g. configurable TTLs) where invariants are not yet fully defined?
+- [ ] Have you noted carry-forward items to Step 9 (watch for bloat)?
+
 ---
 
 ## Prompt

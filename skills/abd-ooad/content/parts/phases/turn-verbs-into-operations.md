@@ -88,6 +88,17 @@ Add **relationships and cardinality** between Payment, Refund, Order (ref), exte
 
 - **Delta:** core **operations** on **Payment** and **Refund** with **`**newly added**`**; verb-to-owner table above remains the rationale.
 - **Diagram:** update class diagram / spec when these operations are stable in **`map-model-spec.json`**.
+
+---
+
+## Action Checklist
+
+- [ ] Have you mapped each domain verb from Step 1 to an owning class?
+- [ ] Have you challenged application-layer verbs — do they belong in a service, not a domain object?
+- [ ] Does every surviving operation appear on the class as a formal method signature?
+- [ ] Have you updated the class diagram / `map-model-spec.json` with the new operations?
+- [ ] Have you noted carry-forward items to Step 7 (relationships)?
+
 ---
 
 ## Prompt

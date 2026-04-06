@@ -28,6 +28,16 @@
 ## Continual refinement (this step)
 
 - **Delta:** tension → **boundary** or **explicit debt**; update **modules** / **Interactions** in the spec when a tension resolves into a new concept or BC handoff.
+
+---
+
+## Action Checklist
+
+- [ ] Have you reviewed all tensions logged since Step 1 and resolved or escalated each one?
+- [ ] Does each resolved tension either produce a new concept boundary or an explicit debt entry?
+- [ ] Have you updated the spec modules / Interactions for any tension that resolved into a new concept?
+- [ ] Have you noted carry-forward items to Step 17 (cohesion / what changes together)?
+
 ---
 
 ## Prompt

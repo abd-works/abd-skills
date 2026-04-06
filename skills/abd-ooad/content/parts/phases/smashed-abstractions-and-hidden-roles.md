@@ -39,6 +39,17 @@ Use **inheritance** only if **PaymentMethod** subtypes share substitutable **aut
 ## Continual refinement (this step)
 
 - **Delta:** **role separation** — **`payerRef`**, **`merchantRef`**, **`actor`** on audit vs monolithic **User**; refine **Interactions** and collaborator lists when serializing to the spec.
+
+---
+
+## Action Checklist
+
+- [ ] Have you identified any class that serves multiple distinct roles in different contexts?
+- [ ] Have you separated smashed abstractions into explicit roles with their own names and responsibilities?
+- [ ] Have you checked for hidden roles disguised as generic names (User, Actor, Person)?
+- [ ] Have you updated the spec with `payerRef`, `merchantRef`, or equivalent references in place of rich user graphs?
+- [ ] Have you noted carry-forward items to Step 11 (inheritance)?
+
 ---
 
 ## Prompt

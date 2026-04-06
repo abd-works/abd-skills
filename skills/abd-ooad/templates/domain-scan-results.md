@@ -25,11 +25,3 @@
 | # | Tension | Description |
 |---|---------|-------------|
 | T1 | **{{TensionName}}** | {{what_is_ambiguous_or_conflicting}} |
-
----
-
-## Scan Strategy Decision
-
-**Source type:** {{specification / codebase / transcript / domain expert session}}
-
-**Step 1 strategy:** {{which_sections_to_extract_from_and_at_what_depth}}

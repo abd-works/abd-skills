@@ -49,6 +49,17 @@ You have walked **garbled** payments from **nouns/verbs** through **layers** —
 ## Continual refinement (this step)
 
 - **Delta:** **layer map** + ASCII — domain **concepts** vs **application** use cases vs **infra** adapters; dependency rule (**Domain** does not reference **Stripe**) matches **Integrate** / diagram boundaries. Re-render **`map-model-class-diagram.drawio`** when the promoted spec changes.
+
+---
+
+## Action Checklist
+
+- [ ] Have you produced a layer map (domain / application / infrastructure) for your model?
+- [ ] Does every class sit in exactly one layer with a clear rationale?
+- [ ] Have you verified the dependency rule — domain classes do not reference infrastructure types?
+- [ ] Have you re-rendered `map-model-class-diagram.drawio` to reflect the layered spec?
+- [ ] Is the model ready for scenario validation (Step 18)?
+
 ---
 
 ## Prompt

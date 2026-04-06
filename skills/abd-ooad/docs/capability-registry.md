@@ -14,7 +14,7 @@ Which capabilities from abd-skill-builder has abd-ooad adopted?
 
 ⏹ Rules & Scanners
 
-⏹ Activity Checklists
+✓ Activity Checklists
 
 ⏹Templates
 

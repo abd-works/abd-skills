@@ -133,15 +133,42 @@ def create_new_diagram(path):
     Path(path).write_text(xml_str, encoding="utf-8")
 
 
+def _extract_class_name(value):
+    """Extract the plain class name from a potentially HTML-formatted cell value.
+
+    Handles:
+    - Plain name: 'Character'
+    - Old stereotype format: '«scan»<br><b>Character</b>'
+    - New stereotype format: '<font ...>&lt;&lt;scan&gt;&gt;</font><br>Character'
+    """
+    import re
+    from html import unescape
+
+    # 1. Prefer content inside <b>...</b> — explicit bold = class name
+    bold_match = re.search(r'<b>(.*?)</b>', value, re.IGNORECASE)
+    if bold_match:
+        return bold_match.group(1).strip()
+
+    # 2. Strip all HTML tags, unescape HTML entities, remove UML stereotype tokens
+    stripped = re.sub(r'<[^>]+>', ' ', value)   # remove tags
+    stripped = unescape(stripped)                # &lt; → <  etc.
+    stripped = re.sub(r'«[^»]*»', ' ', stripped)   # remove «...» guillemet stereotypes
+    stripped = re.sub(r'<<[^>]*>>', ' ', stripped)  # remove <<...>> angle-bracket stereotypes
+    stripped = stripped.strip()
+
+    # 3. Return the last non-empty whitespace token (class name is always last after <br>)
+    tokens = [t for t in stripped.split() if t]
+    return tokens[-1] if tokens else value.strip()
+
+
 def get_all_classes(root):
     """Return a dict of {name: mxCell_element} for all class swimlane cells."""
     classes = {}
     for cell in root.findall("mxCell"):
         style = cell.get("style", "")
         if "swimlane" in style and "shape=umlFrame" not in style:
-            name = cell.get("value", "").strip()
-            # strip HTML if name was set with HTML
-            name_clean = name.replace("<b>", "").replace("</b>", "").strip()
+            raw = cell.get("value", "").strip()
+            name_clean = _extract_class_name(raw)
             if name_clean:
                 classes[name_clean] = cell
     return classes
@@ -555,6 +582,135 @@ def cmd_verify(args):
                            f"  Fix: run `fix-edge-styles` (removes waypoints too)"),
             })
 
+    # ── V5: Multiple edges sharing the same connection point ─────────────────
+    # Flag when 2+ edges converge on (or leave) the same class without explicit
+    # entryX/entryY (or exitX/exitY) port constraints — they pile up visually.
+    from collections import defaultdict as _defaultdict
+    _tgt_groups = _defaultdict(list)
+    _src_groups = _defaultdict(list)
+    for cell in root.findall("mxCell"):
+        if cell.get("edge") != "1":
+            continue
+        tgt = cell.get("target", "")
+        src = cell.get("source", "")
+        style = cell.get("style", "")
+        has_entry = "entryX=" in style or "entryY=" in style
+        has_exit  = "exitX="  in style or "exitY="  in style
+        if tgt:
+            _tgt_groups[tgt].append((cell, has_entry))
+        if src:
+            _src_groups[src].append((cell, has_exit))
+
+    for tgt_id, grp in _tgt_groups.items():
+        unconstrained = [c for c, has_c in grp if not has_c]
+        if len(unconstrained) >= 2:
+            tgt_name = id_to_name.get(tgt_id, f"[{tgt_id[:8]}]")
+            src_names = [id_to_name.get(c.get("source", ""), "?")
+                         for c in unconstrained]
+            issues.append({
+                "code": "V5",
+                "severity": "WARN",
+                "msg": (f"SHARED ENDPOINT: {len(unconstrained)} edges converge on "
+                        f"'{tgt_name}' with no entryX/entryY — arrows will pile up"),
+                "detail": (f"  Sources without entry constraints: "
+                           f"{', '.join(src_names)}\n"
+                           f"  Fix: run `fix-shared-endpoints` to spread "
+                           f"connection points automatically."),
+            })
+
+    for src_id, grp in _src_groups.items():
+        unconstrained = [c for c, has_c in grp if not has_c]
+        if len(unconstrained) >= 2:
+            src_name = id_to_name.get(src_id, f"[{src_id[:8]}]")
+            tgt_names = [id_to_name.get(c.get("target", ""), "?")
+                         for c in unconstrained]
+            issues.append({
+                "code": "V5",
+                "severity": "WARN",
+                "msg": (f"SHARED ENDPOINT: {len(unconstrained)} edges leave "
+                        f"'{src_name}' with no exitX/exitY — arrows will pile up"),
+                "detail": (f"  Targets without exit constraints: "
+                           f"{', '.join(tgt_names)}\n"
+                           f"  Fix: run `fix-shared-endpoints` to spread "
+                           f"connection points automatically."),
+            })
+
+    # ── V6: Straight-line edge corridor intersects an unrelated class ─────────
+    # For edges without orthogonal routing (straight dependencies), the path is
+    # approximated as a line segment from source center to target center.
+    # Flag any third class whose bounding box that segment crosses.
+    def _seg_rect_intersects(x1, y1, x2, y2, rx, ry, rw, rh):
+        """True if segment P1–P2 crosses the axis-aligned rectangle."""
+        rx2, ry2 = rx + rw, ry + rh
+        def _in(px, py):
+            return rx < px < rx2 and ry < py < ry2
+        if _in(x1, y1) or _in(x2, y2):
+            return True
+        dx, dy = x2 - x1, y2 - y1
+        for sx1, sy1, sx2, sy2 in [
+            (rx, ry, rx2, ry), (rx, ry2, rx2, ry2),
+            (rx, ry, rx, ry2), (rx2, ry, rx2, ry2),
+        ]:
+            dxs, dys = sx2 - sx1, sy2 - sy1
+            cross = dx * dys - dy * dxs
+            if abs(cross) < 1e-10:
+                continue
+            t = ((sx1 - x1) * dys - (sy1 - y1) * dxs) / cross
+            u = ((sx1 - x1) * dy  - (sy1 - y1) * dx)  / cross
+            if 0.0 <= t <= 1.0 and 0.0 <= u <= 1.0:
+                return True
+        return False
+
+    _box_map = {}
+    for name, cls in classes.items():
+        g = cls.find("mxGeometry")
+        if g is not None:
+            _box_map[name] = (float(g.get("x", 0)), float(g.get("y", 0)),
+                              float(g.get("width", DEFAULT_WIDTH)),
+                              float(g.get("height", 100)))
+
+    for cell in root.findall("mxCell"):
+        if cell.get("edge") != "1":
+            continue
+        src_id = cell.get("source", "")
+        tgt_id = cell.get("target", "")
+        if not src_id or not tgt_id:
+            continue
+        src_name = id_to_name.get(src_id)
+        tgt_name = id_to_name.get(tgt_id)
+        if src_name is None or tgt_name is None:
+            continue
+        style = cell.get("style", "")
+        # Only straight-line edges (no orthogonal auto-routing) can cross boxes
+        if "edgeStyle=orthogonalEdgeStyle" in style:
+            continue
+        if src_name not in _box_map or tgt_name not in _box_map:
+            continue
+        sx, sy, sw, sh = _box_map[src_name]
+        tx, ty, tw, th = _box_map[tgt_name]
+        scx, scy = sx + sw / 2, sy + sh / 2
+        tcx, tcy = tx + tw / 2, ty + th / 2
+        # Shrink test rects by 5 px to avoid false positives at shared borders
+        MARGIN = 5
+        blockers = [
+            other for other, (ox, oy, ow, oh) in _box_map.items()
+            if other not in (src_name, tgt_name)
+            and _seg_rect_intersects(scx, scy, tcx, tcy,
+                                     ox + MARGIN, oy + MARGIN,
+                                     ow - 2 * MARGIN, oh - 2 * MARGIN)
+        ]
+        if blockers:
+            issues.append({
+                "code": "V6",
+                "severity": "WARN",
+                "msg": (f"ARROW OVERLAP: straight edge {src_name}→{tgt_name} "
+                        f"passes through {', '.join(blockers)}"),
+                "detail": (f"  The straight dependency line from {src_name} to "
+                           f"{tgt_name} crosses: {', '.join(blockers)}.\n"
+                           f"  Fix: reposition the blocking class or add an "
+                           f"intermediate waypoint to route around it."),
+            })
+
     # ── Report ────────────────────────────────────────────────────────────────
     errors   = [i for i in issues if i["severity"] == "ERROR"]
     warnings = [i for i in issues if i["severity"] == "WARN"]
@@ -635,6 +791,177 @@ def cmd_fix_edge_styles(args):
     print(f"✓ Fixed edge styles on {fixed} element(s).")
 
 
+def cmd_fix_shared_endpoints(args):
+    """
+    Fix V5: distribute entryX/entryY (and exitX/exitY) on classes that have
+    two or more unconstrained edges converging at the same connection point.
+
+    For each class with 2+ incoming edges that lack entryX/entryY:
+      - determines the dominant approach side (top / bottom / left / right)
+        by comparing each source's center to the target's center
+      - assigns evenly-spaced fractional entry points along that side
+    The same logic applies to outgoing edges that lack exitX/exitY.
+    """
+    import re as _re
+    from collections import defaultdict as _dd
+
+    tree, root = load_diagram(args.file)
+    classes = get_all_classes(root)
+    id_to_name = {v.get("id"): k for k, v in classes.items()}
+
+    def _bbox(cls_name):
+        cls = classes.get(cls_name)
+        if cls is None:
+            return None
+        g = cls.find("mxGeometry")
+        if g is None:
+            return None
+        return (float(g.get("x", 0)), float(g.get("y", 0)),
+                float(g.get("width", DEFAULT_WIDTH)),
+                float(g.get("height", 100)))
+
+    def _center(cls_name):
+        bb = _bbox(cls_name)
+        if bb is None:
+            return 0.0, 0.0
+        x, y, w, h = bb
+        return x + w / 2, y + h / 2
+
+    def _dominant_entry_side(src_centers, tgt_bb):
+        """Which side of the target do the sources approach from?"""
+        tx, ty, tw, th = tgt_bb
+        tcx, tcy = tx + tw / 2, ty + th / 2
+        votes = {"top": 0, "bottom": 0, "left": 0, "right": 0}
+        for sx, sy in src_centers:
+            dx, dy = sx - tcx, sy - tcy
+            if abs(dy) >= abs(dx):
+                votes["bottom" if dy > 0 else "top"] += 1
+            else:
+                votes["right" if dx > 0 else "left"] += 1
+        return max(votes, key=votes.get)
+
+    def _dominant_exit_side(tgt_centers, src_bb):
+        """Which side of the source do the targets sit on?"""
+        sx, sy, sw, sh = src_bb
+        scx, scy = sx + sw / 2, sy + sh / 2
+        votes = {"top": 0, "bottom": 0, "left": 0, "right": 0}
+        for tx, ty in tgt_centers:
+            dx, dy = tx - scx, ty - scy
+            if abs(dy) >= abs(dx):
+                votes["bottom" if dy > 0 else "top"] += 1
+            else:
+                votes["right" if dx > 0 else "left"] += 1
+        return max(votes, key=votes.get)
+
+    def _strip_port(style, prefix):
+        """Remove existing entry*/exit* port tokens from a style string."""
+        style = _re.sub(rf"{prefix}[XY]=[^;]+;?", "", style)
+        style = _re.sub(rf"{prefix}D[xy]=[^;]+;?", "", style)
+        return style.replace(";;", ";").strip(";")
+
+    def _entry_tokens(idx, n, side):
+        frac = round((idx + 1) / (n + 1), 3)
+        if side == "bottom":
+            return f"entryX={frac};entryY=1;entryDx=0;entryDy=0;"
+        if side == "top":
+            return f"entryX={frac};entryY=0;entryDx=0;entryDy=0;"
+        if side == "left":
+            return f"entryX=0;entryY={frac};entryDx=0;entryDy=0;"
+        return     f"entryX=1;entryY={frac};entryDx=0;entryDy=0;"
+
+    def _exit_tokens(idx, n, side):
+        frac = round((idx + 1) / (n + 1), 3)
+        if side == "top":
+            return f"exitX={frac};exitY=0;exitDx=0;exitDy=0;"
+        if side == "bottom":
+            return f"exitX={frac};exitY=1;exitDx=0;exitDy=0;"
+        if side == "left":
+            return f"exitX=0;exitY={frac};exitDx=0;exitDy=0;"
+        return     f"exitX=1;exitY={frac};exitDx=0;exitDy=0;"
+
+    all_edges = [c for c in root.findall("mxCell") if c.get("edge") == "1"]
+    fixed = 0
+
+    # ── Incoming: group by target, find unconstrained edges ──────────────────
+    tgt_map = _dd(list)
+    for cell in all_edges:
+        tgt = cell.get("target", "")
+        if not tgt or tgt not in id_to_name:
+            continue
+        s = cell.get("style", "")
+        if "entryX=" not in s and "entryY=" not in s:
+            tgt_map[tgt].append(cell)
+
+    for tgt_id, cells in tgt_map.items():
+        if len(cells) < 2:
+            continue
+        tgt_name = id_to_name[tgt_id]
+        tgt_bb = _bbox(tgt_name)
+        if tgt_bb is None:
+            continue
+
+        src_centers = [_center(id_to_name.get(c.get("source", ""), ""))
+                       for c in cells]
+        side = _dominant_entry_side(src_centers, tgt_bb)
+
+        # Sort by the axis perpendicular to the entry side so ports are ordered
+        axis = 0 if side in ("top", "bottom") else 1
+        sorted_cells = sorted(cells,
+                              key=lambda c: _center(
+                                  id_to_name.get(c.get("source", ""), "")
+                              )[axis])
+        n = len(sorted_cells)
+        for idx, cell in enumerate(sorted_cells):
+            base = _strip_port(cell.get("style", ""), "entry")
+            cell.set("style", base + ";" + _entry_tokens(idx, n, side))
+            fixed += 1
+
+        tgt_name2 = id_to_name[tgt_id]
+        src_names = [id_to_name.get(c.get("source", ""), "?") for c in sorted_cells]
+        print(f"  ✓ Spread {n} entry points on '{tgt_name2}' "
+              f"({side} side): {', '.join(src_names)}")
+
+    # ── Outgoing: group by source, find unconstrained edges ──────────────────
+    src_map = _dd(list)
+    for cell in all_edges:
+        src = cell.get("source", "")
+        if not src or src not in id_to_name:
+            continue
+        s = cell.get("style", "")
+        if "exitX=" not in s and "exitY=" not in s:
+            src_map[src].append(cell)
+
+    for src_id, cells in src_map.items():
+        if len(cells) < 2:
+            continue
+        src_name = id_to_name[src_id]
+        src_bb = _bbox(src_name)
+        if src_bb is None:
+            continue
+
+        tgt_centers = [_center(id_to_name.get(c.get("target", ""), ""))
+                       for c in cells]
+        side = _dominant_exit_side(tgt_centers, src_bb)
+
+        axis = 0 if side in ("top", "bottom") else 1
+        sorted_cells = sorted(cells,
+                              key=lambda c: _center(
+                                  id_to_name.get(c.get("target", ""), "")
+                              )[axis])
+        n = len(sorted_cells)
+        for idx, cell in enumerate(sorted_cells):
+            base = _strip_port(cell.get("style", ""), "exit")
+            cell.set("style", base + ";" + _exit_tokens(idx, n, side))
+            fixed += 1
+
+        tgt_names = [id_to_name.get(c.get("target", ""), "?") for c in sorted_cells]
+        print(f"  ✓ Spread {n} exit points from '{src_name}' "
+              f"({side} side): {', '.join(tgt_names)}")
+
+    save_diagram(tree, args.file)
+    print(f"✓ fix-shared-endpoints: distributed {fixed} connection point(s).")
+
+
 # ─── Commands ─────────────────────────────────────────────────────────────────
 
 def cmd_new(args):
@@ -658,22 +985,37 @@ def cmd_add_class(args):
     divider_id = new_id()
 
     # Class container
+    # If a stereotype is provided, embed it in the header as «stereotype»<br><b>Name</b>
+    # so draw.io renders it above the class name in the title cell.
+    if getattr(args, 'stereotype', None):
+        # Use HTML-encoded angle brackets so draw.io renders <<scan>> literally.
+        # Class name remains bold (swimlane fontStyle=1) but stereotype line
+        # overrides to non-bold italic via inline span.
+        header_label = (
+            f"<font style=\"font-weight:normal;font-style:italic;\">"
+            f"&lt;&lt;{args.stereotype}&gt;&gt;</font><br>{args.name}"
+        )
+        header_height = HEADER_HEIGHT + 18  # extra line for stereotype
+    else:
+        header_label = args.name
+        header_height = HEADER_HEIGHT
+
     cls = ET.SubElement(root, "mxCell")
     cls.set("id", class_id)
-    cls.set("value", args.name)
-    cls.set("style", CLASS_STYLE)
+    cls.set("value", header_label)
+    cls.set("style", CLASS_STYLE.replace("startSize=26", f"startSize={header_height}"))
     cls.set("vertex", "1")
     cls.set("parent", "1")
     geo = ET.SubElement(cls, "mxGeometry")
     geo.set("x", str(x))
     geo.set("y", str(y))
     geo.set("width", str(w))
-    geo.set("height", str(HEADER_HEIGHT + DIVIDER_HEIGHT))
+    geo.set("height", str(header_height + DIVIDER_HEIGHT))
     geo.set("as", "geometry")
 
     # Divider (separates fields from methods).
-    # y=HEADER_HEIGHT because child coords are from the top of the whole
-    # swimlane cell — the header occupies y=0..HEADER_HEIGHT, content below.
+    # y=header_height because child coords are from the top of the whole
+    # swimlane cell — the header occupies y=0..header_height, content below.
     div = ET.SubElement(root, "mxCell")
     div.set("id", divider_id)
     div.set("value", "")
@@ -681,7 +1023,7 @@ def cmd_add_class(args):
     div.set("vertex", "1")
     div.set("parent", class_id)
     dgeo = ET.SubElement(div, "mxGeometry")
-    dgeo.set("y", str(HEADER_HEIGHT))
+    dgeo.set("y", str(header_height))
     dgeo.set("width", str(w))
     dgeo.set("height", str(DIVIDER_HEIGHT))
     dgeo.set("as", "geometry")
@@ -717,9 +1059,14 @@ def cmd_add_field(args):
     field_id = new_id()
     style = FIELD_STYLE_ABSTRACT if args.abstract else FIELD_STYLE
 
+    # Draw.io renders field values as HTML (html=1 in FIELD_STYLE).
+    # Pre-escape < and > so they display as literal characters, not HTML tags.
+    import html as _html
+    safe_text = _html.escape(args.text, quote=False)
+
     field = ET.SubElement(root, "mxCell")
     field.set("id", field_id)
-    field.set("value", args.text)
+    field.set("value", safe_text)
     field.set("style", style)
     field.set("vertex", "1")
     field.set("parent", class_id)
@@ -860,9 +1207,11 @@ def cmd_add_composition(args):
     tree, root = load_diagram(args.file)
     whole = find_class(root, args.whole)
     part  = find_class(root, args.part)
-    # In Jeff's drawio: endArrow=diamondThin on the edge going part→whole
+    # Edge goes part → whole (diamond at whole/target end via endArrow).
+    # Multiplicity (e.g. "1..*") labels HOW MANY parts per whole — shown at the
+    # part/source end so it reads "Character ◆── [1..*] Ability".
     _add_edge(root, part.get("id"), whole.get("id"), COMPOSITION_STYLE,
-              label=args.label, to_mult=args.mult)
+              label=args.label, from_mult=args.mult)
     save_diagram(tree, args.file)
     print(f"✓ Added composition: {args.whole} ◆── {args.part}"
           + (f" [{args.mult}]" if args.mult else ""))
@@ -1221,6 +1570,8 @@ Examples:
     p.add_argument("--x", type=int, help="X position (auto if omitted)")
     p.add_argument("--y", type=int, help="Y position (auto if omitted)")
     p.add_argument("--width", type=int, help=f"Width (default {DEFAULT_WIDTH})")
+    p.add_argument("--stereotype", metavar="NAME",
+                   help="UML stereotype shown above the class name, e.g. scan")
 
     # add-field
     p = sub.add_parser("add-field",
@@ -1335,6 +1686,11 @@ Examples:
         help="Fix V3/V4: add orthogonal routing to structural edges, "
              "remove waypoints, strip edgeStyle from inheritance edges.")
 
+    # fix-shared-endpoints
+    sub.add_parser("fix-shared-endpoints",
+        help="Fix V5: distribute entryX/entryY (and exitX/exitY) when 2+ edges "
+             "converge on the same class without explicit port constraints.")
+
     return parser
 
 
@@ -1355,8 +1711,9 @@ COMMAND_MAP = {
     "show-class":       cmd_show_class,
     "describe":         cmd_describe,
     "relayout":         cmd_relayout,
-    "verify":           cmd_verify,
-    "fix-edge-styles":  cmd_fix_edge_styles,
+    "verify":                cmd_verify,
+    "fix-edge-styles":       cmd_fix_edge_styles,
+    "fix-shared-endpoints":  cmd_fix_shared_endpoints,
 }
 
 

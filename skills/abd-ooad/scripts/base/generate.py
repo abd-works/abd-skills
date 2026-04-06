@@ -8,7 +8,9 @@ Usage:
 --mode dynamic  always assembles from sources (default).
 
 Unless ``--no-ensure-checklists`` is passed, creates missing live checklists under
-``active_skill_workspace/<skill_name>/progress/`` (see workspace_checklists.py).
+``active_skill_workspace/<skill_name>/progress/`` (see workspace_checklists.py):
+``process-checklist.md``, ``<phase>-checklist.md``, and optionally ``strategy-run-checklist.md``
+(from ``templates/strategy-run-checklist.md`` when the skill provides it).
 
 Run from skill root: ``python scripts/base/generate.py``.
 

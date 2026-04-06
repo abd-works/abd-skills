@@ -207,6 +207,16 @@ Next: map **verbs** from Step 1 and spec to **operations** on **Payment**, **Ref
 
 ---
 
+## Action Checklist
+
+- [ ] Have you written `- <type> property` lines for every entity and value object in scope?
+- [ ] Is every property semantically tight — does the object need it to fulfil its responsibility?
+- [ ] Have you removed any properties that are purely UI, infrastructure, or application-layer concerns?
+- [ ] Have you re-run `render_map_model_class_diagram.py` to keep the class diagram in sync?
+- [ ] Have you noted carry-forward items to Step 6 (operations)?
+
+---
+
 ## Prompt
 
 > **Validate and fix when you find problems.** This step may surface bloat, unclear boundaries, missing invariants, naming drift, spec conflicts, or other robustness gaps. When you notice any of that in your work, **validate** and **fix** the model (or **map-model-spec.json** / class diagram) **before** moving on; record **explicit debt** only when you cannot fix yet, with a clear follow-up.

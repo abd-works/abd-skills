@@ -9,7 +9,7 @@
 | # | Phase | Description | Actor | Input | Output | Scripts |
 |---|-------|-------------|-------|-------|--------|---------|
 | 0 | [Workspace and config](phases/workspace-and-config.md) | Set active skill workspace; configure project root | Human | Project directory | `skill-config.json` updated | `python scripts/base/set_workspace.py <path>` |
-| 1 | [Domain scan](phases/domain-scan.md) | Scan source, identify 3–7 anchors, flag tensions, produce initial model sketch | AI | Source material (spec, code, manual, transcript) | `domain-scan-results.md` + `domain-scan-model.md` + `domain-scan-model.drawio` + `domain-walkthrough.md` + `domain-walkthrough.drawio` + `term-registry.md` | `python scripts/base/generate.py --phase domain-scan` |
+| 1 | [Domain scan](phases/domain-scan.md) | Scan source, identify 3–7 anchors, flag tensions, produce initial model sketch | AI | Source material (spec, code, manual, transcript) | `domain-scan-results.md` + `strategy.md` + `domain-scan-model.md` + `domain-scan-model.drawio` + `term-registry.md` (+ `abd-ooad/progress/*-checklist.md` from `generate.py`) | `python scripts/base/generate.py --phase domain-scan` |
 | 2 | [Nouns, verbs, rules, and states](phases/nouns-verbs-rules-and-states.md) | Careful extraction: mark nouns, verbs, rules, states per section | AI | Source material + domain-scan results | Extraction findings + updated term-registry.md | `python scripts/base/generate.py --phase nouns-verbs-rules-and-states` |
 | 3 | [Raw candidate list](phases/raw-candidate-list.md) | Sort findings into entities, values, processes, policies, roles, events | AI | Extraction results | Candidate class inventory + updated term-registry.md | `python scripts/base/generate.py --phase raw-candidate-list` |
 | 4 | [Thing vs data about a thing](phases/thing-vs-data-about-a-thing.md) | Separate independent entities from value objects, enums, properties | AI | Candidate list | Refined entities with clear boundaries | `python scripts/base/generate.py --phase thing-vs-data-about-a-thing` |
@@ -49,6 +49,8 @@
 ---
 
 ## Implementation Notes
+
+**Strategy before deep runs:** After domain scan, fill **`strategy.md`** (**modeling scope** + **execution plan**) so you know **which phases**, **in what order**, and **on what slice** of the source (e.g. one chapter at a time). Align **`abd-ooad/progress/strategy-run-checklist.md`** with that plan; then run **`generate.py --phase <slug>`** for the active phase. See **`library/strategy-execution-and-checklists.md`**.
 
 **AI-driven phases:** Each phase can be executed by Claude following the assembled instructions from **`generate.py`** or **`AGENTS.md`**.
 

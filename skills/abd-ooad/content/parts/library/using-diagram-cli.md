@@ -8,7 +8,102 @@ Do not hand-write `.drawio` XML. Do not create ad-hoc rectangle layouts. The CLI
 
 ---
 
-## Class Diagram — Workflow
+## Diagram Build Routine
+
+Every class diagram is built from the `.md` companion file. The `.md` is always created first and is the authoritative record. The diagram is then derived from it, component by component.
+
+### Step 1 — Read the MD file line by line
+
+Before writing a single CLI command, read the entire `.md` companion and extract:
+- Every class name and its stereotype
+- Every **scalar field** (primitive type, not a reference to another class)
+- Every invariant `{ }` line
+- Every multi-valued reference (these become arrows, NOT diagram fields)
+- Every single-valued reference to another class (also an arrow)
+
+**Diagram fields = scalars + invariants only.** Any field whose type is another class in the model must become a relationship arrow. Do not add it as a text field in the diagram — it is already represented by the arrow.
+
+### Step 2 — Add each class one at a time
+
+For each class:
+1. `add-class <Name> --stereotype <phase>` — stereotype goes in the class header, not as a field row
+2. Add only scalar fields: `add-field <Name> "+ fieldName: PrimitiveType"`
+3. Add invariants: `add-field <Name> "{ constraint text }"` — these will be post-processed to taller cell heights
+4. After each class, check the class rendered correctly before moving to the next
+
+**Stereotype rule:** Always use `--stereotype scan` (or the current phase) on `add-class`. Never add `<<scan>>` as a separate field row — this causes it to render as `<>` because draw.io HTML interprets `<scan>` as an HTML tag.
+
+**Type completeness rule:** Every type referenced in a field must have a class in the diagram. If `Character` has `powers: Power [0..*]`, then `Power` must be drawn as a class. There are no phantom types — if it appears in a field, it exists in the model.
+
+### Step 3 — Post-process constraint cell heights
+
+After all classes are added, run the height fixup:
+```python
+for cell in root.iter('mxCell'):
+    val = cell.get('value', '')
+    if val.startswith('{'):
+        geom = cell.find('mxGeometry')
+        if geom is not None:
+            geom.set('height', '52' if len(val) <= 60 else '78')
+```
+
+### Step 4 — Add module frames
+
+Run `add-frame` for each module, listing all member classes. Frames must be added AFTER all classes.
+
+### Step 5 — Add relationships
+
+For each relationship identified in Step 1:
+- Composition: `add-composition Whole Part --mult "n..*"` — multiplicity goes at the **part** (many) end, near the part class
+- Association: `add-association From To --label "name" --to-mult "0..*"`
+- Dependency: `add-dependency From To --stereotype "label"`
+
+Cross-module relationships connect core classes only (not frames). Before drawing any cross-module arrow, confirm there is a field on the source class that references the target — see `class-diagrams` → "Associations Require a Connecting Field".
+
+### Step 6 — Verify and fix layout
+
+```bash
+# Fix edge styles first (V3/V4)
+python scripts/drawio_cli.py fix-edge-styles --file <output>.drawio
+
+# Fix shared connection points (V5) — always run after adding relationships
+python scripts/drawio_cli.py fix-shared-endpoints --file <output>.drawio
+
+# Verify — check all rules V1–V6
+python scripts/drawio_cli.py verify --file <output>.drawio
+```
+
+The `fix-shared-endpoints` command detects classes where 2+ edges arrive or
+leave without explicit `entryX/Y` / `exitX/Y` constraints. It determines the
+dominant approach side (top / bottom / left / right) and distributes port
+coordinates evenly so arrowheads no longer pile up.
+
+After verify, address any remaining warnings:
+
+| Code | Severity | Meaning | Action |
+|------|----------|---------|--------|
+| V1 | ERROR | Class bounding boxes overlap | `relayout` |
+| V2 | ERROR | Subclass above superclass | `relayout` |
+| V3 | WARN | Wrong edge style for relationship type | `fix-edge-styles` |
+| V4 | WARN | Explicit waypoints on orthogonal edges | `fix-edge-styles` |
+| V5 | WARN | 2+ edges share unconstrained connection point | `fix-shared-endpoints` |
+| V6 | WARN | Straight edge passes through unrelated class | Move class or add waypoint manually |
+
+Then run the frame containment check (Python XML script) to confirm all classes are inside their frames.
+
+### Step 7 — AI layout pass
+
+The programmatic build will produce correct structure but imperfect visual routing. After running verify (with 0 errors), open the diagram and inspect for:
+- Any remaining V6 warnings — move the blocking class or add a manual bend point
+- Labels obscured by other elements (drag to clear space)
+- Any class that is outside its frame boundary (fix with `add-frame` or XML edit)
+
+This step is required when V6 warnings remain. Code cannot automatically route
+straight-line dependencies around obstacles — this requires a human layout
+decision. Note what was corrected so the post-processed version reflects the
+final intent.
+
+---
 
 ### Standard workflow (single classes, no modules)
 
@@ -38,8 +133,9 @@ python scripts/drawio_cli.py add-association <From> <To> --label "<label>" --fro
 python scripts/drawio_cli.py add-inheritance <Subclass> <Superclass> --file <output>.drawio
 python scripts/drawio_cli.py add-dependency <From> <To> --stereotype "<label>" --file <output>.drawio
 
-# 6. Fix edge styles and verify
+# 6. Fix edge styles, spread shared endpoints, then verify
 python scripts/drawio_cli.py fix-edge-styles --file <output>.drawio
+python scripts/drawio_cli.py fix-shared-endpoints --file <output>.drawio
 python scripts/drawio_cli.py verify --file <output>.drawio
 ```
 
@@ -74,8 +170,9 @@ python scripts/drawio_cli.py add-frame "<ModuleName>" --classes "<CoreClass>,<Su
 python scripts/drawio_cli.py add-composition <CoreA> <CoreB> --file <output>.drawio
 python scripts/drawio_cli.py add-dependency <CoreA> <CoreB> --stereotype "<label>" --file <output>.drawio
 
-# 6. Fix edge styles and verify
+# 6. Fix edge styles, spread shared endpoints, then verify
 python scripts/drawio_cli.py fix-edge-styles --file <output>.drawio
+python scripts/drawio_cli.py fix-shared-endpoints --file <output>.drawio
 python scripts/drawio_cli.py verify --file <output>.drawio
 ```
 

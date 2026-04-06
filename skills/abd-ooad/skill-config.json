@@ -34,6 +34,8 @@
   ],
   "library_files": [
     "anchors.md",
+    "scan-artifacts-and-strategy.md",
+    "strategy-execution-and-checklists.md",
     "term-registry.md",
     "using-diagram-cli.md",
     "class-diagrams.md",
@@ -43,7 +45,8 @@
   ],
   "library_base_files": [
     "skill-structure-and-concepts",
-    "workspace-and-config"
+    "workspace-and-config",
+    "checklist"
   ],
   "library_required_files": [
     "purpose",

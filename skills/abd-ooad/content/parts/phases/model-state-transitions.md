@@ -43,6 +43,17 @@ Branches: `FAILED` (terminal), `CANCELLED` (if allowed).
 ## Continual refinement (this step)
 
 - **Delta:** **PaymentState** / **RefundState** transition sets and **illegal** edges — attach **`Invariant:`** under **`state`** or under **operation** lines that guard transitions; **`**newly added**`** when first stating each guard in formal form.
+
+---
+
+## Action Checklist
+
+- [ ] Have you defined all valid lifecycle states for every stateful entity?
+- [ ] Have you documented every allowed transition and every illegal transition?
+- [ ] Is each transition guarded by an `Invariant:` line attached to the relevant operation?
+- [ ] Have you verified that domain events are emitted on all significant state transitions?
+- [ ] Have you updated the class diagram to reflect state and guard information?
+
 ---
 
 ## Prompt

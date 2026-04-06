@@ -31,6 +31,17 @@
 ## Continual refinement (this step)
 
 - **Delta:** **cohesion clusters** — **Payment** vs **Order** vs **Catalog** vs **Compliance** vs **Warehouse**; use to sanity-check **module** boundaries and **depends_on** in **`map-model-spec.json`**.
+
+---
+
+## Action Checklist
+
+- [ ] Have you identified distinct cohesion clusters (groups of classes that change together)?
+- [ ] Have you confirmed that each cluster maps to a clear bounded context or module boundary?
+- [ ] Have you verified that no cluster has cross-cutting dependencies that violate the module boundary?
+- [ ] Have you updated `map-model-spec.json` `depends_on` entries to reflect cohesion findings?
+- [ ] Have you noted carry-forward items to Step 18 (validate with scenarios)?
+
 ---
 
 ## Prompt

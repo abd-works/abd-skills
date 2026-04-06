@@ -33,6 +33,17 @@
 ## Continual refinement (this step)
 
 - **Delta:** **`interface PspConnector`**, **`PaymentMethod`** contract vs **abstract** base — port **operations** (**authorize**, **capture**, **refund**, **parseWebhook**) **`**newly added**`** on the interface concept when first captured in **`map-model-spec.json`**.
+
+---
+
+## Action Checklist
+
+- [ ] Have you identified every place where a port / plug-point is needed for external or swappable infrastructure?
+- [ ] Is each port defined as an interface (not an abstract class) when it has no shared implementation?
+- [ ] Have you defined all abstract base classes with shared domain behaviour and at least one abstract operation?
+- [ ] Have you verified that no concrete domain class directly depends on infrastructure types?
+- [ ] Have you noted carry-forward items to Step 13 (prefer composition)?
+
 ---
 
 ## Prompt

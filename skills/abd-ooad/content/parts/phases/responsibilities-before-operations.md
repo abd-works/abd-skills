@@ -116,6 +116,16 @@ Next: list **properties per aggregate/entity** using **semantic tightness** — 
 ## Continual refinement (this step)
 
 - **Delta:** **pre-notation** — responsibility paragraphs for **Payment**, **Refund**, **AuditEntry**, VOs, policies; formal **`- <type> property`** / **operation** lines start in Steps 5–6.
+
+---
+
+## Action Checklist
+
+- [ ] Does every surviving class have a clear, named responsibility in plain English?
+- [ ] Have you challenged each responsibility — does it belong here or in an application service?
+- [ ] Have you avoided assigning responsibilities that are really coordination or orchestration to domain objects?
+- [ ] Have you noted carry-forward items to Step 5 (properties)?
+
 ---
 
 ## Prompt

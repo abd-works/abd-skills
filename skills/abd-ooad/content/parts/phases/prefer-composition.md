@@ -36,6 +36,17 @@ Model **state transitions** explicitly on **Payment** (and **Refund**).
 ## Continual refinement (this step)
 
 - **Delta:** **composed parts** table — **ComplianceGate**, **IdempotencyStore**, **PspConnector** as **collaborators** on use cases / **Interactions**, not fields on **Payment**; **`**newly added**`** when those collaboration edges first appear on a concept.
+
+---
+
+## Action Checklist
+
+- [ ] Have you identified any place where inheritance was used for code reuse rather than behavioral substitution?
+- [ ] Have you replaced those cases with composition (strategy, collaborator, or dependency injection)?
+- [ ] Are all composed parts documented as collaborators on the relevant use cases / interactions in the spec?
+- [ ] Have you updated the class diagram to reflect composition relationships?
+- [ ] Have you noted carry-forward items to Step 14 (state transitions)?
+
 ---
 
 ## Prompt

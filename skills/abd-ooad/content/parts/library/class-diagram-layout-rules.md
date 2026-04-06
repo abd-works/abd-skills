@@ -223,7 +223,82 @@ unnecessary bends when classes are repositioned.
 
 ---
 
-## 5. Readability: left-to-right, top-to-bottom reading order
+## 5. Multiple edges must not share an unconstrained connection point (V5)
+
+When two or more edges arrive at (or leave from) the same class without explicit
+`entryX`/`entryY` (or `exitX`/`exitY`) port constraints in their `style` string,
+Draw.io stacks them all at the same default midpoint — producing a visual pile-up
+where multiple arrowheads overlap and the diagram becomes unreadable.
+
+### ❌ Six compositions converging at the same bottom-centre of Character
+
+```xml
+<!-- All six arrive at the default bottom-centre of Character — they pile up -->
+<mxCell style="endArrow=diamondThin;endFill=1;edgeStyle=orthogonalEdgeStyle;..."
+        edge="1" source="Ability"      target="Character" parent="1">
+  <mxGeometry relative="1" as="geometry" />
+</mxCell>
+<mxCell style="endArrow=diamondThin;endFill=1;edgeStyle=orthogonalEdgeStyle;..."
+        edge="1" source="Skill"        target="Character" parent="1">
+  <mxGeometry relative="1" as="geometry" />
+</mxCell>
+<!-- … same for HeroPoint, Advantage, Complication, Power … -->
+```
+
+### ✓ Spread across the bottom side with explicit entry points
+
+```xml
+<!-- entryX evenly distributes 6 arrows across the bottom edge -->
+<mxCell style="endArrow=diamondThin;endFill=1;edgeStyle=orthogonalEdgeStyle;...
+               entryX=0.143;entryY=1;entryDx=0;entryDy=0;"
+        edge="1" source="Ability"  target="Character" parent="1">
+  <mxGeometry relative="1" as="geometry" />
+</mxCell>
+<mxCell style="endArrow=diamondThin;endFill=1;edgeStyle=orthogonalEdgeStyle;...
+               entryX=0.286;entryY=1;entryDx=0;entryDy=0;"
+        edge="1" source="Skill"    target="Character" parent="1">
+  <mxGeometry relative="1" as="geometry" />
+</mxCell>
+<!-- … and so on up to entryX=0.857 for the sixth arrow … -->
+```
+
+**Fix:** run `fix-shared-endpoints` — it determines the dominant approach side
+(top / bottom / left / right) and distributes `entryX`/`entryY` (or
+`exitX`/`exitY`) evenly across it for all unconstrained edges in the group.
+
+---
+
+## 6. Straight-line edges must not pass through unrelated classes (V6)
+
+Dependency edges (`dashed=1`, no `edgeStyle`) draw a straight diagonal line.
+When source and target are on opposite sides of the canvas that line can slice
+through intermediate class boxes, hiding those classes behind an unrelated arrow.
+
+The `verify` command checks straight-line edges by testing the segment from
+source-centre to target-centre against every third class's bounding box
+(shrunk by 5 px to avoid false positives at shared borders).
+
+### ❌ Dependency passes through an unrelated class
+
+```
+[Check] ————————————————→ [Effect]
+           ╱ Power ╲         (Power's box sits on the direct path)
+```
+
+### ✓ Resolved options
+
+1. **Reposition the blocking class** — move it off the arrow corridor; then
+   rerun `verify` to confirm V6 is clear.
+2. **Add an intermediate waypoint** manually in Draw.io to route the dependency
+   around the obstruction (add an `<Array as="points">` with one bend point,
+   or switch the edge to `edgeStyle=orthogonalEdgeStyle`).
+
+> Note: V6 is a **WARN** (not ERROR) because the obstruction is a layout
+> decision that requires human judgment to resolve correctly.
+
+---
+
+## 7. Readability: left-to-right, top-to-bottom reading order
 
 A diagram reads well when:
 

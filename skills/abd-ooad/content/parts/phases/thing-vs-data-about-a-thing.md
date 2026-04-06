@@ -146,6 +146,17 @@ Next: assign **what each remaining aggregate/VO/policy owns** before naming oper
 ## Continual refinement (this step)
 
 - **Delta:** **pre-notation** — entity vs VO vs policy split (**Payment**, **Refund**, embedded **Money**, **RoutingContext**, etc.); sketches stay narrative until Step 5 formal properties.
+
+---
+
+## Action Checklist
+
+- [ ] Have you classified each candidate as entity, value object, or policy?
+- [ ] Have you checked each entity for identity (something that can change over time while remaining the same thing)?
+- [ ] Have you verified that all value objects are immutable and equality-based?
+- [ ] Have you eliminated any data containers masquerading as domain classes?
+- [ ] Have you updated the term registry with the classification for each candidate?
+
 ---
 
 ## Prompt

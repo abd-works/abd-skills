@@ -145,6 +145,17 @@ Ask for each hot candidate:
 ## Continual refinement (this step)
 
 - **Delta:** **pre-notation** — candidate entities, value-ish things, policies, and watch-list; **`**newly added**`** not used on formal lines until Step 5.
+
+---
+
+## Action Checklist
+
+- [ ] Have you produced a raw candidate list with at least three entities and at least one value object?
+- [ ] Have you separated entities from value objects (mutability, identity)?
+- [ ] Have you flagged watch-list candidates (possible classes that need further evidence)?
+- [ ] Have you noted tensions from the candidate list to carry into Step 3+?
+- [ ] Have you updated the term registry with all candidate names?
+
 ---
 
 ## Prompt
