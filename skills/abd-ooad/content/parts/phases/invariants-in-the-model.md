@@ -4,7 +4,7 @@
 
 **Upstream:** `garbled-payments-spec.md`, `relationships-and-cardinality.md`.
 
-> **Continual refinement:** Aligns with **abd-maps-models-specs** [`domain-model.md`](../../abd-maps-models-specs/content/parts/library/domain-model.md) (*Domain concept* template, *Continual refinement — class definition + diagram*). In this payments thread, **`**newly added**`** marks a property or operation line **first introduced in this step file** (Steps 1–4 stay pre-notation; formal `- <type> property` / `operation(...) → return` lines begin at Step 5).
+> **Continual refinement:** Full notation is in **[Domain model Markdown](../library/domain-model.md)** (*Domain concept* template; class definition and diagram refined together). In this payments thread, **`**newly added**`** marks a property or operation line **first introduced in this step file** (Steps 1–4 stay pre-notation; formal `- <type> property` / `operation(...) → return` lines begin at Step 5).
 
 ---
 
@@ -44,7 +44,7 @@ Watch **Payment** for bloat as more rules arrive — split policies if needed.
 
 ## Continual refinement (this step)
 
-- **Delta:** **invariants** tied to **`Payment.initiate`**, **`capture`**, **`settle`**, **`Refund.request`**, append-only **AuditEntry** — add **`Invariant:`** lines under the matching **property** / **operation** in the spec (see [`domain-model.md`](../../abd-maps-models-specs/content/parts/library/domain-model.md)); mark **`**newly added**`** when first attaching each invariant to a member line.
+- **Delta:** **invariants** tied to **`Payment.initiate`**, **`capture`**, **`settle`**, **`Refund.request`**, append-only **AuditEntry** — add **`Invariant:`** lines under the matching **property** / **operation** in the spec (see [Domain model Markdown](../library/domain-model.md)); mark **`**newly added**`** when first attaching each invariant to a member line.
 
 ---
 

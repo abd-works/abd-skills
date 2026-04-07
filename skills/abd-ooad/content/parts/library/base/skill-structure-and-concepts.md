@@ -18,7 +18,7 @@ Typical tree after scaffold. **Purpose** = why it exists; **Template** = startin
 | `content/parts/process.md` | **Pipeline:** one table row per **phase** (not per step) | [`templates/skill-scaffold/content/parts/process.md`](../../../templates/skill-scaffold/content/parts/process.md) |
 | `content/parts/phases/<slug>.md` | Procedure, steps, checklists **for that phase** | [`phase-template.md`](../../../templates/skill-scaffold/content/parts/phases/phase-template.md), [`workspace-and-config.md`](../../../templates/skill-scaffold/content/parts/phases/workspace-and-config.md) |
 | `content/built/phases/` | Generated phase bodies for static prompts | [`README.md`](../../../built/phases/README.md) |
-| `content/parts/library/base/*.md` | **Frozen** shared norms copied from **abd-skill-builder** (checklist, critical-quality-steps, …) — refresh from upstream, do not fork casually | Copied by **`scaffold_skill.py`** |
+| `content/parts/library/base/*.md` | **Frozen** shared norms copied from **abd-skill-builder** (e.g. **skill-structure**, **workspace-and-config**) — refresh from upstream, do not fork casually. **OOAD** progress/strategy checklist norms live in **`library/strategy-execution-and-checklists.md`**, not under **`base/`**. | Copied by **`scaffold_skill.py`** |
 | `content/parts/library/required/*.md` | **Per-skill** narrative every scaffold creates (`purpose.md`, `outline.md`, `role.md`, `principles.md`) — authors extend these | [`templates/skill-scaffold/content/parts/library/required/`](../../../templates/skill-scaffold/content/parts/library/required/) |
 | `content/parts/library/*.md` | Optional **extra** shards (listed in `library_files`) — not in base/required | Skill-specific |
 | `content/built/` | Optional built slices when `delivery.mode` is `static_built` | [`content/built/README.md`](../../../templates/skill-scaffold/content/built/README.md) |
@@ -101,9 +101,9 @@ Use this when **`content/parts/process.md`** spans **multiple stages** (plan →
 
 ## Authoring checklist — injector body
 
-The canonical file **[checklist.md](base/checklist.md)** in **abd-skill-builder** explains **how checklist files are created**: the stable **`library/base/`** reference, workspace **`progress/`** files, what **`generate.py`** creates, and **`workspace_checklists.py`**. It does **not** duplicate the full process story — that stays in **[process-phases.md](base/process-phases.md)** and **[outline.md](required/outline.md)** (*Activity checklists*).
+For **abd-ooad**, the single canonical doc for **strategy execution**, **workspace `progress/`** checklist files, and **`generate.py`** behavior is **[strategy-execution-and-checklists.md](../strategy-execution-and-checklists.md)**. It does **not** duplicate the full process story — that stays in **[process.md](../process.md)** and **[outline.md](../required/outline.md)** (*Activity checklists*).
 
-**Convention:** **`scaffold_skill.py`** copies **`content/parts/library/base/`** from the builder, including **`checklist.md`**. Refresh **`library/base/checklist.md`** from **abd-skill-builder** when checklist mechanics change.
+**Other skills** from **abd-skill-builder** may still ship **`library/base/checklist.md`** from upstream; **abd-ooad** removed that file in favor of **`strategy-execution-and-checklists.md`**.
 
 ---
 

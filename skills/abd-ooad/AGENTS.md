@@ -97,7 +97,7 @@ You are the **domain modeler and OOAD practitioner** using this skill: you provi
 |---|-------|-------------|-------|-------|--------|---------|
 | 0 | [Workspace and config](phases/workspace-and-config.md) | Set active skill workspace; configure project root | Human | Project directory | `skill-config.json` updated | `python scripts/base/set_workspace.py <path>` |
 | 1 | [Domain scan](phases/domain-scan.md) | Scan source, identify 3–7 anchors, flag tensions, produce initial model sketch | AI | Source material (spec, code, manual, transcript) | `domain-scan-results.md` + `strategy.md` + `domain-scan-model.md` + `domain-scan-model.drawio` + `term-registry.md` (+ `abd-ooad/progress/*-checklist.md` from `generate.py`) | `python scripts/base/generate.py --phase domain-scan` |
-| 2 | [Nouns, verbs, rules, and states](phases/nouns-verbs-rules-and-states.md) | Careful extraction: mark nouns, verbs, rules, states per section | AI | Source material + domain-scan results | Extraction findings + updated term-registry.md | `python scripts/base/generate.py --phase nouns-verbs-rules-and-states` |
+| 2 | [Nouns, verbs, rules, and states](phases/nouns-verbs-rules-and-states.md) | Careful extraction: mark nouns, verbs, rules, states per section; **term-registry `Anchor` column** (`S1=` per slice heading; `S2=` only when slice 2 exists) | AI | Source material + domain-scan results | Extraction findings + updated term-registry.md | `python scripts/base/generate.py --phase nouns-verbs-rules-and-states` |
 | 3 | [Raw candidate list](phases/raw-candidate-list.md) | Sort findings into entities, values, processes, policies, roles, events | AI | Extraction results | Candidate class inventory + updated term-registry.md | `python scripts/base/generate.py --phase raw-candidate-list` |
 | 4 | [Thing vs data about a thing](phases/thing-vs-data-about-a-thing.md) | Separate independent entities from value objects, enums, properties | AI | Candidate list | Refined entities with clear boundaries | `python scripts/base/generate.py --phase thing-vs-data-about-a-thing` |
 | 5 | [Responsibilities before operations](phases/responsibilities-before-operations.md) | Define what each class is responsible for (before methods) | AI | Entities | Responsibility statements per class | `python scripts/base/generate.py --phase responsibilities-before-operations` |
@@ -137,7 +137,7 @@ You are the **domain modeler and OOAD practitioner** using this skill: you provi
 
 ## Implementation Notes
 
-**Strategy before deep runs:** After domain scan, fill **`strategy.md`** (**modeling scope** + **execution plan**) so you know **which phases**, **in what order**, and **on what slice** of the source (e.g. one chapter at a time). Align **`abd-ooad/progress/strategy-run-checklist.md`** with that plan; then run **`generate.py --phase <slug>`** for the active phase. See **`library/strategy-execution-and-checklists.md`**.
+**Strategy before deep runs:** After domain scan, fill **`strategy.md`** from **`templates/strategy.md`**: **section strategy** (named units — chapters, packages, anchors, …), **coverage across steps** (every in-scope section touched or explicitly deferred), **section-by-section plan** (depth per section), **section integration** (cross-boundary handoffs), and **execution plan** (ordered phase slugs with **section IDs on each line**). Align **`abd-ooad/progress/strategy-run-checklist.md`** (reuse the same IDs in scope strings). Then run **`generate.py --phase <slug>`**. See **`library/strategy-led-generation`** and **`library/strategy-execution-and-checklists`**.
 
 **AI-driven phases:** Each phase can be executed by Claude following the assembled instructions from **`generate.py`** or **`AGENTS.md`**.
 
@@ -254,7 +254,7 @@ Examples for mm3e-experiment:
 ├── ... (steps 2–20 outputs)
 ```
 
-Live **checkboxes** belong only under **`progress/`** (see **`library/base/checklist.md`**). Do not duplicate tick tables in `strategy.md` or other normative docs under `abd-ooad/`.
+Live **checkboxes** belong only under **`progress/`** (see **`library/strategy-execution-and-checklists.md`**). Do not duplicate tick tables in `strategy.md` or other normative docs under `abd-ooad/`.
 
 ---
 
@@ -337,6 +337,106 @@ See **`content/parts/phases/domain-scan.md`** for details.
 
 ## Library
 
+
+
+---
+
+### `domain-model.md`
+
+# Domain model Markdown
+
+This skill’s **domain model** is captured in Markdown (and optionally a parallel **Draw.io** class diagram). Use the checked-in **`templates/domain model template.md`** when starting a new companion doc; keep the same semantics as **`templates/domain model template.drawio`** when both exist.
+
+---
+
+## Domain concept template
+
+Each **domain concept** (class, interface, value object, or aggregate) is documented under a clear heading, for example:
+
+```markdown
+## **Payment**
+
+**Responsibilities:** …
+
+### Properties
+- Money amount
+- …
+
+### Operations
+- initiate() → Authorization
+```
+
+From **Step 5** onward, prefer **typed** members (see **Notation evolution** below). Earlier steps stay **pre-notation** (bullets and prose).
+
+---
+
+## Continual refinement — class definition + diagram
+
+**Continual refinement** means you **grow** the model across steps: each step file may add or tighten concepts. The Markdown spec and the class diagram are **two views of the same model** — update both when your project uses dual artifacts so they do not drift (see **[Class diagrams](class-diagrams.md)**).
+
+---
+
+## **newly added** tag
+
+In the **worked example** threads (e.g. payments), the marker **`**newly added**`** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
+
+---
+
+## Notation evolution
+
+| Phase | Markdown style |
+|--------|------------------|
+| **Steps 1–4** | Informal: bullets, short phrases, responsibilities, candidate names. **No** required `- <type> property` lines yet. |
+| **Step 5+** | Formal typed members: `- <Type> propertyName`, `operationName(...) → ReturnType`. |
+
+---
+
+## Subtype sections
+
+When you introduce substitutable specializations, add an explicit subtype heading so the structure is visible in the spec and in diagrams:
+
+```markdown
+### **Subtype** : **PaymentMethod**
+```
+
+Put **`**newly added**`** on subtype **operation** (or property) lines when that member is **first** introduced for that subtype.
+
+---
+
+## Invariants
+
+Attach invariants to the **property** or **operation** they constrain, using a dedicated line:
+
+```markdown
+**Invariant:** …
+```
+
+Mark **`**newly added**`** when you **first** attach an invariant to a given member line.
+
+---
+
+## Early steps: terms, mechanisms, story map
+
+Before typed properties exist, align extracted **nouns, verbs, rules, states** with your workspace’s **terms & mechanisms** and **shaped story map** (or equivalent). That is the same “grow the model as you go” idea: informal extraction first, then formal types.
+
+---
+
+## Class diagram and spec (visual twin)
+
+When you maintain a machine-readable spec such as **`map-model-spec.json`**, re-run your project’s class-diagram render script (for example **`render_map_model_class_diagram.py`**) after material changes so the **Draw.io** diagram stays the **visual twin** of the spec.
+
+- **[Class diagrams](class-diagrams.md)** — templates, relationship types, keeping `.md` and `.drawio` aligned.  
+- **[Using the Diagram CLI](using-diagram-cli.md)** — building diagrams with **`scripts/drawio_cli.py`**.
+
+---
+
+## Related library shards
+
+| Topic | File |
+|--------|------|
+| Term tracking across steps | [term-registry.md](term-registry.md) |
+| Strategy-led runs | [strategy-led-generation.md](strategy-led-generation.md) |
+| Layout and lanes | [class-diagram-layout-rules.md](class-diagram-layout-rules.md) |
 
 
 ---
@@ -432,7 +532,7 @@ Domain scan (OOAD **phase 1**) does not only produce a single “results” file
 
 For the scan procedure itself, see the **Domain scan** phase. This page explains **what each artifact is for** and how **`strategy.md`** relates to **`domain-scan-results.md`**.
 
-**Checkbox discipline:** Live ticks for pipeline position and phase steps belong only under **`<workspace>/abd-ooad/progress/`** — see **`library/base/checklist.md`** and **`library/strategy-execution-and-checklists.md`**. Do not put tick tables in `strategy.md`.
+**Checkbox discipline:** Live ticks for pipeline position and phase steps belong only under **`<workspace>/abd-ooad/progress/`** — see **`library/strategy-execution-and-checklists.md`**. Do not put tick tables in `strategy.md`.
 
 ---
 
@@ -443,7 +543,7 @@ Created during domain scan under `<workspace>/abd-ooad/`:
 | File | Role | Updates after scan? |
 |------|------|---------------------|
 | `domain-scan-results.md` | **Findings snapshot:** source map, anchor table, tensions. | Rarely — only if you correct a scan error. Do not put the forward plan here; that belongs in `strategy.md`. |
-| `strategy.md` | **Living strategy:** **modeling scope**, **execution plan (normative)** — which phases in what order and on what slice of context — plus **approach** and **dated pivots**. | **Yes** — whenever scope, order, or focus changes. |
+| `strategy.md` | **Living strategy:** **modeling scope**; **§1 source slices** (table: Order, Goal, **Source** — chapters, files, modules, or mixed — **Coverage**, **Importance**); **§2 slice plan** (per-slice **goal restated** + **phases**); **coverage across steps**; **cross-slice integration**; **anchor and subdomain elaboration**; **execution plan (normative)** — phase slugs with **slice IDs** on every line; plus **approach** and **dated pivots**. | **Yes** — whenever scope, order, slice depth, subdomain mapping, or integration changes. |
 | `domain-scan-model.md` | Class sketch (markdown) at scan fidelity. | Yes, in later phases — not only during scan. |
 | `domain-scan-model.drawio` | Diagram at scan fidelity. | Same as model.md. |
 | `term-registry.md` | Terms, **Classification** (model role), **Status** (OOAD scale), confidence — seeded at scan. | **Yes** — every later phase updates Step, Classification, and Status as the model evolves. |
@@ -457,7 +557,7 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 ## What `strategy.md` is for
 
 - Created at the end of domain scan as a **workspace file**, then **kept current** through extraction and later phases.
-- **Purpose:** (1) **scope** — what chapters, anchors, or files you model; (2) **execution plan** — ordered list of phase slugs with **per-step scope** (e.g. run nouns-verbs on Chapter 5, then the next three phases on Chapter 6); (3) short **why** in *Approach going forward* and **pivots** in *Ongoing strategic decisions*. Scan mechanics live in **`domain-scan-results.md`**.
+- **Purpose:** (1) **scope** — what product or corpus you model; (2) **§1 source slices** — ordered table (**Goal**, **Source**, **Coverage**, **Importance**); **Source** is any locator (chapters, page ranges, repo paths, modules — not only document sections); (3) **§2 slice plan** — per slice, **goal restated** and **phases** (execution steps); (4) **coverage across steps** — matrix proving every in-scope slice is addressed or deferred; (5) **cross-slice integration** — handoffs between slices; (6) **anchor and subdomain elaboration** — attached types (e.g. Ability, Skill, Advantage) mapped to **slice IDs** and execution **§**; (7) **execution plan** — each line names **slice IDs**; breadth steps must **include** subdomain slices in **nouns-verbs** / **raw-candidate-list** where relevant; (8) **Approach** + **Ongoing strategic decisions**. Scan mechanics stay in **`domain-scan-results.md`**.
 - **Template:** `templates/strategy.md`. Install as **`strategy.md`** (lowercase; avoid duplicate `STRATEGY.md` on case-insensitive disks).
 - After you finalize the execution plan, align **`progress/strategy-run-checklist.md`** with it (same phases and scope); that file holds **checkboxes** for “which phase is done,” while **`strategy.md`** stays **normative text** (no `- [ ]`).
 
@@ -468,7 +568,7 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 | Question | Answer |
 |----------|--------|
 | Where is the source map and anchor list? | `domain-scan-results.md` |
-| Where do I define “we model Chapter 5 first, then Chapter 6” and **which phases** per slice? | `strategy.md` → **Modeling scope** + **Execution plan (normative)** |
+| Where do I define **which slices** exist (chapters, files, modules, …), **depth**, **subdomains per anchor**, and **which phases** hit which? | `strategy.md` → **§1 Source slices**, **§2 Slice plan**, **Coverage across steps**, **Cross-slice integration**, **Anchor and subdomain elaboration**, **Execution plan (normative)** |
 | Where do I tick **which phases** we ran, **in order**, with **scope**? | **`abd-ooad/progress/strategy-run-checklist.md`** (keep in sync with `strategy.md`) |
 | Where do I tick **full** pipeline position (all phases)? | **`abd-ooad/progress/process-checklist.md`** (optional reference) |
 | Where do I tick **steps inside** the current phase? | **`abd-ooad/progress/<phase>-checklist.md`** |
@@ -493,7 +593,7 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 - Strategy vs checklists: **`library/strategy-execution-and-checklists.md`**
 - Anchors: `anchors` in this library
 - Term registry: `term-registry` in this library
-- Checklist norm: `library/base/checklist.md`
+- Checklist norm: `library/strategy-execution-and-checklists.md`
 
 
 ---
@@ -502,7 +602,9 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 
 # Strategy execution and checklists (abd-ooad)
 
-OOAD uses **three** checklist layers under **`<workspace>/abd-ooad/progress/`**. Only **`strategy.md`** defines **scope** and **which phases in what order**; checklists are where you **tick** progress.
+**Canonical doc** for: (1) **strategy** vs **live ticks**, (2) **which files** hold checkboxes, (3) **how** `generate.py` creates workspace **`progress/`** files. Does **not** replace **[process.md](../process.md)** (process tables, `generate` / `build`) or **[skill-structure-and-concepts.md](../base/skill-structure-and-concepts.md)** (repo layout).
+
+Only **`strategy.md`** defines **scope** and **which phases in what order**; checklists are where you **tick** progress.
 
 ---
 
@@ -510,29 +612,55 @@ OOAD uses **three** checklist layers under **`<workspace>/abd-ooad/progress/`**.
 
 1. **Domain scan** — produce scan artifacts (see **`strategy-led-generation`**).
 2. **Strategy** — fill **`strategy.md`** from **`templates/strategy.md`**:
-   - **Modeling scope** — chapters, anchors, files, in/out of scope.
-   - **Execution plan (normative)** — ordered list of phase **slugs** (from **`skill-config.json` → `phase_files`**) plus **scope per step** (e.g. “nouns-verbs on Chapter 5 only”).
+   - **Modeling scope** — corpus or product boundary; **source type** (book vs repo vs mixed).
+   - **§1 Source slices** — ordered table: **Goal**, **Source** (chapters, files, modules, APIs — whatever locates work), **Coverage** (depth this pass), **Importance**; stable **slice IDs** reused everywhere.
+   - **§2 Slice plan** — per slice: **goal restated**, **unit kind**, **phases** (execution step numbers / slugs), produces, depends-on.
+   - **Coverage across steps** — matrix: every slice → which **execution plan** steps touch it → **depth** → deferrals.
+   - **Cross-slice integration** — cross-boundary types and ordering (From → To + narrative).
+   - **Anchor and subdomain elaboration** (when anchors have attached types) — map subdomains to slices and execution §.
+   - **Execution plan (normative)** — ordered phase **slugs**; **each line cites slice IDs** (mirror **`strategy-run-checklist.md`**).
    - **Approach going forward** + **Ongoing strategic decisions** — short narrative and dated pivots.
-3. **Align live checklists** — keep **`strategy-run-checklist.md`** in sync with the execution plan (same order and scope). Seed file: **`templates/strategy-run-checklist.md`** (created under **`progress/`** on first **`generate.py`** when missing).
+3. **Align live checklists** — keep **`strategy-run-checklist.md`** in sync with the execution plan (same order and scope). Optional **`templates/strategy-run-checklist.md`** seed; optional **`templates/progress-README.md`** → **`progress/README.md`** for slice-specific files under **`progress/slices/`**.
 4. **Run phases** — for the **current** phase: `python scripts/base/generate.py --phase <slug>`. Tick **`strategy-run-checklist.md`** when a phase is **done** for its declared scope; tick **`<slug>-checklist.md`** for **steps inside** that phase.
 
 ---
 
-## Three layers
+## Three layers (what you tick)
 
 | Layer | File | What you tick |
 | --- | --- | --- |
-| **Strategy execution** | **`progress/strategy-run-checklist.md`** | **Which phases** you will run, **in order**, each with **scope** (matches **`strategy.md` → Execution plan**). Use this for “next three steps per chapter” or “whole pipeline on anchor X.” |
+| **Strategy execution** | **`progress/strategy-run-checklist.md`** | **Which phases** you will run, **in order**, each with **scope** that **includes the same slice IDs** as **`strategy.md` → Execution plan**. Optional: **`progress/slices/<slice-id>-checklist.md`** per slice — see **`progress/README.md`** in the workspace (if present). |
 | **Full pipeline (reference)** | **`progress/process-checklist.md`** | **Every** phase in **`phase_files`** — useful as a map; optional if you rely only on strategy-run. |
 | **Phase steps** | **`progress/<phase>-checklist.md`** | **Action checklist** copied from **`content/parts/phases/<phase>.md` → ## Action Checklist**. |
 
-**Normative rules** for pipeline + phase checklists: **`library/base/checklist.md`**. **Implementation:** **`scripts/base/workspace_checklists.py`**.
+**Implementation:** **`scripts/base/workspace_checklists.py`** (paths, behavior, `--no-ensure-checklists`).
+
+---
+
+## How workspace checklist files are created (mechanical)
+
+| Kind | What it tracks | Where it lives | How it gets there |
+| --- | --- | --- | --- |
+| **Normative reference** | Rules in **this document** — strategy vs ticks, layers, `generate.py` behavior | **`content/parts/library/strategy-execution-and-checklists.md`** | Authored in the skill; **not** created by **`generate.py`**. |
+| **Pipeline position** | Which **phase** of the pipeline you are in | **`<active_skill_workspace>/<skill_name>/progress/process-checklist.md`** | **Created** on first **`python scripts/base/generate.py --phase <slug>`** when that file is **missing**, if **`skill-config.json` → `workspace.active_skill_workspace`** is set. One `- [ ]` line per slug in **`phase_files`** (labels from **`phase_section_headings`** when present). **Does not overwrite** an existing file. |
+| **Phase action steps** | **Steps inside** the current phase | **`<active_skill_workspace>/<skill_name>/progress/<phase-slug>-checklist.md`** | **Created** in the **same** `generate.py` run when that file is **missing**. Steps are taken from **`## Action Checklist`** in **`content/parts/phases/<phase-slug>.md`**, or from task lines (`- [ ]` / `- [x]`) in that file if the section is absent. **Does not overwrite** an existing file. |
+| **Strategy execution** (workspace) | Ordered phases matching **`strategy.md`** | **`progress/strategy-run-checklist.md`** | Seeded from template when **`generate.py`** / workspace checklist logic creates it; **you** align it with **`strategy.md`**. |
+
+### Names and workspace
+
+- **`skill_name`** — **`skill-config.json` → `name`** (fallback: skill directory name). Used in **`…/<skill_name>/progress/`**.
+- **`active_skill_workspace`** — Must point at the **project / engagement tree** where **`progress/`** checklists belong, **not** the skill install folder. See **`skill-config.json` → `workspace`** and **[workspace-and-config.md](phases/workspace-and-config.md)**.
+
+### Flags
+
+- **`python scripts/base/generate.py --phase <slug> --no-ensure-checklists`** — run the phase prompt **without** creating missing **`progress/`** checklist files (see **`workspace_checklists.py`**).
 
 ---
 
 ## What not to do
 
 - Do not put **checkboxes** in **`strategy.md`** — keep execution plan as **normative numbered/bulleted text**; ticks live under **`progress/`**.
+- Do not record pipeline or phase **session** progress by ticking boxes in **`content/parts/process.md`** or **`content/parts/phases/*.md`** — those stay **normative**; live ticks go **only** under **`…/progress/`**.
 - Do not let **`strategy-run-checklist.md`** drift from **`strategy.md`** — after a pivot, update both and append a line under *Ongoing strategic decisions*.
 
 ---
@@ -540,6 +668,14 @@ OOAD uses **three** checklist layers under **`<workspace>/abd-ooad/progress/`**.
 ## Phase slugs
 
 Use exact slugs from **`skill-config.json` → `phase_files`** (e.g. `nouns-verbs-rules-and-states`, `domain-scan`). Labels for humans are in **`phase_section_headings`**.
+
+---
+
+## References
+
+- **`strategy-led-generation.md`** — artifact roles, **`strategy.md`** vs **`domain-scan-results.md`**
+- **`templates/strategy.md`**, **`templates/progress-README.md`**
+- **`scripts/base/workspace_checklists.py`**
 
 
 ---
@@ -1145,12 +1281,14 @@ Use a note (folded-corner rectangle) connected to the class by a dashed line:
 
 The CLI does not yet support notes — add them manually in draw.io after CLI build. Use: Insert → Shape → Note. Connect to the target class with a dashed edge. Enclose invariant text in `{ }`.
 
+**Module / package (UML frame) notes:** For commentary that applies to a whole **module** (the outer `umlFrame` / package boundary from `add-frame`), attach the same Note shape to the **frame’s perimeter** (snap the connector to the frame edge), not to an inner class. Use the same dashed connector style as class notes. This keeps module-level invariants or scope reminders visually tied to the subsystem boundary.
+
 ### When to add invariants
 
 | Phase | Add invariants? |
 |-------|----------------|
 | domain-scan | Yes — add the invariants you found during the scan (inline preferred at this fidelity) |
-| nouns-verbs | No — extraction only; invariants captured in registry notes |
+| domain-noun-verb (Step 1) | No — extraction only; invariants captured in registry notes |
 | raw-candidate-list through responsibilities | Yes — as invariants become confirmed, add to diagram |
 | Full model phases | Yes — invariants are a required part of the final model |
 
@@ -1986,7 +2124,7 @@ You are the **domain modeler and OOAD practitioner** using this skill: you provi
 
 For **which files the scan creates** (`domain-scan-results.md`, `strategy.md`, models, registry) and how they evolve after the scan — see **`strategy-led-generation`** in this library.
 
-**Live checkboxes** for pipeline position and per-phase steps live under **`<skill_workspace>/abd-ooad/progress/`** (skill-builder norm — see **`library/base/checklist.md`**). Do not use `strategy.md` for tick lists.
+**Live checkboxes** for pipeline position and per-phase steps live under **`<skill_workspace>/abd-ooad/progress/`** — see **`library/strategy-execution-and-checklists.md`**. Do not use `strategy.md` for tick lists.
 
 For canonical **module** terminology, the three-part stability test, and what to do when a cluster has no clear core class — see **`anchors`** in this library (detailed module framing is merged in when this phase is assembled).
 
@@ -2052,7 +2190,7 @@ After the scan, record:
 | **Source map** | What sections, modules, or files exist, and which look heaviest |
 | **High-confidence central modules** | 3–7 modules that are clearly central and stable enough to start modeling from. Each is a **module**: a named thing with a clear core class you can identify by name. If you cannot name the core class, you have not found the module yet — see **`anchors`** in this library. |
 | **Suspected tensions** | 1–3 places where the material seems inconsistent, ambiguous, or overloaded |
-| **Strategy (in `strategy.md`)** | **Modeling scope**, **execution plan (normative)** — which phases in what order and on what context (chapter, module, …) — plus **approach** and **dated pivots** — see `strategy-led-generation` and `strategy-execution-and-checklists` in this library |
+| **Strategy (in `strategy.md`)** | **Modeling scope**; **§1 source slices** (Goal, **Source**, Coverage, Importance); **§2 slice plan** (goal restated + phases per slice); **coverage across steps**; **cross-slice integration**; **anchor and subdomain elaboration**; **execution plan (normative)** — phase slugs with **slice IDs**; plus **approach** and **dated pivots** — see `strategy-led-generation` and `strategy-execution-and-checklists` in this library |
 | **Progress (under `abd-ooad/progress/`)** | **Ticks only:** `strategy-run-checklist.md` (your planned phases + scope), `process-checklist.md` (full pipeline map), `<phase>-checklist.md` (phase steps) — generated by `generate.py` when missing; see `library/strategy-execution-and-checklists.md` |
 
 ---
@@ -2072,8 +2210,8 @@ Before completing this step, verify all of these:
 - [ ] Have you identified which source type you are working with?
 - [ ] Do you have at least three central modules you are confident about?
 - [ ] Have you flagged at least one suspected tension or ambiguous boundary?
-- [ ] Have you recorded **modeling scope** and **execution plan (normative)** in `strategy.md` (which phases, in what order, on what scope — e.g. chapter 5, a specific module)? See `strategy-execution-and-checklists` in this library.
-- [ ] With `active_skill_workspace` set, have you run `python scripts/base/generate.py --phase domain-scan` so `abd-ooad/progress/process-checklist.md`, `abd-ooad/progress/domain-scan-checklist.md`, and (when seeded from template) `abd-ooad/progress/strategy-run-checklist.md` exist? Align `strategy-run-checklist.md` with your execution plan. (See `library/base/checklist.md` and `library/strategy-execution-and-checklists.md`.)
+- [ ] Have you recorded **`strategy.md`** with **§1 source slices**, **§2 slice plan**, **coverage across steps**, **cross-slice integration**, **anchor and subdomain elaboration** (every anchor’s attached types tied to **nouns-verbs / raw-candidate / responsibilities** — not only “Character”), and **execution plan (normative)**? See `strategy-led-generation` and `strategy-execution-and-checklists` in this library.
+- [ ] With `active_skill_workspace` set, have you run `python scripts/base/generate.py --phase domain-scan` so `abd-ooad/progress/process-checklist.md`, `abd-ooad/progress/domain-scan-checklist.md`, and (when seeded from template) `abd-ooad/progress/strategy-run-checklist.md` exist? Align `strategy-run-checklist.md` with your execution plan. (See `library/strategy-execution-and-checklists.md`.)
 - [ ] `domain-scan-results.md` is present and complete
 - [ ] `strategy.md` is present
 - [ ] `domain-scan-model.md` is present
@@ -2091,12 +2229,12 @@ If any of these are missing, extend the scan before proceeding.
 | File | Template | Content |
 |------|----------|---------|
 | `domain-scan-results.md` | `templates/domain-scan-results.md` | Source map, central modules, and tensions (scan findings; not the long extraction plan) |
-| `strategy.md` | `templates/strategy.md` | **Approach going forward** + ongoing dated decisions — see `strategy-led-generation` in library |
+| `strategy.md` | `templates/strategy.md` | **§1 source slices**, **§2 slice plan**, **coverage**, **cross-slice integration**, **anchor and subdomain elaboration**, **execution plan**, **approach**, **dated pivots** — see `strategy-led-generation` in library |
 | `domain-scan-model.md` | `templates/domain model template.md` | Class notation listing for each central module — name, fields with cardinality notation, supporting classes |
 | `domain-scan-model.drawio` | built via `scripts/drawio_cli.py` | Modules as frames, core class + supporting classes inside each frame, intra-module and cross-module relationships |
 | `term-registry.md` | see `term-registry` in library | Seeded with primary modules and visible tensions from the scan |
 
-**Live workflow checklists** (skill-builder norm — **`library/base/checklist.md`**), under `<workspace>/abd-ooad/progress/` when `active_skill_workspace` is set. Created on first `python scripts/base/generate.py --phase domain-scan` if missing:
+**Live workflow checklists** (see **`library/strategy-execution-and-checklists.md`**), under `<workspace>/abd-ooad/progress/` when `active_skill_workspace` is set. Created on first `python scripts/base/generate.py --phase domain-scan` if missing:
 
 | File | Role |
 |------|------|
@@ -2112,6 +2250,106 @@ For module framing (core class, dashed frame, fields vs supporting classes), dia
 
 ## Library
 
+
+
+---
+
+### `domain-model.md`
+
+# Domain model Markdown
+
+This skill’s **domain model** is captured in Markdown (and optionally a parallel **Draw.io** class diagram). Use the checked-in **`templates/domain model template.md`** when starting a new companion doc; keep the same semantics as **`templates/domain model template.drawio`** when both exist.
+
+---
+
+## Domain concept template
+
+Each **domain concept** (class, interface, value object, or aggregate) is documented under a clear heading, for example:
+
+```markdown
+## **Payment**
+
+**Responsibilities:** …
+
+### Properties
+- Money amount
+- …
+
+### Operations
+- initiate() → Authorization
+```
+
+From **Step 5** onward, prefer **typed** members (see **Notation evolution** below). Earlier steps stay **pre-notation** (bullets and prose).
+
+---
+
+## Continual refinement — class definition + diagram
+
+**Continual refinement** means you **grow** the model across steps: each step file may add or tighten concepts. The Markdown spec and the class diagram are **two views of the same model** — update both when your project uses dual artifacts so they do not drift (see **[Class diagrams](class-diagrams.md)**).
+
+---
+
+## **newly added** tag
+
+In the **worked example** threads (e.g. payments), the marker **`**newly added**`** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
+
+---
+
+## Notation evolution
+
+| Phase | Markdown style |
+|--------|------------------|
+| **Steps 1–4** | Informal: bullets, short phrases, responsibilities, candidate names. **No** required `- <type> property` lines yet. |
+| **Step 5+** | Formal typed members: `- <Type> propertyName`, `operationName(...) → ReturnType`. |
+
+---
+
+## Subtype sections
+
+When you introduce substitutable specializations, add an explicit subtype heading so the structure is visible in the spec and in diagrams:
+
+```markdown
+### **Subtype** : **PaymentMethod**
+```
+
+Put **`**newly added**`** on subtype **operation** (or property) lines when that member is **first** introduced for that subtype.
+
+---
+
+## Invariants
+
+Attach invariants to the **property** or **operation** they constrain, using a dedicated line:
+
+```markdown
+**Invariant:** …
+```
+
+Mark **`**newly added**`** when you **first** attach an invariant to a given member line.
+
+---
+
+## Early steps: terms, mechanisms, story map
+
+Before typed properties exist, align extracted **nouns, verbs, rules, states** with your workspace’s **terms & mechanisms** and **shaped story map** (or equivalent). That is the same “grow the model as you go” idea: informal extraction first, then formal types.
+
+---
+
+## Class diagram and spec (visual twin)
+
+When you maintain a machine-readable spec such as **`map-model-spec.json`**, re-run your project’s class-diagram render script (for example **`render_map_model_class_diagram.py`**) after material changes so the **Draw.io** diagram stays the **visual twin** of the spec.
+
+- **[Class diagrams](class-diagrams.md)** — templates, relationship types, keeping `.md` and `.drawio` aligned.  
+- **[Using the Diagram CLI](using-diagram-cli.md)** — building diagrams with **`scripts/drawio_cli.py`**.
+
+---
+
+## Related library shards
+
+| Topic | File |
+|--------|------|
+| Term tracking across steps | [term-registry.md](term-registry.md) |
+| Strategy-led runs | [strategy-led-generation.md](strategy-led-generation.md) |
+| Layout and lanes | [class-diagram-layout-rules.md](class-diagram-layout-rules.md) |
 
 
 ---
@@ -2264,7 +2502,7 @@ Domain scan (OOAD **phase 1**) does not only produce a single “results” file
 
 For the scan procedure itself, see the **Domain scan** phase. This page explains **what each artifact is for** and how **`strategy.md`** relates to **`domain-scan-results.md`**.
 
-**Checkbox discipline:** Live ticks for pipeline position and phase steps belong only under **`<workspace>/abd-ooad/progress/`** — see **`library/base/checklist.md`** and **`library/strategy-execution-and-checklists.md`**. Do not put tick tables in `strategy.md`.
+**Checkbox discipline:** Live ticks for pipeline position and phase steps belong only under **`<workspace>/abd-ooad/progress/`** — see **`library/strategy-execution-and-checklists.md`**. Do not put tick tables in `strategy.md`.
 
 ---
 
@@ -2275,7 +2513,7 @@ Created during domain scan under `<workspace>/abd-ooad/`:
 | File | Role | Updates after scan? |
 |------|------|---------------------|
 | `domain-scan-results.md` | **Findings snapshot:** source map, anchor table, tensions. | Rarely — only if you correct a scan error. Do not put the forward plan here; that belongs in `strategy.md`. |
-| `strategy.md` | **Living strategy:** **modeling scope**, **execution plan (normative)** — which phases in what order and on what slice of context — plus **approach** and **dated pivots**. | **Yes** — whenever scope, order, or focus changes. |
+| `strategy.md` | **Living strategy:** **modeling scope**; **§1 source slices** (table: Order, Goal, **Source** — chapters, files, modules, or mixed — **Coverage**, **Importance**); **§2 slice plan** (per-slice **goal restated** + **phases**); **coverage across steps**; **cross-slice integration**; **anchor and subdomain elaboration**; **execution plan (normative)** — phase slugs with **slice IDs** on every line; plus **approach** and **dated pivots**. | **Yes** — whenever scope, order, slice depth, subdomain mapping, or integration changes. |
 | `domain-scan-model.md` | Class sketch (markdown) at scan fidelity. | Yes, in later phases — not only during scan. |
 | `domain-scan-model.drawio` | Diagram at scan fidelity. | Same as model.md. |
 | `term-registry.md` | Terms, **Classification** (model role), **Status** (OOAD scale), confidence — seeded at scan. | **Yes** — every later phase updates Step, Classification, and Status as the model evolves. |
@@ -2289,7 +2527,7 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 ## What `strategy.md` is for
 
 - Created at the end of domain scan as a **workspace file**, then **kept current** through extraction and later phases.
-- **Purpose:** (1) **scope** — what chapters, anchors, or files you model; (2) **execution plan** — ordered list of phase slugs with **per-step scope** (e.g. run nouns-verbs on Chapter 5, then the next three phases on Chapter 6); (3) short **why** in *Approach going forward* and **pivots** in *Ongoing strategic decisions*. Scan mechanics live in **`domain-scan-results.md`**.
+- **Purpose:** (1) **scope** — what product or corpus you model; (2) **§1 source slices** — ordered table (**Goal**, **Source**, **Coverage**, **Importance**); **Source** is any locator (chapters, page ranges, repo paths, modules — not only document sections); (3) **§2 slice plan** — per slice, **goal restated** and **phases** (execution steps); (4) **coverage across steps** — matrix proving every in-scope slice is addressed or deferred; (5) **cross-slice integration** — handoffs between slices; (6) **anchor and subdomain elaboration** — attached types (e.g. Ability, Skill, Advantage) mapped to **slice IDs** and execution **§**; (7) **execution plan** — each line names **slice IDs**; breadth steps must **include** subdomain slices in **nouns-verbs** / **raw-candidate-list** where relevant; (8) **Approach** + **Ongoing strategic decisions**. Scan mechanics stay in **`domain-scan-results.md`**.
 - **Template:** `templates/strategy.md`. Install as **`strategy.md`** (lowercase; avoid duplicate `STRATEGY.md` on case-insensitive disks).
 - After you finalize the execution plan, align **`progress/strategy-run-checklist.md`** with it (same phases and scope); that file holds **checkboxes** for “which phase is done,” while **`strategy.md`** stays **normative text** (no `- [ ]`).
 
@@ -2300,7 +2538,7 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 | Question | Answer |
 |----------|--------|
 | Where is the source map and anchor list? | `domain-scan-results.md` |
-| Where do I define “we model Chapter 5 first, then Chapter 6” and **which phases** per slice? | `strategy.md` → **Modeling scope** + **Execution plan (normative)** |
+| Where do I define **which slices** exist (chapters, files, modules, …), **depth**, **subdomains per anchor**, and **which phases** hit which? | `strategy.md` → **§1 Source slices**, **§2 Slice plan**, **Coverage across steps**, **Cross-slice integration**, **Anchor and subdomain elaboration**, **Execution plan (normative)** |
 | Where do I tick **which phases** we ran, **in order**, with **scope**? | **`abd-ooad/progress/strategy-run-checklist.md`** (keep in sync with `strategy.md`) |
 | Where do I tick **full** pipeline position (all phases)? | **`abd-ooad/progress/process-checklist.md`** (optional reference) |
 | Where do I tick **steps inside** the current phase? | **`abd-ooad/progress/<phase>-checklist.md`** |
@@ -2325,7 +2563,7 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 - Strategy vs checklists: **`library/strategy-execution-and-checklists.md`**
 - Anchors: `anchors` in this library
 - Term registry: `term-registry` in this library
-- Checklist norm: `library/base/checklist.md`
+- Checklist norm: `library/strategy-execution-and-checklists.md`
 
 
 ---
@@ -2334,7 +2572,9 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 
 # Strategy execution and checklists (abd-ooad)
 
-OOAD uses **three** checklist layers under **`<workspace>/abd-ooad/progress/`**. Only **`strategy.md`** defines **scope** and **which phases in what order**; checklists are where you **tick** progress.
+**Canonical doc** for: (1) **strategy** vs **live ticks**, (2) **which files** hold checkboxes, (3) **how** `generate.py` creates workspace **`progress/`** files. Does **not** replace **[process.md](../process.md)** (process tables, `generate` / `build`) or **[skill-structure-and-concepts.md](../base/skill-structure-and-concepts.md)** (repo layout).
+
+Only **`strategy.md`** defines **scope** and **which phases in what order**; checklists are where you **tick** progress.
 
 ---
 
@@ -2342,29 +2582,55 @@ OOAD uses **three** checklist layers under **`<workspace>/abd-ooad/progress/`**.
 
 1. **Domain scan** — produce scan artifacts (see **`strategy-led-generation`**).
 2. **Strategy** — fill **`strategy.md`** from **`templates/strategy.md`**:
-   - **Modeling scope** — chapters, anchors, files, in/out of scope.
-   - **Execution plan (normative)** — ordered list of phase **slugs** (from **`skill-config.json` → `phase_files`**) plus **scope per step** (e.g. “nouns-verbs on Chapter 5 only”).
+   - **Modeling scope** — corpus or product boundary; **source type** (book vs repo vs mixed).
+   - **§1 Source slices** — ordered table: **Goal**, **Source** (chapters, files, modules, APIs — whatever locates work), **Coverage** (depth this pass), **Importance**; stable **slice IDs** reused everywhere.
+   - **§2 Slice plan** — per slice: **goal restated**, **unit kind**, **phases** (execution step numbers / slugs), produces, depends-on.
+   - **Coverage across steps** — matrix: every slice → which **execution plan** steps touch it → **depth** → deferrals.
+   - **Cross-slice integration** — cross-boundary types and ordering (From → To + narrative).
+   - **Anchor and subdomain elaboration** (when anchors have attached types) — map subdomains to slices and execution §.
+   - **Execution plan (normative)** — ordered phase **slugs**; **each line cites slice IDs** (mirror **`strategy-run-checklist.md`**).
    - **Approach going forward** + **Ongoing strategic decisions** — short narrative and dated pivots.
-3. **Align live checklists** — keep **`strategy-run-checklist.md`** in sync with the execution plan (same order and scope). Seed file: **`templates/strategy-run-checklist.md`** (created under **`progress/`** on first **`generate.py`** when missing).
+3. **Align live checklists** — keep **`strategy-run-checklist.md`** in sync with the execution plan (same order and scope). Optional **`templates/strategy-run-checklist.md`** seed; optional **`templates/progress-README.md`** → **`progress/README.md`** for slice-specific files under **`progress/slices/`**.
 4. **Run phases** — for the **current** phase: `python scripts/base/generate.py --phase <slug>`. Tick **`strategy-run-checklist.md`** when a phase is **done** for its declared scope; tick **`<slug>-checklist.md`** for **steps inside** that phase.
 
 ---
 
-## Three layers
+## Three layers (what you tick)
 
 | Layer | File | What you tick |
 | --- | --- | --- |
-| **Strategy execution** | **`progress/strategy-run-checklist.md`** | **Which phases** you will run, **in order**, each with **scope** (matches **`strategy.md` → Execution plan**). Use this for “next three steps per chapter” or “whole pipeline on anchor X.” |
+| **Strategy execution** | **`progress/strategy-run-checklist.md`** | **Which phases** you will run, **in order**, each with **scope** that **includes the same slice IDs** as **`strategy.md` → Execution plan**. Optional: **`progress/slices/<slice-id>-checklist.md`** per slice — see **`progress/README.md`** in the workspace (if present). |
 | **Full pipeline (reference)** | **`progress/process-checklist.md`** | **Every** phase in **`phase_files`** — useful as a map; optional if you rely only on strategy-run. |
 | **Phase steps** | **`progress/<phase>-checklist.md`** | **Action checklist** copied from **`content/parts/phases/<phase>.md` → ## Action Checklist**. |
 
-**Normative rules** for pipeline + phase checklists: **`library/base/checklist.md`**. **Implementation:** **`scripts/base/workspace_checklists.py`**.
+**Implementation:** **`scripts/base/workspace_checklists.py`** (paths, behavior, `--no-ensure-checklists`).
+
+---
+
+## How workspace checklist files are created (mechanical)
+
+| Kind | What it tracks | Where it lives | How it gets there |
+| --- | --- | --- | --- |
+| **Normative reference** | Rules in **this document** — strategy vs ticks, layers, `generate.py` behavior | **`content/parts/library/strategy-execution-and-checklists.md`** | Authored in the skill; **not** created by **`generate.py`**. |
+| **Pipeline position** | Which **phase** of the pipeline you are in | **`<active_skill_workspace>/<skill_name>/progress/process-checklist.md`** | **Created** on first **`python scripts/base/generate.py --phase <slug>`** when that file is **missing**, if **`skill-config.json` → `workspace.active_skill_workspace`** is set. One `- [ ]` line per slug in **`phase_files`** (labels from **`phase_section_headings`** when present). **Does not overwrite** an existing file. |
+| **Phase action steps** | **Steps inside** the current phase | **`<active_skill_workspace>/<skill_name>/progress/<phase-slug>-checklist.md`** | **Created** in the **same** `generate.py` run when that file is **missing**. Steps are taken from **`## Action Checklist`** in **`content/parts/phases/<phase-slug>.md`**, or from task lines (`- [ ]` / `- [x]`) in that file if the section is absent. **Does not overwrite** an existing file. |
+| **Strategy execution** (workspace) | Ordered phases matching **`strategy.md`** | **`progress/strategy-run-checklist.md`** | Seeded from template when **`generate.py`** / workspace checklist logic creates it; **you** align it with **`strategy.md`**. |
+
+### Names and workspace
+
+- **`skill_name`** — **`skill-config.json` → `name`** (fallback: skill directory name). Used in **`…/<skill_name>/progress/`**.
+- **`active_skill_workspace`** — Must point at the **project / engagement tree** where **`progress/`** checklists belong, **not** the skill install folder. See **`skill-config.json` → `workspace`** and **[workspace-and-config.md](phases/workspace-and-config.md)**.
+
+### Flags
+
+- **`python scripts/base/generate.py --phase <slug> --no-ensure-checklists`** — run the phase prompt **without** creating missing **`progress/`** checklist files (see **`workspace_checklists.py`**).
 
 ---
 
 ## What not to do
 
 - Do not put **checkboxes** in **`strategy.md`** — keep execution plan as **normative numbered/bulleted text**; ticks live under **`progress/`**.
+- Do not record pipeline or phase **session** progress by ticking boxes in **`content/parts/process.md`** or **`content/parts/phases/*.md`** — those stay **normative**; live ticks go **only** under **`…/progress/`**.
 - Do not let **`strategy-run-checklist.md`** drift from **`strategy.md`** — after a pivot, update both and append a line under *Ongoing strategic decisions*.
 
 ---
@@ -2372,6 +2638,14 @@ OOAD uses **three** checklist layers under **`<workspace>/abd-ooad/progress/`**.
 ## Phase slugs
 
 Use exact slugs from **`skill-config.json` → `phase_files`** (e.g. `nouns-verbs-rules-and-states`, `domain-scan`). Labels for humans are in **`phase_section_headings`**.
+
+---
+
+## References
+
+- **`strategy-led-generation.md`** — artifact roles, **`strategy.md`** vs **`domain-scan-results.md`**
+- **`templates/strategy.md`**, **`templates/progress-README.md`**
+- **`scripts/base/workspace_checklists.py`**
 
 
 ---
@@ -2977,12 +3251,14 @@ Use a note (folded-corner rectangle) connected to the class by a dashed line:
 
 The CLI does not yet support notes — add them manually in draw.io after CLI build. Use: Insert → Shape → Note. Connect to the target class with a dashed edge. Enclose invariant text in `{ }`.
 
+**Module / package (UML frame) notes:** For commentary that applies to a whole **module** (the outer `umlFrame` / package boundary from `add-frame`), attach the same Note shape to the **frame’s perimeter** (snap the connector to the frame edge), not to an inner class. Use the same dashed connector style as class notes. This keeps module-level invariants or scope reminders visually tied to the subsystem boundary.
+
 ### When to add invariants
 
 | Phase | Add invariants? |
 |-------|----------------|
 | domain-scan | Yes — add the invariants you found during the scan (inline preferred at this fidelity) |
-| nouns-verbs | No — extraction only; invariants captured in registry notes |
+| domain-noun-verb (Step 1) | No — extraction only; invariants captured in registry notes |
 | raw-candidate-list through responsibilities | Yes — as invariants become confirmed, add to diagram |
 | Full model phases | Yes — invariants are a required part of the final model |
 
@@ -3836,9 +4112,28 @@ Do not restructure anchors mid-step. Record any anchor boundary questions in the
 
 ---
 
+## Term registry ↔ slice mapping (`Anchor` column)
+
+After (or while) you produce **nouns-verbs** artifacts per **slice** (e.g. S1 = first strategy section / chapter folder), align each **`term-registry.md`** row with the evidence file:
+
+| Artifact | Role |
+|----------|------|
+| **`term-registry.md`** | SCAN **type** decisions: Classification, Confidence, Status, Notes — sparse. |
+| **`…/domain-noun-verb.md` (per slice)** | Phase-2 **evidence**: candidate nouns, verbs, rules, states. Prefer grouping **by anchor** (same headings as `strategy.md`). |
+
+**`Anchor` column (single HTML column in the registry table)** — one code cell per term, **slice-keyed**:
+
+- **`S1=<heading>`** — primary heading in **slice 1**’s `domain-noun-verb.md` where this term is evidenced (`Character`, `Check`, `Condition`, `Effect`, or your anchor names). Use **`S1=—`** if that term has **no** hook in slice 1.
+- **Optional suffix** on the same `S1=` value when evidence is thin: **`(partial)`**, **`(gaps)`**, or combine anchors as **`Character+Effect`** when the text really spans both.
+- **`S2=…`** — add **only when slice 2 exists** (second `domain-noun-verb.md`). Same pattern, e.g. `S1=Character; S2=Check` in one cell, or keep `S1=…` only until S2 is done. **Do not** add empty `S2=—` placeholders before slice 2.
+
+**Traceability:** registry states **what** you claim; each slice’s `domain-noun-verb.md` holds **what the source said**. Rows should be defensible from `S1=` (and later `S2=`) where not `—`.
+
+---
+
 ## Worked example — payments spec
 
-> **Continual refinement:** Aligns with **abd-maps-models-specs** [`domain-model.md`](../../abd-maps-models-specs/content/parts/library/domain-model.md) (*Domain concept* template, *Continual refinement — class definition + diagram*). In this payments thread, **`**newly added**`** marks a property or operation line **first introduced in this step file** (Steps 1–4 stay pre-notation; formal `- <type> property` / `operation(...) → return` lines begin at Step 5).
+> **Continual refinement:** This payments example uses the same "grow the model as you go" approach described in **[Domain model Markdown](content/parts/library/domain-model.md)**. **Tag:** **newly added** means this property or operation line appears for the **first time** in *this* step's file (so you can see the delta from the previous step). **Notation:** Steps 1–4 stay informal—bullets and prose only. Typed members start at **Step 5** (`- <type> property`, `operation(...) → return`).
 
 ---
 
@@ -3987,7 +4282,7 @@ Own (dispute), remove, hide (field).
 
 ## Continual refinement (this step)
 
-- **Delta:** **pre-notation** — nouns, verbs, rules, states, tensions extracted from spec; no **`- <type> property`** lines yet (aligns with **Terms & mechanisms** / **shaped story map** in [`domain-model.md`](../../abd-maps-models-specs/content/parts/library/domain-model.md).
+- **Delta:** **pre-notation** — nouns, verbs, rules, states, tensions extracted from spec; no **`- <type> property`** lines yet (aligns with **Terms & mechanisms** / **shaped story map** in [Domain model Markdown](content/parts/library/domain-model.md).
 
 ---
 
@@ -3999,6 +4294,7 @@ Own (dispute), remove, hide (field).
 - [ ] Have you recorded lifecycle states for at least the key candidate classes?
 - [ ] Have you noted synonyms, naming conflicts, and scope boundary noise for later steps?
 - [ ] Have you updated the term registry with all new terms found in this step?
+- [ ] Have you set each row’s **`Anchor`** cell (`S1=…`; add **`S2=…`** only after slice 2 exists) to point at the right **`nouns-verbs`** section heading?
 
 ---
 
@@ -4011,6 +4307,106 @@ Own (dispute), remove, hide (field).
 
 ## Library
 
+
+
+---
+
+### `domain-model.md`
+
+# Domain model Markdown
+
+This skill’s **domain model** is captured in Markdown (and optionally a parallel **Draw.io** class diagram). Use the checked-in **`templates/domain model template.md`** when starting a new companion doc; keep the same semantics as **`templates/domain model template.drawio`** when both exist.
+
+---
+
+## Domain concept template
+
+Each **domain concept** (class, interface, value object, or aggregate) is documented under a clear heading, for example:
+
+```markdown
+## **Payment**
+
+**Responsibilities:** …
+
+### Properties
+- Money amount
+- …
+
+### Operations
+- initiate() → Authorization
+```
+
+From **Step 5** onward, prefer **typed** members (see **Notation evolution** below). Earlier steps stay **pre-notation** (bullets and prose).
+
+---
+
+## Continual refinement — class definition + diagram
+
+**Continual refinement** means you **grow** the model across steps: each step file may add or tighten concepts. The Markdown spec and the class diagram are **two views of the same model** — update both when your project uses dual artifacts so they do not drift (see **[Class diagrams](class-diagrams.md)**).
+
+---
+
+## **newly added** tag
+
+In the **worked example** threads (e.g. payments), the marker **`**newly added**`** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
+
+---
+
+## Notation evolution
+
+| Phase | Markdown style |
+|--------|------------------|
+| **Steps 1–4** | Informal: bullets, short phrases, responsibilities, candidate names. **No** required `- <type> property` lines yet. |
+| **Step 5+** | Formal typed members: `- <Type> propertyName`, `operationName(...) → ReturnType`. |
+
+---
+
+## Subtype sections
+
+When you introduce substitutable specializations, add an explicit subtype heading so the structure is visible in the spec and in diagrams:
+
+```markdown
+### **Subtype** : **PaymentMethod**
+```
+
+Put **`**newly added**`** on subtype **operation** (or property) lines when that member is **first** introduced for that subtype.
+
+---
+
+## Invariants
+
+Attach invariants to the **property** or **operation** they constrain, using a dedicated line:
+
+```markdown
+**Invariant:** …
+```
+
+Mark **`**newly added**`** when you **first** attach an invariant to a given member line.
+
+---
+
+## Early steps: terms, mechanisms, story map
+
+Before typed properties exist, align extracted **nouns, verbs, rules, states** with your workspace’s **terms & mechanisms** and **shaped story map** (or equivalent). That is the same “grow the model as you go” idea: informal extraction first, then formal types.
+
+---
+
+## Class diagram and spec (visual twin)
+
+When you maintain a machine-readable spec such as **`map-model-spec.json`**, re-run your project’s class-diagram render script (for example **`render_map_model_class_diagram.py`**) after material changes so the **Draw.io** diagram stays the **visual twin** of the spec.
+
+- **[Class diagrams](class-diagrams.md)** — templates, relationship types, keeping `.md` and `.drawio` aligned.  
+- **[Using the Diagram CLI](using-diagram-cli.md)** — building diagrams with **`scripts/drawio_cli.py`**.
+
+---
+
+## Related library shards
+
+| Topic | File |
+|--------|------|
+| Term tracking across steps | [term-registry.md](term-registry.md) |
+| Strategy-led runs | [strategy-led-generation.md](strategy-led-generation.md) |
+| Layout and lanes | [class-diagram-layout-rules.md](class-diagram-layout-rules.md) |
 
 
 ---
@@ -4106,7 +4502,7 @@ Domain scan (OOAD **phase 1**) does not only produce a single “results” file
 
 For the scan procedure itself, see the **Domain scan** phase. This page explains **what each artifact is for** and how **`strategy.md`** relates to **`domain-scan-results.md`**.
 
-**Checkbox discipline:** Live ticks for pipeline position and phase steps belong only under **`<workspace>/abd-ooad/progress/`** — see **`library/base/checklist.md`** and **`library/strategy-execution-and-checklists.md`**. Do not put tick tables in `strategy.md`.
+**Checkbox discipline:** Live ticks for pipeline position and phase steps belong only under **`<workspace>/abd-ooad/progress/`** — see **`library/strategy-execution-and-checklists.md`**. Do not put tick tables in `strategy.md`.
 
 ---
 
@@ -4117,7 +4513,7 @@ Created during domain scan under `<workspace>/abd-ooad/`:
 | File | Role | Updates after scan? |
 |------|------|---------------------|
 | `domain-scan-results.md` | **Findings snapshot:** source map, anchor table, tensions. | Rarely — only if you correct a scan error. Do not put the forward plan here; that belongs in `strategy.md`. |
-| `strategy.md` | **Living strategy:** **modeling scope**, **execution plan (normative)** — which phases in what order and on what slice of context — plus **approach** and **dated pivots**. | **Yes** — whenever scope, order, or focus changes. |
+| `strategy.md` | **Living strategy:** **modeling scope**; **§1 source slices** (table: Order, Goal, **Source** — chapters, files, modules, or mixed — **Coverage**, **Importance**); **§2 slice plan** (per-slice **goal restated** + **phases**); **coverage across steps**; **cross-slice integration**; **anchor and subdomain elaboration**; **execution plan (normative)** — phase slugs with **slice IDs** on every line; plus **approach** and **dated pivots**. | **Yes** — whenever scope, order, slice depth, subdomain mapping, or integration changes. |
 | `domain-scan-model.md` | Class sketch (markdown) at scan fidelity. | Yes, in later phases — not only during scan. |
 | `domain-scan-model.drawio` | Diagram at scan fidelity. | Same as model.md. |
 | `term-registry.md` | Terms, **Classification** (model role), **Status** (OOAD scale), confidence — seeded at scan. | **Yes** — every later phase updates Step, Classification, and Status as the model evolves. |
@@ -4131,7 +4527,7 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 ## What `strategy.md` is for
 
 - Created at the end of domain scan as a **workspace file**, then **kept current** through extraction and later phases.
-- **Purpose:** (1) **scope** — what chapters, anchors, or files you model; (2) **execution plan** — ordered list of phase slugs with **per-step scope** (e.g. run nouns-verbs on Chapter 5, then the next three phases on Chapter 6); (3) short **why** in *Approach going forward* and **pivots** in *Ongoing strategic decisions*. Scan mechanics live in **`domain-scan-results.md`**.
+- **Purpose:** (1) **scope** — what product or corpus you model; (2) **§1 source slices** — ordered table (**Goal**, **Source**, **Coverage**, **Importance**); **Source** is any locator (chapters, page ranges, repo paths, modules — not only document sections); (3) **§2 slice plan** — per slice, **goal restated** and **phases** (execution steps); (4) **coverage across steps** — matrix proving every in-scope slice is addressed or deferred; (5) **cross-slice integration** — handoffs between slices; (6) **anchor and subdomain elaboration** — attached types (e.g. Ability, Skill, Advantage) mapped to **slice IDs** and execution **§**; (7) **execution plan** — each line names **slice IDs**; breadth steps must **include** subdomain slices in **nouns-verbs** / **raw-candidate-list** where relevant; (8) **Approach** + **Ongoing strategic decisions**. Scan mechanics stay in **`domain-scan-results.md`**.
 - **Template:** `templates/strategy.md`. Install as **`strategy.md`** (lowercase; avoid duplicate `STRATEGY.md` on case-insensitive disks).
 - After you finalize the execution plan, align **`progress/strategy-run-checklist.md`** with it (same phases and scope); that file holds **checkboxes** for “which phase is done,” while **`strategy.md`** stays **normative text** (no `- [ ]`).
 
@@ -4142,7 +4538,7 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 | Question | Answer |
 |----------|--------|
 | Where is the source map and anchor list? | `domain-scan-results.md` |
-| Where do I define “we model Chapter 5 first, then Chapter 6” and **which phases** per slice? | `strategy.md` → **Modeling scope** + **Execution plan (normative)** |
+| Where do I define **which slices** exist (chapters, files, modules, …), **depth**, **subdomains per anchor**, and **which phases** hit which? | `strategy.md` → **§1 Source slices**, **§2 Slice plan**, **Coverage across steps**, **Cross-slice integration**, **Anchor and subdomain elaboration**, **Execution plan (normative)** |
 | Where do I tick **which phases** we ran, **in order**, with **scope**? | **`abd-ooad/progress/strategy-run-checklist.md`** (keep in sync with `strategy.md`) |
 | Where do I tick **full** pipeline position (all phases)? | **`abd-ooad/progress/process-checklist.md`** (optional reference) |
 | Where do I tick **steps inside** the current phase? | **`abd-ooad/progress/<phase>-checklist.md`** |
@@ -4167,7 +4563,7 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 - Strategy vs checklists: **`library/strategy-execution-and-checklists.md`**
 - Anchors: `anchors` in this library
 - Term registry: `term-registry` in this library
-- Checklist norm: `library/base/checklist.md`
+- Checklist norm: `library/strategy-execution-and-checklists.md`
 
 
 ---
@@ -4176,7 +4572,9 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 
 # Strategy execution and checklists (abd-ooad)
 
-OOAD uses **three** checklist layers under **`<workspace>/abd-ooad/progress/`**. Only **`strategy.md`** defines **scope** and **which phases in what order**; checklists are where you **tick** progress.
+**Canonical doc** for: (1) **strategy** vs **live ticks**, (2) **which files** hold checkboxes, (3) **how** `generate.py` creates workspace **`progress/`** files. Does **not** replace **[process.md](../process.md)** (process tables, `generate` / `build`) or **[skill-structure-and-concepts.md](../base/skill-structure-and-concepts.md)** (repo layout).
+
+Only **`strategy.md`** defines **scope** and **which phases in what order**; checklists are where you **tick** progress.
 
 ---
 
@@ -4184,29 +4582,55 @@ OOAD uses **three** checklist layers under **`<workspace>/abd-ooad/progress/`**.
 
 1. **Domain scan** — produce scan artifacts (see **`strategy-led-generation`**).
 2. **Strategy** — fill **`strategy.md`** from **`templates/strategy.md`**:
-   - **Modeling scope** — chapters, anchors, files, in/out of scope.
-   - **Execution plan (normative)** — ordered list of phase **slugs** (from **`skill-config.json` → `phase_files`**) plus **scope per step** (e.g. “nouns-verbs on Chapter 5 only”).
+   - **Modeling scope** — corpus or product boundary; **source type** (book vs repo vs mixed).
+   - **§1 Source slices** — ordered table: **Goal**, **Source** (chapters, files, modules, APIs — whatever locates work), **Coverage** (depth this pass), **Importance**; stable **slice IDs** reused everywhere.
+   - **§2 Slice plan** — per slice: **goal restated**, **unit kind**, **phases** (execution step numbers / slugs), produces, depends-on.
+   - **Coverage across steps** — matrix: every slice → which **execution plan** steps touch it → **depth** → deferrals.
+   - **Cross-slice integration** — cross-boundary types and ordering (From → To + narrative).
+   - **Anchor and subdomain elaboration** (when anchors have attached types) — map subdomains to slices and execution §.
+   - **Execution plan (normative)** — ordered phase **slugs**; **each line cites slice IDs** (mirror **`strategy-run-checklist.md`**).
    - **Approach going forward** + **Ongoing strategic decisions** — short narrative and dated pivots.
-3. **Align live checklists** — keep **`strategy-run-checklist.md`** in sync with the execution plan (same order and scope). Seed file: **`templates/strategy-run-checklist.md`** (created under **`progress/`** on first **`generate.py`** when missing).
+3. **Align live checklists** — keep **`strategy-run-checklist.md`** in sync with the execution plan (same order and scope). Optional **`templates/strategy-run-checklist.md`** seed; optional **`templates/progress-README.md`** → **`progress/README.md`** for slice-specific files under **`progress/slices/`**.
 4. **Run phases** — for the **current** phase: `python scripts/base/generate.py --phase <slug>`. Tick **`strategy-run-checklist.md`** when a phase is **done** for its declared scope; tick **`<slug>-checklist.md`** for **steps inside** that phase.
 
 ---
 
-## Three layers
+## Three layers (what you tick)
 
 | Layer | File | What you tick |
 | --- | --- | --- |
-| **Strategy execution** | **`progress/strategy-run-checklist.md`** | **Which phases** you will run, **in order**, each with **scope** (matches **`strategy.md` → Execution plan**). Use this for “next three steps per chapter” or “whole pipeline on anchor X.” |
+| **Strategy execution** | **`progress/strategy-run-checklist.md`** | **Which phases** you will run, **in order**, each with **scope** that **includes the same slice IDs** as **`strategy.md` → Execution plan**. Optional: **`progress/slices/<slice-id>-checklist.md`** per slice — see **`progress/README.md`** in the workspace (if present). |
 | **Full pipeline (reference)** | **`progress/process-checklist.md`** | **Every** phase in **`phase_files`** — useful as a map; optional if you rely only on strategy-run. |
 | **Phase steps** | **`progress/<phase>-checklist.md`** | **Action checklist** copied from **`content/parts/phases/<phase>.md` → ## Action Checklist**. |
 
-**Normative rules** for pipeline + phase checklists: **`library/base/checklist.md`**. **Implementation:** **`scripts/base/workspace_checklists.py`**.
+**Implementation:** **`scripts/base/workspace_checklists.py`** (paths, behavior, `--no-ensure-checklists`).
+
+---
+
+## How workspace checklist files are created (mechanical)
+
+| Kind | What it tracks | Where it lives | How it gets there |
+| --- | --- | --- | --- |
+| **Normative reference** | Rules in **this document** — strategy vs ticks, layers, `generate.py` behavior | **`content/parts/library/strategy-execution-and-checklists.md`** | Authored in the skill; **not** created by **`generate.py`**. |
+| **Pipeline position** | Which **phase** of the pipeline you are in | **`<active_skill_workspace>/<skill_name>/progress/process-checklist.md`** | **Created** on first **`python scripts/base/generate.py --phase <slug>`** when that file is **missing**, if **`skill-config.json` → `workspace.active_skill_workspace`** is set. One `- [ ]` line per slug in **`phase_files`** (labels from **`phase_section_headings`** when present). **Does not overwrite** an existing file. |
+| **Phase action steps** | **Steps inside** the current phase | **`<active_skill_workspace>/<skill_name>/progress/<phase-slug>-checklist.md`** | **Created** in the **same** `generate.py` run when that file is **missing**. Steps are taken from **`## Action Checklist`** in **`content/parts/phases/<phase-slug>.md`**, or from task lines (`- [ ]` / `- [x]`) in that file if the section is absent. **Does not overwrite** an existing file. |
+| **Strategy execution** (workspace) | Ordered phases matching **`strategy.md`** | **`progress/strategy-run-checklist.md`** | Seeded from template when **`generate.py`** / workspace checklist logic creates it; **you** align it with **`strategy.md`**. |
+
+### Names and workspace
+
+- **`skill_name`** — **`skill-config.json` → `name`** (fallback: skill directory name). Used in **`…/<skill_name>/progress/`**.
+- **`active_skill_workspace`** — Must point at the **project / engagement tree** where **`progress/`** checklists belong, **not** the skill install folder. See **`skill-config.json` → `workspace`** and **[workspace-and-config.md](phases/workspace-and-config.md)**.
+
+### Flags
+
+- **`python scripts/base/generate.py --phase <slug> --no-ensure-checklists`** — run the phase prompt **without** creating missing **`progress/`** checklist files (see **`workspace_checklists.py`**).
 
 ---
 
 ## What not to do
 
 - Do not put **checkboxes** in **`strategy.md`** — keep execution plan as **normative numbered/bulleted text**; ticks live under **`progress/`**.
+- Do not record pipeline or phase **session** progress by ticking boxes in **`content/parts/process.md`** or **`content/parts/phases/*.md`** — those stay **normative**; live ticks go **only** under **`…/progress/`**.
 - Do not let **`strategy-run-checklist.md`** drift from **`strategy.md`** — after a pivot, update both and append a line under *Ongoing strategic decisions*.
 
 ---
@@ -4214,6 +4638,14 @@ OOAD uses **three** checklist layers under **`<workspace>/abd-ooad/progress/`**.
 ## Phase slugs
 
 Use exact slugs from **`skill-config.json` → `phase_files`** (e.g. `nouns-verbs-rules-and-states`, `domain-scan`). Labels for humans are in **`phase_section_headings`**.
+
+---
+
+## References
+
+- **`strategy-led-generation.md`** — artifact roles, **`strategy.md`** vs **`domain-scan-results.md`**
+- **`templates/strategy.md`**, **`templates/progress-README.md`**
+- **`scripts/base/workspace_checklists.py`**
 
 
 ---
@@ -4819,12 +5251,14 @@ Use a note (folded-corner rectangle) connected to the class by a dashed line:
 
 The CLI does not yet support notes — add them manually in draw.io after CLI build. Use: Insert → Shape → Note. Connect to the target class with a dashed edge. Enclose invariant text in `{ }`.
 
+**Module / package (UML frame) notes:** For commentary that applies to a whole **module** (the outer `umlFrame` / package boundary from `add-frame`), attach the same Note shape to the **frame’s perimeter** (snap the connector to the frame edge), not to an inner class. Use the same dashed connector style as class notes. This keeps module-level invariants or scope reminders visually tied to the subsystem boundary.
+
 ### When to add invariants
 
 | Phase | Add invariants? |
 |-------|----------------|
 | domain-scan | Yes — add the invariants you found during the scan (inline preferred at this fidelity) |
-| nouns-verbs | No — extraction only; invariants captured in registry notes |
+| domain-noun-verb (Step 1) | No — extraction only; invariants captured in registry notes |
 | raw-candidate-list through responsibilities | Yes — as invariants become confirmed, add to diagram |
 | Full model phases | Yes — invariants are a required part of the final model |
 
@@ -5662,7 +6096,45 @@ You are the **domain modeler and OOAD practitioner** using this skill: you provi
 
 This is still **loose**. Candidates may merge, split, or become attributes in later steps.
 
-> **Continual refinement:** Aligns with **abd-maps-models-specs** [`domain-model.md`](../../abd-maps-models-specs/content/parts/library/domain-model.md) (*Domain concept* template, *Continual refinement — class definition + diagram*). In this payments thread, **`**newly added**`** marks a property or operation line **first introduced in this step file** (Steps 1–4 stay pre-notation; formal `- <type> property` / `operation(...) → return` lines begin at Step 5).
+> **Continual refinement:** Full notation is in **[Domain model Markdown](content/parts/library/domain-model.md)** (*Domain concept* template; class definition and diagram refined together). In this payments thread, **`**newly added**`** marks a property or operation line **first introduced in this step file** (Steps 1–4 stay pre-notation; formal `- <type> property` / `operation(...) → return` lines begin at Step 5).
+
+---
+
+## Worked example — from nouns-verbs to this step
+
+**Upstream:** Step 1 (`nouns-verbs-rules-and-states.md`) produces **per-slice** `domain-noun-verb.md` — nouns, verbs, rules, and states, often grouped **by anchor** (same headings as `strategy.md`). Step 2 **does not** paste that file wholesale; you **re-sort** the same terms into the buckets below (entities, value-like concepts, processes, policies, roles, events) and add **why** each row might matter.
+
+**Term registry:** As you promote terms to candidates here, keep **`Anchor`** in `term-registry.md` aligned: e.g. `S1=Check` for anything first evidenced under a **Check** heading in slice 1’s `domain-noun-verb.md` (see the **Term registry ↔ slice mapping** section in the nouns-verbs phase).
+
+### Mini excerpt (hypothetical “rules” slice — one anchor)
+
+Imagine one anchor section **Check** in `domain-noun-verb.md`:
+
+| Kind | Extraction (illustrative) |
+| ---- | ------------------------- |
+| **Nouns** | Character, Check, DC, bonus, penalty, Condition, trait, die roll |
+| **Verbs** | roll, compare, apply, succeed, fail, stack |
+| **Rules** | Compare total vs DC; some bonuses don’t stack; Conditions can impose advantage/disadvantage |
+| **States** | Check pending → resolved (success / failure / critical); Condition active vs cleared |
+
+### Roll-up into Step 2 buckets (same terms, new shape)
+
+| Step 1 term(s) | Likely Step 2 bucket | Notes |
+| -------------- | -------------------- | ----- |
+| Character, Check | **Core domain entities** | Durable “things” — may merge later (e.g. Check as operation vs aggregate). |
+| DC, bonus, penalty | **Value-like concepts** | Often numbers + rules; may become VO / struct / enum. |
+| “roll → compare → resolve” | **Processes or transactions** | End-to-end flow with a start/end. |
+| stacking, advantage/disadvantage | **Policies or rules** | Eligibility and modifiers — may stay policy objects or plain rules. |
+| player, GM (if in source) | **Roles** | Actors; may merge with user accounts later. |
+| “Check resolved”, Condition applied | **Events or records** | Audit / history if the product cares about replay. |
+
+### What you add in Step 2 that Step 1 didn’t require
+
+- **Separation** — entity vs value vs process vs policy (Step 1 only *marked* candidates).
+- **Tensions** — e.g. “Is **Check** a noun (object) or only a verb-shaped process?” — carry forward to `thing-vs-data-about-a-thing` / later steps.
+- **Watch list** — terms that might collapse (e.g. “die roll” as part of Check, not its own class).
+
+Use the **payments** tables below as a full-size reference thread; use this mini example when your domain is not payments but you still need a **template** for nouns-verbs → raw candidate list.
 
 ---
 
@@ -5806,6 +6278,7 @@ Ask for each hot candidate:
 
 ## Action Checklist
 
+- [ ] Have you rolled up Step 1 nouns-verbs (per slice / anchor) into this step’s buckets (entities, values, processes, policies, roles, events)?
 - [ ] Have you produced a raw candidate list with at least three entities and at least one value object?
 - [ ] Have you separated entities from value objects (mutability, identity)?
 - [ ] Have you flagged watch-list candidates (possible classes that need further evidence)?
@@ -5823,6 +6296,106 @@ Ask for each hot candidate:
 
 ## Library
 
+
+
+---
+
+### `domain-model.md`
+
+# Domain model Markdown
+
+This skill’s **domain model** is captured in Markdown (and optionally a parallel **Draw.io** class diagram). Use the checked-in **`templates/domain model template.md`** when starting a new companion doc; keep the same semantics as **`templates/domain model template.drawio`** when both exist.
+
+---
+
+## Domain concept template
+
+Each **domain concept** (class, interface, value object, or aggregate) is documented under a clear heading, for example:
+
+```markdown
+## **Payment**
+
+**Responsibilities:** …
+
+### Properties
+- Money amount
+- …
+
+### Operations
+- initiate() → Authorization
+```
+
+From **Step 5** onward, prefer **typed** members (see **Notation evolution** below). Earlier steps stay **pre-notation** (bullets and prose).
+
+---
+
+## Continual refinement — class definition + diagram
+
+**Continual refinement** means you **grow** the model across steps: each step file may add or tighten concepts. The Markdown spec and the class diagram are **two views of the same model** — update both when your project uses dual artifacts so they do not drift (see **[Class diagrams](class-diagrams.md)**).
+
+---
+
+## **newly added** tag
+
+In the **worked example** threads (e.g. payments), the marker **`**newly added**`** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
+
+---
+
+## Notation evolution
+
+| Phase | Markdown style |
+|--------|------------------|
+| **Steps 1–4** | Informal: bullets, short phrases, responsibilities, candidate names. **No** required `- <type> property` lines yet. |
+| **Step 5+** | Formal typed members: `- <Type> propertyName`, `operationName(...) → ReturnType`. |
+
+---
+
+## Subtype sections
+
+When you introduce substitutable specializations, add an explicit subtype heading so the structure is visible in the spec and in diagrams:
+
+```markdown
+### **Subtype** : **PaymentMethod**
+```
+
+Put **`**newly added**`** on subtype **operation** (or property) lines when that member is **first** introduced for that subtype.
+
+---
+
+## Invariants
+
+Attach invariants to the **property** or **operation** they constrain, using a dedicated line:
+
+```markdown
+**Invariant:** …
+```
+
+Mark **`**newly added**`** when you **first** attach an invariant to a given member line.
+
+---
+
+## Early steps: terms, mechanisms, story map
+
+Before typed properties exist, align extracted **nouns, verbs, rules, states** with your workspace’s **terms & mechanisms** and **shaped story map** (or equivalent). That is the same “grow the model as you go” idea: informal extraction first, then formal types.
+
+---
+
+## Class diagram and spec (visual twin)
+
+When you maintain a machine-readable spec such as **`map-model-spec.json`**, re-run your project’s class-diagram render script (for example **`render_map_model_class_diagram.py`**) after material changes so the **Draw.io** diagram stays the **visual twin** of the spec.
+
+- **[Class diagrams](class-diagrams.md)** — templates, relationship types, keeping `.md` and `.drawio` aligned.  
+- **[Using the Diagram CLI](using-diagram-cli.md)** — building diagrams with **`scripts/drawio_cli.py`**.
+
+---
+
+## Related library shards
+
+| Topic | File |
+|--------|------|
+| Term tracking across steps | [term-registry.md](term-registry.md) |
+| Strategy-led runs | [strategy-led-generation.md](strategy-led-generation.md) |
+| Layout and lanes | [class-diagram-layout-rules.md](class-diagram-layout-rules.md) |
 
 
 ---
@@ -5918,7 +6491,7 @@ Domain scan (OOAD **phase 1**) does not only produce a single “results” file
 
 For the scan procedure itself, see the **Domain scan** phase. This page explains **what each artifact is for** and how **`strategy.md`** relates to **`domain-scan-results.md`**.
 
-**Checkbox discipline:** Live ticks for pipeline position and phase steps belong only under **`<workspace>/abd-ooad/progress/`** — see **`library/base/checklist.md`** and **`library/strategy-execution-and-checklists.md`**. Do not put tick tables in `strategy.md`.
+**Checkbox discipline:** Live ticks for pipeline position and phase steps belong only under **`<workspace>/abd-ooad/progress/`** — see **`library/strategy-execution-and-checklists.md`**. Do not put tick tables in `strategy.md`.
 
 ---
 
@@ -5929,7 +6502,7 @@ Created during domain scan under `<workspace>/abd-ooad/`:
 | File | Role | Updates after scan? |
 |------|------|---------------------|
 | `domain-scan-results.md` | **Findings snapshot:** source map, anchor table, tensions. | Rarely — only if you correct a scan error. Do not put the forward plan here; that belongs in `strategy.md`. |
-| `strategy.md` | **Living strategy:** **modeling scope**, **execution plan (normative)** — which phases in what order and on what slice of context — plus **approach** and **dated pivots**. | **Yes** — whenever scope, order, or focus changes. |
+| `strategy.md` | **Living strategy:** **modeling scope**; **§1 source slices** (table: Order, Goal, **Source** — chapters, files, modules, or mixed — **Coverage**, **Importance**); **§2 slice plan** (per-slice **goal restated** + **phases**); **coverage across steps**; **cross-slice integration**; **anchor and subdomain elaboration**; **execution plan (normative)** — phase slugs with **slice IDs** on every line; plus **approach** and **dated pivots**. | **Yes** — whenever scope, order, slice depth, subdomain mapping, or integration changes. |
 | `domain-scan-model.md` | Class sketch (markdown) at scan fidelity. | Yes, in later phases — not only during scan. |
 | `domain-scan-model.drawio` | Diagram at scan fidelity. | Same as model.md. |
 | `term-registry.md` | Terms, **Classification** (model role), **Status** (OOAD scale), confidence — seeded at scan. | **Yes** — every later phase updates Step, Classification, and Status as the model evolves. |
@@ -5943,7 +6516,7 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 ## What `strategy.md` is for
 
 - Created at the end of domain scan as a **workspace file**, then **kept current** through extraction and later phases.
-- **Purpose:** (1) **scope** — what chapters, anchors, or files you model; (2) **execution plan** — ordered list of phase slugs with **per-step scope** (e.g. run nouns-verbs on Chapter 5, then the next three phases on Chapter 6); (3) short **why** in *Approach going forward* and **pivots** in *Ongoing strategic decisions*. Scan mechanics live in **`domain-scan-results.md`**.
+- **Purpose:** (1) **scope** — what product or corpus you model; (2) **§1 source slices** — ordered table (**Goal**, **Source**, **Coverage**, **Importance**); **Source** is any locator (chapters, page ranges, repo paths, modules — not only document sections); (3) **§2 slice plan** — per slice, **goal restated** and **phases** (execution steps); (4) **coverage across steps** — matrix proving every in-scope slice is addressed or deferred; (5) **cross-slice integration** — handoffs between slices; (6) **anchor and subdomain elaboration** — attached types (e.g. Ability, Skill, Advantage) mapped to **slice IDs** and execution **§**; (7) **execution plan** — each line names **slice IDs**; breadth steps must **include** subdomain slices in **nouns-verbs** / **raw-candidate-list** where relevant; (8) **Approach** + **Ongoing strategic decisions**. Scan mechanics stay in **`domain-scan-results.md`**.
 - **Template:** `templates/strategy.md`. Install as **`strategy.md`** (lowercase; avoid duplicate `STRATEGY.md` on case-insensitive disks).
 - After you finalize the execution plan, align **`progress/strategy-run-checklist.md`** with it (same phases and scope); that file holds **checkboxes** for “which phase is done,” while **`strategy.md`** stays **normative text** (no `- [ ]`).
 
@@ -5954,7 +6527,7 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 | Question | Answer |
 |----------|--------|
 | Where is the source map and anchor list? | `domain-scan-results.md` |
-| Where do I define “we model Chapter 5 first, then Chapter 6” and **which phases** per slice? | `strategy.md` → **Modeling scope** + **Execution plan (normative)** |
+| Where do I define **which slices** exist (chapters, files, modules, …), **depth**, **subdomains per anchor**, and **which phases** hit which? | `strategy.md` → **§1 Source slices**, **§2 Slice plan**, **Coverage across steps**, **Cross-slice integration**, **Anchor and subdomain elaboration**, **Execution plan (normative)** |
 | Where do I tick **which phases** we ran, **in order**, with **scope**? | **`abd-ooad/progress/strategy-run-checklist.md`** (keep in sync with `strategy.md`) |
 | Where do I tick **full** pipeline position (all phases)? | **`abd-ooad/progress/process-checklist.md`** (optional reference) |
 | Where do I tick **steps inside** the current phase? | **`abd-ooad/progress/<phase>-checklist.md`** |
@@ -5979,7 +6552,7 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 - Strategy vs checklists: **`library/strategy-execution-and-checklists.md`**
 - Anchors: `anchors` in this library
 - Term registry: `term-registry` in this library
-- Checklist norm: `library/base/checklist.md`
+- Checklist norm: `library/strategy-execution-and-checklists.md`
 
 
 ---
@@ -5988,7 +6561,9 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 
 # Strategy execution and checklists (abd-ooad)
 
-OOAD uses **three** checklist layers under **`<workspace>/abd-ooad/progress/`**. Only **`strategy.md`** defines **scope** and **which phases in what order**; checklists are where you **tick** progress.
+**Canonical doc** for: (1) **strategy** vs **live ticks**, (2) **which files** hold checkboxes, (3) **how** `generate.py` creates workspace **`progress/`** files. Does **not** replace **[process.md](../process.md)** (process tables, `generate` / `build`) or **[skill-structure-and-concepts.md](../base/skill-structure-and-concepts.md)** (repo layout).
+
+Only **`strategy.md`** defines **scope** and **which phases in what order**; checklists are where you **tick** progress.
 
 ---
 
@@ -5996,29 +6571,55 @@ OOAD uses **three** checklist layers under **`<workspace>/abd-ooad/progress/`**.
 
 1. **Domain scan** — produce scan artifacts (see **`strategy-led-generation`**).
 2. **Strategy** — fill **`strategy.md`** from **`templates/strategy.md`**:
-   - **Modeling scope** — chapters, anchors, files, in/out of scope.
-   - **Execution plan (normative)** — ordered list of phase **slugs** (from **`skill-config.json` → `phase_files`**) plus **scope per step** (e.g. “nouns-verbs on Chapter 5 only”).
+   - **Modeling scope** — corpus or product boundary; **source type** (book vs repo vs mixed).
+   - **§1 Source slices** — ordered table: **Goal**, **Source** (chapters, files, modules, APIs — whatever locates work), **Coverage** (depth this pass), **Importance**; stable **slice IDs** reused everywhere.
+   - **§2 Slice plan** — per slice: **goal restated**, **unit kind**, **phases** (execution step numbers / slugs), produces, depends-on.
+   - **Coverage across steps** — matrix: every slice → which **execution plan** steps touch it → **depth** → deferrals.
+   - **Cross-slice integration** — cross-boundary types and ordering (From → To + narrative).
+   - **Anchor and subdomain elaboration** (when anchors have attached types) — map subdomains to slices and execution §.
+   - **Execution plan (normative)** — ordered phase **slugs**; **each line cites slice IDs** (mirror **`strategy-run-checklist.md`**).
    - **Approach going forward** + **Ongoing strategic decisions** — short narrative and dated pivots.
-3. **Align live checklists** — keep **`strategy-run-checklist.md`** in sync with the execution plan (same order and scope). Seed file: **`templates/strategy-run-checklist.md`** (created under **`progress/`** on first **`generate.py`** when missing).
+3. **Align live checklists** — keep **`strategy-run-checklist.md`** in sync with the execution plan (same order and scope). Optional **`templates/strategy-run-checklist.md`** seed; optional **`templates/progress-README.md`** → **`progress/README.md`** for slice-specific files under **`progress/slices/`**.
 4. **Run phases** — for the **current** phase: `python scripts/base/generate.py --phase <slug>`. Tick **`strategy-run-checklist.md`** when a phase is **done** for its declared scope; tick **`<slug>-checklist.md`** for **steps inside** that phase.
 
 ---
 
-## Three layers
+## Three layers (what you tick)
 
 | Layer | File | What you tick |
 | --- | --- | --- |
-| **Strategy execution** | **`progress/strategy-run-checklist.md`** | **Which phases** you will run, **in order**, each with **scope** (matches **`strategy.md` → Execution plan**). Use this for “next three steps per chapter” or “whole pipeline on anchor X.” |
+| **Strategy execution** | **`progress/strategy-run-checklist.md`** | **Which phases** you will run, **in order**, each with **scope** that **includes the same slice IDs** as **`strategy.md` → Execution plan**. Optional: **`progress/slices/<slice-id>-checklist.md`** per slice — see **`progress/README.md`** in the workspace (if present). |
 | **Full pipeline (reference)** | **`progress/process-checklist.md`** | **Every** phase in **`phase_files`** — useful as a map; optional if you rely only on strategy-run. |
 | **Phase steps** | **`progress/<phase>-checklist.md`** | **Action checklist** copied from **`content/parts/phases/<phase>.md` → ## Action Checklist**. |
 
-**Normative rules** for pipeline + phase checklists: **`library/base/checklist.md`**. **Implementation:** **`scripts/base/workspace_checklists.py`**.
+**Implementation:** **`scripts/base/workspace_checklists.py`** (paths, behavior, `--no-ensure-checklists`).
+
+---
+
+## How workspace checklist files are created (mechanical)
+
+| Kind | What it tracks | Where it lives | How it gets there |
+| --- | --- | --- | --- |
+| **Normative reference** | Rules in **this document** — strategy vs ticks, layers, `generate.py` behavior | **`content/parts/library/strategy-execution-and-checklists.md`** | Authored in the skill; **not** created by **`generate.py`**. |
+| **Pipeline position** | Which **phase** of the pipeline you are in | **`<active_skill_workspace>/<skill_name>/progress/process-checklist.md`** | **Created** on first **`python scripts/base/generate.py --phase <slug>`** when that file is **missing**, if **`skill-config.json` → `workspace.active_skill_workspace`** is set. One `- [ ]` line per slug in **`phase_files`** (labels from **`phase_section_headings`** when present). **Does not overwrite** an existing file. |
+| **Phase action steps** | **Steps inside** the current phase | **`<active_skill_workspace>/<skill_name>/progress/<phase-slug>-checklist.md`** | **Created** in the **same** `generate.py` run when that file is **missing**. Steps are taken from **`## Action Checklist`** in **`content/parts/phases/<phase-slug>.md`**, or from task lines (`- [ ]` / `- [x]`) in that file if the section is absent. **Does not overwrite** an existing file. |
+| **Strategy execution** (workspace) | Ordered phases matching **`strategy.md`** | **`progress/strategy-run-checklist.md`** | Seeded from template when **`generate.py`** / workspace checklist logic creates it; **you** align it with **`strategy.md`**. |
+
+### Names and workspace
+
+- **`skill_name`** — **`skill-config.json` → `name`** (fallback: skill directory name). Used in **`…/<skill_name>/progress/`**.
+- **`active_skill_workspace`** — Must point at the **project / engagement tree** where **`progress/`** checklists belong, **not** the skill install folder. See **`skill-config.json` → `workspace`** and **[workspace-and-config.md](phases/workspace-and-config.md)**.
+
+### Flags
+
+- **`python scripts/base/generate.py --phase <slug> --no-ensure-checklists`** — run the phase prompt **without** creating missing **`progress/`** checklist files (see **`workspace_checklists.py`**).
 
 ---
 
 ## What not to do
 
 - Do not put **checkboxes** in **`strategy.md`** — keep execution plan as **normative numbered/bulleted text**; ticks live under **`progress/`**.
+- Do not record pipeline or phase **session** progress by ticking boxes in **`content/parts/process.md`** or **`content/parts/phases/*.md`** — those stay **normative**; live ticks go **only** under **`…/progress/`**.
 - Do not let **`strategy-run-checklist.md`** drift from **`strategy.md`** — after a pivot, update both and append a line under *Ongoing strategic decisions*.
 
 ---
@@ -6026,6 +6627,14 @@ OOAD uses **three** checklist layers under **`<workspace>/abd-ooad/progress/`**.
 ## Phase slugs
 
 Use exact slugs from **`skill-config.json` → `phase_files`** (e.g. `nouns-verbs-rules-and-states`, `domain-scan`). Labels for humans are in **`phase_section_headings`**.
+
+---
+
+## References
+
+- **`strategy-led-generation.md`** — artifact roles, **`strategy.md`** vs **`domain-scan-results.md`**
+- **`templates/strategy.md`**, **`templates/progress-README.md`**
+- **`scripts/base/workspace_checklists.py`**
 
 
 ---
@@ -6631,12 +7240,14 @@ Use a note (folded-corner rectangle) connected to the class by a dashed line:
 
 The CLI does not yet support notes — add them manually in draw.io after CLI build. Use: Insert → Shape → Note. Connect to the target class with a dashed edge. Enclose invariant text in `{ }`.
 
+**Module / package (UML frame) notes:** For commentary that applies to a whole **module** (the outer `umlFrame` / package boundary from `add-frame`), attach the same Note shape to the **frame’s perimeter** (snap the connector to the frame edge), not to an inner class. Use the same dashed connector style as class notes. This keeps module-level invariants or scope reminders visually tied to the subsystem boundary.
+
 ### When to add invariants
 
 | Phase | Add invariants? |
 |-------|----------------|
 | domain-scan | Yes — add the invariants you found during the scan (inline preferred at this fidelity) |
-| nouns-verbs | No — extraction only; invariants captured in registry notes |
+| domain-noun-verb (Step 1) | No — extraction only; invariants captured in registry notes |
 | raw-candidate-list through responsibilities | Yes — as invariants become confirmed, add to diagram |
 | Full model phases | Yes — invariants are a required part of the final model |
 
@@ -7481,7 +8092,7 @@ For each concept, ask:
 
 If **no** to most of these → prefer **property**, **value object**, **enum**, or **helper** — not a heavyweight entity.
 
-> **Continual refinement:** Aligns with **abd-maps-models-specs** [`domain-model.md`](../../abd-maps-models-specs/content/parts/library/domain-model.md) (*Domain concept* template, *Continual refinement — class definition + diagram*). In this payments thread, **`**newly added**`** marks a property or operation line **first introduced in this step file** (Steps 1–4 stay pre-notation; formal `- <type> property` / `operation(...) → return` lines begin at Step 5).
+> **Continual refinement:** Full notation is in **[Domain model Markdown](content/parts/library/domain-model.md)** (*Domain concept* template; class definition and diagram refined together). In this payments thread, **`**newly added**`** marks a property or operation line **first introduced in this step file** (Steps 1–4 stay pre-notation; formal `- <type> property` / `operation(...) → return` lines begin at Step 5).
 
 ---
 
@@ -7640,6 +8251,106 @@ Next: assign **what each remaining aggregate/VO/policy owns** before naming oper
 
 ---
 
+### `domain-model.md`
+
+# Domain model Markdown
+
+This skill’s **domain model** is captured in Markdown (and optionally a parallel **Draw.io** class diagram). Use the checked-in **`templates/domain model template.md`** when starting a new companion doc; keep the same semantics as **`templates/domain model template.drawio`** when both exist.
+
+---
+
+## Domain concept template
+
+Each **domain concept** (class, interface, value object, or aggregate) is documented under a clear heading, for example:
+
+```markdown
+## **Payment**
+
+**Responsibilities:** …
+
+### Properties
+- Money amount
+- …
+
+### Operations
+- initiate() → Authorization
+```
+
+From **Step 5** onward, prefer **typed** members (see **Notation evolution** below). Earlier steps stay **pre-notation** (bullets and prose).
+
+---
+
+## Continual refinement — class definition + diagram
+
+**Continual refinement** means you **grow** the model across steps: each step file may add or tighten concepts. The Markdown spec and the class diagram are **two views of the same model** — update both when your project uses dual artifacts so they do not drift (see **[Class diagrams](class-diagrams.md)**).
+
+---
+
+## **newly added** tag
+
+In the **worked example** threads (e.g. payments), the marker **`**newly added**`** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
+
+---
+
+## Notation evolution
+
+| Phase | Markdown style |
+|--------|------------------|
+| **Steps 1–4** | Informal: bullets, short phrases, responsibilities, candidate names. **No** required `- <type> property` lines yet. |
+| **Step 5+** | Formal typed members: `- <Type> propertyName`, `operationName(...) → ReturnType`. |
+
+---
+
+## Subtype sections
+
+When you introduce substitutable specializations, add an explicit subtype heading so the structure is visible in the spec and in diagrams:
+
+```markdown
+### **Subtype** : **PaymentMethod**
+```
+
+Put **`**newly added**`** on subtype **operation** (or property) lines when that member is **first** introduced for that subtype.
+
+---
+
+## Invariants
+
+Attach invariants to the **property** or **operation** they constrain, using a dedicated line:
+
+```markdown
+**Invariant:** …
+```
+
+Mark **`**newly added**`** when you **first** attach an invariant to a given member line.
+
+---
+
+## Early steps: terms, mechanisms, story map
+
+Before typed properties exist, align extracted **nouns, verbs, rules, states** with your workspace’s **terms & mechanisms** and **shaped story map** (or equivalent). That is the same “grow the model as you go” idea: informal extraction first, then formal types.
+
+---
+
+## Class diagram and spec (visual twin)
+
+When you maintain a machine-readable spec such as **`map-model-spec.json`**, re-run your project’s class-diagram render script (for example **`render_map_model_class_diagram.py`**) after material changes so the **Draw.io** diagram stays the **visual twin** of the spec.
+
+- **[Class diagrams](class-diagrams.md)** — templates, relationship types, keeping `.md` and `.drawio` aligned.  
+- **[Using the Diagram CLI](using-diagram-cli.md)** — building diagrams with **`scripts/drawio_cli.py`**.
+
+---
+
+## Related library shards
+
+| Topic | File |
+|--------|------|
+| Term tracking across steps | [term-registry.md](term-registry.md) |
+| Strategy-led runs | [strategy-led-generation.md](strategy-led-generation.md) |
+| Layout and lanes | [class-diagram-layout-rules.md](class-diagram-layout-rules.md) |
+
+
+---
+
 ### `anchors.md`
 
 # Anchors
@@ -7731,7 +8442,7 @@ Domain scan (OOAD **phase 1**) does not only produce a single “results” file
 
 For the scan procedure itself, see the **Domain scan** phase. This page explains **what each artifact is for** and how **`strategy.md`** relates to **`domain-scan-results.md`**.
 
-**Checkbox discipline:** Live ticks for pipeline position and phase steps belong only under **`<workspace>/abd-ooad/progress/`** — see **`library/base/checklist.md`** and **`library/strategy-execution-and-checklists.md`**. Do not put tick tables in `strategy.md`.
+**Checkbox discipline:** Live ticks for pipeline position and phase steps belong only under **`<workspace>/abd-ooad/progress/`** — see **`library/strategy-execution-and-checklists.md`**. Do not put tick tables in `strategy.md`.
 
 ---
 
@@ -7742,7 +8453,7 @@ Created during domain scan under `<workspace>/abd-ooad/`:
 | File | Role | Updates after scan? |
 |------|------|---------------------|
 | `domain-scan-results.md` | **Findings snapshot:** source map, anchor table, tensions. | Rarely — only if you correct a scan error. Do not put the forward plan here; that belongs in `strategy.md`. |
-| `strategy.md` | **Living strategy:** **modeling scope**, **execution plan (normative)** — which phases in what order and on what slice of context — plus **approach** and **dated pivots**. | **Yes** — whenever scope, order, or focus changes. |
+| `strategy.md` | **Living strategy:** **modeling scope**; **§1 source slices** (table: Order, Goal, **Source** — chapters, files, modules, or mixed — **Coverage**, **Importance**); **§2 slice plan** (per-slice **goal restated** + **phases**); **coverage across steps**; **cross-slice integration**; **anchor and subdomain elaboration**; **execution plan (normative)** — phase slugs with **slice IDs** on every line; plus **approach** and **dated pivots**. | **Yes** — whenever scope, order, slice depth, subdomain mapping, or integration changes. |
 | `domain-scan-model.md` | Class sketch (markdown) at scan fidelity. | Yes, in later phases — not only during scan. |
 | `domain-scan-model.drawio` | Diagram at scan fidelity. | Same as model.md. |
 | `term-registry.md` | Terms, **Classification** (model role), **Status** (OOAD scale), confidence — seeded at scan. | **Yes** — every later phase updates Step, Classification, and Status as the model evolves. |
@@ -7756,7 +8467,7 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 ## What `strategy.md` is for
 
 - Created at the end of domain scan as a **workspace file**, then **kept current** through extraction and later phases.
-- **Purpose:** (1) **scope** — what chapters, anchors, or files you model; (2) **execution plan** — ordered list of phase slugs with **per-step scope** (e.g. run nouns-verbs on Chapter 5, then the next three phases on Chapter 6); (3) short **why** in *Approach going forward* and **pivots** in *Ongoing strategic decisions*. Scan mechanics live in **`domain-scan-results.md`**.
+- **Purpose:** (1) **scope** — what product or corpus you model; (2) **§1 source slices** — ordered table (**Goal**, **Source**, **Coverage**, **Importance**); **Source** is any locator (chapters, page ranges, repo paths, modules — not only document sections); (3) **§2 slice plan** — per slice, **goal restated** and **phases** (execution steps); (4) **coverage across steps** — matrix proving every in-scope slice is addressed or deferred; (5) **cross-slice integration** — handoffs between slices; (6) **anchor and subdomain elaboration** — attached types (e.g. Ability, Skill, Advantage) mapped to **slice IDs** and execution **§**; (7) **execution plan** — each line names **slice IDs**; breadth steps must **include** subdomain slices in **nouns-verbs** / **raw-candidate-list** where relevant; (8) **Approach** + **Ongoing strategic decisions**. Scan mechanics stay in **`domain-scan-results.md`**.
 - **Template:** `templates/strategy.md`. Install as **`strategy.md`** (lowercase; avoid duplicate `STRATEGY.md` on case-insensitive disks).
 - After you finalize the execution plan, align **`progress/strategy-run-checklist.md`** with it (same phases and scope); that file holds **checkboxes** for “which phase is done,” while **`strategy.md`** stays **normative text** (no `- [ ]`).
 
@@ -7767,7 +8478,7 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 | Question | Answer |
 |----------|--------|
 | Where is the source map and anchor list? | `domain-scan-results.md` |
-| Where do I define “we model Chapter 5 first, then Chapter 6” and **which phases** per slice? | `strategy.md` → **Modeling scope** + **Execution plan (normative)** |
+| Where do I define **which slices** exist (chapters, files, modules, …), **depth**, **subdomains per anchor**, and **which phases** hit which? | `strategy.md` → **§1 Source slices**, **§2 Slice plan**, **Coverage across steps**, **Cross-slice integration**, **Anchor and subdomain elaboration**, **Execution plan (normative)** |
 | Where do I tick **which phases** we ran, **in order**, with **scope**? | **`abd-ooad/progress/strategy-run-checklist.md`** (keep in sync with `strategy.md`) |
 | Where do I tick **full** pipeline position (all phases)? | **`abd-ooad/progress/process-checklist.md`** (optional reference) |
 | Where do I tick **steps inside** the current phase? | **`abd-ooad/progress/<phase>-checklist.md`** |
@@ -7792,7 +8503,7 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 - Strategy vs checklists: **`library/strategy-execution-and-checklists.md`**
 - Anchors: `anchors` in this library
 - Term registry: `term-registry` in this library
-- Checklist norm: `library/base/checklist.md`
+- Checklist norm: `library/strategy-execution-and-checklists.md`
 
 
 ---
@@ -7801,7 +8512,9 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 
 # Strategy execution and checklists (abd-ooad)
 
-OOAD uses **three** checklist layers under **`<workspace>/abd-ooad/progress/`**. Only **`strategy.md`** defines **scope** and **which phases in what order**; checklists are where you **tick** progress.
+**Canonical doc** for: (1) **strategy** vs **live ticks**, (2) **which files** hold checkboxes, (3) **how** `generate.py` creates workspace **`progress/`** files. Does **not** replace **[process.md](../process.md)** (process tables, `generate` / `build`) or **[skill-structure-and-concepts.md](../base/skill-structure-and-concepts.md)** (repo layout).
+
+Only **`strategy.md`** defines **scope** and **which phases in what order**; checklists are where you **tick** progress.
 
 ---
 
@@ -7809,29 +8522,55 @@ OOAD uses **three** checklist layers under **`<workspace>/abd-ooad/progress/`**.
 
 1. **Domain scan** — produce scan artifacts (see **`strategy-led-generation`**).
 2. **Strategy** — fill **`strategy.md`** from **`templates/strategy.md`**:
-   - **Modeling scope** — chapters, anchors, files, in/out of scope.
-   - **Execution plan (normative)** — ordered list of phase **slugs** (from **`skill-config.json` → `phase_files`**) plus **scope per step** (e.g. “nouns-verbs on Chapter 5 only”).
+   - **Modeling scope** — corpus or product boundary; **source type** (book vs repo vs mixed).
+   - **§1 Source slices** — ordered table: **Goal**, **Source** (chapters, files, modules, APIs — whatever locates work), **Coverage** (depth this pass), **Importance**; stable **slice IDs** reused everywhere.
+   - **§2 Slice plan** — per slice: **goal restated**, **unit kind**, **phases** (execution step numbers / slugs), produces, depends-on.
+   - **Coverage across steps** — matrix: every slice → which **execution plan** steps touch it → **depth** → deferrals.
+   - **Cross-slice integration** — cross-boundary types and ordering (From → To + narrative).
+   - **Anchor and subdomain elaboration** (when anchors have attached types) — map subdomains to slices and execution §.
+   - **Execution plan (normative)** — ordered phase **slugs**; **each line cites slice IDs** (mirror **`strategy-run-checklist.md`**).
    - **Approach going forward** + **Ongoing strategic decisions** — short narrative and dated pivots.
-3. **Align live checklists** — keep **`strategy-run-checklist.md`** in sync with the execution plan (same order and scope). Seed file: **`templates/strategy-run-checklist.md`** (created under **`progress/`** on first **`generate.py`** when missing).
+3. **Align live checklists** — keep **`strategy-run-checklist.md`** in sync with the execution plan (same order and scope). Optional **`templates/strategy-run-checklist.md`** seed; optional **`templates/progress-README.md`** → **`progress/README.md`** for slice-specific files under **`progress/slices/`**.
 4. **Run phases** — for the **current** phase: `python scripts/base/generate.py --phase <slug>`. Tick **`strategy-run-checklist.md`** when a phase is **done** for its declared scope; tick **`<slug>-checklist.md`** for **steps inside** that phase.
 
 ---
 
-## Three layers
+## Three layers (what you tick)
 
 | Layer | File | What you tick |
 | --- | --- | --- |
-| **Strategy execution** | **`progress/strategy-run-checklist.md`** | **Which phases** you will run, **in order**, each with **scope** (matches **`strategy.md` → Execution plan**). Use this for “next three steps per chapter” or “whole pipeline on anchor X.” |
+| **Strategy execution** | **`progress/strategy-run-checklist.md`** | **Which phases** you will run, **in order**, each with **scope** that **includes the same slice IDs** as **`strategy.md` → Execution plan**. Optional: **`progress/slices/<slice-id>-checklist.md`** per slice — see **`progress/README.md`** in the workspace (if present). |
 | **Full pipeline (reference)** | **`progress/process-checklist.md`** | **Every** phase in **`phase_files`** — useful as a map; optional if you rely only on strategy-run. |
 | **Phase steps** | **`progress/<phase>-checklist.md`** | **Action checklist** copied from **`content/parts/phases/<phase>.md` → ## Action Checklist**. |
 
-**Normative rules** for pipeline + phase checklists: **`library/base/checklist.md`**. **Implementation:** **`scripts/base/workspace_checklists.py`**.
+**Implementation:** **`scripts/base/workspace_checklists.py`** (paths, behavior, `--no-ensure-checklists`).
+
+---
+
+## How workspace checklist files are created (mechanical)
+
+| Kind | What it tracks | Where it lives | How it gets there |
+| --- | --- | --- | --- |
+| **Normative reference** | Rules in **this document** — strategy vs ticks, layers, `generate.py` behavior | **`content/parts/library/strategy-execution-and-checklists.md`** | Authored in the skill; **not** created by **`generate.py`**. |
+| **Pipeline position** | Which **phase** of the pipeline you are in | **`<active_skill_workspace>/<skill_name>/progress/process-checklist.md`** | **Created** on first **`python scripts/base/generate.py --phase <slug>`** when that file is **missing**, if **`skill-config.json` → `workspace.active_skill_workspace`** is set. One `- [ ]` line per slug in **`phase_files`** (labels from **`phase_section_headings`** when present). **Does not overwrite** an existing file. |
+| **Phase action steps** | **Steps inside** the current phase | **`<active_skill_workspace>/<skill_name>/progress/<phase-slug>-checklist.md`** | **Created** in the **same** `generate.py` run when that file is **missing**. Steps are taken from **`## Action Checklist`** in **`content/parts/phases/<phase-slug>.md`**, or from task lines (`- [ ]` / `- [x]`) in that file if the section is absent. **Does not overwrite** an existing file. |
+| **Strategy execution** (workspace) | Ordered phases matching **`strategy.md`** | **`progress/strategy-run-checklist.md`** | Seeded from template when **`generate.py`** / workspace checklist logic creates it; **you** align it with **`strategy.md`**. |
+
+### Names and workspace
+
+- **`skill_name`** — **`skill-config.json` → `name`** (fallback: skill directory name). Used in **`…/<skill_name>/progress/`**.
+- **`active_skill_workspace`** — Must point at the **project / engagement tree** where **`progress/`** checklists belong, **not** the skill install folder. See **`skill-config.json` → `workspace`** and **[workspace-and-config.md](phases/workspace-and-config.md)**.
+
+### Flags
+
+- **`python scripts/base/generate.py --phase <slug> --no-ensure-checklists`** — run the phase prompt **without** creating missing **`progress/`** checklist files (see **`workspace_checklists.py`**).
 
 ---
 
 ## What not to do
 
 - Do not put **checkboxes** in **`strategy.md`** — keep execution plan as **normative numbered/bulleted text**; ticks live under **`progress/`**.
+- Do not record pipeline or phase **session** progress by ticking boxes in **`content/parts/process.md`** or **`content/parts/phases/*.md`** — those stay **normative**; live ticks go **only** under **`…/progress/`**.
 - Do not let **`strategy-run-checklist.md`** drift from **`strategy.md`** — after a pivot, update both and append a line under *Ongoing strategic decisions*.
 
 ---
@@ -7839,6 +8578,14 @@ OOAD uses **three** checklist layers under **`<workspace>/abd-ooad/progress/`**.
 ## Phase slugs
 
 Use exact slugs from **`skill-config.json` → `phase_files`** (e.g. `nouns-verbs-rules-and-states`, `domain-scan`). Labels for humans are in **`phase_section_headings`**.
+
+---
+
+## References
+
+- **`strategy-led-generation.md`** — artifact roles, **`strategy.md`** vs **`domain-scan-results.md`**
+- **`templates/strategy.md`**, **`templates/progress-README.md`**
+- **`scripts/base/workspace_checklists.py`**
 
 
 ---
@@ -8444,12 +9191,14 @@ Use a note (folded-corner rectangle) connected to the class by a dashed line:
 
 The CLI does not yet support notes — add them manually in draw.io after CLI build. Use: Insert → Shape → Note. Connect to the target class with a dashed edge. Enclose invariant text in `{ }`.
 
+**Module / package (UML frame) notes:** For commentary that applies to a whole **module** (the outer `umlFrame` / package boundary from `add-frame`), attach the same Note shape to the **frame’s perimeter** (snap the connector to the frame edge), not to an inner class. Use the same dashed connector style as class notes. This keeps module-level invariants or scope reminders visually tied to the subsystem boundary.
+
 ### When to add invariants
 
 | Phase | Add invariants? |
 |-------|----------------|
 | domain-scan | Yes — add the invariants you found during the scan (inline preferred at this fidelity) |
-| nouns-verbs | No — extraction only; invariants captured in registry notes |
+| domain-noun-verb (Step 1) | No — extraction only; invariants captured in registry notes |
 | raw-candidate-list through responsibilities | Yes — as invariants become confirmed, add to diagram |
 | Full model phases | Yes — invariants are a required part of the final model |
 
@@ -9287,7 +10036,7 @@ You are the **domain modeler and OOAD practitioner** using this skill: you provi
 
 Define **what each type is for** before naming methods. A type should have a reason to exist beyond “the spec mentioned it.”
 
-> **Continual refinement:** Aligns with **abd-maps-models-specs** [`domain-model.md`](../../abd-maps-models-specs/content/parts/library/domain-model.md) (*Domain concept* template, *Continual refinement — class definition + diagram*). In this payments thread, **`**newly added**`** marks a property or operation line **first introduced in this step file** (Steps 1–4 stay pre-notation; formal `- <type> property` / `operation(...) → return` lines begin at Step 5).
+> **Continual refinement:** Full notation is in **[Domain model Markdown](content/parts/library/domain-model.md)** (*Domain concept* template; class definition and diagram refined together). In this payments thread, **`**newly added**`** marks a property or operation line **first introduced in this step file** (Steps 1–4 stay pre-notation; formal `- <type> property` / `operation(...) → return` lines begin at Step 5).
 
 ---
 
@@ -9422,6 +10171,106 @@ Next: list **properties per aggregate/entity** using **semantic tightness** — 
 
 ---
 
+### `domain-model.md`
+
+# Domain model Markdown
+
+This skill’s **domain model** is captured in Markdown (and optionally a parallel **Draw.io** class diagram). Use the checked-in **`templates/domain model template.md`** when starting a new companion doc; keep the same semantics as **`templates/domain model template.drawio`** when both exist.
+
+---
+
+## Domain concept template
+
+Each **domain concept** (class, interface, value object, or aggregate) is documented under a clear heading, for example:
+
+```markdown
+## **Payment**
+
+**Responsibilities:** …
+
+### Properties
+- Money amount
+- …
+
+### Operations
+- initiate() → Authorization
+```
+
+From **Step 5** onward, prefer **typed** members (see **Notation evolution** below). Earlier steps stay **pre-notation** (bullets and prose).
+
+---
+
+## Continual refinement — class definition + diagram
+
+**Continual refinement** means you **grow** the model across steps: each step file may add or tighten concepts. The Markdown spec and the class diagram are **two views of the same model** — update both when your project uses dual artifacts so they do not drift (see **[Class diagrams](class-diagrams.md)**).
+
+---
+
+## **newly added** tag
+
+In the **worked example** threads (e.g. payments), the marker **`**newly added**`** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
+
+---
+
+## Notation evolution
+
+| Phase | Markdown style |
+|--------|------------------|
+| **Steps 1–4** | Informal: bullets, short phrases, responsibilities, candidate names. **No** required `- <type> property` lines yet. |
+| **Step 5+** | Formal typed members: `- <Type> propertyName`, `operationName(...) → ReturnType`. |
+
+---
+
+## Subtype sections
+
+When you introduce substitutable specializations, add an explicit subtype heading so the structure is visible in the spec and in diagrams:
+
+```markdown
+### **Subtype** : **PaymentMethod**
+```
+
+Put **`**newly added**`** on subtype **operation** (or property) lines when that member is **first** introduced for that subtype.
+
+---
+
+## Invariants
+
+Attach invariants to the **property** or **operation** they constrain, using a dedicated line:
+
+```markdown
+**Invariant:** …
+```
+
+Mark **`**newly added**`** when you **first** attach an invariant to a given member line.
+
+---
+
+## Early steps: terms, mechanisms, story map
+
+Before typed properties exist, align extracted **nouns, verbs, rules, states** with your workspace’s **terms & mechanisms** and **shaped story map** (or equivalent). That is the same “grow the model as you go” idea: informal extraction first, then formal types.
+
+---
+
+## Class diagram and spec (visual twin)
+
+When you maintain a machine-readable spec such as **`map-model-spec.json`**, re-run your project’s class-diagram render script (for example **`render_map_model_class_diagram.py`**) after material changes so the **Draw.io** diagram stays the **visual twin** of the spec.
+
+- **[Class diagrams](class-diagrams.md)** — templates, relationship types, keeping `.md` and `.drawio` aligned.  
+- **[Using the Diagram CLI](using-diagram-cli.md)** — building diagrams with **`scripts/drawio_cli.py`**.
+
+---
+
+## Related library shards
+
+| Topic | File |
+|--------|------|
+| Term tracking across steps | [term-registry.md](term-registry.md) |
+| Strategy-led runs | [strategy-led-generation.md](strategy-led-generation.md) |
+| Layout and lanes | [class-diagram-layout-rules.md](class-diagram-layout-rules.md) |
+
+
+---
+
 ### `anchors.md`
 
 # Anchors
@@ -9513,7 +10362,7 @@ Domain scan (OOAD **phase 1**) does not only produce a single “results” file
 
 For the scan procedure itself, see the **Domain scan** phase. This page explains **what each artifact is for** and how **`strategy.md`** relates to **`domain-scan-results.md`**.
 
-**Checkbox discipline:** Live ticks for pipeline position and phase steps belong only under **`<workspace>/abd-ooad/progress/`** — see **`library/base/checklist.md`** and **`library/strategy-execution-and-checklists.md`**. Do not put tick tables in `strategy.md`.
+**Checkbox discipline:** Live ticks for pipeline position and phase steps belong only under **`<workspace>/abd-ooad/progress/`** — see **`library/strategy-execution-and-checklists.md`**. Do not put tick tables in `strategy.md`.
 
 ---
 
@@ -9524,7 +10373,7 @@ Created during domain scan under `<workspace>/abd-ooad/`:
 | File | Role | Updates after scan? |
 |------|------|---------------------|
 | `domain-scan-results.md` | **Findings snapshot:** source map, anchor table, tensions. | Rarely — only if you correct a scan error. Do not put the forward plan here; that belongs in `strategy.md`. |
-| `strategy.md` | **Living strategy:** **modeling scope**, **execution plan (normative)** — which phases in what order and on what slice of context — plus **approach** and **dated pivots**. | **Yes** — whenever scope, order, or focus changes. |
+| `strategy.md` | **Living strategy:** **modeling scope**; **§1 source slices** (table: Order, Goal, **Source** — chapters, files, modules, or mixed — **Coverage**, **Importance**); **§2 slice plan** (per-slice **goal restated** + **phases**); **coverage across steps**; **cross-slice integration**; **anchor and subdomain elaboration**; **execution plan (normative)** — phase slugs with **slice IDs** on every line; plus **approach** and **dated pivots**. | **Yes** — whenever scope, order, slice depth, subdomain mapping, or integration changes. |
 | `domain-scan-model.md` | Class sketch (markdown) at scan fidelity. | Yes, in later phases — not only during scan. |
 | `domain-scan-model.drawio` | Diagram at scan fidelity. | Same as model.md. |
 | `term-registry.md` | Terms, **Classification** (model role), **Status** (OOAD scale), confidence — seeded at scan. | **Yes** — every later phase updates Step, Classification, and Status as the model evolves. |
@@ -9538,7 +10387,7 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 ## What `strategy.md` is for
 
 - Created at the end of domain scan as a **workspace file**, then **kept current** through extraction and later phases.
-- **Purpose:** (1) **scope** — what chapters, anchors, or files you model; (2) **execution plan** — ordered list of phase slugs with **per-step scope** (e.g. run nouns-verbs on Chapter 5, then the next three phases on Chapter 6); (3) short **why** in *Approach going forward* and **pivots** in *Ongoing strategic decisions*. Scan mechanics live in **`domain-scan-results.md`**.
+- **Purpose:** (1) **scope** — what product or corpus you model; (2) **§1 source slices** — ordered table (**Goal**, **Source**, **Coverage**, **Importance**); **Source** is any locator (chapters, page ranges, repo paths, modules — not only document sections); (3) **§2 slice plan** — per slice, **goal restated** and **phases** (execution steps); (4) **coverage across steps** — matrix proving every in-scope slice is addressed or deferred; (5) **cross-slice integration** — handoffs between slices; (6) **anchor and subdomain elaboration** — attached types (e.g. Ability, Skill, Advantage) mapped to **slice IDs** and execution **§**; (7) **execution plan** — each line names **slice IDs**; breadth steps must **include** subdomain slices in **nouns-verbs** / **raw-candidate-list** where relevant; (8) **Approach** + **Ongoing strategic decisions**. Scan mechanics stay in **`domain-scan-results.md`**.
 - **Template:** `templates/strategy.md`. Install as **`strategy.md`** (lowercase; avoid duplicate `STRATEGY.md` on case-insensitive disks).
 - After you finalize the execution plan, align **`progress/strategy-run-checklist.md`** with it (same phases and scope); that file holds **checkboxes** for “which phase is done,” while **`strategy.md`** stays **normative text** (no `- [ ]`).
 
@@ -9549,7 +10398,7 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 | Question | Answer |
 |----------|--------|
 | Where is the source map and anchor list? | `domain-scan-results.md` |
-| Where do I define “we model Chapter 5 first, then Chapter 6” and **which phases** per slice? | `strategy.md` → **Modeling scope** + **Execution plan (normative)** |
+| Where do I define **which slices** exist (chapters, files, modules, …), **depth**, **subdomains per anchor**, and **which phases** hit which? | `strategy.md` → **§1 Source slices**, **§2 Slice plan**, **Coverage across steps**, **Cross-slice integration**, **Anchor and subdomain elaboration**, **Execution plan (normative)** |
 | Where do I tick **which phases** we ran, **in order**, with **scope**? | **`abd-ooad/progress/strategy-run-checklist.md`** (keep in sync with `strategy.md`) |
 | Where do I tick **full** pipeline position (all phases)? | **`abd-ooad/progress/process-checklist.md`** (optional reference) |
 | Where do I tick **steps inside** the current phase? | **`abd-ooad/progress/<phase>-checklist.md`** |
@@ -9574,7 +10423,7 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 - Strategy vs checklists: **`library/strategy-execution-and-checklists.md`**
 - Anchors: `anchors` in this library
 - Term registry: `term-registry` in this library
-- Checklist norm: `library/base/checklist.md`
+- Checklist norm: `library/strategy-execution-and-checklists.md`
 
 
 ---
@@ -9583,7 +10432,9 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 
 # Strategy execution and checklists (abd-ooad)
 
-OOAD uses **three** checklist layers under **`<workspace>/abd-ooad/progress/`**. Only **`strategy.md`** defines **scope** and **which phases in what order**; checklists are where you **tick** progress.
+**Canonical doc** for: (1) **strategy** vs **live ticks**, (2) **which files** hold checkboxes, (3) **how** `generate.py` creates workspace **`progress/`** files. Does **not** replace **[process.md](../process.md)** (process tables, `generate` / `build`) or **[skill-structure-and-concepts.md](../base/skill-structure-and-concepts.md)** (repo layout).
+
+Only **`strategy.md`** defines **scope** and **which phases in what order**; checklists are where you **tick** progress.
 
 ---
 
@@ -9591,29 +10442,55 @@ OOAD uses **three** checklist layers under **`<workspace>/abd-ooad/progress/`**.
 
 1. **Domain scan** — produce scan artifacts (see **`strategy-led-generation`**).
 2. **Strategy** — fill **`strategy.md`** from **`templates/strategy.md`**:
-   - **Modeling scope** — chapters, anchors, files, in/out of scope.
-   - **Execution plan (normative)** — ordered list of phase **slugs** (from **`skill-config.json` → `phase_files`**) plus **scope per step** (e.g. “nouns-verbs on Chapter 5 only”).
+   - **Modeling scope** — corpus or product boundary; **source type** (book vs repo vs mixed).
+   - **§1 Source slices** — ordered table: **Goal**, **Source** (chapters, files, modules, APIs — whatever locates work), **Coverage** (depth this pass), **Importance**; stable **slice IDs** reused everywhere.
+   - **§2 Slice plan** — per slice: **goal restated**, **unit kind**, **phases** (execution step numbers / slugs), produces, depends-on.
+   - **Coverage across steps** — matrix: every slice → which **execution plan** steps touch it → **depth** → deferrals.
+   - **Cross-slice integration** — cross-boundary types and ordering (From → To + narrative).
+   - **Anchor and subdomain elaboration** (when anchors have attached types) — map subdomains to slices and execution §.
+   - **Execution plan (normative)** — ordered phase **slugs**; **each line cites slice IDs** (mirror **`strategy-run-checklist.md`**).
    - **Approach going forward** + **Ongoing strategic decisions** — short narrative and dated pivots.
-3. **Align live checklists** — keep **`strategy-run-checklist.md`** in sync with the execution plan (same order and scope). Seed file: **`templates/strategy-run-checklist.md`** (created under **`progress/`** on first **`generate.py`** when missing).
+3. **Align live checklists** — keep **`strategy-run-checklist.md`** in sync with the execution plan (same order and scope). Optional **`templates/strategy-run-checklist.md`** seed; optional **`templates/progress-README.md`** → **`progress/README.md`** for slice-specific files under **`progress/slices/`**.
 4. **Run phases** — for the **current** phase: `python scripts/base/generate.py --phase <slug>`. Tick **`strategy-run-checklist.md`** when a phase is **done** for its declared scope; tick **`<slug>-checklist.md`** for **steps inside** that phase.
 
 ---
 
-## Three layers
+## Three layers (what you tick)
 
 | Layer | File | What you tick |
 | --- | --- | --- |
-| **Strategy execution** | **`progress/strategy-run-checklist.md`** | **Which phases** you will run, **in order**, each with **scope** (matches **`strategy.md` → Execution plan**). Use this for “next three steps per chapter” or “whole pipeline on anchor X.” |
+| **Strategy execution** | **`progress/strategy-run-checklist.md`** | **Which phases** you will run, **in order**, each with **scope** that **includes the same slice IDs** as **`strategy.md` → Execution plan**. Optional: **`progress/slices/<slice-id>-checklist.md`** per slice — see **`progress/README.md`** in the workspace (if present). |
 | **Full pipeline (reference)** | **`progress/process-checklist.md`** | **Every** phase in **`phase_files`** — useful as a map; optional if you rely only on strategy-run. |
 | **Phase steps** | **`progress/<phase>-checklist.md`** | **Action checklist** copied from **`content/parts/phases/<phase>.md` → ## Action Checklist**. |
 
-**Normative rules** for pipeline + phase checklists: **`library/base/checklist.md`**. **Implementation:** **`scripts/base/workspace_checklists.py`**.
+**Implementation:** **`scripts/base/workspace_checklists.py`** (paths, behavior, `--no-ensure-checklists`).
+
+---
+
+## How workspace checklist files are created (mechanical)
+
+| Kind | What it tracks | Where it lives | How it gets there |
+| --- | --- | --- | --- |
+| **Normative reference** | Rules in **this document** — strategy vs ticks, layers, `generate.py` behavior | **`content/parts/library/strategy-execution-and-checklists.md`** | Authored in the skill; **not** created by **`generate.py`**. |
+| **Pipeline position** | Which **phase** of the pipeline you are in | **`<active_skill_workspace>/<skill_name>/progress/process-checklist.md`** | **Created** on first **`python scripts/base/generate.py --phase <slug>`** when that file is **missing**, if **`skill-config.json` → `workspace.active_skill_workspace`** is set. One `- [ ]` line per slug in **`phase_files`** (labels from **`phase_section_headings`** when present). **Does not overwrite** an existing file. |
+| **Phase action steps** | **Steps inside** the current phase | **`<active_skill_workspace>/<skill_name>/progress/<phase-slug>-checklist.md`** | **Created** in the **same** `generate.py` run when that file is **missing**. Steps are taken from **`## Action Checklist`** in **`content/parts/phases/<phase-slug>.md`**, or from task lines (`- [ ]` / `- [x]`) in that file if the section is absent. **Does not overwrite** an existing file. |
+| **Strategy execution** (workspace) | Ordered phases matching **`strategy.md`** | **`progress/strategy-run-checklist.md`** | Seeded from template when **`generate.py`** / workspace checklist logic creates it; **you** align it with **`strategy.md`**. |
+
+### Names and workspace
+
+- **`skill_name`** — **`skill-config.json` → `name`** (fallback: skill directory name). Used in **`…/<skill_name>/progress/`**.
+- **`active_skill_workspace`** — Must point at the **project / engagement tree** where **`progress/`** checklists belong, **not** the skill install folder. See **`skill-config.json` → `workspace`** and **[workspace-and-config.md](phases/workspace-and-config.md)**.
+
+### Flags
+
+- **`python scripts/base/generate.py --phase <slug> --no-ensure-checklists`** — run the phase prompt **without** creating missing **`progress/`** checklist files (see **`workspace_checklists.py`**).
 
 ---
 
 ## What not to do
 
 - Do not put **checkboxes** in **`strategy.md`** — keep execution plan as **normative numbered/bulleted text**; ticks live under **`progress/`**.
+- Do not record pipeline or phase **session** progress by ticking boxes in **`content/parts/process.md`** or **`content/parts/phases/*.md`** — those stay **normative**; live ticks go **only** under **`…/progress/`**.
 - Do not let **`strategy-run-checklist.md`** drift from **`strategy.md`** — after a pivot, update both and append a line under *Ongoing strategic decisions*.
 
 ---
@@ -9621,6 +10498,14 @@ OOAD uses **three** checklist layers under **`<workspace>/abd-ooad/progress/`**.
 ## Phase slugs
 
 Use exact slugs from **`skill-config.json` → `phase_files`** (e.g. `nouns-verbs-rules-and-states`, `domain-scan`). Labels for humans are in **`phase_section_headings`**.
+
+---
+
+## References
+
+- **`strategy-led-generation.md`** — artifact roles, **`strategy.md`** vs **`domain-scan-results.md`**
+- **`templates/strategy.md`**, **`templates/progress-README.md`**
+- **`scripts/base/workspace_checklists.py`**
 
 
 ---
@@ -10226,12 +11111,14 @@ Use a note (folded-corner rectangle) connected to the class by a dashed line:
 
 The CLI does not yet support notes — add them manually in draw.io after CLI build. Use: Insert → Shape → Note. Connect to the target class with a dashed edge. Enclose invariant text in `{ }`.
 
+**Module / package (UML frame) notes:** For commentary that applies to a whole **module** (the outer `umlFrame` / package boundary from `add-frame`), attach the same Note shape to the **frame’s perimeter** (snap the connector to the frame edge), not to an inner class. Use the same dashed connector style as class notes. This keeps module-level invariants or scope reminders visually tied to the subsystem boundary.
+
 ### When to add invariants
 
 | Phase | Add invariants? |
 |-------|----------------|
 | domain-scan | Yes — add the invariants you found during the scan (inline preferred at this fidelity) |
-| nouns-verbs | No — extraction only; invariants captured in registry notes |
+| domain-noun-verb (Step 1) | No — extraction only; invariants captured in registry notes |
 | raw-candidate-list through responsibilities | Yes — as invariants become confirmed, add to diagram |
 | Full model phases | Yes — invariants are a required part of the final model |
 
@@ -11071,7 +11958,7 @@ Ask: **What must this object know to fulfill its responsibility?** — not “wh
 
 Use **contextual names** (like **OrderItem** vs **Item**): e.g. **CapturedPortion** or explicit `authorizedAmount` / `capturedAmount` instead of a vague `amount` when partial capture matters.
 
-> **Continual refinement:** Aligns with **abd-maps-models-specs** [`domain-model.md`](../../abd-maps-models-specs/content/parts/library/domain-model.md) (*Domain concept* template, *Continual refinement — class definition + diagram*). In this payments thread, **`**newly added**`** marks a property or operation line **first introduced in this step file** (Steps 1–4 stay pre-notation; formal `- <type> property` / `operation(...) → return` lines begin at Step 5).
+> **Continual refinement:** Full notation is in **[Domain model Markdown](content/parts/library/domain-model.md)** (*Domain concept* template; class definition and diagram refined together). In this payments thread, **`**newly added**`** marks a property or operation line **first introduced in this step file** (Steps 1–4 stay pre-notation; formal `- <type> property` / `operation(...) → return` lines begin at Step 5).
 
 ---
 
@@ -11201,7 +12088,7 @@ If Dispute is **external**, **Payment** might only hold `disputeIds: DisputeId[]
 
 ## Formal domain concepts (Step 5)
 
-First typed **`- <type> property`** lines for core aggregates (see [`domain-model.md`](../../abd-maps-models-specs/content/parts/library/domain-model.md). Every line below is **`**newly added**`** at this step in the payments thread.
+First typed **`- <type> property`** lines for core aggregates (see [Domain model Markdown](content/parts/library/domain-model.md). Every line below is **`**newly added**`** at this step in the payments thread.
 
 ### **Payment**
 
@@ -11266,7 +12153,7 @@ Next: map **verbs** from Step 1 and spec to **operations** on **Payment**, **Ref
 ## Continual refinement (this step)
 
 - **Delta:** semantically tight **properties** for **Payment**, **Refund**, optional **Dispute**, **AuditEntry**, plus VO lists — all as **`- <type> property`** lines with **`**newly added**`** (first formal notation in this thread).
-- **Diagram:** when maintaining **`map-model-spec.json`**, re-run **`render_map_model_class_diagram.py`** so the class diagram stays the visual twin (see [class-diagram-from-spec.md](../../abd-maps-models-specs/content/parts/library/class-diagram-from-spec.md).
+- **Diagram:** when maintaining **`map-model-spec.json`**, re-run **`render_map_model_class_diagram.py`** so the class diagram stays the visual twin (see [Domain model Markdown](content/parts/library/domain-model.md) (*Class diagram and spec (visual twin)*; see also [Class diagrams](content/parts/library/class-diagrams.md)).
 
 ---
 
@@ -11289,6 +12176,106 @@ Next: map **verbs** from Step 1 and spec to **operations** on **Payment**, **Ref
 
 ## Library
 
+
+
+---
+
+### `domain-model.md`
+
+# Domain model Markdown
+
+This skill’s **domain model** is captured in Markdown (and optionally a parallel **Draw.io** class diagram). Use the checked-in **`templates/domain model template.md`** when starting a new companion doc; keep the same semantics as **`templates/domain model template.drawio`** when both exist.
+
+---
+
+## Domain concept template
+
+Each **domain concept** (class, interface, value object, or aggregate) is documented under a clear heading, for example:
+
+```markdown
+## **Payment**
+
+**Responsibilities:** …
+
+### Properties
+- Money amount
+- …
+
+### Operations
+- initiate() → Authorization
+```
+
+From **Step 5** onward, prefer **typed** members (see **Notation evolution** below). Earlier steps stay **pre-notation** (bullets and prose).
+
+---
+
+## Continual refinement — class definition + diagram
+
+**Continual refinement** means you **grow** the model across steps: each step file may add or tighten concepts. The Markdown spec and the class diagram are **two views of the same model** — update both when your project uses dual artifacts so they do not drift (see **[Class diagrams](class-diagrams.md)**).
+
+---
+
+## **newly added** tag
+
+In the **worked example** threads (e.g. payments), the marker **`**newly added**`** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
+
+---
+
+## Notation evolution
+
+| Phase | Markdown style |
+|--------|------------------|
+| **Steps 1–4** | Informal: bullets, short phrases, responsibilities, candidate names. **No** required `- <type> property` lines yet. |
+| **Step 5+** | Formal typed members: `- <Type> propertyName`, `operationName(...) → ReturnType`. |
+
+---
+
+## Subtype sections
+
+When you introduce substitutable specializations, add an explicit subtype heading so the structure is visible in the spec and in diagrams:
+
+```markdown
+### **Subtype** : **PaymentMethod**
+```
+
+Put **`**newly added**`** on subtype **operation** (or property) lines when that member is **first** introduced for that subtype.
+
+---
+
+## Invariants
+
+Attach invariants to the **property** or **operation** they constrain, using a dedicated line:
+
+```markdown
+**Invariant:** …
+```
+
+Mark **`**newly added**`** when you **first** attach an invariant to a given member line.
+
+---
+
+## Early steps: terms, mechanisms, story map
+
+Before typed properties exist, align extracted **nouns, verbs, rules, states** with your workspace’s **terms & mechanisms** and **shaped story map** (or equivalent). That is the same “grow the model as you go” idea: informal extraction first, then formal types.
+
+---
+
+## Class diagram and spec (visual twin)
+
+When you maintain a machine-readable spec such as **`map-model-spec.json`**, re-run your project’s class-diagram render script (for example **`render_map_model_class_diagram.py`**) after material changes so the **Draw.io** diagram stays the **visual twin** of the spec.
+
+- **[Class diagrams](class-diagrams.md)** — templates, relationship types, keeping `.md` and `.drawio` aligned.  
+- **[Using the Diagram CLI](using-diagram-cli.md)** — building diagrams with **`scripts/drawio_cli.py`**.
+
+---
+
+## Related library shards
+
+| Topic | File |
+|--------|------|
+| Term tracking across steps | [term-registry.md](term-registry.md) |
+| Strategy-led runs | [strategy-led-generation.md](strategy-led-generation.md) |
+| Layout and lanes | [class-diagram-layout-rules.md](class-diagram-layout-rules.md) |
 
 
 ---
@@ -11384,7 +12371,7 @@ Domain scan (OOAD **phase 1**) does not only produce a single “results” file
 
 For the scan procedure itself, see the **Domain scan** phase. This page explains **what each artifact is for** and how **`strategy.md`** relates to **`domain-scan-results.md`**.
 
-**Checkbox discipline:** Live ticks for pipeline position and phase steps belong only under **`<workspace>/abd-ooad/progress/`** — see **`library/base/checklist.md`** and **`library/strategy-execution-and-checklists.md`**. Do not put tick tables in `strategy.md`.
+**Checkbox discipline:** Live ticks for pipeline position and phase steps belong only under **`<workspace>/abd-ooad/progress/`** — see **`library/strategy-execution-and-checklists.md`**. Do not put tick tables in `strategy.md`.
 
 ---
 
@@ -11395,7 +12382,7 @@ Created during domain scan under `<workspace>/abd-ooad/`:
 | File | Role | Updates after scan? |
 |------|------|---------------------|
 | `domain-scan-results.md` | **Findings snapshot:** source map, anchor table, tensions. | Rarely — only if you correct a scan error. Do not put the forward plan here; that belongs in `strategy.md`. |
-| `strategy.md` | **Living strategy:** **modeling scope**, **execution plan (normative)** — which phases in what order and on what slice of context — plus **approach** and **dated pivots**. | **Yes** — whenever scope, order, or focus changes. |
+| `strategy.md` | **Living strategy:** **modeling scope**; **§1 source slices** (table: Order, Goal, **Source** — chapters, files, modules, or mixed — **Coverage**, **Importance**); **§2 slice plan** (per-slice **goal restated** + **phases**); **coverage across steps**; **cross-slice integration**; **anchor and subdomain elaboration**; **execution plan (normative)** — phase slugs with **slice IDs** on every line; plus **approach** and **dated pivots**. | **Yes** — whenever scope, order, slice depth, subdomain mapping, or integration changes. |
 | `domain-scan-model.md` | Class sketch (markdown) at scan fidelity. | Yes, in later phases — not only during scan. |
 | `domain-scan-model.drawio` | Diagram at scan fidelity. | Same as model.md. |
 | `term-registry.md` | Terms, **Classification** (model role), **Status** (OOAD scale), confidence — seeded at scan. | **Yes** — every later phase updates Step, Classification, and Status as the model evolves. |
@@ -11409,7 +12396,7 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 ## What `strategy.md` is for
 
 - Created at the end of domain scan as a **workspace file**, then **kept current** through extraction and later phases.
-- **Purpose:** (1) **scope** — what chapters, anchors, or files you model; (2) **execution plan** — ordered list of phase slugs with **per-step scope** (e.g. run nouns-verbs on Chapter 5, then the next three phases on Chapter 6); (3) short **why** in *Approach going forward* and **pivots** in *Ongoing strategic decisions*. Scan mechanics live in **`domain-scan-results.md`**.
+- **Purpose:** (1) **scope** — what product or corpus you model; (2) **§1 source slices** — ordered table (**Goal**, **Source**, **Coverage**, **Importance**); **Source** is any locator (chapters, page ranges, repo paths, modules — not only document sections); (3) **§2 slice plan** — per slice, **goal restated** and **phases** (execution steps); (4) **coverage across steps** — matrix proving every in-scope slice is addressed or deferred; (5) **cross-slice integration** — handoffs between slices; (6) **anchor and subdomain elaboration** — attached types (e.g. Ability, Skill, Advantage) mapped to **slice IDs** and execution **§**; (7) **execution plan** — each line names **slice IDs**; breadth steps must **include** subdomain slices in **nouns-verbs** / **raw-candidate-list** where relevant; (8) **Approach** + **Ongoing strategic decisions**. Scan mechanics stay in **`domain-scan-results.md`**.
 - **Template:** `templates/strategy.md`. Install as **`strategy.md`** (lowercase; avoid duplicate `STRATEGY.md` on case-insensitive disks).
 - After you finalize the execution plan, align **`progress/strategy-run-checklist.md`** with it (same phases and scope); that file holds **checkboxes** for “which phase is done,” while **`strategy.md`** stays **normative text** (no `- [ ]`).
 
@@ -11420,7 +12407,7 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 | Question | Answer |
 |----------|--------|
 | Where is the source map and anchor list? | `domain-scan-results.md` |
-| Where do I define “we model Chapter 5 first, then Chapter 6” and **which phases** per slice? | `strategy.md` → **Modeling scope** + **Execution plan (normative)** |
+| Where do I define **which slices** exist (chapters, files, modules, …), **depth**, **subdomains per anchor**, and **which phases** hit which? | `strategy.md` → **§1 Source slices**, **§2 Slice plan**, **Coverage across steps**, **Cross-slice integration**, **Anchor and subdomain elaboration**, **Execution plan (normative)** |
 | Where do I tick **which phases** we ran, **in order**, with **scope**? | **`abd-ooad/progress/strategy-run-checklist.md`** (keep in sync with `strategy.md`) |
 | Where do I tick **full** pipeline position (all phases)? | **`abd-ooad/progress/process-checklist.md`** (optional reference) |
 | Where do I tick **steps inside** the current phase? | **`abd-ooad/progress/<phase>-checklist.md`** |
@@ -11445,7 +12432,7 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 - Strategy vs checklists: **`library/strategy-execution-and-checklists.md`**
 - Anchors: `anchors` in this library
 - Term registry: `term-registry` in this library
-- Checklist norm: `library/base/checklist.md`
+- Checklist norm: `library/strategy-execution-and-checklists.md`
 
 
 ---
@@ -11454,7 +12441,9 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 
 # Strategy execution and checklists (abd-ooad)
 
-OOAD uses **three** checklist layers under **`<workspace>/abd-ooad/progress/`**. Only **`strategy.md`** defines **scope** and **which phases in what order**; checklists are where you **tick** progress.
+**Canonical doc** for: (1) **strategy** vs **live ticks**, (2) **which files** hold checkboxes, (3) **how** `generate.py` creates workspace **`progress/`** files. Does **not** replace **[process.md](../process.md)** (process tables, `generate` / `build`) or **[skill-structure-and-concepts.md](../base/skill-structure-and-concepts.md)** (repo layout).
+
+Only **`strategy.md`** defines **scope** and **which phases in what order**; checklists are where you **tick** progress.
 
 ---
 
@@ -11462,29 +12451,55 @@ OOAD uses **three** checklist layers under **`<workspace>/abd-ooad/progress/`**.
 
 1. **Domain scan** — produce scan artifacts (see **`strategy-led-generation`**).
 2. **Strategy** — fill **`strategy.md`** from **`templates/strategy.md`**:
-   - **Modeling scope** — chapters, anchors, files, in/out of scope.
-   - **Execution plan (normative)** — ordered list of phase **slugs** (from **`skill-config.json` → `phase_files`**) plus **scope per step** (e.g. “nouns-verbs on Chapter 5 only”).
+   - **Modeling scope** — corpus or product boundary; **source type** (book vs repo vs mixed).
+   - **§1 Source slices** — ordered table: **Goal**, **Source** (chapters, files, modules, APIs — whatever locates work), **Coverage** (depth this pass), **Importance**; stable **slice IDs** reused everywhere.
+   - **§2 Slice plan** — per slice: **goal restated**, **unit kind**, **phases** (execution step numbers / slugs), produces, depends-on.
+   - **Coverage across steps** — matrix: every slice → which **execution plan** steps touch it → **depth** → deferrals.
+   - **Cross-slice integration** — cross-boundary types and ordering (From → To + narrative).
+   - **Anchor and subdomain elaboration** (when anchors have attached types) — map subdomains to slices and execution §.
+   - **Execution plan (normative)** — ordered phase **slugs**; **each line cites slice IDs** (mirror **`strategy-run-checklist.md`**).
    - **Approach going forward** + **Ongoing strategic decisions** — short narrative and dated pivots.
-3. **Align live checklists** — keep **`strategy-run-checklist.md`** in sync with the execution plan (same order and scope). Seed file: **`templates/strategy-run-checklist.md`** (created under **`progress/`** on first **`generate.py`** when missing).
+3. **Align live checklists** — keep **`strategy-run-checklist.md`** in sync with the execution plan (same order and scope). Optional **`templates/strategy-run-checklist.md`** seed; optional **`templates/progress-README.md`** → **`progress/README.md`** for slice-specific files under **`progress/slices/`**.
 4. **Run phases** — for the **current** phase: `python scripts/base/generate.py --phase <slug>`. Tick **`strategy-run-checklist.md`** when a phase is **done** for its declared scope; tick **`<slug>-checklist.md`** for **steps inside** that phase.
 
 ---
 
-## Three layers
+## Three layers (what you tick)
 
 | Layer | File | What you tick |
 | --- | --- | --- |
-| **Strategy execution** | **`progress/strategy-run-checklist.md`** | **Which phases** you will run, **in order**, each with **scope** (matches **`strategy.md` → Execution plan**). Use this for “next three steps per chapter” or “whole pipeline on anchor X.” |
+| **Strategy execution** | **`progress/strategy-run-checklist.md`** | **Which phases** you will run, **in order**, each with **scope** that **includes the same slice IDs** as **`strategy.md` → Execution plan**. Optional: **`progress/slices/<slice-id>-checklist.md`** per slice — see **`progress/README.md`** in the workspace (if present). |
 | **Full pipeline (reference)** | **`progress/process-checklist.md`** | **Every** phase in **`phase_files`** — useful as a map; optional if you rely only on strategy-run. |
 | **Phase steps** | **`progress/<phase>-checklist.md`** | **Action checklist** copied from **`content/parts/phases/<phase>.md` → ## Action Checklist**. |
 
-**Normative rules** for pipeline + phase checklists: **`library/base/checklist.md`**. **Implementation:** **`scripts/base/workspace_checklists.py`**.
+**Implementation:** **`scripts/base/workspace_checklists.py`** (paths, behavior, `--no-ensure-checklists`).
+
+---
+
+## How workspace checklist files are created (mechanical)
+
+| Kind | What it tracks | Where it lives | How it gets there |
+| --- | --- | --- | --- |
+| **Normative reference** | Rules in **this document** — strategy vs ticks, layers, `generate.py` behavior | **`content/parts/library/strategy-execution-and-checklists.md`** | Authored in the skill; **not** created by **`generate.py`**. |
+| **Pipeline position** | Which **phase** of the pipeline you are in | **`<active_skill_workspace>/<skill_name>/progress/process-checklist.md`** | **Created** on first **`python scripts/base/generate.py --phase <slug>`** when that file is **missing**, if **`skill-config.json` → `workspace.active_skill_workspace`** is set. One `- [ ]` line per slug in **`phase_files`** (labels from **`phase_section_headings`** when present). **Does not overwrite** an existing file. |
+| **Phase action steps** | **Steps inside** the current phase | **`<active_skill_workspace>/<skill_name>/progress/<phase-slug>-checklist.md`** | **Created** in the **same** `generate.py` run when that file is **missing**. Steps are taken from **`## Action Checklist`** in **`content/parts/phases/<phase-slug>.md`**, or from task lines (`- [ ]` / `- [x]`) in that file if the section is absent. **Does not overwrite** an existing file. |
+| **Strategy execution** (workspace) | Ordered phases matching **`strategy.md`** | **`progress/strategy-run-checklist.md`** | Seeded from template when **`generate.py`** / workspace checklist logic creates it; **you** align it with **`strategy.md`**. |
+
+### Names and workspace
+
+- **`skill_name`** — **`skill-config.json` → `name`** (fallback: skill directory name). Used in **`…/<skill_name>/progress/`**.
+- **`active_skill_workspace`** — Must point at the **project / engagement tree** where **`progress/`** checklists belong, **not** the skill install folder. See **`skill-config.json` → `workspace`** and **[workspace-and-config.md](phases/workspace-and-config.md)**.
+
+### Flags
+
+- **`python scripts/base/generate.py --phase <slug> --no-ensure-checklists`** — run the phase prompt **without** creating missing **`progress/`** checklist files (see **`workspace_checklists.py`**).
 
 ---
 
 ## What not to do
 
 - Do not put **checkboxes** in **`strategy.md`** — keep execution plan as **normative numbered/bulleted text**; ticks live under **`progress/`**.
+- Do not record pipeline or phase **session** progress by ticking boxes in **`content/parts/process.md`** or **`content/parts/phases/*.md`** — those stay **normative**; live ticks go **only** under **`…/progress/`**.
 - Do not let **`strategy-run-checklist.md`** drift from **`strategy.md`** — after a pivot, update both and append a line under *Ongoing strategic decisions*.
 
 ---
@@ -11492,6 +12507,14 @@ OOAD uses **three** checklist layers under **`<workspace>/abd-ooad/progress/`**.
 ## Phase slugs
 
 Use exact slugs from **`skill-config.json` → `phase_files`** (e.g. `nouns-verbs-rules-and-states`, `domain-scan`). Labels for humans are in **`phase_section_headings`**.
+
+---
+
+## References
+
+- **`strategy-led-generation.md`** — artifact roles, **`strategy.md`** vs **`domain-scan-results.md`**
+- **`templates/strategy.md`**, **`templates/progress-README.md`**
+- **`scripts/base/workspace_checklists.py`**
 
 
 ---
@@ -12097,12 +13120,14 @@ Use a note (folded-corner rectangle) connected to the class by a dashed line:
 
 The CLI does not yet support notes — add them manually in draw.io after CLI build. Use: Insert → Shape → Note. Connect to the target class with a dashed edge. Enclose invariant text in `{ }`.
 
+**Module / package (UML frame) notes:** For commentary that applies to a whole **module** (the outer `umlFrame` / package boundary from `add-frame`), attach the same Note shape to the **frame’s perimeter** (snap the connector to the frame edge), not to an inner class. Use the same dashed connector style as class notes. This keeps module-level invariants or scope reminders visually tied to the subsystem boundary.
+
 ### When to add invariants
 
 | Phase | Add invariants? |
 |-------|----------------|
 | domain-scan | Yes — add the invariants you found during the scan (inline preferred at this fidelity) |
-| nouns-verbs | No — extraction only; invariants captured in registry notes |
+| domain-noun-verb (Step 1) | No — extraction only; invariants captured in registry notes |
 | raw-candidate-list through responsibilities | Yes — as invariants become confirmed, add to diagram |
 | Full model phases | Yes — invariants are a required part of the final model |
 
@@ -12938,7 +13963,7 @@ You are the **domain modeler and OOAD practitioner** using this skill: you provi
 
 **Upstream:** `add-properties-semantically-tight.md`, `nouns-verbs-rules-and-states.md`.
 
-> **Continual refinement:** Aligns with **abd-maps-models-specs** [`domain-model.md`](../../abd-maps-models-specs/content/parts/library/domain-model.md) (*Domain concept* template, *Continual refinement — class definition + diagram*). In this payments thread, **`**newly added**`** marks a property or operation line **first introduced in this step file** (Steps 1–4 stay pre-notation; formal `- <type> property` / `operation(...) → return` lines begin at Step 5).
+> **Continual refinement:** Full notation is in **[Domain model Markdown](content/parts/library/domain-model.md)** (*Domain concept* template; class definition and diagram refined together). In this payments thread, **`**newly added**`** marks a property or operation line **first introduced in this step file** (Steps 1–4 stay pre-notation; formal `- <type> property` / `operation(...) → return` lines begin at Step 5).
 
 ---
 
@@ -13048,6 +14073,106 @@ Add **relationships and cardinality** between Payment, Refund, Order (ref), exte
 
 ---
 
+### `domain-model.md`
+
+# Domain model Markdown
+
+This skill’s **domain model** is captured in Markdown (and optionally a parallel **Draw.io** class diagram). Use the checked-in **`templates/domain model template.md`** when starting a new companion doc; keep the same semantics as **`templates/domain model template.drawio`** when both exist.
+
+---
+
+## Domain concept template
+
+Each **domain concept** (class, interface, value object, or aggregate) is documented under a clear heading, for example:
+
+```markdown
+## **Payment**
+
+**Responsibilities:** …
+
+### Properties
+- Money amount
+- …
+
+### Operations
+- initiate() → Authorization
+```
+
+From **Step 5** onward, prefer **typed** members (see **Notation evolution** below). Earlier steps stay **pre-notation** (bullets and prose).
+
+---
+
+## Continual refinement — class definition + diagram
+
+**Continual refinement** means you **grow** the model across steps: each step file may add or tighten concepts. The Markdown spec and the class diagram are **two views of the same model** — update both when your project uses dual artifacts so they do not drift (see **[Class diagrams](class-diagrams.md)**).
+
+---
+
+## **newly added** tag
+
+In the **worked example** threads (e.g. payments), the marker **`**newly added**`** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
+
+---
+
+## Notation evolution
+
+| Phase | Markdown style |
+|--------|------------------|
+| **Steps 1–4** | Informal: bullets, short phrases, responsibilities, candidate names. **No** required `- <type> property` lines yet. |
+| **Step 5+** | Formal typed members: `- <Type> propertyName`, `operationName(...) → ReturnType`. |
+
+---
+
+## Subtype sections
+
+When you introduce substitutable specializations, add an explicit subtype heading so the structure is visible in the spec and in diagrams:
+
+```markdown
+### **Subtype** : **PaymentMethod**
+```
+
+Put **`**newly added**`** on subtype **operation** (or property) lines when that member is **first** introduced for that subtype.
+
+---
+
+## Invariants
+
+Attach invariants to the **property** or **operation** they constrain, using a dedicated line:
+
+```markdown
+**Invariant:** …
+```
+
+Mark **`**newly added**`** when you **first** attach an invariant to a given member line.
+
+---
+
+## Early steps: terms, mechanisms, story map
+
+Before typed properties exist, align extracted **nouns, verbs, rules, states** with your workspace’s **terms & mechanisms** and **shaped story map** (or equivalent). That is the same “grow the model as you go” idea: informal extraction first, then formal types.
+
+---
+
+## Class diagram and spec (visual twin)
+
+When you maintain a machine-readable spec such as **`map-model-spec.json`**, re-run your project’s class-diagram render script (for example **`render_map_model_class_diagram.py`**) after material changes so the **Draw.io** diagram stays the **visual twin** of the spec.
+
+- **[Class diagrams](class-diagrams.md)** — templates, relationship types, keeping `.md` and `.drawio` aligned.  
+- **[Using the Diagram CLI](using-diagram-cli.md)** — building diagrams with **`scripts/drawio_cli.py`**.
+
+---
+
+## Related library shards
+
+| Topic | File |
+|--------|------|
+| Term tracking across steps | [term-registry.md](term-registry.md) |
+| Strategy-led runs | [strategy-led-generation.md](strategy-led-generation.md) |
+| Layout and lanes | [class-diagram-layout-rules.md](class-diagram-layout-rules.md) |
+
+
+---
+
 ### `anchors.md`
 
 # Anchors
@@ -13139,7 +14264,7 @@ Domain scan (OOAD **phase 1**) does not only produce a single “results” file
 
 For the scan procedure itself, see the **Domain scan** phase. This page explains **what each artifact is for** and how **`strategy.md`** relates to **`domain-scan-results.md`**.
 
-**Checkbox discipline:** Live ticks for pipeline position and phase steps belong only under **`<workspace>/abd-ooad/progress/`** — see **`library/base/checklist.md`** and **`library/strategy-execution-and-checklists.md`**. Do not put tick tables in `strategy.md`.
+**Checkbox discipline:** Live ticks for pipeline position and phase steps belong only under **`<workspace>/abd-ooad/progress/`** — see **`library/strategy-execution-and-checklists.md`**. Do not put tick tables in `strategy.md`.
 
 ---
 
@@ -13150,7 +14275,7 @@ Created during domain scan under `<workspace>/abd-ooad/`:
 | File | Role | Updates after scan? |
 |------|------|---------------------|
 | `domain-scan-results.md` | **Findings snapshot:** source map, anchor table, tensions. | Rarely — only if you correct a scan error. Do not put the forward plan here; that belongs in `strategy.md`. |
-| `strategy.md` | **Living strategy:** **modeling scope**, **execution plan (normative)** — which phases in what order and on what slice of context — plus **approach** and **dated pivots**. | **Yes** — whenever scope, order, or focus changes. |
+| `strategy.md` | **Living strategy:** **modeling scope**; **§1 source slices** (table: Order, Goal, **Source** — chapters, files, modules, or mixed — **Coverage**, **Importance**); **§2 slice plan** (per-slice **goal restated** + **phases**); **coverage across steps**; **cross-slice integration**; **anchor and subdomain elaboration**; **execution plan (normative)** — phase slugs with **slice IDs** on every line; plus **approach** and **dated pivots**. | **Yes** — whenever scope, order, slice depth, subdomain mapping, or integration changes. |
 | `domain-scan-model.md` | Class sketch (markdown) at scan fidelity. | Yes, in later phases — not only during scan. |
 | `domain-scan-model.drawio` | Diagram at scan fidelity. | Same as model.md. |
 | `term-registry.md` | Terms, **Classification** (model role), **Status** (OOAD scale), confidence — seeded at scan. | **Yes** — every later phase updates Step, Classification, and Status as the model evolves. |
@@ -13164,7 +14289,7 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 ## What `strategy.md` is for
 
 - Created at the end of domain scan as a **workspace file**, then **kept current** through extraction and later phases.
-- **Purpose:** (1) **scope** — what chapters, anchors, or files you model; (2) **execution plan** — ordered list of phase slugs with **per-step scope** (e.g. run nouns-verbs on Chapter 5, then the next three phases on Chapter 6); (3) short **why** in *Approach going forward* and **pivots** in *Ongoing strategic decisions*. Scan mechanics live in **`domain-scan-results.md`**.
+- **Purpose:** (1) **scope** — what product or corpus you model; (2) **§1 source slices** — ordered table (**Goal**, **Source**, **Coverage**, **Importance**); **Source** is any locator (chapters, page ranges, repo paths, modules — not only document sections); (3) **§2 slice plan** — per slice, **goal restated** and **phases** (execution steps); (4) **coverage across steps** — matrix proving every in-scope slice is addressed or deferred; (5) **cross-slice integration** — handoffs between slices; (6) **anchor and subdomain elaboration** — attached types (e.g. Ability, Skill, Advantage) mapped to **slice IDs** and execution **§**; (7) **execution plan** — each line names **slice IDs**; breadth steps must **include** subdomain slices in **nouns-verbs** / **raw-candidate-list** where relevant; (8) **Approach** + **Ongoing strategic decisions**. Scan mechanics stay in **`domain-scan-results.md`**.
 - **Template:** `templates/strategy.md`. Install as **`strategy.md`** (lowercase; avoid duplicate `STRATEGY.md` on case-insensitive disks).
 - After you finalize the execution plan, align **`progress/strategy-run-checklist.md`** with it (same phases and scope); that file holds **checkboxes** for “which phase is done,” while **`strategy.md`** stays **normative text** (no `- [ ]`).
 
@@ -13175,7 +14300,7 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 | Question | Answer |
 |----------|--------|
 | Where is the source map and anchor list? | `domain-scan-results.md` |
-| Where do I define “we model Chapter 5 first, then Chapter 6” and **which phases** per slice? | `strategy.md` → **Modeling scope** + **Execution plan (normative)** |
+| Where do I define **which slices** exist (chapters, files, modules, …), **depth**, **subdomains per anchor**, and **which phases** hit which? | `strategy.md` → **§1 Source slices**, **§2 Slice plan**, **Coverage across steps**, **Cross-slice integration**, **Anchor and subdomain elaboration**, **Execution plan (normative)** |
 | Where do I tick **which phases** we ran, **in order**, with **scope**? | **`abd-ooad/progress/strategy-run-checklist.md`** (keep in sync with `strategy.md`) |
 | Where do I tick **full** pipeline position (all phases)? | **`abd-ooad/progress/process-checklist.md`** (optional reference) |
 | Where do I tick **steps inside** the current phase? | **`abd-ooad/progress/<phase>-checklist.md`** |
@@ -13200,7 +14325,7 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 - Strategy vs checklists: **`library/strategy-execution-and-checklists.md`**
 - Anchors: `anchors` in this library
 - Term registry: `term-registry` in this library
-- Checklist norm: `library/base/checklist.md`
+- Checklist norm: `library/strategy-execution-and-checklists.md`
 
 
 ---
@@ -13209,7 +14334,9 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 
 # Strategy execution and checklists (abd-ooad)
 
-OOAD uses **three** checklist layers under **`<workspace>/abd-ooad/progress/`**. Only **`strategy.md`** defines **scope** and **which phases in what order**; checklists are where you **tick** progress.
+**Canonical doc** for: (1) **strategy** vs **live ticks**, (2) **which files** hold checkboxes, (3) **how** `generate.py` creates workspace **`progress/`** files. Does **not** replace **[process.md](../process.md)** (process tables, `generate` / `build`) or **[skill-structure-and-concepts.md](../base/skill-structure-and-concepts.md)** (repo layout).
+
+Only **`strategy.md`** defines **scope** and **which phases in what order**; checklists are where you **tick** progress.
 
 ---
 
@@ -13217,29 +14344,55 @@ OOAD uses **three** checklist layers under **`<workspace>/abd-ooad/progress/`**.
 
 1. **Domain scan** — produce scan artifacts (see **`strategy-led-generation`**).
 2. **Strategy** — fill **`strategy.md`** from **`templates/strategy.md`**:
-   - **Modeling scope** — chapters, anchors, files, in/out of scope.
-   - **Execution plan (normative)** — ordered list of phase **slugs** (from **`skill-config.json` → `phase_files`**) plus **scope per step** (e.g. “nouns-verbs on Chapter 5 only”).
+   - **Modeling scope** — corpus or product boundary; **source type** (book vs repo vs mixed).
+   - **§1 Source slices** — ordered table: **Goal**, **Source** (chapters, files, modules, APIs — whatever locates work), **Coverage** (depth this pass), **Importance**; stable **slice IDs** reused everywhere.
+   - **§2 Slice plan** — per slice: **goal restated**, **unit kind**, **phases** (execution step numbers / slugs), produces, depends-on.
+   - **Coverage across steps** — matrix: every slice → which **execution plan** steps touch it → **depth** → deferrals.
+   - **Cross-slice integration** — cross-boundary types and ordering (From → To + narrative).
+   - **Anchor and subdomain elaboration** (when anchors have attached types) — map subdomains to slices and execution §.
+   - **Execution plan (normative)** — ordered phase **slugs**; **each line cites slice IDs** (mirror **`strategy-run-checklist.md`**).
    - **Approach going forward** + **Ongoing strategic decisions** — short narrative and dated pivots.
-3. **Align live checklists** — keep **`strategy-run-checklist.md`** in sync with the execution plan (same order and scope). Seed file: **`templates/strategy-run-checklist.md`** (created under **`progress/`** on first **`generate.py`** when missing).
+3. **Align live checklists** — keep **`strategy-run-checklist.md`** in sync with the execution plan (same order and scope). Optional **`templates/strategy-run-checklist.md`** seed; optional **`templates/progress-README.md`** → **`progress/README.md`** for slice-specific files under **`progress/slices/`**.
 4. **Run phases** — for the **current** phase: `python scripts/base/generate.py --phase <slug>`. Tick **`strategy-run-checklist.md`** when a phase is **done** for its declared scope; tick **`<slug>-checklist.md`** for **steps inside** that phase.
 
 ---
 
-## Three layers
+## Three layers (what you tick)
 
 | Layer | File | What you tick |
 | --- | --- | --- |
-| **Strategy execution** | **`progress/strategy-run-checklist.md`** | **Which phases** you will run, **in order**, each with **scope** (matches **`strategy.md` → Execution plan**). Use this for “next three steps per chapter” or “whole pipeline on anchor X.” |
+| **Strategy execution** | **`progress/strategy-run-checklist.md`** | **Which phases** you will run, **in order**, each with **scope** that **includes the same slice IDs** as **`strategy.md` → Execution plan**. Optional: **`progress/slices/<slice-id>-checklist.md`** per slice — see **`progress/README.md`** in the workspace (if present). |
 | **Full pipeline (reference)** | **`progress/process-checklist.md`** | **Every** phase in **`phase_files`** — useful as a map; optional if you rely only on strategy-run. |
 | **Phase steps** | **`progress/<phase>-checklist.md`** | **Action checklist** copied from **`content/parts/phases/<phase>.md` → ## Action Checklist**. |
 
-**Normative rules** for pipeline + phase checklists: **`library/base/checklist.md`**. **Implementation:** **`scripts/base/workspace_checklists.py`**.
+**Implementation:** **`scripts/base/workspace_checklists.py`** (paths, behavior, `--no-ensure-checklists`).
+
+---
+
+## How workspace checklist files are created (mechanical)
+
+| Kind | What it tracks | Where it lives | How it gets there |
+| --- | --- | --- | --- |
+| **Normative reference** | Rules in **this document** — strategy vs ticks, layers, `generate.py` behavior | **`content/parts/library/strategy-execution-and-checklists.md`** | Authored in the skill; **not** created by **`generate.py`**. |
+| **Pipeline position** | Which **phase** of the pipeline you are in | **`<active_skill_workspace>/<skill_name>/progress/process-checklist.md`** | **Created** on first **`python scripts/base/generate.py --phase <slug>`** when that file is **missing**, if **`skill-config.json` → `workspace.active_skill_workspace`** is set. One `- [ ]` line per slug in **`phase_files`** (labels from **`phase_section_headings`** when present). **Does not overwrite** an existing file. |
+| **Phase action steps** | **Steps inside** the current phase | **`<active_skill_workspace>/<skill_name>/progress/<phase-slug>-checklist.md`** | **Created** in the **same** `generate.py` run when that file is **missing**. Steps are taken from **`## Action Checklist`** in **`content/parts/phases/<phase-slug>.md`**, or from task lines (`- [ ]` / `- [x]`) in that file if the section is absent. **Does not overwrite** an existing file. |
+| **Strategy execution** (workspace) | Ordered phases matching **`strategy.md`** | **`progress/strategy-run-checklist.md`** | Seeded from template when **`generate.py`** / workspace checklist logic creates it; **you** align it with **`strategy.md`**. |
+
+### Names and workspace
+
+- **`skill_name`** — **`skill-config.json` → `name`** (fallback: skill directory name). Used in **`…/<skill_name>/progress/`**.
+- **`active_skill_workspace`** — Must point at the **project / engagement tree** where **`progress/`** checklists belong, **not** the skill install folder. See **`skill-config.json` → `workspace`** and **[workspace-and-config.md](phases/workspace-and-config.md)**.
+
+### Flags
+
+- **`python scripts/base/generate.py --phase <slug> --no-ensure-checklists`** — run the phase prompt **without** creating missing **`progress/`** checklist files (see **`workspace_checklists.py`**).
 
 ---
 
 ## What not to do
 
 - Do not put **checkboxes** in **`strategy.md`** — keep execution plan as **normative numbered/bulleted text**; ticks live under **`progress/`**.
+- Do not record pipeline or phase **session** progress by ticking boxes in **`content/parts/process.md`** or **`content/parts/phases/*.md`** — those stay **normative**; live ticks go **only** under **`…/progress/`**.
 - Do not let **`strategy-run-checklist.md`** drift from **`strategy.md`** — after a pivot, update both and append a line under *Ongoing strategic decisions*.
 
 ---
@@ -13247,6 +14400,14 @@ OOAD uses **three** checklist layers under **`<workspace>/abd-ooad/progress/`**.
 ## Phase slugs
 
 Use exact slugs from **`skill-config.json` → `phase_files`** (e.g. `nouns-verbs-rules-and-states`, `domain-scan`). Labels for humans are in **`phase_section_headings`**.
+
+---
+
+## References
+
+- **`strategy-led-generation.md`** — artifact roles, **`strategy.md`** vs **`domain-scan-results.md`**
+- **`templates/strategy.md`**, **`templates/progress-README.md`**
+- **`scripts/base/workspace_checklists.py`**
 
 
 ---
@@ -13852,12 +15013,14 @@ Use a note (folded-corner rectangle) connected to the class by a dashed line:
 
 The CLI does not yet support notes — add them manually in draw.io after CLI build. Use: Insert → Shape → Note. Connect to the target class with a dashed edge. Enclose invariant text in `{ }`.
 
+**Module / package (UML frame) notes:** For commentary that applies to a whole **module** (the outer `umlFrame` / package boundary from `add-frame`), attach the same Note shape to the **frame’s perimeter** (snap the connector to the frame edge), not to an inner class. Use the same dashed connector style as class notes. This keeps module-level invariants or scope reminders visually tied to the subsystem boundary.
+
 ### When to add invariants
 
 | Phase | Add invariants? |
 |-------|----------------|
 | domain-scan | Yes — add the invariants you found during the scan (inline preferred at this fidelity) |
-| nouns-verbs | No — extraction only; invariants captured in registry notes |
+| domain-noun-verb (Step 1) | No — extraction only; invariants captured in registry notes |
 | raw-candidate-list through responsibilities | Yes — as invariants become confirmed, add to diagram |
 | Full model phases | Yes — invariants are a required part of the final model |
 
@@ -14695,7 +15858,7 @@ You are the **domain modeler and OOAD practitioner** using this skill: you provi
 
 Use ASCII glyphs from **`SKILL.md` → ASCII class diagrams — notation** (`----|>`, `..|>`, `*---`, `o---`, `- - ->`).
 
-> **Continual refinement:** Aligns with **abd-maps-models-specs** [`domain-model.md`](../../abd-maps-models-specs/content/parts/library/domain-model.md) (*Domain concept* template, *Continual refinement — class definition + diagram*). In this payments thread, **`**newly added**`** marks a property or operation line **first introduced in this step file** (Steps 1–4 stay pre-notation; formal `- <type> property` / `operation(...) → return` lines begin at Step 5).
+> **Continual refinement:** Full notation is in **[Domain model Markdown](content/parts/library/domain-model.md)** (*Domain concept* template; class definition and diagram refined together). In this payments thread, **`**newly added**`** marks a property or operation line **first introduced in this step file** (Steps 1–4 stay pre-notation; formal `- <type> property` / `operation(...) → return` lines begin at Step 5).
 
 ---
 
@@ -14774,6 +15937,106 @@ Encode **invariants** on **Payment** / **Refund** operations (sanctions, partial
 
 ## Library
 
+
+
+---
+
+### `domain-model.md`
+
+# Domain model Markdown
+
+This skill’s **domain model** is captured in Markdown (and optionally a parallel **Draw.io** class diagram). Use the checked-in **`templates/domain model template.md`** when starting a new companion doc; keep the same semantics as **`templates/domain model template.drawio`** when both exist.
+
+---
+
+## Domain concept template
+
+Each **domain concept** (class, interface, value object, or aggregate) is documented under a clear heading, for example:
+
+```markdown
+## **Payment**
+
+**Responsibilities:** …
+
+### Properties
+- Money amount
+- …
+
+### Operations
+- initiate() → Authorization
+```
+
+From **Step 5** onward, prefer **typed** members (see **Notation evolution** below). Earlier steps stay **pre-notation** (bullets and prose).
+
+---
+
+## Continual refinement — class definition + diagram
+
+**Continual refinement** means you **grow** the model across steps: each step file may add or tighten concepts. The Markdown spec and the class diagram are **two views of the same model** — update both when your project uses dual artifacts so they do not drift (see **[Class diagrams](class-diagrams.md)**).
+
+---
+
+## **newly added** tag
+
+In the **worked example** threads (e.g. payments), the marker **`**newly added**`** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
+
+---
+
+## Notation evolution
+
+| Phase | Markdown style |
+|--------|------------------|
+| **Steps 1–4** | Informal: bullets, short phrases, responsibilities, candidate names. **No** required `- <type> property` lines yet. |
+| **Step 5+** | Formal typed members: `- <Type> propertyName`, `operationName(...) → ReturnType`. |
+
+---
+
+## Subtype sections
+
+When you introduce substitutable specializations, add an explicit subtype heading so the structure is visible in the spec and in diagrams:
+
+```markdown
+### **Subtype** : **PaymentMethod**
+```
+
+Put **`**newly added**`** on subtype **operation** (or property) lines when that member is **first** introduced for that subtype.
+
+---
+
+## Invariants
+
+Attach invariants to the **property** or **operation** they constrain, using a dedicated line:
+
+```markdown
+**Invariant:** …
+```
+
+Mark **`**newly added**`** when you **first** attach an invariant to a given member line.
+
+---
+
+## Early steps: terms, mechanisms, story map
+
+Before typed properties exist, align extracted **nouns, verbs, rules, states** with your workspace’s **terms & mechanisms** and **shaped story map** (or equivalent). That is the same “grow the model as you go” idea: informal extraction first, then formal types.
+
+---
+
+## Class diagram and spec (visual twin)
+
+When you maintain a machine-readable spec such as **`map-model-spec.json`**, re-run your project’s class-diagram render script (for example **`render_map_model_class_diagram.py`**) after material changes so the **Draw.io** diagram stays the **visual twin** of the spec.
+
+- **[Class diagrams](class-diagrams.md)** — templates, relationship types, keeping `.md` and `.drawio` aligned.  
+- **[Using the Diagram CLI](using-diagram-cli.md)** — building diagrams with **`scripts/drawio_cli.py`**.
+
+---
+
+## Related library shards
+
+| Topic | File |
+|--------|------|
+| Term tracking across steps | [term-registry.md](term-registry.md) |
+| Strategy-led runs | [strategy-led-generation.md](strategy-led-generation.md) |
+| Layout and lanes | [class-diagram-layout-rules.md](class-diagram-layout-rules.md) |
 
 
 ---
@@ -14869,7 +16132,7 @@ Domain scan (OOAD **phase 1**) does not only produce a single “results” file
 
 For the scan procedure itself, see the **Domain scan** phase. This page explains **what each artifact is for** and how **`strategy.md`** relates to **`domain-scan-results.md`**.
 
-**Checkbox discipline:** Live ticks for pipeline position and phase steps belong only under **`<workspace>/abd-ooad/progress/`** — see **`library/base/checklist.md`** and **`library/strategy-execution-and-checklists.md`**. Do not put tick tables in `strategy.md`.
+**Checkbox discipline:** Live ticks for pipeline position and phase steps belong only under **`<workspace>/abd-ooad/progress/`** — see **`library/strategy-execution-and-checklists.md`**. Do not put tick tables in `strategy.md`.
 
 ---
 
@@ -14880,7 +16143,7 @@ Created during domain scan under `<workspace>/abd-ooad/`:
 | File | Role | Updates after scan? |
 |------|------|---------------------|
 | `domain-scan-results.md` | **Findings snapshot:** source map, anchor table, tensions. | Rarely — only if you correct a scan error. Do not put the forward plan here; that belongs in `strategy.md`. |
-| `strategy.md` | **Living strategy:** **modeling scope**, **execution plan (normative)** — which phases in what order and on what slice of context — plus **approach** and **dated pivots**. | **Yes** — whenever scope, order, or focus changes. |
+| `strategy.md` | **Living strategy:** **modeling scope**; **§1 source slices** (table: Order, Goal, **Source** — chapters, files, modules, or mixed — **Coverage**, **Importance**); **§2 slice plan** (per-slice **goal restated** + **phases**); **coverage across steps**; **cross-slice integration**; **anchor and subdomain elaboration**; **execution plan (normative)** — phase slugs with **slice IDs** on every line; plus **approach** and **dated pivots**. | **Yes** — whenever scope, order, slice depth, subdomain mapping, or integration changes. |
 | `domain-scan-model.md` | Class sketch (markdown) at scan fidelity. | Yes, in later phases — not only during scan. |
 | `domain-scan-model.drawio` | Diagram at scan fidelity. | Same as model.md. |
 | `term-registry.md` | Terms, **Classification** (model role), **Status** (OOAD scale), confidence — seeded at scan. | **Yes** — every later phase updates Step, Classification, and Status as the model evolves. |
@@ -14894,7 +16157,7 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 ## What `strategy.md` is for
 
 - Created at the end of domain scan as a **workspace file**, then **kept current** through extraction and later phases.
-- **Purpose:** (1) **scope** — what chapters, anchors, or files you model; (2) **execution plan** — ordered list of phase slugs with **per-step scope** (e.g. run nouns-verbs on Chapter 5, then the next three phases on Chapter 6); (3) short **why** in *Approach going forward* and **pivots** in *Ongoing strategic decisions*. Scan mechanics live in **`domain-scan-results.md`**.
+- **Purpose:** (1) **scope** — what product or corpus you model; (2) **§1 source slices** — ordered table (**Goal**, **Source**, **Coverage**, **Importance**); **Source** is any locator (chapters, page ranges, repo paths, modules — not only document sections); (3) **§2 slice plan** — per slice, **goal restated** and **phases** (execution steps); (4) **coverage across steps** — matrix proving every in-scope slice is addressed or deferred; (5) **cross-slice integration** — handoffs between slices; (6) **anchor and subdomain elaboration** — attached types (e.g. Ability, Skill, Advantage) mapped to **slice IDs** and execution **§**; (7) **execution plan** — each line names **slice IDs**; breadth steps must **include** subdomain slices in **nouns-verbs** / **raw-candidate-list** where relevant; (8) **Approach** + **Ongoing strategic decisions**. Scan mechanics stay in **`domain-scan-results.md`**.
 - **Template:** `templates/strategy.md`. Install as **`strategy.md`** (lowercase; avoid duplicate `STRATEGY.md` on case-insensitive disks).
 - After you finalize the execution plan, align **`progress/strategy-run-checklist.md`** with it (same phases and scope); that file holds **checkboxes** for “which phase is done,” while **`strategy.md`** stays **normative text** (no `- [ ]`).
 
@@ -14905,7 +16168,7 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 | Question | Answer |
 |----------|--------|
 | Where is the source map and anchor list? | `domain-scan-results.md` |
-| Where do I define “we model Chapter 5 first, then Chapter 6” and **which phases** per slice? | `strategy.md` → **Modeling scope** + **Execution plan (normative)** |
+| Where do I define **which slices** exist (chapters, files, modules, …), **depth**, **subdomains per anchor**, and **which phases** hit which? | `strategy.md` → **§1 Source slices**, **§2 Slice plan**, **Coverage across steps**, **Cross-slice integration**, **Anchor and subdomain elaboration**, **Execution plan (normative)** |
 | Where do I tick **which phases** we ran, **in order**, with **scope**? | **`abd-ooad/progress/strategy-run-checklist.md`** (keep in sync with `strategy.md`) |
 | Where do I tick **full** pipeline position (all phases)? | **`abd-ooad/progress/process-checklist.md`** (optional reference) |
 | Where do I tick **steps inside** the current phase? | **`abd-ooad/progress/<phase>-checklist.md`** |
@@ -14930,7 +16193,7 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 - Strategy vs checklists: **`library/strategy-execution-and-checklists.md`**
 - Anchors: `anchors` in this library
 - Term registry: `term-registry` in this library
-- Checklist norm: `library/base/checklist.md`
+- Checklist norm: `library/strategy-execution-and-checklists.md`
 
 
 ---
@@ -14939,7 +16202,9 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 
 # Strategy execution and checklists (abd-ooad)
 
-OOAD uses **three** checklist layers under **`<workspace>/abd-ooad/progress/`**. Only **`strategy.md`** defines **scope** and **which phases in what order**; checklists are where you **tick** progress.
+**Canonical doc** for: (1) **strategy** vs **live ticks**, (2) **which files** hold checkboxes, (3) **how** `generate.py` creates workspace **`progress/`** files. Does **not** replace **[process.md](../process.md)** (process tables, `generate` / `build`) or **[skill-structure-and-concepts.md](../base/skill-structure-and-concepts.md)** (repo layout).
+
+Only **`strategy.md`** defines **scope** and **which phases in what order**; checklists are where you **tick** progress.
 
 ---
 
@@ -14947,29 +16212,55 @@ OOAD uses **three** checklist layers under **`<workspace>/abd-ooad/progress/`**.
 
 1. **Domain scan** — produce scan artifacts (see **`strategy-led-generation`**).
 2. **Strategy** — fill **`strategy.md`** from **`templates/strategy.md`**:
-   - **Modeling scope** — chapters, anchors, files, in/out of scope.
-   - **Execution plan (normative)** — ordered list of phase **slugs** (from **`skill-config.json` → `phase_files`**) plus **scope per step** (e.g. “nouns-verbs on Chapter 5 only”).
+   - **Modeling scope** — corpus or product boundary; **source type** (book vs repo vs mixed).
+   - **§1 Source slices** — ordered table: **Goal**, **Source** (chapters, files, modules, APIs — whatever locates work), **Coverage** (depth this pass), **Importance**; stable **slice IDs** reused everywhere.
+   - **§2 Slice plan** — per slice: **goal restated**, **unit kind**, **phases** (execution step numbers / slugs), produces, depends-on.
+   - **Coverage across steps** — matrix: every slice → which **execution plan** steps touch it → **depth** → deferrals.
+   - **Cross-slice integration** — cross-boundary types and ordering (From → To + narrative).
+   - **Anchor and subdomain elaboration** (when anchors have attached types) — map subdomains to slices and execution §.
+   - **Execution plan (normative)** — ordered phase **slugs**; **each line cites slice IDs** (mirror **`strategy-run-checklist.md`**).
    - **Approach going forward** + **Ongoing strategic decisions** — short narrative and dated pivots.
-3. **Align live checklists** — keep **`strategy-run-checklist.md`** in sync with the execution plan (same order and scope). Seed file: **`templates/strategy-run-checklist.md`** (created under **`progress/`** on first **`generate.py`** when missing).
+3. **Align live checklists** — keep **`strategy-run-checklist.md`** in sync with the execution plan (same order and scope). Optional **`templates/strategy-run-checklist.md`** seed; optional **`templates/progress-README.md`** → **`progress/README.md`** for slice-specific files under **`progress/slices/`**.
 4. **Run phases** — for the **current** phase: `python scripts/base/generate.py --phase <slug>`. Tick **`strategy-run-checklist.md`** when a phase is **done** for its declared scope; tick **`<slug>-checklist.md`** for **steps inside** that phase.
 
 ---
 
-## Three layers
+## Three layers (what you tick)
 
 | Layer | File | What you tick |
 | --- | --- | --- |
-| **Strategy execution** | **`progress/strategy-run-checklist.md`** | **Which phases** you will run, **in order**, each with **scope** (matches **`strategy.md` → Execution plan**). Use this for “next three steps per chapter” or “whole pipeline on anchor X.” |
+| **Strategy execution** | **`progress/strategy-run-checklist.md`** | **Which phases** you will run, **in order**, each with **scope** that **includes the same slice IDs** as **`strategy.md` → Execution plan**. Optional: **`progress/slices/<slice-id>-checklist.md`** per slice — see **`progress/README.md`** in the workspace (if present). |
 | **Full pipeline (reference)** | **`progress/process-checklist.md`** | **Every** phase in **`phase_files`** — useful as a map; optional if you rely only on strategy-run. |
 | **Phase steps** | **`progress/<phase>-checklist.md`** | **Action checklist** copied from **`content/parts/phases/<phase>.md` → ## Action Checklist**. |
 
-**Normative rules** for pipeline + phase checklists: **`library/base/checklist.md`**. **Implementation:** **`scripts/base/workspace_checklists.py`**.
+**Implementation:** **`scripts/base/workspace_checklists.py`** (paths, behavior, `--no-ensure-checklists`).
+
+---
+
+## How workspace checklist files are created (mechanical)
+
+| Kind | What it tracks | Where it lives | How it gets there |
+| --- | --- | --- | --- |
+| **Normative reference** | Rules in **this document** — strategy vs ticks, layers, `generate.py` behavior | **`content/parts/library/strategy-execution-and-checklists.md`** | Authored in the skill; **not** created by **`generate.py`**. |
+| **Pipeline position** | Which **phase** of the pipeline you are in | **`<active_skill_workspace>/<skill_name>/progress/process-checklist.md`** | **Created** on first **`python scripts/base/generate.py --phase <slug>`** when that file is **missing**, if **`skill-config.json` → `workspace.active_skill_workspace`** is set. One `- [ ]` line per slug in **`phase_files`** (labels from **`phase_section_headings`** when present). **Does not overwrite** an existing file. |
+| **Phase action steps** | **Steps inside** the current phase | **`<active_skill_workspace>/<skill_name>/progress/<phase-slug>-checklist.md`** | **Created** in the **same** `generate.py` run when that file is **missing**. Steps are taken from **`## Action Checklist`** in **`content/parts/phases/<phase-slug>.md`**, or from task lines (`- [ ]` / `- [x]`) in that file if the section is absent. **Does not overwrite** an existing file. |
+| **Strategy execution** (workspace) | Ordered phases matching **`strategy.md`** | **`progress/strategy-run-checklist.md`** | Seeded from template when **`generate.py`** / workspace checklist logic creates it; **you** align it with **`strategy.md`**. |
+
+### Names and workspace
+
+- **`skill_name`** — **`skill-config.json` → `name`** (fallback: skill directory name). Used in **`…/<skill_name>/progress/`**.
+- **`active_skill_workspace`** — Must point at the **project / engagement tree** where **`progress/`** checklists belong, **not** the skill install folder. See **`skill-config.json` → `workspace`** and **[workspace-and-config.md](phases/workspace-and-config.md)**.
+
+### Flags
+
+- **`python scripts/base/generate.py --phase <slug> --no-ensure-checklists`** — run the phase prompt **without** creating missing **`progress/`** checklist files (see **`workspace_checklists.py`**).
 
 ---
 
 ## What not to do
 
 - Do not put **checkboxes** in **`strategy.md`** — keep execution plan as **normative numbered/bulleted text**; ticks live under **`progress/`**.
+- Do not record pipeline or phase **session** progress by ticking boxes in **`content/parts/process.md`** or **`content/parts/phases/*.md`** — those stay **normative**; live ticks go **only** under **`…/progress/`**.
 - Do not let **`strategy-run-checklist.md`** drift from **`strategy.md`** — after a pivot, update both and append a line under *Ongoing strategic decisions*.
 
 ---
@@ -14977,6 +16268,14 @@ OOAD uses **three** checklist layers under **`<workspace>/abd-ooad/progress/`**.
 ## Phase slugs
 
 Use exact slugs from **`skill-config.json` → `phase_files`** (e.g. `nouns-verbs-rules-and-states`, `domain-scan`). Labels for humans are in **`phase_section_headings`**.
+
+---
+
+## References
+
+- **`strategy-led-generation.md`** — artifact roles, **`strategy.md`** vs **`domain-scan-results.md`**
+- **`templates/strategy.md`**, **`templates/progress-README.md`**
+- **`scripts/base/workspace_checklists.py`**
 
 
 ---
@@ -15582,12 +16881,14 @@ Use a note (folded-corner rectangle) connected to the class by a dashed line:
 
 The CLI does not yet support notes — add them manually in draw.io after CLI build. Use: Insert → Shape → Note. Connect to the target class with a dashed edge. Enclose invariant text in `{ }`.
 
+**Module / package (UML frame) notes:** For commentary that applies to a whole **module** (the outer `umlFrame` / package boundary from `add-frame`), attach the same Note shape to the **frame’s perimeter** (snap the connector to the frame edge), not to an inner class. Use the same dashed connector style as class notes. This keeps module-level invariants or scope reminders visually tied to the subsystem boundary.
+
 ### When to add invariants
 
 | Phase | Add invariants? |
 |-------|----------------|
 | domain-scan | Yes — add the invariants you found during the scan (inline preferred at this fidelity) |
-| nouns-verbs | No — extraction only; invariants captured in registry notes |
+| domain-noun-verb (Step 1) | No — extraction only; invariants captured in registry notes |
 | raw-candidate-list through responsibilities | Yes — as invariants become confirmed, add to diagram |
 | Full model phases | Yes — invariants are a required part of the final model |
 
@@ -16423,7 +17724,7 @@ You are the **domain modeler and OOAD practitioner** using this skill: you provi
 
 **Upstream:** `garbled-payments-spec.md`, `relationships-and-cardinality.md`.
 
-> **Continual refinement:** Aligns with **abd-maps-models-specs** [`domain-model.md`](../../abd-maps-models-specs/content/parts/library/domain-model.md) (*Domain concept* template, *Continual refinement — class definition + diagram*). In this payments thread, **`**newly added**`** marks a property or operation line **first introduced in this step file** (Steps 1–4 stay pre-notation; formal `- <type> property` / `operation(...) → return` lines begin at Step 5).
+> **Continual refinement:** Full notation is in **[Domain model Markdown](content/parts/library/domain-model.md)** (*Domain concept* template; class definition and diagram refined together). In this payments thread, **`**newly added**`** marks a property or operation line **first introduced in this step file** (Steps 1–4 stay pre-notation; formal `- <type> property` / `operation(...) → return` lines begin at Step 5).
 
 ---
 
@@ -16463,7 +17764,7 @@ Watch **Payment** for bloat as more rules arrive — split policies if needed.
 
 ## Continual refinement (this step)
 
-- **Delta:** **invariants** tied to **`Payment.initiate`**, **`capture`**, **`settle`**, **`Refund.request`**, append-only **AuditEntry** — add **`Invariant:`** lines under the matching **property** / **operation** in the spec (see [`domain-model.md`](../../abd-maps-models-specs/content/parts/library/domain-model.md)); mark **`**newly added**`** when first attaching each invariant to a member line.
+- **Delta:** **invariants** tied to **`Payment.initiate`**, **`capture`**, **`settle`**, **`Refund.request`**, append-only **AuditEntry** — add **`Invariant:`** lines under the matching **property** / **operation** in the spec (see [Domain model Markdown](content/parts/library/domain-model.md)); mark **`**newly added**`** when first attaching each invariant to a member line.
 
 ---
 
@@ -16486,6 +17787,106 @@ Watch **Payment** for bloat as more rules arrive — split policies if needed.
 
 ## Library
 
+
+
+---
+
+### `domain-model.md`
+
+# Domain model Markdown
+
+This skill’s **domain model** is captured in Markdown (and optionally a parallel **Draw.io** class diagram). Use the checked-in **`templates/domain model template.md`** when starting a new companion doc; keep the same semantics as **`templates/domain model template.drawio`** when both exist.
+
+---
+
+## Domain concept template
+
+Each **domain concept** (class, interface, value object, or aggregate) is documented under a clear heading, for example:
+
+```markdown
+## **Payment**
+
+**Responsibilities:** …
+
+### Properties
+- Money amount
+- …
+
+### Operations
+- initiate() → Authorization
+```
+
+From **Step 5** onward, prefer **typed** members (see **Notation evolution** below). Earlier steps stay **pre-notation** (bullets and prose).
+
+---
+
+## Continual refinement — class definition + diagram
+
+**Continual refinement** means you **grow** the model across steps: each step file may add or tighten concepts. The Markdown spec and the class diagram are **two views of the same model** — update both when your project uses dual artifacts so they do not drift (see **[Class diagrams](class-diagrams.md)**).
+
+---
+
+## **newly added** tag
+
+In the **worked example** threads (e.g. payments), the marker **`**newly added**`** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
+
+---
+
+## Notation evolution
+
+| Phase | Markdown style |
+|--------|------------------|
+| **Steps 1–4** | Informal: bullets, short phrases, responsibilities, candidate names. **No** required `- <type> property` lines yet. |
+| **Step 5+** | Formal typed members: `- <Type> propertyName`, `operationName(...) → ReturnType`. |
+
+---
+
+## Subtype sections
+
+When you introduce substitutable specializations, add an explicit subtype heading so the structure is visible in the spec and in diagrams:
+
+```markdown
+### **Subtype** : **PaymentMethod**
+```
+
+Put **`**newly added**`** on subtype **operation** (or property) lines when that member is **first** introduced for that subtype.
+
+---
+
+## Invariants
+
+Attach invariants to the **property** or **operation** they constrain, using a dedicated line:
+
+```markdown
+**Invariant:** …
+```
+
+Mark **`**newly added**`** when you **first** attach an invariant to a given member line.
+
+---
+
+## Early steps: terms, mechanisms, story map
+
+Before typed properties exist, align extracted **nouns, verbs, rules, states** with your workspace’s **terms & mechanisms** and **shaped story map** (or equivalent). That is the same “grow the model as you go” idea: informal extraction first, then formal types.
+
+---
+
+## Class diagram and spec (visual twin)
+
+When you maintain a machine-readable spec such as **`map-model-spec.json`**, re-run your project’s class-diagram render script (for example **`render_map_model_class_diagram.py`**) after material changes so the **Draw.io** diagram stays the **visual twin** of the spec.
+
+- **[Class diagrams](class-diagrams.md)** — templates, relationship types, keeping `.md` and `.drawio` aligned.  
+- **[Using the Diagram CLI](using-diagram-cli.md)** — building diagrams with **`scripts/drawio_cli.py`**.
+
+---
+
+## Related library shards
+
+| Topic | File |
+|--------|------|
+| Term tracking across steps | [term-registry.md](term-registry.md) |
+| Strategy-led runs | [strategy-led-generation.md](strategy-led-generation.md) |
+| Layout and lanes | [class-diagram-layout-rules.md](class-diagram-layout-rules.md) |
 
 
 ---
@@ -16581,7 +17982,7 @@ Domain scan (OOAD **phase 1**) does not only produce a single “results” file
 
 For the scan procedure itself, see the **Domain scan** phase. This page explains **what each artifact is for** and how **`strategy.md`** relates to **`domain-scan-results.md`**.
 
-**Checkbox discipline:** Live ticks for pipeline position and phase steps belong only under **`<workspace>/abd-ooad/progress/`** — see **`library/base/checklist.md`** and **`library/strategy-execution-and-checklists.md`**. Do not put tick tables in `strategy.md`.
+**Checkbox discipline:** Live ticks for pipeline position and phase steps belong only under **`<workspace>/abd-ooad/progress/`** — see **`library/strategy-execution-and-checklists.md`**. Do not put tick tables in `strategy.md`.
 
 ---
 
@@ -16592,7 +17993,7 @@ Created during domain scan under `<workspace>/abd-ooad/`:
 | File | Role | Updates after scan? |
 |------|------|---------------------|
 | `domain-scan-results.md` | **Findings snapshot:** source map, anchor table, tensions. | Rarely — only if you correct a scan error. Do not put the forward plan here; that belongs in `strategy.md`. |
-| `strategy.md` | **Living strategy:** **modeling scope**, **execution plan (normative)** — which phases in what order and on what slice of context — plus **approach** and **dated pivots**. | **Yes** — whenever scope, order, or focus changes. |
+| `strategy.md` | **Living strategy:** **modeling scope**; **§1 source slices** (table: Order, Goal, **Source** — chapters, files, modules, or mixed — **Coverage**, **Importance**); **§2 slice plan** (per-slice **goal restated** + **phases**); **coverage across steps**; **cross-slice integration**; **anchor and subdomain elaboration**; **execution plan (normative)** — phase slugs with **slice IDs** on every line; plus **approach** and **dated pivots**. | **Yes** — whenever scope, order, slice depth, subdomain mapping, or integration changes. |
 | `domain-scan-model.md` | Class sketch (markdown) at scan fidelity. | Yes, in later phases — not only during scan. |
 | `domain-scan-model.drawio` | Diagram at scan fidelity. | Same as model.md. |
 | `term-registry.md` | Terms, **Classification** (model role), **Status** (OOAD scale), confidence — seeded at scan. | **Yes** — every later phase updates Step, Classification, and Status as the model evolves. |
@@ -16606,7 +18007,7 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 ## What `strategy.md` is for
 
 - Created at the end of domain scan as a **workspace file**, then **kept current** through extraction and later phases.
-- **Purpose:** (1) **scope** — what chapters, anchors, or files you model; (2) **execution plan** — ordered list of phase slugs with **per-step scope** (e.g. run nouns-verbs on Chapter 5, then the next three phases on Chapter 6); (3) short **why** in *Approach going forward* and **pivots** in *Ongoing strategic decisions*. Scan mechanics live in **`domain-scan-results.md`**.
+- **Purpose:** (1) **scope** — what product or corpus you model; (2) **§1 source slices** — ordered table (**Goal**, **Source**, **Coverage**, **Importance**); **Source** is any locator (chapters, page ranges, repo paths, modules — not only document sections); (3) **§2 slice plan** — per slice, **goal restated** and **phases** (execution steps); (4) **coverage across steps** — matrix proving every in-scope slice is addressed or deferred; (5) **cross-slice integration** — handoffs between slices; (6) **anchor and subdomain elaboration** — attached types (e.g. Ability, Skill, Advantage) mapped to **slice IDs** and execution **§**; (7) **execution plan** — each line names **slice IDs**; breadth steps must **include** subdomain slices in **nouns-verbs** / **raw-candidate-list** where relevant; (8) **Approach** + **Ongoing strategic decisions**. Scan mechanics stay in **`domain-scan-results.md`**.
 - **Template:** `templates/strategy.md`. Install as **`strategy.md`** (lowercase; avoid duplicate `STRATEGY.md` on case-insensitive disks).
 - After you finalize the execution plan, align **`progress/strategy-run-checklist.md`** with it (same phases and scope); that file holds **checkboxes** for “which phase is done,” while **`strategy.md`** stays **normative text** (no `- [ ]`).
 
@@ -16617,7 +18018,7 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 | Question | Answer |
 |----------|--------|
 | Where is the source map and anchor list? | `domain-scan-results.md` |
-| Where do I define “we model Chapter 5 first, then Chapter 6” and **which phases** per slice? | `strategy.md` → **Modeling scope** + **Execution plan (normative)** |
+| Where do I define **which slices** exist (chapters, files, modules, …), **depth**, **subdomains per anchor**, and **which phases** hit which? | `strategy.md` → **§1 Source slices**, **§2 Slice plan**, **Coverage across steps**, **Cross-slice integration**, **Anchor and subdomain elaboration**, **Execution plan (normative)** |
 | Where do I tick **which phases** we ran, **in order**, with **scope**? | **`abd-ooad/progress/strategy-run-checklist.md`** (keep in sync with `strategy.md`) |
 | Where do I tick **full** pipeline position (all phases)? | **`abd-ooad/progress/process-checklist.md`** (optional reference) |
 | Where do I tick **steps inside** the current phase? | **`abd-ooad/progress/<phase>-checklist.md`** |
@@ -16642,7 +18043,7 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 - Strategy vs checklists: **`library/strategy-execution-and-checklists.md`**
 - Anchors: `anchors` in this library
 - Term registry: `term-registry` in this library
-- Checklist norm: `library/base/checklist.md`
+- Checklist norm: `library/strategy-execution-and-checklists.md`
 
 
 ---
@@ -16651,7 +18052,9 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 
 # Strategy execution and checklists (abd-ooad)
 
-OOAD uses **three** checklist layers under **`<workspace>/abd-ooad/progress/`**. Only **`strategy.md`** defines **scope** and **which phases in what order**; checklists are where you **tick** progress.
+**Canonical doc** for: (1) **strategy** vs **live ticks**, (2) **which files** hold checkboxes, (3) **how** `generate.py` creates workspace **`progress/`** files. Does **not** replace **[process.md](../process.md)** (process tables, `generate` / `build`) or **[skill-structure-and-concepts.md](../base/skill-structure-and-concepts.md)** (repo layout).
+
+Only **`strategy.md`** defines **scope** and **which phases in what order**; checklists are where you **tick** progress.
 
 ---
 
@@ -16659,29 +18062,55 @@ OOAD uses **three** checklist layers under **`<workspace>/abd-ooad/progress/`**.
 
 1. **Domain scan** — produce scan artifacts (see **`strategy-led-generation`**).
 2. **Strategy** — fill **`strategy.md`** from **`templates/strategy.md`**:
-   - **Modeling scope** — chapters, anchors, files, in/out of scope.
-   - **Execution plan (normative)** — ordered list of phase **slugs** (from **`skill-config.json` → `phase_files`**) plus **scope per step** (e.g. “nouns-verbs on Chapter 5 only”).
+   - **Modeling scope** — corpus or product boundary; **source type** (book vs repo vs mixed).
+   - **§1 Source slices** — ordered table: **Goal**, **Source** (chapters, files, modules, APIs — whatever locates work), **Coverage** (depth this pass), **Importance**; stable **slice IDs** reused everywhere.
+   - **§2 Slice plan** — per slice: **goal restated**, **unit kind**, **phases** (execution step numbers / slugs), produces, depends-on.
+   - **Coverage across steps** — matrix: every slice → which **execution plan** steps touch it → **depth** → deferrals.
+   - **Cross-slice integration** — cross-boundary types and ordering (From → To + narrative).
+   - **Anchor and subdomain elaboration** (when anchors have attached types) — map subdomains to slices and execution §.
+   - **Execution plan (normative)** — ordered phase **slugs**; **each line cites slice IDs** (mirror **`strategy-run-checklist.md`**).
    - **Approach going forward** + **Ongoing strategic decisions** — short narrative and dated pivots.
-3. **Align live checklists** — keep **`strategy-run-checklist.md`** in sync with the execution plan (same order and scope). Seed file: **`templates/strategy-run-checklist.md`** (created under **`progress/`** on first **`generate.py`** when missing).
+3. **Align live checklists** — keep **`strategy-run-checklist.md`** in sync with the execution plan (same order and scope). Optional **`templates/strategy-run-checklist.md`** seed; optional **`templates/progress-README.md`** → **`progress/README.md`** for slice-specific files under **`progress/slices/`**.
 4. **Run phases** — for the **current** phase: `python scripts/base/generate.py --phase <slug>`. Tick **`strategy-run-checklist.md`** when a phase is **done** for its declared scope; tick **`<slug>-checklist.md`** for **steps inside** that phase.
 
 ---
 
-## Three layers
+## Three layers (what you tick)
 
 | Layer | File | What you tick |
 | --- | --- | --- |
-| **Strategy execution** | **`progress/strategy-run-checklist.md`** | **Which phases** you will run, **in order**, each with **scope** (matches **`strategy.md` → Execution plan**). Use this for “next three steps per chapter” or “whole pipeline on anchor X.” |
+| **Strategy execution** | **`progress/strategy-run-checklist.md`** | **Which phases** you will run, **in order**, each with **scope** that **includes the same slice IDs** as **`strategy.md` → Execution plan**. Optional: **`progress/slices/<slice-id>-checklist.md`** per slice — see **`progress/README.md`** in the workspace (if present). |
 | **Full pipeline (reference)** | **`progress/process-checklist.md`** | **Every** phase in **`phase_files`** — useful as a map; optional if you rely only on strategy-run. |
 | **Phase steps** | **`progress/<phase>-checklist.md`** | **Action checklist** copied from **`content/parts/phases/<phase>.md` → ## Action Checklist**. |
 
-**Normative rules** for pipeline + phase checklists: **`library/base/checklist.md`**. **Implementation:** **`scripts/base/workspace_checklists.py`**.
+**Implementation:** **`scripts/base/workspace_checklists.py`** (paths, behavior, `--no-ensure-checklists`).
+
+---
+
+## How workspace checklist files are created (mechanical)
+
+| Kind | What it tracks | Where it lives | How it gets there |
+| --- | --- | --- | --- |
+| **Normative reference** | Rules in **this document** — strategy vs ticks, layers, `generate.py` behavior | **`content/parts/library/strategy-execution-and-checklists.md`** | Authored in the skill; **not** created by **`generate.py`**. |
+| **Pipeline position** | Which **phase** of the pipeline you are in | **`<active_skill_workspace>/<skill_name>/progress/process-checklist.md`** | **Created** on first **`python scripts/base/generate.py --phase <slug>`** when that file is **missing**, if **`skill-config.json` → `workspace.active_skill_workspace`** is set. One `- [ ]` line per slug in **`phase_files`** (labels from **`phase_section_headings`** when present). **Does not overwrite** an existing file. |
+| **Phase action steps** | **Steps inside** the current phase | **`<active_skill_workspace>/<skill_name>/progress/<phase-slug>-checklist.md`** | **Created** in the **same** `generate.py` run when that file is **missing**. Steps are taken from **`## Action Checklist`** in **`content/parts/phases/<phase-slug>.md`**, or from task lines (`- [ ]` / `- [x]`) in that file if the section is absent. **Does not overwrite** an existing file. |
+| **Strategy execution** (workspace) | Ordered phases matching **`strategy.md`** | **`progress/strategy-run-checklist.md`** | Seeded from template when **`generate.py`** / workspace checklist logic creates it; **you** align it with **`strategy.md`**. |
+
+### Names and workspace
+
+- **`skill_name`** — **`skill-config.json` → `name`** (fallback: skill directory name). Used in **`…/<skill_name>/progress/`**.
+- **`active_skill_workspace`** — Must point at the **project / engagement tree** where **`progress/`** checklists belong, **not** the skill install folder. See **`skill-config.json` → `workspace`** and **[workspace-and-config.md](phases/workspace-and-config.md)**.
+
+### Flags
+
+- **`python scripts/base/generate.py --phase <slug> --no-ensure-checklists`** — run the phase prompt **without** creating missing **`progress/`** checklist files (see **`workspace_checklists.py`**).
 
 ---
 
 ## What not to do
 
 - Do not put **checkboxes** in **`strategy.md`** — keep execution plan as **normative numbered/bulleted text**; ticks live under **`progress/`**.
+- Do not record pipeline or phase **session** progress by ticking boxes in **`content/parts/process.md`** or **`content/parts/phases/*.md`** — those stay **normative**; live ticks go **only** under **`…/progress/`**.
 - Do not let **`strategy-run-checklist.md`** drift from **`strategy.md`** — after a pivot, update both and append a line under *Ongoing strategic decisions*.
 
 ---
@@ -16689,6 +18118,14 @@ OOAD uses **three** checklist layers under **`<workspace>/abd-ooad/progress/`**.
 ## Phase slugs
 
 Use exact slugs from **`skill-config.json` → `phase_files`** (e.g. `nouns-verbs-rules-and-states`, `domain-scan`). Labels for humans are in **`phase_section_headings`**.
+
+---
+
+## References
+
+- **`strategy-led-generation.md`** — artifact roles, **`strategy.md`** vs **`domain-scan-results.md`**
+- **`templates/strategy.md`**, **`templates/progress-README.md`**
+- **`scripts/base/workspace_checklists.py`**
 
 
 ---
@@ -17294,12 +18731,14 @@ Use a note (folded-corner rectangle) connected to the class by a dashed line:
 
 The CLI does not yet support notes — add them manually in draw.io after CLI build. Use: Insert → Shape → Note. Connect to the target class with a dashed edge. Enclose invariant text in `{ }`.
 
+**Module / package (UML frame) notes:** For commentary that applies to a whole **module** (the outer `umlFrame` / package boundary from `add-frame`), attach the same Note shape to the **frame’s perimeter** (snap the connector to the frame edge), not to an inner class. Use the same dashed connector style as class notes. This keeps module-level invariants or scope reminders visually tied to the subsystem boundary.
+
 ### When to add invariants
 
 | Phase | Add invariants? |
 |-------|----------------|
 | domain-scan | Yes — add the invariants you found during the scan (inline preferred at this fidelity) |
-| nouns-verbs | No — extraction only; invariants captured in registry notes |
+| domain-noun-verb (Step 1) | No — extraction only; invariants captured in registry notes |
 | raw-candidate-list through responsibilities | Yes — as invariants become confirmed, add to diagram |
 | Full model phases | Yes — invariants are a required part of the final model |
 
@@ -18135,7 +19574,7 @@ You are the **domain modeler and OOAD practitioner** using this skill: you provi
 
 **Upstream:** `invariants-in-the-model.md`.
 
-> **Continual refinement:** Aligns with **abd-maps-models-specs** [`domain-model.md`](../../abd-maps-models-specs/content/parts/library/domain-model.md) (*Domain concept* template, *Continual refinement — class definition + diagram*). In this payments thread, **`**newly added**`** marks a property or operation line **first introduced in this step file** (Steps 1–4 stay pre-notation; formal `- <type> property` / `operation(...) → return` lines begin at Step 5).
+> **Continual refinement:** Full notation is in **[Domain model Markdown](content/parts/library/domain-model.md)** (*Domain concept* template; class definition and diagram refined together). In this payments thread, **`**newly added**`** marks a property or operation line **first introduced in this step file** (Steps 1–4 stay pre-notation; formal `- <type> property` / `operation(...) → return` lines begin at Step 5).
 
 ---
 
@@ -18194,6 +19633,106 @@ Ask whether **“user”** / **payer** / **admin** are one abstraction or **smas
 
 ## Library
 
+
+
+---
+
+### `domain-model.md`
+
+# Domain model Markdown
+
+This skill’s **domain model** is captured in Markdown (and optionally a parallel **Draw.io** class diagram). Use the checked-in **`templates/domain model template.md`** when starting a new companion doc; keep the same semantics as **`templates/domain model template.drawio`** when both exist.
+
+---
+
+## Domain concept template
+
+Each **domain concept** (class, interface, value object, or aggregate) is documented under a clear heading, for example:
+
+```markdown
+## **Payment**
+
+**Responsibilities:** …
+
+### Properties
+- Money amount
+- …
+
+### Operations
+- initiate() → Authorization
+```
+
+From **Step 5** onward, prefer **typed** members (see **Notation evolution** below). Earlier steps stay **pre-notation** (bullets and prose).
+
+---
+
+## Continual refinement — class definition + diagram
+
+**Continual refinement** means you **grow** the model across steps: each step file may add or tighten concepts. The Markdown spec and the class diagram are **two views of the same model** — update both when your project uses dual artifacts so they do not drift (see **[Class diagrams](class-diagrams.md)**).
+
+---
+
+## **newly added** tag
+
+In the **worked example** threads (e.g. payments), the marker **`**newly added**`** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
+
+---
+
+## Notation evolution
+
+| Phase | Markdown style |
+|--------|------------------|
+| **Steps 1–4** | Informal: bullets, short phrases, responsibilities, candidate names. **No** required `- <type> property` lines yet. |
+| **Step 5+** | Formal typed members: `- <Type> propertyName`, `operationName(...) → ReturnType`. |
+
+---
+
+## Subtype sections
+
+When you introduce substitutable specializations, add an explicit subtype heading so the structure is visible in the spec and in diagrams:
+
+```markdown
+### **Subtype** : **PaymentMethod**
+```
+
+Put **`**newly added**`** on subtype **operation** (or property) lines when that member is **first** introduced for that subtype.
+
+---
+
+## Invariants
+
+Attach invariants to the **property** or **operation** they constrain, using a dedicated line:
+
+```markdown
+**Invariant:** …
+```
+
+Mark **`**newly added**`** when you **first** attach an invariant to a given member line.
+
+---
+
+## Early steps: terms, mechanisms, story map
+
+Before typed properties exist, align extracted **nouns, verbs, rules, states** with your workspace’s **terms & mechanisms** and **shaped story map** (or equivalent). That is the same “grow the model as you go” idea: informal extraction first, then formal types.
+
+---
+
+## Class diagram and spec (visual twin)
+
+When you maintain a machine-readable spec such as **`map-model-spec.json`**, re-run your project’s class-diagram render script (for example **`render_map_model_class_diagram.py`**) after material changes so the **Draw.io** diagram stays the **visual twin** of the spec.
+
+- **[Class diagrams](class-diagrams.md)** — templates, relationship types, keeping `.md` and `.drawio` aligned.  
+- **[Using the Diagram CLI](using-diagram-cli.md)** — building diagrams with **`scripts/drawio_cli.py`**.
+
+---
+
+## Related library shards
+
+| Topic | File |
+|--------|------|
+| Term tracking across steps | [term-registry.md](term-registry.md) |
+| Strategy-led runs | [strategy-led-generation.md](strategy-led-generation.md) |
+| Layout and lanes | [class-diagram-layout-rules.md](class-diagram-layout-rules.md) |
 
 
 ---
@@ -18289,7 +19828,7 @@ Domain scan (OOAD **phase 1**) does not only produce a single “results” file
 
 For the scan procedure itself, see the **Domain scan** phase. This page explains **what each artifact is for** and how **`strategy.md`** relates to **`domain-scan-results.md`**.
 
-**Checkbox discipline:** Live ticks for pipeline position and phase steps belong only under **`<workspace>/abd-ooad/progress/`** — see **`library/base/checklist.md`** and **`library/strategy-execution-and-checklists.md`**. Do not put tick tables in `strategy.md`.
+**Checkbox discipline:** Live ticks for pipeline position and phase steps belong only under **`<workspace>/abd-ooad/progress/`** — see **`library/strategy-execution-and-checklists.md`**. Do not put tick tables in `strategy.md`.
 
 ---
 
@@ -18300,7 +19839,7 @@ Created during domain scan under `<workspace>/abd-ooad/`:
 | File | Role | Updates after scan? |
 |------|------|---------------------|
 | `domain-scan-results.md` | **Findings snapshot:** source map, anchor table, tensions. | Rarely — only if you correct a scan error. Do not put the forward plan here; that belongs in `strategy.md`. |
-| `strategy.md` | **Living strategy:** **modeling scope**, **execution plan (normative)** — which phases in what order and on what slice of context — plus **approach** and **dated pivots**. | **Yes** — whenever scope, order, or focus changes. |
+| `strategy.md` | **Living strategy:** **modeling scope**; **§1 source slices** (table: Order, Goal, **Source** — chapters, files, modules, or mixed — **Coverage**, **Importance**); **§2 slice plan** (per-slice **goal restated** + **phases**); **coverage across steps**; **cross-slice integration**; **anchor and subdomain elaboration**; **execution plan (normative)** — phase slugs with **slice IDs** on every line; plus **approach** and **dated pivots**. | **Yes** — whenever scope, order, slice depth, subdomain mapping, or integration changes. |
 | `domain-scan-model.md` | Class sketch (markdown) at scan fidelity. | Yes, in later phases — not only during scan. |
 | `domain-scan-model.drawio` | Diagram at scan fidelity. | Same as model.md. |
 | `term-registry.md` | Terms, **Classification** (model role), **Status** (OOAD scale), confidence — seeded at scan. | **Yes** — every later phase updates Step, Classification, and Status as the model evolves. |
@@ -18314,7 +19853,7 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 ## What `strategy.md` is for
 
 - Created at the end of domain scan as a **workspace file**, then **kept current** through extraction and later phases.
-- **Purpose:** (1) **scope** — what chapters, anchors, or files you model; (2) **execution plan** — ordered list of phase slugs with **per-step scope** (e.g. run nouns-verbs on Chapter 5, then the next three phases on Chapter 6); (3) short **why** in *Approach going forward* and **pivots** in *Ongoing strategic decisions*. Scan mechanics live in **`domain-scan-results.md`**.
+- **Purpose:** (1) **scope** — what product or corpus you model; (2) **§1 source slices** — ordered table (**Goal**, **Source**, **Coverage**, **Importance**); **Source** is any locator (chapters, page ranges, repo paths, modules — not only document sections); (3) **§2 slice plan** — per slice, **goal restated** and **phases** (execution steps); (4) **coverage across steps** — matrix proving every in-scope slice is addressed or deferred; (5) **cross-slice integration** — handoffs between slices; (6) **anchor and subdomain elaboration** — attached types (e.g. Ability, Skill, Advantage) mapped to **slice IDs** and execution **§**; (7) **execution plan** — each line names **slice IDs**; breadth steps must **include** subdomain slices in **nouns-verbs** / **raw-candidate-list** where relevant; (8) **Approach** + **Ongoing strategic decisions**. Scan mechanics stay in **`domain-scan-results.md`**.
 - **Template:** `templates/strategy.md`. Install as **`strategy.md`** (lowercase; avoid duplicate `STRATEGY.md` on case-insensitive disks).
 - After you finalize the execution plan, align **`progress/strategy-run-checklist.md`** with it (same phases and scope); that file holds **checkboxes** for “which phase is done,” while **`strategy.md`** stays **normative text** (no `- [ ]`).
 
@@ -18325,7 +19864,7 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 | Question | Answer |
 |----------|--------|
 | Where is the source map and anchor list? | `domain-scan-results.md` |
-| Where do I define “we model Chapter 5 first, then Chapter 6” and **which phases** per slice? | `strategy.md` → **Modeling scope** + **Execution plan (normative)** |
+| Where do I define **which slices** exist (chapters, files, modules, …), **depth**, **subdomains per anchor**, and **which phases** hit which? | `strategy.md` → **§1 Source slices**, **§2 Slice plan**, **Coverage across steps**, **Cross-slice integration**, **Anchor and subdomain elaboration**, **Execution plan (normative)** |
 | Where do I tick **which phases** we ran, **in order**, with **scope**? | **`abd-ooad/progress/strategy-run-checklist.md`** (keep in sync with `strategy.md`) |
 | Where do I tick **full** pipeline position (all phases)? | **`abd-ooad/progress/process-checklist.md`** (optional reference) |
 | Where do I tick **steps inside** the current phase? | **`abd-ooad/progress/<phase>-checklist.md`** |
@@ -18350,7 +19889,7 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 - Strategy vs checklists: **`library/strategy-execution-and-checklists.md`**
 - Anchors: `anchors` in this library
 - Term registry: `term-registry` in this library
-- Checklist norm: `library/base/checklist.md`
+- Checklist norm: `library/strategy-execution-and-checklists.md`
 
 
 ---
@@ -18359,7 +19898,9 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 
 # Strategy execution and checklists (abd-ooad)
 
-OOAD uses **three** checklist layers under **`<workspace>/abd-ooad/progress/`**. Only **`strategy.md`** defines **scope** and **which phases in what order**; checklists are where you **tick** progress.
+**Canonical doc** for: (1) **strategy** vs **live ticks**, (2) **which files** hold checkboxes, (3) **how** `generate.py` creates workspace **`progress/`** files. Does **not** replace **[process.md](../process.md)** (process tables, `generate` / `build`) or **[skill-structure-and-concepts.md](../base/skill-structure-and-concepts.md)** (repo layout).
+
+Only **`strategy.md`** defines **scope** and **which phases in what order**; checklists are where you **tick** progress.
 
 ---
 
@@ -18367,29 +19908,55 @@ OOAD uses **three** checklist layers under **`<workspace>/abd-ooad/progress/`**.
 
 1. **Domain scan** — produce scan artifacts (see **`strategy-led-generation`**).
 2. **Strategy** — fill **`strategy.md`** from **`templates/strategy.md`**:
-   - **Modeling scope** — chapters, anchors, files, in/out of scope.
-   - **Execution plan (normative)** — ordered list of phase **slugs** (from **`skill-config.json` → `phase_files`**) plus **scope per step** (e.g. “nouns-verbs on Chapter 5 only”).
+   - **Modeling scope** — corpus or product boundary; **source type** (book vs repo vs mixed).
+   - **§1 Source slices** — ordered table: **Goal**, **Source** (chapters, files, modules, APIs — whatever locates work), **Coverage** (depth this pass), **Importance**; stable **slice IDs** reused everywhere.
+   - **§2 Slice plan** — per slice: **goal restated**, **unit kind**, **phases** (execution step numbers / slugs), produces, depends-on.
+   - **Coverage across steps** — matrix: every slice → which **execution plan** steps touch it → **depth** → deferrals.
+   - **Cross-slice integration** — cross-boundary types and ordering (From → To + narrative).
+   - **Anchor and subdomain elaboration** (when anchors have attached types) — map subdomains to slices and execution §.
+   - **Execution plan (normative)** — ordered phase **slugs**; **each line cites slice IDs** (mirror **`strategy-run-checklist.md`**).
    - **Approach going forward** + **Ongoing strategic decisions** — short narrative and dated pivots.
-3. **Align live checklists** — keep **`strategy-run-checklist.md`** in sync with the execution plan (same order and scope). Seed file: **`templates/strategy-run-checklist.md`** (created under **`progress/`** on first **`generate.py`** when missing).
+3. **Align live checklists** — keep **`strategy-run-checklist.md`** in sync with the execution plan (same order and scope). Optional **`templates/strategy-run-checklist.md`** seed; optional **`templates/progress-README.md`** → **`progress/README.md`** for slice-specific files under **`progress/slices/`**.
 4. **Run phases** — for the **current** phase: `python scripts/base/generate.py --phase <slug>`. Tick **`strategy-run-checklist.md`** when a phase is **done** for its declared scope; tick **`<slug>-checklist.md`** for **steps inside** that phase.
 
 ---
 
-## Three layers
+## Three layers (what you tick)
 
 | Layer | File | What you tick |
 | --- | --- | --- |
-| **Strategy execution** | **`progress/strategy-run-checklist.md`** | **Which phases** you will run, **in order**, each with **scope** (matches **`strategy.md` → Execution plan**). Use this for “next three steps per chapter” or “whole pipeline on anchor X.” |
+| **Strategy execution** | **`progress/strategy-run-checklist.md`** | **Which phases** you will run, **in order**, each with **scope** that **includes the same slice IDs** as **`strategy.md` → Execution plan**. Optional: **`progress/slices/<slice-id>-checklist.md`** per slice — see **`progress/README.md`** in the workspace (if present). |
 | **Full pipeline (reference)** | **`progress/process-checklist.md`** | **Every** phase in **`phase_files`** — useful as a map; optional if you rely only on strategy-run. |
 | **Phase steps** | **`progress/<phase>-checklist.md`** | **Action checklist** copied from **`content/parts/phases/<phase>.md` → ## Action Checklist**. |
 
-**Normative rules** for pipeline + phase checklists: **`library/base/checklist.md`**. **Implementation:** **`scripts/base/workspace_checklists.py`**.
+**Implementation:** **`scripts/base/workspace_checklists.py`** (paths, behavior, `--no-ensure-checklists`).
+
+---
+
+## How workspace checklist files are created (mechanical)
+
+| Kind | What it tracks | Where it lives | How it gets there |
+| --- | --- | --- | --- |
+| **Normative reference** | Rules in **this document** — strategy vs ticks, layers, `generate.py` behavior | **`content/parts/library/strategy-execution-and-checklists.md`** | Authored in the skill; **not** created by **`generate.py`**. |
+| **Pipeline position** | Which **phase** of the pipeline you are in | **`<active_skill_workspace>/<skill_name>/progress/process-checklist.md`** | **Created** on first **`python scripts/base/generate.py --phase <slug>`** when that file is **missing**, if **`skill-config.json` → `workspace.active_skill_workspace`** is set. One `- [ ]` line per slug in **`phase_files`** (labels from **`phase_section_headings`** when present). **Does not overwrite** an existing file. |
+| **Phase action steps** | **Steps inside** the current phase | **`<active_skill_workspace>/<skill_name>/progress/<phase-slug>-checklist.md`** | **Created** in the **same** `generate.py` run when that file is **missing**. Steps are taken from **`## Action Checklist`** in **`content/parts/phases/<phase-slug>.md`**, or from task lines (`- [ ]` / `- [x]`) in that file if the section is absent. **Does not overwrite** an existing file. |
+| **Strategy execution** (workspace) | Ordered phases matching **`strategy.md`** | **`progress/strategy-run-checklist.md`** | Seeded from template when **`generate.py`** / workspace checklist logic creates it; **you** align it with **`strategy.md`**. |
+
+### Names and workspace
+
+- **`skill_name`** — **`skill-config.json` → `name`** (fallback: skill directory name). Used in **`…/<skill_name>/progress/`**.
+- **`active_skill_workspace`** — Must point at the **project / engagement tree** where **`progress/`** checklists belong, **not** the skill install folder. See **`skill-config.json` → `workspace`** and **[workspace-and-config.md](phases/workspace-and-config.md)**.
+
+### Flags
+
+- **`python scripts/base/generate.py --phase <slug> --no-ensure-checklists`** — run the phase prompt **without** creating missing **`progress/`** checklist files (see **`workspace_checklists.py`**).
 
 ---
 
 ## What not to do
 
 - Do not put **checkboxes** in **`strategy.md`** — keep execution plan as **normative numbered/bulleted text**; ticks live under **`progress/`**.
+- Do not record pipeline or phase **session** progress by ticking boxes in **`content/parts/process.md`** or **`content/parts/phases/*.md`** — those stay **normative**; live ticks go **only** under **`…/progress/`**.
 - Do not let **`strategy-run-checklist.md`** drift from **`strategy.md`** — after a pivot, update both and append a line under *Ongoing strategic decisions*.
 
 ---
@@ -18397,6 +19964,14 @@ OOAD uses **three** checklist layers under **`<workspace>/abd-ooad/progress/`**.
 ## Phase slugs
 
 Use exact slugs from **`skill-config.json` → `phase_files`** (e.g. `nouns-verbs-rules-and-states`, `domain-scan`). Labels for humans are in **`phase_section_headings`**.
+
+---
+
+## References
+
+- **`strategy-led-generation.md`** — artifact roles, **`strategy.md`** vs **`domain-scan-results.md`**
+- **`templates/strategy.md`**, **`templates/progress-README.md`**
+- **`scripts/base/workspace_checklists.py`**
 
 
 ---
@@ -19002,12 +20577,14 @@ Use a note (folded-corner rectangle) connected to the class by a dashed line:
 
 The CLI does not yet support notes — add them manually in draw.io after CLI build. Use: Insert → Shape → Note. Connect to the target class with a dashed edge. Enclose invariant text in `{ }`.
 
+**Module / package (UML frame) notes:** For commentary that applies to a whole **module** (the outer `umlFrame` / package boundary from `add-frame`), attach the same Note shape to the **frame’s perimeter** (snap the connector to the frame edge), not to an inner class. Use the same dashed connector style as class notes. This keeps module-level invariants or scope reminders visually tied to the subsystem boundary.
+
 ### When to add invariants
 
 | Phase | Add invariants? |
 |-------|----------------|
 | domain-scan | Yes — add the invariants you found during the scan (inline preferred at this fidelity) |
-| nouns-verbs | No — extraction only; invariants captured in registry notes |
+| domain-noun-verb (Step 1) | No — extraction only; invariants captured in registry notes |
 | raw-candidate-list through responsibilities | Yes — as invariants become confirmed, add to diagram |
 | Full model phases | Yes — invariants are a required part of the final model |
 
@@ -19843,7 +21420,7 @@ You are the **domain modeler and OOAD practitioner** using this skill: you provi
 
 **Upstream:** `garbled-payments-spec.md`.
 
-> **Continual refinement:** Aligns with **abd-maps-models-specs** [`domain-model.md`](../../abd-maps-models-specs/content/parts/library/domain-model.md) (*Domain concept* template, *Continual refinement — class definition + diagram*). In this payments thread, **`**newly added**`** marks a property or operation line **first introduced in this step file** (Steps 1–4 stay pre-notation; formal `- <type> property` / `operation(...) → return` lines begin at Step 5).
+> **Continual refinement:** Full notation is in **[Domain model Markdown](content/parts/library/domain-model.md)** (*Domain concept* template; class definition and diagram refined together). In this payments thread, **`**newly added**`** marks a property or operation line **first introduced in this step file** (Steps 1–4 stay pre-notation; formal `- <type> property` / `operation(...) → return` lines begin at Step 5).
 
 ---
 
@@ -19900,6 +21477,106 @@ Use **inheritance** only if **PaymentMethod** subtypes share substitutable **aut
 
 ## Library
 
+
+
+---
+
+### `domain-model.md`
+
+# Domain model Markdown
+
+This skill’s **domain model** is captured in Markdown (and optionally a parallel **Draw.io** class diagram). Use the checked-in **`templates/domain model template.md`** when starting a new companion doc; keep the same semantics as **`templates/domain model template.drawio`** when both exist.
+
+---
+
+## Domain concept template
+
+Each **domain concept** (class, interface, value object, or aggregate) is documented under a clear heading, for example:
+
+```markdown
+## **Payment**
+
+**Responsibilities:** …
+
+### Properties
+- Money amount
+- …
+
+### Operations
+- initiate() → Authorization
+```
+
+From **Step 5** onward, prefer **typed** members (see **Notation evolution** below). Earlier steps stay **pre-notation** (bullets and prose).
+
+---
+
+## Continual refinement — class definition + diagram
+
+**Continual refinement** means you **grow** the model across steps: each step file may add or tighten concepts. The Markdown spec and the class diagram are **two views of the same model** — update both when your project uses dual artifacts so they do not drift (see **[Class diagrams](class-diagrams.md)**).
+
+---
+
+## **newly added** tag
+
+In the **worked example** threads (e.g. payments), the marker **`**newly added**`** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
+
+---
+
+## Notation evolution
+
+| Phase | Markdown style |
+|--------|------------------|
+| **Steps 1–4** | Informal: bullets, short phrases, responsibilities, candidate names. **No** required `- <type> property` lines yet. |
+| **Step 5+** | Formal typed members: `- <Type> propertyName`, `operationName(...) → ReturnType`. |
+
+---
+
+## Subtype sections
+
+When you introduce substitutable specializations, add an explicit subtype heading so the structure is visible in the spec and in diagrams:
+
+```markdown
+### **Subtype** : **PaymentMethod**
+```
+
+Put **`**newly added**`** on subtype **operation** (or property) lines when that member is **first** introduced for that subtype.
+
+---
+
+## Invariants
+
+Attach invariants to the **property** or **operation** they constrain, using a dedicated line:
+
+```markdown
+**Invariant:** …
+```
+
+Mark **`**newly added**`** when you **first** attach an invariant to a given member line.
+
+---
+
+## Early steps: terms, mechanisms, story map
+
+Before typed properties exist, align extracted **nouns, verbs, rules, states** with your workspace’s **terms & mechanisms** and **shaped story map** (or equivalent). That is the same “grow the model as you go” idea: informal extraction first, then formal types.
+
+---
+
+## Class diagram and spec (visual twin)
+
+When you maintain a machine-readable spec such as **`map-model-spec.json`**, re-run your project’s class-diagram render script (for example **`render_map_model_class_diagram.py`**) after material changes so the **Draw.io** diagram stays the **visual twin** of the spec.
+
+- **[Class diagrams](class-diagrams.md)** — templates, relationship types, keeping `.md` and `.drawio` aligned.  
+- **[Using the Diagram CLI](using-diagram-cli.md)** — building diagrams with **`scripts/drawio_cli.py`**.
+
+---
+
+## Related library shards
+
+| Topic | File |
+|--------|------|
+| Term tracking across steps | [term-registry.md](term-registry.md) |
+| Strategy-led runs | [strategy-led-generation.md](strategy-led-generation.md) |
+| Layout and lanes | [class-diagram-layout-rules.md](class-diagram-layout-rules.md) |
 
 
 ---
@@ -19995,7 +21672,7 @@ Domain scan (OOAD **phase 1**) does not only produce a single “results” file
 
 For the scan procedure itself, see the **Domain scan** phase. This page explains **what each artifact is for** and how **`strategy.md`** relates to **`domain-scan-results.md`**.
 
-**Checkbox discipline:** Live ticks for pipeline position and phase steps belong only under **`<workspace>/abd-ooad/progress/`** — see **`library/base/checklist.md`** and **`library/strategy-execution-and-checklists.md`**. Do not put tick tables in `strategy.md`.
+**Checkbox discipline:** Live ticks for pipeline position and phase steps belong only under **`<workspace>/abd-ooad/progress/`** — see **`library/strategy-execution-and-checklists.md`**. Do not put tick tables in `strategy.md`.
 
 ---
 
@@ -20006,7 +21683,7 @@ Created during domain scan under `<workspace>/abd-ooad/`:
 | File | Role | Updates after scan? |
 |------|------|---------------------|
 | `domain-scan-results.md` | **Findings snapshot:** source map, anchor table, tensions. | Rarely — only if you correct a scan error. Do not put the forward plan here; that belongs in `strategy.md`. |
-| `strategy.md` | **Living strategy:** **modeling scope**, **execution plan (normative)** — which phases in what order and on what slice of context — plus **approach** and **dated pivots**. | **Yes** — whenever scope, order, or focus changes. |
+| `strategy.md` | **Living strategy:** **modeling scope**; **§1 source slices** (table: Order, Goal, **Source** — chapters, files, modules, or mixed — **Coverage**, **Importance**); **§2 slice plan** (per-slice **goal restated** + **phases**); **coverage across steps**; **cross-slice integration**; **anchor and subdomain elaboration**; **execution plan (normative)** — phase slugs with **slice IDs** on every line; plus **approach** and **dated pivots**. | **Yes** — whenever scope, order, slice depth, subdomain mapping, or integration changes. |
 | `domain-scan-model.md` | Class sketch (markdown) at scan fidelity. | Yes, in later phases — not only during scan. |
 | `domain-scan-model.drawio` | Diagram at scan fidelity. | Same as model.md. |
 | `term-registry.md` | Terms, **Classification** (model role), **Status** (OOAD scale), confidence — seeded at scan. | **Yes** — every later phase updates Step, Classification, and Status as the model evolves. |
@@ -20020,7 +21697,7 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 ## What `strategy.md` is for
 
 - Created at the end of domain scan as a **workspace file**, then **kept current** through extraction and later phases.
-- **Purpose:** (1) **scope** — what chapters, anchors, or files you model; (2) **execution plan** — ordered list of phase slugs with **per-step scope** (e.g. run nouns-verbs on Chapter 5, then the next three phases on Chapter 6); (3) short **why** in *Approach going forward* and **pivots** in *Ongoing strategic decisions*. Scan mechanics live in **`domain-scan-results.md`**.
+- **Purpose:** (1) **scope** — what product or corpus you model; (2) **§1 source slices** — ordered table (**Goal**, **Source**, **Coverage**, **Importance**); **Source** is any locator (chapters, page ranges, repo paths, modules — not only document sections); (3) **§2 slice plan** — per slice, **goal restated** and **phases** (execution steps); (4) **coverage across steps** — matrix proving every in-scope slice is addressed or deferred; (5) **cross-slice integration** — handoffs between slices; (6) **anchor and subdomain elaboration** — attached types (e.g. Ability, Skill, Advantage) mapped to **slice IDs** and execution **§**; (7) **execution plan** — each line names **slice IDs**; breadth steps must **include** subdomain slices in **nouns-verbs** / **raw-candidate-list** where relevant; (8) **Approach** + **Ongoing strategic decisions**. Scan mechanics stay in **`domain-scan-results.md`**.
 - **Template:** `templates/strategy.md`. Install as **`strategy.md`** (lowercase; avoid duplicate `STRATEGY.md` on case-insensitive disks).
 - After you finalize the execution plan, align **`progress/strategy-run-checklist.md`** with it (same phases and scope); that file holds **checkboxes** for “which phase is done,” while **`strategy.md`** stays **normative text** (no `- [ ]`).
 
@@ -20031,7 +21708,7 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 | Question | Answer |
 |----------|--------|
 | Where is the source map and anchor list? | `domain-scan-results.md` |
-| Where do I define “we model Chapter 5 first, then Chapter 6” and **which phases** per slice? | `strategy.md` → **Modeling scope** + **Execution plan (normative)** |
+| Where do I define **which slices** exist (chapters, files, modules, …), **depth**, **subdomains per anchor**, and **which phases** hit which? | `strategy.md` → **§1 Source slices**, **§2 Slice plan**, **Coverage across steps**, **Cross-slice integration**, **Anchor and subdomain elaboration**, **Execution plan (normative)** |
 | Where do I tick **which phases** we ran, **in order**, with **scope**? | **`abd-ooad/progress/strategy-run-checklist.md`** (keep in sync with `strategy.md`) |
 | Where do I tick **full** pipeline position (all phases)? | **`abd-ooad/progress/process-checklist.md`** (optional reference) |
 | Where do I tick **steps inside** the current phase? | **`abd-ooad/progress/<phase>-checklist.md`** |
@@ -20056,7 +21733,7 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 - Strategy vs checklists: **`library/strategy-execution-and-checklists.md`**
 - Anchors: `anchors` in this library
 - Term registry: `term-registry` in this library
-- Checklist norm: `library/base/checklist.md`
+- Checklist norm: `library/strategy-execution-and-checklists.md`
 
 
 ---
@@ -20065,7 +21742,9 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 
 # Strategy execution and checklists (abd-ooad)
 
-OOAD uses **three** checklist layers under **`<workspace>/abd-ooad/progress/`**. Only **`strategy.md`** defines **scope** and **which phases in what order**; checklists are where you **tick** progress.
+**Canonical doc** for: (1) **strategy** vs **live ticks**, (2) **which files** hold checkboxes, (3) **how** `generate.py` creates workspace **`progress/`** files. Does **not** replace **[process.md](../process.md)** (process tables, `generate` / `build`) or **[skill-structure-and-concepts.md](../base/skill-structure-and-concepts.md)** (repo layout).
+
+Only **`strategy.md`** defines **scope** and **which phases in what order**; checklists are where you **tick** progress.
 
 ---
 
@@ -20073,29 +21752,55 @@ OOAD uses **three** checklist layers under **`<workspace>/abd-ooad/progress/`**.
 
 1. **Domain scan** — produce scan artifacts (see **`strategy-led-generation`**).
 2. **Strategy** — fill **`strategy.md`** from **`templates/strategy.md`**:
-   - **Modeling scope** — chapters, anchors, files, in/out of scope.
-   - **Execution plan (normative)** — ordered list of phase **slugs** (from **`skill-config.json` → `phase_files`**) plus **scope per step** (e.g. “nouns-verbs on Chapter 5 only”).
+   - **Modeling scope** — corpus or product boundary; **source type** (book vs repo vs mixed).
+   - **§1 Source slices** — ordered table: **Goal**, **Source** (chapters, files, modules, APIs — whatever locates work), **Coverage** (depth this pass), **Importance**; stable **slice IDs** reused everywhere.
+   - **§2 Slice plan** — per slice: **goal restated**, **unit kind**, **phases** (execution step numbers / slugs), produces, depends-on.
+   - **Coverage across steps** — matrix: every slice → which **execution plan** steps touch it → **depth** → deferrals.
+   - **Cross-slice integration** — cross-boundary types and ordering (From → To + narrative).
+   - **Anchor and subdomain elaboration** (when anchors have attached types) — map subdomains to slices and execution §.
+   - **Execution plan (normative)** — ordered phase **slugs**; **each line cites slice IDs** (mirror **`strategy-run-checklist.md`**).
    - **Approach going forward** + **Ongoing strategic decisions** — short narrative and dated pivots.
-3. **Align live checklists** — keep **`strategy-run-checklist.md`** in sync with the execution plan (same order and scope). Seed file: **`templates/strategy-run-checklist.md`** (created under **`progress/`** on first **`generate.py`** when missing).
+3. **Align live checklists** — keep **`strategy-run-checklist.md`** in sync with the execution plan (same order and scope). Optional **`templates/strategy-run-checklist.md`** seed; optional **`templates/progress-README.md`** → **`progress/README.md`** for slice-specific files under **`progress/slices/`**.
 4. **Run phases** — for the **current** phase: `python scripts/base/generate.py --phase <slug>`. Tick **`strategy-run-checklist.md`** when a phase is **done** for its declared scope; tick **`<slug>-checklist.md`** for **steps inside** that phase.
 
 ---
 
-## Three layers
+## Three layers (what you tick)
 
 | Layer | File | What you tick |
 | --- | --- | --- |
-| **Strategy execution** | **`progress/strategy-run-checklist.md`** | **Which phases** you will run, **in order**, each with **scope** (matches **`strategy.md` → Execution plan**). Use this for “next three steps per chapter” or “whole pipeline on anchor X.” |
+| **Strategy execution** | **`progress/strategy-run-checklist.md`** | **Which phases** you will run, **in order**, each with **scope** that **includes the same slice IDs** as **`strategy.md` → Execution plan**. Optional: **`progress/slices/<slice-id>-checklist.md`** per slice — see **`progress/README.md`** in the workspace (if present). |
 | **Full pipeline (reference)** | **`progress/process-checklist.md`** | **Every** phase in **`phase_files`** — useful as a map; optional if you rely only on strategy-run. |
 | **Phase steps** | **`progress/<phase>-checklist.md`** | **Action checklist** copied from **`content/parts/phases/<phase>.md` → ## Action Checklist**. |
 
-**Normative rules** for pipeline + phase checklists: **`library/base/checklist.md`**. **Implementation:** **`scripts/base/workspace_checklists.py`**.
+**Implementation:** **`scripts/base/workspace_checklists.py`** (paths, behavior, `--no-ensure-checklists`).
+
+---
+
+## How workspace checklist files are created (mechanical)
+
+| Kind | What it tracks | Where it lives | How it gets there |
+| --- | --- | --- | --- |
+| **Normative reference** | Rules in **this document** — strategy vs ticks, layers, `generate.py` behavior | **`content/parts/library/strategy-execution-and-checklists.md`** | Authored in the skill; **not** created by **`generate.py`**. |
+| **Pipeline position** | Which **phase** of the pipeline you are in | **`<active_skill_workspace>/<skill_name>/progress/process-checklist.md`** | **Created** on first **`python scripts/base/generate.py --phase <slug>`** when that file is **missing**, if **`skill-config.json` → `workspace.active_skill_workspace`** is set. One `- [ ]` line per slug in **`phase_files`** (labels from **`phase_section_headings`** when present). **Does not overwrite** an existing file. |
+| **Phase action steps** | **Steps inside** the current phase | **`<active_skill_workspace>/<skill_name>/progress/<phase-slug>-checklist.md`** | **Created** in the **same** `generate.py` run when that file is **missing**. Steps are taken from **`## Action Checklist`** in **`content/parts/phases/<phase-slug>.md`**, or from task lines (`- [ ]` / `- [x]`) in that file if the section is absent. **Does not overwrite** an existing file. |
+| **Strategy execution** (workspace) | Ordered phases matching **`strategy.md`** | **`progress/strategy-run-checklist.md`** | Seeded from template when **`generate.py`** / workspace checklist logic creates it; **you** align it with **`strategy.md`**. |
+
+### Names and workspace
+
+- **`skill_name`** — **`skill-config.json` → `name`** (fallback: skill directory name). Used in **`…/<skill_name>/progress/`**.
+- **`active_skill_workspace`** — Must point at the **project / engagement tree** where **`progress/`** checklists belong, **not** the skill install folder. See **`skill-config.json` → `workspace`** and **[workspace-and-config.md](phases/workspace-and-config.md)**.
+
+### Flags
+
+- **`python scripts/base/generate.py --phase <slug> --no-ensure-checklists`** — run the phase prompt **without** creating missing **`progress/`** checklist files (see **`workspace_checklists.py`**).
 
 ---
 
 ## What not to do
 
 - Do not put **checkboxes** in **`strategy.md`** — keep execution plan as **normative numbered/bulleted text**; ticks live under **`progress/`**.
+- Do not record pipeline or phase **session** progress by ticking boxes in **`content/parts/process.md`** or **`content/parts/phases/*.md`** — those stay **normative**; live ticks go **only** under **`…/progress/`**.
 - Do not let **`strategy-run-checklist.md`** drift from **`strategy.md`** — after a pivot, update both and append a line under *Ongoing strategic decisions*.
 
 ---
@@ -20103,6 +21808,14 @@ OOAD uses **three** checklist layers under **`<workspace>/abd-ooad/progress/`**.
 ## Phase slugs
 
 Use exact slugs from **`skill-config.json` → `phase_files`** (e.g. `nouns-verbs-rules-and-states`, `domain-scan`). Labels for humans are in **`phase_section_headings`**.
+
+---
+
+## References
+
+- **`strategy-led-generation.md`** — artifact roles, **`strategy.md`** vs **`domain-scan-results.md`**
+- **`templates/strategy.md`**, **`templates/progress-README.md`**
+- **`scripts/base/workspace_checklists.py`**
 
 
 ---
@@ -20708,12 +22421,14 @@ Use a note (folded-corner rectangle) connected to the class by a dashed line:
 
 The CLI does not yet support notes — add them manually in draw.io after CLI build. Use: Insert → Shape → Note. Connect to the target class with a dashed edge. Enclose invariant text in `{ }`.
 
+**Module / package (UML frame) notes:** For commentary that applies to a whole **module** (the outer `umlFrame` / package boundary from `add-frame`), attach the same Note shape to the **frame’s perimeter** (snap the connector to the frame edge), not to an inner class. Use the same dashed connector style as class notes. This keeps module-level invariants or scope reminders visually tied to the subsystem boundary.
+
 ### When to add invariants
 
 | Phase | Add invariants? |
 |-------|----------------|
 | domain-scan | Yes — add the invariants you found during the scan (inline preferred at this fidelity) |
-| nouns-verbs | No — extraction only; invariants captured in registry notes |
+| domain-noun-verb (Step 1) | No — extraction only; invariants captured in registry notes |
 | raw-candidate-list through responsibilities | Yes — as invariants become confirmed, add to diagram |
 | Full model phases | Yes — invariants are a required part of the final model |
 
@@ -21549,7 +23264,7 @@ You are the **domain modeler and OOAD practitioner** using this skill: you provi
 
 **Upstream:** `turn-verbs-into-operations.md`.
 
-> **Continual refinement:** Aligns with **abd-maps-models-specs** [`domain-model.md`](../../abd-maps-models-specs/content/parts/library/domain-model.md) (*Domain concept* template, *Continual refinement — class definition + diagram*). In this payments thread, **`**newly added**`** marks a property or operation line **first introduced in this step file** (Steps 1–4 stay pre-notation; formal `- <type> property` / `operation(...) → return` lines begin at Step 5).
+> **Continual refinement:** Full notation is in **[Domain model Markdown](content/parts/library/domain-model.md)** (*Domain concept* template; class definition and diagram refined together). In this payments thread, **`**newly added**`** marks a property or operation line **first introduced in this step file** (Steps 1–4 stay pre-notation; formal `- <type> property` / `operation(...) → return` lines begin at Step 5).
 
 ---
 
@@ -21582,7 +23297,7 @@ Formalize **abstract class vs interface** for **PaymentMethod** and **ports** fo
 
 ## Continual refinement (this step)
 
-- **Delta:** **PaymentMethod** family (**CardMethod**, **BankTransferMethod**, **WalletMethod**) as substitutable subtypes — add subtype concept headings per [`domain-model.md`](../../abd-maps-models-specs/content/parts/library/domain-model.md) (`### **Subtype** : **PaymentMethod**`) with **`**newly added**`** on subtype **operation** lines when first introduced.
+- **Delta:** **PaymentMethod** family (**CardMethod**, **BankTransferMethod**, **WalletMethod**) as substitutable subtypes — add subtype concept headings per [Domain model Markdown](content/parts/library/domain-model.md) (`### **Subtype** : **PaymentMethod**`) with **`**newly added**`** on subtype **operation** lines when first introduced.
 
 ---
 
@@ -21605,6 +23320,106 @@ Formalize **abstract class vs interface** for **PaymentMethod** and **ports** fo
 
 ## Library
 
+
+
+---
+
+### `domain-model.md`
+
+# Domain model Markdown
+
+This skill’s **domain model** is captured in Markdown (and optionally a parallel **Draw.io** class diagram). Use the checked-in **`templates/domain model template.md`** when starting a new companion doc; keep the same semantics as **`templates/domain model template.drawio`** when both exist.
+
+---
+
+## Domain concept template
+
+Each **domain concept** (class, interface, value object, or aggregate) is documented under a clear heading, for example:
+
+```markdown
+## **Payment**
+
+**Responsibilities:** …
+
+### Properties
+- Money amount
+- …
+
+### Operations
+- initiate() → Authorization
+```
+
+From **Step 5** onward, prefer **typed** members (see **Notation evolution** below). Earlier steps stay **pre-notation** (bullets and prose).
+
+---
+
+## Continual refinement — class definition + diagram
+
+**Continual refinement** means you **grow** the model across steps: each step file may add or tighten concepts. The Markdown spec and the class diagram are **two views of the same model** — update both when your project uses dual artifacts so they do not drift (see **[Class diagrams](class-diagrams.md)**).
+
+---
+
+## **newly added** tag
+
+In the **worked example** threads (e.g. payments), the marker **`**newly added**`** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
+
+---
+
+## Notation evolution
+
+| Phase | Markdown style |
+|--------|------------------|
+| **Steps 1–4** | Informal: bullets, short phrases, responsibilities, candidate names. **No** required `- <type> property` lines yet. |
+| **Step 5+** | Formal typed members: `- <Type> propertyName`, `operationName(...) → ReturnType`. |
+
+---
+
+## Subtype sections
+
+When you introduce substitutable specializations, add an explicit subtype heading so the structure is visible in the spec and in diagrams:
+
+```markdown
+### **Subtype** : **PaymentMethod**
+```
+
+Put **`**newly added**`** on subtype **operation** (or property) lines when that member is **first** introduced for that subtype.
+
+---
+
+## Invariants
+
+Attach invariants to the **property** or **operation** they constrain, using a dedicated line:
+
+```markdown
+**Invariant:** …
+```
+
+Mark **`**newly added**`** when you **first** attach an invariant to a given member line.
+
+---
+
+## Early steps: terms, mechanisms, story map
+
+Before typed properties exist, align extracted **nouns, verbs, rules, states** with your workspace’s **terms & mechanisms** and **shaped story map** (or equivalent). That is the same “grow the model as you go” idea: informal extraction first, then formal types.
+
+---
+
+## Class diagram and spec (visual twin)
+
+When you maintain a machine-readable spec such as **`map-model-spec.json`**, re-run your project’s class-diagram render script (for example **`render_map_model_class_diagram.py`**) after material changes so the **Draw.io** diagram stays the **visual twin** of the spec.
+
+- **[Class diagrams](class-diagrams.md)** — templates, relationship types, keeping `.md` and `.drawio` aligned.  
+- **[Using the Diagram CLI](using-diagram-cli.md)** — building diagrams with **`scripts/drawio_cli.py`**.
+
+---
+
+## Related library shards
+
+| Topic | File |
+|--------|------|
+| Term tracking across steps | [term-registry.md](term-registry.md) |
+| Strategy-led runs | [strategy-led-generation.md](strategy-led-generation.md) |
+| Layout and lanes | [class-diagram-layout-rules.md](class-diagram-layout-rules.md) |
 
 
 ---
@@ -21700,7 +23515,7 @@ Domain scan (OOAD **phase 1**) does not only produce a single “results” file
 
 For the scan procedure itself, see the **Domain scan** phase. This page explains **what each artifact is for** and how **`strategy.md`** relates to **`domain-scan-results.md`**.
 
-**Checkbox discipline:** Live ticks for pipeline position and phase steps belong only under **`<workspace>/abd-ooad/progress/`** — see **`library/base/checklist.md`** and **`library/strategy-execution-and-checklists.md`**. Do not put tick tables in `strategy.md`.
+**Checkbox discipline:** Live ticks for pipeline position and phase steps belong only under **`<workspace>/abd-ooad/progress/`** — see **`library/strategy-execution-and-checklists.md`**. Do not put tick tables in `strategy.md`.
 
 ---
 
@@ -21711,7 +23526,7 @@ Created during domain scan under `<workspace>/abd-ooad/`:
 | File | Role | Updates after scan? |
 |------|------|---------------------|
 | `domain-scan-results.md` | **Findings snapshot:** source map, anchor table, tensions. | Rarely — only if you correct a scan error. Do not put the forward plan here; that belongs in `strategy.md`. |
-| `strategy.md` | **Living strategy:** **modeling scope**, **execution plan (normative)** — which phases in what order and on what slice of context — plus **approach** and **dated pivots**. | **Yes** — whenever scope, order, or focus changes. |
+| `strategy.md` | **Living strategy:** **modeling scope**; **§1 source slices** (table: Order, Goal, **Source** — chapters, files, modules, or mixed — **Coverage**, **Importance**); **§2 slice plan** (per-slice **goal restated** + **phases**); **coverage across steps**; **cross-slice integration**; **anchor and subdomain elaboration**; **execution plan (normative)** — phase slugs with **slice IDs** on every line; plus **approach** and **dated pivots**. | **Yes** — whenever scope, order, slice depth, subdomain mapping, or integration changes. |
 | `domain-scan-model.md` | Class sketch (markdown) at scan fidelity. | Yes, in later phases — not only during scan. |
 | `domain-scan-model.drawio` | Diagram at scan fidelity. | Same as model.md. |
 | `term-registry.md` | Terms, **Classification** (model role), **Status** (OOAD scale), confidence — seeded at scan. | **Yes** — every later phase updates Step, Classification, and Status as the model evolves. |
@@ -21725,7 +23540,7 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 ## What `strategy.md` is for
 
 - Created at the end of domain scan as a **workspace file**, then **kept current** through extraction and later phases.
-- **Purpose:** (1) **scope** — what chapters, anchors, or files you model; (2) **execution plan** — ordered list of phase slugs with **per-step scope** (e.g. run nouns-verbs on Chapter 5, then the next three phases on Chapter 6); (3) short **why** in *Approach going forward* and **pivots** in *Ongoing strategic decisions*. Scan mechanics live in **`domain-scan-results.md`**.
+- **Purpose:** (1) **scope** — what product or corpus you model; (2) **§1 source slices** — ordered table (**Goal**, **Source**, **Coverage**, **Importance**); **Source** is any locator (chapters, page ranges, repo paths, modules — not only document sections); (3) **§2 slice plan** — per slice, **goal restated** and **phases** (execution steps); (4) **coverage across steps** — matrix proving every in-scope slice is addressed or deferred; (5) **cross-slice integration** — handoffs between slices; (6) **anchor and subdomain elaboration** — attached types (e.g. Ability, Skill, Advantage) mapped to **slice IDs** and execution **§**; (7) **execution plan** — each line names **slice IDs**; breadth steps must **include** subdomain slices in **nouns-verbs** / **raw-candidate-list** where relevant; (8) **Approach** + **Ongoing strategic decisions**. Scan mechanics stay in **`domain-scan-results.md`**.
 - **Template:** `templates/strategy.md`. Install as **`strategy.md`** (lowercase; avoid duplicate `STRATEGY.md` on case-insensitive disks).
 - After you finalize the execution plan, align **`progress/strategy-run-checklist.md`** with it (same phases and scope); that file holds **checkboxes** for “which phase is done,” while **`strategy.md`** stays **normative text** (no `- [ ]`).
 
@@ -21736,7 +23551,7 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 | Question | Answer |
 |----------|--------|
 | Where is the source map and anchor list? | `domain-scan-results.md` |
-| Where do I define “we model Chapter 5 first, then Chapter 6” and **which phases** per slice? | `strategy.md` → **Modeling scope** + **Execution plan (normative)** |
+| Where do I define **which slices** exist (chapters, files, modules, …), **depth**, **subdomains per anchor**, and **which phases** hit which? | `strategy.md` → **§1 Source slices**, **§2 Slice plan**, **Coverage across steps**, **Cross-slice integration**, **Anchor and subdomain elaboration**, **Execution plan (normative)** |
 | Where do I tick **which phases** we ran, **in order**, with **scope**? | **`abd-ooad/progress/strategy-run-checklist.md`** (keep in sync with `strategy.md`) |
 | Where do I tick **full** pipeline position (all phases)? | **`abd-ooad/progress/process-checklist.md`** (optional reference) |
 | Where do I tick **steps inside** the current phase? | **`abd-ooad/progress/<phase>-checklist.md`** |
@@ -21761,7 +23576,7 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 - Strategy vs checklists: **`library/strategy-execution-and-checklists.md`**
 - Anchors: `anchors` in this library
 - Term registry: `term-registry` in this library
-- Checklist norm: `library/base/checklist.md`
+- Checklist norm: `library/strategy-execution-and-checklists.md`
 
 
 ---
@@ -21770,7 +23585,9 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 
 # Strategy execution and checklists (abd-ooad)
 
-OOAD uses **three** checklist layers under **`<workspace>/abd-ooad/progress/`**. Only **`strategy.md`** defines **scope** and **which phases in what order**; checklists are where you **tick** progress.
+**Canonical doc** for: (1) **strategy** vs **live ticks**, (2) **which files** hold checkboxes, (3) **how** `generate.py` creates workspace **`progress/`** files. Does **not** replace **[process.md](../process.md)** (process tables, `generate` / `build`) or **[skill-structure-and-concepts.md](../base/skill-structure-and-concepts.md)** (repo layout).
+
+Only **`strategy.md`** defines **scope** and **which phases in what order**; checklists are where you **tick** progress.
 
 ---
 
@@ -21778,29 +23595,55 @@ OOAD uses **three** checklist layers under **`<workspace>/abd-ooad/progress/`**.
 
 1. **Domain scan** — produce scan artifacts (see **`strategy-led-generation`**).
 2. **Strategy** — fill **`strategy.md`** from **`templates/strategy.md`**:
-   - **Modeling scope** — chapters, anchors, files, in/out of scope.
-   - **Execution plan (normative)** — ordered list of phase **slugs** (from **`skill-config.json` → `phase_files`**) plus **scope per step** (e.g. “nouns-verbs on Chapter 5 only”).
+   - **Modeling scope** — corpus or product boundary; **source type** (book vs repo vs mixed).
+   - **§1 Source slices** — ordered table: **Goal**, **Source** (chapters, files, modules, APIs — whatever locates work), **Coverage** (depth this pass), **Importance**; stable **slice IDs** reused everywhere.
+   - **§2 Slice plan** — per slice: **goal restated**, **unit kind**, **phases** (execution step numbers / slugs), produces, depends-on.
+   - **Coverage across steps** — matrix: every slice → which **execution plan** steps touch it → **depth** → deferrals.
+   - **Cross-slice integration** — cross-boundary types and ordering (From → To + narrative).
+   - **Anchor and subdomain elaboration** (when anchors have attached types) — map subdomains to slices and execution §.
+   - **Execution plan (normative)** — ordered phase **slugs**; **each line cites slice IDs** (mirror **`strategy-run-checklist.md`**).
    - **Approach going forward** + **Ongoing strategic decisions** — short narrative and dated pivots.
-3. **Align live checklists** — keep **`strategy-run-checklist.md`** in sync with the execution plan (same order and scope). Seed file: **`templates/strategy-run-checklist.md`** (created under **`progress/`** on first **`generate.py`** when missing).
+3. **Align live checklists** — keep **`strategy-run-checklist.md`** in sync with the execution plan (same order and scope). Optional **`templates/strategy-run-checklist.md`** seed; optional **`templates/progress-README.md`** → **`progress/README.md`** for slice-specific files under **`progress/slices/`**.
 4. **Run phases** — for the **current** phase: `python scripts/base/generate.py --phase <slug>`. Tick **`strategy-run-checklist.md`** when a phase is **done** for its declared scope; tick **`<slug>-checklist.md`** for **steps inside** that phase.
 
 ---
 
-## Three layers
+## Three layers (what you tick)
 
 | Layer | File | What you tick |
 | --- | --- | --- |
-| **Strategy execution** | **`progress/strategy-run-checklist.md`** | **Which phases** you will run, **in order**, each with **scope** (matches **`strategy.md` → Execution plan**). Use this for “next three steps per chapter” or “whole pipeline on anchor X.” |
+| **Strategy execution** | **`progress/strategy-run-checklist.md`** | **Which phases** you will run, **in order**, each with **scope** that **includes the same slice IDs** as **`strategy.md` → Execution plan**. Optional: **`progress/slices/<slice-id>-checklist.md`** per slice — see **`progress/README.md`** in the workspace (if present). |
 | **Full pipeline (reference)** | **`progress/process-checklist.md`** | **Every** phase in **`phase_files`** — useful as a map; optional if you rely only on strategy-run. |
 | **Phase steps** | **`progress/<phase>-checklist.md`** | **Action checklist** copied from **`content/parts/phases/<phase>.md` → ## Action Checklist**. |
 
-**Normative rules** for pipeline + phase checklists: **`library/base/checklist.md`**. **Implementation:** **`scripts/base/workspace_checklists.py`**.
+**Implementation:** **`scripts/base/workspace_checklists.py`** (paths, behavior, `--no-ensure-checklists`).
+
+---
+
+## How workspace checklist files are created (mechanical)
+
+| Kind | What it tracks | Where it lives | How it gets there |
+| --- | --- | --- | --- |
+| **Normative reference** | Rules in **this document** — strategy vs ticks, layers, `generate.py` behavior | **`content/parts/library/strategy-execution-and-checklists.md`** | Authored in the skill; **not** created by **`generate.py`**. |
+| **Pipeline position** | Which **phase** of the pipeline you are in | **`<active_skill_workspace>/<skill_name>/progress/process-checklist.md`** | **Created** on first **`python scripts/base/generate.py --phase <slug>`** when that file is **missing**, if **`skill-config.json` → `workspace.active_skill_workspace`** is set. One `- [ ]` line per slug in **`phase_files`** (labels from **`phase_section_headings`** when present). **Does not overwrite** an existing file. |
+| **Phase action steps** | **Steps inside** the current phase | **`<active_skill_workspace>/<skill_name>/progress/<phase-slug>-checklist.md`** | **Created** in the **same** `generate.py` run when that file is **missing**. Steps are taken from **`## Action Checklist`** in **`content/parts/phases/<phase-slug>.md`**, or from task lines (`- [ ]` / `- [x]`) in that file if the section is absent. **Does not overwrite** an existing file. |
+| **Strategy execution** (workspace) | Ordered phases matching **`strategy.md`** | **`progress/strategy-run-checklist.md`** | Seeded from template when **`generate.py`** / workspace checklist logic creates it; **you** align it with **`strategy.md`**. |
+
+### Names and workspace
+
+- **`skill_name`** — **`skill-config.json` → `name`** (fallback: skill directory name). Used in **`…/<skill_name>/progress/`**.
+- **`active_skill_workspace`** — Must point at the **project / engagement tree** where **`progress/`** checklists belong, **not** the skill install folder. See **`skill-config.json` → `workspace`** and **[workspace-and-config.md](phases/workspace-and-config.md)**.
+
+### Flags
+
+- **`python scripts/base/generate.py --phase <slug> --no-ensure-checklists`** — run the phase prompt **without** creating missing **`progress/`** checklist files (see **`workspace_checklists.py`**).
 
 ---
 
 ## What not to do
 
 - Do not put **checkboxes** in **`strategy.md`** — keep execution plan as **normative numbered/bulleted text**; ticks live under **`progress/`**.
+- Do not record pipeline or phase **session** progress by ticking boxes in **`content/parts/process.md`** or **`content/parts/phases/*.md`** — those stay **normative**; live ticks go **only** under **`…/progress/`**.
 - Do not let **`strategy-run-checklist.md`** drift from **`strategy.md`** — after a pivot, update both and append a line under *Ongoing strategic decisions*.
 
 ---
@@ -21808,6 +23651,14 @@ OOAD uses **three** checklist layers under **`<workspace>/abd-ooad/progress/`**.
 ## Phase slugs
 
 Use exact slugs from **`skill-config.json` → `phase_files`** (e.g. `nouns-verbs-rules-and-states`, `domain-scan`). Labels for humans are in **`phase_section_headings`**.
+
+---
+
+## References
+
+- **`strategy-led-generation.md`** — artifact roles, **`strategy.md`** vs **`domain-scan-results.md`**
+- **`templates/strategy.md`**, **`templates/progress-README.md`**
+- **`scripts/base/workspace_checklists.py`**
 
 
 ---
@@ -22413,12 +24264,14 @@ Use a note (folded-corner rectangle) connected to the class by a dashed line:
 
 The CLI does not yet support notes — add them manually in draw.io after CLI build. Use: Insert → Shape → Note. Connect to the target class with a dashed edge. Enclose invariant text in `{ }`.
 
+**Module / package (UML frame) notes:** For commentary that applies to a whole **module** (the outer `umlFrame` / package boundary from `add-frame`), attach the same Note shape to the **frame’s perimeter** (snap the connector to the frame edge), not to an inner class. Use the same dashed connector style as class notes. This keeps module-level invariants or scope reminders visually tied to the subsystem boundary.
+
 ### When to add invariants
 
 | Phase | Add invariants? |
 |-------|----------------|
 | domain-scan | Yes — add the invariants you found during the scan (inline preferred at this fidelity) |
-| nouns-verbs | No — extraction only; invariants captured in registry notes |
+| domain-noun-verb (Step 1) | No — extraction only; invariants captured in registry notes |
 | raw-candidate-list through responsibilities | Yes — as invariants become confirmed, add to diagram |
 | Full model phases | Yes — invariants are a required part of the final model |
 
@@ -23254,7 +25107,7 @@ You are the **domain modeler and OOAD practitioner** using this skill: you provi
 
 **Upstream:** `inheritance-when-behavior-generalizes.md`.
 
-> **Continual refinement:** Aligns with **abd-maps-models-specs** [`domain-model.md`](../../abd-maps-models-specs/content/parts/library/domain-model.md) (*Domain concept* template, *Continual refinement — class definition + diagram*). In this payments thread, **`**newly added**`** marks a property or operation line **first introduced in this step file** (Steps 1–4 stay pre-notation; formal `- <type> property` / `operation(...) → return` lines begin at Step 5).
+> **Continual refinement:** Full notation is in **[Domain model Markdown](content/parts/library/domain-model.md)** (*Domain concept* template; class definition and diagram refined together). In this payments thread, **`**newly added**`** marks a property or operation line **first introduced in this step file** (Steps 1–4 stay pre-notation; formal `- <type> property` / `operation(...) → return` lines begin at Step 5).
 
 ---
 
@@ -23305,6 +25158,106 @@ You are the **domain modeler and OOAD practitioner** using this skill: you provi
 
 ## Library
 
+
+
+---
+
+### `domain-model.md`
+
+# Domain model Markdown
+
+This skill’s **domain model** is captured in Markdown (and optionally a parallel **Draw.io** class diagram). Use the checked-in **`templates/domain model template.md`** when starting a new companion doc; keep the same semantics as **`templates/domain model template.drawio`** when both exist.
+
+---
+
+## Domain concept template
+
+Each **domain concept** (class, interface, value object, or aggregate) is documented under a clear heading, for example:
+
+```markdown
+## **Payment**
+
+**Responsibilities:** …
+
+### Properties
+- Money amount
+- …
+
+### Operations
+- initiate() → Authorization
+```
+
+From **Step 5** onward, prefer **typed** members (see **Notation evolution** below). Earlier steps stay **pre-notation** (bullets and prose).
+
+---
+
+## Continual refinement — class definition + diagram
+
+**Continual refinement** means you **grow** the model across steps: each step file may add or tighten concepts. The Markdown spec and the class diagram are **two views of the same model** — update both when your project uses dual artifacts so they do not drift (see **[Class diagrams](class-diagrams.md)**).
+
+---
+
+## **newly added** tag
+
+In the **worked example** threads (e.g. payments), the marker **`**newly added**`** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
+
+---
+
+## Notation evolution
+
+| Phase | Markdown style |
+|--------|------------------|
+| **Steps 1–4** | Informal: bullets, short phrases, responsibilities, candidate names. **No** required `- <type> property` lines yet. |
+| **Step 5+** | Formal typed members: `- <Type> propertyName`, `operationName(...) → ReturnType`. |
+
+---
+
+## Subtype sections
+
+When you introduce substitutable specializations, add an explicit subtype heading so the structure is visible in the spec and in diagrams:
+
+```markdown
+### **Subtype** : **PaymentMethod**
+```
+
+Put **`**newly added**`** on subtype **operation** (or property) lines when that member is **first** introduced for that subtype.
+
+---
+
+## Invariants
+
+Attach invariants to the **property** or **operation** they constrain, using a dedicated line:
+
+```markdown
+**Invariant:** …
+```
+
+Mark **`**newly added**`** when you **first** attach an invariant to a given member line.
+
+---
+
+## Early steps: terms, mechanisms, story map
+
+Before typed properties exist, align extracted **nouns, verbs, rules, states** with your workspace’s **terms & mechanisms** and **shaped story map** (or equivalent). That is the same “grow the model as you go” idea: informal extraction first, then formal types.
+
+---
+
+## Class diagram and spec (visual twin)
+
+When you maintain a machine-readable spec such as **`map-model-spec.json`**, re-run your project’s class-diagram render script (for example **`render_map_model_class_diagram.py`**) after material changes so the **Draw.io** diagram stays the **visual twin** of the spec.
+
+- **[Class diagrams](class-diagrams.md)** — templates, relationship types, keeping `.md` and `.drawio` aligned.  
+- **[Using the Diagram CLI](using-diagram-cli.md)** — building diagrams with **`scripts/drawio_cli.py`**.
+
+---
+
+## Related library shards
+
+| Topic | File |
+|--------|------|
+| Term tracking across steps | [term-registry.md](term-registry.md) |
+| Strategy-led runs | [strategy-led-generation.md](strategy-led-generation.md) |
+| Layout and lanes | [class-diagram-layout-rules.md](class-diagram-layout-rules.md) |
 
 
 ---
@@ -23400,7 +25353,7 @@ Domain scan (OOAD **phase 1**) does not only produce a single “results” file
 
 For the scan procedure itself, see the **Domain scan** phase. This page explains **what each artifact is for** and how **`strategy.md`** relates to **`domain-scan-results.md`**.
 
-**Checkbox discipline:** Live ticks for pipeline position and phase steps belong only under **`<workspace>/abd-ooad/progress/`** — see **`library/base/checklist.md`** and **`library/strategy-execution-and-checklists.md`**. Do not put tick tables in `strategy.md`.
+**Checkbox discipline:** Live ticks for pipeline position and phase steps belong only under **`<workspace>/abd-ooad/progress/`** — see **`library/strategy-execution-and-checklists.md`**. Do not put tick tables in `strategy.md`.
 
 ---
 
@@ -23411,7 +25364,7 @@ Created during domain scan under `<workspace>/abd-ooad/`:
 | File | Role | Updates after scan? |
 |------|------|---------------------|
 | `domain-scan-results.md` | **Findings snapshot:** source map, anchor table, tensions. | Rarely — only if you correct a scan error. Do not put the forward plan here; that belongs in `strategy.md`. |
-| `strategy.md` | **Living strategy:** **modeling scope**, **execution plan (normative)** — which phases in what order and on what slice of context — plus **approach** and **dated pivots**. | **Yes** — whenever scope, order, or focus changes. |
+| `strategy.md` | **Living strategy:** **modeling scope**; **§1 source slices** (table: Order, Goal, **Source** — chapters, files, modules, or mixed — **Coverage**, **Importance**); **§2 slice plan** (per-slice **goal restated** + **phases**); **coverage across steps**; **cross-slice integration**; **anchor and subdomain elaboration**; **execution plan (normative)** — phase slugs with **slice IDs** on every line; plus **approach** and **dated pivots**. | **Yes** — whenever scope, order, slice depth, subdomain mapping, or integration changes. |
 | `domain-scan-model.md` | Class sketch (markdown) at scan fidelity. | Yes, in later phases — not only during scan. |
 | `domain-scan-model.drawio` | Diagram at scan fidelity. | Same as model.md. |
 | `term-registry.md` | Terms, **Classification** (model role), **Status** (OOAD scale), confidence — seeded at scan. | **Yes** — every later phase updates Step, Classification, and Status as the model evolves. |
@@ -23425,7 +25378,7 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 ## What `strategy.md` is for
 
 - Created at the end of domain scan as a **workspace file**, then **kept current** through extraction and later phases.
-- **Purpose:** (1) **scope** — what chapters, anchors, or files you model; (2) **execution plan** — ordered list of phase slugs with **per-step scope** (e.g. run nouns-verbs on Chapter 5, then the next three phases on Chapter 6); (3) short **why** in *Approach going forward* and **pivots** in *Ongoing strategic decisions*. Scan mechanics live in **`domain-scan-results.md`**.
+- **Purpose:** (1) **scope** — what product or corpus you model; (2) **§1 source slices** — ordered table (**Goal**, **Source**, **Coverage**, **Importance**); **Source** is any locator (chapters, page ranges, repo paths, modules — not only document sections); (3) **§2 slice plan** — per slice, **goal restated** and **phases** (execution steps); (4) **coverage across steps** — matrix proving every in-scope slice is addressed or deferred; (5) **cross-slice integration** — handoffs between slices; (6) **anchor and subdomain elaboration** — attached types (e.g. Ability, Skill, Advantage) mapped to **slice IDs** and execution **§**; (7) **execution plan** — each line names **slice IDs**; breadth steps must **include** subdomain slices in **nouns-verbs** / **raw-candidate-list** where relevant; (8) **Approach** + **Ongoing strategic decisions**. Scan mechanics stay in **`domain-scan-results.md`**.
 - **Template:** `templates/strategy.md`. Install as **`strategy.md`** (lowercase; avoid duplicate `STRATEGY.md` on case-insensitive disks).
 - After you finalize the execution plan, align **`progress/strategy-run-checklist.md`** with it (same phases and scope); that file holds **checkboxes** for “which phase is done,” while **`strategy.md`** stays **normative text** (no `- [ ]`).
 
@@ -23436,7 +25389,7 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 | Question | Answer |
 |----------|--------|
 | Where is the source map and anchor list? | `domain-scan-results.md` |
-| Where do I define “we model Chapter 5 first, then Chapter 6” and **which phases** per slice? | `strategy.md` → **Modeling scope** + **Execution plan (normative)** |
+| Where do I define **which slices** exist (chapters, files, modules, …), **depth**, **subdomains per anchor**, and **which phases** hit which? | `strategy.md` → **§1 Source slices**, **§2 Slice plan**, **Coverage across steps**, **Cross-slice integration**, **Anchor and subdomain elaboration**, **Execution plan (normative)** |
 | Where do I tick **which phases** we ran, **in order**, with **scope**? | **`abd-ooad/progress/strategy-run-checklist.md`** (keep in sync with `strategy.md`) |
 | Where do I tick **full** pipeline position (all phases)? | **`abd-ooad/progress/process-checklist.md`** (optional reference) |
 | Where do I tick **steps inside** the current phase? | **`abd-ooad/progress/<phase>-checklist.md`** |
@@ -23461,7 +25414,7 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 - Strategy vs checklists: **`library/strategy-execution-and-checklists.md`**
 - Anchors: `anchors` in this library
 - Term registry: `term-registry` in this library
-- Checklist norm: `library/base/checklist.md`
+- Checklist norm: `library/strategy-execution-and-checklists.md`
 
 
 ---
@@ -23470,7 +25423,9 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 
 # Strategy execution and checklists (abd-ooad)
 
-OOAD uses **three** checklist layers under **`<workspace>/abd-ooad/progress/`**. Only **`strategy.md`** defines **scope** and **which phases in what order**; checklists are where you **tick** progress.
+**Canonical doc** for: (1) **strategy** vs **live ticks**, (2) **which files** hold checkboxes, (3) **how** `generate.py` creates workspace **`progress/`** files. Does **not** replace **[process.md](../process.md)** (process tables, `generate` / `build`) or **[skill-structure-and-concepts.md](../base/skill-structure-and-concepts.md)** (repo layout).
+
+Only **`strategy.md`** defines **scope** and **which phases in what order**; checklists are where you **tick** progress.
 
 ---
 
@@ -23478,29 +25433,55 @@ OOAD uses **three** checklist layers under **`<workspace>/abd-ooad/progress/`**.
 
 1. **Domain scan** — produce scan artifacts (see **`strategy-led-generation`**).
 2. **Strategy** — fill **`strategy.md`** from **`templates/strategy.md`**:
-   - **Modeling scope** — chapters, anchors, files, in/out of scope.
-   - **Execution plan (normative)** — ordered list of phase **slugs** (from **`skill-config.json` → `phase_files`**) plus **scope per step** (e.g. “nouns-verbs on Chapter 5 only”).
+   - **Modeling scope** — corpus or product boundary; **source type** (book vs repo vs mixed).
+   - **§1 Source slices** — ordered table: **Goal**, **Source** (chapters, files, modules, APIs — whatever locates work), **Coverage** (depth this pass), **Importance**; stable **slice IDs** reused everywhere.
+   - **§2 Slice plan** — per slice: **goal restated**, **unit kind**, **phases** (execution step numbers / slugs), produces, depends-on.
+   - **Coverage across steps** — matrix: every slice → which **execution plan** steps touch it → **depth** → deferrals.
+   - **Cross-slice integration** — cross-boundary types and ordering (From → To + narrative).
+   - **Anchor and subdomain elaboration** (when anchors have attached types) — map subdomains to slices and execution §.
+   - **Execution plan (normative)** — ordered phase **slugs**; **each line cites slice IDs** (mirror **`strategy-run-checklist.md`**).
    - **Approach going forward** + **Ongoing strategic decisions** — short narrative and dated pivots.
-3. **Align live checklists** — keep **`strategy-run-checklist.md`** in sync with the execution plan (same order and scope). Seed file: **`templates/strategy-run-checklist.md`** (created under **`progress/`** on first **`generate.py`** when missing).
+3. **Align live checklists** — keep **`strategy-run-checklist.md`** in sync with the execution plan (same order and scope). Optional **`templates/strategy-run-checklist.md`** seed; optional **`templates/progress-README.md`** → **`progress/README.md`** for slice-specific files under **`progress/slices/`**.
 4. **Run phases** — for the **current** phase: `python scripts/base/generate.py --phase <slug>`. Tick **`strategy-run-checklist.md`** when a phase is **done** for its declared scope; tick **`<slug>-checklist.md`** for **steps inside** that phase.
 
 ---
 
-## Three layers
+## Three layers (what you tick)
 
 | Layer | File | What you tick |
 | --- | --- | --- |
-| **Strategy execution** | **`progress/strategy-run-checklist.md`** | **Which phases** you will run, **in order**, each with **scope** (matches **`strategy.md` → Execution plan**). Use this for “next three steps per chapter” or “whole pipeline on anchor X.” |
+| **Strategy execution** | **`progress/strategy-run-checklist.md`** | **Which phases** you will run, **in order**, each with **scope** that **includes the same slice IDs** as **`strategy.md` → Execution plan**. Optional: **`progress/slices/<slice-id>-checklist.md`** per slice — see **`progress/README.md`** in the workspace (if present). |
 | **Full pipeline (reference)** | **`progress/process-checklist.md`** | **Every** phase in **`phase_files`** — useful as a map; optional if you rely only on strategy-run. |
 | **Phase steps** | **`progress/<phase>-checklist.md`** | **Action checklist** copied from **`content/parts/phases/<phase>.md` → ## Action Checklist**. |
 
-**Normative rules** for pipeline + phase checklists: **`library/base/checklist.md`**. **Implementation:** **`scripts/base/workspace_checklists.py`**.
+**Implementation:** **`scripts/base/workspace_checklists.py`** (paths, behavior, `--no-ensure-checklists`).
+
+---
+
+## How workspace checklist files are created (mechanical)
+
+| Kind | What it tracks | Where it lives | How it gets there |
+| --- | --- | --- | --- |
+| **Normative reference** | Rules in **this document** — strategy vs ticks, layers, `generate.py` behavior | **`content/parts/library/strategy-execution-and-checklists.md`** | Authored in the skill; **not** created by **`generate.py`**. |
+| **Pipeline position** | Which **phase** of the pipeline you are in | **`<active_skill_workspace>/<skill_name>/progress/process-checklist.md`** | **Created** on first **`python scripts/base/generate.py --phase <slug>`** when that file is **missing**, if **`skill-config.json` → `workspace.active_skill_workspace`** is set. One `- [ ]` line per slug in **`phase_files`** (labels from **`phase_section_headings`** when present). **Does not overwrite** an existing file. |
+| **Phase action steps** | **Steps inside** the current phase | **`<active_skill_workspace>/<skill_name>/progress/<phase-slug>-checklist.md`** | **Created** in the **same** `generate.py` run when that file is **missing**. Steps are taken from **`## Action Checklist`** in **`content/parts/phases/<phase-slug>.md`**, or from task lines (`- [ ]` / `- [x]`) in that file if the section is absent. **Does not overwrite** an existing file. |
+| **Strategy execution** (workspace) | Ordered phases matching **`strategy.md`** | **`progress/strategy-run-checklist.md`** | Seeded from template when **`generate.py`** / workspace checklist logic creates it; **you** align it with **`strategy.md`**. |
+
+### Names and workspace
+
+- **`skill_name`** — **`skill-config.json` → `name`** (fallback: skill directory name). Used in **`…/<skill_name>/progress/`**.
+- **`active_skill_workspace`** — Must point at the **project / engagement tree** where **`progress/`** checklists belong, **not** the skill install folder. See **`skill-config.json` → `workspace`** and **[workspace-and-config.md](phases/workspace-and-config.md)**.
+
+### Flags
+
+- **`python scripts/base/generate.py --phase <slug> --no-ensure-checklists`** — run the phase prompt **without** creating missing **`progress/`** checklist files (see **`workspace_checklists.py`**).
 
 ---
 
 ## What not to do
 
 - Do not put **checkboxes** in **`strategy.md`** — keep execution plan as **normative numbered/bulleted text**; ticks live under **`progress/`**.
+- Do not record pipeline or phase **session** progress by ticking boxes in **`content/parts/process.md`** or **`content/parts/phases/*.md`** — those stay **normative**; live ticks go **only** under **`…/progress/`**.
 - Do not let **`strategy-run-checklist.md`** drift from **`strategy.md`** — after a pivot, update both and append a line under *Ongoing strategic decisions*.
 
 ---
@@ -23508,6 +25489,14 @@ OOAD uses **three** checklist layers under **`<workspace>/abd-ooad/progress/`**.
 ## Phase slugs
 
 Use exact slugs from **`skill-config.json` → `phase_files`** (e.g. `nouns-verbs-rules-and-states`, `domain-scan`). Labels for humans are in **`phase_section_headings`**.
+
+---
+
+## References
+
+- **`strategy-led-generation.md`** — artifact roles, **`strategy.md`** vs **`domain-scan-results.md`**
+- **`templates/strategy.md`**, **`templates/progress-README.md`**
+- **`scripts/base/workspace_checklists.py`**
 
 
 ---
@@ -24113,12 +26102,14 @@ Use a note (folded-corner rectangle) connected to the class by a dashed line:
 
 The CLI does not yet support notes — add them manually in draw.io after CLI build. Use: Insert → Shape → Note. Connect to the target class with a dashed edge. Enclose invariant text in `{ }`.
 
+**Module / package (UML frame) notes:** For commentary that applies to a whole **module** (the outer `umlFrame` / package boundary from `add-frame`), attach the same Note shape to the **frame’s perimeter** (snap the connector to the frame edge), not to an inner class. Use the same dashed connector style as class notes. This keeps module-level invariants or scope reminders visually tied to the subsystem boundary.
+
 ### When to add invariants
 
 | Phase | Add invariants? |
 |-------|----------------|
 | domain-scan | Yes — add the invariants you found during the scan (inline preferred at this fidelity) |
-| nouns-verbs | No — extraction only; invariants captured in registry notes |
+| domain-noun-verb (Step 1) | No — extraction only; invariants captured in registry notes |
 | raw-candidate-list through responsibilities | Yes — as invariants become confirmed, add to diagram |
 | Full model phases | Yes — invariants are a required part of the final model |
 
@@ -24954,7 +26945,7 @@ You are the **domain modeler and OOAD practitioner** using this skill: you provi
 
 **Upstream:** `abstract-classes-and-interfaces.md`.
 
-> **Continual refinement:** Aligns with **abd-maps-models-specs** [`domain-model.md`](../../abd-maps-models-specs/content/parts/library/domain-model.md) (*Domain concept* template, *Continual refinement — class definition + diagram*). In this payments thread, **`**newly added**`** marks a property or operation line **first introduced in this step file** (Steps 1–4 stay pre-notation; formal `- <type> property` / `operation(...) → return` lines begin at Step 5).
+> **Continual refinement:** Full notation is in **[Domain model Markdown](content/parts/library/domain-model.md)** (*Domain concept* template; class definition and diagram refined together). In this payments thread, **`**newly added**`** marks a property or operation line **first introduced in this step file** (Steps 1–4 stay pre-notation; formal `- <type> property` / `operation(...) → return` lines begin at Step 5).
 
 ---
 
@@ -25008,6 +26999,106 @@ Model **state transitions** explicitly on **Payment** (and **Refund**).
 
 ## Library
 
+
+
+---
+
+### `domain-model.md`
+
+# Domain model Markdown
+
+This skill’s **domain model** is captured in Markdown (and optionally a parallel **Draw.io** class diagram). Use the checked-in **`templates/domain model template.md`** when starting a new companion doc; keep the same semantics as **`templates/domain model template.drawio`** when both exist.
+
+---
+
+## Domain concept template
+
+Each **domain concept** (class, interface, value object, or aggregate) is documented under a clear heading, for example:
+
+```markdown
+## **Payment**
+
+**Responsibilities:** …
+
+### Properties
+- Money amount
+- …
+
+### Operations
+- initiate() → Authorization
+```
+
+From **Step 5** onward, prefer **typed** members (see **Notation evolution** below). Earlier steps stay **pre-notation** (bullets and prose).
+
+---
+
+## Continual refinement — class definition + diagram
+
+**Continual refinement** means you **grow** the model across steps: each step file may add or tighten concepts. The Markdown spec and the class diagram are **two views of the same model** — update both when your project uses dual artifacts so they do not drift (see **[Class diagrams](class-diagrams.md)**).
+
+---
+
+## **newly added** tag
+
+In the **worked example** threads (e.g. payments), the marker **`**newly added**`** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
+
+---
+
+## Notation evolution
+
+| Phase | Markdown style |
+|--------|------------------|
+| **Steps 1–4** | Informal: bullets, short phrases, responsibilities, candidate names. **No** required `- <type> property` lines yet. |
+| **Step 5+** | Formal typed members: `- <Type> propertyName`, `operationName(...) → ReturnType`. |
+
+---
+
+## Subtype sections
+
+When you introduce substitutable specializations, add an explicit subtype heading so the structure is visible in the spec and in diagrams:
+
+```markdown
+### **Subtype** : **PaymentMethod**
+```
+
+Put **`**newly added**`** on subtype **operation** (or property) lines when that member is **first** introduced for that subtype.
+
+---
+
+## Invariants
+
+Attach invariants to the **property** or **operation** they constrain, using a dedicated line:
+
+```markdown
+**Invariant:** …
+```
+
+Mark **`**newly added**`** when you **first** attach an invariant to a given member line.
+
+---
+
+## Early steps: terms, mechanisms, story map
+
+Before typed properties exist, align extracted **nouns, verbs, rules, states** with your workspace’s **terms & mechanisms** and **shaped story map** (or equivalent). That is the same “grow the model as you go” idea: informal extraction first, then formal types.
+
+---
+
+## Class diagram and spec (visual twin)
+
+When you maintain a machine-readable spec such as **`map-model-spec.json`**, re-run your project’s class-diagram render script (for example **`render_map_model_class_diagram.py`**) after material changes so the **Draw.io** diagram stays the **visual twin** of the spec.
+
+- **[Class diagrams](class-diagrams.md)** — templates, relationship types, keeping `.md` and `.drawio` aligned.  
+- **[Using the Diagram CLI](using-diagram-cli.md)** — building diagrams with **`scripts/drawio_cli.py`**.
+
+---
+
+## Related library shards
+
+| Topic | File |
+|--------|------|
+| Term tracking across steps | [term-registry.md](term-registry.md) |
+| Strategy-led runs | [strategy-led-generation.md](strategy-led-generation.md) |
+| Layout and lanes | [class-diagram-layout-rules.md](class-diagram-layout-rules.md) |
 
 
 ---
@@ -25103,7 +27194,7 @@ Domain scan (OOAD **phase 1**) does not only produce a single “results” file
 
 For the scan procedure itself, see the **Domain scan** phase. This page explains **what each artifact is for** and how **`strategy.md`** relates to **`domain-scan-results.md`**.
 
-**Checkbox discipline:** Live ticks for pipeline position and phase steps belong only under **`<workspace>/abd-ooad/progress/`** — see **`library/base/checklist.md`** and **`library/strategy-execution-and-checklists.md`**. Do not put tick tables in `strategy.md`.
+**Checkbox discipline:** Live ticks for pipeline position and phase steps belong only under **`<workspace>/abd-ooad/progress/`** — see **`library/strategy-execution-and-checklists.md`**. Do not put tick tables in `strategy.md`.
 
 ---
 
@@ -25114,7 +27205,7 @@ Created during domain scan under `<workspace>/abd-ooad/`:
 | File | Role | Updates after scan? |
 |------|------|---------------------|
 | `domain-scan-results.md` | **Findings snapshot:** source map, anchor table, tensions. | Rarely — only if you correct a scan error. Do not put the forward plan here; that belongs in `strategy.md`. |
-| `strategy.md` | **Living strategy:** **modeling scope**, **execution plan (normative)** — which phases in what order and on what slice of context — plus **approach** and **dated pivots**. | **Yes** — whenever scope, order, or focus changes. |
+| `strategy.md` | **Living strategy:** **modeling scope**; **§1 source slices** (table: Order, Goal, **Source** — chapters, files, modules, or mixed — **Coverage**, **Importance**); **§2 slice plan** (per-slice **goal restated** + **phases**); **coverage across steps**; **cross-slice integration**; **anchor and subdomain elaboration**; **execution plan (normative)** — phase slugs with **slice IDs** on every line; plus **approach** and **dated pivots**. | **Yes** — whenever scope, order, slice depth, subdomain mapping, or integration changes. |
 | `domain-scan-model.md` | Class sketch (markdown) at scan fidelity. | Yes, in later phases — not only during scan. |
 | `domain-scan-model.drawio` | Diagram at scan fidelity. | Same as model.md. |
 | `term-registry.md` | Terms, **Classification** (model role), **Status** (OOAD scale), confidence — seeded at scan. | **Yes** — every later phase updates Step, Classification, and Status as the model evolves. |
@@ -25128,7 +27219,7 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 ## What `strategy.md` is for
 
 - Created at the end of domain scan as a **workspace file**, then **kept current** through extraction and later phases.
-- **Purpose:** (1) **scope** — what chapters, anchors, or files you model; (2) **execution plan** — ordered list of phase slugs with **per-step scope** (e.g. run nouns-verbs on Chapter 5, then the next three phases on Chapter 6); (3) short **why** in *Approach going forward* and **pivots** in *Ongoing strategic decisions*. Scan mechanics live in **`domain-scan-results.md`**.
+- **Purpose:** (1) **scope** — what product or corpus you model; (2) **§1 source slices** — ordered table (**Goal**, **Source**, **Coverage**, **Importance**); **Source** is any locator (chapters, page ranges, repo paths, modules — not only document sections); (3) **§2 slice plan** — per slice, **goal restated** and **phases** (execution steps); (4) **coverage across steps** — matrix proving every in-scope slice is addressed or deferred; (5) **cross-slice integration** — handoffs between slices; (6) **anchor and subdomain elaboration** — attached types (e.g. Ability, Skill, Advantage) mapped to **slice IDs** and execution **§**; (7) **execution plan** — each line names **slice IDs**; breadth steps must **include** subdomain slices in **nouns-verbs** / **raw-candidate-list** where relevant; (8) **Approach** + **Ongoing strategic decisions**. Scan mechanics stay in **`domain-scan-results.md`**.
 - **Template:** `templates/strategy.md`. Install as **`strategy.md`** (lowercase; avoid duplicate `STRATEGY.md` on case-insensitive disks).
 - After you finalize the execution plan, align **`progress/strategy-run-checklist.md`** with it (same phases and scope); that file holds **checkboxes** for “which phase is done,” while **`strategy.md`** stays **normative text** (no `- [ ]`).
 
@@ -25139,7 +27230,7 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 | Question | Answer |
 |----------|--------|
 | Where is the source map and anchor list? | `domain-scan-results.md` |
-| Where do I define “we model Chapter 5 first, then Chapter 6” and **which phases** per slice? | `strategy.md` → **Modeling scope** + **Execution plan (normative)** |
+| Where do I define **which slices** exist (chapters, files, modules, …), **depth**, **subdomains per anchor**, and **which phases** hit which? | `strategy.md` → **§1 Source slices**, **§2 Slice plan**, **Coverage across steps**, **Cross-slice integration**, **Anchor and subdomain elaboration**, **Execution plan (normative)** |
 | Where do I tick **which phases** we ran, **in order**, with **scope**? | **`abd-ooad/progress/strategy-run-checklist.md`** (keep in sync with `strategy.md`) |
 | Where do I tick **full** pipeline position (all phases)? | **`abd-ooad/progress/process-checklist.md`** (optional reference) |
 | Where do I tick **steps inside** the current phase? | **`abd-ooad/progress/<phase>-checklist.md`** |
@@ -25164,7 +27255,7 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 - Strategy vs checklists: **`library/strategy-execution-and-checklists.md`**
 - Anchors: `anchors` in this library
 - Term registry: `term-registry` in this library
-- Checklist norm: `library/base/checklist.md`
+- Checklist norm: `library/strategy-execution-and-checklists.md`
 
 
 ---
@@ -25173,7 +27264,9 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 
 # Strategy execution and checklists (abd-ooad)
 
-OOAD uses **three** checklist layers under **`<workspace>/abd-ooad/progress/`**. Only **`strategy.md`** defines **scope** and **which phases in what order**; checklists are where you **tick** progress.
+**Canonical doc** for: (1) **strategy** vs **live ticks**, (2) **which files** hold checkboxes, (3) **how** `generate.py` creates workspace **`progress/`** files. Does **not** replace **[process.md](../process.md)** (process tables, `generate` / `build`) or **[skill-structure-and-concepts.md](../base/skill-structure-and-concepts.md)** (repo layout).
+
+Only **`strategy.md`** defines **scope** and **which phases in what order**; checklists are where you **tick** progress.
 
 ---
 
@@ -25181,29 +27274,55 @@ OOAD uses **three** checklist layers under **`<workspace>/abd-ooad/progress/`**.
 
 1. **Domain scan** — produce scan artifacts (see **`strategy-led-generation`**).
 2. **Strategy** — fill **`strategy.md`** from **`templates/strategy.md`**:
-   - **Modeling scope** — chapters, anchors, files, in/out of scope.
-   - **Execution plan (normative)** — ordered list of phase **slugs** (from **`skill-config.json` → `phase_files`**) plus **scope per step** (e.g. “nouns-verbs on Chapter 5 only”).
+   - **Modeling scope** — corpus or product boundary; **source type** (book vs repo vs mixed).
+   - **§1 Source slices** — ordered table: **Goal**, **Source** (chapters, files, modules, APIs — whatever locates work), **Coverage** (depth this pass), **Importance**; stable **slice IDs** reused everywhere.
+   - **§2 Slice plan** — per slice: **goal restated**, **unit kind**, **phases** (execution step numbers / slugs), produces, depends-on.
+   - **Coverage across steps** — matrix: every slice → which **execution plan** steps touch it → **depth** → deferrals.
+   - **Cross-slice integration** — cross-boundary types and ordering (From → To + narrative).
+   - **Anchor and subdomain elaboration** (when anchors have attached types) — map subdomains to slices and execution §.
+   - **Execution plan (normative)** — ordered phase **slugs**; **each line cites slice IDs** (mirror **`strategy-run-checklist.md`**).
    - **Approach going forward** + **Ongoing strategic decisions** — short narrative and dated pivots.
-3. **Align live checklists** — keep **`strategy-run-checklist.md`** in sync with the execution plan (same order and scope). Seed file: **`templates/strategy-run-checklist.md`** (created under **`progress/`** on first **`generate.py`** when missing).
+3. **Align live checklists** — keep **`strategy-run-checklist.md`** in sync with the execution plan (same order and scope). Optional **`templates/strategy-run-checklist.md`** seed; optional **`templates/progress-README.md`** → **`progress/README.md`** for slice-specific files under **`progress/slices/`**.
 4. **Run phases** — for the **current** phase: `python scripts/base/generate.py --phase <slug>`. Tick **`strategy-run-checklist.md`** when a phase is **done** for its declared scope; tick **`<slug>-checklist.md`** for **steps inside** that phase.
 
 ---
 
-## Three layers
+## Three layers (what you tick)
 
 | Layer | File | What you tick |
 | --- | --- | --- |
-| **Strategy execution** | **`progress/strategy-run-checklist.md`** | **Which phases** you will run, **in order**, each with **scope** (matches **`strategy.md` → Execution plan**). Use this for “next three steps per chapter” or “whole pipeline on anchor X.” |
+| **Strategy execution** | **`progress/strategy-run-checklist.md`** | **Which phases** you will run, **in order**, each with **scope** that **includes the same slice IDs** as **`strategy.md` → Execution plan**. Optional: **`progress/slices/<slice-id>-checklist.md`** per slice — see **`progress/README.md`** in the workspace (if present). |
 | **Full pipeline (reference)** | **`progress/process-checklist.md`** | **Every** phase in **`phase_files`** — useful as a map; optional if you rely only on strategy-run. |
 | **Phase steps** | **`progress/<phase>-checklist.md`** | **Action checklist** copied from **`content/parts/phases/<phase>.md` → ## Action Checklist**. |
 
-**Normative rules** for pipeline + phase checklists: **`library/base/checklist.md`**. **Implementation:** **`scripts/base/workspace_checklists.py`**.
+**Implementation:** **`scripts/base/workspace_checklists.py`** (paths, behavior, `--no-ensure-checklists`).
+
+---
+
+## How workspace checklist files are created (mechanical)
+
+| Kind | What it tracks | Where it lives | How it gets there |
+| --- | --- | --- | --- |
+| **Normative reference** | Rules in **this document** — strategy vs ticks, layers, `generate.py` behavior | **`content/parts/library/strategy-execution-and-checklists.md`** | Authored in the skill; **not** created by **`generate.py`**. |
+| **Pipeline position** | Which **phase** of the pipeline you are in | **`<active_skill_workspace>/<skill_name>/progress/process-checklist.md`** | **Created** on first **`python scripts/base/generate.py --phase <slug>`** when that file is **missing**, if **`skill-config.json` → `workspace.active_skill_workspace`** is set. One `- [ ]` line per slug in **`phase_files`** (labels from **`phase_section_headings`** when present). **Does not overwrite** an existing file. |
+| **Phase action steps** | **Steps inside** the current phase | **`<active_skill_workspace>/<skill_name>/progress/<phase-slug>-checklist.md`** | **Created** in the **same** `generate.py` run when that file is **missing**. Steps are taken from **`## Action Checklist`** in **`content/parts/phases/<phase-slug>.md`**, or from task lines (`- [ ]` / `- [x]`) in that file if the section is absent. **Does not overwrite** an existing file. |
+| **Strategy execution** (workspace) | Ordered phases matching **`strategy.md`** | **`progress/strategy-run-checklist.md`** | Seeded from template when **`generate.py`** / workspace checklist logic creates it; **you** align it with **`strategy.md`**. |
+
+### Names and workspace
+
+- **`skill_name`** — **`skill-config.json` → `name`** (fallback: skill directory name). Used in **`…/<skill_name>/progress/`**.
+- **`active_skill_workspace`** — Must point at the **project / engagement tree** where **`progress/`** checklists belong, **not** the skill install folder. See **`skill-config.json` → `workspace`** and **[workspace-and-config.md](phases/workspace-and-config.md)**.
+
+### Flags
+
+- **`python scripts/base/generate.py --phase <slug> --no-ensure-checklists`** — run the phase prompt **without** creating missing **`progress/`** checklist files (see **`workspace_checklists.py`**).
 
 ---
 
 ## What not to do
 
 - Do not put **checkboxes** in **`strategy.md`** — keep execution plan as **normative numbered/bulleted text**; ticks live under **`progress/`**.
+- Do not record pipeline or phase **session** progress by ticking boxes in **`content/parts/process.md`** or **`content/parts/phases/*.md`** — those stay **normative**; live ticks go **only** under **`…/progress/`**.
 - Do not let **`strategy-run-checklist.md`** drift from **`strategy.md`** — after a pivot, update both and append a line under *Ongoing strategic decisions*.
 
 ---
@@ -25211,6 +27330,14 @@ OOAD uses **three** checklist layers under **`<workspace>/abd-ooad/progress/`**.
 ## Phase slugs
 
 Use exact slugs from **`skill-config.json` → `phase_files`** (e.g. `nouns-verbs-rules-and-states`, `domain-scan`). Labels for humans are in **`phase_section_headings`**.
+
+---
+
+## References
+
+- **`strategy-led-generation.md`** — artifact roles, **`strategy.md`** vs **`domain-scan-results.md`**
+- **`templates/strategy.md`**, **`templates/progress-README.md`**
+- **`scripts/base/workspace_checklists.py`**
 
 
 ---
@@ -25816,12 +27943,14 @@ Use a note (folded-corner rectangle) connected to the class by a dashed line:
 
 The CLI does not yet support notes — add them manually in draw.io after CLI build. Use: Insert → Shape → Note. Connect to the target class with a dashed edge. Enclose invariant text in `{ }`.
 
+**Module / package (UML frame) notes:** For commentary that applies to a whole **module** (the outer `umlFrame` / package boundary from `add-frame`), attach the same Note shape to the **frame’s perimeter** (snap the connector to the frame edge), not to an inner class. Use the same dashed connector style as class notes. This keeps module-level invariants or scope reminders visually tied to the subsystem boundary.
+
 ### When to add invariants
 
 | Phase | Add invariants? |
 |-------|----------------|
 | domain-scan | Yes — add the invariants you found during the scan (inline preferred at this fidelity) |
-| nouns-verbs | No — extraction only; invariants captured in registry notes |
+| domain-noun-verb (Step 1) | No — extraction only; invariants captured in registry notes |
 | raw-candidate-list through responsibilities | Yes — as invariants become confirmed, add to diagram |
 | Full model phases | Yes — invariants are a required part of the final model |
 
@@ -26657,7 +28786,7 @@ You are the **domain modeler and OOAD practitioner** using this skill: you provi
 
 **Upstream:** `invariants-in-the-model.md`, `prefer-composition.md`.
 
-> **Continual refinement:** Aligns with **abd-maps-models-specs** [`domain-model.md`](../../abd-maps-models-specs/content/parts/library/domain-model.md) (*Domain concept* template, *Continual refinement — class definition + diagram*). In this payments thread, **`**newly added**`** marks a property or operation line **first introduced in this step file** (Steps 1–4 stay pre-notation; formal `- <type> property` / `operation(...) → return` lines begin at Step 5).
+> **Continual refinement:** Full notation is in **[Domain model Markdown](content/parts/library/domain-model.md)** (*Domain concept* template; class definition and diagram refined together). In this payments thread, **`**newly added**`** marks a property or operation line **first introduced in this step file** (Steps 1–4 stay pre-notation; formal `- <type> property` / `operation(...) → return` lines begin at Step 5).
 
 ---
 
@@ -26718,6 +28847,106 @@ Branches: `FAILED` (terminal), `CANCELLED` (if allowed).
 
 ## Library
 
+
+
+---
+
+### `domain-model.md`
+
+# Domain model Markdown
+
+This skill’s **domain model** is captured in Markdown (and optionally a parallel **Draw.io** class diagram). Use the checked-in **`templates/domain model template.md`** when starting a new companion doc; keep the same semantics as **`templates/domain model template.drawio`** when both exist.
+
+---
+
+## Domain concept template
+
+Each **domain concept** (class, interface, value object, or aggregate) is documented under a clear heading, for example:
+
+```markdown
+## **Payment**
+
+**Responsibilities:** …
+
+### Properties
+- Money amount
+- …
+
+### Operations
+- initiate() → Authorization
+```
+
+From **Step 5** onward, prefer **typed** members (see **Notation evolution** below). Earlier steps stay **pre-notation** (bullets and prose).
+
+---
+
+## Continual refinement — class definition + diagram
+
+**Continual refinement** means you **grow** the model across steps: each step file may add or tighten concepts. The Markdown spec and the class diagram are **two views of the same model** — update both when your project uses dual artifacts so they do not drift (see **[Class diagrams](class-diagrams.md)**).
+
+---
+
+## **newly added** tag
+
+In the **worked example** threads (e.g. payments), the marker **`**newly added**`** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
+
+---
+
+## Notation evolution
+
+| Phase | Markdown style |
+|--------|------------------|
+| **Steps 1–4** | Informal: bullets, short phrases, responsibilities, candidate names. **No** required `- <type> property` lines yet. |
+| **Step 5+** | Formal typed members: `- <Type> propertyName`, `operationName(...) → ReturnType`. |
+
+---
+
+## Subtype sections
+
+When you introduce substitutable specializations, add an explicit subtype heading so the structure is visible in the spec and in diagrams:
+
+```markdown
+### **Subtype** : **PaymentMethod**
+```
+
+Put **`**newly added**`** on subtype **operation** (or property) lines when that member is **first** introduced for that subtype.
+
+---
+
+## Invariants
+
+Attach invariants to the **property** or **operation** they constrain, using a dedicated line:
+
+```markdown
+**Invariant:** …
+```
+
+Mark **`**newly added**`** when you **first** attach an invariant to a given member line.
+
+---
+
+## Early steps: terms, mechanisms, story map
+
+Before typed properties exist, align extracted **nouns, verbs, rules, states** with your workspace’s **terms & mechanisms** and **shaped story map** (or equivalent). That is the same “grow the model as you go” idea: informal extraction first, then formal types.
+
+---
+
+## Class diagram and spec (visual twin)
+
+When you maintain a machine-readable spec such as **`map-model-spec.json`**, re-run your project’s class-diagram render script (for example **`render_map_model_class_diagram.py`**) after material changes so the **Draw.io** diagram stays the **visual twin** of the spec.
+
+- **[Class diagrams](class-diagrams.md)** — templates, relationship types, keeping `.md` and `.drawio` aligned.  
+- **[Using the Diagram CLI](using-diagram-cli.md)** — building diagrams with **`scripts/drawio_cli.py`**.
+
+---
+
+## Related library shards
+
+| Topic | File |
+|--------|------|
+| Term tracking across steps | [term-registry.md](term-registry.md) |
+| Strategy-led runs | [strategy-led-generation.md](strategy-led-generation.md) |
+| Layout and lanes | [class-diagram-layout-rules.md](class-diagram-layout-rules.md) |
 
 
 ---
@@ -26813,7 +29042,7 @@ Domain scan (OOAD **phase 1**) does not only produce a single “results” file
 
 For the scan procedure itself, see the **Domain scan** phase. This page explains **what each artifact is for** and how **`strategy.md`** relates to **`domain-scan-results.md`**.
 
-**Checkbox discipline:** Live ticks for pipeline position and phase steps belong only under **`<workspace>/abd-ooad/progress/`** — see **`library/base/checklist.md`** and **`library/strategy-execution-and-checklists.md`**. Do not put tick tables in `strategy.md`.
+**Checkbox discipline:** Live ticks for pipeline position and phase steps belong only under **`<workspace>/abd-ooad/progress/`** — see **`library/strategy-execution-and-checklists.md`**. Do not put tick tables in `strategy.md`.
 
 ---
 
@@ -26824,7 +29053,7 @@ Created during domain scan under `<workspace>/abd-ooad/`:
 | File | Role | Updates after scan? |
 |------|------|---------------------|
 | `domain-scan-results.md` | **Findings snapshot:** source map, anchor table, tensions. | Rarely — only if you correct a scan error. Do not put the forward plan here; that belongs in `strategy.md`. |
-| `strategy.md` | **Living strategy:** **modeling scope**, **execution plan (normative)** — which phases in what order and on what slice of context — plus **approach** and **dated pivots**. | **Yes** — whenever scope, order, or focus changes. |
+| `strategy.md` | **Living strategy:** **modeling scope**; **§1 source slices** (table: Order, Goal, **Source** — chapters, files, modules, or mixed — **Coverage**, **Importance**); **§2 slice plan** (per-slice **goal restated** + **phases**); **coverage across steps**; **cross-slice integration**; **anchor and subdomain elaboration**; **execution plan (normative)** — phase slugs with **slice IDs** on every line; plus **approach** and **dated pivots**. | **Yes** — whenever scope, order, slice depth, subdomain mapping, or integration changes. |
 | `domain-scan-model.md` | Class sketch (markdown) at scan fidelity. | Yes, in later phases — not only during scan. |
 | `domain-scan-model.drawio` | Diagram at scan fidelity. | Same as model.md. |
 | `term-registry.md` | Terms, **Classification** (model role), **Status** (OOAD scale), confidence — seeded at scan. | **Yes** — every later phase updates Step, Classification, and Status as the model evolves. |
@@ -26838,7 +29067,7 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 ## What `strategy.md` is for
 
 - Created at the end of domain scan as a **workspace file**, then **kept current** through extraction and later phases.
-- **Purpose:** (1) **scope** — what chapters, anchors, or files you model; (2) **execution plan** — ordered list of phase slugs with **per-step scope** (e.g. run nouns-verbs on Chapter 5, then the next three phases on Chapter 6); (3) short **why** in *Approach going forward* and **pivots** in *Ongoing strategic decisions*. Scan mechanics live in **`domain-scan-results.md`**.
+- **Purpose:** (1) **scope** — what product or corpus you model; (2) **§1 source slices** — ordered table (**Goal**, **Source**, **Coverage**, **Importance**); **Source** is any locator (chapters, page ranges, repo paths, modules — not only document sections); (3) **§2 slice plan** — per slice, **goal restated** and **phases** (execution steps); (4) **coverage across steps** — matrix proving every in-scope slice is addressed or deferred; (5) **cross-slice integration** — handoffs between slices; (6) **anchor and subdomain elaboration** — attached types (e.g. Ability, Skill, Advantage) mapped to **slice IDs** and execution **§**; (7) **execution plan** — each line names **slice IDs**; breadth steps must **include** subdomain slices in **nouns-verbs** / **raw-candidate-list** where relevant; (8) **Approach** + **Ongoing strategic decisions**. Scan mechanics stay in **`domain-scan-results.md`**.
 - **Template:** `templates/strategy.md`. Install as **`strategy.md`** (lowercase; avoid duplicate `STRATEGY.md` on case-insensitive disks).
 - After you finalize the execution plan, align **`progress/strategy-run-checklist.md`** with it (same phases and scope); that file holds **checkboxes** for “which phase is done,” while **`strategy.md`** stays **normative text** (no `- [ ]`).
 
@@ -26849,7 +29078,7 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 | Question | Answer |
 |----------|--------|
 | Where is the source map and anchor list? | `domain-scan-results.md` |
-| Where do I define “we model Chapter 5 first, then Chapter 6” and **which phases** per slice? | `strategy.md` → **Modeling scope** + **Execution plan (normative)** |
+| Where do I define **which slices** exist (chapters, files, modules, …), **depth**, **subdomains per anchor**, and **which phases** hit which? | `strategy.md` → **§1 Source slices**, **§2 Slice plan**, **Coverage across steps**, **Cross-slice integration**, **Anchor and subdomain elaboration**, **Execution plan (normative)** |
 | Where do I tick **which phases** we ran, **in order**, with **scope**? | **`abd-ooad/progress/strategy-run-checklist.md`** (keep in sync with `strategy.md`) |
 | Where do I tick **full** pipeline position (all phases)? | **`abd-ooad/progress/process-checklist.md`** (optional reference) |
 | Where do I tick **steps inside** the current phase? | **`abd-ooad/progress/<phase>-checklist.md`** |
@@ -26874,7 +29103,7 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 - Strategy vs checklists: **`library/strategy-execution-and-checklists.md`**
 - Anchors: `anchors` in this library
 - Term registry: `term-registry` in this library
-- Checklist norm: `library/base/checklist.md`
+- Checklist norm: `library/strategy-execution-and-checklists.md`
 
 
 ---
@@ -26883,7 +29112,9 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 
 # Strategy execution and checklists (abd-ooad)
 
-OOAD uses **three** checklist layers under **`<workspace>/abd-ooad/progress/`**. Only **`strategy.md`** defines **scope** and **which phases in what order**; checklists are where you **tick** progress.
+**Canonical doc** for: (1) **strategy** vs **live ticks**, (2) **which files** hold checkboxes, (3) **how** `generate.py` creates workspace **`progress/`** files. Does **not** replace **[process.md](../process.md)** (process tables, `generate` / `build`) or **[skill-structure-and-concepts.md](../base/skill-structure-and-concepts.md)** (repo layout).
+
+Only **`strategy.md`** defines **scope** and **which phases in what order**; checklists are where you **tick** progress.
 
 ---
 
@@ -26891,29 +29122,55 @@ OOAD uses **three** checklist layers under **`<workspace>/abd-ooad/progress/`**.
 
 1. **Domain scan** — produce scan artifacts (see **`strategy-led-generation`**).
 2. **Strategy** — fill **`strategy.md`** from **`templates/strategy.md`**:
-   - **Modeling scope** — chapters, anchors, files, in/out of scope.
-   - **Execution plan (normative)** — ordered list of phase **slugs** (from **`skill-config.json` → `phase_files`**) plus **scope per step** (e.g. “nouns-verbs on Chapter 5 only”).
+   - **Modeling scope** — corpus or product boundary; **source type** (book vs repo vs mixed).
+   - **§1 Source slices** — ordered table: **Goal**, **Source** (chapters, files, modules, APIs — whatever locates work), **Coverage** (depth this pass), **Importance**; stable **slice IDs** reused everywhere.
+   - **§2 Slice plan** — per slice: **goal restated**, **unit kind**, **phases** (execution step numbers / slugs), produces, depends-on.
+   - **Coverage across steps** — matrix: every slice → which **execution plan** steps touch it → **depth** → deferrals.
+   - **Cross-slice integration** — cross-boundary types and ordering (From → To + narrative).
+   - **Anchor and subdomain elaboration** (when anchors have attached types) — map subdomains to slices and execution §.
+   - **Execution plan (normative)** — ordered phase **slugs**; **each line cites slice IDs** (mirror **`strategy-run-checklist.md`**).
    - **Approach going forward** + **Ongoing strategic decisions** — short narrative and dated pivots.
-3. **Align live checklists** — keep **`strategy-run-checklist.md`** in sync with the execution plan (same order and scope). Seed file: **`templates/strategy-run-checklist.md`** (created under **`progress/`** on first **`generate.py`** when missing).
+3. **Align live checklists** — keep **`strategy-run-checklist.md`** in sync with the execution plan (same order and scope). Optional **`templates/strategy-run-checklist.md`** seed; optional **`templates/progress-README.md`** → **`progress/README.md`** for slice-specific files under **`progress/slices/`**.
 4. **Run phases** — for the **current** phase: `python scripts/base/generate.py --phase <slug>`. Tick **`strategy-run-checklist.md`** when a phase is **done** for its declared scope; tick **`<slug>-checklist.md`** for **steps inside** that phase.
 
 ---
 
-## Three layers
+## Three layers (what you tick)
 
 | Layer | File | What you tick |
 | --- | --- | --- |
-| **Strategy execution** | **`progress/strategy-run-checklist.md`** | **Which phases** you will run, **in order**, each with **scope** (matches **`strategy.md` → Execution plan**). Use this for “next three steps per chapter” or “whole pipeline on anchor X.” |
+| **Strategy execution** | **`progress/strategy-run-checklist.md`** | **Which phases** you will run, **in order**, each with **scope** that **includes the same slice IDs** as **`strategy.md` → Execution plan**. Optional: **`progress/slices/<slice-id>-checklist.md`** per slice — see **`progress/README.md`** in the workspace (if present). |
 | **Full pipeline (reference)** | **`progress/process-checklist.md`** | **Every** phase in **`phase_files`** — useful as a map; optional if you rely only on strategy-run. |
 | **Phase steps** | **`progress/<phase>-checklist.md`** | **Action checklist** copied from **`content/parts/phases/<phase>.md` → ## Action Checklist**. |
 
-**Normative rules** for pipeline + phase checklists: **`library/base/checklist.md`**. **Implementation:** **`scripts/base/workspace_checklists.py`**.
+**Implementation:** **`scripts/base/workspace_checklists.py`** (paths, behavior, `--no-ensure-checklists`).
+
+---
+
+## How workspace checklist files are created (mechanical)
+
+| Kind | What it tracks | Where it lives | How it gets there |
+| --- | --- | --- | --- |
+| **Normative reference** | Rules in **this document** — strategy vs ticks, layers, `generate.py` behavior | **`content/parts/library/strategy-execution-and-checklists.md`** | Authored in the skill; **not** created by **`generate.py`**. |
+| **Pipeline position** | Which **phase** of the pipeline you are in | **`<active_skill_workspace>/<skill_name>/progress/process-checklist.md`** | **Created** on first **`python scripts/base/generate.py --phase <slug>`** when that file is **missing**, if **`skill-config.json` → `workspace.active_skill_workspace`** is set. One `- [ ]` line per slug in **`phase_files`** (labels from **`phase_section_headings`** when present). **Does not overwrite** an existing file. |
+| **Phase action steps** | **Steps inside** the current phase | **`<active_skill_workspace>/<skill_name>/progress/<phase-slug>-checklist.md`** | **Created** in the **same** `generate.py` run when that file is **missing**. Steps are taken from **`## Action Checklist`** in **`content/parts/phases/<phase-slug>.md`**, or from task lines (`- [ ]` / `- [x]`) in that file if the section is absent. **Does not overwrite** an existing file. |
+| **Strategy execution** (workspace) | Ordered phases matching **`strategy.md`** | **`progress/strategy-run-checklist.md`** | Seeded from template when **`generate.py`** / workspace checklist logic creates it; **you** align it with **`strategy.md`**. |
+
+### Names and workspace
+
+- **`skill_name`** — **`skill-config.json` → `name`** (fallback: skill directory name). Used in **`…/<skill_name>/progress/`**.
+- **`active_skill_workspace`** — Must point at the **project / engagement tree** where **`progress/`** checklists belong, **not** the skill install folder. See **`skill-config.json` → `workspace`** and **[workspace-and-config.md](phases/workspace-and-config.md)**.
+
+### Flags
+
+- **`python scripts/base/generate.py --phase <slug> --no-ensure-checklists`** — run the phase prompt **without** creating missing **`progress/`** checklist files (see **`workspace_checklists.py`**).
 
 ---
 
 ## What not to do
 
 - Do not put **checkboxes** in **`strategy.md`** — keep execution plan as **normative numbered/bulleted text**; ticks live under **`progress/`**.
+- Do not record pipeline or phase **session** progress by ticking boxes in **`content/parts/process.md`** or **`content/parts/phases/*.md`** — those stay **normative**; live ticks go **only** under **`…/progress/`**.
 - Do not let **`strategy-run-checklist.md`** drift from **`strategy.md`** — after a pivot, update both and append a line under *Ongoing strategic decisions*.
 
 ---
@@ -26921,6 +29178,14 @@ OOAD uses **three** checklist layers under **`<workspace>/abd-ooad/progress/`**.
 ## Phase slugs
 
 Use exact slugs from **`skill-config.json` → `phase_files`** (e.g. `nouns-verbs-rules-and-states`, `domain-scan`). Labels for humans are in **`phase_section_headings`**.
+
+---
+
+## References
+
+- **`strategy-led-generation.md`** — artifact roles, **`strategy.md`** vs **`domain-scan-results.md`**
+- **`templates/strategy.md`**, **`templates/progress-README.md`**
+- **`scripts/base/workspace_checklists.py`**
 
 
 ---
@@ -27526,12 +29791,14 @@ Use a note (folded-corner rectangle) connected to the class by a dashed line:
 
 The CLI does not yet support notes — add them manually in draw.io after CLI build. Use: Insert → Shape → Note. Connect to the target class with a dashed edge. Enclose invariant text in `{ }`.
 
+**Module / package (UML frame) notes:** For commentary that applies to a whole **module** (the outer `umlFrame` / package boundary from `add-frame`), attach the same Note shape to the **frame’s perimeter** (snap the connector to the frame edge), not to an inner class. Use the same dashed connector style as class notes. This keeps module-level invariants or scope reminders visually tied to the subsystem boundary.
+
 ### When to add invariants
 
 | Phase | Add invariants? |
 |-------|----------------|
 | domain-scan | Yes — add the invariants you found during the scan (inline preferred at this fidelity) |
-| nouns-verbs | No — extraction only; invariants captured in registry notes |
+| domain-noun-verb (Step 1) | No — extraction only; invariants captured in registry notes |
 | raw-candidate-list through responsibilities | Yes — as invariants become confirmed, add to diagram |
 | Full model phases | Yes — invariants are a required part of the final model |
 
@@ -28367,7 +30634,7 @@ You are the **domain modeler and OOAD practitioner** using this skill: you provi
 
 **Upstream:** all prior step files + `garbled-payments-spec.md`.
 
-> **Continual refinement:** Aligns with **abd-maps-models-specs** [`domain-model.md`](../../abd-maps-models-specs/content/parts/library/domain-model.md) (*Domain concept* template, *Continual refinement — class definition + diagram*). In this payments thread, **`**newly added**`** marks a property or operation line **first introduced in this step file** (Steps 1–4 stay pre-notation; formal `- <type> property` / `operation(...) → return` lines begin at Step 5).
+> **Continual refinement:** Full notation is in **[Domain model Markdown](content/parts/library/domain-model.md)** (*Domain concept* template; class definition and diagram refined together). In this payments thread, **`**newly added**`** marks a property or operation line **first introduced in this step file** (Steps 1–4 stay pre-notation; formal `- <type> property` / `operation(...) → return` lines begin at Step 5).
 
 ---
 
@@ -28421,6 +30688,106 @@ Treat **tensions** (org conflict, timing conflict) as **signals** for boundaries
 
 ## Library
 
+
+
+---
+
+### `domain-model.md`
+
+# Domain model Markdown
+
+This skill’s **domain model** is captured in Markdown (and optionally a parallel **Draw.io** class diagram). Use the checked-in **`templates/domain model template.md`** when starting a new companion doc; keep the same semantics as **`templates/domain model template.drawio`** when both exist.
+
+---
+
+## Domain concept template
+
+Each **domain concept** (class, interface, value object, or aggregate) is documented under a clear heading, for example:
+
+```markdown
+## **Payment**
+
+**Responsibilities:** …
+
+### Properties
+- Money amount
+- …
+
+### Operations
+- initiate() → Authorization
+```
+
+From **Step 5** onward, prefer **typed** members (see **Notation evolution** below). Earlier steps stay **pre-notation** (bullets and prose).
+
+---
+
+## Continual refinement — class definition + diagram
+
+**Continual refinement** means you **grow** the model across steps: each step file may add or tighten concepts. The Markdown spec and the class diagram are **two views of the same model** — update both when your project uses dual artifacts so they do not drift (see **[Class diagrams](class-diagrams.md)**).
+
+---
+
+## **newly added** tag
+
+In the **worked example** threads (e.g. payments), the marker **`**newly added**`** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
+
+---
+
+## Notation evolution
+
+| Phase | Markdown style |
+|--------|------------------|
+| **Steps 1–4** | Informal: bullets, short phrases, responsibilities, candidate names. **No** required `- <type> property` lines yet. |
+| **Step 5+** | Formal typed members: `- <Type> propertyName`, `operationName(...) → ReturnType`. |
+
+---
+
+## Subtype sections
+
+When you introduce substitutable specializations, add an explicit subtype heading so the structure is visible in the spec and in diagrams:
+
+```markdown
+### **Subtype** : **PaymentMethod**
+```
+
+Put **`**newly added**`** on subtype **operation** (or property) lines when that member is **first** introduced for that subtype.
+
+---
+
+## Invariants
+
+Attach invariants to the **property** or **operation** they constrain, using a dedicated line:
+
+```markdown
+**Invariant:** …
+```
+
+Mark **`**newly added**`** when you **first** attach an invariant to a given member line.
+
+---
+
+## Early steps: terms, mechanisms, story map
+
+Before typed properties exist, align extracted **nouns, verbs, rules, states** with your workspace’s **terms & mechanisms** and **shaped story map** (or equivalent). That is the same “grow the model as you go” idea: informal extraction first, then formal types.
+
+---
+
+## Class diagram and spec (visual twin)
+
+When you maintain a machine-readable spec such as **`map-model-spec.json`**, re-run your project’s class-diagram render script (for example **`render_map_model_class_diagram.py`**) after material changes so the **Draw.io** diagram stays the **visual twin** of the spec.
+
+- **[Class diagrams](class-diagrams.md)** — templates, relationship types, keeping `.md` and `.drawio` aligned.  
+- **[Using the Diagram CLI](using-diagram-cli.md)** — building diagrams with **`scripts/drawio_cli.py`**.
+
+---
+
+## Related library shards
+
+| Topic | File |
+|--------|------|
+| Term tracking across steps | [term-registry.md](term-registry.md) |
+| Strategy-led runs | [strategy-led-generation.md](strategy-led-generation.md) |
+| Layout and lanes | [class-diagram-layout-rules.md](class-diagram-layout-rules.md) |
 
 
 ---
@@ -28516,7 +30883,7 @@ Domain scan (OOAD **phase 1**) does not only produce a single “results” file
 
 For the scan procedure itself, see the **Domain scan** phase. This page explains **what each artifact is for** and how **`strategy.md`** relates to **`domain-scan-results.md`**.
 
-**Checkbox discipline:** Live ticks for pipeline position and phase steps belong only under **`<workspace>/abd-ooad/progress/`** — see **`library/base/checklist.md`** and **`library/strategy-execution-and-checklists.md`**. Do not put tick tables in `strategy.md`.
+**Checkbox discipline:** Live ticks for pipeline position and phase steps belong only under **`<workspace>/abd-ooad/progress/`** — see **`library/strategy-execution-and-checklists.md`**. Do not put tick tables in `strategy.md`.
 
 ---
 
@@ -28527,7 +30894,7 @@ Created during domain scan under `<workspace>/abd-ooad/`:
 | File | Role | Updates after scan? |
 |------|------|---------------------|
 | `domain-scan-results.md` | **Findings snapshot:** source map, anchor table, tensions. | Rarely — only if you correct a scan error. Do not put the forward plan here; that belongs in `strategy.md`. |
-| `strategy.md` | **Living strategy:** **modeling scope**, **execution plan (normative)** — which phases in what order and on what slice of context — plus **approach** and **dated pivots**. | **Yes** — whenever scope, order, or focus changes. |
+| `strategy.md` | **Living strategy:** **modeling scope**; **§1 source slices** (table: Order, Goal, **Source** — chapters, files, modules, or mixed — **Coverage**, **Importance**); **§2 slice plan** (per-slice **goal restated** + **phases**); **coverage across steps**; **cross-slice integration**; **anchor and subdomain elaboration**; **execution plan (normative)** — phase slugs with **slice IDs** on every line; plus **approach** and **dated pivots**. | **Yes** — whenever scope, order, slice depth, subdomain mapping, or integration changes. |
 | `domain-scan-model.md` | Class sketch (markdown) at scan fidelity. | Yes, in later phases — not only during scan. |
 | `domain-scan-model.drawio` | Diagram at scan fidelity. | Same as model.md. |
 | `term-registry.md` | Terms, **Classification** (model role), **Status** (OOAD scale), confidence — seeded at scan. | **Yes** — every later phase updates Step, Classification, and Status as the model evolves. |
@@ -28541,7 +30908,7 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 ## What `strategy.md` is for
 
 - Created at the end of domain scan as a **workspace file**, then **kept current** through extraction and later phases.
-- **Purpose:** (1) **scope** — what chapters, anchors, or files you model; (2) **execution plan** — ordered list of phase slugs with **per-step scope** (e.g. run nouns-verbs on Chapter 5, then the next three phases on Chapter 6); (3) short **why** in *Approach going forward* and **pivots** in *Ongoing strategic decisions*. Scan mechanics live in **`domain-scan-results.md`**.
+- **Purpose:** (1) **scope** — what product or corpus you model; (2) **§1 source slices** — ordered table (**Goal**, **Source**, **Coverage**, **Importance**); **Source** is any locator (chapters, page ranges, repo paths, modules — not only document sections); (3) **§2 slice plan** — per slice, **goal restated** and **phases** (execution steps); (4) **coverage across steps** — matrix proving every in-scope slice is addressed or deferred; (5) **cross-slice integration** — handoffs between slices; (6) **anchor and subdomain elaboration** — attached types (e.g. Ability, Skill, Advantage) mapped to **slice IDs** and execution **§**; (7) **execution plan** — each line names **slice IDs**; breadth steps must **include** subdomain slices in **nouns-verbs** / **raw-candidate-list** where relevant; (8) **Approach** + **Ongoing strategic decisions**. Scan mechanics stay in **`domain-scan-results.md`**.
 - **Template:** `templates/strategy.md`. Install as **`strategy.md`** (lowercase; avoid duplicate `STRATEGY.md` on case-insensitive disks).
 - After you finalize the execution plan, align **`progress/strategy-run-checklist.md`** with it (same phases and scope); that file holds **checkboxes** for “which phase is done,” while **`strategy.md`** stays **normative text** (no `- [ ]`).
 
@@ -28552,7 +30919,7 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 | Question | Answer |
 |----------|--------|
 | Where is the source map and anchor list? | `domain-scan-results.md` |
-| Where do I define “we model Chapter 5 first, then Chapter 6” and **which phases** per slice? | `strategy.md` → **Modeling scope** + **Execution plan (normative)** |
+| Where do I define **which slices** exist (chapters, files, modules, …), **depth**, **subdomains per anchor**, and **which phases** hit which? | `strategy.md` → **§1 Source slices**, **§2 Slice plan**, **Coverage across steps**, **Cross-slice integration**, **Anchor and subdomain elaboration**, **Execution plan (normative)** |
 | Where do I tick **which phases** we ran, **in order**, with **scope**? | **`abd-ooad/progress/strategy-run-checklist.md`** (keep in sync with `strategy.md`) |
 | Where do I tick **full** pipeline position (all phases)? | **`abd-ooad/progress/process-checklist.md`** (optional reference) |
 | Where do I tick **steps inside** the current phase? | **`abd-ooad/progress/<phase>-checklist.md`** |
@@ -28577,7 +30944,7 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 - Strategy vs checklists: **`library/strategy-execution-and-checklists.md`**
 - Anchors: `anchors` in this library
 - Term registry: `term-registry` in this library
-- Checklist norm: `library/base/checklist.md`
+- Checklist norm: `library/strategy-execution-and-checklists.md`
 
 
 ---
@@ -28586,7 +30953,9 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 
 # Strategy execution and checklists (abd-ooad)
 
-OOAD uses **three** checklist layers under **`<workspace>/abd-ooad/progress/`**. Only **`strategy.md`** defines **scope** and **which phases in what order**; checklists are where you **tick** progress.
+**Canonical doc** for: (1) **strategy** vs **live ticks**, (2) **which files** hold checkboxes, (3) **how** `generate.py` creates workspace **`progress/`** files. Does **not** replace **[process.md](../process.md)** (process tables, `generate` / `build`) or **[skill-structure-and-concepts.md](../base/skill-structure-and-concepts.md)** (repo layout).
+
+Only **`strategy.md`** defines **scope** and **which phases in what order**; checklists are where you **tick** progress.
 
 ---
 
@@ -28594,29 +30963,55 @@ OOAD uses **three** checklist layers under **`<workspace>/abd-ooad/progress/`**.
 
 1. **Domain scan** — produce scan artifacts (see **`strategy-led-generation`**).
 2. **Strategy** — fill **`strategy.md`** from **`templates/strategy.md`**:
-   - **Modeling scope** — chapters, anchors, files, in/out of scope.
-   - **Execution plan (normative)** — ordered list of phase **slugs** (from **`skill-config.json` → `phase_files`**) plus **scope per step** (e.g. “nouns-verbs on Chapter 5 only”).
+   - **Modeling scope** — corpus or product boundary; **source type** (book vs repo vs mixed).
+   - **§1 Source slices** — ordered table: **Goal**, **Source** (chapters, files, modules, APIs — whatever locates work), **Coverage** (depth this pass), **Importance**; stable **slice IDs** reused everywhere.
+   - **§2 Slice plan** — per slice: **goal restated**, **unit kind**, **phases** (execution step numbers / slugs), produces, depends-on.
+   - **Coverage across steps** — matrix: every slice → which **execution plan** steps touch it → **depth** → deferrals.
+   - **Cross-slice integration** — cross-boundary types and ordering (From → To + narrative).
+   - **Anchor and subdomain elaboration** (when anchors have attached types) — map subdomains to slices and execution §.
+   - **Execution plan (normative)** — ordered phase **slugs**; **each line cites slice IDs** (mirror **`strategy-run-checklist.md`**).
    - **Approach going forward** + **Ongoing strategic decisions** — short narrative and dated pivots.
-3. **Align live checklists** — keep **`strategy-run-checklist.md`** in sync with the execution plan (same order and scope). Seed file: **`templates/strategy-run-checklist.md`** (created under **`progress/`** on first **`generate.py`** when missing).
+3. **Align live checklists** — keep **`strategy-run-checklist.md`** in sync with the execution plan (same order and scope). Optional **`templates/strategy-run-checklist.md`** seed; optional **`templates/progress-README.md`** → **`progress/README.md`** for slice-specific files under **`progress/slices/`**.
 4. **Run phases** — for the **current** phase: `python scripts/base/generate.py --phase <slug>`. Tick **`strategy-run-checklist.md`** when a phase is **done** for its declared scope; tick **`<slug>-checklist.md`** for **steps inside** that phase.
 
 ---
 
-## Three layers
+## Three layers (what you tick)
 
 | Layer | File | What you tick |
 | --- | --- | --- |
-| **Strategy execution** | **`progress/strategy-run-checklist.md`** | **Which phases** you will run, **in order**, each with **scope** (matches **`strategy.md` → Execution plan**). Use this for “next three steps per chapter” or “whole pipeline on anchor X.” |
+| **Strategy execution** | **`progress/strategy-run-checklist.md`** | **Which phases** you will run, **in order**, each with **scope** that **includes the same slice IDs** as **`strategy.md` → Execution plan**. Optional: **`progress/slices/<slice-id>-checklist.md`** per slice — see **`progress/README.md`** in the workspace (if present). |
 | **Full pipeline (reference)** | **`progress/process-checklist.md`** | **Every** phase in **`phase_files`** — useful as a map; optional if you rely only on strategy-run. |
 | **Phase steps** | **`progress/<phase>-checklist.md`** | **Action checklist** copied from **`content/parts/phases/<phase>.md` → ## Action Checklist**. |
 
-**Normative rules** for pipeline + phase checklists: **`library/base/checklist.md`**. **Implementation:** **`scripts/base/workspace_checklists.py`**.
+**Implementation:** **`scripts/base/workspace_checklists.py`** (paths, behavior, `--no-ensure-checklists`).
+
+---
+
+## How workspace checklist files are created (mechanical)
+
+| Kind | What it tracks | Where it lives | How it gets there |
+| --- | --- | --- | --- |
+| **Normative reference** | Rules in **this document** — strategy vs ticks, layers, `generate.py` behavior | **`content/parts/library/strategy-execution-and-checklists.md`** | Authored in the skill; **not** created by **`generate.py`**. |
+| **Pipeline position** | Which **phase** of the pipeline you are in | **`<active_skill_workspace>/<skill_name>/progress/process-checklist.md`** | **Created** on first **`python scripts/base/generate.py --phase <slug>`** when that file is **missing**, if **`skill-config.json` → `workspace.active_skill_workspace`** is set. One `- [ ]` line per slug in **`phase_files`** (labels from **`phase_section_headings`** when present). **Does not overwrite** an existing file. |
+| **Phase action steps** | **Steps inside** the current phase | **`<active_skill_workspace>/<skill_name>/progress/<phase-slug>-checklist.md`** | **Created** in the **same** `generate.py` run when that file is **missing**. Steps are taken from **`## Action Checklist`** in **`content/parts/phases/<phase-slug>.md`**, or from task lines (`- [ ]` / `- [x]`) in that file if the section is absent. **Does not overwrite** an existing file. |
+| **Strategy execution** (workspace) | Ordered phases matching **`strategy.md`** | **`progress/strategy-run-checklist.md`** | Seeded from template when **`generate.py`** / workspace checklist logic creates it; **you** align it with **`strategy.md`**. |
+
+### Names and workspace
+
+- **`skill_name`** — **`skill-config.json` → `name`** (fallback: skill directory name). Used in **`…/<skill_name>/progress/`**.
+- **`active_skill_workspace`** — Must point at the **project / engagement tree** where **`progress/`** checklists belong, **not** the skill install folder. See **`skill-config.json` → `workspace`** and **[workspace-and-config.md](phases/workspace-and-config.md)**.
+
+### Flags
+
+- **`python scripts/base/generate.py --phase <slug> --no-ensure-checklists`** — run the phase prompt **without** creating missing **`progress/`** checklist files (see **`workspace_checklists.py`**).
 
 ---
 
 ## What not to do
 
 - Do not put **checkboxes** in **`strategy.md`** — keep execution plan as **normative numbered/bulleted text**; ticks live under **`progress/`**.
+- Do not record pipeline or phase **session** progress by ticking boxes in **`content/parts/process.md`** or **`content/parts/phases/*.md`** — those stay **normative**; live ticks go **only** under **`…/progress/`**.
 - Do not let **`strategy-run-checklist.md`** drift from **`strategy.md`** — after a pivot, update both and append a line under *Ongoing strategic decisions*.
 
 ---
@@ -28624,6 +31019,14 @@ OOAD uses **three** checklist layers under **`<workspace>/abd-ooad/progress/`**.
 ## Phase slugs
 
 Use exact slugs from **`skill-config.json` → `phase_files`** (e.g. `nouns-verbs-rules-and-states`, `domain-scan`). Labels for humans are in **`phase_section_headings`**.
+
+---
+
+## References
+
+- **`strategy-led-generation.md`** — artifact roles, **`strategy.md`** vs **`domain-scan-results.md`**
+- **`templates/strategy.md`**, **`templates/progress-README.md`**
+- **`scripts/base/workspace_checklists.py`**
 
 
 ---
@@ -29229,12 +31632,14 @@ Use a note (folded-corner rectangle) connected to the class by a dashed line:
 
 The CLI does not yet support notes — add them manually in draw.io after CLI build. Use: Insert → Shape → Note. Connect to the target class with a dashed edge. Enclose invariant text in `{ }`.
 
+**Module / package (UML frame) notes:** For commentary that applies to a whole **module** (the outer `umlFrame` / package boundary from `add-frame`), attach the same Note shape to the **frame’s perimeter** (snap the connector to the frame edge), not to an inner class. Use the same dashed connector style as class notes. This keeps module-level invariants or scope reminders visually tied to the subsystem boundary.
+
 ### When to add invariants
 
 | Phase | Add invariants? |
 |-------|----------------|
 | domain-scan | Yes — add the invariants you found during the scan (inline preferred at this fidelity) |
-| nouns-verbs | No — extraction only; invariants captured in registry notes |
+| domain-noun-verb (Step 1) | No — extraction only; invariants captured in registry notes |
 | raw-candidate-list through responsibilities | Yes — as invariants become confirmed, add to diagram |
 | Full model phases | Yes — invariants are a required part of the final model |
 
@@ -30070,7 +32475,7 @@ You are the **domain modeler and OOAD practitioner** using this skill: you provi
 
 **Upstream:** `garbled-payments-spec.md`, `iterative-refinement.md`.
 
-> **Continual refinement:** Aligns with **abd-maps-models-specs** [`domain-model.md`](../../abd-maps-models-specs/content/parts/library/domain-model.md) (*Domain concept* template, *Continual refinement — class definition + diagram*). In this payments thread, **`**newly added**`** marks a property or operation line **first introduced in this step file** (Steps 1–4 stay pre-notation; formal `- <type> property` / `operation(...) → return` lines begin at Step 5).
+> **Continual refinement:** Full notation is in **[Domain model Markdown](content/parts/library/domain-model.md)** (*Domain concept* template; class definition and diagram refined together). In this payments thread, **`**newly added**`** marks a property or operation line **first introduced in this step file** (Steps 1–4 stay pre-notation; formal `- <type> property` / `operation(...) → return` lines begin at Step 5).
 
 ---
 
@@ -30115,6 +32520,106 @@ You are the **domain modeler and OOAD practitioner** using this skill: you provi
 
 ## Library
 
+
+
+---
+
+### `domain-model.md`
+
+# Domain model Markdown
+
+This skill’s **domain model** is captured in Markdown (and optionally a parallel **Draw.io** class diagram). Use the checked-in **`templates/domain model template.md`** when starting a new companion doc; keep the same semantics as **`templates/domain model template.drawio`** when both exist.
+
+---
+
+## Domain concept template
+
+Each **domain concept** (class, interface, value object, or aggregate) is documented under a clear heading, for example:
+
+```markdown
+## **Payment**
+
+**Responsibilities:** …
+
+### Properties
+- Money amount
+- …
+
+### Operations
+- initiate() → Authorization
+```
+
+From **Step 5** onward, prefer **typed** members (see **Notation evolution** below). Earlier steps stay **pre-notation** (bullets and prose).
+
+---
+
+## Continual refinement — class definition + diagram
+
+**Continual refinement** means you **grow** the model across steps: each step file may add or tighten concepts. The Markdown spec and the class diagram are **two views of the same model** — update both when your project uses dual artifacts so they do not drift (see **[Class diagrams](class-diagrams.md)**).
+
+---
+
+## **newly added** tag
+
+In the **worked example** threads (e.g. payments), the marker **`**newly added**`** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
+
+---
+
+## Notation evolution
+
+| Phase | Markdown style |
+|--------|------------------|
+| **Steps 1–4** | Informal: bullets, short phrases, responsibilities, candidate names. **No** required `- <type> property` lines yet. |
+| **Step 5+** | Formal typed members: `- <Type> propertyName`, `operationName(...) → ReturnType`. |
+
+---
+
+## Subtype sections
+
+When you introduce substitutable specializations, add an explicit subtype heading so the structure is visible in the spec and in diagrams:
+
+```markdown
+### **Subtype** : **PaymentMethod**
+```
+
+Put **`**newly added**`** on subtype **operation** (or property) lines when that member is **first** introduced for that subtype.
+
+---
+
+## Invariants
+
+Attach invariants to the **property** or **operation** they constrain, using a dedicated line:
+
+```markdown
+**Invariant:** …
+```
+
+Mark **`**newly added**`** when you **first** attach an invariant to a given member line.
+
+---
+
+## Early steps: terms, mechanisms, story map
+
+Before typed properties exist, align extracted **nouns, verbs, rules, states** with your workspace’s **terms & mechanisms** and **shaped story map** (or equivalent). That is the same “grow the model as you go” idea: informal extraction first, then formal types.
+
+---
+
+## Class diagram and spec (visual twin)
+
+When you maintain a machine-readable spec such as **`map-model-spec.json`**, re-run your project’s class-diagram render script (for example **`render_map_model_class_diagram.py`**) after material changes so the **Draw.io** diagram stays the **visual twin** of the spec.
+
+- **[Class diagrams](class-diagrams.md)** — templates, relationship types, keeping `.md` and `.drawio` aligned.  
+- **[Using the Diagram CLI](using-diagram-cli.md)** — building diagrams with **`scripts/drawio_cli.py`**.
+
+---
+
+## Related library shards
+
+| Topic | File |
+|--------|------|
+| Term tracking across steps | [term-registry.md](term-registry.md) |
+| Strategy-led runs | [strategy-led-generation.md](strategy-led-generation.md) |
+| Layout and lanes | [class-diagram-layout-rules.md](class-diagram-layout-rules.md) |
 
 
 ---
@@ -30210,7 +32715,7 @@ Domain scan (OOAD **phase 1**) does not only produce a single “results” file
 
 For the scan procedure itself, see the **Domain scan** phase. This page explains **what each artifact is for** and how **`strategy.md`** relates to **`domain-scan-results.md`**.
 
-**Checkbox discipline:** Live ticks for pipeline position and phase steps belong only under **`<workspace>/abd-ooad/progress/`** — see **`library/base/checklist.md`** and **`library/strategy-execution-and-checklists.md`**. Do not put tick tables in `strategy.md`.
+**Checkbox discipline:** Live ticks for pipeline position and phase steps belong only under **`<workspace>/abd-ooad/progress/`** — see **`library/strategy-execution-and-checklists.md`**. Do not put tick tables in `strategy.md`.
 
 ---
 
@@ -30221,7 +32726,7 @@ Created during domain scan under `<workspace>/abd-ooad/`:
 | File | Role | Updates after scan? |
 |------|------|---------------------|
 | `domain-scan-results.md` | **Findings snapshot:** source map, anchor table, tensions. | Rarely — only if you correct a scan error. Do not put the forward plan here; that belongs in `strategy.md`. |
-| `strategy.md` | **Living strategy:** **modeling scope**, **execution plan (normative)** — which phases in what order and on what slice of context — plus **approach** and **dated pivots**. | **Yes** — whenever scope, order, or focus changes. |
+| `strategy.md` | **Living strategy:** **modeling scope**; **§1 source slices** (table: Order, Goal, **Source** — chapters, files, modules, or mixed — **Coverage**, **Importance**); **§2 slice plan** (per-slice **goal restated** + **phases**); **coverage across steps**; **cross-slice integration**; **anchor and subdomain elaboration**; **execution plan (normative)** — phase slugs with **slice IDs** on every line; plus **approach** and **dated pivots**. | **Yes** — whenever scope, order, slice depth, subdomain mapping, or integration changes. |
 | `domain-scan-model.md` | Class sketch (markdown) at scan fidelity. | Yes, in later phases — not only during scan. |
 | `domain-scan-model.drawio` | Diagram at scan fidelity. | Same as model.md. |
 | `term-registry.md` | Terms, **Classification** (model role), **Status** (OOAD scale), confidence — seeded at scan. | **Yes** — every later phase updates Step, Classification, and Status as the model evolves. |
@@ -30235,7 +32740,7 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 ## What `strategy.md` is for
 
 - Created at the end of domain scan as a **workspace file**, then **kept current** through extraction and later phases.
-- **Purpose:** (1) **scope** — what chapters, anchors, or files you model; (2) **execution plan** — ordered list of phase slugs with **per-step scope** (e.g. run nouns-verbs on Chapter 5, then the next three phases on Chapter 6); (3) short **why** in *Approach going forward* and **pivots** in *Ongoing strategic decisions*. Scan mechanics live in **`domain-scan-results.md`**.
+- **Purpose:** (1) **scope** — what product or corpus you model; (2) **§1 source slices** — ordered table (**Goal**, **Source**, **Coverage**, **Importance**); **Source** is any locator (chapters, page ranges, repo paths, modules — not only document sections); (3) **§2 slice plan** — per slice, **goal restated** and **phases** (execution steps); (4) **coverage across steps** — matrix proving every in-scope slice is addressed or deferred; (5) **cross-slice integration** — handoffs between slices; (6) **anchor and subdomain elaboration** — attached types (e.g. Ability, Skill, Advantage) mapped to **slice IDs** and execution **§**; (7) **execution plan** — each line names **slice IDs**; breadth steps must **include** subdomain slices in **nouns-verbs** / **raw-candidate-list** where relevant; (8) **Approach** + **Ongoing strategic decisions**. Scan mechanics stay in **`domain-scan-results.md`**.
 - **Template:** `templates/strategy.md`. Install as **`strategy.md`** (lowercase; avoid duplicate `STRATEGY.md` on case-insensitive disks).
 - After you finalize the execution plan, align **`progress/strategy-run-checklist.md`** with it (same phases and scope); that file holds **checkboxes** for “which phase is done,” while **`strategy.md`** stays **normative text** (no `- [ ]`).
 
@@ -30246,7 +32751,7 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 | Question | Answer |
 |----------|--------|
 | Where is the source map and anchor list? | `domain-scan-results.md` |
-| Where do I define “we model Chapter 5 first, then Chapter 6” and **which phases** per slice? | `strategy.md` → **Modeling scope** + **Execution plan (normative)** |
+| Where do I define **which slices** exist (chapters, files, modules, …), **depth**, **subdomains per anchor**, and **which phases** hit which? | `strategy.md` → **§1 Source slices**, **§2 Slice plan**, **Coverage across steps**, **Cross-slice integration**, **Anchor and subdomain elaboration**, **Execution plan (normative)** |
 | Where do I tick **which phases** we ran, **in order**, with **scope**? | **`abd-ooad/progress/strategy-run-checklist.md`** (keep in sync with `strategy.md`) |
 | Where do I tick **full** pipeline position (all phases)? | **`abd-ooad/progress/process-checklist.md`** (optional reference) |
 | Where do I tick **steps inside** the current phase? | **`abd-ooad/progress/<phase>-checklist.md`** |
@@ -30271,7 +32776,7 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 - Strategy vs checklists: **`library/strategy-execution-and-checklists.md`**
 - Anchors: `anchors` in this library
 - Term registry: `term-registry` in this library
-- Checklist norm: `library/base/checklist.md`
+- Checklist norm: `library/strategy-execution-and-checklists.md`
 
 
 ---
@@ -30280,7 +32785,9 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 
 # Strategy execution and checklists (abd-ooad)
 
-OOAD uses **three** checklist layers under **`<workspace>/abd-ooad/progress/`**. Only **`strategy.md`** defines **scope** and **which phases in what order**; checklists are where you **tick** progress.
+**Canonical doc** for: (1) **strategy** vs **live ticks**, (2) **which files** hold checkboxes, (3) **how** `generate.py` creates workspace **`progress/`** files. Does **not** replace **[process.md](../process.md)** (process tables, `generate` / `build`) or **[skill-structure-and-concepts.md](../base/skill-structure-and-concepts.md)** (repo layout).
+
+Only **`strategy.md`** defines **scope** and **which phases in what order**; checklists are where you **tick** progress.
 
 ---
 
@@ -30288,29 +32795,55 @@ OOAD uses **three** checklist layers under **`<workspace>/abd-ooad/progress/`**.
 
 1. **Domain scan** — produce scan artifacts (see **`strategy-led-generation`**).
 2. **Strategy** — fill **`strategy.md`** from **`templates/strategy.md`**:
-   - **Modeling scope** — chapters, anchors, files, in/out of scope.
-   - **Execution plan (normative)** — ordered list of phase **slugs** (from **`skill-config.json` → `phase_files`**) plus **scope per step** (e.g. “nouns-verbs on Chapter 5 only”).
+   - **Modeling scope** — corpus or product boundary; **source type** (book vs repo vs mixed).
+   - **§1 Source slices** — ordered table: **Goal**, **Source** (chapters, files, modules, APIs — whatever locates work), **Coverage** (depth this pass), **Importance**; stable **slice IDs** reused everywhere.
+   - **§2 Slice plan** — per slice: **goal restated**, **unit kind**, **phases** (execution step numbers / slugs), produces, depends-on.
+   - **Coverage across steps** — matrix: every slice → which **execution plan** steps touch it → **depth** → deferrals.
+   - **Cross-slice integration** — cross-boundary types and ordering (From → To + narrative).
+   - **Anchor and subdomain elaboration** (when anchors have attached types) — map subdomains to slices and execution §.
+   - **Execution plan (normative)** — ordered phase **slugs**; **each line cites slice IDs** (mirror **`strategy-run-checklist.md`**).
    - **Approach going forward** + **Ongoing strategic decisions** — short narrative and dated pivots.
-3. **Align live checklists** — keep **`strategy-run-checklist.md`** in sync with the execution plan (same order and scope). Seed file: **`templates/strategy-run-checklist.md`** (created under **`progress/`** on first **`generate.py`** when missing).
+3. **Align live checklists** — keep **`strategy-run-checklist.md`** in sync with the execution plan (same order and scope). Optional **`templates/strategy-run-checklist.md`** seed; optional **`templates/progress-README.md`** → **`progress/README.md`** for slice-specific files under **`progress/slices/`**.
 4. **Run phases** — for the **current** phase: `python scripts/base/generate.py --phase <slug>`. Tick **`strategy-run-checklist.md`** when a phase is **done** for its declared scope; tick **`<slug>-checklist.md`** for **steps inside** that phase.
 
 ---
 
-## Three layers
+## Three layers (what you tick)
 
 | Layer | File | What you tick |
 | --- | --- | --- |
-| **Strategy execution** | **`progress/strategy-run-checklist.md`** | **Which phases** you will run, **in order**, each with **scope** (matches **`strategy.md` → Execution plan**). Use this for “next three steps per chapter” or “whole pipeline on anchor X.” |
+| **Strategy execution** | **`progress/strategy-run-checklist.md`** | **Which phases** you will run, **in order**, each with **scope** that **includes the same slice IDs** as **`strategy.md` → Execution plan**. Optional: **`progress/slices/<slice-id>-checklist.md`** per slice — see **`progress/README.md`** in the workspace (if present). |
 | **Full pipeline (reference)** | **`progress/process-checklist.md`** | **Every** phase in **`phase_files`** — useful as a map; optional if you rely only on strategy-run. |
 | **Phase steps** | **`progress/<phase>-checklist.md`** | **Action checklist** copied from **`content/parts/phases/<phase>.md` → ## Action Checklist**. |
 
-**Normative rules** for pipeline + phase checklists: **`library/base/checklist.md`**. **Implementation:** **`scripts/base/workspace_checklists.py`**.
+**Implementation:** **`scripts/base/workspace_checklists.py`** (paths, behavior, `--no-ensure-checklists`).
+
+---
+
+## How workspace checklist files are created (mechanical)
+
+| Kind | What it tracks | Where it lives | How it gets there |
+| --- | --- | --- | --- |
+| **Normative reference** | Rules in **this document** — strategy vs ticks, layers, `generate.py` behavior | **`content/parts/library/strategy-execution-and-checklists.md`** | Authored in the skill; **not** created by **`generate.py`**. |
+| **Pipeline position** | Which **phase** of the pipeline you are in | **`<active_skill_workspace>/<skill_name>/progress/process-checklist.md`** | **Created** on first **`python scripts/base/generate.py --phase <slug>`** when that file is **missing**, if **`skill-config.json` → `workspace.active_skill_workspace`** is set. One `- [ ]` line per slug in **`phase_files`** (labels from **`phase_section_headings`** when present). **Does not overwrite** an existing file. |
+| **Phase action steps** | **Steps inside** the current phase | **`<active_skill_workspace>/<skill_name>/progress/<phase-slug>-checklist.md`** | **Created** in the **same** `generate.py` run when that file is **missing**. Steps are taken from **`## Action Checklist`** in **`content/parts/phases/<phase-slug>.md`**, or from task lines (`- [ ]` / `- [x]`) in that file if the section is absent. **Does not overwrite** an existing file. |
+| **Strategy execution** (workspace) | Ordered phases matching **`strategy.md`** | **`progress/strategy-run-checklist.md`** | Seeded from template when **`generate.py`** / workspace checklist logic creates it; **you** align it with **`strategy.md`**. |
+
+### Names and workspace
+
+- **`skill_name`** — **`skill-config.json` → `name`** (fallback: skill directory name). Used in **`…/<skill_name>/progress/`**.
+- **`active_skill_workspace`** — Must point at the **project / engagement tree** where **`progress/`** checklists belong, **not** the skill install folder. See **`skill-config.json` → `workspace`** and **[workspace-and-config.md](phases/workspace-and-config.md)**.
+
+### Flags
+
+- **`python scripts/base/generate.py --phase <slug> --no-ensure-checklists`** — run the phase prompt **without** creating missing **`progress/`** checklist files (see **`workspace_checklists.py`**).
 
 ---
 
 ## What not to do
 
 - Do not put **checkboxes** in **`strategy.md`** — keep execution plan as **normative numbered/bulleted text**; ticks live under **`progress/`**.
+- Do not record pipeline or phase **session** progress by ticking boxes in **`content/parts/process.md`** or **`content/parts/phases/*.md`** — those stay **normative**; live ticks go **only** under **`…/progress/`**.
 - Do not let **`strategy-run-checklist.md`** drift from **`strategy.md`** — after a pivot, update both and append a line under *Ongoing strategic decisions*.
 
 ---
@@ -30318,6 +32851,14 @@ OOAD uses **three** checklist layers under **`<workspace>/abd-ooad/progress/`**.
 ## Phase slugs
 
 Use exact slugs from **`skill-config.json` → `phase_files`** (e.g. `nouns-verbs-rules-and-states`, `domain-scan`). Labels for humans are in **`phase_section_headings`**.
+
+---
+
+## References
+
+- **`strategy-led-generation.md`** — artifact roles, **`strategy.md`** vs **`domain-scan-results.md`**
+- **`templates/strategy.md`**, **`templates/progress-README.md`**
+- **`scripts/base/workspace_checklists.py`**
 
 
 ---
@@ -30923,12 +33464,14 @@ Use a note (folded-corner rectangle) connected to the class by a dashed line:
 
 The CLI does not yet support notes — add them manually in draw.io after CLI build. Use: Insert → Shape → Note. Connect to the target class with a dashed edge. Enclose invariant text in `{ }`.
 
+**Module / package (UML frame) notes:** For commentary that applies to a whole **module** (the outer `umlFrame` / package boundary from `add-frame`), attach the same Note shape to the **frame’s perimeter** (snap the connector to the frame edge), not to an inner class. Use the same dashed connector style as class notes. This keeps module-level invariants or scope reminders visually tied to the subsystem boundary.
+
 ### When to add invariants
 
 | Phase | Add invariants? |
 |-------|----------------|
 | domain-scan | Yes — add the invariants you found during the scan (inline preferred at this fidelity) |
-| nouns-verbs | No — extraction only; invariants captured in registry notes |
+| domain-noun-verb (Step 1) | No — extraction only; invariants captured in registry notes |
 | raw-candidate-list through responsibilities | Yes — as invariants become confirmed, add to diagram |
 | Full model phases | Yes — invariants are a required part of the final model |
 
@@ -31764,7 +34307,7 @@ You are the **domain modeler and OOAD practitioner** using this skill: you provi
 
 **Upstream:** `tension-as-a-signal.md`.
 
-> **Continual refinement:** Aligns with **abd-maps-models-specs** [`domain-model.md`](../../abd-maps-models-specs/content/parts/library/domain-model.md) (*Domain concept* template, *Continual refinement — class definition + diagram*). In this payments thread, **`**newly added**`** marks a property or operation line **first introduced in this step file** (Steps 1–4 stay pre-notation; formal `- <type> property` / `operation(...) → return` lines begin at Step 5).
+> **Continual refinement:** Full notation is in **[Domain model Markdown](content/parts/library/domain-model.md)** (*Domain concept* template; class definition and diagram refined together). In this payments thread, **`**newly added**`** marks a property or operation line **first introduced in this step file** (Steps 1–4 stay pre-notation; formal `- <type> property` / `operation(...) → return` lines begin at Step 5).
 
 ---
 
@@ -31813,6 +34356,106 @@ You are the **domain modeler and OOAD practitioner** using this skill: you provi
 
 ## Library
 
+
+
+---
+
+### `domain-model.md`
+
+# Domain model Markdown
+
+This skill’s **domain model** is captured in Markdown (and optionally a parallel **Draw.io** class diagram). Use the checked-in **`templates/domain model template.md`** when starting a new companion doc; keep the same semantics as **`templates/domain model template.drawio`** when both exist.
+
+---
+
+## Domain concept template
+
+Each **domain concept** (class, interface, value object, or aggregate) is documented under a clear heading, for example:
+
+```markdown
+## **Payment**
+
+**Responsibilities:** …
+
+### Properties
+- Money amount
+- …
+
+### Operations
+- initiate() → Authorization
+```
+
+From **Step 5** onward, prefer **typed** members (see **Notation evolution** below). Earlier steps stay **pre-notation** (bullets and prose).
+
+---
+
+## Continual refinement — class definition + diagram
+
+**Continual refinement** means you **grow** the model across steps: each step file may add or tighten concepts. The Markdown spec and the class diagram are **two views of the same model** — update both when your project uses dual artifacts so they do not drift (see **[Class diagrams](class-diagrams.md)**).
+
+---
+
+## **newly added** tag
+
+In the **worked example** threads (e.g. payments), the marker **`**newly added**`** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
+
+---
+
+## Notation evolution
+
+| Phase | Markdown style |
+|--------|------------------|
+| **Steps 1–4** | Informal: bullets, short phrases, responsibilities, candidate names. **No** required `- <type> property` lines yet. |
+| **Step 5+** | Formal typed members: `- <Type> propertyName`, `operationName(...) → ReturnType`. |
+
+---
+
+## Subtype sections
+
+When you introduce substitutable specializations, add an explicit subtype heading so the structure is visible in the spec and in diagrams:
+
+```markdown
+### **Subtype** : **PaymentMethod**
+```
+
+Put **`**newly added**`** on subtype **operation** (or property) lines when that member is **first** introduced for that subtype.
+
+---
+
+## Invariants
+
+Attach invariants to the **property** or **operation** they constrain, using a dedicated line:
+
+```markdown
+**Invariant:** …
+```
+
+Mark **`**newly added**`** when you **first** attach an invariant to a given member line.
+
+---
+
+## Early steps: terms, mechanisms, story map
+
+Before typed properties exist, align extracted **nouns, verbs, rules, states** with your workspace’s **terms & mechanisms** and **shaped story map** (or equivalent). That is the same “grow the model as you go” idea: informal extraction first, then formal types.
+
+---
+
+## Class diagram and spec (visual twin)
+
+When you maintain a machine-readable spec such as **`map-model-spec.json`**, re-run your project’s class-diagram render script (for example **`render_map_model_class_diagram.py`**) after material changes so the **Draw.io** diagram stays the **visual twin** of the spec.
+
+- **[Class diagrams](class-diagrams.md)** — templates, relationship types, keeping `.md` and `.drawio` aligned.  
+- **[Using the Diagram CLI](using-diagram-cli.md)** — building diagrams with **`scripts/drawio_cli.py`**.
+
+---
+
+## Related library shards
+
+| Topic | File |
+|--------|------|
+| Term tracking across steps | [term-registry.md](term-registry.md) |
+| Strategy-led runs | [strategy-led-generation.md](strategy-led-generation.md) |
+| Layout and lanes | [class-diagram-layout-rules.md](class-diagram-layout-rules.md) |
 
 
 ---
@@ -31908,7 +34551,7 @@ Domain scan (OOAD **phase 1**) does not only produce a single “results” file
 
 For the scan procedure itself, see the **Domain scan** phase. This page explains **what each artifact is for** and how **`strategy.md`** relates to **`domain-scan-results.md`**.
 
-**Checkbox discipline:** Live ticks for pipeline position and phase steps belong only under **`<workspace>/abd-ooad/progress/`** — see **`library/base/checklist.md`** and **`library/strategy-execution-and-checklists.md`**. Do not put tick tables in `strategy.md`.
+**Checkbox discipline:** Live ticks for pipeline position and phase steps belong only under **`<workspace>/abd-ooad/progress/`** — see **`library/strategy-execution-and-checklists.md`**. Do not put tick tables in `strategy.md`.
 
 ---
 
@@ -31919,7 +34562,7 @@ Created during domain scan under `<workspace>/abd-ooad/`:
 | File | Role | Updates after scan? |
 |------|------|---------------------|
 | `domain-scan-results.md` | **Findings snapshot:** source map, anchor table, tensions. | Rarely — only if you correct a scan error. Do not put the forward plan here; that belongs in `strategy.md`. |
-| `strategy.md` | **Living strategy:** **modeling scope**, **execution plan (normative)** — which phases in what order and on what slice of context — plus **approach** and **dated pivots**. | **Yes** — whenever scope, order, or focus changes. |
+| `strategy.md` | **Living strategy:** **modeling scope**; **§1 source slices** (table: Order, Goal, **Source** — chapters, files, modules, or mixed — **Coverage**, **Importance**); **§2 slice plan** (per-slice **goal restated** + **phases**); **coverage across steps**; **cross-slice integration**; **anchor and subdomain elaboration**; **execution plan (normative)** — phase slugs with **slice IDs** on every line; plus **approach** and **dated pivots**. | **Yes** — whenever scope, order, slice depth, subdomain mapping, or integration changes. |
 | `domain-scan-model.md` | Class sketch (markdown) at scan fidelity. | Yes, in later phases — not only during scan. |
 | `domain-scan-model.drawio` | Diagram at scan fidelity. | Same as model.md. |
 | `term-registry.md` | Terms, **Classification** (model role), **Status** (OOAD scale), confidence — seeded at scan. | **Yes** — every later phase updates Step, Classification, and Status as the model evolves. |
@@ -31933,7 +34576,7 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 ## What `strategy.md` is for
 
 - Created at the end of domain scan as a **workspace file**, then **kept current** through extraction and later phases.
-- **Purpose:** (1) **scope** — what chapters, anchors, or files you model; (2) **execution plan** — ordered list of phase slugs with **per-step scope** (e.g. run nouns-verbs on Chapter 5, then the next three phases on Chapter 6); (3) short **why** in *Approach going forward* and **pivots** in *Ongoing strategic decisions*. Scan mechanics live in **`domain-scan-results.md`**.
+- **Purpose:** (1) **scope** — what product or corpus you model; (2) **§1 source slices** — ordered table (**Goal**, **Source**, **Coverage**, **Importance**); **Source** is any locator (chapters, page ranges, repo paths, modules — not only document sections); (3) **§2 slice plan** — per slice, **goal restated** and **phases** (execution steps); (4) **coverage across steps** — matrix proving every in-scope slice is addressed or deferred; (5) **cross-slice integration** — handoffs between slices; (6) **anchor and subdomain elaboration** — attached types (e.g. Ability, Skill, Advantage) mapped to **slice IDs** and execution **§**; (7) **execution plan** — each line names **slice IDs**; breadth steps must **include** subdomain slices in **nouns-verbs** / **raw-candidate-list** where relevant; (8) **Approach** + **Ongoing strategic decisions**. Scan mechanics stay in **`domain-scan-results.md`**.
 - **Template:** `templates/strategy.md`. Install as **`strategy.md`** (lowercase; avoid duplicate `STRATEGY.md` on case-insensitive disks).
 - After you finalize the execution plan, align **`progress/strategy-run-checklist.md`** with it (same phases and scope); that file holds **checkboxes** for “which phase is done,” while **`strategy.md`** stays **normative text** (no `- [ ]`).
 
@@ -31944,7 +34587,7 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 | Question | Answer |
 |----------|--------|
 | Where is the source map and anchor list? | `domain-scan-results.md` |
-| Where do I define “we model Chapter 5 first, then Chapter 6” and **which phases** per slice? | `strategy.md` → **Modeling scope** + **Execution plan (normative)** |
+| Where do I define **which slices** exist (chapters, files, modules, …), **depth**, **subdomains per anchor**, and **which phases** hit which? | `strategy.md` → **§1 Source slices**, **§2 Slice plan**, **Coverage across steps**, **Cross-slice integration**, **Anchor and subdomain elaboration**, **Execution plan (normative)** |
 | Where do I tick **which phases** we ran, **in order**, with **scope**? | **`abd-ooad/progress/strategy-run-checklist.md`** (keep in sync with `strategy.md`) |
 | Where do I tick **full** pipeline position (all phases)? | **`abd-ooad/progress/process-checklist.md`** (optional reference) |
 | Where do I tick **steps inside** the current phase? | **`abd-ooad/progress/<phase>-checklist.md`** |
@@ -31969,7 +34612,7 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 - Strategy vs checklists: **`library/strategy-execution-and-checklists.md`**
 - Anchors: `anchors` in this library
 - Term registry: `term-registry` in this library
-- Checklist norm: `library/base/checklist.md`
+- Checklist norm: `library/strategy-execution-and-checklists.md`
 
 
 ---
@@ -31978,7 +34621,9 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 
 # Strategy execution and checklists (abd-ooad)
 
-OOAD uses **three** checklist layers under **`<workspace>/abd-ooad/progress/`**. Only **`strategy.md`** defines **scope** and **which phases in what order**; checklists are where you **tick** progress.
+**Canonical doc** for: (1) **strategy** vs **live ticks**, (2) **which files** hold checkboxes, (3) **how** `generate.py` creates workspace **`progress/`** files. Does **not** replace **[process.md](../process.md)** (process tables, `generate` / `build`) or **[skill-structure-and-concepts.md](../base/skill-structure-and-concepts.md)** (repo layout).
+
+Only **`strategy.md`** defines **scope** and **which phases in what order**; checklists are where you **tick** progress.
 
 ---
 
@@ -31986,29 +34631,55 @@ OOAD uses **three** checklist layers under **`<workspace>/abd-ooad/progress/`**.
 
 1. **Domain scan** — produce scan artifacts (see **`strategy-led-generation`**).
 2. **Strategy** — fill **`strategy.md`** from **`templates/strategy.md`**:
-   - **Modeling scope** — chapters, anchors, files, in/out of scope.
-   - **Execution plan (normative)** — ordered list of phase **slugs** (from **`skill-config.json` → `phase_files`**) plus **scope per step** (e.g. “nouns-verbs on Chapter 5 only”).
+   - **Modeling scope** — corpus or product boundary; **source type** (book vs repo vs mixed).
+   - **§1 Source slices** — ordered table: **Goal**, **Source** (chapters, files, modules, APIs — whatever locates work), **Coverage** (depth this pass), **Importance**; stable **slice IDs** reused everywhere.
+   - **§2 Slice plan** — per slice: **goal restated**, **unit kind**, **phases** (execution step numbers / slugs), produces, depends-on.
+   - **Coverage across steps** — matrix: every slice → which **execution plan** steps touch it → **depth** → deferrals.
+   - **Cross-slice integration** — cross-boundary types and ordering (From → To + narrative).
+   - **Anchor and subdomain elaboration** (when anchors have attached types) — map subdomains to slices and execution §.
+   - **Execution plan (normative)** — ordered phase **slugs**; **each line cites slice IDs** (mirror **`strategy-run-checklist.md`**).
    - **Approach going forward** + **Ongoing strategic decisions** — short narrative and dated pivots.
-3. **Align live checklists** — keep **`strategy-run-checklist.md`** in sync with the execution plan (same order and scope). Seed file: **`templates/strategy-run-checklist.md`** (created under **`progress/`** on first **`generate.py`** when missing).
+3. **Align live checklists** — keep **`strategy-run-checklist.md`** in sync with the execution plan (same order and scope). Optional **`templates/strategy-run-checklist.md`** seed; optional **`templates/progress-README.md`** → **`progress/README.md`** for slice-specific files under **`progress/slices/`**.
 4. **Run phases** — for the **current** phase: `python scripts/base/generate.py --phase <slug>`. Tick **`strategy-run-checklist.md`** when a phase is **done** for its declared scope; tick **`<slug>-checklist.md`** for **steps inside** that phase.
 
 ---
 
-## Three layers
+## Three layers (what you tick)
 
 | Layer | File | What you tick |
 | --- | --- | --- |
-| **Strategy execution** | **`progress/strategy-run-checklist.md`** | **Which phases** you will run, **in order**, each with **scope** (matches **`strategy.md` → Execution plan**). Use this for “next three steps per chapter” or “whole pipeline on anchor X.” |
+| **Strategy execution** | **`progress/strategy-run-checklist.md`** | **Which phases** you will run, **in order**, each with **scope** that **includes the same slice IDs** as **`strategy.md` → Execution plan**. Optional: **`progress/slices/<slice-id>-checklist.md`** per slice — see **`progress/README.md`** in the workspace (if present). |
 | **Full pipeline (reference)** | **`progress/process-checklist.md`** | **Every** phase in **`phase_files`** — useful as a map; optional if you rely only on strategy-run. |
 | **Phase steps** | **`progress/<phase>-checklist.md`** | **Action checklist** copied from **`content/parts/phases/<phase>.md` → ## Action Checklist**. |
 
-**Normative rules** for pipeline + phase checklists: **`library/base/checklist.md`**. **Implementation:** **`scripts/base/workspace_checklists.py`**.
+**Implementation:** **`scripts/base/workspace_checklists.py`** (paths, behavior, `--no-ensure-checklists`).
+
+---
+
+## How workspace checklist files are created (mechanical)
+
+| Kind | What it tracks | Where it lives | How it gets there |
+| --- | --- | --- | --- |
+| **Normative reference** | Rules in **this document** — strategy vs ticks, layers, `generate.py` behavior | **`content/parts/library/strategy-execution-and-checklists.md`** | Authored in the skill; **not** created by **`generate.py`**. |
+| **Pipeline position** | Which **phase** of the pipeline you are in | **`<active_skill_workspace>/<skill_name>/progress/process-checklist.md`** | **Created** on first **`python scripts/base/generate.py --phase <slug>`** when that file is **missing**, if **`skill-config.json` → `workspace.active_skill_workspace`** is set. One `- [ ]` line per slug in **`phase_files`** (labels from **`phase_section_headings`** when present). **Does not overwrite** an existing file. |
+| **Phase action steps** | **Steps inside** the current phase | **`<active_skill_workspace>/<skill_name>/progress/<phase-slug>-checklist.md`** | **Created** in the **same** `generate.py` run when that file is **missing**. Steps are taken from **`## Action Checklist`** in **`content/parts/phases/<phase-slug>.md`**, or from task lines (`- [ ]` / `- [x]`) in that file if the section is absent. **Does not overwrite** an existing file. |
+| **Strategy execution** (workspace) | Ordered phases matching **`strategy.md`** | **`progress/strategy-run-checklist.md`** | Seeded from template when **`generate.py`** / workspace checklist logic creates it; **you** align it with **`strategy.md`**. |
+
+### Names and workspace
+
+- **`skill_name`** — **`skill-config.json` → `name`** (fallback: skill directory name). Used in **`…/<skill_name>/progress/`**.
+- **`active_skill_workspace`** — Must point at the **project / engagement tree** where **`progress/`** checklists belong, **not** the skill install folder. See **`skill-config.json` → `workspace`** and **[workspace-and-config.md](phases/workspace-and-config.md)**.
+
+### Flags
+
+- **`python scripts/base/generate.py --phase <slug> --no-ensure-checklists`** — run the phase prompt **without** creating missing **`progress/`** checklist files (see **`workspace_checklists.py`**).
 
 ---
 
 ## What not to do
 
 - Do not put **checkboxes** in **`strategy.md`** — keep execution plan as **normative numbered/bulleted text**; ticks live under **`progress/`**.
+- Do not record pipeline or phase **session** progress by ticking boxes in **`content/parts/process.md`** or **`content/parts/phases/*.md`** — those stay **normative**; live ticks go **only** under **`…/progress/`**.
 - Do not let **`strategy-run-checklist.md`** drift from **`strategy.md`** — after a pivot, update both and append a line under *Ongoing strategic decisions*.
 
 ---
@@ -32016,6 +34687,14 @@ OOAD uses **three** checklist layers under **`<workspace>/abd-ooad/progress/`**.
 ## Phase slugs
 
 Use exact slugs from **`skill-config.json` → `phase_files`** (e.g. `nouns-verbs-rules-and-states`, `domain-scan`). Labels for humans are in **`phase_section_headings`**.
+
+---
+
+## References
+
+- **`strategy-led-generation.md`** — artifact roles, **`strategy.md`** vs **`domain-scan-results.md`**
+- **`templates/strategy.md`**, **`templates/progress-README.md`**
+- **`scripts/base/workspace_checklists.py`**
 
 
 ---
@@ -32621,12 +35300,14 @@ Use a note (folded-corner rectangle) connected to the class by a dashed line:
 
 The CLI does not yet support notes — add them manually in draw.io after CLI build. Use: Insert → Shape → Note. Connect to the target class with a dashed edge. Enclose invariant text in `{ }`.
 
+**Module / package (UML frame) notes:** For commentary that applies to a whole **module** (the outer `umlFrame` / package boundary from `add-frame`), attach the same Note shape to the **frame’s perimeter** (snap the connector to the frame edge), not to an inner class. Use the same dashed connector style as class notes. This keeps module-level invariants or scope reminders visually tied to the subsystem boundary.
+
 ### When to add invariants
 
 | Phase | Add invariants? |
 |-------|----------------|
 | domain-scan | Yes — add the invariants you found during the scan (inline preferred at this fidelity) |
-| nouns-verbs | No — extraction only; invariants captured in registry notes |
+| domain-noun-verb (Step 1) | No — extraction only; invariants captured in registry notes |
 | raw-candidate-list through responsibilities | Yes — as invariants become confirmed, add to diagram |
 | Full model phases | Yes — invariants are a required part of the final model |
 
@@ -33462,7 +36143,7 @@ You are the **domain modeler and OOAD practitioner** using this skill: you provi
 
 **Upstream:** `model-state-transitions.md`, `what-changes-together.md`.
 
-> **Continual refinement:** Aligns with **abd-maps-models-specs** [`domain-model.md`](../../abd-maps-models-specs/content/parts/library/domain-model.md) (*Domain concept* template, *Continual refinement — class definition + diagram*). In this payments thread, **`**newly added**`** marks a property or operation line **first introduced in this step file** (Steps 1–4 stay pre-notation; formal `- <type> property` / `operation(...) → return` lines begin at Step 5).
+> **Continual refinement:** Full notation is in **[Domain model Markdown](content/parts/library/domain-model.md)** (*Domain concept* template; class definition and diagram refined together). In this payments thread, **`**newly added**`** marks a property or operation line **first introduced in this step file** (Steps 1–4 stay pre-notation; formal `- <type> property` / `operation(...) → return` lines begin at Step 5).
 
 ---
 
@@ -33517,6 +36198,106 @@ You are the **domain modeler and OOAD practitioner** using this skill: you provi
 
 ## Library
 
+
+
+---
+
+### `domain-model.md`
+
+# Domain model Markdown
+
+This skill’s **domain model** is captured in Markdown (and optionally a parallel **Draw.io** class diagram). Use the checked-in **`templates/domain model template.md`** when starting a new companion doc; keep the same semantics as **`templates/domain model template.drawio`** when both exist.
+
+---
+
+## Domain concept template
+
+Each **domain concept** (class, interface, value object, or aggregate) is documented under a clear heading, for example:
+
+```markdown
+## **Payment**
+
+**Responsibilities:** …
+
+### Properties
+- Money amount
+- …
+
+### Operations
+- initiate() → Authorization
+```
+
+From **Step 5** onward, prefer **typed** members (see **Notation evolution** below). Earlier steps stay **pre-notation** (bullets and prose).
+
+---
+
+## Continual refinement — class definition + diagram
+
+**Continual refinement** means you **grow** the model across steps: each step file may add or tighten concepts. The Markdown spec and the class diagram are **two views of the same model** — update both when your project uses dual artifacts so they do not drift (see **[Class diagrams](class-diagrams.md)**).
+
+---
+
+## **newly added** tag
+
+In the **worked example** threads (e.g. payments), the marker **`**newly added**`** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
+
+---
+
+## Notation evolution
+
+| Phase | Markdown style |
+|--------|------------------|
+| **Steps 1–4** | Informal: bullets, short phrases, responsibilities, candidate names. **No** required `- <type> property` lines yet. |
+| **Step 5+** | Formal typed members: `- <Type> propertyName`, `operationName(...) → ReturnType`. |
+
+---
+
+## Subtype sections
+
+When you introduce substitutable specializations, add an explicit subtype heading so the structure is visible in the spec and in diagrams:
+
+```markdown
+### **Subtype** : **PaymentMethod**
+```
+
+Put **`**newly added**`** on subtype **operation** (or property) lines when that member is **first** introduced for that subtype.
+
+---
+
+## Invariants
+
+Attach invariants to the **property** or **operation** they constrain, using a dedicated line:
+
+```markdown
+**Invariant:** …
+```
+
+Mark **`**newly added**`** when you **first** attach an invariant to a given member line.
+
+---
+
+## Early steps: terms, mechanisms, story map
+
+Before typed properties exist, align extracted **nouns, verbs, rules, states** with your workspace’s **terms & mechanisms** and **shaped story map** (or equivalent). That is the same “grow the model as you go” idea: informal extraction first, then formal types.
+
+---
+
+## Class diagram and spec (visual twin)
+
+When you maintain a machine-readable spec such as **`map-model-spec.json`**, re-run your project’s class-diagram render script (for example **`render_map_model_class_diagram.py`**) after material changes so the **Draw.io** diagram stays the **visual twin** of the spec.
+
+- **[Class diagrams](class-diagrams.md)** — templates, relationship types, keeping `.md` and `.drawio` aligned.  
+- **[Using the Diagram CLI](using-diagram-cli.md)** — building diagrams with **`scripts/drawio_cli.py`**.
+
+---
+
+## Related library shards
+
+| Topic | File |
+|--------|------|
+| Term tracking across steps | [term-registry.md](term-registry.md) |
+| Strategy-led runs | [strategy-led-generation.md](strategy-led-generation.md) |
+| Layout and lanes | [class-diagram-layout-rules.md](class-diagram-layout-rules.md) |
 
 
 ---
@@ -33612,7 +36393,7 @@ Domain scan (OOAD **phase 1**) does not only produce a single “results” file
 
 For the scan procedure itself, see the **Domain scan** phase. This page explains **what each artifact is for** and how **`strategy.md`** relates to **`domain-scan-results.md`**.
 
-**Checkbox discipline:** Live ticks for pipeline position and phase steps belong only under **`<workspace>/abd-ooad/progress/`** — see **`library/base/checklist.md`** and **`library/strategy-execution-and-checklists.md`**. Do not put tick tables in `strategy.md`.
+**Checkbox discipline:** Live ticks for pipeline position and phase steps belong only under **`<workspace>/abd-ooad/progress/`** — see **`library/strategy-execution-and-checklists.md`**. Do not put tick tables in `strategy.md`.
 
 ---
 
@@ -33623,7 +36404,7 @@ Created during domain scan under `<workspace>/abd-ooad/`:
 | File | Role | Updates after scan? |
 |------|------|---------------------|
 | `domain-scan-results.md` | **Findings snapshot:** source map, anchor table, tensions. | Rarely — only if you correct a scan error. Do not put the forward plan here; that belongs in `strategy.md`. |
-| `strategy.md` | **Living strategy:** **modeling scope**, **execution plan (normative)** — which phases in what order and on what slice of context — plus **approach** and **dated pivots**. | **Yes** — whenever scope, order, or focus changes. |
+| `strategy.md` | **Living strategy:** **modeling scope**; **§1 source slices** (table: Order, Goal, **Source** — chapters, files, modules, or mixed — **Coverage**, **Importance**); **§2 slice plan** (per-slice **goal restated** + **phases**); **coverage across steps**; **cross-slice integration**; **anchor and subdomain elaboration**; **execution plan (normative)** — phase slugs with **slice IDs** on every line; plus **approach** and **dated pivots**. | **Yes** — whenever scope, order, slice depth, subdomain mapping, or integration changes. |
 | `domain-scan-model.md` | Class sketch (markdown) at scan fidelity. | Yes, in later phases — not only during scan. |
 | `domain-scan-model.drawio` | Diagram at scan fidelity. | Same as model.md. |
 | `term-registry.md` | Terms, **Classification** (model role), **Status** (OOAD scale), confidence — seeded at scan. | **Yes** — every later phase updates Step, Classification, and Status as the model evolves. |
@@ -33637,7 +36418,7 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 ## What `strategy.md` is for
 
 - Created at the end of domain scan as a **workspace file**, then **kept current** through extraction and later phases.
-- **Purpose:** (1) **scope** — what chapters, anchors, or files you model; (2) **execution plan** — ordered list of phase slugs with **per-step scope** (e.g. run nouns-verbs on Chapter 5, then the next three phases on Chapter 6); (3) short **why** in *Approach going forward* and **pivots** in *Ongoing strategic decisions*. Scan mechanics live in **`domain-scan-results.md`**.
+- **Purpose:** (1) **scope** — what product or corpus you model; (2) **§1 source slices** — ordered table (**Goal**, **Source**, **Coverage**, **Importance**); **Source** is any locator (chapters, page ranges, repo paths, modules — not only document sections); (3) **§2 slice plan** — per slice, **goal restated** and **phases** (execution steps); (4) **coverage across steps** — matrix proving every in-scope slice is addressed or deferred; (5) **cross-slice integration** — handoffs between slices; (6) **anchor and subdomain elaboration** — attached types (e.g. Ability, Skill, Advantage) mapped to **slice IDs** and execution **§**; (7) **execution plan** — each line names **slice IDs**; breadth steps must **include** subdomain slices in **nouns-verbs** / **raw-candidate-list** where relevant; (8) **Approach** + **Ongoing strategic decisions**. Scan mechanics stay in **`domain-scan-results.md`**.
 - **Template:** `templates/strategy.md`. Install as **`strategy.md`** (lowercase; avoid duplicate `STRATEGY.md` on case-insensitive disks).
 - After you finalize the execution plan, align **`progress/strategy-run-checklist.md`** with it (same phases and scope); that file holds **checkboxes** for “which phase is done,” while **`strategy.md`** stays **normative text** (no `- [ ]`).
 
@@ -33648,7 +36429,7 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 | Question | Answer |
 |----------|--------|
 | Where is the source map and anchor list? | `domain-scan-results.md` |
-| Where do I define “we model Chapter 5 first, then Chapter 6” and **which phases** per slice? | `strategy.md` → **Modeling scope** + **Execution plan (normative)** |
+| Where do I define **which slices** exist (chapters, files, modules, …), **depth**, **subdomains per anchor**, and **which phases** hit which? | `strategy.md` → **§1 Source slices**, **§2 Slice plan**, **Coverage across steps**, **Cross-slice integration**, **Anchor and subdomain elaboration**, **Execution plan (normative)** |
 | Where do I tick **which phases** we ran, **in order**, with **scope**? | **`abd-ooad/progress/strategy-run-checklist.md`** (keep in sync with `strategy.md`) |
 | Where do I tick **full** pipeline position (all phases)? | **`abd-ooad/progress/process-checklist.md`** (optional reference) |
 | Where do I tick **steps inside** the current phase? | **`abd-ooad/progress/<phase>-checklist.md`** |
@@ -33673,7 +36454,7 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 - Strategy vs checklists: **`library/strategy-execution-and-checklists.md`**
 - Anchors: `anchors` in this library
 - Term registry: `term-registry` in this library
-- Checklist norm: `library/base/checklist.md`
+- Checklist norm: `library/strategy-execution-and-checklists.md`
 
 
 ---
@@ -33682,7 +36463,9 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 
 # Strategy execution and checklists (abd-ooad)
 
-OOAD uses **three** checklist layers under **`<workspace>/abd-ooad/progress/`**. Only **`strategy.md`** defines **scope** and **which phases in what order**; checklists are where you **tick** progress.
+**Canonical doc** for: (1) **strategy** vs **live ticks**, (2) **which files** hold checkboxes, (3) **how** `generate.py` creates workspace **`progress/`** files. Does **not** replace **[process.md](../process.md)** (process tables, `generate` / `build`) or **[skill-structure-and-concepts.md](../base/skill-structure-and-concepts.md)** (repo layout).
+
+Only **`strategy.md`** defines **scope** and **which phases in what order**; checklists are where you **tick** progress.
 
 ---
 
@@ -33690,29 +36473,55 @@ OOAD uses **three** checklist layers under **`<workspace>/abd-ooad/progress/`**.
 
 1. **Domain scan** — produce scan artifacts (see **`strategy-led-generation`**).
 2. **Strategy** — fill **`strategy.md`** from **`templates/strategy.md`**:
-   - **Modeling scope** — chapters, anchors, files, in/out of scope.
-   - **Execution plan (normative)** — ordered list of phase **slugs** (from **`skill-config.json` → `phase_files`**) plus **scope per step** (e.g. “nouns-verbs on Chapter 5 only”).
+   - **Modeling scope** — corpus or product boundary; **source type** (book vs repo vs mixed).
+   - **§1 Source slices** — ordered table: **Goal**, **Source** (chapters, files, modules, APIs — whatever locates work), **Coverage** (depth this pass), **Importance**; stable **slice IDs** reused everywhere.
+   - **§2 Slice plan** — per slice: **goal restated**, **unit kind**, **phases** (execution step numbers / slugs), produces, depends-on.
+   - **Coverage across steps** — matrix: every slice → which **execution plan** steps touch it → **depth** → deferrals.
+   - **Cross-slice integration** — cross-boundary types and ordering (From → To + narrative).
+   - **Anchor and subdomain elaboration** (when anchors have attached types) — map subdomains to slices and execution §.
+   - **Execution plan (normative)** — ordered phase **slugs**; **each line cites slice IDs** (mirror **`strategy-run-checklist.md`**).
    - **Approach going forward** + **Ongoing strategic decisions** — short narrative and dated pivots.
-3. **Align live checklists** — keep **`strategy-run-checklist.md`** in sync with the execution plan (same order and scope). Seed file: **`templates/strategy-run-checklist.md`** (created under **`progress/`** on first **`generate.py`** when missing).
+3. **Align live checklists** — keep **`strategy-run-checklist.md`** in sync with the execution plan (same order and scope). Optional **`templates/strategy-run-checklist.md`** seed; optional **`templates/progress-README.md`** → **`progress/README.md`** for slice-specific files under **`progress/slices/`**.
 4. **Run phases** — for the **current** phase: `python scripts/base/generate.py --phase <slug>`. Tick **`strategy-run-checklist.md`** when a phase is **done** for its declared scope; tick **`<slug>-checklist.md`** for **steps inside** that phase.
 
 ---
 
-## Three layers
+## Three layers (what you tick)
 
 | Layer | File | What you tick |
 | --- | --- | --- |
-| **Strategy execution** | **`progress/strategy-run-checklist.md`** | **Which phases** you will run, **in order**, each with **scope** (matches **`strategy.md` → Execution plan**). Use this for “next three steps per chapter” or “whole pipeline on anchor X.” |
+| **Strategy execution** | **`progress/strategy-run-checklist.md`** | **Which phases** you will run, **in order**, each with **scope** that **includes the same slice IDs** as **`strategy.md` → Execution plan**. Optional: **`progress/slices/<slice-id>-checklist.md`** per slice — see **`progress/README.md`** in the workspace (if present). |
 | **Full pipeline (reference)** | **`progress/process-checklist.md`** | **Every** phase in **`phase_files`** — useful as a map; optional if you rely only on strategy-run. |
 | **Phase steps** | **`progress/<phase>-checklist.md`** | **Action checklist** copied from **`content/parts/phases/<phase>.md` → ## Action Checklist**. |
 
-**Normative rules** for pipeline + phase checklists: **`library/base/checklist.md`**. **Implementation:** **`scripts/base/workspace_checklists.py`**.
+**Implementation:** **`scripts/base/workspace_checklists.py`** (paths, behavior, `--no-ensure-checklists`).
+
+---
+
+## How workspace checklist files are created (mechanical)
+
+| Kind | What it tracks | Where it lives | How it gets there |
+| --- | --- | --- | --- |
+| **Normative reference** | Rules in **this document** — strategy vs ticks, layers, `generate.py` behavior | **`content/parts/library/strategy-execution-and-checklists.md`** | Authored in the skill; **not** created by **`generate.py`**. |
+| **Pipeline position** | Which **phase** of the pipeline you are in | **`<active_skill_workspace>/<skill_name>/progress/process-checklist.md`** | **Created** on first **`python scripts/base/generate.py --phase <slug>`** when that file is **missing**, if **`skill-config.json` → `workspace.active_skill_workspace`** is set. One `- [ ]` line per slug in **`phase_files`** (labels from **`phase_section_headings`** when present). **Does not overwrite** an existing file. |
+| **Phase action steps** | **Steps inside** the current phase | **`<active_skill_workspace>/<skill_name>/progress/<phase-slug>-checklist.md`** | **Created** in the **same** `generate.py` run when that file is **missing**. Steps are taken from **`## Action Checklist`** in **`content/parts/phases/<phase-slug>.md`**, or from task lines (`- [ ]` / `- [x]`) in that file if the section is absent. **Does not overwrite** an existing file. |
+| **Strategy execution** (workspace) | Ordered phases matching **`strategy.md`** | **`progress/strategy-run-checklist.md`** | Seeded from template when **`generate.py`** / workspace checklist logic creates it; **you** align it with **`strategy.md`**. |
+
+### Names and workspace
+
+- **`skill_name`** — **`skill-config.json` → `name`** (fallback: skill directory name). Used in **`…/<skill_name>/progress/`**.
+- **`active_skill_workspace`** — Must point at the **project / engagement tree** where **`progress/`** checklists belong, **not** the skill install folder. See **`skill-config.json` → `workspace`** and **[workspace-and-config.md](phases/workspace-and-config.md)**.
+
+### Flags
+
+- **`python scripts/base/generate.py --phase <slug> --no-ensure-checklists`** — run the phase prompt **without** creating missing **`progress/`** checklist files (see **`workspace_checklists.py`**).
 
 ---
 
 ## What not to do
 
 - Do not put **checkboxes** in **`strategy.md`** — keep execution plan as **normative numbered/bulleted text**; ticks live under **`progress/`**.
+- Do not record pipeline or phase **session** progress by ticking boxes in **`content/parts/process.md`** or **`content/parts/phases/*.md`** — those stay **normative**; live ticks go **only** under **`…/progress/`**.
 - Do not let **`strategy-run-checklist.md`** drift from **`strategy.md`** — after a pivot, update both and append a line under *Ongoing strategic decisions*.
 
 ---
@@ -33720,6 +36529,14 @@ OOAD uses **three** checklist layers under **`<workspace>/abd-ooad/progress/`**.
 ## Phase slugs
 
 Use exact slugs from **`skill-config.json` → `phase_files`** (e.g. `nouns-verbs-rules-and-states`, `domain-scan`). Labels for humans are in **`phase_section_headings`**.
+
+---
+
+## References
+
+- **`strategy-led-generation.md`** — artifact roles, **`strategy.md`** vs **`domain-scan-results.md`**
+- **`templates/strategy.md`**, **`templates/progress-README.md`**
+- **`scripts/base/workspace_checklists.py`**
 
 
 ---
@@ -34325,12 +37142,14 @@ Use a note (folded-corner rectangle) connected to the class by a dashed line:
 
 The CLI does not yet support notes — add them manually in draw.io after CLI build. Use: Insert → Shape → Note. Connect to the target class with a dashed edge. Enclose invariant text in `{ }`.
 
+**Module / package (UML frame) notes:** For commentary that applies to a whole **module** (the outer `umlFrame` / package boundary from `add-frame`), attach the same Note shape to the **frame’s perimeter** (snap the connector to the frame edge), not to an inner class. Use the same dashed connector style as class notes. This keeps module-level invariants or scope reminders visually tied to the subsystem boundary.
+
 ### When to add invariants
 
 | Phase | Add invariants? |
 |-------|----------------|
 | domain-scan | Yes — add the invariants you found during the scan (inline preferred at this fidelity) |
-| nouns-verbs | No — extraction only; invariants captured in registry notes |
+| domain-noun-verb (Step 1) | No — extraction only; invariants captured in registry notes |
 | raw-candidate-list through responsibilities | Yes — as invariants become confirmed, add to diagram |
 | Full model phases | Yes — invariants are a required part of the final model |
 
@@ -35166,7 +37985,7 @@ You are the **domain modeler and OOAD practitioner** using this skill: you provi
 
 **Upstream:** `validate-with-scenarios.md`.
 
-> **Continual refinement:** Aligns with **abd-maps-models-specs** [`domain-model.md`](../../abd-maps-models-specs/content/parts/library/domain-model.md) (*Domain concept* template, *Continual refinement — class definition + diagram*). In this payments thread, **`**newly added**`** marks a property or operation line **first introduced in this step file** (Steps 1–4 stay pre-notation; formal `- <type> property` / `operation(...) → return` lines begin at Step 5).
+> **Continual refinement:** Full notation is in **[Domain model Markdown](content/parts/library/domain-model.md)** (*Domain concept* template; class definition and diagram refined together). In this payments thread, **`**newly added**`** marks a property or operation line **first introduced in this step file** (Steps 1–4 stay pre-notation; formal `- <type> property` / `operation(...) → return` lines begin at Step 5).
 
 ---
 
@@ -35219,6 +38038,106 @@ You are the **domain modeler and OOAD practitioner** using this skill: you provi
 
 ## Library
 
+
+
+---
+
+### `domain-model.md`
+
+# Domain model Markdown
+
+This skill’s **domain model** is captured in Markdown (and optionally a parallel **Draw.io** class diagram). Use the checked-in **`templates/domain model template.md`** when starting a new companion doc; keep the same semantics as **`templates/domain model template.drawio`** when both exist.
+
+---
+
+## Domain concept template
+
+Each **domain concept** (class, interface, value object, or aggregate) is documented under a clear heading, for example:
+
+```markdown
+## **Payment**
+
+**Responsibilities:** …
+
+### Properties
+- Money amount
+- …
+
+### Operations
+- initiate() → Authorization
+```
+
+From **Step 5** onward, prefer **typed** members (see **Notation evolution** below). Earlier steps stay **pre-notation** (bullets and prose).
+
+---
+
+## Continual refinement — class definition + diagram
+
+**Continual refinement** means you **grow** the model across steps: each step file may add or tighten concepts. The Markdown spec and the class diagram are **two views of the same model** — update both when your project uses dual artifacts so they do not drift (see **[Class diagrams](class-diagrams.md)**).
+
+---
+
+## **newly added** tag
+
+In the **worked example** threads (e.g. payments), the marker **`**newly added**`** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
+
+---
+
+## Notation evolution
+
+| Phase | Markdown style |
+|--------|------------------|
+| **Steps 1–4** | Informal: bullets, short phrases, responsibilities, candidate names. **No** required `- <type> property` lines yet. |
+| **Step 5+** | Formal typed members: `- <Type> propertyName`, `operationName(...) → ReturnType`. |
+
+---
+
+## Subtype sections
+
+When you introduce substitutable specializations, add an explicit subtype heading so the structure is visible in the spec and in diagrams:
+
+```markdown
+### **Subtype** : **PaymentMethod**
+```
+
+Put **`**newly added**`** on subtype **operation** (or property) lines when that member is **first** introduced for that subtype.
+
+---
+
+## Invariants
+
+Attach invariants to the **property** or **operation** they constrain, using a dedicated line:
+
+```markdown
+**Invariant:** …
+```
+
+Mark **`**newly added**`** when you **first** attach an invariant to a given member line.
+
+---
+
+## Early steps: terms, mechanisms, story map
+
+Before typed properties exist, align extracted **nouns, verbs, rules, states** with your workspace’s **terms & mechanisms** and **shaped story map** (or equivalent). That is the same “grow the model as you go” idea: informal extraction first, then formal types.
+
+---
+
+## Class diagram and spec (visual twin)
+
+When you maintain a machine-readable spec such as **`map-model-spec.json`**, re-run your project’s class-diagram render script (for example **`render_map_model_class_diagram.py`**) after material changes so the **Draw.io** diagram stays the **visual twin** of the spec.
+
+- **[Class diagrams](class-diagrams.md)** — templates, relationship types, keeping `.md` and `.drawio` aligned.  
+- **[Using the Diagram CLI](using-diagram-cli.md)** — building diagrams with **`scripts/drawio_cli.py`**.
+
+---
+
+## Related library shards
+
+| Topic | File |
+|--------|------|
+| Term tracking across steps | [term-registry.md](term-registry.md) |
+| Strategy-led runs | [strategy-led-generation.md](strategy-led-generation.md) |
+| Layout and lanes | [class-diagram-layout-rules.md](class-diagram-layout-rules.md) |
 
 
 ---
@@ -35314,7 +38233,7 @@ Domain scan (OOAD **phase 1**) does not only produce a single “results” file
 
 For the scan procedure itself, see the **Domain scan** phase. This page explains **what each artifact is for** and how **`strategy.md`** relates to **`domain-scan-results.md`**.
 
-**Checkbox discipline:** Live ticks for pipeline position and phase steps belong only under **`<workspace>/abd-ooad/progress/`** — see **`library/base/checklist.md`** and **`library/strategy-execution-and-checklists.md`**. Do not put tick tables in `strategy.md`.
+**Checkbox discipline:** Live ticks for pipeline position and phase steps belong only under **`<workspace>/abd-ooad/progress/`** — see **`library/strategy-execution-and-checklists.md`**. Do not put tick tables in `strategy.md`.
 
 ---
 
@@ -35325,7 +38244,7 @@ Created during domain scan under `<workspace>/abd-ooad/`:
 | File | Role | Updates after scan? |
 |------|------|---------------------|
 | `domain-scan-results.md` | **Findings snapshot:** source map, anchor table, tensions. | Rarely — only if you correct a scan error. Do not put the forward plan here; that belongs in `strategy.md`. |
-| `strategy.md` | **Living strategy:** **modeling scope**, **execution plan (normative)** — which phases in what order and on what slice of context — plus **approach** and **dated pivots**. | **Yes** — whenever scope, order, or focus changes. |
+| `strategy.md` | **Living strategy:** **modeling scope**; **§1 source slices** (table: Order, Goal, **Source** — chapters, files, modules, or mixed — **Coverage**, **Importance**); **§2 slice plan** (per-slice **goal restated** + **phases**); **coverage across steps**; **cross-slice integration**; **anchor and subdomain elaboration**; **execution plan (normative)** — phase slugs with **slice IDs** on every line; plus **approach** and **dated pivots**. | **Yes** — whenever scope, order, slice depth, subdomain mapping, or integration changes. |
 | `domain-scan-model.md` | Class sketch (markdown) at scan fidelity. | Yes, in later phases — not only during scan. |
 | `domain-scan-model.drawio` | Diagram at scan fidelity. | Same as model.md. |
 | `term-registry.md` | Terms, **Classification** (model role), **Status** (OOAD scale), confidence — seeded at scan. | **Yes** — every later phase updates Step, Classification, and Status as the model evolves. |
@@ -35339,7 +38258,7 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 ## What `strategy.md` is for
 
 - Created at the end of domain scan as a **workspace file**, then **kept current** through extraction and later phases.
-- **Purpose:** (1) **scope** — what chapters, anchors, or files you model; (2) **execution plan** — ordered list of phase slugs with **per-step scope** (e.g. run nouns-verbs on Chapter 5, then the next three phases on Chapter 6); (3) short **why** in *Approach going forward* and **pivots** in *Ongoing strategic decisions*. Scan mechanics live in **`domain-scan-results.md`**.
+- **Purpose:** (1) **scope** — what product or corpus you model; (2) **§1 source slices** — ordered table (**Goal**, **Source**, **Coverage**, **Importance**); **Source** is any locator (chapters, page ranges, repo paths, modules — not only document sections); (3) **§2 slice plan** — per slice, **goal restated** and **phases** (execution steps); (4) **coverage across steps** — matrix proving every in-scope slice is addressed or deferred; (5) **cross-slice integration** — handoffs between slices; (6) **anchor and subdomain elaboration** — attached types (e.g. Ability, Skill, Advantage) mapped to **slice IDs** and execution **§**; (7) **execution plan** — each line names **slice IDs**; breadth steps must **include** subdomain slices in **nouns-verbs** / **raw-candidate-list** where relevant; (8) **Approach** + **Ongoing strategic decisions**. Scan mechanics stay in **`domain-scan-results.md`**.
 - **Template:** `templates/strategy.md`. Install as **`strategy.md`** (lowercase; avoid duplicate `STRATEGY.md` on case-insensitive disks).
 - After you finalize the execution plan, align **`progress/strategy-run-checklist.md`** with it (same phases and scope); that file holds **checkboxes** for “which phase is done,” while **`strategy.md`** stays **normative text** (no `- [ ]`).
 
@@ -35350,7 +38269,7 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 | Question | Answer |
 |----------|--------|
 | Where is the source map and anchor list? | `domain-scan-results.md` |
-| Where do I define “we model Chapter 5 first, then Chapter 6” and **which phases** per slice? | `strategy.md` → **Modeling scope** + **Execution plan (normative)** |
+| Where do I define **which slices** exist (chapters, files, modules, …), **depth**, **subdomains per anchor**, and **which phases** hit which? | `strategy.md` → **§1 Source slices**, **§2 Slice plan**, **Coverage across steps**, **Cross-slice integration**, **Anchor and subdomain elaboration**, **Execution plan (normative)** |
 | Where do I tick **which phases** we ran, **in order**, with **scope**? | **`abd-ooad/progress/strategy-run-checklist.md`** (keep in sync with `strategy.md`) |
 | Where do I tick **full** pipeline position (all phases)? | **`abd-ooad/progress/process-checklist.md`** (optional reference) |
 | Where do I tick **steps inside** the current phase? | **`abd-ooad/progress/<phase>-checklist.md`** |
@@ -35375,7 +38294,7 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 - Strategy vs checklists: **`library/strategy-execution-and-checklists.md`**
 - Anchors: `anchors` in this library
 - Term registry: `term-registry` in this library
-- Checklist norm: `library/base/checklist.md`
+- Checklist norm: `library/strategy-execution-and-checklists.md`
 
 
 ---
@@ -35384,7 +38303,9 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 
 # Strategy execution and checklists (abd-ooad)
 
-OOAD uses **three** checklist layers under **`<workspace>/abd-ooad/progress/`**. Only **`strategy.md`** defines **scope** and **which phases in what order**; checklists are where you **tick** progress.
+**Canonical doc** for: (1) **strategy** vs **live ticks**, (2) **which files** hold checkboxes, (3) **how** `generate.py` creates workspace **`progress/`** files. Does **not** replace **[process.md](../process.md)** (process tables, `generate` / `build`) or **[skill-structure-and-concepts.md](../base/skill-structure-and-concepts.md)** (repo layout).
+
+Only **`strategy.md`** defines **scope** and **which phases in what order**; checklists are where you **tick** progress.
 
 ---
 
@@ -35392,29 +38313,55 @@ OOAD uses **three** checklist layers under **`<workspace>/abd-ooad/progress/`**.
 
 1. **Domain scan** — produce scan artifacts (see **`strategy-led-generation`**).
 2. **Strategy** — fill **`strategy.md`** from **`templates/strategy.md`**:
-   - **Modeling scope** — chapters, anchors, files, in/out of scope.
-   - **Execution plan (normative)** — ordered list of phase **slugs** (from **`skill-config.json` → `phase_files`**) plus **scope per step** (e.g. “nouns-verbs on Chapter 5 only”).
+   - **Modeling scope** — corpus or product boundary; **source type** (book vs repo vs mixed).
+   - **§1 Source slices** — ordered table: **Goal**, **Source** (chapters, files, modules, APIs — whatever locates work), **Coverage** (depth this pass), **Importance**; stable **slice IDs** reused everywhere.
+   - **§2 Slice plan** — per slice: **goal restated**, **unit kind**, **phases** (execution step numbers / slugs), produces, depends-on.
+   - **Coverage across steps** — matrix: every slice → which **execution plan** steps touch it → **depth** → deferrals.
+   - **Cross-slice integration** — cross-boundary types and ordering (From → To + narrative).
+   - **Anchor and subdomain elaboration** (when anchors have attached types) — map subdomains to slices and execution §.
+   - **Execution plan (normative)** — ordered phase **slugs**; **each line cites slice IDs** (mirror **`strategy-run-checklist.md`**).
    - **Approach going forward** + **Ongoing strategic decisions** — short narrative and dated pivots.
-3. **Align live checklists** — keep **`strategy-run-checklist.md`** in sync with the execution plan (same order and scope). Seed file: **`templates/strategy-run-checklist.md`** (created under **`progress/`** on first **`generate.py`** when missing).
+3. **Align live checklists** — keep **`strategy-run-checklist.md`** in sync with the execution plan (same order and scope). Optional **`templates/strategy-run-checklist.md`** seed; optional **`templates/progress-README.md`** → **`progress/README.md`** for slice-specific files under **`progress/slices/`**.
 4. **Run phases** — for the **current** phase: `python scripts/base/generate.py --phase <slug>`. Tick **`strategy-run-checklist.md`** when a phase is **done** for its declared scope; tick **`<slug>-checklist.md`** for **steps inside** that phase.
 
 ---
 
-## Three layers
+## Three layers (what you tick)
 
 | Layer | File | What you tick |
 | --- | --- | --- |
-| **Strategy execution** | **`progress/strategy-run-checklist.md`** | **Which phases** you will run, **in order**, each with **scope** (matches **`strategy.md` → Execution plan**). Use this for “next three steps per chapter” or “whole pipeline on anchor X.” |
+| **Strategy execution** | **`progress/strategy-run-checklist.md`** | **Which phases** you will run, **in order**, each with **scope** that **includes the same slice IDs** as **`strategy.md` → Execution plan**. Optional: **`progress/slices/<slice-id>-checklist.md`** per slice — see **`progress/README.md`** in the workspace (if present). |
 | **Full pipeline (reference)** | **`progress/process-checklist.md`** | **Every** phase in **`phase_files`** — useful as a map; optional if you rely only on strategy-run. |
 | **Phase steps** | **`progress/<phase>-checklist.md`** | **Action checklist** copied from **`content/parts/phases/<phase>.md` → ## Action Checklist**. |
 
-**Normative rules** for pipeline + phase checklists: **`library/base/checklist.md`**. **Implementation:** **`scripts/base/workspace_checklists.py`**.
+**Implementation:** **`scripts/base/workspace_checklists.py`** (paths, behavior, `--no-ensure-checklists`).
+
+---
+
+## How workspace checklist files are created (mechanical)
+
+| Kind | What it tracks | Where it lives | How it gets there |
+| --- | --- | --- | --- |
+| **Normative reference** | Rules in **this document** — strategy vs ticks, layers, `generate.py` behavior | **`content/parts/library/strategy-execution-and-checklists.md`** | Authored in the skill; **not** created by **`generate.py`**. |
+| **Pipeline position** | Which **phase** of the pipeline you are in | **`<active_skill_workspace>/<skill_name>/progress/process-checklist.md`** | **Created** on first **`python scripts/base/generate.py --phase <slug>`** when that file is **missing**, if **`skill-config.json` → `workspace.active_skill_workspace`** is set. One `- [ ]` line per slug in **`phase_files`** (labels from **`phase_section_headings`** when present). **Does not overwrite** an existing file. |
+| **Phase action steps** | **Steps inside** the current phase | **`<active_skill_workspace>/<skill_name>/progress/<phase-slug>-checklist.md`** | **Created** in the **same** `generate.py` run when that file is **missing**. Steps are taken from **`## Action Checklist`** in **`content/parts/phases/<phase-slug>.md`**, or from task lines (`- [ ]` / `- [x]`) in that file if the section is absent. **Does not overwrite** an existing file. |
+| **Strategy execution** (workspace) | Ordered phases matching **`strategy.md`** | **`progress/strategy-run-checklist.md`** | Seeded from template when **`generate.py`** / workspace checklist logic creates it; **you** align it with **`strategy.md`**. |
+
+### Names and workspace
+
+- **`skill_name`** — **`skill-config.json` → `name`** (fallback: skill directory name). Used in **`…/<skill_name>/progress/`**.
+- **`active_skill_workspace`** — Must point at the **project / engagement tree** where **`progress/`** checklists belong, **not** the skill install folder. See **`skill-config.json` → `workspace`** and **[workspace-and-config.md](phases/workspace-and-config.md)**.
+
+### Flags
+
+- **`python scripts/base/generate.py --phase <slug> --no-ensure-checklists`** — run the phase prompt **without** creating missing **`progress/`** checklist files (see **`workspace_checklists.py`**).
 
 ---
 
 ## What not to do
 
 - Do not put **checkboxes** in **`strategy.md`** — keep execution plan as **normative numbered/bulleted text**; ticks live under **`progress/`**.
+- Do not record pipeline or phase **session** progress by ticking boxes in **`content/parts/process.md`** or **`content/parts/phases/*.md`** — those stay **normative**; live ticks go **only** under **`…/progress/`**.
 - Do not let **`strategy-run-checklist.md`** drift from **`strategy.md`** — after a pivot, update both and append a line under *Ongoing strategic decisions*.
 
 ---
@@ -35422,6 +38369,14 @@ OOAD uses **three** checklist layers under **`<workspace>/abd-ooad/progress/`**.
 ## Phase slugs
 
 Use exact slugs from **`skill-config.json` → `phase_files`** (e.g. `nouns-verbs-rules-and-states`, `domain-scan`). Labels for humans are in **`phase_section_headings`**.
+
+---
+
+## References
+
+- **`strategy-led-generation.md`** — artifact roles, **`strategy.md`** vs **`domain-scan-results.md`**
+- **`templates/strategy.md`**, **`templates/progress-README.md`**
+- **`scripts/base/workspace_checklists.py`**
 
 
 ---
@@ -36027,12 +38982,14 @@ Use a note (folded-corner rectangle) connected to the class by a dashed line:
 
 The CLI does not yet support notes — add them manually in draw.io after CLI build. Use: Insert → Shape → Note. Connect to the target class with a dashed edge. Enclose invariant text in `{ }`.
 
+**Module / package (UML frame) notes:** For commentary that applies to a whole **module** (the outer `umlFrame` / package boundary from `add-frame`), attach the same Note shape to the **frame’s perimeter** (snap the connector to the frame edge), not to an inner class. Use the same dashed connector style as class notes. This keeps module-level invariants or scope reminders visually tied to the subsystem boundary.
+
 ### When to add invariants
 
 | Phase | Add invariants? |
 |-------|----------------|
 | domain-scan | Yes — add the invariants you found during the scan (inline preferred at this fidelity) |
-| nouns-verbs | No — extraction only; invariants captured in registry notes |
+| domain-noun-verb (Step 1) | No — extraction only; invariants captured in registry notes |
 | raw-candidate-list through responsibilities | Yes — as invariants become confirmed, add to diagram |
 | Full model phases | Yes — invariants are a required part of the final model |
 
@@ -36870,7 +39827,7 @@ You are the **domain modeler and OOAD practitioner** using this skill: you provi
 
 See **`SKILL.md` → Model in layers (four layers)** and **ASCII class diagrams**.
 
-> **Continual refinement:** Aligns with **abd-maps-models-specs** [`domain-model.md`](../../abd-maps-models-specs/content/parts/library/domain-model.md) (*Domain concept* template, *Continual refinement — class definition + diagram*). In this payments thread, **`**newly added**`** marks a property or operation line **first introduced in this step file** (Steps 1–4 stay pre-notation; formal `- <type> property` / `operation(...) → return` lines begin at Step 5).
+> **Continual refinement:** Full notation is in **[Domain model Markdown](content/parts/library/domain-model.md)** (*Domain concept* template; class definition and diagram refined together). In this payments thread, **`**newly added**`** marks a property or operation line **first introduced in this step file** (Steps 1–4 stay pre-notation; formal `- <type> property` / `operation(...) → return` lines begin at Step 5).
 
 ---
 
@@ -36935,6 +39892,106 @@ You have walked **garbled** payments from **nouns/verbs** through **layers** —
 
 ## Library
 
+
+
+---
+
+### `domain-model.md`
+
+# Domain model Markdown
+
+This skill’s **domain model** is captured in Markdown (and optionally a parallel **Draw.io** class diagram). Use the checked-in **`templates/domain model template.md`** when starting a new companion doc; keep the same semantics as **`templates/domain model template.drawio`** when both exist.
+
+---
+
+## Domain concept template
+
+Each **domain concept** (class, interface, value object, or aggregate) is documented under a clear heading, for example:
+
+```markdown
+## **Payment**
+
+**Responsibilities:** …
+
+### Properties
+- Money amount
+- …
+
+### Operations
+- initiate() → Authorization
+```
+
+From **Step 5** onward, prefer **typed** members (see **Notation evolution** below). Earlier steps stay **pre-notation** (bullets and prose).
+
+---
+
+## Continual refinement — class definition + diagram
+
+**Continual refinement** means you **grow** the model across steps: each step file may add or tighten concepts. The Markdown spec and the class diagram are **two views of the same model** — update both when your project uses dual artifacts so they do not drift (see **[Class diagrams](class-diagrams.md)**).
+
+---
+
+## **newly added** tag
+
+In the **worked example** threads (e.g. payments), the marker **`**newly added**`** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
+
+---
+
+## Notation evolution
+
+| Phase | Markdown style |
+|--------|------------------|
+| **Steps 1–4** | Informal: bullets, short phrases, responsibilities, candidate names. **No** required `- <type> property` lines yet. |
+| **Step 5+** | Formal typed members: `- <Type> propertyName`, `operationName(...) → ReturnType`. |
+
+---
+
+## Subtype sections
+
+When you introduce substitutable specializations, add an explicit subtype heading so the structure is visible in the spec and in diagrams:
+
+```markdown
+### **Subtype** : **PaymentMethod**
+```
+
+Put **`**newly added**`** on subtype **operation** (or property) lines when that member is **first** introduced for that subtype.
+
+---
+
+## Invariants
+
+Attach invariants to the **property** or **operation** they constrain, using a dedicated line:
+
+```markdown
+**Invariant:** …
+```
+
+Mark **`**newly added**`** when you **first** attach an invariant to a given member line.
+
+---
+
+## Early steps: terms, mechanisms, story map
+
+Before typed properties exist, align extracted **nouns, verbs, rules, states** with your workspace’s **terms & mechanisms** and **shaped story map** (or equivalent). That is the same “grow the model as you go” idea: informal extraction first, then formal types.
+
+---
+
+## Class diagram and spec (visual twin)
+
+When you maintain a machine-readable spec such as **`map-model-spec.json`**, re-run your project’s class-diagram render script (for example **`render_map_model_class_diagram.py`**) after material changes so the **Draw.io** diagram stays the **visual twin** of the spec.
+
+- **[Class diagrams](class-diagrams.md)** — templates, relationship types, keeping `.md` and `.drawio` aligned.  
+- **[Using the Diagram CLI](using-diagram-cli.md)** — building diagrams with **`scripts/drawio_cli.py`**.
+
+---
+
+## Related library shards
+
+| Topic | File |
+|--------|------|
+| Term tracking across steps | [term-registry.md](term-registry.md) |
+| Strategy-led runs | [strategy-led-generation.md](strategy-led-generation.md) |
+| Layout and lanes | [class-diagram-layout-rules.md](class-diagram-layout-rules.md) |
 
 
 ---
@@ -37030,7 +40087,7 @@ Domain scan (OOAD **phase 1**) does not only produce a single “results” file
 
 For the scan procedure itself, see the **Domain scan** phase. This page explains **what each artifact is for** and how **`strategy.md`** relates to **`domain-scan-results.md`**.
 
-**Checkbox discipline:** Live ticks for pipeline position and phase steps belong only under **`<workspace>/abd-ooad/progress/`** — see **`library/base/checklist.md`** and **`library/strategy-execution-and-checklists.md`**. Do not put tick tables in `strategy.md`.
+**Checkbox discipline:** Live ticks for pipeline position and phase steps belong only under **`<workspace>/abd-ooad/progress/`** — see **`library/strategy-execution-and-checklists.md`**. Do not put tick tables in `strategy.md`.
 
 ---
 
@@ -37041,7 +40098,7 @@ Created during domain scan under `<workspace>/abd-ooad/`:
 | File | Role | Updates after scan? |
 |------|------|---------------------|
 | `domain-scan-results.md` | **Findings snapshot:** source map, anchor table, tensions. | Rarely — only if you correct a scan error. Do not put the forward plan here; that belongs in `strategy.md`. |
-| `strategy.md` | **Living strategy:** **modeling scope**, **execution plan (normative)** — which phases in what order and on what slice of context — plus **approach** and **dated pivots**. | **Yes** — whenever scope, order, or focus changes. |
+| `strategy.md` | **Living strategy:** **modeling scope**; **§1 source slices** (table: Order, Goal, **Source** — chapters, files, modules, or mixed — **Coverage**, **Importance**); **§2 slice plan** (per-slice **goal restated** + **phases**); **coverage across steps**; **cross-slice integration**; **anchor and subdomain elaboration**; **execution plan (normative)** — phase slugs with **slice IDs** on every line; plus **approach** and **dated pivots**. | **Yes** — whenever scope, order, slice depth, subdomain mapping, or integration changes. |
 | `domain-scan-model.md` | Class sketch (markdown) at scan fidelity. | Yes, in later phases — not only during scan. |
 | `domain-scan-model.drawio` | Diagram at scan fidelity. | Same as model.md. |
 | `term-registry.md` | Terms, **Classification** (model role), **Status** (OOAD scale), confidence — seeded at scan. | **Yes** — every later phase updates Step, Classification, and Status as the model evolves. |
@@ -37055,7 +40112,7 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 ## What `strategy.md` is for
 
 - Created at the end of domain scan as a **workspace file**, then **kept current** through extraction and later phases.
-- **Purpose:** (1) **scope** — what chapters, anchors, or files you model; (2) **execution plan** — ordered list of phase slugs with **per-step scope** (e.g. run nouns-verbs on Chapter 5, then the next three phases on Chapter 6); (3) short **why** in *Approach going forward* and **pivots** in *Ongoing strategic decisions*. Scan mechanics live in **`domain-scan-results.md`**.
+- **Purpose:** (1) **scope** — what product or corpus you model; (2) **§1 source slices** — ordered table (**Goal**, **Source**, **Coverage**, **Importance**); **Source** is any locator (chapters, page ranges, repo paths, modules — not only document sections); (3) **§2 slice plan** — per slice, **goal restated** and **phases** (execution steps); (4) **coverage across steps** — matrix proving every in-scope slice is addressed or deferred; (5) **cross-slice integration** — handoffs between slices; (6) **anchor and subdomain elaboration** — attached types (e.g. Ability, Skill, Advantage) mapped to **slice IDs** and execution **§**; (7) **execution plan** — each line names **slice IDs**; breadth steps must **include** subdomain slices in **nouns-verbs** / **raw-candidate-list** where relevant; (8) **Approach** + **Ongoing strategic decisions**. Scan mechanics stay in **`domain-scan-results.md`**.
 - **Template:** `templates/strategy.md`. Install as **`strategy.md`** (lowercase; avoid duplicate `STRATEGY.md` on case-insensitive disks).
 - After you finalize the execution plan, align **`progress/strategy-run-checklist.md`** with it (same phases and scope); that file holds **checkboxes** for “which phase is done,” while **`strategy.md`** stays **normative text** (no `- [ ]`).
 
@@ -37066,7 +40123,7 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 | Question | Answer |
 |----------|--------|
 | Where is the source map and anchor list? | `domain-scan-results.md` |
-| Where do I define “we model Chapter 5 first, then Chapter 6” and **which phases** per slice? | `strategy.md` → **Modeling scope** + **Execution plan (normative)** |
+| Where do I define **which slices** exist (chapters, files, modules, …), **depth**, **subdomains per anchor**, and **which phases** hit which? | `strategy.md` → **§1 Source slices**, **§2 Slice plan**, **Coverage across steps**, **Cross-slice integration**, **Anchor and subdomain elaboration**, **Execution plan (normative)** |
 | Where do I tick **which phases** we ran, **in order**, with **scope**? | **`abd-ooad/progress/strategy-run-checklist.md`** (keep in sync with `strategy.md`) |
 | Where do I tick **full** pipeline position (all phases)? | **`abd-ooad/progress/process-checklist.md`** (optional reference) |
 | Where do I tick **steps inside** the current phase? | **`abd-ooad/progress/<phase>-checklist.md`** |
@@ -37091,7 +40148,7 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 - Strategy vs checklists: **`library/strategy-execution-and-checklists.md`**
 - Anchors: `anchors` in this library
 - Term registry: `term-registry` in this library
-- Checklist norm: `library/base/checklist.md`
+- Checklist norm: `library/strategy-execution-and-checklists.md`
 
 
 ---
@@ -37100,7 +40157,9 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 
 # Strategy execution and checklists (abd-ooad)
 
-OOAD uses **three** checklist layers under **`<workspace>/abd-ooad/progress/`**. Only **`strategy.md`** defines **scope** and **which phases in what order**; checklists are where you **tick** progress.
+**Canonical doc** for: (1) **strategy** vs **live ticks**, (2) **which files** hold checkboxes, (3) **how** `generate.py` creates workspace **`progress/`** files. Does **not** replace **[process.md](../process.md)** (process tables, `generate` / `build`) or **[skill-structure-and-concepts.md](../base/skill-structure-and-concepts.md)** (repo layout).
+
+Only **`strategy.md`** defines **scope** and **which phases in what order**; checklists are where you **tick** progress.
 
 ---
 
@@ -37108,29 +40167,55 @@ OOAD uses **three** checklist layers under **`<workspace>/abd-ooad/progress/`**.
 
 1. **Domain scan** — produce scan artifacts (see **`strategy-led-generation`**).
 2. **Strategy** — fill **`strategy.md`** from **`templates/strategy.md`**:
-   - **Modeling scope** — chapters, anchors, files, in/out of scope.
-   - **Execution plan (normative)** — ordered list of phase **slugs** (from **`skill-config.json` → `phase_files`**) plus **scope per step** (e.g. “nouns-verbs on Chapter 5 only”).
+   - **Modeling scope** — corpus or product boundary; **source type** (book vs repo vs mixed).
+   - **§1 Source slices** — ordered table: **Goal**, **Source** (chapters, files, modules, APIs — whatever locates work), **Coverage** (depth this pass), **Importance**; stable **slice IDs** reused everywhere.
+   - **§2 Slice plan** — per slice: **goal restated**, **unit kind**, **phases** (execution step numbers / slugs), produces, depends-on.
+   - **Coverage across steps** — matrix: every slice → which **execution plan** steps touch it → **depth** → deferrals.
+   - **Cross-slice integration** — cross-boundary types and ordering (From → To + narrative).
+   - **Anchor and subdomain elaboration** (when anchors have attached types) — map subdomains to slices and execution §.
+   - **Execution plan (normative)** — ordered phase **slugs**; **each line cites slice IDs** (mirror **`strategy-run-checklist.md`**).
    - **Approach going forward** + **Ongoing strategic decisions** — short narrative and dated pivots.
-3. **Align live checklists** — keep **`strategy-run-checklist.md`** in sync with the execution plan (same order and scope). Seed file: **`templates/strategy-run-checklist.md`** (created under **`progress/`** on first **`generate.py`** when missing).
+3. **Align live checklists** — keep **`strategy-run-checklist.md`** in sync with the execution plan (same order and scope). Optional **`templates/strategy-run-checklist.md`** seed; optional **`templates/progress-README.md`** → **`progress/README.md`** for slice-specific files under **`progress/slices/`**.
 4. **Run phases** — for the **current** phase: `python scripts/base/generate.py --phase <slug>`. Tick **`strategy-run-checklist.md`** when a phase is **done** for its declared scope; tick **`<slug>-checklist.md`** for **steps inside** that phase.
 
 ---
 
-## Three layers
+## Three layers (what you tick)
 
 | Layer | File | What you tick |
 | --- | --- | --- |
-| **Strategy execution** | **`progress/strategy-run-checklist.md`** | **Which phases** you will run, **in order**, each with **scope** (matches **`strategy.md` → Execution plan**). Use this for “next three steps per chapter” or “whole pipeline on anchor X.” |
+| **Strategy execution** | **`progress/strategy-run-checklist.md`** | **Which phases** you will run, **in order**, each with **scope** that **includes the same slice IDs** as **`strategy.md` → Execution plan**. Optional: **`progress/slices/<slice-id>-checklist.md`** per slice — see **`progress/README.md`** in the workspace (if present). |
 | **Full pipeline (reference)** | **`progress/process-checklist.md`** | **Every** phase in **`phase_files`** — useful as a map; optional if you rely only on strategy-run. |
 | **Phase steps** | **`progress/<phase>-checklist.md`** | **Action checklist** copied from **`content/parts/phases/<phase>.md` → ## Action Checklist**. |
 
-**Normative rules** for pipeline + phase checklists: **`library/base/checklist.md`**. **Implementation:** **`scripts/base/workspace_checklists.py`**.
+**Implementation:** **`scripts/base/workspace_checklists.py`** (paths, behavior, `--no-ensure-checklists`).
+
+---
+
+## How workspace checklist files are created (mechanical)
+
+| Kind | What it tracks | Where it lives | How it gets there |
+| --- | --- | --- | --- |
+| **Normative reference** | Rules in **this document** — strategy vs ticks, layers, `generate.py` behavior | **`content/parts/library/strategy-execution-and-checklists.md`** | Authored in the skill; **not** created by **`generate.py`**. |
+| **Pipeline position** | Which **phase** of the pipeline you are in | **`<active_skill_workspace>/<skill_name>/progress/process-checklist.md`** | **Created** on first **`python scripts/base/generate.py --phase <slug>`** when that file is **missing**, if **`skill-config.json` → `workspace.active_skill_workspace`** is set. One `- [ ]` line per slug in **`phase_files`** (labels from **`phase_section_headings`** when present). **Does not overwrite** an existing file. |
+| **Phase action steps** | **Steps inside** the current phase | **`<active_skill_workspace>/<skill_name>/progress/<phase-slug>-checklist.md`** | **Created** in the **same** `generate.py` run when that file is **missing**. Steps are taken from **`## Action Checklist`** in **`content/parts/phases/<phase-slug>.md`**, or from task lines (`- [ ]` / `- [x]`) in that file if the section is absent. **Does not overwrite** an existing file. |
+| **Strategy execution** (workspace) | Ordered phases matching **`strategy.md`** | **`progress/strategy-run-checklist.md`** | Seeded from template when **`generate.py`** / workspace checklist logic creates it; **you** align it with **`strategy.md`**. |
+
+### Names and workspace
+
+- **`skill_name`** — **`skill-config.json` → `name`** (fallback: skill directory name). Used in **`…/<skill_name>/progress/`**.
+- **`active_skill_workspace`** — Must point at the **project / engagement tree** where **`progress/`** checklists belong, **not** the skill install folder. See **`skill-config.json` → `workspace`** and **[workspace-and-config.md](phases/workspace-and-config.md)**.
+
+### Flags
+
+- **`python scripts/base/generate.py --phase <slug> --no-ensure-checklists`** — run the phase prompt **without** creating missing **`progress/`** checklist files (see **`workspace_checklists.py`**).
 
 ---
 
 ## What not to do
 
 - Do not put **checkboxes** in **`strategy.md`** — keep execution plan as **normative numbered/bulleted text**; ticks live under **`progress/`**.
+- Do not record pipeline or phase **session** progress by ticking boxes in **`content/parts/process.md`** or **`content/parts/phases/*.md`** — those stay **normative**; live ticks go **only** under **`…/progress/`**.
 - Do not let **`strategy-run-checklist.md`** drift from **`strategy.md`** — after a pivot, update both and append a line under *Ongoing strategic decisions*.
 
 ---
@@ -37138,6 +40223,14 @@ OOAD uses **three** checklist layers under **`<workspace>/abd-ooad/progress/`**.
 ## Phase slugs
 
 Use exact slugs from **`skill-config.json` → `phase_files`** (e.g. `nouns-verbs-rules-and-states`, `domain-scan`). Labels for humans are in **`phase_section_headings`**.
+
+---
+
+## References
+
+- **`strategy-led-generation.md`** — artifact roles, **`strategy.md`** vs **`domain-scan-results.md`**
+- **`templates/strategy.md`**, **`templates/progress-README.md`**
+- **`scripts/base/workspace_checklists.py`**
 
 
 ---
@@ -37743,12 +40836,14 @@ Use a note (folded-corner rectangle) connected to the class by a dashed line:
 
 The CLI does not yet support notes — add them manually in draw.io after CLI build. Use: Insert → Shape → Note. Connect to the target class with a dashed edge. Enclose invariant text in `{ }`.
 
+**Module / package (UML frame) notes:** For commentary that applies to a whole **module** (the outer `umlFrame` / package boundary from `add-frame`), attach the same Note shape to the **frame’s perimeter** (snap the connector to the frame edge), not to an inner class. Use the same dashed connector style as class notes. This keeps module-level invariants or scope reminders visually tied to the subsystem boundary.
+
 ### When to add invariants
 
 | Phase | Add invariants? |
 |-------|----------------|
 | domain-scan | Yes — add the invariants you found during the scan (inline preferred at this fidelity) |
-| nouns-verbs | No — extraction only; invariants captured in registry notes |
+| domain-noun-verb (Step 1) | No — extraction only; invariants captured in registry notes |
 | raw-candidate-list through responsibilities | Yes — as invariants become confirmed, add to diagram |
 | Full model phases | Yes — invariants are a required part of the final model |
 

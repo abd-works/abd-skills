@@ -2,7 +2,7 @@
 
 **Status:** mix of workshop sticky notes + email forwards; **not** reviewed for consistency. Owner TBD.
 
-> **Note:** Intentionally raw **battle-test** input — not incrementally refined here. The **step** outputs (`nouns-verbs-rules-and-states.md` … `model-in-layers.md`) apply **continual refinement** and **`**newly added**`** per **abd-maps-models-specs** [`domain-model.md`](../../abd-maps-models-specs/content/parts/library/domain-model.md).
+> **Note:** Intentionally raw **battle-test** input — not incrementally refined here. The **step** outputs (`nouns-verbs-rules-and-states.md` … `model-in-layers.md`) apply **continual refinement** and **`**newly added**`** per **[Domain model Markdown](../library/domain-model.md)**.
 
 ## What we need (high level)
 

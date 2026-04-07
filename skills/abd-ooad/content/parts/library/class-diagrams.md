@@ -142,12 +142,14 @@ Use a note (folded-corner rectangle) connected to the class by a dashed line:
 
 The CLI does not yet support notes — add them manually in draw.io after CLI build. Use: Insert → Shape → Note. Connect to the target class with a dashed edge. Enclose invariant text in `{ }`.
 
+**Module / package (UML frame) notes:** For commentary that applies to a whole **module** (the outer `umlFrame` / package boundary from `add-frame`), attach the same Note shape to the **frame’s perimeter** (snap the connector to the frame edge), not to an inner class. Use the same dashed connector style as class notes. This keeps module-level invariants or scope reminders visually tied to the subsystem boundary.
+
 ### When to add invariants
 
 | Phase | Add invariants? |
 |-------|----------------|
 | domain-scan | Yes — add the invariants you found during the scan (inline preferred at this fidelity) |
-| nouns-verbs | No — extraction only; invariants captured in registry notes |
+| domain-noun-verb (Step 1) | No — extraction only; invariants captured in registry notes |
 | raw-candidate-list through responsibilities | Yes — as invariants become confirmed, add to diagram |
 | Full model phases | Yes — invariants are a required part of the final model |
 

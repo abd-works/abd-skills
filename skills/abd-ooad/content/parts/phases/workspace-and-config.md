@@ -66,7 +66,7 @@ Examples for mm3e-experiment:
 ├── ... (steps 2–20 outputs)
 ```
 
-Live **checkboxes** belong only under **`progress/`** (see **`library/base/checklist.md`**). Do not duplicate tick tables in `strategy.md` or other normative docs under `abd-ooad/`.
+Live **checkboxes** belong only under **`progress/`** (see **`library/strategy-execution-and-checklists.md`**). Do not duplicate tick tables in `strategy.md` or other normative docs under `abd-ooad/`.
 
 ---
 

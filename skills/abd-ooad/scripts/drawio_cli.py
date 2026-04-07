@@ -183,6 +183,50 @@ def find_class(root, class_name):
     return classes[class_name]
 
 
+def find_field_row(root, class_name, field_text):
+    """Find a field-row cell inside *class_name* whose value matches *field_text*.
+
+    Matching is done after stripping HTML tags and normalising whitespace so
+    labels like '<b>+ abilities: Ability [1..*]</b>' still match the plain
+    string '+ abilities: Ability [1..*]'.
+
+    Returns the mxCell element or raises KeyError.
+    """
+    import html, re as _re
+
+    def _plain(v):
+        v = html.unescape(v or "")
+        v = _re.sub(r"<[^>]+>", "", v)
+        return " ".join(v.split())
+
+    cls = find_class(root, class_name)
+    cls_id = cls.get("id")
+    needle = _plain(field_text)
+    for cell in root.findall("mxCell"):
+        if cell.get("parent") != cls_id:
+            continue
+        if cell.get("vertex") != "1":
+            continue
+        if "line;" in cell.get("style", ""):
+            continue  # skip divider
+        if _plain(cell.get("value", "")) == needle:
+            # Add portConstraint=eastwest so the diamond connects to left/right
+            style = cell.get("style", "")
+            if "portConstraint" not in style:
+                cell.set("style", style.rstrip(";") + ";portConstraint=eastwest;")
+            return cell
+    available = [
+        _plain(c.get("value", ""))
+        for c in root.findall("mxCell")
+        if c.get("parent") == cls_id and c.get("vertex") == "1"
+        and "line;" not in c.get("style", "")
+    ]
+    raise KeyError(
+        f"Field '{field_text}' not found in class '{class_name}'. "
+        f"Available: {available}"
+    )
+
+
 def get_class_children(root, class_id):
     """Return all child cells of a class (fields, divider, methods)."""
     return [c for c in root.findall("mxCell") if c.get("parent") == class_id]
@@ -1389,6 +1433,68 @@ def cmd_add_method(args):
     print(f"✓ Added method to {args.class_name}: {args.text}")
 
 
+def _compute_field_exit_entry(root, source_cell, target_cell, field_text, is_exit=True):
+    """Compute exitX/exitY or entryX/entryY for a field row.
+
+    Args:
+        root: XML root element
+        source_cell: source class mxCell (for position)
+        target_cell: target class mxCell (for position)
+        field_text: field row text to match
+        is_exit: True to compute exit coords (from source field), False for entry (from target field)
+
+    Returns:
+        (exitX/entryX, exitY/entryY) tuple, or (None, None) if field not found
+    """
+    # Determine which class to search
+    search_class_cell = source_cell if is_exit else target_cell
+    search_class_name = _extract_class_name(search_class_cell.get("value", ""))
+
+    # Find the field row
+    try:
+        field_cell = find_field_row(root, search_class_name, field_text)
+    except KeyError:
+        return None, None
+
+    # Get field y position and class total height
+    field_geo = field_cell.find("mxGeometry")
+    if field_geo is None:
+        return None, None
+
+    field_y = float(field_geo.get("y", 0))
+    field_h = float(field_geo.get("height", CELL_HEIGHT))
+    field_y_center = field_y + field_h / 2.0
+
+    # Get class height
+    class_cell = source_cell if is_exit else target_cell
+    class_geo = class_cell.find("mxGeometry")
+    if class_geo is None:
+        return None, None
+    class_h = float(class_geo.get("height", 100))
+
+    # Normalize to 0..1 range
+    y_ratio = field_y_center / class_h if class_h > 0 else 0.5
+
+    # Determine X based on relative positions
+    source_geo = source_cell.find("mxGeometry")
+    target_geo = target_cell.find("mxGeometry")
+    if source_geo is None or target_geo is None:
+        return None, None
+
+    source_x = float(source_geo.get("x", 0)) + float(source_geo.get("width", DEFAULT_WIDTH)) / 2.0
+    target_x = float(target_geo.get("x", 0)) + float(target_geo.get("width", DEFAULT_WIDTH)) / 2.0
+
+    # Determine exit/entry side
+    if is_exit:
+        # Exit: if target is to right, exit from right (exitX=1); else from left (exitX=0)
+        x_ratio = 1.0 if target_x > source_x else 0.0
+    else:
+        # Entry: if source is to left, entry from left (entryX=0); else from right (entryX=1)
+        x_ratio = 0.0 if source_x < target_x else 1.0
+
+    return x_ratio, y_ratio
+
+
 def _add_edge(root, source_id, target_id, style, label=None,
               from_mult=None, to_mult=None, stereotype=None):
     """Add a directed edge (relationship) between two classes."""
@@ -1459,27 +1565,82 @@ def cmd_add_association(args):
     tree, root = load_diagram(args.file)
     src = find_class(root, args.from_class)
     tgt = find_class(root, args.to_class)
-    _add_edge(root, src.get("id"), tgt.get("id"), ASSOCIATION_STYLE,
+
+    style = ASSOCIATION_STYLE
+
+    # Apply field-level exit/entry constraints if provided
+    if hasattr(args, 'exit_field') and args.exit_field:
+        exit_x, exit_y = _compute_field_exit_entry(root, src, tgt, args.exit_field, is_exit=True)
+        if exit_x is not None and exit_y is not None:
+            style = (style.rstrip(";") +
+                    f";exitX={exit_x};exitY={exit_y};exitDx=0;exitDy=0;")
+
+    if hasattr(args, 'entry_field') and args.entry_field:
+        entry_x, entry_y = _compute_field_exit_entry(root, src, tgt, args.entry_field, is_exit=False)
+        if entry_x is not None and entry_y is not None:
+            style = (style.rstrip(";") +
+                    f";entryX={entry_x};entryY={entry_y};entryDx=0;entryDy=0;")
+
+    _add_edge(root, src.get("id"), tgt.get("id"), style,
               label=args.label, from_mult=args.from_mult, to_mult=args.to_mult)
     save_diagram(tree, args.file)
     print(f"✓ Added association: {args.from_class} → {args.to_class}"
-          + (f" [{args.label}]" if args.label else ""))
+          + (f" [{args.label}]" if args.label else "")
+          + (f" (exit-field: {args.exit_field})" if hasattr(args, 'exit_field') and args.exit_field else "")
+          + (f" (entry-field: {args.entry_field})" if hasattr(args, 'entry_field') and args.entry_field else ""))
 
 
 def cmd_add_composition(args):
     """Composition: the WHOLE 'contains' the PART (filled diamond at whole end).
-    Arrow goes: part → whole (diamond at whole/source end = endArrow)."""
+    Arrow goes: part → whole (diamond at whole/target end via endArrow).
+
+    When --source-field is given the diamond lands on a specific field row inside
+    the WHOLE class instead of on the class border.  This is the Section-5a
+    field-anchored pattern.  The field row gets portConstraint=eastwest so the
+    diamond arrives from the left or right, and the PART exits from its right
+    side (exitX=1) by default, producing a clean orthogonal route.
+
+    When --exit-field is given, the exit point on the PART class is anchored to
+    that field row. When --entry-field is given, the entry point on the WHOLE class
+    is anchored to that field row.
+    """
     tree, root = load_diagram(args.file)
+    part = find_class(root, args.part)
     whole = find_class(root, args.whole)
-    part  = find_class(root, args.part)
-    # Edge goes part → whole (diamond at whole/target end via endArrow).
-    # Multiplicity (e.g. "1..*") labels HOW MANY parts per whole — shown at the
-    # part/source end so it reads "Character ◆── [1..*] Ability".
-    _add_edge(root, part.get("id"), whole.get("id"), COMPOSITION_STYLE,
+
+    if args.source_field:
+        # Target = specific field row inside the whole class (legacy mode)
+        field_cell = find_field_row(root, args.whole, args.source_field)
+        target_id  = field_cell.get("id")
+        # Field-anchored style: part exits RIGHT side, diamond enters LEFT of field row
+        style = (COMPOSITION_STYLE.rstrip(";")
+                 + ";exitX=1;exitY=0.5;exitDx=0;exitDy=0;"
+                 + "entryX=0;entryY=0.5;entryDx=0;entryDy=0;")
+    else:
+        target_id = whole.get("id")
+        style = COMPOSITION_STYLE
+
+        # Apply field-level exit/entry constraints if provided (new mode)
+        if hasattr(args, 'exit_field') and args.exit_field:
+            exit_x, exit_y = _compute_field_exit_entry(root, part, whole, args.exit_field, is_exit=True)
+            if exit_x is not None and exit_y is not None:
+                style = (style.rstrip(";") +
+                        f";exitX={exit_x};exitY={exit_y};exitDx=0;exitDy=0;")
+
+        if hasattr(args, 'entry_field') and args.entry_field:
+            entry_x, entry_y = _compute_field_exit_entry(root, part, whole, args.entry_field, is_exit=False)
+            if entry_x is not None and entry_y is not None:
+                style = (style.rstrip(";") +
+                        f";entryX={entry_x};entryY={entry_y};entryDx=0;entryDy=0;")
+
+    _add_edge(root, part.get("id"), target_id, style,
               label=args.label, from_mult=args.mult)
     save_diagram(tree, args.file)
     print(f"✓ Added composition: {args.whole} ◆── {args.part}"
-          + (f" [{args.mult}]" if args.mult else ""))
+          + (f" [field: {args.source_field}]" if args.source_field else "")
+          + (f" [{args.mult}]" if args.mult else "")
+          + (f" (exit-field: {args.exit_field})" if hasattr(args, 'exit_field') and args.exit_field else "")
+          + (f" (entry-field: {args.entry_field})" if hasattr(args, 'entry_field') and args.entry_field else ""))
 
 
 def cmd_add_aggregation(args):
@@ -1866,6 +2027,10 @@ Examples:
                    help="Multiplicity at source end, e.g. 1")
     p.add_argument("--to-mult",   metavar="MULT",
                    help="Multiplicity at target end, e.g. 0..3")
+    p.add_argument("--exit-field", metavar="FIELD",
+                   help="Field row text in source class to anchor exit point")
+    p.add_argument("--entry-field", metavar="FIELD",
+                   help="Field row text in target class to anchor entry point")
 
     # add-composition
     p = sub.add_parser("add-composition",
@@ -1874,6 +2039,13 @@ Examples:
     p.add_argument("part",  metavar="PART",  help="The contained class")
     p.add_argument("--mult",  metavar="MULT", help='Multiplicity, e.g. "4"')
     p.add_argument("--label", help="Optional relationship label")
+    p.add_argument("--source-field", metavar="FIELD",
+                   help="Field row text in WHOLE to anchor the diamond to "
+                        "(Section 5a field-anchored pattern, legacy mode)")
+    p.add_argument("--exit-field", metavar="FIELD",
+                   help="Field row text in PART to anchor exit point")
+    p.add_argument("--entry-field", metavar="FIELD",
+                   help="Field row text in WHOLE to anchor entry point (diamond destination)")
 
     # add-aggregation
     p = sub.add_parser("add-aggregation",

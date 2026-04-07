@@ -12,19 +12,19 @@
 **Full pipeline reference (all phases):** `process-checklist.md`  
 **Current phase steps:** `<phase>-checklist.md` (e.g. `nouns-verbs-rules-and-states-checklist.md`)
 
-Edit the rows below to match your execution plan (phase slug + scope). Add or remove lines as needed.
+Edit the rows below to match **`strategy.md` → Execution plan (normative)**. **Reuse section IDs** from **`strategy.md` → Section strategy** in each scope line (e.g. `sections: S6, S1 — Ch.6 Powers + Ch.1 glue`) so ticks stay aligned with **Coverage across steps**.
 
 ---
 
 ## Planned phases (in order)
 
-- [ ] **domain-scan** — scope: {{e.g. Ch.5; anchor Payment}}
-- [ ] **nouns-verbs-rules-and-states** — scope: {{e.g. Ch.5}}
-- [ ] **raw-candidate-list** — scope: {{e.g. Ch.5}}
+- [ ] **domain-scan** — sections: {{S1…Sn \| all}} — {{short scope note}}
+- [ ] **nouns-verbs-rules-and-states** — sections: {{e.g. S6, S1}} — {{what}}
+- [ ] **raw-candidate-list** — sections: {{…}} — {{…}}
 - [ ] *(add next phases or delete unused rows)*
 
 ---
 
 ## Notes
 
-*Optional: link to term-registry rows, diagram paths, or blockers.*
+*Optional: link to term-registry rows, diagram paths, blockers, or **section ID** renames after a pivot.*

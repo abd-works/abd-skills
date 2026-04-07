@@ -8,7 +8,7 @@ Ask: **What must this object know to fulfill its responsibility?** — not “wh
 
 Use **contextual names** (like **OrderItem** vs **Item**): e.g. **CapturedPortion** or explicit `authorizedAmount` / `capturedAmount` instead of a vague `amount` when partial capture matters.
 
-> **Continual refinement:** Aligns with **abd-maps-models-specs** [`domain-model.md`](../../abd-maps-models-specs/content/parts/library/domain-model.md) (*Domain concept* template, *Continual refinement — class definition + diagram*). In this payments thread, **`**newly added**`** marks a property or operation line **first introduced in this step file** (Steps 1–4 stay pre-notation; formal `- <type> property` / `operation(...) → return` lines begin at Step 5).
+> **Continual refinement:** Full notation is in **[Domain model Markdown](../library/domain-model.md)** (*Domain concept* template; class definition and diagram refined together). In this payments thread, **`**newly added**`** marks a property or operation line **first introduced in this step file** (Steps 1–4 stay pre-notation; formal `- <type> property` / `operation(...) → return` lines begin at Step 5).
 
 ---
 
@@ -138,7 +138,7 @@ If Dispute is **external**, **Payment** might only hold `disputeIds: DisputeId[]
 
 ## Formal domain concepts (Step 5)
 
-First typed **`- <type> property`** lines for core aggregates (see [`domain-model.md`](../../abd-maps-models-specs/content/parts/library/domain-model.md). Every line below is **`**newly added**`** at this step in the payments thread.
+First typed **`- <type> property`** lines for core aggregates (see [Domain model Markdown](../library/domain-model.md). Every line below is **`**newly added**`** at this step in the payments thread.
 
 ### **Payment**
 
@@ -203,7 +203,7 @@ Next: map **verbs** from Step 1 and spec to **operations** on **Payment**, **Ref
 ## Continual refinement (this step)
 
 - **Delta:** semantically tight **properties** for **Payment**, **Refund**, optional **Dispute**, **AuditEntry**, plus VO lists — all as **`- <type> property`** lines with **`**newly added**`** (first formal notation in this thread).
-- **Diagram:** when maintaining **`map-model-spec.json`**, re-run **`render_map_model_class_diagram.py`** so the class diagram stays the visual twin (see [class-diagram-from-spec.md](../../abd-maps-models-specs/content/parts/library/class-diagram-from-spec.md).
+- **Diagram:** when maintaining **`map-model-spec.json`**, re-run **`render_map_model_class_diagram.py`** so the class diagram stays the visual twin (see [Domain model Markdown](../library/domain-model.md) (*Class diagram and spec (visual twin)*; see also [Class diagrams](../library/class-diagrams.md)).
 
 ---
 

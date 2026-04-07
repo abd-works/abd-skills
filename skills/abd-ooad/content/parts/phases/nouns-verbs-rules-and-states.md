@@ -22,9 +22,28 @@ Do not restructure anchors mid-step. Record any anchor boundary questions in the
 
 ---
 
+## Term registry ↔ slice mapping (`Anchor` column)
+
+After (or while) you produce **domain noun–verb** extraction per **slice** (e.g. S1 = first strategy section / chapter folder), write it to **`domain-noun-verb.md`** in the active workspace’s `abd-ooad/` folder (one file per workspace; use slice subfolders if you split by source slice). Align each **`term-registry.md`** row with the evidence file:
+
+| Artifact | Role |
+|----------|------|
+| **`term-registry.md`** | SCAN **type** decisions: Classification, Confidence, Status, Notes — sparse. |
+| **`…/domain-noun-verb.md` (per workspace or per slice folder)** | Phase-2 **evidence**: candidate nouns, verbs, rules, states. Prefer grouping **by anchor** (same headings as `strategy.md`). |
+
+**`Anchor` column (single HTML column in the registry table)** — one code cell per term, **slice-keyed**:
+
+- **`S1=<heading>`** — primary heading in **slice 1**’s `domain-noun-verb.md` where this term is evidenced (`Character`, `Check`, `Condition`, `Effect`, or your anchor names). Use **`S1=—`** if that term has **no** hook in slice 1.
+- **Optional suffix** on the same `S1=` value when evidence is thin: **`(partial)`**, **`(gaps)`**, or combine anchors as **`Character+Effect`** when the text really spans both.
+- **`S2=…`** — add **only when slice 2 exists** (second slice’s evidence file, or a second `domain-noun-verb.md` in another slice folder). Same pattern, e.g. `S1=Character; S2=Check` in one cell, or keep `S1=…` only until S2 is done. **Do not** add empty `S2=—` placeholders before slice 2.
+
+**Traceability:** registry states **what** you claim; each slice’s `domain-noun-verb.md` holds **what the source said**. Rows should be defensible from `S1=` (and later `S2=`) where not `—`.
+
+---
+
 ## Worked example — payments spec
 
-> **Continual refinement:** Aligns with **abd-maps-models-specs** [`domain-model.md`](../../abd-maps-models-specs/content/parts/library/domain-model.md) (*Domain concept* template, *Continual refinement — class definition + diagram*). In this payments thread, **`**newly added**`** marks a property or operation line **first introduced in this step file** (Steps 1–4 stay pre-notation; formal `- <type> property` / `operation(...) → return` lines begin at Step 5).
+> **Continual refinement:** This payments example uses the same "grow the model as you go" approach described in **[Domain model Markdown](../library/domain-model.md)**. **Tag:** **newly added** means this property or operation line appears for the **first time** in *this* step's file (so you can see the delta from the previous step). **Notation:** Steps 1–4 stay informal—bullets and prose only. Typed members start at **Step 5** (`- <type> property`, `operation(...) → return`).
 
 ---
 
@@ -173,7 +192,7 @@ Own (dispute), remove, hide (field).
 
 ## Continual refinement (this step)
 
-- **Delta:** **pre-notation** — nouns, verbs, rules, states, tensions extracted from spec; no **`- <type> property`** lines yet (aligns with **Terms & mechanisms** / **shaped story map** in [`domain-model.md`](../../abd-maps-models-specs/content/parts/library/domain-model.md).
+- **Delta:** **pre-notation** — nouns, verbs, rules, states, tensions extracted from spec; no **`- <type> property`** lines yet (aligns with **Terms & mechanisms** / **shaped story map** in [Domain model Markdown](../library/domain-model.md).
 
 ---
 
@@ -185,6 +204,7 @@ Own (dispute), remove, hide (field).
 - [ ] Have you recorded lifecycle states for at least the key candidate classes?
 - [ ] Have you noted synonyms, naming conflicts, and scope boundary noise for later steps?
 - [ ] Have you updated the term registry with all new terms found in this step?
+- [ ] Have you set each row’s **`Anchor`** cell (`S1=…`; add **`S2=…`** only after slice 2 exists) to point at the right section heading in **`domain-noun-verb.md`**?
 
 ---
 

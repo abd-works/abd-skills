@@ -6,7 +6,45 @@
 
 This is still **loose**. Candidates may merge, split, or become attributes in later steps.
 
-> **Continual refinement:** Aligns with **abd-maps-models-specs** [`domain-model.md`](../../abd-maps-models-specs/content/parts/library/domain-model.md) (*Domain concept* template, *Continual refinement — class definition + diagram*). In this payments thread, **`**newly added**`** marks a property or operation line **first introduced in this step file** (Steps 1–4 stay pre-notation; formal `- <type> property` / `operation(...) → return` lines begin at Step 5).
+> **Continual refinement:** Full notation is in **[Domain model Markdown](../library/domain-model.md)** (*Domain concept* template; class definition and diagram refined together). In this payments thread, **`**newly added**`** marks a property or operation line **first introduced in this step file** (Steps 1–4 stay pre-notation; formal `- <type> property` / `operation(...) → return` lines begin at Step 5).
+
+---
+
+## Worked example — from nouns-verbs to this step
+
+**Upstream:** Step 1 (`nouns-verbs-rules-and-states.md`) produces **`domain-noun-verb.md`** (in the workspace `abd-ooad/` folder) — nouns, verbs, rules, and states, often grouped **by anchor** (same headings as `strategy.md`). Step 2 **does not** paste that file wholesale; you **re-sort** the same terms into the buckets below (entities, value-like concepts, processes, policies, roles, events) and add **why** each row might matter.
+
+**Term registry:** As you promote terms to candidates here, keep **`Anchor`** in `term-registry.md` aligned: e.g. `S1=Check` for anything first evidenced under a **Check** heading in slice 1’s `domain-noun-verb.md` (see the **Term registry ↔ slice mapping** section in the nouns-verbs phase).
+
+### Mini excerpt (hypothetical “rules” slice — one anchor)
+
+Imagine one anchor section **Check** in `domain-noun-verb.md`:
+
+| Kind | Extraction (illustrative) |
+| ---- | ------------------------- |
+| **Nouns** | Character, Check, DC, bonus, penalty, Condition, trait, die roll |
+| **Verbs** | roll, compare, apply, succeed, fail, stack |
+| **Rules** | Compare total vs DC; some bonuses don’t stack; Conditions can impose advantage/disadvantage |
+| **States** | Check pending → resolved (success / failure / critical); Condition active vs cleared |
+
+### Roll-up into Step 2 buckets (same terms, new shape)
+
+| Step 1 term(s) | Likely Step 2 bucket | Notes |
+| -------------- | -------------------- | ----- |
+| Character, Check | **Core domain entities** | Durable “things” — may merge later (e.g. Check as operation vs aggregate). |
+| DC, bonus, penalty | **Value-like concepts** | Often numbers + rules; may become VO / struct / enum. |
+| “roll → compare → resolve” | **Processes or transactions** | End-to-end flow with a start/end. |
+| stacking, advantage/disadvantage | **Policies or rules** | Eligibility and modifiers — may stay policy objects or plain rules. |
+| player, GM (if in source) | **Roles** | Actors; may merge with user accounts later. |
+| “Check resolved”, Condition applied | **Events or records** | Audit / history if the product cares about replay. |
+
+### What you add in Step 2 that Step 1 didn’t require
+
+- **Separation** — entity vs value vs process vs policy (Step 1 only *marked* candidates).
+- **Tensions** — e.g. “Is **Check** a noun (object) or only a verb-shaped process?” — carry forward to `thing-vs-data-about-a-thing` / later steps.
+- **Watch list** — terms that might collapse (e.g. “die roll” as part of Check, not its own class).
+
+Use the **payments** tables below as a full-size reference thread; use this mini example when your domain is not payments but you still need a **template** for nouns-verbs → raw candidate list.
 
 ---
 
@@ -150,6 +188,7 @@ Ask for each hot candidate:
 
 ## Action Checklist
 
+- [ ] Have you rolled up Step 1 nouns-verbs (per slice / anchor) into this step’s buckets (entities, values, processes, policies, roles, events)?
 - [ ] Have you produced a raw candidate list with at least three entities and at least one value object?
 - [ ] Have you separated entities from value objects (mutability, identity)?
 - [ ] Have you flagged watch-list candidates (possible classes that need further evidence)?

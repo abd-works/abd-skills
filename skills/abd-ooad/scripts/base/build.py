@@ -42,6 +42,23 @@ from skill import _BuildTimeContext
 BUILT_DIR = ROOT / "content" / "built"
 PHASES_BUILT_DIR = BUILT_DIR / "phases"
 
+# Phase sources use ``../library/…`` (relative to ``content/parts/phases/``). That path is wrong for
+# merged outputs: rewrite when writing **skill-root AGENTS.md** and **content/built/phases/*.md**.
+_LINK_FROM_PHASE_TO_LIBRARY = "](../library/"
+_LINK_AGENTS_ROOT_LIBRARY = "](content/parts/library/"
+_LINK_BUILT_PHASE_LIBRARY = "](../../parts/library/"
+
+
+def _rewrite_phase_links_for_agents_root(text: str) -> str:
+    """``AGENTS.md`` lives at skill root; library markdown is under ``content/parts/library/``."""
+    return text.replace(_LINK_FROM_PHASE_TO_LIBRARY, _LINK_AGENTS_ROOT_LIBRARY)
+
+
+def _rewrite_phase_links_for_built_phase_file(text: str) -> str:
+    """Built phase files live at ``content/built/phases/<slug>.md``."""
+    return text.replace(_LINK_FROM_PHASE_TO_LIBRARY, _LINK_BUILT_PHASE_LIBRARY)
+
+
 BUILT_README = """# content/built/ — static_built outputs
 
 This directory holds **pre-merged** agent instructions for **`static_built`** delivery.
@@ -62,6 +79,9 @@ PHASES_BUILT_README = """# content/built/phases/ — derived per-phase prompts
 
 Files here are **generated** by **`scripts/base/build.py`**. Sources of truth: **`skill-config.json`**
 (`library_files`, `phase_library`, `phase_rules`, `every_phase_rules`, `phase_bundle`, …) and **`parts/`** / **`rules/`**.
+
+Phase bodies under **`parts/phases/`** may link to library shards with ``../library/…``; the build rewrites those to
+``../../parts/library/…`` in this folder so links resolve from **`content/built/phases/<slug>.md`**.
 
 Regenerate:
 
@@ -150,7 +170,8 @@ class ContentAssembler:
         for slug in self.phase_files:
             section_title = self.phase_section_headings.get(slug, f"Phase: {slug}")
             chunks.append(f"\n## {section_title}\n\n")
-            chunks.append(inst.assemble_prompt(slug, include_context=False))
+            phase_body = inst.assemble_prompt(slug, include_context=False)
+            chunks.append(_rewrite_phase_links_for_agents_root(phase_body))
 
         return "".join(chunks)
 
@@ -162,7 +183,7 @@ class ContentAssembler:
         base.mkdir(parents=True, exist_ok=True)
         written: list[Path] = []
         for slug in self.phase_files:
-            text = self.build_phase_text(slug)
+            text = _rewrite_phase_links_for_built_phase_file(self.build_phase_text(slug))
             path = base / f"{slug}.md"
             path.write_text(text, encoding="utf-8")
             written.append(path)

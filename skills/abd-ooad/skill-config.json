@@ -33,6 +33,7 @@
     "model-in-layers"
   ],
   "library_files": [
+    "domain-model.md",
     "anchors.md",
     "strategy-led-generation.md",
     "strategy-execution-and-checklists.md",
@@ -45,8 +46,7 @@
   ],
   "library_base_files": [
     "skill-structure-and-concepts",
-    "workspace-and-config",
-    "checklist"
+    "workspace-and-config"
   ],
   "library_required_files": [
     "purpose",
