@@ -2,6 +2,8 @@
 
 **Pipeline:** Workspace → Domain Scan & Initial Sketch → Extraction → Refinement → Validation
 
+**Per-slice extraction** (after scan) uses **global phases 2–21** for artifacts under a slice ID — **not** a separate “Phase 1 per slice.” **Phase 1** = domain scan (workspace-wide). See **`library/term-registry.md` → Slices and global phase numbers**.
+
 ---
 
 ## Process Table
@@ -10,7 +12,7 @@
 |---|-------|-------------|-------|-------|--------|---------|
 | 0 | [Workspace and config](phases/workspace-and-config.md) | Set active skill workspace; configure project root | Human | Project directory | `skill-config.json` updated | `python scripts/base/set_workspace.py <path>` |
 | 1 | [Domain scan](phases/domain-scan.md) | Scan source, identify 3–7 anchors, flag tensions, produce initial model sketch | AI | Source material (spec, code, manual, transcript) | `domain-scan-results.md` + `strategy.md` + `domain-scan-model.md` + `domain-scan-model.drawio` + `term-registry.md` (+ `abd-ooad/progress/*-checklist.md` from `generate.py`) | `python scripts/base/generate.py --phase domain-scan` |
-| 2 | [Nouns, verbs, rules, and states](phases/nouns-verbs-rules-and-states.md) | Careful extraction: mark nouns, verbs, rules, states per section; **term-registry `Anchor` column** (`S1=` per slice heading; `S2=` only when slice 2 exists) | AI | Source material + domain-scan results | **`domain-noun-verb.md`** (noun/verb extraction) + updated **`term-registry.md`** | `python scripts/base/generate.py --phase nouns-verbs-rules-and-states` |
+| 2 | [Nouns, verbs, rules, and states](phases/nouns-verbs-rules-and-states.md) | Careful extraction: mark nouns, verbs, rules, states per section; **term-registry `Anchor` column** (`S1=` per slice heading; `S2=` only when slice 2 exists) | AI | Source material + domain-scan results | **Per slice:** domain model + noun–verb SCAN (e.g. **`domain-verb-noun-manual.md`** in the slice folder) + optional **`nouns-verbs.md`**; optional **`domain-noun-verb.md`** rollup at `abd-ooad/`; updated **`term-registry.md`** | `python scripts/base/generate.py --phase nouns-verbs-rules-and-states` |
 | 3 | [Raw candidate list](phases/raw-candidate-list.md) | Sort findings into entities, values, processes, policies, roles, events | AI | Extraction results | Candidate class inventory + updated term-registry.md | `python scripts/base/generate.py --phase raw-candidate-list` |
 | 4 | [Thing vs data about a thing](phases/thing-vs-data-about-a-thing.md) | Separate independent entities from value objects, enums, properties | AI | Candidate list | Refined entities with clear boundaries | `python scripts/base/generate.py --phase thing-vs-data-about-a-thing` |
 | 5 | [Responsibilities before operations](phases/responsibilities-before-operations.md) | Define what each class is responsible for (before methods) | AI | Entities | Responsibility statements per class | `python scripts/base/generate.py --phase responsibilities-before-operations` |

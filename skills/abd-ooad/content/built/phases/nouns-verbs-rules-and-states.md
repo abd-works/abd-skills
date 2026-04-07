@@ -60,20 +60,28 @@ Do not restructure anchors mid-step. Record any anchor boundary questions in the
 
 ## Term registry ↔ slice mapping (`Anchor` column)
 
-After (or while) you produce **nouns-verbs** artifacts per **slice** (e.g. S1 = first strategy section / chapter folder), align each **`term-registry.md`** row with the evidence file:
+**Where Phase 2 output goes (insert order)** — align with **domain-scan**: noun–verb material belongs in the **slice** area first, not only at workspace root.
+
+| Location | Artifact | Role |
+|----------|----------|------|
+| **Slice folder** (e.g. `…/1 - basics-checks-conditions/` for S1) | **`domain-verb-noun-manual.md`** (name may vary) | **Primary domain model** for Phase 2: `## [… module]`, scan blocks, **`### Note :`** sections for candidate nouns / verbs / rules / states under the correct anchor. **Insert new SCAN content here** in the right module and note block. |
+| **Same slice folder** | **`nouns-verbs.md`** (optional but common) | Flat extraction by anchor heading (`## \`Character\``, …) for verbatim evidence; can feed Appendix A of the manual. |
+| **`abd-ooad/`** (workspace) | **`domain-noun-verb.md`** | **Optional rollup** — same structure as the slice manual, for browsing from repo root; **mirror or copy from the slice file** after editing the slice. Do **not** treat this as the only place to insert when a slice folder exists. |
+
+After (or while) you produce **domain noun–verb** extraction per **slice**, align each **`term-registry.md`** row with the evidence files above.
 
 | Artifact | Role |
 |----------|------|
 | **`term-registry.md`** | SCAN **type** decisions: Classification, Confidence, Status, Notes — sparse. |
-| **`…/domain-noun-verb.md` (per slice)** | Phase-2 **evidence**: candidate nouns, verbs, rules, states. Prefer grouping **by anchor** (same headings as `strategy.md`). |
+| **Slice `domain-verb-noun-manual.md` (+ optional `nouns-verbs.md`)** | Phase-2 **evidence** in the **slice**: candidates grouped **by anchor** (same headings as `strategy.md`), either as a **structured manual** or a **flat** file. |
 
 **`Anchor` column (single HTML column in the registry table)** — one code cell per term, **slice-keyed**:
 
-- **`S1=<heading>`** — primary heading in **slice 1**’s `domain-noun-verb.md` where this term is evidenced (`Character`, `Check`, `Condition`, `Effect`, or your anchor names). Use **`S1=—`** if that term has **no** hook in slice 1.
+- **`S1=<heading>`** — primary anchor where this term is evidenced in **slice 1**, usually the same label in **`nouns-verbs.md`** (`Character`, `Check`, `Condition`, `Effect`, …) **or** the matching **`## [Character module]`** (etc.) in the slice’s **`domain-verb-noun-manual.md`**. Use **`S1=—`** if that term has **no** hook in slice 1.
 - **Optional suffix** on the same `S1=` value when evidence is thin: **`(partial)`**, **`(gaps)`**, or combine anchors as **`Character+Effect`** when the text really spans both.
-- **`S2=…`** — add **only when slice 2 exists** (second `domain-noun-verb.md`). Same pattern, e.g. `S1=Character; S2=Check` in one cell, or keep `S1=…` only until S2 is done. **Do not** add empty `S2=—` placeholders before slice 2.
+- **`S2=…`** — add **only when slice 2 exists** (second slice’s folder and files). Same pattern, e.g. `S1=Character; S2=Check` in one cell, or keep `S1=…` only until S2 is done. **Do not** add empty `S2=—` placeholders before slice 2.
 
-**Traceability:** registry states **what** you claim; each slice’s `domain-noun-verb.md` holds **what the source said**. Rows should be defensible from `S1=` (and later `S2=`) where not `—`.
+**Traceability:** registry states **what** you claim; each slice’s **manual** (and/or **`nouns-verbs.md`**) holds **what the source said**. Rows should be defensible from `S1=` (and later `S2=`) where not `—`.
 
 ---
 
@@ -240,7 +248,7 @@ Own (dispute), remove, hide (field).
 - [ ] Have you recorded lifecycle states for at least the key candidate classes?
 - [ ] Have you noted synonyms, naming conflicts, and scope boundary noise for later steps?
 - [ ] Have you updated the term registry with all new terms found in this step?
-- [ ] Have you set each row’s **`Anchor`** cell (`S1=…`; add **`S2=…`** only after slice 2 exists) to point at the right **`nouns-verbs`** section heading?
+- [ ] Have you set each row’s **`Anchor`** cell (`S1=…`; add **`S2=…`** only after slice 2 exists) to point at the right **slice** anchor (in **`nouns-verbs.md`** and/or the slice **`domain-verb-noun-manual.md`**)?
 
 ---
 
@@ -410,7 +418,7 @@ An anchor is a concept you expect to be present in the model from scan through f
 | Output                     | What anchor produces                                                                                                            |
 | -------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
 | `domain-scan-results.md`   | Row in the anchors table: Module name, core class name, scan-visible supporting classes, basis                                  |
-| `domain-scan-model.md`     | Module section header + core class entry + supporting class entries with `[supporting class — ModuleName module]` annotation    |
+| `domain-scan-model.md`     | Module section header (`## [… module]`) + **core class** with `<<Anchor>>` + other classes in that section with **no** stereotype (grouping by section is enough; no per-line `[supporting class — …]` tags). See **`phases/domain-scan` → Notation in domain-scan-model.md**.    |
 | `domain-scan-model.drawio` | One dashed frame per anchor; core class inside; supporting classes inside; cross-module relationships between core classes only |
 | `term-registry.md`         | Core class of a module → Classification **`anchor (class + module)`**; supporting classes → **`class`** with owning module in **Notes** (e.g. `Supporting class — Character module`). Use **Status** for lifecycle (e.g. **Tension**, **Candidate**) — not a duplicate of Classification.   |
 
@@ -445,6 +453,8 @@ The absence of a matching core class is the clearest signal that you have not ye
 # Strategy-led generation
 
 Domain scan (OOAD **phase 1**) does not only produce a single “results” file. It establishes a **small set of workspace files** under `<workspace>/abd-ooad/` that work together. Some are **frozen findings** from the scan; others are **living documents** you update as modeling continues.
+
+**Slices start at global Phase 2:** Source-slice work (e.g. **S1**, **S2** in `strategy.md` and **`Anchor`** `S1=…` / `S2=…` in `term-registry.md`) uses the **same global OOAD phase numbers** as the process table for everything **after** scan. The **first** per-slice extraction step is **Phase 2** (`nouns-verbs-rules-and-states`), **not** a slice-local “Phase 1.” Phase **1** is workspace-wide **domain-scan** only. See **`term-registry.md` → Slices and global phase numbers**.
 
 For the scan procedure itself, see the **Domain scan** phase. This page explains **what each artifact is for** and how **`strategy.md`** relates to **`domain-scan-results.md`**.
 
@@ -641,6 +651,16 @@ Use these short names in the **Step** column of the registry when adding or upda
 | VALIDATE | validate-with-scenarios | Validate with scenarios |
 | NAMES | refine-names | Refine class and concept names |
 | LAYERS | model-in-layers | Model in layers |
+
+---
+
+## Slices and global phase numbers (normative)
+
+The **OOAD process table** (see **`process.md`** / built **AGENTS.md** — “Process Table”) assigns **global phase numbers** **0–21** to phase **slugs** (e.g. **Phase 2** = `nouns-verbs-rules-and-states`, **Phase 3** = `raw-candidate-list`, **Phase 4** = `thing-vs-data-about-a-thing`).
+
+- **Phase 1** (`domain-scan`, short name **SCAN**) runs **once per workspace** (or once per strategy engagement). It produces anchors, `strategy.md`, `domain-scan-results.md`, and seeds **`term-registry.md`**. It is **not** repeated as “each slice’s Phase 1.”
+- **Per-slice modeling** (folders or **Anchor** columns **`S1=…`**, **`S2=…`**, …) **aligns with the same global numbers from Phase 2 onward:** the **first** extraction artifact in a slice is always **Phase 2** (**NOUNS**), then **3** (**CANDS**), **4** (**THINGS**), etc. Do **not** label slice-local nouns-verbs files as Phase 1 — that collides with **SCAN**.
+- **Phase notes** in italics (optional): `*[Sn · Phase N]*` where **N** is the **global** process-table number. Add slug, tension id, or short reminder *after* the tag on the same line if needed (e.g. *thing-vs-data*, *registry Tn*). For early “likely class” judgments: `*[S1 · Phase 3]* Likely class : …`.
 
 ---
 
@@ -1196,6 +1216,8 @@ Use a note (folded-corner rectangle) connected to the class by a dashed line:
 ```
 
 The CLI does not yet support notes — add them manually in draw.io after CLI build. Use: Insert → Shape → Note. Connect to the target class with a dashed edge. Enclose invariant text in `{ }`.
+
+**Module / package (UML frame) notes:** For commentary that applies to a whole **module** (the outer `umlFrame` / package boundary from `add-frame`), attach the same Note shape to the **frame’s perimeter** (snap the connector to the frame edge), not to an inner class. Use the same dashed connector style as class notes. This keeps module-level invariants or scope reminders visually tied to the subsystem boundary.
 
 ### When to add invariants
 

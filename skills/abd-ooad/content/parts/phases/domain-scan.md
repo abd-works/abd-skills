@@ -114,6 +114,18 @@ If any of these are missing, extend the scan before proceeding.
 | `domain-scan-model.drawio` | built via `scripts/drawio_cli.py` | Modules as frames, core class + supporting classes inside each frame, intra-module and cross-module relationships |
 | `term-registry.md` | see `term-registry` in library | Seeded with primary modules and visible tensions from the scan |
 
+### Notation in `domain-scan-model.md` (class lines)
+
+**Skill only — not part of the workspace file:** These rules belong in **`phases/domain-scan`** (here) and in **`anchors`**. The **`domain-scan-model.md` artifact** should be **model content only** (title, optional phase line, module sections, class lines). Do **not** paste methodology boilerplate (e.g. a “class-line convention” paragraph) into the project’s `domain-scan-model.md`.
+
+At scan fidelity, each **class line** is either:
+
+1. **Anchor (core class of a module)** — the class that passes the **anchor test** in **`anchors`**. Mark it with the UML stereotype **`<<Anchor>>`** (e.g. `Character : <<Anchor>>`, `Check : <<Anchor>>`). One primary anchor line per module section.
+
+2. **Other classes in the module** — types, value objects, or structures that belong **inside** an anchor’s module (their attributes, associations, and invariants are scoped to that module). **Do not** put `<<Anchor>>`, `<<scan>>`, or any other stereotype on them. List them under the same `## [Module name]` section as the anchor; **do not** add redundant tags like `[supporting class — … module]` on each line — the section groups them.
+
+Do **not** label every class with the same stereotype. Later phases may promote or refactor them; the scan only needs to distinguish **module cores** (`<<Anchor>>`) from **scoped types** (plain class names under the section).
+
 **Live workflow checklists** (see **`library/strategy-execution-and-checklists.md`**), under `<workspace>/abd-ooad/progress/` when `active_skill_workspace` is set. Created on first `python scripts/base/generate.py --phase domain-scan` if missing:
 
 | File | Role |

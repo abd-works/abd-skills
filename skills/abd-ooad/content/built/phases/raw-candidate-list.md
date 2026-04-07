@@ -2,6 +2,7 @@
 
 You are the **domain modeler and OOAD practitioner** using this skill: you provide source material (specifications, code, transcripts, policy), set the active workspace, step through the 24-phase methodology (starting with workspace-and-config → domain-scan → extraction → refinement), use `scripts/drawio_cli.py` for all class diagram generation and layout, and iterate to produce a validated domain model aligned with the source material and architectural goals.
 
+
 ---
 
 ## Principles
@@ -9,15 +10,25 @@ You are the **domain modeler and OOAD practitioner** using this skill: you provi
 # Principles
 
 1. **Orientation before extraction** — domain-scan is observation and mapping, not yet data collection. Identify 3–7 high-confidence anchors and suspected tensions before extracting candidates.
+
 2. **Things before data** — Model the domain's real entities, responsibilities, and relationships first. Do not invent data fields just because templates have room.
+
 3. **Nouns → verbs → structure** — Extract domain concepts (nouns) as candidates, turn relevant verbs into operations, then build relationships and invariants that encode domain rules.
+
 4. **Model incrementally, validate constantly** — Build the model phase by phase, consulting key scenarios and use cases at domain-scan, raw-candidate-list, add-properties-semantically-tight, smashed-abstractions-and-hidden-roles, and model-in-layers. Tensions and contradictions are signals for refinement.
+
 5. **Diagram and Markdown stay synchronized** — Maintain both class diagram (.drawio) and Markdown documentation side-by-side. Changes to one must be reflected in the other.
+
 6. **Domain facts trump templates** — If the source material contradicts a standard pattern or template, favor the domain truth. Document the deviation and the reason.
+
 7. **Inheritance is a last resort** — Prefer composition and aggregation. Use inheritance only when behavior generalizes cleanly across a family of related classes.
+
 8. **Names matter** — Refine names throughout the process. A clear, honest name reveals the model's intent; ambiguous or misleading names hide problems.
+
 9. **Diagram CLI is non-negotiable** — Class diagrams must be created and validated using `scripts/drawio_cli.py` and the templates in `templates/`. Do not hand-write Draw.io XML or invent diagram conventions.
+
 10. **Workspace awareness** — Always know which project workspace you are writing to. All outputs go under `<workspace>/abd-ooad/`, never to ad-hoc locations.
+
 
 ---
 
@@ -27,45 +38,41 @@ You are the **domain modeler and OOAD practitioner** using this skill: you provi
 
 **Skill:** abd-ooad — matches **Step 2: Build a raw candidate list** in `SKILL.md`.
 
-**Upstream:** `nouns-verbs-rules-and-states.md` (Step 1).
+**Upstream:** `nouns-verbs-rules-and-states.md` (Step 1) and `garbled-payments-spec.md`.
 
 This is still **loose**. Candidates may merge, split, or become attributes in later steps.
 
-> **Continual refinement:** Full notation is in **[Domain model Markdown](../../parts/library/domain-model.md)** (*Domain concept* template; class definition and diagram refined together). In this payments thread, `****newly added**`** marks a property or operation line **first introduced in this step file** (Steps 1–4 stay pre-notation; formal `- <type> property` / `operation(...) → return` lines begin at Step 5).
+> **Continual refinement:** Full notation is in **[Domain model Markdown](../../parts/library/domain-model.md)** (*Domain concept* template; class definition and diagram refined together). In this payments thread, **`**newly added**`** marks a property or operation line **first introduced in this step file** (Steps 1–4 stay pre-notation; formal `- <type> property` / `operation(...) → return` lines begin at Step 5).
 
 ---
 
 ## Worked example — from nouns-verbs to this step
 
-**Upstream:** Step 1 (`nouns-verbs-rules-and-states.md`) produces **per-slice** `domain-noun-verb.md` — nouns, verbs, rules, and states, often grouped **by anchor** (same headings as `strategy.md`). Step 2 **does not** paste that file wholesale; you **re-sort** the same terms into the buckets below (entities, value-like concepts, processes, policies, roles, events) and add **why** each row might matter.
+**Upstream:** Step 1 (`nouns-verbs-rules-and-states.md`) produces Phase-2 evidence **in the slice folder** — typically a **domain model** file (e.g. **`domain-verb-noun-manual.md`**) with noun–verb material in `### Note` blocks under each anchor module, plus often **`nouns-verbs.md`** for flat extraction. An optional **`domain-noun-verb.md`** at workspace `abd-ooad/` may mirror the slice. Step 2 **does not** paste those files wholesale; you **re-sort** the same terms into the buckets below (entities, value-like concepts, processes, policies, roles, events) and add **why** each row might matter.
 
-**Term registry:** As you promote terms to candidates here, keep `**Anchor`** in `term-registry.md` aligned: e.g. `S1=Check` for anything first evidenced under a **Check** heading in slice 1’s `domain-noun-verb.md` (see the **Term registry ↔ slice mapping** section in the nouns-verbs phase).
+**Term registry:** As you promote terms to candidates here, keep **`Anchor`** in `term-registry.md` aligned: e.g. `S1=Check` for anything first evidenced under **Check** in slice 1’s **`nouns-verbs.md`** and/or **`domain-verb-noun-manual.md`** (see the **Term registry ↔ slice mapping** section in the nouns-verbs phase).
 
 ### Mini excerpt (hypothetical “rules” slice — one anchor)
 
-Imagine one anchor section **Check** in `domain-noun-verb.md`:
+Imagine one anchor section **Check** in the slice’s **`domain-verb-noun-manual.md`** (or the **`Check`** heading in **`nouns-verbs.md`**):
 
-
-| Kind       | Extraction (illustrative)                                                                   |
-| ---------- | ------------------------------------------------------------------------------------------- |
-| **Nouns**  | Character, Check, DC, bonus, penalty, Condition, trait, die roll                            |
-| **Verbs**  | roll, compare, apply, succeed, fail, stack                                                  |
-| **Rules**  | Compare total vs DC; some bonuses don’t stack; Conditions can impose advantage/disadvantage |
-| **States** | Check pending → resolved (success / failure / critical); Condition active vs cleared        |
-
+| Kind | Extraction (illustrative) |
+| ---- | ------------------------- |
+| **Nouns** | Character, Check, DC, bonus, penalty, Condition, trait, die roll |
+| **Verbs** | roll, compare, apply, succeed, fail, stack |
+| **Rules** | Compare total vs DC; some bonuses don’t stack; Conditions can impose advantage/disadvantage |
+| **States** | Check pending → resolved (success / failure / critical); Condition active vs cleared |
 
 ### Roll-up into Step 2 buckets (same terms, new shape)
 
-
-| Step 1 term(s)                      | Likely Step 2 bucket          | Notes                                                                      |
-| ----------------------------------- | ----------------------------- | -------------------------------------------------------------------------- |
-| Character, Check                    | **Core domain entities**      | Durable “things” — may merge later (e.g. Check as operation vs aggregate). |
-| DC, bonus, penalty                  | **Value-like concepts**       | Often numbers + rules; may become VO / struct / enum.                      |
-| “roll → compare → resolve”          | **Processes or transactions** | End-to-end flow with a start/end.                                          |
-| stacking, advantage/disadvantage    | **Policies or rules**         | Eligibility and modifiers — may stay policy objects or plain rules.        |
-| player, GM (if in source)           | **Roles**                     | Actors; may merge with user accounts later.                                |
-| “Check resolved”, Condition applied | **Events or records**         | Audit / history if the product cares about replay.                         |
-
+| Step 1 term(s) | Likely Step 2 bucket | Notes |
+| -------------- | -------------------- | ----- |
+| Character, Check | **Core domain entities** | Durable “things” — may merge later (e.g. Check as operation vs aggregate). |
+| DC, bonus, penalty | **Value-like concepts** | Often numbers + rules; may become VO / struct / enum. |
+| “roll → compare → resolve” | **Processes or transactions** | End-to-end flow with a start/end. |
+| stacking, advantage/disadvantage | **Policies or rules** | Eligibility and modifiers — may stay policy objects or plain rules. |
+| player, GM (if in source) | **Roles** | Actors; may merge with user accounts later. |
+| “Check resolved”, Condition applied | **Events or records** | Audit / history if the product cares about replay. |
 
 ### What you add in Step 2 that Step 1 didn’t require
 
@@ -164,12 +171,12 @@ Use the **payments** tables below as a full-size reference thread; use this mini
 ## Events or records (things that happened / audit)
 
 
-| Candidate                              | Notes                                                    |
-| -------------------------------------- | -------------------------------------------------------- |
-| `**payment.settled`**                  | Domain event; consumers: warehouse, digital fulfillment. |
-| **Audit entry**                        | Append-only; actor `system`                              |
-| **Webhook payload** / **delivery log** | Billing wants stable shape for future subscriptions.     |
-| **Chargeback / dispute record**        | Reason codes on refund; lifecycle owner TBD.             |
+| Candidate                              | Notes                                                                                  |
+| -------------------------------------- | -------------------------------------------------------------------------------------- |
+| `**payment.settled`**                  | Domain event; consumers: warehouse, digital fulfillment.                               |
+| **Audit entry**                        | Append-only; actor `system` | `user` | `psp_webhook`; every intent/session transition. |
+| **Webhook payload** / **delivery log** | Billing wants stable shape for future subscriptions.                                   |
+| **Chargeback / dispute record**        | Reason codes on refund; lifecycle owner TBD.                                           |
 
 
 ---
@@ -211,18 +218,18 @@ Ask for each hot candidate:
 
 ## Continual refinement (this step)
 
-- **Delta:** **pre-notation** — candidate entities, value-ish things, policies, and watch-list; `****newly added**`** not used on formal lines until Step 5.
+- **Delta:** **pre-notation** — candidate entities, value-ish things, policies, and watch-list; **`**newly added**`** not used on formal lines until Step 5.
 
 ---
 
 ## Action Checklist
 
-- Have you rolled up Step 1 nouns-verbs (per slice / anchor) into this step’s buckets (entities, values, processes, policies, roles, events)?
-- Have you produced a raw candidate list with at least three entities and at least one value object?
-- Have you separated entities from value objects (mutability, identity)?
-- Have you flagged watch-list candidates (possible classes that need further evidence)?
-- Have you noted tensions from the candidate list to carry into Step 3+?
-- Have you updated the term registry with all candidate names?
+- [ ] Have you rolled up Step 1 nouns-verbs (per slice / anchor) into this step’s buckets (entities, values, processes, policies, roles, events)?
+- [ ] Have you produced a raw candidate list with at least three entities and at least one value object?
+- [ ] Have you separated entities from value objects (mutability, identity)?
+- [ ] Have you flagged watch-list candidates (possible classes that need further evidence)?
+- [ ] Have you noted tensions from the candidate list to carry into Step 3+?
+- [ ] Have you updated the term registry with all candidate names?
 
 ---
 
@@ -230,9 +237,12 @@ Ask for each hot candidate:
 
 > **Validate and fix when you find problems.** This step may surface bloat, unclear boundaries, missing invariants, naming drift, spec conflicts, or other robustness gaps. When you notice any of that in your work, **validate** and **fix** the model (or **map-model-spec.json** / class diagram) **before** moving on; record **explicit debt** only when you cannot fix yet, with a clear follow-up.
 
+
 ---
 
 ## Library
+
+
 
 ---
 
@@ -240,7 +250,7 @@ Ask for each hot candidate:
 
 # Domain model Markdown
 
-This skill’s **domain model** is captured in Markdown (and optionally a parallel **Draw.io** class diagram). Use the checked-in `**templates/domain model template.md`** when starting a new companion doc; keep the same semantics as `**templates/domain model template.drawio**` when both exist.
+This skill’s **domain model** is captured in Markdown (and optionally a parallel **Draw.io** class diagram). Use the checked-in **`templates/domain model template.md`** when starting a new companion doc; keep the same semantics as **`templates/domain model template.drawio`** when both exist.
 
 ---
 
@@ -273,18 +283,16 @@ From **Step 5** onward, prefer **typed** members (see **Notation evolution** bel
 
 ## **newly added** tag
 
-In the **worked example** threads (e.g. payments), the marker `****newly added**`** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
+In the **worked example** threads (e.g. payments), the marker **`**newly added**`** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
 
 ---
 
 ## Notation evolution
 
-
-| Phase         | Markdown style                                                                                                      |
-| ------------- | ------------------------------------------------------------------------------------------------------------------- |
+| Phase | Markdown style |
+|--------|------------------|
 | **Steps 1–4** | Informal: bullets, short phrases, responsibilities, candidate names. **No** required `- <type> property` lines yet. |
-| **Step 5+**   | Formal typed members: `- <Type> propertyName`, `operationName(...) → ReturnType`.                                   |
-
+| **Step 5+** | Formal typed members: `- <Type> propertyName`, `operationName(...) → ReturnType`. |
 
 ---
 
@@ -296,7 +304,7 @@ When you introduce substitutable specializations, add an explicit subtype headin
 ### **Subtype** : **PaymentMethod**
 ```
 
-Put `****newly added****` on subtype **operation** (or property) lines when that member is **first** introduced for that subtype.
+Put **`**newly added**`** on subtype **operation** (or property) lines when that member is **first** introduced for that subtype.
 
 ---
 
@@ -308,7 +316,7 @@ Attach invariants to the **property** or **operation** they constrain, using a d
 **Invariant:** …
 ```
 
-Mark `****newly added****` when you **first** attach an invariant to a given member line.
+Mark **`**newly added**`** when you **first** attach an invariant to a given member line.
 
 ---
 
@@ -320,21 +328,20 @@ Before typed properties exist, align extracted **nouns, verbs, rules, states** w
 
 ## Class diagram and spec (visual twin)
 
-When you maintain a machine-readable spec such as `**map-model-spec.json`**, re-run your project’s class-diagram render script (for example `**render_map_model_class_diagram.py**`) after material changes so the **Draw.io** diagram stays the **visual twin** of the spec.
+When you maintain a machine-readable spec such as **`map-model-spec.json`**, re-run your project’s class-diagram render script (for example **`render_map_model_class_diagram.py`**) after material changes so the **Draw.io** diagram stays the **visual twin** of the spec.
 
 - **[Class diagrams](class-diagrams.md)** — templates, relationship types, keeping `.md` and `.drawio` aligned.  
-- **[Using the Diagram CLI](using-diagram-cli.md)** — building diagrams with `**scripts/drawio_cli.py`**.
+- **[Using the Diagram CLI](using-diagram-cli.md)** — building diagrams with **`scripts/drawio_cli.py`**.
 
 ---
 
 ## Related library shards
 
-
-| Topic                      | File                                                           |
-| -------------------------- | -------------------------------------------------------------- |
-| Term tracking across steps | [term-registry.md](term-registry.md)                           |
-| Strategy-led runs          | [strategy-led-generation.md](strategy-led-generation.md)       |
-| Layout and lanes           | [class-diagram-layout-rules.md](class-diagram-layout-rules.md) |
+| Topic | File |
+|--------|------|
+| Term tracking across steps | [term-registry.md](term-registry.md) |
+| Strategy-led runs | [strategy-led-generation.md](strategy-led-generation.md) |
+| Layout and lanes | [class-diagram-layout-rules.md](class-diagram-layout-rules.md) |
 
 
 ---
@@ -389,12 +396,12 @@ An anchor is a concept you expect to be present in the model from scan through f
 ## Anchor as module — what it looks like in outputs
 
 
-| Output                     | What anchor produces                                                                                                                                                                                                                                                                      |
-| -------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `domain-scan-results.md`   | Row in the anchors table: Module name, core class name, scan-visible supporting classes, basis                                                                                                                                                                                            |
-| `domain-scan-model.md`     | Module section header + core class entry + supporting class entries with `[supporting class — ModuleName module]` annotation                                                                                                                                                              |
-| `domain-scan-model.drawio` | One dashed frame per anchor; core class inside; supporting classes inside; cross-module relationships between core classes only                                                                                                                                                           |
-| `term-registry.md`         | Core class of a module → Classification `**anchor (class + module)`**; supporting classes → `**class**` with owning module in **Notes** (e.g. `Supporting class — Character module`). Use **Status** for lifecycle (e.g. **Tension**, **Candidate**) — not a duplicate of Classification. |
+| Output                     | What anchor produces                                                                                                            |
+| -------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| `domain-scan-results.md`   | Row in the anchors table: Module name, core class name, scan-visible supporting classes, basis                                  |
+| `domain-scan-model.md`     | Module section header (`## [… module]`) + **core class** with `<<Anchor>>` + other classes in that section with **no** stereotype (grouping by section is enough; no per-line `[supporting class — …]` tags). See **`phases/domain-scan` → Notation in domain-scan-model.md**.    |
+| `domain-scan-model.drawio` | One dashed frame per anchor; core class inside; supporting classes inside; cross-module relationships between core classes only |
+| `term-registry.md`         | Core class of a module → Classification **`anchor (class + module)`**; supporting classes → **`class`** with owning module in **Notes** (e.g. `Supporting class — Character module`). Use **Status** for lifecycle (e.g. **Tension**, **Candidate**) — not a duplicate of Classification.   |
 
 
 ---
@@ -419,6 +426,7 @@ The absence of a matching core class is the clearest signal that you have not ye
 3. Ask: if another module needed to reference this cluster, what single class would it name?
 4. If no single class emerges after exploration, record the cluster as a **tension** in domain-scan-results.md and defer
 
+
 ---
 
 ### `strategy-led-generation.md`
@@ -427,9 +435,11 @@ The absence of a matching core class is the clearest signal that you have not ye
 
 Domain scan (OOAD **phase 1**) does not only produce a single “results” file. It establishes a **small set of workspace files** under `<workspace>/abd-ooad/` that work together. Some are **frozen findings** from the scan; others are **living documents** you update as modeling continues.
 
-For the scan procedure itself, see the **Domain scan** phase. This page explains **what each artifact is for** and how `**strategy.md`** relates to `**domain-scan-results.md**`.
+**Slices start at global Phase 2:** Source-slice work (e.g. **S1**, **S2** in `strategy.md` and **`Anchor`** `S1=…` / `S2=…` in `term-registry.md`) uses the **same global OOAD phase numbers** as the process table for everything **after** scan. The **first** per-slice extraction step is **Phase 2** (`nouns-verbs-rules-and-states`), **not** a slice-local “Phase 1.” Phase **1** is workspace-wide **domain-scan** only. See **`term-registry.md` → Slices and global phase numbers**.
 
-**Checkbox discipline:** Live ticks for pipeline position and phase steps belong only under `**<workspace>/abd-ooad/progress/`** — see `**library/strategy-execution-and-checklists.md**`. Do not put tick tables in `strategy.md`.
+For the scan procedure itself, see the **Domain scan** phase. This page explains **what each artifact is for** and how **`strategy.md`** relates to **`domain-scan-results.md`**.
+
+**Checkbox discipline:** Live ticks for pipeline position and phase steps belong only under **`<workspace>/abd-ooad/progress/`** — see **`library/strategy-execution-and-checklists.md`**. Do not put tick tables in `strategy.md`.
 
 ---
 
@@ -437,17 +447,15 @@ For the scan procedure itself, see the **Domain scan** phase. This page explains
 
 Created during domain scan under `<workspace>/abd-ooad/`:
 
+| File | Role | Updates after scan? |
+|------|------|---------------------|
+| `domain-scan-results.md` | **Findings snapshot:** source map, anchor table, tensions. | Rarely — only if you correct a scan error. Do not put the forward plan here; that belongs in `strategy.md`. |
+| `strategy.md` | **Living strategy:** **modeling scope**; **§1 source slices** (table: Order, Goal, **Source** — chapters, files, modules, or mixed — **Coverage**, **Importance**); **§2 slice plan** (per-slice **goal restated** + **phases**); **coverage across steps**; **cross-slice integration**; **anchor and subdomain elaboration**; **execution plan (normative)** — phase slugs with **slice IDs** on every line; plus **approach** and **dated pivots**. | **Yes** — whenever scope, order, slice depth, subdomain mapping, or integration changes. |
+| `domain-scan-model.md` | Class sketch (markdown) at scan fidelity. | Yes, in later phases — not only during scan. |
+| `domain-scan-model.drawio` | Diagram at scan fidelity. | Same as model.md. |
+| `term-registry.md` | Terms, **Classification** (model role), **Status** (OOAD scale), confidence — seeded at scan. | **Yes** — every later phase updates Step, Classification, and Status as the model evolves. |
 
-| File                       | Role                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Updates after scan?                                                                                         |
-| -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------- |
-| `domain-scan-results.md`   | **Findings snapshot:** source map, anchor table, tensions.                                                                                                                                                                                                                                                                                                                                                                                             | Rarely — only if you correct a scan error. Do not put the forward plan here; that belongs in `strategy.md`. |
-| `strategy.md`              | **Living strategy:** **modeling scope**; **§1 source slices** (table: Order, Goal, **Source** — chapters, files, modules, or mixed — **Coverage**, **Importance**); **§2 slice plan** (per-slice **goal restated** + **phases**); **coverage across steps**; **cross-slice integration**; **anchor and subdomain elaboration**; **execution plan (normative)** — phase slugs with **slice IDs** on every line; plus **approach** and **dated pivots**. | **Yes** — whenever scope, order, slice depth, subdomain mapping, or integration changes.                    |
-| `domain-scan-model.md`     | Class sketch (markdown) at scan fidelity.                                                                                                                                                                                                                                                                                                                                                                                                              | Yes, in later phases — not only during scan.                                                                |
-| `domain-scan-model.drawio` | Diagram at scan fidelity.                                                                                                                                                                                                                                                                                                                                                                                                                              | Same as model.md.                                                                                           |
-| `term-registry.md`         | Terms, **Classification** (model role), **Status** (OOAD scale), confidence — seeded at scan.                                                                                                                                                                                                                                                                                                                                                          | **Yes** — every later phase updates Step, Classification, and Status as the model evolves.                  |
-
-
-**Plus** (when workspace is configured): `**progress/`** checklists — see `**library/strategy-execution-and-checklists.md**`. `**generate.py**` creates `**process-checklist.md**`, `**<phase>-checklist.md**`, and (abd-ooad) `**strategy-run-checklist.md**` when templates exist and files are missing. Normative phase steps stay in `**content/parts/phases/<phase>.md**`. These are the **only** place for session tick marks.
+**Plus** (when workspace is configured): **`progress/`** checklists — see **`library/strategy-execution-and-checklists.md`**. **`generate.py`** creates **`process-checklist.md`**, **`<phase>-checklist.md`**, and (abd-ooad) **`strategy-run-checklist.md`** when templates exist and files are missing. Normative phase steps stay in **`content/parts/phases/<phase>.md`**. These are the **only** place for session tick marks.
 
 Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; they start when the skill’s later phases call for them.
 
@@ -456,33 +464,31 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 ## What `strategy.md` is for
 
 - Created at the end of domain scan as a **workspace file**, then **kept current** through extraction and later phases.
-- **Purpose:** (1) **scope** — what product or corpus you model; (2) **§1 source slices** — ordered table (**Goal**, **Source**, **Coverage**, **Importance**); **Source** is any locator (chapters, page ranges, repo paths, modules — not only document sections); (3) **§2 slice plan** — per slice, **goal restated** and **phases** (execution steps); (4) **coverage across steps** — matrix proving every in-scope slice is addressed or deferred; (5) **cross-slice integration** — handoffs between slices; (6) **anchor and subdomain elaboration** — attached types (e.g. Ability, Skill, Advantage) mapped to **slice IDs** and execution **§**; (7) **execution plan** — each line names **slice IDs**; breadth steps must **include** subdomain slices in **nouns-verbs** / **raw-candidate-list** where relevant; (8) **Approach** + **Ongoing strategic decisions**. Scan mechanics stay in `**domain-scan-results.md`**.
-- **Template:** `templates/strategy.md`. Install as `**strategy.md`** (lowercase; avoid duplicate `STRATEGY.md` on case-insensitive disks).
-- After you finalize the execution plan, align `**progress/strategy-run-checklist.md**` with it (same phases and scope); that file holds **checkboxes** for “which phase is done,” while `**strategy.md`** stays **normative text** (no `- [ ]`).
+- **Purpose:** (1) **scope** — what product or corpus you model; (2) **§1 source slices** — ordered table (**Goal**, **Source**, **Coverage**, **Importance**); **Source** is any locator (chapters, page ranges, repo paths, modules — not only document sections); (3) **§2 slice plan** — per slice, **goal restated** and **phases** (execution steps); (4) **coverage across steps** — matrix proving every in-scope slice is addressed or deferred; (5) **cross-slice integration** — handoffs between slices; (6) **anchor and subdomain elaboration** — attached types (e.g. Ability, Skill, Advantage) mapped to **slice IDs** and execution **§**; (7) **execution plan** — each line names **slice IDs**; breadth steps must **include** subdomain slices in **nouns-verbs** / **raw-candidate-list** where relevant; (8) **Approach** + **Ongoing strategic decisions**. Scan mechanics stay in **`domain-scan-results.md`**.
+- **Template:** `templates/strategy.md`. Install as **`strategy.md`** (lowercase; avoid duplicate `STRATEGY.md` on case-insensitive disks).
+- After you finalize the execution plan, align **`progress/strategy-run-checklist.md`** with it (same phases and scope); that file holds **checkboxes** for “which phase is done,” while **`strategy.md`** stays **normative text** (no `- [ ]`).
 
 ---
 
 ## Checklist vs results vs strategy
 
-
-| Question                                                                                                                                      | Answer                                                                                                                                                                                |
-| --------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Where is the source map and anchor list?                                                                                                      | `domain-scan-results.md`                                                                                                                                                              |
+| Question | Answer |
+|----------|--------|
+| Where is the source map and anchor list? | `domain-scan-results.md` |
 | Where do I define **which slices** exist (chapters, files, modules, …), **depth**, **subdomains per anchor**, and **which phases** hit which? | `strategy.md` → **§1 Source slices**, **§2 Slice plan**, **Coverage across steps**, **Cross-slice integration**, **Anchor and subdomain elaboration**, **Execution plan (normative)** |
-| Where do I tick **which phases** we ran, **in order**, with **scope**?                                                                        | `**abd-ooad/progress/strategy-run-checklist.md`** (keep in sync with `strategy.md`)                                                                                                   |
-| Where do I tick **full** pipeline position (all phases)?                                                                                      | `**abd-ooad/progress/process-checklist.md`** (optional reference)                                                                                                                     |
-| Where do I tick **steps inside** the current phase?                                                                                           | `**abd-ooad/progress/<phase>-checklist.md`**                                                                                                                                          |
-| Where do I tick domain-scan action steps?                                                                                                     | `**abd-ooad/progress/domain-scan-checklist.md**`                                                                                                                                      |
-| Can I merge checklist into strategy?                                                                                                          | **No** — strategy holds the plan; ticks only under `**progress/`**                                                                                                                    |
-
+| Where do I tick **which phases** we ran, **in order**, with **scope**? | **`abd-ooad/progress/strategy-run-checklist.md`** (keep in sync with `strategy.md`) |
+| Where do I tick **full** pipeline position (all phases)? | **`abd-ooad/progress/process-checklist.md`** (optional reference) |
+| Where do I tick **steps inside** the current phase? | **`abd-ooad/progress/<phase>-checklist.md`** |
+| Where do I tick domain-scan action steps? | **`abd-ooad/progress/domain-scan-checklist.md`** |
+| Can I merge checklist into strategy? | **No** — strategy holds the plan; ticks only under **`progress/`** |
 
 ---
 
 ## Going forward (phases after scan)
 
-1. **Strategy** — Keep `**strategy.md`** aligned with reality; append *Ongoing strategic decisions* when you pivot.
-2. **Strategy execution** — Tick `**progress/strategy-run-checklist.md*`* as you **complete** each phase for its declared scope.
-3. **Phase work** — For the active phase, run `**generate.py --phase <slug>`** and tick `**progress/<slug>-checklist.md**` for action steps.
+1. **Strategy** — Keep **`strategy.md`** aligned with reality; append *Ongoing strategic decisions* when you pivot.
+2. **Strategy execution** — Tick **`progress/strategy-run-checklist.md`** as you **complete** each phase for its declared scope.
+3. **Phase work** — For the active phase, run **`generate.py --phase <slug>`** and tick **`progress/<slug>-checklist.md`** for action steps.
 4. **Registry** — Keep `term-registry.md` aligned with the current phase (Step, Classification, Status).
 5. **Results** — Touch `domain-scan-results.md` only for corrections to the original scan snapshot.
 
@@ -491,10 +497,11 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 ## References
 
 - Templates: `templates/domain-scan-results.md`, `templates/strategy.md`, `templates/strategy-run-checklist.md`
-- Strategy vs checklists: `**library/strategy-execution-and-checklists.md`**
+- Strategy vs checklists: **`library/strategy-execution-and-checklists.md`**
 - Anchors: `anchors` in this library
 - Term registry: `term-registry` in this library
 - Checklist norm: `library/strategy-execution-and-checklists.md`
+
 
 ---
 
@@ -502,84 +509,81 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 
 # Strategy execution and checklists (abd-ooad)
 
-**Canonical doc** for: (1) **strategy** vs **live ticks**, (2) **which files** hold checkboxes, (3) **how** `generate.py` creates workspace `**progress/`** files. Does **not** replace **[process.md](../process.md)** (process tables, `generate` / `build`) or **[skill-structure-and-concepts.md](../base/skill-structure-and-concepts.md)** (repo layout).
+**Canonical doc** for: (1) **strategy** vs **live ticks**, (2) **which files** hold checkboxes, (3) **how** `generate.py` creates workspace **`progress/`** files. Does **not** replace **[process.md](../process.md)** (process tables, `generate` / `build`) or **[skill-structure-and-concepts.md](../base/skill-structure-and-concepts.md)** (repo layout).
 
-Only `**strategy.md`** defines **scope** and **which phases in what order**; checklists are where you **tick** progress.
+Only **`strategy.md`** defines **scope** and **which phases in what order**; checklists are where you **tick** progress.
 
 ---
 
 ## Workflow
 
-1. **Domain scan** — produce scan artifacts (see `**strategy-led-generation`**).
-2. **Strategy** — fill `**strategy.md`** from `**templates/strategy.md**`:
-  - **Modeling scope** — corpus or product boundary; **source type** (book vs repo vs mixed).
-  - **§1 Source slices** — ordered table: **Goal**, **Source** (chapters, files, modules, APIs — whatever locates work), **Coverage** (depth this pass), **Importance**; stable **slice IDs** reused everywhere.
-  - **§2 Slice plan** — per slice: **goal restated**, **unit kind**, **phases** (execution step numbers / slugs), produces, depends-on.
-  - **Coverage across steps** — matrix: every slice → which **execution plan** steps touch it → **depth** → deferrals.
-  - **Cross-slice integration** — cross-boundary types and ordering (From → To + narrative).
-  - **Anchor and subdomain elaboration** (when anchors have attached types) — map subdomains to slices and execution §.
-  - **Execution plan (normative)** — ordered phase **slugs**; **each line cites slice IDs** (mirror `**strategy-run-checklist.md`**).
-  - **Approach going forward** + **Ongoing strategic decisions** — short narrative and dated pivots.
-3. **Align live checklists** — keep `**strategy-run-checklist.md`** in sync with the execution plan (same order and scope). Optional `**templates/strategy-run-checklist.md**` seed; optional `**templates/progress-README.md**` → `**progress/README.md**` for slice-specific files under `**progress/slices/**`.
-4. **Run phases** — for the **current** phase: `python scripts/base/generate.py --phase <slug>`. Tick `**strategy-run-checklist.md`** when a phase is **done** for its declared scope; tick `**<slug>-checklist.md`** for **steps inside** that phase.
+1. **Domain scan** — produce scan artifacts (see **`strategy-led-generation`**).
+2. **Strategy** — fill **`strategy.md`** from **`templates/strategy.md`**:
+   - **Modeling scope** — corpus or product boundary; **source type** (book vs repo vs mixed).
+   - **§1 Source slices** — ordered table: **Goal**, **Source** (chapters, files, modules, APIs — whatever locates work), **Coverage** (depth this pass), **Importance**; stable **slice IDs** reused everywhere.
+   - **§2 Slice plan** — per slice: **goal restated**, **unit kind**, **phases** (execution step numbers / slugs), produces, depends-on.
+   - **Coverage across steps** — matrix: every slice → which **execution plan** steps touch it → **depth** → deferrals.
+   - **Cross-slice integration** — cross-boundary types and ordering (From → To + narrative).
+   - **Anchor and subdomain elaboration** (when anchors have attached types) — map subdomains to slices and execution §.
+   - **Execution plan (normative)** — ordered phase **slugs**; **each line cites slice IDs** (mirror **`strategy-run-checklist.md`**).
+   - **Approach going forward** + **Ongoing strategic decisions** — short narrative and dated pivots.
+3. **Align live checklists** — keep **`strategy-run-checklist.md`** in sync with the execution plan (same order and scope). Optional **`templates/strategy-run-checklist.md`** seed; optional **`templates/progress-README.md`** → **`progress/README.md`** for slice-specific files under **`progress/slices/`**.
+4. **Run phases** — for the **current** phase: `python scripts/base/generate.py --phase <slug>`. Tick **`strategy-run-checklist.md`** when a phase is **done** for its declared scope; tick **`<slug>-checklist.md`** for **steps inside** that phase.
 
 ---
 
 ## Three layers (what you tick)
 
+| Layer | File | What you tick |
+| --- | --- | --- |
+| **Strategy execution** | **`progress/strategy-run-checklist.md`** | **Which phases** you will run, **in order**, each with **scope** that **includes the same slice IDs** as **`strategy.md` → Execution plan**. Optional: **`progress/slices/<slice-id>-checklist.md`** per slice — see **`progress/README.md`** in the workspace (if present). |
+| **Full pipeline (reference)** | **`progress/process-checklist.md`** | **Every** phase in **`phase_files`** — useful as a map; optional if you rely only on strategy-run. |
+| **Phase steps** | **`progress/<phase>-checklist.md`** | **Action checklist** copied from **`content/parts/phases/<phase>.md` → ## Action Checklist**. |
 
-| Layer                         | File                                     | What you tick                                                                                                                                                                                                                                                                |
-| ----------------------------- | ---------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Strategy execution**        | `**progress/strategy-run-checklist.md`** | **Which phases** you will run, **in order**, each with **scope** that **includes the same slice IDs** as `**strategy.md` → Execution plan**. Optional: `**progress/slices/<slice-id>-checklist.md`** per slice — see `**progress/README.md**` in the workspace (if present). |
-| **Full pipeline (reference)** | `**progress/process-checklist.md`**      | **Every** phase in `**phase_files`** — useful as a map; optional if you rely only on strategy-run.                                                                                                                                                                           |
-| **Phase steps**               | `**progress/<phase>-checklist.md`**      | **Action checklist** copied from `**content/parts/phases/<phase>.md` → ## Action Checklist**.                                                                                                                                                                                |
-
-
-**Implementation:** `**scripts/base/workspace_checklists.py`** (paths, behavior, `--no-ensure-checklists`).
+**Implementation:** **`scripts/base/workspace_checklists.py`** (paths, behavior, `--no-ensure-checklists`).
 
 ---
 
 ## How workspace checklist files are created (mechanical)
 
-
-| Kind                               | What it tracks                                                                 | Where it lives                                                                 | How it gets there                                                                                                                                                                                                                                                                                                                 |
-| ---------------------------------- | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Normative reference**            | Rules in **this document** — strategy vs ticks, layers, `generate.py` behavior | `**content/parts/library/strategy-execution-and-checklists.md`**               | Authored in the skill; **not** created by `**generate.py`**.                                                                                                                                                                                                                                                                      |
-| **Pipeline position**              | Which **phase** of the pipeline you are in                                     | `**<active_skill_workspace>/<skill_name>/progress/process-checklist.md`**      | **Created** on first `**python scripts/base/generate.py --phase <slug>`** when that file is **missing**, if `**skill-config.json` → `workspace.active_skill_workspace`** is set. One `- [ ]` line per slug in `**phase_files**` (labels from `**phase_section_headings**` when present). **Does not overwrite** an existing file. |
-| **Phase action steps**             | **Steps inside** the current phase                                             | `**<active_skill_workspace>/<skill_name>/progress/<phase-slug>-checklist.md`** | **Created** in the **same** `generate.py` run when that file is **missing**. Steps are taken from `**## Action Checklist`** in `**content/parts/phases/<phase-slug>.md**`, or from task lines (`- [ ]` / `- [x]`) in that file if the section is absent. **Does not overwrite** an existing file.                                 |
-| **Strategy execution** (workspace) | Ordered phases matching `**strategy.md`**                                      | `**progress/strategy-run-checklist.md**`                                       | Seeded from template when `**generate.py**` / workspace checklist logic creates it; **you** align it with `**strategy.md`**.                                                                                                                                                                                                      |
-
+| Kind | What it tracks | Where it lives | How it gets there |
+| --- | --- | --- | --- |
+| **Normative reference** | Rules in **this document** — strategy vs ticks, layers, `generate.py` behavior | **`content/parts/library/strategy-execution-and-checklists.md`** | Authored in the skill; **not** created by **`generate.py`**. |
+| **Pipeline position** | Which **phase** of the pipeline you are in | **`<active_skill_workspace>/<skill_name>/progress/process-checklist.md`** | **Created** on first **`python scripts/base/generate.py --phase <slug>`** when that file is **missing**, if **`skill-config.json` → `workspace.active_skill_workspace`** is set. One `- [ ]` line per slug in **`phase_files`** (labels from **`phase_section_headings`** when present). **Does not overwrite** an existing file. |
+| **Phase action steps** | **Steps inside** the current phase | **`<active_skill_workspace>/<skill_name>/progress/<phase-slug>-checklist.md`** | **Created** in the **same** `generate.py` run when that file is **missing**. Steps are taken from **`## Action Checklist`** in **`content/parts/phases/<phase-slug>.md`**, or from task lines (`- [ ]` / `- [x]`) in that file if the section is absent. **Does not overwrite** an existing file. |
+| **Strategy execution** (workspace) | Ordered phases matching **`strategy.md`** | **`progress/strategy-run-checklist.md`** | Seeded from template when **`generate.py`** / workspace checklist logic creates it; **you** align it with **`strategy.md`**. |
 
 ### Names and workspace
 
-- `**skill_name**` — `**skill-config.json` → `name**` (fallback: skill directory name). Used in `**…/<skill_name>/progress/**`.
-- `**active_skill_workspace**` — Must point at the **project / engagement tree** where `**progress/`** checklists belong, **not** the skill install folder. See `**skill-config.json` → `workspace`** and **[workspace-and-config.md](phases/workspace-and-config.md)**.
+- **`skill_name`** — **`skill-config.json` → `name`** (fallback: skill directory name). Used in **`…/<skill_name>/progress/`**.
+- **`active_skill_workspace`** — Must point at the **project / engagement tree** where **`progress/`** checklists belong, **not** the skill install folder. See **`skill-config.json` → `workspace`** and **[workspace-and-config.md](phases/workspace-and-config.md)**.
 
 ### Flags
 
-- `**python scripts/base/generate.py --phase <slug> --no-ensure-checklists`** — run the phase prompt **without** creating missing `**progress/`** checklist files (see `**workspace_checklists.py**`).
+- **`python scripts/base/generate.py --phase <slug> --no-ensure-checklists`** — run the phase prompt **without** creating missing **`progress/`** checklist files (see **`workspace_checklists.py`**).
 
 ---
 
 ## What not to do
 
-- Do not put **checkboxes** in `**strategy.md`** — keep execution plan as **normative numbered/bulleted text**; ticks live under `**progress/`**.
-- Do not record pipeline or phase **session** progress by ticking boxes in `**content/parts/process.md`** or `**content/parts/phases/*.md**` — those stay **normative**; live ticks go **only** under `**…/progress/`**.
-- Do not let `**strategy-run-checklist.md**` drift from `**strategy.md**` — after a pivot, update both and append a line under *Ongoing strategic decisions*.
+- Do not put **checkboxes** in **`strategy.md`** — keep execution plan as **normative numbered/bulleted text**; ticks live under **`progress/`**.
+- Do not record pipeline or phase **session** progress by ticking boxes in **`content/parts/process.md`** or **`content/parts/phases/*.md`** — those stay **normative**; live ticks go **only** under **`…/progress/`**.
+- Do not let **`strategy-run-checklist.md`** drift from **`strategy.md`** — after a pivot, update both and append a line under *Ongoing strategic decisions*.
 
 ---
 
 ## Phase slugs
 
-Use exact slugs from `**skill-config.json` → `phase_files*`* (e.g. `nouns-verbs-rules-and-states`, `domain-scan`). Labels for humans are in `**phase_section_headings**`.
+Use exact slugs from **`skill-config.json` → `phase_files`** (e.g. `nouns-verbs-rules-and-states`, `domain-scan`). Labels for humans are in **`phase_section_headings`**.
 
 ---
 
 ## References
 
-- `**strategy-led-generation.md**` — artifact roles, `**strategy.md**` vs `**domain-scan-results.md**`
-- `**templates/strategy.md**`, `**templates/progress-README.md**`
-- `**scripts/base/workspace_checklists.py**`
+- **`strategy-led-generation.md`** — artifact roles, **`strategy.md`** vs **`domain-scan-results.md`**
+- **`templates/strategy.md`**, **`templates/progress-README.md`**
+- **`scripts/base/workspace_checklists.py`**
+
 
 ---
 
@@ -592,7 +596,6 @@ Use exact slugs from `**skill-config.json` → `phase_files*`* (e.g. `nouns-verb
 A **Term** is any concept identified from the source material that may become part of the domain model. At the time of identification, a Term is not committed to a model role — it might become a class, a property, a value type, an association, or nothing at all. The registry tracks Terms as the modeling phases determine what each one actually is.
 
 This is distinct from other uses of "actor" in this domain:
-
 - In MM3E and FoundryVTT, "Actor" has a specific system meaning (a character, creature, or entity in the game world).
 - In the registry, everything is a Term until the model says otherwise.
 
@@ -605,47 +608,53 @@ This is distinct from other uses of "actor" in this domain:
 
 Use these short names in the **Step** column of the registry when adding or updating a row.
 
+| Short Name | Phase | Description |
+|-----------|-------|-------------|
+| SETUP | workspace-and-config | Workspace initialization |
+| SCAN | domain-scan | Source scan and anchor identification |
+| NOUNS | nouns-verbs-rules-and-states | Extract nouns, verbs, rules, states |
+| CANDS | raw-candidate-list | Raw candidate class list |
+| THINGS | thing-vs-data-about-a-thing | Separate things from data-about-things |
+| RESP | responsibilities-before-operations | Assign responsibilities |
+| PROPS | add-properties-semantically-tight | Add semantically tight properties |
+| OPS | turn-verbs-into-operations | Turn verbs into operations |
+| RELS | relationships-and-cardinality | Relationships and cardinality |
+| INV | invariants-in-the-model | Identify invariants |
+| BLOAT | watch-for-bloated-classes | Detect bloated classes |
+| ROLES | smashed-abstractions-and-hidden-roles | Uncover hidden roles |
+| INHERIT | inheritance-when-behavior-generalizes | Apply inheritance |
+| ABST | abstract-classes-and-interfaces | Abstract classes and interfaces |
+| COMP | prefer-composition | Prefer composition over inheritance |
+| STATES | model-state-transitions | Model state transitions |
+| ITER | iterative-refinement | Iterative refinement pass |
+| TENSION | tension-as-a-signal | Resolve tensions |
+| COHESION | what-changes-together | What changes together |
+| VALIDATE | validate-with-scenarios | Validate with scenarios |
+| NAMES | refine-names | Refine class and concept names |
+| LAYERS | model-in-layers | Model in layers |
 
-| Short Name | Phase                                 | Description                            |
-| ---------- | ------------------------------------- | -------------------------------------- |
-| SETUP      | workspace-and-config                  | Workspace initialization               |
-| SCAN       | domain-scan                           | Source scan and anchor identification  |
-| NOUNS      | nouns-verbs-rules-and-states          | Extract nouns, verbs, rules, states    |
-| CANDS      | raw-candidate-list                    | Raw candidate class list               |
-| THINGS     | thing-vs-data-about-a-thing           | Separate things from data-about-things |
-| RESP       | responsibilities-before-operations    | Assign responsibilities                |
-| PROPS      | add-properties-semantically-tight     | Add semantically tight properties      |
-| OPS        | turn-verbs-into-operations            | Turn verbs into operations             |
-| RELS       | relationships-and-cardinality         | Relationships and cardinality          |
-| INV        | invariants-in-the-model               | Identify invariants                    |
-| BLOAT      | watch-for-bloated-classes             | Detect bloated classes                 |
-| ROLES      | smashed-abstractions-and-hidden-roles | Uncover hidden roles                   |
-| INHERIT    | inheritance-when-behavior-generalizes | Apply inheritance                      |
-| ABST       | abstract-classes-and-interfaces       | Abstract classes and interfaces        |
-| COMP       | prefer-composition                    | Prefer composition over inheritance    |
-| STATES     | model-state-transitions               | Model state transitions                |
-| ITER       | iterative-refinement                  | Iterative refinement pass              |
-| TENSION    | tension-as-a-signal                   | Resolve tensions                       |
-| COHESION   | what-changes-together                 | What changes together                  |
-| VALIDATE   | validate-with-scenarios               | Validate with scenarios                |
-| NAMES      | refine-names                          | Refine class and concept names         |
-| LAYERS     | model-in-layers                       | Model in layers                        |
+---
 
+## Slices and global phase numbers (normative)
+
+The **OOAD process table** (see **`process.md`** / built **AGENTS.md** — “Process Table”) assigns **global phase numbers** **0–21** to phase **slugs** (e.g. **Phase 2** = `nouns-verbs-rules-and-states`, **Phase 3** = `raw-candidate-list`, **Phase 4** = `thing-vs-data-about-a-thing`).
+
+- **Phase 1** (`domain-scan`, short name **SCAN**) runs **once per workspace** (or once per strategy engagement). It produces anchors, `strategy.md`, `domain-scan-results.md`, and seeds **`term-registry.md`**. It is **not** repeated as “each slice’s Phase 1.”
+- **Per-slice modeling** (folders or **Anchor** columns **`S1=…`**, **`S2=…`**, …) **aligns with the same global numbers from Phase 2 onward:** the **first** extraction artifact in a slice is always **Phase 2** (**NOUNS**), then **3** (**CANDS**), **4** (**THINGS**), etc. Do **not** label slice-local nouns-verbs files as Phase 1 — that collides with **SCAN**.
+- **Phase notes** in italics (optional): `*[Sn · Phase N]*` where **N** is the **global** process-table number. Add slug, tension id, or short reminder *after* the tag on the same line if needed (e.g. *thing-vs-data*, *registry Tn*). For early “likely class” judgments: `*[S1 · Phase 3]* Likely class : …`.
 
 ---
 
 ## Registry Columns
 
-
-| Column             | Values                                       | Notes                                                                                                                                                                                  |
-| ------------------ | -------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Term**           | Concept name from the source                 | Exact word or phrase as found — rename in the NAMES step if needed                                                                                                                     |
-| **Classification** | See **Classification** below                 | **What we want to model this as** — target shape in the domain model (not lifecycle)                                                                                                   |
-| **Step**           | Short name from table above (SCAN, NOUNS, …) | Step that first identified or last materially updated this Term                                                                                                                        |
-| **Confidence**     | High / Medium / Low                          | How sure we are this belongs in the model                                                                                                                                              |
-| **Status**         | See **Status (OOAD scale)** below            | Where this Term sits in the modeling workflow                                                                                                                                          |
-| **Notes**          | Free text                                    | Anchor-test results, owning module for supporting classes (`Supporting class — X module`), competing interpretations, pointers to tensions in `domain-scan-results.md`, and follow-ups |
-
+| Column | Values | Notes |
+|--------|--------|-------|
+| **Term** | Concept name from the source | Exact word or phrase as found — rename in the NAMES step if needed |
+| **Classification** | See **Classification** below | **What we want to model this as** — target shape in the domain model (not lifecycle) |
+| **Step** | Short name from table above (SCAN, NOUNS, …) | Step that first identified or last materially updated this Term |
+| **Confidence** | High / Medium / Low | How sure we are this belongs in the model |
+| **Status** | See **Status (OOAD scale)** below | Where this Term sits in the modeling workflow |
+| **Notes** | Free text | Anchor-test results, owning module for supporting classes (`Supporting class — X module`), competing interpretations, pointers to tensions in `domain-scan-results.md`, and follow-ups |
 
 ---
 
@@ -653,17 +662,15 @@ Use these short names in the **Step** column of the registry when adding or upda
 
 Use **one** value per row. This is the **intended model role**, not how “mature” the idea is (that is **Status**).
 
-
-| Value                       | Meaning                                                                                                                                                  |
-| --------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **anchor (class + module)** | Passes the anchor test: this concept is a **core class** and owns a **module** (dashed frame + same-named core class). Use only for backbone modules.    |
-| **class**                   | A domain **class** that is not its own module yet — e.g. supporting class inside a frame, or a type you expect to become a class without its own module. |
-| **property**                | Modeled as a **semantic property** (attribute / value on a class), not a separate type.                                                                  |
-| **field**                   | Modeled as a **typed field / slot** (data member, possibly simple type or value object).                                                                 |
-| **example (instance)**      | An **illustrative instance**, sample, or scenario object — not a type in the model.                                                                      |
-| **relationship**            | An **association**, link, or dependency between concepts — may become an association, association class, or navigable role.                              |
-| **invariant (rule)**        | A **domain rule**, constraint, or policy — often becomes behavior, guard, or explicit rule text on a class.                                              |
-
+| Value | Meaning |
+|--------|---------|
+| **anchor (class + module)** | Passes the anchor test: this concept is a **core class** and owns a **module** (dashed frame + same-named core class). Use only for backbone modules. |
+| **class** | A domain **class** that is not its own module yet — e.g. supporting class inside a frame, or a type you expect to become a class without its own module. |
+| **property** | Modeled as a **semantic property** (attribute / value on a class), not a separate type. |
+| **field** | Modeled as a **typed field / slot** (data member, possibly simple type or value object). |
+| **example (instance)** | An **illustrative instance**, sample, or scenario object — not a type in the model. |
+| **relationship** | An **association**, link, or dependency between concepts — may become an association, association class, or navigable role. |
+| **invariant (rule)** | A **domain rule**, constraint, or policy — often becomes behavior, guard, or explicit rule text on a class. |
 
 **Diagram mapping (when relevant):** `anchor (class + module)` → module frame + core class; `class` → class box; `relationship` → association; `invariant (rule)` → note, constraint, or operation; `property` / `field` → attributes on a class.
 
@@ -673,16 +680,14 @@ Use **one** value per row. This is the **intended model role**, not how “matur
 
 **Status** is **lifecycle / confidence in the workflow**, not the model shape. Pick the value that best fits; states are **not** always a strict left-to-right pipeline.
 
-
-| Status         | When to use                                                                                                                    |
-| -------------- | ------------------------------------------------------------------------------------------------------------------------------ |
-| **Ambiguous**  | You cannot yet say what the Term is or how it sits next to others.                                                             |
-| **Tension**    | Competing interpretations, overlapping boundaries, or conflicting source pulls — needs resolution before the model can commit. |
-| **Candidate**  | Plausible model role; narrowed but not yet locked (often after scan, before THINGS/RELS).                                      |
-| **Deferred**   | Explicitly parked — revisit in a named later step or phase.                                                                    |
-| **Active**     | In current modeling scope; being updated in this pass.                                                                         |
-| **Solidified** | Named, placed, and stable in the model for the current iteration — ready to treat as “done” unless source or scope changes.    |
-
+| Status | When to use |
+|--------|-------------|
+| **Ambiguous** | You cannot yet say what the Term is or how it sits next to others. |
+| **Tension** | Competing interpretations, overlapping boundaries, or conflicting source pulls — needs resolution before the model can commit. |
+| **Candidate** | Plausible model role; narrowed but not yet locked (often after scan, before THINGS/RELS). |
+| **Deferred** | Explicitly parked — revisit in a named later step or phase. |
+| **Active** | In current modeling scope; being updated in this pass. |
+| **Solidified** | Named, placed, and stable in the model for the current iteration — ready to treat as “done” unless source or scope changes. |
 
 **Typical (non-binding) progression:** Ambiguous → Tension or Candidate → Active → Solidified. **Deferred** can apply after any stage. A Term can return from Deferred to Active when scope returns to it.
 
@@ -751,6 +756,7 @@ For very small registries only, a Markdown pipe table is acceptable:
 | Character | anchor (class + module) | SCAN | High | Active | Short note only |
 ```
 
+
 ---
 
 ### `using-diagram-cli.md`
@@ -772,7 +778,6 @@ Every class diagram is built from the `.md` companion file. The `.md` is always 
 ### Step 1 — Read the MD file line by line
 
 Before writing a single CLI command, read the entire `.md` companion and extract:
-
 - Every class name and its stereotype
 - Every **scalar field** (primitive type, not a reference to another class)
 - Every invariant `{ }` line
@@ -784,7 +789,6 @@ Before writing a single CLI command, read the entire `.md` companion and extract
 ### Step 2 — Add each class one at a time
 
 For each class:
-
 1. `add-class <Name> --stereotype <phase>` — stereotype goes in the class header, not as a field row
 2. Add only scalar fields: `add-field <Name> "+ fieldName: PrimitiveType"`
 3. Add invariants: `add-field <Name> "{ constraint text }"` — these will be post-processed to taller cell heights
@@ -797,7 +801,6 @@ For each class:
 ### Step 3 — Post-process constraint cell heights
 
 After all classes are added, run the height fixup:
-
 ```python
 for cell in root.iter('mxCell'):
     val = cell.get('value', '')
@@ -814,7 +817,6 @@ Run `add-frame` for each module, listing all member classes. Frames must be adde
 ### Step 5 — Add relationships
 
 For each relationship identified in Step 1:
-
 - Composition: `add-composition Whole Part --mult "n..*"` — multiplicity goes at the **part** (many) end, near the part class
 - Association: `add-association From To --label "name" --to-mult "0..*"`
 - Dependency: `add-dependency From To --stereotype "label"`
@@ -850,23 +852,20 @@ previously-fixed edges are expected and can be ignored.
 
 After verify, address any remaining warnings:
 
-
-| Code | Severity | Meaning                                       | Action                 |
-| ---- | -------- | --------------------------------------------- | ---------------------- |
-| V1   | ERROR    | Class bounding boxes overlap                  | `relayout`             |
-| V2   | ERROR    | Subclass above superclass                     | `relayout`             |
-| V3   | WARN     | Wrong edge style for relationship type        | `fix-edge-styles`      |
-| V4   | WARN     | Explicit waypoints on orthogonal edges        | `fix-edge-styles`      |
-| V5   | WARN     | 2+ edges share unconstrained connection point | `fix-shared-endpoints` |
-| V6   | WARN     | Straight edge passes through unrelated class  | `fix-arrow-overlaps`   |
-
+| Code | Severity | Meaning | Action |
+|------|----------|---------|--------|
+| V1 | ERROR | Class bounding boxes overlap | `relayout` |
+| V2 | ERROR | Subclass above superclass | `relayout` |
+| V3 | WARN | Wrong edge style for relationship type | `fix-edge-styles` |
+| V4 | WARN | Explicit waypoints on orthogonal edges | `fix-edge-styles` |
+| V5 | WARN | 2+ edges share unconstrained connection point | `fix-shared-endpoints` |
+| V6 | WARN | Straight edge passes through unrelated class | `fix-arrow-overlaps` |
 
 Then run the frame containment check (Python XML script) to confirm all classes are inside their frames.
 
 ### Step 7 — AI layout pass
 
 The programmatic build will produce correct structure but imperfect visual routing. After running verify (with 0 errors), open the diagram and inspect for:
-
 - Labels obscured by other elements (drag to clear space)
 - Any class that is outside its frame boundary (fix with `add-frame` or XML edit)
 - Any remaining V6 warnings after `fix-arrow-overlaps` — move the blocking class manually as a last resort
@@ -949,7 +948,6 @@ python scripts/drawio_cli.py verify --file <output>.drawio
 ```
 
 **Important rules for module frames:**
-
 - `add-frame` must be called AFTER all classes are in the diagram
 - Frame title must match the core class name exactly
 - Do NOT call `relayout` after `add-frame` — relayout ignores frame membership and will scatter classes outside their frames
@@ -957,7 +955,6 @@ python scripts/drawio_cli.py verify --file <output>.drawio
 - A frame with no matching core class = an incomplete anchor identification (explore further)
 
 **Describe / inspect:**
-
 ```bash
 python scripts/drawio_cli.py describe --file <output>.drawio
 python scripts/drawio_cli.py list-classes --file <output>.drawio
@@ -965,11 +962,9 @@ python scripts/drawio_cli.py show-class <ClassName> --file <output>.drawio
 ```
 
 **Inline invariants** — add as a field entry with curly braces (brief, one-line constraints):
-
 ```bash
 python scripts/drawio_cli.py add-field <ClassName> "{ invariant text }" --file <output>.drawio
 ```
-
 Example: `add-field Check "{ result = d20 + modifier; succeeds if result >= dc }"`
 
 **Note invariants** (longer — multiple lines): the CLI does not support notes. Add manually in draw.io after CLI build: Insert → Shape → Note, enclose text in `{ }`, connect to class with a dashed line. See `class-diagrams` in this library for full invariant guidance.
@@ -1015,15 +1010,13 @@ Keep both files in sync — when you add a class to the `.drawio`, add the same 
 
 ## Per-Phase Diagram Rules
 
-
-| Phase                                         | What to Show                                                                                        | Properties                                | Methods           | Relationships                              |
-| --------------------------------------------- | --------------------------------------------------------------------------------------------------- | ----------------------------------------- | ----------------- | ------------------------------------------ |
-| domain-scan                                   | Anchor modules: one dashed frame per anchor, core class inside frame + confirmed supporting classes | Scan-identified fields on core class only | None              | High-confidence only, between core classes |
-| nouns-verbs → raw-candidate-list              | Candidates added                                                                                    | None                                      | None              | Structural only                            |
-| responsibilities → turn-verbs-into-operations | All confirmed classes                                                                               | Semantic properties                       | Confirmed methods | All known                                  |
-| relationships → model-state-transitions       | Refined model                                                                                       | Full                                      | Full              | Full with cardinality                      |
-| iterative-refinement → model-in-layers        | Final layered model                                                                                 | Full                                      | Full              | Full                                       |
-
+| Phase | What to Show | Properties | Methods | Relationships |
+|-------|-------------|------------|---------|---------------|
+| domain-scan | Anchor modules: one dashed frame per anchor, core class inside frame + confirmed supporting classes | Scan-identified fields on core class only | None | High-confidence only, between core classes |
+| nouns-verbs → raw-candidate-list | Candidates added | None | None | Structural only |
+| responsibilities → turn-verbs-into-operations | All confirmed classes | Semantic properties | Confirmed methods | All known |
+| relationships → model-state-transitions | Refined model | Full | Full | Full with cardinality |
+| iterative-refinement → model-in-layers | Final layered model | Full | Full | Full |
 
 **Domain-scan constraint:** The diagram fidelity must match the sketch exactly. One frame per anchor module. Core class inside each frame has the same name as the frame. If you cannot find a core class for a frame, the anchor is incomplete — explore further before drawing.
 
@@ -1031,34 +1024,31 @@ Keep both files in sync — when you add a class to the `.drawio`, add the same 
 
 ## Relationship Type Guide
 
-
-| Relationship | Command           | When to Use                                       |
-| ------------ | ----------------- | ------------------------------------------------- |
-| Composition  | `add-composition` | WHOLE owns PART; PART cannot exist without WHOLE  |
-| Aggregation  | `add-aggregation` | WHOLE references PART; PART exists independently  |
-| Association  | `add-association` | General directed relationship between two classes |
-| Inheritance  | `add-inheritance` | IS-A — subclass extends superclass                |
-| Dependency   | `add-dependency`  | Uses or creates — ephemeral, not structural       |
-
+| Relationship | Command | When to Use |
+|-------------|---------|-------------|
+| Composition | `add-composition` | WHOLE owns PART; PART cannot exist without WHOLE |
+| Aggregation | `add-aggregation` | WHOLE references PART; PART exists independently |
+| Association | `add-association` | General directed relationship between two classes |
+| Inheritance | `add-inheritance` | IS-A — subclass extends superclass |
+| Dependency | `add-dependency` | Uses or creates — ephemeral, not structural |
 
 ---
 
 ## Templates Reference
 
-
-| Template                 | Path                                           | Use for                          |
-| ------------------------ | ---------------------------------------------- | -------------------------------- |
-| Class diagram (Draw.io)  | `templates/domain model template.drawio`       | All class structure diagrams     |
-| Class diagram (Markdown) | `templates/domain model template.md`           | All class diagram companions     |
-| Walkthrough (Draw.io)    | `templates/domain realization template.drawio` | Sequence/realization diagrams    |
-| Walkthrough (Markdown)   | `templates/domain walkthrough template.md`     | Walkthrough narrative companions |
-
+| Template | Path | Use for |
+|----------|------|---------|
+| Class diagram (Draw.io) | `templates/domain model template.drawio` | All class structure diagrams |
+| Class diagram (Markdown) | `templates/domain model template.md` | All class diagram companions |
+| Walkthrough (Draw.io) | `templates/domain realization template.drawio` | Sequence/realization diagrams |
+| Walkthrough (Markdown) | `templates/domain walkthrough template.md` | Walkthrough narrative companions |
 
 **Never** create a class diagram without using the CLI. **Never** create a walkthrough without using the realization template. These conventions encode the visual and structural standards for the domain model.
 
 ---
 
 See also: `class-diagrams.md`, `class-diagram-layout-rules.md`, `sequence-diagrams.md`, `sequence-diagram-layout-rules.md` in this library for full rules on layout, edge styles, and verification codes.
+
 
 ---
 
@@ -1068,14 +1058,12 @@ See also: `class-diagrams.md`, `class-diagram-layout-rules.md`, `sequence-diagra
 
 ## Templates — use these for every create/update
 
-All class-structure work should **start from** or **stay aligned with** the checked-in templates under the skill `**templates/`** folder (paths relative to the skill root):
+All class-structure work should **start from** or **stay aligned with** the checked-in templates under the skill **`templates/`** folder (paths relative to the skill root):
 
-
-| Role         | Template file                            | When to use it                                                                                                                                                                                                                                                      |
-| ------------ | ---------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Draw.io**  | `templates/domain model template.drawio` | **New diagram:** duplicate this file into the workspace, rename, then edit. **Existing diagram:** when adding classes or relationships, keep the same swimlane style, member layout, and collaborator-line conventions as the template.                             |
-| **Markdown** | `templates/domain model template.md`     | **New companion doc:** copy structure and headings from this file. **Updates:** when you change the `.drawio` or the `.md`, update the **other** artifact in the same pass and preserve the template’s patterns (classes, `opt` collaborators, `Invariant:` lines). |
-
+| Role | Template file | When to use it |
+|------|----------------|----------------|
+| **Draw.io** | `templates/domain model template.drawio` | **New diagram:** duplicate this file into the workspace, rename, then edit. **Existing diagram:** when adding classes or relationships, keep the same swimlane style, member layout, and collaborator-line conventions as the template. |
+| **Markdown** | `templates/domain model template.md` | **New companion doc:** copy structure and headings from this file. **Updates:** when you change the `.drawio` or the `.md`, update the **other** artifact in the same pass and preserve the template’s patterns (classes, `opt` collaborators, `Invariant:` lines). |
 
 Do **not** invent a one-off Markdown shape or Draw.io layout for class models unless the user explicitly opts out — the templates encode Jeff’s notation (collaborators on the second line in Draw.io, matching `opt` / invariants in Markdown).
 
@@ -1085,11 +1073,9 @@ Do **not** invent a one-off Markdown shape or Draw.io layout for class models un
 
 When the user asks to **create or update** modeling diagrams:
 
-
-| Artifact            | Draw.io                                               | Markdown companion                                                   |
-| ------------------- | ----------------------------------------------------- | -------------------------------------------------------------------- |
+| Artifact | Draw.io | Markdown companion |
+|----------|---------|-------------------|
 | **Class structure** | `*.drawio` (see template above; CLI: `drawio_cli.py`) | Same structure and semantics as `templates/domain model template.md` |
-
 
 **Rule:** If both files exist for a topic, **update both** in the same pass so comments and collaborator lists do not drift. If only one exists, create the missing companion **from the templates** unless the user opts out.
 
@@ -1099,8 +1085,8 @@ When the user asks to **create or update** modeling diagrams:
 
 Jeff’s style embeds **collaborators** (and optionally **invariants**) next to fields and methods:
 
-- In **Draw.io**, that is the second line in the member cell (indented), as in `**templates/domain model template.drawio`**.
-- In **Markdown**, use `**templates/domain model template.md`**: optional collaborators after `opt`, and `Invariant:` lines.
+- In **Draw.io**, that is the second line in the member cell (indented), as in **`templates/domain model template.drawio`**.
+- In **Markdown**, use **`templates/domain model template.md`**: optional collaborators after `opt`, and `Invariant:` lines.
 
 Keep the **same** collaborators and constraints in both places when maintaining dual files.
 
@@ -1111,36 +1097,34 @@ Use this decision tree to pick the correct relationship. When in doubt, choose t
 **Decision tree:**
 
 1. Does A hold a permanent reference to B?
-  - **No** → `add-dependency` (transient — B is a parameter or local variable only)
-  - **Yes** → go to 2
+   - **No** → `add-dependency` (transient — B is a parameter or local variable only)
+   - **Yes** → go to 2
+
 2. Is A the owner of B (part-whole)?
-  - **No** → `add-association` (peer relationship — A knows B, no ownership)
-  - **Yes** → go to 3
+   - **No** → `add-association` (peer relationship — A knows B, no ownership)
+   - **Yes** → go to 3
+
 3. Can B exist without A?
-  - **No** → `add-composition` (strong ownership — B dies when A dies)
-  - **Yes** → `add-aggregation` (loose ownership — B can be shared or outlive A)
+   - **No** → `add-composition` (strong ownership — B dies when A dies)
+   - **Yes** → `add-aggregation` (loose ownership — B can be shared or outlive A)
 
 **Quick reference:**
 
-
-| Type        | CLI command       | Symbol | Strength  | Key test                                            |
-| ----------- | ----------------- | ------ | --------- | --------------------------------------------------- |
-| Composition | `add-composition` | ◆──    | Strongest | Delete A → B is destroyed                           |
-| Aggregation | `add-aggregation` | ◇──    | Strong    | Delete A → B survives                               |
-| Association | `add-association` | →      | Moderate  | A holds a reference to B; neither owns the other    |
-| Dependency  | `add-dependency`  | -->    | Weakest   | A uses B only inside a method — no stored reference |
-| Inheritance | `add-inheritance` | --▷    | n/a       | IS-A — subclass extends superclass                  |
-
+| Type | CLI command | Symbol | Strength | Key test |
+|------|-------------|--------|----------|----------|
+| Composition | `add-composition` | ◆── | Strongest | Delete A → B is destroyed |
+| Aggregation | `add-aggregation` | ◇── | Strong | Delete A → B survives |
+| Association | `add-association` | →  | Moderate | A holds a reference to B; neither owns the other |
+| Dependency | `add-dependency` | --> | Weakest | A uses B only inside a method — no stored reference |
+| Inheritance | `add-inheritance` | --▷ | n/a | IS-A — subclass extends superclass |
 
 **Scan-phase defaults:** At domain-scan fidelity, prefer conservative choices:
-
 - Use `add-dependency` for any relationship that is clearly transient (produced by, resolved via, creates)
 - Use `add-composition` only when the source material explicitly states ownership or lifecycle coupling
 - Use `add-association` for all other confirmed structural relationships
 - Leave aggregation for refinement phases when shared ownership is confirmed
 
 **Prompt to check yourself:**
-
 > "I am modeling [Class A] → [Class B]. Does A store B permanently? Is A the owner? If A is destroyed, does B die too? Is B a physical/logical part of A?"
 
 ---
@@ -1150,13 +1134,11 @@ Use this decision tree to pick the correct relationship. When in doubt, choose t
 Never invent wrapper types to represent multi-valued fields. Using `SkillSet`, `AbilitySet`, `PowerList`, or `AdvantageList` as class names implies there is a meaningful class there — but these are just collections with no behavior. They pollute the model.
 
 **Wrong:**
-
 ```
 + skills: SkillSet
 ```
 
 **Right:**
-
 ```
 + skills: Skill [0..*]
 ```
@@ -1182,7 +1164,6 @@ Before drawing an association or dependency between two classes, you must be abl
 **Right:** Tracing the actual path — `Character` has `powers: Power [0..*]`, and a `Power` wraps an `Effect`. The relationship between Character and Effect is therefore **through Power**, not direct. Draw `Character ◆── Power` and `Power → Effect`, not `Character → Effect` directly.
 
 **Protocol before drawing a cross-module relationship:**
-
 1. Identify the field on the source class that connects to the target
 2. If no such field exists yet, investigate the source material more deeply before drawing
 3. If the connection is definitely real but indirect (via an intermediate class), model the intermediate explicitly
@@ -1197,7 +1178,6 @@ This applies at all phases. At scan fidelity, prefer omitting a relationship ove
 Invariants document constraints that must hold for a class to be valid — business rules, system constraints, range limits, and lifecycle rules. They are shown in the diagram at two levels of detail:
 
 ### Inline invariant (brief — fits on one line)
-
 Add directly inside the class box as a field entry, using curly braces:
 
 ```
@@ -1208,7 +1188,6 @@ Add directly inside the class box as a field entry, using curly braces:
 Use `add-field ClassName "{ invariant text }"` in the CLI. Place inline invariants immediately after the field or section they constrain.
 
 ### Note invariant (longer — multiple lines or complex expression)
-
 Use a note (folded-corner rectangle) connected to the class by a dashed line:
 
 ```
@@ -1219,16 +1198,16 @@ Use a note (folded-corner rectangle) connected to the class by a dashed line:
 
 The CLI does not yet support notes — add them manually in draw.io after CLI build. Use: Insert → Shape → Note. Connect to the target class with a dashed edge. Enclose invariant text in `{ }`.
 
+**Module / package (UML frame) notes:** For commentary that applies to a whole **module** (the outer `umlFrame` / package boundary from `add-frame`), attach the same Note shape to the **frame’s perimeter** (snap the connector to the frame edge), not to an inner class. Use the same dashed connector style as class notes. This keeps module-level invariants or scope reminders visually tied to the subsystem boundary.
+
 ### When to add invariants
 
-
-| Phase                                       | Add invariants?                                                                        |
-| ------------------------------------------- | -------------------------------------------------------------------------------------- |
-| domain-scan                                 | Yes — add the invariants you found during the scan (inline preferred at this fidelity) |
-| nouns-verbs                                 | No — extraction only; invariants captured in registry notes                            |
-| raw-candidate-list through responsibilities | Yes — as invariants become confirmed, add to diagram                                   |
-| Full model phases                           | Yes — invariants are a required part of the final model                                |
-
+| Phase | Add invariants? |
+|-------|----------------|
+| domain-scan | Yes — add the invariants you found during the scan (inline preferred at this fidelity) |
+| domain-noun-verb (Step 1) | No — extraction only; invariants captured in registry notes |
+| raw-candidate-list through responsibilities | Yes — as invariants become confirmed, add to diagram |
+| Full model phases | Yes — invariants are a required part of the final model |
 
 ### Markdown companion notation
 
@@ -1250,13 +1229,12 @@ In the `.md` companion file, invariants appear as `Invariant:` lines under the f
 
 ## File naming (suggested)
 
-
-| Pair  | Example                                   |
-| ----- | ----------------------------------------- |
+| Pair | Example |
+|------|---------|
 | Class | `orders-model.drawio` + `orders-model.md` |
 
-
 Shared stem makes sync obvious.
+
 
 ---
 
@@ -1267,7 +1245,7 @@ Shared stem makes sync obvious.
 This document defines what "correct" looks like at the XML level so that
 the `verify` command and any reviewing agent have unambiguous ground truth.
 
-**Templates:** New or updated class diagrams should follow the structure and style of `**templates/domain model template.drawio`**; Markdown companions should follow `**templates/domain model template.md**` (see `content/parts/class-diagrams.md`).
+**Templates:** New or updated class diagrams should follow the structure and style of **`templates/domain model template.drawio`**; Markdown companions should follow **`templates/domain model template.md`** (see `content/parts/class-diagrams.md`).
 
 ---
 
@@ -1388,18 +1366,15 @@ Inheritance uses a **plain straight line** between the two class boxes.
 Draw.io draws a straight diagonal when no `edgeStyle` token is present.
 
 **✓ Correct inheritance style:**
-
 ```xml
 <mxCell style="endArrow=block;dashed=1;endFill=0;endSize=12;html=1;rounded=0;"
         edge="1" source="Car" target="Vehicle" parent="1">
   <mxGeometry relative="1" as="geometry" />
 </mxCell>
 ```
-
 Key: `dashed=1`, `endArrow=block`, `endFill=0`, **no `edgeStyle=`**.
 
 **❌ Wrong — inheritance with orthogonal routing:**
-
 ```xml
 <!-- edgeStyle=orthogonalEdgeStyle on inheritance creates ugly zig-zags -->
 <mxCell style="edgeStyle=orthogonalEdgeStyle;endArrow=block;dashed=1;..."
@@ -1451,7 +1426,7 @@ Key: `dashed=1`, `endArrow=block`, `endFill=0`, **no `edgeStyle=`**.
   <mxGeometry relative="1" as="geometry" />
 </mxCell>
 <!-- stereotype label child -->
-<mxCell style="edgeLabel;html=1;align=center;..." value="<<created by>>"
+<mxCell style="edgeLabel;html=1;align=center;..." value="&lt;&lt;created by&gt;&gt;"
         vertex="1" connectable="0" parent="EDGE_ID">
   <mxGeometry x="0" y="0" relative="1" as="geometry" />
 </mxCell>
@@ -1466,7 +1441,6 @@ Explicit `<Array as="points">` waypoints override that, often producing
 unnecessary bends when classes are repositioned.
 
 **❌ Edge with hard-coded waypoints (fragile):**
-
 ```xml
 <mxCell style="edgeStyle=orthogonalEdgeStyle;..." edge="1"
         source="Fleet" target="Plane" parent="1">
@@ -1480,7 +1454,6 @@ unnecessary bends when classes are repositioned.
 ```
 
 **✓ Same edge without waypoints — router picks the clean path:**
-
 ```xml
 <mxCell style="edgeStyle=orthogonalEdgeStyle;..." edge="1"
         source="Fleet" target="Plane" parent="1">
@@ -1546,11 +1519,11 @@ where multiple arrowheads overlap and the diagram becomes unreadable.
 When a parent class (e.g. `Character`) owns several child classes through
 composition, the cleanest layout is to:
 
-1. **Add a field row** inside the parent for each owned type (e.g. `+ abilities: Ability`)
-2. **Connect the diamond to that field row**, not to the parent class border
-3. **Exit from the SIDE of the child class** (left or right, never top or bottom)
-4. **Keep the diamond co-linear with the line** (diamond faces the same direction as the line segment it is part of — never sideways)
-5. **Use as few waypoints as possible** — ideally zero or one
+1. **Add a field row** inside the parent for each owned type (e.g. `+ abilities: Ability`)  
+2. **Connect the diamond to that field row**, not to the parent class border  
+3. **Exit from the SIDE of the child class** (left or right, never top or bottom)  
+4. **Keep the diamond co-linear with the line** (diamond faces the same direction as the line segment it is part of — never sideways)  
+5. **Use as few waypoints as possible** — ideally zero or one  
 
 ### Visual goal
 
@@ -1606,15 +1579,13 @@ long vertical runs that pass through other classes.
 
 Key style attributes:
 
-
-| Attribute                 | Value                             | Reason                                   |
-| ------------------------- | --------------------------------- | ---------------------------------------- |
-| `source`                  | child class cell id               | composition originates at child          |
-| `target`                  | field row cell id (inside parent) | diamond lands at the field               |
-| `endArrow`                | `diamondThin`                     | filled diamond at target (field row)     |
-| `exitX=1;exitY=0.5`       | right-side exit of child          | side exit = clean orthogonal route       |
-| `portConstraint=eastwest` | on field row                      | constrains diamond to left or right side |
-
+| Attribute | Value | Reason |
+|-----------|-------|--------|
+| `source` | child class cell id | composition originates at child |
+| `target` | field row cell id (inside parent) | diamond lands at the field |
+| `endArrow` | `diamondThin` | filled diamond at target (field row) |
+| `exitX=1;exitY=0.5` | right-side exit of child | side exit = clean orthogonal route |
+| `portConstraint=eastwest` | on field row | constrains diamond to left or right side |
 
 ### ❌ Anti-pattern: diamond entering from the top or bottom
 
@@ -1636,13 +1607,11 @@ must be corrected.
 
 ### Minimum-waypoint routing
 
-
 | Child position relative to parent | Typical exit | Waypoints needed |
-| --------------------------------- | ------------ | ---------------- |
-| Directly left or right, same Y    | right/left   | 0                |
-| Left/right but offset vertically  | right/left   | 1 (adjust Y)     |
-| Below or above (avoid)            | top/bottom   | 2+ (not ideal)   |
-
+|------------------------------------|-------------|-----------------|
+| Directly left or right, same Y     | right/left   | 0 |
+| Left/right but offset vertically   | right/left   | 1 (adjust Y) |
+| Below or above (avoid)             | top/bottom   | 2+ (not ideal) |
 
 Prefer placing child classes **laterally** (left/right) so that routes remain
 single-segment or single-bend. Stacking child classes directly below the parent
@@ -1670,10 +1639,10 @@ source-centre to target-centre against every third class's bounding box
 ### ✓ Resolved options
 
 1. **Run `fix-arrow-overlaps`** — automatically inserts 1–2 waypoints using a
-  recursive shortest-path algorithm to route the dependency around all blockers;
+   recursive shortest-path algorithm to route the dependency around all blockers;
    then rerun `verify` to confirm V6 is clear.
 2. **Reposition the blocking class** — move it off the arrow corridor as a last
-  resort if `fix-arrow-overlaps` cannot find a clean path.
+   resort if `fix-arrow-overlaps` cannot find a clean path.
 
 > Note: V6 is a **WARN** (not ERROR) because the obstruction is a layout
 > issue. `fix-arrow-overlaps` resolves most cases automatically.
@@ -1697,14 +1666,13 @@ are kept together next to their parent.
 
 ## Quick summary table
 
-
-| Relationship | endArrow       | dashed | edgeStyle         | Diamond  |
-| ------------ | -------------- | ------ | ----------------- | -------- |
-| Inheritance  | `block`        | yes    | **none**          | —        |
-| Association  | (default open) | no     | `orthogonalEdge…` | —        |
-| Composition  | `diamondThin`  | no     | `orthogonalEdge…` | filled ◆ |
-| Aggregation  | `open` + start | no     | `orthogonalEdge…` | hollow ◇ |
-| Dependency   | `open`         | yes    | none              | —        |
+| Relationship    | endArrow         | dashed | edgeStyle         | Diamond  |
+|----------------|-----------------|--------|-------------------|----------|
+| Inheritance    | `block`          | yes    | **none**          | —        |
+| Association    | (default open)   | no     | `orthogonalEdge…` | —        |
+| Composition    | `diamondThin`    | no     | `orthogonalEdge…` | filled ◆ |
+| Aggregation    | `open` + start   | no     | `orthogonalEdge…` | hollow ◇ |
+| Dependency     | `open`           | yes    | none              | —        |
 
 
 ---
@@ -1715,14 +1683,12 @@ are kept together next to their parent.
 
 ## Templates — use these for every create/update
 
-All walkthrough / sequence work should **start from** or **stay aligned with** the checked-in templates under the skill `**templates/`** folder (paths relative to the skill root):
+All walkthrough / sequence work should **start from** or **stay aligned with** the checked-in templates under the skill **`templates/`** folder (paths relative to the skill root):
 
-
-| Role         | Template file                                  | When to use it                                                                                                                                                                                                                                                                           |
-| ------------ | ---------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Draw.io**  | `templates/domain realization template.drawio` | **New diagram:** duplicate this file into the workspace, rename, replace `{{placeholders}}`, then edit lifelines and messages. **Existing diagram:** when adding lifelines or messages, keep lifeline alignment, execution bars, and arrow-to-activation conventions as in the template. |
-| **Markdown** | `templates/domain walkthrough template.md`     | **New companion doc:** copy its scenario / walk / pseudo-code structure. **Updates:** when you change the `.drawio` or the `.md`, update the **other** artifact in the same pass so steps and activations stay aligned.                                                                  |
-
+| Role | Template file | When to use it |
+|------|----------------|----------------|
+| **Draw.io** | `templates/domain realization template.drawio` | **New diagram:** duplicate this file into the workspace, rename, replace `{{placeholders}}`, then edit lifelines and messages. **Existing diagram:** when adding lifelines or messages, keep lifeline alignment, execution bars, and arrow-to-activation conventions as in the template. |
+| **Markdown** | `templates/domain walkthrough template.md` | **New companion doc:** copy its scenario / walk / pseudo-code structure. **Updates:** when you change the `.drawio` or the `.md`, update the **other** artifact in the same pass so steps and activations stay aligned. |
 
 Optional: add a **Mermaid** `sequenceDiagram` block in the Markdown file for quick preview (GitHub / readers), using **participant names that match** the lifeline headers in the `.drawio` file.
 
@@ -1743,11 +1709,9 @@ Use whichever label the user prefers. In deliverables, pick one label per docume
 
 When the user asks to **create or update** modeling diagrams:
 
-
-| Artifact                   | Draw.io                                                                | Markdown companion                                           |
-| -------------------------- | ---------------------------------------------------------------------- | ------------------------------------------------------------ |
+| Artifact | Draw.io | Markdown companion |
+|----------|---------|-------------------|
 | **Sequence / walkthrough** | `*.drawio` (start from `templates/domain realization template.drawio`) | Same structure as `templates/domain walkthrough template.md` |
-
 
 **Rule:** If both files exist for a topic, **update both** in the same pass so walk steps do not drift. If only one exists, create the missing companion **from those templates** unless the user opts out.
 
@@ -1772,7 +1736,6 @@ There is **no** `drawio_cli.py` automation for lifelines yet. **New diagrams:** 
 ## Sequence / walkthrough — Markdown
 
 **Narrative + pseudo-code** — Follow `templates/domain walkthrough template.md` (required structure; see **Templates** above):
-
 - One **Scenario** block per flow.
 - **Walk N: Covers** — scope (what responsibilities this walk exercises).
 - Indented pseudo-code showing object creation, calls, returns, and nesting (same story as the Draw.io diagram).
@@ -1791,7 +1754,6 @@ Read the walkthrough pseudo-code and identify all **distinct objects/participant
 ```
 
 **Participants:**
-
 - `{object}:{Class}` ← lifeline 1
 - `{collaborator}:{CollaboratingClass}` ← lifeline 2
 - Any other objects mentioned ← additional lifelines
@@ -1800,14 +1762,12 @@ Read the walkthrough pseudo-code and identify all **distinct objects/participant
 
 For each call in the pseudo-code, create a **message arrow** in Draw.io:
 
-
-| Pseudo-code             | Draw.io Message                                                                                                 |
-| ----------------------- | --------------------------------------------------------------------------------------------------------------- |
-| `{object}.{method}()`   | Synchronous message arrow (filled) from **{object}** to **{collaborator}** labeled `method()` with params       |
-| `return {value}`        | Return arrow (dashed, open) from callee back to caller labeled with `{value}` (if non-void)                     |
-| `{var} = new {Class}()` | Create message (labeled `«new»`) from initiator to the new object's lifeline                                    |
-| Nested calls            | Stack activation bars (execution rectangles) vertically; nested calls go to the right edge of parent activation |
-
+| Pseudo-code | Draw.io Message |
+|-------------|-----------------|
+| `{object}.{method}()` | Synchronous message arrow (filled) from **{object}** to **{collaborator}** labeled `method()` with params |
+| `return {value}` | Return arrow (dashed, open) from callee back to caller labeled with `{value}` (if non-void) |
+| `{var} = new {Class}()` | Create message (labeled `«new»`) from initiator to the new object's lifeline |
+| Nested calls | Stack activation bars (execution rectangles) vertically; nested calls go to the right edge of parent activation |
 
 ### Step 3: Align with Template
 
@@ -1817,10 +1777,10 @@ When creating the `.drawio` file:
 2. **Replace placeholder lifelines** with actual participant names from Step 1
 3. **Add messages** following the order in the pseudo-code (top to bottom = time flow)
 4. **Verify alignment:**
-  - All lifelines top-aligned (horizontal line at y=0)
-  - All message arrows **horizontal** (0° angle)
-  - Message arrows snap to **outer edge of execution bars**, not center lifeline
-  - Execution bars centered on lifeline, nested bars stacked right
+   - All lifelines top-aligned (horizontal line at y=0)
+   - All message arrows **horizontal** (0° angle)
+   - Message arrows snap to **outer edge of execution bars**, not center lifeline
+   - Execution bars centered on lifeline, nested bars stacked right
 
 ### Step 4: Keep Markdown ↔ Draw.io in Sync
 
@@ -1831,7 +1791,6 @@ When creating the `.drawio` file:
 ### Example: Character Creation Scenario
 
 **Markdown pseudo-code (Walk 1: Create ability):**
-
 ```
 player: Player = initiator
 character: Character = new Character(power_level: 5)
@@ -1843,13 +1802,11 @@ return character with Strength:3
 ```
 
 **Lifelines in `.drawio`:**
-
 1. `player:Player`
 2. `character:Character`
 3. `strength_ability:Ability`
 
 **Messages in `.drawio`:**
-
 1. `player` → `character` : `create(power_level: 5)`
 2. `character` → `abilities` : `add(strength_ability)`
 3. `character` → `character` : `spend_power_points(3)` (self-call)
@@ -1857,12 +1814,10 @@ return character with Strength:3
 
 ## File naming (suggested)
 
-
-| Pair                | Example                                                                                                                         |
-| ------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| Pair | Example |
+|------|---------|
 | Model + Walkthrough | `step-1-model.md` (domain model) + `step-1-walkthrough.md` (scenarios & walks) + `step-1-walkthrough.drawio` (sequence diagram) |
-| Pattern             | `{step-name}-model.md`, `{step-name}-walkthrough.md`, `{step-name}-walkthrough.drawio`                                          |
-
+| Pattern | `{step-name}-model.md`, `{step-name}-walkthrough.md`, `{step-name}-walkthrough.drawio` |
 
 Use `{step-name}` consistently across all three artifacts so their relationship is obvious.
 
@@ -1877,6 +1832,7 @@ If a single scenario has **many walks** (e.g., 5+ different message flows):
 
 **Rule:** Keep the pairing obvious (shared stem) and the `.drawio` count manageable (1–3 per major flow).
 
+
 ---
 
 ### `sequence-diagram-layout-rules.md`
@@ -1885,7 +1841,7 @@ If a single scenario has **many walks** (e.g., 5+ different message flows):
 
 This document defines what "correct" looks like for Domain Walkthroughs / Sequence Diagrams in Draw.io. Since sequence diagrams rely heavily on spatial meaning (horizontal = objects, vertical = time), these rules are critical for a valid diagram.
 
-**Templates:** New or updated sequence diagrams should start from `**templates/domain realization template.drawio`**; Markdown walkthroughs should follow `**templates/domain walkthrough template.md**` (see `content/parts/sequence-diagrams.md`).
+**Templates:** New or updated sequence diagrams should start from **`templates/domain realization template.drawio`**; Markdown walkthroughs should follow **`templates/domain walkthrough template.md`** (see `content/parts/sequence-diagrams.md`).
 
 ---
 
@@ -1910,7 +1866,6 @@ All participant lifelines (the boxes at the top containing object/class names) m
 **Rule:** Every lifeline header cell must share the exact same `y` coordinate.
 
 ### ✓ Correct Alignment
-
 ```xml
 <!-- Initiator at y=40 -->
 <mxCell id="lifeline1" value="Initiator" style="shape=umlLifeline;..." vertex="1" parent="1">
@@ -1932,7 +1887,6 @@ Execution bars (the vertical rectangles showing when an object is active) must b
 **Rule:** Assuming the execution bar has `width=10` and the parent lifeline has `width=100`, the `x` offset of the execution bar *relative to its parent* must be exactly `45` (i.e., `(100 - 10) / 2`).
 
 ### ✓ Correct Execution Bar
-
 ```xml
 <mxCell id="exec1" value="" style="html=1;points=[];perimeter=orthogonalPerimeter;..." vertex="1" parent="lifeline2">
   <mxGeometry x="45" y="80" width="10" height="160" as="geometry" />
@@ -1948,7 +1902,6 @@ When an object makes a call to itself or has a nested execution block, the child
 **Rule:** A nested execution bar must have its left edge exactly touching the right edge of its parent. Relative to the parent lifeline, if the parent execution bar is at `x=45` with `width=10`, the nested execution bar must be at `x=55` (with a `y` offset greater than the parent's `y` to show time passing).
 
 ### ✓ Correct Nested Execution
-
 ```xml
 <!-- Parent Execution -->
 <mxCell id="exec_parent" value="" style="..." vertex="1" parent="lifeline2">
@@ -1970,14 +1923,12 @@ When an object makes a call to itself or has a nested execution block, the child
 Message arrows must ALWAYS connect to the edges of the **Execution Bars**, NEVER directly to the dashed center line of the Lifeline.
 
 **Rule:**
-
 - A **synchronous call** (solid line) must originate from the right or left edge of the sender's execution bar and terminate at the top-left edge of the receiver's newly created execution bar.
 - A **return message** (dashed line) must originate from the bottom edge (or bottom-left/right edge) of the receiver's execution bar and return to the edge of the sender's execution bar.
 
 *Note: Draw.io handles this via `source` and `target` attributes pointing to the IDs of the execution bars, not the lifelines.*
 
 ### ❌ Wrong Connection (Connected to Lifeline)
-
 ```xml
 <!-- WRONG: source and target point to the lifelines themselves -->
 <mxCell id="msg1" edge="1" source="lifeline1" target="lifeline2">
@@ -1986,7 +1937,6 @@ Message arrows must ALWAYS connect to the edges of the **Execution Bars**, NEVER
 ```
 
 ### ✓ Correct Connection (Connected to Execution Bars)
-
 ```xml
 <!-- CORRECT: source and target point to the execution rectangles -->
 <mxCell id="msg1" edge="1" source="exec1" target="exec2">
@@ -2003,13 +1953,11 @@ Time flows strictly downwards. A single message happens conceptually in an insta
 **Rule:** All message lines (calls and returns) must be perfectly horizontal (0-degree angle). The `y` coordinate of the start point must equal the `y` coordinate of the end point. Diagonal message lines are strictly prohibited.
 
 ### ❌ Wrong (Diagonal Message)
-
 ```xml
 <!-- A message originating at y=150 but arriving at y=170 -->
 ```
 
 ### ✓ Correct (Horizontal Message)
-
 ```xml
 <!-- The message stays perfectly horizontal -->
 ```
@@ -2025,7 +1973,6 @@ Vertical space represents time.
 **Rule:** Independent, sequential operations must not overlap vertically. If Object A calls Object B, and then waits, and then calls Object C, the execution bar for Object C must have a `y` coordinate that starts *after* (is numerically greater than) the bottom edge of Object B's execution bar.
 
 ### ✓ Correct Time Flow
-
 ```xml
 <!-- Call to B happens first -->
 <mxCell id="execB" ...>
@@ -2040,11 +1987,12 @@ Vertical space represents time.
 </mxCell>
 ```
 
+
 ---
 
 ## Rules
 
 *No rules for this phase. List rule stems (filename without `.md`) under `skill-config.json` → `phase_rules` for this phase slug, and optionally `every_phase_rules` for rules that apply to every phase. See `parts/library/process-phases.md` § Phase bundle — rules.*
 
----
 
+---

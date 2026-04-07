@@ -12,13 +12,13 @@ This is still **loose**. Candidates may merge, split, or become attributes in la
 
 ## Worked example — from nouns-verbs to this step
 
-**Upstream:** Step 1 (`nouns-verbs-rules-and-states.md`) produces **`domain-noun-verb.md`** (in the workspace `abd-ooad/` folder) — nouns, verbs, rules, and states, often grouped **by anchor** (same headings as `strategy.md`). Step 2 **does not** paste that file wholesale; you **re-sort** the same terms into the buckets below (entities, value-like concepts, processes, policies, roles, events) and add **why** each row might matter.
+**Upstream:** Step 1 (`nouns-verbs-rules-and-states.md`) produces Phase-2 evidence **in the slice folder** — typically a **domain model** file (e.g. **`domain-verb-noun-manual.md`**) with noun–verb material in `### Note` blocks under each anchor module, plus often **`nouns-verbs.md`** for flat extraction. An optional **`domain-noun-verb.md`** at workspace `abd-ooad/` may mirror the slice. Step 2 **does not** paste those files wholesale; you **re-sort** the same terms into the buckets below (entities, value-like concepts, processes, policies, roles, events) and add **why** each row might matter.
 
-**Term registry:** As you promote terms to candidates here, keep **`Anchor`** in `term-registry.md` aligned: e.g. `S1=Check` for anything first evidenced under a **Check** heading in slice 1’s `domain-noun-verb.md` (see the **Term registry ↔ slice mapping** section in the nouns-verbs phase).
+**Term registry:** As you promote terms to candidates here, keep **`Anchor`** in `term-registry.md` aligned: e.g. `S1=Check` for anything first evidenced under **Check** in slice 1’s **`nouns-verbs.md`** and/or **`domain-verb-noun-manual.md`** (see the **Term registry ↔ slice mapping** section in the nouns-verbs phase).
 
 ### Mini excerpt (hypothetical “rules” slice — one anchor)
 
-Imagine one anchor section **Check** in `domain-noun-verb.md`:
+Imagine one anchor section **Check** in the slice’s **`domain-verb-noun-manual.md`** (or the **`Check`** heading in **`nouns-verbs.md`**):
 
 | Kind | Extraction (illustrative) |
 | ---- | ------------------------- |

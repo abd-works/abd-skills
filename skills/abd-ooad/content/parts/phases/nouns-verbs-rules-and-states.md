@@ -24,20 +24,28 @@ Do not restructure anchors mid-step. Record any anchor boundary questions in the
 
 ## Term registry ↔ slice mapping (`Anchor` column)
 
-After (or while) you produce **domain noun–verb** extraction per **slice** (e.g. S1 = first strategy section / chapter folder), write it to **`domain-noun-verb.md`** in the active workspace’s `abd-ooad/` folder (one file per workspace; use slice subfolders if you split by source slice). Align each **`term-registry.md`** row with the evidence file:
+**Where Phase 2 output goes (insert order)** — align with **domain-scan**: noun–verb material belongs in the **slice** area first, not only at workspace root.
+
+| Location | Artifact | Role |
+|----------|----------|------|
+| **Slice folder** (e.g. `…/1 - basics-checks-conditions/` for S1) | **`domain-verb-noun-manual.md`** (name may vary) | **Primary domain model** for Phase 2: `## [… module]`, scan blocks, **`### Note :`** sections for candidate nouns / verbs / rules / states under the correct anchor. **Insert new SCAN content here** in the right module and note block. |
+| **Same slice folder** | **`nouns-verbs.md`** (optional but common) | Flat extraction by anchor heading (`## \`Character\``, …) for verbatim evidence; can feed Appendix A of the manual. |
+| **`abd-ooad/`** (workspace) | **`domain-noun-verb.md`** | **Optional rollup** — same structure as the slice manual, for browsing from repo root; **mirror or copy from the slice file** after editing the slice. Do **not** treat this as the only place to insert when a slice folder exists. |
+
+After (or while) you produce **domain noun–verb** extraction per **slice**, align each **`term-registry.md`** row with the evidence files above.
 
 | Artifact | Role |
 |----------|------|
 | **`term-registry.md`** | SCAN **type** decisions: Classification, Confidence, Status, Notes — sparse. |
-| **`…/domain-noun-verb.md` (per workspace or per slice folder)** | Phase-2 **evidence**: candidate nouns, verbs, rules, states. Prefer grouping **by anchor** (same headings as `strategy.md`). |
+| **Slice `domain-verb-noun-manual.md` (+ optional `nouns-verbs.md`)** | Phase-2 **evidence** in the **slice**: candidates grouped **by anchor** (same headings as `strategy.md`), either as a **structured manual** or a **flat** file. |
 
 **`Anchor` column (single HTML column in the registry table)** — one code cell per term, **slice-keyed**:
 
-- **`S1=<heading>`** — primary heading in **slice 1**’s `domain-noun-verb.md` where this term is evidenced (`Character`, `Check`, `Condition`, `Effect`, or your anchor names). Use **`S1=—`** if that term has **no** hook in slice 1.
+- **`S1=<heading>`** — primary anchor where this term is evidenced in **slice 1**, usually the same label in **`nouns-verbs.md`** (`Character`, `Check`, `Condition`, `Effect`, …) **or** the matching **`## [Character module]`** (etc.) in the slice’s **`domain-verb-noun-manual.md`**. Use **`S1=—`** if that term has **no** hook in slice 1.
 - **Optional suffix** on the same `S1=` value when evidence is thin: **`(partial)`**, **`(gaps)`**, or combine anchors as **`Character+Effect`** when the text really spans both.
-- **`S2=…`** — add **only when slice 2 exists** (second slice’s evidence file, or a second `domain-noun-verb.md` in another slice folder). Same pattern, e.g. `S1=Character; S2=Check` in one cell, or keep `S1=…` only until S2 is done. **Do not** add empty `S2=—` placeholders before slice 2.
+- **`S2=…`** — add **only when slice 2 exists** (second slice’s folder and files). Same pattern, e.g. `S1=Character; S2=Check` in one cell, or keep `S1=…` only until S2 is done. **Do not** add empty `S2=—` placeholders before slice 2.
 
-**Traceability:** registry states **what** you claim; each slice’s `domain-noun-verb.md` holds **what the source said**. Rows should be defensible from `S1=` (and later `S2=`) where not `—`.
+**Traceability:** registry states **what** you claim; each slice’s **manual** (and/or **`nouns-verbs.md`**) holds **what the source said**. Rows should be defensible from `S1=` (and later `S2=`) where not `—`.
 
 ---
 
@@ -204,7 +212,7 @@ Own (dispute), remove, hide (field).
 - [ ] Have you recorded lifecycle states for at least the key candidate classes?
 - [ ] Have you noted synonyms, naming conflicts, and scope boundary noise for later steps?
 - [ ] Have you updated the term registry with all new terms found in this step?
-- [ ] Have you set each row’s **`Anchor`** cell (`S1=…`; add **`S2=…`** only after slice 2 exists) to point at the right section heading in **`domain-noun-verb.md`**?
+- [ ] Have you set each row’s **`Anchor`** cell (`S1=…`; add **`S2=…`** only after slice 2 exists) to point at the right **slice** anchor (in **`nouns-verbs.md`** and/or the slice **`domain-verb-noun-manual.md`**)?
 
 ---
 
