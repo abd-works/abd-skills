@@ -2,8 +2,9 @@
   "name": "abd-ooad",
   "version": "1.0.0",
   "workspace": {
-    "active_skill_workspace": "/sessions/kind-inspiring-cori/mnt/mm3e-experiment",
+    "active_skill_workspace": "c:/dev/agile_bot_demos/mm3e-experiment",
     "known_skill_workspaces": [
+      "c:/dev/agile_bot_demos/mm3e-experiment",
       "/sessions/kind-inspiring-cori/mnt/mm3e-experiment"
     ],
     "context_paths": []
