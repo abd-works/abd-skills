@@ -4,7 +4,7 @@
 ## Concepts
 
 - **ProposalSource** — Client RFP, Q&A, requirements (PDF, PPTX, DOCX, XLSX, etc.)
-- **Memory** — Converted and chunked content; searchable via RAG (ace-context-to-memory)
+- **Memory** — Converted and chunked content; searchable via RAG (abd-context-to-memory)
 - **ResponseFolder** — Output area for response artifacts; created alongside proposal material; symlinked from project
 - **Strategy** — Response plan: which questions, in what order, format guidance, DO/DO NOT corrections
 - **Accelerator** — A lettered appendix reference (A, B, C, …) that answers cite; typically a framework, method, or approach with source slides. Defined by appendix letter and framework name.
@@ -12,7 +12,7 @@
 
 ## What This Skill Does
 
-- Convert proposal material to memory (via ace-context-to-memory)
+- Convert proposal material to memory (via abd-context-to-memory)
 - Create response folder and symlink
 - Propose a strategy (question coverage, order, format)
 - Answer questions using memory RAG
@@ -25,7 +25,7 @@
 - **Strategy** — A strategy document (`response/strategy.md`) holds the plan and accumulated corrections
 - **Correct** — Corrections go into the strategy (DO/DO NOT with wrong/correct examples); do not just fix the answer in place
 
-## Dependency: ace-context-to-memory
+## Dependency: abd-context-to-memory
 
 - Convert documents to markdown and chunks
 - Index for semantic search
@@ -225,7 +225,7 @@ Creates response folder and symlink for proposal response workflow.
 
 **Usage:**
 ```bash
-python skills/ace-proposal-respond/scripts/setup_response.py --proposal <proposal_folder> [--project <project_root>]
+python skills/abd-proposal-respond/scripts/setup_response.py --proposal <proposal_folder> [--project <project_root>]
 ```
 
 **Parameters:**
@@ -234,30 +234,30 @@ python skills/ace-proposal-respond/scripts/setup_response.py --proposal <proposa
 
 **Example:**
 ```bash
-python skills/ace-proposal-respond/scripts/setup_response.py --proposal "workspace/jbom response"
+python skills/abd-proposal-respond/scripts/setup_response.py --proposal "workspace/jbom response"
 ```
 
 **Output:** Creates `<proposal_folder>/response/` and symlink `<project_root>/response` → response folder.
 
 ---
 
-## ace-context-to-memory (dependency)
+## abd-context-to-memory (dependency)
 
 Convert proposal material to memory and index for RAG. Run before answering questions.
 
 **link_workspace_source.py** — Link proposal folder to source (if not already):
 ```bash
-python skills/ace-context-to-memory/scripts/link_workspace_source.py --path "workspace/jbom response" --name "JBOM"
+python skills/abd-context-to-memory/scripts/link_workspace_source.py --path "workspace/jbom response" --name "JBOM"
 ```
 
 **index_memory.py** — Full pipeline (convert → chunk → embed):
 ```bash
-python skills/ace-context-to-memory/scripts/index_memory.py --path "source/JBOM"
+python skills/abd-context-to-memory/scripts/index_memory.py --path "source/JBOM"
 ```
 
 **search_memory.py** — Semantic search when answering questions:
 ```bash
-python skills/ace-context-to-memory/scripts/search_memory.py "<query>" --k 5
+python skills/abd-context-to-memory/scripts/search_memory.py "<query>" --k 5
 ```
 
 ---
@@ -270,7 +270,7 @@ Assembles the appendix deck from the Accelerator Table. Run when response is don
 
 **Usage:**
 ```bash
-python skills/ace-proposal-respond/scripts/build_appendix_deck.py --table <accelerator_table_path> [--output <pptx_path>]
+python skills/abd-proposal-respond/scripts/build_appendix_deck.py --table <accelerator_table_path> [--output <pptx_path>]
 ```
 
 **Parameters:**
@@ -279,8 +279,8 @@ python skills/ace-proposal-respond/scripts/build_appendix_deck.py --table <accel
 
 **Example:**
 ```bash
-python skills/ace-proposal-respond/scripts/build_appendix_deck.py --table "workspace/jbom response/Accelerator Table.md"
-python skills/ace-proposal-respond/scripts/build_appendix_deck.py --table "workspace/jbom response/Accelerator Table.md" --output "workspace/jbom response/JBOM_Appendix_Accelerators.pptx"
+python skills/abd-proposal-respond/scripts/build_appendix_deck.py --table "workspace/jbom response/Accelerator Table.md"
+python skills/abd-proposal-respond/scripts/build_appendix_deck.py --table "workspace/jbom response/Accelerator Table.md" --output "workspace/jbom response/JBOM_Appendix_Accelerators.pptx"
 ```
 
 **Config:** Create `appendix_config.json` in the table's directory:
@@ -303,7 +303,7 @@ Assembles content into AGENTS.md.
 
 **Usage:**
 ```bash
-cd skills/ace-proposal-respond
+cd skills/abd-proposal-respond
 python scripts/build.py
 ```
 

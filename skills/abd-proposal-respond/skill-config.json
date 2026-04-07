@@ -1,7 +1,7 @@
 {
   "name": "abd-proposal-respond",
   "version": "0.1.0",
-  "depends_on": ["ace-context-to-memory"],
+  "depends_on": ["abd-context-to-memory"],
   "operation_sections": {
     "create_strategy": [
       "proposal.process.intro",

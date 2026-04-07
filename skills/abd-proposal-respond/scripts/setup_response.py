@@ -12,7 +12,7 @@ Creates:
 --proposal: Folder containing proposal material (e.g. workspace/jbom response)
 --project: Project root for symlink (default: CONTENT_MEMORY_ROOT or cwd)
 
-Run from workspace root. Requires ace-context-to-memory for convert/index.
+Run from workspace root. Requires abd-context-to-memory for convert/index.
 
 Examples:
   python setup_response.py --proposal "workspace/jbom response"

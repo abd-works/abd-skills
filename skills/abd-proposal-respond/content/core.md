@@ -4,7 +4,7 @@
 ## Concepts
 
 - **ProposalSource** — Client RFP, Q&A, requirements (PDF, PPTX, DOCX, XLSX, etc.)
-- **Memory** — Converted and chunked content; searchable via RAG (ace-context-to-memory)
+- **Memory** — Converted and chunked content; searchable via RAG (abd-context-to-memory)
 - **ResponseFolder** — Output area for response artifacts; created alongside proposal material; symlinked from project
 - **Strategy** — Response plan: which questions, in what order, format guidance, DO/DO NOT corrections
 - **Accelerator** — A lettered appendix reference (A, B, C, …) that answers cite; typically a framework, method, or approach with source slides. Defined by appendix letter and framework name.
@@ -12,7 +12,7 @@
 
 ## What This Skill Does
 
-- Convert proposal material to memory (via ace-context-to-memory)
+- Convert proposal material to memory (via abd-context-to-memory)
 - Create response folder and symlink
 - Propose a strategy (question coverage, order, format)
 - Answer questions using memory RAG
@@ -25,7 +25,7 @@
 - **Strategy** — A strategy document (`response/strategy.md`) holds the plan and accumulated corrections
 - **Correct** — Corrections go into the strategy (DO/DO NOT with wrong/correct examples); do not just fix the answer in place
 
-## Dependency: ace-context-to-memory
+## Dependency: abd-context-to-memory
 
 - Convert documents to markdown and chunks
 - Index for semantic search
