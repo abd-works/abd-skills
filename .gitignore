@@ -29,3 +29,21 @@ skills/abd-context-to-memory/assets/GTB/
 
 # Aggregate FAISS + embeddings (rebuild: embed_and_index.py --replace from skill hub)
 skills/abd-context-to-memory/assets/rag/
+
+# Video files (large binaries; keep local; avoids GitHub blob limits)
+*.mp4
+*.webm
+*.mov
+*.avi
+*.mkv
+*.m4v
+*.wmv
+*.flv
+*.ogv
+*.mpeg
+*.mpg
+*.m2ts
+*.mts
+*.3gp
+*.3g2
+*.asf
