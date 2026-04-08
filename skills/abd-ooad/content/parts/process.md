@@ -54,6 +54,8 @@
 
 **Strategy before deep runs:** After domain scan, fill **`strategy.md`** from **`templates/strategy.md`**: **section strategy** (named units — chapters, packages, anchors, …), **coverage across steps** (every in-scope section touched or explicitly deferred), **section-by-section plan** (depth per section), **section integration** (cross-boundary handoffs), and **execution plan** (ordered phase slugs with **section IDs on each line**). Align **`abd-ooad/progress/strategy-run-checklist.md`** (reuse the same IDs in scope strings). Then run **`generate.py --phase <slug>`**. See **`library/strategy-led-generation`** and **`library/strategy-execution-and-checklists`**.
 
+**Phase 1–2 artifacts:** Do analysis in **`domain*.md`** only; keep tables integrated in the domain model (overflow at **`## Cross-anchor`** only when needed). After the markdown is stable, render or sync **`*.drawio`** as the visual twin — see **`library/domain-model`**, **`phases/domain-scan`**, **`phases/nouns-verbs-rules-and-states`**.
+
 **AI-driven phases:** Each phase can be executed by Claude following the assembled instructions from **`generate.py`** or **`AGENTS.md`**.
 
 **Code-driven phases:** Workspace config (Phase 0) is CLI-driven; all OOAD phases (1–21) are AI-driven narrative/modeling.

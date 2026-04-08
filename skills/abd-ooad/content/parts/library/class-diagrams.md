@@ -149,7 +149,7 @@ The CLI does not yet support notes — add them manually in draw.io after CLI bu
 | Phase | Add invariants? |
 |-------|----------------|
 | domain-scan | Yes — add the invariants you found during the scan (inline preferred at this fidelity) |
-| domain-noun-verb (Step 1) | No — extraction only; invariants captured in registry notes |
+| domain-noun-verb (Phase 2) | No — extraction only; invariants captured in registry notes |
 | raw-candidate-list through responsibilities | Yes — as invariants become confirmed, add to diagram |
 | Full model phases | Yes — invariants are a required part of the final model |
 

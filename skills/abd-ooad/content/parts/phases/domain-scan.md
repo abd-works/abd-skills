@@ -20,6 +20,21 @@ The scan calibrates how you will approach extraction. Without it, you risk eithe
 
 ---
 
+## Work order (Phase 1)
+
+Do **analysis in domain markdown only**; **then** render Draw.io.
+
+| Order | Artifact | Role |
+|-------|----------|------|
+| 1 | `domain-scan-results.md` | Findings: source map, anchors, tensions. |
+| 2 | `domain-scan-model.md` | Integrated class-line listing per module — the **same** content the diagram will show. |
+| 3 | `strategy.md`, `term-registry.md` | Plan and term rows (see **strategy-led-generation**, **term-registry**). |
+| 4 | `domain-scan-model.drawio` | **After** 1–2 match: visual twin of the model — **using-diagram-cli**, not a separate analysis pass. |
+
+Do **not** duplicate the same anchor inventory as both a giant table in results **and** a full repeat in the model file. Split by purpose (map vs class lines), or keep one integrated file if the project prefers.
+
+---
+
 ## Techniques by source type
 
 ### Specification or structured document
