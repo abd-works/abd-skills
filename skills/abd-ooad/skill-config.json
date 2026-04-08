@@ -1,0 +1,102 @@
+{
+  "name": "abd-ooad",
+  "version": "1.0.0",
+  "workspace": {
+    "active_skill_workspace": "c:/dev/agile_bot_demos/mm3e-experiment",
+    "known_skill_workspaces": [
+      "c:/dev/agile_bot_demos/mm3e-experiment",
+      "/sessions/kind-inspiring-cori/mnt/mm3e-experiment"
+    ],
+    "context_paths": []
+  },
+  "phase_files": [
+    "workspace-and-config",
+    "domain-scan",
+    "nouns-verbs-rules-and-states",
+    "raw-candidate-list",
+    "thing-vs-data-about-a-thing",
+    "responsibilities-before-operations",
+    "add-properties-semantically-tight",
+    "turn-verbs-into-operations",
+    "relationships-and-cardinality",
+    "invariants-in-the-model",
+    "watch-for-bloated-classes",
+    "smashed-abstractions-and-hidden-roles",
+    "inheritance-when-behavior-generalizes",
+    "abstract-classes-and-interfaces",
+    "prefer-composition",
+    "model-state-transitions",
+    "iterative-refinement",
+    "tension-as-a-signal",
+    "what-changes-together",
+    "validate-with-scenarios",
+    "refine-names",
+    "model-in-layers"
+  ],
+  "library_files": [
+    "domain-model.md",
+    "anchors.md",
+    "strategy-led-generation.md",
+    "strategy-execution-and-checklists.md",
+    "term-registry.md",
+    "using-diagram-cli.md",
+    "class-diagrams.md",
+    "class-diagram-layout-rules.md",
+    "sequence-diagrams.md",
+    "sequence-diagram-layout-rules.md"
+  ],
+  "library_base_files": [
+    "skill-structure-and-concepts",
+    "workspace-and-config"
+  ],
+  "library_required_files": [
+    "purpose",
+    "outline",
+    "role",
+    "principles"
+  ],
+  "phase_bundle": {
+    "order": ["purpose", "role", "principles", "phase", "library", "rules"],
+    "purpose_file": "purpose.md",
+    "role_file": "role.md",
+    "principles_file": "principles.md",
+    "purpose_heading": "## Purpose",
+    "role_heading": "## Role",
+    "phase_heading": "## Phase",
+    "library_heading": "## Library",
+    "rules_heading": "## Rules"
+  },
+  "delivery": {
+    "mode": "static",
+    "default_phase": "domain-scan"
+  },
+  "phase_section_headings": {
+    "workspace-and-config": "Workspace and Config",
+    "domain-scan": "Domain Scan (Step 0 — Scan, Anchor, Sketch)",
+    "nouns-verbs-rules-and-states": "Step 1 — Nouns, Verbs, Rules and States",
+    "raw-candidate-list": "Step 2 — Raw Candidate List",
+    "thing-vs-data-about-a-thing": "Step 3 — Thing vs Data About a Thing",
+    "responsibilities-before-operations": "Step 4 — Responsibilities Before Operations",
+    "add-properties-semantically-tight": "Step 5 — Add Properties (Semantically Tight)",
+    "turn-verbs-into-operations": "Step 6 — Turn Verbs Into Operations",
+    "relationships-and-cardinality": "Step 7 — Relationships and Cardinality",
+    "invariants-in-the-model": "Step 8 — Invariants in the Model",
+    "watch-for-bloated-classes": "Step 9 — Watch for Bloated Classes",
+    "smashed-abstractions-and-hidden-roles": "Step 10 — Smashed Abstractions and Hidden Roles",
+    "inheritance-when-behavior-generalizes": "Step 11 — Inheritance When Behavior Generalizes",
+    "abstract-classes-and-interfaces": "Step 12 — Abstract Classes and Interfaces",
+    "prefer-composition": "Step 13 — Prefer Composition",
+    "model-state-transitions": "Step 14 — Model State Transitions",
+    "iterative-refinement": "Step 15 — Iterative Refinement",
+    "tension-as-a-signal": "Step 16 — Tension as a Signal",
+    "what-changes-together": "Step 17 — What Changes Together",
+    "validate-with-scenarios": "Step 18 — Validate with Scenarios",
+    "refine-names": "Step 19 — Refine Names",
+    "model-in-layers": "Step 20 — Model in Layers"
+  },
+  "build": {
+    "agents_output": "AGENTS.md",
+    "phase_rules": {},
+    "every_phase_rules": []
+  }
+}
