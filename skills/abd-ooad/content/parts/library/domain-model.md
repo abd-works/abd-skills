@@ -1,6 +1,12 @@
 # Domain model Markdown
 
-This skill’s **domain model** is captured in Markdown (and optionally a parallel **Draw.io** class diagram). Use the checked-in **`templates/domain model template.md`** when starting a new companion doc; keep the same semantics as **`templates/domain model template.drawio`** when both exist.
+This skill’s **domain model** is captured in Markdown  a parallel **Draw.io** class diagram. Use **`templates/domain model template.md`** for companion docs; align with **`templates/domain model template.drawio`** when both exist.
+
+**Phase 2 — `domain-noun-verb.md`:** anchor sections, **Candidate …** lists, full or pared class boxes. Slice files are **content only** — no skill paths or process meta in the artifact body.
+
+**Phase 3 — bucket roll-up:** sort candidates into **entities**, **value objects**, **processes**, **policies**, **roles**, **events** (tables in **`raw-candidate-list.md`** or appended to **`domain-noun-verb.md`**). Same **content-only** rule: no skill/process boilerplate in slice files.
+
+**Optional — `domain-raw-candidates.md`:** same Phase 3 content as **classes under anchor modules** (`### Name : << Entity >>` / `<< ValueObject >>` / `<< Process >>` / …), notes below — **not** a second copy of bucket tables. Cross-cutting material → **`## Cross-anchor`** or appendix. **`templates/domain-raw-candidates-template.md`**.
 
 ---
 
@@ -33,7 +39,7 @@ From **Step 5** onward, prefer **typed** members (see **Notation evolution** bel
 
 ## **newly added** tag
 
-In the **worked example** threads (e.g. payments), the marker **`**newly added**`** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
+In the **worked example** threads (e.g. payments), the marker **newly added** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
 
 ---
 
@@ -41,7 +47,7 @@ In the **worked example** threads (e.g. payments), the marker **`**newly added**
 
 | Phase | Markdown style |
 |--------|------------------|
-| **Steps 1–4** | Informal: bullets, short phrases, responsibilities, candidate names. **No** required `- <type> property` lines yet. |
+| **Steps 1–4** | Informal: bullets, short phrases, responsibilities, candidate names; typed `- <type> property` lines arrive in Step 5. |
 | **Step 5+** | Formal typed members: `- <Type> propertyName`, `operationName(...) → ReturnType`. |
 
 ---

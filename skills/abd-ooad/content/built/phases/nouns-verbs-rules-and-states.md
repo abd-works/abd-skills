@@ -38,9 +38,46 @@ You are the **domain modeler and OOAD practitioner** using this skill: you provi
 
 **Skill:** abd-ooad — matches **Step 1: Read for nouns, verbs, rules, and states** in `SKILL.md`.
 
-At this stage we do **not** decide which nouns become classes — only mark candidates and tensions.
+**What you produce:** **domain-noun-verb.md** on disk (one per source slice): structured extraction by anchor — one **## [AnchorName module]** per backbone anchor; **Candidate …** lists; **full** class boxes (`+` / **opt** / **Invariant:**) or pared **`### … : << … >>`** where the source supports it; **#### Note :** when useful.
+
+Use **## Cross-anchor notes** for unsettled or cross-cutting hooks. The slice file is **domain content only** — do not paste skill paths, template filenames, or process-only labels into the artifact.
+
+**Focus here:** candidates and tensions; which nouns become classes is decided in later steps.
 
 For the full anchor definition and the three-part anchor test — see `anchors` in this library.
+
+---
+
+## Phase 2 deliverable — `domain-noun-verb.md` (normative)
+
+**One file per slice:** **domain-noun-verb.md** in the **slice folder** (e.g. `abd-ooad/1 - basics-checks-conditions/`). Canonical Phase 2 extraction for that slice.
+
+| Item | Rule |
+|------|------|
+| **Path** | `<workspace>/<slice-folder>/domain-noun-verb.md` |
+| **H1** | `# <SliceLabel>: Noun Verb Domain` — **SliceLabel** from the slice plan or folder slug. |
+| **Structure** | Per anchor: **## [Anchor module]** → **### Note :** → **Candidate …** lists → class boxes (**full** `+` / **opt** / **Invariant:** or pared **`### … : << … >>`**). Optional **## Cross-anchor notes**. |
+| **Artifact body** | Domain content only — no skill paths, template filenames, or process meta in the file. |
+| **Elsewhere** | Methodology and plans stay in **strategy.md** / **term-registry.md** / phase docs — not in the slice artifact. |
+| **Phase 3 in the same file** | Optional: append bucket roll-up, watch list, and tensions to **domain-noun-verb.md** (see **raw-candidate-list** phase) instead of a second markdown file. |
+
+
+Align **term-registry.md** **Anchor** cells (`S1=<heading>`) with the **`## [… module]`** headings in **domain-noun-verb.md**.
+
+
+| Artifact                                 | Role                                                                                                                                                  |
+| ---------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **term-registry.md**                   | SCAN **type** decisions: Classification, Confidence, Status, Notes — sparse.                                                                          |
+| **domain-noun-verb.md** (slice folder) | Phase 2 **evidence**: candidates and **full** class boxes **by anchor** (pared-down only in Cross-anchor / boundary notes), structured as above. |
+
+
+**Anchor column** (single cell per term in the registry table) — one code cell per term, **slice-keyed**:
+
+- **S1=<heading>** — primary anchor where this term is evidenced in **slice 1**, matching the **## [… module]** label in **domain-noun-verb.md** (e.g. `Character`, `Check`). Use **S1=—** if no hook in slice 1.
+- **Optional suffix** on the same `S1=` value when evidence is thin: **(partial)**, **(gaps)**, or **Character+Effect** when the text spans anchors.
+- **S2=…** — add when slice 2 exists; keep **`S2=—`** out of the registry until slice 2 is in play.
+
+**Traceability:** the registry states **what** you claim; **domain-noun-verb.md** holds **what the source said**. Rows should be defensible from `S1=` (and later `S2=`) where not `—`.
 
 ---
 
@@ -52,42 +89,15 @@ Step 1 is the first time anchors are tested by the full vocabulary of the source
 - **Evidence that challenges an anchor** — a term that is referenced independently by multiple other concepts, suggesting it may need to be elevated to its own anchor
 - **Evidence that an anchor should be split** — the core class is doing two different things and the nouns in this pass separate cleanly into two groups
 
-Do not restructure anchors mid-step. Record any anchor boundary questions in the term registry (`Status: Ambiguous`, note the challenge). Evaluate at the `candidate-list` (CANDS) step.
+Keep the anchor set stable for this step. Record boundary questions in the term registry (`Status: Ambiguous`, note the challenge); resolve at **`candidate-list` (CANDS)**.
 
 **At the end of Step 1, re-apply the anchor test** (from `anchors.md`) to any anchor whose boundary was challenged. Promote, demote, or split if the test now fails. Update the term registry and diagram accordingly before proceeding.
 
 ---
 
-## Term registry ↔ slice mapping (`Anchor` column)
-
-**Where Phase 2 output goes (insert order)** — align with **domain-scan**: noun–verb material belongs in the **slice** area first, not only at workspace root.
-
-| Location | Artifact | Role |
-|----------|----------|------|
-| **Slice folder** (e.g. `…/1 - basics-checks-conditions/` for S1) | **`domain-verb-noun-manual.md`** (name may vary) | **Primary domain model** for Phase 2: `## [… module]`, scan blocks, **`### Note :`** sections for candidate nouns / verbs / rules / states under the correct anchor. **Insert new SCAN content here** in the right module and note block. |
-| **Same slice folder** | **`nouns-verbs.md`** (optional but common) | Flat extraction by anchor heading (`## \`Character\``, …) for verbatim evidence; can feed Appendix A of the manual. |
-| **`abd-ooad/`** (workspace) | **`domain-noun-verb.md`** | **Optional rollup** — same structure as the slice manual, for browsing from repo root; **mirror or copy from the slice file** after editing the slice. Do **not** treat this as the only place to insert when a slice folder exists. |
-
-After (or while) you produce **domain noun–verb** extraction per **slice**, align each **`term-registry.md`** row with the evidence files above.
-
-| Artifact | Role |
-|----------|------|
-| **`term-registry.md`** | SCAN **type** decisions: Classification, Confidence, Status, Notes — sparse. |
-| **Slice `domain-verb-noun-manual.md` (+ optional `nouns-verbs.md`)** | Phase-2 **evidence** in the **slice**: candidates grouped **by anchor** (same headings as `strategy.md`), either as a **structured manual** or a **flat** file. |
-
-**`Anchor` column (single HTML column in the registry table)** — one code cell per term, **slice-keyed**:
-
-- **`S1=<heading>`** — primary anchor where this term is evidenced in **slice 1**, usually the same label in **`nouns-verbs.md`** (`Character`, `Check`, `Condition`, `Effect`, …) **or** the matching **`## [Character module]`** (etc.) in the slice’s **`domain-verb-noun-manual.md`**. Use **`S1=—`** if that term has **no** hook in slice 1.
-- **Optional suffix** on the same `S1=` value when evidence is thin: **`(partial)`**, **`(gaps)`**, or combine anchors as **`Character+Effect`** when the text really spans both.
-- **`S2=…`** — add **only when slice 2 exists** (second slice’s folder and files). Same pattern, e.g. `S1=Character; S2=Check` in one cell, or keep `S1=…` only until S2 is done. **Do not** add empty `S2=—` placeholders before slice 2.
-
-**Traceability:** registry states **what** you claim; each slice’s **manual** (and/or **`nouns-verbs.md`**) holds **what the source said**. Rows should be defensible from `S1=` (and later `S2=`) where not `—`.
-
----
-
 ## Worked example — payments spec
 
-> **Continual refinement:** This payments example uses the same "grow the model as you go" approach described in **[Domain model Markdown](../../parts/library/domain-model.md)**. **Tag:** **newly added** means this property or operation line appears for the **first time** in *this* step's file (so you can see the delta from the previous step). **Notation:** Steps 1–4 stay informal—bullets and prose only. Typed members start at **Step 5** (`- <type> property`, `operation(...) → return`).
+> **Continual refinement:** Fictional payments thread. **newly added** = line first appears in this step’s file. Steps 1–4 stay informal; typed members start later.
 
 ---
 
@@ -201,7 +211,7 @@ Append (audit), measure (p95 initiate).
 ### Rules
 
 - Every PaymentIntent (or Session) state transition → append-only audit with actor.
-- p95 initiate &lt; 300ms excluding network — **measurement point undefined.**
+- p95 initiate < 300ms excluding network — **measurement point undefined.**
 
 ### States
 
@@ -236,19 +246,20 @@ Own (dispute), remove, hide (field).
 
 ## Continual refinement (this step)
 
-- **Delta:** **pre-notation** — nouns, verbs, rules, states, tensions extracted from spec; no **`- <type> property`** lines yet (aligns with **Terms & mechanisms** / **shaped story map** in [Domain model Markdown](../../parts/library/domain-model.md).
+- **Delta:** **pre-notation** — nouns, verbs, rules, states, tensions; typed members in later steps.
 
 ---
 
 ## Action Checklist
 
-- [ ] Have you extracted candidate nouns from every major section of the source material?
-- [ ] Have you extracted domain verbs (actions, operations, state changes)?
-- [ ] Have you identified at least three domain rules or constraints?
-- [ ] Have you recorded lifecycle states for at least the key candidate classes?
-- [ ] Have you noted synonyms, naming conflicts, and scope boundary noise for later steps?
-- [ ] Have you updated the term registry with all new terms found in this step?
-- [ ] Have you set each row’s **`Anchor`** cell (`S1=…`; add **`S2=…`** only after slice 2 exists) to point at the right **slice** anchor (in **`nouns-verbs.md`** and/or the slice **`domain-verb-noun-manual.md`**)?
+- Have you created **domain-noun-verb.md** in the slice folder with H1 `# <SliceLabel>: Noun Verb Domain`, anchors, Candidate lists, and class boxes — with methodology outside the slice file?
+- Have you extracted candidate nouns from every major section of the source material?
+- Have you extracted domain verbs (actions, operations, state changes)?
+- Have you identified at least three domain rules or constraints?
+- Have you recorded lifecycle states for at least the key candidate classes?
+- Have you noted synonyms, naming conflicts, and scope boundary noise for later steps?
+- Have you updated the term registry with all new terms found in this step?
+- Have you set each row’s **Anchor** cell (`S1=…`; add **S2=…** only after slice 2 exists) to point at the right **slice** anchor in the slice’s **domain-noun-verb.md**?
 
 ---
 
@@ -269,7 +280,13 @@ Own (dispute), remove, hide (field).
 
 # Domain model Markdown
 
-This skill’s **domain model** is captured in Markdown (and optionally a parallel **Draw.io** class diagram). Use the checked-in **`templates/domain model template.md`** when starting a new companion doc; keep the same semantics as **`templates/domain model template.drawio`** when both exist.
+This skill’s **domain model** is captured in Markdown  a parallel **Draw.io** class diagram. Use **`templates/domain model template.md`** for companion docs; align with **`templates/domain model template.drawio`** when both exist.
+
+**Phase 2 — `domain-noun-verb.md`:** anchor sections, **Candidate …** lists, full or pared class boxes. Slice files are **content only** — no skill paths or process meta in the artifact body.
+
+**Phase 3 — bucket roll-up:** sort candidates into **entities**, **value objects**, **processes**, **policies**, **roles**, **events** (tables in **`raw-candidate-list.md`** or appended to **`domain-noun-verb.md`**). Same **content-only** rule: no skill/process boilerplate in slice files.
+
+**Optional — `domain-raw-candidates.md`:** same Phase 3 content as **classes under anchor modules** (`### Name : << Entity >>` / `<< ValueObject >>` / `<< Process >>` / …), notes below — **not** a second copy of bucket tables. Cross-cutting material → **`## Cross-anchor`** or appendix. **`templates/domain-raw-candidates-template.md`**.
 
 ---
 
@@ -302,7 +319,7 @@ From **Step 5** onward, prefer **typed** members (see **Notation evolution** bel
 
 ## **newly added** tag
 
-In the **worked example** threads (e.g. payments), the marker **`**newly added**`** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
+In the **worked example** threads (e.g. payments), the marker **newly added** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
 
 ---
 
@@ -310,7 +327,7 @@ In the **worked example** threads (e.g. payments), the marker **`**newly added**
 
 | Phase | Markdown style |
 |--------|------------------|
-| **Steps 1–4** | Informal: bullets, short phrases, responsibilities, candidate names. **No** required `- <type> property` lines yet. |
+| **Steps 1–4** | Informal: bullets, short phrases, responsibilities, candidate names; typed `- <type> property` lines arrive in Step 5. |
 | **Step 5+** | Formal typed members: `- <Type> propertyName`, `operationName(...) → ReturnType`. |
 
 ---

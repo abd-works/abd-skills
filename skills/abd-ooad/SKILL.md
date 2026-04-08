@@ -52,10 +52,17 @@ workspace: /path/to/project/directory
 ```
 
 This workspace becomes the default location for:
-- `domain-scan-model.md` — Step 0 output (source map, anchors, tensions, actor registry)
-- `domain-scan-model.drawio` — Step 0 initial class diagram
-- `step-1-extraction.md` — Step 1 detailed findings
+- `domain-scan-model.md` — Step 0 (source map, anchors, tensions, actor registry)
+- `domain-scan-model.drawio` — Step 0 diagram
+- **`domain-noun-verb.md`** — **Phase 2** per slice folder only (nouns / verbs / rules / candidate blocks). **Do not** append Phase 3 bucket tables to the end of this file.
+- *(Optional)* **`domain-raw-candidates.md`** — **Phase 3 integrated** model: **`### Class : << kind >>`** under anchor modules — **`templates/domain-raw-candidates-template.md`**. Tabular **`raw-candidate-list.md`** is **deprecated** (see **`templates/raw-candidate-list-template.md`**).
 - Any subsequent step outputs
+
+Authoring shapes for Phase 2/3 live under **`templates/`** in this skill — do not paste those paths into slice artifacts.
+
+**Slice deliverables** are domain content only. Do **not** write **`Source:`** / **`Slice:`** / **`OOAD phase:`** / registry **`Step`** / **`Upstream:`** / **`Pre-notation:`** / **`Integrated model:`** blocks in slice files — that is skill/process noise, not model output. In **`domain-raw-candidates.md`**, do **not** duplicate Phase 3 bucket tables or tack them onto **`domain-noun-verb.md`** — fold judgments into **`#### Note :`** with typed lines per **`templates/domain-raw-candidates-template.md`**.
+
+**Tensions in `domain-raw-candidates.md`:** Cross-cutting ambiguities (e.g. registry **T1** / **T3**) must appear under the **`#### Note :`** of each **owning class** as **`*[S# · Phase n]* Tension — …`** — **`[S# · Phase n]` first**, then **`Tension`**, same shape as **Trace** / **Evidence** (see **`templates/domain-raw-candidates-template.md`**). Do **not** use **`*Tension — [S# · Phase n]*`**. Do **not** add a closing **tension index table** at EOF.
 
 If no workspace is provided, assume the current working directory.
 
@@ -77,13 +84,17 @@ Continue with **Step 1 (Extraction)** and **Step 2 (Refinement)** for deeper mod
 
 ## Key Output Artifacts
 
-| Step | Markdown | Diagram |
-|------|----------|---------|
-| Step 0 | `domain-scan-model.md` (source map, anchors, tensions, actor registry) | `domain-scan-model.drawio` (anchor classes only) |
-| Step 1 | `step-1-extraction.md` (nouns, verbs, rules, states, candidates) | `step-1-extraction.drawio` (candidates added) |
-| Step 2 | `step-2-refined-model.md` (responsibilities, relationships, invariants) | `step-2-refined-model.drawio` (full class diagram) |
+**Slice artifacts:** **`domain-noun-verb.md`** is required per slice (**Phase 2**). **Phase 3** is an optional **`domain-raw-candidates.md`** — classes with **`<< Entity >>` / `<< ValueObject >>` / `<< Process >>` / `<< Policy >>` / `<< Role >>` / `<< Event >>`** under anchor modules. **No** separate bucket-table file and **no** Phase 3 tables appended under **`domain-noun-verb.md`**.
 
-Always maintain **both** Markdown and diagram side-by-side; keep them synchronized as you refine.
+| Global phase | Markdown | Template | Diagram |
+|--------------|----------|----------|---------|
+| Step 0 (workspace) | `domain-scan-model.md` | — | `domain-scan-model.drawio` |
+| **Phase 2** | **`domain-noun-verb.md`** — H1 `# <SliceLabel>: Noun Verb Domain`; anchors + Candidate lists + optional Phase 2 class sketches **only** | **`templates/domain-noun-verb-template.md`** | *(optional)* |
+| **Phase 3 (integrated, optional)** | **`domain-raw-candidates.md`** — modules + classes + typed **`#### Note :`** | **`templates/domain-raw-candidates-template.md`** | — |
+| **Deprecated** | **`raw-candidate-list.md`** (tabular buckets) — **do not create** for new work | **`templates/raw-candidate-list-template.md`** (stub) | — |
+| Later (per `process.md`) | Refined model markdown in slice / project layout | varies | Companion `.drawio` per **`templates/domain model template.*`** |
+
+Always maintain **both** Markdown and diagram side-by-side where your project uses diagrams; keep them synchronized as you refine.
 
 ## Complete OOAD Methodology
 

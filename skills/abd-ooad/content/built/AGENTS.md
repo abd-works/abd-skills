@@ -99,7 +99,7 @@ You are the **domain modeler and OOAD practitioner** using this skill: you provi
 |---|-------|-------------|-------|-------|--------|---------|
 | 0 | [Workspace and config](phases/workspace-and-config.md) | Set active skill workspace; configure project root | Human | Project directory | `skill-config.json` updated | `python scripts/base/set_workspace.py <path>` |
 | 1 | [Domain scan](phases/domain-scan.md) | Scan source, identify 3–7 anchors, flag tensions, produce initial model sketch | AI | Source material (spec, code, manual, transcript) | `domain-scan-results.md` + `strategy.md` + `domain-scan-model.md` + `domain-scan-model.drawio` + `term-registry.md` (+ `abd-ooad/progress/*-checklist.md` from `generate.py`) | `python scripts/base/generate.py --phase domain-scan` |
-| 2 | [Nouns, verbs, rules, and states](phases/nouns-verbs-rules-and-states.md) | Careful extraction: mark nouns, verbs, rules, states per section; **term-registry `Anchor` column** (`S1=` per slice heading; `S2=` only when slice 2 exists) | AI | Source material + domain-scan results | **Per slice:** domain model + noun–verb SCAN (e.g. **`domain-verb-noun-manual.md`** in the slice folder) + optional **`nouns-verbs.md`**; optional **`domain-noun-verb.md`** rollup at `abd-ooad/`; updated **`term-registry.md`** | `python scripts/base/generate.py --phase nouns-verbs-rules-and-states` |
+| 2 | [Nouns, verbs, rules, and states](phases/nouns-verbs-rules-and-states.md) | Careful extraction: mark nouns, verbs, rules, states per section; **term-registry `Anchor` column** (`S1=` per slice heading; `S2=` only when slice 2 exists) | AI | Source material + domain-scan results | **Per slice:** **`domain-noun-verb.md`** in the slice folder (see **`templates/domain-noun-verb-template.md`**) — **only** Phase 2 model file; updated **`term-registry.md`** | `python scripts/base/generate.py --phase nouns-verbs-rules-and-states` |
 | 3 | [Raw candidate list](phases/raw-candidate-list.md) | Sort findings into entities, values, processes, policies, roles, events | AI | Extraction results | Candidate class inventory + updated term-registry.md | `python scripts/base/generate.py --phase raw-candidate-list` |
 | 4 | [Thing vs data about a thing](phases/thing-vs-data-about-a-thing.md) | Separate independent entities from value objects, enums, properties | AI | Candidate list | Refined entities with clear boundaries | `python scripts/base/generate.py --phase thing-vs-data-about-a-thing` |
 | 5 | [Responsibilities before operations](phases/responsibilities-before-operations.md) | Define what each class is responsible for (before methods) | AI | Entities | Responsibility statements per class | `python scripts/base/generate.py --phase responsibilities-before-operations` |
@@ -347,7 +347,13 @@ See **`content/parts/phases/domain-scan.md`** for details.
 
 # Domain model Markdown
 
-This skill’s **domain model** is captured in Markdown (and optionally a parallel **Draw.io** class diagram). Use the checked-in **`templates/domain model template.md`** when starting a new companion doc; keep the same semantics as **`templates/domain model template.drawio`** when both exist.
+This skill’s **domain model** is captured in Markdown  a parallel **Draw.io** class diagram. Use **`templates/domain model template.md`** for companion docs; align with **`templates/domain model template.drawio`** when both exist.
+
+**Phase 2 — `domain-noun-verb.md`:** anchor sections, **Candidate …** lists, full or pared class boxes. Slice files are **content only** — no skill paths or process meta in the artifact body.
+
+**Phase 3 — bucket roll-up:** sort candidates into **entities**, **value objects**, **processes**, **policies**, **roles**, **events** (tables in **`raw-candidate-list.md`** or appended to **`domain-noun-verb.md`**). Same **content-only** rule: no skill/process boilerplate in slice files.
+
+**Optional — `domain-raw-candidates.md`:** same Phase 3 content as **classes under anchor modules** (`### Name : << Entity >>` / `<< ValueObject >>` / `<< Process >>` / …), notes below — **not** a second copy of bucket tables. Cross-cutting material → **`## Cross-anchor`** or appendix. **`templates/domain-raw-candidates-template.md`**.
 
 ---
 
@@ -380,7 +386,7 @@ From **Step 5** onward, prefer **typed** members (see **Notation evolution** bel
 
 ## **newly added** tag
 
-In the **worked example** threads (e.g. payments), the marker **`**newly added**`** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
+In the **worked example** threads (e.g. payments), the marker **newly added** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
 
 ---
 
@@ -388,7 +394,7 @@ In the **worked example** threads (e.g. payments), the marker **`**newly added**
 
 | Phase | Markdown style |
 |--------|------------------|
-| **Steps 1–4** | Informal: bullets, short phrases, responsibilities, candidate names. **No** required `- <type> property` lines yet. |
+| **Steps 1–4** | Informal: bullets, short phrases, responsibilities, candidate names; typed `- <type> property` lines arrive in Step 5. |
 | **Step 5+** | Formal typed members: `- <Type> propertyName`, `operationName(...) → ReturnType`. |
 
 ---
@@ -2284,7 +2290,13 @@ For module framing (core class, dashed frame, fields vs supporting classes), dia
 
 # Domain model Markdown
 
-This skill’s **domain model** is captured in Markdown (and optionally a parallel **Draw.io** class diagram). Use the checked-in **`templates/domain model template.md`** when starting a new companion doc; keep the same semantics as **`templates/domain model template.drawio`** when both exist.
+This skill’s **domain model** is captured in Markdown  a parallel **Draw.io** class diagram. Use **`templates/domain model template.md`** for companion docs; align with **`templates/domain model template.drawio`** when both exist.
+
+**Phase 2 — `domain-noun-verb.md`:** anchor sections, **Candidate …** lists, full or pared class boxes. Slice files are **content only** — no skill paths or process meta in the artifact body.
+
+**Phase 3 — bucket roll-up:** sort candidates into **entities**, **value objects**, **processes**, **policies**, **roles**, **events** (tables in **`raw-candidate-list.md`** or appended to **`domain-noun-verb.md`**). Same **content-only** rule: no skill/process boilerplate in slice files.
+
+**Optional — `domain-raw-candidates.md`:** same Phase 3 content as **classes under anchor modules** (`### Name : << Entity >>` / `<< ValueObject >>` / `<< Process >>` / …), notes below — **not** a second copy of bucket tables. Cross-cutting material → **`## Cross-anchor`** or appendix. **`templates/domain-raw-candidates-template.md`**.
 
 ---
 
@@ -2317,7 +2329,7 @@ From **Step 5** onward, prefer **typed** members (see **Notation evolution** bel
 
 ## **newly added** tag
 
-In the **worked example** threads (e.g. payments), the marker **`**newly added**`** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
+In the **worked example** threads (e.g. payments), the marker **newly added** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
 
 ---
 
@@ -2325,7 +2337,7 @@ In the **worked example** threads (e.g. payments), the marker **`**newly added**
 
 | Phase | Markdown style |
 |--------|------------------|
-| **Steps 1–4** | Informal: bullets, short phrases, responsibilities, candidate names. **No** required `- <type> property` lines yet. |
+| **Steps 1–4** | Informal: bullets, short phrases, responsibilities, candidate names; typed `- <type> property` lines arrive in Step 5. |
 | **Step 5+** | Formal typed members: `- <Type> propertyName`, `operationName(...) → ReturnType`. |
 
 ---
@@ -4130,9 +4142,46 @@ You are the **domain modeler and OOAD practitioner** using this skill: you provi
 
 **Skill:** abd-ooad — matches **Step 1: Read for nouns, verbs, rules, and states** in `SKILL.md`.
 
-At this stage we do **not** decide which nouns become classes — only mark candidates and tensions.
+**What you produce:** **domain-noun-verb.md** on disk (one per source slice): structured extraction by anchor — one **## [AnchorName module]** per backbone anchor; **Candidate …** lists; **full** class boxes (`+` / **opt** / **Invariant:**) or pared **`### … : << … >>`** where the source supports it; **#### Note :** when useful.
+
+Use **## Cross-anchor notes** for unsettled or cross-cutting hooks. The slice file is **domain content only** — do not paste skill paths, template filenames, or process-only labels into the artifact.
+
+**Focus here:** candidates and tensions; which nouns become classes is decided in later steps.
 
 For the full anchor definition and the three-part anchor test — see `anchors` in this library.
+
+---
+
+## Phase 2 deliverable — `domain-noun-verb.md` (normative)
+
+**One file per slice:** **domain-noun-verb.md** in the **slice folder** (e.g. `abd-ooad/1 - basics-checks-conditions/`). Canonical Phase 2 extraction for that slice.
+
+| Item | Rule |
+|------|------|
+| **Path** | `<workspace>/<slice-folder>/domain-noun-verb.md` |
+| **H1** | `# <SliceLabel>: Noun Verb Domain` — **SliceLabel** from the slice plan or folder slug. |
+| **Structure** | Per anchor: **## [Anchor module]** → **### Note :** → **Candidate …** lists → class boxes (**full** `+` / **opt** / **Invariant:** or pared **`### … : << … >>`**). Optional **## Cross-anchor notes**. |
+| **Artifact body** | Domain content only — no skill paths, template filenames, or process meta in the file. |
+| **Elsewhere** | Methodology and plans stay in **strategy.md** / **term-registry.md** / phase docs — not in the slice artifact. |
+| **Phase 3 in the same file** | Optional: append bucket roll-up, watch list, and tensions to **domain-noun-verb.md** (see **raw-candidate-list** phase) instead of a second markdown file. |
+
+
+Align **term-registry.md** **Anchor** cells (`S1=<heading>`) with the **`## [… module]`** headings in **domain-noun-verb.md**.
+
+
+| Artifact                                 | Role                                                                                                                                                  |
+| ---------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **term-registry.md**                   | SCAN **type** decisions: Classification, Confidence, Status, Notes — sparse.                                                                          |
+| **domain-noun-verb.md** (slice folder) | Phase 2 **evidence**: candidates and **full** class boxes **by anchor** (pared-down only in Cross-anchor / boundary notes), structured as above. |
+
+
+**Anchor column** (single cell per term in the registry table) — one code cell per term, **slice-keyed**:
+
+- **S1=<heading>** — primary anchor where this term is evidenced in **slice 1**, matching the **## [… module]** label in **domain-noun-verb.md** (e.g. `Character`, `Check`). Use **S1=—** if no hook in slice 1.
+- **Optional suffix** on the same `S1=` value when evidence is thin: **(partial)**, **(gaps)**, or **Character+Effect** when the text spans anchors.
+- **S2=…** — add when slice 2 exists; keep **`S2=—`** out of the registry until slice 2 is in play.
+
+**Traceability:** the registry states **what** you claim; **domain-noun-verb.md** holds **what the source said**. Rows should be defensible from `S1=` (and later `S2=`) where not `—`.
 
 ---
 
@@ -4144,42 +4193,15 @@ Step 1 is the first time anchors are tested by the full vocabulary of the source
 - **Evidence that challenges an anchor** — a term that is referenced independently by multiple other concepts, suggesting it may need to be elevated to its own anchor
 - **Evidence that an anchor should be split** — the core class is doing two different things and the nouns in this pass separate cleanly into two groups
 
-Do not restructure anchors mid-step. Record any anchor boundary questions in the term registry (`Status: Ambiguous`, note the challenge). Evaluate at the `candidate-list` (CANDS) step.
+Keep the anchor set stable for this step. Record boundary questions in the term registry (`Status: Ambiguous`, note the challenge); resolve at **`candidate-list` (CANDS)**.
 
 **At the end of Step 1, re-apply the anchor test** (from `anchors.md`) to any anchor whose boundary was challenged. Promote, demote, or split if the test now fails. Update the term registry and diagram accordingly before proceeding.
 
 ---
 
-## Term registry ↔ slice mapping (`Anchor` column)
-
-**Where Phase 2 output goes (insert order)** — align with **domain-scan**: noun–verb material belongs in the **slice** area first, not only at workspace root.
-
-| Location | Artifact | Role |
-|----------|----------|------|
-| **Slice folder** (e.g. `…/1 - basics-checks-conditions/` for S1) | **`domain-verb-noun-manual.md`** (name may vary) | **Primary domain model** for Phase 2: `## [… module]`, scan blocks, **`### Note :`** sections for candidate nouns / verbs / rules / states under the correct anchor. **Insert new SCAN content here** in the right module and note block. |
-| **Same slice folder** | **`nouns-verbs.md`** (optional but common) | Flat extraction by anchor heading (`## \`Character\``, …) for verbatim evidence; can feed Appendix A of the manual. |
-| **`abd-ooad/`** (workspace) | **`domain-noun-verb.md`** | **Optional rollup** — same structure as the slice manual, for browsing from repo root; **mirror or copy from the slice file** after editing the slice. Do **not** treat this as the only place to insert when a slice folder exists. |
-
-After (or while) you produce **domain noun–verb** extraction per **slice**, align each **`term-registry.md`** row with the evidence files above.
-
-| Artifact | Role |
-|----------|------|
-| **`term-registry.md`** | SCAN **type** decisions: Classification, Confidence, Status, Notes — sparse. |
-| **Slice `domain-verb-noun-manual.md` (+ optional `nouns-verbs.md`)** | Phase-2 **evidence** in the **slice**: candidates grouped **by anchor** (same headings as `strategy.md`), either as a **structured manual** or a **flat** file. |
-
-**`Anchor` column (single HTML column in the registry table)** — one code cell per term, **slice-keyed**:
-
-- **`S1=<heading>`** — primary anchor where this term is evidenced in **slice 1**, usually the same label in **`nouns-verbs.md`** (`Character`, `Check`, `Condition`, `Effect`, …) **or** the matching **`## [Character module]`** (etc.) in the slice’s **`domain-verb-noun-manual.md`**. Use **`S1=—`** if that term has **no** hook in slice 1.
-- **Optional suffix** on the same `S1=` value when evidence is thin: **`(partial)`**, **`(gaps)`**, or combine anchors as **`Character+Effect`** when the text really spans both.
-- **`S2=…`** — add **only when slice 2 exists** (second slice’s folder and files). Same pattern, e.g. `S1=Character; S2=Check` in one cell, or keep `S1=…` only until S2 is done. **Do not** add empty `S2=—` placeholders before slice 2.
-
-**Traceability:** registry states **what** you claim; each slice’s **manual** (and/or **`nouns-verbs.md`**) holds **what the source said**. Rows should be defensible from `S1=` (and later `S2=`) where not `—`.
-
----
-
 ## Worked example — payments spec
 
-> **Continual refinement:** This payments example uses the same "grow the model as you go" approach described in **[Domain model Markdown](content/parts/library/domain-model.md)**. **Tag:** **newly added** means this property or operation line appears for the **first time** in *this* step's file (so you can see the delta from the previous step). **Notation:** Steps 1–4 stay informal—bullets and prose only. Typed members start at **Step 5** (`- <type> property`, `operation(...) → return`).
+> **Continual refinement:** Fictional payments thread. **newly added** = line first appears in this step’s file. Steps 1–4 stay informal; typed members start later.
 
 ---
 
@@ -4293,7 +4315,7 @@ Append (audit), measure (p95 initiate).
 ### Rules
 
 - Every PaymentIntent (or Session) state transition → append-only audit with actor.
-- p95 initiate &lt; 300ms excluding network — **measurement point undefined.**
+- p95 initiate < 300ms excluding network — **measurement point undefined.**
 
 ### States
 
@@ -4328,19 +4350,20 @@ Own (dispute), remove, hide (field).
 
 ## Continual refinement (this step)
 
-- **Delta:** **pre-notation** — nouns, verbs, rules, states, tensions extracted from spec; no **`- <type> property`** lines yet (aligns with **Terms & mechanisms** / **shaped story map** in [Domain model Markdown](content/parts/library/domain-model.md).
+- **Delta:** **pre-notation** — nouns, verbs, rules, states, tensions; typed members in later steps.
 
 ---
 
 ## Action Checklist
 
-- [ ] Have you extracted candidate nouns from every major section of the source material?
-- [ ] Have you extracted domain verbs (actions, operations, state changes)?
-- [ ] Have you identified at least three domain rules or constraints?
-- [ ] Have you recorded lifecycle states for at least the key candidate classes?
-- [ ] Have you noted synonyms, naming conflicts, and scope boundary noise for later steps?
-- [ ] Have you updated the term registry with all new terms found in this step?
-- [ ] Have you set each row’s **`Anchor`** cell (`S1=…`; add **`S2=…`** only after slice 2 exists) to point at the right **slice** anchor (in **`nouns-verbs.md`** and/or the slice **`domain-verb-noun-manual.md`**)?
+- Have you created **domain-noun-verb.md** in the slice folder with H1 `# <SliceLabel>: Noun Verb Domain`, anchors, Candidate lists, and class boxes — with methodology outside the slice file?
+- Have you extracted candidate nouns from every major section of the source material?
+- Have you extracted domain verbs (actions, operations, state changes)?
+- Have you identified at least three domain rules or constraints?
+- Have you recorded lifecycle states for at least the key candidate classes?
+- Have you noted synonyms, naming conflicts, and scope boundary noise for later steps?
+- Have you updated the term registry with all new terms found in this step?
+- Have you set each row’s **Anchor** cell (`S1=…`; add **S2=…** only after slice 2 exists) to point at the right **slice** anchor in the slice’s **domain-noun-verb.md**?
 
 ---
 
@@ -4361,7 +4384,13 @@ Own (dispute), remove, hide (field).
 
 # Domain model Markdown
 
-This skill’s **domain model** is captured in Markdown (and optionally a parallel **Draw.io** class diagram). Use the checked-in **`templates/domain model template.md`** when starting a new companion doc; keep the same semantics as **`templates/domain model template.drawio`** when both exist.
+This skill’s **domain model** is captured in Markdown  a parallel **Draw.io** class diagram. Use **`templates/domain model template.md`** for companion docs; align with **`templates/domain model template.drawio`** when both exist.
+
+**Phase 2 — `domain-noun-verb.md`:** anchor sections, **Candidate …** lists, full or pared class boxes. Slice files are **content only** — no skill paths or process meta in the artifact body.
+
+**Phase 3 — bucket roll-up:** sort candidates into **entities**, **value objects**, **processes**, **policies**, **roles**, **events** (tables in **`raw-candidate-list.md`** or appended to **`domain-noun-verb.md`**). Same **content-only** rule: no skill/process boilerplate in slice files.
+
+**Optional — `domain-raw-candidates.md`:** same Phase 3 content as **classes under anchor modules** (`### Name : << Entity >>` / `<< ValueObject >>` / `<< Process >>` / …), notes below — **not** a second copy of bucket tables. Cross-cutting material → **`## Cross-anchor`** or appendix. **`templates/domain-raw-candidates-template.md`**.
 
 ---
 
@@ -4394,7 +4423,7 @@ From **Step 5** onward, prefer **typed** members (see **Notation evolution** bel
 
 ## **newly added** tag
 
-In the **worked example** threads (e.g. payments), the marker **`**newly added**`** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
+In the **worked example** threads (e.g. payments), the marker **newly added** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
 
 ---
 
@@ -4402,7 +4431,7 @@ In the **worked example** threads (e.g. payments), the marker **`**newly added**
 
 | Phase | Markdown style |
 |--------|------------------|
-| **Steps 1–4** | Informal: bullets, short phrases, responsibilities, candidate names. **No** required `- <type> property` lines yet. |
+| **Steps 1–4** | Informal: bullets, short phrases, responsibilities, candidate names; typed `- <type> property` lines arrive in Step 5. |
 | **Step 5+** | Formal typed members: `- <Type> propertyName`, `operationName(...) → ReturnType`. |
 
 ---
@@ -6146,57 +6175,75 @@ You are the **domain modeler and OOAD practitioner** using this skill: you provi
 
 ## Phase
 
-# Raw candidate list — payments example
+# Raw candidate list
 
-**Skill:** abd-ooad — matches **Step 2: Build a raw candidate list** in `SKILL.md`.
+**Skill:** abd-ooad — Phase 3.
 
-**Upstream:** `nouns-verbs-rules-and-states.md` (Step 1) and `garbled-payments-spec.md`.
+**What this phase does:** Sort vocabulary into **candidate kinds** — **entities**, **value objects**, **processes**, **policies**, **roles**, **events** — record **why** each candidate matters, early class smell, watch list, and tensions.
 
-This is still **loose**. Candidates may merge, split, or become attributes in later steps.
-
-> **Continual refinement:** Full notation is in **[Domain model Markdown](content/parts/library/domain-model.md)** (*Domain concept* template; class definition and diagram refined together). In this payments thread, **`**newly added**`** marks a property or operation line **first introduced in this step file** (Steps 1–4 stay pre-notation; formal `- <type> property` / `operation(...) → return` lines begin at Step 5).
+**Focus:** Separation and tensions. Value-object candidates may stay `<< ValueObject >>` / enum / struct until later phases.
 
 ---
 
-## Worked example — from nouns-verbs to this step
+## Deliverables — pick a shape (do not duplicate bucket tables twice)
 
-**Upstream:** Step 1 (`nouns-verbs-rules-and-states.md`) produces Phase-2 evidence **in the slice folder** — typically a **domain model** file (e.g. **`domain-verb-noun-manual.md`**) with noun–verb material in `### Note` blocks under each anchor module, plus often **`nouns-verbs.md`** for flat extraction. An optional **`domain-noun-verb.md`** at workspace `abd-ooad/` may mirror the slice. Step 2 **does not** paste those files wholesale; you **re-sort** the same terms into the buckets below (entities, value-like concepts, processes, policies, roles, events) and add **why** each row might matter.
+**Two views of the same Phase 3 work:**
 
-**Term registry:** As you promote terms to candidates here, keep **`Anchor`** in `term-registry.md` aligned: e.g. `S1=Check` for anything first evidenced under **Check** in slice 1’s **`nouns-verbs.md`** and/or **`domain-verb-noun-manual.md`** (see the **Term registry ↔ slice mapping** section in the nouns-verbs phase).
+1. **Bucket tables (tabular pass)** — **`raw-candidate-list.md`** *or* the same sections **appended** to **`domain-noun-verb.md`**. Use **`templates/raw-candidate-list-template.md`**. Tables group rows under: entities, value objects, processes, policies, roles, events (+ early “deserves a class?”, watch list, tensions).
+
+2. **Integrated class model (optional, separate file)** — **`domain-raw-candidates.md`**. Use **`templates/domain-raw-candidates-template.md`**. Here you **do not** repeat those bucket tables. Every candidate is a **`### Name : << Entity >>`** (or `<< ValueObject >>`, `<< Process >>`, `<< Policy >>`, `<< Role >>`, `<< Event >>`, or `<< >>`) under **`## [Anchor module]`**, with members and **`#### Note :`**. Material that does not fit one class goes in **`## Cross-anchor`** or **`## Appendix …`**.
+
+**Rule:** If both **`raw-candidate-list.md`** and **`domain-raw-candidates.md`** exist, the **tables live in one place only** (usually **`raw-candidate-list.md`**). The integrated file **links** to it if needed; it does **not** re-paste bucket tables (“Entities”, “Value objects”, …).
+
+**Artifact body:** Domain content only. **Do not** put **`Source:`** / **`Slice:`** / **`OOAD phase:`** / registry **`Step`** / **`Upstream:`** / **`Pre-notation:`** / **`Integrated model:`** boilerplate in slice files.
+
+---
+
+## Illustrative shape
+
+Re-sort **Candidate …** material from the slice’s Phase 2 file into the buckets used in the worked examples below.
 
 ### Mini excerpt (hypothetical “rules” slice — one anchor)
 
-Imagine one anchor section **Check** in the slice’s **`domain-verb-noun-manual.md`** (or the **`Check`** heading in **`nouns-verbs.md`**):
+Imagine one anchor section **Check** in the slice’s **domain-noun-verb.md**:
 
-| Kind | Extraction (illustrative) |
-| ---- | ------------------------- |
-| **Nouns** | Character, Check, DC, bonus, penalty, Condition, trait, die roll |
-| **Verbs** | roll, compare, apply, succeed, fail, stack |
+| Kind      | Extraction (illustrative)                                                                 |
+| --------- | ----------------------------------------------------------------------------------------- |
+| **Nouns** | Character, Check, DC, bonus, penalty, Condition, trait, die roll                          |
+| **Verbs** | roll, compare, apply, succeed, fail, stack                                                |
 | **Rules** | Compare total vs DC; some bonuses don’t stack; Conditions can impose advantage/disadvantage |
-| **States** | Check pending → resolved (success / failure / critical); Condition active vs cleared |
+| **States** | Check pending → resolved (success / failure / critical); Condition active vs cleared        |
 
 ### Roll-up into Step 2 buckets (same terms, new shape)
 
-| Step 1 term(s) | Likely Step 2 bucket | Notes |
-| -------------- | -------------------- | ----- |
-| Character, Check | **Core domain entities** | Durable “things” — may merge later (e.g. Check as operation vs aggregate). |
-| DC, bonus, penalty | **Value-like concepts** | Often numbers + rules; may become VO / struct / enum. |
-| “roll → compare → resolve” | **Processes or transactions** | End-to-end flow with a start/end. |
-| stacking, advantage/disadvantage | **Policies or rules** | Eligibility and modifiers — may stay policy objects or plain rules. |
-| player, GM (if in source) | **Roles** | Actors; may merge with user accounts later. |
-| “Check resolved”, Condition applied | **Events or records** | Audit / history if the product cares about replay. |
+| Step 1 term(s)                       | Likely Step 2 bucket   | Notes                                                                 |
+| ------------------------------------ | ---------------------- | --------------------------------------------------------------------- |
+| Character, Check                   | **Entities**           | Durable “things” — may merge later (e.g. Check as operation vs aggregate). |
+| DC, bonus, penalty                   | **Value objects**      | Often numbers + rules; may become VO / struct / enum.                 |
+| “roll → compare → resolve”           | **Processes**          | End-to-end flow with a start/end.                                     |
+| stacking, advantage/disadvantage     | **Policies**           | Eligibility and modifiers — may stay policy objects or plain rules.   |
+| player, GM (if in source)            | **Roles**              | Actors; may merge with user accounts later.                           |
+| “Check resolved”, Condition applied | **Events**             | Audit / history if the product cares about replay.                    |
 
-### What you add in Step 2 that Step 1 didn’t require
+### What you add in Step 2 that Step 1 did not require
 
-- **Separation** — entity vs value vs process vs policy (Step 1 only *marked* candidates).
-- **Tensions** — e.g. “Is **Check** a noun (object) or only a verb-shaped process?” — carry forward to `thing-vs-data-about-a-thing` / later steps.
+- **Separation** — entity vs value vs process vs policy (Step 1 *lists* candidates; Step 2 *sorts* them).
+- **Tensions** — e.g. “Is **Check** a noun (object) or only a verb-shaped process?” — carry forward to **thing-vs-data-about-a-thing** and later steps.
 - **Watch list** — terms that might collapse (e.g. “die roll” as part of Check, not its own class).
 
-Use the **payments** tables below as a full-size reference thread; use this mini example when your domain is not payments but you still need a **template** for nouns-verbs → raw candidate list.
+Use the **payments** tables below as a full-size reference thread; use this mini example when your domain is not payments but you still need a **shape** for nouns-verbs → raw candidate list.
 
 ---
 
-## Core domain entities (durable “things” in the problem space)
+## Worked example — payments spec
+
+> **Continual refinement:** Fictional payments thread. **newly added** = line first appears in this step’s file. Steps 1–4 stay informal; typed members start later.
+
+This thread still uses **garbled-payments-spec.md** as the fictional source alongside Step 1; it is **loose**. Candidates may merge, split, or become attributes in later steps.
+
+---
+
+## Entities (durable “things” in the problem space)
 
 
 | Candidate                             | Why it might be an entity                                                              |
@@ -6214,7 +6261,7 @@ Use the **payments** tables below as a full-size reference thread; use this mini
 
 ---
 
-## Value-like concepts (descriptive, may be VO / enum / struct)
+## Value objects (descriptive, may be VO / enum / struct)
 
 
 | Candidate                      | Notes                                                                          |
@@ -6233,7 +6280,7 @@ Use the **payments** tables below as a full-size reference thread; use this mini
 
 ---
 
-## Processes or transactions (flows with a start/end)
+## Processes (flows with a start/end)
 
 
 | Candidate                                          | Notes                                                                |
@@ -6248,7 +6295,7 @@ Use the **payments** tables below as a full-size reference thread; use this mini
 
 ---
 
-## Policies or rules (eligibility, gates, capabilities)
+## Policies (eligibility, gates, capabilities)
 
 
 | Candidate                        | Notes                                             |
@@ -6276,17 +6323,17 @@ Use the **payments** tables below as a full-size reference thread; use this mini
 | **Ops**      | Conflicting email on digital vs physical **emit** ordering.       |
 
 
-*(Roles may stay as actors only, or merge with user accounts — Step 3+.)*
+*(Roles may stay as actors only, or merge with user accounts — later steps.)*
 
 ---
 
-## Events or records (things that happened / audit)
+## Events (things that happened / audit)
 
 
 | Candidate                              | Notes                                                                                  |
 | -------------------------------------- | -------------------------------------------------------------------------------------- |
-| `**payment.settled`**                  | Domain event; consumers: warehouse, digital fulfillment.                               |
-| **Audit entry**                        | Append-only; actor `system` | `user` | `psp_webhook`; every intent/session transition. |
+| **`payment.settled`**                  | Domain event; consumers: warehouse, digital fulfillment.                             |
+| **Audit entry**                        | Append-only; actor `system` \| `user` \| `psp_webhook`; every intent/session transition. |
 | **Webhook payload** / **delivery log** | Billing wants stable shape for future subscriptions.                                   |
 | **Chargeback / dispute record**        | Reason codes on refund; lifecycle owner TBD.                                           |
 
@@ -6305,7 +6352,7 @@ Ask for each hot candidate:
 | PSP connector           | Yes — configured instance | Routes, capabilities   | Region, method                                       | **Likely**                           |
 | Receipt                 | Yes for customer          | Immutable snapshot?    | Payment, rates                                       | **Maybe**                            |
 | Failure mapping         | Cross-cutting             | Lookup                 | Failure kind → message + log code                    | **Policy** or **registry**           |
-| Cart / coupon           | Mentioned                 | **Cart team**          | **Boundary** — may be **external** to payments model | Integrate, don’t duplicate           |
+| Cart / coupon           | Mentioned                 | **Cart team**          | **Boundary** — may be **external** to payments model | Integrate at boundaries; avoid duplicating cart inside payments |
 
 
 ---
@@ -6319,7 +6366,7 @@ Ask for each hot candidate:
 
 ---
 
-## Tensions to carry into Step 3+
+## Tensions to carry into later steps
 
 1. **PaymentIntent vs Session** — rename to one aggregate or two bounded contexts?
 2. **Local** (currency vs legal entity) — one enum, two dimensions, or a **RoutingContext** value object?
@@ -6330,24 +6377,23 @@ Ask for each hot candidate:
 
 ## Continual refinement (this step)
 
-- **Delta:** **pre-notation** — candidate entities, value-ish things, policies, and watch-list; **`**newly added**`** not used on formal lines until Step 5.
+- **Delta:** **pre-notation** — candidate entities, value-ish things, policies, watch list; **newly added** tags informal lines; typed members arrive in later steps.
 
 ---
 
 ## Action Checklist
 
-- [ ] Have you rolled up Step 1 nouns-verbs (per slice / anchor) into this step’s buckets (entities, values, processes, policies, roles, events)?
-- [ ] Have you produced a raw candidate list with at least three entities and at least one value object?
-- [ ] Have you separated entities from value objects (mutability, identity)?
-- [ ] Have you flagged watch-list candidates (possible classes that need further evidence)?
-- [ ] Have you noted tensions from the candidate list to carry into Step 3+?
-- [ ] Have you updated the term registry with all candidate names?
+- Have you rolled vocabulary into buckets (entities, value objects, processes, policies, roles, events)?
+- Is that roll-up **appended to `domain-noun-verb.md`** *or* in a separate **`raw-candidate-list.md`** (not redundant copies without reason)?
+- Early class smell, watch list, and tensions recorded?
+- Have you separated entity-like vs value-object hypotheses where it matters?
+- Tensions noted for later phases?
 
 ---
 
 ## Prompt
 
-> **Validate and fix when you find problems.** This step may surface bloat, unclear boundaries, missing invariants, naming drift, spec conflicts, or other robustness gaps. When you notice any of that in your work, **validate** and **fix** the model (or **map-model-spec.json** / class diagram) **before** moving on; record **explicit debt** only when you cannot fix yet, with a clear follow-up.
+> When this step surfaces bloat, unclear boundaries, missing invariants, naming drift, or spec conflicts, **validate** and **fix** the model (or **map-model-spec.json** / class diagram) while you work; record **explicit debt** with a clear follow-up only when you cannot fix yet.
 
 
 ---
@@ -6362,7 +6408,13 @@ Ask for each hot candidate:
 
 # Domain model Markdown
 
-This skill’s **domain model** is captured in Markdown (and optionally a parallel **Draw.io** class diagram). Use the checked-in **`templates/domain model template.md`** when starting a new companion doc; keep the same semantics as **`templates/domain model template.drawio`** when both exist.
+This skill’s **domain model** is captured in Markdown  a parallel **Draw.io** class diagram. Use **`templates/domain model template.md`** for companion docs; align with **`templates/domain model template.drawio`** when both exist.
+
+**Phase 2 — `domain-noun-verb.md`:** anchor sections, **Candidate …** lists, full or pared class boxes. Slice files are **content only** — no skill paths or process meta in the artifact body.
+
+**Phase 3 — bucket roll-up:** sort candidates into **entities**, **value objects**, **processes**, **policies**, **roles**, **events** (tables in **`raw-candidate-list.md`** or appended to **`domain-noun-verb.md`**). Same **content-only** rule: no skill/process boilerplate in slice files.
+
+**Optional — `domain-raw-candidates.md`:** same Phase 3 content as **classes under anchor modules** (`### Name : << Entity >>` / `<< ValueObject >>` / `<< Process >>` / …), notes below — **not** a second copy of bucket tables. Cross-cutting material → **`## Cross-anchor`** or appendix. **`templates/domain-raw-candidates-template.md`**.
 
 ---
 
@@ -6395,7 +6447,7 @@ From **Step 5** onward, prefer **typed** members (see **Notation evolution** bel
 
 ## **newly added** tag
 
-In the **worked example** threads (e.g. payments), the marker **`**newly added**`** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
+In the **worked example** threads (e.g. payments), the marker **newly added** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
 
 ---
 
@@ -6403,7 +6455,7 @@ In the **worked example** threads (e.g. payments), the marker **`**newly added**
 
 | Phase | Markdown style |
 |--------|------------------|
-| **Steps 1–4** | Informal: bullets, short phrases, responsibilities, candidate names. **No** required `- <type> property` lines yet. |
+| **Steps 1–4** | Informal: bullets, short phrases, responsibilities, candidate names; typed `- <type> property` lines arrive in Step 5. |
 | **Step 5+** | Formal typed members: `- <Type> propertyName`, `operationName(...) → ReturnType`. |
 
 ---
@@ -8325,7 +8377,13 @@ Next: assign **what each remaining aggregate/VO/policy owns** before naming oper
 
 # Domain model Markdown
 
-This skill’s **domain model** is captured in Markdown (and optionally a parallel **Draw.io** class diagram). Use the checked-in **`templates/domain model template.md`** when starting a new companion doc; keep the same semantics as **`templates/domain model template.drawio`** when both exist.
+This skill’s **domain model** is captured in Markdown  a parallel **Draw.io** class diagram. Use **`templates/domain model template.md`** for companion docs; align with **`templates/domain model template.drawio`** when both exist.
+
+**Phase 2 — `domain-noun-verb.md`:** anchor sections, **Candidate …** lists, full or pared class boxes. Slice files are **content only** — no skill paths or process meta in the artifact body.
+
+**Phase 3 — bucket roll-up:** sort candidates into **entities**, **value objects**, **processes**, **policies**, **roles**, **events** (tables in **`raw-candidate-list.md`** or appended to **`domain-noun-verb.md`**). Same **content-only** rule: no skill/process boilerplate in slice files.
+
+**Optional — `domain-raw-candidates.md`:** same Phase 3 content as **classes under anchor modules** (`### Name : << Entity >>` / `<< ValueObject >>` / `<< Process >>` / …), notes below — **not** a second copy of bucket tables. Cross-cutting material → **`## Cross-anchor`** or appendix. **`templates/domain-raw-candidates-template.md`**.
 
 ---
 
@@ -8358,7 +8416,7 @@ From **Step 5** onward, prefer **typed** members (see **Notation evolution** bel
 
 ## **newly added** tag
 
-In the **worked example** threads (e.g. payments), the marker **`**newly added**`** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
+In the **worked example** threads (e.g. payments), the marker **newly added** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
 
 ---
 
@@ -8366,7 +8424,7 @@ In the **worked example** threads (e.g. payments), the marker **`**newly added**
 
 | Phase | Markdown style |
 |--------|------------------|
-| **Steps 1–4** | Informal: bullets, short phrases, responsibilities, candidate names. **No** required `- <type> property` lines yet. |
+| **Steps 1–4** | Informal: bullets, short phrases, responsibilities, candidate names; typed `- <type> property` lines arrive in Step 5. |
 | **Step 5+** | Formal typed members: `- <Type> propertyName`, `operationName(...) → ReturnType`. |
 
 ---
@@ -10257,7 +10315,13 @@ Next: list **properties per aggregate/entity** using **semantic tightness** — 
 
 # Domain model Markdown
 
-This skill’s **domain model** is captured in Markdown (and optionally a parallel **Draw.io** class diagram). Use the checked-in **`templates/domain model template.md`** when starting a new companion doc; keep the same semantics as **`templates/domain model template.drawio`** when both exist.
+This skill’s **domain model** is captured in Markdown  a parallel **Draw.io** class diagram. Use **`templates/domain model template.md`** for companion docs; align with **`templates/domain model template.drawio`** when both exist.
+
+**Phase 2 — `domain-noun-verb.md`:** anchor sections, **Candidate …** lists, full or pared class boxes. Slice files are **content only** — no skill paths or process meta in the artifact body.
+
+**Phase 3 — bucket roll-up:** sort candidates into **entities**, **value objects**, **processes**, **policies**, **roles**, **events** (tables in **`raw-candidate-list.md`** or appended to **`domain-noun-verb.md`**). Same **content-only** rule: no skill/process boilerplate in slice files.
+
+**Optional — `domain-raw-candidates.md`:** same Phase 3 content as **classes under anchor modules** (`### Name : << Entity >>` / `<< ValueObject >>` / `<< Process >>` / …), notes below — **not** a second copy of bucket tables. Cross-cutting material → **`## Cross-anchor`** or appendix. **`templates/domain-raw-candidates-template.md`**.
 
 ---
 
@@ -10290,7 +10354,7 @@ From **Step 5** onward, prefer **typed** members (see **Notation evolution** bel
 
 ## **newly added** tag
 
-In the **worked example** threads (e.g. payments), the marker **`**newly added**`** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
+In the **worked example** threads (e.g. payments), the marker **newly added** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
 
 ---
 
@@ -10298,7 +10362,7 @@ In the **worked example** threads (e.g. payments), the marker **`**newly added**
 
 | Phase | Markdown style |
 |--------|------------------|
-| **Steps 1–4** | Informal: bullets, short phrases, responsibilities, candidate names. **No** required `- <type> property` lines yet. |
+| **Steps 1–4** | Informal: bullets, short phrases, responsibilities, candidate names; typed `- <type> property` lines arrive in Step 5. |
 | **Step 5+** | Formal typed members: `- <Type> propertyName`, `operationName(...) → ReturnType`. |
 
 ---
@@ -12278,7 +12342,13 @@ Next: map **verbs** from Step 1 and spec to **operations** on **Payment**, **Ref
 
 # Domain model Markdown
 
-This skill’s **domain model** is captured in Markdown (and optionally a parallel **Draw.io** class diagram). Use the checked-in **`templates/domain model template.md`** when starting a new companion doc; keep the same semantics as **`templates/domain model template.drawio`** when both exist.
+This skill’s **domain model** is captured in Markdown  a parallel **Draw.io** class diagram. Use **`templates/domain model template.md`** for companion docs; align with **`templates/domain model template.drawio`** when both exist.
+
+**Phase 2 — `domain-noun-verb.md`:** anchor sections, **Candidate …** lists, full or pared class boxes. Slice files are **content only** — no skill paths or process meta in the artifact body.
+
+**Phase 3 — bucket roll-up:** sort candidates into **entities**, **value objects**, **processes**, **policies**, **roles**, **events** (tables in **`raw-candidate-list.md`** or appended to **`domain-noun-verb.md`**). Same **content-only** rule: no skill/process boilerplate in slice files.
+
+**Optional — `domain-raw-candidates.md`:** same Phase 3 content as **classes under anchor modules** (`### Name : << Entity >>` / `<< ValueObject >>` / `<< Process >>` / …), notes below — **not** a second copy of bucket tables. Cross-cutting material → **`## Cross-anchor`** or appendix. **`templates/domain-raw-candidates-template.md`**.
 
 ---
 
@@ -12311,7 +12381,7 @@ From **Step 5** onward, prefer **typed** members (see **Notation evolution** bel
 
 ## **newly added** tag
 
-In the **worked example** threads (e.g. payments), the marker **`**newly added**`** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
+In the **worked example** threads (e.g. payments), the marker **newly added** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
 
 ---
 
@@ -12319,7 +12389,7 @@ In the **worked example** threads (e.g. payments), the marker **`**newly added**
 
 | Phase | Markdown style |
 |--------|------------------|
-| **Steps 1–4** | Informal: bullets, short phrases, responsibilities, candidate names. **No** required `- <type> property` lines yet. |
+| **Steps 1–4** | Informal: bullets, short phrases, responsibilities, candidate names; typed `- <type> property` lines arrive in Step 5. |
 | **Step 5+** | Formal typed members: `- <Type> propertyName`, `operationName(...) → ReturnType`. |
 
 ---
@@ -14183,7 +14253,13 @@ Add **relationships and cardinality** between Payment, Refund, Order (ref), exte
 
 # Domain model Markdown
 
-This skill’s **domain model** is captured in Markdown (and optionally a parallel **Draw.io** class diagram). Use the checked-in **`templates/domain model template.md`** when starting a new companion doc; keep the same semantics as **`templates/domain model template.drawio`** when both exist.
+This skill’s **domain model** is captured in Markdown  a parallel **Draw.io** class diagram. Use **`templates/domain model template.md`** for companion docs; align with **`templates/domain model template.drawio`** when both exist.
+
+**Phase 2 — `domain-noun-verb.md`:** anchor sections, **Candidate …** lists, full or pared class boxes. Slice files are **content only** — no skill paths or process meta in the artifact body.
+
+**Phase 3 — bucket roll-up:** sort candidates into **entities**, **value objects**, **processes**, **policies**, **roles**, **events** (tables in **`raw-candidate-list.md`** or appended to **`domain-noun-verb.md`**). Same **content-only** rule: no skill/process boilerplate in slice files.
+
+**Optional — `domain-raw-candidates.md`:** same Phase 3 content as **classes under anchor modules** (`### Name : << Entity >>` / `<< ValueObject >>` / `<< Process >>` / …), notes below — **not** a second copy of bucket tables. Cross-cutting material → **`## Cross-anchor`** or appendix. **`templates/domain-raw-candidates-template.md`**.
 
 ---
 
@@ -14216,7 +14292,7 @@ From **Step 5** onward, prefer **typed** members (see **Notation evolution** bel
 
 ## **newly added** tag
 
-In the **worked example** threads (e.g. payments), the marker **`**newly added**`** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
+In the **worked example** threads (e.g. payments), the marker **newly added** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
 
 ---
 
@@ -14224,7 +14300,7 @@ In the **worked example** threads (e.g. payments), the marker **`**newly added**
 
 | Phase | Markdown style |
 |--------|------------------|
-| **Steps 1–4** | Informal: bullets, short phrases, responsibilities, candidate names. **No** required `- <type> property` lines yet. |
+| **Steps 1–4** | Informal: bullets, short phrases, responsibilities, candidate names; typed `- <type> property` lines arrive in Step 5. |
 | **Step 5+** | Formal typed members: `- <Type> propertyName`, `operationName(...) → ReturnType`. |
 
 ---
@@ -16063,7 +16139,13 @@ Encode **invariants** on **Payment** / **Refund** operations (sanctions, partial
 
 # Domain model Markdown
 
-This skill’s **domain model** is captured in Markdown (and optionally a parallel **Draw.io** class diagram). Use the checked-in **`templates/domain model template.md`** when starting a new companion doc; keep the same semantics as **`templates/domain model template.drawio`** when both exist.
+This skill’s **domain model** is captured in Markdown  a parallel **Draw.io** class diagram. Use **`templates/domain model template.md`** for companion docs; align with **`templates/domain model template.drawio`** when both exist.
+
+**Phase 2 — `domain-noun-verb.md`:** anchor sections, **Candidate …** lists, full or pared class boxes. Slice files are **content only** — no skill paths or process meta in the artifact body.
+
+**Phase 3 — bucket roll-up:** sort candidates into **entities**, **value objects**, **processes**, **policies**, **roles**, **events** (tables in **`raw-candidate-list.md`** or appended to **`domain-noun-verb.md`**). Same **content-only** rule: no skill/process boilerplate in slice files.
+
+**Optional — `domain-raw-candidates.md`:** same Phase 3 content as **classes under anchor modules** (`### Name : << Entity >>` / `<< ValueObject >>` / `<< Process >>` / …), notes below — **not** a second copy of bucket tables. Cross-cutting material → **`## Cross-anchor`** or appendix. **`templates/domain-raw-candidates-template.md`**.
 
 ---
 
@@ -16096,7 +16178,7 @@ From **Step 5** onward, prefer **typed** members (see **Notation evolution** bel
 
 ## **newly added** tag
 
-In the **worked example** threads (e.g. payments), the marker **`**newly added**`** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
+In the **worked example** threads (e.g. payments), the marker **newly added** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
 
 ---
 
@@ -16104,7 +16186,7 @@ In the **worked example** threads (e.g. payments), the marker **`**newly added**
 
 | Phase | Markdown style |
 |--------|------------------|
-| **Steps 1–4** | Informal: bullets, short phrases, responsibilities, candidate names. **No** required `- <type> property` lines yet. |
+| **Steps 1–4** | Informal: bullets, short phrases, responsibilities, candidate names; typed `- <type> property` lines arrive in Step 5. |
 | **Step 5+** | Formal typed members: `- <Type> propertyName`, `operationName(...) → ReturnType`. |
 
 ---
@@ -17925,7 +18007,13 @@ Watch **Payment** for bloat as more rules arrive — split policies if needed.
 
 # Domain model Markdown
 
-This skill’s **domain model** is captured in Markdown (and optionally a parallel **Draw.io** class diagram). Use the checked-in **`templates/domain model template.md`** when starting a new companion doc; keep the same semantics as **`templates/domain model template.drawio`** when both exist.
+This skill’s **domain model** is captured in Markdown  a parallel **Draw.io** class diagram. Use **`templates/domain model template.md`** for companion docs; align with **`templates/domain model template.drawio`** when both exist.
+
+**Phase 2 — `domain-noun-verb.md`:** anchor sections, **Candidate …** lists, full or pared class boxes. Slice files are **content only** — no skill paths or process meta in the artifact body.
+
+**Phase 3 — bucket roll-up:** sort candidates into **entities**, **value objects**, **processes**, **policies**, **roles**, **events** (tables in **`raw-candidate-list.md`** or appended to **`domain-noun-verb.md`**). Same **content-only** rule: no skill/process boilerplate in slice files.
+
+**Optional — `domain-raw-candidates.md`:** same Phase 3 content as **classes under anchor modules** (`### Name : << Entity >>` / `<< ValueObject >>` / `<< Process >>` / …), notes below — **not** a second copy of bucket tables. Cross-cutting material → **`## Cross-anchor`** or appendix. **`templates/domain-raw-candidates-template.md`**.
 
 ---
 
@@ -17958,7 +18046,7 @@ From **Step 5** onward, prefer **typed** members (see **Notation evolution** bel
 
 ## **newly added** tag
 
-In the **worked example** threads (e.g. payments), the marker **`**newly added**`** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
+In the **worked example** threads (e.g. payments), the marker **newly added** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
 
 ---
 
@@ -17966,7 +18054,7 @@ In the **worked example** threads (e.g. payments), the marker **`**newly added**
 
 | Phase | Markdown style |
 |--------|------------------|
-| **Steps 1–4** | Informal: bullets, short phrases, responsibilities, candidate names. **No** required `- <type> property` lines yet. |
+| **Steps 1–4** | Informal: bullets, short phrases, responsibilities, candidate names; typed `- <type> property` lines arrive in Step 5. |
 | **Step 5+** | Formal typed members: `- <Type> propertyName`, `operationName(...) → ReturnType`. |
 
 ---
@@ -19783,7 +19871,13 @@ Ask whether **“user”** / **payer** / **admin** are one abstraction or **smas
 
 # Domain model Markdown
 
-This skill’s **domain model** is captured in Markdown (and optionally a parallel **Draw.io** class diagram). Use the checked-in **`templates/domain model template.md`** when starting a new companion doc; keep the same semantics as **`templates/domain model template.drawio`** when both exist.
+This skill’s **domain model** is captured in Markdown  a parallel **Draw.io** class diagram. Use **`templates/domain model template.md`** for companion docs; align with **`templates/domain model template.drawio`** when both exist.
+
+**Phase 2 — `domain-noun-verb.md`:** anchor sections, **Candidate …** lists, full or pared class boxes. Slice files are **content only** — no skill paths or process meta in the artifact body.
+
+**Phase 3 — bucket roll-up:** sort candidates into **entities**, **value objects**, **processes**, **policies**, **roles**, **events** (tables in **`raw-candidate-list.md`** or appended to **`domain-noun-verb.md`**). Same **content-only** rule: no skill/process boilerplate in slice files.
+
+**Optional — `domain-raw-candidates.md`:** same Phase 3 content as **classes under anchor modules** (`### Name : << Entity >>` / `<< ValueObject >>` / `<< Process >>` / …), notes below — **not** a second copy of bucket tables. Cross-cutting material → **`## Cross-anchor`** or appendix. **`templates/domain-raw-candidates-template.md`**.
 
 ---
 
@@ -19816,7 +19910,7 @@ From **Step 5** onward, prefer **typed** members (see **Notation evolution** bel
 
 ## **newly added** tag
 
-In the **worked example** threads (e.g. payments), the marker **`**newly added**`** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
+In the **worked example** threads (e.g. payments), the marker **newly added** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
 
 ---
 
@@ -19824,7 +19918,7 @@ In the **worked example** threads (e.g. payments), the marker **`**newly added**
 
 | Phase | Markdown style |
 |--------|------------------|
-| **Steps 1–4** | Informal: bullets, short phrases, responsibilities, candidate names. **No** required `- <type> property` lines yet. |
+| **Steps 1–4** | Informal: bullets, short phrases, responsibilities, candidate names; typed `- <type> property` lines arrive in Step 5. |
 | **Step 5+** | Formal typed members: `- <Type> propertyName`, `operationName(...) → ReturnType`. |
 
 ---
@@ -21639,7 +21733,13 @@ Use **inheritance** only if **PaymentMethod** subtypes share substitutable **aut
 
 # Domain model Markdown
 
-This skill’s **domain model** is captured in Markdown (and optionally a parallel **Draw.io** class diagram). Use the checked-in **`templates/domain model template.md`** when starting a new companion doc; keep the same semantics as **`templates/domain model template.drawio`** when both exist.
+This skill’s **domain model** is captured in Markdown  a parallel **Draw.io** class diagram. Use **`templates/domain model template.md`** for companion docs; align with **`templates/domain model template.drawio`** when both exist.
+
+**Phase 2 — `domain-noun-verb.md`:** anchor sections, **Candidate …** lists, full or pared class boxes. Slice files are **content only** — no skill paths or process meta in the artifact body.
+
+**Phase 3 — bucket roll-up:** sort candidates into **entities**, **value objects**, **processes**, **policies**, **roles**, **events** (tables in **`raw-candidate-list.md`** or appended to **`domain-noun-verb.md`**). Same **content-only** rule: no skill/process boilerplate in slice files.
+
+**Optional — `domain-raw-candidates.md`:** same Phase 3 content as **classes under anchor modules** (`### Name : << Entity >>` / `<< ValueObject >>` / `<< Process >>` / …), notes below — **not** a second copy of bucket tables. Cross-cutting material → **`## Cross-anchor`** or appendix. **`templates/domain-raw-candidates-template.md`**.
 
 ---
 
@@ -21672,7 +21772,7 @@ From **Step 5** onward, prefer **typed** members (see **Notation evolution** bel
 
 ## **newly added** tag
 
-In the **worked example** threads (e.g. payments), the marker **`**newly added**`** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
+In the **worked example** threads (e.g. payments), the marker **newly added** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
 
 ---
 
@@ -21680,7 +21780,7 @@ In the **worked example** threads (e.g. payments), the marker **`**newly added**
 
 | Phase | Markdown style |
 |--------|------------------|
-| **Steps 1–4** | Informal: bullets, short phrases, responsibilities, candidate names. **No** required `- <type> property` lines yet. |
+| **Steps 1–4** | Informal: bullets, short phrases, responsibilities, candidate names; typed `- <type> property` lines arrive in Step 5. |
 | **Step 5+** | Formal typed members: `- <Type> propertyName`, `operationName(...) → ReturnType`. |
 
 ---
@@ -23494,7 +23594,13 @@ Formalize **abstract class vs interface** for **PaymentMethod** and **ports** fo
 
 # Domain model Markdown
 
-This skill’s **domain model** is captured in Markdown (and optionally a parallel **Draw.io** class diagram). Use the checked-in **`templates/domain model template.md`** when starting a new companion doc; keep the same semantics as **`templates/domain model template.drawio`** when both exist.
+This skill’s **domain model** is captured in Markdown  a parallel **Draw.io** class diagram. Use **`templates/domain model template.md`** for companion docs; align with **`templates/domain model template.drawio`** when both exist.
+
+**Phase 2 — `domain-noun-verb.md`:** anchor sections, **Candidate …** lists, full or pared class boxes. Slice files are **content only** — no skill paths or process meta in the artifact body.
+
+**Phase 3 — bucket roll-up:** sort candidates into **entities**, **value objects**, **processes**, **policies**, **roles**, **events** (tables in **`raw-candidate-list.md`** or appended to **`domain-noun-verb.md`**). Same **content-only** rule: no skill/process boilerplate in slice files.
+
+**Optional — `domain-raw-candidates.md`:** same Phase 3 content as **classes under anchor modules** (`### Name : << Entity >>` / `<< ValueObject >>` / `<< Process >>` / …), notes below — **not** a second copy of bucket tables. Cross-cutting material → **`## Cross-anchor`** or appendix. **`templates/domain-raw-candidates-template.md`**.
 
 ---
 
@@ -23527,7 +23633,7 @@ From **Step 5** onward, prefer **typed** members (see **Notation evolution** bel
 
 ## **newly added** tag
 
-In the **worked example** threads (e.g. payments), the marker **`**newly added**`** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
+In the **worked example** threads (e.g. payments), the marker **newly added** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
 
 ---
 
@@ -23535,7 +23641,7 @@ In the **worked example** threads (e.g. payments), the marker **`**newly added**
 
 | Phase | Markdown style |
 |--------|------------------|
-| **Steps 1–4** | Informal: bullets, short phrases, responsibilities, candidate names. **No** required `- <type> property` lines yet. |
+| **Steps 1–4** | Informal: bullets, short phrases, responsibilities, candidate names; typed `- <type> property` lines arrive in Step 5. |
 | **Step 5+** | Formal typed members: `- <Type> propertyName`, `operationName(...) → ReturnType`. |
 
 ---
@@ -25344,7 +25450,13 @@ You are the **domain modeler and OOAD practitioner** using this skill: you provi
 
 # Domain model Markdown
 
-This skill’s **domain model** is captured in Markdown (and optionally a parallel **Draw.io** class diagram). Use the checked-in **`templates/domain model template.md`** when starting a new companion doc; keep the same semantics as **`templates/domain model template.drawio`** when both exist.
+This skill’s **domain model** is captured in Markdown  a parallel **Draw.io** class diagram. Use **`templates/domain model template.md`** for companion docs; align with **`templates/domain model template.drawio`** when both exist.
+
+**Phase 2 — `domain-noun-verb.md`:** anchor sections, **Candidate …** lists, full or pared class boxes. Slice files are **content only** — no skill paths or process meta in the artifact body.
+
+**Phase 3 — bucket roll-up:** sort candidates into **entities**, **value objects**, **processes**, **policies**, **roles**, **events** (tables in **`raw-candidate-list.md`** or appended to **`domain-noun-verb.md`**). Same **content-only** rule: no skill/process boilerplate in slice files.
+
+**Optional — `domain-raw-candidates.md`:** same Phase 3 content as **classes under anchor modules** (`### Name : << Entity >>` / `<< ValueObject >>` / `<< Process >>` / …), notes below — **not** a second copy of bucket tables. Cross-cutting material → **`## Cross-anchor`** or appendix. **`templates/domain-raw-candidates-template.md`**.
 
 ---
 
@@ -25377,7 +25489,7 @@ From **Step 5** onward, prefer **typed** members (see **Notation evolution** bel
 
 ## **newly added** tag
 
-In the **worked example** threads (e.g. payments), the marker **`**newly added**`** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
+In the **worked example** threads (e.g. payments), the marker **newly added** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
 
 ---
 
@@ -25385,7 +25497,7 @@ In the **worked example** threads (e.g. payments), the marker **`**newly added**
 
 | Phase | Markdown style |
 |--------|------------------|
-| **Steps 1–4** | Informal: bullets, short phrases, responsibilities, candidate names. **No** required `- <type> property` lines yet. |
+| **Steps 1–4** | Informal: bullets, short phrases, responsibilities, candidate names; typed `- <type> property` lines arrive in Step 5. |
 | **Step 5+** | Formal typed members: `- <Type> propertyName`, `operationName(...) → ReturnType`. |
 
 ---
@@ -27197,7 +27309,13 @@ Model **state transitions** explicitly on **Payment** (and **Refund**).
 
 # Domain model Markdown
 
-This skill’s **domain model** is captured in Markdown (and optionally a parallel **Draw.io** class diagram). Use the checked-in **`templates/domain model template.md`** when starting a new companion doc; keep the same semantics as **`templates/domain model template.drawio`** when both exist.
+This skill’s **domain model** is captured in Markdown  a parallel **Draw.io** class diagram. Use **`templates/domain model template.md`** for companion docs; align with **`templates/domain model template.drawio`** when both exist.
+
+**Phase 2 — `domain-noun-verb.md`:** anchor sections, **Candidate …** lists, full or pared class boxes. Slice files are **content only** — no skill paths or process meta in the artifact body.
+
+**Phase 3 — bucket roll-up:** sort candidates into **entities**, **value objects**, **processes**, **policies**, **roles**, **events** (tables in **`raw-candidate-list.md`** or appended to **`domain-noun-verb.md`**). Same **content-only** rule: no skill/process boilerplate in slice files.
+
+**Optional — `domain-raw-candidates.md`:** same Phase 3 content as **classes under anchor modules** (`### Name : << Entity >>` / `<< ValueObject >>` / `<< Process >>` / …), notes below — **not** a second copy of bucket tables. Cross-cutting material → **`## Cross-anchor`** or appendix. **`templates/domain-raw-candidates-template.md`**.
 
 ---
 
@@ -27230,7 +27348,7 @@ From **Step 5** onward, prefer **typed** members (see **Notation evolution** bel
 
 ## **newly added** tag
 
-In the **worked example** threads (e.g. payments), the marker **`**newly added**`** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
+In the **worked example** threads (e.g. payments), the marker **newly added** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
 
 ---
 
@@ -27238,7 +27356,7 @@ In the **worked example** threads (e.g. payments), the marker **`**newly added**
 
 | Phase | Markdown style |
 |--------|------------------|
-| **Steps 1–4** | Informal: bullets, short phrases, responsibilities, candidate names. **No** required `- <type> property` lines yet. |
+| **Steps 1–4** | Informal: bullets, short phrases, responsibilities, candidate names; typed `- <type> property` lines arrive in Step 5. |
 | **Step 5+** | Formal typed members: `- <Type> propertyName`, `operationName(...) → ReturnType`. |
 
 ---
@@ -29057,7 +29175,13 @@ Branches: `FAILED` (terminal), `CANCELLED` (if allowed).
 
 # Domain model Markdown
 
-This skill’s **domain model** is captured in Markdown (and optionally a parallel **Draw.io** class diagram). Use the checked-in **`templates/domain model template.md`** when starting a new companion doc; keep the same semantics as **`templates/domain model template.drawio`** when both exist.
+This skill’s **domain model** is captured in Markdown  a parallel **Draw.io** class diagram. Use **`templates/domain model template.md`** for companion docs; align with **`templates/domain model template.drawio`** when both exist.
+
+**Phase 2 — `domain-noun-verb.md`:** anchor sections, **Candidate …** lists, full or pared class boxes. Slice files are **content only** — no skill paths or process meta in the artifact body.
+
+**Phase 3 — bucket roll-up:** sort candidates into **entities**, **value objects**, **processes**, **policies**, **roles**, **events** (tables in **`raw-candidate-list.md`** or appended to **`domain-noun-verb.md`**). Same **content-only** rule: no skill/process boilerplate in slice files.
+
+**Optional — `domain-raw-candidates.md`:** same Phase 3 content as **classes under anchor modules** (`### Name : << Entity >>` / `<< ValueObject >>` / `<< Process >>` / …), notes below — **not** a second copy of bucket tables. Cross-cutting material → **`## Cross-anchor`** or appendix. **`templates/domain-raw-candidates-template.md`**.
 
 ---
 
@@ -29090,7 +29214,7 @@ From **Step 5** onward, prefer **typed** members (see **Notation evolution** bel
 
 ## **newly added** tag
 
-In the **worked example** threads (e.g. payments), the marker **`**newly added**`** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
+In the **worked example** threads (e.g. payments), the marker **newly added** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
 
 ---
 
@@ -29098,7 +29222,7 @@ In the **worked example** threads (e.g. payments), the marker **`**newly added**
 
 | Phase | Markdown style |
 |--------|------------------|
-| **Steps 1–4** | Informal: bullets, short phrases, responsibilities, candidate names. **No** required `- <type> property` lines yet. |
+| **Steps 1–4** | Informal: bullets, short phrases, responsibilities, candidate names; typed `- <type> property` lines arrive in Step 5. |
 | **Step 5+** | Formal typed members: `- <Type> propertyName`, `operationName(...) → ReturnType`. |
 
 ---
@@ -30910,7 +31034,13 @@ Treat **tensions** (org conflict, timing conflict) as **signals** for boundaries
 
 # Domain model Markdown
 
-This skill’s **domain model** is captured in Markdown (and optionally a parallel **Draw.io** class diagram). Use the checked-in **`templates/domain model template.md`** when starting a new companion doc; keep the same semantics as **`templates/domain model template.drawio`** when both exist.
+This skill’s **domain model** is captured in Markdown  a parallel **Draw.io** class diagram. Use **`templates/domain model template.md`** for companion docs; align with **`templates/domain model template.drawio`** when both exist.
+
+**Phase 2 — `domain-noun-verb.md`:** anchor sections, **Candidate …** lists, full or pared class boxes. Slice files are **content only** — no skill paths or process meta in the artifact body.
+
+**Phase 3 — bucket roll-up:** sort candidates into **entities**, **value objects**, **processes**, **policies**, **roles**, **events** (tables in **`raw-candidate-list.md`** or appended to **`domain-noun-verb.md`**). Same **content-only** rule: no skill/process boilerplate in slice files.
+
+**Optional — `domain-raw-candidates.md`:** same Phase 3 content as **classes under anchor modules** (`### Name : << Entity >>` / `<< ValueObject >>` / `<< Process >>` / …), notes below — **not** a second copy of bucket tables. Cross-cutting material → **`## Cross-anchor`** or appendix. **`templates/domain-raw-candidates-template.md`**.
 
 ---
 
@@ -30943,7 +31073,7 @@ From **Step 5** onward, prefer **typed** members (see **Notation evolution** bel
 
 ## **newly added** tag
 
-In the **worked example** threads (e.g. payments), the marker **`**newly added**`** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
+In the **worked example** threads (e.g. payments), the marker **newly added** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
 
 ---
 
@@ -30951,7 +31081,7 @@ In the **worked example** threads (e.g. payments), the marker **`**newly added**
 
 | Phase | Markdown style |
 |--------|------------------|
-| **Steps 1–4** | Informal: bullets, short phrases, responsibilities, candidate names. **No** required `- <type> property` lines yet. |
+| **Steps 1–4** | Informal: bullets, short phrases, responsibilities, candidate names; typed `- <type> property` lines arrive in Step 5. |
 | **Step 5+** | Formal typed members: `- <Type> propertyName`, `operationName(...) → ReturnType`. |
 
 ---
@@ -32754,7 +32884,13 @@ You are the **domain modeler and OOAD practitioner** using this skill: you provi
 
 # Domain model Markdown
 
-This skill’s **domain model** is captured in Markdown (and optionally a parallel **Draw.io** class diagram). Use the checked-in **`templates/domain model template.md`** when starting a new companion doc; keep the same semantics as **`templates/domain model template.drawio`** when both exist.
+This skill’s **domain model** is captured in Markdown  a parallel **Draw.io** class diagram. Use **`templates/domain model template.md`** for companion docs; align with **`templates/domain model template.drawio`** when both exist.
+
+**Phase 2 — `domain-noun-verb.md`:** anchor sections, **Candidate …** lists, full or pared class boxes. Slice files are **content only** — no skill paths or process meta in the artifact body.
+
+**Phase 3 — bucket roll-up:** sort candidates into **entities**, **value objects**, **processes**, **policies**, **roles**, **events** (tables in **`raw-candidate-list.md`** or appended to **`domain-noun-verb.md`**). Same **content-only** rule: no skill/process boilerplate in slice files.
+
+**Optional — `domain-raw-candidates.md`:** same Phase 3 content as **classes under anchor modules** (`### Name : << Entity >>` / `<< ValueObject >>` / `<< Process >>` / …), notes below — **not** a second copy of bucket tables. Cross-cutting material → **`## Cross-anchor`** or appendix. **`templates/domain-raw-candidates-template.md`**.
 
 ---
 
@@ -32787,7 +32923,7 @@ From **Step 5** onward, prefer **typed** members (see **Notation evolution** bel
 
 ## **newly added** tag
 
-In the **worked example** threads (e.g. payments), the marker **`**newly added**`** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
+In the **worked example** threads (e.g. payments), the marker **newly added** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
 
 ---
 
@@ -32795,7 +32931,7 @@ In the **worked example** threads (e.g. payments), the marker **`**newly added**
 
 | Phase | Markdown style |
 |--------|------------------|
-| **Steps 1–4** | Informal: bullets, short phrases, responsibilities, candidate names. **No** required `- <type> property` lines yet. |
+| **Steps 1–4** | Informal: bullets, short phrases, responsibilities, candidate names; typed `- <type> property` lines arrive in Step 5. |
 | **Step 5+** | Formal typed members: `- <Type> propertyName`, `operationName(...) → ReturnType`. |
 
 ---
@@ -34602,7 +34738,13 @@ You are the **domain modeler and OOAD practitioner** using this skill: you provi
 
 # Domain model Markdown
 
-This skill’s **domain model** is captured in Markdown (and optionally a parallel **Draw.io** class diagram). Use the checked-in **`templates/domain model template.md`** when starting a new companion doc; keep the same semantics as **`templates/domain model template.drawio`** when both exist.
+This skill’s **domain model** is captured in Markdown  a parallel **Draw.io** class diagram. Use **`templates/domain model template.md`** for companion docs; align with **`templates/domain model template.drawio`** when both exist.
+
+**Phase 2 — `domain-noun-verb.md`:** anchor sections, **Candidate …** lists, full or pared class boxes. Slice files are **content only** — no skill paths or process meta in the artifact body.
+
+**Phase 3 — bucket roll-up:** sort candidates into **entities**, **value objects**, **processes**, **policies**, **roles**, **events** (tables in **`raw-candidate-list.md`** or appended to **`domain-noun-verb.md`**). Same **content-only** rule: no skill/process boilerplate in slice files.
+
+**Optional — `domain-raw-candidates.md`:** same Phase 3 content as **classes under anchor modules** (`### Name : << Entity >>` / `<< ValueObject >>` / `<< Process >>` / …), notes below — **not** a second copy of bucket tables. Cross-cutting material → **`## Cross-anchor`** or appendix. **`templates/domain-raw-candidates-template.md`**.
 
 ---
 
@@ -34635,7 +34777,7 @@ From **Step 5** onward, prefer **typed** members (see **Notation evolution** bel
 
 ## **newly added** tag
 
-In the **worked example** threads (e.g. payments), the marker **`**newly added**`** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
+In the **worked example** threads (e.g. payments), the marker **newly added** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
 
 ---
 
@@ -34643,7 +34785,7 @@ In the **worked example** threads (e.g. payments), the marker **`**newly added**
 
 | Phase | Markdown style |
 |--------|------------------|
-| **Steps 1–4** | Informal: bullets, short phrases, responsibilities, candidate names. **No** required `- <type> property` lines yet. |
+| **Steps 1–4** | Informal: bullets, short phrases, responsibilities, candidate names; typed `- <type> property` lines arrive in Step 5. |
 | **Step 5+** | Formal typed members: `- <Type> propertyName`, `operationName(...) → ReturnType`. |
 
 ---
@@ -36456,7 +36598,13 @@ You are the **domain modeler and OOAD practitioner** using this skill: you provi
 
 # Domain model Markdown
 
-This skill’s **domain model** is captured in Markdown (and optionally a parallel **Draw.io** class diagram). Use the checked-in **`templates/domain model template.md`** when starting a new companion doc; keep the same semantics as **`templates/domain model template.drawio`** when both exist.
+This skill’s **domain model** is captured in Markdown  a parallel **Draw.io** class diagram. Use **`templates/domain model template.md`** for companion docs; align with **`templates/domain model template.drawio`** when both exist.
+
+**Phase 2 — `domain-noun-verb.md`:** anchor sections, **Candidate …** lists, full or pared class boxes. Slice files are **content only** — no skill paths or process meta in the artifact body.
+
+**Phase 3 — bucket roll-up:** sort candidates into **entities**, **value objects**, **processes**, **policies**, **roles**, **events** (tables in **`raw-candidate-list.md`** or appended to **`domain-noun-verb.md`**). Same **content-only** rule: no skill/process boilerplate in slice files.
+
+**Optional — `domain-raw-candidates.md`:** same Phase 3 content as **classes under anchor modules** (`### Name : << Entity >>` / `<< ValueObject >>` / `<< Process >>` / …), notes below — **not** a second copy of bucket tables. Cross-cutting material → **`## Cross-anchor`** or appendix. **`templates/domain-raw-candidates-template.md`**.
 
 ---
 
@@ -36489,7 +36637,7 @@ From **Step 5** onward, prefer **typed** members (see **Notation evolution** bel
 
 ## **newly added** tag
 
-In the **worked example** threads (e.g. payments), the marker **`**newly added**`** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
+In the **worked example** threads (e.g. payments), the marker **newly added** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
 
 ---
 
@@ -36497,7 +36645,7 @@ In the **worked example** threads (e.g. payments), the marker **`**newly added**
 
 | Phase | Markdown style |
 |--------|------------------|
-| **Steps 1–4** | Informal: bullets, short phrases, responsibilities, candidate names. **No** required `- <type> property` lines yet. |
+| **Steps 1–4** | Informal: bullets, short phrases, responsibilities, candidate names; typed `- <type> property` lines arrive in Step 5. |
 | **Step 5+** | Formal typed members: `- <Type> propertyName`, `operationName(...) → ReturnType`. |
 
 ---
@@ -38308,7 +38456,13 @@ You are the **domain modeler and OOAD practitioner** using this skill: you provi
 
 # Domain model Markdown
 
-This skill’s **domain model** is captured in Markdown (and optionally a parallel **Draw.io** class diagram). Use the checked-in **`templates/domain model template.md`** when starting a new companion doc; keep the same semantics as **`templates/domain model template.drawio`** when both exist.
+This skill’s **domain model** is captured in Markdown  a parallel **Draw.io** class diagram. Use **`templates/domain model template.md`** for companion docs; align with **`templates/domain model template.drawio`** when both exist.
+
+**Phase 2 — `domain-noun-verb.md`:** anchor sections, **Candidate …** lists, full or pared class boxes. Slice files are **content only** — no skill paths or process meta in the artifact body.
+
+**Phase 3 — bucket roll-up:** sort candidates into **entities**, **value objects**, **processes**, **policies**, **roles**, **events** (tables in **`raw-candidate-list.md`** or appended to **`domain-noun-verb.md`**). Same **content-only** rule: no skill/process boilerplate in slice files.
+
+**Optional — `domain-raw-candidates.md`:** same Phase 3 content as **classes under anchor modules** (`### Name : << Entity >>` / `<< ValueObject >>` / `<< Process >>` / …), notes below — **not** a second copy of bucket tables. Cross-cutting material → **`## Cross-anchor`** or appendix. **`templates/domain-raw-candidates-template.md`**.
 
 ---
 
@@ -38341,7 +38495,7 @@ From **Step 5** onward, prefer **typed** members (see **Notation evolution** bel
 
 ## **newly added** tag
 
-In the **worked example** threads (e.g. payments), the marker **`**newly added**`** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
+In the **worked example** threads (e.g. payments), the marker **newly added** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
 
 ---
 
@@ -38349,7 +38503,7 @@ In the **worked example** threads (e.g. payments), the marker **`**newly added**
 
 | Phase | Markdown style |
 |--------|------------------|
-| **Steps 1–4** | Informal: bullets, short phrases, responsibilities, candidate names. **No** required `- <type> property` lines yet. |
+| **Steps 1–4** | Informal: bullets, short phrases, responsibilities, candidate names; typed `- <type> property` lines arrive in Step 5. |
 | **Step 5+** | Formal typed members: `- <Type> propertyName`, `operationName(...) → ReturnType`. |
 
 ---
@@ -40174,7 +40328,13 @@ You have walked **garbled** payments from **nouns/verbs** through **layers** —
 
 # Domain model Markdown
 
-This skill’s **domain model** is captured in Markdown (and optionally a parallel **Draw.io** class diagram). Use the checked-in **`templates/domain model template.md`** when starting a new companion doc; keep the same semantics as **`templates/domain model template.drawio`** when both exist.
+This skill’s **domain model** is captured in Markdown  a parallel **Draw.io** class diagram. Use **`templates/domain model template.md`** for companion docs; align with **`templates/domain model template.drawio`** when both exist.
+
+**Phase 2 — `domain-noun-verb.md`:** anchor sections, **Candidate …** lists, full or pared class boxes. Slice files are **content only** — no skill paths or process meta in the artifact body.
+
+**Phase 3 — bucket roll-up:** sort candidates into **entities**, **value objects**, **processes**, **policies**, **roles**, **events** (tables in **`raw-candidate-list.md`** or appended to **`domain-noun-verb.md`**). Same **content-only** rule: no skill/process boilerplate in slice files.
+
+**Optional — `domain-raw-candidates.md`:** same Phase 3 content as **classes under anchor modules** (`### Name : << Entity >>` / `<< ValueObject >>` / `<< Process >>` / …), notes below — **not** a second copy of bucket tables. Cross-cutting material → **`## Cross-anchor`** or appendix. **`templates/domain-raw-candidates-template.md`**.
 
 ---
 
@@ -40207,7 +40367,7 @@ From **Step 5** onward, prefer **typed** members (see **Notation evolution** bel
 
 ## **newly added** tag
 
-In the **worked example** threads (e.g. payments), the marker **`**newly added**`** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
+In the **worked example** threads (e.g. payments), the marker **newly added** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
 
 ---
 
@@ -40215,7 +40375,7 @@ In the **worked example** threads (e.g. payments), the marker **`**newly added**
 
 | Phase | Markdown style |
 |--------|------------------|
-| **Steps 1–4** | Informal: bullets, short phrases, responsibilities, candidate names. **No** required `- <type> property` lines yet. |
+| **Steps 1–4** | Informal: bullets, short phrases, responsibilities, candidate names; typed `- <type> property` lines arrive in Step 5. |
 | **Step 5+** | Formal typed members: `- <Type> propertyName`, `operationName(...) → ReturnType`. |
 
 ---

@@ -517,21 +517,31 @@ def validate(diagram_path, verbose=False):
                     f"exit=({e.exit_x},{e.exit_y}) dx={dx:.0f} dy={dy:.0f}"))
 
     # ──────────────────────────────────────────────────────────────────────────
-    # V7: Association/composition has no matching field in source class
+    # V7: Association/composition has no matching field in either endpoint class
     # ──────────────────────────────────────────────────────────────────────────
+    # UML composition arrows point FROM part TO whole (diamond at whole).
+    # The backing field (e.g. "+ abilities: Ability [1..*]") is in the WHOLE
+    # (target) class, NOT in the part (source) class.
+    # For associations (e.g. Skill --uses--> Ability), the field IS in the
+    # source class.
+    # Strategy: flag V7 only when the target type name appears in NEITHER
+    # source fields NOR target fields, so compositions and associations
+    # both pass when the field exists in either endpoint.
     for e in edges:
         if e.edge_type == 'dependency': continue  # deps don't need backing fields
         src = classes.get(e.src_id)
         tgt = classes.get(e.tgt_id)
         if not src or not tgt: continue
-        # The field in the SOURCE class should reference the TARGET class name
         tgt_name = tgt.name.lower()
-        found = any(tgt_name in f.lower() for f in src.fields)
-        if not found:
+        src_name = src.name.lower()
+        # Check if the target class name appears in ANY field of EITHER endpoint
+        found_in_src = any(tgt_name in f.lower() for f in src.fields)
+        found_in_tgt = any(src_name in f.lower() for f in tgt.fields)
+        if not found_in_src and not found_in_tgt:
             issues.append(Issue('V7','WARN',
                 f"MISSING BACKING FIELD: {edge_label(e, classes)} — "
-                f"no field in '{src.name}' references '{tgt.name}'",
-                f"Fields in {src.name}: {src.fields}"))
+                f"no field in '{src.name}' or '{tgt.name}' references the other",
+                f"Fields in {src.name}: {src.fields}  |  Fields in {tgt.name}: {tgt.fields}"))
 
     # ──────────────────────────────────────────────────────────────────────────
     # V8: Direct route is clear but edge uses detour waypoints

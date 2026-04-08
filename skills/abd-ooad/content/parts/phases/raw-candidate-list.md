@@ -1,54 +1,72 @@
-# Raw candidate list — payments example
+# Raw candidate list
 
-**Skill:** abd-ooad — matches **Step 2: Build a raw candidate list** in `SKILL.md`.
+**Skill:** abd-ooad — Phase 3.
 
-**Upstream:** `nouns-verbs-rules-and-states.md` (Step 1) and `garbled-payments-spec.md`.
+**What this phase does:** Sort vocabulary into **candidate kinds** — **entities**, **value objects**, **processes**, **policies**, **roles**, **events** — record **why** each candidate matters, early class smell, watch list, and tensions.
 
-This is still **loose**. Candidates may merge, split, or become attributes in later steps.
-
-> **Continual refinement:** Full notation is in **[Domain model Markdown](../library/domain-model.md)** (*Domain concept* template; class definition and diagram refined together). In this payments thread, **`**newly added**`** marks a property or operation line **first introduced in this step file** (Steps 1–4 stay pre-notation; formal `- <type> property` / `operation(...) → return` lines begin at Step 5).
+**Focus:** Separation and tensions. Value-object candidates may stay `<< ValueObject >>` / enum / struct until later phases.
 
 ---
 
-## Worked example — from nouns-verbs to this step
+## Deliverables — pick a shape (do not duplicate bucket tables twice)
 
-**Upstream:** Step 1 (`nouns-verbs-rules-and-states.md`) produces Phase-2 evidence **in the slice folder** — typically a **domain model** file (e.g. **`domain-verb-noun-manual.md`**) with noun–verb material in `### Note` blocks under each anchor module, plus often **`nouns-verbs.md`** for flat extraction. An optional **`domain-noun-verb.md`** at workspace `abd-ooad/` may mirror the slice. Step 2 **does not** paste those files wholesale; you **re-sort** the same terms into the buckets below (entities, value-like concepts, processes, policies, roles, events) and add **why** each row might matter.
+**Two views of the same Phase 3 work:**
 
-**Term registry:** As you promote terms to candidates here, keep **`Anchor`** in `term-registry.md` aligned: e.g. `S1=Check` for anything first evidenced under **Check** in slice 1’s **`nouns-verbs.md`** and/or **`domain-verb-noun-manual.md`** (see the **Term registry ↔ slice mapping** section in the nouns-verbs phase).
+1. **Bucket tables (tabular pass)** — **`raw-candidate-list.md`** *or* the same sections **appended** to **`domain-noun-verb.md`**. Use **`templates/raw-candidate-list-template.md`**. Tables group rows under: entities, value objects, processes, policies, roles, events (+ early “deserves a class?”, watch list, tensions).
+
+2. **Integrated class model (optional, separate file)** — **`domain-raw-candidates.md`**. Use **`templates/domain-raw-candidates-template.md`**. Here you **do not** repeat those bucket tables. Every candidate is a **`### Name : << Entity >>`** (or `<< ValueObject >>`, `<< Process >>`, `<< Policy >>`, `<< Role >>`, `<< Event >>`, or `<< >>`) under **`## [Anchor module]`**, with members and **`#### Note :`**. Material that does not fit one class goes in **`## Cross-anchor`** or **`## Appendix …`**.
+
+**Rule:** If both **`raw-candidate-list.md`** and **`domain-raw-candidates.md`** exist, the **tables live in one place only** (usually **`raw-candidate-list.md`**). The integrated file **links** to it if needed; it does **not** re-paste bucket tables (“Entities”, “Value objects”, …).
+
+**Artifact body:** Domain content only. **Do not** put **`Source:`** / **`Slice:`** / **`OOAD phase:`** / registry **`Step`** / **`Upstream:`** / **`Pre-notation:`** / **`Integrated model:`** boilerplate in slice files.
+
+---
+
+## Illustrative shape
+
+Re-sort **Candidate …** material from the slice’s Phase 2 file into the buckets used in the worked examples below.
 
 ### Mini excerpt (hypothetical “rules” slice — one anchor)
 
-Imagine one anchor section **Check** in the slice’s **`domain-verb-noun-manual.md`** (or the **`Check`** heading in **`nouns-verbs.md`**):
+Imagine one anchor section **Check** in the slice’s **domain-noun-verb.md**:
 
-| Kind | Extraction (illustrative) |
-| ---- | ------------------------- |
-| **Nouns** | Character, Check, DC, bonus, penalty, Condition, trait, die roll |
-| **Verbs** | roll, compare, apply, succeed, fail, stack |
+| Kind      | Extraction (illustrative)                                                                 |
+| --------- | ----------------------------------------------------------------------------------------- |
+| **Nouns** | Character, Check, DC, bonus, penalty, Condition, trait, die roll                          |
+| **Verbs** | roll, compare, apply, succeed, fail, stack                                                |
 | **Rules** | Compare total vs DC; some bonuses don’t stack; Conditions can impose advantage/disadvantage |
-| **States** | Check pending → resolved (success / failure / critical); Condition active vs cleared |
+| **States** | Check pending → resolved (success / failure / critical); Condition active vs cleared        |
 
 ### Roll-up into Step 2 buckets (same terms, new shape)
 
-| Step 1 term(s) | Likely Step 2 bucket | Notes |
-| -------------- | -------------------- | ----- |
-| Character, Check | **Core domain entities** | Durable “things” — may merge later (e.g. Check as operation vs aggregate). |
-| DC, bonus, penalty | **Value-like concepts** | Often numbers + rules; may become VO / struct / enum. |
-| “roll → compare → resolve” | **Processes or transactions** | End-to-end flow with a start/end. |
-| stacking, advantage/disadvantage | **Policies or rules** | Eligibility and modifiers — may stay policy objects or plain rules. |
-| player, GM (if in source) | **Roles** | Actors; may merge with user accounts later. |
-| “Check resolved”, Condition applied | **Events or records** | Audit / history if the product cares about replay. |
+| Step 1 term(s)                       | Likely Step 2 bucket   | Notes                                                                 |
+| ------------------------------------ | ---------------------- | --------------------------------------------------------------------- |
+| Character, Check                   | **Entities**           | Durable “things” — may merge later (e.g. Check as operation vs aggregate). |
+| DC, bonus, penalty                   | **Value objects**      | Often numbers + rules; may become VO / struct / enum.                 |
+| “roll → compare → resolve”           | **Processes**          | End-to-end flow with a start/end.                                     |
+| stacking, advantage/disadvantage     | **Policies**           | Eligibility and modifiers — may stay policy objects or plain rules.   |
+| player, GM (if in source)            | **Roles**              | Actors; may merge with user accounts later.                           |
+| “Check resolved”, Condition applied | **Events**             | Audit / history if the product cares about replay.                    |
 
-### What you add in Step 2 that Step 1 didn’t require
+### What you add in Step 2 that Step 1 did not require
 
-- **Separation** — entity vs value vs process vs policy (Step 1 only *marked* candidates).
-- **Tensions** — e.g. “Is **Check** a noun (object) or only a verb-shaped process?” — carry forward to `thing-vs-data-about-a-thing` / later steps.
+- **Separation** — entity vs value vs process vs policy (Step 1 *lists* candidates; Step 2 *sorts* them).
+- **Tensions** — e.g. “Is **Check** a noun (object) or only a verb-shaped process?” — carry forward to **thing-vs-data-about-a-thing** and later steps.
 - **Watch list** — terms that might collapse (e.g. “die roll” as part of Check, not its own class).
 
-Use the **payments** tables below as a full-size reference thread; use this mini example when your domain is not payments but you still need a **template** for nouns-verbs → raw candidate list.
+Use the **payments** tables below as a full-size reference thread; use this mini example when your domain is not payments but you still need a **shape** for nouns-verbs → raw candidate list.
 
 ---
 
-## Core domain entities (durable “things” in the problem space)
+## Worked example — payments spec
+
+> **Continual refinement:** Fictional payments thread. **newly added** = line first appears in this step’s file. Steps 1–4 stay informal; typed members start later.
+
+This thread still uses **garbled-payments-spec.md** as the fictional source alongside Step 1; it is **loose**. Candidates may merge, split, or become attributes in later steps.
+
+---
+
+## Entities (durable “things” in the problem space)
 
 
 | Candidate                             | Why it might be an entity                                                              |
@@ -66,7 +84,7 @@ Use the **payments** tables below as a full-size reference thread; use this mini
 
 ---
 
-## Value-like concepts (descriptive, may be VO / enum / struct)
+## Value objects (descriptive, may be VO / enum / struct)
 
 
 | Candidate                      | Notes                                                                          |
@@ -85,7 +103,7 @@ Use the **payments** tables below as a full-size reference thread; use this mini
 
 ---
 
-## Processes or transactions (flows with a start/end)
+## Processes (flows with a start/end)
 
 
 | Candidate                                          | Notes                                                                |
@@ -100,7 +118,7 @@ Use the **payments** tables below as a full-size reference thread; use this mini
 
 ---
 
-## Policies or rules (eligibility, gates, capabilities)
+## Policies (eligibility, gates, capabilities)
 
 
 | Candidate                        | Notes                                             |
@@ -128,17 +146,17 @@ Use the **payments** tables below as a full-size reference thread; use this mini
 | **Ops**      | Conflicting email on digital vs physical **emit** ordering.       |
 
 
-*(Roles may stay as actors only, or merge with user accounts — Step 3+.)*
+*(Roles may stay as actors only, or merge with user accounts — later steps.)*
 
 ---
 
-## Events or records (things that happened / audit)
+## Events (things that happened / audit)
 
 
 | Candidate                              | Notes                                                                                  |
 | -------------------------------------- | -------------------------------------------------------------------------------------- |
-| `**payment.settled`**                  | Domain event; consumers: warehouse, digital fulfillment.                               |
-| **Audit entry**                        | Append-only; actor `system` | `user` | `psp_webhook`; every intent/session transition. |
+| **`payment.settled`**                  | Domain event; consumers: warehouse, digital fulfillment.                             |
+| **Audit entry**                        | Append-only; actor `system` \| `user` \| `psp_webhook`; every intent/session transition. |
 | **Webhook payload** / **delivery log** | Billing wants stable shape for future subscriptions.                                   |
 | **Chargeback / dispute record**        | Reason codes on refund; lifecycle owner TBD.                                           |
 
@@ -157,7 +175,7 @@ Ask for each hot candidate:
 | PSP connector           | Yes — configured instance | Routes, capabilities   | Region, method                                       | **Likely**                           |
 | Receipt                 | Yes for customer          | Immutable snapshot?    | Payment, rates                                       | **Maybe**                            |
 | Failure mapping         | Cross-cutting             | Lookup                 | Failure kind → message + log code                    | **Policy** or **registry**           |
-| Cart / coupon           | Mentioned                 | **Cart team**          | **Boundary** — may be **external** to payments model | Integrate, don’t duplicate           |
+| Cart / coupon           | Mentioned                 | **Cart team**          | **Boundary** — may be **external** to payments model | Integrate at boundaries; avoid duplicating cart inside payments |
 
 
 ---
@@ -171,7 +189,7 @@ Ask for each hot candidate:
 
 ---
 
-## Tensions to carry into Step 3+
+## Tensions to carry into later steps
 
 1. **PaymentIntent vs Session** — rename to one aggregate or two bounded contexts?
 2. **Local** (currency vs legal entity) — one enum, two dimensions, or a **RoutingContext** value object?
@@ -182,21 +200,20 @@ Ask for each hot candidate:
 
 ## Continual refinement (this step)
 
-- **Delta:** **pre-notation** — candidate entities, value-ish things, policies, and watch-list; **`**newly added**`** not used on formal lines until Step 5.
+- **Delta:** **pre-notation** — candidate entities, value-ish things, policies, watch list; **newly added** tags informal lines; typed members arrive in later steps.
 
 ---
 
 ## Action Checklist
 
-- [ ] Have you rolled up Step 1 nouns-verbs (per slice / anchor) into this step’s buckets (entities, values, processes, policies, roles, events)?
-- [ ] Have you produced a raw candidate list with at least three entities and at least one value object?
-- [ ] Have you separated entities from value objects (mutability, identity)?
-- [ ] Have you flagged watch-list candidates (possible classes that need further evidence)?
-- [ ] Have you noted tensions from the candidate list to carry into Step 3+?
-- [ ] Have you updated the term registry with all candidate names?
+- Have you rolled vocabulary into buckets (entities, value objects, processes, policies, roles, events)?
+- Is that roll-up **appended to `domain-noun-verb.md`** *or* in a separate **`raw-candidate-list.md`** (not redundant copies without reason)?
+- Early class smell, watch list, and tensions recorded?
+- Have you separated entity-like vs value-object hypotheses where it matters?
+- Tensions noted for later phases?
 
 ---
 
 ## Prompt
 
-> **Validate and fix when you find problems.** This step may surface bloat, unclear boundaries, missing invariants, naming drift, spec conflicts, or other robustness gaps. When you notice any of that in your work, **validate** and **fix** the model (or **map-model-spec.json** / class diagram) **before** moving on; record **explicit debt** only when you cannot fix yet, with a clear follow-up.
+> When this step surfaces bloat, unclear boundaries, missing invariants, naming drift, or spec conflicts, **validate** and **fix** the model (or **map-model-spec.json** / class diagram) while you work; record **explicit debt** with a clear follow-up only when you cannot fix yet.
