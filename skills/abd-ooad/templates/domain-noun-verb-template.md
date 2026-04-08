@@ -2,7 +2,7 @@
 
 **Game text** is from {{SourceCitation}} — cite the **book** (or primary source), not paths to working extracts in this repo.
 
-**Phase 2 only.** Do **not** append Phase 3 **bucket tables** or a separate **`raw-candidate-list.md`** roll-up to this file. Integrated classes and stereotypes belong in **`domain-raw-candidates.md`** (see **`templates/domain-raw-candidates-template.md`**).
+**Phase-id `nouns-verbs-rules-and-states` only.** Do **not** append **`raw-candidate-list`** bucket tables or a separate **`raw-candidate-list.md`** roll-up to this file unless your team chose that alternate. Long verbatim evidence belongs in **`terms.md`** under the same **`## [Anchor module]`** headings (see **`templates/terms-template.md`**); keep this file structured.
 
 ---
 

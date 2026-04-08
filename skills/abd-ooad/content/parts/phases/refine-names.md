@@ -1,6 +1,8 @@
-# Refine names — payments example
+# Refine names — illustrative thread
 
-**Skill:** abd-ooad — **Step 19:** **ubiquitous language** alignment.
+**Phase ID:** `refine-names`
+
+**Skill:** abd-ooad — **Stage F** — **ubiquitous language** alignment. *(Optional payments-themed example below; substitute your domain.)*
 
 **Upstream:** `validate-with-scenarios.md`.
 
@@ -26,9 +28,9 @@
 
 ---
 
-## Carry forward → Step 20
+## Carry forward → `model-in-layers` (optional appendix)
 
-**Layer** the model — **domain vs application vs infra** + optional **ASCII** summary.
+**Layer** the model — **domain vs application vs infra** + optional **ASCII** summary. Not part of default **stages A–F**; run **`generate.py --phase model-in-layers`** when needed. See **`process.md`** appendix.
 
 ---
 

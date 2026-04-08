@@ -20,9 +20,9 @@ The scan calibrates how you will approach extraction. Without it, you risk eithe
 
 ---
 
-## Work order (Phase 1)
+## Work order (`domain-scan`)
 
-Do **analysis in domain markdown only**; **then** render Draw.io.
+Do **analysis in domain markdown only**; **then** render Draw.io. (Refer to this phase by **phase-id** `domain-scan` — not “Phase 1” as a name.)
 
 | Order | Artifact | Role |
 |-------|----------|------|

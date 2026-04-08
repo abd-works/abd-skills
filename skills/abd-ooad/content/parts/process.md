@@ -1,65 +1,135 @@
 # OOAD Process — Phase-Based Walkthrough
 
-**Pipeline:** Workspace → Domain Scan & Initial Sketch → Extraction → Refinement → Validation
+**Pipeline:** Workspace → Domain scan & initial sketch → Extraction → Structure → Refinement → Dynamics & validation → Naming
 
-**Per-slice extraction** (after scan) uses **global phases 2–21** for artifacts under a slice ID — **not** a separate “Phase 1 per slice.” **Phase 1** = domain scan (workspace-wide). See **`library/term-registry.md` → Slices and global phase numbers**.
-
----
-
-## Process Table
-
-| # | Phase | Description | Actor | Input | Output | Scripts |
-|---|-------|-------------|-------|-------|--------|---------|
-| 0 | [Workspace and config](phases/workspace-and-config.md) | Set active skill workspace; configure project root | Human | Project directory | `skill-config.json` updated | `python scripts/base/set_workspace.py <path>` |
-| 1 | [Domain scan](phases/domain-scan.md) | Scan source, identify 3–7 anchors, flag tensions, produce initial model sketch | AI | Source material (spec, code, manual, transcript) | `domain-scan-results.md` + `strategy.md` + `domain-scan-model.md` + `domain-scan-model.drawio` + `term-registry.md` (+ `abd-ooad/progress/*-checklist.md` from `generate.py`) | `python scripts/base/generate.py --phase domain-scan` |
-| 2 | [Nouns, verbs, rules, and states](phases/nouns-verbs-rules-and-states.md) | Careful extraction: mark nouns, verbs, rules, states per section; **term-registry `Anchor` column** (`S1=` per slice heading; `S2=` only when slice 2 exists) | AI | Source material + domain-scan results | **Per slice:** **`domain-noun-verb.md`** in the slice folder (see **`templates/domain-noun-verb-template.md`**) — **only** Phase 2 model file; updated **`term-registry.md`** | `python scripts/base/generate.py --phase nouns-verbs-rules-and-states` |
-| 3 | [Raw candidate list](phases/raw-candidate-list.md) | Sort findings into entities, values, processes, policies, roles, events | AI | Extraction results | Candidate class inventory + updated term-registry.md | `python scripts/base/generate.py --phase raw-candidate-list` |
-| 4 | [Thing vs data about a thing](phases/thing-vs-data-about-a-thing.md) | Separate independent entities from value objects, enums, properties | AI | Candidate list | Refined entities with clear boundaries | `python scripts/base/generate.py --phase thing-vs-data-about-a-thing` |
-| 5 | [Responsibilities before operations](phases/responsibilities-before-operations.md) | Define what each class is responsible for (before methods) | AI | Entities | Responsibility statements per class | `python scripts/base/generate.py --phase responsibilities-before-operations` |
-| 6 | [Add properties semantically tight](phases/add-properties-semantically-tight.md) | Give each class only the properties it needs to fulfill responsibilities | AI | Responsibilities | Classes with semantic properties | `python scripts/base/generate.py --phase add-properties-semantically-tight` |
-| 7 | [Turn verbs into operations](phases/turn-verbs-into-operations.md) | Distribute verbs to classes that own the behavior | AI | Verbs from extraction + classes | Class operations (methods) | `python scripts/base/generate.py --phase turn-verbs-into-operations` |
-| 8 | [Relationships and cardinality](phases/relationships-and-cardinality.md) | Define associations, composition, aggregation, multiplicity | AI | Classes + operations | Class diagram with relationships | `python scripts/base/generate.py --phase relationships-and-cardinality` |
-| 9 | [Invariants in the model](phases/invariants-in-the-model.md) | Encode domain rules into class behavior (not external code) | AI | Rules from extraction + class diagram | Classes with enforced invariants | `python scripts/base/generate.py --phase invariants-in-the-model` |
-| 10 | [Watch for bloated classes](phases/watch-for-bloated-classes.md) | Identify and split overly complex classes | AI | Candidate model | Classes split by cohesion | `python scripts/base/generate.py --phase watch-for-bloated-classes` |
-| 11 | [Smashed abstractions](phases/smashed-abstractions-and-hidden-roles.md) | Separate overloaded nouns into distinct roles | AI | Candidate model | Separated role-specific classes | `python scripts/base/generate.py --phase smashed-abstractions-and-hidden-roles` |
-| 12 | [Inheritance when behavior generalizes](phases/inheritance-when-behavior-generalizes.md) | Use inheritance only for genuine behavior generalization | AI | Classes | Inheritance hierarchy (if needed) | `python scripts/base/generate.py --phase inheritance-when-behavior-generalizes` |
-| 13 | [Abstract classes and interfaces](phases/abstract-classes-and-interfaces.md) | Choose abstractions for shared contract vs shared state | AI | Inheritance candidates | Abstract classes / interfaces | `python scripts/base/generate.py --phase abstract-classes-and-interfaces` |
-| 14 | [Prefer composition](phases/prefer-composition.md) | Use composition instead of inheritance for variability | AI | Classes | Refactored classes with composed parts | `python scripts/base/generate.py --phase prefer-composition` |
-| 15 | [Model state transitions](phases/model-state-transitions.md) | Make invalid states unrepresentable or rejected | AI | Classes + state rules | State models or enums | `python scripts/base/generate.py --phase model-state-transitions` |
-| 16 | [Iterative refinement](phases/iterative-refinement.md) | Re-evaluate model against source; resolve contradictions | AI | Current model + source material | Refined model (second pass) | `python scripts/base/generate.py --phase iterative-refinement` |
-| 17 | [Tension as a signal](phases/tension-as-a-signal.md) | Use design friction to adjust boundaries or record debt | AI | Model + design notes | Adjusted model or debt log | `python scripts/base/generate.py --phase tension-as-a-signal` |
-| 18 | [What changes together](phases/what-changes-together.md) | Group cohesive properties/operations; identify bounded contexts | AI | Refined classes | Cohesive class clusters | `python scripts/base/generate.py --phase what-changes-together` |
-| 19 | [Validate with scenarios](phases/validate-with-scenarios.md) | Test model against realistic workflows | AI | Current model | Scenario walkthroughs + corrections | `python scripts/base/generate.py --phase validate-with-scenarios` |
-| 20 | [Refine names](phases/refine-names.md) | Align naming with domain language and stakeholder vocabulary | AI | Model + domain expert input | Renamed classes / operations | `python scripts/base/generate.py --phase refine-names` |
-| 21 | [Model in layers](phases/model-in-layers.md) | Organize final artifacts across domain, application, infrastructure layers | AI | Finalized classes | Layered model documentation + diagrams | `python scripts/base/generate.py --phase model-in-layers` |
+**Normative step names** are **`phase-id`** values (kebab-case slugs) — the same strings in this file, **`skill-config.json` → `phase_files`**, phase markdown **filenames**, **`generate.py --phase`**, cross-references, and domain model tags **`*[Sn · phase-id]*`**. Do **not** use “Phase 1 / Phase 2” as **names** for steps; that duplicates the chronicle and drifts.
 
 ---
 
-## Standards and Tools
+## Phase chronicle (execution order)
 
-- **Diagrams:** See `using-diagram-cli` library shard — `scripts/drawio_cli.py` workflow, `templates/` directory, and all layout rules.
+Top row runs first. **Link** = phase document under `content/parts/phases/`. **Stage** = grouping **A–F** for strategy and tooling (`generate.py --stage`); see **Stage map** below.
+
+| Phase ID | Link | Purpose | Stage |
+|----------|------|---------|-------|
+| `workspace-and-config` | [Workspace and config](phases/workspace-and-config.md) | Set active skill workspace; configure project root | A |
+| `domain-scan` | [Domain scan](phases/domain-scan.md) | Scan source, identify anchors, flag tensions, initial sketch | A |
+| `nouns-verbs-rules-and-states` | [Nouns, verbs, rules, and states](phases/nouns-verbs-rules-and-states.md) | Per-slice extraction: nouns, verbs, rules, states; update **`terms.md`**, **`term-registry.md`** | B |
+| `raw-candidate-list` | [Raw candidate list](phases/raw-candidate-list.md) | Sort findings into entities, values, processes, policies, roles, events | B |
+| `thing-vs-data-about-a-thing` | [Thing vs data about a thing](phases/thing-vs-data-about-a-thing.md) | Separate entities from value objects, enums, properties | C |
+| `responsibilities-before-operations` | [Responsibilities before operations](phases/responsibilities-before-operations.md) | Define what each class is responsible for (before methods) | C |
+| `add-properties-semantically-tight` | [Add properties semantically tight](phases/add-properties-semantically-tight.md) | Give each class only the properties it needs | C |
+| `turn-verbs-into-operations` | [Turn verbs into operations](phases/turn-verbs-into-operations.md) | Distribute verbs to owning classes | C |
+| `relationships-and-cardinality` | [Relationships and cardinality](phases/relationships-and-cardinality.md) | Associations, composition, multiplicity | C |
+| `invariants-in-the-model` | [Invariants in the model](phases/invariants-in-the-model.md) | Encode domain rules into class behavior | C |
+| `watch-for-bloated-classes` | [Watch for bloated classes](phases/watch-for-bloated-classes.md) | Split overly complex classes | D |
+| `smashed-abstractions-and-hidden-roles` | [Smashed abstractions](phases/smashed-abstractions-and-hidden-roles.md) | Separate overloaded nouns into roles | D |
+| `inheritance-when-behavior-generalizes` | [Inheritance when behavior generalizes](phases/inheritance-when-behavior-generalizes.md) | Inheritance only for real generalization | D |
+| `abstract-classes-and-interfaces` | [Abstract classes and interfaces](phases/abstract-classes-and-interfaces.md) | Shared contract vs shared state | D |
+| `prefer-composition` | [Prefer composition](phases/prefer-composition.md) | Composition for variability (with stage D structure) | D |
+| `model-state-transitions` | [Model state transitions](phases/model-state-transitions.md) | Invalid states unrepresentable or rejected | E |
+| `iterative-refinement` | [Iterative refinement](phases/iterative-refinement.md) | Second pass; resolve contradictions | E |
+| `tension-as-a-signal` | [Tension as a signal](phases/tension-as-a-signal.md) | Use friction to adjust boundaries or record debt | E |
+| `what-changes-together` | [What changes together](phases/what-changes-together.md) | Cohesion clusters; bounded contexts | E |
+| `validate-with-scenarios` | [Validate with scenarios](phases/validate-with-scenarios.md) | Walk realistic workflows against the model | E |
+| `refine-names` | [Refine names](phases/refine-names.md) | Align naming with domain language | F |
+
+**Optional (appendix, not part of default stages A–F):** **`model-in-layers`** — [Model in layers](phases/model-in-layers.md) — organize artifacts across domain / application / infrastructure views. Run explicitly with **`python scripts/base/generate.py --phase model-in-layers`** when needed.
+
+### Stage flow (optional)
+
+```mermaid
+flowchart LR
+  subgraph stages [Stages]
+    A[Stage A] --> B[Stage B]
+    B --> C[Stage C]
+    C --> D[Stage D]
+    D --> E[Stage E]
+    E --> F[Stage F]
+  end
+  F -.->|often| E
+  F -.->|often| D
+  F -.->|sometimes| C
+  D -.->|often| C
+  E -.->|often| C
+```
+
+---
+
+## Stage map (A–F)
+
+**Default:** “Run **stage**” = run every **phase-id** in that stage **in chronicle order** (same order as the table above). **`generate.py --stage <A|B|…|F>`** expands to that list — see **`skill-config.json` → `process_stages`**.
+
+| Stage | Phase IDs (in order) |
+|-------|----------------------|
+| **A** | `workspace-and-config`, `domain-scan` |
+| **B** | `nouns-verbs-rules-and-states`, `raw-candidate-list` |
+| **C** | `thing-vs-data-about-a-thing`, `responsibilities-before-operations`, `add-properties-semantically-tight`, `turn-verbs-into-operations`, `relationships-and-cardinality`, `invariants-in-the-model` |
+| **D** | `watch-for-bloated-classes`, `smashed-abstractions-and-hidden-roles`, `inheritance-when-behavior-generalizes`, `abstract-classes-and-interfaces`, `prefer-composition` |
+| **E** | `model-state-transitions`, `iterative-refinement`, `tension-as-a-signal`, `what-changes-together`, `validate-with-scenarios` |
+| **F** | `refine-names` |
+
+Single-step escape hatches: **`generate.py --phase <phase-id>`**; test/single-phase modes as your team configures.
+
+**Open decision:** One **`iterative-refinement`** step with “repeat as needed” in strategy vs splitting into two explicit phase-ids — team choice; chronicle stays the source of truth.
+
+---
+
+## Capture ladder (what each phase-id captures)
+
+Name phases **only** by **phase-id**. Never “Phase 1 vs Phase 2” as step names.
+
+- **`workspace-and-config`** (when present): workspace layout, config, paths — enables later runs.
+- **`domain-scan`**: First **overall** workspace capture: source type, map, **anchors**, tensions, initial sketch (`domain-scan-results.md`, `domain-scan-model.md`, diagram, seeded **`term-registry.md`**). Not the deep per-module extraction against a full slice — that belongs under later IDs.
+- **`nouns-verbs-rules-and-states`** and **`raw-candidate-list`** (in **table order**): First **detailed, module-specific** capture on a **section of source** (per **slice** in `strategy.md`): **`domain-noun-verb.md`**, **`## [Anchor module]`**, candidates — aligned to locators. **`terms.md`** (per slice) and **`term-registry.md`** evolve from here onward for that slice.
+- **Stages C–F**: Structural and behavioral modeling per phase doc; keep coarse verbatim evidence in **`terms.md`**; keep **registry** and **domain model** structural with **`*[Sn · phase-id]*`** tags — see **`library/term-registry.md`**.
+
+For a slice, **`domain-scan`** seeds **global** orientation and anchor set; per-slice registry and **`terms.md`** deepen from **`nouns-verbs-rules-and-states`** onward.
+
+---
+
+## Standards and tools
+
+- **Diagrams:** See `using-diagram-cli` library shard — `scripts/drawio_cli.py` workflow, `templates/` directory, and layout rules.
 - **Workspace routing:** See [`../library/workspace-and-config.md`](library/workspace-and-config.md) for `skill_path`, `skill_workspace`, and portable path resolution.
 
 ---
 
-## Build and Generate
+## Build and generate
 
 - **Build all phases into AGENTS.md:** `python scripts/base/build.py`
-- **Generate a single phase:** `python scripts/base/generate.py --phase <slug>`
-- **List available phases:** See **`skill-config.json`** → **`phase_files`**
+- **Generate one phase:** `python scripts/base/generate.py --phase <phase-id>`
+- **Generate a stage (all phase-ids in that stage, in order):** `python scripts/base/generate.py --stage <A|B|C|D|E|F>`
+- **List stages / phases:** `python scripts/base/generate.py --list-stages` / `--list-phases`
+- **Phase list source:** **`skill-config.json` → `phase_files`**; **stage map:** **`process_stages`**
 
 ---
 
-## Implementation Notes
+## Implementation notes
 
-**Strategy before deep runs:** After domain scan, fill **`strategy.md`** from **`templates/strategy.md`**: **section strategy** (named units — chapters, packages, anchors, …), **coverage across steps** (every in-scope section touched or explicitly deferred), **section-by-section plan** (depth per section), **section integration** (cross-boundary handoffs), and **execution plan** (ordered phase slugs with **section IDs on each line**). Align **`abd-ooad/progress/strategy-run-checklist.md`** (reuse the same IDs in scope strings). Then run **`generate.py --phase <slug>`**. See **`library/strategy-led-generation`** and **`library/strategy-execution-and-checklists`**.
+**Strategy before deep runs:** After **`domain-scan`**, fill **`strategy.md`** from **`templates/strategy.md`**: slices, coverage, execution plan using **phase-id** strings, and align **`abd-ooad/progress/strategy-run-checklist.md`**. See **`library/strategy-led-generation`** and **`library/strategy-execution-and-checklists`**.
 
-**Phase 1–2 artifacts:** Do analysis in **`domain*.md`** only; keep tables integrated in the domain model (overflow at **`## Cross-anchor`** only when needed). After the markdown is stable, render or sync **`*.drawio`** as the visual twin — see **`library/domain-model`**, **`phases/domain-scan`**, **`phases/nouns-verbs-rules-and-states`**.
+**Stage end / disruption:** After completing a stage, refresh strategy as needed. **Revisits** are **new rows** on the **same** **`strategy-run-checklist.md`** (e.g. “Revisit stage B — &lt;reason&gt;”) — not a separate rerun document. See **`library/strategy-execution-and-checklists.md`**.
 
-**AI-driven phases:** Each phase can be executed by Claude following the assembled instructions from **`generate.py`** or **`AGENTS.md`**.
+**Artifact hygiene:** Analysis in **`domain*.md`** / integrated model; long verbatim evidence in **`terms.md`** per module; **`term-registry.md`** = Term + **Targets** + **Notes**. After markdown stabilizes, render or sync **`*.drawio`**.
 
-**Code-driven phases:** Workspace config (Phase 0) is CLI-driven; all OOAD phases (1–21) are AI-driven narrative/modeling.
+**AI-driven phases:** Each phase can be executed by an agent following assembled instructions from **`generate.py`** or **`AGENTS.md`**.
+
+**Code-driven phases:** Workspace config (`workspace-and-config`) is CLI-driven; other phase-ids are AI-driven narrative/modeling by default.
 
 **Static vs dynamic delivery:**
-- **Dynamic (default):** `generate.py` assembles phase on each call
-- **Static:** `build.py` pre-assembles to `content/built/phases/`; `generate.py --mode static` reads cached version
+
+- **Dynamic (default):** `generate.py` assembles the phase on each call.
+- **Static:** `build.py` pre-assembles to `content/built/phases/`; `generate.py --mode static` reads cached version when present.
+
+---
+
+## Appendix: model in layers
+
+Use when you need a **layered** view of the same model. Not part of default stages **A–F**.
+
+| Phase ID | Link | Purpose |
+|----------|------|---------|
+| `model-in-layers` | [Model in layers](phases/model-in-layers.md) | Organize final artifacts across domain, application, infrastructure layers |
+
+`python scripts/base/generate.py --phase model-in-layers`

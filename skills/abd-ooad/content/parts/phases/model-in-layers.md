@@ -1,6 +1,8 @@
-# Model in layers — payments example
+# Model in layers — illustrative thread
 
-**Skill:** abd-ooad — **Step 20:** four layers + **where** payments artifacts sit.
+**Phase ID:** `model-in-layers`
+
+**Skill:** abd-ooad — **Optional appendix** (not in default stages **A–F**): four layers + **where** domain artifacts sit. *(Payments example — substitute your domain.)*
 
 **Upstream:** entire chain from `nouns-verbs-rules-and-states.md` through `refine-names.md`.
 

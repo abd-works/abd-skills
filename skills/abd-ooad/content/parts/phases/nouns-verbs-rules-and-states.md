@@ -1,6 +1,6 @@
 # Nouns, verbs, rules, and states
 
-**Skill:** abd-ooad — **Phase 2** — `nouns-verbs-rules-and-states`.
+**Skill:** abd-ooad — **Phase-id:** `nouns-verbs-rules-and-states` (see **`process.md`** chronicle — do not call this “Phase 2” as a step name).
 
 **What you produce:** **domain-noun-verb.md** on disk (one per source slice): structured extraction by anchor — one **## [AnchorName module]** per backbone anchor; **Candidate …** lists; **full** class boxes (`+` / **opt** / **Invariant:**) or pared **`### … : << … >>`** where the source supports it; **#### Note :** when useful.
 
@@ -12,9 +12,9 @@ For the full anchor definition and the three-part anchor test — see `anchors` 
 
 ---
 
-## Phase 2 deliverable — `domain-noun-verb.md` (normative)
+## Deliverable — `domain-noun-verb.md` (normative)
 
-**One file per slice:** **domain-noun-verb.md** in the **slice folder** (e.g. `abd-ooad/1 - basics-checks-conditions/`). Canonical Phase 2 extraction for that slice.
+**One file per slice:** **domain-noun-verb.md** in the **slice folder** (e.g. `abd-ooad/1 - basics-checks-conditions/`). Canonical **first detailed** extraction for that slice (after workspace-wide **`domain-scan`**). **Also maintain `terms.md`** in the slice folder (**`templates/terms-template.md`**) for long quotes and promotion history by **`## [Anchor module]`**.
 
 | Item | Rule |
 |------|------|
@@ -23,16 +23,17 @@ For the full anchor definition and the three-part anchor test — see `anchors` 
 | **Structure** | Per anchor: **## [Anchor module]** → **### Note :** → **Candidate …** lists → class boxes (**full** `+` / **opt** / **Invariant:** or pared **`### … : << … >>`**). Optional **## Cross-anchor notes**. |
 | **Artifact body** | Domain content only — no skill paths, template filenames, or process meta in the file. |
 | **Elsewhere** | Methodology and plans stay in **strategy.md** / **term-registry.md** / phase docs — not in the slice artifact. |
-| **Phase 3 in the same file** | Optional: append bucket roll-up, watch list, and tensions to **domain-noun-verb.md** (see **raw-candidate-list** phase) instead of a second markdown file. |
+| **`terms.md`** | Same slice folder; evidence quotes and promotion log — see **`library/term-registry.md`**. |
+| **`raw-candidate-list` in the same file** | Optional: append bucket roll-up, watch list, and tensions to **domain-noun-verb.md** (see **`raw-candidate-list`** phase-id) instead of a second markdown file. |
 
 
-Align **term-registry.md** **Anchor** cells (`S1=<heading>`) with the **`## [… module]`** headings in **domain-noun-verb.md**.
+Align **term-registry.md** (slice / anchor context in **Notes**; **Targets** bullets per **`library/term-registry.md`**) with the **`## [… module]`** headings in **domain-noun-verb.md** and **`terms.md`**.
 
-
-| Artifact                                 | Role                                                                                                                                                  |
-| ---------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **term-registry.md**                   | SCAN **type** decisions: Classification, Confidence, Status, Notes — sparse.                                                                          |
-| **domain-noun-verb.md** (slice folder) | Phase 2 **evidence**: candidates and **full** class boxes **by anchor** (pared-down only in Cross-anchor / boundary notes), structured as above. |
+| Artifact | Role |
+|----------|------|
+| **term-registry.md** | Term-centric **Targets** + **Notes** — sparse rows at first; deepens each phase-id. |
+| **terms.md** (slice folder) | Verbatim / module-scoped evidence — **not** duplicated as walls of prose in the domain model. |
+| **domain-noun-verb.md** (slice folder) | Structured extraction: candidates and **full** class boxes **by anchor** (pared-down only in Cross-anchor / boundary notes), structured as above. |
 
 
 **Anchor column** (single cell per term in the registry table) — one code cell per term, **slice-keyed**:
@@ -47,7 +48,7 @@ Align **term-registry.md** **Anchor** cells (`S1=<heading>`) with the **`## […
 
 ## Anchor boundaries under test
 
-Phase 2 is the first time anchors are tested by the full vocabulary of the source. As you extract nouns and verbs, actively watch for:
+This phase-id is the first time anchors are tested by the full vocabulary of the source. As you extract nouns and verbs, actively watch for:
 
 - **Evidence that supports an anchor** — terms that clearly belong inside an anchor's module frame (future supporting classes or properties of the core class)
 - **Evidence that challenges an anchor** — a term that is referenced independently by multiple other concepts, suggesting it may need to be elevated to its own anchor

@@ -1,14 +1,14 @@
 # Raw candidate list
 
-**Skill:** abd-ooad — Phase 3.
+**Skill:** abd-ooad — **Phase-id:** `raw-candidate-list` (follows **`nouns-verbs-rules-and-states`** in the chronicle).
 
-**What this phase does:** Sort vocabulary into **candidate kinds** — **entities**, **value objects**, **processes**, **policies**, **roles**, **events** — record **why** each candidate matters, early class smell, watch list, and tensions.
+**What this phase does:** Sort vocabulary into **candidate kinds** — **entities**, **value objects**, **processes**, **policies**, **roles**, **events** — record **why** each candidate matters, early class smell, watch list, and tensions. Update **`term-registry.md`** (**Targets** / **Notes**) and **`terms.md`** under the same anchor modules when needed.
 
 **Focus:** Separation and tensions. Value-object candidates may stay `<< ValueObject >>` / enum / struct until later phases.
 
 ---
 
-## Work order (Phase 3)
+## Work order (`raw-candidate-list`)
 
 Do **analysis in domain markdown** — **`domain-raw-candidates.md`** (preferred) or **one** tabular file (**`raw-candidate-list.md`** *or* roll-up appended to **`domain-noun-verb.md`**). **Do not** paste the same bucket tables in two places. When the project keeps a class diagram for the slice, update it **after** the markdown matches (**visual twin**).
 
@@ -28,7 +28,7 @@ Do **analysis in domain markdown** — **`domain-raw-candidates.md`** (preferred
 
 ## Illustrative shape (Check anchor)
 
-From **`domain-noun-verb.md`** (Phase 2), re-sort into kinds:
+From **`domain-noun-verb.md`** (phase-id **`nouns-verbs-rules-and-states`**), re-sort into kinds:
 
 | Kind | Extraction (illustrative) |
 |------|---------------------------|
@@ -37,9 +37,9 @@ From **`domain-noun-verb.md`** (Phase 2), re-sort into kinds:
 | **Rules** | Compare total vs DC; bonuses may not stack |
 | **States** | Check pending → resolved |
 
-**Phase 3 buckets (same terms, new shape):**
+**Buckets (same terms, new shape):**
 
-| Phase 2 term(s) | Likely bucket | Notes |
+| Prior term(s) | Likely bucket | Notes |
 |-----------------|---------------|-------|
 | Character, Check | **Entities** | May merge later. |
 | DC, bonus | **Value objects** | VO / enum / struct. |

@@ -1,8 +1,8 @@
 # Strategy-led generation
 
-Domain scan (OOAD **phase 1**) does not only produce a single “results” file. It establishes a **small set of workspace files** under `<workspace>/abd-ooad/` that work together. Some are **frozen findings** from the scan; others are **living documents** you update as modeling continues.
+Domain scan (phase-id **`domain-scan`**) does not only produce a single “results” file. It establishes a **small set of workspace files** under `<workspace>/abd-ooad/` that work together. Some are **frozen findings** from the scan; others are **living documents** you update as modeling continues.
 
-**Slices start at global Phase 2:** Source-slice work (e.g. **S1**, **S2** in `strategy.md` and **`Anchor`** `S1=…` / `S2=…` in `term-registry.md`) uses the **same global OOAD phase numbers** as the process table for everything **after** scan. The **first** per-slice extraction step is **Phase 2** (`nouns-verbs-rules-and-states`), **not** a slice-local “Phase 1.” Phase **1** is workspace-wide **domain-scan** only. See **`term-registry.md` → Slices and global phase numbers**.
+**Per-slice extraction** after scan uses the **same phase-id chronicle** as **`process.md`**. The **first** detailed per-slice capture is **`nouns-verbs-rules-and-states`** (then **`raw-candidate-list`**, …) — **not** a second **`domain-scan`**. Use **phase-id** names in strategy and registry (and **`*[Sn · phase-id]*`** tags in the model), not “Phase 1 / Phase 2” as step names. See **`term-registry.md`** and **`process.md` → Capture ladder**.
 
 For the scan procedure itself, see the **Domain scan** phase. This page explains **what each artifact is for** and how **`strategy.md`** relates to **`domain-scan-results.md`**.
 
@@ -20,7 +20,8 @@ Created during domain scan under `<workspace>/abd-ooad/`:
 | `strategy.md` | **Living strategy:** **modeling scope**; **§1 source slices** (table: Order, Goal, **Source** — chapters, files, modules, or mixed — **Coverage**, **Importance**); **§2 slice plan** (per-slice **goal restated** + **phases**); **coverage across steps**; **cross-slice integration**; **anchor and subdomain elaboration**; **execution plan (normative)** — phase slugs with **slice IDs** on every line; plus **approach** and **dated pivots**. | **Yes** — whenever scope, order, slice depth, subdomain mapping, or integration changes. |
 | `domain-scan-model.md` | Class sketch (markdown) at scan fidelity. | Yes, in later phases — not only during scan. |
 | `domain-scan-model.drawio` | Diagram at scan fidelity. | Same as model.md. |
-| `term-registry.md` | Terms, **Classification** (model role), **Status** (OOAD scale), confidence — seeded at scan. | **Yes** — every later phase updates Step, Classification, and Status as the model evolves. |
+| `term-registry.md` | Terms, **Targets** (bulleted typed pointers), **Notes** — seeded at scan. | **Yes** — every later phase-id updates **Targets** and **Notes** as the model evolves. See **`library/term-registry.md`**. |
+| `terms.md` (per slice) | Evidence ledger by **`## [Anchor module]`** — quotes, promotion log. | **Yes** — from **`nouns-verbs-rules-and-states`** onward for that slice. Template: **`templates/terms-template.md`**. |
 
 **Plus** (when workspace is configured): **`progress/`** checklists — see **`library/strategy-execution-and-checklists.md`**. **`generate.py`** creates **`process-checklist.md`**, **`<phase>-checklist.md`**, and (abd-ooad) **`strategy-run-checklist.md`** when templates exist and files are missing. Normative phase steps stay in **`content/parts/phases/<phase>.md`**. These are the **only** place for session tick marks.
 
@@ -55,8 +56,8 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 
 1. **Strategy** — Keep **`strategy.md`** aligned with reality; append *Ongoing strategic decisions* when you pivot.
 2. **Strategy execution** — Tick **`progress/strategy-run-checklist.md`** as you **complete** each phase for its declared scope.
-3. **Phase work** — For the active phase, run **`generate.py --phase <slug>`** and tick **`progress/<slug>-checklist.md`** for action steps.
-4. **Registry** — Keep `term-registry.md` aligned with the current phase (Step, Classification, Status).
+3. **Phase work** — For the active phase-id, run **`generate.py --phase <phase-id>`** (or **`generate.py --stage <A|B|…|F>`** for a stage) and tick **`progress/<phase-id>-checklist.md`** for action steps.
+4. **Registry** — Keep `term-registry.md` aligned with the current phase-id (**Targets** + **Notes**); keep slice **`terms.md`** in sync for verbatim evidence.
 5. **Results** — Touch `domain-scan-results.md` only for corrections to the original scan snapshot.
 
 ---

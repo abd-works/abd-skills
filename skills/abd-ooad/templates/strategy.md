@@ -54,7 +54,7 @@
 
 - **Slice goal (restated):** {{One sentence — same intent as the Goal column in §1, expanded if needed.}}
 - **Unit kind:** {{chapter \| directory \| anchor \| module \| file \| API surface \| …}}
-- **Phases (execution steps — § numbers or slugs):** {{e.g. domain-scan (1); nouns-verbs → raw-candidate (2–3); …}}
+- **Phase-ids (execution — use slugs from `process.md`):** {{e.g. `domain-scan`; `nouns-verbs-rules-and-states` → `raw-candidate-list`; …}} — or **stages** (A–F) if you batch by stage.
 - **Produces / updates:** {{artifacts, term-registry rows, diagram}}
 - **Reads / depends on:** {{other slice IDs}}
 
@@ -66,9 +66,9 @@
 
 *Prove **every** in-scope slice is either touched by a planned execution step or **explicitly deferred**.*
 
-| Slice ID | Touched in execution steps (§ numbers below) | Depth this pass | Deferred? |
-|----------|---------------------------------------------|-----------------|-----------|
-| {{S1}} | {{e.g. 1, 4, 7}} | {{light \| standard \| deep \| reference-only}} | {{no — or yes, why}} |
+| Slice ID | Touched in execution plan (phase-ids) | Depth this pass | Deferred? |
+|----------|----------------------------------------|-----------------|-----------|
+| {{S1}} | {{e.g. domain-scan, nouns-verbs-rules-and-states, thing-vs-data-about-a-thing}} | {{light \| standard \| deep \| reference-only}} | {{no — or yes, why}} |
 
 **Depth (pick one per slice for this pass):**
 
@@ -97,11 +97,11 @@
 
 | Anchor (core class) | Subdomain / attached types | Source slices (IDs) | First elaboration beyond scan (execution §) | Later steps (§) | Notes |
 |---------------------|-----------------------------|----------------------|--------------------------------------------|-----------------|-------|
-| {{e.g. Character}} | {{Ability, Skill, Advantage}} | {{S3, S4, S5}} | {{e.g. §2 breadth + §5 responsibilities}} | {{e.g. §6 properties}} | |
+| {{e.g. Character}} | {{Ability, Skill, Advantage}} | {{S3, S4, S5}} | {{e.g. nouns-verbs-rules-and-states + responsibilities-before-operations}} | {{e.g. add-properties-semantically-tight}} | |
 
 **Rules:**
 
-- Every **subdomain row** must map to **at least one execution step** where nouns/candidates/responsibilities/properties are **explicit** (not only “implied by anchor”).
+- Every **subdomain row** must map to **at least one phase-id** in the execution plan where nouns/candidates/responsibilities/properties are **explicit** (not only “implied by anchor”).
 - **Codebases:** subdomains may be **packages** under an anchor module — same table, different slice IDs.
 - If **nouns-verbs** / **raw-candidate-list** names only one slice while others stay at scan fidelity, **widen** those steps’ slice IDs or add **separate execution lines** per subdomain.
 
@@ -109,16 +109,29 @@
 
 ## Execution plan (normative)
 
-*Ordered **phase slugs** (`skill-config.json` → `phase_files`). Each line names **slice IDs**. **No checkboxes here** — ticks in **`progress/strategy-run-checklist.md`**. Align with **§1**, **§2**, **Coverage across steps**, and **Anchor and subdomain elaboration**.*
+*Ordered **phase-id** strings (same as **`process.md`** chronicle / **`skill-config.json` → `phase_files`**). Each line names **slice IDs**. **No checkboxes here** — ticks in **`progress/strategy-run-checklist.md`**. Align with **§1**, **§2**, **Coverage across steps**, and **Anchor and subdomain elaboration**. You may batch by **stage A–F** using **`generate.py --stage`** — see **`process.md` → Stage map**.*
 
-1. **domain-scan** — slices: {{all S\* or listed IDs}} — {{what the scan bounded}}
-2. **nouns-verbs-rules-and-states** — slices: {{…}} — {{what you extract}}
-3. **raw-candidate-list** — slices: {{…}} — {{…}}
+1. **`domain-scan`** — slices: {{all S\* or listed IDs}} — {{what the scan bounded}}
+2. **`nouns-verbs-rules-and-states`** — slices: {{…}} — {{what you extract}}
+3. **`raw-candidate-list`** — slices: {{…}} — {{…}}
 4. {{continue until the pass is fully described}}
 
 *Patterns:* single vertical slice; package ladder; breadth-then-depth; anchor + subdomains (see template **Anchor** section above).
 
+**Revisits:** If you must go **backward** (e.g. from **`refine-names`** to earlier structure), **do not** create a separate rerun doc — add rows to **`strategy-run-checklist.md`** (see **`library/strategy-execution-and-checklists.md`**).
+
 When this plan changes, update **`strategy-run-checklist.md`**, then log under *Ongoing strategic decisions*.
+
+---
+
+## After each stage (optional but recommended)
+
+*For each **stage A–F** you complete in a pass:*
+
+- **Completed:** {{short bullet — which phase-ids ran}}
+- **Tensions / open points:** {{…}}
+- **New checklist items:** {{e.g. revisit rows added — or “none”}}
+- **Audit:** Append a dated line under *Ongoing strategic decisions* if scope or depth changed.
 
 ---
 

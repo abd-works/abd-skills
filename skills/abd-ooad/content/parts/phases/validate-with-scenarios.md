@@ -28,7 +28,7 @@
 
 ---
 
-## Carry forward → Step 19
+## Carry forward → `refine-names`
 
 **Refine names** for lingering **Processor**/ambiguous terms.
 
@@ -46,7 +46,7 @@
 - [ ] Have you walked at least one failure / edge-case scenario (e.g., sanctions, partial capture, idempotency replay)?
 - [ ] Did every scenario step map to at least one class responsibility in the model?
 - [ ] Have you logged any gaps or missing responsibilities as explicit debt with a clear follow-up?
-- [ ] Have you noted carry-forward items to Step 19 (refine names)?
+- [ ] Have you noted carry-forward items to **`refine-names`** (refine names)?
 
 ---
 

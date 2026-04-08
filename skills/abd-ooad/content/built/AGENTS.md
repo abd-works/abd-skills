@@ -87,67 +87,139 @@ You are the **domain modeler and OOAD practitioner** using this skill: you provi
 
 # OOAD Process — Phase-Based Walkthrough
 
-**Pipeline:** Workspace → Domain Scan & Initial Sketch → Extraction → Refinement → Validation
+**Pipeline:** Workspace → Domain scan & initial sketch → Extraction → Structure → Refinement → Dynamics & validation → Naming
 
-**Per-slice extraction** (after scan) uses **global phases 2–21** for artifacts under a slice ID — **not** a separate “Phase 1 per slice.” **Phase 1** = domain scan (workspace-wide). See **`library/term-registry.md` → Slices and global phase numbers**.
-
----
-
-## Process Table
-
-| # | Phase | Description | Actor | Input | Output | Scripts |
-|---|-------|-------------|-------|-------|--------|---------|
-| 0 | [Workspace and config](phases/workspace-and-config.md) | Set active skill workspace; configure project root | Human | Project directory | `skill-config.json` updated | `python scripts/base/set_workspace.py <path>` |
-| 1 | [Domain scan](phases/domain-scan.md) | Scan source, identify 3–7 anchors, flag tensions, produce initial model sketch | AI | Source material (spec, code, manual, transcript) | `domain-scan-results.md` + `strategy.md` + `domain-scan-model.md` + `domain-scan-model.drawio` + `term-registry.md` (+ `abd-ooad/progress/*-checklist.md` from `generate.py`) | `python scripts/base/generate.py --phase domain-scan` |
-| 2 | [Nouns, verbs, rules, and states](phases/nouns-verbs-rules-and-states.md) | Careful extraction: mark nouns, verbs, rules, states per section; **term-registry `Anchor` column** (`S1=` per slice heading; `S2=` only when slice 2 exists) | AI | Source material + domain-scan results | **Per slice:** **`domain-noun-verb.md`** in the slice folder (see **`templates/domain-noun-verb-template.md`**) — **only** Phase 2 model file; updated **`term-registry.md`** | `python scripts/base/generate.py --phase nouns-verbs-rules-and-states` |
-| 3 | [Raw candidate list](phases/raw-candidate-list.md) | Sort findings into entities, values, processes, policies, roles, events | AI | Extraction results | Candidate class inventory + updated term-registry.md | `python scripts/base/generate.py --phase raw-candidate-list` |
-| 4 | [Thing vs data about a thing](phases/thing-vs-data-about-a-thing.md) | Separate independent entities from value objects, enums, properties | AI | Candidate list | Refined entities with clear boundaries | `python scripts/base/generate.py --phase thing-vs-data-about-a-thing` |
-| 5 | [Responsibilities before operations](phases/responsibilities-before-operations.md) | Define what each class is responsible for (before methods) | AI | Entities | Responsibility statements per class | `python scripts/base/generate.py --phase responsibilities-before-operations` |
-| 6 | [Add properties semantically tight](phases/add-properties-semantically-tight.md) | Give each class only the properties it needs to fulfill responsibilities | AI | Responsibilities | Classes with semantic properties | `python scripts/base/generate.py --phase add-properties-semantically-tight` |
-| 7 | [Turn verbs into operations](phases/turn-verbs-into-operations.md) | Distribute verbs to classes that own the behavior | AI | Verbs from extraction + classes | Class operations (methods) | `python scripts/base/generate.py --phase turn-verbs-into-operations` |
-| 8 | [Relationships and cardinality](phases/relationships-and-cardinality.md) | Define associations, composition, aggregation, multiplicity | AI | Classes + operations | Class diagram with relationships | `python scripts/base/generate.py --phase relationships-and-cardinality` |
-| 9 | [Invariants in the model](phases/invariants-in-the-model.md) | Encode domain rules into class behavior (not external code) | AI | Rules from extraction + class diagram | Classes with enforced invariants | `python scripts/base/generate.py --phase invariants-in-the-model` |
-| 10 | [Watch for bloated classes](phases/watch-for-bloated-classes.md) | Identify and split overly complex classes | AI | Candidate model | Classes split by cohesion | `python scripts/base/generate.py --phase watch-for-bloated-classes` |
-| 11 | [Smashed abstractions](phases/smashed-abstractions-and-hidden-roles.md) | Separate overloaded nouns into distinct roles | AI | Candidate model | Separated role-specific classes | `python scripts/base/generate.py --phase smashed-abstractions-and-hidden-roles` |
-| 12 | [Inheritance when behavior generalizes](phases/inheritance-when-behavior-generalizes.md) | Use inheritance only for genuine behavior generalization | AI | Classes | Inheritance hierarchy (if needed) | `python scripts/base/generate.py --phase inheritance-when-behavior-generalizes` |
-| 13 | [Abstract classes and interfaces](phases/abstract-classes-and-interfaces.md) | Choose abstractions for shared contract vs shared state | AI | Inheritance candidates | Abstract classes / interfaces | `python scripts/base/generate.py --phase abstract-classes-and-interfaces` |
-| 14 | [Prefer composition](phases/prefer-composition.md) | Use composition instead of inheritance for variability | AI | Classes | Refactored classes with composed parts | `python scripts/base/generate.py --phase prefer-composition` |
-| 15 | [Model state transitions](phases/model-state-transitions.md) | Make invalid states unrepresentable or rejected | AI | Classes + state rules | State models or enums | `python scripts/base/generate.py --phase model-state-transitions` |
-| 16 | [Iterative refinement](phases/iterative-refinement.md) | Re-evaluate model against source; resolve contradictions | AI | Current model + source material | Refined model (second pass) | `python scripts/base/generate.py --phase iterative-refinement` |
-| 17 | [Tension as a signal](phases/tension-as-a-signal.md) | Use design friction to adjust boundaries or record debt | AI | Model + design notes | Adjusted model or debt log | `python scripts/base/generate.py --phase tension-as-a-signal` |
-| 18 | [What changes together](phases/what-changes-together.md) | Group cohesive properties/operations; identify bounded contexts | AI | Refined classes | Cohesive class clusters | `python scripts/base/generate.py --phase what-changes-together` |
-| 19 | [Validate with scenarios](phases/validate-with-scenarios.md) | Test model against realistic workflows | AI | Current model | Scenario walkthroughs + corrections | `python scripts/base/generate.py --phase validate-with-scenarios` |
-| 20 | [Refine names](phases/refine-names.md) | Align naming with domain language and stakeholder vocabulary | AI | Model + domain expert input | Renamed classes / operations | `python scripts/base/generate.py --phase refine-names` |
-| 21 | [Model in layers](phases/model-in-layers.md) | Organize final artifacts across domain, application, infrastructure layers | AI | Finalized classes | Layered model documentation + diagrams | `python scripts/base/generate.py --phase model-in-layers` |
+**Normative step names** are **`phase-id`** values (kebab-case slugs) — the same strings in this file, **`skill-config.json` → `phase_files`**, phase markdown **filenames**, **`generate.py --phase`**, cross-references, and domain model tags **`*[Sn · phase-id]*`**. Do **not** use “Phase 1 / Phase 2” as **names** for steps; that duplicates the chronicle and drifts.
 
 ---
 
-## Standards and Tools
+## Phase chronicle (execution order)
 
-- **Diagrams:** See `using-diagram-cli` library shard — `scripts/drawio_cli.py` workflow, `templates/` directory, and all layout rules.
+Top row runs first. **Link** = phase document under `content/parts/phases/`. **Stage** = grouping **A–F** for strategy and tooling (`generate.py --stage`); see **Stage map** below.
+
+| Phase ID | Link | Purpose | Stage |
+|----------|------|---------|-------|
+| `workspace-and-config` | [Workspace and config](phases/workspace-and-config.md) | Set active skill workspace; configure project root | A |
+| `domain-scan` | [Domain scan](phases/domain-scan.md) | Scan source, identify anchors, flag tensions, initial sketch | A |
+| `nouns-verbs-rules-and-states` | [Nouns, verbs, rules, and states](phases/nouns-verbs-rules-and-states.md) | Per-slice extraction: nouns, verbs, rules, states; update **`terms.md`**, **`term-registry.md`** | B |
+| `raw-candidate-list` | [Raw candidate list](phases/raw-candidate-list.md) | Sort findings into entities, values, processes, policies, roles, events | B |
+| `thing-vs-data-about-a-thing` | [Thing vs data about a thing](phases/thing-vs-data-about-a-thing.md) | Separate entities from value objects, enums, properties | C |
+| `responsibilities-before-operations` | [Responsibilities before operations](phases/responsibilities-before-operations.md) | Define what each class is responsible for (before methods) | C |
+| `add-properties-semantically-tight` | [Add properties semantically tight](phases/add-properties-semantically-tight.md) | Give each class only the properties it needs | C |
+| `turn-verbs-into-operations` | [Turn verbs into operations](phases/turn-verbs-into-operations.md) | Distribute verbs to owning classes | C |
+| `relationships-and-cardinality` | [Relationships and cardinality](phases/relationships-and-cardinality.md) | Associations, composition, multiplicity | C |
+| `invariants-in-the-model` | [Invariants in the model](phases/invariants-in-the-model.md) | Encode domain rules into class behavior | C |
+| `watch-for-bloated-classes` | [Watch for bloated classes](phases/watch-for-bloated-classes.md) | Split overly complex classes | D |
+| `smashed-abstractions-and-hidden-roles` | [Smashed abstractions](phases/smashed-abstractions-and-hidden-roles.md) | Separate overloaded nouns into roles | D |
+| `inheritance-when-behavior-generalizes` | [Inheritance when behavior generalizes](phases/inheritance-when-behavior-generalizes.md) | Inheritance only for real generalization | D |
+| `abstract-classes-and-interfaces` | [Abstract classes and interfaces](phases/abstract-classes-and-interfaces.md) | Shared contract vs shared state | D |
+| `prefer-composition` | [Prefer composition](phases/prefer-composition.md) | Composition for variability (with stage D structure) | D |
+| `model-state-transitions` | [Model state transitions](phases/model-state-transitions.md) | Invalid states unrepresentable or rejected | E |
+| `iterative-refinement` | [Iterative refinement](phases/iterative-refinement.md) | Second pass; resolve contradictions | E |
+| `tension-as-a-signal` | [Tension as a signal](phases/tension-as-a-signal.md) | Use friction to adjust boundaries or record debt | E |
+| `what-changes-together` | [What changes together](phases/what-changes-together.md) | Cohesion clusters; bounded contexts | E |
+| `validate-with-scenarios` | [Validate with scenarios](phases/validate-with-scenarios.md) | Walk realistic workflows against the model | E |
+| `refine-names` | [Refine names](phases/refine-names.md) | Align naming with domain language | F |
+
+**Optional (appendix, not part of default stages A–F):** **`model-in-layers`** — [Model in layers](phases/model-in-layers.md) — organize artifacts across domain / application / infrastructure views. Run explicitly with **`python scripts/base/generate.py --phase model-in-layers`** when needed.
+
+### Stage flow (optional)
+
+```mermaid
+flowchart LR
+  subgraph stages [Stages]
+    A[Stage A] --> B[Stage B]
+    B --> C[Stage C]
+    C --> D[Stage D]
+    D --> E[Stage E]
+    E --> F[Stage F]
+  end
+  F -.->|often| E
+  F -.->|often| D
+  F -.->|sometimes| C
+  D -.->|often| C
+  E -.->|often| C
+```
+
+---
+
+## Stage map (A–F)
+
+**Default:** “Run **stage**” = run every **phase-id** in that stage **in chronicle order** (same order as the table above). **`generate.py --stage <A|B|…|F>`** expands to that list — see **`skill-config.json` → `process_stages`**.
+
+| Stage | Phase IDs (in order) |
+|-------|----------------------|
+| **A** | `workspace-and-config`, `domain-scan` |
+| **B** | `nouns-verbs-rules-and-states`, `raw-candidate-list` |
+| **C** | `thing-vs-data-about-a-thing`, `responsibilities-before-operations`, `add-properties-semantically-tight`, `turn-verbs-into-operations`, `relationships-and-cardinality`, `invariants-in-the-model` |
+| **D** | `watch-for-bloated-classes`, `smashed-abstractions-and-hidden-roles`, `inheritance-when-behavior-generalizes`, `abstract-classes-and-interfaces`, `prefer-composition` |
+| **E** | `model-state-transitions`, `iterative-refinement`, `tension-as-a-signal`, `what-changes-together`, `validate-with-scenarios` |
+| **F** | `refine-names` |
+
+Single-step escape hatches: **`generate.py --phase <phase-id>`**; test/single-phase modes as your team configures.
+
+**Open decision:** One **`iterative-refinement`** step with “repeat as needed” in strategy vs splitting into two explicit phase-ids — team choice; chronicle stays the source of truth.
+
+---
+
+## Capture ladder (what each phase-id captures)
+
+Name phases **only** by **phase-id**. Never “Phase 1 vs Phase 2” as step names.
+
+- **`workspace-and-config`** (when present): workspace layout, config, paths — enables later runs.
+- **`domain-scan`**: First **overall** workspace capture: source type, map, **anchors**, tensions, initial sketch (`domain-scan-results.md`, `domain-scan-model.md`, diagram, seeded **`term-registry.md`**). Not the deep per-module extraction against a full slice — that belongs under later IDs.
+- **`nouns-verbs-rules-and-states`** and **`raw-candidate-list`** (in **table order**): First **detailed, module-specific** capture on a **section of source** (per **slice** in `strategy.md`): **`domain-noun-verb.md`**, **`## [Anchor module]`**, candidates — aligned to locators. **`terms.md`** (per slice) and **`term-registry.md`** evolve from here onward for that slice.
+- **Stages C–F**: Structural and behavioral modeling per phase doc; keep coarse verbatim evidence in **`terms.md`**; keep **registry** and **domain model** structural with **`*[Sn · phase-id]*`** tags — see **`library/term-registry.md`**.
+
+For a slice, **`domain-scan`** seeds **global** orientation and anchor set; per-slice registry and **`terms.md`** deepen from **`nouns-verbs-rules-and-states`** onward.
+
+---
+
+## Standards and tools
+
+- **Diagrams:** See `using-diagram-cli` library shard — `scripts/drawio_cli.py` workflow, `templates/` directory, and layout rules.
 - **Workspace routing:** See [`../library/workspace-and-config.md`](library/workspace-and-config.md) for `skill_path`, `skill_workspace`, and portable path resolution.
 
 ---
 
-## Build and Generate
+## Build and generate
 
 - **Build all phases into AGENTS.md:** `python scripts/base/build.py`
-- **Generate a single phase:** `python scripts/base/generate.py --phase <slug>`
-- **List available phases:** See **`skill-config.json`** → **`phase_files`**
+- **Generate one phase:** `python scripts/base/generate.py --phase <phase-id>`
+- **Generate a stage (all phase-ids in that stage, in order):** `python scripts/base/generate.py --stage <A|B|C|D|E|F>`
+- **List stages / phases:** `python scripts/base/generate.py --list-stages` / `--list-phases`
+- **Phase list source:** **`skill-config.json` → `phase_files`**; **stage map:** **`process_stages`**
 
 ---
 
-## Implementation Notes
+## Implementation notes
 
-**Strategy before deep runs:** After domain scan, fill **`strategy.md`** from **`templates/strategy.md`**: **section strategy** (named units — chapters, packages, anchors, …), **coverage across steps** (every in-scope section touched or explicitly deferred), **section-by-section plan** (depth per section), **section integration** (cross-boundary handoffs), and **execution plan** (ordered phase slugs with **section IDs on each line**). Align **`abd-ooad/progress/strategy-run-checklist.md`** (reuse the same IDs in scope strings). Then run **`generate.py --phase <slug>`**. See **`library/strategy-led-generation`** and **`library/strategy-execution-and-checklists`**.
+**Strategy before deep runs:** After **`domain-scan`**, fill **`strategy.md`** from **`templates/strategy.md`**: slices, coverage, execution plan using **phase-id** strings, and align **`abd-ooad/progress/strategy-run-checklist.md`**. See **`library/strategy-led-generation`** and **`library/strategy-execution-and-checklists`**.
 
-**AI-driven phases:** Each phase can be executed by Claude following the assembled instructions from **`generate.py`** or **`AGENTS.md`**.
+**Stage end / disruption:** After completing a stage, refresh strategy as needed. **Revisits** are **new rows** on the **same** **`strategy-run-checklist.md`** (e.g. “Revisit stage B — &lt;reason&gt;”) — not a separate rerun document. See **`library/strategy-execution-and-checklists.md`**.
 
-**Code-driven phases:** Workspace config (Phase 0) is CLI-driven; all OOAD phases (1–21) are AI-driven narrative/modeling.
+**Artifact hygiene:** Analysis in **`domain*.md`** / integrated model; long verbatim evidence in **`terms.md`** per module; **`term-registry.md`** = Term + **Targets** + **Notes**. After markdown stabilizes, render or sync **`*.drawio`**.
+
+**AI-driven phases:** Each phase can be executed by an agent following assembled instructions from **`generate.py`** or **`AGENTS.md`**.
+
+**Code-driven phases:** Workspace config (`workspace-and-config`) is CLI-driven; other phase-ids are AI-driven narrative/modeling by default.
 
 **Static vs dynamic delivery:**
-- **Dynamic (default):** `generate.py` assembles phase on each call
-- **Static:** `build.py` pre-assembles to `content/built/phases/`; `generate.py --mode static` reads cached version
+
+- **Dynamic (default):** `generate.py` assembles the phase on each call.
+- **Static:** `build.py` pre-assembles to `content/built/phases/`; `generate.py --mode static` reads cached version when present.
+
+---
+
+## Appendix: model in layers
+
+Use when you need a **layered** view of the same model. Not part of default stages **A–F**.
+
+| Phase ID | Link | Purpose |
+|----------|------|---------|
+| `model-in-layers` | [Model in layers](phases/model-in-layers.md) | Organize final artifacts across domain, application, infrastructure layers |
+
+`python scripts/base/generate.py --phase model-in-layers`
 
 
 ## Workspace and Config
@@ -347,19 +419,23 @@ See **`content/parts/phases/domain-scan.md`** for details.
 
 # Domain model Markdown
 
-This skill’s **domain model** is captured in Markdown  a parallel **Draw.io** class diagram. Use **`templates/domain model template.md`** for companion docs; align with **`templates/domain model template.drawio`** when both exist.
+The **domain model** lives in workspace **`domain*.md`** files; **Draw.io** diagrams are **visual twins** of that content — update markdown first, then render or hand-sync the diagram (see **class-diagrams**, **using-diagram-cli**).
 
-**Phase 2 — `domain-noun-verb.md`:** anchor sections, **Candidate …** lists, full or pared class boxes. Slice files are **content only** — no skill paths or process meta in the artifact body.
+**Integrated slice model + evidence:** Prefer **`templates/domain-model-integrated.md`** alongside **`templates/terms-template.md`** (`terms.md` per slice). Class **Notes** use **`*[Sn · phase-id]*`** (e.g. **`*[S1 · refine-names]*`**) — **phase-id** from **`process.md`**, not numeric step names.
 
-**Phase 3 — bucket roll-up:** sort candidates into **entities**, **value objects**, **processes**, **policies**, **roles**, **events** (tables in **`raw-candidate-list.md`** or appended to **`domain-noun-verb.md`**). Same **content-only** rule: no skill/process boilerplate in slice files.
+**`domain-scan`:** **`domain-scan-results.md`**, **`domain-scan-model.md`**, then **`domain-scan-model.drawio`**.
 
-**Optional — `domain-raw-candidates.md`:** same Phase 3 content as **classes under anchor modules** (`### Name : << Entity >>` / `<< ValueObject >>` / `<< Process >>` / …), notes below — **not** a second copy of bucket tables. Cross-cutting material → **`## Cross-anchor`** or appendix. **`templates/domain-raw-candidates-template.md`**.
+**`nouns-verbs-rules-and-states` — `domain-noun-verb.md`:** anchor sections, **Candidate …** lists, class boxes. Slice files are **domain content only** — no skill paths or process boilerplate in the artifact body.
+
+**`raw-candidate-list`:** Prefer **`domain-raw-candidates.md`** — classes under anchors with notes. Optional single tabular roll-up (**`raw-candidate-list.md`** or appendix to **`domain-noun-verb.md`**) — **not** the same tables twice plus an integrated file.
+
+**Templates:** **`templates/domain model template.md`**, **`templates/domain-raw-candidates-template.md`**, **`templates/domain-model-integrated.md`**.
 
 ---
 
 ## Domain concept template
 
-Each **domain concept** (class, interface, value object, or aggregate) is documented under a clear heading, for example:
+Each concept is documented under a clear heading, for example:
 
 ```markdown
 ## **Payment**
@@ -368,73 +444,62 @@ Each **domain concept** (class, interface, value object, or aggregate) is docume
 
 ### Properties
 - Money amount
-- …
 
 ### Operations
 - initiate() → Authorization
 ```
 
-From **Step 5** onward, prefer **typed** members (see **Notation evolution** below). Earlier steps stay **pre-notation** (bullets and prose).
+From **Phase 6** onward (`add-properties-semantically-tight`), prefer **typed** members (see **Notation evolution**). Earlier phases stay informal (bullets and prose).
 
 ---
 
-## Continual refinement — class definition + diagram
+## Markdown and diagram
 
-**Continual refinement** means you **grow** the model across steps: each step file may add or tighten concepts. The Markdown spec and the class diagram are **two views of the same model** — update both when your project uses dual artifacts so they do not drift (see **[Class diagrams](class-diagrams.md)**).
+The Markdown spec and the class diagram are **two views of the same model** — keep them aligned when both exist (**class-diagrams**).
 
 ---
 
-## **newly added** tag
+## **newly added** tag (optional)
 
-In the **worked example** threads (e.g. payments), the marker **newly added** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
+In long-running examples, **newly added** on a line marks a property or operation that first appears in *this* file — useful for deltas across files.
 
 ---
 
 ## Notation evolution
 
-| Phase | Markdown style |
-|--------|------------------|
-| **Steps 1–4** | Informal: bullets, short phrases, responsibilities, candidate names; typed `- <type> property` lines arrive in Step 5. |
-| **Step 5+** | Formal typed members: `- <Type> propertyName`, `operationName(...) → ReturnType`. |
+| Phase range | Markdown style |
+|-------------|----------------|
+| **2–5** | Informal: bullets, candidates, responsibilities; typed `- <type> property` lines from **Phase 6** onward. |
+| **Phase 6+** | Formal: `- <Type> propertyName`, `operationName(...) → ReturnType`. |
 
 ---
 
 ## Subtype sections
 
-When you introduce substitutable specializations, add an explicit subtype heading so the structure is visible in the spec and in diagrams:
+When you introduce substitutable specializations, add an explicit subtype heading so structure is visible in spec and diagrams:
 
 ```markdown
 ### **Subtype** : **PaymentMethod**
 ```
 
-Put **`**newly added**`** on subtype **operation** (or property) lines when that member is **first** introduced for that subtype.
-
 ---
 
 ## Invariants
 
-Attach invariants to the **property** or **operation** they constrain, using a dedicated line:
+Attach invariants to the property or operation they constrain:
 
 ```markdown
 **Invariant:** …
 ```
 
-Mark **`**newly added**`** when you **first** attach an invariant to a given member line.
-
 ---
 
-## Early steps: terms, mechanisms, story map
+## Class diagram and spec
 
-Before typed properties exist, align extracted **nouns, verbs, rules, states** with your workspace’s **terms & mechanisms** and **shaped story map** (or equivalent). That is the same “grow the model as you go” idea: informal extraction first, then formal types.
+When you maintain **`map-model-spec.json`** or similar, re-run the project’s diagram script after material changes so Draw.io stays aligned.
 
----
-
-## Class diagram and spec (visual twin)
-
-When you maintain a machine-readable spec such as **`map-model-spec.json`**, re-run your project’s class-diagram render script (for example **`render_map_model_class_diagram.py`**) after material changes so the **Draw.io** diagram stays the **visual twin** of the spec.
-
-- **[Class diagrams](class-diagrams.md)** — templates, relationship types, keeping `.md` and `.drawio` aligned.  
-- **[Using the Diagram CLI](using-diagram-cli.md)** — building diagrams with **`scripts/drawio_cli.py`**.
+- **Class diagrams** — templates, relationships, keeping `.md` and `.drawio` aligned.  
+- **Using the Diagram CLI** — `scripts/drawio_cli.py`.
 
 ---
 
@@ -442,9 +507,9 @@ When you maintain a machine-readable spec such as **`map-model-spec.json`**, re-
 
 | Topic | File |
 |--------|------|
-| Term tracking across steps | [term-registry.md](term-registry.md) |
+| Term tracking | [term-registry.md](term-registry.md) |
 | Strategy-led runs | [strategy-led-generation.md](strategy-led-generation.md) |
-| Layout and lanes | [class-diagram-layout-rules.md](class-diagram-layout-rules.md) |
+| Layout | [class-diagram-layout-rules.md](class-diagram-layout-rules.md) |
 
 
 ---
@@ -536,9 +601,9 @@ The absence of a matching core class is the clearest signal that you have not ye
 
 # Strategy-led generation
 
-Domain scan (OOAD **phase 1**) does not only produce a single “results” file. It establishes a **small set of workspace files** under `<workspace>/abd-ooad/` that work together. Some are **frozen findings** from the scan; others are **living documents** you update as modeling continues.
+Domain scan (phase-id **`domain-scan`**) does not only produce a single “results” file. It establishes a **small set of workspace files** under `<workspace>/abd-ooad/` that work together. Some are **frozen findings** from the scan; others are **living documents** you update as modeling continues.
 
-**Slices start at global Phase 2:** Source-slice work (e.g. **S1**, **S2** in `strategy.md` and **`Anchor`** `S1=…` / `S2=…` in `term-registry.md`) uses the **same global OOAD phase numbers** as the process table for everything **after** scan. The **first** per-slice extraction step is **Phase 2** (`nouns-verbs-rules-and-states`), **not** a slice-local “Phase 1.” Phase **1** is workspace-wide **domain-scan** only. See **`term-registry.md` → Slices and global phase numbers**.
+**Per-slice extraction** after scan uses the **same phase-id chronicle** as **`process.md`**. The **first** detailed per-slice capture is **`nouns-verbs-rules-and-states`** (then **`raw-candidate-list`**, …) — **not** a second **`domain-scan`**. Use **phase-id** names in strategy and registry (and **`*[Sn · phase-id]*`** tags in the model), not “Phase 1 / Phase 2” as step names. See **`term-registry.md`** and **`process.md` → Capture ladder**.
 
 For the scan procedure itself, see the **Domain scan** phase. This page explains **what each artifact is for** and how **`strategy.md`** relates to **`domain-scan-results.md`**.
 
@@ -556,7 +621,8 @@ Created during domain scan under `<workspace>/abd-ooad/`:
 | `strategy.md` | **Living strategy:** **modeling scope**; **§1 source slices** (table: Order, Goal, **Source** — chapters, files, modules, or mixed — **Coverage**, **Importance**); **§2 slice plan** (per-slice **goal restated** + **phases**); **coverage across steps**; **cross-slice integration**; **anchor and subdomain elaboration**; **execution plan (normative)** — phase slugs with **slice IDs** on every line; plus **approach** and **dated pivots**. | **Yes** — whenever scope, order, slice depth, subdomain mapping, or integration changes. |
 | `domain-scan-model.md` | Class sketch (markdown) at scan fidelity. | Yes, in later phases — not only during scan. |
 | `domain-scan-model.drawio` | Diagram at scan fidelity. | Same as model.md. |
-| `term-registry.md` | Terms, **Classification** (model role), **Status** (OOAD scale), confidence — seeded at scan. | **Yes** — every later phase updates Step, Classification, and Status as the model evolves. |
+| `term-registry.md` | Terms, **Targets** (bulleted typed pointers), **Notes** — seeded at scan. | **Yes** — every later phase-id updates **Targets** and **Notes** as the model evolves. See **`library/term-registry.md`**. |
+| `terms.md` (per slice) | Evidence ledger by **`## [Anchor module]`** — quotes, promotion log. | **Yes** — from **`nouns-verbs-rules-and-states`** onward for that slice. Template: **`templates/terms-template.md`**. |
 
 **Plus** (when workspace is configured): **`progress/`** checklists — see **`library/strategy-execution-and-checklists.md`**. **`generate.py`** creates **`process-checklist.md`**, **`<phase>-checklist.md`**, and (abd-ooad) **`strategy-run-checklist.md`** when templates exist and files are missing. Normative phase steps stay in **`content/parts/phases/<phase>.md`**. These are the **only** place for session tick marks.
 
@@ -591,8 +657,8 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 
 1. **Strategy** — Keep **`strategy.md`** aligned with reality; append *Ongoing strategic decisions* when you pivot.
 2. **Strategy execution** — Tick **`progress/strategy-run-checklist.md`** as you **complete** each phase for its declared scope.
-3. **Phase work** — For the active phase, run **`generate.py --phase <slug>`** and tick **`progress/<slug>-checklist.md`** for action steps.
-4. **Registry** — Keep `term-registry.md` aligned with the current phase (Step, Classification, Status).
+3. **Phase work** — For the active phase-id, run **`generate.py --phase <phase-id>`** (or **`generate.py --stage <A|B|…|F>`** for a stage) and tick **`progress/<phase-id>-checklist.md`** for action steps.
+4. **Registry** — Keep `term-registry.md` aligned with the current phase-id (**Targets** + **Notes**); keep slice **`terms.md`** in sync for verbatim evidence.
 5. **Results** — Touch `domain-scan-results.md` only for corrections to the original scan snapshot.
 
 ---
@@ -612,26 +678,45 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 
 # Strategy execution and checklists (abd-ooad)
 
-**Canonical doc** for: (1) **strategy** vs **live ticks**, (2) **which files** hold checkboxes, (3) **how** `generate.py` creates workspace **`progress/`** files. Does **not** replace **[process.md](../process.md)** (process tables, `generate` / `build`) or **[skill-structure-and-concepts.md](../base/skill-structure-and-concepts.md)** (repo layout).
+**Canonical doc** for: (1) **strategy** vs **live ticks**, (2) **which files** hold checkboxes, (3) **how** `generate.py` creates workspace **`progress/`** files, (4) **stages**, **revisits / disruption** on the same checklist. Does **not** replace **[process.md](../process.md)** (phase chronicle, `generate` / `build`) or **[skill-structure-and-concepts.md](../base/skill-structure-and-concepts.md)** (repo layout).
 
-Only **`strategy.md`** defines **scope** and **which phases in what order**; checklists are where you **tick** progress.
+Only **`strategy.md`** defines **scope** and **which phase-ids (or stages) in what order**; checklists are where you **tick** progress.
 
 ---
 
 ## Workflow
 
-1. **Domain scan** — produce scan artifacts (see **`strategy-led-generation`**).
+1. **Domain scan** — produce scan artifacts (see **`strategy-led-generation`**). Phase-id: **`domain-scan`**.
 2. **Strategy** — fill **`strategy.md`** from **`templates/strategy.md`**:
    - **Modeling scope** — corpus or product boundary; **source type** (book vs repo vs mixed).
    - **§1 Source slices** — ordered table: **Goal**, **Source** (chapters, files, modules, APIs — whatever locates work), **Coverage** (depth this pass), **Importance**; stable **slice IDs** reused everywhere.
-   - **§2 Slice plan** — per slice: **goal restated**, **unit kind**, **phases** (execution step numbers / slugs), produces, depends-on.
-   - **Coverage across steps** — matrix: every slice → which **execution plan** steps touch it → **depth** → deferrals.
+   - **§2 Slice plan** — per slice: **goal restated**, **unit kind**, **phase-ids** (or **stages**) you will run, produces, depends-on.
+   - **Coverage across steps** — matrix: every slice → which **execution plan** phase-ids touch it → **depth** → deferrals.
    - **Cross-slice integration** — cross-boundary types and ordering (From → To + narrative).
-   - **Anchor and subdomain elaboration** (when anchors have attached types) — map subdomains to slices and execution §.
-   - **Execution plan (normative)** — ordered phase **slugs**; **each line cites slice IDs** (mirror **`strategy-run-checklist.md`**).
+   - **Anchor and subdomain elaboration** (when anchors have attached types) — map subdomains to slices and execution phase-ids.
+   - **Execution plan (normative)** — ordered **phase-id** strings; **each line cites slice IDs** (mirror **`strategy-run-checklist.md`**). Optionally group work by **stage A–F** (see **`process.md` → Stage map**).
+   - **Stage completion (after each stage)** — what completed; tensions; **new checklist lines** for revisits (below); **audit** — append dated line under *Ongoing strategic decisions*.
    - **Approach going forward** + **Ongoing strategic decisions** — short narrative and dated pivots.
 3. **Align live checklists** — keep **`strategy-run-checklist.md`** in sync with the execution plan (same order and scope). Optional **`templates/strategy-run-checklist.md`** seed; optional **`templates/progress-README.md`** → **`progress/README.md`** for slice-specific files under **`progress/slices/`**.
-4. **Run phases** — for the **current** phase: `python scripts/base/generate.py --phase <slug>`. Tick **`strategy-run-checklist.md`** when a phase is **done** for its declared scope; tick **`<slug>-checklist.md`** for **steps inside** that phase.
+4. **Run phases** — **`python scripts/base/generate.py --phase <phase-id>`** for one step, or **`python scripts/base/generate.py --stage <A|B|…|F>`** for a full stage (same order as **`process.md`** / **`skill-config.json` → `process_stages`**). Tick **`strategy-run-checklist.md`** when a phase (or stage slice) is **done** for its declared scope; tick **`<phase-id>-checklist.md`** for **steps inside** that phase.
+
+---
+
+## Revisits and disruption (same checklist)
+
+A **revisit** is **not** a separate rerun workflow. While executing (including late **stage F**), if work must **go back** to an earlier **stage** or **phase-id**, **add a new row** to **`strategy-run-checklist.md`** — e.g. `- [ ] Revisit stage B — <short reason>` or `- [ ] Re-run nouns-verbs-rules-and-states — slice S1 — reconcile new anchor` — at the **bottom** or **inserted** where it fits the agreed order. The checklist is the single source of truth for **forward** work plus **backward** revisits.
+
+**Audit:** When you add a revisit row, append a dated line under **`strategy.md` → Ongoing strategic decisions**; never delete prior pivots.
+
+### Hint table (non-prescriptive)
+
+| You are here | Often need to touch |
+|--------------|---------------------|
+| Stage F | Stage E, D, or C (naming / validation feedback) |
+| Stage E | Stage C (scenarios expose structure gaps) |
+| Stage D | Stage C (splitting responsibilities) |
+
+Use this as a **prompt**, not a rule.
 
 ---
 
@@ -639,9 +724,9 @@ Only **`strategy.md`** defines **scope** and **which phases in what order**; che
 
 | Layer | File | What you tick |
 | --- | --- | --- |
-| **Strategy execution** | **`progress/strategy-run-checklist.md`** | **Which phases** you will run, **in order**, each with **scope** that **includes the same slice IDs** as **`strategy.md` → Execution plan**. Optional: **`progress/slices/<slice-id>-checklist.md`** per slice — see **`progress/README.md`** in the workspace (if present). |
+| **Strategy execution** | **`progress/strategy-run-checklist.md`** | **Which phase-ids** (or stages) you will run, **in order**, each with **scope** that **includes the same slice IDs** as **`strategy.md` → Execution plan**; **includes revisit rows** when you must go backward. Optional: **`progress/slices/<slice-id>-checklist.md`** per slice — see **`progress/README.md`** in the workspace (if present). |
 | **Full pipeline (reference)** | **`progress/process-checklist.md`** | **Every** phase in **`phase_files`** — useful as a map; optional if you rely only on strategy-run. |
-| **Phase steps** | **`progress/<phase>-checklist.md`** | **Action checklist** copied from **`content/parts/phases/<phase>.md` → ## Action Checklist**. |
+| **Phase steps** | **`progress/<phase-id>-checklist.md`** | **Action checklist** copied from **`content/parts/phases/<phase-id>.md` → ## Action Checklist**. |
 
 **Implementation:** **`scripts/base/workspace_checklists.py`** (paths, behavior, `--no-ensure-checklists`).
 
@@ -651,10 +736,10 @@ Only **`strategy.md`** defines **scope** and **which phases in what order**; che
 
 | Kind | What it tracks | Where it lives | How it gets there |
 | --- | --- | --- | --- |
-| **Normative reference** | Rules in **this document** — strategy vs ticks, layers, `generate.py` behavior | **`content/parts/library/strategy-execution-and-checklists.md`** | Authored in the skill; **not** created by **`generate.py`**. |
-| **Pipeline position** | Which **phase** of the pipeline you are in | **`<active_skill_workspace>/<skill_name>/progress/process-checklist.md`** | **Created** on first **`python scripts/base/generate.py --phase <slug>`** when that file is **missing**, if **`skill-config.json` → `workspace.active_skill_workspace`** is set. One `- [ ]` line per slug in **`phase_files`** (labels from **`phase_section_headings`** when present). **Does not overwrite** an existing file. |
-| **Phase action steps** | **Steps inside** the current phase | **`<active_skill_workspace>/<skill_name>/progress/<phase-slug>-checklist.md`** | **Created** in the **same** `generate.py` run when that file is **missing**. Steps are taken from **`## Action Checklist`** in **`content/parts/phases/<phase-slug>.md`**, or from task lines (`- [ ]` / `- [x]`) in that file if the section is absent. **Does not overwrite** an existing file. |
-| **Strategy execution** (workspace) | Ordered phases matching **`strategy.md`** | **`progress/strategy-run-checklist.md`** | Seeded from template when **`generate.py`** / workspace checklist logic creates it; **you** align it with **`strategy.md`**. |
+| **Normative reference** | Rules in **this document** — strategy vs ticks, layers, revisits, `generate.py` behavior | **`content/parts/library/strategy-execution-and-checklists.md`** | Authored in the skill; **not** created by **`generate.py`**. |
+| **Pipeline position** | Which **phase-id** of the pipeline you are in | **`<active_skill_workspace>/<skill_name>/progress/process-checklist.md`** | **Created** on first **`python scripts/base/generate.py --phase <phase-id>`** (or first phase of **`--stage`**) when that file is **missing**, if **`skill-config.json` → `workspace.active_skill_workspace`** is set. One `- [ ]` line per slug in **`phase_files`** (labels from **`phase_section_headings`** when present). **Does not overwrite** an existing file. |
+| **Phase action steps** | **Steps inside** the current phase | **`<active_skill_workspace>/<skill_name>/progress/<phase-id>-checklist.md`** | **Created** in the **same** `generate.py` run when that file is **missing**. Steps are taken from **`## Action Checklist`** in **`content/parts/phases/<phase-id>.md`**, or from task lines (`- [ ]` / `- [x]`) in that file if the section is absent. **Does not overwrite** an existing file. |
+| **Strategy execution** (workspace) | Ordered phase-ids (and revisit rows) matching **`strategy.md`** | **`progress/strategy-run-checklist.md`** | Seeded from template when **`generate.py`** / workspace checklist logic creates it; **you** align it with **`strategy.md`**. |
 
 ### Names and workspace
 
@@ -675,9 +760,9 @@ Only **`strategy.md`** defines **scope** and **which phases in what order**; che
 
 ---
 
-## Phase slugs
+## Phase IDs
 
-Use exact slugs from **`skill-config.json` → `phase_files`** (e.g. `nouns-verbs-rules-and-states`, `domain-scan`). Labels for humans are in **`phase_section_headings`**.
+Use exact **phase-id** strings from **`skill-config.json` → `phase_files`** (e.g. `nouns-verbs-rules-and-states`, `domain-scan`). Labels for humans are in **`phase_section_headings`**. **Stages** **A–F** map to ordered phase-id lists in **`process_stages`** — see **`process.md`**.
 
 ---
 
@@ -696,168 +781,147 @@ Use exact slugs from **`skill-config.json` → `phase_files`** (e.g. `nouns-verb
 
 ## What a Term Is
 
-A **Term** is any concept identified from the source material that may become part of the domain model. At the time of identification, a Term is not committed to a model role — it might become a class, a property, a value type, an association, or nothing at all. The registry tracks Terms as the modeling phases determine what each one actually is.
+A **Term** is any concept identified from the source material that may become part of the domain model. At identification time it is not committed to a model role — it might become a class, a property, a value type, an association, or nothing. The registry tracks Terms as modeling **phase-ids** (see **`process.md` → Phase chronicle**) determine what each one actually is.
 
-This is distinct from other uses of "actor" in this domain:
-- In MM3E and FoundryVTT, "Actor" has a specific system meaning (a character, creature, or entity in the game world).
-- In the registry, everything is a Term until the model says otherwise.
+This is distinct from other domain uses of overloaded words (e.g. in some systems “Actor” is a system type). In the registry, everything is a Term until the model says otherwise.
 
-**File:** `<workspace>/abd-ooad/term-registry.md`
-**Never embedded** inside step outputs — it lives in its own file and is referenced from each step's model doc.
+**File:** `<workspace>/abd-ooad/term-registry.md` (or per-slice path if your workspace layout nests slices).
 
----
-
-## Step Reference — Short Names
-
-Use these short names in the **Step** column of the registry when adding or updating a row.
-
-| Short Name | Phase | Description |
-|-----------|-------|-------------|
-| SETUP | workspace-and-config | Workspace initialization |
-| SCAN | domain-scan | Source scan and anchor identification |
-| NOUNS | nouns-verbs-rules-and-states | Extract nouns, verbs, rules, states |
-| CANDS | raw-candidate-list | Raw candidate class list |
-| THINGS | thing-vs-data-about-a-thing | Separate things from data-about-things |
-| RESP | responsibilities-before-operations | Assign responsibilities |
-| PROPS | add-properties-semantically-tight | Add semantically tight properties |
-| OPS | turn-verbs-into-operations | Turn verbs into operations |
-| RELS | relationships-and-cardinality | Relationships and cardinality |
-| INV | invariants-in-the-model | Identify invariants |
-| BLOAT | watch-for-bloated-classes | Detect bloated classes |
-| ROLES | smashed-abstractions-and-hidden-roles | Uncover hidden roles |
-| INHERIT | inheritance-when-behavior-generalizes | Apply inheritance |
-| ABST | abstract-classes-and-interfaces | Abstract classes and interfaces |
-| COMP | prefer-composition | Prefer composition over inheritance |
-| STATES | model-state-transitions | Model state transitions |
-| ITER | iterative-refinement | Iterative refinement pass |
-| TENSION | tension-as-a-signal | Resolve tensions |
-| COHESION | what-changes-together | What changes together |
-| VALIDATE | validate-with-scenarios | Validate with scenarios |
-| NAMES | refine-names | Refine class and concept names |
-| LAYERS | model-in-layers | Model in layers |
+**Never embed** the full registry inside step outputs — it lives in its own file and is referenced from each phase’s model doc.
 
 ---
 
-## Slices and global phase numbers (normative)
+## Relationship to `terms.md` (per slice)
 
-The **OOAD process table** (see **`process.md`** / built **AGENTS.md** — “Process Table”) assigns **global phase numbers** **0–21** to phase **slugs** (e.g. **Phase 2** = `nouns-verbs-rules-and-states`, **Phase 3** = `raw-candidate-list`, **Phase 4** = `thing-vs-data-about-a-thing`).
-
-- **Phase 1** (`domain-scan`, short name **SCAN**) runs **once per workspace** (or once per strategy engagement). It produces anchors, `strategy.md`, `domain-scan-results.md`, and seeds **`term-registry.md`**. It is **not** repeated as “each slice’s Phase 1.”
-- **Per-slice modeling** (folders or **Anchor** columns **`S1=…`**, **`S2=…`**, …) **aligns with the same global numbers from Phase 2 onward:** the **first** extraction artifact in a slice is always **Phase 2** (**NOUNS**), then **3** (**CANDS**), **4** (**THINGS**), etc. Do **not** label slice-local nouns-verbs files as Phase 1 — that collides with **SCAN**.
-- **Phase notes** in italics (optional): `*[Sn · Phase N]*` where **N** is the **global** process-table number. Add slug, tension id, or short reminder *after* the tag on the same line if needed (e.g. *thing-vs-data*, *registry Tn*). For early “likely class” judgments: `*[S1 · Phase 3]* Likely class : …`.
-
----
-
-## Registry Columns
-
-| Column | Values | Notes |
-|--------|--------|-------|
-| **Term** | Concept name from the source | Exact word or phrase as found — rename in the NAMES step if needed |
-| **Classification** | See **Classification** below | **What we want to model this as** — target shape in the domain model (not lifecycle) |
-| **Step** | Short name from table above (SCAN, NOUNS, …) | Step that first identified or last materially updated this Term |
-| **Confidence** | High / Medium / Low | How sure we are this belongs in the model |
-| **Status** | See **Status (OOAD scale)** below | Where this Term sits in the modeling workflow |
-| **Notes** | Free text | Anchor-test results, owning module for supporting classes (`Supporting class — X module`), competing interpretations, pointers to tensions in `domain-scan-results.md`, and follow-ups |
+- **`terms.md`** (alongside `domain-noun-verb.md` in a slice folder) holds **module-scoped evidence**: quotes, raw extractions, promotion history under **`## [Anchor module]`** headings aligned with the integrated domain model.
+- **`term-registry.md`** remains the **term-centric analysis record**: one row per Term; **Targets** = where the term landed; **Notes** = substantive reasoning (anchor tests, classification, tensions) — **full paragraphs are fine** when the work needs them.
+- **Principle:** Notes depth is **not** reduced because `terms.md` exists. `terms.md` reduces **duplication of verbatim source text** and organizes evidence by module; it does **not** justify one-line registry Notes unless the term truly needs only one line.
+- **Avoid duplicate verbatim quotes:** keep the quote in **`terms.md`** and in **Notes** point to `terms.md#anchor-module` (or the term subsection); keep analysis-only text in Notes as today.
 
 ---
 
-## Classification — what we want to model this as
+## Phase IDs (normative references)
 
-Use **one** value per row. This is the **intended model role**, not how “mature” the idea is (that is **Status**).
+Refer to pipeline steps **only** by **`phase-id`** — the short **kebab-case** slug matching **`skill-config.json` → `phase_files`** and the **`process.md`** chronicle (e.g. `domain-scan`, `nouns-verbs-rules-and-states`, `refine-names`). Do **not** use “Phase 1 / Phase 2” as **names** for steps; those ordinals drift. Optional **model tags** in the domain model use **`*[Sn · phase-id]*`** (e.g. **`*[S1 · refine-names]*`**) — see **`library/domain-model`**.
 
-| Value | Meaning |
+---
+
+## Registry columns
+
+| Column | Role |
+|--------|------|
+| **Term** | Concept name from the source — exact word or phrase as found; rename in **`refine-names`** if needed. |
+| **Targets** | Where this term **landed** in the model: a **bulleted list inside the table cell** (Markdown list), **one typed pointer per line**. Unallocated / not yet placed → leave empty or **—**. |
+| **Notes** | Anchor-test results, slice/anchor context (**`S1=…`** style if useful), competing interpretations, tensions, pointers to **`terms.md`** when verbatim evidence lives there — same substance as historical scan/noun-verb rows. |
+
+**Optional:** If you need a single “primary kind” for tooling, add one optional column **after** Term (e.g. **Kind**) — otherwise prefer **Targets**-only for a slim table.
+
+---
+
+## Targets — typed pointers (one per bullet)
+
+**Normative style:** each bullet is **one** typed target. **Do not** concatenate targets with `|` or `;` on one run-on line.
+
+Examples of pointer forms (extend as your model needs):
+
+- `entity:Payment`
+- `vo:Money`
+- `property:Payment.amount`
+- `operation:Order.submit`
+- `invariant:…`
+- `policy:…`
+- `relationship:Customer — Order`
+
+**Renders in Markdown tables** — use `<br>` between bullets if your renderer collapses list-in-cell (GitHub-style often accepts list-in-cell; validate in your preview):
+
+```markdown
+| Term   | Targets |
 |--------|---------|
-| **anchor (class + module)** | Passes the anchor test: this concept is a **core class** and owns a **module** (dashed frame + same-named core class). Use only for backbone modules. |
-| **class** | A domain **class** that is not its own module yet — e.g. supporting class inside a frame, or a type you expect to become a class without its own module. |
-| **property** | Modeled as a **semantic property** (attribute / value on a class), not a separate type. |
-| **field** | Modeled as a **typed field / slot** (data member, possibly simple type or value object). |
-| **example (instance)** | An **illustrative instance**, sample, or scenario object — not a type in the model. |
-| **relationship** | An **association**, link, or dependency between concepts — may become an association, association class, or navigable role. |
-| **invariant (rule)** | A **domain rule**, constraint, or policy — often becomes behavior, guard, or explicit rule text on a class. |
-
-**Diagram mapping (when relevant):** `anchor (class + module)` → module frame + core class; `class` → class box; `relationship` → association; `invariant (rule)` → note, constraint, or operation; `property` / `field` → attributes on a class.
+| amount | - `entity:Payment`<br>- `vo:Money`<br>- `property:Payment.amount` |
+```
 
 ---
 
-## Status (OOAD scale)
+## Notes — still substantive
 
-**Status** is **lifecycle / confidence in the workflow**, not the model shape. Pick the value that best fits; states are **not** always a strict left-to-right pipeline.
+Notes remain the place for **classification reasoning**, anchor tests, tensions, and follow-ups. **Do not** make Notes sparse by default. When raw quotes live in **`terms.md`**, write in Notes: *“Verbatim quote in `terms.md` → [Anchor module] / term …”* and keep analysis here.
 
-| Status | When to use |
-|--------|-------------|
-| **Ambiguous** | You cannot yet say what the Term is or how it sits next to others. |
-| **Tension** | Competing interpretations, overlapping boundaries, or conflicting source pulls — needs resolution before the model can commit. |
-| **Candidate** | Plausible model role; narrowed but not yet locked (often after scan, before THINGS/RELS). |
-| **Deferred** | Explicitly parked — revisit in a named later step or phase. |
-| **Active** | In current modeling scope; being updated in this pass. |
-| **Solidified** | Named, placed, and stable in the model for the current iteration — ready to treat as “done” unless source or scope changes. |
-
-**Typical (non-binding) progression:** Ambiguous → Tension or Candidate → Active → Solidified. **Deferred** can apply after any stage. A Term can return from Deferred to Active when scope returns to it.
+**Slice / anchor:** You may record **`S1=Character`** (or similar) in **Notes** or a minimal **Slice** column if the table template adds one — your engagement may require it for MM3E-style multi-slice tables.
 
 ---
 
-## Registry format (wide Notes)
+## Classification (reference — not required as its own column)
 
-**Prefer an HTML `<table>` with `<colgroup>`** so the **Notes** column gets most of the width (~50–55%). **Classification** labels can be long — give that column ~12–14% if needed. Plain Markdown pipe tables allocate columns evenly and make long Notes hard to read in the editor and in preview.
+If you **merge** the old **Classification** column into **Targets**, use typed pointers (`entity:…`, `property:…`, …) so the table stays one row per Term. The **meaning** of former classification values is unchanged:
 
-Use this skeleton (adjust `width` percentages if needed):
+| Former value | Meaning |
+|--------------|--------|
+| **anchor (class + module)** | Passes the anchor test: core class owns a **module** (frame + same-named core class). |
+| **class** | Domain class not its own module yet — supporting class, or expected class without module. |
+| **property** | Modeled as semantic property on a class. |
+| **field** | Typed field / slot. |
+| **example (instance)** | Illustrative instance — not a type. |
+| **relationship** | Association, link, dependency. |
+| **invariant (rule)** | Domain rule, constraint, policy. |
+
+---
+
+## Registry format (HTML table recommended for Notes width)
+
+Prefer an HTML `<table>` with `<colgroup>` so **Notes** gets most width (~50–55%). **Targets** can be ~18–22%.
 
 ```html
 <table>
 <colgroup>
-  <col style="width:9%" />
-  <col style="width:14%" />
-  <col style="width:6%" />
-  <col style="width:9%" />
-  <col style="width:9%" />
-  <col style="width:53%" />
+  <col style="width:12%" />
+  <col style="width:22%" />
+  <col style="width:66%" />
 </colgroup>
 <thead>
 <tr>
   <th>Term</th>
-  <th>Classification</th>
-  <th>Step</th>
-  <th>Confidence</th>
-  <th>Status</th>
+  <th>Targets</th>
   <th>Notes</th>
 </tr>
 </thead>
 <tbody>
 <tr>
   <td>Character</td>
-  <td>anchor (class + module)</td>
-  <td>SCAN</td>
-  <td>High</td>
-  <td>Active</td>
-  <td>Central entity; all rules attach to it</td>
-</tr>
-<tr>
-  <td>Power</td>
-  <td>class</td>
-  <td>SCAN</td>
-  <td>High</td>
-  <td>Active</td>
-  <td>Supporting class — Character module. Core capability unit.</td>
-</tr>
-<tr>
-  <td>Device</td>
-  <td>class</td>
-  <td>SCAN</td>
-  <td>Medium</td>
-  <td>Tension</td>
-  <td>Removable Power vs Equipment? Boundary unclear — see T2.</td>
+  <td>- <code>entity:Character</code><br>- <code>property:Character.powerLevel</code></td>
+  <td>Central entity; anchor test ✓. Slice <code>S1=Character</code>. Long quotes in <code>terms.md</code> → Character module.</td>
 </tr>
 </tbody>
 </table>
 ```
 
-For very small registries only, a Markdown pipe table is acceptable:
+Small registries: Markdown pipe table is acceptable.
 
-```markdown
-| Term | Classification | Step | Confidence | Status | Notes |
-|------|----------------|------|------------|--------|-------|
-| Character | anchor (class + module) | SCAN | High | Active | Short note only |
-```
+---
+
+## Migration from legacy wide tables
+
+If you have **Step**, **Confidence**, **Status**, and **Classification** columns:
+
+1. **Term** → keep.
+2. **Classification** + committed placements → **Targets** bullets (`entity:…`, `property:…`, …).
+3. **Step** → fold into **Notes** as *“First touched at phase-id `domain-scan`”* or leave implicit if noisy.
+4. **Confidence / Status** → merge into **Notes** (*“Legacy: was High / Active”*) only if still useful; otherwise drop.
+5. **Notes** → preserve text; add pointer to **`terms.md`** where verbatim evidence moved.
+
+---
+
+## Slices and `domain-scan` vs per-slice work
+
+- **`domain-scan`** runs **workspace-wide** (or once per strategy engagement): seeds **`term-registry.md`**, anchors, **`strategy.md`**, scan artifacts. It is **not** “each slice’s first phase” by name — use **phase-id** `domain-scan` only.
+- Per-slice deep extraction aligns with **`nouns-verbs-rules-and-states`** and **`raw-candidate-list`** in **chronicle order** after scan. **`terms.md`** evolves from those phase-ids onward for that slice.
+
+---
+
+## References
+
+- **`process.md`** — Phase chronicle, stages A–F, capture ladder  
+- **`terms.md`** template — `templates/terms-template.md`  
+- **Strategy / revisits** — `library/strategy-execution-and-checklists.md`
 
 
 ---
@@ -1308,7 +1372,7 @@ The CLI does not yet support notes — add them manually in draw.io after CLI bu
 | Phase | Add invariants? |
 |-------|----------------|
 | domain-scan | Yes — add the invariants you found during the scan (inline preferred at this fidelity) |
-| domain-noun-verb (Step 1) | No — extraction only; invariants captured in registry notes |
+| domain-noun-verb (Phase 2) | No — extraction only; invariants captured in registry notes |
 | raw-candidate-list through responsibilities | Yes — as invariants become confirmed, add to diagram |
 | Full model phases | Yes — invariants are a required part of the final model |
 
@@ -2160,6 +2224,21 @@ The scan calibrates how you will approach extraction. Without it, you risk eithe
 
 ---
 
+## Work order (`domain-scan`)
+
+Do **analysis in domain markdown only**; **then** render Draw.io. (Refer to this phase by **phase-id** `domain-scan` — not “Phase 1” as a name.)
+
+| Order | Artifact | Role |
+|-------|----------|------|
+| 1 | `domain-scan-results.md` | Findings: source map, anchors, tensions. |
+| 2 | `domain-scan-model.md` | Integrated class-line listing per module — the **same** content the diagram will show. |
+| 3 | `strategy.md`, `term-registry.md` | Plan and term rows (see **strategy-led-generation**, **term-registry**). |
+| 4 | `domain-scan-model.drawio` | **After** 1–2 match: visual twin of the model — **using-diagram-cli**, not a separate analysis pass. |
+
+Do **not** duplicate the same anchor inventory as both a giant table in results **and** a full repeat in the model file. Split by purpose (map vs class lines), or keep one integrated file if the project prefers.
+
+---
+
 ## Techniques by source type
 
 ### Specification or structured document
@@ -2290,19 +2369,23 @@ For module framing (core class, dashed frame, fields vs supporting classes), dia
 
 # Domain model Markdown
 
-This skill’s **domain model** is captured in Markdown  a parallel **Draw.io** class diagram. Use **`templates/domain model template.md`** for companion docs; align with **`templates/domain model template.drawio`** when both exist.
+The **domain model** lives in workspace **`domain*.md`** files; **Draw.io** diagrams are **visual twins** of that content — update markdown first, then render or hand-sync the diagram (see **class-diagrams**, **using-diagram-cli**).
 
-**Phase 2 — `domain-noun-verb.md`:** anchor sections, **Candidate …** lists, full or pared class boxes. Slice files are **content only** — no skill paths or process meta in the artifact body.
+**Integrated slice model + evidence:** Prefer **`templates/domain-model-integrated.md`** alongside **`templates/terms-template.md`** (`terms.md` per slice). Class **Notes** use **`*[Sn · phase-id]*`** (e.g. **`*[S1 · refine-names]*`**) — **phase-id** from **`process.md`**, not numeric step names.
 
-**Phase 3 — bucket roll-up:** sort candidates into **entities**, **value objects**, **processes**, **policies**, **roles**, **events** (tables in **`raw-candidate-list.md`** or appended to **`domain-noun-verb.md`**). Same **content-only** rule: no skill/process boilerplate in slice files.
+**`domain-scan`:** **`domain-scan-results.md`**, **`domain-scan-model.md`**, then **`domain-scan-model.drawio`**.
 
-**Optional — `domain-raw-candidates.md`:** same Phase 3 content as **classes under anchor modules** (`### Name : << Entity >>` / `<< ValueObject >>` / `<< Process >>` / …), notes below — **not** a second copy of bucket tables. Cross-cutting material → **`## Cross-anchor`** or appendix. **`templates/domain-raw-candidates-template.md`**.
+**`nouns-verbs-rules-and-states` — `domain-noun-verb.md`:** anchor sections, **Candidate …** lists, class boxes. Slice files are **domain content only** — no skill paths or process boilerplate in the artifact body.
+
+**`raw-candidate-list`:** Prefer **`domain-raw-candidates.md`** — classes under anchors with notes. Optional single tabular roll-up (**`raw-candidate-list.md`** or appendix to **`domain-noun-verb.md`**) — **not** the same tables twice plus an integrated file.
+
+**Templates:** **`templates/domain model template.md`**, **`templates/domain-raw-candidates-template.md`**, **`templates/domain-model-integrated.md`**.
 
 ---
 
 ## Domain concept template
 
-Each **domain concept** (class, interface, value object, or aggregate) is documented under a clear heading, for example:
+Each concept is documented under a clear heading, for example:
 
 ```markdown
 ## **Payment**
@@ -2311,73 +2394,62 @@ Each **domain concept** (class, interface, value object, or aggregate) is docume
 
 ### Properties
 - Money amount
-- …
 
 ### Operations
 - initiate() → Authorization
 ```
 
-From **Step 5** onward, prefer **typed** members (see **Notation evolution** below). Earlier steps stay **pre-notation** (bullets and prose).
+From **Phase 6** onward (`add-properties-semantically-tight`), prefer **typed** members (see **Notation evolution**). Earlier phases stay informal (bullets and prose).
 
 ---
 
-## Continual refinement — class definition + diagram
+## Markdown and diagram
 
-**Continual refinement** means you **grow** the model across steps: each step file may add or tighten concepts. The Markdown spec and the class diagram are **two views of the same model** — update both when your project uses dual artifacts so they do not drift (see **[Class diagrams](class-diagrams.md)**).
+The Markdown spec and the class diagram are **two views of the same model** — keep them aligned when both exist (**class-diagrams**).
 
 ---
 
-## **newly added** tag
+## **newly added** tag (optional)
 
-In the **worked example** threads (e.g. payments), the marker **newly added** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
+In long-running examples, **newly added** on a line marks a property or operation that first appears in *this* file — useful for deltas across files.
 
 ---
 
 ## Notation evolution
 
-| Phase | Markdown style |
-|--------|------------------|
-| **Steps 1–4** | Informal: bullets, short phrases, responsibilities, candidate names; typed `- <type> property` lines arrive in Step 5. |
-| **Step 5+** | Formal typed members: `- <Type> propertyName`, `operationName(...) → ReturnType`. |
+| Phase range | Markdown style |
+|-------------|----------------|
+| **2–5** | Informal: bullets, candidates, responsibilities; typed `- <type> property` lines from **Phase 6** onward. |
+| **Phase 6+** | Formal: `- <Type> propertyName`, `operationName(...) → ReturnType`. |
 
 ---
 
 ## Subtype sections
 
-When you introduce substitutable specializations, add an explicit subtype heading so the structure is visible in the spec and in diagrams:
+When you introduce substitutable specializations, add an explicit subtype heading so structure is visible in spec and diagrams:
 
 ```markdown
 ### **Subtype** : **PaymentMethod**
 ```
 
-Put **`**newly added**`** on subtype **operation** (or property) lines when that member is **first** introduced for that subtype.
-
 ---
 
 ## Invariants
 
-Attach invariants to the **property** or **operation** they constrain, using a dedicated line:
+Attach invariants to the property or operation they constrain:
 
 ```markdown
 **Invariant:** …
 ```
 
-Mark **`**newly added**`** when you **first** attach an invariant to a given member line.
-
 ---
 
-## Early steps: terms, mechanisms, story map
+## Class diagram and spec
 
-Before typed properties exist, align extracted **nouns, verbs, rules, states** with your workspace’s **terms & mechanisms** and **shaped story map** (or equivalent). That is the same “grow the model as you go” idea: informal extraction first, then formal types.
+When you maintain **`map-model-spec.json`** or similar, re-run the project’s diagram script after material changes so Draw.io stays aligned.
 
----
-
-## Class diagram and spec (visual twin)
-
-When you maintain a machine-readable spec such as **`map-model-spec.json`**, re-run your project’s class-diagram render script (for example **`render_map_model_class_diagram.py`**) after material changes so the **Draw.io** diagram stays the **visual twin** of the spec.
-
-- **[Class diagrams](class-diagrams.md)** — templates, relationship types, keeping `.md` and `.drawio` aligned.  
-- **[Using the Diagram CLI](using-diagram-cli.md)** — building diagrams with **`scripts/drawio_cli.py`**.
+- **Class diagrams** — templates, relationships, keeping `.md` and `.drawio` aligned.  
+- **Using the Diagram CLI** — `scripts/drawio_cli.py`.
 
 ---
 
@@ -2385,9 +2457,9 @@ When you maintain a machine-readable spec such as **`map-model-spec.json`**, re-
 
 | Topic | File |
 |--------|------|
-| Term tracking across steps | [term-registry.md](term-registry.md) |
+| Term tracking | [term-registry.md](term-registry.md) |
 | Strategy-led runs | [strategy-led-generation.md](strategy-led-generation.md) |
-| Layout and lanes | [class-diagram-layout-rules.md](class-diagram-layout-rules.md) |
+| Layout | [class-diagram-layout-rules.md](class-diagram-layout-rules.md) |
 
 
 ---
@@ -2536,9 +2608,9 @@ Example: `Character` module has a `Character` core class with `abilities: Abilit
 
 # Strategy-led generation
 
-Domain scan (OOAD **phase 1**) does not only produce a single “results” file. It establishes a **small set of workspace files** under `<workspace>/abd-ooad/` that work together. Some are **frozen findings** from the scan; others are **living documents** you update as modeling continues.
+Domain scan (phase-id **`domain-scan`**) does not only produce a single “results” file. It establishes a **small set of workspace files** under `<workspace>/abd-ooad/` that work together. Some are **frozen findings** from the scan; others are **living documents** you update as modeling continues.
 
-**Slices start at global Phase 2:** Source-slice work (e.g. **S1**, **S2** in `strategy.md` and **`Anchor`** `S1=…` / `S2=…` in `term-registry.md`) uses the **same global OOAD phase numbers** as the process table for everything **after** scan. The **first** per-slice extraction step is **Phase 2** (`nouns-verbs-rules-and-states`), **not** a slice-local “Phase 1.” Phase **1** is workspace-wide **domain-scan** only. See **`term-registry.md` → Slices and global phase numbers**.
+**Per-slice extraction** after scan uses the **same phase-id chronicle** as **`process.md`**. The **first** detailed per-slice capture is **`nouns-verbs-rules-and-states`** (then **`raw-candidate-list`**, …) — **not** a second **`domain-scan`**. Use **phase-id** names in strategy and registry (and **`*[Sn · phase-id]*`** tags in the model), not “Phase 1 / Phase 2” as step names. See **`term-registry.md`** and **`process.md` → Capture ladder**.
 
 For the scan procedure itself, see the **Domain scan** phase. This page explains **what each artifact is for** and how **`strategy.md`** relates to **`domain-scan-results.md`**.
 
@@ -2556,7 +2628,8 @@ Created during domain scan under `<workspace>/abd-ooad/`:
 | `strategy.md` | **Living strategy:** **modeling scope**; **§1 source slices** (table: Order, Goal, **Source** — chapters, files, modules, or mixed — **Coverage**, **Importance**); **§2 slice plan** (per-slice **goal restated** + **phases**); **coverage across steps**; **cross-slice integration**; **anchor and subdomain elaboration**; **execution plan (normative)** — phase slugs with **slice IDs** on every line; plus **approach** and **dated pivots**. | **Yes** — whenever scope, order, slice depth, subdomain mapping, or integration changes. |
 | `domain-scan-model.md` | Class sketch (markdown) at scan fidelity. | Yes, in later phases — not only during scan. |
 | `domain-scan-model.drawio` | Diagram at scan fidelity. | Same as model.md. |
-| `term-registry.md` | Terms, **Classification** (model role), **Status** (OOAD scale), confidence — seeded at scan. | **Yes** — every later phase updates Step, Classification, and Status as the model evolves. |
+| `term-registry.md` | Terms, **Targets** (bulleted typed pointers), **Notes** — seeded at scan. | **Yes** — every later phase-id updates **Targets** and **Notes** as the model evolves. See **`library/term-registry.md`**. |
+| `terms.md` (per slice) | Evidence ledger by **`## [Anchor module]`** — quotes, promotion log. | **Yes** — from **`nouns-verbs-rules-and-states`** onward for that slice. Template: **`templates/terms-template.md`**. |
 
 **Plus** (when workspace is configured): **`progress/`** checklists — see **`library/strategy-execution-and-checklists.md`**. **`generate.py`** creates **`process-checklist.md`**, **`<phase>-checklist.md`**, and (abd-ooad) **`strategy-run-checklist.md`** when templates exist and files are missing. Normative phase steps stay in **`content/parts/phases/<phase>.md`**. These are the **only** place for session tick marks.
 
@@ -2591,8 +2664,8 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 
 1. **Strategy** — Keep **`strategy.md`** aligned with reality; append *Ongoing strategic decisions* when you pivot.
 2. **Strategy execution** — Tick **`progress/strategy-run-checklist.md`** as you **complete** each phase for its declared scope.
-3. **Phase work** — For the active phase, run **`generate.py --phase <slug>`** and tick **`progress/<slug>-checklist.md`** for action steps.
-4. **Registry** — Keep `term-registry.md` aligned with the current phase (Step, Classification, Status).
+3. **Phase work** — For the active phase-id, run **`generate.py --phase <phase-id>`** (or **`generate.py --stage <A|B|…|F>`** for a stage) and tick **`progress/<phase-id>-checklist.md`** for action steps.
+4. **Registry** — Keep `term-registry.md` aligned with the current phase-id (**Targets** + **Notes**); keep slice **`terms.md`** in sync for verbatim evidence.
 5. **Results** — Touch `domain-scan-results.md` only for corrections to the original scan snapshot.
 
 ---
@@ -2612,26 +2685,45 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 
 # Strategy execution and checklists (abd-ooad)
 
-**Canonical doc** for: (1) **strategy** vs **live ticks**, (2) **which files** hold checkboxes, (3) **how** `generate.py` creates workspace **`progress/`** files. Does **not** replace **[process.md](../process.md)** (process tables, `generate` / `build`) or **[skill-structure-and-concepts.md](../base/skill-structure-and-concepts.md)** (repo layout).
+**Canonical doc** for: (1) **strategy** vs **live ticks**, (2) **which files** hold checkboxes, (3) **how** `generate.py` creates workspace **`progress/`** files, (4) **stages**, **revisits / disruption** on the same checklist. Does **not** replace **[process.md](../process.md)** (phase chronicle, `generate` / `build`) or **[skill-structure-and-concepts.md](../base/skill-structure-and-concepts.md)** (repo layout).
 
-Only **`strategy.md`** defines **scope** and **which phases in what order**; checklists are where you **tick** progress.
+Only **`strategy.md`** defines **scope** and **which phase-ids (or stages) in what order**; checklists are where you **tick** progress.
 
 ---
 
 ## Workflow
 
-1. **Domain scan** — produce scan artifacts (see **`strategy-led-generation`**).
+1. **Domain scan** — produce scan artifacts (see **`strategy-led-generation`**). Phase-id: **`domain-scan`**.
 2. **Strategy** — fill **`strategy.md`** from **`templates/strategy.md`**:
    - **Modeling scope** — corpus or product boundary; **source type** (book vs repo vs mixed).
    - **§1 Source slices** — ordered table: **Goal**, **Source** (chapters, files, modules, APIs — whatever locates work), **Coverage** (depth this pass), **Importance**; stable **slice IDs** reused everywhere.
-   - **§2 Slice plan** — per slice: **goal restated**, **unit kind**, **phases** (execution step numbers / slugs), produces, depends-on.
-   - **Coverage across steps** — matrix: every slice → which **execution plan** steps touch it → **depth** → deferrals.
+   - **§2 Slice plan** — per slice: **goal restated**, **unit kind**, **phase-ids** (or **stages**) you will run, produces, depends-on.
+   - **Coverage across steps** — matrix: every slice → which **execution plan** phase-ids touch it → **depth** → deferrals.
    - **Cross-slice integration** — cross-boundary types and ordering (From → To + narrative).
-   - **Anchor and subdomain elaboration** (when anchors have attached types) — map subdomains to slices and execution §.
-   - **Execution plan (normative)** — ordered phase **slugs**; **each line cites slice IDs** (mirror **`strategy-run-checklist.md`**).
+   - **Anchor and subdomain elaboration** (when anchors have attached types) — map subdomains to slices and execution phase-ids.
+   - **Execution plan (normative)** — ordered **phase-id** strings; **each line cites slice IDs** (mirror **`strategy-run-checklist.md`**). Optionally group work by **stage A–F** (see **`process.md` → Stage map**).
+   - **Stage completion (after each stage)** — what completed; tensions; **new checklist lines** for revisits (below); **audit** — append dated line under *Ongoing strategic decisions*.
    - **Approach going forward** + **Ongoing strategic decisions** — short narrative and dated pivots.
 3. **Align live checklists** — keep **`strategy-run-checklist.md`** in sync with the execution plan (same order and scope). Optional **`templates/strategy-run-checklist.md`** seed; optional **`templates/progress-README.md`** → **`progress/README.md`** for slice-specific files under **`progress/slices/`**.
-4. **Run phases** — for the **current** phase: `python scripts/base/generate.py --phase <slug>`. Tick **`strategy-run-checklist.md`** when a phase is **done** for its declared scope; tick **`<slug>-checklist.md`** for **steps inside** that phase.
+4. **Run phases** — **`python scripts/base/generate.py --phase <phase-id>`** for one step, or **`python scripts/base/generate.py --stage <A|B|…|F>`** for a full stage (same order as **`process.md`** / **`skill-config.json` → `process_stages`**). Tick **`strategy-run-checklist.md`** when a phase (or stage slice) is **done** for its declared scope; tick **`<phase-id>-checklist.md`** for **steps inside** that phase.
+
+---
+
+## Revisits and disruption (same checklist)
+
+A **revisit** is **not** a separate rerun workflow. While executing (including late **stage F**), if work must **go back** to an earlier **stage** or **phase-id**, **add a new row** to **`strategy-run-checklist.md`** — e.g. `- [ ] Revisit stage B — <short reason>` or `- [ ] Re-run nouns-verbs-rules-and-states — slice S1 — reconcile new anchor` — at the **bottom** or **inserted** where it fits the agreed order. The checklist is the single source of truth for **forward** work plus **backward** revisits.
+
+**Audit:** When you add a revisit row, append a dated line under **`strategy.md` → Ongoing strategic decisions**; never delete prior pivots.
+
+### Hint table (non-prescriptive)
+
+| You are here | Often need to touch |
+|--------------|---------------------|
+| Stage F | Stage E, D, or C (naming / validation feedback) |
+| Stage E | Stage C (scenarios expose structure gaps) |
+| Stage D | Stage C (splitting responsibilities) |
+
+Use this as a **prompt**, not a rule.
 
 ---
 
@@ -2639,9 +2731,9 @@ Only **`strategy.md`** defines **scope** and **which phases in what order**; che
 
 | Layer | File | What you tick |
 | --- | --- | --- |
-| **Strategy execution** | **`progress/strategy-run-checklist.md`** | **Which phases** you will run, **in order**, each with **scope** that **includes the same slice IDs** as **`strategy.md` → Execution plan**. Optional: **`progress/slices/<slice-id>-checklist.md`** per slice — see **`progress/README.md`** in the workspace (if present). |
+| **Strategy execution** | **`progress/strategy-run-checklist.md`** | **Which phase-ids** (or stages) you will run, **in order**, each with **scope** that **includes the same slice IDs** as **`strategy.md` → Execution plan**; **includes revisit rows** when you must go backward. Optional: **`progress/slices/<slice-id>-checklist.md`** per slice — see **`progress/README.md`** in the workspace (if present). |
 | **Full pipeline (reference)** | **`progress/process-checklist.md`** | **Every** phase in **`phase_files`** — useful as a map; optional if you rely only on strategy-run. |
-| **Phase steps** | **`progress/<phase>-checklist.md`** | **Action checklist** copied from **`content/parts/phases/<phase>.md` → ## Action Checklist**. |
+| **Phase steps** | **`progress/<phase-id>-checklist.md`** | **Action checklist** copied from **`content/parts/phases/<phase-id>.md` → ## Action Checklist**. |
 
 **Implementation:** **`scripts/base/workspace_checklists.py`** (paths, behavior, `--no-ensure-checklists`).
 
@@ -2651,10 +2743,10 @@ Only **`strategy.md`** defines **scope** and **which phases in what order**; che
 
 | Kind | What it tracks | Where it lives | How it gets there |
 | --- | --- | --- | --- |
-| **Normative reference** | Rules in **this document** — strategy vs ticks, layers, `generate.py` behavior | **`content/parts/library/strategy-execution-and-checklists.md`** | Authored in the skill; **not** created by **`generate.py`**. |
-| **Pipeline position** | Which **phase** of the pipeline you are in | **`<active_skill_workspace>/<skill_name>/progress/process-checklist.md`** | **Created** on first **`python scripts/base/generate.py --phase <slug>`** when that file is **missing**, if **`skill-config.json` → `workspace.active_skill_workspace`** is set. One `- [ ]` line per slug in **`phase_files`** (labels from **`phase_section_headings`** when present). **Does not overwrite** an existing file. |
-| **Phase action steps** | **Steps inside** the current phase | **`<active_skill_workspace>/<skill_name>/progress/<phase-slug>-checklist.md`** | **Created** in the **same** `generate.py` run when that file is **missing**. Steps are taken from **`## Action Checklist`** in **`content/parts/phases/<phase-slug>.md`**, or from task lines (`- [ ]` / `- [x]`) in that file if the section is absent. **Does not overwrite** an existing file. |
-| **Strategy execution** (workspace) | Ordered phases matching **`strategy.md`** | **`progress/strategy-run-checklist.md`** | Seeded from template when **`generate.py`** / workspace checklist logic creates it; **you** align it with **`strategy.md`**. |
+| **Normative reference** | Rules in **this document** — strategy vs ticks, layers, revisits, `generate.py` behavior | **`content/parts/library/strategy-execution-and-checklists.md`** | Authored in the skill; **not** created by **`generate.py`**. |
+| **Pipeline position** | Which **phase-id** of the pipeline you are in | **`<active_skill_workspace>/<skill_name>/progress/process-checklist.md`** | **Created** on first **`python scripts/base/generate.py --phase <phase-id>`** (or first phase of **`--stage`**) when that file is **missing**, if **`skill-config.json` → `workspace.active_skill_workspace`** is set. One `- [ ]` line per slug in **`phase_files`** (labels from **`phase_section_headings`** when present). **Does not overwrite** an existing file. |
+| **Phase action steps** | **Steps inside** the current phase | **`<active_skill_workspace>/<skill_name>/progress/<phase-id>-checklist.md`** | **Created** in the **same** `generate.py` run when that file is **missing**. Steps are taken from **`## Action Checklist`** in **`content/parts/phases/<phase-id>.md`**, or from task lines (`- [ ]` / `- [x]`) in that file if the section is absent. **Does not overwrite** an existing file. |
+| **Strategy execution** (workspace) | Ordered phase-ids (and revisit rows) matching **`strategy.md`** | **`progress/strategy-run-checklist.md`** | Seeded from template when **`generate.py`** / workspace checklist logic creates it; **you** align it with **`strategy.md`**. |
 
 ### Names and workspace
 
@@ -2675,9 +2767,9 @@ Only **`strategy.md`** defines **scope** and **which phases in what order**; che
 
 ---
 
-## Phase slugs
+## Phase IDs
 
-Use exact slugs from **`skill-config.json` → `phase_files`** (e.g. `nouns-verbs-rules-and-states`, `domain-scan`). Labels for humans are in **`phase_section_headings`**.
+Use exact **phase-id** strings from **`skill-config.json` → `phase_files`** (e.g. `nouns-verbs-rules-and-states`, `domain-scan`). Labels for humans are in **`phase_section_headings`**. **Stages** **A–F** map to ordered phase-id lists in **`process_stages`** — see **`process.md`**.
 
 ---
 
@@ -2696,168 +2788,147 @@ Use exact slugs from **`skill-config.json` → `phase_files`** (e.g. `nouns-verb
 
 ## What a Term Is
 
-A **Term** is any concept identified from the source material that may become part of the domain model. At the time of identification, a Term is not committed to a model role — it might become a class, a property, a value type, an association, or nothing at all. The registry tracks Terms as the modeling phases determine what each one actually is.
+A **Term** is any concept identified from the source material that may become part of the domain model. At identification time it is not committed to a model role — it might become a class, a property, a value type, an association, or nothing. The registry tracks Terms as modeling **phase-ids** (see **`process.md` → Phase chronicle**) determine what each one actually is.
 
-This is distinct from other uses of "actor" in this domain:
-- In MM3E and FoundryVTT, "Actor" has a specific system meaning (a character, creature, or entity in the game world).
-- In the registry, everything is a Term until the model says otherwise.
+This is distinct from other domain uses of overloaded words (e.g. in some systems “Actor” is a system type). In the registry, everything is a Term until the model says otherwise.
 
-**File:** `<workspace>/abd-ooad/term-registry.md`
-**Never embedded** inside step outputs — it lives in its own file and is referenced from each step's model doc.
+**File:** `<workspace>/abd-ooad/term-registry.md` (or per-slice path if your workspace layout nests slices).
 
----
-
-## Step Reference — Short Names
-
-Use these short names in the **Step** column of the registry when adding or updating a row.
-
-| Short Name | Phase | Description |
-|-----------|-------|-------------|
-| SETUP | workspace-and-config | Workspace initialization |
-| SCAN | domain-scan | Source scan and anchor identification |
-| NOUNS | nouns-verbs-rules-and-states | Extract nouns, verbs, rules, states |
-| CANDS | raw-candidate-list | Raw candidate class list |
-| THINGS | thing-vs-data-about-a-thing | Separate things from data-about-things |
-| RESP | responsibilities-before-operations | Assign responsibilities |
-| PROPS | add-properties-semantically-tight | Add semantically tight properties |
-| OPS | turn-verbs-into-operations | Turn verbs into operations |
-| RELS | relationships-and-cardinality | Relationships and cardinality |
-| INV | invariants-in-the-model | Identify invariants |
-| BLOAT | watch-for-bloated-classes | Detect bloated classes |
-| ROLES | smashed-abstractions-and-hidden-roles | Uncover hidden roles |
-| INHERIT | inheritance-when-behavior-generalizes | Apply inheritance |
-| ABST | abstract-classes-and-interfaces | Abstract classes and interfaces |
-| COMP | prefer-composition | Prefer composition over inheritance |
-| STATES | model-state-transitions | Model state transitions |
-| ITER | iterative-refinement | Iterative refinement pass |
-| TENSION | tension-as-a-signal | Resolve tensions |
-| COHESION | what-changes-together | What changes together |
-| VALIDATE | validate-with-scenarios | Validate with scenarios |
-| NAMES | refine-names | Refine class and concept names |
-| LAYERS | model-in-layers | Model in layers |
+**Never embed** the full registry inside step outputs — it lives in its own file and is referenced from each phase’s model doc.
 
 ---
 
-## Slices and global phase numbers (normative)
+## Relationship to `terms.md` (per slice)
 
-The **OOAD process table** (see **`process.md`** / built **AGENTS.md** — “Process Table”) assigns **global phase numbers** **0–21** to phase **slugs** (e.g. **Phase 2** = `nouns-verbs-rules-and-states`, **Phase 3** = `raw-candidate-list`, **Phase 4** = `thing-vs-data-about-a-thing`).
-
-- **Phase 1** (`domain-scan`, short name **SCAN**) runs **once per workspace** (or once per strategy engagement). It produces anchors, `strategy.md`, `domain-scan-results.md`, and seeds **`term-registry.md`**. It is **not** repeated as “each slice’s Phase 1.”
-- **Per-slice modeling** (folders or **Anchor** columns **`S1=…`**, **`S2=…`**, …) **aligns with the same global numbers from Phase 2 onward:** the **first** extraction artifact in a slice is always **Phase 2** (**NOUNS**), then **3** (**CANDS**), **4** (**THINGS**), etc. Do **not** label slice-local nouns-verbs files as Phase 1 — that collides with **SCAN**.
-- **Phase notes** in italics (optional): `*[Sn · Phase N]*` where **N** is the **global** process-table number. Add slug, tension id, or short reminder *after* the tag on the same line if needed (e.g. *thing-vs-data*, *registry Tn*). For early “likely class” judgments: `*[S1 · Phase 3]* Likely class : …`.
-
----
-
-## Registry Columns
-
-| Column | Values | Notes |
-|--------|--------|-------|
-| **Term** | Concept name from the source | Exact word or phrase as found — rename in the NAMES step if needed |
-| **Classification** | See **Classification** below | **What we want to model this as** — target shape in the domain model (not lifecycle) |
-| **Step** | Short name from table above (SCAN, NOUNS, …) | Step that first identified or last materially updated this Term |
-| **Confidence** | High / Medium / Low | How sure we are this belongs in the model |
-| **Status** | See **Status (OOAD scale)** below | Where this Term sits in the modeling workflow |
-| **Notes** | Free text | Anchor-test results, owning module for supporting classes (`Supporting class — X module`), competing interpretations, pointers to tensions in `domain-scan-results.md`, and follow-ups |
+- **`terms.md`** (alongside `domain-noun-verb.md` in a slice folder) holds **module-scoped evidence**: quotes, raw extractions, promotion history under **`## [Anchor module]`** headings aligned with the integrated domain model.
+- **`term-registry.md`** remains the **term-centric analysis record**: one row per Term; **Targets** = where the term landed; **Notes** = substantive reasoning (anchor tests, classification, tensions) — **full paragraphs are fine** when the work needs them.
+- **Principle:** Notes depth is **not** reduced because `terms.md` exists. `terms.md` reduces **duplication of verbatim source text** and organizes evidence by module; it does **not** justify one-line registry Notes unless the term truly needs only one line.
+- **Avoid duplicate verbatim quotes:** keep the quote in **`terms.md`** and in **Notes** point to `terms.md#anchor-module` (or the term subsection); keep analysis-only text in Notes as today.
 
 ---
 
-## Classification — what we want to model this as
+## Phase IDs (normative references)
 
-Use **one** value per row. This is the **intended model role**, not how “mature” the idea is (that is **Status**).
+Refer to pipeline steps **only** by **`phase-id`** — the short **kebab-case** slug matching **`skill-config.json` → `phase_files`** and the **`process.md`** chronicle (e.g. `domain-scan`, `nouns-verbs-rules-and-states`, `refine-names`). Do **not** use “Phase 1 / Phase 2” as **names** for steps; those ordinals drift. Optional **model tags** in the domain model use **`*[Sn · phase-id]*`** (e.g. **`*[S1 · refine-names]*`**) — see **`library/domain-model`**.
 
-| Value | Meaning |
+---
+
+## Registry columns
+
+| Column | Role |
+|--------|------|
+| **Term** | Concept name from the source — exact word or phrase as found; rename in **`refine-names`** if needed. |
+| **Targets** | Where this term **landed** in the model: a **bulleted list inside the table cell** (Markdown list), **one typed pointer per line**. Unallocated / not yet placed → leave empty or **—**. |
+| **Notes** | Anchor-test results, slice/anchor context (**`S1=…`** style if useful), competing interpretations, tensions, pointers to **`terms.md`** when verbatim evidence lives there — same substance as historical scan/noun-verb rows. |
+
+**Optional:** If you need a single “primary kind” for tooling, add one optional column **after** Term (e.g. **Kind**) — otherwise prefer **Targets**-only for a slim table.
+
+---
+
+## Targets — typed pointers (one per bullet)
+
+**Normative style:** each bullet is **one** typed target. **Do not** concatenate targets with `|` or `;` on one run-on line.
+
+Examples of pointer forms (extend as your model needs):
+
+- `entity:Payment`
+- `vo:Money`
+- `property:Payment.amount`
+- `operation:Order.submit`
+- `invariant:…`
+- `policy:…`
+- `relationship:Customer — Order`
+
+**Renders in Markdown tables** — use `<br>` between bullets if your renderer collapses list-in-cell (GitHub-style often accepts list-in-cell; validate in your preview):
+
+```markdown
+| Term   | Targets |
 |--------|---------|
-| **anchor (class + module)** | Passes the anchor test: this concept is a **core class** and owns a **module** (dashed frame + same-named core class). Use only for backbone modules. |
-| **class** | A domain **class** that is not its own module yet — e.g. supporting class inside a frame, or a type you expect to become a class without its own module. |
-| **property** | Modeled as a **semantic property** (attribute / value on a class), not a separate type. |
-| **field** | Modeled as a **typed field / slot** (data member, possibly simple type or value object). |
-| **example (instance)** | An **illustrative instance**, sample, or scenario object — not a type in the model. |
-| **relationship** | An **association**, link, or dependency between concepts — may become an association, association class, or navigable role. |
-| **invariant (rule)** | A **domain rule**, constraint, or policy — often becomes behavior, guard, or explicit rule text on a class. |
-
-**Diagram mapping (when relevant):** `anchor (class + module)` → module frame + core class; `class` → class box; `relationship` → association; `invariant (rule)` → note, constraint, or operation; `property` / `field` → attributes on a class.
+| amount | - `entity:Payment`<br>- `vo:Money`<br>- `property:Payment.amount` |
+```
 
 ---
 
-## Status (OOAD scale)
+## Notes — still substantive
 
-**Status** is **lifecycle / confidence in the workflow**, not the model shape. Pick the value that best fits; states are **not** always a strict left-to-right pipeline.
+Notes remain the place for **classification reasoning**, anchor tests, tensions, and follow-ups. **Do not** make Notes sparse by default. When raw quotes live in **`terms.md`**, write in Notes: *“Verbatim quote in `terms.md` → [Anchor module] / term …”* and keep analysis here.
 
-| Status | When to use |
-|--------|-------------|
-| **Ambiguous** | You cannot yet say what the Term is or how it sits next to others. |
-| **Tension** | Competing interpretations, overlapping boundaries, or conflicting source pulls — needs resolution before the model can commit. |
-| **Candidate** | Plausible model role; narrowed but not yet locked (often after scan, before THINGS/RELS). |
-| **Deferred** | Explicitly parked — revisit in a named later step or phase. |
-| **Active** | In current modeling scope; being updated in this pass. |
-| **Solidified** | Named, placed, and stable in the model for the current iteration — ready to treat as “done” unless source or scope changes. |
-
-**Typical (non-binding) progression:** Ambiguous → Tension or Candidate → Active → Solidified. **Deferred** can apply after any stage. A Term can return from Deferred to Active when scope returns to it.
+**Slice / anchor:** You may record **`S1=Character`** (or similar) in **Notes** or a minimal **Slice** column if the table template adds one — your engagement may require it for MM3E-style multi-slice tables.
 
 ---
 
-## Registry format (wide Notes)
+## Classification (reference — not required as its own column)
 
-**Prefer an HTML `<table>` with `<colgroup>`** so the **Notes** column gets most of the width (~50–55%). **Classification** labels can be long — give that column ~12–14% if needed. Plain Markdown pipe tables allocate columns evenly and make long Notes hard to read in the editor and in preview.
+If you **merge** the old **Classification** column into **Targets**, use typed pointers (`entity:…`, `property:…`, …) so the table stays one row per Term. The **meaning** of former classification values is unchanged:
 
-Use this skeleton (adjust `width` percentages if needed):
+| Former value | Meaning |
+|--------------|--------|
+| **anchor (class + module)** | Passes the anchor test: core class owns a **module** (frame + same-named core class). |
+| **class** | Domain class not its own module yet — supporting class, or expected class without module. |
+| **property** | Modeled as semantic property on a class. |
+| **field** | Typed field / slot. |
+| **example (instance)** | Illustrative instance — not a type. |
+| **relationship** | Association, link, dependency. |
+| **invariant (rule)** | Domain rule, constraint, policy. |
+
+---
+
+## Registry format (HTML table recommended for Notes width)
+
+Prefer an HTML `<table>` with `<colgroup>` so **Notes** gets most width (~50–55%). **Targets** can be ~18–22%.
 
 ```html
 <table>
 <colgroup>
-  <col style="width:9%" />
-  <col style="width:14%" />
-  <col style="width:6%" />
-  <col style="width:9%" />
-  <col style="width:9%" />
-  <col style="width:53%" />
+  <col style="width:12%" />
+  <col style="width:22%" />
+  <col style="width:66%" />
 </colgroup>
 <thead>
 <tr>
   <th>Term</th>
-  <th>Classification</th>
-  <th>Step</th>
-  <th>Confidence</th>
-  <th>Status</th>
+  <th>Targets</th>
   <th>Notes</th>
 </tr>
 </thead>
 <tbody>
 <tr>
   <td>Character</td>
-  <td>anchor (class + module)</td>
-  <td>SCAN</td>
-  <td>High</td>
-  <td>Active</td>
-  <td>Central entity; all rules attach to it</td>
-</tr>
-<tr>
-  <td>Power</td>
-  <td>class</td>
-  <td>SCAN</td>
-  <td>High</td>
-  <td>Active</td>
-  <td>Supporting class — Character module. Core capability unit.</td>
-</tr>
-<tr>
-  <td>Device</td>
-  <td>class</td>
-  <td>SCAN</td>
-  <td>Medium</td>
-  <td>Tension</td>
-  <td>Removable Power vs Equipment? Boundary unclear — see T2.</td>
+  <td>- <code>entity:Character</code><br>- <code>property:Character.powerLevel</code></td>
+  <td>Central entity; anchor test ✓. Slice <code>S1=Character</code>. Long quotes in <code>terms.md</code> → Character module.</td>
 </tr>
 </tbody>
 </table>
 ```
 
-For very small registries only, a Markdown pipe table is acceptable:
+Small registries: Markdown pipe table is acceptable.
 
-```markdown
-| Term | Classification | Step | Confidence | Status | Notes |
-|------|----------------|------|------------|--------|-------|
-| Character | anchor (class + module) | SCAN | High | Active | Short note only |
-```
+---
+
+## Migration from legacy wide tables
+
+If you have **Step**, **Confidence**, **Status**, and **Classification** columns:
+
+1. **Term** → keep.
+2. **Classification** + committed placements → **Targets** bullets (`entity:…`, `property:…`, …).
+3. **Step** → fold into **Notes** as *“First touched at phase-id `domain-scan`”* or leave implicit if noisy.
+4. **Confidence / Status** → merge into **Notes** (*“Legacy: was High / Active”*) only if still useful; otherwise drop.
+5. **Notes** → preserve text; add pointer to **`terms.md`** where verbatim evidence moved.
+
+---
+
+## Slices and `domain-scan` vs per-slice work
+
+- **`domain-scan`** runs **workspace-wide** (or once per strategy engagement): seeds **`term-registry.md`**, anchors, **`strategy.md`**, scan artifacts. It is **not** “each slice’s first phase” by name — use **phase-id** `domain-scan` only.
+- Per-slice deep extraction aligns with **`nouns-verbs-rules-and-states`** and **`raw-candidate-list`** in **chronicle order** after scan. **`terms.md`** evolves from those phase-ids onward for that slice.
+
+---
+
+## References
+
+- **`process.md`** — Phase chronicle, stages A–F, capture ladder  
+- **`terms.md`** template — `templates/terms-template.md`  
+- **Strategy / revisits** — `library/strategy-execution-and-checklists.md`
 
 
 ---
@@ -3308,7 +3379,7 @@ The CLI does not yet support notes — add them manually in draw.io after CLI bu
 | Phase | Add invariants? |
 |-------|----------------|
 | domain-scan | Yes — add the invariants you found during the scan (inline preferred at this fidelity) |
-| domain-noun-verb (Step 1) | No — extraction only; invariants captured in registry notes |
+| domain-noun-verb (Phase 2) | No — extraction only; invariants captured in registry notes |
 | raw-candidate-list through responsibilities | Yes — as invariants become confirmed, add to diagram |
 | Full model phases | Yes — invariants are a required part of the final model |
 
@@ -4140,7 +4211,7 @@ You are the **domain modeler and OOAD practitioner** using this skill: you provi
 
 # Nouns, verbs, rules, and states
 
-**Skill:** abd-ooad — matches **Step 1: Read for nouns, verbs, rules, and states** in `SKILL.md`.
+**Skill:** abd-ooad — **Phase-id:** `nouns-verbs-rules-and-states` (see **`process.md`** chronicle — do not call this “Phase 2” as a step name).
 
 **What you produce:** **domain-noun-verb.md** on disk (one per source slice): structured extraction by anchor — one **## [AnchorName module]** per backbone anchor; **Candidate …** lists; **full** class boxes (`+` / **opt** / **Invariant:**) or pared **`### … : << … >>`** where the source supports it; **#### Note :** when useful.
 
@@ -4152,9 +4223,9 @@ For the full anchor definition and the three-part anchor test — see `anchors` 
 
 ---
 
-## Phase 2 deliverable — `domain-noun-verb.md` (normative)
+## Deliverable — `domain-noun-verb.md` (normative)
 
-**One file per slice:** **domain-noun-verb.md** in the **slice folder** (e.g. `abd-ooad/1 - basics-checks-conditions/`). Canonical Phase 2 extraction for that slice.
+**One file per slice:** **domain-noun-verb.md** in the **slice folder** (e.g. `abd-ooad/1 - basics-checks-conditions/`). Canonical **first detailed** extraction for that slice (after workspace-wide **`domain-scan`**). **Also maintain `terms.md`** in the slice folder (**`templates/terms-template.md`**) for long quotes and promotion history by **`## [Anchor module]`**.
 
 | Item | Rule |
 |------|------|
@@ -4163,16 +4234,17 @@ For the full anchor definition and the three-part anchor test — see `anchors` 
 | **Structure** | Per anchor: **## [Anchor module]** → **### Note :** → **Candidate …** lists → class boxes (**full** `+` / **opt** / **Invariant:** or pared **`### … : << … >>`**). Optional **## Cross-anchor notes**. |
 | **Artifact body** | Domain content only — no skill paths, template filenames, or process meta in the file. |
 | **Elsewhere** | Methodology and plans stay in **strategy.md** / **term-registry.md** / phase docs — not in the slice artifact. |
-| **Phase 3 in the same file** | Optional: append bucket roll-up, watch list, and tensions to **domain-noun-verb.md** (see **raw-candidate-list** phase) instead of a second markdown file. |
+| **`terms.md`** | Same slice folder; evidence quotes and promotion log — see **`library/term-registry.md`**. |
+| **`raw-candidate-list` in the same file** | Optional: append bucket roll-up, watch list, and tensions to **domain-noun-verb.md** (see **`raw-candidate-list`** phase-id) instead of a second markdown file. |
 
 
-Align **term-registry.md** **Anchor** cells (`S1=<heading>`) with the **`## [… module]`** headings in **domain-noun-verb.md**.
+Align **term-registry.md** (slice / anchor context in **Notes**; **Targets** bullets per **`library/term-registry.md`**) with the **`## [… module]`** headings in **domain-noun-verb.md** and **`terms.md`**.
 
-
-| Artifact                                 | Role                                                                                                                                                  |
-| ---------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **term-registry.md**                   | SCAN **type** decisions: Classification, Confidence, Status, Notes — sparse.                                                                          |
-| **domain-noun-verb.md** (slice folder) | Phase 2 **evidence**: candidates and **full** class boxes **by anchor** (pared-down only in Cross-anchor / boundary notes), structured as above. |
+| Artifact | Role |
+|----------|------|
+| **term-registry.md** | Term-centric **Targets** + **Notes** — sparse rows at first; deepens each phase-id. |
+| **terms.md** (slice folder) | Verbatim / module-scoped evidence — **not** duplicated as walls of prose in the domain model. |
+| **domain-noun-verb.md** (slice folder) | Structured extraction: candidates and **full** class boxes **by anchor** (pared-down only in Cross-anchor / boundary notes), structured as above. |
 
 
 **Anchor column** (single cell per term in the registry table) — one code cell per term, **slice-keyed**:
@@ -4187,170 +4259,33 @@ Align **term-registry.md** **Anchor** cells (`S1=<heading>`) with the **`## […
 
 ## Anchor boundaries under test
 
-Step 1 is the first time anchors are tested by the full vocabulary of the source. As you extract nouns and verbs, actively watch for:
+This phase-id is the first time anchors are tested by the full vocabulary of the source. As you extract nouns and verbs, actively watch for:
 
 - **Evidence that supports an anchor** — terms that clearly belong inside an anchor's module frame (future supporting classes or properties of the core class)
 - **Evidence that challenges an anchor** — a term that is referenced independently by multiple other concepts, suggesting it may need to be elevated to its own anchor
 - **Evidence that an anchor should be split** — the core class is doing two different things and the nouns in this pass separate cleanly into two groups
 
-Keep the anchor set stable for this step. Record boundary questions in the term registry (`Status: Ambiguous`, note the challenge); resolve at **`candidate-list` (CANDS)**.
+Keep the anchor set stable for this phase. Record boundary questions in the term registry (`Status: Ambiguous`, note the challenge); resolve at **Phase 3** (`raw-candidate-list` / **CANDS**).
 
-**At the end of Step 1, re-apply the anchor test** (from `anchors.md`) to any anchor whose boundary was challenged. Promote, demote, or split if the test now fails. Update the term registry and diagram accordingly before proceeding.
-
----
-
-## Worked example — payments spec
-
-> **Continual refinement:** Fictional payments thread. **newly added** = line first appears in this step’s file. Steps 1–4 stay informal; typed members start later.
+**At the end of Phase 2, re-apply the anchor test** (from **`anchors`**) to any anchor whose boundary was challenged. Promote, demote, or split if the test now fails. Update **`term-registry.md`** and any scan diagram if the workspace still uses them.
 
 ---
 
-## Section: What we need (high level)
+## Work order (Phase 2)
 
-### Nouns (candidates)
-
-Buyer, seller, money, float, compliance, locality (local / global), country, rails, merchant account, FX, cross-border, mid rate snapshot, receipt, product matrix, payment types, card, debit, credit, prepaid, ACH, bank pull, wallet (instant push), wire, B2B, crypto pilot, region, admin checkbox, BNPL, Partner X, coming soon screen, frontend, happy path, user, method, fees, success, failure, PSP, redirect, 3DS, bank login, browser, in-app webview, fulfillment, order, digital goods, physical SKUs, warehouse, download link, Ops, event `payment.settled`, payments team.
-
-### Verbs (candidates)
-
-Take (money), get (money to sellers), hold (float), apply (FX), show (mid rate on receipt), route (BNPL), pick (method), see (fees), confirm, fulfill (happy path), open (browser/webview), complete (auth), emit (event), pick (warehouse) …
-
-### Rules (constraints / invariants — as stated or implied)
-
-- Do not hold float longer than compliance allows (vague threshold).
-- Local vs global affects rails and whether FX applies; legal wants mid rate on receipts (conflicts with earlier “FX is someone else’s problem”).
-- Crypto only where admin allows region.
-- Do not promise BNPL until Partner X signs; until then show “coming soon.”
-- For physical SKUs: emit `payment.settled` before warehouse picks (ordering constraint).
-- For digital: sometimes emit before download link — **conflicting** guidance.
-- Cart: if payment fails after tax shown, must not double-apply coupons (cross-team rule touching checkout).
-
-### States (lifecycle / change over time)
-
-- Payment / money movement: implied flow from initiation → authorization/capture → settlement; partial capture with remainder release mentioned.
-- Checkout UX: method selection → fee display → confirmation → success or failure.
-- Redirect flows: user may abandon 3DS / webview.
-- “Local” definition unstable: currency-based vs merchant-entity-based (conceptual state of the **classification** itself).
+Analysis lives in **`domain-noun-verb.md`** (per slice) — **only**. Methodology stays in **phase docs** and **strategy**; do not paste skill boilerplate into the slice file. When the project also keeps a class diagram for this slice, update it **after** the markdown reflects the same facts (**visual twin** — see **class-diagrams**, **using-diagram-cli**).
 
 ---
 
-## Section: Rules that came up in meetings (unordered)
+## Illustrative shape (short)
 
-### Nouns
-
-Idempotency key, client, server, charge, card rails, marketplace, auth, capture, remainder, refund, reason code, chargeback, sanctioned country list, payer, method selection UI, subscription, webhook, billing, events.
-
-### Verbs
-
-Retry, send (`Idempotency-Key` header), double-charge (forbidden), expire (keys — duration disputed), hold, capture, release, refund (full/partial), block (sanctioned users), subscribe (billing, later).
-
-### Rules
-
-- Server must not double-charge for same idempotency intent.
-- Idempotency key TTL: **24h vs 72h — unresolved.**
-- Partial capture only on card rails that support it; else full capture only.
-- Refunds need reason codes for chargeback prep.
-- Block sanctioned payers **before** method selection, not after.
-- Subscriptions out of scope but webhook shape must stay stable for future billing.
-
-### States
-
-- Idempotency key: valid → expired? (timeline unclear)
-- Capture: authorized → partially captured → remainder released?
-- Refund: full vs partial paths
-
----
-
-## Section: Local vs global (still fuzzy)
-
-### Nouns
-
-Currency, storefront, merchant legal entity, engineering assumption, PSP connector, FX quote id, intent object, tax, checkout, cart, coupon.
-
-### Verbs
-
-Gate (connector), run (connector), display (tax).
-
-### Rules
-
-- Global: FX quote id on intent (nullable).
-- Tax displayed on checkout; payments does not compute tax.
-
-### States / tension
-
-- “Local” is **not** one stable notion — slides used two definitions.
-
----
-
-## Section: Failure modes (fragmentary)
-
-### Nouns
-
-Timeout, webview, funds, issuer, fraud score, velocity limit, billing zip, 3DS, user-visible message, log category, support.
-
-### Verbs
-
-Close (webview), decline, block, abandon (friction).
-
-### Rules
-
-- Each failure type should map to user-visible message + support log category — **not all mapped.**
-
-### States
-
-- User journey: in redirect → abandoned vs returned.
-
----
-
-## Section: Non-functional / misc
-
-### Nouns
-
-Audit log, PaymentIntent, Session (naming TBD), state transition, actor (`system` | `user` | `psp_webhook`), performance, pilot demo, sample flow list (browse → pay → fail → retry).
-
-### Verbs
-
-Append (audit), measure (p95 initiate).
-
-### Rules
-
-- Every PaymentIntent (or Session) state transition → append-only audit with actor.
-- p95 initiate < 300ms excluding network — **measurement point undefined.**
-
-### States
-
-- PaymentIntent / Session: arbitrary transition graph referenced but not enumerated in spec.
-
----
-
-## Section: Open questions
-
-### Nouns
-
-Dispute lifecycle, merchant of record, platform, offline payment, cash, partner location, MVP, schema field.
-
-### Verbs
-
-Own (dispute), remove, hide (field).
-
-### Rules / tension
-
-- Dispute ownership: Risk vs eng — **unresolved.**
-- Offline payments: out of MVP scope but field in schema — remove or hide?
-
----
-
-## Cross-cutting observations (still Step 1 only)
-
-- **Synonym pile:** paymnts system, PSP, rails, connector, Intent vs Session — naming debt.
-- **Boundary noise:** payments vs cart vs warehouse vs digital fulfillment — verbs span teams.
-- **Conflicts:** idempotency TTL; digital emit timing; local definition; dispute owner — good fuel for later steps (classes, responsibilities).
+Work **section-by-section** in the source. Under each **`## [Anchor module]`**, list **Candidate** nouns, verbs, rules, states; add **`### ClassName`** boxes when the text supports it. The **raw-candidate-list** phase doc shows a tiny **Check**-anchor excerpt for bucket shape.
 
 ---
 
 ## Continual refinement (this step)
 
-- **Delta:** **pre-notation** — nouns, verbs, rules, states, tensions; typed members in later steps.
+**Delta:** pre-notation — nouns, verbs, rules, states, tensions; typed members arrive in later phases.
 
 ---
 
@@ -4362,14 +4297,14 @@ Own (dispute), remove, hide (field).
 - Have you identified at least three domain rules or constraints?
 - Have you recorded lifecycle states for at least the key candidate classes?
 - Have you noted synonyms, naming conflicts, and scope boundary noise for later steps?
-- Have you updated the term registry with all new terms found in this step?
+- Have you updated the term registry with all new terms found in this phase?
 - Have you set each row’s **Anchor** cell (`S1=…`; add **S2=…** only after slice 2 exists) to point at the right **slice** anchor in the slice’s **domain-noun-verb.md**?
 
 ---
 
 ## Prompt
 
-> **Validate and fix when you find problems.** This step may surface bloat, unclear boundaries, missing invariants, naming drift, spec conflicts, or other robustness gaps. When you notice any of that in your work, **validate** and **fix** the model (or **map-model-spec.json** / class diagram) **before** moving on; record **explicit debt** only when you cannot fix yet, with a clear follow-up.
+> **Validate and fix when you find problems.** Surface bloat, unclear boundaries, missing invariants, naming drift, or spec conflicts — **validate** and **fix** the model (or **map-model-spec.json** / class diagram) before moving on; record **explicit debt** only when you cannot fix yet, with a clear follow-up.
 
 
 ---
@@ -4384,19 +4319,23 @@ Own (dispute), remove, hide (field).
 
 # Domain model Markdown
 
-This skill’s **domain model** is captured in Markdown  a parallel **Draw.io** class diagram. Use **`templates/domain model template.md`** for companion docs; align with **`templates/domain model template.drawio`** when both exist.
+The **domain model** lives in workspace **`domain*.md`** files; **Draw.io** diagrams are **visual twins** of that content — update markdown first, then render or hand-sync the diagram (see **class-diagrams**, **using-diagram-cli**).
 
-**Phase 2 — `domain-noun-verb.md`:** anchor sections, **Candidate …** lists, full or pared class boxes. Slice files are **content only** — no skill paths or process meta in the artifact body.
+**Integrated slice model + evidence:** Prefer **`templates/domain-model-integrated.md`** alongside **`templates/terms-template.md`** (`terms.md` per slice). Class **Notes** use **`*[Sn · phase-id]*`** (e.g. **`*[S1 · refine-names]*`**) — **phase-id** from **`process.md`**, not numeric step names.
 
-**Phase 3 — bucket roll-up:** sort candidates into **entities**, **value objects**, **processes**, **policies**, **roles**, **events** (tables in **`raw-candidate-list.md`** or appended to **`domain-noun-verb.md`**). Same **content-only** rule: no skill/process boilerplate in slice files.
+**`domain-scan`:** **`domain-scan-results.md`**, **`domain-scan-model.md`**, then **`domain-scan-model.drawio`**.
 
-**Optional — `domain-raw-candidates.md`:** same Phase 3 content as **classes under anchor modules** (`### Name : << Entity >>` / `<< ValueObject >>` / `<< Process >>` / …), notes below — **not** a second copy of bucket tables. Cross-cutting material → **`## Cross-anchor`** or appendix. **`templates/domain-raw-candidates-template.md`**.
+**`nouns-verbs-rules-and-states` — `domain-noun-verb.md`:** anchor sections, **Candidate …** lists, class boxes. Slice files are **domain content only** — no skill paths or process boilerplate in the artifact body.
+
+**`raw-candidate-list`:** Prefer **`domain-raw-candidates.md`** — classes under anchors with notes. Optional single tabular roll-up (**`raw-candidate-list.md`** or appendix to **`domain-noun-verb.md`**) — **not** the same tables twice plus an integrated file.
+
+**Templates:** **`templates/domain model template.md`**, **`templates/domain-raw-candidates-template.md`**, **`templates/domain-model-integrated.md`**.
 
 ---
 
 ## Domain concept template
 
-Each **domain concept** (class, interface, value object, or aggregate) is documented under a clear heading, for example:
+Each concept is documented under a clear heading, for example:
 
 ```markdown
 ## **Payment**
@@ -4405,73 +4344,62 @@ Each **domain concept** (class, interface, value object, or aggregate) is docume
 
 ### Properties
 - Money amount
-- …
 
 ### Operations
 - initiate() → Authorization
 ```
 
-From **Step 5** onward, prefer **typed** members (see **Notation evolution** below). Earlier steps stay **pre-notation** (bullets and prose).
+From **Phase 6** onward (`add-properties-semantically-tight`), prefer **typed** members (see **Notation evolution**). Earlier phases stay informal (bullets and prose).
 
 ---
 
-## Continual refinement — class definition + diagram
+## Markdown and diagram
 
-**Continual refinement** means you **grow** the model across steps: each step file may add or tighten concepts. The Markdown spec and the class diagram are **two views of the same model** — update both when your project uses dual artifacts so they do not drift (see **[Class diagrams](class-diagrams.md)**).
+The Markdown spec and the class diagram are **two views of the same model** — keep them aligned when both exist (**class-diagrams**).
 
 ---
 
-## **newly added** tag
+## **newly added** tag (optional)
 
-In the **worked example** threads (e.g. payments), the marker **newly added** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
+In long-running examples, **newly added** on a line marks a property or operation that first appears in *this* file — useful for deltas across files.
 
 ---
 
 ## Notation evolution
 
-| Phase | Markdown style |
-|--------|------------------|
-| **Steps 1–4** | Informal: bullets, short phrases, responsibilities, candidate names; typed `- <type> property` lines arrive in Step 5. |
-| **Step 5+** | Formal typed members: `- <Type> propertyName`, `operationName(...) → ReturnType`. |
+| Phase range | Markdown style |
+|-------------|----------------|
+| **2–5** | Informal: bullets, candidates, responsibilities; typed `- <type> property` lines from **Phase 6** onward. |
+| **Phase 6+** | Formal: `- <Type> propertyName`, `operationName(...) → ReturnType`. |
 
 ---
 
 ## Subtype sections
 
-When you introduce substitutable specializations, add an explicit subtype heading so the structure is visible in the spec and in diagrams:
+When you introduce substitutable specializations, add an explicit subtype heading so structure is visible in spec and diagrams:
 
 ```markdown
 ### **Subtype** : **PaymentMethod**
 ```
 
-Put **`**newly added**`** on subtype **operation** (or property) lines when that member is **first** introduced for that subtype.
-
 ---
 
 ## Invariants
 
-Attach invariants to the **property** or **operation** they constrain, using a dedicated line:
+Attach invariants to the property or operation they constrain:
 
 ```markdown
 **Invariant:** …
 ```
 
-Mark **`**newly added**`** when you **first** attach an invariant to a given member line.
-
 ---
 
-## Early steps: terms, mechanisms, story map
+## Class diagram and spec
 
-Before typed properties exist, align extracted **nouns, verbs, rules, states** with your workspace’s **terms & mechanisms** and **shaped story map** (or equivalent). That is the same “grow the model as you go” idea: informal extraction first, then formal types.
+When you maintain **`map-model-spec.json`** or similar, re-run the project’s diagram script after material changes so Draw.io stays aligned.
 
----
-
-## Class diagram and spec (visual twin)
-
-When you maintain a machine-readable spec such as **`map-model-spec.json`**, re-run your project’s class-diagram render script (for example **`render_map_model_class_diagram.py`**) after material changes so the **Draw.io** diagram stays the **visual twin** of the spec.
-
-- **[Class diagrams](class-diagrams.md)** — templates, relationship types, keeping `.md` and `.drawio` aligned.  
-- **[Using the Diagram CLI](using-diagram-cli.md)** — building diagrams with **`scripts/drawio_cli.py`**.
+- **Class diagrams** — templates, relationships, keeping `.md` and `.drawio` aligned.  
+- **Using the Diagram CLI** — `scripts/drawio_cli.py`.
 
 ---
 
@@ -4479,9 +4407,9 @@ When you maintain a machine-readable spec such as **`map-model-spec.json`**, re-
 
 | Topic | File |
 |--------|------|
-| Term tracking across steps | [term-registry.md](term-registry.md) |
+| Term tracking | [term-registry.md](term-registry.md) |
 | Strategy-led runs | [strategy-led-generation.md](strategy-led-generation.md) |
-| Layout and lanes | [class-diagram-layout-rules.md](class-diagram-layout-rules.md) |
+| Layout | [class-diagram-layout-rules.md](class-diagram-layout-rules.md) |
 
 
 ---
@@ -4573,9 +4501,9 @@ The absence of a matching core class is the clearest signal that you have not ye
 
 # Strategy-led generation
 
-Domain scan (OOAD **phase 1**) does not only produce a single “results” file. It establishes a **small set of workspace files** under `<workspace>/abd-ooad/` that work together. Some are **frozen findings** from the scan; others are **living documents** you update as modeling continues.
+Domain scan (phase-id **`domain-scan`**) does not only produce a single “results” file. It establishes a **small set of workspace files** under `<workspace>/abd-ooad/` that work together. Some are **frozen findings** from the scan; others are **living documents** you update as modeling continues.
 
-**Slices start at global Phase 2:** Source-slice work (e.g. **S1**, **S2** in `strategy.md` and **`Anchor`** `S1=…` / `S2=…` in `term-registry.md`) uses the **same global OOAD phase numbers** as the process table for everything **after** scan. The **first** per-slice extraction step is **Phase 2** (`nouns-verbs-rules-and-states`), **not** a slice-local “Phase 1.” Phase **1** is workspace-wide **domain-scan** only. See **`term-registry.md` → Slices and global phase numbers**.
+**Per-slice extraction** after scan uses the **same phase-id chronicle** as **`process.md`**. The **first** detailed per-slice capture is **`nouns-verbs-rules-and-states`** (then **`raw-candidate-list`**, …) — **not** a second **`domain-scan`**. Use **phase-id** names in strategy and registry (and **`*[Sn · phase-id]*`** tags in the model), not “Phase 1 / Phase 2” as step names. See **`term-registry.md`** and **`process.md` → Capture ladder**.
 
 For the scan procedure itself, see the **Domain scan** phase. This page explains **what each artifact is for** and how **`strategy.md`** relates to **`domain-scan-results.md`**.
 
@@ -4593,7 +4521,8 @@ Created during domain scan under `<workspace>/abd-ooad/`:
 | `strategy.md` | **Living strategy:** **modeling scope**; **§1 source slices** (table: Order, Goal, **Source** — chapters, files, modules, or mixed — **Coverage**, **Importance**); **§2 slice plan** (per-slice **goal restated** + **phases**); **coverage across steps**; **cross-slice integration**; **anchor and subdomain elaboration**; **execution plan (normative)** — phase slugs with **slice IDs** on every line; plus **approach** and **dated pivots**. | **Yes** — whenever scope, order, slice depth, subdomain mapping, or integration changes. |
 | `domain-scan-model.md` | Class sketch (markdown) at scan fidelity. | Yes, in later phases — not only during scan. |
 | `domain-scan-model.drawio` | Diagram at scan fidelity. | Same as model.md. |
-| `term-registry.md` | Terms, **Classification** (model role), **Status** (OOAD scale), confidence — seeded at scan. | **Yes** — every later phase updates Step, Classification, and Status as the model evolves. |
+| `term-registry.md` | Terms, **Targets** (bulleted typed pointers), **Notes** — seeded at scan. | **Yes** — every later phase-id updates **Targets** and **Notes** as the model evolves. See **`library/term-registry.md`**. |
+| `terms.md` (per slice) | Evidence ledger by **`## [Anchor module]`** — quotes, promotion log. | **Yes** — from **`nouns-verbs-rules-and-states`** onward for that slice. Template: **`templates/terms-template.md`**. |
 
 **Plus** (when workspace is configured): **`progress/`** checklists — see **`library/strategy-execution-and-checklists.md`**. **`generate.py`** creates **`process-checklist.md`**, **`<phase>-checklist.md`**, and (abd-ooad) **`strategy-run-checklist.md`** when templates exist and files are missing. Normative phase steps stay in **`content/parts/phases/<phase>.md`**. These are the **only** place for session tick marks.
 
@@ -4628,8 +4557,8 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 
 1. **Strategy** — Keep **`strategy.md`** aligned with reality; append *Ongoing strategic decisions* when you pivot.
 2. **Strategy execution** — Tick **`progress/strategy-run-checklist.md`** as you **complete** each phase for its declared scope.
-3. **Phase work** — For the active phase, run **`generate.py --phase <slug>`** and tick **`progress/<slug>-checklist.md`** for action steps.
-4. **Registry** — Keep `term-registry.md` aligned with the current phase (Step, Classification, Status).
+3. **Phase work** — For the active phase-id, run **`generate.py --phase <phase-id>`** (or **`generate.py --stage <A|B|…|F>`** for a stage) and tick **`progress/<phase-id>-checklist.md`** for action steps.
+4. **Registry** — Keep `term-registry.md` aligned with the current phase-id (**Targets** + **Notes**); keep slice **`terms.md`** in sync for verbatim evidence.
 5. **Results** — Touch `domain-scan-results.md` only for corrections to the original scan snapshot.
 
 ---
@@ -4649,26 +4578,45 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 
 # Strategy execution and checklists (abd-ooad)
 
-**Canonical doc** for: (1) **strategy** vs **live ticks**, (2) **which files** hold checkboxes, (3) **how** `generate.py` creates workspace **`progress/`** files. Does **not** replace **[process.md](../process.md)** (process tables, `generate` / `build`) or **[skill-structure-and-concepts.md](../base/skill-structure-and-concepts.md)** (repo layout).
+**Canonical doc** for: (1) **strategy** vs **live ticks**, (2) **which files** hold checkboxes, (3) **how** `generate.py` creates workspace **`progress/`** files, (4) **stages**, **revisits / disruption** on the same checklist. Does **not** replace **[process.md](../process.md)** (phase chronicle, `generate` / `build`) or **[skill-structure-and-concepts.md](../base/skill-structure-and-concepts.md)** (repo layout).
 
-Only **`strategy.md`** defines **scope** and **which phases in what order**; checklists are where you **tick** progress.
+Only **`strategy.md`** defines **scope** and **which phase-ids (or stages) in what order**; checklists are where you **tick** progress.
 
 ---
 
 ## Workflow
 
-1. **Domain scan** — produce scan artifacts (see **`strategy-led-generation`**).
+1. **Domain scan** — produce scan artifacts (see **`strategy-led-generation`**). Phase-id: **`domain-scan`**.
 2. **Strategy** — fill **`strategy.md`** from **`templates/strategy.md`**:
    - **Modeling scope** — corpus or product boundary; **source type** (book vs repo vs mixed).
    - **§1 Source slices** — ordered table: **Goal**, **Source** (chapters, files, modules, APIs — whatever locates work), **Coverage** (depth this pass), **Importance**; stable **slice IDs** reused everywhere.
-   - **§2 Slice plan** — per slice: **goal restated**, **unit kind**, **phases** (execution step numbers / slugs), produces, depends-on.
-   - **Coverage across steps** — matrix: every slice → which **execution plan** steps touch it → **depth** → deferrals.
+   - **§2 Slice plan** — per slice: **goal restated**, **unit kind**, **phase-ids** (or **stages**) you will run, produces, depends-on.
+   - **Coverage across steps** — matrix: every slice → which **execution plan** phase-ids touch it → **depth** → deferrals.
    - **Cross-slice integration** — cross-boundary types and ordering (From → To + narrative).
-   - **Anchor and subdomain elaboration** (when anchors have attached types) — map subdomains to slices and execution §.
-   - **Execution plan (normative)** — ordered phase **slugs**; **each line cites slice IDs** (mirror **`strategy-run-checklist.md`**).
+   - **Anchor and subdomain elaboration** (when anchors have attached types) — map subdomains to slices and execution phase-ids.
+   - **Execution plan (normative)** — ordered **phase-id** strings; **each line cites slice IDs** (mirror **`strategy-run-checklist.md`**). Optionally group work by **stage A–F** (see **`process.md` → Stage map**).
+   - **Stage completion (after each stage)** — what completed; tensions; **new checklist lines** for revisits (below); **audit** — append dated line under *Ongoing strategic decisions*.
    - **Approach going forward** + **Ongoing strategic decisions** — short narrative and dated pivots.
 3. **Align live checklists** — keep **`strategy-run-checklist.md`** in sync with the execution plan (same order and scope). Optional **`templates/strategy-run-checklist.md`** seed; optional **`templates/progress-README.md`** → **`progress/README.md`** for slice-specific files under **`progress/slices/`**.
-4. **Run phases** — for the **current** phase: `python scripts/base/generate.py --phase <slug>`. Tick **`strategy-run-checklist.md`** when a phase is **done** for its declared scope; tick **`<slug>-checklist.md`** for **steps inside** that phase.
+4. **Run phases** — **`python scripts/base/generate.py --phase <phase-id>`** for one step, or **`python scripts/base/generate.py --stage <A|B|…|F>`** for a full stage (same order as **`process.md`** / **`skill-config.json` → `process_stages`**). Tick **`strategy-run-checklist.md`** when a phase (or stage slice) is **done** for its declared scope; tick **`<phase-id>-checklist.md`** for **steps inside** that phase.
+
+---
+
+## Revisits and disruption (same checklist)
+
+A **revisit** is **not** a separate rerun workflow. While executing (including late **stage F**), if work must **go back** to an earlier **stage** or **phase-id**, **add a new row** to **`strategy-run-checklist.md`** — e.g. `- [ ] Revisit stage B — <short reason>` or `- [ ] Re-run nouns-verbs-rules-and-states — slice S1 — reconcile new anchor` — at the **bottom** or **inserted** where it fits the agreed order. The checklist is the single source of truth for **forward** work plus **backward** revisits.
+
+**Audit:** When you add a revisit row, append a dated line under **`strategy.md` → Ongoing strategic decisions**; never delete prior pivots.
+
+### Hint table (non-prescriptive)
+
+| You are here | Often need to touch |
+|--------------|---------------------|
+| Stage F | Stage E, D, or C (naming / validation feedback) |
+| Stage E | Stage C (scenarios expose structure gaps) |
+| Stage D | Stage C (splitting responsibilities) |
+
+Use this as a **prompt**, not a rule.
 
 ---
 
@@ -4676,9 +4624,9 @@ Only **`strategy.md`** defines **scope** and **which phases in what order**; che
 
 | Layer | File | What you tick |
 | --- | --- | --- |
-| **Strategy execution** | **`progress/strategy-run-checklist.md`** | **Which phases** you will run, **in order**, each with **scope** that **includes the same slice IDs** as **`strategy.md` → Execution plan**. Optional: **`progress/slices/<slice-id>-checklist.md`** per slice — see **`progress/README.md`** in the workspace (if present). |
+| **Strategy execution** | **`progress/strategy-run-checklist.md`** | **Which phase-ids** (or stages) you will run, **in order**, each with **scope** that **includes the same slice IDs** as **`strategy.md` → Execution plan**; **includes revisit rows** when you must go backward. Optional: **`progress/slices/<slice-id>-checklist.md`** per slice — see **`progress/README.md`** in the workspace (if present). |
 | **Full pipeline (reference)** | **`progress/process-checklist.md`** | **Every** phase in **`phase_files`** — useful as a map; optional if you rely only on strategy-run. |
-| **Phase steps** | **`progress/<phase>-checklist.md`** | **Action checklist** copied from **`content/parts/phases/<phase>.md` → ## Action Checklist**. |
+| **Phase steps** | **`progress/<phase-id>-checklist.md`** | **Action checklist** copied from **`content/parts/phases/<phase-id>.md` → ## Action Checklist**. |
 
 **Implementation:** **`scripts/base/workspace_checklists.py`** (paths, behavior, `--no-ensure-checklists`).
 
@@ -4688,10 +4636,10 @@ Only **`strategy.md`** defines **scope** and **which phases in what order**; che
 
 | Kind | What it tracks | Where it lives | How it gets there |
 | --- | --- | --- | --- |
-| **Normative reference** | Rules in **this document** — strategy vs ticks, layers, `generate.py` behavior | **`content/parts/library/strategy-execution-and-checklists.md`** | Authored in the skill; **not** created by **`generate.py`**. |
-| **Pipeline position** | Which **phase** of the pipeline you are in | **`<active_skill_workspace>/<skill_name>/progress/process-checklist.md`** | **Created** on first **`python scripts/base/generate.py --phase <slug>`** when that file is **missing**, if **`skill-config.json` → `workspace.active_skill_workspace`** is set. One `- [ ]` line per slug in **`phase_files`** (labels from **`phase_section_headings`** when present). **Does not overwrite** an existing file. |
-| **Phase action steps** | **Steps inside** the current phase | **`<active_skill_workspace>/<skill_name>/progress/<phase-slug>-checklist.md`** | **Created** in the **same** `generate.py` run when that file is **missing**. Steps are taken from **`## Action Checklist`** in **`content/parts/phases/<phase-slug>.md`**, or from task lines (`- [ ]` / `- [x]`) in that file if the section is absent. **Does not overwrite** an existing file. |
-| **Strategy execution** (workspace) | Ordered phases matching **`strategy.md`** | **`progress/strategy-run-checklist.md`** | Seeded from template when **`generate.py`** / workspace checklist logic creates it; **you** align it with **`strategy.md`**. |
+| **Normative reference** | Rules in **this document** — strategy vs ticks, layers, revisits, `generate.py` behavior | **`content/parts/library/strategy-execution-and-checklists.md`** | Authored in the skill; **not** created by **`generate.py`**. |
+| **Pipeline position** | Which **phase-id** of the pipeline you are in | **`<active_skill_workspace>/<skill_name>/progress/process-checklist.md`** | **Created** on first **`python scripts/base/generate.py --phase <phase-id>`** (or first phase of **`--stage`**) when that file is **missing**, if **`skill-config.json` → `workspace.active_skill_workspace`** is set. One `- [ ]` line per slug in **`phase_files`** (labels from **`phase_section_headings`** when present). **Does not overwrite** an existing file. |
+| **Phase action steps** | **Steps inside** the current phase | **`<active_skill_workspace>/<skill_name>/progress/<phase-id>-checklist.md`** | **Created** in the **same** `generate.py` run when that file is **missing**. Steps are taken from **`## Action Checklist`** in **`content/parts/phases/<phase-id>.md`**, or from task lines (`- [ ]` / `- [x]`) in that file if the section is absent. **Does not overwrite** an existing file. |
+| **Strategy execution** (workspace) | Ordered phase-ids (and revisit rows) matching **`strategy.md`** | **`progress/strategy-run-checklist.md`** | Seeded from template when **`generate.py`** / workspace checklist logic creates it; **you** align it with **`strategy.md`**. |
 
 ### Names and workspace
 
@@ -4712,9 +4660,9 @@ Only **`strategy.md`** defines **scope** and **which phases in what order**; che
 
 ---
 
-## Phase slugs
+## Phase IDs
 
-Use exact slugs from **`skill-config.json` → `phase_files`** (e.g. `nouns-verbs-rules-and-states`, `domain-scan`). Labels for humans are in **`phase_section_headings`**.
+Use exact **phase-id** strings from **`skill-config.json` → `phase_files`** (e.g. `nouns-verbs-rules-and-states`, `domain-scan`). Labels for humans are in **`phase_section_headings`**. **Stages** **A–F** map to ordered phase-id lists in **`process_stages`** — see **`process.md`**.
 
 ---
 
@@ -4733,168 +4681,147 @@ Use exact slugs from **`skill-config.json` → `phase_files`** (e.g. `nouns-verb
 
 ## What a Term Is
 
-A **Term** is any concept identified from the source material that may become part of the domain model. At the time of identification, a Term is not committed to a model role — it might become a class, a property, a value type, an association, or nothing at all. The registry tracks Terms as the modeling phases determine what each one actually is.
+A **Term** is any concept identified from the source material that may become part of the domain model. At identification time it is not committed to a model role — it might become a class, a property, a value type, an association, or nothing. The registry tracks Terms as modeling **phase-ids** (see **`process.md` → Phase chronicle**) determine what each one actually is.
 
-This is distinct from other uses of "actor" in this domain:
-- In MM3E and FoundryVTT, "Actor" has a specific system meaning (a character, creature, or entity in the game world).
-- In the registry, everything is a Term until the model says otherwise.
+This is distinct from other domain uses of overloaded words (e.g. in some systems “Actor” is a system type). In the registry, everything is a Term until the model says otherwise.
 
-**File:** `<workspace>/abd-ooad/term-registry.md`
-**Never embedded** inside step outputs — it lives in its own file and is referenced from each step's model doc.
+**File:** `<workspace>/abd-ooad/term-registry.md` (or per-slice path if your workspace layout nests slices).
 
----
-
-## Step Reference — Short Names
-
-Use these short names in the **Step** column of the registry when adding or updating a row.
-
-| Short Name | Phase | Description |
-|-----------|-------|-------------|
-| SETUP | workspace-and-config | Workspace initialization |
-| SCAN | domain-scan | Source scan and anchor identification |
-| NOUNS | nouns-verbs-rules-and-states | Extract nouns, verbs, rules, states |
-| CANDS | raw-candidate-list | Raw candidate class list |
-| THINGS | thing-vs-data-about-a-thing | Separate things from data-about-things |
-| RESP | responsibilities-before-operations | Assign responsibilities |
-| PROPS | add-properties-semantically-tight | Add semantically tight properties |
-| OPS | turn-verbs-into-operations | Turn verbs into operations |
-| RELS | relationships-and-cardinality | Relationships and cardinality |
-| INV | invariants-in-the-model | Identify invariants |
-| BLOAT | watch-for-bloated-classes | Detect bloated classes |
-| ROLES | smashed-abstractions-and-hidden-roles | Uncover hidden roles |
-| INHERIT | inheritance-when-behavior-generalizes | Apply inheritance |
-| ABST | abstract-classes-and-interfaces | Abstract classes and interfaces |
-| COMP | prefer-composition | Prefer composition over inheritance |
-| STATES | model-state-transitions | Model state transitions |
-| ITER | iterative-refinement | Iterative refinement pass |
-| TENSION | tension-as-a-signal | Resolve tensions |
-| COHESION | what-changes-together | What changes together |
-| VALIDATE | validate-with-scenarios | Validate with scenarios |
-| NAMES | refine-names | Refine class and concept names |
-| LAYERS | model-in-layers | Model in layers |
+**Never embed** the full registry inside step outputs — it lives in its own file and is referenced from each phase’s model doc.
 
 ---
 
-## Slices and global phase numbers (normative)
+## Relationship to `terms.md` (per slice)
 
-The **OOAD process table** (see **`process.md`** / built **AGENTS.md** — “Process Table”) assigns **global phase numbers** **0–21** to phase **slugs** (e.g. **Phase 2** = `nouns-verbs-rules-and-states`, **Phase 3** = `raw-candidate-list`, **Phase 4** = `thing-vs-data-about-a-thing`).
-
-- **Phase 1** (`domain-scan`, short name **SCAN**) runs **once per workspace** (or once per strategy engagement). It produces anchors, `strategy.md`, `domain-scan-results.md`, and seeds **`term-registry.md`**. It is **not** repeated as “each slice’s Phase 1.”
-- **Per-slice modeling** (folders or **Anchor** columns **`S1=…`**, **`S2=…`**, …) **aligns with the same global numbers from Phase 2 onward:** the **first** extraction artifact in a slice is always **Phase 2** (**NOUNS**), then **3** (**CANDS**), **4** (**THINGS**), etc. Do **not** label slice-local nouns-verbs files as Phase 1 — that collides with **SCAN**.
-- **Phase notes** in italics (optional): `*[Sn · Phase N]*` where **N** is the **global** process-table number. Add slug, tension id, or short reminder *after* the tag on the same line if needed (e.g. *thing-vs-data*, *registry Tn*). For early “likely class” judgments: `*[S1 · Phase 3]* Likely class : …`.
-
----
-
-## Registry Columns
-
-| Column | Values | Notes |
-|--------|--------|-------|
-| **Term** | Concept name from the source | Exact word or phrase as found — rename in the NAMES step if needed |
-| **Classification** | See **Classification** below | **What we want to model this as** — target shape in the domain model (not lifecycle) |
-| **Step** | Short name from table above (SCAN, NOUNS, …) | Step that first identified or last materially updated this Term |
-| **Confidence** | High / Medium / Low | How sure we are this belongs in the model |
-| **Status** | See **Status (OOAD scale)** below | Where this Term sits in the modeling workflow |
-| **Notes** | Free text | Anchor-test results, owning module for supporting classes (`Supporting class — X module`), competing interpretations, pointers to tensions in `domain-scan-results.md`, and follow-ups |
+- **`terms.md`** (alongside `domain-noun-verb.md` in a slice folder) holds **module-scoped evidence**: quotes, raw extractions, promotion history under **`## [Anchor module]`** headings aligned with the integrated domain model.
+- **`term-registry.md`** remains the **term-centric analysis record**: one row per Term; **Targets** = where the term landed; **Notes** = substantive reasoning (anchor tests, classification, tensions) — **full paragraphs are fine** when the work needs them.
+- **Principle:** Notes depth is **not** reduced because `terms.md` exists. `terms.md` reduces **duplication of verbatim source text** and organizes evidence by module; it does **not** justify one-line registry Notes unless the term truly needs only one line.
+- **Avoid duplicate verbatim quotes:** keep the quote in **`terms.md`** and in **Notes** point to `terms.md#anchor-module` (or the term subsection); keep analysis-only text in Notes as today.
 
 ---
 
-## Classification — what we want to model this as
+## Phase IDs (normative references)
 
-Use **one** value per row. This is the **intended model role**, not how “mature” the idea is (that is **Status**).
+Refer to pipeline steps **only** by **`phase-id`** — the short **kebab-case** slug matching **`skill-config.json` → `phase_files`** and the **`process.md`** chronicle (e.g. `domain-scan`, `nouns-verbs-rules-and-states`, `refine-names`). Do **not** use “Phase 1 / Phase 2” as **names** for steps; those ordinals drift. Optional **model tags** in the domain model use **`*[Sn · phase-id]*`** (e.g. **`*[S1 · refine-names]*`**) — see **`library/domain-model`**.
 
-| Value | Meaning |
+---
+
+## Registry columns
+
+| Column | Role |
+|--------|------|
+| **Term** | Concept name from the source — exact word or phrase as found; rename in **`refine-names`** if needed. |
+| **Targets** | Where this term **landed** in the model: a **bulleted list inside the table cell** (Markdown list), **one typed pointer per line**. Unallocated / not yet placed → leave empty or **—**. |
+| **Notes** | Anchor-test results, slice/anchor context (**`S1=…`** style if useful), competing interpretations, tensions, pointers to **`terms.md`** when verbatim evidence lives there — same substance as historical scan/noun-verb rows. |
+
+**Optional:** If you need a single “primary kind” for tooling, add one optional column **after** Term (e.g. **Kind**) — otherwise prefer **Targets**-only for a slim table.
+
+---
+
+## Targets — typed pointers (one per bullet)
+
+**Normative style:** each bullet is **one** typed target. **Do not** concatenate targets with `|` or `;` on one run-on line.
+
+Examples of pointer forms (extend as your model needs):
+
+- `entity:Payment`
+- `vo:Money`
+- `property:Payment.amount`
+- `operation:Order.submit`
+- `invariant:…`
+- `policy:…`
+- `relationship:Customer — Order`
+
+**Renders in Markdown tables** — use `<br>` between bullets if your renderer collapses list-in-cell (GitHub-style often accepts list-in-cell; validate in your preview):
+
+```markdown
+| Term   | Targets |
 |--------|---------|
-| **anchor (class + module)** | Passes the anchor test: this concept is a **core class** and owns a **module** (dashed frame + same-named core class). Use only for backbone modules. |
-| **class** | A domain **class** that is not its own module yet — e.g. supporting class inside a frame, or a type you expect to become a class without its own module. |
-| **property** | Modeled as a **semantic property** (attribute / value on a class), not a separate type. |
-| **field** | Modeled as a **typed field / slot** (data member, possibly simple type or value object). |
-| **example (instance)** | An **illustrative instance**, sample, or scenario object — not a type in the model. |
-| **relationship** | An **association**, link, or dependency between concepts — may become an association, association class, or navigable role. |
-| **invariant (rule)** | A **domain rule**, constraint, or policy — often becomes behavior, guard, or explicit rule text on a class. |
-
-**Diagram mapping (when relevant):** `anchor (class + module)` → module frame + core class; `class` → class box; `relationship` → association; `invariant (rule)` → note, constraint, or operation; `property` / `field` → attributes on a class.
+| amount | - `entity:Payment`<br>- `vo:Money`<br>- `property:Payment.amount` |
+```
 
 ---
 
-## Status (OOAD scale)
+## Notes — still substantive
 
-**Status** is **lifecycle / confidence in the workflow**, not the model shape. Pick the value that best fits; states are **not** always a strict left-to-right pipeline.
+Notes remain the place for **classification reasoning**, anchor tests, tensions, and follow-ups. **Do not** make Notes sparse by default. When raw quotes live in **`terms.md`**, write in Notes: *“Verbatim quote in `terms.md` → [Anchor module] / term …”* and keep analysis here.
 
-| Status | When to use |
-|--------|-------------|
-| **Ambiguous** | You cannot yet say what the Term is or how it sits next to others. |
-| **Tension** | Competing interpretations, overlapping boundaries, or conflicting source pulls — needs resolution before the model can commit. |
-| **Candidate** | Plausible model role; narrowed but not yet locked (often after scan, before THINGS/RELS). |
-| **Deferred** | Explicitly parked — revisit in a named later step or phase. |
-| **Active** | In current modeling scope; being updated in this pass. |
-| **Solidified** | Named, placed, and stable in the model for the current iteration — ready to treat as “done” unless source or scope changes. |
-
-**Typical (non-binding) progression:** Ambiguous → Tension or Candidate → Active → Solidified. **Deferred** can apply after any stage. A Term can return from Deferred to Active when scope returns to it.
+**Slice / anchor:** You may record **`S1=Character`** (or similar) in **Notes** or a minimal **Slice** column if the table template adds one — your engagement may require it for MM3E-style multi-slice tables.
 
 ---
 
-## Registry format (wide Notes)
+## Classification (reference — not required as its own column)
 
-**Prefer an HTML `<table>` with `<colgroup>`** so the **Notes** column gets most of the width (~50–55%). **Classification** labels can be long — give that column ~12–14% if needed. Plain Markdown pipe tables allocate columns evenly and make long Notes hard to read in the editor and in preview.
+If you **merge** the old **Classification** column into **Targets**, use typed pointers (`entity:…`, `property:…`, …) so the table stays one row per Term. The **meaning** of former classification values is unchanged:
 
-Use this skeleton (adjust `width` percentages if needed):
+| Former value | Meaning |
+|--------------|--------|
+| **anchor (class + module)** | Passes the anchor test: core class owns a **module** (frame + same-named core class). |
+| **class** | Domain class not its own module yet — supporting class, or expected class without module. |
+| **property** | Modeled as semantic property on a class. |
+| **field** | Typed field / slot. |
+| **example (instance)** | Illustrative instance — not a type. |
+| **relationship** | Association, link, dependency. |
+| **invariant (rule)** | Domain rule, constraint, policy. |
+
+---
+
+## Registry format (HTML table recommended for Notes width)
+
+Prefer an HTML `<table>` with `<colgroup>` so **Notes** gets most width (~50–55%). **Targets** can be ~18–22%.
 
 ```html
 <table>
 <colgroup>
-  <col style="width:9%" />
-  <col style="width:14%" />
-  <col style="width:6%" />
-  <col style="width:9%" />
-  <col style="width:9%" />
-  <col style="width:53%" />
+  <col style="width:12%" />
+  <col style="width:22%" />
+  <col style="width:66%" />
 </colgroup>
 <thead>
 <tr>
   <th>Term</th>
-  <th>Classification</th>
-  <th>Step</th>
-  <th>Confidence</th>
-  <th>Status</th>
+  <th>Targets</th>
   <th>Notes</th>
 </tr>
 </thead>
 <tbody>
 <tr>
   <td>Character</td>
-  <td>anchor (class + module)</td>
-  <td>SCAN</td>
-  <td>High</td>
-  <td>Active</td>
-  <td>Central entity; all rules attach to it</td>
-</tr>
-<tr>
-  <td>Power</td>
-  <td>class</td>
-  <td>SCAN</td>
-  <td>High</td>
-  <td>Active</td>
-  <td>Supporting class — Character module. Core capability unit.</td>
-</tr>
-<tr>
-  <td>Device</td>
-  <td>class</td>
-  <td>SCAN</td>
-  <td>Medium</td>
-  <td>Tension</td>
-  <td>Removable Power vs Equipment? Boundary unclear — see T2.</td>
+  <td>- <code>entity:Character</code><br>- <code>property:Character.powerLevel</code></td>
+  <td>Central entity; anchor test ✓. Slice <code>S1=Character</code>. Long quotes in <code>terms.md</code> → Character module.</td>
 </tr>
 </tbody>
 </table>
 ```
 
-For very small registries only, a Markdown pipe table is acceptable:
+Small registries: Markdown pipe table is acceptable.
 
-```markdown
-| Term | Classification | Step | Confidence | Status | Notes |
-|------|----------------|------|------------|--------|-------|
-| Character | anchor (class + module) | SCAN | High | Active | Short note only |
-```
+---
+
+## Migration from legacy wide tables
+
+If you have **Step**, **Confidence**, **Status**, and **Classification** columns:
+
+1. **Term** → keep.
+2. **Classification** + committed placements → **Targets** bullets (`entity:…`, `property:…`, …).
+3. **Step** → fold into **Notes** as *“First touched at phase-id `domain-scan`”* or leave implicit if noisy.
+4. **Confidence / Status** → merge into **Notes** (*“Legacy: was High / Active”*) only if still useful; otherwise drop.
+5. **Notes** → preserve text; add pointer to **`terms.md`** where verbatim evidence moved.
+
+---
+
+## Slices and `domain-scan` vs per-slice work
+
+- **`domain-scan`** runs **workspace-wide** (or once per strategy engagement): seeds **`term-registry.md`**, anchors, **`strategy.md`**, scan artifacts. It is **not** “each slice’s first phase” by name — use **phase-id** `domain-scan` only.
+- Per-slice deep extraction aligns with **`nouns-verbs-rules-and-states`** and **`raw-candidate-list`** in **chronicle order** after scan. **`terms.md`** evolves from those phase-ids onward for that slice.
+
+---
+
+## References
+
+- **`process.md`** — Phase chronicle, stages A–F, capture ladder  
+- **`terms.md`** template — `templates/terms-template.md`  
+- **Strategy / revisits** — `library/strategy-execution-and-checklists.md`
 
 
 ---
@@ -5345,7 +5272,7 @@ The CLI does not yet support notes — add them manually in draw.io after CLI bu
 | Phase | Add invariants? |
 |-------|----------------|
 | domain-scan | Yes — add the invariants you found during the scan (inline preferred at this fidelity) |
-| domain-noun-verb (Step 1) | No — extraction only; invariants captured in registry notes |
+| domain-noun-verb (Phase 2) | No — extraction only; invariants captured in registry notes |
 | raw-candidate-list through responsibilities | Yes — as invariants become confirmed, add to diagram |
 | Full model phases | Yes — invariants are a required part of the final model |
 
@@ -6177,223 +6104,76 @@ You are the **domain modeler and OOAD practitioner** using this skill: you provi
 
 # Raw candidate list
 
-**Skill:** abd-ooad — Phase 3.
+**Skill:** abd-ooad — **Phase-id:** `raw-candidate-list` (follows **`nouns-verbs-rules-and-states`** in the chronicle).
 
-**What this phase does:** Sort vocabulary into **candidate kinds** — **entities**, **value objects**, **processes**, **policies**, **roles**, **events** — record **why** each candidate matters, early class smell, watch list, and tensions.
+**What this phase does:** Sort vocabulary into **candidate kinds** — **entities**, **value objects**, **processes**, **policies**, **roles**, **events** — record **why** each candidate matters, early class smell, watch list, and tensions. Update **`term-registry.md`** (**Targets** / **Notes**) and **`terms.md`** under the same anchor modules when needed.
 
 **Focus:** Separation and tensions. Value-object candidates may stay `<< ValueObject >>` / enum / struct until later phases.
 
 ---
 
-## Deliverables — pick a shape (do not duplicate bucket tables twice)
+## Work order (`raw-candidate-list`)
 
-**Two views of the same Phase 3 work:**
-
-1. **Bucket tables (tabular pass)** — **`raw-candidate-list.md`** *or* the same sections **appended** to **`domain-noun-verb.md`**. Use **`templates/raw-candidate-list-template.md`**. Tables group rows under: entities, value objects, processes, policies, roles, events (+ early “deserves a class?”, watch list, tensions).
-
-2. **Integrated class model (optional, separate file)** — **`domain-raw-candidates.md`**. Use **`templates/domain-raw-candidates-template.md`**. Here you **do not** repeat those bucket tables. Every candidate is a **`### Name : << Entity >>`** (or `<< ValueObject >>`, `<< Process >>`, `<< Policy >>`, `<< Role >>`, `<< Event >>`, or `<< >>`) under **`## [Anchor module]`**, with members and **`#### Note :`**. Material that does not fit one class goes in **`## Cross-anchor`** or **`## Appendix …`**.
-
-**Rule:** If both **`raw-candidate-list.md`** and **`domain-raw-candidates.md`** exist, the **tables live in one place only** (usually **`raw-candidate-list.md`**). The integrated file **links** to it if needed; it does **not** re-paste bucket tables (“Entities”, “Value objects”, …).
-
-**Artifact body:** Domain content only. **Do not** put **`Source:`** / **`Slice:`** / **`OOAD phase:`** / registry **`Step`** / **`Upstream:`** / **`Pre-notation:`** / **`Integrated model:`** boilerplate in slice files.
+Do **analysis in domain markdown** — **`domain-raw-candidates.md`** (preferred) or **one** tabular file (**`raw-candidate-list.md`** *or* roll-up appended to **`domain-noun-verb.md`**). **Do not** paste the same bucket tables in two places. When the project keeps a class diagram for the slice, update it **after** the markdown matches (**visual twin**).
 
 ---
 
-## Illustrative shape
+## Deliverables (integrated model — no duplicate tables)
 
-Re-sort **Candidate …** material from the slice’s Phase 2 file into the buckets used in the worked examples below.
+**Preferred:** **`domain-raw-candidates.md`** — every candidate is **`### Name : << kind >>`** under **`## [Anchor module]`**, with **`#### Note :`** lines and **`templates/domain-raw-candidates-template.md`**. Candidate “tables” are **rows in the model** (per class), not a second global grid elsewhere.
 
-### Mini excerpt (hypothetical “rules” slice — one anchor)
+**Alternate:** A single **tabular** roll-up (**`raw-candidate-list.md`** *or* appendix to **`domain-noun-verb.md`**) using **`templates/raw-candidate-list-template.md`** — only if the team explicitly wants buckets as one big table. **Do not** also maintain **`domain-raw-candidates.md`** with the **same** bucket blocks repeated.
 
-Imagine one anchor section **Check** in the slice’s **domain-noun-verb.md**:
+**Cross-anchor / overflow:** **`## Cross-anchor`** at the **end** of **`domain-raw-candidates.md`** for items that do not fit a module — not a second appendix file with duplicated tables.
 
-| Kind      | Extraction (illustrative)                                                                 |
-| --------- | ----------------------------------------------------------------------------------------- |
-| **Nouns** | Character, Check, DC, bonus, penalty, Condition, trait, die roll                          |
-| **Verbs** | roll, compare, apply, succeed, fail, stack                                                |
-| **Rules** | Compare total vs DC; some bonuses don’t stack; Conditions can impose advantage/disadvantage |
-| **States** | Check pending → resolved (success / failure / critical); Condition active vs cleared        |
-
-### Roll-up into Step 2 buckets (same terms, new shape)
-
-| Step 1 term(s)                       | Likely Step 2 bucket   | Notes                                                                 |
-| ------------------------------------ | ---------------------- | --------------------------------------------------------------------- |
-| Character, Check                   | **Entities**           | Durable “things” — may merge later (e.g. Check as operation vs aggregate). |
-| DC, bonus, penalty                   | **Value objects**      | Often numbers + rules; may become VO / struct / enum.                 |
-| “roll → compare → resolve”           | **Processes**          | End-to-end flow with a start/end.                                     |
-| stacking, advantage/disadvantage     | **Policies**           | Eligibility and modifiers — may stay policy objects or plain rules.   |
-| player, GM (if in source)            | **Roles**              | Actors; may merge with user accounts later.                           |
-| “Check resolved”, Condition applied | **Events**             | Audit / history if the product cares about replay.                    |
-
-### What you add in Step 2 that Step 1 did not require
-
-- **Separation** — entity vs value vs process vs policy (Step 1 *lists* candidates; Step 2 *sorts* them).
-- **Tensions** — e.g. “Is **Check** a noun (object) or only a verb-shaped process?” — carry forward to **thing-vs-data-about-a-thing** and later steps.
-- **Watch list** — terms that might collapse (e.g. “die roll” as part of Check, not its own class).
-
-Use the **payments** tables below as a full-size reference thread; use this mini example when your domain is not payments but you still need a **shape** for nouns-verbs → raw candidate list.
+**Artifact body:** Domain content only (no skill/process boilerplate in slice files).
 
 ---
 
-## Worked example — payments spec
+## Illustrative shape (Check anchor)
 
-> **Continual refinement:** Fictional payments thread. **newly added** = line first appears in this step’s file. Steps 1–4 stay informal; typed members start later.
+From **`domain-noun-verb.md`** (phase-id **`nouns-verbs-rules-and-states`**), re-sort into kinds:
 
-This thread still uses **garbled-payments-spec.md** as the fictional source alongside Step 1; it is **loose**. Candidates may merge, split, or become attributes in later steps.
+| Kind | Extraction (illustrative) |
+|------|---------------------------|
+| **Nouns** | Character, Check, DC, bonus, Condition, die roll |
+| **Verbs** | roll, compare, apply, succeed, fail |
+| **Rules** | Compare total vs DC; bonuses may not stack |
+| **States** | Check pending → resolved |
 
----
+**Buckets (same terms, new shape):**
 
-## Entities (durable “things” in the problem space)
+| Prior term(s) | Likely bucket | Notes |
+|-----------------|---------------|-------|
+| Character, Check | **Entities** | May merge later. |
+| DC, bonus | **Value objects** | VO / enum / struct. |
+| roll → resolve | **Processes** | End-to-end flow. |
+| stacking, advantage | **Policies** | Modifiers / eligibility. |
+| player, GM | **Roles** | Often actors, not classes. |
+| “Check resolved” | **Events** | If replay / audit matters. |
 
-
-| Candidate                             | Why it might be an entity                                                              |
-| ------------------------------------- | -------------------------------------------------------------------------------------- |
-| **Payer** / **Buyer**                 | Initiates payment; may be blocked (sanctions).                                         |
-| **Merchant** / **Seller**             | Receives funds; merchant account, region, legal entity.                                |
-| **Order** (checkout context)          | Physical vs digital fulfillment hooks; not “owned” by payments but coupled via events. |
-| **Payment** (aggregate root name TBD) | Money movement, lifecycle, ties to rails.                                              |
-| **PaymentIntent** *or* **Session**    | Spec names both — **one concept, two labels**; holds amount, method choice, state.     |
-| **Marketplace**                       | Partial capture, hold auth — marketplace-style semantics mentioned.                    |
-| **PSP connector** (per rail/region)   | “Which connector runs” for local/global.                                               |
-| **Refund** (case)                     | Full/partial, reason codes, chargeback prep.                                           |
-| **Dispute**                           | Open question who owns lifecycle — still a domain concern.                             |
-
-
----
-
-## Value objects (descriptive, may be VO / enum / struct)
-
-
-| Candidate                      | Notes                                                                          |
-| ------------------------------ | ------------------------------------------------------------------------------ |
-| **Money** / **Amount**         | Always paired with currency.                                                   |
-| **Currency**                   | Storefront vs settlement; local/global gates.                                  |
-| **FX quote id**                | Nullable on “intent” for global.                                               |
-| **Mid rate snapshot**          | Receipt display — may be value stamped on receipt.                             |
-| **Fees**                       | Shown pre-confirm; structure unspecified.                                      |
-| **Idempotency key**            | Client-supplied; TTL disputed (24h vs 72h).                                    |
-| **Reason code**                | Refunds / chargeback prep.                                                     |
-| **Country** / **jurisdiction** | Sanctions, region gates.                                                       |
-| **Payment method kind**        | Card variants, ACH, wallet, wire, crypto — may be enum + metadata.             |
-| **Local vs Global**            | **Unstable** in spec — might be computed classification, not a stored “thing.” |
-
+Record **tensions** and a **watch list** here; refine in **thing-vs-data-about-a-thing** (Phase 4).
 
 ---
 
-## Processes (flows with a start/end)
+## Continual refinement (this phase)
 
-
-| Candidate                                          | Notes                                                                |
-| -------------------------------------------------- | -------------------------------------------------------------------- |
-| **Authorization → capture** (possibly **partial**) | Remainder release; card-rail-dependent.                              |
-| **Settlement**                                     | `payment.settled` event — ordering vs warehouse / digital.           |
-| **Refund**                                         | Full vs partial paths.                                               |
-| **Redirect / 3DS / bank login**                    | Browser or webview session; abandon vs complete.                     |
-| **Webhook handling**                               | PSP → platform; idempotent processing implied.                       |
-| **Checkout attempt**                               | Method pick → fees → confirm → outcome (ties frontend “happy path”). |
-
-
----
-
-## Policies (eligibility, gates, capabilities)
-
-
-| Candidate                        | Notes                                             |
-| -------------------------------- | ------------------------------------------------- |
-| **Sanctions / blocklist policy** | Block **before** method UI.                       |
-| **BNPL availability**            | Partner X gate; “coming soon” route.              |
-| **Crypto region gate**           | Admin checkbox per region.                        |
-| **Partial capture capability**   | Per rail / card network — “only where supported.” |
-| **Idempotency policy**           | No double-charge; key expiry **unresolved**.      |
-| **Compliance / float limit**     | Vague — may become policy + clock on holds.       |
-
-
----
-
-## Roles (actors in the domain or org)
-
-
-| Candidate    | Notes                                                             |
-| ------------ | ----------------------------------------------------------------- |
-| **Payer**    | Same as buyer in retail story.                                    |
-| **Merchant** | Receives payout; MoR question in disputes.                        |
-| **Platform** | Assumed owner of some flows; **conflicts** with Risk on disputes. |
-| **Admin**    | Region checkbox for crypto, product matrix.                       |
-| **Support**  | Maps failures to messages + log categories.                       |
-| **Ops**      | Conflicting email on digital vs physical **emit** ordering.       |
-
-
-*(Roles may stay as actors only, or merge with user accounts — later steps.)*
-
----
-
-## Events (things that happened / audit)
-
-
-| Candidate                              | Notes                                                                                  |
-| -------------------------------------- | -------------------------------------------------------------------------------------- |
-| **`payment.settled`**                  | Domain event; consumers: warehouse, digital fulfillment.                             |
-| **Audit entry**                        | Append-only; actor `system` \| `user` \| `psp_webhook`; every intent/session transition. |
-| **Webhook payload** / **delivery log** | Billing wants stable shape for future subscriptions.                                   |
-| **Chargeback / dispute record**        | Reason codes on refund; lifecycle owner TBD.                                           |
-
-
----
-
-## Early “does it deserve a class?” (identity / behavior / lifecycle / relationships)
-
-Ask for each hot candidate:
-
-
-| Candidate               | Identity?                 | Behavior / lifecycle?  | Relationships?                                       | Tentative                            |
-| ----------------------- | ------------------------- | ---------------------- | ---------------------------------------------------- | ------------------------------------ |
-| PaymentIntent / Session | Yes — one per attempt     | Strong — state machine | Payer, merchant, order?, connector                   | **Likely core**                      |
-| Idempotency key         | Yes — dedupe              | TTL, expiry            | Tied to intent                                       | **Likely** (or sub-object of intent) |
-| PSP connector           | Yes — configured instance | Routes, capabilities   | Region, method                                       | **Likely**                           |
-| Receipt                 | Yes for customer          | Immutable snapshot?    | Payment, rates                                       | **Maybe**                            |
-| Failure mapping         | Cross-cutting             | Lookup                 | Failure kind → message + log code                    | **Policy** or **registry**           |
-| Cart / coupon           | Mentioned                 | **Cart team**          | **Boundary** — may be **external** to payments model | Integrate at boundaries; avoid duplicating cart inside payments |
-
-
----
-
-## Candidates likely to collapse or stay non-classes (watch list)
-
-- **“Rails”** — might be attribute of connector or rail **type**, not a class per se.
-- **“Frontend”** — presentation; behaviors surface as use cases, not a domain class.
-- **“Ops / Cart team”** — organizational, not types.
-- **Offline cash field** — schema smell; might be removed or hidden (flag), not a full entity in MVP.
-
----
-
-## Tensions to carry into later steps
-
-1. **PaymentIntent vs Session** — rename to one aggregate or two bounded contexts?
-2. **Local** (currency vs legal entity) — one enum, two dimensions, or a **RoutingContext** value object?
-3. **Dispute** — platform vs merchant of record affects where **Dispute** lives and associations.
-4. **Digital vs physical** settlement ordering — may force **FulfillmentChannel** or events only (no class in payments).
-
----
-
-## Continual refinement (this step)
-
-- **Delta:** **pre-notation** — candidate entities, value-ish things, policies, watch list; **newly added** tags informal lines; typed members arrive in later steps.
+**Delta:** pre-notation — candidate kinds, watch list, tensions; typed members arrive in later phases.
 
 ---
 
 ## Action Checklist
 
-- Have you rolled vocabulary into buckets (entities, value objects, processes, policies, roles, events)?
-- Is that roll-up **appended to `domain-noun-verb.md`** *or* in a separate **`raw-candidate-list.md`** (not redundant copies without reason)?
-- Early class smell, watch list, and tensions recorded?
-- Have you separated entity-like vs value-object hypotheses where it matters?
-- Tensions noted for later phases?
+- Vocabulary rolled into kinds (entities, value objects, processes, policies, roles, events) in **one** chosen artifact — **`domain-raw-candidates.md`** *or* a single tabular file, **not** duplicated.
+- Early class smell, watch list, and tensions recorded.
+- Entity-like vs value-object hypotheses separated where it matters.
+- Tensions noted for **thing-vs-data-about-a-thing** when needed.
 
 ---
 
 ## Prompt
 
-> When this step surfaces bloat, unclear boundaries, missing invariants, naming drift, or spec conflicts, **validate** and **fix** the model (or **map-model-spec.json** / class diagram) while you work; record **explicit debt** with a clear follow-up only when you cannot fix yet.
+> When you see bloat, unclear boundaries, missing invariants, naming drift, or spec conflicts, **validate** and **fix** the model (or **map-model-spec.json** / class diagram); record **explicit debt** with a clear follow-up only when you cannot fix yet.
 
 
 ---
@@ -6408,19 +6188,23 @@ Ask for each hot candidate:
 
 # Domain model Markdown
 
-This skill’s **domain model** is captured in Markdown  a parallel **Draw.io** class diagram. Use **`templates/domain model template.md`** for companion docs; align with **`templates/domain model template.drawio`** when both exist.
+The **domain model** lives in workspace **`domain*.md`** files; **Draw.io** diagrams are **visual twins** of that content — update markdown first, then render or hand-sync the diagram (see **class-diagrams**, **using-diagram-cli**).
 
-**Phase 2 — `domain-noun-verb.md`:** anchor sections, **Candidate …** lists, full or pared class boxes. Slice files are **content only** — no skill paths or process meta in the artifact body.
+**Integrated slice model + evidence:** Prefer **`templates/domain-model-integrated.md`** alongside **`templates/terms-template.md`** (`terms.md` per slice). Class **Notes** use **`*[Sn · phase-id]*`** (e.g. **`*[S1 · refine-names]*`**) — **phase-id** from **`process.md`**, not numeric step names.
 
-**Phase 3 — bucket roll-up:** sort candidates into **entities**, **value objects**, **processes**, **policies**, **roles**, **events** (tables in **`raw-candidate-list.md`** or appended to **`domain-noun-verb.md`**). Same **content-only** rule: no skill/process boilerplate in slice files.
+**`domain-scan`:** **`domain-scan-results.md`**, **`domain-scan-model.md`**, then **`domain-scan-model.drawio`**.
 
-**Optional — `domain-raw-candidates.md`:** same Phase 3 content as **classes under anchor modules** (`### Name : << Entity >>` / `<< ValueObject >>` / `<< Process >>` / …), notes below — **not** a second copy of bucket tables. Cross-cutting material → **`## Cross-anchor`** or appendix. **`templates/domain-raw-candidates-template.md`**.
+**`nouns-verbs-rules-and-states` — `domain-noun-verb.md`:** anchor sections, **Candidate …** lists, class boxes. Slice files are **domain content only** — no skill paths or process boilerplate in the artifact body.
+
+**`raw-candidate-list`:** Prefer **`domain-raw-candidates.md`** — classes under anchors with notes. Optional single tabular roll-up (**`raw-candidate-list.md`** or appendix to **`domain-noun-verb.md`**) — **not** the same tables twice plus an integrated file.
+
+**Templates:** **`templates/domain model template.md`**, **`templates/domain-raw-candidates-template.md`**, **`templates/domain-model-integrated.md`**.
 
 ---
 
 ## Domain concept template
 
-Each **domain concept** (class, interface, value object, or aggregate) is documented under a clear heading, for example:
+Each concept is documented under a clear heading, for example:
 
 ```markdown
 ## **Payment**
@@ -6429,73 +6213,62 @@ Each **domain concept** (class, interface, value object, or aggregate) is docume
 
 ### Properties
 - Money amount
-- …
 
 ### Operations
 - initiate() → Authorization
 ```
 
-From **Step 5** onward, prefer **typed** members (see **Notation evolution** below). Earlier steps stay **pre-notation** (bullets and prose).
+From **Phase 6** onward (`add-properties-semantically-tight`), prefer **typed** members (see **Notation evolution**). Earlier phases stay informal (bullets and prose).
 
 ---
 
-## Continual refinement — class definition + diagram
+## Markdown and diagram
 
-**Continual refinement** means you **grow** the model across steps: each step file may add or tighten concepts. The Markdown spec and the class diagram are **two views of the same model** — update both when your project uses dual artifacts so they do not drift (see **[Class diagrams](class-diagrams.md)**).
+The Markdown spec and the class diagram are **two views of the same model** — keep them aligned when both exist (**class-diagrams**).
 
 ---
 
-## **newly added** tag
+## **newly added** tag (optional)
 
-In the **worked example** threads (e.g. payments), the marker **newly added** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
+In long-running examples, **newly added** on a line marks a property or operation that first appears in *this* file — useful for deltas across files.
 
 ---
 
 ## Notation evolution
 
-| Phase | Markdown style |
-|--------|------------------|
-| **Steps 1–4** | Informal: bullets, short phrases, responsibilities, candidate names; typed `- <type> property` lines arrive in Step 5. |
-| **Step 5+** | Formal typed members: `- <Type> propertyName`, `operationName(...) → ReturnType`. |
+| Phase range | Markdown style |
+|-------------|----------------|
+| **2–5** | Informal: bullets, candidates, responsibilities; typed `- <type> property` lines from **Phase 6** onward. |
+| **Phase 6+** | Formal: `- <Type> propertyName`, `operationName(...) → ReturnType`. |
 
 ---
 
 ## Subtype sections
 
-When you introduce substitutable specializations, add an explicit subtype heading so the structure is visible in the spec and in diagrams:
+When you introduce substitutable specializations, add an explicit subtype heading so structure is visible in spec and diagrams:
 
 ```markdown
 ### **Subtype** : **PaymentMethod**
 ```
 
-Put **`**newly added**`** on subtype **operation** (or property) lines when that member is **first** introduced for that subtype.
-
 ---
 
 ## Invariants
 
-Attach invariants to the **property** or **operation** they constrain, using a dedicated line:
+Attach invariants to the property or operation they constrain:
 
 ```markdown
 **Invariant:** …
 ```
 
-Mark **`**newly added**`** when you **first** attach an invariant to a given member line.
-
 ---
 
-## Early steps: terms, mechanisms, story map
+## Class diagram and spec
 
-Before typed properties exist, align extracted **nouns, verbs, rules, states** with your workspace’s **terms & mechanisms** and **shaped story map** (or equivalent). That is the same “grow the model as you go” idea: informal extraction first, then formal types.
+When you maintain **`map-model-spec.json`** or similar, re-run the project’s diagram script after material changes so Draw.io stays aligned.
 
----
-
-## Class diagram and spec (visual twin)
-
-When you maintain a machine-readable spec such as **`map-model-spec.json`**, re-run your project’s class-diagram render script (for example **`render_map_model_class_diagram.py`**) after material changes so the **Draw.io** diagram stays the **visual twin** of the spec.
-
-- **[Class diagrams](class-diagrams.md)** — templates, relationship types, keeping `.md` and `.drawio` aligned.  
-- **[Using the Diagram CLI](using-diagram-cli.md)** — building diagrams with **`scripts/drawio_cli.py`**.
+- **Class diagrams** — templates, relationships, keeping `.md` and `.drawio` aligned.  
+- **Using the Diagram CLI** — `scripts/drawio_cli.py`.
 
 ---
 
@@ -6503,9 +6276,9 @@ When you maintain a machine-readable spec such as **`map-model-spec.json`**, re-
 
 | Topic | File |
 |--------|------|
-| Term tracking across steps | [term-registry.md](term-registry.md) |
+| Term tracking | [term-registry.md](term-registry.md) |
 | Strategy-led runs | [strategy-led-generation.md](strategy-led-generation.md) |
-| Layout and lanes | [class-diagram-layout-rules.md](class-diagram-layout-rules.md) |
+| Layout | [class-diagram-layout-rules.md](class-diagram-layout-rules.md) |
 
 
 ---
@@ -6597,9 +6370,9 @@ The absence of a matching core class is the clearest signal that you have not ye
 
 # Strategy-led generation
 
-Domain scan (OOAD **phase 1**) does not only produce a single “results” file. It establishes a **small set of workspace files** under `<workspace>/abd-ooad/` that work together. Some are **frozen findings** from the scan; others are **living documents** you update as modeling continues.
+Domain scan (phase-id **`domain-scan`**) does not only produce a single “results” file. It establishes a **small set of workspace files** under `<workspace>/abd-ooad/` that work together. Some are **frozen findings** from the scan; others are **living documents** you update as modeling continues.
 
-**Slices start at global Phase 2:** Source-slice work (e.g. **S1**, **S2** in `strategy.md` and **`Anchor`** `S1=…` / `S2=…` in `term-registry.md`) uses the **same global OOAD phase numbers** as the process table for everything **after** scan. The **first** per-slice extraction step is **Phase 2** (`nouns-verbs-rules-and-states`), **not** a slice-local “Phase 1.” Phase **1** is workspace-wide **domain-scan** only. See **`term-registry.md` → Slices and global phase numbers**.
+**Per-slice extraction** after scan uses the **same phase-id chronicle** as **`process.md`**. The **first** detailed per-slice capture is **`nouns-verbs-rules-and-states`** (then **`raw-candidate-list`**, …) — **not** a second **`domain-scan`**. Use **phase-id** names in strategy and registry (and **`*[Sn · phase-id]*`** tags in the model), not “Phase 1 / Phase 2” as step names. See **`term-registry.md`** and **`process.md` → Capture ladder**.
 
 For the scan procedure itself, see the **Domain scan** phase. This page explains **what each artifact is for** and how **`strategy.md`** relates to **`domain-scan-results.md`**.
 
@@ -6617,7 +6390,8 @@ Created during domain scan under `<workspace>/abd-ooad/`:
 | `strategy.md` | **Living strategy:** **modeling scope**; **§1 source slices** (table: Order, Goal, **Source** — chapters, files, modules, or mixed — **Coverage**, **Importance**); **§2 slice plan** (per-slice **goal restated** + **phases**); **coverage across steps**; **cross-slice integration**; **anchor and subdomain elaboration**; **execution plan (normative)** — phase slugs with **slice IDs** on every line; plus **approach** and **dated pivots**. | **Yes** — whenever scope, order, slice depth, subdomain mapping, or integration changes. |
 | `domain-scan-model.md` | Class sketch (markdown) at scan fidelity. | Yes, in later phases — not only during scan. |
 | `domain-scan-model.drawio` | Diagram at scan fidelity. | Same as model.md. |
-| `term-registry.md` | Terms, **Classification** (model role), **Status** (OOAD scale), confidence — seeded at scan. | **Yes** — every later phase updates Step, Classification, and Status as the model evolves. |
+| `term-registry.md` | Terms, **Targets** (bulleted typed pointers), **Notes** — seeded at scan. | **Yes** — every later phase-id updates **Targets** and **Notes** as the model evolves. See **`library/term-registry.md`**. |
+| `terms.md` (per slice) | Evidence ledger by **`## [Anchor module]`** — quotes, promotion log. | **Yes** — from **`nouns-verbs-rules-and-states`** onward for that slice. Template: **`templates/terms-template.md`**. |
 
 **Plus** (when workspace is configured): **`progress/`** checklists — see **`library/strategy-execution-and-checklists.md`**. **`generate.py`** creates **`process-checklist.md`**, **`<phase>-checklist.md`**, and (abd-ooad) **`strategy-run-checklist.md`** when templates exist and files are missing. Normative phase steps stay in **`content/parts/phases/<phase>.md`**. These are the **only** place for session tick marks.
 
@@ -6652,8 +6426,8 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 
 1. **Strategy** — Keep **`strategy.md`** aligned with reality; append *Ongoing strategic decisions* when you pivot.
 2. **Strategy execution** — Tick **`progress/strategy-run-checklist.md`** as you **complete** each phase for its declared scope.
-3. **Phase work** — For the active phase, run **`generate.py --phase <slug>`** and tick **`progress/<slug>-checklist.md`** for action steps.
-4. **Registry** — Keep `term-registry.md` aligned with the current phase (Step, Classification, Status).
+3. **Phase work** — For the active phase-id, run **`generate.py --phase <phase-id>`** (or **`generate.py --stage <A|B|…|F>`** for a stage) and tick **`progress/<phase-id>-checklist.md`** for action steps.
+4. **Registry** — Keep `term-registry.md` aligned with the current phase-id (**Targets** + **Notes**); keep slice **`terms.md`** in sync for verbatim evidence.
 5. **Results** — Touch `domain-scan-results.md` only for corrections to the original scan snapshot.
 
 ---
@@ -6673,26 +6447,45 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 
 # Strategy execution and checklists (abd-ooad)
 
-**Canonical doc** for: (1) **strategy** vs **live ticks**, (2) **which files** hold checkboxes, (3) **how** `generate.py` creates workspace **`progress/`** files. Does **not** replace **[process.md](../process.md)** (process tables, `generate` / `build`) or **[skill-structure-and-concepts.md](../base/skill-structure-and-concepts.md)** (repo layout).
+**Canonical doc** for: (1) **strategy** vs **live ticks**, (2) **which files** hold checkboxes, (3) **how** `generate.py` creates workspace **`progress/`** files, (4) **stages**, **revisits / disruption** on the same checklist. Does **not** replace **[process.md](../process.md)** (phase chronicle, `generate` / `build`) or **[skill-structure-and-concepts.md](../base/skill-structure-and-concepts.md)** (repo layout).
 
-Only **`strategy.md`** defines **scope** and **which phases in what order**; checklists are where you **tick** progress.
+Only **`strategy.md`** defines **scope** and **which phase-ids (or stages) in what order**; checklists are where you **tick** progress.
 
 ---
 
 ## Workflow
 
-1. **Domain scan** — produce scan artifacts (see **`strategy-led-generation`**).
+1. **Domain scan** — produce scan artifacts (see **`strategy-led-generation`**). Phase-id: **`domain-scan`**.
 2. **Strategy** — fill **`strategy.md`** from **`templates/strategy.md`**:
    - **Modeling scope** — corpus or product boundary; **source type** (book vs repo vs mixed).
    - **§1 Source slices** — ordered table: **Goal**, **Source** (chapters, files, modules, APIs — whatever locates work), **Coverage** (depth this pass), **Importance**; stable **slice IDs** reused everywhere.
-   - **§2 Slice plan** — per slice: **goal restated**, **unit kind**, **phases** (execution step numbers / slugs), produces, depends-on.
-   - **Coverage across steps** — matrix: every slice → which **execution plan** steps touch it → **depth** → deferrals.
+   - **§2 Slice plan** — per slice: **goal restated**, **unit kind**, **phase-ids** (or **stages**) you will run, produces, depends-on.
+   - **Coverage across steps** — matrix: every slice → which **execution plan** phase-ids touch it → **depth** → deferrals.
    - **Cross-slice integration** — cross-boundary types and ordering (From → To + narrative).
-   - **Anchor and subdomain elaboration** (when anchors have attached types) — map subdomains to slices and execution §.
-   - **Execution plan (normative)** — ordered phase **slugs**; **each line cites slice IDs** (mirror **`strategy-run-checklist.md`**).
+   - **Anchor and subdomain elaboration** (when anchors have attached types) — map subdomains to slices and execution phase-ids.
+   - **Execution plan (normative)** — ordered **phase-id** strings; **each line cites slice IDs** (mirror **`strategy-run-checklist.md`**). Optionally group work by **stage A–F** (see **`process.md` → Stage map**).
+   - **Stage completion (after each stage)** — what completed; tensions; **new checklist lines** for revisits (below); **audit** — append dated line under *Ongoing strategic decisions*.
    - **Approach going forward** + **Ongoing strategic decisions** — short narrative and dated pivots.
 3. **Align live checklists** — keep **`strategy-run-checklist.md`** in sync with the execution plan (same order and scope). Optional **`templates/strategy-run-checklist.md`** seed; optional **`templates/progress-README.md`** → **`progress/README.md`** for slice-specific files under **`progress/slices/`**.
-4. **Run phases** — for the **current** phase: `python scripts/base/generate.py --phase <slug>`. Tick **`strategy-run-checklist.md`** when a phase is **done** for its declared scope; tick **`<slug>-checklist.md`** for **steps inside** that phase.
+4. **Run phases** — **`python scripts/base/generate.py --phase <phase-id>`** for one step, or **`python scripts/base/generate.py --stage <A|B|…|F>`** for a full stage (same order as **`process.md`** / **`skill-config.json` → `process_stages`**). Tick **`strategy-run-checklist.md`** when a phase (or stage slice) is **done** for its declared scope; tick **`<phase-id>-checklist.md`** for **steps inside** that phase.
+
+---
+
+## Revisits and disruption (same checklist)
+
+A **revisit** is **not** a separate rerun workflow. While executing (including late **stage F**), if work must **go back** to an earlier **stage** or **phase-id**, **add a new row** to **`strategy-run-checklist.md`** — e.g. `- [ ] Revisit stage B — <short reason>` or `- [ ] Re-run nouns-verbs-rules-and-states — slice S1 — reconcile new anchor` — at the **bottom** or **inserted** where it fits the agreed order. The checklist is the single source of truth for **forward** work plus **backward** revisits.
+
+**Audit:** When you add a revisit row, append a dated line under **`strategy.md` → Ongoing strategic decisions**; never delete prior pivots.
+
+### Hint table (non-prescriptive)
+
+| You are here | Often need to touch |
+|--------------|---------------------|
+| Stage F | Stage E, D, or C (naming / validation feedback) |
+| Stage E | Stage C (scenarios expose structure gaps) |
+| Stage D | Stage C (splitting responsibilities) |
+
+Use this as a **prompt**, not a rule.
 
 ---
 
@@ -6700,9 +6493,9 @@ Only **`strategy.md`** defines **scope** and **which phases in what order**; che
 
 | Layer | File | What you tick |
 | --- | --- | --- |
-| **Strategy execution** | **`progress/strategy-run-checklist.md`** | **Which phases** you will run, **in order**, each with **scope** that **includes the same slice IDs** as **`strategy.md` → Execution plan**. Optional: **`progress/slices/<slice-id>-checklist.md`** per slice — see **`progress/README.md`** in the workspace (if present). |
+| **Strategy execution** | **`progress/strategy-run-checklist.md`** | **Which phase-ids** (or stages) you will run, **in order**, each with **scope** that **includes the same slice IDs** as **`strategy.md` → Execution plan**; **includes revisit rows** when you must go backward. Optional: **`progress/slices/<slice-id>-checklist.md`** per slice — see **`progress/README.md`** in the workspace (if present). |
 | **Full pipeline (reference)** | **`progress/process-checklist.md`** | **Every** phase in **`phase_files`** — useful as a map; optional if you rely only on strategy-run. |
-| **Phase steps** | **`progress/<phase>-checklist.md`** | **Action checklist** copied from **`content/parts/phases/<phase>.md` → ## Action Checklist**. |
+| **Phase steps** | **`progress/<phase-id>-checklist.md`** | **Action checklist** copied from **`content/parts/phases/<phase-id>.md` → ## Action Checklist**. |
 
 **Implementation:** **`scripts/base/workspace_checklists.py`** (paths, behavior, `--no-ensure-checklists`).
 
@@ -6712,10 +6505,10 @@ Only **`strategy.md`** defines **scope** and **which phases in what order**; che
 
 | Kind | What it tracks | Where it lives | How it gets there |
 | --- | --- | --- | --- |
-| **Normative reference** | Rules in **this document** — strategy vs ticks, layers, `generate.py` behavior | **`content/parts/library/strategy-execution-and-checklists.md`** | Authored in the skill; **not** created by **`generate.py`**. |
-| **Pipeline position** | Which **phase** of the pipeline you are in | **`<active_skill_workspace>/<skill_name>/progress/process-checklist.md`** | **Created** on first **`python scripts/base/generate.py --phase <slug>`** when that file is **missing**, if **`skill-config.json` → `workspace.active_skill_workspace`** is set. One `- [ ]` line per slug in **`phase_files`** (labels from **`phase_section_headings`** when present). **Does not overwrite** an existing file. |
-| **Phase action steps** | **Steps inside** the current phase | **`<active_skill_workspace>/<skill_name>/progress/<phase-slug>-checklist.md`** | **Created** in the **same** `generate.py` run when that file is **missing**. Steps are taken from **`## Action Checklist`** in **`content/parts/phases/<phase-slug>.md`**, or from task lines (`- [ ]` / `- [x]`) in that file if the section is absent. **Does not overwrite** an existing file. |
-| **Strategy execution** (workspace) | Ordered phases matching **`strategy.md`** | **`progress/strategy-run-checklist.md`** | Seeded from template when **`generate.py`** / workspace checklist logic creates it; **you** align it with **`strategy.md`**. |
+| **Normative reference** | Rules in **this document** — strategy vs ticks, layers, revisits, `generate.py` behavior | **`content/parts/library/strategy-execution-and-checklists.md`** | Authored in the skill; **not** created by **`generate.py`**. |
+| **Pipeline position** | Which **phase-id** of the pipeline you are in | **`<active_skill_workspace>/<skill_name>/progress/process-checklist.md`** | **Created** on first **`python scripts/base/generate.py --phase <phase-id>`** (or first phase of **`--stage`**) when that file is **missing**, if **`skill-config.json` → `workspace.active_skill_workspace`** is set. One `- [ ]` line per slug in **`phase_files`** (labels from **`phase_section_headings`** when present). **Does not overwrite** an existing file. |
+| **Phase action steps** | **Steps inside** the current phase | **`<active_skill_workspace>/<skill_name>/progress/<phase-id>-checklist.md`** | **Created** in the **same** `generate.py` run when that file is **missing**. Steps are taken from **`## Action Checklist`** in **`content/parts/phases/<phase-id>.md`**, or from task lines (`- [ ]` / `- [x]`) in that file if the section is absent. **Does not overwrite** an existing file. |
+| **Strategy execution** (workspace) | Ordered phase-ids (and revisit rows) matching **`strategy.md`** | **`progress/strategy-run-checklist.md`** | Seeded from template when **`generate.py`** / workspace checklist logic creates it; **you** align it with **`strategy.md`**. |
 
 ### Names and workspace
 
@@ -6736,9 +6529,9 @@ Only **`strategy.md`** defines **scope** and **which phases in what order**; che
 
 ---
 
-## Phase slugs
+## Phase IDs
 
-Use exact slugs from **`skill-config.json` → `phase_files`** (e.g. `nouns-verbs-rules-and-states`, `domain-scan`). Labels for humans are in **`phase_section_headings`**.
+Use exact **phase-id** strings from **`skill-config.json` → `phase_files`** (e.g. `nouns-verbs-rules-and-states`, `domain-scan`). Labels for humans are in **`phase_section_headings`**. **Stages** **A–F** map to ordered phase-id lists in **`process_stages`** — see **`process.md`**.
 
 ---
 
@@ -6757,168 +6550,147 @@ Use exact slugs from **`skill-config.json` → `phase_files`** (e.g. `nouns-verb
 
 ## What a Term Is
 
-A **Term** is any concept identified from the source material that may become part of the domain model. At the time of identification, a Term is not committed to a model role — it might become a class, a property, a value type, an association, or nothing at all. The registry tracks Terms as the modeling phases determine what each one actually is.
+A **Term** is any concept identified from the source material that may become part of the domain model. At identification time it is not committed to a model role — it might become a class, a property, a value type, an association, or nothing. The registry tracks Terms as modeling **phase-ids** (see **`process.md` → Phase chronicle**) determine what each one actually is.
 
-This is distinct from other uses of "actor" in this domain:
-- In MM3E and FoundryVTT, "Actor" has a specific system meaning (a character, creature, or entity in the game world).
-- In the registry, everything is a Term until the model says otherwise.
+This is distinct from other domain uses of overloaded words (e.g. in some systems “Actor” is a system type). In the registry, everything is a Term until the model says otherwise.
 
-**File:** `<workspace>/abd-ooad/term-registry.md`
-**Never embedded** inside step outputs — it lives in its own file and is referenced from each step's model doc.
+**File:** `<workspace>/abd-ooad/term-registry.md` (or per-slice path if your workspace layout nests slices).
 
----
-
-## Step Reference — Short Names
-
-Use these short names in the **Step** column of the registry when adding or updating a row.
-
-| Short Name | Phase | Description |
-|-----------|-------|-------------|
-| SETUP | workspace-and-config | Workspace initialization |
-| SCAN | domain-scan | Source scan and anchor identification |
-| NOUNS | nouns-verbs-rules-and-states | Extract nouns, verbs, rules, states |
-| CANDS | raw-candidate-list | Raw candidate class list |
-| THINGS | thing-vs-data-about-a-thing | Separate things from data-about-things |
-| RESP | responsibilities-before-operations | Assign responsibilities |
-| PROPS | add-properties-semantically-tight | Add semantically tight properties |
-| OPS | turn-verbs-into-operations | Turn verbs into operations |
-| RELS | relationships-and-cardinality | Relationships and cardinality |
-| INV | invariants-in-the-model | Identify invariants |
-| BLOAT | watch-for-bloated-classes | Detect bloated classes |
-| ROLES | smashed-abstractions-and-hidden-roles | Uncover hidden roles |
-| INHERIT | inheritance-when-behavior-generalizes | Apply inheritance |
-| ABST | abstract-classes-and-interfaces | Abstract classes and interfaces |
-| COMP | prefer-composition | Prefer composition over inheritance |
-| STATES | model-state-transitions | Model state transitions |
-| ITER | iterative-refinement | Iterative refinement pass |
-| TENSION | tension-as-a-signal | Resolve tensions |
-| COHESION | what-changes-together | What changes together |
-| VALIDATE | validate-with-scenarios | Validate with scenarios |
-| NAMES | refine-names | Refine class and concept names |
-| LAYERS | model-in-layers | Model in layers |
+**Never embed** the full registry inside step outputs — it lives in its own file and is referenced from each phase’s model doc.
 
 ---
 
-## Slices and global phase numbers (normative)
+## Relationship to `terms.md` (per slice)
 
-The **OOAD process table** (see **`process.md`** / built **AGENTS.md** — “Process Table”) assigns **global phase numbers** **0–21** to phase **slugs** (e.g. **Phase 2** = `nouns-verbs-rules-and-states`, **Phase 3** = `raw-candidate-list`, **Phase 4** = `thing-vs-data-about-a-thing`).
-
-- **Phase 1** (`domain-scan`, short name **SCAN**) runs **once per workspace** (or once per strategy engagement). It produces anchors, `strategy.md`, `domain-scan-results.md`, and seeds **`term-registry.md`**. It is **not** repeated as “each slice’s Phase 1.”
-- **Per-slice modeling** (folders or **Anchor** columns **`S1=…`**, **`S2=…`**, …) **aligns with the same global numbers from Phase 2 onward:** the **first** extraction artifact in a slice is always **Phase 2** (**NOUNS**), then **3** (**CANDS**), **4** (**THINGS**), etc. Do **not** label slice-local nouns-verbs files as Phase 1 — that collides with **SCAN**.
-- **Phase notes** in italics (optional): `*[Sn · Phase N]*` where **N** is the **global** process-table number. Add slug, tension id, or short reminder *after* the tag on the same line if needed (e.g. *thing-vs-data*, *registry Tn*). For early “likely class” judgments: `*[S1 · Phase 3]* Likely class : …`.
-
----
-
-## Registry Columns
-
-| Column | Values | Notes |
-|--------|--------|-------|
-| **Term** | Concept name from the source | Exact word or phrase as found — rename in the NAMES step if needed |
-| **Classification** | See **Classification** below | **What we want to model this as** — target shape in the domain model (not lifecycle) |
-| **Step** | Short name from table above (SCAN, NOUNS, …) | Step that first identified or last materially updated this Term |
-| **Confidence** | High / Medium / Low | How sure we are this belongs in the model |
-| **Status** | See **Status (OOAD scale)** below | Where this Term sits in the modeling workflow |
-| **Notes** | Free text | Anchor-test results, owning module for supporting classes (`Supporting class — X module`), competing interpretations, pointers to tensions in `domain-scan-results.md`, and follow-ups |
+- **`terms.md`** (alongside `domain-noun-verb.md` in a slice folder) holds **module-scoped evidence**: quotes, raw extractions, promotion history under **`## [Anchor module]`** headings aligned with the integrated domain model.
+- **`term-registry.md`** remains the **term-centric analysis record**: one row per Term; **Targets** = where the term landed; **Notes** = substantive reasoning (anchor tests, classification, tensions) — **full paragraphs are fine** when the work needs them.
+- **Principle:** Notes depth is **not** reduced because `terms.md` exists. `terms.md` reduces **duplication of verbatim source text** and organizes evidence by module; it does **not** justify one-line registry Notes unless the term truly needs only one line.
+- **Avoid duplicate verbatim quotes:** keep the quote in **`terms.md`** and in **Notes** point to `terms.md#anchor-module` (or the term subsection); keep analysis-only text in Notes as today.
 
 ---
 
-## Classification — what we want to model this as
+## Phase IDs (normative references)
 
-Use **one** value per row. This is the **intended model role**, not how “mature” the idea is (that is **Status**).
+Refer to pipeline steps **only** by **`phase-id`** — the short **kebab-case** slug matching **`skill-config.json` → `phase_files`** and the **`process.md`** chronicle (e.g. `domain-scan`, `nouns-verbs-rules-and-states`, `refine-names`). Do **not** use “Phase 1 / Phase 2” as **names** for steps; those ordinals drift. Optional **model tags** in the domain model use **`*[Sn · phase-id]*`** (e.g. **`*[S1 · refine-names]*`**) — see **`library/domain-model`**.
 
-| Value | Meaning |
+---
+
+## Registry columns
+
+| Column | Role |
+|--------|------|
+| **Term** | Concept name from the source — exact word or phrase as found; rename in **`refine-names`** if needed. |
+| **Targets** | Where this term **landed** in the model: a **bulleted list inside the table cell** (Markdown list), **one typed pointer per line**. Unallocated / not yet placed → leave empty or **—**. |
+| **Notes** | Anchor-test results, slice/anchor context (**`S1=…`** style if useful), competing interpretations, tensions, pointers to **`terms.md`** when verbatim evidence lives there — same substance as historical scan/noun-verb rows. |
+
+**Optional:** If you need a single “primary kind” for tooling, add one optional column **after** Term (e.g. **Kind**) — otherwise prefer **Targets**-only for a slim table.
+
+---
+
+## Targets — typed pointers (one per bullet)
+
+**Normative style:** each bullet is **one** typed target. **Do not** concatenate targets with `|` or `;` on one run-on line.
+
+Examples of pointer forms (extend as your model needs):
+
+- `entity:Payment`
+- `vo:Money`
+- `property:Payment.amount`
+- `operation:Order.submit`
+- `invariant:…`
+- `policy:…`
+- `relationship:Customer — Order`
+
+**Renders in Markdown tables** — use `<br>` between bullets if your renderer collapses list-in-cell (GitHub-style often accepts list-in-cell; validate in your preview):
+
+```markdown
+| Term   | Targets |
 |--------|---------|
-| **anchor (class + module)** | Passes the anchor test: this concept is a **core class** and owns a **module** (dashed frame + same-named core class). Use only for backbone modules. |
-| **class** | A domain **class** that is not its own module yet — e.g. supporting class inside a frame, or a type you expect to become a class without its own module. |
-| **property** | Modeled as a **semantic property** (attribute / value on a class), not a separate type. |
-| **field** | Modeled as a **typed field / slot** (data member, possibly simple type or value object). |
-| **example (instance)** | An **illustrative instance**, sample, or scenario object — not a type in the model. |
-| **relationship** | An **association**, link, or dependency between concepts — may become an association, association class, or navigable role. |
-| **invariant (rule)** | A **domain rule**, constraint, or policy — often becomes behavior, guard, or explicit rule text on a class. |
-
-**Diagram mapping (when relevant):** `anchor (class + module)` → module frame + core class; `class` → class box; `relationship` → association; `invariant (rule)` → note, constraint, or operation; `property` / `field` → attributes on a class.
+| amount | - `entity:Payment`<br>- `vo:Money`<br>- `property:Payment.amount` |
+```
 
 ---
 
-## Status (OOAD scale)
+## Notes — still substantive
 
-**Status** is **lifecycle / confidence in the workflow**, not the model shape. Pick the value that best fits; states are **not** always a strict left-to-right pipeline.
+Notes remain the place for **classification reasoning**, anchor tests, tensions, and follow-ups. **Do not** make Notes sparse by default. When raw quotes live in **`terms.md`**, write in Notes: *“Verbatim quote in `terms.md` → [Anchor module] / term …”* and keep analysis here.
 
-| Status | When to use |
-|--------|-------------|
-| **Ambiguous** | You cannot yet say what the Term is or how it sits next to others. |
-| **Tension** | Competing interpretations, overlapping boundaries, or conflicting source pulls — needs resolution before the model can commit. |
-| **Candidate** | Plausible model role; narrowed but not yet locked (often after scan, before THINGS/RELS). |
-| **Deferred** | Explicitly parked — revisit in a named later step or phase. |
-| **Active** | In current modeling scope; being updated in this pass. |
-| **Solidified** | Named, placed, and stable in the model for the current iteration — ready to treat as “done” unless source or scope changes. |
-
-**Typical (non-binding) progression:** Ambiguous → Tension or Candidate → Active → Solidified. **Deferred** can apply after any stage. A Term can return from Deferred to Active when scope returns to it.
+**Slice / anchor:** You may record **`S1=Character`** (or similar) in **Notes** or a minimal **Slice** column if the table template adds one — your engagement may require it for MM3E-style multi-slice tables.
 
 ---
 
-## Registry format (wide Notes)
+## Classification (reference — not required as its own column)
 
-**Prefer an HTML `<table>` with `<colgroup>`** so the **Notes** column gets most of the width (~50–55%). **Classification** labels can be long — give that column ~12–14% if needed. Plain Markdown pipe tables allocate columns evenly and make long Notes hard to read in the editor and in preview.
+If you **merge** the old **Classification** column into **Targets**, use typed pointers (`entity:…`, `property:…`, …) so the table stays one row per Term. The **meaning** of former classification values is unchanged:
 
-Use this skeleton (adjust `width` percentages if needed):
+| Former value | Meaning |
+|--------------|--------|
+| **anchor (class + module)** | Passes the anchor test: core class owns a **module** (frame + same-named core class). |
+| **class** | Domain class not its own module yet — supporting class, or expected class without module. |
+| **property** | Modeled as semantic property on a class. |
+| **field** | Typed field / slot. |
+| **example (instance)** | Illustrative instance — not a type. |
+| **relationship** | Association, link, dependency. |
+| **invariant (rule)** | Domain rule, constraint, policy. |
+
+---
+
+## Registry format (HTML table recommended for Notes width)
+
+Prefer an HTML `<table>` with `<colgroup>` so **Notes** gets most width (~50–55%). **Targets** can be ~18–22%.
 
 ```html
 <table>
 <colgroup>
-  <col style="width:9%" />
-  <col style="width:14%" />
-  <col style="width:6%" />
-  <col style="width:9%" />
-  <col style="width:9%" />
-  <col style="width:53%" />
+  <col style="width:12%" />
+  <col style="width:22%" />
+  <col style="width:66%" />
 </colgroup>
 <thead>
 <tr>
   <th>Term</th>
-  <th>Classification</th>
-  <th>Step</th>
-  <th>Confidence</th>
-  <th>Status</th>
+  <th>Targets</th>
   <th>Notes</th>
 </tr>
 </thead>
 <tbody>
 <tr>
   <td>Character</td>
-  <td>anchor (class + module)</td>
-  <td>SCAN</td>
-  <td>High</td>
-  <td>Active</td>
-  <td>Central entity; all rules attach to it</td>
-</tr>
-<tr>
-  <td>Power</td>
-  <td>class</td>
-  <td>SCAN</td>
-  <td>High</td>
-  <td>Active</td>
-  <td>Supporting class — Character module. Core capability unit.</td>
-</tr>
-<tr>
-  <td>Device</td>
-  <td>class</td>
-  <td>SCAN</td>
-  <td>Medium</td>
-  <td>Tension</td>
-  <td>Removable Power vs Equipment? Boundary unclear — see T2.</td>
+  <td>- <code>entity:Character</code><br>- <code>property:Character.powerLevel</code></td>
+  <td>Central entity; anchor test ✓. Slice <code>S1=Character</code>. Long quotes in <code>terms.md</code> → Character module.</td>
 </tr>
 </tbody>
 </table>
 ```
 
-For very small registries only, a Markdown pipe table is acceptable:
+Small registries: Markdown pipe table is acceptable.
 
-```markdown
-| Term | Classification | Step | Confidence | Status | Notes |
-|------|----------------|------|------------|--------|-------|
-| Character | anchor (class + module) | SCAN | High | Active | Short note only |
-```
+---
+
+## Migration from legacy wide tables
+
+If you have **Step**, **Confidence**, **Status**, and **Classification** columns:
+
+1. **Term** → keep.
+2. **Classification** + committed placements → **Targets** bullets (`entity:…`, `property:…`, …).
+3. **Step** → fold into **Notes** as *“First touched at phase-id `domain-scan`”* or leave implicit if noisy.
+4. **Confidence / Status** → merge into **Notes** (*“Legacy: was High / Active”*) only if still useful; otherwise drop.
+5. **Notes** → preserve text; add pointer to **`terms.md`** where verbatim evidence moved.
+
+---
+
+## Slices and `domain-scan` vs per-slice work
+
+- **`domain-scan`** runs **workspace-wide** (or once per strategy engagement): seeds **`term-registry.md`**, anchors, **`strategy.md`**, scan artifacts. It is **not** “each slice’s first phase” by name — use **phase-id** `domain-scan` only.
+- Per-slice deep extraction aligns with **`nouns-verbs-rules-and-states`** and **`raw-candidate-list`** in **chronicle order** after scan. **`terms.md`** evolves from those phase-ids onward for that slice.
+
+---
+
+## References
+
+- **`process.md`** — Phase chronicle, stages A–F, capture ladder  
+- **`terms.md`** template — `templates/terms-template.md`  
+- **Strategy / revisits** — `library/strategy-execution-and-checklists.md`
 
 
 ---
@@ -7369,7 +7141,7 @@ The CLI does not yet support notes — add them manually in draw.io after CLI bu
 | Phase | Add invariants? |
 |-------|----------------|
 | domain-scan | Yes — add the invariants you found during the scan (inline preferred at this fidelity) |
-| domain-noun-verb (Step 1) | No — extraction only; invariants captured in registry notes |
+| domain-noun-verb (Phase 2) | No — extraction only; invariants captured in registry notes |
 | raw-candidate-list through responsibilities | Yes — as invariants become confirmed, add to diagram |
 | Full model phases | Yes — invariants are a required part of the final model |
 
@@ -8199,11 +7971,13 @@ You are the **domain modeler and OOAD practitioner** using this skill: you provi
 
 ## Phase
 
-# Thing vs data about a thing — payments example
+# Thing vs data about a thing — illustrative thread
 
-**Skill:** abd-ooad — matches **Step 3: Separate “thing” from “data about a thing”** in `SKILL.md`.
+**Phase ID:** `thing-vs-data-about-a-thing`
 
-**Upstream:** `raw-candidate-list.md` (Step 2), `garbled-payments-spec.md`.
+**Skill:** abd-ooad — **Stage C** — separate **thing** from **data about a thing**.
+
+**Upstream:** **`raw-candidate-list`** (phase-id), slice specs.
 
 For each concept, ask:
 
@@ -8377,19 +8151,23 @@ Next: assign **what each remaining aggregate/VO/policy owns** before naming oper
 
 # Domain model Markdown
 
-This skill’s **domain model** is captured in Markdown  a parallel **Draw.io** class diagram. Use **`templates/domain model template.md`** for companion docs; align with **`templates/domain model template.drawio`** when both exist.
+The **domain model** lives in workspace **`domain*.md`** files; **Draw.io** diagrams are **visual twins** of that content — update markdown first, then render or hand-sync the diagram (see **class-diagrams**, **using-diagram-cli**).
 
-**Phase 2 — `domain-noun-verb.md`:** anchor sections, **Candidate …** lists, full or pared class boxes. Slice files are **content only** — no skill paths or process meta in the artifact body.
+**Integrated slice model + evidence:** Prefer **`templates/domain-model-integrated.md`** alongside **`templates/terms-template.md`** (`terms.md` per slice). Class **Notes** use **`*[Sn · phase-id]*`** (e.g. **`*[S1 · refine-names]*`**) — **phase-id** from **`process.md`**, not numeric step names.
 
-**Phase 3 — bucket roll-up:** sort candidates into **entities**, **value objects**, **processes**, **policies**, **roles**, **events** (tables in **`raw-candidate-list.md`** or appended to **`domain-noun-verb.md`**). Same **content-only** rule: no skill/process boilerplate in slice files.
+**`domain-scan`:** **`domain-scan-results.md`**, **`domain-scan-model.md`**, then **`domain-scan-model.drawio`**.
 
-**Optional — `domain-raw-candidates.md`:** same Phase 3 content as **classes under anchor modules** (`### Name : << Entity >>` / `<< ValueObject >>` / `<< Process >>` / …), notes below — **not** a second copy of bucket tables. Cross-cutting material → **`## Cross-anchor`** or appendix. **`templates/domain-raw-candidates-template.md`**.
+**`nouns-verbs-rules-and-states` — `domain-noun-verb.md`:** anchor sections, **Candidate …** lists, class boxes. Slice files are **domain content only** — no skill paths or process boilerplate in the artifact body.
+
+**`raw-candidate-list`:** Prefer **`domain-raw-candidates.md`** — classes under anchors with notes. Optional single tabular roll-up (**`raw-candidate-list.md`** or appendix to **`domain-noun-verb.md`**) — **not** the same tables twice plus an integrated file.
+
+**Templates:** **`templates/domain model template.md`**, **`templates/domain-raw-candidates-template.md`**, **`templates/domain-model-integrated.md`**.
 
 ---
 
 ## Domain concept template
 
-Each **domain concept** (class, interface, value object, or aggregate) is documented under a clear heading, for example:
+Each concept is documented under a clear heading, for example:
 
 ```markdown
 ## **Payment**
@@ -8398,73 +8176,62 @@ Each **domain concept** (class, interface, value object, or aggregate) is docume
 
 ### Properties
 - Money amount
-- …
 
 ### Operations
 - initiate() → Authorization
 ```
 
-From **Step 5** onward, prefer **typed** members (see **Notation evolution** below). Earlier steps stay **pre-notation** (bullets and prose).
+From **Phase 6** onward (`add-properties-semantically-tight`), prefer **typed** members (see **Notation evolution**). Earlier phases stay informal (bullets and prose).
 
 ---
 
-## Continual refinement — class definition + diagram
+## Markdown and diagram
 
-**Continual refinement** means you **grow** the model across steps: each step file may add or tighten concepts. The Markdown spec and the class diagram are **two views of the same model** — update both when your project uses dual artifacts so they do not drift (see **[Class diagrams](class-diagrams.md)**).
+The Markdown spec and the class diagram are **two views of the same model** — keep them aligned when both exist (**class-diagrams**).
 
 ---
 
-## **newly added** tag
+## **newly added** tag (optional)
 
-In the **worked example** threads (e.g. payments), the marker **newly added** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
+In long-running examples, **newly added** on a line marks a property or operation that first appears in *this* file — useful for deltas across files.
 
 ---
 
 ## Notation evolution
 
-| Phase | Markdown style |
-|--------|------------------|
-| **Steps 1–4** | Informal: bullets, short phrases, responsibilities, candidate names; typed `- <type> property` lines arrive in Step 5. |
-| **Step 5+** | Formal typed members: `- <Type> propertyName`, `operationName(...) → ReturnType`. |
+| Phase range | Markdown style |
+|-------------|----------------|
+| **2–5** | Informal: bullets, candidates, responsibilities; typed `- <type> property` lines from **Phase 6** onward. |
+| **Phase 6+** | Formal: `- <Type> propertyName`, `operationName(...) → ReturnType`. |
 
 ---
 
 ## Subtype sections
 
-When you introduce substitutable specializations, add an explicit subtype heading so the structure is visible in the spec and in diagrams:
+When you introduce substitutable specializations, add an explicit subtype heading so structure is visible in spec and diagrams:
 
 ```markdown
 ### **Subtype** : **PaymentMethod**
 ```
 
-Put **`**newly added**`** on subtype **operation** (or property) lines when that member is **first** introduced for that subtype.
-
 ---
 
 ## Invariants
 
-Attach invariants to the **property** or **operation** they constrain, using a dedicated line:
+Attach invariants to the property or operation they constrain:
 
 ```markdown
 **Invariant:** …
 ```
 
-Mark **`**newly added**`** when you **first** attach an invariant to a given member line.
-
 ---
 
-## Early steps: terms, mechanisms, story map
+## Class diagram and spec
 
-Before typed properties exist, align extracted **nouns, verbs, rules, states** with your workspace’s **terms & mechanisms** and **shaped story map** (or equivalent). That is the same “grow the model as you go” idea: informal extraction first, then formal types.
+When you maintain **`map-model-spec.json`** or similar, re-run the project’s diagram script after material changes so Draw.io stays aligned.
 
----
-
-## Class diagram and spec (visual twin)
-
-When you maintain a machine-readable spec such as **`map-model-spec.json`**, re-run your project’s class-diagram render script (for example **`render_map_model_class_diagram.py`**) after material changes so the **Draw.io** diagram stays the **visual twin** of the spec.
-
-- **[Class diagrams](class-diagrams.md)** — templates, relationship types, keeping `.md` and `.drawio` aligned.  
-- **[Using the Diagram CLI](using-diagram-cli.md)** — building diagrams with **`scripts/drawio_cli.py`**.
+- **Class diagrams** — templates, relationships, keeping `.md` and `.drawio` aligned.  
+- **Using the Diagram CLI** — `scripts/drawio_cli.py`.
 
 ---
 
@@ -8472,9 +8239,9 @@ When you maintain a machine-readable spec such as **`map-model-spec.json`**, re-
 
 | Topic | File |
 |--------|------|
-| Term tracking across steps | [term-registry.md](term-registry.md) |
+| Term tracking | [term-registry.md](term-registry.md) |
 | Strategy-led runs | [strategy-led-generation.md](strategy-led-generation.md) |
-| Layout and lanes | [class-diagram-layout-rules.md](class-diagram-layout-rules.md) |
+| Layout | [class-diagram-layout-rules.md](class-diagram-layout-rules.md) |
 
 
 ---
@@ -8566,9 +8333,9 @@ The absence of a matching core class is the clearest signal that you have not ye
 
 # Strategy-led generation
 
-Domain scan (OOAD **phase 1**) does not only produce a single “results” file. It establishes a **small set of workspace files** under `<workspace>/abd-ooad/` that work together. Some are **frozen findings** from the scan; others are **living documents** you update as modeling continues.
+Domain scan (phase-id **`domain-scan`**) does not only produce a single “results” file. It establishes a **small set of workspace files** under `<workspace>/abd-ooad/` that work together. Some are **frozen findings** from the scan; others are **living documents** you update as modeling continues.
 
-**Slices start at global Phase 2:** Source-slice work (e.g. **S1**, **S2** in `strategy.md` and **`Anchor`** `S1=…` / `S2=…` in `term-registry.md`) uses the **same global OOAD phase numbers** as the process table for everything **after** scan. The **first** per-slice extraction step is **Phase 2** (`nouns-verbs-rules-and-states`), **not** a slice-local “Phase 1.” Phase **1** is workspace-wide **domain-scan** only. See **`term-registry.md` → Slices and global phase numbers**.
+**Per-slice extraction** after scan uses the **same phase-id chronicle** as **`process.md`**. The **first** detailed per-slice capture is **`nouns-verbs-rules-and-states`** (then **`raw-candidate-list`**, …) — **not** a second **`domain-scan`**. Use **phase-id** names in strategy and registry (and **`*[Sn · phase-id]*`** tags in the model), not “Phase 1 / Phase 2” as step names. See **`term-registry.md`** and **`process.md` → Capture ladder**.
 
 For the scan procedure itself, see the **Domain scan** phase. This page explains **what each artifact is for** and how **`strategy.md`** relates to **`domain-scan-results.md`**.
 
@@ -8586,7 +8353,8 @@ Created during domain scan under `<workspace>/abd-ooad/`:
 | `strategy.md` | **Living strategy:** **modeling scope**; **§1 source slices** (table: Order, Goal, **Source** — chapters, files, modules, or mixed — **Coverage**, **Importance**); **§2 slice plan** (per-slice **goal restated** + **phases**); **coverage across steps**; **cross-slice integration**; **anchor and subdomain elaboration**; **execution plan (normative)** — phase slugs with **slice IDs** on every line; plus **approach** and **dated pivots**. | **Yes** — whenever scope, order, slice depth, subdomain mapping, or integration changes. |
 | `domain-scan-model.md` | Class sketch (markdown) at scan fidelity. | Yes, in later phases — not only during scan. |
 | `domain-scan-model.drawio` | Diagram at scan fidelity. | Same as model.md. |
-| `term-registry.md` | Terms, **Classification** (model role), **Status** (OOAD scale), confidence — seeded at scan. | **Yes** — every later phase updates Step, Classification, and Status as the model evolves. |
+| `term-registry.md` | Terms, **Targets** (bulleted typed pointers), **Notes** — seeded at scan. | **Yes** — every later phase-id updates **Targets** and **Notes** as the model evolves. See **`library/term-registry.md`**. |
+| `terms.md` (per slice) | Evidence ledger by **`## [Anchor module]`** — quotes, promotion log. | **Yes** — from **`nouns-verbs-rules-and-states`** onward for that slice. Template: **`templates/terms-template.md`**. |
 
 **Plus** (when workspace is configured): **`progress/`** checklists — see **`library/strategy-execution-and-checklists.md`**. **`generate.py`** creates **`process-checklist.md`**, **`<phase>-checklist.md`**, and (abd-ooad) **`strategy-run-checklist.md`** when templates exist and files are missing. Normative phase steps stay in **`content/parts/phases/<phase>.md`**. These are the **only** place for session tick marks.
 
@@ -8621,8 +8389,8 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 
 1. **Strategy** — Keep **`strategy.md`** aligned with reality; append *Ongoing strategic decisions* when you pivot.
 2. **Strategy execution** — Tick **`progress/strategy-run-checklist.md`** as you **complete** each phase for its declared scope.
-3. **Phase work** — For the active phase, run **`generate.py --phase <slug>`** and tick **`progress/<slug>-checklist.md`** for action steps.
-4. **Registry** — Keep `term-registry.md` aligned with the current phase (Step, Classification, Status).
+3. **Phase work** — For the active phase-id, run **`generate.py --phase <phase-id>`** (or **`generate.py --stage <A|B|…|F>`** for a stage) and tick **`progress/<phase-id>-checklist.md`** for action steps.
+4. **Registry** — Keep `term-registry.md` aligned with the current phase-id (**Targets** + **Notes**); keep slice **`terms.md`** in sync for verbatim evidence.
 5. **Results** — Touch `domain-scan-results.md` only for corrections to the original scan snapshot.
 
 ---
@@ -8642,26 +8410,45 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 
 # Strategy execution and checklists (abd-ooad)
 
-**Canonical doc** for: (1) **strategy** vs **live ticks**, (2) **which files** hold checkboxes, (3) **how** `generate.py` creates workspace **`progress/`** files. Does **not** replace **[process.md](../process.md)** (process tables, `generate` / `build`) or **[skill-structure-and-concepts.md](../base/skill-structure-and-concepts.md)** (repo layout).
+**Canonical doc** for: (1) **strategy** vs **live ticks**, (2) **which files** hold checkboxes, (3) **how** `generate.py` creates workspace **`progress/`** files, (4) **stages**, **revisits / disruption** on the same checklist. Does **not** replace **[process.md](../process.md)** (phase chronicle, `generate` / `build`) or **[skill-structure-and-concepts.md](../base/skill-structure-and-concepts.md)** (repo layout).
 
-Only **`strategy.md`** defines **scope** and **which phases in what order**; checklists are where you **tick** progress.
+Only **`strategy.md`** defines **scope** and **which phase-ids (or stages) in what order**; checklists are where you **tick** progress.
 
 ---
 
 ## Workflow
 
-1. **Domain scan** — produce scan artifacts (see **`strategy-led-generation`**).
+1. **Domain scan** — produce scan artifacts (see **`strategy-led-generation`**). Phase-id: **`domain-scan`**.
 2. **Strategy** — fill **`strategy.md`** from **`templates/strategy.md`**:
    - **Modeling scope** — corpus or product boundary; **source type** (book vs repo vs mixed).
    - **§1 Source slices** — ordered table: **Goal**, **Source** (chapters, files, modules, APIs — whatever locates work), **Coverage** (depth this pass), **Importance**; stable **slice IDs** reused everywhere.
-   - **§2 Slice plan** — per slice: **goal restated**, **unit kind**, **phases** (execution step numbers / slugs), produces, depends-on.
-   - **Coverage across steps** — matrix: every slice → which **execution plan** steps touch it → **depth** → deferrals.
+   - **§2 Slice plan** — per slice: **goal restated**, **unit kind**, **phase-ids** (or **stages**) you will run, produces, depends-on.
+   - **Coverage across steps** — matrix: every slice → which **execution plan** phase-ids touch it → **depth** → deferrals.
    - **Cross-slice integration** — cross-boundary types and ordering (From → To + narrative).
-   - **Anchor and subdomain elaboration** (when anchors have attached types) — map subdomains to slices and execution §.
-   - **Execution plan (normative)** — ordered phase **slugs**; **each line cites slice IDs** (mirror **`strategy-run-checklist.md`**).
+   - **Anchor and subdomain elaboration** (when anchors have attached types) — map subdomains to slices and execution phase-ids.
+   - **Execution plan (normative)** — ordered **phase-id** strings; **each line cites slice IDs** (mirror **`strategy-run-checklist.md`**). Optionally group work by **stage A–F** (see **`process.md` → Stage map**).
+   - **Stage completion (after each stage)** — what completed; tensions; **new checklist lines** for revisits (below); **audit** — append dated line under *Ongoing strategic decisions*.
    - **Approach going forward** + **Ongoing strategic decisions** — short narrative and dated pivots.
 3. **Align live checklists** — keep **`strategy-run-checklist.md`** in sync with the execution plan (same order and scope). Optional **`templates/strategy-run-checklist.md`** seed; optional **`templates/progress-README.md`** → **`progress/README.md`** for slice-specific files under **`progress/slices/`**.
-4. **Run phases** — for the **current** phase: `python scripts/base/generate.py --phase <slug>`. Tick **`strategy-run-checklist.md`** when a phase is **done** for its declared scope; tick **`<slug>-checklist.md`** for **steps inside** that phase.
+4. **Run phases** — **`python scripts/base/generate.py --phase <phase-id>`** for one step, or **`python scripts/base/generate.py --stage <A|B|…|F>`** for a full stage (same order as **`process.md`** / **`skill-config.json` → `process_stages`**). Tick **`strategy-run-checklist.md`** when a phase (or stage slice) is **done** for its declared scope; tick **`<phase-id>-checklist.md`** for **steps inside** that phase.
+
+---
+
+## Revisits and disruption (same checklist)
+
+A **revisit** is **not** a separate rerun workflow. While executing (including late **stage F**), if work must **go back** to an earlier **stage** or **phase-id**, **add a new row** to **`strategy-run-checklist.md`** — e.g. `- [ ] Revisit stage B — <short reason>` or `- [ ] Re-run nouns-verbs-rules-and-states — slice S1 — reconcile new anchor` — at the **bottom** or **inserted** where it fits the agreed order. The checklist is the single source of truth for **forward** work plus **backward** revisits.
+
+**Audit:** When you add a revisit row, append a dated line under **`strategy.md` → Ongoing strategic decisions**; never delete prior pivots.
+
+### Hint table (non-prescriptive)
+
+| You are here | Often need to touch |
+|--------------|---------------------|
+| Stage F | Stage E, D, or C (naming / validation feedback) |
+| Stage E | Stage C (scenarios expose structure gaps) |
+| Stage D | Stage C (splitting responsibilities) |
+
+Use this as a **prompt**, not a rule.
 
 ---
 
@@ -8669,9 +8456,9 @@ Only **`strategy.md`** defines **scope** and **which phases in what order**; che
 
 | Layer | File | What you tick |
 | --- | --- | --- |
-| **Strategy execution** | **`progress/strategy-run-checklist.md`** | **Which phases** you will run, **in order**, each with **scope** that **includes the same slice IDs** as **`strategy.md` → Execution plan**. Optional: **`progress/slices/<slice-id>-checklist.md`** per slice — see **`progress/README.md`** in the workspace (if present). |
+| **Strategy execution** | **`progress/strategy-run-checklist.md`** | **Which phase-ids** (or stages) you will run, **in order**, each with **scope** that **includes the same slice IDs** as **`strategy.md` → Execution plan**; **includes revisit rows** when you must go backward. Optional: **`progress/slices/<slice-id>-checklist.md`** per slice — see **`progress/README.md`** in the workspace (if present). |
 | **Full pipeline (reference)** | **`progress/process-checklist.md`** | **Every** phase in **`phase_files`** — useful as a map; optional if you rely only on strategy-run. |
-| **Phase steps** | **`progress/<phase>-checklist.md`** | **Action checklist** copied from **`content/parts/phases/<phase>.md` → ## Action Checklist**. |
+| **Phase steps** | **`progress/<phase-id>-checklist.md`** | **Action checklist** copied from **`content/parts/phases/<phase-id>.md` → ## Action Checklist**. |
 
 **Implementation:** **`scripts/base/workspace_checklists.py`** (paths, behavior, `--no-ensure-checklists`).
 
@@ -8681,10 +8468,10 @@ Only **`strategy.md`** defines **scope** and **which phases in what order**; che
 
 | Kind | What it tracks | Where it lives | How it gets there |
 | --- | --- | --- | --- |
-| **Normative reference** | Rules in **this document** — strategy vs ticks, layers, `generate.py` behavior | **`content/parts/library/strategy-execution-and-checklists.md`** | Authored in the skill; **not** created by **`generate.py`**. |
-| **Pipeline position** | Which **phase** of the pipeline you are in | **`<active_skill_workspace>/<skill_name>/progress/process-checklist.md`** | **Created** on first **`python scripts/base/generate.py --phase <slug>`** when that file is **missing**, if **`skill-config.json` → `workspace.active_skill_workspace`** is set. One `- [ ]` line per slug in **`phase_files`** (labels from **`phase_section_headings`** when present). **Does not overwrite** an existing file. |
-| **Phase action steps** | **Steps inside** the current phase | **`<active_skill_workspace>/<skill_name>/progress/<phase-slug>-checklist.md`** | **Created** in the **same** `generate.py` run when that file is **missing**. Steps are taken from **`## Action Checklist`** in **`content/parts/phases/<phase-slug>.md`**, or from task lines (`- [ ]` / `- [x]`) in that file if the section is absent. **Does not overwrite** an existing file. |
-| **Strategy execution** (workspace) | Ordered phases matching **`strategy.md`** | **`progress/strategy-run-checklist.md`** | Seeded from template when **`generate.py`** / workspace checklist logic creates it; **you** align it with **`strategy.md`**. |
+| **Normative reference** | Rules in **this document** — strategy vs ticks, layers, revisits, `generate.py` behavior | **`content/parts/library/strategy-execution-and-checklists.md`** | Authored in the skill; **not** created by **`generate.py`**. |
+| **Pipeline position** | Which **phase-id** of the pipeline you are in | **`<active_skill_workspace>/<skill_name>/progress/process-checklist.md`** | **Created** on first **`python scripts/base/generate.py --phase <phase-id>`** (or first phase of **`--stage`**) when that file is **missing**, if **`skill-config.json` → `workspace.active_skill_workspace`** is set. One `- [ ]` line per slug in **`phase_files`** (labels from **`phase_section_headings`** when present). **Does not overwrite** an existing file. |
+| **Phase action steps** | **Steps inside** the current phase | **`<active_skill_workspace>/<skill_name>/progress/<phase-id>-checklist.md`** | **Created** in the **same** `generate.py` run when that file is **missing**. Steps are taken from **`## Action Checklist`** in **`content/parts/phases/<phase-id>.md`**, or from task lines (`- [ ]` / `- [x]`) in that file if the section is absent. **Does not overwrite** an existing file. |
+| **Strategy execution** (workspace) | Ordered phase-ids (and revisit rows) matching **`strategy.md`** | **`progress/strategy-run-checklist.md`** | Seeded from template when **`generate.py`** / workspace checklist logic creates it; **you** align it with **`strategy.md`**. |
 
 ### Names and workspace
 
@@ -8705,9 +8492,9 @@ Only **`strategy.md`** defines **scope** and **which phases in what order**; che
 
 ---
 
-## Phase slugs
+## Phase IDs
 
-Use exact slugs from **`skill-config.json` → `phase_files`** (e.g. `nouns-verbs-rules-and-states`, `domain-scan`). Labels for humans are in **`phase_section_headings`**.
+Use exact **phase-id** strings from **`skill-config.json` → `phase_files`** (e.g. `nouns-verbs-rules-and-states`, `domain-scan`). Labels for humans are in **`phase_section_headings`**. **Stages** **A–F** map to ordered phase-id lists in **`process_stages`** — see **`process.md`**.
 
 ---
 
@@ -8726,168 +8513,147 @@ Use exact slugs from **`skill-config.json` → `phase_files`** (e.g. `nouns-verb
 
 ## What a Term Is
 
-A **Term** is any concept identified from the source material that may become part of the domain model. At the time of identification, a Term is not committed to a model role — it might become a class, a property, a value type, an association, or nothing at all. The registry tracks Terms as the modeling phases determine what each one actually is.
+A **Term** is any concept identified from the source material that may become part of the domain model. At identification time it is not committed to a model role — it might become a class, a property, a value type, an association, or nothing. The registry tracks Terms as modeling **phase-ids** (see **`process.md` → Phase chronicle**) determine what each one actually is.
 
-This is distinct from other uses of "actor" in this domain:
-- In MM3E and FoundryVTT, "Actor" has a specific system meaning (a character, creature, or entity in the game world).
-- In the registry, everything is a Term until the model says otherwise.
+This is distinct from other domain uses of overloaded words (e.g. in some systems “Actor” is a system type). In the registry, everything is a Term until the model says otherwise.
 
-**File:** `<workspace>/abd-ooad/term-registry.md`
-**Never embedded** inside step outputs — it lives in its own file and is referenced from each step's model doc.
+**File:** `<workspace>/abd-ooad/term-registry.md` (or per-slice path if your workspace layout nests slices).
 
----
-
-## Step Reference — Short Names
-
-Use these short names in the **Step** column of the registry when adding or updating a row.
-
-| Short Name | Phase | Description |
-|-----------|-------|-------------|
-| SETUP | workspace-and-config | Workspace initialization |
-| SCAN | domain-scan | Source scan and anchor identification |
-| NOUNS | nouns-verbs-rules-and-states | Extract nouns, verbs, rules, states |
-| CANDS | raw-candidate-list | Raw candidate class list |
-| THINGS | thing-vs-data-about-a-thing | Separate things from data-about-things |
-| RESP | responsibilities-before-operations | Assign responsibilities |
-| PROPS | add-properties-semantically-tight | Add semantically tight properties |
-| OPS | turn-verbs-into-operations | Turn verbs into operations |
-| RELS | relationships-and-cardinality | Relationships and cardinality |
-| INV | invariants-in-the-model | Identify invariants |
-| BLOAT | watch-for-bloated-classes | Detect bloated classes |
-| ROLES | smashed-abstractions-and-hidden-roles | Uncover hidden roles |
-| INHERIT | inheritance-when-behavior-generalizes | Apply inheritance |
-| ABST | abstract-classes-and-interfaces | Abstract classes and interfaces |
-| COMP | prefer-composition | Prefer composition over inheritance |
-| STATES | model-state-transitions | Model state transitions |
-| ITER | iterative-refinement | Iterative refinement pass |
-| TENSION | tension-as-a-signal | Resolve tensions |
-| COHESION | what-changes-together | What changes together |
-| VALIDATE | validate-with-scenarios | Validate with scenarios |
-| NAMES | refine-names | Refine class and concept names |
-| LAYERS | model-in-layers | Model in layers |
+**Never embed** the full registry inside step outputs — it lives in its own file and is referenced from each phase’s model doc.
 
 ---
 
-## Slices and global phase numbers (normative)
+## Relationship to `terms.md` (per slice)
 
-The **OOAD process table** (see **`process.md`** / built **AGENTS.md** — “Process Table”) assigns **global phase numbers** **0–21** to phase **slugs** (e.g. **Phase 2** = `nouns-verbs-rules-and-states`, **Phase 3** = `raw-candidate-list`, **Phase 4** = `thing-vs-data-about-a-thing`).
-
-- **Phase 1** (`domain-scan`, short name **SCAN**) runs **once per workspace** (or once per strategy engagement). It produces anchors, `strategy.md`, `domain-scan-results.md`, and seeds **`term-registry.md`**. It is **not** repeated as “each slice’s Phase 1.”
-- **Per-slice modeling** (folders or **Anchor** columns **`S1=…`**, **`S2=…`**, …) **aligns with the same global numbers from Phase 2 onward:** the **first** extraction artifact in a slice is always **Phase 2** (**NOUNS**), then **3** (**CANDS**), **4** (**THINGS**), etc. Do **not** label slice-local nouns-verbs files as Phase 1 — that collides with **SCAN**.
-- **Phase notes** in italics (optional): `*[Sn · Phase N]*` where **N** is the **global** process-table number. Add slug, tension id, or short reminder *after* the tag on the same line if needed (e.g. *thing-vs-data*, *registry Tn*). For early “likely class” judgments: `*[S1 · Phase 3]* Likely class : …`.
-
----
-
-## Registry Columns
-
-| Column | Values | Notes |
-|--------|--------|-------|
-| **Term** | Concept name from the source | Exact word or phrase as found — rename in the NAMES step if needed |
-| **Classification** | See **Classification** below | **What we want to model this as** — target shape in the domain model (not lifecycle) |
-| **Step** | Short name from table above (SCAN, NOUNS, …) | Step that first identified or last materially updated this Term |
-| **Confidence** | High / Medium / Low | How sure we are this belongs in the model |
-| **Status** | See **Status (OOAD scale)** below | Where this Term sits in the modeling workflow |
-| **Notes** | Free text | Anchor-test results, owning module for supporting classes (`Supporting class — X module`), competing interpretations, pointers to tensions in `domain-scan-results.md`, and follow-ups |
+- **`terms.md`** (alongside `domain-noun-verb.md` in a slice folder) holds **module-scoped evidence**: quotes, raw extractions, promotion history under **`## [Anchor module]`** headings aligned with the integrated domain model.
+- **`term-registry.md`** remains the **term-centric analysis record**: one row per Term; **Targets** = where the term landed; **Notes** = substantive reasoning (anchor tests, classification, tensions) — **full paragraphs are fine** when the work needs them.
+- **Principle:** Notes depth is **not** reduced because `terms.md` exists. `terms.md` reduces **duplication of verbatim source text** and organizes evidence by module; it does **not** justify one-line registry Notes unless the term truly needs only one line.
+- **Avoid duplicate verbatim quotes:** keep the quote in **`terms.md`** and in **Notes** point to `terms.md#anchor-module` (or the term subsection); keep analysis-only text in Notes as today.
 
 ---
 
-## Classification — what we want to model this as
+## Phase IDs (normative references)
 
-Use **one** value per row. This is the **intended model role**, not how “mature” the idea is (that is **Status**).
+Refer to pipeline steps **only** by **`phase-id`** — the short **kebab-case** slug matching **`skill-config.json` → `phase_files`** and the **`process.md`** chronicle (e.g. `domain-scan`, `nouns-verbs-rules-and-states`, `refine-names`). Do **not** use “Phase 1 / Phase 2” as **names** for steps; those ordinals drift. Optional **model tags** in the domain model use **`*[Sn · phase-id]*`** (e.g. **`*[S1 · refine-names]*`**) — see **`library/domain-model`**.
 
-| Value | Meaning |
+---
+
+## Registry columns
+
+| Column | Role |
+|--------|------|
+| **Term** | Concept name from the source — exact word or phrase as found; rename in **`refine-names`** if needed. |
+| **Targets** | Where this term **landed** in the model: a **bulleted list inside the table cell** (Markdown list), **one typed pointer per line**. Unallocated / not yet placed → leave empty or **—**. |
+| **Notes** | Anchor-test results, slice/anchor context (**`S1=…`** style if useful), competing interpretations, tensions, pointers to **`terms.md`** when verbatim evidence lives there — same substance as historical scan/noun-verb rows. |
+
+**Optional:** If you need a single “primary kind” for tooling, add one optional column **after** Term (e.g. **Kind**) — otherwise prefer **Targets**-only for a slim table.
+
+---
+
+## Targets — typed pointers (one per bullet)
+
+**Normative style:** each bullet is **one** typed target. **Do not** concatenate targets with `|` or `;` on one run-on line.
+
+Examples of pointer forms (extend as your model needs):
+
+- `entity:Payment`
+- `vo:Money`
+- `property:Payment.amount`
+- `operation:Order.submit`
+- `invariant:…`
+- `policy:…`
+- `relationship:Customer — Order`
+
+**Renders in Markdown tables** — use `<br>` between bullets if your renderer collapses list-in-cell (GitHub-style often accepts list-in-cell; validate in your preview):
+
+```markdown
+| Term   | Targets |
 |--------|---------|
-| **anchor (class + module)** | Passes the anchor test: this concept is a **core class** and owns a **module** (dashed frame + same-named core class). Use only for backbone modules. |
-| **class** | A domain **class** that is not its own module yet — e.g. supporting class inside a frame, or a type you expect to become a class without its own module. |
-| **property** | Modeled as a **semantic property** (attribute / value on a class), not a separate type. |
-| **field** | Modeled as a **typed field / slot** (data member, possibly simple type or value object). |
-| **example (instance)** | An **illustrative instance**, sample, or scenario object — not a type in the model. |
-| **relationship** | An **association**, link, or dependency between concepts — may become an association, association class, or navigable role. |
-| **invariant (rule)** | A **domain rule**, constraint, or policy — often becomes behavior, guard, or explicit rule text on a class. |
-
-**Diagram mapping (when relevant):** `anchor (class + module)` → module frame + core class; `class` → class box; `relationship` → association; `invariant (rule)` → note, constraint, or operation; `property` / `field` → attributes on a class.
+| amount | - `entity:Payment`<br>- `vo:Money`<br>- `property:Payment.amount` |
+```
 
 ---
 
-## Status (OOAD scale)
+## Notes — still substantive
 
-**Status** is **lifecycle / confidence in the workflow**, not the model shape. Pick the value that best fits; states are **not** always a strict left-to-right pipeline.
+Notes remain the place for **classification reasoning**, anchor tests, tensions, and follow-ups. **Do not** make Notes sparse by default. When raw quotes live in **`terms.md`**, write in Notes: *“Verbatim quote in `terms.md` → [Anchor module] / term …”* and keep analysis here.
 
-| Status | When to use |
-|--------|-------------|
-| **Ambiguous** | You cannot yet say what the Term is or how it sits next to others. |
-| **Tension** | Competing interpretations, overlapping boundaries, or conflicting source pulls — needs resolution before the model can commit. |
-| **Candidate** | Plausible model role; narrowed but not yet locked (often after scan, before THINGS/RELS). |
-| **Deferred** | Explicitly parked — revisit in a named later step or phase. |
-| **Active** | In current modeling scope; being updated in this pass. |
-| **Solidified** | Named, placed, and stable in the model for the current iteration — ready to treat as “done” unless source or scope changes. |
-
-**Typical (non-binding) progression:** Ambiguous → Tension or Candidate → Active → Solidified. **Deferred** can apply after any stage. A Term can return from Deferred to Active when scope returns to it.
+**Slice / anchor:** You may record **`S1=Character`** (or similar) in **Notes** or a minimal **Slice** column if the table template adds one — your engagement may require it for MM3E-style multi-slice tables.
 
 ---
 
-## Registry format (wide Notes)
+## Classification (reference — not required as its own column)
 
-**Prefer an HTML `<table>` with `<colgroup>`** so the **Notes** column gets most of the width (~50–55%). **Classification** labels can be long — give that column ~12–14% if needed. Plain Markdown pipe tables allocate columns evenly and make long Notes hard to read in the editor and in preview.
+If you **merge** the old **Classification** column into **Targets**, use typed pointers (`entity:…`, `property:…`, …) so the table stays one row per Term. The **meaning** of former classification values is unchanged:
 
-Use this skeleton (adjust `width` percentages if needed):
+| Former value | Meaning |
+|--------------|--------|
+| **anchor (class + module)** | Passes the anchor test: core class owns a **module** (frame + same-named core class). |
+| **class** | Domain class not its own module yet — supporting class, or expected class without module. |
+| **property** | Modeled as semantic property on a class. |
+| **field** | Typed field / slot. |
+| **example (instance)** | Illustrative instance — not a type. |
+| **relationship** | Association, link, dependency. |
+| **invariant (rule)** | Domain rule, constraint, policy. |
+
+---
+
+## Registry format (HTML table recommended for Notes width)
+
+Prefer an HTML `<table>` with `<colgroup>` so **Notes** gets most width (~50–55%). **Targets** can be ~18–22%.
 
 ```html
 <table>
 <colgroup>
-  <col style="width:9%" />
-  <col style="width:14%" />
-  <col style="width:6%" />
-  <col style="width:9%" />
-  <col style="width:9%" />
-  <col style="width:53%" />
+  <col style="width:12%" />
+  <col style="width:22%" />
+  <col style="width:66%" />
 </colgroup>
 <thead>
 <tr>
   <th>Term</th>
-  <th>Classification</th>
-  <th>Step</th>
-  <th>Confidence</th>
-  <th>Status</th>
+  <th>Targets</th>
   <th>Notes</th>
 </tr>
 </thead>
 <tbody>
 <tr>
   <td>Character</td>
-  <td>anchor (class + module)</td>
-  <td>SCAN</td>
-  <td>High</td>
-  <td>Active</td>
-  <td>Central entity; all rules attach to it</td>
-</tr>
-<tr>
-  <td>Power</td>
-  <td>class</td>
-  <td>SCAN</td>
-  <td>High</td>
-  <td>Active</td>
-  <td>Supporting class — Character module. Core capability unit.</td>
-</tr>
-<tr>
-  <td>Device</td>
-  <td>class</td>
-  <td>SCAN</td>
-  <td>Medium</td>
-  <td>Tension</td>
-  <td>Removable Power vs Equipment? Boundary unclear — see T2.</td>
+  <td>- <code>entity:Character</code><br>- <code>property:Character.powerLevel</code></td>
+  <td>Central entity; anchor test ✓. Slice <code>S1=Character</code>. Long quotes in <code>terms.md</code> → Character module.</td>
 </tr>
 </tbody>
 </table>
 ```
 
-For very small registries only, a Markdown pipe table is acceptable:
+Small registries: Markdown pipe table is acceptable.
 
-```markdown
-| Term | Classification | Step | Confidence | Status | Notes |
-|------|----------------|------|------------|--------|-------|
-| Character | anchor (class + module) | SCAN | High | Active | Short note only |
-```
+---
+
+## Migration from legacy wide tables
+
+If you have **Step**, **Confidence**, **Status**, and **Classification** columns:
+
+1. **Term** → keep.
+2. **Classification** + committed placements → **Targets** bullets (`entity:…`, `property:…`, …).
+3. **Step** → fold into **Notes** as *“First touched at phase-id `domain-scan`”* or leave implicit if noisy.
+4. **Confidence / Status** → merge into **Notes** (*“Legacy: was High / Active”*) only if still useful; otherwise drop.
+5. **Notes** → preserve text; add pointer to **`terms.md`** where verbatim evidence moved.
+
+---
+
+## Slices and `domain-scan` vs per-slice work
+
+- **`domain-scan`** runs **workspace-wide** (or once per strategy engagement): seeds **`term-registry.md`**, anchors, **`strategy.md`**, scan artifacts. It is **not** “each slice’s first phase” by name — use **phase-id** `domain-scan` only.
+- Per-slice deep extraction aligns with **`nouns-verbs-rules-and-states`** and **`raw-candidate-list`** in **chronicle order** after scan. **`terms.md`** evolves from those phase-ids onward for that slice.
+
+---
+
+## References
+
+- **`process.md`** — Phase chronicle, stages A–F, capture ladder  
+- **`terms.md`** template — `templates/terms-template.md`  
+- **Strategy / revisits** — `library/strategy-execution-and-checklists.md`
 
 
 ---
@@ -9338,7 +9104,7 @@ The CLI does not yet support notes — add them manually in draw.io after CLI bu
 | Phase | Add invariants? |
 |-------|----------------|
 | domain-scan | Yes — add the invariants you found during the scan (inline preferred at this fidelity) |
-| domain-noun-verb (Step 1) | No — extraction only; invariants captured in registry notes |
+| domain-noun-verb (Phase 2) | No — extraction only; invariants captured in registry notes |
 | raw-candidate-list through responsibilities | Yes — as invariants become confirmed, add to diagram |
 | Full model phases | Yes — invariants are a required part of the final model |
 
@@ -10315,19 +10081,23 @@ Next: list **properties per aggregate/entity** using **semantic tightness** — 
 
 # Domain model Markdown
 
-This skill’s **domain model** is captured in Markdown  a parallel **Draw.io** class diagram. Use **`templates/domain model template.md`** for companion docs; align with **`templates/domain model template.drawio`** when both exist.
+The **domain model** lives in workspace **`domain*.md`** files; **Draw.io** diagrams are **visual twins** of that content — update markdown first, then render or hand-sync the diagram (see **class-diagrams**, **using-diagram-cli**).
 
-**Phase 2 — `domain-noun-verb.md`:** anchor sections, **Candidate …** lists, full or pared class boxes. Slice files are **content only** — no skill paths or process meta in the artifact body.
+**Integrated slice model + evidence:** Prefer **`templates/domain-model-integrated.md`** alongside **`templates/terms-template.md`** (`terms.md` per slice). Class **Notes** use **`*[Sn · phase-id]*`** (e.g. **`*[S1 · refine-names]*`**) — **phase-id** from **`process.md`**, not numeric step names.
 
-**Phase 3 — bucket roll-up:** sort candidates into **entities**, **value objects**, **processes**, **policies**, **roles**, **events** (tables in **`raw-candidate-list.md`** or appended to **`domain-noun-verb.md`**). Same **content-only** rule: no skill/process boilerplate in slice files.
+**`domain-scan`:** **`domain-scan-results.md`**, **`domain-scan-model.md`**, then **`domain-scan-model.drawio`**.
 
-**Optional — `domain-raw-candidates.md`:** same Phase 3 content as **classes under anchor modules** (`### Name : << Entity >>` / `<< ValueObject >>` / `<< Process >>` / …), notes below — **not** a second copy of bucket tables. Cross-cutting material → **`## Cross-anchor`** or appendix. **`templates/domain-raw-candidates-template.md`**.
+**`nouns-verbs-rules-and-states` — `domain-noun-verb.md`:** anchor sections, **Candidate …** lists, class boxes. Slice files are **domain content only** — no skill paths or process boilerplate in the artifact body.
+
+**`raw-candidate-list`:** Prefer **`domain-raw-candidates.md`** — classes under anchors with notes. Optional single tabular roll-up (**`raw-candidate-list.md`** or appendix to **`domain-noun-verb.md`**) — **not** the same tables twice plus an integrated file.
+
+**Templates:** **`templates/domain model template.md`**, **`templates/domain-raw-candidates-template.md`**, **`templates/domain-model-integrated.md`**.
 
 ---
 
 ## Domain concept template
 
-Each **domain concept** (class, interface, value object, or aggregate) is documented under a clear heading, for example:
+Each concept is documented under a clear heading, for example:
 
 ```markdown
 ## **Payment**
@@ -10336,73 +10106,62 @@ Each **domain concept** (class, interface, value object, or aggregate) is docume
 
 ### Properties
 - Money amount
-- …
 
 ### Operations
 - initiate() → Authorization
 ```
 
-From **Step 5** onward, prefer **typed** members (see **Notation evolution** below). Earlier steps stay **pre-notation** (bullets and prose).
+From **Phase 6** onward (`add-properties-semantically-tight`), prefer **typed** members (see **Notation evolution**). Earlier phases stay informal (bullets and prose).
 
 ---
 
-## Continual refinement — class definition + diagram
+## Markdown and diagram
 
-**Continual refinement** means you **grow** the model across steps: each step file may add or tighten concepts. The Markdown spec and the class diagram are **two views of the same model** — update both when your project uses dual artifacts so they do not drift (see **[Class diagrams](class-diagrams.md)**).
+The Markdown spec and the class diagram are **two views of the same model** — keep them aligned when both exist (**class-diagrams**).
 
 ---
 
-## **newly added** tag
+## **newly added** tag (optional)
 
-In the **worked example** threads (e.g. payments), the marker **newly added** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
+In long-running examples, **newly added** on a line marks a property or operation that first appears in *this* file — useful for deltas across files.
 
 ---
 
 ## Notation evolution
 
-| Phase | Markdown style |
-|--------|------------------|
-| **Steps 1–4** | Informal: bullets, short phrases, responsibilities, candidate names; typed `- <type> property` lines arrive in Step 5. |
-| **Step 5+** | Formal typed members: `- <Type> propertyName`, `operationName(...) → ReturnType`. |
+| Phase range | Markdown style |
+|-------------|----------------|
+| **2–5** | Informal: bullets, candidates, responsibilities; typed `- <type> property` lines from **Phase 6** onward. |
+| **Phase 6+** | Formal: `- <Type> propertyName`, `operationName(...) → ReturnType`. |
 
 ---
 
 ## Subtype sections
 
-When you introduce substitutable specializations, add an explicit subtype heading so the structure is visible in the spec and in diagrams:
+When you introduce substitutable specializations, add an explicit subtype heading so structure is visible in spec and diagrams:
 
 ```markdown
 ### **Subtype** : **PaymentMethod**
 ```
 
-Put **`**newly added**`** on subtype **operation** (or property) lines when that member is **first** introduced for that subtype.
-
 ---
 
 ## Invariants
 
-Attach invariants to the **property** or **operation** they constrain, using a dedicated line:
+Attach invariants to the property or operation they constrain:
 
 ```markdown
 **Invariant:** …
 ```
 
-Mark **`**newly added**`** when you **first** attach an invariant to a given member line.
-
 ---
 
-## Early steps: terms, mechanisms, story map
+## Class diagram and spec
 
-Before typed properties exist, align extracted **nouns, verbs, rules, states** with your workspace’s **terms & mechanisms** and **shaped story map** (or equivalent). That is the same “grow the model as you go” idea: informal extraction first, then formal types.
+When you maintain **`map-model-spec.json`** or similar, re-run the project’s diagram script after material changes so Draw.io stays aligned.
 
----
-
-## Class diagram and spec (visual twin)
-
-When you maintain a machine-readable spec such as **`map-model-spec.json`**, re-run your project’s class-diagram render script (for example **`render_map_model_class_diagram.py`**) after material changes so the **Draw.io** diagram stays the **visual twin** of the spec.
-
-- **[Class diagrams](class-diagrams.md)** — templates, relationship types, keeping `.md` and `.drawio` aligned.  
-- **[Using the Diagram CLI](using-diagram-cli.md)** — building diagrams with **`scripts/drawio_cli.py`**.
+- **Class diagrams** — templates, relationships, keeping `.md` and `.drawio` aligned.  
+- **Using the Diagram CLI** — `scripts/drawio_cli.py`.
 
 ---
 
@@ -10410,9 +10169,9 @@ When you maintain a machine-readable spec such as **`map-model-spec.json`**, re-
 
 | Topic | File |
 |--------|------|
-| Term tracking across steps | [term-registry.md](term-registry.md) |
+| Term tracking | [term-registry.md](term-registry.md) |
 | Strategy-led runs | [strategy-led-generation.md](strategy-led-generation.md) |
-| Layout and lanes | [class-diagram-layout-rules.md](class-diagram-layout-rules.md) |
+| Layout | [class-diagram-layout-rules.md](class-diagram-layout-rules.md) |
 
 
 ---
@@ -10504,9 +10263,9 @@ The absence of a matching core class is the clearest signal that you have not ye
 
 # Strategy-led generation
 
-Domain scan (OOAD **phase 1**) does not only produce a single “results” file. It establishes a **small set of workspace files** under `<workspace>/abd-ooad/` that work together. Some are **frozen findings** from the scan; others are **living documents** you update as modeling continues.
+Domain scan (phase-id **`domain-scan`**) does not only produce a single “results” file. It establishes a **small set of workspace files** under `<workspace>/abd-ooad/` that work together. Some are **frozen findings** from the scan; others are **living documents** you update as modeling continues.
 
-**Slices start at global Phase 2:** Source-slice work (e.g. **S1**, **S2** in `strategy.md` and **`Anchor`** `S1=…` / `S2=…` in `term-registry.md`) uses the **same global OOAD phase numbers** as the process table for everything **after** scan. The **first** per-slice extraction step is **Phase 2** (`nouns-verbs-rules-and-states`), **not** a slice-local “Phase 1.” Phase **1** is workspace-wide **domain-scan** only. See **`term-registry.md` → Slices and global phase numbers**.
+**Per-slice extraction** after scan uses the **same phase-id chronicle** as **`process.md`**. The **first** detailed per-slice capture is **`nouns-verbs-rules-and-states`** (then **`raw-candidate-list`**, …) — **not** a second **`domain-scan`**. Use **phase-id** names in strategy and registry (and **`*[Sn · phase-id]*`** tags in the model), not “Phase 1 / Phase 2” as step names. See **`term-registry.md`** and **`process.md` → Capture ladder**.
 
 For the scan procedure itself, see the **Domain scan** phase. This page explains **what each artifact is for** and how **`strategy.md`** relates to **`domain-scan-results.md`**.
 
@@ -10524,7 +10283,8 @@ Created during domain scan under `<workspace>/abd-ooad/`:
 | `strategy.md` | **Living strategy:** **modeling scope**; **§1 source slices** (table: Order, Goal, **Source** — chapters, files, modules, or mixed — **Coverage**, **Importance**); **§2 slice plan** (per-slice **goal restated** + **phases**); **coverage across steps**; **cross-slice integration**; **anchor and subdomain elaboration**; **execution plan (normative)** — phase slugs with **slice IDs** on every line; plus **approach** and **dated pivots**. | **Yes** — whenever scope, order, slice depth, subdomain mapping, or integration changes. |
 | `domain-scan-model.md` | Class sketch (markdown) at scan fidelity. | Yes, in later phases — not only during scan. |
 | `domain-scan-model.drawio` | Diagram at scan fidelity. | Same as model.md. |
-| `term-registry.md` | Terms, **Classification** (model role), **Status** (OOAD scale), confidence — seeded at scan. | **Yes** — every later phase updates Step, Classification, and Status as the model evolves. |
+| `term-registry.md` | Terms, **Targets** (bulleted typed pointers), **Notes** — seeded at scan. | **Yes** — every later phase-id updates **Targets** and **Notes** as the model evolves. See **`library/term-registry.md`**. |
+| `terms.md` (per slice) | Evidence ledger by **`## [Anchor module]`** — quotes, promotion log. | **Yes** — from **`nouns-verbs-rules-and-states`** onward for that slice. Template: **`templates/terms-template.md`**. |
 
 **Plus** (when workspace is configured): **`progress/`** checklists — see **`library/strategy-execution-and-checklists.md`**. **`generate.py`** creates **`process-checklist.md`**, **`<phase>-checklist.md`**, and (abd-ooad) **`strategy-run-checklist.md`** when templates exist and files are missing. Normative phase steps stay in **`content/parts/phases/<phase>.md`**. These are the **only** place for session tick marks.
 
@@ -10559,8 +10319,8 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 
 1. **Strategy** — Keep **`strategy.md`** aligned with reality; append *Ongoing strategic decisions* when you pivot.
 2. **Strategy execution** — Tick **`progress/strategy-run-checklist.md`** as you **complete** each phase for its declared scope.
-3. **Phase work** — For the active phase, run **`generate.py --phase <slug>`** and tick **`progress/<slug>-checklist.md`** for action steps.
-4. **Registry** — Keep `term-registry.md` aligned with the current phase (Step, Classification, Status).
+3. **Phase work** — For the active phase-id, run **`generate.py --phase <phase-id>`** (or **`generate.py --stage <A|B|…|F>`** for a stage) and tick **`progress/<phase-id>-checklist.md`** for action steps.
+4. **Registry** — Keep `term-registry.md` aligned with the current phase-id (**Targets** + **Notes**); keep slice **`terms.md`** in sync for verbatim evidence.
 5. **Results** — Touch `domain-scan-results.md` only for corrections to the original scan snapshot.
 
 ---
@@ -10580,26 +10340,45 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 
 # Strategy execution and checklists (abd-ooad)
 
-**Canonical doc** for: (1) **strategy** vs **live ticks**, (2) **which files** hold checkboxes, (3) **how** `generate.py` creates workspace **`progress/`** files. Does **not** replace **[process.md](../process.md)** (process tables, `generate` / `build`) or **[skill-structure-and-concepts.md](../base/skill-structure-and-concepts.md)** (repo layout).
+**Canonical doc** for: (1) **strategy** vs **live ticks**, (2) **which files** hold checkboxes, (3) **how** `generate.py` creates workspace **`progress/`** files, (4) **stages**, **revisits / disruption** on the same checklist. Does **not** replace **[process.md](../process.md)** (phase chronicle, `generate` / `build`) or **[skill-structure-and-concepts.md](../base/skill-structure-and-concepts.md)** (repo layout).
 
-Only **`strategy.md`** defines **scope** and **which phases in what order**; checklists are where you **tick** progress.
+Only **`strategy.md`** defines **scope** and **which phase-ids (or stages) in what order**; checklists are where you **tick** progress.
 
 ---
 
 ## Workflow
 
-1. **Domain scan** — produce scan artifacts (see **`strategy-led-generation`**).
+1. **Domain scan** — produce scan artifacts (see **`strategy-led-generation`**). Phase-id: **`domain-scan`**.
 2. **Strategy** — fill **`strategy.md`** from **`templates/strategy.md`**:
    - **Modeling scope** — corpus or product boundary; **source type** (book vs repo vs mixed).
    - **§1 Source slices** — ordered table: **Goal**, **Source** (chapters, files, modules, APIs — whatever locates work), **Coverage** (depth this pass), **Importance**; stable **slice IDs** reused everywhere.
-   - **§2 Slice plan** — per slice: **goal restated**, **unit kind**, **phases** (execution step numbers / slugs), produces, depends-on.
-   - **Coverage across steps** — matrix: every slice → which **execution plan** steps touch it → **depth** → deferrals.
+   - **§2 Slice plan** — per slice: **goal restated**, **unit kind**, **phase-ids** (or **stages**) you will run, produces, depends-on.
+   - **Coverage across steps** — matrix: every slice → which **execution plan** phase-ids touch it → **depth** → deferrals.
    - **Cross-slice integration** — cross-boundary types and ordering (From → To + narrative).
-   - **Anchor and subdomain elaboration** (when anchors have attached types) — map subdomains to slices and execution §.
-   - **Execution plan (normative)** — ordered phase **slugs**; **each line cites slice IDs** (mirror **`strategy-run-checklist.md`**).
+   - **Anchor and subdomain elaboration** (when anchors have attached types) — map subdomains to slices and execution phase-ids.
+   - **Execution plan (normative)** — ordered **phase-id** strings; **each line cites slice IDs** (mirror **`strategy-run-checklist.md`**). Optionally group work by **stage A–F** (see **`process.md` → Stage map**).
+   - **Stage completion (after each stage)** — what completed; tensions; **new checklist lines** for revisits (below); **audit** — append dated line under *Ongoing strategic decisions*.
    - **Approach going forward** + **Ongoing strategic decisions** — short narrative and dated pivots.
 3. **Align live checklists** — keep **`strategy-run-checklist.md`** in sync with the execution plan (same order and scope). Optional **`templates/strategy-run-checklist.md`** seed; optional **`templates/progress-README.md`** → **`progress/README.md`** for slice-specific files under **`progress/slices/`**.
-4. **Run phases** — for the **current** phase: `python scripts/base/generate.py --phase <slug>`. Tick **`strategy-run-checklist.md`** when a phase is **done** for its declared scope; tick **`<slug>-checklist.md`** for **steps inside** that phase.
+4. **Run phases** — **`python scripts/base/generate.py --phase <phase-id>`** for one step, or **`python scripts/base/generate.py --stage <A|B|…|F>`** for a full stage (same order as **`process.md`** / **`skill-config.json` → `process_stages`**). Tick **`strategy-run-checklist.md`** when a phase (or stage slice) is **done** for its declared scope; tick **`<phase-id>-checklist.md`** for **steps inside** that phase.
+
+---
+
+## Revisits and disruption (same checklist)
+
+A **revisit** is **not** a separate rerun workflow. While executing (including late **stage F**), if work must **go back** to an earlier **stage** or **phase-id**, **add a new row** to **`strategy-run-checklist.md`** — e.g. `- [ ] Revisit stage B — <short reason>` or `- [ ] Re-run nouns-verbs-rules-and-states — slice S1 — reconcile new anchor` — at the **bottom** or **inserted** where it fits the agreed order. The checklist is the single source of truth for **forward** work plus **backward** revisits.
+
+**Audit:** When you add a revisit row, append a dated line under **`strategy.md` → Ongoing strategic decisions**; never delete prior pivots.
+
+### Hint table (non-prescriptive)
+
+| You are here | Often need to touch |
+|--------------|---------------------|
+| Stage F | Stage E, D, or C (naming / validation feedback) |
+| Stage E | Stage C (scenarios expose structure gaps) |
+| Stage D | Stage C (splitting responsibilities) |
+
+Use this as a **prompt**, not a rule.
 
 ---
 
@@ -10607,9 +10386,9 @@ Only **`strategy.md`** defines **scope** and **which phases in what order**; che
 
 | Layer | File | What you tick |
 | --- | --- | --- |
-| **Strategy execution** | **`progress/strategy-run-checklist.md`** | **Which phases** you will run, **in order**, each with **scope** that **includes the same slice IDs** as **`strategy.md` → Execution plan**. Optional: **`progress/slices/<slice-id>-checklist.md`** per slice — see **`progress/README.md`** in the workspace (if present). |
+| **Strategy execution** | **`progress/strategy-run-checklist.md`** | **Which phase-ids** (or stages) you will run, **in order**, each with **scope** that **includes the same slice IDs** as **`strategy.md` → Execution plan**; **includes revisit rows** when you must go backward. Optional: **`progress/slices/<slice-id>-checklist.md`** per slice — see **`progress/README.md`** in the workspace (if present). |
 | **Full pipeline (reference)** | **`progress/process-checklist.md`** | **Every** phase in **`phase_files`** — useful as a map; optional if you rely only on strategy-run. |
-| **Phase steps** | **`progress/<phase>-checklist.md`** | **Action checklist** copied from **`content/parts/phases/<phase>.md` → ## Action Checklist**. |
+| **Phase steps** | **`progress/<phase-id>-checklist.md`** | **Action checklist** copied from **`content/parts/phases/<phase-id>.md` → ## Action Checklist**. |
 
 **Implementation:** **`scripts/base/workspace_checklists.py`** (paths, behavior, `--no-ensure-checklists`).
 
@@ -10619,10 +10398,10 @@ Only **`strategy.md`** defines **scope** and **which phases in what order**; che
 
 | Kind | What it tracks | Where it lives | How it gets there |
 | --- | --- | --- | --- |
-| **Normative reference** | Rules in **this document** — strategy vs ticks, layers, `generate.py` behavior | **`content/parts/library/strategy-execution-and-checklists.md`** | Authored in the skill; **not** created by **`generate.py`**. |
-| **Pipeline position** | Which **phase** of the pipeline you are in | **`<active_skill_workspace>/<skill_name>/progress/process-checklist.md`** | **Created** on first **`python scripts/base/generate.py --phase <slug>`** when that file is **missing**, if **`skill-config.json` → `workspace.active_skill_workspace`** is set. One `- [ ]` line per slug in **`phase_files`** (labels from **`phase_section_headings`** when present). **Does not overwrite** an existing file. |
-| **Phase action steps** | **Steps inside** the current phase | **`<active_skill_workspace>/<skill_name>/progress/<phase-slug>-checklist.md`** | **Created** in the **same** `generate.py` run when that file is **missing**. Steps are taken from **`## Action Checklist`** in **`content/parts/phases/<phase-slug>.md`**, or from task lines (`- [ ]` / `- [x]`) in that file if the section is absent. **Does not overwrite** an existing file. |
-| **Strategy execution** (workspace) | Ordered phases matching **`strategy.md`** | **`progress/strategy-run-checklist.md`** | Seeded from template when **`generate.py`** / workspace checklist logic creates it; **you** align it with **`strategy.md`**. |
+| **Normative reference** | Rules in **this document** — strategy vs ticks, layers, revisits, `generate.py` behavior | **`content/parts/library/strategy-execution-and-checklists.md`** | Authored in the skill; **not** created by **`generate.py`**. |
+| **Pipeline position** | Which **phase-id** of the pipeline you are in | **`<active_skill_workspace>/<skill_name>/progress/process-checklist.md`** | **Created** on first **`python scripts/base/generate.py --phase <phase-id>`** (or first phase of **`--stage`**) when that file is **missing**, if **`skill-config.json` → `workspace.active_skill_workspace`** is set. One `- [ ]` line per slug in **`phase_files`** (labels from **`phase_section_headings`** when present). **Does not overwrite** an existing file. |
+| **Phase action steps** | **Steps inside** the current phase | **`<active_skill_workspace>/<skill_name>/progress/<phase-id>-checklist.md`** | **Created** in the **same** `generate.py` run when that file is **missing**. Steps are taken from **`## Action Checklist`** in **`content/parts/phases/<phase-id>.md`**, or from task lines (`- [ ]` / `- [x]`) in that file if the section is absent. **Does not overwrite** an existing file. |
+| **Strategy execution** (workspace) | Ordered phase-ids (and revisit rows) matching **`strategy.md`** | **`progress/strategy-run-checklist.md`** | Seeded from template when **`generate.py`** / workspace checklist logic creates it; **you** align it with **`strategy.md`**. |
 
 ### Names and workspace
 
@@ -10643,9 +10422,9 @@ Only **`strategy.md`** defines **scope** and **which phases in what order**; che
 
 ---
 
-## Phase slugs
+## Phase IDs
 
-Use exact slugs from **`skill-config.json` → `phase_files`** (e.g. `nouns-verbs-rules-and-states`, `domain-scan`). Labels for humans are in **`phase_section_headings`**.
+Use exact **phase-id** strings from **`skill-config.json` → `phase_files`** (e.g. `nouns-verbs-rules-and-states`, `domain-scan`). Labels for humans are in **`phase_section_headings`**. **Stages** **A–F** map to ordered phase-id lists in **`process_stages`** — see **`process.md`**.
 
 ---
 
@@ -10664,168 +10443,147 @@ Use exact slugs from **`skill-config.json` → `phase_files`** (e.g. `nouns-verb
 
 ## What a Term Is
 
-A **Term** is any concept identified from the source material that may become part of the domain model. At the time of identification, a Term is not committed to a model role — it might become a class, a property, a value type, an association, or nothing at all. The registry tracks Terms as the modeling phases determine what each one actually is.
+A **Term** is any concept identified from the source material that may become part of the domain model. At identification time it is not committed to a model role — it might become a class, a property, a value type, an association, or nothing. The registry tracks Terms as modeling **phase-ids** (see **`process.md` → Phase chronicle**) determine what each one actually is.
 
-This is distinct from other uses of "actor" in this domain:
-- In MM3E and FoundryVTT, "Actor" has a specific system meaning (a character, creature, or entity in the game world).
-- In the registry, everything is a Term until the model says otherwise.
+This is distinct from other domain uses of overloaded words (e.g. in some systems “Actor” is a system type). In the registry, everything is a Term until the model says otherwise.
 
-**File:** `<workspace>/abd-ooad/term-registry.md`
-**Never embedded** inside step outputs — it lives in its own file and is referenced from each step's model doc.
+**File:** `<workspace>/abd-ooad/term-registry.md` (or per-slice path if your workspace layout nests slices).
 
----
-
-## Step Reference — Short Names
-
-Use these short names in the **Step** column of the registry when adding or updating a row.
-
-| Short Name | Phase | Description |
-|-----------|-------|-------------|
-| SETUP | workspace-and-config | Workspace initialization |
-| SCAN | domain-scan | Source scan and anchor identification |
-| NOUNS | nouns-verbs-rules-and-states | Extract nouns, verbs, rules, states |
-| CANDS | raw-candidate-list | Raw candidate class list |
-| THINGS | thing-vs-data-about-a-thing | Separate things from data-about-things |
-| RESP | responsibilities-before-operations | Assign responsibilities |
-| PROPS | add-properties-semantically-tight | Add semantically tight properties |
-| OPS | turn-verbs-into-operations | Turn verbs into operations |
-| RELS | relationships-and-cardinality | Relationships and cardinality |
-| INV | invariants-in-the-model | Identify invariants |
-| BLOAT | watch-for-bloated-classes | Detect bloated classes |
-| ROLES | smashed-abstractions-and-hidden-roles | Uncover hidden roles |
-| INHERIT | inheritance-when-behavior-generalizes | Apply inheritance |
-| ABST | abstract-classes-and-interfaces | Abstract classes and interfaces |
-| COMP | prefer-composition | Prefer composition over inheritance |
-| STATES | model-state-transitions | Model state transitions |
-| ITER | iterative-refinement | Iterative refinement pass |
-| TENSION | tension-as-a-signal | Resolve tensions |
-| COHESION | what-changes-together | What changes together |
-| VALIDATE | validate-with-scenarios | Validate with scenarios |
-| NAMES | refine-names | Refine class and concept names |
-| LAYERS | model-in-layers | Model in layers |
+**Never embed** the full registry inside step outputs — it lives in its own file and is referenced from each phase’s model doc.
 
 ---
 
-## Slices and global phase numbers (normative)
+## Relationship to `terms.md` (per slice)
 
-The **OOAD process table** (see **`process.md`** / built **AGENTS.md** — “Process Table”) assigns **global phase numbers** **0–21** to phase **slugs** (e.g. **Phase 2** = `nouns-verbs-rules-and-states`, **Phase 3** = `raw-candidate-list`, **Phase 4** = `thing-vs-data-about-a-thing`).
-
-- **Phase 1** (`domain-scan`, short name **SCAN**) runs **once per workspace** (or once per strategy engagement). It produces anchors, `strategy.md`, `domain-scan-results.md`, and seeds **`term-registry.md`**. It is **not** repeated as “each slice’s Phase 1.”
-- **Per-slice modeling** (folders or **Anchor** columns **`S1=…`**, **`S2=…`**, …) **aligns with the same global numbers from Phase 2 onward:** the **first** extraction artifact in a slice is always **Phase 2** (**NOUNS**), then **3** (**CANDS**), **4** (**THINGS**), etc. Do **not** label slice-local nouns-verbs files as Phase 1 — that collides with **SCAN**.
-- **Phase notes** in italics (optional): `*[Sn · Phase N]*` where **N** is the **global** process-table number. Add slug, tension id, or short reminder *after* the tag on the same line if needed (e.g. *thing-vs-data*, *registry Tn*). For early “likely class” judgments: `*[S1 · Phase 3]* Likely class : …`.
-
----
-
-## Registry Columns
-
-| Column | Values | Notes |
-|--------|--------|-------|
-| **Term** | Concept name from the source | Exact word or phrase as found — rename in the NAMES step if needed |
-| **Classification** | See **Classification** below | **What we want to model this as** — target shape in the domain model (not lifecycle) |
-| **Step** | Short name from table above (SCAN, NOUNS, …) | Step that first identified or last materially updated this Term |
-| **Confidence** | High / Medium / Low | How sure we are this belongs in the model |
-| **Status** | See **Status (OOAD scale)** below | Where this Term sits in the modeling workflow |
-| **Notes** | Free text | Anchor-test results, owning module for supporting classes (`Supporting class — X module`), competing interpretations, pointers to tensions in `domain-scan-results.md`, and follow-ups |
+- **`terms.md`** (alongside `domain-noun-verb.md` in a slice folder) holds **module-scoped evidence**: quotes, raw extractions, promotion history under **`## [Anchor module]`** headings aligned with the integrated domain model.
+- **`term-registry.md`** remains the **term-centric analysis record**: one row per Term; **Targets** = where the term landed; **Notes** = substantive reasoning (anchor tests, classification, tensions) — **full paragraphs are fine** when the work needs them.
+- **Principle:** Notes depth is **not** reduced because `terms.md` exists. `terms.md` reduces **duplication of verbatim source text** and organizes evidence by module; it does **not** justify one-line registry Notes unless the term truly needs only one line.
+- **Avoid duplicate verbatim quotes:** keep the quote in **`terms.md`** and in **Notes** point to `terms.md#anchor-module` (or the term subsection); keep analysis-only text in Notes as today.
 
 ---
 
-## Classification — what we want to model this as
+## Phase IDs (normative references)
 
-Use **one** value per row. This is the **intended model role**, not how “mature” the idea is (that is **Status**).
+Refer to pipeline steps **only** by **`phase-id`** — the short **kebab-case** slug matching **`skill-config.json` → `phase_files`** and the **`process.md`** chronicle (e.g. `domain-scan`, `nouns-verbs-rules-and-states`, `refine-names`). Do **not** use “Phase 1 / Phase 2” as **names** for steps; those ordinals drift. Optional **model tags** in the domain model use **`*[Sn · phase-id]*`** (e.g. **`*[S1 · refine-names]*`**) — see **`library/domain-model`**.
 
-| Value | Meaning |
+---
+
+## Registry columns
+
+| Column | Role |
+|--------|------|
+| **Term** | Concept name from the source — exact word or phrase as found; rename in **`refine-names`** if needed. |
+| **Targets** | Where this term **landed** in the model: a **bulleted list inside the table cell** (Markdown list), **one typed pointer per line**. Unallocated / not yet placed → leave empty or **—**. |
+| **Notes** | Anchor-test results, slice/anchor context (**`S1=…`** style if useful), competing interpretations, tensions, pointers to **`terms.md`** when verbatim evidence lives there — same substance as historical scan/noun-verb rows. |
+
+**Optional:** If you need a single “primary kind” for tooling, add one optional column **after** Term (e.g. **Kind**) — otherwise prefer **Targets**-only for a slim table.
+
+---
+
+## Targets — typed pointers (one per bullet)
+
+**Normative style:** each bullet is **one** typed target. **Do not** concatenate targets with `|` or `;` on one run-on line.
+
+Examples of pointer forms (extend as your model needs):
+
+- `entity:Payment`
+- `vo:Money`
+- `property:Payment.amount`
+- `operation:Order.submit`
+- `invariant:…`
+- `policy:…`
+- `relationship:Customer — Order`
+
+**Renders in Markdown tables** — use `<br>` between bullets if your renderer collapses list-in-cell (GitHub-style often accepts list-in-cell; validate in your preview):
+
+```markdown
+| Term   | Targets |
 |--------|---------|
-| **anchor (class + module)** | Passes the anchor test: this concept is a **core class** and owns a **module** (dashed frame + same-named core class). Use only for backbone modules. |
-| **class** | A domain **class** that is not its own module yet — e.g. supporting class inside a frame, or a type you expect to become a class without its own module. |
-| **property** | Modeled as a **semantic property** (attribute / value on a class), not a separate type. |
-| **field** | Modeled as a **typed field / slot** (data member, possibly simple type or value object). |
-| **example (instance)** | An **illustrative instance**, sample, or scenario object — not a type in the model. |
-| **relationship** | An **association**, link, or dependency between concepts — may become an association, association class, or navigable role. |
-| **invariant (rule)** | A **domain rule**, constraint, or policy — often becomes behavior, guard, or explicit rule text on a class. |
-
-**Diagram mapping (when relevant):** `anchor (class + module)` → module frame + core class; `class` → class box; `relationship` → association; `invariant (rule)` → note, constraint, or operation; `property` / `field` → attributes on a class.
+| amount | - `entity:Payment`<br>- `vo:Money`<br>- `property:Payment.amount` |
+```
 
 ---
 
-## Status (OOAD scale)
+## Notes — still substantive
 
-**Status** is **lifecycle / confidence in the workflow**, not the model shape. Pick the value that best fits; states are **not** always a strict left-to-right pipeline.
+Notes remain the place for **classification reasoning**, anchor tests, tensions, and follow-ups. **Do not** make Notes sparse by default. When raw quotes live in **`terms.md`**, write in Notes: *“Verbatim quote in `terms.md` → [Anchor module] / term …”* and keep analysis here.
 
-| Status | When to use |
-|--------|-------------|
-| **Ambiguous** | You cannot yet say what the Term is or how it sits next to others. |
-| **Tension** | Competing interpretations, overlapping boundaries, or conflicting source pulls — needs resolution before the model can commit. |
-| **Candidate** | Plausible model role; narrowed but not yet locked (often after scan, before THINGS/RELS). |
-| **Deferred** | Explicitly parked — revisit in a named later step or phase. |
-| **Active** | In current modeling scope; being updated in this pass. |
-| **Solidified** | Named, placed, and stable in the model for the current iteration — ready to treat as “done” unless source or scope changes. |
-
-**Typical (non-binding) progression:** Ambiguous → Tension or Candidate → Active → Solidified. **Deferred** can apply after any stage. A Term can return from Deferred to Active when scope returns to it.
+**Slice / anchor:** You may record **`S1=Character`** (or similar) in **Notes** or a minimal **Slice** column if the table template adds one — your engagement may require it for MM3E-style multi-slice tables.
 
 ---
 
-## Registry format (wide Notes)
+## Classification (reference — not required as its own column)
 
-**Prefer an HTML `<table>` with `<colgroup>`** so the **Notes** column gets most of the width (~50–55%). **Classification** labels can be long — give that column ~12–14% if needed. Plain Markdown pipe tables allocate columns evenly and make long Notes hard to read in the editor and in preview.
+If you **merge** the old **Classification** column into **Targets**, use typed pointers (`entity:…`, `property:…`, …) so the table stays one row per Term. The **meaning** of former classification values is unchanged:
 
-Use this skeleton (adjust `width` percentages if needed):
+| Former value | Meaning |
+|--------------|--------|
+| **anchor (class + module)** | Passes the anchor test: core class owns a **module** (frame + same-named core class). |
+| **class** | Domain class not its own module yet — supporting class, or expected class without module. |
+| **property** | Modeled as semantic property on a class. |
+| **field** | Typed field / slot. |
+| **example (instance)** | Illustrative instance — not a type. |
+| **relationship** | Association, link, dependency. |
+| **invariant (rule)** | Domain rule, constraint, policy. |
+
+---
+
+## Registry format (HTML table recommended for Notes width)
+
+Prefer an HTML `<table>` with `<colgroup>` so **Notes** gets most width (~50–55%). **Targets** can be ~18–22%.
 
 ```html
 <table>
 <colgroup>
-  <col style="width:9%" />
-  <col style="width:14%" />
-  <col style="width:6%" />
-  <col style="width:9%" />
-  <col style="width:9%" />
-  <col style="width:53%" />
+  <col style="width:12%" />
+  <col style="width:22%" />
+  <col style="width:66%" />
 </colgroup>
 <thead>
 <tr>
   <th>Term</th>
-  <th>Classification</th>
-  <th>Step</th>
-  <th>Confidence</th>
-  <th>Status</th>
+  <th>Targets</th>
   <th>Notes</th>
 </tr>
 </thead>
 <tbody>
 <tr>
   <td>Character</td>
-  <td>anchor (class + module)</td>
-  <td>SCAN</td>
-  <td>High</td>
-  <td>Active</td>
-  <td>Central entity; all rules attach to it</td>
-</tr>
-<tr>
-  <td>Power</td>
-  <td>class</td>
-  <td>SCAN</td>
-  <td>High</td>
-  <td>Active</td>
-  <td>Supporting class — Character module. Core capability unit.</td>
-</tr>
-<tr>
-  <td>Device</td>
-  <td>class</td>
-  <td>SCAN</td>
-  <td>Medium</td>
-  <td>Tension</td>
-  <td>Removable Power vs Equipment? Boundary unclear — see T2.</td>
+  <td>- <code>entity:Character</code><br>- <code>property:Character.powerLevel</code></td>
+  <td>Central entity; anchor test ✓. Slice <code>S1=Character</code>. Long quotes in <code>terms.md</code> → Character module.</td>
 </tr>
 </tbody>
 </table>
 ```
 
-For very small registries only, a Markdown pipe table is acceptable:
+Small registries: Markdown pipe table is acceptable.
 
-```markdown
-| Term | Classification | Step | Confidence | Status | Notes |
-|------|----------------|------|------------|--------|-------|
-| Character | anchor (class + module) | SCAN | High | Active | Short note only |
-```
+---
+
+## Migration from legacy wide tables
+
+If you have **Step**, **Confidence**, **Status**, and **Classification** columns:
+
+1. **Term** → keep.
+2. **Classification** + committed placements → **Targets** bullets (`entity:…`, `property:…`, …).
+3. **Step** → fold into **Notes** as *“First touched at phase-id `domain-scan`”* or leave implicit if noisy.
+4. **Confidence / Status** → merge into **Notes** (*“Legacy: was High / Active”*) only if still useful; otherwise drop.
+5. **Notes** → preserve text; add pointer to **`terms.md`** where verbatim evidence moved.
+
+---
+
+## Slices and `domain-scan` vs per-slice work
+
+- **`domain-scan`** runs **workspace-wide** (or once per strategy engagement): seeds **`term-registry.md`**, anchors, **`strategy.md`**, scan artifacts. It is **not** “each slice’s first phase” by name — use **phase-id** `domain-scan` only.
+- Per-slice deep extraction aligns with **`nouns-verbs-rules-and-states`** and **`raw-candidate-list`** in **chronicle order** after scan. **`terms.md`** evolves from those phase-ids onward for that slice.
+
+---
+
+## References
+
+- **`process.md`** — Phase chronicle, stages A–F, capture ladder  
+- **`terms.md`** template — `templates/terms-template.md`  
+- **Strategy / revisits** — `library/strategy-execution-and-checklists.md`
 
 
 ---
@@ -11276,7 +11034,7 @@ The CLI does not yet support notes — add them manually in draw.io after CLI bu
 | Phase | Add invariants? |
 |-------|----------------|
 | domain-scan | Yes — add the invariants you found during the scan (inline preferred at this fidelity) |
-| domain-noun-verb (Step 1) | No — extraction only; invariants captured in registry notes |
+| domain-noun-verb (Phase 2) | No — extraction only; invariants captured in registry notes |
 | raw-candidate-list through responsibilities | Yes — as invariants become confirmed, add to diagram |
 | Full model phases | Yes — invariants are a required part of the final model |
 
@@ -12342,19 +12100,23 @@ Next: map **verbs** from Step 1 and spec to **operations** on **Payment**, **Ref
 
 # Domain model Markdown
 
-This skill’s **domain model** is captured in Markdown  a parallel **Draw.io** class diagram. Use **`templates/domain model template.md`** for companion docs; align with **`templates/domain model template.drawio`** when both exist.
+The **domain model** lives in workspace **`domain*.md`** files; **Draw.io** diagrams are **visual twins** of that content — update markdown first, then render or hand-sync the diagram (see **class-diagrams**, **using-diagram-cli**).
 
-**Phase 2 — `domain-noun-verb.md`:** anchor sections, **Candidate …** lists, full or pared class boxes. Slice files are **content only** — no skill paths or process meta in the artifact body.
+**Integrated slice model + evidence:** Prefer **`templates/domain-model-integrated.md`** alongside **`templates/terms-template.md`** (`terms.md` per slice). Class **Notes** use **`*[Sn · phase-id]*`** (e.g. **`*[S1 · refine-names]*`**) — **phase-id** from **`process.md`**, not numeric step names.
 
-**Phase 3 — bucket roll-up:** sort candidates into **entities**, **value objects**, **processes**, **policies**, **roles**, **events** (tables in **`raw-candidate-list.md`** or appended to **`domain-noun-verb.md`**). Same **content-only** rule: no skill/process boilerplate in slice files.
+**`domain-scan`:** **`domain-scan-results.md`**, **`domain-scan-model.md`**, then **`domain-scan-model.drawio`**.
 
-**Optional — `domain-raw-candidates.md`:** same Phase 3 content as **classes under anchor modules** (`### Name : << Entity >>` / `<< ValueObject >>` / `<< Process >>` / …), notes below — **not** a second copy of bucket tables. Cross-cutting material → **`## Cross-anchor`** or appendix. **`templates/domain-raw-candidates-template.md`**.
+**`nouns-verbs-rules-and-states` — `domain-noun-verb.md`:** anchor sections, **Candidate …** lists, class boxes. Slice files are **domain content only** — no skill paths or process boilerplate in the artifact body.
+
+**`raw-candidate-list`:** Prefer **`domain-raw-candidates.md`** — classes under anchors with notes. Optional single tabular roll-up (**`raw-candidate-list.md`** or appendix to **`domain-noun-verb.md`**) — **not** the same tables twice plus an integrated file.
+
+**Templates:** **`templates/domain model template.md`**, **`templates/domain-raw-candidates-template.md`**, **`templates/domain-model-integrated.md`**.
 
 ---
 
 ## Domain concept template
 
-Each **domain concept** (class, interface, value object, or aggregate) is documented under a clear heading, for example:
+Each concept is documented under a clear heading, for example:
 
 ```markdown
 ## **Payment**
@@ -12363,73 +12125,62 @@ Each **domain concept** (class, interface, value object, or aggregate) is docume
 
 ### Properties
 - Money amount
-- …
 
 ### Operations
 - initiate() → Authorization
 ```
 
-From **Step 5** onward, prefer **typed** members (see **Notation evolution** below). Earlier steps stay **pre-notation** (bullets and prose).
+From **Phase 6** onward (`add-properties-semantically-tight`), prefer **typed** members (see **Notation evolution**). Earlier phases stay informal (bullets and prose).
 
 ---
 
-## Continual refinement — class definition + diagram
+## Markdown and diagram
 
-**Continual refinement** means you **grow** the model across steps: each step file may add or tighten concepts. The Markdown spec and the class diagram are **two views of the same model** — update both when your project uses dual artifacts so they do not drift (see **[Class diagrams](class-diagrams.md)**).
+The Markdown spec and the class diagram are **two views of the same model** — keep them aligned when both exist (**class-diagrams**).
 
 ---
 
-## **newly added** tag
+## **newly added** tag (optional)
 
-In the **worked example** threads (e.g. payments), the marker **newly added** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
+In long-running examples, **newly added** on a line marks a property or operation that first appears in *this* file — useful for deltas across files.
 
 ---
 
 ## Notation evolution
 
-| Phase | Markdown style |
-|--------|------------------|
-| **Steps 1–4** | Informal: bullets, short phrases, responsibilities, candidate names; typed `- <type> property` lines arrive in Step 5. |
-| **Step 5+** | Formal typed members: `- <Type> propertyName`, `operationName(...) → ReturnType`. |
+| Phase range | Markdown style |
+|-------------|----------------|
+| **2–5** | Informal: bullets, candidates, responsibilities; typed `- <type> property` lines from **Phase 6** onward. |
+| **Phase 6+** | Formal: `- <Type> propertyName`, `operationName(...) → ReturnType`. |
 
 ---
 
 ## Subtype sections
 
-When you introduce substitutable specializations, add an explicit subtype heading so the structure is visible in the spec and in diagrams:
+When you introduce substitutable specializations, add an explicit subtype heading so structure is visible in spec and diagrams:
 
 ```markdown
 ### **Subtype** : **PaymentMethod**
 ```
 
-Put **`**newly added**`** on subtype **operation** (or property) lines when that member is **first** introduced for that subtype.
-
 ---
 
 ## Invariants
 
-Attach invariants to the **property** or **operation** they constrain, using a dedicated line:
+Attach invariants to the property or operation they constrain:
 
 ```markdown
 **Invariant:** …
 ```
 
-Mark **`**newly added**`** when you **first** attach an invariant to a given member line.
-
 ---
 
-## Early steps: terms, mechanisms, story map
+## Class diagram and spec
 
-Before typed properties exist, align extracted **nouns, verbs, rules, states** with your workspace’s **terms & mechanisms** and **shaped story map** (or equivalent). That is the same “grow the model as you go” idea: informal extraction first, then formal types.
+When you maintain **`map-model-spec.json`** or similar, re-run the project’s diagram script after material changes so Draw.io stays aligned.
 
----
-
-## Class diagram and spec (visual twin)
-
-When you maintain a machine-readable spec such as **`map-model-spec.json`**, re-run your project’s class-diagram render script (for example **`render_map_model_class_diagram.py`**) after material changes so the **Draw.io** diagram stays the **visual twin** of the spec.
-
-- **[Class diagrams](class-diagrams.md)** — templates, relationship types, keeping `.md` and `.drawio` aligned.  
-- **[Using the Diagram CLI](using-diagram-cli.md)** — building diagrams with **`scripts/drawio_cli.py`**.
+- **Class diagrams** — templates, relationships, keeping `.md` and `.drawio` aligned.  
+- **Using the Diagram CLI** — `scripts/drawio_cli.py`.
 
 ---
 
@@ -12437,9 +12188,9 @@ When you maintain a machine-readable spec such as **`map-model-spec.json`**, re-
 
 | Topic | File |
 |--------|------|
-| Term tracking across steps | [term-registry.md](term-registry.md) |
+| Term tracking | [term-registry.md](term-registry.md) |
 | Strategy-led runs | [strategy-led-generation.md](strategy-led-generation.md) |
-| Layout and lanes | [class-diagram-layout-rules.md](class-diagram-layout-rules.md) |
+| Layout | [class-diagram-layout-rules.md](class-diagram-layout-rules.md) |
 
 
 ---
@@ -12531,9 +12282,9 @@ The absence of a matching core class is the clearest signal that you have not ye
 
 # Strategy-led generation
 
-Domain scan (OOAD **phase 1**) does not only produce a single “results” file. It establishes a **small set of workspace files** under `<workspace>/abd-ooad/` that work together. Some are **frozen findings** from the scan; others are **living documents** you update as modeling continues.
+Domain scan (phase-id **`domain-scan`**) does not only produce a single “results” file. It establishes a **small set of workspace files** under `<workspace>/abd-ooad/` that work together. Some are **frozen findings** from the scan; others are **living documents** you update as modeling continues.
 
-**Slices start at global Phase 2:** Source-slice work (e.g. **S1**, **S2** in `strategy.md` and **`Anchor`** `S1=…` / `S2=…` in `term-registry.md`) uses the **same global OOAD phase numbers** as the process table for everything **after** scan. The **first** per-slice extraction step is **Phase 2** (`nouns-verbs-rules-and-states`), **not** a slice-local “Phase 1.” Phase **1** is workspace-wide **domain-scan** only. See **`term-registry.md` → Slices and global phase numbers**.
+**Per-slice extraction** after scan uses the **same phase-id chronicle** as **`process.md`**. The **first** detailed per-slice capture is **`nouns-verbs-rules-and-states`** (then **`raw-candidate-list`**, …) — **not** a second **`domain-scan`**. Use **phase-id** names in strategy and registry (and **`*[Sn · phase-id]*`** tags in the model), not “Phase 1 / Phase 2” as step names. See **`term-registry.md`** and **`process.md` → Capture ladder**.
 
 For the scan procedure itself, see the **Domain scan** phase. This page explains **what each artifact is for** and how **`strategy.md`** relates to **`domain-scan-results.md`**.
 
@@ -12551,7 +12302,8 @@ Created during domain scan under `<workspace>/abd-ooad/`:
 | `strategy.md` | **Living strategy:** **modeling scope**; **§1 source slices** (table: Order, Goal, **Source** — chapters, files, modules, or mixed — **Coverage**, **Importance**); **§2 slice plan** (per-slice **goal restated** + **phases**); **coverage across steps**; **cross-slice integration**; **anchor and subdomain elaboration**; **execution plan (normative)** — phase slugs with **slice IDs** on every line; plus **approach** and **dated pivots**. | **Yes** — whenever scope, order, slice depth, subdomain mapping, or integration changes. |
 | `domain-scan-model.md` | Class sketch (markdown) at scan fidelity. | Yes, in later phases — not only during scan. |
 | `domain-scan-model.drawio` | Diagram at scan fidelity. | Same as model.md. |
-| `term-registry.md` | Terms, **Classification** (model role), **Status** (OOAD scale), confidence — seeded at scan. | **Yes** — every later phase updates Step, Classification, and Status as the model evolves. |
+| `term-registry.md` | Terms, **Targets** (bulleted typed pointers), **Notes** — seeded at scan. | **Yes** — every later phase-id updates **Targets** and **Notes** as the model evolves. See **`library/term-registry.md`**. |
+| `terms.md` (per slice) | Evidence ledger by **`## [Anchor module]`** — quotes, promotion log. | **Yes** — from **`nouns-verbs-rules-and-states`** onward for that slice. Template: **`templates/terms-template.md`**. |
 
 **Plus** (when workspace is configured): **`progress/`** checklists — see **`library/strategy-execution-and-checklists.md`**. **`generate.py`** creates **`process-checklist.md`**, **`<phase>-checklist.md`**, and (abd-ooad) **`strategy-run-checklist.md`** when templates exist and files are missing. Normative phase steps stay in **`content/parts/phases/<phase>.md`**. These are the **only** place for session tick marks.
 
@@ -12586,8 +12338,8 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 
 1. **Strategy** — Keep **`strategy.md`** aligned with reality; append *Ongoing strategic decisions* when you pivot.
 2. **Strategy execution** — Tick **`progress/strategy-run-checklist.md`** as you **complete** each phase for its declared scope.
-3. **Phase work** — For the active phase, run **`generate.py --phase <slug>`** and tick **`progress/<slug>-checklist.md`** for action steps.
-4. **Registry** — Keep `term-registry.md` aligned with the current phase (Step, Classification, Status).
+3. **Phase work** — For the active phase-id, run **`generate.py --phase <phase-id>`** (or **`generate.py --stage <A|B|…|F>`** for a stage) and tick **`progress/<phase-id>-checklist.md`** for action steps.
+4. **Registry** — Keep `term-registry.md` aligned with the current phase-id (**Targets** + **Notes**); keep slice **`terms.md`** in sync for verbatim evidence.
 5. **Results** — Touch `domain-scan-results.md` only for corrections to the original scan snapshot.
 
 ---
@@ -12607,26 +12359,45 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 
 # Strategy execution and checklists (abd-ooad)
 
-**Canonical doc** for: (1) **strategy** vs **live ticks**, (2) **which files** hold checkboxes, (3) **how** `generate.py` creates workspace **`progress/`** files. Does **not** replace **[process.md](../process.md)** (process tables, `generate` / `build`) or **[skill-structure-and-concepts.md](../base/skill-structure-and-concepts.md)** (repo layout).
+**Canonical doc** for: (1) **strategy** vs **live ticks**, (2) **which files** hold checkboxes, (3) **how** `generate.py` creates workspace **`progress/`** files, (4) **stages**, **revisits / disruption** on the same checklist. Does **not** replace **[process.md](../process.md)** (phase chronicle, `generate` / `build`) or **[skill-structure-and-concepts.md](../base/skill-structure-and-concepts.md)** (repo layout).
 
-Only **`strategy.md`** defines **scope** and **which phases in what order**; checklists are where you **tick** progress.
+Only **`strategy.md`** defines **scope** and **which phase-ids (or stages) in what order**; checklists are where you **tick** progress.
 
 ---
 
 ## Workflow
 
-1. **Domain scan** — produce scan artifacts (see **`strategy-led-generation`**).
+1. **Domain scan** — produce scan artifacts (see **`strategy-led-generation`**). Phase-id: **`domain-scan`**.
 2. **Strategy** — fill **`strategy.md`** from **`templates/strategy.md`**:
    - **Modeling scope** — corpus or product boundary; **source type** (book vs repo vs mixed).
    - **§1 Source slices** — ordered table: **Goal**, **Source** (chapters, files, modules, APIs — whatever locates work), **Coverage** (depth this pass), **Importance**; stable **slice IDs** reused everywhere.
-   - **§2 Slice plan** — per slice: **goal restated**, **unit kind**, **phases** (execution step numbers / slugs), produces, depends-on.
-   - **Coverage across steps** — matrix: every slice → which **execution plan** steps touch it → **depth** → deferrals.
+   - **§2 Slice plan** — per slice: **goal restated**, **unit kind**, **phase-ids** (or **stages**) you will run, produces, depends-on.
+   - **Coverage across steps** — matrix: every slice → which **execution plan** phase-ids touch it → **depth** → deferrals.
    - **Cross-slice integration** — cross-boundary types and ordering (From → To + narrative).
-   - **Anchor and subdomain elaboration** (when anchors have attached types) — map subdomains to slices and execution §.
-   - **Execution plan (normative)** — ordered phase **slugs**; **each line cites slice IDs** (mirror **`strategy-run-checklist.md`**).
+   - **Anchor and subdomain elaboration** (when anchors have attached types) — map subdomains to slices and execution phase-ids.
+   - **Execution plan (normative)** — ordered **phase-id** strings; **each line cites slice IDs** (mirror **`strategy-run-checklist.md`**). Optionally group work by **stage A–F** (see **`process.md` → Stage map**).
+   - **Stage completion (after each stage)** — what completed; tensions; **new checklist lines** for revisits (below); **audit** — append dated line under *Ongoing strategic decisions*.
    - **Approach going forward** + **Ongoing strategic decisions** — short narrative and dated pivots.
 3. **Align live checklists** — keep **`strategy-run-checklist.md`** in sync with the execution plan (same order and scope). Optional **`templates/strategy-run-checklist.md`** seed; optional **`templates/progress-README.md`** → **`progress/README.md`** for slice-specific files under **`progress/slices/`**.
-4. **Run phases** — for the **current** phase: `python scripts/base/generate.py --phase <slug>`. Tick **`strategy-run-checklist.md`** when a phase is **done** for its declared scope; tick **`<slug>-checklist.md`** for **steps inside** that phase.
+4. **Run phases** — **`python scripts/base/generate.py --phase <phase-id>`** for one step, or **`python scripts/base/generate.py --stage <A|B|…|F>`** for a full stage (same order as **`process.md`** / **`skill-config.json` → `process_stages`**). Tick **`strategy-run-checklist.md`** when a phase (or stage slice) is **done** for its declared scope; tick **`<phase-id>-checklist.md`** for **steps inside** that phase.
+
+---
+
+## Revisits and disruption (same checklist)
+
+A **revisit** is **not** a separate rerun workflow. While executing (including late **stage F**), if work must **go back** to an earlier **stage** or **phase-id**, **add a new row** to **`strategy-run-checklist.md`** — e.g. `- [ ] Revisit stage B — <short reason>` or `- [ ] Re-run nouns-verbs-rules-and-states — slice S1 — reconcile new anchor` — at the **bottom** or **inserted** where it fits the agreed order. The checklist is the single source of truth for **forward** work plus **backward** revisits.
+
+**Audit:** When you add a revisit row, append a dated line under **`strategy.md` → Ongoing strategic decisions**; never delete prior pivots.
+
+### Hint table (non-prescriptive)
+
+| You are here | Often need to touch |
+|--------------|---------------------|
+| Stage F | Stage E, D, or C (naming / validation feedback) |
+| Stage E | Stage C (scenarios expose structure gaps) |
+| Stage D | Stage C (splitting responsibilities) |
+
+Use this as a **prompt**, not a rule.
 
 ---
 
@@ -12634,9 +12405,9 @@ Only **`strategy.md`** defines **scope** and **which phases in what order**; che
 
 | Layer | File | What you tick |
 | --- | --- | --- |
-| **Strategy execution** | **`progress/strategy-run-checklist.md`** | **Which phases** you will run, **in order**, each with **scope** that **includes the same slice IDs** as **`strategy.md` → Execution plan**. Optional: **`progress/slices/<slice-id>-checklist.md`** per slice — see **`progress/README.md`** in the workspace (if present). |
+| **Strategy execution** | **`progress/strategy-run-checklist.md`** | **Which phase-ids** (or stages) you will run, **in order**, each with **scope** that **includes the same slice IDs** as **`strategy.md` → Execution plan**; **includes revisit rows** when you must go backward. Optional: **`progress/slices/<slice-id>-checklist.md`** per slice — see **`progress/README.md`** in the workspace (if present). |
 | **Full pipeline (reference)** | **`progress/process-checklist.md`** | **Every** phase in **`phase_files`** — useful as a map; optional if you rely only on strategy-run. |
-| **Phase steps** | **`progress/<phase>-checklist.md`** | **Action checklist** copied from **`content/parts/phases/<phase>.md` → ## Action Checklist**. |
+| **Phase steps** | **`progress/<phase-id>-checklist.md`** | **Action checklist** copied from **`content/parts/phases/<phase-id>.md` → ## Action Checklist**. |
 
 **Implementation:** **`scripts/base/workspace_checklists.py`** (paths, behavior, `--no-ensure-checklists`).
 
@@ -12646,10 +12417,10 @@ Only **`strategy.md`** defines **scope** and **which phases in what order**; che
 
 | Kind | What it tracks | Where it lives | How it gets there |
 | --- | --- | --- | --- |
-| **Normative reference** | Rules in **this document** — strategy vs ticks, layers, `generate.py` behavior | **`content/parts/library/strategy-execution-and-checklists.md`** | Authored in the skill; **not** created by **`generate.py`**. |
-| **Pipeline position** | Which **phase** of the pipeline you are in | **`<active_skill_workspace>/<skill_name>/progress/process-checklist.md`** | **Created** on first **`python scripts/base/generate.py --phase <slug>`** when that file is **missing**, if **`skill-config.json` → `workspace.active_skill_workspace`** is set. One `- [ ]` line per slug in **`phase_files`** (labels from **`phase_section_headings`** when present). **Does not overwrite** an existing file. |
-| **Phase action steps** | **Steps inside** the current phase | **`<active_skill_workspace>/<skill_name>/progress/<phase-slug>-checklist.md`** | **Created** in the **same** `generate.py` run when that file is **missing**. Steps are taken from **`## Action Checklist`** in **`content/parts/phases/<phase-slug>.md`**, or from task lines (`- [ ]` / `- [x]`) in that file if the section is absent. **Does not overwrite** an existing file. |
-| **Strategy execution** (workspace) | Ordered phases matching **`strategy.md`** | **`progress/strategy-run-checklist.md`** | Seeded from template when **`generate.py`** / workspace checklist logic creates it; **you** align it with **`strategy.md`**. |
+| **Normative reference** | Rules in **this document** — strategy vs ticks, layers, revisits, `generate.py` behavior | **`content/parts/library/strategy-execution-and-checklists.md`** | Authored in the skill; **not** created by **`generate.py`**. |
+| **Pipeline position** | Which **phase-id** of the pipeline you are in | **`<active_skill_workspace>/<skill_name>/progress/process-checklist.md`** | **Created** on first **`python scripts/base/generate.py --phase <phase-id>`** (or first phase of **`--stage`**) when that file is **missing**, if **`skill-config.json` → `workspace.active_skill_workspace`** is set. One `- [ ]` line per slug in **`phase_files`** (labels from **`phase_section_headings`** when present). **Does not overwrite** an existing file. |
+| **Phase action steps** | **Steps inside** the current phase | **`<active_skill_workspace>/<skill_name>/progress/<phase-id>-checklist.md`** | **Created** in the **same** `generate.py` run when that file is **missing**. Steps are taken from **`## Action Checklist`** in **`content/parts/phases/<phase-id>.md`**, or from task lines (`- [ ]` / `- [x]`) in that file if the section is absent. **Does not overwrite** an existing file. |
+| **Strategy execution** (workspace) | Ordered phase-ids (and revisit rows) matching **`strategy.md`** | **`progress/strategy-run-checklist.md`** | Seeded from template when **`generate.py`** / workspace checklist logic creates it; **you** align it with **`strategy.md`**. |
 
 ### Names and workspace
 
@@ -12670,9 +12441,9 @@ Only **`strategy.md`** defines **scope** and **which phases in what order**; che
 
 ---
 
-## Phase slugs
+## Phase IDs
 
-Use exact slugs from **`skill-config.json` → `phase_files`** (e.g. `nouns-verbs-rules-and-states`, `domain-scan`). Labels for humans are in **`phase_section_headings`**.
+Use exact **phase-id** strings from **`skill-config.json` → `phase_files`** (e.g. `nouns-verbs-rules-and-states`, `domain-scan`). Labels for humans are in **`phase_section_headings`**. **Stages** **A–F** map to ordered phase-id lists in **`process_stages`** — see **`process.md`**.
 
 ---
 
@@ -12691,168 +12462,147 @@ Use exact slugs from **`skill-config.json` → `phase_files`** (e.g. `nouns-verb
 
 ## What a Term Is
 
-A **Term** is any concept identified from the source material that may become part of the domain model. At the time of identification, a Term is not committed to a model role — it might become a class, a property, a value type, an association, or nothing at all. The registry tracks Terms as the modeling phases determine what each one actually is.
+A **Term** is any concept identified from the source material that may become part of the domain model. At identification time it is not committed to a model role — it might become a class, a property, a value type, an association, or nothing. The registry tracks Terms as modeling **phase-ids** (see **`process.md` → Phase chronicle**) determine what each one actually is.
 
-This is distinct from other uses of "actor" in this domain:
-- In MM3E and FoundryVTT, "Actor" has a specific system meaning (a character, creature, or entity in the game world).
-- In the registry, everything is a Term until the model says otherwise.
+This is distinct from other domain uses of overloaded words (e.g. in some systems “Actor” is a system type). In the registry, everything is a Term until the model says otherwise.
 
-**File:** `<workspace>/abd-ooad/term-registry.md`
-**Never embedded** inside step outputs — it lives in its own file and is referenced from each step's model doc.
+**File:** `<workspace>/abd-ooad/term-registry.md` (or per-slice path if your workspace layout nests slices).
 
----
-
-## Step Reference — Short Names
-
-Use these short names in the **Step** column of the registry when adding or updating a row.
-
-| Short Name | Phase | Description |
-|-----------|-------|-------------|
-| SETUP | workspace-and-config | Workspace initialization |
-| SCAN | domain-scan | Source scan and anchor identification |
-| NOUNS | nouns-verbs-rules-and-states | Extract nouns, verbs, rules, states |
-| CANDS | raw-candidate-list | Raw candidate class list |
-| THINGS | thing-vs-data-about-a-thing | Separate things from data-about-things |
-| RESP | responsibilities-before-operations | Assign responsibilities |
-| PROPS | add-properties-semantically-tight | Add semantically tight properties |
-| OPS | turn-verbs-into-operations | Turn verbs into operations |
-| RELS | relationships-and-cardinality | Relationships and cardinality |
-| INV | invariants-in-the-model | Identify invariants |
-| BLOAT | watch-for-bloated-classes | Detect bloated classes |
-| ROLES | smashed-abstractions-and-hidden-roles | Uncover hidden roles |
-| INHERIT | inheritance-when-behavior-generalizes | Apply inheritance |
-| ABST | abstract-classes-and-interfaces | Abstract classes and interfaces |
-| COMP | prefer-composition | Prefer composition over inheritance |
-| STATES | model-state-transitions | Model state transitions |
-| ITER | iterative-refinement | Iterative refinement pass |
-| TENSION | tension-as-a-signal | Resolve tensions |
-| COHESION | what-changes-together | What changes together |
-| VALIDATE | validate-with-scenarios | Validate with scenarios |
-| NAMES | refine-names | Refine class and concept names |
-| LAYERS | model-in-layers | Model in layers |
+**Never embed** the full registry inside step outputs — it lives in its own file and is referenced from each phase’s model doc.
 
 ---
 
-## Slices and global phase numbers (normative)
+## Relationship to `terms.md` (per slice)
 
-The **OOAD process table** (see **`process.md`** / built **AGENTS.md** — “Process Table”) assigns **global phase numbers** **0–21** to phase **slugs** (e.g. **Phase 2** = `nouns-verbs-rules-and-states`, **Phase 3** = `raw-candidate-list`, **Phase 4** = `thing-vs-data-about-a-thing`).
-
-- **Phase 1** (`domain-scan`, short name **SCAN**) runs **once per workspace** (or once per strategy engagement). It produces anchors, `strategy.md`, `domain-scan-results.md`, and seeds **`term-registry.md`**. It is **not** repeated as “each slice’s Phase 1.”
-- **Per-slice modeling** (folders or **Anchor** columns **`S1=…`**, **`S2=…`**, …) **aligns with the same global numbers from Phase 2 onward:** the **first** extraction artifact in a slice is always **Phase 2** (**NOUNS**), then **3** (**CANDS**), **4** (**THINGS**), etc. Do **not** label slice-local nouns-verbs files as Phase 1 — that collides with **SCAN**.
-- **Phase notes** in italics (optional): `*[Sn · Phase N]*` where **N** is the **global** process-table number. Add slug, tension id, or short reminder *after* the tag on the same line if needed (e.g. *thing-vs-data*, *registry Tn*). For early “likely class” judgments: `*[S1 · Phase 3]* Likely class : …`.
-
----
-
-## Registry Columns
-
-| Column | Values | Notes |
-|--------|--------|-------|
-| **Term** | Concept name from the source | Exact word or phrase as found — rename in the NAMES step if needed |
-| **Classification** | See **Classification** below | **What we want to model this as** — target shape in the domain model (not lifecycle) |
-| **Step** | Short name from table above (SCAN, NOUNS, …) | Step that first identified or last materially updated this Term |
-| **Confidence** | High / Medium / Low | How sure we are this belongs in the model |
-| **Status** | See **Status (OOAD scale)** below | Where this Term sits in the modeling workflow |
-| **Notes** | Free text | Anchor-test results, owning module for supporting classes (`Supporting class — X module`), competing interpretations, pointers to tensions in `domain-scan-results.md`, and follow-ups |
+- **`terms.md`** (alongside `domain-noun-verb.md` in a slice folder) holds **module-scoped evidence**: quotes, raw extractions, promotion history under **`## [Anchor module]`** headings aligned with the integrated domain model.
+- **`term-registry.md`** remains the **term-centric analysis record**: one row per Term; **Targets** = where the term landed; **Notes** = substantive reasoning (anchor tests, classification, tensions) — **full paragraphs are fine** when the work needs them.
+- **Principle:** Notes depth is **not** reduced because `terms.md` exists. `terms.md` reduces **duplication of verbatim source text** and organizes evidence by module; it does **not** justify one-line registry Notes unless the term truly needs only one line.
+- **Avoid duplicate verbatim quotes:** keep the quote in **`terms.md`** and in **Notes** point to `terms.md#anchor-module` (or the term subsection); keep analysis-only text in Notes as today.
 
 ---
 
-## Classification — what we want to model this as
+## Phase IDs (normative references)
 
-Use **one** value per row. This is the **intended model role**, not how “mature” the idea is (that is **Status**).
+Refer to pipeline steps **only** by **`phase-id`** — the short **kebab-case** slug matching **`skill-config.json` → `phase_files`** and the **`process.md`** chronicle (e.g. `domain-scan`, `nouns-verbs-rules-and-states`, `refine-names`). Do **not** use “Phase 1 / Phase 2” as **names** for steps; those ordinals drift. Optional **model tags** in the domain model use **`*[Sn · phase-id]*`** (e.g. **`*[S1 · refine-names]*`**) — see **`library/domain-model`**.
 
-| Value | Meaning |
+---
+
+## Registry columns
+
+| Column | Role |
+|--------|------|
+| **Term** | Concept name from the source — exact word or phrase as found; rename in **`refine-names`** if needed. |
+| **Targets** | Where this term **landed** in the model: a **bulleted list inside the table cell** (Markdown list), **one typed pointer per line**. Unallocated / not yet placed → leave empty or **—**. |
+| **Notes** | Anchor-test results, slice/anchor context (**`S1=…`** style if useful), competing interpretations, tensions, pointers to **`terms.md`** when verbatim evidence lives there — same substance as historical scan/noun-verb rows. |
+
+**Optional:** If you need a single “primary kind” for tooling, add one optional column **after** Term (e.g. **Kind**) — otherwise prefer **Targets**-only for a slim table.
+
+---
+
+## Targets — typed pointers (one per bullet)
+
+**Normative style:** each bullet is **one** typed target. **Do not** concatenate targets with `|` or `;` on one run-on line.
+
+Examples of pointer forms (extend as your model needs):
+
+- `entity:Payment`
+- `vo:Money`
+- `property:Payment.amount`
+- `operation:Order.submit`
+- `invariant:…`
+- `policy:…`
+- `relationship:Customer — Order`
+
+**Renders in Markdown tables** — use `<br>` between bullets if your renderer collapses list-in-cell (GitHub-style often accepts list-in-cell; validate in your preview):
+
+```markdown
+| Term   | Targets |
 |--------|---------|
-| **anchor (class + module)** | Passes the anchor test: this concept is a **core class** and owns a **module** (dashed frame + same-named core class). Use only for backbone modules. |
-| **class** | A domain **class** that is not its own module yet — e.g. supporting class inside a frame, or a type you expect to become a class without its own module. |
-| **property** | Modeled as a **semantic property** (attribute / value on a class), not a separate type. |
-| **field** | Modeled as a **typed field / slot** (data member, possibly simple type or value object). |
-| **example (instance)** | An **illustrative instance**, sample, or scenario object — not a type in the model. |
-| **relationship** | An **association**, link, or dependency between concepts — may become an association, association class, or navigable role. |
-| **invariant (rule)** | A **domain rule**, constraint, or policy — often becomes behavior, guard, or explicit rule text on a class. |
-
-**Diagram mapping (when relevant):** `anchor (class + module)` → module frame + core class; `class` → class box; `relationship` → association; `invariant (rule)` → note, constraint, or operation; `property` / `field` → attributes on a class.
+| amount | - `entity:Payment`<br>- `vo:Money`<br>- `property:Payment.amount` |
+```
 
 ---
 
-## Status (OOAD scale)
+## Notes — still substantive
 
-**Status** is **lifecycle / confidence in the workflow**, not the model shape. Pick the value that best fits; states are **not** always a strict left-to-right pipeline.
+Notes remain the place for **classification reasoning**, anchor tests, tensions, and follow-ups. **Do not** make Notes sparse by default. When raw quotes live in **`terms.md`**, write in Notes: *“Verbatim quote in `terms.md` → [Anchor module] / term …”* and keep analysis here.
 
-| Status | When to use |
-|--------|-------------|
-| **Ambiguous** | You cannot yet say what the Term is or how it sits next to others. |
-| **Tension** | Competing interpretations, overlapping boundaries, or conflicting source pulls — needs resolution before the model can commit. |
-| **Candidate** | Plausible model role; narrowed but not yet locked (often after scan, before THINGS/RELS). |
-| **Deferred** | Explicitly parked — revisit in a named later step or phase. |
-| **Active** | In current modeling scope; being updated in this pass. |
-| **Solidified** | Named, placed, and stable in the model for the current iteration — ready to treat as “done” unless source or scope changes. |
-
-**Typical (non-binding) progression:** Ambiguous → Tension or Candidate → Active → Solidified. **Deferred** can apply after any stage. A Term can return from Deferred to Active when scope returns to it.
+**Slice / anchor:** You may record **`S1=Character`** (or similar) in **Notes** or a minimal **Slice** column if the table template adds one — your engagement may require it for MM3E-style multi-slice tables.
 
 ---
 
-## Registry format (wide Notes)
+## Classification (reference — not required as its own column)
 
-**Prefer an HTML `<table>` with `<colgroup>`** so the **Notes** column gets most of the width (~50–55%). **Classification** labels can be long — give that column ~12–14% if needed. Plain Markdown pipe tables allocate columns evenly and make long Notes hard to read in the editor and in preview.
+If you **merge** the old **Classification** column into **Targets**, use typed pointers (`entity:…`, `property:…`, …) so the table stays one row per Term. The **meaning** of former classification values is unchanged:
 
-Use this skeleton (adjust `width` percentages if needed):
+| Former value | Meaning |
+|--------------|--------|
+| **anchor (class + module)** | Passes the anchor test: core class owns a **module** (frame + same-named core class). |
+| **class** | Domain class not its own module yet — supporting class, or expected class without module. |
+| **property** | Modeled as semantic property on a class. |
+| **field** | Typed field / slot. |
+| **example (instance)** | Illustrative instance — not a type. |
+| **relationship** | Association, link, dependency. |
+| **invariant (rule)** | Domain rule, constraint, policy. |
+
+---
+
+## Registry format (HTML table recommended for Notes width)
+
+Prefer an HTML `<table>` with `<colgroup>` so **Notes** gets most width (~50–55%). **Targets** can be ~18–22%.
 
 ```html
 <table>
 <colgroup>
-  <col style="width:9%" />
-  <col style="width:14%" />
-  <col style="width:6%" />
-  <col style="width:9%" />
-  <col style="width:9%" />
-  <col style="width:53%" />
+  <col style="width:12%" />
+  <col style="width:22%" />
+  <col style="width:66%" />
 </colgroup>
 <thead>
 <tr>
   <th>Term</th>
-  <th>Classification</th>
-  <th>Step</th>
-  <th>Confidence</th>
-  <th>Status</th>
+  <th>Targets</th>
   <th>Notes</th>
 </tr>
 </thead>
 <tbody>
 <tr>
   <td>Character</td>
-  <td>anchor (class + module)</td>
-  <td>SCAN</td>
-  <td>High</td>
-  <td>Active</td>
-  <td>Central entity; all rules attach to it</td>
-</tr>
-<tr>
-  <td>Power</td>
-  <td>class</td>
-  <td>SCAN</td>
-  <td>High</td>
-  <td>Active</td>
-  <td>Supporting class — Character module. Core capability unit.</td>
-</tr>
-<tr>
-  <td>Device</td>
-  <td>class</td>
-  <td>SCAN</td>
-  <td>Medium</td>
-  <td>Tension</td>
-  <td>Removable Power vs Equipment? Boundary unclear — see T2.</td>
+  <td>- <code>entity:Character</code><br>- <code>property:Character.powerLevel</code></td>
+  <td>Central entity; anchor test ✓. Slice <code>S1=Character</code>. Long quotes in <code>terms.md</code> → Character module.</td>
 </tr>
 </tbody>
 </table>
 ```
 
-For very small registries only, a Markdown pipe table is acceptable:
+Small registries: Markdown pipe table is acceptable.
 
-```markdown
-| Term | Classification | Step | Confidence | Status | Notes |
-|------|----------------|------|------------|--------|-------|
-| Character | anchor (class + module) | SCAN | High | Active | Short note only |
-```
+---
+
+## Migration from legacy wide tables
+
+If you have **Step**, **Confidence**, **Status**, and **Classification** columns:
+
+1. **Term** → keep.
+2. **Classification** + committed placements → **Targets** bullets (`entity:…`, `property:…`, …).
+3. **Step** → fold into **Notes** as *“First touched at phase-id `domain-scan`”* or leave implicit if noisy.
+4. **Confidence / Status** → merge into **Notes** (*“Legacy: was High / Active”*) only if still useful; otherwise drop.
+5. **Notes** → preserve text; add pointer to **`terms.md`** where verbatim evidence moved.
+
+---
+
+## Slices and `domain-scan` vs per-slice work
+
+- **`domain-scan`** runs **workspace-wide** (or once per strategy engagement): seeds **`term-registry.md`**, anchors, **`strategy.md`**, scan artifacts. It is **not** “each slice’s first phase” by name — use **phase-id** `domain-scan` only.
+- Per-slice deep extraction aligns with **`nouns-verbs-rules-and-states`** and **`raw-candidate-list`** in **chronicle order** after scan. **`terms.md`** evolves from those phase-ids onward for that slice.
+
+---
+
+## References
+
+- **`process.md`** — Phase chronicle, stages A–F, capture ladder  
+- **`terms.md`** template — `templates/terms-template.md`  
+- **Strategy / revisits** — `library/strategy-execution-and-checklists.md`
 
 
 ---
@@ -13303,7 +13053,7 @@ The CLI does not yet support notes — add them manually in draw.io after CLI bu
 | Phase | Add invariants? |
 |-------|----------------|
 | domain-scan | Yes — add the invariants you found during the scan (inline preferred at this fidelity) |
-| domain-noun-verb (Step 1) | No — extraction only; invariants captured in registry notes |
+| domain-noun-verb (Phase 2) | No — extraction only; invariants captured in registry notes |
 | raw-candidate-list through responsibilities | Yes — as invariants become confirmed, add to diagram |
 | Full model phases | Yes — invariants are a required part of the final model |
 
@@ -14253,19 +14003,23 @@ Add **relationships and cardinality** between Payment, Refund, Order (ref), exte
 
 # Domain model Markdown
 
-This skill’s **domain model** is captured in Markdown  a parallel **Draw.io** class diagram. Use **`templates/domain model template.md`** for companion docs; align with **`templates/domain model template.drawio`** when both exist.
+The **domain model** lives in workspace **`domain*.md`** files; **Draw.io** diagrams are **visual twins** of that content — update markdown first, then render or hand-sync the diagram (see **class-diagrams**, **using-diagram-cli**).
 
-**Phase 2 — `domain-noun-verb.md`:** anchor sections, **Candidate …** lists, full or pared class boxes. Slice files are **content only** — no skill paths or process meta in the artifact body.
+**Integrated slice model + evidence:** Prefer **`templates/domain-model-integrated.md`** alongside **`templates/terms-template.md`** (`terms.md` per slice). Class **Notes** use **`*[Sn · phase-id]*`** (e.g. **`*[S1 · refine-names]*`**) — **phase-id** from **`process.md`**, not numeric step names.
 
-**Phase 3 — bucket roll-up:** sort candidates into **entities**, **value objects**, **processes**, **policies**, **roles**, **events** (tables in **`raw-candidate-list.md`** or appended to **`domain-noun-verb.md`**). Same **content-only** rule: no skill/process boilerplate in slice files.
+**`domain-scan`:** **`domain-scan-results.md`**, **`domain-scan-model.md`**, then **`domain-scan-model.drawio`**.
 
-**Optional — `domain-raw-candidates.md`:** same Phase 3 content as **classes under anchor modules** (`### Name : << Entity >>` / `<< ValueObject >>` / `<< Process >>` / …), notes below — **not** a second copy of bucket tables. Cross-cutting material → **`## Cross-anchor`** or appendix. **`templates/domain-raw-candidates-template.md`**.
+**`nouns-verbs-rules-and-states` — `domain-noun-verb.md`:** anchor sections, **Candidate …** lists, class boxes. Slice files are **domain content only** — no skill paths or process boilerplate in the artifact body.
+
+**`raw-candidate-list`:** Prefer **`domain-raw-candidates.md`** — classes under anchors with notes. Optional single tabular roll-up (**`raw-candidate-list.md`** or appendix to **`domain-noun-verb.md`**) — **not** the same tables twice plus an integrated file.
+
+**Templates:** **`templates/domain model template.md`**, **`templates/domain-raw-candidates-template.md`**, **`templates/domain-model-integrated.md`**.
 
 ---
 
 ## Domain concept template
 
-Each **domain concept** (class, interface, value object, or aggregate) is documented under a clear heading, for example:
+Each concept is documented under a clear heading, for example:
 
 ```markdown
 ## **Payment**
@@ -14274,73 +14028,62 @@ Each **domain concept** (class, interface, value object, or aggregate) is docume
 
 ### Properties
 - Money amount
-- …
 
 ### Operations
 - initiate() → Authorization
 ```
 
-From **Step 5** onward, prefer **typed** members (see **Notation evolution** below). Earlier steps stay **pre-notation** (bullets and prose).
+From **Phase 6** onward (`add-properties-semantically-tight`), prefer **typed** members (see **Notation evolution**). Earlier phases stay informal (bullets and prose).
 
 ---
 
-## Continual refinement — class definition + diagram
+## Markdown and diagram
 
-**Continual refinement** means you **grow** the model across steps: each step file may add or tighten concepts. The Markdown spec and the class diagram are **two views of the same model** — update both when your project uses dual artifacts so they do not drift (see **[Class diagrams](class-diagrams.md)**).
+The Markdown spec and the class diagram are **two views of the same model** — keep them aligned when both exist (**class-diagrams**).
 
 ---
 
-## **newly added** tag
+## **newly added** tag (optional)
 
-In the **worked example** threads (e.g. payments), the marker **newly added** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
+In long-running examples, **newly added** on a line marks a property or operation that first appears in *this* file — useful for deltas across files.
 
 ---
 
 ## Notation evolution
 
-| Phase | Markdown style |
-|--------|------------------|
-| **Steps 1–4** | Informal: bullets, short phrases, responsibilities, candidate names; typed `- <type> property` lines arrive in Step 5. |
-| **Step 5+** | Formal typed members: `- <Type> propertyName`, `operationName(...) → ReturnType`. |
+| Phase range | Markdown style |
+|-------------|----------------|
+| **2–5** | Informal: bullets, candidates, responsibilities; typed `- <type> property` lines from **Phase 6** onward. |
+| **Phase 6+** | Formal: `- <Type> propertyName`, `operationName(...) → ReturnType`. |
 
 ---
 
 ## Subtype sections
 
-When you introduce substitutable specializations, add an explicit subtype heading so the structure is visible in the spec and in diagrams:
+When you introduce substitutable specializations, add an explicit subtype heading so structure is visible in spec and diagrams:
 
 ```markdown
 ### **Subtype** : **PaymentMethod**
 ```
 
-Put **`**newly added**`** on subtype **operation** (or property) lines when that member is **first** introduced for that subtype.
-
 ---
 
 ## Invariants
 
-Attach invariants to the **property** or **operation** they constrain, using a dedicated line:
+Attach invariants to the property or operation they constrain:
 
 ```markdown
 **Invariant:** …
 ```
 
-Mark **`**newly added**`** when you **first** attach an invariant to a given member line.
-
 ---
 
-## Early steps: terms, mechanisms, story map
+## Class diagram and spec
 
-Before typed properties exist, align extracted **nouns, verbs, rules, states** with your workspace’s **terms & mechanisms** and **shaped story map** (or equivalent). That is the same “grow the model as you go” idea: informal extraction first, then formal types.
+When you maintain **`map-model-spec.json`** or similar, re-run the project’s diagram script after material changes so Draw.io stays aligned.
 
----
-
-## Class diagram and spec (visual twin)
-
-When you maintain a machine-readable spec such as **`map-model-spec.json`**, re-run your project’s class-diagram render script (for example **`render_map_model_class_diagram.py`**) after material changes so the **Draw.io** diagram stays the **visual twin** of the spec.
-
-- **[Class diagrams](class-diagrams.md)** — templates, relationship types, keeping `.md` and `.drawio` aligned.  
-- **[Using the Diagram CLI](using-diagram-cli.md)** — building diagrams with **`scripts/drawio_cli.py`**.
+- **Class diagrams** — templates, relationships, keeping `.md` and `.drawio` aligned.  
+- **Using the Diagram CLI** — `scripts/drawio_cli.py`.
 
 ---
 
@@ -14348,9 +14091,9 @@ When you maintain a machine-readable spec such as **`map-model-spec.json`**, re-
 
 | Topic | File |
 |--------|------|
-| Term tracking across steps | [term-registry.md](term-registry.md) |
+| Term tracking | [term-registry.md](term-registry.md) |
 | Strategy-led runs | [strategy-led-generation.md](strategy-led-generation.md) |
-| Layout and lanes | [class-diagram-layout-rules.md](class-diagram-layout-rules.md) |
+| Layout | [class-diagram-layout-rules.md](class-diagram-layout-rules.md) |
 
 
 ---
@@ -14442,9 +14185,9 @@ The absence of a matching core class is the clearest signal that you have not ye
 
 # Strategy-led generation
 
-Domain scan (OOAD **phase 1**) does not only produce a single “results” file. It establishes a **small set of workspace files** under `<workspace>/abd-ooad/` that work together. Some are **frozen findings** from the scan; others are **living documents** you update as modeling continues.
+Domain scan (phase-id **`domain-scan`**) does not only produce a single “results” file. It establishes a **small set of workspace files** under `<workspace>/abd-ooad/` that work together. Some are **frozen findings** from the scan; others are **living documents** you update as modeling continues.
 
-**Slices start at global Phase 2:** Source-slice work (e.g. **S1**, **S2** in `strategy.md` and **`Anchor`** `S1=…` / `S2=…` in `term-registry.md`) uses the **same global OOAD phase numbers** as the process table for everything **after** scan. The **first** per-slice extraction step is **Phase 2** (`nouns-verbs-rules-and-states`), **not** a slice-local “Phase 1.” Phase **1** is workspace-wide **domain-scan** only. See **`term-registry.md` → Slices and global phase numbers**.
+**Per-slice extraction** after scan uses the **same phase-id chronicle** as **`process.md`**. The **first** detailed per-slice capture is **`nouns-verbs-rules-and-states`** (then **`raw-candidate-list`**, …) — **not** a second **`domain-scan`**. Use **phase-id** names in strategy and registry (and **`*[Sn · phase-id]*`** tags in the model), not “Phase 1 / Phase 2” as step names. See **`term-registry.md`** and **`process.md` → Capture ladder**.
 
 For the scan procedure itself, see the **Domain scan** phase. This page explains **what each artifact is for** and how **`strategy.md`** relates to **`domain-scan-results.md`**.
 
@@ -14462,7 +14205,8 @@ Created during domain scan under `<workspace>/abd-ooad/`:
 | `strategy.md` | **Living strategy:** **modeling scope**; **§1 source slices** (table: Order, Goal, **Source** — chapters, files, modules, or mixed — **Coverage**, **Importance**); **§2 slice plan** (per-slice **goal restated** + **phases**); **coverage across steps**; **cross-slice integration**; **anchor and subdomain elaboration**; **execution plan (normative)** — phase slugs with **slice IDs** on every line; plus **approach** and **dated pivots**. | **Yes** — whenever scope, order, slice depth, subdomain mapping, or integration changes. |
 | `domain-scan-model.md` | Class sketch (markdown) at scan fidelity. | Yes, in later phases — not only during scan. |
 | `domain-scan-model.drawio` | Diagram at scan fidelity. | Same as model.md. |
-| `term-registry.md` | Terms, **Classification** (model role), **Status** (OOAD scale), confidence — seeded at scan. | **Yes** — every later phase updates Step, Classification, and Status as the model evolves. |
+| `term-registry.md` | Terms, **Targets** (bulleted typed pointers), **Notes** — seeded at scan. | **Yes** — every later phase-id updates **Targets** and **Notes** as the model evolves. See **`library/term-registry.md`**. |
+| `terms.md` (per slice) | Evidence ledger by **`## [Anchor module]`** — quotes, promotion log. | **Yes** — from **`nouns-verbs-rules-and-states`** onward for that slice. Template: **`templates/terms-template.md`**. |
 
 **Plus** (when workspace is configured): **`progress/`** checklists — see **`library/strategy-execution-and-checklists.md`**. **`generate.py`** creates **`process-checklist.md`**, **`<phase>-checklist.md`**, and (abd-ooad) **`strategy-run-checklist.md`** when templates exist and files are missing. Normative phase steps stay in **`content/parts/phases/<phase>.md`**. These are the **only** place for session tick marks.
 
@@ -14497,8 +14241,8 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 
 1. **Strategy** — Keep **`strategy.md`** aligned with reality; append *Ongoing strategic decisions* when you pivot.
 2. **Strategy execution** — Tick **`progress/strategy-run-checklist.md`** as you **complete** each phase for its declared scope.
-3. **Phase work** — For the active phase, run **`generate.py --phase <slug>`** and tick **`progress/<slug>-checklist.md`** for action steps.
-4. **Registry** — Keep `term-registry.md` aligned with the current phase (Step, Classification, Status).
+3. **Phase work** — For the active phase-id, run **`generate.py --phase <phase-id>`** (or **`generate.py --stage <A|B|…|F>`** for a stage) and tick **`progress/<phase-id>-checklist.md`** for action steps.
+4. **Registry** — Keep `term-registry.md` aligned with the current phase-id (**Targets** + **Notes**); keep slice **`terms.md`** in sync for verbatim evidence.
 5. **Results** — Touch `domain-scan-results.md` only for corrections to the original scan snapshot.
 
 ---
@@ -14518,26 +14262,45 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 
 # Strategy execution and checklists (abd-ooad)
 
-**Canonical doc** for: (1) **strategy** vs **live ticks**, (2) **which files** hold checkboxes, (3) **how** `generate.py` creates workspace **`progress/`** files. Does **not** replace **[process.md](../process.md)** (process tables, `generate` / `build`) or **[skill-structure-and-concepts.md](../base/skill-structure-and-concepts.md)** (repo layout).
+**Canonical doc** for: (1) **strategy** vs **live ticks**, (2) **which files** hold checkboxes, (3) **how** `generate.py` creates workspace **`progress/`** files, (4) **stages**, **revisits / disruption** on the same checklist. Does **not** replace **[process.md](../process.md)** (phase chronicle, `generate` / `build`) or **[skill-structure-and-concepts.md](../base/skill-structure-and-concepts.md)** (repo layout).
 
-Only **`strategy.md`** defines **scope** and **which phases in what order**; checklists are where you **tick** progress.
+Only **`strategy.md`** defines **scope** and **which phase-ids (or stages) in what order**; checklists are where you **tick** progress.
 
 ---
 
 ## Workflow
 
-1. **Domain scan** — produce scan artifacts (see **`strategy-led-generation`**).
+1. **Domain scan** — produce scan artifacts (see **`strategy-led-generation`**). Phase-id: **`domain-scan`**.
 2. **Strategy** — fill **`strategy.md`** from **`templates/strategy.md`**:
    - **Modeling scope** — corpus or product boundary; **source type** (book vs repo vs mixed).
    - **§1 Source slices** — ordered table: **Goal**, **Source** (chapters, files, modules, APIs — whatever locates work), **Coverage** (depth this pass), **Importance**; stable **slice IDs** reused everywhere.
-   - **§2 Slice plan** — per slice: **goal restated**, **unit kind**, **phases** (execution step numbers / slugs), produces, depends-on.
-   - **Coverage across steps** — matrix: every slice → which **execution plan** steps touch it → **depth** → deferrals.
+   - **§2 Slice plan** — per slice: **goal restated**, **unit kind**, **phase-ids** (or **stages**) you will run, produces, depends-on.
+   - **Coverage across steps** — matrix: every slice → which **execution plan** phase-ids touch it → **depth** → deferrals.
    - **Cross-slice integration** — cross-boundary types and ordering (From → To + narrative).
-   - **Anchor and subdomain elaboration** (when anchors have attached types) — map subdomains to slices and execution §.
-   - **Execution plan (normative)** — ordered phase **slugs**; **each line cites slice IDs** (mirror **`strategy-run-checklist.md`**).
+   - **Anchor and subdomain elaboration** (when anchors have attached types) — map subdomains to slices and execution phase-ids.
+   - **Execution plan (normative)** — ordered **phase-id** strings; **each line cites slice IDs** (mirror **`strategy-run-checklist.md`**). Optionally group work by **stage A–F** (see **`process.md` → Stage map**).
+   - **Stage completion (after each stage)** — what completed; tensions; **new checklist lines** for revisits (below); **audit** — append dated line under *Ongoing strategic decisions*.
    - **Approach going forward** + **Ongoing strategic decisions** — short narrative and dated pivots.
 3. **Align live checklists** — keep **`strategy-run-checklist.md`** in sync with the execution plan (same order and scope). Optional **`templates/strategy-run-checklist.md`** seed; optional **`templates/progress-README.md`** → **`progress/README.md`** for slice-specific files under **`progress/slices/`**.
-4. **Run phases** — for the **current** phase: `python scripts/base/generate.py --phase <slug>`. Tick **`strategy-run-checklist.md`** when a phase is **done** for its declared scope; tick **`<slug>-checklist.md`** for **steps inside** that phase.
+4. **Run phases** — **`python scripts/base/generate.py --phase <phase-id>`** for one step, or **`python scripts/base/generate.py --stage <A|B|…|F>`** for a full stage (same order as **`process.md`** / **`skill-config.json` → `process_stages`**). Tick **`strategy-run-checklist.md`** when a phase (or stage slice) is **done** for its declared scope; tick **`<phase-id>-checklist.md`** for **steps inside** that phase.
+
+---
+
+## Revisits and disruption (same checklist)
+
+A **revisit** is **not** a separate rerun workflow. While executing (including late **stage F**), if work must **go back** to an earlier **stage** or **phase-id**, **add a new row** to **`strategy-run-checklist.md`** — e.g. `- [ ] Revisit stage B — <short reason>` or `- [ ] Re-run nouns-verbs-rules-and-states — slice S1 — reconcile new anchor` — at the **bottom** or **inserted** where it fits the agreed order. The checklist is the single source of truth for **forward** work plus **backward** revisits.
+
+**Audit:** When you add a revisit row, append a dated line under **`strategy.md` → Ongoing strategic decisions**; never delete prior pivots.
+
+### Hint table (non-prescriptive)
+
+| You are here | Often need to touch |
+|--------------|---------------------|
+| Stage F | Stage E, D, or C (naming / validation feedback) |
+| Stage E | Stage C (scenarios expose structure gaps) |
+| Stage D | Stage C (splitting responsibilities) |
+
+Use this as a **prompt**, not a rule.
 
 ---
 
@@ -14545,9 +14308,9 @@ Only **`strategy.md`** defines **scope** and **which phases in what order**; che
 
 | Layer | File | What you tick |
 | --- | --- | --- |
-| **Strategy execution** | **`progress/strategy-run-checklist.md`** | **Which phases** you will run, **in order**, each with **scope** that **includes the same slice IDs** as **`strategy.md` → Execution plan**. Optional: **`progress/slices/<slice-id>-checklist.md`** per slice — see **`progress/README.md`** in the workspace (if present). |
+| **Strategy execution** | **`progress/strategy-run-checklist.md`** | **Which phase-ids** (or stages) you will run, **in order**, each with **scope** that **includes the same slice IDs** as **`strategy.md` → Execution plan**; **includes revisit rows** when you must go backward. Optional: **`progress/slices/<slice-id>-checklist.md`** per slice — see **`progress/README.md`** in the workspace (if present). |
 | **Full pipeline (reference)** | **`progress/process-checklist.md`** | **Every** phase in **`phase_files`** — useful as a map; optional if you rely only on strategy-run. |
-| **Phase steps** | **`progress/<phase>-checklist.md`** | **Action checklist** copied from **`content/parts/phases/<phase>.md` → ## Action Checklist**. |
+| **Phase steps** | **`progress/<phase-id>-checklist.md`** | **Action checklist** copied from **`content/parts/phases/<phase-id>.md` → ## Action Checklist**. |
 
 **Implementation:** **`scripts/base/workspace_checklists.py`** (paths, behavior, `--no-ensure-checklists`).
 
@@ -14557,10 +14320,10 @@ Only **`strategy.md`** defines **scope** and **which phases in what order**; che
 
 | Kind | What it tracks | Where it lives | How it gets there |
 | --- | --- | --- | --- |
-| **Normative reference** | Rules in **this document** — strategy vs ticks, layers, `generate.py` behavior | **`content/parts/library/strategy-execution-and-checklists.md`** | Authored in the skill; **not** created by **`generate.py`**. |
-| **Pipeline position** | Which **phase** of the pipeline you are in | **`<active_skill_workspace>/<skill_name>/progress/process-checklist.md`** | **Created** on first **`python scripts/base/generate.py --phase <slug>`** when that file is **missing**, if **`skill-config.json` → `workspace.active_skill_workspace`** is set. One `- [ ]` line per slug in **`phase_files`** (labels from **`phase_section_headings`** when present). **Does not overwrite** an existing file. |
-| **Phase action steps** | **Steps inside** the current phase | **`<active_skill_workspace>/<skill_name>/progress/<phase-slug>-checklist.md`** | **Created** in the **same** `generate.py` run when that file is **missing**. Steps are taken from **`## Action Checklist`** in **`content/parts/phases/<phase-slug>.md`**, or from task lines (`- [ ]` / `- [x]`) in that file if the section is absent. **Does not overwrite** an existing file. |
-| **Strategy execution** (workspace) | Ordered phases matching **`strategy.md`** | **`progress/strategy-run-checklist.md`** | Seeded from template when **`generate.py`** / workspace checklist logic creates it; **you** align it with **`strategy.md`**. |
+| **Normative reference** | Rules in **this document** — strategy vs ticks, layers, revisits, `generate.py` behavior | **`content/parts/library/strategy-execution-and-checklists.md`** | Authored in the skill; **not** created by **`generate.py`**. |
+| **Pipeline position** | Which **phase-id** of the pipeline you are in | **`<active_skill_workspace>/<skill_name>/progress/process-checklist.md`** | **Created** on first **`python scripts/base/generate.py --phase <phase-id>`** (or first phase of **`--stage`**) when that file is **missing**, if **`skill-config.json` → `workspace.active_skill_workspace`** is set. One `- [ ]` line per slug in **`phase_files`** (labels from **`phase_section_headings`** when present). **Does not overwrite** an existing file. |
+| **Phase action steps** | **Steps inside** the current phase | **`<active_skill_workspace>/<skill_name>/progress/<phase-id>-checklist.md`** | **Created** in the **same** `generate.py` run when that file is **missing**. Steps are taken from **`## Action Checklist`** in **`content/parts/phases/<phase-id>.md`**, or from task lines (`- [ ]` / `- [x]`) in that file if the section is absent. **Does not overwrite** an existing file. |
+| **Strategy execution** (workspace) | Ordered phase-ids (and revisit rows) matching **`strategy.md`** | **`progress/strategy-run-checklist.md`** | Seeded from template when **`generate.py`** / workspace checklist logic creates it; **you** align it with **`strategy.md`**. |
 
 ### Names and workspace
 
@@ -14581,9 +14344,9 @@ Only **`strategy.md`** defines **scope** and **which phases in what order**; che
 
 ---
 
-## Phase slugs
+## Phase IDs
 
-Use exact slugs from **`skill-config.json` → `phase_files`** (e.g. `nouns-verbs-rules-and-states`, `domain-scan`). Labels for humans are in **`phase_section_headings`**.
+Use exact **phase-id** strings from **`skill-config.json` → `phase_files`** (e.g. `nouns-verbs-rules-and-states`, `domain-scan`). Labels for humans are in **`phase_section_headings`**. **Stages** **A–F** map to ordered phase-id lists in **`process_stages`** — see **`process.md`**.
 
 ---
 
@@ -14602,168 +14365,147 @@ Use exact slugs from **`skill-config.json` → `phase_files`** (e.g. `nouns-verb
 
 ## What a Term Is
 
-A **Term** is any concept identified from the source material that may become part of the domain model. At the time of identification, a Term is not committed to a model role — it might become a class, a property, a value type, an association, or nothing at all. The registry tracks Terms as the modeling phases determine what each one actually is.
+A **Term** is any concept identified from the source material that may become part of the domain model. At identification time it is not committed to a model role — it might become a class, a property, a value type, an association, or nothing. The registry tracks Terms as modeling **phase-ids** (see **`process.md` → Phase chronicle**) determine what each one actually is.
 
-This is distinct from other uses of "actor" in this domain:
-- In MM3E and FoundryVTT, "Actor" has a specific system meaning (a character, creature, or entity in the game world).
-- In the registry, everything is a Term until the model says otherwise.
+This is distinct from other domain uses of overloaded words (e.g. in some systems “Actor” is a system type). In the registry, everything is a Term until the model says otherwise.
 
-**File:** `<workspace>/abd-ooad/term-registry.md`
-**Never embedded** inside step outputs — it lives in its own file and is referenced from each step's model doc.
+**File:** `<workspace>/abd-ooad/term-registry.md` (or per-slice path if your workspace layout nests slices).
 
----
-
-## Step Reference — Short Names
-
-Use these short names in the **Step** column of the registry when adding or updating a row.
-
-| Short Name | Phase | Description |
-|-----------|-------|-------------|
-| SETUP | workspace-and-config | Workspace initialization |
-| SCAN | domain-scan | Source scan and anchor identification |
-| NOUNS | nouns-verbs-rules-and-states | Extract nouns, verbs, rules, states |
-| CANDS | raw-candidate-list | Raw candidate class list |
-| THINGS | thing-vs-data-about-a-thing | Separate things from data-about-things |
-| RESP | responsibilities-before-operations | Assign responsibilities |
-| PROPS | add-properties-semantically-tight | Add semantically tight properties |
-| OPS | turn-verbs-into-operations | Turn verbs into operations |
-| RELS | relationships-and-cardinality | Relationships and cardinality |
-| INV | invariants-in-the-model | Identify invariants |
-| BLOAT | watch-for-bloated-classes | Detect bloated classes |
-| ROLES | smashed-abstractions-and-hidden-roles | Uncover hidden roles |
-| INHERIT | inheritance-when-behavior-generalizes | Apply inheritance |
-| ABST | abstract-classes-and-interfaces | Abstract classes and interfaces |
-| COMP | prefer-composition | Prefer composition over inheritance |
-| STATES | model-state-transitions | Model state transitions |
-| ITER | iterative-refinement | Iterative refinement pass |
-| TENSION | tension-as-a-signal | Resolve tensions |
-| COHESION | what-changes-together | What changes together |
-| VALIDATE | validate-with-scenarios | Validate with scenarios |
-| NAMES | refine-names | Refine class and concept names |
-| LAYERS | model-in-layers | Model in layers |
+**Never embed** the full registry inside step outputs — it lives in its own file and is referenced from each phase’s model doc.
 
 ---
 
-## Slices and global phase numbers (normative)
+## Relationship to `terms.md` (per slice)
 
-The **OOAD process table** (see **`process.md`** / built **AGENTS.md** — “Process Table”) assigns **global phase numbers** **0–21** to phase **slugs** (e.g. **Phase 2** = `nouns-verbs-rules-and-states`, **Phase 3** = `raw-candidate-list`, **Phase 4** = `thing-vs-data-about-a-thing`).
-
-- **Phase 1** (`domain-scan`, short name **SCAN**) runs **once per workspace** (or once per strategy engagement). It produces anchors, `strategy.md`, `domain-scan-results.md`, and seeds **`term-registry.md`**. It is **not** repeated as “each slice’s Phase 1.”
-- **Per-slice modeling** (folders or **Anchor** columns **`S1=…`**, **`S2=…`**, …) **aligns with the same global numbers from Phase 2 onward:** the **first** extraction artifact in a slice is always **Phase 2** (**NOUNS**), then **3** (**CANDS**), **4** (**THINGS**), etc. Do **not** label slice-local nouns-verbs files as Phase 1 — that collides with **SCAN**.
-- **Phase notes** in italics (optional): `*[Sn · Phase N]*` where **N** is the **global** process-table number. Add slug, tension id, or short reminder *after* the tag on the same line if needed (e.g. *thing-vs-data*, *registry Tn*). For early “likely class” judgments: `*[S1 · Phase 3]* Likely class : …`.
-
----
-
-## Registry Columns
-
-| Column | Values | Notes |
-|--------|--------|-------|
-| **Term** | Concept name from the source | Exact word or phrase as found — rename in the NAMES step if needed |
-| **Classification** | See **Classification** below | **What we want to model this as** — target shape in the domain model (not lifecycle) |
-| **Step** | Short name from table above (SCAN, NOUNS, …) | Step that first identified or last materially updated this Term |
-| **Confidence** | High / Medium / Low | How sure we are this belongs in the model |
-| **Status** | See **Status (OOAD scale)** below | Where this Term sits in the modeling workflow |
-| **Notes** | Free text | Anchor-test results, owning module for supporting classes (`Supporting class — X module`), competing interpretations, pointers to tensions in `domain-scan-results.md`, and follow-ups |
+- **`terms.md`** (alongside `domain-noun-verb.md` in a slice folder) holds **module-scoped evidence**: quotes, raw extractions, promotion history under **`## [Anchor module]`** headings aligned with the integrated domain model.
+- **`term-registry.md`** remains the **term-centric analysis record**: one row per Term; **Targets** = where the term landed; **Notes** = substantive reasoning (anchor tests, classification, tensions) — **full paragraphs are fine** when the work needs them.
+- **Principle:** Notes depth is **not** reduced because `terms.md` exists. `terms.md` reduces **duplication of verbatim source text** and organizes evidence by module; it does **not** justify one-line registry Notes unless the term truly needs only one line.
+- **Avoid duplicate verbatim quotes:** keep the quote in **`terms.md`** and in **Notes** point to `terms.md#anchor-module` (or the term subsection); keep analysis-only text in Notes as today.
 
 ---
 
-## Classification — what we want to model this as
+## Phase IDs (normative references)
 
-Use **one** value per row. This is the **intended model role**, not how “mature” the idea is (that is **Status**).
+Refer to pipeline steps **only** by **`phase-id`** — the short **kebab-case** slug matching **`skill-config.json` → `phase_files`** and the **`process.md`** chronicle (e.g. `domain-scan`, `nouns-verbs-rules-and-states`, `refine-names`). Do **not** use “Phase 1 / Phase 2” as **names** for steps; those ordinals drift. Optional **model tags** in the domain model use **`*[Sn · phase-id]*`** (e.g. **`*[S1 · refine-names]*`**) — see **`library/domain-model`**.
 
-| Value | Meaning |
+---
+
+## Registry columns
+
+| Column | Role |
+|--------|------|
+| **Term** | Concept name from the source — exact word or phrase as found; rename in **`refine-names`** if needed. |
+| **Targets** | Where this term **landed** in the model: a **bulleted list inside the table cell** (Markdown list), **one typed pointer per line**. Unallocated / not yet placed → leave empty or **—**. |
+| **Notes** | Anchor-test results, slice/anchor context (**`S1=…`** style if useful), competing interpretations, tensions, pointers to **`terms.md`** when verbatim evidence lives there — same substance as historical scan/noun-verb rows. |
+
+**Optional:** If you need a single “primary kind” for tooling, add one optional column **after** Term (e.g. **Kind**) — otherwise prefer **Targets**-only for a slim table.
+
+---
+
+## Targets — typed pointers (one per bullet)
+
+**Normative style:** each bullet is **one** typed target. **Do not** concatenate targets with `|` or `;` on one run-on line.
+
+Examples of pointer forms (extend as your model needs):
+
+- `entity:Payment`
+- `vo:Money`
+- `property:Payment.amount`
+- `operation:Order.submit`
+- `invariant:…`
+- `policy:…`
+- `relationship:Customer — Order`
+
+**Renders in Markdown tables** — use `<br>` between bullets if your renderer collapses list-in-cell (GitHub-style often accepts list-in-cell; validate in your preview):
+
+```markdown
+| Term   | Targets |
 |--------|---------|
-| **anchor (class + module)** | Passes the anchor test: this concept is a **core class** and owns a **module** (dashed frame + same-named core class). Use only for backbone modules. |
-| **class** | A domain **class** that is not its own module yet — e.g. supporting class inside a frame, or a type you expect to become a class without its own module. |
-| **property** | Modeled as a **semantic property** (attribute / value on a class), not a separate type. |
-| **field** | Modeled as a **typed field / slot** (data member, possibly simple type or value object). |
-| **example (instance)** | An **illustrative instance**, sample, or scenario object — not a type in the model. |
-| **relationship** | An **association**, link, or dependency between concepts — may become an association, association class, or navigable role. |
-| **invariant (rule)** | A **domain rule**, constraint, or policy — often becomes behavior, guard, or explicit rule text on a class. |
-
-**Diagram mapping (when relevant):** `anchor (class + module)` → module frame + core class; `class` → class box; `relationship` → association; `invariant (rule)` → note, constraint, or operation; `property` / `field` → attributes on a class.
+| amount | - `entity:Payment`<br>- `vo:Money`<br>- `property:Payment.amount` |
+```
 
 ---
 
-## Status (OOAD scale)
+## Notes — still substantive
 
-**Status** is **lifecycle / confidence in the workflow**, not the model shape. Pick the value that best fits; states are **not** always a strict left-to-right pipeline.
+Notes remain the place for **classification reasoning**, anchor tests, tensions, and follow-ups. **Do not** make Notes sparse by default. When raw quotes live in **`terms.md`**, write in Notes: *“Verbatim quote in `terms.md` → [Anchor module] / term …”* and keep analysis here.
 
-| Status | When to use |
-|--------|-------------|
-| **Ambiguous** | You cannot yet say what the Term is or how it sits next to others. |
-| **Tension** | Competing interpretations, overlapping boundaries, or conflicting source pulls — needs resolution before the model can commit. |
-| **Candidate** | Plausible model role; narrowed but not yet locked (often after scan, before THINGS/RELS). |
-| **Deferred** | Explicitly parked — revisit in a named later step or phase. |
-| **Active** | In current modeling scope; being updated in this pass. |
-| **Solidified** | Named, placed, and stable in the model for the current iteration — ready to treat as “done” unless source or scope changes. |
-
-**Typical (non-binding) progression:** Ambiguous → Tension or Candidate → Active → Solidified. **Deferred** can apply after any stage. A Term can return from Deferred to Active when scope returns to it.
+**Slice / anchor:** You may record **`S1=Character`** (or similar) in **Notes** or a minimal **Slice** column if the table template adds one — your engagement may require it for MM3E-style multi-slice tables.
 
 ---
 
-## Registry format (wide Notes)
+## Classification (reference — not required as its own column)
 
-**Prefer an HTML `<table>` with `<colgroup>`** so the **Notes** column gets most of the width (~50–55%). **Classification** labels can be long — give that column ~12–14% if needed. Plain Markdown pipe tables allocate columns evenly and make long Notes hard to read in the editor and in preview.
+If you **merge** the old **Classification** column into **Targets**, use typed pointers (`entity:…`, `property:…`, …) so the table stays one row per Term. The **meaning** of former classification values is unchanged:
 
-Use this skeleton (adjust `width` percentages if needed):
+| Former value | Meaning |
+|--------------|--------|
+| **anchor (class + module)** | Passes the anchor test: core class owns a **module** (frame + same-named core class). |
+| **class** | Domain class not its own module yet — supporting class, or expected class without module. |
+| **property** | Modeled as semantic property on a class. |
+| **field** | Typed field / slot. |
+| **example (instance)** | Illustrative instance — not a type. |
+| **relationship** | Association, link, dependency. |
+| **invariant (rule)** | Domain rule, constraint, policy. |
+
+---
+
+## Registry format (HTML table recommended for Notes width)
+
+Prefer an HTML `<table>` with `<colgroup>` so **Notes** gets most width (~50–55%). **Targets** can be ~18–22%.
 
 ```html
 <table>
 <colgroup>
-  <col style="width:9%" />
-  <col style="width:14%" />
-  <col style="width:6%" />
-  <col style="width:9%" />
-  <col style="width:9%" />
-  <col style="width:53%" />
+  <col style="width:12%" />
+  <col style="width:22%" />
+  <col style="width:66%" />
 </colgroup>
 <thead>
 <tr>
   <th>Term</th>
-  <th>Classification</th>
-  <th>Step</th>
-  <th>Confidence</th>
-  <th>Status</th>
+  <th>Targets</th>
   <th>Notes</th>
 </tr>
 </thead>
 <tbody>
 <tr>
   <td>Character</td>
-  <td>anchor (class + module)</td>
-  <td>SCAN</td>
-  <td>High</td>
-  <td>Active</td>
-  <td>Central entity; all rules attach to it</td>
-</tr>
-<tr>
-  <td>Power</td>
-  <td>class</td>
-  <td>SCAN</td>
-  <td>High</td>
-  <td>Active</td>
-  <td>Supporting class — Character module. Core capability unit.</td>
-</tr>
-<tr>
-  <td>Device</td>
-  <td>class</td>
-  <td>SCAN</td>
-  <td>Medium</td>
-  <td>Tension</td>
-  <td>Removable Power vs Equipment? Boundary unclear — see T2.</td>
+  <td>- <code>entity:Character</code><br>- <code>property:Character.powerLevel</code></td>
+  <td>Central entity; anchor test ✓. Slice <code>S1=Character</code>. Long quotes in <code>terms.md</code> → Character module.</td>
 </tr>
 </tbody>
 </table>
 ```
 
-For very small registries only, a Markdown pipe table is acceptable:
+Small registries: Markdown pipe table is acceptable.
 
-```markdown
-| Term | Classification | Step | Confidence | Status | Notes |
-|------|----------------|------|------------|--------|-------|
-| Character | anchor (class + module) | SCAN | High | Active | Short note only |
-```
+---
+
+## Migration from legacy wide tables
+
+If you have **Step**, **Confidence**, **Status**, and **Classification** columns:
+
+1. **Term** → keep.
+2. **Classification** + committed placements → **Targets** bullets (`entity:…`, `property:…`, …).
+3. **Step** → fold into **Notes** as *“First touched at phase-id `domain-scan`”* or leave implicit if noisy.
+4. **Confidence / Status** → merge into **Notes** (*“Legacy: was High / Active”*) only if still useful; otherwise drop.
+5. **Notes** → preserve text; add pointer to **`terms.md`** where verbatim evidence moved.
+
+---
+
+## Slices and `domain-scan` vs per-slice work
+
+- **`domain-scan`** runs **workspace-wide** (or once per strategy engagement): seeds **`term-registry.md`**, anchors, **`strategy.md`**, scan artifacts. It is **not** “each slice’s first phase” by name — use **phase-id** `domain-scan` only.
+- Per-slice deep extraction aligns with **`nouns-verbs-rules-and-states`** and **`raw-candidate-list`** in **chronicle order** after scan. **`terms.md`** evolves from those phase-ids onward for that slice.
+
+---
+
+## References
+
+- **`process.md`** — Phase chronicle, stages A–F, capture ladder  
+- **`terms.md`** template — `templates/terms-template.md`  
+- **Strategy / revisits** — `library/strategy-execution-and-checklists.md`
 
 
 ---
@@ -15214,7 +14956,7 @@ The CLI does not yet support notes — add them manually in draw.io after CLI bu
 | Phase | Add invariants? |
 |-------|----------------|
 | domain-scan | Yes — add the invariants you found during the scan (inline preferred at this fidelity) |
-| domain-noun-verb (Step 1) | No — extraction only; invariants captured in registry notes |
+| domain-noun-verb (Phase 2) | No — extraction only; invariants captured in registry notes |
 | raw-candidate-list through responsibilities | Yes — as invariants become confirmed, add to diagram |
 | Full model phases | Yes — invariants are a required part of the final model |
 
@@ -16139,19 +15881,23 @@ Encode **invariants** on **Payment** / **Refund** operations (sanctions, partial
 
 # Domain model Markdown
 
-This skill’s **domain model** is captured in Markdown  a parallel **Draw.io** class diagram. Use **`templates/domain model template.md`** for companion docs; align with **`templates/domain model template.drawio`** when both exist.
+The **domain model** lives in workspace **`domain*.md`** files; **Draw.io** diagrams are **visual twins** of that content — update markdown first, then render or hand-sync the diagram (see **class-diagrams**, **using-diagram-cli**).
 
-**Phase 2 — `domain-noun-verb.md`:** anchor sections, **Candidate …** lists, full or pared class boxes. Slice files are **content only** — no skill paths or process meta in the artifact body.
+**Integrated slice model + evidence:** Prefer **`templates/domain-model-integrated.md`** alongside **`templates/terms-template.md`** (`terms.md` per slice). Class **Notes** use **`*[Sn · phase-id]*`** (e.g. **`*[S1 · refine-names]*`**) — **phase-id** from **`process.md`**, not numeric step names.
 
-**Phase 3 — bucket roll-up:** sort candidates into **entities**, **value objects**, **processes**, **policies**, **roles**, **events** (tables in **`raw-candidate-list.md`** or appended to **`domain-noun-verb.md`**). Same **content-only** rule: no skill/process boilerplate in slice files.
+**`domain-scan`:** **`domain-scan-results.md`**, **`domain-scan-model.md`**, then **`domain-scan-model.drawio`**.
 
-**Optional — `domain-raw-candidates.md`:** same Phase 3 content as **classes under anchor modules** (`### Name : << Entity >>` / `<< ValueObject >>` / `<< Process >>` / …), notes below — **not** a second copy of bucket tables. Cross-cutting material → **`## Cross-anchor`** or appendix. **`templates/domain-raw-candidates-template.md`**.
+**`nouns-verbs-rules-and-states` — `domain-noun-verb.md`:** anchor sections, **Candidate …** lists, class boxes. Slice files are **domain content only** — no skill paths or process boilerplate in the artifact body.
+
+**`raw-candidate-list`:** Prefer **`domain-raw-candidates.md`** — classes under anchors with notes. Optional single tabular roll-up (**`raw-candidate-list.md`** or appendix to **`domain-noun-verb.md`**) — **not** the same tables twice plus an integrated file.
+
+**Templates:** **`templates/domain model template.md`**, **`templates/domain-raw-candidates-template.md`**, **`templates/domain-model-integrated.md`**.
 
 ---
 
 ## Domain concept template
 
-Each **domain concept** (class, interface, value object, or aggregate) is documented under a clear heading, for example:
+Each concept is documented under a clear heading, for example:
 
 ```markdown
 ## **Payment**
@@ -16160,73 +15906,62 @@ Each **domain concept** (class, interface, value object, or aggregate) is docume
 
 ### Properties
 - Money amount
-- …
 
 ### Operations
 - initiate() → Authorization
 ```
 
-From **Step 5** onward, prefer **typed** members (see **Notation evolution** below). Earlier steps stay **pre-notation** (bullets and prose).
+From **Phase 6** onward (`add-properties-semantically-tight`), prefer **typed** members (see **Notation evolution**). Earlier phases stay informal (bullets and prose).
 
 ---
 
-## Continual refinement — class definition + diagram
+## Markdown and diagram
 
-**Continual refinement** means you **grow** the model across steps: each step file may add or tighten concepts. The Markdown spec and the class diagram are **two views of the same model** — update both when your project uses dual artifacts so they do not drift (see **[Class diagrams](class-diagrams.md)**).
+The Markdown spec and the class diagram are **two views of the same model** — keep them aligned when both exist (**class-diagrams**).
 
 ---
 
-## **newly added** tag
+## **newly added** tag (optional)
 
-In the **worked example** threads (e.g. payments), the marker **newly added** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
+In long-running examples, **newly added** on a line marks a property or operation that first appears in *this* file — useful for deltas across files.
 
 ---
 
 ## Notation evolution
 
-| Phase | Markdown style |
-|--------|------------------|
-| **Steps 1–4** | Informal: bullets, short phrases, responsibilities, candidate names; typed `- <type> property` lines arrive in Step 5. |
-| **Step 5+** | Formal typed members: `- <Type> propertyName`, `operationName(...) → ReturnType`. |
+| Phase range | Markdown style |
+|-------------|----------------|
+| **2–5** | Informal: bullets, candidates, responsibilities; typed `- <type> property` lines from **Phase 6** onward. |
+| **Phase 6+** | Formal: `- <Type> propertyName`, `operationName(...) → ReturnType`. |
 
 ---
 
 ## Subtype sections
 
-When you introduce substitutable specializations, add an explicit subtype heading so the structure is visible in the spec and in diagrams:
+When you introduce substitutable specializations, add an explicit subtype heading so structure is visible in spec and diagrams:
 
 ```markdown
 ### **Subtype** : **PaymentMethod**
 ```
 
-Put **`**newly added**`** on subtype **operation** (or property) lines when that member is **first** introduced for that subtype.
-
 ---
 
 ## Invariants
 
-Attach invariants to the **property** or **operation** they constrain, using a dedicated line:
+Attach invariants to the property or operation they constrain:
 
 ```markdown
 **Invariant:** …
 ```
 
-Mark **`**newly added**`** when you **first** attach an invariant to a given member line.
-
 ---
 
-## Early steps: terms, mechanisms, story map
+## Class diagram and spec
 
-Before typed properties exist, align extracted **nouns, verbs, rules, states** with your workspace’s **terms & mechanisms** and **shaped story map** (or equivalent). That is the same “grow the model as you go” idea: informal extraction first, then formal types.
+When you maintain **`map-model-spec.json`** or similar, re-run the project’s diagram script after material changes so Draw.io stays aligned.
 
----
-
-## Class diagram and spec (visual twin)
-
-When you maintain a machine-readable spec such as **`map-model-spec.json`**, re-run your project’s class-diagram render script (for example **`render_map_model_class_diagram.py`**) after material changes so the **Draw.io** diagram stays the **visual twin** of the spec.
-
-- **[Class diagrams](class-diagrams.md)** — templates, relationship types, keeping `.md` and `.drawio` aligned.  
-- **[Using the Diagram CLI](using-diagram-cli.md)** — building diagrams with **`scripts/drawio_cli.py`**.
+- **Class diagrams** — templates, relationships, keeping `.md` and `.drawio` aligned.  
+- **Using the Diagram CLI** — `scripts/drawio_cli.py`.
 
 ---
 
@@ -16234,9 +15969,9 @@ When you maintain a machine-readable spec such as **`map-model-spec.json`**, re-
 
 | Topic | File |
 |--------|------|
-| Term tracking across steps | [term-registry.md](term-registry.md) |
+| Term tracking | [term-registry.md](term-registry.md) |
 | Strategy-led runs | [strategy-led-generation.md](strategy-led-generation.md) |
-| Layout and lanes | [class-diagram-layout-rules.md](class-diagram-layout-rules.md) |
+| Layout | [class-diagram-layout-rules.md](class-diagram-layout-rules.md) |
 
 
 ---
@@ -16328,9 +16063,9 @@ The absence of a matching core class is the clearest signal that you have not ye
 
 # Strategy-led generation
 
-Domain scan (OOAD **phase 1**) does not only produce a single “results” file. It establishes a **small set of workspace files** under `<workspace>/abd-ooad/` that work together. Some are **frozen findings** from the scan; others are **living documents** you update as modeling continues.
+Domain scan (phase-id **`domain-scan`**) does not only produce a single “results” file. It establishes a **small set of workspace files** under `<workspace>/abd-ooad/` that work together. Some are **frozen findings** from the scan; others are **living documents** you update as modeling continues.
 
-**Slices start at global Phase 2:** Source-slice work (e.g. **S1**, **S2** in `strategy.md` and **`Anchor`** `S1=…` / `S2=…` in `term-registry.md`) uses the **same global OOAD phase numbers** as the process table for everything **after** scan. The **first** per-slice extraction step is **Phase 2** (`nouns-verbs-rules-and-states`), **not** a slice-local “Phase 1.” Phase **1** is workspace-wide **domain-scan** only. See **`term-registry.md` → Slices and global phase numbers**.
+**Per-slice extraction** after scan uses the **same phase-id chronicle** as **`process.md`**. The **first** detailed per-slice capture is **`nouns-verbs-rules-and-states`** (then **`raw-candidate-list`**, …) — **not** a second **`domain-scan`**. Use **phase-id** names in strategy and registry (and **`*[Sn · phase-id]*`** tags in the model), not “Phase 1 / Phase 2” as step names. See **`term-registry.md`** and **`process.md` → Capture ladder**.
 
 For the scan procedure itself, see the **Domain scan** phase. This page explains **what each artifact is for** and how **`strategy.md`** relates to **`domain-scan-results.md`**.
 
@@ -16348,7 +16083,8 @@ Created during domain scan under `<workspace>/abd-ooad/`:
 | `strategy.md` | **Living strategy:** **modeling scope**; **§1 source slices** (table: Order, Goal, **Source** — chapters, files, modules, or mixed — **Coverage**, **Importance**); **§2 slice plan** (per-slice **goal restated** + **phases**); **coverage across steps**; **cross-slice integration**; **anchor and subdomain elaboration**; **execution plan (normative)** — phase slugs with **slice IDs** on every line; plus **approach** and **dated pivots**. | **Yes** — whenever scope, order, slice depth, subdomain mapping, or integration changes. |
 | `domain-scan-model.md` | Class sketch (markdown) at scan fidelity. | Yes, in later phases — not only during scan. |
 | `domain-scan-model.drawio` | Diagram at scan fidelity. | Same as model.md. |
-| `term-registry.md` | Terms, **Classification** (model role), **Status** (OOAD scale), confidence — seeded at scan. | **Yes** — every later phase updates Step, Classification, and Status as the model evolves. |
+| `term-registry.md` | Terms, **Targets** (bulleted typed pointers), **Notes** — seeded at scan. | **Yes** — every later phase-id updates **Targets** and **Notes** as the model evolves. See **`library/term-registry.md`**. |
+| `terms.md` (per slice) | Evidence ledger by **`## [Anchor module]`** — quotes, promotion log. | **Yes** — from **`nouns-verbs-rules-and-states`** onward for that slice. Template: **`templates/terms-template.md`**. |
 
 **Plus** (when workspace is configured): **`progress/`** checklists — see **`library/strategy-execution-and-checklists.md`**. **`generate.py`** creates **`process-checklist.md`**, **`<phase>-checklist.md`**, and (abd-ooad) **`strategy-run-checklist.md`** when templates exist and files are missing. Normative phase steps stay in **`content/parts/phases/<phase>.md`**. These are the **only** place for session tick marks.
 
@@ -16383,8 +16119,8 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 
 1. **Strategy** — Keep **`strategy.md`** aligned with reality; append *Ongoing strategic decisions* when you pivot.
 2. **Strategy execution** — Tick **`progress/strategy-run-checklist.md`** as you **complete** each phase for its declared scope.
-3. **Phase work** — For the active phase, run **`generate.py --phase <slug>`** and tick **`progress/<slug>-checklist.md`** for action steps.
-4. **Registry** — Keep `term-registry.md` aligned with the current phase (Step, Classification, Status).
+3. **Phase work** — For the active phase-id, run **`generate.py --phase <phase-id>`** (or **`generate.py --stage <A|B|…|F>`** for a stage) and tick **`progress/<phase-id>-checklist.md`** for action steps.
+4. **Registry** — Keep `term-registry.md` aligned with the current phase-id (**Targets** + **Notes**); keep slice **`terms.md`** in sync for verbatim evidence.
 5. **Results** — Touch `domain-scan-results.md` only for corrections to the original scan snapshot.
 
 ---
@@ -16404,26 +16140,45 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 
 # Strategy execution and checklists (abd-ooad)
 
-**Canonical doc** for: (1) **strategy** vs **live ticks**, (2) **which files** hold checkboxes, (3) **how** `generate.py` creates workspace **`progress/`** files. Does **not** replace **[process.md](../process.md)** (process tables, `generate` / `build`) or **[skill-structure-and-concepts.md](../base/skill-structure-and-concepts.md)** (repo layout).
+**Canonical doc** for: (1) **strategy** vs **live ticks**, (2) **which files** hold checkboxes, (3) **how** `generate.py` creates workspace **`progress/`** files, (4) **stages**, **revisits / disruption** on the same checklist. Does **not** replace **[process.md](../process.md)** (phase chronicle, `generate` / `build`) or **[skill-structure-and-concepts.md](../base/skill-structure-and-concepts.md)** (repo layout).
 
-Only **`strategy.md`** defines **scope** and **which phases in what order**; checklists are where you **tick** progress.
+Only **`strategy.md`** defines **scope** and **which phase-ids (or stages) in what order**; checklists are where you **tick** progress.
 
 ---
 
 ## Workflow
 
-1. **Domain scan** — produce scan artifacts (see **`strategy-led-generation`**).
+1. **Domain scan** — produce scan artifacts (see **`strategy-led-generation`**). Phase-id: **`domain-scan`**.
 2. **Strategy** — fill **`strategy.md`** from **`templates/strategy.md`**:
    - **Modeling scope** — corpus or product boundary; **source type** (book vs repo vs mixed).
    - **§1 Source slices** — ordered table: **Goal**, **Source** (chapters, files, modules, APIs — whatever locates work), **Coverage** (depth this pass), **Importance**; stable **slice IDs** reused everywhere.
-   - **§2 Slice plan** — per slice: **goal restated**, **unit kind**, **phases** (execution step numbers / slugs), produces, depends-on.
-   - **Coverage across steps** — matrix: every slice → which **execution plan** steps touch it → **depth** → deferrals.
+   - **§2 Slice plan** — per slice: **goal restated**, **unit kind**, **phase-ids** (or **stages**) you will run, produces, depends-on.
+   - **Coverage across steps** — matrix: every slice → which **execution plan** phase-ids touch it → **depth** → deferrals.
    - **Cross-slice integration** — cross-boundary types and ordering (From → To + narrative).
-   - **Anchor and subdomain elaboration** (when anchors have attached types) — map subdomains to slices and execution §.
-   - **Execution plan (normative)** — ordered phase **slugs**; **each line cites slice IDs** (mirror **`strategy-run-checklist.md`**).
+   - **Anchor and subdomain elaboration** (when anchors have attached types) — map subdomains to slices and execution phase-ids.
+   - **Execution plan (normative)** — ordered **phase-id** strings; **each line cites slice IDs** (mirror **`strategy-run-checklist.md`**). Optionally group work by **stage A–F** (see **`process.md` → Stage map**).
+   - **Stage completion (after each stage)** — what completed; tensions; **new checklist lines** for revisits (below); **audit** — append dated line under *Ongoing strategic decisions*.
    - **Approach going forward** + **Ongoing strategic decisions** — short narrative and dated pivots.
 3. **Align live checklists** — keep **`strategy-run-checklist.md`** in sync with the execution plan (same order and scope). Optional **`templates/strategy-run-checklist.md`** seed; optional **`templates/progress-README.md`** → **`progress/README.md`** for slice-specific files under **`progress/slices/`**.
-4. **Run phases** — for the **current** phase: `python scripts/base/generate.py --phase <slug>`. Tick **`strategy-run-checklist.md`** when a phase is **done** for its declared scope; tick **`<slug>-checklist.md`** for **steps inside** that phase.
+4. **Run phases** — **`python scripts/base/generate.py --phase <phase-id>`** for one step, or **`python scripts/base/generate.py --stage <A|B|…|F>`** for a full stage (same order as **`process.md`** / **`skill-config.json` → `process_stages`**). Tick **`strategy-run-checklist.md`** when a phase (or stage slice) is **done** for its declared scope; tick **`<phase-id>-checklist.md`** for **steps inside** that phase.
+
+---
+
+## Revisits and disruption (same checklist)
+
+A **revisit** is **not** a separate rerun workflow. While executing (including late **stage F**), if work must **go back** to an earlier **stage** or **phase-id**, **add a new row** to **`strategy-run-checklist.md`** — e.g. `- [ ] Revisit stage B — <short reason>` or `- [ ] Re-run nouns-verbs-rules-and-states — slice S1 — reconcile new anchor` — at the **bottom** or **inserted** where it fits the agreed order. The checklist is the single source of truth for **forward** work plus **backward** revisits.
+
+**Audit:** When you add a revisit row, append a dated line under **`strategy.md` → Ongoing strategic decisions**; never delete prior pivots.
+
+### Hint table (non-prescriptive)
+
+| You are here | Often need to touch |
+|--------------|---------------------|
+| Stage F | Stage E, D, or C (naming / validation feedback) |
+| Stage E | Stage C (scenarios expose structure gaps) |
+| Stage D | Stage C (splitting responsibilities) |
+
+Use this as a **prompt**, not a rule.
 
 ---
 
@@ -16431,9 +16186,9 @@ Only **`strategy.md`** defines **scope** and **which phases in what order**; che
 
 | Layer | File | What you tick |
 | --- | --- | --- |
-| **Strategy execution** | **`progress/strategy-run-checklist.md`** | **Which phases** you will run, **in order**, each with **scope** that **includes the same slice IDs** as **`strategy.md` → Execution plan**. Optional: **`progress/slices/<slice-id>-checklist.md`** per slice — see **`progress/README.md`** in the workspace (if present). |
+| **Strategy execution** | **`progress/strategy-run-checklist.md`** | **Which phase-ids** (or stages) you will run, **in order**, each with **scope** that **includes the same slice IDs** as **`strategy.md` → Execution plan**; **includes revisit rows** when you must go backward. Optional: **`progress/slices/<slice-id>-checklist.md`** per slice — see **`progress/README.md`** in the workspace (if present). |
 | **Full pipeline (reference)** | **`progress/process-checklist.md`** | **Every** phase in **`phase_files`** — useful as a map; optional if you rely only on strategy-run. |
-| **Phase steps** | **`progress/<phase>-checklist.md`** | **Action checklist** copied from **`content/parts/phases/<phase>.md` → ## Action Checklist**. |
+| **Phase steps** | **`progress/<phase-id>-checklist.md`** | **Action checklist** copied from **`content/parts/phases/<phase-id>.md` → ## Action Checklist**. |
 
 **Implementation:** **`scripts/base/workspace_checklists.py`** (paths, behavior, `--no-ensure-checklists`).
 
@@ -16443,10 +16198,10 @@ Only **`strategy.md`** defines **scope** and **which phases in what order**; che
 
 | Kind | What it tracks | Where it lives | How it gets there |
 | --- | --- | --- | --- |
-| **Normative reference** | Rules in **this document** — strategy vs ticks, layers, `generate.py` behavior | **`content/parts/library/strategy-execution-and-checklists.md`** | Authored in the skill; **not** created by **`generate.py`**. |
-| **Pipeline position** | Which **phase** of the pipeline you are in | **`<active_skill_workspace>/<skill_name>/progress/process-checklist.md`** | **Created** on first **`python scripts/base/generate.py --phase <slug>`** when that file is **missing**, if **`skill-config.json` → `workspace.active_skill_workspace`** is set. One `- [ ]` line per slug in **`phase_files`** (labels from **`phase_section_headings`** when present). **Does not overwrite** an existing file. |
-| **Phase action steps** | **Steps inside** the current phase | **`<active_skill_workspace>/<skill_name>/progress/<phase-slug>-checklist.md`** | **Created** in the **same** `generate.py` run when that file is **missing**. Steps are taken from **`## Action Checklist`** in **`content/parts/phases/<phase-slug>.md`**, or from task lines (`- [ ]` / `- [x]`) in that file if the section is absent. **Does not overwrite** an existing file. |
-| **Strategy execution** (workspace) | Ordered phases matching **`strategy.md`** | **`progress/strategy-run-checklist.md`** | Seeded from template when **`generate.py`** / workspace checklist logic creates it; **you** align it with **`strategy.md`**. |
+| **Normative reference** | Rules in **this document** — strategy vs ticks, layers, revisits, `generate.py` behavior | **`content/parts/library/strategy-execution-and-checklists.md`** | Authored in the skill; **not** created by **`generate.py`**. |
+| **Pipeline position** | Which **phase-id** of the pipeline you are in | **`<active_skill_workspace>/<skill_name>/progress/process-checklist.md`** | **Created** on first **`python scripts/base/generate.py --phase <phase-id>`** (or first phase of **`--stage`**) when that file is **missing**, if **`skill-config.json` → `workspace.active_skill_workspace`** is set. One `- [ ]` line per slug in **`phase_files`** (labels from **`phase_section_headings`** when present). **Does not overwrite** an existing file. |
+| **Phase action steps** | **Steps inside** the current phase | **`<active_skill_workspace>/<skill_name>/progress/<phase-id>-checklist.md`** | **Created** in the **same** `generate.py` run when that file is **missing**. Steps are taken from **`## Action Checklist`** in **`content/parts/phases/<phase-id>.md`**, or from task lines (`- [ ]` / `- [x]`) in that file if the section is absent. **Does not overwrite** an existing file. |
+| **Strategy execution** (workspace) | Ordered phase-ids (and revisit rows) matching **`strategy.md`** | **`progress/strategy-run-checklist.md`** | Seeded from template when **`generate.py`** / workspace checklist logic creates it; **you** align it with **`strategy.md`**. |
 
 ### Names and workspace
 
@@ -16467,9 +16222,9 @@ Only **`strategy.md`** defines **scope** and **which phases in what order**; che
 
 ---
 
-## Phase slugs
+## Phase IDs
 
-Use exact slugs from **`skill-config.json` → `phase_files`** (e.g. `nouns-verbs-rules-and-states`, `domain-scan`). Labels for humans are in **`phase_section_headings`**.
+Use exact **phase-id** strings from **`skill-config.json` → `phase_files`** (e.g. `nouns-verbs-rules-and-states`, `domain-scan`). Labels for humans are in **`phase_section_headings`**. **Stages** **A–F** map to ordered phase-id lists in **`process_stages`** — see **`process.md`**.
 
 ---
 
@@ -16488,168 +16243,147 @@ Use exact slugs from **`skill-config.json` → `phase_files`** (e.g. `nouns-verb
 
 ## What a Term Is
 
-A **Term** is any concept identified from the source material that may become part of the domain model. At the time of identification, a Term is not committed to a model role — it might become a class, a property, a value type, an association, or nothing at all. The registry tracks Terms as the modeling phases determine what each one actually is.
+A **Term** is any concept identified from the source material that may become part of the domain model. At identification time it is not committed to a model role — it might become a class, a property, a value type, an association, or nothing. The registry tracks Terms as modeling **phase-ids** (see **`process.md` → Phase chronicle**) determine what each one actually is.
 
-This is distinct from other uses of "actor" in this domain:
-- In MM3E and FoundryVTT, "Actor" has a specific system meaning (a character, creature, or entity in the game world).
-- In the registry, everything is a Term until the model says otherwise.
+This is distinct from other domain uses of overloaded words (e.g. in some systems “Actor” is a system type). In the registry, everything is a Term until the model says otherwise.
 
-**File:** `<workspace>/abd-ooad/term-registry.md`
-**Never embedded** inside step outputs — it lives in its own file and is referenced from each step's model doc.
+**File:** `<workspace>/abd-ooad/term-registry.md` (or per-slice path if your workspace layout nests slices).
 
----
-
-## Step Reference — Short Names
-
-Use these short names in the **Step** column of the registry when adding or updating a row.
-
-| Short Name | Phase | Description |
-|-----------|-------|-------------|
-| SETUP | workspace-and-config | Workspace initialization |
-| SCAN | domain-scan | Source scan and anchor identification |
-| NOUNS | nouns-verbs-rules-and-states | Extract nouns, verbs, rules, states |
-| CANDS | raw-candidate-list | Raw candidate class list |
-| THINGS | thing-vs-data-about-a-thing | Separate things from data-about-things |
-| RESP | responsibilities-before-operations | Assign responsibilities |
-| PROPS | add-properties-semantically-tight | Add semantically tight properties |
-| OPS | turn-verbs-into-operations | Turn verbs into operations |
-| RELS | relationships-and-cardinality | Relationships and cardinality |
-| INV | invariants-in-the-model | Identify invariants |
-| BLOAT | watch-for-bloated-classes | Detect bloated classes |
-| ROLES | smashed-abstractions-and-hidden-roles | Uncover hidden roles |
-| INHERIT | inheritance-when-behavior-generalizes | Apply inheritance |
-| ABST | abstract-classes-and-interfaces | Abstract classes and interfaces |
-| COMP | prefer-composition | Prefer composition over inheritance |
-| STATES | model-state-transitions | Model state transitions |
-| ITER | iterative-refinement | Iterative refinement pass |
-| TENSION | tension-as-a-signal | Resolve tensions |
-| COHESION | what-changes-together | What changes together |
-| VALIDATE | validate-with-scenarios | Validate with scenarios |
-| NAMES | refine-names | Refine class and concept names |
-| LAYERS | model-in-layers | Model in layers |
+**Never embed** the full registry inside step outputs — it lives in its own file and is referenced from each phase’s model doc.
 
 ---
 
-## Slices and global phase numbers (normative)
+## Relationship to `terms.md` (per slice)
 
-The **OOAD process table** (see **`process.md`** / built **AGENTS.md** — “Process Table”) assigns **global phase numbers** **0–21** to phase **slugs** (e.g. **Phase 2** = `nouns-verbs-rules-and-states`, **Phase 3** = `raw-candidate-list`, **Phase 4** = `thing-vs-data-about-a-thing`).
-
-- **Phase 1** (`domain-scan`, short name **SCAN**) runs **once per workspace** (or once per strategy engagement). It produces anchors, `strategy.md`, `domain-scan-results.md`, and seeds **`term-registry.md`**. It is **not** repeated as “each slice’s Phase 1.”
-- **Per-slice modeling** (folders or **Anchor** columns **`S1=…`**, **`S2=…`**, …) **aligns with the same global numbers from Phase 2 onward:** the **first** extraction artifact in a slice is always **Phase 2** (**NOUNS**), then **3** (**CANDS**), **4** (**THINGS**), etc. Do **not** label slice-local nouns-verbs files as Phase 1 — that collides with **SCAN**.
-- **Phase notes** in italics (optional): `*[Sn · Phase N]*` where **N** is the **global** process-table number. Add slug, tension id, or short reminder *after* the tag on the same line if needed (e.g. *thing-vs-data*, *registry Tn*). For early “likely class” judgments: `*[S1 · Phase 3]* Likely class : …`.
-
----
-
-## Registry Columns
-
-| Column | Values | Notes |
-|--------|--------|-------|
-| **Term** | Concept name from the source | Exact word or phrase as found — rename in the NAMES step if needed |
-| **Classification** | See **Classification** below | **What we want to model this as** — target shape in the domain model (not lifecycle) |
-| **Step** | Short name from table above (SCAN, NOUNS, …) | Step that first identified or last materially updated this Term |
-| **Confidence** | High / Medium / Low | How sure we are this belongs in the model |
-| **Status** | See **Status (OOAD scale)** below | Where this Term sits in the modeling workflow |
-| **Notes** | Free text | Anchor-test results, owning module for supporting classes (`Supporting class — X module`), competing interpretations, pointers to tensions in `domain-scan-results.md`, and follow-ups |
+- **`terms.md`** (alongside `domain-noun-verb.md` in a slice folder) holds **module-scoped evidence**: quotes, raw extractions, promotion history under **`## [Anchor module]`** headings aligned with the integrated domain model.
+- **`term-registry.md`** remains the **term-centric analysis record**: one row per Term; **Targets** = where the term landed; **Notes** = substantive reasoning (anchor tests, classification, tensions) — **full paragraphs are fine** when the work needs them.
+- **Principle:** Notes depth is **not** reduced because `terms.md` exists. `terms.md` reduces **duplication of verbatim source text** and organizes evidence by module; it does **not** justify one-line registry Notes unless the term truly needs only one line.
+- **Avoid duplicate verbatim quotes:** keep the quote in **`terms.md`** and in **Notes** point to `terms.md#anchor-module` (or the term subsection); keep analysis-only text in Notes as today.
 
 ---
 
-## Classification — what we want to model this as
+## Phase IDs (normative references)
 
-Use **one** value per row. This is the **intended model role**, not how “mature” the idea is (that is **Status**).
+Refer to pipeline steps **only** by **`phase-id`** — the short **kebab-case** slug matching **`skill-config.json` → `phase_files`** and the **`process.md`** chronicle (e.g. `domain-scan`, `nouns-verbs-rules-and-states`, `refine-names`). Do **not** use “Phase 1 / Phase 2” as **names** for steps; those ordinals drift. Optional **model tags** in the domain model use **`*[Sn · phase-id]*`** (e.g. **`*[S1 · refine-names]*`**) — see **`library/domain-model`**.
 
-| Value | Meaning |
+---
+
+## Registry columns
+
+| Column | Role |
+|--------|------|
+| **Term** | Concept name from the source — exact word or phrase as found; rename in **`refine-names`** if needed. |
+| **Targets** | Where this term **landed** in the model: a **bulleted list inside the table cell** (Markdown list), **one typed pointer per line**. Unallocated / not yet placed → leave empty or **—**. |
+| **Notes** | Anchor-test results, slice/anchor context (**`S1=…`** style if useful), competing interpretations, tensions, pointers to **`terms.md`** when verbatim evidence lives there — same substance as historical scan/noun-verb rows. |
+
+**Optional:** If you need a single “primary kind” for tooling, add one optional column **after** Term (e.g. **Kind**) — otherwise prefer **Targets**-only for a slim table.
+
+---
+
+## Targets — typed pointers (one per bullet)
+
+**Normative style:** each bullet is **one** typed target. **Do not** concatenate targets with `|` or `;` on one run-on line.
+
+Examples of pointer forms (extend as your model needs):
+
+- `entity:Payment`
+- `vo:Money`
+- `property:Payment.amount`
+- `operation:Order.submit`
+- `invariant:…`
+- `policy:…`
+- `relationship:Customer — Order`
+
+**Renders in Markdown tables** — use `<br>` between bullets if your renderer collapses list-in-cell (GitHub-style often accepts list-in-cell; validate in your preview):
+
+```markdown
+| Term   | Targets |
 |--------|---------|
-| **anchor (class + module)** | Passes the anchor test: this concept is a **core class** and owns a **module** (dashed frame + same-named core class). Use only for backbone modules. |
-| **class** | A domain **class** that is not its own module yet — e.g. supporting class inside a frame, or a type you expect to become a class without its own module. |
-| **property** | Modeled as a **semantic property** (attribute / value on a class), not a separate type. |
-| **field** | Modeled as a **typed field / slot** (data member, possibly simple type or value object). |
-| **example (instance)** | An **illustrative instance**, sample, or scenario object — not a type in the model. |
-| **relationship** | An **association**, link, or dependency between concepts — may become an association, association class, or navigable role. |
-| **invariant (rule)** | A **domain rule**, constraint, or policy — often becomes behavior, guard, or explicit rule text on a class. |
-
-**Diagram mapping (when relevant):** `anchor (class + module)` → module frame + core class; `class` → class box; `relationship` → association; `invariant (rule)` → note, constraint, or operation; `property` / `field` → attributes on a class.
+| amount | - `entity:Payment`<br>- `vo:Money`<br>- `property:Payment.amount` |
+```
 
 ---
 
-## Status (OOAD scale)
+## Notes — still substantive
 
-**Status** is **lifecycle / confidence in the workflow**, not the model shape. Pick the value that best fits; states are **not** always a strict left-to-right pipeline.
+Notes remain the place for **classification reasoning**, anchor tests, tensions, and follow-ups. **Do not** make Notes sparse by default. When raw quotes live in **`terms.md`**, write in Notes: *“Verbatim quote in `terms.md` → [Anchor module] / term …”* and keep analysis here.
 
-| Status | When to use |
-|--------|-------------|
-| **Ambiguous** | You cannot yet say what the Term is or how it sits next to others. |
-| **Tension** | Competing interpretations, overlapping boundaries, or conflicting source pulls — needs resolution before the model can commit. |
-| **Candidate** | Plausible model role; narrowed but not yet locked (often after scan, before THINGS/RELS). |
-| **Deferred** | Explicitly parked — revisit in a named later step or phase. |
-| **Active** | In current modeling scope; being updated in this pass. |
-| **Solidified** | Named, placed, and stable in the model for the current iteration — ready to treat as “done” unless source or scope changes. |
-
-**Typical (non-binding) progression:** Ambiguous → Tension or Candidate → Active → Solidified. **Deferred** can apply after any stage. A Term can return from Deferred to Active when scope returns to it.
+**Slice / anchor:** You may record **`S1=Character`** (or similar) in **Notes** or a minimal **Slice** column if the table template adds one — your engagement may require it for MM3E-style multi-slice tables.
 
 ---
 
-## Registry format (wide Notes)
+## Classification (reference — not required as its own column)
 
-**Prefer an HTML `<table>` with `<colgroup>`** so the **Notes** column gets most of the width (~50–55%). **Classification** labels can be long — give that column ~12–14% if needed. Plain Markdown pipe tables allocate columns evenly and make long Notes hard to read in the editor and in preview.
+If you **merge** the old **Classification** column into **Targets**, use typed pointers (`entity:…`, `property:…`, …) so the table stays one row per Term. The **meaning** of former classification values is unchanged:
 
-Use this skeleton (adjust `width` percentages if needed):
+| Former value | Meaning |
+|--------------|--------|
+| **anchor (class + module)** | Passes the anchor test: core class owns a **module** (frame + same-named core class). |
+| **class** | Domain class not its own module yet — supporting class, or expected class without module. |
+| **property** | Modeled as semantic property on a class. |
+| **field** | Typed field / slot. |
+| **example (instance)** | Illustrative instance — not a type. |
+| **relationship** | Association, link, dependency. |
+| **invariant (rule)** | Domain rule, constraint, policy. |
+
+---
+
+## Registry format (HTML table recommended for Notes width)
+
+Prefer an HTML `<table>` with `<colgroup>` so **Notes** gets most width (~50–55%). **Targets** can be ~18–22%.
 
 ```html
 <table>
 <colgroup>
-  <col style="width:9%" />
-  <col style="width:14%" />
-  <col style="width:6%" />
-  <col style="width:9%" />
-  <col style="width:9%" />
-  <col style="width:53%" />
+  <col style="width:12%" />
+  <col style="width:22%" />
+  <col style="width:66%" />
 </colgroup>
 <thead>
 <tr>
   <th>Term</th>
-  <th>Classification</th>
-  <th>Step</th>
-  <th>Confidence</th>
-  <th>Status</th>
+  <th>Targets</th>
   <th>Notes</th>
 </tr>
 </thead>
 <tbody>
 <tr>
   <td>Character</td>
-  <td>anchor (class + module)</td>
-  <td>SCAN</td>
-  <td>High</td>
-  <td>Active</td>
-  <td>Central entity; all rules attach to it</td>
-</tr>
-<tr>
-  <td>Power</td>
-  <td>class</td>
-  <td>SCAN</td>
-  <td>High</td>
-  <td>Active</td>
-  <td>Supporting class — Character module. Core capability unit.</td>
-</tr>
-<tr>
-  <td>Device</td>
-  <td>class</td>
-  <td>SCAN</td>
-  <td>Medium</td>
-  <td>Tension</td>
-  <td>Removable Power vs Equipment? Boundary unclear — see T2.</td>
+  <td>- <code>entity:Character</code><br>- <code>property:Character.powerLevel</code></td>
+  <td>Central entity; anchor test ✓. Slice <code>S1=Character</code>. Long quotes in <code>terms.md</code> → Character module.</td>
 </tr>
 </tbody>
 </table>
 ```
 
-For very small registries only, a Markdown pipe table is acceptable:
+Small registries: Markdown pipe table is acceptable.
 
-```markdown
-| Term | Classification | Step | Confidence | Status | Notes |
-|------|----------------|------|------------|--------|-------|
-| Character | anchor (class + module) | SCAN | High | Active | Short note only |
-```
+---
+
+## Migration from legacy wide tables
+
+If you have **Step**, **Confidence**, **Status**, and **Classification** columns:
+
+1. **Term** → keep.
+2. **Classification** + committed placements → **Targets** bullets (`entity:…`, `property:…`, …).
+3. **Step** → fold into **Notes** as *“First touched at phase-id `domain-scan`”* or leave implicit if noisy.
+4. **Confidence / Status** → merge into **Notes** (*“Legacy: was High / Active”*) only if still useful; otherwise drop.
+5. **Notes** → preserve text; add pointer to **`terms.md`** where verbatim evidence moved.
+
+---
+
+## Slices and `domain-scan` vs per-slice work
+
+- **`domain-scan`** runs **workspace-wide** (or once per strategy engagement): seeds **`term-registry.md`**, anchors, **`strategy.md`**, scan artifacts. It is **not** “each slice’s first phase” by name — use **phase-id** `domain-scan` only.
+- Per-slice deep extraction aligns with **`nouns-verbs-rules-and-states`** and **`raw-candidate-list`** in **chronicle order** after scan. **`terms.md`** evolves from those phase-ids onward for that slice.
+
+---
+
+## References
+
+- **`process.md`** — Phase chronicle, stages A–F, capture ladder  
+- **`terms.md`** template — `templates/terms-template.md`  
+- **Strategy / revisits** — `library/strategy-execution-and-checklists.md`
 
 
 ---
@@ -17100,7 +16834,7 @@ The CLI does not yet support notes — add them manually in draw.io after CLI bu
 | Phase | Add invariants? |
 |-------|----------------|
 | domain-scan | Yes — add the invariants you found during the scan (inline preferred at this fidelity) |
-| domain-noun-verb (Step 1) | No — extraction only; invariants captured in registry notes |
+| domain-noun-verb (Phase 2) | No — extraction only; invariants captured in registry notes |
 | raw-candidate-list through responsibilities | Yes — as invariants become confirmed, add to diagram |
 | Full model phases | Yes — invariants are a required part of the final model |
 
@@ -18007,19 +17741,23 @@ Watch **Payment** for bloat as more rules arrive — split policies if needed.
 
 # Domain model Markdown
 
-This skill’s **domain model** is captured in Markdown  a parallel **Draw.io** class diagram. Use **`templates/domain model template.md`** for companion docs; align with **`templates/domain model template.drawio`** when both exist.
+The **domain model** lives in workspace **`domain*.md`** files; **Draw.io** diagrams are **visual twins** of that content — update markdown first, then render or hand-sync the diagram (see **class-diagrams**, **using-diagram-cli**).
 
-**Phase 2 — `domain-noun-verb.md`:** anchor sections, **Candidate …** lists, full or pared class boxes. Slice files are **content only** — no skill paths or process meta in the artifact body.
+**Integrated slice model + evidence:** Prefer **`templates/domain-model-integrated.md`** alongside **`templates/terms-template.md`** (`terms.md` per slice). Class **Notes** use **`*[Sn · phase-id]*`** (e.g. **`*[S1 · refine-names]*`**) — **phase-id** from **`process.md`**, not numeric step names.
 
-**Phase 3 — bucket roll-up:** sort candidates into **entities**, **value objects**, **processes**, **policies**, **roles**, **events** (tables in **`raw-candidate-list.md`** or appended to **`domain-noun-verb.md`**). Same **content-only** rule: no skill/process boilerplate in slice files.
+**`domain-scan`:** **`domain-scan-results.md`**, **`domain-scan-model.md`**, then **`domain-scan-model.drawio`**.
 
-**Optional — `domain-raw-candidates.md`:** same Phase 3 content as **classes under anchor modules** (`### Name : << Entity >>` / `<< ValueObject >>` / `<< Process >>` / …), notes below — **not** a second copy of bucket tables. Cross-cutting material → **`## Cross-anchor`** or appendix. **`templates/domain-raw-candidates-template.md`**.
+**`nouns-verbs-rules-and-states` — `domain-noun-verb.md`:** anchor sections, **Candidate …** lists, class boxes. Slice files are **domain content only** — no skill paths or process boilerplate in the artifact body.
+
+**`raw-candidate-list`:** Prefer **`domain-raw-candidates.md`** — classes under anchors with notes. Optional single tabular roll-up (**`raw-candidate-list.md`** or appendix to **`domain-noun-verb.md`**) — **not** the same tables twice plus an integrated file.
+
+**Templates:** **`templates/domain model template.md`**, **`templates/domain-raw-candidates-template.md`**, **`templates/domain-model-integrated.md`**.
 
 ---
 
 ## Domain concept template
 
-Each **domain concept** (class, interface, value object, or aggregate) is documented under a clear heading, for example:
+Each concept is documented under a clear heading, for example:
 
 ```markdown
 ## **Payment**
@@ -18028,73 +17766,62 @@ Each **domain concept** (class, interface, value object, or aggregate) is docume
 
 ### Properties
 - Money amount
-- …
 
 ### Operations
 - initiate() → Authorization
 ```
 
-From **Step 5** onward, prefer **typed** members (see **Notation evolution** below). Earlier steps stay **pre-notation** (bullets and prose).
+From **Phase 6** onward (`add-properties-semantically-tight`), prefer **typed** members (see **Notation evolution**). Earlier phases stay informal (bullets and prose).
 
 ---
 
-## Continual refinement — class definition + diagram
+## Markdown and diagram
 
-**Continual refinement** means you **grow** the model across steps: each step file may add or tighten concepts. The Markdown spec and the class diagram are **two views of the same model** — update both when your project uses dual artifacts so they do not drift (see **[Class diagrams](class-diagrams.md)**).
+The Markdown spec and the class diagram are **two views of the same model** — keep them aligned when both exist (**class-diagrams**).
 
 ---
 
-## **newly added** tag
+## **newly added** tag (optional)
 
-In the **worked example** threads (e.g. payments), the marker **newly added** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
+In long-running examples, **newly added** on a line marks a property or operation that first appears in *this* file — useful for deltas across files.
 
 ---
 
 ## Notation evolution
 
-| Phase | Markdown style |
-|--------|------------------|
-| **Steps 1–4** | Informal: bullets, short phrases, responsibilities, candidate names; typed `- <type> property` lines arrive in Step 5. |
-| **Step 5+** | Formal typed members: `- <Type> propertyName`, `operationName(...) → ReturnType`. |
+| Phase range | Markdown style |
+|-------------|----------------|
+| **2–5** | Informal: bullets, candidates, responsibilities; typed `- <type> property` lines from **Phase 6** onward. |
+| **Phase 6+** | Formal: `- <Type> propertyName`, `operationName(...) → ReturnType`. |
 
 ---
 
 ## Subtype sections
 
-When you introduce substitutable specializations, add an explicit subtype heading so the structure is visible in the spec and in diagrams:
+When you introduce substitutable specializations, add an explicit subtype heading so structure is visible in spec and diagrams:
 
 ```markdown
 ### **Subtype** : **PaymentMethod**
 ```
 
-Put **`**newly added**`** on subtype **operation** (or property) lines when that member is **first** introduced for that subtype.
-
 ---
 
 ## Invariants
 
-Attach invariants to the **property** or **operation** they constrain, using a dedicated line:
+Attach invariants to the property or operation they constrain:
 
 ```markdown
 **Invariant:** …
 ```
 
-Mark **`**newly added**`** when you **first** attach an invariant to a given member line.
-
 ---
 
-## Early steps: terms, mechanisms, story map
+## Class diagram and spec
 
-Before typed properties exist, align extracted **nouns, verbs, rules, states** with your workspace’s **terms & mechanisms** and **shaped story map** (or equivalent). That is the same “grow the model as you go” idea: informal extraction first, then formal types.
+When you maintain **`map-model-spec.json`** or similar, re-run the project’s diagram script after material changes so Draw.io stays aligned.
 
----
-
-## Class diagram and spec (visual twin)
-
-When you maintain a machine-readable spec such as **`map-model-spec.json`**, re-run your project’s class-diagram render script (for example **`render_map_model_class_diagram.py`**) after material changes so the **Draw.io** diagram stays the **visual twin** of the spec.
-
-- **[Class diagrams](class-diagrams.md)** — templates, relationship types, keeping `.md` and `.drawio` aligned.  
-- **[Using the Diagram CLI](using-diagram-cli.md)** — building diagrams with **`scripts/drawio_cli.py`**.
+- **Class diagrams** — templates, relationships, keeping `.md` and `.drawio` aligned.  
+- **Using the Diagram CLI** — `scripts/drawio_cli.py`.
 
 ---
 
@@ -18102,9 +17829,9 @@ When you maintain a machine-readable spec such as **`map-model-spec.json`**, re-
 
 | Topic | File |
 |--------|------|
-| Term tracking across steps | [term-registry.md](term-registry.md) |
+| Term tracking | [term-registry.md](term-registry.md) |
 | Strategy-led runs | [strategy-led-generation.md](strategy-led-generation.md) |
-| Layout and lanes | [class-diagram-layout-rules.md](class-diagram-layout-rules.md) |
+| Layout | [class-diagram-layout-rules.md](class-diagram-layout-rules.md) |
 
 
 ---
@@ -18196,9 +17923,9 @@ The absence of a matching core class is the clearest signal that you have not ye
 
 # Strategy-led generation
 
-Domain scan (OOAD **phase 1**) does not only produce a single “results” file. It establishes a **small set of workspace files** under `<workspace>/abd-ooad/` that work together. Some are **frozen findings** from the scan; others are **living documents** you update as modeling continues.
+Domain scan (phase-id **`domain-scan`**) does not only produce a single “results” file. It establishes a **small set of workspace files** under `<workspace>/abd-ooad/` that work together. Some are **frozen findings** from the scan; others are **living documents** you update as modeling continues.
 
-**Slices start at global Phase 2:** Source-slice work (e.g. **S1**, **S2** in `strategy.md` and **`Anchor`** `S1=…` / `S2=…` in `term-registry.md`) uses the **same global OOAD phase numbers** as the process table for everything **after** scan. The **first** per-slice extraction step is **Phase 2** (`nouns-verbs-rules-and-states`), **not** a slice-local “Phase 1.” Phase **1** is workspace-wide **domain-scan** only. See **`term-registry.md` → Slices and global phase numbers**.
+**Per-slice extraction** after scan uses the **same phase-id chronicle** as **`process.md`**. The **first** detailed per-slice capture is **`nouns-verbs-rules-and-states`** (then **`raw-candidate-list`**, …) — **not** a second **`domain-scan`**. Use **phase-id** names in strategy and registry (and **`*[Sn · phase-id]*`** tags in the model), not “Phase 1 / Phase 2” as step names. See **`term-registry.md`** and **`process.md` → Capture ladder**.
 
 For the scan procedure itself, see the **Domain scan** phase. This page explains **what each artifact is for** and how **`strategy.md`** relates to **`domain-scan-results.md`**.
 
@@ -18216,7 +17943,8 @@ Created during domain scan under `<workspace>/abd-ooad/`:
 | `strategy.md` | **Living strategy:** **modeling scope**; **§1 source slices** (table: Order, Goal, **Source** — chapters, files, modules, or mixed — **Coverage**, **Importance**); **§2 slice plan** (per-slice **goal restated** + **phases**); **coverage across steps**; **cross-slice integration**; **anchor and subdomain elaboration**; **execution plan (normative)** — phase slugs with **slice IDs** on every line; plus **approach** and **dated pivots**. | **Yes** — whenever scope, order, slice depth, subdomain mapping, or integration changes. |
 | `domain-scan-model.md` | Class sketch (markdown) at scan fidelity. | Yes, in later phases — not only during scan. |
 | `domain-scan-model.drawio` | Diagram at scan fidelity. | Same as model.md. |
-| `term-registry.md` | Terms, **Classification** (model role), **Status** (OOAD scale), confidence — seeded at scan. | **Yes** — every later phase updates Step, Classification, and Status as the model evolves. |
+| `term-registry.md` | Terms, **Targets** (bulleted typed pointers), **Notes** — seeded at scan. | **Yes** — every later phase-id updates **Targets** and **Notes** as the model evolves. See **`library/term-registry.md`**. |
+| `terms.md` (per slice) | Evidence ledger by **`## [Anchor module]`** — quotes, promotion log. | **Yes** — from **`nouns-verbs-rules-and-states`** onward for that slice. Template: **`templates/terms-template.md`**. |
 
 **Plus** (when workspace is configured): **`progress/`** checklists — see **`library/strategy-execution-and-checklists.md`**. **`generate.py`** creates **`process-checklist.md`**, **`<phase>-checklist.md`**, and (abd-ooad) **`strategy-run-checklist.md`** when templates exist and files are missing. Normative phase steps stay in **`content/parts/phases/<phase>.md`**. These are the **only** place for session tick marks.
 
@@ -18251,8 +17979,8 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 
 1. **Strategy** — Keep **`strategy.md`** aligned with reality; append *Ongoing strategic decisions* when you pivot.
 2. **Strategy execution** — Tick **`progress/strategy-run-checklist.md`** as you **complete** each phase for its declared scope.
-3. **Phase work** — For the active phase, run **`generate.py --phase <slug>`** and tick **`progress/<slug>-checklist.md`** for action steps.
-4. **Registry** — Keep `term-registry.md` aligned with the current phase (Step, Classification, Status).
+3. **Phase work** — For the active phase-id, run **`generate.py --phase <phase-id>`** (or **`generate.py --stage <A|B|…|F>`** for a stage) and tick **`progress/<phase-id>-checklist.md`** for action steps.
+4. **Registry** — Keep `term-registry.md` aligned with the current phase-id (**Targets** + **Notes**); keep slice **`terms.md`** in sync for verbatim evidence.
 5. **Results** — Touch `domain-scan-results.md` only for corrections to the original scan snapshot.
 
 ---
@@ -18272,26 +18000,45 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 
 # Strategy execution and checklists (abd-ooad)
 
-**Canonical doc** for: (1) **strategy** vs **live ticks**, (2) **which files** hold checkboxes, (3) **how** `generate.py` creates workspace **`progress/`** files. Does **not** replace **[process.md](../process.md)** (process tables, `generate` / `build`) or **[skill-structure-and-concepts.md](../base/skill-structure-and-concepts.md)** (repo layout).
+**Canonical doc** for: (1) **strategy** vs **live ticks**, (2) **which files** hold checkboxes, (3) **how** `generate.py` creates workspace **`progress/`** files, (4) **stages**, **revisits / disruption** on the same checklist. Does **not** replace **[process.md](../process.md)** (phase chronicle, `generate` / `build`) or **[skill-structure-and-concepts.md](../base/skill-structure-and-concepts.md)** (repo layout).
 
-Only **`strategy.md`** defines **scope** and **which phases in what order**; checklists are where you **tick** progress.
+Only **`strategy.md`** defines **scope** and **which phase-ids (or stages) in what order**; checklists are where you **tick** progress.
 
 ---
 
 ## Workflow
 
-1. **Domain scan** — produce scan artifacts (see **`strategy-led-generation`**).
+1. **Domain scan** — produce scan artifacts (see **`strategy-led-generation`**). Phase-id: **`domain-scan`**.
 2. **Strategy** — fill **`strategy.md`** from **`templates/strategy.md`**:
    - **Modeling scope** — corpus or product boundary; **source type** (book vs repo vs mixed).
    - **§1 Source slices** — ordered table: **Goal**, **Source** (chapters, files, modules, APIs — whatever locates work), **Coverage** (depth this pass), **Importance**; stable **slice IDs** reused everywhere.
-   - **§2 Slice plan** — per slice: **goal restated**, **unit kind**, **phases** (execution step numbers / slugs), produces, depends-on.
-   - **Coverage across steps** — matrix: every slice → which **execution plan** steps touch it → **depth** → deferrals.
+   - **§2 Slice plan** — per slice: **goal restated**, **unit kind**, **phase-ids** (or **stages**) you will run, produces, depends-on.
+   - **Coverage across steps** — matrix: every slice → which **execution plan** phase-ids touch it → **depth** → deferrals.
    - **Cross-slice integration** — cross-boundary types and ordering (From → To + narrative).
-   - **Anchor and subdomain elaboration** (when anchors have attached types) — map subdomains to slices and execution §.
-   - **Execution plan (normative)** — ordered phase **slugs**; **each line cites slice IDs** (mirror **`strategy-run-checklist.md`**).
+   - **Anchor and subdomain elaboration** (when anchors have attached types) — map subdomains to slices and execution phase-ids.
+   - **Execution plan (normative)** — ordered **phase-id** strings; **each line cites slice IDs** (mirror **`strategy-run-checklist.md`**). Optionally group work by **stage A–F** (see **`process.md` → Stage map**).
+   - **Stage completion (after each stage)** — what completed; tensions; **new checklist lines** for revisits (below); **audit** — append dated line under *Ongoing strategic decisions*.
    - **Approach going forward** + **Ongoing strategic decisions** — short narrative and dated pivots.
 3. **Align live checklists** — keep **`strategy-run-checklist.md`** in sync with the execution plan (same order and scope). Optional **`templates/strategy-run-checklist.md`** seed; optional **`templates/progress-README.md`** → **`progress/README.md`** for slice-specific files under **`progress/slices/`**.
-4. **Run phases** — for the **current** phase: `python scripts/base/generate.py --phase <slug>`. Tick **`strategy-run-checklist.md`** when a phase is **done** for its declared scope; tick **`<slug>-checklist.md`** for **steps inside** that phase.
+4. **Run phases** — **`python scripts/base/generate.py --phase <phase-id>`** for one step, or **`python scripts/base/generate.py --stage <A|B|…|F>`** for a full stage (same order as **`process.md`** / **`skill-config.json` → `process_stages`**). Tick **`strategy-run-checklist.md`** when a phase (or stage slice) is **done** for its declared scope; tick **`<phase-id>-checklist.md`** for **steps inside** that phase.
+
+---
+
+## Revisits and disruption (same checklist)
+
+A **revisit** is **not** a separate rerun workflow. While executing (including late **stage F**), if work must **go back** to an earlier **stage** or **phase-id**, **add a new row** to **`strategy-run-checklist.md`** — e.g. `- [ ] Revisit stage B — <short reason>` or `- [ ] Re-run nouns-verbs-rules-and-states — slice S1 — reconcile new anchor` — at the **bottom** or **inserted** where it fits the agreed order. The checklist is the single source of truth for **forward** work plus **backward** revisits.
+
+**Audit:** When you add a revisit row, append a dated line under **`strategy.md` → Ongoing strategic decisions**; never delete prior pivots.
+
+### Hint table (non-prescriptive)
+
+| You are here | Often need to touch |
+|--------------|---------------------|
+| Stage F | Stage E, D, or C (naming / validation feedback) |
+| Stage E | Stage C (scenarios expose structure gaps) |
+| Stage D | Stage C (splitting responsibilities) |
+
+Use this as a **prompt**, not a rule.
 
 ---
 
@@ -18299,9 +18046,9 @@ Only **`strategy.md`** defines **scope** and **which phases in what order**; che
 
 | Layer | File | What you tick |
 | --- | --- | --- |
-| **Strategy execution** | **`progress/strategy-run-checklist.md`** | **Which phases** you will run, **in order**, each with **scope** that **includes the same slice IDs** as **`strategy.md` → Execution plan**. Optional: **`progress/slices/<slice-id>-checklist.md`** per slice — see **`progress/README.md`** in the workspace (if present). |
+| **Strategy execution** | **`progress/strategy-run-checklist.md`** | **Which phase-ids** (or stages) you will run, **in order**, each with **scope** that **includes the same slice IDs** as **`strategy.md` → Execution plan**; **includes revisit rows** when you must go backward. Optional: **`progress/slices/<slice-id>-checklist.md`** per slice — see **`progress/README.md`** in the workspace (if present). |
 | **Full pipeline (reference)** | **`progress/process-checklist.md`** | **Every** phase in **`phase_files`** — useful as a map; optional if you rely only on strategy-run. |
-| **Phase steps** | **`progress/<phase>-checklist.md`** | **Action checklist** copied from **`content/parts/phases/<phase>.md` → ## Action Checklist**. |
+| **Phase steps** | **`progress/<phase-id>-checklist.md`** | **Action checklist** copied from **`content/parts/phases/<phase-id>.md` → ## Action Checklist**. |
 
 **Implementation:** **`scripts/base/workspace_checklists.py`** (paths, behavior, `--no-ensure-checklists`).
 
@@ -18311,10 +18058,10 @@ Only **`strategy.md`** defines **scope** and **which phases in what order**; che
 
 | Kind | What it tracks | Where it lives | How it gets there |
 | --- | --- | --- | --- |
-| **Normative reference** | Rules in **this document** — strategy vs ticks, layers, `generate.py` behavior | **`content/parts/library/strategy-execution-and-checklists.md`** | Authored in the skill; **not** created by **`generate.py`**. |
-| **Pipeline position** | Which **phase** of the pipeline you are in | **`<active_skill_workspace>/<skill_name>/progress/process-checklist.md`** | **Created** on first **`python scripts/base/generate.py --phase <slug>`** when that file is **missing**, if **`skill-config.json` → `workspace.active_skill_workspace`** is set. One `- [ ]` line per slug in **`phase_files`** (labels from **`phase_section_headings`** when present). **Does not overwrite** an existing file. |
-| **Phase action steps** | **Steps inside** the current phase | **`<active_skill_workspace>/<skill_name>/progress/<phase-slug>-checklist.md`** | **Created** in the **same** `generate.py` run when that file is **missing**. Steps are taken from **`## Action Checklist`** in **`content/parts/phases/<phase-slug>.md`**, or from task lines (`- [ ]` / `- [x]`) in that file if the section is absent. **Does not overwrite** an existing file. |
-| **Strategy execution** (workspace) | Ordered phases matching **`strategy.md`** | **`progress/strategy-run-checklist.md`** | Seeded from template when **`generate.py`** / workspace checklist logic creates it; **you** align it with **`strategy.md`**. |
+| **Normative reference** | Rules in **this document** — strategy vs ticks, layers, revisits, `generate.py` behavior | **`content/parts/library/strategy-execution-and-checklists.md`** | Authored in the skill; **not** created by **`generate.py`**. |
+| **Pipeline position** | Which **phase-id** of the pipeline you are in | **`<active_skill_workspace>/<skill_name>/progress/process-checklist.md`** | **Created** on first **`python scripts/base/generate.py --phase <phase-id>`** (or first phase of **`--stage`**) when that file is **missing**, if **`skill-config.json` → `workspace.active_skill_workspace`** is set. One `- [ ]` line per slug in **`phase_files`** (labels from **`phase_section_headings`** when present). **Does not overwrite** an existing file. |
+| **Phase action steps** | **Steps inside** the current phase | **`<active_skill_workspace>/<skill_name>/progress/<phase-id>-checklist.md`** | **Created** in the **same** `generate.py` run when that file is **missing**. Steps are taken from **`## Action Checklist`** in **`content/parts/phases/<phase-id>.md`**, or from task lines (`- [ ]` / `- [x]`) in that file if the section is absent. **Does not overwrite** an existing file. |
+| **Strategy execution** (workspace) | Ordered phase-ids (and revisit rows) matching **`strategy.md`** | **`progress/strategy-run-checklist.md`** | Seeded from template when **`generate.py`** / workspace checklist logic creates it; **you** align it with **`strategy.md`**. |
 
 ### Names and workspace
 
@@ -18335,9 +18082,9 @@ Only **`strategy.md`** defines **scope** and **which phases in what order**; che
 
 ---
 
-## Phase slugs
+## Phase IDs
 
-Use exact slugs from **`skill-config.json` → `phase_files`** (e.g. `nouns-verbs-rules-and-states`, `domain-scan`). Labels for humans are in **`phase_section_headings`**.
+Use exact **phase-id** strings from **`skill-config.json` → `phase_files`** (e.g. `nouns-verbs-rules-and-states`, `domain-scan`). Labels for humans are in **`phase_section_headings`**. **Stages** **A–F** map to ordered phase-id lists in **`process_stages`** — see **`process.md`**.
 
 ---
 
@@ -18356,168 +18103,147 @@ Use exact slugs from **`skill-config.json` → `phase_files`** (e.g. `nouns-verb
 
 ## What a Term Is
 
-A **Term** is any concept identified from the source material that may become part of the domain model. At the time of identification, a Term is not committed to a model role — it might become a class, a property, a value type, an association, or nothing at all. The registry tracks Terms as the modeling phases determine what each one actually is.
+A **Term** is any concept identified from the source material that may become part of the domain model. At identification time it is not committed to a model role — it might become a class, a property, a value type, an association, or nothing. The registry tracks Terms as modeling **phase-ids** (see **`process.md` → Phase chronicle**) determine what each one actually is.
 
-This is distinct from other uses of "actor" in this domain:
-- In MM3E and FoundryVTT, "Actor" has a specific system meaning (a character, creature, or entity in the game world).
-- In the registry, everything is a Term until the model says otherwise.
+This is distinct from other domain uses of overloaded words (e.g. in some systems “Actor” is a system type). In the registry, everything is a Term until the model says otherwise.
 
-**File:** `<workspace>/abd-ooad/term-registry.md`
-**Never embedded** inside step outputs — it lives in its own file and is referenced from each step's model doc.
+**File:** `<workspace>/abd-ooad/term-registry.md` (or per-slice path if your workspace layout nests slices).
 
----
-
-## Step Reference — Short Names
-
-Use these short names in the **Step** column of the registry when adding or updating a row.
-
-| Short Name | Phase | Description |
-|-----------|-------|-------------|
-| SETUP | workspace-and-config | Workspace initialization |
-| SCAN | domain-scan | Source scan and anchor identification |
-| NOUNS | nouns-verbs-rules-and-states | Extract nouns, verbs, rules, states |
-| CANDS | raw-candidate-list | Raw candidate class list |
-| THINGS | thing-vs-data-about-a-thing | Separate things from data-about-things |
-| RESP | responsibilities-before-operations | Assign responsibilities |
-| PROPS | add-properties-semantically-tight | Add semantically tight properties |
-| OPS | turn-verbs-into-operations | Turn verbs into operations |
-| RELS | relationships-and-cardinality | Relationships and cardinality |
-| INV | invariants-in-the-model | Identify invariants |
-| BLOAT | watch-for-bloated-classes | Detect bloated classes |
-| ROLES | smashed-abstractions-and-hidden-roles | Uncover hidden roles |
-| INHERIT | inheritance-when-behavior-generalizes | Apply inheritance |
-| ABST | abstract-classes-and-interfaces | Abstract classes and interfaces |
-| COMP | prefer-composition | Prefer composition over inheritance |
-| STATES | model-state-transitions | Model state transitions |
-| ITER | iterative-refinement | Iterative refinement pass |
-| TENSION | tension-as-a-signal | Resolve tensions |
-| COHESION | what-changes-together | What changes together |
-| VALIDATE | validate-with-scenarios | Validate with scenarios |
-| NAMES | refine-names | Refine class and concept names |
-| LAYERS | model-in-layers | Model in layers |
+**Never embed** the full registry inside step outputs — it lives in its own file and is referenced from each phase’s model doc.
 
 ---
 
-## Slices and global phase numbers (normative)
+## Relationship to `terms.md` (per slice)
 
-The **OOAD process table** (see **`process.md`** / built **AGENTS.md** — “Process Table”) assigns **global phase numbers** **0–21** to phase **slugs** (e.g. **Phase 2** = `nouns-verbs-rules-and-states`, **Phase 3** = `raw-candidate-list`, **Phase 4** = `thing-vs-data-about-a-thing`).
-
-- **Phase 1** (`domain-scan`, short name **SCAN**) runs **once per workspace** (or once per strategy engagement). It produces anchors, `strategy.md`, `domain-scan-results.md`, and seeds **`term-registry.md`**. It is **not** repeated as “each slice’s Phase 1.”
-- **Per-slice modeling** (folders or **Anchor** columns **`S1=…`**, **`S2=…`**, …) **aligns with the same global numbers from Phase 2 onward:** the **first** extraction artifact in a slice is always **Phase 2** (**NOUNS**), then **3** (**CANDS**), **4** (**THINGS**), etc. Do **not** label slice-local nouns-verbs files as Phase 1 — that collides with **SCAN**.
-- **Phase notes** in italics (optional): `*[Sn · Phase N]*` where **N** is the **global** process-table number. Add slug, tension id, or short reminder *after* the tag on the same line if needed (e.g. *thing-vs-data*, *registry Tn*). For early “likely class” judgments: `*[S1 · Phase 3]* Likely class : …`.
-
----
-
-## Registry Columns
-
-| Column | Values | Notes |
-|--------|--------|-------|
-| **Term** | Concept name from the source | Exact word or phrase as found — rename in the NAMES step if needed |
-| **Classification** | See **Classification** below | **What we want to model this as** — target shape in the domain model (not lifecycle) |
-| **Step** | Short name from table above (SCAN, NOUNS, …) | Step that first identified or last materially updated this Term |
-| **Confidence** | High / Medium / Low | How sure we are this belongs in the model |
-| **Status** | See **Status (OOAD scale)** below | Where this Term sits in the modeling workflow |
-| **Notes** | Free text | Anchor-test results, owning module for supporting classes (`Supporting class — X module`), competing interpretations, pointers to tensions in `domain-scan-results.md`, and follow-ups |
+- **`terms.md`** (alongside `domain-noun-verb.md` in a slice folder) holds **module-scoped evidence**: quotes, raw extractions, promotion history under **`## [Anchor module]`** headings aligned with the integrated domain model.
+- **`term-registry.md`** remains the **term-centric analysis record**: one row per Term; **Targets** = where the term landed; **Notes** = substantive reasoning (anchor tests, classification, tensions) — **full paragraphs are fine** when the work needs them.
+- **Principle:** Notes depth is **not** reduced because `terms.md` exists. `terms.md` reduces **duplication of verbatim source text** and organizes evidence by module; it does **not** justify one-line registry Notes unless the term truly needs only one line.
+- **Avoid duplicate verbatim quotes:** keep the quote in **`terms.md`** and in **Notes** point to `terms.md#anchor-module` (or the term subsection); keep analysis-only text in Notes as today.
 
 ---
 
-## Classification — what we want to model this as
+## Phase IDs (normative references)
 
-Use **one** value per row. This is the **intended model role**, not how “mature” the idea is (that is **Status**).
+Refer to pipeline steps **only** by **`phase-id`** — the short **kebab-case** slug matching **`skill-config.json` → `phase_files`** and the **`process.md`** chronicle (e.g. `domain-scan`, `nouns-verbs-rules-and-states`, `refine-names`). Do **not** use “Phase 1 / Phase 2” as **names** for steps; those ordinals drift. Optional **model tags** in the domain model use **`*[Sn · phase-id]*`** (e.g. **`*[S1 · refine-names]*`**) — see **`library/domain-model`**.
 
-| Value | Meaning |
+---
+
+## Registry columns
+
+| Column | Role |
+|--------|------|
+| **Term** | Concept name from the source — exact word or phrase as found; rename in **`refine-names`** if needed. |
+| **Targets** | Where this term **landed** in the model: a **bulleted list inside the table cell** (Markdown list), **one typed pointer per line**. Unallocated / not yet placed → leave empty or **—**. |
+| **Notes** | Anchor-test results, slice/anchor context (**`S1=…`** style if useful), competing interpretations, tensions, pointers to **`terms.md`** when verbatim evidence lives there — same substance as historical scan/noun-verb rows. |
+
+**Optional:** If you need a single “primary kind” for tooling, add one optional column **after** Term (e.g. **Kind**) — otherwise prefer **Targets**-only for a slim table.
+
+---
+
+## Targets — typed pointers (one per bullet)
+
+**Normative style:** each bullet is **one** typed target. **Do not** concatenate targets with `|` or `;` on one run-on line.
+
+Examples of pointer forms (extend as your model needs):
+
+- `entity:Payment`
+- `vo:Money`
+- `property:Payment.amount`
+- `operation:Order.submit`
+- `invariant:…`
+- `policy:…`
+- `relationship:Customer — Order`
+
+**Renders in Markdown tables** — use `<br>` between bullets if your renderer collapses list-in-cell (GitHub-style often accepts list-in-cell; validate in your preview):
+
+```markdown
+| Term   | Targets |
 |--------|---------|
-| **anchor (class + module)** | Passes the anchor test: this concept is a **core class** and owns a **module** (dashed frame + same-named core class). Use only for backbone modules. |
-| **class** | A domain **class** that is not its own module yet — e.g. supporting class inside a frame, or a type you expect to become a class without its own module. |
-| **property** | Modeled as a **semantic property** (attribute / value on a class), not a separate type. |
-| **field** | Modeled as a **typed field / slot** (data member, possibly simple type or value object). |
-| **example (instance)** | An **illustrative instance**, sample, or scenario object — not a type in the model. |
-| **relationship** | An **association**, link, or dependency between concepts — may become an association, association class, or navigable role. |
-| **invariant (rule)** | A **domain rule**, constraint, or policy — often becomes behavior, guard, or explicit rule text on a class. |
-
-**Diagram mapping (when relevant):** `anchor (class + module)` → module frame + core class; `class` → class box; `relationship` → association; `invariant (rule)` → note, constraint, or operation; `property` / `field` → attributes on a class.
+| amount | - `entity:Payment`<br>- `vo:Money`<br>- `property:Payment.amount` |
+```
 
 ---
 
-## Status (OOAD scale)
+## Notes — still substantive
 
-**Status** is **lifecycle / confidence in the workflow**, not the model shape. Pick the value that best fits; states are **not** always a strict left-to-right pipeline.
+Notes remain the place for **classification reasoning**, anchor tests, tensions, and follow-ups. **Do not** make Notes sparse by default. When raw quotes live in **`terms.md`**, write in Notes: *“Verbatim quote in `terms.md` → [Anchor module] / term …”* and keep analysis here.
 
-| Status | When to use |
-|--------|-------------|
-| **Ambiguous** | You cannot yet say what the Term is or how it sits next to others. |
-| **Tension** | Competing interpretations, overlapping boundaries, or conflicting source pulls — needs resolution before the model can commit. |
-| **Candidate** | Plausible model role; narrowed but not yet locked (often after scan, before THINGS/RELS). |
-| **Deferred** | Explicitly parked — revisit in a named later step or phase. |
-| **Active** | In current modeling scope; being updated in this pass. |
-| **Solidified** | Named, placed, and stable in the model for the current iteration — ready to treat as “done” unless source or scope changes. |
-
-**Typical (non-binding) progression:** Ambiguous → Tension or Candidate → Active → Solidified. **Deferred** can apply after any stage. A Term can return from Deferred to Active when scope returns to it.
+**Slice / anchor:** You may record **`S1=Character`** (or similar) in **Notes** or a minimal **Slice** column if the table template adds one — your engagement may require it for MM3E-style multi-slice tables.
 
 ---
 
-## Registry format (wide Notes)
+## Classification (reference — not required as its own column)
 
-**Prefer an HTML `<table>` with `<colgroup>`** so the **Notes** column gets most of the width (~50–55%). **Classification** labels can be long — give that column ~12–14% if needed. Plain Markdown pipe tables allocate columns evenly and make long Notes hard to read in the editor and in preview.
+If you **merge** the old **Classification** column into **Targets**, use typed pointers (`entity:…`, `property:…`, …) so the table stays one row per Term. The **meaning** of former classification values is unchanged:
 
-Use this skeleton (adjust `width` percentages if needed):
+| Former value | Meaning |
+|--------------|--------|
+| **anchor (class + module)** | Passes the anchor test: core class owns a **module** (frame + same-named core class). |
+| **class** | Domain class not its own module yet — supporting class, or expected class without module. |
+| **property** | Modeled as semantic property on a class. |
+| **field** | Typed field / slot. |
+| **example (instance)** | Illustrative instance — not a type. |
+| **relationship** | Association, link, dependency. |
+| **invariant (rule)** | Domain rule, constraint, policy. |
+
+---
+
+## Registry format (HTML table recommended for Notes width)
+
+Prefer an HTML `<table>` with `<colgroup>` so **Notes** gets most width (~50–55%). **Targets** can be ~18–22%.
 
 ```html
 <table>
 <colgroup>
-  <col style="width:9%" />
-  <col style="width:14%" />
-  <col style="width:6%" />
-  <col style="width:9%" />
-  <col style="width:9%" />
-  <col style="width:53%" />
+  <col style="width:12%" />
+  <col style="width:22%" />
+  <col style="width:66%" />
 </colgroup>
 <thead>
 <tr>
   <th>Term</th>
-  <th>Classification</th>
-  <th>Step</th>
-  <th>Confidence</th>
-  <th>Status</th>
+  <th>Targets</th>
   <th>Notes</th>
 </tr>
 </thead>
 <tbody>
 <tr>
   <td>Character</td>
-  <td>anchor (class + module)</td>
-  <td>SCAN</td>
-  <td>High</td>
-  <td>Active</td>
-  <td>Central entity; all rules attach to it</td>
-</tr>
-<tr>
-  <td>Power</td>
-  <td>class</td>
-  <td>SCAN</td>
-  <td>High</td>
-  <td>Active</td>
-  <td>Supporting class — Character module. Core capability unit.</td>
-</tr>
-<tr>
-  <td>Device</td>
-  <td>class</td>
-  <td>SCAN</td>
-  <td>Medium</td>
-  <td>Tension</td>
-  <td>Removable Power vs Equipment? Boundary unclear — see T2.</td>
+  <td>- <code>entity:Character</code><br>- <code>property:Character.powerLevel</code></td>
+  <td>Central entity; anchor test ✓. Slice <code>S1=Character</code>. Long quotes in <code>terms.md</code> → Character module.</td>
 </tr>
 </tbody>
 </table>
 ```
 
-For very small registries only, a Markdown pipe table is acceptable:
+Small registries: Markdown pipe table is acceptable.
 
-```markdown
-| Term | Classification | Step | Confidence | Status | Notes |
-|------|----------------|------|------------|--------|-------|
-| Character | anchor (class + module) | SCAN | High | Active | Short note only |
-```
+---
+
+## Migration from legacy wide tables
+
+If you have **Step**, **Confidence**, **Status**, and **Classification** columns:
+
+1. **Term** → keep.
+2. **Classification** + committed placements → **Targets** bullets (`entity:…`, `property:…`, …).
+3. **Step** → fold into **Notes** as *“First touched at phase-id `domain-scan`”* or leave implicit if noisy.
+4. **Confidence / Status** → merge into **Notes** (*“Legacy: was High / Active”*) only if still useful; otherwise drop.
+5. **Notes** → preserve text; add pointer to **`terms.md`** where verbatim evidence moved.
+
+---
+
+## Slices and `domain-scan` vs per-slice work
+
+- **`domain-scan`** runs **workspace-wide** (or once per strategy engagement): seeds **`term-registry.md`**, anchors, **`strategy.md`**, scan artifacts. It is **not** “each slice’s first phase” by name — use **phase-id** `domain-scan` only.
+- Per-slice deep extraction aligns with **`nouns-verbs-rules-and-states`** and **`raw-candidate-list`** in **chronicle order** after scan. **`terms.md`** evolves from those phase-ids onward for that slice.
+
+---
+
+## References
+
+- **`process.md`** — Phase chronicle, stages A–F, capture ladder  
+- **`terms.md`** template — `templates/terms-template.md`  
+- **Strategy / revisits** — `library/strategy-execution-and-checklists.md`
 
 
 ---
@@ -18968,7 +18694,7 @@ The CLI does not yet support notes — add them manually in draw.io after CLI bu
 | Phase | Add invariants? |
 |-------|----------------|
 | domain-scan | Yes — add the invariants you found during the scan (inline preferred at this fidelity) |
-| domain-noun-verb (Step 1) | No — extraction only; invariants captured in registry notes |
+| domain-noun-verb (Phase 2) | No — extraction only; invariants captured in registry notes |
 | raw-candidate-list through responsibilities | Yes — as invariants become confirmed, add to diagram |
 | Full model phases | Yes — invariants are a required part of the final model |
 
@@ -19871,19 +19597,23 @@ Ask whether **“user”** / **payer** / **admin** are one abstraction or **smas
 
 # Domain model Markdown
 
-This skill’s **domain model** is captured in Markdown  a parallel **Draw.io** class diagram. Use **`templates/domain model template.md`** for companion docs; align with **`templates/domain model template.drawio`** when both exist.
+The **domain model** lives in workspace **`domain*.md`** files; **Draw.io** diagrams are **visual twins** of that content — update markdown first, then render or hand-sync the diagram (see **class-diagrams**, **using-diagram-cli**).
 
-**Phase 2 — `domain-noun-verb.md`:** anchor sections, **Candidate …** lists, full or pared class boxes. Slice files are **content only** — no skill paths or process meta in the artifact body.
+**Integrated slice model + evidence:** Prefer **`templates/domain-model-integrated.md`** alongside **`templates/terms-template.md`** (`terms.md` per slice). Class **Notes** use **`*[Sn · phase-id]*`** (e.g. **`*[S1 · refine-names]*`**) — **phase-id** from **`process.md`**, not numeric step names.
 
-**Phase 3 — bucket roll-up:** sort candidates into **entities**, **value objects**, **processes**, **policies**, **roles**, **events** (tables in **`raw-candidate-list.md`** or appended to **`domain-noun-verb.md`**). Same **content-only** rule: no skill/process boilerplate in slice files.
+**`domain-scan`:** **`domain-scan-results.md`**, **`domain-scan-model.md`**, then **`domain-scan-model.drawio`**.
 
-**Optional — `domain-raw-candidates.md`:** same Phase 3 content as **classes under anchor modules** (`### Name : << Entity >>` / `<< ValueObject >>` / `<< Process >>` / …), notes below — **not** a second copy of bucket tables. Cross-cutting material → **`## Cross-anchor`** or appendix. **`templates/domain-raw-candidates-template.md`**.
+**`nouns-verbs-rules-and-states` — `domain-noun-verb.md`:** anchor sections, **Candidate …** lists, class boxes. Slice files are **domain content only** — no skill paths or process boilerplate in the artifact body.
+
+**`raw-candidate-list`:** Prefer **`domain-raw-candidates.md`** — classes under anchors with notes. Optional single tabular roll-up (**`raw-candidate-list.md`** or appendix to **`domain-noun-verb.md`**) — **not** the same tables twice plus an integrated file.
+
+**Templates:** **`templates/domain model template.md`**, **`templates/domain-raw-candidates-template.md`**, **`templates/domain-model-integrated.md`**.
 
 ---
 
 ## Domain concept template
 
-Each **domain concept** (class, interface, value object, or aggregate) is documented under a clear heading, for example:
+Each concept is documented under a clear heading, for example:
 
 ```markdown
 ## **Payment**
@@ -19892,73 +19622,62 @@ Each **domain concept** (class, interface, value object, or aggregate) is docume
 
 ### Properties
 - Money amount
-- …
 
 ### Operations
 - initiate() → Authorization
 ```
 
-From **Step 5** onward, prefer **typed** members (see **Notation evolution** below). Earlier steps stay **pre-notation** (bullets and prose).
+From **Phase 6** onward (`add-properties-semantically-tight`), prefer **typed** members (see **Notation evolution**). Earlier phases stay informal (bullets and prose).
 
 ---
 
-## Continual refinement — class definition + diagram
+## Markdown and diagram
 
-**Continual refinement** means you **grow** the model across steps: each step file may add or tighten concepts. The Markdown spec and the class diagram are **two views of the same model** — update both when your project uses dual artifacts so they do not drift (see **[Class diagrams](class-diagrams.md)**).
+The Markdown spec and the class diagram are **two views of the same model** — keep them aligned when both exist (**class-diagrams**).
 
 ---
 
-## **newly added** tag
+## **newly added** tag (optional)
 
-In the **worked example** threads (e.g. payments), the marker **newly added** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
+In long-running examples, **newly added** on a line marks a property or operation that first appears in *this* file — useful for deltas across files.
 
 ---
 
 ## Notation evolution
 
-| Phase | Markdown style |
-|--------|------------------|
-| **Steps 1–4** | Informal: bullets, short phrases, responsibilities, candidate names; typed `- <type> property` lines arrive in Step 5. |
-| **Step 5+** | Formal typed members: `- <Type> propertyName`, `operationName(...) → ReturnType`. |
+| Phase range | Markdown style |
+|-------------|----------------|
+| **2–5** | Informal: bullets, candidates, responsibilities; typed `- <type> property` lines from **Phase 6** onward. |
+| **Phase 6+** | Formal: `- <Type> propertyName`, `operationName(...) → ReturnType`. |
 
 ---
 
 ## Subtype sections
 
-When you introduce substitutable specializations, add an explicit subtype heading so the structure is visible in the spec and in diagrams:
+When you introduce substitutable specializations, add an explicit subtype heading so structure is visible in spec and diagrams:
 
 ```markdown
 ### **Subtype** : **PaymentMethod**
 ```
 
-Put **`**newly added**`** on subtype **operation** (or property) lines when that member is **first** introduced for that subtype.
-
 ---
 
 ## Invariants
 
-Attach invariants to the **property** or **operation** they constrain, using a dedicated line:
+Attach invariants to the property or operation they constrain:
 
 ```markdown
 **Invariant:** …
 ```
 
-Mark **`**newly added**`** when you **first** attach an invariant to a given member line.
-
 ---
 
-## Early steps: terms, mechanisms, story map
+## Class diagram and spec
 
-Before typed properties exist, align extracted **nouns, verbs, rules, states** with your workspace’s **terms & mechanisms** and **shaped story map** (or equivalent). That is the same “grow the model as you go” idea: informal extraction first, then formal types.
+When you maintain **`map-model-spec.json`** or similar, re-run the project’s diagram script after material changes so Draw.io stays aligned.
 
----
-
-## Class diagram and spec (visual twin)
-
-When you maintain a machine-readable spec such as **`map-model-spec.json`**, re-run your project’s class-diagram render script (for example **`render_map_model_class_diagram.py`**) after material changes so the **Draw.io** diagram stays the **visual twin** of the spec.
-
-- **[Class diagrams](class-diagrams.md)** — templates, relationship types, keeping `.md` and `.drawio` aligned.  
-- **[Using the Diagram CLI](using-diagram-cli.md)** — building diagrams with **`scripts/drawio_cli.py`**.
+- **Class diagrams** — templates, relationships, keeping `.md` and `.drawio` aligned.  
+- **Using the Diagram CLI** — `scripts/drawio_cli.py`.
 
 ---
 
@@ -19966,9 +19685,9 @@ When you maintain a machine-readable spec such as **`map-model-spec.json`**, re-
 
 | Topic | File |
 |--------|------|
-| Term tracking across steps | [term-registry.md](term-registry.md) |
+| Term tracking | [term-registry.md](term-registry.md) |
 | Strategy-led runs | [strategy-led-generation.md](strategy-led-generation.md) |
-| Layout and lanes | [class-diagram-layout-rules.md](class-diagram-layout-rules.md) |
+| Layout | [class-diagram-layout-rules.md](class-diagram-layout-rules.md) |
 
 
 ---
@@ -20060,9 +19779,9 @@ The absence of a matching core class is the clearest signal that you have not ye
 
 # Strategy-led generation
 
-Domain scan (OOAD **phase 1**) does not only produce a single “results” file. It establishes a **small set of workspace files** under `<workspace>/abd-ooad/` that work together. Some are **frozen findings** from the scan; others are **living documents** you update as modeling continues.
+Domain scan (phase-id **`domain-scan`**) does not only produce a single “results” file. It establishes a **small set of workspace files** under `<workspace>/abd-ooad/` that work together. Some are **frozen findings** from the scan; others are **living documents** you update as modeling continues.
 
-**Slices start at global Phase 2:** Source-slice work (e.g. **S1**, **S2** in `strategy.md` and **`Anchor`** `S1=…` / `S2=…` in `term-registry.md`) uses the **same global OOAD phase numbers** as the process table for everything **after** scan. The **first** per-slice extraction step is **Phase 2** (`nouns-verbs-rules-and-states`), **not** a slice-local “Phase 1.” Phase **1** is workspace-wide **domain-scan** only. See **`term-registry.md` → Slices and global phase numbers**.
+**Per-slice extraction** after scan uses the **same phase-id chronicle** as **`process.md`**. The **first** detailed per-slice capture is **`nouns-verbs-rules-and-states`** (then **`raw-candidate-list`**, …) — **not** a second **`domain-scan`**. Use **phase-id** names in strategy and registry (and **`*[Sn · phase-id]*`** tags in the model), not “Phase 1 / Phase 2” as step names. See **`term-registry.md`** and **`process.md` → Capture ladder**.
 
 For the scan procedure itself, see the **Domain scan** phase. This page explains **what each artifact is for** and how **`strategy.md`** relates to **`domain-scan-results.md`**.
 
@@ -20080,7 +19799,8 @@ Created during domain scan under `<workspace>/abd-ooad/`:
 | `strategy.md` | **Living strategy:** **modeling scope**; **§1 source slices** (table: Order, Goal, **Source** — chapters, files, modules, or mixed — **Coverage**, **Importance**); **§2 slice plan** (per-slice **goal restated** + **phases**); **coverage across steps**; **cross-slice integration**; **anchor and subdomain elaboration**; **execution plan (normative)** — phase slugs with **slice IDs** on every line; plus **approach** and **dated pivots**. | **Yes** — whenever scope, order, slice depth, subdomain mapping, or integration changes. |
 | `domain-scan-model.md` | Class sketch (markdown) at scan fidelity. | Yes, in later phases — not only during scan. |
 | `domain-scan-model.drawio` | Diagram at scan fidelity. | Same as model.md. |
-| `term-registry.md` | Terms, **Classification** (model role), **Status** (OOAD scale), confidence — seeded at scan. | **Yes** — every later phase updates Step, Classification, and Status as the model evolves. |
+| `term-registry.md` | Terms, **Targets** (bulleted typed pointers), **Notes** — seeded at scan. | **Yes** — every later phase-id updates **Targets** and **Notes** as the model evolves. See **`library/term-registry.md`**. |
+| `terms.md` (per slice) | Evidence ledger by **`## [Anchor module]`** — quotes, promotion log. | **Yes** — from **`nouns-verbs-rules-and-states`** onward for that slice. Template: **`templates/terms-template.md`**. |
 
 **Plus** (when workspace is configured): **`progress/`** checklists — see **`library/strategy-execution-and-checklists.md`**. **`generate.py`** creates **`process-checklist.md`**, **`<phase>-checklist.md`**, and (abd-ooad) **`strategy-run-checklist.md`** when templates exist and files are missing. Normative phase steps stay in **`content/parts/phases/<phase>.md`**. These are the **only** place for session tick marks.
 
@@ -20115,8 +19835,8 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 
 1. **Strategy** — Keep **`strategy.md`** aligned with reality; append *Ongoing strategic decisions* when you pivot.
 2. **Strategy execution** — Tick **`progress/strategy-run-checklist.md`** as you **complete** each phase for its declared scope.
-3. **Phase work** — For the active phase, run **`generate.py --phase <slug>`** and tick **`progress/<slug>-checklist.md`** for action steps.
-4. **Registry** — Keep `term-registry.md` aligned with the current phase (Step, Classification, Status).
+3. **Phase work** — For the active phase-id, run **`generate.py --phase <phase-id>`** (or **`generate.py --stage <A|B|…|F>`** for a stage) and tick **`progress/<phase-id>-checklist.md`** for action steps.
+4. **Registry** — Keep `term-registry.md` aligned with the current phase-id (**Targets** + **Notes**); keep slice **`terms.md`** in sync for verbatim evidence.
 5. **Results** — Touch `domain-scan-results.md` only for corrections to the original scan snapshot.
 
 ---
@@ -20136,26 +19856,45 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 
 # Strategy execution and checklists (abd-ooad)
 
-**Canonical doc** for: (1) **strategy** vs **live ticks**, (2) **which files** hold checkboxes, (3) **how** `generate.py` creates workspace **`progress/`** files. Does **not** replace **[process.md](../process.md)** (process tables, `generate` / `build`) or **[skill-structure-and-concepts.md](../base/skill-structure-and-concepts.md)** (repo layout).
+**Canonical doc** for: (1) **strategy** vs **live ticks**, (2) **which files** hold checkboxes, (3) **how** `generate.py` creates workspace **`progress/`** files, (4) **stages**, **revisits / disruption** on the same checklist. Does **not** replace **[process.md](../process.md)** (phase chronicle, `generate` / `build`) or **[skill-structure-and-concepts.md](../base/skill-structure-and-concepts.md)** (repo layout).
 
-Only **`strategy.md`** defines **scope** and **which phases in what order**; checklists are where you **tick** progress.
+Only **`strategy.md`** defines **scope** and **which phase-ids (or stages) in what order**; checklists are where you **tick** progress.
 
 ---
 
 ## Workflow
 
-1. **Domain scan** — produce scan artifacts (see **`strategy-led-generation`**).
+1. **Domain scan** — produce scan artifacts (see **`strategy-led-generation`**). Phase-id: **`domain-scan`**.
 2. **Strategy** — fill **`strategy.md`** from **`templates/strategy.md`**:
    - **Modeling scope** — corpus or product boundary; **source type** (book vs repo vs mixed).
    - **§1 Source slices** — ordered table: **Goal**, **Source** (chapters, files, modules, APIs — whatever locates work), **Coverage** (depth this pass), **Importance**; stable **slice IDs** reused everywhere.
-   - **§2 Slice plan** — per slice: **goal restated**, **unit kind**, **phases** (execution step numbers / slugs), produces, depends-on.
-   - **Coverage across steps** — matrix: every slice → which **execution plan** steps touch it → **depth** → deferrals.
+   - **§2 Slice plan** — per slice: **goal restated**, **unit kind**, **phase-ids** (or **stages**) you will run, produces, depends-on.
+   - **Coverage across steps** — matrix: every slice → which **execution plan** phase-ids touch it → **depth** → deferrals.
    - **Cross-slice integration** — cross-boundary types and ordering (From → To + narrative).
-   - **Anchor and subdomain elaboration** (when anchors have attached types) — map subdomains to slices and execution §.
-   - **Execution plan (normative)** — ordered phase **slugs**; **each line cites slice IDs** (mirror **`strategy-run-checklist.md`**).
+   - **Anchor and subdomain elaboration** (when anchors have attached types) — map subdomains to slices and execution phase-ids.
+   - **Execution plan (normative)** — ordered **phase-id** strings; **each line cites slice IDs** (mirror **`strategy-run-checklist.md`**). Optionally group work by **stage A–F** (see **`process.md` → Stage map**).
+   - **Stage completion (after each stage)** — what completed; tensions; **new checklist lines** for revisits (below); **audit** — append dated line under *Ongoing strategic decisions*.
    - **Approach going forward** + **Ongoing strategic decisions** — short narrative and dated pivots.
 3. **Align live checklists** — keep **`strategy-run-checklist.md`** in sync with the execution plan (same order and scope). Optional **`templates/strategy-run-checklist.md`** seed; optional **`templates/progress-README.md`** → **`progress/README.md`** for slice-specific files under **`progress/slices/`**.
-4. **Run phases** — for the **current** phase: `python scripts/base/generate.py --phase <slug>`. Tick **`strategy-run-checklist.md`** when a phase is **done** for its declared scope; tick **`<slug>-checklist.md`** for **steps inside** that phase.
+4. **Run phases** — **`python scripts/base/generate.py --phase <phase-id>`** for one step, or **`python scripts/base/generate.py --stage <A|B|…|F>`** for a full stage (same order as **`process.md`** / **`skill-config.json` → `process_stages`**). Tick **`strategy-run-checklist.md`** when a phase (or stage slice) is **done** for its declared scope; tick **`<phase-id>-checklist.md`** for **steps inside** that phase.
+
+---
+
+## Revisits and disruption (same checklist)
+
+A **revisit** is **not** a separate rerun workflow. While executing (including late **stage F**), if work must **go back** to an earlier **stage** or **phase-id**, **add a new row** to **`strategy-run-checklist.md`** — e.g. `- [ ] Revisit stage B — <short reason>` or `- [ ] Re-run nouns-verbs-rules-and-states — slice S1 — reconcile new anchor` — at the **bottom** or **inserted** where it fits the agreed order. The checklist is the single source of truth for **forward** work plus **backward** revisits.
+
+**Audit:** When you add a revisit row, append a dated line under **`strategy.md` → Ongoing strategic decisions**; never delete prior pivots.
+
+### Hint table (non-prescriptive)
+
+| You are here | Often need to touch |
+|--------------|---------------------|
+| Stage F | Stage E, D, or C (naming / validation feedback) |
+| Stage E | Stage C (scenarios expose structure gaps) |
+| Stage D | Stage C (splitting responsibilities) |
+
+Use this as a **prompt**, not a rule.
 
 ---
 
@@ -20163,9 +19902,9 @@ Only **`strategy.md`** defines **scope** and **which phases in what order**; che
 
 | Layer | File | What you tick |
 | --- | --- | --- |
-| **Strategy execution** | **`progress/strategy-run-checklist.md`** | **Which phases** you will run, **in order**, each with **scope** that **includes the same slice IDs** as **`strategy.md` → Execution plan**. Optional: **`progress/slices/<slice-id>-checklist.md`** per slice — see **`progress/README.md`** in the workspace (if present). |
+| **Strategy execution** | **`progress/strategy-run-checklist.md`** | **Which phase-ids** (or stages) you will run, **in order**, each with **scope** that **includes the same slice IDs** as **`strategy.md` → Execution plan**; **includes revisit rows** when you must go backward. Optional: **`progress/slices/<slice-id>-checklist.md`** per slice — see **`progress/README.md`** in the workspace (if present). |
 | **Full pipeline (reference)** | **`progress/process-checklist.md`** | **Every** phase in **`phase_files`** — useful as a map; optional if you rely only on strategy-run. |
-| **Phase steps** | **`progress/<phase>-checklist.md`** | **Action checklist** copied from **`content/parts/phases/<phase>.md` → ## Action Checklist**. |
+| **Phase steps** | **`progress/<phase-id>-checklist.md`** | **Action checklist** copied from **`content/parts/phases/<phase-id>.md` → ## Action Checklist**. |
 
 **Implementation:** **`scripts/base/workspace_checklists.py`** (paths, behavior, `--no-ensure-checklists`).
 
@@ -20175,10 +19914,10 @@ Only **`strategy.md`** defines **scope** and **which phases in what order**; che
 
 | Kind | What it tracks | Where it lives | How it gets there |
 | --- | --- | --- | --- |
-| **Normative reference** | Rules in **this document** — strategy vs ticks, layers, `generate.py` behavior | **`content/parts/library/strategy-execution-and-checklists.md`** | Authored in the skill; **not** created by **`generate.py`**. |
-| **Pipeline position** | Which **phase** of the pipeline you are in | **`<active_skill_workspace>/<skill_name>/progress/process-checklist.md`** | **Created** on first **`python scripts/base/generate.py --phase <slug>`** when that file is **missing**, if **`skill-config.json` → `workspace.active_skill_workspace`** is set. One `- [ ]` line per slug in **`phase_files`** (labels from **`phase_section_headings`** when present). **Does not overwrite** an existing file. |
-| **Phase action steps** | **Steps inside** the current phase | **`<active_skill_workspace>/<skill_name>/progress/<phase-slug>-checklist.md`** | **Created** in the **same** `generate.py` run when that file is **missing**. Steps are taken from **`## Action Checklist`** in **`content/parts/phases/<phase-slug>.md`**, or from task lines (`- [ ]` / `- [x]`) in that file if the section is absent. **Does not overwrite** an existing file. |
-| **Strategy execution** (workspace) | Ordered phases matching **`strategy.md`** | **`progress/strategy-run-checklist.md`** | Seeded from template when **`generate.py`** / workspace checklist logic creates it; **you** align it with **`strategy.md`**. |
+| **Normative reference** | Rules in **this document** — strategy vs ticks, layers, revisits, `generate.py` behavior | **`content/parts/library/strategy-execution-and-checklists.md`** | Authored in the skill; **not** created by **`generate.py`**. |
+| **Pipeline position** | Which **phase-id** of the pipeline you are in | **`<active_skill_workspace>/<skill_name>/progress/process-checklist.md`** | **Created** on first **`python scripts/base/generate.py --phase <phase-id>`** (or first phase of **`--stage`**) when that file is **missing**, if **`skill-config.json` → `workspace.active_skill_workspace`** is set. One `- [ ]` line per slug in **`phase_files`** (labels from **`phase_section_headings`** when present). **Does not overwrite** an existing file. |
+| **Phase action steps** | **Steps inside** the current phase | **`<active_skill_workspace>/<skill_name>/progress/<phase-id>-checklist.md`** | **Created** in the **same** `generate.py` run when that file is **missing**. Steps are taken from **`## Action Checklist`** in **`content/parts/phases/<phase-id>.md`**, or from task lines (`- [ ]` / `- [x]`) in that file if the section is absent. **Does not overwrite** an existing file. |
+| **Strategy execution** (workspace) | Ordered phase-ids (and revisit rows) matching **`strategy.md`** | **`progress/strategy-run-checklist.md`** | Seeded from template when **`generate.py`** / workspace checklist logic creates it; **you** align it with **`strategy.md`**. |
 
 ### Names and workspace
 
@@ -20199,9 +19938,9 @@ Only **`strategy.md`** defines **scope** and **which phases in what order**; che
 
 ---
 
-## Phase slugs
+## Phase IDs
 
-Use exact slugs from **`skill-config.json` → `phase_files`** (e.g. `nouns-verbs-rules-and-states`, `domain-scan`). Labels for humans are in **`phase_section_headings`**.
+Use exact **phase-id** strings from **`skill-config.json` → `phase_files`** (e.g. `nouns-verbs-rules-and-states`, `domain-scan`). Labels for humans are in **`phase_section_headings`**. **Stages** **A–F** map to ordered phase-id lists in **`process_stages`** — see **`process.md`**.
 
 ---
 
@@ -20220,168 +19959,147 @@ Use exact slugs from **`skill-config.json` → `phase_files`** (e.g. `nouns-verb
 
 ## What a Term Is
 
-A **Term** is any concept identified from the source material that may become part of the domain model. At the time of identification, a Term is not committed to a model role — it might become a class, a property, a value type, an association, or nothing at all. The registry tracks Terms as the modeling phases determine what each one actually is.
+A **Term** is any concept identified from the source material that may become part of the domain model. At identification time it is not committed to a model role — it might become a class, a property, a value type, an association, or nothing. The registry tracks Terms as modeling **phase-ids** (see **`process.md` → Phase chronicle**) determine what each one actually is.
 
-This is distinct from other uses of "actor" in this domain:
-- In MM3E and FoundryVTT, "Actor" has a specific system meaning (a character, creature, or entity in the game world).
-- In the registry, everything is a Term until the model says otherwise.
+This is distinct from other domain uses of overloaded words (e.g. in some systems “Actor” is a system type). In the registry, everything is a Term until the model says otherwise.
 
-**File:** `<workspace>/abd-ooad/term-registry.md`
-**Never embedded** inside step outputs — it lives in its own file and is referenced from each step's model doc.
+**File:** `<workspace>/abd-ooad/term-registry.md` (or per-slice path if your workspace layout nests slices).
 
----
-
-## Step Reference — Short Names
-
-Use these short names in the **Step** column of the registry when adding or updating a row.
-
-| Short Name | Phase | Description |
-|-----------|-------|-------------|
-| SETUP | workspace-and-config | Workspace initialization |
-| SCAN | domain-scan | Source scan and anchor identification |
-| NOUNS | nouns-verbs-rules-and-states | Extract nouns, verbs, rules, states |
-| CANDS | raw-candidate-list | Raw candidate class list |
-| THINGS | thing-vs-data-about-a-thing | Separate things from data-about-things |
-| RESP | responsibilities-before-operations | Assign responsibilities |
-| PROPS | add-properties-semantically-tight | Add semantically tight properties |
-| OPS | turn-verbs-into-operations | Turn verbs into operations |
-| RELS | relationships-and-cardinality | Relationships and cardinality |
-| INV | invariants-in-the-model | Identify invariants |
-| BLOAT | watch-for-bloated-classes | Detect bloated classes |
-| ROLES | smashed-abstractions-and-hidden-roles | Uncover hidden roles |
-| INHERIT | inheritance-when-behavior-generalizes | Apply inheritance |
-| ABST | abstract-classes-and-interfaces | Abstract classes and interfaces |
-| COMP | prefer-composition | Prefer composition over inheritance |
-| STATES | model-state-transitions | Model state transitions |
-| ITER | iterative-refinement | Iterative refinement pass |
-| TENSION | tension-as-a-signal | Resolve tensions |
-| COHESION | what-changes-together | What changes together |
-| VALIDATE | validate-with-scenarios | Validate with scenarios |
-| NAMES | refine-names | Refine class and concept names |
-| LAYERS | model-in-layers | Model in layers |
+**Never embed** the full registry inside step outputs — it lives in its own file and is referenced from each phase’s model doc.
 
 ---
 
-## Slices and global phase numbers (normative)
+## Relationship to `terms.md` (per slice)
 
-The **OOAD process table** (see **`process.md`** / built **AGENTS.md** — “Process Table”) assigns **global phase numbers** **0–21** to phase **slugs** (e.g. **Phase 2** = `nouns-verbs-rules-and-states`, **Phase 3** = `raw-candidate-list`, **Phase 4** = `thing-vs-data-about-a-thing`).
-
-- **Phase 1** (`domain-scan`, short name **SCAN**) runs **once per workspace** (or once per strategy engagement). It produces anchors, `strategy.md`, `domain-scan-results.md`, and seeds **`term-registry.md`**. It is **not** repeated as “each slice’s Phase 1.”
-- **Per-slice modeling** (folders or **Anchor** columns **`S1=…`**, **`S2=…`**, …) **aligns with the same global numbers from Phase 2 onward:** the **first** extraction artifact in a slice is always **Phase 2** (**NOUNS**), then **3** (**CANDS**), **4** (**THINGS**), etc. Do **not** label slice-local nouns-verbs files as Phase 1 — that collides with **SCAN**.
-- **Phase notes** in italics (optional): `*[Sn · Phase N]*` where **N** is the **global** process-table number. Add slug, tension id, or short reminder *after* the tag on the same line if needed (e.g. *thing-vs-data*, *registry Tn*). For early “likely class” judgments: `*[S1 · Phase 3]* Likely class : …`.
-
----
-
-## Registry Columns
-
-| Column | Values | Notes |
-|--------|--------|-------|
-| **Term** | Concept name from the source | Exact word or phrase as found — rename in the NAMES step if needed |
-| **Classification** | See **Classification** below | **What we want to model this as** — target shape in the domain model (not lifecycle) |
-| **Step** | Short name from table above (SCAN, NOUNS, …) | Step that first identified or last materially updated this Term |
-| **Confidence** | High / Medium / Low | How sure we are this belongs in the model |
-| **Status** | See **Status (OOAD scale)** below | Where this Term sits in the modeling workflow |
-| **Notes** | Free text | Anchor-test results, owning module for supporting classes (`Supporting class — X module`), competing interpretations, pointers to tensions in `domain-scan-results.md`, and follow-ups |
+- **`terms.md`** (alongside `domain-noun-verb.md` in a slice folder) holds **module-scoped evidence**: quotes, raw extractions, promotion history under **`## [Anchor module]`** headings aligned with the integrated domain model.
+- **`term-registry.md`** remains the **term-centric analysis record**: one row per Term; **Targets** = where the term landed; **Notes** = substantive reasoning (anchor tests, classification, tensions) — **full paragraphs are fine** when the work needs them.
+- **Principle:** Notes depth is **not** reduced because `terms.md` exists. `terms.md` reduces **duplication of verbatim source text** and organizes evidence by module; it does **not** justify one-line registry Notes unless the term truly needs only one line.
+- **Avoid duplicate verbatim quotes:** keep the quote in **`terms.md`** and in **Notes** point to `terms.md#anchor-module` (or the term subsection); keep analysis-only text in Notes as today.
 
 ---
 
-## Classification — what we want to model this as
+## Phase IDs (normative references)
 
-Use **one** value per row. This is the **intended model role**, not how “mature” the idea is (that is **Status**).
+Refer to pipeline steps **only** by **`phase-id`** — the short **kebab-case** slug matching **`skill-config.json` → `phase_files`** and the **`process.md`** chronicle (e.g. `domain-scan`, `nouns-verbs-rules-and-states`, `refine-names`). Do **not** use “Phase 1 / Phase 2” as **names** for steps; those ordinals drift. Optional **model tags** in the domain model use **`*[Sn · phase-id]*`** (e.g. **`*[S1 · refine-names]*`**) — see **`library/domain-model`**.
 
-| Value | Meaning |
+---
+
+## Registry columns
+
+| Column | Role |
+|--------|------|
+| **Term** | Concept name from the source — exact word or phrase as found; rename in **`refine-names`** if needed. |
+| **Targets** | Where this term **landed** in the model: a **bulleted list inside the table cell** (Markdown list), **one typed pointer per line**. Unallocated / not yet placed → leave empty or **—**. |
+| **Notes** | Anchor-test results, slice/anchor context (**`S1=…`** style if useful), competing interpretations, tensions, pointers to **`terms.md`** when verbatim evidence lives there — same substance as historical scan/noun-verb rows. |
+
+**Optional:** If you need a single “primary kind” for tooling, add one optional column **after** Term (e.g. **Kind**) — otherwise prefer **Targets**-only for a slim table.
+
+---
+
+## Targets — typed pointers (one per bullet)
+
+**Normative style:** each bullet is **one** typed target. **Do not** concatenate targets with `|` or `;` on one run-on line.
+
+Examples of pointer forms (extend as your model needs):
+
+- `entity:Payment`
+- `vo:Money`
+- `property:Payment.amount`
+- `operation:Order.submit`
+- `invariant:…`
+- `policy:…`
+- `relationship:Customer — Order`
+
+**Renders in Markdown tables** — use `<br>` between bullets if your renderer collapses list-in-cell (GitHub-style often accepts list-in-cell; validate in your preview):
+
+```markdown
+| Term   | Targets |
 |--------|---------|
-| **anchor (class + module)** | Passes the anchor test: this concept is a **core class** and owns a **module** (dashed frame + same-named core class). Use only for backbone modules. |
-| **class** | A domain **class** that is not its own module yet — e.g. supporting class inside a frame, or a type you expect to become a class without its own module. |
-| **property** | Modeled as a **semantic property** (attribute / value on a class), not a separate type. |
-| **field** | Modeled as a **typed field / slot** (data member, possibly simple type or value object). |
-| **example (instance)** | An **illustrative instance**, sample, or scenario object — not a type in the model. |
-| **relationship** | An **association**, link, or dependency between concepts — may become an association, association class, or navigable role. |
-| **invariant (rule)** | A **domain rule**, constraint, or policy — often becomes behavior, guard, or explicit rule text on a class. |
-
-**Diagram mapping (when relevant):** `anchor (class + module)` → module frame + core class; `class` → class box; `relationship` → association; `invariant (rule)` → note, constraint, or operation; `property` / `field` → attributes on a class.
+| amount | - `entity:Payment`<br>- `vo:Money`<br>- `property:Payment.amount` |
+```
 
 ---
 
-## Status (OOAD scale)
+## Notes — still substantive
 
-**Status** is **lifecycle / confidence in the workflow**, not the model shape. Pick the value that best fits; states are **not** always a strict left-to-right pipeline.
+Notes remain the place for **classification reasoning**, anchor tests, tensions, and follow-ups. **Do not** make Notes sparse by default. When raw quotes live in **`terms.md`**, write in Notes: *“Verbatim quote in `terms.md` → [Anchor module] / term …”* and keep analysis here.
 
-| Status | When to use |
-|--------|-------------|
-| **Ambiguous** | You cannot yet say what the Term is or how it sits next to others. |
-| **Tension** | Competing interpretations, overlapping boundaries, or conflicting source pulls — needs resolution before the model can commit. |
-| **Candidate** | Plausible model role; narrowed but not yet locked (often after scan, before THINGS/RELS). |
-| **Deferred** | Explicitly parked — revisit in a named later step or phase. |
-| **Active** | In current modeling scope; being updated in this pass. |
-| **Solidified** | Named, placed, and stable in the model for the current iteration — ready to treat as “done” unless source or scope changes. |
-
-**Typical (non-binding) progression:** Ambiguous → Tension or Candidate → Active → Solidified. **Deferred** can apply after any stage. A Term can return from Deferred to Active when scope returns to it.
+**Slice / anchor:** You may record **`S1=Character`** (or similar) in **Notes** or a minimal **Slice** column if the table template adds one — your engagement may require it for MM3E-style multi-slice tables.
 
 ---
 
-## Registry format (wide Notes)
+## Classification (reference — not required as its own column)
 
-**Prefer an HTML `<table>` with `<colgroup>`** so the **Notes** column gets most of the width (~50–55%). **Classification** labels can be long — give that column ~12–14% if needed. Plain Markdown pipe tables allocate columns evenly and make long Notes hard to read in the editor and in preview.
+If you **merge** the old **Classification** column into **Targets**, use typed pointers (`entity:…`, `property:…`, …) so the table stays one row per Term. The **meaning** of former classification values is unchanged:
 
-Use this skeleton (adjust `width` percentages if needed):
+| Former value | Meaning |
+|--------------|--------|
+| **anchor (class + module)** | Passes the anchor test: core class owns a **module** (frame + same-named core class). |
+| **class** | Domain class not its own module yet — supporting class, or expected class without module. |
+| **property** | Modeled as semantic property on a class. |
+| **field** | Typed field / slot. |
+| **example (instance)** | Illustrative instance — not a type. |
+| **relationship** | Association, link, dependency. |
+| **invariant (rule)** | Domain rule, constraint, policy. |
+
+---
+
+## Registry format (HTML table recommended for Notes width)
+
+Prefer an HTML `<table>` with `<colgroup>` so **Notes** gets most width (~50–55%). **Targets** can be ~18–22%.
 
 ```html
 <table>
 <colgroup>
-  <col style="width:9%" />
-  <col style="width:14%" />
-  <col style="width:6%" />
-  <col style="width:9%" />
-  <col style="width:9%" />
-  <col style="width:53%" />
+  <col style="width:12%" />
+  <col style="width:22%" />
+  <col style="width:66%" />
 </colgroup>
 <thead>
 <tr>
   <th>Term</th>
-  <th>Classification</th>
-  <th>Step</th>
-  <th>Confidence</th>
-  <th>Status</th>
+  <th>Targets</th>
   <th>Notes</th>
 </tr>
 </thead>
 <tbody>
 <tr>
   <td>Character</td>
-  <td>anchor (class + module)</td>
-  <td>SCAN</td>
-  <td>High</td>
-  <td>Active</td>
-  <td>Central entity; all rules attach to it</td>
-</tr>
-<tr>
-  <td>Power</td>
-  <td>class</td>
-  <td>SCAN</td>
-  <td>High</td>
-  <td>Active</td>
-  <td>Supporting class — Character module. Core capability unit.</td>
-</tr>
-<tr>
-  <td>Device</td>
-  <td>class</td>
-  <td>SCAN</td>
-  <td>Medium</td>
-  <td>Tension</td>
-  <td>Removable Power vs Equipment? Boundary unclear — see T2.</td>
+  <td>- <code>entity:Character</code><br>- <code>property:Character.powerLevel</code></td>
+  <td>Central entity; anchor test ✓. Slice <code>S1=Character</code>. Long quotes in <code>terms.md</code> → Character module.</td>
 </tr>
 </tbody>
 </table>
 ```
 
-For very small registries only, a Markdown pipe table is acceptable:
+Small registries: Markdown pipe table is acceptable.
 
-```markdown
-| Term | Classification | Step | Confidence | Status | Notes |
-|------|----------------|------|------------|--------|-------|
-| Character | anchor (class + module) | SCAN | High | Active | Short note only |
-```
+---
+
+## Migration from legacy wide tables
+
+If you have **Step**, **Confidence**, **Status**, and **Classification** columns:
+
+1. **Term** → keep.
+2. **Classification** + committed placements → **Targets** bullets (`entity:…`, `property:…`, …).
+3. **Step** → fold into **Notes** as *“First touched at phase-id `domain-scan`”* or leave implicit if noisy.
+4. **Confidence / Status** → merge into **Notes** (*“Legacy: was High / Active”*) only if still useful; otherwise drop.
+5. **Notes** → preserve text; add pointer to **`terms.md`** where verbatim evidence moved.
+
+---
+
+## Slices and `domain-scan` vs per-slice work
+
+- **`domain-scan`** runs **workspace-wide** (or once per strategy engagement): seeds **`term-registry.md`**, anchors, **`strategy.md`**, scan artifacts. It is **not** “each slice’s first phase” by name — use **phase-id** `domain-scan` only.
+- Per-slice deep extraction aligns with **`nouns-verbs-rules-and-states`** and **`raw-candidate-list`** in **chronicle order** after scan. **`terms.md`** evolves from those phase-ids onward for that slice.
+
+---
+
+## References
+
+- **`process.md`** — Phase chronicle, stages A–F, capture ladder  
+- **`terms.md`** template — `templates/terms-template.md`  
+- **Strategy / revisits** — `library/strategy-execution-and-checklists.md`
 
 
 ---
@@ -20832,7 +20550,7 @@ The CLI does not yet support notes — add them manually in draw.io after CLI bu
 | Phase | Add invariants? |
 |-------|----------------|
 | domain-scan | Yes — add the invariants you found during the scan (inline preferred at this fidelity) |
-| domain-noun-verb (Step 1) | No — extraction only; invariants captured in registry notes |
+| domain-noun-verb (Phase 2) | No — extraction only; invariants captured in registry notes |
 | raw-candidate-list through responsibilities | Yes — as invariants become confirmed, add to diagram |
 | Full model phases | Yes — invariants are a required part of the final model |
 
@@ -21733,19 +21451,23 @@ Use **inheritance** only if **PaymentMethod** subtypes share substitutable **aut
 
 # Domain model Markdown
 
-This skill’s **domain model** is captured in Markdown  a parallel **Draw.io** class diagram. Use **`templates/domain model template.md`** for companion docs; align with **`templates/domain model template.drawio`** when both exist.
+The **domain model** lives in workspace **`domain*.md`** files; **Draw.io** diagrams are **visual twins** of that content — update markdown first, then render or hand-sync the diagram (see **class-diagrams**, **using-diagram-cli**).
 
-**Phase 2 — `domain-noun-verb.md`:** anchor sections, **Candidate …** lists, full or pared class boxes. Slice files are **content only** — no skill paths or process meta in the artifact body.
+**Integrated slice model + evidence:** Prefer **`templates/domain-model-integrated.md`** alongside **`templates/terms-template.md`** (`terms.md` per slice). Class **Notes** use **`*[Sn · phase-id]*`** (e.g. **`*[S1 · refine-names]*`**) — **phase-id** from **`process.md`**, not numeric step names.
 
-**Phase 3 — bucket roll-up:** sort candidates into **entities**, **value objects**, **processes**, **policies**, **roles**, **events** (tables in **`raw-candidate-list.md`** or appended to **`domain-noun-verb.md`**). Same **content-only** rule: no skill/process boilerplate in slice files.
+**`domain-scan`:** **`domain-scan-results.md`**, **`domain-scan-model.md`**, then **`domain-scan-model.drawio`**.
 
-**Optional — `domain-raw-candidates.md`:** same Phase 3 content as **classes under anchor modules** (`### Name : << Entity >>` / `<< ValueObject >>` / `<< Process >>` / …), notes below — **not** a second copy of bucket tables. Cross-cutting material → **`## Cross-anchor`** or appendix. **`templates/domain-raw-candidates-template.md`**.
+**`nouns-verbs-rules-and-states` — `domain-noun-verb.md`:** anchor sections, **Candidate …** lists, class boxes. Slice files are **domain content only** — no skill paths or process boilerplate in the artifact body.
+
+**`raw-candidate-list`:** Prefer **`domain-raw-candidates.md`** — classes under anchors with notes. Optional single tabular roll-up (**`raw-candidate-list.md`** or appendix to **`domain-noun-verb.md`**) — **not** the same tables twice plus an integrated file.
+
+**Templates:** **`templates/domain model template.md`**, **`templates/domain-raw-candidates-template.md`**, **`templates/domain-model-integrated.md`**.
 
 ---
 
 ## Domain concept template
 
-Each **domain concept** (class, interface, value object, or aggregate) is documented under a clear heading, for example:
+Each concept is documented under a clear heading, for example:
 
 ```markdown
 ## **Payment**
@@ -21754,73 +21476,62 @@ Each **domain concept** (class, interface, value object, or aggregate) is docume
 
 ### Properties
 - Money amount
-- …
 
 ### Operations
 - initiate() → Authorization
 ```
 
-From **Step 5** onward, prefer **typed** members (see **Notation evolution** below). Earlier steps stay **pre-notation** (bullets and prose).
+From **Phase 6** onward (`add-properties-semantically-tight`), prefer **typed** members (see **Notation evolution**). Earlier phases stay informal (bullets and prose).
 
 ---
 
-## Continual refinement — class definition + diagram
+## Markdown and diagram
 
-**Continual refinement** means you **grow** the model across steps: each step file may add or tighten concepts. The Markdown spec and the class diagram are **two views of the same model** — update both when your project uses dual artifacts so they do not drift (see **[Class diagrams](class-diagrams.md)**).
+The Markdown spec and the class diagram are **two views of the same model** — keep them aligned when both exist (**class-diagrams**).
 
 ---
 
-## **newly added** tag
+## **newly added** tag (optional)
 
-In the **worked example** threads (e.g. payments), the marker **newly added** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
+In long-running examples, **newly added** on a line marks a property or operation that first appears in *this* file — useful for deltas across files.
 
 ---
 
 ## Notation evolution
 
-| Phase | Markdown style |
-|--------|------------------|
-| **Steps 1–4** | Informal: bullets, short phrases, responsibilities, candidate names; typed `- <type> property` lines arrive in Step 5. |
-| **Step 5+** | Formal typed members: `- <Type> propertyName`, `operationName(...) → ReturnType`. |
+| Phase range | Markdown style |
+|-------------|----------------|
+| **2–5** | Informal: bullets, candidates, responsibilities; typed `- <type> property` lines from **Phase 6** onward. |
+| **Phase 6+** | Formal: `- <Type> propertyName`, `operationName(...) → ReturnType`. |
 
 ---
 
 ## Subtype sections
 
-When you introduce substitutable specializations, add an explicit subtype heading so the structure is visible in the spec and in diagrams:
+When you introduce substitutable specializations, add an explicit subtype heading so structure is visible in spec and diagrams:
 
 ```markdown
 ### **Subtype** : **PaymentMethod**
 ```
 
-Put **`**newly added**`** on subtype **operation** (or property) lines when that member is **first** introduced for that subtype.
-
 ---
 
 ## Invariants
 
-Attach invariants to the **property** or **operation** they constrain, using a dedicated line:
+Attach invariants to the property or operation they constrain:
 
 ```markdown
 **Invariant:** …
 ```
 
-Mark **`**newly added**`** when you **first** attach an invariant to a given member line.
-
 ---
 
-## Early steps: terms, mechanisms, story map
+## Class diagram and spec
 
-Before typed properties exist, align extracted **nouns, verbs, rules, states** with your workspace’s **terms & mechanisms** and **shaped story map** (or equivalent). That is the same “grow the model as you go” idea: informal extraction first, then formal types.
+When you maintain **`map-model-spec.json`** or similar, re-run the project’s diagram script after material changes so Draw.io stays aligned.
 
----
-
-## Class diagram and spec (visual twin)
-
-When you maintain a machine-readable spec such as **`map-model-spec.json`**, re-run your project’s class-diagram render script (for example **`render_map_model_class_diagram.py`**) after material changes so the **Draw.io** diagram stays the **visual twin** of the spec.
-
-- **[Class diagrams](class-diagrams.md)** — templates, relationship types, keeping `.md` and `.drawio` aligned.  
-- **[Using the Diagram CLI](using-diagram-cli.md)** — building diagrams with **`scripts/drawio_cli.py`**.
+- **Class diagrams** — templates, relationships, keeping `.md` and `.drawio` aligned.  
+- **Using the Diagram CLI** — `scripts/drawio_cli.py`.
 
 ---
 
@@ -21828,9 +21539,9 @@ When you maintain a machine-readable spec such as **`map-model-spec.json`**, re-
 
 | Topic | File |
 |--------|------|
-| Term tracking across steps | [term-registry.md](term-registry.md) |
+| Term tracking | [term-registry.md](term-registry.md) |
 | Strategy-led runs | [strategy-led-generation.md](strategy-led-generation.md) |
-| Layout and lanes | [class-diagram-layout-rules.md](class-diagram-layout-rules.md) |
+| Layout | [class-diagram-layout-rules.md](class-diagram-layout-rules.md) |
 
 
 ---
@@ -21922,9 +21633,9 @@ The absence of a matching core class is the clearest signal that you have not ye
 
 # Strategy-led generation
 
-Domain scan (OOAD **phase 1**) does not only produce a single “results” file. It establishes a **small set of workspace files** under `<workspace>/abd-ooad/` that work together. Some are **frozen findings** from the scan; others are **living documents** you update as modeling continues.
+Domain scan (phase-id **`domain-scan`**) does not only produce a single “results” file. It establishes a **small set of workspace files** under `<workspace>/abd-ooad/` that work together. Some are **frozen findings** from the scan; others are **living documents** you update as modeling continues.
 
-**Slices start at global Phase 2:** Source-slice work (e.g. **S1**, **S2** in `strategy.md` and **`Anchor`** `S1=…` / `S2=…` in `term-registry.md`) uses the **same global OOAD phase numbers** as the process table for everything **after** scan. The **first** per-slice extraction step is **Phase 2** (`nouns-verbs-rules-and-states`), **not** a slice-local “Phase 1.” Phase **1** is workspace-wide **domain-scan** only. See **`term-registry.md` → Slices and global phase numbers**.
+**Per-slice extraction** after scan uses the **same phase-id chronicle** as **`process.md`**. The **first** detailed per-slice capture is **`nouns-verbs-rules-and-states`** (then **`raw-candidate-list`**, …) — **not** a second **`domain-scan`**. Use **phase-id** names in strategy and registry (and **`*[Sn · phase-id]*`** tags in the model), not “Phase 1 / Phase 2” as step names. See **`term-registry.md`** and **`process.md` → Capture ladder**.
 
 For the scan procedure itself, see the **Domain scan** phase. This page explains **what each artifact is for** and how **`strategy.md`** relates to **`domain-scan-results.md`**.
 
@@ -21942,7 +21653,8 @@ Created during domain scan under `<workspace>/abd-ooad/`:
 | `strategy.md` | **Living strategy:** **modeling scope**; **§1 source slices** (table: Order, Goal, **Source** — chapters, files, modules, or mixed — **Coverage**, **Importance**); **§2 slice plan** (per-slice **goal restated** + **phases**); **coverage across steps**; **cross-slice integration**; **anchor and subdomain elaboration**; **execution plan (normative)** — phase slugs with **slice IDs** on every line; plus **approach** and **dated pivots**. | **Yes** — whenever scope, order, slice depth, subdomain mapping, or integration changes. |
 | `domain-scan-model.md` | Class sketch (markdown) at scan fidelity. | Yes, in later phases — not only during scan. |
 | `domain-scan-model.drawio` | Diagram at scan fidelity. | Same as model.md. |
-| `term-registry.md` | Terms, **Classification** (model role), **Status** (OOAD scale), confidence — seeded at scan. | **Yes** — every later phase updates Step, Classification, and Status as the model evolves. |
+| `term-registry.md` | Terms, **Targets** (bulleted typed pointers), **Notes** — seeded at scan. | **Yes** — every later phase-id updates **Targets** and **Notes** as the model evolves. See **`library/term-registry.md`**. |
+| `terms.md` (per slice) | Evidence ledger by **`## [Anchor module]`** — quotes, promotion log. | **Yes** — from **`nouns-verbs-rules-and-states`** onward for that slice. Template: **`templates/terms-template.md`**. |
 
 **Plus** (when workspace is configured): **`progress/`** checklists — see **`library/strategy-execution-and-checklists.md`**. **`generate.py`** creates **`process-checklist.md`**, **`<phase>-checklist.md`**, and (abd-ooad) **`strategy-run-checklist.md`** when templates exist and files are missing. Normative phase steps stay in **`content/parts/phases/<phase>.md`**. These are the **only** place for session tick marks.
 
@@ -21977,8 +21689,8 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 
 1. **Strategy** — Keep **`strategy.md`** aligned with reality; append *Ongoing strategic decisions* when you pivot.
 2. **Strategy execution** — Tick **`progress/strategy-run-checklist.md`** as you **complete** each phase for its declared scope.
-3. **Phase work** — For the active phase, run **`generate.py --phase <slug>`** and tick **`progress/<slug>-checklist.md`** for action steps.
-4. **Registry** — Keep `term-registry.md` aligned with the current phase (Step, Classification, Status).
+3. **Phase work** — For the active phase-id, run **`generate.py --phase <phase-id>`** (or **`generate.py --stage <A|B|…|F>`** for a stage) and tick **`progress/<phase-id>-checklist.md`** for action steps.
+4. **Registry** — Keep `term-registry.md` aligned with the current phase-id (**Targets** + **Notes**); keep slice **`terms.md`** in sync for verbatim evidence.
 5. **Results** — Touch `domain-scan-results.md` only for corrections to the original scan snapshot.
 
 ---
@@ -21998,26 +21710,45 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 
 # Strategy execution and checklists (abd-ooad)
 
-**Canonical doc** for: (1) **strategy** vs **live ticks**, (2) **which files** hold checkboxes, (3) **how** `generate.py` creates workspace **`progress/`** files. Does **not** replace **[process.md](../process.md)** (process tables, `generate` / `build`) or **[skill-structure-and-concepts.md](../base/skill-structure-and-concepts.md)** (repo layout).
+**Canonical doc** for: (1) **strategy** vs **live ticks**, (2) **which files** hold checkboxes, (3) **how** `generate.py` creates workspace **`progress/`** files, (4) **stages**, **revisits / disruption** on the same checklist. Does **not** replace **[process.md](../process.md)** (phase chronicle, `generate` / `build`) or **[skill-structure-and-concepts.md](../base/skill-structure-and-concepts.md)** (repo layout).
 
-Only **`strategy.md`** defines **scope** and **which phases in what order**; checklists are where you **tick** progress.
+Only **`strategy.md`** defines **scope** and **which phase-ids (or stages) in what order**; checklists are where you **tick** progress.
 
 ---
 
 ## Workflow
 
-1. **Domain scan** — produce scan artifacts (see **`strategy-led-generation`**).
+1. **Domain scan** — produce scan artifacts (see **`strategy-led-generation`**). Phase-id: **`domain-scan`**.
 2. **Strategy** — fill **`strategy.md`** from **`templates/strategy.md`**:
    - **Modeling scope** — corpus or product boundary; **source type** (book vs repo vs mixed).
    - **§1 Source slices** — ordered table: **Goal**, **Source** (chapters, files, modules, APIs — whatever locates work), **Coverage** (depth this pass), **Importance**; stable **slice IDs** reused everywhere.
-   - **§2 Slice plan** — per slice: **goal restated**, **unit kind**, **phases** (execution step numbers / slugs), produces, depends-on.
-   - **Coverage across steps** — matrix: every slice → which **execution plan** steps touch it → **depth** → deferrals.
+   - **§2 Slice plan** — per slice: **goal restated**, **unit kind**, **phase-ids** (or **stages**) you will run, produces, depends-on.
+   - **Coverage across steps** — matrix: every slice → which **execution plan** phase-ids touch it → **depth** → deferrals.
    - **Cross-slice integration** — cross-boundary types and ordering (From → To + narrative).
-   - **Anchor and subdomain elaboration** (when anchors have attached types) — map subdomains to slices and execution §.
-   - **Execution plan (normative)** — ordered phase **slugs**; **each line cites slice IDs** (mirror **`strategy-run-checklist.md`**).
+   - **Anchor and subdomain elaboration** (when anchors have attached types) — map subdomains to slices and execution phase-ids.
+   - **Execution plan (normative)** — ordered **phase-id** strings; **each line cites slice IDs** (mirror **`strategy-run-checklist.md`**). Optionally group work by **stage A–F** (see **`process.md` → Stage map**).
+   - **Stage completion (after each stage)** — what completed; tensions; **new checklist lines** for revisits (below); **audit** — append dated line under *Ongoing strategic decisions*.
    - **Approach going forward** + **Ongoing strategic decisions** — short narrative and dated pivots.
 3. **Align live checklists** — keep **`strategy-run-checklist.md`** in sync with the execution plan (same order and scope). Optional **`templates/strategy-run-checklist.md`** seed; optional **`templates/progress-README.md`** → **`progress/README.md`** for slice-specific files under **`progress/slices/`**.
-4. **Run phases** — for the **current** phase: `python scripts/base/generate.py --phase <slug>`. Tick **`strategy-run-checklist.md`** when a phase is **done** for its declared scope; tick **`<slug>-checklist.md`** for **steps inside** that phase.
+4. **Run phases** — **`python scripts/base/generate.py --phase <phase-id>`** for one step, or **`python scripts/base/generate.py --stage <A|B|…|F>`** for a full stage (same order as **`process.md`** / **`skill-config.json` → `process_stages`**). Tick **`strategy-run-checklist.md`** when a phase (or stage slice) is **done** for its declared scope; tick **`<phase-id>-checklist.md`** for **steps inside** that phase.
+
+---
+
+## Revisits and disruption (same checklist)
+
+A **revisit** is **not** a separate rerun workflow. While executing (including late **stage F**), if work must **go back** to an earlier **stage** or **phase-id**, **add a new row** to **`strategy-run-checklist.md`** — e.g. `- [ ] Revisit stage B — <short reason>` or `- [ ] Re-run nouns-verbs-rules-and-states — slice S1 — reconcile new anchor` — at the **bottom** or **inserted** where it fits the agreed order. The checklist is the single source of truth for **forward** work plus **backward** revisits.
+
+**Audit:** When you add a revisit row, append a dated line under **`strategy.md` → Ongoing strategic decisions**; never delete prior pivots.
+
+### Hint table (non-prescriptive)
+
+| You are here | Often need to touch |
+|--------------|---------------------|
+| Stage F | Stage E, D, or C (naming / validation feedback) |
+| Stage E | Stage C (scenarios expose structure gaps) |
+| Stage D | Stage C (splitting responsibilities) |
+
+Use this as a **prompt**, not a rule.
 
 ---
 
@@ -22025,9 +21756,9 @@ Only **`strategy.md`** defines **scope** and **which phases in what order**; che
 
 | Layer | File | What you tick |
 | --- | --- | --- |
-| **Strategy execution** | **`progress/strategy-run-checklist.md`** | **Which phases** you will run, **in order**, each with **scope** that **includes the same slice IDs** as **`strategy.md` → Execution plan**. Optional: **`progress/slices/<slice-id>-checklist.md`** per slice — see **`progress/README.md`** in the workspace (if present). |
+| **Strategy execution** | **`progress/strategy-run-checklist.md`** | **Which phase-ids** (or stages) you will run, **in order**, each with **scope** that **includes the same slice IDs** as **`strategy.md` → Execution plan**; **includes revisit rows** when you must go backward. Optional: **`progress/slices/<slice-id>-checklist.md`** per slice — see **`progress/README.md`** in the workspace (if present). |
 | **Full pipeline (reference)** | **`progress/process-checklist.md`** | **Every** phase in **`phase_files`** — useful as a map; optional if you rely only on strategy-run. |
-| **Phase steps** | **`progress/<phase>-checklist.md`** | **Action checklist** copied from **`content/parts/phases/<phase>.md` → ## Action Checklist**. |
+| **Phase steps** | **`progress/<phase-id>-checklist.md`** | **Action checklist** copied from **`content/parts/phases/<phase-id>.md` → ## Action Checklist**. |
 
 **Implementation:** **`scripts/base/workspace_checklists.py`** (paths, behavior, `--no-ensure-checklists`).
 
@@ -22037,10 +21768,10 @@ Only **`strategy.md`** defines **scope** and **which phases in what order**; che
 
 | Kind | What it tracks | Where it lives | How it gets there |
 | --- | --- | --- | --- |
-| **Normative reference** | Rules in **this document** — strategy vs ticks, layers, `generate.py` behavior | **`content/parts/library/strategy-execution-and-checklists.md`** | Authored in the skill; **not** created by **`generate.py`**. |
-| **Pipeline position** | Which **phase** of the pipeline you are in | **`<active_skill_workspace>/<skill_name>/progress/process-checklist.md`** | **Created** on first **`python scripts/base/generate.py --phase <slug>`** when that file is **missing**, if **`skill-config.json` → `workspace.active_skill_workspace`** is set. One `- [ ]` line per slug in **`phase_files`** (labels from **`phase_section_headings`** when present). **Does not overwrite** an existing file. |
-| **Phase action steps** | **Steps inside** the current phase | **`<active_skill_workspace>/<skill_name>/progress/<phase-slug>-checklist.md`** | **Created** in the **same** `generate.py` run when that file is **missing**. Steps are taken from **`## Action Checklist`** in **`content/parts/phases/<phase-slug>.md`**, or from task lines (`- [ ]` / `- [x]`) in that file if the section is absent. **Does not overwrite** an existing file. |
-| **Strategy execution** (workspace) | Ordered phases matching **`strategy.md`** | **`progress/strategy-run-checklist.md`** | Seeded from template when **`generate.py`** / workspace checklist logic creates it; **you** align it with **`strategy.md`**. |
+| **Normative reference** | Rules in **this document** — strategy vs ticks, layers, revisits, `generate.py` behavior | **`content/parts/library/strategy-execution-and-checklists.md`** | Authored in the skill; **not** created by **`generate.py`**. |
+| **Pipeline position** | Which **phase-id** of the pipeline you are in | **`<active_skill_workspace>/<skill_name>/progress/process-checklist.md`** | **Created** on first **`python scripts/base/generate.py --phase <phase-id>`** (or first phase of **`--stage`**) when that file is **missing**, if **`skill-config.json` → `workspace.active_skill_workspace`** is set. One `- [ ]` line per slug in **`phase_files`** (labels from **`phase_section_headings`** when present). **Does not overwrite** an existing file. |
+| **Phase action steps** | **Steps inside** the current phase | **`<active_skill_workspace>/<skill_name>/progress/<phase-id>-checklist.md`** | **Created** in the **same** `generate.py` run when that file is **missing**. Steps are taken from **`## Action Checklist`** in **`content/parts/phases/<phase-id>.md`**, or from task lines (`- [ ]` / `- [x]`) in that file if the section is absent. **Does not overwrite** an existing file. |
+| **Strategy execution** (workspace) | Ordered phase-ids (and revisit rows) matching **`strategy.md`** | **`progress/strategy-run-checklist.md`** | Seeded from template when **`generate.py`** / workspace checklist logic creates it; **you** align it with **`strategy.md`**. |
 
 ### Names and workspace
 
@@ -22061,9 +21792,9 @@ Only **`strategy.md`** defines **scope** and **which phases in what order**; che
 
 ---
 
-## Phase slugs
+## Phase IDs
 
-Use exact slugs from **`skill-config.json` → `phase_files`** (e.g. `nouns-verbs-rules-and-states`, `domain-scan`). Labels for humans are in **`phase_section_headings`**.
+Use exact **phase-id** strings from **`skill-config.json` → `phase_files`** (e.g. `nouns-verbs-rules-and-states`, `domain-scan`). Labels for humans are in **`phase_section_headings`**. **Stages** **A–F** map to ordered phase-id lists in **`process_stages`** — see **`process.md`**.
 
 ---
 
@@ -22082,168 +21813,147 @@ Use exact slugs from **`skill-config.json` → `phase_files`** (e.g. `nouns-verb
 
 ## What a Term Is
 
-A **Term** is any concept identified from the source material that may become part of the domain model. At the time of identification, a Term is not committed to a model role — it might become a class, a property, a value type, an association, or nothing at all. The registry tracks Terms as the modeling phases determine what each one actually is.
+A **Term** is any concept identified from the source material that may become part of the domain model. At identification time it is not committed to a model role — it might become a class, a property, a value type, an association, or nothing. The registry tracks Terms as modeling **phase-ids** (see **`process.md` → Phase chronicle**) determine what each one actually is.
 
-This is distinct from other uses of "actor" in this domain:
-- In MM3E and FoundryVTT, "Actor" has a specific system meaning (a character, creature, or entity in the game world).
-- In the registry, everything is a Term until the model says otherwise.
+This is distinct from other domain uses of overloaded words (e.g. in some systems “Actor” is a system type). In the registry, everything is a Term until the model says otherwise.
 
-**File:** `<workspace>/abd-ooad/term-registry.md`
-**Never embedded** inside step outputs — it lives in its own file and is referenced from each step's model doc.
+**File:** `<workspace>/abd-ooad/term-registry.md` (or per-slice path if your workspace layout nests slices).
 
----
-
-## Step Reference — Short Names
-
-Use these short names in the **Step** column of the registry when adding or updating a row.
-
-| Short Name | Phase | Description |
-|-----------|-------|-------------|
-| SETUP | workspace-and-config | Workspace initialization |
-| SCAN | domain-scan | Source scan and anchor identification |
-| NOUNS | nouns-verbs-rules-and-states | Extract nouns, verbs, rules, states |
-| CANDS | raw-candidate-list | Raw candidate class list |
-| THINGS | thing-vs-data-about-a-thing | Separate things from data-about-things |
-| RESP | responsibilities-before-operations | Assign responsibilities |
-| PROPS | add-properties-semantically-tight | Add semantically tight properties |
-| OPS | turn-verbs-into-operations | Turn verbs into operations |
-| RELS | relationships-and-cardinality | Relationships and cardinality |
-| INV | invariants-in-the-model | Identify invariants |
-| BLOAT | watch-for-bloated-classes | Detect bloated classes |
-| ROLES | smashed-abstractions-and-hidden-roles | Uncover hidden roles |
-| INHERIT | inheritance-when-behavior-generalizes | Apply inheritance |
-| ABST | abstract-classes-and-interfaces | Abstract classes and interfaces |
-| COMP | prefer-composition | Prefer composition over inheritance |
-| STATES | model-state-transitions | Model state transitions |
-| ITER | iterative-refinement | Iterative refinement pass |
-| TENSION | tension-as-a-signal | Resolve tensions |
-| COHESION | what-changes-together | What changes together |
-| VALIDATE | validate-with-scenarios | Validate with scenarios |
-| NAMES | refine-names | Refine class and concept names |
-| LAYERS | model-in-layers | Model in layers |
+**Never embed** the full registry inside step outputs — it lives in its own file and is referenced from each phase’s model doc.
 
 ---
 
-## Slices and global phase numbers (normative)
+## Relationship to `terms.md` (per slice)
 
-The **OOAD process table** (see **`process.md`** / built **AGENTS.md** — “Process Table”) assigns **global phase numbers** **0–21** to phase **slugs** (e.g. **Phase 2** = `nouns-verbs-rules-and-states`, **Phase 3** = `raw-candidate-list`, **Phase 4** = `thing-vs-data-about-a-thing`).
-
-- **Phase 1** (`domain-scan`, short name **SCAN**) runs **once per workspace** (or once per strategy engagement). It produces anchors, `strategy.md`, `domain-scan-results.md`, and seeds **`term-registry.md`**. It is **not** repeated as “each slice’s Phase 1.”
-- **Per-slice modeling** (folders or **Anchor** columns **`S1=…`**, **`S2=…`**, …) **aligns with the same global numbers from Phase 2 onward:** the **first** extraction artifact in a slice is always **Phase 2** (**NOUNS**), then **3** (**CANDS**), **4** (**THINGS**), etc. Do **not** label slice-local nouns-verbs files as Phase 1 — that collides with **SCAN**.
-- **Phase notes** in italics (optional): `*[Sn · Phase N]*` where **N** is the **global** process-table number. Add slug, tension id, or short reminder *after* the tag on the same line if needed (e.g. *thing-vs-data*, *registry Tn*). For early “likely class” judgments: `*[S1 · Phase 3]* Likely class : …`.
-
----
-
-## Registry Columns
-
-| Column | Values | Notes |
-|--------|--------|-------|
-| **Term** | Concept name from the source | Exact word or phrase as found — rename in the NAMES step if needed |
-| **Classification** | See **Classification** below | **What we want to model this as** — target shape in the domain model (not lifecycle) |
-| **Step** | Short name from table above (SCAN, NOUNS, …) | Step that first identified or last materially updated this Term |
-| **Confidence** | High / Medium / Low | How sure we are this belongs in the model |
-| **Status** | See **Status (OOAD scale)** below | Where this Term sits in the modeling workflow |
-| **Notes** | Free text | Anchor-test results, owning module for supporting classes (`Supporting class — X module`), competing interpretations, pointers to tensions in `domain-scan-results.md`, and follow-ups |
+- **`terms.md`** (alongside `domain-noun-verb.md` in a slice folder) holds **module-scoped evidence**: quotes, raw extractions, promotion history under **`## [Anchor module]`** headings aligned with the integrated domain model.
+- **`term-registry.md`** remains the **term-centric analysis record**: one row per Term; **Targets** = where the term landed; **Notes** = substantive reasoning (anchor tests, classification, tensions) — **full paragraphs are fine** when the work needs them.
+- **Principle:** Notes depth is **not** reduced because `terms.md` exists. `terms.md` reduces **duplication of verbatim source text** and organizes evidence by module; it does **not** justify one-line registry Notes unless the term truly needs only one line.
+- **Avoid duplicate verbatim quotes:** keep the quote in **`terms.md`** and in **Notes** point to `terms.md#anchor-module` (or the term subsection); keep analysis-only text in Notes as today.
 
 ---
 
-## Classification — what we want to model this as
+## Phase IDs (normative references)
 
-Use **one** value per row. This is the **intended model role**, not how “mature” the idea is (that is **Status**).
+Refer to pipeline steps **only** by **`phase-id`** — the short **kebab-case** slug matching **`skill-config.json` → `phase_files`** and the **`process.md`** chronicle (e.g. `domain-scan`, `nouns-verbs-rules-and-states`, `refine-names`). Do **not** use “Phase 1 / Phase 2” as **names** for steps; those ordinals drift. Optional **model tags** in the domain model use **`*[Sn · phase-id]*`** (e.g. **`*[S1 · refine-names]*`**) — see **`library/domain-model`**.
 
-| Value | Meaning |
+---
+
+## Registry columns
+
+| Column | Role |
+|--------|------|
+| **Term** | Concept name from the source — exact word or phrase as found; rename in **`refine-names`** if needed. |
+| **Targets** | Where this term **landed** in the model: a **bulleted list inside the table cell** (Markdown list), **one typed pointer per line**. Unallocated / not yet placed → leave empty or **—**. |
+| **Notes** | Anchor-test results, slice/anchor context (**`S1=…`** style if useful), competing interpretations, tensions, pointers to **`terms.md`** when verbatim evidence lives there — same substance as historical scan/noun-verb rows. |
+
+**Optional:** If you need a single “primary kind” for tooling, add one optional column **after** Term (e.g. **Kind**) — otherwise prefer **Targets**-only for a slim table.
+
+---
+
+## Targets — typed pointers (one per bullet)
+
+**Normative style:** each bullet is **one** typed target. **Do not** concatenate targets with `|` or `;` on one run-on line.
+
+Examples of pointer forms (extend as your model needs):
+
+- `entity:Payment`
+- `vo:Money`
+- `property:Payment.amount`
+- `operation:Order.submit`
+- `invariant:…`
+- `policy:…`
+- `relationship:Customer — Order`
+
+**Renders in Markdown tables** — use `<br>` between bullets if your renderer collapses list-in-cell (GitHub-style often accepts list-in-cell; validate in your preview):
+
+```markdown
+| Term   | Targets |
 |--------|---------|
-| **anchor (class + module)** | Passes the anchor test: this concept is a **core class** and owns a **module** (dashed frame + same-named core class). Use only for backbone modules. |
-| **class** | A domain **class** that is not its own module yet — e.g. supporting class inside a frame, or a type you expect to become a class without its own module. |
-| **property** | Modeled as a **semantic property** (attribute / value on a class), not a separate type. |
-| **field** | Modeled as a **typed field / slot** (data member, possibly simple type or value object). |
-| **example (instance)** | An **illustrative instance**, sample, or scenario object — not a type in the model. |
-| **relationship** | An **association**, link, or dependency between concepts — may become an association, association class, or navigable role. |
-| **invariant (rule)** | A **domain rule**, constraint, or policy — often becomes behavior, guard, or explicit rule text on a class. |
-
-**Diagram mapping (when relevant):** `anchor (class + module)` → module frame + core class; `class` → class box; `relationship` → association; `invariant (rule)` → note, constraint, or operation; `property` / `field` → attributes on a class.
+| amount | - `entity:Payment`<br>- `vo:Money`<br>- `property:Payment.amount` |
+```
 
 ---
 
-## Status (OOAD scale)
+## Notes — still substantive
 
-**Status** is **lifecycle / confidence in the workflow**, not the model shape. Pick the value that best fits; states are **not** always a strict left-to-right pipeline.
+Notes remain the place for **classification reasoning**, anchor tests, tensions, and follow-ups. **Do not** make Notes sparse by default. When raw quotes live in **`terms.md`**, write in Notes: *“Verbatim quote in `terms.md` → [Anchor module] / term …”* and keep analysis here.
 
-| Status | When to use |
-|--------|-------------|
-| **Ambiguous** | You cannot yet say what the Term is or how it sits next to others. |
-| **Tension** | Competing interpretations, overlapping boundaries, or conflicting source pulls — needs resolution before the model can commit. |
-| **Candidate** | Plausible model role; narrowed but not yet locked (often after scan, before THINGS/RELS). |
-| **Deferred** | Explicitly parked — revisit in a named later step or phase. |
-| **Active** | In current modeling scope; being updated in this pass. |
-| **Solidified** | Named, placed, and stable in the model for the current iteration — ready to treat as “done” unless source or scope changes. |
-
-**Typical (non-binding) progression:** Ambiguous → Tension or Candidate → Active → Solidified. **Deferred** can apply after any stage. A Term can return from Deferred to Active when scope returns to it.
+**Slice / anchor:** You may record **`S1=Character`** (or similar) in **Notes** or a minimal **Slice** column if the table template adds one — your engagement may require it for MM3E-style multi-slice tables.
 
 ---
 
-## Registry format (wide Notes)
+## Classification (reference — not required as its own column)
 
-**Prefer an HTML `<table>` with `<colgroup>`** so the **Notes** column gets most of the width (~50–55%). **Classification** labels can be long — give that column ~12–14% if needed. Plain Markdown pipe tables allocate columns evenly and make long Notes hard to read in the editor and in preview.
+If you **merge** the old **Classification** column into **Targets**, use typed pointers (`entity:…`, `property:…`, …) so the table stays one row per Term. The **meaning** of former classification values is unchanged:
 
-Use this skeleton (adjust `width` percentages if needed):
+| Former value | Meaning |
+|--------------|--------|
+| **anchor (class + module)** | Passes the anchor test: core class owns a **module** (frame + same-named core class). |
+| **class** | Domain class not its own module yet — supporting class, or expected class without module. |
+| **property** | Modeled as semantic property on a class. |
+| **field** | Typed field / slot. |
+| **example (instance)** | Illustrative instance — not a type. |
+| **relationship** | Association, link, dependency. |
+| **invariant (rule)** | Domain rule, constraint, policy. |
+
+---
+
+## Registry format (HTML table recommended for Notes width)
+
+Prefer an HTML `<table>` with `<colgroup>` so **Notes** gets most width (~50–55%). **Targets** can be ~18–22%.
 
 ```html
 <table>
 <colgroup>
-  <col style="width:9%" />
-  <col style="width:14%" />
-  <col style="width:6%" />
-  <col style="width:9%" />
-  <col style="width:9%" />
-  <col style="width:53%" />
+  <col style="width:12%" />
+  <col style="width:22%" />
+  <col style="width:66%" />
 </colgroup>
 <thead>
 <tr>
   <th>Term</th>
-  <th>Classification</th>
-  <th>Step</th>
-  <th>Confidence</th>
-  <th>Status</th>
+  <th>Targets</th>
   <th>Notes</th>
 </tr>
 </thead>
 <tbody>
 <tr>
   <td>Character</td>
-  <td>anchor (class + module)</td>
-  <td>SCAN</td>
-  <td>High</td>
-  <td>Active</td>
-  <td>Central entity; all rules attach to it</td>
-</tr>
-<tr>
-  <td>Power</td>
-  <td>class</td>
-  <td>SCAN</td>
-  <td>High</td>
-  <td>Active</td>
-  <td>Supporting class — Character module. Core capability unit.</td>
-</tr>
-<tr>
-  <td>Device</td>
-  <td>class</td>
-  <td>SCAN</td>
-  <td>Medium</td>
-  <td>Tension</td>
-  <td>Removable Power vs Equipment? Boundary unclear — see T2.</td>
+  <td>- <code>entity:Character</code><br>- <code>property:Character.powerLevel</code></td>
+  <td>Central entity; anchor test ✓. Slice <code>S1=Character</code>. Long quotes in <code>terms.md</code> → Character module.</td>
 </tr>
 </tbody>
 </table>
 ```
 
-For very small registries only, a Markdown pipe table is acceptable:
+Small registries: Markdown pipe table is acceptable.
 
-```markdown
-| Term | Classification | Step | Confidence | Status | Notes |
-|------|----------------|------|------------|--------|-------|
-| Character | anchor (class + module) | SCAN | High | Active | Short note only |
-```
+---
+
+## Migration from legacy wide tables
+
+If you have **Step**, **Confidence**, **Status**, and **Classification** columns:
+
+1. **Term** → keep.
+2. **Classification** + committed placements → **Targets** bullets (`entity:…`, `property:…`, …).
+3. **Step** → fold into **Notes** as *“First touched at phase-id `domain-scan`”* or leave implicit if noisy.
+4. **Confidence / Status** → merge into **Notes** (*“Legacy: was High / Active”*) only if still useful; otherwise drop.
+5. **Notes** → preserve text; add pointer to **`terms.md`** where verbatim evidence moved.
+
+---
+
+## Slices and `domain-scan` vs per-slice work
+
+- **`domain-scan`** runs **workspace-wide** (or once per strategy engagement): seeds **`term-registry.md`**, anchors, **`strategy.md`**, scan artifacts. It is **not** “each slice’s first phase” by name — use **phase-id** `domain-scan` only.
+- Per-slice deep extraction aligns with **`nouns-verbs-rules-and-states`** and **`raw-candidate-list`** in **chronicle order** after scan. **`terms.md`** evolves from those phase-ids onward for that slice.
+
+---
+
+## References
+
+- **`process.md`** — Phase chronicle, stages A–F, capture ladder  
+- **`terms.md`** template — `templates/terms-template.md`  
+- **Strategy / revisits** — `library/strategy-execution-and-checklists.md`
 
 
 ---
@@ -22694,7 +22404,7 @@ The CLI does not yet support notes — add them manually in draw.io after CLI bu
 | Phase | Add invariants? |
 |-------|----------------|
 | domain-scan | Yes — add the invariants you found during the scan (inline preferred at this fidelity) |
-| domain-noun-verb (Step 1) | No — extraction only; invariants captured in registry notes |
+| domain-noun-verb (Phase 2) | No — extraction only; invariants captured in registry notes |
 | raw-candidate-list through responsibilities | Yes — as invariants become confirmed, add to diagram |
 | Full model phases | Yes — invariants are a required part of the final model |
 
@@ -23594,19 +23304,23 @@ Formalize **abstract class vs interface** for **PaymentMethod** and **ports** fo
 
 # Domain model Markdown
 
-This skill’s **domain model** is captured in Markdown  a parallel **Draw.io** class diagram. Use **`templates/domain model template.md`** for companion docs; align with **`templates/domain model template.drawio`** when both exist.
+The **domain model** lives in workspace **`domain*.md`** files; **Draw.io** diagrams are **visual twins** of that content — update markdown first, then render or hand-sync the diagram (see **class-diagrams**, **using-diagram-cli**).
 
-**Phase 2 — `domain-noun-verb.md`:** anchor sections, **Candidate …** lists, full or pared class boxes. Slice files are **content only** — no skill paths or process meta in the artifact body.
+**Integrated slice model + evidence:** Prefer **`templates/domain-model-integrated.md`** alongside **`templates/terms-template.md`** (`terms.md` per slice). Class **Notes** use **`*[Sn · phase-id]*`** (e.g. **`*[S1 · refine-names]*`**) — **phase-id** from **`process.md`**, not numeric step names.
 
-**Phase 3 — bucket roll-up:** sort candidates into **entities**, **value objects**, **processes**, **policies**, **roles**, **events** (tables in **`raw-candidate-list.md`** or appended to **`domain-noun-verb.md`**). Same **content-only** rule: no skill/process boilerplate in slice files.
+**`domain-scan`:** **`domain-scan-results.md`**, **`domain-scan-model.md`**, then **`domain-scan-model.drawio`**.
 
-**Optional — `domain-raw-candidates.md`:** same Phase 3 content as **classes under anchor modules** (`### Name : << Entity >>` / `<< ValueObject >>` / `<< Process >>` / …), notes below — **not** a second copy of bucket tables. Cross-cutting material → **`## Cross-anchor`** or appendix. **`templates/domain-raw-candidates-template.md`**.
+**`nouns-verbs-rules-and-states` — `domain-noun-verb.md`:** anchor sections, **Candidate …** lists, class boxes. Slice files are **domain content only** — no skill paths or process boilerplate in the artifact body.
+
+**`raw-candidate-list`:** Prefer **`domain-raw-candidates.md`** — classes under anchors with notes. Optional single tabular roll-up (**`raw-candidate-list.md`** or appendix to **`domain-noun-verb.md`**) — **not** the same tables twice plus an integrated file.
+
+**Templates:** **`templates/domain model template.md`**, **`templates/domain-raw-candidates-template.md`**, **`templates/domain-model-integrated.md`**.
 
 ---
 
 ## Domain concept template
 
-Each **domain concept** (class, interface, value object, or aggregate) is documented under a clear heading, for example:
+Each concept is documented under a clear heading, for example:
 
 ```markdown
 ## **Payment**
@@ -23615,73 +23329,62 @@ Each **domain concept** (class, interface, value object, or aggregate) is docume
 
 ### Properties
 - Money amount
-- …
 
 ### Operations
 - initiate() → Authorization
 ```
 
-From **Step 5** onward, prefer **typed** members (see **Notation evolution** below). Earlier steps stay **pre-notation** (bullets and prose).
+From **Phase 6** onward (`add-properties-semantically-tight`), prefer **typed** members (see **Notation evolution**). Earlier phases stay informal (bullets and prose).
 
 ---
 
-## Continual refinement — class definition + diagram
+## Markdown and diagram
 
-**Continual refinement** means you **grow** the model across steps: each step file may add or tighten concepts. The Markdown spec and the class diagram are **two views of the same model** — update both when your project uses dual artifacts so they do not drift (see **[Class diagrams](class-diagrams.md)**).
+The Markdown spec and the class diagram are **two views of the same model** — keep them aligned when both exist (**class-diagrams**).
 
 ---
 
-## **newly added** tag
+## **newly added** tag (optional)
 
-In the **worked example** threads (e.g. payments), the marker **newly added** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
+In long-running examples, **newly added** on a line marks a property or operation that first appears in *this* file — useful for deltas across files.
 
 ---
 
 ## Notation evolution
 
-| Phase | Markdown style |
-|--------|------------------|
-| **Steps 1–4** | Informal: bullets, short phrases, responsibilities, candidate names; typed `- <type> property` lines arrive in Step 5. |
-| **Step 5+** | Formal typed members: `- <Type> propertyName`, `operationName(...) → ReturnType`. |
+| Phase range | Markdown style |
+|-------------|----------------|
+| **2–5** | Informal: bullets, candidates, responsibilities; typed `- <type> property` lines from **Phase 6** onward. |
+| **Phase 6+** | Formal: `- <Type> propertyName`, `operationName(...) → ReturnType`. |
 
 ---
 
 ## Subtype sections
 
-When you introduce substitutable specializations, add an explicit subtype heading so the structure is visible in the spec and in diagrams:
+When you introduce substitutable specializations, add an explicit subtype heading so structure is visible in spec and diagrams:
 
 ```markdown
 ### **Subtype** : **PaymentMethod**
 ```
 
-Put **`**newly added**`** on subtype **operation** (or property) lines when that member is **first** introduced for that subtype.
-
 ---
 
 ## Invariants
 
-Attach invariants to the **property** or **operation** they constrain, using a dedicated line:
+Attach invariants to the property or operation they constrain:
 
 ```markdown
 **Invariant:** …
 ```
 
-Mark **`**newly added**`** when you **first** attach an invariant to a given member line.
-
 ---
 
-## Early steps: terms, mechanisms, story map
+## Class diagram and spec
 
-Before typed properties exist, align extracted **nouns, verbs, rules, states** with your workspace’s **terms & mechanisms** and **shaped story map** (or equivalent). That is the same “grow the model as you go” idea: informal extraction first, then formal types.
+When you maintain **`map-model-spec.json`** or similar, re-run the project’s diagram script after material changes so Draw.io stays aligned.
 
----
-
-## Class diagram and spec (visual twin)
-
-When you maintain a machine-readable spec such as **`map-model-spec.json`**, re-run your project’s class-diagram render script (for example **`render_map_model_class_diagram.py`**) after material changes so the **Draw.io** diagram stays the **visual twin** of the spec.
-
-- **[Class diagrams](class-diagrams.md)** — templates, relationship types, keeping `.md` and `.drawio` aligned.  
-- **[Using the Diagram CLI](using-diagram-cli.md)** — building diagrams with **`scripts/drawio_cli.py`**.
+- **Class diagrams** — templates, relationships, keeping `.md` and `.drawio` aligned.  
+- **Using the Diagram CLI** — `scripts/drawio_cli.py`.
 
 ---
 
@@ -23689,9 +23392,9 @@ When you maintain a machine-readable spec such as **`map-model-spec.json`**, re-
 
 | Topic | File |
 |--------|------|
-| Term tracking across steps | [term-registry.md](term-registry.md) |
+| Term tracking | [term-registry.md](term-registry.md) |
 | Strategy-led runs | [strategy-led-generation.md](strategy-led-generation.md) |
-| Layout and lanes | [class-diagram-layout-rules.md](class-diagram-layout-rules.md) |
+| Layout | [class-diagram-layout-rules.md](class-diagram-layout-rules.md) |
 
 
 ---
@@ -23783,9 +23486,9 @@ The absence of a matching core class is the clearest signal that you have not ye
 
 # Strategy-led generation
 
-Domain scan (OOAD **phase 1**) does not only produce a single “results” file. It establishes a **small set of workspace files** under `<workspace>/abd-ooad/` that work together. Some are **frozen findings** from the scan; others are **living documents** you update as modeling continues.
+Domain scan (phase-id **`domain-scan`**) does not only produce a single “results” file. It establishes a **small set of workspace files** under `<workspace>/abd-ooad/` that work together. Some are **frozen findings** from the scan; others are **living documents** you update as modeling continues.
 
-**Slices start at global Phase 2:** Source-slice work (e.g. **S1**, **S2** in `strategy.md` and **`Anchor`** `S1=…` / `S2=…` in `term-registry.md`) uses the **same global OOAD phase numbers** as the process table for everything **after** scan. The **first** per-slice extraction step is **Phase 2** (`nouns-verbs-rules-and-states`), **not** a slice-local “Phase 1.” Phase **1** is workspace-wide **domain-scan** only. See **`term-registry.md` → Slices and global phase numbers**.
+**Per-slice extraction** after scan uses the **same phase-id chronicle** as **`process.md`**. The **first** detailed per-slice capture is **`nouns-verbs-rules-and-states`** (then **`raw-candidate-list`**, …) — **not** a second **`domain-scan`**. Use **phase-id** names in strategy and registry (and **`*[Sn · phase-id]*`** tags in the model), not “Phase 1 / Phase 2” as step names. See **`term-registry.md`** and **`process.md` → Capture ladder**.
 
 For the scan procedure itself, see the **Domain scan** phase. This page explains **what each artifact is for** and how **`strategy.md`** relates to **`domain-scan-results.md`**.
 
@@ -23803,7 +23506,8 @@ Created during domain scan under `<workspace>/abd-ooad/`:
 | `strategy.md` | **Living strategy:** **modeling scope**; **§1 source slices** (table: Order, Goal, **Source** — chapters, files, modules, or mixed — **Coverage**, **Importance**); **§2 slice plan** (per-slice **goal restated** + **phases**); **coverage across steps**; **cross-slice integration**; **anchor and subdomain elaboration**; **execution plan (normative)** — phase slugs with **slice IDs** on every line; plus **approach** and **dated pivots**. | **Yes** — whenever scope, order, slice depth, subdomain mapping, or integration changes. |
 | `domain-scan-model.md` | Class sketch (markdown) at scan fidelity. | Yes, in later phases — not only during scan. |
 | `domain-scan-model.drawio` | Diagram at scan fidelity. | Same as model.md. |
-| `term-registry.md` | Terms, **Classification** (model role), **Status** (OOAD scale), confidence — seeded at scan. | **Yes** — every later phase updates Step, Classification, and Status as the model evolves. |
+| `term-registry.md` | Terms, **Targets** (bulleted typed pointers), **Notes** — seeded at scan. | **Yes** — every later phase-id updates **Targets** and **Notes** as the model evolves. See **`library/term-registry.md`**. |
+| `terms.md` (per slice) | Evidence ledger by **`## [Anchor module]`** — quotes, promotion log. | **Yes** — from **`nouns-verbs-rules-and-states`** onward for that slice. Template: **`templates/terms-template.md`**. |
 
 **Plus** (when workspace is configured): **`progress/`** checklists — see **`library/strategy-execution-and-checklists.md`**. **`generate.py`** creates **`process-checklist.md`**, **`<phase>-checklist.md`**, and (abd-ooad) **`strategy-run-checklist.md`** when templates exist and files are missing. Normative phase steps stay in **`content/parts/phases/<phase>.md`**. These are the **only** place for session tick marks.
 
@@ -23838,8 +23542,8 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 
 1. **Strategy** — Keep **`strategy.md`** aligned with reality; append *Ongoing strategic decisions* when you pivot.
 2. **Strategy execution** — Tick **`progress/strategy-run-checklist.md`** as you **complete** each phase for its declared scope.
-3. **Phase work** — For the active phase, run **`generate.py --phase <slug>`** and tick **`progress/<slug>-checklist.md`** for action steps.
-4. **Registry** — Keep `term-registry.md` aligned with the current phase (Step, Classification, Status).
+3. **Phase work** — For the active phase-id, run **`generate.py --phase <phase-id>`** (or **`generate.py --stage <A|B|…|F>`** for a stage) and tick **`progress/<phase-id>-checklist.md`** for action steps.
+4. **Registry** — Keep `term-registry.md` aligned with the current phase-id (**Targets** + **Notes**); keep slice **`terms.md`** in sync for verbatim evidence.
 5. **Results** — Touch `domain-scan-results.md` only for corrections to the original scan snapshot.
 
 ---
@@ -23859,26 +23563,45 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 
 # Strategy execution and checklists (abd-ooad)
 
-**Canonical doc** for: (1) **strategy** vs **live ticks**, (2) **which files** hold checkboxes, (3) **how** `generate.py` creates workspace **`progress/`** files. Does **not** replace **[process.md](../process.md)** (process tables, `generate` / `build`) or **[skill-structure-and-concepts.md](../base/skill-structure-and-concepts.md)** (repo layout).
+**Canonical doc** for: (1) **strategy** vs **live ticks**, (2) **which files** hold checkboxes, (3) **how** `generate.py` creates workspace **`progress/`** files, (4) **stages**, **revisits / disruption** on the same checklist. Does **not** replace **[process.md](../process.md)** (phase chronicle, `generate` / `build`) or **[skill-structure-and-concepts.md](../base/skill-structure-and-concepts.md)** (repo layout).
 
-Only **`strategy.md`** defines **scope** and **which phases in what order**; checklists are where you **tick** progress.
+Only **`strategy.md`** defines **scope** and **which phase-ids (or stages) in what order**; checklists are where you **tick** progress.
 
 ---
 
 ## Workflow
 
-1. **Domain scan** — produce scan artifacts (see **`strategy-led-generation`**).
+1. **Domain scan** — produce scan artifacts (see **`strategy-led-generation`**). Phase-id: **`domain-scan`**.
 2. **Strategy** — fill **`strategy.md`** from **`templates/strategy.md`**:
    - **Modeling scope** — corpus or product boundary; **source type** (book vs repo vs mixed).
    - **§1 Source slices** — ordered table: **Goal**, **Source** (chapters, files, modules, APIs — whatever locates work), **Coverage** (depth this pass), **Importance**; stable **slice IDs** reused everywhere.
-   - **§2 Slice plan** — per slice: **goal restated**, **unit kind**, **phases** (execution step numbers / slugs), produces, depends-on.
-   - **Coverage across steps** — matrix: every slice → which **execution plan** steps touch it → **depth** → deferrals.
+   - **§2 Slice plan** — per slice: **goal restated**, **unit kind**, **phase-ids** (or **stages**) you will run, produces, depends-on.
+   - **Coverage across steps** — matrix: every slice → which **execution plan** phase-ids touch it → **depth** → deferrals.
    - **Cross-slice integration** — cross-boundary types and ordering (From → To + narrative).
-   - **Anchor and subdomain elaboration** (when anchors have attached types) — map subdomains to slices and execution §.
-   - **Execution plan (normative)** — ordered phase **slugs**; **each line cites slice IDs** (mirror **`strategy-run-checklist.md`**).
+   - **Anchor and subdomain elaboration** (when anchors have attached types) — map subdomains to slices and execution phase-ids.
+   - **Execution plan (normative)** — ordered **phase-id** strings; **each line cites slice IDs** (mirror **`strategy-run-checklist.md`**). Optionally group work by **stage A–F** (see **`process.md` → Stage map**).
+   - **Stage completion (after each stage)** — what completed; tensions; **new checklist lines** for revisits (below); **audit** — append dated line under *Ongoing strategic decisions*.
    - **Approach going forward** + **Ongoing strategic decisions** — short narrative and dated pivots.
 3. **Align live checklists** — keep **`strategy-run-checklist.md`** in sync with the execution plan (same order and scope). Optional **`templates/strategy-run-checklist.md`** seed; optional **`templates/progress-README.md`** → **`progress/README.md`** for slice-specific files under **`progress/slices/`**.
-4. **Run phases** — for the **current** phase: `python scripts/base/generate.py --phase <slug>`. Tick **`strategy-run-checklist.md`** when a phase is **done** for its declared scope; tick **`<slug>-checklist.md`** for **steps inside** that phase.
+4. **Run phases** — **`python scripts/base/generate.py --phase <phase-id>`** for one step, or **`python scripts/base/generate.py --stage <A|B|…|F>`** for a full stage (same order as **`process.md`** / **`skill-config.json` → `process_stages`**). Tick **`strategy-run-checklist.md`** when a phase (or stage slice) is **done** for its declared scope; tick **`<phase-id>-checklist.md`** for **steps inside** that phase.
+
+---
+
+## Revisits and disruption (same checklist)
+
+A **revisit** is **not** a separate rerun workflow. While executing (including late **stage F**), if work must **go back** to an earlier **stage** or **phase-id**, **add a new row** to **`strategy-run-checklist.md`** — e.g. `- [ ] Revisit stage B — <short reason>` or `- [ ] Re-run nouns-verbs-rules-and-states — slice S1 — reconcile new anchor` — at the **bottom** or **inserted** where it fits the agreed order. The checklist is the single source of truth for **forward** work plus **backward** revisits.
+
+**Audit:** When you add a revisit row, append a dated line under **`strategy.md` → Ongoing strategic decisions**; never delete prior pivots.
+
+### Hint table (non-prescriptive)
+
+| You are here | Often need to touch |
+|--------------|---------------------|
+| Stage F | Stage E, D, or C (naming / validation feedback) |
+| Stage E | Stage C (scenarios expose structure gaps) |
+| Stage D | Stage C (splitting responsibilities) |
+
+Use this as a **prompt**, not a rule.
 
 ---
 
@@ -23886,9 +23609,9 @@ Only **`strategy.md`** defines **scope** and **which phases in what order**; che
 
 | Layer | File | What you tick |
 | --- | --- | --- |
-| **Strategy execution** | **`progress/strategy-run-checklist.md`** | **Which phases** you will run, **in order**, each with **scope** that **includes the same slice IDs** as **`strategy.md` → Execution plan**. Optional: **`progress/slices/<slice-id>-checklist.md`** per slice — see **`progress/README.md`** in the workspace (if present). |
+| **Strategy execution** | **`progress/strategy-run-checklist.md`** | **Which phase-ids** (or stages) you will run, **in order**, each with **scope** that **includes the same slice IDs** as **`strategy.md` → Execution plan**; **includes revisit rows** when you must go backward. Optional: **`progress/slices/<slice-id>-checklist.md`** per slice — see **`progress/README.md`** in the workspace (if present). |
 | **Full pipeline (reference)** | **`progress/process-checklist.md`** | **Every** phase in **`phase_files`** — useful as a map; optional if you rely only on strategy-run. |
-| **Phase steps** | **`progress/<phase>-checklist.md`** | **Action checklist** copied from **`content/parts/phases/<phase>.md` → ## Action Checklist**. |
+| **Phase steps** | **`progress/<phase-id>-checklist.md`** | **Action checklist** copied from **`content/parts/phases/<phase-id>.md` → ## Action Checklist**. |
 
 **Implementation:** **`scripts/base/workspace_checklists.py`** (paths, behavior, `--no-ensure-checklists`).
 
@@ -23898,10 +23621,10 @@ Only **`strategy.md`** defines **scope** and **which phases in what order**; che
 
 | Kind | What it tracks | Where it lives | How it gets there |
 | --- | --- | --- | --- |
-| **Normative reference** | Rules in **this document** — strategy vs ticks, layers, `generate.py` behavior | **`content/parts/library/strategy-execution-and-checklists.md`** | Authored in the skill; **not** created by **`generate.py`**. |
-| **Pipeline position** | Which **phase** of the pipeline you are in | **`<active_skill_workspace>/<skill_name>/progress/process-checklist.md`** | **Created** on first **`python scripts/base/generate.py --phase <slug>`** when that file is **missing**, if **`skill-config.json` → `workspace.active_skill_workspace`** is set. One `- [ ]` line per slug in **`phase_files`** (labels from **`phase_section_headings`** when present). **Does not overwrite** an existing file. |
-| **Phase action steps** | **Steps inside** the current phase | **`<active_skill_workspace>/<skill_name>/progress/<phase-slug>-checklist.md`** | **Created** in the **same** `generate.py` run when that file is **missing**. Steps are taken from **`## Action Checklist`** in **`content/parts/phases/<phase-slug>.md`**, or from task lines (`- [ ]` / `- [x]`) in that file if the section is absent. **Does not overwrite** an existing file. |
-| **Strategy execution** (workspace) | Ordered phases matching **`strategy.md`** | **`progress/strategy-run-checklist.md`** | Seeded from template when **`generate.py`** / workspace checklist logic creates it; **you** align it with **`strategy.md`**. |
+| **Normative reference** | Rules in **this document** — strategy vs ticks, layers, revisits, `generate.py` behavior | **`content/parts/library/strategy-execution-and-checklists.md`** | Authored in the skill; **not** created by **`generate.py`**. |
+| **Pipeline position** | Which **phase-id** of the pipeline you are in | **`<active_skill_workspace>/<skill_name>/progress/process-checklist.md`** | **Created** on first **`python scripts/base/generate.py --phase <phase-id>`** (or first phase of **`--stage`**) when that file is **missing**, if **`skill-config.json` → `workspace.active_skill_workspace`** is set. One `- [ ]` line per slug in **`phase_files`** (labels from **`phase_section_headings`** when present). **Does not overwrite** an existing file. |
+| **Phase action steps** | **Steps inside** the current phase | **`<active_skill_workspace>/<skill_name>/progress/<phase-id>-checklist.md`** | **Created** in the **same** `generate.py` run when that file is **missing**. Steps are taken from **`## Action Checklist`** in **`content/parts/phases/<phase-id>.md`**, or from task lines (`- [ ]` / `- [x]`) in that file if the section is absent. **Does not overwrite** an existing file. |
+| **Strategy execution** (workspace) | Ordered phase-ids (and revisit rows) matching **`strategy.md`** | **`progress/strategy-run-checklist.md`** | Seeded from template when **`generate.py`** / workspace checklist logic creates it; **you** align it with **`strategy.md`**. |
 
 ### Names and workspace
 
@@ -23922,9 +23645,9 @@ Only **`strategy.md`** defines **scope** and **which phases in what order**; che
 
 ---
 
-## Phase slugs
+## Phase IDs
 
-Use exact slugs from **`skill-config.json` → `phase_files`** (e.g. `nouns-verbs-rules-and-states`, `domain-scan`). Labels for humans are in **`phase_section_headings`**.
+Use exact **phase-id** strings from **`skill-config.json` → `phase_files`** (e.g. `nouns-verbs-rules-and-states`, `domain-scan`). Labels for humans are in **`phase_section_headings`**. **Stages** **A–F** map to ordered phase-id lists in **`process_stages`** — see **`process.md`**.
 
 ---
 
@@ -23943,168 +23666,147 @@ Use exact slugs from **`skill-config.json` → `phase_files`** (e.g. `nouns-verb
 
 ## What a Term Is
 
-A **Term** is any concept identified from the source material that may become part of the domain model. At the time of identification, a Term is not committed to a model role — it might become a class, a property, a value type, an association, or nothing at all. The registry tracks Terms as the modeling phases determine what each one actually is.
+A **Term** is any concept identified from the source material that may become part of the domain model. At identification time it is not committed to a model role — it might become a class, a property, a value type, an association, or nothing. The registry tracks Terms as modeling **phase-ids** (see **`process.md` → Phase chronicle**) determine what each one actually is.
 
-This is distinct from other uses of "actor" in this domain:
-- In MM3E and FoundryVTT, "Actor" has a specific system meaning (a character, creature, or entity in the game world).
-- In the registry, everything is a Term until the model says otherwise.
+This is distinct from other domain uses of overloaded words (e.g. in some systems “Actor” is a system type). In the registry, everything is a Term until the model says otherwise.
 
-**File:** `<workspace>/abd-ooad/term-registry.md`
-**Never embedded** inside step outputs — it lives in its own file and is referenced from each step's model doc.
+**File:** `<workspace>/abd-ooad/term-registry.md` (or per-slice path if your workspace layout nests slices).
 
----
-
-## Step Reference — Short Names
-
-Use these short names in the **Step** column of the registry when adding or updating a row.
-
-| Short Name | Phase | Description |
-|-----------|-------|-------------|
-| SETUP | workspace-and-config | Workspace initialization |
-| SCAN | domain-scan | Source scan and anchor identification |
-| NOUNS | nouns-verbs-rules-and-states | Extract nouns, verbs, rules, states |
-| CANDS | raw-candidate-list | Raw candidate class list |
-| THINGS | thing-vs-data-about-a-thing | Separate things from data-about-things |
-| RESP | responsibilities-before-operations | Assign responsibilities |
-| PROPS | add-properties-semantically-tight | Add semantically tight properties |
-| OPS | turn-verbs-into-operations | Turn verbs into operations |
-| RELS | relationships-and-cardinality | Relationships and cardinality |
-| INV | invariants-in-the-model | Identify invariants |
-| BLOAT | watch-for-bloated-classes | Detect bloated classes |
-| ROLES | smashed-abstractions-and-hidden-roles | Uncover hidden roles |
-| INHERIT | inheritance-when-behavior-generalizes | Apply inheritance |
-| ABST | abstract-classes-and-interfaces | Abstract classes and interfaces |
-| COMP | prefer-composition | Prefer composition over inheritance |
-| STATES | model-state-transitions | Model state transitions |
-| ITER | iterative-refinement | Iterative refinement pass |
-| TENSION | tension-as-a-signal | Resolve tensions |
-| COHESION | what-changes-together | What changes together |
-| VALIDATE | validate-with-scenarios | Validate with scenarios |
-| NAMES | refine-names | Refine class and concept names |
-| LAYERS | model-in-layers | Model in layers |
+**Never embed** the full registry inside step outputs — it lives in its own file and is referenced from each phase’s model doc.
 
 ---
 
-## Slices and global phase numbers (normative)
+## Relationship to `terms.md` (per slice)
 
-The **OOAD process table** (see **`process.md`** / built **AGENTS.md** — “Process Table”) assigns **global phase numbers** **0–21** to phase **slugs** (e.g. **Phase 2** = `nouns-verbs-rules-and-states`, **Phase 3** = `raw-candidate-list`, **Phase 4** = `thing-vs-data-about-a-thing`).
-
-- **Phase 1** (`domain-scan`, short name **SCAN**) runs **once per workspace** (or once per strategy engagement). It produces anchors, `strategy.md`, `domain-scan-results.md`, and seeds **`term-registry.md`**. It is **not** repeated as “each slice’s Phase 1.”
-- **Per-slice modeling** (folders or **Anchor** columns **`S1=…`**, **`S2=…`**, …) **aligns with the same global numbers from Phase 2 onward:** the **first** extraction artifact in a slice is always **Phase 2** (**NOUNS**), then **3** (**CANDS**), **4** (**THINGS**), etc. Do **not** label slice-local nouns-verbs files as Phase 1 — that collides with **SCAN**.
-- **Phase notes** in italics (optional): `*[Sn · Phase N]*` where **N** is the **global** process-table number. Add slug, tension id, or short reminder *after* the tag on the same line if needed (e.g. *thing-vs-data*, *registry Tn*). For early “likely class” judgments: `*[S1 · Phase 3]* Likely class : …`.
-
----
-
-## Registry Columns
-
-| Column | Values | Notes |
-|--------|--------|-------|
-| **Term** | Concept name from the source | Exact word or phrase as found — rename in the NAMES step if needed |
-| **Classification** | See **Classification** below | **What we want to model this as** — target shape in the domain model (not lifecycle) |
-| **Step** | Short name from table above (SCAN, NOUNS, …) | Step that first identified or last materially updated this Term |
-| **Confidence** | High / Medium / Low | How sure we are this belongs in the model |
-| **Status** | See **Status (OOAD scale)** below | Where this Term sits in the modeling workflow |
-| **Notes** | Free text | Anchor-test results, owning module for supporting classes (`Supporting class — X module`), competing interpretations, pointers to tensions in `domain-scan-results.md`, and follow-ups |
+- **`terms.md`** (alongside `domain-noun-verb.md` in a slice folder) holds **module-scoped evidence**: quotes, raw extractions, promotion history under **`## [Anchor module]`** headings aligned with the integrated domain model.
+- **`term-registry.md`** remains the **term-centric analysis record**: one row per Term; **Targets** = where the term landed; **Notes** = substantive reasoning (anchor tests, classification, tensions) — **full paragraphs are fine** when the work needs them.
+- **Principle:** Notes depth is **not** reduced because `terms.md` exists. `terms.md` reduces **duplication of verbatim source text** and organizes evidence by module; it does **not** justify one-line registry Notes unless the term truly needs only one line.
+- **Avoid duplicate verbatim quotes:** keep the quote in **`terms.md`** and in **Notes** point to `terms.md#anchor-module` (or the term subsection); keep analysis-only text in Notes as today.
 
 ---
 
-## Classification — what we want to model this as
+## Phase IDs (normative references)
 
-Use **one** value per row. This is the **intended model role**, not how “mature” the idea is (that is **Status**).
+Refer to pipeline steps **only** by **`phase-id`** — the short **kebab-case** slug matching **`skill-config.json` → `phase_files`** and the **`process.md`** chronicle (e.g. `domain-scan`, `nouns-verbs-rules-and-states`, `refine-names`). Do **not** use “Phase 1 / Phase 2” as **names** for steps; those ordinals drift. Optional **model tags** in the domain model use **`*[Sn · phase-id]*`** (e.g. **`*[S1 · refine-names]*`**) — see **`library/domain-model`**.
 
-| Value | Meaning |
+---
+
+## Registry columns
+
+| Column | Role |
+|--------|------|
+| **Term** | Concept name from the source — exact word or phrase as found; rename in **`refine-names`** if needed. |
+| **Targets** | Where this term **landed** in the model: a **bulleted list inside the table cell** (Markdown list), **one typed pointer per line**. Unallocated / not yet placed → leave empty or **—**. |
+| **Notes** | Anchor-test results, slice/anchor context (**`S1=…`** style if useful), competing interpretations, tensions, pointers to **`terms.md`** when verbatim evidence lives there — same substance as historical scan/noun-verb rows. |
+
+**Optional:** If you need a single “primary kind” for tooling, add one optional column **after** Term (e.g. **Kind**) — otherwise prefer **Targets**-only for a slim table.
+
+---
+
+## Targets — typed pointers (one per bullet)
+
+**Normative style:** each bullet is **one** typed target. **Do not** concatenate targets with `|` or `;` on one run-on line.
+
+Examples of pointer forms (extend as your model needs):
+
+- `entity:Payment`
+- `vo:Money`
+- `property:Payment.amount`
+- `operation:Order.submit`
+- `invariant:…`
+- `policy:…`
+- `relationship:Customer — Order`
+
+**Renders in Markdown tables** — use `<br>` between bullets if your renderer collapses list-in-cell (GitHub-style often accepts list-in-cell; validate in your preview):
+
+```markdown
+| Term   | Targets |
 |--------|---------|
-| **anchor (class + module)** | Passes the anchor test: this concept is a **core class** and owns a **module** (dashed frame + same-named core class). Use only for backbone modules. |
-| **class** | A domain **class** that is not its own module yet — e.g. supporting class inside a frame, or a type you expect to become a class without its own module. |
-| **property** | Modeled as a **semantic property** (attribute / value on a class), not a separate type. |
-| **field** | Modeled as a **typed field / slot** (data member, possibly simple type or value object). |
-| **example (instance)** | An **illustrative instance**, sample, or scenario object — not a type in the model. |
-| **relationship** | An **association**, link, or dependency between concepts — may become an association, association class, or navigable role. |
-| **invariant (rule)** | A **domain rule**, constraint, or policy — often becomes behavior, guard, or explicit rule text on a class. |
-
-**Diagram mapping (when relevant):** `anchor (class + module)` → module frame + core class; `class` → class box; `relationship` → association; `invariant (rule)` → note, constraint, or operation; `property` / `field` → attributes on a class.
+| amount | - `entity:Payment`<br>- `vo:Money`<br>- `property:Payment.amount` |
+```
 
 ---
 
-## Status (OOAD scale)
+## Notes — still substantive
 
-**Status** is **lifecycle / confidence in the workflow**, not the model shape. Pick the value that best fits; states are **not** always a strict left-to-right pipeline.
+Notes remain the place for **classification reasoning**, anchor tests, tensions, and follow-ups. **Do not** make Notes sparse by default. When raw quotes live in **`terms.md`**, write in Notes: *“Verbatim quote in `terms.md` → [Anchor module] / term …”* and keep analysis here.
 
-| Status | When to use |
-|--------|-------------|
-| **Ambiguous** | You cannot yet say what the Term is or how it sits next to others. |
-| **Tension** | Competing interpretations, overlapping boundaries, or conflicting source pulls — needs resolution before the model can commit. |
-| **Candidate** | Plausible model role; narrowed but not yet locked (often after scan, before THINGS/RELS). |
-| **Deferred** | Explicitly parked — revisit in a named later step or phase. |
-| **Active** | In current modeling scope; being updated in this pass. |
-| **Solidified** | Named, placed, and stable in the model for the current iteration — ready to treat as “done” unless source or scope changes. |
-
-**Typical (non-binding) progression:** Ambiguous → Tension or Candidate → Active → Solidified. **Deferred** can apply after any stage. A Term can return from Deferred to Active when scope returns to it.
+**Slice / anchor:** You may record **`S1=Character`** (or similar) in **Notes** or a minimal **Slice** column if the table template adds one — your engagement may require it for MM3E-style multi-slice tables.
 
 ---
 
-## Registry format (wide Notes)
+## Classification (reference — not required as its own column)
 
-**Prefer an HTML `<table>` with `<colgroup>`** so the **Notes** column gets most of the width (~50–55%). **Classification** labels can be long — give that column ~12–14% if needed. Plain Markdown pipe tables allocate columns evenly and make long Notes hard to read in the editor and in preview.
+If you **merge** the old **Classification** column into **Targets**, use typed pointers (`entity:…`, `property:…`, …) so the table stays one row per Term. The **meaning** of former classification values is unchanged:
 
-Use this skeleton (adjust `width` percentages if needed):
+| Former value | Meaning |
+|--------------|--------|
+| **anchor (class + module)** | Passes the anchor test: core class owns a **module** (frame + same-named core class). |
+| **class** | Domain class not its own module yet — supporting class, or expected class without module. |
+| **property** | Modeled as semantic property on a class. |
+| **field** | Typed field / slot. |
+| **example (instance)** | Illustrative instance — not a type. |
+| **relationship** | Association, link, dependency. |
+| **invariant (rule)** | Domain rule, constraint, policy. |
+
+---
+
+## Registry format (HTML table recommended for Notes width)
+
+Prefer an HTML `<table>` with `<colgroup>` so **Notes** gets most width (~50–55%). **Targets** can be ~18–22%.
 
 ```html
 <table>
 <colgroup>
-  <col style="width:9%" />
-  <col style="width:14%" />
-  <col style="width:6%" />
-  <col style="width:9%" />
-  <col style="width:9%" />
-  <col style="width:53%" />
+  <col style="width:12%" />
+  <col style="width:22%" />
+  <col style="width:66%" />
 </colgroup>
 <thead>
 <tr>
   <th>Term</th>
-  <th>Classification</th>
-  <th>Step</th>
-  <th>Confidence</th>
-  <th>Status</th>
+  <th>Targets</th>
   <th>Notes</th>
 </tr>
 </thead>
 <tbody>
 <tr>
   <td>Character</td>
-  <td>anchor (class + module)</td>
-  <td>SCAN</td>
-  <td>High</td>
-  <td>Active</td>
-  <td>Central entity; all rules attach to it</td>
-</tr>
-<tr>
-  <td>Power</td>
-  <td>class</td>
-  <td>SCAN</td>
-  <td>High</td>
-  <td>Active</td>
-  <td>Supporting class — Character module. Core capability unit.</td>
-</tr>
-<tr>
-  <td>Device</td>
-  <td>class</td>
-  <td>SCAN</td>
-  <td>Medium</td>
-  <td>Tension</td>
-  <td>Removable Power vs Equipment? Boundary unclear — see T2.</td>
+  <td>- <code>entity:Character</code><br>- <code>property:Character.powerLevel</code></td>
+  <td>Central entity; anchor test ✓. Slice <code>S1=Character</code>. Long quotes in <code>terms.md</code> → Character module.</td>
 </tr>
 </tbody>
 </table>
 ```
 
-For very small registries only, a Markdown pipe table is acceptable:
+Small registries: Markdown pipe table is acceptable.
 
-```markdown
-| Term | Classification | Step | Confidence | Status | Notes |
-|------|----------------|------|------------|--------|-------|
-| Character | anchor (class + module) | SCAN | High | Active | Short note only |
-```
+---
+
+## Migration from legacy wide tables
+
+If you have **Step**, **Confidence**, **Status**, and **Classification** columns:
+
+1. **Term** → keep.
+2. **Classification** + committed placements → **Targets** bullets (`entity:…`, `property:…`, …).
+3. **Step** → fold into **Notes** as *“First touched at phase-id `domain-scan`”* or leave implicit if noisy.
+4. **Confidence / Status** → merge into **Notes** (*“Legacy: was High / Active”*) only if still useful; otherwise drop.
+5. **Notes** → preserve text; add pointer to **`terms.md`** where verbatim evidence moved.
+
+---
+
+## Slices and `domain-scan` vs per-slice work
+
+- **`domain-scan`** runs **workspace-wide** (or once per strategy engagement): seeds **`term-registry.md`**, anchors, **`strategy.md`**, scan artifacts. It is **not** “each slice’s first phase” by name — use **phase-id** `domain-scan` only.
+- Per-slice deep extraction aligns with **`nouns-verbs-rules-and-states`** and **`raw-candidate-list`** in **chronicle order** after scan. **`terms.md`** evolves from those phase-ids onward for that slice.
+
+---
+
+## References
+
+- **`process.md`** — Phase chronicle, stages A–F, capture ladder  
+- **`terms.md`** template — `templates/terms-template.md`  
+- **Strategy / revisits** — `library/strategy-execution-and-checklists.md`
 
 
 ---
@@ -24555,7 +24257,7 @@ The CLI does not yet support notes — add them manually in draw.io after CLI bu
 | Phase | Add invariants? |
 |-------|----------------|
 | domain-scan | Yes — add the invariants you found during the scan (inline preferred at this fidelity) |
-| domain-noun-verb (Step 1) | No — extraction only; invariants captured in registry notes |
+| domain-noun-verb (Phase 2) | No — extraction only; invariants captured in registry notes |
 | raw-candidate-list through responsibilities | Yes — as invariants become confirmed, add to diagram |
 | Full model phases | Yes — invariants are a required part of the final model |
 
@@ -25450,19 +25152,23 @@ You are the **domain modeler and OOAD practitioner** using this skill: you provi
 
 # Domain model Markdown
 
-This skill’s **domain model** is captured in Markdown  a parallel **Draw.io** class diagram. Use **`templates/domain model template.md`** for companion docs; align with **`templates/domain model template.drawio`** when both exist.
+The **domain model** lives in workspace **`domain*.md`** files; **Draw.io** diagrams are **visual twins** of that content — update markdown first, then render or hand-sync the diagram (see **class-diagrams**, **using-diagram-cli**).
 
-**Phase 2 — `domain-noun-verb.md`:** anchor sections, **Candidate …** lists, full or pared class boxes. Slice files are **content only** — no skill paths or process meta in the artifact body.
+**Integrated slice model + evidence:** Prefer **`templates/domain-model-integrated.md`** alongside **`templates/terms-template.md`** (`terms.md` per slice). Class **Notes** use **`*[Sn · phase-id]*`** (e.g. **`*[S1 · refine-names]*`**) — **phase-id** from **`process.md`**, not numeric step names.
 
-**Phase 3 — bucket roll-up:** sort candidates into **entities**, **value objects**, **processes**, **policies**, **roles**, **events** (tables in **`raw-candidate-list.md`** or appended to **`domain-noun-verb.md`**). Same **content-only** rule: no skill/process boilerplate in slice files.
+**`domain-scan`:** **`domain-scan-results.md`**, **`domain-scan-model.md`**, then **`domain-scan-model.drawio`**.
 
-**Optional — `domain-raw-candidates.md`:** same Phase 3 content as **classes under anchor modules** (`### Name : << Entity >>` / `<< ValueObject >>` / `<< Process >>` / …), notes below — **not** a second copy of bucket tables. Cross-cutting material → **`## Cross-anchor`** or appendix. **`templates/domain-raw-candidates-template.md`**.
+**`nouns-verbs-rules-and-states` — `domain-noun-verb.md`:** anchor sections, **Candidate …** lists, class boxes. Slice files are **domain content only** — no skill paths or process boilerplate in the artifact body.
+
+**`raw-candidate-list`:** Prefer **`domain-raw-candidates.md`** — classes under anchors with notes. Optional single tabular roll-up (**`raw-candidate-list.md`** or appendix to **`domain-noun-verb.md`**) — **not** the same tables twice plus an integrated file.
+
+**Templates:** **`templates/domain model template.md`**, **`templates/domain-raw-candidates-template.md`**, **`templates/domain-model-integrated.md`**.
 
 ---
 
 ## Domain concept template
 
-Each **domain concept** (class, interface, value object, or aggregate) is documented under a clear heading, for example:
+Each concept is documented under a clear heading, for example:
 
 ```markdown
 ## **Payment**
@@ -25471,73 +25177,62 @@ Each **domain concept** (class, interface, value object, or aggregate) is docume
 
 ### Properties
 - Money amount
-- …
 
 ### Operations
 - initiate() → Authorization
 ```
 
-From **Step 5** onward, prefer **typed** members (see **Notation evolution** below). Earlier steps stay **pre-notation** (bullets and prose).
+From **Phase 6** onward (`add-properties-semantically-tight`), prefer **typed** members (see **Notation evolution**). Earlier phases stay informal (bullets and prose).
 
 ---
 
-## Continual refinement — class definition + diagram
+## Markdown and diagram
 
-**Continual refinement** means you **grow** the model across steps: each step file may add or tighten concepts. The Markdown spec and the class diagram are **two views of the same model** — update both when your project uses dual artifacts so they do not drift (see **[Class diagrams](class-diagrams.md)**).
+The Markdown spec and the class diagram are **two views of the same model** — keep them aligned when both exist (**class-diagrams**).
 
 ---
 
-## **newly added** tag
+## **newly added** tag (optional)
 
-In the **worked example** threads (e.g. payments), the marker **newly added** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
+In long-running examples, **newly added** on a line marks a property or operation that first appears in *this* file — useful for deltas across files.
 
 ---
 
 ## Notation evolution
 
-| Phase | Markdown style |
-|--------|------------------|
-| **Steps 1–4** | Informal: bullets, short phrases, responsibilities, candidate names; typed `- <type> property` lines arrive in Step 5. |
-| **Step 5+** | Formal typed members: `- <Type> propertyName`, `operationName(...) → ReturnType`. |
+| Phase range | Markdown style |
+|-------------|----------------|
+| **2–5** | Informal: bullets, candidates, responsibilities; typed `- <type> property` lines from **Phase 6** onward. |
+| **Phase 6+** | Formal: `- <Type> propertyName`, `operationName(...) → ReturnType`. |
 
 ---
 
 ## Subtype sections
 
-When you introduce substitutable specializations, add an explicit subtype heading so the structure is visible in the spec and in diagrams:
+When you introduce substitutable specializations, add an explicit subtype heading so structure is visible in spec and diagrams:
 
 ```markdown
 ### **Subtype** : **PaymentMethod**
 ```
 
-Put **`**newly added**`** on subtype **operation** (or property) lines when that member is **first** introduced for that subtype.
-
 ---
 
 ## Invariants
 
-Attach invariants to the **property** or **operation** they constrain, using a dedicated line:
+Attach invariants to the property or operation they constrain:
 
 ```markdown
 **Invariant:** …
 ```
 
-Mark **`**newly added**`** when you **first** attach an invariant to a given member line.
-
 ---
 
-## Early steps: terms, mechanisms, story map
+## Class diagram and spec
 
-Before typed properties exist, align extracted **nouns, verbs, rules, states** with your workspace’s **terms & mechanisms** and **shaped story map** (or equivalent). That is the same “grow the model as you go” idea: informal extraction first, then formal types.
+When you maintain **`map-model-spec.json`** or similar, re-run the project’s diagram script after material changes so Draw.io stays aligned.
 
----
-
-## Class diagram and spec (visual twin)
-
-When you maintain a machine-readable spec such as **`map-model-spec.json`**, re-run your project’s class-diagram render script (for example **`render_map_model_class_diagram.py`**) after material changes so the **Draw.io** diagram stays the **visual twin** of the spec.
-
-- **[Class diagrams](class-diagrams.md)** — templates, relationship types, keeping `.md` and `.drawio` aligned.  
-- **[Using the Diagram CLI](using-diagram-cli.md)** — building diagrams with **`scripts/drawio_cli.py`**.
+- **Class diagrams** — templates, relationships, keeping `.md` and `.drawio` aligned.  
+- **Using the Diagram CLI** — `scripts/drawio_cli.py`.
 
 ---
 
@@ -25545,9 +25240,9 @@ When you maintain a machine-readable spec such as **`map-model-spec.json`**, re-
 
 | Topic | File |
 |--------|------|
-| Term tracking across steps | [term-registry.md](term-registry.md) |
+| Term tracking | [term-registry.md](term-registry.md) |
 | Strategy-led runs | [strategy-led-generation.md](strategy-led-generation.md) |
-| Layout and lanes | [class-diagram-layout-rules.md](class-diagram-layout-rules.md) |
+| Layout | [class-diagram-layout-rules.md](class-diagram-layout-rules.md) |
 
 
 ---
@@ -25639,9 +25334,9 @@ The absence of a matching core class is the clearest signal that you have not ye
 
 # Strategy-led generation
 
-Domain scan (OOAD **phase 1**) does not only produce a single “results” file. It establishes a **small set of workspace files** under `<workspace>/abd-ooad/` that work together. Some are **frozen findings** from the scan; others are **living documents** you update as modeling continues.
+Domain scan (phase-id **`domain-scan`**) does not only produce a single “results” file. It establishes a **small set of workspace files** under `<workspace>/abd-ooad/` that work together. Some are **frozen findings** from the scan; others are **living documents** you update as modeling continues.
 
-**Slices start at global Phase 2:** Source-slice work (e.g. **S1**, **S2** in `strategy.md` and **`Anchor`** `S1=…` / `S2=…` in `term-registry.md`) uses the **same global OOAD phase numbers** as the process table for everything **after** scan. The **first** per-slice extraction step is **Phase 2** (`nouns-verbs-rules-and-states`), **not** a slice-local “Phase 1.” Phase **1** is workspace-wide **domain-scan** only. See **`term-registry.md` → Slices and global phase numbers**.
+**Per-slice extraction** after scan uses the **same phase-id chronicle** as **`process.md`**. The **first** detailed per-slice capture is **`nouns-verbs-rules-and-states`** (then **`raw-candidate-list`**, …) — **not** a second **`domain-scan`**. Use **phase-id** names in strategy and registry (and **`*[Sn · phase-id]*`** tags in the model), not “Phase 1 / Phase 2” as step names. See **`term-registry.md`** and **`process.md` → Capture ladder**.
 
 For the scan procedure itself, see the **Domain scan** phase. This page explains **what each artifact is for** and how **`strategy.md`** relates to **`domain-scan-results.md`**.
 
@@ -25659,7 +25354,8 @@ Created during domain scan under `<workspace>/abd-ooad/`:
 | `strategy.md` | **Living strategy:** **modeling scope**; **§1 source slices** (table: Order, Goal, **Source** — chapters, files, modules, or mixed — **Coverage**, **Importance**); **§2 slice plan** (per-slice **goal restated** + **phases**); **coverage across steps**; **cross-slice integration**; **anchor and subdomain elaboration**; **execution plan (normative)** — phase slugs with **slice IDs** on every line; plus **approach** and **dated pivots**. | **Yes** — whenever scope, order, slice depth, subdomain mapping, or integration changes. |
 | `domain-scan-model.md` | Class sketch (markdown) at scan fidelity. | Yes, in later phases — not only during scan. |
 | `domain-scan-model.drawio` | Diagram at scan fidelity. | Same as model.md. |
-| `term-registry.md` | Terms, **Classification** (model role), **Status** (OOAD scale), confidence — seeded at scan. | **Yes** — every later phase updates Step, Classification, and Status as the model evolves. |
+| `term-registry.md` | Terms, **Targets** (bulleted typed pointers), **Notes** — seeded at scan. | **Yes** — every later phase-id updates **Targets** and **Notes** as the model evolves. See **`library/term-registry.md`**. |
+| `terms.md` (per slice) | Evidence ledger by **`## [Anchor module]`** — quotes, promotion log. | **Yes** — from **`nouns-verbs-rules-and-states`** onward for that slice. Template: **`templates/terms-template.md`**. |
 
 **Plus** (when workspace is configured): **`progress/`** checklists — see **`library/strategy-execution-and-checklists.md`**. **`generate.py`** creates **`process-checklist.md`**, **`<phase>-checklist.md`**, and (abd-ooad) **`strategy-run-checklist.md`** when templates exist and files are missing. Normative phase steps stay in **`content/parts/phases/<phase>.md`**. These are the **only** place for session tick marks.
 
@@ -25694,8 +25390,8 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 
 1. **Strategy** — Keep **`strategy.md`** aligned with reality; append *Ongoing strategic decisions* when you pivot.
 2. **Strategy execution** — Tick **`progress/strategy-run-checklist.md`** as you **complete** each phase for its declared scope.
-3. **Phase work** — For the active phase, run **`generate.py --phase <slug>`** and tick **`progress/<slug>-checklist.md`** for action steps.
-4. **Registry** — Keep `term-registry.md` aligned with the current phase (Step, Classification, Status).
+3. **Phase work** — For the active phase-id, run **`generate.py --phase <phase-id>`** (or **`generate.py --stage <A|B|…|F>`** for a stage) and tick **`progress/<phase-id>-checklist.md`** for action steps.
+4. **Registry** — Keep `term-registry.md` aligned with the current phase-id (**Targets** + **Notes**); keep slice **`terms.md`** in sync for verbatim evidence.
 5. **Results** — Touch `domain-scan-results.md` only for corrections to the original scan snapshot.
 
 ---
@@ -25715,26 +25411,45 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 
 # Strategy execution and checklists (abd-ooad)
 
-**Canonical doc** for: (1) **strategy** vs **live ticks**, (2) **which files** hold checkboxes, (3) **how** `generate.py` creates workspace **`progress/`** files. Does **not** replace **[process.md](../process.md)** (process tables, `generate` / `build`) or **[skill-structure-and-concepts.md](../base/skill-structure-and-concepts.md)** (repo layout).
+**Canonical doc** for: (1) **strategy** vs **live ticks**, (2) **which files** hold checkboxes, (3) **how** `generate.py` creates workspace **`progress/`** files, (4) **stages**, **revisits / disruption** on the same checklist. Does **not** replace **[process.md](../process.md)** (phase chronicle, `generate` / `build`) or **[skill-structure-and-concepts.md](../base/skill-structure-and-concepts.md)** (repo layout).
 
-Only **`strategy.md`** defines **scope** and **which phases in what order**; checklists are where you **tick** progress.
+Only **`strategy.md`** defines **scope** and **which phase-ids (or stages) in what order**; checklists are where you **tick** progress.
 
 ---
 
 ## Workflow
 
-1. **Domain scan** — produce scan artifacts (see **`strategy-led-generation`**).
+1. **Domain scan** — produce scan artifacts (see **`strategy-led-generation`**). Phase-id: **`domain-scan`**.
 2. **Strategy** — fill **`strategy.md`** from **`templates/strategy.md`**:
    - **Modeling scope** — corpus or product boundary; **source type** (book vs repo vs mixed).
    - **§1 Source slices** — ordered table: **Goal**, **Source** (chapters, files, modules, APIs — whatever locates work), **Coverage** (depth this pass), **Importance**; stable **slice IDs** reused everywhere.
-   - **§2 Slice plan** — per slice: **goal restated**, **unit kind**, **phases** (execution step numbers / slugs), produces, depends-on.
-   - **Coverage across steps** — matrix: every slice → which **execution plan** steps touch it → **depth** → deferrals.
+   - **§2 Slice plan** — per slice: **goal restated**, **unit kind**, **phase-ids** (or **stages**) you will run, produces, depends-on.
+   - **Coverage across steps** — matrix: every slice → which **execution plan** phase-ids touch it → **depth** → deferrals.
    - **Cross-slice integration** — cross-boundary types and ordering (From → To + narrative).
-   - **Anchor and subdomain elaboration** (when anchors have attached types) — map subdomains to slices and execution §.
-   - **Execution plan (normative)** — ordered phase **slugs**; **each line cites slice IDs** (mirror **`strategy-run-checklist.md`**).
+   - **Anchor and subdomain elaboration** (when anchors have attached types) — map subdomains to slices and execution phase-ids.
+   - **Execution plan (normative)** — ordered **phase-id** strings; **each line cites slice IDs** (mirror **`strategy-run-checklist.md`**). Optionally group work by **stage A–F** (see **`process.md` → Stage map**).
+   - **Stage completion (after each stage)** — what completed; tensions; **new checklist lines** for revisits (below); **audit** — append dated line under *Ongoing strategic decisions*.
    - **Approach going forward** + **Ongoing strategic decisions** — short narrative and dated pivots.
 3. **Align live checklists** — keep **`strategy-run-checklist.md`** in sync with the execution plan (same order and scope). Optional **`templates/strategy-run-checklist.md`** seed; optional **`templates/progress-README.md`** → **`progress/README.md`** for slice-specific files under **`progress/slices/`**.
-4. **Run phases** — for the **current** phase: `python scripts/base/generate.py --phase <slug>`. Tick **`strategy-run-checklist.md`** when a phase is **done** for its declared scope; tick **`<slug>-checklist.md`** for **steps inside** that phase.
+4. **Run phases** — **`python scripts/base/generate.py --phase <phase-id>`** for one step, or **`python scripts/base/generate.py --stage <A|B|…|F>`** for a full stage (same order as **`process.md`** / **`skill-config.json` → `process_stages`**). Tick **`strategy-run-checklist.md`** when a phase (or stage slice) is **done** for its declared scope; tick **`<phase-id>-checklist.md`** for **steps inside** that phase.
+
+---
+
+## Revisits and disruption (same checklist)
+
+A **revisit** is **not** a separate rerun workflow. While executing (including late **stage F**), if work must **go back** to an earlier **stage** or **phase-id**, **add a new row** to **`strategy-run-checklist.md`** — e.g. `- [ ] Revisit stage B — <short reason>` or `- [ ] Re-run nouns-verbs-rules-and-states — slice S1 — reconcile new anchor` — at the **bottom** or **inserted** where it fits the agreed order. The checklist is the single source of truth for **forward** work plus **backward** revisits.
+
+**Audit:** When you add a revisit row, append a dated line under **`strategy.md` → Ongoing strategic decisions**; never delete prior pivots.
+
+### Hint table (non-prescriptive)
+
+| You are here | Often need to touch |
+|--------------|---------------------|
+| Stage F | Stage E, D, or C (naming / validation feedback) |
+| Stage E | Stage C (scenarios expose structure gaps) |
+| Stage D | Stage C (splitting responsibilities) |
+
+Use this as a **prompt**, not a rule.
 
 ---
 
@@ -25742,9 +25457,9 @@ Only **`strategy.md`** defines **scope** and **which phases in what order**; che
 
 | Layer | File | What you tick |
 | --- | --- | --- |
-| **Strategy execution** | **`progress/strategy-run-checklist.md`** | **Which phases** you will run, **in order**, each with **scope** that **includes the same slice IDs** as **`strategy.md` → Execution plan**. Optional: **`progress/slices/<slice-id>-checklist.md`** per slice — see **`progress/README.md`** in the workspace (if present). |
+| **Strategy execution** | **`progress/strategy-run-checklist.md`** | **Which phase-ids** (or stages) you will run, **in order**, each with **scope** that **includes the same slice IDs** as **`strategy.md` → Execution plan**; **includes revisit rows** when you must go backward. Optional: **`progress/slices/<slice-id>-checklist.md`** per slice — see **`progress/README.md`** in the workspace (if present). |
 | **Full pipeline (reference)** | **`progress/process-checklist.md`** | **Every** phase in **`phase_files`** — useful as a map; optional if you rely only on strategy-run. |
-| **Phase steps** | **`progress/<phase>-checklist.md`** | **Action checklist** copied from **`content/parts/phases/<phase>.md` → ## Action Checklist**. |
+| **Phase steps** | **`progress/<phase-id>-checklist.md`** | **Action checklist** copied from **`content/parts/phases/<phase-id>.md` → ## Action Checklist**. |
 
 **Implementation:** **`scripts/base/workspace_checklists.py`** (paths, behavior, `--no-ensure-checklists`).
 
@@ -25754,10 +25469,10 @@ Only **`strategy.md`** defines **scope** and **which phases in what order**; che
 
 | Kind | What it tracks | Where it lives | How it gets there |
 | --- | --- | --- | --- |
-| **Normative reference** | Rules in **this document** — strategy vs ticks, layers, `generate.py` behavior | **`content/parts/library/strategy-execution-and-checklists.md`** | Authored in the skill; **not** created by **`generate.py`**. |
-| **Pipeline position** | Which **phase** of the pipeline you are in | **`<active_skill_workspace>/<skill_name>/progress/process-checklist.md`** | **Created** on first **`python scripts/base/generate.py --phase <slug>`** when that file is **missing**, if **`skill-config.json` → `workspace.active_skill_workspace`** is set. One `- [ ]` line per slug in **`phase_files`** (labels from **`phase_section_headings`** when present). **Does not overwrite** an existing file. |
-| **Phase action steps** | **Steps inside** the current phase | **`<active_skill_workspace>/<skill_name>/progress/<phase-slug>-checklist.md`** | **Created** in the **same** `generate.py` run when that file is **missing**. Steps are taken from **`## Action Checklist`** in **`content/parts/phases/<phase-slug>.md`**, or from task lines (`- [ ]` / `- [x]`) in that file if the section is absent. **Does not overwrite** an existing file. |
-| **Strategy execution** (workspace) | Ordered phases matching **`strategy.md`** | **`progress/strategy-run-checklist.md`** | Seeded from template when **`generate.py`** / workspace checklist logic creates it; **you** align it with **`strategy.md`**. |
+| **Normative reference** | Rules in **this document** — strategy vs ticks, layers, revisits, `generate.py` behavior | **`content/parts/library/strategy-execution-and-checklists.md`** | Authored in the skill; **not** created by **`generate.py`**. |
+| **Pipeline position** | Which **phase-id** of the pipeline you are in | **`<active_skill_workspace>/<skill_name>/progress/process-checklist.md`** | **Created** on first **`python scripts/base/generate.py --phase <phase-id>`** (or first phase of **`--stage`**) when that file is **missing**, if **`skill-config.json` → `workspace.active_skill_workspace`** is set. One `- [ ]` line per slug in **`phase_files`** (labels from **`phase_section_headings`** when present). **Does not overwrite** an existing file. |
+| **Phase action steps** | **Steps inside** the current phase | **`<active_skill_workspace>/<skill_name>/progress/<phase-id>-checklist.md`** | **Created** in the **same** `generate.py` run when that file is **missing**. Steps are taken from **`## Action Checklist`** in **`content/parts/phases/<phase-id>.md`**, or from task lines (`- [ ]` / `- [x]`) in that file if the section is absent. **Does not overwrite** an existing file. |
+| **Strategy execution** (workspace) | Ordered phase-ids (and revisit rows) matching **`strategy.md`** | **`progress/strategy-run-checklist.md`** | Seeded from template when **`generate.py`** / workspace checklist logic creates it; **you** align it with **`strategy.md`**. |
 
 ### Names and workspace
 
@@ -25778,9 +25493,9 @@ Only **`strategy.md`** defines **scope** and **which phases in what order**; che
 
 ---
 
-## Phase slugs
+## Phase IDs
 
-Use exact slugs from **`skill-config.json` → `phase_files`** (e.g. `nouns-verbs-rules-and-states`, `domain-scan`). Labels for humans are in **`phase_section_headings`**.
+Use exact **phase-id** strings from **`skill-config.json` → `phase_files`** (e.g. `nouns-verbs-rules-and-states`, `domain-scan`). Labels for humans are in **`phase_section_headings`**. **Stages** **A–F** map to ordered phase-id lists in **`process_stages`** — see **`process.md`**.
 
 ---
 
@@ -25799,168 +25514,147 @@ Use exact slugs from **`skill-config.json` → `phase_files`** (e.g. `nouns-verb
 
 ## What a Term Is
 
-A **Term** is any concept identified from the source material that may become part of the domain model. At the time of identification, a Term is not committed to a model role — it might become a class, a property, a value type, an association, or nothing at all. The registry tracks Terms as the modeling phases determine what each one actually is.
+A **Term** is any concept identified from the source material that may become part of the domain model. At identification time it is not committed to a model role — it might become a class, a property, a value type, an association, or nothing. The registry tracks Terms as modeling **phase-ids** (see **`process.md` → Phase chronicle**) determine what each one actually is.
 
-This is distinct from other uses of "actor" in this domain:
-- In MM3E and FoundryVTT, "Actor" has a specific system meaning (a character, creature, or entity in the game world).
-- In the registry, everything is a Term until the model says otherwise.
+This is distinct from other domain uses of overloaded words (e.g. in some systems “Actor” is a system type). In the registry, everything is a Term until the model says otherwise.
 
-**File:** `<workspace>/abd-ooad/term-registry.md`
-**Never embedded** inside step outputs — it lives in its own file and is referenced from each step's model doc.
+**File:** `<workspace>/abd-ooad/term-registry.md` (or per-slice path if your workspace layout nests slices).
 
----
-
-## Step Reference — Short Names
-
-Use these short names in the **Step** column of the registry when adding or updating a row.
-
-| Short Name | Phase | Description |
-|-----------|-------|-------------|
-| SETUP | workspace-and-config | Workspace initialization |
-| SCAN | domain-scan | Source scan and anchor identification |
-| NOUNS | nouns-verbs-rules-and-states | Extract nouns, verbs, rules, states |
-| CANDS | raw-candidate-list | Raw candidate class list |
-| THINGS | thing-vs-data-about-a-thing | Separate things from data-about-things |
-| RESP | responsibilities-before-operations | Assign responsibilities |
-| PROPS | add-properties-semantically-tight | Add semantically tight properties |
-| OPS | turn-verbs-into-operations | Turn verbs into operations |
-| RELS | relationships-and-cardinality | Relationships and cardinality |
-| INV | invariants-in-the-model | Identify invariants |
-| BLOAT | watch-for-bloated-classes | Detect bloated classes |
-| ROLES | smashed-abstractions-and-hidden-roles | Uncover hidden roles |
-| INHERIT | inheritance-when-behavior-generalizes | Apply inheritance |
-| ABST | abstract-classes-and-interfaces | Abstract classes and interfaces |
-| COMP | prefer-composition | Prefer composition over inheritance |
-| STATES | model-state-transitions | Model state transitions |
-| ITER | iterative-refinement | Iterative refinement pass |
-| TENSION | tension-as-a-signal | Resolve tensions |
-| COHESION | what-changes-together | What changes together |
-| VALIDATE | validate-with-scenarios | Validate with scenarios |
-| NAMES | refine-names | Refine class and concept names |
-| LAYERS | model-in-layers | Model in layers |
+**Never embed** the full registry inside step outputs — it lives in its own file and is referenced from each phase’s model doc.
 
 ---
 
-## Slices and global phase numbers (normative)
+## Relationship to `terms.md` (per slice)
 
-The **OOAD process table** (see **`process.md`** / built **AGENTS.md** — “Process Table”) assigns **global phase numbers** **0–21** to phase **slugs** (e.g. **Phase 2** = `nouns-verbs-rules-and-states`, **Phase 3** = `raw-candidate-list`, **Phase 4** = `thing-vs-data-about-a-thing`).
-
-- **Phase 1** (`domain-scan`, short name **SCAN**) runs **once per workspace** (or once per strategy engagement). It produces anchors, `strategy.md`, `domain-scan-results.md`, and seeds **`term-registry.md`**. It is **not** repeated as “each slice’s Phase 1.”
-- **Per-slice modeling** (folders or **Anchor** columns **`S1=…`**, **`S2=…`**, …) **aligns with the same global numbers from Phase 2 onward:** the **first** extraction artifact in a slice is always **Phase 2** (**NOUNS**), then **3** (**CANDS**), **4** (**THINGS**), etc. Do **not** label slice-local nouns-verbs files as Phase 1 — that collides with **SCAN**.
-- **Phase notes** in italics (optional): `*[Sn · Phase N]*` where **N** is the **global** process-table number. Add slug, tension id, or short reminder *after* the tag on the same line if needed (e.g. *thing-vs-data*, *registry Tn*). For early “likely class” judgments: `*[S1 · Phase 3]* Likely class : …`.
-
----
-
-## Registry Columns
-
-| Column | Values | Notes |
-|--------|--------|-------|
-| **Term** | Concept name from the source | Exact word or phrase as found — rename in the NAMES step if needed |
-| **Classification** | See **Classification** below | **What we want to model this as** — target shape in the domain model (not lifecycle) |
-| **Step** | Short name from table above (SCAN, NOUNS, …) | Step that first identified or last materially updated this Term |
-| **Confidence** | High / Medium / Low | How sure we are this belongs in the model |
-| **Status** | See **Status (OOAD scale)** below | Where this Term sits in the modeling workflow |
-| **Notes** | Free text | Anchor-test results, owning module for supporting classes (`Supporting class — X module`), competing interpretations, pointers to tensions in `domain-scan-results.md`, and follow-ups |
+- **`terms.md`** (alongside `domain-noun-verb.md` in a slice folder) holds **module-scoped evidence**: quotes, raw extractions, promotion history under **`## [Anchor module]`** headings aligned with the integrated domain model.
+- **`term-registry.md`** remains the **term-centric analysis record**: one row per Term; **Targets** = where the term landed; **Notes** = substantive reasoning (anchor tests, classification, tensions) — **full paragraphs are fine** when the work needs them.
+- **Principle:** Notes depth is **not** reduced because `terms.md` exists. `terms.md` reduces **duplication of verbatim source text** and organizes evidence by module; it does **not** justify one-line registry Notes unless the term truly needs only one line.
+- **Avoid duplicate verbatim quotes:** keep the quote in **`terms.md`** and in **Notes** point to `terms.md#anchor-module` (or the term subsection); keep analysis-only text in Notes as today.
 
 ---
 
-## Classification — what we want to model this as
+## Phase IDs (normative references)
 
-Use **one** value per row. This is the **intended model role**, not how “mature” the idea is (that is **Status**).
+Refer to pipeline steps **only** by **`phase-id`** — the short **kebab-case** slug matching **`skill-config.json` → `phase_files`** and the **`process.md`** chronicle (e.g. `domain-scan`, `nouns-verbs-rules-and-states`, `refine-names`). Do **not** use “Phase 1 / Phase 2” as **names** for steps; those ordinals drift. Optional **model tags** in the domain model use **`*[Sn · phase-id]*`** (e.g. **`*[S1 · refine-names]*`**) — see **`library/domain-model`**.
 
-| Value | Meaning |
+---
+
+## Registry columns
+
+| Column | Role |
+|--------|------|
+| **Term** | Concept name from the source — exact word or phrase as found; rename in **`refine-names`** if needed. |
+| **Targets** | Where this term **landed** in the model: a **bulleted list inside the table cell** (Markdown list), **one typed pointer per line**. Unallocated / not yet placed → leave empty or **—**. |
+| **Notes** | Anchor-test results, slice/anchor context (**`S1=…`** style if useful), competing interpretations, tensions, pointers to **`terms.md`** when verbatim evidence lives there — same substance as historical scan/noun-verb rows. |
+
+**Optional:** If you need a single “primary kind” for tooling, add one optional column **after** Term (e.g. **Kind**) — otherwise prefer **Targets**-only for a slim table.
+
+---
+
+## Targets — typed pointers (one per bullet)
+
+**Normative style:** each bullet is **one** typed target. **Do not** concatenate targets with `|` or `;` on one run-on line.
+
+Examples of pointer forms (extend as your model needs):
+
+- `entity:Payment`
+- `vo:Money`
+- `property:Payment.amount`
+- `operation:Order.submit`
+- `invariant:…`
+- `policy:…`
+- `relationship:Customer — Order`
+
+**Renders in Markdown tables** — use `<br>` between bullets if your renderer collapses list-in-cell (GitHub-style often accepts list-in-cell; validate in your preview):
+
+```markdown
+| Term   | Targets |
 |--------|---------|
-| **anchor (class + module)** | Passes the anchor test: this concept is a **core class** and owns a **module** (dashed frame + same-named core class). Use only for backbone modules. |
-| **class** | A domain **class** that is not its own module yet — e.g. supporting class inside a frame, or a type you expect to become a class without its own module. |
-| **property** | Modeled as a **semantic property** (attribute / value on a class), not a separate type. |
-| **field** | Modeled as a **typed field / slot** (data member, possibly simple type or value object). |
-| **example (instance)** | An **illustrative instance**, sample, or scenario object — not a type in the model. |
-| **relationship** | An **association**, link, or dependency between concepts — may become an association, association class, or navigable role. |
-| **invariant (rule)** | A **domain rule**, constraint, or policy — often becomes behavior, guard, or explicit rule text on a class. |
-
-**Diagram mapping (when relevant):** `anchor (class + module)` → module frame + core class; `class` → class box; `relationship` → association; `invariant (rule)` → note, constraint, or operation; `property` / `field` → attributes on a class.
+| amount | - `entity:Payment`<br>- `vo:Money`<br>- `property:Payment.amount` |
+```
 
 ---
 
-## Status (OOAD scale)
+## Notes — still substantive
 
-**Status** is **lifecycle / confidence in the workflow**, not the model shape. Pick the value that best fits; states are **not** always a strict left-to-right pipeline.
+Notes remain the place for **classification reasoning**, anchor tests, tensions, and follow-ups. **Do not** make Notes sparse by default. When raw quotes live in **`terms.md`**, write in Notes: *“Verbatim quote in `terms.md` → [Anchor module] / term …”* and keep analysis here.
 
-| Status | When to use |
-|--------|-------------|
-| **Ambiguous** | You cannot yet say what the Term is or how it sits next to others. |
-| **Tension** | Competing interpretations, overlapping boundaries, or conflicting source pulls — needs resolution before the model can commit. |
-| **Candidate** | Plausible model role; narrowed but not yet locked (often after scan, before THINGS/RELS). |
-| **Deferred** | Explicitly parked — revisit in a named later step or phase. |
-| **Active** | In current modeling scope; being updated in this pass. |
-| **Solidified** | Named, placed, and stable in the model for the current iteration — ready to treat as “done” unless source or scope changes. |
-
-**Typical (non-binding) progression:** Ambiguous → Tension or Candidate → Active → Solidified. **Deferred** can apply after any stage. A Term can return from Deferred to Active when scope returns to it.
+**Slice / anchor:** You may record **`S1=Character`** (or similar) in **Notes** or a minimal **Slice** column if the table template adds one — your engagement may require it for MM3E-style multi-slice tables.
 
 ---
 
-## Registry format (wide Notes)
+## Classification (reference — not required as its own column)
 
-**Prefer an HTML `<table>` with `<colgroup>`** so the **Notes** column gets most of the width (~50–55%). **Classification** labels can be long — give that column ~12–14% if needed. Plain Markdown pipe tables allocate columns evenly and make long Notes hard to read in the editor and in preview.
+If you **merge** the old **Classification** column into **Targets**, use typed pointers (`entity:…`, `property:…`, …) so the table stays one row per Term. The **meaning** of former classification values is unchanged:
 
-Use this skeleton (adjust `width` percentages if needed):
+| Former value | Meaning |
+|--------------|--------|
+| **anchor (class + module)** | Passes the anchor test: core class owns a **module** (frame + same-named core class). |
+| **class** | Domain class not its own module yet — supporting class, or expected class without module. |
+| **property** | Modeled as semantic property on a class. |
+| **field** | Typed field / slot. |
+| **example (instance)** | Illustrative instance — not a type. |
+| **relationship** | Association, link, dependency. |
+| **invariant (rule)** | Domain rule, constraint, policy. |
+
+---
+
+## Registry format (HTML table recommended for Notes width)
+
+Prefer an HTML `<table>` with `<colgroup>` so **Notes** gets most width (~50–55%). **Targets** can be ~18–22%.
 
 ```html
 <table>
 <colgroup>
-  <col style="width:9%" />
-  <col style="width:14%" />
-  <col style="width:6%" />
-  <col style="width:9%" />
-  <col style="width:9%" />
-  <col style="width:53%" />
+  <col style="width:12%" />
+  <col style="width:22%" />
+  <col style="width:66%" />
 </colgroup>
 <thead>
 <tr>
   <th>Term</th>
-  <th>Classification</th>
-  <th>Step</th>
-  <th>Confidence</th>
-  <th>Status</th>
+  <th>Targets</th>
   <th>Notes</th>
 </tr>
 </thead>
 <tbody>
 <tr>
   <td>Character</td>
-  <td>anchor (class + module)</td>
-  <td>SCAN</td>
-  <td>High</td>
-  <td>Active</td>
-  <td>Central entity; all rules attach to it</td>
-</tr>
-<tr>
-  <td>Power</td>
-  <td>class</td>
-  <td>SCAN</td>
-  <td>High</td>
-  <td>Active</td>
-  <td>Supporting class — Character module. Core capability unit.</td>
-</tr>
-<tr>
-  <td>Device</td>
-  <td>class</td>
-  <td>SCAN</td>
-  <td>Medium</td>
-  <td>Tension</td>
-  <td>Removable Power vs Equipment? Boundary unclear — see T2.</td>
+  <td>- <code>entity:Character</code><br>- <code>property:Character.powerLevel</code></td>
+  <td>Central entity; anchor test ✓. Slice <code>S1=Character</code>. Long quotes in <code>terms.md</code> → Character module.</td>
 </tr>
 </tbody>
 </table>
 ```
 
-For very small registries only, a Markdown pipe table is acceptable:
+Small registries: Markdown pipe table is acceptable.
 
-```markdown
-| Term | Classification | Step | Confidence | Status | Notes |
-|------|----------------|------|------------|--------|-------|
-| Character | anchor (class + module) | SCAN | High | Active | Short note only |
-```
+---
+
+## Migration from legacy wide tables
+
+If you have **Step**, **Confidence**, **Status**, and **Classification** columns:
+
+1. **Term** → keep.
+2. **Classification** + committed placements → **Targets** bullets (`entity:…`, `property:…`, …).
+3. **Step** → fold into **Notes** as *“First touched at phase-id `domain-scan`”* or leave implicit if noisy.
+4. **Confidence / Status** → merge into **Notes** (*“Legacy: was High / Active”*) only if still useful; otherwise drop.
+5. **Notes** → preserve text; add pointer to **`terms.md`** where verbatim evidence moved.
+
+---
+
+## Slices and `domain-scan` vs per-slice work
+
+- **`domain-scan`** runs **workspace-wide** (or once per strategy engagement): seeds **`term-registry.md`**, anchors, **`strategy.md`**, scan artifacts. It is **not** “each slice’s first phase” by name — use **phase-id** `domain-scan` only.
+- Per-slice deep extraction aligns with **`nouns-verbs-rules-and-states`** and **`raw-candidate-list`** in **chronicle order** after scan. **`terms.md`** evolves from those phase-ids onward for that slice.
+
+---
+
+## References
+
+- **`process.md`** — Phase chronicle, stages A–F, capture ladder  
+- **`terms.md`** template — `templates/terms-template.md`  
+- **Strategy / revisits** — `library/strategy-execution-and-checklists.md`
 
 
 ---
@@ -26411,7 +26105,7 @@ The CLI does not yet support notes — add them manually in draw.io after CLI bu
 | Phase | Add invariants? |
 |-------|----------------|
 | domain-scan | Yes — add the invariants you found during the scan (inline preferred at this fidelity) |
-| domain-noun-verb (Step 1) | No — extraction only; invariants captured in registry notes |
+| domain-noun-verb (Phase 2) | No — extraction only; invariants captured in registry notes |
 | raw-candidate-list through responsibilities | Yes — as invariants become confirmed, add to diagram |
 | Full model phases | Yes — invariants are a required part of the final model |
 
@@ -27241,9 +26935,11 @@ You are the **domain modeler and OOAD practitioner** using this skill: you provi
 
 ## Phase
 
-# Prefer composition — payments example
+# Prefer composition — illustrative thread
 
-**Skill:** abd-ooad — **Step 13:** **has-a** over **is-a** for variability.
+**Phase ID:** `prefer-composition`
+
+**Skill:** abd-ooad — **Stage D** — **has-a** over **is-a** for variability. *(Example uses a payment aggregate; substitute your domain.)*
 
 **Upstream:** `abstract-classes-and-interfaces.md`.
 
@@ -27270,9 +26966,9 @@ You are the **domain modeler and OOAD practitioner** using this skill: you provi
 
 ---
 
-## Carry forward → Step 14
+## Carry forward → `model-state-transitions`
 
-Model **state transitions** explicitly on **Payment** (and **Refund**).
+Model **state transitions** explicitly on the aggregate (e.g. **Payment** / **Refund** in this example).
 
 ---
 
@@ -27309,19 +27005,23 @@ Model **state transitions** explicitly on **Payment** (and **Refund**).
 
 # Domain model Markdown
 
-This skill’s **domain model** is captured in Markdown  a parallel **Draw.io** class diagram. Use **`templates/domain model template.md`** for companion docs; align with **`templates/domain model template.drawio`** when both exist.
+The **domain model** lives in workspace **`domain*.md`** files; **Draw.io** diagrams are **visual twins** of that content — update markdown first, then render or hand-sync the diagram (see **class-diagrams**, **using-diagram-cli**).
 
-**Phase 2 — `domain-noun-verb.md`:** anchor sections, **Candidate …** lists, full or pared class boxes. Slice files are **content only** — no skill paths or process meta in the artifact body.
+**Integrated slice model + evidence:** Prefer **`templates/domain-model-integrated.md`** alongside **`templates/terms-template.md`** (`terms.md` per slice). Class **Notes** use **`*[Sn · phase-id]*`** (e.g. **`*[S1 · refine-names]*`**) — **phase-id** from **`process.md`**, not numeric step names.
 
-**Phase 3 — bucket roll-up:** sort candidates into **entities**, **value objects**, **processes**, **policies**, **roles**, **events** (tables in **`raw-candidate-list.md`** or appended to **`domain-noun-verb.md`**). Same **content-only** rule: no skill/process boilerplate in slice files.
+**`domain-scan`:** **`domain-scan-results.md`**, **`domain-scan-model.md`**, then **`domain-scan-model.drawio`**.
 
-**Optional — `domain-raw-candidates.md`:** same Phase 3 content as **classes under anchor modules** (`### Name : << Entity >>` / `<< ValueObject >>` / `<< Process >>` / …), notes below — **not** a second copy of bucket tables. Cross-cutting material → **`## Cross-anchor`** or appendix. **`templates/domain-raw-candidates-template.md`**.
+**`nouns-verbs-rules-and-states` — `domain-noun-verb.md`:** anchor sections, **Candidate …** lists, class boxes. Slice files are **domain content only** — no skill paths or process boilerplate in the artifact body.
+
+**`raw-candidate-list`:** Prefer **`domain-raw-candidates.md`** — classes under anchors with notes. Optional single tabular roll-up (**`raw-candidate-list.md`** or appendix to **`domain-noun-verb.md`**) — **not** the same tables twice plus an integrated file.
+
+**Templates:** **`templates/domain model template.md`**, **`templates/domain-raw-candidates-template.md`**, **`templates/domain-model-integrated.md`**.
 
 ---
 
 ## Domain concept template
 
-Each **domain concept** (class, interface, value object, or aggregate) is documented under a clear heading, for example:
+Each concept is documented under a clear heading, for example:
 
 ```markdown
 ## **Payment**
@@ -27330,73 +27030,62 @@ Each **domain concept** (class, interface, value object, or aggregate) is docume
 
 ### Properties
 - Money amount
-- …
 
 ### Operations
 - initiate() → Authorization
 ```
 
-From **Step 5** onward, prefer **typed** members (see **Notation evolution** below). Earlier steps stay **pre-notation** (bullets and prose).
+From **Phase 6** onward (`add-properties-semantically-tight`), prefer **typed** members (see **Notation evolution**). Earlier phases stay informal (bullets and prose).
 
 ---
 
-## Continual refinement — class definition + diagram
+## Markdown and diagram
 
-**Continual refinement** means you **grow** the model across steps: each step file may add or tighten concepts. The Markdown spec and the class diagram are **two views of the same model** — update both when your project uses dual artifacts so they do not drift (see **[Class diagrams](class-diagrams.md)**).
+The Markdown spec and the class diagram are **two views of the same model** — keep them aligned when both exist (**class-diagrams**).
 
 ---
 
-## **newly added** tag
+## **newly added** tag (optional)
 
-In the **worked example** threads (e.g. payments), the marker **newly added** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
+In long-running examples, **newly added** on a line marks a property or operation that first appears in *this* file — useful for deltas across files.
 
 ---
 
 ## Notation evolution
 
-| Phase | Markdown style |
-|--------|------------------|
-| **Steps 1–4** | Informal: bullets, short phrases, responsibilities, candidate names; typed `- <type> property` lines arrive in Step 5. |
-| **Step 5+** | Formal typed members: `- <Type> propertyName`, `operationName(...) → ReturnType`. |
+| Phase range | Markdown style |
+|-------------|----------------|
+| **2–5** | Informal: bullets, candidates, responsibilities; typed `- <type> property` lines from **Phase 6** onward. |
+| **Phase 6+** | Formal: `- <Type> propertyName`, `operationName(...) → ReturnType`. |
 
 ---
 
 ## Subtype sections
 
-When you introduce substitutable specializations, add an explicit subtype heading so the structure is visible in the spec and in diagrams:
+When you introduce substitutable specializations, add an explicit subtype heading so structure is visible in spec and diagrams:
 
 ```markdown
 ### **Subtype** : **PaymentMethod**
 ```
 
-Put **`**newly added**`** on subtype **operation** (or property) lines when that member is **first** introduced for that subtype.
-
 ---
 
 ## Invariants
 
-Attach invariants to the **property** or **operation** they constrain, using a dedicated line:
+Attach invariants to the property or operation they constrain:
 
 ```markdown
 **Invariant:** …
 ```
 
-Mark **`**newly added**`** when you **first** attach an invariant to a given member line.
-
 ---
 
-## Early steps: terms, mechanisms, story map
+## Class diagram and spec
 
-Before typed properties exist, align extracted **nouns, verbs, rules, states** with your workspace’s **terms & mechanisms** and **shaped story map** (or equivalent). That is the same “grow the model as you go” idea: informal extraction first, then formal types.
+When you maintain **`map-model-spec.json`** or similar, re-run the project’s diagram script after material changes so Draw.io stays aligned.
 
----
-
-## Class diagram and spec (visual twin)
-
-When you maintain a machine-readable spec such as **`map-model-spec.json`**, re-run your project’s class-diagram render script (for example **`render_map_model_class_diagram.py`**) after material changes so the **Draw.io** diagram stays the **visual twin** of the spec.
-
-- **[Class diagrams](class-diagrams.md)** — templates, relationship types, keeping `.md` and `.drawio` aligned.  
-- **[Using the Diagram CLI](using-diagram-cli.md)** — building diagrams with **`scripts/drawio_cli.py`**.
+- **Class diagrams** — templates, relationships, keeping `.md` and `.drawio` aligned.  
+- **Using the Diagram CLI** — `scripts/drawio_cli.py`.
 
 ---
 
@@ -27404,9 +27093,9 @@ When you maintain a machine-readable spec such as **`map-model-spec.json`**, re-
 
 | Topic | File |
 |--------|------|
-| Term tracking across steps | [term-registry.md](term-registry.md) |
+| Term tracking | [term-registry.md](term-registry.md) |
 | Strategy-led runs | [strategy-led-generation.md](strategy-led-generation.md) |
-| Layout and lanes | [class-diagram-layout-rules.md](class-diagram-layout-rules.md) |
+| Layout | [class-diagram-layout-rules.md](class-diagram-layout-rules.md) |
 
 
 ---
@@ -27498,9 +27187,9 @@ The absence of a matching core class is the clearest signal that you have not ye
 
 # Strategy-led generation
 
-Domain scan (OOAD **phase 1**) does not only produce a single “results” file. It establishes a **small set of workspace files** under `<workspace>/abd-ooad/` that work together. Some are **frozen findings** from the scan; others are **living documents** you update as modeling continues.
+Domain scan (phase-id **`domain-scan`**) does not only produce a single “results” file. It establishes a **small set of workspace files** under `<workspace>/abd-ooad/` that work together. Some are **frozen findings** from the scan; others are **living documents** you update as modeling continues.
 
-**Slices start at global Phase 2:** Source-slice work (e.g. **S1**, **S2** in `strategy.md` and **`Anchor`** `S1=…` / `S2=…` in `term-registry.md`) uses the **same global OOAD phase numbers** as the process table for everything **after** scan. The **first** per-slice extraction step is **Phase 2** (`nouns-verbs-rules-and-states`), **not** a slice-local “Phase 1.” Phase **1** is workspace-wide **domain-scan** only. See **`term-registry.md` → Slices and global phase numbers**.
+**Per-slice extraction** after scan uses the **same phase-id chronicle** as **`process.md`**. The **first** detailed per-slice capture is **`nouns-verbs-rules-and-states`** (then **`raw-candidate-list`**, …) — **not** a second **`domain-scan`**. Use **phase-id** names in strategy and registry (and **`*[Sn · phase-id]*`** tags in the model), not “Phase 1 / Phase 2” as step names. See **`term-registry.md`** and **`process.md` → Capture ladder**.
 
 For the scan procedure itself, see the **Domain scan** phase. This page explains **what each artifact is for** and how **`strategy.md`** relates to **`domain-scan-results.md`**.
 
@@ -27518,7 +27207,8 @@ Created during domain scan under `<workspace>/abd-ooad/`:
 | `strategy.md` | **Living strategy:** **modeling scope**; **§1 source slices** (table: Order, Goal, **Source** — chapters, files, modules, or mixed — **Coverage**, **Importance**); **§2 slice plan** (per-slice **goal restated** + **phases**); **coverage across steps**; **cross-slice integration**; **anchor and subdomain elaboration**; **execution plan (normative)** — phase slugs with **slice IDs** on every line; plus **approach** and **dated pivots**. | **Yes** — whenever scope, order, slice depth, subdomain mapping, or integration changes. |
 | `domain-scan-model.md` | Class sketch (markdown) at scan fidelity. | Yes, in later phases — not only during scan. |
 | `domain-scan-model.drawio` | Diagram at scan fidelity. | Same as model.md. |
-| `term-registry.md` | Terms, **Classification** (model role), **Status** (OOAD scale), confidence — seeded at scan. | **Yes** — every later phase updates Step, Classification, and Status as the model evolves. |
+| `term-registry.md` | Terms, **Targets** (bulleted typed pointers), **Notes** — seeded at scan. | **Yes** — every later phase-id updates **Targets** and **Notes** as the model evolves. See **`library/term-registry.md`**. |
+| `terms.md` (per slice) | Evidence ledger by **`## [Anchor module]`** — quotes, promotion log. | **Yes** — from **`nouns-verbs-rules-and-states`** onward for that slice. Template: **`templates/terms-template.md`**. |
 
 **Plus** (when workspace is configured): **`progress/`** checklists — see **`library/strategy-execution-and-checklists.md`**. **`generate.py`** creates **`process-checklist.md`**, **`<phase>-checklist.md`**, and (abd-ooad) **`strategy-run-checklist.md`** when templates exist and files are missing. Normative phase steps stay in **`content/parts/phases/<phase>.md`**. These are the **only** place for session tick marks.
 
@@ -27553,8 +27243,8 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 
 1. **Strategy** — Keep **`strategy.md`** aligned with reality; append *Ongoing strategic decisions* when you pivot.
 2. **Strategy execution** — Tick **`progress/strategy-run-checklist.md`** as you **complete** each phase for its declared scope.
-3. **Phase work** — For the active phase, run **`generate.py --phase <slug>`** and tick **`progress/<slug>-checklist.md`** for action steps.
-4. **Registry** — Keep `term-registry.md` aligned with the current phase (Step, Classification, Status).
+3. **Phase work** — For the active phase-id, run **`generate.py --phase <phase-id>`** (or **`generate.py --stage <A|B|…|F>`** for a stage) and tick **`progress/<phase-id>-checklist.md`** for action steps.
+4. **Registry** — Keep `term-registry.md` aligned with the current phase-id (**Targets** + **Notes**); keep slice **`terms.md`** in sync for verbatim evidence.
 5. **Results** — Touch `domain-scan-results.md` only for corrections to the original scan snapshot.
 
 ---
@@ -27574,26 +27264,45 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 
 # Strategy execution and checklists (abd-ooad)
 
-**Canonical doc** for: (1) **strategy** vs **live ticks**, (2) **which files** hold checkboxes, (3) **how** `generate.py` creates workspace **`progress/`** files. Does **not** replace **[process.md](../process.md)** (process tables, `generate` / `build`) or **[skill-structure-and-concepts.md](../base/skill-structure-and-concepts.md)** (repo layout).
+**Canonical doc** for: (1) **strategy** vs **live ticks**, (2) **which files** hold checkboxes, (3) **how** `generate.py` creates workspace **`progress/`** files, (4) **stages**, **revisits / disruption** on the same checklist. Does **not** replace **[process.md](../process.md)** (phase chronicle, `generate` / `build`) or **[skill-structure-and-concepts.md](../base/skill-structure-and-concepts.md)** (repo layout).
 
-Only **`strategy.md`** defines **scope** and **which phases in what order**; checklists are where you **tick** progress.
+Only **`strategy.md`** defines **scope** and **which phase-ids (or stages) in what order**; checklists are where you **tick** progress.
 
 ---
 
 ## Workflow
 
-1. **Domain scan** — produce scan artifacts (see **`strategy-led-generation`**).
+1. **Domain scan** — produce scan artifacts (see **`strategy-led-generation`**). Phase-id: **`domain-scan`**.
 2. **Strategy** — fill **`strategy.md`** from **`templates/strategy.md`**:
    - **Modeling scope** — corpus or product boundary; **source type** (book vs repo vs mixed).
    - **§1 Source slices** — ordered table: **Goal**, **Source** (chapters, files, modules, APIs — whatever locates work), **Coverage** (depth this pass), **Importance**; stable **slice IDs** reused everywhere.
-   - **§2 Slice plan** — per slice: **goal restated**, **unit kind**, **phases** (execution step numbers / slugs), produces, depends-on.
-   - **Coverage across steps** — matrix: every slice → which **execution plan** steps touch it → **depth** → deferrals.
+   - **§2 Slice plan** — per slice: **goal restated**, **unit kind**, **phase-ids** (or **stages**) you will run, produces, depends-on.
+   - **Coverage across steps** — matrix: every slice → which **execution plan** phase-ids touch it → **depth** → deferrals.
    - **Cross-slice integration** — cross-boundary types and ordering (From → To + narrative).
-   - **Anchor and subdomain elaboration** (when anchors have attached types) — map subdomains to slices and execution §.
-   - **Execution plan (normative)** — ordered phase **slugs**; **each line cites slice IDs** (mirror **`strategy-run-checklist.md`**).
+   - **Anchor and subdomain elaboration** (when anchors have attached types) — map subdomains to slices and execution phase-ids.
+   - **Execution plan (normative)** — ordered **phase-id** strings; **each line cites slice IDs** (mirror **`strategy-run-checklist.md`**). Optionally group work by **stage A–F** (see **`process.md` → Stage map**).
+   - **Stage completion (after each stage)** — what completed; tensions; **new checklist lines** for revisits (below); **audit** — append dated line under *Ongoing strategic decisions*.
    - **Approach going forward** + **Ongoing strategic decisions** — short narrative and dated pivots.
 3. **Align live checklists** — keep **`strategy-run-checklist.md`** in sync with the execution plan (same order and scope). Optional **`templates/strategy-run-checklist.md`** seed; optional **`templates/progress-README.md`** → **`progress/README.md`** for slice-specific files under **`progress/slices/`**.
-4. **Run phases** — for the **current** phase: `python scripts/base/generate.py --phase <slug>`. Tick **`strategy-run-checklist.md`** when a phase is **done** for its declared scope; tick **`<slug>-checklist.md`** for **steps inside** that phase.
+4. **Run phases** — **`python scripts/base/generate.py --phase <phase-id>`** for one step, or **`python scripts/base/generate.py --stage <A|B|…|F>`** for a full stage (same order as **`process.md`** / **`skill-config.json` → `process_stages`**). Tick **`strategy-run-checklist.md`** when a phase (or stage slice) is **done** for its declared scope; tick **`<phase-id>-checklist.md`** for **steps inside** that phase.
+
+---
+
+## Revisits and disruption (same checklist)
+
+A **revisit** is **not** a separate rerun workflow. While executing (including late **stage F**), if work must **go back** to an earlier **stage** or **phase-id**, **add a new row** to **`strategy-run-checklist.md`** — e.g. `- [ ] Revisit stage B — <short reason>` or `- [ ] Re-run nouns-verbs-rules-and-states — slice S1 — reconcile new anchor` — at the **bottom** or **inserted** where it fits the agreed order. The checklist is the single source of truth for **forward** work plus **backward** revisits.
+
+**Audit:** When you add a revisit row, append a dated line under **`strategy.md` → Ongoing strategic decisions**; never delete prior pivots.
+
+### Hint table (non-prescriptive)
+
+| You are here | Often need to touch |
+|--------------|---------------------|
+| Stage F | Stage E, D, or C (naming / validation feedback) |
+| Stage E | Stage C (scenarios expose structure gaps) |
+| Stage D | Stage C (splitting responsibilities) |
+
+Use this as a **prompt**, not a rule.
 
 ---
 
@@ -27601,9 +27310,9 @@ Only **`strategy.md`** defines **scope** and **which phases in what order**; che
 
 | Layer | File | What you tick |
 | --- | --- | --- |
-| **Strategy execution** | **`progress/strategy-run-checklist.md`** | **Which phases** you will run, **in order**, each with **scope** that **includes the same slice IDs** as **`strategy.md` → Execution plan**. Optional: **`progress/slices/<slice-id>-checklist.md`** per slice — see **`progress/README.md`** in the workspace (if present). |
+| **Strategy execution** | **`progress/strategy-run-checklist.md`** | **Which phase-ids** (or stages) you will run, **in order**, each with **scope** that **includes the same slice IDs** as **`strategy.md` → Execution plan**; **includes revisit rows** when you must go backward. Optional: **`progress/slices/<slice-id>-checklist.md`** per slice — see **`progress/README.md`** in the workspace (if present). |
 | **Full pipeline (reference)** | **`progress/process-checklist.md`** | **Every** phase in **`phase_files`** — useful as a map; optional if you rely only on strategy-run. |
-| **Phase steps** | **`progress/<phase>-checklist.md`** | **Action checklist** copied from **`content/parts/phases/<phase>.md` → ## Action Checklist**. |
+| **Phase steps** | **`progress/<phase-id>-checklist.md`** | **Action checklist** copied from **`content/parts/phases/<phase-id>.md` → ## Action Checklist**. |
 
 **Implementation:** **`scripts/base/workspace_checklists.py`** (paths, behavior, `--no-ensure-checklists`).
 
@@ -27613,10 +27322,10 @@ Only **`strategy.md`** defines **scope** and **which phases in what order**; che
 
 | Kind | What it tracks | Where it lives | How it gets there |
 | --- | --- | --- | --- |
-| **Normative reference** | Rules in **this document** — strategy vs ticks, layers, `generate.py` behavior | **`content/parts/library/strategy-execution-and-checklists.md`** | Authored in the skill; **not** created by **`generate.py`**. |
-| **Pipeline position** | Which **phase** of the pipeline you are in | **`<active_skill_workspace>/<skill_name>/progress/process-checklist.md`** | **Created** on first **`python scripts/base/generate.py --phase <slug>`** when that file is **missing**, if **`skill-config.json` → `workspace.active_skill_workspace`** is set. One `- [ ]` line per slug in **`phase_files`** (labels from **`phase_section_headings`** when present). **Does not overwrite** an existing file. |
-| **Phase action steps** | **Steps inside** the current phase | **`<active_skill_workspace>/<skill_name>/progress/<phase-slug>-checklist.md`** | **Created** in the **same** `generate.py` run when that file is **missing**. Steps are taken from **`## Action Checklist`** in **`content/parts/phases/<phase-slug>.md`**, or from task lines (`- [ ]` / `- [x]`) in that file if the section is absent. **Does not overwrite** an existing file. |
-| **Strategy execution** (workspace) | Ordered phases matching **`strategy.md`** | **`progress/strategy-run-checklist.md`** | Seeded from template when **`generate.py`** / workspace checklist logic creates it; **you** align it with **`strategy.md`**. |
+| **Normative reference** | Rules in **this document** — strategy vs ticks, layers, revisits, `generate.py` behavior | **`content/parts/library/strategy-execution-and-checklists.md`** | Authored in the skill; **not** created by **`generate.py`**. |
+| **Pipeline position** | Which **phase-id** of the pipeline you are in | **`<active_skill_workspace>/<skill_name>/progress/process-checklist.md`** | **Created** on first **`python scripts/base/generate.py --phase <phase-id>`** (or first phase of **`--stage`**) when that file is **missing**, if **`skill-config.json` → `workspace.active_skill_workspace`** is set. One `- [ ]` line per slug in **`phase_files`** (labels from **`phase_section_headings`** when present). **Does not overwrite** an existing file. |
+| **Phase action steps** | **Steps inside** the current phase | **`<active_skill_workspace>/<skill_name>/progress/<phase-id>-checklist.md`** | **Created** in the **same** `generate.py` run when that file is **missing**. Steps are taken from **`## Action Checklist`** in **`content/parts/phases/<phase-id>.md`**, or from task lines (`- [ ]` / `- [x]`) in that file if the section is absent. **Does not overwrite** an existing file. |
+| **Strategy execution** (workspace) | Ordered phase-ids (and revisit rows) matching **`strategy.md`** | **`progress/strategy-run-checklist.md`** | Seeded from template when **`generate.py`** / workspace checklist logic creates it; **you** align it with **`strategy.md`**. |
 
 ### Names and workspace
 
@@ -27637,9 +27346,9 @@ Only **`strategy.md`** defines **scope** and **which phases in what order**; che
 
 ---
 
-## Phase slugs
+## Phase IDs
 
-Use exact slugs from **`skill-config.json` → `phase_files`** (e.g. `nouns-verbs-rules-and-states`, `domain-scan`). Labels for humans are in **`phase_section_headings`**.
+Use exact **phase-id** strings from **`skill-config.json` → `phase_files`** (e.g. `nouns-verbs-rules-and-states`, `domain-scan`). Labels for humans are in **`phase_section_headings`**. **Stages** **A–F** map to ordered phase-id lists in **`process_stages`** — see **`process.md`**.
 
 ---
 
@@ -27658,168 +27367,147 @@ Use exact slugs from **`skill-config.json` → `phase_files`** (e.g. `nouns-verb
 
 ## What a Term Is
 
-A **Term** is any concept identified from the source material that may become part of the domain model. At the time of identification, a Term is not committed to a model role — it might become a class, a property, a value type, an association, or nothing at all. The registry tracks Terms as the modeling phases determine what each one actually is.
+A **Term** is any concept identified from the source material that may become part of the domain model. At identification time it is not committed to a model role — it might become a class, a property, a value type, an association, or nothing. The registry tracks Terms as modeling **phase-ids** (see **`process.md` → Phase chronicle**) determine what each one actually is.
 
-This is distinct from other uses of "actor" in this domain:
-- In MM3E and FoundryVTT, "Actor" has a specific system meaning (a character, creature, or entity in the game world).
-- In the registry, everything is a Term until the model says otherwise.
+This is distinct from other domain uses of overloaded words (e.g. in some systems “Actor” is a system type). In the registry, everything is a Term until the model says otherwise.
 
-**File:** `<workspace>/abd-ooad/term-registry.md`
-**Never embedded** inside step outputs — it lives in its own file and is referenced from each step's model doc.
+**File:** `<workspace>/abd-ooad/term-registry.md` (or per-slice path if your workspace layout nests slices).
 
----
-
-## Step Reference — Short Names
-
-Use these short names in the **Step** column of the registry when adding or updating a row.
-
-| Short Name | Phase | Description |
-|-----------|-------|-------------|
-| SETUP | workspace-and-config | Workspace initialization |
-| SCAN | domain-scan | Source scan and anchor identification |
-| NOUNS | nouns-verbs-rules-and-states | Extract nouns, verbs, rules, states |
-| CANDS | raw-candidate-list | Raw candidate class list |
-| THINGS | thing-vs-data-about-a-thing | Separate things from data-about-things |
-| RESP | responsibilities-before-operations | Assign responsibilities |
-| PROPS | add-properties-semantically-tight | Add semantically tight properties |
-| OPS | turn-verbs-into-operations | Turn verbs into operations |
-| RELS | relationships-and-cardinality | Relationships and cardinality |
-| INV | invariants-in-the-model | Identify invariants |
-| BLOAT | watch-for-bloated-classes | Detect bloated classes |
-| ROLES | smashed-abstractions-and-hidden-roles | Uncover hidden roles |
-| INHERIT | inheritance-when-behavior-generalizes | Apply inheritance |
-| ABST | abstract-classes-and-interfaces | Abstract classes and interfaces |
-| COMP | prefer-composition | Prefer composition over inheritance |
-| STATES | model-state-transitions | Model state transitions |
-| ITER | iterative-refinement | Iterative refinement pass |
-| TENSION | tension-as-a-signal | Resolve tensions |
-| COHESION | what-changes-together | What changes together |
-| VALIDATE | validate-with-scenarios | Validate with scenarios |
-| NAMES | refine-names | Refine class and concept names |
-| LAYERS | model-in-layers | Model in layers |
+**Never embed** the full registry inside step outputs — it lives in its own file and is referenced from each phase’s model doc.
 
 ---
 
-## Slices and global phase numbers (normative)
+## Relationship to `terms.md` (per slice)
 
-The **OOAD process table** (see **`process.md`** / built **AGENTS.md** — “Process Table”) assigns **global phase numbers** **0–21** to phase **slugs** (e.g. **Phase 2** = `nouns-verbs-rules-and-states`, **Phase 3** = `raw-candidate-list`, **Phase 4** = `thing-vs-data-about-a-thing`).
-
-- **Phase 1** (`domain-scan`, short name **SCAN**) runs **once per workspace** (or once per strategy engagement). It produces anchors, `strategy.md`, `domain-scan-results.md`, and seeds **`term-registry.md`**. It is **not** repeated as “each slice’s Phase 1.”
-- **Per-slice modeling** (folders or **Anchor** columns **`S1=…`**, **`S2=…`**, …) **aligns with the same global numbers from Phase 2 onward:** the **first** extraction artifact in a slice is always **Phase 2** (**NOUNS**), then **3** (**CANDS**), **4** (**THINGS**), etc. Do **not** label slice-local nouns-verbs files as Phase 1 — that collides with **SCAN**.
-- **Phase notes** in italics (optional): `*[Sn · Phase N]*` where **N** is the **global** process-table number. Add slug, tension id, or short reminder *after* the tag on the same line if needed (e.g. *thing-vs-data*, *registry Tn*). For early “likely class” judgments: `*[S1 · Phase 3]* Likely class : …`.
-
----
-
-## Registry Columns
-
-| Column | Values | Notes |
-|--------|--------|-------|
-| **Term** | Concept name from the source | Exact word or phrase as found — rename in the NAMES step if needed |
-| **Classification** | See **Classification** below | **What we want to model this as** — target shape in the domain model (not lifecycle) |
-| **Step** | Short name from table above (SCAN, NOUNS, …) | Step that first identified or last materially updated this Term |
-| **Confidence** | High / Medium / Low | How sure we are this belongs in the model |
-| **Status** | See **Status (OOAD scale)** below | Where this Term sits in the modeling workflow |
-| **Notes** | Free text | Anchor-test results, owning module for supporting classes (`Supporting class — X module`), competing interpretations, pointers to tensions in `domain-scan-results.md`, and follow-ups |
+- **`terms.md`** (alongside `domain-noun-verb.md` in a slice folder) holds **module-scoped evidence**: quotes, raw extractions, promotion history under **`## [Anchor module]`** headings aligned with the integrated domain model.
+- **`term-registry.md`** remains the **term-centric analysis record**: one row per Term; **Targets** = where the term landed; **Notes** = substantive reasoning (anchor tests, classification, tensions) — **full paragraphs are fine** when the work needs them.
+- **Principle:** Notes depth is **not** reduced because `terms.md` exists. `terms.md` reduces **duplication of verbatim source text** and organizes evidence by module; it does **not** justify one-line registry Notes unless the term truly needs only one line.
+- **Avoid duplicate verbatim quotes:** keep the quote in **`terms.md`** and in **Notes** point to `terms.md#anchor-module` (or the term subsection); keep analysis-only text in Notes as today.
 
 ---
 
-## Classification — what we want to model this as
+## Phase IDs (normative references)
 
-Use **one** value per row. This is the **intended model role**, not how “mature” the idea is (that is **Status**).
+Refer to pipeline steps **only** by **`phase-id`** — the short **kebab-case** slug matching **`skill-config.json` → `phase_files`** and the **`process.md`** chronicle (e.g. `domain-scan`, `nouns-verbs-rules-and-states`, `refine-names`). Do **not** use “Phase 1 / Phase 2” as **names** for steps; those ordinals drift. Optional **model tags** in the domain model use **`*[Sn · phase-id]*`** (e.g. **`*[S1 · refine-names]*`**) — see **`library/domain-model`**.
 
-| Value | Meaning |
+---
+
+## Registry columns
+
+| Column | Role |
+|--------|------|
+| **Term** | Concept name from the source — exact word or phrase as found; rename in **`refine-names`** if needed. |
+| **Targets** | Where this term **landed** in the model: a **bulleted list inside the table cell** (Markdown list), **one typed pointer per line**. Unallocated / not yet placed → leave empty or **—**. |
+| **Notes** | Anchor-test results, slice/anchor context (**`S1=…`** style if useful), competing interpretations, tensions, pointers to **`terms.md`** when verbatim evidence lives there — same substance as historical scan/noun-verb rows. |
+
+**Optional:** If you need a single “primary kind” for tooling, add one optional column **after** Term (e.g. **Kind**) — otherwise prefer **Targets**-only for a slim table.
+
+---
+
+## Targets — typed pointers (one per bullet)
+
+**Normative style:** each bullet is **one** typed target. **Do not** concatenate targets with `|` or `;` on one run-on line.
+
+Examples of pointer forms (extend as your model needs):
+
+- `entity:Payment`
+- `vo:Money`
+- `property:Payment.amount`
+- `operation:Order.submit`
+- `invariant:…`
+- `policy:…`
+- `relationship:Customer — Order`
+
+**Renders in Markdown tables** — use `<br>` between bullets if your renderer collapses list-in-cell (GitHub-style often accepts list-in-cell; validate in your preview):
+
+```markdown
+| Term   | Targets |
 |--------|---------|
-| **anchor (class + module)** | Passes the anchor test: this concept is a **core class** and owns a **module** (dashed frame + same-named core class). Use only for backbone modules. |
-| **class** | A domain **class** that is not its own module yet — e.g. supporting class inside a frame, or a type you expect to become a class without its own module. |
-| **property** | Modeled as a **semantic property** (attribute / value on a class), not a separate type. |
-| **field** | Modeled as a **typed field / slot** (data member, possibly simple type or value object). |
-| **example (instance)** | An **illustrative instance**, sample, or scenario object — not a type in the model. |
-| **relationship** | An **association**, link, or dependency between concepts — may become an association, association class, or navigable role. |
-| **invariant (rule)** | A **domain rule**, constraint, or policy — often becomes behavior, guard, or explicit rule text on a class. |
-
-**Diagram mapping (when relevant):** `anchor (class + module)` → module frame + core class; `class` → class box; `relationship` → association; `invariant (rule)` → note, constraint, or operation; `property` / `field` → attributes on a class.
+| amount | - `entity:Payment`<br>- `vo:Money`<br>- `property:Payment.amount` |
+```
 
 ---
 
-## Status (OOAD scale)
+## Notes — still substantive
 
-**Status** is **lifecycle / confidence in the workflow**, not the model shape. Pick the value that best fits; states are **not** always a strict left-to-right pipeline.
+Notes remain the place for **classification reasoning**, anchor tests, tensions, and follow-ups. **Do not** make Notes sparse by default. When raw quotes live in **`terms.md`**, write in Notes: *“Verbatim quote in `terms.md` → [Anchor module] / term …”* and keep analysis here.
 
-| Status | When to use |
-|--------|-------------|
-| **Ambiguous** | You cannot yet say what the Term is or how it sits next to others. |
-| **Tension** | Competing interpretations, overlapping boundaries, or conflicting source pulls — needs resolution before the model can commit. |
-| **Candidate** | Plausible model role; narrowed but not yet locked (often after scan, before THINGS/RELS). |
-| **Deferred** | Explicitly parked — revisit in a named later step or phase. |
-| **Active** | In current modeling scope; being updated in this pass. |
-| **Solidified** | Named, placed, and stable in the model for the current iteration — ready to treat as “done” unless source or scope changes. |
-
-**Typical (non-binding) progression:** Ambiguous → Tension or Candidate → Active → Solidified. **Deferred** can apply after any stage. A Term can return from Deferred to Active when scope returns to it.
+**Slice / anchor:** You may record **`S1=Character`** (or similar) in **Notes** or a minimal **Slice** column if the table template adds one — your engagement may require it for MM3E-style multi-slice tables.
 
 ---
 
-## Registry format (wide Notes)
+## Classification (reference — not required as its own column)
 
-**Prefer an HTML `<table>` with `<colgroup>`** so the **Notes** column gets most of the width (~50–55%). **Classification** labels can be long — give that column ~12–14% if needed. Plain Markdown pipe tables allocate columns evenly and make long Notes hard to read in the editor and in preview.
+If you **merge** the old **Classification** column into **Targets**, use typed pointers (`entity:…`, `property:…`, …) so the table stays one row per Term. The **meaning** of former classification values is unchanged:
 
-Use this skeleton (adjust `width` percentages if needed):
+| Former value | Meaning |
+|--------------|--------|
+| **anchor (class + module)** | Passes the anchor test: core class owns a **module** (frame + same-named core class). |
+| **class** | Domain class not its own module yet — supporting class, or expected class without module. |
+| **property** | Modeled as semantic property on a class. |
+| **field** | Typed field / slot. |
+| **example (instance)** | Illustrative instance — not a type. |
+| **relationship** | Association, link, dependency. |
+| **invariant (rule)** | Domain rule, constraint, policy. |
+
+---
+
+## Registry format (HTML table recommended for Notes width)
+
+Prefer an HTML `<table>` with `<colgroup>` so **Notes** gets most width (~50–55%). **Targets** can be ~18–22%.
 
 ```html
 <table>
 <colgroup>
-  <col style="width:9%" />
-  <col style="width:14%" />
-  <col style="width:6%" />
-  <col style="width:9%" />
-  <col style="width:9%" />
-  <col style="width:53%" />
+  <col style="width:12%" />
+  <col style="width:22%" />
+  <col style="width:66%" />
 </colgroup>
 <thead>
 <tr>
   <th>Term</th>
-  <th>Classification</th>
-  <th>Step</th>
-  <th>Confidence</th>
-  <th>Status</th>
+  <th>Targets</th>
   <th>Notes</th>
 </tr>
 </thead>
 <tbody>
 <tr>
   <td>Character</td>
-  <td>anchor (class + module)</td>
-  <td>SCAN</td>
-  <td>High</td>
-  <td>Active</td>
-  <td>Central entity; all rules attach to it</td>
-</tr>
-<tr>
-  <td>Power</td>
-  <td>class</td>
-  <td>SCAN</td>
-  <td>High</td>
-  <td>Active</td>
-  <td>Supporting class — Character module. Core capability unit.</td>
-</tr>
-<tr>
-  <td>Device</td>
-  <td>class</td>
-  <td>SCAN</td>
-  <td>Medium</td>
-  <td>Tension</td>
-  <td>Removable Power vs Equipment? Boundary unclear — see T2.</td>
+  <td>- <code>entity:Character</code><br>- <code>property:Character.powerLevel</code></td>
+  <td>Central entity; anchor test ✓. Slice <code>S1=Character</code>. Long quotes in <code>terms.md</code> → Character module.</td>
 </tr>
 </tbody>
 </table>
 ```
 
-For very small registries only, a Markdown pipe table is acceptable:
+Small registries: Markdown pipe table is acceptable.
 
-```markdown
-| Term | Classification | Step | Confidence | Status | Notes |
-|------|----------------|------|------------|--------|-------|
-| Character | anchor (class + module) | SCAN | High | Active | Short note only |
-```
+---
+
+## Migration from legacy wide tables
+
+If you have **Step**, **Confidence**, **Status**, and **Classification** columns:
+
+1. **Term** → keep.
+2. **Classification** + committed placements → **Targets** bullets (`entity:…`, `property:…`, …).
+3. **Step** → fold into **Notes** as *“First touched at phase-id `domain-scan`”* or leave implicit if noisy.
+4. **Confidence / Status** → merge into **Notes** (*“Legacy: was High / Active”*) only if still useful; otherwise drop.
+5. **Notes** → preserve text; add pointer to **`terms.md`** where verbatim evidence moved.
+
+---
+
+## Slices and `domain-scan` vs per-slice work
+
+- **`domain-scan`** runs **workspace-wide** (or once per strategy engagement): seeds **`term-registry.md`**, anchors, **`strategy.md`**, scan artifacts. It is **not** “each slice’s first phase” by name — use **phase-id** `domain-scan` only.
+- Per-slice deep extraction aligns with **`nouns-verbs-rules-and-states`** and **`raw-candidate-list`** in **chronicle order** after scan. **`terms.md`** evolves from those phase-ids onward for that slice.
+
+---
+
+## References
+
+- **`process.md`** — Phase chronicle, stages A–F, capture ladder  
+- **`terms.md`** template — `templates/terms-template.md`  
+- **Strategy / revisits** — `library/strategy-execution-and-checklists.md`
 
 
 ---
@@ -28270,7 +27958,7 @@ The CLI does not yet support notes — add them manually in draw.io after CLI bu
 | Phase | Add invariants? |
 |-------|----------------|
 | domain-scan | Yes — add the invariants you found during the scan (inline preferred at this fidelity) |
-| domain-noun-verb (Step 1) | No — extraction only; invariants captured in registry notes |
+| domain-noun-verb (Phase 2) | No — extraction only; invariants captured in registry notes |
 | raw-candidate-list through responsibilities | Yes — as invariants become confirmed, add to diagram |
 | Full model phases | Yes — invariants are a required part of the final model |
 
@@ -29175,19 +28863,23 @@ Branches: `FAILED` (terminal), `CANCELLED` (if allowed).
 
 # Domain model Markdown
 
-This skill’s **domain model** is captured in Markdown  a parallel **Draw.io** class diagram. Use **`templates/domain model template.md`** for companion docs; align with **`templates/domain model template.drawio`** when both exist.
+The **domain model** lives in workspace **`domain*.md`** files; **Draw.io** diagrams are **visual twins** of that content — update markdown first, then render or hand-sync the diagram (see **class-diagrams**, **using-diagram-cli**).
 
-**Phase 2 — `domain-noun-verb.md`:** anchor sections, **Candidate …** lists, full or pared class boxes. Slice files are **content only** — no skill paths or process meta in the artifact body.
+**Integrated slice model + evidence:** Prefer **`templates/domain-model-integrated.md`** alongside **`templates/terms-template.md`** (`terms.md` per slice). Class **Notes** use **`*[Sn · phase-id]*`** (e.g. **`*[S1 · refine-names]*`**) — **phase-id** from **`process.md`**, not numeric step names.
 
-**Phase 3 — bucket roll-up:** sort candidates into **entities**, **value objects**, **processes**, **policies**, **roles**, **events** (tables in **`raw-candidate-list.md`** or appended to **`domain-noun-verb.md`**). Same **content-only** rule: no skill/process boilerplate in slice files.
+**`domain-scan`:** **`domain-scan-results.md`**, **`domain-scan-model.md`**, then **`domain-scan-model.drawio`**.
 
-**Optional — `domain-raw-candidates.md`:** same Phase 3 content as **classes under anchor modules** (`### Name : << Entity >>` / `<< ValueObject >>` / `<< Process >>` / …), notes below — **not** a second copy of bucket tables. Cross-cutting material → **`## Cross-anchor`** or appendix. **`templates/domain-raw-candidates-template.md`**.
+**`nouns-verbs-rules-and-states` — `domain-noun-verb.md`:** anchor sections, **Candidate …** lists, class boxes. Slice files are **domain content only** — no skill paths or process boilerplate in the artifact body.
+
+**`raw-candidate-list`:** Prefer **`domain-raw-candidates.md`** — classes under anchors with notes. Optional single tabular roll-up (**`raw-candidate-list.md`** or appendix to **`domain-noun-verb.md`**) — **not** the same tables twice plus an integrated file.
+
+**Templates:** **`templates/domain model template.md`**, **`templates/domain-raw-candidates-template.md`**, **`templates/domain-model-integrated.md`**.
 
 ---
 
 ## Domain concept template
 
-Each **domain concept** (class, interface, value object, or aggregate) is documented under a clear heading, for example:
+Each concept is documented under a clear heading, for example:
 
 ```markdown
 ## **Payment**
@@ -29196,73 +28888,62 @@ Each **domain concept** (class, interface, value object, or aggregate) is docume
 
 ### Properties
 - Money amount
-- …
 
 ### Operations
 - initiate() → Authorization
 ```
 
-From **Step 5** onward, prefer **typed** members (see **Notation evolution** below). Earlier steps stay **pre-notation** (bullets and prose).
+From **Phase 6** onward (`add-properties-semantically-tight`), prefer **typed** members (see **Notation evolution**). Earlier phases stay informal (bullets and prose).
 
 ---
 
-## Continual refinement — class definition + diagram
+## Markdown and diagram
 
-**Continual refinement** means you **grow** the model across steps: each step file may add or tighten concepts. The Markdown spec and the class diagram are **two views of the same model** — update both when your project uses dual artifacts so they do not drift (see **[Class diagrams](class-diagrams.md)**).
+The Markdown spec and the class diagram are **two views of the same model** — keep them aligned when both exist (**class-diagrams**).
 
 ---
 
-## **newly added** tag
+## **newly added** tag (optional)
 
-In the **worked example** threads (e.g. payments), the marker **newly added** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
+In long-running examples, **newly added** on a line marks a property or operation that first appears in *this* file — useful for deltas across files.
 
 ---
 
 ## Notation evolution
 
-| Phase | Markdown style |
-|--------|------------------|
-| **Steps 1–4** | Informal: bullets, short phrases, responsibilities, candidate names; typed `- <type> property` lines arrive in Step 5. |
-| **Step 5+** | Formal typed members: `- <Type> propertyName`, `operationName(...) → ReturnType`. |
+| Phase range | Markdown style |
+|-------------|----------------|
+| **2–5** | Informal: bullets, candidates, responsibilities; typed `- <type> property` lines from **Phase 6** onward. |
+| **Phase 6+** | Formal: `- <Type> propertyName`, `operationName(...) → ReturnType`. |
 
 ---
 
 ## Subtype sections
 
-When you introduce substitutable specializations, add an explicit subtype heading so the structure is visible in the spec and in diagrams:
+When you introduce substitutable specializations, add an explicit subtype heading so structure is visible in spec and diagrams:
 
 ```markdown
 ### **Subtype** : **PaymentMethod**
 ```
 
-Put **`**newly added**`** on subtype **operation** (or property) lines when that member is **first** introduced for that subtype.
-
 ---
 
 ## Invariants
 
-Attach invariants to the **property** or **operation** they constrain, using a dedicated line:
+Attach invariants to the property or operation they constrain:
 
 ```markdown
 **Invariant:** …
 ```
 
-Mark **`**newly added**`** when you **first** attach an invariant to a given member line.
-
 ---
 
-## Early steps: terms, mechanisms, story map
+## Class diagram and spec
 
-Before typed properties exist, align extracted **nouns, verbs, rules, states** with your workspace’s **terms & mechanisms** and **shaped story map** (or equivalent). That is the same “grow the model as you go” idea: informal extraction first, then formal types.
+When you maintain **`map-model-spec.json`** or similar, re-run the project’s diagram script after material changes so Draw.io stays aligned.
 
----
-
-## Class diagram and spec (visual twin)
-
-When you maintain a machine-readable spec such as **`map-model-spec.json`**, re-run your project’s class-diagram render script (for example **`render_map_model_class_diagram.py`**) after material changes so the **Draw.io** diagram stays the **visual twin** of the spec.
-
-- **[Class diagrams](class-diagrams.md)** — templates, relationship types, keeping `.md` and `.drawio` aligned.  
-- **[Using the Diagram CLI](using-diagram-cli.md)** — building diagrams with **`scripts/drawio_cli.py`**.
+- **Class diagrams** — templates, relationships, keeping `.md` and `.drawio` aligned.  
+- **Using the Diagram CLI** — `scripts/drawio_cli.py`.
 
 ---
 
@@ -29270,9 +28951,9 @@ When you maintain a machine-readable spec such as **`map-model-spec.json`**, re-
 
 | Topic | File |
 |--------|------|
-| Term tracking across steps | [term-registry.md](term-registry.md) |
+| Term tracking | [term-registry.md](term-registry.md) |
 | Strategy-led runs | [strategy-led-generation.md](strategy-led-generation.md) |
-| Layout and lanes | [class-diagram-layout-rules.md](class-diagram-layout-rules.md) |
+| Layout | [class-diagram-layout-rules.md](class-diagram-layout-rules.md) |
 
 
 ---
@@ -29364,9 +29045,9 @@ The absence of a matching core class is the clearest signal that you have not ye
 
 # Strategy-led generation
 
-Domain scan (OOAD **phase 1**) does not only produce a single “results” file. It establishes a **small set of workspace files** under `<workspace>/abd-ooad/` that work together. Some are **frozen findings** from the scan; others are **living documents** you update as modeling continues.
+Domain scan (phase-id **`domain-scan`**) does not only produce a single “results” file. It establishes a **small set of workspace files** under `<workspace>/abd-ooad/` that work together. Some are **frozen findings** from the scan; others are **living documents** you update as modeling continues.
 
-**Slices start at global Phase 2:** Source-slice work (e.g. **S1**, **S2** in `strategy.md` and **`Anchor`** `S1=…` / `S2=…` in `term-registry.md`) uses the **same global OOAD phase numbers** as the process table for everything **after** scan. The **first** per-slice extraction step is **Phase 2** (`nouns-verbs-rules-and-states`), **not** a slice-local “Phase 1.” Phase **1** is workspace-wide **domain-scan** only. See **`term-registry.md` → Slices and global phase numbers**.
+**Per-slice extraction** after scan uses the **same phase-id chronicle** as **`process.md`**. The **first** detailed per-slice capture is **`nouns-verbs-rules-and-states`** (then **`raw-candidate-list`**, …) — **not** a second **`domain-scan`**. Use **phase-id** names in strategy and registry (and **`*[Sn · phase-id]*`** tags in the model), not “Phase 1 / Phase 2” as step names. See **`term-registry.md`** and **`process.md` → Capture ladder**.
 
 For the scan procedure itself, see the **Domain scan** phase. This page explains **what each artifact is for** and how **`strategy.md`** relates to **`domain-scan-results.md`**.
 
@@ -29384,7 +29065,8 @@ Created during domain scan under `<workspace>/abd-ooad/`:
 | `strategy.md` | **Living strategy:** **modeling scope**; **§1 source slices** (table: Order, Goal, **Source** — chapters, files, modules, or mixed — **Coverage**, **Importance**); **§2 slice plan** (per-slice **goal restated** + **phases**); **coverage across steps**; **cross-slice integration**; **anchor and subdomain elaboration**; **execution plan (normative)** — phase slugs with **slice IDs** on every line; plus **approach** and **dated pivots**. | **Yes** — whenever scope, order, slice depth, subdomain mapping, or integration changes. |
 | `domain-scan-model.md` | Class sketch (markdown) at scan fidelity. | Yes, in later phases — not only during scan. |
 | `domain-scan-model.drawio` | Diagram at scan fidelity. | Same as model.md. |
-| `term-registry.md` | Terms, **Classification** (model role), **Status** (OOAD scale), confidence — seeded at scan. | **Yes** — every later phase updates Step, Classification, and Status as the model evolves. |
+| `term-registry.md` | Terms, **Targets** (bulleted typed pointers), **Notes** — seeded at scan. | **Yes** — every later phase-id updates **Targets** and **Notes** as the model evolves. See **`library/term-registry.md`**. |
+| `terms.md` (per slice) | Evidence ledger by **`## [Anchor module]`** — quotes, promotion log. | **Yes** — from **`nouns-verbs-rules-and-states`** onward for that slice. Template: **`templates/terms-template.md`**. |
 
 **Plus** (when workspace is configured): **`progress/`** checklists — see **`library/strategy-execution-and-checklists.md`**. **`generate.py`** creates **`process-checklist.md`**, **`<phase>-checklist.md`**, and (abd-ooad) **`strategy-run-checklist.md`** when templates exist and files are missing. Normative phase steps stay in **`content/parts/phases/<phase>.md`**. These are the **only** place for session tick marks.
 
@@ -29419,8 +29101,8 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 
 1. **Strategy** — Keep **`strategy.md`** aligned with reality; append *Ongoing strategic decisions* when you pivot.
 2. **Strategy execution** — Tick **`progress/strategy-run-checklist.md`** as you **complete** each phase for its declared scope.
-3. **Phase work** — For the active phase, run **`generate.py --phase <slug>`** and tick **`progress/<slug>-checklist.md`** for action steps.
-4. **Registry** — Keep `term-registry.md` aligned with the current phase (Step, Classification, Status).
+3. **Phase work** — For the active phase-id, run **`generate.py --phase <phase-id>`** (or **`generate.py --stage <A|B|…|F>`** for a stage) and tick **`progress/<phase-id>-checklist.md`** for action steps.
+4. **Registry** — Keep `term-registry.md` aligned with the current phase-id (**Targets** + **Notes**); keep slice **`terms.md`** in sync for verbatim evidence.
 5. **Results** — Touch `domain-scan-results.md` only for corrections to the original scan snapshot.
 
 ---
@@ -29440,26 +29122,45 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 
 # Strategy execution and checklists (abd-ooad)
 
-**Canonical doc** for: (1) **strategy** vs **live ticks**, (2) **which files** hold checkboxes, (3) **how** `generate.py` creates workspace **`progress/`** files. Does **not** replace **[process.md](../process.md)** (process tables, `generate` / `build`) or **[skill-structure-and-concepts.md](../base/skill-structure-and-concepts.md)** (repo layout).
+**Canonical doc** for: (1) **strategy** vs **live ticks**, (2) **which files** hold checkboxes, (3) **how** `generate.py` creates workspace **`progress/`** files, (4) **stages**, **revisits / disruption** on the same checklist. Does **not** replace **[process.md](../process.md)** (phase chronicle, `generate` / `build`) or **[skill-structure-and-concepts.md](../base/skill-structure-and-concepts.md)** (repo layout).
 
-Only **`strategy.md`** defines **scope** and **which phases in what order**; checklists are where you **tick** progress.
+Only **`strategy.md`** defines **scope** and **which phase-ids (or stages) in what order**; checklists are where you **tick** progress.
 
 ---
 
 ## Workflow
 
-1. **Domain scan** — produce scan artifacts (see **`strategy-led-generation`**).
+1. **Domain scan** — produce scan artifacts (see **`strategy-led-generation`**). Phase-id: **`domain-scan`**.
 2. **Strategy** — fill **`strategy.md`** from **`templates/strategy.md`**:
    - **Modeling scope** — corpus or product boundary; **source type** (book vs repo vs mixed).
    - **§1 Source slices** — ordered table: **Goal**, **Source** (chapters, files, modules, APIs — whatever locates work), **Coverage** (depth this pass), **Importance**; stable **slice IDs** reused everywhere.
-   - **§2 Slice plan** — per slice: **goal restated**, **unit kind**, **phases** (execution step numbers / slugs), produces, depends-on.
-   - **Coverage across steps** — matrix: every slice → which **execution plan** steps touch it → **depth** → deferrals.
+   - **§2 Slice plan** — per slice: **goal restated**, **unit kind**, **phase-ids** (or **stages**) you will run, produces, depends-on.
+   - **Coverage across steps** — matrix: every slice → which **execution plan** phase-ids touch it → **depth** → deferrals.
    - **Cross-slice integration** — cross-boundary types and ordering (From → To + narrative).
-   - **Anchor and subdomain elaboration** (when anchors have attached types) — map subdomains to slices and execution §.
-   - **Execution plan (normative)** — ordered phase **slugs**; **each line cites slice IDs** (mirror **`strategy-run-checklist.md`**).
+   - **Anchor and subdomain elaboration** (when anchors have attached types) — map subdomains to slices and execution phase-ids.
+   - **Execution plan (normative)** — ordered **phase-id** strings; **each line cites slice IDs** (mirror **`strategy-run-checklist.md`**). Optionally group work by **stage A–F** (see **`process.md` → Stage map**).
+   - **Stage completion (after each stage)** — what completed; tensions; **new checklist lines** for revisits (below); **audit** — append dated line under *Ongoing strategic decisions*.
    - **Approach going forward** + **Ongoing strategic decisions** — short narrative and dated pivots.
 3. **Align live checklists** — keep **`strategy-run-checklist.md`** in sync with the execution plan (same order and scope). Optional **`templates/strategy-run-checklist.md`** seed; optional **`templates/progress-README.md`** → **`progress/README.md`** for slice-specific files under **`progress/slices/`**.
-4. **Run phases** — for the **current** phase: `python scripts/base/generate.py --phase <slug>`. Tick **`strategy-run-checklist.md`** when a phase is **done** for its declared scope; tick **`<slug>-checklist.md`** for **steps inside** that phase.
+4. **Run phases** — **`python scripts/base/generate.py --phase <phase-id>`** for one step, or **`python scripts/base/generate.py --stage <A|B|…|F>`** for a full stage (same order as **`process.md`** / **`skill-config.json` → `process_stages`**). Tick **`strategy-run-checklist.md`** when a phase (or stage slice) is **done** for its declared scope; tick **`<phase-id>-checklist.md`** for **steps inside** that phase.
+
+---
+
+## Revisits and disruption (same checklist)
+
+A **revisit** is **not** a separate rerun workflow. While executing (including late **stage F**), if work must **go back** to an earlier **stage** or **phase-id**, **add a new row** to **`strategy-run-checklist.md`** — e.g. `- [ ] Revisit stage B — <short reason>` or `- [ ] Re-run nouns-verbs-rules-and-states — slice S1 — reconcile new anchor` — at the **bottom** or **inserted** where it fits the agreed order. The checklist is the single source of truth for **forward** work plus **backward** revisits.
+
+**Audit:** When you add a revisit row, append a dated line under **`strategy.md` → Ongoing strategic decisions**; never delete prior pivots.
+
+### Hint table (non-prescriptive)
+
+| You are here | Often need to touch |
+|--------------|---------------------|
+| Stage F | Stage E, D, or C (naming / validation feedback) |
+| Stage E | Stage C (scenarios expose structure gaps) |
+| Stage D | Stage C (splitting responsibilities) |
+
+Use this as a **prompt**, not a rule.
 
 ---
 
@@ -29467,9 +29168,9 @@ Only **`strategy.md`** defines **scope** and **which phases in what order**; che
 
 | Layer | File | What you tick |
 | --- | --- | --- |
-| **Strategy execution** | **`progress/strategy-run-checklist.md`** | **Which phases** you will run, **in order**, each with **scope** that **includes the same slice IDs** as **`strategy.md` → Execution plan**. Optional: **`progress/slices/<slice-id>-checklist.md`** per slice — see **`progress/README.md`** in the workspace (if present). |
+| **Strategy execution** | **`progress/strategy-run-checklist.md`** | **Which phase-ids** (or stages) you will run, **in order**, each with **scope** that **includes the same slice IDs** as **`strategy.md` → Execution plan**; **includes revisit rows** when you must go backward. Optional: **`progress/slices/<slice-id>-checklist.md`** per slice — see **`progress/README.md`** in the workspace (if present). |
 | **Full pipeline (reference)** | **`progress/process-checklist.md`** | **Every** phase in **`phase_files`** — useful as a map; optional if you rely only on strategy-run. |
-| **Phase steps** | **`progress/<phase>-checklist.md`** | **Action checklist** copied from **`content/parts/phases/<phase>.md` → ## Action Checklist**. |
+| **Phase steps** | **`progress/<phase-id>-checklist.md`** | **Action checklist** copied from **`content/parts/phases/<phase-id>.md` → ## Action Checklist**. |
 
 **Implementation:** **`scripts/base/workspace_checklists.py`** (paths, behavior, `--no-ensure-checklists`).
 
@@ -29479,10 +29180,10 @@ Only **`strategy.md`** defines **scope** and **which phases in what order**; che
 
 | Kind | What it tracks | Where it lives | How it gets there |
 | --- | --- | --- | --- |
-| **Normative reference** | Rules in **this document** — strategy vs ticks, layers, `generate.py` behavior | **`content/parts/library/strategy-execution-and-checklists.md`** | Authored in the skill; **not** created by **`generate.py`**. |
-| **Pipeline position** | Which **phase** of the pipeline you are in | **`<active_skill_workspace>/<skill_name>/progress/process-checklist.md`** | **Created** on first **`python scripts/base/generate.py --phase <slug>`** when that file is **missing**, if **`skill-config.json` → `workspace.active_skill_workspace`** is set. One `- [ ]` line per slug in **`phase_files`** (labels from **`phase_section_headings`** when present). **Does not overwrite** an existing file. |
-| **Phase action steps** | **Steps inside** the current phase | **`<active_skill_workspace>/<skill_name>/progress/<phase-slug>-checklist.md`** | **Created** in the **same** `generate.py` run when that file is **missing**. Steps are taken from **`## Action Checklist`** in **`content/parts/phases/<phase-slug>.md`**, or from task lines (`- [ ]` / `- [x]`) in that file if the section is absent. **Does not overwrite** an existing file. |
-| **Strategy execution** (workspace) | Ordered phases matching **`strategy.md`** | **`progress/strategy-run-checklist.md`** | Seeded from template when **`generate.py`** / workspace checklist logic creates it; **you** align it with **`strategy.md`**. |
+| **Normative reference** | Rules in **this document** — strategy vs ticks, layers, revisits, `generate.py` behavior | **`content/parts/library/strategy-execution-and-checklists.md`** | Authored in the skill; **not** created by **`generate.py`**. |
+| **Pipeline position** | Which **phase-id** of the pipeline you are in | **`<active_skill_workspace>/<skill_name>/progress/process-checklist.md`** | **Created** on first **`python scripts/base/generate.py --phase <phase-id>`** (or first phase of **`--stage`**) when that file is **missing**, if **`skill-config.json` → `workspace.active_skill_workspace`** is set. One `- [ ]` line per slug in **`phase_files`** (labels from **`phase_section_headings`** when present). **Does not overwrite** an existing file. |
+| **Phase action steps** | **Steps inside** the current phase | **`<active_skill_workspace>/<skill_name>/progress/<phase-id>-checklist.md`** | **Created** in the **same** `generate.py` run when that file is **missing**. Steps are taken from **`## Action Checklist`** in **`content/parts/phases/<phase-id>.md`**, or from task lines (`- [ ]` / `- [x]`) in that file if the section is absent. **Does not overwrite** an existing file. |
+| **Strategy execution** (workspace) | Ordered phase-ids (and revisit rows) matching **`strategy.md`** | **`progress/strategy-run-checklist.md`** | Seeded from template when **`generate.py`** / workspace checklist logic creates it; **you** align it with **`strategy.md`**. |
 
 ### Names and workspace
 
@@ -29503,9 +29204,9 @@ Only **`strategy.md`** defines **scope** and **which phases in what order**; che
 
 ---
 
-## Phase slugs
+## Phase IDs
 
-Use exact slugs from **`skill-config.json` → `phase_files`** (e.g. `nouns-verbs-rules-and-states`, `domain-scan`). Labels for humans are in **`phase_section_headings`**.
+Use exact **phase-id** strings from **`skill-config.json` → `phase_files`** (e.g. `nouns-verbs-rules-and-states`, `domain-scan`). Labels for humans are in **`phase_section_headings`**. **Stages** **A–F** map to ordered phase-id lists in **`process_stages`** — see **`process.md`**.
 
 ---
 
@@ -29524,168 +29225,147 @@ Use exact slugs from **`skill-config.json` → `phase_files`** (e.g. `nouns-verb
 
 ## What a Term Is
 
-A **Term** is any concept identified from the source material that may become part of the domain model. At the time of identification, a Term is not committed to a model role — it might become a class, a property, a value type, an association, or nothing at all. The registry tracks Terms as the modeling phases determine what each one actually is.
+A **Term** is any concept identified from the source material that may become part of the domain model. At identification time it is not committed to a model role — it might become a class, a property, a value type, an association, or nothing. The registry tracks Terms as modeling **phase-ids** (see **`process.md` → Phase chronicle**) determine what each one actually is.
 
-This is distinct from other uses of "actor" in this domain:
-- In MM3E and FoundryVTT, "Actor" has a specific system meaning (a character, creature, or entity in the game world).
-- In the registry, everything is a Term until the model says otherwise.
+This is distinct from other domain uses of overloaded words (e.g. in some systems “Actor” is a system type). In the registry, everything is a Term until the model says otherwise.
 
-**File:** `<workspace>/abd-ooad/term-registry.md`
-**Never embedded** inside step outputs — it lives in its own file and is referenced from each step's model doc.
+**File:** `<workspace>/abd-ooad/term-registry.md` (or per-slice path if your workspace layout nests slices).
 
----
-
-## Step Reference — Short Names
-
-Use these short names in the **Step** column of the registry when adding or updating a row.
-
-| Short Name | Phase | Description |
-|-----------|-------|-------------|
-| SETUP | workspace-and-config | Workspace initialization |
-| SCAN | domain-scan | Source scan and anchor identification |
-| NOUNS | nouns-verbs-rules-and-states | Extract nouns, verbs, rules, states |
-| CANDS | raw-candidate-list | Raw candidate class list |
-| THINGS | thing-vs-data-about-a-thing | Separate things from data-about-things |
-| RESP | responsibilities-before-operations | Assign responsibilities |
-| PROPS | add-properties-semantically-tight | Add semantically tight properties |
-| OPS | turn-verbs-into-operations | Turn verbs into operations |
-| RELS | relationships-and-cardinality | Relationships and cardinality |
-| INV | invariants-in-the-model | Identify invariants |
-| BLOAT | watch-for-bloated-classes | Detect bloated classes |
-| ROLES | smashed-abstractions-and-hidden-roles | Uncover hidden roles |
-| INHERIT | inheritance-when-behavior-generalizes | Apply inheritance |
-| ABST | abstract-classes-and-interfaces | Abstract classes and interfaces |
-| COMP | prefer-composition | Prefer composition over inheritance |
-| STATES | model-state-transitions | Model state transitions |
-| ITER | iterative-refinement | Iterative refinement pass |
-| TENSION | tension-as-a-signal | Resolve tensions |
-| COHESION | what-changes-together | What changes together |
-| VALIDATE | validate-with-scenarios | Validate with scenarios |
-| NAMES | refine-names | Refine class and concept names |
-| LAYERS | model-in-layers | Model in layers |
+**Never embed** the full registry inside step outputs — it lives in its own file and is referenced from each phase’s model doc.
 
 ---
 
-## Slices and global phase numbers (normative)
+## Relationship to `terms.md` (per slice)
 
-The **OOAD process table** (see **`process.md`** / built **AGENTS.md** — “Process Table”) assigns **global phase numbers** **0–21** to phase **slugs** (e.g. **Phase 2** = `nouns-verbs-rules-and-states`, **Phase 3** = `raw-candidate-list`, **Phase 4** = `thing-vs-data-about-a-thing`).
-
-- **Phase 1** (`domain-scan`, short name **SCAN**) runs **once per workspace** (or once per strategy engagement). It produces anchors, `strategy.md`, `domain-scan-results.md`, and seeds **`term-registry.md`**. It is **not** repeated as “each slice’s Phase 1.”
-- **Per-slice modeling** (folders or **Anchor** columns **`S1=…`**, **`S2=…`**, …) **aligns with the same global numbers from Phase 2 onward:** the **first** extraction artifact in a slice is always **Phase 2** (**NOUNS**), then **3** (**CANDS**), **4** (**THINGS**), etc. Do **not** label slice-local nouns-verbs files as Phase 1 — that collides with **SCAN**.
-- **Phase notes** in italics (optional): `*[Sn · Phase N]*` where **N** is the **global** process-table number. Add slug, tension id, or short reminder *after* the tag on the same line if needed (e.g. *thing-vs-data*, *registry Tn*). For early “likely class” judgments: `*[S1 · Phase 3]* Likely class : …`.
-
----
-
-## Registry Columns
-
-| Column | Values | Notes |
-|--------|--------|-------|
-| **Term** | Concept name from the source | Exact word or phrase as found — rename in the NAMES step if needed |
-| **Classification** | See **Classification** below | **What we want to model this as** — target shape in the domain model (not lifecycle) |
-| **Step** | Short name from table above (SCAN, NOUNS, …) | Step that first identified or last materially updated this Term |
-| **Confidence** | High / Medium / Low | How sure we are this belongs in the model |
-| **Status** | See **Status (OOAD scale)** below | Where this Term sits in the modeling workflow |
-| **Notes** | Free text | Anchor-test results, owning module for supporting classes (`Supporting class — X module`), competing interpretations, pointers to tensions in `domain-scan-results.md`, and follow-ups |
+- **`terms.md`** (alongside `domain-noun-verb.md` in a slice folder) holds **module-scoped evidence**: quotes, raw extractions, promotion history under **`## [Anchor module]`** headings aligned with the integrated domain model.
+- **`term-registry.md`** remains the **term-centric analysis record**: one row per Term; **Targets** = where the term landed; **Notes** = substantive reasoning (anchor tests, classification, tensions) — **full paragraphs are fine** when the work needs them.
+- **Principle:** Notes depth is **not** reduced because `terms.md` exists. `terms.md` reduces **duplication of verbatim source text** and organizes evidence by module; it does **not** justify one-line registry Notes unless the term truly needs only one line.
+- **Avoid duplicate verbatim quotes:** keep the quote in **`terms.md`** and in **Notes** point to `terms.md#anchor-module` (or the term subsection); keep analysis-only text in Notes as today.
 
 ---
 
-## Classification — what we want to model this as
+## Phase IDs (normative references)
 
-Use **one** value per row. This is the **intended model role**, not how “mature” the idea is (that is **Status**).
+Refer to pipeline steps **only** by **`phase-id`** — the short **kebab-case** slug matching **`skill-config.json` → `phase_files`** and the **`process.md`** chronicle (e.g. `domain-scan`, `nouns-verbs-rules-and-states`, `refine-names`). Do **not** use “Phase 1 / Phase 2” as **names** for steps; those ordinals drift. Optional **model tags** in the domain model use **`*[Sn · phase-id]*`** (e.g. **`*[S1 · refine-names]*`**) — see **`library/domain-model`**.
 
-| Value | Meaning |
+---
+
+## Registry columns
+
+| Column | Role |
+|--------|------|
+| **Term** | Concept name from the source — exact word or phrase as found; rename in **`refine-names`** if needed. |
+| **Targets** | Where this term **landed** in the model: a **bulleted list inside the table cell** (Markdown list), **one typed pointer per line**. Unallocated / not yet placed → leave empty or **—**. |
+| **Notes** | Anchor-test results, slice/anchor context (**`S1=…`** style if useful), competing interpretations, tensions, pointers to **`terms.md`** when verbatim evidence lives there — same substance as historical scan/noun-verb rows. |
+
+**Optional:** If you need a single “primary kind” for tooling, add one optional column **after** Term (e.g. **Kind**) — otherwise prefer **Targets**-only for a slim table.
+
+---
+
+## Targets — typed pointers (one per bullet)
+
+**Normative style:** each bullet is **one** typed target. **Do not** concatenate targets with `|` or `;` on one run-on line.
+
+Examples of pointer forms (extend as your model needs):
+
+- `entity:Payment`
+- `vo:Money`
+- `property:Payment.amount`
+- `operation:Order.submit`
+- `invariant:…`
+- `policy:…`
+- `relationship:Customer — Order`
+
+**Renders in Markdown tables** — use `<br>` between bullets if your renderer collapses list-in-cell (GitHub-style often accepts list-in-cell; validate in your preview):
+
+```markdown
+| Term   | Targets |
 |--------|---------|
-| **anchor (class + module)** | Passes the anchor test: this concept is a **core class** and owns a **module** (dashed frame + same-named core class). Use only for backbone modules. |
-| **class** | A domain **class** that is not its own module yet — e.g. supporting class inside a frame, or a type you expect to become a class without its own module. |
-| **property** | Modeled as a **semantic property** (attribute / value on a class), not a separate type. |
-| **field** | Modeled as a **typed field / slot** (data member, possibly simple type or value object). |
-| **example (instance)** | An **illustrative instance**, sample, or scenario object — not a type in the model. |
-| **relationship** | An **association**, link, or dependency between concepts — may become an association, association class, or navigable role. |
-| **invariant (rule)** | A **domain rule**, constraint, or policy — often becomes behavior, guard, or explicit rule text on a class. |
-
-**Diagram mapping (when relevant):** `anchor (class + module)` → module frame + core class; `class` → class box; `relationship` → association; `invariant (rule)` → note, constraint, or operation; `property` / `field` → attributes on a class.
+| amount | - `entity:Payment`<br>- `vo:Money`<br>- `property:Payment.amount` |
+```
 
 ---
 
-## Status (OOAD scale)
+## Notes — still substantive
 
-**Status** is **lifecycle / confidence in the workflow**, not the model shape. Pick the value that best fits; states are **not** always a strict left-to-right pipeline.
+Notes remain the place for **classification reasoning**, anchor tests, tensions, and follow-ups. **Do not** make Notes sparse by default. When raw quotes live in **`terms.md`**, write in Notes: *“Verbatim quote in `terms.md` → [Anchor module] / term …”* and keep analysis here.
 
-| Status | When to use |
-|--------|-------------|
-| **Ambiguous** | You cannot yet say what the Term is or how it sits next to others. |
-| **Tension** | Competing interpretations, overlapping boundaries, or conflicting source pulls — needs resolution before the model can commit. |
-| **Candidate** | Plausible model role; narrowed but not yet locked (often after scan, before THINGS/RELS). |
-| **Deferred** | Explicitly parked — revisit in a named later step or phase. |
-| **Active** | In current modeling scope; being updated in this pass. |
-| **Solidified** | Named, placed, and stable in the model for the current iteration — ready to treat as “done” unless source or scope changes. |
-
-**Typical (non-binding) progression:** Ambiguous → Tension or Candidate → Active → Solidified. **Deferred** can apply after any stage. A Term can return from Deferred to Active when scope returns to it.
+**Slice / anchor:** You may record **`S1=Character`** (or similar) in **Notes** or a minimal **Slice** column if the table template adds one — your engagement may require it for MM3E-style multi-slice tables.
 
 ---
 
-## Registry format (wide Notes)
+## Classification (reference — not required as its own column)
 
-**Prefer an HTML `<table>` with `<colgroup>`** so the **Notes** column gets most of the width (~50–55%). **Classification** labels can be long — give that column ~12–14% if needed. Plain Markdown pipe tables allocate columns evenly and make long Notes hard to read in the editor and in preview.
+If you **merge** the old **Classification** column into **Targets**, use typed pointers (`entity:…`, `property:…`, …) so the table stays one row per Term. The **meaning** of former classification values is unchanged:
 
-Use this skeleton (adjust `width` percentages if needed):
+| Former value | Meaning |
+|--------------|--------|
+| **anchor (class + module)** | Passes the anchor test: core class owns a **module** (frame + same-named core class). |
+| **class** | Domain class not its own module yet — supporting class, or expected class without module. |
+| **property** | Modeled as semantic property on a class. |
+| **field** | Typed field / slot. |
+| **example (instance)** | Illustrative instance — not a type. |
+| **relationship** | Association, link, dependency. |
+| **invariant (rule)** | Domain rule, constraint, policy. |
+
+---
+
+## Registry format (HTML table recommended for Notes width)
+
+Prefer an HTML `<table>` with `<colgroup>` so **Notes** gets most width (~50–55%). **Targets** can be ~18–22%.
 
 ```html
 <table>
 <colgroup>
-  <col style="width:9%" />
-  <col style="width:14%" />
-  <col style="width:6%" />
-  <col style="width:9%" />
-  <col style="width:9%" />
-  <col style="width:53%" />
+  <col style="width:12%" />
+  <col style="width:22%" />
+  <col style="width:66%" />
 </colgroup>
 <thead>
 <tr>
   <th>Term</th>
-  <th>Classification</th>
-  <th>Step</th>
-  <th>Confidence</th>
-  <th>Status</th>
+  <th>Targets</th>
   <th>Notes</th>
 </tr>
 </thead>
 <tbody>
 <tr>
   <td>Character</td>
-  <td>anchor (class + module)</td>
-  <td>SCAN</td>
-  <td>High</td>
-  <td>Active</td>
-  <td>Central entity; all rules attach to it</td>
-</tr>
-<tr>
-  <td>Power</td>
-  <td>class</td>
-  <td>SCAN</td>
-  <td>High</td>
-  <td>Active</td>
-  <td>Supporting class — Character module. Core capability unit.</td>
-</tr>
-<tr>
-  <td>Device</td>
-  <td>class</td>
-  <td>SCAN</td>
-  <td>Medium</td>
-  <td>Tension</td>
-  <td>Removable Power vs Equipment? Boundary unclear — see T2.</td>
+  <td>- <code>entity:Character</code><br>- <code>property:Character.powerLevel</code></td>
+  <td>Central entity; anchor test ✓. Slice <code>S1=Character</code>. Long quotes in <code>terms.md</code> → Character module.</td>
 </tr>
 </tbody>
 </table>
 ```
 
-For very small registries only, a Markdown pipe table is acceptable:
+Small registries: Markdown pipe table is acceptable.
 
-```markdown
-| Term | Classification | Step | Confidence | Status | Notes |
-|------|----------------|------|------------|--------|-------|
-| Character | anchor (class + module) | SCAN | High | Active | Short note only |
-```
+---
+
+## Migration from legacy wide tables
+
+If you have **Step**, **Confidence**, **Status**, and **Classification** columns:
+
+1. **Term** → keep.
+2. **Classification** + committed placements → **Targets** bullets (`entity:…`, `property:…`, …).
+3. **Step** → fold into **Notes** as *“First touched at phase-id `domain-scan`”* or leave implicit if noisy.
+4. **Confidence / Status** → merge into **Notes** (*“Legacy: was High / Active”*) only if still useful; otherwise drop.
+5. **Notes** → preserve text; add pointer to **`terms.md`** where verbatim evidence moved.
+
+---
+
+## Slices and `domain-scan` vs per-slice work
+
+- **`domain-scan`** runs **workspace-wide** (or once per strategy engagement): seeds **`term-registry.md`**, anchors, **`strategy.md`**, scan artifacts. It is **not** “each slice’s first phase” by name — use **phase-id** `domain-scan` only.
+- Per-slice deep extraction aligns with **`nouns-verbs-rules-and-states`** and **`raw-candidate-list`** in **chronicle order** after scan. **`terms.md`** evolves from those phase-ids onward for that slice.
+
+---
+
+## References
+
+- **`process.md`** — Phase chronicle, stages A–F, capture ladder  
+- **`terms.md`** template — `templates/terms-template.md`  
+- **Strategy / revisits** — `library/strategy-execution-and-checklists.md`
 
 
 ---
@@ -30136,7 +29816,7 @@ The CLI does not yet support notes — add them manually in draw.io after CLI bu
 | Phase | Add invariants? |
 |-------|----------------|
 | domain-scan | Yes — add the invariants you found during the scan (inline preferred at this fidelity) |
-| domain-noun-verb (Step 1) | No — extraction only; invariants captured in registry notes |
+| domain-noun-verb (Phase 2) | No — extraction only; invariants captured in registry notes |
 | raw-candidate-list through responsibilities | Yes — as invariants become confirmed, add to diagram |
 | Full model phases | Yes — invariants are a required part of the final model |
 
@@ -31034,19 +30714,23 @@ Treat **tensions** (org conflict, timing conflict) as **signals** for boundaries
 
 # Domain model Markdown
 
-This skill’s **domain model** is captured in Markdown  a parallel **Draw.io** class diagram. Use **`templates/domain model template.md`** for companion docs; align with **`templates/domain model template.drawio`** when both exist.
+The **domain model** lives in workspace **`domain*.md`** files; **Draw.io** diagrams are **visual twins** of that content — update markdown first, then render or hand-sync the diagram (see **class-diagrams**, **using-diagram-cli**).
 
-**Phase 2 — `domain-noun-verb.md`:** anchor sections, **Candidate …** lists, full or pared class boxes. Slice files are **content only** — no skill paths or process meta in the artifact body.
+**Integrated slice model + evidence:** Prefer **`templates/domain-model-integrated.md`** alongside **`templates/terms-template.md`** (`terms.md` per slice). Class **Notes** use **`*[Sn · phase-id]*`** (e.g. **`*[S1 · refine-names]*`**) — **phase-id** from **`process.md`**, not numeric step names.
 
-**Phase 3 — bucket roll-up:** sort candidates into **entities**, **value objects**, **processes**, **policies**, **roles**, **events** (tables in **`raw-candidate-list.md`** or appended to **`domain-noun-verb.md`**). Same **content-only** rule: no skill/process boilerplate in slice files.
+**`domain-scan`:** **`domain-scan-results.md`**, **`domain-scan-model.md`**, then **`domain-scan-model.drawio`**.
 
-**Optional — `domain-raw-candidates.md`:** same Phase 3 content as **classes under anchor modules** (`### Name : << Entity >>` / `<< ValueObject >>` / `<< Process >>` / …), notes below — **not** a second copy of bucket tables. Cross-cutting material → **`## Cross-anchor`** or appendix. **`templates/domain-raw-candidates-template.md`**.
+**`nouns-verbs-rules-and-states` — `domain-noun-verb.md`:** anchor sections, **Candidate …** lists, class boxes. Slice files are **domain content only** — no skill paths or process boilerplate in the artifact body.
+
+**`raw-candidate-list`:** Prefer **`domain-raw-candidates.md`** — classes under anchors with notes. Optional single tabular roll-up (**`raw-candidate-list.md`** or appendix to **`domain-noun-verb.md`**) — **not** the same tables twice plus an integrated file.
+
+**Templates:** **`templates/domain model template.md`**, **`templates/domain-raw-candidates-template.md`**, **`templates/domain-model-integrated.md`**.
 
 ---
 
 ## Domain concept template
 
-Each **domain concept** (class, interface, value object, or aggregate) is documented under a clear heading, for example:
+Each concept is documented under a clear heading, for example:
 
 ```markdown
 ## **Payment**
@@ -31055,73 +30739,62 @@ Each **domain concept** (class, interface, value object, or aggregate) is docume
 
 ### Properties
 - Money amount
-- …
 
 ### Operations
 - initiate() → Authorization
 ```
 
-From **Step 5** onward, prefer **typed** members (see **Notation evolution** below). Earlier steps stay **pre-notation** (bullets and prose).
+From **Phase 6** onward (`add-properties-semantically-tight`), prefer **typed** members (see **Notation evolution**). Earlier phases stay informal (bullets and prose).
 
 ---
 
-## Continual refinement — class definition + diagram
+## Markdown and diagram
 
-**Continual refinement** means you **grow** the model across steps: each step file may add or tighten concepts. The Markdown spec and the class diagram are **two views of the same model** — update both when your project uses dual artifacts so they do not drift (see **[Class diagrams](class-diagrams.md)**).
+The Markdown spec and the class diagram are **two views of the same model** — keep them aligned when both exist (**class-diagrams**).
 
 ---
 
-## **newly added** tag
+## **newly added** tag (optional)
 
-In the **worked example** threads (e.g. payments), the marker **newly added** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
+In long-running examples, **newly added** on a line marks a property or operation that first appears in *this* file — useful for deltas across files.
 
 ---
 
 ## Notation evolution
 
-| Phase | Markdown style |
-|--------|------------------|
-| **Steps 1–4** | Informal: bullets, short phrases, responsibilities, candidate names; typed `- <type> property` lines arrive in Step 5. |
-| **Step 5+** | Formal typed members: `- <Type> propertyName`, `operationName(...) → ReturnType`. |
+| Phase range | Markdown style |
+|-------------|----------------|
+| **2–5** | Informal: bullets, candidates, responsibilities; typed `- <type> property` lines from **Phase 6** onward. |
+| **Phase 6+** | Formal: `- <Type> propertyName`, `operationName(...) → ReturnType`. |
 
 ---
 
 ## Subtype sections
 
-When you introduce substitutable specializations, add an explicit subtype heading so the structure is visible in the spec and in diagrams:
+When you introduce substitutable specializations, add an explicit subtype heading so structure is visible in spec and diagrams:
 
 ```markdown
 ### **Subtype** : **PaymentMethod**
 ```
 
-Put **`**newly added**`** on subtype **operation** (or property) lines when that member is **first** introduced for that subtype.
-
 ---
 
 ## Invariants
 
-Attach invariants to the **property** or **operation** they constrain, using a dedicated line:
+Attach invariants to the property or operation they constrain:
 
 ```markdown
 **Invariant:** …
 ```
 
-Mark **`**newly added**`** when you **first** attach an invariant to a given member line.
-
 ---
 
-## Early steps: terms, mechanisms, story map
+## Class diagram and spec
 
-Before typed properties exist, align extracted **nouns, verbs, rules, states** with your workspace’s **terms & mechanisms** and **shaped story map** (or equivalent). That is the same “grow the model as you go” idea: informal extraction first, then formal types.
+When you maintain **`map-model-spec.json`** or similar, re-run the project’s diagram script after material changes so Draw.io stays aligned.
 
----
-
-## Class diagram and spec (visual twin)
-
-When you maintain a machine-readable spec such as **`map-model-spec.json`**, re-run your project’s class-diagram render script (for example **`render_map_model_class_diagram.py`**) after material changes so the **Draw.io** diagram stays the **visual twin** of the spec.
-
-- **[Class diagrams](class-diagrams.md)** — templates, relationship types, keeping `.md` and `.drawio` aligned.  
-- **[Using the Diagram CLI](using-diagram-cli.md)** — building diagrams with **`scripts/drawio_cli.py`**.
+- **Class diagrams** — templates, relationships, keeping `.md` and `.drawio` aligned.  
+- **Using the Diagram CLI** — `scripts/drawio_cli.py`.
 
 ---
 
@@ -31129,9 +30802,9 @@ When you maintain a machine-readable spec such as **`map-model-spec.json`**, re-
 
 | Topic | File |
 |--------|------|
-| Term tracking across steps | [term-registry.md](term-registry.md) |
+| Term tracking | [term-registry.md](term-registry.md) |
 | Strategy-led runs | [strategy-led-generation.md](strategy-led-generation.md) |
-| Layout and lanes | [class-diagram-layout-rules.md](class-diagram-layout-rules.md) |
+| Layout | [class-diagram-layout-rules.md](class-diagram-layout-rules.md) |
 
 
 ---
@@ -31223,9 +30896,9 @@ The absence of a matching core class is the clearest signal that you have not ye
 
 # Strategy-led generation
 
-Domain scan (OOAD **phase 1**) does not only produce a single “results” file. It establishes a **small set of workspace files** under `<workspace>/abd-ooad/` that work together. Some are **frozen findings** from the scan; others are **living documents** you update as modeling continues.
+Domain scan (phase-id **`domain-scan`**) does not only produce a single “results” file. It establishes a **small set of workspace files** under `<workspace>/abd-ooad/` that work together. Some are **frozen findings** from the scan; others are **living documents** you update as modeling continues.
 
-**Slices start at global Phase 2:** Source-slice work (e.g. **S1**, **S2** in `strategy.md` and **`Anchor`** `S1=…` / `S2=…` in `term-registry.md`) uses the **same global OOAD phase numbers** as the process table for everything **after** scan. The **first** per-slice extraction step is **Phase 2** (`nouns-verbs-rules-and-states`), **not** a slice-local “Phase 1.” Phase **1** is workspace-wide **domain-scan** only. See **`term-registry.md` → Slices and global phase numbers**.
+**Per-slice extraction** after scan uses the **same phase-id chronicle** as **`process.md`**. The **first** detailed per-slice capture is **`nouns-verbs-rules-and-states`** (then **`raw-candidate-list`**, …) — **not** a second **`domain-scan`**. Use **phase-id** names in strategy and registry (and **`*[Sn · phase-id]*`** tags in the model), not “Phase 1 / Phase 2” as step names. See **`term-registry.md`** and **`process.md` → Capture ladder**.
 
 For the scan procedure itself, see the **Domain scan** phase. This page explains **what each artifact is for** and how **`strategy.md`** relates to **`domain-scan-results.md`**.
 
@@ -31243,7 +30916,8 @@ Created during domain scan under `<workspace>/abd-ooad/`:
 | `strategy.md` | **Living strategy:** **modeling scope**; **§1 source slices** (table: Order, Goal, **Source** — chapters, files, modules, or mixed — **Coverage**, **Importance**); **§2 slice plan** (per-slice **goal restated** + **phases**); **coverage across steps**; **cross-slice integration**; **anchor and subdomain elaboration**; **execution plan (normative)** — phase slugs with **slice IDs** on every line; plus **approach** and **dated pivots**. | **Yes** — whenever scope, order, slice depth, subdomain mapping, or integration changes. |
 | `domain-scan-model.md` | Class sketch (markdown) at scan fidelity. | Yes, in later phases — not only during scan. |
 | `domain-scan-model.drawio` | Diagram at scan fidelity. | Same as model.md. |
-| `term-registry.md` | Terms, **Classification** (model role), **Status** (OOAD scale), confidence — seeded at scan. | **Yes** — every later phase updates Step, Classification, and Status as the model evolves. |
+| `term-registry.md` | Terms, **Targets** (bulleted typed pointers), **Notes** — seeded at scan. | **Yes** — every later phase-id updates **Targets** and **Notes** as the model evolves. See **`library/term-registry.md`**. |
+| `terms.md` (per slice) | Evidence ledger by **`## [Anchor module]`** — quotes, promotion log. | **Yes** — from **`nouns-verbs-rules-and-states`** onward for that slice. Template: **`templates/terms-template.md`**. |
 
 **Plus** (when workspace is configured): **`progress/`** checklists — see **`library/strategy-execution-and-checklists.md`**. **`generate.py`** creates **`process-checklist.md`**, **`<phase>-checklist.md`**, and (abd-ooad) **`strategy-run-checklist.md`** when templates exist and files are missing. Normative phase steps stay in **`content/parts/phases/<phase>.md`**. These are the **only** place for session tick marks.
 
@@ -31278,8 +30952,8 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 
 1. **Strategy** — Keep **`strategy.md`** aligned with reality; append *Ongoing strategic decisions* when you pivot.
 2. **Strategy execution** — Tick **`progress/strategy-run-checklist.md`** as you **complete** each phase for its declared scope.
-3. **Phase work** — For the active phase, run **`generate.py --phase <slug>`** and tick **`progress/<slug>-checklist.md`** for action steps.
-4. **Registry** — Keep `term-registry.md` aligned with the current phase (Step, Classification, Status).
+3. **Phase work** — For the active phase-id, run **`generate.py --phase <phase-id>`** (or **`generate.py --stage <A|B|…|F>`** for a stage) and tick **`progress/<phase-id>-checklist.md`** for action steps.
+4. **Registry** — Keep `term-registry.md` aligned with the current phase-id (**Targets** + **Notes**); keep slice **`terms.md`** in sync for verbatim evidence.
 5. **Results** — Touch `domain-scan-results.md` only for corrections to the original scan snapshot.
 
 ---
@@ -31299,26 +30973,45 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 
 # Strategy execution and checklists (abd-ooad)
 
-**Canonical doc** for: (1) **strategy** vs **live ticks**, (2) **which files** hold checkboxes, (3) **how** `generate.py` creates workspace **`progress/`** files. Does **not** replace **[process.md](../process.md)** (process tables, `generate` / `build`) or **[skill-structure-and-concepts.md](../base/skill-structure-and-concepts.md)** (repo layout).
+**Canonical doc** for: (1) **strategy** vs **live ticks**, (2) **which files** hold checkboxes, (3) **how** `generate.py` creates workspace **`progress/`** files, (4) **stages**, **revisits / disruption** on the same checklist. Does **not** replace **[process.md](../process.md)** (phase chronicle, `generate` / `build`) or **[skill-structure-and-concepts.md](../base/skill-structure-and-concepts.md)** (repo layout).
 
-Only **`strategy.md`** defines **scope** and **which phases in what order**; checklists are where you **tick** progress.
+Only **`strategy.md`** defines **scope** and **which phase-ids (or stages) in what order**; checklists are where you **tick** progress.
 
 ---
 
 ## Workflow
 
-1. **Domain scan** — produce scan artifacts (see **`strategy-led-generation`**).
+1. **Domain scan** — produce scan artifacts (see **`strategy-led-generation`**). Phase-id: **`domain-scan`**.
 2. **Strategy** — fill **`strategy.md`** from **`templates/strategy.md`**:
    - **Modeling scope** — corpus or product boundary; **source type** (book vs repo vs mixed).
    - **§1 Source slices** — ordered table: **Goal**, **Source** (chapters, files, modules, APIs — whatever locates work), **Coverage** (depth this pass), **Importance**; stable **slice IDs** reused everywhere.
-   - **§2 Slice plan** — per slice: **goal restated**, **unit kind**, **phases** (execution step numbers / slugs), produces, depends-on.
-   - **Coverage across steps** — matrix: every slice → which **execution plan** steps touch it → **depth** → deferrals.
+   - **§2 Slice plan** — per slice: **goal restated**, **unit kind**, **phase-ids** (or **stages**) you will run, produces, depends-on.
+   - **Coverage across steps** — matrix: every slice → which **execution plan** phase-ids touch it → **depth** → deferrals.
    - **Cross-slice integration** — cross-boundary types and ordering (From → To + narrative).
-   - **Anchor and subdomain elaboration** (when anchors have attached types) — map subdomains to slices and execution §.
-   - **Execution plan (normative)** — ordered phase **slugs**; **each line cites slice IDs** (mirror **`strategy-run-checklist.md`**).
+   - **Anchor and subdomain elaboration** (when anchors have attached types) — map subdomains to slices and execution phase-ids.
+   - **Execution plan (normative)** — ordered **phase-id** strings; **each line cites slice IDs** (mirror **`strategy-run-checklist.md`**). Optionally group work by **stage A–F** (see **`process.md` → Stage map**).
+   - **Stage completion (after each stage)** — what completed; tensions; **new checklist lines** for revisits (below); **audit** — append dated line under *Ongoing strategic decisions*.
    - **Approach going forward** + **Ongoing strategic decisions** — short narrative and dated pivots.
 3. **Align live checklists** — keep **`strategy-run-checklist.md`** in sync with the execution plan (same order and scope). Optional **`templates/strategy-run-checklist.md`** seed; optional **`templates/progress-README.md`** → **`progress/README.md`** for slice-specific files under **`progress/slices/`**.
-4. **Run phases** — for the **current** phase: `python scripts/base/generate.py --phase <slug>`. Tick **`strategy-run-checklist.md`** when a phase is **done** for its declared scope; tick **`<slug>-checklist.md`** for **steps inside** that phase.
+4. **Run phases** — **`python scripts/base/generate.py --phase <phase-id>`** for one step, or **`python scripts/base/generate.py --stage <A|B|…|F>`** for a full stage (same order as **`process.md`** / **`skill-config.json` → `process_stages`**). Tick **`strategy-run-checklist.md`** when a phase (or stage slice) is **done** for its declared scope; tick **`<phase-id>-checklist.md`** for **steps inside** that phase.
+
+---
+
+## Revisits and disruption (same checklist)
+
+A **revisit** is **not** a separate rerun workflow. While executing (including late **stage F**), if work must **go back** to an earlier **stage** or **phase-id**, **add a new row** to **`strategy-run-checklist.md`** — e.g. `- [ ] Revisit stage B — <short reason>` or `- [ ] Re-run nouns-verbs-rules-and-states — slice S1 — reconcile new anchor` — at the **bottom** or **inserted** where it fits the agreed order. The checklist is the single source of truth for **forward** work plus **backward** revisits.
+
+**Audit:** When you add a revisit row, append a dated line under **`strategy.md` → Ongoing strategic decisions**; never delete prior pivots.
+
+### Hint table (non-prescriptive)
+
+| You are here | Often need to touch |
+|--------------|---------------------|
+| Stage F | Stage E, D, or C (naming / validation feedback) |
+| Stage E | Stage C (scenarios expose structure gaps) |
+| Stage D | Stage C (splitting responsibilities) |
+
+Use this as a **prompt**, not a rule.
 
 ---
 
@@ -31326,9 +31019,9 @@ Only **`strategy.md`** defines **scope** and **which phases in what order**; che
 
 | Layer | File | What you tick |
 | --- | --- | --- |
-| **Strategy execution** | **`progress/strategy-run-checklist.md`** | **Which phases** you will run, **in order**, each with **scope** that **includes the same slice IDs** as **`strategy.md` → Execution plan**. Optional: **`progress/slices/<slice-id>-checklist.md`** per slice — see **`progress/README.md`** in the workspace (if present). |
+| **Strategy execution** | **`progress/strategy-run-checklist.md`** | **Which phase-ids** (or stages) you will run, **in order**, each with **scope** that **includes the same slice IDs** as **`strategy.md` → Execution plan**; **includes revisit rows** when you must go backward. Optional: **`progress/slices/<slice-id>-checklist.md`** per slice — see **`progress/README.md`** in the workspace (if present). |
 | **Full pipeline (reference)** | **`progress/process-checklist.md`** | **Every** phase in **`phase_files`** — useful as a map; optional if you rely only on strategy-run. |
-| **Phase steps** | **`progress/<phase>-checklist.md`** | **Action checklist** copied from **`content/parts/phases/<phase>.md` → ## Action Checklist**. |
+| **Phase steps** | **`progress/<phase-id>-checklist.md`** | **Action checklist** copied from **`content/parts/phases/<phase-id>.md` → ## Action Checklist**. |
 
 **Implementation:** **`scripts/base/workspace_checklists.py`** (paths, behavior, `--no-ensure-checklists`).
 
@@ -31338,10 +31031,10 @@ Only **`strategy.md`** defines **scope** and **which phases in what order**; che
 
 | Kind | What it tracks | Where it lives | How it gets there |
 | --- | --- | --- | --- |
-| **Normative reference** | Rules in **this document** — strategy vs ticks, layers, `generate.py` behavior | **`content/parts/library/strategy-execution-and-checklists.md`** | Authored in the skill; **not** created by **`generate.py`**. |
-| **Pipeline position** | Which **phase** of the pipeline you are in | **`<active_skill_workspace>/<skill_name>/progress/process-checklist.md`** | **Created** on first **`python scripts/base/generate.py --phase <slug>`** when that file is **missing**, if **`skill-config.json` → `workspace.active_skill_workspace`** is set. One `- [ ]` line per slug in **`phase_files`** (labels from **`phase_section_headings`** when present). **Does not overwrite** an existing file. |
-| **Phase action steps** | **Steps inside** the current phase | **`<active_skill_workspace>/<skill_name>/progress/<phase-slug>-checklist.md`** | **Created** in the **same** `generate.py` run when that file is **missing**. Steps are taken from **`## Action Checklist`** in **`content/parts/phases/<phase-slug>.md`**, or from task lines (`- [ ]` / `- [x]`) in that file if the section is absent. **Does not overwrite** an existing file. |
-| **Strategy execution** (workspace) | Ordered phases matching **`strategy.md`** | **`progress/strategy-run-checklist.md`** | Seeded from template when **`generate.py`** / workspace checklist logic creates it; **you** align it with **`strategy.md`**. |
+| **Normative reference** | Rules in **this document** — strategy vs ticks, layers, revisits, `generate.py` behavior | **`content/parts/library/strategy-execution-and-checklists.md`** | Authored in the skill; **not** created by **`generate.py`**. |
+| **Pipeline position** | Which **phase-id** of the pipeline you are in | **`<active_skill_workspace>/<skill_name>/progress/process-checklist.md`** | **Created** on first **`python scripts/base/generate.py --phase <phase-id>`** (or first phase of **`--stage`**) when that file is **missing**, if **`skill-config.json` → `workspace.active_skill_workspace`** is set. One `- [ ]` line per slug in **`phase_files`** (labels from **`phase_section_headings`** when present). **Does not overwrite** an existing file. |
+| **Phase action steps** | **Steps inside** the current phase | **`<active_skill_workspace>/<skill_name>/progress/<phase-id>-checklist.md`** | **Created** in the **same** `generate.py` run when that file is **missing**. Steps are taken from **`## Action Checklist`** in **`content/parts/phases/<phase-id>.md`**, or from task lines (`- [ ]` / `- [x]`) in that file if the section is absent. **Does not overwrite** an existing file. |
+| **Strategy execution** (workspace) | Ordered phase-ids (and revisit rows) matching **`strategy.md`** | **`progress/strategy-run-checklist.md`** | Seeded from template when **`generate.py`** / workspace checklist logic creates it; **you** align it with **`strategy.md`**. |
 
 ### Names and workspace
 
@@ -31362,9 +31055,9 @@ Only **`strategy.md`** defines **scope** and **which phases in what order**; che
 
 ---
 
-## Phase slugs
+## Phase IDs
 
-Use exact slugs from **`skill-config.json` → `phase_files`** (e.g. `nouns-verbs-rules-and-states`, `domain-scan`). Labels for humans are in **`phase_section_headings`**.
+Use exact **phase-id** strings from **`skill-config.json` → `phase_files`** (e.g. `nouns-verbs-rules-and-states`, `domain-scan`). Labels for humans are in **`phase_section_headings`**. **Stages** **A–F** map to ordered phase-id lists in **`process_stages`** — see **`process.md`**.
 
 ---
 
@@ -31383,168 +31076,147 @@ Use exact slugs from **`skill-config.json` → `phase_files`** (e.g. `nouns-verb
 
 ## What a Term Is
 
-A **Term** is any concept identified from the source material that may become part of the domain model. At the time of identification, a Term is not committed to a model role — it might become a class, a property, a value type, an association, or nothing at all. The registry tracks Terms as the modeling phases determine what each one actually is.
+A **Term** is any concept identified from the source material that may become part of the domain model. At identification time it is not committed to a model role — it might become a class, a property, a value type, an association, or nothing. The registry tracks Terms as modeling **phase-ids** (see **`process.md` → Phase chronicle**) determine what each one actually is.
 
-This is distinct from other uses of "actor" in this domain:
-- In MM3E and FoundryVTT, "Actor" has a specific system meaning (a character, creature, or entity in the game world).
-- In the registry, everything is a Term until the model says otherwise.
+This is distinct from other domain uses of overloaded words (e.g. in some systems “Actor” is a system type). In the registry, everything is a Term until the model says otherwise.
 
-**File:** `<workspace>/abd-ooad/term-registry.md`
-**Never embedded** inside step outputs — it lives in its own file and is referenced from each step's model doc.
+**File:** `<workspace>/abd-ooad/term-registry.md` (or per-slice path if your workspace layout nests slices).
 
----
-
-## Step Reference — Short Names
-
-Use these short names in the **Step** column of the registry when adding or updating a row.
-
-| Short Name | Phase | Description |
-|-----------|-------|-------------|
-| SETUP | workspace-and-config | Workspace initialization |
-| SCAN | domain-scan | Source scan and anchor identification |
-| NOUNS | nouns-verbs-rules-and-states | Extract nouns, verbs, rules, states |
-| CANDS | raw-candidate-list | Raw candidate class list |
-| THINGS | thing-vs-data-about-a-thing | Separate things from data-about-things |
-| RESP | responsibilities-before-operations | Assign responsibilities |
-| PROPS | add-properties-semantically-tight | Add semantically tight properties |
-| OPS | turn-verbs-into-operations | Turn verbs into operations |
-| RELS | relationships-and-cardinality | Relationships and cardinality |
-| INV | invariants-in-the-model | Identify invariants |
-| BLOAT | watch-for-bloated-classes | Detect bloated classes |
-| ROLES | smashed-abstractions-and-hidden-roles | Uncover hidden roles |
-| INHERIT | inheritance-when-behavior-generalizes | Apply inheritance |
-| ABST | abstract-classes-and-interfaces | Abstract classes and interfaces |
-| COMP | prefer-composition | Prefer composition over inheritance |
-| STATES | model-state-transitions | Model state transitions |
-| ITER | iterative-refinement | Iterative refinement pass |
-| TENSION | tension-as-a-signal | Resolve tensions |
-| COHESION | what-changes-together | What changes together |
-| VALIDATE | validate-with-scenarios | Validate with scenarios |
-| NAMES | refine-names | Refine class and concept names |
-| LAYERS | model-in-layers | Model in layers |
+**Never embed** the full registry inside step outputs — it lives in its own file and is referenced from each phase’s model doc.
 
 ---
 
-## Slices and global phase numbers (normative)
+## Relationship to `terms.md` (per slice)
 
-The **OOAD process table** (see **`process.md`** / built **AGENTS.md** — “Process Table”) assigns **global phase numbers** **0–21** to phase **slugs** (e.g. **Phase 2** = `nouns-verbs-rules-and-states`, **Phase 3** = `raw-candidate-list`, **Phase 4** = `thing-vs-data-about-a-thing`).
-
-- **Phase 1** (`domain-scan`, short name **SCAN**) runs **once per workspace** (or once per strategy engagement). It produces anchors, `strategy.md`, `domain-scan-results.md`, and seeds **`term-registry.md`**. It is **not** repeated as “each slice’s Phase 1.”
-- **Per-slice modeling** (folders or **Anchor** columns **`S1=…`**, **`S2=…`**, …) **aligns with the same global numbers from Phase 2 onward:** the **first** extraction artifact in a slice is always **Phase 2** (**NOUNS**), then **3** (**CANDS**), **4** (**THINGS**), etc. Do **not** label slice-local nouns-verbs files as Phase 1 — that collides with **SCAN**.
-- **Phase notes** in italics (optional): `*[Sn · Phase N]*` where **N** is the **global** process-table number. Add slug, tension id, or short reminder *after* the tag on the same line if needed (e.g. *thing-vs-data*, *registry Tn*). For early “likely class” judgments: `*[S1 · Phase 3]* Likely class : …`.
-
----
-
-## Registry Columns
-
-| Column | Values | Notes |
-|--------|--------|-------|
-| **Term** | Concept name from the source | Exact word or phrase as found — rename in the NAMES step if needed |
-| **Classification** | See **Classification** below | **What we want to model this as** — target shape in the domain model (not lifecycle) |
-| **Step** | Short name from table above (SCAN, NOUNS, …) | Step that first identified or last materially updated this Term |
-| **Confidence** | High / Medium / Low | How sure we are this belongs in the model |
-| **Status** | See **Status (OOAD scale)** below | Where this Term sits in the modeling workflow |
-| **Notes** | Free text | Anchor-test results, owning module for supporting classes (`Supporting class — X module`), competing interpretations, pointers to tensions in `domain-scan-results.md`, and follow-ups |
+- **`terms.md`** (alongside `domain-noun-verb.md` in a slice folder) holds **module-scoped evidence**: quotes, raw extractions, promotion history under **`## [Anchor module]`** headings aligned with the integrated domain model.
+- **`term-registry.md`** remains the **term-centric analysis record**: one row per Term; **Targets** = where the term landed; **Notes** = substantive reasoning (anchor tests, classification, tensions) — **full paragraphs are fine** when the work needs them.
+- **Principle:** Notes depth is **not** reduced because `terms.md` exists. `terms.md` reduces **duplication of verbatim source text** and organizes evidence by module; it does **not** justify one-line registry Notes unless the term truly needs only one line.
+- **Avoid duplicate verbatim quotes:** keep the quote in **`terms.md`** and in **Notes** point to `terms.md#anchor-module` (or the term subsection); keep analysis-only text in Notes as today.
 
 ---
 
-## Classification — what we want to model this as
+## Phase IDs (normative references)
 
-Use **one** value per row. This is the **intended model role**, not how “mature” the idea is (that is **Status**).
+Refer to pipeline steps **only** by **`phase-id`** — the short **kebab-case** slug matching **`skill-config.json` → `phase_files`** and the **`process.md`** chronicle (e.g. `domain-scan`, `nouns-verbs-rules-and-states`, `refine-names`). Do **not** use “Phase 1 / Phase 2” as **names** for steps; those ordinals drift. Optional **model tags** in the domain model use **`*[Sn · phase-id]*`** (e.g. **`*[S1 · refine-names]*`**) — see **`library/domain-model`**.
 
-| Value | Meaning |
+---
+
+## Registry columns
+
+| Column | Role |
+|--------|------|
+| **Term** | Concept name from the source — exact word or phrase as found; rename in **`refine-names`** if needed. |
+| **Targets** | Where this term **landed** in the model: a **bulleted list inside the table cell** (Markdown list), **one typed pointer per line**. Unallocated / not yet placed → leave empty or **—**. |
+| **Notes** | Anchor-test results, slice/anchor context (**`S1=…`** style if useful), competing interpretations, tensions, pointers to **`terms.md`** when verbatim evidence lives there — same substance as historical scan/noun-verb rows. |
+
+**Optional:** If you need a single “primary kind” for tooling, add one optional column **after** Term (e.g. **Kind**) — otherwise prefer **Targets**-only for a slim table.
+
+---
+
+## Targets — typed pointers (one per bullet)
+
+**Normative style:** each bullet is **one** typed target. **Do not** concatenate targets with `|` or `;` on one run-on line.
+
+Examples of pointer forms (extend as your model needs):
+
+- `entity:Payment`
+- `vo:Money`
+- `property:Payment.amount`
+- `operation:Order.submit`
+- `invariant:…`
+- `policy:…`
+- `relationship:Customer — Order`
+
+**Renders in Markdown tables** — use `<br>` between bullets if your renderer collapses list-in-cell (GitHub-style often accepts list-in-cell; validate in your preview):
+
+```markdown
+| Term   | Targets |
 |--------|---------|
-| **anchor (class + module)** | Passes the anchor test: this concept is a **core class** and owns a **module** (dashed frame + same-named core class). Use only for backbone modules. |
-| **class** | A domain **class** that is not its own module yet — e.g. supporting class inside a frame, or a type you expect to become a class without its own module. |
-| **property** | Modeled as a **semantic property** (attribute / value on a class), not a separate type. |
-| **field** | Modeled as a **typed field / slot** (data member, possibly simple type or value object). |
-| **example (instance)** | An **illustrative instance**, sample, or scenario object — not a type in the model. |
-| **relationship** | An **association**, link, or dependency between concepts — may become an association, association class, or navigable role. |
-| **invariant (rule)** | A **domain rule**, constraint, or policy — often becomes behavior, guard, or explicit rule text on a class. |
-
-**Diagram mapping (when relevant):** `anchor (class + module)` → module frame + core class; `class` → class box; `relationship` → association; `invariant (rule)` → note, constraint, or operation; `property` / `field` → attributes on a class.
+| amount | - `entity:Payment`<br>- `vo:Money`<br>- `property:Payment.amount` |
+```
 
 ---
 
-## Status (OOAD scale)
+## Notes — still substantive
 
-**Status** is **lifecycle / confidence in the workflow**, not the model shape. Pick the value that best fits; states are **not** always a strict left-to-right pipeline.
+Notes remain the place for **classification reasoning**, anchor tests, tensions, and follow-ups. **Do not** make Notes sparse by default. When raw quotes live in **`terms.md`**, write in Notes: *“Verbatim quote in `terms.md` → [Anchor module] / term …”* and keep analysis here.
 
-| Status | When to use |
-|--------|-------------|
-| **Ambiguous** | You cannot yet say what the Term is or how it sits next to others. |
-| **Tension** | Competing interpretations, overlapping boundaries, or conflicting source pulls — needs resolution before the model can commit. |
-| **Candidate** | Plausible model role; narrowed but not yet locked (often after scan, before THINGS/RELS). |
-| **Deferred** | Explicitly parked — revisit in a named later step or phase. |
-| **Active** | In current modeling scope; being updated in this pass. |
-| **Solidified** | Named, placed, and stable in the model for the current iteration — ready to treat as “done” unless source or scope changes. |
-
-**Typical (non-binding) progression:** Ambiguous → Tension or Candidate → Active → Solidified. **Deferred** can apply after any stage. A Term can return from Deferred to Active when scope returns to it.
+**Slice / anchor:** You may record **`S1=Character`** (or similar) in **Notes** or a minimal **Slice** column if the table template adds one — your engagement may require it for MM3E-style multi-slice tables.
 
 ---
 
-## Registry format (wide Notes)
+## Classification (reference — not required as its own column)
 
-**Prefer an HTML `<table>` with `<colgroup>`** so the **Notes** column gets most of the width (~50–55%). **Classification** labels can be long — give that column ~12–14% if needed. Plain Markdown pipe tables allocate columns evenly and make long Notes hard to read in the editor and in preview.
+If you **merge** the old **Classification** column into **Targets**, use typed pointers (`entity:…`, `property:…`, …) so the table stays one row per Term. The **meaning** of former classification values is unchanged:
 
-Use this skeleton (adjust `width` percentages if needed):
+| Former value | Meaning |
+|--------------|--------|
+| **anchor (class + module)** | Passes the anchor test: core class owns a **module** (frame + same-named core class). |
+| **class** | Domain class not its own module yet — supporting class, or expected class without module. |
+| **property** | Modeled as semantic property on a class. |
+| **field** | Typed field / slot. |
+| **example (instance)** | Illustrative instance — not a type. |
+| **relationship** | Association, link, dependency. |
+| **invariant (rule)** | Domain rule, constraint, policy. |
+
+---
+
+## Registry format (HTML table recommended for Notes width)
+
+Prefer an HTML `<table>` with `<colgroup>` so **Notes** gets most width (~50–55%). **Targets** can be ~18–22%.
 
 ```html
 <table>
 <colgroup>
-  <col style="width:9%" />
-  <col style="width:14%" />
-  <col style="width:6%" />
-  <col style="width:9%" />
-  <col style="width:9%" />
-  <col style="width:53%" />
+  <col style="width:12%" />
+  <col style="width:22%" />
+  <col style="width:66%" />
 </colgroup>
 <thead>
 <tr>
   <th>Term</th>
-  <th>Classification</th>
-  <th>Step</th>
-  <th>Confidence</th>
-  <th>Status</th>
+  <th>Targets</th>
   <th>Notes</th>
 </tr>
 </thead>
 <tbody>
 <tr>
   <td>Character</td>
-  <td>anchor (class + module)</td>
-  <td>SCAN</td>
-  <td>High</td>
-  <td>Active</td>
-  <td>Central entity; all rules attach to it</td>
-</tr>
-<tr>
-  <td>Power</td>
-  <td>class</td>
-  <td>SCAN</td>
-  <td>High</td>
-  <td>Active</td>
-  <td>Supporting class — Character module. Core capability unit.</td>
-</tr>
-<tr>
-  <td>Device</td>
-  <td>class</td>
-  <td>SCAN</td>
-  <td>Medium</td>
-  <td>Tension</td>
-  <td>Removable Power vs Equipment? Boundary unclear — see T2.</td>
+  <td>- <code>entity:Character</code><br>- <code>property:Character.powerLevel</code></td>
+  <td>Central entity; anchor test ✓. Slice <code>S1=Character</code>. Long quotes in <code>terms.md</code> → Character module.</td>
 </tr>
 </tbody>
 </table>
 ```
 
-For very small registries only, a Markdown pipe table is acceptable:
+Small registries: Markdown pipe table is acceptable.
 
-```markdown
-| Term | Classification | Step | Confidence | Status | Notes |
-|------|----------------|------|------------|--------|-------|
-| Character | anchor (class + module) | SCAN | High | Active | Short note only |
-```
+---
+
+## Migration from legacy wide tables
+
+If you have **Step**, **Confidence**, **Status**, and **Classification** columns:
+
+1. **Term** → keep.
+2. **Classification** + committed placements → **Targets** bullets (`entity:…`, `property:…`, …).
+3. **Step** → fold into **Notes** as *“First touched at phase-id `domain-scan`”* or leave implicit if noisy.
+4. **Confidence / Status** → merge into **Notes** (*“Legacy: was High / Active”*) only if still useful; otherwise drop.
+5. **Notes** → preserve text; add pointer to **`terms.md`** where verbatim evidence moved.
+
+---
+
+## Slices and `domain-scan` vs per-slice work
+
+- **`domain-scan`** runs **workspace-wide** (or once per strategy engagement): seeds **`term-registry.md`**, anchors, **`strategy.md`**, scan artifacts. It is **not** “each slice’s first phase” by name — use **phase-id** `domain-scan` only.
+- Per-slice deep extraction aligns with **`nouns-verbs-rules-and-states`** and **`raw-candidate-list`** in **chronicle order** after scan. **`terms.md`** evolves from those phase-ids onward for that slice.
+
+---
+
+## References
+
+- **`process.md`** — Phase chronicle, stages A–F, capture ladder  
+- **`terms.md`** template — `templates/terms-template.md`  
+- **Strategy / revisits** — `library/strategy-execution-and-checklists.md`
 
 
 ---
@@ -31995,7 +31667,7 @@ The CLI does not yet support notes — add them manually in draw.io after CLI bu
 | Phase | Add invariants? |
 |-------|----------------|
 | domain-scan | Yes — add the invariants you found during the scan (inline preferred at this fidelity) |
-| domain-noun-verb (Step 1) | No — extraction only; invariants captured in registry notes |
+| domain-noun-verb (Phase 2) | No — extraction only; invariants captured in registry notes |
 | raw-candidate-list through responsibilities | Yes — as invariants become confirmed, add to diagram |
 | Full model phases | Yes — invariants are a required part of the final model |
 
@@ -32884,19 +32556,23 @@ You are the **domain modeler and OOAD practitioner** using this skill: you provi
 
 # Domain model Markdown
 
-This skill’s **domain model** is captured in Markdown  a parallel **Draw.io** class diagram. Use **`templates/domain model template.md`** for companion docs; align with **`templates/domain model template.drawio`** when both exist.
+The **domain model** lives in workspace **`domain*.md`** files; **Draw.io** diagrams are **visual twins** of that content — update markdown first, then render or hand-sync the diagram (see **class-diagrams**, **using-diagram-cli**).
 
-**Phase 2 — `domain-noun-verb.md`:** anchor sections, **Candidate …** lists, full or pared class boxes. Slice files are **content only** — no skill paths or process meta in the artifact body.
+**Integrated slice model + evidence:** Prefer **`templates/domain-model-integrated.md`** alongside **`templates/terms-template.md`** (`terms.md` per slice). Class **Notes** use **`*[Sn · phase-id]*`** (e.g. **`*[S1 · refine-names]*`**) — **phase-id** from **`process.md`**, not numeric step names.
 
-**Phase 3 — bucket roll-up:** sort candidates into **entities**, **value objects**, **processes**, **policies**, **roles**, **events** (tables in **`raw-candidate-list.md`** or appended to **`domain-noun-verb.md`**). Same **content-only** rule: no skill/process boilerplate in slice files.
+**`domain-scan`:** **`domain-scan-results.md`**, **`domain-scan-model.md`**, then **`domain-scan-model.drawio`**.
 
-**Optional — `domain-raw-candidates.md`:** same Phase 3 content as **classes under anchor modules** (`### Name : << Entity >>` / `<< ValueObject >>` / `<< Process >>` / …), notes below — **not** a second copy of bucket tables. Cross-cutting material → **`## Cross-anchor`** or appendix. **`templates/domain-raw-candidates-template.md`**.
+**`nouns-verbs-rules-and-states` — `domain-noun-verb.md`:** anchor sections, **Candidate …** lists, class boxes. Slice files are **domain content only** — no skill paths or process boilerplate in the artifact body.
+
+**`raw-candidate-list`:** Prefer **`domain-raw-candidates.md`** — classes under anchors with notes. Optional single tabular roll-up (**`raw-candidate-list.md`** or appendix to **`domain-noun-verb.md`**) — **not** the same tables twice plus an integrated file.
+
+**Templates:** **`templates/domain model template.md`**, **`templates/domain-raw-candidates-template.md`**, **`templates/domain-model-integrated.md`**.
 
 ---
 
 ## Domain concept template
 
-Each **domain concept** (class, interface, value object, or aggregate) is documented under a clear heading, for example:
+Each concept is documented under a clear heading, for example:
 
 ```markdown
 ## **Payment**
@@ -32905,73 +32581,62 @@ Each **domain concept** (class, interface, value object, or aggregate) is docume
 
 ### Properties
 - Money amount
-- …
 
 ### Operations
 - initiate() → Authorization
 ```
 
-From **Step 5** onward, prefer **typed** members (see **Notation evolution** below). Earlier steps stay **pre-notation** (bullets and prose).
+From **Phase 6** onward (`add-properties-semantically-tight`), prefer **typed** members (see **Notation evolution**). Earlier phases stay informal (bullets and prose).
 
 ---
 
-## Continual refinement — class definition + diagram
+## Markdown and diagram
 
-**Continual refinement** means you **grow** the model across steps: each step file may add or tighten concepts. The Markdown spec and the class diagram are **two views of the same model** — update both when your project uses dual artifacts so they do not drift (see **[Class diagrams](class-diagrams.md)**).
+The Markdown spec and the class diagram are **two views of the same model** — keep them aligned when both exist (**class-diagrams**).
 
 ---
 
-## **newly added** tag
+## **newly added** tag (optional)
 
-In the **worked example** threads (e.g. payments), the marker **newly added** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
+In long-running examples, **newly added** on a line marks a property or operation that first appears in *this* file — useful for deltas across files.
 
 ---
 
 ## Notation evolution
 
-| Phase | Markdown style |
-|--------|------------------|
-| **Steps 1–4** | Informal: bullets, short phrases, responsibilities, candidate names; typed `- <type> property` lines arrive in Step 5. |
-| **Step 5+** | Formal typed members: `- <Type> propertyName`, `operationName(...) → ReturnType`. |
+| Phase range | Markdown style |
+|-------------|----------------|
+| **2–5** | Informal: bullets, candidates, responsibilities; typed `- <type> property` lines from **Phase 6** onward. |
+| **Phase 6+** | Formal: `- <Type> propertyName`, `operationName(...) → ReturnType`. |
 
 ---
 
 ## Subtype sections
 
-When you introduce substitutable specializations, add an explicit subtype heading so the structure is visible in the spec and in diagrams:
+When you introduce substitutable specializations, add an explicit subtype heading so structure is visible in spec and diagrams:
 
 ```markdown
 ### **Subtype** : **PaymentMethod**
 ```
 
-Put **`**newly added**`** on subtype **operation** (or property) lines when that member is **first** introduced for that subtype.
-
 ---
 
 ## Invariants
 
-Attach invariants to the **property** or **operation** they constrain, using a dedicated line:
+Attach invariants to the property or operation they constrain:
 
 ```markdown
 **Invariant:** …
 ```
 
-Mark **`**newly added**`** when you **first** attach an invariant to a given member line.
-
 ---
 
-## Early steps: terms, mechanisms, story map
+## Class diagram and spec
 
-Before typed properties exist, align extracted **nouns, verbs, rules, states** with your workspace’s **terms & mechanisms** and **shaped story map** (or equivalent). That is the same “grow the model as you go” idea: informal extraction first, then formal types.
+When you maintain **`map-model-spec.json`** or similar, re-run the project’s diagram script after material changes so Draw.io stays aligned.
 
----
-
-## Class diagram and spec (visual twin)
-
-When you maintain a machine-readable spec such as **`map-model-spec.json`**, re-run your project’s class-diagram render script (for example **`render_map_model_class_diagram.py`**) after material changes so the **Draw.io** diagram stays the **visual twin** of the spec.
-
-- **[Class diagrams](class-diagrams.md)** — templates, relationship types, keeping `.md` and `.drawio` aligned.  
-- **[Using the Diagram CLI](using-diagram-cli.md)** — building diagrams with **`scripts/drawio_cli.py`**.
+- **Class diagrams** — templates, relationships, keeping `.md` and `.drawio` aligned.  
+- **Using the Diagram CLI** — `scripts/drawio_cli.py`.
 
 ---
 
@@ -32979,9 +32644,9 @@ When you maintain a machine-readable spec such as **`map-model-spec.json`**, re-
 
 | Topic | File |
 |--------|------|
-| Term tracking across steps | [term-registry.md](term-registry.md) |
+| Term tracking | [term-registry.md](term-registry.md) |
 | Strategy-led runs | [strategy-led-generation.md](strategy-led-generation.md) |
-| Layout and lanes | [class-diagram-layout-rules.md](class-diagram-layout-rules.md) |
+| Layout | [class-diagram-layout-rules.md](class-diagram-layout-rules.md) |
 
 
 ---
@@ -33073,9 +32738,9 @@ The absence of a matching core class is the clearest signal that you have not ye
 
 # Strategy-led generation
 
-Domain scan (OOAD **phase 1**) does not only produce a single “results” file. It establishes a **small set of workspace files** under `<workspace>/abd-ooad/` that work together. Some are **frozen findings** from the scan; others are **living documents** you update as modeling continues.
+Domain scan (phase-id **`domain-scan`**) does not only produce a single “results” file. It establishes a **small set of workspace files** under `<workspace>/abd-ooad/` that work together. Some are **frozen findings** from the scan; others are **living documents** you update as modeling continues.
 
-**Slices start at global Phase 2:** Source-slice work (e.g. **S1**, **S2** in `strategy.md` and **`Anchor`** `S1=…` / `S2=…` in `term-registry.md`) uses the **same global OOAD phase numbers** as the process table for everything **after** scan. The **first** per-slice extraction step is **Phase 2** (`nouns-verbs-rules-and-states`), **not** a slice-local “Phase 1.” Phase **1** is workspace-wide **domain-scan** only. See **`term-registry.md` → Slices and global phase numbers**.
+**Per-slice extraction** after scan uses the **same phase-id chronicle** as **`process.md`**. The **first** detailed per-slice capture is **`nouns-verbs-rules-and-states`** (then **`raw-candidate-list`**, …) — **not** a second **`domain-scan`**. Use **phase-id** names in strategy and registry (and **`*[Sn · phase-id]*`** tags in the model), not “Phase 1 / Phase 2” as step names. See **`term-registry.md`** and **`process.md` → Capture ladder**.
 
 For the scan procedure itself, see the **Domain scan** phase. This page explains **what each artifact is for** and how **`strategy.md`** relates to **`domain-scan-results.md`**.
 
@@ -33093,7 +32758,8 @@ Created during domain scan under `<workspace>/abd-ooad/`:
 | `strategy.md` | **Living strategy:** **modeling scope**; **§1 source slices** (table: Order, Goal, **Source** — chapters, files, modules, or mixed — **Coverage**, **Importance**); **§2 slice plan** (per-slice **goal restated** + **phases**); **coverage across steps**; **cross-slice integration**; **anchor and subdomain elaboration**; **execution plan (normative)** — phase slugs with **slice IDs** on every line; plus **approach** and **dated pivots**. | **Yes** — whenever scope, order, slice depth, subdomain mapping, or integration changes. |
 | `domain-scan-model.md` | Class sketch (markdown) at scan fidelity. | Yes, in later phases — not only during scan. |
 | `domain-scan-model.drawio` | Diagram at scan fidelity. | Same as model.md. |
-| `term-registry.md` | Terms, **Classification** (model role), **Status** (OOAD scale), confidence — seeded at scan. | **Yes** — every later phase updates Step, Classification, and Status as the model evolves. |
+| `term-registry.md` | Terms, **Targets** (bulleted typed pointers), **Notes** — seeded at scan. | **Yes** — every later phase-id updates **Targets** and **Notes** as the model evolves. See **`library/term-registry.md`**. |
+| `terms.md` (per slice) | Evidence ledger by **`## [Anchor module]`** — quotes, promotion log. | **Yes** — from **`nouns-verbs-rules-and-states`** onward for that slice. Template: **`templates/terms-template.md`**. |
 
 **Plus** (when workspace is configured): **`progress/`** checklists — see **`library/strategy-execution-and-checklists.md`**. **`generate.py`** creates **`process-checklist.md`**, **`<phase>-checklist.md`**, and (abd-ooad) **`strategy-run-checklist.md`** when templates exist and files are missing. Normative phase steps stay in **`content/parts/phases/<phase>.md`**. These are the **only** place for session tick marks.
 
@@ -33128,8 +32794,8 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 
 1. **Strategy** — Keep **`strategy.md`** aligned with reality; append *Ongoing strategic decisions* when you pivot.
 2. **Strategy execution** — Tick **`progress/strategy-run-checklist.md`** as you **complete** each phase for its declared scope.
-3. **Phase work** — For the active phase, run **`generate.py --phase <slug>`** and tick **`progress/<slug>-checklist.md`** for action steps.
-4. **Registry** — Keep `term-registry.md` aligned with the current phase (Step, Classification, Status).
+3. **Phase work** — For the active phase-id, run **`generate.py --phase <phase-id>`** (or **`generate.py --stage <A|B|…|F>`** for a stage) and tick **`progress/<phase-id>-checklist.md`** for action steps.
+4. **Registry** — Keep `term-registry.md` aligned with the current phase-id (**Targets** + **Notes**); keep slice **`terms.md`** in sync for verbatim evidence.
 5. **Results** — Touch `domain-scan-results.md` only for corrections to the original scan snapshot.
 
 ---
@@ -33149,26 +32815,45 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 
 # Strategy execution and checklists (abd-ooad)
 
-**Canonical doc** for: (1) **strategy** vs **live ticks**, (2) **which files** hold checkboxes, (3) **how** `generate.py` creates workspace **`progress/`** files. Does **not** replace **[process.md](../process.md)** (process tables, `generate` / `build`) or **[skill-structure-and-concepts.md](../base/skill-structure-and-concepts.md)** (repo layout).
+**Canonical doc** for: (1) **strategy** vs **live ticks**, (2) **which files** hold checkboxes, (3) **how** `generate.py` creates workspace **`progress/`** files, (4) **stages**, **revisits / disruption** on the same checklist. Does **not** replace **[process.md](../process.md)** (phase chronicle, `generate` / `build`) or **[skill-structure-and-concepts.md](../base/skill-structure-and-concepts.md)** (repo layout).
 
-Only **`strategy.md`** defines **scope** and **which phases in what order**; checklists are where you **tick** progress.
+Only **`strategy.md`** defines **scope** and **which phase-ids (or stages) in what order**; checklists are where you **tick** progress.
 
 ---
 
 ## Workflow
 
-1. **Domain scan** — produce scan artifacts (see **`strategy-led-generation`**).
+1. **Domain scan** — produce scan artifacts (see **`strategy-led-generation`**). Phase-id: **`domain-scan`**.
 2. **Strategy** — fill **`strategy.md`** from **`templates/strategy.md`**:
    - **Modeling scope** — corpus or product boundary; **source type** (book vs repo vs mixed).
    - **§1 Source slices** — ordered table: **Goal**, **Source** (chapters, files, modules, APIs — whatever locates work), **Coverage** (depth this pass), **Importance**; stable **slice IDs** reused everywhere.
-   - **§2 Slice plan** — per slice: **goal restated**, **unit kind**, **phases** (execution step numbers / slugs), produces, depends-on.
-   - **Coverage across steps** — matrix: every slice → which **execution plan** steps touch it → **depth** → deferrals.
+   - **§2 Slice plan** — per slice: **goal restated**, **unit kind**, **phase-ids** (or **stages**) you will run, produces, depends-on.
+   - **Coverage across steps** — matrix: every slice → which **execution plan** phase-ids touch it → **depth** → deferrals.
    - **Cross-slice integration** — cross-boundary types and ordering (From → To + narrative).
-   - **Anchor and subdomain elaboration** (when anchors have attached types) — map subdomains to slices and execution §.
-   - **Execution plan (normative)** — ordered phase **slugs**; **each line cites slice IDs** (mirror **`strategy-run-checklist.md`**).
+   - **Anchor and subdomain elaboration** (when anchors have attached types) — map subdomains to slices and execution phase-ids.
+   - **Execution plan (normative)** — ordered **phase-id** strings; **each line cites slice IDs** (mirror **`strategy-run-checklist.md`**). Optionally group work by **stage A–F** (see **`process.md` → Stage map**).
+   - **Stage completion (after each stage)** — what completed; tensions; **new checklist lines** for revisits (below); **audit** — append dated line under *Ongoing strategic decisions*.
    - **Approach going forward** + **Ongoing strategic decisions** — short narrative and dated pivots.
 3. **Align live checklists** — keep **`strategy-run-checklist.md`** in sync with the execution plan (same order and scope). Optional **`templates/strategy-run-checklist.md`** seed; optional **`templates/progress-README.md`** → **`progress/README.md`** for slice-specific files under **`progress/slices/`**.
-4. **Run phases** — for the **current** phase: `python scripts/base/generate.py --phase <slug>`. Tick **`strategy-run-checklist.md`** when a phase is **done** for its declared scope; tick **`<slug>-checklist.md`** for **steps inside** that phase.
+4. **Run phases** — **`python scripts/base/generate.py --phase <phase-id>`** for one step, or **`python scripts/base/generate.py --stage <A|B|…|F>`** for a full stage (same order as **`process.md`** / **`skill-config.json` → `process_stages`**). Tick **`strategy-run-checklist.md`** when a phase (or stage slice) is **done** for its declared scope; tick **`<phase-id>-checklist.md`** for **steps inside** that phase.
+
+---
+
+## Revisits and disruption (same checklist)
+
+A **revisit** is **not** a separate rerun workflow. While executing (including late **stage F**), if work must **go back** to an earlier **stage** or **phase-id**, **add a new row** to **`strategy-run-checklist.md`** — e.g. `- [ ] Revisit stage B — <short reason>` or `- [ ] Re-run nouns-verbs-rules-and-states — slice S1 — reconcile new anchor` — at the **bottom** or **inserted** where it fits the agreed order. The checklist is the single source of truth for **forward** work plus **backward** revisits.
+
+**Audit:** When you add a revisit row, append a dated line under **`strategy.md` → Ongoing strategic decisions**; never delete prior pivots.
+
+### Hint table (non-prescriptive)
+
+| You are here | Often need to touch |
+|--------------|---------------------|
+| Stage F | Stage E, D, or C (naming / validation feedback) |
+| Stage E | Stage C (scenarios expose structure gaps) |
+| Stage D | Stage C (splitting responsibilities) |
+
+Use this as a **prompt**, not a rule.
 
 ---
 
@@ -33176,9 +32861,9 @@ Only **`strategy.md`** defines **scope** and **which phases in what order**; che
 
 | Layer | File | What you tick |
 | --- | --- | --- |
-| **Strategy execution** | **`progress/strategy-run-checklist.md`** | **Which phases** you will run, **in order**, each with **scope** that **includes the same slice IDs** as **`strategy.md` → Execution plan**. Optional: **`progress/slices/<slice-id>-checklist.md`** per slice — see **`progress/README.md`** in the workspace (if present). |
+| **Strategy execution** | **`progress/strategy-run-checklist.md`** | **Which phase-ids** (or stages) you will run, **in order**, each with **scope** that **includes the same slice IDs** as **`strategy.md` → Execution plan**; **includes revisit rows** when you must go backward. Optional: **`progress/slices/<slice-id>-checklist.md`** per slice — see **`progress/README.md`** in the workspace (if present). |
 | **Full pipeline (reference)** | **`progress/process-checklist.md`** | **Every** phase in **`phase_files`** — useful as a map; optional if you rely only on strategy-run. |
-| **Phase steps** | **`progress/<phase>-checklist.md`** | **Action checklist** copied from **`content/parts/phases/<phase>.md` → ## Action Checklist**. |
+| **Phase steps** | **`progress/<phase-id>-checklist.md`** | **Action checklist** copied from **`content/parts/phases/<phase-id>.md` → ## Action Checklist**. |
 
 **Implementation:** **`scripts/base/workspace_checklists.py`** (paths, behavior, `--no-ensure-checklists`).
 
@@ -33188,10 +32873,10 @@ Only **`strategy.md`** defines **scope** and **which phases in what order**; che
 
 | Kind | What it tracks | Where it lives | How it gets there |
 | --- | --- | --- | --- |
-| **Normative reference** | Rules in **this document** — strategy vs ticks, layers, `generate.py` behavior | **`content/parts/library/strategy-execution-and-checklists.md`** | Authored in the skill; **not** created by **`generate.py`**. |
-| **Pipeline position** | Which **phase** of the pipeline you are in | **`<active_skill_workspace>/<skill_name>/progress/process-checklist.md`** | **Created** on first **`python scripts/base/generate.py --phase <slug>`** when that file is **missing**, if **`skill-config.json` → `workspace.active_skill_workspace`** is set. One `- [ ]` line per slug in **`phase_files`** (labels from **`phase_section_headings`** when present). **Does not overwrite** an existing file. |
-| **Phase action steps** | **Steps inside** the current phase | **`<active_skill_workspace>/<skill_name>/progress/<phase-slug>-checklist.md`** | **Created** in the **same** `generate.py` run when that file is **missing**. Steps are taken from **`## Action Checklist`** in **`content/parts/phases/<phase-slug>.md`**, or from task lines (`- [ ]` / `- [x]`) in that file if the section is absent. **Does not overwrite** an existing file. |
-| **Strategy execution** (workspace) | Ordered phases matching **`strategy.md`** | **`progress/strategy-run-checklist.md`** | Seeded from template when **`generate.py`** / workspace checklist logic creates it; **you** align it with **`strategy.md`**. |
+| **Normative reference** | Rules in **this document** — strategy vs ticks, layers, revisits, `generate.py` behavior | **`content/parts/library/strategy-execution-and-checklists.md`** | Authored in the skill; **not** created by **`generate.py`**. |
+| **Pipeline position** | Which **phase-id** of the pipeline you are in | **`<active_skill_workspace>/<skill_name>/progress/process-checklist.md`** | **Created** on first **`python scripts/base/generate.py --phase <phase-id>`** (or first phase of **`--stage`**) when that file is **missing**, if **`skill-config.json` → `workspace.active_skill_workspace`** is set. One `- [ ]` line per slug in **`phase_files`** (labels from **`phase_section_headings`** when present). **Does not overwrite** an existing file. |
+| **Phase action steps** | **Steps inside** the current phase | **`<active_skill_workspace>/<skill_name>/progress/<phase-id>-checklist.md`** | **Created** in the **same** `generate.py` run when that file is **missing**. Steps are taken from **`## Action Checklist`** in **`content/parts/phases/<phase-id>.md`**, or from task lines (`- [ ]` / `- [x]`) in that file if the section is absent. **Does not overwrite** an existing file. |
+| **Strategy execution** (workspace) | Ordered phase-ids (and revisit rows) matching **`strategy.md`** | **`progress/strategy-run-checklist.md`** | Seeded from template when **`generate.py`** / workspace checklist logic creates it; **you** align it with **`strategy.md`**. |
 
 ### Names and workspace
 
@@ -33212,9 +32897,9 @@ Only **`strategy.md`** defines **scope** and **which phases in what order**; che
 
 ---
 
-## Phase slugs
+## Phase IDs
 
-Use exact slugs from **`skill-config.json` → `phase_files`** (e.g. `nouns-verbs-rules-and-states`, `domain-scan`). Labels for humans are in **`phase_section_headings`**.
+Use exact **phase-id** strings from **`skill-config.json` → `phase_files`** (e.g. `nouns-verbs-rules-and-states`, `domain-scan`). Labels for humans are in **`phase_section_headings`**. **Stages** **A–F** map to ordered phase-id lists in **`process_stages`** — see **`process.md`**.
 
 ---
 
@@ -33233,168 +32918,147 @@ Use exact slugs from **`skill-config.json` → `phase_files`** (e.g. `nouns-verb
 
 ## What a Term Is
 
-A **Term** is any concept identified from the source material that may become part of the domain model. At the time of identification, a Term is not committed to a model role — it might become a class, a property, a value type, an association, or nothing at all. The registry tracks Terms as the modeling phases determine what each one actually is.
+A **Term** is any concept identified from the source material that may become part of the domain model. At identification time it is not committed to a model role — it might become a class, a property, a value type, an association, or nothing. The registry tracks Terms as modeling **phase-ids** (see **`process.md` → Phase chronicle**) determine what each one actually is.
 
-This is distinct from other uses of "actor" in this domain:
-- In MM3E and FoundryVTT, "Actor" has a specific system meaning (a character, creature, or entity in the game world).
-- In the registry, everything is a Term until the model says otherwise.
+This is distinct from other domain uses of overloaded words (e.g. in some systems “Actor” is a system type). In the registry, everything is a Term until the model says otherwise.
 
-**File:** `<workspace>/abd-ooad/term-registry.md`
-**Never embedded** inside step outputs — it lives in its own file and is referenced from each step's model doc.
+**File:** `<workspace>/abd-ooad/term-registry.md` (or per-slice path if your workspace layout nests slices).
 
----
-
-## Step Reference — Short Names
-
-Use these short names in the **Step** column of the registry when adding or updating a row.
-
-| Short Name | Phase | Description |
-|-----------|-------|-------------|
-| SETUP | workspace-and-config | Workspace initialization |
-| SCAN | domain-scan | Source scan and anchor identification |
-| NOUNS | nouns-verbs-rules-and-states | Extract nouns, verbs, rules, states |
-| CANDS | raw-candidate-list | Raw candidate class list |
-| THINGS | thing-vs-data-about-a-thing | Separate things from data-about-things |
-| RESP | responsibilities-before-operations | Assign responsibilities |
-| PROPS | add-properties-semantically-tight | Add semantically tight properties |
-| OPS | turn-verbs-into-operations | Turn verbs into operations |
-| RELS | relationships-and-cardinality | Relationships and cardinality |
-| INV | invariants-in-the-model | Identify invariants |
-| BLOAT | watch-for-bloated-classes | Detect bloated classes |
-| ROLES | smashed-abstractions-and-hidden-roles | Uncover hidden roles |
-| INHERIT | inheritance-when-behavior-generalizes | Apply inheritance |
-| ABST | abstract-classes-and-interfaces | Abstract classes and interfaces |
-| COMP | prefer-composition | Prefer composition over inheritance |
-| STATES | model-state-transitions | Model state transitions |
-| ITER | iterative-refinement | Iterative refinement pass |
-| TENSION | tension-as-a-signal | Resolve tensions |
-| COHESION | what-changes-together | What changes together |
-| VALIDATE | validate-with-scenarios | Validate with scenarios |
-| NAMES | refine-names | Refine class and concept names |
-| LAYERS | model-in-layers | Model in layers |
+**Never embed** the full registry inside step outputs — it lives in its own file and is referenced from each phase’s model doc.
 
 ---
 
-## Slices and global phase numbers (normative)
+## Relationship to `terms.md` (per slice)
 
-The **OOAD process table** (see **`process.md`** / built **AGENTS.md** — “Process Table”) assigns **global phase numbers** **0–21** to phase **slugs** (e.g. **Phase 2** = `nouns-verbs-rules-and-states`, **Phase 3** = `raw-candidate-list`, **Phase 4** = `thing-vs-data-about-a-thing`).
-
-- **Phase 1** (`domain-scan`, short name **SCAN**) runs **once per workspace** (or once per strategy engagement). It produces anchors, `strategy.md`, `domain-scan-results.md`, and seeds **`term-registry.md`**. It is **not** repeated as “each slice’s Phase 1.”
-- **Per-slice modeling** (folders or **Anchor** columns **`S1=…`**, **`S2=…`**, …) **aligns with the same global numbers from Phase 2 onward:** the **first** extraction artifact in a slice is always **Phase 2** (**NOUNS**), then **3** (**CANDS**), **4** (**THINGS**), etc. Do **not** label slice-local nouns-verbs files as Phase 1 — that collides with **SCAN**.
-- **Phase notes** in italics (optional): `*[Sn · Phase N]*` where **N** is the **global** process-table number. Add slug, tension id, or short reminder *after* the tag on the same line if needed (e.g. *thing-vs-data*, *registry Tn*). For early “likely class” judgments: `*[S1 · Phase 3]* Likely class : …`.
-
----
-
-## Registry Columns
-
-| Column | Values | Notes |
-|--------|--------|-------|
-| **Term** | Concept name from the source | Exact word or phrase as found — rename in the NAMES step if needed |
-| **Classification** | See **Classification** below | **What we want to model this as** — target shape in the domain model (not lifecycle) |
-| **Step** | Short name from table above (SCAN, NOUNS, …) | Step that first identified or last materially updated this Term |
-| **Confidence** | High / Medium / Low | How sure we are this belongs in the model |
-| **Status** | See **Status (OOAD scale)** below | Where this Term sits in the modeling workflow |
-| **Notes** | Free text | Anchor-test results, owning module for supporting classes (`Supporting class — X module`), competing interpretations, pointers to tensions in `domain-scan-results.md`, and follow-ups |
+- **`terms.md`** (alongside `domain-noun-verb.md` in a slice folder) holds **module-scoped evidence**: quotes, raw extractions, promotion history under **`## [Anchor module]`** headings aligned with the integrated domain model.
+- **`term-registry.md`** remains the **term-centric analysis record**: one row per Term; **Targets** = where the term landed; **Notes** = substantive reasoning (anchor tests, classification, tensions) — **full paragraphs are fine** when the work needs them.
+- **Principle:** Notes depth is **not** reduced because `terms.md` exists. `terms.md` reduces **duplication of verbatim source text** and organizes evidence by module; it does **not** justify one-line registry Notes unless the term truly needs only one line.
+- **Avoid duplicate verbatim quotes:** keep the quote in **`terms.md`** and in **Notes** point to `terms.md#anchor-module` (or the term subsection); keep analysis-only text in Notes as today.
 
 ---
 
-## Classification — what we want to model this as
+## Phase IDs (normative references)
 
-Use **one** value per row. This is the **intended model role**, not how “mature” the idea is (that is **Status**).
+Refer to pipeline steps **only** by **`phase-id`** — the short **kebab-case** slug matching **`skill-config.json` → `phase_files`** and the **`process.md`** chronicle (e.g. `domain-scan`, `nouns-verbs-rules-and-states`, `refine-names`). Do **not** use “Phase 1 / Phase 2” as **names** for steps; those ordinals drift. Optional **model tags** in the domain model use **`*[Sn · phase-id]*`** (e.g. **`*[S1 · refine-names]*`**) — see **`library/domain-model`**.
 
-| Value | Meaning |
+---
+
+## Registry columns
+
+| Column | Role |
+|--------|------|
+| **Term** | Concept name from the source — exact word or phrase as found; rename in **`refine-names`** if needed. |
+| **Targets** | Where this term **landed** in the model: a **bulleted list inside the table cell** (Markdown list), **one typed pointer per line**. Unallocated / not yet placed → leave empty or **—**. |
+| **Notes** | Anchor-test results, slice/anchor context (**`S1=…`** style if useful), competing interpretations, tensions, pointers to **`terms.md`** when verbatim evidence lives there — same substance as historical scan/noun-verb rows. |
+
+**Optional:** If you need a single “primary kind” for tooling, add one optional column **after** Term (e.g. **Kind**) — otherwise prefer **Targets**-only for a slim table.
+
+---
+
+## Targets — typed pointers (one per bullet)
+
+**Normative style:** each bullet is **one** typed target. **Do not** concatenate targets with `|` or `;` on one run-on line.
+
+Examples of pointer forms (extend as your model needs):
+
+- `entity:Payment`
+- `vo:Money`
+- `property:Payment.amount`
+- `operation:Order.submit`
+- `invariant:…`
+- `policy:…`
+- `relationship:Customer — Order`
+
+**Renders in Markdown tables** — use `<br>` between bullets if your renderer collapses list-in-cell (GitHub-style often accepts list-in-cell; validate in your preview):
+
+```markdown
+| Term   | Targets |
 |--------|---------|
-| **anchor (class + module)** | Passes the anchor test: this concept is a **core class** and owns a **module** (dashed frame + same-named core class). Use only for backbone modules. |
-| **class** | A domain **class** that is not its own module yet — e.g. supporting class inside a frame, or a type you expect to become a class without its own module. |
-| **property** | Modeled as a **semantic property** (attribute / value on a class), not a separate type. |
-| **field** | Modeled as a **typed field / slot** (data member, possibly simple type or value object). |
-| **example (instance)** | An **illustrative instance**, sample, or scenario object — not a type in the model. |
-| **relationship** | An **association**, link, or dependency between concepts — may become an association, association class, or navigable role. |
-| **invariant (rule)** | A **domain rule**, constraint, or policy — often becomes behavior, guard, or explicit rule text on a class. |
-
-**Diagram mapping (when relevant):** `anchor (class + module)` → module frame + core class; `class` → class box; `relationship` → association; `invariant (rule)` → note, constraint, or operation; `property` / `field` → attributes on a class.
+| amount | - `entity:Payment`<br>- `vo:Money`<br>- `property:Payment.amount` |
+```
 
 ---
 
-## Status (OOAD scale)
+## Notes — still substantive
 
-**Status** is **lifecycle / confidence in the workflow**, not the model shape. Pick the value that best fits; states are **not** always a strict left-to-right pipeline.
+Notes remain the place for **classification reasoning**, anchor tests, tensions, and follow-ups. **Do not** make Notes sparse by default. When raw quotes live in **`terms.md`**, write in Notes: *“Verbatim quote in `terms.md` → [Anchor module] / term …”* and keep analysis here.
 
-| Status | When to use |
-|--------|-------------|
-| **Ambiguous** | You cannot yet say what the Term is or how it sits next to others. |
-| **Tension** | Competing interpretations, overlapping boundaries, or conflicting source pulls — needs resolution before the model can commit. |
-| **Candidate** | Plausible model role; narrowed but not yet locked (often after scan, before THINGS/RELS). |
-| **Deferred** | Explicitly parked — revisit in a named later step or phase. |
-| **Active** | In current modeling scope; being updated in this pass. |
-| **Solidified** | Named, placed, and stable in the model for the current iteration — ready to treat as “done” unless source or scope changes. |
-
-**Typical (non-binding) progression:** Ambiguous → Tension or Candidate → Active → Solidified. **Deferred** can apply after any stage. A Term can return from Deferred to Active when scope returns to it.
+**Slice / anchor:** You may record **`S1=Character`** (or similar) in **Notes** or a minimal **Slice** column if the table template adds one — your engagement may require it for MM3E-style multi-slice tables.
 
 ---
 
-## Registry format (wide Notes)
+## Classification (reference — not required as its own column)
 
-**Prefer an HTML `<table>` with `<colgroup>`** so the **Notes** column gets most of the width (~50–55%). **Classification** labels can be long — give that column ~12–14% if needed. Plain Markdown pipe tables allocate columns evenly and make long Notes hard to read in the editor and in preview.
+If you **merge** the old **Classification** column into **Targets**, use typed pointers (`entity:…`, `property:…`, …) so the table stays one row per Term. The **meaning** of former classification values is unchanged:
 
-Use this skeleton (adjust `width` percentages if needed):
+| Former value | Meaning |
+|--------------|--------|
+| **anchor (class + module)** | Passes the anchor test: core class owns a **module** (frame + same-named core class). |
+| **class** | Domain class not its own module yet — supporting class, or expected class without module. |
+| **property** | Modeled as semantic property on a class. |
+| **field** | Typed field / slot. |
+| **example (instance)** | Illustrative instance — not a type. |
+| **relationship** | Association, link, dependency. |
+| **invariant (rule)** | Domain rule, constraint, policy. |
+
+---
+
+## Registry format (HTML table recommended for Notes width)
+
+Prefer an HTML `<table>` with `<colgroup>` so **Notes** gets most width (~50–55%). **Targets** can be ~18–22%.
 
 ```html
 <table>
 <colgroup>
-  <col style="width:9%" />
-  <col style="width:14%" />
-  <col style="width:6%" />
-  <col style="width:9%" />
-  <col style="width:9%" />
-  <col style="width:53%" />
+  <col style="width:12%" />
+  <col style="width:22%" />
+  <col style="width:66%" />
 </colgroup>
 <thead>
 <tr>
   <th>Term</th>
-  <th>Classification</th>
-  <th>Step</th>
-  <th>Confidence</th>
-  <th>Status</th>
+  <th>Targets</th>
   <th>Notes</th>
 </tr>
 </thead>
 <tbody>
 <tr>
   <td>Character</td>
-  <td>anchor (class + module)</td>
-  <td>SCAN</td>
-  <td>High</td>
-  <td>Active</td>
-  <td>Central entity; all rules attach to it</td>
-</tr>
-<tr>
-  <td>Power</td>
-  <td>class</td>
-  <td>SCAN</td>
-  <td>High</td>
-  <td>Active</td>
-  <td>Supporting class — Character module. Core capability unit.</td>
-</tr>
-<tr>
-  <td>Device</td>
-  <td>class</td>
-  <td>SCAN</td>
-  <td>Medium</td>
-  <td>Tension</td>
-  <td>Removable Power vs Equipment? Boundary unclear — see T2.</td>
+  <td>- <code>entity:Character</code><br>- <code>property:Character.powerLevel</code></td>
+  <td>Central entity; anchor test ✓. Slice <code>S1=Character</code>. Long quotes in <code>terms.md</code> → Character module.</td>
 </tr>
 </tbody>
 </table>
 ```
 
-For very small registries only, a Markdown pipe table is acceptable:
+Small registries: Markdown pipe table is acceptable.
 
-```markdown
-| Term | Classification | Step | Confidence | Status | Notes |
-|------|----------------|------|------------|--------|-------|
-| Character | anchor (class + module) | SCAN | High | Active | Short note only |
-```
+---
+
+## Migration from legacy wide tables
+
+If you have **Step**, **Confidence**, **Status**, and **Classification** columns:
+
+1. **Term** → keep.
+2. **Classification** + committed placements → **Targets** bullets (`entity:…`, `property:…`, …).
+3. **Step** → fold into **Notes** as *“First touched at phase-id `domain-scan`”* or leave implicit if noisy.
+4. **Confidence / Status** → merge into **Notes** (*“Legacy: was High / Active”*) only if still useful; otherwise drop.
+5. **Notes** → preserve text; add pointer to **`terms.md`** where verbatim evidence moved.
+
+---
+
+## Slices and `domain-scan` vs per-slice work
+
+- **`domain-scan`** runs **workspace-wide** (or once per strategy engagement): seeds **`term-registry.md`**, anchors, **`strategy.md`**, scan artifacts. It is **not** “each slice’s first phase” by name — use **phase-id** `domain-scan` only.
+- Per-slice deep extraction aligns with **`nouns-verbs-rules-and-states`** and **`raw-candidate-list`** in **chronicle order** after scan. **`terms.md`** evolves from those phase-ids onward for that slice.
+
+---
+
+## References
+
+- **`process.md`** — Phase chronicle, stages A–F, capture ladder  
+- **`terms.md`** template — `templates/terms-template.md`  
+- **Strategy / revisits** — `library/strategy-execution-and-checklists.md`
 
 
 ---
@@ -33845,7 +33509,7 @@ The CLI does not yet support notes — add them manually in draw.io after CLI bu
 | Phase | Add invariants? |
 |-------|----------------|
 | domain-scan | Yes — add the invariants you found during the scan (inline preferred at this fidelity) |
-| domain-noun-verb (Step 1) | No — extraction only; invariants captured in registry notes |
+| domain-noun-verb (Phase 2) | No — extraction only; invariants captured in registry notes |
 | raw-candidate-list through responsibilities | Yes — as invariants become confirmed, add to diagram |
 | Full model phases | Yes — invariants are a required part of the final model |
 
@@ -34738,19 +34402,23 @@ You are the **domain modeler and OOAD practitioner** using this skill: you provi
 
 # Domain model Markdown
 
-This skill’s **domain model** is captured in Markdown  a parallel **Draw.io** class diagram. Use **`templates/domain model template.md`** for companion docs; align with **`templates/domain model template.drawio`** when both exist.
+The **domain model** lives in workspace **`domain*.md`** files; **Draw.io** diagrams are **visual twins** of that content — update markdown first, then render or hand-sync the diagram (see **class-diagrams**, **using-diagram-cli**).
 
-**Phase 2 — `domain-noun-verb.md`:** anchor sections, **Candidate …** lists, full or pared class boxes. Slice files are **content only** — no skill paths or process meta in the artifact body.
+**Integrated slice model + evidence:** Prefer **`templates/domain-model-integrated.md`** alongside **`templates/terms-template.md`** (`terms.md` per slice). Class **Notes** use **`*[Sn · phase-id]*`** (e.g. **`*[S1 · refine-names]*`**) — **phase-id** from **`process.md`**, not numeric step names.
 
-**Phase 3 — bucket roll-up:** sort candidates into **entities**, **value objects**, **processes**, **policies**, **roles**, **events** (tables in **`raw-candidate-list.md`** or appended to **`domain-noun-verb.md`**). Same **content-only** rule: no skill/process boilerplate in slice files.
+**`domain-scan`:** **`domain-scan-results.md`**, **`domain-scan-model.md`**, then **`domain-scan-model.drawio`**.
 
-**Optional — `domain-raw-candidates.md`:** same Phase 3 content as **classes under anchor modules** (`### Name : << Entity >>` / `<< ValueObject >>` / `<< Process >>` / …), notes below — **not** a second copy of bucket tables. Cross-cutting material → **`## Cross-anchor`** or appendix. **`templates/domain-raw-candidates-template.md`**.
+**`nouns-verbs-rules-and-states` — `domain-noun-verb.md`:** anchor sections, **Candidate …** lists, class boxes. Slice files are **domain content only** — no skill paths or process boilerplate in the artifact body.
+
+**`raw-candidate-list`:** Prefer **`domain-raw-candidates.md`** — classes under anchors with notes. Optional single tabular roll-up (**`raw-candidate-list.md`** or appendix to **`domain-noun-verb.md`**) — **not** the same tables twice plus an integrated file.
+
+**Templates:** **`templates/domain model template.md`**, **`templates/domain-raw-candidates-template.md`**, **`templates/domain-model-integrated.md`**.
 
 ---
 
 ## Domain concept template
 
-Each **domain concept** (class, interface, value object, or aggregate) is documented under a clear heading, for example:
+Each concept is documented under a clear heading, for example:
 
 ```markdown
 ## **Payment**
@@ -34759,73 +34427,62 @@ Each **domain concept** (class, interface, value object, or aggregate) is docume
 
 ### Properties
 - Money amount
-- …
 
 ### Operations
 - initiate() → Authorization
 ```
 
-From **Step 5** onward, prefer **typed** members (see **Notation evolution** below). Earlier steps stay **pre-notation** (bullets and prose).
+From **Phase 6** onward (`add-properties-semantically-tight`), prefer **typed** members (see **Notation evolution**). Earlier phases stay informal (bullets and prose).
 
 ---
 
-## Continual refinement — class definition + diagram
+## Markdown and diagram
 
-**Continual refinement** means you **grow** the model across steps: each step file may add or tighten concepts. The Markdown spec and the class diagram are **two views of the same model** — update both when your project uses dual artifacts so they do not drift (see **[Class diagrams](class-diagrams.md)**).
+The Markdown spec and the class diagram are **two views of the same model** — keep them aligned when both exist (**class-diagrams**).
 
 ---
 
-## **newly added** tag
+## **newly added** tag (optional)
 
-In the **worked example** threads (e.g. payments), the marker **newly added** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
+In long-running examples, **newly added** on a line marks a property or operation that first appears in *this* file — useful for deltas across files.
 
 ---
 
 ## Notation evolution
 
-| Phase | Markdown style |
-|--------|------------------|
-| **Steps 1–4** | Informal: bullets, short phrases, responsibilities, candidate names; typed `- <type> property` lines arrive in Step 5. |
-| **Step 5+** | Formal typed members: `- <Type> propertyName`, `operationName(...) → ReturnType`. |
+| Phase range | Markdown style |
+|-------------|----------------|
+| **2–5** | Informal: bullets, candidates, responsibilities; typed `- <type> property` lines from **Phase 6** onward. |
+| **Phase 6+** | Formal: `- <Type> propertyName`, `operationName(...) → ReturnType`. |
 
 ---
 
 ## Subtype sections
 
-When you introduce substitutable specializations, add an explicit subtype heading so the structure is visible in the spec and in diagrams:
+When you introduce substitutable specializations, add an explicit subtype heading so structure is visible in spec and diagrams:
 
 ```markdown
 ### **Subtype** : **PaymentMethod**
 ```
 
-Put **`**newly added**`** on subtype **operation** (or property) lines when that member is **first** introduced for that subtype.
-
 ---
 
 ## Invariants
 
-Attach invariants to the **property** or **operation** they constrain, using a dedicated line:
+Attach invariants to the property or operation they constrain:
 
 ```markdown
 **Invariant:** …
 ```
 
-Mark **`**newly added**`** when you **first** attach an invariant to a given member line.
-
 ---
 
-## Early steps: terms, mechanisms, story map
+## Class diagram and spec
 
-Before typed properties exist, align extracted **nouns, verbs, rules, states** with your workspace’s **terms & mechanisms** and **shaped story map** (or equivalent). That is the same “grow the model as you go” idea: informal extraction first, then formal types.
+When you maintain **`map-model-spec.json`** or similar, re-run the project’s diagram script after material changes so Draw.io stays aligned.
 
----
-
-## Class diagram and spec (visual twin)
-
-When you maintain a machine-readable spec such as **`map-model-spec.json`**, re-run your project’s class-diagram render script (for example **`render_map_model_class_diagram.py`**) after material changes so the **Draw.io** diagram stays the **visual twin** of the spec.
-
-- **[Class diagrams](class-diagrams.md)** — templates, relationship types, keeping `.md` and `.drawio` aligned.  
-- **[Using the Diagram CLI](using-diagram-cli.md)** — building diagrams with **`scripts/drawio_cli.py`**.
+- **Class diagrams** — templates, relationships, keeping `.md` and `.drawio` aligned.  
+- **Using the Diagram CLI** — `scripts/drawio_cli.py`.
 
 ---
 
@@ -34833,9 +34490,9 @@ When you maintain a machine-readable spec such as **`map-model-spec.json`**, re-
 
 | Topic | File |
 |--------|------|
-| Term tracking across steps | [term-registry.md](term-registry.md) |
+| Term tracking | [term-registry.md](term-registry.md) |
 | Strategy-led runs | [strategy-led-generation.md](strategy-led-generation.md) |
-| Layout and lanes | [class-diagram-layout-rules.md](class-diagram-layout-rules.md) |
+| Layout | [class-diagram-layout-rules.md](class-diagram-layout-rules.md) |
 
 
 ---
@@ -34927,9 +34584,9 @@ The absence of a matching core class is the clearest signal that you have not ye
 
 # Strategy-led generation
 
-Domain scan (OOAD **phase 1**) does not only produce a single “results” file. It establishes a **small set of workspace files** under `<workspace>/abd-ooad/` that work together. Some are **frozen findings** from the scan; others are **living documents** you update as modeling continues.
+Domain scan (phase-id **`domain-scan`**) does not only produce a single “results” file. It establishes a **small set of workspace files** under `<workspace>/abd-ooad/` that work together. Some are **frozen findings** from the scan; others are **living documents** you update as modeling continues.
 
-**Slices start at global Phase 2:** Source-slice work (e.g. **S1**, **S2** in `strategy.md` and **`Anchor`** `S1=…` / `S2=…` in `term-registry.md`) uses the **same global OOAD phase numbers** as the process table for everything **after** scan. The **first** per-slice extraction step is **Phase 2** (`nouns-verbs-rules-and-states`), **not** a slice-local “Phase 1.” Phase **1** is workspace-wide **domain-scan** only. See **`term-registry.md` → Slices and global phase numbers**.
+**Per-slice extraction** after scan uses the **same phase-id chronicle** as **`process.md`**. The **first** detailed per-slice capture is **`nouns-verbs-rules-and-states`** (then **`raw-candidate-list`**, …) — **not** a second **`domain-scan`**. Use **phase-id** names in strategy and registry (and **`*[Sn · phase-id]*`** tags in the model), not “Phase 1 / Phase 2” as step names. See **`term-registry.md`** and **`process.md` → Capture ladder**.
 
 For the scan procedure itself, see the **Domain scan** phase. This page explains **what each artifact is for** and how **`strategy.md`** relates to **`domain-scan-results.md`**.
 
@@ -34947,7 +34604,8 @@ Created during domain scan under `<workspace>/abd-ooad/`:
 | `strategy.md` | **Living strategy:** **modeling scope**; **§1 source slices** (table: Order, Goal, **Source** — chapters, files, modules, or mixed — **Coverage**, **Importance**); **§2 slice plan** (per-slice **goal restated** + **phases**); **coverage across steps**; **cross-slice integration**; **anchor and subdomain elaboration**; **execution plan (normative)** — phase slugs with **slice IDs** on every line; plus **approach** and **dated pivots**. | **Yes** — whenever scope, order, slice depth, subdomain mapping, or integration changes. |
 | `domain-scan-model.md` | Class sketch (markdown) at scan fidelity. | Yes, in later phases — not only during scan. |
 | `domain-scan-model.drawio` | Diagram at scan fidelity. | Same as model.md. |
-| `term-registry.md` | Terms, **Classification** (model role), **Status** (OOAD scale), confidence — seeded at scan. | **Yes** — every later phase updates Step, Classification, and Status as the model evolves. |
+| `term-registry.md` | Terms, **Targets** (bulleted typed pointers), **Notes** — seeded at scan. | **Yes** — every later phase-id updates **Targets** and **Notes** as the model evolves. See **`library/term-registry.md`**. |
+| `terms.md` (per slice) | Evidence ledger by **`## [Anchor module]`** — quotes, promotion log. | **Yes** — from **`nouns-verbs-rules-and-states`** onward for that slice. Template: **`templates/terms-template.md`**. |
 
 **Plus** (when workspace is configured): **`progress/`** checklists — see **`library/strategy-execution-and-checklists.md`**. **`generate.py`** creates **`process-checklist.md`**, **`<phase>-checklist.md`**, and (abd-ooad) **`strategy-run-checklist.md`** when templates exist and files are missing. Normative phase steps stay in **`content/parts/phases/<phase>.md`**. These are the **only** place for session tick marks.
 
@@ -34982,8 +34640,8 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 
 1. **Strategy** — Keep **`strategy.md`** aligned with reality; append *Ongoing strategic decisions* when you pivot.
 2. **Strategy execution** — Tick **`progress/strategy-run-checklist.md`** as you **complete** each phase for its declared scope.
-3. **Phase work** — For the active phase, run **`generate.py --phase <slug>`** and tick **`progress/<slug>-checklist.md`** for action steps.
-4. **Registry** — Keep `term-registry.md` aligned with the current phase (Step, Classification, Status).
+3. **Phase work** — For the active phase-id, run **`generate.py --phase <phase-id>`** (or **`generate.py --stage <A|B|…|F>`** for a stage) and tick **`progress/<phase-id>-checklist.md`** for action steps.
+4. **Registry** — Keep `term-registry.md` aligned with the current phase-id (**Targets** + **Notes**); keep slice **`terms.md`** in sync for verbatim evidence.
 5. **Results** — Touch `domain-scan-results.md` only for corrections to the original scan snapshot.
 
 ---
@@ -35003,26 +34661,45 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 
 # Strategy execution and checklists (abd-ooad)
 
-**Canonical doc** for: (1) **strategy** vs **live ticks**, (2) **which files** hold checkboxes, (3) **how** `generate.py` creates workspace **`progress/`** files. Does **not** replace **[process.md](../process.md)** (process tables, `generate` / `build`) or **[skill-structure-and-concepts.md](../base/skill-structure-and-concepts.md)** (repo layout).
+**Canonical doc** for: (1) **strategy** vs **live ticks**, (2) **which files** hold checkboxes, (3) **how** `generate.py` creates workspace **`progress/`** files, (4) **stages**, **revisits / disruption** on the same checklist. Does **not** replace **[process.md](../process.md)** (phase chronicle, `generate` / `build`) or **[skill-structure-and-concepts.md](../base/skill-structure-and-concepts.md)** (repo layout).
 
-Only **`strategy.md`** defines **scope** and **which phases in what order**; checklists are where you **tick** progress.
+Only **`strategy.md`** defines **scope** and **which phase-ids (or stages) in what order**; checklists are where you **tick** progress.
 
 ---
 
 ## Workflow
 
-1. **Domain scan** — produce scan artifacts (see **`strategy-led-generation`**).
+1. **Domain scan** — produce scan artifacts (see **`strategy-led-generation`**). Phase-id: **`domain-scan`**.
 2. **Strategy** — fill **`strategy.md`** from **`templates/strategy.md`**:
    - **Modeling scope** — corpus or product boundary; **source type** (book vs repo vs mixed).
    - **§1 Source slices** — ordered table: **Goal**, **Source** (chapters, files, modules, APIs — whatever locates work), **Coverage** (depth this pass), **Importance**; stable **slice IDs** reused everywhere.
-   - **§2 Slice plan** — per slice: **goal restated**, **unit kind**, **phases** (execution step numbers / slugs), produces, depends-on.
-   - **Coverage across steps** — matrix: every slice → which **execution plan** steps touch it → **depth** → deferrals.
+   - **§2 Slice plan** — per slice: **goal restated**, **unit kind**, **phase-ids** (or **stages**) you will run, produces, depends-on.
+   - **Coverage across steps** — matrix: every slice → which **execution plan** phase-ids touch it → **depth** → deferrals.
    - **Cross-slice integration** — cross-boundary types and ordering (From → To + narrative).
-   - **Anchor and subdomain elaboration** (when anchors have attached types) — map subdomains to slices and execution §.
-   - **Execution plan (normative)** — ordered phase **slugs**; **each line cites slice IDs** (mirror **`strategy-run-checklist.md`**).
+   - **Anchor and subdomain elaboration** (when anchors have attached types) — map subdomains to slices and execution phase-ids.
+   - **Execution plan (normative)** — ordered **phase-id** strings; **each line cites slice IDs** (mirror **`strategy-run-checklist.md`**). Optionally group work by **stage A–F** (see **`process.md` → Stage map**).
+   - **Stage completion (after each stage)** — what completed; tensions; **new checklist lines** for revisits (below); **audit** — append dated line under *Ongoing strategic decisions*.
    - **Approach going forward** + **Ongoing strategic decisions** — short narrative and dated pivots.
 3. **Align live checklists** — keep **`strategy-run-checklist.md`** in sync with the execution plan (same order and scope). Optional **`templates/strategy-run-checklist.md`** seed; optional **`templates/progress-README.md`** → **`progress/README.md`** for slice-specific files under **`progress/slices/`**.
-4. **Run phases** — for the **current** phase: `python scripts/base/generate.py --phase <slug>`. Tick **`strategy-run-checklist.md`** when a phase is **done** for its declared scope; tick **`<slug>-checklist.md`** for **steps inside** that phase.
+4. **Run phases** — **`python scripts/base/generate.py --phase <phase-id>`** for one step, or **`python scripts/base/generate.py --stage <A|B|…|F>`** for a full stage (same order as **`process.md`** / **`skill-config.json` → `process_stages`**). Tick **`strategy-run-checklist.md`** when a phase (or stage slice) is **done** for its declared scope; tick **`<phase-id>-checklist.md`** for **steps inside** that phase.
+
+---
+
+## Revisits and disruption (same checklist)
+
+A **revisit** is **not** a separate rerun workflow. While executing (including late **stage F**), if work must **go back** to an earlier **stage** or **phase-id**, **add a new row** to **`strategy-run-checklist.md`** — e.g. `- [ ] Revisit stage B — <short reason>` or `- [ ] Re-run nouns-verbs-rules-and-states — slice S1 — reconcile new anchor` — at the **bottom** or **inserted** where it fits the agreed order. The checklist is the single source of truth for **forward** work plus **backward** revisits.
+
+**Audit:** When you add a revisit row, append a dated line under **`strategy.md` → Ongoing strategic decisions**; never delete prior pivots.
+
+### Hint table (non-prescriptive)
+
+| You are here | Often need to touch |
+|--------------|---------------------|
+| Stage F | Stage E, D, or C (naming / validation feedback) |
+| Stage E | Stage C (scenarios expose structure gaps) |
+| Stage D | Stage C (splitting responsibilities) |
+
+Use this as a **prompt**, not a rule.
 
 ---
 
@@ -35030,9 +34707,9 @@ Only **`strategy.md`** defines **scope** and **which phases in what order**; che
 
 | Layer | File | What you tick |
 | --- | --- | --- |
-| **Strategy execution** | **`progress/strategy-run-checklist.md`** | **Which phases** you will run, **in order**, each with **scope** that **includes the same slice IDs** as **`strategy.md` → Execution plan**. Optional: **`progress/slices/<slice-id>-checklist.md`** per slice — see **`progress/README.md`** in the workspace (if present). |
+| **Strategy execution** | **`progress/strategy-run-checklist.md`** | **Which phase-ids** (or stages) you will run, **in order**, each with **scope** that **includes the same slice IDs** as **`strategy.md` → Execution plan**; **includes revisit rows** when you must go backward. Optional: **`progress/slices/<slice-id>-checklist.md`** per slice — see **`progress/README.md`** in the workspace (if present). |
 | **Full pipeline (reference)** | **`progress/process-checklist.md`** | **Every** phase in **`phase_files`** — useful as a map; optional if you rely only on strategy-run. |
-| **Phase steps** | **`progress/<phase>-checklist.md`** | **Action checklist** copied from **`content/parts/phases/<phase>.md` → ## Action Checklist**. |
+| **Phase steps** | **`progress/<phase-id>-checklist.md`** | **Action checklist** copied from **`content/parts/phases/<phase-id>.md` → ## Action Checklist**. |
 
 **Implementation:** **`scripts/base/workspace_checklists.py`** (paths, behavior, `--no-ensure-checklists`).
 
@@ -35042,10 +34719,10 @@ Only **`strategy.md`** defines **scope** and **which phases in what order**; che
 
 | Kind | What it tracks | Where it lives | How it gets there |
 | --- | --- | --- | --- |
-| **Normative reference** | Rules in **this document** — strategy vs ticks, layers, `generate.py` behavior | **`content/parts/library/strategy-execution-and-checklists.md`** | Authored in the skill; **not** created by **`generate.py`**. |
-| **Pipeline position** | Which **phase** of the pipeline you are in | **`<active_skill_workspace>/<skill_name>/progress/process-checklist.md`** | **Created** on first **`python scripts/base/generate.py --phase <slug>`** when that file is **missing**, if **`skill-config.json` → `workspace.active_skill_workspace`** is set. One `- [ ]` line per slug in **`phase_files`** (labels from **`phase_section_headings`** when present). **Does not overwrite** an existing file. |
-| **Phase action steps** | **Steps inside** the current phase | **`<active_skill_workspace>/<skill_name>/progress/<phase-slug>-checklist.md`** | **Created** in the **same** `generate.py` run when that file is **missing**. Steps are taken from **`## Action Checklist`** in **`content/parts/phases/<phase-slug>.md`**, or from task lines (`- [ ]` / `- [x]`) in that file if the section is absent. **Does not overwrite** an existing file. |
-| **Strategy execution** (workspace) | Ordered phases matching **`strategy.md`** | **`progress/strategy-run-checklist.md`** | Seeded from template when **`generate.py`** / workspace checklist logic creates it; **you** align it with **`strategy.md`**. |
+| **Normative reference** | Rules in **this document** — strategy vs ticks, layers, revisits, `generate.py` behavior | **`content/parts/library/strategy-execution-and-checklists.md`** | Authored in the skill; **not** created by **`generate.py`**. |
+| **Pipeline position** | Which **phase-id** of the pipeline you are in | **`<active_skill_workspace>/<skill_name>/progress/process-checklist.md`** | **Created** on first **`python scripts/base/generate.py --phase <phase-id>`** (or first phase of **`--stage`**) when that file is **missing**, if **`skill-config.json` → `workspace.active_skill_workspace`** is set. One `- [ ]` line per slug in **`phase_files`** (labels from **`phase_section_headings`** when present). **Does not overwrite** an existing file. |
+| **Phase action steps** | **Steps inside** the current phase | **`<active_skill_workspace>/<skill_name>/progress/<phase-id>-checklist.md`** | **Created** in the **same** `generate.py` run when that file is **missing**. Steps are taken from **`## Action Checklist`** in **`content/parts/phases/<phase-id>.md`**, or from task lines (`- [ ]` / `- [x]`) in that file if the section is absent. **Does not overwrite** an existing file. |
+| **Strategy execution** (workspace) | Ordered phase-ids (and revisit rows) matching **`strategy.md`** | **`progress/strategy-run-checklist.md`** | Seeded from template when **`generate.py`** / workspace checklist logic creates it; **you** align it with **`strategy.md`**. |
 
 ### Names and workspace
 
@@ -35066,9 +34743,9 @@ Only **`strategy.md`** defines **scope** and **which phases in what order**; che
 
 ---
 
-## Phase slugs
+## Phase IDs
 
-Use exact slugs from **`skill-config.json` → `phase_files`** (e.g. `nouns-verbs-rules-and-states`, `domain-scan`). Labels for humans are in **`phase_section_headings`**.
+Use exact **phase-id** strings from **`skill-config.json` → `phase_files`** (e.g. `nouns-verbs-rules-and-states`, `domain-scan`). Labels for humans are in **`phase_section_headings`**. **Stages** **A–F** map to ordered phase-id lists in **`process_stages`** — see **`process.md`**.
 
 ---
 
@@ -35087,168 +34764,147 @@ Use exact slugs from **`skill-config.json` → `phase_files`** (e.g. `nouns-verb
 
 ## What a Term Is
 
-A **Term** is any concept identified from the source material that may become part of the domain model. At the time of identification, a Term is not committed to a model role — it might become a class, a property, a value type, an association, or nothing at all. The registry tracks Terms as the modeling phases determine what each one actually is.
+A **Term** is any concept identified from the source material that may become part of the domain model. At identification time it is not committed to a model role — it might become a class, a property, a value type, an association, or nothing. The registry tracks Terms as modeling **phase-ids** (see **`process.md` → Phase chronicle**) determine what each one actually is.
 
-This is distinct from other uses of "actor" in this domain:
-- In MM3E and FoundryVTT, "Actor" has a specific system meaning (a character, creature, or entity in the game world).
-- In the registry, everything is a Term until the model says otherwise.
+This is distinct from other domain uses of overloaded words (e.g. in some systems “Actor” is a system type). In the registry, everything is a Term until the model says otherwise.
 
-**File:** `<workspace>/abd-ooad/term-registry.md`
-**Never embedded** inside step outputs — it lives in its own file and is referenced from each step's model doc.
+**File:** `<workspace>/abd-ooad/term-registry.md` (or per-slice path if your workspace layout nests slices).
 
----
-
-## Step Reference — Short Names
-
-Use these short names in the **Step** column of the registry when adding or updating a row.
-
-| Short Name | Phase | Description |
-|-----------|-------|-------------|
-| SETUP | workspace-and-config | Workspace initialization |
-| SCAN | domain-scan | Source scan and anchor identification |
-| NOUNS | nouns-verbs-rules-and-states | Extract nouns, verbs, rules, states |
-| CANDS | raw-candidate-list | Raw candidate class list |
-| THINGS | thing-vs-data-about-a-thing | Separate things from data-about-things |
-| RESP | responsibilities-before-operations | Assign responsibilities |
-| PROPS | add-properties-semantically-tight | Add semantically tight properties |
-| OPS | turn-verbs-into-operations | Turn verbs into operations |
-| RELS | relationships-and-cardinality | Relationships and cardinality |
-| INV | invariants-in-the-model | Identify invariants |
-| BLOAT | watch-for-bloated-classes | Detect bloated classes |
-| ROLES | smashed-abstractions-and-hidden-roles | Uncover hidden roles |
-| INHERIT | inheritance-when-behavior-generalizes | Apply inheritance |
-| ABST | abstract-classes-and-interfaces | Abstract classes and interfaces |
-| COMP | prefer-composition | Prefer composition over inheritance |
-| STATES | model-state-transitions | Model state transitions |
-| ITER | iterative-refinement | Iterative refinement pass |
-| TENSION | tension-as-a-signal | Resolve tensions |
-| COHESION | what-changes-together | What changes together |
-| VALIDATE | validate-with-scenarios | Validate with scenarios |
-| NAMES | refine-names | Refine class and concept names |
-| LAYERS | model-in-layers | Model in layers |
+**Never embed** the full registry inside step outputs — it lives in its own file and is referenced from each phase’s model doc.
 
 ---
 
-## Slices and global phase numbers (normative)
+## Relationship to `terms.md` (per slice)
 
-The **OOAD process table** (see **`process.md`** / built **AGENTS.md** — “Process Table”) assigns **global phase numbers** **0–21** to phase **slugs** (e.g. **Phase 2** = `nouns-verbs-rules-and-states`, **Phase 3** = `raw-candidate-list`, **Phase 4** = `thing-vs-data-about-a-thing`).
-
-- **Phase 1** (`domain-scan`, short name **SCAN**) runs **once per workspace** (or once per strategy engagement). It produces anchors, `strategy.md`, `domain-scan-results.md`, and seeds **`term-registry.md`**. It is **not** repeated as “each slice’s Phase 1.”
-- **Per-slice modeling** (folders or **Anchor** columns **`S1=…`**, **`S2=…`**, …) **aligns with the same global numbers from Phase 2 onward:** the **first** extraction artifact in a slice is always **Phase 2** (**NOUNS**), then **3** (**CANDS**), **4** (**THINGS**), etc. Do **not** label slice-local nouns-verbs files as Phase 1 — that collides with **SCAN**.
-- **Phase notes** in italics (optional): `*[Sn · Phase N]*` where **N** is the **global** process-table number. Add slug, tension id, or short reminder *after* the tag on the same line if needed (e.g. *thing-vs-data*, *registry Tn*). For early “likely class” judgments: `*[S1 · Phase 3]* Likely class : …`.
-
----
-
-## Registry Columns
-
-| Column | Values | Notes |
-|--------|--------|-------|
-| **Term** | Concept name from the source | Exact word or phrase as found — rename in the NAMES step if needed |
-| **Classification** | See **Classification** below | **What we want to model this as** — target shape in the domain model (not lifecycle) |
-| **Step** | Short name from table above (SCAN, NOUNS, …) | Step that first identified or last materially updated this Term |
-| **Confidence** | High / Medium / Low | How sure we are this belongs in the model |
-| **Status** | See **Status (OOAD scale)** below | Where this Term sits in the modeling workflow |
-| **Notes** | Free text | Anchor-test results, owning module for supporting classes (`Supporting class — X module`), competing interpretations, pointers to tensions in `domain-scan-results.md`, and follow-ups |
+- **`terms.md`** (alongside `domain-noun-verb.md` in a slice folder) holds **module-scoped evidence**: quotes, raw extractions, promotion history under **`## [Anchor module]`** headings aligned with the integrated domain model.
+- **`term-registry.md`** remains the **term-centric analysis record**: one row per Term; **Targets** = where the term landed; **Notes** = substantive reasoning (anchor tests, classification, tensions) — **full paragraphs are fine** when the work needs them.
+- **Principle:** Notes depth is **not** reduced because `terms.md` exists. `terms.md` reduces **duplication of verbatim source text** and organizes evidence by module; it does **not** justify one-line registry Notes unless the term truly needs only one line.
+- **Avoid duplicate verbatim quotes:** keep the quote in **`terms.md`** and in **Notes** point to `terms.md#anchor-module` (or the term subsection); keep analysis-only text in Notes as today.
 
 ---
 
-## Classification — what we want to model this as
+## Phase IDs (normative references)
 
-Use **one** value per row. This is the **intended model role**, not how “mature” the idea is (that is **Status**).
+Refer to pipeline steps **only** by **`phase-id`** — the short **kebab-case** slug matching **`skill-config.json` → `phase_files`** and the **`process.md`** chronicle (e.g. `domain-scan`, `nouns-verbs-rules-and-states`, `refine-names`). Do **not** use “Phase 1 / Phase 2” as **names** for steps; those ordinals drift. Optional **model tags** in the domain model use **`*[Sn · phase-id]*`** (e.g. **`*[S1 · refine-names]*`**) — see **`library/domain-model`**.
 
-| Value | Meaning |
+---
+
+## Registry columns
+
+| Column | Role |
+|--------|------|
+| **Term** | Concept name from the source — exact word or phrase as found; rename in **`refine-names`** if needed. |
+| **Targets** | Where this term **landed** in the model: a **bulleted list inside the table cell** (Markdown list), **one typed pointer per line**. Unallocated / not yet placed → leave empty or **—**. |
+| **Notes** | Anchor-test results, slice/anchor context (**`S1=…`** style if useful), competing interpretations, tensions, pointers to **`terms.md`** when verbatim evidence lives there — same substance as historical scan/noun-verb rows. |
+
+**Optional:** If you need a single “primary kind” for tooling, add one optional column **after** Term (e.g. **Kind**) — otherwise prefer **Targets**-only for a slim table.
+
+---
+
+## Targets — typed pointers (one per bullet)
+
+**Normative style:** each bullet is **one** typed target. **Do not** concatenate targets with `|` or `;` on one run-on line.
+
+Examples of pointer forms (extend as your model needs):
+
+- `entity:Payment`
+- `vo:Money`
+- `property:Payment.amount`
+- `operation:Order.submit`
+- `invariant:…`
+- `policy:…`
+- `relationship:Customer — Order`
+
+**Renders in Markdown tables** — use `<br>` between bullets if your renderer collapses list-in-cell (GitHub-style often accepts list-in-cell; validate in your preview):
+
+```markdown
+| Term   | Targets |
 |--------|---------|
-| **anchor (class + module)** | Passes the anchor test: this concept is a **core class** and owns a **module** (dashed frame + same-named core class). Use only for backbone modules. |
-| **class** | A domain **class** that is not its own module yet — e.g. supporting class inside a frame, or a type you expect to become a class without its own module. |
-| **property** | Modeled as a **semantic property** (attribute / value on a class), not a separate type. |
-| **field** | Modeled as a **typed field / slot** (data member, possibly simple type or value object). |
-| **example (instance)** | An **illustrative instance**, sample, or scenario object — not a type in the model. |
-| **relationship** | An **association**, link, or dependency between concepts — may become an association, association class, or navigable role. |
-| **invariant (rule)** | A **domain rule**, constraint, or policy — often becomes behavior, guard, or explicit rule text on a class. |
-
-**Diagram mapping (when relevant):** `anchor (class + module)` → module frame + core class; `class` → class box; `relationship` → association; `invariant (rule)` → note, constraint, or operation; `property` / `field` → attributes on a class.
+| amount | - `entity:Payment`<br>- `vo:Money`<br>- `property:Payment.amount` |
+```
 
 ---
 
-## Status (OOAD scale)
+## Notes — still substantive
 
-**Status** is **lifecycle / confidence in the workflow**, not the model shape. Pick the value that best fits; states are **not** always a strict left-to-right pipeline.
+Notes remain the place for **classification reasoning**, anchor tests, tensions, and follow-ups. **Do not** make Notes sparse by default. When raw quotes live in **`terms.md`**, write in Notes: *“Verbatim quote in `terms.md` → [Anchor module] / term …”* and keep analysis here.
 
-| Status | When to use |
-|--------|-------------|
-| **Ambiguous** | You cannot yet say what the Term is or how it sits next to others. |
-| **Tension** | Competing interpretations, overlapping boundaries, or conflicting source pulls — needs resolution before the model can commit. |
-| **Candidate** | Plausible model role; narrowed but not yet locked (often after scan, before THINGS/RELS). |
-| **Deferred** | Explicitly parked — revisit in a named later step or phase. |
-| **Active** | In current modeling scope; being updated in this pass. |
-| **Solidified** | Named, placed, and stable in the model for the current iteration — ready to treat as “done” unless source or scope changes. |
-
-**Typical (non-binding) progression:** Ambiguous → Tension or Candidate → Active → Solidified. **Deferred** can apply after any stage. A Term can return from Deferred to Active when scope returns to it.
+**Slice / anchor:** You may record **`S1=Character`** (or similar) in **Notes** or a minimal **Slice** column if the table template adds one — your engagement may require it for MM3E-style multi-slice tables.
 
 ---
 
-## Registry format (wide Notes)
+## Classification (reference — not required as its own column)
 
-**Prefer an HTML `<table>` with `<colgroup>`** so the **Notes** column gets most of the width (~50–55%). **Classification** labels can be long — give that column ~12–14% if needed. Plain Markdown pipe tables allocate columns evenly and make long Notes hard to read in the editor and in preview.
+If you **merge** the old **Classification** column into **Targets**, use typed pointers (`entity:…`, `property:…`, …) so the table stays one row per Term. The **meaning** of former classification values is unchanged:
 
-Use this skeleton (adjust `width` percentages if needed):
+| Former value | Meaning |
+|--------------|--------|
+| **anchor (class + module)** | Passes the anchor test: core class owns a **module** (frame + same-named core class). |
+| **class** | Domain class not its own module yet — supporting class, or expected class without module. |
+| **property** | Modeled as semantic property on a class. |
+| **field** | Typed field / slot. |
+| **example (instance)** | Illustrative instance — not a type. |
+| **relationship** | Association, link, dependency. |
+| **invariant (rule)** | Domain rule, constraint, policy. |
+
+---
+
+## Registry format (HTML table recommended for Notes width)
+
+Prefer an HTML `<table>` with `<colgroup>` so **Notes** gets most width (~50–55%). **Targets** can be ~18–22%.
 
 ```html
 <table>
 <colgroup>
-  <col style="width:9%" />
-  <col style="width:14%" />
-  <col style="width:6%" />
-  <col style="width:9%" />
-  <col style="width:9%" />
-  <col style="width:53%" />
+  <col style="width:12%" />
+  <col style="width:22%" />
+  <col style="width:66%" />
 </colgroup>
 <thead>
 <tr>
   <th>Term</th>
-  <th>Classification</th>
-  <th>Step</th>
-  <th>Confidence</th>
-  <th>Status</th>
+  <th>Targets</th>
   <th>Notes</th>
 </tr>
 </thead>
 <tbody>
 <tr>
   <td>Character</td>
-  <td>anchor (class + module)</td>
-  <td>SCAN</td>
-  <td>High</td>
-  <td>Active</td>
-  <td>Central entity; all rules attach to it</td>
-</tr>
-<tr>
-  <td>Power</td>
-  <td>class</td>
-  <td>SCAN</td>
-  <td>High</td>
-  <td>Active</td>
-  <td>Supporting class — Character module. Core capability unit.</td>
-</tr>
-<tr>
-  <td>Device</td>
-  <td>class</td>
-  <td>SCAN</td>
-  <td>Medium</td>
-  <td>Tension</td>
-  <td>Removable Power vs Equipment? Boundary unclear — see T2.</td>
+  <td>- <code>entity:Character</code><br>- <code>property:Character.powerLevel</code></td>
+  <td>Central entity; anchor test ✓. Slice <code>S1=Character</code>. Long quotes in <code>terms.md</code> → Character module.</td>
 </tr>
 </tbody>
 </table>
 ```
 
-For very small registries only, a Markdown pipe table is acceptable:
+Small registries: Markdown pipe table is acceptable.
 
-```markdown
-| Term | Classification | Step | Confidence | Status | Notes |
-|------|----------------|------|------------|--------|-------|
-| Character | anchor (class + module) | SCAN | High | Active | Short note only |
-```
+---
+
+## Migration from legacy wide tables
+
+If you have **Step**, **Confidence**, **Status**, and **Classification** columns:
+
+1. **Term** → keep.
+2. **Classification** + committed placements → **Targets** bullets (`entity:…`, `property:…`, …).
+3. **Step** → fold into **Notes** as *“First touched at phase-id `domain-scan`”* or leave implicit if noisy.
+4. **Confidence / Status** → merge into **Notes** (*“Legacy: was High / Active”*) only if still useful; otherwise drop.
+5. **Notes** → preserve text; add pointer to **`terms.md`** where verbatim evidence moved.
+
+---
+
+## Slices and `domain-scan` vs per-slice work
+
+- **`domain-scan`** runs **workspace-wide** (or once per strategy engagement): seeds **`term-registry.md`**, anchors, **`strategy.md`**, scan artifacts. It is **not** “each slice’s first phase” by name — use **phase-id** `domain-scan` only.
+- Per-slice deep extraction aligns with **`nouns-verbs-rules-and-states`** and **`raw-candidate-list`** in **chronicle order** after scan. **`terms.md`** evolves from those phase-ids onward for that slice.
+
+---
+
+## References
+
+- **`process.md`** — Phase chronicle, stages A–F, capture ladder  
+- **`terms.md`** template — `templates/terms-template.md`  
+- **Strategy / revisits** — `library/strategy-execution-and-checklists.md`
 
 
 ---
@@ -35699,7 +35355,7 @@ The CLI does not yet support notes — add them manually in draw.io after CLI bu
 | Phase | Add invariants? |
 |-------|----------------|
 | domain-scan | Yes — add the invariants you found during the scan (inline preferred at this fidelity) |
-| domain-noun-verb (Step 1) | No — extraction only; invariants captured in registry notes |
+| domain-noun-verb (Phase 2) | No — extraction only; invariants captured in registry notes |
 | raw-candidate-list through responsibilities | Yes — as invariants become confirmed, add to diagram |
 | Full model phases | Yes — invariants are a required part of the final model |
 
@@ -36559,7 +36215,7 @@ You are the **domain modeler and OOAD practitioner** using this skill: you provi
 
 ---
 
-## Carry forward → Step 19
+## Carry forward → `refine-names`
 
 **Refine names** for lingering **Processor**/ambiguous terms.
 
@@ -36577,7 +36233,7 @@ You are the **domain modeler and OOAD practitioner** using this skill: you provi
 - [ ] Have you walked at least one failure / edge-case scenario (e.g., sanctions, partial capture, idempotency replay)?
 - [ ] Did every scenario step map to at least one class responsibility in the model?
 - [ ] Have you logged any gaps or missing responsibilities as explicit debt with a clear follow-up?
-- [ ] Have you noted carry-forward items to Step 19 (refine names)?
+- [ ] Have you noted carry-forward items to **`refine-names`** (refine names)?
 
 ---
 
@@ -36598,19 +36254,23 @@ You are the **domain modeler and OOAD practitioner** using this skill: you provi
 
 # Domain model Markdown
 
-This skill’s **domain model** is captured in Markdown  a parallel **Draw.io** class diagram. Use **`templates/domain model template.md`** for companion docs; align with **`templates/domain model template.drawio`** when both exist.
+The **domain model** lives in workspace **`domain*.md`** files; **Draw.io** diagrams are **visual twins** of that content — update markdown first, then render or hand-sync the diagram (see **class-diagrams**, **using-diagram-cli**).
 
-**Phase 2 — `domain-noun-verb.md`:** anchor sections, **Candidate …** lists, full or pared class boxes. Slice files are **content only** — no skill paths or process meta in the artifact body.
+**Integrated slice model + evidence:** Prefer **`templates/domain-model-integrated.md`** alongside **`templates/terms-template.md`** (`terms.md` per slice). Class **Notes** use **`*[Sn · phase-id]*`** (e.g. **`*[S1 · refine-names]*`**) — **phase-id** from **`process.md`**, not numeric step names.
 
-**Phase 3 — bucket roll-up:** sort candidates into **entities**, **value objects**, **processes**, **policies**, **roles**, **events** (tables in **`raw-candidate-list.md`** or appended to **`domain-noun-verb.md`**). Same **content-only** rule: no skill/process boilerplate in slice files.
+**`domain-scan`:** **`domain-scan-results.md`**, **`domain-scan-model.md`**, then **`domain-scan-model.drawio`**.
 
-**Optional — `domain-raw-candidates.md`:** same Phase 3 content as **classes under anchor modules** (`### Name : << Entity >>` / `<< ValueObject >>` / `<< Process >>` / …), notes below — **not** a second copy of bucket tables. Cross-cutting material → **`## Cross-anchor`** or appendix. **`templates/domain-raw-candidates-template.md`**.
+**`nouns-verbs-rules-and-states` — `domain-noun-verb.md`:** anchor sections, **Candidate …** lists, class boxes. Slice files are **domain content only** — no skill paths or process boilerplate in the artifact body.
+
+**`raw-candidate-list`:** Prefer **`domain-raw-candidates.md`** — classes under anchors with notes. Optional single tabular roll-up (**`raw-candidate-list.md`** or appendix to **`domain-noun-verb.md`**) — **not** the same tables twice plus an integrated file.
+
+**Templates:** **`templates/domain model template.md`**, **`templates/domain-raw-candidates-template.md`**, **`templates/domain-model-integrated.md`**.
 
 ---
 
 ## Domain concept template
 
-Each **domain concept** (class, interface, value object, or aggregate) is documented under a clear heading, for example:
+Each concept is documented under a clear heading, for example:
 
 ```markdown
 ## **Payment**
@@ -36619,73 +36279,62 @@ Each **domain concept** (class, interface, value object, or aggregate) is docume
 
 ### Properties
 - Money amount
-- …
 
 ### Operations
 - initiate() → Authorization
 ```
 
-From **Step 5** onward, prefer **typed** members (see **Notation evolution** below). Earlier steps stay **pre-notation** (bullets and prose).
+From **Phase 6** onward (`add-properties-semantically-tight`), prefer **typed** members (see **Notation evolution**). Earlier phases stay informal (bullets and prose).
 
 ---
 
-## Continual refinement — class definition + diagram
+## Markdown and diagram
 
-**Continual refinement** means you **grow** the model across steps: each step file may add or tighten concepts. The Markdown spec and the class diagram are **two views of the same model** — update both when your project uses dual artifacts so they do not drift (see **[Class diagrams](class-diagrams.md)**).
+The Markdown spec and the class diagram are **two views of the same model** — keep them aligned when both exist (**class-diagrams**).
 
 ---
 
-## **newly added** tag
+## **newly added** tag (optional)
 
-In the **worked example** threads (e.g. payments), the marker **newly added** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
+In long-running examples, **newly added** on a line marks a property or operation that first appears in *this* file — useful for deltas across files.
 
 ---
 
 ## Notation evolution
 
-| Phase | Markdown style |
-|--------|------------------|
-| **Steps 1–4** | Informal: bullets, short phrases, responsibilities, candidate names; typed `- <type> property` lines arrive in Step 5. |
-| **Step 5+** | Formal typed members: `- <Type> propertyName`, `operationName(...) → ReturnType`. |
+| Phase range | Markdown style |
+|-------------|----------------|
+| **2–5** | Informal: bullets, candidates, responsibilities; typed `- <type> property` lines from **Phase 6** onward. |
+| **Phase 6+** | Formal: `- <Type> propertyName`, `operationName(...) → ReturnType`. |
 
 ---
 
 ## Subtype sections
 
-When you introduce substitutable specializations, add an explicit subtype heading so the structure is visible in the spec and in diagrams:
+When you introduce substitutable specializations, add an explicit subtype heading so structure is visible in spec and diagrams:
 
 ```markdown
 ### **Subtype** : **PaymentMethod**
 ```
 
-Put **`**newly added**`** on subtype **operation** (or property) lines when that member is **first** introduced for that subtype.
-
 ---
 
 ## Invariants
 
-Attach invariants to the **property** or **operation** they constrain, using a dedicated line:
+Attach invariants to the property or operation they constrain:
 
 ```markdown
 **Invariant:** …
 ```
 
-Mark **`**newly added**`** when you **first** attach an invariant to a given member line.
-
 ---
 
-## Early steps: terms, mechanisms, story map
+## Class diagram and spec
 
-Before typed properties exist, align extracted **nouns, verbs, rules, states** with your workspace’s **terms & mechanisms** and **shaped story map** (or equivalent). That is the same “grow the model as you go” idea: informal extraction first, then formal types.
+When you maintain **`map-model-spec.json`** or similar, re-run the project’s diagram script after material changes so Draw.io stays aligned.
 
----
-
-## Class diagram and spec (visual twin)
-
-When you maintain a machine-readable spec such as **`map-model-spec.json`**, re-run your project’s class-diagram render script (for example **`render_map_model_class_diagram.py`**) after material changes so the **Draw.io** diagram stays the **visual twin** of the spec.
-
-- **[Class diagrams](class-diagrams.md)** — templates, relationship types, keeping `.md` and `.drawio` aligned.  
-- **[Using the Diagram CLI](using-diagram-cli.md)** — building diagrams with **`scripts/drawio_cli.py`**.
+- **Class diagrams** — templates, relationships, keeping `.md` and `.drawio` aligned.  
+- **Using the Diagram CLI** — `scripts/drawio_cli.py`.
 
 ---
 
@@ -36693,9 +36342,9 @@ When you maintain a machine-readable spec such as **`map-model-spec.json`**, re-
 
 | Topic | File |
 |--------|------|
-| Term tracking across steps | [term-registry.md](term-registry.md) |
+| Term tracking | [term-registry.md](term-registry.md) |
 | Strategy-led runs | [strategy-led-generation.md](strategy-led-generation.md) |
-| Layout and lanes | [class-diagram-layout-rules.md](class-diagram-layout-rules.md) |
+| Layout | [class-diagram-layout-rules.md](class-diagram-layout-rules.md) |
 
 
 ---
@@ -36787,9 +36436,9 @@ The absence of a matching core class is the clearest signal that you have not ye
 
 # Strategy-led generation
 
-Domain scan (OOAD **phase 1**) does not only produce a single “results” file. It establishes a **small set of workspace files** under `<workspace>/abd-ooad/` that work together. Some are **frozen findings** from the scan; others are **living documents** you update as modeling continues.
+Domain scan (phase-id **`domain-scan`**) does not only produce a single “results” file. It establishes a **small set of workspace files** under `<workspace>/abd-ooad/` that work together. Some are **frozen findings** from the scan; others are **living documents** you update as modeling continues.
 
-**Slices start at global Phase 2:** Source-slice work (e.g. **S1**, **S2** in `strategy.md` and **`Anchor`** `S1=…` / `S2=…` in `term-registry.md`) uses the **same global OOAD phase numbers** as the process table for everything **after** scan. The **first** per-slice extraction step is **Phase 2** (`nouns-verbs-rules-and-states`), **not** a slice-local “Phase 1.” Phase **1** is workspace-wide **domain-scan** only. See **`term-registry.md` → Slices and global phase numbers**.
+**Per-slice extraction** after scan uses the **same phase-id chronicle** as **`process.md`**. The **first** detailed per-slice capture is **`nouns-verbs-rules-and-states`** (then **`raw-candidate-list`**, …) — **not** a second **`domain-scan`**. Use **phase-id** names in strategy and registry (and **`*[Sn · phase-id]*`** tags in the model), not “Phase 1 / Phase 2” as step names. See **`term-registry.md`** and **`process.md` → Capture ladder**.
 
 For the scan procedure itself, see the **Domain scan** phase. This page explains **what each artifact is for** and how **`strategy.md`** relates to **`domain-scan-results.md`**.
 
@@ -36807,7 +36456,8 @@ Created during domain scan under `<workspace>/abd-ooad/`:
 | `strategy.md` | **Living strategy:** **modeling scope**; **§1 source slices** (table: Order, Goal, **Source** — chapters, files, modules, or mixed — **Coverage**, **Importance**); **§2 slice plan** (per-slice **goal restated** + **phases**); **coverage across steps**; **cross-slice integration**; **anchor and subdomain elaboration**; **execution plan (normative)** — phase slugs with **slice IDs** on every line; plus **approach** and **dated pivots**. | **Yes** — whenever scope, order, slice depth, subdomain mapping, or integration changes. |
 | `domain-scan-model.md` | Class sketch (markdown) at scan fidelity. | Yes, in later phases — not only during scan. |
 | `domain-scan-model.drawio` | Diagram at scan fidelity. | Same as model.md. |
-| `term-registry.md` | Terms, **Classification** (model role), **Status** (OOAD scale), confidence — seeded at scan. | **Yes** — every later phase updates Step, Classification, and Status as the model evolves. |
+| `term-registry.md` | Terms, **Targets** (bulleted typed pointers), **Notes** — seeded at scan. | **Yes** — every later phase-id updates **Targets** and **Notes** as the model evolves. See **`library/term-registry.md`**. |
+| `terms.md` (per slice) | Evidence ledger by **`## [Anchor module]`** — quotes, promotion log. | **Yes** — from **`nouns-verbs-rules-and-states`** onward for that slice. Template: **`templates/terms-template.md`**. |
 
 **Plus** (when workspace is configured): **`progress/`** checklists — see **`library/strategy-execution-and-checklists.md`**. **`generate.py`** creates **`process-checklist.md`**, **`<phase>-checklist.md`**, and (abd-ooad) **`strategy-run-checklist.md`** when templates exist and files are missing. Normative phase steps stay in **`content/parts/phases/<phase>.md`**. These are the **only** place for session tick marks.
 
@@ -36842,8 +36492,8 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 
 1. **Strategy** — Keep **`strategy.md`** aligned with reality; append *Ongoing strategic decisions* when you pivot.
 2. **Strategy execution** — Tick **`progress/strategy-run-checklist.md`** as you **complete** each phase for its declared scope.
-3. **Phase work** — For the active phase, run **`generate.py --phase <slug>`** and tick **`progress/<slug>-checklist.md`** for action steps.
-4. **Registry** — Keep `term-registry.md` aligned with the current phase (Step, Classification, Status).
+3. **Phase work** — For the active phase-id, run **`generate.py --phase <phase-id>`** (or **`generate.py --stage <A|B|…|F>`** for a stage) and tick **`progress/<phase-id>-checklist.md`** for action steps.
+4. **Registry** — Keep `term-registry.md` aligned with the current phase-id (**Targets** + **Notes**); keep slice **`terms.md`** in sync for verbatim evidence.
 5. **Results** — Touch `domain-scan-results.md` only for corrections to the original scan snapshot.
 
 ---
@@ -36863,26 +36513,45 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 
 # Strategy execution and checklists (abd-ooad)
 
-**Canonical doc** for: (1) **strategy** vs **live ticks**, (2) **which files** hold checkboxes, (3) **how** `generate.py` creates workspace **`progress/`** files. Does **not** replace **[process.md](../process.md)** (process tables, `generate` / `build`) or **[skill-structure-and-concepts.md](../base/skill-structure-and-concepts.md)** (repo layout).
+**Canonical doc** for: (1) **strategy** vs **live ticks**, (2) **which files** hold checkboxes, (3) **how** `generate.py` creates workspace **`progress/`** files, (4) **stages**, **revisits / disruption** on the same checklist. Does **not** replace **[process.md](../process.md)** (phase chronicle, `generate` / `build`) or **[skill-structure-and-concepts.md](../base/skill-structure-and-concepts.md)** (repo layout).
 
-Only **`strategy.md`** defines **scope** and **which phases in what order**; checklists are where you **tick** progress.
+Only **`strategy.md`** defines **scope** and **which phase-ids (or stages) in what order**; checklists are where you **tick** progress.
 
 ---
 
 ## Workflow
 
-1. **Domain scan** — produce scan artifacts (see **`strategy-led-generation`**).
+1. **Domain scan** — produce scan artifacts (see **`strategy-led-generation`**). Phase-id: **`domain-scan`**.
 2. **Strategy** — fill **`strategy.md`** from **`templates/strategy.md`**:
    - **Modeling scope** — corpus or product boundary; **source type** (book vs repo vs mixed).
    - **§1 Source slices** — ordered table: **Goal**, **Source** (chapters, files, modules, APIs — whatever locates work), **Coverage** (depth this pass), **Importance**; stable **slice IDs** reused everywhere.
-   - **§2 Slice plan** — per slice: **goal restated**, **unit kind**, **phases** (execution step numbers / slugs), produces, depends-on.
-   - **Coverage across steps** — matrix: every slice → which **execution plan** steps touch it → **depth** → deferrals.
+   - **§2 Slice plan** — per slice: **goal restated**, **unit kind**, **phase-ids** (or **stages**) you will run, produces, depends-on.
+   - **Coverage across steps** — matrix: every slice → which **execution plan** phase-ids touch it → **depth** → deferrals.
    - **Cross-slice integration** — cross-boundary types and ordering (From → To + narrative).
-   - **Anchor and subdomain elaboration** (when anchors have attached types) — map subdomains to slices and execution §.
-   - **Execution plan (normative)** — ordered phase **slugs**; **each line cites slice IDs** (mirror **`strategy-run-checklist.md`**).
+   - **Anchor and subdomain elaboration** (when anchors have attached types) — map subdomains to slices and execution phase-ids.
+   - **Execution plan (normative)** — ordered **phase-id** strings; **each line cites slice IDs** (mirror **`strategy-run-checklist.md`**). Optionally group work by **stage A–F** (see **`process.md` → Stage map**).
+   - **Stage completion (after each stage)** — what completed; tensions; **new checklist lines** for revisits (below); **audit** — append dated line under *Ongoing strategic decisions*.
    - **Approach going forward** + **Ongoing strategic decisions** — short narrative and dated pivots.
 3. **Align live checklists** — keep **`strategy-run-checklist.md`** in sync with the execution plan (same order and scope). Optional **`templates/strategy-run-checklist.md`** seed; optional **`templates/progress-README.md`** → **`progress/README.md`** for slice-specific files under **`progress/slices/`**.
-4. **Run phases** — for the **current** phase: `python scripts/base/generate.py --phase <slug>`. Tick **`strategy-run-checklist.md`** when a phase is **done** for its declared scope; tick **`<slug>-checklist.md`** for **steps inside** that phase.
+4. **Run phases** — **`python scripts/base/generate.py --phase <phase-id>`** for one step, or **`python scripts/base/generate.py --stage <A|B|…|F>`** for a full stage (same order as **`process.md`** / **`skill-config.json` → `process_stages`**). Tick **`strategy-run-checklist.md`** when a phase (or stage slice) is **done** for its declared scope; tick **`<phase-id>-checklist.md`** for **steps inside** that phase.
+
+---
+
+## Revisits and disruption (same checklist)
+
+A **revisit** is **not** a separate rerun workflow. While executing (including late **stage F**), if work must **go back** to an earlier **stage** or **phase-id**, **add a new row** to **`strategy-run-checklist.md`** — e.g. `- [ ] Revisit stage B — <short reason>` or `- [ ] Re-run nouns-verbs-rules-and-states — slice S1 — reconcile new anchor` — at the **bottom** or **inserted** where it fits the agreed order. The checklist is the single source of truth for **forward** work plus **backward** revisits.
+
+**Audit:** When you add a revisit row, append a dated line under **`strategy.md` → Ongoing strategic decisions**; never delete prior pivots.
+
+### Hint table (non-prescriptive)
+
+| You are here | Often need to touch |
+|--------------|---------------------|
+| Stage F | Stage E, D, or C (naming / validation feedback) |
+| Stage E | Stage C (scenarios expose structure gaps) |
+| Stage D | Stage C (splitting responsibilities) |
+
+Use this as a **prompt**, not a rule.
 
 ---
 
@@ -36890,9 +36559,9 @@ Only **`strategy.md`** defines **scope** and **which phases in what order**; che
 
 | Layer | File | What you tick |
 | --- | --- | --- |
-| **Strategy execution** | **`progress/strategy-run-checklist.md`** | **Which phases** you will run, **in order**, each with **scope** that **includes the same slice IDs** as **`strategy.md` → Execution plan**. Optional: **`progress/slices/<slice-id>-checklist.md`** per slice — see **`progress/README.md`** in the workspace (if present). |
+| **Strategy execution** | **`progress/strategy-run-checklist.md`** | **Which phase-ids** (or stages) you will run, **in order**, each with **scope** that **includes the same slice IDs** as **`strategy.md` → Execution plan**; **includes revisit rows** when you must go backward. Optional: **`progress/slices/<slice-id>-checklist.md`** per slice — see **`progress/README.md`** in the workspace (if present). |
 | **Full pipeline (reference)** | **`progress/process-checklist.md`** | **Every** phase in **`phase_files`** — useful as a map; optional if you rely only on strategy-run. |
-| **Phase steps** | **`progress/<phase>-checklist.md`** | **Action checklist** copied from **`content/parts/phases/<phase>.md` → ## Action Checklist**. |
+| **Phase steps** | **`progress/<phase-id>-checklist.md`** | **Action checklist** copied from **`content/parts/phases/<phase-id>.md` → ## Action Checklist**. |
 
 **Implementation:** **`scripts/base/workspace_checklists.py`** (paths, behavior, `--no-ensure-checklists`).
 
@@ -36902,10 +36571,10 @@ Only **`strategy.md`** defines **scope** and **which phases in what order**; che
 
 | Kind | What it tracks | Where it lives | How it gets there |
 | --- | --- | --- | --- |
-| **Normative reference** | Rules in **this document** — strategy vs ticks, layers, `generate.py` behavior | **`content/parts/library/strategy-execution-and-checklists.md`** | Authored in the skill; **not** created by **`generate.py`**. |
-| **Pipeline position** | Which **phase** of the pipeline you are in | **`<active_skill_workspace>/<skill_name>/progress/process-checklist.md`** | **Created** on first **`python scripts/base/generate.py --phase <slug>`** when that file is **missing**, if **`skill-config.json` → `workspace.active_skill_workspace`** is set. One `- [ ]` line per slug in **`phase_files`** (labels from **`phase_section_headings`** when present). **Does not overwrite** an existing file. |
-| **Phase action steps** | **Steps inside** the current phase | **`<active_skill_workspace>/<skill_name>/progress/<phase-slug>-checklist.md`** | **Created** in the **same** `generate.py` run when that file is **missing**. Steps are taken from **`## Action Checklist`** in **`content/parts/phases/<phase-slug>.md`**, or from task lines (`- [ ]` / `- [x]`) in that file if the section is absent. **Does not overwrite** an existing file. |
-| **Strategy execution** (workspace) | Ordered phases matching **`strategy.md`** | **`progress/strategy-run-checklist.md`** | Seeded from template when **`generate.py`** / workspace checklist logic creates it; **you** align it with **`strategy.md`**. |
+| **Normative reference** | Rules in **this document** — strategy vs ticks, layers, revisits, `generate.py` behavior | **`content/parts/library/strategy-execution-and-checklists.md`** | Authored in the skill; **not** created by **`generate.py`**. |
+| **Pipeline position** | Which **phase-id** of the pipeline you are in | **`<active_skill_workspace>/<skill_name>/progress/process-checklist.md`** | **Created** on first **`python scripts/base/generate.py --phase <phase-id>`** (or first phase of **`--stage`**) when that file is **missing**, if **`skill-config.json` → `workspace.active_skill_workspace`** is set. One `- [ ]` line per slug in **`phase_files`** (labels from **`phase_section_headings`** when present). **Does not overwrite** an existing file. |
+| **Phase action steps** | **Steps inside** the current phase | **`<active_skill_workspace>/<skill_name>/progress/<phase-id>-checklist.md`** | **Created** in the **same** `generate.py` run when that file is **missing**. Steps are taken from **`## Action Checklist`** in **`content/parts/phases/<phase-id>.md`**, or from task lines (`- [ ]` / `- [x]`) in that file if the section is absent. **Does not overwrite** an existing file. |
+| **Strategy execution** (workspace) | Ordered phase-ids (and revisit rows) matching **`strategy.md`** | **`progress/strategy-run-checklist.md`** | Seeded from template when **`generate.py`** / workspace checklist logic creates it; **you** align it with **`strategy.md`**. |
 
 ### Names and workspace
 
@@ -36926,9 +36595,9 @@ Only **`strategy.md`** defines **scope** and **which phases in what order**; che
 
 ---
 
-## Phase slugs
+## Phase IDs
 
-Use exact slugs from **`skill-config.json` → `phase_files`** (e.g. `nouns-verbs-rules-and-states`, `domain-scan`). Labels for humans are in **`phase_section_headings`**.
+Use exact **phase-id** strings from **`skill-config.json` → `phase_files`** (e.g. `nouns-verbs-rules-and-states`, `domain-scan`). Labels for humans are in **`phase_section_headings`**. **Stages** **A–F** map to ordered phase-id lists in **`process_stages`** — see **`process.md`**.
 
 ---
 
@@ -36947,168 +36616,147 @@ Use exact slugs from **`skill-config.json` → `phase_files`** (e.g. `nouns-verb
 
 ## What a Term Is
 
-A **Term** is any concept identified from the source material that may become part of the domain model. At the time of identification, a Term is not committed to a model role — it might become a class, a property, a value type, an association, or nothing at all. The registry tracks Terms as the modeling phases determine what each one actually is.
+A **Term** is any concept identified from the source material that may become part of the domain model. At identification time it is not committed to a model role — it might become a class, a property, a value type, an association, or nothing. The registry tracks Terms as modeling **phase-ids** (see **`process.md` → Phase chronicle**) determine what each one actually is.
 
-This is distinct from other uses of "actor" in this domain:
-- In MM3E and FoundryVTT, "Actor" has a specific system meaning (a character, creature, or entity in the game world).
-- In the registry, everything is a Term until the model says otherwise.
+This is distinct from other domain uses of overloaded words (e.g. in some systems “Actor” is a system type). In the registry, everything is a Term until the model says otherwise.
 
-**File:** `<workspace>/abd-ooad/term-registry.md`
-**Never embedded** inside step outputs — it lives in its own file and is referenced from each step's model doc.
+**File:** `<workspace>/abd-ooad/term-registry.md` (or per-slice path if your workspace layout nests slices).
 
----
-
-## Step Reference — Short Names
-
-Use these short names in the **Step** column of the registry when adding or updating a row.
-
-| Short Name | Phase | Description |
-|-----------|-------|-------------|
-| SETUP | workspace-and-config | Workspace initialization |
-| SCAN | domain-scan | Source scan and anchor identification |
-| NOUNS | nouns-verbs-rules-and-states | Extract nouns, verbs, rules, states |
-| CANDS | raw-candidate-list | Raw candidate class list |
-| THINGS | thing-vs-data-about-a-thing | Separate things from data-about-things |
-| RESP | responsibilities-before-operations | Assign responsibilities |
-| PROPS | add-properties-semantically-tight | Add semantically tight properties |
-| OPS | turn-verbs-into-operations | Turn verbs into operations |
-| RELS | relationships-and-cardinality | Relationships and cardinality |
-| INV | invariants-in-the-model | Identify invariants |
-| BLOAT | watch-for-bloated-classes | Detect bloated classes |
-| ROLES | smashed-abstractions-and-hidden-roles | Uncover hidden roles |
-| INHERIT | inheritance-when-behavior-generalizes | Apply inheritance |
-| ABST | abstract-classes-and-interfaces | Abstract classes and interfaces |
-| COMP | prefer-composition | Prefer composition over inheritance |
-| STATES | model-state-transitions | Model state transitions |
-| ITER | iterative-refinement | Iterative refinement pass |
-| TENSION | tension-as-a-signal | Resolve tensions |
-| COHESION | what-changes-together | What changes together |
-| VALIDATE | validate-with-scenarios | Validate with scenarios |
-| NAMES | refine-names | Refine class and concept names |
-| LAYERS | model-in-layers | Model in layers |
+**Never embed** the full registry inside step outputs — it lives in its own file and is referenced from each phase’s model doc.
 
 ---
 
-## Slices and global phase numbers (normative)
+## Relationship to `terms.md` (per slice)
 
-The **OOAD process table** (see **`process.md`** / built **AGENTS.md** — “Process Table”) assigns **global phase numbers** **0–21** to phase **slugs** (e.g. **Phase 2** = `nouns-verbs-rules-and-states`, **Phase 3** = `raw-candidate-list`, **Phase 4** = `thing-vs-data-about-a-thing`).
-
-- **Phase 1** (`domain-scan`, short name **SCAN**) runs **once per workspace** (or once per strategy engagement). It produces anchors, `strategy.md`, `domain-scan-results.md`, and seeds **`term-registry.md`**. It is **not** repeated as “each slice’s Phase 1.”
-- **Per-slice modeling** (folders or **Anchor** columns **`S1=…`**, **`S2=…`**, …) **aligns with the same global numbers from Phase 2 onward:** the **first** extraction artifact in a slice is always **Phase 2** (**NOUNS**), then **3** (**CANDS**), **4** (**THINGS**), etc. Do **not** label slice-local nouns-verbs files as Phase 1 — that collides with **SCAN**.
-- **Phase notes** in italics (optional): `*[Sn · Phase N]*` where **N** is the **global** process-table number. Add slug, tension id, or short reminder *after* the tag on the same line if needed (e.g. *thing-vs-data*, *registry Tn*). For early “likely class” judgments: `*[S1 · Phase 3]* Likely class : …`.
-
----
-
-## Registry Columns
-
-| Column | Values | Notes |
-|--------|--------|-------|
-| **Term** | Concept name from the source | Exact word or phrase as found — rename in the NAMES step if needed |
-| **Classification** | See **Classification** below | **What we want to model this as** — target shape in the domain model (not lifecycle) |
-| **Step** | Short name from table above (SCAN, NOUNS, …) | Step that first identified or last materially updated this Term |
-| **Confidence** | High / Medium / Low | How sure we are this belongs in the model |
-| **Status** | See **Status (OOAD scale)** below | Where this Term sits in the modeling workflow |
-| **Notes** | Free text | Anchor-test results, owning module for supporting classes (`Supporting class — X module`), competing interpretations, pointers to tensions in `domain-scan-results.md`, and follow-ups |
+- **`terms.md`** (alongside `domain-noun-verb.md` in a slice folder) holds **module-scoped evidence**: quotes, raw extractions, promotion history under **`## [Anchor module]`** headings aligned with the integrated domain model.
+- **`term-registry.md`** remains the **term-centric analysis record**: one row per Term; **Targets** = where the term landed; **Notes** = substantive reasoning (anchor tests, classification, tensions) — **full paragraphs are fine** when the work needs them.
+- **Principle:** Notes depth is **not** reduced because `terms.md` exists. `terms.md` reduces **duplication of verbatim source text** and organizes evidence by module; it does **not** justify one-line registry Notes unless the term truly needs only one line.
+- **Avoid duplicate verbatim quotes:** keep the quote in **`terms.md`** and in **Notes** point to `terms.md#anchor-module` (or the term subsection); keep analysis-only text in Notes as today.
 
 ---
 
-## Classification — what we want to model this as
+## Phase IDs (normative references)
 
-Use **one** value per row. This is the **intended model role**, not how “mature” the idea is (that is **Status**).
+Refer to pipeline steps **only** by **`phase-id`** — the short **kebab-case** slug matching **`skill-config.json` → `phase_files`** and the **`process.md`** chronicle (e.g. `domain-scan`, `nouns-verbs-rules-and-states`, `refine-names`). Do **not** use “Phase 1 / Phase 2” as **names** for steps; those ordinals drift. Optional **model tags** in the domain model use **`*[Sn · phase-id]*`** (e.g. **`*[S1 · refine-names]*`**) — see **`library/domain-model`**.
 
-| Value | Meaning |
+---
+
+## Registry columns
+
+| Column | Role |
+|--------|------|
+| **Term** | Concept name from the source — exact word or phrase as found; rename in **`refine-names`** if needed. |
+| **Targets** | Where this term **landed** in the model: a **bulleted list inside the table cell** (Markdown list), **one typed pointer per line**. Unallocated / not yet placed → leave empty or **—**. |
+| **Notes** | Anchor-test results, slice/anchor context (**`S1=…`** style if useful), competing interpretations, tensions, pointers to **`terms.md`** when verbatim evidence lives there — same substance as historical scan/noun-verb rows. |
+
+**Optional:** If you need a single “primary kind” for tooling, add one optional column **after** Term (e.g. **Kind**) — otherwise prefer **Targets**-only for a slim table.
+
+---
+
+## Targets — typed pointers (one per bullet)
+
+**Normative style:** each bullet is **one** typed target. **Do not** concatenate targets with `|` or `;` on one run-on line.
+
+Examples of pointer forms (extend as your model needs):
+
+- `entity:Payment`
+- `vo:Money`
+- `property:Payment.amount`
+- `operation:Order.submit`
+- `invariant:…`
+- `policy:…`
+- `relationship:Customer — Order`
+
+**Renders in Markdown tables** — use `<br>` between bullets if your renderer collapses list-in-cell (GitHub-style often accepts list-in-cell; validate in your preview):
+
+```markdown
+| Term   | Targets |
 |--------|---------|
-| **anchor (class + module)** | Passes the anchor test: this concept is a **core class** and owns a **module** (dashed frame + same-named core class). Use only for backbone modules. |
-| **class** | A domain **class** that is not its own module yet — e.g. supporting class inside a frame, or a type you expect to become a class without its own module. |
-| **property** | Modeled as a **semantic property** (attribute / value on a class), not a separate type. |
-| **field** | Modeled as a **typed field / slot** (data member, possibly simple type or value object). |
-| **example (instance)** | An **illustrative instance**, sample, or scenario object — not a type in the model. |
-| **relationship** | An **association**, link, or dependency between concepts — may become an association, association class, or navigable role. |
-| **invariant (rule)** | A **domain rule**, constraint, or policy — often becomes behavior, guard, or explicit rule text on a class. |
-
-**Diagram mapping (when relevant):** `anchor (class + module)` → module frame + core class; `class` → class box; `relationship` → association; `invariant (rule)` → note, constraint, or operation; `property` / `field` → attributes on a class.
+| amount | - `entity:Payment`<br>- `vo:Money`<br>- `property:Payment.amount` |
+```
 
 ---
 
-## Status (OOAD scale)
+## Notes — still substantive
 
-**Status** is **lifecycle / confidence in the workflow**, not the model shape. Pick the value that best fits; states are **not** always a strict left-to-right pipeline.
+Notes remain the place for **classification reasoning**, anchor tests, tensions, and follow-ups. **Do not** make Notes sparse by default. When raw quotes live in **`terms.md`**, write in Notes: *“Verbatim quote in `terms.md` → [Anchor module] / term …”* and keep analysis here.
 
-| Status | When to use |
-|--------|-------------|
-| **Ambiguous** | You cannot yet say what the Term is or how it sits next to others. |
-| **Tension** | Competing interpretations, overlapping boundaries, or conflicting source pulls — needs resolution before the model can commit. |
-| **Candidate** | Plausible model role; narrowed but not yet locked (often after scan, before THINGS/RELS). |
-| **Deferred** | Explicitly parked — revisit in a named later step or phase. |
-| **Active** | In current modeling scope; being updated in this pass. |
-| **Solidified** | Named, placed, and stable in the model for the current iteration — ready to treat as “done” unless source or scope changes. |
-
-**Typical (non-binding) progression:** Ambiguous → Tension or Candidate → Active → Solidified. **Deferred** can apply after any stage. A Term can return from Deferred to Active when scope returns to it.
+**Slice / anchor:** You may record **`S1=Character`** (or similar) in **Notes** or a minimal **Slice** column if the table template adds one — your engagement may require it for MM3E-style multi-slice tables.
 
 ---
 
-## Registry format (wide Notes)
+## Classification (reference — not required as its own column)
 
-**Prefer an HTML `<table>` with `<colgroup>`** so the **Notes** column gets most of the width (~50–55%). **Classification** labels can be long — give that column ~12–14% if needed. Plain Markdown pipe tables allocate columns evenly and make long Notes hard to read in the editor and in preview.
+If you **merge** the old **Classification** column into **Targets**, use typed pointers (`entity:…`, `property:…`, …) so the table stays one row per Term. The **meaning** of former classification values is unchanged:
 
-Use this skeleton (adjust `width` percentages if needed):
+| Former value | Meaning |
+|--------------|--------|
+| **anchor (class + module)** | Passes the anchor test: core class owns a **module** (frame + same-named core class). |
+| **class** | Domain class not its own module yet — supporting class, or expected class without module. |
+| **property** | Modeled as semantic property on a class. |
+| **field** | Typed field / slot. |
+| **example (instance)** | Illustrative instance — not a type. |
+| **relationship** | Association, link, dependency. |
+| **invariant (rule)** | Domain rule, constraint, policy. |
+
+---
+
+## Registry format (HTML table recommended for Notes width)
+
+Prefer an HTML `<table>` with `<colgroup>` so **Notes** gets most width (~50–55%). **Targets** can be ~18–22%.
 
 ```html
 <table>
 <colgroup>
-  <col style="width:9%" />
-  <col style="width:14%" />
-  <col style="width:6%" />
-  <col style="width:9%" />
-  <col style="width:9%" />
-  <col style="width:53%" />
+  <col style="width:12%" />
+  <col style="width:22%" />
+  <col style="width:66%" />
 </colgroup>
 <thead>
 <tr>
   <th>Term</th>
-  <th>Classification</th>
-  <th>Step</th>
-  <th>Confidence</th>
-  <th>Status</th>
+  <th>Targets</th>
   <th>Notes</th>
 </tr>
 </thead>
 <tbody>
 <tr>
   <td>Character</td>
-  <td>anchor (class + module)</td>
-  <td>SCAN</td>
-  <td>High</td>
-  <td>Active</td>
-  <td>Central entity; all rules attach to it</td>
-</tr>
-<tr>
-  <td>Power</td>
-  <td>class</td>
-  <td>SCAN</td>
-  <td>High</td>
-  <td>Active</td>
-  <td>Supporting class — Character module. Core capability unit.</td>
-</tr>
-<tr>
-  <td>Device</td>
-  <td>class</td>
-  <td>SCAN</td>
-  <td>Medium</td>
-  <td>Tension</td>
-  <td>Removable Power vs Equipment? Boundary unclear — see T2.</td>
+  <td>- <code>entity:Character</code><br>- <code>property:Character.powerLevel</code></td>
+  <td>Central entity; anchor test ✓. Slice <code>S1=Character</code>. Long quotes in <code>terms.md</code> → Character module.</td>
 </tr>
 </tbody>
 </table>
 ```
 
-For very small registries only, a Markdown pipe table is acceptable:
+Small registries: Markdown pipe table is acceptable.
 
-```markdown
-| Term | Classification | Step | Confidence | Status | Notes |
-|------|----------------|------|------------|--------|-------|
-| Character | anchor (class + module) | SCAN | High | Active | Short note only |
-```
+---
+
+## Migration from legacy wide tables
+
+If you have **Step**, **Confidence**, **Status**, and **Classification** columns:
+
+1. **Term** → keep.
+2. **Classification** + committed placements → **Targets** bullets (`entity:…`, `property:…`, …).
+3. **Step** → fold into **Notes** as *“First touched at phase-id `domain-scan`”* or leave implicit if noisy.
+4. **Confidence / Status** → merge into **Notes** (*“Legacy: was High / Active”*) only if still useful; otherwise drop.
+5. **Notes** → preserve text; add pointer to **`terms.md`** where verbatim evidence moved.
+
+---
+
+## Slices and `domain-scan` vs per-slice work
+
+- **`domain-scan`** runs **workspace-wide** (or once per strategy engagement): seeds **`term-registry.md`**, anchors, **`strategy.md`**, scan artifacts. It is **not** “each slice’s first phase” by name — use **phase-id** `domain-scan` only.
+- Per-slice deep extraction aligns with **`nouns-verbs-rules-and-states`** and **`raw-candidate-list`** in **chronicle order** after scan. **`terms.md`** evolves from those phase-ids onward for that slice.
+
+---
+
+## References
+
+- **`process.md`** — Phase chronicle, stages A–F, capture ladder  
+- **`terms.md`** template — `templates/terms-template.md`  
+- **Strategy / revisits** — `library/strategy-execution-and-checklists.md`
 
 
 ---
@@ -37559,7 +37207,7 @@ The CLI does not yet support notes — add them manually in draw.io after CLI bu
 | Phase | Add invariants? |
 |-------|----------------|
 | domain-scan | Yes — add the invariants you found during the scan (inline preferred at this fidelity) |
-| domain-noun-verb (Step 1) | No — extraction only; invariants captured in registry notes |
+| domain-noun-verb (Phase 2) | No — extraction only; invariants captured in registry notes |
 | raw-candidate-list through responsibilities | Yes — as invariants become confirmed, add to diagram |
 | Full model phases | Yes — invariants are a required part of the final model |
 
@@ -38389,9 +38037,11 @@ You are the **domain modeler and OOAD practitioner** using this skill: you provi
 
 ## Phase
 
-# Refine names — payments example
+# Refine names — illustrative thread
 
-**Skill:** abd-ooad — **Step 19:** **ubiquitous language** alignment.
+**Phase ID:** `refine-names`
+
+**Skill:** abd-ooad — **Stage F** — **ubiquitous language** alignment. *(Optional payments-themed example below; substitute your domain.)*
 
 **Upstream:** `validate-with-scenarios.md`.
 
@@ -38417,9 +38067,9 @@ You are the **domain modeler and OOAD practitioner** using this skill: you provi
 
 ---
 
-## Carry forward → Step 20
+## Carry forward → `model-in-layers` (optional appendix)
 
-**Layer** the model — **domain vs application vs infra** + optional **ASCII** summary.
+**Layer** the model — **domain vs application vs infra** + optional **ASCII** summary. Not part of default **stages A–F**; run **`generate.py --phase model-in-layers`** when needed. See **`process.md`** appendix.
 
 ---
 
@@ -38456,19 +38106,23 @@ You are the **domain modeler and OOAD practitioner** using this skill: you provi
 
 # Domain model Markdown
 
-This skill’s **domain model** is captured in Markdown  a parallel **Draw.io** class diagram. Use **`templates/domain model template.md`** for companion docs; align with **`templates/domain model template.drawio`** when both exist.
+The **domain model** lives in workspace **`domain*.md`** files; **Draw.io** diagrams are **visual twins** of that content — update markdown first, then render or hand-sync the diagram (see **class-diagrams**, **using-diagram-cli**).
 
-**Phase 2 — `domain-noun-verb.md`:** anchor sections, **Candidate …** lists, full or pared class boxes. Slice files are **content only** — no skill paths or process meta in the artifact body.
+**Integrated slice model + evidence:** Prefer **`templates/domain-model-integrated.md`** alongside **`templates/terms-template.md`** (`terms.md` per slice). Class **Notes** use **`*[Sn · phase-id]*`** (e.g. **`*[S1 · refine-names]*`**) — **phase-id** from **`process.md`**, not numeric step names.
 
-**Phase 3 — bucket roll-up:** sort candidates into **entities**, **value objects**, **processes**, **policies**, **roles**, **events** (tables in **`raw-candidate-list.md`** or appended to **`domain-noun-verb.md`**). Same **content-only** rule: no skill/process boilerplate in slice files.
+**`domain-scan`:** **`domain-scan-results.md`**, **`domain-scan-model.md`**, then **`domain-scan-model.drawio`**.
 
-**Optional — `domain-raw-candidates.md`:** same Phase 3 content as **classes under anchor modules** (`### Name : << Entity >>` / `<< ValueObject >>` / `<< Process >>` / …), notes below — **not** a second copy of bucket tables. Cross-cutting material → **`## Cross-anchor`** or appendix. **`templates/domain-raw-candidates-template.md`**.
+**`nouns-verbs-rules-and-states` — `domain-noun-verb.md`:** anchor sections, **Candidate …** lists, class boxes. Slice files are **domain content only** — no skill paths or process boilerplate in the artifact body.
+
+**`raw-candidate-list`:** Prefer **`domain-raw-candidates.md`** — classes under anchors with notes. Optional single tabular roll-up (**`raw-candidate-list.md`** or appendix to **`domain-noun-verb.md`**) — **not** the same tables twice plus an integrated file.
+
+**Templates:** **`templates/domain model template.md`**, **`templates/domain-raw-candidates-template.md`**, **`templates/domain-model-integrated.md`**.
 
 ---
 
 ## Domain concept template
 
-Each **domain concept** (class, interface, value object, or aggregate) is documented under a clear heading, for example:
+Each concept is documented under a clear heading, for example:
 
 ```markdown
 ## **Payment**
@@ -38477,73 +38131,62 @@ Each **domain concept** (class, interface, value object, or aggregate) is docume
 
 ### Properties
 - Money amount
-- …
 
 ### Operations
 - initiate() → Authorization
 ```
 
-From **Step 5** onward, prefer **typed** members (see **Notation evolution** below). Earlier steps stay **pre-notation** (bullets and prose).
+From **Phase 6** onward (`add-properties-semantically-tight`), prefer **typed** members (see **Notation evolution**). Earlier phases stay informal (bullets and prose).
 
 ---
 
-## Continual refinement — class definition + diagram
+## Markdown and diagram
 
-**Continual refinement** means you **grow** the model across steps: each step file may add or tighten concepts. The Markdown spec and the class diagram are **two views of the same model** — update both when your project uses dual artifacts so they do not drift (see **[Class diagrams](class-diagrams.md)**).
+The Markdown spec and the class diagram are **two views of the same model** — keep them aligned when both exist (**class-diagrams**).
 
 ---
 
-## **newly added** tag
+## **newly added** tag (optional)
 
-In the **worked example** threads (e.g. payments), the marker **newly added** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
+In long-running examples, **newly added** on a line marks a property or operation that first appears in *this* file — useful for deltas across files.
 
 ---
 
 ## Notation evolution
 
-| Phase | Markdown style |
-|--------|------------------|
-| **Steps 1–4** | Informal: bullets, short phrases, responsibilities, candidate names; typed `- <type> property` lines arrive in Step 5. |
-| **Step 5+** | Formal typed members: `- <Type> propertyName`, `operationName(...) → ReturnType`. |
+| Phase range | Markdown style |
+|-------------|----------------|
+| **2–5** | Informal: bullets, candidates, responsibilities; typed `- <type> property` lines from **Phase 6** onward. |
+| **Phase 6+** | Formal: `- <Type> propertyName`, `operationName(...) → ReturnType`. |
 
 ---
 
 ## Subtype sections
 
-When you introduce substitutable specializations, add an explicit subtype heading so the structure is visible in the spec and in diagrams:
+When you introduce substitutable specializations, add an explicit subtype heading so structure is visible in spec and diagrams:
 
 ```markdown
 ### **Subtype** : **PaymentMethod**
 ```
 
-Put **`**newly added**`** on subtype **operation** (or property) lines when that member is **first** introduced for that subtype.
-
 ---
 
 ## Invariants
 
-Attach invariants to the **property** or **operation** they constrain, using a dedicated line:
+Attach invariants to the property or operation they constrain:
 
 ```markdown
 **Invariant:** …
 ```
 
-Mark **`**newly added**`** when you **first** attach an invariant to a given member line.
-
 ---
 
-## Early steps: terms, mechanisms, story map
+## Class diagram and spec
 
-Before typed properties exist, align extracted **nouns, verbs, rules, states** with your workspace’s **terms & mechanisms** and **shaped story map** (or equivalent). That is the same “grow the model as you go” idea: informal extraction first, then formal types.
+When you maintain **`map-model-spec.json`** or similar, re-run the project’s diagram script after material changes so Draw.io stays aligned.
 
----
-
-## Class diagram and spec (visual twin)
-
-When you maintain a machine-readable spec such as **`map-model-spec.json`**, re-run your project’s class-diagram render script (for example **`render_map_model_class_diagram.py`**) after material changes so the **Draw.io** diagram stays the **visual twin** of the spec.
-
-- **[Class diagrams](class-diagrams.md)** — templates, relationship types, keeping `.md` and `.drawio` aligned.  
-- **[Using the Diagram CLI](using-diagram-cli.md)** — building diagrams with **`scripts/drawio_cli.py`**.
+- **Class diagrams** — templates, relationships, keeping `.md` and `.drawio` aligned.  
+- **Using the Diagram CLI** — `scripts/drawio_cli.py`.
 
 ---
 
@@ -38551,9 +38194,9 @@ When you maintain a machine-readable spec such as **`map-model-spec.json`**, re-
 
 | Topic | File |
 |--------|------|
-| Term tracking across steps | [term-registry.md](term-registry.md) |
+| Term tracking | [term-registry.md](term-registry.md) |
 | Strategy-led runs | [strategy-led-generation.md](strategy-led-generation.md) |
-| Layout and lanes | [class-diagram-layout-rules.md](class-diagram-layout-rules.md) |
+| Layout | [class-diagram-layout-rules.md](class-diagram-layout-rules.md) |
 
 
 ---
@@ -38645,9 +38288,9 @@ The absence of a matching core class is the clearest signal that you have not ye
 
 # Strategy-led generation
 
-Domain scan (OOAD **phase 1**) does not only produce a single “results” file. It establishes a **small set of workspace files** under `<workspace>/abd-ooad/` that work together. Some are **frozen findings** from the scan; others are **living documents** you update as modeling continues.
+Domain scan (phase-id **`domain-scan`**) does not only produce a single “results” file. It establishes a **small set of workspace files** under `<workspace>/abd-ooad/` that work together. Some are **frozen findings** from the scan; others are **living documents** you update as modeling continues.
 
-**Slices start at global Phase 2:** Source-slice work (e.g. **S1**, **S2** in `strategy.md` and **`Anchor`** `S1=…` / `S2=…` in `term-registry.md`) uses the **same global OOAD phase numbers** as the process table for everything **after** scan. The **first** per-slice extraction step is **Phase 2** (`nouns-verbs-rules-and-states`), **not** a slice-local “Phase 1.” Phase **1** is workspace-wide **domain-scan** only. See **`term-registry.md` → Slices and global phase numbers**.
+**Per-slice extraction** after scan uses the **same phase-id chronicle** as **`process.md`**. The **first** detailed per-slice capture is **`nouns-verbs-rules-and-states`** (then **`raw-candidate-list`**, …) — **not** a second **`domain-scan`**. Use **phase-id** names in strategy and registry (and **`*[Sn · phase-id]*`** tags in the model), not “Phase 1 / Phase 2” as step names. See **`term-registry.md`** and **`process.md` → Capture ladder**.
 
 For the scan procedure itself, see the **Domain scan** phase. This page explains **what each artifact is for** and how **`strategy.md`** relates to **`domain-scan-results.md`**.
 
@@ -38665,7 +38308,8 @@ Created during domain scan under `<workspace>/abd-ooad/`:
 | `strategy.md` | **Living strategy:** **modeling scope**; **§1 source slices** (table: Order, Goal, **Source** — chapters, files, modules, or mixed — **Coverage**, **Importance**); **§2 slice plan** (per-slice **goal restated** + **phases**); **coverage across steps**; **cross-slice integration**; **anchor and subdomain elaboration**; **execution plan (normative)** — phase slugs with **slice IDs** on every line; plus **approach** and **dated pivots**. | **Yes** — whenever scope, order, slice depth, subdomain mapping, or integration changes. |
 | `domain-scan-model.md` | Class sketch (markdown) at scan fidelity. | Yes, in later phases — not only during scan. |
 | `domain-scan-model.drawio` | Diagram at scan fidelity. | Same as model.md. |
-| `term-registry.md` | Terms, **Classification** (model role), **Status** (OOAD scale), confidence — seeded at scan. | **Yes** — every later phase updates Step, Classification, and Status as the model evolves. |
+| `term-registry.md` | Terms, **Targets** (bulleted typed pointers), **Notes** — seeded at scan. | **Yes** — every later phase-id updates **Targets** and **Notes** as the model evolves. See **`library/term-registry.md`**. |
+| `terms.md` (per slice) | Evidence ledger by **`## [Anchor module]`** — quotes, promotion log. | **Yes** — from **`nouns-verbs-rules-and-states`** onward for that slice. Template: **`templates/terms-template.md`**. |
 
 **Plus** (when workspace is configured): **`progress/`** checklists — see **`library/strategy-execution-and-checklists.md`**. **`generate.py`** creates **`process-checklist.md`**, **`<phase>-checklist.md`**, and (abd-ooad) **`strategy-run-checklist.md`** when templates exist and files are missing. Normative phase steps stay in **`content/parts/phases/<phase>.md`**. These are the **only** place for session tick marks.
 
@@ -38700,8 +38344,8 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 
 1. **Strategy** — Keep **`strategy.md`** aligned with reality; append *Ongoing strategic decisions* when you pivot.
 2. **Strategy execution** — Tick **`progress/strategy-run-checklist.md`** as you **complete** each phase for its declared scope.
-3. **Phase work** — For the active phase, run **`generate.py --phase <slug>`** and tick **`progress/<slug>-checklist.md`** for action steps.
-4. **Registry** — Keep `term-registry.md` aligned with the current phase (Step, Classification, Status).
+3. **Phase work** — For the active phase-id, run **`generate.py --phase <phase-id>`** (or **`generate.py --stage <A|B|…|F>`** for a stage) and tick **`progress/<phase-id>-checklist.md`** for action steps.
+4. **Registry** — Keep `term-registry.md` aligned with the current phase-id (**Targets** + **Notes**); keep slice **`terms.md`** in sync for verbatim evidence.
 5. **Results** — Touch `domain-scan-results.md` only for corrections to the original scan snapshot.
 
 ---
@@ -38721,26 +38365,45 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 
 # Strategy execution and checklists (abd-ooad)
 
-**Canonical doc** for: (1) **strategy** vs **live ticks**, (2) **which files** hold checkboxes, (3) **how** `generate.py` creates workspace **`progress/`** files. Does **not** replace **[process.md](../process.md)** (process tables, `generate` / `build`) or **[skill-structure-and-concepts.md](../base/skill-structure-and-concepts.md)** (repo layout).
+**Canonical doc** for: (1) **strategy** vs **live ticks**, (2) **which files** hold checkboxes, (3) **how** `generate.py` creates workspace **`progress/`** files, (4) **stages**, **revisits / disruption** on the same checklist. Does **not** replace **[process.md](../process.md)** (phase chronicle, `generate` / `build`) or **[skill-structure-and-concepts.md](../base/skill-structure-and-concepts.md)** (repo layout).
 
-Only **`strategy.md`** defines **scope** and **which phases in what order**; checklists are where you **tick** progress.
+Only **`strategy.md`** defines **scope** and **which phase-ids (or stages) in what order**; checklists are where you **tick** progress.
 
 ---
 
 ## Workflow
 
-1. **Domain scan** — produce scan artifacts (see **`strategy-led-generation`**).
+1. **Domain scan** — produce scan artifacts (see **`strategy-led-generation`**). Phase-id: **`domain-scan`**.
 2. **Strategy** — fill **`strategy.md`** from **`templates/strategy.md`**:
    - **Modeling scope** — corpus or product boundary; **source type** (book vs repo vs mixed).
    - **§1 Source slices** — ordered table: **Goal**, **Source** (chapters, files, modules, APIs — whatever locates work), **Coverage** (depth this pass), **Importance**; stable **slice IDs** reused everywhere.
-   - **§2 Slice plan** — per slice: **goal restated**, **unit kind**, **phases** (execution step numbers / slugs), produces, depends-on.
-   - **Coverage across steps** — matrix: every slice → which **execution plan** steps touch it → **depth** → deferrals.
+   - **§2 Slice plan** — per slice: **goal restated**, **unit kind**, **phase-ids** (or **stages**) you will run, produces, depends-on.
+   - **Coverage across steps** — matrix: every slice → which **execution plan** phase-ids touch it → **depth** → deferrals.
    - **Cross-slice integration** — cross-boundary types and ordering (From → To + narrative).
-   - **Anchor and subdomain elaboration** (when anchors have attached types) — map subdomains to slices and execution §.
-   - **Execution plan (normative)** — ordered phase **slugs**; **each line cites slice IDs** (mirror **`strategy-run-checklist.md`**).
+   - **Anchor and subdomain elaboration** (when anchors have attached types) — map subdomains to slices and execution phase-ids.
+   - **Execution plan (normative)** — ordered **phase-id** strings; **each line cites slice IDs** (mirror **`strategy-run-checklist.md`**). Optionally group work by **stage A–F** (see **`process.md` → Stage map**).
+   - **Stage completion (after each stage)** — what completed; tensions; **new checklist lines** for revisits (below); **audit** — append dated line under *Ongoing strategic decisions*.
    - **Approach going forward** + **Ongoing strategic decisions** — short narrative and dated pivots.
 3. **Align live checklists** — keep **`strategy-run-checklist.md`** in sync with the execution plan (same order and scope). Optional **`templates/strategy-run-checklist.md`** seed; optional **`templates/progress-README.md`** → **`progress/README.md`** for slice-specific files under **`progress/slices/`**.
-4. **Run phases** — for the **current** phase: `python scripts/base/generate.py --phase <slug>`. Tick **`strategy-run-checklist.md`** when a phase is **done** for its declared scope; tick **`<slug>-checklist.md`** for **steps inside** that phase.
+4. **Run phases** — **`python scripts/base/generate.py --phase <phase-id>`** for one step, or **`python scripts/base/generate.py --stage <A|B|…|F>`** for a full stage (same order as **`process.md`** / **`skill-config.json` → `process_stages`**). Tick **`strategy-run-checklist.md`** when a phase (or stage slice) is **done** for its declared scope; tick **`<phase-id>-checklist.md`** for **steps inside** that phase.
+
+---
+
+## Revisits and disruption (same checklist)
+
+A **revisit** is **not** a separate rerun workflow. While executing (including late **stage F**), if work must **go back** to an earlier **stage** or **phase-id**, **add a new row** to **`strategy-run-checklist.md`** — e.g. `- [ ] Revisit stage B — <short reason>` or `- [ ] Re-run nouns-verbs-rules-and-states — slice S1 — reconcile new anchor` — at the **bottom** or **inserted** where it fits the agreed order. The checklist is the single source of truth for **forward** work plus **backward** revisits.
+
+**Audit:** When you add a revisit row, append a dated line under **`strategy.md` → Ongoing strategic decisions**; never delete prior pivots.
+
+### Hint table (non-prescriptive)
+
+| You are here | Often need to touch |
+|--------------|---------------------|
+| Stage F | Stage E, D, or C (naming / validation feedback) |
+| Stage E | Stage C (scenarios expose structure gaps) |
+| Stage D | Stage C (splitting responsibilities) |
+
+Use this as a **prompt**, not a rule.
 
 ---
 
@@ -38748,9 +38411,9 @@ Only **`strategy.md`** defines **scope** and **which phases in what order**; che
 
 | Layer | File | What you tick |
 | --- | --- | --- |
-| **Strategy execution** | **`progress/strategy-run-checklist.md`** | **Which phases** you will run, **in order**, each with **scope** that **includes the same slice IDs** as **`strategy.md` → Execution plan**. Optional: **`progress/slices/<slice-id>-checklist.md`** per slice — see **`progress/README.md`** in the workspace (if present). |
+| **Strategy execution** | **`progress/strategy-run-checklist.md`** | **Which phase-ids** (or stages) you will run, **in order**, each with **scope** that **includes the same slice IDs** as **`strategy.md` → Execution plan**; **includes revisit rows** when you must go backward. Optional: **`progress/slices/<slice-id>-checklist.md`** per slice — see **`progress/README.md`** in the workspace (if present). |
 | **Full pipeline (reference)** | **`progress/process-checklist.md`** | **Every** phase in **`phase_files`** — useful as a map; optional if you rely only on strategy-run. |
-| **Phase steps** | **`progress/<phase>-checklist.md`** | **Action checklist** copied from **`content/parts/phases/<phase>.md` → ## Action Checklist**. |
+| **Phase steps** | **`progress/<phase-id>-checklist.md`** | **Action checklist** copied from **`content/parts/phases/<phase-id>.md` → ## Action Checklist**. |
 
 **Implementation:** **`scripts/base/workspace_checklists.py`** (paths, behavior, `--no-ensure-checklists`).
 
@@ -38760,10 +38423,10 @@ Only **`strategy.md`** defines **scope** and **which phases in what order**; che
 
 | Kind | What it tracks | Where it lives | How it gets there |
 | --- | --- | --- | --- |
-| **Normative reference** | Rules in **this document** — strategy vs ticks, layers, `generate.py` behavior | **`content/parts/library/strategy-execution-and-checklists.md`** | Authored in the skill; **not** created by **`generate.py`**. |
-| **Pipeline position** | Which **phase** of the pipeline you are in | **`<active_skill_workspace>/<skill_name>/progress/process-checklist.md`** | **Created** on first **`python scripts/base/generate.py --phase <slug>`** when that file is **missing**, if **`skill-config.json` → `workspace.active_skill_workspace`** is set. One `- [ ]` line per slug in **`phase_files`** (labels from **`phase_section_headings`** when present). **Does not overwrite** an existing file. |
-| **Phase action steps** | **Steps inside** the current phase | **`<active_skill_workspace>/<skill_name>/progress/<phase-slug>-checklist.md`** | **Created** in the **same** `generate.py` run when that file is **missing**. Steps are taken from **`## Action Checklist`** in **`content/parts/phases/<phase-slug>.md`**, or from task lines (`- [ ]` / `- [x]`) in that file if the section is absent. **Does not overwrite** an existing file. |
-| **Strategy execution** (workspace) | Ordered phases matching **`strategy.md`** | **`progress/strategy-run-checklist.md`** | Seeded from template when **`generate.py`** / workspace checklist logic creates it; **you** align it with **`strategy.md`**. |
+| **Normative reference** | Rules in **this document** — strategy vs ticks, layers, revisits, `generate.py` behavior | **`content/parts/library/strategy-execution-and-checklists.md`** | Authored in the skill; **not** created by **`generate.py`**. |
+| **Pipeline position** | Which **phase-id** of the pipeline you are in | **`<active_skill_workspace>/<skill_name>/progress/process-checklist.md`** | **Created** on first **`python scripts/base/generate.py --phase <phase-id>`** (or first phase of **`--stage`**) when that file is **missing**, if **`skill-config.json` → `workspace.active_skill_workspace`** is set. One `- [ ]` line per slug in **`phase_files`** (labels from **`phase_section_headings`** when present). **Does not overwrite** an existing file. |
+| **Phase action steps** | **Steps inside** the current phase | **`<active_skill_workspace>/<skill_name>/progress/<phase-id>-checklist.md`** | **Created** in the **same** `generate.py` run when that file is **missing**. Steps are taken from **`## Action Checklist`** in **`content/parts/phases/<phase-id>.md`**, or from task lines (`- [ ]` / `- [x]`) in that file if the section is absent. **Does not overwrite** an existing file. |
+| **Strategy execution** (workspace) | Ordered phase-ids (and revisit rows) matching **`strategy.md`** | **`progress/strategy-run-checklist.md`** | Seeded from template when **`generate.py`** / workspace checklist logic creates it; **you** align it with **`strategy.md`**. |
 
 ### Names and workspace
 
@@ -38784,9 +38447,9 @@ Only **`strategy.md`** defines **scope** and **which phases in what order**; che
 
 ---
 
-## Phase slugs
+## Phase IDs
 
-Use exact slugs from **`skill-config.json` → `phase_files`** (e.g. `nouns-verbs-rules-and-states`, `domain-scan`). Labels for humans are in **`phase_section_headings`**.
+Use exact **phase-id** strings from **`skill-config.json` → `phase_files`** (e.g. `nouns-verbs-rules-and-states`, `domain-scan`). Labels for humans are in **`phase_section_headings`**. **Stages** **A–F** map to ordered phase-id lists in **`process_stages`** — see **`process.md`**.
 
 ---
 
@@ -38805,168 +38468,147 @@ Use exact slugs from **`skill-config.json` → `phase_files`** (e.g. `nouns-verb
 
 ## What a Term Is
 
-A **Term** is any concept identified from the source material that may become part of the domain model. At the time of identification, a Term is not committed to a model role — it might become a class, a property, a value type, an association, or nothing at all. The registry tracks Terms as the modeling phases determine what each one actually is.
+A **Term** is any concept identified from the source material that may become part of the domain model. At identification time it is not committed to a model role — it might become a class, a property, a value type, an association, or nothing. The registry tracks Terms as modeling **phase-ids** (see **`process.md` → Phase chronicle**) determine what each one actually is.
 
-This is distinct from other uses of "actor" in this domain:
-- In MM3E and FoundryVTT, "Actor" has a specific system meaning (a character, creature, or entity in the game world).
-- In the registry, everything is a Term until the model says otherwise.
+This is distinct from other domain uses of overloaded words (e.g. in some systems “Actor” is a system type). In the registry, everything is a Term until the model says otherwise.
 
-**File:** `<workspace>/abd-ooad/term-registry.md`
-**Never embedded** inside step outputs — it lives in its own file and is referenced from each step's model doc.
+**File:** `<workspace>/abd-ooad/term-registry.md` (or per-slice path if your workspace layout nests slices).
 
----
-
-## Step Reference — Short Names
-
-Use these short names in the **Step** column of the registry when adding or updating a row.
-
-| Short Name | Phase | Description |
-|-----------|-------|-------------|
-| SETUP | workspace-and-config | Workspace initialization |
-| SCAN | domain-scan | Source scan and anchor identification |
-| NOUNS | nouns-verbs-rules-and-states | Extract nouns, verbs, rules, states |
-| CANDS | raw-candidate-list | Raw candidate class list |
-| THINGS | thing-vs-data-about-a-thing | Separate things from data-about-things |
-| RESP | responsibilities-before-operations | Assign responsibilities |
-| PROPS | add-properties-semantically-tight | Add semantically tight properties |
-| OPS | turn-verbs-into-operations | Turn verbs into operations |
-| RELS | relationships-and-cardinality | Relationships and cardinality |
-| INV | invariants-in-the-model | Identify invariants |
-| BLOAT | watch-for-bloated-classes | Detect bloated classes |
-| ROLES | smashed-abstractions-and-hidden-roles | Uncover hidden roles |
-| INHERIT | inheritance-when-behavior-generalizes | Apply inheritance |
-| ABST | abstract-classes-and-interfaces | Abstract classes and interfaces |
-| COMP | prefer-composition | Prefer composition over inheritance |
-| STATES | model-state-transitions | Model state transitions |
-| ITER | iterative-refinement | Iterative refinement pass |
-| TENSION | tension-as-a-signal | Resolve tensions |
-| COHESION | what-changes-together | What changes together |
-| VALIDATE | validate-with-scenarios | Validate with scenarios |
-| NAMES | refine-names | Refine class and concept names |
-| LAYERS | model-in-layers | Model in layers |
+**Never embed** the full registry inside step outputs — it lives in its own file and is referenced from each phase’s model doc.
 
 ---
 
-## Slices and global phase numbers (normative)
+## Relationship to `terms.md` (per slice)
 
-The **OOAD process table** (see **`process.md`** / built **AGENTS.md** — “Process Table”) assigns **global phase numbers** **0–21** to phase **slugs** (e.g. **Phase 2** = `nouns-verbs-rules-and-states`, **Phase 3** = `raw-candidate-list`, **Phase 4** = `thing-vs-data-about-a-thing`).
-
-- **Phase 1** (`domain-scan`, short name **SCAN**) runs **once per workspace** (or once per strategy engagement). It produces anchors, `strategy.md`, `domain-scan-results.md`, and seeds **`term-registry.md`**. It is **not** repeated as “each slice’s Phase 1.”
-- **Per-slice modeling** (folders or **Anchor** columns **`S1=…`**, **`S2=…`**, …) **aligns with the same global numbers from Phase 2 onward:** the **first** extraction artifact in a slice is always **Phase 2** (**NOUNS**), then **3** (**CANDS**), **4** (**THINGS**), etc. Do **not** label slice-local nouns-verbs files as Phase 1 — that collides with **SCAN**.
-- **Phase notes** in italics (optional): `*[Sn · Phase N]*` where **N** is the **global** process-table number. Add slug, tension id, or short reminder *after* the tag on the same line if needed (e.g. *thing-vs-data*, *registry Tn*). For early “likely class” judgments: `*[S1 · Phase 3]* Likely class : …`.
-
----
-
-## Registry Columns
-
-| Column | Values | Notes |
-|--------|--------|-------|
-| **Term** | Concept name from the source | Exact word or phrase as found — rename in the NAMES step if needed |
-| **Classification** | See **Classification** below | **What we want to model this as** — target shape in the domain model (not lifecycle) |
-| **Step** | Short name from table above (SCAN, NOUNS, …) | Step that first identified or last materially updated this Term |
-| **Confidence** | High / Medium / Low | How sure we are this belongs in the model |
-| **Status** | See **Status (OOAD scale)** below | Where this Term sits in the modeling workflow |
-| **Notes** | Free text | Anchor-test results, owning module for supporting classes (`Supporting class — X module`), competing interpretations, pointers to tensions in `domain-scan-results.md`, and follow-ups |
+- **`terms.md`** (alongside `domain-noun-verb.md` in a slice folder) holds **module-scoped evidence**: quotes, raw extractions, promotion history under **`## [Anchor module]`** headings aligned with the integrated domain model.
+- **`term-registry.md`** remains the **term-centric analysis record**: one row per Term; **Targets** = where the term landed; **Notes** = substantive reasoning (anchor tests, classification, tensions) — **full paragraphs are fine** when the work needs them.
+- **Principle:** Notes depth is **not** reduced because `terms.md` exists. `terms.md` reduces **duplication of verbatim source text** and organizes evidence by module; it does **not** justify one-line registry Notes unless the term truly needs only one line.
+- **Avoid duplicate verbatim quotes:** keep the quote in **`terms.md`** and in **Notes** point to `terms.md#anchor-module` (or the term subsection); keep analysis-only text in Notes as today.
 
 ---
 
-## Classification — what we want to model this as
+## Phase IDs (normative references)
 
-Use **one** value per row. This is the **intended model role**, not how “mature” the idea is (that is **Status**).
+Refer to pipeline steps **only** by **`phase-id`** — the short **kebab-case** slug matching **`skill-config.json` → `phase_files`** and the **`process.md`** chronicle (e.g. `domain-scan`, `nouns-verbs-rules-and-states`, `refine-names`). Do **not** use “Phase 1 / Phase 2” as **names** for steps; those ordinals drift. Optional **model tags** in the domain model use **`*[Sn · phase-id]*`** (e.g. **`*[S1 · refine-names]*`**) — see **`library/domain-model`**.
 
-| Value | Meaning |
+---
+
+## Registry columns
+
+| Column | Role |
+|--------|------|
+| **Term** | Concept name from the source — exact word or phrase as found; rename in **`refine-names`** if needed. |
+| **Targets** | Where this term **landed** in the model: a **bulleted list inside the table cell** (Markdown list), **one typed pointer per line**. Unallocated / not yet placed → leave empty or **—**. |
+| **Notes** | Anchor-test results, slice/anchor context (**`S1=…`** style if useful), competing interpretations, tensions, pointers to **`terms.md`** when verbatim evidence lives there — same substance as historical scan/noun-verb rows. |
+
+**Optional:** If you need a single “primary kind” for tooling, add one optional column **after** Term (e.g. **Kind**) — otherwise prefer **Targets**-only for a slim table.
+
+---
+
+## Targets — typed pointers (one per bullet)
+
+**Normative style:** each bullet is **one** typed target. **Do not** concatenate targets with `|` or `;` on one run-on line.
+
+Examples of pointer forms (extend as your model needs):
+
+- `entity:Payment`
+- `vo:Money`
+- `property:Payment.amount`
+- `operation:Order.submit`
+- `invariant:…`
+- `policy:…`
+- `relationship:Customer — Order`
+
+**Renders in Markdown tables** — use `<br>` between bullets if your renderer collapses list-in-cell (GitHub-style often accepts list-in-cell; validate in your preview):
+
+```markdown
+| Term   | Targets |
 |--------|---------|
-| **anchor (class + module)** | Passes the anchor test: this concept is a **core class** and owns a **module** (dashed frame + same-named core class). Use only for backbone modules. |
-| **class** | A domain **class** that is not its own module yet — e.g. supporting class inside a frame, or a type you expect to become a class without its own module. |
-| **property** | Modeled as a **semantic property** (attribute / value on a class), not a separate type. |
-| **field** | Modeled as a **typed field / slot** (data member, possibly simple type or value object). |
-| **example (instance)** | An **illustrative instance**, sample, or scenario object — not a type in the model. |
-| **relationship** | An **association**, link, or dependency between concepts — may become an association, association class, or navigable role. |
-| **invariant (rule)** | A **domain rule**, constraint, or policy — often becomes behavior, guard, or explicit rule text on a class. |
-
-**Diagram mapping (when relevant):** `anchor (class + module)` → module frame + core class; `class` → class box; `relationship` → association; `invariant (rule)` → note, constraint, or operation; `property` / `field` → attributes on a class.
+| amount | - `entity:Payment`<br>- `vo:Money`<br>- `property:Payment.amount` |
+```
 
 ---
 
-## Status (OOAD scale)
+## Notes — still substantive
 
-**Status** is **lifecycle / confidence in the workflow**, not the model shape. Pick the value that best fits; states are **not** always a strict left-to-right pipeline.
+Notes remain the place for **classification reasoning**, anchor tests, tensions, and follow-ups. **Do not** make Notes sparse by default. When raw quotes live in **`terms.md`**, write in Notes: *“Verbatim quote in `terms.md` → [Anchor module] / term …”* and keep analysis here.
 
-| Status | When to use |
-|--------|-------------|
-| **Ambiguous** | You cannot yet say what the Term is or how it sits next to others. |
-| **Tension** | Competing interpretations, overlapping boundaries, or conflicting source pulls — needs resolution before the model can commit. |
-| **Candidate** | Plausible model role; narrowed but not yet locked (often after scan, before THINGS/RELS). |
-| **Deferred** | Explicitly parked — revisit in a named later step or phase. |
-| **Active** | In current modeling scope; being updated in this pass. |
-| **Solidified** | Named, placed, and stable in the model for the current iteration — ready to treat as “done” unless source or scope changes. |
-
-**Typical (non-binding) progression:** Ambiguous → Tension or Candidate → Active → Solidified. **Deferred** can apply after any stage. A Term can return from Deferred to Active when scope returns to it.
+**Slice / anchor:** You may record **`S1=Character`** (or similar) in **Notes** or a minimal **Slice** column if the table template adds one — your engagement may require it for MM3E-style multi-slice tables.
 
 ---
 
-## Registry format (wide Notes)
+## Classification (reference — not required as its own column)
 
-**Prefer an HTML `<table>` with `<colgroup>`** so the **Notes** column gets most of the width (~50–55%). **Classification** labels can be long — give that column ~12–14% if needed. Plain Markdown pipe tables allocate columns evenly and make long Notes hard to read in the editor and in preview.
+If you **merge** the old **Classification** column into **Targets**, use typed pointers (`entity:…`, `property:…`, …) so the table stays one row per Term. The **meaning** of former classification values is unchanged:
 
-Use this skeleton (adjust `width` percentages if needed):
+| Former value | Meaning |
+|--------------|--------|
+| **anchor (class + module)** | Passes the anchor test: core class owns a **module** (frame + same-named core class). |
+| **class** | Domain class not its own module yet — supporting class, or expected class without module. |
+| **property** | Modeled as semantic property on a class. |
+| **field** | Typed field / slot. |
+| **example (instance)** | Illustrative instance — not a type. |
+| **relationship** | Association, link, dependency. |
+| **invariant (rule)** | Domain rule, constraint, policy. |
+
+---
+
+## Registry format (HTML table recommended for Notes width)
+
+Prefer an HTML `<table>` with `<colgroup>` so **Notes** gets most width (~50–55%). **Targets** can be ~18–22%.
 
 ```html
 <table>
 <colgroup>
-  <col style="width:9%" />
-  <col style="width:14%" />
-  <col style="width:6%" />
-  <col style="width:9%" />
-  <col style="width:9%" />
-  <col style="width:53%" />
+  <col style="width:12%" />
+  <col style="width:22%" />
+  <col style="width:66%" />
 </colgroup>
 <thead>
 <tr>
   <th>Term</th>
-  <th>Classification</th>
-  <th>Step</th>
-  <th>Confidence</th>
-  <th>Status</th>
+  <th>Targets</th>
   <th>Notes</th>
 </tr>
 </thead>
 <tbody>
 <tr>
   <td>Character</td>
-  <td>anchor (class + module)</td>
-  <td>SCAN</td>
-  <td>High</td>
-  <td>Active</td>
-  <td>Central entity; all rules attach to it</td>
-</tr>
-<tr>
-  <td>Power</td>
-  <td>class</td>
-  <td>SCAN</td>
-  <td>High</td>
-  <td>Active</td>
-  <td>Supporting class — Character module. Core capability unit.</td>
-</tr>
-<tr>
-  <td>Device</td>
-  <td>class</td>
-  <td>SCAN</td>
-  <td>Medium</td>
-  <td>Tension</td>
-  <td>Removable Power vs Equipment? Boundary unclear — see T2.</td>
+  <td>- <code>entity:Character</code><br>- <code>property:Character.powerLevel</code></td>
+  <td>Central entity; anchor test ✓. Slice <code>S1=Character</code>. Long quotes in <code>terms.md</code> → Character module.</td>
 </tr>
 </tbody>
 </table>
 ```
 
-For very small registries only, a Markdown pipe table is acceptable:
+Small registries: Markdown pipe table is acceptable.
 
-```markdown
-| Term | Classification | Step | Confidence | Status | Notes |
-|------|----------------|------|------------|--------|-------|
-| Character | anchor (class + module) | SCAN | High | Active | Short note only |
-```
+---
+
+## Migration from legacy wide tables
+
+If you have **Step**, **Confidence**, **Status**, and **Classification** columns:
+
+1. **Term** → keep.
+2. **Classification** + committed placements → **Targets** bullets (`entity:…`, `property:…`, …).
+3. **Step** → fold into **Notes** as *“First touched at phase-id `domain-scan`”* or leave implicit if noisy.
+4. **Confidence / Status** → merge into **Notes** (*“Legacy: was High / Active”*) only if still useful; otherwise drop.
+5. **Notes** → preserve text; add pointer to **`terms.md`** where verbatim evidence moved.
+
+---
+
+## Slices and `domain-scan` vs per-slice work
+
+- **`domain-scan`** runs **workspace-wide** (or once per strategy engagement): seeds **`term-registry.md`**, anchors, **`strategy.md`**, scan artifacts. It is **not** “each slice’s first phase” by name — use **phase-id** `domain-scan` only.
+- Per-slice deep extraction aligns with **`nouns-verbs-rules-and-states`** and **`raw-candidate-list`** in **chronicle order** after scan. **`terms.md`** evolves from those phase-ids onward for that slice.
+
+---
+
+## References
+
+- **`process.md`** — Phase chronicle, stages A–F, capture ladder  
+- **`terms.md`** template — `templates/terms-template.md`  
+- **Strategy / revisits** — `library/strategy-execution-and-checklists.md`
 
 
 ---
@@ -39417,7 +39059,7 @@ The CLI does not yet support notes — add them manually in draw.io after CLI bu
 | Phase | Add invariants? |
 |-------|----------------|
 | domain-scan | Yes — add the invariants you found during the scan (inline preferred at this fidelity) |
-| domain-noun-verb (Step 1) | No — extraction only; invariants captured in registry notes |
+| domain-noun-verb (Phase 2) | No — extraction only; invariants captured in registry notes |
 | raw-candidate-list through responsibilities | Yes — as invariants become confirmed, add to diagram |
 | Full model phases | Yes — invariants are a required part of the final model |
 
@@ -40247,9 +39889,11 @@ You are the **domain modeler and OOAD practitioner** using this skill: you provi
 
 ## Phase
 
-# Model in layers — payments example
+# Model in layers — illustrative thread
 
-**Skill:** abd-ooad — **Step 20:** four layers + **where** payments artifacts sit.
+**Phase ID:** `model-in-layers`
+
+**Skill:** abd-ooad — **Optional appendix** (not in default stages **A–F**): four layers + **where** domain artifacts sit. *(Payments example — substitute your domain.)*
 
 **Upstream:** entire chain from `nouns-verbs-rules-and-states.md` through `refine-names.md`.
 
@@ -40328,19 +39972,23 @@ You have walked **garbled** payments from **nouns/verbs** through **layers** —
 
 # Domain model Markdown
 
-This skill’s **domain model** is captured in Markdown  a parallel **Draw.io** class diagram. Use **`templates/domain model template.md`** for companion docs; align with **`templates/domain model template.drawio`** when both exist.
+The **domain model** lives in workspace **`domain*.md`** files; **Draw.io** diagrams are **visual twins** of that content — update markdown first, then render or hand-sync the diagram (see **class-diagrams**, **using-diagram-cli**).
 
-**Phase 2 — `domain-noun-verb.md`:** anchor sections, **Candidate …** lists, full or pared class boxes. Slice files are **content only** — no skill paths or process meta in the artifact body.
+**Integrated slice model + evidence:** Prefer **`templates/domain-model-integrated.md`** alongside **`templates/terms-template.md`** (`terms.md` per slice). Class **Notes** use **`*[Sn · phase-id]*`** (e.g. **`*[S1 · refine-names]*`**) — **phase-id** from **`process.md`**, not numeric step names.
 
-**Phase 3 — bucket roll-up:** sort candidates into **entities**, **value objects**, **processes**, **policies**, **roles**, **events** (tables in **`raw-candidate-list.md`** or appended to **`domain-noun-verb.md`**). Same **content-only** rule: no skill/process boilerplate in slice files.
+**`domain-scan`:** **`domain-scan-results.md`**, **`domain-scan-model.md`**, then **`domain-scan-model.drawio`**.
 
-**Optional — `domain-raw-candidates.md`:** same Phase 3 content as **classes under anchor modules** (`### Name : << Entity >>` / `<< ValueObject >>` / `<< Process >>` / …), notes below — **not** a second copy of bucket tables. Cross-cutting material → **`## Cross-anchor`** or appendix. **`templates/domain-raw-candidates-template.md`**.
+**`nouns-verbs-rules-and-states` — `domain-noun-verb.md`:** anchor sections, **Candidate …** lists, class boxes. Slice files are **domain content only** — no skill paths or process boilerplate in the artifact body.
+
+**`raw-candidate-list`:** Prefer **`domain-raw-candidates.md`** — classes under anchors with notes. Optional single tabular roll-up (**`raw-candidate-list.md`** or appendix to **`domain-noun-verb.md`**) — **not** the same tables twice plus an integrated file.
+
+**Templates:** **`templates/domain model template.md`**, **`templates/domain-raw-candidates-template.md`**, **`templates/domain-model-integrated.md`**.
 
 ---
 
 ## Domain concept template
 
-Each **domain concept** (class, interface, value object, or aggregate) is documented under a clear heading, for example:
+Each concept is documented under a clear heading, for example:
 
 ```markdown
 ## **Payment**
@@ -40349,73 +39997,62 @@ Each **domain concept** (class, interface, value object, or aggregate) is docume
 
 ### Properties
 - Money amount
-- …
 
 ### Operations
 - initiate() → Authorization
 ```
 
-From **Step 5** onward, prefer **typed** members (see **Notation evolution** below). Earlier steps stay **pre-notation** (bullets and prose).
+From **Phase 6** onward (`add-properties-semantically-tight`), prefer **typed** members (see **Notation evolution**). Earlier phases stay informal (bullets and prose).
 
 ---
 
-## Continual refinement — class definition + diagram
+## Markdown and diagram
 
-**Continual refinement** means you **grow** the model across steps: each step file may add or tighten concepts. The Markdown spec and the class diagram are **two views of the same model** — update both when your project uses dual artifacts so they do not drift (see **[Class diagrams](class-diagrams.md)**).
+The Markdown spec and the class diagram are **two views of the same model** — keep them aligned when both exist (**class-diagrams**).
 
 ---
 
-## **newly added** tag
+## **newly added** tag (optional)
 
-In the **worked example** threads (e.g. payments), the marker **newly added** (bold tag on a line) means: this **property** or **operation** line appears for the **first time** in *this* step’s file. Use it to see the **delta** from the previous step.
+In long-running examples, **newly added** on a line marks a property or operation that first appears in *this* file — useful for deltas across files.
 
 ---
 
 ## Notation evolution
 
-| Phase | Markdown style |
-|--------|------------------|
-| **Steps 1–4** | Informal: bullets, short phrases, responsibilities, candidate names; typed `- <type> property` lines arrive in Step 5. |
-| **Step 5+** | Formal typed members: `- <Type> propertyName`, `operationName(...) → ReturnType`. |
+| Phase range | Markdown style |
+|-------------|----------------|
+| **2–5** | Informal: bullets, candidates, responsibilities; typed `- <type> property` lines from **Phase 6** onward. |
+| **Phase 6+** | Formal: `- <Type> propertyName`, `operationName(...) → ReturnType`. |
 
 ---
 
 ## Subtype sections
 
-When you introduce substitutable specializations, add an explicit subtype heading so the structure is visible in the spec and in diagrams:
+When you introduce substitutable specializations, add an explicit subtype heading so structure is visible in spec and diagrams:
 
 ```markdown
 ### **Subtype** : **PaymentMethod**
 ```
 
-Put **`**newly added**`** on subtype **operation** (or property) lines when that member is **first** introduced for that subtype.
-
 ---
 
 ## Invariants
 
-Attach invariants to the **property** or **operation** they constrain, using a dedicated line:
+Attach invariants to the property or operation they constrain:
 
 ```markdown
 **Invariant:** …
 ```
 
-Mark **`**newly added**`** when you **first** attach an invariant to a given member line.
-
 ---
 
-## Early steps: terms, mechanisms, story map
+## Class diagram and spec
 
-Before typed properties exist, align extracted **nouns, verbs, rules, states** with your workspace’s **terms & mechanisms** and **shaped story map** (or equivalent). That is the same “grow the model as you go” idea: informal extraction first, then formal types.
+When you maintain **`map-model-spec.json`** or similar, re-run the project’s diagram script after material changes so Draw.io stays aligned.
 
----
-
-## Class diagram and spec (visual twin)
-
-When you maintain a machine-readable spec such as **`map-model-spec.json`**, re-run your project’s class-diagram render script (for example **`render_map_model_class_diagram.py`**) after material changes so the **Draw.io** diagram stays the **visual twin** of the spec.
-
-- **[Class diagrams](class-diagrams.md)** — templates, relationship types, keeping `.md` and `.drawio` aligned.  
-- **[Using the Diagram CLI](using-diagram-cli.md)** — building diagrams with **`scripts/drawio_cli.py`**.
+- **Class diagrams** — templates, relationships, keeping `.md` and `.drawio` aligned.  
+- **Using the Diagram CLI** — `scripts/drawio_cli.py`.
 
 ---
 
@@ -40423,9 +40060,9 @@ When you maintain a machine-readable spec such as **`map-model-spec.json`**, re-
 
 | Topic | File |
 |--------|------|
-| Term tracking across steps | [term-registry.md](term-registry.md) |
+| Term tracking | [term-registry.md](term-registry.md) |
 | Strategy-led runs | [strategy-led-generation.md](strategy-led-generation.md) |
-| Layout and lanes | [class-diagram-layout-rules.md](class-diagram-layout-rules.md) |
+| Layout | [class-diagram-layout-rules.md](class-diagram-layout-rules.md) |
 
 
 ---
@@ -40517,9 +40154,9 @@ The absence of a matching core class is the clearest signal that you have not ye
 
 # Strategy-led generation
 
-Domain scan (OOAD **phase 1**) does not only produce a single “results” file. It establishes a **small set of workspace files** under `<workspace>/abd-ooad/` that work together. Some are **frozen findings** from the scan; others are **living documents** you update as modeling continues.
+Domain scan (phase-id **`domain-scan`**) does not only produce a single “results” file. It establishes a **small set of workspace files** under `<workspace>/abd-ooad/` that work together. Some are **frozen findings** from the scan; others are **living documents** you update as modeling continues.
 
-**Slices start at global Phase 2:** Source-slice work (e.g. **S1**, **S2** in `strategy.md` and **`Anchor`** `S1=…` / `S2=…` in `term-registry.md`) uses the **same global OOAD phase numbers** as the process table for everything **after** scan. The **first** per-slice extraction step is **Phase 2** (`nouns-verbs-rules-and-states`), **not** a slice-local “Phase 1.” Phase **1** is workspace-wide **domain-scan** only. See **`term-registry.md` → Slices and global phase numbers**.
+**Per-slice extraction** after scan uses the **same phase-id chronicle** as **`process.md`**. The **first** detailed per-slice capture is **`nouns-verbs-rules-and-states`** (then **`raw-candidate-list`**, …) — **not** a second **`domain-scan`**. Use **phase-id** names in strategy and registry (and **`*[Sn · phase-id]*`** tags in the model), not “Phase 1 / Phase 2” as step names. See **`term-registry.md`** and **`process.md` → Capture ladder**.
 
 For the scan procedure itself, see the **Domain scan** phase. This page explains **what each artifact is for** and how **`strategy.md`** relates to **`domain-scan-results.md`**.
 
@@ -40537,7 +40174,8 @@ Created during domain scan under `<workspace>/abd-ooad/`:
 | `strategy.md` | **Living strategy:** **modeling scope**; **§1 source slices** (table: Order, Goal, **Source** — chapters, files, modules, or mixed — **Coverage**, **Importance**); **§2 slice plan** (per-slice **goal restated** + **phases**); **coverage across steps**; **cross-slice integration**; **anchor and subdomain elaboration**; **execution plan (normative)** — phase slugs with **slice IDs** on every line; plus **approach** and **dated pivots**. | **Yes** — whenever scope, order, slice depth, subdomain mapping, or integration changes. |
 | `domain-scan-model.md` | Class sketch (markdown) at scan fidelity. | Yes, in later phases — not only during scan. |
 | `domain-scan-model.drawio` | Diagram at scan fidelity. | Same as model.md. |
-| `term-registry.md` | Terms, **Classification** (model role), **Status** (OOAD scale), confidence — seeded at scan. | **Yes** — every later phase updates Step, Classification, and Status as the model evolves. |
+| `term-registry.md` | Terms, **Targets** (bulleted typed pointers), **Notes** — seeded at scan. | **Yes** — every later phase-id updates **Targets** and **Notes** as the model evolves. See **`library/term-registry.md`**. |
+| `terms.md` (per slice) | Evidence ledger by **`## [Anchor module]`** — quotes, promotion log. | **Yes** — from **`nouns-verbs-rules-and-states`** onward for that slice. Template: **`templates/terms-template.md`**. |
 
 **Plus** (when workspace is configured): **`progress/`** checklists — see **`library/strategy-execution-and-checklists.md`**. **`generate.py`** creates **`process-checklist.md`**, **`<phase>-checklist.md`**, and (abd-ooad) **`strategy-run-checklist.md`** when templates exist and files are missing. Normative phase steps stay in **`content/parts/phases/<phase>.md`**. These are the **only** place for session tick marks.
 
@@ -40572,8 +40210,8 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 
 1. **Strategy** — Keep **`strategy.md`** aligned with reality; append *Ongoing strategic decisions* when you pivot.
 2. **Strategy execution** — Tick **`progress/strategy-run-checklist.md`** as you **complete** each phase for its declared scope.
-3. **Phase work** — For the active phase, run **`generate.py --phase <slug>`** and tick **`progress/<slug>-checklist.md`** for action steps.
-4. **Registry** — Keep `term-registry.md` aligned with the current phase (Step, Classification, Status).
+3. **Phase work** — For the active phase-id, run **`generate.py --phase <phase-id>`** (or **`generate.py --stage <A|B|…|F>`** for a stage) and tick **`progress/<phase-id>-checklist.md`** for action steps.
+4. **Registry** — Keep `term-registry.md` aligned with the current phase-id (**Targets** + **Notes**); keep slice **`terms.md`** in sync for verbatim evidence.
 5. **Results** — Touch `domain-scan-results.md` only for corrections to the original scan snapshot.
 
 ---
@@ -40593,26 +40231,45 @@ Walkthrough diagrams (`.md` / `.drawio`) are **not** required at scan fidelity; 
 
 # Strategy execution and checklists (abd-ooad)
 
-**Canonical doc** for: (1) **strategy** vs **live ticks**, (2) **which files** hold checkboxes, (3) **how** `generate.py` creates workspace **`progress/`** files. Does **not** replace **[process.md](../process.md)** (process tables, `generate` / `build`) or **[skill-structure-and-concepts.md](../base/skill-structure-and-concepts.md)** (repo layout).
+**Canonical doc** for: (1) **strategy** vs **live ticks**, (2) **which files** hold checkboxes, (3) **how** `generate.py` creates workspace **`progress/`** files, (4) **stages**, **revisits / disruption** on the same checklist. Does **not** replace **[process.md](../process.md)** (phase chronicle, `generate` / `build`) or **[skill-structure-and-concepts.md](../base/skill-structure-and-concepts.md)** (repo layout).
 
-Only **`strategy.md`** defines **scope** and **which phases in what order**; checklists are where you **tick** progress.
+Only **`strategy.md`** defines **scope** and **which phase-ids (or stages) in what order**; checklists are where you **tick** progress.
 
 ---
 
 ## Workflow
 
-1. **Domain scan** — produce scan artifacts (see **`strategy-led-generation`**).
+1. **Domain scan** — produce scan artifacts (see **`strategy-led-generation`**). Phase-id: **`domain-scan`**.
 2. **Strategy** — fill **`strategy.md`** from **`templates/strategy.md`**:
    - **Modeling scope** — corpus or product boundary; **source type** (book vs repo vs mixed).
    - **§1 Source slices** — ordered table: **Goal**, **Source** (chapters, files, modules, APIs — whatever locates work), **Coverage** (depth this pass), **Importance**; stable **slice IDs** reused everywhere.
-   - **§2 Slice plan** — per slice: **goal restated**, **unit kind**, **phases** (execution step numbers / slugs), produces, depends-on.
-   - **Coverage across steps** — matrix: every slice → which **execution plan** steps touch it → **depth** → deferrals.
+   - **§2 Slice plan** — per slice: **goal restated**, **unit kind**, **phase-ids** (or **stages**) you will run, produces, depends-on.
+   - **Coverage across steps** — matrix: every slice → which **execution plan** phase-ids touch it → **depth** → deferrals.
    - **Cross-slice integration** — cross-boundary types and ordering (From → To + narrative).
-   - **Anchor and subdomain elaboration** (when anchors have attached types) — map subdomains to slices and execution §.
-   - **Execution plan (normative)** — ordered phase **slugs**; **each line cites slice IDs** (mirror **`strategy-run-checklist.md`**).
+   - **Anchor and subdomain elaboration** (when anchors have attached types) — map subdomains to slices and execution phase-ids.
+   - **Execution plan (normative)** — ordered **phase-id** strings; **each line cites slice IDs** (mirror **`strategy-run-checklist.md`**). Optionally group work by **stage A–F** (see **`process.md` → Stage map**).
+   - **Stage completion (after each stage)** — what completed; tensions; **new checklist lines** for revisits (below); **audit** — append dated line under *Ongoing strategic decisions*.
    - **Approach going forward** + **Ongoing strategic decisions** — short narrative and dated pivots.
 3. **Align live checklists** — keep **`strategy-run-checklist.md`** in sync with the execution plan (same order and scope). Optional **`templates/strategy-run-checklist.md`** seed; optional **`templates/progress-README.md`** → **`progress/README.md`** for slice-specific files under **`progress/slices/`**.
-4. **Run phases** — for the **current** phase: `python scripts/base/generate.py --phase <slug>`. Tick **`strategy-run-checklist.md`** when a phase is **done** for its declared scope; tick **`<slug>-checklist.md`** for **steps inside** that phase.
+4. **Run phases** — **`python scripts/base/generate.py --phase <phase-id>`** for one step, or **`python scripts/base/generate.py --stage <A|B|…|F>`** for a full stage (same order as **`process.md`** / **`skill-config.json` → `process_stages`**). Tick **`strategy-run-checklist.md`** when a phase (or stage slice) is **done** for its declared scope; tick **`<phase-id>-checklist.md`** for **steps inside** that phase.
+
+---
+
+## Revisits and disruption (same checklist)
+
+A **revisit** is **not** a separate rerun workflow. While executing (including late **stage F**), if work must **go back** to an earlier **stage** or **phase-id**, **add a new row** to **`strategy-run-checklist.md`** — e.g. `- [ ] Revisit stage B — <short reason>` or `- [ ] Re-run nouns-verbs-rules-and-states — slice S1 — reconcile new anchor` — at the **bottom** or **inserted** where it fits the agreed order. The checklist is the single source of truth for **forward** work plus **backward** revisits.
+
+**Audit:** When you add a revisit row, append a dated line under **`strategy.md` → Ongoing strategic decisions**; never delete prior pivots.
+
+### Hint table (non-prescriptive)
+
+| You are here | Often need to touch |
+|--------------|---------------------|
+| Stage F | Stage E, D, or C (naming / validation feedback) |
+| Stage E | Stage C (scenarios expose structure gaps) |
+| Stage D | Stage C (splitting responsibilities) |
+
+Use this as a **prompt**, not a rule.
 
 ---
 
@@ -40620,9 +40277,9 @@ Only **`strategy.md`** defines **scope** and **which phases in what order**; che
 
 | Layer | File | What you tick |
 | --- | --- | --- |
-| **Strategy execution** | **`progress/strategy-run-checklist.md`** | **Which phases** you will run, **in order**, each with **scope** that **includes the same slice IDs** as **`strategy.md` → Execution plan**. Optional: **`progress/slices/<slice-id>-checklist.md`** per slice — see **`progress/README.md`** in the workspace (if present). |
+| **Strategy execution** | **`progress/strategy-run-checklist.md`** | **Which phase-ids** (or stages) you will run, **in order**, each with **scope** that **includes the same slice IDs** as **`strategy.md` → Execution plan**; **includes revisit rows** when you must go backward. Optional: **`progress/slices/<slice-id>-checklist.md`** per slice — see **`progress/README.md`** in the workspace (if present). |
 | **Full pipeline (reference)** | **`progress/process-checklist.md`** | **Every** phase in **`phase_files`** — useful as a map; optional if you rely only on strategy-run. |
-| **Phase steps** | **`progress/<phase>-checklist.md`** | **Action checklist** copied from **`content/parts/phases/<phase>.md` → ## Action Checklist**. |
+| **Phase steps** | **`progress/<phase-id>-checklist.md`** | **Action checklist** copied from **`content/parts/phases/<phase-id>.md` → ## Action Checklist**. |
 
 **Implementation:** **`scripts/base/workspace_checklists.py`** (paths, behavior, `--no-ensure-checklists`).
 
@@ -40632,10 +40289,10 @@ Only **`strategy.md`** defines **scope** and **which phases in what order**; che
 
 | Kind | What it tracks | Where it lives | How it gets there |
 | --- | --- | --- | --- |
-| **Normative reference** | Rules in **this document** — strategy vs ticks, layers, `generate.py` behavior | **`content/parts/library/strategy-execution-and-checklists.md`** | Authored in the skill; **not** created by **`generate.py`**. |
-| **Pipeline position** | Which **phase** of the pipeline you are in | **`<active_skill_workspace>/<skill_name>/progress/process-checklist.md`** | **Created** on first **`python scripts/base/generate.py --phase <slug>`** when that file is **missing**, if **`skill-config.json` → `workspace.active_skill_workspace`** is set. One `- [ ]` line per slug in **`phase_files`** (labels from **`phase_section_headings`** when present). **Does not overwrite** an existing file. |
-| **Phase action steps** | **Steps inside** the current phase | **`<active_skill_workspace>/<skill_name>/progress/<phase-slug>-checklist.md`** | **Created** in the **same** `generate.py` run when that file is **missing**. Steps are taken from **`## Action Checklist`** in **`content/parts/phases/<phase-slug>.md`**, or from task lines (`- [ ]` / `- [x]`) in that file if the section is absent. **Does not overwrite** an existing file. |
-| **Strategy execution** (workspace) | Ordered phases matching **`strategy.md`** | **`progress/strategy-run-checklist.md`** | Seeded from template when **`generate.py`** / workspace checklist logic creates it; **you** align it with **`strategy.md`**. |
+| **Normative reference** | Rules in **this document** — strategy vs ticks, layers, revisits, `generate.py` behavior | **`content/parts/library/strategy-execution-and-checklists.md`** | Authored in the skill; **not** created by **`generate.py`**. |
+| **Pipeline position** | Which **phase-id** of the pipeline you are in | **`<active_skill_workspace>/<skill_name>/progress/process-checklist.md`** | **Created** on first **`python scripts/base/generate.py --phase <phase-id>`** (or first phase of **`--stage`**) when that file is **missing**, if **`skill-config.json` → `workspace.active_skill_workspace`** is set. One `- [ ]` line per slug in **`phase_files`** (labels from **`phase_section_headings`** when present). **Does not overwrite** an existing file. |
+| **Phase action steps** | **Steps inside** the current phase | **`<active_skill_workspace>/<skill_name>/progress/<phase-id>-checklist.md`** | **Created** in the **same** `generate.py` run when that file is **missing**. Steps are taken from **`## Action Checklist`** in **`content/parts/phases/<phase-id>.md`**, or from task lines (`- [ ]` / `- [x]`) in that file if the section is absent. **Does not overwrite** an existing file. |
+| **Strategy execution** (workspace) | Ordered phase-ids (and revisit rows) matching **`strategy.md`** | **`progress/strategy-run-checklist.md`** | Seeded from template when **`generate.py`** / workspace checklist logic creates it; **you** align it with **`strategy.md`**. |
 
 ### Names and workspace
 
@@ -40656,9 +40313,9 @@ Only **`strategy.md`** defines **scope** and **which phases in what order**; che
 
 ---
 
-## Phase slugs
+## Phase IDs
 
-Use exact slugs from **`skill-config.json` → `phase_files`** (e.g. `nouns-verbs-rules-and-states`, `domain-scan`). Labels for humans are in **`phase_section_headings`**.
+Use exact **phase-id** strings from **`skill-config.json` → `phase_files`** (e.g. `nouns-verbs-rules-and-states`, `domain-scan`). Labels for humans are in **`phase_section_headings`**. **Stages** **A–F** map to ordered phase-id lists in **`process_stages`** — see **`process.md`**.
 
 ---
 
@@ -40677,168 +40334,147 @@ Use exact slugs from **`skill-config.json` → `phase_files`** (e.g. `nouns-verb
 
 ## What a Term Is
 
-A **Term** is any concept identified from the source material that may become part of the domain model. At the time of identification, a Term is not committed to a model role — it might become a class, a property, a value type, an association, or nothing at all. The registry tracks Terms as the modeling phases determine what each one actually is.
+A **Term** is any concept identified from the source material that may become part of the domain model. At identification time it is not committed to a model role — it might become a class, a property, a value type, an association, or nothing. The registry tracks Terms as modeling **phase-ids** (see **`process.md` → Phase chronicle**) determine what each one actually is.
 
-This is distinct from other uses of "actor" in this domain:
-- In MM3E and FoundryVTT, "Actor" has a specific system meaning (a character, creature, or entity in the game world).
-- In the registry, everything is a Term until the model says otherwise.
+This is distinct from other domain uses of overloaded words (e.g. in some systems “Actor” is a system type). In the registry, everything is a Term until the model says otherwise.
 
-**File:** `<workspace>/abd-ooad/term-registry.md`
-**Never embedded** inside step outputs — it lives in its own file and is referenced from each step's model doc.
+**File:** `<workspace>/abd-ooad/term-registry.md` (or per-slice path if your workspace layout nests slices).
 
----
-
-## Step Reference — Short Names
-
-Use these short names in the **Step** column of the registry when adding or updating a row.
-
-| Short Name | Phase | Description |
-|-----------|-------|-------------|
-| SETUP | workspace-and-config | Workspace initialization |
-| SCAN | domain-scan | Source scan and anchor identification |
-| NOUNS | nouns-verbs-rules-and-states | Extract nouns, verbs, rules, states |
-| CANDS | raw-candidate-list | Raw candidate class list |
-| THINGS | thing-vs-data-about-a-thing | Separate things from data-about-things |
-| RESP | responsibilities-before-operations | Assign responsibilities |
-| PROPS | add-properties-semantically-tight | Add semantically tight properties |
-| OPS | turn-verbs-into-operations | Turn verbs into operations |
-| RELS | relationships-and-cardinality | Relationships and cardinality |
-| INV | invariants-in-the-model | Identify invariants |
-| BLOAT | watch-for-bloated-classes | Detect bloated classes |
-| ROLES | smashed-abstractions-and-hidden-roles | Uncover hidden roles |
-| INHERIT | inheritance-when-behavior-generalizes | Apply inheritance |
-| ABST | abstract-classes-and-interfaces | Abstract classes and interfaces |
-| COMP | prefer-composition | Prefer composition over inheritance |
-| STATES | model-state-transitions | Model state transitions |
-| ITER | iterative-refinement | Iterative refinement pass |
-| TENSION | tension-as-a-signal | Resolve tensions |
-| COHESION | what-changes-together | What changes together |
-| VALIDATE | validate-with-scenarios | Validate with scenarios |
-| NAMES | refine-names | Refine class and concept names |
-| LAYERS | model-in-layers | Model in layers |
+**Never embed** the full registry inside step outputs — it lives in its own file and is referenced from each phase’s model doc.
 
 ---
 
-## Slices and global phase numbers (normative)
+## Relationship to `terms.md` (per slice)
 
-The **OOAD process table** (see **`process.md`** / built **AGENTS.md** — “Process Table”) assigns **global phase numbers** **0–21** to phase **slugs** (e.g. **Phase 2** = `nouns-verbs-rules-and-states`, **Phase 3** = `raw-candidate-list`, **Phase 4** = `thing-vs-data-about-a-thing`).
-
-- **Phase 1** (`domain-scan`, short name **SCAN**) runs **once per workspace** (or once per strategy engagement). It produces anchors, `strategy.md`, `domain-scan-results.md`, and seeds **`term-registry.md`**. It is **not** repeated as “each slice’s Phase 1.”
-- **Per-slice modeling** (folders or **Anchor** columns **`S1=…`**, **`S2=…`**, …) **aligns with the same global numbers from Phase 2 onward:** the **first** extraction artifact in a slice is always **Phase 2** (**NOUNS**), then **3** (**CANDS**), **4** (**THINGS**), etc. Do **not** label slice-local nouns-verbs files as Phase 1 — that collides with **SCAN**.
-- **Phase notes** in italics (optional): `*[Sn · Phase N]*` where **N** is the **global** process-table number. Add slug, tension id, or short reminder *after* the tag on the same line if needed (e.g. *thing-vs-data*, *registry Tn*). For early “likely class” judgments: `*[S1 · Phase 3]* Likely class : …`.
-
----
-
-## Registry Columns
-
-| Column | Values | Notes |
-|--------|--------|-------|
-| **Term** | Concept name from the source | Exact word or phrase as found — rename in the NAMES step if needed |
-| **Classification** | See **Classification** below | **What we want to model this as** — target shape in the domain model (not lifecycle) |
-| **Step** | Short name from table above (SCAN, NOUNS, …) | Step that first identified or last materially updated this Term |
-| **Confidence** | High / Medium / Low | How sure we are this belongs in the model |
-| **Status** | See **Status (OOAD scale)** below | Where this Term sits in the modeling workflow |
-| **Notes** | Free text | Anchor-test results, owning module for supporting classes (`Supporting class — X module`), competing interpretations, pointers to tensions in `domain-scan-results.md`, and follow-ups |
+- **`terms.md`** (alongside `domain-noun-verb.md` in a slice folder) holds **module-scoped evidence**: quotes, raw extractions, promotion history under **`## [Anchor module]`** headings aligned with the integrated domain model.
+- **`term-registry.md`** remains the **term-centric analysis record**: one row per Term; **Targets** = where the term landed; **Notes** = substantive reasoning (anchor tests, classification, tensions) — **full paragraphs are fine** when the work needs them.
+- **Principle:** Notes depth is **not** reduced because `terms.md` exists. `terms.md` reduces **duplication of verbatim source text** and organizes evidence by module; it does **not** justify one-line registry Notes unless the term truly needs only one line.
+- **Avoid duplicate verbatim quotes:** keep the quote in **`terms.md`** and in **Notes** point to `terms.md#anchor-module` (or the term subsection); keep analysis-only text in Notes as today.
 
 ---
 
-## Classification — what we want to model this as
+## Phase IDs (normative references)
 
-Use **one** value per row. This is the **intended model role**, not how “mature” the idea is (that is **Status**).
+Refer to pipeline steps **only** by **`phase-id`** — the short **kebab-case** slug matching **`skill-config.json` → `phase_files`** and the **`process.md`** chronicle (e.g. `domain-scan`, `nouns-verbs-rules-and-states`, `refine-names`). Do **not** use “Phase 1 / Phase 2” as **names** for steps; those ordinals drift. Optional **model tags** in the domain model use **`*[Sn · phase-id]*`** (e.g. **`*[S1 · refine-names]*`**) — see **`library/domain-model`**.
 
-| Value | Meaning |
+---
+
+## Registry columns
+
+| Column | Role |
+|--------|------|
+| **Term** | Concept name from the source — exact word or phrase as found; rename in **`refine-names`** if needed. |
+| **Targets** | Where this term **landed** in the model: a **bulleted list inside the table cell** (Markdown list), **one typed pointer per line**. Unallocated / not yet placed → leave empty or **—**. |
+| **Notes** | Anchor-test results, slice/anchor context (**`S1=…`** style if useful), competing interpretations, tensions, pointers to **`terms.md`** when verbatim evidence lives there — same substance as historical scan/noun-verb rows. |
+
+**Optional:** If you need a single “primary kind” for tooling, add one optional column **after** Term (e.g. **Kind**) — otherwise prefer **Targets**-only for a slim table.
+
+---
+
+## Targets — typed pointers (one per bullet)
+
+**Normative style:** each bullet is **one** typed target. **Do not** concatenate targets with `|` or `;` on one run-on line.
+
+Examples of pointer forms (extend as your model needs):
+
+- `entity:Payment`
+- `vo:Money`
+- `property:Payment.amount`
+- `operation:Order.submit`
+- `invariant:…`
+- `policy:…`
+- `relationship:Customer — Order`
+
+**Renders in Markdown tables** — use `<br>` between bullets if your renderer collapses list-in-cell (GitHub-style often accepts list-in-cell; validate in your preview):
+
+```markdown
+| Term   | Targets |
 |--------|---------|
-| **anchor (class + module)** | Passes the anchor test: this concept is a **core class** and owns a **module** (dashed frame + same-named core class). Use only for backbone modules. |
-| **class** | A domain **class** that is not its own module yet — e.g. supporting class inside a frame, or a type you expect to become a class without its own module. |
-| **property** | Modeled as a **semantic property** (attribute / value on a class), not a separate type. |
-| **field** | Modeled as a **typed field / slot** (data member, possibly simple type or value object). |
-| **example (instance)** | An **illustrative instance**, sample, or scenario object — not a type in the model. |
-| **relationship** | An **association**, link, or dependency between concepts — may become an association, association class, or navigable role. |
-| **invariant (rule)** | A **domain rule**, constraint, or policy — often becomes behavior, guard, or explicit rule text on a class. |
-
-**Diagram mapping (when relevant):** `anchor (class + module)` → module frame + core class; `class` → class box; `relationship` → association; `invariant (rule)` → note, constraint, or operation; `property` / `field` → attributes on a class.
+| amount | - `entity:Payment`<br>- `vo:Money`<br>- `property:Payment.amount` |
+```
 
 ---
 
-## Status (OOAD scale)
+## Notes — still substantive
 
-**Status** is **lifecycle / confidence in the workflow**, not the model shape. Pick the value that best fits; states are **not** always a strict left-to-right pipeline.
+Notes remain the place for **classification reasoning**, anchor tests, tensions, and follow-ups. **Do not** make Notes sparse by default. When raw quotes live in **`terms.md`**, write in Notes: *“Verbatim quote in `terms.md` → [Anchor module] / term …”* and keep analysis here.
 
-| Status | When to use |
-|--------|-------------|
-| **Ambiguous** | You cannot yet say what the Term is or how it sits next to others. |
-| **Tension** | Competing interpretations, overlapping boundaries, or conflicting source pulls — needs resolution before the model can commit. |
-| **Candidate** | Plausible model role; narrowed but not yet locked (often after scan, before THINGS/RELS). |
-| **Deferred** | Explicitly parked — revisit in a named later step or phase. |
-| **Active** | In current modeling scope; being updated in this pass. |
-| **Solidified** | Named, placed, and stable in the model for the current iteration — ready to treat as “done” unless source or scope changes. |
-
-**Typical (non-binding) progression:** Ambiguous → Tension or Candidate → Active → Solidified. **Deferred** can apply after any stage. A Term can return from Deferred to Active when scope returns to it.
+**Slice / anchor:** You may record **`S1=Character`** (or similar) in **Notes** or a minimal **Slice** column if the table template adds one — your engagement may require it for MM3E-style multi-slice tables.
 
 ---
 
-## Registry format (wide Notes)
+## Classification (reference — not required as its own column)
 
-**Prefer an HTML `<table>` with `<colgroup>`** so the **Notes** column gets most of the width (~50–55%). **Classification** labels can be long — give that column ~12–14% if needed. Plain Markdown pipe tables allocate columns evenly and make long Notes hard to read in the editor and in preview.
+If you **merge** the old **Classification** column into **Targets**, use typed pointers (`entity:…`, `property:…`, …) so the table stays one row per Term. The **meaning** of former classification values is unchanged:
 
-Use this skeleton (adjust `width` percentages if needed):
+| Former value | Meaning |
+|--------------|--------|
+| **anchor (class + module)** | Passes the anchor test: core class owns a **module** (frame + same-named core class). |
+| **class** | Domain class not its own module yet — supporting class, or expected class without module. |
+| **property** | Modeled as semantic property on a class. |
+| **field** | Typed field / slot. |
+| **example (instance)** | Illustrative instance — not a type. |
+| **relationship** | Association, link, dependency. |
+| **invariant (rule)** | Domain rule, constraint, policy. |
+
+---
+
+## Registry format (HTML table recommended for Notes width)
+
+Prefer an HTML `<table>` with `<colgroup>` so **Notes** gets most width (~50–55%). **Targets** can be ~18–22%.
 
 ```html
 <table>
 <colgroup>
-  <col style="width:9%" />
-  <col style="width:14%" />
-  <col style="width:6%" />
-  <col style="width:9%" />
-  <col style="width:9%" />
-  <col style="width:53%" />
+  <col style="width:12%" />
+  <col style="width:22%" />
+  <col style="width:66%" />
 </colgroup>
 <thead>
 <tr>
   <th>Term</th>
-  <th>Classification</th>
-  <th>Step</th>
-  <th>Confidence</th>
-  <th>Status</th>
+  <th>Targets</th>
   <th>Notes</th>
 </tr>
 </thead>
 <tbody>
 <tr>
   <td>Character</td>
-  <td>anchor (class + module)</td>
-  <td>SCAN</td>
-  <td>High</td>
-  <td>Active</td>
-  <td>Central entity; all rules attach to it</td>
-</tr>
-<tr>
-  <td>Power</td>
-  <td>class</td>
-  <td>SCAN</td>
-  <td>High</td>
-  <td>Active</td>
-  <td>Supporting class — Character module. Core capability unit.</td>
-</tr>
-<tr>
-  <td>Device</td>
-  <td>class</td>
-  <td>SCAN</td>
-  <td>Medium</td>
-  <td>Tension</td>
-  <td>Removable Power vs Equipment? Boundary unclear — see T2.</td>
+  <td>- <code>entity:Character</code><br>- <code>property:Character.powerLevel</code></td>
+  <td>Central entity; anchor test ✓. Slice <code>S1=Character</code>. Long quotes in <code>terms.md</code> → Character module.</td>
 </tr>
 </tbody>
 </table>
 ```
 
-For very small registries only, a Markdown pipe table is acceptable:
+Small registries: Markdown pipe table is acceptable.
 
-```markdown
-| Term | Classification | Step | Confidence | Status | Notes |
-|------|----------------|------|------------|--------|-------|
-| Character | anchor (class + module) | SCAN | High | Active | Short note only |
-```
+---
+
+## Migration from legacy wide tables
+
+If you have **Step**, **Confidence**, **Status**, and **Classification** columns:
+
+1. **Term** → keep.
+2. **Classification** + committed placements → **Targets** bullets (`entity:…`, `property:…`, …).
+3. **Step** → fold into **Notes** as *“First touched at phase-id `domain-scan`”* or leave implicit if noisy.
+4. **Confidence / Status** → merge into **Notes** (*“Legacy: was High / Active”*) only if still useful; otherwise drop.
+5. **Notes** → preserve text; add pointer to **`terms.md`** where verbatim evidence moved.
+
+---
+
+## Slices and `domain-scan` vs per-slice work
+
+- **`domain-scan`** runs **workspace-wide** (or once per strategy engagement): seeds **`term-registry.md`**, anchors, **`strategy.md`**, scan artifacts. It is **not** “each slice’s first phase” by name — use **phase-id** `domain-scan` only.
+- Per-slice deep extraction aligns with **`nouns-verbs-rules-and-states`** and **`raw-candidate-list`** in **chronicle order** after scan. **`terms.md`** evolves from those phase-ids onward for that slice.
+
+---
+
+## References
+
+- **`process.md`** — Phase chronicle, stages A–F, capture ladder  
+- **`terms.md`** template — `templates/terms-template.md`  
+- **Strategy / revisits** — `library/strategy-execution-and-checklists.md`
 
 
 ---
@@ -41289,7 +40925,7 @@ The CLI does not yet support notes — add them manually in draw.io after CLI bu
 | Phase | Add invariants? |
 |-------|----------------|
 | domain-scan | Yes — add the invariants you found during the scan (inline preferred at this fidelity) |
-| domain-noun-verb (Step 1) | No — extraction only; invariants captured in registry notes |
+| domain-noun-verb (Phase 2) | No — extraction only; invariants captured in registry notes |
 | raw-candidate-list through responsibilities | Yes — as invariants become confirmed, add to diagram |
 | Full model phases | Yes — invariants are a required part of the final model |
 

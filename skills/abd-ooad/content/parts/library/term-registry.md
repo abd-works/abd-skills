@@ -2,165 +2,144 @@
 
 ## What a Term Is
 
-A **Term** is any concept identified from the source material that may become part of the domain model. At the time of identification, a Term is not committed to a model role — it might become a class, a property, a value type, an association, or nothing at all. The registry tracks Terms as the modeling phases determine what each one actually is.
+A **Term** is any concept identified from the source material that may become part of the domain model. At identification time it is not committed to a model role — it might become a class, a property, a value type, an association, or nothing. The registry tracks Terms as modeling **phase-ids** (see **`process.md` → Phase chronicle**) determine what each one actually is.
 
-This is distinct from other uses of "actor" in this domain:
-- In MM3E and FoundryVTT, "Actor" has a specific system meaning (a character, creature, or entity in the game world).
-- In the registry, everything is a Term until the model says otherwise.
+This is distinct from other domain uses of overloaded words (e.g. in some systems “Actor” is a system type). In the registry, everything is a Term until the model says otherwise.
 
-**File:** `<workspace>/abd-ooad/term-registry.md`
-**Never embedded** inside step outputs — it lives in its own file and is referenced from each step's model doc.
+**File:** `<workspace>/abd-ooad/term-registry.md` (or per-slice path if your workspace layout nests slices).
 
----
-
-## Step Reference — Short Names
-
-Use these short names in the **Step** column of the registry when adding or updating a row.
-
-| Short Name | Phase | Description |
-|-----------|-------|-------------|
-| SETUP | workspace-and-config | Workspace initialization |
-| SCAN | domain-scan | Source scan and anchor identification |
-| NOUNS | nouns-verbs-rules-and-states | Extract nouns, verbs, rules, states |
-| CANDS | raw-candidate-list | Raw candidate class list |
-| THINGS | thing-vs-data-about-a-thing | Separate things from data-about-things |
-| RESP | responsibilities-before-operations | Assign responsibilities |
-| PROPS | add-properties-semantically-tight | Add semantically tight properties |
-| OPS | turn-verbs-into-operations | Turn verbs into operations |
-| RELS | relationships-and-cardinality | Relationships and cardinality |
-| INV | invariants-in-the-model | Identify invariants |
-| BLOAT | watch-for-bloated-classes | Detect bloated classes |
-| ROLES | smashed-abstractions-and-hidden-roles | Uncover hidden roles |
-| INHERIT | inheritance-when-behavior-generalizes | Apply inheritance |
-| ABST | abstract-classes-and-interfaces | Abstract classes and interfaces |
-| COMP | prefer-composition | Prefer composition over inheritance |
-| STATES | model-state-transitions | Model state transitions |
-| ITER | iterative-refinement | Iterative refinement pass |
-| TENSION | tension-as-a-signal | Resolve tensions |
-| COHESION | what-changes-together | What changes together |
-| VALIDATE | validate-with-scenarios | Validate with scenarios |
-| NAMES | refine-names | Refine class and concept names |
-| LAYERS | model-in-layers | Model in layers |
+**Never embed** the full registry inside step outputs — it lives in its own file and is referenced from each phase’s model doc.
 
 ---
 
-## Slices and global phase numbers (normative)
+## Relationship to `terms.md` (per slice)
 
-The **OOAD process table** (see **`process.md`** / built **AGENTS.md** — “Process Table”) assigns **global phase numbers** **0–21** to phase **slugs** (e.g. **Phase 2** = `nouns-verbs-rules-and-states`, **Phase 3** = `raw-candidate-list`, **Phase 4** = `thing-vs-data-about-a-thing`).
-
-- **Phase 1** (`domain-scan`, short name **SCAN**) runs **once per workspace** (or once per strategy engagement). It produces anchors, `strategy.md`, `domain-scan-results.md`, and seeds **`term-registry.md`**. It is **not** repeated as “each slice’s Phase 1.”
-- **Per-slice modeling** (folders or **Anchor** columns **`S1=…`**, **`S2=…`**, …) **aligns with the same global numbers from Phase 2 onward:** the **first** extraction artifact in a slice is always **Phase 2** (**NOUNS**), then **3** (**CANDS**), **4** (**THINGS**), etc. Do **not** label slice-local nouns-verbs files as Phase 1 — that collides with **SCAN**.
-- **Phase notes** in italics (optional): `*[Sn · Phase N]*` where **N** is the **global** process-table number. Add slug, tension id, or short reminder *after* the tag on the same line if needed (e.g. *thing-vs-data*, *registry Tn*). For early “likely class” judgments: `*[S1 · Phase 3]* Likely class : …`.
-
----
-
-## Registry Columns
-
-| Column | Values | Notes |
-|--------|--------|-------|
-| **Term** | Concept name from the source | Exact word or phrase as found — rename in the NAMES step if needed |
-| **Classification** | See **Classification** below | **What we want to model this as** — target shape in the domain model (not lifecycle) |
-| **Step** | Short name from table above (SCAN, NOUNS, …) | Step that first identified or last materially updated this Term |
-| **Confidence** | High / Medium / Low | How sure we are this belongs in the model |
-| **Status** | See **Status (OOAD scale)** below | Where this Term sits in the modeling workflow |
-| **Notes** | Free text | Anchor-test results, owning module for supporting classes (`Supporting class — X module`), competing interpretations, pointers to tensions in `domain-scan-results.md`, and follow-ups |
+- **`terms.md`** (alongside `domain-noun-verb.md` in a slice folder) holds **module-scoped evidence**: quotes, raw extractions, promotion history under **`## [Anchor module]`** headings aligned with the integrated domain model.
+- **`term-registry.md`** remains the **term-centric analysis record**: one row per Term; **Targets** = where the term landed; **Notes** = substantive reasoning (anchor tests, classification, tensions) — **full paragraphs are fine** when the work needs them.
+- **Principle:** Notes depth is **not** reduced because `terms.md` exists. `terms.md` reduces **duplication of verbatim source text** and organizes evidence by module; it does **not** justify one-line registry Notes unless the term truly needs only one line.
+- **Avoid duplicate verbatim quotes:** keep the quote in **`terms.md`** and in **Notes** point to `terms.md#anchor-module` (or the term subsection); keep analysis-only text in Notes as today.
 
 ---
 
-## Classification — what we want to model this as
+## Phase IDs (normative references)
 
-Use **one** value per row. This is the **intended model role**, not how “mature” the idea is (that is **Status**).
+Refer to pipeline steps **only** by **`phase-id`** — the short **kebab-case** slug matching **`skill-config.json` → `phase_files`** and the **`process.md`** chronicle (e.g. `domain-scan`, `nouns-verbs-rules-and-states`, `refine-names`). Do **not** use “Phase 1 / Phase 2” as **names** for steps; those ordinals drift. Optional **model tags** in the domain model use **`*[Sn · phase-id]*`** (e.g. **`*[S1 · refine-names]*`**) — see **`library/domain-model`**.
 
-| Value | Meaning |
+---
+
+## Registry columns
+
+| Column | Role |
+|--------|------|
+| **Term** | Concept name from the source — exact word or phrase as found; rename in **`refine-names`** if needed. |
+| **Targets** | Where this term **landed** in the model: a **bulleted list inside the table cell** (Markdown list), **one typed pointer per line**. Unallocated / not yet placed → leave empty or **—**. |
+| **Notes** | Anchor-test results, slice/anchor context (**`S1=…`** style if useful), competing interpretations, tensions, pointers to **`terms.md`** when verbatim evidence lives there — same substance as historical scan/noun-verb rows. |
+
+**Optional:** If you need a single “primary kind” for tooling, add one optional column **after** Term (e.g. **Kind**) — otherwise prefer **Targets**-only for a slim table.
+
+---
+
+## Targets — typed pointers (one per bullet)
+
+**Normative style:** each bullet is **one** typed target. **Do not** concatenate targets with `|` or `;` on one run-on line.
+
+Examples of pointer forms (extend as your model needs):
+
+- `entity:Payment`
+- `vo:Money`
+- `property:Payment.amount`
+- `operation:Order.submit`
+- `invariant:…`
+- `policy:…`
+- `relationship:Customer — Order`
+
+**Renders in Markdown tables** — use `<br>` between bullets if your renderer collapses list-in-cell (GitHub-style often accepts list-in-cell; validate in your preview):
+
+```markdown
+| Term   | Targets |
 |--------|---------|
-| **anchor (class + module)** | Passes the anchor test: this concept is a **core class** and owns a **module** (dashed frame + same-named core class). Use only for backbone modules. |
-| **class** | A domain **class** that is not its own module yet — e.g. supporting class inside a frame, or a type you expect to become a class without its own module. |
-| **property** | Modeled as a **semantic property** (attribute / value on a class), not a separate type. |
-| **field** | Modeled as a **typed field / slot** (data member, possibly simple type or value object). |
-| **example (instance)** | An **illustrative instance**, sample, or scenario object — not a type in the model. |
-| **relationship** | An **association**, link, or dependency between concepts — may become an association, association class, or navigable role. |
-| **invariant (rule)** | A **domain rule**, constraint, or policy — often becomes behavior, guard, or explicit rule text on a class. |
-
-**Diagram mapping (when relevant):** `anchor (class + module)` → module frame + core class; `class` → class box; `relationship` → association; `invariant (rule)` → note, constraint, or operation; `property` / `field` → attributes on a class.
+| amount | - `entity:Payment`<br>- `vo:Money`<br>- `property:Payment.amount` |
+```
 
 ---
 
-## Status (OOAD scale)
+## Notes — still substantive
 
-**Status** is **lifecycle / confidence in the workflow**, not the model shape. Pick the value that best fits; states are **not** always a strict left-to-right pipeline.
+Notes remain the place for **classification reasoning**, anchor tests, tensions, and follow-ups. **Do not** make Notes sparse by default. When raw quotes live in **`terms.md`**, write in Notes: *“Verbatim quote in `terms.md` → [Anchor module] / term …”* and keep analysis here.
 
-| Status | When to use |
-|--------|-------------|
-| **Ambiguous** | You cannot yet say what the Term is or how it sits next to others. |
-| **Tension** | Competing interpretations, overlapping boundaries, or conflicting source pulls — needs resolution before the model can commit. |
-| **Candidate** | Plausible model role; narrowed but not yet locked (often after scan, before THINGS/RELS). |
-| **Deferred** | Explicitly parked — revisit in a named later step or phase. |
-| **Active** | In current modeling scope; being updated in this pass. |
-| **Solidified** | Named, placed, and stable in the model for the current iteration — ready to treat as “done” unless source or scope changes. |
-
-**Typical (non-binding) progression:** Ambiguous → Tension or Candidate → Active → Solidified. **Deferred** can apply after any stage. A Term can return from Deferred to Active when scope returns to it.
+**Slice / anchor:** You may record **`S1=Character`** (or similar) in **Notes** or a minimal **Slice** column if the table template adds one — your engagement may require it for MM3E-style multi-slice tables.
 
 ---
 
-## Registry format (wide Notes)
+## Classification (reference — not required as its own column)
 
-**Prefer an HTML `<table>` with `<colgroup>`** so the **Notes** column gets most of the width (~50–55%). **Classification** labels can be long — give that column ~12–14% if needed. Plain Markdown pipe tables allocate columns evenly and make long Notes hard to read in the editor and in preview.
+If you **merge** the old **Classification** column into **Targets**, use typed pointers (`entity:…`, `property:…`, …) so the table stays one row per Term. The **meaning** of former classification values is unchanged:
 
-Use this skeleton (adjust `width` percentages if needed):
+| Former value | Meaning |
+|--------------|--------|
+| **anchor (class + module)** | Passes the anchor test: core class owns a **module** (frame + same-named core class). |
+| **class** | Domain class not its own module yet — supporting class, or expected class without module. |
+| **property** | Modeled as semantic property on a class. |
+| **field** | Typed field / slot. |
+| **example (instance)** | Illustrative instance — not a type. |
+| **relationship** | Association, link, dependency. |
+| **invariant (rule)** | Domain rule, constraint, policy. |
+
+---
+
+## Registry format (HTML table recommended for Notes width)
+
+Prefer an HTML `<table>` with `<colgroup>` so **Notes** gets most width (~50–55%). **Targets** can be ~18–22%.
 
 ```html
 <table>
 <colgroup>
-  <col style="width:9%" />
-  <col style="width:14%" />
-  <col style="width:6%" />
-  <col style="width:9%" />
-  <col style="width:9%" />
-  <col style="width:53%" />
+  <col style="width:12%" />
+  <col style="width:22%" />
+  <col style="width:66%" />
 </colgroup>
 <thead>
 <tr>
   <th>Term</th>
-  <th>Classification</th>
-  <th>Step</th>
-  <th>Confidence</th>
-  <th>Status</th>
+  <th>Targets</th>
   <th>Notes</th>
 </tr>
 </thead>
 <tbody>
 <tr>
   <td>Character</td>
-  <td>anchor (class + module)</td>
-  <td>SCAN</td>
-  <td>High</td>
-  <td>Active</td>
-  <td>Central entity; all rules attach to it</td>
-</tr>
-<tr>
-  <td>Power</td>
-  <td>class</td>
-  <td>SCAN</td>
-  <td>High</td>
-  <td>Active</td>
-  <td>Supporting class — Character module. Core capability unit.</td>
-</tr>
-<tr>
-  <td>Device</td>
-  <td>class</td>
-  <td>SCAN</td>
-  <td>Medium</td>
-  <td>Tension</td>
-  <td>Removable Power vs Equipment? Boundary unclear — see T2.</td>
+  <td>- <code>entity:Character</code><br>- <code>property:Character.powerLevel</code></td>
+  <td>Central entity; anchor test ✓. Slice <code>S1=Character</code>. Long quotes in <code>terms.md</code> → Character module.</td>
 </tr>
 </tbody>
 </table>
 ```
 
-For very small registries only, a Markdown pipe table is acceptable:
+Small registries: Markdown pipe table is acceptable.
 
-```markdown
-| Term | Classification | Step | Confidence | Status | Notes |
-|------|----------------|------|------------|--------|-------|
-| Character | anchor (class + module) | SCAN | High | Active | Short note only |
-```
+---
+
+## Migration from legacy wide tables
+
+If you have **Step**, **Confidence**, **Status**, and **Classification** columns:
+
+1. **Term** → keep.
+2. **Classification** + committed placements → **Targets** bullets (`entity:…`, `property:…`, …).
+3. **Step** → fold into **Notes** as *“First touched at phase-id `domain-scan`”* or leave implicit if noisy.
+4. **Confidence / Status** → merge into **Notes** (*“Legacy: was High / Active”*) only if still useful; otherwise drop.
+5. **Notes** → preserve text; add pointer to **`terms.md`** where verbatim evidence moved.
+
+---
+
+## Slices and `domain-scan` vs per-slice work
+
+- **`domain-scan`** runs **workspace-wide** (or once per strategy engagement): seeds **`term-registry.md`**, anchors, **`strategy.md`**, scan artifacts. It is **not** “each slice’s first phase” by name — use **phase-id** `domain-scan` only.
+- Per-slice deep extraction aligns with **`nouns-verbs-rules-and-states`** and **`raw-candidate-list`** in **chronicle order** after scan. **`terms.md`** evolves from those phase-ids onward for that slice.
+
+---
+
+## References
+
+- **`process.md`** — Phase chronicle, stages A–F, capture ladder  
+- **`terms.md`** template — `templates/terms-template.md`  
+- **Strategy / revisits** — `library/strategy-execution-and-checklists.md`

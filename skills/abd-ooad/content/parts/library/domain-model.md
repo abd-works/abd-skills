@@ -2,13 +2,15 @@
 
 The **domain model** lives in workspace **`domain*.md`** files; **Draw.io** diagrams are **visual twins** of that content — update markdown first, then render or hand-sync the diagram (see **class-diagrams**, **using-diagram-cli**).
 
-**Phase 1 — scan:** **`domain-scan-results.md`**, **`domain-scan-model.md`**, then **`domain-scan-model.drawio`**.
+**Integrated slice model + evidence:** Prefer **`templates/domain-model-integrated.md`** alongside **`templates/terms-template.md`** (`terms.md` per slice). Class **Notes** use **`*[Sn · phase-id]*`** (e.g. **`*[S1 · refine-names]*`**) — **phase-id** from **`process.md`**, not numeric step names.
 
-**Phase 2 — `domain-noun-verb.md`:** anchor sections, **Candidate …** lists, class boxes. Slice files are **domain content only** — no skill paths or process boilerplate in the artifact body.
+**`domain-scan`:** **`domain-scan-results.md`**, **`domain-scan-model.md`**, then **`domain-scan-model.drawio`**.
 
-**Phase 3 — raw candidates:** Prefer **`domain-raw-candidates.md`** — classes under anchors with notes. Optional single tabular roll-up (**`raw-candidate-list.md`** or appendix to **`domain-noun-verb.md`**) — **not** the same tables twice plus an integrated file.
+**`nouns-verbs-rules-and-states` — `domain-noun-verb.md`:** anchor sections, **Candidate …** lists, class boxes. Slice files are **domain content only** — no skill paths or process boilerplate in the artifact body.
 
-**Templates:** **`templates/domain model template.md`**, **`templates/domain-raw-candidates-template.md`**.
+**`raw-candidate-list`:** Prefer **`domain-raw-candidates.md`** — classes under anchors with notes. Optional single tabular roll-up (**`raw-candidate-list.md`** or appendix to **`domain-noun-verb.md`**) — **not** the same tables twice plus an integrated file.
+
+**Templates:** **`templates/domain model template.md`**, **`templates/domain-raw-candidates-template.md`**, **`templates/domain-model-integrated.md`**.
 
 ---
 

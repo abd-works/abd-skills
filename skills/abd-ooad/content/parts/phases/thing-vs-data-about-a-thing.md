@@ -1,8 +1,10 @@
-# Thing vs data about a thing — payments example
+# Thing vs data about a thing — illustrative thread
 
-**Skill:** abd-ooad — matches **Step 3: Separate “thing” from “data about a thing”** in `SKILL.md`.
+**Phase ID:** `thing-vs-data-about-a-thing`
 
-**Upstream:** `raw-candidate-list.md` (Step 2), `garbled-payments-spec.md`.
+**Skill:** abd-ooad — **Stage C** — separate **thing** from **data about a thing**.
+
+**Upstream:** **`raw-candidate-list`** (phase-id), slice specs.
 
 For each concept, ask:
 

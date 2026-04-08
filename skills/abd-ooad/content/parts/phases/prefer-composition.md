@@ -1,6 +1,8 @@
-# Prefer composition — payments example
+# Prefer composition — illustrative thread
 
-**Skill:** abd-ooad — **Step 13:** **has-a** over **is-a** for variability.
+**Phase ID:** `prefer-composition`
+
+**Skill:** abd-ooad — **Stage D** — **has-a** over **is-a** for variability. *(Example uses a payment aggregate; substitute your domain.)*
 
 **Upstream:** `abstract-classes-and-interfaces.md`.
 
@@ -27,9 +29,9 @@
 
 ---
 
-## Carry forward → Step 14
+## Carry forward → `model-state-transitions`
 
-Model **state transitions** explicitly on **Payment** (and **Refund**).
+Model **state transitions** explicitly on the aggregate (e.g. **Payment** / **Refund** in this example).
 
 ---
 

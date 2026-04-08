@@ -9,6 +9,33 @@
     ],
     "context_paths": []
   },
+  "process_stages": {
+    "A": ["workspace-and-config", "domain-scan"],
+    "B": ["nouns-verbs-rules-and-states", "raw-candidate-list"],
+    "C": [
+      "thing-vs-data-about-a-thing",
+      "responsibilities-before-operations",
+      "add-properties-semantically-tight",
+      "turn-verbs-into-operations",
+      "relationships-and-cardinality",
+      "invariants-in-the-model"
+    ],
+    "D": [
+      "watch-for-bloated-classes",
+      "smashed-abstractions-and-hidden-roles",
+      "inheritance-when-behavior-generalizes",
+      "abstract-classes-and-interfaces",
+      "prefer-composition"
+    ],
+    "E": [
+      "model-state-transitions",
+      "iterative-refinement",
+      "tension-as-a-signal",
+      "what-changes-together",
+      "validate-with-scenarios"
+    ],
+    "F": ["refine-names"]
+  },
   "phase_files": [
     "workspace-and-config",
     "domain-scan",
