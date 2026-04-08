@@ -29,3 +29,7 @@ skills/abd-context-to-memory/assets/GTB/
 
 # Aggregate FAISS + embeddings (rebuild: embed_and_index.py --replace from skill hub)
 skills/abd-context-to-memory/assets/rag/
+
+# Large local screen recordings (GitHub 100MB blob limit)
+skills/abd-ooad/recording/
+skills/abd-diagrams/context/*.mp4
