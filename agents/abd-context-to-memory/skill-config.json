@@ -1,0 +1,14 @@
+{
+  "name": "abd-context-to-memory",
+  "version": "1.2.0",
+  "parts": [
+    "purpose.md",
+    "outline.md",
+    "role.md",
+    "process.md"
+  ],
+  "build": {
+    "script": "scripts/build.py",
+    "output": "AGENTS.md"
+  }
+}
