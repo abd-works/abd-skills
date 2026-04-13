@@ -50,6 +50,20 @@ from _config import ROOT, ensure_root
 
 ensure_root()
 
+
+def _configure_stdout_utf8() -> None:
+    """Avoid UnicodeEncodeError on Windows consoles (cp1252) when reports use arrows, etc."""
+    try:
+        enc = getattr(sys.stdout, "encoding", None) or ""
+        if enc.lower() in ("utf-8", "utf8"):
+            return
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    except (AttributeError, OSError, ValueError):
+        pass
+
+
+_configure_stdout_utf8()
+
 SPEC_FILENAME = "context_chunking_spec.yaml"
 # Human-readable structural scan; always written when a new spec is drafted (--force or missing spec).
 REPORT_FILENAME = "structural_scan_report.txt"
