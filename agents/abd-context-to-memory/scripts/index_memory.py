@@ -14,7 +14,7 @@ Steps:
   3. Chunk    -- apply spec -> memory/
   4. Embed    -- chunks -> memory/rag/ (FAISS)
 
-Run from your topic/corpus folder or set CONTENT_MEMORY_ROOT.
+Run from your topic/corpus folder, or set CONTENT_MEMORY_ROOT in conf/.secrets (see AGENTS.md).
 """
 
 import subprocess
@@ -67,7 +67,7 @@ def main():
         src = Path(args[path_idx + 1]).resolve()
     else:
         src = ROOT.resolve()
-        print(f"Using default topic folder (CONTENT_MEMORY_ROOT or cwd): {src}")
+        print(f"Using default topic folder (CONTENT_MEMORY_ROOT from conf/.secrets or cwd): {src}")
     if not src.exists():
         print(f"ERROR: source folder not found: {src}")
         sys.exit(1)

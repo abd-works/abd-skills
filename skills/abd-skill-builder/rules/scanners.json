@@ -1,6 +1,0 @@
-{
-  "version": 1,
-  "comment": "Optional rule_scanner_bindings; optional scanners[] lists paths. Discovered scripts/scanners/*.py are merged by build.",
-  "rule_scanner_bindings": [],
-  "scanners": []
-}

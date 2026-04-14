@@ -40,20 +40,15 @@ The FAISS index is written to `<source_folder>/memory/rag/` — next to the chun
 
 ## Configuration
 
+**Full detail:** [references/config.md](references/config.md). **Agent workspace policy:** **[AGENTS.md](../../../AGENTS.md)** (*Workspace (topic root) — config first*).
+
 ### Required
 
-Set `OPENAI_API_KEY` for the embedding model. Place it in any of:
-
-- `<repo>/conf/.secrets`
-- `<repo>/conf/.env`
-- `<skill_root>/.env`
-- `cwd/.env`
-
-The config module loads it automatically.
+Set `OPENAI_API_KEY` for the embedding model. Prefer **`agents/abd-context-to-memory/conf/.secrets`** (copy from `conf/.secrets.example`). The config module loads **`conf/.secrets`** → **`conf/.env`** → skill/orchestrator `.env` files → `cwd/.env` automatically.
 
 ### Topic folder
 
-Set **`CONTENT_MEMORY_ROOT`**, pass **`--path`**, or **`cd`** to the corpus folder. When `--path` is omitted, embed uses `<ROOT>/memory` by default.
+Set **`CONTENT_MEMORY_ROOT=`** in **`conf/.secrets`** (recommended), pass **`--path`**, or **`cd`** to the corpus folder. When `--path` is omitted, embed uses `<ROOT>/memory` by default.
 
 ## Dependencies
 

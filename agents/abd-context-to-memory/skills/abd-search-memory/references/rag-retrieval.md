@@ -16,16 +16,16 @@ Run `search_memory "<query>"` when the user says:
 ## Agent Flow
 
 1. **Derive query** — Extract a semantic query from the user's question.
-2. **Run search** — From a shell where paths resolve (topic folder, or set `CONTENT_MEMORY_ROOT`):
+2. **Run search** — From a shell where paths resolve (topic folder, or **`CONTENT_MEMORY_ROOT`** in **`conf/.secrets`** — see [AGENTS.md](../../../AGENTS.md)):
    ```bash
-   python skills/abd-context-to-memory/scripts/search_memory.py "<query>" --rag <source>/memory/rag --k 5
+   python agents/abd-context-to-memory/skills/abd-search-memory/scripts/search_memory.py "<query>" --rag <source>/memory/rag --k 5
    ```
 3. **Inject results** — Use the returned chunks in your response.
 4. **Cite sources** — Include path and slide/section when using retrieved content. If chunks have front matter, also note `evidence_type` / `chunk_type` to signal how much weight to give the result.
 
 ## Requirements
 
-- RAG deps: `pip install -r skills/abd-context-to-memory/requirements-rag.txt`
+- RAG deps: `pip install -r agents/abd-context-to-memory/requirements-rag.txt` (from repo root; adjust if your checkout layout differs)
 - `OPENAI_API_KEY` set
 - Index exists: run `index_memory.py --path <source>` first
 

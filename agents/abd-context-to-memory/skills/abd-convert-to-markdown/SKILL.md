@@ -64,7 +64,9 @@ When the default pipeline is not enough for a specific corpus, add scripts under
 
 ## Topic folder (where output goes)
 
-Set **`CONTENT_MEMORY_ROOT`** to the corpus folder, pass **`--path <folder>`** / **`--memory <folder>`**, or **`cd`** to that folder before running. Markdown appears under `<source>/markdown/`.
+**Workspace policy** (default corpus, config files): **[AGENTS.md](../../../AGENTS.md)** (*Workspace (topic root) — config first*).
+
+**In practice:** set **`CONTENT_MEMORY_ROOT=`** in **`conf/.secrets`** (same agent root as `AGENTS.md`), or pass **`--path <folder>`** / **`--memory <folder>`**, or **`cd`** to the corpus before running. Markdown appears under `<source>/markdown/`. The code reads **`CONTENT_MEMORY_ROOT`** from the process environment after config files are loaded — keep the value in **`conf/.secrets`**, not only as a manual shell export.
 
 ## Dependencies
 

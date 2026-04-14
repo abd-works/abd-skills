@@ -99,7 +99,7 @@ Repeat until boundaries and sizes look right. Do not tell the user "fix the spec
 
 ## Topic folder
 
-Set **`CONTENT_MEMORY_ROOT`**, pass **`--path`**, or **`cd`** to the corpus folder. Chunks go to `<source>/memory/`. The spec lives at `<source>/memory/context_chunking_spec.yaml`.
+**Workspace:** **[AGENTS.md](../../../AGENTS.md)** (*Workspace (topic root) — config first*). Set **`CONTENT_MEMORY_ROOT=`** in **`conf/.secrets`**, pass **`--path`**, or **`cd`** to the corpus folder. Chunks go to `<source>/memory/`. The spec lives at `<source>/memory/context_chunking_spec.yaml`.
 
 ## Gotchas
 

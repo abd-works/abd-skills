@@ -1,14 +1,24 @@
 """Shared config: ROOT, MEMORY, ASSETS for resolving relative paths.
 
-``ROOT`` is resolved in order (bootstrap from **this skill**, not from other repos or bots):
+Bootstrap is from the **abd-context-to-memory agent** (parent of ``skills/``), not other repos or bots.
 
-1. ``CONTENT_MEMORY_ROOT`` (environment), if set — **set this** for a stable topic/corpus folder
-2. Current working directory — use when you ``cd`` to your corpus before running scripts
+**Config files** (loaded first; keys become process environment for the script run):
 
-There is **no** separate skill-config path for the topic root; do not confuse with agile_bots
+- ``<agent>/conf/.secrets`` — primary place for ``OPENAI_API_KEY`` and optional ``CONTENT_MEMORY_ROOT=``
+- ``<agent>/conf/.env`` — same ``KEY=value`` format; then optional ``<this_skill>/.env``, ``cwd/.env``
+
+**Topic root** ``ROOT`` (after loading config):
+
+1. ``CONTENT_MEMORY_ROOT`` if set (usually **in** ``conf/.secrets``, not a shell export)
+2. Current working directory — when you ``cd`` to your corpus before running scripts
+
+**Per-run override:** pass ``--path`` / ``--memory`` / ``--rag`` where documented.
+
+Orchestration and workspace policy: **[AGENTS.md](../../../AGENTS.md)**. Do not confuse with agile_bots
 ``WORKING_AREA``, MCP, or bot config.
 
-Under ``ROOT``: ``markdown/`` (converted sources + **structural scan reports**), ``memory/`` (chunks, ``context_chunking_spec.yaml``, ``rag/`` for FAISS when embedded).
+Under ``ROOT``: ``markdown/`` (converted sources + **structural scan reports**), ``memory/`` (chunks,
+``context_chunking_spec.yaml``, ``rag/`` for FAISS when embedded).
 """
 import os
 import sys
@@ -44,7 +54,7 @@ def ensure_root() -> None:
     if not ROOT.exists():
         print("Memory path not found:", ROOT, file=sys.stderr)
         print(
-            "Set CONTENT_MEMORY_ROOT to your topic/corpus folder, or cd to that folder before running scripts.",
+            "Set CONTENT_MEMORY_ROOT in <agent>/conf/.secrets (or conf/.env), or cd to your topic/corpus folder before running scripts.",
             file=sys.stderr,
         )
         sys.exit(1)

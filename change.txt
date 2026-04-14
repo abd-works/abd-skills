@@ -1,0 +1,122 @@
+ we were dong skills wrong with this for 
+abd-skill-builder
+ 
+
+
+
+see 
+Skills and agent workflow discussion
+ 
+
+
+
+we need to convert skill builder
+
+
+
+agents.md is rsponsible for workslow and orchestrate
+
+
+
+skill is the methgod and bofdy ofknweledge
+
+
+
+se  
+abd-context-to-memory
+ 
+
+
+
+we astill build but flatter to library as most reuse jsut goes into agent; skills dontr need all common stuff as agent has it already skills are uch less aeare of their caller
+
+
+
+we need to alter skill builder to matrchj new approaqch  chagen s at least to 
+
+-> procees
+
+-> is correctrins now its own skill (pretty sure is)
+
+-> rules i think stayt with each skills as a capbilioty (youtr thoughts please)_
+
+-> is workspace part of agent.md as its own skill or jst agent.md asa config fir skills?
+
+-> phasesa renot jut difrfent skills so dont really need 
+
+-> activity is that askil or a capabilioty ikn askill?
+
+--> templates stay with skill
+
+--> rtests stay with skill
+
+
+
+yhoughts?
+
+Reviewing the transcript snippet, abd-skill-builder, and abd-context-to-memory so we can give grounded recommendations.
+
+Checking the repo layout and orchestrator files so we can give an accurate answer (Ask mode — no edits).
+
+You’re right about the model: an orchestrator is an agent (workflow, sequencing, quality gates, “ask once” decisions), not a skill in the Open Agent Skills sense. SKILL.md is for a single, loadable unit of work with a name / description frontmatter that discovery can index; AGENTS.md (in your abd-skill-builder layout) is the right place for who runs what, in what order, and when to pause.
+
+What your repo does now
+
+Under c:\dev\agilebydesign-skills\agents\abd-context-to-memory\:
+
+AGENTS.md is the orchestration surface: pipeline order, strategy pass, links to each stage’s skills/abd-*/SKILL.md, and cross-stage quality expectations.
+There is no SKILL.md at the agent root — only the four stage packages have SKILL.md (abd-convert-to-markdown, abd-chunk-markdown, abd-embed-vectors, abd-search-memory).
+So the earlier mistake (treating the orchestrator as a skill with its own SKILL.md) is not reflected in the current agent folder layout: orchestration is in AGENTS.md, and SKILL.md files belong to the sub-skills only.
+
+Why a separate SKILL.md on the orchestrator would be wrong
+
+Discovery and tooling expect SKILL.md to mean “invoke this capability”; duplicating that for an orchestrator blurs workflow vs method.
+The orchestrator’s “activation phrases” are really combinations of the pipeline and user intent; that’s better expressed as agent instructions plus pointers to the four skills, not as a fifth skill competing with them.
+Caveat
+
+Some other docs in the repo still mention paths like skills/abd-context-to-memory/scripts/... (e.g. skills/abd-proposal-respond). That’s documentation drift relative to the agents/abd-context-to-memory/ layout, not proof the orchestrator should have a SKILL.md.
+
+I’m in Ask mode, so I can’t edit files; if you want those legacy paths and any stray copies unified, switch to Agent mode and we can align references to agents/abd-context-to-memory/.
+
+Yep I need you to respond to the different components that I just talked about I eat what should I do with the different pieces are they stills or are they parts of skills that reassemble using the builder or do we just redeploy those skills into agents using the builder
+
+Here’s a concise map of what goes where and how abd-skill-builder fits, without mixing “skill” and “agent.”
+
+Mental model
+Piece	What it is	Where it lives
+Process (ordered steps, gates, “when to pause”)
+Orchestration
+Agent — AGENTS.md (and optional content/ parts the builder merges). Not a separate Open Agent Skill unless you productize “process only” as something invokable on its own (you usually don’t).
+Skills (convert, chunk, embed, search)
+Single-purpose capabilities
+Each has its own SKILL.md + scripts/ + references/. The agent calls these; it doesn’t replace them.
+Rules
+How to run that stage well
+Per skill — stay next to the skill (rules, references, guardrails). The agent shouldn’t duplicate long rule corpora; it can say when to apply which skill.
+Workspace / paths / corpus root
+Configuration + context for a run
+Agent-first — document in AGENTS.md (and env like CONTENT_MEMORY_ROOT, --path, conf/). Usually not its own skill unless you have a standalone “bootstrap workspace” product you want discoverable.
+Phases
+Narrative / lifecycle grouping
+Agent process, not alternate skills. A phase might map1:1 to one skill, but “phase” is flow language in the agent; don’t make every phase a new SKILL.md by default.
+Activity (tracking what happened, handoffs)
+Cross-cutting behavior
+Mostly orchestrator concern in AGENTS.md (“log step, confirm outputs”). If one step needs rich activity semantics, that’s a small capability inside that skill’s docs/scripts, not a second orchestrator.
+Templates
+Artifacts for one stage
+With the skill that produces or consumes them.
+Tests
+Verify behavior
+With the thing under test — unit/integration next to each skill; optional agent-level tests only if you’re testing full pipeline wiring.
+“Is correct” / validation
+Quality gate
+Either a dedicated small skill (e.g. “validate chunking spec / validate markdown structure”) or explicit checklist steps in the agent that invoke existing scripts. If it’s one script and one job, a skill is reasonable; if it’s three bullets between stages, agent-only is fine.
+Builder vs “redeploy skills into agents”
+abd-skill-builder is for assembling and maintaining agent docs (and conventions like content/parts/, skills.md), not for turning skills into agents or merging them into one blob.
+You do not “redeploy skills into agents” in the sense of replacing skills with agent text. You deploy by:
+Keeping skills as the method (tools + SKILL.md).
+Putting workflow in AGENTS.md.
+Using the builder to stitch agent sections and keep links to the right skills/.../SKILL.md files consistent.
+So: pieces that are “how we work end-to-end” → agent + builder-assembled docs; pieces that are “how to do one job” → skills; shared mechanics (templates, tests, rules) → stay on the skill that owns them.
+
+If you tell me what you meant by “is correctrins” (typo for a specific check?), I can say “agent-only gate” vs “its own tiny skill” more decisively.

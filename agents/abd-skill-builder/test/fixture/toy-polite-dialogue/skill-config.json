@@ -1,0 +1,8 @@
+{
+  "name": "toy-polite-dialogue",
+  "version": "0.1.0",
+  "build": {
+    "compileall_paths": ["scripts"],
+    "build_script": "scripts/base/build.py"
+  }
+}

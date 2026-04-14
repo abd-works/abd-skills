@@ -1,5 +1,7 @@
 # AGENTS — abd-context-to-memory
 
+> **Maintain in `content/` only.** Edit the `.md` files there, then run `python scripts/build.py` from this agent’s root. Do not hand-edit this file.
+
 ---
 
 ## Purpose
@@ -34,13 +36,61 @@ Per-stage procedures: **`skills/abd-*/SKILL.md`** and each skill's **`references
 
 ---
 
+## Workspace (topic root) — config first
+
+The **default corpus folder** (topic root: where `markdown/`, `memory/`, etc. live) is **not** a separate Open Agent Skill. It is **agent policy**, implemented by **`_config.py`** in this package.
+
+**Primary setup:** copy **`conf/.secrets.example`** → **`conf/.secrets`** and set:
+
+- **`OPENAI_API_KEY`** — required for embed/search
+- **`CONTENT_MEMORY_ROOT`** — optional but recommended: absolute path to your topic/corpus folder
+
+Use **`KEY=value`** lines (no spaces around `=`). Files are loaded **before** scripts resolve `ROOT`; you normally **do not** need shell `export`. The key name stays **`CONTENT_MEMORY_ROOT`** (same as in code); only the **storage** is the config file, not “set an env var by hand” as the default story.
+
+**Overrides (per run):** pass **`--path`**, **`--memory`**, or **`--rag`** on the relevant script so a single command targets a different folder without editing `.secrets`.
+
+**Fallback:** `cd` to the topic folder before running (scripts use `cwd` when `CONTENT_MEMORY_ROOT` is unset).
+
+**Canonical detail for skills:** each stage skill’s **`SKILL.md`** points here and to **[config.md](skills/abd-embed-vectors/references/config.md)** so authors keep workspace behavior consistent with this agent.
+
+---
+
 ## Role
 
 You are the **orchestrator** for the context-to-memory pipeline. You **delegate** implementation detail to the agent's skills (`abd-convert-to-markdown`, `abd-chunk-markdown`, `abd-embed-vectors`, `abd-search-memory`) and keep **dependencies** clear: conversion before chunking, chunking before embedding, embedding before search.
 
 You know **structure-based chunking** (`context_chunking_spec.yaml`), **evidence / chunk labels**, when a **strategy pass** is worth the pause, and how **FAISS semantic search** fits the topic layout under `memory/rag/`.
 
-Ground running work in **this file** (orchestration + quality loops) and the relevant skill **`SKILL.md`** (per-stage scripts and flags). Run **`scripts/`** from a shell where **`CONTENT_MEMORY_ROOT`**, **`--path`**, or **cwd** points at the corpus. If the user asks to ingest or refresh and **does not** mention strategy, **ask once**: strategy pass vs straight-through — do not assume silently.
+Ground running work in **this file** (orchestration + quality loops) and the relevant skill **`SKILL.md`** (per-stage scripts and flags). Ensure **`conf/.secrets`** (or **`conf/.env`**) defines the default corpus via **`CONTENT_MEMORY_ROOT`** when the user wants a stable workspace, or pass **`--path`** / use **cwd** — see **Workspace** above. If the user asks to ingest or refresh and **does not** mention strategy, **ask once**: strategy pass vs straight-through — do not assume silently.
+
+---
+
+## Checklist
+
+**Agent orchestration only.** This checklist lives in **`agents/abd-context-to-memory/content/`** with the other **agent** slices. It is **not** the **abd-skill-builder** pattern (`generate.py`, `phase_files`, `…/progress/` under `active_skill_workspace`).
+
+Use it to track one **ingest run** over a **topic root** (`CONTENT_MEMORY_ROOT` or `--path`). Copy into chat or a run log under `<topic_root>/docs/` if you need persistence.
+
+### Full pipeline (typical)
+
+- [ ] **Config** — `conf/.secrets` has `OPENAI_API_KEY`; optional `CONTENT_MEMORY_ROOT` (see **Workspace** above).
+- [ ] **Strategy** — User chose **strategy pass** vs **straight-through** (ask once if unclear).
+- [ ] **Convert** — `markdown/` populated; structure acceptable or bespoke / preprocess loop applied.
+- [ ] **Spec** — `memory/context_chunking_spec.yaml` drafted or reused; YAML reviewed if strategy pass.
+- [ ] **Chunk** — `memory/` chunks sane (count, splits); run quality loop if not.
+- [ ] **Embed** — FAISS index under `memory/rag/` built.
+- [ ] **Search** — Optional smoke query if validating retrieval.
+
+### Where things live (agent vs skills)
+
+| Layer | Location |
+| --- | --- |
+| **Orchestration** (order, gates, this checklist) | **`content/*.md`** here → merged **`AGENTS.md`** |
+| **Stage how-to** (scripts, flags, YAML semantics) | **`skills/abd-*/SKILL.md`** and **`skills/abd-*/references/`** |
+
+### Optional engagement artifacts
+
+- **Corrections / run notes** — Under the **topic root** (e.g. `docs/corrections-log.md`), not inside this agent package.
 
 ---
 
@@ -178,16 +228,16 @@ Per-stage script options: see each skill's **`SKILL.md`**.
 
 1. **Taxonomy** — `draft_chunking_spec.py` leaves taxonomy lists empty until a human or AI fills them from the **actual** corpus ([chunking-spec.md](skills/abd-chunk-markdown/references/chunking-spec.md)).
 2. **Labels** — Prefer `chunk_type` in specs; `modeling_kind` in defaults is a legacy alias in code.
-3. **Scope** — Single file: `convert_to_markdown.py --file`. Folder/project: `index_memory.py --path <folder>` or `index_memory.py` with **`CONTENT_MEMORY_ROOT`** or **cwd** as the topic root ([config.md](skills/abd-embed-vectors/references/config.md)).
+3. **Scope** — Single file: `convert_to_markdown.py --file`. Folder/project: `index_memory.py --path <folder>` or `index_memory.py` after setting **`CONTENT_MEMORY_ROOT`** in **`conf/.secrets`** (or **cwd** as the topic root) ([config.md](skills/abd-embed-vectors/references/config.md)).
 4. **Corpus preprocess scripts** — See the subsection **Corpus preprocess scripts (`<topic_root>/scripts/`)** under Pipeline process earlier in this file, and the folder tree in [output.md](skills/abd-chunk-markdown/references/output.md).
 
 ### Running scripts
 
-Use **`CONTENT_MEMORY_ROOT`**, **`--path`**, or **`cd`** to the corpus — see [config.md](skills/abd-embed-vectors/references/config.md). Typical:
+Prefer **`CONTENT_MEMORY_ROOT=`** in **`conf/.secrets`** for a stable default; otherwise **`--path`**, or **`cd`** to the corpus — see [config.md](skills/abd-embed-vectors/references/config.md). Typical:
 
 `python scripts/index_memory.py --path <source_folder>`
 
-or, after `export CONTENT_MEMORY_ROOT=...` or `cd` to the corpus:
+or, after **`CONTENT_MEMORY_ROOT`** is set in **`conf/.secrets`** (or `cd` to the corpus):
 
 `python scripts/index_memory.py`
 

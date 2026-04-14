@@ -3,7 +3,7 @@
 After `index_memory.py --path <source>`:
 
 ```
-<source>/                       ← topic root (CONTENT_MEMORY_ROOT or --path)
+<source>/                       ← topic root (--path or CONTENT_MEMORY_ROOT in conf/.secrets; see AGENTS.md)
   scripts/                       ← optional: corpus-only preprocess (see below)
     prepare_*.py, README.md
   markdown/

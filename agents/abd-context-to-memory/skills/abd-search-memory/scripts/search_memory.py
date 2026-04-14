@@ -5,9 +5,9 @@ Usage:
   python search_memory.py "agile transformation approach" [--rag <memory/rag>] [--k 5] [--format text|json]
   (--rag defaults to <ROOT>/memory/rag — same ROOT as _config.)
 
-Run from your topic folder (or set CONTENT_MEMORY_ROOT). Returns top-k chunks from the FAISS vector index.
+Run from your topic folder, or set CONTENT_MEMORY_ROOT in <agent>/conf/.secrets. Returns top-k chunks from the FAISS vector index.
 Requires: pip install openai faiss-cpu numpy
-Set OPENAI_API_KEY environment variable.
+Set OPENAI_API_KEY in conf/.secrets (or .env); see AGENTS.md.
 """
 
 import json
@@ -116,7 +116,7 @@ def main():
         rag_dir = DEFAULT_RAG_DIR.resolve()
         if not rag_dir.is_dir():
             print(
-                "Error: pass --rag <memory/rag>, or set CONTENT_MEMORY_ROOT / cd to your topic folder "
+                "Error: pass --rag <memory/rag>, or set CONTENT_MEMORY_ROOT in conf/.secrets / cd to your topic folder "
                 f"so default {rag_dir} exists.",
                 file=sys.stderr,
             )

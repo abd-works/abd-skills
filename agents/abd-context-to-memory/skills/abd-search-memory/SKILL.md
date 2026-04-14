@@ -43,7 +43,7 @@ Run `search_memory.py` when the user says:
 
 ## Active memory for this conversation
 
-When the user points at a corpus — by naming a topic folder, setting `CONTENT_MEMORY_ROOT`, passing `--rag`, or saying "use this memory" — **treat that `memory/rag/` as the active retrieval source for the rest of this conversation.** For later questions, run semantic search against that same index by default until the user explicitly changes or clears it (e.g. "use a different memory folder", "stop using that corpus"). Do not make them repeat the path on every turn.
+When the user points at a corpus — by naming a topic folder, having **`CONTENT_MEMORY_ROOT`** in **`conf/.secrets`**, passing `--rag`, or saying "use this memory" — **treat that `memory/rag/` as the active retrieval source for the rest of this conversation.** For later questions, run semantic search against that same index by default until the user explicitly changes or clears it (e.g. "use a different memory folder", "stop using that corpus"). Do not make them repeat the path on every turn. **Workspace policy:** **[AGENTS.md](../../../AGENTS.md)**.
 
 ## Chunk front matter (when spec was active during chunking)
 
@@ -63,6 +63,6 @@ Results may include chunks with YAML front matter. Use the labels to calibrate y
 
 ## Gotchas
 
-- If `--rag` is omitted, search uses `<ROOT>/memory/rag` where `ROOT` is `CONTENT_MEMORY_ROOT` or cwd.
+- If `--rag` is omitted, search uses `<ROOT>/memory/rag` where `ROOT` comes from **`CONTENT_MEMORY_ROOT`** (usually set in **`conf/.secrets`**) or **cwd**.
 - Search requires the same embedding model used to build the index.
 - An empty or missing index returns no results — run the embed skill first.

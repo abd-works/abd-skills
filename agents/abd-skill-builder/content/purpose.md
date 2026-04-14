@@ -1,0 +1,1 @@
+Provide portable repository standards aligned with **Open Agent Skills**: a focused **`SKILL.md`** for discovery, a merged **`AGENTS.md`** for multi-step workflow, plus documentation of **build and validation** (merge, **`build.py`**, scanners, CI), and a scaffold CLI so new skills match skills.sh-style layout without hand-copying fixtures.

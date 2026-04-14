@@ -130,16 +130,16 @@ Per-stage script options: see each skill's **`SKILL.md`**.
 
 1. **Taxonomy** — `draft_chunking_spec.py` leaves taxonomy lists empty until a human or AI fills them from the **actual** corpus ([chunking-spec.md](skills/abd-chunk-markdown/references/chunking-spec.md)).
 2. **Labels** — Prefer `chunk_type` in specs; `modeling_kind` in defaults is a legacy alias in code.
-3. **Scope** — Single file: `convert_to_markdown.py --file`. Folder/project: `index_memory.py --path <folder>` or `index_memory.py` with **`CONTENT_MEMORY_ROOT`** or **cwd** as the topic root ([config.md](skills/abd-embed-vectors/references/config.md)).
+3. **Scope** — Single file: `convert_to_markdown.py --file`. Folder/project: `index_memory.py --path <folder>` or `index_memory.py` after setting **`CONTENT_MEMORY_ROOT`** in **`conf/.secrets`** (or **cwd** as the topic root) ([config.md](skills/abd-embed-vectors/references/config.md)).
 4. **Corpus preprocess scripts** — See the subsection **Corpus preprocess scripts (`<topic_root>/scripts/`)** under Pipeline process earlier in this file, and the folder tree in [output.md](skills/abd-chunk-markdown/references/output.md).
 
 ### Running scripts
 
-Use **`CONTENT_MEMORY_ROOT`**, **`--path`**, or **`cd`** to the corpus — see [config.md](skills/abd-embed-vectors/references/config.md). Typical:
+Prefer **`CONTENT_MEMORY_ROOT=`** in **`conf/.secrets`** for a stable default; otherwise **`--path`**, or **`cd`** to the corpus — see [config.md](skills/abd-embed-vectors/references/config.md). Typical:
 
 `python scripts/index_memory.py --path <source_folder>`
 
-or, after `export CONTENT_MEMORY_ROOT=...` or `cd` to the corpus:
+or, after **`CONTENT_MEMORY_ROOT`** is set in **`conf/.secrets`** (or `cd` to the corpus):
 
 `python scripts/index_memory.py`
 

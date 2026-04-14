@@ -1,1 +1,0 @@
-Provide portable repository standards, documentation of **build and validation** (merge, **`build.py`**, scanners, CI), and a scaffold CLI so new skills match skills.sh-style layout without hand-copying fixtures.
