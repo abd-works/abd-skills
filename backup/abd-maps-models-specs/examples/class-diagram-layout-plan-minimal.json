@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "orientation": "clusters_horizontal",
+  "within_cluster": "row",
+  "clusters": [
+    {
+      "id": "core",
+      "members": ["DomainConcept", "Mechanism"]
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "N": 725,
+  "K_effective": 218,
+  "num_batches": 4,
+  "batch_sizes": [
+    55,
+    55,
+    55,
+    53
+  ]
+}

@@ -1,0 +1,25 @@
+# Context chunking spec — test/mm3 (Deluxe Hero's Handbook, PDF → MarkItDown)
+#
+# Structural inventory:
+# - Almost no # / ## headings; body uses ALL CAPS subsection titles (CHECKS, CRITICAL SUCCESS, …).
+# - ``handbook_subsection_chunking: true`` → chapter boundaries (CHAPTER n: when n changes) plus
+#   subsection splits on validated ALL CAPS titles (skips table/stat rows via lookahead).
+# - Per-chunk evidence_type / modeling_kind: heuristics in context_chunk_from_memory._classify_handbook_chunk;
+#   refine in coherence passes where needed.
+#
+handbook_subsection_chunking: true
+taxonomy:
+  evidence_type: [definition, rule, example, table, metadata_noise, mixed]
+  modeling_kind: [definition, rule, example, noise, structural_only]
+section_boundaries:
+  chapter_break_regex: "^CHAPTER\\s+\\d+\\s*:"
+  section_break_regex: "^[A-Z][A-Z0-9 ,&'\\-]{8,}$"
+  all_caps_standalone: true
+splitting:
+  min_chunk_chars: 400
+  max_chunk_chars: 8000
+  keep_markdown_tables_intact: true
+  split_on_heading_level: 2
+defaults:
+  evidence_type: mixed
+  modeling_kind: rule

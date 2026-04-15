@@ -1,0 +1,284 @@
+{
+  "batch_id": 0,
+  "chunk_ids_read": ["unit_00001", "unit_00017", "unit_00029", "unit_00048", "unit_00080", "unit_00092", "unit_00098", "unit_00108", "unit_00167", "unit_00177", "unit_00220", "unit_00232", "unit_00248", "unit_00264", "unit_00280", "unit_00306", "unit_00326", "unit_00347", "unit_00363_merged", "unit_00371", "unit_00387_merged", "unit_00401", "unit_00412", "unit_00420", "unit_00433", "unit_00439", "unit_00452", "unit_00466", "unit_00472", "unit_00502", "unit_00518", "unit_00524", "unit_00532", "unit_00549", "unit_00562", "unit_00584", "unit_00597", "unit_00603", "unit_00621", "unit_00626", "unit_00638", "unit_00646", "unit_00665", "unit_00671", "unit_00679", "unit_00695", "unit_00711", "unit_00729", "unit_00749", "unit_00775_merged", "unit_00793_merged", "unit_00810_merged", "unit_00835", "unit_00856", "unit_00862"],
+  "open_questions": [
+    "unit_00001: chunk is effectively empty (PDF pointer only); no mechanism to map.",
+    "unit_00092, unit_00098: armor and constructs (equipment/headquarters) are outside the six spine modules.",
+    "unit_00108: GM assigning difficulties is GM procedure, not a concrete Check/DifficultyClass object rule in this excerpt.",
+    "unit_00177: new-GM reading guidance; not a spine mechanism.",
+    "unit_00264: session/scene narrative structure; not covered by spine modules.",
+    "unit_00371: move actions (action economy) is outside the named spine modules.",
+    "unit_00401: fragment only (weakened line); insufficient to scaffold a Condition concept beyond parent chunk.",
+    "unit_00452, unit_00466, unit_00472: hero points (scene editing, inspiration, earning) are not represented in the current map-model-spec spine concepts.",
+    "unit_00597, unit_00603, unit_00621, unit_00638, unit_00646: complications, motivations, injuries—story/HP economy, not mapped to the six modules.",
+    "unit_00626: bullet placeholder only; no substantive text.",
+    "unit_00665, unit_00671, unit_00679, unit_00711: naming, appearance, alien origin flavor—character creation outside spine mechanics.",
+    "unit_00584: NPC effective power level vs. points is GM approximation; relationship to PowerPoints/PowerLevel limits needs parent decision."
+  ],
+  "cross_cutting_notes": "Batch 0 mixes TOC fragments, character-creation chapters, and core rules. Resistance checks and conditions tie Abilities (defense bonuses) to Combat resolution; opposed checks and skill pairings bridge Skills and Checks. Several excerpts are table-of-contents or incomplete lines and should not drive new epics without K-read follow-up.",
+  "concept_additions": [
+    {
+      "module_name": "Ranks and measures",
+      "concept": {
+        "name": "TimeMeasureRow",
+        "foundational": true,
+        "evidence_stage": "hypothesis",
+        "owns": "Owns the ordered list of concrete time durations corresponding to rank steps on the measurements scale.",
+        "owns_chunk": "unit_00248",
+        "chunk_ids": ["unit_00248"],
+        "extends": "MeasurementTable",
+        "properties": [],
+        "operations": []
+      }
+    },
+    {
+      "module_name": "Abilities",
+      "concept": {
+        "name": "Stamina",
+        "foundational": true,
+        "evidence_stage": "scaffolded",
+        "owns": "Owns physical resilience: applies to Toughness, Fortitude, and Stamina checks when no specific defense applies.",
+        "owns_chunk": "unit_00775_merged",
+        "chunk_ids": ["unit_00775_merged"],
+        "extends": "Ability",
+        "properties": [],
+        "operations": []
+      }
+    },
+    {
+      "module_name": "Abilities",
+      "concept": {
+        "name": "Awareness",
+        "foundational": true,
+        "evidence_stage": "scaffolded",
+        "owns": "Owns intuition and common sense: applies to Will, Insight and Perception skill checks, and Awareness checks when no skill applies.",
+        "owns_chunk": "unit_00793_merged",
+        "chunk_ids": ["unit_00793_merged"],
+        "extends": "Ability",
+        "properties": [],
+        "operations": []
+      }
+    },
+    {
+      "module_name": "Abilities",
+      "concept": {
+        "name": "AbilityRankPurchase",
+        "foundational": true,
+        "evidence_stage": "scaffolded",
+        "owns": "Owns spending 2 power points per +1 ability rank, subject to power level limits.",
+        "owns_chunk": "unit_00749",
+        "chunk_ids": ["unit_00749", "unit_00810_merged"],
+        "extends": "AbilityRank",
+        "properties": [],
+        "operations": []
+      }
+    },
+    {
+      "module_name": "Checks and tasks",
+      "concept": {
+        "name": "OpposedCheck",
+        "foundational": true,
+        "evidence_stage": "scaffolded",
+        "owns": "Owns resolving a contest by comparing two check results as the DC, with tie-breakers for equal results.",
+        "owns_chunk": "unit_00326",
+        "chunk_ids": ["unit_00326"],
+        "extends": "Check",
+        "properties": [],
+        "operations": []
+      }
+    },
+    {
+      "module_name": "Checks and tasks",
+      "concept": {
+        "name": "CriticalSuccess",
+        "foundational": true,
+        "evidence_stage": "scaffolded",
+        "owns": "Owns increasing degree of success by one when the d20 shows a natural 20 on a check.",
+        "owns_chunk": "unit_00280",
+        "chunk_ids": ["unit_00280"],
+        "extends": "Check",
+        "properties": [],
+        "operations": []
+      }
+    },
+    {
+      "module_name": "Checks and tasks",
+      "concept": {
+        "name": "ToolingPenalty",
+        "foundational": true,
+        "evidence_stage": "scaffolded",
+        "owns": "Owns imposing -5 on a check without required tools, or -2 with makeshift tools when the GM allows.",
+        "owns_chunk": "unit_00347",
+        "chunk_ids": ["unit_00347"],
+        "extends": "Check",
+        "properties": [],
+        "operations": []
+      }
+    },
+    {
+      "module_name": "Skills",
+      "concept": {
+        "name": "SkillCatalog",
+        "foundational": true,
+        "evidence_stage": "scaffolded",
+        "owns": "Owns the named default skill list (Acrobatics through Vehicles) as the chapter index for skill descriptions.",
+        "owns_chunk": "unit_00029",
+        "chunk_ids": ["unit_00029"],
+        "extends": "Skill",
+        "properties": [],
+        "operations": []
+      }
+    },
+    {
+      "module_name": "Skills",
+      "concept": {
+        "name": "OpposedSkillPairing",
+        "foundational": true,
+        "evidence_stage": "scaffolded",
+        "owns": "Owns which opposing skill is rolled for common contests (e.g. Stealth vs Perception).",
+        "owns_chunk": "unit_00306",
+        "chunk_ids": ["unit_00306"],
+        "extends": "SkillCheck",
+        "properties": [],
+        "operations": []
+      }
+    },
+    {
+      "module_name": "Powers",
+      "concept": {
+        "name": "Advantage",
+        "foundational": true,
+        "evidence_stage": "scaffolded",
+        "owns": "Owns minor benefits between skills and powers, sometimes ranked, purchased with power points.",
+        "owns_chunk": "unit_00220",
+        "chunk_ids": ["unit_00220", "unit_00518"],
+        "extends": "PowerEffect",
+        "properties": [],
+        "operations": []
+      }
+    },
+    {
+      "module_name": "Powers",
+      "concept": {
+        "name": "Descriptor",
+        "foundational": true,
+        "evidence_stage": "scaffolded",
+        "owns": "Owns labels such as origin (mutant, mystic, alien) applied to powers for interaction with effects and devices.",
+        "owns_chunk": "unit_00695",
+        "chunk_ids": ["unit_00695", "unit_00080"],
+        "extends": "PowerEffect",
+        "properties": [],
+        "operations": []
+      }
+    },
+    {
+      "module_name": "Powers",
+      "concept": {
+        "name": "ExtraEffortPowerSurge",
+        "foundational": true,
+        "evidence_stage": "scaffolded",
+        "owns": "Owns temporarily increasing one power effect by +1 rank until the start of the hero's next turn.",
+        "owns_chunk": "unit_00433",
+        "chunk_ids": ["unit_00433", "unit_00439"],
+        "extends": "PowerEffect",
+        "properties": [],
+        "operations": []
+      }
+    },
+    {
+      "module_name": "Powers",
+      "concept": {
+        "name": "PowerLevel",
+        "foundational": true,
+        "evidence_stage": "scaffolded",
+        "owns": "Owns the series limit that sets starting power points and caps where traits may be spent.",
+        "owns_chunk": "unit_00502",
+        "chunk_ids": ["unit_00502", "unit_00524", "unit_00729"],
+        "extends": "PowerPoints",
+        "properties": [],
+        "operations": []
+      }
+    },
+    {
+      "module_name": "Combat resolution",
+      "concept": {
+        "name": "BasicCondition",
+        "foundational": true,
+        "evidence_stage": "scaffolded",
+        "owns": "Owns single-modifier status building blocks (e.g. compelled, controlled, dazed, debilitated, defenseless) that compose conditions.",
+        "owns_chunk": "unit_00387_merged",
+        "chunk_ids": ["unit_00387_merged", "unit_00412"],
+        "extends": "Condition",
+        "properties": [],
+        "operations": []
+      }
+    },
+    {
+      "module_name": "Combat resolution",
+      "concept": {
+        "name": "InitiativeCheck",
+        "foundational": true,
+        "evidence_stage": "scaffolded",
+        "owns": "Owns ordering turns using d20 plus initiative modifier (Agility + Improved Initiative + power modifiers).",
+        "owns_chunk": "unit_00862",
+        "chunk_ids": ["unit_00862"],
+        "extends": "Check",
+        "properties": [],
+        "operations": []
+      }
+    },
+    {
+      "module_name": "Combat resolution",
+      "concept": {
+        "name": "ActiveDefenseDegradation",
+        "foundational": true,
+        "evidence_stage": "scaffolded",
+        "owns": "Owns halving Dodge and Parry when vulnerable and reducing both to 0 when defenseless.",
+        "owns_chunk": "unit_00856",
+        "chunk_ids": ["unit_00856", "unit_00835"],
+        "extends": "Condition",
+        "properties": [],
+        "operations": []
+      }
+    }
+  ],
+  "chunk_bucket_additions": [
+    {
+      "module_name": "Ranks and measures",
+      "identified": ["unit_00232", "unit_00248"],
+      "provisional": ["unit_00048"],
+      "ambiguous": []
+    },
+    {
+      "module_name": "Abilities",
+      "identified": ["unit_00749", "unit_00775_merged", "unit_00793_merged", "unit_00810_merged"],
+      "provisional": ["unit_00017", "unit_00835"],
+      "ambiguous": ["unit_00835"]
+    },
+    {
+      "module_name": "Checks and tasks",
+      "identified": ["unit_00167", "unit_00280", "unit_00326", "unit_00347"],
+      "provisional": ["unit_00108"],
+      "ambiguous": []
+    },
+    {
+      "module_name": "Skills",
+      "identified": ["unit_00029", "unit_00306"],
+      "provisional": [],
+      "ambiguous": []
+    },
+    {
+      "module_name": "Powers",
+      "identified": ["unit_00220", "unit_00433", "unit_00502", "unit_00518", "unit_00532", "unit_00549", "unit_00695"],
+      "provisional": ["unit_00080", "unit_00420", "unit_00439", "unit_00524", "unit_00562", "unit_00584", "unit_00729"],
+      "ambiguous": ["unit_00420"]
+    },
+    {
+      "module_name": "Combat resolution",
+      "identified": ["unit_00363_merged", "unit_00387_merged", "unit_00412", "unit_00856", "unit_00862"],
+      "provisional": ["unit_00401", "unit_00420"],
+      "ambiguous": ["unit_00835"]
+    }
+  ],
+  "epic_statement_updates": []
+}

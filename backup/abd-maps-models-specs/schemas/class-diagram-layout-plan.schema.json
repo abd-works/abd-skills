@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agilebydesign.local/schemas/class-diagram-layout-plan.schema.json",
+  "title": "class-diagram-layout-plan",
+  "description": "Logical layout for map-model class diagrams. Concept names match display names in map-model-spec.json (child segment when using Base:Subtype). No pixel coordinates — the emitter assigns geometry.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "clusters"],
+  "properties": {
+    "schema_version": {
+      "type": "integer",
+      "const": 1
+    },
+    "clusters": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "members"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "label": {
+            "type": "string",
+            "description": "Optional human label; not used by the emitter today."
+          },
+          "members": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Concept names in display order within the cluster."
+          }
+        }
+      }
+    },
+    "cluster_order": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Cluster ids along the primary axis. Clusters omitted here are appended in declaration order."
+    },
+    "orientation": {
+      "type": "string",
+      "enum": ["clusters_horizontal", "clusters_vertical"],
+      "default": "clusters_horizontal",
+      "description": "clusters_horizontal: clusters laid out left-to-right. clusters_vertical: clusters stacked top-to-bottom."
+    },
+    "within_cluster": {
+      "type": "string",
+      "enum": ["row", "column"],
+      "default": "row",
+      "description": "row: members in a horizontal line inside the cluster. column: members stacked vertically."
+    }
+  }
+}
