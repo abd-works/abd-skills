@@ -1,25 +1,25 @@
-Acceptance criteria (exploration) — plain text template
-(Migrated from agile_bots story_bot exploration behavior conventions.)
-Use the SAME story coverage as acceptance-criteria.md; this file is plain text only.
-
-Story: <verb-noun story title>
-Story type: user | system | technical
-
-Acceptance criteria:
-
-1. WHEN <trigger>
-   THEN <outcome>
-   AND <chained outcome>
-
-2. WHEN <variant>
-   THEN <only what differs>
-
-3. WHEN <error path>
-   THEN <error behavior>
-   BUT <what does not happen>
-
-Instructions (summary):
-- 4-9 steps worth of coverage per story (WHEN/AND counting heuristic matches bot scanners).
-- Behavioral language; Given belongs in scenarios, not AC.
-- Channel-specific detail for CLI/Panel/API where relevant.
-- Alternate actors; use AND to chain system reactions.
+Acceptance criteria (exploration) — plain text template  
+(Migrated from agile_bots story_bot exploration behavior conventions.)  
+Use the SAME story coverage as acceptance-criteria.md; this file is plain text only.  
+  
+Story: <verb-noun story title>  
+Story type: user | system | technical  
+  
+Acceptance criteria:  
+  
+1. WHEN <trigger>  
+   THEN <outcome>  
+   AND <chained outcome>  
+  
+2. WHEN <variant>  
+   THEN <only what differs>  
+  
+3. WHEN <error path>  
+   THEN <error behavior>  
+   BUT <what does not happen>  
+  
+Instructions (summary):  
+- 4-9 steps worth of coverage per story (WHEN/AND counting heuristic matches bot scanners).  
+- Behavioral language; Given belongs in scenarios, not AC.  
+- Channel-specific detail for CLI/Panel/API where relevant.  
+- Alternate actors; use AND to chain system reactions.  
