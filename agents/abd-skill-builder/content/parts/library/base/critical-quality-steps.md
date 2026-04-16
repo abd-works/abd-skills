@@ -2,7 +2,7 @@
 
 Rules improve skill quality in two ways: they guide the model while authoring artifacts, and they set expectations that can be checked mechanically or by review.
 
-**Every rule in `rules/` is two things at once:** (1) **Normative advice** — prose the model follows while authoring `**content/parts/`**, `**rules/`**, `**skill-config.json**`, and other skill artifacts. (2) **Checkable expectations** — where this repo ships a scanner under `**scripts/**`, it catches common layout or config misses; where it does not, **you** still review against the rule text.
+**Every rule in `rules/` is two things at once:** (1) **Normative advice** — prose the model follows while authoring `**content/parts/`**, `**rules/`**, `**skill-config.json**`, and other skill artifacts. (2) **Checkable expectations** — where this repo ships a scanner under `**scanners/**`, it catches common layout or config misses; where it does not, **you** still review against the rule text.
 
 **Example (wrong):** Treating a green `**python scripts/base/build.py`** as enough while `**AGENTS.md`** still disagrees with `**content/parts/**` or `**phase_rules**` omits a rule you claimed to enforce.
 
@@ -26,7 +26,7 @@ After you have files on disk, the pipeline can run:
 
 | Mechanism | What it does |
 | --- | --- |
-| `**python scripts/base/build.py**` | **Batch merge:** process + per-phase bundles into `**AGENTS.md**` and `**content/built/**` (when used), then **`build.build_pipeline`** if set, **otherwise** the **merged scanner set** from **`scanner:`** frontmatter + **`scripts/scanners/*.py`** (see **`rules-and-scanners.md`**). Omit merge if your workflow does not ship **`AGENTS.md`**. |
+| `**python scripts/base/build.py**` | **Batch merge:** process + per-phase bundles into `**AGENTS.md**` and `**content/built/**` (when used), then **`build.build_pipeline`** if set, **otherwise** the **merged scanner set** from **`scanner:`** frontmatter + **`scanners/*-scanner.py`** (see **`rules-and-scanners.md`**). Omit merge if your workflow does not ship **`AGENTS.md`**. |
 | `**python skills/execute_rules/scripts/run_scanners.py**` | From **abd-skill-builder** root: runs that **same merged set** for **`--skill-root`**; pass **`--workspace`** (defaults to skill root). Missing scripts reported **`[MISSING]`**; summary at end. |
 | `**rules/scanners.json**` | Declares **rule → scanner** bindings; optional flat **`scanners`** list. See **`rules-and-scanners.md`** for merge order vs **`build.py`**. |
 

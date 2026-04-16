@@ -132,7 +132,7 @@ Clean **validation** run; **`AGENTS.md`** and optional **`content/built/`** cons
 
 ## Scripts layout
 
-**From the skill directory**, the usual commands are **`python scripts/base/build.py`** (merge + validation when configured) and **`python scripts/base/set_workspace.py …`**. Shared implementation lives under **`scripts/base/`** (merge into **`AGENTS.md`**, workspace, **`skill_root.py`**, **`skill.py`**, **`instructions.py`**, …). **Bundled rules**, rule tables, listing scanners, and **running scanners** use **`skills/execute_rules/scripts/`** in **abd-skill-builder** (`bundle_rules_into_skill_md.py`, **`rule_inventory.py`**, **`run_scanners.py`**). Optional scanner scripts go under **`scripts/scanners/`**.
+**From the skill directory**, the usual commands are **`python scripts/base/build.py`** (merge + validation when configured) and **`python scripts/base/set_workspace.py …`**. Shared implementation lives under **`scripts/base/`** (merge into **`AGENTS.md`**, workspace, **`skill_root.py`**, **`skill.py`**, **`instructions.py`**, …). **Bundled rules**, rule tables, listing scanners, and **running scanners** use **`skills/execute_rules/scripts/`** in **abd-skill-builder** (`bundle_rules_into_skill_md.py`, **`rule_inventory.py`**, **`run_scanners.py`**). Optional scanner CLI scripts go under **`scanners/`** (e.g. **`*-scanner.py`** beside scanner modules), with **`scanner:`** in rule frontmatter as in **execute_using_rules**.
 
 **Only in the abd-skill-builder repo:** **`scripts/scaffold_skill.py`** — create a new skill from **`skills/build_skill/templates/skill-scaffold/`** and copy **`scripts/base/`** from the builder.
 

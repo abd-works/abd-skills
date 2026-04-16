@@ -9,7 +9,7 @@ refresh **`AGENTS.md`** and run configured scanners. See ``content/parts/library
 Merge order and delivery policy: skill root ``README.md`` — Delivery & merge order.
 
 After merge, runs post-merge steps: explicit ``build.build_pipeline`` when set; otherwise the same
-merged scanner list as **execute_rules** ``run_scanners.py`` (``scanner:`` in ``rules/*.md`` + ``scripts/scanners/*.py``).
+merged scanner list as **execute_rules** ``run_scanners.py`` (``scanner:`` in ``rules/*.md`` + ``scanners/*-scanner.py``).
 Scanner resolution is inlined here so scaffolded skills stay self-contained; canonical module:
 ``skills/execute_rules/scripts/scanner_paths.py``.
 Same base pattern as ``abd-maps-models-specs``.
@@ -72,9 +72,9 @@ def _resolve_scanner_value(skill_root: Path, raw: str) -> str | None:
         filename = f"{name}.py"
     else:
         filename = f"{name}-scanner.py"
-    candidate = skill_root / "scripts" / "scanners" / filename
+    candidate = skill_root / "scanners" / filename
     if candidate.is_file():
-        return f"scripts/scanners/{filename}"
+        return f"scanners/{filename}"
     return None
 
 
@@ -98,12 +98,13 @@ def _scanners_from_rule_frontmatter(skill_root: Path) -> list[str]:
 
 
 def _discover_scanner_scripts(skill_root: Path) -> list[str]:
-    d = skill_root / "scripts" / "scanners"
+    """CLI entrypoints only: ``scanners/*-scanner.py`` (same as ``scanner_paths.discover_scanner_scripts``)."""
+    d = skill_root / "scanners"
     if not d.is_dir():
         return []
     out: list[str] = []
-    for p in sorted(d.glob("*.py")):
-        if not p.is_file() or p.name == "__init__.py":
+    for p in sorted(d.glob("*-scanner.py")):
+        if not p.is_file():
             continue
         out.append(str(p.relative_to(skill_root)).replace("\\", "/"))
     return out

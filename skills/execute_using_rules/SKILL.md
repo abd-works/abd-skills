@@ -5,6 +5,33 @@ description: Bundle rules into SKILL.md, run scanners, quality steps (rules befo
 
 # Execute rules
 
+## Deploy to Cursor
+
+Cursor loads **Agent Skills** from **`~/.cursor/skills/<skill-name>/`** (all workspaces) and **`<repo>/.cursor/skills/<skill-name>/`** (this repo only). This package should appear as **`execute-rules`** so the model can discover it by name.
+
+**Windows (recommended):** create a **directory junction** to this folder (`skills/execute_using_rules`) so there is a single source of truth — no copying `SKILL.md` by hand.
+
+From the **`agilebydesign-skills` repo root**:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File skills/execute_using_rules/scripts/deploy-cursor-skill.ps1
+```
+
+That creates:
+
+| Location | Path |
+| -------- | ---- |
+| **Personal** | `%USERPROFILE%\.cursor\skills\execute-rules` → `skills/execute_using_rules` |
+| **Project** | `<repo>\.cursor\skills\execute-rules` → `skills/execute_using_rules` |
+
+- **`--ProjectOnly`** — only the project junction (for CI or shared clone).  
+- **`--UserOnly`** — only your user profile (global Cursor).
+
+Junctions are **not committed** (see repo `.gitignore` under `.cursor/skills/execute-rules/`). After a fresh clone, run the script again. On macOS/Linux, symlink instead:  
+`ln -s "$(pwd)/skills/execute_using_rules" ~/.cursor/skills/execute-rules`
+
+---
+
 ## What you can do
 
 **execute_rules** gives you **four** practices you can drop into **any** agent or repo layout.
@@ -43,19 +70,22 @@ For this skill to work the **target skill** must have **`rules/*.md`** — the r
 
 | Piece | Role |
 | --- | --- |
-| **`SKILL.md`** | Instructions for the agent; includes a generated **Bundled rules** section |
+| **`SKILL.md`** | Instructions for the agent; may include rule prose **between** `execute_rules:bundle_rules` markers (filled by **`bundle_rules_into_skill_md.py`**) |
 | **`rules/<name>.md`** | **Source of truth** for rule prose — edit here, not inside the bundled block |
-| **`scripts/scanners/*-scanner.py`** | Optional: one checker per concern; linked from rule frontmatter via **`scanner:`** |
+| **`scanners/*-scanner.py`** | Optional: CLI entrypoint per concern (beside scanner modules); linked from rule frontmatter via **`scanner:`** |
+| **`scripts/scanner_bases/`** | Shared **Python** package: abstract **`Scanner`**, **`Violation`**, **`EvalPaths`**, scan-context dataclasses, **`SimpleRule`**, **`vocabulary_helper`**. Story-domain types (**`StoryScanner`**, **`StoryMap`**, …) live in sibling **[story-graph-ops](../story-graph-ops/)** (**`story_map`**, **`story_scanner`**, … on **`PYTHONPATH`**). See **`scripts/scanner_bases/README.md`**. **`scripts/scanner_runner.py`** runs any scanner with a caller-built **`ScanFilesContext`**. **`run_scanners.py`** prepends **`…/story-graph-ops/scripts`** then **`…/execute_using_rules/scripts`** to **`PYTHONPATH`**. |
 
-Rule file → scanner: put **`scanner: <stem>`** in the YAML frontmatter of **`rules/<stem>.md`** (or equivalent); the script is expected at **`scripts/scanners/<stem>-scanner.py`**. Merge order, **`build.build_pipeline`**, and extra vocabulary: see **`rules-and-scanners.md`** (or equivalent) **in the repo that ships your agent docs** — not required for a minimal copy of **execute_rules** alone.
+**abd-story-mapping:** validators live under **`skills/abd-story-mapping/scanners/`** — **`scanner_bases`** for generic types, **`story_map`** / **`story_scanner`** (story-graph-ops **scripts/**) for graph scanners; refresh **`scanner_bases`** from **`execute_using_rules/scripts/scanner_bases/`**, not duplicated inside abd-story-mapping.
 
-The **Bundled rules** section in **`SKILL.md`** is **generated**. Editing it by hand is wasted work — the next bundle run overwrites it. Always change **`rules/*.md`**, then run **`bundle_rules_into_skill_md.py`**.
+Rule file → scanner: put **`scanner: <stem>`** in the YAML frontmatter of **`rules/<stem>.md`** (or equivalent); the CLI script is expected at **`scanners/<stem>-scanner.py`** (next to scanner modules under **`scanners/`**). Merge order, **`build.build_pipeline`**, and extra vocabulary: see **`rules-and-scanners.md`** (or equivalent) **in the repo that ships your agent docs** — not required for a minimal copy of **execute_rules** alone.
+
+Text **between** the **`execute_rules:bundle_rules`** markers in **`SKILL.md`** is **generated** from **`rules/*.md`**. Editing it by hand is wasted work — the next bundle run overwrites it. Always change **`rules/*.md`**, then run **`bundle_rules_into_skill_md.py`**.
 
 ## Commands
 
 `<execute_rules_root>` = directory that contains this skill’s **`scripts/`** (same folder as **`SKILL.md`** for **execute_rules**). Substitute your real path or `cd` there first.
 
-**1. `bundle_rules_into_skill_md.py`** — Writes the **Bundled rules** block in the target **`SKILL.md`** from **`rules/*.md`**. Run after you edit any rule file.
+**1. `bundle_rules_into_skill_md.py`** — Replaces the content **between** `<!-- execute_rules:bundle_rules:begin -->` and `<!-- execute_rules:bundle_rules:end -->` in the target **`SKILL.md`** with prose from **`rules/*.md`** (sorted by filename). It does **not** add a separate “how to re-run” intro — keep that in the skill author’s text if you want it. Headings in each rule file are **depth-bumped** (+2 `#` levels, capped at six) so `# Rule:` becomes **`### Rule:`** and `## DO` becomes **`#### DO`** when inlined. Run after you edit any rule file.
 
 - **User can say (examples):** “Bundle rules into `SKILL.md` for `<path-to-skill>`.” · “Re-bundle the skill after I changed `rules/*.md`.” · “Refresh the bundled rules section for this skill.”
 
@@ -74,6 +104,8 @@ python <execute_rules_root>/scripts/bundle_rules_into_skill_md.py --skill-root <
 ```bash
 python <execute_rules_root>/scripts/run_scanners.py --skill-root <path-to-skill> --workspace <path-to-output-or-folder>
 ```
+
+Scanner subprocesses receive **`PYTHONPATH`** including **`<execute_rules_root>/scripts`**, so scripts may **`import scanner_bases`** (shared bases) when implementing checks.
 
 
 **3. `rule_inventory.py`** (optional) — Summarizes **`rules/`** and bindings; **`--list-scanners`** prints the same scanner paths **`run_scanners.py`** would run.

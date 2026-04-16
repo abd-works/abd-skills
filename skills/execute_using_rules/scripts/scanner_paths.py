@@ -1,4 +1,4 @@
-"""Which scanner scripts apply to a skill (rules frontmatter + ``scripts/scanners/*.py``).
+"""Which scanner scripts apply to a skill (rules frontmatter + ``scanners/*-scanner.py``).
 
 Used by **execute_rules** ``run_scanners.py``, ``rule_inventory.py --list-scanners``, and **build_skill**
 ``build_pipeline_plan.py``. ``scripts/base/build.py`` inlines the same logic so scaffolded skill packages
@@ -32,7 +32,7 @@ def _parse_frontmatter_scanner(content: str) -> str | None:
 
 
 def _resolve_scanner_value(skill_root: Path, raw: str) -> str | None:
-    """Map ``scanner:`` to ``<skill-root>/scripts/scanners/...`` — basename only."""
+    """Map ``scanner:`` to ``<skill-root>/scanners/<stem>-scanner.py`` — basename only."""
     v = raw.strip().strip('"').strip("'")
     if not v or "/" in v or "\\" in v or ".." in v:
         return None
@@ -45,14 +45,14 @@ def _resolve_scanner_value(skill_root: Path, raw: str) -> str | None:
         filename = f"{name}.py"
     else:
         filename = f"{name}-scanner.py"
-    candidate = skill_root / "scripts" / "scanners" / filename
+    candidate = skill_root / "scanners" / filename
     if candidate.is_file():
-        return f"scripts/scanners/{filename}"
+        return f"scanners/{filename}"
     return None
 
 
 def scanners_from_rule_frontmatter(skill_root: Path) -> list[str]:
-    """Paths under ``scripts/scanners/`` from ``scanner:`` in each ``rules/*.md`` (sorted by filename)."""
+    """Paths under ``scanners/`` from ``scanner:`` in each ``rules/*.md`` (sorted by filename)."""
     rules_dir = skill_root / "rules"
     if not rules_dir.is_dir():
         return []
@@ -72,20 +72,23 @@ def scanners_from_rule_frontmatter(skill_root: Path) -> list[str]:
 
 
 def discover_scanner_scripts(skill_root: Path) -> list[str]:
-    """Sorted relative POSIX paths for ``scripts/scanners/*.py`` (excludes ``__init__.py``)."""
-    d = skill_root / "scripts" / "scanners"
+    """Sorted relative POSIX paths for ``scanners/*-scanner.py`` (CLI entrypoints only).
+
+    Modules like ``verb_noun_scanner.py`` are excluded — only files ending in ``-scanner.py``.
+    """
+    d = skill_root / "scanners"
     if not d.is_dir():
         return []
     out: list[str] = []
-    for p in sorted(d.glob("*.py")):
-        if not p.is_file() or p.name == "__init__.py":
+    for p in sorted(d.glob("*-scanner.py")):
+        if not p.is_file():
             continue
         out.append(str(p.relative_to(skill_root)).replace("\\", "/"))
     return out
 
 
 def list_scanner_scripts(skill_root: Path, cfg: dict[str, Any]) -> list[str]:
-    """Return scanner script paths to run: rule ``scanner:`` first, then any other ``scripts/scanners/*.py``.
+    """Return scanner script paths to run: rule ``scanner:`` first, then any other ``scanners/*-scanner.py``.
 
     ``cfg`` is reserved for API compatibility; scanner lists are not read from ``skill-config.json``.
     """

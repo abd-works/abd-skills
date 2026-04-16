@@ -17,7 +17,7 @@ In the rest of this doc, “active skill” means that skill directory.
 | Piece | Role |
 | --- | --- |
 | **`<skill-root>/rules/<stem>.md`** | Human-readable expectations: scope, DO/DON'T, examples. **Source of truth** for bundled prose — do not hand-edit the **Bundled rules** block in **`SKILL.md`**. |
-| **`scanner:`** in that file’s YAML frontmatter | Optional. **Stem or basename only** — no paths. The check script **always** lives at **`<skill-root>/scripts/scanners/<stem>-scanner.py`**. In frontmatter you usually set **`scanner: <stem>`** (e.g. **`check_links`** → **`check_links-scanner.py`**); you can also set the full basename **`check_links-scanner.py`**. **`list_scanner_scripts`** (in **execute_rules** **`scanner_paths.py`**) collects these (sorted by rule filename), then unions with any other **`scripts/scanners/*.py`** files (discovery). **`merge_scanner_paths`** is a backward-compatible alias for **`list_scanner_scripts`**. |
+| **`scanner:`** in that file’s YAML frontmatter | Optional. **Stem or basename only** — no paths. The CLI entry script **always** lives at **`<skill-root>/scanners/<stem>-scanner.py`** (beside scanner modules under **`scanners/`**). In frontmatter you usually set **`scanner: <stem>`** (e.g. **`check_links`** → **`check_links-scanner.py`**); you can also set the full basename **`check_links-scanner.py`**. **`list_scanner_scripts`** (in **execute_rules** **`scanner_paths.py`**) collects these (sorted by rule filename), then unions with any other **`scanners/*-scanner.py`** files (discovery). **`merge_scanner_paths`** is a backward-compatible alias for **`list_scanner_scripts`**. |
 
 Prefer one concern per file.
 
@@ -52,14 +52,14 @@ Python modules for **merge** and **workspace** only: assembling **`content/parts
 ## **`build.build_pipeline`** vs **`run_scanners`**
 
 - **`scripts/base/build.py`** uses **`resolve_build_pipeline`** (inlined): if **`build.build_pipeline`** is **non-empty**, that ordered list runs after the merge; if **empty**, it falls back to the merged scanner set (same as **`list_scanner_scripts`**).
-- **`run_scanners.py`** **always** uses **`list_scanner_scripts` only** — it does **not** run **`build.build_pipeline`** unless those scripts are also picked up via rule **`scanner:`** frontmatter or **`scripts/scanners/`** discovery.
+- **`run_scanners.py`** **always** uses **`list_scanner_scripts` only** — it does **not** run **`build.build_pipeline`** unless those scripts are also picked up via rule **`scanner:`** frontmatter or **`scanners/*-scanner.py`** discovery.
 
 ---
 
 ## What not to do
 
 - Do not treat green scanners as enough — still read **rule intent** and **`SKILL.md`**.
-- Do not describe checks **only** in prose — set **`scanner:`** in the rule’s frontmatter and/or add **`scripts/scanners/*.py`** so **`run_scanners.py`** can run them.
+- Do not describe checks **only** in prose — set **`scanner:`** in the rule’s frontmatter and/or add **`scanners/*-scanner.py`** so **`run_scanners.py`** can run them.
 
 ---
 

@@ -1,8 +1,8 @@
 """
-scanner_{{rule_id}}.py — enforces rules/{{rule_id}}.md
+{{rule_id}}-scanner.py — enforces rules/{{rule_id}}.md
 
 Usage:
-    python scripts/scanners/scanner_{{rule_id}}.py [--workspace <path>]
+    python scanners/{{rule_id}}-scanner.py [--workspace <path>]
 
 Exit 0  — no violations found
 Exit 1  — violations found (details printed to stdout)
@@ -12,11 +12,12 @@ in the rule's front-matter and in skill-config.json → workspace.rule_scanner_b
 """
 from __future__ import annotations
 
-import sys
 import argparse
+import sys
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[2]
+# Skill root: this file lives in scanners/
+ROOT = Path(__file__).resolve().parent.parent
 
 
 def scan(workspace: Path) -> list[str]:
@@ -49,12 +50,12 @@ def main() -> int:
     violations = scan(workspace)
 
     if violations:
-        print(f"[FAIL] scanner_{{rule_id}} — {len(violations)} violation(s):")
+        print(f"[FAIL] {{rule_id}}-scanner — {len(violations)} violation(s):")
         for v in violations:
             print(f"  • {v}")
         return 1
 
-    print("[PASS] scanner_{{rule_id}} — no violations")
+    print(f"[PASS] {{rule_id}}-scanner — no violations")
     return 0
 
 

@@ -10,7 +10,7 @@ For an **existing** skill tree (not greenfield): **[`plan-migrate.md`](plan-migr
 
 **`scripts/scaffold_skill.py`** in **abd-skill-builder** builds a new skill under **`--out`** by:
 
-1. Copying **`templates/skill-scaffold/`** (content, rules, tests, **`scripts/scanners/`**, **`scripts/<skill_name>/`**, etc.) with **`{{…}}` substitutions**.
+1. Copying **`templates/skill-scaffold/`** (content, rules, tests, **`scanners/`**, **`scripts/<skill_name>/`**, etc.) with **`{{…}}` substitutions**.
 2. Copying the **`scripts/base/`** package from **abd-skill-builder** — **`build.py`**, **`generate.py`**, **`set_workspace.py`**, **`Skill.load()`**, **`Instructions`**, **`workspace_checklists`**, **`skill_root`**, etc. Run from skill root: **`python scripts/base/build.py`**, **`python scripts/base/generate.py`**, **`python scripts/base/set_workspace.py`**.
 
 So **greenfield skills** get the same checklist automation and **`generate.py`** behaviour as **abd-skill-builder** in **one** scaffold step; there is no second, divergent **`generate.py`** under **`templates/`**. After scaffold, you **extend** merge lists and phase slugs to match your **`parts/phases/*.md`** and **`parts/library/`**.
@@ -20,7 +20,7 @@ So **greenfield skills** get the same checklist automation and **`generate.py`**
 | **`scripts/base/generate.py`** | **abd-skill-builder** **`scripts/base/generate.py`** (copied) | Phase bundle for AI chat; **`ensure_workspace_checklists`** when workspace is set. Imports **`Skill`** and helpers from **`scripts/base/`**. | Rarely—upgrade by re-copying from builder or cherry-picking **`scripts/base/`**. |
 | **`scripts/base/set_workspace.py`** | **abd-skill-builder** **`scripts/base/set_workspace.py`** (copied) | Prints or sets **`active_skill_workspace`** in **`skill-config.json`** → **`workspace`**. | Same as above. |
 | **`scripts/base/build.py`** | **abd-skill-builder** **`scripts/base/build.py`** (copied) | Merges **`process.md`** + **`library/*.md`** + **`phases/*.md`** → **`AGENTS.md`** (+ **`content/built/`**); then **`build.build_pipeline`** when wired (see **[`../library/rules-and-scanners.md`](../library/rules-and-scanners.md)**). Uses **`scripts/base/instructions.py`** and related modules. | **`LIBRARY_FILES`** / **`PHASE_FILES`**; link rewrites; custom steps in **`scripts/base/build.py`** (or shared helpers under **`scripts/base/`**) if needed. |
-| **`scripts/scanners/scanner_<rule>.py`** | **`templates/skill-scaffold/scripts/scanners/`** (templated) | Example scanner stub; wire in **`rules/scanners.json`**. | Replace with real checks. |
+| **`scanners/<rule>-scanner.py`** | **`templates/skill-scaffold/scanners/`** (templated) | Example scanner CLI stub; wire in **`rules/scanners.json`** and **`scanner:`** frontmatter. | Replace with real checks. |
 
 **Structural validation** expects **`skill-config.json`** to list **`build.build_script`** (typically **`python scripts/base/build.py`**) and **`build.compileall_paths`**. **`generate.py`** is not part of that gate—it is for **human/AI sessions** running a phase prompt.
 

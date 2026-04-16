@@ -26,7 +26,7 @@
 | **DO / DO NOT** | The rule as it should be stated |
 | **Example (wrong)** | What the output actually did |
 | **Example (correct)** | What it should have done — fill **only after** the right output is confirmed |
-| **Scanner or validator** | If applicable: **`scanner:`** in rule frontmatter, **`scripts/scanners/...`**, or host **`build.build_pipeline`** step |
+| **Scanner or validator** | If applicable: **`scanner:`** in rule frontmatter, **`scanners/...-scanner.py`**, or host **`build.build_pipeline`** step |
 | **Likely source** | One of: `prompt gap` · `rule not read` · `edge case` · `automation gap` |
 
 **Duplicate violations:** If the **same guidance** was violated again, add another **Example (wrong)** under the **same entry** instead of opening a new entry.
@@ -54,7 +54,7 @@ Skill / phase: <what was being reviewed>
   <what the model or artifact did>
 - **Example (correct):**
   <leave blank until confirmed; then fill>
-- **Scanner or validator:** <e.g. `scripts/scanners/foo.py` or `build.build_pipeline[1]`>
+- **Scanner or validator:** <e.g. `scanners/foo-scanner.py` or `build.build_pipeline[1]`>
 - **Likely source:** prompt gap | rule not read | edge case | automation gap
 
 ---

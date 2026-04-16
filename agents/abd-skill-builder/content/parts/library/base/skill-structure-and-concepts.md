@@ -25,7 +25,7 @@ Typical tree after scaffold. **Purpose** = why it exists; **Template** = startin
 | `rules/*.md` | Normative constraints; stems wired in `skill-config.json` | [`rules/rule-template.md`](../../../../skills/build_skill/templates/skill-scaffold/rules/rule-template.md) |
 | `rules/scanners.json` | Rule → scanner bindings | [`rules/scanners.json`](../../../../skills/build_skill/templates/skill-scaffold/rules/scanners.json) |
 | `scripts/base/` | **`build.py`** (batch **`AGENTS.md`** / **`built/`**), **`set_workspace.py`**, shared modules (`instructions`, `skill`, …). | Copied from **abd-skill-builder** `scripts/base/` — assignment (**skill package** vs **multi-skill agent**): **[`scripts/base/README.md`](../../../../scripts/base/README.md)** |
-| `scripts/scanners/` | Scanner scripts | Template stub under `skills/build_skill/templates/skill-scaffold/scripts/scanners/` |
+| `scanners/` | Scanner modules + CLI `*-scanner.py` entrypoints | Template stub under `skills/build_skill/templates/skill-scaffold/scanners/` |
 | `docs/` | **Non-runtime:** onboarding, manuals, architecture notes — **not** mergeable instruction bodies | [`docs/README.md`](../../../../skills/build_skill/templates/skill-scaffold/docs/README.md) |
 | `docs/capability-registry.md` | **Metadata:** which abd-skill-builder capabilities this skill has adopted (✓ Fully Adopted, ⏹ Not Yet Adopted) | [`skills/build_skill/templates/skill-scaffold/docs/capability-registry.md`](../../../../skills/build_skill/templates/skill-scaffold/docs/capability-registry.md) |
 | `test/` | Pytest + fixtures (optional) | [`test/README.md`](../../../../skills/build_skill/templates/skill-scaffold/test/README.md) |
@@ -151,7 +151,7 @@ Deep **phase** bodies always belong under **`content/parts/phases/`**; this rule
 ## Validation and tests
 
 - **`build.compileall_paths`** and **`build.build_script`** (often `python scripts/base/build.py` when the repo **commits** merged output) gate structure **if** you use the batch merge path.
-- **`rules/scanners.json`**, optional **`workspace.scanners`**, and **`scripts/scanners/*.py`** (merge order in **rules-and-scanners.md**) align local checks with CI when wired.
+- **`rules/scanners.json`**, optional **`workspace.scanners`**, and **`scanners/*-scanner.py`** (merge order in **rules-and-scanners.md**) align local checks with CI when wired.
 - **`test/`** holds pytest suites and fixtures; layout norms match the **Repository shape** table above. See **`test/README.md`** in the scaffold and **[rules-and-scanners.md](rules-and-scanners.md)**.
 
 ---
@@ -270,7 +270,7 @@ For **machine-enforceable** rules, use **[`rules-and-scanners.md`](rules-and-sca
 
 - **`rules/*.md`**, **`phase_rules`**, **`every_phase_rules`**; authoring order table: **`skills/execute_rules/scripts/rule_inventory.py --by-order`** (from **abd-skill-builder** root).
 - **`rules/scanners.json`** (`rule_scanner_bindings`, optional **`scanners`** list).
-- **`build.build_pipeline`**, discovered **`scripts/scanners/*.py`** — merge order and **`run_scanners.py`** (**execute_rules**) are documented in **`rules-and-scanners.md`**.
+- **`build.build_pipeline`**, discovered **`scanners/*-scanner.py`** — merge order and **`run_scanners.py`** (**execute_rules**) are documented in **`rules-and-scanners.md`**.
 
 **Process tables** should **not** enumerate every scanner as phase rows; link **`rules/scanners.json`** and **`build.py`** at skill level.
 

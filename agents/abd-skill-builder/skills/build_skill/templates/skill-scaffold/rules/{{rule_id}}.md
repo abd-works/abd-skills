@@ -1,11 +1,12 @@
 ---
 id: "{{rule_id}}"
 title: "Example rule (replace title)"
+scanner: {{rule_id}}
 ---
 
 # Rule: {{rule_id}}
 
-**Scanner:** `scripts/scanners/scanner_{{rule_id}}.py` — keep the rule id aligned with **`rules/scanners.json`** → **`rule_scanner_bindings`** and this file’s stem.
+**Scanner:** `scanners/{{rule_id}}-scanner.py` — keep the rule id aligned with **`rules/scanners.json`** → **`rule_scanner_bindings`**, **`scanner:`** frontmatter, and this file’s stem.
 
 ## Purpose
 

@@ -5,7 +5,7 @@ Runs entirely inside the execute_rules skill — does not call scripts/base/buil
 Idempotent: replaces content between HTML markers so re-runs do not duplicate text.
 
 Usage (from anywhere):
-  python skills/execute_rules/scripts/bundle_rules_into_skill_md.py --skill-root /path/to/skill
+  python skills/execute_using_rules/scripts/bundle_rules_into_skill_md.py --skill-root /path/to/skill
 
 Optional:
   --skill-md PATH   Path relative to skill root (default: SKILL.md)
@@ -20,13 +20,36 @@ from pathlib import Path
 
 _MARK_BEGIN = "<!-- execute_rules:bundle_rules:begin -->"
 _MARK_END = "<!-- execute_rules:bundle_rules:end -->"
-_SECTION_INTRO = """## Bundled rules
 
-The following prose is **generated** from `rules/*.md` in this skill. Edit the files under **`rules/`**, then re-run:
+# Bump every ATX heading in rule prose so inlined rules sit under the skill’s H2 (Validate, etc.).
+# Source files use # / ##; after +2: rule title ###, DO/DON'T ####, etc.
+_HEADING_DEMOTE_DELTA = 2
+_MAX_ATX = 6
 
-`python skills/execute_rules/scripts/bundle_rules_into_skill_md.py --skill-root <this-skill-root>`
 
-"""
+def _demote_atx_headings(text: str, delta: int = _HEADING_DEMOTE_DELTA) -> str:
+    """Increase # count on markdown ATX headings outside fenced code blocks (cap at _MAX_ATX)."""
+    lines = text.split("\n")
+    in_fence = False
+    out: list[str] = []
+    for line in lines:
+        stripped = line.lstrip()
+        if stripped.startswith("```"):
+            in_fence = not in_fence
+            out.append(line)
+            continue
+        if in_fence:
+            out.append(line)
+            continue
+        m = re.match(r"^(#{1,6})(\s.*)?$", line.rstrip("\r"))
+        if m:
+            n = len(m.group(1))
+            rest = m.group(2) if m.lastindex >= 2 and m.group(2) is not None else ""
+            new_n = min(n + delta, _MAX_ATX)
+            out.append("#" * new_n + rest)
+        else:
+            out.append(line)
+    return "\n".join(out)
 
 
 def _split_yaml_frontmatter(text: str) -> tuple[str, str]:
@@ -45,17 +68,8 @@ def _split_yaml_frontmatter(text: str) -> tuple[str, str]:
     return "", text
 
 
-def _title_from_frontmatter(fm: str, stem: str) -> str:
-    for line in fm.splitlines():
-        m = re.match(r"^title:\s*(.+)\s*$", line.strip(), re.I)
-        if m:
-            t = m.group(1).strip().strip("\"'")
-            return t
-    return stem.replace("-", " ").replace("_", " ").title()
-
-
-def _collect_rule_bodies(rules_dir: Path) -> list[tuple[str, str]]:
-    out: list[tuple[str, str]] = []
+def _collect_rule_bodies(rules_dir: Path) -> list[str]:
+    out: list[str] = []
     if not rules_dir.is_dir():
         return out
     for path in sorted(rules_dir.glob("*.md")):
@@ -67,8 +81,8 @@ def _collect_rule_bodies(rules_dir: Path) -> list[tuple[str, str]]:
         body = body.strip()
         if not body:
             continue
-        title = _title_from_frontmatter(fm, stem)
-        out.append((title, body))
+        body = _demote_atx_headings(body)
+        out.append(body)
     return out
 
 
@@ -88,14 +102,11 @@ def _split_skill_frontmatter(text: str) -> tuple[str, str]:
     return "", text
 
 
-def _build_bundle_markdown(rule_entries: list[tuple[str, str]]) -> str:
-    if not rule_entries:
+def _build_bundle_markdown(rule_bodies: list[str]) -> str:
+    if not rule_bodies:
         inner = "*No `rules/*.md` files in this skill (or only empty / README-only).*"
     else:
-        chunks = []
-        for title, body in rule_entries:
-            chunks.append(f"### {title}\n\n{body}")
-        inner = "\n\n".join(chunks)
+        inner = "\n\n".join(rule_bodies)
     return f"{_MARK_BEGIN}\n{inner}\n{_MARK_END}"
 
 
@@ -108,7 +119,7 @@ def _inject_or_replace(body: str, bundle: str) -> str:
     body = body.rstrip()
     if body:
         body += "\n\n"
-    body += _SECTION_INTRO.rstrip() + "\n\n" + bundle + "\n"
+    body += bundle.rstrip() + "\n"
     return body
 
 

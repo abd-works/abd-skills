@@ -4,14 +4,18 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import subprocess
 import sys
 from pathlib import Path
 
-# Same directory as this file
+# Same directory as this file (…/execute_using_rules/scripts)
 _SCRIPT_DIR = Path(__file__).resolve().parent
+_STORY_GRAPH_OPS_SCRIPTS = _SCRIPT_DIR.parent.parent / "story-graph-ops" / "scripts"
 if str(_SCRIPT_DIR) not in sys.path:
     sys.path.insert(0, str(_SCRIPT_DIR))
+if _STORY_GRAPH_OPS_SCRIPTS.is_dir() and str(_STORY_GRAPH_OPS_SCRIPTS) not in sys.path:
+    sys.path.insert(0, str(_STORY_GRAPH_OPS_SCRIPTS))
 
 from scanner_paths import list_scanner_scripts  # noqa: E402
 
@@ -29,7 +33,7 @@ def main(argv: list[str] | None = None) -> int:
         "--skill-root",
         type=Path,
         default=Path.cwd(),
-        help="Skill root (directory with SKILL.md, rules/, scripts/scanners/, …). Default: cwd.",
+        help="Skill root (directory with SKILL.md, rules/, scanners/*-scanner.py, …). Default: cwd.",
     )
     parser.add_argument(
         "--workspace",
@@ -43,7 +47,7 @@ def main(argv: list[str] | None = None) -> int:
     cfg = _load_cfg(root)
     scanners = list_scanner_scripts(root, cfg)
     if not scanners:
-        print("[INFO] No scanners (no scanner: in rules frontmatter and no scripts/scanners/*.py)")
+        print("[INFO] No scanners (no scanner: in rules frontmatter and no scanners/*-scanner.py)")
         return 0
 
     results: dict[str, int] = {}
@@ -53,10 +57,27 @@ def main(argv: list[str] | None = None) -> int:
             print(f"[MISSING] {scanner_path}")
             results[scanner_path] = 2
             continue
+        env = os.environ.copy()
+        parts: list[str] = []
+        if _STORY_GRAPH_OPS_SCRIPTS.is_dir():
+            parts.append(str(_STORY_GRAPH_OPS_SCRIPTS))
+        parts.append(str(_SCRIPT_DIR))
+        skill_scripts = root / "scripts"
+        if skill_scripts.is_dir():
+            parts.append(str(skill_scripts))
+        skill_scanners = root / "scanners"
+        if skill_scanners.is_dir():
+            parts.append(str(skill_scanners))
+        prev = env.get("PYTHONPATH", "")
+        if prev:
+            parts.append(prev)
+        env["PYTHONPATH"] = os.pathsep.join(parts)
+
         result = subprocess.run(
             [sys.executable, str(script), "--workspace", workspace],
             cwd=str(root),
             capture_output=False,
+            env=env,
         )
         results[scanner_path] = result.returncode
 

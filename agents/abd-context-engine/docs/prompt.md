@@ -1,4 +1,4 @@
-
+﻿
 I want to convert agile\_bots to skill.md ; agent.md approach 
 
 
@@ -51,14 +51,14 @@ We need to build these agents and skills by porting existing C:\dev\agile_bots c
 - kick start delivery flowtake a shot att fiishing this plan
 
     - workspace-skill > agent determines workspace asks if not set
-        - use C:\dev\agilebydesign-skills\skills\workspace_skill to check, set, get
+        - use agents/abd-context-engine/skills/workspace_skill to check, set, get
 
     - context_tracker NEW > determines context sources
         - default is <workspace>/context/* then  *context*.*
         - can be added to chat ask if cant find; track
         - create simple context_tracker skill to set and get list oif files and or folders
     - track_task > track stage of progress
-        - C:\dev\agilebydesign-skills\skills\track_task
+        - agents/abd-context-engine/skills/track_task
 
 
 abd-delivery-lead own:
@@ -97,7 +97,7 @@ team-member agents flow
 - workspace-skill > get workspage as needed
 - abd-context-tracker > find where the context sources are
 - track tasks 
-    - track that steps > C:\dev\agilebydesign-skills\skills\track_task 
+    - track that steps > agents/abd-context-engine/skills/track_task 
 - load skill context > eg make sure to folllow the directgions of the relevant abd-story-practice skll, if more than one look aty both and orchestrate ptractoice skills
 
 2 - Build and Validate
@@ -106,7 +106,7 @@ team-member agents flow
     - generate output (graph and template) using rules from abd-story-practice skll (eg stroy mapping)
     - validate AI and scanner using rules/scanners from abd-story-practice sklls (eg stroy mapping)
     - work with human in loop review logging mistakes and corrections
-    C:\dev\agilebydesign-skills\skills\execute_using_rules
+    agents/abd-context-engine/skills/execute_using_rules
     - building the Story graph
         path <workspace>
         bot story_bot
@@ -197,7 +197,7 @@ shape.render.renderDiagram
 path <workspace>
 bot story_bot
 
---> C:\dev\agilebydesign-skills\skills\execute_using_rules
+--> agents/abd-context-engine/skills/execute_using_rules
 
 
 

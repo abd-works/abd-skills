@@ -33,7 +33,7 @@
 <!-- List rules. Bindings: skill-config.json → workspace.rule_scanner_bindings. -->
 | Rule | Scanner |
 |------|---------|
-| [{{rule_id}}](rules/{{rule_id}}.md) | `scripts/scanners/scanner_{{rule_id}}.py` |
+| [{{rule_id}}](rules/{{rule_id}}.md) | `scanners/{{rule_id}}-scanner.py` |
 
 ## Requirements
 

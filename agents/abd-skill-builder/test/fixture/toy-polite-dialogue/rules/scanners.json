@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "comment": "rule_scanner_bindings maps rules to scanner scripts. Optional scanners[] lists paths; build.py merges workspace.scanners + bindings + scanners[] + scripts/scanners/*.py.",
+  "comment": "rule_scanner_bindings maps rules to scanner scripts. Optional scanners[] lists paths; build.py merges workspace.scanners + bindings + scanners[] + scanners/*-scanner.py.",
   "rule_scanner_bindings": [
     {
       "id": "greet_warm",

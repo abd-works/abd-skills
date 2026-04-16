@@ -22,6 +22,12 @@ Thumbs.db
 # Scanner caches
 .surnames_cache
 
+# Junction: abd-story-mapping → repo skills/execute_using_rules (recreate: see that skill’s SKILL.md § Workflow)
+agents/abd-context-engine/skills/abd-story-mapping/execute_using_rules/
+
+# Junction: Cursor project skill → skills/execute_using_rules (run skills/execute_using_rules/scripts/deploy-cursor-skill.ps1)
+.cursor/skills/execute-rules/
+
 # Local junction to topic memory (machine-specific path; mklink /J)
 skills/abd-context-to-memory/assets/Agile Thinking/
 skills/abd-context-to-memory/assets/Canadian Banking Engineering/
