@@ -11,7 +11,6 @@ description: >-
   Use when writing or reviewing acceptance criteria, exploration behavior, WHEN/THEN
   quality, or story-graph.json AC arrays.
 ---
-
 # abd-acceptance-criteria
 
 ## Steps
@@ -165,56 +164,201 @@ This skill is **migrated from** the Agile Bots codebase — not merely “mapped
 
 ---
 
+## Bundled rules
+
+The block below is **generated** from **`rules/*.md`** by **`skills/execute_using_rules/scripts/bundle_rules_into_skill_md.py`**. Edit **`rules/*.md`** only; re-run the script to refresh **`SKILL.md`**. From the **agilebydesign-skills** repo root:
+
+`python skills/execute_using_rules/scripts/bundle_rules_into_skill_md.py --skill-root skills/abd-acceptance-criteria`
+
+Bundling, mechanical scanners, and the full validation loop are documented in **`skills/execute_using_rules/SKILL.md`**.
+
 <!-- execute_rules:bundle_rules:begin -->
+### Rule: Alternate actors in steps
 
-### Rule: Atomic acceptance criteria
+**Priority:** 3  
+**Scanner:** `scanners/actor-alternation-scanner.py` — **`ActorAlternationScanner`**
 
-**Scanner:** `scanners/atomic-ac-scanner.py` — **`AtomicACScanner`**  
-Avoid repeating the same WHEN/THEN/AND prefix across AC; general case once, variations only what differs. (**Full text:** `rules/use-atomic-acceptance-criteria.md`.)
+**Migrated from:** `agile_bots/bots/story_bot/behaviors/exploration/rules/alternate_actors_in_steps.json`
+
+Alternate between actors every 1–2 steps. Show back-and-forth between user and system. System may chain 1–2 sequential actions before returning to the user.
+
+#### DO
+
+- When the actor acts, the system responds; when the system completes, the user reacts (or the system continues briefly).
+- Allow short system chains (e.g. validate → save) before the next user-visible step.
+
+#### DON'T
+
+- Run more than **two** consecutive steps from the same actor without switching (warning heuristic in scanner).
+- Stack many user-only lines without system response.
 
 ### Rule: Behavioral AC at story level
 
-**Scanner:** `scanners/behavioral-ac-scanner.py` — **`BehavioralACScanner`**  
-Intent/policy from migrated JSON; mechanical scan currently empty in source repo. (**Full text:** `rules/behavioral-ac-at-story-level.md`.)
+**Priority:** 4  
+**Scanner:** `scanners/behavioral-ac-scanner.py` — **`BehavioralACScanner`** (policy / intent; mechanical pass is currently a no-op in agile_bots — migrated as-is)
 
-### Rule: Stories have 4–9 acceptance criteria (heuristic)
+**Migrated from:** `agile_bots/bots/story_bot/behaviors/exploration/rules/behavioral_ac_at_story_level.json`
 
-**Scanner:** `scanners/story-sizing-scanner.py` — **`StorySizingScanner`**  
-Counts WHEN+AND tokens; aligns with exploration sizing goals. (**Full text:** `rules/stories-have-4-to-9-acceptance-criteria.md`.)
+Behavioral AC belongs at story level in `story-graph.json`. Use When/Then format (**no Given** in AC — reserve Given for scenarios). AC should describe behavioral outcomes, not technical implementation.
 
-### Rule: Alternate actors in steps
+#### DO
 
-**Scanner:** `scanners/actor-alternation-scanner.py` — **`ActorAlternationScanner`**  
-Avoid >2 consecutive steps from the same actor. (**Full text:** `rules/alternate-actors-in-steps.md`.)
+- Use behavioral language for user actions and system responses.
+- Focus on observable outcomes and system responses.
+- WHEN/THEN/AND may appear as separate lines in structured AC entries.
+
+#### DON'T
+
+- Use technical implementation terms (config, json, api, sql, class, method) as the primary description.
+- Use programming, database, or raw API terminology in place of behavior.
 
 ### Rule: Enumerate all AC permutations
 
-**Scanner:** `scanners/enumerate-ac-permutations-scanner.py` — **`EnumerateACPermutationsScanner`**  
-Policy; mechanical scan stub in source repo. (**Full text:** `rules/enumerate-all-ac-permutations.md`.)
+**Priority:** 6  
+**Scanner:** `scanners/enumerate-ac-permutations-scanner.py` — **`EnumerateACPermutationsScanner`** (policy; mechanical pass is currently a no-op in agile_bots — migrated as-is)
+
+**Migrated from:** `agile_bots/bots/story_bot/behaviors/exploration/rules/enumerate_all_ac_permutations.json`
+
+Enumerate **all** important acceptance criteria permutations: validation paths, calculation branches, happy path, errors, boundaries.
+
+#### DO
+
+- Cover validation paths explicitly.
+- Include happy path, error path, and edge cases.
+- Cover calculation branches where applicable.
+
+#### DON'T
+
+- Skip permutations (e.g. only happy path).
+- Assume a single path when multiple outcomes exist.
 
 ### Rule: Keep AC consistent across connected domains
 
-**Scanner:** `scanners/ac-domain-crossing-scanner.py` — **`ACDomainCrossingScanner`**  
-Warn when one AC appears to mix multiple domain behaviors with behavioral verbs. (**Full text:** `rules/keep-acceptance-criteria-consistent-across-connected-domains.md`.)
+**Priority:** 2  
+**Scanner:** `scanners/ac-domain-crossing-scanner.py` — **`ACDomainCrossingScanner`**
+
+**Migrated from:** `agile_bots/bots/story_bot/behaviors/exploration/rules/keep_acceptance_criteria_consistent_across_connected_domains.json`
+
+At small scale, AC can cover multiple domain objects. As behaviors diverge, scope AC to one domain and keep **structure** parallel across related domains. AC that mixes multiple domain behaviors signals **split the story**.
+
+#### DO
+
+- Keep parallel structure for parallel domains (same depth and pattern).
+- Split when one AC mixes distinct domain behaviors that deserve separate stories.
+
+#### DON'T
+
+- Mix unrelated domain validations in one giant AC when at scale.
+- Use inconsistent depth across connected domains without reason.
+
+### Rule: Stories have 4–9 acceptance criteria (heuristic)
+
+**Priority:** 2  
+**Scanner:** `scanners/story-sizing-scanner.py` — **`StorySizingScanner`**
+
+**Migrated from:** `agile_bots/bots/story_bot/behaviors/exploration/rules/stories_have_4_to_9_acceptance_criteria.json`
+
+Stories should have enough acceptance criteria to reflect thorough exploration. The **mechanical** scanner counts **WHEN** + **AND** tokens across all AC text (see agile_bots implementation). Target band in JSON: **4–9**; scanner implementation may use a **4–10** band — treat JSON as product intent and align scanner when reconciling.
+
+#### DO
+
+- Target enough AC to cover the behavior (happy path, errors, edges).
+- Split stories that grow too large.
+- Expand under-explored stories.
+
+#### DON'T
+
+- Pad with trivial or redundant AC.
+- Leave stories severely under-specified or monolithic.
 
 ### Rule: Use AND for multiple reactions
 
-**Scanner:** `scanners/reaction-chaining-scanner.py` — **`ReactionChainingScanner`**  
-Chain sequential system reactions; flag separate WHEN/THEN for chained system-only steps; cap long AND chains. (**Full text:** `rules/use-and-for-multiple-reactions.md`.)
+**Priority:** (see agile_bots JSON)  
+**Scanner:** `scanners/reaction-chaining-scanner.py` — **`ReactionChainingScanner`**
+
+**Migrated from:** `agile_bots/bots/story_bot/behaviors/exploration/rules/use_and_for_multiple_reactions.json`
+
+Chain sequential **system** reactions with **AND** under the same trigger. Avoid separate **WHEN** for each micro-step when the trigger is the same. Limit **AND** chains to a reasonable length (scanner warns when excessive).
+
+#### DO
+
+- Chain related system outcomes with AND.
+
+#### DON'T
+
+- Use separate WHEN/THEN pairs for sequential system-only actions that belong to one reaction chain.
+
+### Rule: Atomic acceptance criteria
+
+**Priority:** 7  
+**Scanner:** `scanners/atomic-ac-scanner.py` — **`AtomicACScanner`**
+
+**Migrated from:** `agile_bots/bots/story_bot/behaviors/exploration/rules/use_atomic_acceptance_criteria.json`
+
+Write atomic acceptance criteria. Avoid repeating common WHEN/THEN/AND blocks across multiple AC. State the general case once; additional AC should only state what differs.
+
+#### DO
+
+- State general behavior once in the first acceptance criteria.
+- Variations only state what differs from the general case.
+- Edge cases state only the edge behavior.
+- Use "see previous" only when unavoidable (should be rare).
+
+#### DON'T
+
+- Repeat the same base logic across multiple acceptance criteria.
+- Make variations repeat the full acceptance criteria text.
 
 ### Rule: Use BUT for negative conditions
 
-**Scanner:** `scanners/negative-conditions-scanner.py` — **`NegativeConditionsScanner`**  
-Error language without BUT may warn. (**Full text:** `rules/use-but-for-negative-conditions.md`.)
+**Priority:** (see agile_bots JSON)  
+**Scanner:** `scanners/negative-conditions-scanner.py` — **`NegativeConditionsScanner`**
+
+**Migrated from:** `agile_bots/bots/story_bot/behaviors/exploration/rules/use_but_for_negative_conditions.json`
+
+When outcomes describe errors, validation failure, or prevention, include a **BUT** step stating what does **not** happen (e.g. does not save, does not allow).
+
+#### DO
+
+- Add BUT when error/prevention language appears and a negative outcome needs to be explicit.
+
+#### DON'T
+
+- Describe error outcomes without clarifying what is withheld or blocked.
 
 ### Rule: Use channel-specific language
 
-**Scanner:** `scanners/channel-specific-language-scanner.py` — **`ChannelSpecificLanguageScanner`**  
-Prefer concrete cli./Panel examples over generic “Bot …”. (**Full text:** `rules/use-channel-specific-language.md`.)
+**Priority:** (see agile_bots JSON)  
+**Scanner:** `scanners/channel-specific-language-scanner.py` — **`ChannelSpecificLanguageScanner`**
+
+**Migrated from:** `agile_bots/bots/story_bot/behaviors/exploration/rules/use_channel_specific_language.json`
+
+Prefer concrete CLI, Panel, or API surface detail over generic "Bot/System" wording when the product has distinct channels.
+
+#### DO
+
+- Include concrete examples: `cli.` paths, quoted UI labels, explicit panel copy.
+
+#### DON'T
+
+- Rely on generic "Bot …" steps without concrete syntax or UI cues (scanner warns).
 
 ### Rule: Verb–noun format for story elements
 
-**Scanner:** `scanners/verb-noun-scanner.py` — **`VerbNounScanner`**  
-NLTK-heavy name checks for epic/sub-epic/story nodes (migrated implementation). (**Full text:** `rules/use-verb-noun-format-for-story-elements.md`.)
+**Priority:** 1  
+**Scanner:** `scanners/verb-noun-scanner.py` — **`VerbNounScanner`**
 
+**Migrated from:** `agile_bots/bots/story_bot/behaviors/exploration/rules/use_verb_noun_format_for_story_elements.json` (implementation migrated from `agile_bots/src/scanners/verb_noun_scanner.py` + `vocabulary_helper.py`)
+
+Use verb–noun format for **epic, sub-epic, and story names** (and align scenario/AC phrasing with the same bar). Prefer **base verb forms**; document actors separately (`story_type`, metadata).
+
+#### DO
+
+- Verb + noun for scenario sentences and AC phrasing where applicable.
+- Base verb forms (imperative / infinitive style): Select item, Display confirmation.
+
+#### DON'T
+
+- Noun-only or capability labels where an action phrase is expected.
+- Gerund-led titles (`Submitting order`) or third-person singular as the wrong pattern (`Selects item`).
 <!-- execute_rules:bundle_rules:end -->
