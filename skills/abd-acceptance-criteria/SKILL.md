@@ -33,7 +33,7 @@ When you **create or rewrite** acceptance criteria from requirements, you **must
 
 **Purpose:** Describe what good **exploration-phase** acceptance criteria *are* (structure, language, rules). **How** to run the bot, workspace setup, and product-specific exploration flows belong in the agent and other skills — not here.
 
-**Includes:** `templates/` — see **Use every template file** above; `rules/` — see bundled rules at the end of this file.
+**Includes:** `templates/` — see **Use every template file** above; `rules/` — authoritative rule files (inlined in **SKILL.md** after **Migration**; refresh with **`bundle_rules_into_skill_md.py`** — **`skills/execute_using_rules/SKILL.md`**).
 
 ---
 
@@ -163,14 +163,6 @@ This skill is **migrated from** the Agile Bots codebase — not merely “mapped
 **Canonical product behavior** may continue to evolve in **agile_bots** first. When rules or scanners change there, **re-migrate** (copy + adapt imports) into this skill so Open Agent Skills / `execute_rules` stay aligned.
 
 ---
-
-## Bundled rules
-
-The block below is **generated** from **`rules/*.md`** by **`skills/execute_using_rules/scripts/bundle_rules_into_skill_md.py`**. Edit **`rules/*.md`** only; re-run the script to refresh **`SKILL.md`**. From the **agilebydesign-skills** repo root:
-
-`python skills/execute_using_rules/scripts/bundle_rules_into_skill_md.py --skill-root skills/abd-acceptance-criteria`
-
-Bundling, mechanical scanners, and the full validation loop are documented in **`skills/execute_using_rules/SKILL.md`**.
 
 <!-- execute_rules:bundle_rules:begin -->
 ### Rule: Alternate actors in steps
