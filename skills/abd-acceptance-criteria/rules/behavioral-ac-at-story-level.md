@@ -5,9 +5,7 @@ scanner: behavioral-ac
 # Rule: Behavioral AC at story level
 
 **Priority:** 4  
-**Scanner:** `scanners/behavioral-ac-scanner.py` — **`BehavioralACScanner`** (policy / intent; mechanical pass is currently a no-op in agile_bots — migrated as-is)
-
-**Migrated from:** `agile_bots/bots/story_bot/behaviors/exploration/rules/behavioral_ac_at_story_level.json`
+**Scanner:** `scanners/behavioral-ac-scanner.py` — **`BehavioralACScanner`** (warns if AC text starts a line with **Given**, or matches obvious implementation jargon such as JSON/XML file, parses JSON, SQL, REST/API, or “calls method” / “invokes method”.)
 
 Behavioral AC belongs at story level in `story-graph.json`. Use When/Then format (**no Given** in AC — reserve Given for scenarios). AC should describe behavioral outcomes, not technical implementation.
 

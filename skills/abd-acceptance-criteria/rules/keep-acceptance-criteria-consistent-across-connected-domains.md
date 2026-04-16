@@ -7,8 +7,6 @@ scanner: ac-domain-crossing
 **Priority:** 2  
 **Scanner:** `scanners/ac-domain-crossing-scanner.py` — **`ACDomainCrossingScanner`**
 
-**Migrated from:** `agile_bots/bots/story_bot/behaviors/exploration/rules/keep_acceptance_criteria_consistent_across_connected_domains.json`
-
 At small scale, AC can cover multiple domain objects. As behaviors diverge, scope AC to one domain and keep **structure** parallel across related domains. AC that mixes multiple domain behaviors signals **split the story**.
 
 ## DO

@@ -7,8 +7,6 @@ scanner: actor-alternation
 **Priority:** 3  
 **Scanner:** `scanners/actor-alternation-scanner.py` — **`ActorAlternationScanner`**
 
-**Migrated from:** `agile_bots/bots/story_bot/behaviors/exploration/rules/alternate_actors_in_steps.json`
-
 Alternate between actors every 1–2 steps. Show back-and-forth between user and system. System may chain 1–2 sequential actions before returning to the user.
 
 ## DO

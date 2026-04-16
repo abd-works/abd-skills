@@ -7,8 +7,6 @@ scanner: enumerate-ac-permutations
 **Priority:** 6  
 **Scanner:** `scanners/enumerate-ac-permutations-scanner.py` — **`EnumerateACPermutationsScanner`** (policy; mechanical pass is currently a no-op in agile_bots — migrated as-is)
 
-**Migrated from:** `agile_bots/bots/story_bot/behaviors/exploration/rules/enumerate_all_ac_permutations.json`
-
 Enumerate **all** important acceptance criteria permutations: validation paths, calculation branches, happy path, errors, boundaries.
 
 ## DO

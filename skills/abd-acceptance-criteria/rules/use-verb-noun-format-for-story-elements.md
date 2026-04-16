@@ -7,8 +7,6 @@ scanner: verb-noun
 **Priority:** 1  
 **Scanner:** `scanners/verb-noun-scanner.py` — **`VerbNounScanner`**
 
-**Migrated from:** `agile_bots/bots/story_bot/behaviors/exploration/rules/use_verb_noun_format_for_story_elements.json` (implementation migrated from `agile_bots/src/scanners/verb_noun_scanner.py` + `vocabulary_helper.py`)
-
 Use verb–noun format for **epic, sub-epic, and story names** (and align scenario/AC phrasing with the same bar). Prefer **base verb forms**; document actors separately (`story_type`, metadata).
 
 ## DO

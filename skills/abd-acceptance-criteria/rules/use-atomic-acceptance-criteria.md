@@ -7,8 +7,6 @@ scanner: atomic-ac
 **Priority:** 7  
 **Scanner:** `scanners/atomic-ac-scanner.py` — **`AtomicACScanner`**
 
-**Migrated from:** `agile_bots/bots/story_bot/behaviors/exploration/rules/use_atomic_acceptance_criteria.json`
-
 Write atomic acceptance criteria. Avoid repeating common WHEN/THEN/AND blocks across multiple AC. State the general case once; additional AC should only state what differs.
 
 ## DO
