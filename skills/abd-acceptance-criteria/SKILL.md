@@ -12,40 +12,52 @@ description: >-
 ---
 # abd-acceptance-criteria
 
-## Steps
+## Purpose
 
-1. **Build** using **every** template file in this skill's `templates/` folder, and the `rules/` mentioned in this skill.
-2. **Validate** using rules mentioned in this skill. For the **mechanical** scanner pass, use the **execute_rules** skill (same repo): run **`run_scanners.py`** with **`--skill-root`** = this skill directory and **`--workspace`** = the tree that contains **`docs/story/story-graph.json`** (or **`story-graph.json`**). To **list** which scanners would run, use **`rule_inventory.py --list-scanners`** with the same **`--skill-root`**. Full intent (AI/rules pass **plus** scanner pass) and exact commands are in **`skills/execute_using_rules/SKILL.md`** (Commands **§2** and **§3** where applicable). Implementation notes live in `scanners/README.md` when present. **Which** scanners run is defined only by **`rules/*.md`** (`scanner:` frontmatter → `scanners/<stem>-scanner.py`), not a separate manifest. **Story graph** types (`StoryMap`, `StoryScanner`, …) live in **`skills/story-graph-ops/scripts/`** (`story_map.py`, `story_scanner.py`, …); generic scanner types come from **`execute_using_rules`** **`scanner_bases`**. **`scanner_runner`** (execute_rules) drives every scanner CLI the same way (context holds files and/or graph JSON). For **CLI** read/search/filter/write on `story-graph.json` without the bot, use **`skills/story-graph-ops/`** (**story-graph-ops** skill).
+ Build  good **exploration-phase** acceptance criteria *are* (structure, language, rules). **How** to run the bot, workspace setup, and product-specific exploration flows belong in the agent and other skills — not here.
 
-### Use every template file (required)
-
-When you **create or rewrite** acceptance criteria from requirements, you **must** deliver **one output artifact per file** in `templates/`. **Do not** emit only Markdown or only plain text unless the user **explicitly** asks for a single format.
-
-| Template | What to produce |
-| --- | --- |
-| `templates/acceptance-criteria.md` | Story-level AC using WHEN/THEN/AND/BUT; include the **`## Instructions`** block from that template file at the end of the Markdown artifact (or equivalent rules summary). |
-| `templates/acceptance-criteria.txt` | The **same** behavioral coverage and story semantics as **plain text** only — structure matching `acceptance-criteria.txt` style (no requirement to duplicate the full Instructions block in `.txt`). |
-
-**Consistency:** WHEN/THEN semantics, story coverage, and ordering must match between `.md` and `.txt` for the same work. Only the Markdown file carries the full Instructions block.
-
-**If new files are added** under `templates/` later, produce a corresponding artifact for **each** new template the same way.
-
-**Purpose:** Describe what good **exploration-phase** acceptance criteria *are* (structure, language, rules). **How** to run the bot, workspace setup, and product-specific exploration flows belong in the agent and other skills — not here.
-
-**Includes:** `templates/` — see **Use every template file** above; `rules/` — authoritative rule files (inlined into **SKILL.md** between the bundle markers; refresh with **`bundle_rules_into_skill_md.py`** — see **`skills/execute_using_rules/SKILL.md`**).
-
----
 
 ## When to use this skill
 
 Load this skill when **any** of the following apply:
 
 - You are writing or reviewing **`acceptance_criteria`** arrays on stories in **`story-graph.json`** (exploration phase — not scenario BDD steps).
-- A user or agent wants to turn interviews, specs, or informal notes into **testable behavioral** AC (WHEN/THEN/AND/BUT).
-- You need **WHEN/THEN/AND** quality, **atomic** AC (no duplicated blocks), **actor alternation**, **BUT** for negatives, or **channel-specific** CLI/Panel wording.
+- A user or agent wants to turn interviews, Requirements documentation, or informal notes into **testable behavioral** AC (WHEN/THEN/AND/BUT). Lean on the `abd-story-mapping` skill to get the initial story name only if available, to create a flat list of stories. Do not create a hierarchical  story map.
+- You need to doument user and system interaction at a finer grain , but still rep-specification / test case level of detail. eg linear **WHEN {action user}/THEN {system response}/AND {another system response}, BUT {systems reaction that won't happen}** 
 - An agent is asked to “explore” a story, “write AC”, “harden acceptance criteria”, or “align with exploration rules.”
-- You are running **execute_rules** scanners against a workspace that contains a story graph.
-- You want **parallel quality** with **abd-story-mapping** on **verb–noun** story elements while this skill owns exploration AC rules and scanners.
+- You are running **execute_rules** scanners against a workspace that contains a story graph with **Acceptance Criteria in stories**.
+
+---
+
+## Agent Instructions
+
+1. **Templates**
+1. Generate content using **every** template file in this skill’s `templates/` folder.
+**Do not** emit only Markdown or only plain text unless the user **explicitly** asks for a single format.
+
+| Template | What to produce |
+| --- | --- |
+| `templates/acceptance-criteria.md` | Story-level AC using WHEN/THEN/AND/BUT per **Core concepts** and **The shape of good acceptance criteria** below. Optional title or short context at the top is fine. **Do not** paste the template’s `## Instructions` section (or an equivalent rules summary) into generated project files — that material documents the template for skill maintainers, not stakeholders reading the criteria. |
+| `templates/acceptance-criteria.txt` | The **same** behavioral coverage and story semantics as **plain text** only — structure matching `acceptance-criteria.txt` style. |
+
+**Consistency:** WHEN/THEN semantics, story coverage, and ordering must match between `.md` and `.txt` for the same work. Generated artifacts contain **only** the AC content (plus optional brief context in `.md`); notation and heuristics stay in this skill and in `templates/` for reference.
+
+**If new files are added** under `templates/` later, produce a corresponding artifact for **each** new template the same way.
+
+When you **create or rewrite** acceptance criteria from requirements, you **must** deliver **one output artifact per file** in `templates/`. 
+
+
+2. **Rules**
+- Generate content following rules attached to this skill, listed below, assembled from rule files in `rules/`.
+- Validate - once content is generated, take on the role of a *Peer Reviewer*  and validate that the content is correct by going through each of the skills rules one at a time and looking deeply for violations. Be helpful but critccal - compare contenct againstg each rules constraints, DO/DON’T sections and examples.
+
+
+3. **Assembling this Skill**
+This Skill file is  assembled from all template files  `templates/` and all rules in `rules/`. Use **`bundle_rules_into_skill_md.py`** to reassemble this skill. When ever rules or templates change.
+
+
+2. **Validate** using rules mentioned in this skill.
+
 
 ---
 
@@ -104,6 +116,26 @@ Interleave user-visible and system-visible emphasis. Avoid long runs of the same
 ### Domain consistency
 
 As domains grow, keep **parallel** AC structure across related areas; **split stories** when one AC mixes incompatible domain behaviors.
+
+---
+
+## Example
+
+**Story:** Export Report To PDF  
+**Story type:** user  
+
+1. **WHEN** the user chooses to *Export a PDF* on the *Report UI*  
+   **THEN** the *Report UI* indicates *Export Job Progress*  
+   **AND** the system builds a *PDF* from the current *Filtered Report Data*  
+   **AND** the user gets a normal completed *Download* for that *Report Export*  
+
+2. **WHEN** the *Report* has *Zero Rows* after *Filters*  
+   **THEN** the user sees clear *Feedback* that there is *Nothing To Export*  
+   **BUT** no *PDF* is created and no *Download* starts  
+
+3. **WHEN** the *Report Export Service* is unavailable  
+   **THEN** the user sees that *Report Export* failed and can *Retry* later  
+   **BUT** no *Partial* or *Empty File* is treated as a successful *Report Export*  
 
 ---
 
@@ -183,6 +215,25 @@ Behavioral AC belongs at story level in `story-graph.json`. Use When/Then format
 
 - Use technical implementation terms (config, json, api, sql, class, method) as the primary description.
 - Use programming, database, or raw API terminology in place of behavior.
+
+### Rule: Emphasize domain-significant terms
+
+**Scanner:** Manual review (no automated scanner)
+
+Call out **domain language** — the nouns, verbs, and short phrases that belong to the problem space and show up in stories, tests, and talk with stakeholders — so readers see what is *specific* to this product versus generic wording.
+
+#### DO
+
+- Wrap domain-significant terms in *italics*.
+- Use *title-style capitalization* inside those phrases for multi-word concepts (e.g. *Report UI*, *Export Job Progress*, *Filtered Report Rows*). Keep acronyms and product names in their normal form (e.g. *PDF*).
+- Apply emphasis consistently for the same concept across AC in a story.
+- Prefer this pattern over **exact** quoted UI copy unless the literal string is required for a contract or compliance check.
+
+#### DON'T
+
+- Italicize filler or purely grammatical words, or entire sentences.
+- Use emphasis as decoration on every line — only mark terms that carry domain meaning.
+- Replace behavioral clarity with a wall of highlighted words; if everything is emphasized, nothing is.
 
 ### Rule: Enumerate all AC permutations
 

@@ -12,34 +12,7 @@ description: >-
 ---
 # {{SKILL_DISPLAY_NAME}}
 
-## Agent Instructions
-
-1. **Build** using **every** template file in this skill’s `templates/` folder, and the `rules/` mentioned in this skill.
-
-2. **Validate** using `rules/*.md` and the bundled rules block in `SKILL.md` — constraints, DO/DON’T, examples.
-
-
-
-### CLI commands
-
-### Use every template file (required)
-
-When you **create or rewrite** {{WORK_PRODUCT_SUMMARY}} from requirements, you **must** deliver **one output artifact per file** in `templates/`. **Do not** emit only Markdown or only plain text unless the user **explicitly** asks for a single format.
-
-| Template | What to produce |
-| --- | --- |
-| {{TEMPLATE_ROW_1}} | {{TEMPLATE_ROW_1_DESC}} |
-| {{TEMPLATE_ROW_2}} | {{TEMPLATE_ROW_2_DESC}} |
-
-**Consistency:** {{CONSISTENCY_BETWEEN_TEMPLATES}}
-
-**If new files are added** under `templates/` later, produce a corresponding artifact for **each** new template the same way.
-
-**Purpose:** {{SKILL_PURPOSE_LINE}}
-
-**Includes:** {{SKILL_INCLUDES_LINE}}
-
----
+## Purpose: {{SKILL_PURPOSE_LINE}}
 
 ## When to use this skill
 
@@ -51,6 +24,36 @@ Load this skill when **any** of the following apply:
 - {{WHEN_TO_USE_BULLET_4}}
 
 ---
+## Agent Instructions
+
+1. **Templates**
+ Generate content using **every** template file in this skill’s `templates/` folder.
+**Do not** emit only Markdown or only plain text unless the user **explicitly** asks for a single format.
+
+| Template | What to produce |
+| --- | --- |
+| {{TEMPLATE_ROW_1}} | {{TEMPLATE_ROW_1_DESC}} |
+| {{TEMPLATE_ROW_2}} | {{TEMPLATE_ROW_2_DESC}} |
+
+**Consistency:** {{CONSISTENCY_BETWEEN_TEMPLATES}}
+
+**If new files are added** under `templates/` later, produce a corresponding artifact for **each** new template the same way.
+
+When you **create or rewrite** {SKILL_OUTPUT_ARTIFACTS}, you **must** deliver **one output artifact per file** in `templates/`. 
+
+2. **Rules**
+- Generate content following rules attached to this skill, listed below, assembled from rule files in `rules/`.
+- Validate - once content is generated, take on the role of a *Peer Reviewer*  and validate that the content is correct by going through each of the skills rules one at a time and looking deeply for violations. Be helpful but critccal - compare contenct againstg each rules constraints, DO/DON’T sections and examples.
+
+- **Who is checking:** {{WHO_IS_CHECKING}}{{WHAT ARE_THEY_CHECKING_FOR}},  {{WHO_IS_CHECKIN_2}}{{WHAT ARE_THEY_CHECKING_FOR_2}}, ...
+
+3. **Assembling this Skill**
+This Skill file is  assembled from all template files  `templates/` and all rules in `rules/`. Use **`bundle_rules_into_skill_md.py`** to reassemble this skill. When ever rules or templates change.
+
+
+---
+
+
 
 ## What is a {{SKILL_FOCUS}}
 
@@ -65,6 +68,9 @@ Load this skill when **any** of the following apply:
 {{CORE_CONCEPTS_SECTIONS}}
 
 ---
+
+## Example
+{{GENERATED_EXAMPLE}}
 
 ## The shape of {{GOOD_ARTIFACT_PHRASE}}
 

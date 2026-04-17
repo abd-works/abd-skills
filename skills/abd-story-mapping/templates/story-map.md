@@ -29,7 +29,9 @@
                 (AC) {actor} --> {acceptance_criteria}  
         (S) {actor} --> {story_name}  
   
-## Instructions  
+<!-- Notation below is for skill/template maintainers. Agents MUST NOT copy this section into generated story-map.md files in projects. -->  
+  
+## Instructions (template reference only — omit from generated maps)  
   
 - **Epics (E)**: Top-level features, no connectors  
 - **Sub-Epics (E)**: Nested epics, no connectors  

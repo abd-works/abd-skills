@@ -11,29 +11,8 @@ description: >-
 ---
 # abd-story-mapping
 
-## Steps
-
-1. **Build** using **every** template file in this skill's `templates/` folder, and the `rules/` mentioned in this skill.
-2. **Validate** using rules mentioned in this skill. For the **mechanical** scanner pass, use the **execute_rules** skill (same repo): run **`run_scanners.py`** with **`--skill-root`** = this skill directory and **`--workspace`** = the tree that contains **`docs/story/story-graph.json`** (or **`story-graph.json`**). To **list** which scanners would run, use **`rule_inventory.py --list-scanners`** with the same **`--skill-root`**. Full intent (AI/rules pass **plus** scanner pass) and exact commands are in **`skills/execute_using_rules/SKILL.md`** (Commands **§2** and **§3**). Implementation details and parity with **agile_bots** live in `scanners/README.md`. **Which** scanners run is defined only by **`rules/*.md`** (`scanner:` frontmatter → `scanners/<stem>-scanner.py`), not a separate manifest. **Story graph** types (`StoryMap`, `StoryScanner`, …) live in **`skills/story-graph-ops/scripts/`** (`story_map.py`, `story_scanner.py`, …); generic scanner types come from **`execute_using_rules`** **`scanner_bases`**. **`scanner_runner`** (execute_rules) drives every scanner CLI the same way (context holds files and/or graph JSON). For **CLI** read/search/filter/write on `story-graph.json` without the bot, use **`skills/story-graph-ops/`** (**story-graph-ops** skill).
-
-### Use every template file (required)
-
-When you **create or rewrite** a story map from requirements, you **must** deliver **one output artifact per file** in `templates/`. **Do not** emit only Markdown or only plain text unless the user **explicitly** asks for a single format.
-
-| Template | What to produce |
-| --- | --- |
-| `templates/story-map.md` | The epic/sub-epic/story tree using that layout; include the **`## Instructions`** block from that template file at the end of the Markdown artifact (or equivalent rules summary). Optional title/context above the tree is fine. |
-| `templates/story-map.txt` | The **same** hierarchy and semantics as **plain text** only — tree lines matching `story-map.txt` style (no requirement to duplicate the Instructions section in `.txt`). |
-
-**Consistency:** Connectors (`or`, `opt`), nested `(AC)` lines, and actor/story lines must match between `.md` and `.txt` for the same map. Only the Markdown file carries the Instructions block.
-
-**If new files are added** under `templates/` later, produce a corresponding artifact for **each** new template the same way.
-
-**Purpose:** Describe what a good story map *is* (concepts and naming). **How** to run the bot, workspace setup, and step-by-step CLI belong in the agent and other skills — not here.
-
-**Includes:** `templates/` — see **Use every template file** above.
-
----
+## Purpose: 
+Describe what a good story map *is* (concepts and naming). **How** to run the bot, workspace setup, and step-by-step CLI belong in the agent and other skills — not here.
 
 ## When to use this skill
 
@@ -42,7 +21,45 @@ Load this skill when **any** of the following apply:
 - You need to capture goals, decompose user journeys, or capture a solution as a set of user–system interactions (stories grouped into epics).
 - A user or agent wants to restructure sources of context (eg: requirements docs, interviews, a product brief, or even a rough description) into a new or existing story map.
 - An agent is asked to "map out the system", "identify the epics", "structure the work", or "figure out what we're building using stories"
-- You want to organize existing code, solutions, or tests into a hierarchical story-map format
+- You want to organize existing code, solutions, or tests into a hierarchical story-map format.
+
+## Agent Instructions
+
+1. **Templates**
+
+Generate content using **every** template file in this skill’s `templates/` folder. **Do not** emit only Markdown or only plain text unless the user **explicitly** asks for a single format.
+
+**Use every template file (required)**
+
+When you **create or rewrite** a story map from requirements, you **must** deliver **one output artifact per file** in `templates/`.
+
+| Template | What to produce |
+| --- | --- |
+| `templates/story-map.md` | The epic/sub-epic/story tree using that layout. Optional title or short context above the tree is fine. **Do not** paste the template’s notation / `## Instructions` section (or equivalent) into generated project files — that material documents the template for skill maintainers, not stakeholders reading the map. |
+| `templates/story-map.txt` | The **same** hierarchy and semantics as **plain text** only — tree lines matching `story-map.txt` style. |
+
+**Consistency:** Connectors (`or`, `opt`), nested `(AC)` lines, and actor/story lines must match between `.md` and `.txt` for the same map. Generated artifacts contain **only** the map (plus optional brief context in `.md`); notation rules stay in this skill and in `templates/story-map.md` for reference.
+
+**If new files are added** under `templates/` later, produce a corresponding artifact for **each** new template the same way.
+
+**Depth:** Stay at epic / sub-epic / story hierarchy and ordering unless another workflow adds acceptance criteria or scenarios.
+
+**Quality bar:** Match the naming and layout expectations in **Core concepts** and **The shape of a good story map** below.
+
+**Where it lives:** In a project, the map is often mirrored in **`docs/story/story-graph.json`** (or the workspace’s graph path) via **story-graph-ops** or the bot; this skill still treats **`story-map.md`** and **`story-map.txt`** as the template-aligned outputs you author first.
+
+2. **Rules**
+
+- Generate content following the rules attached to this skill (listed below, assembled from **`rules/*.md`**).
+- After content exists, act as a *peer reviewer*: walk each rule’s constraints, DO/DON’T sections, and examples; be helpful but critical when comparing the deliverable to each rule.
+
+- **Who is checking:** A **product owner** (scope and outcomes), a **developer** (clarity and testability of behaviors), and a **domain expert** (language and flows) should all agree on what the map says.
+- **Cross-artifact parity:** The `.md` and `.txt` trees must match (connectors, nesting, actors on story lines).
+
+3. **Assembling this skill**
+
+This **`SKILL.md`** is assembled from **`rules/`** into the bundled block below. Use **`bundle_rules_into_skill_md.py`** from **`skills/execute_using_rules/scripts/`** whenever **`rules/*.md`** changes:
+
 ---
 
 ## What is a story map?
@@ -134,6 +151,20 @@ Use **user** and **system** for normal product behavior. **technical** (black) s
 
 If useful detail does not fit a node name, put it in that node’s `notes` and cite the source (file, page, section, or `"type": "chat"`). Check `notes` before re-reading raw sources when you continue work on the same map.
 
+---
+
+## Example
+
+```
+Epic: Track Fleet Vehicles
+  └── Sub-Epic: Assign Driver To Vehicle
+        ├── Story: Open Vehicle Roster           [user]
+        ├── Story: Select Available Driver       [user]
+        └── Story: Confirm Assignment              [user]
+```
+
+One epic, one flow (sub-epic), and a few verb–noun stories with actors only in `story_type`.
+
 ## The shape of a good story map
 
 ```
@@ -153,25 +184,27 @@ Epic: Manage Customer Orders
 ```
 
 Notice:
+
 - Epics are **wide** — they span the whole capability area
 - Sub-epics are **flows** — each tells a coherent mini-story
 - Stories are **small** — one behavior each; names are verb–noun; actor only in `story_type`
 
-## Build
-
-Produce **both** **`story-map.md`** and **`story-map.txt`** artifacts (same content tree), following **`templates/story-map.md`** and **`templates/story-map.txt`** respectively. See **Steps → Use every template file** — delivering a single format is incorrect unless the user explicitly requested only one. Match the bar under **Validate** below. Structure follows **epics → sub-epics → stories** as above; keep discovery to hierarchy and ordering unless a later workflow adds acceptance criteria or scenarios.
+---
 
 ---
 
 ## Validate
 
-Review **both** the **`.md`** and **`.txt`** for:
+**Goal:** Inspect what was built — read the artifacts as reviewers, not a second authoring pass.
+
+
+Checklist:
 
 - **Hierarchy** — epics → sub-epics → stories; **verb–noun** names; actors only in `story_type`, not in titles.
 - **Story size** — one observable behavior per story; flows grouped in sub-epics.
 - **Intent** — outcomes and behaviors, not implementation tasks, tickets, or internal structure spelled out as “stories.”
 
-Revise until a product owner, a developer, and a domain expert can all read the map and agree on what it says.
+When you use mechanical checks, run them via **execute_rules** in this repo (**`skills/execute_using_rules/SKILL.md`**). Revise until the three perspectives above can agree on what the map means.
 
 ---
 

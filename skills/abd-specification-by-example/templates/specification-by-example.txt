@@ -1,0 +1,62 @@
+Specification by example (BDD scenarios) — plain text template
+(Conventions from agile_bots story_bot behaviors/scenarios.)
+
+Use the SAME scenario coverage as specification-by-example.md; this file is plain text only.
+Scenarios use Given/When/Then on steps. Exploration AC (WHEN/THEN) is optional — sources can be the story, notes, or informal understanding.
+
+Story: <verb-noun story title>
+Story type: user | system | technical
+
+Background (optional — only if 3+ scenarios share setup; Given/And only, {Concept} placeholders):
+  Background:
+    Given the User {User} is logged into ChannelOne 2.0
+    And the User {User} is entitled to the Entitlement {Entitlement} for the Enterprise {Enterprise}
+    And the Enterprise {Enterprise} has wire service enabled
+
+Example tables — one table per {Concept} in Background/steps/outline; columns are domain attributes:
+  Enterprise:
+    | enterprise_name | wire_service_enabled |
+    | Acme Corp       | Yes                  |
+  User:
+    | user_name | user_role     |
+    | Jane Doe  | Wire Operator |
+  Entitlement (assigned entitlements for wire functions):
+    | entitlement_name   | entitlement_status |
+    | WirePayment.Create | Granted              |
+  Account (owned by enterprise):
+    | enterprise_name | account_name   | activation_status |
+    | Acme Corp       | Acme Operating | Active            |
+  PaymentAmount:
+    | amount   | currency | formatted_display |
+    | 10000.00 | USD      | $10,000.00        |
+  WirePayment (outcome state in Then):
+    | status  |
+    | pending |
+  TransactionalLimit:
+    | limit_name | max_amount | currency |
+    | daily_wire | 500000.00  | USD      |
+  PaymentInstrument (outline — same as Examples rows):
+    | instrument    | fee_rate |
+    | credit_card   | 2.9%     |
+    | bank_transfer | 0.5%     |
+
+Scenario: <name>
+  Given the <ConceptName> {Concept} ...  (label each {Concept} with domain words in the same step)
+  When the <ActorConcept> {Concept} ...
+  Then the <OutcomeConcept> {Concept} ...
+
+Scenario Outline: <name> (only when same steps, varying data)
+  Given the Payment Instrument {PaymentInstrument} is "<instrument>"
+  When ...
+  Then ...
+  Examples:
+    | col_a | col_b |
+    | ...   | ...   |
+
+---
+Template reference only — do not copy the following into generated project files:
+- Given = state; first action is When; Then = domain-visible outcomes.
+- Domain language, not UI widget names; {Concept} ↔ example table bidirectionally; put domain words beside each brace in steps (e.g. the User {User}).
+- In paired .md files, use *italics* for domain-significant terms (plain .txt has no markdown).
+- Happy path + edges + errors implied by the story, notes, or AC (if any); avoid outlines for single-row or unrelated setups.
+- For story-graph workflows, persist scenarios in story-graph.json, not ad-hoc spec files.

@@ -18,8 +18,10 @@ Acceptance criteria:
    THEN <error behavior>  
    BUT <what does not happen>  
   
-Instructions (summary):  
+---  
+Template reference only — do not copy the following into generated project files:  
 - 4-9 steps worth of coverage per story (WHEN/AND counting heuristic matches bot scanners).  
 - Behavioral language; Given belongs in scenarios, not AC.  
 - Channel-specific detail for CLI/Panel/API where relevant.  
 - Alternate actors; use AND to chain system reactions.  
+- Domain vocabulary: use precise domain terms in plain text; paired acceptance-criteria.md uses *italics* for those terms (emphasize-domain-significant-terms rule).  
