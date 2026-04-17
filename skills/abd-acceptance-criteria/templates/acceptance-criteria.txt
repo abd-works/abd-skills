@@ -2,6 +2,11 @@ Acceptance criteria (exploration) — plain text template
 (Migrated from agile_bots story_bot exploration behavior conventions.)  
 Use the SAME story coverage as acceptance-criteria.md; this file is plain text only.  
   
+SOURCE TRACEABILITY (required when AC are grounded in a corpus):  
+For EVERY numbered acceptance criterion, add an Evidence line with document name and the most specific location you have: chapter, section heading, page or page range, paragraph,  
+slide, line range, URL+anchor, chunk/evidence id, etc. If there is no written source, say so  
+(date, meeting, channel). You may use a table after the AC list instead of inline Evidence.
+
 Story: <verb-noun story title>  
 Story type: user | system | technical  
   
@@ -10,13 +15,21 @@ Acceptance criteria:
 1. WHEN <trigger>  
    THEN <outcome>  
    AND <chained outcome>  
+   Evidence: <source> — <chapter/section/page/paragraph/...>  
   
 2. WHEN <variant>  
    THEN <only what differs>  
+   Evidence: <source> — <location>  
   
 3. WHEN <error path>  
    THEN <error behavior>  
    BUT <what does not happen>  
+   Evidence: <source> — <location>  
+  
+Example (table form, optional):  
+AC# | Source | Location  
+1   | Requirements.pdf | Ch. 4, pp. 12-13, para 3-4  
+...  
   
 ---  
 Template reference only — do not copy the following into generated project files:  
@@ -25,3 +38,4 @@ Template reference only — do not copy the following into generated project fil
 - Channel-specific detail for CLI/Panel/API where relevant.  
 - Alternate actors; use AND to chain system reactions.  
 - Domain vocabulary: use precise domain terms in plain text; paired acceptance-criteria.md uses *italics* for those terms (emphasize-domain-significant-terms rule).  
+- Source evidence: match acceptance-criteria.md — every AC numbered item has Evidence or a table row.  

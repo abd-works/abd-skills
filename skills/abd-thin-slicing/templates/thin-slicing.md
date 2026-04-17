@@ -1,6 +1,6 @@
 # Thin slicing — incremental backlog
 
-<!-- Conventions from agile_bots story_bot `behaviors/prioritization`. -->
+<!-- Thin-slicing / incremental backlog layout for this skill (conceptual only). -->
 
 Group work into **increments** (MVIs / thin slices): each increment delivers a **vertical**, **end-to-end** slice of value—not a horizontal “finish one epic layer” plan. Story names should follow **verb–noun** and actor conventions from **`abd-story-mapping`**.
 

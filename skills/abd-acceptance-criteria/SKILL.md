@@ -37,10 +37,10 @@ Load this skill when **any** of the following apply:
 
 | Template | What to produce |
 | --- | --- |
-| `templates/acceptance-criteria.md` | Story-level AC using WHEN/THEN/AND/BUT per **Core concepts** and **The shape of good acceptance criteria** below. Optional title or short context at the top is fine. **Do not** paste the template’s `## Instructions` section (or an equivalent rules summary) into generated project files — that material documents the template for skill maintainers, not stakeholders reading the criteria. |
-| `templates/acceptance-criteria.txt` | The **same** behavioral coverage and story semantics as **plain text** only — structure matching `acceptance-criteria.txt` style. |
+| `templates/acceptance-criteria.md` | Story-level AC using WHEN/THEN/AND/BUT per **Core concepts** and **The shape of good acceptance criteria** below. **Source traceability:** each numbered AC must cite **Evidence** (chapter, section, page, paragraph, chunk id, etc.) or a per-story **Source evidence** table—see template. Optional title or short context at the top is fine. **Do not** paste the template’s `## Instructions` section (or an equivalent rules summary) into generated project files — that material documents the template for skill maintainers, not stakeholders reading the criteria. |
+| `templates/acceptance-criteria.txt` | The **same** behavioral coverage, story semantics, and **source evidence** as **plain text** only — structure matching `acceptance-criteria.txt` style. |
 
-**Consistency:** WHEN/THEN semantics, story coverage, and ordering must match between `.md` and `.txt` for the same work. Generated artifacts contain **only** the AC content (plus optional brief context in `.md`); notation and heuristics stay in this skill and in `templates/` for reference.
+**Consistency:** WHEN/THEN semantics, story coverage, **source evidence per AC**, and ordering must match between `.md` and `.txt` for the same work. Generated artifacts contain **only** the AC content (plus optional brief context in `.md`); notation and heuristics stay in this skill and in `templates/` for reference.
 
 **If new files are added** under `templates/` later, produce a corresponding artifact for **each** new template the same way.
 

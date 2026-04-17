@@ -1,0 +1,19 @@
+# Consolidated third-party dependencies for the Agile Context Engine memory pipeline
+# (agents/abd-context-to-memory skills: convert → chunk → embed → search, plus markdown export helpers).
+#
+# Online install:
+#   pip install -r requirements-all.txt
+#
+# Offline install (after wheels are populated under vendor/wheels — see vendor/README.md):
+#   pip install --no-index --find-links vendor/wheels -r requirements-all.txt
+#
+# Note: pypandoc still requires a separate pandoc binary. PDF engines are external unless you add weasyprint.
+
+python-dotenv>=1.0.0,<2
+openai>=1.0.0
+faiss-cpu>=1.7.0
+numpy>=1.22.0,<3
+openpyxl>=3.1.0
+pypandoc>=1.12
+pymupdf>=1.24.0
+markitdown[all]>=0.1.0

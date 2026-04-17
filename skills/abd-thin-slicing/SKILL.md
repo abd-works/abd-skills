@@ -1,30 +1,58 @@
 ---
 name: abd-thin-slicing
 description: >-
-  Teaches thin slicing and incremental prioritization: vertical MVIs, spine vs optional
-  paths, quality trade-offs, marketable increment names, and early architectural risk
-  validation. When prioritizing from a story map, output **all** template artifacts in
-  `templates/` (currently `thin-slicing.md` and `thin-slicing.txt`) with the same
-  increments and story coverage. Use when planning releases, MVIs, delivery increments,
-  backlog ordering from a map, or when the user mentions thin slices, vertical slices,
-  or prioritization after story mapping. Conventions align with agile_bots story_bot
-  `behaviors/prioritization`.
+  **Produce** thin-sliced delivery increments: vertical MVIs, spine vs optional paths,
+  quality trade-offs, marketable increment names, and early risk validation. From a story
+  map, **write** all template artifacts in `templates/` (`thin-slicing.md` and
+  `thin-slicing.txt`) with identical increment and story coverage. Use when planning
+  releases, MVIs, backlog order, or thin/vertical slices after mapping.
 ---
 # abd-thin-slicing
 
 ## Purpose
 
-Describe what good **thin slicing** and **incremental prioritization** *are* (vertical value, spine vs optional, trade-offs, risk, naming). **How** to run the Agile Bot, workspace setup, and CLI belong in the agent and other skills—not here.
+**Ship prioritized increments.** Turn a **story map** (and any notes on risk, constraints, or learning goals) into **`thin-slicing.md`** and **`thin-slicing.txt`**: marketable increment names, one-line outcomes, optional slicing notes, and **ordered story lists** per increment. Tooling and workspace setup live elsewhere; this skill is **authoring + review**.
 
 ## When to use this skill
 
-Load this skill when **any** of the following apply:
+Use it when **any** of these are true:
 
-- You have a **story map** (see **`abd-story-mapping`**) and need **delivery increments** / MVIs / release slices.
-- You must separate **mandatory spine** work from **optional** alternates, enhancements, or deep error paths before sequencing.
-- You are **prioritizing for learning** (integration, deployment, performance, user impact) as much as for feature count.
-- An agent is asked to “thin slice,” “define increments,” “order the backlog,” or “what ships first?”
-- You are aligning narrative backlog docs with **`story-graph.json`** **`increments`** (or equivalent) where your pipeline stores them.
+- You have a map (**`abd-story-mapping`**) and need **increments** / MVIs / “what ships first.”
+- You must **split spine vs optional** before sequencing.
+- You are ordering for **learning** (integration, deploy, performance, adoption), not only feature count.
+- Someone asks for thin slices, backlog order, or alignment with **`story-graph.json`** **`increments`**.
+
+---
+
+## Core concepts
+
+Short definitions (aligned with prioritization / vertical-slice guidance in **`backup/abd-shaping/docs/ace-shaping-strategy.md`** and **`backup/abd-maps-models-specs/abd-story-synthesizer/rules/interaction-ensure-vertical-slices.md`**):
+
+### What is a **delivery increment**?
+
+An increment is a **named, ordered slice** of the story map you plan to **ship or learn from before** the next slice. It groups **existing stories** (verb–noun, flow order) under one increment: a **sequenced backlog chunk**, not a new epic. In tooling terms it matches **`story-graph.json`** **`increments`** when your project uses that structure. *Prioritization* turns a shaped map into a map **with delivery increments**—this skill is that step in prose and templates.
+
+### What is **thin slicing**?
+
+**Thin slicing** means choosing the **smallest** increment that still **finishes a meaningful journey** (value, demo, or learning)—often by taking **partial** depth in several areas instead of **full** depth in one area first. Early increments may trade polish (manual steps, stubs, one data path) for **speed to end-to-end feedback**; later increments **raise quality** with clear names (for example “Manual …” then “Automated …”). Same user journey, richer implementation each time.
+
+### **Vertical** vs **horizontal** slices
+
+- **Vertical (preferred):** The increment cuts **across** epics/features: a little of order entry, payment, storage, confirmation—enough to go **end-to-end** (input → processing → persistence/feedback → visible outcome) in one slice.
+- **Horizontal (avoid):** Finish **all** of Epic A, then **all** of Epic B—layers that **cannot** be exercised end-to-end until late increments.
+
+---
+
+## Do the work (required)
+
+1. **Read inputs** — story map / graph, PO or tech notes, known risks and dependencies.
+2. **Mark spine vs optional** — mandatory core sequence vs alternates, enhancements, deep error paths (see bundled rules).
+3. **Cut vertical slices** — each increment is an **end-to-end** demonstrable path (even if manual/stubbed); avoid horizontal “finish epic A, then epic B.”
+4. **Name for value** — increment titles = stakeholder-visible **capability**, not phase or stack labels.
+5. **Pull stories** — under each increment, list **verb–noun** stories in **flow order**; don’t paste the whole map unless asked.
+6. **Write both files** — fill **`templates/thin-slicing.md`** and **`templates/thin-slicing.txt`** with the **same** increments and stories (`.md` may use *italics* on domain terms).
+7. **Omit maintainer noise** — do **not** copy the template’s **`## Instructions`** block into project deliverables.
+8. **Review** — walk every bundled rule; fix violations before you call it done.
 
 ---
 
@@ -32,38 +60,29 @@ Load this skill when **any** of the following apply:
 
 1. **Templates**
 
-Generate content using **every** template file in this skill’s `templates/` folder. **Do not** emit only Markdown or only plain text unless the user **explicitly** asks for a single format.
+Use **every** file under `templates/`. Unless the user **explicitly** wants one format only, emit **both** `.md` and `.txt`.
 
-**Use every template file (required)**
-
-When you **define or revise** increments from a map and context, you **must** deliver **one output artifact per file** in `templates/`.
-
-| Template | What to produce |
+| Template | Produce |
 | --- | --- |
-| `templates/thin-slicing.md` | **Increments** with **marketable names**, **outcome** line, optional **slicing notes**, and **ordered story list** per increment (verb–noun stories, *italic* domain terms in prose). Optional product/context at the top. **Do not** paste the template’s `## Instructions` section into generated project files—that block is for skill maintainers. |
-| `templates/thin-slicing.txt` | The **same** increment and story coverage as **plain text** only—structure matching the `.txt` template. |
+| `templates/thin-slicing.md` | Increments: **name**, **outcome**, optional **slicing notes**, ordered **story** bullets (*italic* domain terms where helpful). Optional product/context at top. No template `## Instructions` in the deliverable. |
+| `templates/thin-slicing.txt` | **Same** increments and stories, plain text layout per the `.txt` template. |
 
-**Consistency:** Increment names, ordering, story membership, and outcomes must match between `.md` and `.txt`. Optional **slicing notes** should match when present.
+**Parity:** Names, order, story membership, and outcomes must match across `.md` and `.txt`. New files under `templates/` later → one deliverable per file.
 
-**If new files are added** under `templates/` later, produce a corresponding artifact for **each** new template the same way.
+**Pointers:** Depth stays at **increment + story list**; point to **`story-map.md`** / graph for full hierarchy.
 
-**Depth:** Stay at **increment + story list** level; do not duplicate full epic trees unless the user asks—point to **`story-map.md`** / graph for structure.
-
-**Quality bar:** **Vertical** slices, **marketable** names, **spine-first** sequencing, **risk** addressed early, **trade-offs** visible—see **Core concepts** and bundled rules.
-
-**Relationship:** **`abd-story-mapping`** supplies the map and naming; **`abd-thin-slicing`** orders **stories into shippable slices**. **`abd-acceptance-criteria`** and **`abd-specification-by-example`** deepen individual stories after priorities exist.
+**Neighbors:** **`abd-story-mapping`** = map structure; **`abd-thin-slicing`** = **order into slices**; **`abd-acceptance-criteria`** / **`abd-specification-by-example`** = story detail **after** priorities.
 
 2. **Rules**
 
-- Generate content following the rules attached to this skill (listed below, assembled from **`rules/*.md`**).
-- After content exists, act as a *peer reviewer*: walk each rule’s constraints, DO/DON’T sections, and examples; be helpful but critical when comparing the deliverable to each rule.
+- Apply all prose in the bundled block below (from **`rules/*.md`**).
+- Then **review as peer**: each rule’s DO/DON’T and examples—be critical.
 
-- **Who is checking:** A **product owner** (value and order), a **tech lead** (risk and feasibility of slices), and a **domain expert** (whether the spine matches real workflow).
-- **Cross-artifact parity:** `.md` and `.txt` must list the **same** stories under each increment.
+**Reviewers:** product owner (value/order), tech lead (risk/feasibility), domain expert (spine matches reality).
 
 3. **Mechanical checks (execute_rules)**
 
-This skill ships **rules only** for now (no `scanners/*-scanner.py` under this folder). You can still run **`bundle_rules_into_skill_md.py`** to refresh bundled prose. If scanners are added later, run:
+Rules only today (no `scanners/*-scanner.py` here). Refresh the bundle with **`bundle_rules_into_skill_md.py`** after editing **`rules/`**. If scanners are added later:
 
 ```text
 python skills/execute_using_rules/scripts/run_scanners.py --skill-root skills/abd-thin-slicing --workspace <path-to-project>
@@ -71,46 +90,29 @@ python skills/execute_using_rules/scripts/run_scanners.py --skill-root skills/ab
 
 4. **Assembling this skill**
 
-This **`SKILL.md`** is assembled from **`rules/*.md`** into the bundled block below. Use **`bundle_rules_into_skill_md.py`** from **`skills/execute_using_rules/scripts/`** whenever **`rules/*.md`** changes:
+After changing **`rules/*.md`**:
+
+```text
+python skills/execute_using_rules/scripts/bundle_rules_into_skill_md.py --skill-root skills/abd-thin-slicing
+```
 
 ---
 
-## What is thin slicing?
+## Constraints (apply while you work)
 
-**Thin slicing** (here) means ordering work into **small, vertical increments**: each increment delivers a **coherent, end-to-end** outcome users or the business can **see or use**, even if implementation is **minimal** (manual steps, stubs, thin UX). Slices **cut across** parts of the map needed for that journey—not “complete subsystem A, then subsystem B” horizontal layers.
-
-**Spine** stories are the **mandatory sequence** for core value; **optional** stories are alternates, enhancements, or depth that should not block the **first marketable** slice.
-
----
-
-## Core concepts
-
-### Vertical vs horizontal
-
-| Approach | Meaning |
+| Check | Pass means |
 | --- | --- |
-| **Vertical slice** | Partial features, **full journey** (input → outcome) each increment. |
-| **Horizontal layer** | Finish one epic/layer before integrating; **late** end-to-end validation. |
-
-### Marketable increment
-
-An increment has a **name** and **outcome** a stakeholder recognizes (**capability**, not “sprint” or “API milestone”).
-
-### Quality ramp
-
-Early increments **trade quality** (automation, validation, NFRs) for **speed of learning**; later increments **restore** quality with clear naming.
-
-### Risk and uncertainty
-
-**Integration, deployment, performance, and adoption** risks deserve **early** slices that **touch reality**—not endless local-only polish.
-
-### Where it lives
-
-Projects often mirror increments in **`story-graph.json`** (`increments` array with stories and priorities) and in docs like **`thin-slicing.md`**; keep **narrative** and **graph** aligned.
+| **Vertical** | Each increment shows input → processing → persistence/feedback → visible outcome (minimal is OK). |
+| **Horizontal** | **Reject** plans that complete one layer/epic with no journey until the end. |
+| **Marketable title** | Stakeholder recognizes the **capability**—not “Sprint 3” or “API layer.” |
+| **Quality ramp** | Early slice may be manual/stub/low NFR; later slices **add** quality with **clear** names. |
+| **Risk** | Scary integration/deploy/perf tackled in **early** increments with **real enough** exercise. |
+| **Spine** | Lean mandatory path; optional work **labeled**, not sequenced as if mandatory. |
+| **Artifacts** | `thin-slicing.md` + `thin-slicing.txt` stay in sync; mirror **`story-graph.json`** **`increments`** if your project uses them. |
 
 ---
 
-## Example (shape only)
+## Example output shape
 
 ```text
 Increment 1: Manual checkout proof — clerk confirms payment; order saved to file; customer sees confirmation id.
@@ -119,43 +121,7 @@ Increment 1: Manual checkout proof — clerk confirms payment; order saved to fi
 Increment 2: Automated payment — same journey with payment gateway and database.
 ```
 
----
-
-## The shape of good thin-slicing artifacts
-
-```
-Product (optional)
-Spine vs optional reminder
-For each increment:
-  Marketable name
-  Outcome (one line)
-  Slicing notes (optional)
-  Ordered list of stories (verb–noun)
-```
-
-**Bad shape:** Phase numbers without outcomes; horizontal “all UI then all API”; spine crowded with optional auth methods sequenced as 2,3,4.
-
----
-
-## Build
-
-**Goal:** Turn a **story map** and prioritization context into **both** template artifacts.
-
-- **Outputs:** `thin-slicing.md` and `thin-slicing.txt` with **matching** increment/story content.
-- **Per format:** Markdown may use *italics* for domain terms; plain text does not.
-- **While writing:** Prefer **vertical** demonstration; **name** increments for **value**; **document** trade-offs in slicing notes when non-obvious.
-
----
-
-## Validate
-
-**Goal:** PO + tech + domain agree the **first increment** is **shippable/demoable** and **risk-aware**.
-
-- **Vertical:** Each increment traces a **journey**, not a single layer.
-- **Spine:** Mandatory flow is **lean**; optional work is **labeled**, not smuggled into spine order.
-- **Names:** **Business** language dominates increment titles.
-- **Risk:** Scary dependencies appear in **early** slices with **real** enough exercise.
-- **Parity:** `.md` and `.txt` lists **match**.
+**Weak patterns to fix:** phase numbers with no outcome; “all UI then all API”; three auth methods as spine steps 2–4 when one suffices.
 
 ---
 

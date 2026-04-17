@@ -1,5 +1,5 @@
 Thin slicing — incremental backlog — plain text template
-(Conventions from agile_bots story_bot behaviors/prioritization.)
+(Thin-slicing / incremental backlog — matches thin-slicing.md.)
 
 Use the SAME increment/story coverage as thin-slicing.md; this file is plain text only.
 
