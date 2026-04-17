@@ -36,7 +36,7 @@ Junctions are **not committed** (see repo `.gitignore` under `.cursor/skills/exe
 
 **execute_rules** gives you **four** practices you can drop into **any** agent or repo layout.
 
-**What to point at:** Treat the skill being directlye executed by user or the agent as the center of attention — the **`--skill-root`** package. Read **its** **`rules/`**, run bundle and scanners against **that** skill, and validate **its** output.
+**What to point at:** Treat the skill being directly executed by the user or the agent as the center of attention — the **`--skill-root`** package. Read **its** **`rules/`**, run bundle and scanners against **that** skill, and validate **its** output.
 
 1. **Refresh the “bundled rules” section inside a target skill’s `SKILL.md`** — Your real rule text lives in **`rules/*.md`**. A script copies that text into **`SKILL.md`** between fixed markers so agents see the rules in one place. Run it after you edit any rule file.
 
@@ -77,7 +77,7 @@ For this skill to work the **target skill** must have **`rules/*.md`** — the r
 
 **abd-story-mapping:** validators live under **`skills/abd-story-mapping/scanners/`** — **`scanner_bases`** for generic types, **`story_map`** / **`story_scanner`** (story-graph-ops **scripts/**) for graph scanners; refresh **`scanner_bases`** from **`execute_using_rules/scripts/scanner_bases/`**, not duplicated inside abd-story-mapping.
 
-Rule file → scanner: put **`scanner: <stem>`** in the YAML frontmatter of **`rules/<stem>.md`** (or equivalent); the CLI script is expected at **`scanners/<stem>-scanner.py`** (next to scanner modules under **`scanners/`**). Merge order, **`build.build_pipeline`**, and extra vocabulary: see **`rules-and-scanners.md`** (or equivalent) **in the repo that ships your agent docs** — not required for a minimal copy of **execute_rules** alone.
+Rule file → scanner: put **`scanner: <stem>`** in the YAML frontmatter of **`rules/<stem>.md`** (or equivalent); the CLI script is expected at **`scanners/<stem>-scanner.py`** (next to scanner modules under **`scanners/`**). Scanner merge / **`build.build_pipeline`** / extra vocabulary: see **`rules-and-scanners.md`** (or equivalent) **in the repo that ships your agent docs** — not required for a minimal copy of **execute_rules** alone.
 
 Text **between** the **`execute_rules:bundle_rules`** markers in **`SKILL.md`** is **generated** from **`rules/*.md`**. Editing it by hand is wasted work — the next bundle run overwrites it. Always change **`rules/*.md`**, then run **`bundle_rules_into_skill_md.py`**.
 
@@ -85,7 +85,7 @@ Text **between** the **`execute_rules:bundle_rules`** markers in **`SKILL.md`** 
 
 `<execute_rules_root>` = directory that contains this skill’s **`scripts/`** (same folder as **`SKILL.md`** for **execute_rules**). Substitute your real path or `cd` there first.
 
-**1. `bundle_rules_into_skill_md.py`** — Replaces the content **between** `<!-- execute_rules:bundle_rules:begin -->` and `<!-- execute_rules:bundle_rules:end -->` in the target **`SKILL.md`** with prose from **`rules/*.md`** (sorted by filename). It does **not** add a separate “how to re-run” intro — keep that in the skill author’s text if you want it. Headings in each rule file are **depth-bumped** (+2 `#` levels, capped at six) so `# Rule:` becomes **`### Rule:`** and `## DO` becomes **`#### DO`** when inlined. Run after you edit any rule file.
+**1. `bundle_rules_into_skill_md.py`** — Replaces the content **between** `<!-- execute_rules:bundle_rules:begin -->` and `<!-- execute_rules:bundle_rules:end -->` in the target **`SKILL.md`** with prose from **`rules/*.md`** (sorted by filename). **YAML frontmatter** on each rule file is **dropped** (use it for `scanner:` and other machine fields only). Body text is copied **verbatim** after heading demotion — keep **`rules/*.md`** free of third-repo sync instructions or other maintainer-only noise; authors read the bundled block as the rule set. It does **not** add a separate “how to re-run” intro — keep that in the skill author’s text if you want it. Headings in each rule file are **depth-bumped** (+2 `#` levels, capped at six) so `# Rule:` becomes **`### Rule:`** and `## DO` becomes **`#### DO`** when inlined. Run after you edit any rule file.
 
 - **User can say (examples):** “Bundle rules into `SKILL.md` for `<path-to-skill>`.” · “Re-bundle the skill after I changed `rules/*.md`.” · “Refresh the bundled rules section for this skill.”
 
@@ -108,9 +108,9 @@ python <execute_rules_root>/scripts/run_scanners.py --skill-root <path-to-skill>
 Scanner subprocesses receive **`PYTHONPATH`** including **`<execute_rules_root>/scripts`**, so scripts may **`import scanner_bases`** (shared bases) when implementing checks.
 
 
-**3. `rule_inventory.py`** (optional) — Summarizes **`rules/`** and bindings; **`--list-scanners`** prints the same scanner paths **`run_scanners.py`** would run.
+**3. `rule_inventory.py`** (optional) — Summarizes **`rules/`** and bindings; **`--by-order`** prints a **`rule_id | title`** table sorted **alphabetically by rule file name** (no ranking column); **`--list-scanners`** prints the same scanner paths **`run_scanners.py`** would run.
 
-- **User can say (examples):** “Show the rules for `<path-to-skill>` in order.” · “List which scanners would run for this skill.” · “Run `rule_inventory` with `--by-order` or `--list-scanners`.”
+- **User can say (examples):** “Show the rules table for `<path-to-skill>`.” · “List which scanners would run for this skill.” · “Run `rule_inventory` with `--by-order` or `--list-scanners`.”
 
 ```bash
 python <execute_rules_root>/scripts/rule_inventory.py --skill-root <path-to-skill> --by-order

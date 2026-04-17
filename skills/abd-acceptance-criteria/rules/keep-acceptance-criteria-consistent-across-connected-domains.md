@@ -4,7 +4,6 @@ scanner: ac-domain-crossing
 
 # Rule: Keep AC consistent across connected domains
 
-**Priority:** 2  
 **Scanner:** `scanners/ac-domain-crossing-scanner.py` — **`ACDomainCrossingScanner`**
 
 At small scale, AC can cover multiple domain objects. As behaviors diverge, scope AC to one domain and keep **structure** parallel across related domains. AC that mixes multiple domain behaviors signals **split the story**.

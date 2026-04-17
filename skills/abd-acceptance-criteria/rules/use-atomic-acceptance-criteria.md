@@ -4,7 +4,6 @@ scanner: atomic-ac
 
 # Rule: Atomic acceptance criteria
 
-**Priority:** 7  
 **Scanner:** `scanners/atomic-ac-scanner.py` — **`AtomicACScanner`**
 
 Write atomic acceptance criteria. Avoid repeating common WHEN/THEN/AND blocks across multiple AC. State the general case once; additional AC should only state what differs.

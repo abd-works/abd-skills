@@ -4,7 +4,6 @@ scanner: small-and-testable
 
 # Rule: Small and Testable
 
-**Priority:** 6  
 **Scanner:** `scanners/small-and-testable-scanner.py` — **`SmallAndTestableScanner`**
 
 Stories must be **testable as complete interactions** and deliverable independently. Small enough to test, large enough to matter.

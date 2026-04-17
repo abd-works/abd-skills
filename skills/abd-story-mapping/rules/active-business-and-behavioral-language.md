@@ -4,7 +4,6 @@ scanner: active-business-and-behavioral-language
 
 # Rule: Active Business and Behavioral Language
 
-**Priority:** 2  
 **Scanner:** `scanners/active-business-and-behavioral-language-scanner.py` — **`ActiveBusinessAndBehavioralLanguageScanner`**
 
 

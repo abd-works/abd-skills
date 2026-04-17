@@ -4,7 +4,6 @@ scanner: negative-conditions
 
 # Rule: Use BUT for negative conditions
 
-**Priority:** (see agile_bots JSON)  
 **Scanner:** `scanners/negative-conditions-scanner.py` — **`NegativeConditionsScanner`**
 
 When outcomes describe errors, validation failure, or prevention, include a **BUT** step stating what does **not** happen (e.g. does not save, does not allow).

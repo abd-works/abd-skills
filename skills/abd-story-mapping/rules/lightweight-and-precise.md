@@ -1,6 +1,5 @@
 # Rule: Lightweight and Precise
 
-**Priority:** 4  
 **Scanner:** Manual review
 
 Create **lightweight but precise** documentation during shaping. Focus on structure and scope, not detailed specifications.

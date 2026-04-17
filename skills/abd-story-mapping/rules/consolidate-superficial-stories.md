@@ -1,12 +1,11 @@
 # Rule: Consolidate Superficial Stories
 
-**Priority:** 13  
-**Scanner:** Manual review (policy; P13 vs P14 — see below)
+**Scanner:** Manual review (policy; pairs with *Review and Expand Stories* — see below)
 
 
 Consolidate stories that differ **only superficially** (same logic, different data values or enumeration). Combine into **one parameterized story** where it applies.
 
-**Relationship to other rules:** P13 removes **data-value duplication** (same behavior, different inputs). P14 (*Review and Expand Stories*) splits by **component behavior**. Apply **P13 first**, then P14 if you still need component-level expansion.
+**Relationship to other rules:** This rule removes **data-value duplication** (same behavior, different inputs). *Review and Expand Stories* splits by **component behavior**. Apply **consolidation first**, then expansion if you still need component-level depth.
 
 ## DO
 

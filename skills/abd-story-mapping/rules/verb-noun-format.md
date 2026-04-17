@@ -4,7 +4,6 @@ scanner: verb-noun-format
 
 # Rule: Verb–Noun Format
 
-**Priority:** 1  
 **Scanner:** `scanners/verb-noun-format-scanner.py` — **`VerbNounFormatScanner`**
 
 

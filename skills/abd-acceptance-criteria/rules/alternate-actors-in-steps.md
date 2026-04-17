@@ -4,7 +4,6 @@ scanner: actor-alternation
 
 # Rule: Alternate actors in steps
 
-**Priority:** 3  
 **Scanner:** `scanners/actor-alternation-scanner.py` — **`ActorAlternationScanner`**
 
 Alternate between actors every 1–2 steps. Show back-and-forth between user and system. System may chain 1–2 sequential actions before returning to the user.

@@ -4,7 +4,6 @@ scanner: verb-noun
 
 # Rule: Verb–noun format for story elements
 
-**Priority:** 1  
 **Scanner:** `scanners/verb-noun-scanner.py` — **`VerbNounScanner`**
 
 Use verb–noun format for **epic, sub-epic, and story names** (and align scenario/AC phrasing with the same bar). Prefer **base verb forms**; document actors separately (`story_type`, metadata).

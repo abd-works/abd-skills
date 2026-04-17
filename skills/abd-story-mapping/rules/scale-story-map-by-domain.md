@@ -4,7 +4,6 @@ scanner: scale-story-map-by-domain
 
 # Rule: Scale Story Map by Domain
 
-**Priority:** 10  
 **Scanner:** `scanners/scale-story-map-by-domain-scanner.py` — **`ScaleStoryMapByDomainScanner`**
 
 

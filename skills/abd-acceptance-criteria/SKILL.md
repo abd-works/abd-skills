@@ -3,9 +3,8 @@ name: abd-acceptance-criteria
 description: >-
   Teaches exploration-phase acceptance criteria for story-graph.json: WHEN/THEN/AND/BUT,
   behavioral language, atomic AC, actor alternation, channel-specific detail, and
-  verb–noun naming for story elements. This skill **migrates** rules and scanners **from**
-  the agile_bots repo (story_bot exploration behavior) into this skills package — it is a
-  portable copy for execute_rules / CLI scanners, not a live symlink or runtime mapping.
+  verb–noun naming for story elements. Ships Markdown rules and Python scanners under this
+  skill root for **execute_rules** (mechanical checks alongside human review).
   When building AC from sources, output **all** template artifacts in `templates/`
   (currently `acceptance-criteria.md` and `acceptance-criteria.txt`) with the same coverage.
   Use when writing or reviewing acceptance criteria, exploration behavior, WHEN/THEN
@@ -16,7 +15,7 @@ description: >-
 ## Steps
 
 1. **Build** using **every** template file in this skill's `templates/` folder, and the `rules/` mentioned in this skill.
-2. **Validate** using rules mentioned in this skill. For the **mechanical** scanner pass, use the **execute_rules** skill (same repo): run **`run_scanners.py`** with **`--skill-root`** = this skill directory and **`--workspace`** = the tree that contains **`docs/story/story-graph.json`** (or **`story-graph.json`**). To **list** which scanners would run, use **`rule_inventory.py --list-scanners`** with the same **`--skill-root`**. Full intent (AI/rules pass **plus** scanner pass) and exact commands are in **`skills/execute_using_rules/SKILL.md`** (Commands **§2** and **§3** where applicable). Implementation details and parity with **agile_bots** live in `scanners/README.md` when present. **Which** scanners run is defined only by **`rules/*.md`** (`scanner:` frontmatter → `scanners/<stem>-scanner.py`), not a separate manifest. **Story graph** types (`StoryMap`, `StoryScanner`, …) live in **`skills/story-graph-ops/scripts/`** (`story_map.py`, `story_scanner.py`, …); generic scanner types come from **`execute_using_rules`** **`scanner_bases`**. **`scanner_runner`** (execute_rules) drives every scanner CLI the same way (context holds files and/or graph JSON). For **CLI** read/search/filter/write on `story-graph.json` without the bot, use **`skills/story-graph-ops/`** (**story-graph-ops** skill).
+2. **Validate** using rules mentioned in this skill. For the **mechanical** scanner pass, use the **execute_rules** skill (same repo): run **`run_scanners.py`** with **`--skill-root`** = this skill directory and **`--workspace`** = the tree that contains **`docs/story/story-graph.json`** (or **`story-graph.json`**). To **list** which scanners would run, use **`rule_inventory.py --list-scanners`** with the same **`--skill-root`**. Full intent (AI/rules pass **plus** scanner pass) and exact commands are in **`skills/execute_using_rules/SKILL.md`** (Commands **§2** and **§3** where applicable). Implementation notes live in `scanners/README.md` when present. **Which** scanners run is defined only by **`rules/*.md`** (`scanner:` frontmatter → `scanners/<stem>-scanner.py`), not a separate manifest. **Story graph** types (`StoryMap`, `StoryScanner`, …) live in **`skills/story-graph-ops/scripts/`** (`story_map.py`, `story_scanner.py`, …); generic scanner types come from **`execute_using_rules`** **`scanner_bases`**. **`scanner_runner`** (execute_rules) drives every scanner CLI the same way (context holds files and/or graph JSON). For **CLI** read/search/filter/write on `story-graph.json` without the bot, use **`skills/story-graph-ops/`** (**story-graph-ops** skill).
 
 ### Use every template file (required)
 
@@ -33,7 +32,7 @@ When you **create or rewrite** acceptance criteria from requirements, you **must
 
 **Purpose:** Describe what good **exploration-phase** acceptance criteria *are* (structure, language, rules). **How** to run the bot, workspace setup, and product-specific exploration flows belong in the agent and other skills — not here.
 
-**Includes:** `templates/` — see **Use every template file** above; `rules/` — authoritative rule files (inlined in **SKILL.md** after **Migration**; refresh with **`bundle_rules_into_skill_md.py`** — **`skills/execute_using_rules/SKILL.md`**).
+**Includes:** `templates/` — see **Use every template file** above; `rules/` — authoritative rule files (inlined into **SKILL.md** between the bundle markers; refresh with **`bundle_rules_into_skill_md.py`** — see **`skills/execute_using_rules/SKILL.md`**).
 
 ---
 
@@ -70,7 +69,7 @@ They are **not** implementation checklists (API names, class names, file formats
 | **acceptance_criteria** (this skill) | Story-level outcomes in the graph | WHEN, THEN, AND, BUT |
 | **scenarios** (later / other workflow) | BDD flows with steps | Given, When, Then on **steps** |
 
-Reserve **Given** for **scenarios**, not for lines inside **`acceptance_criteria`** (per agile_bots exploration policy).
+Reserve **Given** for **scenarios**, not for lines inside **`acceptance_criteria`** (exploration convention).
 
 ---
 
@@ -143,7 +142,7 @@ Review **both** the **`.md`** and **`.txt`** and the story graph for:
 - **Behavioral** language and **channel-specific** detail where CLI vs Panel differ.
 - **Atomic** AC (no duplicated base WHEN/THEN blocks).
 - **Actor** alternation and **AND** chaining for sequential reactions.
-- **Verb–noun** names for epics/sub-epics/stories (shared bar with **abd-story-mapping**; this skill ships the exploration **verb–noun** scanner migrated from agile_bots).
+- **Verb–noun** names for epics/sub-epics/stories (shared bar with **abd-story-mapping**; this skill includes the **verb–noun** scanner).
 
 Revise until a product owner, a tester, and a developer can agree on what “done” means for the story.
 
@@ -151,23 +150,9 @@ Run mechanical scanners via **execute_rules** as described in **Steps**.
 
 ---
 
-## Migration source (agile_bots)
-
-This skill is **migrated from** the Agile Bots codebase — not merely “mapped” to it:
-
-| Role | Location in agile_bots |
-| --- | --- |
-| Rule definitions (priority, DO/DON'T, examples) | `bots/story_bot/behaviors/exploration/rules/*.json` |
-| Scanner implementations | `src/scanners/*` (classes referenced by those JSON files) |
-
-**Canonical product behavior** may continue to evolve in **agile_bots** first. When rules or scanners change there, **re-migrate** (copy + adapt imports) into this skill so Open Agent Skills / `execute_rules` stay aligned.
-
----
-
 <!-- execute_rules:bundle_rules:begin -->
 ### Rule: Alternate actors in steps
 
-**Priority:** 3  
 **Scanner:** `scanners/actor-alternation-scanner.py` — **`ActorAlternationScanner`**
 
 Alternate between actors every 1–2 steps. Show back-and-forth between user and system. System may chain 1–2 sequential actions before returning to the user.
@@ -184,8 +169,7 @@ Alternate between actors every 1–2 steps. Show back-and-forth between user and
 
 ### Rule: Behavioral AC at story level
 
-**Priority:** 4  
-**Scanner:** `scanners/behavioral-ac-scanner.py` — **`BehavioralACScanner`** (warns if AC text starts a line with **Given**, or matches obvious implementation jargon such as JSON/XML file, parses JSON, SQL, REST/API, or “calls method” / “invokes method”.)
+**Scanner:** `scanners/behavioral-ac-scanner.py` — **`BehavioralACScanner`**
 
 Behavioral AC belongs at story level in `story-graph.json`. Use When/Then format (**no Given** in AC — reserve Given for scenarios). AC should describe behavioral outcomes, not technical implementation.
 
@@ -202,8 +186,7 @@ Behavioral AC belongs at story level in `story-graph.json`. Use When/Then format
 
 ### Rule: Enumerate all AC permutations
 
-**Priority:** 6  
-**Scanner:** `scanners/enumerate-ac-permutations-scanner.py` — **`EnumerateACPermutationsScanner`** (policy; mechanical pass is currently a no-op in agile_bots — migrated as-is)
+**Scanner:** `scanners/enumerate-ac-permutations-scanner.py` — **`EnumerateACPermutationsScanner`** (policy; mechanical pass is currently a no-op)
 
 Enumerate **all** important acceptance criteria permutations: validation paths, calculation branches, happy path, errors, boundaries.
 
@@ -220,7 +203,6 @@ Enumerate **all** important acceptance criteria permutations: validation paths, 
 
 ### Rule: Keep AC consistent across connected domains
 
-**Priority:** 2  
 **Scanner:** `scanners/ac-domain-crossing-scanner.py` — **`ACDomainCrossingScanner`**
 
 At small scale, AC can cover multiple domain objects. As behaviors diverge, scope AC to one domain and keep **structure** parallel across related domains. AC that mixes multiple domain behaviors signals **split the story**.
@@ -237,10 +219,9 @@ At small scale, AC can cover multiple domain objects. As behaviors diverge, scop
 
 ### Rule: Stories have 4–9 acceptance criteria (heuristic)
 
-**Priority:** 2  
 **Scanner:** `scanners/story-sizing-scanner.py` — **`StorySizingScanner`**
 
-Stories should have enough acceptance criteria to reflect thorough exploration. The **mechanical** scanner counts **WHEN** + **AND** tokens across all AC text (see agile_bots implementation). Target band in JSON: **4–9**; scanner implementation may use a **4–10** band — treat JSON as product intent and align scanner when reconciling.
+Stories should have enough acceptance criteria to reflect thorough exploration. The **mechanical** scanner counts **WHEN** + **AND** tokens across all AC text (see `scanners/story-sizing-scanner.py`). Target band in JSON: **4–9**; the scanner may use a **4–10** band — treat JSON as product intent and align the scanner when reconciling.
 
 #### DO
 
@@ -255,7 +236,6 @@ Stories should have enough acceptance criteria to reflect thorough exploration. 
 
 ### Rule: Use AND for multiple reactions
 
-**Priority:** (see agile_bots JSON)  
 **Scanner:** `scanners/reaction-chaining-scanner.py` — **`ReactionChainingScanner`**
 
 Chain sequential **system** reactions with **AND** under the same trigger. Avoid separate **WHEN** for each micro-step when the trigger is the same. Limit **AND** chains to a reasonable length (scanner warns when excessive).
@@ -270,7 +250,6 @@ Chain sequential **system** reactions with **AND** under the same trigger. Avoid
 
 ### Rule: Atomic acceptance criteria
 
-**Priority:** 7  
 **Scanner:** `scanners/atomic-ac-scanner.py` — **`AtomicACScanner`**
 
 Write atomic acceptance criteria. Avoid repeating common WHEN/THEN/AND blocks across multiple AC. State the general case once; additional AC should only state what differs.
@@ -289,7 +268,6 @@ Write atomic acceptance criteria. Avoid repeating common WHEN/THEN/AND blocks ac
 
 ### Rule: Use BUT for negative conditions
 
-**Priority:** (see agile_bots JSON)  
 **Scanner:** `scanners/negative-conditions-scanner.py` — **`NegativeConditionsScanner`**
 
 When outcomes describe errors, validation failure, or prevention, include a **BUT** step stating what does **not** happen (e.g. does not save, does not allow).
@@ -304,7 +282,6 @@ When outcomes describe errors, validation failure, or prevention, include a **BU
 
 ### Rule: Use channel-specific language
 
-**Priority:** (see agile_bots JSON)  
 **Scanner:** `scanners/channel-specific-language-scanner.py` — **`ChannelSpecificLanguageScanner`**
 
 Prefer concrete CLI, Panel, or API surface detail over generic "Bot/System" wording when the product has distinct channels.
@@ -319,7 +296,6 @@ Prefer concrete CLI, Panel, or API surface detail over generic "Bot/System" word
 
 ### Rule: Verb–noun format for story elements
 
-**Priority:** 1  
 **Scanner:** `scanners/verb-noun-scanner.py` — **`VerbNounScanner`**
 
 Use verb–noun format for **epic, sub-epic, and story names** (and align scenario/AC phrasing with the same bar). Prefer **base verb forms**; document actors separately (`story_type`, metadata).

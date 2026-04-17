@@ -13,18 +13,16 @@ Python package used by:
 | `scanner.py` | Abstract `Scanner` |
 | *(see [story-graph-ops](../../story-graph-ops/scripts/README.md))* | **`StoryScanner`**, **`StoryMap`**, epics/stories, **`DomainConceptNode`**, **`graph_filters`** |
 | `violation.py` | Violation DTO + `to_dict()` |
-| `simple_rule.py` | `RuleLike` protocol + `SimpleRule` (no agile_bots `actions.rules`) |
+| `simple_rule.py` | `RuleLike` protocol + `SimpleRule` (standalone; no dependency on a host bot’s `actions.rules`) |
 | `eval_paths.py` | Paths from rule file (workspace, baseline, behavior dir) |
 | `resources/scan_context.py` | `ScanFilesContext`, `FileScanContext`, … |
 | `vocabulary_helper.py` | **`VocabularyHelper`** — NLTK WordNet / POS-tag helpers for naming rules (verb/noun, actors, passive voice). Import as **`scanner_bases.vocabulary_helper`** (not re-exported from **`scanner_bases.__init__`** to avoid NLTK import side effects). Requires **`nltk`**. |
 
-## agile_bots parity
+## Layout note
 
-These files are aligned with **`agile_bots/src/scanners/`** (same class behavior). The bot uses package name **`scanners`** on `PYTHONPATH`; skills use **`scanner_bases`** here to avoid clashing with a different `scanners` package on disk.
+The **`agile_bots`** repo may use a top-level package named **`scanners`** on **`PYTHONPATH`**. This skills repo uses **`scanner_bases`** as the import name so it does not clash with a different **`scanners`** folder on disk.
 
-## Refresh
-
-When bases change in agile_bots, copy the corresponding files into this folder and re-run a quick import test:
+## Verify after edits
 
 ```powershell
 cd skills/execute_using_rules/scripts

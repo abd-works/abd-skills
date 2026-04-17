@@ -1,4 +1,4 @@
-"""Minimal rule object for scanner_bases outside agile_bots (no ``actions.rules``)."""
+"""Minimal rule object for scanner_bases without a host bot ``actions.rules`` dependency."""
 from __future__ import annotations
 
 from typing import Protocol, runtime_checkable

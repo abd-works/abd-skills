@@ -4,8 +4,7 @@ scanner: enumerate-ac-permutations
 
 # Rule: Enumerate all AC permutations
 
-**Priority:** 6  
-**Scanner:** `scanners/enumerate-ac-permutations-scanner.py` — **`EnumerateACPermutationsScanner`** (policy; mechanical pass is currently a no-op in agile_bots — migrated as-is)
+**Scanner:** `scanners/enumerate-ac-permutations-scanner.py` — **`EnumerateACPermutationsScanner`** (policy; mechanical pass is currently a no-op)
 
 Enumerate **all** important acceptance criteria permutations: validation paths, calculation branches, happy path, errors, boundaries.
 

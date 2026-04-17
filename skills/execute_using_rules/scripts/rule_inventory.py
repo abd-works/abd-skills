@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Inspect rules/*.md and rules/scanners.json; optional table sorted by frontmatter order."""
+"""Inspect rules/*.md and rules/scanners.json; optional table sorted by rule file name."""
 from __future__ import annotations
 
 import argparse
@@ -7,8 +7,6 @@ import json
 import re
 import sys
 from pathlib import Path
-
-DEFAULT_ORDER = 999
 
 
 def parse_frontmatter(content: str) -> dict[str, str]:
@@ -30,8 +28,8 @@ def tags_contain(tags_val: str, tag: str) -> bool:
     return tag.lower() in [t.strip().lower() for t in s.split(",")]
 
 
-def print_by_order_table(rules_dir: Path, filter_tag: str | None) -> None:
-    rows: list[tuple[int, str, str]] = []
+def print_rules_table(rules_dir: Path, filter_tag: str | None) -> None:
+    rows: list[tuple[str, str]] = []
     for md in sorted(rules_dir.glob("*.md")):
         if md.name == "README.md":
             continue
@@ -40,19 +38,14 @@ def print_by_order_table(rules_dir: Path, filter_tag: str | None) -> None:
         if filter_tag and not tags_contain(meta.get("tags", ""), filter_tag):
             continue
         rule_id = md.stem
-        order_raw = meta.get("order", "")
-        try:
-            order = int(order_raw) if order_raw else DEFAULT_ORDER
-        except ValueError:
-            order = DEFAULT_ORDER
         title = meta.get("title", rule_id)
-        rows.append((order, rule_id, title))
-    rows.sort(key=lambda x: (x[0], x[1]))
-    print("order | rule_id | title")
-    print("------|---------|------")
-    for order, rule_id, title in rows:
+        rows.append((rule_id, title))
+    rows.sort(key=lambda x: x[0].lower())
+    print("rule_id | title")
+    print("--------|------")
+    for rule_id, title in rows:
         t = title[:60] + ("..." if len(title) > 60 else "")
-        print(f"{order:5} | {rule_id} | {t}")
+        print(f"{rule_id} | {t}")
 
 
 def main() -> int:
@@ -68,7 +61,7 @@ def main() -> int:
     p.add_argument(
         "--by-order",
         action="store_true",
-        help="Print rules as a table sorted by YAML frontmatter order.",
+        help="Print rules as a table (sorted alphabetically by rule file name).",
     )
     p.add_argument(
         "--list-scanners",
@@ -114,8 +107,8 @@ def main() -> int:
     if rules_dir.is_dir():
         if ns.by_order:
             print()
-            print("rules (by frontmatter order):")
-            print_by_order_table(rules_dir, ns.tag)
+            print("rules (table, sorted by rule file name):")
+            print_rules_table(rules_dir, ns.tag)
         else:
             md = sorted(rules_dir.glob("*.md"))
             print(f"rules/*.md ({len(md)}):")

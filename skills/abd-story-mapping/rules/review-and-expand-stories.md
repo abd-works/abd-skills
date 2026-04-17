@@ -1,12 +1,11 @@
 # Rule: Review and Expand Stories
 
-**Priority:** 14  
-**Scanner:** Manual review (policy; P14 vs P13 — see below)
+**Scanner:** Manual review (policy; pairs with *Consolidate Superficial Stories* — see below)
 
 
 When planning calls for **system stories** or explicit **component interactions**, **decompose** existing stories into those interactions. Story count **will increase**.
 
-**Relationship to other rules:** P14 expands by **component behavior** (different behaviors inside one flow). P13 (*Consolidate Superficial Stories*) merges **same logic, different data**. Apply **P13 first**, then **P14** where needed.
+**Relationship to other rules:** This rule expands by **component behavior** (different behaviors inside one flow). *Consolidate Superficial Stories* merges **same logic, different data**. Apply **consolidation first**, then **this expansion** where needed.
 
 ## DO
 

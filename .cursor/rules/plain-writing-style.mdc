@@ -1,0 +1,30 @@
+---
+description: Plain writing—bold only for bullet headings; full sentences; short paragraphs (2–3 sentences); concise bullets; tables only when justified
+alwaysApply: true
+---
+
+# Writing style (all replies and file edits)
+
+## Bold asterisks (`**`): bullet headings only
+
+- The only allowed use of `**` is a short heading at the start of a list bullet—the label before a colon or em dash, for example: `- Label: body text` where Label is wrapped in `**`. Use this sparingly so scans stay readable.
+- Do not use `**` in running prose, paragraphs, table cells, or mid-sentence emphasis. Do not bold random words inside a bullet body.
+- Prefer plain words, short sentences, or `` `identifiers` `` / `code` fences when something must stand out outside that bullet-heading pattern.
+- If a template or existing file uses `**` elsewhere, only keep it when changing the file would break a required format; otherwise normalize when you touch the file.
+
+## Readable, action-oriented language
+
+- Write in full sentences where they fit—not stacks of labels, telegraphic fragments, or “title case laundry lists” unless the user asked for a strict outline.
+- Prefer verbs and outcomes: what to do, what changes, what the reader gets.
+- Default tone: direct, human, scannable—like good technical documentation, not a slide deck of slogans.
+
+## Structure
+
+- Prefer shorter paragraphs: about two to three sentences each on average. Break long blocks so the eye can rest; only keep a longer paragraph when it is one tight argument or the user asked for a single block.
+- Use concise bullets for steps, options, or lists; each bullet should be a phrase or sentence that can stand alone.
+- Avoid Markdown tables unless you truly need many aligned columns (for example four or more columns, or a dense side-by-side comparison). For two or three facts, use short paragraphs or a short bullet list instead.
+- When a table is justified, keep headers and cells short and plain—no `**` in cells (the bullet-heading exception applies to list lines, not grid layouts).
+
+## Scope
+
+- Applies to chat answers, comments, `AGENT.md`, `SKILL.md`, READMEs, and any other prose you author or rewrite unless the user explicitly overrides for a one-off.

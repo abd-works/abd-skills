@@ -178,7 +178,6 @@ Revise until a product owner, a developer, and a domain expert can all read the 
 <!-- execute_rules:bundle_rules:begin -->
 ### Rule: Active Business and Behavioral Language
 
-**Priority:** 2  
 **Scanner:** `scanners/active-business-and-behavioral-language-scanner.py` — **`ActiveBusinessAndBehavioralLanguageScanner`**
 
 
@@ -199,13 +198,12 @@ Use **active** business language focused on **user/system behavior**: clear acti
 
 ### Rule: Consolidate Superficial Stories
 
-**Priority:** 13  
-**Scanner:** Manual review (policy; P13 vs P14 — see below)
+**Scanner:** Manual review (policy; pairs with *Review and Expand Stories* — see below)
 
 
 Consolidate stories that differ **only superficially** (same logic, different data values or enumeration). Combine into **one parameterized story** where it applies.
 
-**Relationship to other rules:** P13 removes **data-value duplication** (same behavior, different inputs). P14 (*Review and Expand Stories*) splits by **component behavior**. Apply **P13 first**, then P14 if you still need component-level expansion.
+**Relationship to other rules:** This rule removes **data-value duplication** (same behavior, different inputs). *Review and Expand Stories* splits by **component behavior**. Apply **consolidation first**, then expansion if you still need component-level depth.
 
 #### DO
 
@@ -221,7 +219,6 @@ Consolidate stories that differ **only superficially** (same logic, different da
 
 ### Rule: Lightweight and Precise
 
-**Priority:** 4  
 **Scanner:** Manual review
 
 Create **lightweight but precise** documentation during shaping. Focus on structure and scope, not detailed specifications.
@@ -262,16 +259,15 @@ If you have this kind of detail from context, put it in `notes` with a `context_
 
 ### Rule: Outcome-Oriented Language
 
-**Priority:** 3  
 **Scanner:** `scanners/outcome-oriented-language-scanner.py` — **`OutcomeOrientedLanguageScanner`**
 
 Use **outcome-oriented language** over mechanism-oriented language. Focus on what is created or achieved, not how it is shown or communicated.
 
-**Alignment with other rules:** Outcomes still use **base verb forms** (verb–noun, imperative style after `Actor -->`), matching **Verb–Noun Format** (P1) and **Active Business and Behavioral Language** (P2). Do not fix a mechanism title by switching to third person (`provides…`, `displays…`) or gerunds (`Showing…`) in the action phrase.
+**Alignment with other rules:** Outcomes still use **base verb forms** (verb–noun, imperative style after `Actor -->`), matching **Verb–Noun Format** and **Active Business and Behavioral Language**. Do not fix a mechanism title by switching to third person (`provides…`, `displays…`) or gerunds (`Showing…`) in the action phrase.
 
 #### DO
 
-Name concepts by what they **ARE** or **CREATE**. Ask: _What is being created? What does the user get?_ Phrase the story as **`Actor --> verb` + object** (same pattern as P2), not gerund-led or third-person labels.
+Name concepts by what they **ARE** or **CREATE**. Ask: _What is being created? What does the user get?_ Phrase the story as **`Actor --> verb` + object** (same pattern as **Active Business and Behavioral Language**), not gerund-led or third-person labels.
 
 | Wrong (mechanism / gerund title) | Correct (outcome, base verb) |
 |-------------------|-------------------|
@@ -295,13 +291,12 @@ Avoid generic communication/mechanism verbs that describe *how* something is sho
 
 ### Rule: Review and Expand Stories
 
-**Priority:** 14  
-**Scanner:** Manual review (policy; P14 vs P13 — see below)
+**Scanner:** Manual review (policy; pairs with *Consolidate Superficial Stories* — see below)
 
 
 When planning calls for **system stories** or explicit **component interactions**, **decompose** existing stories into those interactions. Story count **will increase**.
 
-**Relationship to other rules:** P14 expands by **component behavior** (different behaviors inside one flow). P13 (*Consolidate Superficial Stories*) merges **same logic, different data**. Apply **P13 first**, then **P14** where needed.
+**Relationship to other rules:** This rule expands by **component behavior** (different behaviors inside one flow). *Consolidate Superficial Stories* merges **same logic, different data**. Apply **consolidation first**, then **this expansion** where needed.
 
 #### DO
 
@@ -316,7 +311,6 @@ When planning calls for **system stories** or explicit **component interactions*
 
 ### Rule: Scale Story Map by Domain
 
-**Priority:** 10  
 **Scanner:** `scanners/scale-story-map-by-domain-scanner.py` — **`ScaleStoryMapByDomainScanner`**
 
 
@@ -336,7 +330,6 @@ When planning calls for **system stories** or explicit **component interactions*
 
 ### Rule: Small and Testable
 
-**Priority:** 6  
 **Scanner:** `scanners/small-and-testable-scanner.py` — **`SmallAndTestableScanner`**
 
 Stories must be **testable as complete interactions** and deliverable independently. Small enough to test, large enough to matter.
@@ -378,7 +371,6 @@ Examples of wrong stories:
 
 ### Rule: Story Map from Existing Code
 
-**Priority:** 8  
 **Scanner:** _(none in JSON — methodological guidance for code-to-map workflows)_
 
 
@@ -389,7 +381,7 @@ When deriving a story map from **code**, start from **entry points**, derive ope
 1. **Entry points** — CLI commands, UI handlers, MCP tools, APIs, acceptance tests.
 2. **Operations** — list and group by functional purpose.
 3. **Epics from goals** — group operations by higher-order goals (e.g. CLI entry points `render-outline`, `render-increments` → goal **Render StoryGraph** → epic **`Render StoryGraph`**).
-4. **Sub-epics from behaviors** — e.g. under **Render StoryGraph** → **`Render Outline`**, **`Render Increments`** (verb–noun, same bar as P1).
+4. **Sub-epics from behaviors** — e.g. under **Render StoryGraph** → **`Render Outline`**, **`Render Increments`** (verb–noun, same bar as **Verb–Noun Format**).
 5. **Story journey** — trace flow start → middle → end; include when/why/outcome/actor and error paths where relevant.
 
 #### DON'T
@@ -400,7 +392,6 @@ When deriving a story map from **code**, start from **entry points**, derive ope
 
 ### Rule: Verb–Noun Format
 
-**Priority:** 1  
 **Scanner:** `scanners/verb-noun-format-scanner.py` — **`VerbNounFormatScanner`**
 
 

@@ -4,7 +4,6 @@ scanner: channel-specific-language
 
 # Rule: Use channel-specific language
 
-**Priority:** (see agile_bots JSON)  
 **Scanner:** `scanners/channel-specific-language-scanner.py` — **`ChannelSpecificLanguageScanner`**
 
 Prefer concrete CLI, Panel, or API surface detail over generic "Bot/System" wording when the product has distinct channels.
