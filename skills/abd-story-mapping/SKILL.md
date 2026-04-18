@@ -73,6 +73,12 @@ A story map answers three questions:
 
 Story maps are intentionally **not implementation plans**. They describe *outcomes and behaviors*, not tasks, tickets, or technical steps, although they can be used to describe system to system interactions and complex system behaviors. A good story map can be understood by a product owner, a developer, and a domain expert — all at once.
 
+### Why story map?
+
+A story map is a **collaborative method** to break work down. It provides a structure to guide collaborative thought in order to achieve **shared understanding** — alignment from more than one perspective, the engineering team, the product and stakeholders affected by the product. It is a method to break down *what you are working on*, not *the way you work*.
+
+The perpsective provided by a story map is **cross-functional**: SMEs, analysts, developers, testers, delivery lead — various viewpoints that together produce a more complete picture than any individual could. Story maps are useful when a project, initiative, or product is in discovery and the scope of functions, features, and goals needs to be flushed out and understood.
+
 ---
 
 ## Core concepts
@@ -87,6 +93,14 @@ An **actor** is anyone (or anything) that interacts with the system. Actors are 
 | **System** | An external system or automated process | Payment gateway, Email service, Scheduler |
 
 Actors do NOT appear in story names — they are captured in the `story_type` field and optionally in `notes`. The name describes the *behavior*, not who does it.
+
+### Personas
+
+A **persona** is a representative description of a segment of customers or users. Personas create a unified view of who the target is and their needs, and model customer behaviour based on validated information.
+
+Before building the map, identify the personas from the available context. For each persona determine their goals and the activities they need to meet those goals — these drive the epics and stories below.
+
+In the story map, personas sit at the **top layer** — each persona's goals drive the epics below them. Actors in `story_type` may map to one or more personas.
 
 ---
 
@@ -150,6 +164,30 @@ Use **user** and **system** for normal product behavior. **technical** (black) s
 ### Notes on context capture
 
 If useful detail does not fit a node name, put it in that node’s `notes` and cite the source (file, page, section, or `"type": "chat"`). Check `notes` before re-reading raw sources when you continue work on the same map.
+
+---
+
+### Pitfalls for agents
+
+**Assess context coverage before mapping.** Before building or extending a story map, check whether the available context covers the perspectives needed: product/business intent, technical constraints, operational concerns, and user experience. If an entire dimension is absent (e.g. no technical input on system interactions, or no business rules for a domain area), flag it as a gap. A map built from a single perspective will churn when the missing viewpoint surfaces.
+
+**Don't fabricate to fill gaps.** When context is incomplete — a business rule is unclear, a system boundary is unknown, a domain has no source material — do not invent stories or structure to cover the gap. Capture what is missing, state your assumption, and recommend a validation action (e.g. "confirm with product owner whether returns follow the same flow as exchanges"). Unknowns surfaced honestly are more valuable than a plausible-looking map that turns out to be wrong.
+
+---
+
+### Iterating the map
+
+Do not treat the map as a one-shot deliverable. Deeper analysis will surface information that invalidates earlier structure — stories split, epics merge, flows reorder. This is expected.
+
+When new context arrives or downstream work (AC, scenarios, tests) exposes gaps, revise the map rather than working around stale structure. Keep the map lightweight enough that restructuring is cheap.
+
+Apply progressive depth:
+
+- **Idea Shaping** — barely enough structure to scope the work and assign it.
+- **Increment Discovery** — cursory scan for breadth, priority, and rough complexity.
+- **Story Refinement** — detail out stories for the next increment; leave later increments shallow.
+
+Do not over-elaborate areas the team will not build soon. Go deep where uncertainty is highest or delivery is imminent.
 
 ---
 

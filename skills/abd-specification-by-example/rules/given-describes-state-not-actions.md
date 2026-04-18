@@ -1,6 +1,6 @@
 # Rule: Given describes state, not actions
 
-**Given** steps state what is true **before** the behavior under test: preconditions and persisted state. The first thing that **happens** — a user gesture, system event, or command — belongs in **When**. **Then** captures observable outcomes (including errors). Do not hide the behavior under test inside **Given**.
+**Given** steps state what is true **before** the behavior under test: preconditions and persisted state. Things that **happen** — user gestures, system events, commands — belong in **When**. **Then** captures observable outcomes (including errors). A scenario may contain multiple **When/Then** beats for multi-step journeys; each When starts a new action. Do not hide behavior under test inside **Given**.
 
 ## DO
 

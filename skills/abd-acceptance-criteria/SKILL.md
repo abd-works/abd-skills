@@ -131,6 +131,14 @@ As domains grow, keep **parallel** AC structure across related areas; **split st
 
 ---
 
+### Pitfalls for agents
+
+**Don’t fabricate to fill gaps.** When context is incomplete — a business rule is unclear, a system interaction is unknown, a domain term has no definition — do not invent AC to cover the gap. Instead, capture the unknown explicitly: record what is missing, what assumption you are making, and what validation action would resolve it (e.g. “confirm with SME whether failed payments retry automatically or require manual re-submission”). Unknowns surfaced are more valuable than plausible-sounding AC that turn out to be wrong.
+
+**Identify missing context dimensions.** Before writing AC, assess whether the available context covers the perspectives needed: business logic, technical constraints, operational concerns, regulatory or compliance requirements, and user experience. If an entire dimension is absent (e.g. no technical input on system-to-system behaviour, or no business rules for edge cases), flag it. Writing AC from a single perspective produces AC that will churn when the missing perspective surfaces later.
+
+---
+
 ## Example
 
 **Story:** Export Report To PDF  

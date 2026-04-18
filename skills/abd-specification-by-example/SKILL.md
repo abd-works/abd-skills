@@ -72,6 +72,10 @@ This **`SKILL.md`** is assembled from **`rules/*.md`** into the bundled block be
 
 **Inputs:** Scenarios are often created from **acceptance criteria** (WHEN/THEN statements in a story). This is useful, not mandatory. When AC exist, start from the main-flow AC, add Given steps until the flow is concrete, then add scenarios for failures, edges, and alternate flows. The same quality rules apply when the only inputs are a story name, bullet notes, or shared understanding.
 
+
+**Living documentation:** Specifications by example are not throwaway analysis artifacts. They become **executable requirements** — testable without translation — captured in **live documentation** that stays current as the system evolves. The scenarios you write here are direct inputs to automated tests.
+
+**Multiple perspectives, not solo work.** When writing specifications, ensure the available context covers multiple perspectives: business logic, technical constraints, and testing concerns. If context from a key perspective is missing (e.g. no technical input on system-to-system behaviour, or no business rules for edge cases), flag it as an unknown rather than inventing plausible-sounding scenarios. Specifications written from a single viewpoint produce gaps that surface late.
 ---
 
 ## Core concepts
@@ -79,9 +83,9 @@ This **`SKILL.md`** is assembled from **`rules/*.md`** into the bundled block be
 ### Given, When, Then (and And)
 
 - **Given** — preconditions: data and state that exist before the behavior. Use Background for setup shared by three or more scenarios.
-- **When** — the action or event under test (the first action in the scenario).
-- **Then** — observable outcomes to assert.
-- **And** — continues a Given, When, or Then block with another line of the same kind.
+- **When** — an action or event under test. A scenario may have **multiple** When/Then beats when the behaviour is a sequence of interactions (e.g. user acts, system responds, user checks result). Each new When starts the next beat.
+- **Then** — observable outcomes to assert after the preceding When.
+- **And** — continues a Given, When, or Then block with another line of the same kind. Use And for additional outcomes within the **same** beat. Start a new **When** when the actor or trigger changes — do not chain unrelated actions with And.
 
 ### Formatting convention
 
@@ -100,12 +104,38 @@ If the story has AC (WHEN/THEN from bd-acceptance-criteria), use the main-flow 
 
 Use Background only when three or more scenarios share identical starting state. Given and And only — no When or Then.
 
+
+### Specification level
+
+The default level for specification by example is the **story** — each story gets its own scenarios. But specifications can be written at **any level** of the story map when it adds clarity:
+
+- **Epic or sub-epic level** — a specification that describes the end-to-end flow across its child stories. This is useful for verifying that the children compose into a coherent journey, and for giving stakeholders a feature-level view of “done.”
+- **Story level** (default) — the standard: scenarios for one discrete behaviour.
+- **Cross-story** — when a scenario naturally spans multiple stories in sequence (e.g. an integration flow), write it at the parent sub-epic and reference the child stories it exercises.
+
+Higher-level specifications help answer the question: “when these stories are all done, is the feature actually complete?” They do not replace story-level scenarios but complement them.
+
+
+```gherkin
+# Epic-level: Manage Customer Orders
+Scenario: Customer places and tracks a new order
+  Given a Customer with an active account
+  When the Customer adds items to the cart and submits the order
+  Then the order is confirmed with a tracking number
+  When the Customer views the active orders for their account
+  Then that order is displayed along with any other active orders
+  And the status for that order is displayed as Processing
+  When the order is dispatched
+  Then the Customer receives a shipment notification
+  And the order status changes to Shipped
+```
+
 ---
 
 
 Quick checklist:
 
-- **Given** is state-only; **When** is the first real action; **Then** asserts domain outcomes.
+- **Given** is state-only; **When** is an action or trigger; **Then** asserts outcomes. Multiple **When/Then** beats are fine for multi-step journeys.
 - **{Concept}** ↔ tables **both ways**; no random `<column>` prose; domain words sit beside each `{Concept}` where this skill’s convention applies.
 - Happy, edge, and error paths implied by the story, notes, or AC (if any) are **visible** in scenarios or outlines.
 - Outlines used only when **variation** is real, not ceremonial.
@@ -117,38 +147,41 @@ Quick checklist:
 <!-- execute_rules:bundle_rules:begin -->
 ### Rule: Background vs scenario setup
 
-**Background** is shared **precondition** text for **three or more** scenarios. It contains only **Given** / **And** lines (state), never **When** or **Then**. Steps use **{Concept}** (and **{Concept.property}** when a specific attribute matters) so each placeholder resolves to an example table. **Put the domain concept words beside each placeholder** (e.g. `the User {User}`) in Background and scenarios — see **Mention the domain concept beside the placeholder**. Do not repeat Background lines inside individual scenarios.
+**Background** contains only **Given** / **And** lines (state), never **When** or **Then**. Use it only when three or more scenarios share the same starting state. Do not repeat Background lines inside individual scenarios.
+
+In a **plain scenario** (`specification-by-example.md`), Background steps use real values inline with **bold** concept names and *italic* values.
+
+In an **outline scenario** (`specification-by-example-outline.md`), Background steps use `{column_name}` tokens with the domain concept name beside each brace.
 
 #### DO
 
-- Model shared state once in **Background** when many scenarios need the same starting world (e.g. logged-in **User {User}**, **Entitlement {Entitlement}**, **Enterprise {Enterprise}**).
-- Use **{Concept.property}** when the scenario hinges on a particular field (e.g. `activation status {Account.activation_status}`).
-- Keep Background free of actions; the **first** behavior under test belongs in **When** inside each scenario.
+- Model shared state once in Background when many scenarios need the same starting world.
+- Keep Background free of actions; the first behavior under test belongs in **When** inside each scenario.
 
-```gherkin
-Background:
+Plain example:
+``Background:
+  Given a **User** *Jane Doe* is logged into ChannelOne 2.0
+  And that **User** *Jane Doe* is representing **Enterprise** *Acme Corp* with **Role** *Wire Operator*
+``
+Outline example:
+``Background:
   Given a User {user_name} is logged into ChannelOne 2.0
   And that User {user_name} is representing an Enterprise {enterprise_name} with the Role {user_role}
-  And that Enterprise {enterprise_name} has {payment_service} Payment Service enabled
-  And that User has an Entitlement {entitlement_name} with an Entitlement Status of {entitlement_status}
-```
-
+``
 #### DON'T
 
-- Put **When** / **Then** in Background, or encode actions as “user logs in” inside Background **Given** lines.
-- Hard-code identities or permissions inline when the scenario system expects **{Concept}** + tables (avoid “user is entitled to create wire payments” without **{Entitlement}**).
-- Duplicate a Background **Given** inside a scenario’s steps.
+- Put **When** / **Then** in Background, or encode actions inside **Given** lines.
+- Duplicate a Background **Given** inside a scenario's own steps.
 
-```gherkin
-# WRONG — action in Background
+``# WRONG — action in Background
 Background:
-  When {User} logs in
+  When user logs in
 
-# WRONG — repeats Background
+### WRONG — repeats Background
 Scenario: Pay wire
-  Given {User} is logged into ChannelOne 2.0
+  Given user is logged into ChannelOne 2.0
   When ...
-```
+``
 
 ### Rule: Emphasize domain-significant terms (scenarios)
 
@@ -169,71 +202,69 @@ Call out **domain language** — the nouns, verbs, and short phrases that belong
 - Use emphasis as decoration on every line — only mark terms that carry domain meaning.
 - Replace behavioral clarity with a wall of highlighted words; if everything is emphasized, nothing is.
 
-### Rule: Example tables use domain language
+### Rule: Example tables use domain language (outline template)
 
-Example tables ground scenarios in **domain** data: column names follow the model, values are concrete and meaningful, and tables connect to steps through **concept names** and collaboration language (e.g. “owned by enterprise”). Prefer **source** rows that explain an outcome over bare counts or flags that hide what was renamed, added, or removed—unless this scenario only **consumes** a result produced upstream.
+This rule applies to **`specification-by-example-outline.md`** — scenarios that use example tables. It does not apply to plain scenarios, which use inline values instead.
+
+Example tables ground an outline in domain data: column names follow the domain model, values are concrete and meaningful, and tables connect to steps through the matching `{column_name}` tokens.
 
 #### DO
 
-- Name each table after a **domain concept**; columns are **attributes** of that concept, not UI labels.
-- Omit implementation-only ID columns when they add no specification value; relate concepts with readable columns and table ordering / collaboration phrasing.
-- When the scenario **computes** a report or aggregate, show the **inputs** (renamed rows, new rows) that justify the output—not only `renames_count = 1`.
-- Use domain terminology consistent with the model (Recipient, BeneficiaryBank, PaymentAmount—not “dropdown value”).
+- Name each table after a domain concept; columns are attributes of that concept, not UI labels.
+- Use domain terminology consistent with the model (Recipient, PaymentAmount — not "dropdown value").
+- Omit surrogate ID columns when they add no specification value.
+- When the scenario computes a report or aggregate, show the inputs that justify the output — not just counts.
 
 ```text
-Recipient (creates() from Enterprise):
+Recipient:
 | recipient_name | recipient_status |
 | Global Supply  | Active           |
-```
-
-#### DON'T
+``
+## DON'T
 
 - Build tables around UI controls (`button_enabled`, `modal_visible`) when the story is about domain outcomes.
-- Use disconnected “lookup” layouts that force readers to mentally join unrelated tables when a parent/child structure is part of the domain.
-- Encode only aggregated outputs (`renames_count`, `reflects_additions: true`) for the scenario that is **responsible** for producing those aggregates—show the underlying entities unless the scenario only applies someone else’s report.
+- Encode only aggregated outputs (`renames_count: 1`) for the scenario responsible for producing that aggregate — show the underlying entities.
 
 ```text
-# WRONG — UI-ish columns
+### WRONG — UI columns
 | dropdown_selection | checkbox_state |
 
-# WRONG — only counts when this scenario builds the report
+### WRONG — only counts when this scenario builds the report
 | renames_count | new_count |
 | 1             | 2         |
-```
+``
 
 ### Rule: Given describes state, not actions
 
-**Given** steps state **what is true before** the behavior under test: preconditions and persisted state. The **first** thing that **happens**—a user gesture, system event, or command—belongs in **When**. **Then** captures observable outcomes (including errors). Do not hide the behavior under test inside **Given**.
+**Given** steps state what is true **before** the behavior under test: preconditions and persisted state. Things that **happen** — user gestures, system events, commands — belong in **When**. **Then** captures observable outcomes (including errors). A scenario may contain multiple **When/Then** beats for multi-step journeys; each When starts a new action. Do not hide behavior under test inside **Given**.
 
 #### DO
 
-- Phrase **Given** as state: “**{User}** is logged in”, “**{Character}** exists”, “workflow state is persisted”.
-- Move verbs like *clicks*, *invokes*, *submits*, *calls* to **When**.
-- When you need prior actions, express the **resulting state**, not the past action (“**{WirePayment}** creation is in progress”, not “user has clicked Continue”).
+- Phrase **Given** as state: the **User** is logged in, the **Account** is active, the **Entitlement** is granted.
+- Move verbs like *clicks*, *invokes*, *submits* to **When**.
+- When you need prior actions, express the **resulting state**, not the past action.
 
-```gherkin
-Given {Agent} is initialized
-And {Project} is finished initializing
-When {Tool} invokes load_project
-Then {Project} loads configuration
-```
-
+Plain example:
+``Given the **User** *Jane Doe* is logged into ChannelOne 2.0
+  And **Account** *Acme Operating* is *Active*
+When the **User** *Jane Doe* submits a **Wire Payment**
+Then the **Wire Payment** is marked as *successful*
+``
 #### DON'T
 
-- Use **Given** for UI navigation position (“user is on Payment Details step”) when you can state **domain** state (“**{PaymentDetails}** requires **{Account}** selection”).
-- Put past-tense **actions** in **Given** (“Tool has invoked method”, “user has clicked”).
+- Use **Given** for UI navigation ("user is on Payment Details step") when you can state domain state.
+- Put past-tense actions in **Given** ("user has clicked Continue").
 - Describe the functionality you are trying to prove inside **Given** instead of **Then**.
 
-```gherkin
-# WRONG
+``# WRONG
 Given user clicks Pay
 When payment succeeds
 
-# BETTER
-Given {Payment} is ready to authorize
-When user authorizes {Payment}
-Then {Payment} status is Authorized
-```
+### BETTER
+Given the **Wire Payment** is ready to authorize
+When the **User** authorizes the **Wire Payment**
+Then the **Wire Payment** status is *Authorized*
+``
 
 ### Rule: Keep scenarios consistent across connected domains
 
@@ -245,37 +276,36 @@ At small scale, one scenario can cover closely related behaviors. As domains gro
 - Add **extra** scenarios only for real differences (e.g. intermediary bank required for wire only).
 - Parameterize with **{Concept}** and tables instead of copy-pasting eight steps with only the product name changed.
 
-```gherkin
-# Wire
+``# Wire
 Given {WirePayment} has {Recipient}
 When {WirePayment} is submitted
 Then {WirePayment} is routed to the wire rail
 
-# ACH — parallel structure
+### ACH — parallel structure
 Given {ACHPayment} has {Recipient}
 When {ACHPayment} is submitted
 Then {ACHPayment} is routed to the ACH rail
-```
-
+``
 #### DON'T
 
 - Give one rail a six-step specification and a sibling rail a three-step soup for the “same” operation without justification.
 - Fork scenarios by duplicating hard-coded values instead of shared structure + **{Concept}** tables.
 
-### Rule: Map table columns to scenario parameters
+### Rule: Map table columns to scenario parameters (outline template)
 
-Every placeholder in steps must resolve to example data: either **`{column_name}`** (header on the table under the right domain concept), **`{Concept}`** (a row from the table titled for that concept), or **`{Concept.property}`** when you name both the concept row and a specific column. In prose, put readable domain words beside each placeholder (see **Mention the domain concept beside the placeholder**). Work **both directions**: no orphan columns, no unused tables.
+This rule applies to stories that use *Scenario Outlines* eg: that use `{column_name}` tokens and example tables. It does not apply to plain *Scenarios*, which use inline values instead.
 
-**Document order:** If **`{column_name}`** appears only in **Background** or scenario **Given** (including **And** that extend **Given**), put that table **immediately above** that block. If a placeholder is **not** in **Given** but first appears in **When**, **Then**, or **And** after **When**, put its table **immediately below** that scenario’s last step so the story reads first, then the rows that bind the action and outcomes. **Scenario Outline** **Examples** (and any matching concept table) stay with the outline. You may group all precondition tables in one block above **Background** when everything feeds **Given**.
+Every `{column_name}` in steps must resolve to a column header on the matching concept table. Every column on a table must appear in at least one step. Work both directions — no orphan columns, no unused tables.
+
+**Document order:** Tables whose columns appear in **Given** go immediately above that Background or scenario block. Tables whose columns first appear in **When** or **Then** go immediately below that scenario.
 
 #### DO
 
-- Work **both directions**: step placeholder ↔ table name ↔ columns ↔ readable label next to the brace.
-- Use **{Concept.property}** when a column is specifically asserted (e.g. `{Recipient.status}` is Active).
-- Keep tables **minimal**: only concepts and attributes the scenario actually needs.
+- Match `{token}` spelling exactly to the table column header.
+- Keep tables minimal — only the columns the scenario actually references.
 
 ```gherkin
-Given that User has an Entitlement {entitlement_name} with an Entitlement Status of {entitlement_status}
+Given a User {user_name} has Entitlement {entitlement_name} with status {entitlement_status}
 ```
 
 ```text
@@ -290,30 +320,29 @@ Entitlement:
 
 #### DON'T
 
-- Use angle-bracket **`<column_name>`** placeholders in prose instead of **{Concept}**.
-- Leave **orphan** tables (no **{Concept}** in steps) or **{Concept}** placeholders with no table.
-- Dump angle-bracket placeholders into prose instead of `{column_name}` headers that exist on your concept tables (“User `<user_name>`” with no matching column).
+- Leave orphan tables (columns never referenced in steps) or `{tokens}` with no matching table.
+- Use `<angle_bracket>` placeholders in step prose — use `{column_name}` for outline steps.
 
 ```gherkin
 # WRONG
 Given User <user_name> is logged in
 
-# CORRECT
+# CORRECT (outline)
 Given a User {user_name} is logged in
 ```
 
-### Rule: Mention the domain concept beside the placeholder
+### Rule: Mention the domain concept beside the placeholder (outline template)
 
-In **Background** and **scenario** steps, put the **readable domain concept name** (the word or phrase stakeholders use) **next to** each placeholder. That may be **`{column_name}`** (header on a concept table), **`{Concept}`** (whole row), or **`{Concept.property}`** when your convention uses dotted fields. Readers should see *what* the brace refers to without decoding braces alone.
+This rule applies to **`specification-by-example-outline.md`** — scenarios that use `{column_name}` tokens. In plain scenarios, the concept name is written in **bold** and the value in *italics* directly in the step; no token is needed.
+
+In outline steps, put the readable domain concept name next to each `{token}` so readers can follow the step without decoding braces alone.
 
 #### DO
 
-- Use a short English cue before or after the brace: e.g. `a User {user_name}`, `account name {account_name}`, `activation status {activation_status}`, `amount {amount}`, `Transactional Limit {limit_name}`.
-- Keep one clear domain object per clause; prose should match the **table title** or field you mean (singular phrasing your team uses consistently).
-- Apply the same pattern in **Background** (Given/And only) and in **scenario** steps (Given/When/Then/And).
+- Use a short English cue before or after the brace: e.g. `a User {user_name}`, `activation status {activation_status}`, `Payment Amount of {amount} {currency}`.
+- Apply the same pattern in Background (Given/And) and in scenario steps.
 
-```gherkin
-Background:
+``Background:
   Given a User {user_name} is logged into ChannelOne 2.0
   And that User {user_name} is representing an Enterprise {enterprise_name} with the Role {user_role}
   And that Enterprise {enterprise_name} has {payment_service} Payment Service enabled
@@ -323,14 +352,26 @@ Scenario: Wire capture
   Given an Account with account name {account_name} and activation status {activation_status} is selected
   When the User {user_name} enters a Payment Amount with amount {amount} and currency {currency}
   Then Wire Payment outcome has status {status}
-  And payment amount with amount {amount} and currency {currency} is validated against transactional limit {limit_name}
-```
+``
+#### DON'T
+
+- Use a bare `{token}` with no surrounding domain words — prefer `the User {user_name}`.
+- Repeat the brace twice (`{user_name} User …`) — one natural phrase is enough.
+
+### Rule: Prefer key examples over exhaustive enumeration
+
+A specification that illustrates well with **a few key examples** is more useful than one that specifies a hundred examples poorly. List only the **key representative examples** — enough to show the pattern and catch the important boundaries. Too many examples overwhelm readers (developers cannot see the forest for the trees) and slow down test execution.
+
+#### DO
+
+- Pick examples that **illustrate the rule**, not every permutation of it.
+- Cover happy path, one or two boundaries, and the key failure — enough that the pattern is unambiguous.
+- Use a **Scenario Outline** with a focused Examples table when you need breadth, rather than writing dozens of near-identical plain scenarios.
 
 #### DON'T
 
-- Use **only** `{user_name}` (or any bare brace) with no surrounding domain words — unless your pipeline forbids extra words (default: prefer `the User {user_name}` or similar).
-- Repeat the brace twice in a clumsy way (`{user_name} User …`) — one natural phrase.
-- Replace placeholders with **only** English paraphrase and drop the brace — you still need the brace for table mapping unless your tool uses another convention.
+- Enumerate every data permutation when the underlying rule is the same — three rows that prove the formula beat thirty that restate it.
+- Write exhaustive scenarios "just in case" — if you cannot articulate what a new row proves that existing rows do not, it is noise.
 
 ### Rule: Scenario language matches the domain
 
@@ -342,52 +383,48 @@ Scenario: Wire capture
 - Use **When** for domain operations (“**User** selects **Recipient**”), not low-level driver events.
 - Use **Then** for domain-visible effects and messages users or integrators care about.
 
-```gherkin
-Given an Enterprise with active Recipients
+``Given an Enterprise with active Recipients
 And a User with wire payment permissions
 When the User selects a Recipient
 Then the WirePayment is created with status pending
-```
-
+``
 #### DON'T
 
 - Anchor **Given** in pages, modals, or control names (“recipient list page is loaded”) when state can be said in domain terms.
 - Use generic placeholders (“items”, “thing”) when real types exist.
 - Misplace concepts: if something lives in **StoryMap**, say **{Epic}** / **{SubEpic}** there; reserve diagram-specific types for steps about the diagram.
 
-```gherkin
-# WRONG — UI-first
+``# WRONG — UI-first
 When the user clicks the dropdown
 
-# STRONGER — domain
+### STRONGER — domain
 When the User selects a Recipient
-```
+``
 
 ### Rule: Scenarios cover all cases implied by the story
 
-A solid story has **happy path** scenarios plus **edge** and **error** cases that trace to **whatever specifies behavior**: formal acceptance criteria, story text, notes, or agreed rules. If validation, persistence, or error handling matters, scenarios should show those outcomes explicitly—not assume “we’ll handle errors somewhere.”
+A solid story has at least one **happy path** scenario plus **edge** and **error** cases that trace to formal acceptance criteria, story text, notes, or agreed rules. If validation, persistence, or error handling matters, scenarios should show those outcomes explicitly — not assume "we'll handle errors somewhere."
 
 #### DO
 
-- Include at least one **success** path with realistic data.
-- Add **boundary** or rule-adjacent cases when limits, optional fields, or transitions are stated (in AC, notes, or the story).
-- Add **failure** paths with the observable error or prevention behavior (message, status, no persistence), using concrete example values.
+- Include at least one success path with realistic data.
+- Add boundary or rule-adjacent cases when limits, optional fields, or transitions are stated.
+- Add failure paths with the observable error or prevention behavior (message, status, no persistence).
 
-```gherkin
-Scenario: Valid payment amount is accepted
-  When {User} enters {PaymentAmount}
-  Then {WirePayment} holds {PaymentAmount}
+Plain scenario examples:
+``Scenario: Valid payment amount is accepted
+  When the **User** *Jane Doe* enters a **Payment Amount** of *$10,000.00 USD*
+  Then the **Wire Payment** is marked as *successful*
 
-Scenario: Negative amount is rejected
-  When {User} enters {PaymentAmount}
-  Then submission is blocked
-  And {WirePayment} is not created
-```
-
+Scenario: Amount over limit is rejected
+  When the **User** *Jane Doe* enters a **Payment Amount** of *$500,000.01 USD*
+  Then the **Wire Payment** is *rejected*
+  And no **Wire Payment** record is created
+``
 #### DON'T
 
-- Ship only “everything works” scenarios when negatives or edge rules are known from any source.
-- Describe errors abstractly (“invalid data”) without the concrete violating example the table supplies.
+- Ship only "everything works" scenarios when failures or edge cases are known.
+- Describe errors abstractly ("invalid data") without the concrete violating example.
 
 ### Rule: Scenarios belong in the story graph (canonical persistence)
 
@@ -406,7 +443,23 @@ When the team uses **`story-graph.json`** as the system of record, add scenarios
 ```text
 OK: story-graph.json → epics[].…stories[].scenarios[]
 Avoid: docs/story/Epic/Feature/Feature Specification.md as the only home for scenarios
-```
+``
+
+### Rule: Use real data over invented examples
+
+Concrete examples should use **real or realistic domain data**, not abstract placeholders or made-up values. Invented examples hide inconsistencies that surface when real data arrives — teams that invent examples "assumed they could do certain things and left it out of examples; when the data from real systems came in, there were always too many surprises."
+
+#### DO
+
+- Use real customer names, product codes, amounts, and dates from the domain wherever possible.
+- When real data is sensitive, create realistic synthetic data that preserves the structure and edge characteristics of production data (lengths, formats, special characters).
+- On data-driven projects, pull sample rows from actual source systems rather than inventing them.
+
+#### DON'T
+
+- Use abstract entities like "customer A" or "order 123" when a concrete example would expose ambiguity (does the format include leading zeros? is the name unicode-safe?).
+- Assume consistency in legacy data — invented examples based on expected rules will miss the inconsistencies that real data contains.
+- Use yes/no answers in examples without separately illustrating the underlying concept.
 
 ### Rule: Use scenario outline when the story needs data variation
 
@@ -417,8 +470,7 @@ Use a **Scenario Outline** with **Examples** when the **same** steps apply acros
 - Outline **formula-like** or **table-driven** behavior (inputs → outputs) with a concise Examples block.
 - Keep placeholders in steps consistent with Examples column headers.
 
-```gherkin
-Scenario Outline: Modifier depends on rank
+``Scenario Outline: Modifier depends on rank
   Given ability rank <rank>
   When modifier is calculated
   Then modifier is <modifier>
@@ -427,57 +479,64 @@ Scenario Outline: Modifier depends on rank
     | rank | modifier |
     | 10   | 0        |
     | 12   | +1       |
-```
-
+``
 #### DON'T
 
 - Wrap a single concrete path in an outline with one Examples row—use a normal **Scenario**.
 - Use outlines when scenarios need different **Given** contexts that are clearer as separate scenarios.
 
-```gherkin
-# WRONG — outline adds noise for one row
+``# WRONG — outline adds noise for one row
 Scenario Outline: User saves profile
   Examples:
     | name |
     | Jane |
-```
+``
 
-### Rule: Write concrete, parameterized scenarios
+### Rule: Write concrete scenarios with real values
 
-Steps should read as **examples**, not abstracts. Use **`{column_name}`** placeholders that match **example table headers** under each domain concept, or **`{Concept}`** / **`{Concept.property}`** when your team uses whole-row or dotted-field style. **Mention the domain concept in prose beside each placeholder** — see **Mention the domain concept beside the placeholder**. Every placeholder must appear in an **example table**. Work **backward** from the outcome to the base data the world needs (enterprise, user, entitlements, accounts). Use collaboration language (“validates against”, “holds”, “belongs to”), not jammed placeholders.
+Steps should read as **specific examples**, not abstractions. The approach depends on which template you are using.
+
+**Scenarios (`specification-by-example.md`):** Write all values inline in the step text — real names, amounts, statuses. Use **bold** for domain concept names and *italic* for their values. No tables, no `{placeholder}` tokens.
+
+Given **Account** *Acme Operating* owned by **Enterprise** *Acme Corp* with **Activation Status** *Active* is selected
+  And the **Transactional Limit** *daily_wire* is *$500,000.00 USD*
+When the **User** *Jane Doe* enters a **Payment Amount** of *$10,000.00 USD*
+Then the **Wire Payment** is marked as *successful*
+
+
+**Outline Scenarios (`specification-by-example-outline.md`):** Use `{column_name}` tokens that match example table headers, with readable domain words beside each placeholder. Every `{token}` must appear in an example table column; every table column must appear in a step. Tables for **Given** go above the scenario; tables for **When** / **Then** go below.
+
+
+Given an **Account** with account name {account_name} and **Activation Status** {activation_status} is selected
+  And the **Transactional Limit** for that Account is {max_amount} {currency}
+When the **User** {user_name} enters a **Payment Amount** of {amount} {currency}
+Then the **Wire Payment** is marked as {validation_status}
+And a **Report** is sent showing {formatted_display}
+
+
+Account (Given — above scenario):
+| enterprise_name | account_name   | activation_status |
+| Acme Corp       | Acme Operating | Active            |
+
+TransactionalLimit (Given — above scenario):
+| limit_name | max_amount | currency |
+| daily_wire | 500000.00  | USD      |
+
+WirePayment (Then — below scenario):
+| amount    | currency | formatted_display | validation_status |
+| 10000.00  | USD      | $10,000.00        | successful        |
+| 500000.01 | USD      | $500,000.01       | rejected          |
 
 #### DO
 
-- Replace vague actors and amounts with table-backed fields: e.g. `{user_name}`, `{account_name}`, `{amount}`, `{limit_name}`, each column present on the right concept table.
-- Trace dependencies: payment needs account, account needs enterprise, user needs entitlements—show those tables.
-- Prefer domain collaboration verbs from the model (holds, belongs to, validates against).
-
-```gherkin
-Given an Account with account name {account_name} and activation status {activation_status} is selected
-When the User {user_name} enters a Payment Amount with amount {amount} and currency {currency}
-Then Wire Payment outcome has status {status}
-And payment amount with amount {amount} and currency {currency} is validated against transactional limit {limit_name}
-```
-
-```text
-PaymentAmount:
-| amount   | currency | formatted_display |
-| 10000.00 | USD      | $10,000.00        |
-```
+- For plain scenarios: use real values directly in steps — domain concept **bold**, values *italic*.
+- For outlines: name `{tokens}` after the domain field and keep the readable concept name beside the brace.
+- Trace dependencies: payment needs account, account needs enterprise, user needs entitlements.
+- Use collaboration language ("validates against", "owned by", "marked as"), not jammed placeholders.
 
 #### DON'T
 
-- Hard-code literals in steps when the scenario system expects tables (“User Jane Doe…” without a **User** table).
-- Invent generic placeholders (`<the_user>`, `{some_value}`) instead of **column headers** from your tables.
-- Stuff two unrelated placeholders next to each other without an English relation (“**{enterprise_name}** **{user_name}** is logged in”).
-- Describe **UI state** as **Given** when **data state** suffices (“on Payment Details step” vs “**{PaymentDetails}** awaits **{Account}**”).
-- Use calculated fields (counts only) to stand in for the **records** that produce them when this scenario is the one doing the calculation.
-
-```gherkin
-# WRONG — no parameterization / tables
-Given user enters $10,000.00
-
-# BETTER
-When the User {user_name} enters a Payment Amount with amount {amount} and currency {currency}
-```
+- Mix approaches: don't use `{column_name}` tokens in a plain scenario or hard-code values in every row of an outline.
+- Use generic placeholders (`<the_user>`, `{some_value}`) instead of real names (plain) or domain field names (outline).
+- Describe **UI state** as **Given** when domain state suffices ("on Payment Details step" vs **Payment Details** awaits *Account* selection).
 <!-- execute_rules:bundle_rules:end -->
