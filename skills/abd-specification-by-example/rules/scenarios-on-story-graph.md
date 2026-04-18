@@ -15,4 +15,4 @@ When the team uses **`story-graph.json`** as the system of record, add scenarios
 ```text
 OK: story-graph.json → epics[].…stories[].scenarios[]
 Avoid: docs/story/Epic/Feature/Feature Specification.md as the only home for scenarios
-```
+``

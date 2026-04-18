@@ -8,23 +8,20 @@
 - Use **When** for domain operations (“**User** selects **Recipient**”), not low-level driver events.
 - Use **Then** for domain-visible effects and messages users or integrators care about.
 
-```gherkin
-Given an Enterprise with active Recipients
+``Given an Enterprise with active Recipients
 And a User with wire payment permissions
 When the User selects a Recipient
 Then the WirePayment is created with status pending
-```
-
+``
 ## DON'T
 
 - Anchor **Given** in pages, modals, or control names (“recipient list page is loaded”) when state can be said in domain terms.
 - Use generic placeholders (“items”, “thing”) when real types exist.
 - Misplace concepts: if something lives in **StoryMap**, say **{Epic}** / **{SubEpic}** there; reserve diagram-specific types for steps about the diagram.
 
-```gherkin
-# WRONG — UI-first
+``# WRONG — UI-first
 When the user clicks the dropdown
 
 # STRONGER — domain
 When the User selects a Recipient
-```
+``

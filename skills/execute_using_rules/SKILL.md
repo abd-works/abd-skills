@@ -105,6 +105,14 @@ python <execute_rules_root>/scripts/bundle_rules_into_skill_md.py --skill-root <
 python <execute_rules_root>/scripts/run_scanners.py --skill-root <path-to-skill> --workspace <path-to-output-or-folder>
 ```
 
+Add `--language <lang>` (e.g. `--language python`, `--language javascript`) when the skill organises scanners into language-specific subfolders under `scanners/<lang>/`. The flag:
+- resolves scanner scripts from `scanners/<lang>/` instead of `scanners/`
+- adds `scanners/<lang>/` to `PYTHONPATH` so language base classes are importable without package prefixes
+
+```bash
+python <execute_rules_root>/scripts/run_scanners.py --skill-root <path-to-skill> --workspace <path> --language python
+```
+
 Scanner subprocesses receive **`PYTHONPATH`** including **`<execute_rules_root>/scripts`**, so scripts may **`import scanner_bases`** (shared bases) when implementing checks.
 
 

@@ -8,8 +8,7 @@ At small scale, one scenario can cover closely related behaviors. As domains gro
 - Add **extra** scenarios only for real differences (e.g. intermediary bank required for wire only).
 - Parameterize with **{Concept}** and tables instead of copy-pasting eight steps with only the product name changed.
 
-```gherkin
-# Wire
+``# Wire
 Given {WirePayment} has {Recipient}
 When {WirePayment} is submitted
 Then {WirePayment} is routed to the wire rail
@@ -18,8 +17,7 @@ Then {WirePayment} is routed to the wire rail
 Given {ACHPayment} has {Recipient}
 When {ACHPayment} is submitted
 Then {ACHPayment} is routed to the ACH rail
-```
-
+``
 ## DON'T
 
 - Give one rail a six-step specification and a sibling rail a three-step soup for the “same” operation without justification.

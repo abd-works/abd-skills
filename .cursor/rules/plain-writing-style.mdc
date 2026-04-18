@@ -1,30 +1,29 @@
 ---
-description: Plain writing—bold only for bullet headings; full sentences; short paragraphs (2–3 sentences); concise bullets; tables only when justified
+description: Human prose—minimal bold (headings/structure only), present active voice, bullets over tables unless many columns and rows
 alwaysApply: true
 ---
 
 # Writing style (all replies and file edits)
 
-## Bold asterisks (`**`): bullet headings only
+## Bold (`**`): structure only, not decoration
 
-- The only allowed use of `**` is a short heading at the start of a list bullet—the label before a colon or em dash, for example: `- Label: body text` where Label is wrapped in `**`. Use this sparingly so scans stay readable.
-- Do not use `**` in running prose, paragraphs, table cells, or mid-sentence emphasis. Do not bold random words inside a bullet body.
-- Prefer plain words, short sentences, or `` `identifiers` `` / `code` fences when something must stand out outside that bullet-heading pattern.
-- If a template or existing file uses `**` elsewhere, only keep it when changing the file would break a required format; otherwise normalize when you touch the file.
+- **OK:** Section headers (ATX `#` headings, not bold). Short **labels** at the start of a list line before a colon or em dash (`- **Label:** body`). Fixed structural keywords in required formats (e.g. **WHEN** / **THEN** / **AND** / **BUT** / **Evidence:** in acceptance-criteria templates). Occasional bold for a true section subheading when markdown heading levels are wrong for the doc—use rarely.
+- **Not OK:** Sprinkling `**` through running prose, paragraphs, or most of a bullet’s body—the default “AI highlight every phrase” pattern. No `**` in table cells.
+- Prefer plain wording, `` `identifiers` ``, or fenced code when something must stand out.
+- If an existing file uses heavy bold, normalize when you edit it unless a required format forbids it.
 
-## Readable, action-oriented language
+## Voice and sentences (for humans)
 
-- Write in full sentences where they fit—not stacks of labels, telegraphic fragments, or “title case laundry lists” unless the user asked for a strict outline.
-- Prefer verbs and outcomes: what to do, what changes, what the reader gets.
-- Default tone: direct, human, scannable—like good technical documentation, not a slide deck of slogans.
+- Use **present tense** and **active voice** by default: *The service rejects invalid input*, not *Invalid input will be rejected* or *Rejection is performed by the service*.
+- Write **full sentences** in explanations, intros, and narrative. Connect ideas; name who acts (person, system, role). Avoid machine-style noun stacks and telegraphic fragments unless the user asked for a strict outline or log-style lines.
+- Prefer verbs and outcomes: what happens, what the reader should do, what changes.
 
 ## Structure
 
-- Prefer shorter paragraphs: about two to three sentences each on average. Break long blocks so the eye can rest; only keep a longer paragraph when it is one tight argument or the user asked for a single block.
-- Use concise bullets for steps, options, or lists; each bullet should be a phrase or sentence that can stand alone.
-- Avoid Markdown tables unless you truly need many aligned columns (for example four or more columns, or a dense side-by-side comparison). For two or three facts, use short paragraphs or a short bullet list instead.
-- When a table is justified, keep headers and cells short and plain—no `**` in cells (the bullet-heading exception applies to list lines, not grid layouts).
+- Short paragraphs (about two to three sentences on average). Break long blocks unless one tight argument needs to stay together.
+- Use concise bullets for steps, options, and lists; each bullet should stand alone.
+- **Avoid Markdown tables** unless you have **many columns** and **many rows**—a genuinely tabular result (not two or three facts). For small sets of items, use prose or bullets. If you use a table, keep header and cell text plain and short.
 
 ## Scope
 
-- Applies to chat answers, comments, `AGENT.md`, `SKILL.md`, READMEs, and any other prose you author or rewrite unless the user explicitly overrides for a one-off.
+- Applies to chat answers and any prose you author or rewrite in this workspace unless the user explicitly overrides for a one-off.

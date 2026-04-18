@@ -1,38 +1,47 @@
-# Rule: Write concrete, parameterized scenarios
+# Rule: Write concrete scenarios with real values
 
-Steps should read as **examples**, not abstracts: use **{Concept}** for domain objects and **{Concept.property}** for salient attributes. **Mention the domain concept in prose beside each placeholder** (e.g. `the User {User}`) so steps read naturally and still map to tables — see **Mention the domain concept beside the placeholder**. Every placeholder must appear in an **example table**; tables use domain column names. Work **backward** from the outcome to the base data the world needs (enterprise, user, entitlements, accounts). Relate concepts with collaboration language (“the **Wire Payment {WirePayment}** holds the **Payment Amount {PaymentAmount}**”), not jammed placeholders.
+Steps should read as **specific examples**, not abstractions. The approach depends on which template you are using.
+
+**Scenarios (`specification-by-example.md`):** Write all values inline in the step text — real names, amounts, statuses. Use **bold** for domain concept names and *italic* for their values. No tables, no `{placeholder}` tokens.
+
+Given **Account** *Acme Operating* owned by **Enterprise** *Acme Corp* with **Activation Status** *Active* is selected
+  And the **Transactional Limit** *daily_wire* is *$500,000.00 USD*
+When the **User** *Jane Doe* enters a **Payment Amount** of *$10,000.00 USD*
+Then the **Wire Payment** is marked as *successful*
+
+
+**Outline Scenarios (`specification-by-example-outline.md`):** Use `{column_name}` tokens that match example table headers, with readable domain words beside each placeholder. Every `{token}` must appear in an example table column; every table column must appear in a step. Tables for **Given** go above the scenario; tables for **When** / **Then** go below.
+
+
+Given an **Account** with account name {account_name} and **Activation Status** {activation_status} is selected
+  And the **Transactional Limit** for that Account is {max_amount} {currency}
+When the **User** {user_name} enters a **Payment Amount** of {amount} {currency}
+Then the **Wire Payment** is marked as {validation_status}
+And a **Report** is sent showing {formatted_display}
+
+
+Account (Given — above scenario):
+| enterprise_name | account_name   | activation_status |
+| Acme Corp       | Acme Operating | Active            |
+
+TransactionalLimit (Given — above scenario):
+| limit_name | max_amount | currency |
+| daily_wire | 500000.00  | USD      |
+
+WirePayment (Then — below scenario):
+| amount    | currency | formatted_display | validation_status |
+| 10000.00  | USD      | $10,000.00        | successful        |
+| 500000.01 | USD      | $500,000.01       | rejected          |
 
 ## DO
 
-- Replace vague actors with **{User}**, **{Enterprise}**, **{PaymentAmount}**, each backed by a table, and label each brace with the matching domain term in the same step.
-- Trace dependencies: e.g. payment needs account, account needs enterprise, user needs entitlements—show those tables.
-- Prefer domain collaboration verbs from the model (holds, belongs to, validates against).
-
-```gherkin
-Given the User {User} is logged into ChannelOne 2.0
-And the User {User} is entitled to the Entitlement {Entitlement}
-When the User {User} enters a Payment Amount {PaymentAmount}
-Then the Wire Payment {WirePayment} holds the Payment Amount {PaymentAmount}
-```
-
-```text
-PaymentAmount:
-| amount   | currency | formatted_display |
-| 10000.00 | USD      | $10,000.00        |
-```
+- For plain scenarios: use real values directly in steps — domain concept **bold**, values *italic*.
+- For outlines: name `{tokens}` after the domain field and keep the readable concept name beside the brace.
+- Trace dependencies: payment needs account, account needs enterprise, user needs entitlements.
+- Use collaboration language ("validates against", "owned by", "marked as"), not jammed placeholders.
 
 ## DON'T
 
-- Hard-code literals in steps when the scenario system expects **{Concept}** + tables (“User Jane Doe…” without a **User** table).
-- Invent generic placeholders (`<the_user>`, `{some_value}`) instead of type names from the domain.
-- Stuff two unrelated placeholders next to each other without an English relation (“**{Enterprise}** **{User}** is logged in”).
-- Describe **UI state** as **Given** when **data state** suffices (“on Payment Details step” vs “**{PaymentDetails}** awaits **{Account}**”).
-- Use calculated fields (counts only) to stand in for the **records** that produce them when this scenario is the one doing the calculation.
-
-```gherkin
-# WRONG — no parameterization / tables
-Given user enters $10,000.00
-
-# BETTER
-Given the User {User} enters a Payment Amount {PaymentAmount}
-```
+- Mix approaches: don't use `{column_name}` tokens in a plain scenario or hard-code values in every row of an outline.
+- Use generic placeholders (`<the_user>`, `{some_value}`) instead of real names (plain) or domain field names (outline).
+- Describe **UI state** as **Given** when domain state suffices ("on Payment Details step" vs **Payment Details** awaits *Account* selection).

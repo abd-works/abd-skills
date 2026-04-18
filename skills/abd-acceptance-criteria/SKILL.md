@@ -2,7 +2,7 @@
 name: abd-acceptance-criteria
 description: >-
   Teaches exploration-phase acceptance criteria for story-graph.json: WHEN/THEN/AND/BUT,
-  behavioral language, atomic AC, actor alternation, channel-specific detail, and
+  behavioral language, per-story domain terms, atomic AC, actor alternation, channel-specific detail, and
   verb–noun naming for story elements. Ships Markdown rules and Python scanners under this
   skill root for **execute_rules** (mechanical checks alongside human review).
   When building AC from sources, output **all** template artifacts in `templates/`
@@ -14,33 +14,32 @@ description: >-
 
 ## Purpose
 
- Build  good **exploration-phase** acceptance criteria *are* (structure, language, rules). **How** to run the bot, workspace setup, and product-specific exploration flows belong in the agent and other skills — not here.
+Build acceptance criteria per **story**, that explain what must be true when users and systems interact: observable triggers (**WHEN**), expected outcomes (**THEN**), chained effects (**AND**), and explicit negatives (**BUT**). These act as informal first-draft BDD-style steps that guide downstream scenario work. Focus on interactions using domain terms, avoid implementation detail unless the story is technical, and even then keep it minimal.
 
+This skill is the **practice standard** for that work: **templates** for deliverables, **rules** for what “good” means (atomic AC, actor alternation, domain emphasis, channel-specific detail, **source evidence** when AC come from documents), and **scanners** that can run predictable mechanical checks **alongside** human review.
 
 ## When to use this skill
 
 Load this skill when **any** of the following apply:
 
 - You are writing or reviewing **`acceptance_criteria`** arrays on stories in **`story-graph.json`** (exploration phase — not scenario BDD steps).
-- A user or agent wants to turn interviews, Requirements documentation, or informal notes into **testable behavioral** AC (WHEN/THEN/AND/BUT). Lean on the `abd-story-mapping` skill to get the initial story name only if available, to create a flat list of stories. Do not create a hierarchical  story map.
-- You need to doument user and system interaction at a finer grain , but still rep-specification / test case level of detail. eg linear **WHEN {action user}/THEN {system response}/AND {another system response}, BUT {systems reaction that won't happen}** 
+- A user or agent wants to turn interviews, requirements documentation, or informal notes into **concrete behavioral** AC (WHEN/THEN/AND/BUT).
+- You need to document user and system interaction at a finer grain , but still pre-specification / test case level of detail.eg: linear **WHEN {action user},THEN {system response}, AND {another system response}, BUT {systems reaction that won't happen}** 
 - An agent is asked to “explore” a story, “write AC”, “harden acceptance criteria”, or “align with exploration rules.”
-- You are running **execute_rules** scanners against a workspace that contains a story graph with **Acceptance Criteria in stories**.
-
 ---
 
 ## Agent Instructions
 
 1. **Templates**
-1. Generate content using **every** template file in this skill’s `templates/` folder.
+   Generate content using **every** template file in this skill’s `templates/` folder.
 **Do not** emit only Markdown or only plain text unless the user **explicitly** asks for a single format.
 
 | Template | What to produce |
 | --- | --- |
-| `templates/acceptance-criteria.md` | Story-level AC using WHEN/THEN/AND/BUT per **Core concepts** and **The shape of good acceptance criteria** below. **Source traceability:** each numbered AC must cite **Evidence** (chapter, section, page, paragraph, chunk id, etc.) or a per-story **Source evidence** table—see template. Optional title or short context at the top is fine. **Do not** paste the template’s `## Instructions` section (or an equivalent rules summary) into generated project files — that material documents the template for skill maintainers, not stakeholders reading the criteria. |
-| `templates/acceptance-criteria.txt` | The **same** behavioral coverage, story semantics, and **source evidence** as **plain text** only — structure matching `acceptance-criteria.txt` style. |
+| `templates/acceptance-criteria.md` | Story-level AC using WHEN/THEN/AND/BUT per **Core concepts** and **The shape of good acceptance criteria** below. Per story, include a **Domain terms** section (see template): key words and phrases for concepts, state, actions, and rules used in that story’s AC. **Source traceability:** each numbered AC must cite **Evidence** (chapter, section, page, paragraph, chunk id, etc.) or a per-story **Source evidence** table—see template. Optional title or short context at the top is fine. **Do not** paste the template’s `## Instructions` section (or an equivalent rules summary) into generated project files — that material documents the template for skill maintainers, not stakeholders reading the criteria. |
+| `templates/acceptance-criteria.txt` | The **same** behavioral coverage, story semantics, **domain terms list**, and **source evidence** as **plain text** only — structure matching `acceptance-criteria.txt` style. |
 
-**Consistency:** WHEN/THEN semantics, story coverage, **source evidence per AC**, and ordering must match between `.md` and `.txt` for the same work. Generated artifacts contain **only** the AC content (plus optional brief context in `.md`); notation and heuristics stay in this skill and in `templates/` for reference.
+**Consistency:** WHEN/THEN semantics, story coverage, **domain terms** (same vocabulary; italics only in `.md` AC lines and domain list if you italicize there), **source evidence per AC**, and ordering must match between `.md` and `.txt` for the same work. Generated artifacts contain **only** stakeholder-facing sections from the templates (plus optional brief context); notation and heuristics stay in this skill and in `templates/` for reference.
 
 **If new files are added** under `templates/` later, produce a corresponding artifact for **each** new template the same way.
 
@@ -87,23 +86,36 @@ Reserve **Given** for **scenarios**, not for lines inside **`acceptance_criteria
 
 ## Core concepts
 
-### Behavioral vs technical
+### Step
 
-AC describe **observable** user/system behavior. Avoid implementation detail unless the story is explicitly technical.
+AC describe **observable** user/system behavior in steps. Avoid implementation detail unless the story is explicitly technical.
 
-| Prefer | Avoid (unless technical story) |
-| --- | --- |
-| “WHEN user submits … THEN CLI returns success with timestamp” | “WHEN `submit()` is called on `CliSession`…” |
-| Concrete channels: `cli.shape.validate`, Panel label text | Generic “the bot does the right thing” |
+- **WHEN** sets scope; **THEN** is the main observable; 
+- **AND** chains extra outcomes; 
+- **BUT** guards negatives.
+- Second AC is a **delta** (error or other path), not a full repeat of the happy path.
+- Language stays **behavioral**,  **channel-aware** where the product has distinct surfaces, and **system aware** when interacting with multiple system actors
+
+
+- **Prefer** language a product owner can rehearse: who did what, on which surface, and what anyone can see or verify next. Example: WHEN the user submits the settlement file on the import screen, THEN the preview lists the filtered rows and the job status reads *Running*.
+- **Prefer** channel-specific detail when the product has more than one surface—real CLI paths (e.g. `cli.shape.validate`), quoted control labels, or API-visible outcomes—so testers know *where* to look. That is not the same as naming internal classes or private methods.
+- **Avoid** vague reassurance (“the system handles it”) with no observable signal, and avoid code-shaped triggers (`CliSession.submit()` unless the story is explicitly technical and scoped that way).
+
+### Domain terms (vocabulary in AC)
+
+**Domain terms** are words or short phrases that name the important ideas in the problem space: things (*Settlement File*, *Import Job*), their **state** (*Queued*, *Committed*), **actions** (*Confirm import*), and **rules or constraints** (*Schema Validation*, *Transactional Limit*). They align story AC with how stakeholders talk and with how tests will read—part of a shared **ubiquitous language**.
+
+- Each story includes a **Domain terms** subsection **before** its acceptance criteria (see template and **Example**). Keep the list tight: only terms that anchor that story’s AC.
+- In **`acceptance-criteria.md`**, use *italics* and *Title Case* inside multi-word phrases in the Domain terms list and in AC lines. Reuse the same italicized phrase for the same concept. See **Emphasize domain-significant terms** in the bundled rules.
+- In the paired **`.txt`** artifact, use the **same words** with no markdown.
+- Do not italicize filler, whole sentences, or low-signal words; spotlight **domain meaning**, not decoration.
 
 ### WHEN / THEN / AND / BUT
 
-| Keyword | Role |
-| --- | --- |
-| **WHEN** | Trigger or precondition. |
-| **THEN** | Primary outcome. |
-| **AND** | Additional or chained outcomes (especially multiple system reactions). |
-| **BUT** | What does **not** happen (error/prevention paths). |
+- **WHEN:** Trigger or precondition—the event or situation that starts this slice of behavior.
+- **THEN:** Primary outcome—what becomes true or visible first.
+- **AND:** More outcomes in the same beat—especially a second or third **system** reaction—without inventing a new trigger (see **Use AND for multiple reactions**).
+- **BUT:** What **does not** happen—errors, prevention, or “no write” guarantees on negative paths.
 
 ### Atomic AC
 
@@ -124,6 +136,20 @@ As domains grow, keep **parallel** AC structure across related areas; **split st
 **Story:** Export Report To PDF  
 **Story type:** user  
 
+**Domain terms** (vocabulary for this story’s AC—things, state, actions, rules):
+
+- *Report UI* — screen where the user runs the report and starts export  
+- *Export a PDF* — user-triggered action for this flow  
+- *Export Job Progress* — visible status while the export runs  
+- *Filtered Report Data* — row set after filters; input to the PDF  
+- *Report Export* — the delivered artifact / job outcome the user waits on  
+- *Download* — completed file handoff to the user  
+- *Zero Rows* / *Filters* — empty result after filtering; edge case  
+- *Feedback* / *Nothing To Export* — user-visible outcome when there is nothing to build  
+- *Report Export Service* — downstream dependency; failure mode  
+- *Retry* — user-visible recovery path  
+- *Partial* / *Empty File* — invalid success shapes to reject  
+
 1. **WHEN** the user chooses to *Export a PDF* on the *Report UI*  
    **THEN** the *Report UI* indicates *Export Job Progress*  
    **AND** the system builds a *PDF* from the current *Filtered Report Data*  
@@ -136,49 +162,6 @@ As domains grow, keep **parallel** AC structure across related areas; **split st
 3. **WHEN** the *Report Export Service* is unavailable  
    **THEN** the user sees that *Report Export* failed and can *Retry* later  
    **BUT** no *Partial* or *Empty File* is treated as a successful *Report Export*  
-
----
-
-## The shape of good acceptance criteria
-
-```
-Story: Submit Order
-  acceptance_criteria:
-  1. WHEN user has items in cart AND cart total is valid
-     THEN checkout shows confirmation
-     AND order id is displayed
-  2. WHEN payment gateway times out
-     THEN user sees retry message
-     BUT order is not marked paid
-```
-
-Notice:
-
-- **WHEN** sets scope; **THEN** is the main observable; **AND** chains extra outcomes; **BUT** guards negatives.
-- Second AC is a **delta** (error path), not a full repeat of the happy path.
-- Language stays **behavioral** and **channel-aware** where the product has distinct surfaces.
-
----
-
-## Build
-
-Produce **both** **`acceptance-criteria.md`** and **`acceptance-criteria.txt`** artifacts (same coverage), following **`templates/acceptance-criteria.md`** and **`templates/acceptance-criteria.txt`** respectively. See **Steps → Use every template file** — delivering a single format is incorrect unless the user explicitly requested only one. Match the bar under **Validate** below. Structure follows **WHEN/THEN/AND/BUT** and **atomic** deltas as above; keep discovery to **story-level** AC unless a later workflow adds or edits **scenarios**.
-
----
-
-## Validate
-
-Review **both** the **`.md`** and **`.txt`** and the story graph for:
-
-- **Structure** — WHEN/THEN/AND/BUT used appropriately; **Given** not used inside `acceptance_criteria`.
-- **Behavioral** language and **channel-specific** detail where CLI vs Panel differ.
-- **Atomic** AC (no duplicated base WHEN/THEN blocks).
-- **Actor** alternation and **AND** chaining for sequential reactions.
-- **Verb–noun** names for epics/sub-epics/stories (shared bar with **abd-story-mapping**; this skill includes the **verb–noun** scanner).
-
-Revise until a product owner, a tester, and a developer can agree on what “done” means for the story.
-
-Run mechanical scanners via **execute_rules** as described in **Steps**.
 
 ---
 

@@ -1,27 +1,30 @@
-# Rule: Mention the domain concept beside the placeholder
+---
 
-In **Background** and **scenario** steps, put the **readable domain concept name** (the word or phrase stakeholders use) **next to** each **`{Concept}`** or **`{Concept.property}`** placeholder. Readers should see *what* the brace refers to without decoding braces alone; the placeholder still ties the line to the **example table** for that concept.
+---
+
+# Rule: Mention the domain concept beside the placeholder (outline template)
+
+This rule applies to **`specification-by-example-outline.md`** — scenarios that use `{column_name}` tokens. In plain scenarios, the concept name is written in **bold** and the value in *italics* directly in the step; no token is needed.
+
+In outline steps, put the readable domain concept name next to each `{token}` so readers can follow the step without decoding braces alone.
 
 ## DO
 
-- Use a short English cue before or after the brace: e.g. `the User {User}`, `the Entitlement {Entitlement}`, `the Enterprise {Enterprise}`, `activation status {Account.activation_status}`, `Payment Amount {PaymentAmount}`.
-- Keep **one** `{Concept}` per table-backed object in that clause; the prose name should match the **table title** / domain type (singular or phrasing your team uses consistently).
-- Apply the same pattern in **Background** (Given/And only) and in **scenario** steps (Given/When/Then/And).
+- Use a short English cue before or after the brace: e.g. `a User {user_name}`, `activation status {activation_status}`, `Payment Amount of {amount} {currency}`.
+- Apply the same pattern in Background (Given/And) and in scenario steps.
 
-```gherkin
-Background:
-  Given the User {User} is logged into ChannelOne 2.0
-  And the User {User} is entitled to the Entitlement {Entitlement} for the Enterprise {Enterprise}
-  And the Enterprise {Enterprise} has wire service enabled
+``Background:
+  Given a User {user_name} is logged into ChannelOne 2.0
+  And that User {user_name} is representing an Enterprise {enterprise_name} with the Role {user_role}
+  And that Enterprise {enterprise_name} has {payment_service} Payment Service enabled
+  And that User has an Entitlement {entitlement_name} with an Entitlement Status of {entitlement_status}
 
 Scenario: Wire capture
-  Given the Account {Account} with activation status {Account.activation_status} is selected
-  When the User {User} enters a Payment Amount {PaymentAmount}
-  Then the Wire Payment {WirePayment} holds the Payment Amount {PaymentAmount}
-```
-
+  Given an Account with account name {account_name} and activation status {activation_status} is selected
+  When the User {user_name} enters a Payment Amount with amount {amount} and currency {currency}
+  Then Wire Payment outcome has status {status}
+``
 ## DON'T
 
-- Use **only** `{User}` with no surrounding domain words — unless your pipeline forbids extra words (default: prefer the paired pattern above).
-- Repeat the brace twice in a clumsy way (`{User} User …`) — use **one** natural phrase: `the User {User}` or `User {User}`, not both duplicated back-to-back.
-- Replace `{Concept}` with **only** the English name and drop the placeholder — you still need the brace for table mapping unless your tool explicitly uses another convention.
+- Use a bare `{token}` with no surrounding domain words — prefer `the User {user_name}`.
+- Repeat the brace twice (`{user_name} User …`) — one natural phrase is enough.

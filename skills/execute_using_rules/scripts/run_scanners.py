@@ -40,14 +40,27 @@ def main(argv: list[str] | None = None) -> int:
         default=None,
         help="Path passed to each scanner as --workspace (default: --skill-root).",
     )
+    parser.add_argument(
+        "--language",
+        default=None,
+        metavar="LANG",
+        help=(
+            "Target language (e.g. 'python', 'javascript'). "
+            "When given, scanners are resolved from scanners/<LANG>/ and that directory "
+            "is added to PYTHONPATH so language base classes are importable."
+        ),
+    )
     args = parser.parse_args(argv)
     root = args.skill_root.resolve()
     workspace = args.workspace if args.workspace is not None else str(root)
+    language: str | None = args.language
 
     cfg = _load_cfg(root)
-    scanners = list_scanner_scripts(root, cfg)
+    scanners = list_scanner_scripts(root, cfg, language=language)
     if not scanners:
-        print("[INFO] No scanners (no scanner: in rules frontmatter and no scanners/*-scanner.py)")
+        lang_info = f" for language '{language}'" if language else ""
+        print(f"[INFO] No scanners found{lang_info} "
+              f"(no scanner: in rules frontmatter and no scanners/*-scanner.py)")
         return 0
 
     results: dict[str, int] = {}
@@ -68,6 +81,11 @@ def main(argv: list[str] | None = None) -> int:
         skill_scanners = root / "scanners"
         if skill_scanners.is_dir():
             parts.append(str(skill_scanners))
+        # Language-specific subfolder — allows `from test_scanner import TestScanner` etc.
+        if language:
+            skill_lang_scanners = root / "scanners" / language
+            if skill_lang_scanners.is_dir():
+                parts.append(str(skill_lang_scanners))
         prev = env.get("PYTHONPATH", "")
         if prev:
             parts.append(prev)

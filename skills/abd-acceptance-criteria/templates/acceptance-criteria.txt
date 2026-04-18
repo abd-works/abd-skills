@@ -10,6 +10,11 @@ slide, line range, URL+anchor, chunk/evidence id, etc. If there is no written so
 Story: <verb-noun story title>  
 Story type: user | system | technical  
   
+Domain terms (plain text — same vocabulary as the .md story; no asterisks):  
+- <Term> — <short gloss: thing, state, action, or rule this story uses>  
+- <Term> — <gloss>  
+(Omit filler; only terms that anchor the AC below.)  
+  
 Acceptance criteria:  
   
 1. WHEN <trigger>  
@@ -37,5 +42,5 @@ Template reference only — do not copy the following into generated project fil
 - Behavioral language; Given belongs in scenarios, not AC.  
 - Channel-specific detail for CLI/Panel/API where relevant.  
 - Alternate actors; use AND to chain system reactions.  
-- Domain vocabulary: use precise domain terms in plain text; paired acceptance-criteria.md uses *italics* for those terms (emphasize-domain-significant-terms rule).  
+- Domain terms: include the Domain terms block per story before Acceptance criteria; plain text here, italics for the same terms in the .md file (emphasize-domain-significant-terms rule).  
 - Source evidence: match acceptance-criteria.md — every AC numbered item has Evidence or a table row.  

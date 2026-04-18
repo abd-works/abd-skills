@@ -12,6 +12,23 @@ In **Markdown**, wrap **domain-significant** nouns and short phrases in *italics
 
 **Story type:** user | system | technical
 
+### Domain terms
+
+List the **domain terms** this story’s AC rely on: words or short phrases for key **things**, **state**, **actions**, and **rules or constraints** in *your* problem space. Use *italics* for each term (*Title Case* for multi-word concepts); add a short dash or colon and a plain-language gloss so readers share one vocabulary before they read WHEN/THEN.
+
+**Illustrative pattern:**
+
+- *Operator* — human role performing the import  
+- *Settlement File* — uploaded input; subject of validation  
+- *Report UI* — surface where import and preview run  
+- *Import Job* — asynchronous work unit; queued or discarded  
+- *Filtered Report Rows* — preview content before commit  
+- *Export Job Progress* — visible status (*Running*, etc.)  
+- *Settlement Records* — persisted outcome after confirmation  
+- *Schema Validation* / *Validation Error* — rule gate and failure shape  
+
+Keep the list **lean** (only terms that appear in or anchor the AC below). The paired `.txt` file uses the **same words** without markdown.
+
 ### Acceptance criteria
 
 **Illustrative pattern** (replace names and flows with your domain; keep the *italic* convention for domain terms). Each item ends with **Evidence** pointing back to the source:
@@ -55,5 +72,5 @@ In **Markdown**, wrap **domain-significant** nouns and short phrases in *italics
 - Prefer **channel-specific** detail where the product has distinct CLI vs Panel vs API surfaces (concrete examples, quoted labels, `cli.` paths).
 - **Alternate** user and system steps; avoid long runs of the same actor without switching.
 - For **multiple system reactions** in sequence, chain with **AND** rather than a new **WHEN** for each micro-step (unless a genuinely new trigger).
-- **Domain emphasis:** in `.md` outputs, *italicize* domain-significant terms only (*Title Case* for multi-word concepts); stay consistent for the same concept across AC. Plain `.txt` has no markdown — use the same vocabulary without asterisks.
+- **Domain terms:** per story, include **Domain terms** before **Acceptance criteria**; align the list with what appears in the AC. In `.md`, *italicize* terms in that list and inside AC lines; `.txt` uses the same words with no asterisks.
 - **Source evidence:** every numbered AC must have traceability (inline **Evidence:** or a per-story table). Prefer the **most specific** pointer the source allows (page + section + paragraph over “chapter 4” alone).
