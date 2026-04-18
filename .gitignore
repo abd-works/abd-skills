@@ -8,12 +8,7 @@ venv/
 # Secrets: match repo root and any skill nested conf/ (e.g. skills/*/conf/.secrets)
 conf/.secrets
 **/conf/.secrets
-skills/abd-maps-models-specs/conf/Untitled
-skills/abd-maps-models-specs/parts/Untitled
-# Phase 1 emit smoke-test output (regenerate: python scripts/build_context.py)
-skills/abd-maps-models-specs/test/mm3/context/
-skills/abd-maps-models-specs-old/conf/Untitled
-skills/abd-maps-models-specs-old/parts/Untitled
+
 
 # OS
 .DS_Store
@@ -21,17 +16,6 @@ Thumbs.db
 
 # Scanner caches
 .surnames_cache
-
-# Junction: abd-story-mapping → repo skills/execute_using_rules (recreate: see that skill’s SKILL.md § Workflow)
-agents/abd-context-engine/skills/abd-story-mapping/execute_using_rules/
-
-# Junction: Cursor project skill → skills/execute_using_rules (run skills/execute_using_rules/scripts/deploy-cursor-skill.ps1)
-.cursor/skills/execute-rules/
-
-# Local junction to topic memory (machine-specific path; mklink /J)
-skills/abd-context-to-memory/assets/Agile Thinking/
-skills/abd-context-to-memory/assets/Canadian Banking Engineering/
-skills/abd-context-to-memory/assets/GTB/
 
 # Aggregate FAISS + embeddings (rebuild: embed_and_index.py --replace from skill hub)
 skills/abd-context-to-memory/assets/rag/
