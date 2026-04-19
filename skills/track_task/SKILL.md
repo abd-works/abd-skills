@@ -85,6 +85,27 @@ python skills/track_task/scripts/progress_path.py --skill my-other-skill
 
 Prints **`…/<skill_name>/progress`** for the configured workspace.
 
+## `abd-delivery-lead` (agent checklist)
+
+When the **abd-delivery-lead** agent tracks work, use **`abd-delivery-lead`** as **`skill_name`** for progress paths. Use **one** ad-hoc file (not `process-checklist.md` unless you split runs separately):
+
+```text
+<active_skill_workspace>/abd-delivery-lead/progress/delivery-plan-checklist.md
+<active_skill_workspace>/agile-delivery-plan.md
+```
+
+**`agile-delivery-plan.md`** (workspace root) — canonical **narrative** agile delivery plan (context assessment, risks, strategies, runs, checkpoints). The delivery lead and planning skill **read/write** this file; keep it aligned with **`delivery-plan-checklist.md`**.
+
+**Build the checklist from:**
+
+1. **Orchestration** — milestones that map to **Steps 1–8** in `agents/abd-delivery-lead/AGENT.md` (workspace, planning CHECKPOINT, run summaries, final sign-off).
+2. **Plan** — for each **run** from **`abd-delivery-planning`**, each **stage** in order: entry → bootstrap `abd-team-member` → exit gate → user **CHECKPOINT**; nest extra `- [ ]` lines when the run’s checkpoint policy requires in-stage checkpoints (e.g. per story).
+
+**Keep the file aligned** with the current plan: when the plan is confirmed, advanced, or revised, add or adjust lines; mark completed items `- [x]`; do not rely on chat alone for resumable state. **Stage definitions** (entry/exit) stay in `agents/abd-delivery-lead/stages/<stage>.md`.
+
+---
+
 ## See also
 
 - **`skills/workspace_skill/`** — set **`active_skill_workspace`** before tracking.
+- **`agents/abd-delivery-lead/AGENT.md`** — orchestration steps and when to populate the checklist.

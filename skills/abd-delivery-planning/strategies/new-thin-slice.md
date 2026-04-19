@@ -1,0 +1,24 @@
+# Strategy: New Thin Slice
+
+**When to use:** Medium-to-large change on an existing solution: new stories, maybe a new sub-epic; cuts across features or layers (e.g. new payment method, new role, new integration).
+
+**Typical scope:** ~5–15 stories forming one vertical slice.
+
+**Pass shape:** Discovery and Prioritization are **one combined pass** with a **single checkpoint after both are done** — you **create the thin slice** and **place stories in it** as one coordinated **discovery / prioritization** step. Then you **explore one epic at a time**, then run **spec → code** (Story Definition → Acceptance Tests → Engineering) story-by-story for that epic, then handle **everything remaining** with **Exploration → Engineering** (full depth for each chunk).
+
+
+| Step | Stage                                             | Intent                                                                                                                                                                                                | Scope                                     | Checkpoint policy                                                             | Rationale                                                                                                           |
+| ---- | ------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------- | ----------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| 1    | Discovery → Prioritization                        | **Single pass:** extend the map, **define the thin slice**, and **put the stories into that slice** — ordering and structure in one go.                                                               | New stories + slice boundaries            | **After Discovery and Prioritization are both complete** — not between them   | One coherent map-and-prioritization outcome; slice + backlog placement before any analysis or build.                |
+| 2    | Exploration                                       | **One epic’s worth:** exploration-phase work (e.g. AC) for **all stories in the first epic** you are pulling through the slice.                                                                       | First epic inside the thin slice          | After that **entire epic** is explored to the agreed bar                      | Big analysis step per epic — avoids one-story-at-a-time exploration for the whole epic.                             |
+| 3    | Story Definition → Acceptance Tests → Engineering | **Prove the pipeline on one story:** specification → failing/passing tests → implementation for a **single** story.                                                                                   | First story in that epic                  | After that story is done                                                      | Tight proof that spec → eng works for this epic before repeating.                                                   |
+| 4    | Story Definition → Acceptance Tests → Engineering | **Finish the epic:** same **spec → eng** chain for **each remaining story** in that epic.                                                                                                             | Remaining stories in that epic            | Per-story or small batches — user preference                                  | Drain the epic with a stable pattern.                                                                               |
+| 5    | Exploration → Engineering                         | **Everything left:** all other epics / stories in the slice **not** yet covered above — for each chunk, **Exploration** then full path to **Engineering** (story definition, acceptance tests, code). | Remaining epics and stories in thin slice | Per-epic for exploration where helpful, then per-story spec → eng inside each | Catches backlog outside the first epic; “Exploration → Engineering” means full vertical depth, not skipping stages. |
+
+
+**Key constraints:**
+
+- The thin slice stays **end-to-end** (UI, API, logic, persistence) — row 1 must not define a horizontal-only increment.
+- Do **not** checkpoint between Discovery and Prioritization in row 1 unless the user explicitly wants a mid-pass stop.
+- If row 1 changes existing upstream stories or AC, do it openly — no silent forks.
+- If a later epic is small, you can merge rows 2–4 for that epic in practice; keep the **intent** (explore epic batch → one story proof → rest spec → eng) clear in the plan.
