@@ -173,6 +173,31 @@ If useful detail does not fit a node name, put it in that node’s `notes` and c
 
 **Don't fabricate to fill gaps.** When context is incomplete — a business rule is unclear, a system boundary is unknown, a domain has no source material — do not invent stories or structure to cover the gap. Capture what is missing, state your assumption, and recommend a validation action (e.g. "confirm with product owner whether returns follow the same flow as exchanges"). Unknowns surfaced honestly are more valuable than a plausible-looking map that turns out to be wrong.
 
+### Recording context gaps in the story map
+
+Context gaps must be captured **inside the story map output files** (`story-map.md` and `story-map.txt`) so they travel with the map. Use one or both placements depending on scope:
+
+**Inline gaps** — when a gap applies to a specific epic, sub-epic, or story, place a `* Gap:` line indented under that node:
+
+```
+(E) Direct Mob Combat
+    (E) Assign Mob Strategy
+        (S) GM --> Select Mob Strategy
+        * Gap: Is the strategy list extensible by the GM, or fixed?
+    (E) Execute Mob Attack
+        (S) System --> Resolve Melee Attack
+```
+
+**Map-level gaps** — when a gap applies to the whole map or cuts across multiple areas, place a `## Context Gaps` section at the bottom of the file:
+
+```
+## Context Gaps
+- No technical input on Foundry VTT module API constraints.
+- Single perspective (GM only); no QA or dev viewpoint yet.
+```
+
+Use **inline** when the gap is local to a node; use **map-level** when it is broad. Both can appear in the same file. The `.md` and `.txt` outputs must include the same gaps in the same positions.
+
 ---
 
 ### Iterating the map

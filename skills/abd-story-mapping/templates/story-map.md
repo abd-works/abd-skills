@@ -30,13 +30,14 @@
         (S) {actor} --> {story_name}  
   
 <!-- Notation below is for skill/template maintainers. Agents MUST NOT copy this section into generated story-map.md files in projects. -->  
-  
+
 ## Instructions (template reference only — omit from generated maps)  
-  
+
 - **Epics (E)**: Top-level features, no connectors  
 - **Sub-Epics (E)**: Nested epics, no connectors  
 - **Stories (S)**: User stories with actors, format: `Actor --> Story Name`  
 - **Acceptance Criteria (AC)**: Nested under stories, format: `Actor --> Acceptance Criteria`  
+- **Context Gaps**: Use `* Gap:` inline under the relevant node, or a `## Context Gaps` section at the bottom for map-wide gaps. Both placements can coexist.  
 - **Connectors**:  
   - "and" is the default - do NOT show in output (only stored in JSON)  
   - "or" shown explicitly for alternatives  
@@ -46,4 +47,4 @@
 - **Nesting**: Stories can contain nested stories or acceptance criteria  
 - **Language**: Use active behavioral language (verb-noun format)  
 - **Epic/Sub-Epic names**: Verb-Noun format (actor NOT in name)  
-- **Story/AC names**: Actor-Verb-Noun format (actor shown with "-->")  
+- **Story/AC names**: Actor-Verb-Noun format (actor shown with "-->")
