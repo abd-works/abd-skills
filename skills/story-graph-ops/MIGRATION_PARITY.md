@@ -19,7 +19,7 @@ Minimum set that is **not** optional if the skill truly owns the graph lifecycle
 2. **`domain.py`**: `DomainConcept`, `StoryUser`, etc.
 3. **`story_graph_paths.py`**: path layout (or an injectable `StoryGraphPaths`-compatible object).
 4. **`test_class_mover.py`**: used from nodes for test-class moves (logging paths should be neutralized for standalone use).
-5. **`updater.py`** (optional for this skill): applies a structured **merge report** to a `StoryMap` (renames, moves, new nodes, increments). It is **not** for scanning. Today it is wired to **`DrawIOStoryMap`** / **`UpdateReport`** from diagram sync—keep that in **drawio-story-sync** or agile_bots; **story-graph-ops** does not need it for direct JSON edits.
+5. **Apply-merge-from-report** (concept, not DrawIO parsing): logic that takes an **`UpdateReport`** (or equivalent JSON) and updates `story-graph.json` belongs with **story graph** tooling—**story-graph-ops** or agile_bots—once the report **already exists**. **Generating** that report from a `.drawio` file is **not** story-graph-ops; it belongs in **drawio-story-sync** (see DrawIO section below).
 
 Cross-cutting refactors required for **standalone** use (no agile_bots `Bot`):
 
@@ -54,13 +54,13 @@ That is **not** the same as `story_graph_cli.py` today, which only implements **
 
 Under `test/invoke_bot/edit_story_map/` (and related helpers): graph edits, increments, scope, display, submit scoped action, etc. Each file should be listed in a checklist as it gains a skill-side equivalent.
 
-## DrawIO / synchronizers
+## DrawIO vs story-graph-ops (who does what)
 
-Stories that merge from DrawIO depend on `synchronizers.story_io` and friends. Either:
+- **drawio-story-sync** (DrawIO side): load/extract diagram, **generate the update report** (diff vs last-known graph or similar). `synchronizers.story_io` and friends stay in that world—parsing DrawIO, lane detection, etc.
+- **After the report exists:** either **drawio-story-sync** calls **story-graph-ops** (e.g. CLI or Python entrypoint: “apply this report to this `story-graph.json`”), or a human/toolchain invokes **agile_bots story bot** to run the same merge-with-report flow. Story-graph-ops does **not** need to vendor the synchronizer package to own the JSON file.
 
-- keep DrawIO merge in **agile_bots** only and document that `updater.generate_report_from` for non-DrawIO sources stays `NotImplementedError` in the skill build until ported, or  
-- vendor the synchronizer package as a further phase.
+**story-graph-ops** should expose **apply report → updated graph on disk** when you want headless merges without the full bot; it should **not** own “read `.drawio` and diff.”
 
 ---
 
-**Summary:** Confusion comes from two `StoryMap`s and a CLI that only covers half the skill’s stated obligations. Full migration means **nodes-level domain + dependencies + mutation CLI + tests**; TTY tests should reappear as **skill CLI or API tests**, not abandoned.
+**Summary:** Confusion comes from two `StoryMap`s and a CLI that only covers half the skill’s stated obligations. Full migration means **nodes-level domain + dependencies + mutation CLI + tests**; TTY tests should reappear as **skill CLI or API tests**, not abandoned. **DrawIO generates the report; story-graph-ops (or story bot) applies it to `story-graph.json`—not the other way around.**
