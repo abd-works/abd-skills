@@ -261,6 +261,7 @@ h2:first-child { margin-top: 0; }
 .file-tree__summary {
   cursor: pointer;
   padding: 10px 12px 10px 14px;
+  display: list-item;
   list-style-position: outside;
   margin: 0;
   background: rgba(255, 255, 255, 0.03);
@@ -314,7 +315,7 @@ h2:first-child { margin-top: 0; }
   <div class="header-text">
     <p class="brand"><strong>Agile by Design</strong> &middot; catalog</p>
     <h1>Skills</h1>
-    <p class="tagline">17 entries.</p>
+    <p class="tagline">18 entries.</p>
   </div>
 </header>
 
@@ -328,7 +329,7 @@ h2:first-child { margin-top: 0; }
 
 <p>Each card opens the skill detail page. Card lines are short excerpts from <code>SKILL.md</code>.</p>
 
-<h2>Skills (17)</h2><div class="cap-grid"><a class="cap-card" href="skill/abd-acceptance-criteria.html">
+<h2>Skills (18)</h2><div class="cap-grid"><a class="cap-card" href="skill/abd-acceptance-criteria.html">
   <p class="cap-card__title"><span class="cap-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#1a1a1e"/><path d="M7 8h10M7 12h7M7 16h10" stroke="#ff7a00" stroke-width="1.5" stroke-linecap="round"/></svg></span>abd-acceptance-criteria</p>
   <p class="cap-card__label">Description</p>
   <p class="cap-card__summary">Teaches exploration-phase acceptance criteria for story-graph.json: WHEN/THEN/AND/BUT, behavioral language, per-story domain terms, atomic AC, actor alternation, channel-specific detail, and verb–noun naming for story elements. Ships Markdown rules and Python scanners under this skill root for …</p>
@@ -386,6 +387,12 @@ h2:first-child { margin-top: 0; }
   <p class="cap-card__title"><span class="cap-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#1a1a1e"/><path d="M7 8h10M7 12h7M7 16h10" stroke="#ff7a00" stroke-width="1.5" stroke-linecap="round"/></svg></span>deploy-skill-to-cursor</p>
   <p class="cap-card__label">Description</p>
   <p class="cap-card__summary">Deploy a skill from agilebydesign-skills into Cursor&#x27;s user skills folder using a Windows directory junction (no duplicate copy). Run scripts/Deploy-SkillToCursor.ps1 with the skill folder name. Use when you want the global Cursor skills path to point at the repo canonical skill.</p>
+  <p class="cap-card__more">Open skill page →</p>
+</a>
+<a class="cap-card" href="skill/drawio-story-sync.html">
+  <p class="cap-card__title"><span class="cap-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#1a1a1e"/><path d="M7 8h10M7 12h7M7 16h10" stroke="#ff7a00" stroke-width="1.5" stroke-linecap="round"/></svg></span>drawio-story-sync</p>
+  <p class="cap-card__label">Description</p>
+  <p class="cap-card__summary">Render and synchronize story-map DrawIO diagrams (outline, exploration with acceptance criteria, prioritization increments) from story-graph.json. Uses story-graph-ops for validated JSON load/save and agile_bots story_graph.nodes.StoryMap for the rich domain tree DrawIO rendering expects. Use when …</p>
   <p class="cap-card__more">Open skill page →</p>
 </a>
 <a class="cap-card" href="skill/execute_using_rules.html">

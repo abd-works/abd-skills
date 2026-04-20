@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ABD catalogue — skill · drawio-story-sync</title>
+<style>
+:root {
+  --orange: #ff7a00;
+  --bg: #09090b;
+  --surface: #0e0e10;
+  --raised: #161618;
+  --border: #2a2a30;
+  --border-muted: #1a1a1e;
+  --text: #e8e8ed;
+  --muted: #9b9ba8;
+  --radius: 4px;
+}
+*, *::before, *::after { box-sizing: border-box; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  margin: 0;
+  font-family: system-ui, "Segoe UI", Roboto, Ubuntu, sans-serif;
+  font-size: 17px;
+  line-height: 1.6;
+}
+a { color: #8ab4ff; text-decoration: none; }
+a:hover { text-decoration: underline; }
+strong { font-weight: 700; }
+code {
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+  font-size: 0.88em;
+  background: #1f1f24;
+  padding: 1px 5px;
+  border-radius: 3px;
+  color: #d4d4d4;
+}
+.page-wrap { padding: 16px clamp(8px,3vw,28px); }
+.panel {
+  max-width: min(96vw, 1100px);
+  margin: 0 auto;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.panel-header {
+  padding: 18px 20px 16px;
+  border-bottom: 1px solid var(--border);
+  border-left: 4px solid var(--orange);
+  background: var(--raised);
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+.header-icon {
+  flex-shrink: 0;
+  background: #000;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid var(--border-muted);
+  box-shadow: inset 0 0 0 1px rgba(255,122,0,0.12);
+}
+.header-text { flex: 1; min-width: 200px; }
+.brand { font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin: 0 0 4px; }
+.brand strong { color: var(--orange); }
+h1 { margin: 0; font-size: 2rem; font-weight: 700; line-height: 1.15; }
+.tagline { margin: 8px 0 0; font-size: 1.05rem; color: var(--muted); max-width: 52rem; }
+.panel-body { padding: 28px 22px 36px; }
+p { margin: 0 0 14px; }
+h2 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin: 32px 0 14px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+}
+h2:first-child { margin-top: 0; }
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 18px;
+  margin: 0 0 18px;
+  padding: 0 0 14px;
+  border-bottom: 1px solid var(--border-muted);
+}
+.nav a {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+.nav a.nav__link--current {
+  color: var(--orange);
+  pointer-events: none;
+}
+.cap-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 14px;
+  margin: 18px 0 0;
+}
+.cap-card {
+  display: block;
+  text-decoration: none;
+  background: var(--raised);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--orange);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  transition: background 0.15s, border-color 0.15s;
+  cursor: pointer;
+}
+.cap-card:hover {
+  background: rgba(255,122,0,0.06);
+  border-color: rgba(255,122,0,0.4);
+  text-decoration: none;
+}
+.cap-card__title {
+  font-size: 0.97rem;
+  font-weight: 700;
+  color: var(--orange);
+  margin: 0 0 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.cap-card__icon { flex-shrink: 0; width: 24px; height: 24px; }
+.cap-card__label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  opacity: 0.55;
+  margin-bottom: 1px;
+}
+.cap-card__summary { font-size: 0.85rem; color: var(--muted); line-height: 1.45; margin: 0 0 8px; }
+.cap-card__more {
+  font-size: 0.78rem;
+  color: var(--orange);
+  opacity: 0.7;
+  margin: 10px 0 0;
+}
+
+/* Entry detail pages (skill/*.html, agent/*.html) — overview-style */
+.entry-detail-header .back-link {
+  font-size: 0.82rem;
+  color: var(--muted);
+  display: inline-block;
+  margin: 0 0 10px;
+}
+.entry-detail-header .back-link:hover {
+  color: var(--orange);
+}
+.cap-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--orange);
+  background: rgba(255, 122, 0, 0.08);
+  border: 1px solid rgba(255, 122, 0, 0.25);
+  border-radius: 3px;
+  padding: 2px 8px;
+  margin: 0 0 8px;
+}
+.entry-caption {
+  font-size: 0.9rem;
+  color: var(--muted);
+  margin: 0 0 12px;
+}
+.entry-prose {
+  white-space: pre-wrap;
+  color: var(--text);
+  line-height: 1.65;
+  margin: 0 0 8px;
+  font-size: 0.95rem;
+}
+.entry-divider {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 26px 0;
+}
+.ascii-diagram {
+  background: #111114;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  overflow-x: auto;
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+  font-size: 0.83em;
+  line-height: 1.55;
+  color: #b8b8c2;
+  margin: 0 0 18px;
+}
+.file-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.file-list li {
+  margin: 0 0 14px;
+  padding: 10px 12px 10px 14px;
+  border-left: 3px solid var(--border-muted);
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 0 4px 4px 0;
+}
+.file-list .file-meta {
+  color: var(--muted);
+  font-size: 0.9rem;
+  display: block;
+  margin-top: 4px;
+}
+.file-list a {
+  font-weight: 600;
+}
+.file-list--root {
+  margin-top: 4px;
+}
+.file-list--nested {
+  margin: 8px 0 0 0;
+  padding-left: 0;
+  border-left: 2px solid var(--border-muted);
+  margin-left: 2px;
+  padding-left: 10px;
+}
+.file-list--nested li {
+  margin-bottom: 10px;
+  padding: 8px 10px 8px 12px;
+  font-size: 0.95rem;
+}
+.file-list__nested-note {
+  margin: 8px 0 0 0;
+  padding: 6px 0 4px 4px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+/* Expandable folder tree (<details> / <summary>) */
+.file-list > li.file-list__folder {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 14px;
+  border: none;
+  background: transparent;
+  border-radius: 0;
+}
+.file-list__folder > .file-tree__details {
+  margin: 0 0 12px 0;
+}
+.file-tree__details {
+  border: 1px solid var(--border-muted);
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.18);
+  overflow: hidden;
+}
+.file-tree__summary {
+  cursor: pointer;
+  padding: 10px 12px 10px 14px;
+  display: list-item;
+  list-style-position: outside;
+  margin: 0;
+  background: rgba(255, 255, 255, 0.03);
+}
+.file-tree__summary:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+.file-tree__summary .file-meta {
+  display: inline;
+  margin-left: 6px;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+.file-tree__folder-link {
+  margin-left: 10px;
+  font-weight: 600;
+}
+.file-tree__inner {
+  padding: 8px 10px 12px 14px;
+  border-top: 1px solid var(--border-muted);
+}
+.file-tree__ul {
+  margin-top: 4px;
+}
+.file-tree__dir > .file-tree__details {
+  margin: 0;
+  border-radius: 4px;
+}
+.file-tree__dir--truncated {
+  font-size: 0.95rem;
+}
+.file-tree__file .file-meta {
+  display: block;
+  margin-top: 4px;
+}
+
+</style>
+</head>
+<body>
+<div class="page-wrap">
+<div class="panel" role="main">
+
+<header class="panel-header entry-detail-header">
+  <div class="header-icon">
+    <svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:block;border-radius:6px;">
+      <rect width="52" height="52" rx="8" fill="#0e0e10"/>
+      <path d="M16 14h20a2 2 0 0 1 2 2v20a2 2 0 0 1-2 2H16a2 2 0 0 1-2-2V16a2 2 0 0 1 2-2z" stroke="#FF7A00" stroke-width="1.5" fill="rgba(255,122,0,0.06)"/>
+      <path d="M20 22h12M20 26h9M20 30h12" stroke="#FF7A00" stroke-width="1.5" stroke-linecap="round"/>
+    </svg>
+  </div>
+  <div class="header-text">
+    <p class="brand"><strong>Agile by Design</strong> &middot; catalog</p>
+    <a class="back-link" href="../skills.html">← All skills</a>
+    <p class="cap-badge">Skill</p>
+    <h1>drawio-story-sync</h1>
+    <p class="tagline">Render and synchronize story-map DrawIO diagrams (outline, exploration with acceptance criteria, prioritization increments) from story-graph.json. Uses story-graph-ops for validated JSON load/save and agile_bots story_graph.nodes.StoryMap for the rich domain tree DrawIO rendering expects. Use when …</p>
+  </div>
+</header>
+
+<div class="panel-body">
+
+<nav class="nav" aria-label="Catalogue sections">
+  <a href="../index.html" class="nav__link">Hub</a>
+  <a href="../skills.html" class="nav__link nav__link--current">Skills</a>
+  <a href="../agents.html" class="nav__link">Agents</a>
+</nav>
+
+<h2>Description</h2>
+<div class="entry-prose">Render and synchronize story-map DrawIO diagrams (outline, exploration with acceptance criteria, prioritization increments) from story-graph.json. Uses story-graph-ops for validated JSON load/save and agile_bots story_graph.nodes.StoryMap for the rich domain tree DrawIO rendering expects. Use when producing or diffing story-map.drawio files outside the story bot, or when wiring CI/scripts for diagram refresh and update reports.</div>
+
+<hr class="entry-divider">
+
+<h2>Package layout</h2>
+<p class="entry-caption">ASCII overview (same spirit as <code>agents/abd-skill-builder/docs/overview/</code> capability pages).</p>
+<pre class="ascii-diagram" role="img" aria-label="Package structure">       repository
+           │
+           ▼
+  ┌─────────────────────────┐
+  │ SKILL.md                  │
+  │ (entry document)        │
+  └────────────┬────────────┘
+               │
+  peers at package root:
+               │
+               ▼
+
+skills/drawio-story-sync/
+├── scripts/
+├── tests/
+└── SKILL.md</pre>
+
+<hr class="entry-divider">
+
+<h2>Contents</h2>
+<p class="entry-caption">Folders use <strong>click the row or the triangle to expand or collapse</strong>. Nested subfolders list every file when expanded. Folders named in the catalogue (like <code>skills/</code> or <code>scripts/</code>) show a short purpose; folders that contain a <code>SKILL.md</code> use that skill&rsquo;s description. The first few levels start expanded so typical layouts (including nested agent skills) show files without extra clicks. Links into the repository open in a <strong>new tab</strong>.</p>
+<ul class="file-list file-list--root">
+<li class="file-list__folder"><details class="file-tree__details" open><summary class="file-tree__summary"><strong>scripts/</strong><span class="file-meta"> → Build, catalogue, validation, or packaging automation.</span> <a class="file-tree__folder-link" href="../../skills/drawio-story-sync/scripts/" target="_blank" rel="noopener noreferrer">open folder</a></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
+<li class="file-tree__dir"><details class="file-tree__details" open><summary class="file-tree__summary"><strong>drawio_story_sync/</strong><span class="file-meta"> → Folder (12 items).</span> <a class="file-tree__folder-link" href="../../skills/drawio-story-sync/scripts/drawio_story_sync/" target="_blank" rel="noopener noreferrer">open folder</a></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
+<li class="file-tree__dir"><details class="file-tree__details" open><summary class="file-tree__summary"><strong>__pycache__/</strong><span class="file-meta"> → Folder (11 items).</span> <a class="file-tree__folder-link" href="../../skills/drawio-story-sync/scripts/drawio_story_sync/__pycache__/" target="_blank" rel="noopener noreferrer">open folder</a></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
+<li class="file-tree__file"><strong>__init__.cpython-313.pyc</strong><span class="file-meta"> →     ��iz  �                   �   � S SK JrJr  S SKJr  S SKJrJrJrJ	r	  S SK</span> <a href="../../skills/drawio-story-sync/scripts/drawio_story_sync/__pycache__/__init__.cpython-313.pyc" target="_blank" rel="noopener noreferrer">open file</a></li>
+<li class="file-tree__file"><strong>diagram_story_node.cpython-313.pyc</strong><span class="file-meta"> →     �,�i�2  �                   �H  � S r SSKJr  SSKJrJrJr  SSKJrJ	r	  SSK</span> <a href="../../skills/drawio-story-sync/scripts/drawio_story_sync/__pycache__/diagram_story_node.cpython-313.pyc" target="_blank" rel="noopener noreferrer">open file</a></li>
+<li class="file-tree__file"><strong>drawio_element.cpython-313.pyc</strong><span class="file-meta"> →     �,�i6  �            </span> <a href="../../skills/drawio-story-sync/scripts/drawio_story_sync/__pycache__/drawio_element.cpython-313.pyc" target="_blank" rel="noopener noreferrer">open file</a></li>
+<li class="file-tree__file"><strong>drawio_story_map.cpython-313.pyc</strong><span class="file-meta"> →     ɣ�i �  �                   �</span> <a href="../../skills/drawio-story-sync/scripts/drawio_story_sync/__pycache__/drawio_story_map.cpython-313.pyc" target="_blank" rel="noopener noreferrer">open file</a></li>
+<li class="file-tree__file"><strong>drawio_story_node.cpython-313.pyc</strong><span class="file-meta"> →     �M�iF�  �            	       �  � S SK JrJrJrJr  S SKJrJr  S SKJ	r	J</span> <a href="../../skills/drawio-story-sync/scripts/drawio_story_sync/__pycache__/drawio_story_node.cpython-313.pyc" target="_blank" rel="noopener noreferrer">open file</a></li>
+<li class="file-tree__file"><strong>drawio_story_node_serializer.cpython-313.pyc</strong><span class="file-meta"> →     �,�i�  �                   ��   � S r SSKrSSKJs  Jr  SSKJrJr  SSK	J</span> <a href="../../skills/drawio-story-sync/scripts/drawio_story_sync/__pycache__/drawio_story_node_serializer.cpython-313.pyc" target="_blank" rel="noopener noreferrer">open file</a></li>
+<li class="file-tree__file"><strong>layout_data.cpython-313.pyc</strong><span class="file-meta"> →     ��i2  �                   �T   � S r SSKrSSKJr  SSKJrJrJr  SSKJ	r	J</span> <a href="../../skills/drawio-story-sync/scripts/drawio_story_sync/__pycache__/layout_data.cpython-313.pyc" target="_blank" rel="noopener noreferrer">open file</a></li>
+<li class="file-tree__file"><strong>render_summary.cpython-313.pyc</strong><span class="file-meta"> →     �,�ib  �                   �&gt;   � S r SSKJr  SSKJr  \ &quot; S S5      5       rg)z{</span> <a href="../../skills/drawio-story-sync/scripts/drawio_story_sync/__pycache__/render_summary.cpython-313.pyc" target="_blank" rel="noopener noreferrer">open file</a></li>
+<li class="file-tree__file"><strong>story_io_position.cpython-313.pyc</strong><span class="file-meta"> →     S�ni�</span> <a href="../../skills/drawio-story-sync/scripts/drawio_story_sync/__pycache__/story_io_position.cpython-313.pyc" target="_blank" rel="noopener noreferrer">open file</a></li>
+<li class="file-tree__file"><strong>story_io_synchronizer.cpython-313.pyc</strong><span class="file-meta"> →     ��i</span> <a href="../../skills/drawio-story-sync/scripts/drawio_story_sync/__pycache__/story_io_synchronizer.cpython-313.pyc" target="_blank" rel="noopener noreferrer">open file</a></li>
+<li class="file-tree__file"><strong>update_report.cpython-313.pyc</strong><span class="file-meta"> →     ɣ�i/_  �                   �b  � S SK r S SKJr  S SKJrJrJrJr  S SKJ	r	J</span> <a href="../../skills/drawio-story-sync/scripts/drawio_story_sync/__pycache__/update_report.cpython-313.pyc" target="_blank" rel="noopener noreferrer">open file</a></li>
+</ul></div></details></li>
+<li class="file-tree__file"><strong>__init__.py</strong><span class="file-meta"> → from .story_io_position import Position, Boundary</span> <a href="../../skills/drawio-story-sync/scripts/drawio_story_sync/__init__.py" target="_blank" rel="noopener noreferrer">open file</a></li>
+<li class="file-tree__file"><strong>diagram_story_node.py</strong><span class="file-meta"> → DiagramStoryNode - Platform-agnostic diagram node hierarchy.</span> <a href="../../skills/drawio-story-sync/scripts/drawio_story_sync/diagram_story_node.py" target="_blank" rel="noopener noreferrer">open file</a></li>
+<li class="file-tree__file"><strong>drawio_element.py</strong><span class="file-meta"> → from dataclasses import dataclass, field</span> <a href="../../skills/drawio-story-sync/scripts/drawio_story_sync/drawio_element.py" target="_blank" rel="noopener noreferrer">open file</a></li>
+<li class="file-tree__file"><strong>drawio_story_map.py</strong><span class="file-meta"> → DrawIOStoryMap - Domain model for rendering story maps to DrawIO.</span> <a href="../../skills/drawio-story-sync/scripts/drawio_story_sync/drawio_story_map.py" target="_blank" rel="noopener noreferrer">open file</a></li>
+<li class="file-tree__file"><strong>drawio_story_node.py</strong><span class="file-meta"> → from typing import List, Optional, Any, Set</span> <a href="../../skills/drawio-story-sync/scripts/drawio_story_sync/drawio_story_node.py" target="_blank" rel="noopener noreferrer">open file</a></li>
+<li class="file-tree__file"><strong>drawio_story_node_serializer.py</strong><span class="file-meta"> → DrawIOStoryNodeSerializer - Creates, loads, and writes DrawIO story nodes to XML.</span> <a href="../../skills/drawio-story-sync/scripts/drawio_story_sync/drawio_story_node_serializer.py" target="_blank" rel="noopener noreferrer">open file</a></li>
+<li class="file-tree__file"><strong>layout_data.py</strong><span class="file-meta"> → LayoutData - Stores position and size per node for diagram re-rendering.</span> <a href="../../skills/drawio-story-sync/scripts/drawio_story_sync/layout_data.py" target="_blank" rel="noopener noreferrer">open file</a></li>
+<li class="file-tree__file"><strong>render_summary.py</strong><span class="file-meta"> → RenderSummary - Typed return object for render operations.</span> <a href="../../skills/drawio-story-sync/scripts/drawio_story_sync/render_summary.py" target="_blank" rel="noopener noreferrer">open file</a></li>
+<li class="file-tree__file"><strong>story_io_position.py</strong><span class="file-meta"> → Position and Boundary Domain Types</span> <a href="../../skills/drawio-story-sync/scripts/drawio_story_sync/story_io_position.py" target="_blank" rel="noopener noreferrer">open file</a></li>
+<li class="file-tree__file"><strong>story_io_synchronizer.py</strong><span class="file-meta"> → from pathlib import Path</span> <a href="../../skills/drawio-story-sync/scripts/drawio_story_sync/story_io_synchronizer.py" target="_blank" rel="noopener noreferrer">open file</a></li>
+<li class="file-tree__file"><strong>update_report.py</strong><span class="file-meta"> → import json</span> <a href="../../skills/drawio-story-sync/scripts/drawio_story_sync/update_report.py" target="_blank" rel="noopener noreferrer">open file</a></li>
+</ul></div></details></li>
+<li class="file-tree__file"><strong>drawio_story_sync_cli.py</strong><span class="file-meta"> → !/usr/bin/env python3</span> <a href="../../skills/drawio-story-sync/scripts/drawio_story_sync_cli.py" target="_blank" rel="noopener noreferrer">open file</a></li>
+<li class="file-tree__file"><strong>README.md</strong><span class="file-meta"> → drawio-story-sync scripts</span> <a href="../../skills/drawio-story-sync/scripts/README.md" target="_blank" rel="noopener noreferrer">open file</a></li>
+</ul></div></details></li>
+<li class="file-list__folder"><details class="file-tree__details" open><summary class="file-tree__summary"><strong>tests/</strong><span class="file-meta"> → Folder (2 items).</span> <a class="file-tree__folder-link" href="../../skills/drawio-story-sync/tests/" target="_blank" rel="noopener noreferrer">open folder</a></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
+<li class="file-tree__file"><strong>conftest.py</strong><span class="file-meta"> → &quot;&quot;&quot;Put scripts and story-graph-ops scripts on sys.path for optional in-process imports.&quot;&quot;&quot;</span> <a href="../../skills/drawio-story-sync/tests/conftest.py" target="_blank" rel="noopener noreferrer">open file</a></li>
+<li class="file-tree__file"><strong>test_drawio_cli_smoke.py</strong><span class="file-meta"> → &quot;&quot;&quot;Smoke: CLI renders outline DrawIO when agile_bots src and a graph file exist.&quot;&quot;&quot;</span> <a href="../../skills/drawio-story-sync/tests/test_drawio_cli_smoke.py" target="_blank" rel="noopener noreferrer">open file</a></li>
+</ul></div></details></li>
+<li class="file-tree__file"><strong>SKILL.md</strong><span class="file-meta"> → name: drawio-story-sync</span> <a href="../../skills/drawio-story-sync/SKILL.md" target="_blank" rel="noopener noreferrer">open file</a></li>
+</ul>
+
+</div>
+</div>
+</div>
+</body>
+</html>

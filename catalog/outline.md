@@ -20,6 +20,7 @@ each row gives a **short description** and where to open the source.
 | **abd-thin-slicing** | Produce thin-sliced delivery increments: vertical MVIs, spine vs optional paths, quality trade-offs, marketable increment names, and early risk validation. From a story map, write all template artifacts in templates/ (thin-slicing.md and thin-slicing.txt) with identical increment and story … | [SKILL.md](../skills/abd-thin-slicing/SKILL.md) |
 | **abd-commit-msg** | Generate meaningful commit messages from scope and changed files. No story_graph — scope from conversation, changed files, and persisted state. Use when user types /commit or requests a commit. | [SKILL.md](../skills/commit-msg/SKILL.md) |
 | **deploy-skill-to-cursor** | Deploy a skill from agilebydesign-skills into Cursor's user skills folder using a Windows directory junction (no duplicate copy). Run scripts/Deploy-SkillToCursor.ps1 with the skill folder name. Use when you want the global Cursor skills path to point at the repo canonical skill. | [SKILL.md](../skills/deploy-skill-to-cursor/SKILL.md) |
+| **drawio-story-sync** | Render and synchronize story-map DrawIO diagrams (outline, exploration with acceptance criteria, prioritization increments) from story-graph.json. Uses story-graph-ops for validated JSON load/save and agile_bots story_graph.nodes.StoryMap for the rich domain tree DrawIO rendering expects. Use when … | [SKILL.md](../skills/drawio-story-sync/SKILL.md) |
 | **execute-rules** | Bundle rules into SKILL.md, run scanners, quality steps (rules before work), and the correction process after mistakes — commands first, details after. | [SKILL.md](../skills/execute_using_rules/SKILL.md) |
 | **abd-ooad** | Object-Oriented Analysis and Design (OOAD) from raw material. Use this skill whenever you're working with specifications, game manuals, policy docs, messy code, or rule books that need to be modeled as object-oriented domain models. Agile by Design methodology: Steps 0–2 (Domain Scan, Extraction … | [SKILL.md](../skills/ooad/SKILL.md) |
 | **abd-proposal-respond** | Respond to client proposals (RFP, Q&A, requirements) by converting materials to memory, creating a response strategy, and answering questions iteratively. Depends on abd-context-to-memory for RAG. Use when responding to proposals, creating response plans, answering RFP questions, or iterating on … | [SKILL.md](../skills/proposal-respond/SKILL.md) |
@@ -59,7 +60,7 @@ This skill is the practice standard for that work: templates for deliverables, r
 **Repository layout:**
 
 - **[rules/](../skills/abd-acceptance-criteria/rules)** — Practice rules (DO/DON'T) and constraints used with scanners.
-- **[scanners/](../skills/abd-acceptance-criteria/scanners)** — Supporting folder (14 items).
+- **[scanners/](../skills/abd-acceptance-criteria/scanners)** — Folder (14 items).
 - **[templates/](../skills/abd-acceptance-criteria/templates)** — Authoring templates and structural skeletons.
 - [SKILL.md](../skills/abd-acceptance-criteria/SKILL.md) — name: abd-acceptance-criteria
 
@@ -84,7 +85,7 @@ The skill covers the full test quality bar: domain language in names, observable
 **Repository layout:**
 
 - **[rules/](../skills/abd-acceptance-test-driven-development/rules)** — Practice rules (DO/DON'T) and constraints used with scanners.
-- **[scanners/](../skills/abd-acceptance-test-driven-development/scanners)** — Supporting folder (2 items).
+- **[scanners/](../skills/abd-acceptance-test-driven-development/scanners)** — Folder (2 items).
 - **[templates/](../skills/abd-acceptance-test-driven-development/templates)** — Authoring templates and structural skeletons.
 - [SKILL.md](../skills/abd-acceptance-test-driven-development/SKILL.md) — name: abd-acceptance-test-driven-development
 
@@ -107,7 +108,7 @@ The skill covers the full implementation quality bar: names that reveal intent, 
 **Repository layout:**
 
 - **[rules/](../skills/abd-clean-code/rules)** — Practice rules (DO/DON'T) and constraints used with scanners.
-- **[scanners/](../skills/abd-clean-code/scanners)** — Supporting folder (2 items).
+- **[scanners/](../skills/abd-clean-code/scanners)** — Folder (2 items).
 - **[templates/](../skills/abd-clean-code/templates)** — Authoring templates and structural skeletons.
 - [SKILL.md](../skills/abd-clean-code/SKILL.md) — name: abd-clean-code
 
@@ -125,7 +126,7 @@ Build and revise agile delivery plans: context assessment, risk types, strategie
 
 **Repository layout:**
 
-- **[strategies/](../skills/abd-delivery-planning/strategies)** — Supporting folder (9 items).
+- **[strategies/](../skills/abd-delivery-planning/strategies)** — Folder (9 items).
 - [SKILL.md](../skills/abd-delivery-planning/SKILL.md) — name: abd-delivery-planning
 
 ### abd-skill-catalog
@@ -161,7 +162,7 @@ Write Given/When/Then scenarios that make a story's expected behavior concrete a
 **Repository layout:**
 
 - **[rules/](../skills/abd-specification-by-example/rules)** — Practice rules (DO/DON'T) and constraints used with scanners.
-- **[scanners/](../skills/abd-specification-by-example/scanners)** — Supporting folder (2 items).
+- **[scanners/](../skills/abd-specification-by-example/scanners)** — Folder (2 items).
 - **[templates/](../skills/abd-specification-by-example/templates)** — Authoring templates and structural skeletons.
 - [SKILL.md](../skills/abd-specification-by-example/SKILL.md) — name: abd-specification-by-example
 
@@ -180,7 +181,7 @@ Teaches Patton-style story mapping: epics, sub-epics, stories, verb–noun namin
 **Repository layout:**
 
 - **[rules/](../skills/abd-story-mapping/rules)** — Practice rules (DO/DON'T) and constraints used with scanners.
-- **[scanners/](../skills/abd-story-mapping/scanners)** — Supporting folder (7 items).
+- **[scanners/](../skills/abd-story-mapping/scanners)** — Folder (7 items).
 - **[templates/](../skills/abd-story-mapping/templates)** — Authoring templates and structural skeletons.
 - [SKILL.md](../skills/abd-story-mapping/SKILL.md) — name: abd-story-mapping
 
@@ -242,6 +243,24 @@ Deploy a skill from agilebydesign-skills into Cursor's user skills folder using 
 - **[scripts/](../skills/deploy-skill-to-cursor/scripts)** — Build, catalogue, validation, or packaging automation.
 - [SKILL.md](../skills/deploy-skill-to-cursor/SKILL.md) — name: deploy-skill-to-cursor
 
+### drawio-story-sync
+
+- **Directory:** [`skills/drawio-story-sync/`](../skills/drawio-story-sync/)
+
+**Summary:**
+
+Render and synchronize story-map DrawIO diagrams (outline, exploration with acceptance criteria, prioritization increments) from story-graph.json. Uses story-graph-ops for validated JSON load/save and agile_bots story_graph.nodes.StoryMap for the rich domain tree DrawIO rendering expects. Use when …
+
+**Description (from Purpose / body):**
+
+Render and synchronize story-map DrawIO diagrams (outline, exploration with acceptance criteria, prioritization increments) from story-graph.json. Uses story-graph-ops for validated JSON load/save and agile_bots story_graph.nodes.StoryMap for the rich domain tree DrawIO rendering expects. Use when producing or diffing story-map.drawio files outside the story bot, or when wiring CI/scripts for diagram refresh and update reports.
+
+**Repository layout:**
+
+- **[scripts/](../skills/drawio-story-sync/scripts)** — Build, catalogue, validation, or packaging automation.
+- **[tests/](../skills/drawio-story-sync/tests)** — Folder (2 items).
+- [SKILL.md](../skills/drawio-story-sync/SKILL.md) — name: drawio-story-sync
+
 ### execute-rules
 
 - **Directory:** [`skills/execute_using_rules/`](../skills/execute_using_rules/)
@@ -258,6 +277,7 @@ Bundle rules into SKILL.md, run scanners, quality steps (rules before work), and
 
 - **[scripts/](../skills/execute_using_rules/scripts)** — Build, catalogue, validation, or packaging automation.
 - **[templates/](../skills/execute_using_rules/templates)** — Authoring templates and structural skeletons.
+- **[tests/](../skills/execute_using_rules/tests)** — Folder (3 items).
 - [SKILL.md](../skills/execute_using_rules/SKILL.md) — name: execute-rules
 
 ### abd-ooad
@@ -276,8 +296,8 @@ Object-Oriented Analysis and Design (OOAD) from raw material. Use this skill whe
 
 - **[content/](../skills/ooad/content)** — Source parts merged into agent instructions or outputs.
 - **[docs/](../skills/ooad/docs)** — Human-oriented documentation for the package.
-- **[potential/](../skills/ooad/potential)** — Supporting folder (4 items).
-- **[runs/](../skills/ooad/runs)** — Supporting folder (1 items).
+- **[potential/](../skills/ooad/potential)** — Folder (4 items).
+- **[runs/](../skills/ooad/runs)** — Folder (1 items).
 - **[scripts/](../skills/ooad/scripts)** — Build, catalogue, validation, or packaging automation.
 - **[templates/](../skills/ooad/templates)** — Authoring templates and structural skeletons.
 - [_fix_md2.py](../skills/ooad/_fix_md2.py) — import re
@@ -341,6 +361,7 @@ Create, read, update, and delete story-graph.json (whole file or parts—epics, 
 **Repository layout:**
 
 - **[scripts/](../skills/story-graph-ops/scripts)** — Build, catalogue, validation, or packaging automation.
+- **[tests/](../skills/story-graph-ops/tests)** — Folder (2 items).
 - [SKILL.md](../skills/story-graph-ops/SKILL.md) — name: story-graph-ops
 
 ### track-task
@@ -401,7 +422,7 @@ Per-stage procedures: *skills/abd-/SKILL.md and each skill's references/**.
 
 **Repository layout:**
 
-- **[conf/](../agents/abd-context-to-memory/conf)** — Supporting folder (1 items).
+- **[conf/](../agents/abd-context-to-memory/conf)** — Folder (0 items).
 - **[content/](../agents/abd-context-to-memory/content)** — Source parts merged into agent instructions or outputs.
 - **[scripts/](../agents/abd-context-to-memory/scripts)** — Build, catalogue, validation, or packaging automation.
 - **[skills/](../agents/abd-context-to-memory/skills)** — Nested skills shipped inside an agent package.
@@ -433,7 +454,7 @@ Planning detail lives in the skill, not in this file. For every planning decisio
 
 - **[docs/](../agents/abd-delivery-lead/docs)** — Human-oriented documentation for the package.
 - **[scripts/](../agents/abd-delivery-lead/scripts)** — Build, catalogue, validation, or packaging automation.
-- **[stages/](../agents/abd-delivery-lead/stages)** — Supporting folder (6 items).
+- **[stages/](../agents/abd-delivery-lead/stages)** — Folder (6 items).
 - [AGENT.md](../agents/abd-delivery-lead/AGENT.md) — ABD Delivery Lead
 - [Deploy-ToCursor.ps1](../agents/abd-delivery-lead/Deploy-ToCursor.ps1) — .SYNOPSIS
 

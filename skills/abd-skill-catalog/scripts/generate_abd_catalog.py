@@ -43,6 +43,8 @@ _REPO_LINK_NEW_TAB = ' target="_blank" rel="noopener noreferrer"'
 
 # Max nesting depth for folder trees on detail pages (prevents huge trees).
 _FILE_TREE_MAX_DEPTH = 8
+# <details open> for folder depth 0..N so nested agent skills show files by default (still collapsible).
+_FILE_TREE_DEFAULT_EXPAND_DEPTH = 2
 
 
 class SkillEntry(NamedTuple):
@@ -266,10 +268,11 @@ def layout_lines(repo_root: Path, package_dir: Path, md_prefix: str) -> list[str
         rel = p.relative_to(repo_root).as_posix()
         link = f"{md_prefix}{rel}"
         if p.is_dir():
-            summary = KNOWN_DIR_SUMMARY.get(
-                p.name,
-                f"Supporting folder ({len(list(p.iterdir()))} items).",
-            )
+            try:
+                cnt = len([x for x in p.iterdir() if not x.name.startswith(".")])
+            except OSError:
+                cnt = 0
+            summary = _folder_blurb_from_path(p, cnt)
             lines.append(f"- **[{p.name}/]({link})** — {summary}")
         else:
             blurb = _file_blurb(p)
@@ -373,6 +376,19 @@ def _folder_blurb(dir_name: str, child_count: int) -> str:
     return f"Folder ({child_count} items)."
 
 
+def _folder_blurb_from_path(folder: Path, child_count: int) -> str:
+    """Known directory roles, else SKILL.md-based summary for embedded/nested skills, else generic count."""
+    name = folder.name
+    if name in KNOWN_DIR_SUMMARY:
+        return KNOWN_DIR_SUMMARY[name]
+    skill_md = folder / "SKILL.md"
+    if skill_md.is_file():
+        fm, body, _ = _load_package_source(folder, "skill")
+        if body or fm:
+            return _table_blurb(fm, body, max_len=260)
+    return _folder_blurb(name, child_count)
+
+
 def _html_file_row(repo_root: Path, file_path: Path, href_to_repo: str) -> str:
     rel = file_path.relative_to(repo_root).as_posix()
     blurb = _file_blurb(file_path, max_len=260)
@@ -413,8 +429,8 @@ def _html_folder_branch(
             + "/ <span class=\"file-meta\">(unreadable)</span></summary></details>"
         )
     n = len(kids)
-    summary = _folder_blurb(folder.name, n)
-    open_attr = ' open' if depth == 0 else ""
+    summary = _folder_blurb_from_path(folder, n)
+    open_attr = ' open' if depth <= _FILE_TREE_DEFAULT_EXPAND_DEPTH else ""
 
     inner_parts: list[str] = []
     for p in kids:

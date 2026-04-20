@@ -48,6 +48,11 @@ Each catalogue entry includes:
   link; directories render as nested **expand/collapse** trees (HTML
   `<details>` / `<summary>`): subfolders and files to a capped depth, each file
   with the same blurb + link pattern, **open folder** links on summaries.
+  Known folder names get a fixed purpose line; any folder that contains
+  `SKILL.md` (for example nested skills under `agents/.../skills/`) gets its
+  summary from that skill’s YAML `description` / `## Purpose`. The first few
+  nesting levels default to **expanded** so typical trees show files without
+  extra clicks (still collapsible).
 - **Detail pages** — full description, an ASCII package diagram inside a
   `<pre>` (same spirit as `agents/abd-skill-builder/docs/overview/` capability
   pages), and a contents list with links into the repository. Those repo links

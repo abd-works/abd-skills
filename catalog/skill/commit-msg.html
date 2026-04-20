@@ -261,6 +261,7 @@ h2:first-child { margin-top: 0; }
 .file-tree__summary {
   cursor: pointer;
   padding: 10px 12px 10px 14px;
+  display: list-item;
   list-style-position: outside;
   margin: 0;
   background: rgba(255, 255, 255, 0.03);
@@ -360,7 +361,7 @@ skills/commit-msg/
 <hr class="entry-divider">
 
 <h2>Contents</h2>
-<p class="entry-caption">Folders use <strong>click to expand or collapse</strong> (nested subfolders and files inside). Each file line has a short preview and link. Top-level folders start expanded. Links into the repository open in a <strong>new tab</strong> so this catalogue page stays here.</p>
+<p class="entry-caption">Folders use <strong>click the row or the triangle to expand or collapse</strong>. Nested subfolders list every file when expanded. Folders named in the catalogue (like <code>skills/</code> or <code>scripts/</code>) show a short purpose; folders that contain a <code>SKILL.md</code> use that skill&rsquo;s description. The first few levels start expanded so typical layouts (including nested agent skills) show files without extra clicks. Links into the repository open in a <strong>new tab</strong>.</p>
 <ul class="file-list file-list--root">
 <li class="file-list__folder"><details class="file-tree__details" open><summary class="file-tree__summary"><strong>content/</strong><span class="file-meta"> → Source parts merged into agent instructions or outputs.</span> <a class="file-tree__folder-link" href="../../skills/commit-msg/content/" target="_blank" rel="noopener noreferrer">open folder</a></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
 <li class="file-tree__file"><strong>core.md</strong><span class="file-meta"> → Core Definitions</span> <a href="../../skills/commit-msg/content/core.md" target="_blank" rel="noopener noreferrer">open file</a></li>
