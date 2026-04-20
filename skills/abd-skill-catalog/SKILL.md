@@ -51,7 +51,8 @@ Each catalogue entry includes:
   link; directories render as nested **expand/collapse** trees (HTML
   `<details>` / `<summary>`): subfolders and files to a capped depth, each file
   with the same blurb + link pattern (folder rows expand/collapse; no separate
-  “open folder” link).
+  “open folder” link). Each folder row has a small + / minus box on the left of
+  the summary so expand/collapse is obvious.
   Known folder names get a fixed purpose line; any folder that contains
   `SKILL.md` (for example nested skills under `agents/.../skills/`) gets its
   summary from that skill’s YAML `description` / `## Purpose`. The first few

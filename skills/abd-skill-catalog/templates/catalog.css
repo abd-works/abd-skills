@@ -253,14 +253,47 @@ h2:first-child { margin-top: 0; }
 }
 .file-tree__summary {
   cursor: pointer;
-  padding: 10px 12px 10px 14px;
-  display: list-item;
-  list-style-position: outside;
+  padding: 10px 12px 10px 10px;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  list-style: none;
   margin: 0;
   background: rgba(255, 255, 255, 0.03);
 }
+.file-tree__summary::-webkit-details-marker {
+  display: none;
+}
+.file-tree__summary::marker {
+  content: "";
+  display: none;
+}
+/* Obvious expand/collapse control (native triangle hidden above). */
+.file-tree__summary::before {
+  content: "+";
+  flex-shrink: 0;
+  width: 1.5rem;
+  height: 1.5rem;
+  margin-top: 1px;
+  line-height: 1.45rem;
+  text-align: center;
+  font-weight: 700;
+  font-size: 0.95rem;
+  border: 1px solid var(--border-muted);
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  color: inherit;
+  user-select: none;
+}
+.file-tree__details[open] > .file-tree__summary::before {
+  content: "\2212"; /* minus sign */
+}
 .file-tree__summary:hover {
   background: rgba(255, 255, 255, 0.06);
+}
+.file-tree__summary:hover::before {
+  background: rgba(255, 255, 255, 0.16);
+  border-color: rgba(255, 255, 255, 0.25);
 }
 .file-tree__summary .file-meta {
   display: inline;
