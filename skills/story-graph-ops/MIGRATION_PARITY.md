@@ -45,7 +45,7 @@ That is **not** the same as `story_graph_cli.py` today, which only implements **
 
 ## Suggested phases
 
-1. **Vendor core graph domain** under `story-graph-ops/scripts/` (package name TBD, e.g. `story_graph_full/`) with `domain.py` + `nodes.py` + `story_graph_paths.py` + `test_class_mover.py`, adjusted imports and `_bot`/host protocol.
+1. **Vendor core graph domain** under `story-graph-ops/scripts/` (package `story_graph_ops/`) with `domain.py` + `nodes.py` + `story_graph_paths.py` + `test_class_mover.py` + **`story_graph_scope.py`** (`ScopeType`, `StoryGraphFilter`, `FileFilter`, `StoryGraphScope` — bot-free dict/file filtering from `agile_bots/src/scope/scope.py`), adjusted imports and `_bot`/host protocol.
 2. **Wire `story_map.py`**: either deprecate in favor of the full `StoryMap` for walks, or make `story_map` a thin alias over the same tree types to remove duplicate `Epic`/`Story` classes.
 3. **Extend `story_graph_cli.py`** with mutation subcommands mirroring bot CLI where feasible.
 4. **Port tests** from `agile_bots/test/invoke_bot/edit_story_map/` in order: pure graph mutations → file save/load → scope (if host stubbed) → CLI subprocess tests mirroring old TTY scenarios.
@@ -53,6 +53,10 @@ That is **not** the same as `story_graph_cli.py` today, which only implements **
 ## Tests to track (agile_bots)
 
 Under `test/invoke_bot/edit_story_map/` (and related helpers): graph edits, increments, scope, display, submit scoped action, etc. Each file should be listed in a checklist as it gains a skill-side equivalent.
+
+## agile_bots synchronizers reference
+
+See `agile_bots/src/synchronizers/story_io/STORY_GRAPH_OPS_BRIDGE.md` for how DrawIO report generation stays in **story_io** while apply-merge runs in **story-graph-ops** (or **drawio-story-sync** `apply-report` CLI).
 
 ## DrawIO vs story-graph-ops (who does what)
 

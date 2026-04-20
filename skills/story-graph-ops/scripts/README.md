@@ -8,6 +8,7 @@ Python modules live **directly in this folder** (no nested package). With **`…
 | `domain_concept_node.py` | `DomainConceptNode` for domain-concept placement |
 | `story_scanner.py` | Abstract **`StoryScanner`** (extends `scanner_bases.Scanner`) |
 | `graph_filters.py` | `filter_story_graph_to_story_names` (subset graph by story name) |
+| `story_graph_file.py` | `load_story_graph_dict` / `save_story_graph_dict` — JSON load/save with ops-tree validation (used by **drawio-story-sync** and optional **agile_bots** DrawIO paths) |
 
 **Import:** `from story_map import StoryMap, …`, `from story_scanner import StoryScanner`, …  
 **Scanners:** use **`scanner_bases`** for generic types (`Scanner`, `Violation`, …) and **`story_map`** / **`story_scanner`** for graph types — graph types are **not** re-exported from **`scanner_bases.__init__`**.

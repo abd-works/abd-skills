@@ -16,6 +16,12 @@ from story_graph_ops.nodes import (
 )
 from story_graph_ops.story_graph_paths import StoryGraphPaths
 from story_graph_ops.story_map_updater import StoryMapUpdater
+from story_graph_ops.story_graph_scope import (
+    FileFilter,
+    ScopeType,
+    StoryGraphFilter,
+    StoryGraphScope,
+)
 from story_graph_ops.update_report import UpdateReport
 
 __all__ = [
@@ -24,6 +30,7 @@ __all__ = [
     'DomainConcept',
     'Epic',
     'EpicsCollection',
+    'FileFilter',
     'Increment',
     'IncrementCollection',
     'Responsibility',
@@ -31,10 +38,13 @@ __all__ = [
     'Step',
     'Story',
     'StoryGroup',
+    'StoryGraphFilter',
     'StoryGraphPaths',
+    'StoryGraphScope',
     'StoryMap',
     'StoryMapUpdater',
     'StoryUser',
+    'ScopeType',
     'SubEpic',
     'UpdateReport',
 ]
