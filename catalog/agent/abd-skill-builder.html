@@ -366,27 +366,21 @@ h2:first-child { margin-top: 0; }
 
 <hr class="entry-divider">
 
-<h2>Package layout</h2>
-<p class="entry-caption">ASCII overview (same spirit as <code>agents/abd-skill-builder/docs/overview/</code> capability pages).</p>
-<pre class="ascii-diagram" role="img" aria-label="Package structure">       repository
-           │
-           ▼
-  ┌─────────────────────────┐
-  │ AGENTS.md                 │
-  │ (entry document)        │
-  └────────────┬────────────┘
-               │
-  peers at package root:
-               │
-               ▼
+<h2>How it fits together</h2>
+<p class="entry-caption">Flow and responsibilities first, then top-level repo paths for orientation (expand <strong>Contents</strong> below for the full tree and links).</p>
+<pre class="ascii-diagram" role="img" aria-label="How this package works and top-level paths">How this agent fits together
+──────────────────────────────
+  Entry: AGENTS.md — orchestration, required inputs, sequencing.
+  Load the skills this agent names (under skills/…) for planning,
+  tracking, rules, and work delegated to people or other agents.
+  Local docs/, stages/, scripts/ support the workflow in the entry doc.
 
-agents/abd-skill-builder/
+Repo root — agents/abd-skill-builder/
 ├── content/
 ├── docs/
 ├── scripts/
 ├── skills/
 ├── test/
-├── .gitignore
 ├── AGENTS.md
 ├── requirements-dev.txt
 ├── skill-config.json

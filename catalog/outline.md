@@ -139,7 +139,7 @@ Scan the agilebydesign-skills repository (root skills/ and agents/), then regene
 
 **Description (from Purpose / body):**
 
-Scan the agilebydesign-skills repository (root skills/ and agents/), then regenerate a reader-facing Markdown outline plus a small multi-page HTML site. Each skill and agent entry includes a short summary paragraph (for tables and cards) plus a longer description from ## Purpose when present. Optional repository layout summarizes files (with links) and common folders in one line each.
+Scan the agilebydesign-skills repository (root skills/ and agents/), then regenerate a reader-facing Markdown outline plus a small multi-page HTML site. Each skill and agent entry includes a short summary paragraph (for tables and cards) plus a longer description from ## Purpose when present. Detail pages use a behavior-first ASCII block (how the skill or agent is used, not only a folder tree), then repository layout with links.
 
 **Repository layout:**
 

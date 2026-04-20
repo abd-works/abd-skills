@@ -5,8 +5,8 @@ description: >-
   regenerate a reader-facing Markdown outline plus a small multi-page HTML
   site. Each skill and agent entry includes a short **summary** paragraph (for
   tables and cards) plus a longer **description** from `## Purpose` when
-  present. Optional repository layout summarizes files (with links) and common
-  folders in one line each.
+  present. Detail pages use a **behavior-first ASCII block** (how the skill or
+  agent is used, not only a folder tree), then repository layout with links.
 license: MIT
 metadata:
   author: agilebydesign
@@ -58,11 +58,14 @@ Each catalogue entry includes:
   summary from that skill’s YAML `description` / `## Purpose`. The first few
   nesting levels default to **expanded** so typical trees show files without
   extra clicks (still collapsible).
-- **Detail pages** — description block as above, an ASCII package diagram inside
-  a `<pre>` (same spirit as `agents/abd-skill-builder/docs/overview/` capability
-  pages), and a contents list with links into the repository. Those repo links
-  use `target="_blank"` so the dark catalogue page stays open while `.md` and
-  other files open in another tab.
+- **Detail pages** — description block as above, then a `<pre>` ASCII block that
+  explains **how the package works** (orchestration, skills loaded, main
+  artifacts), followed by a short **repo-root tree** for orientation. Agents
+  with a distinctive flow (for example **`abd-delivery-lead`**) can register a
+  tailored block in `_AGENT_CATALOG_FLOW` in `generate_abd_catalog.py`; others
+  get a sensible default from the entry file name + kind. Then the expandable
+  **Contents** tree lists files with links. Repo links use `target="_blank"` so
+  the catalogue page stays open while `.md` and other files open in another tab.
 
 ## Agent instructions
 
@@ -117,10 +120,18 @@ Each catalogue entry includes:
    want (they can stay minimal; behaviour details belong on detail pages). The
    script falls back to minimal built-in HTML only if a fragment is missing.
 
-6. **Templates (layout).** HTML shells and CSS live under
+6. **Agent ASCII flows (optional).** For agents where the generic flow blurb is
+   not enough, add a `_AGENT_CATALOG_FLOW` entry in
+   `scripts/generate_abd_catalog.py` keyed by the agent directory name (under
+   `agents/`). Use `abd-delivery-lead` as the pattern: workspace and plan file →
+   planning skill → `stages/` roles and gates → bootstrap `abd-team-member` with
+   the stage role → validation and supporting skills. Keep it ASCII-only and
+   compact; the **Contents** tree below still lists every file with links.
+
+7. **Templates (layout).** HTML shells and CSS live under
    `skills/abd-skill-catalog/templates/` (excluding `intros/`, which are prose
    fragments) and are merged with token replacement. Edit those files to
    change branding or layout without touching Python.
 
-7. **Idempotent.** Running the script twice with the same tree overwrites the
+8. **Idempotent.** Running the script twice with the same tree overwrites the
    same outputs deterministically.

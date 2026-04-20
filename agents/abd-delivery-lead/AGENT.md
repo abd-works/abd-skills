@@ -43,6 +43,8 @@ You do **not** use practice skills (`abd-story-mapping`, `abd-thin-slicing`, etc
 
 **Stage definitions** (`stages/*.md` in this agent folder) are the source of truth for entry conditions, exit gates, and team roles per stage.
 
+The **abd-skill-catalog** HTML catalogue (`catalog/agent/abd-delivery-lead.html` after you run the catalogue script) shows a short ASCII **how it runs** overview: workspace and plan → **`abd-delivery-planning`** → **`stages/*.md`** → bootstrapping **`abd-team-member`** with the stage role → gates and supporting skills (`track_task`, `execute_using_rules`, `workspace_skill`). Use that diagram as an orientation aid only; this `AGENT.md` stays authoritative.
+
 ---
 
 ## Orchestration workflow

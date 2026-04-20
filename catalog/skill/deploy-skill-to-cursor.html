@@ -363,21 +363,15 @@ h2:first-child { margin-top: 0; }
 
 <hr class="entry-divider">
 
-<h2>Package layout</h2>
-<p class="entry-caption">ASCII overview (same spirit as <code>agents/abd-skill-builder/docs/overview/</code> capability pages).</p>
-<pre class="ascii-diagram" role="img" aria-label="Package structure">       repository
-           │
-           ▼
-  ┌─────────────────────────┐
-  │ SKILL.md                  │
-  │ (entry document)        │
-  └────────────┬────────────┘
-               │
-  peers at package root:
-               │
-               ▼
+<h2>How it fits together</h2>
+<p class="entry-caption">Flow and responsibilities first, then top-level repo paths for orientation (expand <strong>Contents</strong> below for the full tree and links).</p>
+<pre class="ascii-diagram" role="img" aria-label="How this package works and top-level paths">How this skill fits together
+──────────────────────────────
+  Entry: SKILL.md — when to use, procedure, guardrails.
+  Supporting dirs (references/, scripts/, templates/, …) depend on the skill;
+  the tree below is a quick map of what ships in this folder.
 
-skills/deploy-skill-to-cursor/
+Repo root — skills/deploy-skill-to-cursor/
 ├── scripts/
 └── SKILL.md</pre>
 

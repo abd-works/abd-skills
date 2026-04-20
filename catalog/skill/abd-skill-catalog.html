@@ -359,25 +359,19 @@ h2:first-child { margin-top: 0; }
 </nav>
 
 <h2>Description</h2>
-<div class="entry-prose">Scan the agilebydesign-skills repository (root skills/ and agents/), then regenerate a reader-facing Markdown outline plus a small multi-page HTML site. Each skill and agent entry includes a short summary paragraph (for tables and cards) plus a longer description from ## Purpose when present. Optional repository layout summarizes files (with links) and common folders in one line each.</div>
+<div class="entry-prose">Scan the agilebydesign-skills repository (root skills/ and agents/), then regenerate a reader-facing Markdown outline plus a small multi-page HTML site. Each skill and agent entry includes a short summary paragraph (for tables and cards) plus a longer description from ## Purpose when present. Detail pages use a behavior-first ASCII block (how the skill or agent is used, not only a folder tree), then repository layout with links.</div>
 
 <hr class="entry-divider">
 
-<h2>Package layout</h2>
-<p class="entry-caption">ASCII overview (same spirit as <code>agents/abd-skill-builder/docs/overview/</code> capability pages).</p>
-<pre class="ascii-diagram" role="img" aria-label="Package structure">       repository
-           │
-           ▼
-  ┌─────────────────────────┐
-  │ SKILL.md                  │
-  │ (entry document)        │
-  └────────────┬────────────┘
-               │
-  peers at package root:
-               │
-               ▼
+<h2>How it fits together</h2>
+<p class="entry-caption">Flow and responsibilities first, then top-level repo paths for orientation (expand <strong>Contents</strong> below for the full tree and links).</p>
+<pre class="ascii-diagram" role="img" aria-label="How this package works and top-level paths">How this skill fits together
+──────────────────────────────
+  Entry: SKILL.md — when to use, procedure, guardrails.
+  Supporting dirs (references/, scripts/, templates/, …) depend on the skill;
+  the tree below is a quick map of what ships in this folder.
 
-skills/abd-skill-catalog/
+Repo root — skills/abd-skill-catalog/
 ├── scripts/
 ├── templates/
 └── SKILL.md</pre>

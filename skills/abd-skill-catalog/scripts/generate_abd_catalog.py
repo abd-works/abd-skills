@@ -378,37 +378,79 @@ def _load_package_source(package_dir: Path, kind: str) -> tuple[dict[str, str], 
     return {}, "", ""
 
 
-def _ascii_package_diagram(repo_rel: str, entry_filename: str, package_dir: Path) -> str:
-    """ASCII diagram (abd-skill-builder overview style): flow + top-level tree."""
-    ef = entry_filename if len(entry_filename) <= 24 else entry_filename[:21] + "…"
-    lines = [
-        "       repository",
-        "           │",
-        "           ▼",
-        "  ┌─────────────────────────┐",
-        f"  │ {ef:<25} │",
-        "  │ (entry document)        │",
-        "  └────────────┬────────────┘",
-        "               │",
-        "  peers at package root:",
-        "               │",
-        "               ▼",
-        "",
-    ]
+# Catalogue detail pages: optional behavior-first ASCII (by agent directory name).
+_AGENT_CATALOG_FLOW: dict[str, str] = {
+    "abd-delivery-lead": (
+        "ABD Delivery Lead — how it runs\n"
+        "──────────────────────────────────\n"
+        "  workspace + agile-delivery-plan.md (+ context, start/end stages)\n"
+        "              │\n"
+        "              ▼\n"
+        "   abd-delivery-planning (skill)\n"
+        "   context, risks, runs, checkpoints\n"
+        "              │\n"
+        "              ▼\n"
+        "      stages/*.md — team role + entry/exit gates per stage\n"
+        "              │\n"
+        "              ▼\n"
+        "  bootstrap abd-team-member (team-role from stage definition)\n"
+        "              │\n"
+        "              ▼\n"
+        "  member runs practice skills in workspace; you own gates + handoffs\n"
+        "              │\n"
+        "              ▼\n"
+        "  track_task checklist · corrections (execute_using_rules) · workspace_skill\n"
+    ),
+}
+
+
+def _ascii_repo_root_tree_lines(package_dir: Path, repo_rel: str) -> list[str]:
+    """Top-level names under package_dir (for reference after the flow block)."""
     if not package_dir.is_dir():
-        lines.append("(could not read package directory)")
-        return "\n".join(lines)
+        return ["(could not read package directory)"]
     try:
         kids = sorted(package_dir.iterdir(), key=lambda p: (not p.is_dir(), p.name.lower()))
+        kids = [p for p in kids if not p.name.startswith(".")]
     except OSError:
-        lines.append("(could not read directory)")
-        return "\n".join(lines)
-    lines.append(f"{repo_rel}/")
+        return ["(could not read directory)"]
+    lines = [f"Repo root — {repo_rel}/"]
     for i, p in enumerate(kids):
         branch = "└── " if i == len(kids) - 1 else "├── "
         label = p.name + ("/" if p.is_dir() else "")
         lines.append(branch + label)
-    return "\n".join(lines)
+    return lines
+
+
+def _ascii_catalog_diagram(
+    repo_rel: str,
+    entry_filename: str,
+    package_dir: Path,
+    *,
+    kind: str,
+    dir_name: str,
+) -> str:
+    """Behavior-first ASCII for catalogue detail pages, then a compact repo-root tree."""
+    ef = entry_filename if len(entry_filename) <= 24 else entry_filename[:21] + "…"
+    if kind == "agent":
+        flow = _AGENT_CATALOG_FLOW.get(
+            dir_name,
+            "How this agent fits together\n"
+            "──────────────────────────────\n"
+            f"  Entry: {ef} — orchestration, required inputs, sequencing.\n"
+            "  Load the skills this agent names (under skills/…) for planning,\n"
+            "  tracking, rules, and work delegated to people or other agents.\n"
+            "  Local docs/, stages/, scripts/ support the workflow in the entry doc.\n",
+        )
+    else:
+        flow = (
+            "How this skill fits together\n"
+            "──────────────────────────────\n"
+            f"  Entry: {ef} — when to use, procedure, guardrails.\n"
+            "  Supporting dirs (references/, scripts/, templates/, …) depend on the skill;\n"
+            "  the tree below is a quick map of what ships in this folder.\n"
+        )
+    tree = _ascii_repo_root_tree_lines(package_dir, repo_rel)
+    return flow.rstrip() + "\n\n" + "\n".join(tree)
 
 
 def _folder_blurb(dir_name: str, child_count: int) -> str:
@@ -572,7 +614,9 @@ def write_entry_detail_pages(
         desc_plain = _full_purpose_plain(fm, body) if body or fm else s.summary
         desc_html = _h(desc_plain).replace("\n", "<br>\n")
         rel_posix = f"skills/{s.dir_name}"
-        ascii_art = _ascii_package_diagram(rel_posix, entry_fn or "SKILL.md", pkg)
+        ascii_art = _ascii_catalog_diagram(
+            rel_posix, entry_fn or "SKILL.md", pkg, kind="skill", dir_name=s.dir_name
+        )
         file_list = _html_contents_list(repo_root, pkg, href_to_repo)
         html = (
             detail_tpl.replace("{{CSS}}", detail_css)
@@ -599,7 +643,9 @@ def write_entry_detail_pages(
         desc_plain = _full_purpose_plain(fm, body) if body or fm else a.summary
         desc_html = _h(desc_plain).replace("\n", "<br>\n")
         rel_posix = f"agents/{a.dir_name}"
-        ascii_art = _ascii_package_diagram(rel_posix, entry_fn or a.entry_file, pkg)
+        ascii_art = _ascii_catalog_diagram(
+            rel_posix, entry_fn or a.entry_file, pkg, kind="agent", dir_name=a.dir_name
+        )
         file_list = _html_contents_list(repo_root, pkg, href_to_repo)
         html = (
             detail_tpl.replace("{{CSS}}", detail_css)
@@ -837,8 +883,8 @@ def write_html_pages(
     skills_intro = _load_intro_fragment(
         "catalog-skills-intro.html",
         (
-            "<p>Each card opens a <strong>skill detail page</strong> (description, ASCII package layout in a "
-            "<code>&lt;pre&gt;</code>, and a contents list with links into the repo). Summaries come from "
+            "<p>Each card opens a <strong>skill detail page</strong> (description, behavior-first ASCII in a "
+            "<code>&lt;pre&gt;</code> plus a repo-root tree, then a contents list with links). Summaries come from "
             "<code>SKILL.md</code> (YAML <code>description</code>, <code>## Purpose</code>, or opening text).</p>"
         ),
     )
@@ -861,7 +907,7 @@ def write_html_pages(
         "catalog-agents-intro.html",
         (
             "<p>Each card opens an <strong>agent detail page</strong> (same layout as skills: description, "
-            "ASCII layout diagram, contents). Entry file is <code>AGENT.md</code>, then "
+            "behavior-first ASCII plus repo-root tree, contents). Entry file is <code>AGENT.md</code>, then "
             "<code>AGENTS.md</code>, then <code>SKILL.md</code>.</p>"
         ),
     )

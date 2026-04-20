@@ -372,21 +372,16 @@ and keep them from going in directions that are not well-established.<br>
 
 <hr class="entry-divider">
 
-<h2>Package layout</h2>
-<p class="entry-caption">ASCII overview (same spirit as <code>agents/abd-skill-builder/docs/overview/</code> capability pages).</p>
-<pre class="ascii-diagram" role="img" aria-label="Package structure">       repository
-           │
-           ▼
-  ┌─────────────────────────┐
-  │ AGENTS.md                 │
-  │ (entry document)        │
-  └────────────┬────────────┘
-               │
-  peers at package root:
-               │
-               ▼
+<h2>How it fits together</h2>
+<p class="entry-caption">Flow and responsibilities first, then top-level repo paths for orientation (expand <strong>Contents</strong> below for the full tree and links).</p>
+<pre class="ascii-diagram" role="img" aria-label="How this package works and top-level paths">How this agent fits together
+──────────────────────────────
+  Entry: AGENTS.md — orchestration, required inputs, sequencing.
+  Load the skills this agent names (under skills/…) for planning,
+  tracking, rules, and work delegated to people or other agents.
+  Local docs/, stages/, scripts/ support the workflow in the entry doc.
 
-agents/ai-research-assistant/
+Repo root — agents/ai-research-assistant/
 ├── skills/
 └── AGENTS.md</pre>
 
