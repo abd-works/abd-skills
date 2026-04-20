@@ -109,6 +109,7 @@ Practice skills that ship graph-aware rules or scanners (importing **`story_map`
 
 ## Sources
 
-- Python modules: **`scripts/story_map.py`**, **`scripts/story_scanner.py`**, **`scripts/graph_filters.py`**, …
+- Python modules: **`scripts/story_map.py`**, **`scripts/story_scanner.py`**, **`scripts/graph_filters.py`**, **`scripts/story_graph_file.py`** (validated load/save for tools such as **drawio-story-sync**), …
 - CLI: **`scripts/story_graph_cli.py`**
 - Details: **`scripts/README.md`**
+- **Parity with agile_bots `story_graph.nodes`**, mutation CLI, and test porting plan: **`MIGRATION_PARITY.md`** (the lightweight `story_map` types are not a full replacement for **`nodes.StoryMap`** until that migration is done).
