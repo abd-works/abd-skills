@@ -219,6 +219,27 @@ h2:first-child { margin-top: 0; }
 .file-list a {
   font-weight: 600;
 }
+.file-list__folder > div {
+  margin-bottom: 6px;
+}
+.file-list--nested {
+  margin: 10px 0 0 0;
+  padding-left: 0;
+  border-left: 2px solid var(--border-muted);
+  margin-left: 4px;
+  padding-left: 12px;
+}
+.file-list--nested li {
+  margin-bottom: 10px;
+  padding: 8px 10px 8px 12px;
+  font-size: 0.95rem;
+}
+.file-list__nested-note {
+  margin: 8px 0 0 0;
+  padding-left: 12px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
 
 </style>
 </head>
@@ -277,9 +298,17 @@ skills/story-graph-ops/
 <hr class="entry-divider">
 
 <h2>Contents</h2>
-<p class="entry-caption">Each file: short preview and link. Folders: one summary line for the whole folder (not every nested file).</p>
+<p class="entry-caption">Each file: short preview and link. Folders: one summary line plus every file directly inside that folder (same preview + link).</p>
 <ul class="file-list">
-<li><strong>scripts/</strong><span class="file-meta"> → Build, catalogue, validation, or packaging automation.</span> <a href="../../../skills/story-graph-ops/scripts/">open folder</a></li>
+<li class="file-list__folder"><div><strong>scripts/</strong><span class="file-meta"> → Build, catalogue, validation, or packaging automation.</span> <a href="../../../skills/story-graph-ops/scripts/">open folder</a></div><ul class="file-list file-list--nested">
+<li><strong>domain_concept_node.py</strong><span class="file-meta"> → from typing import List, Dict, Any, Optional</span> <a href="../../../skills/story-graph-ops/scripts/domain_concept_node.py">open file</a></li>
+<li><strong>graph_filters.py</strong><span class="file-meta"> → &quot;&quot;&quot;Filter and subset operations on raw story-graph JSON dicts.</span> <a href="../../../skills/story-graph-ops/scripts/graph_filters.py">open file</a></li>
+<li><strong>README.md</strong><span class="file-meta"> → story-graph-ops scripts</span> <a href="../../../skills/story-graph-ops/scripts/README.md">open file</a></li>
+<li><strong>story_graph_cli.py</strong><span class="file-meta"> → !/usr/bin/env python3</span> <a href="../../../skills/story-graph-ops/scripts/story_graph_cli.py">open file</a></li>
+<li><strong>story_map.py</strong><span class="file-meta"> → from __future__ import annotations</span> <a href="../../../skills/story-graph-ops/scripts/story_map.py">open file</a></li>
+<li><strong>story_scanner.py</strong><span class="file-meta"> → from __future__ import annotations</span> <a href="../../../skills/story-graph-ops/scripts/story_scanner.py">open file</a></li>
+<li><strong>story_scanner_runner.py</strong><span class="file-meta"> → !/usr/bin/env python3</span> <a href="../../../skills/story-graph-ops/scripts/story_scanner_runner.py">open file</a></li>
+</ul></li>
 <li><strong>SKILL.md</strong><span class="file-meta"> → name: story-graph-ops</span> <a href="../../../skills/story-graph-ops/SKILL.md">open file</a></li>
 </ul>
 

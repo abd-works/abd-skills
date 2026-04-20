@@ -219,6 +219,27 @@ h2:first-child { margin-top: 0; }
 .file-list a {
   font-weight: 600;
 }
+.file-list__folder > div {
+  margin-bottom: 6px;
+}
+.file-list--nested {
+  margin: 10px 0 0 0;
+  padding-left: 0;
+  border-left: 2px solid var(--border-muted);
+  margin-left: 4px;
+  padding-left: 12px;
+}
+.file-list--nested li {
+  margin-bottom: 10px;
+  padding: 8px 10px 8px 12px;
+  font-size: 0.95rem;
+}
+.file-list__nested-note {
+  margin: 8px 0 0 0;
+  padding-left: 12px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
 
 </style>
 </head>
@@ -279,11 +300,31 @@ skills/abd-story-mapping/
 <hr class="entry-divider">
 
 <h2>Contents</h2>
-<p class="entry-caption">Each file: short preview and link. Folders: one summary line for the whole folder (not every nested file).</p>
+<p class="entry-caption">Each file: short preview and link. Folders: one summary line plus every file directly inside that folder (same preview + link).</p>
 <ul class="file-list">
-<li><strong>rules/</strong><span class="file-meta"> → Practice rules (DO/DON&#x27;T) and constraints used with scanners.</span> <a href="../../../skills/abd-story-mapping/rules/">open folder</a></li>
-<li><strong>scanners/</strong><span class="file-meta"> → Supporting folder (7 items).</span> <a href="../../../skills/abd-story-mapping/scanners/">open folder</a></li>
-<li><strong>templates/</strong><span class="file-meta"> → Authoring templates and structural skeletons.</span> <a href="../../../skills/abd-story-mapping/templates/">open folder</a></li>
+<li class="file-list__folder"><div><strong>rules/</strong><span class="file-meta"> → Practice rules (DO/DON&#x27;T) and constraints used with scanners.</span> <a href="../../../skills/abd-story-mapping/rules/">open folder</a></div><ul class="file-list file-list--nested">
+<li><strong>active-business-and-behavioral-language.md</strong><span class="file-meta"> → scanner: active-business-and-behavioral-language</span> <a href="../../../skills/abd-story-mapping/rules/active-business-and-behavioral-language.md">open file</a></li>
+<li><strong>consolidate-superficial-stories.md</strong><span class="file-meta"> → Rule: Consolidate Superficial Stories</span> <a href="../../../skills/abd-story-mapping/rules/consolidate-superficial-stories.md">open file</a></li>
+<li><strong>lightweight-and-precise.md</strong><span class="file-meta"> → Rule: Lightweight and Precise</span> <a href="../../../skills/abd-story-mapping/rules/lightweight-and-precise.md">open file</a></li>
+<li><strong>outcome-oriented-language.md</strong><span class="file-meta"> → scanner: outcome-oriented-language</span> <a href="../../../skills/abd-story-mapping/rules/outcome-oriented-language.md">open file</a></li>
+<li><strong>review-and-expand-stories.md</strong><span class="file-meta"> → Rule: Review and Expand Stories</span> <a href="../../../skills/abd-story-mapping/rules/review-and-expand-stories.md">open file</a></li>
+<li><strong>scale-story-map-by-domain.md</strong><span class="file-meta"> → scanner: scale-story-map-by-domain</span> <a href="../../../skills/abd-story-mapping/rules/scale-story-map-by-domain.md">open file</a></li>
+<li><strong>small-and-testable.md</strong><span class="file-meta"> → scanner: small-and-testable</span> <a href="../../../skills/abd-story-mapping/rules/small-and-testable.md">open file</a></li>
+<li><strong>story-map-existing-code.md</strong><span class="file-meta"> → Rule: Story Map from Existing Code</span> <a href="../../../skills/abd-story-mapping/rules/story-map-existing-code.md">open file</a></li>
+<li><strong>verb-noun-format.md</strong><span class="file-meta"> → scanner: verb-noun-format</span> <a href="../../../skills/abd-story-mapping/rules/verb-noun-format.md">open file</a></li>
+</ul></li>
+<li class="file-list__folder"><div><strong>scanners/</strong><span class="file-meta"> → Supporting folder (7 items).</span> <a href="../../../skills/abd-story-mapping/scanners/">open folder</a></div><ul class="file-list file-list--nested">
+<li><strong>__init__.py</strong><span class="file-meta"> → Story-map shape scanner implementations (verb–noun, outcome language, etc.).</span> <a href="../../../skills/abd-story-mapping/scanners/__init__.py">open file</a></li>
+<li><strong>active-business-and-behavioral-language-scanner.py</strong><span class="file-meta"> → !/usr/bin/env python3</span> <a href="../../../skills/abd-story-mapping/scanners/active-business-and-behavioral-language-scanner.py">open file</a></li>
+<li><strong>outcome-oriented-language-scanner.py</strong><span class="file-meta"> → !/usr/bin/env python3</span> <a href="../../../skills/abd-story-mapping/scanners/outcome-oriented-language-scanner.py">open file</a></li>
+<li><strong>scale-story-map-by-domain-scanner.py</strong><span class="file-meta"> → !/usr/bin/env python3</span> <a href="../../../skills/abd-story-mapping/scanners/scale-story-map-by-domain-scanner.py">open file</a></li>
+<li><strong>small-and-testable-scanner.py</strong><span class="file-meta"> → !/usr/bin/env python3</span> <a href="../../../skills/abd-story-mapping/scanners/small-and-testable-scanner.py">open file</a></li>
+<li><strong>verb-noun-format-scanner.py</strong><span class="file-meta"> → !/usr/bin/env python3</span> <a href="../../../skills/abd-story-mapping/scanners/verb-noun-format-scanner.py">open file</a></li>
+</ul></li>
+<li class="file-list__folder"><div><strong>templates/</strong><span class="file-meta"> → Authoring templates and structural skeletons.</span> <a href="../../../skills/abd-story-mapping/templates/">open folder</a></div><ul class="file-list file-list--nested">
+<li><strong>story-map.md</strong><span class="file-meta"> → &lt;!-- Pair required: also produce story-map.txt with the same tree. See SKILL.md → &quot;Use every template file (required)&quot;. --&gt;</span> <a href="../../../skills/abd-story-mapping/templates/story-map.md">open file</a></li>
+<li><strong>story-map.txt</strong><span class="file-meta"> → NOTE: Pair required — also produce story-map.md with the same tree. See SKILL.md → &quot;Use every template file (required)&quot;.</span> <a href="../../../skills/abd-story-mapping/templates/story-map.txt">open file</a></li>
+</ul></li>
 <li><strong>SKILL.md</strong><span class="file-meta"> → name: abd-story-mapping</span> <a href="../../../skills/abd-story-mapping/SKILL.md">open file</a></li>
 </ul>
 

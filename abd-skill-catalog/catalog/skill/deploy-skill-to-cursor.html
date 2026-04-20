@@ -219,6 +219,27 @@ h2:first-child { margin-top: 0; }
 .file-list a {
   font-weight: 600;
 }
+.file-list__folder > div {
+  margin-bottom: 6px;
+}
+.file-list--nested {
+  margin: 10px 0 0 0;
+  padding-left: 0;
+  border-left: 2px solid var(--border-muted);
+  margin-left: 4px;
+  padding-left: 12px;
+}
+.file-list--nested li {
+  margin-bottom: 10px;
+  padding: 8px 10px 8px 12px;
+  font-size: 0.95rem;
+}
+.file-list__nested-note {
+  margin: 8px 0 0 0;
+  padding-left: 12px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
 
 </style>
 </head>
@@ -277,9 +298,11 @@ skills/deploy-skill-to-cursor/
 <hr class="entry-divider">
 
 <h2>Contents</h2>
-<p class="entry-caption">Each file: short preview and link. Folders: one summary line for the whole folder (not every nested file).</p>
+<p class="entry-caption">Each file: short preview and link. Folders: one summary line plus every file directly inside that folder (same preview + link).</p>
 <ul class="file-list">
-<li><strong>scripts/</strong><span class="file-meta"> → Build, catalogue, validation, or packaging automation.</span> <a href="../../../skills/deploy-skill-to-cursor/scripts/">open folder</a></li>
+<li class="file-list__folder"><div><strong>scripts/</strong><span class="file-meta"> → Build, catalogue, validation, or packaging automation.</span> <a href="../../../skills/deploy-skill-to-cursor/scripts/">open folder</a></div><ul class="file-list file-list--nested">
+<li><strong>Deploy-SkillToCursor.ps1</strong><span class="file-meta"> → .SYNOPSIS</span> <a href="../../../skills/deploy-skill-to-cursor/scripts/Deploy-SkillToCursor.ps1">open file</a></li>
+</ul></li>
 <li><strong>SKILL.md</strong><span class="file-meta"> → name: deploy-skill-to-cursor</span> <a href="../../../skills/deploy-skill-to-cursor/SKILL.md">open file</a></li>
 </ul>
 

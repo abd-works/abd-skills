@@ -219,6 +219,27 @@ h2:first-child { margin-top: 0; }
 .file-list a {
   font-weight: 600;
 }
+.file-list__folder > div {
+  margin-bottom: 6px;
+}
+.file-list--nested {
+  margin: 10px 0 0 0;
+  padding-left: 0;
+  border-left: 2px solid var(--border-muted);
+  margin-left: 4px;
+  padding-left: 12px;
+}
+.file-list--nested li {
+  margin-bottom: 10px;
+  padding: 8px 10px 8px 12px;
+  font-size: 0.95rem;
+}
+.file-list__nested-note {
+  margin: 8px 0 0 0;
+  padding-left: 12px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
 
 </style>
 </head>
@@ -279,11 +300,34 @@ skills/abd-specification-by-example/
 <hr class="entry-divider">
 
 <h2>Contents</h2>
-<p class="entry-caption">Each file: short preview and link. Folders: one summary line for the whole folder (not every nested file).</p>
+<p class="entry-caption">Each file: short preview and link. Folders: one summary line plus every file directly inside that folder (same preview + link).</p>
 <ul class="file-list">
-<li><strong>rules/</strong><span class="file-meta"> → Practice rules (DO/DON&#x27;T) and constraints used with scanners.</span> <a href="../../../skills/abd-specification-by-example/rules/">open folder</a></li>
-<li><strong>scanners/</strong><span class="file-meta"> → Supporting folder (2 items).</span> <a href="../../../skills/abd-specification-by-example/scanners/">open folder</a></li>
-<li><strong>templates/</strong><span class="file-meta"> → Authoring templates and structural skeletons.</span> <a href="../../../skills/abd-specification-by-example/templates/">open folder</a></li>
+<li class="file-list__folder"><div><strong>rules/</strong><span class="file-meta"> → Practice rules (DO/DON&#x27;T) and constraints used with scanners.</span> <a href="../../../skills/abd-specification-by-example/rules/">open folder</a></div><ul class="file-list file-list--nested">
+<li><strong>background-vs-scenario-setup.md</strong><span class="file-meta"> → Rule: Background vs scenario setup</span> <a href="../../../skills/abd-specification-by-example/rules/background-vs-scenario-setup.md">open file</a></li>
+<li><strong>emphasize-domain-significant-terms-scenarios.md</strong><span class="file-meta"> → scanner: emphasize-domain-terms-scenario</span> <a href="../../../skills/abd-specification-by-example/rules/emphasize-domain-significant-terms-scenarios.md">open file</a></li>
+<li><strong>example-tables-use-domain-language.md</strong><span class="file-meta"> → Rule: Example tables use domain language (outline template)</span> <a href="../../../skills/abd-specification-by-example/rules/example-tables-use-domain-language.md">open file</a></li>
+<li><strong>given-describes-state-not-actions.md</strong><span class="file-meta"> → Rule: Given describes state, not actions</span> <a href="../../../skills/abd-specification-by-example/rules/given-describes-state-not-actions.md">open file</a></li>
+<li><strong>keep-scenarios-consistent-across-connected-domains.md</strong><span class="file-meta"> → Rule: Keep scenarios consistent across connected domains</span> <a href="../../../skills/abd-specification-by-example/rules/keep-scenarios-consistent-across-connected-domains.md">open file</a></li>
+<li><strong>map-table-columns-to-scenario-parameters.md</strong><span class="file-meta"> → Rule: Map table columns to scenario parameters (outline template)</span> <a href="../../../skills/abd-specification-by-example/rules/map-table-columns-to-scenario-parameters.md">open file</a></li>
+<li><strong>mention-domain-concept-beside-placeholder.md</strong><span class="file-meta"> → Rule: Mention the domain concept beside the placeholder (outline template)</span> <a href="../../../skills/abd-specification-by-example/rules/mention-domain-concept-beside-placeholder.md">open file</a></li>
+<li><strong>prefer-key-examples-over-exhaustive-enumeration.md</strong><span class="file-meta"> → Rule: Prefer key examples over exhaustive enumeration</span> <a href="../../../skills/abd-specification-by-example/rules/prefer-key-examples-over-exhaustive-enumeration.md">open file</a></li>
+<li><strong>scenario-language-matches-domain.md</strong><span class="file-meta"> → Rule: Scenario language matches the domain</span> <a href="../../../skills/abd-specification-by-example/rules/scenario-language-matches-domain.md">open file</a></li>
+<li><strong>scenarios-cover-all-cases.md</strong><span class="file-meta"> → Rule: Scenarios cover all cases implied by the story</span> <a href="../../../skills/abd-specification-by-example/rules/scenarios-cover-all-cases.md">open file</a></li>
+<li><strong>scenarios-on-story-graph.md</strong><span class="file-meta"> → Rule: Scenarios belong in the story graph (canonical persistence)</span> <a href="../../../skills/abd-specification-by-example/rules/scenarios-on-story-graph.md">open file</a></li>
+<li><strong>use-real-data-over-invented-examples.md</strong><span class="file-meta"> → Rule: Use real data over invented examples</span> <a href="../../../skills/abd-specification-by-example/rules/use-real-data-over-invented-examples.md">open file</a></li>
+<li><strong>use-scenario-outline-when-needed.md</strong><span class="file-meta"> → Rule: Use scenario outline when the story needs data variation</span> <a href="../../../skills/abd-specification-by-example/rules/use-scenario-outline-when-needed.md">open file</a></li>
+<li><strong>write-concrete-scenarios.md</strong><span class="file-meta"> → Rule: Write concrete scenarios with real values</span> <a href="../../../skills/abd-specification-by-example/rules/write-concrete-scenarios.md">open file</a></li>
+</ul></li>
+<li class="file-list__folder"><div><strong>scanners/</strong><span class="file-meta"> → Supporting folder (2 items).</span> <a href="../../../skills/abd-specification-by-example/scanners/">open folder</a></div><ul class="file-list file-list--nested">
+<li><strong>__init__.py</strong><span class="file-meta"> → Specification-by-example scanner implementations (scenario emphasis, …).</span> <a href="../../../skills/abd-specification-by-example/scanners/__init__.py">open file</a></li>
+<li><strong>emphasize-domain-terms-scenario-scanner.py</strong><span class="file-meta"> → !/usr/bin/env python3</span> <a href="../../../skills/abd-specification-by-example/scanners/emphasize-domain-terms-scenario-scanner.py">open file</a></li>
+</ul></li>
+<li class="file-list__folder"><div><strong>templates/</strong><span class="file-meta"> → Authoring templates and structural skeletons.</span> <a href="../../../skills/abd-specification-by-example/templates/">open folder</a></div><ul class="file-list file-list--nested">
+<li><strong>specification-by-example-outline.md</strong><span class="file-meta"> → Scenario Outline (specification by example)</span> <a href="../../../skills/abd-specification-by-example/templates/specification-by-example-outline.md">open file</a></li>
+<li><strong>specification-by-example-outline.txt</strong><span class="file-meta"> → Scenario Outline (specification by example) — plain text template</span> <a href="../../../skills/abd-specification-by-example/templates/specification-by-example-outline.txt">open file</a></li>
+<li><strong>specification-by-example.md</strong><span class="file-meta"> → Specification by example (BDD scenarios)</span> <a href="../../../skills/abd-specification-by-example/templates/specification-by-example.md">open file</a></li>
+<li><strong>specification-by-example.txt</strong><span class="file-meta"> → Specification by example (BDD scenarios) — plain text template</span> <a href="../../../skills/abd-specification-by-example/templates/specification-by-example.txt">open file</a></li>
+</ul></li>
 <li><strong>SKILL.md</strong><span class="file-meta"> → name: abd-specification-by-example</span> <a href="../../../skills/abd-specification-by-example/SKILL.md">open file</a></li>
 </ul>
 

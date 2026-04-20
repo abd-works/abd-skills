@@ -219,6 +219,27 @@ h2:first-child { margin-top: 0; }
 .file-list a {
   font-weight: 600;
 }
+.file-list__folder > div {
+  margin-bottom: 6px;
+}
+.file-list--nested {
+  margin: 10px 0 0 0;
+  padding-left: 0;
+  border-left: 2px solid var(--border-muted);
+  margin-left: 4px;
+  padding-left: 12px;
+}
+.file-list--nested li {
+  margin-bottom: 10px;
+  padding: 8px 10px 8px 12px;
+  font-size: 0.95rem;
+}
+.file-list__nested-note {
+  margin: 8px 0 0 0;
+  padding-left: 12px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
 
 </style>
 </head>
@@ -420,9 +441,14 @@ agents/abd-team-member/
 <hr class="entry-divider">
 
 <h2>Contents</h2>
-<p class="entry-caption">Each file: short preview and link. Folders: one summary line for the whole folder (not every nested file).</p>
+<p class="entry-caption">Each file: short preview and link. Folders: one summary line plus every file directly inside that folder (same preview + link).</p>
 <ul class="file-list">
-<li><strong>roles/</strong><span class="file-meta"> → Persona playbooks for multi-role agents.</span> <a href="../../../agents/abd-team-member/roles/">open folder</a></li>
+<li class="file-list__folder"><div><strong>roles/</strong><span class="file-meta"> → Persona playbooks for multi-role agents.</span> <a href="../../../agents/abd-team-member/roles/">open folder</a></div><ul class="file-list file-list--nested">
+<li><strong>analyst.md</strong><span class="file-meta"> → Analyst (BA) — ABD team member</span> <a href="../../../agents/abd-team-member/roles/analyst.md">open file</a></li>
+<li><strong>engineer.md</strong><span class="file-meta"> → Engineer — ABD team member</span> <a href="../../../agents/abd-team-member/roles/engineer.md">open file</a></li>
+<li><strong>product-owner.md</strong><span class="file-meta"> → Product Owner — ABD team member</span> <a href="../../../agents/abd-team-member/roles/product-owner.md">open file</a></li>
+<li><strong>team-roles.md</strong><span class="file-meta"> → ABD Team Member — role personas</span> <a href="../../../agents/abd-team-member/roles/team-roles.md">open file</a></li>
+</ul></li>
 <li><strong>AGENT.md</strong><span class="file-meta"> → ABD Team Member</span> <a href="../../../agents/abd-team-member/AGENT.md">open file</a></li>
 <li><strong>Deploy-ToCursor.ps1</strong><span class="file-meta"> → .SYNOPSIS</span> <a href="../../../agents/abd-team-member/Deploy-ToCursor.ps1">open file</a></li>
 </ul>

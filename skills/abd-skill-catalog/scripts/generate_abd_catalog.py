@@ -358,8 +358,40 @@ def _ascii_package_diagram(repo_rel: str, entry_filename: str, package_dir: Path
     return "\n".join(lines)
 
 
+def _html_nested_files_in_folder(repo_root: Path, folder: Path, href_to_repo: str) -> str:
+    """List immediate files under folder (one level): blurb + link each. Skips dotfiles."""
+    if not folder.is_dir():
+        return ""
+    try:
+        files = [
+            p
+            for p in folder.iterdir()
+            if p.is_file() and not p.name.startswith(".")
+        ]
+        files.sort(key=lambda p: p.name.lower())
+    except OSError:
+        return '<p class="file-list__nested-note">(could not read folder)</p>'
+    if not files:
+        return '<p class="file-list__nested-note">No files at this level (subfolders only).</p>'
+    inner: list[str] = []
+    for p in files:
+        rel = p.relative_to(repo_root).as_posix()
+        blurb = _file_blurb(p, max_len=260)
+        url = _repo_href(href_to_repo, rel)
+        inner.append(
+            "<li><strong>"
+            + _h(p.name)
+            + "</strong><span class=\"file-meta\"> → "
+            + _h(blurb)
+            + '</span> <a href="'
+            + _h(url)
+            + '">open file</a></li>'
+        )
+    return '<ul class="file-list file-list--nested">\n' + "\n".join(inner) + "\n</ul>"
+
+
 def _html_contents_list(repo_root: Path, package_dir: Path, href_to_repo: str) -> str:
-    """HTML list: files with 1–2 sentence blurbs + link; dirs one summary + folder link."""
+    """HTML list: files with blurbs + link; dirs get folder summary + link, then nested file list."""
     if not package_dir.is_dir():
         return '<p class="entry-caption">(missing directory)</p>'
     try:
@@ -376,14 +408,18 @@ def _html_contents_list(repo_root: Path, package_dir: Path, href_to_repo: str) -
                 n = 0
             summary = KNOWN_DIR_SUMMARY.get(p.name, f"Supporting folder ({n} items).")
             url = _repo_href(href_to_repo, rel) + "/"
+            nested = _html_nested_files_in_folder(repo_root, p, href_to_repo)
             parts.append(
-                "<li><strong>"
+                '<li class="file-list__folder">'
+                "<div><strong>"
                 + _h(p.name)
                 + "/</strong><span class=\"file-meta\"> → "
                 + _h(summary)
                 + '</span> <a href="'
                 + _h(url)
-                + '">open folder</a></li>'
+                + '">open folder</a></div>'
+                + nested
+                + "</li>"
             )
         else:
             blurb = _file_blurb(p, max_len=260)

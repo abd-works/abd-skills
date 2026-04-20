@@ -219,6 +219,27 @@ h2:first-child { margin-top: 0; }
 .file-list a {
   font-weight: 600;
 }
+.file-list__folder > div {
+  margin-bottom: 6px;
+}
+.file-list--nested {
+  margin: 10px 0 0 0;
+  padding-left: 0;
+  border-left: 2px solid var(--border-muted);
+  margin-left: 4px;
+  padding-left: 12px;
+}
+.file-list--nested li {
+  margin-bottom: 10px;
+  padding: 8px 10px 8px 12px;
+  font-size: 0.95rem;
+}
+.file-list__nested-note {
+  margin: 8px 0 0 0;
+  padding-left: 12px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
 
 </style>
 </head>
@@ -283,11 +304,32 @@ skills/abd-clean-code/
 <hr class="entry-divider">
 
 <h2>Contents</h2>
-<p class="entry-caption">Each file: short preview and link. Folders: one summary line for the whole folder (not every nested file).</p>
+<p class="entry-caption">Each file: short preview and link. Folders: one summary line plus every file directly inside that folder (same preview + link).</p>
 <ul class="file-list">
-<li><strong>rules/</strong><span class="file-meta"> → Practice rules (DO/DON&#x27;T) and constraints used with scanners.</span> <a href="../../../skills/abd-clean-code/rules/">open folder</a></li>
-<li><strong>scanners/</strong><span class="file-meta"> → Supporting folder (2 items).</span> <a href="../../../skills/abd-clean-code/scanners/">open folder</a></li>
-<li><strong>templates/</strong><span class="file-meta"> → Authoring templates and structural skeletons.</span> <a href="../../../skills/abd-clean-code/templates/">open folder</a></li>
+<li class="file-list__folder"><div><strong>rules/</strong><span class="file-meta"> → Practice rules (DO/DON&#x27;T) and constraints used with scanners.</span> <a href="../../../skills/abd-clean-code/rules/">open folder</a></div><ul class="file-list file-list--nested">
+<li><strong>eliminate-duplication.md</strong><span class="file-meta"> → scanner: duplication_scanner.py</span> <a href="../../../skills/abd-clean-code/rules/eliminate-duplication.md">open file</a></li>
+<li><strong>enforce-encapsulation.md</strong><span class="file-meta"> → scanner: property_encapsulation_code_scanner.py</span> <a href="../../../skills/abd-clean-code/rules/enforce-encapsulation.md">open file</a></li>
+<li><strong>keep-classes-single-responsibility.md</strong><span class="file-meta"> → scanner: single_responsibility_scanner.py</span> <a href="../../../skills/abd-clean-code/rules/keep-classes-single-responsibility.md">open file</a></li>
+<li><strong>keep-functions-single-responsibility.md</strong><span class="file-meta"> → scanner: function_single_responsibility_scanner.py</span> <a href="../../../skills/abd-clean-code/rules/keep-functions-single-responsibility.md">open file</a></li>
+<li><strong>keep-functions-small-focused.md</strong><span class="file-meta"> → scanner: function_size_scanner.py</span> <a href="../../../skills/abd-clean-code/rules/keep-functions-small-focused.md">open file</a></li>
+<li><strong>maintain-abstraction-levels.md</strong><span class="file-meta"> → scanner: abstraction_levels_scanner.py</span> <a href="../../../skills/abd-clean-code/rules/maintain-abstraction-levels.md">open file</a></li>
+<li><strong>never-swallow-exceptions.md</strong><span class="file-meta"> → scanner: swallowed_exceptions_scanner.py</span> <a href="../../../skills/abd-clean-code/rules/never-swallow-exceptions.md">open file</a></li>
+<li><strong>provide-meaningful-context.md</strong><span class="file-meta"> → scanner: meaningful_context_scanner.py</span> <a href="../../../skills/abd-clean-code/rules/provide-meaningful-context.md">open file</a></li>
+<li><strong>separate-concerns.md</strong><span class="file-meta"> → scanner: separate_concerns_scanner.py</span> <a href="../../../skills/abd-clean-code/rules/separate-concerns.md">open file</a></li>
+<li><strong>simplify-control-flow.md</strong><span class="file-meta"> → scanner: simplify_control_flow_scanner.py</span> <a href="../../../skills/abd-clean-code/rules/simplify-control-flow.md">open file</a></li>
+<li><strong>stop-writing-useless-comments.md</strong><span class="file-meta"> → scanner: useless_comments_scanner.py</span> <a href="../../../skills/abd-clean-code/rules/stop-writing-useless-comments.md">open file</a></li>
+<li><strong>use-clear-function-parameters.md</strong><span class="file-meta"> → scanner: clear_parameters_scanner.py</span> <a href="../../../skills/abd-clean-code/rules/use-clear-function-parameters.md">open file</a></li>
+<li><strong>use-consistent-naming.md</strong><span class="file-meta"> → scanner: consistent_naming_scanner.py</span> <a href="../../../skills/abd-clean-code/rules/use-consistent-naming.md">open file</a></li>
+<li><strong>use-domain-language.md</strong><span class="file-meta"> → scanner: domain_language_code_scanner.py</span> <a href="../../../skills/abd-clean-code/rules/use-domain-language.md">open file</a></li>
+<li><strong>use-exceptions-properly.md</strong><span class="file-meta"> → scanner: exception_handling_scanner.py</span> <a href="../../../skills/abd-clean-code/rules/use-exceptions-properly.md">open file</a></li>
+<li><strong>use-explicit-dependencies.md</strong><span class="file-meta"> → scanner: explicit_dependencies_scanner.py</span> <a href="../../../skills/abd-clean-code/rules/use-explicit-dependencies.md">open file</a></li>
+<li><strong>use-intention-revealing-names.md</strong><span class="file-meta"> → scanner: intention_revealing_names_scanner.py</span> <a href="../../../skills/abd-clean-code/rules/use-intention-revealing-names.md">open file</a></li>
+</ul></li>
+<li class="file-list__folder"><div><strong>scanners/</strong><span class="file-meta"> → Supporting folder (2 items).</span> <a href="../../../skills/abd-clean-code/scanners/">open folder</a></div><p class="file-list__nested-note">No files at this level (subfolders only).</p></li>
+<li class="file-list__folder"><div><strong>templates/</strong><span class="file-meta"> → Authoring templates and structural skeletons.</span> <a href="../../../skills/abd-clean-code/templates/">open folder</a></div><ul class="file-list file-list--nested">
+<li><strong>clean-code.js</strong><span class="file-meta"> → * ## Instructions (remove this block before committing to production)</span> <a href="../../../skills/abd-clean-code/templates/clean-code.js">open file</a></li>
+<li><strong>clean-code.py</strong><span class="file-meta"> → Instructions (remove this block before committing to production)</span> <a href="../../../skills/abd-clean-code/templates/clean-code.py">open file</a></li>
+</ul></li>
 <li><strong>SKILL.md</strong><span class="file-meta"> → name: abd-clean-code</span> <a href="../../../skills/abd-clean-code/SKILL.md">open file</a></li>
 </ul>
 

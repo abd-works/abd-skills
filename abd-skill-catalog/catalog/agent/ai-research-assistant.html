@@ -219,6 +219,27 @@ h2:first-child { margin-top: 0; }
 .file-list a {
   font-weight: 600;
 }
+.file-list__folder > div {
+  margin-bottom: 6px;
+}
+.file-list--nested {
+  margin: 10px 0 0 0;
+  padding-left: 0;
+  border-left: 2px solid var(--border-muted);
+  margin-left: 4px;
+  padding-left: 12px;
+}
+.file-list--nested li {
+  margin-bottom: 10px;
+  padding: 8px 10px 8px 12px;
+  font-size: 0.95rem;
+}
+.file-list__nested-note {
+  margin: 8px 0 0 0;
+  padding-left: 12px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
 
 </style>
 </head>
@@ -286,9 +307,9 @@ agents/ai-research-assistant/
 <hr class="entry-divider">
 
 <h2>Contents</h2>
-<p class="entry-caption">Each file: short preview and link. Folders: one summary line for the whole folder (not every nested file).</p>
+<p class="entry-caption">Each file: short preview and link. Folders: one summary line plus every file directly inside that folder (same preview + link).</p>
 <ul class="file-list">
-<li><strong>skills/</strong><span class="file-meta"> → Nested skills shipped inside an agent package.</span> <a href="../../../agents/ai-research-assistant/skills/">open folder</a></li>
+<li class="file-list__folder"><div><strong>skills/</strong><span class="file-meta"> → Nested skills shipped inside an agent package.</span> <a href="../../../agents/ai-research-assistant/skills/">open folder</a></div><p class="file-list__nested-note">No files at this level (subfolders only).</p></li>
 <li><strong>AGENTS.md</strong><span class="file-meta"> → AGENTS — ai-research-assistant</span> <a href="../../../agents/ai-research-assistant/AGENTS.md">open file</a></li>
 </ul>
 

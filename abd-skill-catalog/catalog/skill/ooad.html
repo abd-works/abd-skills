@@ -219,6 +219,27 @@ h2:first-child { margin-top: 0; }
 .file-list a {
   font-weight: 600;
 }
+.file-list__folder > div {
+  margin-bottom: 6px;
+}
+.file-list--nested {
+  margin: 10px 0 0 0;
+  padding-left: 0;
+  border-left: 2px solid var(--border-muted);
+  margin-left: 4px;
+  padding-left: 12px;
+}
+.file-list--nested li {
+  margin-bottom: 10px;
+  padding: 8px 10px 8px 12px;
+  font-size: 0.95rem;
+}
+.file-list__nested-note {
+  margin: 8px 0 0 0;
+  padding-left: 12px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
 
 </style>
 </head>
@@ -286,14 +307,35 @@ skills/ooad/
 <hr class="entry-divider">
 
 <h2>Contents</h2>
-<p class="entry-caption">Each file: short preview and link. Folders: one summary line for the whole folder (not every nested file).</p>
+<p class="entry-caption">Each file: short preview and link. Folders: one summary line plus every file directly inside that folder (same preview + link).</p>
 <ul class="file-list">
-<li><strong>content/</strong><span class="file-meta"> → Source parts merged into agent instructions or outputs.</span> <a href="../../../skills/ooad/content/">open folder</a></li>
-<li><strong>docs/</strong><span class="file-meta"> → Human-oriented documentation for the package.</span> <a href="../../../skills/ooad/docs/">open folder</a></li>
-<li><strong>potential/</strong><span class="file-meta"> → Supporting folder (4 items).</span> <a href="../../../skills/ooad/potential/">open folder</a></li>
-<li><strong>runs/</strong><span class="file-meta"> → Supporting folder (1 items).</span> <a href="../../../skills/ooad/runs/">open folder</a></li>
-<li><strong>scripts/</strong><span class="file-meta"> → Build, catalogue, validation, or packaging automation.</span> <a href="../../../skills/ooad/scripts/">open folder</a></li>
-<li><strong>templates/</strong><span class="file-meta"> → Authoring templates and structural skeletons.</span> <a href="../../../skills/ooad/templates/">open folder</a></li>
+<li class="file-list__folder"><div><strong>content/</strong><span class="file-meta"> → Source parts merged into agent instructions or outputs.</span> <a href="../../../skills/ooad/content/">open folder</a></div><p class="file-list__nested-note">No files at this level (subfolders only).</p></li>
+<li class="file-list__folder"><div><strong>docs/</strong><span class="file-meta"> → Human-oriented documentation for the package.</span> <a href="../../../skills/ooad/docs/">open folder</a></div><ul class="file-list file-list--nested">
+<li><strong>capability-registry.md</strong><span class="file-meta"> → Capability Registry — abd-ooad</span> <a href="../../../skills/ooad/docs/capability-registry.md">open file</a></li>
+<li><strong>dditional capabilititis</strong><span class="file-meta"> → Strategic guidance</span> <a href="../../../skills/ooad/docs/dditional%20capabilititis">open file</a></li>
+</ul></li>
+<li class="file-list__folder"><div><strong>potential/</strong><span class="file-meta"> → Supporting folder (4 items).</span> <a href="../../../skills/ooad/potential/">open folder</a></div><p class="file-list__nested-note">No files at this level (subfolders only).</p></li>
+<li class="file-list__folder"><div><strong>runs/</strong><span class="file-meta"> → Supporting folder (1 items).</span> <a href="../../../skills/ooad/runs/">open folder</a></div><p class="file-list__nested-note">No files at this level (subfolders only).</p></li>
+<li class="file-list__folder"><div><strong>scripts/</strong><span class="file-meta"> → Build, catalogue, validation, or packaging automation.</span> <a href="../../../skills/ooad/scripts/">open folder</a></div><ul class="file-list file-list--nested">
+<li><strong>build_domain_scan_diagram.py</strong><span class="file-meta"> → !/usr/bin/env python3</span> <a href="../../../skills/ooad/scripts/build_domain_scan_diagram.py">open file</a></li>
+<li><strong>build_instructions.py</strong><span class="file-meta"> → !/usr/bin/env python3</span> <a href="../../../skills/ooad/scripts/build_instructions.py">open file</a></li>
+<li><strong>drawio_cli.py</strong><span class="file-meta"> → !/usr/bin/env python3</span> <a href="../../../skills/ooad/scripts/drawio_cli.py">open file</a></li>
+<li><strong>validate_diagram.py</strong><span class="file-meta"> → !/usr/bin/env python3</span> <a href="../../../skills/ooad/scripts/validate_diagram.py">open file</a></li>
+</ul></li>
+<li class="file-list__folder"><div><strong>templates/</strong><span class="file-meta"> → Authoring templates and structural skeletons.</span> <a href="../../../skills/ooad/templates/">open folder</a></div><ul class="file-list file-list--nested">
+<li><strong>domain model template.drawio</strong><span class="file-meta"> → &lt;mxfile host=&quot;Electron&quot; agent=&quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.0.3 Chrome/140.0.7339.249 Electron/38.7.0 Safari/537.36&quot; version=&quot;29.0.3&quot;&gt;</span> <a href="../../../skills/ooad/templates/domain%20model%20template.drawio">open file</a></li>
+<li><strong>domain model template.md</strong><span class="file-meta"> → ﻿## Domain model -- {{project_or_slice_name}}</span> <a href="../../../skills/ooad/templates/domain%20model%20template.md">open file</a></li>
+<li><strong>domain realization template.drawio</strong><span class="file-meta"> → &lt;mxfile host=&quot;Electron&quot; agent=&quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.0.3 Chrome/140.0.7339.249 Electron/38.7.0 Safari/537.36&quot; version=&quot;29.0.3&quot;&gt;</span> <a href="../../../skills/ooad/templates/domain%20realization%20template.drawio">open file</a></li>
+<li><strong>domain walkthrough template.md</strong><span class="file-meta"> → Scenario: {scenario_name}</span> <a href="../../../skills/ooad/templates/domain%20walkthrough%20template.md">open file</a></li>
+<li><strong>domain-noun-verb-template.md</strong><span class="file-meta"> → {{SliceLabel}}: Noun Verb Domain</span> <a href="../../../skills/ooad/templates/domain-noun-verb-template.md">open file</a></li>
+<li><strong>domain-scan-results.md</strong><span class="file-meta"> → Domain Scan Results — {{project_name}}</span> <a href="../../../skills/ooad/templates/domain-scan-results.md">open file</a></li>
+<li><strong>evidence-block-template.md</strong><span class="file-meta"> → {{EVD-ID}}</span> <a href="../../../skills/ooad/templates/evidence-block-template.md">open file</a></li>
+<li><strong>progress-README.md</strong><span class="file-meta"> → Progress checklists (live ticks)</span> <a href="../../../skills/ooad/templates/progress-README.md">open file</a></li>
+<li><strong>raw-candidates-template.md</strong><span class="file-meta"> → {{SliceLabel}}: Raw candidate list — deprecated</span> <a href="../../../skills/ooad/templates/raw-candidates-template.md">open file</a></li>
+<li><strong>strategy-run-checklist.md</strong><span class="file-meta"> → Live strategy execution checklist — workspace file</span> <a href="../../../skills/ooad/templates/strategy-run-checklist.md">open file</a></li>
+<li><strong>strategy.md</strong><span class="file-meta"> → OOAD STRATEGY — workspace template</span> <a href="../../../skills/ooad/templates/strategy.md">open file</a></li>
+<li><strong>terms-template.md</strong><span class="file-meta"> → Term Registry — source of truth for all term data in this project.</span> <a href="../../../skills/ooad/templates/terms-template.md">open file</a></li>
+</ul></li>
 <li><strong>_fix_md2.py</strong><span class="file-meta"> → import re</span> <a href="../../../skills/ooad/_fix_md2.py">open file</a></li>
 <li><strong>AGENTS.md</strong><span class="file-meta"> → AGENTS — abd-ooad</span> <a href="../../../skills/ooad/AGENTS.md">open file</a></li>
 <li><strong>README.md</strong><span class="file-meta"> → abd-diagrams</span> <a href="../../../skills/ooad/README.md">open file</a></li>

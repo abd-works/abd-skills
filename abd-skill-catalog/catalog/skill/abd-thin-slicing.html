@@ -219,6 +219,27 @@ h2:first-child { margin-top: 0; }
 .file-list a {
   font-weight: 600;
 }
+.file-list__folder > div {
+  margin-bottom: 6px;
+}
+.file-list--nested {
+  margin: 10px 0 0 0;
+  padding-left: 0;
+  border-left: 2px solid var(--border-muted);
+  margin-left: 4px;
+  padding-left: 12px;
+}
+.file-list--nested li {
+  margin-bottom: 10px;
+  padding: 8px 10px 8px 12px;
+  font-size: 0.95rem;
+}
+.file-list__nested-note {
+  margin: 8px 0 0 0;
+  padding-left: 12px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
 
 </style>
 </head>
@@ -278,10 +299,20 @@ skills/abd-thin-slicing/
 <hr class="entry-divider">
 
 <h2>Contents</h2>
-<p class="entry-caption">Each file: short preview and link. Folders: one summary line for the whole folder (not every nested file).</p>
+<p class="entry-caption">Each file: short preview and link. Folders: one summary line plus every file directly inside that folder (same preview + link).</p>
 <ul class="file-list">
-<li><strong>rules/</strong><span class="file-meta"> → Practice rules (DO/DON&#x27;T) and constraints used with scanners.</span> <a href="../../../skills/abd-thin-slicing/rules/">open folder</a></li>
-<li><strong>templates/</strong><span class="file-meta"> → Authoring templates and structural skeletons.</span> <a href="../../../skills/abd-thin-slicing/templates/">open folder</a></li>
+<li class="file-list__folder"><div><strong>rules/</strong><span class="file-meta"> → Practice rules (DO/DON&#x27;T) and constraints used with scanners.</span> <a href="../../../skills/abd-thin-slicing/rules/">open folder</a></div><ul class="file-list file-list--nested">
+<li><strong>apply-quality-tradeoffs-for-minimal-spine.md</strong><span class="file-meta"> → Rule: Apply quality trade-offs for a minimal spine</span> <a href="../../../skills/abd-thin-slicing/rules/apply-quality-tradeoffs-for-minimal-spine.md">open file</a></li>
+<li><strong>decision-prompts-for-increments.md</strong><span class="file-meta"> → Rule: Decision prompts for increments</span> <a href="../../../skills/abd-thin-slicing/rules/decision-prompts-for-increments.md">open file</a></li>
+<li><strong>design-vertical-slice-increments.md</strong><span class="file-meta"> → Rule: Design vertical-slice increments</span> <a href="../../../skills/abd-thin-slicing/rules/design-vertical-slice-increments.md">open file</a></li>
+<li><strong>identify-marketable-increments.md</strong><span class="file-meta"> → Rule: Identify marketable increments</span> <a href="../../../skills/abd-thin-slicing/rules/identify-marketable-increments.md">open file</a></li>
+<li><strong>map-sequential-spine-vs-optional-paths.md</strong><span class="file-meta"> → Rule: Map sequential spine vs optional paths</span> <a href="../../../skills/abd-thin-slicing/rules/map-sequential-spine-vs-optional-paths.md">open file</a></li>
+<li><strong>prioritize-architectural-risk-validation.md</strong><span class="file-meta"> → Rule: Prioritize architectural risk validation</span> <a href="../../../skills/abd-thin-slicing/rules/prioritize-architectural-risk-validation.md">open file</a></li>
+</ul></li>
+<li class="file-list__folder"><div><strong>templates/</strong><span class="file-meta"> → Authoring templates and structural skeletons.</span> <a href="../../../skills/abd-thin-slicing/templates/">open folder</a></div><ul class="file-list file-list--nested">
+<li><strong>thin-slicing.md</strong><span class="file-meta"> → Thin slicing — incremental backlog</span> <a href="../../../skills/abd-thin-slicing/templates/thin-slicing.md">open file</a></li>
+<li><strong>thin-slicing.txt</strong><span class="file-meta"> → Thin slicing — incremental backlog — plain text template</span> <a href="../../../skills/abd-thin-slicing/templates/thin-slicing.txt">open file</a></li>
+</ul></li>
 <li><strong>SKILL.md</strong><span class="file-meta"> → name: abd-thin-slicing</span> <a href="../../../skills/abd-thin-slicing/SKILL.md">open file</a></li>
 </ul>
 

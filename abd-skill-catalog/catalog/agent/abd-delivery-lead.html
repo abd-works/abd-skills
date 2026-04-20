@@ -219,6 +219,27 @@ h2:first-child { margin-top: 0; }
 .file-list a {
   font-weight: 600;
 }
+.file-list__folder > div {
+  margin-bottom: 6px;
+}
+.file-list--nested {
+  margin: 10px 0 0 0;
+  padding-left: 0;
+  border-left: 2px solid var(--border-muted);
+  margin-left: 4px;
+  padding-left: 12px;
+}
+.file-list--nested li {
+  margin-bottom: 10px;
+  padding: 8px 10px 8px 12px;
+  font-size: 0.95rem;
+}
+.file-list__nested-note {
+  margin: 8px 0 0 0;
+  padding-left: 12px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
 
 </style>
 </head>
@@ -473,11 +494,21 @@ agents/abd-delivery-lead/
 <hr class="entry-divider">
 
 <h2>Contents</h2>
-<p class="entry-caption">Each file: short preview and link. Folders: one summary line for the whole folder (not every nested file).</p>
+<p class="entry-caption">Each file: short preview and link. Folders: one summary line plus every file directly inside that folder (same preview + link).</p>
 <ul class="file-list">
-<li><strong>docs/</strong><span class="file-meta"> → Human-oriented documentation for the package.</span> <a href="../../../agents/abd-delivery-lead/docs/">open folder</a></li>
-<li><strong>scripts/</strong><span class="file-meta"> → Build, catalogue, validation, or packaging automation.</span> <a href="../../../agents/abd-delivery-lead/scripts/">open folder</a></li>
-<li><strong>stages/</strong><span class="file-meta"> → Supporting folder (6 items).</span> <a href="../../../agents/abd-delivery-lead/stages/">open folder</a></li>
+<li class="file-list__folder"><div><strong>docs/</strong><span class="file-meta"> → Human-oriented documentation for the package.</span> <a href="../../../agents/abd-delivery-lead/docs/">open folder</a></div><ul class="file-list file-list--nested">
+<li><strong>plan.md</strong><span class="file-meta"> → @agilebydesign-skills/agents/abd-context-engine/skills/abd-story-mappingin vhere</span> <a href="../../../agents/abd-delivery-lead/docs/plan.md">open file</a></li>
+<li><strong>prompt.md</strong><span class="file-meta"> → I want to convert agile\_bots to skill.md ; agent.md approach</span> <a href="../../../agents/abd-delivery-lead/docs/prompt.md">open file</a></li>
+</ul></li>
+<li class="file-list__folder"><div><strong>scripts/</strong><span class="file-meta"> → Build, catalogue, validation, or packaging automation.</span> <a href="../../../agents/abd-delivery-lead/scripts/">open folder</a></div><p class="file-list__nested-note">No files at this level (subfolders only).</p></li>
+<li class="file-list__folder"><div><strong>stages/</strong><span class="file-meta"> → Supporting folder (6 items).</span> <a href="../../../agents/abd-delivery-lead/stages/">open folder</a></div><ul class="file-list file-list--nested">
+<li><strong>acceptance-tests.md</strong><span class="file-meta"> → Acceptance Tests</span> <a href="../../../agents/abd-delivery-lead/stages/acceptance-tests.md">open file</a></li>
+<li><strong>discovery.md</strong><span class="file-meta"> → Discovery</span> <a href="../../../agents/abd-delivery-lead/stages/discovery.md">open file</a></li>
+<li><strong>engineering.md</strong><span class="file-meta"> → Engineering</span> <a href="../../../agents/abd-delivery-lead/stages/engineering.md">open file</a></li>
+<li><strong>exploration.md</strong><span class="file-meta"> → Exploration</span> <a href="../../../agents/abd-delivery-lead/stages/exploration.md">open file</a></li>
+<li><strong>prioritization.md</strong><span class="file-meta"> → Prioritization</span> <a href="../../../agents/abd-delivery-lead/stages/prioritization.md">open file</a></li>
+<li><strong>scenarios.md</strong><span class="file-meta"> → Story Definition</span> <a href="../../../agents/abd-delivery-lead/stages/scenarios.md">open file</a></li>
+</ul></li>
 <li><strong>AGENT.md</strong><span class="file-meta"> → ABD Delivery Lead</span> <a href="../../../agents/abd-delivery-lead/AGENT.md">open file</a></li>
 <li><strong>Deploy-ToCursor.ps1</strong><span class="file-meta"> → .SYNOPSIS</span> <a href="../../../agents/abd-delivery-lead/Deploy-ToCursor.ps1">open file</a></li>
 </ul>

@@ -44,8 +44,9 @@ Each catalogue entry includes:
 - **Description** — expanded purpose text from `## Purpose` when present, else
   YAML `description` or body excerpt (used in the outline detail sections).
 - **Repository layout** — top-level files with a one-line blurb and relative
-  link; common directories (`rules`, `templates`, `scripts`, …) get **one**
-  folder-level sentence instead of enumerating every file inside.
+  link; common directories get **one** folder-level summary plus **each file
+  directly in that folder** listed with the same blurb + link pattern (one
+  directory level deep, not recursive into subfolders).
 - **Detail pages** — full description, an ASCII package diagram inside a
   `<pre>` (same spirit as `agents/abd-skill-builder/docs/overview/` capability
   pages), and a contents list with links into the repository.

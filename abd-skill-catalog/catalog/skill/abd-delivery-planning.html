@@ -219,6 +219,27 @@ h2:first-child { margin-top: 0; }
 .file-list a {
   font-weight: 600;
 }
+.file-list__folder > div {
+  margin-bottom: 6px;
+}
+.file-list--nested {
+  margin: 10px 0 0 0;
+  padding-left: 0;
+  border-left: 2px solid var(--border-muted);
+  margin-left: 4px;
+  padding-left: 12px;
+}
+.file-list--nested li {
+  margin-bottom: 10px;
+  padding: 8px 10px 8px 12px;
+  font-size: 0.95rem;
+}
+.file-list__nested-note {
+  margin: 8px 0 0 0;
+  padding-left: 12px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
 
 </style>
 </head>
@@ -277,9 +298,19 @@ skills/abd-delivery-planning/
 <hr class="entry-divider">
 
 <h2>Contents</h2>
-<p class="entry-caption">Each file: short preview and link. Folders: one summary line for the whole folder (not every nested file).</p>
+<p class="entry-caption">Each file: short preview and link. Folders: one summary line plus every file directly inside that folder (same preview + link).</p>
 <ul class="file-list">
-<li><strong>strategies/</strong><span class="file-meta"> → Supporting folder (9 items).</span> <a href="../../../skills/abd-delivery-planning/strategies/">open folder</a></li>
+<li class="file-list__folder"><div><strong>strategies/</strong><span class="file-meta"> → Supporting folder (9 items).</span> <a href="../../../skills/abd-delivery-planning/strategies/">open folder</a></div><ul class="file-list file-list--nested">
+<li><strong>bug-fix.md</strong><span class="file-meta"> → Strategy: Bug Fix</span> <a href="../../../skills/abd-delivery-planning/strategies/bug-fix.md">open file</a></li>
+<li><strong>legacy-migration.md</strong><span class="file-meta"> → Strategy: Legacy Migration</span> <a href="../../../skills/abd-delivery-planning/strategies/legacy-migration.md">open file</a></li>
+<li><strong>new-initiative-business-user-experience-risk.md</strong><span class="file-meta"> → Strategy: New Initiative — Business / User Experience Risk</span> <a href="../../../skills/abd-delivery-planning/strategies/new-initiative-business-user-experience-risk.md">open file</a></li>
+<li><strong>new-initiative-no-documented-architecture.md</strong><span class="file-meta"> → Strategy: New Initiative — No Documented Architecture</span> <a href="../../../skills/abd-delivery-planning/strategies/new-initiative-no-documented-architecture.md">open file</a></li>
+<li><strong>new-initiative-proprietary-technology-risk.md</strong><span class="file-meta"> → Strategy: New Initiative — Proprietary Technology Risk</span> <a href="../../../skills/abd-delivery-planning/strategies/new-initiative-proprietary-technology-risk.md">open file</a></li>
+<li><strong>new-thin-slice.md</strong><span class="file-meta"> → Strategy: New Thin Slice</span> <a href="../../../skills/abd-delivery-planning/strategies/new-thin-slice.md">open file</a></li>
+<li><strong>new-user-story.md</strong><span class="file-meta"> → Strategy: New User Story</span> <a href="../../../skills/abd-delivery-planning/strategies/new-user-story.md">open file</a></li>
+<li><strong>regulatory-compliance-heavy.md</strong><span class="file-meta"> → Strategy: Regulatory / Compliance-Heavy</span> <a href="../../../skills/abd-delivery-planning/strategies/regulatory-compliance-heavy.md">open file</a></li>
+<li><strong>spike-proof-of-concept.md</strong><span class="file-meta"> → Strategy: Spike / Proof of Concept</span> <a href="../../../skills/abd-delivery-planning/strategies/spike-proof-of-concept.md">open file</a></li>
+</ul></li>
 <li><strong>SKILL.md</strong><span class="file-meta"> → name: abd-delivery-planning</span> <a href="../../../skills/abd-delivery-planning/SKILL.md">open file</a></li>
 </ul>
 

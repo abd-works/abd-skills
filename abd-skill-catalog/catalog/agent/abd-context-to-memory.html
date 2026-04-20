@@ -219,6 +219,27 @@ h2:first-child { margin-top: 0; }
 .file-list a {
   font-weight: 600;
 }
+.file-list__folder > div {
+  margin-bottom: 6px;
+}
+.file-list--nested {
+  margin: 10px 0 0 0;
+  padding-left: 0;
+  border-left: 2px solid var(--border-muted);
+  margin-left: 4px;
+  padding-left: 12px;
+}
+.file-list--nested li {
+  margin-bottom: 10px;
+  padding: 8px 10px 8px 12px;
+  font-size: 0.95rem;
+}
+.file-list__nested-note {
+  margin: 8px 0 0 0;
+  padding-left: 12px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
 
 </style>
 </head>
@@ -287,12 +308,23 @@ agents/abd-context-to-memory/
 <hr class="entry-divider">
 
 <h2>Contents</h2>
-<p class="entry-caption">Each file: short preview and link. Folders: one summary line for the whole folder (not every nested file).</p>
+<p class="entry-caption">Each file: short preview and link. Folders: one summary line plus every file directly inside that folder (same preview + link).</p>
 <ul class="file-list">
-<li><strong>conf/</strong><span class="file-meta"> → Supporting folder (1 items).</span> <a href="../../../agents/abd-context-to-memory/conf/">open folder</a></li>
-<li><strong>content/</strong><span class="file-meta"> → Source parts merged into agent instructions or outputs.</span> <a href="../../../agents/abd-context-to-memory/content/">open folder</a></li>
-<li><strong>scripts/</strong><span class="file-meta"> → Build, catalogue, validation, or packaging automation.</span> <a href="../../../agents/abd-context-to-memory/scripts/">open folder</a></li>
-<li><strong>skills/</strong><span class="file-meta"> → Nested skills shipped inside an agent package.</span> <a href="../../../agents/abd-context-to-memory/skills/">open folder</a></li>
+<li class="file-list__folder"><div><strong>conf/</strong><span class="file-meta"> → Supporting folder (1 items).</span> <a href="../../../agents/abd-context-to-memory/conf/">open folder</a></div><p class="file-list__nested-note">No files at this level (subfolders only).</p></li>
+<li class="file-list__folder"><div><strong>content/</strong><span class="file-meta"> → Source parts merged into agent instructions or outputs.</span> <a href="../../../agents/abd-context-to-memory/content/">open folder</a></div><ul class="file-list file-list--nested">
+<li><strong>checklist.md</strong><span class="file-meta"> → Agent orchestration only. This checklist lives in agents/abd-context-to-memory/content/ with the other agent slices. It is not the abd-skill-builder pattern (generate.py, phase_files, …/progress/ under active_skill_workspace).</span> <a href="../../../agents/abd-context-to-memory/content/checklist.md">open file</a></li>
+<li><strong>outline.md</strong><span class="file-meta"> → How it works (each step is distinct; order matters):</span> <a href="../../../agents/abd-context-to-memory/content/outline.md">open file</a></li>
+<li><strong>process.md</strong><span class="file-meta"> → Follow this page when you work on this agent (pipeline order, artifacts, flags). End-user activation lives in each skill&#x27;s SKILL.md. Stage-specific YAML, env, and retrieval behavior live under skills/&lt;skill-name&gt;/references/ (see the reference map at the end).</span> <a href="../../../agents/abd-context-to-memory/content/process.md">open file</a></li>
+<li><strong>purpose.md</strong><span class="file-meta"> → Orchestrate convert → chunk → embed → search by coordinating this agent&#x27;s skills. Decide when each stage runs, whether to use a strategy pass (review context_chunking_spec.yaml before chunk + embed) or straight-through, and hold cross-stage quality (real …</span> <a href="../../../agents/abd-context-to-memory/content/purpose.md">open file</a></li>
+<li><strong>role.md</strong><span class="file-meta"> → You are the orchestrator for the context-to-memory pipeline. You delegate implementation detail to the agent&#x27;s skills (abd-convert-to-markdown, abd-chunk-markdown, abd-embed-vectors, abd-search-memory) and keep dependencies clear: conversion before chunking …</span> <a href="../../../agents/abd-context-to-memory/content/role.md">open file</a></li>
+<li><strong>workspace.md</strong><span class="file-meta"> → The default corpus folder (topic root: where markdown/, memory/, etc. live) is not a separate Open Agent Skill. It is agent policy, implemented by _config.py in this package.</span> <a href="../../../agents/abd-context-to-memory/content/workspace.md">open file</a></li>
+</ul></li>
+<li class="file-list__folder"><div><strong>scripts/</strong><span class="file-meta"> → Build, catalogue, validation, or packaging automation.</span> <a href="../../../agents/abd-context-to-memory/scripts/">open folder</a></div><ul class="file-list file-list--nested">
+<li><strong>_config.py</strong><span class="file-meta"> → &quot;&quot;&quot;Shared config: ROOT, MEMORY, ASSETS for resolving relative paths.</span> <a href="../../../agents/abd-context-to-memory/scripts/_config.py">open file</a></li>
+<li><strong>build.py</strong><span class="file-meta"> → !/usr/bin/env python3</span> <a href="../../../agents/abd-context-to-memory/scripts/build.py">open file</a></li>
+<li><strong>index_memory.py</strong><span class="file-meta"> → Full pipeline: convert -&gt; draft spec -&gt; chunk -&gt; embed into local FAISS vector store.</span> <a href="../../../agents/abd-context-to-memory/scripts/index_memory.py">open file</a></li>
+</ul></li>
+<li class="file-list__folder"><div><strong>skills/</strong><span class="file-meta"> → Nested skills shipped inside an agent package.</span> <a href="../../../agents/abd-context-to-memory/skills/">open folder</a></div><p class="file-list__nested-note">No files at this level (subfolders only).</p></li>
 <li><strong>AGENTS.md</strong><span class="file-meta"> → AGENTS — abd-context-to-memory</span> <a href="../../../agents/abd-context-to-memory/AGENTS.md">open file</a></li>
 <li><strong>requirements-export.txt</strong><span class="file-meta"> → Export: markdown → Excel, Word, PDF</span> <a href="../../../agents/abd-context-to-memory/requirements-export.txt">open file</a></li>
 <li><strong>requirements-rag.txt</strong><span class="file-meta"> → RAG (vector search) dependencies for ace-context-to-memory</span> <a href="../../../agents/abd-context-to-memory/requirements-rag.txt">open file</a></li>

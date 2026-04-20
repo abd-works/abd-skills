@@ -219,6 +219,27 @@ h2:first-child { margin-top: 0; }
 .file-list a {
   font-weight: 600;
 }
+.file-list__folder > div {
+  margin-bottom: 6px;
+}
+.file-list--nested {
+  margin: 10px 0 0 0;
+  padding-left: 0;
+  border-left: 2px solid var(--border-muted);
+  margin-left: 4px;
+  padding-left: 12px;
+}
+.file-list--nested li {
+  margin-bottom: 10px;
+  padding: 8px 10px 8px 12px;
+  font-size: 0.95rem;
+}
+.file-list__nested-note {
+  margin: 8px 0 0 0;
+  padding-left: 12px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
 
 </style>
 </head>
@@ -285,11 +306,43 @@ skills/abd-acceptance-test-driven-development/
 <hr class="entry-divider">
 
 <h2>Contents</h2>
-<p class="entry-caption">Each file: short preview and link. Folders: one summary line for the whole folder (not every nested file).</p>
+<p class="entry-caption">Each file: short preview and link. Folders: one summary line plus every file directly inside that folder (same preview + link).</p>
 <ul class="file-list">
-<li><strong>rules/</strong><span class="file-meta"> → Practice rules (DO/DON&#x27;T) and constraints used with scanners.</span> <a href="../../../skills/abd-acceptance-test-driven-development/rules/">open folder</a></li>
-<li><strong>scanners/</strong><span class="file-meta"> → Supporting folder (2 items).</span> <a href="../../../skills/abd-acceptance-test-driven-development/scanners/">open folder</a></li>
-<li><strong>templates/</strong><span class="file-meta"> → Authoring templates and structural skeletons.</span> <a href="../../../skills/abd-acceptance-test-driven-development/templates/">open folder</a></li>
+<li class="file-list__folder"><div><strong>rules/</strong><span class="file-meta"> → Practice rules (DO/DON&#x27;T) and constraints used with scanners.</span> <a href="../../../skills/abd-acceptance-test-driven-development/rules/">open folder</a></div><ul class="file-list file-list--nested">
+<li><strong>assert-full-results.md</strong><span class="file-meta"> → scanner: full_result_assertions_scanner.py</span> <a href="../../../skills/abd-acceptance-test-driven-development/rules/assert-full-results.md">open file</a></li>
+<li><strong>bug-fix-test-first.md</strong><span class="file-meta"> → scanner: bug_fix_test_first_scanner.py</span> <a href="../../../skills/abd-acceptance-test-driven-development/rules/bug-fix-test-first.md">open file</a></li>
+<li><strong>call-production-code-directly.md</strong><span class="file-meta"> → Rule: Call Production Code Directly</span> <a href="../../../skills/abd-acceptance-test-driven-development/rules/call-production-code-directly.md">open file</a></li>
+<li><strong>class-based-test-organization.md</strong><span class="file-meta"> → scanner: class_based_organization_scanner.py</span> <a href="../../../skills/abd-acceptance-test-driven-development/rules/class-based-test-organization.md">open file</a></li>
+<li><strong>consistent-vocabulary.md</strong><span class="file-meta"> → scanner: consistent_vocabulary_scanner.py</span> <a href="../../../skills/abd-acceptance-test-driven-development/rules/consistent-vocabulary.md">open file</a></li>
+<li><strong>cover-all-behavior-paths.md</strong><span class="file-meta"> → scanner: cover_all_paths_scanner.py</span> <a href="../../../skills/abd-acceptance-test-driven-development/rules/cover-all-behavior-paths.md">open file</a></li>
+<li><strong>create-parameterized-tests.md</strong><span class="file-meta"> → Rule: Create Parameterized Tests for Scenarios</span> <a href="../../../skills/abd-acceptance-test-driven-development/rules/create-parameterized-tests.md">open file</a></li>
+<li><strong>define-fixtures-in-test-file.md</strong><span class="file-meta"> → scanner: fixture_placement_scanner.py</span> <a href="../../../skills/abd-acceptance-test-driven-development/rules/define-fixtures-in-test-file.md">open file</a></li>
+<li><strong>design-api-through-failing-tests.md</strong><span class="file-meta"> → scanner: failing_test_api_scanner.py</span> <a href="../../../skills/abd-acceptance-test-driven-development/rules/design-api-through-failing-tests.md">open file</a></li>
+<li><strong>domain-oriented-test-inheritance.md</strong><span class="file-meta"> → Rule: Domain-Oriented Test Inheritance</span> <a href="../../../skills/abd-acceptance-test-driven-development/rules/domain-oriented-test-inheritance.md">open file</a></li>
+<li><strong>helper-extraction-and-reuse.md</strong><span class="file-meta"> → scanner: helper_extraction_scanner.py</span> <a href="../../../skills/abd-acceptance-test-driven-development/rules/helper-extraction-and-reuse.md">open file</a></li>
+<li><strong>match-specification-scenarios.md</strong><span class="file-meta"> → scanner: specification_match_scanner.py</span> <a href="../../../skills/abd-acceptance-test-driven-development/rules/match-specification-scenarios.md">open file</a></li>
+<li><strong>mock-only-boundaries.md</strong><span class="file-meta"> → scanner: mock_boundaries_scanner.py</span> <a href="../../../skills/abd-acceptance-test-driven-development/rules/mock-only-boundaries.md">open file</a></li>
+<li><strong>no-defensive-code-in-tests.md</strong><span class="file-meta"> → scanner: no_guard_clauses_scanner.py</span> <a href="../../../skills/abd-acceptance-test-driven-development/rules/no-defensive-code-in-tests.md">open file</a></li>
+<li><strong>object-oriented-test-helpers.md</strong><span class="file-meta"> → scanner: object_oriented_helpers_scanner.py</span> <a href="../../../skills/abd-acceptance-test-driven-development/rules/object-oriented-test-helpers.md">open file</a></li>
+<li><strong>place-imports-at-top.md</strong><span class="file-meta"> → scanner: import_placement_scanner.py</span> <a href="../../../skills/abd-acceptance-test-driven-development/rules/place-imports-at-top.md">open file</a></li>
+<li><strong>production-code-clean-functions.md</strong><span class="file-meta"> → Rule: Production Code Clean Functions</span> <a href="../../../skills/abd-acceptance-test-driven-development/rules/production-code-clean-functions.md">open file</a></li>
+<li><strong>production-code-explicit-dependencies.md</strong><span class="file-meta"> → scanner: explicit_dependencies_scanner.py</span> <a href="../../../skills/abd-acceptance-test-driven-development/rules/production-code-explicit-dependencies.md">open file</a></li>
+<li><strong>pytest-orchestrator-pattern.md</strong><span class="file-meta"> → scanner: orchestrator_pattern_scanner.py</span> <a href="../../../skills/abd-acceptance-test-driven-development/rules/pytest-orchestrator-pattern.md">open file</a></li>
+<li><strong>self-documenting-tests.md</strong><span class="file-meta"> → Rule: Self-Documenting Tests</span> <a href="../../../skills/abd-acceptance-test-driven-development/rules/self-documenting-tests.md">open file</a></li>
+<li><strong>standard-test-data-sets.md</strong><span class="file-meta"> → scanner: standard_data_reuse_scanner.py</span> <a href="../../../skills/abd-acceptance-test-driven-development/rules/standard-test-data-sets.md">open file</a></li>
+<li><strong>test-observable-behavior.md</strong><span class="file-meta"> → scanner: observable_behavior_scanner.py</span> <a href="../../../skills/abd-acceptance-test-driven-development/rules/test-observable-behavior.md">open file</a></li>
+<li><strong>use-ascii-only.md</strong><span class="file-meta"> → scanner: ascii_only_scanner.py</span> <a href="../../../skills/abd-acceptance-test-driven-development/rules/use-ascii-only.md">open file</a></li>
+<li><strong>use-domain-language.md</strong><span class="file-meta"> → scanner: business_readable_test_names_scanner.py</span> <a href="../../../skills/abd-acceptance-test-driven-development/rules/use-domain-language.md">open file</a></li>
+<li><strong>use-domain-objects-as-parameters.md</strong><span class="file-meta"> → Rule: Use Domain Objects as Parameters</span> <a href="../../../skills/abd-acceptance-test-driven-development/rules/use-domain-objects-as-parameters.md">open file</a></li>
+<li><strong>use-exact-variable-names.md</strong><span class="file-meta"> → scanner: exact_variable_names_scanner.py</span> <a href="../../../skills/abd-acceptance-test-driven-development/rules/use-exact-variable-names.md">open file</a></li>
+<li><strong>use-given-when-then-helpers.md</strong><span class="file-meta"> → scanner: given_when_then_helpers_scanner.py</span> <a href="../../../skills/abd-acceptance-test-driven-development/rules/use-given-when-then-helpers.md">open file</a></li>
+</ul></li>
+<li class="file-list__folder"><div><strong>scanners/</strong><span class="file-meta"> → Supporting folder (2 items).</span> <a href="../../../skills/abd-acceptance-test-driven-development/scanners/">open folder</a></div><p class="file-list__nested-note">No files at this level (subfolders only).</p></li>
+<li class="file-list__folder"><div><strong>templates/</strong><span class="file-meta"> → Authoring templates and structural skeletons.</span> <a href="../../../skills/abd-acceptance-test-driven-development/templates/">open folder</a></div><ul class="file-list file-list--nested">
+<li><strong>acceptance-tests.java</strong><span class="file-meta"> → * ## Instructions (for skill maintainers — do NOT paste this block into project test files)</span> <a href="../../../skills/abd-acceptance-test-driven-development/templates/acceptance-tests.java">open file</a></li>
+<li><strong>acceptance-tests.js</strong><span class="file-meta"> → * ## Instructions (for skill maintainers — do NOT paste this block into project test files)</span> <a href="../../../skills/abd-acceptance-test-driven-development/templates/acceptance-tests.js">open file</a></li>
+<li><strong>acceptance-tests.py</strong><span class="file-meta"> → Instructions (for skill maintainers — do NOT paste this block into project test files)</span> <a href="../../../skills/abd-acceptance-test-driven-development/templates/acceptance-tests.py">open file</a></li>
+</ul></li>
 <li><strong>SKILL.md</strong><span class="file-meta"> → name: abd-acceptance-test-driven-development</span> <a href="../../../skills/abd-acceptance-test-driven-development/SKILL.md">open file</a></li>
 </ul>
 

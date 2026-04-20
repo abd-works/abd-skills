@@ -219,6 +219,27 @@ h2:first-child { margin-top: 0; }
 .file-list a {
   font-weight: 600;
 }
+.file-list__folder > div {
+  margin-bottom: 6px;
+}
+.file-list--nested {
+  margin: 10px 0 0 0;
+  padding-left: 0;
+  border-left: 2px solid var(--border-muted);
+  margin-left: 4px;
+  padding-left: 12px;
+}
+.file-list--nested li {
+  margin-bottom: 10px;
+  padding: 8px 10px 8px 12px;
+  font-size: 0.95rem;
+}
+.file-list__nested-note {
+  margin: 8px 0 0 0;
+  padding-left: 12px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
 
 </style>
 </head>
@@ -288,13 +309,31 @@ agents/abd-skill-builder/
 <hr class="entry-divider">
 
 <h2>Contents</h2>
-<p class="entry-caption">Each file: short preview and link. Folders: one summary line for the whole folder (not every nested file).</p>
+<p class="entry-caption">Each file: short preview and link. Folders: one summary line plus every file directly inside that folder (same preview + link).</p>
 <ul class="file-list">
-<li><strong>content/</strong><span class="file-meta"> → Source parts merged into agent instructions or outputs.</span> <a href="../../../agents/abd-skill-builder/content/">open folder</a></li>
-<li><strong>docs/</strong><span class="file-meta"> → Human-oriented documentation for the package.</span> <a href="../../../agents/abd-skill-builder/docs/">open folder</a></li>
-<li><strong>scripts/</strong><span class="file-meta"> → Build, catalogue, validation, or packaging automation.</span> <a href="../../../agents/abd-skill-builder/scripts/">open folder</a></li>
-<li><strong>skills/</strong><span class="file-meta"> → Nested skills shipped inside an agent package.</span> <a href="../../../agents/abd-skill-builder/skills/">open folder</a></li>
-<li><strong>test/</strong><span class="file-meta"> → Automated tests for the agent or skill package.</span> <a href="../../../agents/abd-skill-builder/test/">open folder</a></li>
+<li class="file-list__folder"><div><strong>content/</strong><span class="file-meta"> → Source parts merged into agent instructions or outputs.</span> <a href="../../../agents/abd-skill-builder/content/">open folder</a></div><ul class="file-list file-list--nested">
+<li><strong>agent-skill-model.md</strong><span class="file-meta"> → Agent vs skill (Open Agent Skills)</span> <a href="../../../agents/abd-skill-builder/content/agent-skill-model.md">open file</a></li>
+<li><strong>builder-architecture.md</strong><span class="file-meta"> → Builder architecture — agent, skills, capabilities (source of truth)</span> <a href="../../../agents/abd-skill-builder/content/builder-architecture.md">open file</a></li>
+<li><strong>outline.md</strong><span class="file-meta"> → Introduction</span> <a href="../../../agents/abd-skill-builder/content/outline.md">open file</a></li>
+<li><strong>principles.md</strong><span class="file-meta"> → These principles state how the abd-skill-builder pattern is meant to be operated.</span> <a href="../../../agents/abd-skill-builder/content/principles.md">open file</a></li>
+<li><strong>purpose.md</strong><span class="file-meta"> → Provide portable repository standards aligned with Open Agent Skills: a focused SKILL.md for discovery, a merged AGENTS.md for multi-step workflow, plus documentation of build and validation (merge, build.py, scanners, CI), and a scaffold CLI so new skills …</span> <a href="../../../agents/abd-skill-builder/content/purpose.md">open file</a></li>
+<li><strong>README.md</strong><span class="file-meta"> → content/ — per-skill narrative</span> <a href="../../../agents/abd-skill-builder/content/README.md">open file</a></li>
+<li><strong>role.md</strong><span class="file-meta"> → You are the skill author for this repository: you interpret the skill’s intent, keep SKILL.md as the narrow discovery surface and put orchestration in AGENTS.md (built from parts), edit sources under content/parts/ and rules/ (never hand-patch AGENTS.md or …</span> <a href="../../../agents/abd-skill-builder/content/role.md">open file</a></li>
+</ul></li>
+<li class="file-list__folder"><div><strong>docs/</strong><span class="file-meta"> → Human-oriented documentation for the package.</span> <a href="../../../agents/abd-skill-builder/docs/">open folder</a></div><ul class="file-list file-list--nested">
+<li><strong>process-outline.md</strong><span class="file-meta"> → Process outline — capabilities and problems</span> <a href="../../../agents/abd-skill-builder/docs/process-outline.md">open file</a></li>
+</ul></li>
+<li class="file-list__folder"><div><strong>scripts/</strong><span class="file-meta"> → Build, catalogue, validation, or packaging automation.</span> <a href="../../../agents/abd-skill-builder/scripts/">open folder</a></div><p class="file-list__nested-note">No files at this level (subfolders only).</p></li>
+<li class="file-list__folder"><div><strong>skills/</strong><span class="file-meta"> → Nested skills shipped inside an agent package.</span> <a href="../../../agents/abd-skill-builder/skills/">open folder</a></div><p class="file-list__nested-note">No files at this level (subfolders only).</p></li>
+<li class="file-list__folder"><div><strong>test/</strong><span class="file-meta"> → Automated tests for the agent or skill package.</span> <a href="../../../agents/abd-skill-builder/test/">open folder</a></div><ul class="file-list file-list--nested">
+<li><strong>README.md</strong><span class="file-meta"> → Tests (abd-skill-builder)</span> <a href="../../../agents/abd-skill-builder/test/README.md">open file</a></li>
+<li><strong>test_build_smoke.py</strong><span class="file-meta"> → &quot;&quot;&quot;Smoke tests: build.py emits root + content/built AGENTS in sync.&quot;&quot;&quot;</span> <a href="../../../agents/abd-skill-builder/test/test_build_smoke.py">open file</a></li>
+<li><strong>test_resolve_library.py</strong><span class="file-meta"> → &quot;&quot;&quot;Library path resolution: library direct → content/ → required (legacy) → base.&quot;&quot;&quot;</span> <a href="../../../agents/abd-skill-builder/test/test_resolve_library.py">open file</a></li>
+<li><strong>test_rules_support.py</strong><span class="file-meta"> → &quot;&quot;&quot;Unit tests for rules_support (phase rule stems + frontmatter strip).&quot;&quot;&quot;</span> <a href="../../../agents/abd-skill-builder/test/test_rules_support.py">open file</a></li>
+<li><strong>test_section_markers.py</strong><span class="file-meta"> → &quot;&quot;&quot;Unit tests for library phase markers (section_markers).&quot;&quot;&quot;</span> <a href="../../../agents/abd-skill-builder/test/test_section_markers.py">open file</a></li>
+<li><strong>test_subsections.py</strong><span class="file-meta"> → &quot;&quot;&quot;Unit tests for subsections.extract_section.&quot;&quot;&quot;</span> <a href="../../../agents/abd-skill-builder/test/test_subsections.py">open file</a></li>
+<li><strong>test_workspace_checklists.py</strong><span class="file-meta"> → &quot;&quot;&quot;Tests for scripts/base/workspace_checklists.py.&quot;&quot;&quot;</span> <a href="../../../agents/abd-skill-builder/test/test_workspace_checklists.py">open file</a></li>
+</ul></li>
 <li><strong>.gitignore</strong><span class="file-meta"> → Live workflow checklists from python scripts/base/generate.py --phase &lt;slug&gt; when</span> <a href="../../../agents/abd-skill-builder/.gitignore">open file</a></li>
 <li><strong>AGENTS.md</strong><span class="file-meta"> → AGENTS — abd-skill-builder</span> <a href="../../../agents/abd-skill-builder/AGENTS.md">open file</a></li>
 <li><strong>requirements-dev.txt</strong><span class="file-meta"> → Dev-only: pytest for smoke tests (see test/README.md)</span> <a href="../../../agents/abd-skill-builder/requirements-dev.txt">open file</a></li>
