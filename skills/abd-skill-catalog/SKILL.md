@@ -34,6 +34,7 @@ used under `agents/abd-skill-builder/docs/overview/`.
 | **Site hub** | HTML | `abd-skill-catalog/catalog/index.html` |
 | **Skills grid** | HTML | `abd-skill-catalog/catalog/skills.html` |
 | **Agents grid** | HTML | `abd-skill-catalog/catalog/agents.html` |
+| **Hub / grid intros** | HTML fragments | `skills/abd-skill-catalog/templates/intros/*.html` (injected into hub + grids; maintain here, not in Python) |
 | **Skill detail pages** | HTML | `abd-skill-catalog/catalog/skill/<dir>.html` (one per skill; cards link here) |
 | **Agent detail pages** | HTML | `abd-skill-catalog/catalog/agent/<dir>.html` (one per agent; cards link here) |
 
@@ -90,9 +91,26 @@ Each catalogue entry includes:
      from the opening sections (`## Introduction`, first paragraphs). YAML
      `description` feeds the summary when present.
 
-5. **Templates.** HTML shell and CSS live under
-   `skills/abd-skill-catalog/templates/` and are copied with token replacement.
-   Edit those files to change branding or layout without touching Python.
+5. **Catalogue intros (review with an AI or editor).** The opening paragraphs
+   on the hub, skills grid, and agents grid are **not** meant to stay as
+   throwaway strings in code. They live as HTML in
+   `skills/abd-skill-catalog/templates/intros/`:
 
-6. **Idempotent.** Running the script twice with the same tree overwrites the
+   - `catalog-hub-intro.html` — hub intro; may use `{{OUTLINE_HREF}}` for the
+     outline link (substituted at build time).
+   - `catalog-skills-intro.html` — what the skills grid and detail pages offer.
+   - `catalog-agents-intro.html` — what the agents grid and detail pages offer.
+
+   Whenever catalogue behaviour or layout changes—or on a periodic pass—**have
+   an AI review these three files** for a complete, accurate, reader-friendly
+   description (detail pages vs cards, ASCII diagram, contents rules, new-tab
+   repo links, entry-file order for agents). The script falls back to minimal
+   built-in HTML only if a fragment is missing.
+
+6. **Templates (layout).** HTML shells and CSS live under
+   `skills/abd-skill-catalog/templates/` (excluding `intros/`, which are prose
+   fragments) and are merged with token replacement. Edit those files to
+   change branding or layout without touching Python.
+
+7. **Idempotent.** Running the script twice with the same tree overwrites the
    same outputs deterministically.

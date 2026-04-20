@@ -660,6 +660,14 @@ def _load_template(name: str) -> str:
     return p.read_text(encoding="utf-8")
 
 
+def _load_intro_fragment(filename: str, default: str) -> str:
+    """HTML intro for hub/skills/agents pages. Prefer templates/intros/ (AI-reviewed copy)."""
+    p = TEMPLATE_DIR / "intros" / filename
+    if p.is_file():
+        return p.read_text(encoding="utf-8").strip()
+    return default
+
+
 def write_html_pages(
     output_catalog_dir: Path,
     repo_root: Path,
@@ -707,12 +715,15 @@ def write_html_pages(
     brand = "<strong>Agile by Design</strong> &middot; abd-skill-catalog"
 
     outline_href = "../outline.md"
-    hub_intro = (
-        "<p>Browse practice <a href=\"skills.html\">skills</a> and "
-        "<a href=\"agents.html\">agents</a> in this repository. "
-        "For a single diffable document, open "
-        f"<a href=\"{outline_href}\">outline.md</a>.</p>"
-    )
+    hub_intro = _load_intro_fragment(
+        "catalog-hub-intro.html",
+        (
+            "<p>Browse practice <a href=\"skills.html\">skills</a> and "
+            "<a href=\"agents.html\">agents</a> in this repository. "
+            "For a single diffable document, open "
+            f"<a href=\"{outline_href}\">outline.md</a>.</p>"
+        ),
+    ).replace("{{OUTLINE_HREF}}", outline_href)
     hub_body = (
         "<h2>Quick links</h2><ul>"
         '<li><a href="skills.html">All skills — card grid</a></li>'
@@ -732,10 +743,13 @@ def write_html_pages(
     )
     (output_catalog_dir / "index.html").write_text(index_html, encoding="utf-8")
 
-    skills_intro = (
-        "<p>Each card opens a <strong>skill detail page</strong> (description, ASCII package layout in a "
-        "<code>&lt;pre&gt;</code>, and a contents list with links into the repo). Summaries come from "
-        "<code>SKILL.md</code> (YAML <code>description</code>, <code>## Purpose</code>, or opening text).</p>"
+    skills_intro = _load_intro_fragment(
+        "catalog-skills-intro.html",
+        (
+            "<p>Each card opens a <strong>skill detail page</strong> (description, ASCII package layout in a "
+            "<code>&lt;pre&gt;</code>, and a contents list with links into the repo). Summaries come from "
+            "<code>SKILL.md</code> (YAML <code>description</code>, <code>## Purpose</code>, or opening text).</p>"
+        ),
     )
     skills_body = f'<h2>Skills ({len(skills)})</h2><div class="cap-grid">{_card_block_skills(skills, up_to_repo)}</div>'
     (output_catalog_dir / "skills.html").write_text(
@@ -752,10 +766,13 @@ def write_html_pages(
         encoding="utf-8",
     )
 
-    agents_intro = (
-        "<p>Each card opens an <strong>agent detail page</strong> (same layout as skills: description, "
-        "ASCII layout diagram, contents). Entry file is <code>AGENT.md</code>, then "
-        "<code>AGENTS.md</code>, then <code>SKILL.md</code>.</p>"
+    agents_intro = _load_intro_fragment(
+        "catalog-agents-intro.html",
+        (
+            "<p>Each card opens an <strong>agent detail page</strong> (same layout as skills: description, "
+            "ASCII layout diagram, contents). Entry file is <code>AGENT.md</code>, then "
+            "<code>AGENTS.md</code>, then <code>SKILL.md</code>.</p>"
+        ),
     )
     agents_body = f'<h2>Agents ({len(agents)})</h2><div class="cap-grid">{_card_block_agents(agents, up_to_repo)}</div>'
     (output_catalog_dir / "agents.html").write_text(

@@ -270,7 +270,16 @@ h2:first-child { margin-top: 0; }
   <a href="agents.html" class="nav__link">Agents</a>
 </nav>
 
-<p>Each card opens a <strong>skill detail page</strong> (description, ASCII package layout in a <code>&lt;pre&gt;</code>, and a contents list with links into the repo). Summaries come from <code>SKILL.md</code> (YAML <code>description</code>, <code>## Purpose</code>, or opening text).</p>
+<p>Practice skills live under <code>skills/</code> as one folder per skill with a
+<code>SKILL.md</code> entry. Each card below opens a <strong>skill detail page</strong>:
+reader-facing description (from <code>## Purpose</code> when present, else YAML
+<code>description</code> or opening body), an ASCII overview of the package layout
+inside a <code>&lt;pre&gt;</code>, and a contents list. Top-level files and each
+first-level folder show a short folder summary plus every file directly inside
+that folder, each with a one-line preview and an <strong>open file</strong> link.
+Links into the repository open in a <strong>new tab</strong> so this page stays
+open. The short text on each card is generated from <code>SKILL.md</code> for
+navigation only; treat the detail page as the canonical explanation.</p>
 
 <h2>Skills (17)</h2><div class="cap-grid"><a class="cap-card" href="skill/abd-acceptance-criteria.html">
   <p class="cap-card__title"><span class="cap-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#1a1a1e"/><path d="M7 8h10M7 12h7M7 16h10" stroke="#ff7a00" stroke-width="1.5" stroke-linecap="round"/></svg></span>abd-acceptance-criteria</p>
