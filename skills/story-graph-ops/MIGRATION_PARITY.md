@@ -19,7 +19,7 @@ Minimum set that is **not** optional if the skill truly owns the graph lifecycle
 2. **`domain.py`**: `DomainConcept`, `StoryUser`, etc.
 3. **`story_graph_paths.py`**: path layout (or an injectable `StoryGraphPaths`-compatible object).
 4. **`test_class_mover.py`**: used from nodes for test-class moves (logging paths should be neutralized for standalone use).
-5. **`updater.py`**: merge/report application; today it imports **`synchronizers.story_io`** (`DrawIOStoryMap`, `UpdateReport`). Full parity either vendors that subtree or splits “file-only StoryMap updates” from DrawIO sync.
+5. **`updater.py`** (optional for this skill): applies a structured **merge report** to a `StoryMap` (renames, moves, new nodes, increments). It is **not** for scanning. Today it is wired to **`DrawIOStoryMap`** / **`UpdateReport`** from diagram sync—keep that in **drawio-story-sync** or agile_bots; **story-graph-ops** does not need it for direct JSON edits.
 
 Cross-cutting refactors required for **standalone** use (no agile_bots `Bot`):
 
@@ -33,12 +33,15 @@ Those tests assert the **agile_bots REPL/CLI** contract: `story_graph.<path>.cre
 
 That is **not** the same as `story_graph_cli.py` today, which only implements **read / names / search / filter / write** on JSON.
 
-**Intended end state:** once `story_graph_cli.py` (or a sibling `story_graph_mutate.py`) exposes the **same operations** as the bot’s `story_graph.*` commands, the **scenarios** from `TestCreateEpic`, `TestMoveStoryNode`, etc. should be **ported** as:
+**Intended end state:** once `story_graph_cli.py` exposes the **same operations** as the bot’s `story_graph.*` commands, port the **scenarios** from `TestCreateEpic`, `TestMoveStoryNode`, etc.
 
-- subprocess tests: `python scripts/story_graph_cli.py create-epic --file ...` with golden JSON or `read` assertions; or  
-- in-process tests: import `story_graph_full.StoryMap` (or final package name) and assert on dict/file.
+**CLI shape (prefer bot parity):** mutation commands should accept **dot-style paths** like the current bot CLI (e.g. `story_graph."Invoke Bot".create_sub_epic`), not only “pipe a full golden `story-graph.json`.” Use `--file` for which graph to edit; use a single **`--path`** (or positional) string for the dotted navigation + operation so subprocess tests read like the old TTY cases.
 
-`TTYBotTestHelper` itself stays **bot-specific**; the **behaviors and assertions** port to the skill’s CLI or Python API. There is no good reason to exclude them from the migration—only a sequencing reason: they depend on the mutation surface existing first.
+**Assertions:** you do **not** have to check in giant golden JSON files. Typical pattern: run the dot-notation mutate command, then `story_graph_cli.py read --file ...` (or `names` / `search`) and assert on **parsed JSON** or listed lines—same information, less brittle than diffing a whole file unless you want an explicit golden for regression.
+
+**In-process alternative:** import the full `StoryMap` (vendored package) and assert on dict/file when you want faster tests without subprocess overhead.
+
+`TTYBotTestHelper` stays **bot-specific**; the **cases** port to the skill CLI or Python API once the mutation surface exists.
 
 ## Suggested phases
 
