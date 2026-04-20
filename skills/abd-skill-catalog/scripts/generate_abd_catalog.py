@@ -492,7 +492,7 @@ def write_entry_detail_pages(
             .replace("{{BRAND}}", brand)
             .replace("{{BACK_HREF}}", f"{nav_prefix}skills.html")
             .replace("{{BACK_LABEL}}", "← All skills")
-            .replace("{{BADGE}}", "Practice skill")
+            .replace("{{BADGE}}", "Skill")
             .replace("{{H1}}", _h(s.name))
             .replace("{{TAGLINE}}", _h(s.summary))
             .replace("{{NAV_PREFIX}}", nav_prefix)
@@ -550,7 +550,7 @@ def generate_outline_md(
         "This outline mirrors the reader-facing style of `process-outline.md`:",
         "each row gives a **short description** and where to open the source.",
         "",
-        "## Summary — Practice skills",
+        "## Summary — Skills",
         "",
         "| Skill | Description | Open |",
         "| --- | --- | --- |",
@@ -721,7 +721,7 @@ def write_html_pages(
     hub_intro = _load_intro_fragment(
         "catalog-hub-intro.html",
         (
-            "<p>Browse practice <a href=\"skills.html\">skills</a> and "
+            "<p>Browse <a href=\"skills.html\">skills</a> and "
             "<a href=\"agents.html\">agents</a> in this repository. "
             "For a single diffable document, open "
             f"<a href=\"{outline_href}\">outline.md</a>.</p>"
@@ -760,7 +760,7 @@ def write_html_pages(
             idx_tpl,
             title="ABD catalogue — Skills",
             brand=brand,
-            h1="Practice skills",
+            h1="Skills",
             tagline=f"{len(skills)} entries.",
             intro=skills_intro,
             nav_current="skills",

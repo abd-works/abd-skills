@@ -15,7 +15,7 @@ metadata:
 
 # ABD Skill & Agent Catalogue
 
-Maintain a browsable catalogue of **practice skills** under the repo root
+Maintain a browsable catalogue of **skills** under the repo root
 `skills/` and **agents** under `agents/`, aligned with the tone of
 `agents/abd-skill-builder/docs/process-outline.md` and the compact HTML chrome
 used under `agents/abd-skill-builder/docs/overview/`.

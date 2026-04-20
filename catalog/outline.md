@@ -6,7 +6,7 @@
 This outline mirrors the reader-facing style of `process-outline.md`:
 each row gives a **short description** and where to open the source.
 
-## Summary — Practice skills
+## Summary — Skills
 
 | Skill | Description | Open |
 | --- | --- | --- |
