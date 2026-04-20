@@ -42,8 +42,11 @@ Each catalogue entry includes:
 
 - **Summary** — one paragraph for summary tables and HTML cards: YAML
   `description`, else flattened `## Purpose`, else opening text after the H1.
-- **Description** — expanded purpose text from `## Purpose` when present, else
-  YAML `description` or body excerpt (used in the outline detail sections).
+- **Description** (detail page) — `## Purpose` when present, else YAML
+  `description`, else **intro after the title** (all paragraphs until the first
+  `##` heading, capped). Agents without `## Purpose` no longer embed the entire
+  `AGENT.md` in the catalogue; layout matches skills: short prose, then diagram,
+  then contents.
 - **Repository layout** — top-level files with a one-line blurb and relative
   link; directories render as nested **expand/collapse** trees (HTML
   `<details>` / `<summary>`): subfolders and files to a capped depth, each file
@@ -53,8 +56,8 @@ Each catalogue entry includes:
   summary from that skill’s YAML `description` / `## Purpose`. The first few
   nesting levels default to **expanded** so typical trees show files without
   extra clicks (still collapsible).
-- **Detail pages** — full description, an ASCII package diagram inside a
-  `<pre>` (same spirit as `agents/abd-skill-builder/docs/overview/` capability
+- **Detail pages** — description block as above, an ASCII package diagram inside
+  a `<pre>` (same spirit as `agents/abd-skill-builder/docs/overview/` capability
   pages), and a contents list with links into the repository. Those repo links
   use `target="_blank"` so the dark catalogue page stays open while `.md` and
   other files open in another tab.

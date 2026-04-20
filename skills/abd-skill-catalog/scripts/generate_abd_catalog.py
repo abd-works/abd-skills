@@ -135,6 +135,41 @@ def _opening_blurb_after_h1(body: str, max_len: int = 260) -> str:
     return _truncate(joined, max_len) if joined else ""
 
 
+def _intro_after_h1_until_section(body: str, max_len: int = 2000) -> str:
+    """All prose after the title # line until the first ## heading (skips YAML --- only at block start).
+
+    Used for catalogue detail pages when ## Purpose and YAML description are missing, so agent pages
+    match skill pages (short multi-paragraph summary, not the full AGENT.md).
+    """
+    lines = body.splitlines()
+    i = 0
+    if i < len(lines) and lines[i].lstrip().startswith("#"):
+        i += 1
+    parts: list[str] = []
+    blank_run = 0
+    while i < len(lines):
+        raw = lines[i]
+        if raw.startswith("##"):
+            break
+        s = raw.strip()
+        if s.startswith("```"):
+            break
+        if s == "---":
+            i += 1
+            continue
+        if not s:
+            blank_run += 1
+            if blank_run >= 2 and parts:
+                break
+            i += 1
+            continue
+        blank_run = 0
+        parts.append(s)
+        i += 1
+    joined = _strip_md(" ".join(parts))
+    return _truncate(joined, max_len) if joined else ""
+
+
 def _table_blurb(fm: dict[str, str], body: str, max_len: int = 300) -> str:
     """One paragraph for summary tables and HTML cards: YAML description, else Purpose, else opening text."""
     desc = fm.get("description", "").strip()
@@ -307,14 +342,20 @@ def _repo_href(href_to_repo: str, rel_posix: str) -> str:
 
 
 def _full_purpose_plain(fm: dict[str, str], body: str) -> str:
-    """Full description text from ## Purpose (preferred), else YAML description, else body."""
+    """Detail-page description: ## Purpose, else YAML description, else intro after H1 (until next ##), else truncated body.
+
+    Agents often omit ## Purpose; dumping the full AGENT.md breaks the same layout as skills (short prose, then diagram, then contents).
+    """
     purpose = _extract_section(body, "Purpose")
     if purpose:
         return _strip_md(purpose)
     desc = fm.get("description", "")
     if desc.strip():
         return _strip_md(desc)
-    return _strip_md(body)
+    intro = _intro_after_h1_until_section(body, max_len=2000)
+    if intro.strip():
+        return intro
+    return _truncate(_strip_md(body), 1600)
 
 
 def _load_package_source(package_dir: Path, kind: str) -> tuple[dict[str, str], str, str]:

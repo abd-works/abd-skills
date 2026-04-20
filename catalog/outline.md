@@ -258,7 +258,7 @@ Render and synchronize story-map DrawIO diagrams (outline, exploration with acce
 **Repository layout:**
 
 - **[scripts/](../skills/drawio-story-sync/scripts)** — Build, catalogue, validation, or packaging automation.
-- **[tests/](../skills/drawio-story-sync/tests)** — Folder (2 items).
+- **[tests/](../skills/drawio-story-sync/tests)** — Folder (3 items).
 - [SKILL.md](../skills/drawio-story-sync/SKILL.md) — name: drawio-story-sync
 
 ### execute-rules
@@ -277,7 +277,7 @@ Bundle rules into SKILL.md, run scanners, quality steps (rules before work), and
 
 - **[scripts/](../skills/execute_using_rules/scripts)** — Build, catalogue, validation, or packaging automation.
 - **[templates/](../skills/execute_using_rules/templates)** — Authoring templates and structural skeletons.
-- **[tests/](../skills/execute_using_rules/tests)** — Folder (3 items).
+- **[tests/](../skills/execute_using_rules/tests)** — Folder (4 items).
 - [SKILL.md](../skills/execute_using_rules/SKILL.md) — name: execute-rules
 
 ### abd-ooad
@@ -361,7 +361,7 @@ Create, read, update, and delete story-graph.json (whole file or parts—epics, 
 **Repository layout:**
 
 - **[scripts/](../skills/story-graph-ops/scripts)** — Build, catalogue, validation, or packaging automation.
-- **[tests/](../skills/story-graph-ops/tests)** — Folder (2 items).
+- **[tests/](../skills/story-graph-ops/tests)** — Folder (3 items).
 - [SKILL.md](../skills/story-graph-ops/SKILL.md) — name: story-graph-ops
 
 ### track-task
