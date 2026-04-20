@@ -22,12 +22,14 @@ from story_graph_ops.story_graph_scope import (
     StoryGraphFilter,
     StoryGraphScope,
 )
+from story_graph_ops.story_graph_diff import diff_hierarchy_epics
 from story_graph_ops.update_report import UpdateReport
 
 __all__ = [
     'AcceptanceCriteria',
     'Collaborator',
     'DomainConcept',
+    'diff_hierarchy_epics',
     'Epic',
     'EpicsCollection',
     'FileFilter',

@@ -1277,6 +1277,15 @@ class Epic(StoryNode):
     def sub_epics(self) -> List['SubEpic']:
         return [child for child in self.children if isinstance(child, SubEpic)]
 
+    def comparison_role(self) -> str:
+        return "epic"
+
+    def get_sub_epics(self) -> List["SubEpic"]:
+        return list(self.sub_epics)
+
+    def get_stories(self) -> List["Story"]:
+        return []
+
     @property
     def behavior_needed(self) -> str:
         hierarchy = ['shape', 'exploration', 'scenarios', 'tests', 'code']
@@ -1451,6 +1460,15 @@ class SubEpic(StoryNode):
             elif isinstance(child, StoryGroup):
                 result.extend(child.children)
         return result
+
+    def comparison_role(self) -> str:
+        return "sub_epic"
+
+    def get_sub_epics(self) -> List["SubEpic"]:
+        return list(self.sub_epics)
+
+    def get_stories(self) -> List["Story"]:
+        return list(self.stories)
 
     @property
     def all_stories(self) -> List['Story']:
@@ -1727,6 +1745,15 @@ class Story(StoryNode):
     @property
     def children(self) -> List['StoryNode']:
         return self._children
+
+    def comparison_role(self) -> str:
+        return "story"
+
+    def get_sub_epics(self) -> List["SubEpic"]:
+        return []
+
+    def get_stories(self) -> List["Story"]:
+        return []
     
     def __getitem__(self, child_name: str) -> 'StoryNode':
         """Access child by name"""
@@ -2450,6 +2477,10 @@ class StoryMap:
     @property
     def epics(self) -> EpicsCollection:
         return self._epics
+
+    def comparison_epics(self) -> List["Epic"]:
+        """Epic roots used for diagram-vs-json diff (override in diagram-backed maps)."""
+        return list(self._epics_list)
     
     def __getitem__(self, epic_name: str) -> Epic:
         """Allow epic access by name: story_map['Epic Name']"""

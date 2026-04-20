@@ -359,22 +359,16 @@ h2:first-child { margin-top: 0; }
 </nav>
 
 <h2>Description</h2>
-<div class="entry-prose">Set and read the agent engagement root (skill-config.json → workspace.active_skill_workspace). Run scripts from this folder; they resolve the agent root automatically.</div>
+<div class="entry-prose"><p>Set and read the agent engagement root (skill-config.json → workspace.active_skill_workspace). Run scripts from this folder; they resolve the agent root automatically.</p></div>
 
 <hr class="entry-divider">
 
 <h2>How it fits together</h2>
-<p class="entry-caption">Flow and responsibilities first, then top-level repo paths for orientation (expand <strong>Contents</strong> below for the full tree and links).</p>
-<pre class="ascii-diagram" role="img" aria-label="How this package works and top-level paths">How this skill fits together
-──────────────────────────────
-  Entry: SKILL.md — when to use, procedure, guardrails.
-  Supporting dirs (references/, scripts/, templates/, …) depend on the skill;
-  the tree below is a quick map of what ships in this folder.
+<pre class="ascii-diagram" role="img" aria-label="How it fits together">CLI / agent session
+           |
+           v
+  workspace_skill -----&gt; resolved workspace root -----&gt; all paths relative to it</pre>
 
-Repo root — skills/workspace_skill/
-├── scripts/
-├── SKILL.md
-└── Untitled</pre>
 
 <hr class="entry-divider">
 
@@ -384,6 +378,7 @@ Repo root — skills/workspace_skill/
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/workspace_skill/scripts/get_workspace.py" target="_blank" rel="noopener noreferrer"><strong>get_workspace.py</strong></a><span class="file-meta"> → !/usr/bin/env python3</span></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/workspace_skill/scripts/set_workspace.py" target="_blank" rel="noopener noreferrer"><strong>set_workspace.py</strong></a><span class="file-meta"> → !/usr/bin/env python3</span></li>
 </ul></div></details></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/workspace_skill/README.md" target="_blank" rel="noopener noreferrer"><strong>README.md</strong></a><span class="file-meta"> → One line for catalogue cards and grids (YAML string).</span></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/workspace_skill/SKILL.md" target="_blank" rel="noopener noreferrer"><strong>SKILL.md</strong></a><span class="file-meta"> → name: workspace</span></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/workspace_skill/Untitled" target="_blank" rel="noopener noreferrer"><strong>Untitled</strong></a><span class="file-meta"> → workspace_skill</span></li>
 </ul>

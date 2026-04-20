@@ -1,7 +1,7 @@
 from typing import List, Optional, Any, Set
 from dataclasses import dataclass, field
-from story_graph.nodes import StoryNode, Epic, SubEpic, Story, StoryGroup
-from story_graph.domain import DomainConcept, StoryUser
+from story_graph_ops.nodes import StoryNode, Epic, SubEpic, Story, StoryGroup
+from story_graph_ops.domain import DomainConcept, StoryUser
 from .diagram_story_node import (
     DiagramStoryNode, DiagramEpic, DiagramSubEpic, DiagramStory, DiagramIncrement
 )

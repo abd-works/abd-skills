@@ -230,11 +230,13 @@ def discover_skills(skills_dir: Path, repo_root: Path) -> list[SkillEntry]:
         body = FRONTMATTER_RE.sub("", text).strip()
         name = fm.get("name", child.name)
         rel = skill_md.relative_to(repo_root).as_posix()
+        summary = _table_blurb(fm, body)
+        summary = _readme_catalogue_card_summary(child / "README.md", summary)
         out.append(
             SkillEntry(
                 name=name,
                 dir_name=child.name,
-                summary=_table_blurb(fm, body),
+                summary=summary,
                 description=_description_skill(fm, body),
                 rel_skill_md=rel,
             )
@@ -260,12 +262,14 @@ def discover_agents(agents_dir: Path, repo_root: Path) -> list[AgentEntry]:
         body = FRONTMATTER_RE.sub("", text).strip()
         name = _agent_display_name(fm, body, child.name)
         rel = (child / entry_name).relative_to(repo_root).as_posix()
+        summary = _table_blurb(fm, body)
+        summary = _readme_catalogue_card_summary(child / "README.md", summary)
         out.append(
             AgentEntry(
                 name=name,
                 dir_name=child.name,
                 entry_file=entry_name,
-                summary=_table_blurb(fm, body),
+                summary=summary,
                 description=_description_agent(fm, body),
                 rel_entry_md=rel,
             )
@@ -378,79 +382,298 @@ def _load_package_source(package_dir: Path, kind: str) -> tuple[dict[str, str], 
     return {}, "", ""
 
 
-# Catalogue detail pages: optional behavior-first ASCII (by agent directory name).
-_AGENT_CATALOG_FLOW: dict[str, str] = {
-    "abd-delivery-lead": (
-        "ABD Delivery Lead — how it runs\n"
-        "──────────────────────────────────\n"
-        "  workspace + agile-delivery-plan.md (+ context, start/end stages)\n"
-        "              │\n"
-        "              ▼\n"
-        "   abd-delivery-planning (skill)\n"
-        "   context, risks, runs, checkpoints\n"
-        "              │\n"
-        "              ▼\n"
-        "      stages/*.md — team role + entry/exit gates per stage\n"
-        "              │\n"
-        "              ▼\n"
-        "  bootstrap abd-team-member (team-role from stage definition)\n"
-        "              │\n"
-        "              ▼\n"
-        "  member runs practice skills in workspace; you own gates + handoffs\n"
-        "              │\n"
-        "              ▼\n"
-        "  track_task checklist · corrections (execute_using_rules) · workspace_skill\n"
-    ),
-}
+def _load_readme_markdown(path: Path) -> tuple[dict[str, str], str]:
+    """README.md body after optional YAML frontmatter."""
+    raw = path.read_text(encoding="utf-8", errors="replace")
+    fm = _parse_frontmatter(raw)
+    body = FRONTMATTER_RE.sub("", raw).strip() if FRONTMATTER_RE.match(raw) else raw.strip()
+    return fm, body
 
 
-def _ascii_repo_root_tree_lines(package_dir: Path, repo_rel: str) -> list[str]:
-    """Top-level names under package_dir (for reference after the flow block)."""
-    if not package_dir.is_dir():
-        return ["(could not read package directory)"]
-    try:
-        kids = sorted(package_dir.iterdir(), key=lambda p: (not p.is_dir(), p.name.lower()))
-        kids = [p for p in kids if not p.name.startswith(".")]
-    except OSError:
-        return ["(could not read directory)"]
-    lines = [f"Repo root — {repo_rel}/"]
-    for i, p in enumerate(kids):
-        branch = "└── " if i == len(kids) - 1 else "├── "
-        label = p.name + ("/" if p.is_dir() else "")
-        lines.append(branch + label)
-    return lines
+def _escape_yaml_double_quoted_scalar(s: str) -> str:
+    one = " ".join(s.split())
+    return one.replace("\\", "\\\\").replace('"', '\\"')
 
 
-def _ascii_catalog_diagram(
-    repo_rel: str,
-    entry_filename: str,
-    package_dir: Path,
-    *,
-    kind: str,
-    dir_name: str,
-) -> str:
-    """Behavior-first ASCII for catalogue detail pages, then a compact repo-root tree."""
-    ef = entry_filename if len(entry_filename) <= 24 else entry_filename[:21] + "…"
-    if kind == "agent":
-        flow = _AGENT_CATALOG_FLOW.get(
-            dir_name,
-            "How this agent fits together\n"
-            "──────────────────────────────\n"
-            f"  Entry: {ef} — orchestration, required inputs, sequencing.\n"
-            "  Load the skills this agent names (under skills/…) for planning,\n"
-            "  tracking, rules, and work delegated to people or other agents.\n"
-            "  Local docs/, stages/, scripts/ support the workflow in the entry doc.\n",
+def _readme_catalogue_card_summary(readme_path: Path, fallback: str) -> str:
+    """One line for grids: YAML catalogue_summary, else first Overview paragraph, else fallback."""
+    if not readme_path.is_file():
+        return fallback
+    fm, body = _load_readme_markdown(readme_path)
+    cs = fm.get("catalogue_summary", "").strip()
+    if cs:
+        return _truncate(_strip_md(cs), 300)
+    ov = _extract_section(body, "Overview")
+    if ov:
+        flat = _strip_md(re.sub(r"\s+", " ", ov.replace("\n", " ")))
+        return _truncate(flat, 300)
+    return fallback
+
+
+def _extract_first_fence_body(section: str) -> str:
+    """First fenced ``` / ```ascii / ```text block in section; inner body only."""
+    if not section:
+        return ""
+    text = section.replace("\r\n", "\n").replace("\r", "\n")
+    for pat in (
+        r"(?m)^```(?:ascii|text)\s*\n(.*?)^```\s*$",
+        r"(?m)^```\s*\n(.*?)^```\s*$",
+    ):
+        m = re.search(pat, text, flags=re.DOTALL)
+        if m:
+            return m.group(1).strip()
+    return ""
+
+
+def _parse_catalog_readme_detail(readme_path: Path) -> tuple[str, str] | None:
+    """Return (overview_markdown, ascii_diagram) from README; None if file missing."""
+    if not readme_path.is_file():
+        return None
+    _, body = _load_readme_markdown(readme_path)
+    overview = (_extract_section(body, "Overview") or "").strip()
+    how = (_extract_section(body, "How it fits together") or "").strip()
+    # Only fenced blocks become the diagram — never dump italic / prose into <pre>.
+    ascii_block = _extract_first_fence_body(how)
+    return overview, ascii_block
+
+
+def _strip_catalog_maintainer_notes(overview_md: str) -> str:
+    """Remove italic maintainer hints from catalogue README overviews."""
+    lines = [ln for ln in overview_md.splitlines() if not ln.strip().startswith("_Maintainer")]
+    return "\n".join(lines).strip()
+
+
+_LIST_LINE_RE = re.compile(r"^( *)- (.*)$")
+
+
+def _inline_markdown_spans(s: str) -> str:
+    """Convert `` `code` `` and **bold** to HTML; escape all other characters."""
+    out: list[str] = []
+    i = 0
+    n = len(s)
+    while i < n:
+        if s.startswith("**", i):
+            j = s.find("**", i + 2)
+            if j != -1:
+                out.append("<strong>")
+                out.append(html_mod.escape(s[i + 2 : j]))
+                out.append("</strong>")
+                i = j + 2
+                continue
+        if s[i] == "`":
+            j = s.find("`", i + 1)
+            if j != -1:
+                out.append("<code>")
+                out.append(html_mod.escape(s[i + 1 : j]))
+                out.append("</code>")
+                i = j + 1
+                continue
+        out.append(html_mod.escape(s[i]))
+        i += 1
+    return "".join(out)
+
+
+class _LiNode:
+    __slots__ = ("level", "html", "children")
+
+    def __init__(self, level: int, html: str) -> None:
+        self.level = level
+        self.html = html
+        self.children: list[_LiNode] = []
+
+
+def _md_nested_list_to_html(lines: list[str]) -> str:
+    """Markdown-style nested lists (2 spaces per level); inline ** and ` in item text."""
+    dummy = _LiNode(-1, "")
+    stack: list[_LiNode] = [dummy]
+    for line in lines:
+        m = _LIST_LINE_RE.match(line.rstrip("\n"))
+        if not m:
+            joined = "\n".join(lines)
+            return f"<p>{_h(joined).replace(chr(10), '<br>')}</p>"
+        indent, raw = m.group(1), m.group(2)
+        level = len(indent) // 2
+        html = _inline_markdown_spans(raw)
+        node = _LiNode(level, html)
+        while len(stack) > 1 and stack[-1].level >= level:
+            stack.pop()
+        stack[-1].children.append(node)
+        stack.append(node)
+
+    def li_inner(n: _LiNode) -> str:
+        parts = [n.html]
+        if n.children:
+            parts.append("<ul>")
+            for c in n.children:
+                parts.append("<li>")
+                parts.append(li_inner(c))
+                parts.append("</li>")
+            parts.append("</ul>")
+        return "".join(parts)
+
+    return "<ul>" + "".join(f"<li>{li_inner(c)}</li>" for c in dummy.children) + "</ul>"
+
+
+def _collapse_blank_lines_between_list_items(text: str) -> str:
+    """So `- a`\\n\\n`- b` becomes one markdown list (one HTML <ul>) for catalogue overviews."""
+    lines = text.splitlines()
+    out: list[str] = []
+    i = 0
+    n = len(lines)
+    while i < n:
+        ln = lines[i]
+        if not ln.strip():
+            j = i + 1
+            while j < n and not lines[j].strip():
+                j += 1
+            if j < n and out:
+                prev_raw = out[-1]
+                next_raw = lines[j]
+                if _LIST_LINE_RE.match(prev_raw.rstrip("\n")) and _LIST_LINE_RE.match(
+                    next_raw.rstrip("\n")
+                ):
+                    i = j
+                    continue
+        out.append(ln)
+        i += 1
+    return "\n".join(out)
+
+
+def _split_overview_blocks(text: str) -> list[tuple[str, list[str]]]:
+    """Split overview into alternating list blocks and paragraph blocks (blank line separates)."""
+    blocks: list[tuple[str, list[str]]] = []
+    cur_kind: str | None = None
+    cur_lines: list[str] = []
+
+    def flush() -> None:
+        nonlocal cur_kind, cur_lines
+        if not cur_lines or cur_kind is None:
+            cur_lines = []
+            cur_kind = None
+            return
+        blocks.append((cur_kind, cur_lines[:]))
+        cur_lines = []
+        cur_kind = None
+
+    for raw in text.splitlines():
+        stripped = raw.strip()
+        if not stripped:
+            flush()
+            continue
+        is_list = _LIST_LINE_RE.match(raw.rstrip("\n")) is not None
+        kind = "list" if is_list else "para"
+        if cur_kind is not None and kind != cur_kind:
+            flush()
+        cur_kind = kind
+        cur_lines.append(raw.rstrip("\n"))
+    flush()
+    return blocks
+
+
+def _para_block_to_html(lines: list[str]) -> str:
+    parts = [_inline_markdown_spans(ln.strip()) for ln in lines if ln.strip()]
+    if not parts:
+        return ""
+    inner = "<br>\n".join(parts) if len(parts) > 1 else parts[0]
+    return f"<p>{inner}</p>"
+
+
+def _plain_overview_to_html(text: str) -> str:
+    """Turn README ## Overview into HTML: paragraphs, nested - lists, **bold**, `` `code` ``."""
+    text = _collapse_blank_lines_between_list_items(
+        _strip_catalog_maintainer_notes(text).strip()
+    )
+    if not text:
+        return ""
+    blocks = _split_overview_blocks(text)
+    if not blocks:
+        return ""
+    out: list[str] = []
+    for kind, lines in blocks:
+        if kind == "list":
+            out.append(_md_nested_list_to_html(lines))
+        else:
+            h = _para_block_to_html(lines)
+            if h:
+                out.append(h)
+    return "\n".join(out)
+
+
+def _ascii_placeholder_no_fence() -> str:
+    return ""
+
+
+def _ascii_placeholder_no_readme() -> str:
+    return ""
+
+
+def _ascii_catalog_ready(raw: str) -> str:
+    """Drop scaffold TODO lines; keep only real diagram text for the HTML <pre>."""
+    t = raw.strip()
+    if not t:
+        return ""
+    low = t.lower()
+    if "todo" in low and "replace" in low:
+        return ""
+    return t
+
+
+def _html_how_it_fits_block(ascii_art: str) -> str:
+    """Heading + <pre> when there is diagram text; nothing when empty."""
+    t = _ascii_catalog_ready(ascii_art)
+    if not t:
+        return ""
+    return (
+        '<h2>How it fits together</h2>\n<pre class="ascii-diagram" role="img" '
+        'aria-label="How it fits together">'
+        + _h(t)
+        + "</pre>\n"
+    )
+
+
+def scaffold_catalog_readmes(
+    repo_root: Path,
+    skills: list[SkillEntry],
+    agents: list[AgentEntry],
+) -> int:
+    """Write skills/<dir>/README.md and agents/<dir>/README.md from templates only when missing.
+
+    Never overwrites an existing README.md — improve weak READMEs in the editor
+    or via an assistant; see abd-skill-catalog SKILL.md.
+    """
+    skill_tpl = (TEMPLATE_DIR / "catalog-readme-skill.md").read_text(encoding="utf-8", errors="replace")
+    agent_tpl = (TEMPLATE_DIR / "catalog-readme-agent.md").read_text(encoding="utf-8", errors="replace")
+    written = 0
+    for s in skills:
+        pkg = repo_root / "skills" / s.dir_name
+        dest = pkg / "README.md"
+        if dest.exists():
+            continue
+        fm, body, _ = _load_package_source(pkg, "skill")
+        stub = _truncate(_full_purpose_plain(fm, body), 1200) if body or fm else s.summary
+        text = (
+            skill_tpl.replace("{{NAME}}", s.name)
+            .replace("{{CATALOGUE_SUMMARY}}", _escape_yaml_double_quoted_scalar(s.summary))
+            .replace("{{OVERVIEW_STUB}}", stub)
         )
-    else:
-        flow = (
-            "How this skill fits together\n"
-            "──────────────────────────────\n"
-            f"  Entry: {ef} — when to use, procedure, guardrails.\n"
-            "  Supporting dirs (references/, scripts/, templates/, …) depend on the skill;\n"
-            "  the tree below is a quick map of what ships in this folder.\n"
+        dest.write_text(text, encoding="utf-8", newline="\n")
+        written += 1
+    for a in agents:
+        pkg = repo_root / "agents" / a.dir_name
+        dest = pkg / "README.md"
+        if dest.exists():
+            continue
+        fm, body, _ = _load_package_source(pkg, "agent")
+        stub = _truncate(_full_purpose_plain(fm, body), 1200) if body or fm else a.summary
+        text = (
+            agent_tpl.replace("{{NAME}}", a.name)
+            .replace("{{CATALOGUE_SUMMARY}}", _escape_yaml_double_quoted_scalar(a.summary))
+            .replace("{{OVERVIEW_STUB}}", stub)
+            .replace("{{ENTRY_FILE}}", a.entry_file)
         )
-    tree = _ascii_repo_root_tree_lines(package_dir, repo_rel)
-    return flow.rstrip() + "\n\n" + "\n".join(tree)
+        dest.write_text(text, encoding="utf-8", newline="\n")
+        written += 1
+    return written
 
 
 def _folder_blurb(dir_name: str, child_count: int) -> str:
@@ -610,13 +833,22 @@ def write_entry_detail_pages(
 
     for s in skills:
         pkg = repo_root / "skills" / s.dir_name
-        fm, body, entry_fn = _load_package_source(pkg, "skill")
-        desc_plain = _full_purpose_plain(fm, body) if body or fm else s.summary
-        desc_html = _h(desc_plain).replace("\n", "<br>\n")
-        rel_posix = f"skills/{s.dir_name}"
-        ascii_art = _ascii_catalog_diagram(
-            rel_posix, entry_fn or "SKILL.md", pkg, kind="skill", dir_name=s.dir_name
-        )
+        fm, body, _ = _load_package_source(pkg, "skill")
+        readme_path = pkg / "README.md"
+        parsed = _parse_catalog_readme_detail(readme_path)
+        if parsed:
+            overview_r, ascii_r = parsed
+            if overview_r:
+                desc_html = _plain_overview_to_html(overview_r)
+            else:
+                desc_plain = _full_purpose_plain(fm, body) if body or fm else s.summary
+                desc_html = _h(desc_plain).replace("\n", "<br>\n")
+            ascii_art = _ascii_catalog_ready(ascii_r) if ascii_r.strip() else _ascii_placeholder_no_fence()
+        else:
+            desc_plain = _full_purpose_plain(fm, body) if body or fm else s.summary
+            desc_html = _h(desc_plain).replace("\n", "<br>\n")
+            ascii_art = _ascii_placeholder_no_readme()
+        how_block = _html_how_it_fits_block(ascii_art)
         file_list = _html_contents_list(repo_root, pkg, href_to_repo)
         html = (
             detail_tpl.replace("{{CSS}}", detail_css)
@@ -632,20 +864,29 @@ def write_entry_detail_pages(
             .replace("{{NAV_SKILLS}}", _nav_cls("skills", "skills"))
             .replace("{{NAV_AGENTS}}", _nav_cls("agents", "skills"))
             .replace("{{DESCRIPTION}}", desc_html)
-            .replace("{{ASCII_DIAGRAM}}", _h(ascii_art))
+            .replace("{{HOW_IT_FITS_BLOCK}}", how_block)
             .replace("{{FILE_LIST}}", file_list)
         )
         (skill_out / f"{s.dir_name}.html").write_text(html, encoding="utf-8")
 
     for a in agents:
         pkg = repo_root / "agents" / a.dir_name
-        fm, body, entry_fn = _load_package_source(pkg, "agent")
-        desc_plain = _full_purpose_plain(fm, body) if body or fm else a.summary
-        desc_html = _h(desc_plain).replace("\n", "<br>\n")
-        rel_posix = f"agents/{a.dir_name}"
-        ascii_art = _ascii_catalog_diagram(
-            rel_posix, entry_fn or a.entry_file, pkg, kind="agent", dir_name=a.dir_name
-        )
+        fm, body, _ = _load_package_source(pkg, "agent")
+        readme_path = pkg / "README.md"
+        parsed = _parse_catalog_readme_detail(readme_path)
+        if parsed:
+            overview_r, ascii_r = parsed
+            if overview_r:
+                desc_html = _plain_overview_to_html(overview_r)
+            else:
+                desc_plain = _full_purpose_plain(fm, body) if body or fm else a.summary
+                desc_html = _h(desc_plain).replace("\n", "<br>\n")
+            ascii_art = _ascii_catalog_ready(ascii_r) if ascii_r.strip() else _ascii_placeholder_no_fence()
+        else:
+            desc_plain = _full_purpose_plain(fm, body) if body or fm else a.summary
+            desc_html = _h(desc_plain).replace("\n", "<br>\n")
+            ascii_art = _ascii_placeholder_no_readme()
+        how_block = _html_how_it_fits_block(ascii_art)
         file_list = _html_contents_list(repo_root, pkg, href_to_repo)
         html = (
             detail_tpl.replace("{{CSS}}", detail_css)
@@ -661,7 +902,7 @@ def write_entry_detail_pages(
             .replace("{{NAV_SKILLS}}", _nav_cls("skills", "agents"))
             .replace("{{NAV_AGENTS}}", _nav_cls("agents", "agents"))
             .replace("{{DESCRIPTION}}", desc_html)
-            .replace("{{ASCII_DIAGRAM}}", _h(ascii_art))
+            .replace("{{HOW_IT_FITS_BLOCK}}", how_block)
             .replace("{{FILE_LIST}}", file_list)
         )
         (agent_out / f"{a.dir_name}.html").write_text(html, encoding="utf-8")
@@ -856,9 +1097,8 @@ def write_html_pages(
         "catalog-hub-intro.html",
         (
             "<p>Browse <a href=\"skills.html\">skills</a> and "
-            "<a href=\"agents.html\">agents</a> in this repository. "
-            "For a single diffable document, open "
-            f"<a href=\"{outline_href}\">outline.md</a>.</p>"
+            "<a href=\"agents.html\">agents</a>. "
+            f"<a href=\"{outline_href}\">outline.md</a> lists the same entries in one file.</p>"
         ),
     ).replace("{{OUTLINE_HREF}}", outline_href)
     hub_body = (
@@ -873,7 +1113,7 @@ def write_html_pages(
         title="ABD catalogue — Hub",
         brand=brand,
         h1="Skills &amp; agents catalogue",
-        tagline="Repository-wide index; outputs live at the repository root.",
+        tagline="Agile by Design skills and agents.",
         intro=hub_intro,
         nav_current="hub",
         body_inner=hub_body,
@@ -882,11 +1122,7 @@ def write_html_pages(
 
     skills_intro = _load_intro_fragment(
         "catalog-skills-intro.html",
-        (
-            "<p>Each card opens a <strong>skill detail page</strong> (description, behavior-first ASCII in a "
-            "<code>&lt;pre&gt;</code> plus a repo-root tree, then a contents list with links). Summaries come from "
-            "<code>SKILL.md</code> (YAML <code>description</code>, <code>## Purpose</code>, or opening text).</p>"
-        ),
+        "<p>Open a card for a full page on that skill.</p>",
     )
     skills_body = f'<h2>Skills ({len(skills)})</h2><div class="cap-grid">{_card_block_skills(skills, up_to_repo)}</div>'
     (output_catalog_dir / "skills.html").write_text(
@@ -905,11 +1141,7 @@ def write_html_pages(
 
     agents_intro = _load_intro_fragment(
         "catalog-agents-intro.html",
-        (
-            "<p>Each card opens an <strong>agent detail page</strong> (same layout as skills: description, "
-            "behavior-first ASCII plus repo-root tree, contents). Entry file is <code>AGENT.md</code>, then "
-            "<code>AGENTS.md</code>, then <code>SKILL.md</code>.</p>"
-        ),
+        "<p>Open a card for a full page on that agent.</p>",
     )
     agents_body = f'<h2>Agents ({len(agents)})</h2><div class="cap-grid">{_card_block_agents(agents, up_to_repo)}</div>'
     (output_catalog_dir / "agents.html").write_text(
@@ -947,6 +1179,11 @@ def main() -> None:
         default=None,
         help="Output directory for outline.md and all HTML (default: <repo-root>/catalog).",
     )
+    parser.add_argument(
+        "--scaffold-readmes",
+        action="store_true",
+        help="Create skills/<pkg>/README.md and agents/<pkg>/README.md from templates only where missing, then generate.",
+    )
     args = parser.parse_args()
 
     repo_root = (args.repo_root or SKILL_DIR.parent.parent).resolve()
@@ -961,6 +1198,11 @@ def main() -> None:
 
     skills = discover_skills(skills_dir, repo_root)
     agents = discover_agents(agents_dir, repo_root)
+    if args.scaffold_readmes:
+        n = scaffold_catalog_readmes(repo_root, skills, agents)
+        print(f"  scaffolded {n} catalogue README.md file(s)")
+        skills = discover_skills(skills_dir, repo_root)
+        agents = discover_agents(agents_dir, repo_root)
     if not skills and not agents:
         raise SystemExit("No skills or agents discovered.")
 

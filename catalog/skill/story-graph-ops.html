@@ -359,22 +359,16 @@ h2:first-child { margin-top: 0; }
 </nav>
 
 <h2>Description</h2>
-<div class="entry-prose">Create, read, update, and delete story-graph.json (whole file or parts—epics, sub-epics, stories, AC, scenarios) as a standalone artifact—no host app required. Agents must complete the ops loop: use this skill’s CLI or Python modules under scripts/, then validate the file—do not stop after hand-writing JSON from memory or from reading other repositories for “schema hints.” Prefer the story-graph CLI; use story_map and related modules for richer edits. Complements ABD practice skills—ops skill owns the serialized graph lifecycle on disk.</div>
+<div class="entry-prose"><p>Create, read, update, and delete story-graph.json (whole file or parts—epics, sub-epics, stories, AC, scenarios) as a standalone artifact—no host app required. Agents must complete the ops loop: use this skill’s CLI or Python modules under scripts/, then validate the file—do not stop after hand-writing JSON from memory or from reading other repositories for “schema hints.” Prefer the story-graph CLI; use story_map and related modules for richer edits. Complements ABD practice skills—ops skill owns the serialized graph lifecycle on disk.</p></div>
 
 <hr class="entry-divider">
 
 <h2>How it fits together</h2>
-<p class="entry-caption">Flow and responsibilities first, then top-level repo paths for orientation (expand <strong>Contents</strong> below for the full tree and links).</p>
-<pre class="ascii-diagram" role="img" aria-label="How this package works and top-level paths">How this skill fits together
-──────────────────────────────
-  Entry: SKILL.md — when to use, procedure, guardrails.
-  Supporting dirs (references/, scripts/, templates/, …) depend on the skill;
-  the tree below is a quick map of what ships in this folder.
+<pre class="ascii-diagram" role="img" aria-label="How it fits together">story-graph.json (file)
+           |
+           v
+  read / validate -----&gt; filter (increment, scope) -----&gt; JSON fragments for tools</pre>
 
-Repo root — skills/story-graph-ops/
-├── scripts/
-├── tests/
-└── SKILL.md</pre>
 
 <hr class="entry-divider">
 
@@ -389,6 +383,27 @@ Repo root — skills/story-graph-ops/
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/story-graph-ops/scripts/__pycache__/story_scanner.cpython-313.pyc" target="_blank" rel="noopener noreferrer"><strong>story_scanner.cpython-313.pyc</strong></a><span class="file-meta"> →     -]�i0	  �                  �   � S SK Jr  S SKJr  S SKJrJrJrJrJ	r	  S SK</span></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/story-graph-ops/scripts/__pycache__/story_scanner_runner.cpython-313.pyc" target="_blank" rel="noopener noreferrer"><strong>story_scanner_runner.cpython-313.pyc</strong></a><span class="file-meta"> →     �Z�i�  �                  �V  � S r SSKJr  SSKrSSKJr  \&quot; \5      R                  5       R                  r	\	R                  R                  r</span></li>
 </ul></div></details></li>
+<li class="file-tree__dir"><details class="file-tree__details" open><summary class="file-tree__summary"><strong>story_graph_ops/</strong><span class="file-meta"> → Folder (11 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
+<li class="file-tree__dir"><details class="file-tree__details" open><summary class="file-tree__summary"><strong>__pycache__/</strong><span class="file-meta"> → Folder (7 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/story-graph-ops/scripts/story_graph_ops/__pycache__/__init__.cpython-313.pyc" target="_blank" rel="noopener noreferrer"><strong>__init__.cpython-313.pyc</strong></a><span class="file-meta"> →     ��i�  �                   �   � S r SSKJrJrJrJr  SSKJrJrJ	r	J</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/story-graph-ops/scripts/story_graph_ops/__pycache__/domain.cpython-313.pyc" target="_blank" rel="noopener noreferrer"><strong>domain.cpython-313.pyc</strong></a><span class="file-meta"> →     �{i�</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/story-graph-ops/scripts/story_graph_ops/__pycache__/nodes.cpython-313.pyc" target="_blank" rel="noopener noreferrer"><strong>nodes.cpython-313.pyc</strong></a><span class="file-meta"> →     	��i�  �                   �</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/story-graph-ops/scripts/story_graph_ops/__pycache__/story_graph_paths.cpython-313.pyc" target="_blank" rel="noopener noreferrer"><strong>story_graph_paths.cpython-313.pyc</strong></a><span class="file-meta"> →     [X�i�</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/story-graph-ops/scripts/story_graph_ops/__pycache__/story_graph_scope.cpython-313.pyc" target="_blank" rel="noopener noreferrer"><strong>story_graph_scope.cpython-313.pyc</strong></a><span class="file-meta"> →     ��i�L  �                  ��   � S r SSKJr  SSKJr  SSKJrJrJrJ	r	J</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/story-graph-ops/scripts/story_graph_ops/__pycache__/story_map_updater.cpython-313.pyc" target="_blank" rel="noopener noreferrer"><strong>story_map_updater.cpython-313.pyc</strong></a><span class="file-meta"> →     ���i�%  �                   �R   � S r SSKJrJr  \(       a</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/story-graph-ops/scripts/story_graph_ops/__pycache__/update_report.cpython-313.pyc" target="_blank" rel="noopener noreferrer"><strong>update_report.cpython-313.pyc</strong></a><span class="file-meta"> →     %��i7_  �                   �b  � S SK r S SKJr  S SKJrJrJrJr  S SKJ	r	J</span></li>
+</ul></div></details></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/story-graph-ops/scripts/story_graph_ops/__init__.py" target="_blank" rel="noopener noreferrer"><strong>__init__.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Story graph domain and merge operations (no DrawIO dependency).&quot;&quot;&quot;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/story-graph-ops/scripts/story_graph_ops/_utils_min.py" target="_blank" rel="noopener noreferrer"><strong>_utils_min.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Minimal utils vendored from agile_bots src/utils.py for story-graph-ops only.&quot;&quot;&quot;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/story-graph-ops/scripts/story_graph_ops/domain.py" target="_blank" rel="noopener noreferrer"><strong>domain.py</strong></a><span class="file-meta"> → from typing import List, Dict, Any, Optional</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/story-graph-ops/scripts/story_graph_ops/nodes.py" target="_blank" rel="noopener noreferrer"><strong>nodes.py</strong></a><span class="file-meta"> → from abc import ABC, abstractmethod</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/story-graph-ops/scripts/story_graph_ops/story_graph_diff.py" target="_blank" rel="noopener noreferrer"><strong>story_graph_diff.py</strong></a><span class="file-meta"> → Compare two story-map-shaped trees and fill an UpdateReport.</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/story-graph-ops/scripts/story_graph_ops/story_graph_paths.py" target="_blank" rel="noopener noreferrer"><strong>story_graph_paths.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Centralized path resolution for story graph and documentation outputs.&quot;&quot;&quot;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/story-graph-ops/scripts/story_graph_ops/story_graph_scope.py" target="_blank" rel="noopener noreferrer"><strong>story_graph_scope.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Story-graph and file scoping (vendored from agile_bots src/scope/scope.py).</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/story-graph-ops/scripts/story_graph_ops/story_map_updater.py" target="_blank" rel="noopener noreferrer"><strong>story_map_updater.py</strong></a><span class="file-meta"> → StoryMapUpdater - Owns comparison and merge logic between two story maps.</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/story-graph-ops/scripts/story_graph_ops/test_class_mover.py" target="_blank" rel="noopener noreferrer"><strong>test_class_mover.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Utility for moving test classes between test files when stories move between sub-epics.&quot;&quot;&quot;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/story-graph-ops/scripts/story_graph_ops/update_report.py" target="_blank" rel="noopener noreferrer"><strong>update_report.py</strong></a><span class="file-meta"> → import json</span></li>
+</ul></div></details></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/story-graph-ops/scripts/domain_concept_node.py" target="_blank" rel="noopener noreferrer"><strong>domain_concept_node.py</strong></a><span class="file-meta"> → from typing import List, Dict, Any, Optional</span></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/story-graph-ops/scripts/graph_filters.py" target="_blank" rel="noopener noreferrer"><strong>graph_filters.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Filter and subset operations on raw story-graph JSON dicts.</span></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/story-graph-ops/scripts/README.md" target="_blank" rel="noopener noreferrer"><strong>README.md</strong></a><span class="file-meta"> → story-graph-ops scripts</span></li>
@@ -398,14 +413,18 @@ Repo root — skills/story-graph-ops/
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/story-graph-ops/scripts/story_scanner.py" target="_blank" rel="noopener noreferrer"><strong>story_scanner.py</strong></a><span class="file-meta"> → from __future__ import annotations</span></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/story-graph-ops/scripts/story_scanner_runner.py" target="_blank" rel="noopener noreferrer"><strong>story_scanner_runner.py</strong></a><span class="file-meta"> → !/usr/bin/env python3</span></li>
 </ul></div></details></li>
-<li class="file-list__folder"><details class="file-tree__details" open><summary class="file-tree__summary"><strong>tests/</strong><span class="file-meta"> → Folder (3 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
-<li class="file-tree__dir"><details class="file-tree__details" open><summary class="file-tree__summary"><strong>__pycache__/</strong><span class="file-meta"> → Folder (2 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
+<li class="file-list__folder"><details class="file-tree__details" open><summary class="file-tree__summary"><strong>tests/</strong><span class="file-meta"> → Folder (4 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
+<li class="file-tree__dir"><details class="file-tree__details" open><summary class="file-tree__summary"><strong>__pycache__/</strong><span class="file-meta"> → Folder (3 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/story-graph-ops/tests/__pycache__/conftest.cpython-313-pytest-8.3.2.pyc" target="_blank" rel="noopener noreferrer"><strong>conftest.cpython-313-pytest-8.3.2.pyc</strong></a><span class="file-meta"> →     ӊ�i&amp;  �                  �,  � S r SSKJr  SSKrSSKJs  Jr  SSK	r	SSK</span></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/story-graph-ops/tests/__pycache__/test_story_graph_file.cpython-313-pytest-8.3.2.pyc" target="_blank" rel="noopener noreferrer"><strong>test_story_graph_file.cpython-313-pytest-8.3.2.pyc</strong></a><span class="file-meta"> →     ֊�i�  �                  �   � S r SSKJr  SSKrSSKJs  Jr  SSK	r	SSK</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/story-graph-ops/tests/__pycache__/test_story_graph_scope.cpython-313-pytest-8.3.2.pyc" target="_blank" rel="noopener noreferrer"><strong>test_story_graph_scope.cpython-313-pytest-8.3.2.pyc</strong></a><span class="file-meta"> →     )��i�  �                   �^   � S r SSKrSSKJs  Jr  SSKJr  SSK	r	SSK</span></li>
 </ul></div></details></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/story-graph-ops/tests/conftest.py" target="_blank" rel="noopener noreferrer"><strong>conftest.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Put …/story-graph-ops/scripts on sys.path.&quot;&quot;&quot;</span></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/story-graph-ops/tests/test_story_graph_file.py" target="_blank" rel="noopener noreferrer"><strong>test_story_graph_file.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Round-trip and validation for :mod:story_graph_file.&quot;&quot;&quot;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/story-graph-ops/tests/test_story_graph_scope.py" target="_blank" rel="noopener noreferrer"><strong>test_story_graph_scope.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Tests for story_graph_ops.story_graph_scope (vendored scope filters).&quot;&quot;&quot;</span></li>
 </ul></div></details></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/story-graph-ops/MIGRATION_PARITY.md" target="_blank" rel="noopener noreferrer"><strong>MIGRATION_PARITY.md</strong></a><span class="file-meta"> → Story graph parity: agile_bots → story-graph-ops</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/story-graph-ops/README.md" target="_blank" rel="noopener noreferrer"><strong>README.md</strong></a><span class="file-meta"> → One line for catalogue cards and grids (YAML string).</span></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/story-graph-ops/SKILL.md" target="_blank" rel="noopener noreferrer"><strong>SKILL.md</strong></a><span class="file-meta"> → name: story-graph-ops</span></li>
 </ul>
 

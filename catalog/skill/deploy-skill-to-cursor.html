@@ -359,21 +359,16 @@ h2:first-child { margin-top: 0; }
 </nav>
 
 <h2>Description</h2>
-<div class="entry-prose">Deploy a skill from agilebydesign-skills into Cursor&#x27;s user skills folder using a Windows directory junction (no duplicate copy). Run scripts/Deploy-SkillToCursor.ps1 with the skill folder name. Use when you want the global Cursor skills path to point at the repo canonical skill.</div>
+<div class="entry-prose"><p>Deploy a skill from agilebydesign-skills into Cursor&#x27;s user skills folder using a Windows directory junction (no duplicate copy). Run scripts/Deploy-SkillToCursor.ps1 with the skill folder name. Use when you want the global Cursor skills path to point at the repo canonical skill.</p></div>
 
 <hr class="entry-divider">
 
 <h2>How it fits together</h2>
-<p class="entry-caption">Flow and responsibilities first, then top-level repo paths for orientation (expand <strong>Contents</strong> below for the full tree and links).</p>
-<pre class="ascii-diagram" role="img" aria-label="How this package works and top-level paths">How this skill fits together
-──────────────────────────────
-  Entry: SKILL.md — when to use, procedure, guardrails.
-  Supporting dirs (references/, scripts/, templates/, …) depend on the skill;
-  the tree below is a quick map of what ships in this folder.
+<pre class="ascii-diagram" role="img" aria-label="How it fits together">skill folder (SKILL.md + assets)
+           |
+           v
+  package / validate -----&gt; Cursor skills path -----&gt; installed SKILL</pre>
 
-Repo root — skills/deploy-skill-to-cursor/
-├── scripts/
-└── SKILL.md</pre>
 
 <hr class="entry-divider">
 
@@ -382,6 +377,7 @@ Repo root — skills/deploy-skill-to-cursor/
 <li class="file-list__folder"><details class="file-tree__details" open><summary class="file-tree__summary"><strong>scripts/</strong><span class="file-meta"> → Build, catalogue, validation, or packaging automation.</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/deploy-skill-to-cursor/scripts/Deploy-SkillToCursor.ps1" target="_blank" rel="noopener noreferrer"><strong>Deploy-SkillToCursor.ps1</strong></a><span class="file-meta"> → .SYNOPSIS</span></li>
 </ul></div></details></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/deploy-skill-to-cursor/README.md" target="_blank" rel="noopener noreferrer"><strong>README.md</strong></a><span class="file-meta"> → One line for catalogue cards and grids (YAML string).</span></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/deploy-skill-to-cursor/SKILL.md" target="_blank" rel="noopener noreferrer"><strong>SKILL.md</strong></a><span class="file-meta"> → name: deploy-skill-to-cursor</span></li>
 </ul>
 

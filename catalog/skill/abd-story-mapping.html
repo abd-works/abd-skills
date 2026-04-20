@@ -359,23 +359,16 @@ h2:first-child { margin-top: 0; }
 </nav>
 
 <h2>Description</h2>
-<div class="entry-prose">Teaches Patton-style story mapping: epics, sub-epics, stories, verb–noun naming, and actors via story_type. When building a map from sources, outputs all template artifacts in templates/ (currently story-map.md and story-map.txt) with the same tree — not one or the other. Use when structuring product discovery, decomposing user journeys, identifying epics and flows, story mapping, organizing requirements into a hierarchical map, or when the user mentions story maps, epics, sub-epics, or Jeff Patton–style backlog structure.</div>
+<div class="entry-prose"><p>Teaches Patton-style story mapping: epics, sub-epics, stories, verb–noun naming, and actors via story_type. When building a map from sources, outputs all template artifacts in templates/ (currently story-map.md and story-map.txt) with the same tree — not one or the other. Use when structuring product discovery, decomposing user journeys, identifying epics and flows, story mapping, organizing requirements into a hierarchical map, or when the user mentions story maps, epics, sub-epics, or Jeff Patton–style backlog structure.</p></div>
 
 <hr class="entry-divider">
 
 <h2>How it fits together</h2>
-<p class="entry-caption">Flow and responsibilities first, then top-level repo paths for orientation (expand <strong>Contents</strong> below for the full tree and links).</p>
-<pre class="ascii-diagram" role="img" aria-label="How this package works and top-level paths">How this skill fits together
-──────────────────────────────
-  Entry: SKILL.md — when to use, procedure, guardrails.
-  Supporting dirs (references/, scripts/, templates/, …) depend on the skill;
-  the tree below is a quick map of what ships in this folder.
+<pre class="ascii-diagram" role="img" aria-label="How it fits together">discovery inputs (users, journey)
+           |
+           v
+  templates/ -----&gt; story-map.md / .txt -----&gt; epics / sub-epics / stories</pre>
 
-Repo root — skills/abd-story-mapping/
-├── rules/
-├── scanners/
-├── templates/
-└── SKILL.md</pre>
 
 <hr class="entry-divider">
 
@@ -416,6 +409,7 @@ Repo root — skills/abd-story-mapping/
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/abd-story-mapping/templates/story-map.md" target="_blank" rel="noopener noreferrer"><strong>story-map.md</strong></a><span class="file-meta"> → &lt;!-- Pair required: also produce story-map.txt with the same tree. See SKILL.md → &quot;Use every template file (required)&quot;. --&gt;</span></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/abd-story-mapping/templates/story-map.txt" target="_blank" rel="noopener noreferrer"><strong>story-map.txt</strong></a><span class="file-meta"> → NOTE: Pair required — also produce story-map.md with the same tree. See SKILL.md → &quot;Use every template file (required)&quot;.</span></li>
 </ul></div></details></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/abd-story-mapping/README.md" target="_blank" rel="noopener noreferrer"><strong>README.md</strong></a><span class="file-meta"> → One line for catalogue cards and grids (YAML string).</span></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/abd-story-mapping/SKILL.md" target="_blank" rel="noopener noreferrer"><strong>SKILL.md</strong></a><span class="file-meta"> → name: abd-story-mapping</span></li>
 </ul>
 

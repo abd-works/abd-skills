@@ -1,3 +1,5 @@
+from . import _bootstrap  # noqa: F401
+
 from .story_io_position import Position, Boundary
 from .story_io_synchronizer import DrawIOSynchronizer, load_story_graph_json
 from .drawio_story_map import (

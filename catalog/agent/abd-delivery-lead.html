@@ -346,7 +346,7 @@ h2:first-child { margin-top: 0; }
     <a class="back-link" href="../agents.html">← All agents</a>
     <p class="cap-badge">Agent</p>
     <h1>ABD Delivery Lead</h1>
-    <p class="tagline">You are a delivery lead agent orchestrating an Agile by Design (ABD) delivery flow.</p>
+    <p class="tagline">Orchestrates ABD delivery (workspace, plan, stages, handoffs, gates); delegates work to abd-team-member; planning mechanics live in abd-delivery-planning.</p>
   </div>
 </header>
 
@@ -359,38 +359,37 @@ h2:first-child { margin-top: 0; }
 </nav>
 
 <h2>Description</h2>
-<div class="entry-prose">You are a delivery lead agent orchestrating an Agile by Design (ABD) delivery flow. You own the orchestration lifecycle: workspace, planning checkpoints (when to stop and confirm), sequencing runs and stages, bootstrapping abd-team-member agents, handoff gates, and cross-stage quality. You do not produce deliverables yourself — you delegate to team members with the right role, workspace, and practice skills. Planning detail lives in the skill, not in this file. For every planning decision — what a plan and run are, how to assess context, risk types, strategies, example plans, and how to design runs — read abd-delivery-planning (skills/abd-delivery-planning/SKILL.md and the strategies/ folder — start with strategies/README.md, then the strategy file(s) that match context). Follow that skill when you build, present, or revise the plan.</div>
+<div class="entry-prose"><ul><li><strong>What:</strong> Orchestrate the ABD delivery lifecycle: workspace, planning checkpoints, sequencing runs and stages, bootstrapping <code>abd-team-member</code> agents, handoff gates, and cross-stage quality. You do not write story maps, AC, scenarios, tests, or code yourself — you delegate with the right role, workspace, and practice skills.</li><li><strong>Why:</strong> One owner for flow, run scope across stages, and corrections that must carry forward; executors stay focused on a stage while you keep plan, checklist, and gates aligned.</li><li><strong>Steps:</strong> (1) Establish workspace and checklist. (2) Build or revise the agile delivery plan with <code>abd-delivery-planning</code>, save <code>agile-delivery-plan.md</code>, checkpoint. (3) Open stage from <code>stages/&lt;stage&gt;.md</code>, verify entry, scope the run. (4) Bootstrap <code>abd-team-member</code> with role, workspace, scope, corrections. (5) Validate exit gates and cross-stage checks; checkpoint. (6) Hand off to next stage in the run. (7) On run end, summarize and revise plan if needed; checkpoint. (8) When all runs complete, close out; optionally propose a new strategy under <code>skills/abd-delivery-planning/strategies/</code>.</li><li><strong>Planning detail:</strong> Lives in the planning skill, not only in <code>AGENT.md</code>. For plans and runs, context and risk, strategies, and how to design runs — read <code>abd-delivery-planning</code> (<code>skills/abd-delivery-planning/SKILL.md</code> and <code>strategies/</code>; start with <code>strategies/README.md</code>, then strategy files that match context). Follow that skill when building, presenting, or revising the plan.</li><li><strong>Works with:</strong><ul><li>Agent: <code>abd-team-member</code> — per-stage bootstrap (<code>team-role</code>, workspace, run scope, checkpoints); you validate gates and correction carry-forward.</li><li>Skill: <code>abd-delivery-planning</code> — plan/run/checkpoint mechanics and where to save the plan narrative.</li><li>Skill: <code>workspace_skill</code> — engagement workspace resolution.</li><li>Skill: <code>execute_using_rules</code> — correction process; <code>docs/corrections-log.md</code> for fixes that must stick.</li><li>Skill: <code>track_task</code> — checklist (<code>abd-delivery-lead/progress/delivery-plan-checklist.md</code>); align with planning skill.</li></ul></li></ul>
+<p>Practice skills (e.g. story mapping) are used by team members, not invoked directly by you; you read outputs, enforce handoffs, and run cross-stage validation.</p></div>
 
 <hr class="entry-divider">
 
 <h2>How it fits together</h2>
-<p class="entry-caption">Flow and responsibilities first, then top-level repo paths for orientation (expand <strong>Contents</strong> below for the full tree and links).</p>
-<pre class="ascii-diagram" role="img" aria-label="How this package works and top-level paths">ABD Delivery Lead — how it runs
-──────────────────────────────────
-  workspace + agile-delivery-plan.md (+ context, start/end stages)
-              │
-              ▼
-   abd-delivery-planning (skill)
-   context, risks, runs, checkpoints
-              │
-              ▼
-      stages/*.md — team role + entry/exit gates per stage
-              │
-              ▼
-  bootstrap abd-team-member (team-role from stage definition)
-              │
-              ▼
-  member runs practice skills in workspace; you own gates + handoffs
-              │
-              ▼
-  track_task checklist · corrections (execute_using_rules) · workspace_skill
+<pre class="ascii-diagram" role="img" aria-label="How it fits together">User / engagement context
+           |
+           v
++------------------+
+| abd-delivery-lead |  workspace, checklist, checkpoints
+|  (orchestrator)   |
++--------+---------+
+         |
+         | reads / updates
+         v
++---------------------------+     +----------------------+
+| agile-delivery-plan.md    |&lt;---&gt;| abd-delivery-planning |
+| (workspace root)          |     | (skill + strategies/)|
++---------------------------+     +----------------------+
+         |
+         | per stage
+         v
++------------------+     stages/*.md (gates, roles)
+| abd-team-member   |---- practice skills (delegated)
+| (role + workspace)|
++------------------+
+         |
+         v
+  track_task checklist    execute_using_rules -&gt; corrections-log</pre>
 
-Repo root — agents/abd-delivery-lead/
-├── docs/
-├── scripts/
-├── stages/
-├── AGENT.md
-└── Deploy-ToCursor.ps1</pre>
 
 <hr class="entry-divider">
 
@@ -411,6 +410,7 @@ Repo root — agents/abd-delivery-lead/
 </ul></div></details></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../agents/abd-delivery-lead/AGENT.md" target="_blank" rel="noopener noreferrer"><strong>AGENT.md</strong></a><span class="file-meta"> → ABD Delivery Lead</span></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../agents/abd-delivery-lead/Deploy-ToCursor.ps1" target="_blank" rel="noopener noreferrer"><strong>Deploy-ToCursor.ps1</strong></a><span class="file-meta"> → .SYNOPSIS</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../agents/abd-delivery-lead/README.md" target="_blank" rel="noopener noreferrer"><strong>README.md</strong></a><span class="file-meta"> → catalogue_summary: &gt;-</span></li>
 </ul>
 
 </div>

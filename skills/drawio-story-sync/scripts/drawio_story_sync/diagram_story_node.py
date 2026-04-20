@@ -10,11 +10,11 @@ from abc import abstractmethod
 from typing import List, Optional, TYPE_CHECKING
 from dataclasses import dataclass, field
 
-from story_graph.nodes import StoryNode, Epic, SubEpic, Story
+from story_graph_ops.nodes import StoryNode, Epic, SubEpic, Story
 from .story_io_position import Position, Boundary
 
 if TYPE_CHECKING:
-    from story_graph.nodes import Increment
+    from story_graph_ops.nodes import Increment
 
 
 # ---------------------------------------------------------------------------

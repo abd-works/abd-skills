@@ -1,25 +1,21 @@
 #!/usr/bin/env python3
-"""CLI for story DrawIO render and layout (uses **drawio-story-sync** + **story-graph-ops** + agile_bots ``story_graph``).
+"""CLI for story DrawIO render and layout (**drawio-story-sync** + **story-graph-ops**).
 
-**PYTHONPATH** must include:
-
-- This directory (``…/drawio-story-sync/scripts``) so ``drawio_story_sync`` imports
-- ``…/story-graph-ops/scripts`` (optional; synchronizer adds sibling **story-graph-ops** automatically)
-- ``<agile_bots>/src`` so ``from story_graph.nodes import StoryMap`` resolves
+Put **this** ``scripts`` directory and **story-graph-ops** ``scripts`` on ``PYTHONPATH``,
+or run from this repo layout where the sibling skill exists (paths are added automatically).
 
 Example (PowerShell):
 
 ```text
-$env:PYTHONPATH = "C:\\dev\\agilebydesign-skills\\skills\\drawio-story-sync\\scripts;C:\\dev\\agile_bots\\src"
+$env:PYTHONPATH = "C:\\dev\\agilebydesign-skills\\skills\\drawio-story-sync\\scripts;C:\\dev\\agilebydesign-skills\\skills\\story-graph-ops\\scripts"
 cd C:\\dev\\agilebydesign-skills\\skills\\drawio-story-sync\\scripts
-python drawio_story_sync_cli.py render --mode outline --graph C:\\dev\\agile_bots\\docs\\story\\story-graph.json --out C:\\tmp\\story-map.drawio
+python drawio_story_sync_cli.py render --mode outline --graph C:\\tmp\\story-graph.json --out C:\\tmp\\story-map.drawio
 ```
 """
 from __future__ import annotations
 
 import argparse
 import json
-import os
 import sys
 from pathlib import Path
 
@@ -38,21 +34,15 @@ _MODES = {
 }
 
 
-def _ensure_agile_story_graph_path() -> None:
-    extra = os.environ.get('AGILE_BOTS_SRC', '').strip()
-    if extra and extra not in sys.path:
-        sys.path.insert(0, extra)
-    # Default sibling clone
-    candidate = _SCRIPT_DIR.parent.parent.parent.parent / 'agile_bots' / 'src'
-    if candidate.is_dir():
-        c = str(candidate)
-        if c not in sys.path:
-            sys.path.insert(0, c)
+def _ensure_story_graph_ops_path() -> None:
+    """Sibling ``story-graph-ops/scripts`` (same layout as ``story_io_synchronizer``)."""
+    ops = _SCRIPT_DIR.parent / 'story-graph-ops' / 'scripts'
+    if ops.is_dir() and str(ops) not in sys.path:
+        sys.path.insert(0, str(ops))
 
 
 def cmd_render(args: argparse.Namespace) -> int:
     _ensure_story_graph_ops_path()
-    _ensure_agile_story_graph_path()
     from drawio_story_sync.story_io_synchronizer import DrawIOSynchronizer
 
     mode = (args.mode or 'outline').lower().replace('_', '-')
@@ -72,19 +62,11 @@ def cmd_render(args: argparse.Namespace) -> int:
 
 def cmd_save_layout(args: argparse.Namespace) -> int:
     _ensure_story_graph_ops_path()
-    _ensure_agile_story_graph_path()
     from drawio_story_sync.story_io_synchronizer import DrawIOSynchronizer
 
     r = DrawIOSynchronizer().save_layout(args.drawio)
     print(json.dumps(r))
     return 0 if r.get('status') == 'success' else 1
-
-
-def _ensure_story_graph_ops_path() -> None:
-    """Sibling ``story-graph-ops/scripts`` (same layout as ``story_io_synchronizer``)."""
-    ops = _SCRIPT_DIR.parent / 'story-graph-ops' / 'scripts'
-    if ops.is_dir() and str(ops) not in sys.path:
-        sys.path.insert(0, str(ops))
 
 
 def cmd_apply_report(args: argparse.Namespace) -> int:
@@ -113,9 +95,8 @@ def cmd_apply_report(args: argparse.Namespace) -> int:
 
 def cmd_report(args: argparse.Namespace) -> int:
     _ensure_story_graph_ops_path()
-    _ensure_agile_story_graph_path()
     from drawio_story_sync.drawio_story_map import DrawIOStoryMap
-    from story_graph.nodes import StoryMap
+    from story_graph_ops.nodes import StoryMap
 
     diagram = Path(args.drawio)
     graph = Path(args.graph)

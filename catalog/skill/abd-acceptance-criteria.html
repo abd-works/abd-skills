@@ -359,25 +359,21 @@ h2:first-child { margin-top: 0; }
 </nav>
 
 <h2>Description</h2>
-<div class="entry-prose">Build acceptance criteria per story, that explain what must be true when users and systems interact: observable triggers (WHEN), expected outcomes (THEN), chained effects (AND), and explicit negatives (BUT). These act as informal first-draft BDD-style steps that guide downstream scenario work. Focus on interactions using domain terms, avoid implementation detail unless the story is technical, and even then keep it minimal.<br>
-<br>
-This skill is the practice standard for that work: templates for deliverables, rules for what “good” means (atomic AC, actor alternation, domain emphasis, channel-specific detail, source evidence when AC come from documents), and scanners that can run predictable mechanical checks alongside human review.</div>
+<div class="entry-prose"><p>Build acceptance criteria per story, that explain what must be true when users and systems interact: observable triggers (WHEN), expected outcomes (THEN), chained effects (AND), and explicit negatives (BUT). These act as informal first-draft BDD-style steps that guide downstream scenario work. Focus on interactions using domain terms, avoid implementation detail unless the story is technical, and even then keep it minimal.</p>
+<p>This skill is the practice standard for that work: templates for deliverables, rules for what “good” means (atomic AC, actor alternation, domain emphasis, channel-specific detail, source evidence when AC come from documents), and scanners that can run predictable mechanical checks alongside human review.</p></div>
 
 <hr class="entry-divider">
 
 <h2>How it fits together</h2>
-<p class="entry-caption">Flow and responsibilities first, then top-level repo paths for orientation (expand <strong>Contents</strong> below for the full tree and links).</p>
-<pre class="ascii-diagram" role="img" aria-label="How this package works and top-level paths">How this skill fits together
-──────────────────────────────
-  Entry: SKILL.md — when to use, procedure, guardrails.
-  Supporting dirs (references/, scripts/, templates/, …) depend on the skill;
-  the tree below is a quick map of what ships in this folder.
+<pre class="ascii-diagram" role="img" aria-label="How it fits together">story / AC work (exploration)
+           |
+           v
+  templates/*.md -----&gt; rules/*.md -----&gt; scanners/*.py
+           |                  |                |
+           +------------------+----------------+
+                              v
+                    feedback into story-graph.json</pre>
 
-Repo root — skills/abd-acceptance-criteria/
-├── rules/
-├── scanners/
-├── templates/
-└── SKILL.md</pre>
 
 <hr class="entry-divider">
 
@@ -418,6 +414,7 @@ Repo root — skills/abd-acceptance-criteria/
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/abd-acceptance-criteria/templates/acceptance-criteria.md" target="_blank" rel="noopener noreferrer"><strong>acceptance-criteria.md</strong></a><span class="file-meta"> → Acceptance criteria (exploration)</span></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/abd-acceptance-criteria/templates/acceptance-criteria.txt" target="_blank" rel="noopener noreferrer"><strong>acceptance-criteria.txt</strong></a><span class="file-meta"> → Acceptance criteria (exploration) — plain text template</span></li>
 </ul></div></details></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/abd-acceptance-criteria/README.md" target="_blank" rel="noopener noreferrer"><strong>README.md</strong></a><span class="file-meta"> → One line for catalogue cards and grids (YAML string).</span></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/abd-acceptance-criteria/SKILL.md" target="_blank" rel="noopener noreferrer"><strong>SKILL.md</strong></a><span class="file-meta"> → name: abd-acceptance-criteria</span></li>
 </ul>
 

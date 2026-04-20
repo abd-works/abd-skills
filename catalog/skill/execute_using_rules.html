@@ -359,23 +359,16 @@ h2:first-child { margin-top: 0; }
 </nav>
 
 <h2>Description</h2>
-<div class="entry-prose">Bundle rules into SKILL.md, run scanners, quality steps (rules before work), and the correction process after mistakes — commands first, details after.</div>
+<div class="entry-prose"><p>Bundle rules into SKILL.md, run scanners, quality steps (rules before work), and the correction process after mistakes — commands first, details after.</p></div>
 
 <hr class="entry-divider">
 
 <h2>How it fits together</h2>
-<p class="entry-caption">Flow and responsibilities first, then top-level repo paths for orientation (expand <strong>Contents</strong> below for the full tree and links).</p>
-<pre class="ascii-diagram" role="img" aria-label="How this package works and top-level paths">How this skill fits together
-──────────────────────────────
-  Entry: SKILL.md — when to use, procedure, guardrails.
-  Supporting dirs (references/, scripts/, templates/, …) depend on the skill;
-  the tree below is a quick map of what ships in this folder.
+<pre class="ascii-diagram" role="img" aria-label="How it fits together">rules/*.md (DO / DON&#x27;T)
+           |
+           v
+  scanners / checks -----&gt; violations list -----&gt; correction loop</pre>
 
-Repo root — skills/execute_using_rules/
-├── scripts/
-├── templates/
-├── tests/
-└── SKILL.md</pre>
 
 <hr class="entry-divider">
 
@@ -436,6 +429,7 @@ Repo root — skills/execute_using_rules/
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/execute_using_rules/tests/test_run_scanners_smoke.py" target="_blank" rel="noopener noreferrer"><strong>test_run_scanners_smoke.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Smoke: run_scanners.py exits 0 when a skill has no scanners.&quot;&quot;&quot;</span></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/execute_using_rules/tests/test_scanner_test_helper.py" target="_blank" rel="noopener noreferrer"><strong>test_scanner_test_helper.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Tests for :mod:scanner_test_helper alignment with run_scanners.py.&quot;&quot;&quot;</span></li>
 </ul></div></details></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/execute_using_rules/README.md" target="_blank" rel="noopener noreferrer"><strong>README.md</strong></a><span class="file-meta"> → One line for catalogue cards and grids (YAML string).</span></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/execute_using_rules/SKILL.md" target="_blank" rel="noopener noreferrer"><strong>SKILL.md</strong></a><span class="file-meta"> → name: execute-rules</span></li>
 </ul>
 

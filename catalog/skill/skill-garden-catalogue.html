@@ -359,22 +359,16 @@ h2:first-child { margin-top: 0; }
 </nav>
 
 <h2>Description</h2>
-<div class="entry-prose">Scan a folder of deployed skills and regenerate a one-pager Markdown inventory and an HTML catalogue. Each entry shows the challenge the skill addresses and the solution it provides, hyperlinked to the skill directory. Re-run on command to keep the catalogue current.</div>
+<div class="entry-prose"><p>Scan a folder of deployed skills and regenerate a one-pager Markdown inventory and an HTML catalogue. Each entry shows the challenge the skill addresses and the solution it provides, hyperlinked to the skill directory. Re-run on command to keep the catalogue current.</p></div>
 
 <hr class="entry-divider">
 
 <h2>How it fits together</h2>
-<p class="entry-caption">Flow and responsibilities first, then top-level repo paths for orientation (expand <strong>Contents</strong> below for the full tree and links).</p>
-<pre class="ascii-diagram" role="img" aria-label="How this package works and top-level paths">How this skill fits together
-──────────────────────────────
-  Entry: SKILL.md — when to use, procedure, guardrails.
-  Supporting dirs (references/, scripts/, templates/, …) depend on the skill;
-  the tree below is a quick map of what ships in this folder.
+<pre class="ascii-diagram" role="img" aria-label="How it fits together">repo skill roots
+           |
+           v
+  scan SKILL.md -----&gt; table / index -----&gt; consumer (Cursor, docs)</pre>
 
-Repo root — skills/skill-garden-catalogue/
-├── scripts/
-├── templates/
-└── SKILL.md</pre>
 
 <hr class="entry-divider">
 
@@ -387,6 +381,7 @@ Repo root — skills/skill-garden-catalogue/
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/skill-garden-catalogue/templates/catalog-index.html" target="_blank" rel="noopener noreferrer"><strong>catalog-index.html</strong></a><span class="file-meta"> → &lt;!DOCTYPE html&gt;</span></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/skill-garden-catalogue/templates/skill-inventory.md" target="_blank" rel="noopener noreferrer"><strong>skill-inventory.md</strong></a><span class="file-meta"> → Skill Garden — Inventory</span></li>
 </ul></div></details></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/skill-garden-catalogue/README.md" target="_blank" rel="noopener noreferrer"><strong>README.md</strong></a><span class="file-meta"> → One line for catalogue cards and grids (YAML string).</span></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/skill-garden-catalogue/SKILL.md" target="_blank" rel="noopener noreferrer"><strong>SKILL.md</strong></a><span class="file-meta"> → name: skill-garden-catalogue</span></li>
 </ul>
 

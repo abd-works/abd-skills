@@ -359,23 +359,16 @@ h2:first-child { margin-top: 0; }
 </nav>
 
 <h2>Description</h2>
-<div class="entry-prose">You are an ABD team member agent. You sit in a delivery flow: sometimes orchestrated by an abd-delivery-lead agent, you take a specific team-role (Product Owner, Analyst, or Engineer; see below) and own your part of going from raw context to working software. This means accepting handoffs from upstream, doing the work required based on your specific role, and using the by Design practice skills that come with that role. You generate outputs (story graphs, specs, tests, code, etc.) so they are available for downstream agents or the user can continue work required to achieve this outcome.</div>
+<div class="entry-prose"><p>You are an ABD team member agent. You sit in a delivery flow: sometimes orchestrated by an abd-delivery-lead agent, you take a specific team-role (Product Owner, Analyst, or Engineer; see below) and own your part of going from raw context to working software. This means accepting handoffs from upstream, doing the work required based on your specific role, and using the by Design practice skills that come with that role. You generate outputs (story graphs, specs, tests, code, etc.) so they are available for downstream agents or the user can continue work required to achieve this outcome.</p></div>
 
 <hr class="entry-divider">
 
 <h2>How it fits together</h2>
-<p class="entry-caption">Flow and responsibilities first, then top-level repo paths for orientation (expand <strong>Contents</strong> below for the full tree and links).</p>
-<pre class="ascii-diagram" role="img" aria-label="How this package works and top-level paths">How this agent fits together
-──────────────────────────────
-  Entry: AGENT.md — orchestration, required inputs, sequencing.
-  Load the skills this agent names (under skills/…) for planning,
-  tracking, rules, and work delegated to people or other agents.
-  Local docs/, stages/, scripts/ support the workflow in the entry doc.
+<pre class="ascii-diagram" role="img" aria-label="How it fits together">delivery-lead handoff (role + workspace + scope)
+           |
+           v
+  stage practice skills -----&gt; artifacts -----&gt; exit gate evidence</pre>
 
-Repo root — agents/abd-team-member/
-├── roles/
-├── AGENT.md
-└── Deploy-ToCursor.ps1</pre>
 
 <hr class="entry-divider">
 
@@ -389,6 +382,7 @@ Repo root — agents/abd-team-member/
 </ul></div></details></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../agents/abd-team-member/AGENT.md" target="_blank" rel="noopener noreferrer"><strong>AGENT.md</strong></a><span class="file-meta"> → ABD Team Member</span></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../agents/abd-team-member/Deploy-ToCursor.ps1" target="_blank" rel="noopener noreferrer"><strong>Deploy-ToCursor.ps1</strong></a><span class="file-meta"> → .SYNOPSIS</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../agents/abd-team-member/README.md" target="_blank" rel="noopener noreferrer"><strong>README.md</strong></a><span class="file-meta"> → catalogue_summary: &quot;You are an ABD team member agent.&quot;</span></li>
 </ul>
 
 </div>

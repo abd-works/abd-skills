@@ -115,6 +115,8 @@ python <execute_rules_root>/scripts/run_scanners.py --skill-root <path-to-skill>
 
 Scanner subprocesses receive **`PYTHONPATH`** including **`<execute_rules_root>/scripts`**, so scripts may **`import scanner_bases`** (shared bases) when implementing checks.
 
+**Pytest / skill tests:** From the **agilebydesign-skills** repo root, `pytest` discovers **`skills/*/tests`**. Use **`scripts/scanner_test_helper.py`** so in-process tests get the same path order as **`run_scanners.py`**: call **`prepend_scanner_pythonpath(skill_root=...)`** before importing **`story_map`** or a skill **`scanners/*`** module; for subprocesses use **`build_scanner_env(...)`** or **`run_scanner_script(...)`**.
+
 
 **3. `rule_inventory.py`** (optional) — Summarizes **`rules/`** and bindings; **`--by-order`** prints a **`rule_id | title`** table sorted **alphabetically by rule file name** (no ranking column); **`--list-scanners`** prints the same scanner paths **`run_scanners.py`** would run.
 

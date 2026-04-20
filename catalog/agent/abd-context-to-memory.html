@@ -359,32 +359,18 @@ h2:first-child { margin-top: 0; }
 </nav>
 
 <h2>Description</h2>
-<div class="entry-prose">Orchestrate convert → chunk → embed → search by coordinating this agent&#x27;s skills. Decide when each stage runs, whether to use a strategy pass (review context_chunking_spec.yaml before chunk + embed) or straight-through, and hold cross-stage quality (real headings before chunking, sane splits after chunking).<br>
-<br>
-Per-stage procedures: *skills/abd-/SKILL.md and each skill&#x27;s references/**.<br>
-<br>
----</div>
+<div class="entry-prose"><p>Orchestrate convert → chunk → embed → search by coordinating this agent&#x27;s skills. Decide when each stage runs, whether to use a strategy pass (review context_chunking_spec.yaml before chunk + embed) or straight-through, and hold cross-stage quality (real headings before chunking, sane splits after chunking).</p>
+<p>Per-stage procedures: *skills/abd-/SKILL.md and each skill&#x27;s references/**.</p>
+<p>---</p></div>
 
 <hr class="entry-divider">
 
 <h2>How it fits together</h2>
-<p class="entry-caption">Flow and responsibilities first, then top-level repo paths for orientation (expand <strong>Contents</strong> below for the full tree and links).</p>
-<pre class="ascii-diagram" role="img" aria-label="How this package works and top-level paths">How this agent fits together
-──────────────────────────────
-  Entry: AGENTS.md — orchestration, required inputs, sequencing.
-  Load the skills this agent names (under skills/…) for planning,
-  tracking, rules, and work delegated to people or other agents.
-  Local docs/, stages/, scripts/ support the workflow in the entry doc.
+<pre class="ascii-diagram" role="img" aria-label="How it fits together">source docs / assets
+           |
+           v
+  convert / chunk -----&gt; markdown mirror -----&gt; embed / index (when wired)</pre>
 
-Repo root — agents/abd-context-to-memory/
-├── conf/
-├── content/
-├── scripts/
-├── skills/
-├── AGENTS.md
-├── requirements-export.txt
-├── requirements-rag.txt
-└── skill-config.json</pre>
 
 <hr class="entry-divider">
 
@@ -457,6 +443,7 @@ Repo root — agents/abd-context-to-memory/
 </ul></div></details></li>
 </ul></div></details></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../agents/abd-context-to-memory/AGENTS.md" target="_blank" rel="noopener noreferrer"><strong>AGENTS.md</strong></a><span class="file-meta"> → AGENTS — abd-context-to-memory</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../agents/abd-context-to-memory/README.md" target="_blank" rel="noopener noreferrer"><strong>README.md</strong></a><span class="file-meta"> → catalogue_summary: &quot;Orchestrate convert → chunk → embed → search by coordinating this agent&#x27;s skills. Decide when each stage runs, whether to use a strategy pass (review context_chunking_spec.yaml before chunk + embed) or straight-through, and hold …</span></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../agents/abd-context-to-memory/requirements-export.txt" target="_blank" rel="noopener noreferrer"><strong>requirements-export.txt</strong></a><span class="file-meta"> → Export: markdown → Excel, Word, PDF</span></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../agents/abd-context-to-memory/requirements-rag.txt" target="_blank" rel="noopener noreferrer"><strong>requirements-rag.txt</strong></a><span class="file-meta"> → RAG (vector search) dependencies for ace-context-to-memory</span></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../agents/abd-context-to-memory/skill-config.json" target="_blank" rel="noopener noreferrer"><strong>skill-config.json</strong></a><span class="file-meta"> → &quot;name&quot;: &quot;abd-context-to-memory&quot;,</span></li>

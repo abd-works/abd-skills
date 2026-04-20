@@ -359,21 +359,16 @@ h2:first-child { margin-top: 0; }
 </nav>
 
 <h2>Description</h2>
-<div class="entry-prose">Track multi-step work with markdown checkboxes (- [ ] / - [x]) for any skill or agent—pipeline phases, per-phase steps, or ad-hoc lists—under the engagement workspace, without editing normative skill sources.</div>
+<div class="entry-prose"><p>Track multi-step work with markdown checkboxes (- [ ] / - [x]) for any skill or agent—pipeline phases, per-phase steps, or ad-hoc lists—under the engagement workspace, without editing normative skill sources.</p></div>
 
 <hr class="entry-divider">
 
 <h2>How it fits together</h2>
-<p class="entry-caption">Flow and responsibilities first, then top-level repo paths for orientation (expand <strong>Contents</strong> below for the full tree and links).</p>
-<pre class="ascii-diagram" role="img" aria-label="How this package works and top-level paths">How this skill fits together
-──────────────────────────────
-  Entry: SKILL.md — when to use, procedure, guardrails.
-  Supporting dirs (references/, scripts/, templates/, …) depend on the skill;
-  the tree below is a quick map of what ships in this folder.
+<pre class="ascii-diagram" role="img" aria-label="How it fits together">agent + workspace
+           |
+           v
+  checklist markdown -----&gt; per-turn updates -----&gt; progress visible on disk</pre>
 
-Repo root — skills/track_task/
-├── scripts/
-└── SKILL.md</pre>
 
 <hr class="entry-divider">
 
@@ -382,6 +377,7 @@ Repo root — skills/track_task/
 <li class="file-list__folder"><details class="file-tree__details" open><summary class="file-tree__summary"><strong>scripts/</strong><span class="file-meta"> → Build, catalogue, validation, or packaging automation.</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/track_task/scripts/progress_path.py" target="_blank" rel="noopener noreferrer"><strong>progress_path.py</strong></a><span class="file-meta"> → !/usr/bin/env python3</span></li>
 </ul></div></details></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/track_task/README.md" target="_blank" rel="noopener noreferrer"><strong>README.md</strong></a><span class="file-meta"> → One line for catalogue cards and grids (YAML string).</span></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/track_task/SKILL.md" target="_blank" rel="noopener noreferrer"><strong>SKILL.md</strong></a><span class="file-meta"> → name: track-task</span></li>
 </ul>
 

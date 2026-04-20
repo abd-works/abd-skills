@@ -346,7 +346,7 @@ h2:first-child { margin-top: 0; }
     <a class="back-link" href="../skills.html">← All skills</a>
     <p class="cap-badge">Skill</p>
     <h1>abd-skill-catalog</h1>
-    <p class="tagline">Scan the agilebydesign-skills repository (root skills/ and agents/), then regenerate a reader-facing Markdown outline plus a small multi-page HTML site. Each skill and agent entry includes a short summary paragraph (for tables and cards) plus a longer description from ## Purpose when present …</p>
+    <p class="tagline">Scan agilebydesign-skills (skills/ and agents/), maintain each package’s root README.md for catalogue copy (overview + ASCII), then regenerate catalog/ HTML and outline.md from those files plus a generated file tree.</p>
   </div>
 </header>
 
@@ -359,22 +359,19 @@ h2:first-child { margin-top: 0; }
 </nav>
 
 <h2>Description</h2>
-<div class="entry-prose">Scan the agilebydesign-skills repository (root skills/ and agents/), then regenerate a reader-facing Markdown outline plus a small multi-page HTML site. Each skill and agent entry includes a short summary paragraph (for tables and cards) plus a longer description from ## Purpose when present. Detail pages use a behavior-first ASCII block (how the skill or agent is used, not only a folder tree), then repository layout with links.</div>
+<div class="entry-prose"><p>Scan agilebydesign-skills (skills/ and agents/), maintain each package’s root README.md for catalogue copy (overview + ASCII), then regenerate catalog/ HTML and outline.md from those files plus a generated file tree.</p></div>
 
 <hr class="entry-divider">
 
 <h2>How it fits together</h2>
-<p class="entry-caption">Flow and responsibilities first, then top-level repo paths for orientation (expand <strong>Contents</strong> below for the full tree and links).</p>
-<pre class="ascii-diagram" role="img" aria-label="How this package works and top-level paths">How this skill fits together
-──────────────────────────────
-  Entry: SKILL.md — when to use, procedure, guardrails.
-  Supporting dirs (references/, scripts/, templates/, …) depend on the skill;
-  the tree below is a quick map of what ships in this folder.
+<pre class="ascii-diagram" role="img" aria-label="How it fits together">skills/  agents/
+       \      /
+        v    v
+   package README.md (Overview + ```ascii)
+        |
+        v
+  generate_abd_catalog.py -----&gt; catalog/*.html + outline.md</pre>
 
-Repo root — skills/abd-skill-catalog/
-├── scripts/
-├── templates/
-└── SKILL.md</pre>
 
 <hr class="entry-divider">
 
@@ -382,20 +379,23 @@ Repo root — skills/abd-skill-catalog/
 <ul class="file-list file-list--root">
 <li class="file-list__folder"><details class="file-tree__details" open><summary class="file-tree__summary"><strong>scripts/</strong><span class="file-meta"> → Build, catalogue, validation, or packaging automation.</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
 <li class="file-tree__dir"><details class="file-tree__details" open><summary class="file-tree__summary"><strong>__pycache__/</strong><span class="file-meta"> → Folder (1 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/abd-skill-catalog/scripts/__pycache__/generate_abd_catalog.cpython-313.pyc" target="_blank" rel="noopener noreferrer"><strong>generate_abd_catalog.cpython-313.pyc</strong></a><span class="file-meta"> →     ���i%�  �            </span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/abd-skill-catalog/scripts/__pycache__/generate_abd_catalog.cpython-313.pyc" target="_blank" rel="noopener noreferrer"><strong>generate_abd_catalog.cpython-313.pyc</strong></a><span class="file-meta"> →     ֚�i��  �            </span></li>
 </ul></div></details></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/abd-skill-catalog/scripts/generate_abd_catalog.py" target="_blank" rel="noopener noreferrer"><strong>generate_abd_catalog.py</strong></a><span class="file-meta"> → !/usr/bin/env python3</span></li>
 </ul></div></details></li>
 <li class="file-list__folder"><details class="file-tree__details" open><summary class="file-tree__summary"><strong>templates/</strong><span class="file-meta"> → Authoring templates and structural skeletons.</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
 <li class="file-tree__dir"><details class="file-tree__details" open><summary class="file-tree__summary"><strong>intros/</strong><span class="file-meta"> → Folder (3 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/abd-skill-catalog/templates/intros/catalog-agents-intro.html" target="_blank" rel="noopener noreferrer"><strong>catalog-agents-intro.html</strong></a><span class="file-meta"> → &lt;p&gt;Each card opens the agent detail page. Entry file: &lt;code&gt;AGENT.md&lt;/code&gt;, then &lt;code&gt;AGENTS.md&lt;/code&gt;, then &lt;code&gt;SKILL.md&lt;/code&gt;.&lt;/p&gt;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/abd-skill-catalog/templates/intros/catalog-hub-intro.html" target="_blank" rel="noopener noreferrer"><strong>catalog-hub-intro.html</strong></a><span class="file-meta"> → &lt;p&gt;This catalogue lists every &lt;a href=&quot;skills.html&quot;&gt;skill&lt;/a&gt; and</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/abd-skill-catalog/templates/intros/catalog-skills-intro.html" target="_blank" rel="noopener noreferrer"><strong>catalog-skills-intro.html</strong></a><span class="file-meta"> → &lt;p&gt;Each card opens the skill detail page. Card lines are short excerpts from &lt;code&gt;SKILL.md&lt;/code&gt;.&lt;/p&gt;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/abd-skill-catalog/templates/intros/catalog-agents-intro.html" target="_blank" rel="noopener noreferrer"><strong>catalog-agents-intro.html</strong></a><span class="file-meta"> → &lt;p&gt;Open a card for a full page on that agent.&lt;/p&gt;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/abd-skill-catalog/templates/intros/catalog-hub-intro.html" target="_blank" rel="noopener noreferrer"><strong>catalog-hub-intro.html</strong></a><span class="file-meta"> → &lt;p&gt;Browse &lt;a href=&quot;skills.html&quot;&gt;skills&lt;/a&gt; and &lt;a href=&quot;agents.html&quot;&gt;agents&lt;/a&gt;.</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/abd-skill-catalog/templates/intros/catalog-skills-intro.html" target="_blank" rel="noopener noreferrer"><strong>catalog-skills-intro.html</strong></a><span class="file-meta"> → &lt;p&gt;Open a card for a full page on that skill.&lt;/p&gt;</span></li>
 </ul></div></details></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/abd-skill-catalog/templates/catalog-readme-agent.md" target="_blank" rel="noopener noreferrer"><strong>catalog-readme-agent.md</strong></a><span class="file-meta"> → catalogue_summary: &quot;{{CATALOGUE_SUMMARY}}&quot;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/abd-skill-catalog/templates/catalog-readme-skill.md" target="_blank" rel="noopener noreferrer"><strong>catalog-readme-skill.md</strong></a><span class="file-meta"> → One line for catalogue cards and grids (YAML string).</span></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/abd-skill-catalog/templates/catalog.css" target="_blank" rel="noopener noreferrer"><strong>catalog.css</strong></a><span class="file-meta"> → --orange: #ff7a00;</span></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/abd-skill-catalog/templates/page-catalog.html" target="_blank" rel="noopener noreferrer"><strong>page-catalog.html</strong></a><span class="file-meta"> → &lt;!DOCTYPE html&gt;</span></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/abd-skill-catalog/templates/page-entry-detail.html" target="_blank" rel="noopener noreferrer"><strong>page-entry-detail.html</strong></a><span class="file-meta"> → &lt;!DOCTYPE html&gt;</span></li>
 </ul></div></details></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/abd-skill-catalog/README.md" target="_blank" rel="noopener noreferrer"><strong>README.md</strong></a><span class="file-meta"> → One line for catalogue cards and grids (YAML string).</span></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/abd-skill-catalog/SKILL.md" target="_blank" rel="noopener noreferrer"><strong>SKILL.md</strong></a><span class="file-meta"> → name: abd-skill-catalog</span></li>
 </ul>
 

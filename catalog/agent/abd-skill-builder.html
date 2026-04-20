@@ -359,32 +359,17 @@ h2:first-child { margin-top: 0; }
 </nav>
 
 <h2>Description</h2>
-<div class="entry-prose">Provide portable repository standards aligned with Open Agent Skills: a focused SKILL.md for discovery, a merged AGENTS.md for multi-step workflow, plus documentation of build and validation (merge, build.py, scanners, CI), and a scaffold CLI so new skills match skills.sh-style layout without hand-copying fixtures.<br>
-<br>
-<br>
----</div>
+<div class="entry-prose"><p>Provide portable repository standards aligned with Open Agent Skills: a focused SKILL.md for discovery, a merged AGENTS.md for multi-step workflow, plus documentation of build and validation (merge, build.py, scanners, CI), and a scaffold CLI so new skills match skills.sh-style layout without hand-copying fixtures.</p>
+<p>---</p></div>
 
 <hr class="entry-divider">
 
 <h2>How it fits together</h2>
-<p class="entry-caption">Flow and responsibilities first, then top-level repo paths for orientation (expand <strong>Contents</strong> below for the full tree and links).</p>
-<pre class="ascii-diagram" role="img" aria-label="How this package works and top-level paths">How this agent fits together
-──────────────────────────────
-  Entry: AGENTS.md — orchestration, required inputs, sequencing.
-  Load the skills this agent names (under skills/…) for planning,
-  tracking, rules, and work delegated to people or other agents.
-  Local docs/, stages/, scripts/ support the workflow in the entry doc.
+<pre class="ascii-diagram" role="img" aria-label="How it fits together">author intent
+           |
+           v
+  build_skill / build_agent -----&gt; scaffolds -----&gt; validated skill or agent tree</pre>
 
-Repo root — agents/abd-skill-builder/
-├── content/
-├── docs/
-├── scripts/
-├── skills/
-├── test/
-├── AGENTS.md
-├── requirements-dev.txt
-├── skill-config.json
-└── SKILL.md</pre>
 
 <hr class="entry-divider">
 
@@ -613,6 +598,7 @@ Repo root — agents/abd-skill-builder/
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../agents/abd-skill-builder/test/test_workspace_checklists.py" target="_blank" rel="noopener noreferrer"><strong>test_workspace_checklists.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Tests for scripts/base/workspace_checklists.py.&quot;&quot;&quot;</span></li>
 </ul></div></details></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../agents/abd-skill-builder/AGENTS.md" target="_blank" rel="noopener noreferrer"><strong>AGENTS.md</strong></a><span class="file-meta"> → AGENTS — abd-skill-builder</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../agents/abd-skill-builder/README.md" target="_blank" rel="noopener noreferrer"><strong>README.md</strong></a><span class="file-meta"> → catalogue_summary: &quot;Provide portable repository standards aligned with Open Agent Skills: a focused SKILL.md for discovery, a merged AGENTS.md for multi-step workflow, plus documentation of build and validation (merge, build.py, scanners, CI), and a scaffold …</span></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../agents/abd-skill-builder/requirements-dev.txt" target="_blank" rel="noopener noreferrer"><strong>requirements-dev.txt</strong></a><span class="file-meta"> → Dev-only: pytest for smoke tests (see test/README.md)</span></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../agents/abd-skill-builder/skill-config.json" target="_blank" rel="noopener noreferrer"><strong>skill-config.json</strong></a><span class="file-meta"> → &quot;name&quot;: &quot;abd-skill-builder&quot;,</span></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../agents/abd-skill-builder/SKILL.md" target="_blank" rel="noopener noreferrer"><strong>SKILL.md</strong></a><span class="file-meta"> → name: abd-skill-builder</span></li>

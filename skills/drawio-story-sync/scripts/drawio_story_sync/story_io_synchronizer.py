@@ -3,6 +3,25 @@ from typing import Dict, Any, Optional, Union
 import json
 import sys
 
+_INCREMENT_SCOPE_PREFIX = "increment:"
+
+
+def _increment_scope_target(scope: Optional[str]) -> Optional[str]:
+    if not scope or not isinstance(scope, str):
+        return None
+    s = scope.strip()
+    if s.lower().startswith(_INCREMENT_SCOPE_PREFIX):
+        rest = s[len(_INCREMENT_SCOPE_PREFIX) :].strip()
+        return rest or None
+    return None
+
+
+def _has_increment_named(graph_data: Dict[str, Any], name: str) -> bool:
+    for inc in graph_data.get("increments") or []:
+        if isinstance(inc, dict) and inc.get("name") == name:
+            return True
+    return False
+
 
 def _story_graph_ops_scripts() -> Path:
     """``skills/story-graph-ops/scripts`` next to this skill (``skills/drawio-story-sync/...``)."""
@@ -39,16 +58,24 @@ class DrawIOSynchronizer:
                renderer_command: Optional[str] = None, **kwargs) -> Dict[str, Any]:
         from .drawio_story_map import DrawIOStoryMap
         from .layout_data import LayoutData
-        from story_graph.nodes import StoryMap
+        from story_graph_ops.nodes import StoryMap
 
         input_path = Path(input_path)
         output_path = Path(output_path)
 
         graph_data = load_story_graph_json(input_path)
 
+        scope = kwargs.get("scope")
+        inc_target = _increment_scope_target(scope)
+        if inc_target is not None and not _has_increment_named(graph_data, inc_target):
+            return {
+                "skipped": True,
+                "skip_reason": f'Increment "{inc_target}" not found in story graph.',
+                "output_path": str(output_path),
+            }
+
         story_map = StoryMap(graph_data)
 
-        scope = kwargs.get('scope')
         if scope:
             filtered = story_map.filter_by_name(scope)
             if filtered is not None:

@@ -359,29 +359,21 @@ h2:first-child { margin-top: 0; }
 </nav>
 
 <h2>Description</h2>
-<div class="entry-prose">Write tests first. Write code to pass them.<br>
-<br>
-This skill creates executable test files — in whatever language and framework the project uses — from whatever behavioral context is available: specification scenarios, acceptance criteria, stories, notes, or a rough description of what the system should do. The output is real test code that runs, fails, and drives what gets built.<br>
-<br>
-The workflow is test-driven: write a test that expresses the expected behavior, run it to confirm it fails (RED), then rely on a  downstream skill or agent to develop the production code skill to implement until the test passes (GREEN). Each test is a precise, runnable statement of what the system must do —  test methods show the Given-When-Then flow and helper functions do the work.<br>
-<br>
-The skill covers the full test quality bar: domain language in names, observable-behavior assertions, coverage of normal and failure paths, helper reuse, and clean production code that makes tests easy to write.</div>
+<div class="entry-prose"><p>Write tests first. Write code to pass them.</p>
+<p>This skill creates executable test files — in whatever language and framework the project uses — from whatever behavioral context is available: specification scenarios, acceptance criteria, stories, notes, or a rough description of what the system should do. The output is real test code that runs, fails, and drives what gets built.</p>
+<p>The workflow is test-driven: write a test that expresses the expected behavior, run it to confirm it fails (RED), then rely on a  downstream skill or agent to develop the production code skill to implement until the test passes (GREEN). Each test is a precise, runnable statement of what the system must do —  test methods show the Given-When-Then flow and helper functions do the work.</p>
+<p>The skill covers the full test quality bar: domain language in names, observable-behavior assertions, coverage of normal and failure paths, helper reuse, and clean production code that makes tests easy to write.</p></div>
 
 <hr class="entry-divider">
 
 <h2>How it fits together</h2>
-<p class="entry-caption">Flow and responsibilities first, then top-level repo paths for orientation (expand <strong>Contents</strong> below for the full tree and links).</p>
-<pre class="ascii-diagram" role="img" aria-label="How this package works and top-level paths">How this skill fits together
-──────────────────────────────
-  Entry: SKILL.md — when to use, procedure, guardrails.
-  Supporting dirs (references/, scripts/, templates/, …) depend on the skill;
-  the tree below is a quick map of what ships in this folder.
+<pre class="ascii-diagram" role="img" aria-label="How it fits together">failing example (red)
+           |
+           v
+  minimal code (green) -----&gt; refactor -----&gt; rules + scanners
+           ^                                      |
+           +--------------------------------------+</pre>
 
-Repo root — skills/abd-acceptance-test-driven-development/
-├── rules/
-├── scanners/
-├── templates/
-└── SKILL.md</pre>
 
 <hr class="entry-divider">
 
@@ -482,6 +474,7 @@ Repo root — skills/abd-acceptance-test-driven-development/
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/abd-acceptance-test-driven-development/templates/acceptance-tests.js" target="_blank" rel="noopener noreferrer"><strong>acceptance-tests.js</strong></a><span class="file-meta"> → * ## Instructions (for skill maintainers — do NOT paste this block into project test files)</span></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/abd-acceptance-test-driven-development/templates/acceptance-tests.py" target="_blank" rel="noopener noreferrer"><strong>acceptance-tests.py</strong></a><span class="file-meta"> → Instructions (for skill maintainers — do NOT paste this block into project test files)</span></li>
 </ul></div></details></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/abd-acceptance-test-driven-development/README.md" target="_blank" rel="noopener noreferrer"><strong>README.md</strong></a><span class="file-meta"> → One line for catalogue cards and grids (YAML string).</span></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/abd-acceptance-test-driven-development/SKILL.md" target="_blank" rel="noopener noreferrer"><strong>SKILL.md</strong></a><span class="file-meta"> → name: abd-acceptance-test-driven-development</span></li>
 </ul>
 

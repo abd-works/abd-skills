@@ -9,7 +9,7 @@ and collects nodes for serialization.
 import json
 from pathlib import Path
 from typing import List, Optional, Dict, Any, Union
-from story_graph.nodes import StoryMap, Epic, SubEpic, Story, StoryGroup
+from story_graph_ops.nodes import StoryMap, Epic, SubEpic, Story, StoryGroup
 from .drawio_story_node import (
     DrawIOStoryNode, DrawIOEpic, DrawIOSubEpic, DrawIOStory,
     DrawIOIncrementLane, SPACING, CONTAINER_PADDING, CELL_SIZE,
@@ -841,7 +841,7 @@ class DrawIOStoryMap(StoryMap):
     @staticmethod
     def _collect_story_parents(node, result: Dict[str, str]):
         """Walk tree collecting story_name -> parent_name mapping."""
-        from story_graph.nodes import SubEpic, Story
+        from story_graph_ops.nodes import SubEpic, Story
         children = getattr(node, 'children', [])
         parent_name = getattr(node, 'name', '')
         for child in children:

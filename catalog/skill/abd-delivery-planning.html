@@ -359,21 +359,20 @@ h2:first-child { margin-top: 0; }
 </nav>
 
 <h2>Description</h2>
-<div class="entry-prose">Build and revise agile delivery plans: context assessment, risk types, strategies (scan strategies/ for matching When to use), runs (stages, scope, checkpoints, rationale), and example plans. Planning only — not for producing story artifacts, tests, or code (those come from downstream practice work).</div>
+<div class="entry-prose"><p>Build and revise agile delivery plans: context assessment, risk types, strategies (scan strategies/ for matching When to use), runs (stages, scope, checkpoints, rationale), and example plans. Planning only — not for producing story artifacts, tests, or code (those come from downstream practice work).</p></div>
 
 <hr class="entry-divider">
 
 <h2>How it fits together</h2>
-<p class="entry-caption">Flow and responsibilities first, then top-level repo paths for orientation (expand <strong>Contents</strong> below for the full tree and links).</p>
-<pre class="ascii-diagram" role="img" aria-label="How this package works and top-level paths">How this skill fits together
-──────────────────────────────
-  Entry: SKILL.md — when to use, procedure, guardrails.
-  Supporting dirs (references/, scripts/, templates/, …) depend on the skill;
-  the tree below is a quick map of what ships in this folder.
+<pre class="ascii-diagram" role="img" aria-label="How it fits together">engagement context + risks
+           |
+           v
+  strategies/*.md -----&gt; chosen strategy -----&gt; runs + checkpoints
+           |                                        |
+           +----------------------------------------+
+                              v
+                 agile-delivery-plan.md (workspace)</pre>
 
-Repo root — skills/abd-delivery-planning/
-├── strategies/
-└── SKILL.md</pre>
 
 <hr class="entry-divider">
 
@@ -390,6 +389,7 @@ Repo root — skills/abd-delivery-planning/
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/abd-delivery-planning/strategies/regulatory-compliance-heavy.md" target="_blank" rel="noopener noreferrer"><strong>regulatory-compliance-heavy.md</strong></a><span class="file-meta"> → Strategy: Regulatory / Compliance-Heavy</span></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/abd-delivery-planning/strategies/spike-proof-of-concept.md" target="_blank" rel="noopener noreferrer"><strong>spike-proof-of-concept.md</strong></a><span class="file-meta"> → Strategy: Spike / Proof of Concept</span></li>
 </ul></div></details></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/abd-delivery-planning/README.md" target="_blank" rel="noopener noreferrer"><strong>README.md</strong></a><span class="file-meta"> → One line for catalogue cards and grids (YAML string).</span></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/abd-delivery-planning/SKILL.md" target="_blank" rel="noopener noreferrer"><strong>SKILL.md</strong></a><span class="file-meta"> → name: abd-delivery-planning</span></li>
 </ul>
 

@@ -359,27 +359,18 @@ h2:first-child { margin-top: 0; }
 </nav>
 
 <h2>Description</h2>
-<div class="entry-prose">Write production code that implements story behavior using domain language, clean functions, explicit dependencies, and observable design.<br>
-<br>
-This skill produces real, runnable production modules — in Python or JavaScript — from whatever context is available: a story, acceptance criteria, a failing test, or a description of the behavior to implement. The output follows a consistent layout: one module per sub-epic area, one class per domain entity, functions under 20 lines, and all dependencies injected through the constructor.<br>
-<br>
-The skill covers the full implementation quality bar: names that reveal intent, guard-clause control flow, no magic numbers, no swallowed exceptions, no hidden globals, encapsulated internals, and domain vocabulary throughout.</div>
+<div class="entry-prose"><p>Write production code that implements story behavior using domain language, clean functions, explicit dependencies, and observable design.</p>
+<p>This skill produces real, runnable production modules — in Python or JavaScript — from whatever context is available: a story, acceptance criteria, a failing test, or a description of the behavior to implement. The output follows a consistent layout: one module per sub-epic area, one class per domain entity, functions under 20 lines, and all dependencies injected through the constructor.</p>
+<p>The skill covers the full implementation quality bar: names that reveal intent, guard-clause control flow, no magic numbers, no swallowed exceptions, no hidden globals, encapsulated internals, and domain vocabulary throughout.</p></div>
 
 <hr class="entry-divider">
 
 <h2>How it fits together</h2>
-<p class="entry-caption">Flow and responsibilities first, then top-level repo paths for orientation (expand <strong>Contents</strong> below for the full tree and links).</p>
-<pre class="ascii-diagram" role="img" aria-label="How this package works and top-level paths">How this skill fits together
-──────────────────────────────
-  Entry: SKILL.md — when to use, procedure, guardrails.
-  Supporting dirs (references/, scripts/, templates/, …) depend on the skill;
-  the tree below is a quick map of what ships in this folder.
+<pre class="ascii-diagram" role="img" aria-label="How it fits together">code / modules under review
+           |
+           v
+  rules (smells, naming) -----&gt; guidance -----&gt; safe refactors</pre>
 
-Repo root — skills/abd-clean-code/
-├── rules/
-├── scanners/
-├── templates/
-└── SKILL.md</pre>
 
 <hr class="entry-divider">
 
@@ -451,6 +442,7 @@ Repo root — skills/abd-clean-code/
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/abd-clean-code/templates/clean-code.js" target="_blank" rel="noopener noreferrer"><strong>clean-code.js</strong></a><span class="file-meta"> → * ## Instructions (remove this block before committing to production)</span></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/abd-clean-code/templates/clean-code.py" target="_blank" rel="noopener noreferrer"><strong>clean-code.py</strong></a><span class="file-meta"> → Instructions (remove this block before committing to production)</span></li>
 </ul></div></details></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/abd-clean-code/README.md" target="_blank" rel="noopener noreferrer"><strong>README.md</strong></a><span class="file-meta"> → One line for catalogue cards and grids (YAML string).</span></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/abd-clean-code/SKILL.md" target="_blank" rel="noopener noreferrer"><strong>SKILL.md</strong></a><span class="file-meta"> → name: abd-clean-code</span></li>
 </ul>
 

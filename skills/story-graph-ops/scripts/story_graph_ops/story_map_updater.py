@@ -33,18 +33,26 @@ class StoryMapUpdater:
         
         Stores the source map and report for later use with update_from_report().
         
+        Pass 1 compares hierarchy only (epics, sub-epics, stories): same contract as
+        diagram sync — ``source_map`` is treated as extracted state and ``target_map``
+        as the canonical tree. Increment and AC deltas are not filled here; add them
+        in a DrawIO-specific layer if needed, then merge with this report or extend
+        ``UpdateReport`` before ``update_from_report``.
+
         Args:
             source_map: The source StoryMap to compare against target
             
         Returns:
             UpdateReport containing the differences
         """
-        # story-graph-ops has no DrawIO dependency; report generation lives in drawio-story-sync.
-        raise NotImplementedError(
-            "generate_report_from is not available in story-graph-ops. "
-            "Produce an UpdateReport in drawio-story-sync (or agile_bots synchronizers), "
-            "then call update_from_report(report=...)."
-        )
+        from story_graph_ops.update_report import UpdateReport
+        from story_graph_ops.story_graph_diff import diff_hierarchy_epics
+
+        report = UpdateReport()
+        diff_hierarchy_epics(source_map, self._target_map, report)
+        self._last_source = source_map
+        self._last_report = report
+        return report
     
     def update_from_report(
         self, 
