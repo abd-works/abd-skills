@@ -47,12 +47,12 @@ Each catalogue entry includes:
   `##` heading, capped). Agents without `## Purpose` no longer embed the entire
   `AGENT.md` in the catalogue; layout matches skills: short prose, then diagram,
   then contents.
-- **Repository layout** — top-level files with a one-line blurb and relative
-  link; directories render as nested **expand/collapse** trees (HTML
-  `<details>` / `<summary>`): subfolders and files to a capped depth, each file
-  with the same blurb + link pattern (folder rows expand/collapse; no separate
-  “open folder” link). Each folder row has a small + / minus box on the left of
-  the summary so expand/collapse is obvious.
+- **Repository layout** — top-level files use the file name as the link to the
+  repo path, then a one-line blurb; directories render as nested
+  **expand/collapse** trees (HTML `<details>` / `<summary>`): subfolders and
+  files to a capped depth (folder rows expand/collapse; no separate “open
+  folder” link). Each folder row has a small + / minus box on the left of the
+  summary so expand/collapse is obvious.
   Known folder names get a fixed purpose line; any folder that contains
   `SKILL.md` (for example nested skills under `agents/.../skills/`) gets its
   summary from that skill’s YAML `description` / `## Purpose`. The first few

@@ -435,15 +435,15 @@ def _html_file_row(repo_root: Path, file_path: Path, href_to_repo: str) -> str:
     blurb = _file_blurb(file_path, max_len=260)
     url = _repo_href(href_to_repo, rel)
     return (
-        "<li class=\"file-tree__file\"><strong>"
-        + _h(file_path.name)
-        + "</strong><span class=\"file-meta\"> → "
-        + _h(blurb)
-        + '</span> <a href="'
+        '<li class="file-tree__file"><a class="file-tree__file-link" href="'
         + _h(url)
         + '"'
         + _REPO_LINK_NEW_TAB
-        + '>open file</a></li>'
+        + "><strong>"
+        + _h(file_path.name)
+        + "</strong></a><span class=\"file-meta\"> → "
+        + _h(blurb)
+        + "</span></li>"
     )
 
 
