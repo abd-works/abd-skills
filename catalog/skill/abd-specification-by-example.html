@@ -219,15 +219,15 @@ h2:first-child { margin-top: 0; }
 .file-list a {
   font-weight: 600;
 }
-.file-list__folder > div {
-  margin-bottom: 6px;
+.file-list--root {
+  margin-top: 4px;
 }
 .file-list--nested {
-  margin: 10px 0 0 0;
+  margin: 8px 0 0 0;
   padding-left: 0;
   border-left: 2px solid var(--border-muted);
-  margin-left: 4px;
-  padding-left: 12px;
+  margin-left: 2px;
+  padding-left: 10px;
 }
 .file-list--nested li {
   margin-bottom: 10px;
@@ -236,9 +236,65 @@ h2:first-child { margin-top: 0; }
 }
 .file-list__nested-note {
   margin: 8px 0 0 0;
-  padding-left: 12px;
+  padding: 6px 0 4px 4px;
   color: var(--muted);
   font-size: 0.9rem;
+}
+/* Expandable folder tree (<details> / <summary>) */
+.file-list > li.file-list__folder {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 14px;
+  border: none;
+  background: transparent;
+  border-radius: 0;
+}
+.file-list__folder > .file-tree__details {
+  margin: 0 0 12px 0;
+}
+.file-tree__details {
+  border: 1px solid var(--border-muted);
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.18);
+  overflow: hidden;
+}
+.file-tree__summary {
+  cursor: pointer;
+  padding: 10px 12px 10px 14px;
+  list-style-position: outside;
+  margin: 0;
+  background: rgba(255, 255, 255, 0.03);
+}
+.file-tree__summary:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+.file-tree__summary .file-meta {
+  display: inline;
+  margin-left: 6px;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+.file-tree__folder-link {
+  margin-left: 10px;
+  font-weight: 600;
+}
+.file-tree__inner {
+  padding: 8px 10px 12px 14px;
+  border-top: 1px solid var(--border-muted);
+}
+.file-tree__ul {
+  margin-top: 4px;
+}
+.file-tree__dir > .file-tree__details {
+  margin: 0;
+  border-radius: 4px;
+}
+.file-tree__dir--truncated {
+  font-size: 0.95rem;
+}
+.file-tree__file .file-meta {
+  display: block;
+  margin-top: 4px;
 }
 
 </style>
@@ -300,35 +356,35 @@ skills/abd-specification-by-example/
 <hr class="entry-divider">
 
 <h2>Contents</h2>
-<p class="entry-caption">Each file: short preview and link. Folders: one summary line plus every file directly inside that folder (same preview + link). Links into the repository open in a <strong>new tab</strong> so this catalogue page stays here.</p>
-<ul class="file-list">
-<li class="file-list__folder"><div><strong>rules/</strong><span class="file-meta"> → Practice rules (DO/DON&#x27;T) and constraints used with scanners.</span> <a href="../../skills/abd-specification-by-example/rules/" target="_blank" rel="noopener noreferrer">open folder</a></div><ul class="file-list file-list--nested">
-<li><strong>background-vs-scenario-setup.md</strong><span class="file-meta"> → Rule: Background vs scenario setup</span> <a href="../../skills/abd-specification-by-example/rules/background-vs-scenario-setup.md" target="_blank" rel="noopener noreferrer">open file</a></li>
-<li><strong>emphasize-domain-significant-terms-scenarios.md</strong><span class="file-meta"> → scanner: emphasize-domain-terms-scenario</span> <a href="../../skills/abd-specification-by-example/rules/emphasize-domain-significant-terms-scenarios.md" target="_blank" rel="noopener noreferrer">open file</a></li>
-<li><strong>example-tables-use-domain-language.md</strong><span class="file-meta"> → Rule: Example tables use domain language (outline template)</span> <a href="../../skills/abd-specification-by-example/rules/example-tables-use-domain-language.md" target="_blank" rel="noopener noreferrer">open file</a></li>
-<li><strong>given-describes-state-not-actions.md</strong><span class="file-meta"> → Rule: Given describes state, not actions</span> <a href="../../skills/abd-specification-by-example/rules/given-describes-state-not-actions.md" target="_blank" rel="noopener noreferrer">open file</a></li>
-<li><strong>keep-scenarios-consistent-across-connected-domains.md</strong><span class="file-meta"> → Rule: Keep scenarios consistent across connected domains</span> <a href="../../skills/abd-specification-by-example/rules/keep-scenarios-consistent-across-connected-domains.md" target="_blank" rel="noopener noreferrer">open file</a></li>
-<li><strong>map-table-columns-to-scenario-parameters.md</strong><span class="file-meta"> → Rule: Map table columns to scenario parameters (outline template)</span> <a href="../../skills/abd-specification-by-example/rules/map-table-columns-to-scenario-parameters.md" target="_blank" rel="noopener noreferrer">open file</a></li>
-<li><strong>mention-domain-concept-beside-placeholder.md</strong><span class="file-meta"> → Rule: Mention the domain concept beside the placeholder (outline template)</span> <a href="../../skills/abd-specification-by-example/rules/mention-domain-concept-beside-placeholder.md" target="_blank" rel="noopener noreferrer">open file</a></li>
-<li><strong>prefer-key-examples-over-exhaustive-enumeration.md</strong><span class="file-meta"> → Rule: Prefer key examples over exhaustive enumeration</span> <a href="../../skills/abd-specification-by-example/rules/prefer-key-examples-over-exhaustive-enumeration.md" target="_blank" rel="noopener noreferrer">open file</a></li>
-<li><strong>scenario-language-matches-domain.md</strong><span class="file-meta"> → Rule: Scenario language matches the domain</span> <a href="../../skills/abd-specification-by-example/rules/scenario-language-matches-domain.md" target="_blank" rel="noopener noreferrer">open file</a></li>
-<li><strong>scenarios-cover-all-cases.md</strong><span class="file-meta"> → Rule: Scenarios cover all cases implied by the story</span> <a href="../../skills/abd-specification-by-example/rules/scenarios-cover-all-cases.md" target="_blank" rel="noopener noreferrer">open file</a></li>
-<li><strong>scenarios-on-story-graph.md</strong><span class="file-meta"> → Rule: Scenarios belong in the story graph (canonical persistence)</span> <a href="../../skills/abd-specification-by-example/rules/scenarios-on-story-graph.md" target="_blank" rel="noopener noreferrer">open file</a></li>
-<li><strong>use-real-data-over-invented-examples.md</strong><span class="file-meta"> → Rule: Use real data over invented examples</span> <a href="../../skills/abd-specification-by-example/rules/use-real-data-over-invented-examples.md" target="_blank" rel="noopener noreferrer">open file</a></li>
-<li><strong>use-scenario-outline-when-needed.md</strong><span class="file-meta"> → Rule: Use scenario outline when the story needs data variation</span> <a href="../../skills/abd-specification-by-example/rules/use-scenario-outline-when-needed.md" target="_blank" rel="noopener noreferrer">open file</a></li>
-<li><strong>write-concrete-scenarios.md</strong><span class="file-meta"> → Rule: Write concrete scenarios with real values</span> <a href="../../skills/abd-specification-by-example/rules/write-concrete-scenarios.md" target="_blank" rel="noopener noreferrer">open file</a></li>
-</ul></li>
-<li class="file-list__folder"><div><strong>scanners/</strong><span class="file-meta"> → Supporting folder (2 items).</span> <a href="../../skills/abd-specification-by-example/scanners/" target="_blank" rel="noopener noreferrer">open folder</a></div><ul class="file-list file-list--nested">
-<li><strong>__init__.py</strong><span class="file-meta"> → Specification-by-example scanner implementations (scenario emphasis, …).</span> <a href="../../skills/abd-specification-by-example/scanners/__init__.py" target="_blank" rel="noopener noreferrer">open file</a></li>
-<li><strong>emphasize-domain-terms-scenario-scanner.py</strong><span class="file-meta"> → !/usr/bin/env python3</span> <a href="../../skills/abd-specification-by-example/scanners/emphasize-domain-terms-scenario-scanner.py" target="_blank" rel="noopener noreferrer">open file</a></li>
-</ul></li>
-<li class="file-list__folder"><div><strong>templates/</strong><span class="file-meta"> → Authoring templates and structural skeletons.</span> <a href="../../skills/abd-specification-by-example/templates/" target="_blank" rel="noopener noreferrer">open folder</a></div><ul class="file-list file-list--nested">
-<li><strong>specification-by-example-outline.md</strong><span class="file-meta"> → Scenario Outline (specification by example)</span> <a href="../../skills/abd-specification-by-example/templates/specification-by-example-outline.md" target="_blank" rel="noopener noreferrer">open file</a></li>
-<li><strong>specification-by-example-outline.txt</strong><span class="file-meta"> → Scenario Outline (specification by example) — plain text template</span> <a href="../../skills/abd-specification-by-example/templates/specification-by-example-outline.txt" target="_blank" rel="noopener noreferrer">open file</a></li>
-<li><strong>specification-by-example.md</strong><span class="file-meta"> → Specification by example (BDD scenarios)</span> <a href="../../skills/abd-specification-by-example/templates/specification-by-example.md" target="_blank" rel="noopener noreferrer">open file</a></li>
-<li><strong>specification-by-example.txt</strong><span class="file-meta"> → Specification by example (BDD scenarios) — plain text template</span> <a href="../../skills/abd-specification-by-example/templates/specification-by-example.txt" target="_blank" rel="noopener noreferrer">open file</a></li>
-</ul></li>
-<li><strong>SKILL.md</strong><span class="file-meta"> → name: abd-specification-by-example</span> <a href="../../skills/abd-specification-by-example/SKILL.md" target="_blank" rel="noopener noreferrer">open file</a></li>
+<p class="entry-caption">Folders use <strong>click to expand or collapse</strong> (nested subfolders and files inside). Each file line has a short preview and link. Top-level folders start expanded. Links into the repository open in a <strong>new tab</strong> so this catalogue page stays here.</p>
+<ul class="file-list file-list--root">
+<li class="file-list__folder"><details class="file-tree__details" open><summary class="file-tree__summary"><strong>rules/</strong><span class="file-meta"> → Practice rules (DO/DON&#x27;T) and constraints used with scanners.</span> <a class="file-tree__folder-link" href="../../skills/abd-specification-by-example/rules/" target="_blank" rel="noopener noreferrer">open folder</a></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
+<li class="file-tree__file"><strong>background-vs-scenario-setup.md</strong><span class="file-meta"> → Rule: Background vs scenario setup</span> <a href="../../skills/abd-specification-by-example/rules/background-vs-scenario-setup.md" target="_blank" rel="noopener noreferrer">open file</a></li>
+<li class="file-tree__file"><strong>emphasize-domain-significant-terms-scenarios.md</strong><span class="file-meta"> → scanner: emphasize-domain-terms-scenario</span> <a href="../../skills/abd-specification-by-example/rules/emphasize-domain-significant-terms-scenarios.md" target="_blank" rel="noopener noreferrer">open file</a></li>
+<li class="file-tree__file"><strong>example-tables-use-domain-language.md</strong><span class="file-meta"> → Rule: Example tables use domain language (outline template)</span> <a href="../../skills/abd-specification-by-example/rules/example-tables-use-domain-language.md" target="_blank" rel="noopener noreferrer">open file</a></li>
+<li class="file-tree__file"><strong>given-describes-state-not-actions.md</strong><span class="file-meta"> → Rule: Given describes state, not actions</span> <a href="../../skills/abd-specification-by-example/rules/given-describes-state-not-actions.md" target="_blank" rel="noopener noreferrer">open file</a></li>
+<li class="file-tree__file"><strong>keep-scenarios-consistent-across-connected-domains.md</strong><span class="file-meta"> → Rule: Keep scenarios consistent across connected domains</span> <a href="../../skills/abd-specification-by-example/rules/keep-scenarios-consistent-across-connected-domains.md" target="_blank" rel="noopener noreferrer">open file</a></li>
+<li class="file-tree__file"><strong>map-table-columns-to-scenario-parameters.md</strong><span class="file-meta"> → Rule: Map table columns to scenario parameters (outline template)</span> <a href="../../skills/abd-specification-by-example/rules/map-table-columns-to-scenario-parameters.md" target="_blank" rel="noopener noreferrer">open file</a></li>
+<li class="file-tree__file"><strong>mention-domain-concept-beside-placeholder.md</strong><span class="file-meta"> → Rule: Mention the domain concept beside the placeholder (outline template)</span> <a href="../../skills/abd-specification-by-example/rules/mention-domain-concept-beside-placeholder.md" target="_blank" rel="noopener noreferrer">open file</a></li>
+<li class="file-tree__file"><strong>prefer-key-examples-over-exhaustive-enumeration.md</strong><span class="file-meta"> → Rule: Prefer key examples over exhaustive enumeration</span> <a href="../../skills/abd-specification-by-example/rules/prefer-key-examples-over-exhaustive-enumeration.md" target="_blank" rel="noopener noreferrer">open file</a></li>
+<li class="file-tree__file"><strong>scenario-language-matches-domain.md</strong><span class="file-meta"> → Rule: Scenario language matches the domain</span> <a href="../../skills/abd-specification-by-example/rules/scenario-language-matches-domain.md" target="_blank" rel="noopener noreferrer">open file</a></li>
+<li class="file-tree__file"><strong>scenarios-cover-all-cases.md</strong><span class="file-meta"> → Rule: Scenarios cover all cases implied by the story</span> <a href="../../skills/abd-specification-by-example/rules/scenarios-cover-all-cases.md" target="_blank" rel="noopener noreferrer">open file</a></li>
+<li class="file-tree__file"><strong>scenarios-on-story-graph.md</strong><span class="file-meta"> → Rule: Scenarios belong in the story graph (canonical persistence)</span> <a href="../../skills/abd-specification-by-example/rules/scenarios-on-story-graph.md" target="_blank" rel="noopener noreferrer">open file</a></li>
+<li class="file-tree__file"><strong>use-real-data-over-invented-examples.md</strong><span class="file-meta"> → Rule: Use real data over invented examples</span> <a href="../../skills/abd-specification-by-example/rules/use-real-data-over-invented-examples.md" target="_blank" rel="noopener noreferrer">open file</a></li>
+<li class="file-tree__file"><strong>use-scenario-outline-when-needed.md</strong><span class="file-meta"> → Rule: Use scenario outline when the story needs data variation</span> <a href="../../skills/abd-specification-by-example/rules/use-scenario-outline-when-needed.md" target="_blank" rel="noopener noreferrer">open file</a></li>
+<li class="file-tree__file"><strong>write-concrete-scenarios.md</strong><span class="file-meta"> → Rule: Write concrete scenarios with real values</span> <a href="../../skills/abd-specification-by-example/rules/write-concrete-scenarios.md" target="_blank" rel="noopener noreferrer">open file</a></li>
+</ul></div></details></li>
+<li class="file-list__folder"><details class="file-tree__details" open><summary class="file-tree__summary"><strong>scanners/</strong><span class="file-meta"> → Folder (2 items).</span> <a class="file-tree__folder-link" href="../../skills/abd-specification-by-example/scanners/" target="_blank" rel="noopener noreferrer">open folder</a></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
+<li class="file-tree__file"><strong>__init__.py</strong><span class="file-meta"> → Specification-by-example scanner implementations (scenario emphasis, …).</span> <a href="../../skills/abd-specification-by-example/scanners/__init__.py" target="_blank" rel="noopener noreferrer">open file</a></li>
+<li class="file-tree__file"><strong>emphasize-domain-terms-scenario-scanner.py</strong><span class="file-meta"> → !/usr/bin/env python3</span> <a href="../../skills/abd-specification-by-example/scanners/emphasize-domain-terms-scenario-scanner.py" target="_blank" rel="noopener noreferrer">open file</a></li>
+</ul></div></details></li>
+<li class="file-list__folder"><details class="file-tree__details" open><summary class="file-tree__summary"><strong>templates/</strong><span class="file-meta"> → Authoring templates and structural skeletons.</span> <a class="file-tree__folder-link" href="../../skills/abd-specification-by-example/templates/" target="_blank" rel="noopener noreferrer">open folder</a></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
+<li class="file-tree__file"><strong>specification-by-example-outline.md</strong><span class="file-meta"> → Scenario Outline (specification by example)</span> <a href="../../skills/abd-specification-by-example/templates/specification-by-example-outline.md" target="_blank" rel="noopener noreferrer">open file</a></li>
+<li class="file-tree__file"><strong>specification-by-example-outline.txt</strong><span class="file-meta"> → Scenario Outline (specification by example) — plain text template</span> <a href="../../skills/abd-specification-by-example/templates/specification-by-example-outline.txt" target="_blank" rel="noopener noreferrer">open file</a></li>
+<li class="file-tree__file"><strong>specification-by-example.md</strong><span class="file-meta"> → Specification by example (BDD scenarios)</span> <a href="../../skills/abd-specification-by-example/templates/specification-by-example.md" target="_blank" rel="noopener noreferrer">open file</a></li>
+<li class="file-tree__file"><strong>specification-by-example.txt</strong><span class="file-meta"> → Specification by example (BDD scenarios) — plain text template</span> <a href="../../skills/abd-specification-by-example/templates/specification-by-example.txt" target="_blank" rel="noopener noreferrer">open file</a></li>
+</ul></div></details></li>
+<li class="file-tree__file"><strong>SKILL.md</strong><span class="file-meta"> → name: abd-specification-by-example</span> <a href="../../skills/abd-specification-by-example/SKILL.md" target="_blank" rel="noopener noreferrer">open file</a></li>
 </ul>
 
 </div>

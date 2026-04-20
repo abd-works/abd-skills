@@ -219,15 +219,15 @@ h2:first-child { margin-top: 0; }
 .file-list a {
   font-weight: 600;
 }
-.file-list__folder > div {
-  margin-bottom: 6px;
+.file-list--root {
+  margin-top: 4px;
 }
 .file-list--nested {
-  margin: 10px 0 0 0;
+  margin: 8px 0 0 0;
   padding-left: 0;
   border-left: 2px solid var(--border-muted);
-  margin-left: 4px;
-  padding-left: 12px;
+  margin-left: 2px;
+  padding-left: 10px;
 }
 .file-list--nested li {
   margin-bottom: 10px;
@@ -236,9 +236,65 @@ h2:first-child { margin-top: 0; }
 }
 .file-list__nested-note {
   margin: 8px 0 0 0;
-  padding-left: 12px;
+  padding: 6px 0 4px 4px;
   color: var(--muted);
   font-size: 0.9rem;
+}
+/* Expandable folder tree (<details> / <summary>) */
+.file-list > li.file-list__folder {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 14px;
+  border: none;
+  background: transparent;
+  border-radius: 0;
+}
+.file-list__folder > .file-tree__details {
+  margin: 0 0 12px 0;
+}
+.file-tree__details {
+  border: 1px solid var(--border-muted);
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.18);
+  overflow: hidden;
+}
+.file-tree__summary {
+  cursor: pointer;
+  padding: 10px 12px 10px 14px;
+  list-style-position: outside;
+  margin: 0;
+  background: rgba(255, 255, 255, 0.03);
+}
+.file-tree__summary:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+.file-tree__summary .file-meta {
+  display: inline;
+  margin-left: 6px;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+.file-tree__folder-link {
+  margin-left: 10px;
+  font-weight: 600;
+}
+.file-tree__inner {
+  padding: 8px 10px 12px 14px;
+  border-top: 1px solid var(--border-muted);
+}
+.file-tree__ul {
+  margin-top: 4px;
+}
+.file-tree__dir > .file-tree__details {
+  margin: 0;
+  border-radius: 4px;
+}
+.file-tree__dir--truncated {
+  font-size: 0.95rem;
+}
+.file-tree__file .file-meta {
+  display: block;
+  margin-top: 4px;
 }
 
 </style>
@@ -302,41 +358,44 @@ skills/abd-acceptance-criteria/
 <hr class="entry-divider">
 
 <h2>Contents</h2>
-<p class="entry-caption">Each file: short preview and link. Folders: one summary line plus every file directly inside that folder (same preview + link). Links into the repository open in a <strong>new tab</strong> so this catalogue page stays here.</p>
-<ul class="file-list">
-<li class="file-list__folder"><div><strong>rules/</strong><span class="file-meta"> → Practice rules (DO/DON&#x27;T) and constraints used with scanners.</span> <a href="../../skills/abd-acceptance-criteria/rules/" target="_blank" rel="noopener noreferrer">open folder</a></div><ul class="file-list file-list--nested">
-<li><strong>alternate-actors-in-steps.md</strong><span class="file-meta"> → scanner: actor-alternation</span> <a href="../../skills/abd-acceptance-criteria/rules/alternate-actors-in-steps.md" target="_blank" rel="noopener noreferrer">open file</a></li>
-<li><strong>behavioral-ac-at-story-level.md</strong><span class="file-meta"> → scanner: behavioral-ac</span> <a href="../../skills/abd-acceptance-criteria/rules/behavioral-ac-at-story-level.md" target="_blank" rel="noopener noreferrer">open file</a></li>
-<li><strong>emphasize-domain-significant-terms.md</strong><span class="file-meta"> → scanner: emphasize-domain-terms</span> <a href="../../skills/abd-acceptance-criteria/rules/emphasize-domain-significant-terms.md" target="_blank" rel="noopener noreferrer">open file</a></li>
-<li><strong>enumerate-all-ac-permutations.md</strong><span class="file-meta"> → scanner: enumerate-ac-permutations</span> <a href="../../skills/abd-acceptance-criteria/rules/enumerate-all-ac-permutations.md" target="_blank" rel="noopener noreferrer">open file</a></li>
-<li><strong>keep-acceptance-criteria-consistent-across-connected-domains.md</strong><span class="file-meta"> → scanner: ac-domain-crossing</span> <a href="../../skills/abd-acceptance-criteria/rules/keep-acceptance-criteria-consistent-across-connected-domains.md" target="_blank" rel="noopener noreferrer">open file</a></li>
-<li><strong>stories-have-4-to-9-acceptance-criteria.md</strong><span class="file-meta"> → scanner: story-sizing</span> <a href="../../skills/abd-acceptance-criteria/rules/stories-have-4-to-9-acceptance-criteria.md" target="_blank" rel="noopener noreferrer">open file</a></li>
-<li><strong>use-and-for-multiple-reactions.md</strong><span class="file-meta"> → scanner: reaction-chaining</span> <a href="../../skills/abd-acceptance-criteria/rules/use-and-for-multiple-reactions.md" target="_blank" rel="noopener noreferrer">open file</a></li>
-<li><strong>use-atomic-acceptance-criteria.md</strong><span class="file-meta"> → scanner: atomic-ac</span> <a href="../../skills/abd-acceptance-criteria/rules/use-atomic-acceptance-criteria.md" target="_blank" rel="noopener noreferrer">open file</a></li>
-<li><strong>use-but-for-negative-conditions.md</strong><span class="file-meta"> → scanner: negative-conditions</span> <a href="../../skills/abd-acceptance-criteria/rules/use-but-for-negative-conditions.md" target="_blank" rel="noopener noreferrer">open file</a></li>
-<li><strong>use-channel-specific-language.md</strong><span class="file-meta"> → scanner: channel-specific-language</span> <a href="../../skills/abd-acceptance-criteria/rules/use-channel-specific-language.md" target="_blank" rel="noopener noreferrer">open file</a></li>
-<li><strong>use-verb-noun-format-for-story-elements.md</strong><span class="file-meta"> → scanner: verb-noun</span> <a href="../../skills/abd-acceptance-criteria/rules/use-verb-noun-format-for-story-elements.md" target="_blank" rel="noopener noreferrer">open file</a></li>
-</ul></li>
-<li class="file-list__folder"><div><strong>scanners/</strong><span class="file-meta"> → Supporting folder (14 items).</span> <a href="../../skills/abd-acceptance-criteria/scanners/" target="_blank" rel="noopener noreferrer">open folder</a></div><ul class="file-list file-list--nested">
-<li><strong>__init__.py</strong><span class="file-meta"> → Acceptance-criteria exploration scanner implementations migrated from agile_bots</span> <a href="../../skills/abd-acceptance-criteria/scanners/__init__.py" target="_blank" rel="noopener noreferrer">open file</a></li>
-<li><strong>ac-domain-crossing-scanner.py</strong><span class="file-meta"> → !/usr/bin/env python3</span> <a href="../../skills/abd-acceptance-criteria/scanners/ac-domain-crossing-scanner.py" target="_blank" rel="noopener noreferrer">open file</a></li>
-<li><strong>actor-alternation-scanner.py</strong><span class="file-meta"> → !/usr/bin/env python3</span> <a href="../../skills/abd-acceptance-criteria/scanners/actor-alternation-scanner.py" target="_blank" rel="noopener noreferrer">open file</a></li>
-<li><strong>atomic-ac-scanner.py</strong><span class="file-meta"> → !/usr/bin/env python3</span> <a href="../../skills/abd-acceptance-criteria/scanners/atomic-ac-scanner.py" target="_blank" rel="noopener noreferrer">open file</a></li>
-<li><strong>behavioral-ac-scanner.py</strong><span class="file-meta"> → !/usr/bin/env python3</span> <a href="../../skills/abd-acceptance-criteria/scanners/behavioral-ac-scanner.py" target="_blank" rel="noopener noreferrer">open file</a></li>
-<li><strong>channel-specific-language-scanner.py</strong><span class="file-meta"> → !/usr/bin/env python3</span> <a href="../../skills/abd-acceptance-criteria/scanners/channel-specific-language-scanner.py" target="_blank" rel="noopener noreferrer">open file</a></li>
-<li><strong>emphasize-domain-terms-scanner.py</strong><span class="file-meta"> → !/usr/bin/env python3</span> <a href="../../skills/abd-acceptance-criteria/scanners/emphasize-domain-terms-scanner.py" target="_blank" rel="noopener noreferrer">open file</a></li>
-<li><strong>enumerate-ac-permutations-scanner.py</strong><span class="file-meta"> → !/usr/bin/env python3</span> <a href="../../skills/abd-acceptance-criteria/scanners/enumerate-ac-permutations-scanner.py" target="_blank" rel="noopener noreferrer">open file</a></li>
-<li><strong>negative-conditions-scanner.py</strong><span class="file-meta"> → !/usr/bin/env python3</span> <a href="../../skills/abd-acceptance-criteria/scanners/negative-conditions-scanner.py" target="_blank" rel="noopener noreferrer">open file</a></li>
-<li><strong>reaction-chaining-scanner.py</strong><span class="file-meta"> → !/usr/bin/env python3</span> <a href="../../skills/abd-acceptance-criteria/scanners/reaction-chaining-scanner.py" target="_blank" rel="noopener noreferrer">open file</a></li>
-<li><strong>story-sizing-scanner.py</strong><span class="file-meta"> → !/usr/bin/env python3</span> <a href="../../skills/abd-acceptance-criteria/scanners/story-sizing-scanner.py" target="_blank" rel="noopener noreferrer">open file</a></li>
-<li><strong>verb-noun-scanner.py</strong><span class="file-meta"> → !/usr/bin/env python3</span> <a href="../../skills/abd-acceptance-criteria/scanners/verb-noun-scanner.py" target="_blank" rel="noopener noreferrer">open file</a></li>
-<li><strong>vocabulary_helper.py</strong><span class="file-meta"> → from typing import List, Set, Optional</span> <a href="../../skills/abd-acceptance-criteria/scanners/vocabulary_helper.py" target="_blank" rel="noopener noreferrer">open file</a></li>
-</ul></li>
-<li class="file-list__folder"><div><strong>templates/</strong><span class="file-meta"> → Authoring templates and structural skeletons.</span> <a href="../../skills/abd-acceptance-criteria/templates/" target="_blank" rel="noopener noreferrer">open folder</a></div><ul class="file-list file-list--nested">
-<li><strong>acceptance-criteria.md</strong><span class="file-meta"> → Acceptance criteria (exploration)</span> <a href="../../skills/abd-acceptance-criteria/templates/acceptance-criteria.md" target="_blank" rel="noopener noreferrer">open file</a></li>
-<li><strong>acceptance-criteria.txt</strong><span class="file-meta"> → Acceptance criteria (exploration) — plain text template</span> <a href="../../skills/abd-acceptance-criteria/templates/acceptance-criteria.txt" target="_blank" rel="noopener noreferrer">open file</a></li>
-</ul></li>
-<li><strong>SKILL.md</strong><span class="file-meta"> → name: abd-acceptance-criteria</span> <a href="../../skills/abd-acceptance-criteria/SKILL.md" target="_blank" rel="noopener noreferrer">open file</a></li>
+<p class="entry-caption">Folders use <strong>click to expand or collapse</strong> (nested subfolders and files inside). Each file line has a short preview and link. Top-level folders start expanded. Links into the repository open in a <strong>new tab</strong> so this catalogue page stays here.</p>
+<ul class="file-list file-list--root">
+<li class="file-list__folder"><details class="file-tree__details" open><summary class="file-tree__summary"><strong>rules/</strong><span class="file-meta"> → Practice rules (DO/DON&#x27;T) and constraints used with scanners.</span> <a class="file-tree__folder-link" href="../../skills/abd-acceptance-criteria/rules/" target="_blank" rel="noopener noreferrer">open folder</a></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
+<li class="file-tree__file"><strong>alternate-actors-in-steps.md</strong><span class="file-meta"> → scanner: actor-alternation</span> <a href="../../skills/abd-acceptance-criteria/rules/alternate-actors-in-steps.md" target="_blank" rel="noopener noreferrer">open file</a></li>
+<li class="file-tree__file"><strong>behavioral-ac-at-story-level.md</strong><span class="file-meta"> → scanner: behavioral-ac</span> <a href="../../skills/abd-acceptance-criteria/rules/behavioral-ac-at-story-level.md" target="_blank" rel="noopener noreferrer">open file</a></li>
+<li class="file-tree__file"><strong>emphasize-domain-significant-terms.md</strong><span class="file-meta"> → scanner: emphasize-domain-terms</span> <a href="../../skills/abd-acceptance-criteria/rules/emphasize-domain-significant-terms.md" target="_blank" rel="noopener noreferrer">open file</a></li>
+<li class="file-tree__file"><strong>enumerate-all-ac-permutations.md</strong><span class="file-meta"> → scanner: enumerate-ac-permutations</span> <a href="../../skills/abd-acceptance-criteria/rules/enumerate-all-ac-permutations.md" target="_blank" rel="noopener noreferrer">open file</a></li>
+<li class="file-tree__file"><strong>keep-acceptance-criteria-consistent-across-connected-domains.md</strong><span class="file-meta"> → scanner: ac-domain-crossing</span> <a href="../../skills/abd-acceptance-criteria/rules/keep-acceptance-criteria-consistent-across-connected-domains.md" target="_blank" rel="noopener noreferrer">open file</a></li>
+<li class="file-tree__file"><strong>stories-have-4-to-9-acceptance-criteria.md</strong><span class="file-meta"> → scanner: story-sizing</span> <a href="../../skills/abd-acceptance-criteria/rules/stories-have-4-to-9-acceptance-criteria.md" target="_blank" rel="noopener noreferrer">open file</a></li>
+<li class="file-tree__file"><strong>use-and-for-multiple-reactions.md</strong><span class="file-meta"> → scanner: reaction-chaining</span> <a href="../../skills/abd-acceptance-criteria/rules/use-and-for-multiple-reactions.md" target="_blank" rel="noopener noreferrer">open file</a></li>
+<li class="file-tree__file"><strong>use-atomic-acceptance-criteria.md</strong><span class="file-meta"> → scanner: atomic-ac</span> <a href="../../skills/abd-acceptance-criteria/rules/use-atomic-acceptance-criteria.md" target="_blank" rel="noopener noreferrer">open file</a></li>
+<li class="file-tree__file"><strong>use-but-for-negative-conditions.md</strong><span class="file-meta"> → scanner: negative-conditions</span> <a href="../../skills/abd-acceptance-criteria/rules/use-but-for-negative-conditions.md" target="_blank" rel="noopener noreferrer">open file</a></li>
+<li class="file-tree__file"><strong>use-channel-specific-language.md</strong><span class="file-meta"> → scanner: channel-specific-language</span> <a href="../../skills/abd-acceptance-criteria/rules/use-channel-specific-language.md" target="_blank" rel="noopener noreferrer">open file</a></li>
+<li class="file-tree__file"><strong>use-verb-noun-format-for-story-elements.md</strong><span class="file-meta"> → scanner: verb-noun</span> <a href="../../skills/abd-acceptance-criteria/rules/use-verb-noun-format-for-story-elements.md" target="_blank" rel="noopener noreferrer">open file</a></li>
+</ul></div></details></li>
+<li class="file-list__folder"><details class="file-tree__details" open><summary class="file-tree__summary"><strong>scanners/</strong><span class="file-meta"> → Folder (14 items).</span> <a class="file-tree__folder-link" href="../../skills/abd-acceptance-criteria/scanners/" target="_blank" rel="noopener noreferrer">open folder</a></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
+<li class="file-tree__dir"><details class="file-tree__details"><summary class="file-tree__summary"><strong>__pycache__/</strong><span class="file-meta"> → Folder (1 items).</span> <a class="file-tree__folder-link" href="../../skills/abd-acceptance-criteria/scanners/__pycache__/" target="_blank" rel="noopener noreferrer">open folder</a></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
+<li class="file-tree__file"><strong>vocabulary_helper.cpython-313.pyc</strong><span class="file-meta"> →     S�nib  �                   �&amp;  � S SK JrJrJr  S SKrS SKJr  S SKJrJ	r	  S SK</span> <a href="../../skills/abd-acceptance-criteria/scanners/__pycache__/vocabulary_helper.cpython-313.pyc" target="_blank" rel="noopener noreferrer">open file</a></li>
+</ul></div></details></li>
+<li class="file-tree__file"><strong>__init__.py</strong><span class="file-meta"> → Acceptance-criteria exploration scanner implementations migrated from agile_bots</span> <a href="../../skills/abd-acceptance-criteria/scanners/__init__.py" target="_blank" rel="noopener noreferrer">open file</a></li>
+<li class="file-tree__file"><strong>ac-domain-crossing-scanner.py</strong><span class="file-meta"> → !/usr/bin/env python3</span> <a href="../../skills/abd-acceptance-criteria/scanners/ac-domain-crossing-scanner.py" target="_blank" rel="noopener noreferrer">open file</a></li>
+<li class="file-tree__file"><strong>actor-alternation-scanner.py</strong><span class="file-meta"> → !/usr/bin/env python3</span> <a href="../../skills/abd-acceptance-criteria/scanners/actor-alternation-scanner.py" target="_blank" rel="noopener noreferrer">open file</a></li>
+<li class="file-tree__file"><strong>atomic-ac-scanner.py</strong><span class="file-meta"> → !/usr/bin/env python3</span> <a href="../../skills/abd-acceptance-criteria/scanners/atomic-ac-scanner.py" target="_blank" rel="noopener noreferrer">open file</a></li>
+<li class="file-tree__file"><strong>behavioral-ac-scanner.py</strong><span class="file-meta"> → !/usr/bin/env python3</span> <a href="../../skills/abd-acceptance-criteria/scanners/behavioral-ac-scanner.py" target="_blank" rel="noopener noreferrer">open file</a></li>
+<li class="file-tree__file"><strong>channel-specific-language-scanner.py</strong><span class="file-meta"> → !/usr/bin/env python3</span> <a href="../../skills/abd-acceptance-criteria/scanners/channel-specific-language-scanner.py" target="_blank" rel="noopener noreferrer">open file</a></li>
+<li class="file-tree__file"><strong>emphasize-domain-terms-scanner.py</strong><span class="file-meta"> → !/usr/bin/env python3</span> <a href="../../skills/abd-acceptance-criteria/scanners/emphasize-domain-terms-scanner.py" target="_blank" rel="noopener noreferrer">open file</a></li>
+<li class="file-tree__file"><strong>enumerate-ac-permutations-scanner.py</strong><span class="file-meta"> → !/usr/bin/env python3</span> <a href="../../skills/abd-acceptance-criteria/scanners/enumerate-ac-permutations-scanner.py" target="_blank" rel="noopener noreferrer">open file</a></li>
+<li class="file-tree__file"><strong>negative-conditions-scanner.py</strong><span class="file-meta"> → !/usr/bin/env python3</span> <a href="../../skills/abd-acceptance-criteria/scanners/negative-conditions-scanner.py" target="_blank" rel="noopener noreferrer">open file</a></li>
+<li class="file-tree__file"><strong>reaction-chaining-scanner.py</strong><span class="file-meta"> → !/usr/bin/env python3</span> <a href="../../skills/abd-acceptance-criteria/scanners/reaction-chaining-scanner.py" target="_blank" rel="noopener noreferrer">open file</a></li>
+<li class="file-tree__file"><strong>story-sizing-scanner.py</strong><span class="file-meta"> → !/usr/bin/env python3</span> <a href="../../skills/abd-acceptance-criteria/scanners/story-sizing-scanner.py" target="_blank" rel="noopener noreferrer">open file</a></li>
+<li class="file-tree__file"><strong>verb-noun-scanner.py</strong><span class="file-meta"> → !/usr/bin/env python3</span> <a href="../../skills/abd-acceptance-criteria/scanners/verb-noun-scanner.py" target="_blank" rel="noopener noreferrer">open file</a></li>
+<li class="file-tree__file"><strong>vocabulary_helper.py</strong><span class="file-meta"> → from typing import List, Set, Optional</span> <a href="../../skills/abd-acceptance-criteria/scanners/vocabulary_helper.py" target="_blank" rel="noopener noreferrer">open file</a></li>
+</ul></div></details></li>
+<li class="file-list__folder"><details class="file-tree__details" open><summary class="file-tree__summary"><strong>templates/</strong><span class="file-meta"> → Authoring templates and structural skeletons.</span> <a class="file-tree__folder-link" href="../../skills/abd-acceptance-criteria/templates/" target="_blank" rel="noopener noreferrer">open folder</a></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
+<li class="file-tree__file"><strong>acceptance-criteria.md</strong><span class="file-meta"> → Acceptance criteria (exploration)</span> <a href="../../skills/abd-acceptance-criteria/templates/acceptance-criteria.md" target="_blank" rel="noopener noreferrer">open file</a></li>
+<li class="file-tree__file"><strong>acceptance-criteria.txt</strong><span class="file-meta"> → Acceptance criteria (exploration) — plain text template</span> <a href="../../skills/abd-acceptance-criteria/templates/acceptance-criteria.txt" target="_blank" rel="noopener noreferrer">open file</a></li>
+</ul></div></details></li>
+<li class="file-tree__file"><strong>SKILL.md</strong><span class="file-meta"> → name: abd-acceptance-criteria</span> <a href="../../skills/abd-acceptance-criteria/SKILL.md" target="_blank" rel="noopener noreferrer">open file</a></li>
 </ul>
 
 </div>

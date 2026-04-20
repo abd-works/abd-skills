@@ -41,6 +41,9 @@ KNOWN_DIR_SUMMARY: dict[str, str] = {
 # Open repo file/folder links in a new tab so the catalogue page (dark UI) stays open.
 _REPO_LINK_NEW_TAB = ' target="_blank" rel="noopener noreferrer"'
 
+# Max nesting depth for folder trees on detail pages (prevents huge trees).
+_FILE_TREE_MAX_DEPTH = 8
+
 
 class SkillEntry(NamedTuple):
     name: str
@@ -364,90 +367,131 @@ def _ascii_package_diagram(repo_rel: str, entry_filename: str, package_dir: Path
     return "\n".join(lines)
 
 
-def _html_nested_files_in_folder(repo_root: Path, folder: Path, href_to_repo: str) -> str:
-    """List immediate files under folder (one level): blurb + link each. Skips dotfiles."""
+def _folder_blurb(dir_name: str, child_count: int) -> str:
+    if dir_name in KNOWN_DIR_SUMMARY:
+        return KNOWN_DIR_SUMMARY[dir_name]
+    return f"Folder ({child_count} items)."
+
+
+def _html_file_row(repo_root: Path, file_path: Path, href_to_repo: str) -> str:
+    rel = file_path.relative_to(repo_root).as_posix()
+    blurb = _file_blurb(file_path, max_len=260)
+    url = _repo_href(href_to_repo, rel)
+    return (
+        "<li class=\"file-tree__file\"><strong>"
+        + _h(file_path.name)
+        + "</strong><span class=\"file-meta\"> → "
+        + _h(blurb)
+        + '</span> <a href="'
+        + _h(url)
+        + '"'
+        + _REPO_LINK_NEW_TAB
+        + '>open file</a></li>'
+    )
+
+
+def _html_folder_branch(
+    repo_root: Path,
+    folder: Path,
+    href_to_repo: str,
+    *,
+    depth: int,
+    max_depth: int,
+) -> str:
+    """One directory as <details>: summary + recursive files/subfolders."""
     if not folder.is_dir():
         return ""
+    rel = folder.relative_to(repo_root).as_posix()
+    url = _repo_href(href_to_repo, rel) + "/"
     try:
-        files = [
-            p
-            for p in folder.iterdir()
-            if p.is_file() and not p.name.startswith(".")
-        ]
-        files.sort(key=lambda p: p.name.lower())
+        kids = sorted(folder.iterdir(), key=lambda p: (not p.is_dir(), p.name.lower()))
+        kids = [p for p in kids if not p.name.startswith(".")]
     except OSError:
-        return '<p class="file-list__nested-note">(could not read folder)</p>'
-    if not files:
-        return '<p class="file-list__nested-note">No files at this level (subfolders only).</p>'
-    inner: list[str] = []
-    for p in files:
-        rel = p.relative_to(repo_root).as_posix()
-        blurb = _file_blurb(p, max_len=260)
-        url = _repo_href(href_to_repo, rel)
-        inner.append(
-            "<li><strong>"
-            + _h(p.name)
-            + "</strong><span class=\"file-meta\"> → "
-            + _h(blurb)
-            + '</span> <a href="'
-            + _h(url)
-            + '"'
-            + _REPO_LINK_NEW_TAB
-            + '>open file</a></li>'
+        return (
+            '<details class="file-tree__details"><summary class="file-tree__summary">'
+            + _h(folder.name)
+            + "/ <span class=\"file-meta\">(unreadable)</span></summary></details>"
         )
-    return '<ul class="file-list file-list--nested">\n' + "\n".join(inner) + "\n</ul>"
+    n = len(kids)
+    summary = _folder_blurb(folder.name, n)
+    open_attr = ' open' if depth == 0 else ""
+
+    inner_parts: list[str] = []
+    for p in kids:
+        if p.is_file():
+            inner_parts.append(_html_file_row(repo_root, p, href_to_repo))
+        elif p.is_dir():
+            if depth + 1 > max_depth:
+                crel = p.relative_to(repo_root).as_posix()
+                curl = _repo_href(href_to_repo, crel) + "/"
+                inner_parts.append(
+                    "<li class=\"file-tree__dir file-tree__dir--truncated\"><strong>"
+                    + _h(p.name)
+                    + "/</strong> <span class=\"file-meta\">(deeper nesting omitted)</span> "
+                    + '<a href="'
+                    + _h(curl)
+                    + '"'
+                    + _REPO_LINK_NEW_TAB
+                    + ">open folder</a></li>"
+                )
+            else:
+                sub = _html_folder_branch(repo_root, p, href_to_repo, depth=depth + 1, max_depth=max_depth)
+                inner_parts.append('<li class="file-tree__dir">' + sub + "</li>")
+
+    if not inner_parts:
+        inner_body = '<p class="file-list__nested-note">Empty folder.</p>'
+    else:
+        inner_body = (
+            '<ul class="file-list file-list--nested file-tree__ul">\n'
+            + "\n".join(inner_parts)
+            + "\n</ul>"
+        )
+
+    return (
+        '<details class="file-tree__details"'
+        + open_attr
+        + "><summary class=\"file-tree__summary\"><strong>"
+        + _h(folder.name)
+        + "/</strong><span class=\"file-meta\"> → "
+        + _h(summary)
+        + '</span> <a class="file-tree__folder-link" href="'
+        + _h(url)
+        + '"'
+        + _REPO_LINK_NEW_TAB
+        + ">open folder</a></summary><div class=\"file-tree__inner\">"
+        + inner_body
+        + "</div></details>"
+    )
 
 
 def _html_contents_list(repo_root: Path, package_dir: Path, href_to_repo: str) -> str:
-    """HTML list: files with blurbs + link; dirs get folder summary + link, then nested file list."""
+    """HTML list: files; dirs as expandable <details> with recursive subfolders and files."""
     if not package_dir.is_dir():
         return '<p class="entry-caption">(missing directory)</p>'
     try:
         kids = sorted(package_dir.iterdir(), key=lambda p: (not p.is_dir(), p.name.lower()))
+        kids = [p for p in kids if not p.name.startswith(".")]
     except OSError:
         return '<p class="entry-caption">(could not read directory)</p>'
     parts: list[str] = []
     for p in kids:
-        rel = p.relative_to(repo_root).as_posix()
         if p.is_dir():
-            try:
-                n = len(list(p.iterdir()))
-            except OSError:
-                n = 0
-            summary = KNOWN_DIR_SUMMARY.get(p.name, f"Supporting folder ({n} items).")
-            url = _repo_href(href_to_repo, rel) + "/"
-            nested = _html_nested_files_in_folder(repo_root, p, href_to_repo)
             parts.append(
                 '<li class="file-list__folder">'
-                "<div><strong>"
-                + _h(p.name)
-                + "/</strong><span class=\"file-meta\"> → "
-                + _h(summary)
-                + '</span> <a href="'
-                + _h(url)
-                + '"'
-                + _REPO_LINK_NEW_TAB
-                + '>open folder</a></div>'
-                + nested
+                + _html_folder_branch(
+                    repo_root,
+                    p,
+                    href_to_repo,
+                    depth=0,
+                    max_depth=_FILE_TREE_MAX_DEPTH,
+                )
                 + "</li>"
             )
         else:
-            blurb = _file_blurb(p, max_len=260)
-            url = _repo_href(href_to_repo, rel)
-            parts.append(
-                "<li><strong>"
-                + _h(p.name)
-                + "</strong><span class=\"file-meta\"> → "
-                + _h(blurb)
-                + '</span> <a href="'
-                + _h(url)
-                + '"'
-                + _REPO_LINK_NEW_TAB
-                + '>open file</a></li>'
-            )
+            parts.append(_html_file_row(repo_root, p, href_to_repo))
     if not parts:
         return '<p class="entry-caption">(no top-level files)</p>'
-    return '<ul class="file-list">\n' + "\n".join(parts) + "\n</ul>"
+    return '<ul class="file-list file-list--root">\n' + "\n".join(parts) + "\n</ul>"
 
 
 def _nav_cls(which: str, current: str) -> str:

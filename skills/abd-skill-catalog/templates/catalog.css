@@ -212,15 +212,15 @@ h2:first-child { margin-top: 0; }
 .file-list a {
   font-weight: 600;
 }
-.file-list__folder > div {
-  margin-bottom: 6px;
+.file-list--root {
+  margin-top: 4px;
 }
 .file-list--nested {
-  margin: 10px 0 0 0;
+  margin: 8px 0 0 0;
   padding-left: 0;
   border-left: 2px solid var(--border-muted);
-  margin-left: 4px;
-  padding-left: 12px;
+  margin-left: 2px;
+  padding-left: 10px;
 }
 .file-list--nested li {
   margin-bottom: 10px;
@@ -229,7 +229,63 @@ h2:first-child { margin-top: 0; }
 }
 .file-list__nested-note {
   margin: 8px 0 0 0;
-  padding-left: 12px;
+  padding: 6px 0 4px 4px;
   color: var(--muted);
   font-size: 0.9rem;
+}
+/* Expandable folder tree (<details> / <summary>) */
+.file-list > li.file-list__folder {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 14px;
+  border: none;
+  background: transparent;
+  border-radius: 0;
+}
+.file-list__folder > .file-tree__details {
+  margin: 0 0 12px 0;
+}
+.file-tree__details {
+  border: 1px solid var(--border-muted);
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.18);
+  overflow: hidden;
+}
+.file-tree__summary {
+  cursor: pointer;
+  padding: 10px 12px 10px 14px;
+  list-style-position: outside;
+  margin: 0;
+  background: rgba(255, 255, 255, 0.03);
+}
+.file-tree__summary:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+.file-tree__summary .file-meta {
+  display: inline;
+  margin-left: 6px;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+.file-tree__folder-link {
+  margin-left: 10px;
+  font-weight: 600;
+}
+.file-tree__inner {
+  padding: 8px 10px 12px 14px;
+  border-top: 1px solid var(--border-muted);
+}
+.file-tree__ul {
+  margin-top: 4px;
+}
+.file-tree__dir > .file-tree__details {
+  margin: 0;
+  border-radius: 4px;
+}
+.file-tree__dir--truncated {
+  font-size: 0.95rem;
+}
+.file-tree__file .file-meta {
+  display: block;
+  margin-top: 4px;
 }
