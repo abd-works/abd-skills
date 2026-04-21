@@ -373,7 +373,7 @@ Create, read, update, and delete story-graph.json (whole file or parts—epics, 
 **Repository layout:**
 
 - **[scripts/](../skills/story-graph-ops/scripts)** — Build, catalogue, validation, or packaging automation.
-- **[tests/](../skills/story-graph-ops/tests)** — Folder (4 items).
+- **[tests/](../skills/story-graph-ops/tests)** — Folder (5 items).
 - [MIGRATION_PARITY.md](../skills/story-graph-ops/MIGRATION_PARITY.md) — Story graph parity: agile_bots → story-graph-ops
 - [README.md](../skills/story-graph-ops/README.md) — One line for catalogue cards and grids (YAML string).
 - [SKILL.md](../skills/story-graph-ops/SKILL.md) — name: story-graph-ops

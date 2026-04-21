@@ -198,6 +198,42 @@ h2:first-child { margin-top: 0; }
   color: #b8b8c2;
   margin: 0 0 18px;
 }
+.install-block {
+  margin: 22px 0 0;
+  padding: 16px 18px;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--border-muted);
+  border-radius: var(--radius);
+  border-left: 3px solid var(--orange);
+}
+.install-block h2 {
+  margin-top: 0;
+  border-bottom: none;
+  padding-bottom: 0;
+}
+.install-block .install-hint {
+  font-size: 0.92rem;
+  color: var(--muted);
+  margin: 0 0 12px;
+}
+.install-snippet {
+  background: #111114;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  overflow-x: auto;
+  margin: 0;
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+  font-size: 0.85em;
+  line-height: 1.5;
+  color: #d4d4d4;
+}
+.install-snippet code {
+  background: transparent;
+  padding: 0;
+  font-size: inherit;
+  color: inherit;
+}
 .file-list {
   list-style: none;
   padding: 0;
@@ -327,6 +363,57 @@ h2:first-child { margin-top: 0; }
   margin-top: 4px;
 }
 
+/* Single-page hub (index.html): collapsible hub / skills / agents */
+.catalog-section {
+  border: 1px solid var(--border-muted);
+  border-radius: 8px;
+  margin: 0 0 16px;
+  background: rgba(0, 0, 0, 0.18);
+  overflow: hidden;
+}
+.catalog-section > summary {
+  cursor: pointer;
+  list-style: none;
+  padding: 14px 16px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.04);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  user-select: none;
+}
+.catalog-section > summary::-webkit-details-marker { display: none; }
+.catalog-section > summary::marker { content: ""; }
+.catalog-section > summary::before {
+  content: "+";
+  flex-shrink: 0;
+  width: 1.5rem;
+  height: 1.5rem;
+  line-height: 1.45rem;
+  text-align: center;
+  font-weight: 700;
+  font-size: 0.95rem;
+  border: 1px solid var(--border-muted);
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.1);
+}
+.catalog-section[open] > summary::before { content: "\2212"; }
+.catalog-section[open] > summary {
+  border-bottom: 1px solid var(--border-muted);
+}
+.catalog-section .section-body {
+  padding: 18px 16px 22px;
+}
+.catalog-section .section-body > p:first-of-type { margin-top: 0; }
+.catalog-section .cap-grid { margin-top: 8px; }
+.catalog-section .count {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+
 </style>
 </head>
 <body>
@@ -361,6 +448,8 @@ h2:first-child { margin-top: 0; }
 <h2>Description</h2>
 <div class="entry-prose"><ul><li><strong>What:</strong> Orchestrate the ABD delivery lifecycle: workspace, planning checkpoints, sequencing runs and stages, bootstrapping <code>abd-team-member</code> agents, handoff gates, and cross-stage quality. You do not write story maps, AC, scenarios, tests, or code yourself — you delegate with the right role, workspace, and practice skills.</li><li><strong>Why:</strong> One owner for flow, run scope across stages, and corrections that must carry forward; executors stay focused on a stage while you keep plan, checklist, and gates aligned.</li><li><strong>Steps:</strong> (1) Establish workspace and checklist. (2) Build or revise the agile delivery plan with <code>abd-delivery-planning</code>, save <code>agile-delivery-plan.md</code>, checkpoint. (3) Open stage from <code>stages/&lt;stage&gt;.md</code>, verify entry, scope the run. (4) Bootstrap <code>abd-team-member</code> with role, workspace, scope, corrections. (5) Validate exit gates and cross-stage checks; checkpoint. (6) Hand off to next stage in the run. (7) On run end, summarize and revise plan if needed; checkpoint. (8) When all runs complete, close out; optionally propose a new strategy under <code>skills/abd-delivery-planning/strategies/</code>.</li><li><strong>Planning detail:</strong> Lives in the planning skill, not only in <code>AGENT.md</code>. For plans and runs, context and risk, strategies, and how to design runs — read <code>abd-delivery-planning</code> (<code>skills/abd-delivery-planning/SKILL.md</code> and <code>strategies/</code>; start with <code>strategies/README.md</code>, then strategy files that match context). Follow that skill when building, presenting, or revising the plan.</li><li><strong>Works with:</strong><ul><li>Agent: <code>abd-team-member</code> — per-stage bootstrap (<code>team-role</code>, workspace, run scope, checkpoints); you validate gates and correction carry-forward.</li><li>Skill: <code>abd-delivery-planning</code> — plan/run/checkpoint mechanics and where to save the plan narrative.</li><li>Skill: <code>workspace_skill</code> — engagement workspace resolution.</li><li>Skill: <code>execute_using_rules</code> — correction process; <code>docs/corrections-log.md</code> for fixes that must stick.</li><li>Skill: <code>track_task</code> — checklist (<code>abd-delivery-lead/progress/delivery-plan-checklist.md</code>); align with planning skill.</li></ul></li></ul>
 <p>Practice skills (e.g. story mapping) are used by team members, not invoked directly by you; you read outputs, enforce handoffs, and run cross-stage validation.</p></div>
+
+
 
 <hr class="entry-divider">
 

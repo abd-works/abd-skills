@@ -19,6 +19,9 @@ TEMPLATE_DIR = SKILL_DIR / "templates"
 # Subtitle in generated pages (repo output folder is <root>/catalog/).
 CATALOG_BRAND_HTML = "<strong>Agile by Design</strong> &middot; catalog"
 
+# GitHub slug for `npx skills add owner/repo@skill` (skills.sh / Open Agent Skills CLI).
+NPX_SKILLS_REPO_SLUG = "agilebydesign/agilebydesign-skills"
+
 FRONTMATTER_RE = re.compile(r"^---\s*\n(.*?)\n---", re.DOTALL)
 YAML_FIELD_RE = re.compile(r"^(\w[\w-]*):\s*(.+)", re.MULTILINE)
 YAML_BLOCK_RE = re.compile(
@@ -335,6 +338,24 @@ def _path_up_to_ancestor(from_dir: Path, ancestor: Path) -> str:
 
 def _h(text: str) -> str:
     return html_mod.escape(text)
+
+
+def _npx_skills_install_block(skill_package_name: str) -> str:
+    """HTML: copy-paste `npx skills add` line using @skill (matches `npx skills` discover names)."""
+    name = skill_package_name.strip()
+    cmd = f"npx skills add {NPX_SKILLS_REPO_SLUG}@{name} -y"
+    return (
+        '<section class="install-block" aria-labelledby="install-npx-heading">\n'
+        '  <h2 id="install-npx-heading">Install with npx</h2>\n'
+        '  <p class="install-hint">Install this package from GitHub into your project or global agent '
+        'skills directory (see <a href="https://skills.sh/">skills.sh</a> / Open Agent Skills). '
+        "The <code>@</code> suffix must match the skill name shown by "
+        f'<code>npx skills add https://github.com/{NPX_SKILLS_REPO_SLUG} -l</code>.</p>\n'
+        '  <pre class="install-snippet"><code>'
+        + _h(cmd)
+        + "</code></pre>\n"
+        "</section>\n"
+    )
 
 
 def _repo_href(href_to_repo: str, rel_posix: str) -> str:
@@ -850,6 +871,7 @@ def write_entry_detail_pages(
             ascii_art = _ascii_placeholder_no_readme()
         how_block = _html_how_it_fits_block(ascii_art)
         file_list = _html_contents_list(repo_root, pkg, href_to_repo)
+        install_block = _npx_skills_install_block(s.name)
         html = (
             detail_tpl.replace("{{CSS}}", detail_css)
             .replace("{{TITLE}}", _h(f"ABD catalogue — skill · {s.name}"))
@@ -864,6 +886,7 @@ def write_entry_detail_pages(
             .replace("{{NAV_SKILLS}}", _nav_cls("skills", "skills"))
             .replace("{{NAV_AGENTS}}", _nav_cls("agents", "skills"))
             .replace("{{DESCRIPTION}}", desc_html)
+            .replace("{{INSTALL_BLOCK}}", install_block)
             .replace("{{HOW_IT_FITS_BLOCK}}", how_block)
             .replace("{{FILE_LIST}}", file_list)
         )
@@ -902,6 +925,7 @@ def write_entry_detail_pages(
             .replace("{{NAV_SKILLS}}", _nav_cls("skills", "agents"))
             .replace("{{NAV_AGENTS}}", _nav_cls("agents", "agents"))
             .replace("{{DESCRIPTION}}", desc_html)
+            .replace("{{INSTALL_BLOCK}}", "")
             .replace("{{HOW_IT_FITS_BLOCK}}", how_block)
             .replace("{{FILE_LIST}}", file_list)
         )
@@ -1046,13 +1070,41 @@ def _load_intro_fragment(filename: str, default: str) -> str:
     return default
 
 
+def _hub_intro_for_single_page_index(hub_intro: str) -> str:
+    """Same copy as multi-page hub, but jump to in-page sections instead of skills.html / agents.html."""
+    return (
+        hub_intro.replace('href="skills.html"', 'href="#catalog-skills"')
+        .replace("href='skills.html'", "href='#catalog-skills'")
+        .replace('href="agents.html"', 'href="#catalog-agents"')
+        .replace("href='agents.html'", "href='#catalog-agents'")
+    )
+
+
+def _html_catalog_section(
+    section_id: str,
+    title: str,
+    count_label: str,
+    body_inner: str,
+    *,
+    open_default: bool = False,
+) -> str:
+    """One collapsible block for the single-page index (matches abd-works catalogue layout)."""
+    open_attr = " open" if open_default else ""
+    body = textwrap.indent(body_inner.strip(), "    ")
+    return (
+        f'<details class="catalog-section" id="{_h(section_id)}"{open_attr}>\n'
+        f"  <summary>{_h(title)} <span class=\"count\">{_h(count_label)}</span></summary>\n"
+        f"  <div class=\"section-body\">\n{body}\n  </div>\n</details>"
+    )
+
+
 def write_html_pages(
     output_catalog_dir: Path,
     repo_root: Path,
     skills: list[SkillEntry],
     agents: list[AgentEntry],
 ) -> tuple[int, int]:
-    """Write index.html, skills.html, agents.html and per-entry detail pages.
+    """Write index.html (single-page hub + collapsible skills/agents), skills.html, agents.html, detail pages.
 
     Returns (skill_detail_count, agent_detail_count).
     """
@@ -1060,6 +1112,7 @@ def write_html_pages(
     if not up_to_repo:
         up_to_repo = "./"
     idx_tpl = _load_template("page-catalog.html")
+    idx_single_tpl = _load_template("page-catalog-index.html")
     css = _load_template("catalog.css")
     detail_tpl = _load_template("page-entry-detail.html")
 
@@ -1101,30 +1154,59 @@ def write_html_pages(
             f"<a href=\"{outline_href}\">outline.md</a> lists the same entries in one file.</p>"
         ),
     ).replace("{{OUTLINE_HREF}}", outline_href)
-    hub_body = (
-        "<h2>Quick links</h2><ul>"
-        '<li><a href="skills.html">All skills — card grid</a></li>'
-        '<li><a href="agents.html">All agents — card grid</a></li>'
-        "</ul>"
-        f"<p>{len(skills)} skills, {len(agents)} agents indexed.</p>"
+    # Single-page index: hub + skills + agents as collapsible sections (same UX as abd-works catalogue).
+    hub_for_index = _hub_intro_for_single_page_index(hub_intro)
+    hub_index_extra = (
+        "<p>Cards open full detail pages under <code>skill/</code> and <code>agent/</code>.</p>\n"
+        f"<p>{len(skills)} skills and {len(agents)} agents are indexed in this catalogue.</p>"
     )
-    index_html = fill(
-        idx_tpl,
-        title="ABD catalogue — Hub",
-        brand=brand,
-        h1="Skills &amp; agents catalogue",
-        tagline="Agile by Design skills and agents.",
-        intro=hub_intro,
-        nav_current="hub",
-        body_inner=hub_body,
-    )
-    (output_catalog_dir / "index.html").write_text(index_html, encoding="utf-8")
-
     skills_intro = _load_intro_fragment(
         "catalog-skills-intro.html",
         "<p>Open a card for a full page on that skill.</p>",
     )
-    skills_body = f'<h2>Skills ({len(skills)})</h2><div class="cap-grid">{_card_block_skills(skills, up_to_repo)}</div>'
+    agents_intro = _load_intro_fragment(
+        "catalog-agents-intro.html",
+        "<p>Open a card for a full page on that agent.</p>",
+    )
+    skills_grid = _card_block_skills(skills, up_to_repo)
+    agents_grid = _card_block_agents(agents, up_to_repo)
+    index_sections = "\n\n".join(
+        [
+            _html_catalog_section(
+                "catalog-hub",
+                "About this catalogue",
+                "(hub)",
+                f"{hub_for_index}\n{hub_index_extra}",
+                open_default=True,
+            ),
+            _html_catalog_section(
+                "catalog-skills",
+                "Skills",
+                f"({len(skills)})",
+                f"{skills_intro}\n<div class=\"cap-grid\">\n{skills_grid}\n</div>",
+            ),
+            _html_catalog_section(
+                "catalog-agents",
+                "Agents",
+                f"({len(agents)})",
+                f"{agents_intro}\n<div class=\"cap-grid\">\n{agents_grid}\n</div>",
+            ),
+        ]
+    )
+    index_html = (
+        idx_single_tpl.replace("{{CSS}}", css)
+        .replace("{{TITLE}}", "ABD catalogue — Skills &amp; agents")
+        .replace("{{BRAND}}", brand)
+        .replace("{{H1}}", "Skills &amp; agents catalogue")
+        .replace(
+            "{{TAGLINE}}",
+            "One page: hub, skills, and agents. Expand each section below.",
+        )
+        .replace("{{BODY_INNER}}", index_sections)
+    )
+    (output_catalog_dir / "index.html").write_text(index_html, encoding="utf-8")
+
+    skills_body = f'<h2>Skills ({len(skills)})</h2><div class="cap-grid">{skills_grid}</div>'
     (output_catalog_dir / "skills.html").write_text(
         fill(
             idx_tpl,
@@ -1139,11 +1221,7 @@ def write_html_pages(
         encoding="utf-8",
     )
 
-    agents_intro = _load_intro_fragment(
-        "catalog-agents-intro.html",
-        "<p>Open a card for a full page on that agent.</p>",
-    )
-    agents_body = f'<h2>Agents ({len(agents)})</h2><div class="cap-grid">{_card_block_agents(agents, up_to_repo)}</div>'
+    agents_body = f'<h2>Agents ({len(agents)})</h2><div class="cap-grid">{agents_grid}</div>'
     (output_catalog_dir / "agents.html").write_text(
         fill(
             idx_tpl,

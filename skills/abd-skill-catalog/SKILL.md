@@ -28,12 +28,17 @@ used under `agents/abd-skill-builder/docs/overview/`.
 | Artifact | Format | Location (default) |
 | --- | --- | --- |
 | **Outline** | Markdown | `catalog/outline.md` (repository root) |
-| **Site hub** | HTML | `catalog/index.html` |
-| **Skills grid** | HTML | `catalog/skills.html` |
-| **Agents grid** | HTML | `catalog/agents.html` |
+| **Site hub** | HTML | `catalog/index.html` — one page: collapsible **About**, **Skills**, **Agents** (same layout idea as the abd-works catalogue); hub intro links jump to `#catalog-skills` / `#catalog-agents` |
+| **Skills grid** | HTML | `catalog/skills.html` (standalone grid; nav from detail pages) |
+| **Agents grid** | HTML | `catalog/agents.html` (standalone grid; nav from detail pages) |
 | **Hub / grid intros** | HTML fragments | `skills/abd-skill-catalog/templates/intros/*.html` (short lines above grids; optional polish) |
 | **Skill detail pages** | HTML | `catalog/skill/<dir>.html` (one per skill; cards link here) |
 | **Agent detail pages** | HTML | `catalog/agent/<dir>.html` (one per agent; cards link here) |
+
+Skill detail pages include an **Install with npx** block: a single fenced-style command
+`npx skills add agilebydesign/agilebydesign-skills@<frontmatter name> -y`, matching the
+skill id from `npx skills add https://github.com/agilebydesign/agilebydesign-skills -l`.
+Agent pages omit that block (agents are not separate `npx skills` packages in this repo).
 
 Each catalogue entry includes:
 
