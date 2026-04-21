@@ -2643,7 +2643,9 @@ class StoryMap:
                 result.append(node_dict)
         return {'status': 'success', 'result': result}
 
-    def apply_update_report(self, report: 'UpdateReport') -> None:
+    def apply_update_report(
+        self, report: 'UpdateReport', *, apply_ac_patches: bool = False
+    ) -> None:
         """Apply an update report to this story map.
         
         This is a thin wrapper around StoryMapUpdater for backward compatibility.
@@ -2651,10 +2653,13 @@ class StoryMap:
         
         Args:
             report: The UpdateReport to apply
+            apply_ac_patches: If True, apply ``ac_moves`` / ``ac_changes`` from the
+                report (legacy). Exploration sync leaves this False and applies
+                AC from the diagram elsewhere.
         """
         from story_graph_ops.story_map_updater import StoryMapUpdater
         updater = StoryMapUpdater(target_map=self)
-        updater.update_from_report(report=report)
+        updater.update_from_report(report=report, apply_ac_patches=apply_ac_patches)
     
     def generate_update_report(self, other_map: 'StoryMap') -> 'UpdateReport':
         """Generate an update report by comparing this map against another.
@@ -2686,7 +2691,7 @@ class StoryMap:
         if report is None:
             report = updater.generate_report_from(source_map=other_map)
         
-        updater.update_from_report(report=report)
+        updater.update_from_report(report=report, apply_ac_patches=False)
 
     def filter_by_name(self, name: str) -> Optional['StoryMap']:
         """Return a new StoryMap containing only the subtree rooted at
