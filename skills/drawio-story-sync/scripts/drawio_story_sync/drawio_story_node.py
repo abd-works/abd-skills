@@ -230,6 +230,62 @@ def _compare_node_lists(extracted, original, report, parent_name='',
         _report_all_descendants_as_removed(orig_node, report)
 
 
+def _report_sub_epic_sibling_reorder_if_needed(
+    parent_name: str,
+    extracted_sub_epics: List["DrawIOSubEpic"],
+    original_sub_epics: List[SubEpic],
+    report: UpdateReport,
+) -> None:
+    """Record sub-epic column order when names match the graph but sequence differs."""
+    if not extracted_sub_epics or not original_sub_epics:
+        return
+    diagram_names = [
+        s.name
+        for s in sorted(extracted_sub_epics, key=lambda n: n.sequential_order or 0)
+    ]
+    graph_names = [
+        s.name
+        for s in sorted(
+            original_sub_epics,
+            key=lambda n: getattr(n, "sequential_order", 0) or 0,
+        )
+    ]
+    if diagram_names == graph_names:
+        return
+    if set(diagram_names) != set(graph_names):
+        return
+    if len(diagram_names) != len(set(diagram_names)):
+        return
+    report.add_sub_epic_sibling_reorder(parent_name, diagram_names)
+
+
+def _report_leaf_story_group_reorder_if_needed(
+    drawio_sub_epic: "DrawIOSubEpic",
+    original_sub_epic: SubEpic,
+    unique_stories_in_diagram_order: List["DrawIOStory"],
+    report: UpdateReport,
+) -> None:
+    """Record left-to-right diagram order when names match the graph but sequence differs."""
+    if original_sub_epic.has_subepics or drawio_sub_epic.get_sub_epics():
+        return
+    orig_stories = [c for c in original_sub_epic.children if isinstance(c, Story)]
+    if not orig_stories or not unique_stories_in_diagram_order:
+        return
+    ordered_orig = sorted(
+        orig_stories,
+        key=lambda s: getattr(s, "sequential_order", 0) or 0,
+    )
+    diagram_names = [s.name for s in unique_stories_in_diagram_order]
+    graph_names = [s.name for s in ordered_orig]
+    if diagram_names == graph_names:
+        return
+    if set(diagram_names) != set(graph_names):
+        return
+    if len(diagram_names) != len(set(diagram_names)):
+        return
+    report.add_story_group_reorder(drawio_sub_epic.name, diagram_names)
+
+
 def _max_sub_epic_depth(node) -> int:
     """Max nesting depth of sub-epics under a domain node.
 
@@ -488,6 +544,12 @@ class DrawIOEpic(DiagramEpic, DrawIOStoryNode):
                             all_original_names=all_original_names,
                             extracted_story_to_inc=extracted_story_to_inc,
                             original_story_to_inc=original_story_to_inc)
+        _report_sub_epic_sibling_reorder_if_needed(
+            self.name,
+            self.get_sub_epics(),
+            list(original_epic.sub_epics),
+            report,
+        )
 
 
 @dataclass
@@ -662,6 +724,8 @@ class DrawIOSubEpic(DiagramSubEpic, DrawIOStoryNode):
                             all_original_names=all_original_names,
                             extracted_story_to_inc=extracted_story_to_inc,
                             original_story_to_inc=original_story_to_inc)
+        _report_sub_epic_sibling_reorder_if_needed(
+            self.name, self.get_sub_epics(), orig_nested, report)
 
         # Deduplicate extracted stories by name.  The same story can
         # appear multiple times in the tree when it lives in several
@@ -681,6 +745,8 @@ class DrawIOSubEpic(DiagramSubEpic, DrawIOStoryNode):
                             all_original_names=all_original_names,
                             extracted_story_to_inc=extracted_story_to_inc,
                             original_story_to_inc=original_story_to_inc)
+        _report_leaf_story_group_reorder_if_needed(
+            self, original_sub_epic, unique_stories, report)
 
 
 @dataclass
@@ -740,7 +806,8 @@ class DrawIOStory(DiagramStory, DrawIOStoryNode):
         self.set_position(final_x, final_y)
         self.set_size(CELL_SIZE, CELL_SIZE)
 
-        # Actors placed directly above this story (deduplicated within sub-epic)
+        # Actors placed directly above this story. Shared ``seen_actors`` (per
+        # sub-epic row) skips duplicate persona *names* so the outline stays compact.
         users = getattr(story, 'users', []) or []
         for user in users:
             user_name = user.name if hasattr(user, 'name') else str(user)

@@ -13,6 +13,7 @@ from .drawio_story_node_serializer import DrawIOStoryNodeSerializer
 from .drawio_element import DrawIOElement
 from .layout_data import LayoutData
 from .update_report import UpdateReport
+from .diagram_ac_sync import apply_per_story_diagram_ac
 
 __all__ = [
     'Boundary',
@@ -31,4 +32,5 @@ __all__ = [
     'DrawIOElement',
     'LayoutData',
     'UpdateReport',
+    'apply_per_story_diagram_ac',
 ]

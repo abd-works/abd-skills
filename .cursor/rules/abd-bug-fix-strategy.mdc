@@ -1,0 +1,21 @@
+---
+description: >-
+  Defects and regressions — route through ABD delivery lead + agile delivery plan;
+  strategy (e.g. bug fix) is chosen in the plan, not in this rule.
+globs:
+  - skills/**/scripts/**/*.py
+  - skills/**/tests/**/*.py
+alwaysApply: true
+---
+
+# Bug fix and regression work
+
+For **defects, regressions, wrong behavior, or failing tests**, do **not** invent a separate workflow here.
+
+**Implementing agent (Cursor):** When you touch files under **globs** above for a bug, you **must** read and follow [**bug-fix.md**](skills/abd-delivery-planning/strategies/bug-fix.md): **isolate** the smallest repro (failing test or clear expected vs actual), **prove** the fix (RED → GREEN; add a test if none exists), then **align** story-graph / AC / scenarios if behavior was wrong or undocumented. Do not skip straight to “clever” refactors without that sequence.
+
+**Orchestration:** Use the **ABD Delivery Lead** agent — [`agents/abd-delivery-lead/AGENT.md`](agents/abd-delivery-lead/AGENT.md) when the fix spans multiple stories, needs checkpoints, or belongs in a formal run. The lead owns workspace, plan, runs, checkpoints, handoffs, and which practice agents run.
+
+**Plan and strategy:** The lead builds or revises **`agile-delivery-plan.md`** using **`abd-delivery-planning`** — [`skills/abd-delivery-planning/SKILL.md`](skills/abd-delivery-planning/SKILL.md) and [`skills/abd-delivery-planning/strategies/`](skills/abd-delivery-planning/strategies/) (match context to a strategy’s *When to use*; for bugs/regressions that is typically [**bug-fix.md**](skills/abd-delivery-planning/strategies/bug-fix.md)). Checklist execution and alignment with the plan live under **`track_task`** and the paths the delivery lead agent names.
+
+Everything else — stages, gates, rules/scanners, test shape, spec updates — is **defined by that plan and those skills/agents**, not duplicated in this rule.

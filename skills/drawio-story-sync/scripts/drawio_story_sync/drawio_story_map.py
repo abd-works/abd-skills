@@ -8,8 +8,9 @@ and collects nodes for serialization.
 """
 import json
 from pathlib import Path
-from typing import List, Optional, Dict, Any, Union
+from typing import List, Optional, Dict, Any, Union, Tuple
 from story_graph_ops.nodes import StoryMap, Epic, SubEpic, Story, StoryGroup
+from .drawio_element import DrawIOElement, STYLE_DEFAULTS
 from .drawio_story_node import (
     DrawIOStoryNode, DrawIOEpic, DrawIOSubEpic, DrawIOStory,
     DrawIOIncrementLane, SPACING, CONTAINER_PADDING, CELL_SIZE,
@@ -20,6 +21,127 @@ from .drawio_story_node_serializer import DrawIOStoryNodeSerializer
 from .layout_data import LayoutData
 from .update_report import UpdateReport
 from .render_summary import RenderSummary
+
+
+_OUTLINE_PERSONA_FILL = STYLE_DEFAULTS['actor']['fill']
+
+
+def _forward_fill_story_users(explicit: List[Optional[str]]) -> List[List[str]]:
+    """Carry the last explicit persona left-to-right along a story row (outline).
+
+    ``explicit[i]`` is the label on a chip centered above story *i*, or ``None``.
+    Each story gets ``[]`` until the first explicit, then ``[last_label]`` until
+    the next explicit replaces ``last_label``.
+    """
+    last: Optional[str] = None
+    out: List[List[str]] = []
+    for e in explicit:
+        if e:
+            last = e.strip()
+        if last:
+            out.append([last])
+        else:
+            out.append([])
+    return out
+
+
+def _outline_persona_nodes(nodes: List[Any]) -> List[Any]:
+    """mxCells that use the same actor styling as ``DrawIOStoryNodeSerializer`` / renderer."""
+    chips: List[Any] = []
+    for n in nodes:
+        if not isinstance(n, DrawIOElement):
+            continue
+        if getattr(n, 'fill', None) != _OUTLINE_PERSONA_FILL:
+            continue
+        cid = getattr(n, 'cell_id', '') or ''
+        if '/ac-' in cid or cid.startswith('inc-lane'):
+            continue
+        label = (getattr(n, 'value', '') or '').strip()
+        if not label:
+            continue
+        chips.append(n)
+    return chips
+
+
+def _apply_outline_row_personas(ordered_stories: List[Any], persona_nodes: List[Any]) -> None:
+    """Set ``users`` and ``_had_actor_cells`` on each story in one leaf row."""
+    explicit = [_explicit_persona_label_above_story(s, persona_nodes) for s in ordered_stories]
+    filled = _forward_fill_story_users(explicit)
+    row_has = any(e for e in explicit if e)
+    for s, ulist in zip(ordered_stories, filled):
+        s.users = ulist
+        setattr(s, '_had_actor_cells', row_has)
+
+
+def _explicit_persona_label_above_story(story: Any, persona_nodes: List[Any]) -> Optional[str]:
+    """Persona chip whose center lies in this story's column and above the story."""
+    sp = getattr(story, 'position', None)
+    sb = getattr(story, 'boundary', None)
+    if sp is None or sb is None:
+        return None
+    sx, sy = sp.x, sp.y
+    sw, sh = sb.width, sb.height
+    if sw <= 0 or sh <= 0:
+        return None
+    best_label: Optional[str] = None
+    best_key: Optional[tuple] = None
+    for n in persona_nodes:
+        pos = getattr(n, 'position', None)
+        b = getattr(n, 'boundary', None)
+        if pos is None or b is None:
+            continue
+        ax = pos.x + b.width / 2.0
+        ay = pos.y + b.height / 2.0
+        if ax < sx or ax > sx + sw:
+            continue
+        if ay >= sy:
+            continue
+        lab = (getattr(n, 'value', '') or '').strip()
+        if not lab:
+            continue
+        key = (sy - ay, abs(ax - (sx + sw / 2.0)))
+        if best_key is None or key < best_key:
+            best_key = key
+            best_label = lab
+    return best_label
+
+
+_ACTOR_FILL = '#dae8fc'
+
+
+def _outline_persona_mxcells(nodes: List[Any]) -> List[Any]:
+    """mxCells that represent persona chips for outline ``users`` extraction.
+
+    Includes path-based ids (``…/actor-…``) and **orphan** chips: DrawIO sometimes
+    assigns numeric ids after duplicate/paste, but keeps the actor palette fill.
+    """
+    out: List[Any] = []
+    for n in nodes:
+        cid = getattr(n, 'cell_id', '') or ''
+        label = (getattr(n, 'value', '') or '').strip()
+        if not label:
+            continue
+        if '/actor-' in cid:
+            out.append(n)
+            continue
+        if isinstance(n, DrawIOElement) and getattr(n, 'fill', None) == _ACTOR_FILL:
+            if '/ac-' in cid or cid.startswith('inc-lane/'):
+                continue
+            out.append(n)
+    return out
+
+
+def _ordered_unique_labels(pairs: List[tuple]) -> List[str]:
+    """Sort by x then drop duplicate labels (path + orphan duplicate same column)."""
+    pairs = sorted(pairs, key=lambda t: t[0])
+    seen: set = set()
+    labels: List[str] = []
+    for _x, lab in pairs:
+        if lab in seen:
+            continue
+        seen.add(lab)
+        labels.append(lab)
+    return labels
 
 
 class DrawIOStoryMap(StoryMap):
@@ -398,16 +520,83 @@ class DrawIOStoryMap(StoryMap):
         if extracted_increments and (self._has_rendered_increments or self._diagram_type == 'increments'):
             self._compute_increment_delta(report, extracted_increments, original_increments)
 
-        # Pass 3: acceptance criteria delta.
-        # Only extract if this diagram has AC rendered or loaded.
-        extracted_ac = self.extract_ac_assignments()
-        # Only compute delta if we actually have AC data and either:
-        # - AC was explicitly rendered, OR  
-        # - The extracted data has AC elements (file was loaded with AC)
-        if extracted_ac and (self._has_rendered_ac or self._diagram_type == 'acceptance_criteria'):
-            self._compute_ac_delta(report, extracted_ac, original_story_map)
-            report.reconcile_ac_moves()
+        # Exploration AC is applied per-story from the diagram after hierarchy
+        # apply (see ``diagram_ac_sync.apply_per_story_diagram_ac``); no AC
+        # patch list is written into the update report.
+
+        # Pass 3: story users / personas (outline actor cells → graph ``users``).
+        self._compute_users_delta(report, original_story_map)
         return report
+
+    def _compute_users_delta(self, report: UpdateReport, original_story_map: StoryMap) -> None:
+        """Diff actor-derived ``users`` on extracted stories vs canonical graph."""
+        for e_ext in sorted(self._drawio_epics, key=lambda e: e.sequential_order or 0):
+            e_orig = self._domain_epic_named(original_story_map, e_ext.name)
+            if e_orig is None:
+                continue
+            self._compute_users_delta_under_parent(e_ext, e_orig, report)
+
+    @staticmethod
+    def _domain_epic_named(original_story_map: StoryMap, epic_name: str):
+        for e in original_story_map.epics:
+            if e.name == epic_name:
+                return e
+        return None
+
+    def _compute_users_delta_under_parent(
+        self, ext_parent, orig_parent, report: UpdateReport
+    ) -> None:
+        from story_graph_ops.nodes import Story as DomainStory
+
+        for se_ext in sorted(ext_parent.get_sub_epics(), key=lambda s: s.sequential_order or 0):
+            se_orig = None
+            for cand in orig_parent.get_sub_epics():
+                if cand.name == se_ext.name:
+                    se_orig = cand
+                    break
+            if se_orig is None:
+                continue
+            nested = se_ext.get_sub_epics()
+            if nested:
+                self._compute_users_delta_under_parent(se_ext, se_orig, report)
+            if not se_ext.get_stories():
+                continue
+            seen: set = set()
+            unique_ext_stories = []
+            for s in se_ext.get_stories():
+                if s.name not in seen:
+                    seen.add(s.name)
+                    unique_ext_stories.append(s)
+            orig_stories = [s for s in se_orig.stories if isinstance(s, DomainStory)]
+            orig_by_name = {s.name: s for s in orig_stories}
+            ext_ordered = sorted(
+                unique_ext_stories,
+                key=lambda s: float(s.position.x) if getattr(s, 'position', None) else 0.0,
+            )
+            orig_explicit: List[Optional[str]] = []
+            for s_ext in ext_ordered:
+                s_orig = orig_by_name.get(s_ext.name)
+                if s_orig is None:
+                    orig_explicit.append(None)
+                    continue
+                ou = [str(u) for u in (s_orig.users or [])]
+                orig_explicit.append(ou[0].strip() if ou and ou[0].strip() else None)
+            orig_effective = _forward_fill_story_users(orig_explicit)
+            for i, s_ext in enumerate(ext_ordered):
+                s_orig = orig_by_name.get(s_ext.name)
+                if s_orig is None:
+                    continue
+                ext_u = list(getattr(s_ext, 'users', None) or [])
+                orig_u_eff = orig_effective[i]
+                had_cells = bool(getattr(s_ext, '_had_actor_cells', False))
+                if not had_cells and not ext_u:
+                    continue
+                if ext_u != orig_u_eff:
+                    report.add_story_users_change(
+                        story_name=s_ext.name,
+                        parent_sub_epic=se_ext.name,
+                        users=ext_u,
+                    )
 
     def _compute_increment_delta(self, report: UpdateReport,
                                   extracted: list,
@@ -658,12 +847,14 @@ class DrawIOStoryMap(StoryMap):
         """Extract acceptance criteria text per story from the diagram.
 
         Finds AC boxes (elements with cell_id containing '/ac-' or
-        user-created boxes below stories with AC-like style) and maps
-        them to stories by cell_id hierarchy or Y-position.
+        user-created boxes below stories with AC-like style) and maps each
+        box to the **diagram story above it**: same column (closest center X),
+        then smallest vertical gap under that story's bottom edge. Boxes with
+        no story above them are skipped (not acceptance criteria for sync).
 
         Returns:
-            Dict mapping story_name to list of AC text strings,
-            ordered by Y position (top to bottom).
+            Dict mapping each story's ``cell_id`` (full hierarchical path) to
+            a list of AC text strings, ordered by Y position (top to bottom).
         """
         # Collect all stories and their positions
         stories = []
@@ -719,136 +910,37 @@ class DrawIOStoryMap(StoryMap):
                     'height': bnd.height,
                 })
 
+        # Empty diagram AC layer must still produce per-story ``[]`` entries so
+        # Pass 3 can diff "all AC removed" / "stories with no boxes" vs JSON.
         if not ac_boxes:
-            return {}
+            return {s['cell_id']: [] for s in stories}
 
         # Sort AC boxes by Y position
         ac_boxes.sort(key=lambda b: b['y'])
 
-        # Match AC boxes to stories.
-        # Position is the source of truth: when users drag AC boxes in
-        # the diagram the position changes but the cell_id stays the same.
-        # Always try positional matching first, fall back to cell_id only
-        # when no positional match is found.
+        # Story on top of each AC (layout). Keys are story ``cell_id``.
         result: Dict[str, List[str]] = {}
         for ac in ac_boxes:
-            matched_story = None
-
-            # Primary: positional (below + horizontally overlapping).
-            # In a story map, AC boxes are x-aligned with their parent
-            # story.  When multiple stories overlap horizontally, prefer
-            # the one whose x is closest to the AC's x (column alignment)
-            # and use vertical distance only as a tiebreaker.
-            # The vertical limit is generous (2000px) because stories can
-            # have many ACs stacked below: 20+ ACs at ~70px each easily
-            # exceeds 1400px of vertical extent.
-            candidates = []
+            ac_cx = ac['x'] + ac['width'] * 0.5
+            candidates: List[Tuple[float, float, str]] = []
             for s in stories:
-                # AC must be below the story
-                if ac['y'] < s['y'] + s['height']:
+                story_bottom = s['y'] + s['height']
+                if ac['y'] < story_bottom:
                     continue
-                # Horizontal overlap check
-                ac_right = ac['x'] + ac['width']
-                s_right = s['x'] + s['width']
-                if ac['x'] > s_right + 50 or ac_right < s['x'] - 50:
-                    continue
-                y_dist = ac['y'] - (s['y'] + s['height'])
-                if y_dist >= 2000:
-                    continue
-                x_dist = abs(ac['x'] - s['x'])
-                candidates.append((x_dist, y_dist, s['name']))
-            if candidates:
-                # Sort by x-alignment first (column match), then vertical
-                candidates.sort()
-                matched_story = candidates[0][2]
+                scx = s['x'] + s['width'] * 0.5
+                x_dist = abs(ac_cx - scx)
+                y_dist = ac['y'] - story_bottom
+                candidates.append((x_dist, y_dist, s['cell_id']))
+            if not candidates:
+                continue
+            candidates.sort()
+            matched_cid = candidates[0][2]
+            result.setdefault(matched_cid, []).append(ac['text'])
 
-            # Fallback: cell_id hierarchy (tool-generated AC that could
-            # not be matched positionally, e.g. overlapping columns)
-            if not matched_story and '/ac-' in ac['cell_id']:
-                story_path = ac['cell_id'].rsplit('/ac-', 1)[0]
-                for s in stories:
-                    if s['cell_id'] == story_path:
-                        matched_story = s['name']
-                        break
-
-            if matched_story:
-                result.setdefault(matched_story, []).append(ac['text'])
+        for s in stories:
+            result.setdefault(s['cell_id'], [])
 
         return result
-
-    def _compute_ac_delta(self, report: 'UpdateReport',
-                           extracted_ac: Dict[str, List[str]],
-                           original_story_map: StoryMap):
-        """Compare extracted AC against original story graph and populate
-        the report with AC changes (added, removed, modified)."""
-        from .update_report import ACChange
-
-        # Build original AC map: story_name -> list of AC text
-        original_ac: Dict[str, List[str]] = {}
-        for story in original_story_map.all_stories:
-            ac_list = getattr(story, 'acceptance_criteria', []) or []
-            if ac_list:
-                texts = []
-                for ac in ac_list:
-                    if hasattr(ac, 'name') and ac.name:
-                        texts.append(ac.name.strip())
-                    elif isinstance(ac, dict):
-                        texts.append(
-                            (ac.get('name', '') or ac.get('description', '')).strip())
-                    elif isinstance(ac, str):
-                        texts.append(ac.strip())
-                if texts:
-                    original_ac[story.name] = texts
-
-        # Find the parent sub-epic for each story (for reporting)
-        story_parents: Dict[str, str] = {}
-        for epic in original_story_map.epics:
-            self._collect_story_parents(epic, story_parents)
-
-        changes = []
-        # Check all stories that have AC in either extracted or original
-        all_story_names = set(extracted_ac.keys()) | set(original_ac.keys())
-        for story_name in sorted(all_story_names):
-            ext_ac = extracted_ac.get(story_name, [])
-            orig_ac = original_ac.get(story_name, [])
-
-            if ext_ac == orig_ac:
-                continue  # no change
-
-            # Compute added/removed
-            ext_set = set(ext_ac)
-            orig_set = set(orig_ac)
-            added = sorted(ext_set - orig_set)
-            removed = sorted(orig_set - ext_set)
-
-            # Detect pure reorder: same items, different order
-            reordered = []
-            if not added and not removed and ext_ac != orig_ac:
-                reordered = list(ext_ac)
-
-            if added or removed or reordered:
-                changes.append(ACChange(
-                    story_name=story_name,
-                    parent=story_parents.get(story_name, ''),
-                    added=added,
-                    removed=removed,
-                    reordered=reordered,
-                ))
-
-        if changes:
-            report.set_ac_changes(changes)
-
-    @staticmethod
-    def _collect_story_parents(node, result: Dict[str, str]):
-        """Walk tree collecting story_name -> parent_name mapping."""
-        from story_graph_ops.nodes import SubEpic, Story
-        children = getattr(node, 'children', [])
-        parent_name = getattr(node, 'name', '')
-        for child in children:
-            if isinstance(child, Story):
-                result[child.name] = parent_name
-            elif isinstance(child, SubEpic):
-                DrawIOStoryMap._collect_story_parents(child, result)
 
     # ------------------------------------------------------------------
     # Dict conversion
@@ -881,8 +973,12 @@ class DrawIOStoryMap(StoryMap):
             'story_groups': [{
                 'type': 'and', 'connector': None,
                 'stories': [
-                    {'name': s.name, 'sequential_order': s.sequential_order,
-                     'story_type': s.story_type or 'user'}
+                    {
+                        'name': s.name,
+                        'sequential_order': s.sequential_order,
+                        'story_type': s.story_type or 'user',
+                        'users': list(getattr(s, 'users', None) or []),
+                    }
                     for s in se.get_stories()
                 ]
             }]
@@ -924,8 +1020,8 @@ class DrawIOStoryMap(StoryMap):
 
         # Classify remaining nodes: attach AC elements to their parent
         # stories, and reconstruct increment lanes.  Anything else is
-        # discarded (lane backgrounds, labels, actors are reconstructed
-        # on demand by extract_increment_assignments).
+        # discarded (lane backgrounds, labels; actor cells are consumed
+        # into ``DrawIOStory.users`` above).
         classified = set()
         for e in epics:
             classified.add(id(e))
@@ -941,6 +1037,11 @@ class DrawIOStoryMap(StoryMap):
         for s in stories:
             story_by_cid[s.cell_id] = s
 
+        # Personas: actor-fill chips (same rule as serializer) above each story column,
+        # then forward-fill along the row; ``_had_actor_cells`` is row-level when any
+        # chip exists in that leaf sub-epic row.
+        self._assign_outline_actor_cells_from_diagram(nodes)
+
         unclassified = []
         for n in nodes:
             if id(n) in classified:
@@ -954,6 +1055,11 @@ class DrawIOStoryMap(StoryMap):
                     if not hasattr(parent_story, '_ac_elements'):
                         parent_story._ac_elements = []
                     parent_story._ac_elements.append(n)
+                else:
+                    # Orphan tool AC (e.g. merged column: story header removed but
+                    # ``/ac-*`` ids still reference the old story path). Keep the node
+                    # so ``extract_ac_assignments`` can key by parent path + slug.
+                    unclassified.append(n)
                 continue
             unclassified.append(n)
 
@@ -981,6 +1087,35 @@ class DrawIOStoryMap(StoryMap):
             for s in se.get_stories():
                 classified.add(id(s))
             self._classify_sub_epic_tree(se.get_sub_epics(), classified)
+
+    def _assign_outline_actor_cells_from_diagram(self, nodes: List[Any]) -> None:
+        """Resolve ``DrawIOStory.users`` from outline persona chips (actor fill).
+
+        Per leaf sub-epic row, stories are ordered left-to-right. A chip above a
+        column sets an **explicit** persona; following stories inherit until the
+        next explicit (forward-fill). Row has ``_had_actor_cells`` when any chip
+        appears in that row (so clearing all chips can clear JSON on sync).
+        """
+        persona_nodes = _outline_persona_nodes(nodes)
+
+        def assign_leaf_row(se: DrawIOSubEpic) -> None:
+            nested = se.get_sub_epics()
+            if nested:
+                for ch in sorted(nested, key=lambda x: x.sequential_order or 0.0):
+                    assign_leaf_row(ch)
+                return
+            st_list = se.get_stories()
+            if not st_list:
+                return
+            ordered = sorted(
+                st_list,
+                key=lambda s: float(s.position.x) if getattr(s, 'position', None) else 0.0,
+            )
+            _apply_outline_row_personas(ordered, persona_nodes)
+
+        for epic in sorted(self._drawio_epics, key=lambda e: e.sequential_order or 0.0):
+            for se in sorted(epic.get_sub_epics(), key=lambda s: s.sequential_order or 0.0):
+                assign_leaf_row(se)
 
     @staticmethod
     def _resolve_group_positions(nodes, parent_map):

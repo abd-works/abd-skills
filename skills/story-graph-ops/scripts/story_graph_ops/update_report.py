@@ -57,6 +57,20 @@ class SubEpicMove:
 
 
 @dataclass
+class StoryGroupReorder:
+    """Stories under a sub-epic reordered (e.g. left-to-right in outline DrawIO)."""
+    parent_sub_epic: str
+    story_names: List[str]
+
+
+@dataclass
+class SubEpicSiblingReorder:
+    """Sub-epics under an epic (or nested under a sub-epic) reordered left-to-right."""
+    parent: str
+    sub_epic_names: List[str]
+
+
+@dataclass
 class ACChange:
     """Delta for acceptance criteria on a single story."""
     story_name: str
@@ -73,6 +87,18 @@ class ACMove:
     ac_text: str
     from_story: str
     to_story: str
+
+
+@dataclass
+class StoryUsersChange:
+    """Replace ``story.users`` (personas / actors) from outline DrawIO.
+
+    ``parent_sub_epic`` disambiguates duplicate story names; may be empty
+    to fall back to global story lookup.
+    """
+    story_name: str
+    parent_sub_epic: str = ''
+    users: List[str] = field(default_factory=list)
 
 
 class UpdateReport:
@@ -95,6 +121,21 @@ class UpdateReport:
         self._increment_order: List[Dict[str, Any]] = []  # [{name, priority}, ...]
         self._ac_changes: List[ACChange] = []
         self._ac_moves: List[ACMove] = []
+        self._story_group_reorders: List[StoryGroupReorder] = []
+        self._sub_epic_sibling_reorders: List[SubEpicSiblingReorder] = []
+        self._story_users_changes: List[StoryUsersChange] = []
+
+    @property
+    def story_users_changes(self) -> List[StoryUsersChange]:
+        return list(self._story_users_changes)
+
+    @property
+    def story_group_reorders(self) -> List[StoryGroupReorder]:
+        return list(self._story_group_reorders)
+
+    @property
+    def sub_epic_sibling_reorders(self) -> List[SubEpicSiblingReorder]:
+        return list(self._sub_epic_sibling_reorders)
 
     @property
     def renames(self) -> List[MatchEntry]:
@@ -219,20 +260,48 @@ class UpdateReport:
 
     @property
     def has_changes(self) -> bool:
-        return (len(self._renames) > 0 or len(self._new_stories) > 0
-                or len(self._new_sub_epics) > 0 or len(self._new_epics) > 0
-                or len(self._removed_stories) > 0
-                or len(self._removed_sub_epics) > 0 or len(self._removed_epics) > 0
-                or len(self._moved_stories) > 0
-                or len(self._moved_sub_epics) > 0
-                or len(self._large_deletions.missing_epics) > 0
-                or len(self._large_deletions.missing_sub_epics) > 0
-                or len(self._increment_changes) > 0
-                or len(self._increment_moves) > 0
-                or len(self._removed_increments) > 0
-                or len(self._increment_order) > 0
-                or len(self._ac_changes) > 0
-                or len(self._ac_moves) > 0)
+        ld = self._large_deletions
+        return bool(
+            self._renames
+            or self._new_stories
+            or self._new_sub_epics
+            or self._new_epics
+            or self._removed_stories
+            or self._removed_sub_epics
+            or self._removed_epics
+            or self._moved_stories
+            or self._moved_sub_epics
+            or ld.missing_epics
+            or ld.missing_sub_epics
+            or self._increment_changes
+            or self._increment_moves
+            or self._removed_increments
+            or self._increment_order
+            or self._ac_changes
+            or self._ac_moves
+            or self._story_users_changes
+            or self._story_group_reorders
+            or self._sub_epic_sibling_reorders
+        )
+
+    def add_story_group_reorder(self, parent_sub_epic: str, story_names: List[str]) -> None:
+        self._story_group_reorders.append(
+            StoryGroupReorder(parent_sub_epic=parent_sub_epic, story_names=list(story_names)))
+
+    def add_sub_epic_sibling_reorder(self, parent: str, sub_epic_names: List[str]) -> None:
+        self._sub_epic_sibling_reorders.append(
+            SubEpicSiblingReorder(parent=parent, sub_epic_names=list(sub_epic_names)))
+
+    def add_story_users_change(
+        self, story_name: str, parent_sub_epic: str, users: List[str]
+    ) -> None:
+        self._story_users_changes.append(
+            StoryUsersChange(
+                story_name=story_name,
+                parent_sub_epic=parent_sub_epic or '',
+                users=list(users),
+            )
+        )
 
     def add_exact_match(self, extracted_name: str, original_name: str, parent: str = ''):
         self._matched_count += 1
@@ -484,6 +553,25 @@ class UpdateReport:
                  'to_story': m.to_story}
                 for m in self._ac_moves
             ]
+        if self._story_group_reorders:
+            result['story_group_reorders'] = [
+                {'parent': r.parent_sub_epic, 'story_names': r.story_names}
+                for r in self._story_group_reorders
+            ]
+        if self._sub_epic_sibling_reorders:
+            result['sub_epic_sibling_reorders'] = [
+                {'parent': r.parent, 'sub_epic_names': r.sub_epic_names}
+                for r in self._sub_epic_sibling_reorders
+            ]
+        if self._story_users_changes:
+            result['story_users_changes'] = [
+                {
+                    'story': c.story_name,
+                    'parent_sub_epic': c.parent_sub_epic,
+                    'users': list(c.users),
+                }
+                for c in self._story_users_changes
+            ]
         if not self.has_changes:
             result['status'] = 'no_changes'
         return result
@@ -558,4 +646,16 @@ class UpdateReport:
                 ac_text=m['ac_text'],
                 from_story=m['from_story'],
                 to_story=m['to_story']))
+        for r in data.get('story_group_reorders', []):
+            report.add_story_group_reorder(
+                r['parent'], list(r.get('story_names', [])))
+        for r in data.get('sub_epic_sibling_reorders', []):
+            report.add_sub_epic_sibling_reorder(
+                r['parent'], list(r.get('sub_epic_names', [])))
+        for c in data.get('story_users_changes', []):
+            report.add_story_users_change(
+                c.get('story', ''),
+                c.get('parent_sub_epic', ''),
+                list(c.get('users', [])),
+            )
         return report
