@@ -46,6 +46,8 @@ specifies a single file.
 import logging
 import os
 import sys
+import time
+import traceback
 from pathlib import Path
 from urllib.parse import quote
 
@@ -166,21 +168,90 @@ _OOXML_CONVERTERS = {
 }
 
 
-def _convert_src_to_markdown_text(src: Path) -> str:
+def _convert_src_to_markdown_text(src: Path) -> tuple[str, str]:
+    """Return (markdown text, mode tag: ``pdf_outline`` | ``markitdown`` | ``ooxml``)."""
     ext = src.suffix.lower()
     if ext == ".pdf":
         outline_md = extract_markdown_from_pdf_outline(src)
         if outline_md is not None:
-            return prepend_outline_extract_notice(outline_md)
+            return prepend_outline_extract_notice(outline_md), "pdf_outline"
     conv = _OOXML_CONVERTERS.get(ext)
     if conv is not None:
         with open(src, "rb") as fh:
             info = StreamInfo(extension=ext, filename=src.name, local_path=str(src))
-            return conv.convert(fh, info).text_content
-    return _md.convert(str(src)).text_content
+            return conv.convert(fh, info).text_content, "ooxml"
+    # MarkItDown / pdfminer: no per-page progress; long runtime is normal for big PDFs.
+    print(
+        "[convert] MarkItDown (pdfminer): START — "
+        "large PDFs often take many minutes; if this is the last line, work is still here.",
+        file=sys.stderr,
+        flush=True,
+    )
+    t0 = time.perf_counter()
+    raw = _md.convert(str(src)).text_content
+    print(
+        f"[convert] MarkItDown (pdfminer): DONE in {time.perf_counter() - t0:.1f}s, "
+        f"{len(raw)} chars.",
+        file=sys.stderr,
+        flush=True,
+    )
+    return raw, "markitdown"
 
 
 DEFAULT_SHAREPOINT_QUERY = "csf=1&web=1"
+
+
+def _env_truthy(name: str) -> bool:
+    v = os.environ.get(name, "").strip().lower()
+    return v in ("1", "true", "yes")
+
+
+def _log_pdf_extraction_path(pdf: Path, mode: str) -> None:
+    """Explain which PDF path ran so two-column / RPG books are not a silent surprise."""
+    if _env_truthy("PDF_QUIET"):
+        return
+    if mode == "pdf_outline":
+        print(
+            "[pdf] Bookmark-outline extract (PyMuPDF): sections bounded by PDF bookmarks. "
+            "Good default for handbooks with an outline. "
+            "Set PDF_USE_MARKITDOWN_PDF=1 to force linear MarkItDown instead."
+        )
+        return
+    if mode != "markitdown":
+        return
+    try:
+        import fitz  # type: ignore[import-untyped]
+    except ImportError:
+        print(
+            "[pdf] MarkItDown linear extract (no PyMuPDF). "
+            "Multi-column PDFs are often scrambled. Install: pip install pymupdf — "
+            "then reconvert to use bookmark-outline extraction when the PDF has bookmarks."
+        )
+        return
+    try:
+        doc = fitz.open(str(pdf))
+        toc = doc.get_toc()
+        doc.close()
+    except Exception as e:
+        print(f"[pdf] MarkItDown extract; could not read PDF outline ({type(e).__name__}).")
+        return
+    forced = _env_truthy("PDF_USE_MARKITDOWN_PDF")
+    if not toc:
+        print(
+            "[pdf] MarkItDown linear extract: this PDF has no outline/bookmarks. "
+            "Reading order may not match layout (common for 2-column books). "
+            "Consider a tagged source PDF, a different extractor, or a bespoke topic script."
+        )
+    elif forced:
+        print(
+            "[pdf] MarkItDown linear extract (PDF_USE_MARKITDOWN_PDF=1). "
+            "Unset that env to allow bookmark-outline extraction — usually better for handbooks with outlines."
+        )
+    else:
+        print(
+            "[pdf] MarkItDown linear extract despite PyMuPDF (outline pass returned None). "
+            "File may be unreadable to fitz, or see pdf_outline_extract / conversion logs."
+        )
 
 # Track OneDrive prefixes we've already warned about (no mapping)
 _onedrive_warned_prefixes: set[str] = set()
@@ -227,10 +298,22 @@ def convert_one(
     """Convert one file to markdown. Returns output path."""
     out_dir.mkdir(parents=True, exist_ok=True)
 
-    text = _convert_src_to_markdown_text(src)
+    text, extract_mode = _convert_src_to_markdown_text(src)
     if src.suffix.lower() == ".pdf":
+        _log_pdf_extraction_path(src, extract_mode)
         text = _maybe_truncate_pdf_extract_lines(text)
+        print(
+            "[convert] postprocess_pdf_markdown: starting…",
+            file=sys.stderr,
+            flush=True,
+        )
+        t_post = time.perf_counter()
         text = postprocess_pdf_markdown(text, pdf_path=src)
+        print(
+            f"[convert] postprocess_pdf_markdown: done in {time.perf_counter() - t_post:.1f}s",
+            file=sys.stderr,
+            flush=True,
+        )
 
     # Auto-resolve SharePoint URL when source is in OneDrive (from sharepoint_mapping.json)
     if sharepoint_base is None:
@@ -292,12 +375,14 @@ def convert_one(
     return out
 
 
-def _run_file_mode(file_path: str, topic_root: str | None = None) -> None:
+def _run_file_mode(file_path: str, topic_root: str | None = None) -> int:
     """Convert a single file to markdown. Only processes that file.
 
     Output: ``<topic_root>/markdown/<relative parent>/stem.md``. Pass ``--topic-root`` when the
     file is not directly under the topic folder (e.g. ``topic/slides/x.pptx`` → topic root is
     ``topic``, not ``slides``).
+
+    Returns 0 on success, 1 on error (subprocess/CI can rely on the process exit code).
     """
     p = Path(file_path)
     if not p.is_absolute():
@@ -307,11 +392,14 @@ def _run_file_mode(file_path: str, topic_root: str | None = None) -> None:
                 p = candidate
                 break
     if not p.is_file():
-        print(f"File not found: {file_path}")
-        return
+        print(f"File not found: {file_path}", file=sys.stderr)
+        return 1
     if p.suffix.lower() not in SUPPORTED:
-        print(f"Unsupported format: {p.suffix}. Supported: {sorted(SUPPORTED)}")
-        return
+        print(
+            f"Unsupported format: {p.suffix}. Supported: {sorted(SUPPORTED)}",
+            file=sys.stderr,
+        )
+        return 1
 
     if topic_root:
         tr = Path(topic_root).expanduser().resolve()
@@ -320,14 +408,17 @@ def _run_file_mode(file_path: str, topic_root: str | None = None) -> None:
     try:
         rel = p.relative_to(tr)
     except ValueError:
-        print(f"File is not under --topic-root {tr}. Resolve the path or set --topic-root.")
-        return
+        print(
+            f"File is not under --topic-root {tr}. Resolve the path or set --topic-root.",
+            file=sys.stderr,
+        )
+        return 1
 
     md_root = tr / MARKDOWN_SUBDIR
     out_dir = md_root / rel.parent
     out_dir.mkdir(parents=True, exist_ok=True)
 
-    print(f"File: {p.name} -> {out_dir}/\n")
+    print(f"File: {p.name} -> {out_dir}/\n", flush=True)
     try:
         memory_name = tr.name if tr != Path(".") else p.stem
         logical_rel = rel
@@ -339,9 +430,12 @@ def _run_file_mode(file_path: str, topic_root: str | None = None) -> None:
             src_base=tr,
         )
         kb = out.stat().st_size // 1024
-        print(f"Done: 1 file converted ({kb} KB)")
-    except (Exception, BaseException) as e:
-        print(f"FAIL  {type(e).__name__}: {e}")
+        print(f"Done: 1 file converted ({kb} KB)", flush=True)
+        return 0
+    except Exception as e:
+        print(f"FAIL  {type(e).__name__}: {e}", file=sys.stderr)
+        traceback.print_exc()
+        return 1
 
 
 def _walk_with_logical_path(
@@ -444,8 +538,9 @@ def _run_memory_mode(
             kb = out.stat().st_size // 1024
             print(f"OK  ({kb} KB)")
             ok.append(label)
-        except (Exception, BaseException) as e:
+        except Exception as e:
             print(f"FAIL  {type(e).__name__}: {e}")
+            traceback.print_exc()
             fail.append((label, str(e)))
 
     print(f"\nDone: {len(ok)} converted, {len(fail)} failed.")
@@ -454,13 +549,12 @@ def _run_memory_mode(
             print(f"  {n}: {e}")
 
 
-def main():
+def main() -> int:
     file_idx = next((i for i, a in enumerate(sys.argv) if a == "--file"), None)
     if file_idx is not None and file_idx + 1 < len(sys.argv):
         tr_idx = next((i for i, a in enumerate(sys.argv) if a == "--topic-root"), None)
         topic_root = sys.argv[tr_idx + 1] if tr_idx is not None and tr_idx + 1 < len(sys.argv) else None
-        _run_file_mode(sys.argv[file_idx + 1], topic_root=topic_root)
-        return
+        return _run_file_mode(sys.argv[file_idx + 1], topic_root=topic_root)
 
     memory_idx = next((i for i, a in enumerate(sys.argv) if a == "--memory"), None)
     if memory_idx is not None and memory_idx + 1 < len(sys.argv):
@@ -477,8 +571,14 @@ def main():
             while j < len(sys.argv) and not sys.argv[j].startswith("--"):
                 folders.append(sys.argv[j])
                 j += 1
-        _run_memory_mode(sys.argv[memory_idx + 1], sharepoint_base=sb, sharepoint_query=sq, subfolders=folders or None, memory_name_override=mn)
-        return
+        _run_memory_mode(
+            sys.argv[memory_idx + 1],
+            sharepoint_base=sb,
+            sharepoint_query=sq,
+            subfolders=folders or None,
+            memory_name_override=mn,
+        )
+        return 0
 
     print("Usage:")
     print("  python convert_to_markdown.py --file <file_path> [--topic-root <topic_folder>]")
@@ -486,7 +586,8 @@ def main():
     print("  python convert_to_markdown.py --memory <source_path> --sharepoint-base <url> [--sharepoint-query <query>]")
     print("  python convert_to_markdown.py --memory <source_path> --folders <sub1> <sub2> ...  # process only these subfolders (for symlinked dirs)")
     print("  Use --file when user asks for ONE file. Use --memory only for folders.")
+    return 1
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())

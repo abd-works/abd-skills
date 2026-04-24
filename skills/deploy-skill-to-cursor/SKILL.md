@@ -39,6 +39,9 @@ Edits in the repo are visible immediately through the junction path.
 
 # Custom repo root (folder that contains skills/)
 .\skills\deploy-skill-to-cursor\scripts\Deploy-SkillToCursor.ps1 -SkillName execute_using_rules -SkillsRepoRoot C:\dev\agilebydesign-skills
+
+# Skill lives under agents/.../skills/ (junction name is still SkillName)
+.\skills\deploy-skill-to-cursor\scripts\Deploy-SkillToCursor.ps1 -SkillName domain-scan -SkillSourcePath C:\dev\agilebydesign-skills\agents\abd-ooad\skills\domain-scan -Force
 ```
 
 **Parameters**
@@ -48,6 +51,7 @@ Edits in the repo are visible immediately through the junction path.
 | `SkillName` | (required) | Folder name under `skills/`. |
 | `SkillsRepoRoot` | inferred | Path to **agilebydesign-skills** repo root (contains `skills/`). Omit when you run the script from this repo layout. |
 | `CursorSkillsRoot` | `%USERPROFILE%\.cursor\skills` | Cursor global skills directory. |
+| `SkillSourcePath` | (empty) | Full path to the skill folder when it is **not** under `skills/<SkillName>` (e.g. `agents/<agent>/skills/<name>`). |
 | `Force` | off | Remove existing destination path, then create the junction. |
 
 ## Notes

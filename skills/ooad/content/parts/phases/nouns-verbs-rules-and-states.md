@@ -1,5 +1,7 @@
 # Nouns, verbs, rules, and states
 
+> **Agent skill (canonical for Cursor / execution):** `agents/abd-ooad/skills/nouns-verbs-rules-and-states/SKILL.md` in **agilebydesign-skills** — use that for prompts, templates, and validation. This file stays in **`skills/ooad`** for the published OOAD **catalog** and `build_instructions`; it mirrors the same phase content.
+
 **Skill:** abd-ooad — **Phase-id:** `nouns-verbs-rules-and-states` (see **`process.md`** chronicle — do not call this "Phase 2" as a step name).
 
 **What you produce:** **domain-noun-verb.md** on disk (one per source slice): structured extraction by anchor — one **## [AnchorName module]** per backbone anchor; **Candidate …** lists; **full** class boxes (`+` / **opt** / **Invariant:**) or pared **`### … : << … >>`** where the source supports it; **#### Note :** when useful.

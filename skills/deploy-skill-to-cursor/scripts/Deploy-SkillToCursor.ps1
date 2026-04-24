@@ -6,10 +6,16 @@
   Folder name under skills/ (e.g. story-graph-ops).
 
 .PARAMETER SkillsRepoRoot
-  Path to the agilebydesign-skills repo root (the folder that contains skills/). If omitted, inferred from this script's location.
+  Path to the agilebydesign-skills repo root (the folder that contains skills/). If omitted, inferred from this script's location. Ignored when SkillSourcePath is set.
+
+.PARAMETER SkillSourcePath
+  Full path to the skill folder when it is not under skills/<SkillName> (e.g. agents/abd-ooad/skills/domain-scan).
 
 .PARAMETER CursorSkillsRoot
   Cursor user skills directory. Default: $env:USERPROFILE\.cursor\skills
+
+.PARAMETER SkillSourcePath
+  Full path to the skill folder when it is not under skills/<SkillName> (e.g. agents/.../skills/<name>).
 
 .PARAMETER Force
   Remove an existing entry at the junction path before creating the link.
@@ -21,6 +27,8 @@ param(
     [string] $SkillsRepoRoot = "",
 
     [string] $CursorSkillsRoot = $(Join-Path $env:USERPROFILE '.cursor\skills'),
+
+    [string] $SkillSourcePath = "",
 
     [switch] $Force
 )
@@ -34,7 +42,11 @@ if ($SkillsRepoRoot) {
     $skillsDir = Resolve-Path (Join-Path $PSScriptRoot '..\..')
 }
 
-$source = Join-Path $skillsDir $SkillName
+if ($SkillSourcePath) {
+    $source = (Resolve-Path -LiteralPath $SkillSourcePath).Path
+} else {
+    $source = Join-Path $skillsDir $SkillName
+}
 if (-not (Test-Path -LiteralPath $source -PathType Container)) {
     throw "Skill folder not found: $source"
 }

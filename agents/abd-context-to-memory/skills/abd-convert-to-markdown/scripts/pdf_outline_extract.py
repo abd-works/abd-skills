@@ -7,22 +7,28 @@ using ``page.search_for()`` to locate heading banners. That keeps each paragraph
 section only (no parent bodies containing subsection text, no duplicate copies for nested
 headings on the same page).
 
-* ``extract_markdown_from_pdf_outline(pdf_path)`` returns ``None`` if PyMuPDF is missing,
-  the file can’t open, or the PDF has no outline—then ``convert_to_markdown`` falls back
-  to MarkItDown + ``pdf_markdown_post``.
+* ``extract_markdown_from_pdf_outline(pdf_path)`` returns ``None`` unless
+  ``PDF_USE_PYMUPDF_OUTLINE=1`` is set (opt-in), or if PyMuPDF is missing,
+  the file can’t open, or the PDF has no outline—then ``convert_to_markdown`` uses
+  MarkItDown + ``pdf_markdown_post``.
 
-Disable this path (use classic MarkItDown for PDFs): ``PDF_USE_MARKITDOWN_PDF=1``
+**Default** PDF extraction is **MarkItDown** (linear). Set ``PDF_USE_PYMUPDF_OUTLINE=1``
+to use this bookmark-bounded path. ``PDF_USE_MARKITDOWN_PDF`` is ignored here; unset or any
+value keeps the default unless the opt-in is set.
 """
 
 from __future__ import annotations
 
 import os
 import re
+import sys
+import traceback
 from pathlib import Path
 
 
-def _use_markitdown_pdf_only() -> bool:
-    v = os.environ.get("PDF_USE_MARKITDOWN_PDF", "").strip().lower()
+def _pymupdf_outline_wanted() -> bool:
+    """True when the user opts into PyMuPDF bookmark outline extraction."""
+    v = os.environ.get("PDF_USE_PYMUPDF_OUTLINE", "").strip().lower()
     return v in ("1", "true", "yes")
 
 
@@ -397,22 +403,43 @@ def extract_markdown_from_pdf_outline(pdf_path: Path) -> str | None:
     heading and the next bookmark heading (TOC order), so subsection text is not repeated
     under parents.
     """
-    if _use_markitdown_pdf_only():
+    if not _pymupdf_outline_wanted():
         return None
     try:
         import fitz  # type: ignore[import-untyped]  # PyMuPDF
-    except ImportError:
+    except ImportError as e:
+        print(
+            "pdf_outline_extract: PyMuPDF is not installed (pip install pymupdf).",
+            file=sys.stderr,
+        )
+        print(f"  ImportError: {e}", file=sys.stderr)
         return None
 
     try:
         doc = fitz.open(str(pdf_path))
-    except Exception:
+    except Exception as e:
+        print(
+            f"pdf_outline_extract: fitz.open({pdf_path!r}) failed; falling back to MarkItDown path.",
+            file=sys.stderr,
+        )
+        print(f"  {type(e).__name__}: {e}", file=sys.stderr)
+        traceback.print_exc()
         return None
 
     try:
         items = _parse_toc_entries(doc)
         if not items:
+            print(
+                "pdf_outline_extract: PDF has no outline/TOC entries; "
+                "use MarkItDown or fix the PDF.",
+                file=sys.stderr,
+            )
             return None
+        print(
+            f"[convert] PyMuPDF outline: {doc.page_count} pages, {len(items)} outline entries…",
+            file=sys.stderr,
+            flush=True,
+        )
 
         parts: list[str] = []
         n_doc = doc.page_count
@@ -507,6 +534,11 @@ def extract_markdown_from_pdf_outline(pdf_path: Path) -> str | None:
         out = "\n\n".join(parts)
         if out and not out.endswith("\n"):
             out += "\n"
+        print(
+            f"[convert] PyMuPDF outline: finished ({len(out)} chars).",
+            file=sys.stderr,
+            flush=True,
+        )
         return out
     finally:
         doc.close()
@@ -519,5 +551,5 @@ def prepend_outline_extract_notice(text: str) -> str:
         "Sections are bounded by consecutive bookmarks; each paragraph appears once. "
         "Multi-column spreads use half-page clips; headings are resolved within ±3 pages "
         "of each bookmark when the destination is off. "
-        "Set PDF_USE_MARKITDOWN_PDF=1 for MarkItDown + postprocess instead. -->\n\n"
+        "Unset PDF_USE_PYMUPDF_OUTLINE for MarkItDown + postprocess instead. -->\n\n"
     ) + text

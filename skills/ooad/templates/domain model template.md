@@ -20,11 +20,11 @@ note: * -- see Note labels table and Example below
 
 ---
 
-## Note labels by phase
+## Note labels by tag (skill)
 
-| Tag | Phase | Labels added |
+| Tag | Skill | Labels added |
 |-----|-------|-------------|
-| `[p0]` | domain-scan | `High Confidence Anchor`, `Sibling Candidate`, `Tension` |
+| `[dms]` | domain-model-skeleton | `High Confidence Anchor`, `Sibling Candidate`, `Tension` |
 | `[p1]` | nouns-verbs-rules-and-states | `Anchor Boundary`, `Sibling Candidate`, `Tension`, `Follow-up` |
 | `[p3]` | raw-candidates | `Provisionally Classified`, `Tension`, `Follow-up` |
 | `[p4]` | thing-vs-data-about-a-thing | `Classified`, `Renamed`, `Tension`, `Follow-up` |
@@ -53,12 +53,12 @@ note: * -- see Note labels table and Example below
 ## [Payment module]
 
 note: Payment module -- owns all money movement and connector routing for a transaction
-note: [p0] High Confidence Anchor -- every spec flow routes through this module; no other candidate owns settlement
+note: [dms] High Confidence Anchor -- every spec flow routes through this module; no other candidate owns settlement
 note: [p9] Role Separation -- RoutingContext extracted; module boundary tightened around lifecycle not routing dimensions
 
 Payment << Entity? >>                                         (stub p3; confirmed p4)
 note: Payment -- owns lifecycle and state transitions for a single money movement attempt
-note: [p0] High Confidence Anchor -- appears in every flow; all capture and settlement routes through it
+note: [dms] High Confidence Anchor -- appears in every flow; all capture and settlement routes through it
 note: [p3] Provisionally Classified -- Entity?; appears as named thing in every flow; identity suspected
 note: [p4] Classified -- Entity; confirmed identity (payment id), lifecycle (state machine), owns behavior
 note: [p8] Invariant -- SETTLED cannot return to AUTHORIZED; state machine is append-only past capture

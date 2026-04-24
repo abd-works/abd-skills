@@ -42,7 +42,23 @@ So:
 
 **Chunking without `#` headings:** Even without promotion, `draft_chunking_spec.py` can use **regex section boundaries** (`chapter_break_regex`, etc.) so `chunk_markdown.py` still splits on structure—headings in markdown are ideal for RAG, not strictly required for boundaries.
 
+## Two-column RPG / layout-heavy books (e.g. *Mutants & Masterminds*)
+
+**What goes wrong:** **MarkItDown** (pdfminer) reads PDFs as a **single stream** in engine reading order. Many printed RPG books use **two columns per page**; the extracted line order often **jumps between columns and sections**, so chapter bodies look missing, table rows turn into spurious `###` lines, and cross-references no longer line up with content.
+
+**What to do first:**
+
+1. **Install PyMuPDF** — `pip install pymupdf` (import name `fitz`).
+2. **Do not** set `PDF_USE_MARKITDOWN_PDF=1` unless you are debugging; that **forces** the linear path and skips `pdf_outline_extract`.
+3. **Reconvert.** If the PDF exposes **bookmarks** (`/Outlines`), `convert_to_markdown.py` uses **`pdf_outline_extract`**: for each outline entry, it pulls the text between that heading and the next (with column-aware clips). The markdown then starts, after the `<!-- Source: -->` line, with  
+   `<!-- PDF: extracted from bookmark outline + anchored text (PyMuPDF). ... -->`  
+   That mode runs a **reduced** `pdf_markdown_post` (banner dedupe, soft-wrap, M&M reference tables) so stacked-heading table passes do not destroy outline structure.
+4. If the PDF has **no usable bookmarks** (pirate scan, “print to PDF” without structure), neither path will be perfect — consider **OCR with layout** (e.g. commercial tools), a **tagged** PDF from the publisher, or a **bespoke** script under `<topic_root>/scripts/`.
+
+The convert script prints a **one-line `[pdf] …` hint** after each PDF conversion (suppress with `PDF_QUIET=1`) so “silent garbage” is less likely.
+
 ## Summary
 
 - **Outline/tags → `#` headings** = PyMuPDF + `pdf_outline_headings.py` when installed; otherwise skipped.
+- **Bookmark-bounded body text** = `pdf_outline_extract.py` when PyMuPDF is installed, the file has a non-empty `get_toc()`, and `PDF_USE_MARKITDOWN_PDF` is not set — **different** from outline heading injection on MarkItDown output.
 - **Banner collapse** = format noise; **regex promotion** = shared content heuristics; **corpus-specific** rules stay in topic scripts.

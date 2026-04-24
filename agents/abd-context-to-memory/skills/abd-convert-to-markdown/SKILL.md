@@ -78,7 +78,7 @@ pip install pymupdf
 
 ## Gotchas
 
-- MarkItDown does not extract PDF bookmarks/outlines by default — install PyMuPDF for that.
+- For **PDFs**, the converter **tries `pdf_outline_extract` first** (PyMuPDF + non-empty `get_toc()`): section text is bounded by **bookmarks** (often much better for two-column books). If that is not used, it falls back to **MarkItDown** (linear stream). Install **PyMuPDF** and ensure `PDF_USE_MARKITDOWN_PDF` is not set. See [references/pdf-extraction-advanced.md](references/pdf-extraction-advanced.md) (*Two-column RPG*).
 - Running headers in PDFs repeat on every page as text; `pdf_markdown_post` collapses them but may miss unusual patterns.
 - PPTX charts are extracted as data tables, not images.
 - The converter does not invent structure — if the source has no headings, neither will the markdown.
