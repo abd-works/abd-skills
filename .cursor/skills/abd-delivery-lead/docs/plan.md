@@ -13,7 +13,7 @@ handoff rules
 role assignment
 cross phase validation gates
 
-delivery -skills@agilebydesign-skills/agents/abd-context-engine/skills/abd-discover-story-map @agilebydesign-skills/agents/abd-context-engine/skills/abd-explore-acceptance-criteria @agilebydesign-skills/agents/abd-context-engine/skills/abd-specify-by-example 
+delivery -skills@agilebydesign-skills/agents/abd-context-engine/skills/abd-discover-story-map @agilebydesign-skills/agents/abd-context-engine/skills/abd-explore-acceptance-criteria @agilebydesign-skills/agents/abd-context-engine/skills/abd-specification-by-example 
 
 all normatgive content from matchng @agile_bots/bots/story_bot eg templates, rules, instructions
 

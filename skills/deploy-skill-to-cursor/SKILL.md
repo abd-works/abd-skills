@@ -1,5 +1,8 @@
 ---
 name: deploy-skill-to-cursor
+catalog_garden_tier: foundational
+catalogue_one_liner: >-
+  Junction-link a repo skill into Cursor user skills on Windows (no file copy).
 description: >-
   Deploy a skill from agilebydesign-skills into Cursor's user skills folder using a Windows
   directory junction (no duplicate copy). Run scripts/Deploy-SkillToCursor.ps1 with the

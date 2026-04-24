@@ -1,5 +1,9 @@
 ---
 name: abd-thin-slicing
+catalog_garden_tier: practice
+catalog_garden_order: 20
+catalogue_one_liner: >-
+  Thin-sliced MVIs and backlog order from a story map; writes thin-slicing templates.
 description: >-
   **Produce** thin-sliced delivery increments: vertical MVIs, spine vs optional paths,
   quality trade-offs, marketable increment names, and early risk validation. From a story

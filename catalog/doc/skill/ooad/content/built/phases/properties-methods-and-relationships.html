@@ -5,6 +5,232 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ABD catalogue — abd-ooad · content/built/phases/properties-methods-and-relationships.md</title>
 <style>
+/*
+  Single source for Agile Garden block: catalog prelude + mission row + two-column lists.
+  Inlined into abd-skills-catalog via generate_abd_catalog.py; linked from abd-ai-gardener-training lesson.
+*/
+.catalog-prelude {
+  margin: 0 0 24px;
+  padding: 0 0 20px;
+  border-bottom: 1px solid var(--border-muted);
+  background: linear-gradient(180deg, rgba(255, 122, 0, 0.04) 0%, transparent 32%);
+}
+.catalog-prelude-heading {
+  margin: 0 0 12px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.25;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+  scroll-margin-top: 48px;
+}
+.catalog-prelude-tagline {
+  margin: 0 0 14px;
+  max-width: 60rem;
+  font-size: 1rem;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+/* Mission row (matches gardener training look; class names scoped for catalog + lesson) */
+.catalog-mission {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin: 0 0 18px;
+  padding: 10px 4px 6px;
+  align-items: stretch;
+}
+.catalog-mission::before {
+  content: "";
+  position: absolute;
+  left: -6px;
+  right: -6px;
+  top: -6px;
+  height: 85%;
+  background:
+    radial-gradient(ellipse 70% 90% at 20% 0%, rgba(255, 147, 51, 0.14), transparent 58%),
+    radial-gradient(ellipse 55% 75% at 88% 12%, rgba(255, 122, 0, 0.11), transparent 55%),
+    radial-gradient(ellipse 45% 55% at 50% 30%, rgba(204, 98, 0, 0.07), transparent 52%);
+  pointer-events: none;
+  z-index: 0;
+}
+.catalog-mission > * { min-width: 0; position: relative; z-index: 1; }
+.catalog-mission-card {
+  background: linear-gradient(165deg, rgba(255, 122, 0, 0.08) 0%, var(--raised) 42%, #131312 100%);
+  border: 1px solid rgba(255, 122, 0, 0.16);
+  border-left: 3px solid var(--orange);
+  border-radius: var(--radius);
+  padding: 16px 16px 14px;
+  box-shadow:
+    0 6px 28px -12px rgba(255, 122, 0, 0.38),
+    0 0 0 1px rgba(255, 122, 0, 0.07),
+    inset 0 1px 0 rgba(255, 200, 150, 0.09);
+  height: 100%;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+.catalog-mission-card h3 {
+  flex-shrink: 0;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #ffb380;
+  margin: 0 0 6px;
+}
+.catalog-mission-card p {
+  flex: 1 1 auto;
+  margin: 0;
+  font-size: 0.88rem;
+  color: var(--muted);
+  line-height: 1.55;
+}
+.catalog-mission-card--teal {
+  border-left-color: #ff9333;
+  background: linear-gradient(165deg, rgba(255, 147, 51, 0.13) 0%, var(--raised) 45%, #12110f 100%);
+  border-color: rgba(255, 147, 51, 0.22);
+  box-shadow:
+    0 8px 32px -10px rgba(255, 147, 51, 0.45),
+    0 0 0 1px rgba(255, 147, 51, 0.1),
+    inset 0 1px 0 rgba(255, 210, 170, 0.1);
+}
+.catalog-mission-card--teal h3 { color: #ffccaa; }
+.catalog-mission-card--amber {
+  border-left-color: #ffb380;
+  background: linear-gradient(165deg, rgba(255, 190, 140, 0.1) 0%, var(--raised) 45%, #12110f 100%);
+  border-color: rgba(255, 190, 160, 0.2);
+  box-shadow:
+    0 8px 32px -10px rgba(255, 180, 120, 0.38),
+    0 0 0 1px rgba(255, 190, 160, 0.08),
+    inset 0 1px 0 rgba(255, 220, 190, 0.09);
+}
+.catalog-mission-card--amber h3 { color: #ffccaa; }
+.catalog-mission-card--purple {
+  border-left-color: #cc6200;
+  background: linear-gradient(165deg, rgba(204, 98, 0, 0.2) 0%, var(--raised) 48%, #14100d 100%);
+  border-color: rgba(204, 98, 0, 0.28);
+  box-shadow:
+    0 8px 32px -10px rgba(204, 98, 0, 0.42),
+    0 0 0 1px rgba(204, 98, 0, 0.09),
+    inset 0 1px 0 rgba(255, 160, 100, 0.08);
+}
+.catalog-mission-card--purple h3 { color: #d4854a; }
+@media (max-width: 720px) {
+  .catalog-mission { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 480px) {
+  .catalog-mission { grid-template-columns: 1fr; }
+}
+
+.catalog-garden-lists {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.catalog-garden-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 20px;
+  margin: 0 0 8px;
+}
+@media (max-width: 760px) {
+  .catalog-garden-grid { grid-template-columns: 1fr; }
+}
+.catalog-garden-agents-wrap {
+  margin-top: 8px;
+}
+.catalog-garden-col--agents {
+  margin-top: 0;
+}
+.catalog-garden-col-header--agents {
+  background: linear-gradient(90deg, rgba(255, 122, 0, 0.16) 0%, rgba(60, 28, 8, 0.2) 100%);
+  color: #ffccaa;
+  border-left: 3px solid #ff9333;
+}
+.catalog-garden-name--agent a {
+  color: #ffb380;
+}
+.catalog-garden-name--agent a:hover {
+  color: #ffccaa;
+}
+.catalog-garden-col {
+  background: linear-gradient(180deg, rgba(255, 122, 0, 0.06) 0%, var(--raised) 38%);
+  border: 1px solid rgba(255, 122, 0, 0.14);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow:
+    0 8px 32px -16px rgba(255, 122, 0, 0.2),
+    inset 0 1px 0 rgba(255, 200, 150, 0.05);
+}
+.catalog-garden-col-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--border);
+}
+.catalog-garden-col-header--practice {
+  background: linear-gradient(90deg, rgba(255, 122, 0, 0.22) 0%, rgba(255, 122, 0, 0.08) 100%);
+  color: #ffb380;
+  border-left: 3px solid var(--orange);
+}
+.catalog-garden-col-header--foundational {
+  background: linear-gradient(90deg, rgba(204, 98, 0, 0.24) 0%, rgba(120, 52, 18, 0.12) 100%);
+  color: #ffccaa;
+  border-left: 3px solid #cc6200;
+}
+.catalog-garden-ico { flex-shrink: 0; display: block; }
+.catalog-garden-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 16px;
+  border-bottom: 1px solid var(--border-muted);
+  font-size: 0.85rem;
+}
+.catalog-garden-row:last-child { border-bottom: none; }
+.catalog-garden-name {
+  font-weight: 600;
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+  color: var(--orange);
+  flex: 0 0 11.5rem;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+.catalog-garden-name a {
+  color: var(--orange);
+  text-decoration: underline;
+}
+.catalog-garden-name a:hover {
+  color: #ff9333;
+}
+.catalog-garden-name--foundational a {
+  color: #d4854a;
+}
+.catalog-garden-name--foundational a:hover {
+  color: #ffb380;
+}
+.catalog-garden-name--dim {
+  color: var(--muted);
+  opacity: 0.6;
+  font-weight: 600;
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+}
+.catalog-garden-desc {
+  color: var(--muted);
+  font-size: 0.82rem;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.catalog-garden-desc--muted { opacity: 0.5; }
+
 :root {
   --orange: #ff7a00;
   --bg: #09090b;
@@ -67,7 +293,7 @@ code {
 .brand { font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin: 0 0 4px; }
 .brand strong { color: var(--orange); }
 h1 { margin: 0; font-size: 2rem; font-weight: 700; line-height: 1.15; }
-.tagline { margin: 8px 0 0; font-size: 1.05rem; color: var(--muted); max-width: 52rem; }
+.tagline { margin: 8px 0 0; font-size: 1.05rem; color: var(--muted); max-width: 52rem; line-height: 1.55; }
 .panel-body { padding: 28px 22px 36px; }
 p { margin: 0 0 14px; }
 h2 {
@@ -186,6 +412,86 @@ h2:first-child { margin-top: 0; }
   border-top: 1px solid var(--border);
   margin: 26px 0;
 }
+.entry-contents-doc {
+  margin: 0 0 8px;
+}
+.entry-contents-files {
+  margin: 0;
+}
+.entry-md-section {
+  border: 1px solid var(--border-muted);
+  border-radius: var(--radius);
+  margin: 0 0 10px;
+  background: rgba(0, 0, 0, 0.14);
+}
+.entry-md-section > summary.entry-md-section__summary {
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.98rem;
+  padding: 12px 14px;
+  list-style: none;
+  color: var(--text);
+  user-select: none;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+.entry-md-section > summary.entry-md-section__summary::before {
+  content: "+";
+  flex-shrink: 0;
+  width: 1.35em;
+  text-align: center;
+  font-weight: 800;
+  font-size: 1.05em;
+  line-height: 1.35;
+  color: var(--orange);
+}
+.entry-md-section[open] > summary.entry-md-section__summary::before {
+  content: "-";
+}
+.entry-md-section > summary.entry-md-section__summary::-webkit-details-marker {
+  display: none;
+}
+.entry-md-section .entry-md-section__body {
+  padding: 0 14px 14px 16px;
+  border-top: 1px solid var(--border-muted);
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: var(--text);
+}
+.entry-md-section .entry-md-section__body p {
+  margin: 0 0 12px;
+}
+.entry-md-section .entry-md-section__body p:last-child {
+  margin-bottom: 0;
+}
+.entry-md-section .entry-md-section__body ul {
+  margin: 0 0 12px;
+  padding-left: 1.35rem;
+}
+.entry-md-section .entry-md-section__body h2 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin: 18px 0 8px;
+  padding-bottom: 0;
+  border-bottom: none;
+  color: var(--text);
+}
+.entry-md-section .entry-md-section__body h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 14px 0 8px;
+  color: var(--text);
+}
+.entry-md-section .entry-md-section__body pre {
+  margin: 0 0 12px;
+  overflow-x: auto;
+}
+.entry-md-section .entry-md-section__body hr {
+  margin: 14px 0;
+  border: none;
+  border-top: 1px solid var(--border-muted);
+}
 .ascii-diagram {
   background: #111114;
   border: 1px solid var(--border);
@@ -280,29 +586,34 @@ h2:first-child { margin-top: 0; }
 .file-list > li.file-list__folder {
   list-style: none;
   padding: 0;
-  margin: 0 0 14px;
+  margin: 0 0 10px;
   border: none;
   background: transparent;
   border-radius: 0;
 }
 .file-list__folder > .file-tree__details {
-  margin: 0 0 12px 0;
+  margin: 0 0 10px 0;
 }
+/* Match .entry-md-section: folder trees (rules, scanners, templates, …) */
 .file-tree__details {
   border: 1px solid var(--border-muted);
-  border-radius: 6px;
-  background: rgba(0, 0, 0, 0.18);
+  border-radius: var(--radius);
+  background: rgba(0, 0, 0, 0.14);
   overflow: hidden;
 }
 .file-tree__summary {
   cursor: pointer;
-  padding: 10px 12px 10px 10px;
+  padding: 12px 14px;
   display: flex;
   align-items: flex-start;
   gap: 10px;
   list-style: none;
   margin: 0;
-  background: rgba(255, 255, 255, 0.03);
+  font-weight: 600;
+  font-size: 0.98rem;
+  color: var(--text);
+  user-select: none;
+  background: transparent;
 }
 .file-tree__summary::-webkit-details-marker {
   display: none;
@@ -311,32 +622,21 @@ h2:first-child { margin-top: 0; }
   content: "";
   display: none;
 }
-/* Obvious expand/collapse control (native triangle hidden above). */
 .file-tree__summary::before {
   content: "+";
   flex-shrink: 0;
-  width: 1.5rem;
-  height: 1.5rem;
-  margin-top: 1px;
-  line-height: 1.45rem;
+  width: 1.35em;
   text-align: center;
-  font-weight: 700;
-  font-size: 0.95rem;
-  border: 1px solid var(--border-muted);
-  border-radius: 4px;
-  background: rgba(255, 255, 255, 0.1);
-  color: inherit;
-  user-select: none;
+  font-weight: 800;
+  font-size: 1.05em;
+  line-height: 1.35;
+  color: var(--orange);
 }
 .file-tree__details[open] > .file-tree__summary::before {
-  content: "\2212"; /* minus sign */
+  content: "-";
 }
 .file-tree__summary:hover {
-  background: rgba(255, 255, 255, 0.06);
-}
-.file-tree__summary:hover::before {
-  background: rgba(255, 255, 255, 0.16);
-  border-color: rgba(255, 255, 255, 0.25);
+  background: rgba(255, 122, 0, 0.06);
 }
 .file-tree__summary .file-meta {
   display: inline;
@@ -345,7 +645,7 @@ h2:first-child { margin-top: 0; }
   color: var(--muted);
 }
 .file-tree__inner {
-  padding: 8px 10px 12px 14px;
+  padding: 0 14px 14px 16px;
   border-top: 1px solid var(--border-muted);
 }
 .file-tree__ul {
@@ -362,6 +662,8 @@ h2:first-child { margin-top: 0; }
   display: block;
   margin-top: 4px;
 }
+
+/* Agile Garden prelude + mission + lists: abd-works/commons/agile-garden-fragment.css (prepended by generate_abd_catalog.py) */
 
 /* Single-page hub (index.html): collapsible hub / skills / agents */
 .catalog-section {
@@ -515,7 +817,7 @@ h2:first-child { margin-top: 0; }
 <div class="panel-body">
 
 <nav class="nav" aria-label="Catalogue sections">
-  <a href="../../../../../../index.html" class="nav__link">Hub</a>
+  <a href="../../../../../../index.html" class="nav__link">The ABD AI Garden</a>
   <a href="../../../../../../skills.html" class="nav__link nav__link--current">Skills</a>
   <a href="../../../../../../agents.html" class="nav__link">Agents</a>
 </nav>

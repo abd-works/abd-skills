@@ -1,5 +1,8 @@
 ---
 name: abd-skill-catalog
+catalog_garden_tier: foundational
+catalogue_one_liner: >-
+  Regenerate the browsable skills/agents catalogue (HTML + outline) from repo packages.
 description: >-
   Scan agilebydesign-skills (`skills/` and `agents/`), maintain each package’s
   root `README.md` for catalogue copy (overview + ASCII), then regenerate
@@ -28,7 +31,7 @@ used under `agents/abd-skill-builder/docs/overview/`.
 | Artifact | Format | Location (default) |
 | --- | --- | --- |
 | **Outline** | Markdown | `catalog/outline.md` (repository root) |
-| **Site hub** | HTML | `catalog/index.html` — one page: collapsible **About**, **Skills**, **Agents** (same layout idea as the abd-works catalogue); hub intro links jump to `#catalog-skills` / `#catalog-agents` |
+| **Site hub** | HTML | `catalog/index.html` — one page: **Agile Garden** prelude (mission + practice/foundational skill lists + agents box, generated from `catalog_garden_*` in SKILL.md / AGENT.md), then collapsible **About**, **Skills**, **Agents**; hub intro links jump to `#catalog-skills` / `#catalog-agents` |
 | **Skills grid** | HTML | `catalog/skills.html` (standalone grid; nav from detail pages) |
 | **Agents grid** | HTML | `catalog/agents.html` (standalone grid; nav from detail pages) |
 | **Hub / grid intros** | HTML fragments | `skills/abd-skill-catalog/templates/intros/*.html` (short lines above grids; optional polish) |
@@ -102,19 +105,37 @@ Each catalogue entry includes:
      (Skips plain files and folders without `SKILL.md`.)
    - **Agents:** every immediate child of `agents/` that contains one of
      `AGENT.md`, `AGENTS.md`, or `SKILL.md` (first match in that order).
+   - **Catalogue listing** — omit a package from hub, outline, grids, and detail
+     pages when **`catalog_ready`** is false (`no` / `0` / `draft` / `not-ready`
+     in YAML), or top-level **`tags`** includes `not-ready`, `wip`, `draft`, or
+     `hidden`, or **`skill-config.json`** sets **`"catalog_ready": false`** (agents
+     and skills that ship that file). Default: listed.
 
 3. **Extraction (skills).** Same heuristics as `skill-garden-catalogue` for
    **name** and fallbacks when `README.md` is absent or sections are empty:
 
    - *Name* — YAML `name` in `SKILL.md`, else directory name.
-   - *Summary* — README `catalogue_summary` / `## Overview` when present; else
-     YAML `description`, else `## Purpose`, else opening text after the H1.
+   - *Summary (cards + garden rows)* — optional YAML **`catalogue_one_liner`** on
+     the entry doc **wins** when set (short catalogue line; keeps long
+     `description` for discovery/`npx`). Else README `catalogue_summary` /
+     `## Overview`; else YAML `description`, `## Purpose`, or opening text after H1.
+   - *Tags* — optional **top-level** YAML `tags` as `tag1, tag2`, flow
+     `tags: [tag1, tag2]`, or a block list under `tags:` (one `- item` per line).
+     **Order in the file is preserved** for tooling; nothing re-sorts tag lists.
+   - *Agile Garden lists* — optional YAML `catalog_garden_tier: practice` or
+     `foundational` to include the skill in the generated prelude on
+     `catalog/index.html` (and the synced fragment under abd-works). Optional
+     `catalog_garden_order: <int>` sorts within that column (default 999).
 
 4. **Extraction (agents).**
 
-   - *Name* — YAML `name` if present, else markdown H1 heading text.
-   - *Summary* — README first, else same heuristics as before from the entry
-     document.
+   - *Name (catalogue cards + detail H1)* — **package directory name** (kebab-case),
+     not the markdown title.
+   - *Summary* — same as skills: **`catalogue_one_liner`** on the entry doc wins
+     when set; else README; then `description` / `## Purpose` / …
+   - *Agile Garden agents box* — agents are listed by default; set
+     `catalog_garden: false` in front matter to hide. Optional
+     `catalog_garden_order: <int>` for sort order.
 
 5. **Catalogue intros (review with an AI or editor).** Short HTML above the
    grids lives in `skills/abd-skill-catalog/templates/intros/`. Keep copy

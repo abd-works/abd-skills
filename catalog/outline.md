@@ -10,33 +10,33 @@ each row gives a **short description** and where to open the source.
 
 | Skill | Description | Open |
 | --- | --- | --- |
-| **abd-acceptance-criteria** | Teaches exploration-phase acceptance criteria for story-graph.json: WHEN/THEN/AND/BUT, behavioral language, per-story domain terms, atomic AC, actor alternation, channel-specific detail, and verb–noun naming for story elements. Ships Markdown rules and Python scanners under this skill root for … | [SKILL.md](../skills/abd-acceptance-criteria/SKILL.md) |
-| **abd-acceptance-test-driven-development** | Write tests first. Write code to pass them. This skill creates executable test files — in whatever language and framework the project uses — from whatever behavioral context is available: specification scenarios, acceptance criteria, stories, notes, or a rough description of what the system should … | [SKILL.md](../skills/abd-acceptance-test-driven-development/SKILL.md) |
-| **abd-clean-code** | Write production code that implements story behavior using domain language, clean functions, explicit dependencies, and observable design. This skill covers the full quality bar for implementation code: single-responsibility functions and classes, intention-revealing names, explicit constructor … | [SKILL.md](../skills/abd-clean-code/SKILL.md) |
-| **abd-delivery-planning** | Build and revise agile delivery plans: context assessment, risk types, strategies (scan strategies/ for matching When to use), runs (stages, scope, checkpoints, rationale), and example plans. Planning only — not for producing story artifacts, tests, or code (those come from downstream practice … | [SKILL.md](../skills/abd-delivery-planning/SKILL.md) |
-| **abd-skill-catalog** | Scan agilebydesign-skills (skills/ and agents/), maintain each package’s root README.md for catalogue copy (overview + ASCII), then regenerate catalog/ HTML and outline.md from those files plus a generated file tree. | [SKILL.md](../skills/abd-skill-catalog/SKILL.md) |
-| **abd-specification-by-example** | Produce specification-by-example scenarios: concrete Given/When/Then steps with real domain values, bold concept names, italic values. Two templates: plain scenarios (inline values, default) and outline (same steps, multiple data rows). Use when writing BDD scenarios, refining AC into specs, or … | [SKILL.md](../skills/abd-specification-by-example/SKILL.md) |
-| **abd-story-mapping** | Teaches Patton-style story mapping: epics, sub-epics, stories, verb–noun naming, and actors via story_type. When building a map from sources, outputs all template artifacts in templates/ (currently story-map.md and story-map.txt) with the same tree — not one or the other. Use when structuring … | [SKILL.md](../skills/abd-story-mapping/SKILL.md) |
-| **abd-thin-slicing** | Produce thin-sliced delivery increments: vertical MVIs, spine vs optional paths, quality trade-offs, marketable increment names, and early risk validation. From a story map, write all template artifacts in templates/ (thin-slicing.md and thin-slicing.txt) with identical increment and story … | [SKILL.md](../skills/abd-thin-slicing/SKILL.md) |
-| **abd-commit-msg** | Generate meaningful commit messages from scope and changed files. No story_graph — scope from conversation, changed files, and persisted state. Use when user types /commit or requests a commit. | [SKILL.md](../skills/commit-msg/SKILL.md) |
-| **deploy-skill-to-cursor** | Deploy a skill from agilebydesign-skills into Cursor's user skills folder using a Windows directory junction (no duplicate copy). Run scripts/Deploy-SkillToCursor.ps1 with the skill folder name. Use when you want the global Cursor skills path to point at the repo canonical skill. | [SKILL.md](../skills/deploy-skill-to-cursor/SKILL.md) |
-| **drawio-story-sync** | Render and synchronize story-map DrawIO diagrams (outline, exploration with acceptance criteria, prioritization increments) from story-graph.json. Uses story-graph-ops for validated JSON and story_graph_ops StoryMap for rendering. Use when … | [SKILL.md](../skills/drawio-story-sync/SKILL.md) |
-| **execute-rules** | Bundle rules into SKILL.md, run scanners, quality steps (rules before work), and the correction process after mistakes — commands first, details after. | [SKILL.md](../skills/execute_using_rules/SKILL.md) |
-| **abd-ooad** | Object-Oriented Analysis and Design (OOAD) from raw material. Use this skill whenever you're working with specifications, game manuals, policy docs, messy code, or rule books that need to be modeled as object-oriented domain models. Agile by Design methodology: Steps 0–2 (Domain Scan, Extraction … | [SKILL.md](../skills/ooad/SKILL.md) |
-| **abd-proposal-respond** | Respond to client proposals (RFP, Q&A, requirements) by converting materials to memory, creating a response strategy, and answering questions iteratively. Depends on abd-context-to-memory for RAG. Use when responding to proposals, creating response plans, answering RFP questions, or iterating on … | [SKILL.md](../skills/proposal-respond/SKILL.md) |
+| **abd-acceptance-criteria** | WHEN/THEN acceptance criteria for story-graph.json; ships rules and scanners for execute_rules. | [SKILL.md](../skills/abd-acceptance-criteria/SKILL.md) |
+| **abd-acceptance-test-driven-development** | Tests first, then code: executable acceptance tests from scenarios, AC, or notes (RED-GREEN-REFACTOR). | [SKILL.md](../skills/abd-acceptance-test-driven-development/SKILL.md) |
+| **abd-clean-code** | Production code that matches story behavior: clean structure, domain language, scanner-backed quality bars (Python/JS). | [SKILL.md](../skills/abd-clean-code/SKILL.md) |
+| **abd-delivery-planning** | Delivery plans only: context, risks, strategies, staged runs and checkpoints (not stories, tests, or code). | [SKILL.md](../skills/abd-delivery-planning/SKILL.md) |
+| **abd-delivery-war-room** | Experimental file-based war room for handoffs between abd-delivery-lead and abd-team-member: delivery-war-room/ under the engagement workspace with INSTRUCTIONS.md, manifest.md, and slot-NN-start.md / slot-NN-finished.md. Not wired into the delivery-lead or team-member agents until re-integrated … | [SKILL.md](../skills/abd-delivery-war-room/SKILL.md) |
+| **abd-skill-catalog** | Regenerate the browsable skills/agents catalogue (HTML + outline) from repo packages. | [SKILL.md](../skills/abd-skill-catalog/SKILL.md) |
+| **abd-specification-by-example** | Given/When/Then scenarios with real domain values; plain or outline (data tables) templates. | [SKILL.md](../skills/abd-specification-by-example/SKILL.md) |
+| **abd-story-mapping** | Patton-style story maps (epics, stories, verb-noun naming); writes story-map templates from sources. | [SKILL.md](../skills/abd-story-mapping/SKILL.md) |
+| **abd-thin-slicing** | Thin-sliced MVIs and backlog order from a story map; writes thin-slicing templates. | [SKILL.md](../skills/abd-thin-slicing/SKILL.md) |
+| **abd-commit-msg** | Commit messages from scope and changed files; no story_graph (/commit and similar). | [SKILL.md](../skills/commit-msg/SKILL.md) |
+| **deploy-skill-to-cursor** | Junction-link a repo skill into Cursor user skills on Windows (no file copy). | [SKILL.md](../skills/deploy-skill-to-cursor/SKILL.md) |
+| **drawio-story-sync** | story-graph.json to Draw.io story maps; validated load/save and diagram sync. | [SKILL.md](../skills/drawio-story-sync/SKILL.md) |
+| **execute-rules** | Bundle rules into SKILL.md, run scanners, fix failures; quality gate before and after work. | [SKILL.md](../skills/execute_using_rules/SKILL.md) |
+| **abd-ooad** | Turn specs, manuals, or messy sources into OO domain models (scan → extract → refine) with Draw.io. | [SKILL.md](../skills/ooad/SKILL.md) |
+| **abd-proposal-respond** | RFP and proposal response: ingest to memory (abd-context-to-memory), strategy, batched Q&A with RAG. | [SKILL.md](../skills/proposal-respond/SKILL.md) |
 | **skill-garden-catalogue** | Scan a folder of deployed skills and regenerate a one-pager Markdown inventory and an HTML catalogue. Each entry shows the challenge the skill addresses and the solution it provides, hyperlinked to the skill directory. Re-run on command to keep the catalogue current. | [SKILL.md](../skills/skill-garden-catalogue/SKILL.md) |
-| **story-graph-ops** | Create, read, update, and delete story-graph.json (whole file or parts—epics, sub-epics, stories, AC, scenarios) as a standalone artifact—no host app required. Agents must complete the ops loop: use this skill’s CLI or Python modules under scripts/, then validate the file—do not stop after … | [SKILL.md](../skills/story-graph-ops/SKILL.md) |
-| **track-task** | Track multi-step work with markdown checkboxes (- [ ] / - [x]) for any skill or agent—pipeline phases, per-phase steps, or ad-hoc lists—under the engagement workspace, without editing normative skill sources. | [SKILL.md](../skills/track_task/SKILL.md) |
-| **workspace** | Set and read the agent engagement root (skill-config.json → workspace.active_skill_workspace). Run scripts from this folder; they resolve the agent root automatically. | [SKILL.md](../skills/workspace_skill/SKILL.md) |
+| **story-graph-ops** | CRUD story-graph.json via CLI/scripts, validate, persist; no hand-written JSON drift. | [SKILL.md](../skills/story-graph-ops/SKILL.md) |
+| **track-task** | Checkbox markdown task lists for pipelines or ad-hoc steps under the engagement workspace. | [SKILL.md](../skills/track_task/SKILL.md) |
+| **workspace** | Set/read active_skill_workspace in skill-config; scripts resolve the engagement root. | [SKILL.md](../skills/workspace_skill/SKILL.md) |
 
 ## Summary — Agents
 
 | Agent | Description | Open |
 | --- | --- | --- |
-| **abd-context-to-memory** | Orchestrate convert → chunk → embed → search by coordinating this agent's skills. Decide when each stage runs, whether to use a strategy pass (review context_chunking_spec.yaml before chunk + embed) or straight-through, and hold cross-stage quality (real headings before chunking, sane splits after … | [AGENTS.md](../agents/abd-context-to-memory/AGENTS.md) |
-| **ABD Delivery Lead** | Orchestrates ABD delivery (workspace, plan, stages, handoffs, gates); delegates work to abd-team-member; planning mechanics live in abd-delivery-planning. | [AGENT.md](../agents/abd-delivery-lead/AGENT.md) |
-| **abd-skill-builder** | Provide portable repository standards aligned with Open Agent Skills: a focused SKILL.md for discovery, a merged AGENTS.md for multi-step workflow, plus documentation of build and validation (merge, build.py, scanners, CI), and a scaffold CLI so new skills match skills.sh-style layout without … | [AGENTS.md](../agents/abd-skill-builder/AGENTS.md) |
-| **ABD Team Member** | You are an ABD team member agent. | [AGENT.md](../agents/abd-team-member/AGENT.md) |
+| **abd-context-to-memory** | Source docs to Markdown, then labeled chunks in memory/, then FAISS vectors and semantic search. Optional: review context_chunking_spec.yaml before chunk+embed. | [AGENTS.md](../agents/abd-context-to-memory/AGENTS.md) |
+| **abd-delivery-lead** | Orchestrates ABD delivery (workspace, plan, stages, handoffs); delegates work to abd-team-member; uses abd-delivery-planning to manage plan creation. | [AGENT.md](../agents/abd-delivery-lead/AGENT.md) |
+| **abd-team-member** | ABD executor for one role per turn (Product Owner, Analyst, or Engineer); requires team-role + workspace; produces stage artifacts via practice skills, often under abd-delivery-lead handoffs. | [AGENT.md](../agents/abd-team-member/AGENT.md) |
 | **ai-research-assistant** | Orchestrate hypothesis-driven research on AI-augmented delivery and context engineering practices. You coordinate three skills in sequence to produce a research report that helps the user decide whether their approach is well-founded, exposed, or genuinely novel. You are an impartial advisor — not … | [AGENTS.md](../agents/ai-research-assistant/AGENTS.md) |
 
 ---
@@ -49,7 +49,7 @@ each row gives a **short description** and where to open the source.
 
 **Summary:**
 
-Teaches exploration-phase acceptance criteria for story-graph.json: WHEN/THEN/AND/BUT, behavioral language, per-story domain terms, atomic AC, actor alternation, channel-specific detail, and verb–noun naming for story elements. Ships Markdown rules and Python scanners under this skill root for …
+WHEN/THEN acceptance criteria for story-graph.json; ships rules and scanners for execute_rules.
 
 **Description (from Purpose / body):**
 
@@ -71,7 +71,7 @@ This skill is the practice standard for that work: templates for deliverables, r
 
 **Summary:**
 
-Write tests first. Write code to pass them. This skill creates executable test files — in whatever language and framework the project uses — from whatever behavioral context is available: specification scenarios, acceptance criteria, stories, notes, or a rough description of what the system should …
+Tests first, then code: executable acceptance tests from scenarios, AC, or notes (RED-GREEN-REFACTOR).
 
 **Description (from Purpose / body):**
 
@@ -97,7 +97,7 @@ The skill covers the full test quality bar: domain language in names, observable
 
 **Summary:**
 
-Write production code that implements story behavior using domain language, clean functions, explicit dependencies, and observable design. This skill covers the full quality bar for implementation code: single-responsibility functions and classes, intention-revealing names, explicit constructor …
+Production code that matches story behavior: clean structure, domain language, scanner-backed quality bars (Python/JS).
 
 **Description (from Purpose / body):**
 
@@ -121,7 +121,7 @@ The skill covers the full implementation quality bar: names that reveal intent, 
 
 **Summary:**
 
-Build and revise agile delivery plans: context assessment, risk types, strategies (scan strategies/ for matching When to use), runs (stages, scope, checkpoints, rationale), and example plans. Planning only — not for producing story artifacts, tests, or code (those come from downstream practice …
+Delivery plans only: context, risks, strategies, staged runs and checkpoints (not stories, tests, or code).
 
 **Description (from Purpose / body):**
 
@@ -129,9 +129,29 @@ Build and revise agile delivery plans: context assessment, risk types, strategie
 
 **Repository layout:**
 
+- **[rules/](skill/abd-delivery-planning.html#entry-contents)** — Practice rules (DO/DON'T) and constraints used with scanners.
+- **[scanners/](../skills/abd-delivery-planning/scanners)** — Folder (2 items).
+- **[scripts/](../skills/abd-delivery-planning/scripts)** — Build, catalogue, validation, or packaging automation.
 - **[strategies/](../skills/abd-delivery-planning/strategies)** — Folder (9 items).
+- **[tests/](../skills/abd-delivery-planning/tests)** — Folder (3 items).
 - [README.md](doc/skill/abd-delivery-planning/README.html) — One line for catalogue cards and grids (YAML string).
 - [SKILL.md](doc/skill/abd-delivery-planning/SKILL.html) — name: abd-delivery-planning
+
+### abd-delivery-war-room
+
+- **Directory:** [`skills/abd-delivery-war-room/`](../skills/abd-delivery-war-room/)
+
+**Summary:**
+
+Experimental file-based war room for handoffs between abd-delivery-lead and abd-team-member: delivery-war-room/ under the engagement workspace with INSTRUCTIONS.md, manifest.md, and slot-NN-start.md / slot-NN-finished.md. Not wired into the delivery-lead or team-member agents until re-integrated …
+
+**Description (from Purpose / body):**
+
+Reduce repeated paste handoffs between orchestrator and team-member threads by keeping state on disk under the engagement root.
+
+**Repository layout:**
+
+- [SKILL.md](doc/skill/abd-delivery-war-room/SKILL.html) — name: abd-delivery-war-room
 
 ### abd-skill-catalog
 
@@ -139,7 +159,7 @@ Build and revise agile delivery plans: context assessment, risk types, strategie
 
 **Summary:**
 
-Scan agilebydesign-skills (skills/ and agents/), maintain each package’s root README.md for catalogue copy (overview + ASCII), then regenerate catalog/ HTML and outline.md from those files plus a generated file tree.
+Regenerate the browsable skills/agents catalogue (HTML + outline) from repo packages.
 
 **Description (from Purpose / body):**
 
@@ -158,7 +178,7 @@ Scan agilebydesign-skills (skills/ and agents/), maintain each package’s root 
 
 **Summary:**
 
-Produce specification-by-example scenarios: concrete Given/When/Then steps with real domain values, bold concept names, italic values. Two templates: plain scenarios (inline values, default) and outline (same steps, multiple data rows). Use when writing BDD scenarios, refining AC into specs, or …
+Given/When/Then scenarios with real domain values; plain or outline (data tables) templates.
 
 **Description (from Purpose / body):**
 
@@ -178,7 +198,7 @@ Write Given/When/Then scenarios that make a story's expected behavior concrete a
 
 **Summary:**
 
-Teaches Patton-style story mapping: epics, sub-epics, stories, verb–noun naming, and actors via story_type. When building a map from sources, outputs all template artifacts in templates/ (currently story-map.md and story-map.txt) with the same tree — not one or the other. Use when structuring …
+Patton-style story maps (epics, stories, verb-noun naming); writes story-map templates from sources.
 
 **Description (from Purpose / body):**
 
@@ -187,7 +207,7 @@ Teaches Patton-style story mapping: epics, sub-epics, stories, verb–noun namin
 **Repository layout:**
 
 - **[rules/](skill/abd-story-mapping.html#entry-contents)** — Practice rules (DO/DON'T) and constraints used with scanners.
-- **[scanners/](../skills/abd-story-mapping/scanners)** — Folder (7 items).
+- **[scanners/](../skills/abd-story-mapping/scanners)** — Folder (6 items).
 - **[templates/](../skills/abd-story-mapping/templates)** — Authoring templates and structural skeletons.
 - [README.md](doc/skill/abd-story-mapping/README.html) — One line for catalogue cards and grids (YAML string).
 - [SKILL.md](doc/skill/abd-story-mapping/SKILL.html) — name: abd-story-mapping
@@ -198,7 +218,7 @@ Teaches Patton-style story mapping: epics, sub-epics, stories, verb–noun namin
 
 **Summary:**
 
-Produce thin-sliced delivery increments: vertical MVIs, spine vs optional paths, quality trade-offs, marketable increment names, and early risk validation. From a story map, write all template artifacts in templates/ (thin-slicing.md and thin-slicing.txt) with identical increment and story …
+Thin-sliced MVIs and backlog order from a story map; writes thin-slicing templates.
 
 **Description (from Purpose / body):**
 
@@ -217,7 +237,7 @@ Define prioritized increments. Group stories in a story map (and any notes on ri
 
 **Summary:**
 
-Generate meaningful commit messages from scope and changed files. No story_graph — scope from conversation, changed files, and persisted state. Use when user types /commit or requests a commit.
+Commit messages from scope and changed files; no story_graph (/commit and similar).
 
 **Description (from Purpose / body):**
 
@@ -240,7 +260,7 @@ Generate meaningful commit messages from scope and changed files. No story_graph
 
 **Summary:**
 
-Deploy a skill from agilebydesign-skills into Cursor's user skills folder using a Windows directory junction (no duplicate copy). Run scripts/Deploy-SkillToCursor.ps1 with the skill folder name. Use when you want the global Cursor skills path to point at the repo canonical skill.
+Junction-link a repo skill into Cursor user skills on Windows (no file copy).
 
 **Description (from Purpose / body):**
 
@@ -258,7 +278,7 @@ Deploy a skill from agilebydesign-skills into Cursor's user skills folder using 
 
 **Summary:**
 
-Render and synchronize story-map DrawIO diagrams (outline, exploration with acceptance criteria, prioritization increments) from story-graph.json. Uses story-graph-ops for validated JSON and story_graph_ops StoryMap for rendering. Use when …
+story-graph.json to Draw.io story maps; validated load/save and diagram sync.
 
 **Description (from Purpose / body):**
 
@@ -266,6 +286,7 @@ Render and synchronize story-map DrawIO diagrams (outline, exploration with acce
 
 **Repository layout:**
 
+- **[.ruff_cache/](../skills/drawio-story-sync/.ruff_cache)** — Folder (2 items).
 - **[scripts/](../skills/drawio-story-sync/scripts)** — Build, catalogue, validation, or packaging automation.
 - **[tests/](../skills/drawio-story-sync/tests)** — Folder (4 items).
 - [README.md](doc/skill/drawio-story-sync/README.html) — One line for catalogue cards and grids (YAML string).
@@ -277,7 +298,7 @@ Render and synchronize story-map DrawIO diagrams (outline, exploration with acce
 
 **Summary:**
 
-Bundle rules into SKILL.md, run scanners, quality steps (rules before work), and the correction process after mistakes — commands first, details after.
+Bundle rules into SKILL.md, run scanners, fix failures; quality gate before and after work.
 
 **Description (from Purpose / body):**
 
@@ -287,7 +308,7 @@ Bundle rules into SKILL.md, run scanners, quality steps (rules before work), and
 
 - **[scripts/](../skills/execute_using_rules/scripts)** — Build, catalogue, validation, or packaging automation.
 - **[templates/](../skills/execute_using_rules/templates)** — Authoring templates and structural skeletons.
-- **[tests/](../skills/execute_using_rules/tests)** — Folder (4 items).
+- **[tests/](../skills/execute_using_rules/tests)** — Folder (3 items).
 - [README.md](doc/skill/execute_using_rules/README.html) — One line for catalogue cards and grids (YAML string).
 - [SKILL.md](doc/skill/execute_using_rules/SKILL.html) — name: execute-rules
 
@@ -297,7 +318,7 @@ Bundle rules into SKILL.md, run scanners, quality steps (rules before work), and
 
 **Summary:**
 
-Object-Oriented Analysis and Design (OOAD) from raw material. Use this skill whenever you're working with specifications, game manuals, policy docs, messy code, or rule books that need to be modeled as object-oriented domain models. Agile by Design methodology: Steps 0–2 (Domain Scan, Extraction …
+Turn specs, manuals, or messy sources into OO domain models (scan → extract → refine) with Draw.io.
 
 **Description (from Purpose / body):**
 
@@ -323,7 +344,7 @@ Object-Oriented Analysis and Design (OOAD) from raw material. Use this skill whe
 
 **Summary:**
 
-Respond to client proposals (RFP, Q&A, requirements) by converting materials to memory, creating a response strategy, and answering questions iteratively. Depends on abd-context-to-memory for RAG. Use when responding to proposals, creating response plans, answering RFP questions, or iterating on …
+RFP and proposal response: ingest to memory (abd-context-to-memory), strategy, batched Q&A with RAG.
 
 **Description (from Purpose / body):**
 
@@ -364,7 +385,7 @@ Scan a folder of deployed skills and regenerate a one-pager Markdown inventory a
 
 **Summary:**
 
-Create, read, update, and delete story-graph.json (whole file or parts—epics, sub-epics, stories, AC, scenarios) as a standalone artifact—no host app required. Agents must complete the ops loop: use this skill’s CLI or Python modules under scripts/, then validate the file—do not stop after …
+CRUD story-graph.json via CLI/scripts, validate, persist; no hand-written JSON drift.
 
 **Description (from Purpose / body):**
 
@@ -372,8 +393,9 @@ Create, read, update, and delete story-graph.json (whole file or parts—epics, 
 
 **Repository layout:**
 
+- **[logs/](../skills/story-graph-ops/logs)** — Folder (1 items).
 - **[scripts/](../skills/story-graph-ops/scripts)** — Build, catalogue, validation, or packaging automation.
-- **[tests/](../skills/story-graph-ops/tests)** — Folder (5 items).
+- **[tests/](../skills/story-graph-ops/tests)** — Folder (7 items).
 - [MIGRATION_PARITY.md](doc/skill/story-graph-ops/MIGRATION_PARITY.html) — Story graph parity: agile_bots → story-graph-ops
 - [README.md](doc/skill/story-graph-ops/README.html) — One line for catalogue cards and grids (YAML string).
 - [SKILL.md](doc/skill/story-graph-ops/SKILL.html) — name: story-graph-ops
@@ -384,7 +406,7 @@ Create, read, update, and delete story-graph.json (whole file or parts—epics, 
 
 **Summary:**
 
-Track multi-step work with markdown checkboxes (- [ ] / - [x]) for any skill or agent—pipeline phases, per-phase steps, or ad-hoc lists—under the engagement workspace, without editing normative skill sources.
+Checkbox markdown task lists for pipelines or ad-hoc steps under the engagement workspace.
 
 **Description (from Purpose / body):**
 
@@ -393,6 +415,7 @@ Track multi-step work with markdown checkboxes (- [ ] / - [x]) for any skill or 
 **Repository layout:**
 
 - **[scripts/](../skills/track_task/scripts)** — Build, catalogue, validation, or packaging automation.
+- **[tests/](../skills/track_task/tests)** — Folder (2 items).
 - [README.md](doc/skill/track_task/README.html) — One line for catalogue cards and grids (YAML string).
 - [SKILL.md](doc/skill/track_task/SKILL.html) — name: track-task
 
@@ -402,7 +425,7 @@ Track multi-step work with markdown checkboxes (- [ ] / - [x]) for any skill or 
 
 **Summary:**
 
-Set and read the agent engagement root (skill-config.json → workspace.active_skill_workspace). Run scripts from this folder; they resolve the agent root automatically.
+Set/read active_skill_workspace in skill-config; scripts resolve the engagement root.
 
 **Description (from Purpose / body):**
 
@@ -426,13 +449,13 @@ Set and read the agent engagement root (skill-config.json → workspace.active_s
 
 **Summary:**
 
-Orchestrate convert → chunk → embed → search by coordinating this agent's skills. Decide when each stage runs, whether to use a strategy pass (review context_chunking_spec.yaml before chunk + embed) or straight-through, and hold cross-stage quality (real headings before chunking, sane splits after …
+Source docs to Markdown, then labeled chunks in memory/, then FAISS vectors and semantic search. Optional: review context_chunking_spec.yaml before chunk+embed.
 
 **Description:**
 
-Orchestrate convert → chunk → embed → search by coordinating this agent's skills. Decide when each stage runs, whether to use a strategy pass (review context_chunking_spec.yaml before chunk + embed) or straight-through, and hold cross-stage quality (real headings before chunking, sane splits after chunking).
+Flow: turn source documents into Markdown (under markdown/ in the topic tree), draft a chunking strategy (context_chunking_spec.yaml), split into labeled chunks in memory/, embed into a local FAISS index under memory/rag/, then search semantically. Optionally pause after the spec so a human can review or edit the YAML before chunk + embed (strategy pass); otherwise run straight through. Hold basic quality across stages (real headings before chunking, sane splits after).
 
-Per-stage procedures: *skills/abd-/SKILL.md and each skill's references/**.
+Per-stage detail: *skills/abd-/SKILL.md and each skill's references/**.
 
 ---
 
@@ -443,19 +466,19 @@ Per-stage procedures: *skills/abd-/SKILL.md and each skill's references/**.
 - **[scripts/](../agents/abd-context-to-memory/scripts)** — Build, catalogue, validation, or packaging automation.
 - **[skills/](../agents/abd-context-to-memory/skills)** — Nested skills shipped inside an agent package.
 - [AGENTS.md](doc/agent/abd-context-to-memory/AGENTS.html) — AGENTS — abd-context-to-memory
-- [README.md](doc/agent/abd-context-to-memory/README.html) — catalogue_summary: "Orchestrate convert → chunk → embed → search by coordinating this agent's skills. Decide when each stage runs, whether to use a strategy pass (review …
+- [README.md](doc/agent/abd-context-to-memory/README.html) — catalogue_summary: >-
 - [requirements-export.txt](../agents/abd-context-to-memory/requirements-export.txt) — Export: markdown → Excel, Word, PDF
 - [requirements-rag.txt](../agents/abd-context-to-memory/requirements-rag.txt) — RAG (vector search) dependencies for ace-context-to-memory
 - [skill-config.json](../agents/abd-context-to-memory/skill-config.json) — "name": "abd-context-to-memory",
 
-### ABD Delivery Lead
+### abd-delivery-lead
 
 - **Directory:** [`agents/abd-delivery-lead/`](../agents/abd-delivery-lead/)
 - **Entry:** [`agents/abd-delivery-lead/AGENT.md`](../agents/abd-delivery-lead/AGENT.md)
 
 **Summary:**
 
-Orchestrates ABD delivery (workspace, plan, stages, handoffs, gates); delegates work to abd-team-member; planning mechanics live in abd-delivery-planning.
+Orchestrates ABD delivery (workspace, plan, stages, handoffs); delegates work to abd-team-member; uses abd-delivery-planning to manage plan creation.
 
 **Description:**
 
@@ -470,50 +493,20 @@ Planning detail lives in the skill, not in this file. For every planning decisio
 **Repository layout:**
 
 - **[docs/](../agents/abd-delivery-lead/docs)** — Human-oriented documentation for the package.
-- **[scripts/](../agents/abd-delivery-lead/scripts)** — Build, catalogue, validation, or packaging automation.
 - **[stages/](../agents/abd-delivery-lead/stages)** — Folder (6 items).
+- **[tests/](../agents/abd-delivery-lead/tests)** — Folder (2 items).
 - [AGENT.md](doc/agent/abd-delivery-lead/AGENT.html) — ABD Delivery Lead
 - [Deploy-ToCursor.ps1](../agents/abd-delivery-lead/Deploy-ToCursor.ps1) — .SYNOPSIS
 - [README.md](doc/agent/abd-delivery-lead/README.html) — catalogue_summary: >-
 
-### abd-skill-builder
-
-- **Directory:** [`agents/abd-skill-builder/`](../agents/abd-skill-builder/)
-- **Entry:** [`agents/abd-skill-builder/AGENTS.md`](../agents/abd-skill-builder/AGENTS.md)
-
-**Summary:**
-
-Provide portable repository standards aligned with Open Agent Skills: a focused SKILL.md for discovery, a merged AGENTS.md for multi-step workflow, plus documentation of build and validation (merge, build.py, scanners, CI), and a scaffold CLI so new skills match skills.sh-style layout without …
-
-**Description:**
-
-Provide portable repository standards aligned with Open Agent Skills: a focused SKILL.md for discovery, a merged AGENTS.md for multi-step workflow, plus documentation of build and validation (merge, build.py, scanners, CI), and a scaffold CLI so new skills match skills.sh-style layout without hand-copying fixtures.
-
-
----
-
-**Repository layout:**
-
-- **[content/](../agents/abd-skill-builder/content)** — Source parts merged into agent instructions or outputs.
-- **[docs/](../agents/abd-skill-builder/docs)** — Human-oriented documentation for the package.
-- **[scripts/](../agents/abd-skill-builder/scripts)** — Build, catalogue, validation, or packaging automation.
-- **[skills/](../agents/abd-skill-builder/skills)** — Nested skills shipped inside an agent package.
-- **[test/](../agents/abd-skill-builder/test)** — Automated tests for the agent or skill package.
-- [.gitignore](../agents/abd-skill-builder/.gitignore) — Live workflow checklists from python scripts/base/generate.py --phase <slug> when
-- [AGENTS.md](doc/agent/abd-skill-builder/AGENTS.html) — AGENTS — abd-skill-builder
-- [README.md](doc/agent/abd-skill-builder/README.html) — catalogue_summary: "Provide portable repository standards aligned with Open Agent Skills: a focused SKILL.md for discovery, a merged AGENTS.md for multi-step workflow, plus …
-- [requirements-dev.txt](../agents/abd-skill-builder/requirements-dev.txt) — Dev-only: pytest for smoke tests (see test/README.md)
-- [skill-config.json](../agents/abd-skill-builder/skill-config.json) — "name": "abd-skill-builder",
-- [SKILL.md](doc/agent/abd-skill-builder/SKILL.html) — name: abd-skill-builder
-
-### ABD Team Member
+### abd-team-member
 
 - **Directory:** [`agents/abd-team-member/`](../agents/abd-team-member/)
 - **Entry:** [`agents/abd-team-member/AGENT.md`](../agents/abd-team-member/AGENT.md)
 
 **Summary:**
 
-You are an ABD team member agent.
+ABD executor for one role per turn (Product Owner, Analyst, or Engineer); requires team-role + workspace; produces stage artifacts via practice skills, often under abd-delivery-lead handoffs.
 
 **Description:**
 
@@ -521,19 +514,18 @@ You are an ABD team member agent.
 
 You are an ABD team member agent.
 
-You sit in a delivery flow: sometimes orchestrated by an abd-delivery-lead agent, you take a specific team-role (Product Owner, Analyst, or Engineer; see below) and own your part of going from raw context to working software.
+Setting: Every session is scoped by a team-role and a workspace (see Bootstrap inputs below). You play one role at a time—Product Owner, Analyst, or Engineer—not the whole delivery org. Typically abd-delivery-lead (or a human) opens your turn with that role, the engagement root, and any handoff brief; you execute stage work under that setting while the lead owns orchestration, gates, and plan/checklist alignment.
 
-This means accepting handoffs from upstream, doing the work required based on your specific role, and using the by Design practice skills that come with that role. You generate outputs (story graphs, specs, tests, code, etc.) so they are available for downstream agents or the user can continue work required to achieve this outcome.
+You sit in a delivery flow: you take the assigned team-role and own your slice of going from raw context to working software.
 
-## Bootstrap inputs (required from outside)
-
-Every session MUST be given both of the following. If either is missing, ask once, then proceed with stated assumptions only if the user …
+That means accepting handoffs from upstream, doing the work required for that role, and using the Agile by Design practice skills bundled with the role. You generate outputs (story graphs, specs …
 
 **Repository layout:**
 
 - **[roles/](../agents/abd-team-member/roles)** — Persona playbooks for multi-role agents.
 - [AGENT.md](doc/agent/abd-team-member/AGENT.html) — ABD Team Member
 - [Deploy-ToCursor.ps1](../agents/abd-team-member/Deploy-ToCursor.ps1) — .SYNOPSIS
+- [README.md](doc/agent/abd-team-member/README.html) — catalogue_summary: >-
 
 ### ai-research-assistant
 

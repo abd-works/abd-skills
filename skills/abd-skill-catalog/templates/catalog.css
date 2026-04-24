@@ -60,7 +60,7 @@ code {
 .brand { font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin: 0 0 4px; }
 .brand strong { color: var(--orange); }
 h1 { margin: 0; font-size: 2rem; font-weight: 700; line-height: 1.15; }
-.tagline { margin: 8px 0 0; font-size: 1.05rem; color: var(--muted); max-width: 52rem; }
+.tagline { margin: 8px 0 0; font-size: 1.05rem; color: var(--muted); max-width: 52rem; line-height: 1.55; }
 .panel-body { padding: 28px 22px 36px; }
 p { margin: 0 0 14px; }
 h2 {
@@ -179,6 +179,86 @@ h2:first-child { margin-top: 0; }
   border-top: 1px solid var(--border);
   margin: 26px 0;
 }
+.entry-contents-doc {
+  margin: 0 0 8px;
+}
+.entry-contents-files {
+  margin: 0;
+}
+.entry-md-section {
+  border: 1px solid var(--border-muted);
+  border-radius: var(--radius);
+  margin: 0 0 10px;
+  background: rgba(0, 0, 0, 0.14);
+}
+.entry-md-section > summary.entry-md-section__summary {
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.98rem;
+  padding: 12px 14px;
+  list-style: none;
+  color: var(--text);
+  user-select: none;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+.entry-md-section > summary.entry-md-section__summary::before {
+  content: "+";
+  flex-shrink: 0;
+  width: 1.35em;
+  text-align: center;
+  font-weight: 800;
+  font-size: 1.05em;
+  line-height: 1.35;
+  color: var(--orange);
+}
+.entry-md-section[open] > summary.entry-md-section__summary::before {
+  content: "-";
+}
+.entry-md-section > summary.entry-md-section__summary::-webkit-details-marker {
+  display: none;
+}
+.entry-md-section .entry-md-section__body {
+  padding: 0 14px 14px 16px;
+  border-top: 1px solid var(--border-muted);
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: var(--text);
+}
+.entry-md-section .entry-md-section__body p {
+  margin: 0 0 12px;
+}
+.entry-md-section .entry-md-section__body p:last-child {
+  margin-bottom: 0;
+}
+.entry-md-section .entry-md-section__body ul {
+  margin: 0 0 12px;
+  padding-left: 1.35rem;
+}
+.entry-md-section .entry-md-section__body h2 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin: 18px 0 8px;
+  padding-bottom: 0;
+  border-bottom: none;
+  color: var(--text);
+}
+.entry-md-section .entry-md-section__body h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 14px 0 8px;
+  color: var(--text);
+}
+.entry-md-section .entry-md-section__body pre {
+  margin: 0 0 12px;
+  overflow-x: auto;
+}
+.entry-md-section .entry-md-section__body hr {
+  margin: 14px 0;
+  border: none;
+  border-top: 1px solid var(--border-muted);
+}
 .ascii-diagram {
   background: #111114;
   border: 1px solid var(--border);
@@ -273,29 +353,34 @@ h2:first-child { margin-top: 0; }
 .file-list > li.file-list__folder {
   list-style: none;
   padding: 0;
-  margin: 0 0 14px;
+  margin: 0 0 10px;
   border: none;
   background: transparent;
   border-radius: 0;
 }
 .file-list__folder > .file-tree__details {
-  margin: 0 0 12px 0;
+  margin: 0 0 10px 0;
 }
+/* Match .entry-md-section: folder trees (rules, scanners, templates, …) */
 .file-tree__details {
   border: 1px solid var(--border-muted);
-  border-radius: 6px;
-  background: rgba(0, 0, 0, 0.18);
+  border-radius: var(--radius);
+  background: rgba(0, 0, 0, 0.14);
   overflow: hidden;
 }
 .file-tree__summary {
   cursor: pointer;
-  padding: 10px 12px 10px 10px;
+  padding: 12px 14px;
   display: flex;
   align-items: flex-start;
   gap: 10px;
   list-style: none;
   margin: 0;
-  background: rgba(255, 255, 255, 0.03);
+  font-weight: 600;
+  font-size: 0.98rem;
+  color: var(--text);
+  user-select: none;
+  background: transparent;
 }
 .file-tree__summary::-webkit-details-marker {
   display: none;
@@ -304,32 +389,21 @@ h2:first-child { margin-top: 0; }
   content: "";
   display: none;
 }
-/* Obvious expand/collapse control (native triangle hidden above). */
 .file-tree__summary::before {
   content: "+";
   flex-shrink: 0;
-  width: 1.5rem;
-  height: 1.5rem;
-  margin-top: 1px;
-  line-height: 1.45rem;
+  width: 1.35em;
   text-align: center;
-  font-weight: 700;
-  font-size: 0.95rem;
-  border: 1px solid var(--border-muted);
-  border-radius: 4px;
-  background: rgba(255, 255, 255, 0.1);
-  color: inherit;
-  user-select: none;
+  font-weight: 800;
+  font-size: 1.05em;
+  line-height: 1.35;
+  color: var(--orange);
 }
 .file-tree__details[open] > .file-tree__summary::before {
-  content: "\2212"; /* minus sign */
+  content: "-";
 }
 .file-tree__summary:hover {
-  background: rgba(255, 255, 255, 0.06);
-}
-.file-tree__summary:hover::before {
-  background: rgba(255, 255, 255, 0.16);
-  border-color: rgba(255, 255, 255, 0.25);
+  background: rgba(255, 122, 0, 0.06);
 }
 .file-tree__summary .file-meta {
   display: inline;
@@ -338,7 +412,7 @@ h2:first-child { margin-top: 0; }
   color: var(--muted);
 }
 .file-tree__inner {
-  padding: 8px 10px 12px 14px;
+  padding: 0 14px 14px 16px;
   border-top: 1px solid var(--border-muted);
 }
 .file-tree__ul {
@@ -355,6 +429,8 @@ h2:first-child { margin-top: 0; }
   display: block;
   margin-top: 4px;
 }
+
+/* Agile Garden prelude + mission + lists: abd-works/commons/agile-garden-fragment.css (prepended by generate_abd_catalog.py) */
 
 /* Single-page hub (index.html): collapsible hub / skills / agents */
 .catalog-section {

@@ -1,5 +1,7 @@
 ---
 name: abd-proposal-respond
+catalogue_one_liner: >-
+  RFP and proposal response: ingest to memory (abd-context-to-memory), strategy, batched Q&A with RAG.
 description: >-
   Respond to client proposals (RFP, Q&A, requirements) by converting materials
   to memory, creating a response strategy, and answering questions iteratively.

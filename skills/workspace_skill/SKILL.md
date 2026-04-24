@@ -1,5 +1,8 @@
 ---
 name: workspace
+catalog_garden_tier: foundational
+catalogue_one_liner: >-
+  Set/read active_skill_workspace in skill-config; scripts resolve the engagement root.
 description: Set and read the agent engagement root (skill-config.json → workspace.active_skill_workspace). Run scripts from this folder; they resolve the agent root automatically.
 ---
 

@@ -1,5 +1,9 @@
 ---
 name: abd-story-mapping
+catalog_garden_tier: practice
+catalog_garden_order: 10
+catalogue_one_liner: >-
+  Patton-style story maps (epics, stories, verb-noun naming); writes story-map templates from sources.
 description: >-
   Teaches Patton-style story mapping: epics, sub-epics, stories, verb–noun naming, and
   actors via story_type. When building a map from sources, outputs **all** template

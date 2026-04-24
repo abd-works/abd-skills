@@ -1,6 +1,6 @@
 ---
 # One line for catalogue cards and grids (YAML string).
-catalogue_summary: "Scan agilebydesign-skills (skills/ and agents/), maintain each package’s root README.md for catalogue copy (overview + ASCII), then regenerate catalog/ HTML and outline.md from those files plus a generated file tree."
+catalogue_summary: "Regenerate the browsable skills/agents catalogue (HTML + outline) from repo packages."
 ---
 
 # abd-skill-catalog

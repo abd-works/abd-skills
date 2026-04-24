@@ -1,5 +1,9 @@
 ---
 name: abd-delivery-planning
+catalog_garden_tier: practice
+catalog_garden_order: 70
+catalogue_one_liner: >-
+  Delivery plans only: context, risks, strategies, staged runs and checkpoints (not stories, tests, or code).
 description: >-
   Build and revise agile delivery plans: context assessment, risk types, strategies
   (scan strategies/ for matching When to use), runs (stages, scope, checkpoints,

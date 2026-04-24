@@ -3,8 +3,234 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ABD catalogue — Skills &amp; agents</title>
+<title>ABD catalogue — The ABD AI Garden</title>
 <style>
+/*
+  Single source for Agile Garden block: catalog prelude + mission row + two-column lists.
+  Inlined into abd-skills-catalog via generate_abd_catalog.py; linked from abd-ai-gardener-training lesson.
+*/
+.catalog-prelude {
+  margin: 0 0 24px;
+  padding: 0 0 20px;
+  border-bottom: 1px solid var(--border-muted);
+  background: linear-gradient(180deg, rgba(255, 122, 0, 0.04) 0%, transparent 32%);
+}
+.catalog-prelude-heading {
+  margin: 0 0 12px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.25;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+  scroll-margin-top: 48px;
+}
+.catalog-prelude-tagline {
+  margin: 0 0 14px;
+  max-width: 60rem;
+  font-size: 1rem;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+/* Mission row (matches gardener training look; class names scoped for catalog + lesson) */
+.catalog-mission {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin: 0 0 18px;
+  padding: 10px 4px 6px;
+  align-items: stretch;
+}
+.catalog-mission::before {
+  content: "";
+  position: absolute;
+  left: -6px;
+  right: -6px;
+  top: -6px;
+  height: 85%;
+  background:
+    radial-gradient(ellipse 70% 90% at 20% 0%, rgba(255, 147, 51, 0.14), transparent 58%),
+    radial-gradient(ellipse 55% 75% at 88% 12%, rgba(255, 122, 0, 0.11), transparent 55%),
+    radial-gradient(ellipse 45% 55% at 50% 30%, rgba(204, 98, 0, 0.07), transparent 52%);
+  pointer-events: none;
+  z-index: 0;
+}
+.catalog-mission > * { min-width: 0; position: relative; z-index: 1; }
+.catalog-mission-card {
+  background: linear-gradient(165deg, rgba(255, 122, 0, 0.08) 0%, var(--raised) 42%, #131312 100%);
+  border: 1px solid rgba(255, 122, 0, 0.16);
+  border-left: 3px solid var(--orange);
+  border-radius: var(--radius);
+  padding: 16px 16px 14px;
+  box-shadow:
+    0 6px 28px -12px rgba(255, 122, 0, 0.38),
+    0 0 0 1px rgba(255, 122, 0, 0.07),
+    inset 0 1px 0 rgba(255, 200, 150, 0.09);
+  height: 100%;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+.catalog-mission-card h3 {
+  flex-shrink: 0;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #ffb380;
+  margin: 0 0 6px;
+}
+.catalog-mission-card p {
+  flex: 1 1 auto;
+  margin: 0;
+  font-size: 0.88rem;
+  color: var(--muted);
+  line-height: 1.55;
+}
+.catalog-mission-card--teal {
+  border-left-color: #ff9333;
+  background: linear-gradient(165deg, rgba(255, 147, 51, 0.13) 0%, var(--raised) 45%, #12110f 100%);
+  border-color: rgba(255, 147, 51, 0.22);
+  box-shadow:
+    0 8px 32px -10px rgba(255, 147, 51, 0.45),
+    0 0 0 1px rgba(255, 147, 51, 0.1),
+    inset 0 1px 0 rgba(255, 210, 170, 0.1);
+}
+.catalog-mission-card--teal h3 { color: #ffccaa; }
+.catalog-mission-card--amber {
+  border-left-color: #ffb380;
+  background: linear-gradient(165deg, rgba(255, 190, 140, 0.1) 0%, var(--raised) 45%, #12110f 100%);
+  border-color: rgba(255, 190, 160, 0.2);
+  box-shadow:
+    0 8px 32px -10px rgba(255, 180, 120, 0.38),
+    0 0 0 1px rgba(255, 190, 160, 0.08),
+    inset 0 1px 0 rgba(255, 220, 190, 0.09);
+}
+.catalog-mission-card--amber h3 { color: #ffccaa; }
+.catalog-mission-card--purple {
+  border-left-color: #cc6200;
+  background: linear-gradient(165deg, rgba(204, 98, 0, 0.2) 0%, var(--raised) 48%, #14100d 100%);
+  border-color: rgba(204, 98, 0, 0.28);
+  box-shadow:
+    0 8px 32px -10px rgba(204, 98, 0, 0.42),
+    0 0 0 1px rgba(204, 98, 0, 0.09),
+    inset 0 1px 0 rgba(255, 160, 100, 0.08);
+}
+.catalog-mission-card--purple h3 { color: #d4854a; }
+@media (max-width: 720px) {
+  .catalog-mission { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 480px) {
+  .catalog-mission { grid-template-columns: 1fr; }
+}
+
+.catalog-garden-lists {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.catalog-garden-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 20px;
+  margin: 0 0 8px;
+}
+@media (max-width: 760px) {
+  .catalog-garden-grid { grid-template-columns: 1fr; }
+}
+.catalog-garden-agents-wrap {
+  margin-top: 8px;
+}
+.catalog-garden-col--agents {
+  margin-top: 0;
+}
+.catalog-garden-col-header--agents {
+  background: linear-gradient(90deg, rgba(255, 122, 0, 0.16) 0%, rgba(60, 28, 8, 0.2) 100%);
+  color: #ffccaa;
+  border-left: 3px solid #ff9333;
+}
+.catalog-garden-name--agent a {
+  color: #ffb380;
+}
+.catalog-garden-name--agent a:hover {
+  color: #ffccaa;
+}
+.catalog-garden-col {
+  background: linear-gradient(180deg, rgba(255, 122, 0, 0.06) 0%, var(--raised) 38%);
+  border: 1px solid rgba(255, 122, 0, 0.14);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow:
+    0 8px 32px -16px rgba(255, 122, 0, 0.2),
+    inset 0 1px 0 rgba(255, 200, 150, 0.05);
+}
+.catalog-garden-col-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--border);
+}
+.catalog-garden-col-header--practice {
+  background: linear-gradient(90deg, rgba(255, 122, 0, 0.22) 0%, rgba(255, 122, 0, 0.08) 100%);
+  color: #ffb380;
+  border-left: 3px solid var(--orange);
+}
+.catalog-garden-col-header--foundational {
+  background: linear-gradient(90deg, rgba(204, 98, 0, 0.24) 0%, rgba(120, 52, 18, 0.12) 100%);
+  color: #ffccaa;
+  border-left: 3px solid #cc6200;
+}
+.catalog-garden-ico { flex-shrink: 0; display: block; }
+.catalog-garden-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 16px;
+  border-bottom: 1px solid var(--border-muted);
+  font-size: 0.85rem;
+}
+.catalog-garden-row:last-child { border-bottom: none; }
+.catalog-garden-name {
+  font-weight: 600;
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+  color: var(--orange);
+  flex: 0 0 11.5rem;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+.catalog-garden-name a {
+  color: var(--orange);
+  text-decoration: underline;
+}
+.catalog-garden-name a:hover {
+  color: #ff9333;
+}
+.catalog-garden-name--foundational a {
+  color: #d4854a;
+}
+.catalog-garden-name--foundational a:hover {
+  color: #ffb380;
+}
+.catalog-garden-name--dim {
+  color: var(--muted);
+  opacity: 0.6;
+  font-weight: 600;
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+}
+.catalog-garden-desc {
+  color: var(--muted);
+  font-size: 0.82rem;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.catalog-garden-desc--muted { opacity: 0.5; }
+
 :root {
   --orange: #ff7a00;
   --bg: #09090b;
@@ -67,7 +293,7 @@ code {
 .brand { font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin: 0 0 4px; }
 .brand strong { color: var(--orange); }
 h1 { margin: 0; font-size: 2rem; font-weight: 700; line-height: 1.15; }
-.tagline { margin: 8px 0 0; font-size: 1.05rem; color: var(--muted); max-width: 52rem; }
+.tagline { margin: 8px 0 0; font-size: 1.05rem; color: var(--muted); max-width: 52rem; line-height: 1.55; }
 .panel-body { padding: 28px 22px 36px; }
 p { margin: 0 0 14px; }
 h2 {
@@ -186,6 +412,86 @@ h2:first-child { margin-top: 0; }
   border-top: 1px solid var(--border);
   margin: 26px 0;
 }
+.entry-contents-doc {
+  margin: 0 0 8px;
+}
+.entry-contents-files {
+  margin: 0;
+}
+.entry-md-section {
+  border: 1px solid var(--border-muted);
+  border-radius: var(--radius);
+  margin: 0 0 10px;
+  background: rgba(0, 0, 0, 0.14);
+}
+.entry-md-section > summary.entry-md-section__summary {
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.98rem;
+  padding: 12px 14px;
+  list-style: none;
+  color: var(--text);
+  user-select: none;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+.entry-md-section > summary.entry-md-section__summary::before {
+  content: "+";
+  flex-shrink: 0;
+  width: 1.35em;
+  text-align: center;
+  font-weight: 800;
+  font-size: 1.05em;
+  line-height: 1.35;
+  color: var(--orange);
+}
+.entry-md-section[open] > summary.entry-md-section__summary::before {
+  content: "-";
+}
+.entry-md-section > summary.entry-md-section__summary::-webkit-details-marker {
+  display: none;
+}
+.entry-md-section .entry-md-section__body {
+  padding: 0 14px 14px 16px;
+  border-top: 1px solid var(--border-muted);
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: var(--text);
+}
+.entry-md-section .entry-md-section__body p {
+  margin: 0 0 12px;
+}
+.entry-md-section .entry-md-section__body p:last-child {
+  margin-bottom: 0;
+}
+.entry-md-section .entry-md-section__body ul {
+  margin: 0 0 12px;
+  padding-left: 1.35rem;
+}
+.entry-md-section .entry-md-section__body h2 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin: 18px 0 8px;
+  padding-bottom: 0;
+  border-bottom: none;
+  color: var(--text);
+}
+.entry-md-section .entry-md-section__body h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 14px 0 8px;
+  color: var(--text);
+}
+.entry-md-section .entry-md-section__body pre {
+  margin: 0 0 12px;
+  overflow-x: auto;
+}
+.entry-md-section .entry-md-section__body hr {
+  margin: 14px 0;
+  border: none;
+  border-top: 1px solid var(--border-muted);
+}
 .ascii-diagram {
   background: #111114;
   border: 1px solid var(--border);
@@ -280,29 +586,34 @@ h2:first-child { margin-top: 0; }
 .file-list > li.file-list__folder {
   list-style: none;
   padding: 0;
-  margin: 0 0 14px;
+  margin: 0 0 10px;
   border: none;
   background: transparent;
   border-radius: 0;
 }
 .file-list__folder > .file-tree__details {
-  margin: 0 0 12px 0;
+  margin: 0 0 10px 0;
 }
+/* Match .entry-md-section: folder trees (rules, scanners, templates, …) */
 .file-tree__details {
   border: 1px solid var(--border-muted);
-  border-radius: 6px;
-  background: rgba(0, 0, 0, 0.18);
+  border-radius: var(--radius);
+  background: rgba(0, 0, 0, 0.14);
   overflow: hidden;
 }
 .file-tree__summary {
   cursor: pointer;
-  padding: 10px 12px 10px 10px;
+  padding: 12px 14px;
   display: flex;
   align-items: flex-start;
   gap: 10px;
   list-style: none;
   margin: 0;
-  background: rgba(255, 255, 255, 0.03);
+  font-weight: 600;
+  font-size: 0.98rem;
+  color: var(--text);
+  user-select: none;
+  background: transparent;
 }
 .file-tree__summary::-webkit-details-marker {
   display: none;
@@ -311,32 +622,21 @@ h2:first-child { margin-top: 0; }
   content: "";
   display: none;
 }
-/* Obvious expand/collapse control (native triangle hidden above). */
 .file-tree__summary::before {
   content: "+";
   flex-shrink: 0;
-  width: 1.5rem;
-  height: 1.5rem;
-  margin-top: 1px;
-  line-height: 1.45rem;
+  width: 1.35em;
   text-align: center;
-  font-weight: 700;
-  font-size: 0.95rem;
-  border: 1px solid var(--border-muted);
-  border-radius: 4px;
-  background: rgba(255, 255, 255, 0.1);
-  color: inherit;
-  user-select: none;
+  font-weight: 800;
+  font-size: 1.05em;
+  line-height: 1.35;
+  color: var(--orange);
 }
 .file-tree__details[open] > .file-tree__summary::before {
-  content: "\2212"; /* minus sign */
+  content: "-";
 }
 .file-tree__summary:hover {
-  background: rgba(255, 255, 255, 0.06);
-}
-.file-tree__summary:hover::before {
-  background: rgba(255, 255, 255, 0.16);
-  border-color: rgba(255, 255, 255, 0.25);
+  background: rgba(255, 122, 0, 0.06);
 }
 .file-tree__summary .file-meta {
   display: inline;
@@ -345,7 +645,7 @@ h2:first-child { margin-top: 0; }
   color: var(--muted);
 }
 .file-tree__inner {
-  padding: 8px 10px 12px 14px;
+  padding: 0 14px 14px 16px;
   border-top: 1px solid var(--border-muted);
 }
 .file-tree__ul {
@@ -362,6 +662,8 @@ h2:first-child { margin-top: 0; }
   display: block;
   margin-top: 4px;
 }
+
+/* Agile Garden prelude + mission + lists: abd-works/commons/agile-garden-fragment.css (prepended by generate_abd_catalog.py) */
 
 /* Single-page hub (index.html): collapsible hub / skills / agents */
 .catalog-section {
@@ -505,12 +807,76 @@ h2:first-child { margin-top: 0; }
   </div>
   <div class="header-text">
     <p class="brand"><strong>Agile by Design</strong> &middot; catalog</p>
-    <h1>Skills &amp; agents catalogue</h1>
-    <p class="tagline">One page: hub, skills, and agents. Expand each section below.</p>
+    <h1>The ABD AI Garden</h1>
+    <p class="tagline">The ABD AI Garden is ABD&#x27;s area to share agents and skills that remove toil from our work and our clients&#x27; work. Browse it like a curriculum—each entry is a skill you can run with an agent.</p>
   </div>
 </header>
 
 <div class="panel-body">
+
+<section class="catalog-prelude" id="agile-garden" aria-label="The ABD AI Garden">
+  <h2 class="catalog-prelude-heading" id="mission">Mission</h2>
+  <div class="catalog-mission">
+    <div class="catalog-mission-card catalog-mission-card--teal">
+      <h3>Agents, Skills &amp; Apps</h3>
+      <p>Build specialised agents backed by ABD practice skills. Automate the toil, amplify the thinking. Each skill encodes years of practice knowledge.</p>
+    </div>
+    <div class="catalog-mission-card catalog-mission-card--amber">
+      <h3>Learning Internally</h3>
+      <p>Every skill we build is a lesson. Every lesson becomes a skill. Recursive learning by design — the curriculum IS the skill garden.</p>
+    </div>
+    <div class="catalog-mission-card catalog-mission-card--purple">
+      <h3>Eminence by Showcasing</h3>
+      <p>We want our thought leadership to be ready for anyone to use, living in agentic capability — not just slide decks.</p>
+    </div>
+  </div>
+  <div class="catalog-garden-lists">
+  <div class="catalog-garden-grid">
+    <div class="catalog-garden-col">
+      <div class="catalog-garden-col-header catalog-garden-col-header--practice">
+        <img class="catalog-garden-ico" src="../commons/images/icon-garden-practice.svg" width="22" height="22" alt="" aria-hidden="true" />
+        <span>Practice Skills — What We Do</span>
+      </div>
+      <div class="catalog-garden-row"><span class="catalog-garden-name"><a href="skill/abd-story-mapping.html">abd-story-mapping</a></span><span class="catalog-garden-desc">Patton-style story maps (epics, stories, verb-noun naming); writes story-map templates from sources.</span></div>
+      <div class="catalog-garden-row"><span class="catalog-garden-name"><a href="skill/abd-thin-slicing.html">abd-thin-slicing</a></span><span class="catalog-garden-desc">Thin-sliced MVIs and backlog order from a story map; writes thin-slicing templates.</span></div>
+      <div class="catalog-garden-row"><span class="catalog-garden-name"><a href="skill/abd-acceptance-criteria.html">abd-acceptance-criteria</a></span><span class="catalog-garden-desc">WHEN/THEN acceptance criteria for story-graph.json; ships rules and scanners for execute_rules.</span></div>
+      <div class="catalog-garden-row"><span class="catalog-garden-name"><a href="skill/abd-specification-by-example.html">abd-specification-by-example</a></span><span class="catalog-garden-desc">Given/When/Then scenarios with real domain values; plain or outline (data tables) templates.</span></div>
+      <div class="catalog-garden-row"><span class="catalog-garden-name"><a href="skill/abd-acceptance-test-driven-development.html">abd-acceptance-test-driven-development</a></span><span class="catalog-garden-desc">Tests first, then code: executable acceptance tests from scenarios, AC, or notes (RED-GREEN-REFACTOR).</span></div>
+      <div class="catalog-garden-row"><span class="catalog-garden-name"><a href="skill/abd-clean-code.html">abd-clean-code</a></span><span class="catalog-garden-desc">Production code that matches story behavior: clean structure, domain language, scanner-backed quality bars (Python/JS).</span></div>
+      <div class="catalog-garden-row"><span class="catalog-garden-name"><a href="skill/abd-delivery-planning.html">abd-delivery-planning</a></span><span class="catalog-garden-desc">Delivery plans only: context, risks, strategies, staged runs and checkpoints (not stories, tests, or code).</span></div>
+      <div class="catalog-garden-row"><span class="catalog-garden-name catalog-garden-name--dim">· impact-mapping</span><span class="catalog-garden-desc catalog-garden-desc--muted">Coming soon — Lesson 1 exercise</span></div>
+      <div class="catalog-garden-row"><span class="catalog-garden-name catalog-garden-name--dim">· cost-of-delay</span><span class="catalog-garden-desc catalog-garden-desc--muted">Coming soon</span></div>
+      <div class="catalog-garden-row"><span class="catalog-garden-name catalog-garden-name--dim">· relative-sizing</span><span class="catalog-garden-desc catalog-garden-desc--muted">Coming soon</span></div>
+    </div>
+    <div class="catalog-garden-col">
+      <div class="catalog-garden-col-header catalog-garden-col-header--foundational">
+        <img class="catalog-garden-ico" src="../commons/images/icon-garden-foundational.svg" width="22" height="22" alt="" aria-hidden="true" />
+        <span>Foundational Skills — Enhance the Way Skills Run</span>
+      </div>
+      <div class="catalog-garden-row"><span class="catalog-garden-name catalog-garden-name--foundational"><a href="skill/commit-msg.html">abd-commit-msg</a></span><span class="catalog-garden-desc">Commit messages from scope and changed files; no story_graph (/commit and similar).</span></div>
+      <div class="catalog-garden-row"><span class="catalog-garden-name catalog-garden-name--foundational"><a href="skill/abd-skill-catalog.html">abd-skill-catalog</a></span><span class="catalog-garden-desc">Regenerate the browsable skills/agents catalogue (HTML + outline) from repo packages.</span></div>
+      <div class="catalog-garden-row"><span class="catalog-garden-name catalog-garden-name--foundational"><a href="skill/deploy-skill-to-cursor.html">deploy-skill-to-cursor</a></span><span class="catalog-garden-desc">Junction-link a repo skill into Cursor user skills on Windows (no file copy).</span></div>
+      <div class="catalog-garden-row"><span class="catalog-garden-name catalog-garden-name--foundational"><a href="skill/drawio-story-sync.html">drawio-story-sync</a></span><span class="catalog-garden-desc">story-graph.json to Draw.io story maps; validated load/save and diagram sync.</span></div>
+      <div class="catalog-garden-row"><span class="catalog-garden-name catalog-garden-name--foundational"><a href="skill/execute_using_rules.html">execute-rules</a></span><span class="catalog-garden-desc">Bundle rules into SKILL.md, run scanners, fix failures; quality gate before and after work.</span></div>
+      <div class="catalog-garden-row"><span class="catalog-garden-name catalog-garden-name--foundational"><a href="skill/story-graph-ops.html">story-graph-ops</a></span><span class="catalog-garden-desc">CRUD story-graph.json via CLI/scripts, validate, persist; no hand-written JSON drift.</span></div>
+      <div class="catalog-garden-row"><span class="catalog-garden-name catalog-garden-name--foundational"><a href="skill/track_task.html">track-task</a></span><span class="catalog-garden-desc">Checkbox markdown task lists for pipelines or ad-hoc steps under the engagement workspace.</span></div>
+      <div class="catalog-garden-row"><span class="catalog-garden-name catalog-garden-name--foundational"><a href="skill/workspace_skill.html">workspace</a></span><span class="catalog-garden-desc">Set/read active_skill_workspace in skill-config; scripts resolve the engagement root.</span></div>
+    </div>
+  </div>
+  <div class="catalog-garden-agents-wrap">
+    <div class="catalog-garden-col catalog-garden-col--agents">
+      <div class="catalog-garden-col-header catalog-garden-col-header--agents">
+        <span>Agents — Teammates &amp; specialists</span>
+      </div>
+      <div class="catalog-garden-row"><span class="catalog-garden-name catalog-garden-name--agent"><a href="agent/abd-context-to-memory.html">abd-context-to-memory</a></span><span class="catalog-garden-desc">Source docs to Markdown, then labeled chunks in memory/, then FAISS vectors and semantic search. Optional: review context_chunking_spec.yaml before chunk+embed.</span></div>
+      <div class="catalog-garden-row"><span class="catalog-garden-name catalog-garden-name--agent"><a href="agent/abd-delivery-lead.html">abd-delivery-lead</a></span><span class="catalog-garden-desc">Orchestrates ABD delivery (workspace, plan, stages, handoffs); delegates work to abd-team-member; uses abd-delivery-planning to manage plan creation.</span></div>
+      <div class="catalog-garden-row"><span class="catalog-garden-name catalog-garden-name--agent"><a href="agent/abd-team-member.html">abd-team-member</a></span><span class="catalog-garden-desc">ABD executor for one role per turn (Product Owner, Analyst, or Engineer); requires team-role + workspace; produces stage artifacts via practice skills, often under abd-delivery-lead handoffs.</span></div>
+      <div class="catalog-garden-row"><span class="catalog-garden-name catalog-garden-name--agent"><a href="agent/ai-research-assistant.html">ai-research-assistant</a></span><span class="catalog-garden-desc">Orchestrate hypothesis-driven research on AI-augmented delivery and context engineering practices. You coordinate three skills in sequence to produce a research report that helps the user decide whether their approach is well-founded, exposed, or genuinely novel. You are an impartial advisor — not …</span></div>
+    </div>
+  </div>
+  </div>
+</section>
+
 
 <details class="catalog-section" id="catalog-hub" open>
   <summary>About this catalogue <span class="count">(hub)</span></summary>
@@ -518,97 +884,103 @@ h2:first-child { margin-top: 0; }
     <p>Browse <a href="#catalog-skills">skills</a> and <a href="#catalog-agents">agents</a>.
     <a href="outline.md">outline.md</a> lists the same entries in one file.</p>
     <p>Cards open full detail pages under <code>skill/</code> and <code>agent/</code>.</p>
-    <p>18 skills and 5 agents are indexed in this catalogue.</p>
+    <p>19 skills and 4 agents are indexed in this catalogue.</p>
   </div>
 </details>
 
 <details class="catalog-section" id="catalog-skills">
-  <summary>Skills <span class="count">(18)</span></summary>
+  <summary>Skills <span class="count">(19)</span></summary>
   <div class="section-body">
     <p>Open a card for a full page on that skill.</p>
     <div class="cap-grid">
     <a class="cap-card" href="skill/abd-acceptance-criteria.html">
       <p class="cap-card__title"><span class="cap-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#1a1a1e"/><path d="M7 8h10M7 12h7M7 16h10" stroke="#ff7a00" stroke-width="1.5" stroke-linecap="round"/></svg></span>abd-acceptance-criteria</p>
       <p class="cap-card__label">Description</p>
-      <p class="cap-card__summary">Teaches exploration-phase acceptance criteria for story-graph.json: WHEN/THEN/AND/BUT, behavioral language, per-story domain terms, atomic AC, actor alternation, channel-specific detail, and verb–noun naming for story elements. Ships Markdown rules and Python scanners under this skill root for …</p>
+      <p class="cap-card__summary">WHEN/THEN acceptance criteria for story-graph.json; ships rules and scanners for execute_rules.</p>
       <p class="cap-card__more">Open skill page →</p>
     </a>
     <a class="cap-card" href="skill/abd-acceptance-test-driven-development.html">
       <p class="cap-card__title"><span class="cap-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#1a1a1e"/><path d="M7 8h10M7 12h7M7 16h10" stroke="#ff7a00" stroke-width="1.5" stroke-linecap="round"/></svg></span>abd-acceptance-test-driven-development</p>
       <p class="cap-card__label">Description</p>
-      <p class="cap-card__summary">Write tests first. Write code to pass them. This skill creates executable test files — in whatever language and framework the project uses — from whatever behavioral context is available: specification scenarios, acceptance criteria, stories, notes, or a rough description of what the system should …</p>
+      <p class="cap-card__summary">Tests first, then code: executable acceptance tests from scenarios, AC, or notes (RED-GREEN-REFACTOR).</p>
       <p class="cap-card__more">Open skill page →</p>
     </a>
     <a class="cap-card" href="skill/abd-clean-code.html">
       <p class="cap-card__title"><span class="cap-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#1a1a1e"/><path d="M7 8h10M7 12h7M7 16h10" stroke="#ff7a00" stroke-width="1.5" stroke-linecap="round"/></svg></span>abd-clean-code</p>
       <p class="cap-card__label">Description</p>
-      <p class="cap-card__summary">Write production code that implements story behavior using domain language, clean functions, explicit dependencies, and observable design. This skill covers the full quality bar for implementation code: single-responsibility functions and classes, intention-revealing names, explicit constructor …</p>
+      <p class="cap-card__summary">Production code that matches story behavior: clean structure, domain language, scanner-backed quality bars (Python/JS).</p>
       <p class="cap-card__more">Open skill page →</p>
     </a>
     <a class="cap-card" href="skill/abd-delivery-planning.html">
       <p class="cap-card__title"><span class="cap-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#1a1a1e"/><path d="M7 8h10M7 12h7M7 16h10" stroke="#ff7a00" stroke-width="1.5" stroke-linecap="round"/></svg></span>abd-delivery-planning</p>
       <p class="cap-card__label">Description</p>
-      <p class="cap-card__summary">Build and revise agile delivery plans: context assessment, risk types, strategies (scan strategies/ for matching When to use), runs (stages, scope, checkpoints, rationale), and example plans. Planning only — not for producing story artifacts, tests, or code (those come from downstream practice …</p>
+      <p class="cap-card__summary">Delivery plans only: context, risks, strategies, staged runs and checkpoints (not stories, tests, or code).</p>
+      <p class="cap-card__more">Open skill page →</p>
+    </a>
+    <a class="cap-card" href="skill/abd-delivery-war-room.html">
+      <p class="cap-card__title"><span class="cap-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#1a1a1e"/><path d="M7 8h10M7 12h7M7 16h10" stroke="#ff7a00" stroke-width="1.5" stroke-linecap="round"/></svg></span>abd-delivery-war-room</p>
+      <p class="cap-card__label">Description</p>
+      <p class="cap-card__summary">Experimental file-based war room for handoffs between abd-delivery-lead and abd-team-member: delivery-war-room/ under the engagement workspace with INSTRUCTIONS.md, manifest.md, and slot-NN-start.md / slot-NN-finished.md. Not wired into the delivery-lead or team-member agents until re-integrated …</p>
       <p class="cap-card__more">Open skill page →</p>
     </a>
     <a class="cap-card" href="skill/abd-skill-catalog.html">
       <p class="cap-card__title"><span class="cap-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#1a1a1e"/><path d="M7 8h10M7 12h7M7 16h10" stroke="#ff7a00" stroke-width="1.5" stroke-linecap="round"/></svg></span>abd-skill-catalog</p>
       <p class="cap-card__label">Description</p>
-      <p class="cap-card__summary">Scan agilebydesign-skills (skills/ and agents/), maintain each package’s root README.md for catalogue copy (overview + ASCII), then regenerate catalog/ HTML and outline.md from those files plus a generated file tree.</p>
+      <p class="cap-card__summary">Regenerate the browsable skills/agents catalogue (HTML + outline) from repo packages.</p>
       <p class="cap-card__more">Open skill page →</p>
     </a>
     <a class="cap-card" href="skill/abd-specification-by-example.html">
       <p class="cap-card__title"><span class="cap-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#1a1a1e"/><path d="M7 8h10M7 12h7M7 16h10" stroke="#ff7a00" stroke-width="1.5" stroke-linecap="round"/></svg></span>abd-specification-by-example</p>
       <p class="cap-card__label">Description</p>
-      <p class="cap-card__summary">Produce specification-by-example scenarios: concrete Given/When/Then steps with real domain values, bold concept names, italic values. Two templates: plain scenarios (inline values, default) and outline (same steps, multiple data rows). Use when writing BDD scenarios, refining AC into specs, or …</p>
+      <p class="cap-card__summary">Given/When/Then scenarios with real domain values; plain or outline (data tables) templates.</p>
       <p class="cap-card__more">Open skill page →</p>
     </a>
     <a class="cap-card" href="skill/abd-story-mapping.html">
       <p class="cap-card__title"><span class="cap-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#1a1a1e"/><path d="M7 8h10M7 12h7M7 16h10" stroke="#ff7a00" stroke-width="1.5" stroke-linecap="round"/></svg></span>abd-story-mapping</p>
       <p class="cap-card__label">Description</p>
-      <p class="cap-card__summary">Teaches Patton-style story mapping: epics, sub-epics, stories, verb–noun naming, and actors via story_type. When building a map from sources, outputs all template artifacts in templates/ (currently story-map.md and story-map.txt) with the same tree — not one or the other. Use when structuring …</p>
+      <p class="cap-card__summary">Patton-style story maps (epics, stories, verb-noun naming); writes story-map templates from sources.</p>
       <p class="cap-card__more">Open skill page →</p>
     </a>
     <a class="cap-card" href="skill/abd-thin-slicing.html">
       <p class="cap-card__title"><span class="cap-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#1a1a1e"/><path d="M7 8h10M7 12h7M7 16h10" stroke="#ff7a00" stroke-width="1.5" stroke-linecap="round"/></svg></span>abd-thin-slicing</p>
       <p class="cap-card__label">Description</p>
-      <p class="cap-card__summary">Produce thin-sliced delivery increments: vertical MVIs, spine vs optional paths, quality trade-offs, marketable increment names, and early risk validation. From a story map, write all template artifacts in templates/ (thin-slicing.md and thin-slicing.txt) with identical increment and story …</p>
+      <p class="cap-card__summary">Thin-sliced MVIs and backlog order from a story map; writes thin-slicing templates.</p>
       <p class="cap-card__more">Open skill page →</p>
     </a>
     <a class="cap-card" href="skill/commit-msg.html">
       <p class="cap-card__title"><span class="cap-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#1a1a1e"/><path d="M7 8h10M7 12h7M7 16h10" stroke="#ff7a00" stroke-width="1.5" stroke-linecap="round"/></svg></span>abd-commit-msg</p>
       <p class="cap-card__label">Description</p>
-      <p class="cap-card__summary">Generate meaningful commit messages from scope and changed files. No story_graph — scope from conversation, changed files, and persisted state. Use when user types /commit or requests a commit.</p>
+      <p class="cap-card__summary">Commit messages from scope and changed files; no story_graph (/commit and similar).</p>
       <p class="cap-card__more">Open skill page →</p>
     </a>
     <a class="cap-card" href="skill/deploy-skill-to-cursor.html">
       <p class="cap-card__title"><span class="cap-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#1a1a1e"/><path d="M7 8h10M7 12h7M7 16h10" stroke="#ff7a00" stroke-width="1.5" stroke-linecap="round"/></svg></span>deploy-skill-to-cursor</p>
       <p class="cap-card__label">Description</p>
-      <p class="cap-card__summary">Deploy a skill from agilebydesign-skills into Cursor&#x27;s user skills folder using a Windows directory junction (no duplicate copy). Run scripts/Deploy-SkillToCursor.ps1 with the skill folder name. Use when you want the global Cursor skills path to point at the repo canonical skill.</p>
+      <p class="cap-card__summary">Junction-link a repo skill into Cursor user skills on Windows (no file copy).</p>
       <p class="cap-card__more">Open skill page →</p>
     </a>
     <a class="cap-card" href="skill/drawio-story-sync.html">
       <p class="cap-card__title"><span class="cap-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#1a1a1e"/><path d="M7 8h10M7 12h7M7 16h10" stroke="#ff7a00" stroke-width="1.5" stroke-linecap="round"/></svg></span>drawio-story-sync</p>
       <p class="cap-card__label">Description</p>
-      <p class="cap-card__summary">Render and synchronize story-map DrawIO diagrams (outline, exploration with acceptance criteria, prioritization increments) from story-graph.json. Uses story-graph-ops for validated JSON and story_graph_ops StoryMap for rendering. Use when …</p>
+      <p class="cap-card__summary">story-graph.json to Draw.io story maps; validated load/save and diagram sync.</p>
       <p class="cap-card__more">Open skill page →</p>
     </a>
     <a class="cap-card" href="skill/execute_using_rules.html">
       <p class="cap-card__title"><span class="cap-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#1a1a1e"/><path d="M7 8h10M7 12h7M7 16h10" stroke="#ff7a00" stroke-width="1.5" stroke-linecap="round"/></svg></span>execute-rules</p>
       <p class="cap-card__label">Description</p>
-      <p class="cap-card__summary">Bundle rules into SKILL.md, run scanners, quality steps (rules before work), and the correction process after mistakes — commands first, details after.</p>
+      <p class="cap-card__summary">Bundle rules into SKILL.md, run scanners, fix failures; quality gate before and after work.</p>
       <p class="cap-card__more">Open skill page →</p>
     </a>
     <a class="cap-card" href="skill/ooad.html">
       <p class="cap-card__title"><span class="cap-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#1a1a1e"/><path d="M7 8h10M7 12h7M7 16h10" stroke="#ff7a00" stroke-width="1.5" stroke-linecap="round"/></svg></span>abd-ooad</p>
       <p class="cap-card__label">Description</p>
-      <p class="cap-card__summary">Object-Oriented Analysis and Design (OOAD) from raw material. Use this skill whenever you&#x27;re working with specifications, game manuals, policy docs, messy code, or rule books that need to be modeled as object-oriented domain models. Agile by Design methodology: Steps 0–2 (Domain Scan, Extraction …</p>
+      <p class="cap-card__summary">Turn specs, manuals, or messy sources into OO domain models (scan → extract → refine) with Draw.io.</p>
       <p class="cap-card__more">Open skill page →</p>
     </a>
     <a class="cap-card" href="skill/proposal-respond.html">
       <p class="cap-card__title"><span class="cap-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#1a1a1e"/><path d="M7 8h10M7 12h7M7 16h10" stroke="#ff7a00" stroke-width="1.5" stroke-linecap="round"/></svg></span>abd-proposal-respond</p>
       <p class="cap-card__label">Description</p>
-      <p class="cap-card__summary">Respond to client proposals (RFP, Q&amp;A, requirements) by converting materials to memory, creating a response strategy, and answering questions iteratively. Depends on abd-context-to-memory for RAG. Use when responding to proposals, creating response plans, answering RFP questions, or iterating on …</p>
+      <p class="cap-card__summary">RFP and proposal response: ingest to memory (abd-context-to-memory), strategy, batched Q&amp;A with RAG.</p>
       <p class="cap-card__more">Open skill page →</p>
     </a>
     <a class="cap-card" href="skill/skill-garden-catalogue.html">
@@ -620,19 +992,19 @@ h2:first-child { margin-top: 0; }
     <a class="cap-card" href="skill/story-graph-ops.html">
       <p class="cap-card__title"><span class="cap-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#1a1a1e"/><path d="M7 8h10M7 12h7M7 16h10" stroke="#ff7a00" stroke-width="1.5" stroke-linecap="round"/></svg></span>story-graph-ops</p>
       <p class="cap-card__label">Description</p>
-      <p class="cap-card__summary">Create, read, update, and delete story-graph.json (whole file or parts—epics, sub-epics, stories, AC, scenarios) as a standalone artifact—no host app required. Agents must complete the ops loop: use this skill’s CLI or Python modules under scripts/, then validate the file—do not stop after …</p>
+      <p class="cap-card__summary">CRUD story-graph.json via CLI/scripts, validate, persist; no hand-written JSON drift.</p>
       <p class="cap-card__more">Open skill page →</p>
     </a>
     <a class="cap-card" href="skill/track_task.html">
       <p class="cap-card__title"><span class="cap-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#1a1a1e"/><path d="M7 8h10M7 12h7M7 16h10" stroke="#ff7a00" stroke-width="1.5" stroke-linecap="round"/></svg></span>track-task</p>
       <p class="cap-card__label">Description</p>
-      <p class="cap-card__summary">Track multi-step work with markdown checkboxes (- [ ] / - [x]) for any skill or agent—pipeline phases, per-phase steps, or ad-hoc lists—under the engagement workspace, without editing normative skill sources.</p>
+      <p class="cap-card__summary">Checkbox markdown task lists for pipelines or ad-hoc steps under the engagement workspace.</p>
       <p class="cap-card__more">Open skill page →</p>
     </a>
     <a class="cap-card" href="skill/workspace_skill.html">
       <p class="cap-card__title"><span class="cap-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#1a1a1e"/><path d="M7 8h10M7 12h7M7 16h10" stroke="#ff7a00" stroke-width="1.5" stroke-linecap="round"/></svg></span>workspace</p>
       <p class="cap-card__label">Description</p>
-      <p class="cap-card__summary">Set and read the agent engagement root (skill-config.json → workspace.active_skill_workspace). Run scripts from this folder; they resolve the agent root automatically.</p>
+      <p class="cap-card__summary">Set/read active_skill_workspace in skill-config; scripts resolve the engagement root.</p>
       <p class="cap-card__more">Open skill page →</p>
     </a>
     </div>
@@ -640,32 +1012,26 @@ h2:first-child { margin-top: 0; }
 </details>
 
 <details class="catalog-section" id="catalog-agents">
-  <summary>Agents <span class="count">(5)</span></summary>
+  <summary>Agents <span class="count">(4)</span></summary>
   <div class="section-body">
     <p>Open a card for a full page on that agent.</p>
     <div class="cap-grid">
     <a class="cap-card" href="agent/abd-context-to-memory.html">
       <p class="cap-card__title"><span class="cap-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#1a1a1e"/><path d="M6 9h12v10H6z" stroke="#ff7a00" stroke-width="1.5"/><path d="M9 7V5h6v2" stroke="#ff7a00" stroke-width="1.5" stroke-linecap="round"/></svg></span>abd-context-to-memory</p>
       <p class="cap-card__label">Description</p>
-      <p class="cap-card__summary">Orchestrate convert → chunk → embed → search by coordinating this agent&#x27;s skills. Decide when each stage runs, whether to use a strategy pass (review context_chunking_spec.yaml before chunk + embed) or straight-through, and hold cross-stage quality (real headings before chunking, sane splits after …</p>
+      <p class="cap-card__summary">Source docs to Markdown, then labeled chunks in memory/, then FAISS vectors and semantic search. Optional: review context_chunking_spec.yaml before chunk+embed.</p>
       <p class="cap-card__more">Open agent page →</p>
     </a>
     <a class="cap-card" href="agent/abd-delivery-lead.html">
-      <p class="cap-card__title"><span class="cap-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#1a1a1e"/><path d="M6 9h12v10H6z" stroke="#ff7a00" stroke-width="1.5"/><path d="M9 7V5h6v2" stroke="#ff7a00" stroke-width="1.5" stroke-linecap="round"/></svg></span>ABD Delivery Lead</p>
+      <p class="cap-card__title"><span class="cap-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#1a1a1e"/><path d="M6 9h12v10H6z" stroke="#ff7a00" stroke-width="1.5"/><path d="M9 7V5h6v2" stroke="#ff7a00" stroke-width="1.5" stroke-linecap="round"/></svg></span>abd-delivery-lead</p>
       <p class="cap-card__label">Description</p>
-      <p class="cap-card__summary">Orchestrates ABD delivery (workspace, plan, stages, handoffs, gates); delegates work to abd-team-member; planning mechanics live in abd-delivery-planning.</p>
-      <p class="cap-card__more">Open agent page →</p>
-    </a>
-    <a class="cap-card" href="agent/abd-skill-builder.html">
-      <p class="cap-card__title"><span class="cap-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#1a1a1e"/><path d="M6 9h12v10H6z" stroke="#ff7a00" stroke-width="1.5"/><path d="M9 7V5h6v2" stroke="#ff7a00" stroke-width="1.5" stroke-linecap="round"/></svg></span>abd-skill-builder</p>
-      <p class="cap-card__label">Description</p>
-      <p class="cap-card__summary">Provide portable repository standards aligned with Open Agent Skills: a focused SKILL.md for discovery, a merged AGENTS.md for multi-step workflow, plus documentation of build and validation (merge, build.py, scanners, CI), and a scaffold CLI so new skills match skills.sh-style layout without …</p>
+      <p class="cap-card__summary">Orchestrates ABD delivery (workspace, plan, stages, handoffs); delegates work to abd-team-member; uses abd-delivery-planning to manage plan creation.</p>
       <p class="cap-card__more">Open agent page →</p>
     </a>
     <a class="cap-card" href="agent/abd-team-member.html">
-      <p class="cap-card__title"><span class="cap-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#1a1a1e"/><path d="M6 9h12v10H6z" stroke="#ff7a00" stroke-width="1.5"/><path d="M9 7V5h6v2" stroke="#ff7a00" stroke-width="1.5" stroke-linecap="round"/></svg></span>ABD Team Member</p>
+      <p class="cap-card__title"><span class="cap-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#1a1a1e"/><path d="M6 9h12v10H6z" stroke="#ff7a00" stroke-width="1.5"/><path d="M9 7V5h6v2" stroke="#ff7a00" stroke-width="1.5" stroke-linecap="round"/></svg></span>abd-team-member</p>
       <p class="cap-card__label">Description</p>
-      <p class="cap-card__summary">You are an ABD team member agent.</p>
+      <p class="cap-card__summary">ABD executor for one role per turn (Product Owner, Analyst, or Engineer); requires team-role + workspace; produces stage artifacts via practice skills, often under abd-delivery-lead handoffs.</p>
       <p class="cap-card__more">Open agent page →</p>
     </a>
     <a class="cap-card" href="agent/ai-research-assistant.html">

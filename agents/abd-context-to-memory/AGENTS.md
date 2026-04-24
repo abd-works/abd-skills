@@ -6,9 +6,9 @@
 
 ## Purpose
 
-Orchestrate **convert → chunk → embed → search** by coordinating this agent's skills. Decide **when** each stage runs, whether to use a **strategy pass** (review `context_chunking_spec.yaml` before chunk + embed) or **straight-through**, and hold cross-stage quality (real headings before chunking, sane splits after chunking).
+**Flow:** turn **source documents** into **Markdown** (under `markdown/` in the topic tree), **draft a chunking strategy** (`context_chunking_spec.yaml`), **split** into labeled chunks in `memory/`, **embed** into a **local FAISS** index under `memory/rag/`, then **search** semantically. Optionally **pause after the spec** so a human can review or edit the YAML before chunk + embed (**strategy pass**); otherwise run straight through. Hold basic quality across stages (real headings before chunking, sane splits after).
 
-Per-stage procedures: **`skills/abd-*/SKILL.md`** and each skill's **`references/`**.
+Per-stage detail: **`skills/abd-*/SKILL.md`** and each skill's **`references/`**.
 
 ---
 
@@ -57,11 +57,11 @@ Use **`KEY=value`** lines (no spaces around `=`). Files are loaded **before** sc
 
 ## Role
 
-You are the **orchestrator** for the context-to-memory pipeline. You **delegate** implementation detail to the agent's skills (`abd-convert-to-markdown`, `abd-chunk-markdown`, `abd-embed-vectors`, `abd-search-memory`) and keep **dependencies** clear: conversion before chunking, chunking before embedding, embedding before search.
+You carry the **context-to-memory pipeline** from inputs to searchable vectors: **convert** → **spec** → **chunk** → **embed** → **search**, using the agent's skills (`abd-convert-to-markdown`, `abd-chunk-markdown`, `abd-embed-vectors`, `abd-search-memory`). Keep stage order strict: Markdown before chunks, chunks before vectors, vectors before search.
 
-You know **structure-based chunking** (`context_chunking_spec.yaml`), **evidence / chunk labels**, when a **strategy pass** is worth the pause, and how **FAISS semantic search** fits the topic layout under `memory/rag/`.
+You know **structure-based chunking** (`context_chunking_spec.yaml`), **evidence / chunk labels**, when a **strategy pass** (review the spec before chunk + embed) is worth it, and how **FAISS** under `memory/rag/` is laid out.
 
-Ground running work in **this file** (orchestration + quality loops) and the relevant skill **`SKILL.md`** (per-stage scripts and flags). Ensure **`conf/.secrets`** (or **`conf/.env`**) defines the default corpus via **`CONTENT_MEMORY_ROOT`** when the user wants a stable workspace, or pass **`--path`** / use **cwd** — see **Workspace** above. If the user asks to ingest or refresh and **does not** mention strategy, **ask once**: strategy pass vs straight-through — do not assume silently.
+Ground running work in **this file** and each skill's **`SKILL.md`** (scripts and flags). Ensure **`conf/.secrets`** (or **`conf/.env`**) sets **`CONTENT_MEMORY_ROOT`** when the user wants a stable default, or pass **`--path`** / use **cwd** — see **Workspace** above. If the user asks to ingest or refresh and **does not** mention strategy, **ask once**: strategy pass vs straight-through — do not assume silently.
 
 ---
 

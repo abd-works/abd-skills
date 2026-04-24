@@ -7,9 +7,15 @@ import argparse
 import html as html_mod
 import os
 import re
+import sys
 import textwrap
 from pathlib import Path
 from typing import NamedTuple
+
+_EXECUTE_RULES_SCRIPTS = Path(__file__).resolve().parent.parent.parent / "execute_using_rules" / "scripts"
+if str(_EXECUTE_RULES_SCRIPTS) not in sys.path:
+    sys.path.insert(0, str(_EXECUTE_RULES_SCRIPTS))
+import frontmatter_tags  # noqa: E402
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 SKILL_ROOT = SCRIPT_DIR.parent
@@ -45,6 +51,11 @@ def _parse_frontmatter(text: str) -> dict[str, str]:
         key = lm.group(1)
         if key not in fields:
             fields[key] = lm.group(2).strip().strip('"').strip("'")
+    tags_ordered = frontmatter_tags.ordered_tags_from_frontmatter_block(block)
+    if tags_ordered:
+        fields["tags"] = tags_ordered
+    elif fields.get("tags"):
+        fields["tags"] = frontmatter_tags.normalize_tags_scalar(fields["tags"])
     return fields
 
 
@@ -129,6 +140,10 @@ def _derive_challenge(body: str) -> str:
 
 
 def _derive_solution(fm: dict[str, str], body: str) -> str:
+    one = (fm.get("catalogue_one_liner") or "").strip()
+    if one and one != "---":
+        clean = _strip_md(one)
+        return _truncate(clean, 250)
     desc = fm.get("description", "")
     if desc:
         clean = _strip_md(desc)

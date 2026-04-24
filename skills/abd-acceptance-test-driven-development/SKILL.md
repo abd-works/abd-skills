@@ -1,5 +1,9 @@
 ﻿---
 name: abd-acceptance-test-driven-development
+catalog_garden_tier: practice
+catalog_garden_order: 50
+catalogue_one_liner: >-
+  Tests first, then code: executable acceptance tests from scenarios, AC, or notes (RED-GREEN-REFACTOR).
 description: >-
   Write tests first, then drive code to pass them. Creates executable test files in
   the target language and framework from any behavioral context — spec-by-example

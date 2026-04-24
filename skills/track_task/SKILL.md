@@ -1,5 +1,8 @@
 ---
 name: track-task
+catalog_garden_tier: foundational
+catalogue_one_liner: >-
+  Checkbox markdown task lists for pipelines or ad-hoc steps under the engagement workspace.
 description: Track multi-step work with markdown checkboxes (- [ ] / - [x]) for any skill or agent—pipeline phases, per-phase steps, or ad-hoc lists—under the engagement workspace, without editing normative skill sources.
 ---
 

@@ -1,31 +1,33 @@
 ---
-catalogue_summary: "Orchestrate convert → chunk → embed → search by coordinating this agent's skills. Decide when each stage runs, whether to use a strategy pass (review context_chunking_spec.yaml before chunk + embed) or straight-through, and hold cross-stage quality (real headings before chunking, sane splits after …"
+catalogue_summary: >-
+  Source docs to Markdown, then labeled chunks in memory/, then FAISS vectors and
+  semantic search. Optional: review context_chunking_spec.yaml before chunk+embed.
 ---
 
 # abd-context-to-memory
 
 ## Overview
 
-Orchestrate convert → chunk → embed → search by coordinating this agent's skills. Decide when each stage runs, whether to use a strategy pass (review context_chunking_spec.yaml before chunk + embed) or straight-through, and hold cross-stage quality (real headings before chunking, sane splits after chunking).
+**Pipeline:** source documents → **Markdown** (`markdown/`) → **chunking spec** + **chunks** (`memory/`) → **embed** (`memory/rag/`, FAISS) → **search**. You can stop after drafting the spec to tune chunk boundaries (**strategy pass**) or run end-to-end in one go.
 
-Per-stage procedures: *skills/abd-/SKILL.md and each skill's references/**.
-
----
-
-_Maintainer / AI: replace this stub with a concise catalogue description (not a dump of `AGENTS.md`). Cover: what the agent does, why it exists, main steps (high-level sequence only), and which other agents and skills it works with (names/paths). Operational rules and long workflows stay in `AGENTS.md`. If the README is wrong or thin, rewrite the file after reading that entry doc — the generator never overwrites an existing README._
+Stage commands and flags: **`skills/abd-*/SKILL.md`** and each skill's **`references/`**. Behaviour and checklists: build **`AGENTS.md`** from **`content/`** (`python scripts/build.py`).
 
 ## How it fits together
-
-_Put one ASCII diagram in the fenced block below (orchestration, roles, skills you load, workspace artifacts)._
 
 ```ascii
 source docs / assets
            |
            v
-  convert / chunk -----> markdown mirror -----> embed / index (when wired)
+     Markdown (markdown/)
+           |
+           v
+  chunking spec + chunks (memory/)
+           |
+           v
+     FAISS index + search (memory/rag/)
 ```
 
 ## Source
 
-- [AGENTS.md](AGENTS.md)
-- Regenerated site: `python skills/abd-skill-catalog/scripts/generate_abd_catalog.py` from repo root.
+- [AGENTS.md](AGENTS.md) (generated from `content/`)
+- Regenerate catalogue: `python skills/abd-skill-catalog/scripts/generate_abd_catalog.py` from repo root.

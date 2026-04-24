@@ -1,5 +1,9 @@
 ---
 name: abd-clean-code
+catalog_garden_tier: practice
+catalog_garden_order: 60
+catalogue_one_liner: >-
+  Production code that matches story behavior: clean structure, domain language, scanner-backed quality bars (Python/JS).
 description: >-
   Write production code that implements story behavior using domain language,
   clean functions, explicit dependencies, and observable design. This skill

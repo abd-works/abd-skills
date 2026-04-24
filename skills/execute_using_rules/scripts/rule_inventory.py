@@ -8,24 +8,29 @@ import re
 import sys
 from pathlib import Path
 
+import frontmatter_tags
+
 
 def parse_frontmatter(content: str) -> dict[str, str]:
     match = re.search(r"^---\s*\n(.*?)\n---", content, re.DOTALL)
     if not match:
         return {}
+    block = match.group(1)
     result: dict[str, str] = {}
-    for line in match.group(1).split("\n"):
+    for line in block.split("\n"):
         if ":" in line:
             k, v = line.split(":", 1)
             result[k.strip().lower()] = v.strip()
+    tags_ordered = frontmatter_tags.ordered_tags_from_frontmatter_block(block)
+    if tags_ordered:
+        result["tags"] = tags_ordered
+    elif result.get("tags"):
+        result["tags"] = frontmatter_tags.normalize_tags_scalar(result["tags"])
     return result
 
 
 def tags_contain(tags_val: str, tag: str) -> bool:
-    if not tags_val:
-        return False
-    s = tags_val.strip("[]")
-    return tag.lower() in [t.strip().lower() for t in s.split(",")]
+    return frontmatter_tags.tags_contain(tags_val, tag)
 
 
 def print_rules_table(rules_dir: Path, filter_tag: str | None) -> None:

@@ -1,5 +1,9 @@
 ---
 name: abd-specification-by-example
+catalog_garden_tier: practice
+catalog_garden_order: 40
+catalogue_one_liner: >-
+  Given/When/Then scenarios with real domain values; plain or outline (data tables) templates.
 description: >-
   Produce specification-by-example scenarios: concrete Given/When/Then steps with real
   domain values, bold concept names, italic values. Two templates: plain scenarios

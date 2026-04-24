@@ -1,5 +1,8 @@
 ---
 name: drawio-story-sync
+catalog_garden_tier: foundational
+catalogue_one_liner: >-
+  story-graph.json to Draw.io story maps; validated load/save and diagram sync.
 description: >-
   Render and synchronize story-map DrawIO diagrams (outline, exploration with acceptance
   criteria, prioritization increments) from story-graph.json. Uses **story-graph-ops**

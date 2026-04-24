@@ -5,12 +5,19 @@ from __future__ import annotations
 
 import argparse
 import html as html_mod
+import json
 import re
 import shutil
+import sys
 import textwrap
 from pathlib import Path
 from typing import NamedTuple
 from urllib.parse import quote
+
+_EXECUTE_RULES_SCRIPTS = Path(__file__).resolve().parent.parent.parent / "execute_using_rules" / "scripts"
+if str(_EXECUTE_RULES_SCRIPTS) not in sys.path:
+    sys.path.insert(0, str(_EXECUTE_RULES_SCRIPTS))
+import frontmatter_tags  # noqa: E402
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 SKILL_DIR = SCRIPT_DIR.parent
@@ -46,8 +53,8 @@ _REPO_LINK_NEW_TAB = ' target="_blank" rel="noopener noreferrer"'
 
 # Max nesting depth for folder trees on detail pages (prevents huge trees).
 _FILE_TREE_MAX_DEPTH = 8
-# <details open> for folder depth 0..N so nested agent skills show files by default (still collapsible).
-_FILE_TREE_DEFAULT_EXPAND_DEPTH = 2
+# <details open> only when depth <= this value. -1 = all folders start collapsed (match skill doc sections).
+_FILE_TREE_DEFAULT_EXPAND_DEPTH = -1
 
 
 class SkillEntry(NamedTuple):
@@ -56,6 +63,9 @@ class SkillEntry(NamedTuple):
     summary: str
     description: str
     rel_skill_md: str
+    # catalogue “Agile Garden” lists: practice | foundational | "" (omit)
+    garden_tier: str
+    garden_order: int
 
 
 class AgentEntry(NamedTuple):
@@ -65,6 +75,8 @@ class AgentEntry(NamedTuple):
     summary: str
     description: str
     rel_entry_md: str
+    garden_include: bool
+    garden_order: int
 
 
 def _parse_frontmatter(text: str) -> dict[str, str]:
@@ -79,6 +91,11 @@ def _parse_frontmatter(text: str) -> dict[str, str]:
         key = lm.group(1)
         if key not in fields:
             fields[key] = lm.group(2).strip().strip('"').strip("'")
+    tags_ordered = frontmatter_tags.ordered_tags_from_frontmatter_block(block)
+    if tags_ordered:
+        fields["tags"] = tags_ordered
+    elif fields.get("tags"):
+        fields["tags"] = frontmatter_tags.normalize_tags_scalar(fields["tags"])
     return fields
 
 
@@ -174,7 +191,11 @@ def _intro_after_h1_until_section(body: str, max_len: int = 2000) -> str:
 
 
 def _table_blurb(fm: dict[str, str], body: str, max_len: int = 300) -> str:
-    """One paragraph for summary tables and HTML cards: YAML description, else Purpose, else opening text."""
+    """One paragraph for summary tables and HTML cards: short one-liner, else description, else Purpose, …"""
+    one = (fm.get("catalogue_one_liner") or "").strip()
+    if one and one != "---":
+        flat = _strip_md(" ".join(one.split()))
+        return _truncate(flat, max_len)
     desc = fm.get("description", "").strip()
     if desc and desc != "---":
         flat = _strip_md(" ".join(desc.split()))
@@ -199,17 +220,6 @@ def _description_skill(fm: dict[str, str], body: str) -> str:
     return _truncate(_strip_md(body), 500)
 
 
-def _agent_display_name(fm: dict[str, str], body: str, dir_name: str) -> str:
-    n = fm.get("name", "").strip()
-    if n:
-        return n
-    h1 = _h1_title(body)
-    if h1:
-        h1 = re.sub(r"^AGENTS\s+—\s*", "", h1, flags=re.IGNORECASE).strip()
-        return h1 or dir_name
-    return dir_name
-
-
 def _description_agent(fm: dict[str, str], body: str) -> str:
     purpose = _extract_section(body, "Purpose")
     if purpose:
@@ -220,6 +230,41 @@ def _description_agent(fm: dict[str, str], body: str) -> str:
     return _truncate(_strip_md(body), 800)
 
 
+def _norm_catalog_garden_tier(raw: str) -> str:
+    v = (raw or "").strip().lower()
+    return v if v in ("practice", "foundational") else ""
+
+
+def _catalog_garden_order(fm: dict[str, str]) -> int:
+    raw = (fm.get("catalog_garden_order") or "").strip()
+    if raw.isdigit():
+        return int(raw)
+    return 999
+
+
+def _catalog_listing_excluded(package_dir: Path, fm: dict[str, str]) -> bool:
+    """True if this skill/agent package must not appear in hub, outline, grids, or detail pages."""
+    raw = (fm.get("catalog_ready") or "").strip().lower()
+    if raw in ("false", "no", "0", "draft", "not-ready", "not_ready"):
+        return True
+    for t in frontmatter_tags.parse_tags_list(fm.get("tags", "")):
+        n = t.strip().lower().replace("_", "-")
+        if n in ("not-ready", "wip", "draft", "hidden"):
+            return True
+    cfg_path = package_dir / "skill-config.json"
+    if cfg_path.is_file():
+        try:
+            data = json.loads(cfg_path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError, TypeError):
+            data = {}
+        v = data.get("catalog_ready")
+        if v is False:
+            return True
+        if isinstance(v, str) and v.strip().lower() in ("false", "no", "0", "draft", "not-ready", "not_ready"):
+            return True
+    return False
+
+
 def discover_skills(skills_dir: Path, repo_root: Path) -> list[SkillEntry]:
     out: list[SkillEntry] = []
     for child in sorted(skills_dir.iterdir()):
@@ -228,13 +273,16 @@ def discover_skills(skills_dir: Path, repo_root: Path) -> list[SkillEntry]:
         skill_md = child / "SKILL.md"
         if not skill_md.exists():
             continue
-        text = skill_md.read_text(encoding="utf-8", errors="replace")
+        text = skill_md.read_text(encoding="utf-8-sig", errors="replace")
         fm = _parse_frontmatter(text)
         body = FRONTMATTER_RE.sub("", text).strip()
+        if _catalog_listing_excluded(child, fm):
+            continue
         name = fm.get("name", child.name)
         rel = skill_md.relative_to(repo_root).as_posix()
         summary = _table_blurb(fm, body)
-        summary = _readme_catalogue_card_summary(child / "README.md", summary)
+        summary = _readme_catalogue_card_summary(child / "README.md", summary, fm)
+        tier = _norm_catalog_garden_tier(fm.get("catalog_garden_tier", ""))
         out.append(
             SkillEntry(
                 name=name,
@@ -242,9 +290,16 @@ def discover_skills(skills_dir: Path, repo_root: Path) -> list[SkillEntry]:
                 summary=summary,
                 description=_description_skill(fm, body),
                 rel_skill_md=rel,
+                garden_tier=tier,
+                garden_order=_catalog_garden_order(fm),
             )
         )
     return out
+
+
+def _agent_catalog_garden_include(fm: dict[str, str]) -> bool:
+    v = (fm.get("catalog_garden") or "true").strip().lower()
+    return v not in ("false", "no", "0")
 
 
 def discover_agents(agents_dir: Path, repo_root: Path) -> list[AgentEntry]:
@@ -257,16 +312,19 @@ def discover_agents(agents_dir: Path, repo_root: Path) -> list[AgentEntry]:
             p = child / fname
             if p.exists():
                 entry_name = fname
-                text = p.read_text(encoding="utf-8", errors="replace")
+                text = p.read_text(encoding="utf-8-sig", errors="replace")
                 break
         if not entry_name:
             continue
         fm = _parse_frontmatter(text)
         body = FRONTMATTER_RE.sub("", text).strip()
-        name = _agent_display_name(fm, body, child.name)
+        if _catalog_listing_excluded(child, fm):
+            continue
+        # Catalogue titles use package id (kebab-case folder name), not H1 display names.
+        name = child.name
         rel = (child / entry_name).relative_to(repo_root).as_posix()
         summary = _table_blurb(fm, body)
-        summary = _readme_catalogue_card_summary(child / "README.md", summary)
+        summary = _readme_catalogue_card_summary(child / "README.md", summary, fm)
         out.append(
             AgentEntry(
                 name=name,
@@ -275,6 +333,8 @@ def discover_agents(agents_dir: Path, repo_root: Path) -> list[AgentEntry]:
                 summary=summary,
                 description=_description_agent(fm, body),
                 rel_entry_md=rel,
+                garden_include=_agent_catalog_garden_include(fm),
+                garden_order=_catalog_garden_order(fm),
             )
         )
     return out
@@ -638,6 +698,76 @@ def _markdown_rule_to_html(text: str) -> str:
     return "\n".join(out) if out else "<p>(empty)</p>"
 
 
+def _split_markdown_at_h2(body: str) -> list[tuple[str | None, str]]:
+    """Split Markdown into (h2 title or None for preamble, section text without the ## line)."""
+    body = body.replace("\r\n", "\n").replace("\r", "\n")
+    lines = body.split("\n")
+    out: list[tuple[str | None, str]] = []
+    cur_title: str | None = None
+    buf: list[str] = []
+
+    def flush() -> None:
+        nonlocal cur_title, buf
+        text = "\n".join(buf).strip()
+        if cur_title is not None:
+            out.append((cur_title, text))
+        elif text:
+            out.append((None, text))
+        cur_title = None
+        buf.clear()
+
+    for line in lines:
+        if line.startswith("## ") and not line.startswith("###"):
+            flush()
+            cur_title = line[3:].strip()
+        else:
+            buf.append(line)
+    flush()
+    return out
+
+
+def _chunk_is_only_solitary_h1(chunk: str) -> bool:
+    lines = [ln.strip() for ln in chunk.strip().split("\n") if ln.strip()]
+    return len(lines) == 1 and lines[0].startswith("# ") and not lines[0].startswith("##")
+
+
+def _heading_slug_for_id(title: str, used: dict[str, int]) -> str:
+    base = re.sub(r"[^a-z0-9]+", "-", _strip_md(title).lower()).strip("-") or "section"
+    c = used.get(base, 0) + 1
+    used[base] = c
+    return base if c == 1 else f"{base}-{c}"
+
+
+def _html_package_md_collapsible_sections(body: str) -> str:
+    """Each top-level ## section (plus optional preamble) → <details> closed by default."""
+    if not body.strip():
+        return '<p class="entry-caption">(empty document)</p>'
+    sections = _split_markdown_at_h2(body)
+    parts: list[str] = []
+    used_slugs: dict[str, int] = {}
+    overview_used = False
+    for title, chunk in sections:
+        if title is not None and not chunk.strip():
+            continue
+        if title is None and _chunk_is_only_solitary_h1(chunk):
+            continue
+        if title is None:
+            summary_plain = "Overview"
+            sid = "md-overview" if not overview_used else "md-overview-2"
+            overview_used = True
+        else:
+            summary_plain = _strip_md(title)
+            sid = _heading_slug_for_id(title, used_slugs)
+        inner = _markdown_rule_to_html(chunk)
+        parts.append(
+            f'<details class="entry-md-section" id="{_h(sid)}">'
+            f'<summary class="entry-md-section__summary">{_h(summary_plain)}</summary>'
+            f'<div class="entry-md-section__body">{inner}</div>'
+            f"</details>"
+        )
+    return "\n".join(parts) if parts else '<p class="entry-caption">(no sections)</p>'
+
+
 def write_package_markdown_pages(
     output_catalog_dir: Path,
     repo_root: Path,
@@ -771,8 +901,14 @@ def _escape_yaml_double_quoted_scalar(s: str) -> str:
     return one.replace("\\", "\\\\").replace('"', '\\"')
 
 
-def _readme_catalogue_card_summary(readme_path: Path, fallback: str) -> str:
-    """One line for grids: YAML catalogue_summary, else first Overview paragraph, else fallback."""
+def _readme_catalogue_card_summary(
+    readme_path: Path, fallback: str, skill_fm: dict[str, str] | None = None
+) -> str:
+    """Card one-liner: SKILL ``catalogue_one_liner`` wins; else README summary / Overview; else fallback."""
+    if skill_fm is not None:
+        one = (skill_fm.get("catalogue_one_liner") or "").strip()
+        if one and one != "---":
+            return fallback
     if not readme_path.is_file():
         return fallback
     fm, body = _load_readme_markdown(readme_path)
@@ -1229,7 +1365,7 @@ def write_entry_detail_pages(
 
     for s in skills:
         pkg = repo_root / "skills" / s.dir_name
-        fm, body, _ = _load_package_source(pkg, "skill")
+        fm, body, src_fname = _load_package_source(pkg, "skill")
         readme_path = pkg / "README.md"
         parsed = _parse_catalog_readme_detail(readme_path)
         if parsed:
@@ -1247,6 +1383,11 @@ def write_entry_detail_pages(
         how_block = _html_how_it_fits_block(ascii_art)
         file_list = _html_contents_list(repo_root, pkg, href_to_repo)
         install_block = _npx_skills_install_block(s.name)
+        entry_md = (
+            _html_package_md_collapsible_sections(body)
+            if body.strip()
+            else f'<p class="entry-caption">(no body in {_h(src_fname)})</p>'
+        )
         html = (
             detail_tpl.replace("{{CSS}}", detail_css)
             .replace("{{TITLE}}", _h(f"ABD catalogue — skill · {s.name}"))
@@ -1263,13 +1404,14 @@ def write_entry_detail_pages(
             .replace("{{DESCRIPTION}}", desc_html)
             .replace("{{INSTALL_BLOCK}}", install_block)
             .replace("{{HOW_IT_FITS_BLOCK}}", how_block)
+            .replace("{{ENTRY_MD_COLLAPSIBLE}}", entry_md)
             .replace("{{FILE_LIST}}", file_list)
         )
         (skill_out / f"{s.dir_name}.html").write_text(html, encoding="utf-8")
 
     for a in agents:
         pkg = repo_root / "agents" / a.dir_name
-        fm, body, _ = _load_package_source(pkg, "agent")
+        fm, body, src_fname = _load_package_source(pkg, "agent")
         readme_path = pkg / "README.md"
         parsed = _parse_catalog_readme_detail(readme_path)
         if parsed:
@@ -1286,6 +1428,11 @@ def write_entry_detail_pages(
             ascii_art = _ascii_placeholder_no_readme()
         how_block = _html_how_it_fits_block(ascii_art)
         file_list = _html_contents_list(repo_root, pkg, href_to_repo)
+        entry_md = (
+            _html_package_md_collapsible_sections(body)
+            if body.strip()
+            else f'<p class="entry-caption">(no body in {_h(src_fname)})</p>'
+        )
         html = (
             detail_tpl.replace("{{CSS}}", detail_css)
             .replace("{{TITLE}}", _h(f"ABD catalogue — agent · {a.name}"))
@@ -1302,6 +1449,7 @@ def write_entry_detail_pages(
             .replace("{{DESCRIPTION}}", desc_html)
             .replace("{{INSTALL_BLOCK}}", "")
             .replace("{{HOW_IT_FITS_BLOCK}}", how_block)
+            .replace("{{ENTRY_MD_COLLAPSIBLE}}", entry_md)
             .replace("{{FILE_LIST}}", file_list)
         )
         (agent_out / f"{a.dir_name}.html").write_text(html, encoding="utf-8")
@@ -1445,6 +1593,190 @@ def _load_intro_fragment(filename: str, default: str) -> str:
     return default
 
 
+def _abd_works_agile_garden_fragment_css(repo_root: Path) -> str:
+    """Shared CSS for prelude block (same file linked from gardener lesson). Prepended to catalog.css."""
+    p = repo_root.parent / "abd-works" / "commons" / "agile-garden-fragment.css"
+    if not p.is_file():
+        return ""
+    return p.read_text(encoding="utf-8").strip() + "\n\n"
+
+
+GARDEN_PRELUDE_TAGLINE = (
+    "The ABD AI Garden is ABD's area to share agents and skills that remove toil from our work and "
+    "our clients' work. Browse it like a curriculum—each entry is a skill you can run with an agent."
+)
+
+# Practice-tier placeholders (no skill package yet); listed after real practice entries.
+GARDEN_PRACTICE_STUB_ROWS: tuple[tuple[str, str], ...] = (
+    ("· impact-mapping", "Coming soon — Lesson 1 exercise"),
+    ("· cost-of-delay", "Coming soon"),
+    ("· relative-sizing", "Coming soon"),
+)
+
+
+def _agile_garden_skill_href(dir_name: str) -> str:
+    return f"skill/{quote(dir_name, safe='')}.html"
+
+
+def _agile_garden_agent_href(dir_name: str) -> str:
+    return f"agent/{quote(dir_name, safe='')}.html"
+
+
+def _html_agile_garden_mission_block() -> str:
+    return (
+        '  <h2 class="catalog-prelude-heading" id="mission">Mission</h2>\n'
+        '  <div class="catalog-mission">\n'
+        '    <div class="catalog-mission-card catalog-mission-card--teal">\n'
+        "      <h3>Agents, Skills &amp; Apps</h3>\n"
+        "      <p>Build specialised agents backed by ABD practice skills. Automate the toil, amplify "
+        "the thinking. Each skill encodes years of practice knowledge.</p>\n"
+        "    </div>\n"
+        '    <div class="catalog-mission-card catalog-mission-card--amber">\n'
+        "      <h3>Learning Internally</h3>\n"
+        "      <p>Every skill we build is a lesson. Every lesson becomes a skill. Recursive learning by "
+        "design — the curriculum IS the skill garden.</p>\n"
+        "    </div>\n"
+        '    <div class="catalog-mission-card catalog-mission-card--purple">\n'
+        "      <h3>Eminence by Showcasing</h3>\n"
+        "      <p>We want our thought leadership to be ready for anyone to use, living in agentic "
+        "capability — not just slide decks.</p>\n"
+        "    </div>\n"
+        "  </div>\n"
+    )
+
+
+def _html_agile_garden_skill_row(s: SkillEntry, *, foundational: bool = False) -> str:
+    href = _agile_garden_skill_href(s.dir_name)
+    name_cls = (
+        "catalog-garden-name catalog-garden-name--foundational"
+        if foundational
+        else "catalog-garden-name"
+    )
+    return (
+        f'      <div class="catalog-garden-row"><span class="{name_cls}">'
+        f'<a href="{href}">{_h(s.name)}</a></span>'
+        f'<span class="catalog-garden-desc">{_h(s.summary)}</span></div>\n'
+    )
+
+
+def _html_agile_garden_agent_row(a: AgentEntry) -> str:
+    href = _agile_garden_agent_href(a.dir_name)
+    return (
+        f'      <div class="catalog-garden-row"><span class="catalog-garden-name catalog-garden-name--agent">'
+        f'<a href="{href}">{_h(a.name)}</a></span>'
+        f'<span class="catalog-garden-desc">{_h(a.summary)}</span></div>\n'
+    )
+
+
+def _html_agile_garden_stub_row(label: str, desc: str) -> str:
+    return (
+        f'      <div class="catalog-garden-row"><span class="catalog-garden-name catalog-garden-name--dim">'
+        f"{_h(label)}</span>"
+        f'<span class="catalog-garden-desc catalog-garden-desc--muted">{_h(desc)}</span></div>\n'
+    )
+
+
+def build_agile_garden_prelude_html(
+    skills: list[SkillEntry],
+    agents: list[AgentEntry],
+    *,
+    include_title_block: bool = True,
+) -> str:
+    practice = sorted(
+        [s for s in skills if s.garden_tier == "practice"],
+        key=lambda s: (s.garden_order, s.name.lower()),
+    )
+    foundational = sorted(
+        [s for s in skills if s.garden_tier == "foundational"],
+        key=lambda s: (s.garden_order, s.name.lower()),
+    )
+    agents_show = sorted(
+        [a for a in agents if a.garden_include],
+        key=lambda a: (a.garden_order, a.name.lower()),
+    )
+
+    rows_p = "".join(_html_agile_garden_skill_row(s) for s in practice)
+    for label, desc in GARDEN_PRACTICE_STUB_ROWS:
+        rows_p += _html_agile_garden_stub_row(label, desc)
+    rows_f = "".join(_html_agile_garden_skill_row(s, foundational=True) for s in foundational)
+    rows_a = "".join(_html_agile_garden_agent_row(a) for a in agents_show)
+
+    mission = _html_agile_garden_mission_block()
+    if include_title_block:
+        aria = ' aria-labelledby="catalog-agile-garden-h2"'
+        title_block = (
+            '  <h2 class="catalog-prelude-heading" id="catalog-agile-garden-h2">'
+            "The ABD AI Garden</h2>\n"
+            f'  <p class="catalog-prelude-tagline">{_h(GARDEN_PRELUDE_TAGLINE)}</p>\n'
+        )
+    else:
+        aria = ' aria-label="The ABD AI Garden"'
+        title_block = ""
+    return (
+        f'<section class="catalog-prelude" id="agile-garden"{aria}>\n'
+        f"{title_block}"
+        f"{mission}"
+        '  <div class="catalog-garden-lists">\n'
+        '  <div class="catalog-garden-grid">\n'
+        '    <div class="catalog-garden-col">\n'
+        '      <div class="catalog-garden-col-header catalog-garden-col-header--practice">\n'
+        '        <img class="catalog-garden-ico" src="../commons/images/icon-garden-practice.svg" width="22" '
+        'height="22" alt="" aria-hidden="true" />\n'
+        "        <span>Practice Skills — What We Do</span>\n"
+        "      </div>\n"
+        f"{rows_p}"
+        "    </div>\n"
+        '    <div class="catalog-garden-col">\n'
+        '      <div class="catalog-garden-col-header catalog-garden-col-header--foundational">\n'
+        '        <img class="catalog-garden-ico" src="../commons/images/icon-garden-foundational.svg" width="22" '
+        'height="22" alt="" aria-hidden="true" />\n'
+        "        <span>Foundational Skills — Enhance the Way Skills Run</span>\n"
+        "      </div>\n"
+        f"{rows_f}"
+        "    </div>\n"
+        "  </div>\n"
+        '  <div class="catalog-garden-agents-wrap">\n'
+        '    <div class="catalog-garden-col catalog-garden-col--agents">\n'
+        '      <div class="catalog-garden-col-header catalog-garden-col-header--agents">\n'
+        "        <span>Agents — Teammates &amp; specialists</span>\n"
+        "      </div>\n"
+        f"{rows_a}"
+        "    </div>\n"
+        "  </div>\n"
+        "  </div>\n"
+        "</section>\n"
+    )
+
+
+def _abd_works_agile_garden_prelude_write_path(repo_root: Path) -> Path:
+    return (
+        repo_root.parent
+        / "abd-works"
+        / "abd-ai-gardener-training"
+        / "context"
+        / "fragments"
+        / "agile-garden-catalog-prelude.html"
+    )
+
+
+def write_agile_garden_prelude_fragment(repo_root: Path, section_html: str) -> None:
+    """Emit fragment for gardener lesson (see abd-works/scripts/sync-agile-garden-into-lesson.py)."""
+    p = _abd_works_agile_garden_prelude_write_path(repo_root)
+    header = (
+        "<!--\n"
+        "  AUTO-GENERATED by generate_abd_catalog.py — do not edit by hand.\n"
+        "  Skills: catalog_garden_tier: practice | foundational in skills/*/SKILL.md\n"
+        "  Optional: catalog_garden_order: <int> for sort order within a column.\n"
+        "  Agents: catalog_garden: false to omit from this list (default: include).\n"
+        "-->\n"
+    )
+    try:
+        if p.parent.is_dir():
+            p.write_text(header + section_html, encoding="utf-8")
+    except OSError:
+        pass
+
+
 def _hub_intro_for_single_page_index(hub_intro: str) -> str:
     """Same copy as multi-page hub, but jump to in-page sections instead of skills.html / agents.html."""
     return (
@@ -1488,7 +1820,7 @@ def write_html_pages(
         up_to_repo = "./"
     idx_tpl = _load_template("page-catalog.html")
     idx_single_tpl = _load_template("page-catalog-index.html")
-    css = _load_template("catalog.css")
+    css = _abd_works_agile_garden_fragment_css(repo_root) + _load_template("catalog.css")
     detail_tpl = _load_template("page-entry-detail.html")
 
     def fill(
@@ -1568,15 +1900,20 @@ def write_html_pages(
             ),
         ]
     )
+    write_agile_garden_prelude_fragment(
+        repo_root,
+        build_agile_garden_prelude_html(skills, agents, include_title_block=True),
+    )
+    garden_for_index = build_agile_garden_prelude_html(
+        skills, agents, include_title_block=False
+    )
+    index_sections = f"{garden_for_index}\n\n{index_sections}"
     index_html = (
         idx_single_tpl.replace("{{CSS}}", css)
-        .replace("{{TITLE}}", "ABD catalogue — Skills &amp; agents")
+        .replace("{{TITLE}}", "ABD catalogue — The ABD AI Garden")
         .replace("{{BRAND}}", brand)
-        .replace("{{H1}}", "Skills &amp; agents catalogue")
-        .replace(
-            "{{TAGLINE}}",
-            "One page: hub, skills, and agents. Expand each section below.",
-        )
+        .replace("{{H1}}", "The ABD AI Garden")
+        .replace("{{TAGLINE}}", _h(GARDEN_PRELUDE_TAGLINE))
         .replace("{{BODY_INNER}}", index_sections)
     )
     (output_catalog_dir / "index.html").write_text(index_html, encoding="utf-8")
@@ -1671,7 +2008,12 @@ def main() -> None:
     )
     print(f"  wrote {outline_path}")
 
-    n_sk_detail, n_ag_detail, n_md_pages = write_html_pages(output_dir, repo_root, skills, agents)
+    n_sk_detail, n_ag_detail, n_md_pages = write_html_pages(
+        output_dir,
+        repo_root,
+        skills,
+        agents,
+    )
     print(f"  wrote {output_dir / 'index.html'}")
     print(f"  wrote {output_dir / 'skills.html'}")
     print(f"  wrote {output_dir / 'agents.html'}")

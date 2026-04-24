@@ -1,5 +1,8 @@
 ---
 name: abd-commit-msg
+catalog_garden_tier: foundational
+catalogue_one_liner: >-
+  Commit messages from scope and changed files; no story_graph (/commit and similar).
 description: Generate meaningful commit messages from scope and changed files. No story_graph — scope from conversation, changed files, and persisted state. Use when user types /commit or requests a commit.
 license: MIT
 metadata:

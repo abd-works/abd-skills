@@ -1,5 +1,9 @@
 ---
 name: abd-acceptance-criteria
+catalog_garden_tier: practice
+catalog_garden_order: 30
+catalogue_one_liner: >-
+  WHEN/THEN acceptance criteria for story-graph.json; ships rules and scanners for execute_rules.
 description: >-
   Teaches exploration-phase acceptance criteria for story-graph.json: WHEN/THEN/AND/BUT,
   behavioral language, per-story domain terms, atomic AC, actor alternation, channel-specific detail, and

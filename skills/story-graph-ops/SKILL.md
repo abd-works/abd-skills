@@ -1,5 +1,8 @@
 ---
 name: story-graph-ops
+catalog_garden_tier: foundational
+catalogue_one_liner: >-
+  CRUD story-graph.json via CLI/scripts, validate, persist; no hand-written JSON drift.
 description: >-
   Create, read, update, and delete story-graph.json (whole file or parts—epics, sub-epics,
   stories, AC, scenarios) as a **standalone artifact**—no host app required. **Agents must complete

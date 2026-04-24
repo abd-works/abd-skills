@@ -1,5 +1,7 @@
 ---
 name: abd-ooad
+catalogue_one_liner: >-
+  Turn specs, manuals, or messy sources into OO domain models (scan → extract → refine) with Draw.io.
 description: >-
   **Object-Oriented Analysis and Design (OOAD) from raw material.** Use this skill whenever you're working with specifications, game manuals, policy docs, messy code, or rule books that need to be modeled as object-oriented domain models. Agile by Design methodology: Steps 0–2 (Domain Scan, Extraction, Refinement) with built-in Draw.io diagram generation via scripts/drawio_cli.py. ALWAYS use this skill when a user provides domain material and asks you to extract domain concepts, build class diagrams, identify responsibilities, or create object models. Create domain-scan-model.md and domain-scan-model.drawio files in the project workspace.
 license: MIT

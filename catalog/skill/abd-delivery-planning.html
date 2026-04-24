@@ -5,6 +5,232 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ABD catalogue — skill · abd-delivery-planning</title>
 <style>
+/*
+  Single source for Agile Garden block: catalog prelude + mission row + two-column lists.
+  Inlined into abd-skills-catalog via generate_abd_catalog.py; linked from abd-ai-gardener-training lesson.
+*/
+.catalog-prelude {
+  margin: 0 0 24px;
+  padding: 0 0 20px;
+  border-bottom: 1px solid var(--border-muted);
+  background: linear-gradient(180deg, rgba(255, 122, 0, 0.04) 0%, transparent 32%);
+}
+.catalog-prelude-heading {
+  margin: 0 0 12px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.25;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+  scroll-margin-top: 48px;
+}
+.catalog-prelude-tagline {
+  margin: 0 0 14px;
+  max-width: 60rem;
+  font-size: 1rem;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+/* Mission row (matches gardener training look; class names scoped for catalog + lesson) */
+.catalog-mission {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin: 0 0 18px;
+  padding: 10px 4px 6px;
+  align-items: stretch;
+}
+.catalog-mission::before {
+  content: "";
+  position: absolute;
+  left: -6px;
+  right: -6px;
+  top: -6px;
+  height: 85%;
+  background:
+    radial-gradient(ellipse 70% 90% at 20% 0%, rgba(255, 147, 51, 0.14), transparent 58%),
+    radial-gradient(ellipse 55% 75% at 88% 12%, rgba(255, 122, 0, 0.11), transparent 55%),
+    radial-gradient(ellipse 45% 55% at 50% 30%, rgba(204, 98, 0, 0.07), transparent 52%);
+  pointer-events: none;
+  z-index: 0;
+}
+.catalog-mission > * { min-width: 0; position: relative; z-index: 1; }
+.catalog-mission-card {
+  background: linear-gradient(165deg, rgba(255, 122, 0, 0.08) 0%, var(--raised) 42%, #131312 100%);
+  border: 1px solid rgba(255, 122, 0, 0.16);
+  border-left: 3px solid var(--orange);
+  border-radius: var(--radius);
+  padding: 16px 16px 14px;
+  box-shadow:
+    0 6px 28px -12px rgba(255, 122, 0, 0.38),
+    0 0 0 1px rgba(255, 122, 0, 0.07),
+    inset 0 1px 0 rgba(255, 200, 150, 0.09);
+  height: 100%;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+.catalog-mission-card h3 {
+  flex-shrink: 0;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #ffb380;
+  margin: 0 0 6px;
+}
+.catalog-mission-card p {
+  flex: 1 1 auto;
+  margin: 0;
+  font-size: 0.88rem;
+  color: var(--muted);
+  line-height: 1.55;
+}
+.catalog-mission-card--teal {
+  border-left-color: #ff9333;
+  background: linear-gradient(165deg, rgba(255, 147, 51, 0.13) 0%, var(--raised) 45%, #12110f 100%);
+  border-color: rgba(255, 147, 51, 0.22);
+  box-shadow:
+    0 8px 32px -10px rgba(255, 147, 51, 0.45),
+    0 0 0 1px rgba(255, 147, 51, 0.1),
+    inset 0 1px 0 rgba(255, 210, 170, 0.1);
+}
+.catalog-mission-card--teal h3 { color: #ffccaa; }
+.catalog-mission-card--amber {
+  border-left-color: #ffb380;
+  background: linear-gradient(165deg, rgba(255, 190, 140, 0.1) 0%, var(--raised) 45%, #12110f 100%);
+  border-color: rgba(255, 190, 160, 0.2);
+  box-shadow:
+    0 8px 32px -10px rgba(255, 180, 120, 0.38),
+    0 0 0 1px rgba(255, 190, 160, 0.08),
+    inset 0 1px 0 rgba(255, 220, 190, 0.09);
+}
+.catalog-mission-card--amber h3 { color: #ffccaa; }
+.catalog-mission-card--purple {
+  border-left-color: #cc6200;
+  background: linear-gradient(165deg, rgba(204, 98, 0, 0.2) 0%, var(--raised) 48%, #14100d 100%);
+  border-color: rgba(204, 98, 0, 0.28);
+  box-shadow:
+    0 8px 32px -10px rgba(204, 98, 0, 0.42),
+    0 0 0 1px rgba(204, 98, 0, 0.09),
+    inset 0 1px 0 rgba(255, 160, 100, 0.08);
+}
+.catalog-mission-card--purple h3 { color: #d4854a; }
+@media (max-width: 720px) {
+  .catalog-mission { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 480px) {
+  .catalog-mission { grid-template-columns: 1fr; }
+}
+
+.catalog-garden-lists {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.catalog-garden-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 20px;
+  margin: 0 0 8px;
+}
+@media (max-width: 760px) {
+  .catalog-garden-grid { grid-template-columns: 1fr; }
+}
+.catalog-garden-agents-wrap {
+  margin-top: 8px;
+}
+.catalog-garden-col--agents {
+  margin-top: 0;
+}
+.catalog-garden-col-header--agents {
+  background: linear-gradient(90deg, rgba(255, 122, 0, 0.16) 0%, rgba(60, 28, 8, 0.2) 100%);
+  color: #ffccaa;
+  border-left: 3px solid #ff9333;
+}
+.catalog-garden-name--agent a {
+  color: #ffb380;
+}
+.catalog-garden-name--agent a:hover {
+  color: #ffccaa;
+}
+.catalog-garden-col {
+  background: linear-gradient(180deg, rgba(255, 122, 0, 0.06) 0%, var(--raised) 38%);
+  border: 1px solid rgba(255, 122, 0, 0.14);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow:
+    0 8px 32px -16px rgba(255, 122, 0, 0.2),
+    inset 0 1px 0 rgba(255, 200, 150, 0.05);
+}
+.catalog-garden-col-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--border);
+}
+.catalog-garden-col-header--practice {
+  background: linear-gradient(90deg, rgba(255, 122, 0, 0.22) 0%, rgba(255, 122, 0, 0.08) 100%);
+  color: #ffb380;
+  border-left: 3px solid var(--orange);
+}
+.catalog-garden-col-header--foundational {
+  background: linear-gradient(90deg, rgba(204, 98, 0, 0.24) 0%, rgba(120, 52, 18, 0.12) 100%);
+  color: #ffccaa;
+  border-left: 3px solid #cc6200;
+}
+.catalog-garden-ico { flex-shrink: 0; display: block; }
+.catalog-garden-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 16px;
+  border-bottom: 1px solid var(--border-muted);
+  font-size: 0.85rem;
+}
+.catalog-garden-row:last-child { border-bottom: none; }
+.catalog-garden-name {
+  font-weight: 600;
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+  color: var(--orange);
+  flex: 0 0 11.5rem;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+.catalog-garden-name a {
+  color: var(--orange);
+  text-decoration: underline;
+}
+.catalog-garden-name a:hover {
+  color: #ff9333;
+}
+.catalog-garden-name--foundational a {
+  color: #d4854a;
+}
+.catalog-garden-name--foundational a:hover {
+  color: #ffb380;
+}
+.catalog-garden-name--dim {
+  color: var(--muted);
+  opacity: 0.6;
+  font-weight: 600;
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+}
+.catalog-garden-desc {
+  color: var(--muted);
+  font-size: 0.82rem;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.catalog-garden-desc--muted { opacity: 0.5; }
+
 :root {
   --orange: #ff7a00;
   --bg: #09090b;
@@ -67,7 +293,7 @@ code {
 .brand { font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin: 0 0 4px; }
 .brand strong { color: var(--orange); }
 h1 { margin: 0; font-size: 2rem; font-weight: 700; line-height: 1.15; }
-.tagline { margin: 8px 0 0; font-size: 1.05rem; color: var(--muted); max-width: 52rem; }
+.tagline { margin: 8px 0 0; font-size: 1.05rem; color: var(--muted); max-width: 52rem; line-height: 1.55; }
 .panel-body { padding: 28px 22px 36px; }
 p { margin: 0 0 14px; }
 h2 {
@@ -186,6 +412,86 @@ h2:first-child { margin-top: 0; }
   border-top: 1px solid var(--border);
   margin: 26px 0;
 }
+.entry-contents-doc {
+  margin: 0 0 8px;
+}
+.entry-contents-files {
+  margin: 0;
+}
+.entry-md-section {
+  border: 1px solid var(--border-muted);
+  border-radius: var(--radius);
+  margin: 0 0 10px;
+  background: rgba(0, 0, 0, 0.14);
+}
+.entry-md-section > summary.entry-md-section__summary {
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.98rem;
+  padding: 12px 14px;
+  list-style: none;
+  color: var(--text);
+  user-select: none;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+.entry-md-section > summary.entry-md-section__summary::before {
+  content: "+";
+  flex-shrink: 0;
+  width: 1.35em;
+  text-align: center;
+  font-weight: 800;
+  font-size: 1.05em;
+  line-height: 1.35;
+  color: var(--orange);
+}
+.entry-md-section[open] > summary.entry-md-section__summary::before {
+  content: "-";
+}
+.entry-md-section > summary.entry-md-section__summary::-webkit-details-marker {
+  display: none;
+}
+.entry-md-section .entry-md-section__body {
+  padding: 0 14px 14px 16px;
+  border-top: 1px solid var(--border-muted);
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: var(--text);
+}
+.entry-md-section .entry-md-section__body p {
+  margin: 0 0 12px;
+}
+.entry-md-section .entry-md-section__body p:last-child {
+  margin-bottom: 0;
+}
+.entry-md-section .entry-md-section__body ul {
+  margin: 0 0 12px;
+  padding-left: 1.35rem;
+}
+.entry-md-section .entry-md-section__body h2 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin: 18px 0 8px;
+  padding-bottom: 0;
+  border-bottom: none;
+  color: var(--text);
+}
+.entry-md-section .entry-md-section__body h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 14px 0 8px;
+  color: var(--text);
+}
+.entry-md-section .entry-md-section__body pre {
+  margin: 0 0 12px;
+  overflow-x: auto;
+}
+.entry-md-section .entry-md-section__body hr {
+  margin: 14px 0;
+  border: none;
+  border-top: 1px solid var(--border-muted);
+}
 .ascii-diagram {
   background: #111114;
   border: 1px solid var(--border);
@@ -280,29 +586,34 @@ h2:first-child { margin-top: 0; }
 .file-list > li.file-list__folder {
   list-style: none;
   padding: 0;
-  margin: 0 0 14px;
+  margin: 0 0 10px;
   border: none;
   background: transparent;
   border-radius: 0;
 }
 .file-list__folder > .file-tree__details {
-  margin: 0 0 12px 0;
+  margin: 0 0 10px 0;
 }
+/* Match .entry-md-section: folder trees (rules, scanners, templates, …) */
 .file-tree__details {
   border: 1px solid var(--border-muted);
-  border-radius: 6px;
-  background: rgba(0, 0, 0, 0.18);
+  border-radius: var(--radius);
+  background: rgba(0, 0, 0, 0.14);
   overflow: hidden;
 }
 .file-tree__summary {
   cursor: pointer;
-  padding: 10px 12px 10px 10px;
+  padding: 12px 14px;
   display: flex;
   align-items: flex-start;
   gap: 10px;
   list-style: none;
   margin: 0;
-  background: rgba(255, 255, 255, 0.03);
+  font-weight: 600;
+  font-size: 0.98rem;
+  color: var(--text);
+  user-select: none;
+  background: transparent;
 }
 .file-tree__summary::-webkit-details-marker {
   display: none;
@@ -311,32 +622,21 @@ h2:first-child { margin-top: 0; }
   content: "";
   display: none;
 }
-/* Obvious expand/collapse control (native triangle hidden above). */
 .file-tree__summary::before {
   content: "+";
   flex-shrink: 0;
-  width: 1.5rem;
-  height: 1.5rem;
-  margin-top: 1px;
-  line-height: 1.45rem;
+  width: 1.35em;
   text-align: center;
-  font-weight: 700;
-  font-size: 0.95rem;
-  border: 1px solid var(--border-muted);
-  border-radius: 4px;
-  background: rgba(255, 255, 255, 0.1);
-  color: inherit;
-  user-select: none;
+  font-weight: 800;
+  font-size: 1.05em;
+  line-height: 1.35;
+  color: var(--orange);
 }
 .file-tree__details[open] > .file-tree__summary::before {
-  content: "\2212"; /* minus sign */
+  content: "-";
 }
 .file-tree__summary:hover {
-  background: rgba(255, 255, 255, 0.06);
-}
-.file-tree__summary:hover::before {
-  background: rgba(255, 255, 255, 0.16);
-  border-color: rgba(255, 255, 255, 0.25);
+  background: rgba(255, 122, 0, 0.06);
 }
 .file-tree__summary .file-meta {
   display: inline;
@@ -345,7 +645,7 @@ h2:first-child { margin-top: 0; }
   color: var(--muted);
 }
 .file-tree__inner {
-  padding: 8px 10px 12px 14px;
+  padding: 0 14px 14px 16px;
   border-top: 1px solid var(--border-muted);
 }
 .file-tree__ul {
@@ -362,6 +662,8 @@ h2:first-child { margin-top: 0; }
   display: block;
   margin-top: 4px;
 }
+
+/* Agile Garden prelude + mission + lists: abd-works/commons/agile-garden-fragment.css (prepended by generate_abd_catalog.py) */
 
 /* Single-page hub (index.html): collapsible hub / skills / agents */
 .catalog-section {
@@ -508,14 +810,14 @@ h2:first-child { margin-top: 0; }
     <a class="back-link" href="../skills.html">← All skills</a>
     <p class="cap-badge">Skill</p>
     <h1>abd-delivery-planning</h1>
-    <p class="tagline">Build and revise agile delivery plans: context assessment, risk types, strategies (scan strategies/ for matching When to use), runs (stages, scope, checkpoints, rationale), and example plans. Planning only — not for producing story artifacts, tests, or code (those come from downstream practice …</p>
+    <p class="tagline">Delivery plans only: context, risks, strategies, staged runs and checkpoints (not stories, tests, or code).</p>
   </div>
 </header>
 
 <div class="panel-body">
 
 <nav class="nav" aria-label="Catalogue sections">
-  <a href="../index.html" class="nav__link">Hub</a>
+  <a href="../index.html" class="nav__link">The ABD AI Garden</a>
   <a href="../skills.html" class="nav__link nav__link--current">Skills</a>
   <a href="../agents.html" class="nav__link">Agents</a>
 </nav>
@@ -546,8 +848,144 @@ h2:first-child { margin-top: 0; }
 <hr class="entry-divider">
 
 <h2 id="entry-contents">Contents</h2>
+<div class="entry-contents-doc">
+<details class="entry-md-section" id="when-to-use-this-skill"><summary class="entry-md-section__summary">When to use this skill</summary><div class="entry-md-section__body"><ul>
+<li>You want to <strong>build, present, or revise</strong> a delivery plan after reading context.</li>
+<li>You need to <strong>classify risks</strong>, <strong>pick or adapt a strategy</strong>, or <strong>design runs</strong> with explicit scope and checkpoint policy.</li>
+<li>After a custom engagement, you are <strong>saving a new reusable strategy</strong> — add a new <strong>`.md`</strong> file under <strong>`strategies/`</strong> in this skill folder (see <strong>`strategies/README.md`</strong>).</li>
+</ul>
+<p>Do <strong>not</strong> use this skill as a substitute for the work that <strong>produces</strong> artifacts (maps, slices, acceptance criteria, scenarios, tests, code). This skill only plans <em>how</em> and <em>in what order</em> that work happens.</p>
+<h3>Why agile delivery planning</h3>
+<p>Like people, <strong>agents</strong> infer from partial context. Getting the <em>right</em> context upfront—and how much to load in one shot—is hard; a single linear pass rarely suffices. Agents can <strong>hallucinate</strong>, <strong>drift</strong>, and <strong>miss</strong> important edges.</p>
+<p><strong>Agents benefit from an explicit delivery lifecycle</strong>—the same reason humans do: not just <em>what</em> to do next, but <strong>when to stop</strong>, <strong>what to verify</strong>, <strong>when to revisit</strong>, <strong>replan</strong>, <strong>re-execute</strong>, and <strong>when to move on</strong>. That lifecycle is how you <strong>stop for feedback</strong>, <strong>correct course</strong>, <strong>revise scope</strong>, and <strong>refine how delivery runs</strong> instead of hoping one long prompt “sticks.”</p>
+<p>At those stops, the orchestrator and user surface the questions that matter: Do we <strong>understand the outcome</strong>? Is <strong>scope</strong> right? Will the <strong>architecture</strong> support the goals? Do we <strong>understand the domain</strong>? Can we <strong>trace requirements into code</strong> through the architecture and roles we chose? Delivery planning names <strong>where</strong> those questions get asked and <strong>what</strong> “good enough to continue” means.</p>
+<ul>
+<li><strong>Uncertainty is real</strong> — keep the plan <strong>living</strong>: update it as artifacts land and corrections accumulate, not as a frozen script.</li>
+<li><strong>Orchestration needs a spine</strong> — <strong>runs</strong> and <strong>checkpoint policy</strong> say what to delegate next, when to pause, and what “done” means before the next agent acts.</li>
+<li><strong>Risk before volume</strong> — order work so the hardest unknowns fail early, before breadth.</li>
+<li><strong>Humans in the loop</strong> — checkpoints make confirmation and correction <strong>predictable</strong>, not accidental.</li>
+</ul>
+<p>Without delivery planning, you get one-off prompts and silent scope creep instead of a repeatable lifecycle across specialized agents.</p>
+<hr></div></details>
+<details class="entry-md-section" id="agile-delivery-plan"><summary class="entry-md-section__summary">Agile delivery plan</summary><div class="entry-md-section__body"><p>An <strong>agile delivery plan</strong> determines what stages to run, for what scope, in what order, how many times stages run, and when to stop for feedback. <strong>Build or update the plan as the first substantive step after reading context</strong> — it is the most important planning output.</p>
+<p>A plan is:</p>
+<ul>
+<li>A <strong>sequence of runs</strong>, ordered to manage risk, maximize learning, and build confidence incrementally.</li>
+<li>An <strong>assessment</strong> of the engagement landscape: what is known, what is risky, where the model is likely to struggle.</li>
+<li>A <strong>living document</strong> — revised after every run based on what was learned, corrections accumulated, and scope shifted.</li>
+</ul>
+<p>The plan answers: <em>Given everything we know about this engagement, what is the smartest order to do the work, at what granularity, and where do we need to be most careful?</em></p>
+<h3>Plan structure</h3>
+<pre><code>Plan
+├── Context assessment (known domains, risky domains, integration points, complexity)
+├── Context inventory (provided vs missing — see below)
+├── Run 1: { stages, scope, checkpoint policy, rationale }
+├── Run 2: { … }
+├── ...
+└── Run N: { … }</code></pre>
+<h4>Context inventory (required)</h4>
+<p>Do <strong>not</strong> treat a named platform (Foundry, Salesforce, your monolith, etc.) as “understood” unless context was <strong>actually supplied</strong>. In every <strong>saved</strong> plan (`agile-delivery-plan.md`), include:</p>
+<p>1. <strong>Provided context</strong> — concrete inputs you used: file paths, repo URLs, doc links, API refs, <strong>versions</strong> (runtime, module API level), existing story graph, prior corrections. 2. <strong>Missing or assumed context</strong> — explicit <strong>flags</strong> for what was <strong>not</strong> provided but is needed for honest planning or execution (e.g. no Foundry version, no module source, no hook list). Use neutral wording: <em>not yet provided</em> — not “TBD” buried in prose. 3. <strong>Implications</strong> — if critical context is missing, state what must happen before implementation runs (spike, doc pass, user drops links, clone repo). <strong>AI-model and integration risk</strong> spike when a <strong>host product or integration surface</strong> is named in the brief but undocumented in the engagement.</p>
+<p>If you only have a short brief, the inventory should say so. <strong>Outcome:</strong> reviewers and the delivery lead see gaps immediately instead of inferring from chat.</p>
+<h4>Run rationale: say what you are actually trying to do</h4>
+<p><strong>Rationale</strong> must name the <strong>concrete outcome</strong> of the run—what is <strong>true</strong>, <strong>proven</strong>, or <strong>delivered</strong> when the run completes—not only which risk types you are mitigating. Vague lines like <em>“mitigate technical risk”</em> without <em>what done looks like</em> are not enough.</p>
+<p>When the work is constrained by a <strong>specific product, runtime, or external system</strong> (VTT, ERP, browser, engine, vendor API), <strong>fold that into the same rationale</strong>: name the constraint and what this run achieves <strong>there</strong>. When there is no such constraint, a plain product or engineering outcome is enough—<strong>do not</strong> add integration boilerplate.</p>
+<p>Early runs whose main job is to <strong>learn how something works in a host environment</strong> (map the surface, spike, first vertical) should say that plainly in rationale, not only “deliver business value.”</p>
+<p>Each run builds on the outcomes of the previous one. The plan is <strong>front-loaded</strong> — the first runs target the riskiest, least-understood areas. Later runs can move faster because the model (and the corrections log) have learned the domain, technology, and UX patterns.</p>
+<p><strong>A plan is NOT &quot;run all six stages start to finish.&quot;</strong> That is the degenerate case for trivial engagements with no risk. Real plans decompose the work into targeted runs that flush out unknowns early.</p>
+<p>After every run completes, <strong>review</strong> learnings, quality, and risk. <strong>Revise</strong> the plan when understanding warrants changing run order, scope, checkpoint policies, or which stages execute next.</p>
+<h3>Where to save the plan (engagement workspace)</h3>
+<p>The delivery plan is a <strong>living document</strong> in the <strong>engagement workspace</strong>, not in the skill repo. Use one <strong>fixed filename</strong> so orchestration and humans always know where to look:</p>
+<pre><code>&lt;workspace&gt;/agile-delivery-plan.md</code></pre>
+<ul>
+<li><strong>`workspace`</strong> is the engagement root (same root used for `story-graph.json`, `docs/corrections-log.md`, and <strong>`track_task`</strong> paths).</li>
+<li><strong>When to write:</strong> After you <strong>build</strong>, <strong>confirm</strong>, or <strong>revise</strong> the plan (including after each run’s replan in Step 7 of the delivery lead). <strong>Overwrite or patch</strong> this file so it reflects the current context assessment, selected strategies, and full run sequence—do not leave the authoritative plan only in chat.</li>
+<li><strong>Companion file:</strong> Checkbox execution lives in <strong>`abd-delivery-lead/progress/delivery-plan-checklist.md`</strong> (see <strong>`track_task`</strong>). The narrative plan and the checklist must stay <strong>aligned</strong> when either changes.</li>
+</ul>
+<hr></div></details>
+<details class="entry-md-section" id="what-is-a-run"><summary class="entry-md-section__summary">What is a run</summary><div class="entry-md-section__body"><p>A <strong>run</strong> is one unit of planned work within the plan. Each run has four dimensions:</p>
+<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Dimension</th><th>What it defines</th><th>Example</th></tr></thead><tbody><tr><td><strong>Stages</strong></td><td>Which stages execute, start through end</td><td>`discovery → exploration` or bug-fix: `acceptance-tests`, `engineering`, `story-definition`</td></tr><tr><td><strong>Scope</strong></td><td>What stories, thin slices, epics, or areas the run covers</td><td>&quot;Stories that integrate the Acme SSO API&quot; or &quot;Thin slice 1: basic login&quot;</td></tr><tr><td><strong>Checkpoint policy</strong></td><td>Where to stop and validate (after stage done, in-stage, after stages X and Y)</td><td>Checkpoints within team member workflow; or after each thin slice completes engineering</td></tr><tr><td><strong>Rationale</strong></td><td>Why this run; which <strong>risk type(s)</strong> it mitigates; <strong>the concrete outcome</strong> when the run completes (what is proven, decided, or shipped)—including <strong>where</strong> that outcome lives if a host system or integration matters</td><td>Mitigate <em>integration</em> + <em>AI-model</em> risk: <strong>prove</strong> one end-to-end path through the Acme SSO API and capture unknowns before mapping the rest of login</td></tr></tbody></table></div>
+<p>Scope can be <strong>qualitative</strong> (e.g. &quot;all stories touching payment processing&quot;) when the graph does not yet exist, or <strong>exact</strong> (story names, slice IDs, epic paths) once the graph exists.</p>
+<h3>Checkpoint granularity levels</h3>
+<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Level</th><th>Scope</th><th>When to use</th></tr></thead><tbody><tr><td><strong>Within team member</strong></td><td>After each story, AC, scenario, or test</td><td>High uncertainty, proprietary domains, early runs</td></tr><tr><td><strong>Across team members</strong></td><td>Between stages (e.g. after exploration, before story definition)</td><td>Normal flow, handoff validation</td></tr><tr><td><strong>Across runs</strong></td><td>After a full run&#x27;s scope before the next</td><td>Multi-run review, scope adjustment</td></tr></tbody></table></div>
+<p><strong>Default:</strong> start granular (per-story within team member), relax as confidence builds. Tighten if the model errs; widen if flow is smooth.</p>
+<hr></div></details>
+<details class="entry-md-section" id="delivery-flow-stage-sequence"><summary class="entry-md-section__summary">Delivery flow — stage sequence</summary><div class="entry-md-section__body"><p>This flow has <strong>six ordered stages</strong>. Per-stage <strong>entry conditions</strong>, <strong>exit gates</strong>, and <strong>team role</strong> are defined in <strong>`stages/&lt;stage&gt;.md`</strong> in your orchestration setup — not in this skill.</p>
+<div class="md-table-wrap"><table class="md-table"><thead><tr><th>#</th><th>Stage</th><th>Team Role</th><th>Typical practice focus</th><th>Stage file (convention)</th></tr></thead><tbody><tr><td>1</td><td>Discovery</td><td>Product Owner</td><td>Story mapping</td><td>`discovery.md`</td></tr><tr><td>2</td><td>Prioritization</td><td>Product Owner</td><td>Thin slicing / ordering work</td><td>`prioritization.md`</td></tr><tr><td>3</td><td>Exploration</td><td>Analyst</td><td>Acceptance criteria</td><td>`exploration.md`</td></tr><tr><td>4</td><td>Story Definition</td><td>Analyst</td><td>Specification by example</td><td>`scenarios.md`</td></tr><tr><td>5</td><td>Acceptance Tests</td><td>Engineer</td><td>Acceptance-test-driven work</td><td>`acceptance-tests.md`</td></tr><tr><td>6</td><td>Engineering</td><td>Engineer</td><td>Clean implementation</td><td>`engineering.md`</td></tr></tbody></table></div>
+<p>Stages are sequential by default. Parallel runs are allowed when outputs are independent (e.g. story definition for one slice while discovery continues for another).</p>
+<hr></div></details>
+<details class="entry-md-section" id="step-2-build-the-plan-procedure"><summary class="entry-md-section__summary">Step 2 — Build the plan (procedure)</summary><div class="entry-md-section__body"><p>Use this procedure when planning. The delivery lead executes it; this skill documents the rules.</p>
+<h3>2a — Context analysis</h3>
+<p>Read all context: documents, briefs, API references, prior material, existing code. Identify:</p>
+<p>1. <strong>Known domains</strong> — strong training data (common frameworks, documented APIs). 2. <strong>Risky domains</strong> — proprietary APIs, internal systems, novel logic, no public examples. 3. <strong>Integration points</strong> — external systems, APIs, data sources, dependencies. 4. <strong>Complexity drivers</strong> — regulatory load, multi-actor workflows, concurrency, state. 5. <strong>Existing assets</strong> — prior story graphs, specs, tests, code.</p>
+<p>Then <strong>classify risks</strong> using the table below. A successful delivery manages and mitigates risk systematically; wrong risk prioritization wastes effort.</p>
+<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Risk type</th><th>Meaning</th><th>Signals in context</th></tr></thead><tbody><tr><td><strong>Value risk</strong></td><td>We might build the wrong thing — need, solution, or customer fit unclear.</td><td>Vague briefs, no research, conflicting goals, untested assumptions.</td></tr><tr><td><strong>Technical risk</strong></td><td>Wrong tech, infrastructure, skills, or architecture.</td><td>Proprietary APIs, unfamiliar stacks, novel algorithms, scale/perf unknowns.</td></tr><tr><td><strong>Delivery risk</strong></td><td>Miss schedule or quality bar.</td><td>Large scope, dependencies, cross-team work, deadlines, immature pipelines.</td></tr><tr><td><strong>Domain risk</strong></td><td>Misunderstand business rules, regulations, or domain logic.</td><td>Regulatory regimes, complex rules, jargon, ambiguous terms.</td></tr><tr><td><strong>Integration risk</strong></td><td>External systems behave unexpectedly or constrain design.</td><td>Legacy systems, quirky APIs, backward compatibility, migrations.</td></tr><tr><td><strong>AI-model risk</strong></td><td>The agent is likely to hallucinate or produce wrong output.</td><td>No training data for proprietary systems, undocumented APIs, unique internal logic.</td></tr></tbody></table></div>
+<p>Tag each risk. Risk types drive strategy choice, run ordering, and checkpoint tightness.</p>
+<h3>2b — Select and adapt a strategy</h3>
+<p>1. Open <strong>`strategies/`</strong> in this skill folder (see <strong>`strategies/README.md`</strong> for conventions and the catalog table). 2. <strong>Enumerate</strong> strategy files — every <strong>`.md`</strong> in <strong>`strategies/`</strong> except <strong>`README.md`</strong> is one strategy. 3. For each candidate file, read at least <strong>When to use</strong> (and <strong>Typical scope</strong> if present). <strong>Match</strong> context and classified risks to <strong>zero, one, or more</strong> strategies. <strong>Combine</strong> or <strong>blend</strong> when multiple fit (cross-links in <em>New Initiative</em> strategies explain common pairings). 4. <strong>Adapt</strong> the chosen table(s): scope, checkpoints, runs, and stages to the engagement.</p>
+<p><strong>If no strategy fits</strong>, design a custom plan and propose saving it as a new <strong>`&lt;slug&gt;.md`</strong> under <strong>`strategies/`</strong> after the engagement (same six-column table shape as the others).</p>
+<h3>2c — Design the runs</h3>
+<p>Based on the strategy, propose a <strong>sequence of runs</strong>:</p>
+<ul>
+<li><strong>Front-load risk</strong> — targeted early runs that exercise the hardest unknowns with minimal scope.</li>
+<li><strong>Order by learning value</strong> — hardest integration, architecture, UX, or business logic first.</li>
+<li><strong>Match checkpoint granularity to uncertainty.</strong></li>
+<li><strong>Plan for re-planning</strong> after each run.</li>
+<li><strong>Regressions and test-led fixes</strong> — when the signal is a <strong>failing test</strong>, <strong>wrong behavior</strong>, or a <strong>small defect</strong>, plan <strong>separate steps with distinct intents</strong> (e.g. Exploration to <strong>isolate</strong> scope → Engineering (+ tests) to <strong>prove</strong> the fix → Exploration / Story Definition to <strong>reverse-engineer</strong> AC/spec from corrected behavior). Same stages can appear in multiple rows when scope differs; intent explains <em>why</em> each step exists — see <strong>`strategies/bug-fix.md`</strong>.</li>
+</ul>
+<p>For <strong>each run</strong>, state:</p>
+<p>1. <strong>Stages</strong> (start through end). 2. <strong>Scope</strong> — qualitative or exact. 3. <strong>Checkpoint policy</strong> at each level (within team member, across team members, across runs). 4. <strong>Entry conditions</strong> — include <strong>context dependencies</strong> (docs, repo access, versions). If something required is still in <strong>Missing context</strong>, <strong>flag</strong> it here or in <strong>rationale</strong>; do not assume it will appear. 5. <strong>Expected outputs.</strong> 6. <strong>Rationale</strong> — risk type(s) mitigated <strong>and</strong> the <strong>concrete outcome</strong> of the run (see <strong>Run rationale</strong> above). If missing context <strong>blocks</strong> the run, say so <strong>in rationale or entry conditions</strong>.</p>
+<h3>2d — Example plans (patterns)</h3>
+<p>Use these as patterns for how different context shapes different plans.</p>
+<p><strong>Example A — Proprietary API integration platform</strong></p>
+<p>Context: CRM, SSO, SOAP billing; React; three actors.</p>
+<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Run</th><th>Stages</th><th>Scope</th><th>Checkpoint Policy</th><th>Rationale</th></tr></thead><tbody><tr><td>1</td><td>Discovery → Prioritization</td><td>Only stories touching CRM, SSO, or billing</td><td>Per-story</td><td>Map integration surface</td></tr><tr><td>2</td><td>Exploration → Engineering</td><td>Thin slice 1: one story through all three APIs</td><td>Per-AC / per-test; cross-team after story</td><td>Prove hardest path</td></tr><tr><td>3</td><td>Exploration → Engineering</td><td>Thin slice 2: second actor path</td><td>Per-story; cross-run vs run 2</td><td>Second auth flow</td></tr><tr><td>4</td><td>Discovery (remaining)</td><td>Full map including pure UI</td><td>Per-epic</td><td>Broaden once APIs proven</td></tr><tr><td>5</td><td>Prioritization</td><td>Re-slice full map</td><td>Cross-team</td><td>Order by value</td></tr><tr><td>6+</td><td>Exploration → Engineering</td><td>Remaining slices</td><td>Per-slice</td><td>Routine</td></tr></tbody></table></div>
+<p><strong>Example B — Regulatory (FCA/HMRC) with public APIs</strong></p>
+<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Run</th><th>Stages</th><th>Scope</th><th>Checkpoint Policy</th><th>Rationale</th></tr></thead><tbody><tr><td>1</td><td>Discovery → Prioritization</td><td>Full map; slice by compliance surface</td><td>Per-epic PO</td><td>Rules are the risk</td></tr><tr><td>2</td><td>Exploration</td><td>Auditor / Finance slices — heaviest rules</td><td>Per-AC; regulatory accuracy</td><td>AC = compliance</td></tr><tr><td>3</td><td>Story Definition</td><td>Same slice; real VAT/retention values</td><td>Per-scenario</td><td>Concrete values expose gaps</td></tr><tr><td>4</td><td>Acceptance Tests → Engineering</td><td>Compliance slice end-to-end</td><td>Per-test</td><td>Tests prove compliance</td></tr><tr><td>5+</td><td>Exploration → Engineering</td><td>Other slices</td><td>Per-slice</td><td>Lower risk</td></tr></tbody></table></div>
+<p><strong>Example C — Greenfield, ambiguous domain</strong></p>
+<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Run</th><th>Stages</th><th>Scope</th><th>Checkpoint Policy</th><th>Rationale</th></tr></thead><tbody><tr><td>1</td><td>Discovery only</td><td>Full map from brief + interviews</td><td>Per-story PO</td><td>Extract domain language</td></tr><tr><td>2</td><td>Discovery (refine)</td><td>Vague terms (e.g. &quot;optimization&quot;)</td><td>User validates definitions</td><td>Cannot write AC without definitions</td></tr><tr><td>3</td><td>Prioritization</td><td>Simplest E2E slice first</td><td>Per-slice PO</td><td>Prove domain model</td></tr><tr><td>4</td><td>Exploration → Engineering</td><td>Basic lifecycle slice</td><td>Per-story</td><td>Entities in code</td></tr><tr><td>5</td><td>Exploration → Story Definition</td><td>Hard algorithmic stories</td><td>Per-AC + user vs transcripts</td><td>Validate before code</td></tr><tr><td>6+</td><td>Acceptance Tests → Engineering</td><td>Algorithm stories then rest</td><td>Per-test / per-slice</td><td>Incremental</td></tr></tbody></table></div>
+<p><strong>Example D — Legacy monolith migration</strong></p>
+<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Run</th><th>Stages</th><th>Scope</th><th>Checkpoint Policy</th><th>Rationale</th></tr></thead><tbody><tr><td>1</td><td>Discovery → Prioritization</td><td>Map from existing API + manual</td><td>Per-endpoint PO</td><td>Old system = spec</td></tr><tr><td>2</td><td>Exploration</td><td>AC matches legacy behavior</td><td>Per-AC vs PHP</td><td>Contract</td></tr><tr><td>3</td><td>Acceptance Tests</td><td>Tests pass against <strong>old</strong> API</td><td>Per-test</td><td>Safety net</td></tr><tr><td>4</td><td>Engineering</td><td>Implement first service</td><td>Per-endpoint</td><td>Prove pattern</td></tr><tr><td>5+</td><td>Exploration → Engineering</td><td>Remaining groups</td><td>Per-group</td><td>Repeat pattern</td></tr></tbody></table></div>
+<h3>Present the plan (checkpoint)</h3>
+<p>Present to the user:</p>
+<p>1. Context assessment and classified risks. 2. <strong>Context inventory</strong> (<strong>Provided</strong> vs <strong>Missing</strong> — see <strong>Context inventory (required)</strong>). 3. Selected strategy or strategies (from <strong>`strategies/`</strong>, with file name(s)) and adaptations. 4. Sequence of runs; for <strong>each run</strong>, include the items from <strong>§2c</strong> (each <strong>rationale</strong> must state the <strong>concrete outcome</strong>, not only risks).</p>
+<p><strong>Persist</strong> the same content to <strong>`&lt;workspace&gt;/agile-delivery-plan.md`</strong> (see <strong>Where to save the plan</strong>) <strong>before</strong> you stop for confirmation, or immediately after the user confirms if you presented from a draft—so the delivery lead and other agents can <strong>read the plan from disk</strong> on the next session. The persisted file must include the <strong>context inventory</strong> so missing inputs are not lost between sessions.</p>
+<p>Stop for confirmation. If no named strategy fits, explain why and present the custom plan; offer to save it as a new file under <strong>`strategies/`</strong> later.</p>
+<hr></div></details>
+<details class="entry-md-section" id="files-in-this-skill"><summary class="entry-md-section__summary">Files in this skill</summary><div class="entry-md-section__body"><div class="md-table-wrap"><table class="md-table"><thead><tr><th>File / path</th><th>Purpose</th></tr></thead><tbody><tr><td>`SKILL.md` (this file)</td><td>Concepts, procedure, risk types, stage table, example plans</td></tr><tr><td>`strategies/README.md`</td><td>Strategy conventions, catalog, how to select a strategy</td></tr><tr><td>`strategies/*.md`</td><td>One prepackaged strategy per file (excluding `README.md`)</td></tr><tr><td>`rules/*.md`</td><td>Mechanical rules for plan quality (six rules, bound to one scanner)</td></tr><tr><td>`scanners/plan-shape-scanner.py`</td><td>Single scanner evaluating the six plan-shape rules against the saved plan</td></tr><tr><td>`scanners/tests/*.md`</td><td>Good / bad plan fixtures used to verify the scanner</td></tr></tbody></table></div>
+<h3>Validating a saved plan</h3>
+<p>After writing or revising `&lt;workspace&gt;/agile-delivery-plan.md` (Step 2 or Step 7 of the delivery lead), run:</p>
+<pre><code>python skills/execute_using_rules/scripts/run_scanners.py \
+    --skill-root skills/abd-delivery-planning \
+    --workspace &lt;workspace&gt;</code></pre>
+<p>The runner discovers `scanners/plan-shape-scanner.py` from each rule&#x27;s `scanner: plan-shape` frontmatter (deduplicated to a single invocation) and from flat discovery under `scanners/`. The scanner reads the plan at `&lt;workspace&gt;/agile-delivery-plan.md` and reports violations for any of the six rules; exit code 0 = clean, 1 = at least one violation, 2 = path resolution failure. When no plan exists yet the scanner exits 0 silently.</p>
+<p><strong>Engagement workspace (not in this repo):</strong> `agile-delivery-plan.md` (at workspace root) — canonical <strong>saved</strong> agile delivery plan for the engagement; see <strong>Where to save the plan</strong>.</p></div></details>
+</div>
+<hr class="entry-divider">
+<div class="entry-contents-files">
 <ul class="file-list file-list--root">
-<li class="file-list__folder"><details class="file-tree__details" open><summary class="file-tree__summary"><strong>strategies/</strong><span class="file-meta"> → Folder (9 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
+<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>rules/</strong><span class="file-meta"> → Practice rules (DO/DON&#x27;T) and constraints used with scanners.</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
+<li class="file-tree__file"><a class="file-tree__file-link" href="../doc/skill/abd-delivery-planning/rules/plan-checkpoint-density-matches-risk.html"><strong>plan-checkpoint-density-matches-risk.md</strong></a><span class="file-meta"> → scanner: plan-shape</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../doc/skill/abd-delivery-planning/rules/plan-has-context-inventory.html"><strong>plan-has-context-inventory.md</strong></a><span class="file-meta"> → scanner: plan-shape</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../doc/skill/abd-delivery-planning/rules/plan-is-not-default-six-stage.html"><strong>plan-is-not-default-six-stage.md</strong></a><span class="file-meta"> → scanner: plan-shape</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../doc/skill/abd-delivery-planning/rules/plan-risks-are-classified.html"><strong>plan-risks-are-classified.md</strong></a><span class="file-meta"> → scanner: plan-shape</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../doc/skill/abd-delivery-planning/rules/plan-runs-have-concrete-outcome.html"><strong>plan-runs-have-concrete-outcome.md</strong></a><span class="file-meta"> → scanner: plan-shape</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../doc/skill/abd-delivery-planning/rules/plan-strategy-named.html"><strong>plan-strategy-named.md</strong></a><span class="file-meta"> → scanner: plan-shape</span></li>
+</ul></div></details></li>
+<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>scanners/</strong><span class="file-meta"> → Folder (2 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
+<li class="file-tree__dir"><details class="file-tree__details"><summary class="file-tree__summary"><strong>tests/</strong><span class="file-meta"> → Folder (5 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
+<li class="file-tree__file"><a class="file-tree__file-link" href="../doc/skill/abd-delivery-planning/scanners/tests/bad-plan-default-six-stage.html"><strong>bad-plan-default-six-stage.md</strong></a><span class="file-meta"> → Agile Delivery Plan — Default Waterfall</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../doc/skill/abd-delivery-planning/scanners/tests/bad-plan-loose-checkpoints.html"><strong>bad-plan-loose-checkpoints.md</strong></a><span class="file-meta"> → Agile Delivery Plan — Loose Checkpoints Despite High Risk</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../doc/skill/abd-delivery-planning/scanners/tests/bad-plan-missing-inventory.html"><strong>bad-plan-missing-inventory.md</strong></a><span class="file-meta"> → Agile Delivery Plan — No Inventory</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../doc/skill/abd-delivery-planning/scanners/tests/bad-plan-risk-only-rationale.html"><strong>bad-plan-risk-only-rationale.md</strong></a><span class="file-meta"> → Agile Delivery Plan — Risk-Only Rationales</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../doc/skill/abd-delivery-planning/scanners/tests/good-plan.html"><strong>good-plan.md</strong></a><span class="file-meta"> → Agile Delivery Plan — Acme Onboarding</span></li>
+</ul></div></details></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/abd-delivery-planning/scanners/plan-shape-scanner.py" target="_blank" rel="noopener noreferrer"><strong>plan-shape-scanner.py</strong></a><span class="file-meta"> → !/usr/bin/env python3</span></li>
+</ul></div></details></li>
+<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>scripts/</strong><span class="file-meta"> → Build, catalogue, validation, or packaging automation.</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/abd-delivery-planning/scripts/append_plan_revision.py" target="_blank" rel="noopener noreferrer"><strong>append_plan_revision.py</strong></a><span class="file-meta"> → !/usr/bin/env python3</span></li>
+</ul></div></details></li>
+<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>strategies/</strong><span class="file-meta"> → Folder (9 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
 <li class="file-tree__file"><a class="file-tree__file-link" href="../doc/skill/abd-delivery-planning/strategies/bug-fix.html"><strong>bug-fix.md</strong></a><span class="file-meta"> → Strategy: Bug Fix</span></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../doc/skill/abd-delivery-planning/strategies/legacy-migration.html"><strong>legacy-migration.md</strong></a><span class="file-meta"> → Strategy: Legacy Migration</span></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../doc/skill/abd-delivery-planning/strategies/new-initiative-business-user-experience-risk.html"><strong>new-initiative-business-user-experience-risk.md</strong></a><span class="file-meta"> → Strategy: New Initiative — Business / User Experience Risk</span></li>
@@ -558,9 +996,15 @@ h2:first-child { margin-top: 0; }
 <li class="file-tree__file"><a class="file-tree__file-link" href="../doc/skill/abd-delivery-planning/strategies/regulatory-compliance-heavy.html"><strong>regulatory-compliance-heavy.md</strong></a><span class="file-meta"> → Strategy: Regulatory / Compliance-Heavy</span></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../doc/skill/abd-delivery-planning/strategies/spike-proof-of-concept.html"><strong>spike-proof-of-concept.md</strong></a><span class="file-meta"> → Strategy: Spike / Proof of Concept</span></li>
 </ul></div></details></li>
+<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>tests/</strong><span class="file-meta"> → Folder (3 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/abd-delivery-planning/tests/conftest.py" target="_blank" rel="noopener noreferrer"><strong>conftest.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Put scanner + generator scripts on sys.path for in-process imports.&quot;&quot;&quot;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/abd-delivery-planning/tests/test_append_plan_revision.py" target="_blank" rel="noopener noreferrer"><strong>test_append_plan_revision.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Tests for append_plan_revision: entries prepended, header preserved, plan sha recorded.&quot;&quot;&quot;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/abd-delivery-planning/tests/test_plan_shape_scanner.py" target="_blank" rel="noopener noreferrer"><strong>test_plan_shape_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Tests for plan-shape-scanner: asserts each rule fires on its matching fixture.</span></li>
+</ul></div></details></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../doc/skill/abd-delivery-planning/README.html"><strong>README.md</strong></a><span class="file-meta"> → One line for catalogue cards and grids (YAML string).</span></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../doc/skill/abd-delivery-planning/SKILL.html"><strong>SKILL.md</strong></a><span class="file-meta"> → name: abd-delivery-planning</span></li>
 </ul>
+</div>
 
 </div>
 </div>

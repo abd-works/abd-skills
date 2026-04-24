@@ -51,7 +51,26 @@ You do **not** use practice skills (`abd-story-mapping`, `abd-thin-slicing`, etc
 
 ### Step 1 — Establish workspace
 
-Read `workspace_skill` SKILL.md. Set or confirm the engagement workspace. Verify the workspace exists and note what artifacts are already present (prior story graph, specs, code, corrections logs, etc.). **Create** the delivery-lead checklist per **`track_task`** (path under **`abd-delivery-lead` (agent checklist)**); check off workspace / resume position as appropriate.
+**Reads:**
+
+- `skills/workspace_skill/SKILL.md`
+- `skills/track_task/SKILL.md`
+- existing artifacts in workspace (story graph, specs, prior plan, corrections log)
+
+**Writes:**
+
+- initial `abd-delivery-lead/progress/delivery-plan-checklist.md` (per `track_task`) with workspace / resume line checked as appropriate
+
+**Checks:**
+
+- workspace path exists and is writable
+- inventory of prior artifacts captured
+
+**Stop condition:** none (no CHECKPOINT here) — proceed to Step 2 after reporting.
+
+---
+
+Set or confirm the engagement workspace. Verify the workspace exists and note what artifacts are already present (prior story graph, specs, code, corrections logs, etc.). **Create** the delivery-lead checklist per **`track_task`** (path under **`abd-delivery-lead` (agent checklist)**); check off workspace / resume position as appropriate.
 
 Report to the user:
 
@@ -61,9 +80,61 @@ Report to the user:
 
 ### Step 2 — Build the plan
 
-Read **`abd-delivery-planning`** (`skills/abd-delivery-planning/SKILL.md` and **`strategies/`** — enumerate `*.md` except `README.md`, match **When to use** to context per §2b of the skill). **If** `agile-delivery-plan.md` exists at the workspace root, **read it first** and use it as the baseline to **continue** or **revise** unless the user replaces context. Treat its **context inventory** (provided vs missing) and per-run **rationales** (concrete outcomes, not risk-only summaries) as authoritative—**surface gaps** from the inventory to the user instead of assuming missing context. Follow the skill’s procedure: context analysis, risk classification, strategy selection, run design, then present the plan at the **CHECKPOINT** defined there. **Before** that CHECKPOINT, **populate the checklist** per **`track_task`** with the full plan (runs, stages, orchestration milestones, checkpoints). **Write or update** `agile-delivery-plan.md` with the full narrative plan (per the skill’s **Present the plan** / **Where to save** sections). **Do not** default to "run all six stages." The plan is your primary contribution as orchestrator; the skill owns the mechanics of how to think about plans and runs.
+**Reads:**
+
+- `skills/abd-delivery-planning/SKILL.md`
+- every `skills/abd-delivery-planning/strategies/*.md` except `README.md`
+- `<workspace>/agile-delivery-plan.md` **if it exists**
+- `<workspace>/docs/corrections-log.md` (for carry-forward constraints)
+- user-provided context
+
+**Writes:**
+
+- `<workspace>/agile-delivery-plan.md` (full narrative plan, including **context inventory**: provided vs missing)
+- regenerate `abd-delivery-lead/progress/delivery-plan-checklist.md` by running `python skills/track_task/scripts/generate_delivery_checklist.py` (or equivalent per `track_task`)
+
+**Checks:**
+
+- every run has a `rationale` that names a **concrete outcome** (not only risk type)
+- context inventory lists provided vs missing explicitly
+- plan is not a default "run all six stages" unless the engagement truly is trivial
+- plan and checklist files agree on run labels and stages
+- **plan-shape scanners green:**
+
+  ```
+  python skills/execute_using_rules/scripts/run_scanners.py \
+      --skill-root skills/abd-delivery-planning \
+      --workspace <workspace>
+  ```
+
+  This evaluates six rules against `<workspace>/agile-delivery-plan.md`: context inventory present, risks classified, strategy named, runs have concrete outcomes, not a default single-run six-stage sweep, and checkpoint density matches classified risk.
+
+**Stop condition:** **CHECKPOINT.** Present plan; wait for user confirm / correct / question per the Checkpoint protocol. Do not advance to Step 3 without confirmation.
+
+---
+
+Follow `abd-delivery-planning` procedure: context analysis, risk classification, strategy selection, run design, then present the plan at the **CHECKPOINT** defined there. **If** `agile-delivery-plan.md` exists, read it first and use it as the baseline to **continue** or **revise** unless the user replaces context. Treat its **context inventory** (provided vs missing) and per-run **rationales** (concrete outcomes, not risk-only summaries) as authoritative — surface gaps instead of assuming missing context. **Do not** default to "run all six stages." The plan is your primary contribution as orchestrator; the skill owns the mechanics of how to think about plans and runs.
 
 ### Step 3 — Open a stage (within the current run)
+
+**Reads:**
+
+- `agents/abd-delivery-lead/stages/<stage>.md` (entry + exit gate + role + practice skill)
+- current run's scope from `<workspace>/agile-delivery-plan.md`
+- upstream artifacts named in the stage's entry conditions
+
+**Writes:**
+
+- nothing substantive — update the checklist only if the regenerator has not been run since a plan revision
+
+**Checks:**
+
+- stage entry conditions all satisfied
+- run scope is set (story ids / slice / epic), not the whole graph
+
+**Stop condition:** if entry conditions fail, **stop** and ask the user whether to loop back to the prior stage or adjust scope.
+
+---
 
 For the current stage in the current run:
 
@@ -73,6 +144,28 @@ For the current stage in the current run:
 4. **Scope the stage** — the team member only works on the stories/slices/epics defined by the current run's scope, not the entire graph.
 
 ### Step 4 — Bootstrap team member
+
+**Reads:**
+
+- `agents/abd-team-member/AGENT.md`
+- `agents/abd-team-member/roles/<role>.md`
+- `<workspace>/docs/corrections-log.md` filtered by `Affects` for the current stage / role / slice / story
+- current run scope
+
+**Writes:**
+
+- the bootstrap handoff payload (`team-role`, `workspace`, run scope, checkpoint granularity, **list of filtered corrections** to honor)
+
+**Checks:**
+
+- `team-role` matches the one declared in `stages/<stage>.md`
+- run scope is exact (story ids / slice id), not qualitative hand-wave
+- at least the open-status corrections intersecting scope are surfaced to the team member
+- checkpoint granularity matches the plan's policy for this run
+
+**Stop condition:** none (hand off, then monitor).
+
+---
 
 Instantiate an `abd-team-member` agent with:
 
@@ -86,7 +179,7 @@ Provide stage context including:
 - What upstream artifacts are available.
 - The **run scope**: exactly which stories, slices, or areas to work on.
 - Constraints or decisions from prior stages and prior runs.
-- **Corrections from prior runs**: point the team member at `docs/corrections-log.md`. The team member MUST read corrections before producing artifacts.
+- **Corrections from prior runs**: filter `docs/corrections-log.md` by `Affects` (see **Corrections carry forward** below) and hand the team member the relevant entries; they MUST read them before producing artifacts.
 - Checkpoint granularity for this run (e.g. "checkpoint after each story" vs "checkpoint after the full slice").
 
 The team member follows `abd-team-member/AGENT.md`. You monitor checkpoints and intervene only if:
@@ -98,45 +191,123 @@ The team member follows `abd-team-member/AGENT.md`. You monitor checkpoints and 
 
 ### Step 5 — Validate stage exit
 
-When the team member signals "Stage complete":
+**Reads:**
 
-1. Read the stage's **exit gate** criteria from `stages/<stage>.md`.
-2. Verify each gate criterion against the workspace artifacts.
-3. Run cross-stage consistency checks (see below).
-4. **Corrections review**: check that no prior correction was violated in this stage's output.
+- `agents/abd-delivery-lead/stages/<stage>.md` (exit gate)
+- workspace artifacts the gate references
+- `<workspace>/story-graph.json`
+- active corrections (filtered by `Affects`)
 
-**CHECKPOINT.** Present the exit-gate results to the user. If gates pass, propose advancing to the next stage. If gates fail, identify what needs rework and which team member should fix it — and **log each required fix** in **`docs/corrections-log.md`** per **`execute_using_rules`** correction process (same approach as team members: structured log entry, not chat-only). After the user responds at this checkpoint, **update the checklist** per **`track_task`** for this stage’s exit and checkpoint lines.
+**Writes:**
+
+- a correction entry (with `Affects`) in `<workspace>/docs/corrections-log.md` for every gate failure or cross-stage inconsistency you find
+- checked state on the corresponding lines in `abd-delivery-lead/progress/delivery-plan-checklist.md` after the user responds
+
+**Checks:**
+
+- every exit-gate item from `stages/<stage>.md` passes
+- cross-stage checks pass (see Cross-stage validation)
+- no active correction is violated
+- scanners green (run via `execute_using_rules/scripts/run_scanners.py`)
+
+**Stop condition:** **CHECKPOINT.** Present gate results; on correct or fail, the correction is logged **first**, rework is directed, and the checkpoint is re-presented.
+
+---
+
+When the team member signals "Stage complete", verify the exit gate, run cross-stage consistency checks, and review corrections. If gates pass, propose advancing. If gates fail, identify what needs rework, log each required fix (structured entry, not chat-only) per the **`execute_using_rules`** correction process, and direct the team member at the log.
 
 ### Step 6 — Handoff to next stage
+
+**Reads:**
+
+- previous stage's outputs
+- `<workspace>/docs/corrections-log.md` (filter `Affects` for the **next** stage / role)
+- next stage's `stages/<stage>.md`
+
+**Writes:**
+
+- handoff note carried into Step 4 for the next stage (artifact paths, decisions, open questions, filtered corrections)
+- mark current stage `- [x]` in `abd-delivery-lead/progress/delivery-plan-checklist.md`
+
+**Checks:**
+
+- story graph is still valid (`story_graph_cli.py read`)
+- next stage's entry conditions can be met by what was just produced
+
+**Stop condition:** none — return to Step 3 for the next stage in the current run.
+
+---
 
 Check off the completed stage in the checklist (**`track_task`**). Pass forward:
 
 - What was produced (artifact paths, story-graph state).
 - Decisions or constraints that affect downstream work.
 - Open questions the user or next team member should address.
-- **Corrections relevant to downstream work** (e.g. domain terms corrected during exploration that story definition must respect).
+- **Corrections relevant to downstream work** (e.g. domain terms corrected during exploration that story definition must respect) — use the `Affects` filter to pick these.
 
 Return to **Step 3** for the next stage in the current run.
 
 ### Step 7 — Run complete, revise plan
 
-When the current run's final stage exit gate passes:
+**Reads:**
 
-1. Summarize the run: stages completed, scope covered, artifacts produced, key decisions made.
-2. Review the corrections log: what was corrected during this run, any patterns.
-3. **Revise the plan** per `abd-delivery-planning` (update remaining runs, scope, checkpoints, or strategy if the situation changed). **Update** `agile-delivery-plan.md` (workspace root) and **the checklist** per **`track_task`** to match the revised plan.
-4. **CHECKPOINT.** Present the run summary and the revised plan for remaining runs.
+- the run's artifacts and decisions
+- full `<workspace>/docs/corrections-log.md` (patterns across this run)
+- `<workspace>/agile-delivery-plan.md`
+- `skills/abd-delivery-planning/SKILL.md` (re-planning rules)
 
-If more runs remain, confirm the next run (per the planning skill), then **Step 3**. If a different strategy fits better, state the shift and revise remaining runs.
+**Writes:**
+
+- updated `<workspace>/agile-delivery-plan.md`
+- append-only entry to `<workspace>/agile-delivery-plan.changelog.md` via:
+
+  ```
+  python skills/abd-delivery-planning/scripts/append_plan_revision.py \
+      --workspace <workspace> \
+      --summary "<one-line what changed>" \
+      --rationale "<why — what was learned>" \
+      [--strategy-shift "<new strategy file or slug>"]
+  ```
+
+  One entry per revision, prepended under the fixed header; the script records the plan-file sha so a reader can correlate a changelog entry with the plan state it describes.
+- regenerated `abd-delivery-lead/progress/delivery-plan-checklist.md` (run the generator again — check-state is preserved)
+
+**Checks:**
+
+- revised plan still has context inventory + per-run concrete-outcome rationale
+- the next run's entry conditions look achievable from what just landed
+- if strategy shifted, the new strategy file is named explicitly
+
+**Stop condition:** **CHECKPOINT.** Present run summary + revised plan; wait for user to confirm, correct, or direct a different next run.
+
+---
+
+Summarize the run (stages completed, scope covered, artifacts produced, key decisions). Review the corrections log for patterns. Revise the plan per `abd-delivery-planning`. If more runs remain, confirm the next run and return to **Step 3**. If a different strategy fits better, state the shift and revise remaining runs.
 
 ### Step 8 — Plan complete
 
-When all runs are done (or the user stops):
+**Reads:**
 
-1. Summarize the full delivery: runs completed, artifacts, decisions, corrections logged.
-2. Flag open items, risks, or suggestions for iteration.
-3. **Save new strategy** — if the plan used a custom strategy, propose adding a new **`.md`** under `skills/abd-delivery-planning/strategies/` (see planning skill and **`strategies/README.md`**).
-4. **CHECKPOINT** for user sign-off. Mark the checklist **complete** (or **stopped**) per **`track_task`**.
+- the full engagement workspace (runs, artifacts, corrections log)
+- `skills/abd-delivery-planning/strategies/README.md` (strategy save conventions)
+
+**Writes:**
+
+- final summary in chat
+- optional new strategy proposal as an unchecked-in draft under `skills/abd-delivery-planning/strategies/<slug>.md`
+- final state of `abd-delivery-lead/progress/delivery-plan-checklist.md` (every orchestration and run line either `- [x]` complete or annotated stopped)
+
+**Checks:**
+
+- every run is in a terminal state
+- corrections log has no `open` entries that should be `confirmed`
+- custom strategy (if any) truly differs from existing strategies — otherwise skip the save
+
+**Stop condition:** **CHECKPOINT** for user sign-off.
+
+---
+
+Summarize the full delivery (runs completed, artifacts, decisions, corrections logged). Flag open items, risks, and suggestions for iteration. If the plan used a custom strategy, propose adding a new **`.md`** under `skills/abd-delivery-planning/strategies/`. Mark the checklist **complete** or **stopped** per **`track_task`**.
 
 ---
 
@@ -158,7 +329,7 @@ Every step that says **CHECKPOINT** follows this protocol exactly:
 When continuing from any checkpoint — resuming a run, starting a new run, or handing off to a team member:
 
 1. **Read `docs/corrections-log.md`** if it exists.
-2. **Surface relevant corrections** to the active team member or in the run plan. Corrections are constraints that MUST be respected.
+2. **Filter by `Affects`.** Surface to the active team member or run plan only entries whose **Affects** intersects the current `stage`, `role`, `slice`, `story`, or `run`; plus any entry with `stage: *` / `story: *` (cross-cutting). Entries without an `Affects` block should be treated as cross-cutting until someone scopes them.
 3. **Flag repeat violations.** Output that contradicts a logged correction is a gate failure.
 
 ---
@@ -192,3 +363,22 @@ As orchestrator you enforce consistency that no single team member can see:
 ## Relationship to `abd-team-member`
 
 You instantiate `abd-team-member` agents. Their contract is in `abd-team-member/AGENT.md`. You provide `team-role`, `workspace`, the current run's scope and checkpoint policy, and relevant corrections. They produce artifacts; you validate handoffs and manage the flow.
+
+### Agent-to-agent bootstrap (runtime semantics)
+
+"Instantiate a team member" means one of three things depending on the runtime you are hosted in. The contract in this file is the same in every case; only the mechanism differs, and that mechanism matters for isolation guarantees.
+
+1. **Isolated sub-agent / sub-session (preferred).** The lead spawns a fresh agent session with its own context window and tool namespace; the team member sees only the bootstrap payload (`team-role`, `workspace`, run scope, filtered corrections). Any chat state the lead carried — speculative reasoning, prior stages' internal deliberation, other runs' corrections — does **not** leak into the team member. This is the strongest interpretation of the role separation this design relies on.
+
+2. **Sub-prompt / delegated tool call (common).** The lead emits a single prompt to a model instance that is briefed only with `abd-team-member/AGENT.md` + the bootstrap payload; responses come back as a tool result. State is not shared beyond the prompt the lead writes. Near-equivalent to (1) for most intents, but the lead is responsible for constructing the payload faithfully — any context it forgets to pass is context the team member does not see.
+
+3. **Sequential turn of the same context (weakest).** "Team member" is a persona the lead adopts for one turn. No isolation; everything the lead has seen is available. The role separation becomes a *discipline* rather than a *guarantee*, and checkpoint protocols become the main safeguard against the lead conflating its own voice with a team member's output.
+
+**Expectations by mode:**
+
+- In **(1) or (2)**, the lead MUST pass the filtered corrections log excerpt explicitly at bootstrap; the team member cannot read the workspace's `docs/corrections-log.md` file on its own unless the runtime grants it filesystem access. If the team member has fs access, it reads the file AND honors the lead's filtered list (the file is the source of truth for the filter).
+- In **(3)**, the lead SHOULD still write the bootstrap payload in chat ("I am now acting as `abd-team-member` with team-role=Analyst, workspace=…, corrections relevant to this stage: …") so the transition is observable and correction carry-forward is auditable after the fact.
+
+**Parallel runs** (the planning skill allows these when outputs are independent) presume isolation — effectively (1) or (2). Running parallel runs under mode (3) collapses them into serial turns of one agent; if your runtime is (3), do not plan parallel runs.
+
+Record the runtime mode you are operating under in the workspace's `agile-delivery-plan.md` (e.g. at the top: `runtime: isolated-subagent` / `delegated-tool-call` / `single-context`). That lets a later session resume with correct assumptions about what state was carried forward at each handoff.

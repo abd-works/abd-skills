@@ -1,7 +1,7 @@
 ---
 catalogue_summary: >-
-  Orchestrates ABD delivery (workspace, plan, stages, handoffs, gates); delegates
-  work to abd-team-member; planning mechanics live in abd-delivery-planning.
+  Orchestrates ABD delivery (workspace, plan, stages, handoffs); delegates work to
+  abd-team-member; uses abd-delivery-planning to manage plan creation.
 ---
 
 # ABD Delivery Lead

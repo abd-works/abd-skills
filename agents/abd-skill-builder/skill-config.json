@@ -1,5 +1,6 @@
 {
   "name": "abd-skill-builder",
+  "catalog_ready": false,
   "version": "0.1.0",
   "workspace": {
     "active_skill_workspace": ".",

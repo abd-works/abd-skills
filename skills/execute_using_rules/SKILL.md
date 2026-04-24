@@ -1,5 +1,8 @@
 ---
 name: execute-rules
+catalog_garden_tier: foundational
+catalogue_one_liner: >-
+  Bundle rules into SKILL.md, run scanners, fix failures; quality gate before and after work.
 description: Bundle rules into SKILL.md, run scanners, quality steps (rules before work), and the correction process after mistakes — commands first, details after.
 ---
 
