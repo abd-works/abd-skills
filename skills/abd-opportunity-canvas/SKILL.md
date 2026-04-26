@@ -13,17 +13,20 @@ Manual: [Practice manual](./manual/index.html)
 
 ## Purpose
 
-This skill exists so you **do not start "building a solution"** while people are thinking about **a different problem**, **a different customer**, or **a different definition of success**. It makes a **candidate opportunity** explicit — who it is for, why the organisation should care, what you might build or buy, how you would know it worked, and what the effort looks like. You finish with enough alignment that **downstream build and delivery work** points at the **same** bet instead of at private mental models. Every row is also an **assumption surface**: beliefs about customers, value, and capability that can be made explicit, grounded into falsifiable hypotheses, and scheduled as validated learning experiments — so the uncertainty the canvas surfaces is **tracked and worked off**, not silently absorbed into code.
+This skill exists so you **do not start "building a solution"** while people are thinking about **a different problem**, **a different customer**, or **a different definition of success**. 
+
+This skill makes an **opportunity** explicit — who it is for, why the organisation should care, what you might build or buy, how you would know it worked, and what the effort looks like. You finish with enough alignment that **downstream build and delivery work** is based on a shared model. This skill captures this alignment as an **opportunity model**, in the form of a **opportunity canvas**.
+
+Every part of the canvas is also a candidate **assumption** — beliefs about customers, value, and capability that teams often make explicit, turn into falsifiable statements, and run through a lightweight validation path **outside** this skill (see **abd-simple-validated-learning**). This skill’s job is to **surface** that uncertainty in the model; *who* confirms or refutes *what* *by when* is planned and run by the team in whatever **workflow** or **working agreement** they use to track those checks.
 
 ## When to use this skill
 
 Load this skill when any of the following apply:
 
-- A **new or restarted initiative** is still fuzzy: sponsors, product, and engineering would not give you the **same two-sentence** summary of the problem and the bet.
+- A **new or restarted initiative** is ambiguous and/or complex: sponsors, product, and engineering would not agree on problems, users, solutions, effort, etc
+- You want to **co-create a common model** that aligns multiple stakeholders on the opportunity: **why this matters** → **who** → **what we might do** → **how we'd know** → **what we're assuming**, so the **next** workshops (mapping, prioritisation, delivery) are not arguing past each other.
 
-- You need **one artifact** that links **why this matters** → **who** → **what we might do** → **how we'd know** → **what we're assuming**, so the **next** workshops (mapping, prioritisation, delivery) are not arguing past each other.
-- You need to **co-create a common model** that aligns multiple stakeholders on the opportunity.
-- The opportunity is **large enough to have moving parts**: multiple customer segments with different needs, competing solution directions, several key partners or resource constraints, and a business case that only holds if several of those pieces align. When the canvas rows would each be non-trivial to fill, the canvas is earning its keep by forcing that complexity into the open before build starts.
+- The opportunity is **large enough to have multiple moving parts**: multiple customer segments with different needs, competing solution directions, several key partners or resource constraints, and a business case that only holds if several of those pieces align. When the canvas rows would each be non-trivial to fill, the canvas is earning its keep by forcing that complexity into the open before build starts.
 
 Use the Opportunity Canvas when an opportunity is likeley to tranlsate to an *initiative*. 
 
@@ -55,9 +58,13 @@ An opportunity canvas is a tool for **gaining shared understanding** of the key 
 
 The canvas is a **product hypothesis model** — not a feature list, but a structured claim that connects **Customer Problems** to the **Solution Features** that address them, to the **Increments of Value** that deliver them, to the **Key Metrics of Success** that prove they worked, and to the **Revenue Drivers**, **Cost Drivers**, **Key Activities and Resources**, and **Key Partners** that make the business case real. This holistic picture forces the team to see whether the parts of the opportunity actually fit together before any of them are committed to build.
 
-Once the canvas is filled, the assumptions that surface in each area can be validated using a Plan → Validate → Learn approach. The team works through the uncertainty represented on the canvas through a backlog of small experiments, and what it learns cycles back to refine the model. The canvas is not a one-time artifact — it is a living model of the bet.
+Once the canvas is filled, teams **often** move the assumptions into a small backlog of experiments and cycle learnings back into the canvas. 
 
-### Canonical ABD Opportunity Canvas (eight rows)
+A common **approach** is to **treat the canvas as living**: decide what to check next, gather evidence, update the bet—so the model does not **freeze** while the world is still unknown. Use **abd-simple-validated-learning** when you want to **mine** assumptions, phrase hypotheses, prioritise tests, and structure the **plan–test–learn** loop.
+
+
+
+### Canonical ABD Opportunity Canvas (eight sections)
 
 The eight section titles and their guiding questions are fixed across workshops. The table below is the reference — do not add rows or rephrase the questions.
 
@@ -72,18 +79,22 @@ The eight section titles and their guiding questions are fixed across workshops.
 | **Key Partners** | Who are our Key Partners? Who are our key Suppliers? |
 | **Cost Drivers** | What are the most important costs drivers inherent in our Product? |
 
+These sections are often connected formally or informally into *clusters* of problems, users, features, increments, metrics, atcivities etc
+
+Elements in a sections can be grouped into a one to many relationship, informal "columns" - where it makes sense for larger opportunities.
 ---
 
 ## Core concepts
 
-**The Opportunity** is the handle for the whole bet — a short name that captures *this* problem–outcome story in plain language. The name should make clear who is affected and what moving the needle looks like. Every other part of the model on the canvas exists to justify or qualify this one statement.
+### The Opportunity Canvas
+**The Opportunity** is the handle for the whole opportunuty — a short name that captures *this* problem–outcome story in plain language. State the Unique Value Proposition, a summary of the customer problems being addressed and how they eill be addressed. Every other part of the model on the canvas exists to justify or qualify this one statement. 
 
 
 **Customer Problems** names the segments and their unique requirements — the people or roles who experience the pain, and what they specifically need that the current situation does not deliver. This row anchors the whole canvas: if Solution Features cannot trace back to at least one named segment here, the solution is solving a private hypothesis, not a stated problem. Good customer problems name a consequence — what happens if this need goes unmet.
 
-**Solution Features** states the Unique Value Proposition, the specific customer problem being addressed, and the major features of the solution. It should read as a direct answer to Customer Problems — the features exist because of those requirements, not because they seemed interesting. A UVP without a named customer pain is not yet a value proposition.
+**Solution Features** states the major features of the solution. It should read as a direct answer to Customer Problems — the features exist because of those requirements, not because they seemed interesting. A UVP without a named customer pain is not yet a value proposition.
 
-**Increments of Value** describes how value will reach customer segments in sequence — the minimum valuable increment first, then the next meaningful step, then the broader rollout. It bridges Solution Features to Key Activities and Resources by forcing the team to commit to which slice ships first, rather than treating the full feature set as a single delivery event.
+**Increments of Value** describes how value will reach customer segments in sequence — the minimum valuable increment first, then the next meaningful increment(s), then the broader rollout. It bridges Solution Features to Key Activities and Resources by forcing the team to commit to which slice ships first, rather than treating the full feature set as a single delivery event.
 
 **Key Metrics of Success** names the observable signals that will tell the organisation how the product is doing. Each metric should be measurable — a percentage, count, time, or rate — tied where possible to a segment or timeframe. These signals close the loop with Revenue Drivers and Cost Drivers: if the metrics do not move, the business case does not hold.
 
@@ -95,19 +106,29 @@ The eight section titles and their guiding questions are fixed across workshops.
 
 **Cost Drivers** identifies the most significant costs inherent in the product — not a budget line, but the structural sources of cost such as integration work, support load, licensing, test environments, and compliance overhead. Together with Revenue Drivers and Key Metrics of Success it closes the business case: the organisation can see what it is paying, what it expects in return, and how it will know.
 
-**Alternatives** forces the canvas to acknowledge that a choice was made. Name at least one credible path that is not the favoured build — do nothing, buy a product, partner, narrow scope, or defer. Without alternatives the canvas presents a recommendation disguised as an analysis. Alternatives also surface assumptions: if the favoured option is claimed to be better than an alternative, that claim can usually be tested.
+**Alternatives** captures multiple credible paths forward as distinct clusters (e.g., columns), each representing an option such as "do nothing," "buy a product," "build using XXX platform," "Focus on Customer YYYY". These alternatives are modelled to make it easier to evaluate wich option makes sense. By noting which options were considered (not just the favoured build), the canvas surfaces key assumptions underlying the decision — options be verified against each other, especially early on in kifecycle of the opportunity.
 
-**Assumptions** hold the fragile beliefs that, if wrong, would change the recommendation. Each assumption should be falsifiable — *we believe X will Y* — paired with a validation path that names who does what by when to confirm or refute it. The canvas surfaces uncertainty; a Validated Learning Kanban (Plan → Build → Measure → Learn) is how the team works it off. Any row can generate assumptions — segment size from Customer Problems, adoption rates from Increments of Value, partner cooperation from Key Partners, willingness to pay from Revenue Drivers. Better to name them here than let them hide in code.
 
-### Validated Learning Kanban
+### Assumptions
+**Assumptions** are approached from the perspective that incorrect elements on of the Canvas will derail the value proposition of the Opportunity.  Teams use a validated learning approach to confirm or refute beliefs, and update the canvas as they learn — keeping evidence and learning visible. 
 
-Once the canvas is filled, uncertainty does not stay on the page — it moves into a **Validated Learning Kanban** with three stages: Plan, Validate, and Learn. Each assumption becomes a small, scheduled experiment that the team can run before committing to full build. A multi-area checklist covers the main risk categories — problem/solution fit, capability and market fit, technology, delivery, and regulatory or commercial constraints — so the team can scan for fragile beliefs across the whole canvas, not just the obvious ones.
+Plan - what to test, smallest useful check, owner, and date; 
+Learn - what we took away and how the bet or canvas updates; 
+Validate - run the check and collect evidence to confirm or refute the belief.
+
+Mine the opportunity canvas for assumptions by connecting elements across sections into falsifiable statements of the form—*we believe X will Y* —  Any row can generate assumptions — segment size from Customer Problems, adoption rates from Increments of Value, partner cooperation from Key Partners, willingness to pay from Revenue Drivers. Better to name them here than let them hide in code.
+
+
+
+*Use *This skill** documents the canvas and mine for`Assumptions`, and update based on **validation activity**.
+
+Use the **abd-simple-validated-learning** skill to turn these assumptions into hypothesis that go through the **plan, validate, and learn** process. 
 
 ---
 
 ## Build
 
-**Goal:** Produce a serious canvas where every row does real work. You should be able to trace from Solution Features and Increments of Value back to Customer Problems, and from Key Metrics of Success, Revenue Drivers, and Cost Drivers to a coherent business story. Every Assumption should have a scheduled validate-by test.
+**Goal:** Produce an opportunity model in the form of a canvas; where every section has real depth. You should be able to connect **across** all of the elements—so the model hangs together, not as isolated rows. **Assumptions** should be falsifiable, with a **validate by** line (*who* / *what* / *when*) where the engagement can commit — detailed experiment design and the rest of the **validation workflow** live under **abd-simple-validated-learning**, not here.
 
 ### 1. Prepare inputs
 
@@ -134,7 +155,7 @@ Work in canvas order the first time (top to bottom); refine in passes. For each 
 | **Key Partners** | **Partners** and **suppliers** the bet depends on. | Empty if partners are load-bearing. |
 | **Cost Drivers** | **Important costs** in the product/system. | Only headcount, no other drivers. |
 | **Alternatives** | At least one **credible** path that is not "our favourite build." | Empty. |
-| **Assumptions** | **Falsifiable** belief with a **validate by** clause — who/what/when. | Opinion with no check. |
+| **Assumptions** | **Falsifiable** belief with a **validate by** line — who/what/when (or explicit TBD to pick up in **abd-simple-validated-learning**). | Opinion with no check. |
 
 Add more Assumption lines if the bet is fragile; each gets a validate-by where possible.
 
@@ -144,7 +165,7 @@ From Solution Features and Increments of Value back to Customer Problems: every 
 
 From Key Metrics of Success, Revenue Drivers, and Cost Drivers: the numbers or signals should show why the org would proceed and how it will know.
 
-Each Assumption ties to a test the team can schedule on the Validated Learning Kanban.
+Each Assumption should be traceable to a test the *team* can **schedule and own** in their own **validation workflow** (this skill does not run that workflow for them).
 
 ### 4. Ensure parity
 

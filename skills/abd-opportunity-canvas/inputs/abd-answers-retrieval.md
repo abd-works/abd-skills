@@ -1,5 +1,7 @@
 # abd-answers retrieval input — abd-opportunity-canvas
 
+**Companion (validation workflow):** **`../abd-simple-validated-learning/`** — assumptions → hypotheses, prioritised **Plan / Validate / Learn**; slides 12–14 below and **`../reference/`** also ground that package.
+
 **Field-level source (complements RAG):** The index often returns only the shared **“why / when”** slide. The **eight-segment** canvas, **guiding questions**, **slides 12–14** (Validated Learning Kanban, uncertainty example, full assumption checklist), and **mapping** to the line-prefix template are in **`../reference/opportunity-canvas-source-materials.md`**, with verbatim **`02 Training/canvas.pptx`** in **`../reference/canvas-pptx-extract.md`** (updated when the PPTX is re-converted). Re-chunk/refresh the embed so retrieval catches those slides, not just slide 6.
 
 ## Agent and skill (how this file is produced)
