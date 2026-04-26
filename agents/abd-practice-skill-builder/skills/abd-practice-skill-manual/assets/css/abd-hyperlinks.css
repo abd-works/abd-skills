@@ -1,0 +1,33 @@
+/**
+ * Vendored from abd-works commons (abd-practice-skill-manual bundle).
+ * Load after site layout CSS.
+ */
+:root {
+  --abd-hyperlink: #ff7a00;
+  --abd-hyperlink-hover: #ff9933;
+}
+
+main a[href],
+.page a[href],
+.panel-body a[href],
+.wrap > footer a[href],
+body > footer a[href],
+body > p a[href],
+.abd-conv .nav-footer a[href] {
+  color: var(--abd-hyperlink);
+  font-weight: 400;
+  text-decoration: underline;
+  text-decoration-color: var(--abd-hyperlink);
+  text-underline-offset: 0.18em;
+}
+
+main a[href]:hover,
+.page a[href]:hover,
+.panel-body a[href]:hover,
+.wrap > footer a[href]:hover,
+body > footer a[href]:hover,
+body > p a[href]:hover,
+.abd-conv .nav-footer a[href]:hover {
+  color: var(--abd-hyperlink-hover);
+  text-decoration-color: var(--abd-hyperlink-hover);
+}

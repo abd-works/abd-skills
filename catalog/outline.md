@@ -1,7 +1,7 @@
 # ABD Skills & Agents — Catalogue Outline
 
 > Auto-generated from repository `skills/` and `agents/`.
-> Run `python skills/abd-skill-catalog/scripts/generate_abd_catalog.py` to refresh.
+> Run `python agents/abd-practice-skill-builder/skills/abd-skill-catalog/scripts/generate_abd_catalog.py` to refresh.
 
 This outline mirrors the reader-facing style of `process-outline.md`:
 each row gives a **short description** and where to open the source.
@@ -15,7 +15,6 @@ each row gives a **short description** and where to open the source.
 | **abd-clean-code** | Production code that matches story behavior: clean structure, domain language, scanner-backed quality bars (Python/JS). | [SKILL.md](../skills/abd-clean-code/SKILL.md) |
 | **abd-delivery-planning** | Delivery plans only: context, risks, strategies, staged runs and checkpoints (not stories, tests, or code). | [SKILL.md](../skills/abd-delivery-planning/SKILL.md) |
 | **abd-delivery-war-room** | Experimental file-based war room for handoffs between abd-delivery-lead and abd-team-member: delivery-war-room/ under the engagement workspace with INSTRUCTIONS.md, manifest.md, and slot-NN-start.md / slot-NN-finished.md. Not wired into the delivery-lead or team-member agents until re-integrated … | [SKILL.md](../skills/abd-delivery-war-room/SKILL.md) |
-| **abd-skill-catalog** | Regenerate the browsable skills/agents catalogue (HTML + outline) from repo packages. | [SKILL.md](../skills/abd-skill-catalog/SKILL.md) |
 | **abd-specification-by-example** | Given/When/Then scenarios with real domain values; plain or outline (data tables) templates. | [SKILL.md](../skills/abd-specification-by-example/SKILL.md) |
 | **abd-story-mapping** | Patton-style story maps (epics, stories, verb-noun naming); writes story-map templates from sources. | [SKILL.md](../skills/abd-story-mapping/SKILL.md) |
 | **abd-thin-slicing** | Thin-sliced MVIs and backlog order from a story map; writes thin-slicing templates. | [SKILL.md](../skills/abd-thin-slicing/SKILL.md) |
@@ -23,12 +22,14 @@ each row gives a **short description** and where to open the source.
 | **deploy-skill-to-cursor** | Junction-link a repo skill into Cursor user skills on Windows (no file copy). | [SKILL.md](../skills/deploy-skill-to-cursor/SKILL.md) |
 | **drawio-story-sync** | story-graph.json to Draw.io story maps; validated load/save and diagram sync. | [SKILL.md](../skills/drawio-story-sync/SKILL.md) |
 | **execute-rules** | Bundle rules into SKILL.md, run scanners, fix failures; quality gate before and after work. | [SKILL.md](../skills/execute_using_rules/SKILL.md) |
+| **miro-story-sync** | story-graph.json to Miro story maps; validated load and REST-driven board sync. | [SKILL.md](../skills/miro-story-sync/SKILL.md) |
 | **abd-ooad** | Turn specs, manuals, or messy sources into OO domain models (scan → extract → refine) with Draw.io. | [SKILL.md](../skills/ooad/SKILL.md) |
 | **abd-proposal-respond** | RFP and proposal response: ingest to memory (abd-context-to-memory), strategy, batched Q&A with RAG. | [SKILL.md](../skills/proposal-respond/SKILL.md) |
 | **skill-garden-catalogue** | Scan a folder of deployed skills and regenerate a one-pager Markdown inventory and an HTML catalogue. Each entry shows the challenge the skill addresses and the solution it provides, hyperlinked to the skill directory. Re-run on command to keep the catalogue current. | [SKILL.md](../skills/skill-garden-catalogue/SKILL.md) |
 | **story-graph-ops** | CRUD story-graph.json via CLI/scripts, validate, persist; no hand-written JSON drift. | [SKILL.md](../skills/story-graph-ops/SKILL.md) |
 | **track-task** | Checkbox markdown task lists for pipelines or ad-hoc steps under the engagement workspace. | [SKILL.md](../skills/track_task/SKILL.md) |
 | **workspace** | Set/read active_skill_workspace in skill-config; scripts resolve the engagement root. | [SKILL.md](../skills/workspace_skill/SKILL.md) |
+| **abd-skill-catalog** | Regenerate the browsable skills/agents catalogue (HTML + outline) from repo packages. | [SKILL.md](../agents/abd-practice-skill-builder/skills/abd-skill-catalog/SKILL.md) |
 
 ## Summary — Agents
 
@@ -36,6 +37,7 @@ each row gives a **short description** and where to open the source.
 | --- | --- | --- |
 | **abd-context-to-memory** | Source docs to Markdown, then labeled chunks in memory/, then FAISS vectors and semantic search. Optional: review context_chunking_spec.yaml before chunk+embed. | [AGENTS.md](../agents/abd-context-to-memory/AGENTS.md) |
 | **abd-delivery-lead** | Orchestrates ABD delivery (workspace, plan, stages, handoffs); delegates work to abd-team-member; uses abd-delivery-planning to manage plan creation. | [AGENT.md](../agents/abd-delivery-lead/AGENT.md) |
+| **abd-practice-skill-builder** | Goal: Produce practice skills under the agilebydesign-skills repository, in skills/<skill-name>/, grounded in abd-answers (Pinecone RAG): retrieve evidence, author the package (SKILL.md starter from abd-author-practice-skill template + *rules/.md), optional scanners, abd-skill-catalog, then an HTML … | [AGENTS.md](../agents/abd-practice-skill-builder/AGENTS.md) |
 | **abd-team-member** | ABD executor for one role per turn (Product Owner, Analyst, or Engineer); requires team-role + workspace; produces stage artifacts via practice skills, often under abd-delivery-lead handoffs. | [AGENT.md](../agents/abd-team-member/AGENT.md) |
 | **ai-research-assistant** | Orchestrate hypothesis-driven research on AI-augmented delivery and context engineering practices. You coordinate three skills in sequence to produce a research report that helps the user decide whether their approach is well-founded, exposed, or genuinely novel. You are an impartial advisor — not … | [AGENTS.md](../agents/ai-research-assistant/AGENTS.md) |
 
@@ -130,10 +132,10 @@ Build and revise agile delivery plans: context assessment, risk types, strategie
 **Repository layout:**
 
 - **[rules/](skill/abd-delivery-planning.html#entry-contents)** — Practice rules (DO/DON'T) and constraints used with scanners.
-- **[scanners/](../skills/abd-delivery-planning/scanners)** — Folder (2 items).
+- **[scanners/](../skills/abd-delivery-planning/scanners)** — Folder (3 items).
 - **[scripts/](../skills/abd-delivery-planning/scripts)** — Build, catalogue, validation, or packaging automation.
 - **[strategies/](../skills/abd-delivery-planning/strategies)** — Folder (9 items).
-- **[tests/](../skills/abd-delivery-planning/tests)** — Folder (3 items).
+- **[tests/](../skills/abd-delivery-planning/tests)** — Folder (4 items).
 - [README.md](doc/skill/abd-delivery-planning/README.html) — One line for catalogue cards and grids (YAML string).
 - [SKILL.md](doc/skill/abd-delivery-planning/SKILL.html) — name: abd-delivery-planning
 
@@ -152,25 +154,6 @@ Reduce repeated paste handoffs between orchestrator and team-member threads by k
 **Repository layout:**
 
 - [SKILL.md](doc/skill/abd-delivery-war-room/SKILL.html) — name: abd-delivery-war-room
-
-### abd-skill-catalog
-
-- **Directory:** [`skills/abd-skill-catalog/`](../skills/abd-skill-catalog/)
-
-**Summary:**
-
-Regenerate the browsable skills/agents catalogue (HTML + outline) from repo packages.
-
-**Description (from Purpose / body):**
-
-Scan agilebydesign-skills (skills/ and agents/), maintain each package’s root README.md for catalogue copy (overview + ASCII), then regenerate catalog/ HTML and outline.md from those files plus a generated file tree.
-
-**Repository layout:**
-
-- **[scripts/](../skills/abd-skill-catalog/scripts)** — Build, catalogue, validation, or packaging automation.
-- **[templates/](../skills/abd-skill-catalog/templates)** — Authoring templates and structural skeletons.
-- [README.md](doc/skill/abd-skill-catalog/README.html) — One line for catalogue cards and grids (YAML string).
-- [SKILL.md](doc/skill/abd-skill-catalog/SKILL.html) — name: abd-skill-catalog
 
 ### abd-specification-by-example
 
@@ -202,7 +185,11 @@ Patton-style story maps (epics, stories, verb-noun naming); writes story-map tem
 
 **Description (from Purpose / body):**
 
-Teaches Patton-style story mapping: epics, sub-epics, stories, verb–noun naming, and actors via story_type. When building a map from sources, outputs all template artifacts in templates/ (currently story-map.md and story-map.txt) with the same tree — not one or the other. Use when structuring product discovery, decomposing user journeys, identifying epics and flows, story mapping, organizing requirements into a hierarchical map, or when the user mentions story maps, epics, sub-epics, or Jeff Patton–style backlog structure.
+A story map in the Jeff Patton sense is a single shared picture of the product: you organize understanding into a small stack of nested levels—epics (broad capability areas), sub-epics (flows or feature areas within an epic), and stories (leaves: one observable user or system interaction each). The map is not a dump of source material, a WBS, or a list of build tasks; it is outcomes and behaviors—what happens in the product—so product, delivery, and domain people can read the same structure.
+
+Naming is part of the model: epics, sub-epics, and stories use verb–noun titles; who is acting (persona/actor, user vs. system) is carried outside the name (e.g. story_type / diagram convention), not stuffed into the title. Good maps read as a journey (sequence along the backbone) and a skeleton of scope (depth into detail), with consistent language from top to bottom.
+
+This document defines …
 
 **Repository layout:**
 
@@ -308,9 +295,28 @@ Bundle rules into SKILL.md, run scanners, quality steps (rules before work), and
 
 - **[scripts/](../skills/execute_using_rules/scripts)** — Build, catalogue, validation, or packaging automation.
 - **[templates/](../skills/execute_using_rules/templates)** — Authoring templates and structural skeletons.
-- **[tests/](../skills/execute_using_rules/tests)** — Folder (3 items).
+- **[tests/](../skills/execute_using_rules/tests)** — Folder (4 items).
 - [README.md](doc/skill/execute_using_rules/README.html) — One line for catalogue cards and grids (YAML string).
 - [SKILL.md](doc/skill/execute_using_rules/SKILL.html) — name: execute-rules
+
+### miro-story-sync
+
+- **Directory:** [`skills/miro-story-sync/`](../skills/miro-story-sync/)
+
+**Summary:**
+
+story-graph.json to Miro story maps; validated load and REST-driven board sync.
+
+**Description (from Purpose / body):**
+
+Render and synchronize story-map Miro boards (outline today; exploration with acceptance criteria and prioritization increments planned) from story-graph.json. Reuses the common diagram_story_sync package (DiagramStoryNode ABCs, layout constants, comparison helpers, UpdateReport) and implements Miro-specific element creation, board I/O, and a pluggable MiroTransport (REST API v2 + in-memory fake for tests). Use when producing or refreshing Miro story maps from story-graph.json, or when wiring CI/scripts for Miro board updates.
+
+**Repository layout:**
+
+- **[scripts/](../skills/miro-story-sync/scripts)** — Build, catalogue, validation, or packaging automation.
+- **[tests/](../skills/miro-story-sync/tests)** — Folder (3 items).
+- [README.md](doc/skill/miro-story-sync/README.html) — catalogue_summary: "Render and synchronize story-map Miro boards (outline today; exploration with acceptance criteria and prioritization increments planned) from story-graph.json …
+- [SKILL.md](doc/skill/miro-story-sync/SKILL.html) — name: miro-story-sync
 
 ### abd-ooad
 
@@ -415,7 +421,7 @@ Track multi-step work with markdown checkboxes (- [ ] / - [x]) for any skill or 
 **Repository layout:**
 
 - **[scripts/](../skills/track_task/scripts)** — Build, catalogue, validation, or packaging automation.
-- **[tests/](../skills/track_task/tests)** — Folder (2 items).
+- **[tests/](../skills/track_task/tests)** — Folder (3 items).
 - [README.md](doc/skill/track_task/README.html) — One line for catalogue cards and grids (YAML string).
 - [SKILL.md](doc/skill/track_task/SKILL.html) — name: track-task
 
@@ -437,6 +443,25 @@ Set and read the agent engagement root (skill-config.json → workspace.active_s
 - [README.md](doc/skill/workspace_skill/README.html) — One line for catalogue cards and grids (YAML string).
 - [SKILL.md](doc/skill/workspace_skill/SKILL.html) — name: workspace
 - [Untitled](../skills/workspace_skill/Untitled) — workspace_skill
+
+### abd-skill-catalog
+
+- **Directory:** [`agents/abd-practice-skill-builder/skills/abd-skill-catalog/`](../agents/abd-practice-skill-builder/skills/abd-skill-catalog/)
+
+**Summary:**
+
+Regenerate the browsable skills/agents catalogue (HTML + outline) from repo packages.
+
+**Description (from Purpose / body):**
+
+Scan agilebydesign-skills (skills/ and agents/), maintain each package’s root README.md for catalogue copy (overview + ASCII), then regenerate catalog/ HTML and outline.md from those files plus a generated file tree.
+
+**Repository layout:**
+
+- **[scripts/](../agents/abd-practice-skill-builder/skills/abd-skill-catalog/scripts)** — Build, catalogue, validation, or packaging automation.
+- **[templates/](../agents/abd-practice-skill-builder/skills/abd-skill-catalog/templates)** — Authoring templates and structural skeletons.
+- [README.md](doc/agent/abd-practice-skill-builder/README.html) — One line for catalogue cards and grids (YAML string).
+- [SKILL.md](doc/agent/abd-practice-skill-builder/SKILL.html) — name: abd-skill-catalog
 
 ---
 
@@ -494,10 +519,35 @@ Planning detail lives in the skill, not in this file. For every planning decisio
 
 - **[docs/](../agents/abd-delivery-lead/docs)** — Human-oriented documentation for the package.
 - **[stages/](../agents/abd-delivery-lead/stages)** — Folder (6 items).
-- **[tests/](../agents/abd-delivery-lead/tests)** — Folder (2 items).
+- **[tests/](../agents/abd-delivery-lead/tests)** — Folder (3 items).
 - [AGENT.md](doc/agent/abd-delivery-lead/AGENT.html) — ABD Delivery Lead
 - [Deploy-ToCursor.ps1](../agents/abd-delivery-lead/Deploy-ToCursor.ps1) — .SYNOPSIS
 - [README.md](doc/agent/abd-delivery-lead/README.html) — catalogue_summary: >-
+
+### abd-practice-skill-builder
+
+- **Directory:** [`agents/abd-practice-skill-builder/`](../agents/abd-practice-skill-builder/)
+- **Entry:** [`agents/abd-practice-skill-builder/AGENTS.md`](../agents/abd-practice-skill-builder/AGENTS.md)
+
+**Summary:**
+
+Goal: Produce practice skills under the agilebydesign-skills repository, in skills/<skill-name>/, grounded in abd-answers (Pinecone RAG): retrieve evidence, author the package (SKILL.md starter from abd-author-practice-skill template + *rules/.md), optional scanners, abd-skill-catalog, then an HTML …
+
+**Description:**
+
+Goal: Produce practice skills under the agilebydesign-skills repository, in skills/<skill-name>/, grounded in abd-answers (Pinecone RAG): retrieve evidence, author the package (SKILL.md starter from abd-author-practice-skill template + *rules/.md), optional scanners, abd-skill-catalog, then an HTML manual (vendored shell assets in abd-practice-skill-manual).
+
+Orchestrate using the agent-local packages in skills/ under this agent (same idea as abd-context-to-memory routing to nested skills/abd-/SKILL.md*).
+
+---
+
+**Repository layout:**
+
+- **[rules/](agent/abd-practice-skill-builder.html#entry-contents)** — Practice rules (DO/DON'T) and constraints used with scanners.
+- **[scripts/](../agents/abd-practice-skill-builder/scripts)** — Build, catalogue, validation, or packaging automation.
+- **[skills/](../agents/abd-practice-skill-builder/skills)** — Nested skills shipped inside an agent package.
+- [AGENTS.md](doc/agent/abd-practice-skill-builder/AGENTS.html) — AGENTS — abd-practice-skill-builder
+- [skill-config.json](../agents/abd-practice-skill-builder/skill-config.json) — "name": "abd-practice-skill-builder",
 
 ### abd-team-member
 

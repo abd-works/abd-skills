@@ -1,328 +1,122 @@
-from typing import List, Optional, Any, Set
+"""DrawIO-specific story node hierarchy and structural diff plumbing.
+
+Builds on the platform-agnostic abstractions in
+``common/diagram_story_sync``: ``DiagramStoryNode`` / ``DiagramEpic`` /
+``DiagramSubEpic`` / ``DiagramStory`` / ``DiagramIncrement`` provide
+positioning, formatting, and containment rules; ``node_comparison`` provides
+``compare_node_lists`` / ``collect_all_names`` / ``RowPositions`` /
+``max_sub_epic_depth``.
+
+This module adds the DrawIO XML serialization layer (via ``DrawIOElement``)
+and a DrawIO-specific predicate (``_drawio_is_manual_subtree_root``) that
+recognises manually drawn cells whose ``cell_id`` lacks a ``/`` path prefix.
+"""
+from typing import List, Optional, Set
 from dataclasses import dataclass, field
-from story_graph_ops.nodes import StoryNode, Epic, SubEpic, Story, StoryGroup
-from story_graph_ops.domain import DomainConcept, StoryUser
-from .diagram_story_node import (
-    DiagramStoryNode, DiagramEpic, DiagramSubEpic, DiagramStory, DiagramIncrement
+
+from . import _bootstrap  # noqa: F401
+
+from story_graph_ops.nodes import StoryNode, Epic, SubEpic, Story  # noqa: F401
+from story_graph_ops.domain import DomainConcept, StoryUser  # noqa: F401
+
+from diagram_story_sync.diagram_story_node import (
+    DiagramStoryNode,
+    DiagramEpic,
+    DiagramSubEpic,
+    DiagramStory,
+    DiagramIncrement,
 )
+from diagram_story_sync.layout_constants import (
+    CELL_SIZE,
+    CELL_SPACING,
+    EPIC_Y,
+    EPIC_HEIGHT,
+    SUB_EPIC_HEIGHT,
+    ROW_GAP,
+    ACTOR_GAP,
+    BAR_PADDING,
+    SPACING,
+    CONTAINER_PADDING,
+)
+from diagram_story_sync.node_comparison import (
+    RowPositions as _CommonRowPositions,
+    collect_all_names as _common_collect_all_names,
+    compare_node_lists as _common_compare_node_lists,
+    max_sub_epic_depth as _common_max_sub_epic_depth,
+    report_leaf_story_group_reorder_if_needed as _common_report_leaf_story_group_reorder_if_needed,
+    report_sub_epic_sibling_reorder_if_needed as _common_report_sub_epic_sibling_reorder_if_needed,
+    slug as _common_slug,
+)
+
 from .drawio_element import DrawIOElement, STYLE_DEFAULTS
 from .story_io_position import Position, Boundary
 from .update_report import UpdateReport
 
 
-# ---------------------------------------------------------------------------
-# Row-based layout constants (matching reference diagram)
-# ---------------------------------------------------------------------------
-CELL_SIZE = 50           # Stories and actors are 50x50 squares
-CELL_SPACING = 10        # Horizontal gap between cells
-EPIC_Y = 120             # Y position of epic row
-EPIC_HEIGHT = 60         # Height of epic bar
-SUB_EPIC_HEIGHT = 60     # Height of sub-epic bar
-ROW_GAP = 15             # Gap between rows
-ACTOR_GAP = 25           # Extra gap before actor row
-BAR_PADDING = 5          # Internal horizontal padding for bars
-SPACING = CELL_SPACING   # alias kept for backward compatibility
-CONTAINER_PADDING = BAR_PADDING
+_slug = _common_slug
 
 
-def _slug(name: str) -> str:
-    return name.lower().replace(' ', '-')
+# Backward-compat aliases kept so ``drawio_story_map.py`` and tests that import
+# private names from this module keep working unchanged.
+_RowPositions = _CommonRowPositions
+_collect_all_names = _common_collect_all_names
+_max_sub_epic_depth = _common_max_sub_epic_depth
 
 
-def _add_new_by_type(report, node, parent_name=''):
-    """Report a new node using the correct method based on its type."""
-    if isinstance(node, Epic):
-        report.add_new_epic(node.name, parent=parent_name)
-    elif isinstance(node, SubEpic):
-        report.add_new_sub_epic(node.name, parent=parent_name)
-    else:
-        report.add_new_story(node.name, parent=parent_name)
+def _drawio_is_manual_subtree_root(ext_node) -> bool:
+    """Spot DrawIO epics / sub-epics that the user drew by hand.
 
+    Sub-epics and epics whose ``cell_id`` lacks a ``/`` were created in the
+    DrawIO canvas (DrawIO assigns numeric IDs), not produced by our renderer
+    (which builds ``epic-name/sub-epic-name`` paths). Such nodes must not be
+    paired as renames against unmatched originals — they are genuinely new.
 
-def _add_removed_by_type(report, node, parent_name=''):
-    """Report a removed node using the correct method based on its type."""
-    if isinstance(node, Epic):
-        report.add_removed_epic(node.name, parent=parent_name)
-    elif isinstance(node, SubEpic):
-        report.add_removed_sub_epic(node.name, parent=parent_name)
-    else:
-        report.add_removed_story(node.name, parent=parent_name)
-
-
-def _report_all_descendants_as_new(node, report, parent_name=''):
-    """When a node is entirely new, report all its descendants as new too."""
-    sub_epics = list(node.get_sub_epics()) if hasattr(node, 'get_sub_epics') else []
-    if sub_epics:
-        # Has sub-epics: report them and recurse (stories will be reported by recursion)
-        for se in sub_epics:
-            report.add_new_sub_epic(se.name, parent=node.name)
-            _report_all_descendants_as_new(se, report, parent_name=se.name)
-    elif hasattr(node, 'get_stories'):
-        # Leaf container: report direct stories only
-        for story in node.get_stories():
-            report.add_new_story(story.name, parent=node.name)
-
-
-def _report_all_descendants_as_removed(node, report, parent_name=''):
-    """When a node is removed, report all its descendants as removed too."""
-    # Get sub-epics using whichever method/property is available
-    sub_epics = []
-    if hasattr(node, 'get_sub_epics'):
-        sub_epics = list(node.get_sub_epics())
-    elif hasattr(node, 'sub_epics'):
-        sub_epics = list(node.sub_epics)
-    
-    if sub_epics:
-        # Has sub-epics: report them and recurse (stories will be reported by recursion)
-        for se in sub_epics:
-            report.add_removed_sub_epic(se.name, parent=node.name)
-            _report_all_descendants_as_removed(se, report, parent_name=se.name)
-    
-    # Report direct stories
-    stories = []
-    if hasattr(node, 'get_stories'):
-        stories = list(node.get_stories())
-    elif hasattr(node, 'all_stories'):
-        stories = list(node.all_stories)
-    
-    for story in stories:
-        report.add_removed_story(story.name, parent=node.name)
-
-
-def _collect_all_names(nodes) -> Set[str]:
-    """Recursively collect all names (epics, sub-epics, stories) from a tree."""
-    names: Set[str] = set()
-    for node in nodes:
-        names.add(node.name)
-        if hasattr(node, 'get_sub_epics'):
-            names |= _collect_all_names(node.get_sub_epics())
-        if hasattr(node, 'get_stories'):
-            for story in node.get_stories():
-                names.add(story.name)
-        # For original domain nodes that use .children or .sub_epics
-        if hasattr(node, 'sub_epics') and not hasattr(node, 'get_sub_epics'):
-            names |= _collect_all_names(node.sub_epics)
-        if hasattr(node, 'children'):
-            for child in getattr(node, 'children', []):
-                names.add(child.name)
-    return names
+    Stories are excluded because test helpers and simplified diagrams may use
+    flat IDs even for valid renames.
+    """
+    cell_id = getattr(ext_node, 'cell_id', '') or ''
+    if not cell_id:
+        return False
+    if '/' in cell_id:
+        return False
+    return isinstance(ext_node, (DrawIOEpic, DrawIOSubEpic))
 
 
 def _compare_node_lists(extracted, original, report, parent_name='',
-                        recurse=False,
-                        all_extracted_names: Set[str] = None,
-                        all_original_names: Set[str] = None,
-                        extracted_story_to_inc: dict = None,
-                        original_story_to_inc: dict = None):
-    # Phase 1: Match by exact name first
-    orig_by_name = {}
-    for n in original:
-        orig_by_name[n.name] = n
+                         recurse=False,
+                         all_extracted_names: Set[str] = None,
+                         all_original_names: Set[str] = None,
+                         extracted_story_to_inc: dict = None,
+                         original_story_to_inc: dict = None) -> None:
+    """DrawIO wrapper around the common comparison routine.
 
-    matched_ext = []       # (ext_node, orig_node) pairs
-    unmatched_ext = []     # extracted nodes with no name match
-    used_orig = set()      # names already matched
-
-    for ext_node in extracted:
-        orig_node = orig_by_name.get(ext_node.name)
-        if orig_node and ext_node.name not in used_orig:
-            matched_ext.append((ext_node, orig_node))
-            used_orig.add(ext_node.name)
-        else:
-            unmatched_ext.append(ext_node)
-
-    unmatched_orig = [n for n in original if n.name not in used_orig]
-
-    # Phase 2: Report exact matches and recurse
-    for ext_node, orig_node in matched_ext:
-        report.add_exact_match(ext_node.name, orig_node.name, parent=parent_name)
-        if recurse and hasattr(ext_node, '_compare_children'):
-            ext_node._compare_children(orig_node, report,
-                                       all_extracted_names=all_extracted_names,
-                                       all_original_names=all_original_names,
-                                       extracted_story_to_inc=extracted_story_to_inc,
-                                       original_story_to_inc=original_story_to_inc)
-
-    # Phase 3: Detect renames by story-graph order.
-    # Sort unmatched originals by their story-graph sequential_order so
-    # the positional pairing reflects the original graph ordering.
-    unmatched_ext_sorted = sorted(unmatched_ext, key=lambda n: n.sequential_order or 0)
-    unmatched_orig_sorted = sorted(unmatched_orig, key=lambda n: getattr(n, 'sequential_order', 0) or 0)
-
-    # A pair (ext, orig) is a rename ONLY if:
-    #   - ext.name does NOT exist anywhere in the original story graph
-    #     (otherwise it was moved here from another parent)
-    #   - orig.name does NOT exist anywhere in the extracted diagram
-    #     (otherwise it moved to a different parent)
-    ext_names_global = all_extracted_names or set()
-    orig_names_global = all_original_names or set()
-
-    still_unmatched_ext = []
-    still_unmatched_orig = []
-
-    rename_pairs = []
-    used_ext_idx = set()
-    used_orig_idx = set()
-
-    for i, ext_node in enumerate(unmatched_ext_sorted):
-        if ext_node.name in orig_names_global:
-            # This name exists in the original tree → it's a move, not a rename
-            still_unmatched_ext.append(ext_node)
-            continue
-        # Sub-epics/epics with non-hierarchical cell IDs (e.g. "3", "18")
-        # were created manually by the user in DrawIO.  They are genuinely
-        # new structural elements, not renames.  Only nodes whose cell_id
-        # contains '/' (generated by our rendering code from the hierarchy
-        # path) are candidates for rename pairing.  Stories are excluded
-        # from this check because test helpers and simplified diagrams
-        # may use simple IDs for stories that are still valid renames.
-        cell_id = getattr(ext_node, 'cell_id', '') or ''
-        if (cell_id and '/' not in cell_id
-                and isinstance(ext_node, (DrawIOEpic, DrawIOSubEpic))):
-            still_unmatched_ext.append(ext_node)
-            continue
-        # Find the first available original that is also not present elsewhere
-        for j, orig_node in enumerate(unmatched_orig_sorted):
-            if j in used_orig_idx:
-                continue
-            if orig_node.name in ext_names_global:
-                # This original name still exists in the diagram → it moved away
-                continue
-            # Check if both are stories with increment information.
-            # Only pair as rename if they're in the same increment (or both unassigned).
-            # This prevents stories in different increments but same horizontal position
-            # from being incorrectly treated as renames.
-            if hasattr(ext_node, 'story_type') and extracted_story_to_inc and original_story_to_inc:
-                ext_inc = extracted_story_to_inc.get(ext_node.name)
-                orig_inc = original_story_to_inc.get(orig_node.name)
-                # If either has an increment assignment and they differ, skip this pairing
-                if (ext_inc or orig_inc) and ext_inc != orig_inc:
-                    continue
-            # Neither name exists elsewhere → genuine rename
-            rename_pairs.append((ext_node, orig_node))
-            used_ext_idx.add(i)
-            used_orig_idx.add(j)
-            break
-        else:
-            still_unmatched_ext.append(ext_node)
-
-    for j, orig_node in enumerate(unmatched_orig_sorted):
-        if j not in used_orig_idx:
-            still_unmatched_orig.append(orig_node)
-
-    for ext_node, orig_node in rename_pairs:
-        report.add_rename(ext_node.name, orig_node.name, confidence=1.0, parent=parent_name)
-        if recurse and hasattr(ext_node, '_compare_children'):
-            ext_node._compare_children(orig_node, report,
-                                       all_extracted_names=all_extracted_names,
-                                       all_original_names=all_original_names,
-                                       extracted_story_to_inc=extracted_story_to_inc,
-                                       original_story_to_inc=original_story_to_inc)
-
-    # Phase 4: Remaining extracted = new, remaining original = removed
-    # Use type-aware reporting so epics/sub-epics are not misclassified as stories
-    for ext_node in still_unmatched_ext:
-        _add_new_by_type(report, ext_node, parent_name=parent_name)
-        _report_all_descendants_as_new(ext_node, report)
-
-    for orig_node in still_unmatched_orig:
-        _add_removed_by_type(report, orig_node, parent_name=parent_name)
-        _report_all_descendants_as_removed(orig_node, report)
-
-
-def _report_sub_epic_sibling_reorder_if_needed(
-    parent_name: str,
-    extracted_sub_epics: List["DrawIOSubEpic"],
-    original_sub_epics: List[SubEpic],
-    report: UpdateReport,
-) -> None:
-    """Record sub-epic column order when names match the graph but sequence differs."""
-    if not extracted_sub_epics or not original_sub_epics:
-        return
-    diagram_names = [
-        s.name
-        for s in sorted(extracted_sub_epics, key=lambda n: n.sequential_order or 0)
-    ]
-    graph_names = [
-        s.name
-        for s in sorted(
-            original_sub_epics,
-            key=lambda n: getattr(n, "sequential_order", 0) or 0,
-        )
-    ]
-    if diagram_names == graph_names:
-        return
-    if set(diagram_names) != set(graph_names):
-        return
-    if len(diagram_names) != len(set(diagram_names)):
-        return
-    report.add_sub_epic_sibling_reorder(parent_name, diagram_names)
-
-
-def _report_leaf_story_group_reorder_if_needed(
-    drawio_sub_epic: "DrawIOSubEpic",
-    original_sub_epic: SubEpic,
-    unique_stories_in_diagram_order: List["DrawIOStory"],
-    report: UpdateReport,
-) -> None:
-    """Record left-to-right diagram order when names match the graph but sequence differs."""
-    if original_sub_epic.has_subepics or drawio_sub_epic.get_sub_epics():
-        return
-    orig_stories = [c for c in original_sub_epic.children if isinstance(c, Story)]
-    if not orig_stories or not unique_stories_in_diagram_order:
-        return
-    ordered_orig = sorted(
-        orig_stories,
-        key=lambda s: getattr(s, "sequential_order", 0) or 0,
+    Adds the DrawIO predicate that vetoes rename pairing for manually drawn
+    cells; everything else is delegated.
+    """
+    _common_compare_node_lists(
+        extracted, original, report,
+        parent_name=parent_name,
+        recurse=recurse,
+        all_extracted_names=all_extracted_names,
+        all_original_names=all_original_names,
+        extracted_story_to_inc=extracted_story_to_inc,
+        original_story_to_inc=original_story_to_inc,
+        is_manual_subtree_root=_drawio_is_manual_subtree_root,
     )
-    diagram_names = [s.name for s in unique_stories_in_diagram_order]
-    graph_names = [s.name for s in ordered_orig]
-    if diagram_names == graph_names:
-        return
-    if set(diagram_names) != set(graph_names):
-        return
-    if len(diagram_names) != len(set(diagram_names)):
-        return
-    report.add_story_group_reorder(drawio_sub_epic.name, diagram_names)
 
 
-def _max_sub_epic_depth(node) -> int:
-    """Max nesting depth of sub-epics under a domain node.
-
-    Returns 0 if node has no sub-epics, 1 for flat sub-epics,
-    2 for one level of nesting, etc.
-    """
-    sub_epics = []
-    if hasattr(node, 'sub_epics'):
-        sub_epics = list(node.sub_epics)
-    elif hasattr(node, 'children'):
-        sub_epics = [c for c in node.children if isinstance(c, SubEpic)]
-    if not sub_epics:
-        return 0
-    return 1 + max(_max_sub_epic_depth(se) for se in sub_epics)
+def _report_sub_epic_sibling_reorder_if_needed(parent_name, extracted_sub_epics,
+                                                original_sub_epics, report):
+    _common_report_sub_epic_sibling_reorder_if_needed(
+        parent_name, extracted_sub_epics, original_sub_epics, report
+    )
 
 
-class _RowPositions:
-    """Computes absolute Y positions for every row in the story map.
-
-    All epics share the same row layout so stories across different
-    epics line up horizontally.
-    """
-
-    def __init__(self, max_depth: int):
-        self.max_depth = max(max_depth, 1)
-
-    def sub_epic_y(self, depth: int) -> float:
-        return EPIC_Y + EPIC_HEIGHT + ROW_GAP + depth * (SUB_EPIC_HEIGHT + ROW_GAP)
-
-    @property
-    def actor_y(self) -> float:
-        deepest = self.sub_epic_y(self.max_depth - 1)
-        return deepest + SUB_EPIC_HEIGHT + ACTOR_GAP
-
-    @property
-    def story_y(self) -> float:
-        return self.actor_y + CELL_SIZE + ROW_GAP
+def _report_leaf_story_group_reorder_if_needed(drawio_sub_epic, original_sub_epic,
+                                                unique_stories_in_diagram_order, report):
+    _common_report_leaf_story_group_reorder_if_needed(
+        drawio_sub_epic, original_sub_epic, unique_stories_in_diagram_order, report
+    )
 
 
 # ---------------------------------------------------------------------------
@@ -332,9 +126,9 @@ class _RowPositions:
 @dataclass
 class DrawIOStoryNode(DiagramStoryNode):
     """DrawIO-specific node handling XML read/write.
-    
-    Inherits from DiagramStoryNode (platform-agnostic positioning/formatting)
-    and adds DrawIO XML serialization via DrawIOElement.
+
+    Inherits from ``DiagramStoryNode`` (platform-agnostic positioning /
+    formatting) and adds DrawIO XML serialization via ``DrawIOElement``.
     """
     _element: DrawIOElement = field(default=None, repr=False)
 
@@ -353,12 +147,10 @@ class DrawIOStoryNode(DiagramStoryNode):
 
     @property
     def position(self) -> Position:
-        """Position from DrawIO XML element."""
         return self._element.position
 
     @property
     def boundary(self) -> Boundary:
-        """Boundary from DrawIO XML element."""
         return self._element.boundary
 
     @property
@@ -382,42 +174,33 @@ class DrawIOStoryNode(DiagramStoryNode):
         return self._element.cell_id
 
     def set_position(self, x: float, y: float):
-        """Set position in DrawIO XML element."""
         self._element.set_position(x, y)
 
     def set_size(self, width: float, height: float):
-        """Set size in DrawIO XML element."""
         self._element.set_size(width, height)
 
     def add_child(self, child: 'DrawIOStoryNode'):
-        """Add child node (from DiagramStoryNode)."""
         child._parent = self
         self._children.append(child)
 
     def compute_container_dimensions_from_children(self, spacing: float = SPACING) -> Boundary:
-        """Kept for backward compatibility but not used in row-based layout."""
         return self._element.boundary
-    
+
     def containment_rules(self) -> dict:
-        """Default containment rules. Subclasses override."""
         return {}
-    
+
     def placement_rules(self) -> dict:
-        """Default placement rules. Subclasses override."""
         return {}
-    
+
     def formatting_rules(self) -> dict:
-        """Default formatting rules. Subclasses override."""
         return {}
-    
+
     @classmethod
     def create(cls, domain_node: StoryNode, parent: Optional['DiagramStoryNode'] = None):
-        """Create DrawIO node from domain node. Subclasses implement."""
         raise NotImplementedError("Subclass must implement create()")
-    
+
     @classmethod
     def recognizes(cls, element: any) -> bool:
-        """Recognition logic. Subclasses implement."""
         raise NotImplementedError("Subclass must implement recognizes()")
 
     def _saved_position_for(self, key: str, layout_data) -> Optional[Position]:
@@ -426,7 +209,6 @@ class DrawIOStoryNode(DiagramStoryNode):
         return None
 
     def collect_all_nodes(self) -> list:
-        """Collect self and all descendant nodes for serialization."""
         nodes = [self]
         for child in self._children:
             if hasattr(child, 'collect_all_nodes'):
@@ -442,10 +224,9 @@ class DrawIOEpic(DiagramEpic, DrawIOStoryNode):
     _parent: Optional[StoryNode] = field(default=None, repr=False)
     _element: DrawIOElement = field(default=None, repr=False)
 
-    # Kept as class-level references for tests
     Y_DEFAULT = EPIC_Y
     X_START = 20
-    SUB_EPIC_Y_OFFSET = ROW_GAP + EPIC_HEIGHT   # not used directly anymore
+    SUB_EPIC_Y_OFFSET = ROW_GAP + EPIC_HEIGHT
 
     def __post_init__(self):
         if self.domain_concepts is None:
@@ -484,15 +265,14 @@ class DrawIOEpic(DiagramEpic, DrawIOStoryNode):
                             render_ac: bool = False) -> 'DrawIOEpic':
         """Render epic as a flat horizontal bar spanning its sub-epics.
 
-        The epic does NOT visually contain its sub-epics; it sits on
-        its own row and its width spans from the first to the last
-        sub-epic underneath it.
+        The epic does NOT visually contain its sub-epics; it sits on its own
+        row and its width spans from the first to the last sub-epic
+        underneath it.
 
-        When *skip_stories* is True sub-epics are rendered without
-        story cells (used by increments view).
-
-        When *story_widths* is provided (exploration view), stories are
-        spaced apart based on their widest AC box width.
+        When *skip_stories* is True sub-epics are rendered without story cells
+        (used by increments view). When *story_widths* is provided
+        (exploration view), stories are spaced apart based on their widest AC
+        box width.
         """
         from .drawio_story_node_serializer import DrawIOStoryNodeSerializer
 
@@ -516,7 +296,6 @@ class DrawIOEpic(DiagramEpic, DrawIOStoryNode):
             self.add_child(drawio_se)
             cursor_x += CELL_SPACING
 
-        # Remove trailing spacing
         if epic.sub_epics:
             cursor_x -= CELL_SPACING
 
@@ -558,9 +337,8 @@ class DrawIOSubEpic(DiagramSubEpic, DrawIOStoryNode):
     _parent: Optional[StoryNode] = field(default=None, repr=False)
     _element: DrawIOElement = field(default=None, repr=False)
 
-    # Kept for backward-compat references
     Y_OFFSET_FROM_PARENT = SUB_EPIC_HEIGHT + ROW_GAP
-    STORY_Y_OFFSET = 0   # not used in row-based layout
+    STORY_Y_OFFSET = 0
 
     def __post_init__(self):
         if self.domain_concepts is None:
@@ -602,16 +380,12 @@ class DrawIOSubEpic(DiagramSubEpic, DrawIOStoryNode):
                             render_ac: bool = False) -> float:
         """Render sub-epic as a flat horizontal bar.
 
-        Returns the x position of the right edge of this sub-epic's
-        content (so the caller knows where to place the next sibling).
+        Returns the X coordinate of the right edge of this sub-epic's content
+        so the caller knows where to place the next sibling.
 
-        When *skip_stories* is True the sub-epic computes its width
-        from the number of domain stories but does not create story
-        cells (used by increments view).
-
-        When *story_widths* is provided (exploration view), the
-        horizontal spacing between stories is determined by each
-        story's widest AC box, so acceptance criteria don't overlap.
+        ``skip_stories=True`` computes width from the number of domain
+        stories without creating cells (increments view). ``story_widths``
+        causes per-story spacing to use the widest AC box (exploration view).
         """
         from .drawio_story_node_serializer import DrawIOStoryNodeSerializer
 
@@ -634,17 +408,16 @@ class DrawIOSubEpic(DiagramSubEpic, DrawIOStoryNode):
                     render_ac=render_ac)
                 self.add_child(drawio_n)
                 inner_x += CELL_SPACING
-            inner_x -= CELL_SPACING  # remove trailing
+            inner_x -= CELL_SPACING
             end_x = inner_x + BAR_PADDING
         else:
             stories = [c for c in sub_epic.children if isinstance(c, Story)]
             stories.sort(key=lambda s: getattr(s, 'sequential_order', 0) or 0)
 
-            # Disambiguate duplicate story names to ensure unique cell_ids
             slug_counts: dict = {}
             for s in stories:
-                slug = _slug(s.name)
-                slug_counts[slug] = slug_counts.get(slug, 0) + 1
+                slg = _slug(s.name)
+                slug_counts[slg] = slug_counts.get(slg, 0) + 1
 
             if skip_stories:
                 story_count = len(stories)
@@ -666,12 +439,12 @@ class DrawIOSubEpic(DiagramSubEpic, DrawIOStoryNode):
                     story_type = getattr(story, 'story_type', 'user') or 'user'
                     drawio_story = DrawIOStoryNodeSerializer.create_story(
                         story.name, getattr(story, 'sequential_order', 0) or 0, story_type)
-                    slug = _slug(drawio_story.name)
-                    if slug_counts.get(slug, 0) > 1:
-                        seen_slugs[slug] = seen_slugs.get(slug, 0) + 1
-                        base = f'{slug}-{seen_slugs[slug]}'
+                    slg = _slug(drawio_story.name)
+                    if slug_counts.get(slg, 0) > 1:
+                        seen_slugs[slg] = seen_slugs.get(slg, 0) + 1
+                        base = f'{slg}-{seen_slugs[slg]}'
                     else:
-                        base = slug
+                        base = slg
                     story_path = f'{se_path}/{base}' if se_path else base
                     has_saved = layout_data and layout_data.position_for(story_path)
                     if has_saved:
@@ -690,8 +463,6 @@ class DrawIOSubEpic(DiagramSubEpic, DrawIOStoryNode):
                             layout_data=None, render_ac=render_ac,
                             cell_id_override=story_path)
                     self.add_child(drawio_story)
-                    # Advance X by the AC width if in exploration mode,
-                    # otherwise by the standard cell size.
                     ac_w = story_widths.get(story.name, CELL_SIZE) if story_widths else CELL_SIZE
                     story_x += max(CELL_SIZE, ac_w) + CELL_SPACING
                 if stories:
@@ -727,10 +498,8 @@ class DrawIOSubEpic(DiagramSubEpic, DrawIOStoryNode):
         _report_sub_epic_sibling_reorder_if_needed(
             self.name, self.get_sub_epics(), orig_nested, report)
 
-        # Deduplicate extracted stories by name.  The same story can
-        # appear multiple times in the tree when it lives in several
-        # increment lanes (each lane copy is assigned to the same
-        # sub-epic by X-position).  Keep the first occurrence.
+        # Deduplicate extracted stories by name (a story can appear in multiple
+        # increment lanes; keep the first occurrence).
         seen_names: set = set()
         unique_stories: list = []
         for s in self.get_stories():
@@ -755,7 +524,6 @@ class DrawIOStory(DiagramStory, DrawIOStoryNode):
     _parent: Optional[StoryNode] = field(default=None, repr=False)
     _element: DrawIOElement = field(default=None, repr=False)
 
-    # Stories are 50x50 sticky-note squares
     WIDTH = CELL_SIZE
     HEIGHT = CELL_SIZE
     ACTOR_HEIGHT = CELL_SIZE
@@ -806,8 +574,8 @@ class DrawIOStory(DiagramStory, DrawIOStoryNode):
         self.set_position(final_x, final_y)
         self.set_size(CELL_SIZE, CELL_SIZE)
 
-        # Actors placed directly above this story. Shared ``seen_actors`` (per
-        # sub-epic row) skips duplicate persona *names* so the outline stays compact.
+        # Actors directly above this story; ``seen_actors`` (per sub-epic row)
+        # skips duplicate persona names so the outline stays compact.
         users = getattr(story, 'users', []) or []
         for user in users:
             user_name = user.name if hasattr(user, 'name') else str(user)
@@ -822,19 +590,18 @@ class DrawIOStory(DiagramStory, DrawIOStoryNode):
             actor.set_position(x_pos, actor_y)
             actor.set_size(CELL_SIZE, CELL_SIZE)
             self._actor_elements.append(actor)
-        
-        # Render AC boxes if requested (acceptance_criteria diagram type)
+
         if render_ac:
             self.render_ac_boxes(story)
-        
+
         return self
 
     @staticmethod
     def compute_ac_width(domain_story) -> float:
-        """Return the width needed for AC boxes of this story.
+        """Return the horizontal space needed for AC boxes of this story.
 
-        All AC boxes use a consistent fixed width (AC_MIN_WIDTH) since
-        the text wraps inside the box.  Returns CELL_SIZE if no AC.
+        All AC boxes use ``AC_MIN_WIDTH`` because text wraps inside the box.
+        Returns ``CELL_SIZE`` if the story has no AC.
         """
         ac_list = getattr(domain_story, 'acceptance_criteria', []) or []
         if not ac_list:
@@ -852,7 +619,7 @@ class DrawIOStory(DiagramStory, DrawIOStoryNode):
         return str(ac) if ac else ''
 
     def render_ac_boxes(self, domain_story) -> List[DrawIOElement]:
-        """Create acceptance criteria DrawIOElements below this story."""
+        """Create acceptance-criteria ``DrawIOElement`` boxes below this story."""
         ac_list = getattr(domain_story, 'acceptance_criteria', []) or []
         if not ac_list:
             return []
@@ -892,17 +659,16 @@ class DrawIOStory(DiagramStory, DrawIOStoryNode):
         return nodes
 
 
-
 class DrawIOIncrementLane:
-    """An increment lane (horizontal band) in the story map diagram."""
+    """A horizontal increment lane in the DrawIO story map diagram."""
 
-    LABEL_Y_OFFSET = 5       # label starts 5px below lane top
+    LABEL_Y_OFFSET = 5
     LABEL_HEIGHT = 30
     LABEL_WIDTH = 150
-    ACTOR_Y_OFFSET = 40      # actor starts below label (5+30+5)
-    ACTOR_SIZE = CELL_SIZE    # 50x50 – consistent with outline actors
-    STORY_Y_OFFSET = 95      # story starts below actor (40+50+5)
-    LANE_HEIGHT = 155         # label(30) + gap + actor(50) + gap + story(50) + pad
+    ACTOR_Y_OFFSET = 40
+    ACTOR_SIZE = CELL_SIZE
+    STORY_Y_OFFSET = 95
+    LANE_HEIGHT = 155
 
     def __init__(self, name: str, priority: int, story_names: list):
         self.name = name
@@ -918,11 +684,9 @@ class DrawIOIncrementLane:
                domain_stories: Optional[list] = None) -> float:
         """Render an increment lane with stories and actor labels.
 
-        Args:
-            stories: DrawIOStory objects from the outline render (used for
-                     position and style info).
-            domain_stories: Original domain Story objects (used for user
-                           info to render actor labels).
+        ``stories`` are ``DrawIOStory`` objects from the outline render (used
+        for position and style); ``domain_stories`` are the original domain
+        ``Story`` objects (used for user info to render actor labels).
         """
         lane_y = y_start + index * self.LANE_HEIGHT
 
@@ -937,7 +701,6 @@ class DrawIOIncrementLane:
         self._label_element.set_position(5, lane_y + self.LABEL_Y_OFFSET)
         self._label_element.set_size(self.LABEL_WIDTH, self.LABEL_HEIGHT)
 
-        # Build lookup from story name to domain story for user info
         domain_by_name = {}
         if domain_stories:
             for ds in domain_stories:
@@ -958,7 +721,6 @@ class DrawIOIncrementLane:
                 copy.set_size(CELL_SIZE, CELL_SIZE)
                 self._story_copies.append(copy)
 
-                # Actor labels above stories (deduplicated per lane)
                 domain_story = domain_by_name.get(story.name)
                 if domain_story:
                     users = getattr(domain_story, 'users', []) or []

@@ -20,8 +20,8 @@ You finish with an **object-oriented domain model** that maps domain behaviour t
 
 | # | Phase ID | Description |
 |---|----------|-------------|
-| 0a | `workspace-and-config` | Set `skill_path`, `active_skill_workspace`, confirm `skill-config.json` |
-| 0b | `domain-scan` | Scan source, identify anchors and tensions, sketch initial module boundaries, seed `term-registry.md` |
+| 0a | workspace-and-config` | Set `skill_path`, `active_skill_workspace`, confirm `skill-config.json` |
+| 0b | domain-scan` | Scan source, identify anchors and tensions, sketch initial module boundaries, seed nbhjjjjjjjjbloterm-registry.md` |
 
 ---
 
@@ -31,9 +31,9 @@ You finish with an **object-oriented domain model** that maps domain behaviour t
 
 | # | Phase ID | Description |
 |---|----------|-------------|
-| p1 | `nouns-verbs-rules-and-states` | Extract nouns, verbs, rules, and states per module slice |
-| p2 | `candidate-classes` | Cluster nouns and verbs into named class stubs (`<< Kind? >>`) |
-| p3 | `thing-vs-data-about-a-thing` | For each stub: does it have identity? Entity candidate or property/VO |
+| p1 | nouns-verbs-rules-and-states` | Extract nouns, verbs, rules, and states per module slice |
+| p2 | candidate-classes` | Cluster nouns aond verbs into named class stubs (`<< Kind? >>`) |
+| p3 | thing-vs-data-about-a-thing` | For each stub: does it have identity? Entity candidate or property/VO |
 
 ---
 
@@ -43,8 +43,8 @@ You finish with an **object-oriented domain model** that maps domain behaviour t
 
 | # | Phase ID | Description |
 |---|----------|-------------|
-| p4 | `responsibilities-and-collaborators` | CRC pass: one responsibility sentence per class, named collaborators |
-| p5 | `properties-methods-and-relationships` | Three-pass: properties → operations → relationships and cardinality |
+| p4 | responsibilities-and-collaborators | CRC pass: one responsibility sentence per class, named collaborators |
+| p5 | properties-methods-and-relationships | Three-pass: properties → operations → relationships and cardinality |
 | — | **Validator:** `check-single-responsibility` | Run after p5 — does any class have more than one reason to change? |
 | p6 | `inherit-interface-or-compose` | For each relationship: is-a → inherit; shared contract → interface; has-a → compose |
 
@@ -68,9 +68,9 @@ You finish with an **object-oriented domain model** that maps domain behaviour t
 
 | # | Phase ID | Description |
 |---|----------|-------------|
-| p9 | `invariants` | Identify and attach domain constraints; express as guard conditions |
-| p10 | `state-and-lifecycle` | Full lifecycle: states, transitions, guards mapped to invariants, domain events |
-| p11 | `scenario-validation` | Walk real scenarios step by step; every step must map to a class and operation |
+| p9 | invariants | Identify and attach domain constraints; express as guard conditions |
+| p10 | state-and-lifecycle | Full lifecycle: states, transitions, guards mapped to invariants, domain events |
+| p11 | scenario-validation | Walk real scenarios step by step; every step must map to a class and operation |
 
 ---
 

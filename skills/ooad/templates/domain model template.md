@@ -1,110 +1,68 @@
-﻿## Domain model -- {{project_or_slice_name}}
+## Domain model 
 
 One file per workspace. All phases write into this file. **Never delete old `note:` lines -- each phase appends.**
 
+**Conventions (abd-ooad / properties-methods-and-relationships):**
+
+- `## [Module: Name]` then a short paragraph for module scope.
+- `ClassName << Entity | ValueObject | ... >>` when stereotypes help; one or two sentences on what the class owns.
+- Group **related** properties and the methods that belong with them; use `----` between sub-clusters inside a class.
+- **`-----`** between **classes** (full separator).
+- **Relationships / cardinality** on properties: `+ name:Type [*..1]`, etc.
+- **Typed constants / enums:** `NAME_IN_UPPER_SNAKE` for literals or enum-like sets; document values in a block under the type name.
+- **Subtypes:** `ChildClass : ParentClass` on the class title line — make generalization explicit.
+- **Invariants** (declarative): tab-indented under the **property or method** they guard, e.g. `Invariant: ...` (see example). For heavy lifecycle text, prefer **`business-logic.md`** and reference briefly here.
+
 ---
 
-## [{{AnchorName}} module]
+## [Module: {{Module}}]
 
-note: {{AnchorName}} module -- {{one sentence: what this module owns}}
-note: * -- see Note labels table and Example below
+{{Short paragraph describing module purpose / responsibility}}
 
-{{ClassName}} << {{kind}}? >>                         (stub added p3; ? = provisional; p4 confirms or demotes)
-note: {{ClassName}} -- {{one sentence: why this class exists / what it owns}}
-note: * -- see Note labels table and Example below
-
-+ {{property}}:{{Type}}                              (added p6; opt + cardinality p7; Invariant p8)
-+ {{method}}({{param}}:{{Type}}, ...): {{ReturnType}} (added p6; opt + cardinality p7; Invariant p8)
+{{ClassName}} : {{BaseType}}
+{{1-2 sentences: why this class exists / what it owns}}
+----------
++ {{property}}:{{Type}}
++ {{property}}:{{Type}}
++ {{method}}({{param}}:{{Type}}, ...): {{ReturnType}}
++ {{method}}({{param}}:{{Type}}, ...): {{ReturnType}}
 
 -----
-
----
-
-## Note labels by tag (skill)
-
-| Tag | Skill | Labels added |
-|-----|-------|-------------|
-| `[dms]` | domain-model-skeleton | `High Confidence Anchor`, `Sibling Candidate`, `Tension` |
-| `[p1]` | nouns-verbs-rules-and-states | `Anchor Boundary`, `Sibling Candidate`, `Tension`, `Follow-up` |
-| `[p3]` | raw-candidates | `Provisionally Classified`, `Tension`, `Follow-up` |
-| `[p4]` | thing-vs-data-about-a-thing | `Classified`, `Renamed`, `Tension`, `Follow-up` |
-| `[p5]` | responsibilities-and-collaborators | `Classified`, `Tension`, `Follow-up` |
-| `[p6]` | properties-and-operations | `Classified`, `Promoted`, `Tension`, `Follow-up` |
-| `[p7]` | relationships-and-cardinality | `Classified`, `Tension`, `Follow-up` |
-| `[p8]` | invariants-in-the-model | `Invariant`, `Tension`, `Follow-up` |
-| `[p9]` | watch-for-bloated-classes | `Bloat Signal`, `Role Separation`, `Follow-up` |
-| `[p10]` | smashed-abstractions-and-hidden-roles | `Role Separation`, `Classified`, `Tension`, `Follow-up` |
-| `[p11]` | inheritance-when-behavior-generalizes | `Classified`, `Promoted`, `Tension`, `Follow-up` |
-| `[p12]` | abstract-classes-and-interfaces | `Classified`, `Promoted`, `Tension`, `Follow-up` |
-| `[p13]` | prefer-composition | `Classified`, `Tension`, `Follow-up` |
-| `[p14]` | model-state-transitions | `State Candidate`, `Invariant`, `Tension`, `Follow-up` |
-| `[p15]` | iterative-refinement | `Renamed`, `Classified`, `Tension`, `Follow-up` |
-| `[p16]` | tension-as-a-signal | `Tension`, `Renamed`, `Follow-up` |
-| `[p17]` | design-bounded-contexts | `Cohesion Group`, `Bounded Context`, `Tension`, `Follow-up` |
-| `[p18]` | validate-with-scenarios | `Scenario Gap`, `Invariant`, `Follow-up` |
-| `[p19]` | refine-names | `Renamed`, `Promoted`, `Follow-up` |
 
 ---
 
 ## Example
 
-*Only notes that fired are written -- not one per phase.*
+## [Module: Payments]
 
-## [Payment module]
+Owns all money movement and connector routing for a transaction.
 
-note: Payment module -- owns all money movement and connector routing for a transaction
-note: [dms] High Confidence Anchor -- every spec flow routes through this module; no other candidate owns settlement
-note: [p9] Role Separation -- RoutingContext extracted; module boundary tightened around lifecycle not routing dimensions
-
-Payment << Entity? >>                                         (stub p3; confirmed p4)
-note: Payment -- owns lifecycle and state transitions for a single money movement attempt
-note: [dms] High Confidence Anchor -- appears in every flow; all capture and settlement routes through it
-note: [p3] Provisionally Classified -- Entity?; appears as named thing in every flow; identity suspected
-note: [p4] Classified -- Entity; confirmed identity (payment id), lifecycle (state machine), owns behavior
-note: [p8] Invariant -- SETTLED cannot return to AUTHORIZED; state machine is append-only past capture
-note: [p14] State Candidate -- states: INITIATED, AUTHORIZED, CAPTURED, SETTLED, FAILED
-+ id:UniqueID                                              (p5)
-+ idempotencyKey:String                                    (p5)
-+ state:PaymentState                                       (p5)
-     opt  PaymentState [1..1]                              (p7)
-+ authorize(connectorRef:ConnectorId): AuthResult          (p6)
-     opt  ConnectorId [1..1], AuthResult [1..1]            (p7)
-     Invariant: state must be METHOD_SELECTED before authorize  (p8)
+Payment << Entity >>
+Owns lifecycle and state transitions for a single money movement attempt.
++ id:UniqueID
++ uniqueSessionKey:String
+----
++ currency:Currency [*..1]
++ region:Region [*..1]
++ rail:PaymentRail [*..1]
++ rail:connectToRail()
+    Invariant: payment rail, currency, and region are immutable once set
 -----
++ PAYMENT_STATE:PaymentState [*..1]
++ authorize(selectedPaymentRail:PaymentRail): AuthResult
+    Invariant: PAYMENT_STATE must be PAYMENT_METHOD_SELECTED before authorize
++ submit():PaymentResult
+    Invariant: state must be PAYMENT_READY before submit
 
-RoutingContext :
-note: RoutingContext -- currency+region pair that selects a connector; immutable once set
-note: [p5] Promoted -- was a loose property on Payment; recurred across three operations so extracted as VO
-+ currency:Currency                                        (p5)
-     opt  Currency [1..1]                                  (p7)
-+ region:RegionCode                                        (p5)
-     opt  RegionCode [1..1]                                (p7)
+PaymentRailConnector
+The PaymentRail is determined by the currency+region pair that selects a connector.
++ determineRail(payment:Payment): PaymentRail
+
+PAYMENT_STATE
+Typed constants (UPPER_CASE):
+    PAYMENT_AUTHORIZED = "PA"
+    PAYMENT_READY = "PR"
+
+WireTransfer : Payment
+
 -----
-
----
-
-## Patterns — subtype heading & invariant lines
-
-Use this skill’s **Markdown companion** for structure the diagram must mirror.
-
-### Subtype heading (inheritance visible in the doc)
-
-When a specialization has a real superclass, make it explicit:
-
-```markdown
-### **WireTransfer** : **Payment**
-
-note: WireTransfer -- country-specific wire settlement; extends Payment lifecycle
-```
-
-(For a root type with no parent, use a single class name and no `: Base` part — see **Payment** in **Example** above.)
-
-### Invariant lines
-
-Attach constraints **under** the property or operation they apply to — use the `Invariant:` line style already shown on **`authorize`** under **Payment** in **Example** above. Do **not** gather invariants in a separate section at module level.
-
-```markdown
-+ submit():Result
-     Invariant: state must be READY before submit
-```
-

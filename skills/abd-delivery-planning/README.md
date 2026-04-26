@@ -29,4 +29,4 @@ engagement context + risks
 ## Source
 
 - [SKILL.md](SKILL.md)
-- Regenerated site: `python skills/abd-skill-catalog/scripts/generate_abd_catalog.py` from repo root.
+- Regenerated site: `python agents/abd-practice-skill-builder/skills/abd-skill-catalog/scripts/generate_abd_catalog.py` from repo root.

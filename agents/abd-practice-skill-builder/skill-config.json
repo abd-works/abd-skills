@@ -1,0 +1,8 @@
+{
+  "name": "abd-practice-skill-builder",
+  "version": "1.0.0",
+  "build": {
+    "script": "scripts/build.py",
+    "description": "Bundle rules/*.md into AGENTS.md via execute_using_rules"
+  }
+}

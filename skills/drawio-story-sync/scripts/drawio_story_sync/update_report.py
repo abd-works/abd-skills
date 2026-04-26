@@ -1,17 +1,7 @@
-"""Re-export ``UpdateReport`` and related types from **story_graph_ops** (single source of truth)."""
+"""Backward-compatible re-export of update-report types from the shared package."""
+from . import _bootstrap  # noqa: F401
 
-from __future__ import annotations
-
-import sys
-from pathlib import Path
-
-_ops_scripts = Path(__file__).resolve().parents[2] / 'story-graph-ops' / 'scripts'
-if _ops_scripts.is_dir():
-    _p = str(_ops_scripts)
-    if _p not in sys.path:
-        sys.path.insert(0, _p)
-
-from story_graph_ops.update_report import (  # noqa: E402
+from diagram_story_sync.update_report import (  # noqa: F401
     ACChange,
     ACMove,
     IncrementChange,

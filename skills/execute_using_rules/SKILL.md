@@ -52,7 +52,7 @@ Junctions are **not committed** (see repo `.gitignore` under `.cursor/skills/exe
    **Fix the output only** — until you and the user are satisfied with the deliverable:
 
    1. **Identify** — Note the problem; open or start the [**corrections log**](./templates/corrections-log.md).
-   2. **Log (initial)** — Capture DO / DO NOT + **Example (wrong)**; leave **Example (correct)** blank until you are done iterating.
+   2. **Log (initial)** — Capture DO / DO NOT + **Example (wrong)**; leave **Example (correct)** blank until you are done iterating. **Phrasing:** Write **DO / DO NOT** (and later **Fix the skill** edits) as **altered behavior** — what to do next — not as a long restatement of the mistake. **Example (wrong)** carries the failure; normative text should stay **forward-looking** (see [**corrections-log.md**](./templates/corrections-log.md) **Phrasing**).
    3. **Re-generate** — Apply the rule explicitly; expect **multiple chat turns** before the output is good enough.
    4. **Review** — Refine the deliverable and log notes as you go; repeat until you are **actually satisfied**, not after the first fix attempt.
    5. **Confirm** — Only then fill **Example (correct)** and mark the entry done.

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{{SECTION_TITLE}} — {{SKILL_DISPLAY_NAME}}</title>
+  <link rel="stylesheet" href="../assets/css/abd-shell.css" />
+  <link rel="stylesheet" href="../assets/css/abd-manual-layout.css" />
+  <link rel="stylesheet" href="../assets/css/abd-hyperlinks.css" />
+  <link rel="stylesheet" href="../assets/css/abd-icons.css" />
+</head>
+<body class="abd-doc">
+  <div class="abd-cross-site" role="navigation" aria-label="Site chrome">
+    <div class="abd-cross-site__inner">
+      <span class="abd-cross-site__brand">
+        <img src="../assets/images/abd-logo.png" width="28" height="28" alt="" onerror="this.style.display='none'" />
+        <span class="abd-cross-site__brand-text">Agile by Design</span>
+      </span>
+      <span class="abd-cross-site__sep" aria-hidden="true">|</span>
+      <a href="../index.html">Manual home</a>
+    </div>
+  </div>
+
+  <header class="abd-doc-header">
+    <p class="abd-doc-kicker"><a href="../index.html">Manual</a> / {{SECTION_TITLE}}</p>
+    <h1>{{SECTION_TITLE}}</h1>
+  </header>
+
+  <main class="abd-doc-main">
+    {{SECTION_BODY_HTML}}
+  </main>
+
+  <footer class="abd-doc-footer">
+    <p><strong>SKILL.md reference:</strong> Section &ldquo;{{SECTION_TITLE}}&rdquo;</p>
+    <h2>Sources</h2>
+    <ul>{{SECTION_SOURCE_ITEMS}}</ul>
+  </footer>
+
+  <footer class="abd-global-footer" role="contentinfo">
+    <div class="abd-global-footer__inner">
+      <p class="abd-global-footer__title">About this manual</p>
+      <p class="abd-global-footer__tbd">Expanded walkthrough for the practice skill. Canonical steps remain in SKILL.md.</p>
+      <p class="abd-global-footer__hub">Revision: {{REVISION}} &mdash; Evidence: <a href="../../../inputs/abd-answers-retrieval.md">abd-answers-retrieval.md</a></p>
+    </div>
+  </footer>
+</body>
+</html>

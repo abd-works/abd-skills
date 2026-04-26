@@ -15,8 +15,13 @@ description: >-
 ---
 # abd-story-mapping
 
-## Purpose: 
-Describe what a good story map *is* (concepts and naming). **How** to run the bot, workspace setup, and step-by-step CLI belong in the agent and other skills — not here.
+## Purpose
+
+A **story map** in the **Jeff Patton** sense is a **single shared picture** of the product: you organize understanding into a **small stack of nested levels**—**epics** (broad capability areas), **sub-epics** (flows or feature areas within an epic), and **stories** (leaves: one observable **user** or **system** interaction each). The map is **not** a dump of source material, a WBS, or a list of build tasks; it is **outcomes and behaviors**—*what* happens in the product—so product, delivery, and domain people can read the same structure.
+
+**Naming** is part of the model: epics, sub-epics, and stories use **verb–noun** titles; **who** is acting (persona/actor, user vs. system) is carried **outside** the name (e.g. `story_type` / diagram convention), not stuffed into the title. Good maps read as a **journey** (sequence along the backbone) and a **skeleton of scope** (depth into detail), with **consistent language** from top to bottom.
+
+This document defines **concepts, naming, and quality** for that structure. **How** to run agents, lay out a workspace, or use CLIs belongs in the **agent** and **tooling** skills—not here.
 
 ## When to use this skill
 
@@ -81,7 +86,7 @@ Story maps are intentionally **not implementation plans**. They describe *outcom
 
 A story map is a **collaborative method** to break work down. It provides a structure to guide collaborative thought in order to achieve **shared understanding** — alignment from more than one perspective, the engineering team, the product and stakeholders affected by the product. It is a method to break down *what you are working on*, not *the way you work*.
 
-The perpsective provided by a story map is **cross-functional**: SMEs, analysts, developers, testers, delivery lead — various viewpoints that together produce a more complete picture than any individual could. Story maps are useful when a project, initiative, or product is in discovery and the scope of functions, features, and goals needs to be flushed out and understood.
+The perspective provided by a story map is **cross-functional**: SMEs, analysts, developers, testers, delivery lead — various viewpoints that together produce a more complete picture than any individual could. Story maps are useful when a project, initiative, or product is in discovery and the scope of functions, features, and goals needs to be fleshed out and understood.
 
 ---
 

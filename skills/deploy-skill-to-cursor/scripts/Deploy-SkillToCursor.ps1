@@ -18,7 +18,7 @@
   Full path to the skill folder when it is not under skills/<SkillName> (e.g. agents/.../skills/<name>).
 
 .PARAMETER Force
-  Remove an existing entry at the junction path before creating the link.
+  Remove an existing entry at the junction path before creating the directory junction.
 #>
 param(
     [Parameter(Mandatory = $true, Position = 0)]

@@ -19,8 +19,6 @@ Reduce repeated paste handoffs between orchestrator and team-member threads by k
 
 ## Workspace layout (recommended folder name)
 
-Use **`delivery-war-room/`** (new engagements). Older experiments may still use `delivery-chamber/`; the mechanics are the same.
-
 ```text
 <workspace>/delivery-war-room/
   INSTRUCTIONS.md       # team member reads first — copy from § INSTRUCTIONS template below

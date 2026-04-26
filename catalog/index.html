@@ -858,6 +858,7 @@ h2:first-child { margin-top: 0; }
       <div class="catalog-garden-row"><span class="catalog-garden-name catalog-garden-name--foundational"><a href="skill/deploy-skill-to-cursor.html">deploy-skill-to-cursor</a></span><span class="catalog-garden-desc">Junction-link a repo skill into Cursor user skills on Windows (no file copy).</span></div>
       <div class="catalog-garden-row"><span class="catalog-garden-name catalog-garden-name--foundational"><a href="skill/drawio-story-sync.html">drawio-story-sync</a></span><span class="catalog-garden-desc">story-graph.json to Draw.io story maps; validated load/save and diagram sync.</span></div>
       <div class="catalog-garden-row"><span class="catalog-garden-name catalog-garden-name--foundational"><a href="skill/execute_using_rules.html">execute-rules</a></span><span class="catalog-garden-desc">Bundle rules into SKILL.md, run scanners, fix failures; quality gate before and after work.</span></div>
+      <div class="catalog-garden-row"><span class="catalog-garden-name catalog-garden-name--foundational"><a href="skill/miro-story-sync.html">miro-story-sync</a></span><span class="catalog-garden-desc">story-graph.json to Miro story maps; validated load and REST-driven board sync.</span></div>
       <div class="catalog-garden-row"><span class="catalog-garden-name catalog-garden-name--foundational"><a href="skill/story-graph-ops.html">story-graph-ops</a></span><span class="catalog-garden-desc">CRUD story-graph.json via CLI/scripts, validate, persist; no hand-written JSON drift.</span></div>
       <div class="catalog-garden-row"><span class="catalog-garden-name catalog-garden-name--foundational"><a href="skill/track_task.html">track-task</a></span><span class="catalog-garden-desc">Checkbox markdown task lists for pipelines or ad-hoc steps under the engagement workspace.</span></div>
       <div class="catalog-garden-row"><span class="catalog-garden-name catalog-garden-name--foundational"><a href="skill/workspace_skill.html">workspace</a></span><span class="catalog-garden-desc">Set/read active_skill_workspace in skill-config; scripts resolve the engagement root.</span></div>
@@ -870,6 +871,7 @@ h2:first-child { margin-top: 0; }
       </div>
       <div class="catalog-garden-row"><span class="catalog-garden-name catalog-garden-name--agent"><a href="agent/abd-context-to-memory.html">abd-context-to-memory</a></span><span class="catalog-garden-desc">Source docs to Markdown, then labeled chunks in memory/, then FAISS vectors and semantic search. Optional: review context_chunking_spec.yaml before chunk+embed.</span></div>
       <div class="catalog-garden-row"><span class="catalog-garden-name catalog-garden-name--agent"><a href="agent/abd-delivery-lead.html">abd-delivery-lead</a></span><span class="catalog-garden-desc">Orchestrates ABD delivery (workspace, plan, stages, handoffs); delegates work to abd-team-member; uses abd-delivery-planning to manage plan creation.</span></div>
+      <div class="catalog-garden-row"><span class="catalog-garden-name catalog-garden-name--agent"><a href="agent/abd-practice-skill-builder.html">abd-practice-skill-builder</a></span><span class="catalog-garden-desc">Goal: Produce practice skills under the agilebydesign-skills repository, in skills/&lt;skill-name&gt;/, grounded in abd-answers (Pinecone RAG): retrieve evidence, author the package (SKILL.md starter from abd-author-practice-skill template + *rules/.md), optional scanners, abd-skill-catalog, then an HTML …</span></div>
       <div class="catalog-garden-row"><span class="catalog-garden-name catalog-garden-name--agent"><a href="agent/abd-team-member.html">abd-team-member</a></span><span class="catalog-garden-desc">ABD executor for one role per turn (Product Owner, Analyst, or Engineer); requires team-role + workspace; produces stage artifacts via practice skills, often under abd-delivery-lead handoffs.</span></div>
       <div class="catalog-garden-row"><span class="catalog-garden-name catalog-garden-name--agent"><a href="agent/ai-research-assistant.html">ai-research-assistant</a></span><span class="catalog-garden-desc">Orchestrate hypothesis-driven research on AI-augmented delivery and context engineering practices. You coordinate three skills in sequence to produce a research report that helps the user decide whether their approach is well-founded, exposed, or genuinely novel. You are an impartial advisor — not …</span></div>
     </div>
@@ -884,12 +886,12 @@ h2:first-child { margin-top: 0; }
     <p>Browse <a href="#catalog-skills">skills</a> and <a href="#catalog-agents">agents</a>.
     <a href="outline.md">outline.md</a> lists the same entries in one file.</p>
     <p>Cards open full detail pages under <code>skill/</code> and <code>agent/</code>.</p>
-    <p>19 skills and 4 agents are indexed in this catalogue.</p>
+    <p>20 skills and 5 agents are indexed in this catalogue.</p>
   </div>
 </details>
 
 <details class="catalog-section" id="catalog-skills">
-  <summary>Skills <span class="count">(19)</span></summary>
+  <summary>Skills <span class="count">(20)</span></summary>
   <div class="section-body">
     <p>Open a card for a full page on that skill.</p>
     <div class="cap-grid">
@@ -921,12 +923,6 @@ h2:first-child { margin-top: 0; }
       <p class="cap-card__title"><span class="cap-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#1a1a1e"/><path d="M7 8h10M7 12h7M7 16h10" stroke="#ff7a00" stroke-width="1.5" stroke-linecap="round"/></svg></span>abd-delivery-war-room</p>
       <p class="cap-card__label">Description</p>
       <p class="cap-card__summary">Experimental file-based war room for handoffs between abd-delivery-lead and abd-team-member: delivery-war-room/ under the engagement workspace with INSTRUCTIONS.md, manifest.md, and slot-NN-start.md / slot-NN-finished.md. Not wired into the delivery-lead or team-member agents until re-integrated …</p>
-      <p class="cap-card__more">Open skill page →</p>
-    </a>
-    <a class="cap-card" href="skill/abd-skill-catalog.html">
-      <p class="cap-card__title"><span class="cap-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#1a1a1e"/><path d="M7 8h10M7 12h7M7 16h10" stroke="#ff7a00" stroke-width="1.5" stroke-linecap="round"/></svg></span>abd-skill-catalog</p>
-      <p class="cap-card__label">Description</p>
-      <p class="cap-card__summary">Regenerate the browsable skills/agents catalogue (HTML + outline) from repo packages.</p>
       <p class="cap-card__more">Open skill page →</p>
     </a>
     <a class="cap-card" href="skill/abd-specification-by-example.html">
@@ -971,6 +967,12 @@ h2:first-child { margin-top: 0; }
       <p class="cap-card__summary">Bundle rules into SKILL.md, run scanners, fix failures; quality gate before and after work.</p>
       <p class="cap-card__more">Open skill page →</p>
     </a>
+    <a class="cap-card" href="skill/miro-story-sync.html">
+      <p class="cap-card__title"><span class="cap-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#1a1a1e"/><path d="M7 8h10M7 12h7M7 16h10" stroke="#ff7a00" stroke-width="1.5" stroke-linecap="round"/></svg></span>miro-story-sync</p>
+      <p class="cap-card__label">Description</p>
+      <p class="cap-card__summary">story-graph.json to Miro story maps; validated load and REST-driven board sync.</p>
+      <p class="cap-card__more">Open skill page →</p>
+    </a>
     <a class="cap-card" href="skill/ooad.html">
       <p class="cap-card__title"><span class="cap-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#1a1a1e"/><path d="M7 8h10M7 12h7M7 16h10" stroke="#ff7a00" stroke-width="1.5" stroke-linecap="round"/></svg></span>abd-ooad</p>
       <p class="cap-card__label">Description</p>
@@ -1007,12 +1009,18 @@ h2:first-child { margin-top: 0; }
       <p class="cap-card__summary">Set/read active_skill_workspace in skill-config; scripts resolve the engagement root.</p>
       <p class="cap-card__more">Open skill page →</p>
     </a>
+    <a class="cap-card" href="skill/abd-skill-catalog.html">
+      <p class="cap-card__title"><span class="cap-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#1a1a1e"/><path d="M7 8h10M7 12h7M7 16h10" stroke="#ff7a00" stroke-width="1.5" stroke-linecap="round"/></svg></span>abd-skill-catalog</p>
+      <p class="cap-card__label">Description</p>
+      <p class="cap-card__summary">Regenerate the browsable skills/agents catalogue (HTML + outline) from repo packages.</p>
+      <p class="cap-card__more">Open skill page →</p>
+    </a>
     </div>
   </div>
 </details>
 
 <details class="catalog-section" id="catalog-agents">
-  <summary>Agents <span class="count">(4)</span></summary>
+  <summary>Agents <span class="count">(5)</span></summary>
   <div class="section-body">
     <p>Open a card for a full page on that agent.</p>
     <div class="cap-grid">
@@ -1026,6 +1034,12 @@ h2:first-child { margin-top: 0; }
       <p class="cap-card__title"><span class="cap-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#1a1a1e"/><path d="M6 9h12v10H6z" stroke="#ff7a00" stroke-width="1.5"/><path d="M9 7V5h6v2" stroke="#ff7a00" stroke-width="1.5" stroke-linecap="round"/></svg></span>abd-delivery-lead</p>
       <p class="cap-card__label">Description</p>
       <p class="cap-card__summary">Orchestrates ABD delivery (workspace, plan, stages, handoffs); delegates work to abd-team-member; uses abd-delivery-planning to manage plan creation.</p>
+      <p class="cap-card__more">Open agent page →</p>
+    </a>
+    <a class="cap-card" href="agent/abd-practice-skill-builder.html">
+      <p class="cap-card__title"><span class="cap-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#1a1a1e"/><path d="M6 9h12v10H6z" stroke="#ff7a00" stroke-width="1.5"/><path d="M9 7V5h6v2" stroke="#ff7a00" stroke-width="1.5" stroke-linecap="round"/></svg></span>abd-practice-skill-builder</p>
+      <p class="cap-card__label">Description</p>
+      <p class="cap-card__summary">Goal: Produce practice skills under the agilebydesign-skills repository, in skills/&lt;skill-name&gt;/, grounded in abd-answers (Pinecone RAG): retrieve evidence, author the package (SKILL.md starter from abd-author-practice-skill template + *rules/.md), optional scanners, abd-skill-catalog, then an HTML …</p>
       <p class="cap-card__more">Open agent page →</p>
     </a>
     <a class="cap-card" href="agent/abd-team-member.html">

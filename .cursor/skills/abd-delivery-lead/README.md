@@ -57,4 +57,4 @@ Practice skills (e.g. story mapping) are used by team members, not invoked direc
 ## Source
 
 - [AGENT.md](AGENT.md)
-- Regenerated site: `python skills/abd-skill-catalog/scripts/generate_abd_catalog.py` from repo root.
+- Regenerated site: `python agents/abd-practice-skill-builder/skills/abd-skill-catalog/scripts/generate_abd_catalog.py` from repo root.

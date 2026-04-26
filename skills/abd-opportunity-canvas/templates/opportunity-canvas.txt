@@ -1,0 +1,159 @@
+# Opportunity canvas (plain text)
+
+## Instructions (for skill maintainers)
+
+- Fill the **Template** block the same way as **`opportunity-canvas.md`**: each section has the **guiding questions** in plain text, then a **`PREFIX:`** line for the answer.
+- **Parity:** For one engagement, every **`PREFIX:`** block and the text under it must match between **`.md`** and **`.txt`**.
+
+---
+
+## Template
+
+Opportunity (bet handle)
+Name the candidate bet in plain language (outcome + who).
+
+Opportunity: {{opportunity_name}}
+
+---
+Customer Problems
+
+What are our key customer segments and what are the unique requirements of each customer segment?
+
+Customer Problems: {{customer_problems_segments_and_requirements}}
+
+---
+Solution Features
+
+What is our Unique Value Proposition to our Customer Segments? What customer problem are we solving? What are the major features of our solution?
+
+Solution Features: {{uvp_problem_major_features}}
+
+---
+Increments Of Value
+
+What channels will be leveraged to have our Product reach our Customer Segments?
+
+Increments of Value: {{channels_increments_to_reach_segments}}
+
+---
+Key Metrics of Success
+
+What are the key metrics that will tell us how our product is doing?
+
+Key Metrics of Success: {{key_metrics}}
+
+---
+Revenue Drivers
+
+For what value are our Customers really willing to pay?
+
+Revenue Drivers: {{revenue_willingness_to_pay}}
+
+---
+Key Activities and Resources
+
+What Key Activities does our Product Require (e.g. to Build, to Support, etc.)? What Key Resources [People] and Capabilities [Process] does our Product leverage?
+
+Key Activities and Resources: {{activities_people_process}}
+
+---
+Key Partners
+
+Who are our Key Partners? Who are our key Suppliers?
+
+Key Partners: {{partners_suppliers}}
+
+---
+Cost Drivers
+
+What are the most important costs drivers inherent in our Product?
+
+Cost Drivers: {{cost_drivers}}
+
+---
+Alternatives
+
+Other credible paths (do nothing, buy, partner, narrow scope, defer).
+
+Alternatives: {{alternatives}}
+
+---
+Assumptions to validate
+
+Assumption: {{assumption_1}} — validate by: {{validation_1}}
+Assumption: {{assumption_2}} — validate by: {{validation_2}}
+
+---
+
+## Example (reference)
+
+**Audience:** Same fictional B2B scheduling example as **`opportunity-canvas.md`**.
+
+Opportunity: "Same-day" appointment guarantees for service bays
+
+---
+Customer Problems
+
+What are our key customer segments and what are the unique requirements of each customer segment?
+
+Customer Problems: Segments: fleet coordinator (primary), dealer service manager, mobile technician, parts desk. Unique requirements: a confirmed slot and bay within the stated window; one place to see changes; evidence when a same-day promise breaks.
+
+---
+Solution Features
+
+What is our Unique Value Proposition to our Customer Segments? What customer problem are we solving? What are the major features of our solution?
+
+Solution Features: UVP: reliable same-day service window the dealer can commit to. Customer problem: reschedules at short notice burn coordinator time and break tech routing. Major features: central calendar with real-time hold on bay + technician; opt-in push when the dealer moves the slot.
+
+---
+Increments Of Value
+
+What channels will be leveraged to have our Product reach our Customer Segments?
+
+Increments of Value: DMS read-only feed; mobile push; pilot in one region before broad rollout.
+
+---
+Key Metrics of Success
+
+What are the key metrics that will tell us how our product is doing?
+
+Key Metrics of Success: Same-day job completion % by region; coordinator minutes per week on reschedules; penalty incidents per 100 jobs.
+
+---
+Revenue Drivers
+
+For what value are our Customers really willing to pay?
+
+Revenue Drivers: Penalties on missed SLAs in renewal accounts; coordinator labour cost; relationship to NPS/renewal for scheduling.
+
+---
+Key Activities and Resources
+
+What Key Activities does our Product Require (e.g. to Build, to Support, etc.)? What Key Resources [People] and Capabilities [Process] does our Product leverage?
+
+Key Activities and Resources: DMS integration and onboarding; runbooks; product + integration capacity; support during pilot.
+
+---
+Key Partners
+
+Who are our Key Partners? Who are our key Suppliers?
+
+Key Partners: DMS vendor; two pilot dealers committed to the feed; field-service vendor if we later buy.
+
+---
+Cost Drivers
+
+What are the most important costs drivers inherent in our Product?
+
+Cost Drivers: Integration build and test; pilot support load; DMS test environments.
+
+---
+Alternatives
+
+Alternatives: Buy a field-service suite and retire custom integrations; one-region manual coordination pilot to prove pain before build.
+
+---
+Assumptions to validate
+
+Assumption: Dealers will adopt read-only DMS feed in M1 — validate by: signed integration plan with two pilot dealers
+Assumption: Technicians will enable location sharing during work hours — validate by: opt-in rate >70% in pilot

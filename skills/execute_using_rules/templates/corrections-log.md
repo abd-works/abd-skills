@@ -24,13 +24,28 @@
 | --- | --- |
 | **Rule** | Rule id or `rules/<file>.md` name |
 | **Affects** | Scope where this correction applies, as a short mapping: `stage:`, `story:`, `rule:`, optional `slice:`, `run:`, `role:`. At least one value is required. Use `stage: *` / `story: *` for global. This is what the delivery lead filters on before surfacing entries to a team member. |
-| **DO / DO NOT** | The rule as it should be stated |
+| **DO / DO NOT** | **Forward-looking:** the behavior to apply from now on (prefer clear **DO**). Put the historical mistake only in **Example (wrong)** — do not let this field be mostly "do not do what we did before." |
 | **Example (wrong)** | What the output actually did |
 | **Example (correct)** | What it should have done — fill **only after** the right output is confirmed |
 | **Scanner or validator** | If applicable: **`scanner:`** in rule frontmatter, **`scanners/...-scanner.py`**, or host **`build.build_pipeline`** step |
 | **Likely source** | One of: `prompt gap` · `rule not read` · `edge case` · `automation gap` |
 
 **Duplicate violations:** If the **same guidance** was violated again, add another **Example (wrong)** under the **same entry** instead of opening a new entry.
+
+---
+
+## Phrasing (altered behavior, not the negative case)
+
+- **DO / DO NOT** and any text you later promote into **`rules/`** or **`SKILL.md`** should read like **maintainable guidance**: what the next run should **do** or **check**, tied to artifacts when possible.
+- **Example (wrong)** is the right place for what went wrong once. Avoid encoding that failure as the **primary** normative line (e.g. filling **DO / DO NOT** with "never open with a paragraph about workshops" instead of "open **## DO** with scope: `impact-map.md` and `impact-map.txt`").
+- **Example (correct)** should mirror that positive shape once the output is fixed.
+
+**Wrong vs right (phrasing):**
+
+| Wrong | Right |
+| --- | --- |
+| **DO NOT:** Do not paste meta saying "this is not facilitation." | **DO:** First normative heading is **## DO**; bullets name the file and checks. |
+| **DO NOT:** Stop writing rules about process. | **DO:** Each **DO** is decidable from the named artifact (see target authoring skill). |
 
 **Scope (`Affects`) — how it's used:**
 
@@ -113,3 +128,4 @@ When the regenerated output is right: set **Status** to **confirmed**, fill **Ex
 | --- | --- |
 | Log a problem and **immediately** edit **skill sources** or **`rules/`** before output is validated | Log → re-generate → iterate on **output** until correct → then fill **Example (correct)** |
 | Patch **Bundled rules** or **`AGENTS.md`** to “pass” review | Edit **`rules/`** (and other sources as needed), run **`bundle_rules_into_skill_md.py`**; use the target repo’s own merge only if it maintains **`AGENTS.md`** / **`built/`** |
+| **DO / DO NOT** repeats the mistake as the main instruction | **DO / DO NOT** states **altered behavior**; mistake stays in **Example (wrong)** only |

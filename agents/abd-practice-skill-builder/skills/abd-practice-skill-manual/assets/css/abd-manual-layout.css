@@ -1,0 +1,117 @@
+/**
+ * Practice skill manual — layout for static HTML (pairs with abd-shell + hyperlinks).
+ */
+body.abd-doc {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--abd-bg, #09090b);
+  color: var(--abd-text, #e8e8ed);
+  font-family: system-ui, "Segoe UI", Roboto, Ubuntu, sans-serif;
+  line-height: 1.5;
+}
+
+.abd-doc-header {
+  max-width: 48rem;
+  margin: 0 auto;
+  padding: 1.5rem 1rem 1rem;
+  border-bottom: 1px solid var(--abd-border, #2a2a30);
+}
+.abd-doc-kicker {
+  margin: 0 0 0.35rem;
+  font-size: 0.8rem;
+  color: var(--abd-orange, #ff7a00);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.abd-doc-kicker a {
+  color: inherit;
+}
+.abd-doc-header h1 {
+  margin: 0 0 0.75rem;
+  font-size: 1.75rem;
+  font-weight: 650;
+  line-height: 1.2;
+}
+.abd-doc-lead {
+  margin: 0 0 1rem;
+  color: var(--abd-muted, #9b9ba8);
+  font-size: 1rem;
+}
+
+.abd-doc-toc {
+  max-width: 48rem;
+  margin: 0 auto;
+  padding: 1.25rem 1rem;
+  background: var(--abd-surface, #0e0e10);
+  border-bottom: 1px solid var(--abd-border, #2a2a30);
+}
+.abd-doc-toc h2 {
+  margin: 0 0 0.75rem;
+  font-size: 1rem;
+  font-weight: 650;
+}
+.abd-doc-toc ol {
+  margin: 0;
+  padding-left: 1.25rem;
+}
+
+.abd-doc-main {
+  max-width: 48rem;
+  margin: 0 auto;
+  padding: 1.5rem 1rem 2rem;
+}
+.abd-doc-main h2 {
+  margin: 1.5rem 0 0.75rem;
+  font-size: 1.25rem;
+  font-weight: 650;
+}
+.abd-doc-main h2:first-child {
+  margin-top: 0;
+}
+.abd-doc-main p {
+  margin: 0 0 1rem;
+  color: var(--abd-muted, #9b9ba8);
+}
+.abd-doc-main ul,
+.abd-doc-main ol {
+  color: var(--abd-muted, #9b9ba8);
+  margin: 0 0 1rem;
+}
+
+.abd-doc-figure {
+  margin: 1.25rem 0;
+  padding: 0;
+  border: 1px solid var(--abd-border, #2a2a30);
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--abd-surface, #0e0e10);
+}
+.abd-doc-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.abd-doc-figure figcaption {
+  padding: 0.65rem 1rem;
+  font-size: 0.88rem;
+  color: var(--abd-muted, #9b9ba8);
+  border-top: 1px solid var(--abd-border, #2a2a30);
+}
+
+.abd-doc-footer {
+  max-width: 48rem;
+  margin: 0 auto;
+  padding: 1.5rem 1rem 2.5rem;
+  border-top: 1px solid var(--abd-border, #2a2a30);
+}
+.abd-doc-footer h2 {
+  margin: 0 0 0.65rem;
+  font-size: 1rem;
+  font-weight: 650;
+}
+.abd-doc-footer ul {
+  margin: 0;
+  padding-left: 1.25rem;
+  color: var(--abd-muted, #9b9ba8);
+  font-size: 0.92rem;
+}

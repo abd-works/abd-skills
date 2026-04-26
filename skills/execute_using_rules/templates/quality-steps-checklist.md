@@ -34,6 +34,7 @@ Use **before** you do the skill’s main work: Step 1 is the **rules-first** gat
 
 - [ ] Problems found in review are logged under **`active_skill_workspace`** (see [**corrections-log.md**](./corrections-log.md)).
 - [ ] **Item 4 — fix the output** completed for the entry (wrong → regenerate → **Example (correct)** filled) before editing skill sources for that issue.
+- [ ] **DO / DO NOT** (and any promoted **rules** / **SKILL.md** edits) state **altered behavior** — not a long negation of the prior mistake; see [**corrections-log.md**](./corrections-log.md) **Phrasing**.
 
 ---
 

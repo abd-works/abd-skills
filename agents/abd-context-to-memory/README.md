@@ -30,4 +30,4 @@ source docs / assets
 ## Source
 
 - [AGENTS.md](AGENTS.md) (generated from `content/`)
-- Regenerate catalogue: `python skills/abd-skill-catalog/scripts/generate_abd_catalog.py` from repo root.
+- Regenerate catalogue: `python agents/abd-practice-skill-builder/skills/abd-skill-catalog/scripts/generate_abd_catalog.py` from repo root.
