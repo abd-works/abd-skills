@@ -113,10 +113,10 @@ Flag `Manager`, `Handler`, `Service`, `Factory`, `Util` — often overloaded. Id
 **Source Map** rows should go as **deep** as the source structure and salience require — not only “Chapter 4.” Below, one row could be the chapter for orientation; the next is a **subsection** where the real rules live:
 
 
-| Section / Module | Signal | Notes |
-| --- | --- | --- |
-| Ch. 4 — Settlement | Medium | Chapter frames payment lifecycle; scan subsections for where states are defined. |
-| Ch. 4 §4.2 — Payment states and transitions | High | Defines named states, transition rules; heavy "shall" / invariant language; subsection is the load-bearing unit here. |
+| Section / Module | Sig | Notes |
+|---|:---:|---|
+| Ch. 4 — Settlement | M | Chapter frames payment lifecycle; scan subsections for where states are defined. |
+| Ch. 4 §4.2 — Payment states and transitions | H | Defines named states, transition rules; heavy "shall" / invariant language; subsection is the load-bearing unit here. |
 
 
 ## The shape of a good `domain-scan-results.md`
@@ -126,9 +126,11 @@ Flag `Manager`, `Handler`, `Service`, `Factory`, `Util` — often overloaded. Id
 
 ## Source Map
 
-| Section / Module | Signal | Notes |
-|-----------------|--------|-------|
-| {{section_or_subsection}} | High / Medium / Low | {{what_looks_heavy_or_relevant}} |
+**Signal:** H = High · M = Medium · L = Low.
+
+| Section / Module | Sig | Notes |
+|---|:---:|---|
+| {{section_or_subsection}} | H / M / L | {{what_looks_heavy_or_relevant}} |
 ```
 
 Use **`{{section_or_subsection}}`** labels that match how a reader would **open the source** (e.g. chapter + §, heading path, or clause id) — **deeper than chapter-only** when the outline warrants it.
@@ -143,6 +145,7 @@ The engagement file should make it obvious **where to read next** and **what is 
 
 - **Outputs:** `domain-scan-results.md` under `<active_skill_workspace>/abd-ooad/`. One artifact aligned with `templates/domain-scan-results.md`.
 - **Per format:** Markdown with at least a **Source Map** table; extend with extra headings only if they help navigation and stay consistent with the template’s intent.
+- **Column widths are content-driven, not CSS-driven.** Cursor preview, GitHub, and most renderers auto-size table columns to the longest cell and ignore `style` / `width` attributes (HTML or pipe-markdown). To keep the middle column narrow and let Notes fill the rest of the row: (a) abbreviate the Signal column to a single character — `H` / `M` / `L` (header `Sig`, not `Signal`); (b) keep Section labels short — move long parenthetical examples (`(Affliction, Damage, …)`) into Notes; (c) use a normal pipe-markdown table — no HTML wrapper.
 - **While writing:** Tie rows to how you actually sampled (**sections and subsections** in prose specs, not only chapter titles; packages and files in code; transcript bands in dialogue). Flag tensions and heavy areas for **`term-registry`**.
 - **Persistence:** Engagement root comes from the parent agent `workspace` config; paths use `abd-ooad/` under that root.
 
