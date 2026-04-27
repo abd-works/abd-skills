@@ -21,8 +21,8 @@ conf/.secrets
 .DS_Store
 Thumbs.db
 
-# Scanner caches
-.surnames_cache
+# Generated HTML catalog (rebuilt by abd-skill-catalog script; not source)
+catalog/
 
 # Aggregate FAISS + embeddings (rebuild: embed_and_index.py --replace from skill hub)
 skills/abd-context-to-memory/assets/rag/

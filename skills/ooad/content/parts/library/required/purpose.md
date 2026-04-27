@@ -1,1 +1,0 @@
-Transform raw domain material (specifications, manuals, code, transcripts, policy docs) into robust object-oriented domain models through a systematic 24-step OOAD methodology, producing both Markdown documentation and Draw.io class diagrams aligned with Agile by Design principles.
