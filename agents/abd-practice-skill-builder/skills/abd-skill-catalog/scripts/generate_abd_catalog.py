@@ -510,8 +510,8 @@ def _should_skip_catalog_md(rel_parts: tuple[str, ...]) -> bool:
 def _package_markdown_catalog_href_from_detail_page(
     repo_root: Path, file_path: Path, package_dir: Path
 ) -> str | None:
-    """Any <pkg>/**/*.md → ../doc/<skill|agent>/<pkg>/…/file.html from catalog/skill|agent/<pkg>.html."""
-    if file_path.suffix.lower() != ".md":
+    """Any <pkg>/**/*.md or *.txt → ../doc/<skill|agent>/<pkg>/…/file.html from catalog/skill|agent/<pkg>.html."""
+    if file_path.suffix.lower() not in {".md", ".txt"}:
         return None
     try:
         rel_under_pkg = file_path.relative_to(package_dir)
@@ -864,6 +864,8 @@ def write_package_markdown_pages(
     def badge_for(rel_under_pkg: Path) -> str:
         if rel_under_pkg.parts and rel_under_pkg.parts[0] == "rules":
             return "Rule"
+        if rel_under_pkg.suffix.lower() == ".txt":
+            return "Plain text"
         return "Markdown"
 
     def write_pkg_md(pkg_dir: Path, kind: str, display_name: str) -> None:
@@ -871,7 +873,10 @@ def write_package_markdown_pages(
         if not pkg_dir.is_dir():
             return
         pkg = pkg_dir.name
-        for md in sorted(pkg_dir.rglob("*.md")):
+        source_files = sorted(
+            list(pkg_dir.rglob("*.md")) + list(pkg_dir.rglob("*.txt"))
+        )
+        for md in source_files:
             if not md.is_file():
                 continue
             try:
@@ -883,7 +888,10 @@ def write_package_markdown_pages(
             dest = doc_root / kind / pkg / rel_under_pkg.with_suffix(".html")
             dest.parent.mkdir(parents=True, exist_ok=True)
             raw = md.read_text(encoding="utf-8", errors="replace")
-            body_html = _markdown_rule_to_html(raw)
+            if md.suffix.lower() == ".txt":
+                body_html = "<pre>" + _h(raw) + "</pre>"
+            else:
+                body_html = _markdown_rule_to_html(raw)
             rel_to_cat = dest.relative_to(output_catalog_dir)
             nav_prefix = "../" * len(rel_to_cat.parent.parts)
             back = f"{nav_prefix}{'skill' if kind == 'skill' else 'agent'}/{quote(pkg, safe='')}.html"
@@ -1682,7 +1690,6 @@ GARDEN_PRELUDE_TAGLINE = (
 
 # Practice-tier placeholders (no skill package yet); listed after real practice entries.
 GARDEN_PRACTICE_STUB_ROWS: tuple[tuple[str, str], ...] = (
-    ("· impact-mapping", "Coming soon — Lesson 1 exercise"),
     ("· cost-of-delay", "Coming soon"),
     ("· relative-sizing", "Coming soon"),
 )

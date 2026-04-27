@@ -289,9 +289,20 @@ code {
   border: 1px solid var(--border-muted);
   box-shadow: inset 0 0 0 1px rgba(255,122,0,0.12);
 }
+.site-home-link {
+  flex-shrink: 0;
+  display: block;
+  line-height: 0;
+  opacity: 0.9;
+  transition: opacity 0.15s;
+}
+.site-home-link:hover { opacity: 1; }
 .header-text { flex: 1; min-width: 200px; }
 .brand { font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin: 0 0 4px; }
 .brand strong { color: var(--orange); }
+.brand-row { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
+.brand-row .brand { margin: 0; }
+.brand-row .cap-badge { margin: 0; }
 h1 { margin: 0; font-size: 2rem; font-weight: 700; line-height: 1.15; }
 .tagline { margin: 8px 0 0; font-size: 1.05rem; color: var(--muted); max-width: 52rem; line-height: 1.55; }
 .panel-body { padding: 28px 22px 36px; }
@@ -798,13 +809,9 @@ h2:first-child { margin-top: 0; }
 <div class="panel" role="main">
 
 <header class="panel-header entry-detail-header">
-  <div class="header-icon">
-    <svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:block;border-radius:6px;">
-      <rect width="52" height="52" rx="8" fill="#0e0e10"/>
-      <path d="M16 14h20a2 2 0 0 1 2 2v20a2 2 0 0 1-2 2H16a2 2 0 0 1-2-2V16a2 2 0 0 1 2-2z" stroke="#FF7A00" stroke-width="1.5" fill="rgba(255,122,0,0.06)"/>
-      <path d="M20 22h12M20 26h9M20 30h12" stroke="#FF7A00" stroke-width="1.5" stroke-linecap="round"/>
-    </svg>
-  </div>
+  <a href="https://www.abd-works.com/" class="site-home-link" title="Back to abd-works">
+    <img src="/commons/images/abd-logo.png" width="48" height="48" alt="Agile by Design" style="display:block;border-radius:6px;flex-shrink:0;" />
+  </a>
   <div class="header-text">
     <p class="brand"><strong>Agile by Design</strong> &middot; catalog</p>
     <a class="back-link" href="../../../skill/abd-skill-catalog.html">← abd-skill-catalog</a>
@@ -832,7 +839,7 @@ h2:first-child { margin-top: 0; }
 <li>You want both Markdown (diffable, review in Git) and HTML (quick browse).</li>
 </ul>
 <h2>What it produces</h2>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Artifact</th><th>Format</th><th>Location (default)</th></tr></thead><tbody><tr><td><strong>Outline</strong></td><td>Markdown</td><td>`catalog/outline.md` (repository root)</td></tr><tr><td><strong>Site hub</strong></td><td>HTML</td><td>`catalog/index.html` — one page: <strong>Agile Garden</strong> prelude (mission + practice/foundational skill lists + agents box, generated from `catalog_garden_<em>` in SKILL.md / AGENT.md), then collapsible </em><em>About</em><em>, </em><em>Skills</em><em>, </em><em>Agents</em>*; hub intro links jump to `#catalog-skills` / `#catalog-agents`</td></tr><tr><td><strong>Skills grid</strong></td><td>HTML</td><td>`catalog/skills.html` (standalone grid; nav from detail pages)</td></tr><tr><td><strong>Agents grid</strong></td><td>HTML</td><td>`catalog/agents.html` (standalone grid; nav from detail pages)</td></tr><tr><td><strong>Hub / grid intros</strong></td><td>HTML fragments</td><td>`skills/abd-skill-catalog/templates/intros/*.html` (short lines above grids; optional polish)</td></tr><tr><td><strong>Skill detail pages</strong></td><td>HTML</td><td>`catalog/skill/&lt;dir&gt;.html` (one per skill; cards link here)</td></tr><tr><td><strong>Agent detail pages</strong></td><td>HTML</td><td>`catalog/agent/&lt;dir&gt;.html` (one per agent; cards link here)</td></tr></tbody></table></div>
+<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Artifact</th><th>Format</th><th>Location (default)</th></tr></thead><tbody><tr><td><strong>Outline</strong></td><td>Markdown</td><td>`catalog/outline.md` (repository root)</td></tr><tr><td><strong>Site hub</strong></td><td>HTML</td><td>`catalog/index.html` — one page: <strong>Agile Garden</strong> prelude (mission + practice/foundational skill lists + agents box, generated from `catalog_garden_<em>` in SKILL.md / AGENT.md), then collapsible </em><em>About</em><em>, </em><em>Skills</em><em>, </em><em>Agents</em>*; hub intro links jump to `#catalog-skills` / `#catalog-agents`</td></tr><tr><td><strong>Skills grid</strong></td><td>HTML</td><td>`catalog/skills.html` (standalone grid; nav from detail pages)</td></tr><tr><td><strong>Agents grid</strong></td><td>HTML</td><td>`catalog/agents.html` (standalone grid; nav from detail pages)</td></tr><tr><td><strong>Hub / grid intros</strong></td><td>HTML fragments</td><td>`agents/abd-practice-skill-builder/skills/abd-skill-catalog/templates/intros/*.html` (short lines above grids; optional polish)</td></tr><tr><td><strong>Skill detail pages</strong></td><td>HTML</td><td>`catalog/skill/&lt;dir&gt;.html` (one per skill; cards link here)</td></tr><tr><td><strong>Agent detail pages</strong></td><td>HTML</td><td>`catalog/agent/&lt;dir&gt;.html` (one per agent; cards link here)</td></tr></tbody></table></div>
 <p>Skill detail pages include an <strong>Install with npx</strong> block: a single fenced-style command `npx skills add agilebydesign/agilebydesign-skills@&lt;frontmatter name&gt; -y`, matching the skill id from `npx skills add https://github.com/agilebydesign/agilebydesign-skills -l`. Agent pages omit that block (agents are not separate `npx skills` packages in this repo).</p>
 <p>Each catalogue entry includes:</p>
 <ul>
@@ -866,15 +873,15 @@ h2:first-child { margin-top: 0; }
 <p>disk (`&lt;details&gt;` / `&lt;summary&gt;`, file names as links). Known folder blurbs and nested `SKILL.md` summaries unchanged. Repo links open in a new tab.</p>
 <h2>Agent instructions</h2>
 <p>1. <strong>Regenerate on command.</strong> From the <strong>agilebydesign-skills</strong> repository root, run:</p>
-<pre><code>   python skills/abd-skill-catalog/scripts/generate_abd_catalog.py</code></pre>
+<pre><code>   python agents/abd-practice-skill-builder/skills/abd-skill-catalog/scripts/generate_abd_catalog.py</code></pre>
 <p>First-time or new packages — create stub READMEs only where the file is missing, then regenerate:</p>
-<pre><code>   python skills/abd-skill-catalog/scripts/generate_abd_catalog.py --scaffold-readmes</code></pre>
+<pre><code>   python agents/abd-practice-skill-builder/skills/abd-skill-catalog/scripts/generate_abd_catalog.py --scaffold-readmes</code></pre>
 <p>The script never overwrites an existing `README.md`. If a README is thin, wrong, or still full of TODOs, <strong>you (the assistant or maintainer)</strong> read `SKILL.md` / the agent entry doc, decide what is insufficient, and <strong>replace the README content yourself</strong> (edit in the IDE or rewrite the file in one pass). That is not a generator flag — it is judgement + prose.</p>
 <p>Options:</p>
 <ul>
-<li>`--repo-root &lt;path&gt;` — defaults to the parent of the repo `skills/`</li>
+<li>`--repo-root &lt;path&gt;` — defaults to the <strong>agilebydesign-skills</strong> root</li>
 </ul>
-<p>directory (detected from this script location).</p>
+<p>(folder that contains both `skills/` and `agents/`, detected from this script).</p>
 <ul>
 <li>`--output-dir &lt;path&gt;` — overrides `&lt;repo-root&gt;/catalog` if you need a different folder.</li>
 <li>`--scaffold-readmes` — write `README.md` from templates **only where the</li>
@@ -882,9 +889,9 @@ h2:first-child { margin-top: 0; }
 <p>file does not exist**, then run generation.</p>
 <p>2. <strong>Discovery rules.</strong></p>
 <ul>
-<li><strong>Skills:</strong> every immediate child of `skills/` that contains `SKILL.md`.</li>
+<li><strong>Skills:</strong> every immediate child of repo `skills/` that contains `SKILL.md`,</li>
 </ul>
-<p>(Skips plain files and folders without `SKILL.md`.)</p>
+<p>plus packages under `agents/&lt;agent&gt;/skills/` that contain `SKILL.md` <strong>and</strong> YAML `catalog_garden_tier: practice` or `foundational` (so agent-local pipeline skills without that field stay off the catalogue grid).</p>
 <ul>
 <li><strong>Agents:</strong> every immediate child of `agents/` that contains one of</li>
 </ul>
@@ -920,7 +927,7 @@ h2:first-child { margin-top: 0; }
 <li><em>Agile Garden agents box</em> — agents are listed by default; set</li>
 </ul>
 <p>`catalog_garden: false` in front matter to hide. Optional `catalog_garden_order: &lt;int&gt;` for sort order.</p>
-<p>5. <strong>Catalogue intros (review with an AI or editor).</strong> Short HTML above the grids lives in `skills/abd-skill-catalog/templates/intros/`. Keep copy <strong>user-facing</strong> (how to browse, link to outline) — do <strong>not</strong> explain how the catalogue is built (README conventions, generator, scaffolding); that belongs in this `SKILL.md` only.</p>
+<p>5. <strong>Catalogue intros (review with an AI or editor).</strong> Short HTML above the grids lives in `agents/abd-practice-skill-builder/skills/abd-skill-catalog/templates/intros/`. Keep copy <strong>user-facing</strong> (how to browse, link to outline) — do <strong>not</strong> explain how the catalogue is built (README conventions, generator, scaffolding); that belongs in this `SKILL.md` only.</p>
 <ul>
 <li>`catalog-hub-intro.html` — hub; may use `{{OUTLINE_HREF}}` for outline.</li>
 <li>`catalog-skills-intro.html` — line above the skills grid.</li>
@@ -928,7 +935,7 @@ h2:first-child { margin-top: 0; }
 </ul>
 <p>The script uses minimal built-in HTML if a fragment is missing.</p>
 <p>6. <strong>README templates.</strong> Stubs are produced from `templates/catalog-readme-skill.md` and `templates/catalog-readme-agent.md`. Adjust those files if the default scaffold text should change for new packages.</p>
-<p>7. <strong>Templates (layout).</strong> HTML shells and CSS live under `skills/abd-skill-catalog/templates/` (excluding `intros/`, which are prose fragments) and are merged with token replacement. Edit those files to change branding or layout without touching Python.</p>
+<p>7. <strong>Templates (layout).</strong> HTML shells and CSS live under `agents/abd-practice-skill-builder/skills/abd-skill-catalog/templates/` (excluding `intros/`, which are prose fragments) and are merged with token replacement. Edit those files to change branding or layout without touching Python.</p>
 <p>8. <strong>Idempotent.</strong> Running the script twice with the same tree overwrites the same outputs deterministically.</p></div>
 
 </div>

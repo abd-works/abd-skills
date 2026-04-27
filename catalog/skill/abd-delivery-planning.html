@@ -289,9 +289,20 @@ code {
   border: 1px solid var(--border-muted);
   box-shadow: inset 0 0 0 1px rgba(255,122,0,0.12);
 }
+.site-home-link {
+  flex-shrink: 0;
+  display: block;
+  line-height: 0;
+  opacity: 0.9;
+  transition: opacity 0.15s;
+}
+.site-home-link:hover { opacity: 1; }
 .header-text { flex: 1; min-width: 200px; }
 .brand { font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin: 0 0 4px; }
 .brand strong { color: var(--orange); }
+.brand-row { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
+.brand-row .brand { margin: 0; }
+.brand-row .cap-badge { margin: 0; }
 h1 { margin: 0; font-size: 2rem; font-weight: 700; line-height: 1.15; }
 .tagline { margin: 8px 0 0; font-size: 1.05rem; color: var(--muted); max-width: 52rem; line-height: 1.55; }
 .panel-body { padding: 28px 22px 36px; }
@@ -798,17 +809,15 @@ h2:first-child { margin-top: 0; }
 <div class="panel" role="main">
 
 <header class="panel-header entry-detail-header">
-  <div class="header-icon">
-    <svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:block;border-radius:6px;">
-      <rect width="52" height="52" rx="8" fill="#0e0e10"/>
-      <path d="M16 14h20a2 2 0 0 1 2 2v20a2 2 0 0 1-2 2H16a2 2 0 0 1-2-2V16a2 2 0 0 1 2-2z" stroke="#FF7A00" stroke-width="1.5" fill="rgba(255,122,0,0.06)"/>
-      <path d="M20 22h12M20 26h9M20 30h12" stroke="#FF7A00" stroke-width="1.5" stroke-linecap="round"/>
-    </svg>
-  </div>
+  <a href="https://www.abd-works.com/" class="site-home-link" title="Back to abd-works">
+    <img src="/commons/images/abd-logo.png" width="48" height="48" alt="Agile by Design" style="display:block;border-radius:6px;flex-shrink:0;" />
+  </a>
   <div class="header-text">
-    <p class="brand"><strong>Agile by Design</strong> &middot; catalog</p>
+    <div class="brand-row">
+      <p class="brand"><strong>Agile by Design</strong> &middot; catalog</p>
+      <p class="cap-badge">Skill</p>
+    </div>
     <a class="back-link" href="../skills.html">← All skills</a>
-    <p class="cap-badge">Skill</p>
     <h1>abd-delivery-planning</h1>
     <p class="tagline">Delivery plans only: context, risks, strategies, staged runs and checkpoints (not stories, tests, or code).</p>
   </div>
@@ -972,7 +981,10 @@ h2:first-child { margin-top: 0; }
 <li class="file-tree__file"><a class="file-tree__file-link" href="../doc/skill/abd-delivery-planning/rules/plan-runs-have-concrete-outcome.html"><strong>plan-runs-have-concrete-outcome.md</strong></a><span class="file-meta"> → scanner: plan-shape</span></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../doc/skill/abd-delivery-planning/rules/plan-strategy-named.html"><strong>plan-strategy-named.md</strong></a><span class="file-meta"> → scanner: plan-shape</span></li>
 </ul></div></details></li>
-<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>scanners/</strong><span class="file-meta"> → Folder (2 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
+<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>scanners/</strong><span class="file-meta"> → Folder (3 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
+<li class="file-tree__dir"><details class="file-tree__details"><summary class="file-tree__summary"><strong>__pycache__/</strong><span class="file-meta"> → Folder (1 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/abd-delivery-planning/scanners/__pycache__/plan-shape-scanner.cpython-312.pyc" target="_blank" rel="noopener noreferrer"><strong>plan-shape-scanner.cpython-312.pyc</strong></a><span class="file-meta"> →     ���i4  �                  �T  � d Z ddlmZ ddlZddlZddlZddlmZ ddlm	Z	  ee</span></li>
+</ul></div></details></li>
 <li class="file-tree__dir"><details class="file-tree__details"><summary class="file-tree__summary"><strong>tests/</strong><span class="file-meta"> → Folder (5 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
 <li class="file-tree__file"><a class="file-tree__file-link" href="../doc/skill/abd-delivery-planning/scanners/tests/bad-plan-default-six-stage.html"><strong>bad-plan-default-six-stage.md</strong></a><span class="file-meta"> → Agile Delivery Plan — Default Waterfall</span></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../doc/skill/abd-delivery-planning/scanners/tests/bad-plan-loose-checkpoints.html"><strong>bad-plan-loose-checkpoints.md</strong></a><span class="file-meta"> → Agile Delivery Plan — Loose Checkpoints Despite High Risk</span></li>
@@ -983,6 +995,9 @@ h2:first-child { margin-top: 0; }
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/abd-delivery-planning/scanners/plan-shape-scanner.py" target="_blank" rel="noopener noreferrer"><strong>plan-shape-scanner.py</strong></a><span class="file-meta"> → !/usr/bin/env python3</span></li>
 </ul></div></details></li>
 <li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>scripts/</strong><span class="file-meta"> → Build, catalogue, validation, or packaging automation.</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
+<li class="file-tree__dir"><details class="file-tree__details"><summary class="file-tree__summary"><strong>__pycache__/</strong><span class="file-meta"> → Folder (1 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/abd-delivery-planning/scripts/__pycache__/append_plan_revision.cpython-312.pyc" target="_blank" rel="noopener noreferrer"><strong>append_plan_revision.cpython-312.pyc</strong></a><span class="file-meta"> →     ���i�  �                  �h  � d Z ddlmZ ddlZddlZddlZddlZddlmZmZ ddl	m</span></li>
+</ul></div></details></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/abd-delivery-planning/scripts/append_plan_revision.py" target="_blank" rel="noopener noreferrer"><strong>append_plan_revision.py</strong></a><span class="file-meta"> → !/usr/bin/env python3</span></li>
 </ul></div></details></li>
 <li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>strategies/</strong><span class="file-meta"> → Folder (9 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
@@ -996,7 +1011,12 @@ h2:first-child { margin-top: 0; }
 <li class="file-tree__file"><a class="file-tree__file-link" href="../doc/skill/abd-delivery-planning/strategies/regulatory-compliance-heavy.html"><strong>regulatory-compliance-heavy.md</strong></a><span class="file-meta"> → Strategy: Regulatory / Compliance-Heavy</span></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../doc/skill/abd-delivery-planning/strategies/spike-proof-of-concept.html"><strong>spike-proof-of-concept.md</strong></a><span class="file-meta"> → Strategy: Spike / Proof of Concept</span></li>
 </ul></div></details></li>
-<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>tests/</strong><span class="file-meta"> → Folder (3 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
+<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>tests/</strong><span class="file-meta"> → Folder (4 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
+<li class="file-tree__dir"><details class="file-tree__details"><summary class="file-tree__summary"><strong>__pycache__/</strong><span class="file-meta"> → Folder (3 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/abd-delivery-planning/tests/__pycache__/conftest.cpython-312-pytest-9.0.2.pyc" target="_blank" rel="noopener noreferrer"><strong>conftest.cpython-312-pytest-9.0.2.pyc</strong></a><span class="file-meta"> →     ���ij  �                  �j  � d Z ddlmZ ddlZddlmc mZ ddl	Z	ddl</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/abd-delivery-planning/tests/__pycache__/test_append_plan_revision.cpython-312-pytest-9.0.2.pyc" target="_blank" rel="noopener noreferrer"><strong>test_append_plan_revision.cpython-312-pytest-9.0.2.pyc</strong></a><span class="file-meta"> →     ���i@</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/abd-delivery-planning/tests/__pycache__/test_plan_shape_scanner.cpython-312-pytest-9.0.2.pyc" target="_blank" rel="noopener noreferrer"><strong>test_plan_shape_scanner.cpython-312-pytest-9.0.2.pyc</strong></a><span class="file-meta"> →     ���i  �                  �6  � d Z ddlmZ ddlZddlmc mZ ddl	Z</span></li>
+</ul></div></details></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/abd-delivery-planning/tests/conftest.py" target="_blank" rel="noopener noreferrer"><strong>conftest.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Put scanner + generator scripts on sys.path for in-process imports.&quot;&quot;&quot;</span></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/abd-delivery-planning/tests/test_append_plan_revision.py" target="_blank" rel="noopener noreferrer"><strong>test_append_plan_revision.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Tests for append_plan_revision: entries prepended, header preserved, plan sha recorded.&quot;&quot;&quot;</span></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/abd-delivery-planning/tests/test_plan_shape_scanner.py" target="_blank" rel="noopener noreferrer"><strong>test_plan_shape_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Tests for plan-shape-scanner: asserts each rule fires on its matching fixture.</span></li>

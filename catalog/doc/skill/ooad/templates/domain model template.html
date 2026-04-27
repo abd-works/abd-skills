@@ -289,9 +289,20 @@ code {
   border: 1px solid var(--border-muted);
   box-shadow: inset 0 0 0 1px rgba(255,122,0,0.12);
 }
+.site-home-link {
+  flex-shrink: 0;
+  display: block;
+  line-height: 0;
+  opacity: 0.9;
+  transition: opacity 0.15s;
+}
+.site-home-link:hover { opacity: 1; }
 .header-text { flex: 1; min-width: 200px; }
 .brand { font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin: 0 0 4px; }
 .brand strong { color: var(--orange); }
+.brand-row { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
+.brand-row .brand { margin: 0; }
+.brand-row .cap-badge { margin: 0; }
 h1 { margin: 0; font-size: 2rem; font-weight: 700; line-height: 1.15; }
 .tagline { margin: 8px 0 0; font-size: 1.05rem; color: var(--muted); max-width: 52rem; line-height: 1.55; }
 .panel-body { padding: 28px 22px 36px; }
@@ -798,19 +809,15 @@ h2:first-child { margin-top: 0; }
 <div class="panel" role="main">
 
 <header class="panel-header entry-detail-header">
-  <div class="header-icon">
-    <svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:block;border-radius:6px;">
-      <rect width="52" height="52" rx="8" fill="#0e0e10"/>
-      <path d="M16 14h20a2 2 0 0 1 2 2v20a2 2 0 0 1-2 2H16a2 2 0 0 1-2-2V16a2 2 0 0 1 2-2z" stroke="#FF7A00" stroke-width="1.5" fill="rgba(255,122,0,0.06)"/>
-      <path d="M20 22h12M20 26h9M20 30h12" stroke="#FF7A00" stroke-width="1.5" stroke-linecap="round"/>
-    </svg>
-  </div>
+  <a href="https://www.abd-works.com/" class="site-home-link" title="Back to abd-works">
+    <img src="/commons/images/abd-logo.png" width="48" height="48" alt="Agile by Design" style="display:block;border-radius:6px;flex-shrink:0;" />
+  </a>
   <div class="header-text">
     <p class="brand"><strong>Agile by Design</strong> &middot; catalog</p>
     <a class="back-link" href="../../../../skill/ooad.html">← abd-ooad</a>
     <p class="cap-badge">Markdown</p>
     <h1>templates/domain model template.md</h1>
-    <p class="tagline">﻿## Domain model -- {{project_or_slice_name}}</p>
+    <p class="tagline">Domain model</p>
   </div>
 </header>
 
@@ -823,39 +830,39 @@ h2:first-child { margin-top: 0; }
 </nav>
 
 <h2>Content</h2>
-<div class="rule-prose"><p>﻿## Domain model -- {{project_or_slice_name}}</p>
+<div class="rule-prose"><h2>Domain model</h2>
 <p>One file per workspace. All phases write into this file. <strong>Never delete old `note:` lines -- each phase appends.</strong></p>
+<p><strong>Conventions (abd-ooad / properties-methods-and-relationships):</strong></p>
+<ul>
+<li>`## [Module: Name]` then a short paragraph for module scope.</li>
+<li>`ClassName &lt;&lt; Entity | ValueObject | ... &gt;&gt;` when stereotypes help; one or two sentences on what the class owns.</li>
+<li>Group <strong>related</strong> properties and the methods that belong with them; use `----` between sub-clusters inside a class.</li>
+<li><strong>`-----`</strong> between <strong>classes</strong> (full separator).</li>
+<li><strong>Relationships / cardinality</strong> on properties: `+ name:Type [*..1]`, etc.</li>
+<li><strong>Typed constants / enums:</strong> `NAME_IN_UPPER_SNAKE` for literals or enum-like sets; document values in a block under the type name.</li>
+<li><strong>Subtypes:</strong> `ChildClass : ParentClass` on the class title line — make generalization explicit.</li>
+<li><strong>Invariants</strong> (declarative): tab-indented under the <strong>property or method</strong> they guard, e.g. `Invariant: ...` (see example). For heavy lifecycle text, prefer <strong>`business-logic.md`</strong> and reference briefly here.</li>
+</ul>
 <hr>
-<h2>[{{AnchorName}} module]</h2>
-<p>note: {{AnchorName}} module -- {{one sentence: what this module owns}} note: * -- see Note labels table and Example below</p>
-<p>{{ClassName}} &lt;&lt; {{kind}}? &gt;&gt;                         (stub added p3; ? = provisional; p4 confirms or demotes) note: {{ClassName}} -- {{one sentence: why this class exists / what it owns}} note: * -- see Note labels table and Example below</p>
-<p>+ {{property}}:{{Type}}                              (added p6; opt + cardinality p7; Invariant p8) + {{method}}({{param}}:{{Type}}, ...): {{ReturnType}} (added p6; opt + cardinality p7; Invariant p8)</p>
+<h2>[Module: {{Module}}]</h2>
+<p>{{Short paragraph describing module purpose / responsibility}}</p>
+<p>{{ClassName}} : {{BaseType}} {{1-2 sentences: why this class exists / what it owns}}</p>
 <hr>
+<p>+ {{property}}:{{Type}} + {{property}}:{{Type}} + {{method}}({{param}}:{{Type}}, ...): {{ReturnType}} + {{method}}({{param}}:{{Type}}, ...): {{ReturnType}}</p>
 <hr>
-<h2>Note labels by phase</h2>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Tag</th><th>Phase</th><th>Labels added</th></tr></thead><tbody><tr><td>`[p0]`</td><td>domain-scan</td><td>`High Confidence Anchor`, `Sibling Candidate`, `Tension`</td></tr><tr><td>`[p1]`</td><td>nouns-verbs-rules-and-states</td><td>`Anchor Boundary`, `Sibling Candidate`, `Tension`, `Follow-up`</td></tr><tr><td>`[p3]`</td><td>raw-candidates</td><td>`Provisionally Classified`, `Tension`, `Follow-up`</td></tr><tr><td>`[p4]`</td><td>thing-vs-data-about-a-thing</td><td>`Classified`, `Renamed`, `Tension`, `Follow-up`</td></tr><tr><td>`[p5]`</td><td>responsibilities-and-collaborators</td><td>`Classified`, `Tension`, `Follow-up`</td></tr><tr><td>`[p6]`</td><td>properties-and-operations</td><td>`Classified`, `Promoted`, `Tension`, `Follow-up`</td></tr><tr><td>`[p7]`</td><td>relationships-and-cardinality</td><td>`Classified`, `Tension`, `Follow-up`</td></tr><tr><td>`[p8]`</td><td>invariants-in-the-model</td><td>`Invariant`, `Tension`, `Follow-up`</td></tr><tr><td>`[p9]`</td><td>watch-for-bloated-classes</td><td>`Bloat Signal`, `Role Separation`, `Follow-up`</td></tr><tr><td>`[p10]`</td><td>smashed-abstractions-and-hidden-roles</td><td>`Role Separation`, `Classified`, `Tension`, `Follow-up`</td></tr><tr><td>`[p11]`</td><td>inheritance-when-behavior-generalizes</td><td>`Classified`, `Promoted`, `Tension`, `Follow-up`</td></tr><tr><td>`[p12]`</td><td>abstract-classes-and-interfaces</td><td>`Classified`, `Promoted`, `Tension`, `Follow-up`</td></tr><tr><td>`[p13]`</td><td>prefer-composition</td><td>`Classified`, `Tension`, `Follow-up`</td></tr><tr><td>`[p14]`</td><td>model-state-transitions</td><td>`State Candidate`, `Invariant`, `Tension`, `Follow-up`</td></tr><tr><td>`[p15]`</td><td>iterative-refinement</td><td>`Renamed`, `Classified`, `Tension`, `Follow-up`</td></tr><tr><td>`[p16]`</td><td>tension-as-a-signal</td><td>`Tension`, `Renamed`, `Follow-up`</td></tr><tr><td>`[p17]`</td><td>design-bounded-contexts</td><td>`Cohesion Group`, `Bounded Context`, `Tension`, `Follow-up`</td></tr><tr><td>`[p18]`</td><td>validate-with-scenarios</td><td>`Scenario Gap`, `Invariant`, `Follow-up`</td></tr><tr><td>`[p19]`</td><td>refine-names</td><td>`Renamed`, `Promoted`, `Follow-up`</td></tr></tbody></table></div>
 <hr>
 <h2>Example</h2>
-<p><em>Only notes that fired are written -- not one per phase.</em></p>
-<h2>[Payment module]</h2>
-<p>note: Payment module -- owns all money movement and connector routing for a transaction note: [p0] High Confidence Anchor -- every spec flow routes through this module; no other candidate owns settlement note: [p9] Role Separation -- RoutingContext extracted; module boundary tightened around lifecycle not routing dimensions</p>
-<p>Payment &lt;&lt; Entity? &gt;&gt;                                         (stub p3; confirmed p4) note: Payment -- owns lifecycle and state transitions for a single money movement attempt note: [p0] High Confidence Anchor -- appears in every flow; all capture and settlement routes through it note: [p3] Provisionally Classified -- Entity?; appears as named thing in every flow; identity suspected note: [p4] Classified -- Entity; confirmed identity (payment id), lifecycle (state machine), owns behavior note: [p8] Invariant -- SETTLED cannot return to AUTHORIZED; state machine is append-only past capture note: [p14] State Candidate -- states: INITIATED, AUTHORIZED, CAPTURED, SETTLED, FAILED + id:UniqueID                                              (p5) + idempotencyKey:String                                    (p5) + state:PaymentState                                       (p5) opt  PaymentState [1..1]                              (p7) + authorize(connectorRef:ConnectorId): AuthResult          (p6) opt  ConnectorId [1..1], AuthResult [1..1]            (p7) Invariant: state must be METHOD_SELECTED before authorize  (p8)</p>
+<h2>[Module: Payments]</h2>
+<p>Owns all money movement and connector routing for a transaction.</p>
+<p>Payment &lt;&lt; Entity &gt;&gt; Owns lifecycle and state transitions for a single money movement attempt. + id:UniqueID + uniqueSessionKey:String</p>
 <hr>
-<p>RoutingContext : note: RoutingContext -- currency+region pair that selects a connector; immutable once set note: [p5] Promoted -- was a loose property on Payment; recurred across three operations so extracted as VO + currency:Currency                                        (p5) opt  Currency [1..1]                                  (p7) + region:RegionCode                                        (p5) opt  RegionCode [1..1]                                (p7)</p>
+<p>+ currency:Currency [<em>..1] + region:Region [</em>..1] + rail:PaymentRail [*..1] + rail:connectToRail() Invariant: payment rail, currency, and region are immutable once set</p>
 <hr>
-<hr>
-<h2>Patterns — subtype heading &amp; invariant lines</h2>
-<p>Use this skill’s <strong>Markdown companion</strong> for structure the diagram must mirror.</p>
-<h3>Subtype heading (inheritance visible in the doc)</h3>
-<p>When a specialization has a real superclass, make it explicit:</p>
-<pre><code>### **WireTransfer** : **Payment**
-
-note: WireTransfer -- country-specific wire settlement; extends Payment lifecycle</code></pre>
-<p>(For a root type with no parent, use a single class name and no `: Base` part — see <strong>Payment</strong> in <strong>Example</strong> above.)</p>
-<h3>Invariant lines</h3>
-<p>Attach constraints <strong>under</strong> the property or operation they apply to — use the `Invariant:` line style already shown on <strong>`authorize`</strong> under <strong>Payment</strong> in <strong>Example</strong> above. Do <strong>not</strong> gather invariants in a separate section at module level.</p>
-<pre><code>+ submit():Result
-     Invariant: state must be READY before submit</code></pre></div>
+<p>+ PAYMENT_STATE:PaymentState [*..1] + authorize(selectedPaymentRail:PaymentRail): AuthResult Invariant: PAYMENT_STATE must be PAYMENT_METHOD_SELECTED before authorize + submit():PaymentResult Invariant: state must be PAYMENT_READY before submit</p>
+<p>PaymentRailConnector The PaymentRail is determined by the currency+region pair that selects a connector. + determineRail(payment:Payment): PaymentRail</p>
+<p>PAYMENT_STATE Typed constants (UPPER_CASE): PAYMENT_AUTHORIZED = &quot;PA&quot; PAYMENT_READY = &quot;PR&quot;</p>
+<p>WireTransfer : Payment</p>
+<hr></div>
 
 </div>
 </div>

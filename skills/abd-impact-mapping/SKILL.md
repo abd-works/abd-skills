@@ -137,6 +137,22 @@ Do not hide a grab-bag in one deliverable ("Everything for sharing"); do not use
 Contrast: under an impact about sharing to social, "One-tap share sheet with clip" and "Seasonal badge asset pack" are deliverables — different bets on the same behaviour. "Grow monthly active players" is goal territory; share rate and cadence sit in metrics, not in the `IMPACT:` headline when using this skill's templates.
 
 
+
+### Assumptions
+
+An impact map carries two kinds of assumption, and both are already visible in the hypotheses templates:
+
+- **Build assumption** — If we build this deliverable, the target actor will be impacted in a specific way (eg their behavior), measurable by the impact metric. This is a bet on delivery causing behaviour change.
+- **Outcome assumption** — If the impact metric moves, the goal metric will follow. This is a bet on the behaviour change mattering to the outcome.
+
+Teams use a validated learning approach to confirm or refute each belief and update the map as they learn — keeping evidence and learning visible:
+
+- **Plan** — what to test, the smallest useful check, who owns it, and by when.
+- **Validate** — run the check and collect evidence to confirm or refute the belief.
+- **Learn** — what the team took away and how the bet, the map, or the next experiment updates.
+
+The `templates/impact-map-hypotheses.md` (and `.txt`) already phrase both assumption types as testable sentences — they are the natural starting point. Use **abd-simple-validated-learning** to turn those sentences into a prioritised backlog of experiments with owners and explicit failure conditions when the team needs to validate before committing to build.
+
 ### Phased feature backlog
 
 When delivery needs a time horizon, you extend the same map with a phased backlog: a sequence of timeboxes (months, quarters, or another convention you name once). Each phase holds scheduled options — concrete things you might ship or run. Every option stays tied to exactly one impact path on the map: the same actor and the same behaviour change that option is meant to support. That keeps sequencing honest: order is about *when* you might try something, not a separate story from *why* that something mattered. Orphan work shows up when an option does not link to a behaviour you care about.

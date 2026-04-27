@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ABD catalogue — abd-specification-by-example · templates/specification-by-example.md</title>
+<title>ABD catalogue — abd-specification-by-example · templates/specification-by-example.txt</title>
 <style>
 /*
   Single source for Agile Garden block: catalog prelude + mission row + two-column lists.
@@ -289,9 +289,20 @@ code {
   border: 1px solid var(--border-muted);
   box-shadow: inset 0 0 0 1px rgba(255,122,0,0.12);
 }
+.site-home-link {
+  flex-shrink: 0;
+  display: block;
+  line-height: 0;
+  opacity: 0.9;
+  transition: opacity 0.15s;
+}
+.site-home-link:hover { opacity: 1; }
 .header-text { flex: 1; min-width: 200px; }
 .brand { font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin: 0 0 4px; }
 .brand strong { color: var(--orange); }
+.brand-row { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
+.brand-row .brand { margin: 0; }
+.brand-row .cap-badge { margin: 0; }
 h1 { margin: 0; font-size: 2rem; font-weight: 700; line-height: 1.15; }
 .tagline { margin: 8px 0 0; font-size: 1.05rem; color: var(--muted); max-width: 52rem; line-height: 1.55; }
 .panel-body { padding: 28px 22px 36px; }
@@ -798,19 +809,15 @@ h2:first-child { margin-top: 0; }
 <div class="panel" role="main">
 
 <header class="panel-header entry-detail-header">
-  <div class="header-icon">
-    <svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:block;border-radius:6px;">
-      <rect width="52" height="52" rx="8" fill="#0e0e10"/>
-      <path d="M16 14h20a2 2 0 0 1 2 2v20a2 2 0 0 1-2 2H16a2 2 0 0 1-2-2V16a2 2 0 0 1 2-2z" stroke="#FF7A00" stroke-width="1.5" fill="rgba(255,122,0,0.06)"/>
-      <path d="M20 22h12M20 26h9M20 30h12" stroke="#FF7A00" stroke-width="1.5" stroke-linecap="round"/>
-    </svg>
-  </div>
+  <a href="https://www.abd-works.com/" class="site-home-link" title="Back to abd-works">
+    <img src="/commons/images/abd-logo.png" width="48" height="48" alt="Agile by Design" style="display:block;border-radius:6px;flex-shrink:0;" />
+  </a>
   <div class="header-text">
     <p class="brand"><strong>Agile by Design</strong> &middot; catalog</p>
     <a class="back-link" href="../../../../skill/abd-specification-by-example.html">← abd-specification-by-example</a>
-    <p class="cap-badge">Markdown</p>
-    <h1>templates/specification-by-example.md</h1>
-    <p class="tagline">Specification by example (BDD scenarios)</p>
+    <p class="cap-badge">Plain text</p>
+    <h1>templates/specification-by-example.txt</h1>
+    <p class="tagline">Specification by example (BDD scenarios) — plain text template</p>
   </div>
 </header>
 
@@ -823,47 +830,84 @@ h2:first-child { margin-top: 0; }
 </nav>
 
 <h2>Content</h2>
-<div class="rule-prose"><h1>Specification by example (BDD scenarios)</h1>
-<p>&lt;!-- Conventions aligned with agile_bots story_bot `behaviors/scenarios`. --&gt;</p>
-<p>Use this template when you want scenarios with inline values—no placeholders, no abstract tokens. Group scenarios under a common Background when three or more share the same starting state.</p>
-<p><strong>Formatting convention:</strong> use <strong>bold</strong> for domain concept names and <em>italics</em> for the actual values of those concepts (e.g. <strong>User</strong> <em>Jane Doe</em>, <strong>Enterprise</strong> <em>Acme Corp</em>, <strong>Payment Amount</strong> <em>$10,000.00 USD</em>).</p>
-<hr>
-<h2>Template</h2>
-<h2>Story: `&lt;Verb–Noun Title&gt;`</h2>
-<p><strong>Story type:</strong> user | system | technical</p>
-<p><strong>Sources / context:</strong> _(pointer to source or conversation / workshop date)_</p>
-<hr>
-<h2>Background</h2>
-<p>Given a <strong>&lt;Concept&gt;</strong> <em>&lt;value&gt;</em> And that <strong>&lt;Concept&gt;</strong> <em>&lt;value&gt;</em> has <strong>&lt;Concept&gt;</strong> <em>&lt;value&gt;</em> And that <strong>&lt;Concept&gt;</strong> <em>&lt;value&gt;</em> is related to <strong>&lt;Concept&gt;</strong> <em>&lt;value&gt;</em> with <strong>&lt;Concept&gt;</strong> <em>&lt;value&gt;</em></p>
-<hr>
-<h2>Scenarios</h2>
-<h3>Scenario 1: `&lt;outcome-oriented name&gt;`</h3>
-<p>Given <strong>&lt;Concept&gt;</strong> <em>&lt;value&gt;</em> with <strong>&lt;Concept&gt;</strong> <em>&lt;value&gt;</em> And <strong>&lt;Concept&gt;</strong> <em>&lt;value&gt;</em> for that <strong>&lt;Concept&gt;</strong> is <em>&lt;value&gt;</em> When <strong>&lt;Concept&gt;</strong> <em>&lt;value&gt;</em> does <strong>&lt;action&gt;</strong> with <strong>&lt;Concept&gt;</strong> <em>&lt;value&gt;</em> Then <strong>&lt;Concept&gt;</strong> is marked as <em>&lt;outcome&gt;</em> And a <strong>&lt;Concept&gt;</strong> is sent to <em>&lt;value&gt;</em> showing <em>&lt;value&gt;</em></p>
-<h3>Scenario 2: `&lt;outcome-oriented name&gt;`</h3>
-<p>Given <strong>&lt;Concept&gt;</strong> <em>&lt;value&gt;</em> with <strong>&lt;Concept&gt;</strong> <em>&lt;value&gt;</em> When <strong>&lt;Concept&gt;</strong> <em>&lt;value&gt;</em> does <strong>&lt;action&gt;</strong> with <strong>&lt;Concept&gt;</strong> <em>&lt;value&gt;</em> Then <strong>&lt;Concept&gt;</strong> is <em>&lt;outcome&gt;</em></p>
-<hr>
-<h2>Example</h2>
-<h2>Story: Submit Wire Payment</h2>
-<p><strong>Story type:</strong> user</p>
-<p><strong>Sources / context:</strong> _(Enterprise Payments Requirements v2, Ch. 3 pp. 12-14)_</p>
-<hr>
-<h2>Background</h2>
-<p>Given a <strong>User</strong> <em>Jane Doe</em> is logged into ChannelOne 2.0 And that <strong>User</strong> <em>Jane Doe</em> is representing <strong>Enterprise</strong> <em>Acme Corp</em> with <strong>Role</strong> <em>Wire Operator</em> And that <strong>Enterprise</strong> <em>Acme Corp</em> has <strong>Payment Service</strong> <em>wire</em> enabled And that <strong>User</strong> <em>Jane Doe</em> has <strong>Entitlement</strong> <em>WirePayment.Create</em> with <strong>Entitlement Status</strong> <em>Granted</em></p>
-<hr>
-<h2>Scenarios</h2>
-<h3>Scenario 1: Submit payment within limit - approved</h3>
-<p>Given <strong>Account</strong> <em>Acme Operating</em> owned by <strong>Enterprise</strong> <em>Acme Corp</em> with <strong>Activation Status</strong> <em>Active</em> is selected And the <strong>Transactional Limit</strong> <em>daily_wire</em> for that Account is <em>$500,000.00 USD</em> When the <strong>User</strong> <em>Jane Doe</em> enters a <strong>Payment Amount</strong> of <em>$10,000.00 USD</em> Then the <strong>Payment Amount</strong> <em>$10,000.00 USD</em> is validated against <strong>Transactional Limit</strong> <em>$500,000.00 USD</em> And the <strong>Wire Payment</strong> is marked as <em>successful</em> And a <strong>Report</strong> is sent to <em>Jane Doe</em> showing formatted display <em>$10,000.00</em></p>
-<h3>Scenario 2: Submit payment over limit - rejected</h3>
-<p>Given <strong>Account</strong> <em>Acme Operating</em> owned by <strong>Enterprise</strong> <em>Acme Corp</em> with <strong>Activation Status</strong> <em>Active</em> is selected And the <strong>Transactional Limit</strong> <em>daily_wire</em> for that Account is <em>$500,000.00 USD</em> When the <strong>User</strong> <em>Jane Doe</em> enters a <strong>Payment Amount</strong> of <em>$500,000.01 USD</em> Then the <strong>Wire Payment</strong> is <em>rejected</em> And a <strong>Report</strong> is sent to <em>Jane Doe</em> showing validation status <em>rejected</em></p>
-<hr>
-<p>&lt;!-- Template reference only - do not copy this section into generated project files. --&gt;</p>
-<h2>Instructions</h2>
-<ul>
-<li>Given = state / preconditions only; When = first action; Then = observable domain outcomes.</li>
-<li>Use exact real values inline in the steps - no tables, no placeholder tokens.</li>
-<li><strong>Domain concept names</strong> in bold; <em>actual values</em> in italics.</li>
-<li>Cover at least one happy path, one failure or rejection, and edge cases where the story implies them.</li>
-</ul></div>
+<div class="rule-prose"><pre>Specification by example (BDD scenarios) — plain text template
+(Conventions from agile_bots story_bot behaviors/scenarios.)
+
+Use the SAME scenario coverage as specification-by-example.md; this file is plain text only.
+Scenarios use Given/When/Then with inline real values — no tables, no placeholder tokens.
+
+Formatting convention: DOMAIN CONCEPT in caps or clear label, value in quotes or plain inline
+(In the .md file, domain concept names are bold and values are italic.)
+
+Story: &lt;Verb-Noun Title&gt;
+Story type: user | system | technical
+Sources / context: (pointer to source or conversation / workshop date)
+
+---
+
+TEMPLATE
+
+Background (optional — only if 3+ scenarios share setup; Given/And only):
+  Given a CONCEPT &lt;value&gt; is in state &lt;state&gt;
+    And that CONCEPT &lt;value&gt; is related to CONCEPT &lt;value&gt; with ROLE &lt;value&gt;
+    And that CONCEPT &lt;value&gt; has CONCEPT &lt;value&gt; enabled
+
+Scenarios
+
+Scenario 1: &lt;outcome-oriented name&gt;
+  Given CONCEPT &lt;value&gt; owned by CONCEPT &lt;value&gt; with STATUS &lt;value&gt; is selected
+  And the LIMIT for that CONCEPT is &lt;value&gt;
+  When the CONCEPT &lt;value&gt; performs action with CONCEPT &lt;value&gt;
+  Then the CONCEPT is marked as &lt;outcome&gt;
+    And a REPORT is sent to &lt;value&gt; showing &lt;value&gt;
+
+Scenario 2: &lt;outcome-oriented name&gt;
+  Given CONCEPT &lt;value&gt; with STATUS &lt;value&gt; is selected
+  When the CONCEPT &lt;value&gt; performs action with CONCEPT &lt;value&gt;
+  Then the CONCEPT is &lt;rejected outcome&gt;
+
+---
+
+EXAMPLE
+
+Story: Submit Wire Payment
+Story type: user
+Sources / context: Enterprise Payments Requirements v2, Ch. 3 pp. 12-14
+
+---
+
+Background:
+  Given a USER Jane Doe is logged into ChannelOne 2.0
+  And that USER Jane Doe is representing ENTERPRISE Acme Corp with ROLE Wire Operator
+  And that ENTERPRISE Acme Corp has PAYMENT SERVICE wire enabled
+  And that USER Jane Doe has ENTITLEMENT WirePayment.Create with ENTITLEMENT STATUS Granted
+
+---
+
+Scenarios
+
+Scenario 1: Submit payment within limit - approved
+  Given ACCOUNT Acme Operating owned by ENTERPRISE Acme Corp with ACTIVATION STATUS Active is selected
+    And the TRANSACTIONAL LIMIT daily_wire for that Account is $500,000.00 USD
+  When the USER Jane Doe enters a PAYMENT AMOUNT of $10,000.00 USD
+  Then the PAYMENT AMOUNT $10,000.00 USD is validated against TRANSACTIONAL LIMIT $500,000.00 USD
+    And the WIRE PAYMENT is marked as successful
+    And a REPORT is sent to Jane Doe showing formatted display $10,000.00
+
+Scenario 2: Submit payment over limit - rejected
+  Given ACCOUNT Acme Operating owned by ENTERPRISE Acme Corp with ACTIVATION STATUS Active is selected
+    And the TRANSACTIONAL LIMIT daily_wire for that Account is $500,000.00 USD
+  When the USER Jane Doe enters a PAYMENT AMOUNT of $500,000.01 USD
+  Then the WIRE PAYMENT is rejected
+    And a REPORT is sent to Jane Doe showing validation status rejected
+
+---
+Template reference only — do not copy the following into generated project files:
+- Given = state; first action is When; Then = domain-visible outcomes.
+- Use exact real values inline — no tables, no placeholder tokens.
+- Domain concept names in caps (plain text) or bold (md); actual values quoted or italicized (md).
+- Cover at least one happy path, one failure or rejection, and edge cases where the story implies them.
+</pre></div>
 
 </div>
 </div>

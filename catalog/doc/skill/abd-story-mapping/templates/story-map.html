@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ABD catalogue — abd-story-mapping · templates/story-map.md</title>
+<title>ABD catalogue — abd-story-mapping · templates/story-map.txt</title>
 <style>
 /*
   Single source for Agile Garden block: catalog prelude + mission row + two-column lists.
@@ -289,9 +289,20 @@ code {
   border: 1px solid var(--border-muted);
   box-shadow: inset 0 0 0 1px rgba(255,122,0,0.12);
 }
+.site-home-link {
+  flex-shrink: 0;
+  display: block;
+  line-height: 0;
+  opacity: 0.9;
+  transition: opacity 0.15s;
+}
+.site-home-link:hover { opacity: 1; }
 .header-text { flex: 1; min-width: 200px; }
 .brand { font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin: 0 0 4px; }
 .brand strong { color: var(--orange); }
+.brand-row { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
+.brand-row .brand { margin: 0; }
+.brand-row .cap-badge { margin: 0; }
 h1 { margin: 0; font-size: 2rem; font-weight: 700; line-height: 1.15; }
 .tagline { margin: 8px 0 0; font-size: 1.05rem; color: var(--muted); max-width: 52rem; line-height: 1.55; }
 .panel-body { padding: 28px 22px 36px; }
@@ -798,19 +809,15 @@ h2:first-child { margin-top: 0; }
 <div class="panel" role="main">
 
 <header class="panel-header entry-detail-header">
-  <div class="header-icon">
-    <svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:block;border-radius:6px;">
-      <rect width="52" height="52" rx="8" fill="#0e0e10"/>
-      <path d="M16 14h20a2 2 0 0 1 2 2v20a2 2 0 0 1-2 2H16a2 2 0 0 1-2-2V16a2 2 0 0 1 2-2z" stroke="#FF7A00" stroke-width="1.5" fill="rgba(255,122,0,0.06)"/>
-      <path d="M20 22h12M20 26h9M20 30h12" stroke="#FF7A00" stroke-width="1.5" stroke-linecap="round"/>
-    </svg>
-  </div>
+  <a href="https://www.abd-works.com/" class="site-home-link" title="Back to abd-works">
+    <img src="/commons/images/abd-logo.png" width="48" height="48" alt="Agile by Design" style="display:block;border-radius:6px;flex-shrink:0;" />
+  </a>
   <div class="header-text">
     <p class="brand"><strong>Agile by Design</strong> &middot; catalog</p>
     <a class="back-link" href="../../../../skill/abd-story-mapping.html">← abd-story-mapping</a>
-    <p class="cap-badge">Markdown</p>
-    <h1>templates/story-map.md</h1>
-    <p class="tagline">&lt;!-- Pair required: also produce story-map.txt with the same tree. See SKILL.md → &quot;Use every template file (required)&quot;. --&gt;</p>
+    <p class="cap-badge">Plain text</p>
+    <h1>templates/story-map.txt</h1>
+    <p class="tagline">NOTE: Pair required — also produce story-map.md with the same tree. See SKILL.md → &quot;Use every template file (required)&quot;.</p>
   </div>
 </header>
 
@@ -823,29 +830,42 @@ h2:first-child { margin-top: 0; }
 </nav>
 
 <h2>Content</h2>
-<div class="rule-prose"><p>&lt;!-- Pair required: also produce `story-map.txt` with the same tree. See SKILL.md → &quot;Use every template file (required)&quot;. --&gt;</p>
-<p>&lt;!-- Pair required: also produce `story-map.txt` with the same tree. See SKILL.md → &quot;Use every template file (required)&quot;. --&gt;</p>
-<p>(E) Epic Name (E) Sub-Epic Name (E) Nested Sub-Epic Name (optional) (S) Actor --&gt; Story Name (S) Actor --&gt; Story Name or (S) Actor --&gt; Story Name (AC) Actor --&gt; Acceptance Criteria (AC) Actor --&gt; Acceptance Criteria (S) Actor --&gt; Story Name (AC) Actor --&gt; Acceptance Criteria (AC) Actor --&gt; Acceptance Criteria (E) Another Nested Sub-Epic Name (S) Actor --&gt; Story Name (S) Actor --&gt; Story Name</p>
-<p>(E) {epic_name} (E) {sub_epic_name} (S) {actor} --&gt; {story_name} (S) {actor} --&gt; {story_name} or (S) {actor} --&gt; {story_name} (AC) {actor} --&gt; {acceptance_criteria} (AC) {actor} --&gt; {acceptance_criteria} (S) {actor} --&gt; {story_name} (AC) {actor} --&gt; {acceptance_criteria} (AC) {actor} --&gt; {acceptance_criteria} (S) {actor} --&gt; {story_name}</p>
-<p>&lt;!-- Notation below is for skill/template maintainers. Agents MUST NOT copy this section into generated story-map.md files in projects. --&gt;</p>
-<h2>Instructions (template reference only — omit from generated maps)</h2>
-<ul>
-<li><strong>Epics (E)</strong>: Top-level features, no connectors</li>
-<li><strong>Sub-Epics (E)</strong>: Nested epics, no connectors</li>
-<li><strong>Stories (S)</strong>: User stories with actors, format: `Actor --&gt; Story Name`</li>
-<li><strong>Acceptance Criteria (AC)</strong>: Nested under stories, format: `Actor --&gt; Acceptance Criteria`</li>
-<li><strong>Context Gaps</strong>: Use `* Gap:` inline under the relevant node, or a `## Context Gaps` section at the bottom for map-wide gaps. Both placements can coexist.</li>
-<li><strong>Connectors</strong>:</li>
-<li>&quot;and&quot; is the default - do NOT show in output (only stored in JSON)</li>
-<li>&quot;or&quot; shown explicitly for alternatives</li>
-<li>&quot;opt&quot; shown explicitly for optional items</li>
-<li><strong>Indentation</strong>: Use spaces (4 spaces per level), not tabs</li>
-<li><strong>First item</strong>: No connector (even if default &quot;and&quot;)</li>
-<li><strong>Nesting</strong>: Stories can contain nested stories or acceptance criteria</li>
-<li><strong>Language</strong>: Use active behavioral language (verb-noun format)</li>
-<li><strong>Epic/Sub-Epic names</strong>: Verb-Noun format (actor NOT in name)</li>
-<li><strong>Story/AC names</strong>: Actor-Verb-Noun format (actor shown with &quot;--&gt;&quot;)</li>
-</ul></div>
+<div class="rule-prose"><pre>NOTE: Pair required — also produce story-map.md with the same tree. See SKILL.md → &quot;Use every template file (required)&quot;.  
+  
+NOTE: Pair required — also produce story-map.md with the same tree. See SKILL.md → &quot;Use every template file (required)&quot;.  
+  
+(E) Epic Name  
+    (E) Sub-Epic Name  
+        (E) Nested Sub-Epic Name (optional)  
+            (S) Actor --&gt; Story Name  
+            (S) Actor --&gt; Story Name  
+            or (S) Actor --&gt; Story Name  
+                (AC) Actor --&gt; Acceptance Criteria  
+                (AC) Actor --&gt; Acceptance Criteria  
+            (S) Actor --&gt; Story Name  
+                (AC) Actor --&gt; Acceptance Criteria  
+                (AC) Actor --&gt; Acceptance Criteria  
+        (E) Another Nested Sub-Epic Name  
+            (S) Actor --&gt; Story Name  
+            (S) Actor --&gt; Story Name  
+  
+(E) {epic_name}  
+    (E) {sub_epic_name}  
+        (S) {actor} --&gt; {story_name}  
+        (S) {actor} --&gt; {story_name}  
+        * Gap: {inline context gap — when it applies to a specific node}  
+        or (S) {actor} --&gt; {story_name}  
+            (AC) {actor} --&gt; {acceptance_criteria}  
+            (AC) {actor} --&gt; {acceptance_criteria}  
+            (S) {actor} --&gt; {story_name}  
+                (AC) {actor} --&gt; {acceptance_criteria}  
+                (AC) {actor} --&gt; {acceptance_criteria}  
+        (S) {actor} --&gt; {story_name}  
+
+## Context Gaps  
+- {map-wide gap — when it cuts across multiple areas}  
+  
+</pre></div>
 
 </div>
 </div>

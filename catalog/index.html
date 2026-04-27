@@ -289,9 +289,20 @@ code {
   border: 1px solid var(--border-muted);
   box-shadow: inset 0 0 0 1px rgba(255,122,0,0.12);
 }
+.site-home-link {
+  flex-shrink: 0;
+  display: block;
+  line-height: 0;
+  opacity: 0.9;
+  transition: opacity 0.15s;
+}
+.site-home-link:hover { opacity: 1; }
 .header-text { flex: 1; min-width: 200px; }
 .brand { font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin: 0 0 4px; }
 .brand strong { color: var(--orange); }
+.brand-row { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
+.brand-row .brand { margin: 0; }
+.brand-row .cap-badge { margin: 0; }
 h1 { margin: 0; font-size: 2rem; font-weight: 700; line-height: 1.15; }
 .tagline { margin: 8px 0 0; font-size: 1.05rem; color: var(--muted); max-width: 52rem; line-height: 1.55; }
 .panel-body { padding: 28px 22px 36px; }
@@ -798,13 +809,9 @@ h2:first-child { margin-top: 0; }
 <div class="panel" role="main">
 
 <header class="panel-header">
-  <div class="header-icon">
-    <svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:block;border-radius:6px;">
-      <rect width="52" height="52" rx="8" fill="#0e0e10"/>
-      <path d="M16 14h20a2 2 0 0 1 2 2v20a2 2 0 0 1-2 2H16a2 2 0 0 1-2-2V16a2 2 0 0 1 2-2z" stroke="#FF7A00" stroke-width="1.5" fill="rgba(255,122,0,0.06)"/>
-      <path d="M20 22h12M20 26h9M20 30h12" stroke="#FF7A00" stroke-width="1.5" stroke-linecap="round"/>
-    </svg>
-  </div>
+  <a href="https://www.abd-works.com/" class="site-home-link" title="Back to abd-works">
+    <img src="/commons/images/abd-logo.png" width="48" height="48" alt="Agile by Design" style="display:block;border-radius:6px;flex-shrink:0;" />
+  </a>
   <div class="header-text">
     <p class="brand"><strong>Agile by Design</strong> &middot; catalog</p>
     <h1>The ABD AI Garden</h1>
@@ -838,13 +845,15 @@ h2:first-child { margin-top: 0; }
         <span>Practice Skills — What We Do</span>
       </div>
       <div class="catalog-garden-row"><span class="catalog-garden-name"><a href="skill/abd-story-mapping.html">abd-story-mapping</a></span><span class="catalog-garden-desc">Patton-style story maps (epics, stories, verb-noun naming); writes story-map templates from sources.</span></div>
+      <div class="catalog-garden-row"><span class="catalog-garden-name"><a href="skill/abd-impact-mapping.html">abd-impact-mapping</a></span><span class="catalog-garden-desc">Strategic impact maps: hierarchy view, ASCII wall map, and hypothesis sentences from discovery sources.</span></div>
+      <div class="catalog-garden-row"><span class="catalog-garden-name"><a href="skill/abd-opportunity-canvas.html">abd-opportunity-canvas</a></span><span class="catalog-garden-desc">Frame an opportunity, align on vision, and make assumptions and validation explicit before committing build.</span></div>
+      <div class="catalog-garden-row"><span class="catalog-garden-name"><a href="skill/abd-simple-validated-learning.html">abd-simple-validated-learning</a></span><span class="catalog-garden-desc">Turn surfaced assumptions into hypotheses, prioritise small tests, and run Plan / Validate / Learn before full build.</span></div>
       <div class="catalog-garden-row"><span class="catalog-garden-name"><a href="skill/abd-thin-slicing.html">abd-thin-slicing</a></span><span class="catalog-garden-desc">Thin-sliced MVIs and backlog order from a story map; writes thin-slicing templates.</span></div>
       <div class="catalog-garden-row"><span class="catalog-garden-name"><a href="skill/abd-acceptance-criteria.html">abd-acceptance-criteria</a></span><span class="catalog-garden-desc">WHEN/THEN acceptance criteria for story-graph.json; ships rules and scanners for execute_rules.</span></div>
       <div class="catalog-garden-row"><span class="catalog-garden-name"><a href="skill/abd-specification-by-example.html">abd-specification-by-example</a></span><span class="catalog-garden-desc">Given/When/Then scenarios with real domain values; plain or outline (data tables) templates.</span></div>
       <div class="catalog-garden-row"><span class="catalog-garden-name"><a href="skill/abd-acceptance-test-driven-development.html">abd-acceptance-test-driven-development</a></span><span class="catalog-garden-desc">Tests first, then code: executable acceptance tests from scenarios, AC, or notes (RED-GREEN-REFACTOR).</span></div>
       <div class="catalog-garden-row"><span class="catalog-garden-name"><a href="skill/abd-clean-code.html">abd-clean-code</a></span><span class="catalog-garden-desc">Production code that matches story behavior: clean structure, domain language, scanner-backed quality bars (Python/JS).</span></div>
       <div class="catalog-garden-row"><span class="catalog-garden-name"><a href="skill/abd-delivery-planning.html">abd-delivery-planning</a></span><span class="catalog-garden-desc">Delivery plans only: context, risks, strategies, staged runs and checkpoints (not stories, tests, or code).</span></div>
-      <div class="catalog-garden-row"><span class="catalog-garden-name catalog-garden-name--dim">· impact-mapping</span><span class="catalog-garden-desc catalog-garden-desc--muted">Coming soon — Lesson 1 exercise</span></div>
       <div class="catalog-garden-row"><span class="catalog-garden-name catalog-garden-name--dim">· cost-of-delay</span><span class="catalog-garden-desc catalog-garden-desc--muted">Coming soon</span></div>
       <div class="catalog-garden-row"><span class="catalog-garden-name catalog-garden-name--dim">· relative-sizing</span><span class="catalog-garden-desc catalog-garden-desc--muted">Coming soon</span></div>
     </div>
@@ -886,12 +895,12 @@ h2:first-child { margin-top: 0; }
     <p>Browse <a href="#catalog-skills">skills</a> and <a href="#catalog-agents">agents</a>.
     <a href="outline.md">outline.md</a> lists the same entries in one file.</p>
     <p>Cards open full detail pages under <code>skill/</code> and <code>agent/</code>.</p>
-    <p>20 skills and 5 agents are indexed in this catalogue.</p>
+    <p>23 skills and 5 agents are indexed in this catalogue.</p>
   </div>
 </details>
 
 <details class="catalog-section" id="catalog-skills">
-  <summary>Skills <span class="count">(20)</span></summary>
+  <summary>Skills <span class="count">(23)</span></summary>
   <div class="section-body">
     <p>Open a card for a full page on that skill.</p>
     <div class="cap-grid">
@@ -923,6 +932,24 @@ h2:first-child { margin-top: 0; }
       <p class="cap-card__title"><span class="cap-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#1a1a1e"/><path d="M7 8h10M7 12h7M7 16h10" stroke="#ff7a00" stroke-width="1.5" stroke-linecap="round"/></svg></span>abd-delivery-war-room</p>
       <p class="cap-card__label">Description</p>
       <p class="cap-card__summary">Experimental file-based war room for handoffs between abd-delivery-lead and abd-team-member: delivery-war-room/ under the engagement workspace with INSTRUCTIONS.md, manifest.md, and slot-NN-start.md / slot-NN-finished.md. Not wired into the delivery-lead or team-member agents until re-integrated …</p>
+      <p class="cap-card__more">Open skill page →</p>
+    </a>
+    <a class="cap-card" href="skill/abd-impact-mapping.html">
+      <p class="cap-card__title"><span class="cap-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#1a1a1e"/><path d="M7 8h10M7 12h7M7 16h10" stroke="#ff7a00" stroke-width="1.5" stroke-linecap="round"/></svg></span>abd-impact-mapping</p>
+      <p class="cap-card__label">Description</p>
+      <p class="cap-card__summary">Strategic impact maps: hierarchy view, ASCII wall map, and hypothesis sentences from discovery sources.</p>
+      <p class="cap-card__more">Open skill page →</p>
+    </a>
+    <a class="cap-card" href="skill/abd-opportunity-canvas.html">
+      <p class="cap-card__title"><span class="cap-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#1a1a1e"/><path d="M7 8h10M7 12h7M7 16h10" stroke="#ff7a00" stroke-width="1.5" stroke-linecap="round"/></svg></span>abd-opportunity-canvas</p>
+      <p class="cap-card__label">Description</p>
+      <p class="cap-card__summary">Frame an opportunity, align on vision, and make assumptions and validation explicit before committing build.</p>
+      <p class="cap-card__more">Open skill page →</p>
+    </a>
+    <a class="cap-card" href="skill/abd-simple-validated-learning.html">
+      <p class="cap-card__title"><span class="cap-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#1a1a1e"/><path d="M7 8h10M7 12h7M7 16h10" stroke="#ff7a00" stroke-width="1.5" stroke-linecap="round"/></svg></span>abd-simple-validated-learning</p>
+      <p class="cap-card__label">Description</p>
+      <p class="cap-card__summary">Turn surfaced assumptions into hypotheses, prioritise small tests, and run Plan / Validate / Learn before full build.</p>
       <p class="cap-card__more">Open skill page →</p>
     </a>
     <a class="cap-card" href="skill/abd-specification-by-example.html">

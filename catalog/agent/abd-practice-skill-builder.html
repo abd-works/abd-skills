@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ABD catalogue — agent · abd-practice-skill-builder</title>
+<style>
+/*
+  Single source for Agile Garden block: catalog prelude + mission row + two-column lists.
+  Inlined into abd-skills-catalog via generate_abd_catalog.py; linked from abd-ai-gardener-training lesson.
+*/
+.catalog-prelude {
+  margin: 0 0 24px;
+  padding: 0 0 20px;
+  border-bottom: 1px solid var(--border-muted);
+  background: linear-gradient(180deg, rgba(255, 122, 0, 0.04) 0%, transparent 32%);
+}
+.catalog-prelude-heading {
+  margin: 0 0 12px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.25;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+  scroll-margin-top: 48px;
+}
+.catalog-prelude-tagline {
+  margin: 0 0 14px;
+  max-width: 60rem;
+  font-size: 1rem;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+/* Mission row (matches gardener training look; class names scoped for catalog + lesson) */
+.catalog-mission {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin: 0 0 18px;
+  padding: 10px 4px 6px;
+  align-items: stretch;
+}
+.catalog-mission::before {
+  content: "";
+  position: absolute;
+  left: -6px;
+  right: -6px;
+  top: -6px;
+  height: 85%;
+  background:
+    radial-gradient(ellipse 70% 90% at 20% 0%, rgba(255, 147, 51, 0.14), transparent 58%),
+    radial-gradient(ellipse 55% 75% at 88% 12%, rgba(255, 122, 0, 0.11), transparent 55%),
+    radial-gradient(ellipse 45% 55% at 50% 30%, rgba(204, 98, 0, 0.07), transparent 52%);
+  pointer-events: none;
+  z-index: 0;
+}
+.catalog-mission > * { min-width: 0; position: relative; z-index: 1; }
+.catalog-mission-card {
+  background: linear-gradient(165deg, rgba(255, 122, 0, 0.08) 0%, var(--raised) 42%, #131312 100%);
+  border: 1px solid rgba(255, 122, 0, 0.16);
+  border-left: 3px solid var(--orange);
+  border-radius: var(--radius);
+  padding: 16px 16px 14px;
+  box-shadow:
+    0 6px 28px -12px rgba(255, 122, 0, 0.38),
+    0 0 0 1px rgba(255, 122, 0, 0.07),
+    inset 0 1px 0 rgba(255, 200, 150, 0.09);
+  height: 100%;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+.catalog-mission-card h3 {
+  flex-shrink: 0;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #ffb380;
+  margin: 0 0 6px;
+}
+.catalog-mission-card p {
+  flex: 1 1 auto;
+  margin: 0;
+  font-size: 0.88rem;
+  color: var(--muted);
+  line-height: 1.55;
+}
+.catalog-mission-card--teal {
+  border-left-color: #ff9333;
+  background: linear-gradient(165deg, rgba(255, 147, 51, 0.13) 0%, var(--raised) 45%, #12110f 100%);
+  border-color: rgba(255, 147, 51, 0.22);
+  box-shadow:
+    0 8px 32px -10px rgba(255, 147, 51, 0.45),
+    0 0 0 1px rgba(255, 147, 51, 0.1),
+    inset 0 1px 0 rgba(255, 210, 170, 0.1);
+}
+.catalog-mission-card--teal h3 { color: #ffccaa; }
+.catalog-mission-card--amber {
+  border-left-color: #ffb380;
+  background: linear-gradient(165deg, rgba(255, 190, 140, 0.1) 0%, var(--raised) 45%, #12110f 100%);
+  border-color: rgba(255, 190, 160, 0.2);
+  box-shadow:
+    0 8px 32px -10px rgba(255, 180, 120, 0.38),
+    0 0 0 1px rgba(255, 190, 160, 0.08),
+    inset 0 1px 0 rgba(255, 220, 190, 0.09);
+}
+.catalog-mission-card--amber h3 { color: #ffccaa; }
+.catalog-mission-card--purple {
+  border-left-color: #cc6200;
+  background: linear-gradient(165deg, rgba(204, 98, 0, 0.2) 0%, var(--raised) 48%, #14100d 100%);
+  border-color: rgba(204, 98, 0, 0.28);
+  box-shadow:
+    0 8px 32px -10px rgba(204, 98, 0, 0.42),
+    0 0 0 1px rgba(204, 98, 0, 0.09),
+    inset 0 1px 0 rgba(255, 160, 100, 0.08);
+}
+.catalog-mission-card--purple h3 { color: #d4854a; }
+@media (max-width: 720px) {
+  .catalog-mission { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 480px) {
+  .catalog-mission { grid-template-columns: 1fr; }
+}
+
+.catalog-garden-lists {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.catalog-garden-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 20px;
+  margin: 0 0 8px;
+}
+@media (max-width: 760px) {
+  .catalog-garden-grid { grid-template-columns: 1fr; }
+}
+.catalog-garden-agents-wrap {
+  margin-top: 8px;
+}
+.catalog-garden-col--agents {
+  margin-top: 0;
+}
+.catalog-garden-col-header--agents {
+  background: linear-gradient(90deg, rgba(255, 122, 0, 0.16) 0%, rgba(60, 28, 8, 0.2) 100%);
+  color: #ffccaa;
+  border-left: 3px solid #ff9333;
+}
+.catalog-garden-name--agent a {
+  color: #ffb380;
+}
+.catalog-garden-name--agent a:hover {
+  color: #ffccaa;
+}
+.catalog-garden-col {
+  background: linear-gradient(180deg, rgba(255, 122, 0, 0.06) 0%, var(--raised) 38%);
+  border: 1px solid rgba(255, 122, 0, 0.14);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow:
+    0 8px 32px -16px rgba(255, 122, 0, 0.2),
+    inset 0 1px 0 rgba(255, 200, 150, 0.05);
+}
+.catalog-garden-col-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--border);
+}
+.catalog-garden-col-header--practice {
+  background: linear-gradient(90deg, rgba(255, 122, 0, 0.22) 0%, rgba(255, 122, 0, 0.08) 100%);
+  color: #ffb380;
+  border-left: 3px solid var(--orange);
+}
+.catalog-garden-col-header--foundational {
+  background: linear-gradient(90deg, rgba(204, 98, 0, 0.24) 0%, rgba(120, 52, 18, 0.12) 100%);
+  color: #ffccaa;
+  border-left: 3px solid #cc6200;
+}
+.catalog-garden-ico { flex-shrink: 0; display: block; }
+.catalog-garden-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 16px;
+  border-bottom: 1px solid var(--border-muted);
+  font-size: 0.85rem;
+}
+.catalog-garden-row:last-child { border-bottom: none; }
+.catalog-garden-name {
+  font-weight: 600;
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+  color: var(--orange);
+  flex: 0 0 11.5rem;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+.catalog-garden-name a {
+  color: var(--orange);
+  text-decoration: underline;
+}
+.catalog-garden-name a:hover {
+  color: #ff9333;
+}
+.catalog-garden-name--foundational a {
+  color: #d4854a;
+}
+.catalog-garden-name--foundational a:hover {
+  color: #ffb380;
+}
+.catalog-garden-name--dim {
+  color: var(--muted);
+  opacity: 0.6;
+  font-weight: 600;
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+}
+.catalog-garden-desc {
+  color: var(--muted);
+  font-size: 0.82rem;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.catalog-garden-desc--muted { opacity: 0.5; }
+
+:root {
+  --orange: #ff7a00;
+  --bg: #09090b;
+  --surface: #0e0e10;
+  --raised: #161618;
+  --border: #2a2a30;
+  --border-muted: #1a1a1e;
+  --text: #e8e8ed;
+  --muted: #9b9ba8;
+  --radius: 4px;
+}
+*, *::before, *::after { box-sizing: border-box; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  margin: 0;
+  font-family: system-ui, "Segoe UI", Roboto, Ubuntu, sans-serif;
+  font-size: 17px;
+  line-height: 1.6;
+}
+a { color: #8ab4ff; text-decoration: none; }
+a:hover { text-decoration: underline; }
+strong { font-weight: 700; }
+code {
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+  font-size: 0.88em;
+  background: #1f1f24;
+  padding: 1px 5px;
+  border-radius: 3px;
+  color: #d4d4d4;
+}
+.page-wrap { padding: 16px clamp(8px,3vw,28px); }
+.panel {
+  max-width: min(96vw, 1100px);
+  margin: 0 auto;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.panel-header {
+  padding: 18px 20px 16px;
+  border-bottom: 1px solid var(--border);
+  border-left: 4px solid var(--orange);
+  background: var(--raised);
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+.header-icon {
+  flex-shrink: 0;
+  background: #000;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid var(--border-muted);
+  box-shadow: inset 0 0 0 1px rgba(255,122,0,0.12);
+}
+.site-home-link {
+  flex-shrink: 0;
+  display: block;
+  line-height: 0;
+  opacity: 0.9;
+  transition: opacity 0.15s;
+}
+.site-home-link:hover { opacity: 1; }
+.header-text { flex: 1; min-width: 200px; }
+.brand { font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin: 0 0 4px; }
+.brand strong { color: var(--orange); }
+.brand-row { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
+.brand-row .brand { margin: 0; }
+.brand-row .cap-badge { margin: 0; }
+h1 { margin: 0; font-size: 2rem; font-weight: 700; line-height: 1.15; }
+.tagline { margin: 8px 0 0; font-size: 1.05rem; color: var(--muted); max-width: 52rem; line-height: 1.55; }
+.panel-body { padding: 28px 22px 36px; }
+p { margin: 0 0 14px; }
+h2 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin: 32px 0 14px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+}
+h2:first-child { margin-top: 0; }
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 18px;
+  margin: 0 0 18px;
+  padding: 0 0 14px;
+  border-bottom: 1px solid var(--border-muted);
+}
+.nav a {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+.nav a.nav__link--current {
+  color: var(--orange);
+  pointer-events: none;
+}
+.cap-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 14px;
+  margin: 18px 0 0;
+}
+.cap-card {
+  display: block;
+  text-decoration: none;
+  background: var(--raised);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--orange);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  transition: background 0.15s, border-color 0.15s;
+  cursor: pointer;
+}
+.cap-card:hover {
+  background: rgba(255,122,0,0.06);
+  border-color: rgba(255,122,0,0.4);
+  text-decoration: none;
+}
+.cap-card__title {
+  font-size: 0.97rem;
+  font-weight: 700;
+  color: var(--orange);
+  margin: 0 0 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.cap-card__icon { flex-shrink: 0; width: 24px; height: 24px; }
+.cap-card__label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  opacity: 0.55;
+  margin-bottom: 1px;
+}
+.cap-card__summary { font-size: 0.85rem; color: var(--muted); line-height: 1.45; margin: 0 0 8px; }
+.cap-card__more {
+  font-size: 0.78rem;
+  color: var(--orange);
+  opacity: 0.7;
+  margin: 10px 0 0;
+}
+
+/* Entry detail pages (skill/*.html, agent/*.html) — overview-style */
+.entry-detail-header .back-link {
+  font-size: 0.82rem;
+  color: var(--muted);
+  display: inline-block;
+  margin: 0 0 10px;
+}
+.entry-detail-header .back-link:hover {
+  color: var(--orange);
+}
+.cap-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--orange);
+  background: rgba(255, 122, 0, 0.08);
+  border: 1px solid rgba(255, 122, 0, 0.25);
+  border-radius: 3px;
+  padding: 2px 8px;
+  margin: 0 0 8px;
+}
+.entry-caption {
+  font-size: 0.9rem;
+  color: var(--muted);
+  margin: 0 0 12px;
+}
+.entry-prose {
+  white-space: pre-wrap;
+  color: var(--text);
+  line-height: 1.65;
+  margin: 0 0 8px;
+  font-size: 0.95rem;
+}
+.entry-divider {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 26px 0;
+}
+.entry-contents-doc {
+  margin: 0 0 8px;
+}
+.entry-contents-files {
+  margin: 0;
+}
+.entry-md-section {
+  border: 1px solid var(--border-muted);
+  border-radius: var(--radius);
+  margin: 0 0 10px;
+  background: rgba(0, 0, 0, 0.14);
+}
+.entry-md-section > summary.entry-md-section__summary {
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.98rem;
+  padding: 12px 14px;
+  list-style: none;
+  color: var(--text);
+  user-select: none;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+.entry-md-section > summary.entry-md-section__summary::before {
+  content: "+";
+  flex-shrink: 0;
+  width: 1.35em;
+  text-align: center;
+  font-weight: 800;
+  font-size: 1.05em;
+  line-height: 1.35;
+  color: var(--orange);
+}
+.entry-md-section[open] > summary.entry-md-section__summary::before {
+  content: "-";
+}
+.entry-md-section > summary.entry-md-section__summary::-webkit-details-marker {
+  display: none;
+}
+.entry-md-section .entry-md-section__body {
+  padding: 0 14px 14px 16px;
+  border-top: 1px solid var(--border-muted);
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: var(--text);
+}
+.entry-md-section .entry-md-section__body p {
+  margin: 0 0 12px;
+}
+.entry-md-section .entry-md-section__body p:last-child {
+  margin-bottom: 0;
+}
+.entry-md-section .entry-md-section__body ul {
+  margin: 0 0 12px;
+  padding-left: 1.35rem;
+}
+.entry-md-section .entry-md-section__body h2 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin: 18px 0 8px;
+  padding-bottom: 0;
+  border-bottom: none;
+  color: var(--text);
+}
+.entry-md-section .entry-md-section__body h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 14px 0 8px;
+  color: var(--text);
+}
+.entry-md-section .entry-md-section__body pre {
+  margin: 0 0 12px;
+  overflow-x: auto;
+}
+.entry-md-section .entry-md-section__body hr {
+  margin: 14px 0;
+  border: none;
+  border-top: 1px solid var(--border-muted);
+}
+.ascii-diagram {
+  background: #111114;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  overflow-x: auto;
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+  font-size: 0.83em;
+  line-height: 1.55;
+  color: #b8b8c2;
+  margin: 0 0 18px;
+}
+.install-block {
+  margin: 22px 0 0;
+  padding: 16px 18px;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--border-muted);
+  border-radius: var(--radius);
+  border-left: 3px solid var(--orange);
+}
+.install-block h2 {
+  margin-top: 0;
+  border-bottom: none;
+  padding-bottom: 0;
+}
+.install-block .install-hint {
+  font-size: 0.92rem;
+  color: var(--muted);
+  margin: 0 0 12px;
+}
+.install-snippet {
+  background: #111114;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  overflow-x: auto;
+  margin: 0;
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+  font-size: 0.85em;
+  line-height: 1.5;
+  color: #d4d4d4;
+}
+.install-snippet code {
+  background: transparent;
+  padding: 0;
+  font-size: inherit;
+  color: inherit;
+}
+.file-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.file-list li {
+  margin: 0 0 14px;
+  padding: 10px 12px 10px 14px;
+  border-left: 3px solid var(--border-muted);
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 0 4px 4px 0;
+}
+.file-list .file-meta {
+  color: var(--muted);
+  font-size: 0.9rem;
+  display: block;
+  margin-top: 4px;
+}
+.file-list a {
+  font-weight: 600;
+}
+.file-list--root {
+  margin-top: 4px;
+}
+.file-list--nested {
+  margin: 8px 0 0 0;
+  padding-left: 0;
+  border-left: 2px solid var(--border-muted);
+  margin-left: 2px;
+  padding-left: 10px;
+}
+.file-list--nested li {
+  margin-bottom: 10px;
+  padding: 8px 10px 8px 12px;
+  font-size: 0.95rem;
+}
+.file-list__nested-note {
+  margin: 8px 0 0 0;
+  padding: 6px 0 4px 4px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+/* Expandable folder tree (<details> / <summary>) */
+.file-list > li.file-list__folder {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 10px;
+  border: none;
+  background: transparent;
+  border-radius: 0;
+}
+.file-list__folder > .file-tree__details {
+  margin: 0 0 10px 0;
+}
+/* Match .entry-md-section: folder trees (rules, scanners, templates, …) */
+.file-tree__details {
+  border: 1px solid var(--border-muted);
+  border-radius: var(--radius);
+  background: rgba(0, 0, 0, 0.14);
+  overflow: hidden;
+}
+.file-tree__summary {
+  cursor: pointer;
+  padding: 12px 14px;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  list-style: none;
+  margin: 0;
+  font-weight: 600;
+  font-size: 0.98rem;
+  color: var(--text);
+  user-select: none;
+  background: transparent;
+}
+.file-tree__summary::-webkit-details-marker {
+  display: none;
+}
+.file-tree__summary::marker {
+  content: "";
+  display: none;
+}
+.file-tree__summary::before {
+  content: "+";
+  flex-shrink: 0;
+  width: 1.35em;
+  text-align: center;
+  font-weight: 800;
+  font-size: 1.05em;
+  line-height: 1.35;
+  color: var(--orange);
+}
+.file-tree__details[open] > .file-tree__summary::before {
+  content: "-";
+}
+.file-tree__summary:hover {
+  background: rgba(255, 122, 0, 0.06);
+}
+.file-tree__summary .file-meta {
+  display: inline;
+  margin-left: 6px;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+.file-tree__inner {
+  padding: 0 14px 14px 16px;
+  border-top: 1px solid var(--border-muted);
+}
+.file-tree__ul {
+  margin-top: 4px;
+}
+.file-tree__dir > .file-tree__details {
+  margin: 0;
+  border-radius: 4px;
+}
+.file-tree__dir--truncated {
+  font-size: 0.95rem;
+}
+.file-tree__file .file-meta {
+  display: block;
+  margin-top: 4px;
+}
+
+/* Agile Garden prelude + mission + lists: abd-works/commons/agile-garden-fragment.css (prepended by generate_abd_catalog.py) */
+
+/* Single-page hub (index.html): collapsible hub / skills / agents */
+.catalog-section {
+  border: 1px solid var(--border-muted);
+  border-radius: 8px;
+  margin: 0 0 16px;
+  background: rgba(0, 0, 0, 0.18);
+  overflow: hidden;
+}
+.catalog-section > summary {
+  cursor: pointer;
+  list-style: none;
+  padding: 14px 16px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.04);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  user-select: none;
+}
+.catalog-section > summary::-webkit-details-marker { display: none; }
+.catalog-section > summary::marker { content: ""; }
+.catalog-section > summary::before {
+  content: "+";
+  flex-shrink: 0;
+  width: 1.5rem;
+  height: 1.5rem;
+  line-height: 1.45rem;
+  text-align: center;
+  font-weight: 700;
+  font-size: 0.95rem;
+  border: 1px solid var(--border-muted);
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.1);
+}
+.catalog-section[open] > summary::before { content: "\2212"; }
+.catalog-section[open] > summary {
+  border-bottom: 1px solid var(--border-muted);
+}
+.catalog-section .section-body {
+  padding: 18px 16px 22px;
+}
+.catalog-section .section-body > p:first-of-type { margin-top: 0; }
+.catalog-section .cap-grid { margin-top: 8px; }
+.catalog-section .count {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+/* Static markdown mirror pages (catalog/doc/...) */
+.rule-prose {
+  font-size: 1rem;
+  line-height: 1.65;
+  max-width: 52rem;
+}
+.rule-prose h1,
+.rule-prose h2,
+.rule-prose h3,
+.rule-prose h4 {
+  margin: 1.25em 0 0.5em;
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--text);
+}
+.rule-prose h1:first-child,
+.rule-prose h2:first-child,
+.rule-prose h3:first-child {
+  margin-top: 0;
+}
+.rule-prose h1 { font-size: 1.5rem; border-bottom: 1px solid var(--border); padding-bottom: 0.35em; }
+.rule-prose h2 { font-size: 1.25rem; border-bottom: 1px solid var(--border-muted); padding-bottom: 0.25em; }
+.rule-prose h3 { font-size: 1.1rem; }
+.rule-prose p { margin: 0 0 12px; }
+.rule-prose pre {
+  margin: 12px 0;
+  padding: 12px 14px;
+  overflow: auto;
+  background: #1f1f24;
+  border: 1px solid var(--border-muted);
+  border-radius: 6px;
+  font-size: 0.88em;
+  line-height: 1.45;
+}
+.rule-prose code { font-size: inherit; }
+.rule-prose ul,
+.rule-prose ol {
+  margin: 8px 0 12px 1.25rem;
+  padding: 0;
+}
+.rule-prose li { margin-bottom: 6px; }
+.rule-prose strong { color: var(--text); }
+.rule-prose hr {
+  border: 0;
+  border-top: 1px solid var(--border-muted);
+  margin: 1.25em 0;
+}
+.rule-prose .md-table-wrap {
+  overflow-x: auto;
+  margin: 12px 0 16px;
+  -webkit-overflow-scrolling: touch;
+}
+.rule-prose table.md-table {
+  width: max-content;
+  max-width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+.rule-prose table.md-table th,
+.rule-prose table.md-table td {
+  border: 1px solid var(--border-muted);
+  padding: 8px 10px;
+  text-align: left;
+  vertical-align: top;
+}
+.rule-prose table.md-table th {
+  background: rgba(255, 122, 0, 0.08);
+  font-weight: 600;
+  white-space: nowrap;
+}
+.rule-prose table.md-table td { background: var(--panel); }
+.rule-prose a { color: var(--accent, #ff7a00); text-decoration: underline; }
+.rule-prose a:hover { text-decoration: none; }
+
+</style>
+</head>
+<body>
+<div class="page-wrap">
+<div class="panel" role="main">
+
+<header class="panel-header entry-detail-header">
+  <a href="https://www.abd-works.com/" class="site-home-link" title="Back to abd-works">
+    <img src="/commons/images/abd-logo.png" width="48" height="48" alt="Agile by Design" style="display:block;border-radius:6px;flex-shrink:0;" />
+  </a>
+  <div class="header-text">
+    <div class="brand-row">
+      <p class="brand"><strong>Agile by Design</strong> &middot; catalog</p>
+      <p class="cap-badge">Agent</p>
+    </div>
+    <a class="back-link" href="../agents.html">← All agents</a>
+    <h1>abd-practice-skill-builder</h1>
+    <p class="tagline">Goal: Produce practice skills under the agilebydesign-skills repository, in skills/&lt;skill-name&gt;/, grounded in abd-answers (Pinecone RAG): retrieve evidence, author the package (SKILL.md starter from abd-author-practice-skill template + *rules/.md), optional scanners, abd-skill-catalog, then an HTML …</p>
+  </div>
+</header>
+
+<div class="panel-body">
+
+<nav class="nav" aria-label="Catalogue sections">
+  <a href="../index.html" class="nav__link">The ABD AI Garden</a>
+  <a href="../skills.html" class="nav__link">Skills</a>
+  <a href="../agents.html" class="nav__link nav__link--current">Agents</a>
+</nav>
+
+<h2>Description</h2>
+<div class="entry-prose">Goal: Produce practice skills under the agilebydesign-skills repository, in skills/&lt;skill-name&gt;/, grounded in abd-answers (Pinecone RAG): retrieve evidence, author the package (SKILL.md starter from abd-author-practice-skill template + *rules/.md), optional scanners, abd-skill-catalog, then an HTML manual (vendored shell assets in abd-practice-skill-manual).<br>
+<br>
+Orchestrate using the agent-local packages in skills/ under this agent (same idea as abd-context-to-memory routing to nested skills/abd-/SKILL.md*).<br>
+<br>
+---</div>
+
+
+
+<hr class="entry-divider">
+
+
+
+<hr class="entry-divider">
+
+<h2 id="entry-contents">Contents</h2>
+<div class="entry-contents-doc">
+<details class="entry-md-section" id="md-overview"><summary class="entry-md-section__summary">Overview</summary><div class="entry-md-section__body"><h1>AGENTS — abd-practice-skill-builder</h1>
+<p>Edit <strong>`AGENTS.md`</strong> for normative agent prose. Optional: add <strong>`rules/*.md`</strong> and run <strong>`python scripts/build.py`</strong> from this agent root to inline them at the bottom (do not hand-edit the bundle block after that).</p>
+<hr></div></details>
+<details class="entry-md-section" id="purpose"><summary class="entry-md-section__summary">Purpose</summary><div class="entry-md-section__body"><p><strong>Goal:</strong> Produce <strong>practice skills</strong> under the <strong>agilebydesign-skills</strong> repository, in <strong>`skills/&lt;skill-name&gt;/`</strong>, grounded in <strong>abd-answers</strong> (Pinecone RAG): <strong>retrieve</strong> evidence, <strong>author</strong> the package (<strong>SKILL.md</strong> starter from <strong>abd-author-practice-skill</strong> template + <strong>`rules/*.md`</strong>), optional <strong>scanners</strong>, <strong>abd-skill-catalog</strong>, then an <strong>HTML manual</strong> (vendored shell assets in <strong>abd-practice-skill-manual</strong>).</p>
+<p>Orchestrate using the agent-local packages in <strong>`skills/`</strong> under this agent (same idea as <strong>abd-context-to-memory</strong> routing to nested <strong>`skills/abd-*/SKILL.md`</strong>).</p>
+<hr></div></details>
+<details class="entry-md-section" id="agent-instructions"><summary class="entry-md-section__summary">Agent Instructions</summary><div class="entry-md-section__body"><p>You run the <strong>practice skill builder</strong> pipeline. Before each stage, read that stage&#x27;s <strong>`SKILL.md`</strong> and its <strong>`rules/*.md`</strong>. After you change <strong>target</strong> <strong>`rules/*.md`</strong>, run <strong>`bundle_rules_into_skill_md.py`</strong> on that target skill. For bundling, validating output, and scanner commands, use <strong>`skills/execute_using_rules/SKILL.md`</strong> (<strong>Commands</strong> section).</p>
+<p><strong>Stage boundary (retrieve vs author):</strong> During <strong>abd-query-practice-sources</strong>, you only work under <strong>`skills/&lt;skill-name&gt;/inputs/`</strong> — mainly <strong>`abd-answers-retrieval.md`</strong>. <strong>Do not</strong> create or edit the target&#x27;s <strong>`rules/*.md`</strong>, <strong>`SKILL.md`</strong>, <strong>`templates/`</strong>, or run <strong>`bundle_rules_into_skill_md.py`</strong> on the target in that step. Normative rules and <strong>SKILL.md</strong> prose come from <strong>abd-author-practice-skill</strong> using the retrieval log as evidence. If you mixed stages, run the corrections workflow below: fix <strong>`inputs/`</strong> first and log it; do <strong>not</strong> jump to editing maintainer <strong>SKILL.md</strong> to justify bad output.</p>
+<p><strong>Teaching voice:</strong> In the <strong>target</strong> <strong>`SKILL.md`</strong>, teach the method with <strong>concepts and how they relate</strong> (outcomes, who, behaviour change, options). Keep <strong>diagram symbols, map placement, indentation-as-meaning, file prefix labels, and template positioning</strong> (which line or field holds what) in <strong>templates</strong>, the <strong>Agent Instructions</strong> table, <strong>Build</strong>, <strong>Validate</strong>, and <strong>`rules/*.md`</strong> — see <strong>abd-author-practice-skill</strong> (bundled <strong>Core sections teach ideas before file prefixes and diagram notation</strong>). Do <strong>not</strong> pad body prose with provenance throat-clearing (for example &quot;from the training wording&quot;, &quot;training-aligned&quot;, &quot;tightened for this notation&quot;); use <strong>`Source:`</strong> on <strong>rules</strong> when lineage must be auditable (bundled <strong>Clear English in every skill section</strong>).</p>
+<h3>Corrections workflow (mandatory)</h3>
+<p>When any deliverable is wrong, a rule was missed, or stages were mixed, you <strong>follow execute_rules item 4 in full</strong> — read <strong>`skills/execute_using_rules/SKILL.md`</strong> ( <strong>What you can do</strong>, item <strong>4</strong> ) and use the field table and markdown shape in <strong>`skills/execute_using_rules/templates/corrections-log.md`</strong>. <strong>No shortcuts:</strong> you do not skip the log or go straight to editing <strong>`rules/`</strong> / <strong>`SKILL.md`</strong> / this agent&#x27;s sources.</p>
+<p><strong>Log location:</strong> Under the engagement or project tree ( <strong>`active_skill_workspace`</strong> when <strong>`skill-config.json`</strong> sets <strong>`workspace`</strong> ), e.g. <strong>`logs/corrections-log.md`</strong>, <strong>`progress/corrections-log.md`</strong>, or <strong>`.skill-builder/corrections-log.md`</strong>. <strong>Not</strong> inside <strong>`agents/abd-practice-skill-builder/`</strong> or an installed skill package as the canonical log.</p>
+<p><strong>Fix the output only</strong> (complete all of these before <strong>Fix the skill</strong>):</p>
+<p>1. <strong>Identify</strong> — Note the problem; <strong>open or create</strong> the corrections log file. 2. <strong>Log (initial)</strong> — Add an entry: <strong>Rule</strong>, <strong>Affects</strong> (include <strong>`stage:`</strong> using practice-builder stages: <strong>`retrieve`</strong>, <strong>`author`</strong>, <strong>`scanners`</strong>, <strong>`catalog`</strong>, <strong>`manual`</strong>, or <strong>`*`</strong> when cross-cutting), <strong>DO / DO NOT</strong>, <strong>Example (wrong)</strong>; leave <strong>Example (correct)</strong> blank and <strong>Status: open</strong>. <strong>DO / DO NOT</strong> must state <strong>altered behavior</strong> (what to do next); the mistake lives in <strong>Example (wrong)</strong> — see <strong>`skills/execute_using_rules/templates/corrections-log.md`</strong> <strong>Phrasing</strong>. 3. <strong>Re-generate</strong> — Fix the <strong>artifact on disk</strong> (retrieval log, <strong>SKILL.md</strong>, rules, manual, etc.) per the violated rule; expect <strong>multiple</strong> iterations. 4. <strong>Review</strong> — Repeat until the deliverable is <strong>actually</strong> acceptable, not after one quick edit. 5. <strong>Confirm</strong> — Fill <strong>Example (correct)</strong>; set <strong>Status: confirmed</strong> for that entry.</p>
+<p><strong>Fix the skill</strong> — only <strong>after</strong> the output steps above for that issue, or when the user <strong>explicitly</strong> asks to change maintainer sources. Then follow item 4 <strong>Fix the skill</strong> substeps <strong>a</strong> through <strong>f</strong> in <strong>`skills/execute_using_rules/SKILL.md`</strong> (read log as a set, root causes, propose and agree, edit <strong>`rules/*.md`</strong> not the bundled block, bundle + validate, archive).</p>
+<ul>
+<li>Use the <strong>track_task</strong> skill; track steps in <strong>`progress/`</strong> per <strong>track_task</strong>.</li>
+<li>Example layout references: `abd-clean-code`, `abd-story-mapping`, `abd-acceptance-criteria`, `abd-specification-by-example`, `abd-thin-slicing`, `abd-acceptance-test-driven-development`.</li>
+</ul>
+<p>Keep <strong>one canonical narrative</strong> in the new skill and manual; RAG hits are <strong>evidence</strong>, not a second master.</p>
+<h3>Commands (repo root)</h3>
+<pre><code>python skills/execute_using_rules/scripts/bundle_rules_into_skill_md.py --skill-root skills/&lt;skill-name&gt;
+python skills/execute_using_rules/scripts/run_scanners.py --skill-root skills/&lt;skill-name&gt; --workspace &lt;path-to-output-or-folder&gt;</code></pre></div></details>
+<details class="entry-md-section" id="pipeline"><summary class="entry-md-section__summary">Pipeline</summary><div class="entry-md-section__body"><p>Typical order (adjust per engagement):</p>
+<p>1. <strong>Retrieve</strong> — <strong>abd-query-practice-sources</strong> — read that skill first; <strong>`inputs/`</strong> only on the target package (no <strong>`rules/`</strong> or <strong>SKILL.md</strong> here); structured queries against abd-answers (`npm run rag:query` from <strong>`agents/abd-answers/`</strong> in this repo, or a standalone <strong>abd-answers</strong> clone); ensure <strong>`skills/&lt;name&gt;/`</strong> and <strong>`inputs/`</strong> exist; write <strong>`inputs/abd-answers-retrieval.md`</strong> with <strong>Kept chunks</strong> (verbatim fenced bodies) per <strong>abd-query-practice-sources</strong> template — not summary-only tables. 2. <strong>Author SKILL + rules</strong> — <strong>abd-author-practice-skill</strong> — read that skill first; if <strong>`SKILL.md`</strong> is missing, copy <strong>`templates/SKILL_template.md`</strong> from that skill, add <strong>Manual:</strong> line and bundle markers, ensure <strong>`rules/`</strong> and <strong>`templates/`</strong>; fill <strong>`SKILL.md`</strong> from <strong>`inputs/abd-answers-retrieval.md`</strong>, write <strong>`rules/*.md`</strong>, run <strong>`bundle_rules_into_skill_md.py`</strong> on the <strong>new</strong> skill (no scanners in this step). 3. <strong>Scanners</strong> — <strong>abd-build-practice-scanners</strong> — read that skill first; optional <strong>`scanners/*.py`</strong>, <strong>`scanner:`</strong> on rules; <strong>`run_scanners.py`</strong> when scanners exist (per <strong>execute_rules</strong>). 4. <strong>Catalog</strong> — <strong>abd-skill-catalog</strong> — maintain <strong>`skills/&lt;name&gt;/README.md`</strong> catalogue copy (`catalogue_summary`, <strong>`## Overview`</strong>, optional <strong>`## How it fits together`</strong> + ascii); from <strong>agilebydesign-skills</strong> repo root run <strong>`python agents/abd-practice-skill-builder/skills/abd-skill-catalog/scripts/generate_abd_catalog.py`</strong>. 5. <strong>Manual</strong> — <strong>abd-practice-skill-manual</strong> — <strong>`manual/&lt;skill-name&gt;/`</strong> HTML, link from <strong>`SKILL.md`</strong> top and in-body section refs.</p>
+<p><strong>Skill index (this agent):</strong></p>
+<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Skill</th><th>Path</th></tr></thead><tbody><tr><td>Query sources</td><td><a href="skills/abd-query-practice-sources/SKILL.html">skills/abd-query-practice-sources/SKILL</a></td></tr><tr><td>Author SKILL + rules</td><td><a href="skills/abd-author-practice-skill/SKILL.html">skills/abd-author-practice-skill/SKILL</a></td></tr><tr><td>Scanners</td><td><a href="skills/abd-build-practice-scanners/SKILL.html">skills/abd-build-practice-scanners/SKILL</a></td></tr><tr><td>Skill catalog</td><td><a href="skills/abd-skill-catalog/SKILL.html">skills/abd-skill-catalog/SKILL</a></td></tr><tr><td>HTML manual</td><td><a href="skills/abd-practice-skill-manual/SKILL.html">skills/abd-practice-skill-manual/SKILL</a></td></tr><tr><td>execute_rules (quality + corrections)</td><td><a href="../../skills/execute_using_rules/SKILL.html">../../skills/execute_using_rules/SKILL</a></td></tr><tr><td>track_task</td><td><a href="../../skills/track_task/SKILL.html">../../skills/track_task/SKILL</a></td></tr></tbody></table></div>
+<hr></div></details>
+<details class="entry-md-section" id="workspace"><summary class="entry-md-section__summary">Workspace</summary><div class="entry-md-section__body"><p><strong>Delivery target is always the agilebydesign-skills repo:</strong> new and updated practice skills live in <strong>`agilebydesign-skills/skills/&lt;skill-name&gt;/`</strong>, not only under this agent folder. This agent holds orchestration SKILLS and templates; generated packages are real repo skills.</p>
+<ul>
+<li><strong>agilebydesign-skills</strong> repo — outputs under <strong>`skills/&lt;skill-name&gt;/`</strong>; canonical <strong>`SKILL.md`</strong> skeleton: <strong>`agents/abd-practice-skill-builder/skills/abd-author-practice-skill/templates/SKILL_template.md`</strong>.</li>
+<li><strong>abd-answers</strong> repo — <strong>`npm run rag:query`</strong> (see <strong>abd-query-practice-sources</strong>); <strong>`conf/.secrets`</strong> per abd-answers docs.</li>
+</ul></div></details>
+<details class="entry-md-section" id="cursor-user-profile"><summary class="entry-md-section__summary">Cursor (user profile)</summary><div class="entry-md-section__body"><p>Use a <strong>Windows directory junction</strong> (not a symlink): this agent is linked into <strong>`%USERPROFILE%\.cursor\agents\abd-practice-skill-builder\`</strong> so <strong>`AGENTS.md`</strong> and the nested <strong>`skills/`</strong> tree resolve from your Cursor profile with no duplicate copy. From this agent root:</p>
+<pre><code>.\scripts\Deploy-AgentToCursor.ps1 -Force</code></pre>
+<p>Pipeline <strong>skills</strong> use the same mechanism under <strong>`%USERPROFILE%\.cursor\skills\`</strong> via <strong>`skills/deploy-skill-to-cursor/scripts/Deploy-SkillToCursor.ps1`</strong> and <strong>`-SkillSourcePath`</strong> (see <strong>deploy-skill-to-cursor</strong>).</p>
+<hr></div></details>
+<details class="entry-md-section" id="process"><summary class="entry-md-section__summary">Process</summary><div class="entry-md-section__body"><h3>End-to-end</h3>
+<p>1. Confirm <strong>topic</strong> and <strong>skill name</strong> (kebab-case under <strong>`agilebydesign-skills/skills/`</strong>). 2. Run <strong>abd-query-practice-sources</strong> — read that skill first; <strong>`inputs/`</strong> only (no target <strong>`rules/`</strong> or <strong>SKILL.md</strong>); structured query plan; ensure <strong>`skills/&lt;skill-name&gt;/`</strong> and <strong>`inputs/`</strong>; write <strong>`inputs/abd-answers-retrieval.md`</strong> using <strong>`agents/abd-practice-skill-builder/skills/abd-query-practice-sources/templates/abd-answers-retrieval-input.md`</strong> (<strong>Kept chunks</strong> with verbatim bodies). If the log is wrong, run <strong>Corrections workflow</strong> (log + fix <strong>`inputs/`</strong> through <strong>Confirm</strong>) before authoring rules from it. 3. Run <strong>abd-author-practice-skill</strong> — read that skill first; if needed, copy <strong>`abd-author-practice-skill/templates/SKILL_template.md`</strong> to <strong>`SKILL.md`</strong>, add <strong>Manual:</strong> line and bundle markers, ensure <strong>`rules/`</strong> / <strong>`templates/`</strong>; fill <strong>SKILL.md</strong>, write <strong>`rules/*.md`</strong>, bundle into <strong>SKILL.md</strong> (no scanners yet). 4. Run <strong>abd-build-practice-scanners</strong> (optional) — <strong>`scanners/*.py`</strong>, <strong>`scanner:`</strong> on rules; <strong>`run_scanners.py`</strong> when applicable. 5. Run <strong>abd-skill-catalog</strong> — <strong>`skills/&lt;skill-name&gt;/README.md`</strong> for catalogue; from repo root <strong>`python agents/abd-practice-skill-builder/skills/abd-skill-catalog/scripts/generate_abd_catalog.py`</strong>. 6. Run <strong>abd-practice-skill-manual</strong> — copy <strong>`assets/`</strong> from <strong>abd-practice-skill-manual</strong> into <strong>`manual/&lt;skill-name&gt;/`</strong>; HTML sections; <strong>SKILL.md</strong> <strong>Manual:</strong> links.</p>
+<h3>When hub content changes</h3>
+<p>Re-run retrieval; update <strong>`inputs/abd-answers-retrieval.md`</strong>, rules, <strong>README.md</strong>, <strong>catalog/</strong> if needed, then manual; bump <strong>Revision</strong> in the manual footer.</p>
+<hr>
+<p>&lt;!-- execute_rules:bundle_rules:begin --&gt; <em>No `rules/</em>.md` files in this skill (or only empty / README-only).* &lt;!-- execute_rules:bundle_rules:end --&gt;</p></div></details>
+</div>
+<hr class="entry-divider">
+<div class="entry-contents-files">
+<ul class="file-list file-list--root">
+<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>progress/</strong><span class="file-meta"> → Folder (1 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
+<li class="file-tree__file"><a class="file-tree__file-link" href="../doc/agent/abd-practice-skill-builder/progress/corrections-log.html"><strong>corrections-log.md</strong></a><span class="file-meta"> → Corrections log</span></li>
+</ul></div></details></li>
+<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>rules/</strong><span class="file-meta"> → Practice rules (DO/DON&#x27;T) and constraints used with scanners.</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
+<li class="file-tree__file"><a class="file-tree__file-link" href="../doc/agent/abd-practice-skill-builder/rules/README.html"><strong>README.md</strong></a><span class="file-meta"> → Rules for abd-practice-skill-builder</span></li>
+</ul></div></details></li>
+<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>scripts/</strong><span class="file-meta"> → Build, catalogue, validation, or packaging automation.</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../agents/abd-practice-skill-builder/scripts/build.py" target="_blank" rel="noopener noreferrer"><strong>build.py</strong></a><span class="file-meta"> → !/usr/bin/env python3</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../agents/abd-practice-skill-builder/scripts/Deploy-AgentToCursor.ps1" target="_blank" rel="noopener noreferrer"><strong>Deploy-AgentToCursor.ps1</strong></a><span class="file-meta"> → .SYNOPSIS</span></li>
+</ul></div></details></li>
+<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>skills/</strong><span class="file-meta"> → Nested skills shipped inside an agent package.</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
+<li class="file-tree__dir"><details class="file-tree__details"><summary class="file-tree__summary"><strong>abd-author-practice-skill/</strong><span class="file-meta"> → Turn collected hub evidence into a finished practice skill: clear instructions and checkable do-and-don&#x27;t norms that stay true to what you retrieved.</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
+<li class="file-tree__dir"><details class="file-tree__details"><summary class="file-tree__summary"><strong>rules/</strong><span class="file-meta"> → Practice rules (DO/DON&#x27;T) and constraints used with scanners.</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
+<li class="file-tree__file"><a class="file-tree__file-link" href="../doc/agent/abd-practice-skill-builder/skills/abd-author-practice-skill/rules/clear-english-in-every-skill-section.html"><strong>clear-english-in-every-skill-section.md</strong></a><span class="file-meta"> → Rule: Clear English in every skill section</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../doc/agent/abd-practice-skill-builder/skills/abd-author-practice-skill/rules/core-sections-teach-ideas-before-file-prefixes-and-diagram-notation.html"><strong>core-sections-teach-ideas-before-file-prefixes-and-diagram-notation.md</strong></a><span class="file-meta"> → Rule: Core sections teach ideas before file prefixes and diagram notation</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../doc/agent/abd-practice-skill-builder/skills/abd-author-practice-skill/rules/opening-sections-give-outcomes-not-package-mechanics.html"><strong>opening-sections-give-outcomes-not-package-mechanics.md</strong></a><span class="file-meta"> → Rule: Opening sections give outcomes not package mechanics</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../doc/agent/abd-practice-skill-builder/skills/abd-author-practice-skill/rules/rule-dos-donts-must-each-have-examples.html"><strong>rule-dos-donts-must-each-have-examples.md</strong></a><span class="file-meta"> → Rule: Rule DOs and DON&#x27;Ts must each have examples</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../doc/agent/abd-practice-skill-builder/skills/abd-author-practice-skill/rules/rules-named-after-valid-or-invalid-state.html"><strong>rules-named-after-valid-or-invalid-state.md</strong></a><span class="file-meta"> → Rule: Rules named after valid or invalid state</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../doc/agent/abd-practice-skill-builder/skills/abd-author-practice-skill/rules/rules-open-with-plain-pass-and-fail-prose.html"><strong>rules-open-with-plain-pass-and-fail-prose.md</strong></a><span class="file-meta"> → Rule: Rules open with plain pass-and-fail prose</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../doc/agent/abd-practice-skill-builder/skills/abd-author-practice-skill/rules/skill-md-bundle-matches-rules-md-files-scanner-stem-matches-py-filename.html"><strong>skill-md-bundle-matches-rules-md-files-scanner-stem-matches-py-filename.md</strong></a><span class="file-meta"> → Rule: SKILL.md bundle matches rules/*.md files; scanner stem matches Python filename</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../doc/agent/abd-practice-skill-builder/skills/abd-author-practice-skill/rules/target-rule-files-are-checkable-specs-for-named-artifacts.html"><strong>target-rule-files-are-checkable-specs-for-named-artifacts.md</strong></a><span class="file-meta"> → Rule: Target rule files are checkable specs for named artifacts</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../doc/agent/abd-practice-skill-builder/skills/abd-author-practice-skill/rules/templates-include-ideal-filled-examples-for-audience.html"><strong>templates-include-ideal-filled-examples-for-audience.md</strong></a><span class="file-meta"> → Rule: Templates include ideal filled examples for the audience</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../doc/agent/abd-practice-skill-builder/skills/abd-author-practice-skill/rules/validate-section-is-inspection-not-rewrite.html"><strong>validate-section-is-inspection-not-rewrite.md</strong></a><span class="file-meta"> → Rule: Validate section is inspection not rewrite</span></li>
+</ul></div></details></li>
+<li class="file-tree__dir"><details class="file-tree__details"><summary class="file-tree__summary"><strong>templates/</strong><span class="file-meta"> → Authoring templates and structural skeletons.</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
+<li class="file-tree__file"><a class="file-tree__file-link" href="../doc/agent/abd-practice-skill-builder/skills/abd-author-practice-skill/templates/SKILL_template.html"><strong>SKILL_template.md</strong></a><span class="file-meta"> → Parameterized SKILL.md skeleton for agilebydesign-skills.</span></li>
+</ul></div></details></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../doc/agent/abd-practice-skill-builder/skills/abd-author-practice-skill/SKILL.html"><strong>SKILL.md</strong></a><span class="file-meta"> → name: abd-author-practice-skill</span></li>
+</ul></div></details></li>
+<li class="file-tree__dir"><details class="file-tree__details"><summary class="file-tree__summary"><strong>abd-build-practice-scanners/</strong><span class="file-meta"> → Turn written rules into checks a machine can run, so drift is caught early instead of debated in chat.</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
+<li class="file-tree__dir"><details class="file-tree__details"><summary class="file-tree__summary"><strong>rules/</strong><span class="file-meta"> → Practice rules (DO/DON&#x27;T) and constraints used with scanners.</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
+<li class="file-tree__file"><a class="file-tree__file-link" href="../doc/agent/abd-practice-skill-builder/skills/abd-build-practice-scanners/rules/scanner-wiring.html"><strong>scanner-wiring.md</strong></a><span class="file-meta"> → Rule: Scanner wiring</span></li>
+</ul></div></details></li>
+<li class="file-tree__dir"><details class="file-tree__details"><summary class="file-tree__summary"><strong>templates/</strong><span class="file-meta"> → Authoring templates and structural skeletons.</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
+<li class="file-tree__file"><a class="file-tree__file-link" href="../doc/agent/abd-practice-skill-builder/skills/abd-build-practice-scanners/templates/rule-stub.html"><strong>rule-stub.md</strong></a><span class="file-meta"> → scanner: optional-stem</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../doc/agent/abd-practice-skill-builder/skills/abd-build-practice-scanners/templates/scanner-readme-snippet.html"><strong>scanner-readme-snippet.md</strong></a><span class="file-meta"> → Scanners ({{skill-name}})</span></li>
+</ul></div></details></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../doc/agent/abd-practice-skill-builder/skills/abd-build-practice-scanners/SKILL.html"><strong>SKILL.md</strong></a><span class="file-meta"> → name: abd-build-practice-scanners</span></li>
+</ul></div></details></li>
+<li class="file-tree__dir"><details class="file-tree__details"><summary class="file-tree__summary"><strong>abd-practice-skill-manual/</strong><span class="file-meta"> → Ship a readable HTML companion for a practice: longer walkthroughs, figures, and sources so people can study the method without parsing SKILL.md alone.</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
+<li class="file-tree__dir"><details class="file-tree__details"><summary class="file-tree__summary"><strong>assets/</strong><span class="file-meta"> → Folder (3 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
+<li class="file-tree__dir"><details class="file-tree__details"><summary class="file-tree__summary"><strong>css/</strong><span class="file-meta"> → Folder (4 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../agents/abd-practice-skill-builder/skills/abd-practice-skill-manual/assets/css/abd-hyperlinks.css" target="_blank" rel="noopener noreferrer"><strong>abd-hyperlinks.css</strong></a><span class="file-meta"> → * Vendored from abd-works commons (abd-practice-skill-manual bundle).</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../agents/abd-practice-skill-builder/skills/abd-practice-skill-manual/assets/css/abd-icons.css" target="_blank" rel="noopener noreferrer"><strong>abd-icons.css</strong></a><span class="file-meta"> → * Vendored from abd-works commons — card / inline icon sizing for SVG assets.</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../agents/abd-practice-skill-builder/skills/abd-practice-skill-manual/assets/css/abd-manual-layout.css" target="_blank" rel="noopener noreferrer"><strong>abd-manual-layout.css</strong></a><span class="file-meta"> → * Practice skill manual — layout for static HTML (pairs with abd-shell + hyperlinks).</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../agents/abd-practice-skill-builder/skills/abd-practice-skill-manual/assets/css/abd-shell.css" target="_blank" rel="noopener noreferrer"><strong>abd-shell.css</strong></a><span class="file-meta"> → * Vendored from abd-works commons (abd-practice-skill-manual bundle).</span></li>
+</ul></div></details></li>
+<li class="file-tree__dir"><details class="file-tree__details"><summary class="file-tree__summary"><strong>fragments/</strong><span class="file-meta"> → Folder (4 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../agents/abd-practice-skill-builder/skills/abd-practice-skill-manual/assets/fragments/cross-site-nav-section.html" target="_blank" rel="noopener noreferrer"><strong>cross-site-nav-section.html</strong></a><span class="file-meta"> → &lt;!-- Paths assume this fragment is included from manual/&lt;skill-name&gt;/sections/*.html --&gt;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../agents/abd-practice-skill-builder/skills/abd-practice-skill-manual/assets/fragments/cross-site-nav.html" target="_blank" rel="noopener noreferrer"><strong>cross-site-nav.html</strong></a><span class="file-meta"> → &lt;!-- Paths assume this fragment is included from manual/&lt;skill-name&gt;/index.html (manual root). --&gt;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../agents/abd-practice-skill-builder/skills/abd-practice-skill-manual/assets/fragments/global-footer-section.html" target="_blank" rel="noopener noreferrer"><strong>global-footer-section.html</strong></a><span class="file-meta"> → &lt;!-- Use from sections/*.html — adjust {{REVISION}}. --&gt;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../agents/abd-practice-skill-builder/skills/abd-practice-skill-manual/assets/fragments/global-footer.html" target="_blank" rel="noopener noreferrer"><strong>global-footer.html</strong></a><span class="file-meta"> → &lt;!-- Optional hub-style footer. Replace {{REVISION}} and href when publishing. --&gt;</span></li>
+</ul></div></details></li>
+<li class="file-tree__dir"><details class="file-tree__details"><summary class="file-tree__summary"><strong>images/</strong><span class="file-meta"> → Figures referenced by nearby HTML or markdown docs.</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../agents/abd-practice-skill-builder/skills/abd-practice-skill-manual/assets/images/document.png" target="_blank" rel="noopener noreferrer"><strong>document.png</strong></a><span class="file-meta"> → IHDR   �   �   e�Ш  t�IDATx�u�y�n[V6������^5��h�(A�h�</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../agents/abd-practice-skill-builder/skills/abd-practice-skill-manual/assets/images/icon-hub-catalog.svg" target="_blank" rel="noopener noreferrer"><strong>icon-hub-catalog.svg</strong></a><span class="file-meta"> → &lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;#ff7a00&quot; stroke-width=&quot;2&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; aria-hidden=&quot;true&quot;&gt;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../agents/abd-practice-skill-builder/skills/abd-practice-skill-manual/assets/images/manual.png" target="_blank" rel="noopener noreferrer"><strong>manual.png</strong></a><span class="file-meta"> → IHDR         =�Dg   IDATx���i�dYr�w&gt;f�����̪̌�(L$!N����E��֛��굤%i-�I��@�H1PsV1�</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../agents/abd-practice-skill-builder/skills/abd-practice-skill-manual/assets/images/overview-placeholder.svg" target="_blank" rel="noopener noreferrer"><strong>overview-placeholder.svg</strong></a><span class="file-meta"> → &lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;480&quot; height=&quot;200&quot; viewBox=&quot;0 0 480 200&quot;&gt;</span></li>
+</ul></div></details></li>
+</ul></div></details></li>
+<li class="file-tree__dir"><details class="file-tree__details"><summary class="file-tree__summary"><strong>rules/</strong><span class="file-meta"> → Practice rules (DO/DON&#x27;T) and constraints used with scanners.</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
+<li class="file-tree__file"><a class="file-tree__file-link" href="../doc/agent/abd-practice-skill-builder/skills/abd-practice-skill-manual/rules/manual-evidence-and-assets.html"><strong>manual-evidence-and-assets.md</strong></a><span class="file-meta"> → Rule: Manual evidence and assets</span></li>
+</ul></div></details></li>
+<li class="file-tree__dir"><details class="file-tree__details"><summary class="file-tree__summary"><strong>templates/</strong><span class="file-meta"> → Authoring templates and structural skeletons.</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../agents/abd-practice-skill-builder/skills/abd-practice-skill-manual/templates/manual-index.html" target="_blank" rel="noopener noreferrer"><strong>manual-index.html</strong></a><span class="file-meta"> → &lt;!DOCTYPE html&gt;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../agents/abd-practice-skill-builder/skills/abd-practice-skill-manual/templates/manual-section.html" target="_blank" rel="noopener noreferrer"><strong>manual-section.html</strong></a><span class="file-meta"> → &lt;!DOCTYPE html&gt;</span></li>
+</ul></div></details></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../doc/agent/abd-practice-skill-builder/skills/abd-practice-skill-manual/SKILL.html"><strong>SKILL.md</strong></a><span class="file-meta"> → name: abd-practice-skill-manual</span></li>
+</ul></div></details></li>
+<li class="file-tree__dir"><details class="file-tree__details"><summary class="file-tree__summary"><strong>abd-query-practice-sources/</strong><span class="file-meta"> → Pull defensible excerpts from the content hub so a new practice can cite real sources, not guesswork: one auditable log of what you kept and why it matters.</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
+<li class="file-tree__dir"><details class="file-tree__details"><summary class="file-tree__summary"><strong>rules/</strong><span class="file-meta"> → Practice rules (DO/DON&#x27;T) and constraints used with scanners.</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
+<li class="file-tree__file"><a class="file-tree__file-link" href="../doc/agent/abd-practice-skill-builder/skills/abd-query-practice-sources/rules/hub-retrieval-discipline.html"><strong>hub-retrieval-discipline.md</strong></a><span class="file-meta"> → Rule: Hub retrieval discipline</span></li>
+</ul></div></details></li>
+<li class="file-tree__dir"><details class="file-tree__details"><summary class="file-tree__summary"><strong>templates/</strong><span class="file-meta"> → Authoring templates and structural skeletons.</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
+<li class="file-tree__file"><a class="file-tree__file-link" href="../doc/agent/abd-practice-skill-builder/skills/abd-query-practice-sources/templates/abd-answers-retrieval-input.html"><strong>abd-answers-retrieval-input.md</strong></a><span class="file-meta"> → Canonical RAG input for the target practice skill.</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../doc/agent/abd-practice-skill-builder/skills/abd-query-practice-sources/templates/inputs-readme.html"><strong>inputs-readme.md</strong></a><span class="file-meta"> → abd-answers-retrieval.md — filled by abd-query-practice-sources; required fields per row: Content, Source location, Relevance (rule | core_concept | example | procedure | glossary | diagram_ref | other), plus query and rank.</span></li>
+</ul></div></details></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../doc/agent/abd-practice-skill-builder/skills/abd-query-practice-sources/SKILL.html"><strong>SKILL.md</strong></a><span class="file-meta"> → name: abd-query-practice-sources</span></li>
+</ul></div></details></li>
+<li class="file-tree__dir"><details class="file-tree__details"><summary class="file-tree__summary"><strong>abd-skill-catalog/</strong><span class="file-meta"> → Regenerate the browsable skills/agents catalogue (HTML + outline) from repo packages.</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
+<li class="file-tree__dir"><details class="file-tree__details"><summary class="file-tree__summary"><strong>scripts/</strong><span class="file-meta"> → Build, catalogue, validation, or packaging automation.</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
+<li class="file-tree__dir"><details class="file-tree__details"><summary class="file-tree__summary"><strong>__pycache__/</strong><span class="file-meta"> → Folder (1 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../agents/abd-practice-skill-builder/skills/abd-skill-catalog/scripts/__pycache__/generate_abd_catalog.cpython-312.pyc" target="_blank" rel="noopener noreferrer"><strong>generate_abd_catalog.cpython-312.pyc</strong></a><span class="file-meta"> →     .)�i�* �            </span></li>
+</ul></div></details></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../agents/abd-practice-skill-builder/skills/abd-skill-catalog/scripts/generate_abd_catalog.py" target="_blank" rel="noopener noreferrer"><strong>generate_abd_catalog.py</strong></a><span class="file-meta"> → !/usr/bin/env python3</span></li>
+</ul></div></details></li>
+<li class="file-tree__dir"><details class="file-tree__details"><summary class="file-tree__summary"><strong>templates/</strong><span class="file-meta"> → Authoring templates and structural skeletons.</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
+<li class="file-tree__dir"><details class="file-tree__details"><summary class="file-tree__summary"><strong>intros/</strong><span class="file-meta"> → Folder (3 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../agents/abd-practice-skill-builder/skills/abd-skill-catalog/templates/intros/catalog-agents-intro.html" target="_blank" rel="noopener noreferrer"><strong>catalog-agents-intro.html</strong></a><span class="file-meta"> → &lt;p&gt;Open a card for a full page on that agent.&lt;/p&gt;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../agents/abd-practice-skill-builder/skills/abd-skill-catalog/templates/intros/catalog-hub-intro.html" target="_blank" rel="noopener noreferrer"><strong>catalog-hub-intro.html</strong></a><span class="file-meta"> → &lt;p&gt;Browse &lt;a href=&quot;skills.html&quot;&gt;skills&lt;/a&gt; and &lt;a href=&quot;agents.html&quot;&gt;agents&lt;/a&gt;.</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../agents/abd-practice-skill-builder/skills/abd-skill-catalog/templates/intros/catalog-skills-intro.html" target="_blank" rel="noopener noreferrer"><strong>catalog-skills-intro.html</strong></a><span class="file-meta"> → &lt;p&gt;Open a card for a full page on that skill.&lt;/p&gt;</span></li>
+</ul></div></details></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../doc/agent/abd-practice-skill-builder/skills/abd-skill-catalog/templates/catalog-readme-agent.html"><strong>catalog-readme-agent.md</strong></a><span class="file-meta"> → catalogue_summary: &quot;{{CATALOGUE_SUMMARY}}&quot;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../doc/agent/abd-practice-skill-builder/skills/abd-skill-catalog/templates/catalog-readme-skill.html"><strong>catalog-readme-skill.md</strong></a><span class="file-meta"> → One line for catalogue cards and grids (YAML string).</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../agents/abd-practice-skill-builder/skills/abd-skill-catalog/templates/catalog.css" target="_blank" rel="noopener noreferrer"><strong>catalog.css</strong></a><span class="file-meta"> → --orange: #ff7a00;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../agents/abd-practice-skill-builder/skills/abd-skill-catalog/templates/page-catalog-index.html" target="_blank" rel="noopener noreferrer"><strong>page-catalog-index.html</strong></a><span class="file-meta"> → &lt;!DOCTYPE html&gt;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../agents/abd-practice-skill-builder/skills/abd-skill-catalog/templates/page-catalog.html" target="_blank" rel="noopener noreferrer"><strong>page-catalog.html</strong></a><span class="file-meta"> → &lt;!DOCTYPE html&gt;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../agents/abd-practice-skill-builder/skills/abd-skill-catalog/templates/page-entry-detail.html" target="_blank" rel="noopener noreferrer"><strong>page-entry-detail.html</strong></a><span class="file-meta"> → &lt;!DOCTYPE html&gt;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../agents/abd-practice-skill-builder/skills/abd-skill-catalog/templates/page-markdown-doc.html" target="_blank" rel="noopener noreferrer"><strong>page-markdown-doc.html</strong></a><span class="file-meta"> → &lt;!DOCTYPE html&gt;</span></li>
+</ul></div></details></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../doc/agent/abd-practice-skill-builder/skills/abd-skill-catalog/README.html"><strong>README.md</strong></a><span class="file-meta"> → One line for catalogue cards and grids (YAML string).</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../doc/agent/abd-practice-skill-builder/skills/abd-skill-catalog/SKILL.html"><strong>SKILL.md</strong></a><span class="file-meta"> → name: abd-skill-catalog</span></li>
+</ul></div></details></li>
+</ul></div></details></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../doc/agent/abd-practice-skill-builder/AGENTS.html"><strong>AGENTS.md</strong></a><span class="file-meta"> → AGENTS — abd-practice-skill-builder</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../agents/abd-practice-skill-builder/skill-config.json" target="_blank" rel="noopener noreferrer"><strong>skill-config.json</strong></a><span class="file-meta"> → &quot;name&quot;: &quot;abd-practice-skill-builder&quot;,</span></li>
+</ul>
+</div>
+
+</div>
+</div>
+</div>
+</body>
+</html>

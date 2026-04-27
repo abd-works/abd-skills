@@ -1,0 +1,58 @@
+---
+description: Commit message standards for agilebydesign-skills
+globs: ["**/*"]
+alwaysApply: true
+---
+
+# agilebydesign-skills Commit Message Rules
+
+## Focus: skill and agent changes at the functional level
+
+Describe **what the skill or agent can now do** — not what files changed.
+
+### Format
+```
+<type>(<scope>): <short functional description>
+```
+
+- **scope** = skill or agent name (e.g. `abd-story-mapping`, `abd-delivery-lead`)
+- **short description** = one line, ≤72 chars, present tense, no period
+
+### Types
+
+| Type | Use when |
+|------|----------|
+| `feat` | A skill or agent gains new capability |
+| `fix` | Broken behavior in a skill or agent is corrected |
+| `rule` | A rule is added, changed, or removed |
+| `scanner` | A scanner is added or updated |
+| `refactor` | Internal restructure — **keep description to ≤5 words** |
+| `chore` | Catalog regen, sync, CI, tooling — **keep description to ≤5 words** |
+| `docs` | README, manual, or catalog copy only |
+
+### Examples
+
+**Good — functional, skill-scoped:**
+```
+feat(abd-story-mapping): add sub-epic decomposition to story map output
+fix(abd-delivery-lead): correct workspace setup step order
+rule(abd-acceptance-criteria): add rule for atomic AC per story
+scanner(abd-clean-code): add scanner for swallowed exceptions
+refactor(abd-ooad): consolidate phase scripts
+chore: sync catalog
+```
+
+**Bad — too generic or file-focused:**
+```
+update various files                        # no scope, no function
+updated pytest config and README links      # file-level, not functional
+chore: sync skill updates, ooad content, and new cursor skills across catalog and documentation paths  # too long for a chore
+```
+
+### Rules
+
+- Skill/agent changes **must** name the skill or agent in the scope
+- `refactor` and `chore` descriptions must be **≤5 words** — they are noise, keep them tight
+- Features inside a skill (new rules, templates, examples) use `feat(<skill>):`
+- Merge commits are fine as-is — do not rewrite them
+- Never describe the list of files changed — describe the behavior or capability

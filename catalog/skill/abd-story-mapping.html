@@ -289,9 +289,20 @@ code {
   border: 1px solid var(--border-muted);
   box-shadow: inset 0 0 0 1px rgba(255,122,0,0.12);
 }
+.site-home-link {
+  flex-shrink: 0;
+  display: block;
+  line-height: 0;
+  opacity: 0.9;
+  transition: opacity 0.15s;
+}
+.site-home-link:hover { opacity: 1; }
 .header-text { flex: 1; min-width: 200px; }
 .brand { font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin: 0 0 4px; }
 .brand strong { color: var(--orange); }
+.brand-row { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
+.brand-row .brand { margin: 0; }
+.brand-row .cap-badge { margin: 0; }
 h1 { margin: 0; font-size: 2rem; font-weight: 700; line-height: 1.15; }
 .tagline { margin: 8px 0 0; font-size: 1.05rem; color: var(--muted); max-width: 52rem; line-height: 1.55; }
 .panel-body { padding: 28px 22px 36px; }
@@ -798,17 +809,15 @@ h2:first-child { margin-top: 0; }
 <div class="panel" role="main">
 
 <header class="panel-header entry-detail-header">
-  <div class="header-icon">
-    <svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:block;border-radius:6px;">
-      <rect width="52" height="52" rx="8" fill="#0e0e10"/>
-      <path d="M16 14h20a2 2 0 0 1 2 2v20a2 2 0 0 1-2 2H16a2 2 0 0 1-2-2V16a2 2 0 0 1 2-2z" stroke="#FF7A00" stroke-width="1.5" fill="rgba(255,122,0,0.06)"/>
-      <path d="M20 22h12M20 26h9M20 30h12" stroke="#FF7A00" stroke-width="1.5" stroke-linecap="round"/>
-    </svg>
-  </div>
+  <a href="https://www.abd-works.com/" class="site-home-link" title="Back to abd-works">
+    <img src="/commons/images/abd-logo.png" width="48" height="48" alt="Agile by Design" style="display:block;border-radius:6px;flex-shrink:0;" />
+  </a>
   <div class="header-text">
-    <p class="brand"><strong>Agile by Design</strong> &middot; catalog</p>
+    <div class="brand-row">
+      <p class="brand"><strong>Agile by Design</strong> &middot; catalog</p>
+      <p class="cap-badge">Skill</p>
+    </div>
     <a class="back-link" href="../skills.html">← All skills</a>
-    <p class="cap-badge">Skill</p>
     <h1>abd-story-mapping</h1>
     <p class="tagline">Patton-style story maps (epics, stories, verb-noun naming); writes story-map templates from sources.</p>
   </div>
@@ -845,7 +854,9 @@ h2:first-child { margin-top: 0; }
 
 <h2 id="entry-contents">Contents</h2>
 <div class="entry-contents-doc">
-<details class="entry-md-section" id="purpose"><summary class="entry-md-section__summary">Purpose:</summary><div class="entry-md-section__body"><p>Describe what a good story map <em>is</em> (concepts and naming). <strong>How</strong> to run the bot, workspace setup, and step-by-step CLI belong in the agent and other skills — not here.</p></div></details>
+<details class="entry-md-section" id="purpose"><summary class="entry-md-section__summary">Purpose</summary><div class="entry-md-section__body"><p>A <strong>story map</strong> in the <strong>Jeff Patton</strong> sense is a <strong>single shared picture</strong> of the product: you organize understanding into a <strong>small stack of nested levels</strong>—<strong>epics</strong> (broad capability areas), <strong>sub-epics</strong> (flows or feature areas within an epic), and <strong>stories</strong> (leaves: one observable <strong>user</strong> or <strong>system</strong> interaction each). The map is <strong>not</strong> a dump of source material, a WBS, or a list of build tasks; it is <strong>outcomes and behaviors</strong>—<em>what</em> happens in the product—so product, delivery, and domain people can read the same structure.</p>
+<p><strong>Naming</strong> is part of the model: epics, sub-epics, and stories use <strong>verb–noun</strong> titles; <strong>who</strong> is acting (persona/actor, user vs. system) is carried <strong>outside</strong> the name (e.g. `story_type` / diagram convention), not stuffed into the title. Good maps read as a <strong>journey</strong> (sequence along the backbone) and a <strong>skeleton of scope</strong> (depth into detail), with <strong>consistent language</strong> from top to bottom.</p>
+<p>This document defines <strong>concepts, naming, and quality</strong> for that structure. <strong>How</strong> to run agents, lay out a workspace, or use CLIs belongs in the <strong>agent</strong> and <strong>tooling</strong> skills—not here.</p></div></details>
 <details class="entry-md-section" id="when-to-use-this-skill"><summary class="entry-md-section__summary">When to use this skill</summary><div class="entry-md-section__body"><p>Load this skill when <strong>any</strong> of the following apply:</p>
 <ul>
 <li>You need to capture goals, decompose user journeys, or capture a solution as a set of user–system interactions (stories grouped into epics).</li>
@@ -880,7 +891,7 @@ h2:first-child { margin-top: 0; }
 <p>Story maps are intentionally <strong>not implementation plans</strong>. They describe <em>outcomes and behaviors</em>, not tasks, tickets, or technical steps, although they can be used to describe system to system interactions and complex system behaviors. A good story map can be understood by a product owner, a developer, and a domain expert — all at once.</p>
 <h3>Why story map?</h3>
 <p>A story map is a <strong>collaborative method</strong> to break work down. It provides a structure to guide collaborative thought in order to achieve <strong>shared understanding</strong> — alignment from more than one perspective, the engineering team, the product and stakeholders affected by the product. It is a method to break down <em>what you are working on</em>, not <em>the way you work</em>.</p>
-<p>The perpsective provided by a story map is <strong>cross-functional</strong>: SMEs, analysts, developers, testers, delivery lead — various viewpoints that together produce a more complete picture than any individual could. Story maps are useful when a project, initiative, or product is in discovery and the scope of functions, features, and goals needs to be flushed out and understood.</p>
+<p>The perspective provided by a story map is <strong>cross-functional</strong>: SMEs, analysts, developers, testers, delivery lead — various viewpoints that together produce a more complete picture than any individual could. Story maps are useful when a project, initiative, or product is in discovery and the scope of functions, features, and goals needs to be fleshed out and understood.</p>
 <hr></div></details>
 <details class="entry-md-section" id="core-concepts"><summary class="entry-md-section__summary">Core concepts</summary><div class="entry-md-section__body"><h3>Actors</h3>
 <p>An <strong>actor</strong> is anyone (or anything) that interacts with the system. Actors are the <em>who</em> behind every story.</p>
@@ -1199,7 +1210,7 @@ Do not over-elaborate areas the team will not build soon. Go deep where uncertai
 </ul></div></details></li>
 <li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>templates/</strong><span class="file-meta"> → Authoring templates and structural skeletons.</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
 <li class="file-tree__file"><a class="file-tree__file-link" href="../doc/skill/abd-story-mapping/templates/story-map.html"><strong>story-map.md</strong></a><span class="file-meta"> → &lt;!-- Pair required: also produce story-map.txt with the same tree. See SKILL.md → &quot;Use every template file (required)&quot;. --&gt;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/abd-story-mapping/templates/story-map.txt" target="_blank" rel="noopener noreferrer"><strong>story-map.txt</strong></a><span class="file-meta"> → NOTE: Pair required — also produce story-map.md with the same tree. See SKILL.md → &quot;Use every template file (required)&quot;.</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../doc/skill/abd-story-mapping/templates/story-map.html"><strong>story-map.txt</strong></a><span class="file-meta"> → NOTE: Pair required — also produce story-map.md with the same tree. See SKILL.md → &quot;Use every template file (required)&quot;.</span></li>
 </ul></div></details></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../doc/skill/abd-story-mapping/README.html"><strong>README.md</strong></a><span class="file-meta"> → One line for catalogue cards and grids (YAML string).</span></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../doc/skill/abd-story-mapping/SKILL.html"><strong>SKILL.md</strong></a><span class="file-meta"> → name: abd-story-mapping</span></li>

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ABD catalogue — abd-acceptance-criteria · templates/acceptance-criteria.md</title>
+<title>ABD catalogue — abd-acceptance-criteria · templates/acceptance-criteria.txt</title>
 <style>
 /*
   Single source for Agile Garden block: catalog prelude + mission row + two-column lists.
@@ -289,9 +289,20 @@ code {
   border: 1px solid var(--border-muted);
   box-shadow: inset 0 0 0 1px rgba(255,122,0,0.12);
 }
+.site-home-link {
+  flex-shrink: 0;
+  display: block;
+  line-height: 0;
+  opacity: 0.9;
+  transition: opacity 0.15s;
+}
+.site-home-link:hover { opacity: 1; }
 .header-text { flex: 1; min-width: 200px; }
 .brand { font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin: 0 0 4px; }
 .brand strong { color: var(--orange); }
+.brand-row { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
+.brand-row .brand { margin: 0; }
+.brand-row .cap-badge { margin: 0; }
 h1 { margin: 0; font-size: 2rem; font-weight: 700; line-height: 1.15; }
 .tagline { margin: 8px 0 0; font-size: 1.05rem; color: var(--muted); max-width: 52rem; line-height: 1.55; }
 .panel-body { padding: 28px 22px 36px; }
@@ -798,19 +809,15 @@ h2:first-child { margin-top: 0; }
 <div class="panel" role="main">
 
 <header class="panel-header entry-detail-header">
-  <div class="header-icon">
-    <svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:block;border-radius:6px;">
-      <rect width="52" height="52" rx="8" fill="#0e0e10"/>
-      <path d="M16 14h20a2 2 0 0 1 2 2v20a2 2 0 0 1-2 2H16a2 2 0 0 1-2-2V16a2 2 0 0 1 2-2z" stroke="#FF7A00" stroke-width="1.5" fill="rgba(255,122,0,0.06)"/>
-      <path d="M20 22h12M20 26h9M20 30h12" stroke="#FF7A00" stroke-width="1.5" stroke-linecap="round"/>
-    </svg>
-  </div>
+  <a href="https://www.abd-works.com/" class="site-home-link" title="Back to abd-works">
+    <img src="/commons/images/abd-logo.png" width="48" height="48" alt="Agile by Design" style="display:block;border-radius:6px;flex-shrink:0;" />
+  </a>
   <div class="header-text">
     <p class="brand"><strong>Agile by Design</strong> &middot; catalog</p>
     <a class="back-link" href="../../../../skill/abd-acceptance-criteria.html">← abd-acceptance-criteria</a>
-    <p class="cap-badge">Markdown</p>
-    <h1>templates/acceptance-criteria.md</h1>
-    <p class="tagline">Acceptance criteria (exploration)</p>
+    <p class="cap-badge">Plain text</p>
+    <h1>templates/acceptance-criteria.txt</h1>
+    <p class="tagline">Acceptance criteria (exploration) — plain text template</p>
   </div>
 </header>
 
@@ -823,48 +830,53 @@ h2:first-child { margin-top: 0; }
 </nav>
 
 <h2>Content</h2>
-<div class="rule-prose"><h1>Acceptance criteria (exploration)</h1>
-<p>&lt;!-- Template migrated from agile_bots story_bot exploration behavior conventions. --&gt;</p>
-<p>For each <strong>story</strong>, list <strong>acceptance_criteria</strong> as behavioral outcomes using <strong>WHEN / THEN / AND</strong> (and <strong>BUT</strong> for negative outcomes). Reserve <strong>Given</strong> for <strong>scenarios</strong> (BDD), not for AC in `story-graph.json`.</p>
-<p><strong>Source traceability (required when AC are grounded in a corpus):</strong> For <strong>every</strong> numbered acceptance criterion, record <strong>where</strong> that behavior came from—use whatever the source provides: <strong>chapter</strong>, <strong>section</strong> / heading, <strong>page</strong> (or page range), <strong>paragraph</strong> number or quoted lead-in, <strong>slide</strong> number, <strong>line</strong> range, <strong>timestamp</strong>, stable <strong>URL + anchor</strong>, or <strong>chunk / evidence id</strong> (e.g. from a memory pipeline). One criterion may cite <strong>multiple</strong> locations if it synthesizes several passages. If there is <strong>no</strong> written source (facilitator call, whiteboard only), state that explicitly with <strong>date and channel</strong> so the chain is still honest.</p>
-<p>In <strong>Markdown</strong>, wrap <strong>domain-significant</strong> nouns and short phrases in <em>italics</em> — <em>Title Case</em> for multi-word concepts (e.g. <em>Report UI</em>, <em>Wire Transfer</em>). Italicize terms that belong to <em>your</em> problem space, not filler or whole sentences. See the skill rule <strong>Emphasize domain-significant terms</strong>.</p>
-<h2>Story: `Verb–Noun Title`</h2>
-<p><strong>Story type:</strong> user | system | technical</p>
-<h3>Domain terms</h3>
-<p>List the <strong>domain terms</strong> this story’s AC rely on: words or short phrases for key <strong>things</strong>, <strong>state</strong>, <strong>actions</strong>, and <strong>rules or constraints</strong> in <em>your</em> problem space. Use <em>italics</em> for each term (<em>Title Case</em> for multi-word concepts); add a short dash or colon and a plain-language gloss so readers share one vocabulary before they read WHEN/THEN.</p>
-<p><strong>Illustrative pattern:</strong></p>
-<ul>
-<li><em>Operator</em> — human role performing the import</li>
-<li><em>Settlement File</em> — uploaded input; subject of validation</li>
-<li><em>Report UI</em> — surface where import and preview run</li>
-<li><em>Import Job</em> — asynchronous work unit; queued or discarded</li>
-<li><em>Filtered Report Rows</em> — preview content before commit</li>
-<li><em>Export Job Progress</em> — visible status (<em>Running</em>, etc.)</li>
-<li><em>Settlement Records</em> — persisted outcome after confirmation</li>
-<li><em>Schema Validation</em> / <em>Validation Error</em> — rule gate and failure shape</li>
-</ul>
-<p>Keep the list <strong>lean</strong> (only terms that appear in or anchor the AC below). The paired `.txt` file uses the <strong>same words</strong> without markdown.</p>
-<h3>Acceptance criteria</h3>
-<p><strong>Illustrative pattern</strong> (replace names and flows with your domain; keep the <em>italic</em> convention for domain terms). Each item ends with <strong>Evidence</strong> pointing back to the source:</p>
-<p>1. <strong>WHEN</strong> <em>Operator</em> submits <em>Settlement File</em> in <em>Report UI</em> <strong>THEN</strong> <em>Import Job</em> queues and <em>Filtered Report Rows</em> appear in the preview <strong>AND</strong> <em>Export Job Progress</em> shows <em>Running</em> <strong>BUT</strong> <em>Settlement Records</em> are not committed until <em>Operator</em> confirms <strong>Evidence:</strong> <em>Enterprise Reporting Requirements.pdf</em> — Ch. 4 “Settlement import”, pp. 12–13, paragraphs 3–4</p>
-<p><strong>Variant (delta only — atomic rule):</strong></p>
-<p>2. <strong>WHEN</strong> <em>Settlement File</em> fails <em>Schema Validation</em> <strong>THEN</strong> <em>Import Job</em> stops with <em>Validation Error</em> summary <strong>Evidence:</strong> <em>Enterprise Reporting Requirements.pdf</em> — Ch. 4, p. 14, §“Invalid file handling”; <em>API Spec</em> v2, p. 6, Table 2 <em>(Avoid repeating the same WHEN/THEN/AND block across multiple AC — see atomic AC rule.)</em></p>
-<p><strong>Negative / error path:</strong></p>
-<p>3. <strong>WHEN</strong> <em>Operator</em> cancels during preview <strong>THEN</strong> queued <em>Import Job</em> is discarded <strong>BUT</strong> no <em>Settlement Records</em> are written <strong>Evidence:</strong> <em>UX Review notes.docx</em> — Section “Preview cancel”, p. 2, bullet 2</p>
-<p><strong>Optional layout:</strong> If inline <strong>Evidence</strong> lines feel noisy, you may instead add a <strong>Source evidence</strong> table <strong>immediately after</strong> the AC list for that story, with one row per AC # and the same citation detail:</p>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>AC #</th><th>Source (document / system)</th><th>Location</th></tr></thead><tbody><tr><td>1</td><td><em>Enterprise Reporting Requirements.pdf</em></td><td>Ch. 4, pp. 12–13, paragraphs 3–4</td></tr><tr><td>2</td><td><em>Enterprise Reporting Requirements.pdf</em>; <em>API Spec</em> v2</td><td>p. 14 §“Invalid file…”; p. 6 Table 2</td></tr><tr><td>3</td><td><em>UX Review notes.docx</em></td><td>§“Preview cancel”, p. 2</td></tr></tbody></table></div>
-<hr>
-<p>&lt;!-- Notation below is for skill/template maintainers. Agents MUST NOT copy this section into generated acceptance-criteria.md files in projects. --&gt;</p>
-<h2>Instructions (template reference only — omit from generated files)</h2>
-<ul>
-<li>Target roughly <strong>4–9</strong> WHEN/THEN-style steps worth of coverage per story (mechanical count uses WHEN + AND lines in combined AC text).</li>
-<li>Use <strong>behavioral</strong> language (user and system outcomes), not implementation (no file formats, APIs, class names) unless framed as `story_type: technical` and kept minimal.</li>
-<li>Prefer <strong>channel-specific</strong> detail where the product has distinct CLI vs Panel vs API surfaces (concrete examples, quoted labels, `cli.` paths).</li>
-<li><strong>Alternate</strong> user and system steps; avoid long runs of the same actor without switching.</li>
-<li>For <strong>multiple system reactions</strong> in sequence, chain with <strong>AND</strong> rather than a new <strong>WHEN</strong> for each micro-step (unless a genuinely new trigger).</li>
-<li><strong>Domain terms:</strong> per story, include <strong>Domain terms</strong> before <strong>Acceptance criteria</strong>; align the list with what appears in the AC. In `.md`, <em>italicize</em> terms in that list and inside AC lines; `.txt` uses the same words with no asterisks.</li>
-<li><strong>Source evidence:</strong> every numbered AC must have traceability (inline <strong>Evidence:</strong> or a per-story table). Prefer the <strong>most specific</strong> pointer the source allows (page + section + paragraph over “chapter 4” alone).</li>
-</ul></div>
+<div class="rule-prose"><pre>Acceptance criteria (exploration) — plain text template  
+(Migrated from agile_bots story_bot exploration behavior conventions.)  
+Use the SAME story coverage as acceptance-criteria.md; this file is plain text only.  
+  
+SOURCE TRACEABILITY (required when AC are grounded in a corpus):  
+For EVERY numbered acceptance criterion, add an Evidence line with document name and the most specific location you have: chapter, section heading, page or page range, paragraph,  
+slide, line range, URL+anchor, chunk/evidence id, etc. If there is no written source, say so  
+(date, meeting, channel). You may use a table after the AC list instead of inline Evidence.
+
+Story: &lt;verb-noun story title&gt;  
+Story type: user | system | technical  
+  
+Domain terms (plain text — same vocabulary as the .md story; no asterisks):  
+- &lt;Term&gt; — &lt;short gloss: thing, state, action, or rule this story uses&gt;  
+- &lt;Term&gt; — &lt;gloss&gt;  
+(Omit filler; only terms that anchor the AC below.)  
+  
+Acceptance criteria:  
+  
+1. WHEN &lt;trigger&gt;  
+   THEN &lt;outcome&gt;  
+   AND &lt;chained outcome&gt;  
+   Evidence: &lt;source&gt; — &lt;chapter/section/page/paragraph/...&gt;  
+  
+2. WHEN &lt;variant&gt;  
+   THEN &lt;only what differs&gt;  
+   Evidence: &lt;source&gt; — &lt;location&gt;  
+  
+3. WHEN &lt;error path&gt;  
+   THEN &lt;error behavior&gt;  
+   BUT &lt;what does not happen&gt;  
+   Evidence: &lt;source&gt; — &lt;location&gt;  
+  
+Example (table form, optional):  
+AC# | Source | Location  
+1   | Requirements.pdf | Ch. 4, pp. 12-13, para 3-4  
+...  
+  
+---  
+Template reference only — do not copy the following into generated project files:  
+- 4-9 steps worth of coverage per story (WHEN/AND counting heuristic matches bot scanners).  
+- Behavioral language; Given belongs in scenarios, not AC.  
+- Channel-specific detail for CLI/Panel/API where relevant.  
+- Alternate actors; use AND to chain system reactions.  
+- Domain terms: include the Domain terms block per story before Acceptance criteria; plain text here, italics for the same terms in the .md file (emphasize-domain-significant-terms rule).  
+- Source evidence: match acceptance-criteria.md — every AC numbered item has Evidence or a table row.  
+</pre></div>
 
 </div>
 </div>

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ABD catalogue — abd-thin-slicing · templates/thin-slicing.md</title>
+<title>ABD catalogue — abd-thin-slicing · templates/thin-slicing.txt</title>
 <style>
 /*
   Single source for Agile Garden block: catalog prelude + mission row + two-column lists.
@@ -289,9 +289,20 @@ code {
   border: 1px solid var(--border-muted);
   box-shadow: inset 0 0 0 1px rgba(255,122,0,0.12);
 }
+.site-home-link {
+  flex-shrink: 0;
+  display: block;
+  line-height: 0;
+  opacity: 0.9;
+  transition: opacity 0.15s;
+}
+.site-home-link:hover { opacity: 1; }
 .header-text { flex: 1; min-width: 200px; }
 .brand { font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin: 0 0 4px; }
 .brand strong { color: var(--orange); }
+.brand-row { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
+.brand-row .brand { margin: 0; }
+.brand-row .cap-badge { margin: 0; }
 h1 { margin: 0; font-size: 2rem; font-weight: 700; line-height: 1.15; }
 .tagline { margin: 8px 0 0; font-size: 1.05rem; color: var(--muted); max-width: 52rem; line-height: 1.55; }
 .panel-body { padding: 28px 22px 36px; }
@@ -798,19 +809,15 @@ h2:first-child { margin-top: 0; }
 <div class="panel" role="main">
 
 <header class="panel-header entry-detail-header">
-  <div class="header-icon">
-    <svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:block;border-radius:6px;">
-      <rect width="52" height="52" rx="8" fill="#0e0e10"/>
-      <path d="M16 14h20a2 2 0 0 1 2 2v20a2 2 0 0 1-2 2H16a2 2 0 0 1-2-2V16a2 2 0 0 1 2-2z" stroke="#FF7A00" stroke-width="1.5" fill="rgba(255,122,0,0.06)"/>
-      <path d="M20 22h12M20 26h9M20 30h12" stroke="#FF7A00" stroke-width="1.5" stroke-linecap="round"/>
-    </svg>
-  </div>
+  <a href="https://www.abd-works.com/" class="site-home-link" title="Back to abd-works">
+    <img src="/commons/images/abd-logo.png" width="48" height="48" alt="Agile by Design" style="display:block;border-radius:6px;flex-shrink:0;" />
+  </a>
   <div class="header-text">
     <p class="brand"><strong>Agile by Design</strong> &middot; catalog</p>
     <a class="back-link" href="../../../../skill/abd-thin-slicing.html">← abd-thin-slicing</a>
-    <p class="cap-badge">Markdown</p>
-    <h1>templates/thin-slicing.md</h1>
-    <p class="tagline">Thin slicing — incremental backlog</p>
+    <p class="cap-badge">Plain text</p>
+    <h1>templates/thin-slicing.txt</h1>
+    <p class="tagline">Thin slicing — incremental backlog — plain text template</p>
   </div>
 </header>
 
@@ -823,41 +830,37 @@ h2:first-child { margin-top: 0; }
 </nav>
 
 <h2>Content</h2>
-<div class="rule-prose"><h1>Thin slicing — incremental backlog</h1>
-<p>&lt;!-- Thin-slicing / incremental backlog layout for this skill (conceptual only). --&gt;</p>
-<p>Group work into <strong>increments</strong> (MVIs / thin slices): each increment delivers a <strong>vertical</strong>, <strong>end-to-end</strong> slice of value—not a horizontal “finish one epic layer” plan. Story names should follow <strong>verb–noun</strong> and actor conventions from <strong>`abd-story-mapping`</strong>.</p>
-<h2>Product / context</h2>
-<p><strong>Product:</strong> _(optional)_</p>
-<p><strong>Spine vs optional:</strong> The <strong>mandatory sequential flow</strong> for core value lives on the <strong>spine</strong>. <strong>Optional</strong> stories (alternate channels, enhancements, non–happy-path depth) are real work but are <strong>not</strong> required for the smallest marketable slice—keep that distinction when you pull stories into increments.</p>
-<h2>Increments</h2>
-<h3>Increment 1: `Marketable outcome name`</h3>
-<p><strong>Outcome:</strong> _One line: what users or the business can do after this increment ships._</p>
-<p><strong>Slicing notes:</strong> _(optional — e.g. manual steps, stubs, single channel, reduced NFRs, which thin-slicing dimension you used.)_</p>
-<p><strong>Stories in this increment</strong> _(order reflects flow within the slice):_</p>
-<ul>
-<li><em>First story (verb–noun)</em></li>
-<li><em>Second story</em></li>
-<li><em>Third story</em></li>
-</ul>
-<h3>Increment 2: `Next marketable outcome`</h3>
-<p><strong>Outcome:</strong> _One line: capability after this increment._</p>
-<p><strong>Slicing notes:</strong> _(optional)_</p>
-<p><strong>Stories in this increment:</strong></p>
-<ul>
-<li><em>Story (verb–noun)</em></li>
-<li><em>Story (verb–noun)</em></li>
-</ul>
-<hr>
-<p>&lt;!-- Notation below is for skill/template maintainers. Agents MUST NOT copy this section into generated project files. --&gt;</p>
-<h2>Instructions (template reference only — omit from generated files)</h2>
-<ul>
-<li><strong>Vertical slices:</strong> each increment should demonstrate a <strong>complete path</strong> (input → processing → persistence → feedback) across the <strong>parts of the map that matter for that slice</strong>, even if some steps are manual or stubbed.</li>
-<li><strong>Marketable names:</strong> increment titles describe <strong>user-visible or business capability</strong>, not “Phase 2,” “API layer,” or “database.”</li>
-<li><strong>Risk early:</strong> early increments should <strong>validate</strong> risky integrations, performance, deployment, or unfamiliar stacks with <strong>real</strong> end-to-end paths where possible—not defer risk behind mocks.</li>
-<li><strong>Quality trade-offs:</strong> the <strong>first</strong> slice may use manual processes, hard-coded data, minimal validation, or thin UX; <strong>later</strong> increments deepen automation, rules, and experience—name increments so that progression is obvious.</li>
-<li><strong>Spine discipline:</strong> do not pack alternates, nice-to-haves, or deep error paths into the <strong>mandatory</strong> spine order; mark optional work appropriately on the map.</li>
-<li><strong>Domain emphasis (Markdown):</strong> in `.md` outputs, use <em>italics</em> for domain-significant terms (<em>Title Case</em> for multi-word concepts)—same habit as <strong>abd-acceptance-criteria</strong>.</li>
-</ul></div>
+<div class="rule-prose"><pre>Thin slicing — incremental backlog — plain text template
+(Thin-slicing / incremental backlog — matches thin-slicing.md.)
+
+Use the SAME increment/story coverage as thin-slicing.md; this file is plain text only.
+
+Product: &lt;optional&gt;
+
+Spine vs optional: mandatory core flow vs alternates/enhancements/error depth — only spine stories belong in the smallest slice unless you annotate.
+
+Increment 1: &lt;marketable outcome name&gt;
+ Outcome: &lt;one line&gt;
+  Slicing notes: &lt;optional&gt;
+  Stories:
+    - &lt;verb-noun story&gt;
+    - &lt;story&gt;
+
+Increment 2: &lt;marketable outcome name&gt;
+  Outcome:
+  Slicing notes:
+  Stories:
+    - &lt;story&gt;
+    - &lt;story&gt;
+
+---
+Template reference only — do not copy the following into generated project files:
+- Vertical end-to-end slices, not horizontal epic-complete layers.
+- Business-value increment names; risk and integration proven early.
+- Quality ramps: manual/stub/minimal first, then automation and depth.
+- Optional vs spine: map/markers must reflect optional work, not fake sequencing.
+- In paired .md files, *italics* for domain terms; .txt stays markdown-free.
+</pre></div>
 
 </div>
 </div>

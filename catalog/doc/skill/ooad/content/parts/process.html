@@ -289,9 +289,20 @@ code {
   border: 1px solid var(--border-muted);
   box-shadow: inset 0 0 0 1px rgba(255,122,0,0.12);
 }
+.site-home-link {
+  flex-shrink: 0;
+  display: block;
+  line-height: 0;
+  opacity: 0.9;
+  transition: opacity 0.15s;
+}
+.site-home-link:hover { opacity: 1; }
 .header-text { flex: 1; min-width: 200px; }
 .brand { font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin: 0 0 4px; }
 .brand strong { color: var(--orange); }
+.brand-row { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
+.brand-row .brand { margin: 0; }
+.brand-row .cap-badge { margin: 0; }
 h1 { margin: 0; font-size: 2rem; font-weight: 700; line-height: 1.15; }
 .tagline { margin: 8px 0 0; font-size: 1.05rem; color: var(--muted); max-width: 52rem; line-height: 1.55; }
 .panel-body { padding: 28px 22px 36px; }
@@ -798,13 +809,9 @@ h2:first-child { margin-top: 0; }
 <div class="panel" role="main">
 
 <header class="panel-header entry-detail-header">
-  <div class="header-icon">
-    <svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:block;border-radius:6px;">
-      <rect width="52" height="52" rx="8" fill="#0e0e10"/>
-      <path d="M16 14h20a2 2 0 0 1 2 2v20a2 2 0 0 1-2 2H16a2 2 0 0 1-2-2V16a2 2 0 0 1 2-2z" stroke="#FF7A00" stroke-width="1.5" fill="rgba(255,122,0,0.06)"/>
-      <path d="M20 22h12M20 26h9M20 30h12" stroke="#FF7A00" stroke-width="1.5" stroke-linecap="round"/>
-    </svg>
-  </div>
+  <a href="https://www.abd-works.com/" class="site-home-link" title="Back to abd-works">
+    <img src="/commons/images/abd-logo.png" width="48" height="48" alt="Agile by Design" style="display:block;border-radius:6px;flex-shrink:0;" />
+  </a>
   <div class="header-text">
     <p class="brand"><strong>Agile by Design</strong> &middot; catalog</p>
     <a class="back-link" href="../../../../../skill/ooad.html">← abd-ooad</a>
@@ -833,15 +840,15 @@ h2:first-child { margin-top: 0; }
 <hr>
 <h2>Stage 0 — Orient</h2>
 <p><strong>Purpose:</strong> Confirm workspace configuration; scan source material for anchors, tensions, and module boundaries.</p>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>#</th><th>Phase ID</th><th>Description</th></tr></thead><tbody><tr><td>0a</td><td>`workspace-and-config`</td><td>Set `skill_path`, `active_skill_workspace`, confirm `skill-config.json`</td></tr><tr><td>0b</td><td>`domain-scan`</td><td>Scan source, identify anchors and tensions, sketch initial module boundaries, seed `term-registry.md`</td></tr></tbody></table></div>
+<div class="md-table-wrap"><table class="md-table"><thead><tr><th>#</th><th>Phase ID</th><th>Description</th></tr></thead><tbody><tr><td>0a</td><td>workspace-and-config`</td><td>Set `skill_path`, `active_skill_workspace`, confirm `skill-config.json`</td></tr><tr><td>0b</td><td>domain-scan`</td><td>Scan source, identify anchors and tensions, sketch initial module boundaries, seed nbhjjjjjjjjbloterm-registry.md`</td></tr></tbody></table></div>
 <hr>
 <h2>Stage 1 — Scaffold</h2>
 <p><strong>Purpose:</strong> Settle domain language and produce named class stubs for each module slice. No structure, no DDD stereotypes — English only.</p>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>#</th><th>Phase ID</th><th>Description</th></tr></thead><tbody><tr><td>p1</td><td>`nouns-verbs-rules-and-states`</td><td>Extract nouns, verbs, rules, and states per module slice</td></tr><tr><td>p2</td><td>`candidate-classes`</td><td>Cluster nouns and verbs into named class stubs (`&lt;&lt; Kind? &gt;&gt;`)</td></tr><tr><td>p3</td><td>`thing-vs-data-about-a-thing`</td><td>For each stub: does it have identity? Entity candidate or property/VO</td></tr></tbody></table></div>
+<div class="md-table-wrap"><table class="md-table"><thead><tr><th>#</th><th>Phase ID</th><th>Description</th></tr></thead><tbody><tr><td>p1</td><td>nouns-verbs-rules-and-states`</td><td>Extract nouns, verbs, rules, and states per module slice</td></tr><tr><td>p2</td><td>candidate-classes`</td><td>Cluster nouns aond verbs into named class stubs (`&lt;&lt; Kind? &gt;&gt;`)</td></tr><tr><td>p3</td><td>thing-vs-data-about-a-thing`</td><td>For each stub: does it have identity? Entity candidate or property/VO</td></tr></tbody></table></div>
 <hr>
 <h2>Stage 2 — Model</h2>
 <p><strong>Purpose:</strong> Build full OO structure — responsibilities, properties, operations, relationships, and structural mechanisms (inherit / interface / compose). No DDD stereotypes or context seams yet.</p>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>#</th><th>Phase ID</th><th>Description</th></tr></thead><tbody><tr><td>p4</td><td>`responsibilities-and-collaborators`</td><td>CRC pass: one responsibility sentence per class, named collaborators</td></tr><tr><td>p5</td><td>`properties-methods-and-relationships`</td><td>Three-pass: properties → operations → relationships and cardinality</td></tr><tr><td>—</td><td><strong>Validator:</strong> `check-single-responsibility`</td><td>Run after p5 — does any class have more than one reason to change?</td></tr><tr><td>p6</td><td>`inherit-interface-or-compose`</td><td>For each relationship: is-a → inherit; shared contract → interface; has-a → compose</td></tr></tbody></table></div>
+<div class="md-table-wrap"><table class="md-table"><thead><tr><th>#</th><th>Phase ID</th><th>Description</th></tr></thead><tbody><tr><td>p4</td><td>responsibilities-and-collaborators</td><td>CRC pass: one responsibility sentence per class, named collaborators</td></tr><tr><td>p5</td><td>properties-methods-and-relationships</td><td>Three-pass: properties → operations → relationships and cardinality</td></tr><tr><td>—</td><td><strong>Validator:</strong> `check-single-responsibility`</td><td>Run after p5 — does any class have more than one reason to change?</td></tr><tr><td>p6</td><td>`inherit-interface-or-compose`</td><td>For each relationship: is-a → inherit; shared contract → interface; has-a → compose</td></tr></tbody></table></div>
 <hr>
 <h2>Stage 3 — DDD patterns</h2>
 <p><strong>Purpose:</strong> Apply <strong>tactical</strong> DDD (stereotypes per class) then <strong>strategic</strong> DDD (bounded contexts, aggregates, seams). <em>Classify</em> before <em>design bounded contexts</em> so aggregate and context boundaries rest on stable roles.</p>
@@ -849,7 +856,7 @@ h2:first-child { margin-top: 0; }
 <hr>
 <h2>Stage 4 — Behaviour</h2>
 <p><strong>Purpose:</strong> Define the rules and dynamic behaviour the model must enforce.</p>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>#</th><th>Phase ID</th><th>Description</th></tr></thead><tbody><tr><td>p9</td><td>`invariants`</td><td>Identify and attach domain constraints; express as guard conditions</td></tr><tr><td>p10</td><td>`state-and-lifecycle`</td><td>Full lifecycle: states, transitions, guards mapped to invariants, domain events</td></tr><tr><td>p11</td><td>`scenario-validation`</td><td>Walk real scenarios step by step; every step must map to a class and operation</td></tr></tbody></table></div>
+<div class="md-table-wrap"><table class="md-table"><thead><tr><th>#</th><th>Phase ID</th><th>Description</th></tr></thead><tbody><tr><td>p9</td><td>invariants</td><td>Identify and attach domain constraints; express as guard conditions</td></tr><tr><td>p10</td><td>state-and-lifecycle</td><td>Full lifecycle: states, transitions, guards mapped to invariants, domain events</td></tr><tr><td>p11</td><td>scenario-validation</td><td>Walk real scenarios step by step; every step must map to a class and operation</td></tr></tbody></table></div>
 <hr>
 <h2>Practices (continuous)</h2>
 <p>These are not phases or gates. They apply within every phase pass.</p>

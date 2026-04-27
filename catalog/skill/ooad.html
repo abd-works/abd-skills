@@ -289,9 +289,20 @@ code {
   border: 1px solid var(--border-muted);
   box-shadow: inset 0 0 0 1px rgba(255,122,0,0.12);
 }
+.site-home-link {
+  flex-shrink: 0;
+  display: block;
+  line-height: 0;
+  opacity: 0.9;
+  transition: opacity 0.15s;
+}
+.site-home-link:hover { opacity: 1; }
 .header-text { flex: 1; min-width: 200px; }
 .brand { font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin: 0 0 4px; }
 .brand strong { color: var(--orange); }
+.brand-row { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
+.brand-row .brand { margin: 0; }
+.brand-row .cap-badge { margin: 0; }
 h1 { margin: 0; font-size: 2rem; font-weight: 700; line-height: 1.15; }
 .tagline { margin: 8px 0 0; font-size: 1.05rem; color: var(--muted); max-width: 52rem; line-height: 1.55; }
 .panel-body { padding: 28px 22px 36px; }
@@ -798,17 +809,15 @@ h2:first-child { margin-top: 0; }
 <div class="panel" role="main">
 
 <header class="panel-header entry-detail-header">
-  <div class="header-icon">
-    <svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:block;border-radius:6px;">
-      <rect width="52" height="52" rx="8" fill="#0e0e10"/>
-      <path d="M16 14h20a2 2 0 0 1 2 2v20a2 2 0 0 1-2 2H16a2 2 0 0 1-2-2V16a2 2 0 0 1 2-2z" stroke="#FF7A00" stroke-width="1.5" fill="rgba(255,122,0,0.06)"/>
-      <path d="M20 22h12M20 26h9M20 30h12" stroke="#FF7A00" stroke-width="1.5" stroke-linecap="round"/>
-    </svg>
-  </div>
+  <a href="https://www.abd-works.com/" class="site-home-link" title="Back to abd-works">
+    <img src="/commons/images/abd-logo.png" width="48" height="48" alt="Agile by Design" style="display:block;border-radius:6px;flex-shrink:0;" />
+  </a>
   <div class="header-text">
-    <p class="brand"><strong>Agile by Design</strong> &middot; catalog</p>
+    <div class="brand-row">
+      <p class="brand"><strong>Agile by Design</strong> &middot; catalog</p>
+      <p class="cap-badge">Skill</p>
+    </div>
     <a class="back-link" href="../skills.html">← All skills</a>
-    <p class="cap-badge">Skill</p>
     <h1>abd-ooad</h1>
     <p class="tagline">Turn specs, manuals, or messy sources into OO domain models (scan → extract → refine) with Draw.io.</p>
   </div>
@@ -1046,7 +1055,7 @@ h2:first-child { margin-top: 0; }
 <li class="file-tree__file"><a class="file-tree__file-link" href="../doc/skill/ooad/runs/run-0/progress/README.html"><strong>README.md</strong></a><span class="file-meta"> → ��#   P r o g r e s s   c h e c k l i s t s   ( a b d - o o a d ) </span></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../doc/skill/ooad/runs/run-0/progress/strategy-run-checklist.html"><strong>strategy-run-checklist.md</strong></a><span class="file-meta"> → ��#   S t r a t e g y   e x e c u t i o n   �� �   M M 3 E   H e r o e s   H a n d b o o k </span></li>
 </ul></div></details></li>
-<li class="file-tree__dir"><details class="file-tree__details"><summary class="file-tree__summary"><strong>skill/</strong><span class="file-meta"> → ��- - -     n a m e :   a b d - o o a d     d e s c r i p t i o n :   &gt; -           O b j e c t - O r i e n t e d   A n a l y s i s   a n d   D e s i g n   ( O O A D )   f r o m   r a w   m a t e r i a l .     U s e   t h i s   s k i l l   w h e n e v e r  …</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
+<li class="file-tree__dir"><details class="file-tree__details"><summary class="file-tree__summary"><strong>skill/</strong><span class="file-meta"> → Folder (9 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
 <li class="file-tree__file"><a class="file-tree__file-link" href="../doc/skill/ooad/runs/run-0/skill/domain-model-guide.html"><strong>domain-model-guide.md</strong></a><span class="file-meta"> → ��#   D o m a i n   m o d e l   M a r k d o w n </span></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../doc/skill/ooad/runs/run-0/skill/domain-model-template.html"><strong>domain-model-template.md</strong></a><span class="file-meta"> → ��{ { C l a s s } }   :   { { B a s e C l a s s } } </span></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../doc/skill/ooad/runs/run-0/skill/domain-noun-verb-template.html"><strong>domain-noun-verb-template.md</strong></a><span class="file-meta"> → ��#   { { S l i c e L a b e l } } :   N o u n   V e r b   D o m a i n </span></li>
@@ -1054,7 +1063,6 @@ h2:first-child { margin-top: 0; }
 <li class="file-tree__file"><a class="file-tree__file-link" href="../doc/skill/ooad/runs/run-0/skill/domain-scan-results-template.html"><strong>domain-scan-results-template.md</strong></a><span class="file-meta"> → ��#   D o m a i n   S c a n   R e s u l t s   �� �   { { p r o j e c t _ n a m e } } </span></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../doc/skill/ooad/runs/run-0/skill/domain-scan.html"><strong>domain-scan.md</strong></a><span class="file-meta"> → ��#   D o m a i n   s c a n </span></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../doc/skill/ooad/runs/run-0/skill/process.html"><strong>process.md</strong></a><span class="file-meta"> → ��#   O O A D   P r o c e s s   �� �   P h a s e - B a s e d   W a l k t h r o u g h </span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../doc/skill/ooad/runs/run-0/skill/SKILL.html"><strong>SKILL.md</strong></a><span class="file-meta"> → ��- - - </span></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../doc/skill/ooad/runs/run-0/skill/strategy-template.html"><strong>strategy-template.md</strong></a><span class="file-meta"> → ��&lt; ! - - </span></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../doc/skill/ooad/runs/run-0/skill/term-registry-guide.html"><strong>term-registry-guide.md</strong></a><span class="file-meta"> → ��#   T e r m   R e g i s t r y </span></li>
 </ul></div></details></li>
@@ -1115,14 +1123,13 @@ h2:first-child { margin-top: 0; }
 </ul></div></details></li>
 <li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>templates/</strong><span class="file-meta"> → Authoring templates and structural skeletons.</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/ooad/templates/domain%20model%20template.drawio" target="_blank" rel="noopener noreferrer"><strong>domain model template.drawio</strong></a><span class="file-meta"> → &lt;mxfile host=&quot;Electron&quot; agent=&quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.0.3 Chrome/140.0.7339.249 Electron/38.7.0 Safari/537.36&quot; version=&quot;29.0.3&quot;&gt;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../doc/skill/ooad/templates/domain%20model%20template.html"><strong>domain model template.md</strong></a><span class="file-meta"> → ﻿## Domain model -- {{project_or_slice_name}}</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../doc/skill/ooad/templates/domain%20model%20template.html"><strong>domain model template.md</strong></a><span class="file-meta"> → Domain model</span></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../skills/ooad/templates/domain%20realization%20template.drawio" target="_blank" rel="noopener noreferrer"><strong>domain realization template.drawio</strong></a><span class="file-meta"> → &lt;mxfile host=&quot;Electron&quot; agent=&quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.0.3 Chrome/140.0.7339.249 Electron/38.7.0 Safari/537.36&quot; version=&quot;29.0.3&quot;&gt;</span></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../doc/skill/ooad/templates/domain%20walkthrough%20template.html"><strong>domain walkthrough template.md</strong></a><span class="file-meta"> → Scenario: {scenario_name}</span></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../doc/skill/ooad/templates/domain-noun-verb-template.html"><strong>domain-noun-verb-template.md</strong></a><span class="file-meta"> → {{SliceLabel}}: Noun Verb Domain</span></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../doc/skill/ooad/templates/domain-scan-results.html"><strong>domain-scan-results.md</strong></a><span class="file-meta"> → Domain Scan Results — {{project_name}}</span></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../doc/skill/ooad/templates/evidence-block-template.html"><strong>evidence-block-template.md</strong></a><span class="file-meta"> → {{EVD-ID}}</span></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../doc/skill/ooad/templates/progress-README.html"><strong>progress-README.md</strong></a><span class="file-meta"> → Progress checklists (live ticks)</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../doc/skill/ooad/templates/raw-candidates-template.html"><strong>raw-candidates-template.md</strong></a><span class="file-meta"> → {{SliceLabel}}: Raw candidate list — deprecated</span></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../doc/skill/ooad/templates/strategy-run-checklist.html"><strong>strategy-run-checklist.md</strong></a><span class="file-meta"> → Live strategy execution checklist — workspace file</span></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../doc/skill/ooad/templates/strategy.html"><strong>strategy.md</strong></a><span class="file-meta"> → OOAD STRATEGY — workspace template</span></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../doc/skill/ooad/templates/terms-template.html"><strong>terms-template.md</strong></a><span class="file-meta"> → Term Registry — source of truth for all term data in this project.</span></li>

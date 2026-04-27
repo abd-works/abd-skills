@@ -289,9 +289,20 @@ code {
   border: 1px solid var(--border-muted);
   box-shadow: inset 0 0 0 1px rgba(255,122,0,0.12);
 }
+.site-home-link {
+  flex-shrink: 0;
+  display: block;
+  line-height: 0;
+  opacity: 0.9;
+  transition: opacity 0.15s;
+}
+.site-home-link:hover { opacity: 1; }
 .header-text { flex: 1; min-width: 200px; }
 .brand { font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin: 0 0 4px; }
 .brand strong { color: var(--orange); }
+.brand-row { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
+.brand-row .brand { margin: 0; }
+.brand-row .cap-badge { margin: 0; }
 h1 { margin: 0; font-size: 2rem; font-weight: 700; line-height: 1.15; }
 .tagline { margin: 8px 0 0; font-size: 1.05rem; color: var(--muted); max-width: 52rem; line-height: 1.55; }
 .panel-body { padding: 28px 22px 36px; }
@@ -798,13 +809,9 @@ h2:first-child { margin-top: 0; }
 <div class="panel" role="main">
 
 <header class="panel-header entry-detail-header">
-  <div class="header-icon">
-    <svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:block;border-radius:6px;">
-      <rect width="52" height="52" rx="8" fill="#0e0e10"/>
-      <path d="M16 14h20a2 2 0 0 1 2 2v20a2 2 0 0 1-2 2H16a2 2 0 0 1-2-2V16a2 2 0 0 1 2-2z" stroke="#FF7A00" stroke-width="1.5" fill="rgba(255,122,0,0.06)"/>
-      <path d="M20 22h12M20 26h9M20 30h12" stroke="#FF7A00" stroke-width="1.5" stroke-linecap="round"/>
-    </svg>
-  </div>
+  <a href="https://www.abd-works.com/" class="site-home-link" title="Back to abd-works">
+    <img src="/commons/images/abd-logo.png" width="48" height="48" alt="Agile by Design" style="display:block;border-radius:6px;flex-shrink:0;" />
+  </a>
   <div class="header-text">
     <p class="brand"><strong>Agile by Design</strong> &middot; catalog</p>
     <a class="back-link" href="../../../../skill/execute_using_rules.html">← execute-rules</a>
@@ -839,8 +846,17 @@ h2:first-child { margin-top: 0; }
 </ul>
 <hr>
 <h2>One entry per problem — fields</h2>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Field</th><th>Content</th></tr></thead><tbody><tr><td><strong>Rule</strong></td><td>Rule id or `rules/&lt;file&gt;.md` name</td></tr><tr><td><strong>Affects</strong></td><td>Scope where this correction applies, as a short mapping: `stage:`, `story:`, `rule:`, optional `slice:`, `run:`, `role:`. At least one value is required. Use `stage: <em>` / `story: </em>` for global. This is what the delivery lead filters on before surfacing entries to a team member.</td></tr><tr><td><strong>DO / DO NOT</strong></td><td>The rule as it should be stated</td></tr><tr><td><strong>Example (wrong)</strong></td><td>What the output actually did</td></tr><tr><td><strong>Example (correct)</strong></td><td>What it should have done — fill <strong>only after</strong> the right output is confirmed</td></tr><tr><td><strong>Scanner or validator</strong></td><td>If applicable: <strong>`scanner:`</strong> in rule frontmatter, <strong>`scanners/...-scanner.py`</strong>, or host <strong>`build.build_pipeline`</strong> step</td></tr><tr><td><strong>Likely source</strong></td><td>One of: `prompt gap` · `rule not read` · `edge case` · `automation gap`</td></tr></tbody></table></div>
+<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Field</th><th>Content</th></tr></thead><tbody><tr><td><strong>Rule</strong></td><td>Rule id or `rules/&lt;file&gt;.md` name</td></tr><tr><td><strong>Affects</strong></td><td>Scope where this correction applies, as a short mapping: `stage:`, `story:`, `rule:`, optional `slice:`, `run:`, `role:`. At least one value is required. Use `stage: <em>` / `story: </em>` for global. This is what the delivery lead filters on before surfacing entries to a team member.</td></tr><tr><td><strong>DO / DO NOT</strong></td><td><strong>Forward-looking:</strong> the behavior to apply from now on (prefer clear <strong>DO</strong>). Put the historical mistake only in <strong>Example (wrong)</strong> — do not let this field be mostly &quot;do not do what we did before.&quot;</td></tr><tr><td><strong>Example (wrong)</strong></td><td>What the output actually did</td></tr><tr><td><strong>Example (correct)</strong></td><td>What it should have done — fill <strong>only after</strong> the right output is confirmed</td></tr><tr><td><strong>Scanner or validator</strong></td><td>If applicable: <strong>`scanner:`</strong> in rule frontmatter, <strong>`scanners/...-scanner.py`</strong>, or host <strong>`build.build_pipeline`</strong> step</td></tr><tr><td><strong>Likely source</strong></td><td>One of: `prompt gap` · `rule not read` · `edge case` · `automation gap`</td></tr></tbody></table></div>
 <p><strong>Duplicate violations:</strong> If the <strong>same guidance</strong> was violated again, add another <strong>Example (wrong)</strong> under the <strong>same entry</strong> instead of opening a new entry.</p>
+<hr>
+<h2>Phrasing (altered behavior, not the negative case)</h2>
+<ul>
+<li><strong>DO / DO NOT</strong> and any text you later promote into <strong>`rules/`</strong> or <strong>`SKILL.md`</strong> should read like <strong>maintainable guidance</strong>: what the next run should <strong>do</strong> or <strong>check</strong>, tied to artifacts when possible.</li>
+<li><strong>Example (wrong)</strong> is the right place for what went wrong once. Avoid encoding that failure as the <strong>primary</strong> normative line (e.g. filling <strong>DO / DO NOT</strong> with &quot;never open with a paragraph about workshops&quot; instead of &quot;open <strong>## DO</strong> with scope: `impact-map.md` and `impact-map.txt`&quot;).</li>
+<li><strong>Example (correct)</strong> should mirror that positive shape once the output is fixed.</li>
+</ul>
+<p><strong>Wrong vs right (phrasing):</strong></p>
+<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Wrong</th><th>Right</th></tr></thead><tbody><tr><td><strong>DO NOT:</strong> Do not paste meta saying &quot;this is not facilitation.&quot;</td><td><strong>DO:</strong> First normative heading is <strong>## DO</strong>; bullets name the file and checks.</td></tr><tr><td><strong>DO NOT:</strong> Stop writing rules about process.</td><td><strong>DO:</strong> Each <strong>DO</strong> is decidable from the named artifact (see target authoring skill).</td></tr></tbody></table></div>
 <p><strong>Scope (`Affects`) — how it&#x27;s used:</strong></p>
 <ul>
 <li>The <strong>delivery lead</strong> reads the log before every run and handoff. It surfaces to the active <strong>team member</strong> only entries whose <strong>Affects</strong> intersects the current stage, current run scope (slice / story), or the role being bootstrapped.</li>
@@ -904,7 +920,7 @@ Skill / phase: &lt;what was being reviewed&gt;
 <p>When the regenerated output is right: set <strong>Status</strong> to <strong>confirmed</strong>, fill <strong>Example (correct)</strong>, then you may promote fixes in <strong>item 4 — fix the skill</strong> (sources + <strong>`bundle_rules_into_skill_md.py`</strong> / full validation).</p>
 <hr>
 <h2>Wrong vs right (process)</h2>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Wrong</th><th>Right</th></tr></thead><tbody><tr><td>Log a problem and <strong>immediately</strong> edit <strong>skill sources</strong> or <strong>`rules/`</strong> before output is validated</td><td>Log → re-generate → iterate on <strong>output</strong> until correct → then fill <strong>Example (correct)</strong></td></tr><tr><td>Patch <strong>Bundled rules</strong> or <strong>`AGENTS.md`</strong> to “pass” review</td><td>Edit <strong>`rules/`</strong> (and other sources as needed), run <strong>`bundle_rules_into_skill_md.py`</strong>; use the target repo’s own merge only if it maintains <strong>`AGENTS.md`</strong> / <strong>`built/`</strong></td></tr></tbody></table></div></div>
+<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Wrong</th><th>Right</th></tr></thead><tbody><tr><td>Log a problem and <strong>immediately</strong> edit <strong>skill sources</strong> or <strong>`rules/`</strong> before output is validated</td><td>Log → re-generate → iterate on <strong>output</strong> until correct → then fill <strong>Example (correct)</strong></td></tr><tr><td>Patch <strong>Bundled rules</strong> or <strong>`AGENTS.md`</strong> to “pass” review</td><td>Edit <strong>`rules/`</strong> (and other sources as needed), run <strong>`bundle_rules_into_skill_md.py`</strong>; use the target repo’s own merge only if it maintains <strong>`AGENTS.md`</strong> / <strong>`built/`</strong></td></tr><tr><td><strong>DO / DO NOT</strong> repeats the mistake as the main instruction</td><td><strong>DO / DO NOT</strong> states <strong>altered behavior</strong>; mistake stays in <strong>Example (wrong)</strong> only</td></tr></tbody></table></div></div>
 
 </div>
 </div>

@@ -15,6 +15,9 @@ each row gives a **short description** and where to open the source.
 | **abd-clean-code** | Production code that matches story behavior: clean structure, domain language, scanner-backed quality bars (Python/JS). | [SKILL.md](../skills/abd-clean-code/SKILL.md) |
 | **abd-delivery-planning** | Delivery plans only: context, risks, strategies, staged runs and checkpoints (not stories, tests, or code). | [SKILL.md](../skills/abd-delivery-planning/SKILL.md) |
 | **abd-delivery-war-room** | Experimental file-based war room for handoffs between abd-delivery-lead and abd-team-member: delivery-war-room/ under the engagement workspace with INSTRUCTIONS.md, manifest.md, and slot-NN-start.md / slot-NN-finished.md. Not wired into the delivery-lead or team-member agents until re-integrated … | [SKILL.md](../skills/abd-delivery-war-room/SKILL.md) |
+| **abd-impact-mapping** | Strategic impact maps: hierarchy view, ASCII wall map, and hypothesis sentences from discovery sources. | [SKILL.md](../skills/abd-impact-mapping/SKILL.md) |
+| **abd-opportunity-canvas** | Frame an opportunity, align on vision, and make assumptions and validation explicit before committing build. | [SKILL.md](../skills/abd-opportunity-canvas/SKILL.md) |
+| **abd-simple-validated-learning** | Turn surfaced assumptions into hypotheses, prioritise small tests, and run Plan / Validate / Learn before full build. | [SKILL.md](../skills/abd-simple-validated-learning/SKILL.md) |
 | **abd-specification-by-example** | Given/When/Then scenarios with real domain values; plain or outline (data tables) templates. | [SKILL.md](../skills/abd-specification-by-example/SKILL.md) |
 | **abd-story-mapping** | Patton-style story maps (epics, stories, verb-noun naming); writes story-map templates from sources. | [SKILL.md](../skills/abd-story-mapping/SKILL.md) |
 | **abd-thin-slicing** | Thin-sliced MVIs and backlog order from a story map; writes thin-slicing templates. | [SKILL.md](../skills/abd-thin-slicing/SKILL.md) |
@@ -154,6 +157,75 @@ Reduce repeated paste handoffs between orchestrator and team-member threads by k
 **Repository layout:**
 
 - [SKILL.md](doc/skill/abd-delivery-war-room/SKILL.html) — name: abd-delivery-war-room
+
+### abd-impact-mapping
+
+- **Directory:** [`skills/abd-impact-mapping/`](../skills/abd-impact-mapping/)
+
+**Summary:**
+
+Strategic impact maps: hierarchy view, ASCII wall map, and hypothesis sentences from discovery sources.
+
+**Description (from Purpose / body):**
+
+Impact mapping is a strategic discovery technique that links broader goals to finer-grained goals, then to actors, their observable behaviour changes, and deliverable options (often epics or features) that could create those behaviours. It keeps discussion outcome-first: you see why an option might matter before debating build order.
+
+The map answers four questions in order (see Core concepts): Why are we doing this? Who can help or hinder? How should behaviour change? What could we do to support that change? Good maps surface assumptions, limit scope creep by tying ideas to impacts, and support shared ownership when business and delivery build them together.
+
+This skill defines the ideas behind a sound map, how to structure one, and what good looks like. Workspace layout, CLIs, and agent wiring belong in other skills.
+
+**Repository layout:**
+
+- **[inputs/](../skills/abd-impact-mapping/inputs)** — Folder (2 items).
+- **[manual/](../skills/abd-impact-mapping/manual)** — Folder (0 items).
+- **[rules/](skill/abd-impact-mapping.html#entry-contents)** — Practice rules (DO/DON'T) and constraints used with scanners.
+- **[templates/](../skills/abd-impact-mapping/templates)** — Authoring templates and structural skeletons.
+- [README.md](doc/skill/abd-impact-mapping/README.html) — catalogue_summary: "Impact maps: goal, actors, behaviour impacts, and deliverable options grounded in discovery."
+- [SKILL.md](doc/skill/abd-impact-mapping/SKILL.html) — name: abd-impact-mapping
+
+### abd-opportunity-canvas
+
+- **Directory:** [`skills/abd-opportunity-canvas/`](../skills/abd-opportunity-canvas/)
+
+**Summary:**
+
+Frame an opportunity, align on vision, and make assumptions and validation explicit before committing build.
+
+**Description (from Purpose / body):**
+
+This skill exists so you do not start "building a solution" while people are thinking about a different problem, a different customer, or a different definition of success. 
+
+This skill makes an opportunity explicit — who it is for, why the organisation should care, what you might build or buy, how you would know it worked, and what the effort looks like. You finish with enough alignment that downstream build and delivery work is based on a shared model. This skill captures this alignment as an opportunity model, in the form of a opportunity canvas.
+
+Every part of the canvas is also a candidate assumption — beliefs about customers, value, and capability that teams often make explicit, turn into falsifiable statements, and run through a lightweight validation path outside this skill (see abd-simple-validated-learning). This skill’s job is to surface that uncertainty in the model; who …
+
+**Repository layout:**
+
+- **[rules/](skill/abd-opportunity-canvas.html#entry-contents)** — Practice rules (DO/DON'T) and constraints used with scanners.
+- **[templates/](../skills/abd-opportunity-canvas/templates)** — Authoring templates and structural skeletons.
+- [SKILL.md](doc/skill/abd-opportunity-canvas/SKILL.html) — name: abd-opportunity-canvas
+
+### abd-simple-validated-learning
+
+- **Directory:** [`skills/abd-simple-validated-learning/`](../skills/abd-simple-validated-learning/)
+
+**Summary:**
+
+Turn surfaced assumptions into hypotheses, prioritise small tests, and run Plan / Validate / Learn before full build.
+
+**Description (from Purpose / body):**
+
+Opportunities, ideas, and initiatives often carry many unverified assumptions — about customers, value, feasibility, and economics — that the organisation has not yet checked. This skill is for surfacing those assumptions explicitly and working through them iteratively before the organisation treats them as fact or commits to a full build. The agent (or facilitator) mines the supplied context for assumptions, rewrites them as falsifiable hypotheses, prioritises them into a validation backlog, and structures each item to move through Plan → Validate → Learn.
+
+The skill emphasises up-front discovery and validation:research, analysis, assessing current and target state (eg operations, finances, systems) validation with SMEs, deep dives, quick prototypes, cohort tests, and other relatively cheap validation activities. A longer build–measure–learn loop belongs in delivery practices once the …
+
+**Repository layout:**
+
+- **[inputs/](../skills/abd-simple-validated-learning/inputs)** — Folder (1 items).
+- **[rules/](skill/abd-simple-validated-learning.html#entry-contents)** — Practice rules (DO/DON'T) and constraints used with scanners.
+- **[templates/](../skills/abd-simple-validated-learning/templates)** — Authoring templates and structural skeletons.
+- [README.md](doc/skill/abd-simple-validated-learning/README.html) — catalogue_summary: >-
+- [SKILL.md](doc/skill/abd-simple-validated-learning/SKILL.html) — name: abd-simple-validated-learning
 
 ### abd-specification-by-example
 
@@ -543,6 +615,7 @@ Orchestrate using the agent-local packages in skills/ under this agent (same ide
 
 **Repository layout:**
 
+- **[progress/](../agents/abd-practice-skill-builder/progress)** — Folder (1 items).
 - **[rules/](agent/abd-practice-skill-builder.html#entry-contents)** — Practice rules (DO/DON'T) and constraints used with scanners.
 - **[scripts/](../agents/abd-practice-skill-builder/scripts)** — Build, catalogue, validation, or packaging automation.
 - **[skills/](../agents/abd-practice-skill-builder/skills)** — Nested skills shipped inside an agent package.
