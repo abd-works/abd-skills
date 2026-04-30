@@ -11,7 +11,6 @@ description: >-
   properties, operations, or cross-context relationships. Use when the user asks
   to identify and settle key abstractions before noun-verb or class-level work.
 ---
-
 # key-abstraction-identification
 
 ## Purpose
@@ -540,7 +539,395 @@ If the file is thin, vague, or leaks into class-level commitments, **improve in 
 ---
 
 <!-- execute_rules:bundle_rules:begin -->
-<!-- No rules/*.md for this skill yet. If rules are added, bundle with:
-     python skills/execute_using_rules/scripts/bundle_rules_into_skill_md.py --skill-root <this-skill-dir>
--->
+### Rule: Core terms disjoint within module
+
+Within a single module (or the whole flat file), every Core-terms phrase must be attached to exactly one Key Abstraction. No phrase should appear under two different abstractions in the same scope. Passing means every bullet in every Core terms list is unique within its module. Failing means a phrase is duplicated across two or more Key Abstractions.
+
+#### DO
+
+- Attach each Core-terms phrase to the single Key Abstraction whose extracts primarily speak about that concept.
+
+  **Example (pass):** `reconciliation window` appears only under `Funds Transfer`, not also under `Wire Transfer`.
+
+- When two abstractions share vocabulary, assign the phrase to the one with stronger source grounding and note the overlap in a `Tension:` line on the other.
+
+  **Example (pass):** `Tension: "KYC tier" also appears in Funds Transfer context — assigned here because cap rules use it more directly.`
+
+#### DON'T
+
+- List the same phrase under two Key Abstractions in the same module.
+
+  **Example (fail):**
+  ```
+  ### Key Abstraction: Funds Transfer
+  Core terms:
+  - reconciliation window
+
+  ### Key Abstraction: Settlement
+  Core terms:
+  - reconciliation window    ← duplicate
+  ```
+
+- Use slightly different wording of the same concept to bypass disjointness (e.g., "reconciliation window" vs "recon window" for the same thing).
+
+  **Example (fail):** Two entries that are clearly the same phrase with cosmetic variation, placed under different abstractions.
+
+### Rule: Extract format compliance
+
+Every `**Extract — …**` block must carry the required header fields: `Source:`, `Locator:`, `Extract: whole|partial`, and `Part:` when the extract is partial. Passing means every extract block has a complete, well-formed header. Failing means a header field is missing or `Extract: partial` appears without a `Part:` line.
+
+#### DO
+
+- Include `Source:` on every extract pointing back one hop (partition file or corpus locator).
+
+  **Example (pass):**
+  ```
+  **Extract — Funds Transfer (overview)**
+  Source: module-partitioning.md — Module: [Funds Transfer] — "Funds Transfer (overview)"
+  Locator: Ch.3 §Funds Transfer
+  Extract: whole
+  ```
+
+- Include `Locator:` with a precise locator (chapter, page, lines, section heading).
+
+  **Example (pass):** `Locator: Ch.5 §Wire Transfer — bullet list of limits`
+
+- Set `Extract:` to exactly `whole` or `partial` (no other values).
+
+  **Example (pass):** `Extract: partial`
+
+- When `Extract: partial`, always include a `Part:` line naming the slice in source-grounded terms.
+
+  **Example (pass):** `Part: Sentences that define the generic transfer mechanism — before the wire/KYC paragraph.`
+
+#### DON'T
+
+- Omit the `Source:` line from an extract header.
+
+  **Example (fail):** An extract block with title, Locator, and Extract type but no Source line.
+
+- Use vague `Part:` descriptions like "the relevant bit" or "see above".
+
+  **Example (fail):** `Part: the relevant section` — not source-grounded.
+
+- Set `Extract:` to a value other than `whole` or `partial`.
+
+  **Example (fail):** `Extract: summary` or `Extract: paraphrased`.
+
+- Omit `Part:` when `Extract: partial` is set.
+
+  **Example (fail):** `Extract: partial` with no `Part:` line following it.
+
+### Rule: Front matter is thin
+
+The front matter (everything before the first `## Module:` or `### Key Abstraction:` heading) must contain only source pointer(s) and counts (modules, key abstractions). No per-module descriptions, no per-abstraction summaries, no intent statements, and no term lists belong in the front matter. Passing means the front matter is a few metadata lines. Failing means it contains teaching content that belongs under abstraction headings.
+
+#### DO
+
+- Keep front matter to: H1 title, `Source:` line(s), and counts (`Modules: N`, `Key Abstractions: K`).
+
+  **Example (pass):**
+  ```
+  # Key Abstractions — Payments Domain
+
+  Source: module-partitioning.md at abd-ooad/module-partitioning.md
+  Modules: 3     Key Abstractions: 8
+
+  ---
+  ```
+
+- Place all abstraction-specific information (intent, terms, extracts) under the appropriate `### Key Abstraction:` heading.
+
+  **Example (pass):** Front matter is 5 lines; first module starts at line 7.
+
+#### DON'T
+
+- Put per-abstraction summaries, intent statements, or term listings in the front matter.
+
+  **Example (fail):**
+  ```
+  # Key Abstractions — Payments Domain
+
+  Source: ...
+  Modules: 3     Key Abstractions: 8
+
+  Key abstractions identified:
+  - Funds Transfer: moves money between accounts
+  - Wire Transfer: variant with caps
+  - Settlement: end-of-day reconciliation
+  ```
+  (The summary list belongs under module/abstraction headings, not here.)
+
+- Include module-level scope notes or descriptions above the first `## Module:` heading.
+
+  **Example (fail):** Two paragraphs explaining the domain before the first module heading — that belongs in the module's optional one-liner or in an external document.
+
+### Rule: No class-level commitments
+
+Key Abstractions are deliberately uncommitted on every modeling axis except name and intent. The file must contain no stereotypes, typed properties, method signatures, cardinality arrows, or other class-level notation. Passing means the file stays at the identification rung. Failing means class-level decisions have leaked into the file.
+
+#### DO
+
+- Use only free-form prose in the Shape hint line — observations like "taxonomy under Funds Transfer" or "value-like — defined entirely by content".
+
+  **Example (pass):** `Shape hint: Taxonomy under Funds Transfer — the module treats it as a specialization with its own cap vocabulary.`
+
+- Record modeling uncertainty as a `Tension:` line, not as a class decision.
+
+  **Example (pass):** `Tension: May settle as a sub-type or a kind-tag on Funds Transfer.`
+
+- Keep Core terms as plain noun phrases — no types, no annotations.
+
+  **Example (pass):**
+  ```
+  - per-transaction cap
+  - daily cap
+  - beneficiary-jurisdiction cap
+  ```
+
+#### DON'T
+
+- Use UML stereotype tags like `<<Entity>>`, `<<ValueObject>>`, `<<Service>>`, `<<Event>>`, `<<Aggregate>>`.
+
+  **Example (fail):** `Shape hint: <<Entity>> with lifecycle states.`
+
+- Add typed properties like `amount: Decimal`, `status: String`, or `transferId: UUID`.
+
+  **Example (fail):** Core terms list includes `transferId: UUID` or `amount: Money`.
+
+- Include method signatures like `execute(from, to, amount) -> Result`.
+
+  **Example (fail):** `Operations: validate(amount) -> bool, execute() -> TransferResult`
+
+- Use cardinality notation like `1..*`, `0..1`, or relationship arrows.
+
+  **Example (fail):** `Funds Transfer 1..* --> Account` in any section of the file.
+
+- Commit to super/sub hierarchies (Entity vs Value Object, parent/child splits).
+
+  **Example (fail):** `Wire Transfer <<extends>> Funds Transfer` — this belongs to a later skill.
+
+### Rule: Partial extracts have Part line
+
+Every extract marked `Extract: partial` must have a corresponding `Part:` line that names the slice in source-grounded terms. Conversely, `Extract: whole` must not have a `Part:` line. This ensures reviewers can reassemble sliced upstream extracts. Passing means the pairing is correct on every extract. Failing means a partial without `Part:` or a whole with an unnecessary `Part:`.
+
+#### DO
+
+- When `Extract: partial`, include `Part:` naming the specific slice (paragraph range, bullet list, sentence group).
+
+  **Example (pass):**
+  ```
+  Extract: partial
+  Part: Sentences that define the generic transfer mechanism — before the wire/KYC paragraph.
+  ```
+
+- Name the slice in source-grounded terms a reviewer can locate in the upstream extract.
+
+  **Example (pass):** `Part: The three-bullet list under "Outbound Wire Limits".`
+
+- Omit `Part:` when `Extract: whole` (the entire passage lives here).
+
+  **Example (pass):**
+  ```
+  Extract: whole
+  ```
+  (No `Part:` line.)
+
+#### DON'T
+
+- Set `Extract: partial` without a `Part:` line.
+
+  **Example (fail):**
+  ```
+  Extract: partial
+  ```
+  (Missing `Part:` — reviewer cannot identify which slice this is.)
+
+- Add a `Part:` line to a `Extract: whole` block (contradicts the "whole" claim).
+
+  **Example (fail):**
+  ```
+  Extract: whole
+  Part: First two paragraphs only.
+  ```
+  (If it is only part of the passage, it should be `Extract: partial`.)
+
+### Rule: Required fields per abstraction
+
+Every `### Key Abstraction:` section must carry all four required fields — **Intent**, **Core terms** (bullet list), **Shape hint**, and at least one verbatim extract — so the next skill in the pipeline has a complete, self-contained unit to work from. Passing means every abstraction has all four present and non-empty. Failing means any abstraction is missing a field or has a placeholder-only stub.
+
+#### DO
+
+- Include an `Intent:` line with a complete, source-grounded sentence for every Key Abstraction.
+
+  **Example (pass):** `Intent: The atomic operation that moves a specified amount from one account to another.`
+
+- Include a `Core terms` header followed by at least one `- phrase` bullet.
+
+  **Example (pass):**
+  ```
+  Core terms (absorbed from this module's Core terms list):
+  - funds transfer
+  - source account / destination account
+  ```
+
+- Include a `Shape hint:` line with free-form prose (not a `<<Tag>>`).
+
+  **Example (pass):** `Shape hint: Both noun-shaped and verb-shaped — a thing-with-state and a named procedure.`
+
+- Include at least one `**Extract — …**` block with a verbatim ```` ```source ```` body.
+
+  **Example (pass):** An abstraction with two extracts, one whole and one partial.
+
+#### DON'T
+
+- Leave an abstraction with no `Intent:` line or only `Intent: …` / `Intent: {{placeholder}}`.
+
+  **Example (fail):** A `### Key Abstraction: Wire Transfer` section with no `Intent:` line at all.
+
+- Omit `Core terms` entirely or have zero bullet items under the header.
+
+  **Example (fail):** `Core terms:` followed by blank lines and then the next heading.
+
+- Skip the `Shape hint:` or use a stereotype tag instead of prose.
+
+  **Example (fail):** `Shape hint: <<Entity>>` — tags are not allowed at this rung.
+
+- Have a Key Abstraction with zero `**Extract — …**` blocks.
+
+  **Example (fail):** Name + Intent + Core terms + Shape hint present, but no source extracts at all.
+
+### Rule: Resolutions before abstractions
+
+Every `## Module:` section (or the flat file when no modules exist) must have a `### Resolutions` block before the first `### Key Abstraction:`. This documents the settle pass — merges, splits, promotions, demotions, and closure of identification-phase tensions. Passing means `### Resolutions` appears and precedes the first abstraction. Failing means it is missing or appears after.
+
+#### DO
+
+- Place `### Resolutions` immediately after the module heading (and optional one-liner) but before the first `### Key Abstraction:`.
+
+  **Example (pass):**
+  ```
+  ## Module: [Funds Transfer]
+
+  ### Resolutions
+
+  - **Merge / Split / Promotion / Demotion:** None.
+  - **Wire Transfer vs Funds Transfer:** Closed — both retained. Evidence: …
+
+  ### Key Abstraction: Funds Transfer
+  ```
+
+- In flat files (no `## Module:`), place `### Resolutions` under the H1 / front matter, before the first `### Key Abstraction:`.
+
+  **Example (pass):** `### Resolutions` at line 8, first `### Key Abstraction:` at line 15.
+
+- State explicitly when no structural moves occurred: "None" or "No merges, splits, promotions, or demotions."
+
+  **Example (pass):** `- **Merge / Split / Promotion / Demotion:** None (two abstractions retained as-is).`
+
+#### DON'T
+
+- Omit `### Resolutions` entirely from a module section.
+
+  **Example (fail):** `## Module: [Payments]` followed directly by `### Key Abstraction: Payment` with no Resolutions block between them.
+
+- Place `### Resolutions` after one or more `### Key Abstraction:` sections.
+
+  **Example (fail):** Two Key Abstractions listed, then `### Resolutions` appears at the bottom of the module.
+
+- Leave draft `Tension:` lines unaddressed — every tension from identification must be closed in Resolutions or listed under `### Deferred tensions`.
+
+  **Example (fail):** `Tension: Possible merge with Settlement` on a Key Abstraction but no mention of it in `### Resolutions` or `### Deferred tensions`.
+
+### Rule: Source-grounded names for Key Abstractions
+
+Every Key Abstraction name must be the noun phrase the source itself uses for the unit — not an invented generalization, compound glue word, or source-structure label. Passing means names come directly from the source vocabulary. Failing means names are invented, compound, or structural.
+
+#### DO
+
+- Use the noun phrase the source repeats when discussing this unit, capitalized once: `Funds Transfer`, `Settlement Window`, `Loyalty Point`.
+
+  **Example (pass):** The source says "A funds transfer moves…" repeatedly — name it `Funds Transfer`.
+
+- When the source uses multiple phrases for the same unit, pick one and absorb the others into Core terms.
+
+  **Example (pass):** Source uses "wire transfer" and "outbound wire" — name is `Wire Transfer`; "outbound wire" goes into Core terms.
+
+- Keep names short and singular where possible.
+
+  **Example (pass):** `Settlement Window` not `Settlement Windows and Their Reconciliation Mechanics`.
+
+#### DON'T
+
+- Invent generalizing names the source never uses.
+
+  **Example (fail):** `### Key Abstraction: Financial Instrument` — the source never says "financial instrument"; it says "funds transfer" and "wire transfer".
+
+- Use compound glue names that merge two units or name a module inside an abstraction.
+
+  **Example (fail):** `### Key Abstraction: Funds Transfer and Settlement` or `### Key Abstraction: Core Payment Mechanisms`.
+
+- Use source-structure labels as names.
+
+  **Example (fail):** `### Key Abstraction: Section 3.2` or `### Key Abstraction: Ch. 1 subsection 4`.
+
+- Name after a quality or adjective rather than the thing itself.
+
+  **Example (fail):** `### Key Abstraction: Compliance` when the source actually orbits `Wire Transfer Caps`.
+
+### Rule: Text-orbits test for every Key Abstraction
+
+Every Key Abstraction must pass the text-orbits test: the source speaks about it as a named unit with its own slice of vocabulary and its own sentences. If removing the candidate and folding its terms into another abstraction would not lose meaning the source actually carries, the candidate should be absorbed — not promoted to its own heading. Passing means every abstraction stands on its own vocabulary cluster. Failing means an abstraction exists that could be folded into another without losing source-carried meaning.
+
+#### DO
+
+- Confirm each abstraction has vocabulary the source treats as belonging to that unit and not to another.
+
+  **Example (pass):** Wire Transfer has `per-transaction cap`, `daily cap`, `beneficiary-jurisdiction cap` — terms the source discusses in sentences about Wire Transfer specifically, not about Funds Transfer generically.
+
+- Fold weak candidates (rules, properties, or clusters that hang off another unit) into the parent abstraction and record the fold in `Tension:` if uncertain.
+
+  **Example (pass):** "Reconciliation Deadline" is not its own Key Abstraction because the source only mentions it as a property of Funds Transfer — absorbed into that abstraction's Core terms.
+
+#### DON'T
+
+- Promote a property, rule, or configuration value to its own Key Abstraction when the source treats it as vocabulary hanging off another unit.
+
+  **Example (fail):** `### Key Abstraction: Per-Transaction Cap` — the source only discusses this as a rule belonging to Wire Transfer; it has no independent sentences or vocabulary cluster.
+
+- Invent an abstraction the source does not orbit — one with no dedicated sentences, no repeated noun phrase, only a mention in passing.
+
+  **Example (fail):** `### Key Abstraction: Compliance` — the source uses the word once in a sentence about Wire Transfer caps; it has no independent vocabulary cluster.
+
+### Rule: Verbatim source blocks trace to disk
+
+Every ```` ```source ```` block must contain text copied byte-for-byte from a file on disk. The `Source:` line must reference a resolvable path or a known partition entry — not agent memory, training data, or generated content. Passing means every extract can be traced to a real file. Failing means a Source line uses generated-content markers or points to a non-existent file.
+
+#### DO
+
+- Reference real files on disk in the `Source:` line (partition file, corpus chunk, or context directory file).
+
+  **Example (pass):** `Source: module-partitioning.md — Module: [Funds Transfer] — "Funds Transfer (overview)"`
+
+- Copy text character-for-character from the source — preserve OCR artifacts, page numbers, whitespace, and bullet formatting.
+
+  **Example (pass):** The ```` ```source ```` body matches the file byte-for-byte when opened.
+
+- Stop and report to the user when no source files exist on disk rather than generating content from memory.
+
+  **Example (pass):** Agent says "No source files found under context/ — please load source material before running this skill."
+
+#### DON'T
+
+- Use markers that indicate generated content: `domain-knowledge`, `application-requirements`, `training data`, `from memory`, `reconstructed`, `agent knowledge`.
+
+  **Example (fail):** `Source: domain-knowledge — "Settlement Rules"` — no file to verify.
+
+- Paraphrase, clean up, or reformat the source text inside ```` ```source ```` blocks.
+
+  **Example (fail):** Agent rewrites OCR-scanned bullet points into clean markdown before placing them in the source block.
+
+- Proceed with extract creation when the referenced file does not exist on disk.
+
+  **Example (fail):** `Source: context/rules/ch04-transfers.md` but that file is not present in the workspace.
 <!-- execute_rules:bundle_rules:end -->

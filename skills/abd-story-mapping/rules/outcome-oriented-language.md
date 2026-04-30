@@ -16,9 +16,9 @@ Name concepts by what they **ARE** or **CREATE**. Ask: _What is being created? W
 
 | Wrong (mechanism / gerund title) | Correct (outcome, base verb) |
 |-------------------|-------------------|
-| `Visualizing Power Activation` | `System --> display power activation animation` |
-| `Showing Combat Results` | `System --> provide combat outcome feedback` |
-| `Displaying Hit Information` | `System --> display hit indicators` |
+| `Visualizing Payment Flow` | `System --> display payment confirmation summary` |
+| `Showing Approval Results` | `System --> provide approval outcome notification` |
+| `Displaying Error Information` | `System --> display validation error indicators` |
 | `Presenting Configuration Options` | `System --> load configuration panel` |
 | `Providing Settings` | `System --> load configuration` |
 
