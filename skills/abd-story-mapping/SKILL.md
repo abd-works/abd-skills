@@ -45,13 +45,14 @@ When you **create or rewrite** a story map from requirements, you **must** deliv
 | Template | What to produce |
 | --- | --- |
 | `templates/story-map.md` | The epic/sub-epic/story tree using that layout. Optional title or short context above the tree is fine. **Do not** paste the template’s notation / `## Instructions` section (or equivalent) into generated project files — that material documents the template for skill maintainers, not stakeholders reading the map. |
-| `templates/story-map.txt` | The **same** hierarchy and semantics as **plain text** only — tree lines matching `story-map.txt` style. |
 
 **Consistency:** Connectors (`or`, `opt`), nested `(AC)` lines, and actor/story lines must match between `.md` and `.txt` for the same map. Generated artifacts contain **only** the map (plus optional brief context in `.md`); notation rules stay in this skill and in `templates/story-map.md` for reference.
 
 **If new files are added** under `templates/` later, produce a corresponding artifact for **each** new template the same way.
 
-**Depth:** Stay at epic / sub-epic / story hierarchy and ordering unless another workflow adds acceptance criteria or scenarios.
+**Depth:** Respect the depth level the user asks for (see **Depth levels** under *Iterating the map*). At **Level 1 (breadth pass)**, produce only epics and confirming stories — do not decompose into sub-epics or apply the full rule set. At **Level 2+**, apply the full hierarchy and rules. Default to Level 2 when the user does not specify.
+
+
 
 **Quality bar:** Match the naming and layout expectations in **Core concepts** and **The shape of a good story map** below.
 
@@ -182,6 +183,13 @@ If useful detail does not fit a node name, put it in that node’s `notes` and c
 
 **Don't fabricate to fill gaps.** When context is incomplete — a business rule is unclear, a system boundary is unknown, a domain has no source material — do not invent stories or structure to cover the gap. Capture what is missing, state your assumption, and recommend a validation action (e.g. "confirm with product owner whether returns follow the same flow as exchanges"). Unknowns surfaced honestly are more valuable than a plausible-looking map that turns out to be wrong.
 
+**Don't defer analysis the source material supports.** If the source describes how a workflow or entity type works, map it now {em} don't write "not yet mapped" as a gap. Gaps are for missing information, not unfinished work.
+
+When building or reviewing a story map, chase down all available context sources for gaps or filters: don't let important perspectives be silently excluded due to missing domain input, technical details, or user workflows. Critically assess whether any actors, flows, or constraints have been filtered out or overlooked; thoroughness means actively hunting for missing context, not just mapping what is easily present.
+
+
+**Don't add scope the user didn't ask for.** If the user describes one path (e.g., manual onboarding), don't add a second (e.g., self-service onboarding) and present it as part of the map. When a choice exists, ask.
+
 ### Recording context gaps in the story map
 
 Context gaps must be captured **inside the story map output files** (`story-map.md` and `story-map.txt`) so they travel with the map. Use one or both placements depending on scope:
@@ -215,11 +223,42 @@ Do not treat the map as a one-shot deliverable. Deeper analysis will surface inf
 
 When new context arrives or downstream work (AC, scenarios, tests) exposes gaps, revise the map rather than working around stale structure. Keep the map lightweight enough that restructuring is cheap.
 
-Apply progressive depth:
+#### Depth levels
 
-- **Idea Shaping** — barely enough structure to scope the work and assign it.
-- **Increment Discovery** — cursory scan for breadth, priority, and rough complexity.
-- **Story Refinement** — detail out stories for the next increment; leave later increments shallow.
+Apply progressive depth. Each level builds on the previous — do not skip ahead.
+
+**Level 1 — Breadth pass (Idea Shaping)**
+
+Go wide, not deep. Produce **epics** and **confirming stories** — enough to prove each epic is real and the scope is right.
+
+A confirming story is a short verb-noun name that exercises the epic's key domain nouns. It exists to validate that the epic covers real, distinct behavior — not to describe a full flow. Each epic needs at least two confirming stories; add more when the epic spans obviously different areas, but do not decompose into sub-flows.
+
+What you produce:
+
+- Top-level epics (verb-noun) covering the major capability areas
+- 2+ confirming stories per epic — each names a concrete behavior that proves the epic belongs
+- Actors identified per epic (who triggers, who responds)
+- Context gaps where the source is genuinely silent
+
+What you do **not** produce at this level:
+
+- Sub-epics or nested hierarchy — keep the map flat
+- Detailed flows, scenarios, or steps
+- System/application lifecycle behaviors (persistence, logging, sync)
+- Consolidation notes or mechanic-by-mechanic analysis
+- Full story decomposition per the deeper rules
+
+When to stop: every major capability area has an epic, each epic has confirming stories, and a reviewer can see the product scope. If the map reads as a credible table of contents for the product, the breadth pass is done.
+
+When to use: first contact with new context, early discovery, scope alignment with stakeholders, or when the user asks for "just the epics", a "breadth pass", or "idea shaping."
+
+**Level 2 — Increment discovery**
+
+Deepen selected epics into sub-epics and fully decomposed stories. Apply the full rule set: distinct mechanics get distinct stories, consolidate superficial duplicates, analyze before grouping, map system behaviors, scale by domain. Leave epics the team will not build soon at Level 1 depth.
+
+**Level 3 — Story refinement**
+
+Detail stories for the next delivery increment: acceptance-criteria hooks, failure modes, consolidation notes, passive-vs-active runtime analysis. Later increments stay at Level 1 or 2.
 
 Do not over-elaborate areas the team will not build soon. Go deep where uncertainty is highest or delivery is imminent.
 
@@ -280,12 +319,89 @@ Use **active** business language focused on **user/system behavior**: clear acti
 - Prefer **action verbs** that describe behavior: submit, view, validate, send, display, place, edit, create, load, save, invoke, process, generate, update — as fits the story.
 - Prefer **user/system stories** over raw technical tasks. Rephrase technical wording into business behavior (e.g. `System --> store user data` rather than “set up database schema”). When technical work is required, use `story_type: technical` and keep it minimal.
 - When technical stories are necessary, mark with **`story_type: technical`** and keep them focused.
+- When the domain has its own vocabulary (financial instruments, medical protocols, logistics terms, regulatory language), use the domain's terms in story names instead of inventing generic application language.
+
+  **Example (pass):** `(S) Operator --> Settle Transaction` — "Settle" and "Transaction" are the domain's terms for this action on this entity.
 
 #### DON'T
 
 - **Passive or vague:** not “Order is submitted” — use `User --> submit order`. Not “Payment gets validated” — use `System --> validate payment`.
 - **Implementation/task language** as the main story: avoid “write code”, “create class”, “set up CI/CD”, “configure database” as the behavior — express **business outcome** instead where possible.
 - **Development-task verbs** for primary stories: implement feature, create module, refactor code, fix bug, build system — unless framed as real behavioral outcomes with `story_type` as appropriate.
+- Invent generic application language when the source material provides precise domain terms.
+
+  **Example (fail):** `(S) Operator --> Complete Money Transfer` when the domain calls this action "Settle Transaction" — the generic name obscures what the story actually does and makes the map harder to validate against source material.
+
+### Rule: Analyze before grouping
+
+**Scanner:** Manual review
+
+Before writing stories for a domain with multiple entity types (instrument types, account types, fulfilment methods, power types, notification channels, shipping methods), read the source description of **each** type and list: (a) what the user configures, (b) what the system validates or resolves, (c) what runtime lifecycle it has. Group stories by that analysis — not by category label, source heading, or shared name.
+
+#### DO
+
+- For each entity type under a shared heading, document a brief **configuration / validation / lifecycle** summary before deciding whether to consolidate or split.
+
+  **Example (pass):** Five "shipping methods" appear under one heading. Before writing stories the agent lists: ground (zone-based rate tables), overnight (cutoff-time validation + carrier API booking), LTL freight (freight-class calculation + BOL generation), ocean container (container-type selection + customs declaration), white-glove (scheduling windows + assembly instructions). The map shows five stories:
+
+  ```
+  (E) Configure Shipping Methods
+      (S) Shipper --> Configure Zone-Based Ground Rates
+      (S) Shipper --> Configure Overnight Cutoff and Carrier Booking
+      (S) Shipper --> Calculate LTL Freight Class and Generate BOL
+      (S) Shipper --> Select Ocean Container Type and File Customs Declaration
+      (S) Shipper --> Schedule White-Glove Delivery Window
+  ```
+
+- When the analysis reveals identical workflows, consolidate per *Consolidate Superficial Stories*.
+
+  **Example (pass):** Ground and economy-ground share the same zone-rate lookup and carrier selection — one parameterized story:
+
+  ```
+  (S) Shipper --> Configure Zone-Based Ground Rates (ground, economy-ground)
+  ```
+
+#### DO NOT
+
+- Group entities into one story because they share a heading or category name in the source.
+
+  **Example (fail):** Seven control effects appear under "Control" in the source. The agent writes one story:
+
+  ```
+  (S) Player --> Configure Control Effect (choose: create/move object/summon/environment/transform/element control/illusion)
+  ```
+
+  But Create makes objects with Toughness, Move Object uses telekinetic Strength for opposed checks, Summon creates controllable entities with their own sheets, Transform has narrow/broad/any scope affecting cost, and Illusion requires selecting which sense types are fooled. The heading groups them; the mechanics don't.
+
+- Skip the analysis step and group by intuition or label similarity.
+
+  **Example (fail):** Five defense effects appear under "Defense." The agent writes:
+
+  ```
+  (S) Player --> Configure Defense Effect (choose: protection/immunity/force field/deflect/regeneration)
+  ```
+
+  But Immunity has a cost catalogue (1–80 ranks), Deflect is a combat reaction, Protection is permanent, Force Field is sustained (can be knocked offline), and Regeneration has a rate-based recovery schedule — five different configuration workflows behind one label.
+
+- Assume a generic "configure + set level" story covers an entity type whose configuration changes other derived attributes.
+
+  **Example (fail):** Four employment types appear under "Employment." The agent writes:
+
+  ```
+  (S) HR --> Set Employment Type (full-time, contractor, seasonal, intern)
+  ```
+
+  But full-time triggers benefit-eligibility cascades (health, dental, 401k vesting), contractor triggers a different tax-withholding path (1099 vs W-2) and disables PTO accrual, and seasonal has fixed-term end-date logic with auto-termination. The generic story hides three different downstream configuration cascades. After analysis:
+
+  ```
+  (E) Onboard by Employment Type
+      (S) HR --> Enroll Full-Time Benefits and Verify I-9
+      (S) HR --> File Contractor W-9 and Link SOW
+      (S) HR --> Set Seasonal End Date and Auto-Termination
+      (S) HR --> Verify Intern University Agreement and Provision Time-Limited Access
+  ```
+
+**Source:** Engagement corrections log — entries 2, 3, 4, 5.
 
 ### Rule: Consolidate Superficial Stories
 
@@ -307,6 +423,243 @@ Consolidate stories that differ **only superficially** (same logic, different da
 - Enumerate every permutation when logic is identical and only data changes — use one parameterized story (e.g. one **`Validate Input Format`** for email, phone, postal code).
 - Split by data value when business rules are the same (e.g. separate add-book / add-electronics / add-clothing → **`Add Product`**).
 - One story per status when the **workflow pattern** is the same — prefer one **`Update Order Status`** story with allowed values.
+- Consolidate without leaving a trail. Parenthetical hints like `(type A, type B, type C)` inside story text are insufficient for downstream work — the AC author needs to know which variants have different validation, parameters, or outcomes.
+
+  **Example (fail):** The story map contains only:
+
+  ```
+  (S) HR --> Onboard New Hire (full-time, contractor, intern)
+  ```
+
+  The parenthetical hint is all that remains. But full-time requires benefits enrollment + I-9 verification, contractor requires W-9 + SOW linkage + rate-card approval, and intern requires university-agreement check + duration-limited access provisioning. No Consolidation Notes document these differences — the AC author has no idea what to specify per variant.
+
+#### Consolidation Notes requirement
+
+When consolidating stories, add a **`## Consolidation Notes (for AC phase)`** section at the end of the story map listing: (a) each consolidation, (b) which source mechanics it groups, (c) what the AC phase must specify per variant.
+
+**Example (pass):** The story map ends with:
+
+```
+## Consolidation Notes (for AC phase)
+
+### Onboard New Hire (full-time, contractor, intern)
+Groups three onboarding workflows into one parameterized story.
+AC must specify per variant:
+- Full-time: benefits enrollment (health, dental, 401k), I-9 verification
+- Contractor: W-9 filing, SOW linkage, rate-card approval
+- Intern: university-agreement check, duration-limited access provisioning
+
+### Choose Attack Trade-Off (accurate, all-out, defensive, power)
+Groups four attack modifiers that share the same "apply modifier to hit/effect" pattern.
+AC must specify per variant:
+- Accurate: bonus to hit, no effect change
+- All-out: bonus to hit, penalty to active defenses
+- Defensive: penalty to hit, bonus to active defenses
+- Power: penalty to hit, bonus to effect
+```
+
+### Rule: Context gaps are genuinely missing information
+
+**Scanner:** Manual review
+
+Every entry in the **Context Gaps** section of `story-map.md` / `story-map.txt` states information that is **genuinely unavailable** — a business decision not yet made, a stakeholder perspective not yet gathered, or a technical constraint not yet known. The gap names what is unknown, what options exist, and what depends on the answer. Failure is a gap that the source material already answers, a gap that parks unfinished analysis, a gap outside the product scope, or a gap that questions a decision the user already stated.
+
+#### DO
+
+- Before writing a gap, check: "Does the source material answer this?" If yes, finish the analysis — it is unfinished work, not a gap.
+
+  **Example (pass):** Gap: "Settlement currency for cross-border wires — source material covers domestic wires only; need to confirm whether the platform supports multi-currency settlement or converts at initiation." The source genuinely does not answer this.
+
+- Write each gap in plain stakeholder language: what is unknown, what options exist, what depends on the answer.
+
+  **Example (pass):** Gap: "Chargeback handling — two options: (a) platform manages disputes end-to-end, (b) platform routes to external dispute processor. Affects whether we need a dispute resolution epic. Awaiting product owner decision."
+
+- **Verification pass before finalising:** After writing Context Gaps, search the source material for each gap phrase. If the source describes the mechanic, remove the gap and map stories instead.
+
+  **Example (pass):** Draft Context Gaps section included:
+
+  ```
+  ## Context Gaps
+  - Character advancement: The source describes gaining power points and increasing
+    power level between sessions. Is post-session advancement in scope?
+  ```
+
+  Verification pass finds the source describes the mechanic in detail. Gap removed; stories mapped instead:
+
+  ```
+  (E) Advance Hero
+      (S) GM --> Award Power Points after Adventure
+      (S) Player --> Spend Earned Power Points on Traits
+      (S) System --> Enforce Power Level Limits on Advancement
+  ```
+
+#### DO NOT
+
+- Use gaps as a parking lot for analysis you haven't done yet.
+
+  **Example (fail):** Gap: "Transaction rules per account type — not yet mapped." The source material describes IRA contribution limits, margin maintenance calls, and trust beneficiary distributions. This is deferred work, not missing information.
+
+- Flag domain-obvious answers as gaps.
+
+  **Example (fail):** Gap: "Do refund transactions use the same ledger as payments?" when the source material describes a single unified ledger for all transaction types. The answer is in the source — no gap needed.
+
+- Raise concerns outside the product scope unless the user asks.
+
+  **Example (fail):** Gap: "Licensing and redistribution rights for third-party payment network logos." This is legal/business, not product scope.
+
+- Question something the user has already stated as a decision.
+
+  **Example (fail):** Gap: "Should onboarding be self-service or manual?" after the user said "manual onboarding only for now." The user already decided — this is not a gap.
+
+**Scanner heuristic:** Flag gap text containing phrases like "not yet mapped," "is X in scope?," "TBD," or "to be determined" as candidates for false gaps — these phrases often indicate deferred analysis rather than genuinely missing information.
+
+**Source:** Engagement corrections log — root cause B; entry 1.
+
+### Rule: Distinct mechanics have distinct stories
+
+**Scanner:** Manual review
+
+When the source material describes multiple entity types (transaction types, account types, fulfilment methods, inspection types, instrument types), the story map groups them by **distinct mechanical pattern** — entities with identical workflows share one parameterized story; entities with different workflows get separate stories. This holds across all lifecycle phases: configuration/setup, runtime/execution, and observation/reporting. Failure is a single catch-all story covering entity types whose processing, parameters, or outcomes differ fundamentally, or the opposite — separate stories for entity types that share the same workflow.
+
+#### DO
+
+- Compare entity-type mechanics **before** writing stories: for each type, identify what a user configures, what the system validates, and what outcomes are possible. Group by workflow pattern, not by name.
+
+  **Example (pass):** A payments domain has 8 instrument types. The story map shows `(S) Operator --> Initiate Wire Transfer` (correspondent-bank routing), `(S) Operator --> Submit Card Payment` (auth-capture-settle), `(S) Operator --> Submit ACH Batch` (batch windows + return codes) — three stories because three distinct clearing mechanics. Cheque, BPAY, and direct debit share the same batch-and-clear workflow as ACH, so they are handled by the same story with a type parameter, not duplicated.
+
+- Perform the comparison across **all lifecycle phases** so the user never has to say "go deeper."
+
+  **Example (pass):** A retail domain maps fulfilment stories for configuration (subscription has recurring billing setup; drop-ship has vendor onboarding), runtime (subscription has pause/resume; drop-ship has vendor handoff; digital has licence key generation), and reporting (subscription has churn metrics; drop-ship has vendor SLA). Three phases, distinct stories per distinct mechanic in each.
+
+- Entities with different **lifecycles** (permanent vs sustained vs reactive) need separate stories even when they share a category.
+
+  **Example (pass):** A healthcare system has four "patient protections" under one heading. The map separates them by lifecycle:
+
+  ```
+  (E) Enforce Patient Protections
+      (S) System --> Request Insurance Pre-Authorization before Procedure
+      (S) System --> Fire Allergy Alert on Medication Order
+      (S) Nurse --> Reassess Infection-Control Isolation Daily
+      (S) System --> File Adverse-Event Report to Regulator
+  ```
+
+  Pre-authorization is proactive (before procedure), allergy is passive (fires automatically), isolation is sustained (daily reassessment, can be overridden), adverse-event is reactive (post-incident). Four trigger types → four stories.
+
+- When the source lists **5+ sub-types** under one heading, enumerate each sub-type's parameters before deciding whether to consolidate. If more than half have different parameter sets, default to separate stories.
+
+  **Example (pass):** Five "notification channels" appear under one heading. After enumeration the map shows:
+
+  ```
+  (E) Configure Notification Channels
+      (S) Admin --> Configure Email Provider and Template Builder
+      (S) Admin --> Configure SMS Carrier Gateway and Opt-In Compliance
+      (S) Admin --> Register Push Notification Device Tokens and Certificates
+      (S) Admin --> Define In-App Targeting Rules and Read Receipts
+      (S) Admin --> Set Webhook Endpoint URL and Retry Policy
+  ```
+
+- When a story describes a **state change** that creates a new actor context (trapped, locked, held, escalated), check whether the source describes a separate resolution mechanic for **exiting** that state. If the exit has a different actor, different action type, or different check, it is a distinct story.
+
+  **Example (pass):** A support-ticket system maps escalation and the exits from that state:
+
+  ```
+  (SE) Escalate and Resolve Tickets
+      (S) Agent --> Escalate Ticket to Tier 2
+      (S) Tier 2 Agent --> Reject Escalation with Reason
+      (S) Tier 2 Agent --> Accept Escalation and Reassign
+  ```
+
+  Reject and Accept are separate stories — different actor (Tier 2, not Tier 1), different checks (rejection criteria vs reassignment workflow).
+
+- When the source describes a **pipeline** (request → validate → process → respond), map **filtering or short-circuit steps** that fire before the main processing step. Passive filters that prevent processing entirely are distinct stories, not implicit.
+
+  **Example (pass):** An order-fulfilment system maps forward processing plus two pipeline filters:
+
+  ```
+  (SE) Process Order
+      (S) System --> Screen Order Against Embargo and Sanctions List
+      (S) System --> Evaluate Fraud Score Against Threshold
+      (S) System --> Validate Order Items
+      (S) System --> Charge Payment
+      (S) System --> Ship Order
+  ```
+
+  Embargo screening and fraud scoring are pre-processing filters with different data sources — not implicit parts of `Validate Order`.
+
+- When an entity type has both a **configuration phase** and a **runtime phase**, check whether it appears in the runtime context even if it was initially categorized under configuration. An entity classified as "setup-only" may have distinct runtime resolution.
+
+  **Example (pass):** A banking system maps account configuration and runtime separately:
+
+  ```
+  (E) Open Accounts
+      (S) Customer --> Open Savings Account
+      (S) Customer --> Open Checking Account
+      (S) Customer --> Open Money Market Account
+
+  (E) Process Account Transactions
+      (S) System --> Enforce Money Market Monthly Transaction Limit
+      (S) System --> Assess Money Market Excess-Transaction Penalty
+      (S) System --> Execute Checking Overdraft-Protection Transfer from Savings
+  ```
+
+  Money Market and Checking have runtime stories that differ from generic deposit/withdrawal — found by checking whether "setup-only" entities appear at runtime.
+
+- When the domain includes entities that **may or may not** have runtime behaviors, document the analysis in a **Passive vs Active Runtime Analysis** subsection of Consolidation Notes. For each entity type, state whether it is (a) static/configuration-only (no runtime story needed), (b) passively enforced at runtime (system filter — needs a runtime story), or (c) actively triggered at runtime (user action — needs a runtime story).
+
+  **Example (pass):** An insurance platform's Consolidation Notes include:
+
+  ```
+  ## Passive vs Active Runtime Analysis
+  - Deductible Amount → static (applied as number in claims calc; no runtime story)
+  - Coverage Exclusion → passive filter (system checks every claim against list before processing)
+    → runtime story: (S) System --> Check Claim Against Coverage Exclusions
+  - Rider Benefit → active trigger (policyholder files separate rider claim)
+    → runtime story: (S) Policyholder --> File Rider Benefit Claim
+  - Premium Discount → static (applied at renewal calculation; no runtime story)
+  ```
+
+#### Pitfall
+
+Don't map only the **initiating side** of an interaction. After mapping all "forward" stories in a phase, re-scan the source for **reverse, compensating, defensive, supportive, and observational** actions in the same context — they often have distinct resolution mechanics.
+
+**Example (fail):** An e-commerce platform maps only the forward purchase path:
+
+```
+(SE) Checkout
+    (S) Customer --> Place Order
+    (S) System --> Process Payment
+    (S) System --> Reserve Inventory
+```
+
+But the source also describes `Issue Refund` (different gateway call), `Cancel Reservation` (releases held inventory, fires restock webhook), and `Apply Store Credit` (different tender type with balance-check logic). Three reverse/compensating actions missed.
+
+**Example (fail):** A combat system maps only offensive attack effects:
+
+```
+(SE) Apply Attack Effect
+    (S) System --> Apply Damage
+    (S) System --> Apply Affliction
+    (S) System --> Apply Weaken
+    (S) System --> Apply Nullify
+```
+
+But the source in the same chapter describes: Healing (standard action, close range, removes conditions from others), Mind Reading (perception range, sustained, Will resistance), Summon (creates controllable entity), Deflect (reaction, substitutes check vs incoming ranged attack). Four non-attack combat effects with distinct resolution paths were missed because the agent only analyzed the offensive side.
+
+#### DO NOT
+
+- Write one generic story for a domain with 10+ entity types without comparing their mechanics.
+
+  **Example (fail):** `(S) Operator --> Process Payment` as the only story for wire, ACH, card, cheque, BPAY, direct debit, real-time, and crypto — when wire requires correspondent-bank routing and card requires auth-capture-settle, the single story hides fundamentally different workflows.
+
+- Assume entity names imply distinct stories when the mechanics are identical.
+
+  **Example (fail):** Separate stories `(S) Operator --> Submit ACH Payment` and `(S) Operator --> Submit Direct Debit Payment` when both use the same batch-and-clear workflow with the same parameters, validations, and outcomes — duplicating without mechanical justification.
+
+- Cover only one lifecycle phase (e.g., configuration) while leaving runtime or reporting as a gap.
+
+  **Example (fail):** A wealth management map has stories for opening 12 account types but the `Context Gaps` section says "Transaction rules per account type — not yet mapped" when the source material describes IRA contribution limits, margin maintenance calls, and trust beneficiary distributions in detail.
+
+**Source:** Engagement corrections log — root cause C; entries 3, 5, 6, 7, 8, 9, 15.
 
 ### Rule: Lightweight and Precise
 
@@ -347,6 +700,87 @@ Example of over-elaboration (wrong at shaping):
 ```
 
 If you have this kind of detail from context, put it in `notes` with a `context_source` citation — not in the story structure itself.
+
+### Rule: Map system and application behaviors
+
+**Scanner:** Manual review
+
+Map system behaviors that actors (human or system) depend on: state persistence and versioning, session lifecycle (start/end with state carry-forward), event logging and audit trail, data synchronization, role-based overrides, and template management for repeatable workflows. These are product behaviors, not implementation details — they belong on the story map when any actor (user **or** system) observes or depends on them.
+
+This rule applies to **every** product — not only interactive or user-facing applications. System-to-system integrations, batch pipelines, and back-office platforms all have persistence, lifecycle, logging, and sync behaviors that are observable by the systems and operators that depend on them.
+
+#### DO
+
+- After mapping domain workflows, add an epic or sub-epic for **application lifecycle behaviors**: persistence and versioning of domain data, event logging and audit trail, session or process start/end with state carry-forward, data sync between components or connected systems, and role-based or privilege-based overrides.
+
+  **Example (pass):** A telemedicine platform maps clinical workflows, then adds application lifecycle stories:
+
+  ```
+  (E) Manage Visit Lifecycle
+      (SE) Persist Visit Data
+          (S) System --> Store Visit Recording with HIPAA Retention Policy
+          (S) System --> Version Clinical Notes per Edit
+      (SE) Log Clinical Decisions
+          (S) System --> Log Clinical Decision to Audit Trail
+      (SE) End Visit
+          (S) System --> End Visit and Carry Forward Diagnoses to Patient Chart
+          (S) System --> Push Real-Time Vitals to Provider Dashboard
+  ```
+
+- When actors repeat a workflow with variations, map **template management** behaviors: clone from existing, save as reusable template, load from template, customize clone independently of original.
+
+  **Example (pass):** A restaurant platform maps menu creation, then adds reuse stories:
+
+  ```
+  (SE) Manage Menu Templates
+      (S) Manager --> Clone Menu for New Season
+      (S) Manager --> Save Menu as Reusable Template
+      (S) Manager --> Load Menu from Template
+      (S) Manager --> Customize Cloned Item Without Affecting Original
+  ```
+
+- For system-to-system products, map behaviors that downstream systems depend on: guaranteed delivery, retry/dead-letter handling, schema versioning, health signalling, and contract enforcement.
+
+  **Example (pass):** A payment-gateway integration maps transaction processing, then adds integration-contract stories:
+
+  ```
+  (E) Manage Gateway Integration
+      (S) System --> Publish Settlement Event to Downstream Ledger
+      (S) System --> Route Failed Message to Dead-Letter Queue
+      (S) System --> Version API Contract for Consumer Compatibility
+      (S) System --> Report Gateway Health Status
+  ```
+
+#### DO NOT
+
+- Treat persistence, logging, sync, or session management as "implementation details" that belong only in engineering. If any actor — human or system — will observe versioned data, event history, live updates, or process state, these are product behaviors.
+
+  **Example (fail):** A combat encounter app maps game rules only:
+
+  ```
+  (E) Run Combat Encounter
+      (SE) Execute Turns
+          (S) Player --> Choose Hero Action
+          (S) System --> Resolve Attack
+          ...
+  ```
+
+  No stories for sheet versioning, combat event logging, encounter ending with condition carry-forward, live state sync, or GM condition override. The map covers domain rules but not the system behaviors that host them.
+
+- Omit system-to-system behaviors because "no human sees them." If a downstream system depends on the behavior, it belongs on the map.
+
+  **Example (fail):** An order-fulfilment pipeline maps only the forward path:
+
+  ```
+  (E) Fulfil Order
+      (S) System --> Validate Order
+      (S) System --> Charge Payment
+      (S) System --> Ship Order
+  ```
+
+  Missing: `(S) System --> Publish Order Event to Warehouse System`, `(S) System --> Retry Failed Warehouse Acknowledgement`, `(S) System --> Reconcile Shipping Confirmation` — three behaviors the warehouse system depends on.
+
+**Source:** Engagement corrections log — entries 10, 11.
 
 ### Rule: Outcome-Oriented Language
 
@@ -460,6 +894,65 @@ Examples of wrong stories:
 - ~~`Serialize Components to JSON`~~ (not testable alone)
 - ~~`Calculate Component Positions`~~ (no user outcome)
 
+### Rule: Source-supported mechanics mapped not listed as deferred gaps
+
+**Scanner:** Manual review
+
+The story map in **`story-map.md`** / **`story-map.txt`** reflects what the **available source material** already explains about workflows, entity types, and system behaviors: those mechanics appear as stories, sub-epics, or brief inline notes—not only as a **Context Gaps** bullet that says "not yet mapped" or equivalent. Failure is a gap or deferred phrase where the source already describes the mechanic in enough detail to break it into behaviors today.
+
+#### DO
+
+- After reading the source, map **mechanics the source already describes** into the tree (split or consolidate per other rules) instead of parking them in **Context Gaps** as unfinished analysis.
+
+  **Example (pass):** The source defines wire vs card clearing (routing vs auth-capture-settle). The map has `(S) Operator --> Initiate Wire Transfer` and `(S) Operator --> Submit Card Payment`; **Context Gaps** has no line "Payment clearing mechanics — not yet mapped."
+
+- Use **Context Gaps** only when information is **actually missing** from source and stakeholders (aligned with **Context gaps are genuinely missing information**).
+
+  **Example (pass):** Source covers domestic wires only. Gap: "Cross-border settlement currency — not specified in source; need product decision."
+
+- When the source describes a **distinct action type** that consumes a resource (time, action, turn, API call, dispatch slot) **differently** from the default action, map it as a separate story even if the actor is the same.
+
+  **Example (pass):** A warehouse system's source describes `Direct Robot to Zone` as a supervisor action consuming a limited "dispatch slot." The map includes it alongside picking:
+
+  ```
+  (SE) Execute Warehouse Operations
+      (S) Picker --> Pick Item from Bin
+      (S) Picker --> Pack Order for Shipment
+      (S) Supervisor --> Direct Robot to Zone
+      (S) System --> Ship Order
+  ```
+
+  `Direct Robot to Zone` is a separate story — different actor (Supervisor, not Picker), different resource (dispatch slot, not pick time), different validation (zone-capacity + robot-availability).
+
+- **Verification pass after drafting:** Re-read each source section's action/command list and confirm every named action appears as a story or is explicitly documented as consolidated into another story.
+
+  **Example (pass):** The source's "Combat Actions" section lists: Attack, Grab, Trip, Disarm, Feint, Demoralize, Command, Escape. After drafting, the agent confirms each named action has a story or a consolidation note. `Command` was missing — added `(S) GM --> Command Minion or Summoned Creature` under Execute Turns.
+
+#### DO NOT
+
+- Record a map-level or inline gap that says an area is "not yet mapped" or "TBD" when the source material already spells out that workflow in enough detail to write stories.
+
+  **Example (fail):** **Context Gaps** includes "Transaction rules per account type — not yet mapped" while the source documents IRA contribution limits, margin maintenance calls, and trust distributions in detail—the stories belong on the map, not as a deferral.
+
+- Treat **Context Gaps** as a staging area for analysis you have not performed on **available** source text.
+
+  **Example (fail):** Ten instrument types appear in the domain spec, but the map has only `(S) Operator --> Process Payment` and a gap listing "Break out instrument-specific flows — later" although the spec already distinguishes wire, card, and ACH mechanics.
+
+- Map only the **named or labeled** actions from the source while ignoring the generic resolution mechanic that underlies them. If the source describes a general-purpose resolution path (e.g., "any skill check," "any API call," "any form submission") that specific named actions are special cases of, the general path needs its own story.
+
+  **Example (fail):** A project-management tool maps only the named review actions:
+
+  ```
+  (SE) Review Artifacts
+      (S) Reviewer --> Approve Budget
+      (S) Reviewer --> Reject Change Request
+      (S) Manager --> Escalate Risk
+  ```
+
+  But the source also describes a general `Resolve Review` action — any artifact can be submitted for review with a configurable checklist, and the reviewer can approve/reject/request-changes. The general resolution mechanic `(S) Reviewer --> Resolve Review with Checklist` is missing — the named actions are special cases of it.
+
+**Source:** Engagement corrections log — map deferred instead of using available source; entries 12, 13.
+
 ### Rule: Story Map from Existing Code
 
 **Scanner:** _(none in JSON — methodological guidance for code-to-map workflows)_
@@ -480,6 +973,34 @@ When deriving a story map from **code**, start from **entry points**, derive ope
 - Start from **internal classes** or mirror **class structure** as epics.
 - Turn **every method** into a story.
 - Omit **context** (when/why/outcome) or elevate **implementation detail** as if it were user-visible behavior.
+
+### Rule: Story map stays within user-requested scope
+
+**Scanner:** Manual review
+
+The epic and story tree in **`story-map.md`** / **`story-map.txt`** reflects **only** the product scope the user (or product owner) has asked for: alternate journeys, build methods, or channels do not appear as parallel first-class flows unless the user asked for them or confirmed they are in scope. Failure is an extra path, persona flow, or "optional" track presented as part of the map when the user explicitly narrowed scope or chose a single path.
+
+#### DO
+
+- When the user states **one** path (e.g. "manual onboarding only", "custom build only"), map **that** path and treat other approaches as out of scope until the user expands scope.
+
+  **Example (pass):** User: "Manual onboarding only for now." The map has sub-epics and stories for staff-led onboarding only; there is no sibling sub-epic "Self-service onboarding" unless the user later adds it.
+
+- When a real choice exists and the user has **not** decided, capture **one** gap naming the decision and options—not two full parallel backlogs.
+
+  **Example (pass):** Gap: "Onboarding: manual vs self-service not decided—no stories for self-service until PO confirms."
+
+#### DO NOT
+
+- Add a **second** major flow (e.g. self-service onboarding, quick-build archetype, alternate sales channel) as if it were in-scope when the user already chose or restricted to the other path.
+
+  **Example (fail):** User said "custom build only, no quick start." The map still includes `(E) Quick-Start From Archetype` with stories—that is unrequested scope.
+
+- Present **unrequested** alternatives as normal epics "for completeness" without asking.
+
+  **Example (fail):** User asked for a B2B wholesale portal map; the map adds a full B2C retail epic "because many platforms have both" without product confirmation.
+
+**Source:** Engagement corrections log — scope fabrication and parallel paths without user ask.
 
 ### Rule: Verb–Noun Format
 

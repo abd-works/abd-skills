@@ -2,22 +2,25 @@
 name: module-partitioning
 description: >-
   After domain scan, partition the source corpus into modules by allocating
-  verbatim source context to module sections. No classes, no anchors — only
-  module boundaries and the source text that belongs to each. Supports an
-  Unallocated bucket for pending decisions and a Rejected bucket for
-  out-of-scope context. Modules are flat by default and nested only when the
-  source itself supports a sub-module. Use when the user asks to "partition
-  the source", "allocate context to modules", "draw module boundaries", or
-  needs a defensible scope cut before any class-level modeling.
+  source file references to per-module index files. No classes, no anchors —
+  only module boundaries and file references to the source that belongs to
+  each. Supports an Unallocated bucket for pending decisions and a Rejected
+  bucket for out-of-scope context. Modules are flat by default and nested only
+  when the source itself supports a sub-module. Use when the user asks to
+  "partition the source", "allocate context to modules", "draw module
+  boundaries", or needs a defensible scope cut before any class-level modeling.
 ---
-
 # module-partitioning
 
 ## Purpose
 
-Produce **`module-partitioning.md`** — a hierarchy of **module sections** whose bodies are **verbatim source extracts** allocated to each module. No classes, no anchors, no UML, no stereotypes. Just boundaries and the text that lives inside them.
+Produce a **root index** (`module-partitioning.md`) plus **per-module files** under `abd-ooad/modules/` — each containing scope, core terms, and **source file references** (not verbatim copies). No classes, no anchors, no UML, no stereotypes. Just boundaries and pointers to the source text that lives inside them.
 
 This is the *scope cut* before any class identification. It answers a single question for every chunk of source: **which module does this text belong to** — or is it **unallocated** (pending) or **rejected** (out of scope)?
+
+### Why references, not verbatim copies
+
+When the source is already structured as individually addressable files (corpus chunks, markdown files, scanned documents), copying their full content into the partition document is pure duplication. The partition's real value is the **allocation decision** — which files belong to which module. Downstream agents read the module file to get the file list, then read the actual source files as needed. This keeps module files small, avoids duplication, and supports parallel agents working one module at a time.
 
 ## When to use this skill
 
@@ -40,13 +43,15 @@ Generate content using **every** template file in this skill's `templates/` fold
 
 | Template | What to produce |
 | -------- | --------------- |
-| `templates/module-partitioning-template.md` | `module-partitioning.md` under `<active_skill_workspace>/abd-ooad/`: module sections (`##` top-level, `###`+ only when the source supports a real sub-module), each containing **verbatim** source extracts under labelled extract headers. Reserved sections **`## [Unallocated]`** and **`## [Rejected]`** are mandatory and may be empty (with a one-line note explaining why). |
+| `templates/module-partitioning-template.md` | Root index `module-partitioning.md` under `<active_skill_workspace>/abd-ooad/` — lists all modules with scope, core terms, chunk ranges, and links to per-module files. |
+| `templates/module-file-template.md` | One file per module under `<active_skill_workspace>/abd-ooad/modules/` — scope, core terms, and **source file references** (file path + locator per source file, no verbatim content). Also produce `modules/rejected.md` and optionally `modules/unallocated.md`. |
 
 2. **Rules**
 
-- Follow the **Allocation rules** and **Extract format** sections below for what counts as a module, when to nest, when to copy whole vs partial, and how to label.
-- Source text inside extracts is **never** paraphrased, summarized, edited, or reformatted. Copy bytes; quote characters as-is. The only allowed editorial mark is an ellipsis `[…]` for an explicit gap inside a partial extract — and that gap must be labelled.
-- After drafting, act as a *peer reviewer*: every extract has a locator, a whole-or-partial label, and lives under exactly one module section (or `Unallocated` / `Rejected`); no module exists without source extracts; no nesting exists without source-supported justification.
+- **Source files on disk are the only allowed input.** Every `Source:` reference must point to a file the reviewer can open and verify (corpus chunk, scanned document, user-supplied context file). If no source files exist, **stop and tell the user** — do not generate, reconstruct, or summarize content from training data or domain knowledge as a substitute.
+- Follow the **Allocation rules** and **Reference format** sections below for what counts as a module, when to nest, and how to label references.
+- Source file references must be accurate: the file must exist, the locator must be correct. No invented file paths or fabricated locators.
+- After drafting, act as a *peer reviewer*: every reference has a locator and lives under exactly one module file (or `unallocated` / `rejected`); no module exists without references; no nesting exists without source-supported justification.
 
 3. **Who is checking**
 
@@ -67,6 +72,14 @@ A **partition** is the assignment of every meaningful chunk of source to exactly
 **Partitioning is a commitment.** Each piece of source has one home. If you find yourself wanting to put the same passage in two modules, that is a **tension** — record it under the module you chose and note the alternative, or move it to `Unallocated` until a later pass resolves it.
 
 **Prerequisites:** `domain-scan-results.md` from `**domain-scan`**, plus access to the source memory chunks. Do **not** rescan the corpus; work from the scan map and **targeted** re-reads.
+
+### Hard prerequisite — source files must exist
+
+**STOP** if there are no readable source files (corpus chunks, scanned documents, or user-supplied context files) on disk. This skill copies verbatim text from source files into module sections. If the source files do not exist, there is nothing to copy and the skill **cannot run**.
+
+- **Do not** generate, reconstruct, or summarize domain knowledge from the agent's training data as a substitute for source files. That is not partitioning — it is authoring, and it belongs to a different skill.
+- **Do not** write "domain-knowledge" extracts, paraphrased descriptions, or memory-based rule summaries into the `\`\`\`source` blocks. Every byte inside a source block must be traceable to a file the reviewer can open and verify.
+- If the user asks to partition but the corpus is empty, **tell the user** that source material must be loaded first and offer to help populate the source directory. Do not silently proceed with generated content.
 
 ---
 
@@ -186,7 +199,13 @@ Choose conservative, well-justified boundaries now; expect them to refine as `te
 
 ### Workspace
 
-Output: `<active_skill_workspace>/abd-ooad/module-partitioning.md` (engagement root from the parent agent's `**workspace`** skill).
+Output directory: `<active_skill_workspace>/abd-ooad/` (engagement root from the parent agent's `**workspace`** skill).
+
+Files produced:
+- `abd-ooad/module-partitioning.md` — root index listing all modules
+- `abd-ooad/modules/<module-name>.md` — one per module, with source file references
+- `abd-ooad/modules/rejected.md` — rejected files with reasons
+- `abd-ooad/modules/unallocated.md` — (optional) pending allocation decisions
 
 ### Modules — flat by default, hierarchical only when the source earns it
 
@@ -207,13 +226,13 @@ If you cannot point at the source and say "this sub-module has its own extracts 
 
 ### Allocation rules
 
-For every chunk of source you decide to bring into the file:
+For every source file you decide to allocate:
 
-1. **Pick the module** whose scope best matches the chunk's *primary* subject. If two modules match equally, the chunk is a tension — pick one and note the alternative in the extract header, or move to `Unallocated`.
-2. **Decide whole vs partial.** Whole extracts copy the chunk top-to-bottom. Partial extracts copy a contiguous slice; non-contiguous selection is two extracts, not one.
-3. **Copy verbatim.** No paraphrase, no rewording, no reformatting beyond preserving the source's own line breaks and bullets. Do not "clean up" OCR artifacts, page numbers, or running headers — those are part of the locator's audit trail.
-4. **Label.** Every extract gets a header block (see **Extract format**) with locator, whole/partial, and — if partial — a clause naming exactly which part was taken.
-5. **Stop when the chunk has a home.** Do not also add a paraphrase or summary alongside the verbatim block. The verbatim text is the artifact.
+1. **Pick the module** whose scope best matches the file's *primary* subject. If two modules match equally, the file is a tension — pick one and note the alternative in the reference header, or move to `Unallocated`.
+2. **Decide whole vs partial.** Whole references allocate the entire file. Partial references allocate a contiguous slice; non-contiguous selection is two references, not one.
+3. **Reference the source file on disk.** Every `Source:` line must point to a real file the reviewer can open. No paraphrase, no reconstruction, no agent-generated content. If you cannot point to a file path, the reference does not belong in this artifact.
+4. **Label.** Every reference gets a header block (see **Reference format**) with locator, whole/partial, and — if partial — a clause naming exactly which part is allocated.
+5. **Stop when the file has a home.** Do not add a paraphrase or summary alongside the reference. The source file is the content.
 
 ### When to use Unallocated
 
@@ -280,158 +299,150 @@ If an extract is allocated to a module but also has meaningful pull toward anoth
 
 ---
 
-## Extract format
+## Reference format
 
-Every verbatim extract sits inside a **module section** under an **extract header** so a reviewer can verify allocation without re-opening the source.
+Every source file reference sits inside a **per-module file** under a **reference header** so a reviewer can verify allocation without re-opening the source.
 
-### Extract header (required for every extract)
+### Reference header (required for every source file)
 
 ```
-**Extract — {{short title}}**
-Source: {{chunk_id_or_file}} — "{{section_path}}"
-Locator: {{chapter / page / lines / code range — whatever is precise for this source type}}
+**Ref — {{short title}}**
+Source: {{relative_path_to_source_file}}
+Locator: {{chapter / page / lines / topic — whatever is precise for this source type}}
 Extract: {{whole | partial}}
-{{Part: {{which slice of the source was copied — required when Extract: partial}}}}
-{{Also relates to: {{other module name}} — {{one-line why}}}}
+{{Part: {{which slice is relevant — required when Extract: partial}}}}
+{{Also relates to: [{{other module name}}] — {{one-line why}}}}
 {{Reason: {{why this lives in Unallocated or Rejected — required in those sections}}}}
 ```
 
-- The `Extract:` line is `whole` when the chunk is copied top-to-bottom, `partial` otherwise.
-- When `Extract: partial`, the `Part:` line is **mandatory** and names the slice in source-grounded terms (e.g. *paragraphs 1–2 of "Refund Eligibility" subsection*, *the bullet list under "The following limits apply to authorization holds"*, *the formula line plus its caption*, *lines 14–22 of the chunk*).
+- The `Extract:` line is `whole` when the entire file is allocated to this module, `partial` when only a slice is relevant.
+- When `Extract: partial`, the `Part:` line is **mandatory** and names the slice in source-grounded terms (e.g. *paragraphs 1–2 of "Refund Eligibility" subsection*, *lines 14–22*).
 - `Also relates to:` is optional, used to flag tensions on an otherwise clean allocation.
-- `Reason:` is required in `## [Unallocated]` and `## [Rejected]` sections; omit elsewhere.
+- `Reason:` is required in `rejected.md` and `unallocated.md`; omit in module files.
 
-### Extract body (required)
+### No verbatim copy — reference only
 
-Place the verbatim text inside a **fenced block** so reviewers can see exactly what was copied (whitespace, bullets, OCR artifacts, page numbers — all preserved):
+The reference header points to the source file; the file itself is the authoritative content. Downstream agents read the module file to learn which source files belong to the module, then read those files directly. This avoids duplication and keeps module files small.
 
-```
-```source
-{{copied verbatim from the source — no edits, no paraphrase}}
-```
-```
+### One reference = one allocation
 
-If the partial extract has an internal gap, mark the gap with `[…]` on its own line **inside** the fenced block, and describe the gap in the `Part:` header line:
-
-```
-```source
-First half of the passage, copied verbatim.
-[…]
-Second half of the passage, copied verbatim.
-```
-```
-
-### One extract = one allocation
-
-If a single source chunk has two unrelated parts that belong in two different modules, that is **two extracts**, each with its own header and `Extract: partial` + `Part:` line — one in each module. Never split across modules without splitting the extract.
+If a single source file has two unrelated parts that belong in two different modules, that is **two references** — one in each module file, each with `Extract: partial` + `Part:` line. Never split across modules without splitting the reference.
 
 ---
 
-## The shape of a good `module-partitioning.md`
+## The shape of good output
 
-**Front matter is thin by contract.** It carries only the source pointer and the module/Unallocated/Rejected counts. **Do not** put per-module descriptions, scope statements, term lists, "module list" prose, or rationale in the front matter. Every piece of information about a particular module lives **inside that module's section**, under its own heading. If you find yourself describing what a specific module covers in the front matter, stop and move that prose under the module's heading instead.
+The output is a **root index** plus **per-module files**. The root index is thin; the detail lives in the module files.
 
-Each module section follows the same shape, in this order:
+### Root index: `module-partitioning.md`
 
-1. `## Module: [{{Name}}]` — the heading.
-2. `Scope: …` — one or two source-grounded sentences naming the bounded scope (and, if useful, what it does **not** cover).
-3. `**Core terms**` — bullet list of source-grounded noun phrases that appear inside this module's extracts.
-4. `**Extract — …**` blocks — verbatim source.
+Lists every module with its scope, file reference, and chunk range. No verbatim content.
 
 ```markdown
 # Module Partitioning — {{project_name}}
 
-Source: {{corpus or scan map reference}}
-Top-level modules: {{N}}     Unallocated: {{count}}     Rejected: {{count}}
+Source: {{source directory or scan map reference}}
+Modules: {{N}}  Unallocated: {{count}}  Rejected: {{count}}
 
 ---
 
 ## Module: [{{ModuleName}}]
+File: modules/{{module-name}}.md
+Chunks: {{range}} ({{count}} files)
+Scope: {{one or two source-grounded sentences}}.
 
-Scope: {{one or two source-grounded sentences — what bounded scope this module covers}}.
+## Module: [{{AnotherModule}}]
+File: modules/{{another-module}}.md
+Chunks: {{range}} ({{count}} files)
+Scope: {{one or two source-grounded sentences}}.
 
-**Core terms** (source-grounded noun phrases that appear inside this module's extracts):
+---
 
-- {{noun phrase the source uses}}
+## [Unallocated]
+File: modules/unallocated.md
+{{or: "No unallocated source files."}}
+
+## [Rejected]
+File: modules/rejected.md
+Chunks: {{range}} ({{count}} files)
+```
+
+### Per-module file: `modules/{{module-name}}.md`
+
+Each module file has scope, core terms, and source file references — no verbatim content.
+
+```markdown
+## Module: [{{ModuleName}}]
+
+Scope: {{one or two source-grounded sentences}}.
+
+**Core terms**:
 - {{noun phrase the source uses}}
 - {{noun phrase the source uses}}
 - …
 
-**Extract — {{short title}}**
-Source: {{chunk}} — "{{section path}}"
-Locator: {{precise locator}}
+---
+
+**Ref — {{short title}}**
+Source: {{relative/path/to/source/file.md}}
+Locator: {{lines, chapter, page — precise}}
 Extract: whole
 
-```source
-{{verbatim text}}
-```
-
-**Extract — {{short title}}**
-Source: {{chunk}} — "{{section path}}"
-Locator: {{precise locator}}
+**Ref — {{short title}}**
+Source: {{relative/path/to/source/file.md}}
+Locator: {{lines, chapter, page}}
 Extract: partial
 Part: {{which slice}}
 Also relates to: [{{OtherModule}}] — {{why}}
-
-```source
-{{verbatim slice}}
 ```
 
----
+### Rejected/Unallocated files
 
-## Module: [{{NestedParent}}]
+Same format as module files but with `Reason:` lines on each reference.
 
-Scope: {{source-grounded one-liner for the parent}}.
-
-**Core terms** (parent's own extracts):
-- …
-
-### [{{NestedChild}}]
-
-Scope: {{source-grounded one-liner for the sub-module}}.
-
-**Core terms** (sub-module's own extracts):
-- …
-
-**Extract — …**
-…
-
----
-
-## Module: [Unallocated]
-
-**Core terms**: *n/a — Unallocated extracts are pending an allocation decision; their terms will be captured under whichever module receives them.*
-
-**Extract — …**
-…
-Reason: {{why no module fits yet}}
-
----
-
-## Module: [Rejected]
-
-**Core terms**: *n/a — Rejected extracts are intentionally out of scope.*
-
-**Extract — …**
-…
-Reason: {{why out of scope}}
-```
-
-Modules are listed in the order they earn their boundary in the source (or in scan-map order). `## Module: [Unallocated]` and `## Module: [Rejected]` are always last, in that order.
+Modules are listed in the order they earn their boundary in the source (or in scan-map order). `[Unallocated]` and `[Rejected]` are always last, in that order.
 
 ---
 
 ## Example
 
-A small worked example showing a top-level module with one whole and one partial extract, plus an `Also relates to:` flag and a single rejected chunk. **Drawn from a payments / banking domain — illustrative, not the corpus you are partitioning.** Adapt to your own corpus.
+A small worked example showing the root index and a per-module file with references. **Drawn from a payments / banking domain — illustrative, not the corpus you are partitioning.** Adapt to your own corpus.
+
+### Root index (`module-partitioning.md`)
+
+```markdown
+# Module Partitioning — Payments Platform
+
+Source: context/rulebook/
+Modules: 2  Unallocated: 0  Rejected: 1
+
+---
+
+## Module: [Funds Transfer]
+File: modules/funds-transfer.md
+Chunks: section_03–section_05 (3 files)
+Scope: how an instruction to move funds is validated, executed, and reconciled.
+
+## Module: [Customer]
+File: modules/customer.md
+Chunks: section_01–section_02 (2 files)
+Scope: customer identity, KYC tiers, onboarding.
+
+---
+
+## [Rejected]
+File: modules/rejected.md
+Chunks: section_00 (1 file)
+```
+
+### Per-module file (`modules/funds-transfer.md`)
 
 ```markdown
 ## Module: [Funds Transfer]
 
 Scope: how an instruction to move funds from one account to another is validated, executed, and reconciled. Covers the underlying transfer mechanism shared by every named transfer product (Wire, ACH, Internal Book Transfer).
 
-**Core terms** (source-grounded noun phrases that appear inside this module's extracts):
-
+**Core terms**:
 - funds transfer
 - source account / destination account
 - debit / credit
@@ -440,69 +451,57 @@ Scope: how an instruction to move funds from one account to another is validated
 - ACH Transfer
 - Internal Book Transfer
 
-**Extract — Funds Transfer (overview)**
-Source: PaymentsRulebook__section_03 — "Funds Transfer"
+---
+
+**Ref — Funds Transfer (overview)**
+Source: context/rulebook/PaymentsRulebook__section_03.md
 Locator: Ch.3 §Funds Transfer
 Extract: whole
 
-```source
-A funds transfer moves a specified amount from a source account to a destination account in a single atomic operation. Every transfer:
-- Debits the source account by the transfer amount.
-- Credits the destination account by the transfer amount.
-- Records a matched debit/credit pair on the ledger for reconciliation.
-…
-A transfer that cannot be matched within the reconciliation window is escalated to the exceptions desk.
-```
-
-**Extract — Wire Transfer limits**
-Source: PaymentsRulebook__section_05_02 — "Wire Transfer Limits"
+**Ref — Wire Transfer limits**
+Source: context/rulebook/PaymentsRulebook__section_05_02.md
 Locator: Ch.5 §Wire Transfer — bullet list of limits
 Extract: partial
-Part: the three-bullet list under "The following limits apply to outbound wire transfers:" (per-transaction cap, daily cap, beneficiary-jurisdiction cap); excludes the surrounding prose and the FX-rate reference table.
+Part: the three-bullet list under "The following limits apply to outbound wire transfers:"
 Also relates to: [Customer] — the per-customer caps reference the customer's KYC tier set during onboarding.
-
-```source
-- Per-transaction cap: A single outbound wire cannot exceed the customer's per-transaction limit for the assigned KYC tier. …
-- Daily cap: The total outbound wire amount on a single business day cannot exceed twice the per-transaction cap. …
-- Beneficiary-jurisdiction cap: Wires destined for jurisdictions on the enhanced-due-diligence list cannot exceed the EDD cap regardless of KYC tier.
 ```
 
----
+### Rejected file (`modules/rejected.md`)
 
-## Module: [Rejected]
+```markdown
+## [Rejected]
 
-**Extract — Cover / Disclosures / ToC**
-Source: PaymentsRulebook__section_00 — "Cover / Regulatory Disclosures / Table of Contents"
+**Ref — Cover / Disclosures / ToC**
+Source: context/rulebook/PaymentsRulebook__section_00.md
 Locator: Front matter
 Extract: whole
-Reason: Front matter — regulatory disclosures and table of contents; no domain rules, no terms; out of scope for a rules-domain partition.
-
-```source
-…front-matter text copied verbatim…
-```
+Reason: Front matter — regulatory disclosures and table of contents; no domain rules; out of scope.
 ```
 
 ---
 
 ## Build
 
-**Goal:** Author `module-partitioning.md` from `domain-scan-results.md` and the source memory chunks.
+**Goal:** Author `module-partitioning.md` (root index) and `modules/*.md` (per-module files) from `domain-scan-results.md` and the source files.
 
-1. **Draft the module list first** — from the scan map's high-signal rows, propose 4–10 top-level module names (no nesting yet). Names must be source-grounded.
-2. **Walk the corpus once, in source order**, and place each meaningful chunk into exactly one section: a module, `Unallocated`, or `Rejected`. Copy verbatim; label whole vs partial.
-3. **Fill in each module's Scope and Core terms** as you go — one or two source-grounded sentences for the bounded scope, plus a bullet list of the noun phrases the source itself uses inside the module's extracts.
-4. **Apply the kind-test before declaring the partition done.** For each module, name its kind in one word (Resolution, Measure, Actor, Temporal structure, State vocabulary, Resource economy, Behavior catalog, Constraint system…). If a module's Core terms list visibly clusters into more than one kind, **split it**. Symptoms: the module name keeps wanting to be a compound or generic glue word; the Core terms list reads as two coherent vocabularies stuck together; you cannot describe what changes inside the module without referencing a different kind. If you find yourself naming a module after the source's TOC heading rather than the kind, suspect kind-mixing.
-5. **Apply the standalone-mechanic test for procedural domains.** For each pair of named mechanics inside a candidate module, ask: *can mechanic A run completely without mechanic B?* If yes for several internal pairs, the module is a bag of co-located mechanisms — split. Conversely, if mechanic A's text constantly invokes mechanic B's vocabulary, they are one mechanism in different applications and belong together. Use this on top of the kind-test: kind-test catches *kind* mixing; standalone-mechanic test catches *mechanism* mixing within the same kind.
-6. **Re-read your `Unallocated` pile** after the first pass. Most entries either find a home (move them) or reveal a missing module (promote a new top-level section). A small residual Unallocated set is healthy and expected.
-7. **Re-read your `Rejected` pile** to confirm each rejection is *intentional* and audit-grade — not an accidental drop.
-8. **Consider nesting only at the end.** For each top-level module, ask: does this module contain two or more *bounded* sub-scopes that the source itself separates? If yes, introduce `### [SubModule]` headings and re-allocate the relevant extracts. If not, leave flat.
-9. **Persistence:** engagement root from parent agent `workspace`; file lives at `abd-ooad/module-partitioning.md`.
+1. **Verify source files exist.** List the source directory (corpus chunks, context files, or scan results). If it is empty or missing, **stop and tell the user** — do not proceed with agent-generated content as a substitute.
+2. **Draft the module list first** — from the scan map's high-signal rows, propose 4–10 top-level module names (no nesting yet). Names must be source-grounded.
+3. **Walk the corpus once, in source order**, and assign each meaningful source file to exactly one module, `Unallocated`, or `Rejected`. Record the file path and locator — do not copy file content.
+4. **Write per-module files** under `abd-ooad/modules/`. Each file contains scope, core terms, and source file references. One file per module, plus `rejected.md` and optionally `unallocated.md`.
+5. **Write the root index** at `abd-ooad/module-partitioning.md` listing all modules with scope, chunk ranges, and links to per-module files.
+6. **Apply the kind-test before declaring the partition done.** For each module, name its kind in one word (Resolution, Measure, Actor, Temporal structure, State vocabulary, Resource economy, Behavior catalog, Constraint system…). If a module's Core terms list visibly clusters into more than one kind, **split it**. Symptoms: the module name keeps wanting to be a compound or generic glue word; the Core terms list reads as two coherent vocabularies stuck together; you cannot describe what changes inside the module without referencing a different kind. If you find yourself naming a module after the source's TOC heading rather than the kind, suspect kind-mixing.
+7. **Apply the standalone-mechanic test for procedural domains.** For each pair of named mechanics inside a candidate module, ask: *can mechanic A run completely without mechanic B?* If yes for several internal pairs, the module is a bag of co-located mechanisms — split. Conversely, if mechanic A's text constantly invokes mechanic B's vocabulary, they are one mechanism in different applications and belong together. Use this on top of the kind-test: kind-test catches *kind* mixing; standalone-mechanic test catches *mechanism* mixing within the same kind.
+8. **Re-read your `Unallocated` pile** after the first pass. Most entries either find a home (move them) or reveal a missing module (promote a new top-level section). A small residual Unallocated set is healthy and expected.
+9. **Re-read your `Rejected` pile** to confirm each rejection is *intentional* and audit-grade — not an accidental drop.
+10. **Consider nesting only at the end.** For each top-level module, ask: does this module contain two or more *bounded* sub-scopes that the source itself separates? If yes, introduce `### [SubModule]` headings and re-allocate the relevant references. If not, leave flat.
+11. **Persistence:** engagement root from parent agent `workspace`; files live at `abd-ooad/module-partitioning.md` and `abd-ooad/modules/*.md`.
 
 **While writing:**
 
-- One extract = one allocation. Split the extract if a single chunk straddles modules.
-- Verbatim only. Headers and labels are yours; bodies are the source's.
-- `Also relates to:` flags do not move the extract — they only annotate it.
+- One reference = one allocation. Split into partial references if a single source file straddles modules.
+- References only — no verbatim content. Headers and labels are yours; the source files are the content.
+- `Also relates to:` flags do not move the reference — they only annotate it.
+- **Parallel-agent friendly:** each module file is independent, so separate agents can work on separate modules concurrently.
 
 ---
 
@@ -512,16 +511,16 @@ Reason: Front matter — regulatory disclosures and table of contents; no domain
 
 ### Coverage
 
-- Every module section has at least one extract. **Empty modules are deleted** or moved to a follow-up note.
-- `## [Unallocated]` and `## [Rejected]` exist; if either is empty, a one-line note states *why* (e.g. "no front matter in this corpus", "every section landed cleanly on first pass").
-- The scan map's **High** and **Medium** signal rows in `domain-scan-results.md` each show up in **at least one** extract somewhere — module, unallocated, or rejected. Low-signal rows are typically rejected; that is fine, but they should appear.
+- Every module file has at least one source reference. **Empty modules are deleted** or moved to a follow-up note.
+- `rejected.md` exists; `unallocated.md` exists if any files are unallocated. If either is empty, a one-line note states *why* (e.g. "no front matter in this corpus", "every section landed cleanly on first pass").
+- The scan map's **High** and **Medium** signal rows in `domain-scan-results.md` each show up in **at least one** reference somewhere — module, unallocated, or rejected. Low-signal rows are typically rejected; that is fine, but they should appear.
 
 ### Allocation discipline
 
-- No source passage appears in two modules. If two modules quote the same passage, one of them is wrong (or it should have been split into two extracts with different `Part:` slices).
+- No source file appears in two modules (unless split with `Extract: partial` + different `Part:` slices).
 - Every `Extract: partial` line is paired with a `Part:` line that names the slice in source-grounded terms — not "the relevant bit" or "the important paragraph".
-- Every `## [Unallocated]` and `## [Rejected]` extract has a `Reason:` line.
-- Verbatim discipline: pick three random extracts, open the source chunk, and confirm character-level identity. If any has been "lightly cleaned", restore the original text.
+- Every reference in `unallocated.md` and `rejected.md` has a `Reason:` line.
+- Reference discipline: pick three random references, verify the source file exists on disk and the locator is correct. If any reference points to a non-existent file or uses a generated-content marker (e.g. `Source: domain-knowledge`), **remove it** — only real files on disk are valid references.
 
 ### Boundary discipline
 
@@ -551,17 +550,74 @@ Reason: Front matter — regulatory disclosures and table of contents; no domain
 
 ### Hand-off readiness
 
-A reviewer running `**term-registry**` next should be able to:
+A reviewer (or downstream agent) running `**term-registry**` next should be able to:
 
-- Read a single module section and have **all** the source they need to seed terms for that scope — no need to re-open the corpus for that module.
-- Trust that text **outside** the file is intentionally outside (rejected) or pending (unallocated) — not silently dropped.
+- Read a single module file, get the list of source files for that scope, and read those files to seed terms — the module file is the authoritative index for that bounded scope.
+- Trust that source files **not referenced** in any module file are intentionally outside (in `rejected.md`) or pending (in `unallocated.md`) — not silently dropped.
 
 If the partition is thin, vague, or leaks across boundaries, **improve in place** with targeted re-reads — not a wholesale rescan unless the source or the project goals changed.
 
 ---
 
 <!-- execute_rules:bundle_rules:begin -->
-<!-- No rules/*.md for this skill yet. If rules are added, bundle with:
-     python skills/execute_using_rules/scripts/bundle_rules_into_skill_md.py --skill-root <this-skill-dir>
--->
+### Rule: Full source coverage — every source file must appear in the partition
+
+**Scanner:** `scanners/full-source-coverage-scanner.py` — **`FullSourceCoverageScanner`**
+
+Every file in the workspace's source directories must be referenced by at least one `Source:` line across all module files (`abd-ooad/modules/*.md`) — allocated to a module, placed in `unallocated.md`, or explicitly placed in `rejected.md`. No source file may be silently dropped.
+
+#### DO
+
+- Walk every file in the source directories (context/, corpus/, source/, data/) and confirm it appears in at least one `Source:` line across the module files.
+- Place files that don't fit any module into `unallocated.md` with a `Reason:` line explaining the ambiguity.
+- Place out-of-scope files into `rejected.md` with a `Reason:` line explaining why they are excluded.
+- After the first pass, re-read the source directory listing and confirm full coverage.
+
+#### DON'T
+
+- Silently skip source files because they "don't seem important" — every file gets an explicit allocation decision.
+- Leave source files unreferenced on the assumption they'll be handled in a later pass — the partition is the single authoritative record of what's in, what's out, and what's pending.
+- Assume a source file is covered because a nearby file from the same directory was included — each file must appear individually.
+
+### Rule: Source references only — no generated, reconstructed, or summarized content
+
+**Scanner:** `scanners/verbatim-source-only-scanner.py` — **`VerbatimSourceOnlyScanner`**
+
+Every `Source:` line in module files must reference a file that exists on disk. The agent must never substitute its own domain knowledge, training data, or memory-based descriptions for actual source file references.
+
+#### DO
+
+- Reference source files that exist on disk (corpus chunks, scanned documents, user-supplied context files).
+- Use the exact relative file path in every `Source:` line so a reviewer can open the file and verify it exists.
+- **Stop and tell the user** when the source directory is empty or source files do not exist — the skill cannot run without readable source files.
+
+#### DON'T
+
+- Use telltale source markers like `Source: domain-knowledge`, `Source: application-requirements`, `Source: user requirements`, or any other non-file reference in `Source:` lines.
+- Reference files that do not exist on disk.
+- Proceed with partitioning when no source files exist on disk — the correct action is to halt and inform the user.
+
+#### Examples
+
+**Wrong — agent-generated reference:**
+
+```
+**Ref — Abilities overview**
+Source: domain-knowledge — "Abilities"
+Locator: MM3E Hero's Handbook, Ch. 1 Abilities
+Extract: whole
+```
+
+The `Source: domain-knowledge` marker proves this was generated by the agent, not referencing a file.
+
+**Right — reference to a file on disk:**
+
+```
+**Ref — Abilities overview**
+Source: context/rules/ch01-abilities.md
+Locator: lines 1–14
+Extract: whole
+```
+
+The reviewer can open `context/rules/ch01-abilities.md` and confirm it exists.
 <!-- execute_rules:bundle_rules:end -->

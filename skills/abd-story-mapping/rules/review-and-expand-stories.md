@@ -9,7 +9,7 @@ When planning calls for **system stories** or explicit **component interactions*
 
 ## DO
 
-- With System / Technology / Infrastructure emphasis, split user stories into **user action + system/component** stories (e.g. `User --> group tokens`, `System --> create mob`, `System --> assign mob leader`).
+- With System / Technology / Infrastructure emphasis, split user stories into **user action + system/component** stories (e.g. `User --> submit order`, `System --> reserve inventory`, `System --> assign fulfilment warehouse`).
 - **Review** existing stories and add component steps for payment, validation, inventory, etc., when the approach requires it.
 - Break flows into **discrete system steps** when the plan demands (e.g. `validate payment` → `call payment gateway` → `persist transaction` → `confirm payment`).
 
