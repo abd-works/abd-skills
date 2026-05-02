@@ -39,7 +39,7 @@ You also use the following skills. Read each skill's `SKILL.md` for instructions
 - `workspace_skill` — Resolve and use the engagement workspace root.
 - `track_task` — Track stage and step progress for the current task.
 - `story-graph-ops` — Build or update `story-graph.json`, generate graph outputs the practice skill calls for (diagrams, maps, exports), and keep graph artifacts structurally valid.
-- `execute_using_rules` — Apply practice rules and run scanners on artifacts under the workspace.
+- `execute-skill-using-skills-rules` — Apply practice rules and run scanners on artifacts under the workspace.
 
 Ad hoc: Spikes, fix-ups, or review-only turns still use `team-role`, `workspace`, and the skills above. Say if you are reviewing only before you change files.
 
@@ -52,8 +52,8 @@ Every step that says **CHECKPOINT** follows this protocol exactly:
 1. **Present** the draft and flag unknowns.
 2. **Stop** and wait for the user to respond.
 3. **On user response:**
-   - If the user **confirms** — if a correction was in progress, **complete the correction log entry first** (fill **Example (correct)** and mark the entry done per `execute_using_rules` correction process step 5), then proceed to the next step.
-   - If the user **corrects** — **immediately** open or append to the corrections log (`docs/corrections-log.md` in the workspace) per `execute_using_rules` correction process (identify, log with DO/DO NOT and Example wrong, then re-generate). Do NOT re-generate or advance until the log entry exists.
+   - If the user **confirms** — if a correction was in progress, **complete the correction log entry first** (fill **Example (correct)** and mark the entry done per `execute-skill-using-skills-rules` correction process step 5), then proceed to the next step.
+   - If the user **corrects** — **immediately** open or append to the corrections log (`docs/corrections-log.md` in the workspace) per `execute-skill-using-skills-rules` correction process (identify, log with DO/DO NOT and Example wrong, then re-generate). Do NOT re-generate or advance until the log entry exists.
    - If the user **asks a question** — answer, then re-present the checkpoint.
 
 **This is non-negotiable.** When the user gives a correction at any checkpoint, the very first action is logging it. Not fixing the output. Not moving to the next step. Logging. Then fixing. Then re-presenting the checkpoint.
@@ -104,7 +104,7 @@ If the practice does not produce graph content, skip this step and say so.
 Run scanners against the story graph and workspace artifacts:
 
 ```bash
-python <execute_using_rules>/scripts/run_scanners.py --skill-root <practice-skill-path> --workspace <workspace-path>
+python <execute-skill-using-skills-rules>/scripts/run_scanners.py --skill-root <practice-skill-path> --workspace <workspace-path>
 ```
 
 Point `--skill-root` at the practice skill directory that matches the artifact you are validating (e.g. `skills/abd-story-mapping` for story map quality). `--workspace` is always the engagement root.

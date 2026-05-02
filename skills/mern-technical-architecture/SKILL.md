@@ -70,7 +70,25 @@ Load this skill when **any** of the following apply:
 
    Fix any violations before considering the implementation complete.
 
-5. **Assembling this Skill**
+5. **Compilation Verification**
+   After scanners pass, verify the generated code actually compiles:
+   1. Run `npm install` from the workspace root — must exit with code 0.
+   2. Run `npx tsc --noEmit` — must report zero errors. **This must include test files** (`tests/**/*.ts`, `tests/**/*.tsx`).
+   3. If either fails, diagnose and fix (missing dependencies, type errors, import path issues) before proceeding.
+   
+   **This step is mandatory.** Code that does not compile is not done. Common failures:
+   - Missing external dependencies in `package.json` (zod, express, mongodb, react)
+   - Missing test framework packages in root devDependencies (vitest, jsdom, @testing-library/react, @testing-library/jest-dom, @playwright/test)
+   - Missing `@types/*` packages for type declarations
+   - Import paths that don't resolve — verify test files use `@{appName}/{domain}-{tier}` not `@project/{domain}/{tier}`
+   - TypeScript path aliases not configured for all tiers (shared, server, client) in `tsconfig.json`
+   - Missing `"types"` in tsconfig for test globals (vitest/globals, @testing-library/jest-dom)
+   - Controllers accessing `req.user` without Express type augmentation
+   - Test runner collision: no `vitest.config.ts` or `playwright.config.ts` causes each runner to pick up the other's files
+
+   **E2E tests (`npx playwright test`) cannot run** until `packages/app-server/` and `packages/app-client/` composition roots are scaffolded and a dev server is running. Do not instruct the user to run Playwright until those exist. Only `npx vitest --run` (unit + component tests) is available immediately after generating a domain module.
+
+6. **Assembling this Skill**
    This Skill file is assembled from all template files in `templates/` and all rules in `rules/`. Use **`bundle_rules_into_skill_md.py`** to reassemble this skill whenever rules or templates change.
 
 ---
@@ -209,7 +227,7 @@ packages/<domain>/
 │   ├── <entity>.schema.ts           # Zod validation schema
 │   ├── <Entity>s.ts                 # Collection class with query methods
 │   ├── index.ts                     # Barrel exports
-│   └── package.json                 # "@project/<domain>/shared"
+│   └── package.json                 # "@appName/<domain>-shared"
 │
 ├── client/                          # Presentation + Interface Adapter (React)
 │   ├── <Entity>List.tsx             # Container component
@@ -283,7 +301,7 @@ Run scanners as final verification: `domain_structure_scanner.py`, `layer_purity
 
 <!-- execute_rules:bundle_rules:begin -->
 <!-- Rule prose is generated from rules/*.md — edit rules, then run:
-     python skills/execute_using_rules/scripts/bundle_rules_into_skill_md.py --skill-root skills/mern-technical-architecture
+     python skills/execute-skill-using-skills-rules/scripts/bundle_rules_into_skill_md.py --skill-root skills/mern-technical-architecture
 -->
 ---
 scanner: domain_structure_scanner.py
@@ -446,6 +464,7 @@ End-to-end tests are **mandatory** for every sub-epic. E2E tests must reuse the 
 - Skip E2E tests for any sub-epic.
 - Write E2E tests that only check element presence without verifying logic.
 - Write E2E tests from scratch without reusing the helper class.
+- Tell the user `npx playwright test` is runnable before `app-server/` and `app-client/` are scaffolded — E2E tests require a live server and will fail with `ERR_CONNECTION_REFUSED`.
 
 ---
 scanner: layer_purity_scanner.py
@@ -466,5 +485,133 @@ Every layer that claims to implement a domain interface must implement **all mem
 - Leave interface methods unimplemented or stubbed with `throw new Error('not implemented')`.
 - Skip `implements` keyword.
 - Create test adapters that only implement methods used in one test.
+
+---
+scanner: domain_structure_scanner.py
+---
+
+### Rule: Use Valid Package Names
+
+Package names in `package.json` must be valid npm package names that pass `npm install` without errors. Derive the scope name from the **application's purpose** — not from generic placeholders.
+
+**Naming pattern:** `@{appName}/{domainName}-{tier}`
+
+Where:
+- `{appName}` is derived from the application's purpose (e.g., `taskflow`, `payhub`, `channelone`)
+- `{domainName}` is the domain module name (e.g., `recipients`, `todo-lists`, `payments`)
+- `{tier}` is `shared`, `server`, or `client`
+
+#### DO
+
+- Derive the app scope name from the application's business purpose: `@taskflow`, `@payhub`, `@shopfront`.
+- Use the pattern `@{appName}/{domainName}-{tier}` for tier packages.
+- Ensure every `package.json` name passes `npm install` without `EINVALIDPACKAGENAME`.
+- Keep names lowercase, URL-friendly (alphanumeric, hyphens only after scope).
+- Use the same package name as the `import ... from` specifier in all TypeScript source files — **including test files and test helpers**.
+
+```json
+{
+  "name": "@taskflow/todo-lists-shared",
+  "dependencies": {}
+}
+```
+
+```typescript
+// Import path MUST match the package.json "name" field — in production AND test code
+import { TodoList } from '@taskflow/todo-lists-shared';
+import { TodoListsService } from '@taskflow/todo-lists-server';
+import { TodoListList } from '@taskflow/todo-lists-client';
+```
+
+#### DON'T
+
+- Use `@project`, `@acme`, or other generic placeholder scope names.
+- Put multiple slashes in a package name: `@project/todo-lists/shared` is invalid npm.
+- Leave template placeholder names in generated output.
+- Use filesystem-style paths (e.g., `@scope/domain/tier`) as TypeScript import specifiers — use the package name (`@scope/domain-tier`).
+
+---
+scanner: layer_purity_scanner.py
+---
+
+### Rule: Ensure Type-Safe Controllers
+
+Controllers in the `server/` tier must compile without implicit `any` types or missing property errors. When controllers access extended Express `Request` properties (e.g., `req.user`), include a type augmentation.
+
+#### DO
+
+- Include `declare global { namespace Express { interface Request { user?: { id: string }; } } }` when accessing `req.user`.
+- Type all lambda/callback parameters explicitly when `noImplicitAny` or `strict` is enabled.
+- Use domain types from `shared/` for callback parameters rather than `any`.
+
+```typescript
+import { Request, Response } from 'express';
+
+declare global {
+  namespace Express {
+    interface Request {
+      user?: { id: string };
+    }
+  }
+}
+```
+
+#### DON'T
+
+- Access `req.user` or extended properties without a type declaration (causes TS2339).
+- Leave callback parameters untyped under `strict` mode (causes TS7006).
+- Use `(req as any).user` to bypass type checking — augment the type instead.
+- Suppress errors with `// @ts-ignore` instead of providing proper types.
+
+---
+scanner: domain_structure_scanner.py
+---
+
+### Rule: Include All External Dependencies
+
+Every `package.json` must declare all external packages that its source files import. After `npm install`, the project must compile with zero unresolved module errors.
+
+**Required dependencies by tier:**
+
+| Tier | dependencies | devDependencies |
+|------|-------------|-----------------|
+| shared/ | `zod` | — |
+| server/ | `express`, `mongodb`, workspace shared | `@types/express` |
+| client/ | `react`, `react-dom`, workspace shared | `@types/react`, `@types/react-dom` |
+| root | — | `typescript`, `vitest`, `@testing-library/react`, `@testing-library/jest-dom`, `@playwright/test` |
+
+**Test dependencies:** When generating test files, the root `package.json` must include `vitest`, `jsdom`, `@testing-library/react`, `@testing-library/jest-dom`, and `@playwright/test`. The `tsconfig.json` must include `"types": ["vitest/globals", "@testing-library/jest-dom"]` and include `tests/**/*.ts` + `tests/**/*.tsx` in `include`.
+
+**Use `vitest` imports in all unit/component tests — never `node:test`.** All `*_server.test.ts` and `*_client.test.tsx` files must import `describe`, `it`, `expect`, `beforeEach`, and `vi` from `'vitest'`. Mixing `node:test` with Vitest causes "No test suite found" failures.
+
+**Test runner config files are required.** Create `vitest.config.ts` (include `*_server.test.ts` + `*_client.test.tsx`, environment `jsdom`) and `playwright.config.ts` (testMatch `*_e2e.spec.ts`) to prevent runners from picking up each other's files. Without these, Playwright errors with ESM/CJS import failures on `vitest` module.
+
+**Test path aliases:** The `tsconfig.json` must have path aliases for **all** tier packages (shared, server, client) plus wildcard paths for sub-module imports:
+```json
+{
+  "paths": {
+    "@appName/domain-shared": ["./packages/domain/shared/index.ts"],
+    "@appName/domain-server": ["./packages/domain/server/index.ts"],
+    "@appName/domain-client": ["./packages/domain/client/index.ts"],
+    "@appName/domain-client/*": ["./packages/domain/client/*"]
+  }
+}
+```
+
+#### DO
+
+- List every imported external module in `dependencies` or `devDependencies`.
+- Include `@types/*` packages for libraries without bundled declarations.
+- Use caret ranges (`^`) for external packages: `"zod": "^3.22.0"`.
+- Include `typescript` in root `devDependencies`.
+- Run `npm install` + `npx tsc --noEmit` after generation to verify compilation.
+
+#### DON'T
+
+- Omit external packages and rely on hoisting or implicit resolution.
+- Generate source files that import modules not listed in any `package.json`.
+- Skip `@types/*` packages — TypeScript will fail with `Could not find a declaration file`.
+- Use `*` or `latest` for external packages (only for workspace internal references).
+- Consider the implementation complete if `npm install` or `tsc` fails.
 
 <!-- execute_rules:bundle_rules:end -->

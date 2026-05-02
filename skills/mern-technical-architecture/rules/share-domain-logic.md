@@ -13,6 +13,37 @@ Define domain entities, value objects, Zod validation schemas, and business rule
 - Export collection/aggregate classes (e.g., `Recipients`) from `shared/` for reuse in both tiers.
 - Use the shared schema in the repository layer to validate raw DB documents into typed entities.
 - Use the same shared schema in the client for form validation before HTTP calls.
+- **Hydrate API responses** into domain class instances in the API client layer. `fetch()` returns plain JSON objects — calling domain methods like `completedCount()` on them throws `TypeError: not a function`. The API client (`*.api.ts`) must reconstruct domain entities using static factory methods (e.g., `TodoList.create()`, `Task.create()`).
+
+```typescript
+// packages/todo-lists/client/todoLists.api.ts — CORRECT: hydrates JSON → domain classes
+import { TodoList, Task } from '@taskflow/todo-lists-shared';
+
+function hydrateTodoList(raw: any): TodoList {
+  const tasks = (raw.tasks || []).map((t: any) =>
+    Task.create({ id: t.id, title: t.title, completed: t.completed, createdAt: new Date(t.createdAt) })
+  );
+  return TodoList.create({
+    id: raw.id, userId: raw.userId, name: raw.name, tasks,
+    createdAt: new Date(raw.createdAt), updatedAt: new Date(raw.updatedAt),
+  });
+}
+
+export async function fetchTodoLists(): Promise<TodoList[]> {
+  const response = await fetch(API_BASE);
+  const data = await response.json();
+  return (data.items || []).map(hydrateTodoList);  // hydrate each item
+}
+```
+
+```typescript
+// WRONG — returns raw JSON, domain methods will crash at runtime
+export async function fetchTodoLists(): Promise<TodoList[]> {
+  const response = await fetch(API_BASE);
+  const data = await response.json();
+  return data.items;  // BUG: these are plain objects, not class instances
+}
+```
 
 ```typescript
 // packages/recipients/shared/recipient.schema.ts — CORRECT: single source of truth

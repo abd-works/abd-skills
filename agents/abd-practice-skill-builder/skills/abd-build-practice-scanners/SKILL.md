@@ -26,7 +26,7 @@ Written **DO / DO NOT** rules are easy to **ignore** or **misread**. Small **aut
 - **`skills/<skill-name>/`** with finalized (or stable draft) **`SKILL.md`** and **`rules/*.md`**.
 - **`bundle_rules_into_skill_md.py`** has been run at least once after the latest rule edits.
 
-Read **`skills/execute_using_rules/SKILL.md`** sections **Target Skill Layout** and **Commands**.
+Read **`skills/execute-skill-using-skills-rules/SKILL.md`** sections **Target Skill Layout** and **Commands**.
 
 ## Agent instructions
 
@@ -35,14 +35,14 @@ Apply the **bundled rules** at the end of this file so **`scanner:`** and script
 1. **Choose checkable rules** — Pick **`rules/*.md`** concerns that can be enforced mechanically (regex, file presence, forbidden phrases).
 
 2. **Implement scanners** — Under **`scanners/`**:
-   - **`scanners/<stem>-scanner.py`** — executable CLI; follow **`skills/abd-story-mapping/scanners/`** import pattern (`execute_using_rules/scripts`, `scanner_runner`, `scanner_bases`).
+   - **`scanners/<stem>-scanner.py`** — executable CLI; follow **`skills/abd-story-mapping/scanners/`** import pattern (`execute-skill-using-skills-rules/scripts`, `scanner_runner`, `scanner_bases`).
 
 3. **Wire frontmatter** — Set **`scanner: <stem>`** on **`rules/<stem>.md`** (stem matches script name without `-scanner.py`).
 
 4. **Re-bundle** — After editing rules:
 
    ```bash
-   python skills/execute_using_rules/scripts/bundle_rules_into_skill_md.py --skill-root skills/<skill-name>
+   python skills/execute-skill-using-skills-rules/scripts/bundle_rules_into_skill_md.py --skill-root skills/<skill-name>
    ```
 
 5. **Run checks** — Run **`run_scanners.py`** with **`--workspace`** when the skill produces files to scan; compare rule **intent** to scanner **coverage** as a critic.

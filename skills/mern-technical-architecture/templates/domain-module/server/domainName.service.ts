@@ -4,7 +4,7 @@
  * Coordinates repository + shared domain collection class.
  * No HTTP concerns — that's the controller's job.
  */
-import { DomainName, DomainNames } from '@project/domainName/shared';
+import { DomainName, DomainNames } from '@appName/domainName-shared';
 import { DomainNamesRepository } from './domainName.repository';
 
 export class DomainNamesService {

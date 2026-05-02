@@ -1,10 +1,15 @@
 {
-  "name": "@project/domainName/server",
+  "name": "@appName/domainName-server",
   "version": "0.0.0",
   "private": true,
   "main": "index.ts",
   "types": "index.ts",
   "dependencies": {
-    "@project/domainName/shared": "*"
+    "@appName/domainName-shared": "*",
+    "express": "^4.18.0",
+    "mongodb": "^6.0.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.0"
   }
 }

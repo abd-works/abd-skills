@@ -46,7 +46,7 @@ cd C:\dev\agilebydesign-skills\skills\story-graph-ops
 python scripts/story_graph_cli.py read --file C:\path\to\story-graph.json
 ```
 
-Add **`…/execute_using_rules/scripts`** only if you import **`scanner_bases`** in the same process.
+Add **`…/execute-skill-using-skills-rules/scripts`** only if you import **`scanner_bases`** in the same process.
 
 ## Mandatory workflow (checklist)
 
@@ -128,15 +128,15 @@ python scripts/story_graph_cli.py write  --file <out.json> [--input <in.json>|st
 
 **Exit codes for `write`:** `0` success · `1` bad input / validation failure · `2` path resolution failure · `3` `--expect-sha` mismatch · `4` active lock held by another writer.
 
-**Agent expectation:** every **`write`** during an active multi-run engagement uses both `--expect-sha` (captured from a prior `sha` or `read`) and the default advisory lock. `--force` is reserved for explicit recovery after a stale lock or an intentionally-clobbered edit, and should be logged as a correction entry (`execute_using_rules`).
+**Agent expectation:** every **`write`** during an active multi-run engagement uses both `--expect-sha` (captured from a prior `sha` or `read`) and the default advisory lock. `--force` is reserved for explicit recovery after a stale lock or an intentionally-clobbered edit, and should be logged as a correction entry (**`correct_output`** / corrections log).
 
 ## Relationship to other skills
 
 | Piece | Role |
 | --- | --- |
-| **execute_using_rules** | Base rules bundler: **`run_scanners.py`**, violations, scan context. Prepends **`story-graph-ops/scripts`** then **`execute_using_rules/scripts`** on **`PYTHONPATH`** for scanners. |
+| **execute-skill-using-skills-rules** | Base rules bundler: **`run_scanners.py`**, violations, scan context. Prepends **`story-graph-ops/scripts`** then **`execute-skill-using-skills-rules/scripts`** on **`PYTHONPATH`** for scanners. |
 
-Practice skills that ship graph-aware rules or scanners (importing **`story_map`** / **`StoryScanner`**): see **Relationship to ABD practice skills** above; **`execute_using_rules`** runs the scanner pipeline.
+Practice skills that ship graph-aware rules or scanners (importing **`story_map`** / **`StoryScanner`**): see **Relationship to ABD practice skills** above; **`execute-skill-using-skills-rules`** runs the scanner pipeline.
 
 **Rules that need the graph:** declare `scanner:` in rule frontmatter; scanner modules use **`from story_map import …`**, **`from story_scanner import StoryScanner`**, plus **`scanner_bases`**. Shared graph code lives only in **story-graph-ops** — not under **`scanner_bases`**.
 

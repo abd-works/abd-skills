@@ -15,10 +15,13 @@
  *   1. Copy domain-module/ as packages/{yourDomain}/
  *   2. Replace every 'DomainName' (PascalCase) with your entity name, e.g. Recipient.
  *   3. Replace every 'domainName' (camelCase) with the lowercase plural, e.g. recipients.
- *   4. Delete _lib/ and tsconfig.json - use real npm packages in your project.
- *   5. Run peer-review against mern-technical-architecture rules before opening a PR.
+ *   4. Replace every 'appName' with a purpose-derived app scope, e.g. taskflow, payhub.
+ *   5. Delete _lib/ and tsconfig.json - use real npm packages in your project.
+ *   6. Run peer-review against mern-technical-architecture rules before opening a PR.
  *
  * KEY RULES:
+ *   - Package names use pattern @{appName}/{domainName}-{tier} (valid npm, one slash only).
+ *   - Never use generic placeholders like @project or @acme - derive from app purpose.
  *   - Domain logic belongs on domain classes in shared/, not in services.
  *   - shared/ has ZERO framework imports (no Express, no React, no MongoDB).
  *   - Both client/ and server/ import from shared/ - never duplicate.

@@ -1,0 +1,10 @@
+# Quality gate for skills with rules or scanners
+
+When you are about to run **any** skill whose package contains a `rules/` directory or a `scanners/` directory, you **must** follow the quality flow in **`skills/execute-skill-using-skills-rules/SKILL.md`** (skill name: `execute-skill-using-skills-rules`). **Read that skill** — do not improvise from memory. It defines what to do: rules before work, validate output (AI pass + scanner pass), reference to **quality-steps**, and **item 4** pointing at corrections.
+
+When output is wrong, use **`skills/correct_output/SKILL.md`** (skill: `correct_output`) — output first, source second; full loop and log format live there, not in this rule.
+
+## When this rule does NOT apply
+
+- Skills that have **no** `rules/` and **no** `scanners/` directory — use them normally.
+- Pure informational reads (e.g., checking a rule inventory) — no gate needed.

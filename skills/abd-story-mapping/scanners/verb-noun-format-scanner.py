@@ -7,7 +7,7 @@ from pathlib import Path
 _ROOT = Path(__file__).resolve().parent.parent
 _SKILLS = _ROOT.parent
 for _p in (
-    _SKILLS / 'execute_using_rules' / 'scripts',
+    _SKILLS / 'execute-skill-using-skills-rules' / 'scripts',
     _SKILLS / 'story-graph-ops' / 'scripts',
     _ROOT / 'scanners',
 ):

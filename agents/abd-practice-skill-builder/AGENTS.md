@@ -14,7 +14,7 @@ Orchestrate using the agent-local packages in **`skills/`** under this agent (sa
 
 ## Agent Instructions
 
-You run the **practice skill builder** pipeline. Before each stage, read that stage's **`SKILL.md`** and its **`rules/*.md`**. After you change **target** **`rules/*.md`**, run **`bundle_rules_into_skill_md.py`** on that target skill. For bundling, validating output, and scanner commands, use **`skills/execute_using_rules/SKILL.md`** (**Commands** section).
+You run the **practice skill builder** pipeline. Before each stage, read that stage's **`SKILL.md`** and its **`rules/*.md`**. After you change **target** **`rules/*.md`**, run **`bundle_rules_into_skill_md.py`** on that target skill. For bundling, validating output, and scanner commands, use **`skills/execute-skill-using-skills-rules/SKILL.md`** (**Commands** section).
 
 **Stage boundary (retrieve vs author):** During **abd-query-practice-sources**, you only work under **`skills/<skill-name>/inputs/`** — mainly **`abd-answers-retrieval.md`**. **Do not** create or edit the target's **`rules/*.md`**, **`SKILL.md`**, **`templates/`**, or run **`bundle_rules_into_skill_md.py`** on the target in that step. Normative rules and **SKILL.md** prose come from **abd-author-practice-skill** using the retrieval log as evidence. If you mixed stages, run the corrections workflow below: fix **`inputs/`** first and log it; do **not** jump to editing maintainer **SKILL.md** to justify bad output.
 
@@ -22,19 +22,19 @@ You run the **practice skill builder** pipeline. Before each stage, read that st
 
 ### Corrections workflow (mandatory)
 
-When any deliverable is wrong, a rule was missed, or stages were mixed, you **follow execute_rules item 4 in full** — read **`skills/execute_using_rules/SKILL.md`** ( **What you can do**, item **4** ) and use the field table and markdown shape in **`skills/execute_using_rules/templates/corrections-log.md`**. **No shortcuts:** you do not skip the log or go straight to editing **`rules/`** / **`SKILL.md`** / this agent's sources.
+When any deliverable is wrong, a rule was missed, or stages were mixed, you **follow execute-skill-using-skills-rules item 4 in full** — read **`skills/execute-skill-using-skills-rules/SKILL.md`** ( **What you can do**, item **4** ) and use the field table and markdown shape in **`skills/execute-skill-using-skills-rules/templates/corrections-log.md`**. **No shortcuts:** you do not skip the log or go straight to editing **`rules/`** / **`SKILL.md`** / this agent's sources.
 
 **Log location:** Under the engagement or project tree ( **`active_skill_workspace`** when **`skill-config.json`** sets **`workspace`** ), e.g. **`logs/corrections-log.md`**, **`progress/corrections-log.md`**, or **`.skill-builder/corrections-log.md`**. **Not** inside **`agents/abd-practice-skill-builder/`** or an installed skill package as the canonical log.
 
 **Fix the output only** (complete all of these before **Fix the skill**):
 
 1. **Identify** — Note the problem; **open or create** the corrections log file.
-2. **Log (initial)** — Add an entry: **Rule**, **Affects** (include **`stage:`** using practice-builder stages: **`retrieve`**, **`author`**, **`scanners`**, **`catalog`**, **`manual`**, or **`*`** when cross-cutting), **DO / DO NOT**, **Example (wrong)**; leave **Example (correct)** blank and **Status: open**. **DO / DO NOT** must state **altered behavior** (what to do next); the mistake lives in **Example (wrong)** — see **`skills/execute_using_rules/templates/corrections-log.md`** **Phrasing**.
+2. **Log (initial)** — Add an entry: **Rule**, **Affects** (include **`stage:`** using practice-builder stages: **`retrieve`**, **`author`**, **`scanners`**, **`catalog`**, **`manual`**, or **`*`** when cross-cutting), **DO / DO NOT**, **Example (wrong)**; leave **Example (correct)** blank and **Status: open**. **DO / DO NOT** must state **altered behavior** (what to do next); the mistake lives in **Example (wrong)** — see **`skills/execute-skill-using-skills-rules/templates/corrections-log.md`** **Phrasing**.
 3. **Re-generate** — Fix the **artifact on disk** (retrieval log, **SKILL.md**, rules, manual, etc.) per the violated rule; expect **multiple** iterations.
 4. **Review** — Repeat until the deliverable is **actually** acceptable, not after one quick edit.
 5. **Confirm** — Fill **Example (correct)**; set **Status: confirmed** for that entry.
 
-**Fix the skill** — only **after** the output steps above for that issue, or when the user **explicitly** asks to change maintainer sources. Then follow item 4 **Fix the skill** substeps **a** through **f** in **`skills/execute_using_rules/SKILL.md`** (read log as a set, root causes, propose and agree, edit **`rules/*.md`** not the bundled block, bundle + validate, archive).
+**Fix the skill** — only **after** the output steps above for that issue, or when the user **explicitly** asks to change maintainer sources. Then follow item 4 **Fix the skill** substeps **a** through **f** in **`skills/execute-skill-using-skills-rules/SKILL.md`** (read log as a set, root causes, propose and agree, edit **`rules/*.md`** not the bundled block, bundle + validate, archive).
 
 - Use the **track_task** skill; track steps in **`progress/`** per **track_task**.
 - Example layout references: `abd-clean-code`, `abd-story-mapping`, `abd-acceptance-criteria`, `abd-specification-by-example`, `abd-thin-slicing`, `abd-acceptance-test-driven-development`.
@@ -44,8 +44,8 @@ Keep **one canonical narrative** in the new skill and manual; RAG hits are **evi
 ### Commands (repo root)
 
 ```bash
-python skills/execute_using_rules/scripts/bundle_rules_into_skill_md.py --skill-root skills/<skill-name>
-python skills/execute_using_rules/scripts/run_scanners.py --skill-root skills/<skill-name> --workspace <path-to-output-or-folder>
+python skills/execute-skill-using-skills-rules/scripts/bundle_rules_into_skill_md.py --skill-root skills/<skill-name>
+python skills/execute-skill-using-skills-rules/scripts/run_scanners.py --skill-root skills/<skill-name> --workspace <path-to-output-or-folder>
 ```
 
 
@@ -55,7 +55,7 @@ Typical order (adjust per engagement):
 
 1. **Retrieve** — **abd-query-practice-sources** — read that skill first; **`inputs/`** only on the target package (no **`rules/`** or **SKILL.md** here); structured queries against abd-answers (`npm run rag:query` from **`agents/abd-answers/`** in this repo, or a standalone **abd-answers** clone); ensure **`skills/<name>/`** and **`inputs/`** exist; write **`inputs/abd-answers-retrieval.md`** with **Kept chunks** (verbatim fenced bodies) per **abd-query-practice-sources** template — not summary-only tables.
 2. **Author SKILL + rules** — **abd-author-practice-skill** — read that skill first; if **`SKILL.md`** is missing, copy **`templates/SKILL_template.md`** from that skill, add **Manual:** line and bundle markers, ensure **`rules/`** and **`templates/`**; fill **`SKILL.md`** from **`inputs/abd-answers-retrieval.md`**, write **`rules/*.md`**, run **`bundle_rules_into_skill_md.py`** on the **new** skill (no scanners in this step).
-3. **Scanners** — **abd-build-practice-scanners** — read that skill first; optional **`scanners/*.py`**, **`scanner:`** on rules; **`run_scanners.py`** when scanners exist (per **execute_rules**).
+3. **Scanners** — **abd-build-practice-scanners** — read that skill first; optional **`scanners/*.py`**, **`scanner:`** on rules; **`run_scanners.py`** when scanners exist (per **execute-skill-using-skills-rules**).
 4. **Catalog** — **abd-skill-catalog** — maintain **`skills/<name>/README.md`** catalogue copy (`catalogue_summary`, **`## Overview`**, optional **`## How it fits together`** + ascii); from **agilebydesign-skills** repo root run **`python agents/abd-practice-skill-builder/skills/abd-skill-catalog/scripts/generate_abd_catalog.py`**.
 5. **Manual** — **abd-practice-skill-manual** — **`manual/<skill-name>/`** HTML, link from **`SKILL.md`** top and in-body section refs.
 
@@ -68,7 +68,7 @@ Typical order (adjust per engagement):
 | Scanners | [skills/abd-build-practice-scanners/SKILL.md](skills/abd-build-practice-scanners/SKILL.md) |
 | Skill catalog | [skills/abd-skill-catalog/SKILL.md](skills/abd-skill-catalog/SKILL.md) |
 | HTML manual | [skills/abd-practice-skill-manual/SKILL.md](skills/abd-practice-skill-manual/SKILL.md) |
-| execute_rules (quality + corrections) | [../../skills/execute_using_rules/SKILL.md](../../skills/execute_using_rules/SKILL.md) |
+| execute-skill-using-skills-rules (quality + corrections) | [../../skills/execute-skill-using-skills-rules/SKILL.md](../../skills/execute-skill-using-skills-rules/SKILL.md) |
 | track_task | [../../skills/track_task/SKILL.md](../../skills/track_task/SKILL.md) |
 
 ---

@@ -16,7 +16,7 @@ We need to build these agents and skills by porting existing C:\dev\agile_bots c
 | Layer | Owns | Lives in |
 |--------|------|----------|
 | **Orchestration** | Stage order, handoffs, which team-member covers which stage, when to involve the human | `abd-delivery-lead` agent MD |
-| **Common delivery mechanics** | Workspace, context roots, task tracking, generic CLI invocation pattern (`execute_using_rules`, future `render-output`, etc.) | Shared helper skills (`workspace_skill`, `track_task`, `context_tracker`, `execute_using_rules`, …) |
+| **Common delivery mechanics** | Workspace, context roots, task tracking, generic CLI invocation pattern (`execute-skill-using-skills-rules`, future `render-output`, etc.) | Shared helper skills (`workspace_skill`, `track_task`, `context_tracker`, `execute-skill-using-skills-rules`, …) |
 | **Practice + shape** | What good output *is* for that stage, templates, shape-specific validate/render notes | One practice skill per stage (e.g. `abd-story-mapping`) |
 
 **Common vs shape-specific:** pull *common* flow from agile_bots **build → validate → render** at the level of *workflow*, not by copying action-specific JSON prose into skills. Put **behavior/action-shaped** specifics (story-mapping vocabulary, outline rules, etc.) in the **practice skill**.
@@ -31,11 +31,11 @@ We need to build these agents and skills by porting existing C:\dev\agile_bots c
 ### Validate and scan from instructions
 
 1. The **practice skill** (e.g. `abd-story-mapping`) owns **`rules/*.md`**, bundled rule prose in **`SKILL.md`**, and **`scanners/*-scanner.py`** bound via rule frontmatter (`scanner:`).
-2. **`execute_using_rules`** documents the loop and **runs it through the CLI**: AI pass on the deliverable **plus** mechanical scanners — see `skills/execute_using_rules/SKILL.md`.
-3. **Scanner driver:** `python <execute_using_rules>/scripts/run_scanners.py --skill-root <path-to-practice-skill> --workspace <engagement-folder>`.
+2. **`execute-skill-using-skills-rules`** documents the loop and **runs it through the CLI**: AI pass on the deliverable **plus** mechanical scanners — see `skills/execute-skill-using-skills-rules/SKILL.md`.
+3. **Scanner driver:** `python <execute-skill-using-skills-rules>/scripts/run_scanners.py --skill-root <path-to-practice-skill> --workspace <engagement-folder>`.
 4. **Workspace graph path:** scanners load `story-graph.json` from `<workspace>/story-graph.json` or `<workspace>/docs/story/story-graph.json` (see `scanner_runner.load_workspace_graph_json`).
 5. **Serialized graph lifecycle (no agile_bots required):** use **`story-graph-ops`** — create or edit `story-graph.json`, then validate with `story_graph_cli.py read --file <path>` and `PYTHONPATH` including `skills/story-graph-ops/scripts`. Do not treat hand-written JSON as done until that read passes.
-6. **Green:** all configured scanners exit 0; fix violations and re-run. Log corrections per `execute_using_rules` correction process when rules are missed.
+6. **Green:** all configured scanners exit 0; fix violations and re-run. Log corrections per `execute-skill-using-skills-rules` correction process when rules are missed.
 
 ### Sequencing (implementation slices)
 
@@ -74,7 +74,7 @@ abd-delivery-lead own:
 --abd-team-member --
 - the abd-delivery-lead instantiates abd-team-member agents who all have the job to progressively add generated context into a more structured form following the Agile by design delivery approach. 
 
-**Mechanical stack for structured artifacts (e.g. discovery producing `story-graph.json`):** **`story-graph-ops`** (validate graph file) → **`execute_using_rules`** `run_scanners.py` with **`--skill-root`** = the stage’s **practice skill** (e.g. `abd-story-mapping`) and **`--workspace`** = engagement folder containing the graph. This is the correct approach when an abd-team-member is *not* inside agile_bots; agile_bots CLI remains an alternate path when the workspace is a bot.
+**Mechanical stack for structured artifacts (e.g. discovery producing `story-graph.json`):** **`story-graph-ops`** (validate graph file) → **`execute-skill-using-skills-rules`** `run_scanners.py` with **`--skill-root`** = the stage’s **practice skill** (e.g. `abd-story-mapping`) and **`--workspace`** = engagement folder containing the graph. This is the correct approach when an abd-team-member is *not* inside agile_bots; agile_bots CLI remains an alternate path when the workspace is a bot.
 
 *abd-team-member-agent* area instantiated for each stage in delivery flow 
 - discovery
@@ -110,7 +110,7 @@ team-member agents flow
 - **Build the artifact on disk:**
   - Prefer **`story-graph-ops`** for `story-graph.json`: produce JSON (generator script, careful edit, or import from `story_map`), then **`story_graph_cli.py read --file …`** so structure is valid before scanners run. Skill root: `skills/story-graph-ops`.
   - **Alternative** when working *inside* **agile_bots** with `story_bot`: use the existing bot/CLI story graph API (e.g. `story_graph.create_epic` …) if the engagement is wired to that workspace — same file format, different entry point.
-- **`execute_using_rules`** (repo: `skills/execute_using_rules`) — scanner pass:
+- **`execute-skill-using-skills-rules`** (repo: `skills/execute-skill-using-skills-rules`) — scanner pass:
   - `python scripts/run_scanners.py --skill-root <practice-skill-dir> --workspace <engagement-folder>`
   - Example (discovery / story mapping): `--skill-root …/skills/abd-story-mapping --workspace …/your-project` (folder must contain `story-graph.json` or `docs/story/story-graph.json`).
 - **AI pass + scanner pass** together: read bundled rules, judge the deliverable, then run `run_scanners.py`; iterate until both are acceptable; use corrections log when fixing mistakes.
@@ -158,7 +158,7 @@ C:\dev\agilebydesign-skills\backup\abd-maps-models-specs\content\parts\library\s
 
 **Portable pipeline (abd-team-member / discovery without agile_bots runtime):**
 - **`story-graph-ops`** (`skills/story-graph-ops`): mechanical lifecycle for `story-graph.json` — CLI `story_graph_cli.py` (`read`, `names`, `search`, `write`); always finish with **`read`** after writes.
-- **`execute_using_rules`** + **`abd-story-mapping`**: `run_scanners.py --skill-root …/abd-story-mapping --workspace <folder with story-graph.json>`.
+- **`execute-skill-using-skills-rules`** + **`abd-story-mapping`**: `run_scanners.py --skill-root …/abd-story-mapping --workspace <folder with story-graph.json>`.
 - Converting from Markdown/text story maps: generate JSON, validate with story-graph-ops, then run practice skill scanners.
 
 -template for what a story graph looks like when built by this skill-template (json)
@@ -185,7 +185,7 @@ VALIDATING
 each skill needs rules C:\dev\agile_bots\bots\story_bot\behaviors\shape\rules  --> move these to markdown in <Skill>/rules,  building skills will build all th skills into skill file
 
 - each rule may have 1 scanner ; scanners use code to detect violations
-- **Run scanners** via `execute_using_rules` `run_scanners.py` with `--skill-root` = that practice skill directory (not agile_bots). Scanners import **`story_map` / `story_scanner`** from **`story-graph-ops/scripts`** on `PYTHONPATH` (the driver sets this).
+- **Run scanners** via `execute-skill-using-skills-rules` `run_scanners.py` with `--skill-root` = that practice skill directory (not agile_bots). Scanners import **`story_map` / `story_scanner`** from **`story-graph-ops/scripts`** on `PYTHONPATH` (the driver sets this).
 
 RENDERING
 
@@ -204,7 +204,7 @@ shape.render.renderDiagram
 path <workspace>
 bot story_bot
 
---> agents/abd-context-engine/skills/execute_using_rules
+--> agents/abd-context-engine/skills/execute-skill-using-skills-rules
 
 
 

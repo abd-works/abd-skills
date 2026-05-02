@@ -293,7 +293,7 @@ Stop for confirmation. If no named strategy fits, explain why and present the cu
 After writing or revising `<workspace>/agile-delivery-plan.md` (Step 2 or Step 7 of the delivery lead), run:
 
 ```
-python skills/execute_using_rules/scripts/run_scanners.py \
+python skills/execute-skill-using-skills-rules/scripts/run_scanners.py \
     --skill-root skills/abd-delivery-planning \
     --workspace <workspace>
 ```

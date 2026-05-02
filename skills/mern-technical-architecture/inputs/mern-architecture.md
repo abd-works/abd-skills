@@ -75,7 +75,7 @@ This document describes a domain-first MERN (MongoDB, Express, React, Node.js) a
 │  Tech: Plain TypeScript (NO framework - portable to browser+Node)   │
 │  Impl: Entity classes, Value Objects, Zod schemas, domain methods   │
 │  Role: Business rules, validation, domain logic                     │
-│  *** SHARED BETWEEN FRONTEND AND BACKEND via @project/.../shared ***│
+│  *** SHARED BETWEEN FRONTEND AND BACKEND via @appName/{domain}-shared ***│
 └─────────────────────────────────────────────────────────────┬───────┘
                                                               │ Driver calls
 ┌─────────────────────────────────────────────────────────────▼───────┐
@@ -568,7 +568,7 @@ export class Recipients {
 ```typescript
 // packages/recipients/server/recipients.repository.ts
 import { Collection, Db } from 'mongodb';
-import { Recipient, RecipientSchema } from '@project/recipients/shared';
+import { Recipient, RecipientSchema } from '@channelone/recipients-shared';
 
 export class RecipientsRepository {
   private collection: Collection;
@@ -594,7 +594,7 @@ export class RecipientsRepository {
 }
 
 // packages/recipients/server/recipients.service.ts
-import { Recipient, Recipients, SelectRecipientsInput } from '@project/recipients/shared';
+import { Recipient, Recipients, SelectRecipientsInput } from '@channelone/recipients-shared';
 import { RecipientsRepository } from './recipients.repository';
 
 export class RecipientsService {
@@ -617,7 +617,7 @@ export class RecipientsService {
 
 // packages/recipients/server/recipients.routes.ts
 import { Router } from 'express';
-import { SelectRecipientsSchema } from '@project/recipients/shared';
+import { SelectRecipientsSchema } from '@channelone/recipients-shared';
 import { RecipientsService } from './recipients.service';
 
 export function createRecipientsRouter(service: RecipientsService): Router {
@@ -651,7 +651,7 @@ export function createRecipientsRouter(service: RecipientsService): Router {
 
 ```typescript
 // packages/recipients/client/recipients.api.ts
-import { Recipient, SelectRecipientsInput } from '@project/recipients/shared';
+import { Recipient, SelectRecipientsInput } from '@channelone/recipients-shared';
 
 const API_BASE = '/api/recipients';
 
@@ -678,7 +678,7 @@ export async function selectRecipients(input: SelectRecipientsInput): Promise<Re
 
 // packages/recipients/client/useRecipients.ts
 import { useState, useEffect, useCallback } from 'react';
-import { Recipient, Recipients } from '@project/recipients/shared';
+import { Recipient, Recipients } from '@channelone/recipients-shared';
 import { fetchRecipients } from './recipients.api';
 
 export function useRecipients() {
@@ -729,7 +729,7 @@ import React, { useState } from 'react';
 import { useRecipients } from './useRecipients';
 import { RecipientCard } from './RecipientCard';
 import { selectRecipients } from './recipients.api';
-import { SelectRecipientsSchema } from '@project/recipients/shared';
+import { SelectRecipientsSchema } from '@channelone/recipients-shared';
 
 export function RecipientSelector() {
   const {
@@ -808,7 +808,7 @@ export function RecipientSelector() {
 
 // packages/recipients/client/RecipientCard.tsx
 import React from 'react';
-import { Recipient } from '@project/recipients/shared';
+import { Recipient } from '@channelone/recipients-shared';
 
 interface RecipientCardProps {
   recipient: Recipient;
@@ -886,9 +886,9 @@ Define TypeScript interfaces (`RecipientListResponse`, `SelectRecipientsRequest`
 
 | Strategy | Where Logic Lives | When to Use |
 |----------|------------------|-------------|
-| **Shared Validation Schemas** | `@project/.../shared/` (Zod/Yup) | Forms, API input validation |
-| **Domain Entities** | `@project/.../shared/` (classes) | Complex business rules, aggregates |
-| **Shared Type Definitions** | `@project/.../shared/` (interfaces) | API contracts, type safety |
+| **Shared Validation Schemas** | `@channelone/{domain}-shared` (Zod/Yup) | Forms, API input validation |
+| **Domain Entities** | `@channelone/{domain}-shared` (classes) | Complex business rules, aggregates |
+| **Shared Type Definitions** | `@channelone/{domain}-shared` (interfaces) | API contracts, type safety |
 
 
 ---
@@ -943,24 +943,24 @@ Define TypeScript interfaces (`RecipientListResponse`, `SelectRecipientsRequest`
 ```json
 // packages/recipients/shared/package.json
 {
-  "name": "@project/recipients/shared",
+  "name": "@channelone/recipients-shared",
   "main": "index.ts",
   "types": "index.ts"
 }
 
 // packages/recipients/client/package.json
 {
-  "name": "@project/recipients/client",
+  "name": "@channelone/recipients-client",
   "dependencies": {
-    "@project/recipients/shared": "*"
+    "@channelone/recipients-shared": "*"
   }
 }
 
 // packages/recipients/server/package.json
 {
-  "name": "@project/recipients/server",
+  "name": "@channelone/recipients-server",
   "dependencies": {
-    "@project/recipients/shared": "*"
+    "@channelone/recipients-shared": "*"
   }
 }
 ```
@@ -1300,8 +1300,8 @@ export abstract class SelectRecipientBaseHelper {
 import request from 'supertest';
 import assert from 'node:assert';
 import { SelectRecipientBaseHelper, RecipientData } from './select-recipient.base';
-import { app } from '@project/app-server';
-import { db } from '@project/app-server/db';
+import { app } from '@channelone/app-server';
+import { db } from '@channelone/app-server-db';
 
 export class SelectRecipientServerHelper extends SelectRecipientBaseHelper {
   private response: request.Response;
@@ -1385,10 +1385,10 @@ import { vi } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { SelectRecipientBaseHelper, RecipientData } from './select-recipient.base';
-import { RecipientSelectionStep } from '@project/recipients/client';
-import * as api from '@project/recipients/client/recipients.api';
+import { RecipientSelectionStep } from '@channelone/recipients-client';
+import * as api from '@channelone/recipients-client/recipients.api';
 
-vi.mock('@project/recipients/client/recipients.api');
+vi.mock('@channelone/recipients-client/recipients.api');
 
 export class SelectRecipientClientHelper extends SelectRecipientBaseHelper {
   private container: ReturnType<typeof render>;

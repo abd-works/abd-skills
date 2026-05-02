@@ -1,7 +1,10 @@
 {
-  "name": "@project/domainName/shared",
+  "name": "@appName/domainName-shared",
   "version": "0.0.0",
   "private": true,
   "main": "index.ts",
-  "types": "index.ts"
+  "types": "index.ts",
+  "dependencies": {
+    "zod": "^3.22.0"
+  }
 }

@@ -8,7 +8,7 @@ _HERE = Path(__file__).resolve()
 _REPO_ROOT = _HERE.parents[3]  # agents/abd-delivery-lead/tests -> repo root
 
 _PATHS = [
-    _REPO_ROOT / "skills" / "execute_using_rules" / "scripts",
+    _REPO_ROOT / "skills" / "execute-skill-using-skills-rules" / "scripts",
     _REPO_ROOT / "skills" / "track_task" / "scripts",
     _REPO_ROOT / "skills" / "abd-delivery-planning" / "scripts",
     _REPO_ROOT / "skills" / "abd-delivery-planning" / "scanners",

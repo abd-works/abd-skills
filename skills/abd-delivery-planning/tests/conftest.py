@@ -11,7 +11,7 @@ _SKILLS_DIR = _SKILL_ROOT.parent               # .../skills
 _PATHS = [
     _SKILL_ROOT / "scanners",
     _SKILL_ROOT / "scripts",
-    _SKILLS_DIR / "execute_using_rules" / "scripts",
+    _SKILLS_DIR / "execute-skill-using-skills-rules" / "scripts",
     _SKILLS_DIR / "track_task" / "scripts",
 ]
 for _p in _PATHS:

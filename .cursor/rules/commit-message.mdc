@@ -37,7 +37,7 @@ feat(abd-story-mapping): add sub-epic decomposition to story map output
 fix(abd-delivery-lead): correct workspace setup step order
 rule(abd-acceptance-criteria): add rule for atomic AC per story
 scanner(abd-clean-code): add scanner for swallowed exceptions
-refactor(abd-ooad): consolidate phase scripts
+refactor(abd-domain-driven-design): consolidate phase scripts
 chore: sync catalog
 ```
 

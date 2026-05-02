@@ -22,7 +22,7 @@ A normative rule should stand on its own: right after the scanner line, use **or
 
 - Replace the whole rule with cross-references so nobody can pass/fail from **this** file alone.
 
-  **Example (fail):** “Mechanics for **`execute_using_rules`**: filenames, bundling, **`scanner:`**. For **DO**, **DO NOT**, **Examples**, see **Target rule files are checkable specs for named artifacts**.” — no local conditions in **this** file.
+  **Example (fail):** “Mechanics for **`execute-skill-using-skills-rules`**: filenames, bundling, **`scanner:`**. For **DO**, **DO NOT**, **Examples**, see **Target rule files are checkable specs for named artifacts**.” — no local conditions in **this** file.
 
 - Write **DO** bullets that need workshop context or memory — not decidable from the artifact.
 

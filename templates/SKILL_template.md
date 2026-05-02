@@ -114,6 +114,6 @@ This Skill file is  assembled from all template files  `templates/` and all rule
 
 <!-- execute_rules:bundle_rules:begin -->
 <!-- Rule prose is generated from rules/*.md — edit rules, then run:
-     python skills/execute_using_rules/scripts/bundle_rules_into_skill_md.py --skill-root <this-skill-dir>
+     python skills/execute-skill-using-skills-rules/scripts/bundle_rules_into_skill_md.py --skill-root <this-skill-dir>
 -->
 <!-- execute_rules:bundle_rules:end -->

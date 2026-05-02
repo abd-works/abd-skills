@@ -4,7 +4,7 @@
  * Provides typed functions for calling the backend REST API.
  * Imports types from shared/ for compile-time contract safety.
  */
-import { DomainName } from '@project/domainName/shared';
+import { DomainName } from '@appName/domainName-shared';
 
 const API_BASE = '/api/domainNames';
 

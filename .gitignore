@@ -17,8 +17,12 @@ conf/.secrets
 **/conf/.secrets
 
 
-# Cursor IDE
+# IDE / Copilot / local editor deploy outputs — never commit (any directory depth).
+# Canonical copies live under each skill’s `ide-files/`; run Deploy-* scripts after clone.
+# To track shared VS Code settings or GitHub Actions anyway, use negated patterns or `git add -f`.
 .cursor/
+.github/
+.vscode/
 
 # OS
 .DS_Store

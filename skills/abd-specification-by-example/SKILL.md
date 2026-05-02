@@ -64,9 +64,9 @@ If you find yourself writing the same steps three or more times with only values
 
 ### 4. Assembling this skill
 
-This `SKILL.md` bundles `rules/*.md` into the block below. Run `bundle_rules_into_skill_md.py` from `skills/execute_using_rules/scripts/` whenever any rule file changes.
+This `SKILL.md` bundles `rules/*.md` into the block below. Run `bundle_rules_into_skill_md.py` from `skills/execute-skill-using-skills-rules/scripts/` whenever any rule file changes.
 
-This **`SKILL.md`** is assembled from **`rules/*.md`** into the bundled block below. Use **`bundle_rules_into_skill_md.py`** from **`skills/execute_using_rules/scripts/`** whenever **`rules/*.md`** changes:
+This **`SKILL.md`** is assembled from **`rules/*.md`** into the bundled block below. Use **`bundle_rules_into_skill_md.py`** from **`skills/execute-skill-using-skills-rules/scripts/`** whenever **`rules/*.md`** changes:
 
 ---
 

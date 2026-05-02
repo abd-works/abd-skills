@@ -1,0 +1,11 @@
+# Correction process (always-on)
+
+Triggers: wrong output **or** user corrects **process / how you work**.
+
+**Authoritative steps** live in **`skills/correct_output/SKILL.md`** (or **`~/.cursor/skills/correct-output/SKILL.md`**). There is **no** separate “agent” or `AGENTS.md` contract for this process — only the **SKILL** (sections **Instructions** and **Where the corrections log lives**).
+
+**Non-negotiable (summary):**
+
+1. Read the **SKILL** — especially **Instructions** and **Where the corrections log lives**.
+2. **Append the project’s corrections ledger on disk in the same turn** as you fix or acknowledge the issue. **Chat is not the record.** Use an existing file in that repo if there is one (e.g. **`abd-ooad/corrections-log.md`**), otherwise create **`corrections-log.md` at that repo’s root** from the skill template.
+3. **Re-generate** the deliverable; **iterate** until it is right. **Improve the source** (skills, rules, prompts) **only** if the user asks.

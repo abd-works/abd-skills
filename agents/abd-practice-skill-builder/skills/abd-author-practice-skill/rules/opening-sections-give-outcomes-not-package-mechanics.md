@@ -2,7 +2,7 @@
 
 **Scanner:** Manual review
 
-**Purpose**, **When to use**, and the first teaching blocks on a **`SKILL.md`** should read like **why the packaged method matters**, **who it helps**, and **what becomes possible** when the practice is done well. They stay in **human outcome language**. **Package mechanics** — repo paths, **`Manual:`**, **`execute_rules`** markers, which template to copy, bundling commands, retrieval filenames, scanner wiring, or “how an agent runs this skill” — belong in **Prerequisites**, **Build**, **Validate**, **Agent Instructions**, or **`rules/*.md`**, not in the opening voice. Failure is a **Purpose** that reads like a runbook or file checklist before the reader knows **why** the practice exists.
+**Purpose**, **When to use**, and the first teaching blocks on a **`SKILL.md`** should read like **why the packaged method matters**, **who it helps**, and **what becomes possible** when the practice is done well. They stay in **human outcome language**. **Package mechanics** — repo paths, **`Manual:`**, **`execute_rules`** HTML markers (`execute_rules:bundle_rules`), which template to copy, bundling commands, retrieval filenames, scanner wiring, or “how an agent runs this skill” — belong in **Prerequisites**, **Build**, **Validate**, **Agent Instructions**, or **`rules/*.md`**, not in the opening voice. Failure is a **Purpose** that reads like a runbook or file checklist before the reader knows **why** the practice exists.
 
 ## DO
 
@@ -20,7 +20,7 @@
 
 ## DO NOT
 
-- Open **Purpose** with retrieval paths, **`inputs/...`**, **`rules/*.md`**, **`Manual:`**, **`execute_rules`**, or “start from **`templates/...`**” before stating **why** the practice matters.
+- Open **Purpose** with retrieval paths, **`inputs/...`**, **`rules/*.md`**, **`Manual:`**, **`execute_rules`** markers, or “start from **`templates/...`**” before stating **why** the practice matters.
 
   **Example (fail):** “You use this skill after hub evidence is in **`inputs/abd-answers-retrieval.md`**. It authors **`rules/*.md`** and finishes **`SKILL.md`**…” as the **whole** purpose — mechanics first, no **why**.
 

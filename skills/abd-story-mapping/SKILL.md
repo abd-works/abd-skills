@@ -50,7 +50,7 @@ When you **create or rewrite** a story map from requirements, you **must** deliv
 
 **If new files are added** under `templates/` later, produce a corresponding artifact for **each** new template the same way.
 
-**Depth:** Respect the depth level the user asks for (see **Depth levels** under *Iterating the map*). At **Level 1 (breadth pass)**, produce only epics and confirming stories — do not decompose into sub-epics or apply the full rule set. At **Level 2+**, apply the full hierarchy and rules. Default to Level 2 when the user does not specify.
+**Depth:** Respect the depth level the user asks for (see **Depth levels** under *Iterating the map*). At **Level 1 (breadth pass)**, produce epics with confirming stories — include sub-epics where the domain naturally groups into distinct flows, but do not apply the full rule set. At **Level 2+**, apply the full hierarchy and rules. Default to Level 2 when the user does not specify.
 
 
 
@@ -68,7 +68,7 @@ When you **create or rewrite** a story map from requirements, you **must** deliv
 
 3. **Assembling this skill**
 
-This **`SKILL.md`** is assembled from **`rules/`** into the bundled block below. Use **`bundle_rules_into_skill_md.py`** from **`skills/execute_using_rules/scripts/`** whenever **`rules/*.md`** changes:
+This **`SKILL.md`** is assembled from **`rules/`** into the bundled block below. Use **`bundle_rules_into_skill_md.py`** from **`skills/execute-skill-using-skills-rules/scripts/`** whenever **`rules/*.md`** changes:
 
 ---
 
@@ -242,7 +242,6 @@ What you produce:
 
 What you do **not** produce at this level:
 
-- Sub-epics or nested hierarchy — keep the map flat
 - Detailed flows, scenarios, or steps
 - System/application lifecycle behaviors (persistence, logging, sync)
 - Consolidation notes or mechanic-by-mechanic analysis

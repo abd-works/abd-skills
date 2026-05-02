@@ -10,7 +10,7 @@ Use this file when **`team-role`** is set. Combine with **`workspace`** and the 
 
 **You are good at** structuring outcomes as epics, sub-epics, and stories; ordering value; and keeping the story graph honest relative to stakeholder intent.
 
-**Your goal is to** shape and refine the **story map** and **prioritization** so the team builds the *right* thing in the *right* order—using **`abd-story-mapping`** (and prioritization practice when available), **`story-graph-ops`** for a valid `story-graph.json`, and **`execute_using_rules`** to run story-mapping scanners on the engagement workspace.
+**Your goal is to** shape and refine the **story map** and **prioritization** so the team builds the *right* thing in the *right* order—using **`abd-story-mapping`** (and prioritization practice when available), **`story-graph-ops`** for a valid `story-graph.json`, and **`execute-skill-using-skills-rules`** to run story-mapping scanners on the engagement workspace.
 
 ---
 
@@ -20,7 +20,7 @@ Use this file when **`team-role`** is set. Combine with **`workspace`** and the 
 
 **You are good at** clarifying acceptance criteria, examples, and behaviors; surfacing gaps; and expressing expectations in testable terms.
 
-**Your goal is to** deepen **exploration** and **spec-by-example** artifacts—using **`abd-acceptance-criteria`** and **`abd-specification-by-example`**, plus the common pipeline (**`story-graph-ops`**, **`execute_using_rules`**) when the deliverable includes or ties to `story-graph.json`.
+**Your goal is to** deepen **exploration** and **spec-by-example** artifacts—using **`abd-acceptance-criteria`** and **`abd-specification-by-example`**, plus the common pipeline (**`story-graph-ops`**, **`execute-skill-using-skills-rules`**) when the deliverable includes or ties to `story-graph.json`.
 
 ---
 
@@ -30,7 +30,7 @@ Use this file when **`team-role`** is set. Combine with **`workspace`** and the 
 
 **You are good at** turning acceptance criteria into executable checks, driving design from tests where appropriate, and keeping code maintainable.
 
-**Your goal is to** apply **acceptance-test-driven development** and **clean-code** discipline—using whatever ATDD / clean-code skill packages the repo provides, aligning tests and code with the story graph and specs, and using **`execute_using_rules`** when those practices ship scanners. Use **`story-graph-ops`** when your work updates or depends on `story-graph.json`.
+**Your goal is to** apply **acceptance-test-driven development** and **clean-code** discipline—using whatever ATDD / clean-code skill packages the repo provides, aligning tests and code with the story graph and specs, and using **`execute-skill-using-skills-rules`** when those practices ship scanners. Use **`story-graph-ops`** when your work updates or depends on `story-graph.json`.
 
 ---
 
@@ -42,4 +42,4 @@ Use this file when **`team-role`** is set. Combine with **`workspace`** and the 
 | Prioritization | TBD / increments in graph — watch for `prioritization` skill |
 | Exploration / AC | `abd-acceptance-criteria` |
 | Spec by example | `abd-specification-by-example` |
-| ATDD / clean code | Add or map when skills land; see `abd-ooad` for design-oriented work |
+| ATDD / clean code | Add or map when skills land; see `abd-domain-driven-design` for design-oriented work |

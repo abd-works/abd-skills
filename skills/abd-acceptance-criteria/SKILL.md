@@ -3,12 +3,12 @@ name: abd-acceptance-criteria
 catalog_garden_tier: practice
 catalog_garden_order: 30
 catalogue_one_liner: >-
-  WHEN/THEN acceptance criteria for story-graph.json; ships rules and scanners for execute_rules.
+  WHEN/THEN acceptance criteria for story-graph.json; ships rules and scanners for execute-skill-using-skills-rules.
 description: >-
   Teaches exploration-phase acceptance criteria for story-graph.json: WHEN/THEN/AND/BUT,
   behavioral language, per-story domain terms, atomic AC, actor alternation, channel-specific detail, and
   verb–noun naming for story elements. Ships Markdown rules and Python scanners under this
-  skill root for **execute_rules** (mechanical checks alongside human review).
+  skill root for **execute-skill-using-skills-rules** (mechanical checks alongside human review).
   When building AC from sources, output **all** template artifacts in `templates/`
   (currently `acceptance-criteria.md` and `acceptance-criteria.txt`) with the same coverage.
   Use when writing or reviewing acceptance criteria, exploration behavior, WHEN/THEN

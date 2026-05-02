@@ -88,12 +88,12 @@ Use **every** file under `templates/`. Unless the user **explicitly** wants one 
 
 **Reviewers:** product owner (value/order), tech lead (risk/feasibility), domain expert (spine matches reality).
 
-3. **Mechanical checks (execute_rules)**
+3. **Mechanical checks (execute-skill-using-skills-rules)**
 
 Rules only today (no `scanners/*-scanner.py` here). Refresh the bundle with **`bundle_rules_into_skill_md.py`** after editing **`rules/`**. If scanners are added later:
 
 ```text
-python skills/execute_using_rules/scripts/run_scanners.py --skill-root skills/abd-thin-slicing --workspace <path-to-project>
+python skills/execute-skill-using-skills-rules/scripts/run_scanners.py --skill-root skills/abd-thin-slicing --workspace <path-to-project>
 ```
 
 4. **Assembling this skill**
@@ -101,7 +101,7 @@ python skills/execute_using_rules/scripts/run_scanners.py --skill-root skills/ab
 After changing **`rules/*.md`**:
 
 ```text
-python skills/execute_using_rules/scripts/bundle_rules_into_skill_md.py --skill-root skills/abd-thin-slicing
+python skills/execute-skill-using-skills-rules/scripts/bundle_rules_into_skill_md.py --skill-root skills/abd-thin-slicing
 ```
 
 ---

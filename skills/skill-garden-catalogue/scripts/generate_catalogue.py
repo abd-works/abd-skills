@@ -12,7 +12,7 @@ import textwrap
 from pathlib import Path
 from typing import NamedTuple
 
-_EXECUTE_RULES_SCRIPTS = Path(__file__).resolve().parent.parent.parent / "execute_using_rules" / "scripts"
+_EXECUTE_RULES_SCRIPTS = Path(__file__).resolve().parent.parent.parent / "execute-skill-using-skills-rules" / "scripts"
 if str(_EXECUTE_RULES_SCRIPTS) not in sys.path:
     sys.path.insert(0, str(_EXECUTE_RULES_SCRIPTS))
 import frontmatter_tags  # noqa: E402

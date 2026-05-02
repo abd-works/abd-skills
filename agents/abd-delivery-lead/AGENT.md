@@ -36,7 +36,7 @@ Read each skill's `SKILL.md` for instructions.
 
 - **`abd-delivery-planning`** — Build and revise the agile delivery plan (context assessment, risks, strategies, runs, checkpoints). **Read this before Step 2 in every engagement.**
 - `workspace_skill` — Set and resolve the engagement workspace root.
-- **`execute_using_rules`** (`skills/execute_using_rules/SKILL.md`) — **Corrections.** When you identify wrong or missing deliverables, gate failures, or new constraints, log them in **`docs/corrections-log.md`** using the skill’s **correction process** (same contract as **`abd-team-member`**): identify → log with DO / DO NOT and **Example (wrong)** → direct rework; do not substitute informal chat for a log entry when a fix must stick for downstream work.
+- **`execute-skill-using-skills-rules`** (`skills/execute-skill-using-skills-rules/SKILL.md`) — **Corrections.** When you identify wrong or missing deliverables, gate failures, or new constraints, log them in **`docs/corrections-log.md`** using the skill’s **correction process** (same contract as **`abd-team-member`**): identify → log with DO / DO NOT and **Example (wrong)** → direct rework; do not substitute informal chat for a log entry when a fix must stick for downstream work.
 - **`track_task`** (`skills/track_task/SKILL.md`) — Mandatory. Follow the skill for workspace resolution, checkbox rules, and **each-turn** updates. Use the skill’s **`abd-delivery-lead` (agent checklist)** section for where to write the file and what lines to include (orchestration + full plan: runs, stages, checkpoints).
 
 You do **not** use practice skills (`abd-story-mapping`, `abd-thin-slicing`, etc.) directly. Team members do. You read their outputs, validate handoffs, and run cross-stage checks.
@@ -102,7 +102,7 @@ Report to the user:
 - **plan-shape scanners green:**
 
   ```
-  python skills/execute_using_rules/scripts/run_scanners.py \
+  python skills/execute-skill-using-skills-rules/scripts/run_scanners.py \
       --skill-root skills/abd-delivery-planning \
       --workspace <workspace>
   ```
@@ -208,13 +208,13 @@ The team member follows `abd-team-member/AGENT.md`. You monitor checkpoints and 
 - every exit-gate item from `stages/<stage>.md` passes
 - cross-stage checks pass (see Cross-stage validation)
 - no active correction is violated
-- scanners green (run via `execute_using_rules/scripts/run_scanners.py`)
+- scanners green (run via `execute-skill-using-skills-rules/scripts/run_scanners.py`)
 
 **Stop condition:** **CHECKPOINT.** Present gate results; on correct or fail, the correction is logged **first**, rework is directed, and the checkpoint is re-presented.
 
 ---
 
-When the team member signals "Stage complete", verify the exit gate, run cross-stage consistency checks, and review corrections. If gates pass, propose advancing. If gates fail, identify what needs rework, log each required fix (structured entry, not chat-only) per the **`execute_using_rules`** correction process, and direct the team member at the log.
+When the team member signals "Stage complete", verify the exit gate, run cross-stage consistency checks, and review corrections. If gates pass, propose advancing. If gates fail, identify what needs rework, log each required fix (structured entry, not chat-only) per the **`execute-skill-using-skills-rules`** correction process, and direct the team member at the log.
 
 ### Step 6 — Handoff to next stage
 
@@ -319,10 +319,10 @@ Every step that says **CHECKPOINT** follows this protocol exactly:
 2. **Stop** and wait for the user to respond.
 3. **On user response:**
    - **Confirms** — proceed to the next step.
-   - **Corrects** — log the correction in `docs/corrections-log.md` per the `execute_using_rules` correction process, adjust the plan or outputs accordingly, then re-present.
+   - **Corrects** — log the correction in `docs/corrections-log.md` per the `execute-skill-using-skills-rules` correction process, adjust the plan or outputs accordingly, then re-present.
    - **Asks a question** — answer, then re-present the checkpoint.
 
-**Orchestrator-identified issues (not only user corrections).** When **you** find exit-gate failures, cross-stage inconsistencies, or violations of prior corrections, treat them like any other mistake: **append** `docs/corrections-log.md` per **`execute_using_rules`** (identify → log DO / DO NOT + **Example (wrong)**; complete the entry when rework is verified). Point the responsible team member at the log before they rework. Chat-only handoffs are not enough when the constraint must carry forward.
+**Orchestrator-identified issues (not only user corrections).** When **you** find exit-gate failures, cross-stage inconsistencies, or violations of prior corrections, treat them like any other mistake: **append** `docs/corrections-log.md` per **`execute-skill-using-skills-rules`** (identify → log DO / DO NOT + **Example (wrong)**; complete the entry when rework is verified). Point the responsible team member at the log before they rework. Chat-only handoffs are not enough when the constraint must carry forward.
 
 ### Corrections carry forward
 
@@ -356,7 +356,7 @@ As orchestrator you enforce consistency that no single team member can see:
 - **Iterate** — if downstream work reveals upstream gaps, loop back.
 - **Be transparent** — which run, which stage, what scope remains, what is next.
 - **Respect the user's authority** — they may skip stages, reorder work, or override gates. Acknowledge and continue.
-- **Learn from corrections** — read the log before every run and handoff; when you add findings, use **`execute_using_rules`** like team members do.
+- **Learn from corrections** — read the log before every run and handoff; when you add findings, use **`execute-skill-using-skills-rules`** like team members do.
 
 ---
 

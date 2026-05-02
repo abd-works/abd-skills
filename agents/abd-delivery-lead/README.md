@@ -20,7 +20,7 @@ catalogue_summary: >-
   - Agent: `abd-team-member` — per-stage bootstrap (`team-role`, workspace, run scope, checkpoints); you validate gates and correction carry-forward.
   - Skill: `abd-delivery-planning` — plan/run/checkpoint mechanics and where to save the plan narrative.
   - Skill: `workspace_skill` — engagement workspace resolution.
-  - Skill: `execute_using_rules` — correction process; `docs/corrections-log.md` for fixes that must stick.
+  - Skill: `execute-skill-using-skills-rules` — correction process; `docs/corrections-log.md` for fixes that must stick.
   - Skill: `track_task` — checklist (`abd-delivery-lead/progress/delivery-plan-checklist.md`); align with planning skill.
 
 Practice skills (e.g. story mapping) are used by team members, not invoked directly by you; you read outputs, enforce handoffs, and run cross-stage validation.
@@ -51,7 +51,7 @@ Practice skills (e.g. story mapping) are used by team members, not invoked direc
 +------------------+
          |
          v
-  track_task checklist    execute_using_rules -> corrections-log
+  track_task checklist    execute-skill-using-skills-rules -> corrections-log
 ```
 
 ## Source

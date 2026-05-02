@@ -11,7 +11,7 @@ Evaluates six rules against the saved narrative plan:
   - plan-checkpoint-density-matches-risk
 
 Each rule has its own `rules/*.md` file with `scanner: plan-shape` in the frontmatter,
-so the execute_rules runner picks this scanner up via rule frontmatter and also via
+so the execute-skill-using-skills-rules runner picks this scanner up via rule frontmatter and also via
 flat `scanners/*-scanner.py` discovery.
 
 Exit codes:
@@ -35,7 +35,7 @@ from typing import Any
 _HERE = Path(__file__).resolve()
 _SKILL_ROOT = _HERE.parent.parent                    # .../skills/abd-delivery-planning
 _SKILLS_DIR = _SKILL_ROOT.parent                     # .../skills
-_EXECUTE_RULES_SCRIPTS = _SKILLS_DIR / "execute_using_rules" / "scripts"
+_EXECUTE_RULES_SCRIPTS = _SKILLS_DIR / "execute-skill-using-skills-rules" / "scripts"
 _TRACK_TASK_SCRIPTS = _SKILLS_DIR / "track_task" / "scripts"
 
 for _p in (_EXECUTE_RULES_SCRIPTS, _TRACK_TASK_SCRIPTS):

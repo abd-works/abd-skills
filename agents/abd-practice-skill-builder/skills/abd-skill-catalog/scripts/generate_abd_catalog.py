@@ -39,7 +39,7 @@ def _repo_root_from_skill_package(skill_pkg_dir: Path) -> Path:
 
 
 _REPO_ROOT_DEFAULT = _repo_root_from_skill_package(SKILL_DIR)
-_EXECUTE_RULES_SCRIPTS = _REPO_ROOT_DEFAULT / "skills" / "execute_using_rules" / "scripts"
+_EXECUTE_RULES_SCRIPTS = _REPO_ROOT_DEFAULT / "skills" / "execute-skill-using-skills-rules" / "scripts"
 if str(_EXECUTE_RULES_SCRIPTS) not in sys.path:
     sys.path.insert(0, str(_EXECUTE_RULES_SCRIPTS))
 import frontmatter_tags  # noqa: E402

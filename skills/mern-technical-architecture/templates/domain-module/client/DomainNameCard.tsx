@@ -4,7 +4,7 @@
  * Receives a DomainName entity as a prop and renders its display fields.
  * No state, no side effects — pure presentation.
  */
-import { DomainName } from '@project/domainName/shared';
+import { DomainName } from '@appName/domainName-shared';
 
 interface DomainNameCardProps {
   item: DomainName;

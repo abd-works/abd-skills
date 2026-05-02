@@ -2,7 +2,7 @@
   Parameterized SKILL.md skeleton for agilebydesign-skills.
   Canonical copy: agents/abd-practice-skill-builder/skills/abd-author-practice-skill/templates/SKILL_template.md
   Copy to skills/<your-skill>/SKILL.md and replace every {{PLACEHOLDER}}.
-  Suggested order: Purpose, When to use, teaching front-matter, Core concepts, Example, Build, Validate, execute_rules trailer.
+  Suggested order: Purpose, When to use, teaching front-matter, Core concepts, Example, Build, Validate, bundled-rules trailer (`execute_rules` markers).
 -->
 
 ---
@@ -16,7 +16,7 @@ description: >-
 
 {{SKILL_PURPOSE_ONE_PARAGRAPH}}
 
-**Authoring note:** Write **one** paragraph only — **why** this packaged practice exists, **who** it helps, **what** becomes possible when the method is used well, and **how** this page supports that — in plain language. Do **not** put repository paths, **`Manual:`**, **`execute_rules`** markers, which template to copy, hub retrieval filenames, bundle commands, scanner wiring, or other **package / agent mechanics** here; those belong in **Prerequisites** and **Build**. When you use **abd-author-practice-skill** to finish the page, the bundled rule **Opening sections give outcomes not package mechanics** states the same bar.
+**Authoring note:** Write **one** paragraph only — **why** this packaged practice exists, **who** it helps, **what** becomes possible when the method is used well, and **how** this page supports that — in plain language. Do **not** put repository paths, **`Manual:`**, **`execute_rules`** HTML markers (`execute_rules:bundle_rules`), which template to copy, hub retrieval filenames, bundle commands, scanner wiring, or other **package / agent mechanics** here; those belong in **Prerequisites** and **Build**. When you use **abd-author-practice-skill** to finish the page, the bundled rule **Opening sections give outcomes not package mechanics** states the same bar.
 
 ---
 
@@ -106,7 +106,7 @@ When you **create or rewrite** {{SKILL_OUTPUT_ARTIFACTS}}, deliver **one output 
 3. **Keep the bundled rules block honest.** This **`SKILL.md`** includes rules inlined from **`rules/*.md`**. Whenever you change a file under **`rules/`**, run **`bundle_rules_into_skill_md.py`** from the **agilebydesign-skills** repo so the HTML-comment bundle at the bottom of this file matches what is on disk:
 
 ```bash
-python skills/execute_using_rules/scripts/bundle_rules_into_skill_md.py --skill-root skills/<this-skill-folder>
+python skills/execute-skill-using-skills-rules/scripts/bundle_rules_into_skill_md.py --skill-root skills/<this-skill-folder>
 ```
 
 {{BUILD_EXTRA_NUMBERED_ITEMS_OR_DELETE_THIS_LINE}}
@@ -137,8 +137,34 @@ python skills/execute_using_rules/scripts/bundle_rules_into_skill_md.py --skill-
 
 ---
 
+## Deploy
+
+This skill ships IDE-deployable files under **`ide-files/`**. Deploy them to any project:
+
+```powershell
+.\agents\abd-practice-skill-builder\skills\abd-author-practice-skill\scripts\Deploy-SkillOutputs.ps1 -SkillPath skills/{{SKILL_FOLDER_NAME}} -ProjectRoot <target-project> -Force
+```
+
+Default **`-IDE Cursor`**. Use **`-IDE Both`** when the target project should also receive **`.vscode/*.instructions.md`** and **`.github/prompts/*.prompt.md`**.
+
+| File | Deploy target |
+| --- | --- |
+| `ide-files/{{SKILL_NAME}}.mdc` | `.cursor/rules/` (Cursor always-on rule) |
+| `ide-files/{{SKILL_NAME}}.instructions.md` | `.vscode/` when deploy uses **`-IDE Both`** (VS Code — **same body** as `.mdc` after frontmatter; see **mdc-instructions-parity** rule in **abd-author-practice-skill**) |
+| `ide-files/{{SKILL_NAME}}.prompt.md` | `.cursor/commands/` (always); also `.github/prompts/` when deploy uses **`-IDE Both`** |
+
+After editing `.mdc` or `.instructions.md`, validate parity (use an **absolute** `--workspace` path):
+
+```bash
+python skills/execute-skill-using-skills-rules/scripts/run_scanners.py \
+  --skill-root agents/abd-practice-skill-builder/skills/abd-author-practice-skill \
+  --workspace /absolute/path/to/repo/skills/{{SKILL_FOLDER_NAME}}
+```
+
+---
+
 <!-- execute_rules:bundle_rules:begin -->
 <!-- Rule prose is generated from rules/*.md — edit rules, then run:
-     python skills/execute_using_rules/scripts/bundle_rules_into_skill_md.py --skill-root <this-skill-dir>
+     python skills/execute-skill-using-skills-rules/scripts/bundle_rules_into_skill_md.py --skill-root <this-skill-dir>
 -->
 <!-- execute_rules:bundle_rules:end -->

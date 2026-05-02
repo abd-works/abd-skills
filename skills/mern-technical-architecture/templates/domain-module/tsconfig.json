@@ -8,7 +8,7 @@
     "jsx": "react-jsx",
     "rootDir": ".",
     "paths": {
-      "@project/domainName/shared": ["./shared/index.ts"]
+      "@appName/domainName-shared": ["./shared/index.ts"]
     },
     "skipLibCheck": true,
     "noEmit": true,

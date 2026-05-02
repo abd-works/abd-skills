@@ -1,10 +1,16 @@
 {
-  "name": "@project/domainName/client",
+  "name": "@appName/domainName-client",
   "version": "0.0.0",
   "private": true,
   "main": "index.ts",
   "types": "index.ts",
   "dependencies": {
-    "@project/domainName/shared": "*"
+    "@appName/domainName-shared": "*",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0"
   }
 }

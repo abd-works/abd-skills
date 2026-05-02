@@ -5,7 +5,7 @@
  * the SHARED DomainNames collection class — same logic as server-side.
  */
 import { useState, useEffect, useCallback } from 'react';
-import { DomainName, DomainNames } from '@project/domainName/shared';
+import { DomainName, DomainNames } from '@appName/domainName-shared';
 import { fetchDomainNames } from './domainName.api';
 
 export function useDomainNames() {

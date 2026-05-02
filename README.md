@@ -38,7 +38,7 @@ Covers single-responsibility, intention-revealing names, guard-clause flow, doma
 
 Install  any / each of these to make youre skills more robust
 
-### [execute_using_rules](skills/execute_using_rules/SKILL.md)
+### [execute-skill-using-skills-rules](skills/execute-skill-using-skills-rules/SKILL.md)
 
 Run codescanners when validating output from skills, and enforce quality steps.
 Enable correction-improvement log when fixing ai mistakes.

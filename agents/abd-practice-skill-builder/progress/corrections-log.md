@@ -92,3 +92,32 @@ Concrete fixes that belong under **`skills/abd-impact-mapping/`** (templates and
 | A6 | E | **Then** / outcome clause: idiomatic verb phrase + measure — not *achieve* + pasted title-case placeholder headline. |
 
 Use this appendix when auditing **that** package; do not lift row text verbatim into **abd-author-practice-skill** as if it applied to every practice.
+
+---
+
+## Entry 10 — domain-sketch skill must teach OO modeling decisions, not just list formatting rules
+
+- **Status:** confirmed
+- **Theme:** G (Weak exemplars), new theme **J** (missing modeling guidance)
+- **Artifact:** `agents/abd-domain-driven-design/skills/domain-sketch/SKILL.md` — Core concepts section
+- **What went wrong:** The skill taught **what a concept block looks like** (headings, separators, subtypes) but never told the modeler **how to decide** whether a term is a concept, subtype, property, instance, invariant, or relationship. Every term got promoted to its own `### Concept` heading — producing flat, class-per-term sketches with no real modeling.
+- **Fix:** Added "Modeling each term: concept, subtype, property, instance, or invariant" section under Core concepts with prose guidance and a quick decision guide (distinct behavior → concept; specialized behavior → subtype; data-only variation → instance/property; value slot → property; always-true rule → invariant; connects two concepts → relationship).
+- **Why it matters:** Without this gate the skill produces inventories, not models. Downstream CRC and scenario walks inherit the same flat structure and waste effort assigning responsibilities to things that are just properties.
+
+## Entry 11 — domain-sketch must require OOA on the source, not surface-level classification
+
+- **Status:** confirmed
+- **Theme:** J (missing modeling guidance)
+- **Artifact:** `agents/abd-domain-driven-design/skills/domain-sketch/SKILL.md` — "Modeling each term" section and new validation rules
+- **What went wrong (run: Check Resolution domain-sketch):** Five corrections (21–24 plus team-check discovery) in a single run exposed gaps:
+  1. Terms were classified (type property, instance, role) without reading the source for those terms — surface similarity ("they all have ranks") led to wrong calls (Correction 21).
+  2. The output of a concept (Check Result) was hidden as a property instead of modeled as its own concept with identity, state, and behavior (Correction 22).
+  3. A role (GM) was excluded without tracing the mechanics it referenced — the mechanics nearly got lost (Corrections 16–17).
+  4. Boundary relationships (who defines vs who enforces a game modifier) were not captured (Correction 24).
+  5. A behavior bullet on Check ("team helpers each roll...") hid a subtype with its own distinct DC, roles, and result-flow — discovered only when applying the "active verb with hidden subject" test.
+- **Fix:** Updated SKILL.md:
+  - "Read the source material for that term and do proper OOA" replaces "ask what it actually is."
+  - Added concept-emergence guidance: outputs, inputs, properties, behaviors can all become concepts when they have distinct identity, state, behavior, structure, or interactions.
+  - Added role guidance: roles are domain objects if they have system-level identity/state/behavior; when excluding, preserve the mechanics.
+  - Added second-pass validation step and AI validation rules (typing checks, hidden-concept detection, active-verb form).
+- **Why it matters:** Without source-grounded OOA the modeler guesses from labels. Without hidden-concept detection, behaviors accumulate on parent concepts until the model is a god object.

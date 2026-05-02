@@ -15,7 +15,7 @@ Python modules live **directly in this folder** (no nested package). With **`…
 
 ## `story_scanner_runner.py` (shim)
 
-Re-exports **`scanner_runner`** from **execute_using_rules** (`execute_scan_with_workspace`, `load_workspace_graph_json`, `main_with_scanner`, …) so older imports keep working. Prefer **`from scanner_runner import …`** in **`execute_using_rules/scripts`**.
+Re-exports **`scanner_runner`** from **execute-skill-using-skills-rules** (`execute_scan_with_workspace`, `load_workspace_graph_json`, `main_with_scanner`, …) so older imports keep working. Prefer **`from scanner_runner import …`** in **`execute-skill-using-skills-rules/scripts`**.
 
 ## `story_graph_cli.py`
 
@@ -29,6 +29,6 @@ For subprocesses that import only **`story_map`** / **`story_scanner`** (no `sca
 
 For **`StoryScanner`**, you also need:
 
-`skills/execute_using_rules/scripts`
+`skills/execute-skill-using-skills-rules/scripts`
 
 **`run_scanners.py`** sets both for scanner CLIs.

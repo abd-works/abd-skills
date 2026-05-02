@@ -2,8 +2,8 @@
   Typical rule file for agilebydesign-skills.
   Copy to skills/<your-skill>/rules/<rule-slug>.md and replace every {{PLACEHOLDER}}.
 
-  Bundle rule prose into the skill’s SKILL.md (between execute_rules markers) with:
-    python skills/execute_using_rules/scripts/bundle_rules_into_skill_md.py --skill-root skills/<your-skill>
+  Bundle rule prose into the skill’s SKILL.md (between execute-skill-using-skills-rules markers) with:
+    python skills/execute-skill-using-skills-rules/scripts/bundle_rules_into_skill_md.py --skill-root skills/<your-skill>
 
   Conventions (match skills/abd-story-mapping and skills/abd-acceptance-criteria):
   - One rule per file; slug is the filename stem (kebab-case).

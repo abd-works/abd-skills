@@ -5,7 +5,7 @@
  * boundary, ensuring only typed domain entities propagate through the system.
  */
 import { Collection, Db } from 'mongodb';
-import { DomainName, DomainNameStatus, DomainNameSchema, DomainNameDTO } from '@project/domainName/shared';
+import { DomainName, DomainNameStatus, DomainNameSchema, DomainNameDTO } from '@appName/domainName-shared';
 
 function toDomainEntity(dto: DomainNameDTO): DomainName {
   return {

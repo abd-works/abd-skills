@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """CLI for reading, searching, filtering, and writing ``story-graph.json`` without agile_bots.
 
-Add ``…/story-graph-ops/scripts`` and ``…/execute_using_rules/scripts`` to PYTHONPATH, then:
+Add ``…/story-graph-ops/scripts`` and ``…/execute-skill-using-skills-rules/scripts`` to PYTHONPATH, then:
 
   python story_graph_cli.py read --file path/to/story-graph.json
   python story_graph_cli.py names --file path/to/story-graph.json
