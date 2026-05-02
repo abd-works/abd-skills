@@ -1,5 +1,5 @@
 ---
-scanner: ~
+scanner: cd3-ranking-by-highest-first
 ---
 # Rule: CD3 ranking by highest first
 

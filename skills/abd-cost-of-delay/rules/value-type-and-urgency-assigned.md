@@ -1,5 +1,5 @@
 ---
-scanner: ~
+scanner: value-type-and-urgency-assigned
 ---
 # Rule: Value type and urgency assigned
 

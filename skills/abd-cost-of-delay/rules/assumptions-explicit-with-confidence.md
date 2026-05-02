@@ -1,5 +1,5 @@
 ---
-scanner: ~
+scanner: assumptions-explicit-with-confidence
 ---
 # Rule: Assumptions explicit with confidence
 
