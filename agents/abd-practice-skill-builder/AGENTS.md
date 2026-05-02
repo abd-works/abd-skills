@@ -80,15 +80,15 @@ Typical order (adjust per engagement):
 - **agilebydesign-skills** repo — outputs under **`skills/<skill-name>/`**; canonical **`SKILL.md`** skeleton: **`agents/abd-practice-skill-builder/skills/abd-author-practice-skill/templates/SKILL_template.md`**.
 - **abd-answers** repo — **`npm run rag:query`** (see **abd-query-practice-sources**); **`conf/.secrets`** per abd-answers docs.
 
-## Cursor (user profile)
+## Cursor (workspace-local)
 
-Use a **Windows directory junction** (not a symlink): this agent is linked into **`%USERPROFILE%\.cursor\agents\abd-practice-skill-builder\`** so **`AGENTS.md`** and the nested **`skills/`** tree resolve from your Cursor profile with no duplicate copy. From this agent root:
+Use a **Windows directory junction** (not a symlink): this agent is linked into **`<repo>\.cursor\agents\abd-practice-skill-builder\`** so **`AGENTS.md`** and the nested **`skills/`** tree resolve from this workspace with no duplicate copy. From this agent root:
 
 ```powershell
 .\scripts\Deploy-AgentToCursor.ps1 -Force
 ```
 
-Pipeline **skills** use the same mechanism under **`%USERPROFILE%\.cursor\skills\`** via **`skills/deploy-skill-to-cursor/scripts/Deploy-SkillToCursor.ps1`** and **`-SkillSourcePath`** (see **deploy-skill-to-cursor**).
+Pipeline **skills** use the same mechanism under **`<repo>\.cursor\skills\`** via **`skills/deploy-skill-to-cursor/scripts/Deploy-SkillToCursor.ps1`** and **`-SkillSourcePath`** (see **deploy-skill-to-cursor**).
 
 ---
 

@@ -7,7 +7,7 @@ catalogue_summary: "Deploy a skill from agilebydesign-skills into Cursor's user 
 
 ## Overview
 
-Deploy a skill from agilebydesign-skills into Cursor's user skills folder using a Windows directory junction (no duplicate copy). Run scripts/Deploy-SkillToCursor.ps1 with the skill folder name. Use when you want the global Cursor skills path to point at the repo canonical skill.
+Deploy a skill from agilebydesign-skills into the repo's `.cursor\skills` folder using a Windows directory junction (no duplicate copy). Run `scripts/Deploy-SkillToCursor.ps1` with the skill folder name. Use when you want the workspace-local Cursor skills path to point at the repo canonical skill.
 
 _Maintainer / AI: expand this section; it becomes the HTML **Description**. If the whole README is still a stub or wrong, replace the file after reading `SKILL.md` — the generator never overwrites an existing README. `SKILL.md` stays authoritative for behaviour._
 
