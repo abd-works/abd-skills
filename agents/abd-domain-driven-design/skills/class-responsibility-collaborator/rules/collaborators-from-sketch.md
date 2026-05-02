@@ -16,7 +16,6 @@ The `collaborators:` line in each CRC block must list domain concepts that appea
   ```
   Modifier
       responsible: represents a single numeric adjustment to a check
-      not_responsible: does not combine itself with other modifiers — stacking is the Check's job
       collaborators: (none)
   ```
 
@@ -32,7 +31,6 @@ The `collaborators:` line in each CRC block must list domain concepts that appea
   ```
   Check
       responsible: resolves whether an attempted action succeeds or fails
-      not_responsible: does not own narrative consequences
       collaborators:
   ```
 

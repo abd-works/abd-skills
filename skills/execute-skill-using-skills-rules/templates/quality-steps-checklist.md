@@ -28,13 +28,6 @@ Use **before** you do the skill’s main work: Step 1 is the **rules-first** gat
 - [ ] Each applicable rule passes **by intent**, not only because tools are green.
 - [ ] No **drift** a reviewer would catch between **`SKILL.md`** and what the skill actually does.
 
----
-
-## Step 4 — Corrections log
-
-- [ ] Problems found in review are logged under **`active_skill_workspace`** (see [**corrections-log.md**](./corrections-log.md)).
-- [ ] **Item 4 — fix the output** completed for the entry (wrong → regenerate → **Example (correct)** filled) before editing skill sources for that issue.
-- [ ] **DO / DO NOT** (and any promoted **rules** / **SKILL.md** edits) state **altered behavior** — not a long negation of the prior mistake; see [**corrections-log.md**](./corrections-log.md) **Phrasing**.
 
 ---
 

@@ -1,35 +1,40 @@
 ---
 name: class-responsibility-collaborator
 description: >-
-  For every domain concept: assign responsibility, reject misplaced concerns,
-  name collaborators, write lifecycle states and transitions, and declare
-  invariants — all in one structured notation pass before object-model.
+  For every domain concept: assign responsibility, name collaborators,
+  write lifecycle states and transitions, and declare invariants — all
+  in one structured pass before object-model.
 ---
 # class-responsibility-collaborator
 
 ## Purpose
 
-Naming concepts and sketching behaviors tells the team *what exists* in the domain, but it does not settle what each concept **owns, refuses, and depends on** — nor does it make lifecycle rules and always-true constraints explicit enough to carry into scenario walks. This skill closes both gaps in one pass: for every concept the team writes a compact CRC block that locks down responsibility boundaries, then extends that block with lifecycle states and declarative invariants for concepts that carry state. The result is a structured, scannable record per concept that downstream skills (object-model, scenario-walkthrough) can read without re-interpreting prose.
+This skill refines a collection of domain concepts from context and defines each concept's ownership, collaborators, lifecycle states, and invariants — all in one structured pass. 
+
+**CRC (Class-Responsibility-Collaborator)** modeling. introduced by Ward Cunningham and Kent is lightweight way to explore object-oriented designs. A CRC model asks three questions per concept — what is it responsible for, what does it collaborate with, and what class does it belong to — so teams can role-play interactions and catch misplaced responsibilities before writing code. 
+
+This skill refines existing domain artifacts in context to formally structure each domain concept's authority and boundaries: what each one owns, who it depends on, how it changes over time, and what must always remain true. Teams use this to surface hidden coupling and agree on lifecycle rules before writing code.
 
 ---
 
 ## When to use this skill
 
-- The module file's front matter shows `state: domain-sketch`.
+- You have a set of domain concepts with behaviors identified but ownership, boundaries, and lifecycle rules are not yet explicit.
 - The user asks to "run CRC," "assign responsibilities," "add lifecycle," or "elaborate invariants."
-- The next modeling step needs responsibility boundaries, lifecycle guards, and always-true constraints before scenario walks.
+- The user wants to understand or generate a class-responsibility-collaborator model.
+- The domain has sufficient complexity that explicit responsibility boundaries, lifecycle guards, and always-true constraints are worth modeling.
 
 ---
 
 ## Core concepts
 
+### Class
+
+A **class** in CRC modeling is any named domain concept that carries its own identity and behavior — not a programming-language class. It is distinct domain concept: each class gets its own CRC entry so the team can reason about what it owns, who it works with, and how it changes over time. Classes come from whatever domain analysis produced the concepts being refined.
+
 ### Responsibility
 
 A **responsibility** is a short English statement of what a concept **must do** — the behavior it owns and no other concept should duplicate. Responsibilities are derived from the sketch's behavior lines, but sharpened: each one names the single concern this concept is the authority on.
-
-### Not responsible for
-
-Every concept also carries at least one **"not responsible for"** statement — a plausible concern that someone might mistakenly assign to it, explicitly rejected. A good rejection names a specific behavior and says where it actually belongs (or that it is out of scope). This prevents scope creep by making boundaries visible before code exists.
 
 ### Collaborators
 
@@ -58,21 +63,18 @@ Each concept from the sketch becomes one named block. The name is flush left; fi
 
 Check
     responsible: resolves whether an attempted action succeeds or fails by comparing the total roll to the difficulty class
-    not_responsible: does not own the narrative consequence of failure — that belongs to the calling rule or encounter context
     collaborators: Difficulty Class, Modifier
     lifecycle: (stateless)
     invariants: shape is always roll total versus difficulty class; subtypes only vary how total or DC is produced
 
 Difficulty Class
     responsible: holds the numeric threshold an action must meet or exceed to succeed
-    not_responsible: does not apply the roll or determine success — setting the threshold is its only job
     collaborators: (none)
     lifecycle: (stateless)
     invariants: (none)
 
 Condition
     responsible: represents a named state applied to a character that imposes specific modifiers or restrictions
-    not_responsible: does not enforce its own modifiers — enforcement belongs to the consuming module (Combat for action restrictions, Check Resolution for check penalties)
     collaborators: Check Result
     lifecycle:
         states: inactive, active, superseded, resolved
@@ -85,7 +87,6 @@ Condition
 
 Saving Throw : Check
     responsible: adds an ability-score basis and proficiency eligibility on top of the base check resolution
-    not_responsible: does not own the generic pass/fail resolution — that is inherited from Check
     collaborators: Ability Score, Proficiency
     lifecycle: (stateless)
     invariants: (none)
@@ -97,9 +98,8 @@ Saving Throw : Check
 
 1. **Read the module file.** Confirm `state: domain-sketch` in the front matter.
 2. **Inventory concepts.** List every `### Concept` and `### Subtype *is a type of* Base` heading from the Object Sketch section.
-3. **Derive CRC fields.** For each concept, produce the first three fields using `templates/crc-outline-template.md`:
+3. **Derive CRC fields.** For each concept, produce the first two fields using `templates/crc-outline-template.md`:
    - **`responsible:`** — one sentence stating what this concept owns, derived from its sketch behaviors.
-   - **`not_responsible:`** — at least one plausible misplaced concern explicitly rejected, with a note on where it actually belongs when possible.
    - **`collaborators:`** — comma-separated list of domain concepts it works with, derived from sketch collaborations and subtype edges. Write `(none)` when there are none.
 4. **Derive lifecycle fields.** For each concept, scan its CRC responsibilities and the sketch behavior bullets for state-shaped mechanics — state changes, threshold ladders, supersession, spend/recover. If found:
    - **`lifecycle:`** — list named states, allowed transitions (one line each), illegal transitions, and terminal states.
@@ -114,14 +114,13 @@ Saving Throw : Check
 
 1. **Coverage.** Every concept and subtype from the Object Sketch has a corresponding CRC block.
 2. **Responsibility present.** Every block has a non-empty `responsible:` line.
-3. **Rejection present.** Every block has a non-empty `not_responsible:` line rejecting at least one plausible misplaced concern.
-4. **Collaborators present.** Every block lists collaborators or says `(none)` explicitly.
-5. **Subtype notation.** Subtypes use `Child : Parent` and state only delta responsibilities.
-6. **Lifecycle present.** Every block has a `lifecycle:` field — either a populated block or `(stateless)`.
-7. **Invariants present.** Every block with a lifecycle has an `invariants:` field — populated, `(none yet)`, or `(none)`.
-8. **English only.** No method signatures, typed properties, or UML notation anywhere.
-9. **State marker.** Front matter reads `state: crc`.
-10. **Additive.** All prior content (Object Sketch, Domain-logic) is unchanged — CRC is appended, not substituted.
+3. **Collaborators present.** Every block lists collaborators or says `(none)` explicitly.
+4. **Subtype notation.** Subtypes use `Child : Parent` and state only delta responsibilities.
+5. **Lifecycle present.** Every block has a `lifecycle:` field — either a populated block or `(stateless)`.
+6. **Invariants present.** Every block with a lifecycle has an `invariants:` field — populated, `(none yet)`, or `(none)`.
+7. **English only.** No method signatures, typed properties, or UML notation anywhere.
+8. **State marker.** Front matter reads `state: crc`.
+9. **Additive.** All prior content (Object Sketch, Domain-logic) is unchanged — CRC is appended, not substituted.
 
 ---
 
@@ -144,7 +143,6 @@ The `collaborators:` line in each CRC block must list domain concepts that appea
   ```
   Modifier
       responsible: represents a single numeric adjustment to a check
-      not_responsible: does not combine itself with other modifiers — stacking is the Check's job
       collaborators: (none)
   ```
 
@@ -160,7 +158,6 @@ The `collaborators:` line in each CRC block must list domain concepts that appea
   ```
   Check
       responsible: resolves whether an attempted action succeeds or fails
-      not_responsible: does not own narrative consequences
       collaborators:
   ```
 
@@ -290,45 +287,6 @@ Every concept that has a populated `lifecycle:` block must also have an `invaria
 
 **Source:** Engagement convention (class-responsibility-collaborator skill).
 
-### Rule: Every CRC block has at least one "not responsible for" rejection
-
-**Scanner:** Manual review
-
-Every CRC block must include a non-empty `not_responsible:` line that explicitly rejects at least one plausible misplaced concern. Passing means every block names something the concept must not own. Failing means the line is missing, empty, or contains only a placeholder.
-
-#### DO
-
-- State a concrete behavior that someone might mistakenly assign to this concept, and reject it.
-
-  **Example (pass):**
-  ```
-  Check
-      responsible: resolves whether an attempted action succeeds or fails
-      not_responsible: does not own the narrative consequence of failure — that belongs to the calling rule or encounter context
-      collaborators: Difficulty Class, Modifier
-  ```
-
-- When possible, name where the rejected concern actually belongs.
-
-  **Example (pass):** `not_responsible: does not determine the base DC — that is the Difficulty Class's responsibility`
-
-#### DO NOT
-
-- Omit the `not_responsible:` line entirely.
-
-  **Example (fail):**
-  ```
-  Check
-      responsible: resolves whether an attempted action succeeds or fails
-      collaborators: Difficulty Class, Modifier
-  ```
-
-- Use a generic placeholder that rejects nothing specific.
-
-  **Example (fail):** `not_responsible: N/A` or `not_responsible: nothing to note`
-
-**Source:** Engagement convention (class-responsibility-collaborator skill).
-
 ### Rule: State marker is crc
 
 **Scanner:** Manual review
@@ -420,7 +378,6 @@ When a concept is a specialization of another, its CRC block name line must use 
   ```
   Saving Throw : Check
       responsible: adds an ability-score basis and proficiency eligibility on top of the base check resolution
-      not_responsible: does not own the generic pass/fail resolution — that is inherited from Check
       collaborators: Ability Score, Proficiency
   ```
 

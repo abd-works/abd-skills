@@ -3,9 +3,8 @@
 
   Copy to: <workspace>/abd-domain-driven-design/crc.md (or append ## CRC section to module file)
 
-  Each concept gets one named block with five fields:
+  Each concept gets one named block with four fields:
     responsible:     — what this concept owns (one sentence)
-    not_responsible: — at least one explicitly rejected concern
     collaborators:   — other domain concepts worked with, or (none)
     lifecycle:       — states, transitions, illegal moves, terminal states — or (stateless)
     invariants:      — declarative must/cannot/only-if constraints — or (none) / (none yet)
@@ -15,14 +14,12 @@
 
 {{ConceptName}}
     responsible: {{one sentence — what this concept owns}}
-    not_responsible: {{at least one plausible wrong owner, explicitly rejected}}
     collaborators: {{TypeA, TypeB, ... or (none)}}
     lifecycle: {{(stateless) — or: states: ...; transitions: ...; illegal: ...; terminal: ...}}
     invariants: {{must/cannot/only-if bullets — or (none) / (none yet)}}
 
 {{SubtypeName}} : {{BaseConcept}}
     responsible: {{delta only — what this subtype adds or overrides}}
-    not_responsible: {{...}}
     collaborators: {{...}}
     lifecycle: {{...}}
     invariants: {{...}}
@@ -33,7 +30,6 @@
 
 {{ConceptName}}
     responsible: {{...}}
-    not_responsible: {{...}}
     collaborators: {{...}}
     lifecycle: {{...}}
     invariants: {{...}}
@@ -59,28 +55,24 @@ Instructions:
 
 Check
     responsible: resolves whether an attempted action succeeds or fails by comparing the total roll to the difficulty class
-    not_responsible: does not own the narrative consequence of failure — that belongs to the calling rule or encounter context
     collaborators: Difficulty Class, Modifier
     lifecycle: (stateless)
     invariants: shape is always roll total versus difficulty class; subtypes only vary how total or DC is produced
 
 Difficulty Class
     responsible: holds the numeric threshold an action must meet or exceed to succeed
-    not_responsible: does not apply the roll or determine success — setting the threshold is its only job
     collaborators: (none)
     lifecycle: (stateless)
     invariants: (none)
 
 Modifier
     responsible: represents a single numeric adjustment applied to a check roll
-    not_responsible: does not combine itself with other modifiers — stacking is the Check's responsibility
     collaborators: (none)
     lifecycle: (stateless)
     invariants: (none)
 
 Condition
     responsible: represents a named state applied to a character that imposes specific modifiers or restrictions
-    not_responsible: does not enforce its own modifiers — enforcement belongs to the consuming module
     collaborators: Check Result
     lifecycle:
         states: inactive, active, superseded, resolved

@@ -40,6 +40,12 @@ VALID_URGENCY_PROFILES = {
 }
 
 
+def _is_option_placeholder(value: str, valid_set: set[str]) -> bool:
+    """True if value is a slash-separated list of all valid options (template placeholder)."""
+    parts = [p.strip().lower() for p in value.split("/")]
+    return len(parts) > 1 and all(p in valid_set for p in parts)
+
+
 class ValueTypeUrgencyScanner(Scanner):
     def scan_with_context(self, context: ScanFilesContext) -> list:
         violations: list[Violation] = []
@@ -59,6 +65,8 @@ class ValueTypeUrgencyScanner(Scanner):
                 "Must be one of: Increase Revenue, Protect Revenue, Reduce Cost, Avoid Cost.",
                 location=str(path),
             ))
+        elif _is_option_placeholder(vt, VALID_VALUE_TYPES):
+            pass  # template placeholder listing all options
         elif vt.lower() not in VALID_VALUE_TYPES:
             violations.append(Violation(
                 self.rule,
@@ -75,6 +83,8 @@ class ValueTypeUrgencyScanner(Scanner):
                 "Must be one of: Expedite, Fixed Date, Standard, Intangible.",
                 location=str(path),
             ))
+        elif _is_option_placeholder(up, VALID_URGENCY_PROFILES):
+            pass  # template placeholder listing all options
         elif up.lower() not in VALID_URGENCY_PROFILES:
             violations.append(Violation(
                 self.rule,
@@ -85,12 +95,14 @@ class ValueTypeUrgencyScanner(Scanner):
 
         rationale = field_value(lines, "Rationale")
         if not rationale:
-            violations.append(Violation(
-                self.rule,
-                f"Rationale is blank in {path.name}. "
-                "Explain why this value type and urgency profile were chosen.",
-                location=str(path),
-            ))
+            has_filled_example = any("## example" in l.lower() for l in lines)
+            if not has_filled_example:
+                violations.append(Violation(
+                    self.rule,
+                    f"Rationale is blank in {path.name}. "
+                    "Explain why this value type and urgency profile were chosen.",
+                    location=str(path),
+                ))
 
         return violations
 

@@ -12,7 +12,6 @@ When a concept is a specialization of another, its CRC block name line must use 
   ```
   Saving Throw : Check
       responsible: adds an ability-score basis and proficiency eligibility on top of the base check resolution
-      not_responsible: does not own the generic pass/fail resolution — that is inherited from Check
       collaborators: Ability Score, Proficiency
   ```
 

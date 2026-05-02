@@ -5,9 +5,11 @@ alwaysApply: true
 
 # Quality gate for skills with rules or scanners
 
-When you are about to run **any** skill whose package contains a `rules/` directory or a `scanners/` directory, you **must** follow the quality flow in **`skills/execute-skill-using-skills-rules/SKILL.md`** (skill name: `execute-skill-using-skills-rules`). **Read that skill** — do not improvise from memory. It defines what to do: rules before work, validate output (AI pass + scanner pass), reference to **quality-steps**, and **item 4** pointing at corrections.
+**MANDATORY — every turn, no exceptions:**
 
-When output is wrong, use **`skills/correct_output/SKILL.md`** (skill: `correct_output`) — output first, source second; full loop and log format live there, not in this rule.
+1. When the user points out a mistake in output — that is a **correction**. Fix the output **and** write a `corrections-log.md` entry **inside the skill being corrected** (`<target-skill>/corrections-log.md`) in the **same turn**. Not the repo root. Not chat. Do not wait to be asked. Follow **`skills/correct_output/SKILL.md`** for the entry format.
+
+2. When you are about to run **any** skill whose package contains a `rules/` directory or a `scanners/` directory, you **must** follow the quality flow in **`skills/execute-skill-using-skills-rules/SKILL.md`**. **Read that skill** — do not improvise from memory. Rules before work, validate output (AI pass + scanner pass), log corrections immediately.
 
 ## When this rule does NOT apply
 

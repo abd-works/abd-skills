@@ -66,6 +66,8 @@ class AssumptionsScanner(Scanner):
                     f"Must be Strong / Reasonable / Uncertain.",
                     location=str(path),
                 ))
+            elif "/" in conf and all(v.strip() in VALID_CONFIDENCE for v in conf.split("/")):
+                pass  # template placeholder listing all options
             elif conf not in VALID_CONFIDENCE:
                 violations.append(Violation(
                     self.rule,
