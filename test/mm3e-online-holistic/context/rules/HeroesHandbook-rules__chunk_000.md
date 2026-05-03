@@ -1,0 +1,56 @@
+---
+source: HeroesHandbook-rules.md
+chapter: "Introduction"
+topic: "Credits & Legal"
+chunk_index: 0
+line_range: "1-49"
+---
+
+﻿<!-- Source: source/context/HeroesHandbook.pdf | file:///C:/dev/agile_bots/source/context/HeroesHandbook.pdf -->
+
+
+THIRD EDITION
+
+Writing and Design: Steve Kenson
+Adventure Design:  Seth Johnson and Prof.Christopher McGlothlin, M. Ed.
+
+#### Quickstart Character Generator: Leon Chang and Jon Leitheusser
+
+Editing and Development: Jon Leitheusser
+
+Additional Design: Ray Winninger          Proofreader: Glenn Hall
+
+Art Direction: Hal Mangold and Pauline Benney      Graphic Design: Hal Mangold
+
+Cover Art: Imaginary Friends Studio     Cartography: Phillip Lienau, Sean MacDonald, and Christopher West
+
+Interior Art: Jeff Carlisle, Darren Calvert, Adam DeKraker, Talon Dunning, Tom Feister, Tariq Hassan, Steven Howard, Scott James, Georges Jeanty, Alex Johns, Leif Jones, Jonathan Kirtz, MK Ultra Studio, Octographics, Tony Parker, Ron Randall, Alex Sheikman, Kevin Stokes, Udon w/Chris Stevens, Dexter Vines
+Publisher: Chris Pramas
+
+Green Ronin Staff: Pauline Benney, Bill Bodden, Joe Carriker, Steve Kenson, Jon Leitheusser, Nicole Lindroos, Hal Mangold, Jack Norris, Chris Pramas, Donna Prior, Evan Sass, Marc Schmalz
+
+Playtesters: Jim Auwaerter, Rich Benson, Byron Blanchard, George Brown, Tony Brown, C.D. Ens-Butchino, D.T. Butchino, David Carriss, Austin Currier, Sara Dean, Ralph Duell, Tom Hackett, Rob Hall, Nathan Harwell, James Kavanagh, Des Kirkpatrick, Dave Laramie, Jim Long, Kerry Marley, Ian McCauley, Prof.Christopher McGlothlin, M. Ed., Glenn Myer, Ethan Parker, Shalea Rhodes, David Ridout, Chris Rodgers, Erin Sandercombe, Jerome Satterwhite, Aaron Sullivan, James
+Taylor, Derrick Thomas, Steve Trustrum, Johnathan Turner, Jeff Voreis, Tom Welch
+
+Special thanks to the Atomic Think Tank members, especially
+Jameson, Psistrike, and mageofthesands, for help proofreading.
+
+MUTANTS & MASTERMINDS  is Â© 2002, 2005, 2011, 2013 Green Ronin Publishing, LLC. All rights reserved.
+References to other copyrighted material in no way constitute a challenge to the respective copyright holders of that material. Mutants & Masterminds, Super-Powered by M&M, Green Ronin, and their associated logos are trademarks of Green Ronin Publishing, LLC.
+
+The following is designated as Product Identity, in accordance with Section 1(e) of the Open Game License, Version 1.0a: hero points, power points. All character and their associated images, descriptions, backgrounds, and related information are declared Product Identity.
+
+The following text is Open Gaming Content: all game system rules and material not previously declared Product Identity.
+
+PRINTED IN THE USA
+
+Green Ronin Publishing
+3815 S. Othello St., Suite 100 #304
+Seattle, WA 98118
+Email: custserv@greenronin.com
+Web Sites: www.greenronin.com www.mutantsandmasterminds.com
+
+
+MUTANTS & MASTERMINDS
+
+DELUXE HEROâ€™S HANDBOOK
