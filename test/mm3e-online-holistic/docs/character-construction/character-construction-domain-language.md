@@ -37,9 +37,7 @@ Scope: Creating heroes from scratch: power level, power point budget, starting p
 
 # Core Domain
 
-### power level
-
-#### Domain Language
+#### **power level**
 
 - Power level (PL) is the GM-set measure of overall hero effectiveness — primarily combat capability but also the general scope of tasks a character can accomplish on a routine basis.
 - PL establishes the starting power point budget and governs hard caps on every paired trait combination (attack/effect, defenses, skill modifier).
@@ -59,11 +57,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_026.md
 Locator: lines 1808-1856
 Extract: whole
 
----
 
-### power points
-
-#### Domain Language
+#### **power points**
 
 - Power points (PP) are the currency of hero construction — every ability rank, defense rank, skill rank, advantage, and power effect is purchased with PP.
 - Once spent on a trait, PP are locked to that trait and cannot be freely moved without GM permission or a specific power effect.
@@ -82,11 +77,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_025.md
 Locator: lines 1768-1807
 Extract: whole
 
----
 
-### starting power points
-
-#### Domain Language
+#### **starting power points**
 
 - Starting power points is the initial PP budget available to build a new hero, determined by the series power level: PL × 15.
 - The Starting Power Points table maps PL 1–20 to budgets of 15–300 PP in 15-point increments.
@@ -105,11 +97,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_026.md
 Locator: lines 1808-1856
 Extract: whole
 
----
 
-### basic trait costs
-
-#### Domain Language
+#### **basic trait costs**
 
 - Basic trait costs define the PP price for each trait category: abilities cost 2 PP per rank; defenses cost 1 PP per rank above the base provided by abilities; skills cost 1 PP per 2 total skill ranks; advantages cost 1 PP per advantage or advantage rank.
 - Power costs follow the formula: ((base effect cost + extras − flaws) × rank) + flat modifiers.
@@ -128,11 +117,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_023.md
 Locator: lines 1607-1649
 Extract: whole
 
----
 
-### trade-off
-
-#### Domain Language
+#### **trade-off**
 
 - A trade-off is the design choice to make one trait in a PL-limited pair higher than the other while keeping their sum within the 2×PL cap.
 - Trade-offs let a player build a hero optimized for high attack skill and low damage output, or high Toughness with low Dodge/Parry, all within legal PL limits.
@@ -146,11 +132,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_027.md
 Locator: lines 1857-1902
 Extract: whole
 
----
 
-### attack & effect limit
-
-#### Domain Language
+#### **attack & effect limit**
 
 - The attack & effect limit specifies that a hero's total attack bonus plus the effect rank of that attack cannot exceed twice the series power level (2×PL).
 - If a power effect allows a resistance check but requires no attack check, its effect rank alone cannot exceed PL.
@@ -164,11 +147,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_026.md
 Locator: lines 1808-1856
 Extract: whole
 
----
 
-### Dodge & Toughness limit
-
-#### Domain Language
+#### **Dodge & Toughness limit**
 
 - The Dodge & Toughness limit specifies that the sum of a hero's Dodge defense and Toughness defense cannot exceed twice the series power level (2×PL).
 - Both Dodge (an active defense) and Toughness (a passive defense) count toward this paired cap.
@@ -186,11 +166,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_027.md
 Locator: lines 1857-1902
 Extract: whole
 
----
 
-### Parry & Toughness limit
-
-#### Domain Language
+#### **Parry & Toughness limit**
 
 - The Parry & Toughness limit specifies that the sum of a hero's Parry defense and Toughness defense cannot exceed twice the series power level (2×PL).
 - Parry is the close-combat active defense equivalent of Dodge; it pairs with Toughness under the same cap structure.
@@ -208,11 +185,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_027.md
 Locator: lines 1857-1902
 Extract: whole
 
----
 
-### Fortitude & Will limit
-
-#### Domain Language
+#### **Fortitude & Will limit**
 
 - The Fortitude & Will limit specifies that the sum of a hero's Fortitude defense and Will defense cannot exceed twice the series power level (2×PL).
 - Both Fortitude and Will are resistance defenses (not active); they pair together under the same cap as the combat defense pairs.
@@ -230,11 +204,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_027.md
 Locator: lines 1857-1902
 Extract: whole
 
----
 
-### skill modifier limit
-
-#### Domain Language
+#### **skill modifier limit**
 
 - The skill modifier limit specifies that a hero's total modifier with any single skill (ability rank + skill rank + advantage modifiers) cannot exceed PL + 10.
 - This limit applies even to untrained skill modifiers (based solely on ability rank), so it effectively constrains how high any ability can usefully go for skill purposes.
@@ -247,11 +218,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_026.md
 Locator: lines 1808-1856
 Extract: whole
 
----
 
-### hero archetype
-
-#### Domain Language
+#### **hero archetype**
 
 - A hero archetype is a ready-to-play, fully built PL 10 hero template that a player can adopt as-is or customize as a starting point.
 - Archetypes cover a range of hero types (Crime Fighter, Martial Artist, Powerhouse, Warrior, etc.) and some offer an Options section with simple variant choices (different skill sets, alternate powers, vehicles).
@@ -266,11 +234,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_022.md
 Locator: lines 1556-1606
 Extract: whole
 
----
 
-### complication
-
-#### Domain Language
+#### **complication**
 
 - A complication is a narrative flaw or challenge the GM introduces during play to test the hero; when the hero is affected by it, the player earns a hero point as compensation.
 - Every hero must have at least two complications: one Motivation and at least one other.
@@ -296,11 +261,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_031.md
 Locator: lines 2104-2145
 Extract: whole
 
----
 
-### motivation
-
-#### Domain Language
+#### **motivation**
 
 - Motivation is the mandatory complication that answers why the hero fights — what drives them to risk their life for others.
 - Every hero must have exactly one Motivation complication (chosen as the required first complication).
@@ -322,11 +284,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_029.md
 Locator: lines 1958-2052
 Extract: whole
 
----
 
-### enemy
-
-#### Domain Language
+#### **enemy**
 
 - Enemy is a complication representing an adversary who actively tries to harm or thwart the hero.
 - When the enemy appears and causes a particular problem (abduction of a loved one, laying a trap), the hero earns a hero point.
@@ -340,11 +299,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_029.md
 Locator: lines 1958-2052
 Extract: whole
 
----
 
-### secret
-
-#### Domain Language
+#### **secret**
 
 - Secret is a complication representing something potentially damaging or embarrassing the hero is hiding — most commonly a secret identity, but also a secret weakness or dark past.
 - Occasionally something or someone threatens to reveal the secret, activating the complication and earning the hero a hero point.
@@ -357,11 +313,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_030.md
 Locator: lines 2053-2103
 Extract: whole
 
----
 
-### weakness
-
-#### Domain Language
+#### **weakness**
 
 - Weakness is a complication representing a specific substance, energy, or condition that bypasses the hero's normally strong defenses or inflicts extra harm.
 - Common weakness effects include adding degrees of effect, imposing an entirely different effect (Affliction, Damage, Weaken), or other outcomes agreed with the GM in advance.
@@ -375,11 +328,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_030.md
 Locator: lines 2053-2103
 Extract: whole
 
----
 
-### power loss
-
-#### Domain Language
+#### **power loss**
 
 - Power Loss is a complication in which specific circumstances cause some or all of the hero's powers to fail, stop working, or be stripped away temporarily.
 - Triggers for Power Loss include dependence on objects that can be stolen, environmental conditions (darkness, exotic radiation), or wavering motivation (when motivation is the power source).
@@ -392,11 +342,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_029.md
 Locator: lines 1958-2052
 Extract: whole
 
----
 
-### identity
-
-#### Domain Language
+#### **identity**
 
 - Identity is a complication representing the challenge of maintaining a secret or separate persona — hero name vs. civilian name.
 - The dual-identity complication includes the risk of exposure, the juggling of two lives, and the transformation between personas.
@@ -415,11 +362,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_034.md
 Locator: lines 2226-2297
 Extract: whole
 
----
 
-### responsibility
-
-#### Domain Language
+#### **responsibility**
 
 - Responsibility is a complication representing demands on the hero's time and attention: family obligations, professional duties, and similar ongoing commitments.
 - When a responsibility creates conflict with the hero's heroic activities (missed obligations, loss of relationships or employment), it activates as a complication earning a hero point.
@@ -431,11 +375,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_030.md
 Locator: lines 2053-2103
 Extract: whole
 
----
 
-### relationship
-
-#### Domain Language
+#### **relationship**
 
 - Relationship is a complication representing the important people in a hero's life — friends, family, romantic partners — who can be a source of strength but also a source of danger.
 - If loved ones don't know the hero's secret, they must be kept safely in the dark; if they do know, they become targets for the hero's enemies.
@@ -448,11 +389,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_030.md
 Locator: lines 2053-2103
 Extract: whole
 
----
 
-### hero advancement
-
-#### Domain Language
+#### **hero advancement**
 
 - Hero advancement is the process of earning and spending PP awarded after each completed adventure to improve the hero's traits.
 - The GM awards 1 PP per successfully completed one-session adventure; 2 PP for defeating especially powerful foes; 1 PP per session for multi-session adventures, plus a possible bonus.
@@ -467,11 +405,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_034.md
 Locator: lines 2226-2297
 Extract: whole
 
----
 
-### increasing power level
-
-#### Domain Language
+#### **increasing power level**
 
 - Increasing power level is the process by which the GM raises the series PL — typically by +1 — once the heroes have accumulated approximately 15 additional PP since the series started or since the last PL increase.
 - After a PL increase, heroes can spend accumulated PP on traits that were previously capped at the old PL maximum.
@@ -484,11 +419,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_034.md
 Locator: lines 2226-2297
 Extract: whole
 
----
 
-### reallocating power points
-
-#### Domain Language
+#### **reallocating power points**
 
 - Reallocating power points is the exceptional process of moving already-spent PP from one trait to another, changing the hero's trait profile within PL limits.
 - Reallocation is normally prohibited; it requires either GM permission as a deliberate narrative event or a power effect (e.g., the transformed condition).
@@ -502,11 +434,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_027.md
 Locator: lines 1857-1902
 Extract: whole
 
----
 
-### origin
-
-#### Domain Language
+#### **origin**
 
 - Origin describes how the hero acquired superpowers; it shapes background narrative and can serve as a power descriptor.
 - Common origins: Accident (radiation, chemicals, energy exposure), Alien (member of a non-human species with inherent powers), Endowment (powers granted by an outside patron or force), Experiment (deliberate scientific or mystical transformation), Mutant (born with latent genetic potential that manifests under stress), Training (powers acquired through hard work, martial discipline, or magical study).
@@ -526,11 +455,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_033.md
 Locator: lines 2186-2225
 Extract: whole
 
----
 
-### costume
-
-#### Domain Language
+#### **costume**
 
 - A costume is the hero's distinctive visual identity in their superhero role — typically a unique, colorful outfit emblazoned with a symbol or logo.
 - Costumes can range from skin-tight spandex to military fatigues, body armor, suits of ancient or high-tech armor, or even ordinary street clothes.
@@ -546,11 +472,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_034.md
 Locator: lines 2226-2297
 Extract: whole
 
----
 
-### hero concept
-
-#### Domain Language
+#### **hero concept**
 
 - Hero concept is the creative starting point for character design — the player's answer to what sort of hero they want to create before spending any PP.
 - A concept covers basic abilities, powers, origin, and theme; it guides the 10-step design process.
@@ -564,11 +487,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_022.md
 Locator: lines 1556-1606
 Extract: whole
 
----
 
-### background
-
-#### Domain Language
+#### **background**
 
 - Background encompasses the narrative details that make a hero more than a stat block: name (code name or real name), appearance (race, sex, ethnicity, distinctive features), personality, goals, and age.
 - Background elements include the hero's name style (origin-based, powers-based, themed, titled, or simply a cool-sounding word), the hero's persona when not fighting crime, and long-term narrative goals.
@@ -596,11 +516,8 @@ Extract: whole
 
 # Boundary Domain
 
-## trait
+#### **trait** *(owned by: Assign Abilities)*
 
-Owned by: Assign Abilities
-
-#### Domain Language
 
 - A trait is any mechanical element purchased with power points: ability rank, defense rank, skill rank, advantage, or power effect.
 - Character Construction depends on the concept of trait as the unit of PP expenditure; the specific rules for each trait type are owned by the Assign Abilities, Manage Skills, Select Advantages, and Configure Powers modules.
@@ -618,13 +535,9 @@ Source: context/rules/HeroesHandbook-rules__chunk_025.md
 Locator: lines 1768-1807
 Extract: whole
 
----
 
-## hero point
+#### **hero point** *(owned by: Check Resolution)*
 
-Owned by: Check Resolution
-
-#### Domain Language
 
 - A hero point is the reward earned when a complication is activated by the GM and the player goes along with it; it can be spent later to enhance rolls or other actions.
 - Character Construction depends on hero points as the incentive mechanism that gives complications their pay-as-you-go value; the rules for spending and earning hero points live in the Check Resolution module.
@@ -641,13 +554,9 @@ Source: context/rules/HeroesHandbook-rules__chunk_030.md
 Locator: lines 2053-2103
 Extract: whole
 
----
 
-## descriptor
+#### **descriptor** *(owned by: Configure Powers)*
 
-Owned by: Configure Powers
-
-#### Domain Language
 
 - A descriptor is a narrative tag attached to a power or trait that defines what it is and how it interacts with the world (e.g., "mutant," "mystic," "fire," "alien").
 - Character Construction depends on descriptors because origins and motivations can serve as power descriptors, affecting detection and targeting of powers; the full rules for descriptors are owned by the Configure Powers module.

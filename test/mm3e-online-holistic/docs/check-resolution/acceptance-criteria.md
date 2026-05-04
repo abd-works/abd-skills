@@ -77,9 +77,9 @@ Scope: `(E) Resolve Checks` (all sub-epics) and `(E) Translate Rank to Measure`
    **THEN** the system reports four *Degrees of Success* (maximum)
    **Evidence:** check-resolution-domain-sketch.md — `## Check > ### degree of success > Ubiquitous Language` ("degrees of success range up to four")
 
-4. **WHEN** the *Roll Total* falls *DC* − 20 or lower
+4. **WHEN** the *Roll Total* falls *DC* − 15 or lower
    **THEN** the system reports four *Degrees of Failure* (maximum)
-   **Evidence:** check-resolution-domain-sketch.md — `## Check > ### degree of failure > Ubiquitous Language` ("degrees of failure range down to four")
+   **Evidence:** GradedCheckResult interaction — `degreesOfFailure = 1 + floor(abs(margin) / 5)`; at margin = −15 this equals 4; DC−15 is the symmetric ceiling to the DC+15 success threshold
 
 5. **WHEN** a natural 20 is rolled on a graded check
    **THEN** the system determines the degree normally from the *Margin* first
@@ -267,9 +267,9 @@ Scope: `(E) Resolve Checks` (all sub-epics) and `(E) Translate Rank to Measure`
    **THEN** the system grants the *Leader* a +5 *Circumstance Modifier* instead
    **Evidence:** check-resolution-domain-sketch.md — `## Check > ### modifier > Ubiquitous Language` ("three or more helper successes grant +5"); `### Team Check > Domain Sketch`
 
-4. **WHEN** a *Helper* achieves *Helper Failure*
-   **THEN** the system may impose a −2 *Circumstance Modifier* on the *Leader's* check
-   **Evidence:** check-resolution-domain-sketch.md — `## Check > ### modifier > Ubiquitous Language`; `### Team Check > Domain Sketch`
+4. **WHEN** two or more *Helpers* achieve *Helper Failure*
+   **THEN** the system imposes a −2 *Circumstance Modifier* on the *Leader's* check
+   **Evidence:** TeamCheck.calculateHelperModifier invariant — `2+ failures → −2; cap −2`
 
 5. **WHEN** the *Leader's* check is resolved
    **THEN** only the *Leader's* final *Roll Total* determines the outcome

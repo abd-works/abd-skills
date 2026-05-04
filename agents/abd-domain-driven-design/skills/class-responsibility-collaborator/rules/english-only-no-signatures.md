@@ -2,38 +2,38 @@
 
 **Scanner:** Manual review
 
-The entire CRC section — responsibilities, rejections, collaborators, lifecycle transitions, and invariants — must be written in plain English. No method signatures, typed parameters, return types, UML notation, cardinality markers, or code-level constructs are permitted anywhere. Passing means every line reads as a natural-language sentence or phrase. Failing means design-level notation has leaked into any field.
+Responsibility names, collaborator names, and invariants must be written in plain domain language using the property/operation table format. No method signatures, typed parameters, return types, UML notation, cardinality markers, or code-level constructs are permitted anywhere.
 
 ## DO
 
-- Write responsibilities, rejections, and collaborator descriptions in prose.
+- Write property names as noun phrases and operation names as verb phrases.
 
-  **Example (pass):** `responsible: resolves whether an attempted action succeeds or fails against a target difficulty`
+  **Example (pass):** `resolve | D20, Trait, Circumstance Modifier, Difficulty Class, Check Result`
 
-- Describe lifecycle transitions and constraints in natural English.
+- Write invariants as declarative English statements using `|   invariant:`.
 
-  **Example (pass):** `transitions: inactive → active (source effect imposed), active → resolved (source effect ends or resistance check succeeds)`
+  **Example (pass):** `|   invariant: only active conditions apply modifiers`
 
-- Write invariants as declarative English statements.
+- Use parenthetical value descriptions for primitives and enums.
 
-  **Example (pass):** `- a condition already present in the supersession chain is overridden by the more severe one, never duplicated`
+  **Example (pass):** `active status | (active or inactive)`
 
 ## DO NOT
 
 - Include operation signatures with parameters or return types.
 
-  **Example (fail):** `responsible: resolve(roll: int, dc: int) -> bool`
+  **Example (fail):** `resolve(roll: int, dc: int) -> bool`
 
 - Use typed property declarations.
 
-  **Example (fail):** `responsible: stores result: CheckResult and modifiers: List<Modifier>`
+  **Example (fail):** `stored result: CheckResult`
 
 - Include UML or cardinality notation in collaborators.
 
-  **Example (fail):** `collaborators: DifficultyClass 1..1, Modifier 0..*`
+  **Example (fail):** `DifficultyClass 1..1, Modifier 0..*`
 
 - Use code-style boolean expressions in invariants.
 
-  **Example (fail):** `invariants: damage >= threshold && !isImmune` — write "damage equals or exceeds the threshold and the character is not immune" instead.
+  **Example (fail):** `invariant: damage >= threshold && !isImmune` — write "damage equals or exceeds the threshold and the character is not immune" instead.
 
 **Source:** Engagement convention (class-responsibility-collaborator skill).

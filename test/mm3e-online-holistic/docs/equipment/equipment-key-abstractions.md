@@ -43,23 +43,19 @@ Scope: Devices vs equipment distinction, the Equipment advantage, inventing/jury
 
 # Core Domain
 
-## Key Abstractions
 
-### Device
+## **Device**
 
 A Device is the central concept of powered, character-owned gear in MM3E — the bridge between the character's power point investment and a physical item that can be taken away. It owns the definition of what makes an item a device (it is a power with the Removable or Easily Removable flaw applied), the rules for temporary use without power-point cost, and the recovery rules when a device is lost. Device interacts with the Equipment advantage (which it contrasts with), with the Removable and Indestructible modifiers (which govern its vulnerability), and with inventing and jury-rigging (which produce temporary devices). The invariant that defines a Device is that it must always be traceable to a power effect paying power points; an item with no power-point cost is not a device — it is equipment.
 
 A Device also owns the taxonomy of specialized device types: battlesuits (comprehensive power-armor devices), costumes (wearable devices or mundane gear with device-like immunity), and enhanced equipment (mundane items crossing into device territory via magic or super-science). The Removable flaw spectrum (Removable → Easily Removable, with or without Indestructible) determines the cost reduction and vulnerability trade-off. The character always retains the ability to replace a permanently lost device, because the device is considered a permanent part of their concept — unlike equipment, which can be taken with impunity.
 
-#### Decisions made
+### Ubiquitous Language
 
-- battlesuit, costume, and enhanced equipment are subtypes/specializations of Device, not their own KAs — all three are devices with specific descriptors (independence test: they make no sense without the device concept).
-- Removable, Easily Removable, and Indestructible are properties/modifiers of Device, not independent KAs — they exist only in the context of making a power into a device (independence test).
-- Device vs. Equipment is a single binary distinction owned by this module; the boundary between them is the device's defining rule.
 
-#### device
+#### **device**
 
-#### Domain Language
+#### **Domain Language**
 
 - A device is an item providing a power effect or set of effects; mechanically it is a power with the Removable or Easily Removable flaw applied.
 - Devices may originate from advanced science, magic, alien technology, or psychic power; all work identically in game terms regardless of origin or descriptor.
@@ -83,11 +79,10 @@ Generally speaking, devices are powers with the Removable flaw applied to them (
 There can sometimes be a fine line between devices (Removable powers) and equipment (relatively mundane technology). The primary differences are: Devices are part of the character's traits. They grant effects beyond the capabilities of normal equipment, and they're only ever lost or taken away temporarily. If an item is integral to the character's concept or abilities, it's probably a device.
 ```
 
----
 
-#### Removable
+#### **Removable**
 
-#### Domain Language
+#### **Domain Language**
 
 - Removable is a flaw applied to powers that are external to the character, making the power dependent on an item that can be taken away.
 - Applying Removable reduces the power's point cost to reflect the vulnerability of losing access.
@@ -107,11 +102,10 @@ A device is an item that provides a particular power effect or set of effects.
 Generally speaking, devices are powers with the Removable flaw applied to them (see Removable in the Powers chapter), meaning the power is external to the character. Take away the device, and the wielder loses the ability to use those powers. So if an armored hero loses access to his battlesuit, for example, he also loses access to the powers tied-up in it.
 ```
 
----
 
-#### Easily Removable
+#### **Easily Removable**
 
-#### Domain Language
+#### **Domain Language**
 
 - Easily Removable is a more severe form of the Removable flaw — the device can be stripped away even more readily.
 - The greater vulnerability to loss is reflected in a larger point-cost reduction compared to standard Removable.
@@ -132,11 +126,10 @@ Generally speaking, devices are powers with the Removable flaw applied to them (
 Equipment, on the other hand, is limited to fairly "mundane" things, can be taken away or even destroyed with impunity, and merely supplements the character's traits.
 ```
 
----
 
-#### Indestructible
+#### **Indestructible**
 
-#### Domain Language
+#### **Domain Language**
 
 - Indestructible is a modifier applied to a Removable or Easily Removable device indicating the item cannot be permanently destroyed.
 - An Indestructible device can still be taken away but cannot be eliminated through destruction.
@@ -155,11 +148,10 @@ Generally speaking, devices are powers with the Removable flaw applied to them (
 Just like other powers, devices cost power points (albeit reduced some by the Removable flaw). Characters who want to have and use a device on a regular basis have to pay power points to have it, just like having any other power.
 ```
 
----
 
-#### battlesuit
+#### **battlesuit**
 
-#### Domain Language
+#### **Domain Language**
 
 - A battlesuit (power armor) is an advanced suit of technological or magical armor granting the wearer power effects structured as a Removable device.
 - Common battlesuit powers: Protection (possibly Impervious or Sustained), attack effects (Damage, often as Alternate Effects), Immunity to environmental hazards, movement (Flight, Leaping, Swimming), Senses (darkvision, radio, infrared, GPS, time sense), and Enhanced Strength.
@@ -184,11 +176,10 @@ Movement: After defense and offense, battlesuits typically allow the wearer to g
 Sensors: Battlesuits often come equipped with a suite of sensors providing Senses.
 ```
 
----
 
-#### costume
+#### **costume**
 
-#### Domain Language
+#### **Domain Language**
 
 - A costume may be made of unusual materials (super-science or magic) giving it a Protection effect beyond ordinary clothing.
 - Costumes may serve as the source of a hero's powers (e.g., a battlesuit is a specialized powered costume).
@@ -207,11 +198,10 @@ In addition to being stylish, costumes may be made of unusual materials much tou
 Comic book costumes are usually immune to their wearer's powers. They don't burn, tear, or otherwise suffer damage when the wearer changes size or shape, bursts into flames, freezes, and so forth. The GM can assume this is just a descriptor for all costumes. It costs no points, since everyone has it.
 ```
 
----
 
-#### enhanced equipment
+#### **enhanced equipment**
 
-#### Domain Language
+#### **Domain Language**
 
 - Enhanced equipment is normal equipment given special properties through magic or super-science, crossing from equipment into the device category.
 - Examples: magical weapons with greater Damage bonuses, magical armor with greater Protection, equipment using super-alloys or bulletproof cloth.
@@ -230,21 +220,28 @@ Some devices are otherwise normal equipment with special properties. Magical ite
 
 ---
 
-### Equipment
+### Decisions made
+
+- battlesuit, costume, and enhanced equipment are subtypes/specializations of Device, not their own KAs — all three are devices with specific descriptors (independence test: they make no sense without the device concept).
+- Removable, Easily Removable, and Indestructible are properties/modifiers of Device, not independent KAs — they exist only in the context of making a power into a device (independence test).
+- Device vs. Equipment is a single binary distinction owned by this module; the boundary between them is the device's defining rule.
+
+
+
+---
+
+## **Equipment**
 
 The Equipment KA governs the acquisition and use of mundane items in the game. It owns the concept of an equipment point pool derived from the Equipment advantage, the rules for what qualifies as adventuring equipment (and therefore requires payment), and the constraints on equipment's effectiveness relative to devices and powers. Equipment interacts with Device (it is the contrasting concept: mundane vs. powered) and with the Weapon, Armor, Vehicle, and Headquarters KAs (which define what can be purchased as equipment). The fundamental invariant is that equipment is bounded by real-world technology; anything exceeding that boundary becomes a device.
 
 Equipment also owns the Alternate Equipment and on-hand equipment patterns — the rules for arrays of items usable one-at-a-time and the hero-point rule for having a specific item conveniently available. These patterns give equipment a limited flexibility analogous to power arrays and stunts, while remaining distinct from the device system.
 
-#### Decisions made
+### Ubiquitous Language
 
-- Equipment advantage and equipment point are grouped under Equipment because they are pure acquisition mechanics — the advantage is how you buy equipment, the point is the unit of purchase; neither stands independently of the equipment system.
-- Alternate Equipment and on-hand equipment are found terms but are core to the equipment acquisition model; they belong here.
-- The "bonus stacking" and "no extra effort" rules are properties of the Equipment KA, not separate concepts.
 
-#### equipment
+#### **equipment**
 
-#### Domain Language
+#### **Domain Language**
 
 - Equipment covers mundane items — ordinary real-world things — that supplement a character's traits without granting powers per se.
 - Equipment is acquired using equipment points from the Equipment advantage; each piece has a point cost.
@@ -266,6 +263,9 @@ In addition to their amazing devices, characters often make use of various munda
 Equipment is acquired with points from the Equipment advantage. Each piece of equipment has a cost in points, just like other traits. The character pays the item's cost out of the points from the Equipment advantage and can thereafter have and use that item.
 ```
 
+
+#### References
+
 **Ref — The Limits Of Equipment**
 Source: context/rules/HeroesHandbook-rules__chunk_164.md
 Locator: lines 11852-11905
@@ -279,11 +279,10 @@ Equipment includes only items and technology commonly available in the setting. 
 Equipment bonuses are limited compared to the bonuses granted by other effects. Generally, they do not stack with each other or other types of bonuses, only the highest bonus applies.
 ```
 
----
 
-#### Equipment advantage
+#### **Equipment advantage**
 
-#### Domain Language
+#### **Domain Language**
 
 - The Equipment advantage is the character trait that grants equipment points for purchasing items.
 - Characters pay each item's point cost from their equipment points and can thereafter own and use that item.
@@ -302,11 +301,10 @@ Equipment is acquired with points from the Equipment advantage. Each piece of eq
 An item's cost is based on its effects and features, just like a power (see the Powers chapter for more information), so a ranged weapon has a cost based on its Ranged Damage rank.
 ```
 
----
 
-#### equipment point
+#### **equipment point**
 
-#### Domain Language
+#### **Domain Language**
 
 - An equipment point is the unit of currency for purchasing items via the Equipment advantage; the pool size is determined by ranks in the advantage.
 - Every piece of equipment has a point cost; the character pays it and can thereafter own and use the item.
@@ -323,11 +321,10 @@ Extract: whole
 Equipment is acquired with points from the Equipment advantage. Each piece of equipment has a cost in points, just like other traits. The character pays the item's cost out of the points from the Equipment advantage and can thereafter have and use that item.
 ```
 
----
 
-#### Alternate Equipment
+#### **Alternate Equipment**
 
-#### Domain Language
+#### **Domain Language**
 
 - Alternate Equipment is an array of items usable only one at a time, analogous to Alternate Effect for powers.
 - Cost: full price for the most expensive item, 1 equipment point per additional item of equal or lesser cost.
@@ -347,6 +344,9 @@ Just as with power effects, there is a diminishing value in having multiple item
 Characters can also have Alternate Equipment, an array of items usable only one at a time. This is typically a multi-function item, or a kit or collection of various smaller items. The classic example is the utility belt (see its description later in this chapter).
 ```
 
+
+#### References
+
 **Ref — Utility Belt**
 Source: context/rules/HeroesHandbook-rules__chunk_166.md
 Locator: lines 11966-12022
@@ -358,11 +358,10 @@ A common piece of equipment for crime fighters and espionage agents is the utili
 By spending hero points you can temporarily add Alternate Equipment to your utility belt, for those one-time items you may need in a pinch.
 ```
 
----
 
-#### on-hand equipment
+#### **on-hand equipment**
 
-#### Domain Language
+#### **Domain Language**
 
 - On-hand equipment allows a character to spend a hero point to have a particular item available in a scene without having planned ahead.
 - It functions as an equipment power stunt for one scene; the GM decides whether having the item is plausible given the situation.
@@ -381,19 +380,26 @@ Characters may not necessarily carry all their equipment with them at all times.
 
 ---
 
-### Invention
+### Decisions made
+
+- Equipment advantage and equipment point are grouped under Equipment because they are pure acquisition mechanics — the advantage is how you buy equipment, the point is the unit of purchase; neither stands independently of the equipment system.
+- Alternate Equipment and on-hand equipment are found terms but are core to the equipment acquisition model; they belong here.
+- The "bonus stacking" and "no extra effort" rules are properties of the Equipment KA, not separate concepts.
+
+
+
+---
+
+## **Invention**
 
 Invention is the system that allows characters to create temporary devices on the fly, bypassing the normal power-point acquisition process at the cost of time, skill, and sometimes luck. It owns the design-and-construction workflow (two sequential Technology checks with time requirements scaled to power-point cost), the jury-rigging emergency shortcut (skip design, spend a hero point, compress construction to rounds at higher DC), and the ritual variant (same workflow but using Expertise: Magic for characters with the Ritualist advantage). Invention interacts with Device (invented items are temporary devices), with the Technology skill and Expertise: Magic skill (the check mechanics), and with the hero point economy (the currency for jury-rigging and reuse). The invariant is that invented and jury-rigged devices are temporary — they last one scene; permanent use requires spending power points.
 
-#### Decisions made
+### Ubiquitous Language
 
-- inventing, jury-rigging, and ritual are grouped as one KA because they share the same two-phase (design + construct) pattern with the same DC formula; ritual is the magical variant — independence test: jury-rigging has no meaning without inventing, and ritual is structurally identical to inventing.
-- The mishap rule is part of Invention, not a separate KA.
-- magical inventions (Expertise: Magic check substitution) are part of inventing, not ritual — they use the invention workflow with a different skill.
 
-#### inventing
+#### **inventing**
 
-#### Domain Language
+#### **Domain Language**
 
 - Inventing is the process by which a character with the Inventor advantage creates a temporary device for single-adventure use.
 - Requires two sequential checks: Design Check (Technology, DC 10 + point cost, 1 hour/pp) then Construction Check (Technology, DC 10 + point cost, 4 hours/pp).
@@ -421,6 +427,9 @@ Once the design is in-hand, the character can construct the invention. This requ
 Construction Check = DC 10 + invention's point cost
 ```
 
+
+#### References
+
 **Ref — Using The Invention**
 Source: context/rules/HeroesHandbook-rules__chunk_161.md
 Locator: lines 11725-11764
@@ -434,11 +443,10 @@ The first is to spend the necessary power points to acquire the invention as a r
 The other option is to spend a hero point to get another one-scene use out of the invention. Each use costs an additional hero point, but doesn't require any further skill checks.
 ```
 
----
 
-#### jury-rigging
+#### **jury-rigging**
 
-#### Domain Language
+#### **Domain Language**
 
 - Jury-rigging is an emergency inventing technique that produces a working device immediately by spending a hero point.
 - The design check is skipped; construction time compresses to 1 round per power point of cost; the construction DC increases by +5.
@@ -456,11 +464,10 @@ Extract: whole
 An inventor can choose to spend a hero point to jury-rig a device; ideal for when a particular device is needed right now. When jury-rigging a device, skip the design check and reduce the time of the construction check to one round per power point of the device's cost, but increase the DC of the check by +5. The inventor makes the check and, if successful, has use of the device for one scene before it burns out, falls apart, blows up, or otherwise fails. You can't jury-rig an invention as a routine check.
 ```
 
----
 
-#### ritual
+#### **ritual**
 
-#### Domain Language
+#### **Domain Language**
 
 - A ritual is a magical version of inventing available to characters with the Ritualist advantage; uses Expertise: Magic for all checks.
 - Research phase: 4 hours per power point of cost; performance phase: 10 minutes per power point.
@@ -484,19 +491,26 @@ For rituals, substitute the Expertise: Magic skill for both the design and const
 
 ---
 
-### Weapon
+### Decisions made
+
+- inventing, jury-rigging, and ritual are grouped as one KA because they share the same two-phase (design + construct) pattern with the same DC formula; ritual is the magical variant — independence test: jury-rigging has no meaning without inventing, and ritual is structurally identical to inventing.
+- The mishap rule is part of Invention, not a separate KA.
+- magical inventions (Expertise: Magic check substitution) are part of inventing, not ritual — they use the invention workflow with a different skill.
+
+
+
+---
+
+## **Weapon**
 
 The Weapon KA owns the equipment-grade offensive tools available to heroes and villains: melee weapons (hand-held close combat weapons with Strength-based Damage), ranged weapons (thrown and projectile weapons spanning simple pistols to rocket launchers), grenades (thrown area-effect weapons), and explosives (placed area-damage devices). It interacts with the Equipment KA (weapons are purchased with equipment points) and the Device KA (magical or super-scientific weapons are devices, not equipment). Weapons each carry four traits: category, effect, critical threat range, and point cost; this structure is uniform across melee, ranged, grenade, and explosive types. The invariant is that all weapon effects use the Power chapter's effect mechanics (Damage, Affliction, etc.) at the specified rank, and critical threat ranges are bounded by the Improved Critical advantage cost.
 
-#### Decisions made
+### Ubiquitous Language
 
-- melee weapon, ranged weapon, grenade, and explosive are grouped as one KA because they all follow the same weapon-trait model (category, effect, critical, cost) and are all purchased as equipment; distinct mechanics (thrown vs. projectile vs. area) map to sub-categories within Weapon.
-- Weapon accessories (laser sight, stun ammo, etc.) are properties of ranged weapons, not separate KA terms.
-- The grenade/explosive distinction (thrown vs. placed area damage) is captured within the Weapon KA.
 
-#### melee weapon
+#### **melee weapon**
 
-#### Domain Language
+#### **Domain Language**
 
 - A melee weapon is a hand-held close-combat weapon, typically with Strength-based Damage adding the wielder's Strength rank to the weapon's damage rank.
 - Ordinary melee weapons break if the wielder's Strength exceeds the weapon's Toughness (4 for wood, 7-8 for metal).
@@ -514,6 +528,9 @@ Extract: whole
 Melee weapons are hand-held close combat weapons. They typically have a Strength-based Damage effect (see the Damage effect in the Powers chapter), adding the wielder's Strength rank to the weapon's damage rank. Ordinary melee weapons are limited by their Toughness in terms of the amount of Strength they can add. If a wielder exerts Strength greater than the weapon's Toughness (4 for wooden weapons, 7 or 8 for metal weapons), the weapon breaks when it is used.
 ```
 
+
+#### References
+
 **Ref — Simple Weapons**
 Source: context/rules/HeroesHandbook-rules__chunk_168.md
 Locator: lines 12075-12170
@@ -528,6 +545,9 @@ Critical: The threat range for a critical hit with the weapon. Some weapons have
 
 Cost: This is the weapon's cost in points.
 ```
+
+
+#### References
 
 **Ref — Simple Melee Weapons**
 Source: context/rules/HeroesHandbook-rules__chunk_169.md
@@ -544,11 +564,10 @@ Sword: A blade between 18 and 30 or more inches in length, single or double-edge
 Chain: A length of chain can strike targets up to 10 ft. away (Reach 2) and provides the benefits of the Improved Grab and Improved Trip advantages.
 ```
 
----
 
-#### ranged weapon
+#### **ranged weapon**
 
-#### Domain Language
+#### **Domain Language**
 
 - Ranged weapons include thrown weapons (Strength-based Damage) and projectile weapons (not Strength-based): bows, crossbows, guns, energy weapons.
 - Categories: Projectile Weapons, Energy Weapons (blasters, taser), Heavy Weapons (flamethrower, grenade launcher, rocket launcher), Thrown Weapons (bolos, boomerang, javelin, shuriken).
@@ -568,6 +587,9 @@ Ranged weapons include both thrown and projectile weapons. Thrown weapons are St
 Like melee weapons, ranged weapons have category, effect, critical, and cost traits. Ranged weapon categories are Projectile Weapons, Energy Weapons, Heavy Weapons, and Thrown Weapons.
 ```
 
+
+#### References
+
 **Ref — Ranged Weapons**
 Source: context/rules/HeroesHandbook-rules__chunk_171.md
 Locator: lines 12269-12326
@@ -582,6 +604,9 @@ Blaster pistol — Ranged Damage 5
 Blaster rifle — Ranged Damage 8
 Taser — Ranged Affliction 5
 ```
+
+
+#### References
 
 **Ref — Energy Weapons**
 Source: context/rules/HeroesHandbook-rules__chunk_172.md
@@ -598,6 +623,9 @@ Javelin — Ranged Damage 2
 Shuriken — Ranged Multiattack Damage 1
 ```
 
+
+#### References
+
 **Ref — Other Ranged Weapons**
 Source: context/rules/HeroesHandbook-rules__chunk_173.md
 Locator: lines 12451-12516
@@ -611,11 +639,10 @@ Boomerang: A common throwing weapon for heroes, a thrown boomerang returns to th
 Shuriken: Flat metal stars or spikes for throwing. Shuriken can be thrown in groups as a Multiattack. Although they are thrown weapons, shuriken are not Strength-based, being too light.
 ```
 
----
 
-#### grenade
+#### **grenade**
 
-#### Domain Language
+#### **Domain Language**
 
 - A grenade is a thrown area-effect weapon affecting all targets within a burst or cloud area; targets beat a Dodge DC to halve or avoid effects.
 - Types: fragmentation (Burst Area Damage 5, DC 15), smoke (Cloud Area Concealment Attack), flash-bang (Burst Area Dazzle 4), sleep gas (Cloud Area Affliction — fatigued/exhausted/asleep), tear gas (Cloud Area Affliction — dazed/vision-impaired, stunned/vision-disabled, incapacitated).
@@ -639,6 +666,9 @@ Sleep gas grenade: This grenade releases a gas with an Affliction (Sleep) effect
 Tear gas grenade: This type of grenade releases a cloud of gas that irritates the eyes and lungs, causing temporarily blindness and nausea.
 ```
 
+
+#### References
+
 **Ref — Other Ranged Weapons**
 Source: context/rules/HeroesHandbook-rules__chunk_173.md
 Locator: lines 12451-12516
@@ -654,11 +684,10 @@ Sleep gas — Ranged Cloud Area Sleep 4
 Tear gas — Ranged Cloud Area Affliction 4
 ```
 
----
 
-#### explosive
+#### **explosive**
 
-#### Domain Language
+#### **Domain Language**
 
 - An explosive is a non-thrown area-damage device placed or delivered by other means.
 - Types: dynamite (Burst Area Damage 5 per stick) and plastic explosive (Burst Area Damage 10 per 1-lb block); each doubling of quantity increases Damage rank by 1.
@@ -677,6 +706,9 @@ Dynamite: A common explosive. The damage on the table is for a single stick of d
 Plastic explosive: Another common explosive, which can be worked into different shapes. The damage listed is for a 1-lb block. Each doubling of the amount of explosive increases Damage rank by 1.
 ```
 
+
+#### References
+
 **Ref — Explosives**
 Source: context/rules/HeroesHandbook-rules__chunk_174.md
 Locator: lines 12517-12556
@@ -694,19 +726,26 @@ Targeting Scope: A targeting scope gives a weapon the benefits of the Improved A
 
 ---
 
-### Armor and Defense
+### Decisions made
+
+- melee weapon, ranged weapon, grenade, and explosive are grouped as one KA because they all follow the same weapon-trait model (category, effect, critical, cost) and are all purchased as equipment; distinct mechanics (thrown vs. projectile vs. area) map to sub-categories within Weapon.
+- Weapon accessories (laser sight, stun ammo, etc.) are properties of ranged weapons, not separate KA terms.
+- The grenade/explosive distinction (thrown vs. placed area damage) is captured within the Weapon KA.
+
+
+
+---
+
+## **Armor and Defense**
 
 The Armor and Defense KA owns the protective gear that characters wear or carry — armors (which add a Protection bonus to Toughness) and shields (which grant active defense bonuses to Dodge and Parry). It also owns the Toughness bonus concept, which is the mechanical output of armor: a stacking-restricted bonus to Toughness. This KA interacts with the Device KA (super-shields and battlesuits are device versions of shield and armor concepts), with the Vehicle KA (vehicles can have armor features), and with the power level rules (Toughness from equipment cannot exceed power level). The fundamental invariant is that equipment-sourced Toughness bonuses do not stack — only the highest applies — whereas device-sourced Protection does stack.
 
-#### Decisions made
+### Ubiquitous Language
 
-- armor, shield, and Toughness bonus are grouped because they are all parts of the same protection system: armor provides Toughness bonus, shield provides defense bonus, Toughness bonus is the measured output.
-- Super-shield is a device variant described within the shield term, not a separate KA — its device nature is captured under the Device KA.
-- The "modern armor limited to ballistic" constraint is a property of specific armor items, not a separate KA concept.
 
-#### armor
+#### **armor**
 
-#### Domain Language
+#### **Domain Language**
 
 - Armor provides a Protection effect, granting a bonus to Toughness to resist damage.
 - Categories: archaic (leather Prot 1, chain-mail Prot 3, plate-mail Prot 5, full-plate Prot 6), modern (undercover shirt Prot 2 Limited/Ballistic/Subtle; bulletproof vest Prot 4 Limited/Ballistic/Subtle).
@@ -728,6 +767,9 @@ Category: Armors are categorized as archaic (ancient styles of armor like chain-
 Effect: The effect of most armor is Protection, sometimes with the Impervious modifier.
 ```
 
+
+#### References
+
 **Ref — Modern**
 Source: context/rules/HeroesHandbook-rules__chunk_177.md
 Locator: lines 12652-12693
@@ -744,11 +786,10 @@ Medium shield — +2 Active Defenses — 4 points
 Large shield — +3 Active Defenses — 6 points
 ```
 
----
 
-#### shield
+#### **shield**
 
-#### Domain Language
+#### **Domain Language**
 
 - A shield grants active defense bonuses (Enhanced Dodge and Parry) functioning as mobile cover rather than passive Protection.
 - Sizes: small (+1 active defenses, 2 points), medium (+2 active defenses, 4 points), large (+3 active defenses, 6 points).
@@ -771,6 +812,9 @@ Shields
 Effect: The effect of most armor is Protection, sometimes with the Impervious modifier. Shields provide a sort of mobile cover (see Cover in the Action & Adventure chapter), granting Enhanced Dodge and Parry defenses.
 ```
 
+
+#### References
+
 **Ref — Under The Hood: Super-shields**
 Source: context/rules/HeroesHandbook-rules__chunk_176.md
 Locator: lines 12607-12651
@@ -784,11 +828,10 @@ A shield device may provide Enhanced Dodge and Parry defenses like a mundane shi
 A super-shield might even be useful as a weapon, providing a Damage effect, probably Strength-based. This is best handled as an Alternate Effect of the shield, meaning you can't use it both offensively and defensively at the same time!
 ```
 
----
 
-#### Toughness bonus
+#### **Toughness bonus**
 
-#### Domain Language
+#### **Domain Language**
 
 - The Toughness bonus is the bonus to Toughness granted by the Protection effect from armor or similar sources.
 - Equipment-sourced Toughness bonuses do not stack with each other or with non-equipment bonuses; only the highest applies.
@@ -806,6 +849,9 @@ Extract: whole
 Armor provides a Protection effect, a bonus to Toughness. Like other equipment, armor bonuses do not stack with other armor or effect bonuses, only the highest bonus applies. Toughness, even that granted by armor, is limited by your series' power level.
 ```
 
+
+#### References
+
 **Ref — The Limits Of Equipment**
 Source: context/rules/HeroesHandbook-rules__chunk_164.md
 Locator: lines 11852-11905
@@ -817,19 +863,26 @@ Equipment bonuses are limited compared to the bonuses granted by other effects. 
 
 ---
 
-### Vehicle
+### Decisions made
+
+- armor, shield, and Toughness bonus are grouped because they are all parts of the same protection system: armor provides Toughness bonus, shield provides defense bonus, Toughness bonus is the measured output.
+- Super-shield is a device variant described within the shield term, not a separate KA — its device nature is captured under the Device KA.
+- The "modern armor limited to ballistic" constraint is a property of specific armor items, not a separate KA concept.
+
+
+
+---
+
+## **Vehicle**
 
 The Vehicle KA owns transportation devices acquired as equipment. It governs the five-trait model (Size, Strength, Speed, Defense, Toughness) through which vehicles are purchased and upgraded, the size-based stat derivation table, and the full menu of vehicle features. Vehicle interacts with the Equipment KA (vehicles cost equipment points), the Device KA (vehicles can have power effects), and the Headquarters KA (both use shared/alternative ownership patterns). The invariant is that a vehicle's standard amenities cost nothing and that vehicles with multiple movement modes must pay full cost for the most expensive, acquiring others as Alternate Effects.
 
-#### Decisions made
+### Ubiquitous Language
 
-- vehicle, vehicle size, and vehicle feature are grouped as one KA because size and features are properties/components of a vehicle, not independent concepts (independence test: vehicle size has no meaning without a vehicle to apply it to).
-- Alternate Vehicles (arrays of vehicles) is a property of Vehicle, captured in the vehicle term's domain language.
-- Vehicle power effects (armor, cloaking, weapons) are vehicle features — this is the bridge to the power-effect boundary term.
 
-#### vehicle
+#### **vehicle**
 
-#### Domain Language
+#### **Domain Language**
 
 - A vehicle is a transportation device acquired as equipment with five traits purchased at equipment point cost: Size, Strength, Speed, Defense, and Toughness.
 - Base cost is the Speed movement effect; other traits, features, and powers cost additional points.
@@ -850,6 +903,9 @@ Not every hero can fly (or teleport, or run at super-speed...). Sometimes heroes
 Vehicles have the following traits: Size, Strength, Speed, Defense, and Toughness. Like characters, each of a vehicle's traits costs points to improve. The basic cost for a vehicle is its Speed, but other things, like the vehicle's ability to haul cargo or resist damage, cost points as well. Vehicles can even have power effects of their own.
 ```
 
+
+#### References
+
 **Ref — Vehicle Size Categories**
 Source: context/rules/HeroesHandbook-rules__chunk_179.md
 Locator: lines 12740-12880
@@ -866,6 +922,9 @@ Features — 1 point per feature
 Powers — power cost (see Chapter 5)
 ```
 
+
+#### References
+
 **Ref — Alternate Vehicles**
 Source: context/rules/HeroesHandbook-rules__chunk_181.md
 Locator: lines 12925-12978
@@ -875,11 +934,10 @@ Extract: whole
 Just like Alternate Equipment, characters may have multiple vehicles. These are generally Alternate Equipment by definition, since it's difficult to drive or pilot more than one vehicle at a time! So the character pays the full cost for the most expensive vehicle, and then 1 equipment point for each additional vehicle with the same or lesser cost.
 ```
 
----
 
-#### vehicle size
+#### **vehicle size**
 
-#### Domain Language
+#### **Domain Language**
 
 - Vehicle size is measured in categories from Medium (default) upward: Large, Huge, Gargantuan, Colossal, Awesome.
 - Size determines base Strength, Toughness, and Defense values (Awesome: Str 20/Tgh 15/Def -12; Medium: Str 0/Tgh 5/Def 0).
@@ -905,11 +963,10 @@ Medium — Str 0 / Toughness 5 / Defense 0
 A vehicle's size determines its base Defense, which is used to determine the Defense Class to hit the vehicle with attacks. For sizes larger than medium, this is a penalty, making it easier to target the vehicle. You can "buy off" the Defense penalty applied to a vehicle for 1 equipment point per -1 penalty removed.
 ```
 
----
 
-#### vehicle feature
+#### **vehicle feature**
 
-#### Domain Language
+#### **Domain Language**
 
 - Vehicle features are optional extras each costing 1 equipment point; standard features include Alarm (Technology DC 20), Caltrops dispenser, Hidden Compartments (Perception DC 20), Navigation System (+5 navigation), Oil Slick (DC 15 Vehicles check), Remote Control.
 - Some features are power effects: Armor (Protection), Cloaking Device (Concealment 4 or 8 points), Immunity (environmental hazards), Smokescreen (Cloud Area Concealment Attack, 12 points), Weapons (Damage effects).
@@ -930,6 +987,9 @@ Navigation System: The vehicle is equipped with a navigation system that grants 
 Oil Slick: The vehicle can release an oil slick, covering a 20-ft. by 20-ft. area and forcing the driver of a pursuing vehicle to make a Vehicles check (DC 15) to retain control of the vehicle.
 ```
 
+
+#### References
+
 **Ref — Features**
 Source: context/rules/HeroesHandbook-rules__chunk_180.md
 Locator: lines 12881-12924
@@ -947,19 +1007,26 @@ Smokescreen: The vehicle can release a cloud of thick smoke or mist that provide
 
 ---
 
-### Headquarters
+### Decisions made
+
+- vehicle, vehicle size, and vehicle feature are grouped as one KA because size and features are properties/components of a vehicle, not independent concepts (independence test: vehicle size has no meaning without a vehicle to apply it to).
+- Alternate Vehicles (arrays of vehicles) is a property of Vehicle, captured in the vehicle term's domain language.
+- Vehicle power effects (armor, cloaking, weapons) are vehicle features — this is the bridge to the power-effect boundary term.
+
+
+
+---
+
+## **Headquarters**
 
 The Headquarters KA owns fixed bases of operation — from underground caves to orbiting satellites — acquired as equipment. It governs the two primary traits (Size and Toughness) and the menu of features that define a base's capabilities. Headquarters interacts with the Vehicle KA (both share the shared/alternate ownership pattern and feature-based customization), with the Equipment KA (all costs are equipment points), and with the Construct KA (HQ computers may be AI constructs). The invariant is that a headquarters power level caps the strength of power-effect features at twice the PL, and that a destroyed headquarters can always be rebuilt using the same equipment points.
 
-#### Decisions made
+### Ubiquitous Language
 
-- headquarters, headquarters size, and headquarters feature are grouped because size and features are properties of a headquarters, not independent concepts.
-- The HQ power level is a property of headquarters, not a separate KA.
-- Shared headquarters and Alternate Headquarters patterns are behaviors of the Headquarters KA, not separate terms.
 
-#### headquarters
+#### **headquarters**
 
-#### Domain Language
+#### **Domain Language**
 
 - A headquarters is a base of operations purchased as equipment with equipment points.
 - Teams may pool equipment points to share a headquarters; cost is divided as members see fit.
@@ -982,6 +1049,9 @@ A character can even have multiple bases of operation (see Alternate Headquarter
 If a character's headquarters is destroyed, the character can choose to rebuild it or build a new headquarters with different features using the same equipment points.
 ```
 
+
+#### References
+
 **Ref — Equipment Cost**
 Source: context/rules/HeroesHandbook-rules__chunk_187.md
 Locator: lines 13522-13624
@@ -995,6 +1065,9 @@ A structure's size is measured similarly to that of a vehicle, and gives a gener
 Some features refer to a headquarters' power level. For player characters, this is the power level of the series overall.
 ```
 
+
+#### References
+
 **Ref — Workshop**
 Source: context/rules/HeroesHandbook-rules__chunk_192.md
 Locator: lines 13795-13835
@@ -1006,11 +1079,10 @@ A team of heroes most often has a headquarters they all share. In this case, the
 In the event that a character has more than one headquarters, such as hidden bases scattered around the world, the others are treated as Alternate Equipment: the character pays the points for the most expensive HQ, then 1 equipment point for each additional HQ of the same or lesser cost.
 ```
 
----
 
-#### headquarters size
+#### **headquarters size**
 
-#### Domain Language
+#### **Domain Language**
 
 - HQ size categories range from Fine/Miniscule (-4 points) upward through Tiny, Small (default, 0 points), Medium, Large, Huge, Gargantuan, Colossal, Awesome.
 - Starting size is Small (house-sized); each size increase costs 1 point; reducing below Small grants 1 extra point per step.
@@ -1038,11 +1110,10 @@ Diminutive — -2 points — Apartment
 A headquarters' Toughness indicates the strength of its structural materials. A structure starts out with Toughness 6 for 0 points. +2 Toughness costs 1 equipment point.
 ```
 
----
 
-#### headquarters feature
+#### **headquarters feature**
 
-#### Domain Language
+#### **Domain Language**
 
 - Each feature costs 1 equipment point; features with power effects cannot exceed twice the HQ power level.
 - Feature list includes: Combat Simulator, Communications, Computer, Concealed (DC+10 to find), Defense System (up to 2x HQ PL), Deathtraps, Dimensional Portal, Dock, Dual Size, Fire Prevention System (Nullify Fire 5), Garage, Gym, Hangar, Holding Cells (Nullify at HQ PL or +50% Toughness), Infirmary, Isolated, Laboratory, Library, Living Space, Personnel, Power System, Sealed, Secret, Security System (DC 20 +5/application, max DC 40), Self-repairing, Temporal Limbo, Workshop.
@@ -1065,6 +1136,9 @@ Defense System: A defense system consists of various weapon emplacements defendi
 Security System: Various locks and alarms protect the headquarters from unauthorized access. A Technology check (DC 20) overcomes these systems. Each additional feature increases the DC by +5, to a maximum of DC 40.
 ```
 
+
+#### References
+
 **Ref — Deathtraps**
 Source: context/rules/HeroesHandbook-rules__chunk_189.md
 Locator: lines 13665-13707
@@ -1073,6 +1147,9 @@ Extract: whole
 ```source
 A villainous version of the Defense System feature is deathtraps: the villain's lair has one or more fiendish traps suitable for disposing of those pesky heroes. Some deathtraps are designed as security systems to keep heroes out: concealed auto-guns, walls of flames, sealing rooms that fill with water or sand, and so forth.
 ```
+
+
+#### References
 
 **Ref — Fire Prevention System**
 Source: context/rules/HeroesHandbook-rules__chunk_190.md
@@ -1089,6 +1166,9 @@ Hangar: A hangar houses air and space vehicles. It includes a hatch and/or runwa
 Holding Cells: These are cells for holding prisoners. The cells are equipped with Nullify devices (ranked at the HQ power level) or their basic Toughness is increased by 50%.
 ```
 
+
+#### References
+
 **Ref — Library**
 Source: context/rules/HeroesHandbook-rules__chunk_191.md
 Locator: lines 13751-13794
@@ -1103,6 +1183,9 @@ Power System: A power system makes the headquarters completely independent of ou
 
 Self-repairing: The structure of the headquarters "heals" any damage done to it over time. If this feature is taken twice, the structure will even rebuild itself in a week if it is destroyed!
 ```
+
+
+#### References
 
 **Ref — Workshop**
 Source: context/rules/HeroesHandbook-rules__chunk_192.md
@@ -1119,19 +1202,26 @@ Temporal Limbo: Time within the headquarters actually moves at a different rate 
 
 ---
 
-### Construct
+### Decisions made
+
+- headquarters, headquarters size, and headquarters feature are grouped because size and features are properties of a headquarters, not independent concepts.
+- The HQ power level is a property of headquarters, not a separate KA.
+- Shared headquarters and Alternate Headquarters patterns are behaviors of the Headquarters KA, not separate terms.
+
+
+
+---
+
+## **Construct**
 
 The Construct KA owns nonliving beings capable of independent action — robots, androids, animated golems, zombies — acquired via the Minion advantage rather than as equipment. It governs the special build rules that make constructs distinct from living characters: no Stamina (cannot recover, must be repaired), immunity to Fortitude effects unless working on objects, and the mandatory absence of one ability pair (either Intellect+Presence for automatons, or Strength+Agility for immobile intellects). It interacts with the Equipment KA (constructs are explicitly not equipment), with the Device KA (constructs are not devices), and with the Headquarters KA (HQ AI computers are a construct variant). The fundamental invariant is that loss of three abilities minus Immunity to Fortitude effects nets to zero power points — constructs cost nothing extra for their exceptional traits.
 
-#### Decisions made
+### Ubiquitous Language
 
-- construct, animated object, and robot are grouped as one KA because animated object and robot are subtypes of construct with no independent meaning.
-- Construct command mechanics (move action, last-order persistence) are properties of the Construct KA, not a separate term.
-- The Minion advantage is a boundary term, not part of this KA — constructs are acquired via Minion, but this module does not own the Minion advantage.
 
-#### construct
+#### **construct**
 
-#### Domain Language
+#### **Domain Language**
 
 - A construct is a nonliving being (robot, android, golem, zombie) capable of action; treated as a Minion, not equipment or a device.
 - Constructs are created like other characters but have no Stamina (do not recover — must be repaired) and are immune to Fortitude-resisted effects unless the effect works on objects.
@@ -1159,6 +1249,9 @@ Constructs without Intellect and Presence are automatons, operating on simple in
 These qualities of constructs: lacking three abilities (-30 points) and Immunity to Fortitude Effects (30 points) average out to 0 points.
 ```
 
+
+#### References
+
 **Ref — Commanding Constructs**
 Source: context/rules/HeroesHandbook-rules__chunk_195.md
 Locator: lines 13936-14082
@@ -1172,11 +1265,10 @@ In the absence of new orders, constructs follow the last order they were given.
 Constructs suffer damage like inanimate objects. Constructs do not recover from damage. Instead, they must be repaired.
 ```
 
----
 
-#### animated object
+#### **animated object**
 
-#### Domain Language
+#### **Domain Language**
 
 - An animated object is a construct variant in which a normally inanimate object (golem, magically-animated skeleton, enchanted armor) has been given the capacity for action through magic.
 - As a construct it has no Stamina, does not recover from damage, and is immune to Fortitude-resisted effects.
@@ -1193,6 +1285,9 @@ Extract: whole
 Armored robots, humanlike androids, even magically-animated golems or zombies are all examples of constructs, nonliving things capable of acting on their own to one degree or another, carrying out pre-programmed instructions, or even possessing independent thought in some cases.
 ```
 
+
+#### References
+
 **Ref — Commanding Constructs**
 Source: context/rules/HeroesHandbook-rules__chunk_195.md
 Locator: lines 13936-14082
@@ -1202,11 +1297,10 @@ Extract: whole
 Non-intelligent constructs do exactly as they're told, without creativity or initiative, while intelligent constructs have the ability to interpret and improvise. An owner can also give a construct a series of basic orders for it to fulfill, such as "stay and guard this place and attack anyone who comes here other than me."
 ```
 
----
 
-#### robot
+#### **robot**
 
-#### Domain Language
+#### **Domain Language**
 
 - A robot is a construct variant driven by technology (armored robots, androids, mechanical drones).
 - Robots with Intellect and Presence ranks can interpret orders and improvise; may be intelligent but non-sentient (Intellect without Presence) or fully self-aware.
@@ -1230,6 +1324,9 @@ A construct can buy up one of its nonexistent ability ranks by spending power po
 Constructs do not recover from damage. Instead, they must be repaired. See the Technology skill description for guidelines on repairing damaged objects.
 ```
 
+
+#### References
+
 **Ref — Commanding Constructs**
 Source: context/rules/HeroesHandbook-rules__chunk_195.md
 Locator: lines 13936-14082
@@ -1241,13 +1338,26 @@ A construct's owner can give it orders verbally or through any other means the c
 
 ---
 
-## Boundary terms
+### Decisions made
 
-### power effect
+- construct, animated object, and robot are grouped as one KA because animated object and robot are subtypes of construct with no independent meaning.
+- Construct command mechanics (move action, last-order persistence) are properties of the Construct KA, not a separate term.
+- The Minion advantage is a boundary term, not part of this KA — constructs are acquired via Minion, but this module does not own the Minion advantage.
 
-Owned by: Powers
 
-#### Domain Language
+
+
+## **Boundary terms**
+
+
+### Ubiquitous Language
+
+#### **power effect** *(owned by: Powers)*
+
+
+### Ubiquitous Language
+
+#### **Domain Language**
 
 - Equipment and devices are built using power effects (Damage, Protection, Features, Affliction, etc.) with their standard costs.
 - Device power effects cost the same as non-device powers but are reduced by the Removable or Easily Removable flaw.
@@ -1266,13 +1376,13 @@ Generally speaking, devices are powers with the Removable flaw applied to them (
 Just like other powers, devices cost power points (albeit reduced some by the Removable flaw). Characters who want to have and use a device on a regular basis have to pay power points to have it, just like having any other power.
 ```
 
----
 
-### power points
+#### **power points** *(owned by: Character Construction)*
 
-Owned by: Character Construction
 
-#### Domain Language
+### Ubiquitous Language
+
+#### **Domain Language**
 
 - Devices (powers with Removable flaws) are paid for with power points reduced by the Removable discount.
 - A character who permanently loses a Removable device may reallocate those power points.
@@ -1289,13 +1399,13 @@ Extract: whole
 Just like other powers, devices cost power points (albeit reduced some by the Removable flaw). Characters who want to have and use a device on a regular basis have to pay power points to have it, just like having any other power. The device becomes a part of the character's abilities. If the device is lost, stolen, or destroyed, the character can replace it, given time, since the device is considered a permanent part of the character. Only a re-allocation of the character's power points will change this.
 ```
 
----
 
-### Strength
+#### **Strength** *(owned by: Abilities)*
 
-Owned by: Abilities
 
-#### Domain Language
+### Ubiquitous Language
+
+#### **Domain Language**
 
 - Melee weapon damage is typically Strength-based: the wielder's Strength rank adds to the weapon's Damage rank.
 - Weapon breakage occurs when the wielder's Strength exceeds the weapon's Toughness.
@@ -1312,6 +1422,9 @@ Extract: whole
 Melee weapons are hand-held close combat weapons. They typically have a Strength-based Damage effect (see the Damage effect in the Powers chapter), adding the wielder's Strength rank to the weapon's damage rank. Ordinary melee weapons are limited by their Toughness in terms of the amount of Strength they can add. If a wielder exerts Strength greater than the weapon's Toughness (4 for wooden weapons, 7 or 8 for metal weapons), the weapon breaks when it is used.
 ```
 
+
+#### References
+
 **Ref — Shields**
 Source: context/rules/HeroesHandbook-rules__chunk_178.md
 Locator: lines 12694-12739
@@ -1321,13 +1434,13 @@ Extract: whole
 A vehicle's Strength, much like a character's, determines its carrying capacity. You can increase a vehicle's Strength over the base rank for its size for 1 equipment point per Strength rank.
 ```
 
----
 
-### Technology skill
+#### **Technology skill** *(owned by: Skills)*
 
-Owned by: Skills
 
-#### Domain Language
+### Ubiquitous Language
+
+#### **Domain Language**
 
 - Technology is used for both the design and construction checks in inventing.
 - Technology checks are also used to repair damaged equipment and constructs, and to bypass vehicle alarms and security systems.
@@ -1347,13 +1460,13 @@ First, the inventor must design the invention. This is a Technology skill check 
 Once the design is in-hand, the character can construct the invention. This requires four hours of work per power point of the invention's cost. When the construction time is complete, make a Technology skill check.
 ```
 
----
 
-### Minion advantage
+#### **Minion advantage** *(owned by: Advantages)*
 
-Owned by: Advantages
 
-#### Domain Language
+### Ubiquitous Language
+
+#### **Domain Language**
 
 - Constructs are acquired via the Minion advantage (or summoned via the Summon power effect); they are full characters, not equipment-point purchases.
 - The Minion advantage is distinct from the Equipment advantage.

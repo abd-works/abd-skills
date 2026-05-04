@@ -37,19 +37,14 @@ Scope: Creating heroes from scratch: power level, power point budget, starting p
 
 # Core Domain
 
-## Power Economy
+## **Power Economy**
 
 Power Economy is the budgeting system at the heart of hero construction — it defines the total resources available, establishes what every trait category costs, and enforces the rule that a completed hero's expenditures must exactly equal the budget. Power level is the GM-controlled input that drives everything else: it sets the starting PP total (PL x 15), determines where the hard caps on trait pairs fall, and frames the general scope of what the hero can accomplish. Power points are the currency spent against those costs; basic trait costs are the fixed price list that converts design intentions into PP allocations. Starting power points is the budget amount that results from the GM's PL choice and that a finished hero must spend exactly. These four concepts form a closed accounting loop: PL determines budget, budget is allocated at fixed per-category costs, the sum must balance. The GM can vary the starting PP total up or down from the table, but the relationship between PL, budget, and costs always holds.
 
-#### Decisions made
+### Ubiquitous Language
 
-- Power level, power points, starting power points, and basic trait costs pass both independence and module-fit tests — they are fundamental to construction and independent of each other as concepts.
-- Trade-offs and the five PL-cap terms are placed in a separate KA (Power Level Limits) because they describe constraint logic applied after the budget is established, not how the economy itself works.
-- Hero advancement and increasing power level are placed in a separate KA (Hero Advancement) because they govern post-construction mutations of the economy, not the initial build.
 
-### power level
-
-#### Domain Language
+#### **power level**
 
 - Power level (PL) is the GM-set measure of overall hero effectiveness — primarily combat capability but also the general scope of tasks a character can accomplish on a routine basis.
 - PL establishes the starting power point budget and governs hard caps on every paired trait combination (attack/effect, defenses, skill modifier).
@@ -256,11 +251,8 @@ Parry  &  Toughness:  The  total  of  your  heroâ€™s  Parry and  Toughness 
 Fortitude  & Will: The  total  of  your  heroâ€™s  Fortitude and  Will  defenses  cannot  exceed  twice  the  series power level.
 ```
 
----
 
-### power points
-
-#### Domain Language
+#### **power points**
 
 - Power points (PP) are the currency of hero construction — every ability rank, defense rank, skill rank, advantage, and power effect is purchased with PP.
 - Once spent on a trait, PP are locked to that trait and cannot be freely moved without GM permission or a specific power effect.
@@ -457,11 +449,8 @@ Heroes in MUTANTS & MASTERMINDS cover a diverse range of power levels, from the 
 Age, who relied solely on their skills and a few gimmicks (and modern vigilantes of the mean streets, who do much the same), to the greatest protectors of the world, who take on cosmic threats on a regular basis. The following are some common power levels and starting power point values suitable for different M&M games:
 ```
 
----
 
-### starting power points
-
-#### Domain Language
+#### **starting power points**
 
 - Starting power points is the initial PP budget available to build a new hero, determined by the series power level: PL x 15.
 - The Starting Power Points table maps PL 1-20 to budgets of 15-300 PP in 15-point increments.
@@ -667,11 +656,8 @@ Parry  &  Toughness:  The  total  of  your  heroâ€™s  Parry and  Toughness 
 Fortitude  & Will: The  total  of  your  heroâ€™s  Fortitude and  Will  defenses  cannot  exceed  twice  the  series power level.
 ```
 
----
 
-### basic trait costs
-
-#### Domain Language
+#### **basic trait costs**
 
 - Basic trait costs define the PP price for each trait category: abilities cost 2 PP per rank; defenses cost 1 PP per rank above the base provided by abilities; skills cost 1 PP per 2 total skill ranks; advantages cost 1 PP per advantage or advantage rank.
 - Power costs follow the formula: ((base effect cost + extras minus flaws) x rank) + flat modifiers.
@@ -795,19 +781,24 @@ Figure out things like your heroâ€™s name, appearance, origin, background, 
 
 ---
 
-## Power Level Limits
+### Decisions made
+
+- Power level, power points, starting power points, and basic trait costs pass both independence and module-fit tests — they are fundamental to construction and independent of each other as concepts.
+- Trade-offs and the five PL-cap terms are placed in a separate KA (Power Level Limits) because they describe constraint logic applied after the budget is established, not how the economy itself works.
+- Hero advancement and increasing power level are placed in a separate KA (Hero Advancement) because they govern post-construction mutations of the economy, not the initial build.
+
+
+
+---
+
+## **Power Level Limits**
 
 Power Level Limits is the constraint system that governs where and how players may allocate their PP. While Power Economy establishes the total budget and per-trait pricing, Power Level Limits imposes hard caps on the pairing of offensive, defensive, and skill traits — ensuring that no hero's single axis of capability exceeds what the series power level deems appropriate. There are five named limit pairs (attack & effect, Dodge & Toughness, Parry & Toughness, Fortitude & Will, and skill modifier) plus the trade-off concept that describes the legal design space within each limit pair. Because the limits apply to sums rather than individual ranks, a player may deliberately skew one side of a pair higher than the other so long as the total remains within 2xPL. The GM is the authority that monitors and approves combinations that swing asymmetrically beyond 50% disparity within a pair.
 
-#### Decisions made
+### Ubiquitous Language
 
-- Trade-off passes the independence test but is placed here under Power Level Limits (not its own KA) because it has no meaning outside the PL-capped pairs.
-- All five limit pairs are grouped under a single KA rather than five separate KAs; they share the identical rule shape (sum of paired traits <= 2xPL) and differ only in which traits they govern.
-- Skill modifier limit differs slightly (PL+10, not 2xPL) but is grouped here as the same conceptual type: a PL-derived cap on a trait combination.
 
-### trade-off
-
-#### Domain Language
+#### **trade-off**
 
 - A trade-off is the design choice to make one trait in a PL-limited pair higher than the other while keeping their sum within the 2xPL cap.
 - Trade-offs let a player build a hero optimized for high attack skill and low damage output, or high Toughness with low Dodge/Parry, all within legal PL limits.
@@ -877,11 +868,8 @@ MUTANTS & MASTERMINDS
 DELUXE HEROâ€™S HANDBOOK
 ```
 
----
 
-### attack & effect limit
-
-#### Domain Language
+#### **attack & effect limit**
 
 - The attack & effect limit specifies that a hero's total attack bonus plus the effect rank of that attack cannot exceed twice the series power level (2xPL).
 - If a power effect allows a resistance check but requires no attack check, its effect rank alone cannot exceed PL.
@@ -954,11 +942,8 @@ Parry  &  Toughness:  The  total  of  your  heroâ€™s  Parry and  Toughness 
 Fortitude  & Will: The  total  of  your  heroâ€™s  Fortitude and  Will  defenses  cannot  exceed  twice  the  series power level.
 ```
 
----
 
-### Dodge & Toughness limit
-
-#### Domain Language
+#### **Dodge & Toughness limit**
 
 - The Dodge & Toughness limit specifies that the sum of a hero's Dodge defense and Toughness defense cannot exceed twice the series power level (2xPL).
 - Both Dodge (an active defense) and Toughness (a passive defense) count toward this paired cap.
@@ -1091,11 +1076,8 @@ MUTANTS & MASTERMINDS
 DELUXE HEROâ€™S HANDBOOK
 ```
 
----
 
-### Parry & Toughness limit
-
-#### Domain Language
+#### **Parry & Toughness limit**
 
 - The Parry & Toughness limit specifies that the sum of a hero's Parry defense and Toughness defense cannot exceed twice the series power level (2xPL).
 - Parry is the close-combat active defense equivalent of Dodge; it pairs with Toughness under the same cap structure.
@@ -1228,11 +1210,8 @@ MUTANTS & MASTERMINDS
 DELUXE HEROâ€™S HANDBOOK
 ```
 
----
 
-### Fortitude & Will limit
-
-#### Domain Language
+#### **Fortitude & Will limit**
 
 - The Fortitude & Will limit specifies that the sum of a hero's Fortitude defense and Will defense cannot exceed twice the series power level (2xPL).
 - Both Fortitude and Will are resistance defenses (not active); they pair together under the same cap as the combat defense pairs.
@@ -1365,11 +1344,8 @@ MUTANTS & MASTERMINDS
 DELUXE HEROâ€™S HANDBOOK
 ```
 
----
 
-### skill modifier limit
-
-#### Domain Language
+#### **skill modifier limit**
 
 - The skill modifier limit specifies that a hero's total modifier with any single skill (ability rank + skill rank + advantage modifiers) cannot exceed PL + 10.
 - This limit applies even to untrained skill modifiers (based solely on ability rank), so it effectively constrains how high any ability can usefully go for skill purposes.
@@ -1443,20 +1419,24 @@ Fortitude  & Will: The  total  of  your  heroâ€™s  Fortitude and  Will  def
 
 ---
 
-## Complication
+### Decisions made
+
+- Trade-off passes the independence test but is placed here under Power Level Limits (not its own KA) because it has no meaning outside the PL-capped pairs.
+- All five limit pairs are grouped under a single KA rather than five separate KAs; they share the identical rule shape (sum of paired traits <= 2xPL) and differ only in which traits they govern.
+- Skill modifier limit differs slightly (PL+10, not 2xPL) but is grouped here as the same conceptual type: a PL-derived cap on a trait combination.
+
+
+
+---
+
+## **Complication**
 
 Complication is the narrative-challenge system that creates dramatic hooks for play while rewarding players for engaging with adversity rather than avoiding it. A complication is a structural narrative element — not a PP expenditure — that the GM uses to introduce challenges targeting specific vulnerabilities in a hero's story. Unlike the up-front-reward model of older game systems, complications pay out a hero point only when activated during play and engaged with by the player, making the reward proportional to the actual dramatic cost paid. Every hero requires at least two complications: one Motivation (the mandatory drive that defines why the hero acts heroically) and at least one other from a broad palette including enemy, secret, weakness, power loss, identity, responsibility, relationship, and many more. Complication interacts with the hero point boundary concept: when a complication fires, the hero point is generated and becomes available to the player. The Complication KA owns the classification, selection rules, activation conditions, and evolution rules for all narrative challenge types.
 
-#### Decisions made
+### Ubiquitous Language
 
-- Motivation is placed as a term under Complication (not its own KA) because it derives its meaning from the complication framework: it is the mandatory first complication and earns hero points by the same mechanism.
-- Enemy, secret, weakness, power loss, identity, responsibility, and relationship are kept as individual terms because they are named complication subtypes, each with distinct activation conditions and game effects.
-- All complication subtypes fail the standalone-KA module-fit test — their weight comes from being instances of the Complication type, not independent domain concepts.
-- The hero point mechanic is a boundary concept (owned by Check Resolution); this KA only describes when hero points are generated, not how they are spent.
 
-### complication
-
-#### Domain Language
+#### **complication**
 
 - A complication is a narrative flaw or challenge the GM introduces during play to test the hero; when the hero is affected by it, the player earns a hero point as compensation.
 - Every hero must have at least two complications: one Motivation and at least one other.
@@ -1661,11 +1641,8 @@ Macabre may be all about magic and the occult.
 Names  may  include  various  titles  like  Mister,  Miss,  Ms., Doctor,  Sir,  Lord,  Lady,  and  Madam  or  even  royal  titles like  King,  Queen,  Prince,  Princess,  Duke,  Baron,  Emperor and so forth. Military ranks are also popular parts of hero names, especially General, Major, and Captain.
 ```
 
----
 
-### motivation
-
-#### Domain Language
+#### **motivation**
 
 - Motivation is the mandatory complication that answers why the hero fights — what drives them to risk their life for others.
 - Every hero must have exactly one Motivation complication (chosen as the required first complication).
@@ -1857,11 +1834,8 @@ MUTANTS & MASTERMINDS
 DELUXE HEROâ€™S HANDBOOK
 ```
 
----
 
-### enemy
-
-#### Domain Language
+#### **enemy**
 
 - Enemy is a complication representing an adversary who actively tries to harm or thwart the hero.
 - When the enemy appears and causes a particular problem (abduction of a loved one, laying a trap), the hero earns a hero point.
@@ -1980,11 +1954,8 @@ MUTANTS & MASTERMINDS
 DELUXE HEROâ€™S HANDBOOK
 ```
 
----
 
-### secret
-
-#### Domain Language
+#### **secret**
 
 - Secret is a complication representing something potentially damaging or embarrassing the hero is hiding — most commonly a secret identity, but also a secret weakness or dark past.
 - Occasionally something or someone threatens to reveal the secret, activating the complication and earning the hero a hero point.
@@ -2058,11 +2029,8 @@ might  have  a  weakness  that  overcomes  your  normally strong defenses, like 
 GM  can  discuss  common  effects  beforehand  and  it is  up  to  the  GM  to  decide  what  happens  when  the particular  weakness  comes  into  play. When  the  GM uses your weakness against you, itâ€™s a complication.
 ```
 
----
 
-### weakness
-
-#### Domain Language
+#### **weakness**
 
 - Weakness is a complication representing a specific substance, energy, or condition that bypasses the hero's normally strong defenses or inflicts extra harm.
 - Common weakness effects include adding degrees of effect, imposing an entirely different effect (Affliction, Damage, Weaken), or other outcomes agreed with the GM in advance.
@@ -2137,11 +2105,8 @@ might  have  a  weakness  that  overcomes  your  normally strong defenses, like 
 GM  can  discuss  common  effects  beforehand  and  it is  up  to  the  GM  to  decide  what  happens  when  the particular  weakness  comes  into  play. When  the  GM uses your weakness against you, itâ€™s a complication.
 ```
 
----
 
-### power loss
-
-#### Domain Language
+#### **power loss**
 
 - Power Loss is a complication in which specific circumstances cause some or all of the hero's powers to fail, stop working, or be stripped away temporarily.
 - Triggers for Power Loss include dependence on objects that can be stolen, environmental conditions (darkness, exotic radiation), or wavering motivation (when motivation is the power source).
@@ -2259,11 +2224,8 @@ MUTANTS & MASTERMINDS
 DELUXE HEROâ€™S HANDBOOK
 ```
 
----
 
-### identity
-
-#### Domain Language
+#### **identity**
 
 - Identity is a complication representing the challenge of maintaining a secret or separate persona — hero name vs. civilian name.
 - The dual-identity complication includes the risk of exposure, the juggling of two lives, and the transformation between personas.
@@ -2422,11 +2384,8 @@ MUTANTS & MASTERMINDS
 DELUXE HEROâ€™S HANDBOOK
 ```
 
----
 
-### responsibility
-
-#### Domain Language
+#### **responsibility**
 
 - Responsibility is a complication representing demands on the hero's time and attention: family obligations, professional duties, and similar ongoing commitments.
 - When a responsibility creates conflict with the hero's heroic activities (missed obligations, loss of relationships or employment), it activates as a complication earning a hero point.
@@ -2499,11 +2458,8 @@ might  have  a  weakness  that  overcomes  your  normally strong defenses, like 
 GM  can  discuss  common  effects  beforehand  and  it is  up  to  the  GM  to  decide  what  happens  when  the particular  weakness  comes  into  play. When  the  GM uses your weakness against you, itâ€™s a complication.
 ```
 
----
 
-### relationship
-
-#### Domain Language
+#### **relationship**
 
 - Relationship is a complication representing the important people in a hero's life — friends, family, romantic partners — who can be a source of strength but also a source of danger.
 - If loved ones don't know the hero's secret, they must be kept safely in the dark; if they do know, they become targets for the hero's enemies.
@@ -2579,19 +2535,25 @@ GM  can  discuss  common  effects  beforehand  and  it is  up  to  the  GM  to  
 
 ---
 
-## Hero Advancement
+### Decisions made
+
+- Motivation is placed as a term under Complication (not its own KA) because it derives its meaning from the complication framework: it is the mandatory first complication and earns hero points by the same mechanism.
+- Enemy, secret, weakness, power loss, identity, responsibility, and relationship are kept as individual terms because they are named complication subtypes, each with distinct activation conditions and game effects.
+- All complication subtypes fail the standalone-KA module-fit test — their weight comes from being instances of the Complication type, not independent domain concepts.
+- The hero point mechanic is a boundary concept (owned by Check Resolution); this KA only describes when hero points are generated, not how they are spent.
+
+
+
+---
+
+## **Hero Advancement**
 
 Hero Advancement is the progression system that operates after initial character creation — it governs how the hero grows and improves over the course of a series. It has three parts: the regular earning and spending of PP awarded by the GM after completed adventures (hero advancement), the ratcheting up of the series PL ceiling once the accumulated PP exceeds the current PL's natural range (increasing power level), and the exceptional mechanism for moving already-spent PP from one trait to another when a narrative transformation event occurs (reallocating power points). Hero Advancement interacts directly with Power Economy (more PP enters the budget pool after each adventure) and Power Level Limits (raising PL expands the cap headroom, enabling investment in traits previously maxed). Complications earn hero points during play, but hero points do not enter the PP advancement pool — they are a distinct boundary concept owned by Check Resolution.
 
-#### Decisions made
+### Ubiquitous Language
 
-- Reallocating power points is placed here (not under Power Economy) because it is a post-construction, narrative-event-triggered action, not part of the initial build.
-- Increasing power level is placed here because it occurs as a milestone event during the series, not at construction time.
-- All three terms pass both independence and module-fit tests.
 
-### hero advancement
-
-#### Domain Language
+#### **hero advancement**
 
 - Hero advancement is the process of earning and spending PP awarded after each completed adventure to improve the hero's traits.
 - The GM awards 1 PP per successfully completed one-session adventure; 2 PP for defeating especially powerful foes; 1 PP per session for multi-session adventures, plus a possible bonus.
@@ -2685,11 +2647,8 @@ MUTANTS & MASTERMINDS
 DELUXE HEROâ€™S HANDBOOK
 ```
 
----
 
-### increasing power level
-
-#### Domain Language
+#### **increasing power level**
 
 - Increasing power level is the process by which the GM raises the series PL — typically by +1 — once the heroes have accumulated approximately 15 additional PP since the series started or since the last PL increase.
 - After a PL increase, heroes can spend accumulated PP on traits that were previously capped at the old PL maximum.
@@ -2781,11 +2740,8 @@ MUTANTS & MASTERMINDS
 DELUXE HEROâ€™S HANDBOOK
 ```
 
----
 
-### reallocating power points
-
-#### Domain Language
+#### **reallocating power points**
 
 - Reallocating power points is the exceptional process of moving already-spent PP from one trait to another, changing the hero's trait profile within PL limits.
 - Reallocation is normally prohibited; it requires either GM permission as a deliberate narrative event or a power effect (e.g., the transformed condition).
@@ -2857,21 +2813,24 @@ DELUXE HEROâ€™S HANDBOOK
 
 ---
 
-## Hero Identity
+### Decisions made
+
+- Reallocating power points is placed here (not under Power Economy) because it is a post-construction, narrative-event-triggered action, not part of the initial build.
+- Increasing power level is placed here because it occurs as a milestone event during the series, not at construction time.
+- All three terms pass both independence and module-fit tests.
+
+
+
+---
+
+## **Hero Identity**
 
 Hero Identity is the narrative construction layer that answers who the hero is, not just what they can do. While Power Economy governs resource allocation and Power Level Limits sets mechanical constraints, Hero Identity defines the imaginative context: the archetype template a player selects or customizes as a starting point, the concept that drives the design before any PP is spent, the origin story that explains how the hero acquired powers and provides a descriptor tag, the background details (name, appearance, age, personality, goals) that make the hero a person rather than a stat block, and the costume that signals the hero's public persona. These terms are interdependent: the archetype structures the concept, the origin contextualizes both powers and background, and the costume materializes the identity visually. Hero Identity does not own mechanical trait rules — it owns the narrative elements that frame who the hero is and how they present themselves to the world.
 
-#### Decisions made
+### Ubiquitous Language
 
-- Hero archetype is placed under Hero Identity (not Power Economy) because its primary function is to provide a named hero type as a construction starting point — it is a narrative template, not a budgeting mechanism, even though it arrives with pre-allocated PP.
-- Hero concept is a found term (not in the partition's Core terms) but clearly belongs here; it is the initiating step of the design process.
-- Background is a found term with strong source grounding (chunk_031, chunk_032, chunk_033 all describe background elements).
-- Origin passes both independence and module-fit tests; it is the narrative provenance of powers and can serve as a descriptor.
-- Costume passes both tests; it is the visual identity element and a background detail with specific rules (power immunity, equipment relationship).
 
-### hero archetype
-
-#### Domain Language
+#### **hero archetype**
 
 - A hero archetype is a ready-to-play, fully built PL 10 hero template that a player can adopt as-is or customize as a starting point.
 - Archetypes cover a range of hero types (Crime Fighter, Martial Artist, Powerhouse, Warrior, etc.) and some offer an Options section with simple variant choices (different skill sets, alternate powers, vehicles).
@@ -2947,11 +2906,8 @@ Your GM sets the starting power level for the series. Generally, this is level 1
 Choose the ability ranks you want your character to have and pay 2 power points for each rank. Choose defense bo-
 ```
 
----
 
-### hero concept
-
-#### Domain Language
+#### **hero concept**
 
 - Hero concept is the creative starting point for character design — the player's answer to what sort of hero they want to create before spending any PP.
 - A concept covers basic abilities, powers, origin, and theme; it guides the 10-step design process.
@@ -3026,11 +2982,8 @@ Your GM sets the starting power level for the series. Generally, this is level 1
 Choose the ability ranks you want your character to have and pay 2 power points for each rank. Choose defense bo-
 ```
 
----
 
-### origin
-
-#### Domain Language
+#### **origin**
 
 - Origin describes how the hero acquired superpowers; it shapes background narrative and can serve as a power descriptor.
 - Common origins: Accident (radiation, chemicals, energy exposure), Alien (member of a non-human species with inherent powers), Endowment (powers granted by an outside patron or force), Experiment (deliberate scientific or mystical transformation), Mutant (born with latent genetic potential that manifests under stress), Training (powers acquired through hard work, martial discipline, or magical study).
@@ -3151,11 +3104,8 @@ What  does  your  hero  look  like?  Consider  things  like  the characterâ€�
 Advantages  chapter  for  details.)  What  about  complications stemming from the heroâ€™s looks?
 ```
 
----
 
-### costume
-
-#### Domain Language
+#### **costume**
 
 - A costume is the hero's distinctive visual identity in their superhero role — typically a unique, colorful outfit emblazoned with a symbol or logo.
 - Costumes can range from skin-tight spandex to military fatigues, body armor, suits of ancient or high-tech armor, or even ordinary street clothes.
@@ -3250,11 +3200,8 @@ MUTANTS & MASTERMINDS
 DELUXE HEROâ€™S HANDBOOK
 ```
 
----
 
-### background
-
-#### Domain Language
+#### **background**
 
 - Background encompasses the narrative details that make a hero more than a stat block: name (code name or real name), appearance (race, sex, ethnicity, distinctive features), personality, goals, and age.
 - Background elements include the hero's name style (origin-based, powers-based, themed, titled, or simply a cool-sounding word), the hero's persona when not fighting crime, and long-term narrative goals.
@@ -3434,13 +3381,28 @@ Advantages  chapter  for  details.)  What  about  complications stemming from th
 
 ---
 
+### Decisions made
+
+- Hero archetype is placed under Hero Identity (not Power Economy) because its primary function is to provide a named hero type as a construction starting point — it is a narrative template, not a budgeting mechanism, even though it arrives with pre-allocated PP.
+- Hero concept is a found term (not in the partition's Core terms) but clearly belongs here; it is the initiating step of the design process.
+- Background is a found term with strong source grounding (chunk_031, chunk_032, chunk_033 all describe background elements).
+- Origin passes both independence and module-fit tests; it is the narrative provenance of powers and can serve as a descriptor.
+- Costume passes both tests; it is the visual identity element and a background detail with specific rules (power immunity, equipment relationship).
+
+
+
+---
+
 # Boundary Domain
 
-## trait
 
-Owned by: Assign Abilities
+### Ubiquitous Language
 
-#### Domain Language
+
+
+
+#### **trait** *(owned by: Assign Abilities)*
+
 
 - A trait is any mechanical element purchased with power points: ability rank, defense rank, skill rank, advantage, or power effect.
 - Character Construction depends on the concept of trait as the unit of PP expenditure; the specific rules for each trait type are owned by the Assign Abilities, Manage Skills, Select Advantages, and Configure Powers modules.
@@ -3636,13 +3598,9 @@ Heroes in MUTANTS & MASTERMINDS cover a diverse range of power levels, from the 
 Age, who relied solely on their skills and a few gimmicks (and modern vigilantes of the mean streets, who do much the same), to the greatest protectors of the world, who take on cosmic threats on a regular basis. The following are some common power levels and starting power point values suitable for different M&M games:
 ```
 
----
 
-## hero point
+#### **hero point** *(owned by: Check Resolution)*
 
-Owned by: Check Resolution
-
-#### Domain Language
 
 - A hero point is the reward earned when a complication is activated by the GM and the player goes along with it; it can be spent later to enhance rolls or other actions.
 - Character Construction depends on hero points as the incentive mechanism that gives complications their pay-as-you-go value; the rules for spending and earning hero points live in the Check Resolution module.
@@ -3785,13 +3743,9 @@ might  have  a  weakness  that  overcomes  your  normally strong defenses, like 
 GM  can  discuss  common  effects  beforehand  and  it is  up  to  the  GM  to  decide  what  happens  when  the particular  weakness  comes  into  play. When  the  GM uses your weakness against you, itâ€™s a complication.
 ```
 
----
 
-## descriptor
+#### **descriptor** *(owned by: Configure Powers)*
 
-Owned by: Configure Powers
-
-#### Domain Language
 
 - A descriptor is a narrative tag attached to a power or trait that defines what it is and how it interacts with the world (e.g., "mutant," "mystic," "fire," "alien").
 - Character Construction depends on descriptors because origins and motivations can serve as power descriptors, affecting detection and targeting of powers; the full rules for descriptors are owned by the Configure Powers module.

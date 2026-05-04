@@ -39,22 +39,16 @@ Scope: Skill basics (ranks, checks, DCs, modifiers, interaction skills, manipula
 
 # Core Domain
 
-## Skill
+## **Skill**
 
 The Skill abstraction is the core mechanical concept of the module — it defines what a skill is, how it is acquired, and how it is resolved. A skill is a learned ability combining training (ranks) and natural talent (ability modifier); its check is the single resolution path for all skill-based actions: roll d20, add the skill rank, add the ability modifier, add any circumstance modifiers, and compare to a DC. The Skill KA owns the rank economy (1 PP per 2 ranks, split freely across skills), the check formula, the Trained Only gate, and the circumstance modifier concept as it applies within skill use. Skill Mastery is included here because it is a direct enhancement to the skill check resolution — it removes the roll requirement for a nominated skill, granting the routine check result unconditionally. The Skill abstraction is the foundation upon which every named skill (Acrobatics, Deception, etc.) is built; no individual skill makes sense without this mechanical foundation.
 
 The Skill abstraction collaborates with the Ability abstraction (which supplies the ability modifier), the Check Resolution module (which defines DC, degrees of success, and routine checks), and the Character Construction module (which owns power points). Invariants: every skill check must include the ability modifier even when the character is untrained; Trained Only skills must reject untrained attempts; circumstance modifiers are situational additive inputs to the check formula and do not change its structure.
 
-#### Decisions made
+### Ubiquitous Language
 
-- Skill Mastery kept in this KA rather than in an Advantage KA — it directly modifies skill check resolution (module-fit test passed); its definition is grounded in skill rank benchmarks and the routine check concept.
-- circumstance modifier kept as a Core term here because Chapter 4 defines it in the context of skills; skill-specific circumstance modifiers are this module’s responsibility.
-- Trained Only is a Core term, not a boundary term — it is a property of skills owned by this module.
-- skill modifier limit (the PL cap) is owned by Character Construction; it is not a Core term here — it constrains what can be built, not how skills resolve.
 
-### skill rank
-
-#### Domain Language
+#### **skill rank**
 
 - A skill rank is the number of points a character has invested in a skill; it serves as a numerical bonus added to the d20 roll on skill checks.
 - Characters with at least one rank in a skill are considered trained in that skill.
@@ -202,11 +196,8 @@ you suffer a â€“5 on your skill check against them. Mindless
 subjects are unaffected, as usual.
 ```
 
----
 
-### skill check
-
-#### Domain Language
+#### **skill check**
 
 - A skill check resolves skill use: roll d20 + skill rank + ability modifier + miscellaneous modifiers and compare to the Difficulty Class (DC).
 - A result equal to or exceeding the DC is a success; higher totals produce better outcomes (degrees of success).
@@ -354,11 +345,8 @@ you suffer a â€“5 on your skill check against them. Mindless
 subjects are unaffected, as usual.
 ```
 
----
 
-### skill modifier
-
-#### Domain Language
+#### **skill modifier**
 
 - The skill modifier is the total bonus added to the d20 roll: skill rank + ability modifier + miscellaneous modifiers.
 - Each skill has an associated ability whose rank adds as the ability modifier to all checks for that skill, even when used untrained.
@@ -505,11 +493,8 @@ you suffer a â€“5 on your skill check against them. Mindless
 subjects are unaffected, as usual.
 ```
 
----
 
-### trained only
-
-#### Domain Language
+#### **trained only**
 
 - Skills marked Trained Only require at least 1 rank to use; untrained attempts automatically fail.
 - Some skills have both trained-only and untrained aspects; a character without ranks may use only the untrained aspects.
@@ -664,21 +649,27 @@ called out in the skill description.
 
 ---
 
-## Interaction Skill
+### Decisions made
+
+- Skill Mastery kept in this KA rather than in an Advantage KA — it directly modifies skill check resolution (module-fit test passed); its definition is grounded in skill rank benchmarks and the routine check concept.
+- circumstance modifier kept as a Core term here because Chapter 4 defines it in the context of skills; skill-specific circumstance modifiers are this module’s responsibility.
+- Trained Only is a Core term, not a boundary term — it is a property of skills owned by this module.
+- skill modifier limit (the PL cap) is owned by Character Construction; it is not a Core term here — it constrains what can be built, not how skills resolve.
+
+
+
+---
+
+## **Interaction Skill**
 
 Interaction Skill is a named source category of skills whose purpose is social influence — changing the attitudes, beliefs, and actions of other characters through conversation, persuasion, trickery, or threat. The category owns its own requirements: subjects must be aware of and able to understand the user; unintelligent subjects impose a penalty; subjects lacking mental abilities cannot be targeted; the Immunity power effect can render a character wholly immune. These requirements belong to the category KA, not to individual skills. The four skills within this KA are Deception (lying, bluffing, disguise, feinting, innuendo, tricking), Intimidation (coercing, demoralizing, mass-intimidating minions), Persuasion (improving NPC attitudes step by step), and Insight (reading intentions, detecting illusions and influences, resisting social manipulation). Insight is the defensive counterpart to the three offensive interaction skills.
 
 All four skills collaborate with each other: Deception creates situations that Insight detects; Intimidation and Deception can temporarily suppress Stealth checks; Persuasion negotiations compare check results. Group use is possible but applies the same result uniformly — differentiated targeting is not permitted. Invariant: interaction skills cannot produce different results for different members of a group in a single use; mindless subjects are always unaffected.
 
-#### Decisions made
+### Ubiquitous Language
 
-- Insight grouped with offensive interaction skills — its source description is framed entirely in terms of resisting and detecting social skills; it has no independent purpose outside that context.
-- interaction skill (the category) kept as a named Core term to preserve the source’s own categorical vocabulary.
-- Deception, Intimidation, Persuasion, and Insight all pass the independence test — each is a separately-named skill with its own DC table and use cases.
 
-### interaction skill
-
-#### Domain Language
+#### **interaction skill**
 
 - Interaction skills are a category used for social influence: changing others attitudes and gaining their cooperation.
 - Require the subject to be aware of and able to understand the user; inability to hear or understand imposes a -5 circumstance penalty.
@@ -767,22 +758,26 @@ subjects are unaffected, as usual.
 
 ---
 
-## Manipulation Skill
+### Decisions made
+
+- Insight grouped with offensive interaction skills — its source description is framed entirely in terms of resisting and detecting social skills; it has no independent purpose outside that context.
+- interaction skill (the category) kept as a named Core term to preserve the source’s own categorical vocabulary.
+- Deception, Intimidation, Persuasion, and Insight all pass the independence test — each is a separately-named skill with its own DC table and use cases.
+
+
+
+---
+
+## **Manipulation Skill**
 
 Manipulation Skill is a named source category of skills requiring fine physical manipulation — the user must have prehensile limbs and a Strength rank, or a suitable Precise power effect. Physical impairment constrains use via circumstance penalties; characters without physical capability can still contribute via team check oversight. All four individual manipulation skills are Trained Only. Sleight of Hand (legerdemain, concealment, escape, theft) covers covert manual tasks. Technology (operating, building, repairing, sabotaging; requires tools) covers technical device work. Treatment (diagnosing, caring for, reviving, stabilizing, treating illness/poison; requires tools) covers medical work. Vehicles (operating any vehicle under stress) covers dramatic operation.
 
 The Manipulation Skill KA collaborates with Check Resolution (team checks), the Power module (Precise power effect as physical substitute), and the Advantage module (Inventor advantage enabling Technology inventing). Invariant: all manipulation skills require prehensile limbs and Strength rank or Precise power effect; lacking tools for Requires Tools skills always imposes a −5 circumstance penalty.
 
-#### Decisions made
+### Ubiquitous Language
 
-- manipulation skill (the category) kept as a named Core term — the source defines its requirements separately from individual skills.
-- Vehicles grouped here as a manipulation skill per source classification (Dexterity, Trained Only, Manipulation).
-- Technology and Treatment both flag Requires Tools; the −5 penalty for lacking tools is a skill-level rule owned here.
-- Open question: Inventor advantage wiring with Technology inventing — seam between Advantage module and this module not yet mapped.
 
-### manipulation skill
-
-#### Domain Language
+#### **manipulation skill**
 
 - Manipulation skills require fine physical manipulation; the user must have prehensile limbs and a Strength rank, or a suitable Precise power effect.
 - Physical impairment causes the GM to impose a circumstance penalty scaled to severity.
@@ -859,11 +854,8 @@ this notation is still listed, and the untrained aspects are
 called out in the skill description.
 ```
 
----
 
-### Skill Mastery
-
-#### Domain Language
+#### **Skill Mastery**
 
 - Skill Mastery is an advantage that allows the character to use a routine check result (bonus + 10) on a nominated skill even under stress, without rolling.
 - A character with Skill Mastery can always achieve their routine result for that skill regardless of pressure.
@@ -1021,11 +1013,8 @@ its holster, but the GM rolls anyway and gets a total
 of 20. A good roll, but no enough.
 ```
 
----
 
-### circumstance modifier
-
-#### Domain Language
+#### **circumstance modifier**
 
 - A circumstance modifier is a bonus or penalty applied to a skill check that reflects the specific conditions under which it is made.
 - Circumstance modifiers stack with the base skill modifier; favorable circumstances add bonuses, unfavorable circumstances impose penalties.
@@ -1157,21 +1146,27 @@ an opponent (to get behind them), flipping up onto a
 
 ---
 
-## Physical Skill
+### Decisions made
+
+- manipulation skill (the category) kept as a named Core term — the source defines its requirements separately from individual skills.
+- Vehicles grouped here as a manipulation skill per source classification (Dexterity, Trained Only, Manipulation).
+- Technology and Treatment both flag Requires Tools; the −5 penalty for lacking tools is a skill-level rule owned here.
+- Open question: Inventor advantage wiring with Technology inventing — seam between Advantage module and this module not yet mapped.
+
+
+
+---
+
+## **Physical Skill**
 
 Physical Skill groups three skills grounded in bodily performance and environmental navigation: Acrobatics (balance, tumbling, falling, rising from prone — Agility, Trained Only), Athletics (climbing, jumping, running, swimming, falling — Strength, untrained allowed), and Stealth (hiding, tailing, moving without detection — Agility, untrained allowed). All three involve dynamic circumstance modifiers based on speed, surface conditions, and environmental factors, and all three have reactive interactions with other checks — Acrobatics reacts to failed resistance checks while balancing; Athletics reacts to failed resistance checks while climbing; Stealth reacts to Deception/Intimidation distraction checks.
 
 Physical Skills collaborate with Check Resolution (immediate reaction check triggers), the Combat module (Stealth interacts with surprise and concealment), and the Power module (Wall-crawling for impossible climbs, Leaping for extreme jumps, movement effects that interact with Stealth). Invariant: Acrobatics is Trained Only; Athletics and Stealth are untrained-allowed. Fall damage resolution spans both Acrobatics (lessening) and Athletics (catching).
 
-#### Decisions made
+### Ubiquitous Language
 
-- Stealth grouped with physical skills rather than with Sleight of Hand in a Covert KA — Stealth is Agility-based and involves whole-body positioning relative to cover, not fine manual dexterity.
-- Sleight of Hand placed in Manipulation Skill KA per source classification (Dexterity, Manipulation, Trained Only).
-- Fall damage resolution spans Acrobatics and Athletics — the cross-skill interaction is documented in Domain Language bullets, not unified into a single term.
 
-### Acrobatics
-
-#### Domain Language
+#### **Acrobatics**
 
 - Acrobatics is a Trained Only skill based on Agility covering balance, acrobatic maneuvers, rising from prone, and reducing fall damage.
 - Balancing: a successful check allows movement at ground speed minus 1 rank; one degree of failure equals no movement; two or more degrees means falling; the character is vulnerable while balancing unless DC is increased by +5.
@@ -1510,11 +1505,8 @@ run faster: one or more degree of success increases your
 ground speed rank by +1 for one round.
 ```
 
----
 
-### Athletics
-
-#### Domain Language
+#### **Athletics**
 
 - Athletics is a skill based on Strength; it may be used untrained; it covers climbing, falling, jumping, running, and swimming.
 - Climbing: a successful check allows climbing at ground speed rank minus 2; failure equals no progress; two or more degrees means falling; the character is vulnerable while climbing unless DC is increased by +5.
@@ -1670,11 +1662,8 @@ it had not placed unusual demands on him (that is, even
 without the +10 modifier).
 ```
 
----
 
-### Close Combat
-
-#### Domain Language
+#### **Close Combat**
 
 - Close Combat is a skill based on Fighting; it may be used untrained; each Close Combat skill is specific to a single weapon or power.
 - The skill rank adds to attack checks for that specific weapon or power only; it does not apply to defense.
@@ -1822,11 +1811,8 @@ or a knack for getting others to cooperate, while a third character may have a c
 for yourself what mix of training and talent your characterâ€™s skill ranks represent.
 ```
 
----
 
-### Deception
-
-#### Domain Language
+#### **Deception**
 
 - Deception is an interaction skill based on Presence; it covers lying, bluffing, disguise, feinting, innuendo, and tricking.
 - Bluffing: Deception check opposed by targets Deception or Insight; circumstance modifiers from -5 (target wants to believe) to +20 (outrageous claim); standard action, or move action at -5.
@@ -2099,11 +2085,8 @@ character can only handle easy or basic tasks or questions
 (DC 10-15).
 ```
 
----
 
-### Expertise
-
-#### Domain Language
+#### **Expertise**
 
 - Expertise is a Trained Only skill based on Intellect representing specialized professional or scholarly knowledge; each area is a separate skill.
 - A trained character can practice and make a living at it: use tools of the trade, perform daily tasks, supervise helpers, handle common problems.
@@ -2220,11 +2203,8 @@ character can only handle easy or basic tasks or questions
 (DC 10-15).
 ```
 
----
 
-### Insight
-
-#### Domain Language
+#### **Insight**
 
 - Insight is a skill based on Awareness; it may be used untrained; it covers reading intentions, detecting influence, evaluating trustworthiness, picking up innuendo, and resisting social manipulation.
 - Detect Illusion: GM makes a secret Insight check (DC 10 + Illusion rank) to sense an illusions true nature.
@@ -2377,11 +2357,8 @@ of success, the target is disabled (a â€“5 penalty) until the
 end of your next round.
 ```
 
----
 
-### Intimidation
-
-#### Domain Language
+#### **Intimidation**
 
 - Intimidation is an interaction skill based on Presence; it covers using threats to coerce compliance or demoralize opponents.
 - Coercing: Intimidation check opposed by targets Insight or Will defense (whichever is higher); success treats target as friendly for actions in the users presence only; targets true attitude becomes hostile after the attempt; more than one degree of failure causes the opposite effect.
@@ -2508,11 +2485,8 @@ things, while an Investigation check allows you to pick up
 on details with some effort.
 ```
 
----
 
-### Investigation
-
-#### Domain Language
+#### **Investigation**
 
 - Investigation is a Trained Only skill based on Intellect covering searching for clues, gathering information, interviewing contacts, surveillance, and forensic analysis.
 - Search: an Investigation check picks up on area details with effort; DC scales from low (ransacking a room) to 25+ (extremely obscure clues); concealed objects DC opposed by hiders Stealth or Sleight of Hand.
@@ -2722,11 +2696,8 @@ Investigation check. For actively following a subject, see
 Tailing in the Stealth skill description.
 ```
 
----
 
-### Perception
-
-#### Domain Language
+#### **Perception**
 
 - Perception is a skill based on Awareness; it may be used untrained; it covers noticing and picking up on things in the environment across all sense types.
 - Distance penalty: -1 circumstance penalty for every 10 feet between the character and what they try to perceive.
@@ -2798,11 +2769,8 @@ Various sensory effects provide modifiers on Perception
 checks (see the Powers chapter for details).
 ```
 
----
 
-### Persuasion
-
-#### Domain Language
+#### **Persuasion**
 
 - Persuasion is an interaction skill based on Presence covering social graces, etiquette, negotiation, and winning others over.
 - Improving attitudes: DC 15 check improves an NPCs attitude by one step; each two additional degrees improve by one more step; failure equals no change; more than one degree of failure worsens attitude by one step.
@@ -2907,11 +2875,8 @@ at a disadvantage in further negotiations, imposing a cir-
 cumstance penalty as well.
 ```
 
----
 
-### Ranged Combat
-
-#### Domain Language
+#### **Ranged Combat**
 
 - Ranged Combat is a skill based on Dexterity; it may be used untrained; each Ranged Combat skill is specific to a single weapon or power.
 - The skill rank adds to attack checks for that specific weapon or power only; it does not apply to defense.
@@ -3001,11 +2966,8 @@ its holster, but the GM rolls anyway and gets a total
 of 20. A good roll, but no enough.
 ```
 
----
 
-### Sleight of Hand
-
-#### Domain Language
+#### **Sleight of Hand**
 
 - Sleight of Hand is a Trained Only manipulation skill based on Dexterity covering legerdemain, pickpocketing, concealment, contortion, and escape.
 - Concealing: Sleight of Hand check result becomes the DC for Investigation or Perception checks to find the concealed item.
@@ -3181,11 +3143,8 @@ or being noticed a second time, means the subject knows
 something is up and reacts accordingly.
 ```
 
----
 
-### Stealth
-
-#### Domain Language
+#### **Stealth**
 
 - Stealth is a skill based on Agility; it may be used untrained; it covers hiding from observers and tailing subjects without detection.
 - Hiding: requires cover or concealment; Stealth check opposed by observers Perception; cannot hide when others are already aware unless a Deception or Intimidation check first creates a distraction (Stealth at -5); cannot hide in plain sight.
@@ -3279,11 +3238,8 @@ or being noticed a second time, means the subject knows
 something is up and reacts accordingly.
 ```
 
----
 
-### Technology
-
-#### Domain Language
+#### **Technology**
 
 - Technology is a Trained Only manipulation skill based on Intellect that requires tools; it covers operating, building, repairing, and sabotaging technological devices.
 - Operating: routine operations do not require a check; unfamiliar devices require a check (DC 10 simple to DC 25+ highly advanced); lacking tools imposes -5.
@@ -3491,11 +3447,8 @@ bonus for favorable circumstances on further Treatment
 checks.
 ```
 
----
 
-### Treatment
-
-#### Domain Language
+#### **Treatment**
 
 - Treatment is a Trained Only manipulation skill based on Intellect that requires tools; it covers diagnosing, caring for, reviving, stabilizing, and treating injured or ill characters.
 - Diagnosis: takes at least one minute; at GMs discretion, success grants +2 to subsequent Treatment checks.
@@ -3649,11 +3602,8 @@ penalty), especially if riding is a fairly uncommon skill, as it
 is in the modern world.
 ```
 
----
 
-### Vehicles
-
-#### Domain Language
+#### **Vehicles**
 
 - Vehicles is a Trained Only manipulation skill based on Dexterity covering operation of ground vehicles, boats, aircraft, and spacecraft in dramatic or stressful situations.
 - Routine vehicle operations do not require a check and may be done untrained for common vehicles.
@@ -3740,13 +3690,26 @@ is in the modern world.
 
 ---
 
+### Decisions made
+
+- Stealth grouped with physical skills rather than with Sleight of Hand in a Covert KA — Stealth is Agility-based and involves whole-body positioning relative to cover, not fine manual dexterity.
+- Sleight of Hand placed in Manipulation Skill KA per source classification (Dexterity, Manipulation, Trained Only).
+- Fall damage resolution spans Acrobatics and Athletics — the cross-skill interaction is documented in Domain Language bullets, not unified into a single term.
+
+
+
+---
+
 # Boundary Domain
 
-## ability modifier
 
-Owned by: Ability
+### Ubiquitous Language
 
-#### Domain Language
+
+
+
+#### **ability modifier** *(owned by: Ability)*
+
 
 - Each skill has an associated ability whose rank is applied as a modifier to all skill checks for that skill, even when used untrained.
 - The ability modifier is one component of the total skill modifier (skill rank + ability modifier + miscellaneous modifiers).
@@ -3815,13 +3778,9 @@ tightropes, and pilot vehicles through obstacle courses, all in a dayâ€™s w
 the use of various skills, described in this chapter.
 ```
 
----
 
-## power point
+#### **power point** *(owned by: Character Construction)*
 
-Owned by: Character Construction
-
-#### Domain Language
 
 - Skills are purchased with power points at 1 power point per 2 ranks.
 - Skill ranks may be split across multiple skills from a single power point expenditure.
@@ -3890,13 +3849,9 @@ tightropes, and pilot vehicles through obstacle courses, all in a dayâ€™s w
 the use of various skills, described in this chapter.
 ```
 
----
 
-## degree of success / degree of failure
+#### **degree of success / degree of failure** *(owned by: Check Resolution)*
 
-Owned by: Check Resolution
-
-#### Domain Language
 
 - Skill check outcomes are measured in degrees; typically each 5 points above or below the DC constitutes one degree.
 - Skill descriptions specify outcomes per degree (e.g., Persuasion attitude improvement per extra two degrees; Intimidation demoralizing improves at four degrees).
@@ -3979,13 +3934,9 @@ you suffer a â€“5 on your skill check against them. Mindless
 subjects are unaffected, as usual.
 ```
 
----
 
-## routine check
+#### **routine check** *(owned by: Check Resolution)*
 
-Owned by: Check Resolution
-
-#### Domain Language
 
 - A routine check result is bonus + 10, used when no pressure exists and rolling is unnecessary.
 - Skill Mastery allows a character to use the routine check result for a specific skill even under stress.
@@ -4060,13 +4011,9 @@ this notation is still listed, and the untrained aspects are
 called out in the skill description.
 ```
 
----
 
-## attack check
+#### **attack check** *(owned by: Combat)*
 
-Owned by: Combat
-
-#### Domain Language
 
 - Close Combat and Ranged Combat skill ranks add to attack checks for the specific weapon or power the skill covers.
 - Attack checks are resolved in the Combat module; the Skill module provides the bonus source.
@@ -4139,13 +4086,9 @@ it had not placed unusual demands on him (that is, even
 without the +10 modifier).
 ```
 
----
 
-## condition
+#### **condition** *(owned by: Check Resolution)*
 
-Owned by: Check Resolution
-
-#### Domain Language
 
 - Some skill outcomes impose conditions on targets (e.g., Intimidation demoralizing imposes impaired or disabled; Deception feinting imposes vulnerable).
 - Treatment skill removes conditions (dazed, stunned) and stabilizes the dying condition.
@@ -4287,13 +4230,9 @@ penalty), especially if riding is a fairly uncommon skill, as it
 is in the modern world.
 ```
 
----
 
-## power effect
+#### **power effect** *(owned by: Power)*
 
-Owned by: Power
-
-#### Domain Language
 
 - The Immunity power effect can render a character completely immune to interaction skills.
 - The Illusion power effect is the target of Insights Detect Illusion use.
@@ -4445,13 +4384,9 @@ this notation is still listed, and the untrained aspects are
 called out in the skill description.
 ```
 
----
 
-## team check
+#### **team check** *(owned by: Check Resolution)*
 
-Owned by: Check Resolution
-
-#### Domain Language
 
 - Characters lacking physical manipulation capability can still use manipulation skill ranks to oversee or assist others via team checks.
 - Team checks are owned by Check Resolution; manipulation skills reference them as an alternative application mode.

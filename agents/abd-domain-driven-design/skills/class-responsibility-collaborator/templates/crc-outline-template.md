@@ -1,92 +1,139 @@
 <!--
-  crc.md — CRC with lifecycle and invariants.
+  class-responsibility-collaborator.md
 
-  Copy to: <workspace>/abd-domain-driven-design/crc.md (or append ## CRC section to module file)
+  Append a ### Class Responsibility Collaborator section after ### Domain Sketch
+  within each knowledge-area (## **KA Name**) section of the module file.
 
-  Each concept gets one named block with four fields:
-    responsible:     — what this concept owns (one sentence)
-    collaborators:   — other domain concepts worked with, or (none)
-    lifecycle:       — states, transitions, illegal moves, terminal states — or (stateless)
-    invariants:      — declarative must/cannot/only-if constraints — or (none) / (none yet)
+  Format per block:
+    #### **ConceptName**
+    responsibility name         | Collaborator, Another Collaborator
+    another responsibility      | (value description for primitives/enums)
+                                |   invariant: declarative constraint
+
+  Subtypes:
+    #### **ConceptName : BaseConcept**
+    delta responsibility only   | Collaborator
 -->
 
-## Module: [{{ModuleName}}]
+## **{{KnowledgeAreaName}}**
 
-{{ConceptName}}
-    responsible: {{Active Verb + Noun + optional Classifiers, Title Case — e.g. Apply Condition to Character}}
-    collaborators: {{TypeA, TypeB, ... or (none)}}
-    lifecycle: {{(stateless) — or: states: ...; transitions: ...; illegal: ...; terminal: ...}}
-    invariants: {{must/cannot/only-if bullets — or (none) / (none yet)}}
+### Class Responsibility Collaborator
 
-{{SubtypeName}} : {{BaseConcept}}
-    responsible: {{Delta verb-noun phrase — what this subtype adds or overrides, Title Case}}
-    collaborators: {{...}}
-    lifecycle: {{...}}
-    invariants: {{...}}
+#### **{{ConceptName}}**
+{{noun phrase property}}            | {{Collaborator}}
+{{verb phrase operation}}           | {{Collaborator, Collaborator}}
+                                    |   invariant: {{declarative constraint}}
 
----
-
-## Module: [{{AnotherModule}}]
-
-{{ConceptName}}
-    responsible: {{...}}
-    collaborators: {{...}}
-    lifecycle: {{...}}
-    invariants: {{...}}
+#### **{{SubtypeName}} : {{BaseConcept}}**
+{{delta responsibility only}}       | {{Collaborator}}
+                                    |   invariant: {{constraint specific to this subtype}}
 
 ---
 
-Instructions:
+# Boundary Domain
 
-- Group concepts by module; module names match `domain-sketch.md` `## Module: [Name]` when present.
-- One concept name per block (no `###` heading — the name is the first line).
-- Subtype / generalization: `ChildConcept : ParentConcept` on the first line; delta responsibilities only.
-- `collaborators:` lists other domain concepts this one works with (from sketch collaboration lines).
-- `lifecycle:` — use `(stateless)` for concepts with no meaningful states.
-- `invariants:` — use `(none)` for stateless concepts, `(none yet)` when lifecycle exists but constraints are not yet enumerable.
-- English only; no operation signatures (those belong in object-model).
+### Class Responsibility Collaborator
+
+#### **{{BoundaryConcept}}**
+{{responsibility}}                  | {{Collaborator}}
+
+---
+
+## Instructions
+
+- One `#### **ConceptName**` block per concept — including state-carrier classes and collection classes introduced during CRC.
+- Left column: noun phrase for properties, verb phrase for operations. Vocabulary tight to the behavior bullet that inspired it. No technical terms (flag, boolean, list, own).
+- Right column: comma-separated collaborator class names. Use parenthetical value description `(active or ended)` for primitives/enums.
+- Invariants: `|   invariant:` indented continuation rows under the responsibility they constrain.
+- Subtypes: `#### **ConceptName : BaseConcept**` — delta responsibilities only; do not repeat parent entries.
+- Slash terms (`A / B`) must be resolved to one name before writing any block.
+- `|` separators: align consistently within each block.
+- Boundary Domain: all boundary concepts share one `### Class Responsibility Collaborator` section — not split by concept.
 
 ---
 
 ## Filled example (Check Resolution module)
 
 ```markdown
-## Module: [Check Resolution]
+## **Check**
 
-Check
-    responsible: Resolve Action Outcome Against Difficulty Class
-    collaborators: Difficulty Class, Modifier
-    lifecycle: (stateless)
-    invariants: shape is always roll total versus difficulty class; subtypes only vary how total or DC is produced
+### Class Responsibility Collaborator
 
-Difficulty Class
-    responsible: Hold Numeric Success Threshold
-    collaborators: (none)
-    lifecycle: (stateless)
-    invariants: (none)
+#### **Check**
+use trait                   | Trait
+use difficulty class        | Difficulty Class, Difficulty Stage
+apply circumstance          | Circumstance Modifier
+is routine                  | (active or inactive — when active, d20 fixed at 10)
+resolve                     | D20, Trait, Circumstance Modifier, Difficulty Class, Check Result
+                            |   invariant: d20 + trait rank + circumstance modifier >= difficulty class
 
-Modifier
-    responsible: Apply Numeric Adjustment to Check Roll
-    collaborators: (none)
-    lifecycle: (stateless)
-    invariants: (none)
+#### **Opposed Check : Check**
+use opposing trait          | Trait
+                            |   invariant: both sides resolve as standard Checks; higher result wins
+                            |   invariant: tie — higher bonus wins; bonus tie — d20 (1–10 vs 11–20)
+                            |   invariant: passive opposition DC = opposing modifier + 10
 
-Condition
-    responsible: Apply Named State and Modifiers to Character
-    collaborators: Check Result, Supersession Chain
-    lifecycle:
-        states: inactive, active, superseded, resolved
-        transitions: inactive → active (source effect imposed), active → superseded (more severe condition in chain applied), active → resolved (source effect ends or resistance check succeeds)
-        illegal: resolved → active (cannot re-activate from the same source without a new imposition)
-        terminal: resolved
-    invariants:
-        - a condition already present in the supersession chain is overridden by the more severe one, never duplicated
-        - a combined condition is removed entirely when its source effect ends
+#### **Team Check : Check**
+use helper traits           | Trait
+resolve helper              | D20, Trait, Check Result
+                            |   invariant: each helper rolls same Trait vs DC 10
+apply helper outcome        | Circumstance Modifier
+                            |   invariant: 1 success → +2; 3+ successes → +5; cap +5
+                            |   invariant: 2+ failures → −2; cap −2
 
-Saving Throw : Check
-    responsible: Add Ability-Score Basis and Proficiency to Check
-    not_responsible: does not own the generic pass/fail resolution — that is inherited from Check
-    collaborators: Ability Score, Proficiency
-    lifecycle: (stateless)
-    invariants: (none)
+---
+
+## **Condition**
+
+### Class Responsibility Collaborator
+
+#### **Condition**
+label                       | (name of the condition, e.g. dazed, stunned)
+game modifier               | (penalty value or restriction description)
+supersedes                  | Condition
+superseded by               | Condition
+
+#### **Imposed Condition**
+imposing source             | Condition Source
+condition type              | Condition
+active status               | (active or inactive)
+suppressing condition       | Imposed Condition
+                            |   invariant: set when parked inactive by a different-source more-severe condition
+
+#### **Imposed Conditions**
+applied conditions          | Imposed Condition
+apply new condition         | Condition Source, Condition, Imposed Condition
+                            |   invariant: same-source more-severe — remove lesser imposed condition
+                            |   invariant: same-source less-severe — do nothing
+                            |   invariant: different-source more-severe — park lesser as inactive, set suppressing condition
+
+#### **Condition Source**
+imposing identity           | (name, reference, or descriptor of the effect, attacker, or event)
+
+---
+
+# Boundary Domain
+
+### Class Responsibility Collaborator
+
+#### **Power Effect : Trait**
+resistance trait            | Trait
+is ongoing                  | (active or ended)
+condition on failure        | Condition, Degree of Failure
+                            |   invariant: which conditions are imposed is defined by the effect type
+end                         | Imposed Conditions
+                            |   invariant: on end — all conditions imposed by this effect are removed
+
+#### **Ongoing Effects**
+active effects              | Power Effect
+ongoing targets             | Character
+make resistance check       | Character, Check
+                            |   invariant: check made at end of each ongoing target's turn
+end effect                  | Power Effect, Imposed Conditions
+                            |   invariant: clears only the conditions that this effect imposed
+
+#### **Character**
+traits                      | Trait
+imposed conditions          | Imposed Conditions
+ongoing effects             | Ongoing Effects
 ```

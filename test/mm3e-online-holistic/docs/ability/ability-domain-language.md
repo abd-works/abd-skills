@@ -2,7 +2,7 @@
 state: domain-language
 ---
 
-## Module: [Ability]
+# Module: [Ability]
 
 Scope: The eight ability scores (Strength, Stamina, Agility, Dexterity, Fighting, Intellect, Awareness, Presence), absent abilities, debilitated abilities, and derived defense values.
 
@@ -30,9 +30,7 @@ Scope: The eight ability scores (Strength, Stamina, Agility, Dexterity, Fighting
 
 # Core Domain
 
-### ability
-
-#### Domain language
+#### **ability**
 - One of eight fundamental numeric traits that characterize a hero's physical or mental capabilities.
 - Partitioned into physical abilities (STR, STA, AGL, DEX) and mental abilities (FGT, INT, AWE, PRE).
 - Each above-average ability rank provides a bonus on related die rolls; below-average rank applies a penalty.
@@ -52,11 +50,7 @@ Source: context/rules/HeroesHandbook-rules__chunk_036.md
 Locator: lines 2363-2464
 Extract: whole
 
----
-
-### ability rank
-
-#### Domain language
+#### **ability rank**
 - Numeric value expressing the degree of an ability; starts at 0 (the baseline average for an adult human).
 - Can go as low as −5 (truly terrible) and as high as 20 or beyond for cosmic beings and forces.
 - Costs 2 power points per +1 rank when purchased; yields 2 bonus power points per −1 rank when reduced.
@@ -71,11 +65,7 @@ Locator: lines 2298-2362
 Extract: partial
 Part: "Ability Ranks", "Buying Ability Ranks", "Reducing Abilities", and "Ability Benchmarks" sections.
 
----
-
-### absent ability
-
-#### Domain language
+#### **absent ability**
 - A creature entirely lacking an ability has no rank for it, a state distinct from having rank −5.
 - Automatically fails any check requiring the absent ability.
 - Lacking an ability grants an additional 10 power points to spend elsewhere — more generous than the −5 floor.
@@ -98,11 +88,7 @@ Source: context/rules/HeroesHandbook-rules__chunk_038.md
 Locator: lines 2525-2595
 Extract: whole
 
----
-
-### Strength (STR)
-
-#### Domain language
+#### **Strength (STR)**
 - Measures sheer muscle power and the ability to apply physical force.
 - Applies to: unarmed and strength-based attack damage; jump distance (Athletics check); weight lifting, carrying, and throwing; Athletics skill checks.
 - Physical ability.
@@ -115,11 +101,7 @@ Locator: lines 2363-2464
 Extract: partial
 Part: STRENGTH (STR) section.
 
----
-
-### Stamina (STA)
-
-#### Domain language
+#### **Stamina (STA)**
 - Measures health, endurance, and overall physical resilience.
 - Applies to: Toughness defense (resisting damage); Fortitude defense (resisting effects on health); Stamina checks for health-related resistance and recovery when no specific defense applies.
 - Physical ability.
@@ -132,11 +114,7 @@ Locator: lines 2363-2464
 Extract: partial
 Part: STAMINA (STA) section.
 
----
-
-### Agility (AGL)
-
-#### Domain language
+#### **Agility (AGL)**
 - Measures balance, grace, speed, and overall physical coordination.
 - Applies to: Dodge defense (avoiding ranged attacks and hazards); initiative bonus (acting first in combat); Acrobatics and Stealth skill checks; Agility checks for coordination feats.
 - Physical ability.
@@ -155,11 +133,7 @@ Locator: lines 2596-2637
 Extract: partial
 Part: DODGE and initiative sections (Agility's contribution to both).
 
----
-
-### Dexterity (DEX)
-
-#### Domain language
+#### **Dexterity (DEX)**
 - Measures hand-eye coordination, precision, and manual dexterity.
 - Applies to: ranged attack checks; Sleight of Hand and Vehicles skill checks; Dexterity checks for fine control and precision tasks.
 - Physical ability.
@@ -172,11 +146,7 @@ Locator: lines 2363-2464
 Extract: partial
 Part: DEXTERITY (DEX) section.
 
----
-
-### Fighting (FGT)
-
-#### Domain language
+#### **Fighting (FGT)**
 - Measures close combat ability — hitting targets and evading counter-attacks in melee.
 - Applies to: close attack checks; Parry defense (avoiding close attacks).
 - Mental ability (grouped with INT, AWE, PRE as a mental ability in the core rules).
@@ -189,11 +159,7 @@ Locator: lines 2363-2464
 Extract: partial
 Part: FIGHTING (FGT) section.
 
----
-
-### Intellect (INT)
-
-#### Domain language
+#### **Intellect (INT)**
 - Covers reasoning ability and learning; a high rank correlates with knowledge and education.
 - Applies to: Expertise, Investigation, Technology, and Treatment skill checks; Intellect checks for pure reasoning when no specific skill applies.
 - Mental ability.
@@ -206,11 +172,7 @@ Locator: lines 2363-2464
 Extract: partial
 Part: INTELLECT (INT) section.
 
----
-
-### Awareness (AWE)
-
-#### Domain language
+#### **Awareness (AWE)**
 - Covers common sense and intuition ("wisdom"), distinct from Intellect (reasoning).
 - Applies to: Will defense (resisting mental attacks); Insight and Perception skill checks; Awareness checks for intuition when no specific skill applies.
 - Mental ability.
@@ -230,11 +192,7 @@ Locator: lines 2525-2595
 Extract: partial
 Part: Awareness absence entry — "completely unaware and also has no Presence."
 
----
-
-### Presence (PRE)
-
-#### Domain language
+#### **Presence (PRE)**
 - Measures force of personality, persuasiveness, leadership ability, and attractiveness.
 - Applies to: Deception, Intimidation, and Persuasion skill checks; Presence checks to influence others through force of personality.
 - Mental ability.
@@ -247,11 +205,7 @@ Locator: lines 2363-2464
 Extract: partial
 Part: PRESENCE (PRE) section.
 
----
-
-### Dodge
-
-#### Domain language
+#### **Dodge**
 - Defense value based on Agility rank; covers reaction time, quickness, nimbleness, and coordination.
 - Used to avoid ranged attacks and other hazards where reflexes and speed are important.
 - Active defense: requires mobility and focus; halved (round up) when vulnerable; reduced to 0 when defenseless.
@@ -273,11 +227,7 @@ Locator: lines 2638-2688
 Extract: partial
 Part: Active Defenses section (vulnerable/defenseless effects on Dodge and Parry).
 
----
-
-### Parry
-
-#### Domain language
+#### **Parry**
 - Defense value based on Fighting rank; represents countering, ducking, or evading close attacks.
 - Active defense: halved (round up) when vulnerable; reduced to 0 when defenseless.
 - Used as defense class (Parry + 10) for close attacks.
@@ -297,11 +247,7 @@ Locator: lines 2638-2688
 Extract: partial
 Part: Active Defenses section.
 
----
-
-### Fortitude
-
-#### Domain language
+#### **Fortitude**
 - Defense value based on Stamina rank; measures health and resistance to threats like poison or disease.
 - Incorporates constitution, ruggedness, metabolism, and immunity.
 - Passive defense: always effective regardless of mobility restrictions.
@@ -317,11 +263,7 @@ Locator: lines 2596-2637
 Extract: partial
 Part: FORTITUDE section and Defense Rank paragraph.
 
----
-
-### Toughness
-
-#### Domain language
+#### **Toughness**
 - Defense value based on Stamina rank; measures resistance to direct damage and overall physical durability.
 - Cannot be increased above the base Stamina rank by direct power point spending — only through advantages (e.g., Defensive Roll) and powers (e.g., Protection effect).
 - This restriction reflects that greater-than-normal Toughness is virtually always a special ability.
@@ -341,11 +283,7 @@ Locator: lines 2638-2688
 Extract: partial
 Part: Toughness Rank section (purchase restriction rule).
 
----
-
-### Will
-
-#### Domain language
+#### **Will**
 - Defense value based on Awareness rank; measures mental stability, level-headedness, determination, self-confidence, and willpower.
 - Used to resist mental or spiritual attacks.
 - Used as defense class (Will + 10) when an attack targets Will.
@@ -360,11 +298,7 @@ Locator: lines 2596-2637
 Extract: partial
 Part: WILL section and Defense Rank paragraph.
 
----
-
-### defense
-
-#### Domain language
+#### **defense**
 - General term for the five defensive values (Dodge, Parry, Fortitude, Toughness, Will) used to resist or avoid effects.
 - Each defense is based on a specific ability rank, modified by advantages and powers.
 - Base defense rank equals the rank of the associated ability.
@@ -384,11 +318,7 @@ Source: context/rules/HeroesHandbook-rules__chunk_040.md
 Locator: lines 2638-2688
 Extract: whole
 
----
-
-### debilitated
-
-#### Domain language
+#### **debilitated**
 - State reached when an ability rank drops below −5 for any reason (typically caused by a power effect).
 - Ability ranks cannot be lowered any further once debilitated; this threshold is the floor for each ability.
 - Per-ability debilitation effects:
@@ -405,13 +335,10 @@ Locator: lines 2465-2524
 Extract: partial
 Part: "Debilitated Abilities" section.
 
----
-
-### enhanced ability
+#### **enhanced ability**
 
 *(Found term — discovered in source material; not in original Core terms list.)*
 
-#### Domain language
 - An ability rank (or portion thereof) acquired as an Enhanced Trait (power) rather than as a natural rank.
 - Can be nullified by the Nullify effect — normal (natural) ability ranks cannot be nullified.
 - Can have power modifiers and be used for power stunts with extra effort — normal ranks cannot.
@@ -426,13 +353,10 @@ Locator: lines 2465-2524
 Extract: partial
 Part: "Enhanced Abilities" section.
 
----
-
-### initiative
+#### **initiative**
 
 *(Found term — discovered in source material; not in original Core terms list.)*
 
-#### Domain language
 - Derived combat-readiness value computed as: Agility rank + Advantages (Improved Initiative) + Power Modifiers.
 - Determines action order at the start of a conflict: characters act from highest to lowest initiative modifier.
 - Defined in Ch3 Abilities alongside the five defenses, grounding it in the ability module.
@@ -446,13 +370,10 @@ Locator: lines 2638-2688
 Extract: partial
 Part: INITIATIVE section.
 
----
-
-### active defense
+#### **active defense**
 
 *(Found term — discovered in source material; not in original Core terms list.)*
 
-#### Domain language
 - Category of defense that requires mobility, focus, and reaction time to be fully effective.
 - Comprises Dodge and Parry — the two ability-derived defenses that degrade under condition effects.
 - When vulnerable: active defense ranks are halved (divide normal value by 2, round up).
@@ -467,13 +388,10 @@ Locator: lines 2638-2688
 Extract: partial
 Part: Active Defenses section.
 
----
-
-### defense class
+#### **defense class**
 
 *(Found term — discovered in source material; not in original Core terms list.)*
 
-#### Domain language
 - The difficulty class for a given attack to affect a target: defense rank + 10.
 - Represents the target's "routine defense" (equivalent to a routine check).
 - Primary defense class traits: Dodge (for ranged attacks), Parry (for close attacks), and Will (for mental attacks).
@@ -491,11 +409,7 @@ Part: Defense Class section.
 
 # Boundary Domain
 
-## power point
-
-Owned by: Character Construction
-
-#### Domain language
+#### **power point** *(owned by: Character Construction)*
 - Currency used to purchase ability ranks (2 pp per +1 rank) and defense ranks above base (1 pp per +1 rank).
 - Gained by reducing ability ranks below 0 (2 pp per −1 rank) or by lacking an ability entirely (10 pp).
 
@@ -507,13 +421,7 @@ Locator: lines 2298-2362
 Extract: partial
 Part: "Buying Ability Ranks" and "Reducing Abilities" sections.
 
----
-
-## power level
-
-Owned by: Character Construction
-
-#### Domain language
+#### **power level** *(owned by: Character Construction)*
 - Sets the upper limit on ability rank improvements via earned power points (rank cannot be raised above the series' power level).
 - Also constrains the maximum defense rank purchasable above the ability base.
 

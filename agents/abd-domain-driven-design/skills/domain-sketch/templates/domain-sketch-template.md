@@ -4,27 +4,49 @@
   The file already exists at state: key-abstractions.
   This skill enriches it in place. Key changes this phase makes:
 
-    1. Adds #### Domain Sketch under each ### term — verb-led behavior bullets and
-       an optional role sentence describing what the term is for and who it works with
-    2. Adds or extends #### Decisions made at the ## KA level and/or ### term level
-    3. Deduplicates #### References across terms within the same ## KA
-       (remove a ref from a ### term if the identical ref already appears in another
-       ### term under the same ## KA; keep it on the first term that needs it)
+    1. Under each ## **KA Name**, adds ### Ubiquitous Language (containing #### **term** sub-sections)
+       and ### Domain Sketch (containing #### **term** sub-sections with verb-led behavior bullets)
+    2. Adds ### Decisions made at the ## KA level
+    3. Deduplicates ### References across terms within the same ## KA
     4. Adds new **Ref —** entries for any behavior bullet not yet cited
     5. Bumps state to domain-sketch
 
+  Structure per KA:
+    ## **KA Name**
+      intro paragraph
+      ### Ubiquitous Language
+        #### **term**
+        #### **SubtypeName** *is a type of* **BaseName**
+      ---
+      ### Domain Sketch
+        #### **term**
+        #### **SubtypeName** *is a type of* **BaseName**
+      ---
+      ### Decisions made
+      ### References
+
+  Boundary Domain is one flat section:
+    # Boundary Domain
+      ### Ubiquitous Language
+        #### **boundary_term** *(owned by: Module)*
+      ---
+      ### Domain Sketch
+        #### **boundary_term**
+      ---
+      ### Decisions made
+      ### References
+
   Contract:
     - Everything from UDL and KA stages stays unchanged:
-        #### Domain Language bullets — never touched
+        #### **term** Domain Language bullets — never touched
         ## KA prose definitions — never touched
-        #### References already present — only deduplicated (removed from later
-        terms when identical ref exists earlier in the same ## KA block)
-    - #### Domain Sketch is NEW — added under each ### term
-    - Subtypes use the heading form ### SubtypeName *is a type of* BaseName
+        #### References already present — only deduplicated
+    - ### Ubiquitous Language replaces scattered #### Domain Language headings
+    - ### Domain Sketch is NEW — added per KA, with #### **term** sub-sections
+    - Subtypes use the heading form #### **SubtypeName** *is a type of* **BaseName**
       and appear under the same ## KA as their base term
-    - No separate ## Domain logic section
-    - No ---- behavior separators, no ----- collaboration separators
-    - No concept role paragraphs as standalone text blocks outside #### sections
+    - Slash terms in concept names must be flagged for resolution before CRC
+    - One behavior per line — do not merge a state with its triggered action
 -->
 
 ---
@@ -47,66 +69,38 @@ Scope: {{scope from partition — unchanged}}
 
 # Core Domain
 
-## {{KAName}}
+## **{{KAName}}**
 
 {{KA prose definition — unchanged from key-abstractions stage}}
 
-#### Decisions made
+### Ubiquitous Language
 
-- {{decision from KA stage — unchanged}}
-- {{new DS decision added here if needed}}
+#### **{{term_name}}**
+- {{behavioral line — unchanged from domain-language stage}}
+- {{behavioral line — unchanged from domain-language stage}}
 
-### {{term_name}}
-
-#### Domain Language
-
-- {{behavioral line — unchanged from UDL stage}}
-- {{behavioral line — unchanged from UDL stage}}
-
-#### Domain Sketch
-
-{{Optional one-sentence role statement: what this term is for and who it works with.}}
-
-- {{verb-led behavior bullet: what it does, enforces, or produces}}
-- {{verb-led behavior bullet}}
-- {{verb-led behavior bullet}}
-- **Invariant:** {{rule that must always hold, if any}}
-
-#### Decisions made
-
-- {{boundary call, scope call, structural call, or open question with reasoning}}
-
-#### References
-
-**Ref — {{title}}**
-Source: {{source chunk path — unchanged}}
-Locator: {{locator — unchanged}}
-Extract: whole
-
-```source
-{{verbatim text — unchanged}}
-```
+#### **{{SubtypeName}}** *is a type of* **{{BaseName}}**
+- {{behavioral line — unchanged}}
 
 ---
 
-### {{SubtypeName}} *is a type of* {{BaseName}}
+### Domain Sketch
 
-#### Domain Language
+#### **{{term_name}}**
+- {{verb-led behavior bullet: what it does, enforces, or produces}}
+- {{verb-led behavior bullet}}
+- **Invariant:** {{rule that must always hold, if any}}
 
-- {{behavioral line — unchanged}}
-
-#### Domain Sketch
-
-{{One sentence: what this subtype adds beyond the base.}}
-
+#### **{{SubtypeName}}** *is a type of* **{{BaseName}}**
 - {{delta behavior — only what the subtype adds, not what it shares with the base}}
-- {{delta behavior}}
 
-#### Decisions made
+---
 
-- {{why this is a subtype rather than a separate concept}}
+### Decisions made
 
-#### References
+- {{boundary call, scope call, structural call, or open question with reasoning}}
+
+### References
 
 **Ref — {{title}}**
 Source: {{source chunk path}}
@@ -119,25 +113,27 @@ Extract: whole
 
 ---
 
-## {{AnotherKAName}}
+## **{{AnotherKAName}}**
 
 {{KA prose definition — unchanged}}
 
-#### Decisions made
+### Ubiquitous Language
 
-- {{…}}
-
-### {{term_name}}
-
-#### Domain Language
-
+#### **{{term_name}}**
 - {{behavioral line — unchanged}}
 
-#### Domain Sketch
+---
 
+### Domain Sketch
+
+#### **{{term_name}}**
 - {{verb-led behavior bullet}}
 
-#### References
+---
+
+### Decisions made
+
+### References
 
 **Ref — {{title}}**
 Source: {{source chunk path}}
@@ -152,15 +148,23 @@ Extract: whole
 
 # Boundary Domain
 
-## {{boundary_term}}
+### Ubiquitous Language
 
-Owned by: {{module — unchanged}}
-
-#### Domain Language
-
+#### **{{boundary_term}}** *(owned by: {{Module}})*
 - {{behavioral line — unchanged}}
 
-#### References
+---
+
+### Domain Sketch
+
+#### **{{boundary_term}}**
+- {{verb-led behavior bullet describing what this module sees of it}}
+
+---
+
+### Decisions made
+
+### References
 
 **Ref — {{title}}**
 Source: {{source chunk path}}
@@ -175,147 +179,99 @@ Extract: whole
 
 <!-- EXAMPLE — delete this section after using the template. -->
 
-## Example (filled — Fulfillment module)
+## Example (filled — Check Resolution module)
 
 ```markdown
 ---
 state: domain-sketch
 ---
 
-# Module: [Fulfillment]
+# Module: [Check Resolution]
 
-Scope: Warehouse release, shipment tracking, delivery confirmation.
-
-**Core terms**:
-- shipment
-- clearance
-- proof of delivery
-- carrier event
-- line item
+Scope: The d20 resolution mechanic (roll + modifier vs DC), checks (routine,
+opposed, resistance), degrees of success/failure, and conditions.
 
 ---
 
 # Core Domain
 
-## Shipment Lifecycle
+## **Check**
 
-Owns the end-to-end state of a shipment from warehouse to customer doorstep — whether it may leave, when it is in transit, and what confirms delivery. Groups clearance, release, and confirmation behaviors.
+A check is the core resolution mechanic — the single mechanism through which any
+uncertain outcome is determined. It owns the roll-plus-modifier-versus-DC formula.
 
-#### Decisions made
+### Ubiquitous Language
 
-- Shipment Lifecycle is a single abstraction, not split into Release and Delivery — the source treats them as one flow with gates.
-- Payment check is a prerequisite consumed from another module, not owned here.
+#### **Check**
+- A check is d20 + trait rank (plus modifiers) vs DC; equal or above is success.
 
-### clearance
+#### **Opposed Check** *is a type of* **Check**
+- An opposed check pits two characters against each other; higher roll wins.
 
-#### Domain Language
+---
 
-- Warehouse hold is removed only after payment clearance is on record.
-- A clearance event must carry the authorizing reference.
+### Domain Sketch
 
-#### Domain Sketch
+#### **Check**
+- is resolved by *rolling* a *d20*, adding *trait rank* and *circumstance modifier* and comparing to the *difficulty class*, producing a *check result*
+- may have a *circumstance modifier* applied (±2 minor, ±5 major)
+- **Invariant:** always roll total versus difficulty class; subtypes only vary how total or DC is produced
 
-The gate that must be passed before a shipment may leave; it depends on an external payment status signal.
+#### **Opposed Check** *is a type of* **Check**
+- is made against an *opposing character's check result* as the *difficulty class*
+- on a *tie*, the *higher bonus* wins; if *bonuses* also tie, a *tie-break d20* decides
 
-- gates warehouse exit until payment clearance is on record
-- records the authorizing reference on the clearance event
-- rejects release if payment status is absent or failed
+---
 
-#### Decisions made
+### Decisions made
 
-- Clearance owns the gate decision; Billing owns the payment status that satisfies it.
+- Opposed Check is a subtype — it reuses the base resolution but changes what the DC is.
 
-#### References
+### References
 
-**Ref — Gate before ship**
-Source: Fulfillment requirements
-Locator: Operations manual 4.1
-Extract: partial
-
-```source
-A shipment may not leave the warehouse until payment clearance has been received
-and recorded against the shipment record.
-```
-
-### proof of delivery
-
-#### Domain Language
-
-- Confirmed when carrier posts a terminal scan or customer signs.
-- Conflicting signals require escalation.
-
-#### Domain Sketch
-
-The signal that closes the delivery loop; it works with carrier events and customer confirmations.
-
-- marks the shipment delivered when carrier scan or customer signature is present
-- escalates when carrier and customer signals conflict
-
-#### Decisions made
-
-- Escalation path (carrier vs. customer disagreement) is an open question for the domain expert.
-
-#### References
-
-**Ref — Delivery confirmation**
-Source: Fulfillment requirements
-Locator: Policy ch.4 (delivery)
+**Ref — Game Play**
+Source: context/rules/HeroesHandbook-rules__chunk_009.md
+Locator: lines 809–874
 Extract: whole
 
 ```source
-Delivery is confirmed when the carrier posts a terminal scan or the customer
-provides a signature. Conflicting signals require escalation to operations.
-```
-
-### International Shipment *is a type of* clearance
-
-#### Domain Language
-
-- Adds customs documentation and duty handling before the same exit rules apply.
-
-#### Domain Sketch
-
-Extends the clearance gate with customs prerequisites that domestic shipments do not have.
-
-- collects customs commodity codes for each line before gate evaluation
-- holds duty estimate until the broker accepts
-
-#### Decisions made
-
-- International Shipment is a subtype — it adds customs paperwork but reuses the same exit gate from the base.
-
-#### References
-
-**Ref — Broker filing**
-Source: Fulfillment requirements
-Locator: Customs addendum B
-Extract: partial
-
-```source
-International shipments require a commodity code for each line and a confirmed
-duty estimate from the licensed broker before the warehouse gate may open.
+…verbatim text…
 ```
 
 ---
 
 # Boundary Domain
 
-## payment status
+### Ubiquitous Language
 
-Owned by: Billing
+#### **Power Effect** *(owned by: Power)*
+- An effect is the basic building block of a power; it describes what a power does.
 
-#### Domain Language
+---
 
-- Determines whether shipment clearance is granted.
+### Domain Sketch
 
-#### References
+#### **Power Effect**
+- has a *rank* that determines the *resistance check* DC (DC = rank + 10)
+- may impose one or more *conditions* on a *character* based on *degree of failure*
+- may be *ongoing* — requires a *resistance check* at end of each of the target's turns
+- when the *resistance check* succeeds, the effect ends
+- when ended, all *conditions* it imposed are removed
 
-**Ref — Payment gate**
-Source: Fulfillment requirements
-Locator: Policy ch.4 (warehouse gate)
-Extract: partial
+---
+
+### Decisions made
+
+- Power Effect is a boundary concept — condition-selection rules belong to the Power module.
+
+### References
+
+**Ref — Resistance and Ongoing Effects**
+Source: context/rules/HeroesHandbook-rules__chunk_209.md
+Locator: lines 14791–14830
+Extract: whole
 
 ```source
-Clearance is contingent on a positive payment status signal from the Billing system.
+…verbatim text…
 ```
 ```

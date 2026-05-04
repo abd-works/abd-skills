@@ -74,7 +74,7 @@ A trait is the base abstraction for every quantifiable game characteristic a cha
 - is a *quantifiable characteristic* of a *character*
 - has exactly one *rank* — the single numeric value measuring its effectiveness
 - supplies its *rank* as the primary *modifier* for any *check* made using it; without a *trait* there is no *check*
-- may link to a *difficulty scale* — a set of named *difficulties* that define *difficulty classes* for *checks* of this *trait*
+- has a *difficulty ladder* — either a trait-specific one (e.g. *Athletics*, *Vehicles*) or the default ladder when no specific one exists
 - *abilities*, *defenses*, *skills*, *powers*, and *advantages* are all *traits* — each is a subtype owned by its own module
 
 #### Decisions made
@@ -209,12 +209,10 @@ Extract: whole
 #### Domain Sketch
 
 - is made *using* the *trait* of a *character*
-- is made *against* a *difficulty class* set by the *GM* or through a *difficulty scale*
+- is made *against* a *difficulty class* set by the *GM* or passing a selected *difficulty stage* from *difficulty ladder*
 - may have a *circumstance modifier* applied to the check *result* (±2 minor, ±5 major)
-- is resolved by *rolling* a *d20*, adding the *trait rank* and the *circumstance modifier* and comparing the *roll total* to the *difficulty class*
-- produces a *check result*
-- may be assisted by a *team check*
-- *difficulty class* comes from the *rules benchmark ladder*, *opposed totals*, *passive opposition* (*opposing modifier + 10*), or *effect rank* (*resistance*) — these are mechanisms in the rules, not a *Gamemaster* modeled as a domain object
+- is resolved by *rolling* a *d20*, adding the *trait rank* and the *circumstance modifier* and comparing the *roll total* to the *difficulty class*, producing a *check result* 
+
 - **Invariant:** shape is always *roll total* versus *difficulty class*; subtypes only vary how *total* or *DC* is produced
 
 #### Decisions made
@@ -295,71 +293,53 @@ Extract: whole
 
 ---
 
-### Difficulty Class (DC)
+### Difficulty Ladder
 
-#### Ubiquitous Language
+#### Domain Language
 
-- The DC is a number set by the GM that a check result must equal or exceed to succeed.
-- A standard difficulty scale runs from Very Easy (DC 0) through Nigh-Impossible (DC 40) in steps of 5.
-- In some cases the DC is set by another character's trait (opposed checks) or by an effect's rank (resistance checks, typically 10 + effect rank).
-
-#### References
-
-**Ref — Ch1 The Basics**
-Source: context/rules/HeroesHandbook-rules__chunk_005.md
-Locator: lines 244–284
-Extract: whole
-
-**Ref — Critical Success**
-Source: context/rules/HeroesHandbook-rules__chunk_010.md
-Locator: lines 875–930
-Extract: whole
-
----
-
-### Difficulty Scale
-
-#### Ubiquitous Language
-
-- A difficulty scale is a set of named difficulties for a trait, mapping difficulty descriptors (Very Easy, Easy, Average, Tough, Challenging, Formidable, Heroic, Super-heroic, Nigh-impossible) to DC values (0, 5, 10, 15, 20, 25, 30, 35, 40) with example tasks.
-- A trait may link to its own difficulty scale; each difficulty pairs a descriptor and DC with a task description showing what that level means for checks using that trait.
-- The standard Difficulty Classes scale is the general-purpose default; trait-specific scales (e.g. Vehicles Difficulties) reuse the same descriptor tiers but supply task descriptions specific to the trait.
+- A difficulty ladder is a ranked set of named *difficulty stages* for a trait, mapping stage descriptors (Very Easy, Easy, Average, Tough, Challenging, Formidable, Heroic, Super-heroic, Nigh-impossible) to DC values (0, 5, 10, 15, 20, 25, 30, 35, 40) with example tasks.
+- A trait may link to its own difficulty ladder; each stage pairs a descriptor and DC with a task description showing what that level means for checks using that trait.
+- The standard difficulty ladder is the general-purpose default; trait-specific ladders (e.g. Vehicles Difficulties) reuse the same descriptor stages but supply task descriptions specific to the trait.
 
 #### Domain Sketch
 
-- is a set of named *difficulties* 
-- is linked to a *trait*
-- provides the *GM* with defined *difficulty classes* 
-— can return a selected *difficulty* that is passed to a check rather than ana britarty  DC
-- provides a *Default Difficulty Sale* (Very Easy DC 0 … Nigh-impossible DC 40) when no *trait*-specific scale exists
-- trait-specific scales (e.g. *Vehicles Difficulties*) reuse the same *descriptor* tiers but supply *task descriptions* scoped to the *trait*
-- a *check* references the linked *trait's* *difficulty scale* to determine the *difficulty class* when the DC is not set by *opposition*, *effect rank*, or GM judgment
-
-### Difficulty
-
-#### Domain Sketch
-
-- is a single named entry within a *difficulty scale*
-- carries a *difficulty descriptor* (e.g. Easy, Challenging, Heroic), a *DC value* (in steps of 5, from 0 to 40), and a *task description* for the linked *trait*
-- the *difficulty descriptor* is the domain name — "Challenging" or "Formidable" — not a row number or index
+- is a ranked set of named *difficulty stages* linked to a *trait*
+- supplies the *GM* with calibrated *difficulty classes* drawn from named *difficulty stages* rather than an arbitrary numeric DC
+- provides a default ladder (Very Easy DC 0 through Nigh-impossible DC 40) when no *trait*-specific ladder exists
+- trait-specific ladders (e.g. *Vehicles Difficulties*) reuse the same *stage descriptor* names but supply *task descriptions* scoped to the *trait*
+- the *GM* may select a *difficulty stage* from the ladder and pass its *DC value* directly to a *check*
 
 #### Decisions made
 
-- *Difficulty Scale* is a concept, not a property of *Trait* or *DC* — it owns its own structure (a set of *difficulties*) and its own responsibility (providing a lookup of named difficulties for a specific trait).
-- *Difficulty* is a concept within a *Difficulty Scale* — each difficulty carries its own descriptor, DC, and task description; it is not a generic "row."
-- The general Difficulty Classes scale (DC 0–40) is the default instance of *Difficulty Scale*; trait-specific scales are specializations with task descriptions scoped to the trait.
+- *Difficulty Ladder* is a concept, not a property of *Trait* or *DC* — it owns its own structure (a ranked set of *difficulty stages*) and its own responsibility (providing calibrated named DCs for a specific trait).
+- The general Difficulty Classes ladder (DC 0–40) is the default instance; trait-specific ladders are not subtypes — they share the same stage structure but supply different task descriptions.
 
 #### References
 
 **Ref — Difficulty Classes**
 Source: context/rules/HeroesHandbook-rules__chunk_010.md
 Locator: lines 875–930
-Extract: Difficulty Classes scale (Very Easy DC 0 through Nigh-impossible DC 40 with example tasks)
+Extract: Difficulty Classes ladder (Very Easy DC 0 through Nigh-impossible DC 40 with example tasks)
 
-**Ref — Vehicles Difficulties**
-Source: context/rules/HeroesHandbook-rules__chunk_064.md
-Locator: lines 4046–4106
-Extract: Vehicles Difficulties scale (trait-specific difficulty descriptors with maneuver descriptions)
+**Ref — Assigning Difficulties**
+Source: context/rules/HeroesHandbook-rules__chunk_217.md
+Locator: lines 15152–15227
+Extract: Difficulty Class Examples table with same stage descriptors and DC values from GM chapter
+
+---
+
+### Difficulty Stage
+
+#### Domain Sketch
+
+- is a single named entry within a *difficulty ladder*
+- carries a *stage descriptor* (e.g. Easy, Challenging, Heroic), a *DC value* (in steps of 5 from 0 to 40), and a *task description* for the linked *trait*
+- the *stage descriptor* is the domain name used to communicate task difficulty — "Challenging" or "Formidable" — not a row number or index
+- supplies its *DC value* to a *check* when the GM selects this stage rather than setting a numeric DC directly
+
+#### Decisions made
+
+- *Difficulty Stage* is a concept within a *Difficulty Ladder* — each stage carries its own descriptor, DC, and task description; it is not a generic "row" or "entry."
 
 ---
 

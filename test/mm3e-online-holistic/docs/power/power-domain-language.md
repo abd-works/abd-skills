@@ -73,9 +73,7 @@ Scope: Power effects (Affliction through Weaken), power types, action/range/dura
 
 # Core Domain
 
-### effect
-
-#### Domain Language
+#### **effect**
 
 - An effect is the named, rules-defined game unit that produces a specific superheroic capability — it is the atomic building block from which all powers are constructed.
 - Every effect has five fixed properties assigned at acquisition: type, action, range, duration, and cost per rank.
@@ -111,11 +109,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_088.md
 Locator: lines 5800-5979
 Extract: whole
 
----
 
-### power
-
-#### Domain Language
+#### **power**
 
 - A power is the player-facing, named combination of one or more effects that appears on a character sheet — it is the game fiction label wrapped around the mechanical effect structure.
 - Powers cost power points equal to the sum of each included effect's (cost per rank × rank) plus any flat modifiers.
@@ -141,11 +136,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_155.md
 Locator: lines 11243-11446
 Extract: whole
 
----
 
-### power type
-
-#### Domain Language
+#### **power type**
 
 - Power type is the category label assigned to each effect that governs which general rules apply to it; the five types are Attack, Control, Defense, General, Movement, and Sensory.
 - Attack type effects require an attack check and allow targets a resistance check; they interact with combat rules (range, modifiers, defenses).
@@ -167,11 +159,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_087.md
 Locator: lines 5398-5799
 Extract: whole
 
----
 
-### base cost
-
-#### Domain Language
+#### **base cost**
 
 - Base cost is the unmodified power-point cost per rank for an effect as printed in the rules — the starting value before any extras or flaws are applied.
 - Base costs vary widely by effect scope: 1 pp/rank for simple effects (Damage, Protection), up to 7 pp/rank for versatile effects (Variable).
@@ -195,11 +184,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_140.md
 Locator: lines 9685-9745
 Extract: whole
 
----
 
-### cost per rank
-
-#### Domain Language
+#### **cost per rank**
 
 - Cost per rank is the final power-point cost paid for each rank of an effect after all per-rank extras and per-rank flaws have been applied to the base cost.
 - Formula: cost per rank = base cost + (sum of per-rank extras) − (sum of per-rank flaws).
@@ -224,11 +210,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_141.md
 Locator: lines 9746-9789
 Extract: whole
 
----
 
-### flat modifier
-
-#### Domain Language
+#### **flat modifier**
 
 - A flat modifier is a modifier applied to the final total cost of a power (after cost per rank × rank) rather than to the per-rank cost — it is a fixed-point adjustment, not rank-scaled.
 - Flat extras add points to the total (e.g., Accurate adds +1 pp per rank of bonus; Subtle adds +1 or +2 to total).
@@ -248,11 +231,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_140.md
 Locator: lines 9685-9745
 Extract: whole
 
----
 
-### extra
-
-#### Domain Language
+#### **extra**
 
 - An extra is a modifier that enhances an effect beyond its default behavior — it broadens the action type, extends range, changes duration, adds properties, or otherwise improves the effect.
 - Per-rank extras add their value (usually +1 per rank) to base cost to raise the cost per rank.
@@ -303,11 +283,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_148.md
 Locator: lines 10669-10715
 Extract: whole
 
----
 
-### flaw
-
-#### Domain Language
+#### **flaw**
 
 - A flaw is a modifier that limits an effect below its default behavior — it restricts action type, reduces range, narrows applicability, or imposes conditions that make the effect less useful.
 - Per-rank flaws subtract their value (usually −1 per rank) from base cost to lower the cost per rank.
@@ -358,11 +335,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_154.md
 Locator: lines 11138-11242
 Extract: whole
 
----
 
-### Affliction
-
-#### Domain Language
+#### **Affliction**
 
 - Affliction is an Attack type effect that imposes a set of three progressively worsening conditions on a target who fails a resistance check.
 - Default stat block: type Attack, action Standard, range Close, duration Instant, resistance Fortitude or Will (chosen at acquisition), cost 1 per rank.
@@ -384,11 +358,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_087.md
 Locator: lines 5398-5799
 Extract: whole
 
----
 
-### Blast (Damage, Ranged)
-
-#### Domain Language
+#### **Blast (Damage, Ranged)**
 
 - Blast is a shorthand name for a Damage effect with the Ranged extra applied — it is not a separate effect type but a very common preconfigured combination.
 - Stat block with Ranged extra: type Attack, action Standard, range Ranged, duration Instant, resistance Toughness, cost 2 per rank.
@@ -408,11 +379,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_097.md
 Locator: lines 6652-6710
 Extract: whole
 
----
 
-### Burrowing
-
-#### Domain Language
+#### **Burrowing**
 
 - Burrowing is a Movement type effect that grants the ability to move through earth, soil, clay, or rock.
 - Stat block: type Movement, action Free, range Personal, duration Sustained, cost 1 per rank.
@@ -427,11 +395,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_091.md
 Locator: lines 6171-6210
 Extract: whole
 
----
 
-### Communication
-
-#### Domain Language
+#### **Communication**
 
 - Communication is a Sensory type effect that allows the user to send and receive information over distance via a chosen sense type medium.
 - Stat block: type Sensory, action Free, range Rank range, duration Sustained, cost 4 per rank.
@@ -447,11 +412,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_092.md
 Locator: lines 6211-6335
 Extract: whole
 
----
 
-### Comprehend
-
-#### Domain Language
+#### **Comprehend**
 
 - Comprehend is a Sensory type effect that grants the ability to understand and communicate in otherwise incomprehensible languages or with beings not normally capable of language exchange.
 - Stat block: type Sensory, action None, range Personal, duration Permanent, cost 2 per rank.
@@ -466,11 +428,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_093.md
 Locator: lines 6336-6405
 Extract: whole
 
----
 
-### Concealment
-
-#### Domain Language
+#### **Concealment**
 
 - Concealment is a Sensory type effect that makes the character undetectable to a specific sense type, granting total concealment against that sense.
 - Stat block: type Sensory, action Free, range Personal, duration Sustained, cost 2 per rank.
@@ -491,11 +450,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_095.md
 Locator: lines 6472-6531
 Extract: whole
 
----
 
-### Create
-
-#### Domain Language
+#### **Create**
 
 - Create is a Control type effect that allows the character to form solid, physical objects from nothing (or from a specific medium defined by the descriptor).
 - Stat block: type Control, action Standard, range Ranged, duration Sustained, cost 2 per rank.
@@ -516,11 +472,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_087.md
 Locator: lines 5398-5799
 Extract: whole
 
----
 
-### Damage
-
-#### Domain Language
+#### **Damage**
 
 - Damage is the foundational Attack type effect — the direct, physical harm inflicted on a target through close combat.
 - Stat block: type Attack, action Standard, range Close, duration Instant, resistance Toughness, cost 1 per rank.
@@ -546,11 +499,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_099.md
 Locator: lines 6784-6850
 Extract: whole
 
----
 
-### Deflect
-
-#### Domain Language
+#### **Deflect**
 
 - Deflect is a Defense type effect that allows the character to protect themselves or others from ranged attacks at a distance.
 - Stat block: type Defense, action Standard (or Reaction with extra), range Ranged, duration Instant, cost 1 per rank.
@@ -570,11 +520,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_088.md
 Locator: lines 5800-5979
 Extract: whole
 
----
 
-### Elongation
-
-#### Domain Language
+#### **Elongation**
 
 - Elongation is a General type effect that allows the character to extend their body or limbs to reach targets or objects at a distance.
 - Stat block: type General, action Free, range Personal, duration Sustained, cost 1 per rank.
@@ -589,11 +536,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_087.md
 Locator: lines 5398-5799
 Extract: whole
 
----
 
-### Enhanced Trait
-
-#### Domain Language
+#### **Enhanced Trait**
 
 - Enhanced Trait is a General type effect that temporarily increases an existing trait (ability, skill, defense, or other) beyond its normal value.
 - Stat block: type General, action Free, range Personal, duration Sustained, cost equal to the base cost of the trait being enhanced per rank.
@@ -608,11 +552,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_101.md
 Locator: lines 6892-6936
 Extract: whole
 
----
 
-### Environment
-
-#### Domain Language
+#### **Environment**
 
 - Environment is a Control type effect that alters the environmental conditions in a radius area around the character or a designated point.
 - Stat block: type Control, action Standard, range Rank range, duration Sustained, cost 1–2 per rank depending on effects.
@@ -632,11 +573,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_103.md
 Locator: lines 6986-7064
 Extract: whole
 
----
 
-### Feature
-
-#### Domain Language
+#### **Feature**
 
 - Feature is a General type effect that represents minor, single-rank capabilities that have an actual game effect but don't fit another effect category.
 - Stat block: type General, action None, range Personal, duration Permanent, cost 1 per rank (each rank = one Feature).
@@ -656,11 +594,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_104.md
 Locator: lines 7065-7116
 Extract: whole
 
----
 
-### Flight
-
-#### Domain Language
+#### **Flight**
 
 - Flight is a Movement type effect that grants the ability to fly through the air.
 - Stat block: type Movement, action Free, range Personal, duration Sustained, cost 2 per rank.
@@ -681,11 +616,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_107.md
 Locator: lines 7255-7315
 Extract: whole
 
----
 
-### Growth
-
-#### Domain Language
+#### **Growth**
 
 - Growth is a General type effect that increases the character's physical size, improving physical abilities at the cost of defenses and stealth.
 - Stat block: type General, action Free, range Personal, duration Sustained, cost 2 per rank.
@@ -701,11 +633,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_087.md
 Locator: lines 5398-5799
 Extract: whole
 
----
 
-### Healing
-
-#### Domain Language
+#### **Healing**
 
 - Healing is a General type effect that removes damage conditions from a willing target.
 - Stat block: type General, action Standard, range Close, duration Instant, cost 2 per rank.
@@ -721,11 +650,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_108.md
 Locator: lines 7316-7409
 Extract: whole
 
----
 
-### Illusion
-
-#### Domain Language
+#### **Illusion**
 
 - Illusion is a Control type effect that creates false sensory impressions perceived by those in range.
 - Stat block: type Control, action Standard, range Perception, duration Sustained, cost 1–5 per rank depending on sense types covered.
@@ -746,11 +672,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_110.md
 Locator: lines 7458-7497
 Extract: whole
 
----
 
-### Immortality
-
-#### Domain Language
+#### **Immortality**
 
 - Immortality is a Defense type effect that allows the character to return from death.
 - Stat block: type Defense, action None, range Personal, duration Permanent, cost 2 per rank.
@@ -765,11 +688,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_111.md
 Locator: lines 7498-7571
 Extract: whole
 
----
 
-### Immunity
-
-#### Domain Language
+#### **Immunity**
 
 - Immunity is a Defense type effect that grants automatic success on resistance checks against a specified set of effects or hazards.
 - Stat block: type Defense, action None, range Personal, duration Permanent, cost 1 per rank.
@@ -790,11 +710,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_113.md
 Locator: lines 7615-7665
 Extract: whole
 
----
 
-### Insubstantial
-
-#### Domain Language
+#### **Insubstantial**
 
 - Insubstantial is a General type effect that allows the character to become partially or completely non-physical.
 - Stat block: type General, action Free, range Personal, duration Sustained, cost 5 per rank (4 ranks total for all forms).
@@ -815,11 +732,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_115.md
 Locator: lines 7734-7818
 Extract: whole
 
----
 
-### Leaping
-
-#### Domain Language
+#### **Leaping**
 
 - Leaping is a Movement type effect that greatly extends a character's jumping distance and height.
 - Stat block: type Movement, action Free, range Personal, duration Instant, cost 1 per rank.
@@ -834,11 +748,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_116.md
 Locator: lines 7819-7887
 Extract: whole
 
----
 
-### Luck Control
-
-#### Domain Language
+#### **Luck Control**
 
 - Luck Control is a Control type effect that allows the character to manipulate hero points and the Luck system.
 - Stat block: type Control, action Reaction, range Perception, duration Instant, cost 3 per rank.
@@ -853,11 +764,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_087.md
 Locator: lines 5398-5799
 Extract: whole
 
----
 
-### Mind Reading
-
-#### Domain Language
+#### **Mind Reading**
 
 - Mind Reading is a Sensory type effect that allows the character to access the thoughts of a target.
 - Stat block: type Sensory, action Standard, range Perception, duration Sustained, cost 2 per rank.
@@ -888,11 +796,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_120.md
 Locator: lines 8038-8096
 Extract: whole
 
----
 
-### Move Object
-
-#### Domain Language
+#### **Move Object**
 
 - Move Object is a Control type effect that allows the character to lift and move objects or unwilling targets at range using telekinesis, magnetism, or similar force.
 - Stat block: type Control, action Standard, range Ranged, duration Sustained, cost 2 per rank.
@@ -908,11 +813,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_122.md
 Locator: lines 8155-8245
 Extract: whole
 
----
 
-### Movement
-
-#### Domain Language
+#### **Movement**
 
 - Movement is a Movement type effect that grants one or more special locomotion modes, each at 1 rank per mode.
 - Stat block: type Movement, action Free, range Personal, duration Sustained, cost 2 per rank.
@@ -937,11 +839,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_087.md
 Locator: lines 5398-5799
 Extract: whole
 
----
 
-### Nullify
-
-#### Domain Language
+#### **Nullify**
 
 - Nullify is an Attack type effect that counters and disables other power effects matching a specified descriptor.
 - Stat block: type Attack, action Standard, range Ranged, duration Instant, cost 1 per rank.
@@ -957,11 +856,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_125.md
 Locator: lines 8353-8457
 Extract: whole
 
----
 
-### Protection
-
-#### Domain Language
+#### **Protection**
 
 - Protection is a Defense type effect that provides additional Toughness, hardening the character against damage.
 - Stat block: type Defense, action None, range Personal, duration Permanent, cost 1 per rank.
@@ -976,11 +872,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_126.md
 Locator: lines 8458-8500
 Extract: whole
 
----
 
-### Quickness
-
-#### Domain Language
+#### **Quickness**
 
 - Quickness is a General type effect that allows the character to perform routine tasks at superhuman speed.
 - Stat block: type General, action Free, range Personal, duration Sustained, cost 1 per rank.
@@ -995,11 +888,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_088.md
 Locator: lines 5800-5979
 Extract: whole
 
----
 
-### Regeneration
-
-#### Domain Language
+#### **Regeneration**
 
 - Regeneration is a Defense type effect that allows the character to recover from damage conditions over time.
 - Stat block: type Defense, action None, range Personal, duration Permanent, cost 1 per rank.
@@ -1014,11 +904,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_127.md
 Locator: lines 8501-8647
 Extract: whole
 
----
 
-### Remote Sensing
-
-#### Domain Language
+#### **Remote Sensing**
 
 - Remote Sensing is a Sensory type effect that displaces the character's senses to a distant location, allowing them to perceive events there.
 - Stat block: type Sensory, action Free, range Rank range, duration Sustained, cost 1–5 per rank based on sense types.
@@ -1033,11 +920,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_088.md
 Locator: lines 5800-5979
 Extract: whole
 
----
 
-### Senses
-
-#### Domain Language
+#### **Senses**
 
 - Senses is a Sensory type effect that allocates ranks to a variety of sensory enhancements, new sense types, or perceptive capabilities.
 - Stat block: type Sensory, action None, range Personal, duration Permanent, cost 1 per rank.
@@ -1077,11 +961,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_085.md
 Locator: lines 5315-5354
 Extract: whole
 
----
 
-### Shrinking
-
-#### Domain Language
+#### **Shrinking**
 
 - Shrinking is a General type effect that decreases the character's physical size, improving defenses and stealth at the cost of Strength and reach.
 - Stat block: type General, action Free, range Personal, duration Sustained, cost 2 per rank.
@@ -1097,11 +978,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_133.md
 Locator: lines 9007-9051
 Extract: whole
 
----
 
-### Speed
-
-#### Domain Language
+#### **Speed**
 
 - Speed is a Movement type effect that increases the character's ground movement speed.
 - Stat block: type Movement, action Free, range Personal, duration Sustained, cost 1 per rank.
@@ -1116,11 +994,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_088.md
 Locator: lines 5800-5979
 Extract: whole
 
----
 
-### Summon
-
-#### Domain Language
+#### **Summon**
 
 - Summon is a Control type effect that calls a minion (independently acting character) under the summoner's direction.
 - Stat block: type Control, action Standard, range Close, duration Sustained, cost 2 per rank.
@@ -1142,11 +1017,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_135.md
 Locator: lines 9211-9257
 Extract: whole
 
----
 
-### Swimming
-
-#### Domain Language
+#### **Swimming**
 
 - Swimming is a Movement type effect that grants enhanced aquatic movement speed.
 - Stat block: type Movement, action Free, range Personal, duration Sustained, cost 1 per rank.
@@ -1161,11 +1033,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_136.md
 Locator: lines 9258-9382
 Extract: whole
 
----
 
-### Teleport
-
-#### Domain Language
+#### **Teleport**
 
 - Teleport is a Movement type effect that allows the character to instantly move from one location to another.
 - Stat block: type Movement, action Move, range Rank range, duration Instant, cost 2 per rank.
@@ -1181,11 +1050,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_088.md
 Locator: lines 5800-5979
 Extract: whole
 
----
 
-### Transform
-
-#### Domain Language
+#### **Transform**
 
 - Transform is a Control type effect that changes one type of object into another type.
 - Stat block: type Control, action Standard, range Close, duration Sustained, cost 2–5 per rank depending on scope.
@@ -1206,11 +1072,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_121.md
 Locator: lines 8097-8154
 Extract: whole
 
----
 
-### Variable
-
-#### Domain Language
+#### **Variable**
 
 - Variable is a General type effect that provides a pool of power points the character can allocate to any effects matching a defined type or descriptor set.
 - Stat block: type General, action Standard, range Personal, duration Sustained, cost 7 per rank.
@@ -1226,11 +1089,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_138.md
 Locator: lines 9456-9560
 Extract: whole
 
----
 
-### Weaken
-
-#### Domain Language
+#### **Weaken**
 
 - Weaken is an Attack type effect that temporarily reduces a specific trait of the target.
 - Stat block: type Attack, action Standard, range Close, duration Instant, resistance Fortitude or Will (depending on trait type), cost 1 per rank.
@@ -1246,11 +1106,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_139.md
 Locator: lines 9561-9684
 Extract: whole
 
----
 
-### Accurate
-
-#### Domain Language
+#### **Accurate**
 
 - Accurate is an extra that improves the character's attack check bonus for a specific effect.
 - Type: flat extra; cost 1 point per +2 attack bonus (i.e., each rank of Accurate = +2 to attack checks, costing 1 flat point per rank of bonus).
@@ -1270,11 +1127,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_087.md
 Locator: lines 5398-5799
 Extract: whole
 
----
 
-### Area
-
-#### Domain Language
+#### **Area**
 
 - Area is an extra that removes the need for an attack check and instead affects all targets in a defined area.
 - Type: per-rank extra; cost +1 per rank.
@@ -1295,11 +1149,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_087.md
 Locator: lines 5398-5799
 Extract: whole
 
----
 
-### Multiattack
-
-#### Domain Language
+#### **Multiattack**
 
 - Multiattack is an extra that allows an effect to target multiple opponents or strike a single target multiple times in one action.
 - Type: per-rank extra; cost +1 per rank.
@@ -1314,11 +1165,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_146.md
 Locator: lines 10453-10574
 Extract: whole
 
----
 
-### Penetrating
-
-#### Domain Language
+#### **Penetrating**
 
 - Penetrating is an extra that allows an effect to overcome Impervious resistance.
 - Type: flat extra; cost 1 point per rank of Penetrating.
@@ -1333,11 +1181,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_141.md
 Locator: lines 9746-9789
 Extract: whole
 
----
 
-### Activation
-
-#### Domain Language
+#### **Activation**
 
 - Activation is a flaw that requires the character to spend an action activating the power before any of its effects become available.
 - Type: flat flaw; cost −1 (move action activation) or −2 (standard action activation) to the power's total cost.
@@ -1352,11 +1197,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_149.md
 Locator: lines 10716-10775
 Extract: whole
 
----
 
-### Check Required
-
-#### Domain Language
+#### **Check Required**
 
 - Check Required is a flaw that mandates a successful skill or ability check before the effect can function.
 - Type: flat flaw; cost −1 per rank of the effect.
@@ -1371,11 +1213,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_150.md
 Locator: lines 10776-10941
 Extract: whole
 
----
 
-### Limited
-
-#### Domain Language
+#### **Limited**
 
 - Limited is a flaw that restricts an effect to function only under certain circumstances, against certain targets, or in certain conditions.
 - Type: per-rank flaw; cost −1 per rank.
@@ -1390,11 +1229,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_140.md
 Locator: lines 9685-9745
 Extract: whole
 
----
 
-### Removable
-
-#### Domain Language
+#### **Removable**
 
 - Removable is a flaw that represents a power built into a device or object that can be taken away from the character.
 - Type: flat flaw; cost −1 per 5 points of the power's final cost (or −2 per 5 points if easily removable).
@@ -1409,11 +1245,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_153.md
 Locator: lines 11060-11137
 Extract: whole
 
----
 
-### descriptor
-
-#### Domain Language
+#### **descriptor**
 
 - A descriptor is a free label attached to a power that identifies its nature, medium, source, or results in thematic and mechanical terms.
 - Descriptors are not modifiers — they cost no power points; they are assigned to a power at acquisition and inform how it interacts with Immunity, Nullify, and narrative situations.
@@ -1438,11 +1271,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_157.md
 Locator: lines 11498-11554
 Extract: whole
 
----
 
-### origin descriptor
-
-#### Domain Language
+#### **origin descriptor**
 
 - An origin descriptor identifies how a character came to have their powers — the narrative source of the character's abilities.
 - Common origin descriptors: Accidental (radiation exposure, lab accident), Bestowed (given by an external force), Invented (technological creation), Mutant (innate genetic ability), Training (developed through practice and skill).
@@ -1456,11 +1286,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_155.md
 Locator: lines 11243-11446
 Extract: whole
 
----
 
-### source descriptor
-
-#### Domain Language
+#### **source descriptor**
 
 - A source descriptor identifies the energy or force that a power draws upon to function.
 - Common source descriptors: Biological, Cosmic, Divine, Extradimensional, Magical, Moral, Psionic, Technological.
@@ -1479,11 +1306,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_156.md
 Locator: lines 11447-11497
 Extract: whole
 
----
 
-### Array
-
-#### Domain Language
+#### **Array**
 
 - An Array is a collection of Alternate Effects (and optionally Dynamic Alternate Effects) grouped together under one power that share a single cost pool.
 - All effects in an Array are mutually exclusive — only one can be active at a time; activating one automatically deactivates the others.
@@ -1503,11 +1327,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_141.md
 Locator: lines 9746-9789
 Extract: whole
 
----
 
-### Alternate Effect
-
-#### Domain Language
+#### **Alternate Effect**
 
 - An Alternate Effect is a variant effect purchased at flat cost that allows the character to swap out the primary effect for an alternate one within a power Array.
 - Type: flat extra; cost 1 point per Alternate Effect added.
@@ -1527,11 +1348,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_141.md
 Locator: lines 9746-9789
 Extract: whole
 
----
 
-### Dynamic Alternate Effect
-
-#### Domain Language
+#### **Dynamic Alternate Effect**
 
 - A Dynamic Alternate Effect is a variant of the Alternate Effect that can share power points with other Dynamic effects and operate simultaneously at reduced effectiveness.
 - Type: flat extra; the base effect pays 1 extra point to become "dynamic"; each Dynamic Alternate Effect costs 2 flat points.
@@ -1550,57 +1368,43 @@ Extract: whole
 
 # Boundary Domain
 
-## power point
-
-Owned by: Character Construction
+#### **power point** *(owned by: Character Construction)*
 
 - The currency spent to acquire effects, traits, advantages, and skills at character creation and advancement.
 - Power point budget is set by power level (PL × 15 at creation); spending power points on effects is the primary mechanism for building powers.
 - Power belongs to this module only for effect cost calculation; the budget and economy are Character Construction concerns.
 
-## rank
-
-Owned by: Character Construction
+#### **rank** *(owned by: Character Construction)*
 
 - The numeric level of an effect, ability, skill, or other trait; effects are acquired in ranks and scale with rank.
 - Rank determines the scale, intensity, and reach of a power effect; the Power module uses rank as input to cost formulas and effect resolution.
 - The concept of rank as a general scaling mechanism is defined in Character Construction.
 
-## resistance check
-
-Owned by: Check Resolution
+#### **resistance check** *(owned by: Check Resolution)*
 
 - The check made by a target to resist a power effect; typically DC 10 + effect rank.
 - Every attack-type effect in this module specifies which resistance check applies (Toughness, Fortitude, Will, Dodge).
 - The mechanics of how checks are resolved, degrees of success/failure, and DC scaling belong to Check Resolution.
 
-## Toughness
-
-Owned by: Combat
+#### **Toughness** *(owned by: Combat)*
 
 - The defense used to resist Damage effects; derived from Stamina + Protection ranks + other bonuses.
 - Toughness is referenced by Damage, Blast, and similar effects in this module as the resistance check target.
 - Combat owns the Toughness defense calculation and damage condition application.
 
-## Fortitude
-
-Owned by: Combat
+#### **Fortitude** *(owned by: Combat)*
 
 - The defense used to resist Affliction effects targeting physical resilience and Weaken effects targeting physical traits.
 - Fortitude is referenced by Affliction and Weaken in this module as one of the selectable resistance checks.
 - Combat owns the Fortitude defense value and its interaction with conditions.
 
-## Will
-
-Owned by: Combat
+#### **Will** *(owned by: Combat)*
 
 - The defense used to resist mental Affliction, Mind Reading, and Will-targeted Weaken effects.
 - Will is referenced by Mind Reading, Affliction, and Weaken in this module.
 - Combat owns the Will defense value.
 
-## Dodge
-
-Owned by: Combat
+#### **Dodge** *(owned by: Combat)*
 
 - The defense used to avoid ranged attacks and Area effect Dodge saves (DC 10 + effect rank to take half).
 - Dodge is referenced by Blast, Area-extra effects, and Concealment targeting in this module.

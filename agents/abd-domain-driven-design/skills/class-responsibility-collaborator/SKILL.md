@@ -1,168 +1,164 @@
 ---
 name: class-responsibility-collaborator
 description: >-
-  For every domain concept: assign responsibility, name collaborators,
-  write lifecycle states and transitions, and declare invariants — all
-  in one structured pass before object-model.
+  For every domain concept: assign responsibilities, name collaborators,
+  and declare invariants — all in one structured pass before object-model.
 ---
 # class-responsibility-collaborator
 
 ## Purpose
 
-This skill refines a collection of domain concepts from context and defines each concept's ownership, collaborators, lifecycle states, and invariants — all in one structured pass. 
+This skill takes domain concepts from a completed domain sketch and produces a structured CRC model: for each concept, what it is responsible for, who it collaborates with, and what must always remain true. The result is a module file with `### Class Responsibility Collaborator` sections appended after the existing domain sketch content.
 
-**CRC (Class-Responsibility-Collaborator)** modeling. introduced by Ward Cunningham and Kent is lightweight way to explore object-oriented designs. A CRC model asks three questions per concept — what is it responsible for, what does it collaborate with, and what class does it belong to — so teams can role-play interactions and catch misplaced responsibilities before writing code. 
-
-This skill refines existing domain artifacts in context to formally structure each domain concept's authority and boundaries: what each one owns, who it depends on, how it changes over time, and what must always remain true. Teams use this to surface hidden coupling and agree on lifecycle rules before writing code.
+**CRC (Class-Responsibility-Collaborator)** modeling, introduced by Ward Cunningham and Kent Beck, is a lightweight way to explore object-oriented designs. This skill extends the classic technique by requiring explicit property and operation names, inline invariants, and subtype deltas — so the team can reason about ownership and boundaries before writing code.
 
 ---
 
 ## When to use this skill
 
-- You have a set of domain concepts with behaviors identified but ownership, boundaries, and lifecycle rules are not yet explicit.
-- The user asks to "run CRC," "assign responsibilities," "add lifecycle," or "elaborate invariants."
-- The user wants to understand or generate a class-responsibility-collaborator model.
-- The domain has sufficient complexity that explicit responsibility boundaries, lifecycle guards, and always-true constraints are worth modeling.
+- You have a completed domain sketch with behavior bullets but ownership, boundaries, and invariants are not yet explicit.
+- The user asks to "run CRC," "assign responsibilities," or "build the CRC."
+- The domain has sufficient complexity that explicit responsibility boundaries and always-true constraints are worth modeling.
 
 ---
 
 ## Core concepts
 
-### Class
+For OO fundamentals, read [`common/oo-concepts.md`](../../common/oo-concepts.md) in full before proceeding. The sections below cover only what is specific to the CRC format.
 
-A **class** in CRC modeling is any named domain concept that carries its own identity and behavior — not a programming-language class. It is distinct domain concept: each class gets its own CRC entry so the team can reason about what it owns, who it works with, and how it changes over time. Classes come from whatever domain analysis produced the concepts being refined.
+### The CRC block format
 
-Use Capital Case for each word in *Class Title*.
+Each concept gets one `#### **ConceptName**` block. Responsibilities are listed as rows in a two-column table separated by `|`: the left column names the responsibility, the right column names collaborators.
 
-### Responsibility
+```markdown
+#### **ConceptName**
+responsibility name         | Collaborator, Another Collaborator
+another responsibility      | Collaborator
+                            |   invariant: declarative constraint that must always hold
+```
 
-A **responsibility** is a short, capitalized phrase naming what a concept **must do** — the single concern it owns and no other concept should duplicate. The form is **Active Verb + Noun + optional Classifiers**, Title Case throughout (e.g. *Apply Condition to Character*, *Track Condition Source*, *Resolve Check Against Difficulty Class*). If a **domain sketch** is present, use each behavior bullet as the primary source: each bullet is already sharpened into one owned behavior — distill it into the verb-noun phrase that names the single concern this concept is the authority on.
+- **Left column** — the responsibility name. Use a **noun phrase** for state (something the concept holds or carries) and a **verb phrase** for behaviour (something the concept does). Use domain language vocabulary from the behavior bullet that inspired it — not bare nouns, not technical terms.
+- **Right column** — comma-separated collaborator class names, or a value description in parentheses for primitive/enum values.
+- **Invariants** — indented continuation rows `|   invariant:` under the responsibility they constrain.
+- **`|` separators** — align consistently within each block.
+
+### Subtypes
+
+Subtypes use `#### **ConceptName : BaseConcept**` on the heading line. The block lists **only delta responsibilities** — what the subtype adds or overrides. Inherited responsibilities are not repeated — see `## Inheritance and subtypes` in `oo-concepts.md` for the delta rule.
+
+```markdown
+#### **ConceptName : BaseConcept**
+added responsibility        | Collaborator
+                            |   invariant: constraint specific to this subtype
+```
+
+### Value objects and state-carrier classes
+
+When applying a concept to an entity requires state that is unique from the concept itself, introduce a separate **state-carrier class** — do not add that state to the concept or to the entity.
+
+- **`Condition`** is a value object: its values are *dazed*, *stunned*, etc. It holds the label, modifier, and supersession relationships that are the same for every character.
+- **`Imposed Condition`** is a state-carrier class: it manages the state required to impose a condition on a specific character — active/inactive status, suppressing condition, source. That state does not belong on `Condition` and should not be held on `Character`.
+
+Use the word *instance* only for values of a value object (e.g. *dazed* is an instance of `Condition`). Never use *instance* as a synonym for a separate state-carrier class.
+
+### Collection classes
+
+When a concept owns multiple related objects **and** the collection has unique behavior beyond holding them — such as supersession logic, end-of-turn checks, or add/remove rules — introduce a named collection class that owns that behavior.
+
+```markdown
+#### **Imposed Conditions**
+applied conditions          | Imposed Condition
+apply new condition         | Condition Source, Condition, Imposed Condition
+                            |   invariant: same-source more-severe — remove lesser
+                            |   invariant: different-source more-severe — park lesser as inactive
+```
 
 ### Collaborators
 
-**Collaborators** are the other domain classes this class works with to fulfill its responsibilities. The source depends on what artifact is available:
+Collaborators are the other domain classes a concept works with to fulfil a responsibility — the CRC-level record of the relationships described in `oo-concepts.md` (`## Relationships`). List every class that participates in making the responsibility work. Do not leave implied actors unnamed — if a behavior implies a chain of actors, every actor must appear as a collaborator on some responsibility.
 
-- **Domain sketch present** — derive from two signals: other domain concepts *referenced by name in the behavior bullets* (italicized terms that belong to a different class) and subtype edges (`### Child *is a type of* Parent` headings).
-
-- **No domain sketch** — derive from whatever prior artifact exists: cross-references between terms in **key abstractions**, named concepts in **domain language** definitions, or named concepts mentioned in **source material**. Any concept whose definition or behavior explicitly names another domain concept is a collaborator candidate.
-
-If a concept collaborates with many others it may be doing too much; if it collaborates with none it may be a data bag rather than a true domain object.
-
-
-*Condition* names *Character* (it enforces modifiers on the character) and *Condition Source* (it tracks the origin of the condition) in its behavior bullets — both are collaborators. *Condition Source* references nothing outside itself — `(none)`. *Character* names *Condition* — it carries them. *Power Effect* (boundary) names *Character* (who makes the resistance check) and *Condition* (which it removes on success) — boundary concepts can be collaborators when this module's behavior depends on them.
-
-
-
-### Subtype notation
-
-When a concept is a specialization, its name line uses **`Child : Parent`** notation. The child block states only delta responsibilities — what it adds or overrides — and inherits the rest from the parent.
-
-### State / lifecycle
-
-A **state/lifecycle** block names the **states** a concept can occupy, the **transitions** between them, and any **terminal states**. Illegal transitions — moves the domain explicitly forbids — are called out so they cannot be coded by accident. One concept, one lifecycle. If a concept has no meaningful states it is stateless and the block is marked `(stateless)`.
+A concept is **not** responsible for receiving an action directed at it. The receiver of an operation does not need a responsibility to be acted upon. The actor that performs the action owns the responsibility. Example: a `Power Effect` does not resist itself — a `Character` (via its traits) makes the resistance check. The effect may declare *what* is used to resist it (`resistance trait`), but it does not own the act of resisting.
 
 ### Invariants
 
-An **invariant** is a short declarative constraint — phrased with "must", "cannot", or "only if" — that the type enforces at all times. Invariants are not procedures; they describe what must remain true, not how to make it true. Tie each invariant to a state or transition when the connection is obvious. When the lifecycle is clear but invariants are not yet enumerable, write `(none yet)`.
+An **invariant** is a short declarative constraint — phrased as a statement of what must always be true — placed inline under the responsibility it constrains using `|   invariant:`. Invariants are not procedures; they describe constraints, not steps.
 
 ---
 
-## The shape of a CRC block
+## The shape of a module file
 
-Each concept from the sketch becomes one named block. The name is flush left; fields are indented beneath it. Subtypes use `Child : Parent` notation. Stateless concepts mark their lifecycle field `(stateless)`.
+Each knowledge area in the module file follows this structure:
 
 ```markdown
-# Module: [Check Resolution]
-...
-   
-###  Check
-using Trait | Trait
-against DC  | Difficulty Class
-modifier    | Game Modifier
- 
+## **Knowledge Area Name**
 
+<intro paragraph>
 
-    responsible: Resolve Action Outcome Against Difficulty Class
-    collaborators: Difficulty Class, Modifier
-    lifecycle: (stateless)
-    invariants: shape is always roll total versus difficulty class; subtypes only vary how total or DC is produced
+### Ubiquitous Language
 
-Difficulty Class
-    responsible: Hold Numeric Success Threshold
-    collaborators: (none)
-    lifecycle: (stateless)
-    invariants: (none)
+#### **ConceptName**
+- term definition
 
-Condition
-    responsible: Apply Named State and Modifiers to Character
-    collaborators: Check Result, Supersession Chain
-    lifecycle:
-        states: inactive, active, superseded, resolved
-        transitions: inactive → active (source effect imposed), active → superseded (more severe condition in chain applied from same source), active → resolved (source effect ends or successful resistance check)
-        illegal: resolved → active (a resolved condition cannot re-activate from the same source without a new imposition)
-        terminal: resolved
-    invariants:
-        - a condition already present in the supersession chain is overridden by the more severe one, never duplicated
-        - a combined condition is removed entirely when its source effect ends; its constituents do not revert to independent active states
+---
 
-Saving Throw : Check
-    responsible: Add Ability-Score Basis and Proficiency to Check
-    collaborators: Ability Score, Proficiency
-    lifecycle: (stateless)
-    invariants: (none)
+### Domain Sketch
 
+#### **ConceptName**
+- behavior bullet
 
+---
 
+### Class Responsibility Collaborator
 
-    ```
-Condition
-    State 
-    Penality | on Character
-    collaborators: Character, Condition Source
+#### **ConceptName**
+responsibility              | Collaborator
 
-Condition Source
-    responsible: Track Origin of Applied Condition
-    collaborators: (none)
+#### **ConceptName : BaseConcept**
+delta responsibility        | Collaborator
 
-Character
-    responsible: Carry Active and Inactive Conditions
-    collaborators: Condition
+---
 
-Power Effect  [boundary — owned by Power]
-    responsible: Require Resistance Check Each Turn When Ongoing
-    collaborators: Character, Condition
-``
+### Decisions made
+
+- decision rationale
+
+### References
+
+**Ref: ...**
 ```
+
+The Boundary Domain is one flat section — all boundary concepts share a single `### Ubiquitous Language`, `### Domain Sketch`, and `### Class Responsibility Collaborator` rather than being split into per-concept `##` sections.
 
 ---
 
 ## Build
 
-1. **Read the available artifacts.** Identify what is present. The **domain sketch** is the most relevant input — its sharpened behavior bullets map directly to responsibilities. In decreasing relevance: **key abstractions** (the most important core concepts in the domain — role, particpants, behaviors, interactions), **domain language** (term definitions with references), **raw source material** (rules text, specs, notes). If none of these exist, work from whatever unformed context is available — conversation, requirements, or descriptions. No single artifact is required.
-2. **Inventory concepts.** List every named domain concept from whatever artifact is available — `### Concept` headings in te source context.
-3. **Derive CRC fields.** For each concept, produce the first two fields using `templates/crc-outline-template.md`:
-   - **`responsible:`** — Active Verb + Noun + optional Classifiers, Title Case. Derive from behavior bullets if a domain sketch is present; otherwise from KA definitions, domain language entries, or source material descriptions.
-   - **`collaborators:`** — comma-separated list of other domain concepts this one works with. See **Collaborators** in Core concepts for how to derive these from each artifact type. Write `(none)` when there are none.
-4. **Derive lifecycle fields.** For each concept, scan its responsibilities and whatever artifact is available for state-shaped mechanics — state changes, threshold ladders, supersession, spend/recover. If found:
-   - **`lifecycle:`** — list named states, allowed transitions (one line each), illegal transitions, and terminal states.
-   - If stateless, write `lifecycle: (stateless)`.
-5. **Derive invariant fields.** For each concept, add declarative "must / cannot / only if" constraints as `invariants:` bullets. Tie to a state or transition when obvious. Write `(none yet)` when the lifecycle is clear but invariants are not yet enumerable. Write `(none)` for stateless concepts with no always-true constraints.
-6. **Write the `## CRC` section.** Append it after the existing Domain Sketch content in the module file. Group blocks by module when the file has multiple `## Module:` sections. Title Case English only — no method signatures, no typed properties.
-7. **Bump state.** Update the front matter `state:` field to `crc` if the module file has one.
+1. **Read the domain sketch.** Every behavior bullet is a candidate responsibility. Each `#### **ConceptName**` block seeds one CRC block.
+2. **Resolve slash terms.** Any concept named `A / B` in the domain sketch must be resolved to one canonical name before writing CRC blocks.
+3. **Identify state-carrier needs.** For each concept, ask: does applying this concept to an entity require state unique from the concept? If yes, introduce a state-carrier class.
+4. **Identify collection class needs.** For each entity that holds multiple related objects, ask: does managing that collection require unique behavior? If yes, introduce a collection class.
+5. **Write CRC blocks.** For each concept — including state-carriers and collection classes — produce a `#### **ConceptName**` block using the table format. Subtypes use `#### **ConceptName : BaseConcept**` and carry only deltas.
+6. **Trace every behavior to a responsibility.** Each behavior bullet in the domain sketch must be traceable to at least one responsibility (property or operation) in the CRC. If a bullet is missing coverage, add the responsibility or note the gap in Decisions.
+7. **Verify explicit chains.** For every responsibility that implies multiple actors or steps, confirm that every implied actor appears as a collaborator on some responsibility in the CRC. Nothing nebulous.
+8. **Append the CRC section.** Add `### Class Responsibility Collaborator` after `### Domain Sketch` within each knowledge-area section. Do not replace or modify prior content.
+9. **Bump state.** Update front matter `state:` to `crc`.
 
 ---
 
 ## Validate
 
-1. **Coverage.** Every concept and subtype from the Object Sketch has a corresponding CRC block.
-2. **Responsibility present.** Every block has a non-empty `responsible:` line.
-3. **Collaborators present.** Every block lists collaborators or says `(none)` explicitly.
-4. **Subtype notation.** Subtypes use `Child : Parent` and state only delta responsibilities.
-5. **Lifecycle present.** Every block has a `lifecycle:` field — either a populated block or `(stateless)`.
-6. **Invariants present.** Every block with a lifecycle has an `invariants:` field — populated, `(none yet)`, or `(none)`.
-7. **English only.** No method signatures, typed properties, or UML notation anywhere.
-8. **State marker.** Front matter reads `state: crc`.
-9. **Additive.** All prior content (Object Sketch, Domain-logic) is unchanged — CRC is appended, not substituted.
+1. **Coverage.** Every concept from the domain sketch has a CRC block.
+2. **No slash terms.** No `A / B` names appear in any CRC heading or block.
+3. **Property names.** Every property name is a noun phrase using domain vocabulary — no technical terms (`flag`, `boolean`, `list`, `type` as a bare noun).
+4. **Operation names.** Every operation name is a verb phrase.
+5. **Vocabulary tight.** Each responsibility name uses vocabulary from the behavior bullet that inspired it.
+6. **Subtype deltas only.** Subtype blocks contain only responsibilities that add or override the parent.
+7. **Collaborators explicit.** No responsibility with implied actors has an empty or vague collaborator column.
+8. **Receiver not responsible.** No concept has a responsibility that amounts to "receive X" or "be acted upon by X."
+9. **Invariants indented.** Invariant lines use `|   invariant:` with three spaces after the pipe.
+10. **`|` separators aligned.** Column separators are aligned within each block.
+11. **State marker.** Front matter reads `state: crc`.
+12. **Additive.** All prior content is unchanged — CRC is appended, not substituted.
 
 ---
 
@@ -171,37 +167,222 @@ Power Effect  [boundary — owned by Power]
 
 **Scanner:** Manual review
 
-The `collaborators:` line in each CRC block must list domain concepts that appear in the Object Sketch's collaboration lines or subtype edges for that concept. Concepts with no sketch collaborations must say `(none)` explicitly. Passing means every listed collaborator is traceable and no-collaborator blocks are marked. Failing means collaborators are invented, omitted without explanation, or left blank.
+The collaborator column in each CRC block must list domain concepts that appear in the domain sketch's behavior bullets or subtype edges for that concept. No collaborator may be invented. An empty collaborator column must contain a value description in parentheses (for primitives/enums) or be explicitly empty only when the responsibility truly has no collaborating concept.
 
 #### DO
 
-- List collaborators that correspond to sketch collaboration lines or subtype relationships.
+- List collaborators that correspond to concepts named in the behavior bullet.
 
-  **Example (pass):** Sketch says "Check — collaborates with → Difficulty Class, Modifier"; CRC block has `collaborators: Difficulty Class, Modifier`.
+  **Example (pass):** Sketch says "supersedes a less severe condition from the same source"; CRC has `supersede | Condition`.
 
-- Write `(none)` when a concept has no sketch collaborations.
+- Use a parenthetical value description for primitive/enum collaborators.
 
-  **Example (pass):**
+  **Example (pass):** `active status | (active or inactive)`
+
+#### DO NOT
+
+- Invent collaborators that have no basis in the domain sketch.
+
+  **Example (fail):** CRC block lists `Logger, EventBus` but neither concept appears anywhere in the sketch.
+
+- Leave the collaborator column blank without explanation.
+
+  **Example (fail):** `supersede |` with nothing on the right.
+
+**Source:** Engagement convention (class-responsibility-collaborator skill).
+
+### Rule: No technical terms in responsibility names
+
+**Scanner:** Manual review
+
+Responsibility names — both property names and operation names — must use domain language vocabulary. Technical implementation terms are forbidden.
+
+#### DO NOT use these terms (or their variants) in responsibility names:
+
+- `flag` → use a domain phrase like `is ongoing`
+- `boolean`, `bool` → use the domain state name
+- `list`, `array`, `collection` → introduce a named collection class instead
+- `type` as a bare noun → use a qualified domain noun
+- `status` as a bare noun → qualify it: `active status`, `activation status`
+- `own` as a prefix → use descriptive qualifiers from behavior language
+
+#### DO
+
+- Derive the noun or verb from the behavior bullet that inspired the responsibility.
+
+  **Example (pass):** Behavior says "penalizes a suffering character according to a game modifier" → property is `game modifier`, not `modifier` or `penalty`.
+
+  **Example (pass):** Behavior says "may be ongoing for a target character" → property is `is ongoing`, not `ongoing flag`.
+
+**Source:** Engagement convention (class-responsibility-collaborator skill).
+
+### Rule: Responsibility vocabulary matches inspiring behavior
+
+**Scanner:** Manual review (grammar/vocabulary spot-check)
+
+Each responsibility name must use vocabulary that is tight to the domain sketch behavior bullet that inspired it. The match need not be word-for-word, but the domain terms should be recognizable. A reader who sees the responsibility name and the behavior bullet should be able to connect them without explanation.
+
+#### DO
+
+- Use the key noun or verb from the behavior bullet.
+
+  **Example (pass):** Behavior: "carries *imposed conditions* via its *Imposed Conditions* collection" → responsibility: `imposed conditions | Imposed Conditions`.
+
+  **Example (pass):** Behavior: "is removed when its *condition source* ends" → operation: `end | Imposed Conditions`.
+
+#### DO NOT
+
+- Use a generic name that could apply to any concept.
+
+  **Example (fail):** Behavior says "enforces penalties and restrictions only when active" but responsibility is named `apply` — too vague.
+
+- Rename a domain term to a technical synonym.
+
+  **Example (fail):** Behavior says "imposing source" but responsibility is named `origin` or `source ref`.
+
+**Source:** Engagement convention (class-responsibility-collaborator skill).
+
+### Rule: Introduce a state-carrier class when application requires unique state
+
+**Scanner:** Manual review
+
+When applying a concept to an entity requires state that is unique from the concept itself — state that varies per application, per entity, or over time — introduce a separate state-carrier class. Do not add that state to the original concept or to the entity.
+
+#### DO
+
+- Introduce a state-carrier class when the applied state is distinct from the concept's definition.
+
+  **Example (pass):** `Condition` holds its label, modifier, and supersession relationships. `Imposed Condition` holds the active/inactive status, suppressing condition, and source — state that is unique to each application on a specific character.
+
+- Name the state-carrier after its role in the application: `Imposed Condition`, not `ConditionInstance` or `AppliedCondition`.
+
+#### DO NOT
+
+- Add per-application state to the value object concept.
+
+  **Example (fail):** Adding `active status` and `suppressing condition` directly to `Condition` — these vary per character and per imposition, not per condition type.
+
+- Add per-concept state to the entity that holds it.
+
+  **Example (fail):** Adding `active status` directly to `Character` — the character may carry many conditions, each with its own status.
+
+Use the word *instance* only for values of a value object (e.g. *dazed* is an instance/value of `Condition`). Never use *instance* as a synonym for a state-carrier class.
+
+**Source:** Engagement convention (class-responsibility-collaborator skill).
+
+### Rule: Introduce a collection class when the collection has unique behavior
+
+**Scanner:** Manual review
+
+When an entity owns multiple related objects and managing that collection requires unique behavior beyond simple holding — such as supersession logic, sequential processing, or constraint enforcement — introduce a named collection class that owns that behavior.
+
+#### DO
+
+- Introduce a collection class and give it the management responsibilities.
+
+  **Example (pass):** `Imposed Conditions` owns `apply new condition` with supersession invariants. `Character` simply holds `imposed conditions | Imposed Conditions`.
+
+#### DO NOT
+
+- Put collection management behavior directly on the entity.
+
+  **Example (fail):** `Character` owns `apply new condition` with all supersession logic — the character class becomes bloated with condition-management concerns.
+
+- Leave collection management implied without a named owner.
+
+  **Example (fail):** Writing "character tracks ongoing effects" in the domain sketch with no named class to own the tracking.
+
+**Source:** Engagement convention (class-responsibility-collaborator skill).
+
+### Rule: Every domain sketch behavior has a backing responsibility
+
+**Scanner:** Manual review
+
+Each behavior bullet in the domain sketch must be traceable to at least one responsibility (property or operation) in the CRC block for the same concept. Behaviors that produce no CRC entry must be explained in the Decisions section.
+
+#### DO
+
+- For every behavior bullet, produce at least one property or operation.
+
+  **Example (pass):** Sketch: "makes checks using its traits" → CRC has `traits | Trait`.
+
+  **Example (pass):** Sketch: "carries imposed conditions" → CRC has `imposed conditions | Imposed Conditions`.
+
+#### DO NOT
+
+- Leave a behavior bullet with no corresponding CRC entry and no decision note.
+
+  **Example (fail):** Sketch says "has a difficulty ladder" but no property for it appears in the CRC block.
+
+**Source:** Engagement convention (class-responsibility-collaborator skill).
+
+### Rule: A concept is not responsible for being acted upon
+
+**Scanner:** Manual review
+
+The receiver of an action does not need a responsibility to receive it. Only the actor that performs the action owns the responsibility. If a behavior describes something happening *to* a concept, look for the acting concept and place the responsibility there.
+
+#### DO
+
+- Place the responsibility on the concept that performs the action.
+
+  **Example (pass):** A character makes a resistance check against a power effect. The `Character` (via `Ongoing Effects`) owns `make resistance check for ongoing targets`. The `Power Effect` owns `resistance trait` (declaring how it is resisted) — not a `resist` operation.
+
+#### DO NOT
+
+- Give a concept a responsibility that amounts to "be resisted," "be applied to," or "receive X."
+
+  **Example (fail):** `Power Effect` has `resist | Resistance Check` — the effect does not resist itself.
+
+  **Example (fail):** `Character` has `receive condition | Condition` — the character does not receive; the `Imposed Conditions` collection applies it.
+
+**Source:** Engagement convention (class-responsibility-collaborator skill).
+
+### Rule: Explicit chain of responsibility — no nebulous behaviors
+
+**Scanner:** Manual review
+
+When a behavior implies a chain of actors or steps, every actor in that chain must be traceable to a property or operation with explicit collaborators in the CRC. Nothing may be left implied or nebulous.
+
+#### DO
+
+- Trace each step in the chain to a named responsibility with collaborators.
+
+  **Example (pass):** Behavior: "may be ongoing for a target character: requires a resistance check at the end of each of the target's turns until ended."
+  CRC produces:
   ```
-  Modifier
-      responsible: represents a single numeric adjustment to a check
-      collaborators: (none)
+  ongoing targets             | Character
+  make resistance check       | Character, Check
+                              |   invariant: check made at end of each ongoing target's turn
   ```
 
 #### DO NOT
 
-- Invent collaborators that have no basis in the Object Sketch.
+- Write a property and leave the downstream action it implies without an owner.
 
-  **Example (fail):** CRC block lists `collaborators: Logger, EventBus` but neither concept appears anywhere in the sketch.
+  **Example (fail):** CRC has `is ongoing | (active or ended)` with no corresponding operation for who tracks ongoing targets or who triggers the end-of-turn check.
 
-- Leave the collaborators line blank or omit it entirely.
+- Leave "may" or "requires" language in a behavior without modeling the full chain.
 
-  **Example (fail):**
-  ```
-  Check
-      responsible: resolves whether an attempted action succeeds or fails
-      collaborators:
-  ```
+**Source:** Engagement convention (class-responsibility-collaborator skill).
+
+### Rule: Slash terms resolved before CRC
+
+**Scanner:** Manual review
+
+Any concept named `A / B` in the domain sketch must be resolved to one canonical name before writing CRC blocks. Slash terms are acceptable in domain sketch headers as working hedges, but must not appear in CRC headings or responsibility names.
+
+#### DO
+
+- Choose one name and use it consistently throughout the CRC section.
+
+  **Example (pass):** Domain sketch has `#### **Check Result / Graded Check Result**` → CRC uses `#### **Check Result**` throughout.
+
+#### DO NOT
+
+- Use slash notation in any CRC heading or block.
+
+  **Example (fail):** `#### **Check Result / Graded Check Result**` appears in the CRC section.
 
 **Source:** Engagement convention (class-responsibility-collaborator skill).
 
@@ -209,123 +390,86 @@ The `collaborators:` line in each CRC block must list domain concepts that appea
 
 **Scanner:** Manual review
 
-The entire CRC section — responsibilities, rejections, collaborators, lifecycle transitions, and invariants — must be written in plain English. No method signatures, typed parameters, return types, UML notation, cardinality markers, or code-level constructs are permitted anywhere. Passing means every line reads as a natural-language sentence or phrase. Failing means design-level notation has leaked into any field.
+Responsibility names, collaborator names, and invariants must be written in plain domain language. No method signatures, typed parameters, return types, UML notation, or code-level constructs are permitted.
 
 #### DO
 
-- Write responsibilities, rejections, and collaborator descriptions in prose.
+- Write responsibility names as noun or verb phrases.
 
-  **Example (pass):** `responsible: resolves whether an attempted action succeeds or fails against a target difficulty`
-
-- Describe lifecycle transitions and constraints in natural English.
-
-  **Example (pass):** `transitions: inactive → active (source effect imposed), active → resolved (source effect ends or resistance check succeeds)`
+  **Example (pass):** `resolve | D20, Trait, Circumstance Modifier, Difficulty Class, Check Result`
 
 - Write invariants as declarative English statements.
 
-  **Example (pass):** `- a condition already present in the supersession chain is overridden by the more severe one, never duplicated`
+  **Example (pass):** `|   invariant: only active conditions apply modifiers`
 
 #### DO NOT
 
 - Include operation signatures with parameters or return types.
 
-  **Example (fail):** `responsible: resolve(roll: int, dc: int) -> bool`
+  **Example (fail):** `resolve(roll: int, dc: int) -> bool`
 
-- Use typed property declarations.
-
-  **Example (fail):** `responsible: stores result: CheckResult and modifiers: List<Modifier>`
-
-- Include UML or cardinality notation in collaborators.
+- Use UML or cardinality notation.
 
   **Example (fail):** `collaborators: DifficultyClass 1..1, Modifier 0..*`
 
 - Use code-style boolean expressions in invariants.
 
-  **Example (fail):** `invariants: damage >= threshold && !isImmune` — write "damage equals or exceeds the threshold and the character is not immune" instead.
+  **Example (fail):** `invariant: damage >= threshold && !isImmune`
 
 **Source:** Engagement convention (class-responsibility-collaborator skill).
 
-### Rule: Every concept from object sketch has a CRC block
+### Rule: Every concept from domain sketch has a CRC block
 
 **Scanner:** Manual review
 
-After CRC enrichment, every concept and subtype heading from the Object Sketch section must have a corresponding CRC block in the CRC section. No concept may be silently dropped. Passing means every concept is accounted for. Failing means a concept exists in the Object Sketch but has no CRC block.
+After CRC enrichment, every concept from the domain sketch must have a corresponding CRC block. No concept may be silently dropped.
 
 #### DO
 
-- Create a CRC block for each `### Concept` heading in the Object Sketch.
-
-  **Example (pass):** Object Sketch has `### Check`, `### Difficulty Class`, `### Trait` — CRC section has blocks named `Check`, `Difficulty Class`, `Trait`.
-
-- Create a CRC block for each `### Subtype *is a type of* Base` heading in the Object Sketch.
-
-  **Example (pass):** Object Sketch has `### Saving Throw *is a type of* Check` — CRC section has a block `Saving Throw : Check`.
+- Create a CRC block for each `#### **ConceptName**` heading in the domain sketch.
 
 #### DO NOT
 
 - Drop a concept without creating a CRC block for it.
 
-  **Example (fail):** `### Trait` exists in the Object Sketch but no CRC block mentions Trait — it simply vanished.
+  **Example (fail):** Sketch has `#### **Trait**` but no CRC block mentions Trait.
 
-- Introduce a CRC block that has no corresponding concept in the Object Sketch.
+- Introduce a CRC block that has no corresponding concept in the sketch.
 
-  **Example (fail):** A CRC block for "Resolution Engine" appears but no concept heading in the sketch supports it.
+  **Example (fail):** A CRC block for `Resolution Engine` appears but no concept heading in the sketch supports it.
 
 **Source:** Engagement convention (class-responsibility-collaborator skill).
 
-### Rule: Invariants present for lifecycle concepts
+### Rule: Subtypes use ConceptName : BaseConcept on the heading line
 
 **Scanner:** Manual review
 
-Every concept that has a populated `lifecycle:` block must also have an `invariants:` field with at least one declarative constraint or an explicit `(none yet)` placeholder. Stateless concepts must have `invariants: (none)` or a value. Passing means every CRC block has an invariants field. Failing means a block with a lifecycle has no invariants field at all.
+When a concept is a specialization of another, its CRC heading must use `#### **ConceptName : BaseConcept**` notation. The block states only delta responsibilities — what it adds or overrides — and inherits the rest from the parent silently.
 
 #### DO
 
-- Add at least one invariant tied to the lifecycle for stateful concepts.
+- Use `#### **ConceptName : BaseConcept**` for subtypes.
 
   **Example (pass):**
   ```
-  Condition
-      ...
-      lifecycle:
-          states: inactive, active, superseded, resolved
-          ...
-      invariants:
-          - a condition already present in the supersession chain is overridden by the more severe one, never duplicated
-          - a combined condition is removed entirely when its source effect ends
+  #### **Opposed Check : Check**
+  use opposing trait          | Trait
+                              |   invariant: both sides resolve as standard Checks; higher result wins
   ```
 
-- Use `(none yet)` when the lifecycle is clear but invariants are not yet enumerable.
+- State only delta responsibilities.
 
-  **Example (pass):**
-  ```
-  Check Result
-      ...
-      lifecycle:
-          states: pending, succeeded, failed
-          ...
-      invariants: (none yet)
-  ```
-
-- Use `(none)` for stateless concepts with no always-true constraints.
-
-  **Example (pass):**
-  ```
-  Difficulty Class
-      ...
-      lifecycle: (stateless)
-      invariants: (none)
-  ```
+  **Example (pass):** Parent `Check` owns `resolve`; subtype `Opposed Check : Check` adds only `use opposing trait` and its invariants.
 
 #### DO NOT
 
-- Write a lifecycle block and omit the `invariants:` field entirely.
+- Use the domain sketch English form `*is a type of*` in CRC headings.
 
-  **Example (fail):** A CRC block ends after `lifecycle: states: ...` with no `invariants:` line — reader cannot tell whether constraints were considered.
+  **Example (fail):** `#### **Opposed Check** *(is a type of Check)*`
 
-- Duplicate lifecycle transitions as pseudo-invariants.
+- Duplicate parent responsibilities in the subtype block.
 
-  **Example (fail):** `invariants: must transition from inactive to active before resolving` — that is a transition rule, not a declarative constraint on what must always be true.
+  **Example (fail):** `Opposed Check` repeats `use trait`, `use difficulty class`, `apply circumstance` — those are identical to the parent and must not be restated.
 
 **Source:** Engagement convention (class-responsibility-collaborator skill).
 
@@ -333,113 +477,16 @@ Every concept that has a populated `lifecycle:` block must also have an `invaria
 
 **Scanner:** Manual review
 
-After this skill runs, the module file's YAML front matter must contain `state: crc`. Passing means the marker is present and correct. Failing means the marker is missing, still shows a previous state, or has a typo.
+After this skill runs, the module file's YAML front matter must contain `state: crc`.
 
 #### DO
 
 - Set the front matter to exactly `state: crc`.
 
-  **Example (pass):**
-  ```
-  ---
-  state: crc
-  ---
-  ```
-
 #### DO NOT
 
-- Leave the state at `domain-sketch` (the previous step).
-
-  **Example (fail):**
-  ```
-  ---
-  state: domain-sketch
-  ---
-  ```
-
+- Leave the state at `domain-sketch`.
 - Omit the front matter entirely.
-
-  **Example (fail):** File starts with `## Module:` and has no YAML front matter.
-
-**Source:** Engagement convention (class-responsibility-collaborator skill).
-
-### Rule: Stateful concepts have lifecycle blocks
-
-**Scanner:** Manual review
-
-Every concept whose responsibilities or sketch behaviors imply state changes, threshold ladders, supersession, or spend/recover must have either a populated `lifecycle:` block or `lifecycle: (stateless)`. Passing means no concept with state-shaped mechanics is left without coverage. Failing means a concept's mechanics imply state but its CRC block has no lifecycle field.
-
-#### DO
-
-- Add a populated lifecycle block for concepts with state-shaped mechanics.
-
-  **Example (pass):**
-  ```
-  Condition
-      ...
-      lifecycle:
-          states: inactive, active, superseded, resolved
-          transitions: inactive → active (source effect imposed), active → resolved (source effect ends)
-          illegal: resolved → active (cannot re-activate from same source without new imposition)
-          terminal: resolved
-  ```
-
-- Write `lifecycle: (stateless)` for concepts that appear in CRC but own no state changes.
-
-  **Example (pass):**
-  ```
-  Difficulty Class
-      responsible: holds the numeric threshold an action must meet or exceed to succeed
-      ...
-      lifecycle: (stateless)
-  ```
-
-#### DO NOT
-
-- Omit the `lifecycle:` field entirely.
-
-  **Example (fail):** A CRC block for `Condition` ends after `collaborators:` with no `lifecycle:` line — reader cannot tell whether lifecycle was considered.
-
-- Assume a concept is stateless without checking its sketch behavior bullets.
-
-  **Example (fail):** `Condition` has sketch behaviors "applied, superseded, resolved" but is given `lifecycle: (stateless)` without any reasoning.
-
-**Source:** Engagement convention (class-responsibility-collaborator skill).
-
-### Rule: Subtypes use Child : Parent on the name line
-
-**Scanner:** Manual review
-
-When a concept is a specialization of another, its CRC block name line must use `Child : Parent` notation. The block states only delta responsibilities — what the subtype adds or overrides beyond the base. Passing means subtypes are correctly notated and carry only deltas. Failing means subtypes use the wrong format or duplicate base responsibilities.
-
-#### DO
-
-- Use `Child : Parent` on the name line for subtypes.
-
-  **Example (pass):**
-  ```
-  Saving Throw : Check
-      responsible: adds an ability-score basis and proficiency eligibility on top of the base check resolution
-      collaborators: Ability Score, Proficiency
-  ```
-
-- State only delta responsibilities that the subtype adds beyond what the parent already owns.
-
-  **Example (pass):** Parent `Check` owns resolution; subtype `Saving Throw : Check` adds only "adds an ability-score basis."
-
-#### DO NOT
-
-- Use the Object Sketch English heading form in CRC blocks.
-
-  **Example (fail):** `Saving Throw *is a type of* Check` — CRC uses `:` notation, not the sketch's English form.
-
-- Use code-style inheritance syntax.
-
-  **Example (fail):** `SavingThrow extends Check` or `class SavingThrow(Check)`
-
-- Duplicate base responsibilities in the subtype block.
-
-  **Example (fail):** Subtype repeats "resolves whether an attempted action succeeds or fails" — that belongs on the parent `Check` only.
 
 **Source:** Engagement convention (class-responsibility-collaborator skill).
 <!-- execute_rules:bundle_rules:end -->

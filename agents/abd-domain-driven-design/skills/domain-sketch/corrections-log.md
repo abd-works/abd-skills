@@ -45,3 +45,21 @@ Source: domain-sketch skill (pipeline runs)
 - **Likely source:** prompt gap — the domain-sketch skill does not instruct verifying that each bullet's subject matches the concept being described before writing parentheticals that cross into a collaborator's responsibility.
 
 ---
+
+## Entry: Behavior and its produced result written as separate bullets
+
+- **Status:** confirmed
+- **Context:** domain-sketch — check-resolution module, `### check > Domain Sketch`
+- **DO:** When a behavior bullet directly produces a result, write the result on the same line as the behavior. Do not separate them into two bullets.
+- **Example (wrong):**
+  ```
+  - is resolved by *rolling* a *d20*, adding the *trait rank* and the *circumstance modifier* and comparing the *roll total* to the *difficulty class*
+  - produces a *check result*
+  ```
+  Two separate bullets when the second is the direct output of the first.
+- **Example (correct):**
+  `- is resolved by *rolling* a *d20*, adding the *trait rank* and the *circumstance modifier* and comparing the *roll total* to the *difficulty class*, producing a *check result*`
+  Cause and result on the same line.
+- **Likely source:** prompt gap — the domain-sketch skill does not instruct combining a behavior and its immediate produced result onto a single bullet.
+
+---

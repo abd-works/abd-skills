@@ -24,4 +24,10 @@ When a concept in this module defines something that another module enforces or 
 
   **Example (fail):** "Condition enforcement is handled elsewhere." — which module? What mechanism? What crosses the boundary?
 
+## Additional requirements for CRC continuity
+
+Concept names used in boundary concept blocks must carry through exactly to the CRC file. If a boundary concept is named `Power Effect` in the domain sketch, it must be named `Power Effect` in every CRC heading and collaborator reference — not `Effect`, `power effect`, or any variation.
+
+Slash terms (`A / B`) in boundary concept headings must be resolved to one canonical name before CRC. Flag unresolved slash terms explicitly in the domain sketch as a signal to the CRC stage.
+
 **Source:** Correction 24 (mm3e-online-holistic engagement).

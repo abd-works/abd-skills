@@ -4,21 +4,40 @@
   The file already exists at state: domain-language.
   This skill enriches it in place. Key changes this phase makes:
 
-    1. Inserts ## <Key Abstraction> grouping headings above the ### term groups they own
-    2. Writes a prose definition paragraph for each ## KA (role, boundary,
-       responsibilities, rules/invariants — woven into flowing prose)
-    3. Adds #### Decisions made under each ## KA prose definition
-    4. Adds fenced `source` blocks beneath every **Ref —** entry
-    5. Records any moved terms in **Moved to other modules**
-    6. Bumps state to key-abstractions
+    1. Inserts ## **Key Abstraction** grouping headings above the term groups they own
+    2. Writes a prose definition paragraph for each ## KA
+    3. Adds ### Ubiquitous Language under each ## KA (containing #### **term** sub-sections)
+    4. Adds ### Decisions made under each ## KA
+    5. Adds fenced `source` blocks beneath every **Ref —** entry
+    6. Records any moved terms in **Moved to other modules**
+    7. Bumps state to key-abstractions
+
+  Structure per KA:
+    ## **KA Name**
+      prose definition paragraph
+      ### Ubiquitous Language
+        #### **term**
+          - behavioral line
+          #### References
+            **Ref —** ...
+      ---
+      ### Decisions made
+        - decision
+
+  Boundary Domain is one flat section:
+    # Boundary Domain
+      ### Ubiquitous Language
+        #### **boundary_term** *(owned by: Module)*
+          - behavioral line
+      ---
+      ### References
 
   Contract:
-    - Every ### term from UDL stage is preserved, unchanged, under exactly one ## KA
-    - #### Domain Language bullets: unchanged
-    - #### References: source blocks added beneath every Ref entry
-    - # Boundary Domain terms: ## heading, Owned by: preserved, source blocks added
+    - Every term from domain-language stage is preserved, unchanged, under exactly one ## KA
+    - #### **term** Domain Language bullets: unchanged
+    - References: source blocks added beneath every Ref entry
     - Terms moved out recorded in **Moved to other modules** list
-    - No Intent:, Shape hint:, Tension:, labeled sections (Role:, Boundary:, etc.) — prose only
+    - No Intent:, Shape hint:, Tension:, or other labeled sub-sections — prose only in KA definition
 -->
 
 ---
@@ -41,24 +60,18 @@ Scope: {{scope from partition — unchanged}}
 
 # Core Domain
 
-## {{KAName}}
+## **{{KAName}}**
 
 {{1–2 paragraphs of flowing prose defining this Key Abstraction. Covers what
 unique role it plays, what it owns (boundary), what it does (responsibilities),
 and what must always be true (rules/invariants). Woven together naturally —
 not as labeled sections. Mentions interactions with other KAs by name.}}
 
-#### Decisions made
+### Ubiquitous Language
 
-- {{independence-test call, module-fit call, grouping call, or open question with reasoning}}
-- {{…}}
-
-### {{term_name}}
-
-#### Domain Language
-
-- {{behavioral line from UDL — unchanged}}
-- {{behavioral line from UDL — unchanged}}
+#### **{{term_name}}**
+- {{behavioral line from domain-language — unchanged}}
+- {{behavioral line from domain-language — unchanged}}
 
 #### References
 
@@ -71,12 +84,7 @@ Extract: whole
 {{verbatim text copied byte-for-byte from the source chunk}}
 ```
 
----
-
-### {{another_term}}
-
-#### Domain Language
-
+#### **{{another_term}}**
 - {{behavioral line — unchanged}}
 
 #### References
@@ -92,18 +100,19 @@ Extract: whole
 
 ---
 
-## {{AnotherKAName}}
+### Decisions made
+
+- {{independence-test call, module-fit call, grouping call, or open question with reasoning}}
+
+---
+
+## **{{AnotherKAName}}**
 
 {{Prose definition paragraph(s) for this KA.}}
 
-#### Decisions made
+### Ubiquitous Language
 
-- {{…}}
-
-### {{term_name}}
-
-#### Domain Language
-
+#### **{{term_name}}**
 - {{behavioral line — unchanged}}
 
 #### References
@@ -116,17 +125,20 @@ Extract: whole
 ```source
 {{verbatim text}}
 ```
+
+---
+
+### Decisions made
+
+- {{…}}
 
 ---
 
 # Boundary Domain
 
-## {{boundary_term}}
+### Ubiquitous Language
 
-Owned by: {{module — unchanged}}
-
-#### Domain Language
-
+#### **{{boundary_term}}** *(owned by: {{Module}})*
 - {{behavioral line — unchanged}}
 
 #### References
@@ -144,7 +156,7 @@ Extract: whole
 
 <!-- EXAMPLE — delete this section after using the template. -->
 
-## Example (filled)
+## Example (filled — Check Resolution module)
 
 ```markdown
 ---
@@ -154,45 +166,22 @@ state: key-abstractions
 # Module: [Check Resolution]
 
 Scope: The d20 resolution mechanic (roll + modifier vs DC), checks (routine,
-opposed, resistance), degrees of success/failure, measurements and the
-Rank/Measure table, and conditions (basic and combined).
-
-**Core terms**:
-- d20
-- check
-- Difficulty Class (DC)
-- modifier
-- condition
-
-**Moved to other modules**:
-- hero point → Combat
-- extra effort → Combat
+opposed, resistance), degrees of success/failure, and conditions.
 
 ---
 
 # Core Domain
 
-## Check
+## **Check**
 
 A check is the core resolution mechanic — the single mechanism through which
-any uncertain outcome in the game is determined. It interacts with Trait
-(supplying the modifier), Difficulty Class (setting the threshold), and Degree
-(interpreting the margin). The check owns the roll-plus-modifier-versus-DC
-formula and serves as the single source of truth for whether an action succeeds
-or fails; no other abstraction may duplicate this determination. A check must
-always produce a binary success/failure result. The GM sets the DC; the player
-rolls and applies modifiers.
+any uncertain outcome in the game is determined. It owns the roll-plus-modifier-
+versus-DC formula and serves as the single source of truth for whether an action
+succeeds or fails.
 
-#### Decisions made
+### Ubiquitous Language
 
-- Degree is a part of Check, not its own KA — it has no meaning outside a check (independence test).
-- DC is kept under Check rather than made standalone — it is always set in the context of a check.
-- Modifier stays under Check — it is the numeric contribution of a trait to a specific check, not an independent concept.
-
-### check
-
-#### Domain Language
-
+#### **check**
 - A check is d20 + trait rank (plus modifiers) vs DC; equal or above is success.
 - Whenever a character attempts something where outcome is in doubt, it requires a check.
 
@@ -208,10 +197,7 @@ GAME PLAY
 …verbatim text from chunk…
 ```
 
-### Difficulty Class (DC)
-
-#### Domain Language
-
+#### **Difficulty Class (DC)**
 - The DC is a number set by the GM that a check result must equal or exceed.
 - A standard difficulty scale runs from Very Easy (DC 0) through Nigh-Impossible (DC 40).
 
@@ -229,14 +215,18 @@ CH1 THE BASICS
 
 ---
 
+### Decisions made
+
+- Degree is a part of Check, not its own KA — it has no meaning outside a check.
+- DC is kept under Check rather than made standalone — it is always set in context of a check.
+
+---
+
 # Boundary Domain
 
-## Effect / power effect
+### Ubiquitous Language
 
-Owned by: Power
-
-#### Domain Language
-
+#### **Power Effect** *(owned by: Power)*
 - An effect is the basic building block of a power; it describes what a power does in game terms.
 
 #### References

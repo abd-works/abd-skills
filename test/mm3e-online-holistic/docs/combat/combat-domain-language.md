@@ -56,9 +56,7 @@ Scope: Initiative and turn order, action types, the attack check sequence, resis
 
 # Core Domain
 
-### initiative
-
-#### Domain Language
+#### **initiative**
 
 - Initiative determines the order in which characters take their turns during a conflict.
 - Base initiative modifier equals the character's Agility rank; advantages (e.g., Improved Initiative) and powers can modify it further.
@@ -74,11 +72,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_196.md
 Locator: lines 14083-14127
 Extract: whole
 
----
 
-### action round
-
-#### Domain Language
+#### **action round**
 
 - An action round (round) is a six-second segment of in-game time used when turn order and action economy matter.
 - During a round each character involved takes one turn — that character's opportunity to act.
@@ -97,11 +92,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_016.md
 Locator: lines 1195-1237
 Extract: whole
 
----
 
-### turn
-
-#### Domain Language
+#### **turn**
 
 - A turn is a character's portion of an action round — the window in which that character declares and resolves their actions.
 - When a character's turn begins, effects that last "until the start of your next turn" end.
@@ -120,11 +112,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_198.md
 Locator: lines 14175-14218
 Extract: whole
 
----
 
-### standard action
-
-#### Domain Language
+#### **standard action**
 
 - A standard action allows a character to do something meaningful: attack, use a skill, activate a power or advantage, or perform a similar task.
 - Each character is limited to one standard action per turn.
@@ -143,11 +132,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_016.md
 Locator: lines 1195-1237
 Extract: whole
 
----
 
-### move action
-
-#### Domain Language
+#### **move action**
 
 - A move action allows a character to move up to their speed rank or perform an equivalent activity (draw/stow an item, stand up, pick up an object).
 - In a normal turn a character gets one standard action and one move action; the move may come before or after the standard action.
@@ -167,11 +153,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_198.md
 Locator: lines 14175-14218
 Extract: whole
 
----
 
-### free action
-
-#### Domain Language
+#### **free action**
 
 - A free action consumes so little time it is considered to take no real time over the span of a round.
 - A character may perform as many free actions per turn as the GM considers reasonable.
@@ -190,11 +173,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_016.md
 Locator: lines 1195-1237
 Extract: whole
 
----
 
-### reaction
-
-#### Domain Language
+#### **reaction**
 
 - A reaction is a response to something else happening during the round; it can occur even when it is not the character's turn.
 - Reactions take no significant time and do not count against the character's normal action allotment.
@@ -214,11 +194,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_017.md
 Locator: lines 1238-1344
 Extract: whole
 
----
 
-### attack check
-
-#### Domain Language
+#### **attack check**
 
 - An attack check determines whether an attack hits: d20 + attack bonus vs. target's defense class; equal or exceeding means a hit.
 - A natural 20 on the d20 always hits regardless of defense and may be a critical hit.
@@ -237,11 +214,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_202.md
 Locator: lines 14386-14434
 Extract: whole
 
----
 
-### attack bonus
-
-#### Domain Language
+#### **attack bonus**
 
 - The attack bonus is the modifier added to the d20 roll when making an attack check.
 - For most characters it is based on Fighting (close attacks) or Dexterity (ranged attacks) plus applicable Close Combat or Ranged Combat skill ranks plus circumstance modifiers.
@@ -260,11 +234,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_214.md
 Locator: lines 14999-15043
 Extract: whole
 
----
 
-### defense class
-
-#### Domain Language
+#### **defense class**
 
 - The defense class is the difficulty number an attack check must equal or exceed to hit: Defense Class = defense rank + 10.
 - Close attacks target Parry; ranged attacks target Dodge; certain attacks may target other defenses.
@@ -283,11 +254,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_209.md
 Locator: lines 14791-14830
 Extract: whole
 
----
 
-### close attack
-
-#### Domain Language
+#### **close attack**
 
 - A close attack targets a character within physical reach (by touch or melee weapon) and is checked against the target's Parry defense.
 - Strength-based damage (unarmed, melee weapons) is close range by default.
@@ -305,11 +273,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_016.md
 Locator: lines 1195-1237
 Extract: whole
 
----
 
-### ranged attack
-
-#### Domain Language
+#### **ranged attack**
 
 - A ranged attack targets a character at a distance and is checked against the target's Dodge defense.
 - Short range (rank × 25 ft): no penalty; medium (rank × 50 ft): −2 circumstance; long (rank × 100 ft): −5 circumstance; beyond long range the target is out of range and cannot be attacked.
@@ -328,11 +293,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_016.md
 Locator: lines 1195-1237
 Extract: whole
 
----
 
-### critical hit
-
-#### Domain Language
+#### **critical hit**
 
 - A critical hit occurs when the attack check rolls a natural 20 and the total also equals or exceeds the target's defense class.
 - A natural 20 that does not beat the defense class is still a hit but not a critical hit.
@@ -353,11 +315,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_203.md
 Locator: lines 14435-14489
 Extract: whole
 
----
 
-### resistance check
-
-#### Domain Language
+#### **resistance check**
 
 - A resistance check resists a power effect or hazard: d20 + defense bonus vs. resistance DC (typically effect rank + 10).
 - Resistance checks are not actions — they represent involuntary responses and do not consume action allotment.
@@ -377,11 +336,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_209.md
 Locator: lines 14791-14830
 Extract: whole
 
----
 
-### damage
-
-#### Domain Language
+#### **damage**
 
 - Damage is a power effect applied by a successful attack; the target makes a Toughness resistance check against DC = damage rank + 15.
 - Failure degrees: one degree → −1 cumulative Toughness penalty; two degrees → dazed + −1 penalty; three degrees → staggered + −1 penalty (if already staggered, apply fourth degree); four degrees → incapacitated.
@@ -406,11 +362,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_205.md
 Locator: lines 14553-14630
 Extract: whole
 
----
 
-### Toughness resistance
-
-#### Domain Language
+#### **Toughness resistance**
 
 - Toughness resistance is the specific resistance check against a Damage effect: d20 + Toughness rank vs. damage rank + 15.
 - Every failure imposes a −1 cumulative circumstance penalty to all future Toughness resistance checks for that character.
@@ -430,11 +383,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_216.md
 Locator: lines 15092-15151
 Extract: whole
 
----
 
-### concealment
-
-#### Domain Language
+#### **concealment**
 
 - Concealment applies when an attacker cannot clearly perceive their target with an accurate sense.
 - Partial concealment (dim lighting, foliage, fog, smoke): −2 circumstance penalty to attack checks.
@@ -454,11 +404,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_200.md
 Locator: lines 14260-14332
 Extract: whole
 
----
 
-### cover
-
-#### Domain Language
+#### **cover**
 
 - Cover applies when a target is behind a physical obstruction that could block or deflect an attack.
 - Partial cover (roughly half the target behind obstruction): −2 circumstance penalty to attack checks.
@@ -473,11 +420,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_208.md
 Locator: lines 14738-14790
 Extract: whole
 
----
 
-### surprise
-
-#### Domain Language
+#### **surprise**
 
 - Surprise occurs when one or more characters begin a conflict unaware — typically from failing a Perception or similar check.
 - If any characters are surprised, the conflict opens with a surprise round; all characters roll initiative normally.
@@ -497,11 +441,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_216.md
 Locator: lines 15092-15151
 Extract: whole
 
----
 
-### aim
-
-#### Domain Language
+#### **aim**
 
 - Aim is a standard action that lines up a subsequent attack, granting a circumstance bonus on the following attack check.
 - Close attack or ranged attack at close range: +5 circumstance bonus; ranged attack at greater distance: +2 circumstance bonus.
@@ -516,11 +457,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_210.md
 Locator: lines 14831-14870
 Extract: whole
 
----
 
-### charge
-
-#### Domain Language
+#### **charge**
 
 - Charge is a standard action: the attacker moves their speed rank in a straight line toward a target, then makes a close attack at the end of movement with a −2 circumstance penalty.
 - Combined with a move action, the attacker can move up to twice their speed rank before attacking.
@@ -533,11 +471,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_210.md
 Locator: lines 14831-14870
 Extract: whole
 
----
 
-### defend
-
-#### Domain Language
+#### **defend**
 
 - Defend is a standard action: the character focuses on avoiding attacks rather than attacking.
 - The defender makes an opposed check of their active defense (Parry or Dodge) vs. each attack made on them until the start of their next turn.
@@ -551,11 +486,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_211.md
 Locator: lines 14871-14914
 Extract: whole
 
----
 
-### delay
-
-#### Domain Language
+#### **delay**
 
 - Delay is a no-action choice to defer one's entire turn to later in the initiative order.
 - A character cannot delay after having already taken an action on their turn, or if unable to take actions.
@@ -570,11 +502,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_211.md
 Locator: lines 14871-14914
 Extract: whole
 
----
 
-### disarm
-
-#### Domain Language
+#### **disarm**
 
 - Disarm is a standard action to knock an item out of an opponent's grasp.
 - Attack check vs. the defender: −2 penalty for close disarm; −5 for ranged disarm.
@@ -589,11 +518,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_211.md
 Locator: lines 14871-14914
 Extract: whole
 
----
 
-### grab
-
-#### Domain Language
+#### **grab**
 
 - Grab is a standard action to seize and restrain a target: attack check vs. target; on a hit the target resists with the better of Strength or Dodge vs. attacker's Strength or grab effect rank.
 - One degree of success: target is restrained (immobile and vulnerable).
@@ -611,11 +537,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_212.md
 Locator: lines 14915-14958
 Extract: whole
 
----
 
-### ready
-
-#### Domain Language
+#### **ready**
 
 - Ready is a standard action that prepares a single standard, move, or free action to trigger on a specified future condition.
 - The character declares the action and triggering circumstances; the readied action fires as a reaction when conditions are met.
@@ -634,11 +557,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_214.md
 Locator: lines 14999-15043
 Extract: whole
 
----
 
-### recover
-
-#### Domain Language
+#### **recover**
 
 - Recover is a standard action requiring the character's entire turn; usable only once per conflict.
 - On recovery: remove the highest current level of damage or fatigue; alternatively make an additional resistance check against one ongoing effect (beyond the normal end-of-turn check).
@@ -652,11 +572,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_213.md
 Locator: lines 14959-14998
 Extract: whole
 
----
 
-### trip
-
-#### Domain Language
+#### **trip**
 
 - Trip is a standard action (close attack vs. target's Parry at −2 circumstance penalty) to knock a target prone.
 - If the attack hits: opposed check of Acrobatics or Athletics (better of each) between attacker and defender.
@@ -670,11 +587,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_214.md
 Locator: lines 14999-15043
 Extract: whole
 
----
 
-### feint
-
-#### Domain Language
+#### **feint**
 
 - Feint is a standard action using Deception to mislead an opponent in combat.
 - The feinting character makes a Deception check opposed by the better of the target's Deception or Insight.
@@ -687,11 +601,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_215.md
 Locator: lines 15044-15091
 Extract: whole
 
----
 
-### slam attack
-
-#### Domain Language
+#### **slam attack**
 
 - Slam attack is a maneuver used during a charge, trading personal risk for greater damage.
 - Damage rank = max(speed rank, normal damage rank + 1); add +1 more if the attacker moved their full speed before charging.
@@ -711,11 +622,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_216.md
 Locator: lines 15092-15151
 Extract: whole
 
----
 
-### team attack
-
-#### Domain Language
+#### **team attack**
 
 - Team attack allows multiple attackers to combine their efforts to overwhelm a single target's resistance.
 - All attacks must share the same effect type and resistance defense, and be within 5 ranks of each other.
@@ -731,11 +639,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_216.md
 Locator: lines 15092-15151
 Extract: whole
 
----
 
-### combined attack
-
-#### Domain Language
+#### **combined attack**
 
 - Combined attack is the general pattern of multiple combatants coordinating compatible attacks against a single target (the team attack mechanic).
 - Contributing attacks must share the same effect type and resistance defense and be within 5 ranks of each other before they can be combined.
@@ -748,11 +653,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_216.md
 Locator: lines 15092-15151
 Extract: whole
 
----
 
-### minion
-
-#### Domain Language
+#### **minion**
 
 - A minion is a minor character subject to special rules making them easier to defeat than full characters.
 - Minions cannot score critical hits against non-minions.
@@ -768,11 +670,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_208.md
 Locator: lines 14738-14790
 Extract: whole
 
----
 
-### hazard
-
-#### Domain Language
+#### **hazard**
 
 - Hazards are environmental dangers that harm characters independently of opponent attacks.
 - Each hazard uses a resistance check (typically Fortitude) with DC = 10 + rank or a fixed DC; repeated failures escalate: fatigued → exhausted → incapacitated → dying.
@@ -802,11 +701,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_202.md
 Locator: lines 14386-14434
 Extract: whole
 
----
 
-### falling
-
-#### Domain Language
+#### **falling**
 
 - Falling inflicts damage rank = 4 + (2 × distance rank fallen), capped at rank 16.
 - Characters with Acrobatics can fall greater distances without injury.
@@ -821,11 +717,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_200.md
 Locator: lines 14260-14332
 Extract: whole
 
----
 
-### suffocation
-
-#### Domain Language
+#### **suffocation**
 
 - Characters may hold their breath for 10 rounds + (2 × Stamina rank) rounds before needing to check.
 - After the limit, Fortitude check (DC 10, +1 per previous success) each round; failure → incapacitated.
@@ -845,11 +738,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_202.md
 Locator: lines 14386-14434
 Extract: whole
 
----
 
-### damaging objects
-
-#### Domain Language
+#### **damaging objects**
 
 - Objects (targets lacking a Stamina rank) take damage similarly to characters but dazed and staggered results have no practical effect on inanimate targets.
 - Inanimate objects are defenseless by definition and subject to finishing attacks: attacker may choose a routine check (auto-hit) or roll normally (auto-crit on any hit for +5 DC).
@@ -864,11 +754,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_206.md
 Locator: lines 14631-14689
 Extract: whole
 
----
 
-### Material Toughness
-
-#### Domain Language
+#### **Material Toughness**
 
 - Material Toughness is the Toughness rank of a common material at approximately one inch (distance rank −7) of thickness.
 - Each doubling of thickness adds +1 Toughness; each halving subtracts −1.
@@ -882,11 +769,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_206.md
 Locator: lines 14631-14689
 Extract: whole
 
----
 
-### dying
-
-#### Domain Language
+#### **dying**
 
 - Dying is the near-death state entered when an incapacitated character suffers further Toughness failure, or when certain hazards reach their final stage.
 - A dying character who fails another Toughness resistance check against damage dies.
@@ -907,11 +791,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_216.md
 Locator: lines 15092-15151
 Extract: whole
 
----
 
-### incapacitated
-
-#### Domain Language
+#### **incapacitated**
 
 - Incapacitated is the condition imposed by four degrees of failure on a Toughness resistance check (defenseless + stunned + unaware; character typically falls prone).
 - An incapacitated target that fails another Toughness resistance check transitions to dying.
@@ -930,11 +811,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_202.md
 Locator: lines 14386-14434
 Extract: whole
 
----
 
-### recovery check
-
-#### Domain Language
+#### **recovery check**
 
 - A recovery check is a resistance check made to end an ongoing condition or effect; it is not an action.
 - At the end of each of the character's turns, a resistance check is automatically made against any ongoing effect.
@@ -959,11 +837,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_216.md
 Locator: lines 15092-15151
 Extract: whole
 
----
 
-### hero point
-
-#### Domain Language
+#### **hero point**
 
 - Players begin each game session with 1 hero point; unspent hero points do not carry over between sessions.
 - Spending a hero point is a reaction (takes no time); a player may spend as many as they have in one turn.
@@ -992,11 +867,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_021.md
 Locator: lines 1516-1555
 Extract: whole
 
----
 
-### extra effort
-
-#### Domain Language
+#### **extra effort**
 
 - Extra effort is a free action declared by the player, limited to once per turn.
 - Choose one benefit: additional standard action; +2 circumstance bonus on one check (or upgrade existing +2 to +5); +1 rank to a power effect until start of next turn; power stunt (temporary Alternate Effect for the scene); additional resistance check against an ongoing effect; retry a failed effect; +1 speed rank until next turn; +1 Strength rank until next turn.
@@ -1016,11 +888,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_020.md
 Locator: lines 1476-1515
 Extract: whole
 
----
 
-### power stunt
-
-#### Domain Language
+#### **power stunt**
 
 - A power stunt uses extra effort to temporarily gain an Alternate Effect of one of the hero's existing powers.
 - The stunt lasts until the end of the scene or until the effect's normal duration expires, whichever comes first.
@@ -1038,11 +907,8 @@ Extract: whole
 
 # Boundary Domain
 
-## condition
+#### **condition** *(owned by: Check Resolution)*
 
-Owned by: Check Resolution
-
-#### Domain Language
 
 - Conditions (dazed, staggered, stunned, vulnerable, defenseless, incapacitated, dying, prone, hindered, impaired, etc.) are game-state modifiers imposed by combat outcomes, power effects, and hazards.
 - Combat causes, references, and escalates conditions; their authoritative definitions and supersession chains live in Check Resolution.
@@ -1060,13 +926,9 @@ Source: context/rules/HeroesHandbook-rules__chunk_203.md
 Locator: lines 14435-14489
 Extract: whole
 
----
 
-## Toughness
+#### **Toughness** *(owned by: Character Construction)*
 
-Owned by: Character Construction
-
-#### Domain Language
 
 - Toughness is the physical resistance defense stat used as the basis for all Toughness resistance checks against Damage effects.
 - Its rank is set during character construction; temporary −1 penalties from failed Toughness checks accumulate in combat and recover with rest.
@@ -1078,13 +940,9 @@ Source: context/rules/HeroesHandbook-rules__chunk_203.md
 Locator: lines 14435-14489
 Extract: whole
 
----
 
-## Dodge
+#### **Dodge** *(owned by: Character Construction)*
 
-Owned by: Character Construction
-
-#### Domain Language
 
 - Dodge is the active defense providing the defense class against ranged attacks (Dodge + 10).
 - Combat halves Dodge rank (round up) when a character is vulnerable; reduces it to 0 when defenseless.
@@ -1101,13 +959,9 @@ Source: context/rules/HeroesHandbook-rules__chunk_209.md
 Locator: lines 14791-14830
 Extract: whole
 
----
 
-## Parry
+#### **Parry** *(owned by: Character Construction)*
 
-Owned by: Character Construction
-
-#### Domain Language
 
 - Parry is the active defense providing the defense class against close attacks (Parry + 10).
 - Combat halves Parry rank (round up) when a character is vulnerable; reduces it to 0 when defenseless.
@@ -1124,13 +978,9 @@ Source: context/rules/HeroesHandbook-rules__chunk_209.md
 Locator: lines 14791-14830
 Extract: whole
 
----
 
-## Fortitude
+#### **Fortitude** *(owned by: Character Construction)*
 
-Owned by: Character Construction
-
-#### Domain Language
 
 - Fortitude is the physical resistance defense used for hazard checks (heat, cold, suffocation, disease, poison, vacuum, radiation) and ongoing physical effect resistance checks.
 
@@ -1146,13 +996,9 @@ Source: context/rules/HeroesHandbook-rules__chunk_202.md
 Locator: lines 14386-14434
 Extract: whole
 
----
 
-## Strength
+#### **Strength** *(owned by: Character Construction)*
 
-Owned by: Character Construction
-
-#### Domain Language
 
 - Strength provides a built-in close-range Damage effect; its rank adds to Damage rank for Strength-based weapons.
 - Strength is used in grab checks (attacker vs. target Strength or Dodge), disarm opposed checks (damage vs. Strength), trip opposed checks (Acrobatics/Athletics vs. Acrobatics/Athletics), and dragging during grab.
@@ -1169,13 +1015,9 @@ Source: context/rules/HeroesHandbook-rules__chunk_212.md
 Locator: lines 14915-14958
 Extract: whole
 
----
 
-## power effect
+#### **power effect** *(owned by: Power)*
 
-Owned by: Power
-
-#### Domain Language
 
 - A power effect's rank determines the resistance DC (effect rank + 10 for most; Damage uses effect rank + 15).
 - Combat resolves power effects when activated as attacks; area and perception-range effects bypass attack checks and automatically affect targets.
@@ -1192,13 +1034,9 @@ Source: context/rules/HeroesHandbook-rules__chunk_209.md
 Locator: lines 14791-14830
 Extract: whole
 
----
 
-## advantage
+#### **advantage** *(owned by: Advantages)*
 
-Owned by: Advantages
-
-#### Domain Language
 
 - Combat advantages (Improved Initiative, Improved Critical, Takedown, Move-by Action, etc.) modify combat mechanics; their definitions and prerequisites are owned by the Advantages module.
 - Heroic Feat (a hero point spend) grants temporary access to one rank of an advantage for one turn.

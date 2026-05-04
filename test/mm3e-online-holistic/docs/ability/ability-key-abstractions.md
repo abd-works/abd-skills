@@ -2,7 +2,7 @@
 state: key-abstractions
 ---
 
-## Module: [Ability]
+# Module: [Ability]
 
 Scope: The eight ability scores (Strength, Stamina, Agility, Dexterity, Fighting, Intellect, Awareness, Presence), absent abilities, debilitated abilities, and derived defense values.
 
@@ -30,21 +30,15 @@ Scope: The eight ability scores (Strength, Stamina, Agility, Dexterity, Fighting
 
 # Core Domain
 
-## Ability Score
+## **Ability Score**
 
 The Ability Score is the foundational quantitative expression of a character's inherent capabilities and the single source of truth for all trait-based interactions in the game system. It owns the rank-purchase economy (2 power points per rank, with a refund on reduction), the benchmark scale from −5 to 20 and beyond for cosmic entities, the physical/mental categorization, the cascade rule that propagates rank changes to all dependent traits, and the distinction between natural and enhanced rank portions. Eight named ability scores divide into physical (Strength, Stamina, Agility, Dexterity) and mental (Fighting, Intellect, Awareness, Presence), each contributing specific die roll bonuses and serving as the base for particular derived values. The ability score enforces the cost and refund formula locally but does not own the currency it consumes (power points) or the upper bound on increases (power level), both of which belong to the Character Construction module.
 
 A critical cascade rule governs this KA: whenever an ability rank changes — through power point spending, a power effect, or any mechanism — every trait derived from that ability changes proportionally, including skills, defense values, and attack modifiers. The player also designates whether any portion of a rank is an Enhanced Trait (power); that designation carries downstream consequences for nullification, power modifier application, and power stunt eligibility that the system must track separately from the base rank.
 
-#### Decisions made
-- The eight named abilities are kept as distinct `### term` headings (not collapsed into one) because each has a different set of associated rolls, skills, and derived values — they are not instances with identical behavior.
-- Fighting is classified as "mental" per the source text alongside INT, AWE, PRE — this is preserved even though it governs a physical combat mechanic.
-- `enhanced ability` is included here as a found term under Ability Score (independence test: it is a variant rank designation, not an independent KA; module-fit test: its rules for nullification and power modifiers are part of how ability ranks work).
-- power point and power level moved to Boundary Domain — this module depends on them but does not define them.
+### Ubiquitous Language
 
-### ability
-
-#### Domain language
+#### **ability**
 - One of eight fundamental numeric traits that characterize a hero's physical or mental capabilities.
 - Partitioned into physical abilities (STR, STA, AGL, DEX) and mental abilities (FGT, INT, AWE, PRE).
 - Each above-average ability rank provides a bonus on related die rolls; below-average rank applies a penalty.
@@ -251,11 +245,7 @@ Presence checks to influence others through force of
 personality when a specific skill doesnâ€™t apply.
 ```
 
----
-
-### ability rank
-
-#### Domain language
+#### **ability rank**
 - Numeric value expressing the degree of an ability; starts at 0 (the baseline average for an adult human).
 - Can go as low as −5 (truly terrible) and as high as 20 or beyond for cosmic beings and forces.
 - Costs 2 power points per +1 rank when purchased; yields 2 bonus power points per −1 rank when reduced.
@@ -293,11 +283,7 @@ Ability Cost = 2 power points per +1 to an ability rank.
 Gain 2 bonus power points per -1 to an ability rank.
 ```
 
----
-
-### Strength (STR)
-
-#### Domain language
+#### **Strength (STR)**
 - Measures sheer muscle power and the ability to apply physical force.
 - Applies to: unarmed and strength-based attack damage; jump distance (Athletics check); weight lifting, carrying, and throwing; Athletics skill checks.
 - Physical ability.
@@ -325,11 +311,7 @@ The amount of weight you can lift, carry, and throw.
 Athletics skill checks.
 ```
 
----
-
-### Stamina (STA)
-
-#### Domain language
+#### **Stamina (STA)**
 - Measures health, endurance, and overall physical resilience.
 - Applies to: Toughness defense (resisting damage); Fortitude defense (resisting effects on health); Stamina checks for health-related resistance and recovery when no specific defense applies.
 - Physical ability.
@@ -359,11 +341,7 @@ fecting your characterâ€™s health when a specific de-
 fense doesnâ€™t apply.
 ```
 
----
-
-### Agility (AGL)
-
-#### Domain language
+#### **Agility (AGL)**
 - Measures balance, grace, speed, and overall physical coordination.
 - Applies to: Dodge defense (avoiding ranged attacks and hazards); initiative bonus (acting first in combat); Acrobatics and Stealth skill checks; Agility checks for coordination feats.
 - Physical ability.
@@ -409,11 +387,7 @@ Initiative Modifier = Agility + Advantages
 (Improved Initiative) + Power Modifiers
 ```
 
----
-
-### Dexterity (DEX)
-
-#### Domain language
+#### **Dexterity (DEX)**
 - Measures hand-eye coordination, precision, and manual dexterity.
 - Applies to: ranged attack checks; Sleight of Hand and Vehicles skill checks; Dexterity checks for fine control and precision tasks.
 - Physical ability.
@@ -439,11 +413,7 @@ Dexterity checks for feats of fine control and preci-
 sion when a specific skill doesnâ€™t apply.
 ```
 
----
-
-### Fighting (FGT)
-
-#### Domain language
+#### **Fighting (FGT)**
 - Measures close combat ability — hitting targets and evading counter-attacks in melee.
 - Applies to: close attack checks; Parry defense (avoiding close attacks).
 - Mental ability (grouped with INT, AWE, PRE as a mental ability in the core rules).
@@ -467,11 +437,7 @@ Attack checks for close attacks.
 Parry defense, for avoiding close attacks.
 ```
 
----
-
-### Intellect (INT)
-
-#### Domain language
+#### **Intellect (INT)**
 - Covers reasoning ability and learning; a high rank correlates with knowledge and education.
 - Applies to: Expertise, Investigation, Technology, and Treatment skill checks; Intellect checks for pure reasoning when no specific skill applies.
 - Mental ability.
@@ -497,11 +463,7 @@ Intellect checks to solve problems using sheer brain-
 power when a specific skill doesnâ€™t apply.
 ```
 
----
-
-### Awareness (AWE)
-
-#### Domain language
+#### **Awareness (AWE)**
 - Covers common sense and intuition ("wisdom"), distinct from Intellect (reasoning).
 - Applies to: Will defense (resisting mental attacks); Insight and Perception skill checks; Awareness checks for intuition when no specific skill applies.
 - Mental ability.
@@ -550,11 +512,7 @@ defenses apart from Toughness (and Fortitude, if
 they are alive).
 ```
 
----
-
-### Presence (PRE)
-
-#### Domain language
+#### **Presence (PRE)**
 - Measures force of personality, persuasiveness, leadership ability, and attractiveness.
 - Applies to: Deception, Intimidation, and Persuasion skill checks; Presence checks to influence others through force of personality.
 - Mental ability.
@@ -581,13 +539,10 @@ Presence checks to influence others through force of
 personality when a specific skill doesnâ€™t apply.
 ```
 
----
-
-### enhanced ability
+#### **enhanced ability**
 
 *(Found term — discovered in source material; not in original Core terms list.)*
 
-#### Domain language
 - An ability rank (or portion thereof) acquired as an Enhanced Trait (power) rather than as a natural rank.
 - Can be nullified by the Nullify effect — normal (natural) ability ranks cannot be nullified.
 - Can have power modifiers and be used for power stunts with extra effort — normal ranks cannot.
@@ -621,19 +576,21 @@ and, if it is enhanced, how much of it is enhanced.
 
 ---
 
-## Absent Ability
+### Decisions made
+- The eight named abilities are kept as distinct `### term` headings (not collapsed into one) because each has a different set of associated rolls, skills, and derived values — they are not instances with identical behavior.
+- Fighting is classified as "mental" per the source text alongside INT, AWE, PRE — this is preserved even though it governs a physical combat mechanic.
+- `enhanced ability` is included here as a found term under Ability Score (independence test: it is a variant rank designation, not an independent KA; module-fit test: its rules for nullification and power modifiers are part of how ability ranks work).
+- power point and power level moved to Boundary Domain — this module depends on them but does not define them.
+
+---
+
+## **Absent Ability**
 
 Absent Ability is the exceptional creature-design state in which a being entirely lacks one of the eight ability scores — a condition distinct from having rank −5 and carrying its own specific capability-loss rules per ability. This KA owns the per-ability absence effects (no Strength means no physical force; no Stamina means no living-body mechanics and no Fortitude defense; no Dexterity means no object manipulation or physical attacks; no Agility means no self-propelled movement or Dodge defense; no Fighting means no close attacks; no Intellect means automaton status with no Will defense; no Awareness means total unawareness and also no Presence; no Presence means no interaction and no Will defense), the −10 power point benefit (richer than the −5 floor on normal ranks), the automatic-fail rule on related checks, and the rule that absent abilities cannot be further weakened or debilitated. Heroes require GM permission to lack an ability; constructs and non-living entities naturally have absent abilities as part of their creature-type definition.
 
-#### Decisions made
-- Absent Ability passes the independence test: it has distinct identity, distinct rules (−10 pp, auto-fail, per-ability capability loss), and distinct interactions (cannot be weakened or debilitated) that set it apart from simply having a rank of −5.
-- Absent Ability passes the module-fit test: it is defined in Ch3 Abilities, directly within this module's scope.
-- Absent Ability is its own KA rather than a sub-concept under Ability Score because the absence rules are fundamentally different from rank mechanics — there is no rank, no modifier, no purchasing, and different recovery/vulnerability behavior.
-- Construct and inanimate object rules (which abilities they have) appear here as evidence for absence but the Construct type itself is boundary to the Equipment/Power module.
+### Ubiquitous Language
 
-### absent ability
-
-#### Domain language
+#### **absent ability**
 - A creature entirely lacking an ability has no rank for it, a state distinct from having rank −5.
 - Automatically fails any check requiring the absent ability.
 - Lacking an ability grants an additional 10 power points to spend elsewhere — more generous than the −5 floor.
@@ -739,19 +696,21 @@ to mental effects and interaction skills, and have no
 
 ---
 
-## Derived Defense
+### Decisions made
+- Absent Ability passes the independence test: it has distinct identity, distinct rules (−10 pp, auto-fail, per-ability capability loss), and distinct interactions (cannot be weakened or debilitated) that set it apart from simply having a rank of −5.
+- Absent Ability passes the module-fit test: it is defined in Ch3 Abilities, directly within this module's scope.
+- Absent Ability is its own KA rather than a sub-concept under Ability Score because the absence rules are fundamentally different from rank mechanics — there is no rank, no modifier, no purchasing, and different recovery/vulnerability behavior.
+- Construct and inanimate object rules (which abilities they have) appear here as evidence for absence but the Construct type itself is boundary to the Equipment/Power module.
+
+---
+
+## **Derived Defense**
 
 Derived Defense is the family of five defensive values — Dodge, Parry, Fortitude, Toughness, and Will — each computed from a specific ability rank, plus the initiative modifier derived from Agility. This KA owns the base derivation formula (base defense = ability rank), the investment economy for raising defenses above base (1 power point per rank, subject to power level limits), the single exception to that economy (Toughness cannot be raised by direct power point spending — only through advantages and powers), the active-defense category (Dodge and Parry degrade under the vulnerable and defenseless conditions), the defense class formula (defense + 10 = DC to affect a target with an attack), and the resistance check usage (defense + d20 vs. effect DC). Initiative (Agility + Advantages + Power Modifiers) is defined here because it is derived from AGL; its Advantage and Power components are boundary inputs from other modules.
 
-#### Decisions made
-- The five named defenses are kept as distinct `### term` headings because each is based on a different ability, used in different check types, and has different investment rules (Toughness especially).
-- `active defense` and `defense class` are included as found terms under this KA since they are defense-specific concepts defined in Ch3.
-- `initiative` is placed here rather than in a separate KA because the initiative modifier is defined in the Defenses & Initiative section of Ch3 and is derived directly from AGL, making it part of the same derivation concern as defenses.
-- Resistance checks as a mechanic are boundary to the Check Resolution module; this module defines the defense values used in those checks but does not own the resistance check mechanic itself.
+### Ubiquitous Language
 
-### Dodge
-
-#### Domain language
+#### **Dodge**
 - Defense value based on Agility rank; covers reaction time, quickness, nimbleness, and coordination.
 - Used to avoid ranged attacks and other hazards where reflexes and speed are important.
 - Active defense: requires mobility and focus; halved (round up) when vulnerable; reduced to 0 when defenseless.
@@ -806,11 +765,7 @@ normal values by 2 and round up), and if you are defense-
 less, they are both reduced to 0!
 ```
 
----
-
-### Parry
-
-#### Domain language
+#### **Parry**
 - Defense value based on Fighting rank; represents countering, ducking, or evading close attacks.
 - Active defense: halved (round up) when vulnerable; reduced to 0 when defenseless.
 - Used as defense class (Parry + 10) for close attacks.
@@ -854,11 +809,7 @@ normal values by 2 and round up), and if you are defense-
 less, they are both reduced to 0!
 ```
 
----
-
-### Fortitude
-
-#### Domain language
+#### **Fortitude**
 - Defense value based on Stamina rank; measures health and resistance to threats like poison or disease.
 - Incorporates constitution, ruggedness, metabolism, and immunity.
 - Passive defense: always effective regardless of mobility restrictions.
@@ -889,11 +840,7 @@ er points: 1 power point grants you an additional rank in
 a defense, up to the limits imposed by power level.
 ```
 
----
-
-### Toughness
-
-#### Domain language
+#### **Toughness**
 - Defense value based on Stamina rank; measures resistance to direct damage and overall physical durability.
 - Cannot be increased above the base Stamina rank by direct power point spending — only through advantages (e.g., Defensive Roll) and powers (e.g., Protection effect).
 - This restriction reflects that greater-than-normal Toughness is virtually always a special ability.
@@ -930,11 +877,7 @@ for various options for improving Toughness, notably the De-
 fensive Roll advantage and the Protection effect.
 ```
 
----
-
-### Will
-
-#### Domain language
+#### **Will**
 - Defense value based on Awareness rank; measures mental stability, level-headedness, determination, self-confidence, and willpower.
 - Used to resist mental or spiritual attacks.
 - Used as defense class (Will + 10) when an attack targets Will.
@@ -964,11 +907,7 @@ er points: 1 power point grants you an additional rank in
 a defense, up to the limits imposed by power level.
 ```
 
----
-
-### defense
-
-#### Domain language
+#### **defense**
 - General term for the five defensive values (Dodge, Parry, Fortitude, Toughness, Will) used to resist or avoid effects.
 - Each defense is based on a specific ability rank, modified by advantages and powers.
 - Base defense rank equals the rank of the associated ability.
@@ -1100,13 +1039,10 @@ Characters then act in initiative order, from highest to low-
 est. For details see the Action & Adventure chapter.
 ```
 
----
-
-### active defense
+#### **active defense**
 
 *(Found term — discovered in source material; not in original Core terms list.)*
 
-#### Domain language
 - Category of defense that requires mobility, focus, and reaction time to be fully effective.
 - Comprises Dodge and Parry — the two ability-derived defenses that degrade under condition effects.
 - When vulnerable: active defense ranks are halved (divide normal value by 2, round up).
@@ -1131,13 +1067,10 @@ normal values by 2 and round up), and if you are defense-
 less, they are both reduced to 0!
 ```
 
----
-
-### defense class
+#### **defense class**
 
 *(Found term — discovered in source material; not in original Core terms list.)*
 
-#### Domain language
 - The difficulty class for a given attack to affect a target: defense rank + 10.
 - Represents the target's "routine defense" (equivalent to a routine check).
 - Primary defense class traits: Dodge (for ranged attacks), Parry (for close attacks), and Will (for mental attacks).
@@ -1166,13 +1099,10 @@ a defense, such as â€œtargets Dodgeâ€ or â€œtargets Willâ€.
 The main defense class traits are Dodge, Parry, and Will.
 ```
 
----
-
-### initiative
+#### **initiative**
 
 *(Found term — discovered in source material; not in original Core terms list.)*
 
-#### Domain language
 - Derived combat-readiness value computed as: Agility rank + Advantages (Improved Initiative) + Power Modifiers.
 - Determines action order at the start of a conflict: characters act from highest to lowest initiative modifier.
 - Defined in Ch3 Abilities alongside the five defenses, grounding it in the ability module.
@@ -1200,21 +1130,21 @@ est. For details see the Action & Adventure chapter.
 
 ---
 
-## Debilitated Ability
+### Decisions made
+- The five named defenses are kept as distinct `### term` headings because each is based on a different ability, used in different check types, and has different investment rules (Toughness especially).
+- `active defense` and `defense class` are included as found terms under this KA since they are defense-specific concepts defined in Ch3.
+- `initiative` is placed here rather than in a separate KA because the initiative modifier is defined in the Defenses & Initiative section of Ch3 and is derived directly from AGL, making it part of the same derivation concern as defenses.
+- Resistance checks as a mechanic are boundary to the Check Resolution module; this module defines the defense values used in those checks but does not own the resistance check mechanic itself.
+
+---
+
+## **Debilitated Ability**
 
 Debilitated Ability is the severe-degradation state triggered when any ability rank drops below −5 through game effects, almost always a power effect targeting the character's abilities. It owns the floor enforcement rule (no further rank reduction once debilitated — the debilitated threshold cannot be crossed again), and the four distinct condition sets applied per ability group: physical-movement abilities (STR, AGL, DEX) cause collapse — defenseless, immobilized, and stunned while remaining conscious; Stamina causes the dying condition with an additional −5 Fortitude penalty; Fighting causes the dazed and defenseless state with loss of close attack capability; mental abilities (INT, AWE, PRE) cause the unaware condition that persists until the rank is restored to at least −5. Recovery from debilitation is not owned by this KA — it depends on the power or healing effect that reduced the rank restoring it.
 
-#### Decisions made
-- Debilitated Ability passes the independence test: it has distinct rules (floor enforcement, four different condition sets, recovery dependency) separate from the normal rank mechanic.
-- Debilitated Ability passes the module-fit test: its rules are defined in Ch3 Abilities within this module's scope.
-- Kept as its own KA rather than a sub-concept under Ability Score because debilitation triggers a fundamentally different game state (conditions applied, floor enforced) with its own per-ability effect table.
-- STR, AGL, and DEX debilitation share the same collapse outcome (defenseless + immobilized + stunned) — grouped together in the domain language because the source treats them the same way.
-- INT, AWE, and PRE debilitation share the same unaware outcome — grouped similarly.
-- STA and FGT have unique debilitation effects and are described individually.
+### Ubiquitous Language
 
-### debilitated
-
-#### Domain language
+#### **debilitated**
 - State reached when an ability rank drops below −5 for any reason (typically caused by a power effect).
 - Ability ranks cannot be lowered any further once debilitated; this threshold is the floor for each ability.
 - Per-ability debilitation effects:
@@ -1302,13 +1232,21 @@ any further once they are debilitated.
 
 ---
 
+### Decisions made
+- Debilitated Ability passes the independence test: it has distinct rules (floor enforcement, four different condition sets, recovery dependency) separate from the normal rank mechanic.
+- Debilitated Ability passes the module-fit test: its rules are defined in Ch3 Abilities within this module's scope.
+- Kept as its own KA rather than a sub-concept under Ability Score because debilitation triggers a fundamentally different game state (conditions applied, floor enforced) with its own per-ability effect table.
+- STR, AGL, and DEX debilitation share the same collapse outcome (defenseless + immobilized + stunned) — grouped together in the domain language because the source treats them the same way.
+- INT, AWE, and PRE debilitation share the same unaware outcome — grouped similarly.
+- STA and FGT have unique debilitation effects and are described individually.
+
+---
+
 # Boundary Domain
 
-## power point
+### Ubiquitous Language
 
-Owned by: Character Construction
-
-#### Domain language
+#### **power point** *(owned by: Character Construction)*
 - Currency used to purchase ability ranks (2 pp per +1 rank) and defense ranks above base (1 pp per +1 rank).
 - Gained by reducing ability ranks below 0 (2 pp per −1 rank) or by lacking an ability entirely (10 pp).
 
@@ -1337,13 +1275,7 @@ Ability Cost = 2 power points per +1 to an ability rank.
 Gain 2 bonus power points per -1 to an ability rank.
 ```
 
----
-
-## power level
-
-Owned by: Character Construction
-
-#### Domain language
+#### **power level** *(owned by: Character Construction)*
 - Sets the upper limit on ability rank improvements via earned power points (rank cannot be raised above the series' power level).
 - Also constrains the maximum defense rank purchasable above the ability base.
 

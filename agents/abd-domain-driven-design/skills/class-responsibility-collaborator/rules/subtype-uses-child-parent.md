@@ -1,36 +1,36 @@
-# Rule: Subtypes use Child : Parent on the name line
+# Rule: Subtypes use ConceptName : BaseConcept on the heading line
 
 **Scanner:** Manual review
 
-When a concept is a specialization of another, its CRC block name line must use `Child : Parent` notation. The block states only delta responsibilities — what the subtype adds or overrides beyond the base. Passing means subtypes are correctly notated and carry only deltas. Failing means subtypes use the wrong format or duplicate base responsibilities.
+When a concept is a specialization of another, its CRC heading must use `#### **ConceptName : BaseConcept**` notation. The block states only delta responsibilities — what the subtype adds or overrides beyond the base. Passing means subtypes are correctly notated and carry only deltas. Failing means subtypes use the wrong format or duplicate base responsibilities.
 
 ## DO
 
-- Use `Child : Parent` on the name line for subtypes.
+- Use `#### **ConceptName : BaseConcept**` on the heading line for subtypes.
 
   **Example (pass):**
   ```
-  Saving Throw : Check
-      responsible: adds an ability-score basis and proficiency eligibility on top of the base check resolution
-      collaborators: Ability Score, Proficiency
+  #### **Opposed Check : Check**
+  use opposing trait          | Trait
+                              |   invariant: both sides resolve as standard Checks; higher result wins
   ```
 
-- State only delta responsibilities that the subtype adds beyond what the parent already owns.
+- State only delta responsibilities that the subtype adds or overrides beyond the parent.
 
-  **Example (pass):** Parent `Check` owns resolution; subtype `Saving Throw : Check` adds only "adds an ability-score basis."
+  **Example (pass):** Parent `Check` owns `resolve`; subtype `Opposed Check : Check` adds only `use opposing trait` and its invariants.
 
 ## DO NOT
 
-- Use the Object Sketch English heading form in CRC blocks.
+- Use the domain sketch English heading form in CRC headings.
 
-  **Example (fail):** `Saving Throw *is a type of* Check` — CRC uses `:` notation, not the sketch's English form.
+  **Example (fail):** `#### **Opposed Check** *(is a type of Check)*` — CRC uses `: BaseConcept` in the heading, not the sketch's English form.
 
 - Use code-style inheritance syntax.
 
-  **Example (fail):** `SavingThrow extends Check` or `class SavingThrow(Check)`
+  **Example (fail):** `OpposedCheck extends Check`
 
 - Duplicate base responsibilities in the subtype block.
 
-  **Example (fail):** Subtype repeats "resolves whether an attempted action succeeds or fails" — that belongs on the parent `Check` only.
+  **Example (fail):** Subtype repeats `use trait`, `use difficulty class`, `apply circumstance` — those are identical to the parent `Check` and must not be restated.
 
 **Source:** Engagement convention (class-responsibility-collaborator skill).

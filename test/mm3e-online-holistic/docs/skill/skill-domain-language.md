@@ -36,9 +36,7 @@ Scope: Skill basics (ranks, checks, DCs, modifiers, interaction skills, manipula
 
 # Core Domain
 
-### skill rank
-
-#### Domain Language
+#### **skill rank**
 
 - A skill rank is the number of points a character has invested in a skill; it serves as a numerical bonus added to the d20 roll on skill checks.
 - Characters with at least one rank in a skill are considered trained in that skill.
@@ -58,11 +56,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_042.md
 Locator: lines 2736-2796
 Extract: whole
 
----
 
-### skill check
-
-#### Domain Language
+#### **skill check**
 
 - A skill check resolves skill use: roll d20 + skill rank + ability modifier + miscellaneous modifiers and compare to the Difficulty Class (DC).
 - A result equal to or exceeding the DC is a success; higher totals produce better outcomes (degrees of success).
@@ -82,11 +77,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_042.md
 Locator: lines 2736-2796
 Extract: whole
 
----
 
-### skill modifier
-
-#### Domain Language
+#### **skill modifier**
 
 - The skill modifier is the total bonus added to the d20 roll: skill rank + ability modifier + miscellaneous modifiers.
 - Each skill has an associated ability whose rank adds as the ability modifier to all checks for that skill, even when used untrained.
@@ -105,11 +97,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_042.md
 Locator: lines 2736-2796
 Extract: whole
 
----
 
-### trained only
-
-#### Domain Language
+#### **trained only**
 
 - Skills marked Trained Only require at least 1 rank to use; untrained attempts automatically fail.
 - Some skills have both trained-only and untrained aspects; a character without ranks may use only the untrained aspects.
@@ -128,11 +117,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_043.md
 Locator: lines 2797-2849
 Extract: whole
 
----
 
-### interaction skill
-
-#### Domain Language
+#### **interaction skill**
 
 - Interaction skills are a category used for social influence: changing others attitudes and gaining their cooperation.
 - Require the subject to be aware of and able to understand the user; inability to hear or understand imposes a -5 circumstance penalty.
@@ -148,11 +134,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_042.md
 Locator: lines 2736-2796
 Extract: whole
 
----
 
-### manipulation skill
-
-#### Domain Language
+#### **manipulation skill**
 
 - Manipulation skills require fine physical manipulation; the user must have prehensile limbs and a Strength rank, or a suitable Precise power effect.
 - Physical impairment causes the GM to impose a circumstance penalty scaled to severity.
@@ -166,11 +149,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_043.md
 Locator: lines 2797-2849
 Extract: whole
 
----
 
-### Skill Mastery
-
-#### Domain Language
+#### **Skill Mastery**
 
 - Skill Mastery is an advantage that allows the character to use a routine check result (bonus + 10) on a nominated skill even under stress, without rolling.
 - A character with Skill Mastery can always achieve their routine result for that skill regardless of pressure.
@@ -190,11 +170,8 @@ Locator: lines 3762-3826
 Extract: partial
 Part: Sleight of Hand example referencing Skill Mastery for Stealth.
 
----
 
-### circumstance modifier
-
-#### Domain Language
+#### **circumstance modifier**
 
 - A circumstance modifier is a bonus or penalty applied to a skill check that reflects the specific conditions under which it is made.
 - Circumstance modifiers stack with the base skill modifier; favorable circumstances add bonuses, unfavorable circumstances impose penalties.
@@ -213,11 +190,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_044.md
 Locator: lines 2850-2893
 Extract: whole
 
----
 
-### Acrobatics
-
-#### Domain Language
+#### **Acrobatics**
 
 - Acrobatics is a Trained Only skill based on Agility covering balance, acrobatic maneuvers, rising from prone, and reducing fall damage.
 - Balancing: a successful check allows movement at ground speed minus 1 rank; one degree of failure equals no movement; two or more degrees means falling; the character is vulnerable while balancing unless DC is increased by +5.
@@ -248,11 +222,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_047.md
 Locator: lines 3066-3117
 Extract: whole
 
----
 
-### Athletics
-
-#### Domain Language
+#### **Athletics**
 
 - Athletics is a skill based on Strength; it may be used untrained; it covers climbing, falling, jumping, running, and swimming.
 - Climbing: a successful check allows climbing at ground speed rank minus 2; failure equals no progress; two or more degrees means falling; the character is vulnerable while climbing unless DC is increased by +5.
@@ -273,11 +244,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_048.md
 Locator: lines 3118-3168
 Extract: whole
 
----
 
-### Close Combat
-
-#### Domain Language
+#### **Close Combat**
 
 - Close Combat is a skill based on Fighting; it may be used untrained; each Close Combat skill is specific to a single weapon or power.
 - The skill rank adds to attack checks for that specific weapon or power only; it does not apply to defense.
@@ -297,11 +265,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_049.md
 Locator: lines 3169-3225
 Extract: whole
 
----
 
-### Deception
-
-#### Domain Language
+#### **Deception**
 
 - Deception is an interaction skill based on Presence; it covers lying, bluffing, disguise, feinting, innuendo, and tricking.
 - Bluffing: Deception check opposed by targets Deception or Insight; circumstance modifiers from -5 (target wants to believe) to +20 (outrageous claim); standard action, or move action at -5.
@@ -327,11 +292,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_051.md
 Locator: lines 3284-3373
 Extract: whole
 
----
 
-### Expertise
-
-#### Domain Language
+#### **Expertise**
 
 - Expertise is a Trained Only skill based on Intellect representing specialized professional or scholarly knowledge; each area is a separate skill.
 - A trained character can practice and make a living at it: use tools of the trade, perform daily tasks, supervise helpers, handle common problems.
@@ -348,11 +310,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_051.md
 Locator: lines 3284-3373
 Extract: whole
 
----
 
-### Insight
-
-#### Domain Language
+#### **Insight**
 
 - Insight is a skill based on Awareness; it may be used untrained; it covers reading intentions, detecting influence, evaluating trustworthiness, picking up innuendo, and resisting social manipulation.
 - Detect Illusion: GM makes a secret Insight check (DC 10 + Illusion rank) to sense an illusions true nature.
@@ -374,11 +333,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_053.md
 Locator: lines 3441-3484
 Extract: whole
 
----
 
-### Intimidation
-
-#### Domain Language
+#### **Intimidation**
 
 - Intimidation is an interaction skill based on Presence; it covers using threats to coerce compliance or demoralize opponents.
 - Coercing: Intimidation check opposed by targets Insight or Will defense (whichever is higher); success treats target as friendly for actions in the users presence only; targets true attitude becomes hostile after the attempt; more than one degree of failure causes the opposite effect.
@@ -399,11 +355,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_054.md
 Locator: lines 3485-3527
 Extract: whole
 
----
 
-### Investigation
-
-#### Domain Language
+#### **Investigation**
 
 - Investigation is a Trained Only skill based on Intellect covering searching for clues, gathering information, interviewing contacts, surveillance, and forensic analysis.
 - Search: an Investigation check picks up on area details with effort; DC scales from low (ransacking a room) to 25+ (extremely obscure clues); concealed objects DC opposed by hiders Stealth or Sleight of Hand.
@@ -430,11 +383,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_056.md
 Locator: lines 3572-3638
 Extract: whole
 
----
 
-### Perception
-
-#### Domain Language
+#### **Perception**
 
 - Perception is a skill based on Awareness; it may be used untrained; it covers noticing and picking up on things in the environment across all sense types.
 - Distance penalty: -1 circumstance penalty for every 10 feet between the character and what they try to perceive.
@@ -452,11 +402,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_057.md
 Locator: lines 3639-3682
 Extract: whole
 
----
 
-### Persuasion
-
-#### Domain Language
+#### **Persuasion**
 
 - Persuasion is an interaction skill based on Presence covering social graces, etiquette, negotiation, and winning others over.
 - Improving attitudes: DC 15 check improves an NPCs attitude by one step; each two additional degrees improve by one more step; failure equals no change; more than one degree of failure worsens attitude by one step.
@@ -472,11 +419,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_058.md
 Locator: lines 3683-3761
 Extract: whole
 
----
 
-### Ranged Combat
-
-#### Domain Language
+#### **Ranged Combat**
 
 - Ranged Combat is a skill based on Dexterity; it may be used untrained; each Ranged Combat skill is specific to a single weapon or power.
 - The skill rank adds to attack checks for that specific weapon or power only; it does not apply to defense.
@@ -491,11 +435,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_059.md
 Locator: lines 3762-3826
 Extract: whole
 
----
 
-### Sleight of Hand
-
-#### Domain Language
+#### **Sleight of Hand**
 
 - Sleight of Hand is a Trained Only manipulation skill based on Dexterity covering legerdemain, pickpocketing, concealment, contortion, and escape.
 - Concealing: Sleight of Hand check result becomes the DC for Investigation or Perception checks to find the concealed item.
@@ -517,11 +458,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_060.md
 Locator: lines 3827-3895
 Extract: whole
 
----
 
-### Stealth
-
-#### Domain Language
+#### **Stealth**
 
 - Stealth is a skill based on Agility; it may be used untrained; it covers hiding from observers and tailing subjects without detection.
 - Hiding: requires cover or concealment; Stealth check opposed by observers Perception; cannot hide when others are already aware unless a Deception or Intimidation check first creates a distraction (Stealth at -5); cannot hide in plain sight.
@@ -536,11 +474,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_060.md
 Locator: lines 3827-3895
 Extract: whole
 
----
 
-### Technology
-
-#### Domain Language
+#### **Technology**
 
 - Technology is a Trained Only manipulation skill based on Intellect that requires tools; it covers operating, building, repairing, and sabotaging technological devices.
 - Operating: routine operations do not require a check; unfamiliar devices require a check (DC 10 simple to DC 25+ highly advanced); lacking tools imposes -5.
@@ -568,11 +503,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_063.md
 Locator: lines 3995-4045
 Extract: whole
 
----
 
-### Treatment
-
-#### Domain Language
+#### **Treatment**
 
 - Treatment is a Trained Only manipulation skill based on Intellect that requires tools; it covers diagnosing, caring for, reviving, stabilizing, and treating injured or ill characters.
 - Diagnosis: takes at least one minute; at GMs discretion, success grants +2 to subsequent Treatment checks.
@@ -594,11 +526,8 @@ Source: context/rules/HeroesHandbook-rules__chunk_064.md
 Locator: lines 4046-4106
 Extract: whole
 
----
 
-### Vehicles
-
-#### Domain Language
+#### **Vehicles**
 
 - Vehicles is a Trained Only manipulation skill based on Dexterity covering operation of ground vehicles, boats, aircraft, and spacecraft in dramatic or stressful situations.
 - Routine vehicle operations do not require a check and may be done untrained for common vehicles.
@@ -616,11 +545,8 @@ Extract: whole
 
 # Boundary Domain
 
-## ability modifier
+#### **ability modifier** *(owned by: Ability)*
 
-Owned by: Ability
-
-#### Domain Language
 
 - Each skill has an associated ability whose rank is applied as a modifier to all skill checks for that skill, even when used untrained.
 - The ability modifier is one component of the total skill modifier (skill rank + ability modifier + miscellaneous modifiers).
@@ -632,13 +558,9 @@ Source: context/rules/HeroesHandbook-rules__chunk_041.md
 Locator: lines 2689-2735
 Extract: whole
 
----
 
-## power point
+#### **power point** *(owned by: Character Construction)*
 
-Owned by: Character Construction
-
-#### Domain Language
 
 - Skills are purchased with power points at 1 power point per 2 ranks.
 - Skill ranks may be split across multiple skills from a single power point expenditure.
@@ -650,13 +572,9 @@ Source: context/rules/HeroesHandbook-rules__chunk_041.md
 Locator: lines 2689-2735
 Extract: whole
 
----
 
-## degree of success / degree of failure
+#### **degree of success / degree of failure** *(owned by: Check Resolution)*
 
-Owned by: Check Resolution
-
-#### Domain Language
 
 - Skill check outcomes are measured in degrees; typically each 5 points above or below the DC constitutes one degree.
 - Skill descriptions specify outcomes per degree (e.g., Persuasion attitude improvement per extra two degrees; Intimidation demoralizing improves at four degrees).
@@ -668,13 +586,9 @@ Source: context/rules/HeroesHandbook-rules__chunk_042.md
 Locator: lines 2736-2796
 Extract: whole
 
----
 
-## routine check
+#### **routine check** *(owned by: Check Resolution)*
 
-Owned by: Check Resolution
-
-#### Domain Language
 
 - A routine check result is bonus + 10, used when no pressure exists and rolling is unnecessary.
 - Skill Mastery allows a character to use the routine check result for a specific skill even under stress.
@@ -686,13 +600,9 @@ Source: context/rules/HeroesHandbook-rules__chunk_043.md
 Locator: lines 2797-2849
 Extract: whole
 
----
 
-## attack check
+#### **attack check** *(owned by: Combat)*
 
-Owned by: Combat
-
-#### Domain Language
 
 - Close Combat and Ranged Combat skill ranks add to attack checks for the specific weapon or power the skill covers.
 - Attack checks are resolved in the Combat module; the Skill module provides the bonus source.
@@ -704,13 +614,9 @@ Source: context/rules/HeroesHandbook-rules__chunk_048.md
 Locator: lines 3118-3168
 Extract: whole
 
----
 
-## condition
+#### **condition** *(owned by: Check Resolution)*
 
-Owned by: Check Resolution
-
-#### Domain Language
 
 - Some skill outcomes impose conditions on targets (e.g., Intimidation demoralizing imposes impaired or disabled; Deception feinting imposes vulnerable).
 - Treatment skill removes conditions (dazed, stunned) and stabilizes the dying condition.
@@ -727,13 +633,9 @@ Source: context/rules/HeroesHandbook-rules__chunk_064.md
 Locator: lines 4046-4106
 Extract: whole
 
----
 
-## power effect
+#### **power effect** *(owned by: Power)*
 
-Owned by: Power
-
-#### Domain Language
 
 - The Immunity power effect can render a character completely immune to interaction skills.
 - The Illusion power effect is the target of Insights Detect Illusion use.
@@ -751,13 +653,9 @@ Source: context/rules/HeroesHandbook-rules__chunk_043.md
 Locator: lines 2797-2849
 Extract: whole
 
----
 
-## team check
+#### **team check** *(owned by: Check Resolution)*
 
-Owned by: Check Resolution
-
-#### Domain Language
 
 - Characters lacking physical manipulation capability can still use manipulation skill ranks to oversee or assist others via team checks.
 - Team checks are owned by Check Resolution; manipulation skills reference them as an alternative application mode.

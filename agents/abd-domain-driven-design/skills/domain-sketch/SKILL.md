@@ -48,39 +48,9 @@ New concepts emerge not only from Key Abstractions but also from their **terms**
 
 ### Typing: a thing is a kind of other thing
 
-Quick decision guide:
-When a term looks like it fals into "a thing is a kind of another thing," three modeling options exist:
+For the decision guide on when to use a subtype, type property, or instance — and the delta rule — read the **`## Inheritance and subtypes`** section of [`common/oo-concepts.md`](../../common/oo-concepts.md).
 
-**Subtype (*is a type of*)** — the specialized thing adds **behavior the base does not have**. Each subtype does something differently enough that you need to describe it separately. Use this when the distinction changes **what the thing does**, not just what data it carries. Example: an *international shipment* is a type of *shipment* — it introduces customs filing and duty handling that a domestic shipment does not have.
-
-**Type property (constrained list)** — the thing varies by **category**, but every category follows the **same behavior**. The difference is purely which label from a known list applies. Use this when you could swap one label for another and the behavior description would not change. Example: a *notification* has a *notification priority type* drawn from (*low*, *normal*, *urgent*) — every notification still has a recipient, still carries a message, still follows the same delivery and read-receipt rules. The *notification priority type* tells you how soon it surfaces, not how it behaves differently.
-
-**Instance** — the thing is one **concrete member** of a parent concept, distinguished only by its **specific data values**. Many instances exist side by side and they all work the same way — each just carries different numbers or names. Use this when listing them out would produce rows that repeat the same structure with different fill. Example: *bronze*, *silver*, *gold* are all instances of *membership tier* — each names a specific discount rate and benefit set, but they all follow the same upgrade, renewal, and expiry rules that Membership Tier defines.
-
-A common modeling journey begins with treating domain elements as *instances* or *type properties* on a concept, and as understanding of behavior differences grows, moves these into subtypes through inheritance or specialization.
-
-**Example — Evolving a Payment System Domain Model:**
-
-- **Early model (Instances or Type properties):**
-  - Model *Payment* as a concept.
-  - Each *payment* instance carries data like channel (e.g., "credit card", "bank transfer"), transaction amount, reference id, etc.
-  - All payments go through the same core behaviors: *initiate payment*, *set channel*, *approve transaction limit*, and attach required data to the payment instance.
-
-- **Transition point:**
-  - As behaviors diverge (e.g., approval workflow or fraud checks differ by channel), notice that some payment types must satisfy additional steps or rules. 
-  - Subtle differences in fulfillment or submission arise: submitting a bank transfer may require different fields or succeed asynchronously, while a credit card might authorize instantly.
-
-- **Evolved model (Subtypes / Inheritance):**
-  - Define subtypes such as `CreditCardPayment`, `BankTransferPayment`, etc., each *is a type of* `Payment`.
-  - Each subtype describes behaviors *only* where they differ. 
-    - For example, `CreditCardPayment` enforces an online authorization step, while `BankTransferPayment` may require reference code validation and may be fulfilled later.
-  - Shared behaviors (initiate, submit) stay on the base `Payment`, but fulfillment logic, submission differences, and approval steps diverge in the subtypes.
-  - Now, *type* drives both *attached data* and *behavior* — shifting the focus from properties on instances to explicit, responsibility-led subtypes.
-
-This approach ensures your model remains DRY and only adds complexity when real business behavior demands it. It surfaces differences organically: what begins as just a *label* on an instance becomes a *distinct concept* once its life cycle or rules can no longer be cleanly unified.
-
-> When you reach the point where a domain element's *type* alters not only the data needed but also the sequence of steps or the rules followed, it's time to refactor from type-property instances to true subtypes with their own behaviors.
-
+**Do not read or apply the `## Decomposing responsibilities` section** — that section applies at CRC stage and beyond. At domain-sketch level there are no properties, operations, or typed signatures; everything stays in plain English.
 
 ### Subtypes
 
@@ -181,6 +151,7 @@ This skill enriches the growing module file in place at `<workspace>/abd-domain-
 3. **Add `#### Domain Sketch` under each `### term`.** For each `### term` heading:
    - Optionally open with one sentence describing what the term is for and who it works with (plain prose, no subheading).
    - Write verb-led behavior bullets — each one describing what the term does, enforces, or produces. Use active voice; every bullet should naturally start with a verb the term performs.
+   - When a behavior directly produces a result, write both on the same bullet: `- [behavior], producing a [result]`. Do not split cause and effect across two bullets.
    - Add an **Invariant:** bullet for any rule that must always hold.
    - Do NOT repeat what is already in `#### Domain Language` — add new analytical behavior, not a restatement.
 
@@ -553,4 +524,37 @@ Every modeling classification (concept, subtype, type property, instance, proper
   **Example (fail):** Twenty Key Abstraction terms produce twenty `### Concept` headings — flat inventory, no modeling.
 
 **Source:** Correction 21 (mm3e-online-holistic engagement).
+
+### Rule: Behavior and its produced result on the same bullet
+
+**Scanner:** Manual review
+
+When a behavior bullet directly produces a result, the result must appear on the same bullet as the behavior — not as a separate bullet immediately following it. Passing means cause and effect are combined on one line. Failing means a bullet describes a behavior and the next bullet says only "produces a [result]" or "returns a [result]."
+
+#### DO
+
+- Combine a behavior and its immediate output on the same bullet using ", producing a [result]" or a similar connective phrase.
+
+  **Example (pass):** `- is resolved by *rolling* a *d20*, adding the *trait rank* and the *circumstance modifier* and comparing the *roll total* to the *difficulty class*, producing a *check result*`
+
+- Use a separate bullet for a result only when the result has its own standalone significance not already captured on the behavior bullet.
+
+  **Example (pass):** `- accumulates *degrees of failure*` and separately `- a third *degree of failure* means death` — the second is a threshold rule, not just "produces a result."
+
+#### DO NOT
+
+- Write a behavior bullet and then immediately follow it with a standalone "produces a [result]" bullet.
+
+  **Example (fail):**
+  ```
+  - is resolved by *rolling* a *d20*, comparing the *roll total* to the *difficulty class*
+  - produces a *check result*
+  ```
+  The second bullet adds nothing the first does not imply — merge them.
+
+- Split cause and effect across two bullets when the result has no content of its own beyond being the output.
+
+  **Example (fail):** `- applies the *modifier* to the *roll*` followed by `- returns the *modified total*` — the return is part of the behavior, not a separate fact.
+
+**Source:** Correction log entry — domain-sketch skill (check-resolution engagement).
 <!-- execute_rules:bundle_rules:end -->

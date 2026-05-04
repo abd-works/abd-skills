@@ -56,20 +56,13 @@ Scope: Initiative and turn order, action types, the attack check sequence, resis
 
 # Core Domain
 
-## Turn Structure
+## **Turn Structure**
 
 Turn Structure is the time-and-sequence framework that governs who acts when and what they can do. The action round is the six-second unit of in-game time; initiative determines the order within each round; and a character's turn is the slot in that order where they act. Turn Structure owns the full action economy: the allotment of one standard and one move action per turn (or two move actions), the unlimited but GM-arbitrated free actions, and the reactive right to spend reactions whenever circumstances demand. Delay and Ready extend the framework temporally — Delay defers a turn to a later slot while Ready prepays a future reaction — enabling characters to coordinate and respond across the initiative sequence. Turn Structure interacts with all other KAs: Attack Resolution and Combat Maneuvers consume standard actions; tactical choices (Delay, Ready, Defend) consume actions to create positional or temporal advantages. The invariant is that no character may act outside their turn except via free actions and reactions, and no action can exceed its defined cost without an explicit extra effort or other modifier.
 
-#### Decisions made
+### Ubiquitous Language
 
-- initiative, action round, turn, standard action, move action, free action, reaction, delay, and ready all pass independence and module-fit tests — they define when and how any combat action occurs.
-- defend is placed in Combat Maneuvers (not here) because it is a tactical action that uses the standard action to confer a specific defensive benefit, not a structural component of turn sequencing.
-- recover is placed in Damage and Resistance (not here) because its function is to remove damage conditions, not to manage action economy.
-
-### initiative
-
-#### Domain Language
-
+#### **initiative**
 - Initiative determines the order in which characters take their turns during a conflict.
 - Base initiative modifier equals the character's Agility rank; advantages (e.g., Improved Initiative) and powers can modify it further.
 - At the start of a conflict each character rolls d20 + initiative modifier; the turn order counts down from highest result to lowest.
@@ -77,13 +70,118 @@ Turn Structure is the time-and-sequence framework that governs who acts when and
 - The GM may roll a single initiative check for an entire group of minions, giving them all the same result.
 - Characters who enter a conflict after it begins roll initiative when they join and act when their turn comes up in the existing order.
 
-#### Domain Sketch
+#### **action round**
+- An action round (round) is a six-second segment of in-game time used when turn order and action economy matter.
+- During a round each character involved takes one turn — that character's opportunity to act.
+- A round represents approximately one page of a comic book — just long enough for the group to each do one thing.
+- Rounds structure conflicts, challenges, and any situation where sequence and action limits are important.
 
+#### **turn**
+- A turn is a character's portion of an action round — the window in which that character declares and resolves their actions.
+- When a character's turn begins, effects that last "until the start of your next turn" end.
+- When a character's turn ends, effects that last "until the end of your turn" end and required resistance checks for ongoing effects are made.
+- A character informs the GM when their turn is finished so the next character in initiative order may act.
+
+#### **standard action**
+- A standard action allows a character to do something meaningful: attack, use a skill, activate a power or advantage, or perform a similar task.
+- Each character is limited to one standard action per turn.
+- A standard action may be exchanged for an additional move action (two move actions instead of one standard + one move).
+- Special actions (aim, charge, defend, disarm, grab, feint, recover, ready, trip) are standard actions.
+
+#### **move action**
+- A move action allows a character to move up to their speed rank or perform an equivalent activity (draw/stow an item, stand up, pick up an object).
+- In a normal turn a character gets one standard action and one move action; the move may come before or after the standard action.
+- A standard action may be exchanged for an additional move action, enabling two move actions in one turn.
+- Actions cannot normally be split — a character may not move part of their speed, take a standard action, then move the remainder.
+- A DC 15 Athletics check as a free action can increase ground speed rank by +1 for one round on one or more degrees of success.
+
+#### **free action**
+- A free action consumes so little time it is considered to take no real time over the span of a round.
+- A character may perform as many free actions per turn as the GM considers reasonable.
+- Examples: dropping an object, dropping prone, speaking a sentence or two, ceasing to concentrate on a power, maintaining a grab.
+- Free actions are a conscious choice made on the character's own turn; they cannot occur when it is not the character's turn (reactions serve that role).
+
+#### **reaction**
+- A reaction is a response to something else happening during the round; it can occur even when it is not the character's turn.
+- Reactions take no significant time and do not count against the character's normal action allotment.
+- A character can react as often as circumstances dictate, but only when circumstances dictate.
+- Spending a hero point is a reaction.
+- Examples: taking a readied action when triggered, counter-disarming after losing a melee disarm, firing a netline after declaring a ready.
+
+#### **delay**
+- Delay is a no-action choice to defer one's entire turn to later in the initiative order.
+- A character cannot delay after having already taken an action on their turn, or if unable to take actions.
+- After any other character acts, the delayed character may choose to act; their initiative slot moves to where they acted.
+- If the trigger never fires before the character's original initiative comes up next round, the delayed turn is lost and initiative stays put.
+- Beneficial effects that last until end of turn expire when the character delays; harmful effects persist until after the character acts.
+
+#### **ready**
+- Ready is a standard action that prepares a single standard, move, or free action to trigger on a specified future condition.
+- The character declares the action and triggering circumstances; the readied action fires as a reaction when conditions are met.
+- When the readied action fires, the character's initiative slot moves to where they acted.
+- If the trigger does not occur before the character's next initiative, the readied action is lost; the same action may be readied again.
+
+---
+
+### Domain Sketch
+
+#### **initiative**
 - Computes the conflict's turn order as a descending list from highest result to lowest at the start of each conflict.
 - Inserts newly-arriving characters into the existing order at the result they roll when they join.
 - Invariant: Every character in a conflict has exactly one initiative position; that position persists across rounds unless modified by delay or ready.
 
-#### References
+#### **action round**
+- Advances to the next round once every character in the initiative order has completed their turn.
+- Serves as the atomic time unit against which effect durations ("until start of your next turn", "until end of your turn") are measured.
+- Invariant: Every declared action occurs within a round — no action is resolved outside the round structure.
+
+#### **turn**
+- Opens by cleaning up "start of turn" expiring effects, then accepts action declarations.
+- Closes by cleaning up "end of turn" expiring effects, then fires mandatory ongoing-effect resistance checks.
+- Provides the temporal frame within which free actions are valid — free actions cannot occur outside a character's own turn.
+- Invariant: A character has exactly one turn per round (extra effort can add one more action within the same turn, not a second turn).
+
+#### **standard action**
+- Permits one of: attack check, skill check, power activation, or any named special action (the Combat Maneuvers KA lists these).
+- Consumed at declaration; no refund for a failed action.
+- Invariant: Only one standard action per turn; extra effort can grant one additional standard action.
+
+#### **move action**
+- Covers both physical displacement (moving up to speed rank) and equivalent physical tasks (drawing a weapon, standing from prone).
+- May be taken before or after the standard action, but not split around it.
+- Invariant: Only one move action per turn unless the standard action is exchanged for a second move action.
+
+#### **free action**
+- Executes alongside any other action without consuming standard or move action budget.
+- Invariant: Free actions only occur on the character's own turn; off-turn interventions use the reaction mechanism instead.
+
+#### **reaction**
+- Fires outside the character's own turn in response to a triggering event.
+- Does not consume or replace the character's standard, move, or free action budget.
+- Invariant: Reactions fire only when circumstances trigger them; they cannot be voluntarily taken at any time like free actions.
+
+#### **delay**
+- Removes the character from the current initiative slot and holds them in reserve for later activation.
+- Transfers the initiative position to the point of insertion when the character chooses to act.
+- Invariant: Cannot delay after any action has been taken on the current turn, and cannot delay if unable to take actions.
+- Invariant: The delayed turn is lost if not taken before the same initiative position arrives in the next round.
+
+#### **ready**
+- Packages an action with a trigger condition for deferred execution as a reaction.
+- Shifts the character's initiative position to the point where the readied action fires.
+- Invariant: Only one readied action at a time; the character may ready the same action again on a subsequent turn if the trigger never fired.
+- Invariant: The readied action is automatically lost if the character's next initiative comes up without the trigger firing.
+
+---
+
+### Decisions made
+
+- initiative, action round, turn, standard action, move action, free action, reaction, delay, and ready all pass independence and module-fit tests — they define when and how any combat action occurs.
+- defend is placed in Combat Maneuvers (not here) because it is a tactical action that uses the standard action to confer a specific defensive benefit, not a structural component of turn sequencing.
+- recover is placed in Damage and Resistance (not here) because its function is to remove damage conditions, not to manage action economy.
+
+### References
+
 
 **Ref — Ch8 Action & Adventure**
 Source: context/rules/HeroesHandbook-rules__chunk_196.md
@@ -110,25 +208,6 @@ The  initiative  check  determines  what  order  characters act in, counting dow
 If characters enter a conflict after itâ€™s begun, they roll initiative when they join-in and act when their turn comes up in the existing order.
 ```
 
----
-
-### action round
-
-#### Domain Language
-
-- An action round (round) is a six-second segment of in-game time used when turn order and action economy matter.
-- During a round each character involved takes one turn — that character's opportunity to act.
-- A round represents approximately one page of a comic book — just long enough for the group to each do one thing.
-- Rounds structure conflicts, challenges, and any situation where sequence and action limits are important.
-
-#### Domain Sketch
-
-- Advances to the next round once every character in the initiative order has completed their turn.
-- Serves as the atomic time unit against which effect durations ("until start of your next turn", "until end of your turn") are measured.
-- Invariant: Every declared action occurs within a round — no action is resolved outside the round structure.
-
-#### References
-
 **Ref — Attack Checks**
 Source: context/rules/HeroesHandbook-rules__chunk_016.md
 Locator: lines 1195-1237
@@ -149,26 +228,6 @@ When things really start happening in a MUTANTS & MASTERMINDS game, time is brok
 
 The things you can do on your turn are broken up into actions. There are standard actions, move actions, free actions, and reactions. During a round you can take a standard and a move action (or substitute an additional move action for your standard action) along with as many free actions as you wish and as many reactions as are called for.
 ```
-
----
-
-### turn
-
-#### Domain Language
-
-- A turn is a character's portion of an action round — the window in which that character declares and resolves their actions.
-- When a character's turn begins, effects that last "until the start of your next turn" end.
-- When a character's turn ends, effects that last "until the end of your turn" end and required resistance checks for ongoing effects are made.
-- A character informs the GM when their turn is finished so the next character in initiative order may act.
-
-#### Domain Sketch
-
-- Opens by cleaning up "start of turn" expiring effects, then accepts action declarations.
-- Closes by cleaning up "end of turn" expiring effects, then fires mandatory ongoing-effect resistance checks.
-- Provides the temporal frame within which free actions are valid — free actions cannot occur outside a character's own turn.
-- Invariant: A character has exactly one turn per round (extra effort can add one more action within the same turn, not a second turn).
-
-#### References
 
 **Ref — Standard Action**
 Source: context/rules/HeroesHandbook-rules__chunk_197.md
@@ -230,88 +289,11 @@ You perform your actions in any order that you wish, but you cannot normally â�
 At the end of your turn, you should end effects, make resistance checks, and inform the GM.
 ```
 
----
-
-### standard action
-
-#### Domain Language
-
-- A standard action allows a character to do something meaningful: attack, use a skill, activate a power or advantage, or perform a similar task.
-- Each character is limited to one standard action per turn.
-- A standard action may be exchanged for an additional move action (two move actions instead of one standard + one move).
-- Special actions (aim, charge, defend, disarm, grab, feint, recover, ready, trip) are standard actions.
-
-#### Domain Sketch
-
-- Permits one of: attack check, skill check, power activation, or any named special action (the Combat Maneuvers KA lists these).
-- Consumed at declaration; no refund for a failed action.
-- Invariant: Only one standard action per turn; extra effort can grant one additional standard action.
-
-#### References
 
 *(Deduplicated — all refs cited by earlier terms in this KA block. See chunk_197 under turn, chunk_016 under action round.)*
 
----
-
-### move action
-
-#### Domain Language
-
-- A move action allows a character to move up to their speed rank or perform an equivalent activity (draw/stow an item, stand up, pick up an object).
-- In a normal turn a character gets one standard action and one move action; the move may come before or after the standard action.
-- A standard action may be exchanged for an additional move action, enabling two move actions in one turn.
-- Actions cannot normally be split — a character may not move part of their speed, take a standard action, then move the remainder.
-- A DC 15 Athletics check as a free action can increase ground speed rank by +1 for one round on one or more degrees of success.
-
-#### Domain Sketch
-
-- Covers both physical displacement (moving up to speed rank) and equivalent physical tasks (drawing a weapon, standing from prone).
-- May be taken before or after the standard action, but not split around it.
-- Invariant: Only one move action per turn unless the standard action is exchanged for a second move action.
-
-#### References
 
 *(Deduplicated — all refs cited by earlier terms in this KA block. See chunk_197, chunk_198 under turn.)*
-
----
-
-### free action
-
-#### Domain Language
-
-- A free action consumes so little time it is considered to take no real time over the span of a round.
-- A character may perform as many free actions per turn as the GM considers reasonable.
-- Examples: dropping an object, dropping prone, speaking a sentence or two, ceasing to concentrate on a power, maintaining a grab.
-- Free actions are a conscious choice made on the character's own turn; they cannot occur when it is not the character's turn (reactions serve that role).
-
-#### Domain Sketch
-
-- Executes alongside any other action without consuming standard or move action budget.
-- Invariant: Free actions only occur on the character's own turn; off-turn interventions use the reaction mechanism instead.
-
-#### References
-
-*(Deduplicated — all refs cited by earlier terms in this KA block. See chunk_197 under turn, chunk_016 under action round.)*
-
----
-
-### reaction
-
-#### Domain Language
-
-- A reaction is a response to something else happening during the round; it can occur even when it is not the character's turn.
-- Reactions take no significant time and do not count against the character's normal action allotment.
-- A character can react as often as circumstances dictate, but only when circumstances dictate.
-- Spending a hero point is a reaction.
-- Examples: taking a readied action when triggered, counter-disarming after losing a melee disarm, firing a netline after declaring a ready.
-
-#### Domain Sketch
-
-- Fires outside the character's own turn in response to a triggering event.
-- Does not consume or replace the character's standard, move, or free action budget.
-- Invariant: Reactions fire only when circumstances trigger them; they cannot be voluntarily taken at any time like free actions.
-
-#### References
 
 **Ref — Reactions**
 Source: context/rules/HeroesHandbook-rules__chunk_017.md
@@ -331,27 +313,6 @@ line_range: "1238-1344"
 
 A  reaction  is  something  you  do  in  response  to  something  else.  A  reaction  doesnâ€™t  take  any  significant  time, like a free action. The difference is you react in response to something else happening during the round, perhaps not even on your turn. Reactions donâ€™t count against your normal allotment of actions and you can react as often as the circumstances dictate, but only when they dictate.
 ```
-
----
-
-### delay
-
-#### Domain Language
-
-- Delay is a no-action choice to defer one's entire turn to later in the initiative order.
-- A character cannot delay after having already taken an action on their turn, or if unable to take actions.
-- After any other character acts, the delayed character may choose to act; their initiative slot moves to where they acted.
-- If the trigger never fires before the character's original initiative comes up next round, the delayed turn is lost and initiative stays put.
-- Beneficial effects that last until end of turn expire when the character delays; harmful effects persist until after the character acts.
-
-#### Domain Sketch
-
-- Removes the character from the current initiative slot and holds them in reserve for later activation.
-- Transfers the initiative position to the point of insertion when the character chooses to act.
-- Invariant: Cannot delay after any action has been taken on the current turn, and cannot delay if unable to take actions.
-- Invariant: The delayed turn is lost if not taken before the same initiative position arrives in the next round.
-
-#### References
 
 **Ref — Crawl**
 Source: context/rules/HeroesHandbook-rules__chunk_211.md
@@ -377,26 +338,6 @@ At any point after any other character in the conflict has acted, you can choose
 
 Beneficial effects lasting until the end of your turn end when you choose to delay, but harmful effects that last until the end of your turn last until after you act. Likewise, you do not make resistance checks until after you have taken your turn, so delaying can draw out some effects.
 ```
-
----
-
-### ready
-
-#### Domain Language
-
-- Ready is a standard action that prepares a single standard, move, or free action to trigger on a specified future condition.
-- The character declares the action and triggering circumstances; the readied action fires as a reaction when conditions are met.
-- When the readied action fires, the character's initiative slot moves to where they acted.
-- If the trigger does not occur before the character's next initiative, the readied action is lost; the same action may be readied again.
-
-#### Domain Sketch
-
-- Packages an action with a trigger condition for deferred execution as a reaction.
-- Shifts the character's initiative position to the point where the readied action fires.
-- Invariant: Only one readied action at a time; the character may ready the same action again on a subsequent turn if the trigger never fired.
-- Invariant: The readied action is automatically lost if the character's next initiative comes up without the trigger firing.
-
-#### References
 
 **Ref — Move**
 Source: context/rules/HeroesHandbook-rules__chunk_213.md
@@ -442,34 +383,120 @@ You can ready a single standard, move, or free action. To do so, specify the act
 
 ---
 
-## Attack Resolution
+## **Attack Resolution**
 
 Attack Resolution is the sequence that determines whether an attack lands and with what force. The attack check is the gatekeeper — rolling d20 + attack bonus against the target's defense class to produce a hit or miss; a natural 20 extends to a potential critical hit while a natural 1 always misses. Defense class is calculated from the applicable active defense (Parry for close, Dodge for ranged) plus 10, and is modified by conditions, concealment, and cover. The attack bonus aggregates Fighting or Dexterity, skill ranks, and circumstance modifiers (including maneuver trade-offs). Close and ranged attacks are the two fundamental attack types that differ by range and which defense they target. Critical hits extend the resolution: when a natural 20 produces a total that beats the defense class, the attacker chooses from three amplified outcomes. Aim and charge are action-phase modifiers that feed into the attack check. Attack Resolution owns the rules that determine whether an attack connects; it does not own damage outcomes (those belong to Damage and Resistance) or the conditions imposed by effects (owned by Check Resolution).
 
-#### Decisions made
+### Ubiquitous Language
+
+#### **attack check**
+- An attack check determines whether an attack hits: d20 + attack bonus vs. target's defense class; equal or exceeding means a hit.
+- A natural 20 on the d20 always hits regardless of defense and may be a critical hit.
+- A natural 1 on the d20 always misses regardless of the total.
+- Area and perception-range effects do not require attack checks; they automatically affect the target or area and cannot score critical hits or misses.
+
+#### **attack bonus**
+- The attack bonus is the modifier added to the d20 roll when making an attack check.
+- For most characters it is based on Fighting (close attacks) or Dexterity (ranged attacks) plus applicable Close Combat or Ranged Combat skill ranks plus circumstance modifiers.
+- Maneuvers (Accurate Attack, All-out Attack, Defensive Attack, Power Attack) can temporarily shift the attack bonus in exchange for other trade-offs.
+- Conditions and tactical circumstances (aim bonus, charge penalty, concealment, cover) apply as circumstance modifiers.
+
+#### **defense class**
+- The defense class is the difficulty number an attack check must equal or exceed to hit: Defense Class = defense rank + 10.
+- Close attacks target Parry; ranged attacks target Dodge; certain attacks may target other defenses.
+- Vulnerable halves active defense ranks (round up); defenseless reduces active defense ranks to 0 making the base DC just 10.
+- Attackers may make attack checks against defenseless targets as routine checks (auto-hit with bonus ≥ 0).
+
+#### **close attack**
+- A close attack targets a character within physical reach (by touch or melee weapon) and is checked against the target's Parry defense.
+- Strength-based damage (unarmed, melee weapons) is close range by default.
+- Close attacks can score critical hits; many maneuvers (charge, trip, disarm, grab) are close attacks.
+
+#### **ranged attack**
+- A ranged attack targets a character at a distance and is checked against the target's Dodge defense.
+- Short range (rank × 25 ft): no penalty; medium (rank × 50 ft): −2 circumstance; long (rank × 100 ft): −5 circumstance; beyond long range the target is out of range and cannot be attacked.
+- Perception-range attacks automatically hit without an attack check and cannot score critical hits or misses.
+- Modifiers affecting the attack check (including maneuvers) do not apply to area or perception effects.
+
+#### **critical hit**
+- A critical hit occurs when the attack check rolls a natural 20 and the total also equals or exceeds the target's defense class.
+- A natural 20 that does not beat the defense class is still a hit but not a critical hit.
+- On a critical hit the attacker chooses one of three effects: Increased Effect (+5 resistance DC), Added Effect (bonus rank-0 secondary effect), or Alternate Effect (temporary power stunt at no fatigue cost).
+- Against a minion, Increased Effect bypasses the resistance check entirely — the minion automatically receives the worst degree.
+- Improved Critical advantage extends the threat range below natural 20; auto-hit only occurs on a natural 20.
+- Area and perception effects cannot score critical hits.
+
+#### **aim**
+- Aim is a standard action that lines up a subsequent attack, granting a circumstance bonus on the following attack check.
+- Close attack or ranged attack at close range: +5 circumstance bonus; ranged attack at greater distance: +2 circumstance bonus.
+- The attacker is vulnerable while aiming.
+- A free action maintains aim before making the attack; losing the ability to maintain aim cancels the bonus.
+- The very next action after aiming must be the attack; any other action cancels the aim bonus.
+
+#### **charge**
+- Charge is a standard action: the attacker moves their speed rank in a straight line toward a target, then makes a close attack at the end of movement with a −2 circumstance penalty.
+- Combined with a move action, the attacker can move up to twice their speed rank before attacking.
+- Charge enables the slam attack maneuver.
+
+---
+
+### Domain Sketch
+
+#### **attack check**
+- Produces a binary hit/miss result that gates all further resolution (damage, conditions, effects).
+- Extends to a critical hit determination when the d20 result is exactly 20.
+- Invariant: d20 result of 1 always misses; d20 result of 20 always hits regardless of totals.
+- Invariant: Area and perception-range attacks bypass this check entirely — no attack bonus, no defense class comparison.
+
+#### **attack bonus**
+- Aggregates all static and circumstance modifiers into a single value added to d20 for the attack check.
+- Shifts temporarily when a maneuver trade-off is declared before the attack check.
+- Invariant: Cannot be reduced below +0 by maneuver penalties (all maneuvers have this floor constraint).
+
+#### **defense class**
+- Represents the minimum attack check result required to hit a specific character with a specific attack type.
+- Recalculates dynamically when active defense ranks change (vulnerable, defenseless conditions).
+- Invariant: Defense Class = active defense rank + 10; applies independently per attack type (close vs. ranged).
+
+#### **close attack**
+- Selects Parry as the target defense, making Fighting rank the primary attack modifier.
+- Enables all physical contact maneuvers (grab, trip, disarm, slam); ranged attacks cannot trigger these maneuvers.
+- Invariant: Target must be within physical reach; attacks beyond reach require a ranged attack type.
+
+#### **ranged attack**
+- Selects Dodge as the target defense; applies distance modifiers based on range bands.
+- Degrades accuracy at medium and long range through circumstance penalties to the attack check.
+- Invariant: Cannot target beyond long range (rank × 100 ft); targets outside this range are simply out of range.
+- Invariant: Perception-range attacks bypass this entire check — they automatically affect targets with no attack roll.
+
+#### **critical hit**
+- Extends a natural-20 hit into one of three amplified outcome options chosen by the attacker.
+- Applies the Increased Effect option against minions with an instant-defeat bypass rule.
+- Invariant: Confirmation requires both natural 20 AND total ≥ defense class; missing the defense class on a natural 20 is a normal hit only.
+- Invariant: Area and perception-range attacks can never produce critical hits.
+
+#### **aim**
+- Trades the current turn's standard action for a circumstance bonus to the immediately following attack check.
+- Applies vulnerable condition to the aiming character from the moment aim is declared until the attack is made.
+- Invariant: The aim bonus is lost if any action other than the declared attack occurs next.
+
+#### **charge**
+- Combines movement and a close attack into a single standard action at a −2 attack check penalty.
+- Extends movement range when combined with a move action (up to 2× speed rank total).
+- Enables the slam attack variant when the attacker chooses to use momentum as the damage source.
+- Invariant: Movement must be in a relatively straight line toward the target; cannot charge a target not in line-of-movement.
+
+---
+
+### Decisions made
 
 - attack check, attack bonus, defense class, close attack, ranged attack, and critical hit pass both tests — they are the core attack resolution mechanics.
 - aim and charge are included here because they directly modify the attack check result or target selection; their outcome is a modifier to the attack roll, not a separate resolution system.
 - slam attack is placed under Combat Maneuvers because it is a special maneuver used during charge, modifying the damage formula — its primary effect is on damage, not on the attack check itself.
 - area and perception-range effects bypass attack checks entirely; they are flagged as a context gap for the AC phase.
 
-### attack check
+### References
 
-#### Domain Language
-
-- An attack check determines whether an attack hits: d20 + attack bonus vs. target's defense class; equal or exceeding means a hit.
-- A natural 20 on the d20 always hits regardless of defense and may be a critical hit.
-- A natural 1 on the d20 always misses regardless of the total.
-- Area and perception-range effects do not require attack checks; they automatically affect the target or area and cannot score critical hits or misses.
-
-#### Domain Sketch
-
-- Produces a binary hit/miss result that gates all further resolution (damage, conditions, effects).
-- Extends to a critical hit determination when the d20 result is exactly 20.
-- Invariant: d20 result of 1 always misses; d20 result of 20 always hits regardless of totals.
-- Invariant: Area and perception-range attacks bypass this check entirely — no attack bonus, no defense class comparison.
-
-#### References
 
 **Ref — Attack Checks**
 Source: context/rules/HeroesHandbook-rules__chunk_016.md
@@ -515,25 +542,6 @@ An attack check represents an attempt to hit a target with an attack. When you m
 Attack Check = d20 + attack bonus vs. defense class
 ```
 
----
-
-### attack bonus
-
-#### Domain Language
-
-- The attack bonus is the modifier added to the d20 roll when making an attack check.
-- For most characters it is based on Fighting (close attacks) or Dexterity (ranged attacks) plus applicable Close Combat or Ranged Combat skill ranks plus circumstance modifiers.
-- Maneuvers (Accurate Attack, All-out Attack, Defensive Attack, Power Attack) can temporarily shift the attack bonus in exchange for other trade-offs.
-- Conditions and tactical circumstances (aim bonus, charge penalty, concealment, cover) apply as circumstance modifiers.
-
-#### Domain Sketch
-
-- Aggregates all static and circumstance modifiers into a single value added to d20 for the attack check.
-- Shifts temporarily when a maneuver trade-off is declared before the attack check.
-- Invariant: Cannot be reduced below +0 by maneuver penalties (all maneuvers have this floor constraint).
-
-#### References
-
 **Ref — Standard Action**
 Source: context/rules/HeroesHandbook-rules__chunk_214.md
 Locator: lines 14999-15043
@@ -560,25 +568,6 @@ When you make an attack you can take a penalty of up to â€"2 on your active d
 
 When you make an attack you can take a penalty of up to â€"2 on your attack bonus and add the same number (up to +2) to your active defenses.
 ```
-
----
-
-### defense class
-
-#### Domain Language
-
-- The defense class is the difficulty number an attack check must equal or exceed to hit: Defense Class = defense rank + 10.
-- Close attacks target Parry; ranged attacks target Dodge; certain attacks may target other defenses.
-- Vulnerable halves active defense ranks (round up); defenseless reduces active defense ranks to 0 making the base DC just 10.
-- Attackers may make attack checks against defenseless targets as routine checks (auto-hit with bonus ≥ 0).
-
-#### Domain Sketch
-
-- Represents the minimum attack check result required to hit a specific character with a specific attack type.
-- Recalculates dynamically when active defense ranks change (vulnerable, defenseless conditions).
-- Invariant: Defense Class = active defense rank + 10; applies independently per attack type (close vs. ranged).
-
-#### References
 
 **Ref — No Cover**
 Source: context/rules/HeroesHandbook-rules__chunk_208.md
@@ -624,24 +613,6 @@ When you are vulnerable, your active defense ranks are halved (round up fraction
 When you are defenseless, your active defense ranks are reduced to zero, meaning the base difficulty class to hit you is just 10! Attackers can make attack checks against defenseless targets as routine checks, meaning a hit is guaranteed with an attack bonus of 0 or more.
 ```
 
----
-
-### close attack
-
-#### Domain Language
-
-- A close attack targets a character within physical reach (by touch or melee weapon) and is checked against the target's Parry defense.
-- Strength-based damage (unarmed, melee weapons) is close range by default.
-- Close attacks can score critical hits; many maneuvers (charge, trip, disarm, grab) are close attacks.
-
-#### Domain Sketch
-
-- Selects Parry as the target defense, making Fighting rank the primary attack modifier.
-- Enables all physical contact maneuvers (grab, trip, disarm, slam); ranged attacks cannot trigger these maneuvers.
-- Invariant: Target must be within physical reach; attacks beyond reach require a ranged attack type.
-
-#### References
-
 **Ref — Damaging Objects**
 Source: context/rules/HeroesHandbook-rules__chunk_206.md
 Locator: lines 14631-14689
@@ -661,49 +632,8 @@ line_range: "14631-14689"
 An attack has one of three ranges: close, ranged, and perception. A close attack can only affect a target you can physically reach, by touch or wielding a melee weapon, for example. A ranged attack can affect a target at a distance.
 ```
 
----
-
-### ranged attack
-
-#### Domain Language
-
-- A ranged attack targets a character at a distance and is checked against the target's Dodge defense.
-- Short range (rank × 25 ft): no penalty; medium (rank × 50 ft): −2 circumstance; long (rank × 100 ft): −5 circumstance; beyond long range the target is out of range and cannot be attacked.
-- Perception-range attacks automatically hit without an attack check and cannot score critical hits or misses.
-- Modifiers affecting the attack check (including maneuvers) do not apply to area or perception effects.
-
-#### Domain Sketch
-
-- Selects Dodge as the target defense; applies distance modifiers based on range bands.
-- Degrades accuracy at medium and long range through circumstance penalties to the attack check.
-- Invariant: Cannot target beyond long range (rank × 100 ft); targets outside this range are simply out of range.
-- Invariant: Perception-range attacks bypass this entire check — they automatically affect targets with no attack roll.
-
-#### References
 
 *(Deduplicated — chunk_206 cited by close attack; chunk_016 cited by attack check.)*
-
----
-
-### critical hit
-
-#### Domain Language
-
-- A critical hit occurs when the attack check rolls a natural 20 and the total also equals or exceeds the target's defense class.
-- A natural 20 that does not beat the defense class is still a hit but not a critical hit.
-- On a critical hit the attacker chooses one of three effects: Increased Effect (+5 resistance DC), Added Effect (bonus rank-0 secondary effect), or Alternate Effect (temporary power stunt at no fatigue cost).
-- Against a minion, Increased Effect bypasses the resistance check entirely — the minion automatically receives the worst degree.
-- Improved Critical advantage extends the threat range below natural 20; auto-hit only occurs on a natural 20.
-- Area and perception effects cannot score critical hits.
-
-#### Domain Sketch
-
-- Extends a natural-20 hit into one of three amplified outcome options chosen by the attacker.
-- Applies the Increased Effect option against minions with an instant-defeat bypass rule.
-- Invariant: Confirmation requires both natural 20 AND total ≥ defense class; missing the defense class on a natural 20 is a normal hit only.
-- Invariant: Area and perception-range attacks can never produce critical hits.
-
-#### References
 
 **Ref — Critical Misses**
 Source: context/rules/HeroesHandbook-rules__chunk_203.md
@@ -736,26 +666,6 @@ A critical hit can have one of the following three effects:
 â€¢  Alternate Effect: The critical hit results in an alternate effect for the attack, like a use of extra effort for a power stunt, except the character suffers no fatigue as a result.
 ```
 
----
-
-### aim
-
-#### Domain Language
-
-- Aim is a standard action that lines up a subsequent attack, granting a circumstance bonus on the following attack check.
-- Close attack or ranged attack at close range: +5 circumstance bonus; ranged attack at greater distance: +2 circumstance bonus.
-- The attacker is vulnerable while aiming.
-- A free action maintains aim before making the attack; losing the ability to maintain aim cancels the bonus.
-- The very next action after aiming must be the attack; any other action cancels the aim bonus.
-
-#### Domain Sketch
-
-- Trades the current turn's standard action for a circumstance bonus to the immediately following attack check.
-- Applies vulnerable condition to the aiming character from the moment aim is declared until the attack is made.
-- Invariant: The aim bonus is lost if any action other than the declared attack occurs next.
-
-#### References
-
 **Ref — Standard Action**
 Source: context/rules/HeroesHandbook-rules__chunk_210.md
 Locator: lines 14831-14870
@@ -781,58 +691,121 @@ However, you are vulnerable while aiming and it requires a free action to mainta
 Once you aim, your next action must be to make the attack. Taking a different action spoils your aim and you lose the bonus.
 ```
 
----
-
-### charge
-
-#### Domain Language
-
-- Charge is a standard action: the attacker moves their speed rank in a straight line toward a target, then makes a close attack at the end of movement with a −2 circumstance penalty.
-- Combined with a move action, the attacker can move up to twice their speed rank before attacking.
-- Charge enables the slam attack maneuver.
-
-#### Domain Sketch
-
-- Combines movement and a close attack into a single standard action at a −2 attack check penalty.
-- Extends movement range when combined with a move action (up to 2× speed rank total).
-- Enables the slam attack variant when the attacker chooses to use momentum as the damage source.
-- Invariant: Movement must be in a relatively straight line toward the target; cannot charge a target not in line-of-movement.
-
-#### References
 
 *(Deduplicated — chunk_210 cited by aim.)*
 
 ---
 
-## Damage and Resistance
+## **Damage and Resistance**
 
 Damage and Resistance is the system that determines the consequence of a landed attack and the pathway from unharmed through degradation to incapacitation, dying, and death. The Damage effect is the primary weapon of combat — when a hit is scored the target makes a Toughness resistance check against a DC of damage rank + 15. Degrees of failure accumulate penalties and impose conditions: a single miss begins a cumulative −1 Toughness penalty; two degrees add dazed; three degrees add staggered; four degrees incapacitate. The incapacitated state exposes the target to the dying sequence, and another failure while dying kills. Toughness resistance is the specific check that governs this, distinct from the generic resistance check used for other effects (Affliction, ongoing hazards). Recovery undoes this progression — living targets heal one damage condition per minute of rest, and the Recover action accelerates this in-conflict. The recovery check is the per-turn automatic roll that ends ongoing effects. This KA owns the damage progression from hit to death and the full recovery arc back to normal.
 
-#### Decisions made
+### Ubiquitous Language
 
-- resistance check is included here because combat's central use of resistance checks is for Toughness vs. Damage; the general resistance check mechanic is owned by Check Resolution, but Combat must define how it applies to ongoing combat effects.
-- dying and incapacitated are placed here because they are the direct terminal outputs of the Toughness failure chain.
-- recover (the action) is placed here rather than Turn Structure because its purpose is to remove damage conditions, not to manage action economy.
-- recovery check is placed here because it is the primary mechanism by which ongoing conditions end in combat.
-
-### resistance check
-
-#### Domain Language
-
+#### **resistance check**
 - A resistance check resists a power effect or hazard: d20 + defense bonus vs. resistance DC (typically effect rank + 10).
 - Resistance checks are not actions — they represent involuntary responses and do not consume action allotment.
 - Resistance checks may be graded: different degrees of failure impose progressively worse outcomes.
 - Ongoing effects require a resistance check at the end of each of the target's turns; success ends the effect and removes conditions.
 - The Recover action grants an additional resistance check against an ongoing effect beyond the normal end-of-turn check.
 
-#### Domain Sketch
+#### **damage**
+- Damage is a power effect applied by a successful attack; the target makes a Toughness resistance check against DC = damage rank + 15.
+- Failure degrees: one degree → −1 cumulative Toughness penalty; two degrees → dazed + −1 penalty; three degrees → staggered + −1 penalty (if already staggered, apply fourth degree); four degrees → incapacitated.
+- Toughness check penalties from repeated failures are cumulative across all hits.
+- An incapacitated target that fails another Toughness check becomes dying; a dying target that fails becomes dead.
+- Strength provides a built-in close-range Damage effect; Strength-based weapons add Strength rank + Damage rank together.
 
+#### **Toughness resistance**
+- Toughness resistance is the specific resistance check against a Damage effect: d20 + Toughness rank vs. damage rank + 15.
+- Every failure imposes a −1 cumulative circumstance penalty to all future Toughness resistance checks for that character.
+- The penalty stacks across multiple hits and across different attackers within a scene.
+- Impervious Toughness ignores Damage effects below a threshold rank equal to half the Impervious rank.
+- Living targets recover Toughness penalties by removing one damage condition per minute of rest.
+
+#### **dying**
+- Dying is the near-death state entered when an incapacitated character suffers further Toughness failure, or when certain hazards reach their final stage.
+- A dying character who fails another Toughness resistance check against damage dies.
+- A dying character cannot stabilize from suffocation or vacuum until able to breathe/reach normal atmosphere.
+- Death of major characters requires an active second effort; accidental single-roll death is near-impossible for main characters.
+- Minions can be killed outright when a player declares intent to kill and the attack succeeds.
+- Lasting injuries and death are handled as complications for narrative continuity.
+
+#### **incapacitated**
+- Incapacitated is the condition imposed by four degrees of failure on a Toughness resistance check (defenseless + stunned + unaware; character typically falls prone).
+- An incapacitated target that fails another Toughness resistance check transitions to dying.
+- Incapacitation can also result from suffocation, vacuum exposure, or other hazard escalation.
+- While incapacitated the character cannot act (stunned) and has no active defenses (defenseless).
+
+#### **recovery check**
+- A recovery check is a resistance check made to end an ongoing condition or effect; it is not an action.
+- At the end of each of the character's turns, a resistance check is automatically made against any ongoing effect.
+- The Recover action (standard action, once per conflict) grants an additional resistance check beyond the normal end-of-turn check.
+- Natural recovery: living targets remove one damage condition per minute of rest, working from the worst condition back toward normal.
+- Healing and Regeneration effects can speed this process.
+
+#### **recover**
+- Recover is a standard action requiring the character's entire turn; usable only once per conflict.
+- On recovery: remove the highest current level of damage or fatigue; alternatively make an additional resistance check against one ongoing effect (beyond the normal end-of-turn check).
+- Recovery also grants +2 to active defenses until the start of the character's next turn.
+- Remaining damage, fatigue, or effects after using recover must heal normally (rest or outside assistance).
+
+---
+
+### Domain Sketch
+
+#### **resistance check**
 - Fires automatically at end of each turn for ongoing effects without requiring any action.
 - Grades its result by degree of failure to determine which condition or penalty is imposed.
 - Invariant: d20 + defense bonus vs. effect rank + 10 (Damage uses effect rank + 15).
 - Invariant: Success on the resistance check against an ongoing effect ends that effect and removes all its conditions.
 
-#### References
+#### **damage**
+- Accumulates a −1 penalty on every Toughness resistance check, regardless of degree of failure.
+- Escalates character state through a four-degree chain: penalty only → dazed → staggered → incapacitated.
+- Chains further into dying and then dead when the incapacitated character continues to receive damage.
+- Invariant: Damage resistance DC is always damage rank + 15.
+- Invariant: Cumulative penalty persists until the character recovers; it stacks across all attackers.
+
+#### **Toughness resistance**
+- Specializes the resistance check for Damage effects with a higher DC formula (rank + 15 instead of rank + 10).
+- Tracks a running cumulative penalty that degrades future Toughness checks until the character recovers.
+- Invariant: Penalty is cumulative — each failure adds another −1 regardless of degree.
+
+#### **dying**
+- Sits at the terminal end of the damage escalation chain: incapacitated → dying → dead.
+- Blocks self-stabilization when the cause (lack of air, vacuum) persists.
+- Protects major characters from accidental death by requiring a second active harmful action after incapacitation.
+- Invariant: Another Toughness resistance failure while dying results in death.
+
+#### **incapacitated**
+- Combines three conditions simultaneously: defenseless (no active defense), stunned (no actions), and unaware.
+- Serves as the gateway state that, on further damage, leads to dying.
+- Can be reached by damage (4 degrees failure) or by hazards (suffocation, vacuum).
+- Invariant: While incapacitated: cannot act, defense class = 10, attackers may use routine checks.
+
+#### **recovery check**
+- Fires automatically at the end of each turn as part of the turn's closing sequence.
+- Produces a binary result: success removes the ongoing effect and all its conditions; failure keeps them.
+- Complements the once-per-conflict Recover action which grants one additional check on top of the automatic one.
+- Invariant: Automatic recovery check costs no action; the Recover action grants an extra check at the cost of the full standard action for that turn.
+
+#### **recover**
+- Removes the worst current damage condition or fatigue level in a single standard-action turn.
+- Grants a defensive bonus (+2 active defenses) until start of next turn as a secondary benefit.
+- Invariant: Once per conflict — the once-per-conflict limit cannot be reset during a scene.
+
+---
+
+### Decisions made
+
+- resistance check is included here because combat's central use of resistance checks is for Toughness vs. Damage; the general resistance check mechanic is owned by Check Resolution, but Combat must define how it applies to ongoing combat effects.
+- dying and incapacitated are placed here because they are the direct terminal outputs of the Toughness failure chain.
+- recover (the action) is placed here rather than Turn Structure because its purpose is to remove damage conditions, not to manage action economy.
+- recovery check is placed here because it is the primary mechanism by which ongoing conditions end in combat.
+
+### References
+
 
 **Ref — Attack Checks**
 Source: context/rules/HeroesHandbook-rules__chunk_016.md
@@ -875,28 +848,6 @@ line_range: "14791-14830"
 
 Some effects are not resisted just once, but multiples times. Make a resistance check for the target of an ongoing effect at the end of each of the targetâ€™s turns. A successful check ends the effect and removes conditions imposed by it.
 ```
-
----
-
-### damage
-
-#### Domain Language
-
-- Damage is a power effect applied by a successful attack; the target makes a Toughness resistance check against DC = damage rank + 15.
-- Failure degrees: one degree → −1 cumulative Toughness penalty; two degrees → dazed + −1 penalty; three degrees → staggered + −1 penalty (if already staggered, apply fourth degree); four degrees → incapacitated.
-- Toughness check penalties from repeated failures are cumulative across all hits.
-- An incapacitated target that fails another Toughness check becomes dying; a dying target that fails becomes dead.
-- Strength provides a built-in close-range Damage effect; Strength-based weapons add Strength rank + Damage rank together.
-
-#### Domain Sketch
-
-- Accumulates a −1 penalty on every Toughness resistance check, regardless of degree of failure.
-- Escalates character state through a four-degree chain: penalty only → dazed → staggered → incapacitated.
-- Chains further into dying and then dead when the incapacitated character continues to receive damage.
-- Invariant: Damage resistance DC is always damage rank + 15.
-- Invariant: Cumulative penalty persists until the character recovers; it stacks across all attackers.
-
-#### References
 
 **Ref — Critical Misses**
 Source: context/rules/HeroesHandbook-rules__chunk_203.md
@@ -965,26 +916,6 @@ line_range: "14553-14630"
 The laser is rank 10, for a Damage resistance DC of 25. Trawler has Toughness 10 and the GM rolls a 9. Thatâ€™s a 19 total, two degrees of failure vs. DC 25. Trawler suffers both a â€"1 to Toughness checks and a dazed condition.
 ```
 
----
-
-### Toughness resistance
-
-#### Domain Language
-
-- Toughness resistance is the specific resistance check against a Damage effect: d20 + Toughness rank vs. damage rank + 15.
-- Every failure imposes a −1 cumulative circumstance penalty to all future Toughness resistance checks for that character.
-- The penalty stacks across multiple hits and across different attackers within a scene.
-- Impervious Toughness ignores Damage effects below a threshold rank equal to half the Impervious rank.
-- Living targets recover Toughness penalties by removing one damage condition per minute of rest.
-
-#### Domain Sketch
-
-- Specializes the resistance check for Damage effects with a higher DC formula (rank + 15 instead of rank + 10).
-- Tracks a running cumulative penalty that degrades future Toughness checks until the character recovers.
-- Invariant: Penalty is cumulative — each failure adds another −1 regardless of degree.
-
-#### References
-
 **Ref — Recovery**
 Source: context/rules/HeroesHandbook-rules__chunk_216.md
 Locator: lines 15092-15151
@@ -1002,49 +933,8 @@ line_range: "15092-15151"
 Living targets remove one damage condition per minute of rest, starting from their most severe condition and working back. So a damaged character recovers from being incapacitated, then staggered, dazed, and finally removes a â€"1 Toughness check penalty per minute until fully recovered.
 ```
 
----
-
-### dying
-
-#### Domain Language
-
-- Dying is the near-death state entered when an incapacitated character suffers further Toughness failure, or when certain hazards reach their final stage.
-- A dying character who fails another Toughness resistance check against damage dies.
-- A dying character cannot stabilize from suffocation or vacuum until able to breathe/reach normal atmosphere.
-- Death of major characters requires an active second effort; accidental single-roll death is near-impossible for main characters.
-- Minions can be killed outright when a player declares intent to kill and the attack succeeds.
-- Lasting injuries and death are handled as complications for narrative continuity.
-
-#### Domain Sketch
-
-- Sits at the terminal end of the damage escalation chain: incapacitated → dying → dead.
-- Blocks self-stabilization when the cause (lack of air, vacuum) persists.
-- Protects major characters from accidental death by requiring a second active harmful action after incapacitation.
-- Invariant: Another Toughness resistance failure while dying results in death.
-
-#### References
 
 *(Deduplicated — chunk_203 cited by damage; chunk_216 cited by Toughness resistance.)*
-
----
-
-### incapacitated
-
-#### Domain Language
-
-- Incapacitated is the condition imposed by four degrees of failure on a Toughness resistance check (defenseless + stunned + unaware; character typically falls prone).
-- An incapacitated target that fails another Toughness resistance check transitions to dying.
-- Incapacitation can also result from suffocation, vacuum exposure, or other hazard escalation.
-- While incapacitated the character cannot act (stunned) and has no active defenses (defenseless).
-
-#### Domain Sketch
-
-- Combines three conditions simultaneously: defenseless (no active defense), stunned (no actions), and unaware.
-- Serves as the gateway state that, on further damage, leads to dying.
-- Can be reached by damage (4 degrees failure) or by hazards (suffocation, vacuum).
-- Invariant: While incapacitated: cannot act, defense class = 10, attackers may use routine checks.
-
-#### References
 
 **Ref — Vacuum**
 Source: context/rules/HeroesHandbook-rules__chunk_202.md
@@ -1065,27 +955,6 @@ On the third round of exposure to vacuum, a character must succeed on a Fortitud
 If the check fails, or when the character simply stops holding his breath, he begins to suffocate: the next round, he becomes incapacitated. The following round, heâ€™s dying.
 ```
 
----
-
-### recovery check
-
-#### Domain Language
-
-- A recovery check is a resistance check made to end an ongoing condition or effect; it is not an action.
-- At the end of each of the character's turns, a resistance check is automatically made against any ongoing effect.
-- The Recover action (standard action, once per conflict) grants an additional resistance check beyond the normal end-of-turn check.
-- Natural recovery: living targets remove one damage condition per minute of rest, working from the worst condition back toward normal.
-- Healing and Regeneration effects can speed this process.
-
-#### Domain Sketch
-
-- Fires automatically at the end of each turn as part of the turn's closing sequence.
-- Produces a binary result: success removes the ongoing effect and all its conditions; failure keeps them.
-- Complements the once-per-conflict Recover action which grants one additional check on top of the automatic one.
-- Invariant: Automatic recovery check costs no action; the Recover action grants an extra check at the cost of the full standard action for that turn.
-
-#### References
-
 **Ref — Recovery**
 Source: context/rules/HeroesHandbook-rules__chunk_207.md
 Locator: lines 14690-14737
@@ -1103,34 +972,96 @@ line_range: "14690-14737"
 Living targets remove one damage condition per minute of rest, starting from their worst condition and working back. So a damaged character recovers from being incapacitated, then staggered, dazed, and finally removes a â€"1 Toughness check penalty per minute until fully recovered.
 ```
 
----
-
-### recover
-
-#### Domain Language
-
-- Recover is a standard action requiring the character's entire turn; usable only once per conflict.
-- On recovery: remove the highest current level of damage or fatigue; alternatively make an additional resistance check against one ongoing effect (beyond the normal end-of-turn check).
-- Recovery also grants +2 to active defenses until the start of the character's next turn.
-- Remaining damage, fatigue, or effects after using recover must heal normally (rest or outside assistance).
-
-#### Domain Sketch
-
-- Removes the worst current damage condition or fatigue level in a single standard-action turn.
-- Grants a defensive bonus (+2 active defenses) until start of next turn as a secondary benefit.
-- Invariant: Once per conflict — the once-per-conflict limit cannot be reset during a scene.
-
-#### References
 
 *(Deduplicated — chunk_213 cited by recovery check.)*
 
 ---
 
-## Combat Maneuvers
+## **Combat Maneuvers**
 
 Combat Maneuvers are the specialized standard-action tactics that produce outcomes beyond a simple hit — disabling, restraining, toppling, misdirecting, or buffeting opponents. Each maneuver modifies the standard attack resolution sequence with a specific check chain: disarm and trip each use an attack check followed by an opposed secondary check; grab uses an attack check followed by a resistance check; feint replaces the attack check with a skill check to impose a condition; slam attack modifies the damage formula of a charge; and defend replaces an attack with a defensive opposed roll. Maneuvers are optional additions to declared actions; the GM decides if circumstances permit a given maneuver. None of the maneuvers directly deal Toughness damage by themselves (except slam attack, which adds a damage bonus); their primary purpose is to impose conditions (prone, restrained, bound, vulnerable) or change the tactical situation. Combat Maneuvers depend on Attack Resolution for the initial hit determination and on Damage and Resistance for damage outcomes when applicable.
 
-#### Decisions made
+### Ubiquitous Language
+
+#### **defend**
+- Defend is a standard action: the character focuses on avoiding attacks rather than attacking.
+- The defender makes an opposed check of their active defense (Parry or Dodge) vs. each attack made on them until the start of their next turn.
+- Any defend roll result of 10 or lower is treated as 10 (same as hero point re-roll floor), ensuring a minimum effective result of 11.
+- An attacker must equal or exceed the defender's opposed check result — not merely the normal defense class.
+
+#### **disarm**
+- Disarm is a standard action to knock an item out of an opponent's grasp.
+- Attack check vs. the defender: −2 penalty for close disarm; −5 for ranged disarm.
+- If the attack hits: opposed check of attack's damage rank vs. defender's Strength; win → defender drops the item.
+- An unarmed disarm success allows grabbing the dropped item as a free action.
+- If the attacker used a melee weapon and loses the opposed check, the defender may immediately counter-disarm as a reaction.
+
+#### **grab**
+- Grab is a standard action to seize and restrain a target: attack check vs. target; on a hit the target resists with the better of Strength or Dodge vs. attacker's Strength or grab effect rank.
+- One degree of success: target is restrained (immobile and vulnerable).
+- Two or more degrees: target is bound (defenseless, immobile, and impaired).
+- The attacker is hindered and vulnerable while maintaining the grab; maintaining is a free action each turn.
+- After the grab is established, the attacker may take a standard action to inflict Strength damage on the grabbed target on subsequent turns.
+- An existing hold can be improved with another grab action; cumulative degrees of success but losing frees the target.
+- The attacker may drag a restrained or bound target: target resists with Strength vs. attacker's Strength; failure means target moves with attacker.
+- A grabbed target may attempt to escape as a move action.
+
+#### **trip**
+- Trip is a standard action (close attack vs. target's Parry at −2 circumstance penalty) to knock a target prone.
+- If the attack hits: opposed check of Acrobatics or Athletics (better of each) between attacker and defender.
+- Attacker wins → defender falls prone in an adjacent area of the attacker's choice.
+- Attacker loses → defender may immediately attempt to counter-trip; if that fails, the attempt ends.
+
+#### **feint**
+- Feint is a standard action using Deception to mislead an opponent in combat.
+- The feinting character makes a Deception check opposed by the better of the target's Deception or Insight.
+- Success leaves the target vulnerable against the feinter's next attack until the end of the feinter's next round.
+
+#### **slam attack**
+- Slam attack is a maneuver used during a charge, trading personal risk for greater damage.
+- Damage rank = max(speed rank, normal damage rank + 1); add +1 more if the attacker moved their full speed before charging.
+- The GM may cap base slam damage at the series power level before circumstance modifiers.
+- The attacker must make a Toughness resistance check against half the slam attack's damage rank (rounded down).
+- Appropriate Immunity effects protect the attacker from slam damage they inflict.
+
+---
+
+### Domain Sketch
+
+#### **defend**
+- Replaces the standard attack with an active defense roll that supersedes the normal static defense class.
+- Applies a floor of 10 to all defend rolls, guaranteeing the defender at least a result of 11 against every attack.
+- Invariant: Attacker must match the defender's opposed result, not just the base Defense Class = defense + 10.
+
+#### **disarm**
+- Executes a two-check sequence: attack check (to hit) then opposed damage vs. Strength (to disarm).
+- Differentiates between unarmed and weapon disarms in both penalties and counter-disarm exposure.
+- Invariant: −2 close penalty, −5 ranged penalty applied before the attack check.
+
+#### **grab**
+- Runs an attack check then a resistance check to determine hold degree: restrained (1 degree) or bound (2+ degrees).
+- Imposes a reciprocal cost: the attacker is hindered and vulnerable while the hold is maintained.
+- Enables follow-on damage and dragging as separate subsequent actions after the grab is established.
+- Invariant: Maintaining the hold requires a free action each turn; missing the free action releases the target automatically.
+
+#### **trip**
+- Runs a two-check sequence: attack check (−2 vs. Parry) then opposed Acrobatics/Athletics.
+- Produces the prone condition on the target, creating tactical disadvantage.
+- Invariant: Counter-trip triggers only when the attacker LOSES the opposed check, not when they miss the initial attack.
+
+#### **feint**
+- Replaces the attack check with a skill check (Deception) to produce the vulnerable condition rather than damage.
+- Imposes vulnerable for a limited duration (until end of feinter's next round), enabling a follow-up attack at increased effectiveness.
+- Invariant: Feint produces vulnerable on the target, not damage; it is always used to set up a subsequent attack.
+
+#### **slam attack**
+- Replaces the normal damage rank calculation with a speed-based or boosted formula during charge.
+- Imposes a reciprocal Toughness check on the attacker at half the damage rank.
+- Invariant: Attacker always risks half the slam damage to themselves; Immunity can negate this.
+
+---
+
+### Decisions made
 
 - disarm, grab, trip, feint, slam attack, and defend pass both tests — each is a distinct tactical action with its own resolution chain.
 - aim is placed under Attack Resolution (not here) because its sole effect is a circumstance bonus to the attack check.
@@ -1138,22 +1069,8 @@ Combat Maneuvers are the specialized standard-action tactics that produce outcom
 - defend is included here rather than Turn Structure because it replaces the attack action with a defensive maneuver that produces a specific mechanical effect.
 - No subtypes added: close attack and ranged attack already encode the subtype relationship to attack check as distinct terms; the existing term structure is sufficient.
 
-### defend
+### References
 
-#### Domain Language
-
-- Defend is a standard action: the character focuses on avoiding attacks rather than attacking.
-- The defender makes an opposed check of their active defense (Parry or Dodge) vs. each attack made on them until the start of their next turn.
-- Any defend roll result of 10 or lower is treated as 10 (same as hero point re-roll floor), ensuring a minimum effective result of 11.
-- An attacker must equal or exceed the defender's opposed check result — not merely the normal defense class.
-
-#### Domain Sketch
-
-- Replaces the standard attack with an active defense roll that supersedes the normal static defense class.
-- Applies a floor of 10 to all defend rolls, guaranteeing the defender at least a result of 11 against every attack.
-- Invariant: Attacker must match the defender's opposed result, not just the base Defense Class = defense + 10.
-
-#### References
 
 **Ref — Crawl**
 Source: context/rules/HeroesHandbook-rules__chunk_211.md
@@ -1176,51 +1093,8 @@ line_range: "14871-14914"
 Rather than attacking, you focus on defense. Make an opposed check of your appropriate active defense versus any attack made on you until the start of your next turn. Add 10 to any roll of 10 or less that you make on these checks, just as if you spent a hero point (thus ensuring a minimum roll of 11). The attacker must equal or exceed your opposed check result in order to hit you.
 ```
 
----
-
-### disarm
-
-#### Domain Language
-
-- Disarm is a standard action to knock an item out of an opponent's grasp.
-- Attack check vs. the defender: −2 penalty for close disarm; −5 for ranged disarm.
-- If the attack hits: opposed check of attack's damage rank vs. defender's Strength; win → defender drops the item.
-- An unarmed disarm success allows grabbing the dropped item as a free action.
-- If the attacker used a melee weapon and loses the opposed check, the defender may immediately counter-disarm as a reaction.
-
-#### Domain Sketch
-
-- Executes a two-check sequence: attack check (to hit) then opposed damage vs. Strength (to disarm).
-- Differentiates between unarmed and weapon disarms in both penalties and counter-disarm exposure.
-- Invariant: −2 close penalty, −5 ranged penalty applied before the attack check.
-
-#### References
 
 *(Deduplicated — chunk_211 cited by defend.)*
-
----
-
-### grab
-
-#### Domain Language
-
-- Grab is a standard action to seize and restrain a target: attack check vs. target; on a hit the target resists with the better of Strength or Dodge vs. attacker's Strength or grab effect rank.
-- One degree of success: target is restrained (immobile and vulnerable).
-- Two or more degrees: target is bound (defenseless, immobile, and impaired).
-- The attacker is hindered and vulnerable while maintaining the grab; maintaining is a free action each turn.
-- After the grab is established, the attacker may take a standard action to inflict Strength damage on the grabbed target on subsequent turns.
-- An existing hold can be improved with another grab action; cumulative degrees of success but losing frees the target.
-- The attacker may drag a restrained or bound target: target resists with Strength vs. attacker's Strength; failure means target moves with attacker.
-- A grabbed target may attempt to escape as a move action.
-
-#### Domain Sketch
-
-- Runs an attack check then a resistance check to determine hold degree: restrained (1 degree) or bound (2+ degrees).
-- Imposes a reciprocal cost: the attacker is hindered and vulnerable while the hold is maintained.
-- Enables follow-on damage and dragging as separate subsequent actions after the grab is established.
-- Invariant: Maintaining the hold requires a free action each turn; missing the free action releases the target automatically.
-
-#### References
 
 **Ref — Drop An Item**
 Source: context/rules/HeroesHandbook-rules__chunk_212.md
@@ -1249,25 +1123,6 @@ You can drag a restrained or bound target along with you when you move. The targ
 A target can attempt to escape from a grab as a move action.
 ```
 
----
-
-### trip
-
-#### Domain Language
-
-- Trip is a standard action (close attack vs. target's Parry at −2 circumstance penalty) to knock a target prone.
-- If the attack hits: opposed check of Acrobatics or Athletics (better of each) between attacker and defender.
-- Attacker wins → defender falls prone in an adjacent area of the attacker's choice.
-- Attacker loses → defender may immediately attempt to counter-trip; if that fails, the attempt ends.
-
-#### Domain Sketch
-
-- Runs a two-check sequence: attack check (−2 vs. Parry) then opposed Acrobatics/Athletics.
-- Produces the prone condition on the target, creating tactical disadvantage.
-- Invariant: Counter-trip triggers only when the attacker LOSES the opposed check, not when they miss the initial attack.
-
-#### References
-
 **Ref — Standard Action**
 Source: context/rules/HeroesHandbook-rules__chunk_214.md
 Locator: lines 14999-15043
@@ -1288,24 +1143,6 @@ You  try  to  trip  or  throw  your  opponent  to  the  ground. Make a close att
 
 If you win, the defender is prone in an area adjacent to you of your choice. If you lose, the defender immediately gets another opposed check to try and trip you. If it fails, the trip attempt ends.
 ```
-
----
-
-### feint
-
-#### Domain Language
-
-- Feint is a standard action using Deception to mislead an opponent in combat.
-- The feinting character makes a Deception check opposed by the better of the target's Deception or Insight.
-- Success leaves the target vulnerable against the feinter's next attack until the end of the feinter's next round.
-
-#### Domain Sketch
-
-- Replaces the attack check with a skill check (Deception) to produce the vulnerable condition rather than damage.
-- Imposes vulnerable for a limited duration (until end of feinter's next round), enabling a follow-up attack at increased effectiveness.
-- Invariant: Feint produces vulnerable on the target, not damage; it is always used to set up a subsequent attack.
-
-#### References
 
 **Ref — Feint**
 Source: context/rules/HeroesHandbook-rules__chunk_215.md
@@ -1331,26 +1168,6 @@ When you charge, you can charge right into your target, using your momentum to s
 
 You suffer some of the impact of slamming into a target; make a Toughness resistance check against half the damage rank of your attack (rounded down).
 ```
-
----
-
-### slam attack
-
-#### Domain Language
-
-- Slam attack is a maneuver used during a charge, trading personal risk for greater damage.
-- Damage rank = max(speed rank, normal damage rank + 1); add +1 more if the attacker moved their full speed before charging.
-- The GM may cap base slam damage at the series power level before circumstance modifiers.
-- The attacker must make a Toughness resistance check against half the slam attack's damage rank (rounded down).
-- Appropriate Immunity effects protect the attacker from slam damage they inflict.
-
-#### Domain Sketch
-
-- Replaces the normal damage rank calculation with a speed-based or boosted formula during charge.
-- Imposes a reciprocal Toughness check on the attacker at half the damage rank.
-- Invariant: Attacker always risks half the slam damage to themselves; Immunity can negate this.
-
-#### References
 
 **Ref — Lasting Injuries**
 Source: context/rules/HeroesHandbook-rules__chunk_216.md
@@ -1379,33 +1196,102 @@ Multiple attackers can attempt to combine their attacks in order to overwhelm an
 
 ---
 
-## Tactical Environment
+## **Tactical Environment**
 
 Tactical Environment encompasses the contextual factors that modify combat outcomes without being actions themselves: concealment, cover, surprise, minion rules, and the mechanics for combining attackers (team attack, combined attack). Concealment and cover are passive modifiers applied by the GM based on the scene — both impose circumstance penalties to attack checks, with the important distinction that concealment impairs perception while cover impairs attack trajectory. Surprise reshapes the opening of a conflict, granting the non-surprised side an action window and making the surprised side vulnerable. Minions are a scaling device — the GM uses them to model hordes of weaker opposition with simplified rules that accelerate combat. Team attack and combined attack give multiple combatants a cooperative option to overcome targets whose individual resistance would be too high to crack. Tactical Environment interacts primarily with Attack Resolution (all modifiers flow into attack checks or defense class) and with Damage and Resistance (minion defeat, combined attack damage output).
 
-#### Decisions made
+### Ubiquitous Language
 
-- concealment, cover, surprise, minion, team attack, and combined attack all pass independence and module-fit tests.
-- combined attack is kept as a distinct term from team attack because the partition lists it separately; however, decisions made notes that combined attack and team attack refer to the same mechanic; combined attack is the pattern-name while team attack is the rule-name.
-- minion is kept here (not its own KA) because it is a rule modifier applied within combat, not an independent character type with lifecycle outside the combat domain.
-
-### concealment
-
-#### Domain Language
-
+#### **concealment**
 - Concealment applies when an attacker cannot clearly perceive their target with an accurate sense.
 - Partial concealment (dim lighting, foliage, fog, smoke): −2 circumstance penalty to attack checks.
 - Total concealment (complete darkness, heavy smoke): −5 circumstance penalty; attacker must know or guess the approximate area to target at all.
 - Concealment is caused by conditions that obstruct perception — not physical obstructions that block attacks (those provide cover).
 - Senses countering concealment (e.g., Counters Concealment: Darkness) remove the penalty for the corresponding condition.
 
-#### Domain Sketch
+#### **cover**
+- Cover applies when a target is behind a physical obstruction that could block or deflect an attack.
+- Partial cover (roughly half the target behind obstruction): −2 circumstance penalty to attack checks.
+- Total cover (three-quarters or more behind obstruction): −5 circumstance penalty to attack checks.
+- Complete cover (target fully behind obstruction): cannot attack the target directly; may target the cover itself.
+- Cover grants a circumstance bonus to Dodge resistance checks against area effects equal to its attack penalty, measured from the effect's origin.
 
+#### **surprise**
+- Surprise occurs when one or more characters begin a conflict unaware — typically from failing a Perception or similar check.
+- If any characters are surprised, the conflict opens with a surprise round; all characters roll initiative normally.
+- Surprised characters do not act during the surprise round; they are stunned and vulnerable until the end of the surprise round.
+- Non-surprised characters during the surprise round are limited to a standard action and free actions (may exchange standard for a move action).
+- Surprise attacks can occur mid-conflict via stealth, concealment, or unusual maneuvers; the target is vulnerable.
+
+#### **team attack**
+- Team attack allows multiple attackers to combine their efforts to overwhelm a single target's resistance.
+- All attacks must share the same effect type and resistance defense, and be within 5 ranks of each other.
+- Participants must all delay to the same initiative slot (the slowest attacker's position).
+- Each attacker makes their own attack check; effects not requiring attack checks automatically count as one degree of success.
+- The main attack uses the largest effect rank; each additional attack that hits contributes: 1 degree → +2 circumstance bonus to main rank; 3+ degrees → +5 bonus.
+- Misses in a team attack have no effect and impose no penalties.
+
+#### **combined attack**
+- Combined attack is the general pattern of multiple combatants coordinating compatible attacks against a single target (the team attack mechanic).
+- Contributing attacks must share the same effect type and resistance defense and be within 5 ranks of each other before they can be combined.
+- The result is a single composite effect rank boosted by the combined contributions of all participating hits.
+
+#### **minion**
+- A minion is a minor character subject to special rules making them easier to defeat than full characters.
+- Minions cannot score critical hits against non-minions.
+- Non-minions may make attack checks against minions as routine checks (guaranteed hit with attack bonus ≥ 0).
+- If a minion fails any resistance check, they suffer the worst degree of the effect regardless of actual degree of failure.
+- Certain advantages (e.g., Takedown) are specifically more effective against or designed for use against minions.
+- The GM may roll a single initiative check for an entire minion group.
+
+---
+
+### Domain Sketch
+
+#### **concealment**
 - Applies a circumstance penalty to attack checks based on how well the attacker can perceive the target.
 - Can be nullified by specific sense effects (Counters Concealment) that remove the perceptual obstruction.
 - Invariant: Partial = −2, Total = −5; area and perception-range attacks bypass concealment penalties entirely.
 
-#### References
+#### **cover**
+- Applies a circumstance penalty to attack checks based on physical obstruction of the attack path.
+- Grants a bonus to Dodge area-effect resistance checks equal to the cover penalty — the same obstruction that blocks attacks also deflects area effects.
+- Invariant: Complete cover prevents targeting entirely; the attacker may instead target the obstruction.
+- Invariant: Cover bonus to area-effect Dodge checks only applies when the cover is between the target and the effect's origin.
+
+#### **surprise**
+- Opens a special restricted round (surprise round) at the start of a conflict when any participants are surprised.
+- Applies stunned + vulnerable to surprised characters for the duration of the surprise round.
+- Limits non-surprised characters to standard + free actions in the surprise round (no full round).
+- Invariant: Surprised characters cannot act during the surprise round; they recover to normal at the start of the first regular round.
+
+#### **team attack**
+- Coordinates multiple attackers at the same initiative point to combine compatible attack effects.
+- Scales the combined effect rank upward based on how many contributing attacks land.
+- Invariant: Contributing attacks must share the same effect type, resistance defense, and be within 5 ranks.
+- Invariant: Misses contribute nothing; only hits add to the combined result.
+
+#### **combined attack**
+- Describes the coordination pattern that produces a single composite effect rank from multiple compatible attacks.
+- Enforces the compatibility constraint (same effect + resistance + within 5 ranks) before allowing combination.
+- Invariant: The largest individual effect rank is the base; additional contributing hits add circumstance bonuses (not more base ranks).
+
+#### **minion**
+- Simplifies resolution by compressing all resistance failures to the worst possible outcome.
+- Enables routine-check attacks against them, removing attack randomness when facing masses of minions.
+- Invariant: Any resistance failure → worst degree (e.g., any Toughness failure → incapacitated).
+- Invariant: Minions cannot produce critical hits against non-minions regardless of die result.
+
+---
+
+### Decisions made
+
+- concealment, cover, surprise, minion, team attack, and combined attack all pass independence and module-fit tests.
+- combined attack is kept as a distinct term from team attack because the partition lists it separately; however, decisions made notes that combined attack and team attack refer to the same mechanic; combined attack is the pattern-name while team attack is the rule-name.
+- minion is kept here (not its own KA) because it is a rule modifier applied within combat, not an independent character type with lifecycle outside the combat domain.
+
+### References
+
 
 **Ref — Recovery**
 Source: context/rules/HeroesHandbook-rules__chunk_207.md
@@ -1455,27 +1341,6 @@ Characters can hold their breath for ten rounds (one minute) plus a number of ro
 A fall inflicts damage rank 4 plus twice the distance rank fallen, to a maximum of rank 16 damage.
 ```
 
----
-
-### cover
-
-#### Domain Language
-
-- Cover applies when a target is behind a physical obstruction that could block or deflect an attack.
-- Partial cover (roughly half the target behind obstruction): −2 circumstance penalty to attack checks.
-- Total cover (three-quarters or more behind obstruction): −5 circumstance penalty to attack checks.
-- Complete cover (target fully behind obstruction): cannot attack the target directly; may target the cover itself.
-- Cover grants a circumstance bonus to Dodge resistance checks against area effects equal to its attack penalty, measured from the effect's origin.
-
-#### Domain Sketch
-
-- Applies a circumstance penalty to attack checks based on physical obstruction of the attack path.
-- Grants a bonus to Dodge area-effect resistance checks equal to the cover penalty — the same obstruction that blocks attacks also deflects area effects.
-- Invariant: Complete cover prevents targeting entirely; the attacker may instead target the obstruction.
-- Invariant: Cover bonus to area-effect Dodge checks only applies when the cover is between the target and the effect's origin.
-
-#### References
-
 **Ref — No Cover**
 Source: context/rules/HeroesHandbook-rules__chunk_208.md
 Locator: lines 14738-14790
@@ -1500,27 +1365,6 @@ If a target is completely behind cover, then you cannot attack that target (alth
 
 Cover also grants a circumstance bonus to Dodge resistance checks against area effects equal to its penalty to attack checks.
 ```
-
----
-
-### surprise
-
-#### Domain Language
-
-- Surprise occurs when one or more characters begin a conflict unaware — typically from failing a Perception or similar check.
-- If any characters are surprised, the conflict opens with a surprise round; all characters roll initiative normally.
-- Surprised characters do not act during the surprise round; they are stunned and vulnerable until the end of the surprise round.
-- Non-surprised characters during the surprise round are limited to a standard action and free actions (may exchange standard for a move action).
-- Surprise attacks can occur mid-conflict via stealth, concealment, or unusual maneuvers; the target is vulnerable.
-
-#### Domain Sketch
-
-- Opens a special restricted round (surprise round) at the start of a conflict when any participants are surprised.
-- Applies stunned + vulnerable to surprised characters for the duration of the surprise round.
-- Limits non-surprised characters to standard + free actions in the surprise round (no full round).
-- Invariant: Surprised characters cannot act during the surprise round; they recover to normal at the start of the first regular round.
-
-#### References
 
 **Ref — Ch8 Action & Adventure**
 Source: context/rules/HeroesHandbook-rules__chunk_196.md
@@ -1568,104 +1412,94 @@ The attackers must all delay to the same point in the initiative order (that of 
 Take the largest effect rank of the attacks that hit and count the combined degrees of success for the other attacks: one degree provides a +2 circumstance bonus to the rank of the main attack, three or more provides a +5 circumstance bonus. Unlike a normal team check, degrees of failure do not reduce success.
 ```
 
----
-
-### team attack
-
-#### Domain Language
-
-- Team attack allows multiple attackers to combine their efforts to overwhelm a single target's resistance.
-- All attacks must share the same effect type and resistance defense, and be within 5 ranks of each other.
-- Participants must all delay to the same initiative slot (the slowest attacker's position).
-- Each attacker makes their own attack check; effects not requiring attack checks automatically count as one degree of success.
-- The main attack uses the largest effect rank; each additional attack that hits contributes: 1 degree → +2 circumstance bonus to main rank; 3+ degrees → +5 bonus.
-- Misses in a team attack have no effect and impose no penalties.
-
-#### Domain Sketch
-
-- Coordinates multiple attackers at the same initiative point to combine compatible attack effects.
-- Scales the combined effect rank upward based on how many contributing attacks land.
-- Invariant: Contributing attacks must share the same effect type, resistance defense, and be within 5 ranks.
-- Invariant: Misses contribute nothing; only hits add to the combined result.
-
-#### References
 
 *(Deduplicated — chunk_216 cited by surprise.)*
 
----
-
-### combined attack
-
-#### Domain Language
-
-- Combined attack is the general pattern of multiple combatants coordinating compatible attacks against a single target (the team attack mechanic).
-- Contributing attacks must share the same effect type and resistance defense and be within 5 ranks of each other before they can be combined.
-- The result is a single composite effect rank boosted by the combined contributions of all participating hits.
-
-#### Domain Sketch
-
-- Describes the coordination pattern that produces a single composite effect rank from multiple compatible attacks.
-- Enforces the compatibility constraint (same effect + resistance + within 5 ranks) before allowing combination.
-- Invariant: The largest individual effect rank is the base; additional contributing hits add circumstance bonuses (not more base ranks).
-
-#### References
-
-*(Deduplicated — chunk_216 cited by surprise.)*
-
----
-
-### minion
-
-#### Domain Language
-
-- A minion is a minor character subject to special rules making them easier to defeat than full characters.
-- Minions cannot score critical hits against non-minions.
-- Non-minions may make attack checks against minions as routine checks (guaranteed hit with attack bonus ≥ 0).
-- If a minion fails any resistance check, they suffer the worst degree of the effect regardless of actual degree of failure.
-- Certain advantages (e.g., Takedown) are specifically more effective against or designed for use against minions.
-- The GM may roll a single initiative check for an entire minion group.
-
-#### Domain Sketch
-
-- Simplifies resolution by compressing all resistance failures to the worst possible outcome.
-- Enables routine-check attacks against them, removing attack randomness when facing masses of minions.
-- Invariant: Any resistance failure → worst degree (e.g., any Toughness failure → incapacitated).
-- Invariant: Minions cannot produce critical hits against non-minions regardless of die result.
-
-#### References
 
 *(Deduplicated — chunk_208 cited by cover.)*
 
 ---
 
-## Hazards and Objects
+## **Hazards and Objects**
 
 Hazards and Objects covers the non-combat-opponent sources of harm in the game world. Hazards are environmental dangers — falling, suffocation, heat, cold, vacuum, poison, disease, radiation — each governed by a Fortitude (or other) resistance check sequence that escalates conditions from fatigued through dying. Falling has its own damage formula (4 + 2× distance rank, capped at 16). Suffocation uses a breath-holding timer then a per-round Fortitude check. Damaging objects extends the combat system to inanimate targets: objects have Material Toughness values, cannot be dazed or staggered, and require either finishing attacks or repair. This KA interacts with Damage and Resistance (damage rank, Toughness check) and with Tactical Environment (hazards can affect the entire environment). The module owns the combat-facing rules for how hazards work in play.
 
-#### Decisions made
+### Ubiquitous Language
 
-- hazard, falling, suffocation, damaging objects, and Material Toughness pass both tests.
-- heat, cold, starvation, thirst, poison, disease, and radiation are sub-types of hazard, covered by the hazard term; no separate core terms are needed.
-- vacuum is similarly a hazard sub-type, not a standalone term.
-
-### hazard
-
-#### Domain Language
-
+#### **hazard**
 - Hazards are environmental dangers that harm characters independently of opponent attacks.
 - Each hazard uses a resistance check (typically Fortitude) with DC = 10 + rank or a fixed DC; repeated failures escalate: fatigued → exhausted → incapacitated → dying.
 - Hazard types include heat/cold, starvation/thirst, suffocation, vacuum, poison, disease, radiation, and falling.
 - Immunity effects can negate specific hazard types entirely.
 - Hazards may have their own initiative ranks in timed scenarios.
 
-#### Domain Sketch
+#### **falling**
+- Falling inflicts damage rank = 4 + (2 × distance rank fallen), capped at rank 16.
+- Characters with Acrobatics can fall greater distances without injury.
+- Falling onto a dangerous surface may inflict additional damage at the GM's discretion.
+- Catching a falling character or object requires a Dexterity check (DC 5); the catcher subtracts their Strength rank from falling damage rank — both catcher and caught suffer any remaining damage.
+- A power (Flight, Move Object) may substitute its rank for Strength when catching, at the GM's discretion.
 
+#### **suffocation**
+- Characters may hold their breath for 10 rounds + (2 × Stamina rank) rounds before needing to check.
+- After the limit, Fortitude check (DC 10, +1 per previous success) each round; failure → incapacitated.
+- The following round after failure, the character becomes dying and cannot stabilize until able to breathe.
+- Holding breath in vacuum additionally risks lung damage: Fortitude DC 15 (+1 per round); success causes loss of one Stamina rank; failure begins suffocation.
+- Immunity to Suffocation removes this hazard entirely.
+
+#### **damaging objects**
+- Objects (targets lacking a Stamina rank) take damage similarly to characters but dazed and staggered results have no practical effect on inanimate targets.
+- Inanimate objects are defenseless by definition and subject to finishing attacks: attacker may choose a routine check (auto-hit) or roll normally (auto-crit on any hit for +5 DC).
+- Attacking an object held or worn by a character is a smash action (attack vs. character's defense at −5 if held; damage applied to the object).
+- Two degrees of failure on the object's Toughness check causes a break; three or more degrees destroys the object.
+- Objects cannot recover on their own — they must be repaired (Technology skill).
+
+#### **Material Toughness**
+- Material Toughness is the Toughness rank of a common material at approximately one inch (distance rank −7) of thickness.
+- Each doubling of thickness adds +1 Toughness; each halving subtracts −1.
+- Example ranks: paper/soil 0, glass/ice/rope 1, wood 3, stone 5, iron 7, reinforced concrete 8, steel 9, titanium 15, super-alloys 20+.
+- Equipment has Toughness based on its material; devices have base Toughness = total power points ÷ 5 (round down, minimum 1).
+
+---
+
+### Domain Sketch
+
+#### **hazard**
 - Represents an environmental threat that fires resistance checks on a schedule independent of attacker turns.
 - Escalates character conditions predictably from fatigued through dying on repeated failures.
 - Can participate in initiative (with its own rank) in timed scenarios.
 - Invariant: Immunity effect completely negates the corresponding hazard type.
 
-#### References
+#### **falling**
+- Translates fall distance into damage rank via a fixed formula and applies it as a Toughness check.
+- Provides a catching intervention path (Dexterity DC 5) that partially absorbs damage for both the catcher and the falling target.
+- Invariant: Maximum falling damage rank is 16 regardless of distance rank.
+
+#### **suffocation**
+- Provides a grace period (breath-holding limit) before the Fortitude check sequence begins.
+- Blocks stabilization from dying while the cause (no breathable atmosphere) persists.
+- Invariant: Cannot stabilize while suffocating; removing the cause is the prerequisite for recovery.
+
+#### **damaging objects**
+- Applies the damage system to inanimate targets with a defenseless-by-definition rule that simplifies resolution.
+- Maps Toughness failure degrees to physical states: 2 degrees → break, 3+ degrees → destroyed.
+- Invariant: Objects cannot self-recover; they require external repair via Technology skill.
+
+#### **Material Toughness**
+- Provides a reference table mapping material type and thickness to a Toughness rank for use in object damage calculations.
+- Scales linearly with thickness (±1 per doubling/halving).
+- Invariant: The listed ranks apply at approximately one inch; thickness scaling is applied before any circumstance modifier.
+
+---
+
+### Decisions made
+
+- hazard, falling, suffocation, damaging objects, and Material Toughness pass both tests.
+- heat, cold, starvation, thirst, poison, disease, and radiation are sub-types of hazard, covered by the hazard term; no separate core terms are needed.
+- vacuum is similarly a hazard sub-type, not a standalone term.
+
+### References
+
 
 **Ref — Challenges And Initiative**
 Source: context/rules/HeroesHandbook-rules__chunk_199.md
@@ -1771,69 +1605,11 @@ On the third round of exposure to vacuum, a character must succeed on a Fortitud
 Heroes able to ignore the effects of deep space must have Immunity to suffocation, vacuum, and radiation, at a minimum.
 ```
 
----
-
-### falling
-
-#### Domain Language
-
-- Falling inflicts damage rank = 4 + (2 × distance rank fallen), capped at rank 16.
-- Characters with Acrobatics can fall greater distances without injury.
-- Falling onto a dangerous surface may inflict additional damage at the GM's discretion.
-- Catching a falling character or object requires a Dexterity check (DC 5); the catcher subtracts their Strength rank from falling damage rank — both catcher and caught suffer any remaining damage.
-- A power (Flight, Move Object) may substitute its rank for Strength when catching, at the GM's discretion.
-
-#### Domain Sketch
-
-- Translates fall distance into damage rank via a fixed formula and applies it as a Toughness check.
-- Provides a catching intervention path (Dexterity DC 5) that partially absorbs damage for both the catcher and the falling target.
-- Invariant: Maximum falling damage rank is 16 regardless of distance rank.
-
-#### References
 
 *(Deduplicated — chunk_200 cited by hazard.)*
 
----
-
-### suffocation
-
-#### Domain Language
-
-- Characters may hold their breath for 10 rounds + (2 × Stamina rank) rounds before needing to check.
-- After the limit, Fortitude check (DC 10, +1 per previous success) each round; failure → incapacitated.
-- The following round after failure, the character becomes dying and cannot stabilize until able to breathe.
-- Holding breath in vacuum additionally risks lung damage: Fortitude DC 15 (+1 per round); success causes loss of one Stamina rank; failure begins suffocation.
-- Immunity to Suffocation removes this hazard entirely.
-
-#### Domain Sketch
-
-- Provides a grace period (breath-holding limit) before the Fortitude check sequence begins.
-- Blocks stabilization from dying while the cause (no breathable atmosphere) persists.
-- Invariant: Cannot stabilize while suffocating; removing the cause is the prerequisite for recovery.
-
-#### References
 
 *(Deduplicated — chunk_200, chunk_202 both cited by hazard.)*
-
----
-
-### damaging objects
-
-#### Domain Language
-
-- Objects (targets lacking a Stamina rank) take damage similarly to characters but dazed and staggered results have no practical effect on inanimate targets.
-- Inanimate objects are defenseless by definition and subject to finishing attacks: attacker may choose a routine check (auto-hit) or roll normally (auto-crit on any hit for +5 DC).
-- Attacking an object held or worn by a character is a smash action (attack vs. character's defense at −5 if held; damage applied to the object).
-- Two degrees of failure on the object's Toughness check causes a break; three or more degrees destroys the object.
-- Objects cannot recover on their own — they must be repaired (Technology skill).
-
-#### Domain Sketch
-
-- Applies the damage system to inanimate targets with a defenseless-by-definition rule that simplifies resolution.
-- Maps Toughness failure degrees to physical states: 2 degrees → break, 3+ degrees → destroyed.
-- Invariant: Objects cannot self-recover; they require external repair via Technology skill.
-
-#### References
 
 **Ref — Damaging Objects**
 Source: context/rules/HeroesHandbook-rules__chunk_206.md
@@ -1862,43 +1638,18 @@ If an attackerâ€™s intention is to bend, break or destroy an object, then t
 Objects, having no Stamina, do not recover from damage unless they have an effect like Regeneration. Instead, they must be repaired.
 ```
 
----
-
-### Material Toughness
-
-#### Domain Language
-
-- Material Toughness is the Toughness rank of a common material at approximately one inch (distance rank −7) of thickness.
-- Each doubling of thickness adds +1 Toughness; each halving subtracts −1.
-- Example ranks: paper/soil 0, glass/ice/rope 1, wood 3, stone 5, iron 7, reinforced concrete 8, steel 9, titanium 15, super-alloys 20+.
-- Equipment has Toughness based on its material; devices have base Toughness = total power points ÷ 5 (round down, minimum 1).
-
-#### Domain Sketch
-
-- Provides a reference table mapping material type and thickness to a Toughness rank for use in object damage calculations.
-- Scales linearly with thickness (±1 per doubling/halving).
-- Invariant: The listed ranks apply at approximately one inch; thickness scaling is applied before any circumstance modifier.
-
-#### References
 
 *(Deduplicated — chunk_206 cited by damaging objects.)*
 
 ---
 
-## Hero Resources
+## **Hero Resources**
 
 Hero Resources are the meta-level economy that gives heroes the ability to transcend normal limits. Hero points are a narrative currency earned through complications and heroic play, spent as reactions to re-roll dice, edit scenes, gain temporary advantages, get inspiration, counter effects, or instantly recover conditions. Extra effort is a within-turn free action that sacrifices the next turn's condition to gain a power boost now — an additional action, a skill bonus, a temporary power rank increase, or a power stunt. Power stunt is the specific extra effort option that instantiates a temporary Alternate Effect of an existing power. All three work together: hero points are the safety net that removes extra effort's fatigue cost, and power stunt is extra effort's most tactically complex option. Hero Resources are not bounded by power level — their effects can exceed what normal powers allow — and they apply as a layer on top of all other combat mechanics, never replacing them.
 
-#### Decisions made
+### Ubiquitous Language
 
-- hero point, extra effort, and power stunt pass both tests — they are fully independent concepts fundamental to the combat loop.
-- hero point's non-combat spend types (Edit Scene, Inspiration) are still part of hero point as defined here — the concept is defined whole.
-- power stunt is kept as its own term because the partition lists it explicitly and it has its own rules (scene duration, permanent effects exclusion, critical hit free variant).
-
-### hero point
-
-#### Domain Language
-
+#### **hero point**
 - Players begin each game session with 1 hero point; unspent hero points do not carry over between sessions.
 - Spending a hero point is a reaction (takes no time); a player may spend as many as they have in one turn.
 - Improve Roll: re-roll any die roll before GM announces outcome; take the better; on a re-roll result of 1–10, add 10 (re-roll always yields 11–20).
@@ -1909,14 +1660,51 @@ Hero Resources are the meta-level economy that gives heroes the ability to trans
 - Recover: immediately remove a dazed, fatigued, or stunned condition; or convert exhausted to fatigued.
 - Heroes earn additional hero points from complications, acts of heroism, and roleplaying.
 
-#### Domain Sketch
+#### **extra effort**
+- Extra effort is a free action declared by the player, limited to once per turn.
+- Choose one benefit: additional standard action; +2 circumstance bonus on one check (or upgrade existing +2 to +5); +1 rank to a power effect until start of next turn; power stunt (temporary Alternate Effect for the scene); additional resistance check against an ongoing effect; retry a failed effect; +1 speed rank until next turn; +1 Strength rank until next turn.
+- Extra effort benefits are not limited by power level.
+- Cost: at the start of the immediately following turn, the hero becomes fatigued; fatigued → exhausted on subsequent use; exhausted → incapacitated.
+- Spending a hero point at the start of the following turn removes the fatigue cost entirely.
 
+#### **power stunt**
+- A power stunt uses extra effort to temporarily gain an Alternate Effect of one of the hero's existing powers.
+- The stunt lasts until the end of the scene or until the effect's normal duration expires, whichever comes first.
+- Permanent effects cannot be used as the basis for a power stunt.
+- A power stunt gained via a critical hit's Alternate Effect option costs no fatigue.
+
+---
+
+### Domain Sketch
+
+#### **hero point**
 - Spends as a reaction (zero action cost) providing one of eight distinct rescue or amplification effects.
 - Re-roll floor rule ensures no re-roll produces below 11, making hero point rolls statistically favorable.
 - Invariant: Unspent hero points reset to 1 at the start of each new session — never carry over.
 - Invariant: May be spent multiple times in one turn (limited only by number held).
 
-#### References
+#### **extra effort**
+- Trades next-turn condition degradation for an immediate within-turn benefit chosen from eight options.
+- Deferred cost fires at the start of the NEXT turn — not immediately — giving the hero a full benefit turn before the penalty.
+- Invariant: Once per turn; fatigue escalates each time (normal → fatigued → exhausted → incapacitated).
+- Invariant: Benefits are not limited by power level — extra effort can temporarily exceed PL caps.
+
+#### **power stunt**
+- Instantiates a temporary Alternate Effect of an existing power for the duration of the scene.
+- Costs extra effort's deferred fatigue unless obtained via critical hit's Alternate Effect option.
+- Invariant: The base power must already exist on the character's sheet.
+- Invariant: Permanent effects cannot be used as the basis; scene-duration cap applies.
+
+---
+
+### Decisions made
+
+- hero point, extra effort, and power stunt pass both tests — they are fully independent concepts fundamental to the combat loop.
+- hero point's non-combat spend types (Edit Scene, Inspiration) are still part of hero point as defined here — the concept is defined whole.
+- power stunt is kept as its own term because the partition lists it explicitly and it has its own rules (scene duration, permanent effects exclusion, critical hit free variant).
+
+### References
+
 
 **Ref — Extra Effort**
 Source: context/rules/HeroesHandbook-rules__chunk_019.md
@@ -2007,72 +1795,94 @@ You can spend a hero point to immediately remove a dazed, fatigued, or stunned c
 Heroes get hero points from complications, acts of heroism, and roleplaying.
 ```
 
----
-
-### extra effort
-
-#### Domain Language
-
-- Extra effort is a free action declared by the player, limited to once per turn.
-- Choose one benefit: additional standard action; +2 circumstance bonus on one check (or upgrade existing +2 to +5); +1 rank to a power effect until start of next turn; power stunt (temporary Alternate Effect for the scene); additional resistance check against an ongoing effect; retry a failed effect; +1 speed rank until next turn; +1 Strength rank until next turn.
-- Extra effort benefits are not limited by power level.
-- Cost: at the start of the immediately following turn, the hero becomes fatigued; fatigued → exhausted on subsequent use; exhausted → incapacitated.
-- Spending a hero point at the start of the following turn removes the fatigue cost entirely.
-
-#### Domain Sketch
-
-- Trades next-turn condition degradation for an immediate within-turn benefit chosen from eight options.
-- Deferred cost fires at the start of the NEXT turn — not immediately — giving the hero a full benefit turn before the penalty.
-- Invariant: Once per turn; fatigue escalates each time (normal → fatigued → exhausted → incapacitated).
-- Invariant: Benefits are not limited by power level — extra effort can temporarily exceed PL caps.
-
-#### References
 
 *(Deduplicated — chunk_019, chunk_020 both cited by hero point.)*
 
----
-
-### power stunt
-
-#### Domain Language
-
-- A power stunt uses extra effort to temporarily gain an Alternate Effect of one of the hero's existing powers.
-- The stunt lasts until the end of the scene or until the effect's normal duration expires, whichever comes first.
-- Permanent effects cannot be used as the basis for a power stunt.
-- A power stunt gained via a critical hit's Alternate Effect option costs no fatigue.
-
-#### Domain Sketch
-
-- Instantiates a temporary Alternate Effect of an existing power for the duration of the scene.
-- Costs extra effort's deferred fatigue unless obtained via critical hit's Alternate Effect option.
-- Invariant: The base power must already exist on the character's sheet.
-- Invariant: Permanent effects cannot be used as the basis; scene-duration cap applies.
-
-#### References
 
 *(Deduplicated — chunk_019 cited by hero point.)*
 
 ---
 
+
 # Boundary Domain
 
-## condition
+### Ubiquitous Language
 
-Owned by: Check Resolution
-
-#### Domain Language
-
+#### **condition** *(owned by: Check Resolution)*
 - Conditions (dazed, staggered, stunned, vulnerable, defenseless, incapacitated, dying, prone, hindered, impaired, etc.) are game-state modifiers imposed by combat outcomes, power effects, and hazards.
 - Combat causes, references, and escalates conditions; their authoritative definitions and supersession chains live in Check Resolution.
 - The dying and incapacitated conditions are triggered by Toughness resistance check outcomes defined in Combat, but their modifier bundles are owned by Check Resolution.
 
-#### Domain Sketch
+#### **Toughness** *(owned by: Character Construction)*
+- Toughness is the physical resistance defense stat used as the basis for all Toughness resistance checks against Damage effects.
+- Its rank is set during character construction; temporary −1 penalties from failed Toughness checks accumulate in combat and recover with rest.
 
+#### **Dodge** *(owned by: Character Construction)*
+- Dodge is the active defense providing the defense class against ranged attacks (Dodge + 10).
+- Combat halves Dodge rank (round up) when a character is vulnerable; reduces it to 0 when defenseless.
+
+#### **Parry** *(owned by: Character Construction)*
+- Parry is the active defense providing the defense class against close attacks (Parry + 10).
+- Combat halves Parry rank (round up) when a character is vulnerable; reduces it to 0 when defenseless.
+
+#### **Fortitude** *(owned by: Character Construction)*
+- Fortitude is the physical resistance defense used for hazard checks (heat, cold, suffocation, disease, poison, vacuum, radiation) and ongoing physical effect resistance checks.
+
+#### **Strength** *(owned by: Character Construction)*
+- Strength provides a built-in close-range Damage effect; its rank adds to Damage rank for Strength-based weapons.
+- Strength is used in grab checks (attacker vs. target Strength or Dodge), disarm opposed checks (damage vs. Strength), trip opposed checks (Acrobatics/Athletics vs. Acrobatics/Athletics), and dragging during grab.
+
+#### **power effect** *(owned by: Power)*
+- A power effect's rank determines the resistance DC (effect rank + 10 for most; Damage uses effect rank + 15).
+- Combat resolves power effects when activated as attacks; area and perception-range effects bypass attack checks and automatically affect targets.
+
+#### **advantage** *(owned by: Advantages)*
+- Combat advantages (Improved Initiative, Improved Critical, Takedown, Move-by Action, etc.) modify combat mechanics; their definitions and prerequisites are owned by the Advantages module.
+- Heroic Feat (a hero point spend) grants temporary access to one rank of an advantage for one turn.
+
+---
+
+### Domain Sketch
+
+#### **condition**
 - Combat defines WHEN conditions are imposed (on specific damage degrees, on grab success, on trip success) but does NOT define WHAT the conditions do.
 - The condition's modifier bundle (action restrictions, defense reductions, speed changes) is enforced by the consuming system at the point of use — Combat enforces action limits mid-turn; Check Resolution enforces check penalties on each check.
 - Invariant: A condition's definition and supersession chain is owned by Check Resolution; Combat's role is trigger-only.
 
-#### References
+#### **Toughness**
+- Character Construction defines the Toughness rank; Combat applies temporary penalties to that rank through the damage resistance check sequence.
+- Invariant: Base Toughness rank is set at construction; combat only modifies via temporary cumulative penalties.
+
+#### **Dodge**
+- Character Construction defines Dodge rank; Combat reads and temporarily modifies it when applying vulnerable or defenseless conditions.
+- Invariant: Base Dodge is set at construction; Combat applies halving or zeroing only in response to specific conditions.
+
+#### **Parry**
+- Character Construction defines Parry rank; Combat reads and temporarily modifies it when applying vulnerable or defenseless conditions.
+- Invariant: Base Parry is set at construction; Combat applies halving or zeroing only in response to specific conditions.
+
+#### **Fortitude**
+- Character Construction defines the Fortitude rank; Combat uses it as the resistance defense in all hazard check sequences and for physical ongoing effects.
+- Invariant: Fortitude rank is set at construction; Combat does not modify the base rank.
+
+#### **Strength**
+- Character Construction defines Strength rank; Combat uses it as both a Damage source and a check modifier in grab, disarm, drag, and falling-catch interactions.
+- Invariant: Strength rank is defined at construction; extra effort can temporarily increase it by +1 rank.
+
+#### **power effect**
+- The Power module defines each effect's rank, action, range, duration, and resistance type; Combat reads these properties to resolve the attack check (if any) and resistance check.
+- Invariant: Effect rank + 10 is the standard resistance DC; Damage effects use effect rank + 15.
+
+#### **advantage**
+- The Advantages module defines each advantage's prerequisites, rank costs, and behavioral descriptions; Combat applies the mechanical modifications those advantages specify (e.g., Improved Critical extends threat range, Takedown enables additional attacks on minion defeat).
+- Invariant: Advantage definitions and prerequisites are read-only from Combat's perspective; only behavioral modifications are enforced here.
+
+---
+
+### Decisions made
+
+### References
+
 
 **Ref — Reactions**
 Source: context/rules/HeroesHandbook-rules__chunk_017.md
@@ -2117,61 +1927,6 @@ Failure (three degrees): The target is staggered.
 Failure (four degrees): The target is incapacitated.
 ```
 
----
-
-## Toughness
-
-Owned by: Character Construction
-
-#### Domain Language
-
-- Toughness is the physical resistance defense stat used as the basis for all Toughness resistance checks against Damage effects.
-- Its rank is set during character construction; temporary −1 penalties from failed Toughness checks accumulate in combat and recover with rest.
-
-#### Domain Sketch
-
-- Character Construction defines the Toughness rank; Combat applies temporary penalties to that rank through the damage resistance check sequence.
-- Invariant: Base Toughness rank is set at construction; combat only modifies via temporary cumulative penalties.
-
-#### References
-
-**Ref — Critical Misses**
-Source: context/rules/HeroesHandbook-rules__chunk_203.md
-Locator: lines 14435-14489
-Extract: whole
-
-```source
----
-source: HeroesHandbook-rules.md
-chapter: "Ch8 Action & Adventure"
-topic: "Critical Misses"
-chunk_index: 203
-line_range: "14435-14489"
----
-
-### Damage Resistance Check
-
-Toughness vs. [Damage rank + 15]
-```
-
----
-
-## Dodge
-
-Owned by: Character Construction
-
-#### Domain Language
-
-- Dodge is the active defense providing the defense class against ranged attacks (Dodge + 10).
-- Combat halves Dodge rank (round up) when a character is vulnerable; reduces it to 0 when defenseless.
-
-#### Domain Sketch
-
-- Character Construction defines Dodge rank; Combat reads and temporarily modifies it when applying vulnerable or defenseless conditions.
-- Invariant: Base Dodge is set at construction; Combat applies halving or zeroing only in response to specific conditions.
-
-#### References
-
 **Ref — No Cover**
 Source: context/rules/HeroesHandbook-rules__chunk_208.md
 Locator: lines 14738-14790
@@ -2209,75 +1964,6 @@ When you are vulnerable, your active defense ranks are halved (round up fraction
 When you are defenseless, your active defense ranks are reduced to zero.
 ```
 
----
-
-## Parry
-
-Owned by: Character Construction
-
-#### Domain Language
-
-- Parry is the active defense providing the defense class against close attacks (Parry + 10).
-- Combat halves Parry rank (round up) when a character is vulnerable; reduces it to 0 when defenseless.
-
-#### Domain Sketch
-
-- Character Construction defines Parry rank; Combat reads and temporarily modifies it when applying vulnerable or defenseless conditions.
-- Invariant: Base Parry is set at construction; Combat applies halving or zeroing only in response to specific conditions.
-
-#### References
-
-**Ref — No Cover**
-Source: context/rules/HeroesHandbook-rules__chunk_208.md
-Locator: lines 14738-14790
-Extract: whole
-
-```source
----
-source: HeroesHandbook-rules.md
-chapter: "Ch8 Action & Adventure"
-topic: "No Cover"
-chunk_index: 208
-line_range: "14738-14790"
----
-
-Most attacks target your active defenses, Dodge and Parry: close attacks target Parry while ranged attacks target Dodge.
-```
-
-**Ref — Vulnerable And Defenseless**
-Source: context/rules/HeroesHandbook-rules__chunk_209.md
-Locator: lines 14791-14830
-Extract: whole
-
-```source
----
-source: HeroesHandbook-rules.md
-chapter: "Ch8 Action & Adventure"
-topic: "Vulnerable And Defenseless"
-chunk_index: 209
-line_range: "14791-14830"
----
-
-When you are vulnerable, your active defense ranks are halved. So the hero with Parry 11 and Dodge 9 would have ranks of Parry 6 and Dodge 5 while vulnerable.
-```
-
----
-
-## Fortitude
-
-Owned by: Character Construction
-
-#### Domain Language
-
-- Fortitude is the physical resistance defense used for hazard checks (heat, cold, suffocation, disease, poison, vacuum, radiation) and ongoing physical effect resistance checks.
-
-#### Domain Sketch
-
-- Character Construction defines the Fortitude rank; Combat uses it as the resistance defense in all hazard check sequences and for physical ongoing effects.
-- Invariant: Fortitude rank is set at construction; Combat does not modify the base rank.
-
-#### References
-
 **Ref — Light And Darkness**
 Source: context/rules/HeroesHandbook-rules__chunk_200.md
 Locator: lines 14260-14332
@@ -2312,43 +1998,6 @@ line_range: "14386-14434"
 On the third round of exposure to vacuum, a character must succeed on a Fortitude check (DC 20) each round.
 ```
 
----
-
-## Strength
-
-Owned by: Character Construction
-
-#### Domain Language
-
-- Strength provides a built-in close-range Damage effect; its rank adds to Damage rank for Strength-based weapons.
-- Strength is used in grab checks (attacker vs. target Strength or Dodge), disarm opposed checks (damage vs. Strength), trip opposed checks (Acrobatics/Athletics vs. Acrobatics/Athletics), and dragging during grab.
-
-#### Domain Sketch
-
-- Character Construction defines Strength rank; Combat uses it as both a Damage source and a check modifier in grab, disarm, drag, and falling-catch interactions.
-- Invariant: Strength rank is defined at construction; extra effort can temporarily increase it by +1 rank.
-
-#### References
-
-**Ref — Critical Misses**
-Source: context/rules/HeroesHandbook-rules__chunk_203.md
-Locator: lines 14435-14489
-Extract: whole
-
-```source
----
-source: HeroesHandbook-rules.md
-chapter: "Ch8 Action & Adventure"
-topic: "Critical Misses"
-chunk_index: 203
-line_range: "14435-14489"
----
-
-### Strength And Damage
-
-Strength provides a â€œbuilt-inâ€ Damage effect. You add your Strength and Damage ranks together when determining the rank of the attack.
-```
-
 **Ref — Drop An Item**
 Source: context/rules/HeroesHandbook-rules__chunk_212.md
 Locator: lines 14915-14958
@@ -2370,24 +2019,6 @@ The target makes a resistance check against your Strength (or the rank of a grab
 You can drag a restrained or bound target. The target gets a Strength resistance check against your Strength.
 ```
 
----
-
-## power effect
-
-Owned by: Power
-
-#### Domain Language
-
-- A power effect's rank determines the resistance DC (effect rank + 10 for most; Damage uses effect rank + 15).
-- Combat resolves power effects when activated as attacks; area and perception-range effects bypass attack checks and automatically affect targets.
-
-#### Domain Sketch
-
-- The Power module defines each effect's rank, action, range, duration, and resistance type; Combat reads these properties to resolve the attack check (if any) and resistance check.
-- Invariant: Effect rank + 10 is the standard resistance DC; Damage effects use effect rank + 15.
-
-#### References
-
 **Ref — Conflicts**
 Source: context/rules/HeroesHandbook-rules__chunk_202.md
 Locator: lines 14386-14434
@@ -2408,45 +2039,6 @@ An attack check represents an attempt to hit a target with an attack.
 
 Attack Check = d20 + attack bonus vs. defense class
 ```
-
-**Ref — Vulnerable And Defenseless**
-Source: context/rules/HeroesHandbook-rules__chunk_209.md
-Locator: lines 14791-14830
-Extract: whole
-
-```source
----
-source: HeroesHandbook-rules.md
-chapter: "Ch8 Action & Adventure"
-topic: "Vulnerable And Defenseless"
-chunk_index: 209
-line_range: "14791-14830"
----
-
-### Resistance
-
-A successful attack has some effect on the target. Typically this is an effect from the Powers chapter. The effect has a rank, used to determine a difficulty class for the targetâ€™s resistance check.
-
-Resistance Difficulty = effect rank + 10
-```
-
----
-
-## advantage
-
-Owned by: Advantages
-
-#### Domain Language
-
-- Combat advantages (Improved Initiative, Improved Critical, Takedown, Move-by Action, etc.) modify combat mechanics; their definitions and prerequisites are owned by the Advantages module.
-- Heroic Feat (a hero point spend) grants temporary access to one rank of an advantage for one turn.
-
-#### Domain Sketch
-
-- The Advantages module defines each advantage's prerequisites, rank costs, and behavioral descriptions; Combat applies the mechanical modifications those advantages specify (e.g., Improved Critical extends threat range, Takedown enables additional attacks on minion defeat).
-- Invariant: Advantage definitions and prerequisites are read-only from Combat's perspective; only behavioral modifications are enforced here.
-
-#### References
 
 **Ref — Ch8 Action & Adventure**
 Source: context/rules/HeroesHandbook-rules__chunk_196.md

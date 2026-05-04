@@ -1,13 +1,28 @@
 <!--
-  domain-model.md — typed surface (properties, methods, relationships).
+  domain-model.md — typed surface (constructors, properties, operations, interactions).
 
-  Canonical layout: skills/ooad/templates/domain model template.md
-  This scaffold is the engagement starter; expand using the Example in that file.
+  Format per class block:
+    #### **ClassName**  << Stereotype >>
+    + Constructor(param: Type)              ← one or more constructors (omit if factory/internal)
+    ------                                  ← six dashes: constructor/init separator
+    + property: Type                        ← properties and their invariants
+      Invariant: ...
+    ----                                    ← four dashes: property/operation separator
+    + operation(param: Type): ReturnType    ← operations, invariants, and interaction blocks
+      Invariant: ...
+      Interaction:
+        variable: Type = expression
+        return variable
+    ----                                    ← four dashes between operation clusters (optional)
+
+  For classes with no constructor (factory method, internal init, pre-defined instances):
+    Initialisation: <explanation>
+    ------
+    + property: Type
+    ...
 -->
 
-## Domain model - {{project}}
-
-One file. Match **Example** and **Conventions** in `skills/ooad/templates/domain model template.md`.
+## Domain model — {{project}}
 
 ---
 
@@ -15,34 +30,39 @@ One file. Match **Example** and **Conventions** in `skills/ooad/templates/domain
 
 {{Short paragraph: module owns …}}
 
-{{ClassName}} << {{Entity|ValueObject}}? >>
-{{What this class owns in one or two sentences.}}
-----
-+ {{property}}:{{Type}} {{[*..1] optional cardinality}}
-+ {{relatedProperty}}:{{Type}} [*..1]
-+ {{method}}({{param}}:{{Type}}): {{ReturnType}}
-    Invariant: {{declarative rule tied to this member}}
-----
-+ {{STATE_OR_ENUM_NAME}}:{{Type}} [*..1]
-+ {{anotherMethod}}(): {{ReturnType}}
-    Invariant: {{...}}
+#### **{{ClassName}}**  << {{Entity|ValueObject}} >>
 
-{{ChildClass}} : {{ParentClass}}
-{{Delta description.}}
++ {{ClassName}}({{param}}: {{Type}})
+------
++ {{property}}: {{Type}}
+	Invariant: {{declarative rule tied to this member}}
++ << composition >> {{ownedProperty}}: {{Type}}
 ----
-+ {{childSpecificProperty}}:{{Type}}
++ {{operation}}({{param}}: {{Type}}): {{ReturnType}}
+	Invariant: {{...}}
+	Interaction:
+		{{variable}}: {{Type}} = {{expression}}
+		return {{variable}}
 
-{{ENUM_OR_CONSTANT_GROUP_NAME}}
-Typed constants (UPPER_CASE):
-    {{CONST_A}} = {{value}}
-    {{CONST_B}} = {{value}}
+-----
+
+#### **{{ChildClass}} : {{ParentClass}}**
+
++ {{ChildClass}}({{param}}: {{Type}})
+------
++ {{childSpecificProperty}}: {{Type}}
+	Invariant: {{...}}
 
 -----
 
 ## [Module: {{AnotherModule}}]
 
-{{ClassName}} << {{Entity?}} >>
-+ {{property}}:{{Type}}
-+ {{method}}(): {{ReturnType}}
+#### **{{ClassName}}**  << {{Entity|ValueObject}} >>
+
+Initialisation: {{factory method | internal | pre-defined instances — explanation}}
+------
++ {{property}}: {{Type}}
+----
++ {{operation}}(): {{ReturnType}}
 
 -----
