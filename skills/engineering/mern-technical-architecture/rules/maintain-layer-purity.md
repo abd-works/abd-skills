@@ -45,12 +45,22 @@ export class RecipientsService {
 }
 ```
 
+```typescript
+// packages/recipients/server/recipients.service.ts — CORRECT: depends on interface, not concrete class
+import { RecipientsRepositoryInterface } from './recipients.repository';
+
+export class RecipientsService {
+  constructor(private repo: RecipientsRepositoryInterface) {}  // interface — not the concrete MongoRepo
+}
+```
+
 ## DON'T
 
 - Import Express, React, MongoDB, or any framework/infrastructure library in `shared/`.
 - Import `client/` code from `server/` or `server/` code from `client/`.
 - Place React components or hooks in `shared/`.
 - Place Express middleware or route handlers in `shared/`.
+- Depend on the concrete repository class in the service layer — services must accept the repository **interface** so they can work with any implementation (MongoDB, in-memory, test fake).
 
 ```typescript
 // packages/recipients/shared/Recipient.ts — WRONG: framework import in shared
@@ -63,4 +73,13 @@ export const RecipientSchema = new Schema({ ... });
 ```typescript
 // packages/recipients/server/recipients.service.ts — WRONG: importing from client
 import { useRecipients } from '@project/recipients/client';  // VIOLATION: server imports client
+```
+
+```typescript
+// packages/recipients/server/recipients.service.ts — WRONG: depends on concrete class
+import { RecipientsRepository } from './recipients.repository';  // VIOLATION: concrete class, not interface
+
+export class RecipientsService {
+  constructor(private repo: RecipientsRepository) {}  // breaks when swapping implementations
+}
 ```
