@@ -1,78 +1,111 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
 :root {
-  --orange: #ff7a00;
-  --bg: #09090b;
-  --surface: #0e0e10;
-  --raised: #161618;
-  --border: #2a2a30;
-  --border-muted: #1a1a1e;
-  --text: #e8e8ed;
-  --muted: #9b9ba8;
-  --radius: 4px;
+  --orange:       #E5531A;
+  --orange-hover: #C64514;
+  --bg:           #0B0B0B;
+  --surface:      #111113;
+  --raised:       #1B1B20;
+  --border:       #2A2A2A;
+  --border-muted: #1e1e22;
+  --text:         #F4F4F5;
+  --muted:        #9B9BA8;
+  --radius:       6px;
+  --font-sans:    'Inter', system-ui, sans-serif;
+  --font-mono:    'JetBrains Mono', ui-monospace, monospace;
 }
 *, *::before, *::after { box-sizing: border-box; }
 body {
   background: var(--bg);
   color: var(--text);
   margin: 0;
-  font-family: system-ui, "Segoe UI", Roboto, Ubuntu, sans-serif;
-  font-size: 17px;
-  line-height: 1.6;
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
 }
-a { color: #8ab4ff; text-decoration: none; }
-a:hover { text-decoration: underline; }
-strong { font-weight: 700; }
+a { color: var(--orange); text-decoration: none; transition: color 120ms ease; }
+a:hover { color: var(--orange-hover); text-decoration: none; }
+strong { font-weight: 600; }
 code {
-  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
-  font-size: 0.88em;
-  background: #1f1f24;
-  padding: 1px 5px;
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+  background: rgba(255,255,255,0.06);
+  padding: 2px 5px;
   border-radius: 3px;
-  color: #d4d4d4;
+  color: #F2A07A;
 }
-.page-wrap { padding: 16px clamp(8px,3vw,28px); }
-.panel {
-  max-width: min(96vw, 1100px);
+
+/* ── Page layout ── */
+.page-wrap {
+  max-width: 1400px;
   margin: 0 auto;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  overflow: hidden;
+  padding: 48px clamp(16px, 4vw, 48px) 96px;
 }
+
+/* ── Panel / legacy wrapper — flatten to plain surface ── */
+.panel {
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  overflow: visible;
+}
+
+/* ── Page header (replaces old panel-header) ── */
 .panel-header {
-  padding: 18px 20px 16px;
+  margin-bottom: 40px;
+  padding-bottom: 32px;
   border-bottom: 1px solid var(--border);
-  border-left: 4px solid var(--orange);
-  background: var(--raised);
-  display: flex;
-  align-items: center;
-  gap: 18px;
-  flex-wrap: wrap;
-}
-.header-icon {
-  flex-shrink: 0;
-  background: #000;
-  padding: 10px;
-  border-radius: 10px;
-  border: 1px solid var(--border-muted);
-  box-shadow: inset 0 0 0 1px rgba(255,122,0,0.12);
-}
-.site-home-link {
-  flex-shrink: 0;
+  border-left: none;
+  background: transparent;
   display: block;
-  line-height: 0;
-  opacity: 0.9;
-  transition: opacity 0.15s;
 }
-.site-home-link:hover { opacity: 1; }
-.header-text { flex: 1; min-width: 200px; }
-.brand { font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin: 0 0 4px; }
-.brand strong { color: var(--orange); }
-.brand-row { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
-.brand-row .brand { margin: 0; }
-.brand-row .cap-badge { margin: 0; }
-h1 { margin: 0; font-size: 2rem; font-weight: 700; line-height: 1.15; }
-.tagline { margin: 8px 0 0; font-size: 1.05rem; color: var(--muted); max-width: 52rem; line-height: 1.55; }
-.panel-body { padding: 28px 22px 36px; }
+
+.header-icon { display: none; }
+
+.site-home-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-decoration: none;
+  margin-bottom: 16px;
+}
+.site-home-link:hover { color: var(--text); }
+.site-home-link img { display: none; }
+.site-home-link::before { content: '← abd.works'; }
+
+.header-text { display: block; }
+.brand { display: none; }
+.brand-row { display: none; }
+.brand-row .brand { display: none; }
+.brand-row .cap-badge { display: none; }
+
+h1 {
+  margin: 0 0 10px;
+  font-size: clamp(28px, 4vw, 42px);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  color: var(--text);
+  font-family: var(--font-sans);
+}
+
+.tagline {
+  margin: 0;
+  font-size: 15px;
+  color: var(--muted);
+  max-width: 540px;
+  line-height: 1.65;
+  font-family: var(--font-sans);
+}
+
+.panel-body { padding: 0; }
 p { margin: 0 0 14px; }
 h2 {
   font-size: 1.2rem;

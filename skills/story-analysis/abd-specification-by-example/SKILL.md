@@ -28,6 +28,25 @@ Load this skill when **any** of the following apply:
 
 ## Agent Instructions
 
+### 0. Ground in the domain model
+
+Before writing any scenario steps, check whether any of the following types of domain model content exist in the workspace or have been provided as context:
+
+- **Object model** — typed classes with attributes and typed relationships between classes. The most precise source: use it first.
+- **CRC model** — each concept listed with its responsibilities and the other concepts it works with. Use when no object model is available.
+- **Domain language or key abstractions** — a glossary, list of defined terms, or grouped concept names with definitions. Use as the fallback when no structural model exists.
+
+These types of content are the outputs of domain-driven design practices. Look for object model content first, then CRC, then domain language.
+
+**If domain content exists (grounded mode):**
+- Use exact concept names from that source — do not paraphrase, abbreviate, or rename.
+- Reflect relationships in Given/And step structure: if the model shows **Customer** uses **Account**, that relationship should appear explicitly in a Given or And step, not just as two disconnected nouns.
+- The example tables in Scenario Outlines should expose the relational chain across concept columns — they do the exact same job as connected step language, but in data form. A table column set of `customer_name | dda_account_number | payment_product_name` reads the domain structure; `customer_name | account_status` in isolation does not.
+
+**If no domain content exists (derived mode):**
+- Derive concept names and relationships from the story narrative and any acceptance criteria.
+- Make relationships deliberate in step language — how bold concept names appear relative to each other in a step is the implied domain model. Do not flatten this to a list of unrelated nouns.
+
 ### 1. Scenarios vs Scenario Outlines
 
 If the user/agent has not specified which approach they want, then 
@@ -108,6 +127,15 @@ If the story has AC (WHEN/THEN from bd-acceptance-criteria), use the main-flow 
 
 Use Background only when three or more scenarios share identical starting state. Given and And only — no When or Then.
 
+### Domain concept grounding
+
+Specification by example works at two levels simultaneously: it specifies *behavior* and it confirms *the domain model*. The Given/When/Then steps are where both happen at once.
+
+When domain model content — an object model, CRC model, or domain language glossary — is available, the scenarios are its behavioral proof. Concept names must match exactly. The relationships the model defines should be visible in step structure through connected language: *a Customer with a valid DDA Account applying for a Payment Product Agreement using an Owner with Contact Details* expresses three concepts and four relationships in one scenario — not a list of unrelated nouns.
+
+When no domain model exists, the scenarios themselves reveal the model. The deliberate way a step names a concept and connects it to another — **Customer** *Jane Doe* applies using **DDA Account** *DDA-001* naming **Owner** *John Doe* — documents the model for the team.
+
+**This is exactly the same job the example tables do in Scenario Outlines.** A table column set of `customer_name | dda_account_number | payment_product_name` grounds the data in the domain relational structure. Tables that show only one concept's fields in isolation lose the relationships that make the domain model legible — a car, a driver, and three passengers tells you nothing about who is driving whom.
 
 ### Specification level
 
@@ -269,6 +297,140 @@ Given the **Wire Payment** is ready to authorize
 When the **User** authorizes the **Wire Payment**
 Then the **Wire Payment** status is *Authorized*
 ``
+
+### Rule: Ground scenarios in domain model content when available
+
+When object model, CRC, or domain language content exists in the workspace or has been provided as context, scenario language must use the exact concept names and relationships that content defines.
+
+Look in this order — use the first type you find:
+1. **Object model** — typed classes with attributes and typed relationships between classes (most precise source)
+2. **CRC model** — each concept with its responsibilities and the other concepts it works with
+3. **Domain language or key abstractions** — glossaries, defined terms, or grouped concept names with definitions
+
+These types of content are the outputs of domain-driven design practices. If such content is present in the workspace or supplied as context, it is the authoritative source for concept names and relationships.
+
+#### DO
+
+- Read any available domain model content before naming any concept in a step — object model first, then CRC, then domain language.
+- Use the exact term the model defines.
+
+```gherkin
+Given a **Payment Product Agreement** {agreement_id} agreed to by **Customer** {customer_id}
+    using **Account** {account_id}
+    naming **Owner** {owner_id}
+      with **Contact Details** {owner_email}
+```
+
+#### DON'T
+
+- Use a synonym or informal shorthand for a concept the domain model has formally named.
+- Rename or paraphrase concept names even when the formal name feels long or unfamiliar.
+
+```gherkin
+Given a **Contract** {agreement_id} for **Customer** {customer_id}
+    using **Bank Account** {account_id}
+    naming **Holder** {owner_id}
+      with **Info** {owner_email}
+```
+
+---
+
+#### DO
+
+- In Scenario Outlines, structure example tables using the same language and cardinality as the domain model — a one-to-many relationship in the model means a separate table with a linking key, not repeated columns; a joining concept in the model means its own table with references to what it joins.
+
+CRC model the scenario is grounded in:
+
+```markdown
+#### **User**
+user id                             | (identifier)
+user name                           | (string)
+payment role                        | Payment Role
+contact details                     | Contact Details
+direct deposit account              | DDA Account
+
+#### **Payment Role**
+role type                           | (Customer, Owner)
+
+#### **DDA Account**
+account id                          | (identifier)
+user                                | User
+
+#### **Payment Product**
+product id                          | (identifier)
+product name                        | (string)
+payment channel                     | Payment Channel
+
+#### **Contact Details**
+user                                | User
+email                               | (string)
+
+#### **Payment Product Agreement**
+agreement id                        | (identifier)
+customer                            | User
+account                             | DDA Account
+payment product                     | Payment Product
+owner                               | User
+application status                  | (Submitted, Approved, Rejected)
+apply                               | User, DDA Account, Payment Product
+```
+
+Scenario Outline steps that trace the relational chain, with a normalized table per concept:
+
+```gherkin
+Given a **User** {customer_id} {customer_name} with **Payment Role** *Customer*
+  And a **DDA Account** {account_id} for **User** {customer_id}
+  And **Payment Product** {product_id} {product_name} is available
+When the **User** {customer_id} applies for a **Payment Product Agreement** {agreement_id}
+    with **DDA Account** {account_id} and **Payment Product** {product_id}
+    naming **User** {owner_id} as **Owner**
+Then **Payment Product Agreement** {agreement_id} has application status *Submitted*
+  And **User** {owner_id} is notified at {owner_email}
+```
+
+```text
+### User:
+| user_id | user_name | payment_role |
+| USR-001 | Jane Doe  | Customer     |
+| USR-002 | John Doe  | Owner        |
+| USR-003 | Bob Smith | Customer     |
+| USR-004 | Alice Lee | Owner        |
+
+### DDA Account: with User
+| account_id | user_id |
+| DDA-001    | USR-001 |
+| DDA-002    | USR-003 |
+
+### Payment Product:
+| product_id | product_name     |
+| PROD-001   | Savings Plus     |
+| PROD-002   | Premium Checking |
+
+### Contact Details: with User
+| user_id | owner_email    |
+| USR-002 | john@acme.com  |
+| USR-004 | alice@corp.com |
+
+### Payment Product Agreement: with User (Customer), DDA Account, Payment Product, and User (Owner)
+| agreement_id | customer_id | account_id | product_id | owner_id | application_status |
+| AGR-001      | USR-001     | DDA-001    | PROD-001   | USR-002  | Submitted          |
+| AGR-002      | USR-003     | DDA-002    | PROD-002   | USR-004  | Submitted          |
+```
+
+#### DON'T
+
+- Denormalize by repeating names across tables instead of linking through IDs — this hides ownership and breaks when a Customer has more than one Account or an Agreement covers more than one Product.
+
+```gherkin
+Given a **Customer** {customer_name} applies for a **Payment Product Agreement**
+    with **Payment Product** {product_name}
+Then the agreement is submitted
+```
+
+```text
+| customer_name | account_number | product_name     | owner_name | owner_email   |
+| Jane Doe      | DDA-001        | Savings Plus     | John Doe   | john@acme.com |
+```
 
 ### Rule: Keep scenarios consistent across connected domains
 

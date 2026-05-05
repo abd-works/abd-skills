@@ -1,173 +1,188 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="engineering">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Skill Garden — Catalogue</title>
+<title>Skill Catalog — abd.works</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/commons/agile-garden-fragment.css">
+<script src="/commons/brand-nav.js"></script>
 <style>
 :root {
-  --orange: #ff7a00;
-  --bg: #09090b;
-  --surface: #0e0e10;
-  --raised: #161618;
-  --border: #2a2a30;
-  --border-muted: #1a1a1e;
-  --text: #e8e8ed;
-  --muted: #9b9ba8;
-  --radius: 4px;
+  --orange:       #E5531A;
+  --bg:           #0B0B0B;
+  --surface:      #111113;
+  --raised:       #1B1B20;
+  --border:       #2A2A2A;
+  --border-muted: #1e1e22;
+  --text:         #F4F4F5;
+  --muted:        #9B9BA8;
+  --radius:       4px;
+  --font-sans:    'Inter', system-ui, sans-serif;
+  --font-mono:    'JetBrains Mono', ui-monospace, monospace;
 }
+
 *, *::before, *::after { box-sizing: border-box; }
+
 body {
   background: var(--bg);
   color: var(--text);
   margin: 0;
-  font-family: system-ui, "Segoe UI", Roboto, Ubuntu, sans-serif;
-  font-size: 17px;
-  line-height: 1.6;
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  padding: 0 clamp(8px, 3vw, 32px) 80px;
 }
-a { color: #8ab4ff; text-decoration: none; }
-a:hover { text-decoration: underline; }
-strong { font-weight: 700; }
+
+a { color: var(--orange); text-decoration: none; }
+a:hover { color: #C64514; }
+strong { font-weight: 600; }
 code {
-  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
-  font-size: 0.88em;
-  background: #1f1f24;
-  padding: 1px 5px;
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+  background: rgba(255,255,255,0.06);
+  padding: 2px 5px;
   border-radius: 3px;
-  color: #d4d4d4;
+  color: #F2A07A;
 }
 
-.page-wrap { padding: 16px clamp(8px,3vw,28px); }
-.panel {
-  max-width: min(96vw, 1100px);
+.page-wrap {
+  max-width: 1600px;
   margin: 0 auto;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  overflow: hidden;
+  padding: 48px clamp(16px, 2vw, 32px) 96px;
 }
 
-.panel-header {
-  padding: 18px 20px 16px;
-  border-bottom: 1px solid var(--border);
-  border-left: 4px solid var(--orange);
-  background: var(--raised);
-  display: flex;
-  align-items: center;
-  gap: 18px;
-  flex-wrap: wrap;
-}
-.header-icon {
-  flex-shrink: 0;
-  background: #000;
-  padding: 10px;
-  border-radius: 10px;
-  border: 1px solid var(--border-muted);
-  box-shadow: inset 0 0 0 1px rgba(255,122,0,0.12);
-}
-.header-text { flex: 1; min-width: 200px; }
-.brand { font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin: 0 0 4px; }
-.brand strong { color: var(--orange); }
-h1 { margin: 0; font-size: 2rem; font-weight: 700; line-height: 1.15; }
-.tagline { margin: 8px 0 0; font-size: 1.05rem; color: var(--muted); max-width: 52rem; }
-
-.panel-body { padding: 28px 22px 36px; }
-p { margin: 0 0 14px; }
-h2 {
-  font-size: 1.2rem;
-  font-weight: 700;
-  margin: 32px 0 14px;
-  padding-bottom: 8px;
-  border-bottom: 1px solid var(--border);
+/* Page header injected by brand-nav.js — add page title here */
+.catalog-page-title {
+  margin: 0 0 8px;
+  font-size: clamp(26px, 4vw, 40px);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
   color: var(--text);
 }
-h2:first-child { margin-top: 0; }
+.catalog-page-subtitle {
+  margin: 0 0 40px;
+  font-size: 14px;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  letter-spacing: 0.04em;
+}
 
-.cap-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 14px;
-  margin: 18px 0 0;
+/* Practice grid rows: show name + description stacked */
+.catalog-practice-grid .catalog-garden-row {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
+  padding: 11px 16px;
 }
-.cap-card {
+.catalog-practice-grid .catalog-garden-name {
+  flex: none;
+  font-size: 0.85rem;
+  min-width: 0;
+}
+.catalog-practice-grid .catalog-garden-desc {
   display: block;
-  text-decoration: none;
-  background: var(--raised);
-  border: 1px solid var(--border);
-  border-left: 3px solid var(--orange);
-  border-radius: var(--radius);
-  padding: 16px 18px;
-  transition: background 0.15s, border-color 0.15s;
-  cursor: pointer;
+  font-size: 0.81rem;
+  line-height: 1.5;
+  color: var(--muted);
 }
-.cap-card:hover {
-  background: rgba(255,122,0,0.06);
-  border-color: rgba(255,122,0,0.4);
-  text-decoration: none;
+
+/* ── Taxonomy cards ── */
+.taxonomy-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 12px;
+  margin: 0 0 40px;
 }
-.cap-card__title {
-  font-size: 0.97rem;
-  font-weight: 700;
-  color: var(--orange);
-  margin: 0 0 12px;
+.tax-card {
+  background: #111113;
+  border: 1px solid #2A2A2A;
+  border-radius: 6px;
+  overflow: hidden;
+}
+.tax-card-header {
   display: flex;
   align-items: center;
   gap: 10px;
-}
-.cap-card__icon { flex-shrink: 0; width: 24px; height: 24px; }
-.cap-card__row { display: flex; flex-direction: column; gap: 6px; }
-.cap-card__label {
-  font-size: 0.72rem;
+  padding: 10px 16px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
   font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  opacity: 0.55;
-  margin-bottom: 1px;
+  letter-spacing: 0.1em;
+  border-bottom: 1px solid #2A2A2A;
 }
-.cap-card__problem { font-size: 0.85rem; color: #d4868e; line-height: 1.45; margin: 0; }
-.cap-card__solution { font-size: 0.85rem; color: var(--muted); line-height: 1.45; margin: 0; }
-.cap-card__sep { border: none; border-top: 1px solid var(--border-muted); margin: 10px 0; }
-.cap-card__more {
-  font-size: 0.78rem;
-  color: var(--orange);
-  opacity: 0.7;
-  margin: 10px 0 0;
-  display: flex;
-  align-items: center;
-  gap: 4px;
+.tax-h--agent  { color: #E5531A; border-left: 3px solid #E5531A; background: #1B1B20; }
+.tax-h--skill  { color: #E5531A; border-left: 3px solid #E5531A; background: #1B1B20; }
+.tax-h--plugin { color: #E5531A; border-left: 3px solid #E5531A; background: #1B1B20; }
+.tax-h--tool   { color: #E5531A; border-left: 3px solid #E5531A; background: #1B1B20; }
+.tax-card-body { padding: 12px 16px; font-size: 0.82rem; line-height: 1.55; color: #9B9BA8; }
+.tax-tagline { font-weight: 600; color: #F4F4F5; margin: 0 0 6px; font-size: 0.82rem; font-style: italic; }
+.tax-card-body p { margin: 0; }
+.tax-card-body code { font-family: var(--font-mono); font-size: 0.8em; background: rgba(255,255,255,0.07); padding: 1px 5px; border-radius: 3px; color: #F2A07A; }
+
+@media (max-width: 768px) {
+  .page-wrap { padding: 24px 16px 64px; }
+  .taxonomy-grid { grid-template-columns: 1fr 1fr; }
 }
 </style>
 </head>
-<body>
+<body
+  data-page-label="Agile by Design · Skill Garden"
+  data-page-title="Skill Catalog"
+  data-page-tagline="{{SKILL_COUNT}} deployed skills — practice disciplines and foundational helpers.">
+
 <div class="page-wrap">
-<div class="panel" role="main">
+  <h1 class="catalog-page-title">Skill Catalog</h1>
+  <p class="catalog-page-subtitle">{{SKILL_COUNT}} deployed skills — practice disciplines and foundational helpers</p>
 
-<header class="panel-header">
-  <div class="header-icon">
-    <svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:block;border-radius:6px;">
-      <rect width="52" height="52" rx="8" fill="#0e0e10"/>
-      <path d="M16 14h20a2 2 0 0 1 2 2v20a2 2 0 0 1-2 2H16a2 2 0 0 1-2-2V16a2 2 0 0 1 2-2z" stroke="#FF7A00" stroke-width="1.5" fill="rgba(255,122,0,0.06)"/>
-      <path d="M20 22h12M20 26h9M20 30h12" stroke="#FF7A00" stroke-width="1.5" stroke-linecap="round"/>
-    </svg>
+  <div class="taxonomy-grid">
+    <div class="tax-card">
+      <div class="tax-card-header tax-h--agent">
+        <img src="/commons/images/icon-taxonomy-agent.svg" width="20" height="20" alt="" aria-hidden="true">
+        <span>AGENT</span>
+      </div>
+      <div class="tax-card-body">
+        <p class="tax-tagline">A role-based AI collaborator</p>
+        <p>Has a defined persona, goals, workflow &amp; checkpoint protocol. Examples: <code>abd-delivery-lead</code> (orchestrator), <code>abd-team-member</code> (Product Owner / Analyst / Engineer).</p>
+      </div>
+    </div>
+    <div class="tax-card">
+      <div class="tax-card-header tax-h--skill">
+        <img src="/commons/images/icon-taxonomy-skill.svg" width="20" height="20" alt="" aria-hidden="true">
+        <span>SKILL</span>
+      </div>
+      <div class="tax-card-body">
+        <p class="tax-tagline">A reusable domain expertise module</p>
+        <p><code>SKILL.md</code> + rules + scanners + templates + scripts. Claude auto-discovers and loads it when triggered. Example: <code>abd-story-mapping</code>, <code>abd-acceptance-criteria</code>.</p>
+      </div>
+    </div>
+    <div class="tax-card">
+      <div class="tax-card-header tax-h--plugin">
+        <img src="/commons/images/icon-taxonomy-plugin.svg" width="20" height="20" alt="" aria-hidden="true">
+        <span>PLUGIN</span>
+      </div>
+      <div class="tax-card-body">
+        <p class="tax-tagline">A deployable bundle</p>
+        <p>Groups agents + skills + slash commands + hooks into one installable package. Deploy to your whole team via managed settings in VSCode or Claude Code.</p>
+      </div>
+    </div>
+    <div class="tax-card">
+      <div class="tax-card-header tax-h--tool">
+        <img src="/commons/images/icon-taxonomy-tool.svg" width="20" height="20" alt="" aria-hidden="true">
+        <span>TOOL</span>
+      </div>
+      <div class="tax-card-body">
+        <p class="tax-tagline">A specific capability granted to an agent</p>
+        <p>Bash execution, file ops, web search, MCP server calls. Tools let agents <strong>DO</strong> things — not just know things. Every agent has a specific tool set.</p>
+      </div>
+    </div>
   </div>
-  <div class="header-text">
-    <p class="brand"><strong>Agile by Design</strong> &middot; skill-garden-catalogue</p>
-    <h1>Skill Garden &mdash; Catalogue</h1>
-    <p class="tagline">{{SKILL_COUNT}} deployed skills. Each card shows the challenge addressed and the solution provided.</p>
-  </div>
-</header>
 
-<div class="panel-body">
-
-<p>
-  Browse the full catalogue of deployed skills below. Each card links to the
-  skill directory. Re-run <code>generate_catalogue.py</code> to refresh.
-</p>
-
-{{SKILL_SECTIONS}}
-
+  {{SKILL_SECTIONS}}
 </div>
-</div>
-</div>
+
 </body>
 </html>

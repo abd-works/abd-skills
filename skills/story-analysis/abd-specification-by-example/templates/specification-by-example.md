@@ -46,41 +46,43 @@ Then **<Concept>** is *<outcome>*
 
 ## Example
 
-## Story: Submit Wire Payment
+## Story: Apply For a Payment Product Agreement
 
 **Story type:** user
 
-**Sources / context:** _(Enterprise Payments Requirements v2, Ch. 3 pp. 12-14)_
+**Sources / context:** _(Payments Domain — object model: Payment Product, Customer, Account, Owner, Payment Product Agreement)_
 
 ---
 
 ## Background
 
-Given a **User** *Jane Doe* is logged into ChannelOne 2.0
-  And that **User** *Jane Doe* is representing **Enterprise** *Acme Corp* with **Role** *Wire Operator*
-  And that **Enterprise** *Acme Corp* has **Payment Service** *wire* enabled
-  And that **User** *Jane Doe* has **Entitlement** *WirePayment.Create* with **Entitlement Status** *Granted*
+Given the following **Payment Products** exist:
+  And **Payment Product** *Savings Plus* specifies **Payment Channel** *Direct Deposit*
+    And **Payment Product** *Savings Plus* supports **Payment Transactions**
 
 ---
 
 ## Scenarios
 
-### Scenario 1: Submit payment within limit - approved
+### Scenario 1: Agreement submitted with valid DDA Account and Owner
 
-Given **Account** *Acme Operating* owned by **Enterprise** *Acme Corp* with **Activation Status** *Active* is selected
-  And the **Transactional Limit** *daily_wire* for that Account is *$500,000.00 USD*
-When the **User** *Jane Doe* enters a **Payment Amount** of *$10,000.00 USD*
-Then the **Payment Amount** *$10,000.00 USD* is validated against **Transactional Limit** *$500,000.00 USD*
-  And the **Wire Payment** is marked as *successful*
-  And a **Report** is sent to *Jane Doe* showing formatted display *$10,000.00*
+Given a **Customer** *Jane Doe* exists
+  And that **Customer** *Jane Doe* has a valid **DDA Account** *DDA-001*
+When the **Customer** *Jane Doe* applies for a **Payment Product Agreement**
+    using **DDA Account** *DDA-001*
+    with **Owner** *John Doe*
+      that has **Contact Details** *john@acme.com*
+Then the **Payment Product Agreement** is submitted for review
+  And the **Owner** *John Doe* is notified at *john@acme.com*
 
-### Scenario 2: Submit payment over limit - rejected
+### Scenario 2: Agreement rejected when DDA Account is invalid
 
-Given **Account** *Acme Operating* owned by **Enterprise** *Acme Corp* with **Activation Status** *Active* is selected
-  And the **Transactional Limit** *daily_wire* for that Account is *$500,000.00 USD*
-When the **User** *Jane Doe* enters a **Payment Amount** of *$500,000.01 USD*
-Then the **Wire Payment** is *rejected*
-  And a **Report** is sent to *Jane Doe* showing validation status *rejected*
+Given a **Customer** *Jane Doe* exists
+  And that **Customer** *Jane Doe* has **DDA Account** *DDA-999* with status *Invalid*
+When the **Customer** *Jane Doe* applies for a **Payment Product Agreement**
+    using **DDA Account** *DDA-999*
+Then the **Payment Product Agreement** is *rejected*
+  And **Customer** *Jane Doe* is notified that the **DDA Account** is *not eligible*
 
 ---
 
