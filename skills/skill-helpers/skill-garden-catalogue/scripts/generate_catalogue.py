@@ -319,12 +319,12 @@ _CATEGORY_LABELS: dict[str, str] = {
     "engineering":          "Engineering",
     "idea shaping":         "Idea Shaping",
     "skill-helpers":        "Skill Helpers",
-    "story-analysis":       "Story Analysis",
+    "story-driven-delivery": "Story-Driven Delivery",
     "utilities":            "Utilities",
 }
 
 # Categories that go in the top practice grid vs the lower foundational grid
-PRACTICE_CATEGORIES = {"idea shaping", "domain-driven-design", "story-analysis", "engineering", "delivery"}
+PRACTICE_CATEGORIES = {"idea shaping", "domain-driven-design", "story-driven-delivery", "engineering", "delivery"}
 FOUNDATIONAL_CATEGORIES = {"skill-helpers", "utilities", ""}
 
 _CATEGORY_ICONS: dict[str, str] = {
@@ -339,7 +339,7 @@ _CATEGORY_ICONS: dict[str, str] = {
         '<circle cx="8" cy="8" r="5.5"/><circle cx="8" cy="8" r="2"/>'
         '<path d="M8 2.5V6M8 10v3.5M2.5 8H6M10 8h3.5"/></svg>'
     ),
-    "story-analysis": (
+    "story-driven-delivery": (
         '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor"'
         ' stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
         '<rect x="2" y="2" width="12" height="12" rx="1.5"/>'
@@ -449,7 +449,7 @@ def generate_html(by_category: dict[str, list[SkillEntry]]) -> str:
     foundational_cols = ""
 
     # Preserve desired order for practice disciplines
-    practice_order = ["idea shaping", "domain-driven-design", "story-analysis", "engineering", "delivery"]
+    practice_order = ["idea shaping", "domain-driven-design", "story-driven-delivery", "engineering", "delivery"]
     foundational_order = ["utilities", "skill-helpers", ""]
 
     for cat in practice_order:
