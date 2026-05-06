@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="engineering">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>story-graph-ops — abd.works</title>
+<script src="/commons/brand-nav.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+:root {
+  --orange: #E5531A; --orange-hover: #C64514;
+  --bg: #0B0B0B; --surface: #111113; --raised: #1B1B20;
+  --border: #2A2A2A; --text: #F4F4F5; --muted: #9B9BA8;
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+*, *::before, *::after { box-sizing: border-box; }
+body { background: var(--bg); color: var(--text); margin: 0;
+  font-family: var(--font-sans); font-size: 15px; line-height: 1.7;
+  -webkit-font-smoothing: antialiased; }
+a { color: var(--orange); text-decoration: none; }
+a:hover { color: var(--orange-hover); }
+.page-wrap { max-width: 860px; margin: 0 auto; padding: 48px clamp(16px,4vw,48px) 96px; }
+.back-link { display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--font-mono); font-size: 11px; font-weight: 600;
+  letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted);
+  margin-bottom: 40px; }
+.back-link:hover { color: var(--text); }
+h1 { font-size: clamp(24px,4vw,36px); font-weight: 800; letter-spacing: -0.03em;
+  line-height: 1.1; margin: 0 0 8px; color: var(--text); }
+.skill-category { font-family: var(--font-mono); font-size: 11px; font-weight: 600;
+  letter-spacing: 0.1em; text-transform: uppercase; color: var(--orange);
+  margin-bottom: 32px; display: block; }
+h2 { font-size: 1.15rem !important; font-weight: 700 !important; margin: 36px 0 12px !important;
+  padding-bottom: 8px !important; border-bottom: 1px solid var(--border) !important; color: #E5531A !important; }
+h3 { font-size: 1rem !important; font-weight: 700 !important; margin: 24px 0 8px !important; color: var(--text) !important; }
+h4 { font-size: 0.9rem !important; font-weight: 700 !important; margin: 20px 0 6px !important; color: var(--muted) !important; text-transform: uppercase !important; letter-spacing: 0.06em !important; }
+p { margin: 0 0 14px; }
+ul, ol { margin: 0 0 16px; padding-left: 1.4rem; }
+li { margin-bottom: 6px; }
+code { font-family: var(--font-mono); font-size: 0.855em;
+  background: rgba(255,255,255,0.07); padding: 2px 6px; border-radius: 3px; color: #F2A07A; }
+pre { background: var(--surface); border: 1px solid var(--border); border-radius: 6px;
+  padding: 20px 24px; overflow-x: auto; margin: 0 0 20px; }
+pre code { background: none; padding: 0; color: var(--text); font-size: 0.85rem; }
+blockquote { border-left: 3px solid var(--orange); margin: 0 0 16px;
+  padding: 10px 18px; background: var(--surface); border-radius: 0 4px 4px 0; }
+blockquote p { margin: 0; color: var(--muted); }
+hr { border: none; border-top: 1px solid var(--border); margin: 32px 0; }
+strong { font-weight: 600; }
+</style>
+</head>
+<body>
+<div class="page-wrap">
+  <a class="back-link" href="/abd-skills-catalog/">← AI Garden</a>
+  <h1>story-graph-ops</h1>
+  <span class="skill-category">Story-Driven Delivery</span>
+  <h2>Agent obligations (do not skip)</h2>
+<p>This skill is <strong>not</strong> satisfied by “I read some other project’s graph code and emitted JSON.” That is a <strong>supplement</strong> at most—and <strong>out of scope</strong> for claiming this skill is done.</p>
+<p>| Must | Detail | | --- | --- | | <strong>Use this skill’s tooling</strong> | Run <strong><code>scripts/story_graph_cli.py</code></strong> and/or import from <strong><code>story_map</code></strong> with <strong><code>PYTHONPATH</code></strong> including <strong><code>…/story-graph-ops/scripts</code></strong> (path below). | | <strong>Finish with validation</strong> | After creating or changing a graph file, run at least: <strong><code>story_graph_cli.py read --file &amp;lt;path&amp;gt;</code></strong> so a bad structure fails early. Prefer <strong><code>names</code></strong> or <strong><code>search</code></strong> when checking coverage. | | <strong>Declare completion</strong> | Say what you ran (e.g. “validated with <code>read</code>”)—not only “wrote JSON.” |</p>
+<p><strong>Anti-patterns (reject):</strong></p>
+<ul>
+<li>Hand-rolling JSON and stopping without <strong><code>read</code></strong> (or equivalent load via <code>story_map</code>).</li>
+<li>Using <strong>another codebase’s</strong> loaders or domain classes as the <em>only</em> authority while ignoring this skill’s CLI—those are not proof the serialized file is valid for <strong>story-graph-ops</strong> tooling.</li>
+<li>Skipping <strong><code>PYTHONPATH</code></strong> then claiming the skill was followed.</li>
+</ul>
+<p><strong>When converting from Markdown, <code>.txt</code>, or chat:</strong> build or edit JSON using <strong><code>story_map</code></strong> in Python <strong>or</strong> write JSON and pipe through <strong><code>write</code></strong>, then <strong><code>read</code></strong>—same validation rule.</p>
+<h2>Skill root and PYTHONPATH</h2>
+<p>From the <strong>agilebydesign-skills</strong> repo, this skill’s scripts live next to this file:</p>
+<ul>
+<li><strong>Skill directory:</strong> <code>skills/story-graph-ops/</code></li>
+<li><strong>Scripts:</strong> <code>skills/story-graph-ops/scripts/</code></li>
+</ul>
+<pre><code class="language-text"># Windows PowerShell example (adjust drive/path to your clone):
+$env:PYTHONPATH = &quot;C:\dev\agilebydesign-skills\skills\story-graph-ops\scripts&quot;
+cd C:\dev\agilebydesign-skills\skills\story-graph-ops
+python scripts/story_graph_cli.py read --file C:\path\to\story-graph.json</code></pre>
+<p>Add <strong><code>…/execute-skill-using-skills-rules/scripts</code></strong> only if you import <strong><code>scanner_bases</code></strong> in the same process.</p>
+<h2>Mandatory workflow (checklist)</h2>
+<p>Use this whenever <strong><code>story-graph.json</code></strong> (or any graph path) is created or meaningfully edited:</p>
+<ol>
+<li><strong>Set <code>PYTHONPATH</code></strong> to include <strong><code>story-graph-ops/scripts</code></strong>.</li>
+<li><strong>Produce JSON</strong> via CLI <code>write</code>, or Python (<code>story_map</code>, etc.), or a careful hand-edit.</li>
+<li><strong>Validate:</strong> <code>python scripts/story_graph_cli.py read --file &amp;lt;path&amp;gt;</code> (must succeed).</li>
+<li><strong>Optional checks:</strong> <code>names</code>, <code>search</code>, <code>filter</code> as needed.</li>
+<li><strong>Report</strong> the validation command you ran.</li>
+</ol>
+<h2>When to use this skill</h2>
+<p>Load <strong>story-graph-ops</strong> whenever work touches <strong><code>story-graph.json</code></strong> as an artifact:</p>
+<p>| Operation | Examples | | --- | --- | | <strong>Create</strong> | New graph from scratch; minimal/empty scaffold; build structure from structured input; first save after shaping content. | | <strong>Read</strong> | Inspect graph, dump JSON, list names, search substring. | | <strong>Update</strong> | Add/rename/reorder nodes; fix acceptance criteria or scenarios; examples; associate test files, test classes or methods; merge branches of the tree; patch one story or one epic. | | <strong>Delete</strong> | Remove a story, sub-epic, or epic subtree; strip AC; <strong>replace entire graph</strong> by writing new JSON (delete all prior content). |</p>
+<p>Typical situations:</p>
+<ul>
+<li>Turning a story map in any form into <strong>concrete graph JSON</strong>—create/update nodes until the file matches intent.</li>
+<li>Output of ABD practice skills (e.g. abd-story-mapping) cleaned up in MD, txt, or other format and the graph must be updated: rename stories, fix AC, reorder nodes.</li>
+<li><strong>Mechanical passes</strong>: list story names, subset by story name, dump JSON, write through.</li>
+<li>A filtered view: filter by node type, increments, etc.</li>
+<li><strong>Rules/scanners</strong> on the graph: validators extend <strong><code>StoryScanner</code></strong> from <strong><code>story_scanner</code></strong> (on <strong><code>PYTHONPATH</code></strong> with <strong><code>story-graph-ops/scripts</code></strong>).</li>
+</ul>
+<h2>Relationship to ABD practice skills</h2>
+<p>| Piece | Role | | --- | --- | | <strong>ABD practice skills</strong> | <strong>Guidance and best practices</strong> for Agile by Design work: how to frame problems, name and structure artifacts, use templates, run quality passes, and apply bundled rules or scanners. They answer <em>what good looks like</em> and <em>which conventions apply</em>—not the mechanical layer of reading or writing <code>story-graph.json</code> on disk. | | <strong>story-graph-ops</strong> | <strong>Lifecycle on disk</strong>: create, read, update, and delete the <strong>serialized graph</strong> (<code>story-graph.json</code>, in whole or in part)—encoding, mutating, and tooling against the file. |</p>
+<p><strong>Same complementary relationship</strong> in every case: use <strong>practice skills</strong> for <em>how the work should read</em> and <em>which quality bars to hit</em>; use <strong>story-graph-ops</strong> to <em>create and edit the graph file</em> <strong>and validate it with this skill’s tools</strong>. Whenever the deliverable includes <strong>creating or changing</strong> <code>story-graph.json</code>, load <strong>story-graph-ops</strong> and <strong>complete the checklist above</strong>.</p>
+<h2>CLI</h2>
+<p>Implementation: <strong><code>scripts/story_graph_cli.py</code></strong>.</p>
+<pre><code class="language-text">python scripts/story_graph_cli.py read   --file &lt;path/to/story-graph.json&gt; [--pretty]
+python scripts/story_graph_cli.py names  --file &lt;path&gt;
+python scripts/story_graph_cli.py search --file &lt;path&gt; --substring &lt;text&gt;
+python scripts/story_graph_cli.py filter --file &lt;path&gt; --stories &quot;A&quot;,&quot;B&quot; [--pretty]
+python scripts/story_graph_cli.py sha    --file &lt;path&gt;
+python scripts/story_graph_cli.py write  --file &lt;out.json&gt; [--input &lt;in.json&gt;|stdin]
+                                          [--expect-sha &lt;hex&gt;] [--no-lock] [--force]</code></pre>
+<p><strong>Create / delete via CLI:</strong> <code>write</code> accepts JSON on stdin or <code>--input</code>—you can emit a <strong>full replacement</strong> graph (effectively delete everything not in the new JSON) or a <strong>filtered</strong> subgraph. Finer-grained create/update/delete often uses <strong><code>story_map</code></strong> types in Python, then <strong><code>read</code></strong> to validate after saving.</p>
+<h2>Parallel runs and concurrent writes</h2>
+<p><code>story-graph.json</code> is <strong>shared mutable state</strong> across the delivery flow — every stage mutates the same file. The planning skill allows <strong>parallel runs</strong> when outputs are independent (e.g. story definition for one slice while discovery continues for another). The policy and the mechanical safeguards are:</p>
+<p><strong>Policy (planning-level):</strong></p>
+<ul>
+<li><strong>Do not edit the same slice in parallel.</strong> Partition by slice / epic / story id up front, in the plan&#x27;s run scope.</li>
+<li>When two runs must touch the same subtree, serialize them — run B waits for run A&#x27;s <strong>CHECKPOINT</strong> to confirm before starting.</li>
+<li>The delivery lead&#x27;s <strong>Scope guard</strong> at each exit gate flags when a team member added work outside the current run&#x27;s scope.</li>
+</ul>
+<p><strong>Mechanical safeguards (CLI-level):</strong> <code>story_graph_cli.py write</code> enforces two independent checks so a race does not silently clobber another writer&#x27;s edit.</p>
+<ol>
+<li><strong>Advisory lock.</strong> For the duration of a write, the CLI holds an exclusive lock file at <code>&amp;lt;path&amp;gt;.lock</code>. If another process holds a live lock, the write is refused with exit code <strong>4</strong>. Stale locks older than 5 minutes are cleaned up automatically. Bypass with <code>--no-lock</code> (not recommended) or <code>--force</code> (recovery only).</li>
+</ol>
+<ol>
+<li><strong>Optimistic concurrency via <code>--expect-sha</code>.</strong> Capture the file&#x27;s content hash at read time and pass it back on write:</li>
+</ol>
+<p><code>bash     SHA=$(python scripts/story_graph_cli.py sha --file story-graph.json)     # … build your edit locally …     python scripts/story_graph_cli.py write --file story-graph.json --expect-sha $SHA --input new.json     </code></p>
+<p>If the file changed between the <code>sha</code> call and the <code>write</code> call, the write is refused with exit code <strong>3</strong> and an actionable message asking the caller to re-read, merge, and retry. This is the check that catches &quot;Run A wrote between my read and my write&quot; across processes or across sessions.</p>
+<p><strong>Exit codes for <code>write</code>:</strong> <code>0</code> success · <code>1</code> bad input / validation failure · <code>2</code> path resolution failure · <code>3</code> <code>--expect-sha</code> mismatch · <code>4</code> active lock held by another writer.</p>
+<p><strong>Agent expectation:</strong> every <strong><code>write</code></strong> during an active multi-run engagement uses both <code>--expect-sha</code> (captured from a prior <code>sha</code> or <code>read</code>) and the default advisory lock. <code>--force</code> is reserved for explicit recovery after a stale lock or an intentionally-clobbered edit, and should be logged as a correction entry (<strong><code>correct_output</code></strong> / corrections log).</p>
+<h2>Relationship to other skills</h2>
+<p>| Piece | Role | | --- | --- | | <strong>execute-skill-using-skills-rules</strong> | Base rules bundler: <strong><code>run_scanners.py</code></strong>, violations, scan context. Prepends <strong><code>story-graph-ops/scripts</code></strong> then <strong><code>execute-skill-using-skills-rules/scripts</code></strong> on <strong><code>PYTHONPATH</code></strong> for scanners. |</p>
+<p>Practice skills that ship graph-aware rules or scanners (importing <strong><code>story_map</code></strong> / <strong><code>StoryScanner</code></strong>): see <strong>Relationship to ABD practice skills</strong> above; <strong><code>execute-skill-using-skills-rules</code></strong> runs the scanner pipeline.</p>
+<p><strong>Rules that need the graph:</strong> declare <code>scanner:</code> in rule frontmatter; scanner modules use <strong><code>from story_map import …</code></strong>, <strong><code>from story_scanner import StoryScanner</code></strong>, plus <strong><code>scanner_bases</code></strong>. Shared graph code lives only in <strong>story-graph-ops</strong> — not under <strong><code>scanner_bases</code></strong>.</p>
+<h2>Sources</h2>
+<ul>
+<li>Python modules: <strong><code>scripts/story_map.py</code></strong>, <strong><code>scripts/story_scanner.py</code></strong>, <strong><code>scripts/graph_filters.py</code></strong>, <strong><code>scripts/story_graph_file.py</code></strong> (validated load/save for tools such as <strong>drawio-story-sync</strong>), …</li>
+<li>CLI: <strong><code>scripts/story_graph_cli.py</code></strong></li>
+<li>Details: <strong><code>scripts/README.md</code></strong></li>
+<li><strong>Parity with agile_bots <code>story_graph.nodes</code></strong>, mutation CLI, and test porting plan: <strong><code>MIGRATION_PARITY.md</code></strong> (the lightweight <code>story_map</code> types are not a full replacement for <strong><code>nodes.StoryMap</code></strong> until that migration is done).</li>
+</ul>
+</div>
+</body>
+</html>

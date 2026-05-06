@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="engineering">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>abd-skill-catalog — abd.works</title>
+<script src="/commons/brand-nav.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+:root {
+  --orange: #E5531A; --orange-hover: #C64514;
+  --bg: #0B0B0B; --surface: #111113; --raised: #1B1B20;
+  --border: #2A2A2A; --text: #F4F4F5; --muted: #9B9BA8;
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+*, *::before, *::after { box-sizing: border-box; }
+body { background: var(--bg); color: var(--text); margin: 0;
+  font-family: var(--font-sans); font-size: 15px; line-height: 1.7;
+  -webkit-font-smoothing: antialiased; }
+a { color: var(--orange); text-decoration: none; }
+a:hover { color: var(--orange-hover); }
+.page-wrap { max-width: 860px; margin: 0 auto; padding: 48px clamp(16px,4vw,48px) 96px; }
+.back-link { display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--font-mono); font-size: 11px; font-weight: 600;
+  letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted);
+  margin-bottom: 40px; }
+.back-link:hover { color: var(--text); }
+h1 { font-size: clamp(24px,4vw,36px); font-weight: 800; letter-spacing: -0.03em;
+  line-height: 1.1; margin: 0 0 8px; color: var(--text); }
+.skill-category { font-family: var(--font-mono); font-size: 11px; font-weight: 600;
+  letter-spacing: 0.1em; text-transform: uppercase; color: var(--orange);
+  margin-bottom: 32px; display: block; }
+h2 { font-size: 1.15rem !important; font-weight: 700 !important; margin: 36px 0 12px !important;
+  padding-bottom: 8px !important; border-bottom: 1px solid var(--border) !important; color: #E5531A !important; }
+h3 { font-size: 1rem !important; font-weight: 700 !important; margin: 24px 0 8px !important; color: var(--text) !important; }
+h4 { font-size: 0.9rem !important; font-weight: 700 !important; margin: 20px 0 6px !important; color: var(--muted) !important; text-transform: uppercase !important; letter-spacing: 0.06em !important; }
+p { margin: 0 0 14px; }
+ul, ol { margin: 0 0 16px; padding-left: 1.4rem; }
+li { margin-bottom: 6px; }
+code { font-family: var(--font-mono); font-size: 0.855em;
+  background: rgba(255,255,255,0.07); padding: 2px 6px; border-radius: 3px; color: #F2A07A; }
+pre { background: var(--surface); border: 1px solid var(--border); border-radius: 6px;
+  padding: 20px 24px; overflow-x: auto; margin: 0 0 20px; }
+pre code { background: none; padding: 0; color: var(--text); font-size: 0.85rem; }
+blockquote { border-left: 3px solid var(--orange); margin: 0 0 16px;
+  padding: 10px 18px; background: var(--surface); border-radius: 0 4px 4px 0; }
+blockquote p { margin: 0; color: var(--muted); }
+hr { border: none; border-top: 1px solid var(--border); margin: 32px 0; }
+strong { font-weight: 600; }
+</style>
+</head>
+<body>
+<div class="page-wrap">
+  <a class="back-link" href="/abd-skills-catalog/">← AI Garden</a>
+  <h1>abd-skill-catalog</h1>
+  <span class="skill-category">Skill Builder</span>
+  <p>Maintain the browsable <strong>AI Garden</strong>: <strong>skills</strong> under the repo root <code>skills/</code> and <strong>agents</strong> under <code>agents/</code>, aligned with the tone of <code>agents/abd-skill-builder/docs/process-outline.md</code> and the compact HTML chrome used under <code>agents/abd-skill-builder/docs/overview/</code>.</p>
+<h2>When to use this skill</h2>
+<ul>
+<li>You added, renamed, or retired a skill or agent and the AI Garden is stale.</li>
+<li>You need a stakeholder-facing index of what each skill and agent is for.</li>
+<li>You want both Markdown (diffable, review in Git) and HTML (quick browse).</li>
+</ul>
+<h2>What it produces</h2>
+<p>| Artifact | Format | Location (default) | | --- | --- | --- | | <strong>Outline</strong> | Markdown | <code>catalog/outline.md</code> (repository root) | | <strong>Site hub</strong> | HTML | <code>catalog/index.html</code> — one page: <strong>Agile Garden</strong> prelude (mission + practice/foundational skill lists + agents box, generated from <code>catalog_garden_<em></code> in SKILL.md / AGENT.md), then collapsible <strong>About</strong>, <strong>Skills</strong>, <strong>Agents</strong>; hub intro links jump to <code>#catalog-skills</code> / <code>#catalog-agents</code> | | <strong>Skills grid</strong> | HTML | <code>catalog/skills.html</code> (standalone grid; nav from detail pages) | | <strong>Agents grid</strong> | HTML | <code>catalog/agents.html</code> (standalone grid; nav from detail pages) | | <strong>Hub / grid intros</strong> | HTML fragments | <code>skills/skill-builder/abd-skill-catalog/templates/intros/</em>.html</code> (short lines above grids; optional polish) | | <strong>Skill detail pages</strong> | HTML | <code>catalog/skill/&amp;lt;dir&amp;gt;.html</code> (one per skill; cards link here) | | <strong>Agent detail pages</strong> | HTML | <code>catalog/agent/&amp;lt;dir&amp;gt;.html</code> (one per agent; cards link here) |</p>
+<p>Skill detail pages include an <strong>Install with npx</strong> block: a single fenced-style command <code>npx skills add agilebydesign/agilebydesign-skills@&amp;lt;frontmatter name&amp;gt; -y</code>, matching the skill id from <code>npx skills add https://github.com/agilebydesign/agilebydesign-skills -l</code>. Agent pages omit that block (agents are not separate <code>npx skills</code> packages in this repo).</p>
+<p>Each listed package includes:</p>
+<ul>
+<li><strong>Package <code>README.md</code></strong> (at <code>skills/&amp;lt;dir&amp;gt;/README.md</code> or <code>agents/&amp;lt;dir&amp;gt;/README.md</code>)</li>
+<p>— human- or AI-authored card and detail copy. Convention:   - Optional YAML <code>catalogue_summary:</code> — one line for cards and grids.   - <code>## Overview</code> — prose shown as the HTML <strong>Description</strong> (falls back to     <code>SKILL.md</code> / agent entry doc if this section is empty).     - Skills: problem, approach, main inputs/outputs, when to use (keep it       short).     - Agents: concise digest — what the agent does, why it exists, the main       steps (high-level only, not a paste of <code>AGENT.md</code>), and which other agents       and skills it orchestrates or depends on (names/paths). Full behaviour       stays in the entry file; README is the stakeholder-facing summary.   - <code>## How it fits together</code> — narrative plus a single fenced <strong><code> </code>`<code>ascii </code></strong>     block. The generator copies the fence body into the <code>&amp;lt;pre&amp;gt;</code> diagram as-is     (no Python “invented” ASCII). Use an assistant: read <code>SKILL.md</code> or     <code>AGENT.md</code>, decide what the package does / how / why, then write README.     If a README already exists but is insufficient, <strong>the assistant overwrites     that file</strong> after judgement — scaffolding in Python only creates missing     files; it never bulk-replaces existing READMEs.</p>
+<li><strong>Summary</strong> (cards) — <code>catalogue_summary</code> from README, else first paragraph of</li>
+<p><code>## Overview</code>, else the same heuristic as before from <code>SKILL.md</code> / entry doc.</p>
+<li><strong>Contents</strong> (detail page) — still generated by code: linked file tree from</li>
+<p>disk (<code>&amp;lt;details&amp;gt;</code> / <code>&amp;lt;summary&amp;gt;</code>, file names as links). Known folder blurbs and   nested <code>SKILL.md</code> summaries unchanged. Repo links open in a new tab.</p>
+</ul>
+<h2>Agent instructions</h2>
+<ol>
+<li><strong>Regenerate on command.</strong> From the <strong>agilebydesign-skills</strong> repository root,</li>
+<p>run:</p>
+</ol>
+<p><code>bash    python skills/skill-builder/abd-skill-catalog/scripts/generate_abd_catalog.py    </code></p>
+<p>First-time or new packages — create stub READMEs only where the file is    missing, then regenerate:</p>
+<p><code>bash    python skills/skill-builder/abd-skill-catalog/scripts/generate_abd_catalog.py --scaffold-readmes    </code></p>
+<p>The script never overwrites an existing <code>README.md</code>. If a README is thin,    wrong, or still full of TODOs, <strong>you (the assistant or maintainer)</strong> read    <code>SKILL.md</code> / the agent entry doc, decide what is insufficient, and <strong>replace    the README content yourself</strong> (edit in the IDE or rewrite the file in one    pass). That is not a generator flag — it is judgement + prose.</p>
+<p>Options:</p>
+<p>- <code>--repo-root &amp;lt;path&amp;gt;</code> — defaults to the <strong>agilebydesign-skills</strong> root      (folder that contains both <code>skills/</code> and <code>agents/</code>, detected from this script).    - <code>--output-dir &amp;lt;path&amp;gt;</code> — overrides <code>&amp;lt;repo-root&amp;gt;/catalog</code> if you need a different folder.    - <code>--scaffold-readmes</code> — write <code>README.md</code> from templates <strong>only where the      file does not exist</strong>, then run generation.    - <code>--omit-garden-families &amp;lt;ids&amp;gt;</code> — comma-separated column family ids to hide      from the Agile Garden prelude only (e.g. <code>utilities</code>); skills stay in the      flat grids and outline. Combines with <code>_CATALOG_GARDEN_PRELUDE_OMIT_FAMILIES</code>      in <code>generate_abd_catalog.py</code>.</p>
+<ol>
+<li><strong>Discovery rules.</strong></li>
+</ol>
+<p>- <strong>Skills:</strong> every immediate child of repo <code>skills/</code> that contains <code>SKILL.md</code>,      plus packages under <code>agents/&amp;lt;agent&amp;gt;/skills/</code> that contain <code>SKILL.md</code> <strong>and</strong>      YAML <code>catalog_garden_tier: practice</code> or <code>foundational</code> (so agent-local      pipeline skills without that field stay off the grid).    - <strong>Agents:</strong> every immediate child of <code>agents/</code> that contains one of      <code>AGENT.md</code>, <code>AGENTS.md</code>, or <code>SKILL.md</code> (first match in that order).    - <strong>AI Garden listing</strong> — omit a package from hub, outline, grids, and detail      pages when <strong><code>catalog_ready</code></strong> is false (<code>no</code> / <code>0</code> / <code>draft</code> / <code>not-ready</code>      in YAML), or top-level <strong><code>tags</code></strong> includes <code>not-ready</code>, <code>wip</code>, <code>draft</code>, or      <code>hidden</code>, or <strong><code>skill-config.json</code></strong> sets <strong><code>&amp;quot;catalog_ready&amp;quot;: false</code></strong> (agents      and skills that ship that file). Default: listed.</p>
+<ol>
+<li><strong>Extraction (skills).</strong> Same heuristics as <code>skill-garden-catalogue</code> for</li>
+<p><strong>name</strong> and fallbacks when <code>README.md</code> is absent or sections are empty:</p>
+</ol>
+<p>- <em>Name</em> — YAML <code>name</code> in <code>SKILL.md</code>, else directory name.    - <em>Summary (cards + garden rows)</em> — optional YAML <strong><code>catalogue_one_liner</code></strong> on      the entry doc <strong>wins</strong> when set (short card line; keeps long      <code>description</code> for discovery/<code>npx</code>). Else README <code>catalogue_summary</code> /      <code>## Overview</code>; else YAML <code>description</code>, <code>## Purpose</code>, or opening text after H1.    - <em>Tags</em> — optional <strong>top-level</strong> YAML <code>tags</code> as <code>tag1, tag2</code>, flow      <code>tags: [tag1, tag2]</code>, or a block list under <code>tags:</code> (one <code>- item</code> per line).      <strong>Order in the file is preserved</strong> for tooling; nothing re-sorts tag lists.    - <em>Agile Garden lists</em> — optional YAML <code>catalog_garden_tier: practice</code> or      <code>foundational</code> to include the skill in the generated prelude on      <code>catalog/index.html</code> (and the synced fragment under abd-works). Optional      <code>catalog_garden_order: &amp;lt;int&amp;gt;</code> sorts within that column (default 999).</p>
+<ol>
+<li><strong>Extraction (agents).</strong></li>
+</ol>
+<p>- <em>Name (cards + detail H1)</em> — <strong>package directory name</strong> (kebab-case),      not the markdown title.    - <em>Summary</em> — same as skills: <strong><code>catalogue_one_liner</code></strong> on the entry doc wins      when set; else README; then <code>description</code> / <code>## Purpose</code> / …    - <em>Agile Garden agents box</em> — agents are listed by default; set      <code>catalog_garden: false</code> in front matter to hide. Optional      <code>catalog_garden_order: &amp;lt;int&amp;gt;</code> for sort order.</p>
+<ol>
+<li><strong>Hub and grid intros (review with an AI or editor).</strong> Short HTML above the</li>
+<p>grids lives in <code>skills/skill-builder/abd-skill-catalog/templates/intros/</code>. Keep copy    <strong>user-facing</strong> (how to browse, link to outline) — do <strong>not</strong> explain how the    AI Garden is built (README conventions, generator, scaffolding); that belongs    in this <code>SKILL.md</code> only.</p>
+</ol>
+<p>- <code>catalog-hub-intro.html</code> — hub; may use <code>{{OUTLINE_HREF}}</code> for outline.    - <code>catalog-skills-intro.html</code> — line above the skills grid.    - <code>catalog-agents-intro.html</code> — line above the agents grid.</p>
+<p>The script uses minimal built-in HTML if a fragment is missing.</p>
+<ol>
+<li><strong>README templates.</strong> Stubs are produced from</li>
+<p><code>templates/catalog-readme-skill.md</code> and <code>templates/catalog-readme-agent.md</code>.    Adjust those files if the default scaffold text should change for new    packages.</p>
+</ol>
+<ol>
+<li><strong>Templates (layout).</strong> HTML shells and CSS live under</li>
+<p><code>skills/skill-builder/abd-skill-catalog/templates/</code> (excluding <code>intros/</code>, which are prose    fragments) and are merged with token replacement. Edit those files to    change branding or layout without touching Python.</p>
+</ol>
+<ol>
+<li><strong>Idempotent.</strong> Running the script twice with the same tree overwrites the</li>
+<p>same outputs deterministically.</p>
+</ol>
+</div>
+</body>
+</html>

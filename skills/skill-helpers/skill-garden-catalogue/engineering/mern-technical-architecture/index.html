@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="engineering">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>mern-technical-architecture — abd.works</title>
+<script src="/commons/brand-nav.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+:root {
+  --orange: #E5531A; --orange-hover: #C64514;
+  --bg: #0B0B0B; --surface: #111113; --raised: #1B1B20;
+  --border: #2A2A2A; --text: #F4F4F5; --muted: #9B9BA8;
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+*, *::before, *::after { box-sizing: border-box; }
+body { background: var(--bg); color: var(--text); margin: 0;
+  font-family: var(--font-sans); font-size: 15px; line-height: 1.7;
+  -webkit-font-smoothing: antialiased; }
+a { color: var(--orange); text-decoration: none; }
+a:hover { color: var(--orange-hover); }
+.page-wrap { max-width: 860px; margin: 0 auto; padding: 48px clamp(16px,4vw,48px) 96px; }
+.back-link { display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--font-mono); font-size: 11px; font-weight: 600;
+  letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted);
+  margin-bottom: 40px; }
+.back-link:hover { color: var(--text); }
+h1 { font-size: clamp(24px,4vw,36px); font-weight: 800; letter-spacing: -0.03em;
+  line-height: 1.1; margin: 0 0 8px; color: var(--text); }
+.skill-category { font-family: var(--font-mono); font-size: 11px; font-weight: 600;
+  letter-spacing: 0.1em; text-transform: uppercase; color: var(--orange);
+  margin-bottom: 32px; display: block; }
+h2 { font-size: 1.15rem !important; font-weight: 700 !important; margin: 36px 0 12px !important;
+  padding-bottom: 8px !important; border-bottom: 1px solid var(--border) !important; color: #E5531A !important; }
+h3 { font-size: 1rem !important; font-weight: 700 !important; margin: 24px 0 8px !important; color: var(--text) !important; }
+h4 { font-size: 0.9rem !important; font-weight: 700 !important; margin: 20px 0 6px !important; color: var(--muted) !important; text-transform: uppercase !important; letter-spacing: 0.06em !important; }
+p { margin: 0 0 14px; }
+ul, ol { margin: 0 0 16px; padding-left: 1.4rem; }
+li { margin-bottom: 6px; }
+code { font-family: var(--font-mono); font-size: 0.855em;
+  background: rgba(255,255,255,0.07); padding: 2px 6px; border-radius: 3px; color: #F2A07A; }
+pre { background: var(--surface); border: 1px solid var(--border); border-radius: 6px;
+  padding: 20px 24px; overflow-x: auto; margin: 0 0 20px; }
+pre code { background: none; padding: 0; color: var(--text); font-size: 0.85rem; }
+blockquote { border-left: 3px solid var(--orange); margin: 0 0 16px;
+  padding: 10px 18px; background: var(--surface); border-radius: 0 4px 4px 0; }
+blockquote p { margin: 0; color: var(--muted); }
+hr { border: none; border-top: 1px solid var(--border); margin: 32px 0; }
+strong { font-weight: 600; }
+</style>
+</head>
+<body>
+<div class="page-wrap">
+  <a class="back-link" href="/abd-skills-catalog/">← AI Garden</a>
+  <h1>mern-technical-architecture</h1>
+  <span class="skill-category">Engineering</span>
+  <h2>Purpose</h2>
+<p>Generate production MERN web applications using a <strong>domain-first architecture</strong> — organizing by business capability, sharing domain logic across tiers, enforcing Clean Architecture layer purity, and testing with story-driven scenarios.</p>
+<p>This skill produces real, runnable TypeScript domain modules — each with a <code>shared/</code> domain core, <code>server/</code> Express backend, and <code>client/</code> React frontend. The output follows the architecture defined in <a href="inputs/mern-architecture.md"><code>inputs/mern-architecture.md</code></a>: domain entities with business logic, Zod validation schemas shared across tiers, collection classes with domain-oriented query methods, and story-driven tests mirroring Gherkin scenarios.</p>
+<h2>When to use this skill</h2>
+<p>Load this skill when <strong>any</strong> of the following apply:</p>
+<ul>
+<li>You are <strong>scaffolding a new MERN project</strong> and need the domain-first folder structure.</li>
+<li>You are <strong>adding a new domain module</strong> (e.g., recipients, payments, invoices) to an existing project.</li>
+<li>You are <strong>reviewing architecture compliance</strong> against Clean Architecture and domain-first principles.</li>
+<li>You are <strong>transforming</strong> a technically-organized codebase (<code>controllers/</code>, <code>models/</code>, <code>views/</code>) into domain-first structure.</li>
+<li>You are generating <strong>shared domain logic</strong> (entities, schemas, value objects) that must work identically on client and server.</li>
+<li>You are setting up <strong>story-driven tests</strong> across server, client, and E2E tiers.</li>
+</ul>
+<hr>
+<h2>Agent Instructions</h2>
+<ol>
+<li><strong>Read the architecture reference first</strong> — Load <a href="inputs/mern-architecture.md"><code>inputs/mern-architecture.md</code></a> to understand the authoritative architecture: 5 layers, domain-first file structure, shared logic strategies, testing pyramid, and example code.</li>
+</ol>
+<ol>
+<li><strong>Templates</strong></li>
+<p>Generate content using <strong>every</strong> template file in this skill&#x27;s <code>templates/</code> folder.    <strong>Do not</strong> emit only partial output unless the user <strong>explicitly</strong> asks for a single tier.</p>
+</ol>
+<p>| Template | What to produce |    | --- | --- |    | <code>domain-module.ts</code> | Complete domain module with shared/, server/, and client/ packages |</p>
+<p><strong>Consistency:</strong> All three tiers (shared, server, client) must reference the same domain entities, use the same Zod schemas, and maintain identical naming conventions.</p>
+<p><strong>If new files are added</strong> under <code>templates/</code> later, produce a corresponding artifact for <strong>each</strong> new template the same way.</p>
+<p>When you <strong>create or rewrite</strong> a domain module, you <strong>must</strong> deliver all three tier packages (shared, server, client) as a complete unit.</p>
+<ol>
+<li><strong>Rules</strong></li>
+<p>- Generate content following rules attached to this skill, listed below, assembled from rule files in <code>rules/</code>.    - Validate — once content is generated, take on the role of a <em>Peer Reviewer</em> and validate that the content is correct by going through each of the skill&#x27;s rules one at a time and looking deeply for violations. Be helpful but critical — compare content against each rule&#x27;s constraints, DO/DON&#x27;T sections and examples.</p>
+</ol>
+<p>- <strong>Who is checking:</strong> Software Architect verifying layer purity and dependency direction, Domain Expert verifying ubiquitous language usage, Tech Lead verifying all interfaces are fully implemented, QA Lead verifying test structure follows story-driven pattern.</p>
+<ol>
+<li><strong>Scanners</strong></li>
+<p>After generating code, run the architecture scanners in <code>scanners/typescript/</code> to verify:    - Domain structure completeness (<code>domain_structure_scanner.py</code>)    - Layer purity — no forbidden imports (<code>layer_purity_scanner.py</code>)    - Naming conventions per tier (<code>naming_convention_scanner.py</code>)    - Test structure — all 3 tiers present (<code>test_structure_scanner.py</code>)    - Test data isolation — no blanket resets or <code>deleteMany({})</code> (<code>test_isolation_scanner.py</code>)</p>
+</ol>
+<p>Fix any violations before considering the implementation complete.</p>
+<ol>
+<li><strong>Compilation Verification</strong></li>
+<p>After scanners pass, verify the generated code actually compiles:    1. Run <code>npm install</code> from the workspace root — must exit with code 0.    2. Run <code>npx tsc --noEmit</code> — must report zero errors. <strong>This must include test files</strong> (<code>tests/<strong>/<em>.ts</code>, <code>tests/</strong>/</em>.tsx</code>).    3. If either fails, diagnose and fix (missing dependencies, type errors, import path issues) before proceeding.</p>
+</ol>
+<p><strong>This step is mandatory.</strong> Code that does not compile is not done. Common failures:    - Missing external dependencies in <code>package.json</code> (zod, express, mongodb, react)    - Missing test framework packages in root devDependencies (vitest, jsdom, @testing-library/react, @testing-library/jest-dom, @playwright/test)    - Missing <code>@types/*</code> packages for type declarations    - Import paths that don&#x27;t resolve — verify test files use <code>@{appName}/{domain}-{tier}</code> not <code>@project/{domain}/{tier}</code>    - TypeScript path aliases not configured for all tiers (shared, server, client) in <code>tsconfig.json</code>    - Missing <code>&amp;quot;types&amp;quot;</code> in tsconfig for test globals (vitest/globals, @testing-library/jest-dom)    - Controllers accessing <code>req.user</code> without Express type augmentation    - Test runner collision: no <code>vitest.config.ts</code> or <code>playwright.config.ts</code> causes each runner to pick up the other&#x27;s files</p>
+<p><strong>E2E tests (<code>npx playwright test</code>) require composition roots.</strong> Ensure <code>packages/app-server/</code> (Express entry point mounting domain routers) and <code>packages/app-client/</code> (React/Vite shell rendering domain components) exist as part of the domain module generation. If either is missing, scaffold it. If either already exists, wire the generated module into the existing root rather than creating a duplicate shell. Without reachable composition roots, Playwright fails with <code>ERR_CONNECTION_REFUSED</code>. Both <code>npx vitest --run</code> (unit + component tests) and <code>npx playwright test</code> (E2E) should be runnable after generation.</p>
+<ol>
+<li><strong>Assembling this Skill</strong></li>
+<p>This Skill file is assembled from all template files in <code>templates/</code> and all rules in <code>rules/</code>. Use <strong><code>bundle_rules_into_skill_md.py</code></strong> to reassemble this skill whenever rules or templates change.</p>
+</ol>
+<hr>
+<h2>What is Domain-First MERN Architecture?</h2>
+<p>A domain-first MERN architecture prioritizes <strong>business capability</strong> over technical layers. Instead of grouping all controllers together, all models together, and all views together, you group everything for a single domain (e.g., &quot;recipients&quot;) into one package with three tiers.</p>
+<p>The architecture is guided by four principles:</p>
+<ul>
+<li><strong>Domain modules over technical modules</strong> — organizing code by business capability, then by layer within each module.</li>
+<li><strong>High alignment to ubiquitous language</strong> — scenarios, domain models, tests, and code use consistent domain terminology.</li>
+<li><strong>Minimizing logic duplication</strong> — shared validation, types, and business rules across client and server tiers via the <code>shared/</code> package.</li>
+<li><strong>Clean Architecture principles</strong> — dependencies point inward toward the domain core; infrastructure is at the edges.</li>
+</ul>
+<hr>
+<h2>Core concepts</h2>
+<h3>Five Architecture Layers</h3>
+<p>| Layer | Tech | Location | Responsibility | |-------|------|----------|----------------| | <strong>Presentation</strong> | React, Hooks, TSX | <code>client/</code> | Render UI, capture input, manage local state | | <strong>Interface Adapters</strong> | Express Router, Axios/Fetch | <code>server/routes.ts</code>, <code>client/api.ts</code> | Translate HTTP ↔ Application calls | | <strong>Application</strong> | Plain TypeScript classes | <code>server/service.ts</code> | Orchestrate use cases, coordinate domain + infra | | <strong>Domain Core</strong> | Plain TypeScript | <code>shared/</code> | Business rules, validation, domain logic (SHARED) | | <strong>Infrastructure</strong> | MongoDB, external APIs | <code>server/repository.ts</code> | Persist data, call external services |</p>
+<h3>Domain-First File Structure</h3>
+<p>Every domain module follows the pattern <code>packages/{domain}/{shared|client|server}</code>:</p>
+<ul>
+<li><code>shared/</code> — Domain entities, value objects, Zod schemas, collection classes. <strong>Zero framework imports.</strong> Portable to both browser and Node.js.</li>
+<li><code>server/</code> — Express routes, controllers, application services, MongoDB repositories. Imports from <code>shared/</code>.</li>
+<li><code>client/</code> — React components, custom hooks, API client functions. Imports from <code>shared/</code>.</li>
+</ul>
+<h3>Shared Domain Logic Strategy</h3>
+<p>Domain logic is defined <strong>once</strong> in <code>shared/</code> and imported by both tiers:</p>
+<ul>
+<li><strong>Zod schemas</strong> — validate at repository boundary (server) AND form boundary (client)</li>
+<li><strong>Domain entities</strong> — business methods like <code>isEligibleForPayment()</code> used everywhere</li>
+<li><strong>Collection classes</strong> — <code>Recipients.filterByStatus(&amp;#x27;Active&amp;#x27;)</code> works identically on both tiers</li>
+</ul>
+<h3>Story-Driven Testing</h3>
+<p>Tests mirror the story graph hierarchy:</p>
+<ul>
+<li><strong>Epic</strong> → test folder</li>
+<li><strong>Sub-Epic</strong> → nested test folder</li>
+<li><strong>Lowest Sub-Epic</strong> → 3 test files (server, client, E2E)</li>
+<li><strong>Story</strong> → test class</li>
+<li><strong>Scenario</strong> → test method with Given/When/Then helpers</li>
+</ul>
+<hr>
+<h2>Example</h2>
+<p><strong>Domain: Recipients</strong> (from the architecture reference)</p>
+<pre><code class="language-typescript">// packages/recipients/shared/RecipientStatus.ts
+export class RecipientStatus {
+  constructor(
+    public readonly status: RecipientStatusType,
+    public readonly createdAt: Date,
+    private readonly countryCode: &#x27;US&#x27; | &#x27;MX&#x27; = &#x27;US&#x27;
+  ) {}
+
+  isEligibleForPayment(): boolean {
+    return this.status === &#x27;Active&#x27;;
+  }
+
+  get remainingPendingMinutes(): number | null {
+    if (this.countryCode !== &#x27;MX&#x27; || this.status !== &#x27;Pending&#x27;) return null;
+    const elapsed = Date.now() - this.createdAt.getTime();
+    return Math.ceil(Math.max(0, 30 * 60 * 1000 - elapsed) / 60000);
+  }
+}
+
+// packages/recipients/shared/Recipients.ts
+export class Recipients {
+  constructor(private readonly items: Recipient[]) {}
+
+  filterByStatus(status: RecipientStatusType): Recipients {
+    return new Recipients(this.items.filter(r =&gt; r.status.status === status));
+  }
+
+  search(query: string): Recipients {
+    const lower = query.toLowerCase();
+    return new Recipients(this.items.filter(r =&gt;
+      r.name.toLowerCase().includes(lower)
+    ));
+  }
+
+  toArray(): Recipient[] { return [...this.items]; }
+}
+
+// packages/recipients/server/recipients.service.ts
+export class RecipientsService {
+  constructor(private repo: RecipientsRepository) {}
+
+  async getRecipients(enterpriseId: string, filters?: { activeOnly?: boolean }) {
+    const all = await this.repo.findByEnterprise(enterpriseId);
+    let recipients = new Recipients(all);  // SHARED collection class
+    if (filters?.activeOnly) {
+      recipients = recipients.filterByStatus(&#x27;Active&#x27;);  // SHARED method
+    }
+    return recipients.toArray();
+  }
+}
+
+// packages/recipients/client/useRecipients.ts
+export function useRecipients() {
+  const [items, setItems] = useState&lt;Recipient[]&gt;([]);
+  useEffect(() =&gt; {
+    fetchRecipients({ activeOnly: true }).then(setItems);
+  }, []);
+
+  const filterBySearch = useCallback((query: string) =&gt; {
+    return new Recipients(items).search(query).toArray();  // SAME shared logic
+  }, [items]);
+
+  return { items, filterBySearch };
+}</code></pre>
+<hr>
+<h2>The shape of a domain-first MERN module</h2>
+<pre><code>packages/&lt;domain&gt;/
+├── shared/                          # Domain Core (plain TypeScript + Zod)
+│   ├── &lt;Entity&gt;.ts                  # Domain entity with business methods
+│   ├── &lt;ValueObject&gt;.ts             # Value objects with constraints
+│   ├── &lt;entity&gt;.schema.ts           # Zod validation schema
+│   ├── &lt;Entity&gt;s.ts                 # Collection class with query methods
+│   ├── index.ts                     # Barrel exports
+│   └── package.json                 # &quot;@appName/&lt;domain&gt;-shared&quot;
+│
+├── client/                          # Presentation + Interface Adapter (React)
+│   ├── &lt;Entity&gt;List.tsx             # Container component (list + search)
+│   ├── &lt;Entity&gt;Card.tsx             # Presentational component (clickable → detail)
+│   ├── Create&lt;Entity&gt;Form.tsx       # Creation form (validates with Zod from shared/)
+│   ├── &lt;Entity&gt;DetailView.tsx       # Detail view with mutation controls
+│   ├── use&lt;Entity&gt;s.ts              # Custom hook (state + effects)
+│   ├── &lt;domain&gt;.api.ts              # API client (one function per server route)
+│   ├── index.ts
+│   └── package.json                 # depends on shared
+│
+└── server/                          # Application + Infrastructure (Express)
+    ├── &lt;domain&gt;.routes.ts           # Express router
+    ├── &lt;domain&gt;.controller.ts       # HTTP → Application translation
+    ├── &lt;domain&gt;.service.ts          # Use case orchestration
+    ├── &lt;domain&gt;.repository.ts       # MongoDB data access
+    ├── &lt;domain&gt;.mapper.ts           # DTO ↔ Entity mapping (optional)
+    ├── index.ts
+    └── package.json                 # depends on shared</code></pre>
+<p>Key structural rules:</p>
+<ul>
+<li><code>shared/</code> has <strong>zero</strong> imports from <code>express</code>, <code>react</code>, <code>mongodb</code>, <code>mongoose</code></li>
+<li><code>server/</code> imports from <code>shared/</code> — never from <code>client/</code></li>
+<li><code>client/</code> imports from <code>shared/</code> — never from <code>server/</code></li>
+<li>Zod schemas in <code>shared/</code> are used by both repository (<code>.parse()</code>) and forms (<code>.safeParse()</code>)</li>
+<li>Domain entity methods (e.g., <code>isEligibleForPayment()</code>) are called from both tiers</li>
+<li><code>client/</code> has <strong>one API function per server route</strong> — no unreachable endpoints</li>
+<li><code>client/</code> exposes UI controls only for <strong>user actions defined in the specs</strong>; POST endpoints may be user-facing or system-only</li>
+<li>When the specs say users can create entities, include a <strong>creation form</strong>; when the specs define sub-item interactions, include a <strong>detail view</strong></li>
+<li>When the specs say a user can do something, make sure the client tier exposes that capability through some type of UI control</li>
+<li><code>app-client/App.tsx</code> manages <strong>view navigation</strong> (list ↔ create ↔ detail) — never a static single-view render</li>
+</ul>
+<hr>
+<h2>Build</h2>
+<p><strong>Goal:</strong> Author a complete domain module — turn domain requirements into all three tier packages as defined by the template.</p>
+<ul>
+<li><strong>Outputs:</strong> One complete domain module with <code>shared/</code>, <code>client/</code>, <code>server/</code> packages. Each tier has its own <code>package.json</code> and <code>index.ts</code>.</li>
+<li><strong>Per format:</strong> shared/ contains entities + schemas + collections. server/ contains routes + controller + service + repository. client/ contains components + hooks + API client.</li>
+<li><strong>While writing:</strong> Use domain language for all names. Keep shared/ framework-free. Validate Zod schemas at boundaries. Business logic on entities, not services.</li>
+<li><strong>Persistence:</strong> Monorepo <code>package.json</code> with workspaces pointing to all tier packages.</li>
+</ul>
+<p><strong>Build steps:</strong></p>
+<ol>
+<li>Identify the domain entity and its responsibilities from the story/requirements.</li>
+<li>Create <code>shared/</code> — entity class, value objects, Zod schema, collection class.</li>
+<li>Create <code>server/</code> — repository (MongoDB + schema validation), service (orchestration using shared collection), controller (HTTP parsing), routes (URL mapping).</li>
+<li>Create <code>client/</code> — API client (one function per server route), hook (state + shared collection for filtering), components (list + card + <strong>forms and detail views for every user action defined in the specs</strong>). If the spec says users can create entities or interact with sub-items, the client must expose those capabilities through UI controls.</li>
+<li>Ensure <code>packages/app-server/</code> exists — create it if missing; otherwise mount the new domain routes in the existing Express composition root. Required for E2E tests.</li>
+<li>Ensure <code>packages/app-client/</code> exists — create it if missing; otherwise render or route to the new domain UI from the existing React/Vite composition root. <strong>The App.tsx must manage view state</strong> to navigate between list, create form, and detail views. A single static component render is insufficient. Required for E2E tests.</li>
+<li>Create test structure — <code>tests/{epic}/{sub-epic}/</code> with helpers and 3 tier test files.</li>
+<li>Run scanners to verify structural compliance.</li>
+</ol>
+<hr>
+<h2>Validate</h2>
+<p><strong>Goal:</strong> Inspect what was built — read the artifacts as reviewers, not a second authoring pass.</p>
+<ul>
+<li><strong>Who is checking:</strong> Software Architect (layer purity, dependency direction), Domain Expert (ubiquitous language, entity behavior), Tech Lead (full interface implementation, no stubs), QA Lead (test structure, all 3 tiers, Given/When/Then).</li>
+<li><strong>Cross-artifact parity:</strong> shared/ entities used identically by both client/ and server/. Same Zod schema validates on both sides. Collection class methods produce same results regardless of tier.</li>
+</ul>
+<p><strong>Validation checklist:</strong></p>
+<ul>
+<li>Every domain entity in <code>shared/</code> has business methods — no anemic data bags.</li>
+<li><code>shared/</code> contains zero framework imports (<code>express</code>, <code>react</code>, <code>mongodb</code>, <code>mongoose</code>).</li>
+<li><code>server/</code> does not import from <code>client/</code>; <code>client/</code> does not import from <code>server/</code>.</li>
+<li>Zod schema is used at repository boundary (<code>.parse()</code>) AND API/form boundary (<code>.safeParse()</code>).</li>
+<li>Each domain module has <code>index.ts</code> and <code>package.json</code> in every tier.</li>
+<li><code>server/</code> has <code><em>.routes.ts</code>, <code></em>.controller.ts</code>, <code><em>.service.ts</code>, <code></em>.repository.ts</code>.</li>
+<li><code>client/</code> has <code><em>.api.ts</code>, <code>use</em>.ts</code>, <code>*.tsx</code> components.</li>
+<li><strong><code>client/</code> API file exports one function per server route</strong> — no endpoints left unreachable.</li>
+<li><strong><code>client/</code> has UI controls (forms, buttons, detail views) for every user action defined in the specs</strong> — not just read-only list/search.</li>
+<li><strong><code>app-client/App.tsx</code> implements view navigation</strong> when specs define multiple user flows (create, view detail, interact) — not a single static render.</li>
+<li>Test folders follow <code>tests/{epic}/{sub-epic}/</code> with 3 tier files + helpers/.</li>
+<li>All interfaces use TypeScript <code>implements</code> keyword for compile-time verification.</li>
+<li>Test methods mirror Gherkin scenario titles using Given/When/Then helpers.</li>
+</ul>
+<p>Run scanners as final verification: <code>domain_structure_scanner.py</code>, <code>layer_purity_scanner.py</code>, <code>naming_convention_scanner.py</code>, <code>test_structure_scanner.py</code>, <code>test_isolation_scanner.py</code>.</p>
+<hr>
+<p>&lt;!-- execute_rules:bundle_rules:begin --&gt; &lt;!-- Rule prose is generated from rules/*.md — edit rules, then run:      python skills/execute_using_rules/scripts/bundle_rules_into_skill_md.py --skill-root skills/mern-technical-architecture --&gt;</p>
+<hr>
+<p>scanner: domain_structure_scanner.py</p>
+<hr>
+<h3>Rule: Organize by Domain Module</h3>
+<p>Organize code by <strong>business capability</strong> (domain module) first, then by technical layer within each module. This ensures that all code for a single domain lives together — changes rarely ripple to other domains, teams can own entire domains, and each module can become its own microservice later without restructuring.</p>
+<h4>DO</h4>
+<ul>
+<li>Structure each domain as <code>packages/{domain}/{shared|client|server}</code>.</li>
+<li>Include <code>index.ts</code> and <code>package.json</code> in each tier folder for clean imports.</li>
+<li>Keep the app shell (<code>app-server/</code>, <code>app-client/</code>) at the packages level as composition roots.</li>
+<li>Ensure <code>app-server/</code> and <code>app-client/</code> exist. If missing, scaffold them; if already present, update them to compose the new domain module.</li>
+<li>Ensure the client tier provides UI for every user action defined in the specs. If the requirements say a user can create a board, add tasks, or move items — the client must have corresponding forms, buttons, or controls. Derive required UI from the spec, not from a mechanical endpoint mirror.</li>
+<li>Wire navigation in <code>app-client/App.tsx</code> to support all spec-driven user flows (e.g., create → view → interact). The composition root must manage view state when multiple views are needed.</li>
+<li>Place test files under <code>tests/{epic}/{sub-epic}/</code> mirroring the domain structure.</li>
+</ul>
+<pre><code>project-root/
+├── packages/
+│   ├── recipients/              # Domain module
+│   │   ├── shared/
+│   │   ├── client/
+│   │   └── server/
+│   ├── app-server/
+│   └── app-client/
+├── tests/
+└── package.json</code></pre>
+<h4>DON&#x27;T</h4>
+<ul>
+<li>Organize by technical layer at the top level (<code>controllers/</code>, <code>models/</code>, <code>views/</code>, <code>routes/</code>).</li>
+<li>Scatter a single domain&#x27;s code across multiple unrelated folders.</li>
+<li>Mix multiple domain concerns in a single folder.</li>
+<li>Generate missing composition roots in a brand-new project later as follow-up work, or create duplicate composition roots in an existing project instead of reusing the current shells.</li>
+<li>Ship a client tier that omits user actions defined in the specs. If the requirements say users can create, edit, or move things, the UI must expose those capabilities — not just read-only search/list.</li>
+<li>Render a single static component in App.tsx when the specs define multiple user flows. If users need to create entities and interact with detail views, the composition root must manage view state to support those flows.</li>
+</ul>
+<hr>
+<p>scanner: layer_purity_scanner.py</p>
+<hr>
+<h3>Rule: Maintain Layer Purity</h3>
+<p>Dependencies point inward toward the domain core. The <code>shared/</code> package contains <strong>plain TypeScript only</strong> — no framework imports. The <code>server/</code> package never imports from <code>client/</code>, and vice versa.</p>
+<h4>DO</h4>
+<ul>
+<li>Keep <code>shared/</code> free of Express, React, MongoDB, Mongoose, and any infrastructure framework.</li>
+<li>Import domain logic from <code>shared/</code> into both <code>client/</code> and <code>server/</code>.</li>
+</ul>
+<pre><code class="language-typescript">// packages/recipients/shared/RecipientStatus.ts — plain TypeScript only
+export class RecipientStatus {
+  isEligibleForPayment(): boolean {
+    return this.status === &#x27;Active&#x27;;
+  }
+}</code></pre>
+<h4>DON&#x27;T</h4>
+<ul>
+<li>Import Express, React, MongoDB, or any framework/infrastructure library in <code>shared/</code>.</li>
+<li>Import <code>client/</code> code from <code>server/</code> or <code>server/</code> code from <code>client/</code>.</li>
+</ul>
+<hr>
+<p>scanner: domain_structure_scanner.py</p>
+<hr>
+<h3>Rule: Share Domain Logic</h3>
+<p>Define domain entities, value objects, Zod validation schemas, and business rule methods <strong>once</strong> in the <code>shared/</code> package. Both <code>client/</code> and <code>server/</code> import from <code>shared/</code> — never duplicate validation, type definitions, or business logic across tiers.</p>
+<h4>DO</h4>
+<ul>
+<li>Place all Zod schemas in <code>shared/</code> so both tiers validate identically.</li>
+<li>Define domain entity classes with business methods in <code>shared/</code>.</li>
+<li>Export collection/aggregate classes from <code>shared/</code> for reuse in both tiers.</li>
+</ul>
+<h4>DON&#x27;T</h4>
+<ul>
+<li>Duplicate Zod schemas or validation logic between <code>client/</code> and <code>server/</code>.</li>
+<li>Redefine TypeScript interfaces that already exist in <code>shared/</code>.</li>
+<li>Create separate &quot;client types&quot; and &quot;server types&quot; for the same domain concept.</li>
+</ul>
+<hr>
+<p>scanner: naming_convention_scanner.py</p>
+<hr>
+<h3>Rule: Use Ubiquitous Language</h3>
+<p>Class names, file names, method names, and test names come from the <strong>domain model</strong> and <strong>Gherkin scenarios</strong>. Technical suffixes like <code>Manager</code>, <code>Handler</code>, <code>Processor</code>, <code>Helper</code>, or <code>Utility</code> hide domain intent and must be avoided on domain classes.</p>
+<h4>DO</h4>
+<ul>
+<li>Name domain classes after domain nouns: <code>Recipient</code>, <code>BeneficiaryBank</code>, <code>RecipientSelection</code>.</li>
+<li>Name domain methods after domain verbs: <code>isEligibleForPayment()</code>, <code>filterByStatus()</code>.</li>
+<li>Name test methods to mirror Gherkin scenarios verbatim.</li>
+<li>Use server-tier naming: <code>{domain}.routes.ts</code>, <code>{domain}.controller.ts</code>, <code>{domain}.repository.ts</code>.</li>
+</ul>
+<h4>DON&#x27;T</h4>
+<ul>
+<li>Use <code>Manager</code>, <code>Handler</code>, <code>Processor</code>, <code>Helper</code>, <code>Utility</code>, <code>Utils</code> on domain classes.</li>
+<li>Name test methods with technical jargon instead of scenario language.</li>
+</ul>
+<hr>
+<p>scanner: domain_structure_scanner.py</p>
+<hr>
+<h3>Rule: Implement Domain Entities Correctly</h3>
+<p>Business rules belong <strong>on domain classes</strong>, not in services. Domain entities own their state and behavior. Zod schemas validate at the <strong>repository boundary</strong> and at the <strong>API boundary</strong>. Collection classes provide domain-oriented query methods.</p>
+<h4>DO</h4>
+<ul>
+<li>Place business logic as methods on the entity or value object that owns the data.</li>
+<li>Create collection classes that wrap arrays with domain-oriented filter/search methods.</li>
+<li>Validate with <code>Schema.parse()</code> at the repository boundary.</li>
+<li>Keep domain classes portable: no framework imports, no side effects, no async.</li>
+</ul>
+<h4>DON&#x27;T</h4>
+<ul>
+<li>Place business rules in services while leaving entities as plain data objects (Anemic Domain Model).</li>
+<li>Put async operations or framework calls inside domain entities.</li>
+</ul>
+<hr>
+<p>scanner: test_structure_scanner.py</p>
+<hr>
+<h3>Rule: Test Story-Driven</h3>
+<p>Tests mirror story scenarios across three tiers: Server-Side, Client-Side, and E2E. The test folder hierarchy maps to the story graph: Epic → Folder, Sub-Epic → Folder, Lowest Sub-Epic → 3 test files.</p>
+<h4>DO</h4>
+<ul>
+<li>Create exactly 3 test files per lowest sub-epic: <code><em>_server.test.ts</code>, <code></em>_client.test.tsx</code>, <code>*_e2e.spec.ts</code>.</li>
+<li>Create a <code>helpers/</code> folder per sub-epic with base, server, client, and e2e helpers.</li>
+<li>Name test methods to mirror Gherkin scenario titles verbatim.</li>
+<li>Use Given/When/Then helper methods that read like scenario steps.</li>
+</ul>
+<h4>DON&#x27;T</h4>
+<ul>
+<li>Skip any of the three test tiers for a sub-epic.</li>
+<li>Write tests without Given/When/Then helper methods.</li>
+<li>Place test files outside the epic/sub-epic folder structure.</li>
+</ul>
+<hr>
+<p>scanner: test_structure_scanner.py</p>
+<hr>
+<h3>Rule: Run E2E Tests</h3>
+<p>End-to-end tests are <strong>mandatory</strong> for every sub-epic. E2E tests must reuse the base helper class, verify <strong>logic</strong> (not just element presence), and be executed as a final verification step.</p>
+<h4>DO</h4>
+<ul>
+<li>Create <code>*_e2e.spec.ts</code> for every lowest sub-epic.</li>
+<li>Assert on domain logic outcomes: filtered lists, eligibility, domain rules.</li>
+<li>Ensure the required composition roots exist and expose the new module before running Playwright. Scaffold missing roots; otherwise update the existing roots.</li>
+<li>Run E2E tests after implementation as final verification.</li>
+</ul>
+<h4>DON&#x27;T</h4>
+<ul>
+<li>Skip E2E tests for any sub-epic.</li>
+<li>Write E2E tests that only check element presence without verifying logic.</li>
+<li>Write E2E tests from scratch without reusing the helper class.</li>
+<li>Tell the user <code>npx playwright test</code> is runnable before the required composition roots exist and expose the new module — E2E tests require a live server and will fail with <code>ERR_CONNECTION_REFUSED</code>.</li>
+<li>Generate duplicate composition roots for an existing project when compatible <code>app-server/</code> and <code>app-client/</code> shells already exist.</li>
+</ul>
+<hr>
+<p>scanner: test_isolation_scanner.py</p>
+<hr>
+<h3>Rule: Test Data Isolation — NEVER Reset All Data</h3>
+<p>Tests must <strong>ONLY</strong> delete the specific data they created. Never delete all data, never reset the database, never use blanket <code>deleteMany({})</code>. The <code>test_isolation_scanner.py</code> enforces this automatically.</p>
+<h4>Forbidden patterns (scanner flags these as violations):</h4>
+<ul>
+<li><code>deleteMany({})</code> — empty filter deletes ALL documents in the collection</li>
+<li><code>.drop()</code> / <code>dropCollection()</code> / <code>dropDatabase()</code> — destroys entire collections or databases</li>
+<li><code>POST /api/test/reset</code> or any <code>/reset</code> endpoint — blanket wipe of all data</li>
+<li>Any <code>beforeEach</code>/<code>afterAll</code> hook that calls the above</li>
+</ul>
+<h4>DO</h4>
+<ul>
+<li>Track every resource ID created during a test (from API responses or GET queries).</li>
+<li>Delete <strong>only those specific IDs</strong> in <code>afterEach</code> via <code>DELETE /api/test/{resource}</code> with <code>{ ids: [...] }</code> body.</li>
+<li>Require the server cleanup endpoint to accept an <code>ids</code> array and reject requests without one.</li>
+<li>Make cleanup a no-op if no IDs were created (empty array = skip delete call).</li>
+<li>Use unique names per test run (e.g., append <code>Date.now()</code>) to avoid collisions with other data.</li>
+</ul>
+<pre><code class="language-typescript">// CORRECT — helper tracks created IDs, afterEach deletes only those
+class BoardE2EHelper {
+  private createdBoardIds: string[] = [];
+
+  async whenUserCreatesBoard(name: string) {
+    // ... create via UI or API ...
+    const res = await this.request.get(&#x27;/api/boards&#x27;);
+    const boards = await res.json();
+    const created = boards.items.find((b: any) =&gt; b.name === name);
+    if (created) this.createdBoardIds.push(created.id);
+  }
+
+  async cleanup() {
+    if (this.createdBoardIds.length === 0) return;
+    await this.request.delete(&#x27;/api/test/boards&#x27;, {
+      data: { ids: this.createdBoardIds },
+    });
+    this.createdBoardIds = [];
+  }
+}</code></pre>
+<h4>DON&#x27;T</h4>
+<ul>
+<li>Use <code>deleteMany({})</code> with an empty filter — this deletes ALL documents in the collection, not just test data.</li>
+<li>Create a <code>/test/reset</code> endpoint that wipes entire collections.</li>
+<li>Assume the database is empty or that only test data exists — other developers, QA sessions, or parallel test runs share the same datastore.</li>
+<li>Use <code>.drop()</code> or <code>dropCollection()</code> to &quot;clean up&quot; — this destroys indexes and the collection itself.</li>
+<li>Rely on <code>beforeAll</code> to reset state — tests must be independent and clean up after themselves.</li>
+</ul>
+<hr>
+<p>scanner: layer_purity_scanner.py</p>
+<hr>
+<h3>Rule: Implement Full Interfaces</h3>
+<p>Every layer that claims to implement a domain interface must implement <strong>all members</strong>. Test adapters must correctly implement domain interfaces. Verify completeness at compile time using TypeScript <code>implements</code>.</p>
+<h4>DO</h4>
+<ul>
+<li>Implement every method and property defined in the domain interface.</li>
+<li>Use TypeScript <code>implements</code> keyword so the compiler catches missing members.</li>
+<li>Ensure test adapters (mocks, fakes) implement the full interface.</li>
+</ul>
+<h4>DON&#x27;T</h4>
+<ul>
+<li>Leave interface methods unimplemented or stubbed with <code>throw new Error(&amp;#x27;not implemented&amp;#x27;)</code>.</li>
+<li>Skip <code>implements</code> keyword.</li>
+<li>Create test adapters that only implement methods used in one test.</li>
+</ul>
+<hr>
+<p>scanner: domain_structure_scanner.py</p>
+<hr>
+<h3>Rule: Use Valid Package Names</h3>
+<p>Package names in <code>package.json</code> must be valid npm package names that pass <code>npm install</code> without errors. Derive the scope name from the <strong>application&#x27;s purpose</strong> — not from generic placeholders.</p>
+<p><strong>Naming pattern:</strong> <code>@{appName}/{domainName}-{tier}</code></p>
+<p>Where:</p>
+<ul>
+<li><code>{appName}</code> is derived from the application&#x27;s purpose (e.g., <code>taskflow</code>, <code>payhub</code>, <code>channelone</code>)</li>
+<li><code>{domainName}</code> is the domain module name (e.g., <code>recipients</code>, <code>todo-lists</code>, <code>payments</code>)</li>
+<li><code>{tier}</code> is <code>shared</code>, <code>server</code>, or <code>client</code></li>
+</ul>
+<h4>DO</h4>
+<ul>
+<li>Derive the app scope name from the application&#x27;s business purpose: <code>@taskflow</code>, <code>@payhub</code>, <code>@shopfront</code>.</li>
+<li>Use the pattern <code>@{appName}/{domainName}-{tier}</code> for tier packages.</li>
+<li>Ensure every <code>package.json</code> name passes <code>npm install</code> without <code>EINVALIDPACKAGENAME</code>.</li>
+<li>Keep names lowercase, URL-friendly (alphanumeric, hyphens only after scope).</li>
+<li>Use the same package name as the <code>import ... from</code> specifier in all TypeScript source files — <strong>including test files and test helpers</strong>.</li>
+</ul>
+<pre><code class="language-json">{
+  &quot;name&quot;: &quot;@taskflow/todo-lists-shared&quot;,
+  &quot;dependencies&quot;: {}
+}</code></pre>
+<pre><code class="language-typescript">// Import path MUST match the package.json &quot;name&quot; field — in production AND test code
+import { TodoList } from &#x27;@taskflow/todo-lists-shared&#x27;;
+import { TodoListsService } from &#x27;@taskflow/todo-lists-server&#x27;;
+import { TodoListList } from &#x27;@taskflow/todo-lists-client&#x27;;</code></pre>
+<h4>DON&#x27;T</h4>
+<ul>
+<li>Use <code>@project</code>, <code>@acme</code>, or other generic placeholder scope names.</li>
+<li>Put multiple slashes in a package name: <code>@project/todo-lists/shared</code> is invalid npm.</li>
+<li>Leave template placeholder names in generated output.</li>
+<li>Use filesystem-style paths (e.g., <code>@scope/domain/tier</code>) as TypeScript import specifiers — use the package name (<code>@scope/domain-tier</code>).</li>
+</ul>
+<hr>
+<p>scanner: layer_purity_scanner.py</p>
+<hr>
+<h3>Rule: Ensure Type-Safe Controllers</h3>
+<p>Controllers in the <code>server/</code> tier must compile without implicit <code>any</code> types or missing property errors. When controllers access extended Express <code>Request</code> properties (e.g., <code>req.user</code>), include a type augmentation.</p>
+<h4>DO</h4>
+<ul>
+<li>Include <code>declare global { namespace Express { interface Request { user?: { id: string }; } } }</code> when accessing <code>req.user</code>.</li>
+<li>Type all lambda/callback parameters explicitly when <code>noImplicitAny</code> or <code>strict</code> is enabled.</li>
+<li>Use domain types from <code>shared/</code> for callback parameters rather than <code>any</code>.</li>
+</ul>
+<pre><code class="language-typescript">import { Request, Response } from &#x27;express&#x27;;
+
+declare global {
+  namespace Express {
+    interface Request {
+      user?: { id: string };
+    }
+  }
+}</code></pre>
+<h4>DON&#x27;T</h4>
+<ul>
+<li>Access <code>req.user</code> or extended properties without a type declaration (causes TS2339).</li>
+<li>Leave callback parameters untyped under <code>strict</code> mode (causes TS7006).</li>
+<li>Use <code>(req as any).user</code> to bypass type checking — augment the type instead.</li>
+<li>Suppress errors with <code>// @ts-ignore</code> instead of providing proper types.</li>
+</ul>
+<hr>
+<p>scanner: domain_structure_scanner.py</p>
+<hr>
+<h3>Rule: Include All External Dependencies</h3>
+<p>Every <code>package.json</code> must declare all external packages that its source files import. After <code>npm install</code>, the project must compile with zero unresolved module errors.</p>
+<p><strong>Required dependencies by tier:</strong></p>
+<p>| Tier | dependencies | devDependencies | |------|-------------|-----------------| | shared/ | <code>zod</code> | — | | server/ | <code>express</code>, <code>mongodb</code>, workspace shared | <code>@types/express</code> | | client/ | <code>react</code>, <code>react-dom</code>, workspace shared | <code>@types/react</code>, <code>@types/react-dom</code> | | root | — | <code>typescript</code>, <code>vitest</code>, <code>@testing-library/react</code>, <code>@testing-library/jest-dom</code>, <code>@playwright/test</code> |</p>
+<p><strong>Test dependencies:</strong> When generating test files, the root <code>package.json</code> must include <code>vitest</code>, <code>jsdom</code>, <code>@testing-library/react</code>, <code>@testing-library/jest-dom</code>, and <code>@playwright/test</code>. The <code>tsconfig.json</code> must include <code>&amp;quot;types&amp;quot;: [&amp;quot;vitest/globals&amp;quot;, &amp;quot;@testing-library/jest-dom&amp;quot;]</code> and include <code>tests/<strong>/<em>.ts</code> + <code>tests/</strong>/</em>.tsx</code> in <code>include</code>.</p>
+<p><strong>Use <code>vitest</code> imports in all unit/component tests — never <code>node:test</code>.</strong> All <code><em>_server.test.ts</code> and <code></em>_client.test.tsx</code> files must import <code>describe</code>, <code>it</code>, <code>expect</code>, <code>beforeEach</code>, and <code>vi</code> from <code>&amp;#x27;vitest&amp;#x27;</code>. Mixing <code>node:test</code> with Vitest causes &quot;No test suite found&quot; failures.</p>
+<p><strong>Test runner config files are required.</strong> Create <code>vitest.config.ts</code> (include <code><em>_server.test.ts</code> + <code></em>_client.test.tsx</code>, environment <code>jsdom</code>) and <code>playwright.config.ts</code> (testMatch <code>*_e2e.spec.ts</code>) to prevent runners from picking up each other&#x27;s files. Without these, Playwright errors with ESM/CJS import failures on <code>vitest</code> module.</p>
+<p><strong>Test path aliases:</strong> The <code>tsconfig.json</code> must have path aliases for <strong>all</strong> tier packages (shared, server, client) plus wildcard paths for sub-module imports:</p>
+<pre><code class="language-json">{
+  &quot;paths&quot;: {
+    &quot;@appName/domain-shared&quot;: [&quot;./packages/domain/shared/index.ts&quot;],
+    &quot;@appName/domain-server&quot;: [&quot;./packages/domain/server/index.ts&quot;],
+    &quot;@appName/domain-client&quot;: [&quot;./packages/domain/client/index.ts&quot;],
+    &quot;@appName/domain-client/*&quot;: [&quot;./packages/domain/client/*&quot;]
+  }
+}</code></pre>
+<h4>DO</h4>
+<ul>
+<li>List every imported external module in <code>dependencies</code> or <code>devDependencies</code>.</li>
+<li>Include <code>@types/*</code> packages for libraries without bundled declarations.</li>
+<li>Use caret ranges (<code>^</code>) for external packages: <code>&amp;quot;zod&amp;quot;: &amp;quot;^3.22.0&amp;quot;</code>.</li>
+<li>Include <code>typescript</code> in root <code>devDependencies</code>.</li>
+<li>Run <code>npm install</code> + <code>npx tsc --noEmit</code> after generation to verify compilation.</li>
+</ul>
+<h4>DON&#x27;T</h4>
+<ul>
+<li>Omit external packages and rely on hoisting or implicit resolution.</li>
+<li>Generate source files that import modules not listed in any <code>package.json</code>.</li>
+<li>Skip <code>@types/*</code> packages — TypeScript will fail with <code>Could not find a declaration file</code>.</li>
+<li>Use <code>*</code> or <code>latest</code> for external packages (only for workspace internal references).</li>
+<li>Consider the implementation complete if <code>npm install</code> or <code>tsc</code> fails.</li>
+</ul>
+<p>&lt;!-- execute_rules:bundle_rules:end --&gt;</p>
+</div>
+</body>
+</html>

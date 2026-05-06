@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="engineering">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>object-model — abd.works</title>
+<script src="/commons/brand-nav.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+:root {
+  --orange: #E5531A; --orange-hover: #C64514;
+  --bg: #0B0B0B; --surface: #111113; --raised: #1B1B20;
+  --border: #2A2A2A; --text: #F4F4F5; --muted: #9B9BA8;
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+*, *::before, *::after { box-sizing: border-box; }
+body { background: var(--bg); color: var(--text); margin: 0;
+  font-family: var(--font-sans); font-size: 15px; line-height: 1.7;
+  -webkit-font-smoothing: antialiased; }
+a { color: var(--orange); text-decoration: none; }
+a:hover { color: var(--orange-hover); }
+.page-wrap { max-width: 860px; margin: 0 auto; padding: 48px clamp(16px,4vw,48px) 96px; }
+.back-link { display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--font-mono); font-size: 11px; font-weight: 600;
+  letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted);
+  margin-bottom: 40px; }
+.back-link:hover { color: var(--text); }
+h1 { font-size: clamp(24px,4vw,36px); font-weight: 800; letter-spacing: -0.03em;
+  line-height: 1.1; margin: 0 0 8px; color: var(--text); }
+.skill-category { font-family: var(--font-mono); font-size: 11px; font-weight: 600;
+  letter-spacing: 0.1em; text-transform: uppercase; color: var(--orange);
+  margin-bottom: 32px; display: block; }
+h2 { font-size: 1.15rem !important; font-weight: 700 !important; margin: 36px 0 12px !important;
+  padding-bottom: 8px !important; border-bottom: 1px solid var(--border) !important; color: #E5531A !important; }
+h3 { font-size: 1rem !important; font-weight: 700 !important; margin: 24px 0 8px !important; color: var(--text) !important; }
+h4 { font-size: 0.9rem !important; font-weight: 700 !important; margin: 20px 0 6px !important; color: var(--muted) !important; text-transform: uppercase !important; letter-spacing: 0.06em !important; }
+p { margin: 0 0 14px; }
+ul, ol { margin: 0 0 16px; padding-left: 1.4rem; }
+li { margin-bottom: 6px; }
+code { font-family: var(--font-mono); font-size: 0.855em;
+  background: rgba(255,255,255,0.07); padding: 2px 6px; border-radius: 3px; color: #F2A07A; }
+pre { background: var(--surface); border: 1px solid var(--border); border-radius: 6px;
+  padding: 20px 24px; overflow-x: auto; margin: 0 0 20px; }
+pre code { background: none; padding: 0; color: var(--text); font-size: 0.85rem; }
+blockquote { border-left: 3px solid var(--orange); margin: 0 0 16px;
+  padding: 10px 18px; background: var(--surface); border-radius: 0 4px 4px 0; }
+blockquote p { margin: 0; color: var(--muted); }
+hr { border: none; border-top: 1px solid var(--border); margin: 32px 0; }
+strong { font-weight: 600; }
+</style>
+</head>
+<body>
+<div class="page-wrap">
+  <a class="back-link" href="/abd-skills-catalog/">← AI Garden</a>
+  <h1>object-model</h1>
+  <span class="skill-category">Domain Driven Design</span>
+  <h2>Purpose</h2>
+<p>Build a typed object model for a module. When a CRC model exists it is the primary input — the skill converts that behavioral model into a typed domain surface with far less effort. Without a CRC the skill can still produce an object model directly from domain knowledge.</p>
+<h2>When to use</h2>
+<ul>
+<li>The team knows what each class is responsible for and needs to formalise those responsibilities as typed properties and method signatures.</li>
+<li>You need to see explicit types, operation signatures, and ownership relationships before writing production code.</li>
+<li>Collaborators between classes need to become typed, directional relationships with ownership semantics made explicit.</li>
+</ul>
+<h2>Core concepts</h2>
+<p>Before proceeding, read <a href="../common/oo-concepts.md"><code>common/oo-concepts.md</code></a> <strong>carefully and in full</strong>. The sections below cover what is specific to this level of fidelity: typed notation and relationship flavors.</p>
+<h3>Properties</h3>
+<p>Write each property as <code>+ propertyName: Type</code>. Type it where the domain makes the type obvious (<code>String</code>, <code>Boolean</code>, <code>Money</code>, <code>List&amp;lt;Item&amp;gt;</code>, etc.); leave it untyped only when the domain is genuinely ambiguous. Typed constants and enum-like value sets (<code>UPPER_CASE</code> names) are grouped under a named constant block.</p>
+<h3>Operations</h3>
+<p>Write each operation as <code>+ methodName(param: Type): ReturnType</code>. Parameters come from the information the method needs but does not already hold as a property; the return type reflects what the caller expects back. Keep signatures at the domain level: no infrastructure, no UI, no framework types. Omit the return type only when the operation is genuinely void.</p>
+<p>Use <code>+</code> for public operations that external collaborators call. Use <code>-</code> for private helpers that are only called internally by the class itself — extracted sub-logic, tie-breakers, guard checks, etc.</p>
+<p><strong>When the right name is unclear, name it after the invariant.</strong> If an operation&#x27;s invariant says &quot;incoming supersedes existing&quot;, the operation is <code>incomingSupersedes</code>. The invariant is already the correct domain statement — the name should match it directly rather than inventing a separate label.</p>
+<pre><code>- incomingSupersedes(existing: ImposedCondition, incoming: Condition): Boolean
+	Invariant: if incoming supersedes existing — remove existing, return true; if existing supersedes incoming — return false</code></pre>
+<h3>Object initialisation</h3>
+<p>For every class, determine how its objects are initialised. Choose from the following approaches based on scenario and context:</p>
+<p><strong>Constructor injection</strong> — pass a dependency in when the class references but does not own it (association), or when a required value must be present for the object to be valid. Write as <code>+ ClassName(param: Type, ...)</code>. Include only what is needed to bootstrap a fully valid object; never leave an object half-initialised. Write multiple constructors when different valid bootstrap configurations exist in the domain.</p>
+<pre><code>+ Ability(character: Character, rank: Integer)
++ Ability(character: Character, rank: Integer, extras: List&lt;Extra&gt;)</code></pre>
+<p><strong>Internal initialisation</strong> — create or derive it inside the class when the class owns the thing (composition) or when the value is derived from properties the object already holds. The caller should not be responsible for assembling parts the class owns. An airplane assembles its own engines; it does not receive them as constructor arguments.</p>
+<p><strong>Factory method</strong> — use a static factory <em>on the class itself</em> when construction is complex, can fail gracefully, or needs to return different subtypes based on input. The factory method replaces <code>new</code> for callers — it is a named static operation on the class.</p>
+<pre><code>+ Payment.create(type: PaymentType): Payment   → returns CreditCardPayment or BankTransferPayment</code></pre>
+<blockquote><p><strong>Do not confuse:</strong> if another class produces instances of this class by calling <code>new ClassName(...)</code>, that is normal construction — the class still shows its constructor. The fact that <code>Check.resolve()</code> creates a <code>CheckResult</code> via <code>new CheckResult(...)</code> does not make <code>CheckResult</code> a factory-method class; it just has a constructor that <code>Check</code> calls.</p></blockquote>
+<p><strong>Factory object</strong> — delegate construction entirely to a separate domain object when the assembly logic is itself a domain concern, when multiple unrelated callers need the same complex build, or when the assembled object requires coordinating many collaborators the caller should not know about.</p>
+<pre><code>CharacterBuilder → produces a fully loaded Character with abilities, skills, and powers</code></pre>
+<h3>Relationships</h3>
+<p>The three questions in <code>oo-concepts.md</code> (<code>## Relationships</code>) determine the dependency nature. At this level of fidelity, each answer maps to a named type of relationship:</p>
+<ul>
+<li><strong>Aggregation</strong> — the parent exists to collect or group its children; the parent has no identity without them (a flock, an army, a server cluster).</li>
+<li><strong>Composition</strong> — the child has no identity without the parent; the parent owns the child&#x27;s lifecycle (airplane wings, a car&#x27;s steering wheel).</li>
+<li><strong>Association</strong> — both sides have independent lifecycles.</li>
+</ul>
+<p><strong>Association is the default</strong> — no annotation needed. Mark composition and aggregation directly on the property with a stereotype; no separate relationship line is required.</p>
+<pre><code>+ &lt;&lt; composition &gt;&gt; stages: List&lt;DifficultyStage&gt;   ← ownership is on the property
++ linkedTrait: Trait                                 ← plain association; no stereotype</code></pre>
+<p>The property type already implies cardinality direction: a single type is 1..1; <code>List&amp;lt;T&amp;gt;</code> or <code>Dictionary&amp;lt;K,T&amp;gt;</code> is one-to-many. Use an invariant on the property when the cardinality constraint needs to be made explicit (e.g. &quot;at least one stage required&quot;). Do not write separate <code><em>composes</em></code>, <code><em>aggregates</em></code>, or <code><em>associates</em></code> relationship lines — the stereotype and property type together carry the full picture.</p>
+<h3>Collections</h3>
+<p>When a class holds multiple instances of another class, type the property using one of two generic forms:</p>
+<ul>
+<li><strong><code>List&amp;lt;ClassName&amp;gt;</code></strong> — an ordered or unordered set where you iterate or process all members. Use when the caller works through the whole set or picks by position. No key needed.</li>
+<li><strong><code>Dictionary&amp;lt;KeyType, ClassName&amp;gt;</code></strong> — a keyed set where you need to look up a specific member directly. Use when the caller retrieves by a known identifier (id, name, code) and traversing the whole set would be wasteful.</li>
+</ul>
+<pre><code>+ appliedConditions: List&lt;ImposedCondition&gt;       ← iterate all when no behavior; use when collection is simple
++ abilitiesByName: Dictionary&lt;String, Ability&gt;    ← look up by name directly</code></pre>
+<p>The name of the property should reflect the domain collection concept, not the data structure — <code>appliedConditions</code>, not <code>conditionList</code>. When the collection itself has unique behavior (supersession logic, ordering rules, add/remove constraints), introduce a named collection class that owns that behavior rather than holding a raw <code>List</code> or <code>Dictionary</code> directly on the parent class.</p>
+<pre><code>+ &lt;&lt; composition &gt;&gt; imposedConditions: ImposedConditions   ← named collection class: owns supersession logic</code></pre>
+<h3>Inheritance</h3>
+<p>Use <code>ChildClass : ParentClass</code> on the class heading. The child block contains only delta members — typed properties, operations, and relationships that add or override the parent. Inherited members are never repeated — see <code>## Inheritance and subtypes</code> in <code>oo-concepts.md</code> for the delta rule.</p>
+<pre><code>ChildClass : ParentClass
++ addedProperty: Type
++ overriddenMethod(param: Type): ReturnType</code></pre>
+<p>Mark each class with its stereotype on the heading — see <code>### Entities and Value Objects</code> below.</p>
+<h3>Invariants</h3>
+<p>Write each invariant as a single tab-indented line directly under the property or operation it constrains: <code>	Invariant: ...</code>. Keep it declarative — &quot;must&quot;, &quot;cannot&quot;, &quot;only if&quot;. One line per constraint; long lifecycle prose stays in the CRC content above.</p>
+<h3>Interactions</h3>
+<p>When an operation has inherent complexity or interesting interactions — it coordinates multiple collaborators, produces a result through a chain of internal steps, or branches in a way not captured by the signature and invariants alone — write a tab-indented <code>Interaction:</code> block directly after the operation&#x27;s invariants. Each step is a flat, non-nested pseudocode line using the scenario-walkthrough notation.</p>
+<p>CRC collaborators that did not map to operation parameters are a useful signal: they are likely accessed internally, and the step-chain should be made explicit so that behavior is not lost.</p>
+<p><strong>When to omit:</strong> Simple delegations with a single step, pure queries that return a property directly, or operations whose entire behavior is self-evident from the return type and invariants alone.</p>
+<p><strong>Design smell — invariants without interactions:</strong> If an operation carries several invariants but no <code>Interaction:</code> block, that is almost always wrong. Invariants state <em>what must be true</em>; they cannot replace the step-chain that <em>makes it true</em>. Many invariants signal that the operation is doing real work internally — that work must be made explicit in an <code>Interaction:</code> block.</p>
+<p><strong>Extract complex sub-logic into named operations.</strong> An <code>Interaction:</code> block is not pseudocode — it traces the key collaborations. When a branch or calculation is non-trivial, give it a name, extract it as a separate operation, and describe its rule as an invariant. Call that operation from the interaction instead of spelling out every line.</p>
+<pre><code>+ resolve(): CheckResult
+	Interaction:
+		...
+		if activeResult.margin != 0: return activeResult
+		return resolveTie(activeResult: activeResult, opposingResult: opposingResult)
+- resolveTie(activeResult: CheckResult, opposingResult: CheckResult): CheckResult
+	Invariant: higher rank bonus wins; if ranks are equal, d20 decides (1–10 active wins, 11–20 opposing wins)</code></pre>
+<blockquote><p><strong>Visibility:</strong> extracted helper operations that are only called internally use <code>-</code> (private). Public operations that callers invoke use <code>+</code>.</p></blockquote>
+<pre><code>+ resolve(): CheckResult
+	Invariant: shape is always rollTotal vs dc.value; subtypes vary only how total or DC is produced
+	Interaction:
+		roll: Integer = d20.roll()
+		total: Integer = trait.rank + roll + circumstanceModifier.value
+		success: Boolean = total &gt;= dc.value
+		result: CheckResult = new CheckResult(roll: roll, rollTotal: total, isSuccess: success, check: this)
+		return result</code></pre>
+<p><strong>Format rules:</strong></p>
+<ul>
+<li><code>	Interaction:</code> is tab-indented under the operation, same level as <code>Invariant:</code></li>
+<li>Each step inside is a further-indented flat line — <strong>no nesting</strong></li>
+<li>Use typed pseudocode: <code>variableName: Type = expression</code></li>
+<li>Method calls: <code>object.method(param: value)</code></li>
+<li>Construction: <code>variable: Type = new ClassName(param: Type)</code></li>
+<li>Return: <code>return variable</code> or <code>return variable: actual_value</code></li>
+<li>Comments for logic not yet decomposed: <code>// degree logic</code></li>
+<li><strong>Variable names must use domain language</strong> — <code>roll</code>, <code>margin</code>, <code>throwingDistanceMeasure</code>, not <code>r</code>, <code>temp</code>, <code>measureA</code>. Trace the right name up the chain: CRC → domain sketch → ubiquitous language → source references.</li>
+</ul>
+<h3>Entities and Value Objects</h3>
+<p>Domain objects carry one of several stereotypes depending on their role. The two most common are Entity and Value Object — classify each domain object before writing its members, because the kind determines immutability rules, how equality works, and how objects are initialised. Other stereotypes exist (<code>&amp;lt;&amp;lt; Service &amp;gt;&amp;gt;</code>, <code>&amp;lt;&amp;lt; Factory &amp;gt;&amp;gt;</code>, <code>&amp;lt;&amp;lt; Repository &amp;gt;&amp;gt;</code>, <code>&amp;lt;&amp;lt; Domain Event &amp;gt;&amp;gt;</code>, boundary types, etc.) and are applied when the class clearly plays that role.</p>
+<p><strong>Entity</strong> — an object distinguished by identity, not by its attributes. Two entities with identical attributes are still different things. An entity has a continuous lifecycle: it is created, changes over time, and eventually ends. The model must define what it means for two instances to be the same entity.</p>
+<p>Mark with <code>&amp;lt;&amp;lt; Entity &amp;gt;&amp;gt;</code>.</p>
+<pre><code>Character  &lt;&lt; Entity &gt;&gt;       ← two characters with the same name are different people
+Order  &lt;&lt; Entity &gt;&gt;           ← two orders placed by the same customer are different orders</code></pre>
+<p><strong>Value Object</strong> — an object defined entirely by its attributes, with no meaningful identity of its own. Two value objects with the same attributes are interchangeable — they <em>are</em> the same thing. Value objects are immutable: never modify one in place; replace it with a new instance that has the updated values. Operations on a value object return new instances and have no side effects.</p>
+<p>Mark with <code>&amp;lt;&amp;lt; ValueObject &amp;gt;&amp;gt;</code>.</p>
+<pre><code>Rank  &lt;&lt; ValueObject &gt;&gt;       ← Rank(5) and Rank(5) are the same rank; replace, don&#x27;t mutate
+Money  &lt;&lt; ValueObject &gt;&gt;      ← $10 is $10 regardless of which Money instance holds it
+DifficultyClass  &lt;&lt; ValueObject &gt;&gt;</code></pre>
+<p><strong>The deciding question for Entity vs Value Object:</strong> <em>Does this thing need to be tracked as an individual over time, or does only the combination of its values matter?</em> If tracking individual identity matters — use Entity. If only the values matter — use Value Object.</p>
+<blockquote><p><em>Source: Evans, Domain-Driven Design Reference (2015) — Entities and Value Objects patterns.</em></p></blockquote>
+<h2>Build</h2>
+<ol>
+<li><strong>Assess the starting point.</strong> If a CRC model exists in the file, use it as the primary input — it is the richest source. If not, work from domain knowledge, a domain sketch, or any available source describing the classes and their behavior.</li>
+<li><strong>Identify classes.</strong> From the CRC (if present) or from domain knowledge, list every class that needs a typed block, including subtypes and collection classes.</li>
+<li><strong>Decompose responsibilities.</strong> For each class, look at its responsibilities (from CRC &quot;Responsible for&quot; lines, behavior bullets, or domain knowledge). Ask: <em>does this require the class to hold something (→ property), do something (→ operation), or both?</em> Route each responsibility before writing anything.</li>
+<li><strong>Write properties and operations.</strong> For responsibilities routed to state, write <code>+ propertyName: Type</code>. For responsibilities routed to action, write <code>+ methodName(param: Type): ReturnType</code>. Group related members into clusters separated by <code>----</code>; place operations after the properties they act on within the same cluster.</li>
+<li><strong>Determine object initialisation.</strong> For each class, scan its properties and ask: <em>how does each value or reference arrive?</em> Choose constructor injection, internal initialisation, factory method, or factory object — see <code>### Object initialisation</code> above. Record the chosen approach as constructor signatures or factory operation signatures.</li>
+<li><strong>Derive relationships.</strong> For each class, identify its collaborators (from CRC collaborator columns if present, or from domain knowledge). Ask: <em>is the parent defined by its children (aggregation), does the child depend on the parent to exist (composition), or are both sides independent (association)?</em> Mark composition and aggregation with a stereotype on the property (<code>&amp;lt;&amp;lt; composition &amp;gt;&amp;gt;</code>, <code>&amp;lt;&amp;lt; aggregation &amp;gt;&amp;gt;</code>). Leave plain associations unannotated.</li>
+<li><strong>Add invariant lines.</strong> Identify lifecycle guards and always-true rules (from CRC <code>invariants:</code> fields if present, or from domain knowledge). Write each as a tab-indented <code>Invariant: ...</code> line directly under the member it constrains.</li>
+<li><strong>Add interaction blocks.</strong> For each operation, ask: does this have inherent complexity — multiple internal steps, coordinated collaborators, or branching behavior not captured by the signature and invariants? If yes, write a tab-indented <code>Interaction:</code> block tracing the step-chain. CRC collaborators not mapped to parameters are a useful signal. See <code>### Interactions</code> above.</li>
+<li><strong>Handle inheritance.</strong> For each subtype, use <code>ChildClass : ParentClass</code> on the heading line and write only delta members — see <code>### Inheritance</code> above. Mark each class with its stereotype (<code>&amp;lt;&amp;lt; Entity &amp;gt;&amp;gt;</code>, <code>&amp;lt;&amp;lt; ValueObject &amp;gt;&amp;gt;</code>, or other as appropriate) — see <code>### Entities and Value Objects</code> below.</li>
+<li><strong>Format.</strong> Use <code>----</code> to separate clusters within a class and <code>-----</code> to separate whole classes. Follow <code>templates/domain-model-scaffold.md</code> for placeholder shapes and heading conventions.</li>
+<li><strong>Bump state.</strong> Change the YAML front-matter from <code>state: crc</code> to <code>state: domain-model</code>.</li>
+</ol>
+<h2>Templates</h2>
+<p><code>templates/domain-model-scaffold.md</code></p>
+<h2>Validate</h2>
+<ul>
+<li>Every class has a typed block. A class with only stateless behavior may have zero properties — that is valid.</li>
+<li>Every property is typed and justified by a domain responsibility that requires stored state.</li>
+<li>Every operation is a fully typed signature — <code>+ methodName(param: Type): ReturnType</code> — with no untyped parameters or missing return types.</li>
+<li>Every class has object initialisation using a combination of decisions — constructor, internal initialisation, factory method, or factory object.</li>
+<li>Every composition or aggregation property carries a <code>&amp;lt;&amp;lt; composition &amp;gt;&amp;gt;</code> or <code>&amp;lt;&amp;lt; aggregation &amp;gt;&amp;gt;</code> stereotype. Plain association properties have no stereotype.</li>
+<li>Every subtype block contains only delta members — no inherited properties, operations, or relationships are repeated.</li>
+<li>Every invariant is a single tab-indented declarative constraint under the member it constrains — none are invented beyond what the domain supports.</li>
+<li>Every operation with inherent complexity or interesting interactions has an <code>Interaction:</code> block. Operations that are simple delegations or whose behavior is self-evident from the return type and invariants may omit it.</li>
+<li>No operation carries multiple invariants without an <code>Interaction:</code> block. Several invariants signal that real internal work is happening — that work must be made explicit.</li>
+<li>Every CRC collaborator for a responsibility is accounted for — either as a parameter, return type, property type, or a step in the <code>Interaction:</code> block. No collaborator is silently dropped. Intentional exclusions are recorded as decisions.</li>
+<li>Every variable name inside an <code>Interaction:</code> block uses domain language drawn from the ubiquitous language, domain sketch, or CRC. Generic placeholders (<code>measureA</code>, <code>result</code>, <code>temp</code>, single letters) are not acceptable. When the right name is unclear, trace up: CRC → domain sketch → ubiquitous language → source references.</li>
+<li>Walkthrough scenarios (if present) can still be stepped with the new typed names (spot-check at least one).</li>
+<li>The YAML front-matter reads <code>state: domain-model</code>.</li>
+</ul>
+<hr>
+<p>&lt;!-- execute_rules:bundle_rules:begin --&gt;</p>
+<h3>Rule: All CRC collaborators are accounted for in the typed member</h3>
+<p><strong>Scanner:</strong> Manual review</p>
+<p>Every collaborator listed for a CRC responsibility must appear somewhere in the corresponding typed property or operation. A collaborator may be accounted for as:</p>
+<ol>
+<li>A <strong>parameter</strong> to the operation</li>
+<li>The <strong>return type</strong> of the operation</li>
+<li>A <strong>type</strong> on the property</li>
+<li>A step in the <strong><code>Interaction:</code></strong> block</li>
+</ol>
+<p>If a collaborator appears nowhere in 1–4, it has been silently dropped. That is a modeling gap — either the collaborator belongs in the signature, the property type, or the interaction, or a deliberate decision to exclude it must be recorded.</p>
+<h4>DO</h4>
+<ul>
+<li>Account for every collaborator in the parameter list, return type, or interaction.</li>
+</ul>
+<p><strong>Example (pass):</strong> CRC responsibility: <code>resolve | D20, Trait, Circumstance Modifier, Difficulty Class, Check Result</code></p>
+<p>None of these are parameters on <code>+ resolve(): CheckResult</code>. They are all internal. Every one must appear in the <code>Interaction:</code> block:   <code>   + resolve(): CheckResult       Invariant: shape is always rollTotal vs dc.value       Interaction:           roll: Integer = d20.roll()                              ← D20 accounted for           total: Integer = trait.rank + roll + circumstanceModifier.value   ← Trait, CircumstanceModifier           success: Boolean = total &amp;gt;= dc.value                   ← DifficultyClass (dc)           margin: Integer = total - dc.value           result: CheckResult = new CheckResult(...)             ← CheckResult           return result   </code></p>
+<ul>
+<li>Account for a collaborator as a property type when the responsibility becomes a property.</li>
+</ul>
+<p><strong>Example (pass):</strong> CRC responsibility: <code>difficulty ladder | Difficulty Ladder</code> becomes <code>+ difficultyLadder: DifficultyLadder</code> — collaborator is the property type.</p>
+<h4>DO NOT</h4>
+<ul>
+<li>Drop a collaborator silently.</li>
+</ul>
+<p><strong>Example (fail):</strong> CRC responsibility <code>resolve | D20, Trait, Circumstance Modifier, Difficulty Class, Check Result</code> becomes:   <code>   + resolve(): CheckResult   </code>   with no <code>Interaction:</code> block — D20, Trait, CircumstanceModifier, and DifficultyClass are all unaccounted for.</p>
+<ul>
+<li>Assume a collaborator is &quot;obvious&quot; and omit it from the model.</li>
+</ul>
+<p><strong>Example (fail):</strong> Interaction traces <code>d20.roll()</code> but never references <code>trait.rank</code> or <code>dc.value</code> — Trait and DifficultyClass are dropped.</p>
+<h4>When a collaborator is intentionally excluded</h4>
+<p>Record it as a decision: state which collaborator is excluded and why (e.g., &quot;D20 is an internal implementation detail not exposed at this fidelity level&quot;). Without an explicit decision, any missing collaborator is a gap.</p>
+<p><strong>Source:</strong> Engagement convention (object-model skill).</p>
+<h3>Rule: Dependency magnet — split unrelated business concerns</h3>
+<p><strong>Scanner:</strong> Manual review</p>
+<p>A class whose <strong>properties, operations, and typed relationships</strong> span <strong>multiple unrelated business concerns</strong> acts as a <strong>dependency magnet</strong>: unrelated domain areas converge on one type, which makes the model brittle and couples changes that should be independent. At object-model fidelity, the smell shows up as member clusters that do not share a coherent story — disparate collaborators, unrelated invariants, or operations that read like a cross-cutting checklist. Split by moving coherent groups to focused classes or collaborators (align with any CRC split; if CRC already separated concerns, the typed blocks should mirror that separation).</p>
+<h4>DO</h4>
+<ul>
+<li>Group members by concern; if one class mixes unrelated areas (for example catalog + billing + notifications), extract types so each class has one coherent responsibility thread. Collaborators and <code>Interaction:</code> blocks should tell one story per class.</li>
+</ul>
+<p><strong>Example (pass):</strong> <code>Order</code> exposes coordination; <code>OrderPricing</code>, <code>Shipment</code>, <code>PaymentAuthorization</code> own their operations and properties instead of overloading <code>Order</code> with every detail.</p>
+<h4>DO NOT</h4>
+<ul>
+<li>Leave one class as a hub for unrelated domains with no structural boundary.</li>
+</ul>
+<p><strong>Example (fail):</strong> A single class exposes tax calculation, email dispatch, inventory validation, and PDF generation — each with different collaborator types and no domain reason for them to share one type.</p>
+<p><strong>Source:</strong> Engagement convention (object-model skill).</p>
+<h3>Rule: Explicit chain of responsibility — no nebulous operations</h3>
+<p><strong>Scanner:</strong> Manual review</p>
+<p>When a typed operation implies a chain of actors or steps, every actor in that chain must be traceable to a typed property or operation with explicit parameters in the object model. Nothing may be left implied or nebulous. &quot;May&quot; and &quot;requires&quot; language in a behavior must be fully modeled as typed members.</p>
+<h4>DO</h4>
+<ul>
+<li>Trace each step in the implied chain to a named typed operation or property.</li>
+</ul>
+<p><strong>Example (pass):</strong> Behavior: &quot;may be ongoing for a target character: requires a resistance check at the end of each of the target&#x27;s turns until ended.&quot;</p>
+<p>This implies: someone tracks which characters are ongoing targets, and someone triggers end-of-turn resistance checks. The object model must reflect both:   <code>   PowerEffect : Trait   + &amp;lt;&amp;lt; aggregation &amp;gt;&amp;gt; ongoingTargets: List&amp;lt;Character&amp;gt;   + resist(effect: PowerEffect, check: Check): void    ← on OngoingEffects, not PowerEffect       Invariant: resistance check made at end of each of the character&amp;#x27;s turns while effect is active   </code></p>
+<p><strong>Example (pass):</strong> Behavior: &quot;supersedes a less severe condition from the same source — removing the lesser.&quot;</p>
+<p>This implies: someone knows the supersession hierarchy, and someone performs the removal. Both must appear — <code>+ supersedes: Condition</code> on <code>Condition</code> and <code>+ applyCondition(...)</code> with the supersession invariant on <code>ImposedConditions</code>.</p>
+<h4>DO NOT</h4>
+<ul>
+<li>Write a property and leave the downstream action it implies without an owning operation.</li>
+</ul>
+<p><strong>Example (fail):</strong>   <code>   PowerEffect   + ongoingTargets: List&amp;lt;Character&amp;gt;   ← who triggers the end-of-turn resistance check? No operation owns it.   </code></p>
+<ul>
+<li>Leave &quot;may&quot; or &quot;requires&quot; language from a behavior with an incomplete typed chain.</li>
+</ul>
+<p><strong>Example (fail):</strong> Behavior says &quot;requires a resistance check at end of each turn&quot; but no operation for triggering that check appears anywhere in the model.</p>
+<ul>
+<li>Leave an implied collaborator out of the operation signature.</li>
+</ul>
+<p><strong>Example (fail):</strong>   <code>   + resist(check: Check): void   ← missing the PowerEffect parameter; which effect is being resisted?   </code></p>
+<p><strong>Source:</strong> Engagement convention (object-model skill). Adapted from class-responsibility-collaborator/rules/explicit-chain-of-responsibility.md.</p>
+<h3>Rule: Extract complex sub-logic to a named operation</h3>
+<p><strong>Scanner:</strong> Manual review</p>
+<p>An <code>Interaction:</code> block traces the key collaborations of an operation — it is not pseudocode. When a branch or calculation inside an interaction is non-trivial, extract it into a named operation with an invariant describing the rule. Call that operation from the interaction instead of expanding every line inline.</p>
+<h4>DO NOT</h4>
+<p>Spell out multi-step branching logic inside an interaction block.</p>
+<pre><code>+ resolve(): CheckResult
+	Interaction:
+		...
+		if activeResult.margin != 0: return activeResult
+		// exact tie: higher rank bonus wins
+		if trait.rank.value &gt; opposingTrait.rank.value: return activeResult
+		if opposingTrait.rank.value &gt; trait.rank.value: return opposingResult
+		// rank tie: d20 decides (1–10 active wins, 11–20 opposing wins)
+		tieBreak: Integer = new D20().roll()
+		activeWins: Boolean = tieBreak &lt;= 10
+		return activeWins ? activeResult : opposingResult</code></pre>
+<p>The tie-breaking procedure is a domain rule in its own right. Burying it inside the interaction makes both operations harder to read and obscures the rule.</p>
+<h4>DO</h4>
+<p>Give the sub-logic a domain name, extract it as a separate operation, and describe the rule as its invariant. Call it from the interaction.</p>
+<pre><code>+ resolve(): CheckResult
+	Interaction:
+		...
+		if activeResult.margin != 0: return activeResult
+		return resolveTie(activeResult: activeResult, opposingResult: opposingResult)
+- resolveTie(activeResult: CheckResult, opposingResult: CheckResult): CheckResult
+	Invariant: higher rank bonus wins; if ranks are equal, d20 decides (1–10 active wins, 11–20 opposing wins)</code></pre>
+<p>The interaction stays high-level. The tie-breaking rule is declared precisely where it lives and is independently readable.</p>
+<h4>Guidance</h4>
+<ul>
+<li>If you find yourself writing more than two or three conditional branches inside a single <code>Interaction:</code> block, that is a signal to extract.</li>
+<li>The extracted operation&#x27;s invariant replaces the inline comments — it is the authoritative statement of the rule.</li>
+<li>The name of the extracted operation should come from domain language, not from implementation vocabulary (<code>resolveTie</code>, not <code>handleTieCase</code> or <code>processTieBreaker</code>).</li>
+</ul>
+<h3>Rule: Interaction variable names use domain language</h3>
+<p><strong>Scanner:</strong> Manual review</p>
+<p>Variable names inside an <code>Interaction:</code> block must use domain language drawn from the ubiquitous language, domain sketch, or CRC — not generic technical placeholders. If a name is ambiguous, trace up the chain: CRC responsibility → domain sketch → ubiquitous language → source references.</p>
+<h4>DO</h4>
+<ul>
+<li>Name variables after the domain concept they represent.</li>
+</ul>
+<p><strong>Example (pass):</strong> Resolving a check:   <code>   roll: Integer = d20.roll()   total: Integer = trait.rank + roll + circumstanceModifier.value   success: Boolean = total &amp;gt;= dc.value   margin: Integer = total - dc.value   result: CheckResult = new CheckResult(rollTotal: total, dc: dc, isSuccess: success, margin: margin)   </code></p>
+<p><strong>Example (pass):</strong> Converting ranks to measures and back:   <code>   throwingDistanceMeasure: Number = Measurement.lookup(rank: strengthRank, type: THROWING_DISTANCE).value   massMeasure: Number = Measurement.lookup(rank: massRank, type: THROWING_DISTANCE).value   combined: Number = throwingDistanceMeasure - massMeasure   throwingDistanceRank: Rank = Measurement.rankFor(measure: combined, type: THROWING_DISTANCE)   return throwingDistanceRank   </code></p>
+<h4>DO NOT</h4>
+<ul>
+<li>Use generic placeholders that could mean anything.</li>
+</ul>
+<p><strong>Example (fail):</strong>   <code>   measureA: Number = Measurement.lookup(rank: this, type: type).value   measureB: Number = Measurement.lookup(rank: other, type: type).value   </code>   <code>measureA</code> and <code>measureB</code> say nothing about what is being measured. Name them after the domain quantities: <code>strengthMeasure</code>, <code>massMeasure</code>, <code>travelDistanceMeasure</code>, etc.</p>
+<ul>
+<li>Use single-letter names, index names, or temp/result/data patterns.</li>
+</ul>
+<p><strong>Example (fail):</strong>   <code>   r: Integer = d20.roll()   t: Integer = trait.rank + r   res: CheckResult = getResult(t)   </code></p>
+<h4>When names are unclear</h4>
+<p>Trace up the chain:</p>
+<ol>
+<li>Check the CRC responsibility name and its collaborator names</li>
+<li>Check the domain sketch description of the behavior</li>
+<li>Check the ubiquitous language definition</li>
+<li>Check the source references</li>
+</ol>
+<p>The right name is almost always already in the source material.</p>
+<p><strong>Source:</strong> Engagement convention (object-model skill).</p>
+<h3>Rule: Invariant lines trace to CRC invariants or always-true rules</h3>
+<p>Every <code>Invariant: ...</code> line under a member must be sourced from the CRC <code>invariants:</code> field of the corresponding concept. Passing means each invariant is short, tab-indented under the member it constrains, and traceable to the CRC block. Failing means an invariant is invented, placed outside a member context, or contradicts the CRC source.</p>
+<h4>DO</h4>
+<ul>
+<li>Write each invariant as a single tab-indented line directly under the property or operation it constrains, sourced from the CRC <code>invariants:</code> field.</li>
+</ul>
+<p><strong>Example (pass):</strong>   <code>   + remainingBudget: Money   	Invariant: remainingBudget ≥ 0 (from: &amp;quot;budget must never go negative&amp;quot;)   </code></p>
+<ul>
+<li>Keep invariants declarative — &quot;must&quot;, &quot;cannot&quot;, &quot;only if&quot; — matching the CRC phrasing.</li>
+</ul>
+<p><strong>Example (pass):</strong>   <code>   + ship(destination: Address): void   	Invariant: cannot ship unless paymentCleared is true   </code></p>
+<h4>DO NOT</h4>
+<ul>
+<li>Invent an invariant that has no corresponding CRC <code>invariants:</code> line.</li>
+</ul>
+<p><strong>Example (fail):</strong>   <code>   + quantity: Integer   	Invariant: quantity must be a prime number   ← no CRC source   </code></p>
+<ul>
+<li>Place an invariant as a free-standing line outside any member context.</li>
+</ul>
+<p><strong>Example (fail):</strong>   <code>   Invariant: total must match sum of line items   + totalPrice: Money                             ← invariant floats above, not under a member   </code></p>
+<ul>
+<li>Write multi-line prose instead of a single declarative constraint.</li>
+</ul>
+<p><strong>Example (fail):</strong>   <code>   + status: OrderStatus   	Invariant: When the order transitions from pending to confirmed   	           the system must verify that all line items are in stock   	           ← too long; split into atomic invariants or keep prose in CRC   </code></p>
+<h3>Rule: Invariants without interactions</h3>
+<p><strong>Scanner:</strong> Manual review</p>
+<p>An operation that carries multiple invariants must also carry an <code>Interaction:</code> block. Invariants declare <em>what must be true</em> — they cannot replace the step-chain that <em>makes it true</em>. Several invariants are a reliable signal that the operation is performing real internal work; that work must be made explicit.</p>
+<h4>DO NOT</h4>
+<p>Write multiple invariants with no interaction block.</p>
+<pre><code>+ resolve(): CheckResult
+	Invariant: shape is always rollTotal vs dc.value
+	Invariant: subtypes vary only how total or DC is produced
+	Invariant: natural 20 always yields a critical success</code></pre>
+<p>These constraints hint at internal calculations (rolling a die, summing a total, comparing to DC) that are nowhere shown. A reader cannot tell how the result is produced.</p>
+<h4>DO</h4>
+<p>Follow every multi-invariant operation with an <code>Interaction:</code> block that shows the steps that satisfy those invariants.</p>
+<pre><code>+ resolve(): CheckResult
+	Invariant: shape is always rollTotal vs dc.value; subtypes vary only how total or DC is produced
+	Interaction:
+		roll: Integer = d20.roll()
+		total: Integer = trait.rank + roll + circumstanceModifier.value
+		success: Boolean = total &gt;= dc.value
+		margin: Integer = total - dc.value
+		result: CheckResult = new CheckResult(rollTotal: total, dc: dc, isSuccess: success, margin: margin)
+		return result</code></pre>
+<p>Now the invariants are backed by visible steps — the reader can see exactly how <code>rollTotal</code>, <code>dc</code>, and <code>isSuccess</code> are produced.</p>
+<h4>Guidance</h4>
+<ul>
+<li>A single invariant on a simple setter or guard is fine without an interaction block.</li>
+<li>Two or more invariants — especially ones describing how values are derived or compared — require an <code>Interaction:</code> block.</li>
+<li>When in doubt: if the invariants collectively describe a <em>process</em>, the process belongs in <code>Interaction:</code>.</li>
+</ul>
+<h3>Rule: Name operations after their invariant</h3>
+<p><strong>Scanner:</strong> Manual review</p>
+<p>When the right name for an operation is unclear, name it after the invariant. The invariant is already the correct domain statement of what the operation does — the name should match it directly rather than inventing a separate abstract label.</p>
+<h4>DO NOT</h4>
+<p>Invent a name that describes <em>how</em> the operation works or uses vague process words.</p>
+<pre><code>- applySupersession(...)
+- handleSameSourceConflict(...)
+- incomingIsBlocked(...)</code></pre>
+<p>These names either describe internal mechanics or encode the answer from the wrong perspective. A reader cannot tell what the operation asserts.</p>
+<h4>DO</h4>
+<p>Read the invariant and use its subject-verb as the name.</p>
+<p>Invariant: <em>&quot;if incoming supersedes existing — remove existing, return true&quot;</em></p>
+<pre><code>- incomingSupersedes(existing: ImposedCondition, incoming: Condition): Boolean
+	Invariant: if incoming supersedes existing — remove existing, return true; if existing supersedes incoming — return false</code></pre>
+<p>The name <em>is</em> the invariant&#x27;s claim. The invariant then fills in the detail.</p>
+<h4>Guidance</h4>
+<ul>
+<li>This applies especially to private Boolean helpers — they answer a yes/no question about a domain rule. Name the question from the domain, not from the implementation.</li>
+<li>The invariant should not repeat the name verbatim — it adds precision (edge cases, side effects, return value meaning).</li>
+<li>If the invariant is still hard to summarise in a name, that is a signal the invariant itself needs to be sharpened first.</li>
+</ul>
+<h3>Rule: Operations use typed signatures tracing to CRC verbs</h3>
+<p>Every operation must be written as a typed method signature — <code>methodName(param: Type): ReturnType</code> — and must trace to a CRC responsibility verb phrase. Passing means the signature is complete and the source verb phrase is identifiable. Failing means the operation lacks types, uses prose instead of a signature, or has no CRC verb-phrase origin.</p>
+<h4>DO</h4>
+<ul>
+<li>Write each operation as <code>+ methodName(param: Type): ReturnType</code>, derived from a CRC &quot;Responsible for&quot; verb phrase.</li>
+</ul>
+<p><strong>Example (pass):</strong>   ```   CRC — Responsible for: calculating shipping cost based on weight and destination</p>
+<p>Domain-model block:   + calculateShippingCost(weight: Weight, destination: Address): Money   ```</p>
+<ul>
+<li>Omit the return type only when the operation is genuinely void (a command with no meaningful return).</li>
+</ul>
+<p><strong>Example (pass):</strong>   <code>   + cancelOrder(reason: String): void   </code></p>
+<h4>DO NOT</h4>
+<ul>
+<li>Write an operation as plain prose without a typed signature.</li>
+</ul>
+<p><strong>Example (fail):</strong>   <code>   + calculates the shipping cost     ← prose, not a signature   </code></p>
+<ul>
+<li>Add an operation that does not trace to any CRC responsibility verb phrase.</li>
+</ul>
+<p><strong>Example (fail):</strong>   ```   CRC — (no mention of &quot;archiving&quot;)</p>
+<p>Domain-model block:   + archiveRecord(id: RecordId): void   ← invented, no CRC source   ```</p>
+<ul>
+<li>Leave parameters or return types untyped when the domain makes the type obvious.</li>
+</ul>
+<p><strong>Example (fail):</strong>   <code>   + calculateShippingCost(weight, destination)   ← missing types   </code></p>
+<h3>Rule: Every property traces to a CRC responsibility</h3>
+<p>Every property in a domain-model block must be justified by a &quot;Responsible for&quot; line in the corresponding CRC class. Passing means each property answers the question <em>what must this class remember to fulfil that responsibility?</em> Failing means a property appears with no CRC backing, or a CRC responsibility that implies stored state has no matching property.</p>
+<h4>DO</h4>
+<ul>
+<li>Derive each property from a specific &quot;Responsible for&quot; line and type it where the domain makes the type obvious.</li>
+</ul>
+<p><strong>Example (pass):</strong>   ```   CRC — Responsible for: tracking the total price of the order</p>
+<p>Domain-model block:   + totalPrice: Money   ```</p>
+<ul>
+<li>Include at least one property for every CRC class that owns domain behavior.</li>
+</ul>
+<p><strong>Example (pass):</strong> A CRC class with three &quot;Responsible for&quot; lines produces a domain-model block with three or more properties, each traceable to one of those lines.</p>
+<h4>DO NOT</h4>
+<ul>
+<li>Add a property that has no corresponding CRC responsibility.</li>
+</ul>
+<p><strong>Example (fail):</strong>   ```   CRC — (no mention of &quot;color&quot;)</p>
+<p>Domain-model block:   + color: String       ← invented, not sourced from CRC   ```</p>
+<ul>
+<li>Leave a CRC class that holds state without any domain-model properties.</li>
+</ul>
+<p><strong>Example (fail):</strong> A CRC class is &quot;Responsible for: maintaining the remaining budget&quot; but its domain-model block has zero properties — the stored state was never surfaced.</p>
+<h3>Rule: A class is not responsible for being acted upon</h3>
+<p><strong>Scanner:</strong> Manual review</p>
+<p>The receiver of an action does not need an operation to receive it. Only the class that performs the action owns the operation. If a typed operation describes something happening <em>to</em> a class, find the acting class and place the operation there instead.</p>
+<h4>DO</h4>
+<ul>
+<li>Place the operation on the class that performs the action.</li>
+</ul>
+<p><strong>Example (pass):</strong> A character makes a resistance check against a power effect. <code>OngoingEffects</code> owns <code>+ resist(effect: PowerEffect, check: Check): void</code>. <code>PowerEffect</code> owns <code>+ resistanceTrait: Trait</code> (declaring how it is resisted) — not a <code>resist</code> operation.</p>
+<p><strong>Example (pass):</strong> A condition is applied to a character. <code>ImposedConditions</code> owns <code>+ applyCondition(source: ConditionSource, condition: Condition): void</code>. <code>Character</code> does not own <code>+ receiveCondition(...)</code>.</p>
+<h4>DO NOT</h4>
+<ul>
+<li>Give a class an operation that amounts to &quot;be resisted,&quot; &quot;be applied to,&quot; or &quot;receive X.&quot;</li>
+</ul>
+<p><strong>Example (fail):</strong>   <code>   PowerEffect   + resist(check: Check): void   ← the effect does not resist itself; the character makes the check   </code></p>
+<p><strong>Example (fail):</strong>   <code>   Character   + receiveCondition(condition: Condition): void   ← Character does not receive; ImposedConditions applies   </code></p>
+<p><strong>Example (fail):</strong>   <code>   Condition   + imposeOn(character: Character): void   ← Condition doesn&amp;#x27;t impose itself; PowerEffect does through ImposedConditions   </code></p>
+<h4>Clarification</h4>
+<p>A class <em>may</em> have a property that describes what is used to act upon it. This is not the same as an operation to be acted upon.</p>
+<p><strong>Example (pass):</strong>   <code>   PowerEffect   + resistanceTrait: Trait   ← declares which trait a character uses to resist; the effect is not doing the resisting   </code></p>
+<p><strong>Source:</strong> Engagement convention (object-model skill). Adapted from class-responsibility-collaborator/rules/receiver-not-responsible-for-receiving.md.</p>
+<h3>Rule: Relationships have two named ends and cardinality</h3>
+<p>Every relationship in a domain-model block must name both ends and state cardinality (<code>1..1</code>, <code>0..1</code>, <code>1..<em></code>, <code>0..</em></code>). Direction must match the CRC collaborator that sourced it. Passing means both ends, cardinality, and direction are present and traceable. Failing means an end is unnamed, cardinality is missing, or the direction contradicts the CRC collaborator line.</p>
+<h4>DO</h4>
+<ul>
+<li>State both class names, the relationship kind (composition or association), and cardinality on both ends.</li>
+</ul>
+<p><strong>Example (pass):</strong>   <code>   Order <em>composes</em> OrderLine  [1..1 → 1..*]   </code></p>
+<ul>
+<li>Derive direction from the CRC collaborator entry — the class that lists the collaborator is the navigating end.</li>
+</ul>
+<p><strong>Example (pass):</strong>   <code>   CRC — Order collaborates with OrderLine   → Order navigates to OrderLine, not the reverse   </code></p>
+<h4>DO NOT</h4>
+<ul>
+<li>Write a relationship with only one end named.</li>
+</ul>
+<p><strong>Example (fail):</strong>   <code>   <em>composes</em> OrderLine  [1..*]    ← owning end missing   </code></p>
+<ul>
+<li>Omit cardinality entirely.</li>
+</ul>
+<p><strong>Example (fail):</strong>   <code>   Order <em>associates</em> Customer     ← no cardinality on either end   </code></p>
+<ul>
+<li>Reverse the direction from what the CRC collaborator line states.</li>
+</ul>
+<p><strong>Example (fail):</strong>   <code>   CRC — Order collaborates with Customer   Relationship written as: Customer <em>associates</em> Order  ← direction flipped   </code></p>
+<h3>Rule: State marker is domain-model</h3>
+<p>After this skill runs, the module file&#x27;s YAML front matter must contain <code>state: domain-model</code>. Passing means the marker is present and correct. Failing means the marker is missing, still shows a previous state, or has a typo.</p>
+<h4>DO</h4>
+<ul>
+<li>Set the front matter to exactly <code>state: domain-model</code>.</li>
+</ul>
+<p><strong>Example (pass):</strong>   <code>   ---   state: domain-model   ---   </code></p>
+<h4>DO NOT</h4>
+<ul>
+<li>Leave the state at <code>crc</code> (the previous step).</li>
+</ul>
+<p><strong>Example (fail):</strong>   <code>   ---   state: crc   ---   </code></p>
+<ul>
+<li>Omit the front matter entirely.</li>
+</ul>
+<p><strong>Example (fail):</strong> File starts with <code>## Module:</code> and has no YAML front matter.</p>
+<h3>Rule: Subtypes use ClassName : ParentClass on the heading line</h3>
+<p><strong>Scanner:</strong> Manual review</p>
+<p>When a class is a specialization of another, its object-model heading must use <code>#### <strong>ClassName : ParentClass</strong></code> notation. The block states only delta members — typed properties, operations, and invariants that the subtype adds or overrides beyond the parent. Passing means subtypes are correctly notated and carry only deltas. Failing means subtypes use the wrong format or duplicate inherited members.</p>
+<h4>DO</h4>
+<ul>
+<li>Use <code>#### <strong>ClassName : ParentClass</strong></code> on the heading line for subtypes.</li>
+</ul>
+<p><strong>Example (pass):</strong>   ```   #### <strong>OpposedCheck : Check</strong></p>
+<p>+ resolve(opposing: Check): CheckResult       Invariant: both sides resolve as standard Checks; higher result wins   ```</p>
+<ul>
+<li>State only delta members — typed properties and operations the subtype adds or overrides beyond the parent.</li>
+</ul>
+<p><strong>Example (pass):</strong> Parent <code>Check</code> owns <code>+ resolve(): CheckResult</code>; subtype <code>OpposedCheck : Check</code> overrides it with the opposing-check signature and adds its own invariants. No parent members are repeated.</p>
+<h4>DO NOT</h4>
+<ul>
+<li>Use the domain sketch English heading form in object-model headings.</li>
+</ul>
+<p><strong>Example (fail):</strong> <code>#### <strong>Opposed Check</strong> <em>(is a type of Check)</em></code> — use <code>: ParentClass</code> in the heading, not the sketch&#x27;s English form.</p>
+<ul>
+<li>Use code-style syntax from the implementation language.</li>
+</ul>
+<p><strong>Example (fail):</strong> <code>class OpposedCheck extends Check</code> or <code>OpposedCheck(Check)</code> — the domain model uses its own notation, not a language keyword.</p>
+<ul>
+<li>Repeat inherited members in the subtype block.</li>
+</ul>
+<p><strong>Example (fail):</strong>   ```   #### <strong>OpposedCheck : Check</strong></p>
+<p>+ trait: Trait                      ← inherited from Check; do not repeat   + dc: DifficultyClass               ← inherited from Check; do not repeat   + resolve(opposing: Check): CheckResult   ```</p>
+<p><strong>Source:</strong> Engagement convention (object-model skill). Adapted from class-responsibility-collaborator/rules/subtype-uses-child-parent.md. &lt;!-- execute_rules:bundle_rules:end --&gt;</p>
+</div>
+</body>
+</html>

@@ -1,0 +1,1126 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="engineering">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>abd-acceptance-test-driven-development — abd.works</title>
+<script src="/commons/brand-nav.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+:root {
+  --orange: #E5531A; --orange-hover: #C64514;
+  --bg: #0B0B0B; --surface: #111113; --raised: #1B1B20;
+  --border: #2A2A2A; --text: #F4F4F5; --muted: #9B9BA8;
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+*, *::before, *::after { box-sizing: border-box; }
+body { background: var(--bg); color: var(--text); margin: 0;
+  font-family: var(--font-sans); font-size: 15px; line-height: 1.7;
+  -webkit-font-smoothing: antialiased; }
+a { color: var(--orange); text-decoration: none; }
+a:hover { color: var(--orange-hover); }
+.page-wrap { max-width: 860px; margin: 0 auto; padding: 48px clamp(16px,4vw,48px) 96px; }
+.back-link { display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--font-mono); font-size: 11px; font-weight: 600;
+  letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted);
+  margin-bottom: 40px; }
+.back-link:hover { color: var(--text); }
+h1 { font-size: clamp(24px,4vw,36px); font-weight: 800; letter-spacing: -0.03em;
+  line-height: 1.1; margin: 0 0 8px; color: var(--text); }
+.skill-category { font-family: var(--font-mono); font-size: 11px; font-weight: 600;
+  letter-spacing: 0.1em; text-transform: uppercase; color: var(--orange);
+  margin-bottom: 32px; display: block; }
+h2 { font-size: 1.15rem !important; font-weight: 700 !important; margin: 36px 0 12px !important;
+  padding-bottom: 8px !important; border-bottom: 1px solid var(--border) !important; color: #E5531A !important; }
+h3 { font-size: 1rem !important; font-weight: 700 !important; margin: 24px 0 8px !important; color: var(--text) !important; }
+h4 { font-size: 0.9rem !important; font-weight: 700 !important; margin: 20px 0 6px !important; color: var(--muted) !important; text-transform: uppercase !important; letter-spacing: 0.06em !important; }
+p { margin: 0 0 14px; }
+ul, ol { margin: 0 0 16px; padding-left: 1.4rem; }
+li { margin-bottom: 6px; }
+code { font-family: var(--font-mono); font-size: 0.855em;
+  background: rgba(255,255,255,0.07); padding: 2px 6px; border-radius: 3px; color: #F2A07A; }
+pre { background: var(--surface); border: 1px solid var(--border); border-radius: 6px;
+  padding: 20px 24px; overflow-x: auto; margin: 0 0 20px; }
+pre code { background: none; padding: 0; color: var(--text); font-size: 0.85rem; }
+blockquote { border-left: 3px solid var(--orange); margin: 0 0 16px;
+  padding: 10px 18px; background: var(--surface); border-radius: 0 4px 4px 0; }
+blockquote p { margin: 0; color: var(--muted); }
+hr { border: none; border-top: 1px solid var(--border); margin: 32px 0; }
+strong { font-weight: 600; }
+</style>
+</head>
+<body>
+<div class="page-wrap">
+  <a class="back-link" href="/abd-skills-catalog/">← AI Garden</a>
+  <h1>abd-acceptance-test-driven-development</h1>
+  <span class="skill-category">Engineering</span>
+  <p>﻿--- name: abd-acceptance-test-driven-development catalog_garden_tier: practice catalog_garden_order: 50 catalogue_one_liner: &gt;-   Tests first, then code: executable acceptance tests from scenarios, AC, or notes (RED-GREEN-REFACTOR). description: &gt;-   Write tests first, then drive code to pass them. Creates executable test files in   the target language and framework from any behavioral context — spec-by-example   scenarios (ideal), acceptance criteria, stories, notes, or rough descriptions.   Orchestrator pattern: Given-When-Then test methods call helper functions; one class   (or equivalent) per behavior, one test per scenario. Covers TDD cycle   (RED-GREEN-REFACTOR), domain language, API design through failing tests, and   production code rules. Use when writing acceptance tests, turning behavioral   context into test code, or driving implementation with tests.</p>
+<hr>
+<h2>Purpose</h2>
+<p><strong>Write tests first. Write code to pass them.</strong></p>
+<p>This skill creates <strong>executable test files</strong> — in whatever language and framework the project uses — from whatever behavioral context is available: specification scenarios, acceptance criteria, stories, notes, or a rough description of what the system should do. The output is real test code that runs, fails, and drives what gets built.</p>
+<p>The workflow is <strong>test-driven</strong>: write a test that expresses the expected behavior, run it to confirm it fails (RED), then rely on a  downstream skill or agent to develop the production code skill to implement until the test passes (GREEN). Each test is a precise, runnable statement of what the system must do —  test methods show the Given-When-Then flow and helper functions do the work.</p>
+<p>The skill covers the full test quality bar: domain language in names, observable-behavior assertions, coverage of normal and failure paths, helper reuse, and clean production code that makes tests easy to write.</p>
+<h2>When to use this skill</h2>
+<p>Load this skill when <strong>any</strong> of the following apply:</p>
+<ul>
+<li>You have <strong>specification scenarios</strong>, acceptance criteria, stories, or informal notes and want to turn them into executable tests.</li>
+<li>You want to drive <strong>production code design</strong> by writing tests first (TDD — RED phase before GREEN phase).</li>
+<li>You are reviewing test code for quality: domain language, observability, coverage, helper structure.</li>
+<li>An agent is asked to &quot;write tests&quot;, &quot;generate test code&quot;, &quot;implement test cases&quot;, &quot;write acceptance tests&quot;, or &quot;turn scenarios into tests.&quot;</li>
+<li>You have only a rough description of behavior and need to derive tests from it (start from whatever context exists).</li>
+<li>You need to fix a bug and want the correct <strong>test-first</strong> workflow.</li>
+</ul>
+<hr>
+<h2>Agent Instructions</h2>
+<ol>
+<li><strong>Verify test structure first (Priority 1)</strong> — Trace the story hierarchy, declare file / class / method before writing any code. See <strong>Test organization</strong> in Core concepts.</li>
+<li><strong>Confirm language and framework</strong> — If not stated, ask. Defaults: pytest (Python), <code>node:test</code> (JS/TS), JUnit 5 (Java).</li>
+<li><strong>Pick the matching template</strong> from <code>templates/</code> — <code>acceptance-tests.py</code>, <code>.js</code>, or <code>.java</code>. Emit code only; omit the <code>## Instructions</code> block.</li>
+<li><strong>Build</strong> — One file per area, one class per story, one method per scenario. Name helpers with GWT language (<code>given_<em></code>, <code>when_</em></code>, <code>then_*</code>) matching step text verbatim. Parameterize helpers to prevent sprawl. Extract shared helpers to <code>tests/&amp;lt;epic_name&amp;gt;/&amp;lt;epic_name&amp;gt;_helper.py</code> when reused across files. See <strong>Orchestrator pattern</strong> and <strong>The shape of a good test file</strong> below.</li>
+<li><strong>Validate</strong> — Peer-review against the Rules section; </li>
+<li><strong>Assembling this skill</strong> — Reassemble with <code>bundle_rules_into_skill_md.py</code> after editing <code>rules/</code> or <code>templates/</code>.</li>
+</ol>
+<hr>
+<h2>What is acceptance test-driven development?</h2>
+<p><strong>Acceptance test-driven development (ATDD)</strong> is a practice where <strong>automated tests</strong> are written from behavioral context — in whatever form is available — before (or alongside) production code. Tests validate that the system does what the behavior says it should do — from the outside, through observable outcomes.</p>
+<p>The richer the input, the more direct the translation: <strong>spec-by-example scenarios</strong> give you Given/When/Then steps to encode directly; <strong>acceptance criteria</strong> give you WHEN/THEN pairs to convert; <strong>stories with notes</strong> give you intent to derive from; <strong>unstructured context</strong> gives you behaviors to discover and make concrete.</p>
+<p>In this skill&#x27;s approach:</p>
+<ul>
+<li><strong>Tests drive design</strong> — tests are written against the real expected API first; they must fail before implementation begins.</li>
+<li><strong>RED before GREEN</strong> — a test that passes immediately proves nothing; a failing test defines exactly what to build.</li>
+<li><strong>Orchestrator pattern</strong> — test methods show the Given-When-Then flow by calling helper functions; helpers handle the detail.</li>
+<li><strong>Domain language</strong> — test and called class names, method names, and helper names use the same vocabulary as the domain context being tested.</li>
+<li><strong>Any context works</strong> — the quality of the output scales with the specificity of the input, but the practice applies regardless.</li>
+</ul>
+<hr>
+<h2>Core concepts</h2>
+<h3>Test organization</h3>
+<p>Tests mirror the story hierarchy as a folder structure. You navigate down through epics and sub-epics as nested folders until you reach the lowest-level sub-epic — that becomes the <strong>file</strong>. The story inside it becomes the <strong>class</strong>. Each scenario on that story becomes a <strong>method</strong>.</p>
+<pre><code>tests/
+  &lt;epic&gt;/
+    &lt;epic&gt;_helper.py              ← shared Given/When/Then helpers for this epic
+    &lt;sub_epic&gt;/
+      &lt;sub_epic&gt;/
+        ...
+          &lt;lowest_sub_epic&gt;/
+            &lt;lowest_sub_epic&gt;.py  ← FILE  (named after the lowest-level sub-epic)
+              class Test&lt;Story&gt;   ← CLASS (named after the story)
+                def test_&lt;scenario&gt;  ← METHOD (named after the scenario)</code></pre>
+<p>The epic-level helper file (<code>&amp;lt;epic&amp;gt;_helper.py</code>) sits at the epic folder that is the parent of all children epics that will inherit that common logic, and contains only reusable <code>given_<em></code> / <code>when_</em></code> / <code>then_*</code> helper methods — no test methods. Sub-epic test files inherit from it when they share helpers.</p>
+<p><strong>The most common mistake</strong> is naming the file after the story instead of the lowest-level sub-epic that contains it. The story is always the class, never the file.</p>
+<p><strong>Before writing any code, declare the structure explicitly:</strong></p>
+<ul>
+<li>Story Path: <code>[Epic] → [Sub-Epic] → ... → [Lowest Sub-Epic] → [Story]</code></li>
+<li>File: <code>tests/&amp;lt;epic&amp;gt;/.../  &amp;lt;lowest_sub_epic&amp;gt;/&amp;lt;lowest_sub_epic&amp;gt;.py</code></li>
+<li>Class: <code>Test&amp;lt;ExactStoryName&amp;gt;</code></li>
+<li>Method: <code>test_&amp;lt;scenario_outcome_snake_case&amp;gt;</code></li>
+<li>Existing: yes / no — add to existing file; do not create a duplicate</li>
+</ul>
+<h3>Orchestrator pattern</h3>
+<p>Test methods <strong>orchestrate</strong> the flow; <strong>helper functions</strong> handle the details.</p>
+<ul>
+<li>Test method: under 20 lines, shows Given/When/Then structure by calling helpers.</li>
+<li>Helper function: under 20 lines, reusable setup/action/assertion logic.</li>
+<li>Test class: under 300 lines, one class per story.</li>
+</ul>
+<p>Use Helper functions whhen test methods can to be shared, test cmethod code is complex or long.  <strong>Helper naming</strong> — name helpers using the step vocabulary: <code>given_cart_with_items(...)</code>, <code>when_order_is_submitted(...)</code>, <code>then_order_is_confirmed(...)</code>. Test methods read as executable scenarios.</p>
+<p><strong>Helper discipline</strong> — parameterize to prevent sprawl. If <code>create_order_pending</code> and <code>create_order_confirmed</code> appear side by side, merge them into <code>create_order(status)</code>. When helpers are shared across multiple sub-epic test files, extract them into an epic-level base class in <code>tests/&amp;lt;epic_name&amp;gt;/&amp;lt;epic_name&amp;gt;_helper.py</code> and inherit from it.</p>
+<h3>TDD cycle</h3>
+<p><strong>RED → GREEN → REFACTOR.</strong> Write a failing test first (RED). Implement the minimal code to make it pass (GREEN). Improve code quality while keeping tests green (REFACTOR). Tests must fail before any production code exists — a test that passes immediately proves nothing.</p>
+<h3>Domain language</h3>
+<p>Use the same vocabulary as the domain model, stories, and acceptance criteria in:</p>
+<ul>
+<li>Class names → domain entities (<code>GatherContextAction</code>, <code>BotConfig</code>)</li>
+<li>Method names → domain responsibilities (<code>inject_questions_and_evidence</code>, <code>load_trigger_words</code>)</li>
+<li>Test names → observable behavior (<code>test_agent_loads_configuration_when_file_exists</code>)</li>
+</ul>
+<hr>
+<h2>Example</h2>
+<pre><code class="language-python">&quot;&quot;&quot;
+Place Order Tests
+
+Tests for &#x27;Place Order&#x27; behavior — user selects items and submits an order.
+Scenarios: order placed successfully, empty cart rejected, out-of-stock item blocked.
+&quot;&quot;&quot;
+import pytest
+from pathlib import Path
+
+# ============================================================================
+# HELPER FUNCTIONS
+# ============================================================================
+
+def given_cart_with_items(cart: Cart, products: list) -&gt; Cart:
+    for product in products:
+        cart.add(product)
+    return cart
+
+def when_order_is_submitted(cart: Cart) -&gt; Order:
+    return cart.submit()
+
+def then_order_is_confirmed(order: Order, expected_products: list) -&gt; None:
+    assert order.is_confirmed
+    assert order.items == expected_products
+
+# ============================================================================
+# FIXTURES
+# ============================================================================
+
+@pytest.fixture
+def workspace_root(tmp_path: Path) -&gt; Path:
+    workspace = tmp_path / &#x27;workspace&#x27;
+    workspace.mkdir()
+    return workspace
+
+@pytest.fixture
+def empty_cart(workspace_root: Path) -&gt; Cart:
+    return Cart(workspace_root=workspace_root)
+
+@pytest.fixture
+def available_product(workspace_root: Path) -&gt; Product:
+    return Product(workspace_root=workspace_root, sku=&#x27;item-a&#x27;, stock=10)
+
+# ============================================================================
+# STORY: Place Order
+# ============================================================================
+
+class TestPlaceOrder:
+    &quot;&quot;&quot;Place Order — user submits a cart and receives a confirmed order.&quot;&quot;&quot;
+
+    def test_order_confirmed_for_available_items(self, empty_cart, available_product):
+        # Given: cart contains available items
+        cart = given_cart_with_items(empty_cart, [available_product])
+        # When: order is submitted
+        order = when_order_is_submitted(cart)
+        # Then: order is confirmed with those items
+        then_order_is_confirmed(order, [available_product])
+
+    def test_empty_cart_is_rejected(self, empty_cart):
+        # When / Then: submitting an empty cart raises EmptyCartError
+        with pytest.raises(EmptyCartError):
+            when_order_is_submitted(empty_cart)</code></pre>
+<h2>The shape of a good test file</h2>
+<pre><code>test_&lt;area_snake_case&gt;.py
+  Module docstring: area name + behaviors/stories covered
+  Imports (stdlib → third-party → local)
+  HELPER FUNCTIONS section
+    given_*() / create_*() setup factories — parameterized, not duplicated
+    when_*() actions
+    then_*() / verify_*() assertions — parameterized, not duplicated
+  FIXTURES section
+    @pytest.fixture workspace_root (or domain equivalent)
+  # STORY / BEHAVIOR: &lt;Name&gt; section comment
+  class Test&lt;BehaviorName&gt;:
+    def test_&lt;outcome_snake_case&gt;(self, workspace_root):
+      # Given: &lt;step text verbatim&gt;
+      # When: &lt;step text verbatim&gt;
+      # Then: &lt;step text verbatim&gt;
+  # STORY / BEHAVIOR: &lt;Next Name&gt; section comment
+  class Test&lt;NextBehaviorName&gt;:
+    ...
+
+When helpers are shared across sub-epic files, extract them into:
+  tests/&lt;epic_name&gt;/&lt;epic_name&gt;_helper.py
+    class &lt;EpicName&gt;Helpers:
+      given_*() / when_*() / then_*() methods only — no test_*() methods
+  tests/&lt;epic_name&gt;/&lt;sub_epic_name&gt;/&lt;sub_epic_name&gt;.py
+    class Test&lt;Story&gt;(&lt;EpicName&gt;Helpers): ...</code></pre>
+<hr>
+<p>&lt;!-- execute_rules:bundle_rules:begin --&gt; ﻿--- scanner: full_result_assertions_scanner.py</p>
+<hr>
+<h3>Rule: Assert Full Results</h3>
+<p>Assert <strong>complete domain objects</strong> (state dictionaries, dataclasses, graph objects, log records) rather than cherry-picking a single field. Single-field assertions miss structural regressions and leave most of the domain object unverified.</p>
+<h4>DO</h4>
+<ul>
+<li>Compare the full result against a named standard fixture.</li>
+<li>Define standard data sets as module-level constants or helper factories.</li>
+</ul>
+<pre><code class="language-python">STANDARD_STATE = {
+    &#x27;behavior&#x27;: &#x27;shape&#x27;,
+    &#x27;action&#x27;: &#x27;clarify&#x27;,
+    &#x27;phase&#x27;: &#x27;exploration&#x27;,
+    &#x27;context&#x27;: {},
+}
+
+def test_bot_starts_in_standard_state(self, workspace_root):
+    # Given
+    helper = BotTestHelper(workspace_root)
+
+    # When
+    helper.set_state(&#x27;shape&#x27;, &#x27;clarify&#x27;)
+
+    # Then — assert full state object
+    assert helper.get_state() == STANDARD_STATE</code></pre>
+<h4>DON&#x27;T</h4>
+<ul>
+<li>Assert only one field from a complex domain result.</li>
+<li>Assert a count instead of the underlying records.</li>
+</ul>
+<pre><code class="language-python"># WRONG: cherry-picking a single field
+assert helper.get_state()[&#x27;behavior&#x27;] == &#x27;shape&#x27;
+
+# WRONG: asserting count when the records matter
+assert len(result.stories) == 3</code></pre>
+<p>﻿--- scanner: bug_fix_test_first_scanner.py</p>
+<hr>
+<h3>Rule: Bug-Fix Test First</h3>
+<p>When production code breaks, follow the <strong>RED → GREEN → PRODUCTION</strong> workflow. Write a failing test that reproduces the bug before touching any production code. Never fix bugs without a failing test first — a fix without a test may be incomplete and will not prevent regression.</p>
+<h4>DO</h4>
+<ol>
+<li>Write a test that reproduces the bug (RED — test fails).</li>
+<li>Run the test to confirm it fails for the right reason.</li>
+<li>Fix the minimal production code to make the test pass (GREEN).</li>
+<li>Run the full suite to confirm nothing regressed.</li>
+</ol>
+<pre><code class="language-python"># Step 1 — RED: reproduce the bug
+def test_mcp_tool_initializes_bot(self, workspace_root):
+    # This test fails before the fix
+    bot = MCPTool(workspace_root=workspace_root)
+    bot.initialize()
+    assert bot.is_ready  # fails here
+
+# Step 2 — fix the production code until test is GREEN
+# Step 3 — run full suite</code></pre>
+<h4>DON&#x27;T</h4>
+<ul>
+<li>Edit production code without first writing a test that fails because of the bug.</li>
+<li>Deploy a fix and assume it works without a passing test.</li>
+</ul>
+<pre><code class="language-python"># WRONG: edit production code first
+# def initialize(self):
+#     self._ready = True   ← fix here without a failing test</code></pre>
+<h3>Rule: Call Production Code Directly</h3>
+<p>Call production code <strong>directly</strong> in tests. Let tests fail naturally when the code does not exist or has bugs. Do not comment out production code calls, mock the class under test, or fabricate state to make tests pass. A <code>NameError</code> or <code>AttributeError</code> is the test driving the implementation — not a problem to hide.</p>
+<h4>DO</h4>
+<ul>
+<li>Call the real class and method.</li>
+<li>Let the test fail with a clear error if the code is not yet implemented.</li>
+</ul>
+<pre><code class="language-python">def test_agent_loads_config(self, workspace_root):
+    # Given
+    config_file = create_config_file(workspace_root, &#x27;story_bot&#x27;)
+
+    # When — call real production code directly
+    agent = Agent(workspace_root=workspace_root)
+    agent.initialize()
+
+    # Then
+    assert agent.is_initialized</code></pre>
+<h4>DON&#x27;T</h4>
+<ul>
+<li>Mock the class under test.</li>
+<li>Comment out the call because the code does not exist.</li>
+<li>Fake state by writing to private attributes.</li>
+</ul>
+<pre><code class="language-python"># WRONG: mocking the class under test
+agent = Mock(spec=Agent)
+
+# WRONG: commenting out the real call
+# agent.initialize()  # TODO: implement
+result = None  # placeholder
+
+# WRONG: setting private state to make the test pass
+agent._initialized = True</code></pre>
+<p>﻿--- scanner: class_based_organization_scanner.py</p>
+<hr>
+<h3>Rule: Class-Based Test Organization</h3>
+<p>Organize test files around <strong>behavior clusters</strong> from the source context — stories, flows, or feature areas. The test <strong>file</strong> is named after the grouping that contains the behaviors (flow, sub-epic, feature area), the test <strong>class</strong> is named after the specific behavior, and the test <strong>method</strong> is named after the specific scenario or condition. Getting this wrong requires deleting and recreating files. Before writing any test code, state the file name, class name, and method name explicitly from the source material.</p>
+<h4>DO</h4>
+<ul>
+<li><strong>Before writing code</strong>, state the structure explicitly:</li>
+<p>- Source: <code>[Flow / Area] → [Behavior] → [Scenario]</code>   - File: <code>test_&amp;lt;area_snake_case&amp;gt;.py</code>   - Class: <code>Test&amp;lt;ExactBehaviorName&amp;gt;</code> (PascalCase of full behavior name from source)   - Method: <code>test_&amp;lt;scenario_outcome_snake_case&amp;gt;</code></p>
+<li>Name the file after the <strong>grouping</strong> that contains the behaviors — not the behavior itself.</li>
+<li>Name the class using the <strong>exact behavior name</strong> from the source — no abbreviation, no summarisation.</li>
+<li>Add to an existing area file rather than creating a new one when the file already exists.</li>
+</ul>
+<pre><code class="language-python"># Area: &#x27;Manage Orders&#x27;  →  File: test_manage_orders.py
+# Behavior: &#x27;Place Order&#x27;  →  Class: TestPlaceOrder
+# Scenario: &#x27;Order confirmed for available items&#x27;
+#   →  Method: test_order_confirmed_for_available_items
+
+class TestPlaceOrder:
+    def test_order_confirmed_for_available_items(self, workspace_root):
+        ...
+
+    def test_empty_cart_is_rejected(self, workspace_root):
+        ...</code></pre>
+<h4>DON&#x27;T</h4>
+<ul>
+<li>Name the file after the individual behavior — use the parent grouping.</li>
+<li>Abbreviate or genericise the class name.</li>
+</ul>
+<pre><code class="language-python"># WRONG: file named after the individual behavior
+# File: test_place_order.py
+
+# WRONG: abbreviated or generic class names
+class TestOrder:          # abbreviated — exact behavior is &#x27;Place Order&#x27;
+class TestOrderHandling:  # invented topic, not in source
+
+# CORRECT: exact name from source context
+class TestPlaceOrder:
+    ...</code></pre>
+<p>﻿--- scanner: consistent_vocabulary_scanner.py</p>
+<hr>
+<h3>Rule: Consistent Vocabulary</h3>
+<p>Use <strong>one word per concept</strong> across the entire codebase. Pick a verb and stick to it: <code>create</code> (not <code>build</code>/<code>make</code>/<code>construct</code>), <code>verify</code> (not <code>check</code>/<code>assert</code>/<code>validate</code>), <code>load</code> (not <code>fetch</code>/<code>get</code>/<code>retrieve</code>). Document the vocabulary at the top of the test file when it helps reviewers.</p>
+<h4>DO</h4>
+<ul>
+<li>Use the same verb for the same operation everywhere.</li>
+</ul>
+<pre><code class="language-python"># Consistent vocabulary: create / verify / load
+def create_agent(name: str, workspace: Path) -&gt; Agent: ...
+def create_config(workspace: Path, name: str) -&gt; Path: ...
+def create_workspace(tmp_path: Path) -&gt; Path: ...
+
+def verify_agent_initialized(agent: Agent) -&gt; None: ...
+def verify_config_valid(config: dict) -&gt; None: ...
+
+def load_config(path: Path) -&gt; dict: ...</code></pre>
+<h4>DON&#x27;T</h4>
+<ul>
+<li>Mix synonyms for the same concept.</li>
+</ul>
+<pre><code class="language-python"># WRONG: three verbs for creation
+def create_agent(...): ...
+def build_config(...):   # should be create_config
+def make_workspace(...): # should be create_workspace</code></pre>
+<p>﻿--- scanner: cover_all_paths_scanner.py</p>
+<hr>
+<h3>Rule: Cover All Behavior Paths</h3>
+<p>Every story needs tests for the <strong>normal (happy) path</strong>, <strong>edge cases</strong>, and <strong>failure paths</strong>. Each distinct behavior gets its own focused, independent test. Tests must be deterministic (same result every run) and independent of execution order.</p>
+<h4>DO</h4>
+<ul>
+<li>Write separate tests for normal, edge, and failure scenarios.</li>
+<li>Make every test independent — no shared mutable state across test methods.</li>
+</ul>
+<pre><code class="language-python">def test_loads_valid_configuration(self, workspace_root):     # normal path
+    ...
+
+def test_loads_empty_configuration(self, workspace_root):     # edge case
+    ...
+
+def test_raises_error_when_config_missing(self, workspace_root):  # failure path
+    with pytest.raises(FileNotFoundError):
+        Agent(config_path=workspace_root / &#x27;missing.json&#x27;)</code></pre>
+<h4>DON&#x27;T</h4>
+<ul>
+<li>Test only the happy path and leave edge and failure behavior unspecified.</li>
+<li>Combine multiple behaviors in one test method.</li>
+</ul>
+<pre><code class="language-python"># WRONG: single test for both success and failure
+def test_loads_config(self, workspace_root):
+    # Tests valid case AND missing file in same method
+    ...</code></pre>
+<h3>Rule: Create Parameterized Tests for Scenarios</h3>
+<p>When specification scenarios include an <strong>Examples table</strong>, create <strong>parameterized tests</strong> using <code>@pytest.mark.parametrize</code>. Each row in the Examples table becomes a separate test case. Do not write a single test that only exercises one example, and do not duplicate test methods per row.</p>
+<h4>DO</h4>
+<ul>
+<li>Map each Examples column to a <code>parametrize</code> parameter.</li>
+<li>Name the combined test so the parameter values appear in the test ID.</li>
+</ul>
+<pre><code class="language-python">@pytest.mark.parametrize(&#x27;input_paths,expected_count&#x27;, [
+    ([&#x27;path/a&#x27;, &#x27;path/b&#x27;], 2),
+    ([&#x27;path/c&#x27;],            1),
+    ([],                    0),
+])
+def test_loader_counts_paths(self, workspace_root, input_paths, expected_count):
+    # Given
+    loader = create_loader(workspace_root, input_paths)
+
+    # When
+    result = loader.count()
+
+    # Then
+    assert result == expected_count</code></pre>
+<h4>DON&#x27;T</h4>
+<ul>
+<li>Hardcode a single example when the specification has a table.</li>
+<li>Create one test method per row.</li>
+</ul>
+<pre><code class="language-python"># WRONG: separate method per row
+def test_with_two_paths(self): ...
+def test_with_one_path(self):  ...
+
+# WRONG: single hardcoded example from a multi-row table
+def test_loader_counts_paths(self):
+    loader = create_loader(workspace_root, [&#x27;path/a&#x27;, &#x27;path/b&#x27;])
+    assert loader.count() == 2  # only one of several rows tested</code></pre>
+<p>﻿--- scanner: fixture_placement_scanner.py</p>
+<hr>
+<h3>Rule: Define Fixtures in Test File</h3>
+<p>Define <strong>pytest fixtures in the same test file</strong> that uses them, not in a separate <code>conftest.py</code>. Only truly cross-cutting fixtures (generic filesystem helpers, shared infrastructure) belong in a base <code>conftest.py</code>. Story-specific fixtures stay local.</p>
+<h4>DO</h4>
+<ul>
+<li>Declare fixtures at the top of the test file, after helpers.</li>
+<li>Keep them focused on what the tests in that file need.</li>
+</ul>
+<pre><code class="language-python"># In test_edit_story_graph.py
+
+@pytest.fixture
+def workspace_root(tmp_path: Path) -&gt; Path:
+    workspace = tmp_path / &#x27;workspace&#x27;
+    workspace.mkdir()
+    return workspace
+
+@pytest.fixture
+def story_graph(workspace_root: Path) -&gt; StoryGraph:
+    return create_story_graph(workspace_root)</code></pre>
+<h4>DON&#x27;T</h4>
+<ul>
+<li>Create a new <code>conftest.py</code> for agent- or sub-epic-specific fixtures.</li>
+<li>Create shared files before there is an explicit, demonstrated need.</li>
+</ul>
+<pre><code class="language-python"># WRONG: story-specific fixture in conftest.py
+# conftest.py
+@pytest.fixture
+def story_graph(tmp_path):  # belongs in test_edit_story_graph.py, not here
+    ...</code></pre>
+<p>﻿--- scanner: failing_test_api_scanner.py</p>
+<hr>
+<h3>Rule: Design API Through Failing Tests</h3>
+<p>Write tests against the <strong>real expected API before</strong> implementing the code. The test <strong>must fail initially</strong> (RED phase). The failure message — <code>ImportError</code>, <code>AttributeError</code>, <code>TypeError</code> — reveals the complete API design: class names, constructor parameters, methods, return types. This is how tests drive implementation rather than simply verify it.</p>
+<h4>DO</h4>
+<ul>
+<li>Call the real expected class and method even when they do not exist yet.</li>
+<li>Set up real test data (real files, real paths via <code>tmp_path</code>) rather than mock objects.</li>
+<li>Assert real expected behavior so the test verifies something meaningful once implemented.</li>
+</ul>
+<pre><code class="language-python">def test_project_initializes_with_agent_config(self, tmp_path):
+    # Given: real config file (tmp_path)
+    agent_config_path = tmp_path / &#x27;agents&#x27; / &#x27;base&#x27; / &#x27;agent.json&#x27;
+    agent_config_path.parent.mkdir(parents=True)
+    agent_config_path.write_text(&#x27;{&quot;name&quot;: &quot;story_bot&quot;, &quot;behaviors&quot;: [&quot;shape&quot;]}&#x27;)
+
+    # When: call REAL expected API (doesn&#x27;t exist yet — will fail)
+    from agile_bot.project import Project
+    project = Project(
+        project_path=tmp_path / &#x27;projects&#x27; / &#x27;test-project&#x27;,
+        agent_config_path=agent_config_path,
+    )
+    project.initialize()
+
+    # Then: verify real behavior
+    assert project.agent.name == &#x27;story_bot&#x27;
+    assert project.is_initialized is True
+    # Test fails with ImportError/AttributeError until implemented — that&#x27;s correct (RED)</code></pre>
+<h4>DON&#x27;T</h4>
+<ul>
+<li>Use placeholder values (<code>None</code>, <code>&amp;#x27;TODO&amp;#x27;</code>, <code>{}</code>) that hide the real API.</li>
+<li>Skip the RED phase by implementing first, then writing a test that passes.</li>
+<li>Write vacuous tests that assert nothing meaningful.</li>
+</ul>
+<pre><code class="language-python"># WRONG: placeholders hide the API
+project = None        # placeholder — reveals nothing
+agent = &#x27;TODO&#x27;        # placeholder — reveals nothing
+assert project is None  # useless assertion
+
+# WRONG: test passes immediately (GREEN before RED)
+def test_something():
+    assert True       # proves nothing</code></pre>
+<h3>Rule: Domain-Oriented Test Inheritance</h3>
+<p><strong>At small scale</strong>, a single test class covering multiple domain objects in the same sub-epic is fine. <strong>As domain objects develop distinct behavior</strong>, extract them into domain-specific test classes with a shared abstract base class for common operations. Share fixtures and parameter data only when there is obvious shared logic — do not create shared infrastructure pre-emptively.</p>
+<h4>DO</h4>
+<ul>
+<li>At small scale: keep related tests together in one class.</li>
+<li>At scale: use abstract base classes for shared assertion logic; place shared base files at the appropriate hierarchy level (sub-epic or epic).</li>
+</ul>
+<pre><code class="language-python"># Small scale — fine
+class TestPaymentOperations:
+    def test_creates_wire_payment(self): ...
+    def test_creates_ach_payment(self): ...
+
+# At scale — domain-specific classes with shared base
+class PaymentTestBase:
+    def verify_payment_persisted(self, payment): ...
+
+class TestWirePayment(PaymentTestBase):
+    def test_creates_wire_payment(self): ...
+
+class TestACHPayment(PaymentTestBase):
+    def test_creates_ach_payment(self): ...</code></pre>
+<h4>DON&#x27;T</h4>
+<ul>
+<li>Copy assertion logic across classes instead of using a base class.</li>
+<li>Create shared files before there is an explicit, demonstrated need.</li>
+<li>Group tests by operation layer or technology rather than domain object.</li>
+</ul>
+<pre><code class="language-python"># WRONG: duplicated assertion logic
+class TestWirePayment:
+    def test_creates_payment(self):
+        assert payment.status == &#x27;pending&#x27;   # duplicated
+        assert payment.rail == &#x27;wire&#x27;        # duplicated
+
+class TestACHPayment:
+    def test_creates_payment(self):
+        assert payment.status == &#x27;pending&#x27;   # same assertion copied
+        assert payment.rail == &#x27;ach&#x27;</code></pre>
+<p>﻿--- scanner: helper_extraction_scanner.py</p>
+<hr>
+<h3>Rule: Helper Extraction and Reuse</h3>
+<p>Extract <strong>duplicate test setup</strong> into reusable helper functions. Keep test method bodies focused on the scenario behavior, not on building infrastructure. Group helpers by purpose: <code>create_<em></code> for factories, <code>verify_</em></code> for assertions, <code>load_*</code> for data loading.</p>
+<h4>DO</h4>
+<ul>
+<li>Extract any setup or verification that appears in two or more tests.</li>
+<li>Name helpers after their domain purpose (see <strong>consistent-vocabulary</strong>).</li>
+</ul>
+<pre><code class="language-python">def create_agent_with_config(name: str, workspace: Path) -&gt; Agent:
+    &quot;&quot;&quot;Helper: Create fully initialized agent.&quot;&quot;&quot;
+    config = create_config_file(workspace, name)
+    agent = Agent(agent_name=name, workspace_root=workspace)
+    agent.initialize()
+    return agent
+
+# Tests reuse the helper — no duplication
+def test_agent_reports_correct_name(self, workspace_root):
+    agent = create_agent_with_config(&#x27;story_bot&#x27;, workspace_root)
+    assert agent.name == &#x27;story_bot&#x27;
+
+def test_agent_is_initialized(self, workspace_root):
+    agent = create_agent_with_config(&#x27;story_bot&#x27;, workspace_root)
+    assert agent.is_initialized</code></pre>
+<h4>DON&#x27;T</h4>
+<ul>
+<li>Copy the same 10 lines of setup into every test method.</li>
+</ul>
+<pre><code class="language-python"># WRONG: duplicated setup in every test
+def test_agent_reports_name(self):
+    workspace = tmp_path / &#x27;workspace&#x27;
+    workspace.mkdir()
+    config_dir = workspace / &#x27;agents&#x27; / &#x27;base&#x27;
+    config_dir.mkdir(parents=True)
+    config_file = config_dir / &#x27;agent.json&#x27;
+    config_file.write_text(&#x27;{&quot;name&quot;: &quot;story_bot&quot;}&#x27;)
+    agent = Agent(&#x27;story_bot&#x27;, workspace)
+    agent.initialize()
+    assert agent.name == &#x27;story_bot&#x27;
+
+def test_agent_is_initialized(self):
+    # ... same 10 lines again ...</code></pre>
+<p>﻿--- scanner: specification_match_scanner.py</p>
+<hr>
+<h3>Rule: Match Specification Scenarios</h3>
+<p>Tests must match the corresponding <strong>specification scenarios exactly</strong>. Use the same terminology, variable names, and steps that the scenario states. Assertions verify exactly what the scenario&#x27;s THEN conditions specify — nothing more, nothing less.</p>
+<h4>DO</h4>
+<ul>
+<li>Use exact variable names from the specification (<code>agent_name</code>, <code>workspace_root</code>, <code>config_path</code>).</li>
+<li>Assert only the outcomes the scenario explicitly states.</li>
+</ul>
+<pre><code class="language-python"># Specification scenario:
+# GIVEN: configuration file exists at agents/base/agent.json
+# WHEN: Agent is initialized with agent_name=&#x27;story_bot&#x27;
+# THEN: agent.config_path == agents/base/agent.json
+
+def test_agent_loads_configuration_when_file_exists(self, workspace_root):
+    # Given
+    config_path = create_config_file(workspace_root, agent_name=&#x27;story_bot&#x27;)
+
+    # When
+    agent = Agent(agent_name=&#x27;story_bot&#x27;, workspace_root=workspace_root)
+    agent.initialize()
+
+    # Then — matches the THEN from the scenario exactly
+    assert agent.config_path == workspace_root / &#x27;agents&#x27; / &#x27;base&#x27; / &#x27;agent.json&#x27;</code></pre>
+<h4>DON&#x27;T</h4>
+<ul>
+<li>Use different terminology from the specification (<code>name</code> when spec says <code>agent_name</code>).</li>
+<li>Assert internal state not mentioned in the scenario.</li>
+</ul>
+<pre><code class="language-python"># WRONG: different variable name from spec
+agent = Agent(name=&#x27;story_bot&#x27;)       # spec says agent_name, not name
+
+# WRONG: asserting internal detail not in scenario
+assert agent._initialized == True     # not in the scenario THEN conditions</code></pre>
+<p>﻿--- scanner: mock_boundaries_scanner.py</p>
+<hr>
+<h3>Rule: Mock Only Boundaries</h3>
+<p>Mock <strong>only</strong> at architectural boundaries — external APIs, network calls, third-party services, and genuinely uncontrollable dependencies. Do <strong>not</strong> mock internal business logic, the class under test, or file operations. Use real temp files (<code>tmp_path</code>) for file I/O. Tests that mock internal logic verify the mock, not the code.</p>
+<h4>DO</h4>
+<ul>
+<li>Mock external HTTP calls, remote APIs, or third-party services.</li>
+<li>Use <code>pytest</code>&#x27;s <code>tmp_path</code> for real file operations instead of mocking the file system.</li>
+</ul>
+<pre><code class="language-python"># Mock an external HTTP boundary
+with patch(&#x27;requests.get&#x27;) as mock_get:
+    mock_get.return_value.json.return_value = {&#x27;status&#x27;: &#x27;ok&#x27;}
+    result = agent.fetch_remote_config(&#x27;http://api.example.com&#x27;)
+
+# Real file I/O — no mock needed
+config_file = tmp_path / &#x27;config.json&#x27;
+config_file.write_text(&#x27;{&quot;name&quot;: &quot;story_bot&quot;}&#x27;)
+agent = Agent(config_path=config_file)</code></pre>
+<h4>DON&#x27;T</h4>
+<ul>
+<li>Mock the class under test.</li>
+<li>Mock internal business logic or validation methods.</li>
+<li>Mock file I/O when <code>tmp_path</code> works.</li>
+</ul>
+<pre><code class="language-python"># WRONG: mocking the class under test
+agent = Mock(spec=Agent)          # tests nothing real
+
+# WRONG: mocking internal logic
+with patch.object(Agent, &#x27;validate_config&#x27;):   # defeats the test
+
+# WRONG: mocking file ops that could use tmp_path
+with patch(&#x27;builtins.open&#x27;, mock_open(read_data=&#x27;{}&#x27;)): ...</code></pre>
+<p>﻿--- scanner: no_guard_clauses_scanner.py</p>
+<hr>
+<h3>Rule: No Defensive Code in Tests</h3>
+<p>Tests must <strong>never</strong> contain guard clauses, defensive conditionals, <code>try/except</code>, or fallback paths. Tests control their own setup — if setup is wrong, the test <strong>must fail immediately and clearly</strong>. Guard clauses hide problems by silently skipping assertions.</p>
+<h4>DO</h4>
+<ul>
+<li>Assume correct setup; let the test fail if setup is not right.</li>
+<li>Call code directly without wrapping in conditionals.</li>
+</ul>
+<pre><code class="language-python">def test_behavior_loads_by_name(self, workspace_root):
+    # Given — direct setup, no guard
+    behavior = Behavior(name=&#x27;shape&#x27;, workspace_root=workspace_root)
+
+    # When / Then — no if-check needed
+    assert behavior.name == &#x27;shape&#x27;
+    assert behavior.instructions_path.exists()</code></pre>
+<h4>DON&#x27;T</h4>
+<ul>
+<li>Wrap operations in <code>if</code>, <code>try/except</code>, or <code>hasattr</code> checks.</li>
+<li>Add fallback paths to paper over setup problems.</li>
+</ul>
+<pre><code class="language-python"># WRONG: defensive conditional hides a broken test
+if behavior_file.exists():        # if it doesn&#x27;t exist, test silently passes!
+    behavior = load_behavior(behavior_file)
+    assert behavior.name == &#x27;shape&#x27;
+
+# WRONG: exception swallowed
+try:
+    agent.initialize()
+except Exception:
+    pass  # hides the real failure</code></pre>
+<p>﻿--- scanner: object_oriented_helpers_scanner.py</p>
+<hr>
+<h3>Rule: Object-Oriented Test Helpers</h3>
+<p>Consolidate test setup around <strong>shared helper objects</strong> (test hoppers / factories) that build <strong>complete domain fixtures</strong> with standard data. Avoid scattering many primitive parameters across <code>parametrize</code> blocks or inline setups. A helper object centralizes construction of the full domain context in one place.</p>
+<h4>DO</h4>
+<ul>
+<li>Use a test helper class (e.g. <code>BotTestHelper</code>) that builds a complete domain object in one call.</li>
+<li>Assert against complete objects, not fragments.</li>
+</ul>
+<pre><code class="language-python">class BotTestHelper:
+    def __init__(self, workspace: Path) -&gt; None:
+        self._workspace = workspace
+        self._bot = create_bot(workspace)
+
+    def set_state(self, behavior: str, action: str) -&gt; None:
+        self._bot.navigate_to(behavior, action)
+
+    def assert_at_behavior_action(self, behavior: str, action: str) -&gt; None:
+        assert self._bot.current_behavior == behavior
+        assert self._bot.current_action == action
+
+def test_bot_navigates_to_shape_clarify(self, workspace_root):
+    helper = BotTestHelper(workspace_root)
+    helper.set_state(&#x27;shape&#x27;, &#x27;clarify&#x27;)
+    helper.assert_at_behavior_action(&#x27;shape&#x27;, &#x27;clarify&#x27;)</code></pre>
+<h4>DON&#x27;T</h4>
+<ul>
+<li>Spread test setup across many primitive parameters in <code>parametrize</code> blocks.</li>
+<li>Cherry-pick single values from a partial object.</li>
+</ul>
+<pre><code class="language-python"># WRONG: many primitives scattered across parametrize
+@pytest.mark.parametrize(&#x27;behavior, action, workspace, config, expected_status&#x27;, [
+    (&#x27;shape&#x27;, &#x27;clarify&#x27;, &#x27;/tmp/ws1&#x27;, {&#x27;k&#x27;: &#x27;v&#x27;}, &#x27;active&#x27;),
+    ...
+])
+def test_bot_state(self, behavior, action, workspace, config, expected_status):
+    assert bot.status == expected_status  # single field</code></pre>
+<p>﻿--- scanner: import_placement_scanner.py</p>
+<hr>
+<h3>Rule: Place Imports at Top</h3>
+<p>All imports must appear at the <strong>top of the test file</strong>, after the module docstring, before any code. Group imports: (1) standard library, (2) third-party, (3) local project. Never place imports inside functions or test methods.</p>
+<h4>DO</h4>
+<pre><code class="language-python">&quot;&quot;&quot;Agent configuration tests.&quot;&quot;&quot;
+import json
+import pytest
+from pathlib import Path
+
+from agile_bot.agents.base_bot.src.agent import Agent
+from agile_bot.agents.base_bot.src.config_loader import ConfigLoader</code></pre>
+<h4>DON&#x27;T</h4>
+<ul>
+<li>Place imports inside functions or after code.</li>
+</ul>
+<pre><code class="language-python">def test_agent_initializes(self, tmp_path):
+    from pathlib import Path            # WRONG: import inside function
+    from agile_bot.agent import Agent   # WRONG: import inside test method
+    ...</code></pre>
+<h3>Rule: Production Code Clean Functions</h3>
+<p>Production code functions must do <strong>one thing</strong>, stay <strong>under 20 lines</strong>, operate at a <strong>single level of abstraction</strong>, and have <strong>no hidden side effects</strong>. The function name must fully describe what it does. Extract multiple concerns into separate functions.</p>
+<h4>DO</h4>
+<ul>
+<li>Each function has a single, named purpose.</li>
+<li>Functions compose to build complexity.</li>
+</ul>
+<pre><code class="language-python">def load_config(self, path: Path) -&gt; dict:
+    &quot;&quot;&quot;Load configuration from file.&quot;&quot;&quot;
+    return json.loads(path.read_text())
+
+def validate_config(self, config: dict) -&gt; bool:
+    &quot;&quot;&quot;Validate configuration has required keys.&quot;&quot;&quot;
+    return all(key in config for key in (&#x27;name&#x27;, &#x27;workspace&#x27;))
+
+def initialize_from_config(self, path: Path) -&gt; None:
+    &quot;&quot;&quot;Initialize agent from configuration file.&quot;&quot;&quot;
+    config = self.load_config(path)
+    if not self.validate_config(config):
+        raise ValueError(f&#x27;Invalid config at {path}&#x27;)
+    self._apply_config(config)</code></pre>
+<h4>DON&#x27;T</h4>
+<ul>
+<li>Write functions that load, validate, apply, and log in the same body.</li>
+<li>Exceed 20 lines in a single function.</li>
+</ul>
+<pre><code class="language-python"># WRONG: function does too many things
+def setup(self, path: Path) -&gt; None:
+    config = json.loads(path.read_text())   # load
+    if &#x27;name&#x27; not in config:                # validate
+        raise ValueError(&#x27;Invalid&#x27;)
+    self.name = config[&#x27;name&#x27;]              # apply
+    logger.info(f&#x27;Initialized {self.name}&#x27;) # log
+    self._send_metrics()                    # side effect</code></pre>
+<p>﻿--- scanner: explicit_dependencies_scanner.py</p>
+<hr>
+<h3>Rule: Production Code Explicit Dependencies</h3>
+<p>Production code must make <strong>all dependencies explicit</strong> through <strong>constructor injection</strong>. Pass every external dependency (config loader, graph, file system abstraction) as a constructor parameter. No hidden global state, no singletons created internally, no service-locator calls. Explicit dependencies make the class trivially testable.</p>
+<h4>DO</h4>
+<ul>
+<li>Accept every dependency as a constructor parameter.</li>
+<li>Assign to instance attributes immediately.</li>
+</ul>
+<pre><code class="language-python">class Agent:
+    def __init__(
+        self,
+        agent_name: str,
+        workspace_root: Path,
+        config_loader: ConfigLoader,
+        domain_graph: DomainGraph,
+    ) -&gt; None:
+        self.name = agent_name
+        self.workspace_root = workspace_root
+        self._config_loader = config_loader
+        self._domain_graph = domain_graph</code></pre>
+<h4>DON&#x27;T</h4>
+<ul>
+<li>Create dependencies internally or access module-level singletons.</li>
+</ul>
+<pre><code class="language-python"># WRONG: hidden dependencies created inside the constructor
+class Agent:
+    def __init__(self, agent_name: str) -&gt; None:
+        self.name = agent_name
+        self._loader = ConfigLoader()          # creates internally
+        self._graph = DomainGraph.get_instance()  # global singleton</code></pre>
+<p>﻿--- scanner: orchestrator_pattern_scanner.py scanner_note: Python / pytest — use the equivalent scanner for the target language</p>
+<hr>
+<h3>Rule: pytest Orchestrator Pattern</h3>
+<p>Use the <strong>orchestrator pattern</strong> for story-based tests — no step-definition files. Every test method (under 20 lines) shows the Given-When-Then flow by calling named helper functions. Helper functions handle details (also under 20 lines). Test classes (or equivalent groupings) stay under 300 lines. Examples below are Python / pytest — apply the same structure in the idioms of the target language and framework.</p>
+<h4>DO</h4>
+<ul>
+<li>Test methods show the flow; helpers execute the details.</li>
+<li>Use <code># Given</code>, <code># When</code>, <code># Then</code> comment labels inside every test method.</li>
+<li>Keep test methods under 20 lines; extract anything longer to a helper.</li>
+<li>Keep helper functions under 20 lines each.</li>
+</ul>
+<pre><code class="language-python"># ============================================================================
+# HELPER FUNCTIONS
+# ============================================================================
+
+def create_config_file(workspace: Path, name: str = &#x27;bot&#x27;) -&gt; Path:
+    &quot;&quot;&quot;Helper: Create bot configuration file.&quot;&quot;&quot;
+    config_dir = workspace / &#x27;agents&#x27; / &#x27;base&#x27;
+    config_dir.mkdir(parents=True, exist_ok=True)
+    config_file = config_dir / &#x27;agent.json&#x27;
+    config_file.write_text(f&#x27;{{&quot;name&quot;: &quot;{name}&quot;}}&#x27;)
+    return config_file
+
+# ============================================================================
+# FIXTURES
+# ============================================================================
+
+@pytest.fixture
+def workspace_root(tmp_path):
+    workspace = tmp_path / &#x27;workspace&#x27;
+    workspace.mkdir()
+    return workspace
+
+# ============================================================================
+# ORCHESTRATOR TESTS
+# ============================================================================
+
+class TestAgentInitialization:
+    def test_agent_initializes_with_config(self, workspace_root):
+        # Given
+        config = create_config_file(workspace_root, &#x27;story_bot&#x27;)
+
+        # When
+        agent = Agent(agent_name=&#x27;story_bot&#x27;, workspace_root=workspace_root)
+        agent.initialize()
+
+        # Then
+        assert agent.is_initialized
+        assert agent.config_path == config</code></pre>
+<h4>DON&#x27;T</h4>
+<ul>
+<li>Use feature files or <code>@given</code>/<code>@when</code>/<code>@then</code> step decorators.</li>
+<li>Inline 10+ lines of setup directly inside test methods.</li>
+<li>Write test methods longer than 20 lines.</li>
+</ul>
+<pre><code class="language-python"># WRONG: step definitions
+@given(&#x27;config file exists&#x27;)
+def step_config_exists(context): ...
+
+# WRONG: all setup inline — extract to helpers
+def test_agent(self, tmp_path):
+    workspace = tmp_path / &#x27;workspace&#x27;
+    workspace.mkdir()
+    config_dir = workspace / &#x27;agents&#x27; / &#x27;base&#x27;
+    config_dir.mkdir(parents=True)
+    config_file = config_dir / &#x27;agent.json&#x27;
+    config_file.write_text(&#x27;{&quot;name&quot;: &quot;bot&quot;}&#x27;)
+    agent = Agent(&#x27;bot&#x27;, workspace)
+    # ... 15 more lines ...</code></pre>
+<h3>Rule: Self-Documenting Tests</h3>
+<p>Tests are self-documenting through <strong>code structure</strong> — imports, constructor calls, and assertions show the API design. Do not add verbose comments that explain what will fail or restate what the code already says. Let the code speak for itself.</p>
+<h4>DO</h4>
+<ul>
+<li>Let imports reveal which classes are needed.</li>
+<li>Let constructors show the required parameters.</li>
+<li>Let assertions show what is expected.</li>
+</ul>
+<pre><code class="language-python">def test_generator_creates_server_for_test_bot(self, workspace_root):
+    # Given
+    config_file = create_bot_config(workspace_root, &#x27;test_bot&#x27;, [&#x27;shape&#x27;])
+
+    # When
+    from agile_bot.mcp_server_generator import MCPServerGenerator
+    generator = MCPServerGenerator(
+        bot_name=&#x27;test_bot&#x27;,
+        config_path=config_file,
+        workspace_root=workspace_root,
+    )
+    server_file = generator.generate_server()
+
+    # Then
+    assert server_file.exists()
+    assert server_file.name == &#x27;test_bot_server.py&#x27;</code></pre>
+<h4>DON&#x27;T</h4>
+<ul>
+<li>Add comments explaining that the test will fail or what API is needed — the code shows this.</li>
+<li>Restate what constructors and assertions already communicate.</li>
+</ul>
+<pre><code class="language-python"># WRONG: verbose noise
+    # TEST WILL FAIL: ImportError - MCPServerGenerator doesn&#x27;t exist yet
+    # Shows API needs: MCPServerGenerator(bot_name, config_path, workspace_root)
+    # Shows API needs: generator.generate_server() returns Path
+    # The code above already communicates all of this!
+
+    assert server_file.exists()</code></pre>
+<p>﻿--- scanner: standard_data_reuse_scanner.py</p>
+<hr>
+<h3>Rule: Standard Test Data Sets</h3>
+<p>Define <strong>canonical, named test data sets</strong> as module-level constants or factory functions and <strong>reuse them</strong> across tests. Do not recreate ad-hoc values in every test method. Standard data sets ensure every test exercises the full domain object and prevent tests from diverging on what &quot;valid&quot; data looks like.</p>
+<h4>DO</h4>
+<ul>
+<li>Define standard data once at the module level (or in a shared helpers module).</li>
+<li>Reuse the same constants across tests in the file.</li>
+</ul>
+<pre><code class="language-python">STANDARD_AGENT_CONFIG = {
+    &#x27;name&#x27;: &#x27;story_bot&#x27;,
+    &#x27;behaviors&#x27;: [&#x27;shape&#x27;, &#x27;discovery&#x27;, &#x27;tests&#x27;],
+    &#x27;workspace&#x27;: &#x27;agile_bots&#x27;,
+}
+
+STANDARD_BOT_STATE = {
+    &#x27;behavior&#x27;: &#x27;shape&#x27;,
+    &#x27;action&#x27;: &#x27;clarify&#x27;,
+    &#x27;phase&#x27;: &#x27;exploration&#x27;,
+}
+
+def test_agent_loads_standard_config(self, workspace_root):
+    config_file = create_config_file(workspace_root, STANDARD_AGENT_CONFIG)
+    agent = Agent(config_path=config_file)
+    agent.initialize()
+    assert agent.config == STANDARD_AGENT_CONFIG</code></pre>
+<h4>DON&#x27;T</h4>
+<ul>
+<li>Create new ad-hoc config values per test.</li>
+<li>Assert only one field from a complex object that has a matching standard.</li>
+</ul>
+<pre><code class="language-python"># WRONG: ad-hoc values differ per test — hard to maintain
+def test_agent_loads_config_a(self):
+    config = {&#x27;name&#x27;: &#x27;bot&#x27;, &#x27;behaviors&#x27;: [&#x27;shape&#x27;]}
+    ...
+
+def test_agent_loads_config_b(self):
+    config = {&#x27;name&#x27;: &#x27;mybot&#x27;, &#x27;behaviors&#x27;: [&#x27;shape&#x27;, &#x27;tests&#x27;]}  # inconsistent
+    ...</code></pre>
+<p>﻿--- scanner: observable_behavior_scanner.py</p>
+<hr>
+<h3>Rule: Test Observable Behavior</h3>
+<p>Test behavior through the <strong>public API</strong> — observable properties, return values, and state changes visible to callers. Do not assert on private attributes, internal flags, or implementation details. Tests that verify private state break on refactoring even when behavior is correct.</p>
+<h4>DO</h4>
+<ul>
+<li>Assert on public properties and return values.</li>
+<li>Verify the outcome a caller would see.</li>
+</ul>
+<pre><code class="language-python"># Test public API
+assert agent.is_initialized
+assert agent.config_path.exists()
+assert agent.get_config_value(&#x27;name&#x27;) == &#x27;story_bot&#x27;
+assert result.status == &#x27;ready&#x27;</code></pre>
+<h4>DON&#x27;T</h4>
+<ul>
+<li>Assert on private attributes (<code>_</code>, <code>__</code>-prefixed).</li>
+<li>Test internal data structures or intermediate state that is not part of the contract.</li>
+</ul>
+<pre><code class="language-python"># WRONG: private implementation details
+assert agent._initialized == True
+assert agent._setup_called == True
+assert len(agent._internal_steps) == 5
+assert agent._config_cache is not None</code></pre>
+<p>﻿--- scanner: ascii_only_scanner.py</p>
+<hr>
+<h3>Rule: Use ASCII Only</h3>
+<p>All test code must use <strong>ASCII-only characters</strong>. No Unicode symbols, emoji, special punctuation, or curly quotes. Windows environments and CI pipelines can mishandle non-ASCII bytes in source files. Use plain ASCII alternatives.</p>
+<h4>DO</h4>
+<ul>
+<li>Use bracket labels for status indicators: <code>[PASS]</code>, <code>[FAIL]</code>, <code>[ERROR]</code>, <code>[SKIP]</code>.</li>
+<li>Use <code>-&amp;gt;</code> for arrows, <code>!=</code> for not-equal, standard ASCII quotes.</li>
+</ul>
+<pre><code class="language-python">print(&#x27;[PASS] Agent initialized&#x27;)
+print(&#x27;[ERROR] Config not found&#x27;)
+result = {&#x27;status&#x27;: &#x27;ok&#x27;, &#x27;name&#x27;: &#x27;story_bot&#x27;}</code></pre>
+<h4>DON&#x27;T</h4>
+<ul>
+<li>Use Unicode symbols, emojis, or curly quotes anywhere in test code.</li>
+</ul>
+<pre><code class="language-python"># WRONG
+print(&#x27;\u2713 Done&#x27;)           # Unicode checkmark
+print(&#x27;\U0001f7e2 OK&#x27;)         # emoji
+message = &#x27;\u201chello\u201d&#x27;  # curly quotes</code></pre>
+<p>﻿--- scanner: business_readable_test_names_scanner.py</p>
+<hr>
+<h3>Rule: Use Domain Language</h3>
+<p>Apply <strong>Ubiquitous Language</strong> (DDD): use the same vocabulary in the domain model, stories, acceptance criteria, scenarios, <strong>and</strong> code. Class names map to domain entities or nouns; method names map to domain responsibilities or verbs; test names read like plain-English stories. This is priority 1 — it overrides generic technical naming at every level.</p>
+<h4>DO</h4>
+<ul>
+<li>Class names → domain entities/nouns from the model (e.g. <code>GatherContextAction</code>, <code>BotConfig</code>, <code>Guardrails</code>).</li>
+<li>Method names → domain responsibilities/verbs (e.g. <code>inject_questions_and_evidence</code>, <code>load_trigger_words</code>).</li>
+<li>Test names → plain-English story descriptions readable aloud (<code>test_agent_loads_configuration_when_file_exists</code>).</li>
+</ul>
+<pre><code class="language-python"># Domain entity: &#x27;Gather Context Action&#x27;
+# Domain responsibility: &#x27;Inject questions and evidence&#x27;
+
+class GatherContextAction:
+    def inject_questions_and_evidence(self) -&gt; Instructions:
+        ...
+
+class ValidateRulesAction:
+    def inject_behavior_specific_and_bot_rules(self) -&gt; Instructions:
+        ...
+
+def test_agent_loads_configuration_when_file_exists(self, workspace_root):
+    ...</code></pre>
+<h4>DON&#x27;T</h4>
+<ul>
+<li>Use generic technical terms not in the domain model.</li>
+<li>Name classes after infrastructure roles (<code>Loader</code>, <code>Manager</code>, <code>Handler</code>, <code>Service</code>, <code>StdioHandler</code>).</li>
+<li>Name methods with generic verbs that have no domain meaning (<code>execute_with_guardrails</code>, <code>process</code>, <code>handle_request</code>).</li>
+<li>Write test names that describe implementation rather than behavior.</li>
+</ul>
+<pre><code class="language-python"># WRONG: generic technical names
+class Action:           # which action?
+class Loader:           # not in domain
+class Handler:          # not in domain
+
+def execute_with_guardrails():  # domain says &#x27;inject_questions_and_evidence&#x27;
+def process():                  # too vague
+
+def test_agt_init_sets_vars():  # abbreviations, implementation focus</code></pre>
+<h3>Rule: Use Domain Objects as Parameters</h3>
+<p>Pass <strong>constructed domain objects</strong> to test and helper functions — never raw IDs or bare primitives. Parameters must be named after their business role so each Given/When/Then step reads as a natural scenario in the domain language.</p>
+<h4>DO</h4>
+<ul>
+<li>Pass real domain objects (<code>Cart</code>, <code>Order</code>, <code>User</code>) — not IDs or plain data.</li>
+<li>Name parameters after their business role (<code>cart</code>, <code>product</code>) — not their technical representation (<code>cart_id</code>, <code>product_id</code>).</li>
+</ul>
+<pre><code class="language-python">def test_adds_product_to_cart(self, workspace_root):
+    # Given
+    cart = given_cart_exists(workspace_root)
+    product = given_product_is_available(workspace_root, &#x27;item-a&#x27;)
+    # When
+    when_product_is_added(cart, product)
+    # Then
+    then_cart_contains(cart, product)</code></pre>
+<h4>DON&#x27;T</h4>
+<ul>
+<li>Pass IDs or primitives where domain objects belong — steps become unreadable as business scenarios.</li>
+</ul>
+<pre><code class="language-python">def test_adds_product_to_cart(self, cart_id, product_id):
+    given_cart_exists(cart_id)            # ID — not a business entity
+    when_product_is_added(cart_id, product_id)
+    then_cart_contains(cart_id, product_id)</code></pre>
+<p>﻿--- scanner: exact_variable_names_scanner.py</p>
+<hr>
+<h3>Rule: Use Exact Variable Names</h3>
+<p>Use the <strong>exact variable names</strong> from the specification scenario in both the test code and the production code. When a scenario says <code>agent_name</code>, <code>workspace_root</code>, or <code>config_path</code>, use those exact identifiers — not abbreviations or synonyms. This keeps the traceability chain from spec → test → production intact.</p>
+<h4>DO</h4>
+<ul>
+<li>Copy variable names verbatim from the scenario&#x27;s Given/When/Then terminology.</li>
+</ul>
+<pre><code class="language-python"># Specification uses: agent_name, workspace_root, config_path
+agent = Agent(agent_name=&#x27;story_bot&#x27;, workspace_root=workspace_root)
+assert agent.config_path == workspace_root / &#x27;agents&#x27; / &#x27;base&#x27; / &#x27;agent.json&#x27;</code></pre>
+<h4>DON&#x27;T</h4>
+<ul>
+<li>Shorten, abbreviate, or rename variables from the specification.</li>
+</ul>
+<pre><code class="language-python"># WRONG: different names from specification
+agent = Agent(name=&#x27;story_bot&#x27;)          # spec says agent_name
+agent = Agent(workspace=workspace_root)  # spec says workspace_root
+assert agent.path == ...                 # spec says config_path</code></pre>
+<p>﻿--- scanner: given_when_then_helpers_scanner.py</p>
+<hr>
+<h3>Rule: Use Given/When/Then Helpers</h3>
+<p>Use <strong>reusable helper functions</strong> for any inline code block of 4 or more lines. Place helpers at the right scope: story-level helpers inside the test class, sub-epic helpers at module level, and cross-epic helpers in a shared file. Name helpers with <code>given_</code>, <code>when_</code>, or <code>then_</code> prefixes when the domain language calls for it, but prioritise <strong>domain-verb naming</strong> over mechanical prefixes.</p>
+<h4>DO</h4>
+<ul>
+<li>Extract 4+ line inline blocks to named helpers.</li>
+<li>Scope helpers to the level that needs them.</li>
+</ul>
+<pre><code class="language-python">def given_bot_config_exists(workspace: Path, name: str = &#x27;story_bot&#x27;) -&gt; Path:
+    return create_config_file(workspace, name)
+
+def when_bot_instantiated(workspace: Path, name: str) -&gt; Bot:
+    return Bot(bot_name=name, workspace_root=workspace)
+
+def then_bot_uses_correct_directories(bot: Bot, workspace: Path) -&gt; None:
+    assert bot.workspace_root == workspace
+    assert bot.config_path.parent.exists()
+
+class TestBotInitialization:
+    def test_bot_initializes_with_config(self, workspace_root):
+        given_bot_config_exists(workspace_root, &#x27;story_bot&#x27;)
+        bot = when_bot_instantiated(workspace_root, &#x27;story_bot&#x27;)
+        then_bot_uses_correct_directories(bot, workspace_root)</code></pre>
+<h4>DON&#x27;T</h4>
+<ul>
+<li>Leave 4+ line inline operations inside test methods.</li>
+</ul>
+<pre><code class="language-python"># WRONG: inline multi-line setup
+def test_bot_initializes(self, tmp_path):
+    config_dir = tmp_path / &#x27;agents&#x27; / &#x27;base&#x27;
+    config_dir.mkdir(parents=True)
+    config_file = config_dir / &#x27;agent.json&#x27;
+    config_file.write_text(&#x27;{&quot;name&quot;: &quot;story_bot&quot;}&#x27;)
+    # ... more inline code ...</code></pre>
+<p>&lt;!-- execute_rules:bundle_rules:end --&gt;</p>
+</div>
+</body>
+</html>

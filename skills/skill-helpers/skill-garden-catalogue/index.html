@@ -1,1092 +1,292 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="engineering">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Skill Garden — Inventory</title>
+<title>AI Garden — abd.works</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/commons/agile-garden-fragment.css">
+<script src="/commons/brand-nav.js"></script>
 <style>
 :root {
-  --orange: #ff7a00;
-  --bg: #09090b;
-  --surface: #0e0e10;
-  --raised: #161618;
-  --border: #2a2a30;
-  --border-muted: #1a1a1e;
-  --text: #e8e8ed;
-  --muted: #9b9ba8;
-  --radius: 4px;
+  --orange:       #E5531A;
+  --bg:           #0B0B0B;
+  --surface:      #111113;
+  --raised:       #1B1B20;
+  --border:       #2A2A2A;
+  --border-muted: #1e1e22;
+  --text:         #F4F4F5;
+  --muted:        #9B9BA8;
+  --radius:       4px;
+  --font-sans:    'Inter', system-ui, sans-serif;
+  --font-mono:    'JetBrains Mono', ui-monospace, monospace;
 }
+
 *, *::before, *::after { box-sizing: border-box; }
+
 body {
   background: var(--bg);
   color: var(--text);
   margin: 0;
-  font-family: system-ui, "Segoe UI", Roboto, Ubuntu, sans-serif;
-  font-size: 17px;
-  line-height: 1.6;
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  padding: 0 clamp(8px, 3vw, 32px) 80px;
 }
-a { color: #8ab4ff; text-decoration: none; }
-a:hover { text-decoration: underline; }
-strong { font-weight: 700; }
+
+a { color: var(--orange); text-decoration: none; }
+a:hover { color: #C64514; }
+strong { font-weight: 600; }
 code {
-  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
-  font-size: 0.88em;
-  background: #1f1f24;
-  padding: 1px 5px;
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+  background: rgba(255,255,255,0.06);
+  padding: 2px 5px;
   border-radius: 3px;
-  color: #d4d4d4;
+  color: #F2A07A;
 }
 
-.page-wrap { padding: 16px clamp(8px,3vw,28px); }
-.panel {
-  max-width: min(96vw, 1100px);
+.page-wrap {
+  max-width: 1600px;
   margin: 0 auto;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  overflow: hidden;
+  padding: 48px clamp(16px, 2vw, 32px) 96px;
 }
 
-.panel-header {
-  padding: 18px 20px 16px;
-  border-bottom: 1px solid var(--border);
-  border-left: 4px solid var(--orange);
-  background: var(--raised);
-  display: flex;
-  align-items: center;
-  gap: 18px;
-  flex-wrap: wrap;
-}
-.header-icon {
-  flex-shrink: 0;
-  background: #000;
-  padding: 10px;
-  border-radius: 10px;
-  border: 1px solid var(--border-muted);
-  box-shadow: inset 0 0 0 1px rgba(255,122,0,0.12);
-}
-.header-text { flex: 1; min-width: 200px; }
-.brand { font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin: 0 0 4px; }
-.brand strong { color: var(--orange); }
-h1 { margin: 0; font-size: 2rem; font-weight: 700; line-height: 1.15; }
-.tagline { margin: 8px 0 0; font-size: 1.05rem; color: var(--muted); max-width: 52rem; }
-
-.panel-body { padding: 28px 22px 36px; }
-p { margin: 0 0 14px; }
-h2 {
-  font-size: 1.2rem;
-  font-weight: 700;
-  margin: 32px 0 14px;
-  padding-bottom: 8px;
-  border-bottom: 1px solid var(--border);
+/* Page header injected by brand-nav.js — add page title here */
+.catalog-page-title {
+  margin: 0 0 8px;
+  font-size: clamp(26px, 4vw, 40px);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
   color: var(--text);
 }
-h2:first-child { margin-top: 0; }
+.catalog-page-subtitle {
+  margin: 0 0 40px;
+  font-size: 14px;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  letter-spacing: 0.04em;
+}
 
-.cap-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 14px;
-  margin: 18px 0 0;
+/* Practice grid rows: show name + description stacked */
+.catalog-practice-grid .catalog-garden-row {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
+  padding: 11px 16px;
 }
-.cap-card {
+.catalog-practice-grid .catalog-garden-name {
+  flex: none;
+  font-size: 0.85rem;
+  min-width: 0;
+}
+.catalog-practice-grid .catalog-garden-desc {
   display: block;
-  text-decoration: none;
-  background: var(--raised);
-  border: 1px solid var(--border);
-  border-left: 3px solid var(--orange);
-  border-radius: var(--radius);
-  padding: 16px 18px;
-  transition: background 0.15s, border-color 0.15s;
-  cursor: pointer;
+  font-size: 0.81rem;
+  line-height: 1.5;
+  color: var(--muted);
 }
-.cap-card:hover {
-  background: rgba(255,122,0,0.06);
-  border-color: rgba(255,122,0,0.4);
-  text-decoration: none;
+
+/* ── Taxonomy cards ── */
+.taxonomy-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 12px;
+  margin: 0 0 40px;
 }
-.cap-card__title {
-  font-size: 0.97rem;
-  font-weight: 700;
-  color: var(--orange);
-  margin: 0 0 12px;
+.tax-card {
+  background: #111113;
+  border: 1px solid #2A2A2A;
+  border-radius: 6px;
+  overflow: hidden;
+}
+.tax-card-header {
   display: flex;
   align-items: center;
   gap: 10px;
-}
-.cap-card__icon { flex-shrink: 0; width: 24px; height: 24px; }
-.cap-card__row { display: flex; flex-direction: column; gap: 6px; }
-.cap-card__label {
-  font-size: 0.72rem;
+  padding: 10px 16px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
   font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  opacity: 0.55;
-  margin-bottom: 1px;
+  letter-spacing: 0.1em;
+  border-bottom: 1px solid #2A2A2A;
 }
-.cap-card__problem { font-size: 0.85rem; color: #d4868e; line-height: 1.45; margin: 0; }
-.cap-card__solution { font-size: 0.85rem; color: var(--muted); line-height: 1.45; margin: 0; }
-.cap-card__sep { border: none; border-top: 1px solid var(--border-muted); margin: 10px 0; }
-.cap-card__more {
-  font-size: 0.78rem;
-  color: var(--orange);
-  opacity: 0.7;
-  margin: 10px 0 0;
-  display: flex;
-  align-items: center;
-  gap: 4px;
+.tax-h--agent  { color: #E5531A; border-left: 3px solid #E5531A; background: #1B1B20; }
+.tax-h--skill  { color: #E5531A; border-left: 3px solid #E5531A; background: #1B1B20; }
+.tax-h--plugin { color: #E5531A; border-left: 3px solid #E5531A; background: #1B1B20; }
+.tax-h--tool   { color: #E5531A; border-left: 3px solid #E5531A; background: #1B1B20; }
+.tax-card-body { padding: 12px 16px; font-size: 0.82rem; line-height: 1.55; color: #9B9BA8; }
+.tax-tagline { font-weight: 600; color: #F4F4F5; margin: 0 0 6px; font-size: 0.82rem; font-style: italic; }
+.tax-card-body p { margin: 0; }
+.tax-card-body code { font-family: var(--font-mono); font-size: 0.8em; background: rgba(255,255,255,0.07); padding: 1px 5px; border-radius: 3px; color: #F2A07A; }
+
+@media (max-width: 768px) {
+  .page-wrap { padding: 24px 16px 64px; }
+  .taxonomy-grid { grid-template-columns: 1fr 1fr; }
 }
 </style>
 </head>
-<body>
+<body
+  data-page-label="Agile by Design · Skill Garden"
+  data-page-title="AI Garden"
+  data-page-tagline="43 deployed skills — practice disciplines and foundational helpers.">
+
 <div class="page-wrap">
-<div class="panel" role="main">
+  <h1 class="catalog-page-title">AI Garden</h1>
+  <p class="catalog-page-subtitle">43 deployed skills — practice disciplines and foundational helpers</p>
 
-<header class="panel-header">
-  <div class="header-icon">
-    <svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:block;border-radius:6px;">
-      <rect width="52" height="52" rx="8" fill="#0e0e10"/>
-      <path d="M16 14h20a2 2 0 0 1 2 2v20a2 2 0 0 1-2 2H16a2 2 0 0 1-2-2V16a2 2 0 0 1 2-2z" stroke="#FF7A00" stroke-width="1.5" fill="rgba(255,122,0,0.06)"/>
-      <path d="M20 22h12M20 26h9M20 30h12" stroke="#FF7A00" stroke-width="1.5" stroke-linecap="round"/>
-    </svg>
-  </div>
-  <div class="header-text">
-    <p class="brand"><strong>Agile by Design</strong> &middot; skill-garden-catalogue</p>
-    <h1>Skill Garden &mdash; Inventory</h1>
-    <p class="tagline">47 deployed skills. Each card shows the challenge addressed and the solution provided.</p>
-  </div>
-</header>
-
-<div class="panel-body">
-
-<p>
-  Browse the full inventory of deployed skills below. Each card links to the
-  skill directory. Re-run <code>generate_catalogue.py</code> to refresh.
-</p>
-
-<h2>Delivery</h2>
-<div class="cap-grid">
-<a class="cap-card" href="../delivery/abd-delivery-planning/">
-  <p class="cap-card__title">
-    <span class="cap-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#1a1a1e"/><path d="M7 8h10M7 12h7M7 16h10" stroke="#ff7a00" stroke-width="1.5" stroke-linecap="round"/></svg></span>
-    abd-delivery-planning
-  </p>
-  <div class="cap-card__row">
-    <div>
-      <p class="cap-card__label">Challenge</p>
-      <p class="cap-card__problem">You want to build, present, or revise a delivery plan after reading context.</p>
+  <div class="taxonomy-grid">
+    <div class="tax-card">
+      <div class="tax-card-header tax-h--agent">
+        <img src="/commons/images/icon-taxonomy-agent.svg" width="20" height="20" alt="" aria-hidden="true">
+        <span>AGENT</span>
+      </div>
+      <div class="tax-card-body">
+        <p class="tax-tagline">A role-based AI collaborator</p>
+        <p>Has a defined persona, goals, workflow &amp; checkpoint protocol. Examples: <code>abd-delivery-lead</code> (orchestrator), <code>abd-team-member</code> (Product Owner / Analyst / Engineer).</p>
+      </div>
     </div>
-    <hr class="cap-card__sep">
-    <div>
-      <p class="cap-card__label">Solution</p>
-      <p class="cap-card__solution">Delivery plans only: context, risks, strategies, staged runs and checkpoints (not stories, tests, or code).</p>
+    <div class="tax-card">
+      <div class="tax-card-header tax-h--skill">
+        <img src="/commons/images/icon-taxonomy-skill.svg" width="20" height="20" alt="" aria-hidden="true">
+        <span>SKILL</span>
+      </div>
+      <div class="tax-card-body">
+        <p class="tax-tagline">A reusable domain expertise module</p>
+        <p><code>SKILL.md</code> + rules + scanners + templates + scripts. Claude auto-discovers and loads it when triggered. Example: <code>abd-story-mapping</code>, <code>abd-acceptance-criteria</code>.</p>
+      </div>
     </div>
-  </div>
-  <p class="cap-card__more">Open skill →</p>
-</a>
-
-<a class="cap-card" href="../delivery/abd-delivery-war-room/">
-  <p class="cap-card__title">
-    <span class="cap-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#1a1a1e"/><path d="M7 8h10M7 12h7M7 16h10" stroke="#ff7a00" stroke-width="1.5" stroke-linecap="round"/></svg></span>
-    abd-delivery-war-room
-  </p>
-  <div class="cap-card__row">
-    <div>
-      <p class="cap-card__label">Challenge</p>
-      <p class="cap-card__problem">Reduce repeated paste handoffs between orchestrator and team-member threads by keeping state on disk under the engagement root.</p>
+    <div class="tax-card">
+      <div class="tax-card-header tax-h--plugin">
+        <img src="/commons/images/icon-taxonomy-plugin.svg" width="20" height="20" alt="" aria-hidden="true">
+        <span>PLUGIN</span>
+      </div>
+      <div class="tax-card-body">
+        <p class="tax-tagline">A deployable bundle</p>
+        <p>Groups agents + skills + slash commands + hooks into one installable package. Deploy to your whole team via managed settings in VSCode or Claude Code.</p>
+      </div>
     </div>
-    <hr class="cap-card__sep">
-    <div>
-      <p class="cap-card__label">Solution</p>
-      <p class="cap-card__solution">Experimental file-based war room for handoffs between  and :  under the engagement workspace with , , and  / . Not wired into the delivery-lead or team-member agents until re-integrated from first principles. Use this skill only when you explicitly …</p>
+    <div class="tax-card">
+      <div class="tax-card-header tax-h--tool">
+        <img src="/commons/images/icon-taxonomy-tool.svg" width="20" height="20" alt="" aria-hidden="true">
+        <span>TOOL</span>
+      </div>
+      <div class="tax-card-body">
+        <p class="tax-tagline">A specific capability granted to an agent</p>
+        <p>Bash execution, file ops, web search, MCP server calls. Tools let agents <strong>DO</strong> things — not just know things. Every agent has a specific tool set.</p>
+      </div>
     </div>
   </div>
-  <p class="cap-card__more">Open skill →</p>
-</a>
 
+  <div class="catalog-section-label">
+  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><circle cx="7" cy="5" r="3.5"/><path d="M5 8.5V10h4V8.5"/><path d="M5.5 11.5h3"/></svg>
+  Practice Skills — What We Do
+</div>
+<div class="catalog-practice-grid">
+  <div class="catalog-garden-col">
+    <div class="catalog-garden-col-header">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8" cy="6" r="4"/><path d="M6 10v1.5h4V10"/><path d="M6.5 13h3"/></svg>
+      <span>Idea Shaping</span>
+    </div>
+    <div class="catalog-garden-row"><span class="catalog-garden-name"><a href="/abd-skills-catalog/idea%20shaping/abd-cost-of-delay/">abd-cost-of-delay</a></span><span class="catalog-garden-desc">Quantify urgency × value for backlog items; score CD3 and rank to prioritize by economic impact of delay.</span></div>
+    <div class="catalog-garden-row"><span class="catalog-garden-name"><a href="/abd-skills-catalog/idea%20shaping/abd-impact-mapping/">abd-impact-mapping</a></span><span class="catalog-garden-desc">Strategic impact maps: hierarchy view, ASCII wall map, and hypothesis sentences from discovery sources.</span></div>
+    <div class="catalog-garden-row"><span class="catalog-garden-name"><a href="/abd-skills-catalog/idea%20shaping/abd-opportunity-generation/">abd-opportunity-canvas</a></span><span class="catalog-garden-desc">Frame an opportunity, align on vision, and make assumptions and validation explicit before committing build.</span></div>
+    <div class="catalog-garden-row"><span class="catalog-garden-name"><a href="/abd-skills-catalog/idea%20shaping/abd-simple-validated-learning/">abd-simple-validated-learning</a></span><span class="catalog-garden-desc">Turn surfaced assumptions into hypotheses, prioritise small tests, and run Plan / Validate / Learn before full build.</span></div>
+  </div>
+  <div class="catalog-garden-col">
+    <div class="catalog-garden-col-header">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><circle cx="8" cy="8" r="5.5"/><circle cx="8" cy="8" r="2"/><path d="M8 2.5V6M8 10v3.5M2.5 8H6M10 8h3.5"/></svg>
+      <span>Domain Driven Design</span>
+    </div>
+    <div class="catalog-garden-row"><span class="catalog-garden-name"><a href="/abd-skills-catalog/domain-driven-design/abd-domain-language/">abd-domain-language</a></span><span class="catalog-garden-desc">Build a shared, rigorous vocabulary for each module â€” the terms, behaviors, and rules that domain experts and modelers agree on â€” so that every conversation, document, and downstream artifact …</span></div>
+    <div class="catalog-garden-row"><span class="catalog-garden-name"><a href="/abd-skills-catalog/domain-driven-design/abd-module-partition/">abd-module-partition</a></span><span class="catalog-garden-desc">Produce a root index () plus per-module files under  â€” each containing scope, core terms, and source file references (not verbatim copies). No classes, no anchors, no UML, no stereotypes.</span></div>
+    <div class="catalog-garden-row"><span class="catalog-garden-name"><a href="/abd-skills-catalog/domain-driven-design/abd-class-responsibility-collaborator/">class-responsibility-collaborator</a></span><span class="catalog-garden-desc">For every domain concept: assign responsibilities, name collaborators, and declare invariants — all in one structured pass before object-model.</span></div>
+    <div class="catalog-garden-row"><span class="catalog-garden-name"><a href="/abd-skills-catalog/domain-driven-design/abd-domain-sketch/">domain-sketch</a></span><span class="catalog-garden-desc">Enrich a module file with structured, plain-English concept blocks so the team has a readable object model before committing to classes.</span></div>
+    <div class="catalog-garden-row"><span class="catalog-garden-name"><a href="/abd-skills-catalog/domain-driven-design/abd-key-abstractions/">key-abstractions</a></span><span class="catalog-garden-desc">Group UDL terms into named Key Abstractions with prose definitions and verbatim source extracts, elevating a flat term list into defined domain building blocks.</span></div>
+    <div class="catalog-garden-row"><span class="catalog-garden-name"><a href="/abd-skills-catalog/domain-driven-design/abd-object-model/">object-model</a></span><span class="catalog-garden-desc">Build a typed object model for a module. A CRC model makes it faster but is not required. Use when a module needs a typed domain surface before writing production code, or when a module has reached …</span></div>
+    <div class="catalog-garden-row"><span class="catalog-garden-name"><a href="/abd-skills-catalog/domain-driven-design/abd-scenario-walkthrough/">scenario-walkthrough</a></span><span class="catalog-garden-desc">Produce domain-walkthrough.md: indented scenario walks where every step maps to a class and responsibility from crc.md; lifecycle guards and invariants come from the CRC lifecycle fields. Fix gaps …</span></div>
+  </div>
+  <div class="catalog-garden-col">
+    <div class="catalog-garden-col-header">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="12" height="12" rx="1.5"/><path d="M5 6h6M5 9h4M5 12h2"/><path d="M11 9l2 2-2 2"/></svg>
+      <span>Story-Driven Delivery</span>
+    </div>
+    <div class="catalog-garden-row"><span class="catalog-garden-name"><a href="/abd-skills-catalog/story-driven-delivery/abd-acceptance-criteria/">abd-acceptance-criteria</a></span><span class="catalog-garden-desc">WHEN/THEN acceptance criteria for story-graph.json; ships rules and scanners for execute-skill-using-skills-rules.</span></div>
+    <div class="catalog-garden-row"><span class="catalog-garden-name"><a href="/abd-skills-catalog/story-driven-delivery/abd-specification-by-example/">abd-specification-by-example</a></span><span class="catalog-garden-desc">Given/When/Then scenarios with real domain values; plain or outline (data tables) templates.</span></div>
+    <div class="catalog-garden-row"><span class="catalog-garden-name"><a href="/abd-skills-catalog/story-driven-delivery/abd-story-mapping/">abd-story-mapping</a></span><span class="catalog-garden-desc">Patton-style story maps (epics, stories, verb-noun naming); writes story-map templates from sources.</span></div>
+    <div class="catalog-garden-row"><span class="catalog-garden-name"><a href="/abd-skills-catalog/story-driven-delivery/abd-thin-slicing/">abd-thin-slicing</a></span><span class="catalog-garden-desc">Thin-sliced MVIs and backlog order from a story map; writes thin-slicing templates.</span></div>
+    <div class="catalog-garden-row"><span class="catalog-garden-name"><a href="/abd-skills-catalog/story-driven-delivery/drawio-story-sync/">drawio-story-sync</a></span><span class="catalog-garden-desc">story-graph.json to Draw.io story maps; validated load/save and diagram sync.</span></div>
+    <div class="catalog-garden-row"><span class="catalog-garden-name"><a href="/abd-skills-catalog/story-driven-delivery/miro-story-sync/">miro-story-sync</a></span><span class="catalog-garden-desc">story-graph.json to Miro story maps; validated load and REST-driven board sync.</span></div>
+    <div class="catalog-garden-row"><span class="catalog-garden-name"><a href="/abd-skills-catalog/story-driven-delivery/story-graph-ops/">story-graph-ops</a></span><span class="catalog-garden-desc">CRUD story-graph.json via CLI/scripts, validate, persist; no hand-written JSON drift.</span></div>
+  </div>
+  <div class="catalog-garden-col">
+    <div class="catalog-garden-col-header">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4L1 8l4 4M11 4l4 4-4 4M9.5 2.5l-3 11"/></svg>
+      <span>Engineering</span>
+    </div>
+    <div class="catalog-garden-row"><span class="catalog-garden-name"><a href="/abd-skills-catalog/story-driven-delivery/abd-acceptance-test-driven-development/">abd-acceptance-test-driven-development</a></span><span class="catalog-garden-desc">Write tests first. Write code to pass them.</span></div>
+    <div class="catalog-garden-row"><span class="catalog-garden-name"><a href="/abd-skills-catalog/engineering/abd-clean-code/">abd-clean-code</a></span><span class="catalog-garden-desc">Production code that matches story behavior: clean structure, domain language, scanner-backed quality bars (Python/JS).</span></div>
+    <div class="catalog-garden-row"><span class="catalog-garden-name"><a href="/abd-skills-catalog/engineering/mern-technical-architecture/">mern-technical-architecture</a></span><span class="catalog-garden-desc">Domain-first MERN web applications: domain modules, shared logic, Clean Architecture layers, story-driven tests, scanner-verified compliance.</span></div>
+  </div>
+  <div class="catalog-garden-col">
+    <div class="catalog-garden-col-header">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 5h12v7a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5z"/><path d="M2 5l2-3h8l2 3M6 9h4"/></svg>
+      <span>Delivery</span>
+    </div>
+    <div class="catalog-garden-row"><span class="catalog-garden-name"><a href="/abd-skills-catalog/delivery/abd-delivery-planning/">abd-delivery-planning</a></span><span class="catalog-garden-desc">Delivery plans only: context, risks, strategies, staged runs and checkpoints (not stories, tests, or code).</span></div>
+    <div class="catalog-garden-row"><span class="catalog-garden-name"><a href="/abd-skills-catalog/delivery/abd-delivery-war-room/">abd-delivery-war-room</a></span><span class="catalog-garden-desc">Experimental file-based war room for handoffs between  and :  under the engagement workspace with , , and  / . Not wired into the delivery-lead or team-member agents until re-integrated from first …</span></div>
+  </div>
 </div>
 
-<h2>Domain-Driven Design</h2>
-<div class="cap-grid">
-<a class="cap-card" href="../domain-driven-design/abd-domain-language/">
-  <p class="cap-card__title">
-    <span class="cap-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#1a1a1e"/><path d="M7 8h10M7 12h7M7 16h10" stroke="#ff7a00" stroke-width="1.5" stroke-linecap="round"/></svg></span>
-    abd-domain-language
-  </p>
-  <div class="cap-card__row">
-    <div>
-      <p class="cap-card__label">Challenge</p>
-      <p class="cap-card__problem">Build a shared, rigorous vocabulary for each module â€” the terms, behaviors, and rules that domain experts and modelers agree on â€” so that every conversation, document, and downstream artifact …</p>
+<div class="catalog-section-label catalog-section-label--foundational">
+  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 4.5l5-2 5 2-5 2-5-2z"/><path d="M2 8l5 2 5-2"/><path d="M2 11.5l5 2 5-2"/></svg>
+  Foundational Skills — Enhance the Way Skills Run
+</div>
+<div class="catalog-foundational-grid">
+  <div class="catalog-garden-col">
+    <div class="catalog-garden-col-header catalog-garden-col-header--foundational">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 4l6-2.5L14 4l-6 2.5L2 4z"/><path d="M2 8l6 2.5L14 8"/><path d="M2 12l6 2.5L14 12"/></svg>
+      <span>Utilities</span>
     </div>
-    <hr class="cap-card__sep">
-    <div>
-      <p class="cap-card__label">Solution</p>
-      <p class="cap-card__solution">Build a shared, rigorous vocabulary for each module â€” the terms, behaviors, and rules that domain experts and modelers agree on â€” so that every conversation, document, and downstream artifact …</p>
-    </div>
+    <div class="catalog-garden-row"><span class="catalog-garden-name catalog-garden-name--foundational"><a href="/abd-skills-catalog/utilities/abd-proposal-respond/">abd-proposal-respond</a></span><span class="catalog-garden-desc">RFP and proposal response: ingest to memory (abd-context-to-memory), strategy, batched Q&amp;A with RAG.</span></div>
+    <div class="catalog-garden-row"><span class="catalog-garden-name catalog-garden-name--foundational"><a href="/abd-skills-catalog/utilities/ai-research-assistant/research-compare-approach/">research-compare-approach</a></span><span class="catalog-garden-desc">Critically compare the user&#x27;s approach against researched alternatives. Identifies strengths, weaknesses, trade-offs, and legitimate white space. Reads the user&#x27;s codebase ONLY to understand what …</span></div>
+    <div class="catalog-garden-row"><span class="catalog-garden-name catalog-garden-name--foundational"><a href="/abd-skills-catalog/utilities/ai-research-assistant/research-problem-validation/">research-problem-validation</a></span><span class="catalog-garden-desc">Research whether a stated problem is real and worth solving. Searches online and model knowledge for who is talking about the problem, who says it is NOT a problem, competing problems in the same …</span></div>
+    <div class="catalog-garden-row"><span class="catalog-garden-name catalog-garden-name--foundational"><a href="/abd-skills-catalog/utilities/ai-research-assistant/research-solution-landscape/">research-solution-landscape</a></span><span class="catalog-garden-desc">Map the landscape of competing solutions for a validated problem. Searches online and model knowledge for categories of approaches, key tools and frameworks, trade-offs, and which segments each …</span></div>
   </div>
-  <p class="cap-card__more">Open skill →</p>
-</a>
-
-<a class="cap-card" href="../domain-driven-design/abd-module-partition/">
-  <p class="cap-card__title">
-    <span class="cap-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#1a1a1e"/><path d="M7 8h10M7 12h7M7 16h10" stroke="#ff7a00" stroke-width="1.5" stroke-linecap="round"/></svg></span>
-    abd-module-partition
-  </p>
-  <div class="cap-card__row">
-    <div>
-      <p class="cap-card__label">Challenge</p>
-      <p class="cap-card__problem">Produce a root index () plus per-module files under  â€” each containing scope, core terms, and source file references (not verbatim copies).</p>
+  <div class="catalog-garden-col">
+    <div class="catalog-garden-col-header catalog-garden-col-header--foundational">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13.5 2.5a3.5 3.5 0 0 0-4.9 4.9L2 14a1 1 0 0 0 1.4 1.4l6.6-6.6 a3.5 3.5 0 0 0 3.5-6.3z"/><path d="M12 4l-2 2"/></svg>
+      <span>Skill Helpers</span>
     </div>
-    <hr class="cap-card__sep">
-    <div>
-      <p class="cap-card__label">Solution</p>
-      <p class="cap-card__solution">Produce a root index () plus per-module files under  â€” each containing scope, core terms, and source file references (not verbatim copies).</p>
-    </div>
+    <div class="catalog-garden-row"><span class="catalog-garden-name catalog-garden-name--foundational"><a href="/abd-skills-catalog/skill-helpers/commit-msg/">abd-commit-msg</a></span><span class="catalog-garden-desc">Commit messages from scope and changed files; no story_graph (/commit and similar).</span></div>
+    <div class="catalog-garden-row"><span class="catalog-garden-name catalog-garden-name--foundational"><a href="/abd-skills-catalog/skill-helpers/correct_output/">correct-output</a></span><span class="catalog-garden-desc">Fix the deliverable first, log corrections, iterate until right — only then improve the source.</span></div>
+    <div class="catalog-garden-row"><span class="catalog-garden-name catalog-garden-name--foundational"><a href="/abd-skills-catalog/skill-helpers/deploy-skill-to-cursor/">deploy-skill-to-cursor</a></span><span class="catalog-garden-desc">Junction-link a repo skill into Cursor/VS Code — skill folder, rules, instructions, and commands.</span></div>
+    <div class="catalog-garden-row"><span class="catalog-garden-name catalog-garden-name--foundational"><a href="/abd-skills-catalog/skill-helpers/execute-skill-using-skills-rules/">execute-skill-using-skills-rules</a></span><span class="catalog-garden-desc">Run scanners, validate output against rules, fix failures; quality gate before and after work.</span></div>
+    <div class="catalog-garden-row"><span class="catalog-garden-name catalog-garden-name--foundational"><a href="/abd-skills-catalog/skill-helpers/skill-garden-catalogue/">skill-garden-catalogue</a></span><span class="catalog-garden-desc">Scan a folder of deployed skills and regenerate a one-pager Markdown inventory and an HTML index page. Each entry shows the challenge the skill addresses and the solution it provides, hyperlinked to …</span></div>
+    <div class="catalog-garden-row"><span class="catalog-garden-name catalog-garden-name--foundational"><a href="/abd-skills-catalog/skill-helpers/track_task/">track-task</a></span><span class="catalog-garden-desc">Checkbox markdown task lists for pipelines or ad-hoc steps under the engagement workspace.</span></div>
+    <div class="catalog-garden-row"><span class="catalog-garden-name catalog-garden-name--foundational"><a href="/abd-skills-catalog/skill-helpers/workspace_skill/">workspace</a></span><span class="catalog-garden-desc">Set/read active_skill_workspace in skill-config; scripts resolve the engagement root.</span></div>
   </div>
-  <p class="cap-card__more">Open skill →</p>
-</a>
-
-<a class="cap-card" href="../domain-driven-design/abd-class-responsibility-collaborator/">
-  <p class="cap-card__title">
-    <span class="cap-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#1a1a1e"/><path d="M7 8h10M7 12h7M7 16h10" stroke="#ff7a00" stroke-width="1.5" stroke-linecap="round"/></svg></span>
-    class-responsibility-collaborator
-  </p>
-  <div class="cap-card__row">
-    <div>
-      <p class="cap-card__label">Challenge</p>
-      <p class="cap-card__problem">This skill takes domain concepts from a completed domain sketch and produces a structured CRC model: for each concept, what it is responsible for, who it collaborates with, and what must always …</p>
-    </div>
-    <hr class="cap-card__sep">
-    <div>
-      <p class="cap-card__label">Solution</p>
-      <p class="cap-card__solution">For every domain concept: assign responsibilities, name collaborators, and declare invariants — all in one structured pass before object-model.</p>
-    </div>
-  </div>
-  <p class="cap-card__more">Open skill →</p>
-</a>
-
-<a class="cap-card" href="../domain-driven-design/abd-domain-sketch/">
-  <p class="cap-card__title">
-    <span class="cap-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#1a1a1e"/><path d="M7 8h10M7 12h7M7 16h10" stroke="#ff7a00" stroke-width="1.5" stroke-linecap="round"/></svg></span>
-    domain-sketch
-  </p>
-  <div class="cap-card__row">
-    <div>
-      <p class="cap-card__label">Challenge</p>
-      <p class="cap-card__problem">The purpose of this skill is to create a robust domain model that describes domain concepts in a structured, plain-English form — before anyone commits to classes, methods, or properties.</p>
-    </div>
-    <hr class="cap-card__sep">
-    <div>
-      <p class="cap-card__label">Solution</p>
-      <p class="cap-card__solution">Enrich a module file with structured, plain-English concept blocks so the team has a readable object model before committing to classes.</p>
-    </div>
-  </div>
-  <p class="cap-card__more">Open skill →</p>
-</a>
-
-<a class="cap-card" href="../domain-driven-design/abd-key-abstractions/">
-  <p class="cap-card__title">
-    <span class="cap-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#1a1a1e"/><path d="M7 8h10M7 12h7M7 16h10" stroke="#ff7a00" stroke-width="1.5" stroke-linecap="round"/></svg></span>
-    key-abstractions
-  </p>
-  <div class="cap-card__row">
-    <div>
-      <p class="cap-card__label">Challenge</p>
-      <p class="cap-card__problem">A shared vocabulary names the pieces of the domain, but it doesn&#x27;t tell you which concepts carry the weight — which ones anchor the model, own specific responsibilities, and enforce the rules that …</p>
-    </div>
-    <hr class="cap-card__sep">
-    <div>
-      <p class="cap-card__label">Solution</p>
-      <p class="cap-card__solution">Group UDL terms into named Key Abstractions with prose definitions and verbatim source extracts, elevating a flat term list into defined domain building blocks.</p>
-    </div>
-  </div>
-  <p class="cap-card__more">Open skill →</p>
-</a>
-
-<a class="cap-card" href="../domain-driven-design/abd-object-model/">
-  <p class="cap-card__title">
-    <span class="cap-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#1a1a1e"/><path d="M7 8h10M7 12h7M7 16h10" stroke="#ff7a00" stroke-width="1.5" stroke-linecap="round"/></svg></span>
-    object-model
-  </p>
-  <div class="cap-card__row">
-    <div>
-      <p class="cap-card__label">Challenge</p>
-      <p class="cap-card__problem">Build a typed object model for a module.</p>
-    </div>
-    <hr class="cap-card__sep">
-    <div>
-      <p class="cap-card__label">Solution</p>
-      <p class="cap-card__solution">Build a typed object model for a module. A CRC model makes it faster but is not required. Use when a module needs a typed domain surface before writing production code, or when a module has reached state: crc.</p>
-    </div>
-  </div>
-  <p class="cap-card__more">Open skill →</p>
-</a>
-
-<a class="cap-card" href="../domain-driven-design/abd-scenario-walkthrough/">
-  <p class="cap-card__title">
-    <span class="cap-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#1a1a1e"/><path d="M7 8h10M7 12h7M7 16h10" stroke="#ff7a00" stroke-width="1.5" stroke-linecap="round"/></svg></span>
-    scenario-walkthrough
-  </p>
-  <div class="cap-card__row">
-    <div>
-      <p class="cap-card__label">Challenge</p>
-      <p class="cap-card__problem">Walk concrete scenarios through the CRC model.</p>
-    </div>
-    <hr class="cap-card__sep">
-    <div>
-      <p class="cap-card__label">Solution</p>
-      <p class="cap-card__solution">Produce domain-walkthrough.md: indented scenario walks where every step maps to a class and responsibility from crc.md; lifecycle guards and invariants come from the CRC lifecycle fields. Fix gaps before object-model. Input: crc.md …</p>
-    </div>
-  </div>
-  <p class="cap-card__more">Open skill →</p>
-</a>
-
 </div>
 
-<h2>Engineering</h2>
-<div class="cap-grid">
-<a class="cap-card" href="../engineering/abd-clean-code/">
-  <p class="cap-card__title">
-    <span class="cap-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#1a1a1e"/><path d="M7 8h10M7 12h7M7 16h10" stroke="#ff7a00" stroke-width="1.5" stroke-linecap="round"/></svg></span>
-    abd-clean-code
-  </p>
-  <div class="cap-card__row">
-    <div>
-      <p class="cap-card__label">Challenge</p>
-      <p class="cap-card__problem">Write production code that implements story behavior using domain language, clean functions, explicit dependencies, and observable design.</p>
-    </div>
-    <hr class="cap-card__sep">
-    <div>
-      <p class="cap-card__label">Solution</p>
-      <p class="cap-card__solution">Production code that matches story behavior: clean structure, domain language, scanner-backed quality bars (Python/JS).</p>
-    </div>
-  </div>
-  <p class="cap-card__more">Open skill →</p>
-</a>
-
-<a class="cap-card" href="../engineering/mern-technical-architecture/">
-  <p class="cap-card__title">
-    <span class="cap-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#1a1a1e"/><path d="M7 8h10M7 12h7M7 16h10" stroke="#ff7a00" stroke-width="1.5" stroke-linecap="round"/></svg></span>
-    mern-technical-architecture
-  </p>
-  <div class="cap-card__row">
-    <div>
-      <p class="cap-card__label">Challenge</p>
-      <p class="cap-card__problem">Generate production MERN web applications using a domain-first architecture — organizing by business capability, sharing domain logic across tiers, enforcing Clean Architecture layer purity, and …</p>
-    </div>
-    <hr class="cap-card__sep">
-    <div>
-      <p class="cap-card__label">Solution</p>
-      <p class="cap-card__solution">Domain-first MERN web applications: domain modules, shared logic, Clean Architecture layers, story-driven tests, scanner-verified compliance.</p>
-    </div>
-  </div>
-  <p class="cap-card__more">Open skill →</p>
-</a>
-
+<div class="catalog-section-label catalog-section-label--agents">
+  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="7" cy="4.5" r="2.5"/><path d="M1.5 13c0-3 2.2-5 5.5-5s5.5 2 5.5 5"/><path d="M7 8.5v1.5M6 10h2"/></svg>
+  Agents — Role-Based AI Collaborators
 </div>
-
-<h2>Idea Shaping</h2>
-<div class="cap-grid">
-<a class="cap-card" href="../idea shaping/abd-cost-of-delay/">
-  <p class="cap-card__title">
-    <span class="cap-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#1a1a1e"/><path d="M7 8h10M7 12h7M7 16h10" stroke="#ff7a00" stroke-width="1.5" stroke-linecap="round"/></svg></span>
-    abd-cost-of-delay
-  </p>
-  <div class="cap-card__row">
-    <div>
-      <p class="cap-card__label">Challenge</p>
-      <p class="cap-card__problem">Teams routinely prioritize work by gut feel, stakeholder loudness, or first-in-first-out — all of which ignore how much value decays while items wait to be delivered.</p>
+<div class="catalog-agents-grid">
+  <div class="catalog-garden-col">
+    <div class="catalog-garden-col-header catalog-garden-col-header--foundational">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8" cy="5" r="3"/><path d="M2 14c0-3.3 2.7-6 6-6s6 2.7 6 6"/><path d="M8 9v2M6 11h4"/></svg>
+      <span>Agents</span>
     </div>
-    <hr class="cap-card__sep">
-    <div>
-      <p class="cap-card__label">Solution</p>
-      <p class="cap-card__solution">Quantify urgency × value for backlog items; score CD3 and rank to prioritize by economic impact of delay.</p>
-    </div>
+    <div class="catalog-garden-row"><span class="catalog-garden-name catalog-garden-name--foundational"><a href="/abd-skills-catalog/agents/abd-delivery-lead/">abd-delivery-lead</a></span><span class="catalog-garden-desc"># ABD Delivery Lead</span></div>
+    <div class="catalog-garden-row"><span class="catalog-garden-name catalog-garden-name--foundational"><a href="/abd-skills-catalog/agents/abd-team-member/">abd-team-member</a></span><span class="catalog-garden-desc"># ABD Team Member</span></div>
   </div>
-  <p class="cap-card__more">Open skill →</p>
-</a>
-
-<a class="cap-card" href="../idea shaping/abd-impact-mapping/">
-  <p class="cap-card__title">
-    <span class="cap-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#1a1a1e"/><path d="M7 8h10M7 12h7M7 16h10" stroke="#ff7a00" stroke-width="1.5" stroke-linecap="round"/></svg></span>
-    abd-impact-mapping
-  </p>
-  <div class="cap-card__row">
-    <div>
-      <p class="cap-card__label">Challenge</p>
-      <p class="cap-card__problem">Impact mapping is a strategic discovery technique that links broader goals to finer-grained goals, then to actors, their observable behaviour changes, and deliverable options (often epics or …</p>
-    </div>
-    <hr class="cap-card__sep">
-    <div>
-      <p class="cap-card__label">Solution</p>
-      <p class="cap-card__solution">Strategic impact maps: hierarchy view, ASCII wall map, and hypothesis sentences from discovery sources.</p>
-    </div>
-  </div>
-  <p class="cap-card__more">Open skill →</p>
-</a>
-
-<a class="cap-card" href="../idea shaping/abd-opportunity-generation/">
-  <p class="cap-card__title">
-    <span class="cap-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#1a1a1e"/><path d="M7 8h10M7 12h7M7 16h10" stroke="#ff7a00" stroke-width="1.5" stroke-linecap="round"/></svg></span>
-    abd-opportunity-canvas
-  </p>
-  <div class="cap-card__row">
-    <div>
-      <p class="cap-card__label">Challenge</p>
-      <p class="cap-card__problem">This skill exists so you do not start &quot;building a solution&quot; while people are thinking about a different problem, a different customer, or a different definition of success.</p>
-    </div>
-    <hr class="cap-card__sep">
-    <div>
-      <p class="cap-card__label">Solution</p>
-      <p class="cap-card__solution">Frame an opportunity, align on vision, and make assumptions and validation explicit before committing build.</p>
-    </div>
-  </div>
-  <p class="cap-card__more">Open skill →</p>
-</a>
-
-<a class="cap-card" href="../idea shaping/abd-simple-validated-learning/">
-  <p class="cap-card__title">
-    <span class="cap-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#1a1a1e"/><path d="M7 8h10M7 12h7M7 16h10" stroke="#ff7a00" stroke-width="1.5" stroke-linecap="round"/></svg></span>
-    abd-simple-validated-learning
-  </p>
-  <div class="cap-card__row">
-    <div>
-      <p class="cap-card__label">Challenge</p>
-      <p class="cap-card__problem">Opportunities, ideas, and initiatives often carry many unverified assumptions — about customers, value, feasibility, and economics — that the organisation has not yet checked.</p>
-    </div>
-    <hr class="cap-card__sep">
-    <div>
-      <p class="cap-card__label">Solution</p>
-      <p class="cap-card__solution">Turn surfaced assumptions into hypotheses, prioritise small tests, and run Plan / Validate / Learn before full build.</p>
-    </div>
-  </div>
-  <p class="cap-card__more">Open skill →</p>
-</a>
-
-</div>
-
-<h2>Skill Helpers</h2>
-<div class="cap-grid">
-<a class="cap-card" href="../skill-helpers/practice-skill-builder/abd-author-practice-skill/">
-  <p class="cap-card__title">
-    <span class="cap-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#1a1a1e"/><path d="M7 8h10M7 12h7M7 16h10" stroke="#ff7a00" stroke-width="1.5" stroke-linecap="round"/></svg></span>
-    abd-author-practice-skill
-  </p>
-  <div class="cap-card__row">
-    <div>
-      <p class="cap-card__label">Challenge</p>
-      <p class="cap-card__problem">Teams need practice skills that people and agents can follow without improvising or drifting away from what the sources actually say.</p>
-    </div>
-    <hr class="cap-card__sep">
-    <div>
-      <p class="cap-card__label">Solution</p>
-      <p class="cap-card__solution">Turn collected hub evidence into a finished practice skill: clear instructions and checkable do-and-don&#x27;t norms that stay true to what you retrieved.</p>
-    </div>
-  </div>
-  <p class="cap-card__more">Open skill →</p>
-</a>
-
-<a class="cap-card" href="../skill-helpers/practice-skill-builder/abd-build-practice-scanners/">
-  <p class="cap-card__title">
-    <span class="cap-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#1a1a1e"/><path d="M7 8h10M7 12h7M7 16h10" stroke="#ff7a00" stroke-width="1.5" stroke-linecap="round"/></svg></span>
-    abd-build-practice-scanners
-  </p>
-  <div class="cap-card__row">
-    <div>
-      <p class="cap-card__label">Challenge</p>
-      <p class="cap-card__problem">Written DO / DO NOT rules are easy to ignore or misread.</p>
-    </div>
-    <hr class="cap-card__sep">
-    <div>
-      <p class="cap-card__label">Solution</p>
-      <p class="cap-card__solution">Turn written rules into checks a machine can run, so drift is caught early instead of debated in chat.</p>
-    </div>
-  </div>
-  <p class="cap-card__more">Open skill →</p>
-</a>
-
-<a class="cap-card" href="../skill-helpers/commit-msg/">
-  <p class="cap-card__title">
-    <span class="cap-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#1a1a1e"/><path d="M7 8h10M7 12h7M7 16h10" stroke="#ff7a00" stroke-width="1.5" stroke-linecap="round"/></svg></span>
-    abd-commit-msg
-  </p>
-  <div class="cap-card__row">
-    <div>
-      <p class="cap-card__label">Challenge</p>
-      <p class="cap-card__problem">User types  or requests a commit</p>
-    </div>
-    <hr class="cap-card__sep">
-    <div>
-      <p class="cap-card__label">Solution</p>
-      <p class="cap-card__solution">Commit messages from scope and changed files; no story_graph (/commit and similar).</p>
-    </div>
-  </div>
-  <p class="cap-card__more">Open skill →</p>
-</a>
-
-<a class="cap-card" href="../skill-helpers/practice-skill-builder/abd-practice-skill-manual/">
-  <p class="cap-card__title">
-    <span class="cap-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#1a1a1e"/><path d="M7 8h10M7 12h7M7 16h10" stroke="#ff7a00" stroke-width="1.5" stroke-linecap="round"/></svg></span>
-    abd-practice-skill-manual
-  </p>
-  <div class="cap-card__row">
-    <div>
-      <p class="cap-card__label">Challenge</p>
-      <p class="cap-card__problem">SKILL.md is the compact source of truth; many readers still want a browser-friendly walkthrough with room for diagrams, step layout, and quoted evidence.</p>
-    </div>
-    <hr class="cap-card__sep">
-    <div>
-      <p class="cap-card__label">Solution</p>
-      <p class="cap-card__solution">Ship a readable HTML companion for a practice: longer walkthroughs, figures, and sources so people can study the method without parsing SKILL.md alone.</p>
-    </div>
-  </div>
-  <p class="cap-card__more">Open skill →</p>
-</a>
-
-<a class="cap-card" href="../skill-helpers/practice-skill-builder/abd-query-practice-sources/">
-  <p class="cap-card__title">
-    <span class="cap-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#1a1a1e"/><path d="M7 8h10M7 12h7M7 16h10" stroke="#ff7a00" stroke-width="1.5" stroke-linecap="round"/></svg></span>
-    abd-query-practice-sources
-  </p>
-  <div class="cap-card__row">
-    <div>
-      <p class="cap-card__label">Challenge</p>
-      <p class="cap-card__problem">Before anyone writes instructions or rules for a practice, you need a single, honest record of what the hub actually contains on that topic: what you read, where it lives, and how each piece supports …</p>
-    </div>
-    <hr class="cap-card__sep">
-    <div>
-      <p class="cap-card__label">Solution</p>
-      <p class="cap-card__solution">Pull defensible excerpts from the content hub so a new practice can cite real sources, not guesswork: one auditable log of what you kept and why it matters.</p>
-    </div>
-  </div>
-  <p class="cap-card__more">Open skill →</p>
-</a>
-
-<a class="cap-card" href="../skill-helpers/practice-skill-builder/abd-skill-catalog/">
-  <p class="cap-card__title">
-    <span class="cap-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#1a1a1e"/><path d="M7 8h10M7 12h7M7 16h10" stroke="#ff7a00" stroke-width="1.5" stroke-linecap="round"/></svg></span>
-    abd-skill-catalog
-  </p>
-  <div class="cap-card__row">
-    <div>
-      <p class="cap-card__label">Challenge</p>
-      <p class="cap-card__problem">You added, renamed, or retired a skill or agent and the AI Garden is stale.</p>
-    </div>
-    <hr class="cap-card__sep">
-    <div>
-      <p class="cap-card__label">Solution</p>
-      <p class="cap-card__solution">Regenerate the browsable AI Garden (HTML + outline) for skills and agents from repo packages.</p>
-    </div>
-  </div>
-  <p class="cap-card__more">Open skill →</p>
-</a>
-
-<a class="cap-card" href="../skill-helpers/correct_output/">
-  <p class="cap-card__title">
-    <span class="cap-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#1a1a1e"/><path d="M7 8h10M7 12h7M7 16h10" stroke="#ff7a00" stroke-width="1.5" stroke-linecap="round"/></svg></span>
-    correct-output
-  </p>
-  <div class="cap-card__row">
-    <div>
-      <p class="cap-card__label">Challenge</p>
-      <p class="cap-card__problem">This skill governs what to do when generated output is wrong.</p>
-    </div>
-    <hr class="cap-card__sep">
-    <div>
-      <p class="cap-card__label">Solution</p>
-      <p class="cap-card__solution">Fix the deliverable first, log corrections, iterate until right — only then improve the source.</p>
-    </div>
-  </div>
-  <p class="cap-card__more">Open skill →</p>
-</a>
-
-<a class="cap-card" href="../skill-helpers/deploy-skill-to-cursor/">
-  <p class="cap-card__title">
-    <span class="cap-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#1a1a1e"/><path d="M7 8h10M7 12h7M7 16h10" stroke="#ff7a00" stroke-width="1.5" stroke-linecap="round"/></svg></span>
-    deploy-skill-to-cursor
-  </p>
-  <div class="cap-card__row">
-    <div>
-      <p class="cap-card__label">Challenge</p>
-      <p class="cap-card__problem">You added or changed a skill under  and want Cursor and/or VS Code to load it without maintaining a second copy.</p>
-    </div>
-    <hr class="cap-card__sep">
-    <div>
-      <p class="cap-card__label">Solution</p>
-      <p class="cap-card__solution">Junction-link a repo skill into Cursor/VS Code — skill folder, rules, instructions, and commands.</p>
-    </div>
-  </div>
-  <p class="cap-card__more">Open skill →</p>
-</a>
-
-<a class="cap-card" href="../skill-helpers/execute-skill-using-skills-rules/">
-  <p class="cap-card__title">
-    <span class="cap-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#1a1a1e"/><path d="M7 8h10M7 12h7M7 16h10" stroke="#ff7a00" stroke-width="1.5" stroke-linecap="round"/></svg></span>
-    execute-skill-using-skills-rules
-  </p>
-  <div class="cap-card__row">
-    <div>
-      <p class="cap-card__label">Challenge</p>
-      <p class="cap-card__problem">execute-skill-using-skills-rules</p>
-    </div>
-    <hr class="cap-card__sep">
-    <div>
-      <p class="cap-card__label">Solution</p>
-      <p class="cap-card__solution">Run scanners, validate output against rules, fix failures; quality gate before and after work.</p>
-    </div>
-  </div>
-  <p class="cap-card__more">Open skill →</p>
-</a>
-
-<a class="cap-card" href="../skill-helpers/skill-garden-catalogue/">
-  <p class="cap-card__title">
-    <span class="cap-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#1a1a1e"/><path d="M7 8h10M7 12h7M7 16h10" stroke="#ff7a00" stroke-width="1.5" stroke-linecap="round"/></svg></span>
-    skill-garden-catalogue
-  </p>
-  <div class="cap-card__row">
-    <div>
-      <p class="cap-card__label">Challenge</p>
-      <p class="cap-card__problem">You want a single-page overview of all available skills.</p>
-    </div>
-    <hr class="cap-card__sep">
-    <div>
-      <p class="cap-card__label">Solution</p>
-      <p class="cap-card__solution">Scan a folder of deployed skills and regenerate a one-pager Markdown inventory and an HTML index. Each entry shows the challenge the skill addresses and the solution it provides, hyperlinked to the skill directory. Re-run on command to keep the …</p>
-    </div>
-  </div>
-  <p class="cap-card__more">Open skill →</p>
-</a>
-
-<a class="cap-card" href="../skill-helpers/track_task/">
-  <p class="cap-card__title">
-    <span class="cap-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#1a1a1e"/><path d="M7 8h10M7 12h7M7 16h10" stroke="#ff7a00" stroke-width="1.5" stroke-linecap="round"/></svg></span>
-    track-task
-  </p>
-  <div class="cap-card__row">
-    <div>
-      <p class="cap-card__label">Challenge</p>
-      <p class="cap-card__problem">Track task (checkbox progress)</p>
-    </div>
-    <hr class="cap-card__sep">
-    <div>
-      <p class="cap-card__label">Solution</p>
-      <p class="cap-card__solution">Checkbox markdown task lists for pipelines or ad-hoc steps under the engagement workspace.</p>
-    </div>
-  </div>
-  <p class="cap-card__more">Open skill →</p>
-</a>
-
-<a class="cap-card" href="../skill-helpers/workspace_skill/">
-  <p class="cap-card__title">
-    <span class="cap-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#1a1a1e"/><path d="M7 8h10M7 12h7M7 16h10" stroke="#ff7a00" stroke-width="1.5" stroke-linecap="round"/></svg></span>
-    workspace
-  </p>
-  <div class="cap-card__row">
-    <div>
-      <p class="cap-card__label">Challenge</p>
-      <p class="cap-card__problem">Workspace (agent)</p>
-    </div>
-    <hr class="cap-card__sep">
-    <div>
-      <p class="cap-card__label">Solution</p>
-      <p class="cap-card__solution">Set/read active_skill_workspace in skill-config; scripts resolve the engagement root.</p>
-    </div>
-  </div>
-  <p class="cap-card__more">Open skill →</p>
-</a>
-
-</div>
-
-<h2>Story Analysis</h2>
-<div class="cap-grid">
-<a class="cap-card" href="../story-analysis/abd-acceptance-criteria/">
-  <p class="cap-card__title">
-    <span class="cap-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#1a1a1e"/><path d="M7 8h10M7 12h7M7 16h10" stroke="#ff7a00" stroke-width="1.5" stroke-linecap="round"/></svg></span>
-    abd-acceptance-criteria
-  </p>
-  <div class="cap-card__row">
-    <div>
-      <p class="cap-card__label">Challenge</p>
-      <p class="cap-card__problem">Build acceptance criteria per story, that explain what must be true when users and systems interact: observable triggers (WHEN), expected outcomes (THEN), chained effects (AND), and explicit …</p>
-    </div>
-    <hr class="cap-card__sep">
-    <div>
-      <p class="cap-card__label">Solution</p>
-      <p class="cap-card__solution">WHEN/THEN acceptance criteria for story-graph.json; ships rules and scanners for execute-skill-using-skills-rules.</p>
-    </div>
-  </div>
-  <p class="cap-card__more">Open skill →</p>
-</a>
-
-<a class="cap-card" href="../story-analysis/abd-acceptance-test-driven-development/">
-  <p class="cap-card__title">
-    <span class="cap-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#1a1a1e"/><path d="M7 8h10M7 12h7M7 16h10" stroke="#ff7a00" stroke-width="1.5" stroke-linecap="round"/></svg></span>
-    abd-acceptance-test-driven-development
-  </p>
-  <div class="cap-card__row">
-    <div>
-      <p class="cap-card__label">Challenge</p>
-      <p class="cap-card__problem">Write tests first.</p>
-    </div>
-    <hr class="cap-card__sep">
-    <div>
-      <p class="cap-card__label">Solution</p>
-      <p class="cap-card__solution">Write tests first.</p>
-    </div>
-  </div>
-  <p class="cap-card__more">Open skill →</p>
-</a>
-
-<a class="cap-card" href="../story-analysis/abd-specification-by-example/">
-  <p class="cap-card__title">
-    <span class="cap-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#1a1a1e"/><path d="M7 8h10M7 12h7M7 16h10" stroke="#ff7a00" stroke-width="1.5" stroke-linecap="round"/></svg></span>
-    abd-specification-by-example
-  </p>
-  <div class="cap-card__row">
-    <div>
-      <p class="cap-card__label">Challenge</p>
-      <p class="cap-card__problem">Write Given/When/Then scenarios that make a story&#x27;s expected behavior concrete and testable, using real domain values and named outcomes so the team can verify what the system must do.</p>
-    </div>
-    <hr class="cap-card__sep">
-    <div>
-      <p class="cap-card__label">Solution</p>
-      <p class="cap-card__solution">Given/When/Then scenarios with real domain values; plain or outline (data tables) templates.</p>
-    </div>
-  </div>
-  <p class="cap-card__more">Open skill →</p>
-</a>
-
-<a class="cap-card" href="../story-analysis/abd-story-mapping/">
-  <p class="cap-card__title">
-    <span class="cap-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#1a1a1e"/><path d="M7 8h10M7 12h7M7 16h10" stroke="#ff7a00" stroke-width="1.5" stroke-linecap="round"/></svg></span>
-    abd-story-mapping
-  </p>
-  <div class="cap-card__row">
-    <div>
-      <p class="cap-card__label">Challenge</p>
-      <p class="cap-card__problem">A story map in the Jeff Patton sense is a single shared picture of the product: you organize understanding into a small stack of nested levels—epics (broad capability areas), sub-epics (flows or …</p>
-    </div>
-    <hr class="cap-card__sep">
-    <div>
-      <p class="cap-card__label">Solution</p>
-      <p class="cap-card__solution">Patton-style story maps (epics, stories, verb-noun naming); writes story-map templates from sources.</p>
-    </div>
-  </div>
-  <p class="cap-card__more">Open skill →</p>
-</a>
-
-<a class="cap-card" href="../story-analysis/abd-thin-slicing/">
-  <p class="cap-card__title">
-    <span class="cap-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#1a1a1e"/><path d="M7 8h10M7 12h7M7 16h10" stroke="#ff7a00" stroke-width="1.5" stroke-linecap="round"/></svg></span>
-    abd-thin-slicing
-  </p>
-  <div class="cap-card__row">
-    <div>
-      <p class="cap-card__label">Challenge</p>
-      <p class="cap-card__problem">Define prioritized increments.</p>
-    </div>
-    <hr class="cap-card__sep">
-    <div>
-      <p class="cap-card__label">Solution</p>
-      <p class="cap-card__solution">Thin-sliced MVIs and backlog order from a story map; writes thin-slicing templates.</p>
-    </div>
-  </div>
-  <p class="cap-card__more">Open skill →</p>
-</a>
-
-<a class="cap-card" href="../story-analysis/drawio-story-sync/">
-  <p class="cap-card__title">
-    <span class="cap-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#1a1a1e"/><path d="M7 8h10M7 12h7M7 16h10" stroke="#ff7a00" stroke-width="1.5" stroke-linecap="round"/></svg></span>
-    drawio-story-sync
-  </p>
-  <div class="cap-card__row">
-    <div>
-      <p class="cap-card__label">Challenge</p>
-      <p class="cap-card__problem">drawio-story-sync</p>
-    </div>
-    <hr class="cap-card__sep">
-    <div>
-      <p class="cap-card__label">Solution</p>
-      <p class="cap-card__solution">story-graph.json to Draw.io story maps; validated load/save and diagram sync.</p>
-    </div>
-  </div>
-  <p class="cap-card__more">Open skill →</p>
-</a>
-
-<a class="cap-card" href="../story-analysis/miro-story-sync/">
-  <p class="cap-card__title">
-    <span class="cap-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#1a1a1e"/><path d="M7 8h10M7 12h7M7 16h10" stroke="#ff7a00" stroke-width="1.5" stroke-linecap="round"/></svg></span>
-    miro-story-sync
-  </p>
-  <div class="cap-card__row">
-    <div>
-      <p class="cap-card__label">Challenge</p>
-      <p class="cap-card__problem">miro-story-sync</p>
-    </div>
-    <hr class="cap-card__sep">
-    <div>
-      <p class="cap-card__label">Solution</p>
-      <p class="cap-card__solution">story-graph.json to Miro story maps; validated load and REST-driven board sync.</p>
-    </div>
-  </div>
-  <p class="cap-card__more">Open skill →</p>
-</a>
-
-<a class="cap-card" href="../story-analysis/story-graph-ops/">
-  <p class="cap-card__title">
-    <span class="cap-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#1a1a1e"/><path d="M7 8h10M7 12h7M7 16h10" stroke="#ff7a00" stroke-width="1.5" stroke-linecap="round"/></svg></span>
-    story-graph-ops
-  </p>
-  <div class="cap-card__row">
-    <div>
-      <p class="cap-card__label">Challenge</p>
-      <p class="cap-card__problem">Turning a story map in any form into concrete graph JSON—create/update nodes until the file matches intent.</p>
-    </div>
-    <hr class="cap-card__sep">
-    <div>
-      <p class="cap-card__label">Solution</p>
-      <p class="cap-card__solution">CRUD story-graph.json via CLI/scripts, validate, persist; no hand-written JSON drift.</p>
-    </div>
-  </div>
-  <p class="cap-card__more">Open skill →</p>
-</a>
-
-</div>
-
-<h2>Utilities</h2>
-<div class="cap-grid">
-<a class="cap-card" href="../utilities/abd-context-to-memory/abd-chunk-markdown/">
-  <p class="cap-card__title">
-    <span class="cap-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#1a1a1e"/><path d="M7 8h10M7 12h7M7 16h10" stroke="#ff7a00" stroke-width="1.5" stroke-linecap="round"/></svg></span>
-    abd-chunk-markdown
-  </p>
-  <div class="cap-card__row">
-    <div>
-      <p class="cap-card__label">Challenge</p>
-      <p class="cap-card__problem">Chunk Markdown</p>
-    </div>
-    <hr class="cap-card__sep">
-    <div>
-      <p class="cap-card__label">Solution</p>
-      <p class="cap-card__solution">Split converted Markdown into retrieval-sized chunks with evidence labels, guided by a structure-based chunking spec. Use when the user wants to &quot;chunk documents&quot;, &quot;split for RAG&quot;, &quot;draft a chunking strategy&quot;, or prepare markdown for embedding and …</p>
-    </div>
-  </div>
-  <p class="cap-card__more">Open skill →</p>
-</a>
-
-<a class="cap-card" href="../utilities/abd-context-to-memory/abd-convert-to-markdown/">
-  <p class="cap-card__title">
-    <span class="cap-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#1a1a1e"/><path d="M7 8h10M7 12h7M7 16h10" stroke="#ff7a00" stroke-width="1.5" stroke-linecap="round"/></svg></span>
-    abd-convert-to-markdown
-  </p>
-  <div class="cap-card__row">
-    <div>
-      <p class="cap-card__label">Challenge</p>
-      <p class="cap-card__problem">Convert to Markdown</p>
-    </div>
-    <hr class="cap-card__sep">
-    <div>
-      <p class="cap-card__label">Solution</p>
-      <p class="cap-card__solution">Convert office documents (PDF, PPTX, DOCX, XLSX, etc.) to navigable Markdown with real headings, sections, and tables. Use when the user wants to convert a document or folder of documents to markdown, mentions &quot;convert to markdown&quot;, &quot;extract text&quot; …</p>
-    </div>
-  </div>
-  <p class="cap-card__more">Open skill →</p>
-</a>
-
-<a class="cap-card" href="../utilities/abd-context-to-memory/abd-embed-vectors/">
-  <p class="cap-card__title">
-    <span class="cap-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#1a1a1e"/><path d="M7 8h10M7 12h7M7 16h10" stroke="#ff7a00" stroke-width="1.5" stroke-linecap="round"/></svg></span>
-    abd-embed-vectors
-  </p>
-  <div class="cap-card__row">
-    <div>
-      <p class="cap-card__label">Challenge</p>
-      <p class="cap-card__problem">Embed Vectors</p>
-    </div>
-    <hr class="cap-card__sep">
-    <div>
-      <p class="cap-card__label">Solution</p>
-      <p class="cap-card__solution">Embed text chunks into a local FAISS vector index for semantic search. Use when the user wants to &quot;embed chunks&quot;, &quot;build a vector index&quot;, &quot;create embeddings&quot;, or prepare chunked content for RAG retrieval.</p>
-    </div>
-  </div>
-  <p class="cap-card__more">Open skill →</p>
-</a>
-
-<a class="cap-card" href="../utilities/proposal-respond/">
-  <p class="cap-card__title">
-    <span class="cap-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#1a1a1e"/><path d="M7 8h10M7 12h7M7 16h10" stroke="#ff7a00" stroke-width="1.5" stroke-linecap="round"/></svg></span>
-    abd-proposal-respond
-  </p>
-  <div class="cap-card__row">
-    <div>
-      <p class="cap-card__label">Challenge</p>
-      <p class="cap-card__problem">User wants to respond to an RFP, Q&amp;A, or proposal requirements</p>
-    </div>
-    <hr class="cap-card__sep">
-    <div>
-      <p class="cap-card__label">Solution</p>
-      <p class="cap-card__solution">RFP and proposal response: ingest to memory (abd-context-to-memory), strategy, batched Q&amp;A with RAG.</p>
-    </div>
-  </div>
-  <p class="cap-card__more">Open skill →</p>
-</a>
-
-<a class="cap-card" href="../utilities/abd-context-to-memory/abd-search-memory/">
-  <p class="cap-card__title">
-    <span class="cap-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#1a1a1e"/><path d="M7 8h10M7 12h7M7 16h10" stroke="#ff7a00" stroke-width="1.5" stroke-linecap="round"/></svg></span>
-    abd-search-memory
-  </p>
-  <div class="cap-card__row">
-    <div>
-      <p class="cap-card__label">Challenge</p>
-      <p class="cap-card__problem">Search Memory</p>
-    </div>
-    <hr class="cap-card__sep">
-    <div>
-      <p class="cap-card__label">Solution</p>
-      <p class="cap-card__solution">Semantic search over a local FAISS vector index built from document chunks. Use when the user says &quot;use memory&quot;, &quot;search memory&quot;, &quot;what does memory say&quot;, &quot;from our content&quot;, &quot;what do we have on [topic]&quot;, or asks about content that has been ingested …</p>
-    </div>
-  </div>
-  <p class="cap-card__more">Open skill →</p>
-</a>
-
-<a class="cap-card" href="../utilities/abd-answers/skills/chunk-content/">
-  <p class="cap-card__title">
-    <span class="cap-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#1a1a1e"/><path d="M7 8h10M7 12h7M7 16h10" stroke="#ff7a00" stroke-width="1.5" stroke-linecap="round"/></svg></span>
-    chunk-content
-  </p>
-  <div class="cap-card__row">
-    <div>
-      <p class="cap-card__label">Challenge</p>
-      <p class="cap-card__problem">Stage 2 of the abd-answers memory pipeline: split converted markdown into</p>
-    </div>
-    <hr class="cap-card__sep">
-    <div>
-      <p class="cap-card__label">Solution</p>
-      <p class="cap-card__solution">Chunk pipeline markdown into smaller files for embedding. Use after convert-content has run, when chunks need refreshing, or when the chunking spec changes.</p>
-    </div>
-  </div>
-  <p class="cap-card__more">Open skill →</p>
-</a>
-
-<a class="cap-card" href="../utilities/abd-answers/skills/convert-content/">
-  <p class="cap-card__title">
-    <span class="cap-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#1a1a1e"/><path d="M7 8h10M7 12h7M7 16h10" stroke="#ff7a00" stroke-width="1.5" stroke-linecap="round"/></svg></span>
-    convert-content
-  </p>
-  <div class="cap-card__row">
-    <div>
-      <p class="cap-card__label">Challenge</p>
-      <p class="cap-card__problem">Stage 1 of the abd-answers memory pipeline: convert source files to markdown</p>
-    </div>
-    <hr class="cap-card__sep">
-    <div>
-      <p class="cap-card__label">Solution</p>
-      <p class="cap-card__solution">Convert source files (PDF, DOCX, PPTX, etc.) under data/assets to mirrored markdown in the pipeline. Use when new content is added, files change, or the user asks to refresh the markdown layer.</p>
-    </div>
-  </div>
-  <p class="cap-card__more">Open skill →</p>
-</a>
-
-<a class="cap-card" href="../utilities/abd-answers/skills/embed-pinecone/">
-  <p class="cap-card__title">
-    <span class="cap-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#1a1a1e"/><path d="M7 8h10M7 12h7M7 16h10" stroke="#ff7a00" stroke-width="1.5" stroke-linecap="round"/></svg></span>
-    embed-pinecone
-  </p>
-  <div class="cap-card__row">
-    <div>
-      <p class="cap-card__label">Challenge</p>
-      <p class="cap-card__problem">Stage 3 of the abd-answers memory pipeline: embed  files into</p>
-    </div>
-    <hr class="cap-card__sep">
-    <div>
-      <p class="cap-card__label">Solution</p>
-      <p class="cap-card__solution">Embed chunked content into Pinecone via delta sync. Use after chunk-content has run, when vectors need refreshing, or when new chunks appear.</p>
-    </div>
-  </div>
-  <p class="cap-card__more">Open skill →</p>
-</a>
-
-<a class="cap-card" href="../utilities/abd-answers/skills/query-pinecone/">
-  <p class="cap-card__title">
-    <span class="cap-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#1a1a1e"/><path d="M7 8h10M7 12h7M7 16h10" stroke="#ff7a00" stroke-width="1.5" stroke-linecap="round"/></svg></span>
-    query-pinecone
-  </p>
-  <div class="cap-card__row">
-    <div>
-      <p class="cap-card__label">Challenge</p>
-      <p class="cap-card__problem">Query the abd-answers Pinecone vector index and return relevant chunks for</p>
-    </div>
-    <hr class="cap-card__sep">
-    <div>
-      <p class="cap-card__label">Solution</p>
-      <p class="cap-card__solution">Search abd-answers Pinecone index and return grounded context. Use when the user activates abd-answers for chat, asks questions about content hub topics, or requests RAG-backed answers.</p>
-    </div>
-  </div>
-  <p class="cap-card__more">Open skill →</p>
-</a>
-
-<a class="cap-card" href="../utilities/ai-research-assistant/research-compare-approach/">
-  <p class="cap-card__title">
-    <span class="cap-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#1a1a1e"/><path d="M7 8h10M7 12h7M7 16h10" stroke="#ff7a00" stroke-width="1.5" stroke-linecap="round"/></svg></span>
-    research-compare-approach
-  </p>
-  <div class="cap-card__row">
-    <div>
-      <p class="cap-card__label">Challenge</p>
-      <p class="cap-card__problem">Given a solution landscape (from research-solution-landscape) and the</p>
-    </div>
-    <hr class="cap-card__sep">
-    <div>
-      <p class="cap-card__label">Solution</p>
-      <p class="cap-card__solution">Critically compare the user&#x27;s approach against researched alternatives. Identifies strengths, weaknesses, trade-offs, and legitimate white space. Reads the user&#x27;s codebase ONLY to understand what they built — never as a source of best practice. Use …</p>
-    </div>
-  </div>
-  <p class="cap-card__more">Open skill →</p>
-</a>
-
-<a class="cap-card" href="../utilities/ai-research-assistant/research-problem-validation/">
-  <p class="cap-card__title">
-    <span class="cap-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#1a1a1e"/><path d="M7 8h10M7 12h7M7 16h10" stroke="#ff7a00" stroke-width="1.5" stroke-linecap="round"/></svg></span>
-    research-problem-validation
-  </p>
-  <div class="cap-card__row">
-    <div>
-      <p class="cap-card__label">Challenge</p>
-      <p class="cap-card__problem">Given a problem statement (usually extracted from a hypothesis), determine</p>
-    </div>
-    <hr class="cap-card__sep">
-    <div>
-      <p class="cap-card__label">Solution</p>
-      <p class="cap-card__solution">Research whether a stated problem is real and worth solving. Searches online and model knowledge for who is talking about the problem, who says it is NOT a problem, competing problems in the same space, and the maturity of discourse. Use when …</p>
-    </div>
-  </div>
-  <p class="cap-card__more">Open skill →</p>
-</a>
-
-<a class="cap-card" href="../utilities/ai-research-assistant/research-solution-landscape/">
-  <p class="cap-card__title">
-    <span class="cap-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#1a1a1e"/><path d="M7 8h10M7 12h7M7 16h10" stroke="#ff7a00" stroke-width="1.5" stroke-linecap="round"/></svg></span>
-    research-solution-landscape
-  </p>
-  <div class="cap-card__row">
-    <div>
-      <p class="cap-card__label">Challenge</p>
-      <p class="cap-card__problem">Given a validated problem, map how people are actually solving it — the</p>
-    </div>
-    <hr class="cap-card__sep">
-    <div>
-      <p class="cap-card__label">Solution</p>
-      <p class="cap-card__solution">Map the landscape of competing solutions for a validated problem. Searches online and model knowledge for categories of approaches, key tools and frameworks, trade-offs, and which segments each solution targets. Use when the user wants to know how …</p>
-    </div>
-  </div>
-  <p class="cap-card__more">Open skill →</p>
-</a>
-
 </div>
 
 </div>
-</div>
-</div>
+
 </body>
 </html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="engineering">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>abd-convert-to-markdown — abd.works</title>
+<script src="/commons/brand-nav.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+:root {
+  --orange: #E5531A; --orange-hover: #C64514;
+  --bg: #0B0B0B; --surface: #111113; --raised: #1B1B20;
+  --border: #2A2A2A; --text: #F4F4F5; --muted: #9B9BA8;
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+*, *::before, *::after { box-sizing: border-box; }
+body { background: var(--bg); color: var(--text); margin: 0;
+  font-family: var(--font-sans); font-size: 15px; line-height: 1.7;
+  -webkit-font-smoothing: antialiased; }
+a { color: var(--orange); text-decoration: none; }
+a:hover { color: var(--orange-hover); }
+.page-wrap { max-width: 860px; margin: 0 auto; padding: 48px clamp(16px,4vw,48px) 96px; }
+.back-link { display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--font-mono); font-size: 11px; font-weight: 600;
+  letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted);
+  margin-bottom: 40px; }
+.back-link:hover { color: var(--text); }
+h1 { font-size: clamp(24px,4vw,36px); font-weight: 800; letter-spacing: -0.03em;
+  line-height: 1.1; margin: 0 0 8px; color: var(--text); }
+.skill-category { font-family: var(--font-mono); font-size: 11px; font-weight: 600;
+  letter-spacing: 0.1em; text-transform: uppercase; color: var(--orange);
+  margin-bottom: 32px; display: block; }
+h2 { font-size: 1.15rem !important; font-weight: 700 !important; margin: 36px 0 12px !important;
+  padding-bottom: 8px !important; border-bottom: 1px solid var(--border) !important; color: #E5531A !important; }
+h3 { font-size: 1rem !important; font-weight: 700 !important; margin: 24px 0 8px !important; color: var(--text) !important; }
+h4 { font-size: 0.9rem !important; font-weight: 700 !important; margin: 20px 0 6px !important; color: var(--muted) !important; text-transform: uppercase !important; letter-spacing: 0.06em !important; }
+p { margin: 0 0 14px; }
+ul, ol { margin: 0 0 16px; padding-left: 1.4rem; }
+li { margin-bottom: 6px; }
+code { font-family: var(--font-mono); font-size: 0.855em;
+  background: rgba(255,255,255,0.07); padding: 2px 6px; border-radius: 3px; color: #F2A07A; }
+pre { background: var(--surface); border: 1px solid var(--border); border-radius: 6px;
+  padding: 20px 24px; overflow-x: auto; margin: 0 0 20px; }
+pre code { background: none; padding: 0; color: var(--text); font-size: 0.85rem; }
+blockquote { border-left: 3px solid var(--orange); margin: 0 0 16px;
+  padding: 10px 18px; background: var(--surface); border-radius: 0 4px 4px 0; }
+blockquote p { margin: 0; color: var(--muted); }
+hr { border: none; border-top: 1px solid var(--border); margin: 32px 0; }
+strong { font-weight: 600; }
+</style>
+</head>
+<body>
+<div class="page-wrap">
+  <a class="back-link" href="/abd-skills-catalog/">← AI Garden</a>
+  <h1>abd-convert-to-markdown</h1>
+  <span class="skill-category">Context To Memory</span>
+  <p>Convert source documents to <strong>navigable Markdown</strong> — real headings, sections, and tables — so downstream tools (chunking, search) can follow structure instead of guessing it.</p>
+<h2>Supported inputs</h2>
+<p><code>.pdf</code>, <code>.pptx</code>, <code>.docx</code>, <code>.xlsx</code>, <code>.xls</code>, <code>.html</code>, <code>.htm</code>, <code>.txt</code>, <code>.csv</code>, <code>.json</code>, <code>.xml</code></p>
+<h2>How to convert</h2>
+<h3>Single file</h3>
+<pre><code class="language-bash">python scripts/convert_to_markdown.py --file &lt;file_path&gt;</code></pre>
+<h3>Folder of documents</h3>
+<pre><code class="language-bash">python scripts/convert_to_markdown.py --memory &lt;source_folder&gt;</code></pre>
+<p>Output goes to <code>&amp;lt;source_folder&amp;gt;/markdown/</code>, mirroring the original folder structure and filenames.</p>
+<h2>After convert: assess structure</h2>
+<p>Chunking and RAG work best when markdown has real <strong>sections</strong> (headings), not a flat wall of text.</p>
+<p><strong>Check:</strong> Does the output have <code>#</code> / <code>##</code> / <code>###</code> where the source had chapters or sections? Run <code>draft_chunking_spec.py</code> (from the <a href="../abd-chunk-markdown/SKILL.md">abd-chunk-markdown</a> skill) to get a structural scan report, or skim the markdown directly.</p>
+<p><strong>If structure is bad</strong> (few or no headings, wrong breaks):</p>
+<ol>
+<li>Tell the user clearly what failed (e.g. &quot;almost no <code>##</code>, chunking will be poor&quot;).</li>
+<li>Suggest a fix:</li>
+<p>- Install <strong>PyMuPDF</strong> for PDF outline injection (<code>pip install pymupdf</code>)    - Adjust env flags (<code>PDF_SKIP_*</code>) per <a href="references/pdf-extraction-advanced.md">pdf-extraction-advanced.md</a>    - Add a <strong>bespoke post-processor</strong> under <code>&amp;lt;topic_root&amp;gt;/scripts/</code> for this corpus</p>
+<li>Implement, run, re-check. Repeat until structure is good enough to chunk.</li>
+</ol>
+<p><strong>If it is still a wall of text</strong> after fixes: run an <strong>AI semantic pass</strong> — group sentences by meaning, identify topics/sub-topics, add headings, complete one pass, then re-review before drafting a chunking spec.</p>
+<h2>Built-in PDF post-processing</h2>
+<p>PDFs pass through <code>pdf_markdown_post</code> after extraction: banner collapse, conservative <code>CHAPTER</code> / <code>APPENDIX</code> / <code>PART</code> line promotion, optional outline alignment when PyMuPDF is installed. This is generic — corpus-specific fixes belong in <code>&amp;lt;topic_root&amp;gt;/scripts/</code>.</p>
+<p>For deep PDF detail, see <a href="references/pdf-extraction-advanced.md">references/pdf-extraction-advanced.md</a>.</p>
+<h2>Bespoke post-processors (corpus scripts)</h2>
+<p>When the default pipeline is not enough for a specific corpus, add scripts under <strong><code>&amp;lt;topic_root&amp;gt;/scripts/</code></strong> (the corpus folder, not this skill&#x27;s <code>scripts/</code>). Name them clearly (<code>prepare_handbook_headings.py</code>, <code>dedupe_chapter_headers.py</code>). Document usage in the script docstring.</p>
+<h2>Topic folder (where output goes)</h2>
+<p><strong>Workspace policy</strong> (default corpus, config files): <strong><a href="../../../AGENTS.md">AGENTS.md</a></strong> (<em>Workspace (topic root) — config first</em>).</p>
+<p><strong>In practice:</strong> set <strong><code>CONTENT_MEMORY_ROOT=</code></strong> in <strong><code>conf/.secrets</code></strong> (same agent root as <code>AGENTS.md</code>), or pass <strong><code>--path &amp;lt;folder&amp;gt;</code></strong> / <strong><code>--memory &amp;lt;folder&amp;gt;</code></strong>, or <strong><code>cd</code></strong> to the corpus before running. Markdown appears under <code>&amp;lt;source&amp;gt;/markdown/</code>. The code reads <strong><code>CONTENT_MEMORY_ROOT</code></strong> from the process environment after config files are loaded — keep the value in <strong><code>conf/.secrets</code></strong>, not only as a manual shell export.</p>
+<h2>Dependencies</h2>
+<pre><code class="language-bash">pip install &quot;markitdown[all]&quot;
+# Optional: PDF bookmark outline → markdown headings
+pip install pymupdf</code></pre>
+<h2>Gotchas</h2>
+<ul>
+<li>For <strong>PDFs</strong>, the converter <strong>tries <code>pdf_outline_extract</code> first</strong> (PyMuPDF + non-empty <code>get_toc()</code>): section text is bounded by <strong>bookmarks</strong> (often much better for two-column books). If that is not used, it falls back to <strong>MarkItDown</strong> (linear stream). Install <strong>PyMuPDF</strong> and ensure <code>PDF_USE_MARKITDOWN_PDF</code> is not set. See <a href="references/pdf-extraction-advanced.md">references/pdf-extraction-advanced.md</a> (<em>Two-column RPG</em>).</li>
+<li>Running headers in PDFs repeat on every page as text; <code>pdf_markdown_post</code> collapses them but may miss unusual patterns.</li>
+<li>PPTX charts are extracted as data tables, not images.</li>
+<li>The converter does not invent structure — if the source has no headings, neither will the markdown.</li>
+</ul>
+</div>
+</body>
+</html>

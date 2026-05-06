@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="engineering">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>track-task — abd.works</title>
+<script src="/commons/brand-nav.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+:root {
+  --orange: #E5531A; --orange-hover: #C64514;
+  --bg: #0B0B0B; --surface: #111113; --raised: #1B1B20;
+  --border: #2A2A2A; --text: #F4F4F5; --muted: #9B9BA8;
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+*, *::before, *::after { box-sizing: border-box; }
+body { background: var(--bg); color: var(--text); margin: 0;
+  font-family: var(--font-sans); font-size: 15px; line-height: 1.7;
+  -webkit-font-smoothing: antialiased; }
+a { color: var(--orange); text-decoration: none; }
+a:hover { color: var(--orange-hover); }
+.page-wrap { max-width: 860px; margin: 0 auto; padding: 48px clamp(16px,4vw,48px) 96px; }
+.back-link { display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--font-mono); font-size: 11px; font-weight: 600;
+  letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted);
+  margin-bottom: 40px; }
+.back-link:hover { color: var(--text); }
+h1 { font-size: clamp(24px,4vw,36px); font-weight: 800; letter-spacing: -0.03em;
+  line-height: 1.1; margin: 0 0 8px; color: var(--text); }
+.skill-category { font-family: var(--font-mono); font-size: 11px; font-weight: 600;
+  letter-spacing: 0.1em; text-transform: uppercase; color: var(--orange);
+  margin-bottom: 32px; display: block; }
+h2 { font-size: 1.15rem !important; font-weight: 700 !important; margin: 36px 0 12px !important;
+  padding-bottom: 8px !important; border-bottom: 1px solid var(--border) !important; color: #E5531A !important; }
+h3 { font-size: 1rem !important; font-weight: 700 !important; margin: 24px 0 8px !important; color: var(--text) !important; }
+h4 { font-size: 0.9rem !important; font-weight: 700 !important; margin: 20px 0 6px !important; color: var(--muted) !important; text-transform: uppercase !important; letter-spacing: 0.06em !important; }
+p { margin: 0 0 14px; }
+ul, ol { margin: 0 0 16px; padding-left: 1.4rem; }
+li { margin-bottom: 6px; }
+code { font-family: var(--font-mono); font-size: 0.855em;
+  background: rgba(255,255,255,0.07); padding: 2px 6px; border-radius: 3px; color: #F2A07A; }
+pre { background: var(--surface); border: 1px solid var(--border); border-radius: 6px;
+  padding: 20px 24px; overflow-x: auto; margin: 0 0 20px; }
+pre code { background: none; padding: 0; color: var(--text); font-size: 0.85rem; }
+blockquote { border-left: 3px solid var(--orange); margin: 0 0 16px;
+  padding: 10px 18px; background: var(--surface); border-radius: 0 4px 4px 0; }
+blockquote p { margin: 0; color: var(--muted); }
+hr { border: none; border-top: 1px solid var(--border); margin: 32px 0; }
+strong { font-weight: 600; }
+</style>
+</head>
+<body>
+<div class="page-wrap">
+  <a class="back-link" href="/abd-skills-catalog/">← AI Garden</a>
+  <h1>track-task</h1>
+  <span class="skill-category">Skill Helpers</span>
+  <p>Use this skill when the user (or another skill) needs to <strong>track execution</strong> of a workflow: <strong>what step are we on?</strong>, <strong>mark this done</strong>, <strong>track skill A and skill B together</strong>, <strong>resume after a break</strong>.</p>
+<h2>When to activate</h2>
+<ul>
+<li>User says: <em>track this</em>, <em>checkpoint</em>, <em>what’s next</em>, <em>mark step N done</em>, <em>track [skill name]</em>, <em>progress on …</em></li>
+<li>You are orchestrating <strong>one or more</strong> leaf skills and must persist <strong>session</strong> state as checkboxes, not by editing <code>content/parts/process.md</code> or phase source files.</li>
+</ul>
+<h2>What you do (agent behavior)</h2>
+<ol>
+<li><strong>Resolve the engagement root</strong>  </li>
+<p>Read <strong><code>skill-config.json</code> → <code>workspace.active_skill_workspace</code></strong> on the <strong>agent</strong> (or skill) root. If missing, <strong>set workspace first</strong> (see <strong><code>skills/workspace_skill/</code></strong>).</p>
+</ol>
+<ol>
+<li><strong>Pick what to track</strong>  </li>
+<p>- <strong>Whole pipeline (abd-skill-builder style skill):</strong> phases from <strong><code>skill-config.json</code> → <code>phase_files</code></strong> and/or rows in <strong><code>content/parts/process.md</code></strong>.      - <strong>Single phase:</strong> steps from <strong><code>## Action Checklist</code></strong> or any <code>- [ ]</code> / <code>- [x]</code> lines in <strong><code>content/parts/phases/&amp;lt;slug&amp;gt;.md</code></strong>.      - <strong>Ad-hoc / non-builder skill:</strong> build a numbered checklist from <strong><code>SKILL.md</code></strong>, README, or explicit user steps.</p>
+</ol>
+<ol>
+<li><strong>Write only to live progress files</strong>  </li>
+<p>Normative docs stay clean. Session ticks live under:</p>
+</ol>
+<p><code>text    &amp;lt;active_skill_workspace&amp;gt;/&amp;lt;skill_name&amp;gt;/progress/      process-checklist.md          # one line per phase (pipeline position)      &amp;lt;phase-slug&amp;gt;-checklist.md      # steps inside that phase    </code></p>
+<p>For <strong>builder skill packages</strong>, prefer <strong><code>python scripts/base/generate.py --phase &amp;lt;slug&amp;gt;</code></strong> to create those files when the target skill ships <strong><code>scripts/base/</code></strong> (see <strong>Builder skill packages</strong> below). If there is <strong>no</strong> <code>generate.py</code>, create the same paths <strong>manually</strong> (same checkbox format).</p>
+<ol>
+<li><strong>Multiple skills</strong>  </li>
+<p>One <strong><code>&amp;lt;skill_name&amp;gt;/progress/</code></strong> tree per tracked skill. Do not merge unrelated pipelines into one file unless the user asks.</p>
+</ol>
+<ol>
+<li><strong>Each turn</strong>  </li>
+<p>- Open the relevant <strong><code>progress/*.md</code></strong> file(s).      - <strong>First unchecked</strong> <code>- [ ]</code> is “next” unless the user names a step.      - After work completes, flip <strong>only</strong> that line to <code>- [x]</code>.      - Summarize: done / next / blocked.</p>
+</ol>
+<h2>Tracking contract (detail)</h2>
+<p><strong>Goals:</strong> Observable <code>- [ ]</code> / <code>- [x]</code> progress; <strong>no</strong> session edits to normative <code>content/parts/process.md</code> or <code>content/parts/phases/*.md</code>; same idea for builder packages, minimal skills, and agent-only repos.</p>
+<p><strong>Workspace:</strong> <strong><code>active_skill_workspace</code></strong> = engagement tree (not the skill install). <strong><code>skill_name</code></strong> = <code>skill-config.json → name</code> if set, else the skill directory name. Live files: <strong><code>&amp;lt;workspace&amp;gt;/&amp;lt;skill_name&amp;gt;/progress/</code></strong>.</p>
+<p><strong>File kinds</strong></p>
+<p>| File | Tracks | | --- | --- | | <strong><code>process-checklist.md</code></strong> | Which phase (one <code>- [ ]</code> line per phase) | | <strong><code>&amp;lt;phase-slug&amp;gt;-checklist.md</code></strong> | Steps inside that phase (from <strong><code>## Action Checklist</code></strong> or task lines in the phase doc) |</p>
+<p><strong>Rules</strong></p>
+<ol>
+<li>Create missing <strong><code>progress/</code></strong> files when the user agrees to start; do <strong>not</strong> overwrite existing checklists unless they ask to reset.  </li>
+<li><strong>Next step</strong> = first unchecked item in scope.  </li>
+<li><strong>Multi-skill:</strong> separate <strong><code>progress/</code></strong> per skill; optional roll-up <strong><code>tracking-summary.md</code></strong> at workspace root only if requested.  </li>
+<li><strong>No <code>skill-config.json</code>:</strong> use <strong><code>&amp;lt;workspace&amp;gt;/_tracking/&amp;lt;id&amp;gt;/checklist.md</code></strong> (<code>id</code> = label or folder name).</li>
+</ol>
+<p><strong>Anti-patterns:</strong> ticking boxes inside <strong><code>content/parts/</strong></code>** sources; tracking only in chat when the user wanted files across sessions.</p>
+<h2>Builder skill packages</h2>
+<p>If the <strong>tracked</strong> skill has <strong><code>scripts/base/generate.py</code></strong> and <strong><code>workspace_checklists.py</code></strong>:</p>
+<ol>
+<li>Set <strong><code>workspace.active_skill_workspace</code></strong> for that skill (or wrapping agent).  </li>
+<li>Run <strong><code>python scripts/base/generate.py --phase &amp;lt;slug&amp;gt;</code></strong>.  </li>
+<li>First run may create <strong><code>process-checklist.md</code></strong> and <strong><code>&amp;lt;slug&amp;gt;-checklist.md</code></strong> under <strong><code>…/&amp;lt;skill_name&amp;gt;/progress/</code></strong>.</li>
+</ol>
+<p>Exact creation rules: <strong><code>workspace_checklists.py</code></strong> and <strong><code>content/parts/library/base/checklist.md</code></strong> in <strong>abd-skill-builder</strong>. This skill <strong>updates</strong> those files after they exist; it does not replace <strong><code>generate.py</code></strong>. For prompt-only, no new checklists: <strong><code>--no-ensure-checklists</code></strong>.</p>
+<h2>Commands (optional helpers)</h2>
+<p>From <strong>agent root</strong> (parent of <code>skills/</code>):</p>
+<pre><code class="language-bash">python skills/track_task/scripts/progress_path.py
+python skills/track_task/scripts/progress_path.py --skill my-other-skill</code></pre>
+<p>Prints <strong><code>…/&amp;lt;skill_name&amp;gt;/progress</code></strong> for the configured workspace.</p>
+<h2><code>abd-delivery-lead</code> (agent checklist)</h2>
+<p>When the <strong>abd-delivery-lead</strong> agent tracks work, use <strong><code>abd-delivery-lead</code></strong> as <strong><code>skill_name</code></strong> for progress paths. Use <strong>one</strong> ad-hoc file (not <code>process-checklist.md</code> unless you split runs separately):</p>
+<pre><code class="language-text">&lt;active_skill_workspace&gt;/abd-delivery-lead/progress/delivery-plan-checklist.md
+&lt;active_skill_workspace&gt;/agile-delivery-plan.md</code></pre>
+<p><strong><code>agile-delivery-plan.md</code></strong> (workspace root) — canonical <strong>narrative</strong> agile delivery plan (context assessment, risks, strategies, runs, checkpoints). The delivery lead and planning skill <strong>read/write</strong> this file; keep it aligned with <strong><code>delivery-plan-checklist.md</code></strong>.</p>
+<p><strong>Build the checklist from:</strong></p>
+<ol>
+<li><strong>Orchestration</strong> — milestones that map to <strong>Steps 1–8</strong> in <code>agents/abd-delivery-lead/AGENT.md</code> (workspace, planning CHECKPOINT, run summaries, final sign-off).</li>
+<li><strong>Plan</strong> — for each <strong>run</strong> from <strong><code>abd-delivery-planning</code></strong>, each <strong>stage</strong> in order: entry → bootstrap <code>abd-team-member</code> → exit gate → user <strong>CHECKPOINT</strong>; nest extra <code>- [ ]</code> lines when the run’s checkpoint policy requires in-stage checkpoints (e.g. per story).</li>
+</ol>
+<p><strong>Keep the file aligned</strong> with the current plan: when the plan is confirmed, advanced, or revised, add or adjust lines; mark completed items <code>- [x]</code>; do not rely on chat alone for resumable state. <strong>Stage definitions</strong> (entry/exit) stay in <code>agents/abd-delivery-lead/stages/&amp;lt;stage&amp;gt;.md</code>.</p>
+<p><strong>Regenerate the checklist from the plan</strong>, don&#x27;t hand-edit structure:</p>
+<pre><code class="language-bash">python skills/track_task/scripts/generate_delivery_checklist.py
+python skills/track_task/scripts/generate_delivery_checklist.py --plan &lt;path&gt; --out &lt;path&gt;
+python skills/track_task/scripts/generate_delivery_checklist.py --dry-run</code></pre>
+<p>The generator reads <code>&amp;lt;workspace&amp;gt;/agile-delivery-plan.md</code> (runs table or <code>## Run N</code> sections), emits the orchestration-steps block + per-run stage checkboxes to <code>…/abd-delivery-lead/progress/delivery-plan-checklist.md</code>, and <strong>merges</strong> any existing <code>- [x]</code> state by label match. Run it every time <strong>Step 2</strong> confirms a new plan and every time <strong>Step 7</strong> revises one — the plan is the source of truth; this file is derived.</p>
+<hr>
+<h2>See also</h2>
+<ul>
+<li><strong><code>skills/workspace_skill/</code></strong> — set <strong><code>active_skill_workspace</code></strong> before tracking.</li>
+<li><strong><code>agents/abd-delivery-lead/AGENT.md</code></strong> — orchestration steps and when to populate the checklist.</li>
+</ul>
+</div>
+</body>
+</html>

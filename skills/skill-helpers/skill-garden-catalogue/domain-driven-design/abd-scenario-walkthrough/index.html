@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="engineering">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>scenario-walkthrough — abd.works</title>
+<script src="/commons/brand-nav.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+:root {
+  --orange: #E5531A; --orange-hover: #C64514;
+  --bg: #0B0B0B; --surface: #111113; --raised: #1B1B20;
+  --border: #2A2A2A; --text: #F4F4F5; --muted: #9B9BA8;
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+*, *::before, *::after { box-sizing: border-box; }
+body { background: var(--bg); color: var(--text); margin: 0;
+  font-family: var(--font-sans); font-size: 15px; line-height: 1.7;
+  -webkit-font-smoothing: antialiased; }
+a { color: var(--orange); text-decoration: none; }
+a:hover { color: var(--orange-hover); }
+.page-wrap { max-width: 860px; margin: 0 auto; padding: 48px clamp(16px,4vw,48px) 96px; }
+.back-link { display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--font-mono); font-size: 11px; font-weight: 600;
+  letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted);
+  margin-bottom: 40px; }
+.back-link:hover { color: var(--text); }
+h1 { font-size: clamp(24px,4vw,36px); font-weight: 800; letter-spacing: -0.03em;
+  line-height: 1.1; margin: 0 0 8px; color: var(--text); }
+.skill-category { font-family: var(--font-mono); font-size: 11px; font-weight: 600;
+  letter-spacing: 0.1em; text-transform: uppercase; color: var(--orange);
+  margin-bottom: 32px; display: block; }
+h2 { font-size: 1.15rem !important; font-weight: 700 !important; margin: 36px 0 12px !important;
+  padding-bottom: 8px !important; border-bottom: 1px solid var(--border) !important; color: #E5531A !important; }
+h3 { font-size: 1rem !important; font-weight: 700 !important; margin: 24px 0 8px !important; color: var(--text) !important; }
+h4 { font-size: 0.9rem !important; font-weight: 700 !important; margin: 20px 0 6px !important; color: var(--muted) !important; text-transform: uppercase !important; letter-spacing: 0.06em !important; }
+p { margin: 0 0 14px; }
+ul, ol { margin: 0 0 16px; padding-left: 1.4rem; }
+li { margin-bottom: 6px; }
+code { font-family: var(--font-mono); font-size: 0.855em;
+  background: rgba(255,255,255,0.07); padding: 2px 6px; border-radius: 3px; color: #F2A07A; }
+pre { background: var(--surface); border: 1px solid var(--border); border-radius: 6px;
+  padding: 20px 24px; overflow-x: auto; margin: 0 0 20px; }
+pre code { background: none; padding: 0; color: var(--text); font-size: 0.85rem; }
+blockquote { border-left: 3px solid var(--orange); margin: 0 0 16px;
+  padding: 10px 18px; background: var(--surface); border-radius: 0 4px 4px 0; }
+blockquote p { margin: 0; color: var(--muted); }
+hr { border: none; border-top: 1px solid var(--border); margin: 32px 0; }
+strong { font-weight: 600; }
+</style>
+</head>
+<body>
+<div class="page-wrap">
+  <a class="back-link" href="/abd-skills-catalog/">← AI Garden</a>
+  <h1>scenario-walkthrough</h1>
+  <span class="skill-category">Domain Driven Design</span>
+  <h2>Purpose</h2>
+<p><strong>Walk</strong> concrete scenarios through the CRC model. Each step must map to a <strong>class</strong> (or role) and a <strong>responsibility</strong> from <code>crc.md</code>. When a step crosses a <strong>state change</strong> or must respect a <strong>guard</strong>, align with the <code>lifecycle:</code> and <code>invariants:</code> fields in the CRC block for that concept. If a step has no owner, record a <strong>Scenario gap</strong> and revise upstream artifacts.</p>
+<h2>Inputs / outputs</h2>
+<p>| Input | Output | | --- | --- | | <code>abd-domain-driven-design/crc.md</code>, <code>abd-domain-driven-design/domain-sketch.md</code> | <code>abd-domain-driven-design/domain-walkthrough.md</code> |</p>
+<h2>Shape</h2>
+<p>Use <code>skills/ooad/templates/domain walkthrough template.md</code> for each scenario: <strong>Purpose</strong>, <strong>Concepts traced</strong>, then <strong>Walk N</strong> with indented pseudocode (<code>object</code>, <code>method</code>, collaborators).</p>
+<p>Minimum coverage (adapt to domain):</p>
+<ul>
+<li>One happy path</li>
+<li>One failure or edge path</li>
+<li>One path involving cooperation or resources (e.g. team check, hero point)</li>
+</ul>
+<h2>Rules</h2>
+<ul>
+<li>Do not require full lifecycle from upstream; validate <strong>ownership</strong> of each step first.</li>
+<li>When the scenario implies a transition, check the concept&#x27;s <strong><code>lifecycle:</code></strong> field in <code>crc.md</code> for illegal edges and invariants.</li>
+<li>Tag-style <code>term-registry</code> / <code>[pN]</code> notes from stock scenario-validation are <strong>optional</strong> unless the engagement uses them.</li>
+</ul>
+<h2>Templates</h2>
+<p><code>templates/domain-walkthrough-scaffold.md</code></p>
+<h2>Validate</h2>
+<ul>
+<li>Every walk line that performs game logic ties to a CRC <strong>Responsible for</strong> line.</li>
+<li>Gaps listed in a <strong>Gaps resolved</strong> or <strong>Open gaps</strong> subsection at file end.</li>
+</ul>
+<hr>
+<p>&lt;!-- execute_rules:bundle_rules:begin --&gt; &lt;!-- No rules/*.md for this skill yet. --&gt; &lt;!-- execute_rules:bundle_rules:end --&gt;</p>
+</div>
+</body>
+</html>
