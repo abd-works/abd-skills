@@ -7,7 +7,7 @@
  *   domain-module/
  *     shared/          Domain core - entities, value objects, Zod schemas, collection classes
  *     server/          Express tier - repository, service, controller, routes
- *     client/          React tier - API client, hook, list component, card component
+ *     client/          React tier - API client, hook, list, card, create form, detail view
  *     _lib/            Stub types - ambient declarations for zod, mongodb, express, react
  *     tsconfig.json    TypeScript config with path aliases
  *
@@ -27,6 +27,16 @@
  *   - Both client/ and server/ import from shared/ - never duplicate.
  *   - Zod schemas validate at repository boundary (server) AND form boundary (client).
  *   - Tests mirror Gherkin scenarios: Given/When/Then helpers, 3 tiers per sub-epic.
+ *
+ * CLIENT COMPLETENESS:
+ *   - The API client (domainName.api.ts) must export one function per server route.
+ *   - Provide a creation form (CreateDomainNameForm.tsx) only when the specs define a user-facing create action.
+ *   - POST endpoints may be user-facing or system-only; do not mirror server routes into UI mechanically.
+ *   - For entities with sub-item operations, provide a detail view (DomainNameDetailView.tsx).
+ *   - The list component accepts an onSelectItem callback for navigation.
+ *   - The card component accepts an onSelect callback for click-to-navigate.
+ *   - The app-client composition root (App.tsx) must manage view state to navigate
+ *     between list, create form, and detail views. Never render a single static component.
  *
  * Reference: inputs/mern-architecture.md for the authoritative architecture guide.
  */

@@ -1,5 +1,5 @@
 ---
-scanner: test_structure_scanner.py
+scanner: test_structure_scanner.py, test_isolation_scanner.py
 ---
 
 # Rule: Use Thorough E2E Tests
@@ -13,11 +13,11 @@ End-to-end tests are **mandatory** for every sub-epic. E2E tests must reuse the 
 - `packages/app-server/` — Express entry point that mounts domain routes
 - `packages/app-client/` — React/Vite shell that renders domain components
 
-Do **not** tell the user they can run `npx playwright test` until both composition roots exist and a dev server is running. Running Playwright against a missing server produces `ERR_CONNECTION_REFUSED` errors on every test — this is a broken state, not a partial one.
+Do **not** tell the user they can run `npx playwright test` until both composition roots exist, are wired to the new module, and a dev server is running. Running Playwright against a missing or unreachable server produces `ERR_CONNECTION_REFUSED` errors on every test — this is a broken state, not a partial one.
 
 **The complete generation order is:**
 1. Domain packages (`shared/`, `server/`, `client/`) ← what the domain module template produces
-2. Composition roots (`app-server/`, `app-client/`) ← required before E2E tests work
+2. Ensure composition roots (`app-server/`, `app-client/`) exist ← scaffold missing roots, otherwise update the existing roots to mount or render the new module
 3. `playwright.config.ts` with a `webServer` block so Playwright starts the app automatically
 
 ## DO
@@ -28,13 +28,16 @@ Do **not** tell the user they can run `npx playwright test` until both compositi
 - Run E2E tests after implementation as final verification.
 - Test the same scenarios as server/client tiers, with complete workflow emphasis.
 - Include edge cases and domain variants, not just the happy path.
-- Scaffold both `app-server/` and `app-client/` composition roots and start the dev server before attempting to run E2E tests.
+- Ensure both `app-server/` and `app-client/` composition roots exist and expose the new module before attempting to run E2E tests. Scaffold missing roots; otherwise update the existing shells and then start the dev server.
 - Navigate to `/` (or the correct root route) — only navigate to a sub-route if a router exists that handles it.
 - Scope all locators to the specific card/section under test: `page.locator('.card', { hasText: 'Name' })` to prevent strict mode violations when multiple matching elements exist.
 - Assert on locator text content after state changes, not on the original element reference — React re-renders replace DOM nodes.
 - Seed all required test data within each test via API calls or UI interactions — never rely on pre-existing data in the database.
 - Implement both the UI affordance and the test that exercises it together — neither should be left incomplete.
 - Use unique names per test run (e.g. append `Date.now()`) to prevent collisions with leftover data from previous runs.
+- **Match E2E interactions to the actual UI controls.** If the UI uses a button + dropdown to move items, the E2E helper must click that button and select from the dropdown — not use `dragTo()` or other interactions the UI doesn't support.
+- **Wait for async results after mutations.** After clicking "Save" or "Submit", wait for the resulting view to render (e.g., `await heading.waitFor({ state: 'visible' })`) before proceeding to the next step.
+- **Handle view state transitions in helpers.** If a "When" step needs the list view but the app is showing a detail view, navigate back first. Check current view state before acting.
 
 ```typescript
 // select-recipient_e2e.spec.ts — CORRECT: reuses helper, verifies logic
@@ -72,13 +75,18 @@ test.describe('View Active Recipients', () => {
 - Write E2E tests from scratch without reusing the helper class.
 - Forget to run E2E tests after implementation.
 - Test only the happy path — include edge cases and domain variants.
-- Tell the user they can run `npx playwright test` before `app-server/` and `app-client/` are scaffolded — E2E tests require a live server.
+- Tell the user they can run `npx playwright test` before the required composition roots exist and expose the new module — E2E tests require a live server.
+- Generate duplicate composition roots for an existing project when compatible `app-server/` and `app-client/` shells already exist.
 - Navigate to non-existent routes — if the app has no router, navigate to `/`, not `/todo-lists`.
 - Use unscoped locators when multiple elements may match — always scope assertions to a specific card/section using `page.locator('.card', { hasText: 'Specific Name' })`.
+- **Use `getByText()` without scoping when the text appears in both a parent container and a child element.** A parent `<div>` containing multiple column names will also match `getByText('Released')`. Scope to the specific element class: `page.locator('.column-tag', { hasText: 'Released' })`.
 - Assert on stale element references after state changes — React re-renders replace DOM nodes; assert on the new state via locator text content instead.
 - Assume pre-seeded data exists — E2E tests must create their own data via API calls or the UI.
 - Leave placeholder or skeleton tests for UI that doesn't exist yet — every E2E scenario must be fully implemented end-to-end: the UI affordance and the test that exercises it must both be complete before moving on. Write them in any order (test-first or component-first), but never leave one without the other.
 - Use hardcoded names that may collide with leftover data — use unique names (e.g. append `Date.now()`) so tests are isolated from stale data in the persistent datastore.
+- **Use `dragTo()` or other Playwright interactions that don't match the actual UI.** If the component uses click-based interactions (buttons, dropdowns), test with clicks — not drag-and-drop.
+- **Proceed to the next step immediately after a mutation without waiting for the result.** Always wait for the expected view/element to appear after a create/update action.
+- **Use blanket `deleteMany({})` or "reset all" endpoints in test cleanup.** Only delete the specific resources created during that test run.
 
 ```typescript
 // WRONG — only checks elements exist, doesn't verify filtering logic
@@ -97,17 +105,29 @@ test('select recipient', async ({ page }) => {
 });
 ```
 
-## Test Isolation
+## Test Isolation — NEVER Reset All Data
+
+> **CRITICAL:** Tests must ONLY delete the specific data they created. Never delete all data, never reset the database, never use blanket `deleteMany({})`. This is enforced by `test_isolation_scanner.py`.
 
 E2E tests **must** be independent — each test must pass regardless of run order or previous runs. When using a persistent datastore (MongoDB), accumulated data from prior test runs causes strict mode violations and false assertions.
 
-**Required pattern — tests clean up their own data:**
-1. Expose a `DELETE /api/{resource}/:id` endpoint on the server for each resource.
-2. Each test that creates data must capture the created resource's ID from the API response.
-3. At the end of each test, delete the specific items that were created — never blanket-delete all data.
-4. If data is created via the UI (not API), query the GET endpoint to find the created item's ID, then delete it.
+### Forbidden patterns (scanner will flag these):
+- `deleteMany({})` — empty filter deletes ALL documents
+- `.drop()` / `dropCollection()` / `dropDatabase()` — destroys entire collections/databases
+- `POST /api/test/reset` or any `/reset` endpoint — blanket wipe
+- `beforeEach`/`afterAll` hooks that call any of the above
 
-**Do NOT** use blanket reset endpoints (`POST /api/test/reset`) that wipe all data — this destroys data created by other users, dev sessions, or parallel test runs.
+### Required pattern — tests clean up ONLY their own data:
+1. Each test that creates data **must capture the created resource's ID** (from API response or by querying the GET endpoint after UI creation).
+2. Track all created IDs in the test helper (e.g., `createdIds: string[]`).
+3. In `afterEach`, delete **only those specific IDs** via `DELETE /api/test/{resource}` with `{ ids: [...] }` body.
+4. The server endpoint **must require an `ids` array** and reject requests without one — never expose a "delete all" capability.
+5. If no IDs were created during a test, cleanup is a no-op.
+
+### Why this matters:
+- Blanket resets destroy data created by other developers, other test suites, or manual QA sessions sharing the same database.
+- Parallel test runs (sharded Playwright workers) can delete each other's data mid-test.
+- A "clean slate" approach masks bugs that only surface when real data exists alongside test data.
 
 ```typescript
 // playwright.config.ts — CORRECT: starts both server and client, waits for each
@@ -188,5 +208,6 @@ test('User marks a task as completed', async ({ page }) => {
 
 The app-server composition root must include:
 - A **valid UUID** for the stub development user (Zod schemas validate `userId` as UUID). Never use plain strings like `'dev-user'`.
-- A `DELETE /api/{resource}/:id` route for each domain resource so tests can clean up their own data.
+- A `DELETE /api/test/{resource}` route for each domain resource that **requires an `ids` array in the request body** and deletes only those specific documents. Example: `DELETE /api/test/boards` with body `{ ids: ["id1", "id2"] }`. The handler must reject requests with missing or empty `ids`.
+- **Never expose a blanket reset endpoint** (`POST /api/test/reset`, `DELETE /api/test/reset`, or any route that calls `deleteMany({})`, `.drop()`, or `dropCollection()`). The scanner will flag these.
 - **Error handling** in the Express pipeline so unhandled exceptions return 500 instead of crashing the server.

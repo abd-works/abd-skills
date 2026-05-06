@@ -11,8 +11,7 @@
       "@appName/domainName-shared": ["./shared/index.ts"]
     },
     "skipLibCheck": true,
-    "noEmit": true,
-    "ignoreDeprecations": "6.0"
+    "noEmit": true
   },
   "include": [
     "_lib/**/*.d.ts",

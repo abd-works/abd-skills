@@ -15,6 +15,14 @@ export const DomainNameSchema = z.object({
   createdAt: z.coerce.date(),
 });
 
+export const CreateDomainNameInputSchema = z.object({
+  name: z.string().min(1, 'Name is required').max(140),
+});
+
+export type CreateDomainNameInput = {
+  name: string;
+};
+
 /** Raw DTO shape from Zod parse — status is a string enum, not a class instance. */
 export type DomainNameDTO = {
   id: string;

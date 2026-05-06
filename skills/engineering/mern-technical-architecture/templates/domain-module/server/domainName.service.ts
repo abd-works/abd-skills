@@ -4,7 +4,7 @@
  * Coordinates repository + shared domain collection class.
  * No HTTP concerns — that's the controller's job.
  */
-import { DomainName, DomainNames } from '@appName/domainName-shared';
+import { DomainName, DomainNames, CreateDomainNameInput } from '@appName/domainName-shared';
 import { DomainNamesRepository } from './domainName.repository';
 
 export class DomainNamesService {
@@ -20,6 +20,14 @@ export class DomainNamesService {
       collection = collection.filterByStatus('Active');
     }
     return collection.toArray();
+  }
+
+  async getById(id: string): Promise<DomainName | null> {
+    return this.repo.findById(id);
+  }
+
+  async create(enterpriseId: string, input: CreateDomainNameInput): Promise<DomainName> {
+    return this.repo.save(enterpriseId, input);
   }
 
   async findByIds(ids: string[]): Promise<DomainName[]> {

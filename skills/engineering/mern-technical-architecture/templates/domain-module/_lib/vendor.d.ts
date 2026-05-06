@@ -46,7 +46,9 @@ declare module 'zod' {
     coerce: ZodCoerce;
   };
 
-  export { z, ZodType, ZodString, ZodNumber, ZodDate, ZodEnum, ZodObject, ZodCoerce };
+  type infer<T extends ZodType> = any;
+
+  export { z, ZodType, ZodString, ZodNumber, ZodDate, ZodEnum, ZodObject, ZodCoerce, infer };
   export default z;
 }
 
@@ -58,6 +60,7 @@ declare module 'mongodb' {
 
   interface Collection<T = any> {
     find(filter?: Record<string, any>): FindCursor<T>;
+    findOne(filter?: Record<string, any>): Promise<T | null>;
     insertOne(doc: T): Promise<{ insertedId: string }>;
     updateOne(filter: Record<string, any>, update: Record<string, any>): Promise<{ modifiedCount: number }>;
     deleteOne(filter: Record<string, any>): Promise<{ deletedCount: number }>;

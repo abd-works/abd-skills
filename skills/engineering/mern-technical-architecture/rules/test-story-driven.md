@@ -52,6 +52,7 @@ class TestViewActiveRecipients {
 - Name test methods with technical HTTP language instead of scenario language.
 - Write E2E tests separately without reusing the base helper class.
 - Place test files outside the epic/sub-epic folder structure.
+- **Mock `fetch` without realistic response shape.** If the API client checks `response.ok`, the mock must include `ok: true`. Incomplete mocks cause silent failures that only surface as "element not found" errors.
 
 ```typescript
 // WRONG — no helper, no Given/When/Then structure, technical naming

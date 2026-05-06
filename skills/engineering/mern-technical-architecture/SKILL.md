@@ -67,6 +67,7 @@ Load this skill when **any** of the following apply:
    - Layer purity — no forbidden imports (`layer_purity_scanner.py`)
    - Naming conventions per tier (`naming_convention_scanner.py`)
    - Test structure — all 3 tiers present (`test_structure_scanner.py`)
+   - Test data isolation — no blanket resets or `deleteMany({})` (`test_isolation_scanner.py`)
 
    Fix any violations before considering the implementation complete.
 
@@ -86,7 +87,7 @@ Load this skill when **any** of the following apply:
    - Controllers accessing `req.user` without Express type augmentation
    - Test runner collision: no `vitest.config.ts` or `playwright.config.ts` causes each runner to pick up the other's files
 
-   **E2E tests (`npx playwright test`) cannot run** until `packages/app-server/` and `packages/app-client/` composition roots are scaffolded and a dev server is running. Do not instruct the user to run Playwright until those exist. Only `npx vitest --run` (unit + component tests) is available immediately after generating a domain module.
+  **E2E tests (`npx playwright test`) require composition roots.** Ensure `packages/app-server/` (Express entry point mounting domain routers) and `packages/app-client/` (React/Vite shell rendering domain components) exist as part of the domain module generation. If either is missing, scaffold it. If either already exists, wire the generated module into the existing root rather than creating a duplicate shell. Without reachable composition roots, Playwright fails with `ERR_CONNECTION_REFUSED`. Both `npx vitest --run` (unit + component tests) and `npx playwright test` (E2E) should be runnable after generation.
 
 6. **Assembling this Skill**
    This Skill file is assembled from all template files in `templates/` and all rules in `rules/`. Use **`bundle_rules_into_skill_md.py`** to reassemble this skill whenever rules or templates change.
@@ -230,10 +231,12 @@ packages/<domain>/
 │   └── package.json                 # "@appName/<domain>-shared"
 │
 ├── client/                          # Presentation + Interface Adapter (React)
-│   ├── <Entity>List.tsx             # Container component
-│   ├── <Entity>Card.tsx             # Presentational component
+│   ├── <Entity>List.tsx             # Container component (list + search)
+│   ├── <Entity>Card.tsx             # Presentational component (clickable → detail)
+│   ├── Create<Entity>Form.tsx       # Creation form (validates with Zod from shared/)
+│   ├── <Entity>DetailView.tsx       # Detail view with mutation controls
 │   ├── use<Entity>s.ts              # Custom hook (state + effects)
-│   ├── <domain>.api.ts              # API client (fetch wrapper)
+│   ├── <domain>.api.ts              # API client (one function per server route)
 │   ├── index.ts
 │   └── package.json                 # depends on shared
 │
@@ -253,6 +256,11 @@ Key structural rules:
 - `client/` imports from `shared/` — never from `server/`
 - Zod schemas in `shared/` are used by both repository (`.parse()`) and forms (`.safeParse()`)
 - Domain entity methods (e.g., `isEligibleForPayment()`) are called from both tiers
+- `client/` has **one API function per server route** — no unreachable endpoints
+- `client/` exposes UI controls only for **user actions defined in the specs**; POST endpoints may be user-facing or system-only
+- When the specs say users can create entities, include a **creation form**; when the specs define sub-item interactions, include a **detail view**
+- When the specs say a user can do something, make sure the client tier exposes that capability through some type of UI control
+- `app-client/App.tsx` manages **view navigation** (list ↔ create ↔ detail) — never a static single-view render
 
 ---
 
@@ -269,9 +277,11 @@ Key structural rules:
 1. Identify the domain entity and its responsibilities from the story/requirements.
 2. Create `shared/` — entity class, value objects, Zod schema, collection class.
 3. Create `server/` — repository (MongoDB + schema validation), service (orchestration using shared collection), controller (HTTP parsing), routes (URL mapping).
-4. Create `client/` — API client (fetch wrapper), hook (state + shared collection for filtering), components (list + card).
-5. Create test structure — `tests/{epic}/{sub-epic}/` with helpers and 3 tier test files.
-6. Run scanners to verify structural compliance.
+4. Create `client/` — API client (one function per server route), hook (state + shared collection for filtering), components (list + card + **forms and detail views for every user action defined in the specs**). If the spec says users can create entities or interact with sub-items, the client must expose those capabilities through UI controls.
+5. Ensure `packages/app-server/` exists — create it if missing; otherwise mount the new domain routes in the existing Express composition root. Required for E2E tests.
+6. Ensure `packages/app-client/` exists — create it if missing; otherwise render or route to the new domain UI from the existing React/Vite composition root. **The App.tsx must manage view state** to navigate between list, create form, and detail views. A single static component render is insufficient. Required for E2E tests.
+7. Create test structure — `tests/{epic}/{sub-epic}/` with helpers and 3 tier test files.
+8. Run scanners to verify structural compliance.
 
 ---
 
@@ -291,17 +301,20 @@ Key structural rules:
 - Each domain module has `index.ts` and `package.json` in every tier.
 - `server/` has `*.routes.ts`, `*.controller.ts`, `*.service.ts`, `*.repository.ts`.
 - `client/` has `*.api.ts`, `use*.ts`, `*.tsx` components.
+- **`client/` API file exports one function per server route** — no endpoints left unreachable.
+- **`client/` has UI controls (forms, buttons, detail views) for every user action defined in the specs** — not just read-only list/search.
+- **`app-client/App.tsx` implements view navigation** when specs define multiple user flows (create, view detail, interact) — not a single static render.
 - Test folders follow `tests/{epic}/{sub-epic}/` with 3 tier files + helpers/.
 - All interfaces use TypeScript `implements` keyword for compile-time verification.
 - Test methods mirror Gherkin scenario titles using Given/When/Then helpers.
 
-Run scanners as final verification: `domain_structure_scanner.py`, `layer_purity_scanner.py`, `naming_convention_scanner.py`, `test_structure_scanner.py`.
+Run scanners as final verification: `domain_structure_scanner.py`, `layer_purity_scanner.py`, `naming_convention_scanner.py`, `test_structure_scanner.py`, `test_isolation_scanner.py`.
 
 ---
 
 <!-- execute_rules:bundle_rules:begin -->
 <!-- Rule prose is generated from rules/*.md — edit rules, then run:
-     python skills/execute-skill-using-skills-rules/scripts/bundle_rules_into_skill_md.py --skill-root skills/mern-technical-architecture
+     python skills/execute_using_rules/scripts/bundle_rules_into_skill_md.py --skill-root skills/mern-technical-architecture
 -->
 ---
 scanner: domain_structure_scanner.py
@@ -316,6 +329,9 @@ Organize code by **business capability** (domain module) first, then by technica
 - Structure each domain as `packages/{domain}/{shared|client|server}`.
 - Include `index.ts` and `package.json` in each tier folder for clean imports.
 - Keep the app shell (`app-server/`, `app-client/`) at the packages level as composition roots.
+- Ensure `app-server/` and `app-client/` exist. If missing, scaffold them; if already present, update them to compose the new domain module.
+- Ensure the client tier provides UI for every user action defined in the specs. If the requirements say a user can create a board, add tasks, or move items — the client must have corresponding forms, buttons, or controls. Derive required UI from the spec, not from a mechanical endpoint mirror.
+- Wire navigation in `app-client/App.tsx` to support all spec-driven user flows (e.g., create → view → interact). The composition root must manage view state when multiple views are needed.
 - Place test files under `tests/{epic}/{sub-epic}/` mirroring the domain structure.
 
 ```
@@ -336,6 +352,9 @@ project-root/
 - Organize by technical layer at the top level (`controllers/`, `models/`, `views/`, `routes/`).
 - Scatter a single domain's code across multiple unrelated folders.
 - Mix multiple domain concerns in a single folder.
+- Generate missing composition roots in a brand-new project later as follow-up work, or create duplicate composition roots in an existing project instead of reusing the current shells.
+- Ship a client tier that omits user actions defined in the specs. If the requirements say users can create, edit, or move things, the UI must expose those capabilities — not just read-only search/list.
+- Render a single static component in App.tsx when the specs define multiple user flows. If users need to create entities and interact with detail views, the composition root must manage view state to support those flows.
 
 ---
 scanner: layer_purity_scanner.py
@@ -457,6 +476,7 @@ End-to-end tests are **mandatory** for every sub-epic. E2E tests must reuse the 
 
 - Create `*_e2e.spec.ts` for every lowest sub-epic.
 - Assert on domain logic outcomes: filtered lists, eligibility, domain rules.
+- Ensure the required composition roots exist and expose the new module before running Playwright. Scaffold missing roots; otherwise update the existing roots.
 - Run E2E tests after implementation as final verification.
 
 #### DON'T
@@ -464,7 +484,61 @@ End-to-end tests are **mandatory** for every sub-epic. E2E tests must reuse the 
 - Skip E2E tests for any sub-epic.
 - Write E2E tests that only check element presence without verifying logic.
 - Write E2E tests from scratch without reusing the helper class.
-- Tell the user `npx playwright test` is runnable before `app-server/` and `app-client/` are scaffolded — E2E tests require a live server and will fail with `ERR_CONNECTION_REFUSED`.
+- Tell the user `npx playwright test` is runnable before the required composition roots exist and expose the new module — E2E tests require a live server and will fail with `ERR_CONNECTION_REFUSED`.
+- Generate duplicate composition roots for an existing project when compatible `app-server/` and `app-client/` shells already exist.
+
+---
+scanner: test_isolation_scanner.py
+---
+
+### Rule: Test Data Isolation — NEVER Reset All Data
+
+Tests must **ONLY** delete the specific data they created. Never delete all data, never reset the database, never use blanket `deleteMany({})`. The `test_isolation_scanner.py` enforces this automatically.
+
+#### Forbidden patterns (scanner flags these as violations):
+- `deleteMany({})` — empty filter deletes ALL documents in the collection
+- `.drop()` / `dropCollection()` / `dropDatabase()` — destroys entire collections or databases
+- `POST /api/test/reset` or any `/reset` endpoint — blanket wipe of all data
+- Any `beforeEach`/`afterAll` hook that calls the above
+
+#### DO
+
+- Track every resource ID created during a test (from API responses or GET queries).
+- Delete **only those specific IDs** in `afterEach` via `DELETE /api/test/{resource}` with `{ ids: [...] }` body.
+- Require the server cleanup endpoint to accept an `ids` array and reject requests without one.
+- Make cleanup a no-op if no IDs were created (empty array = skip delete call).
+- Use unique names per test run (e.g., append `Date.now()`) to avoid collisions with other data.
+
+```typescript
+// CORRECT — helper tracks created IDs, afterEach deletes only those
+class BoardE2EHelper {
+  private createdBoardIds: string[] = [];
+
+  async whenUserCreatesBoard(name: string) {
+    // ... create via UI or API ...
+    const res = await this.request.get('/api/boards');
+    const boards = await res.json();
+    const created = boards.items.find((b: any) => b.name === name);
+    if (created) this.createdBoardIds.push(created.id);
+  }
+
+  async cleanup() {
+    if (this.createdBoardIds.length === 0) return;
+    await this.request.delete('/api/test/boards', {
+      data: { ids: this.createdBoardIds },
+    });
+    this.createdBoardIds = [];
+  }
+}
+```
+
+#### DON'T
+
+- Use `deleteMany({})` with an empty filter — this deletes ALL documents in the collection, not just test data.
+- Create a `/test/reset` endpoint that wipes entire collections.
+- Assume the database is empty or that only test data exists — other developers, QA sessions, or parallel test runs share the same datastore.
+- Use `.drop()` or `dropCollection()` to "clean up" — this destroys indexes and the collection itself.
+- Rely on `beforeAll` to reset state — tests must be independent and clean up after themselves.
 
 ---
 scanner: layer_purity_scanner.py

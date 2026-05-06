@@ -76,23 +76,23 @@ class TestStructureScanner(MERNScanner):
     ) -> None:
         """Check that helper directory contains required helper files."""
         required_suffixes = {
-            'base helper': '.base.ts',
-            'server helper': '.server.ts',
-            'client helper': '.client.ts',
-            'e2e helper': '.e2e.ts',
+            'base helper': ['.base.ts'],
+            'server helper': ['.server.ts'],
+            'client helper': ['.client.ts', '.client.tsx'],
+            'e2e helper': ['.e2e.ts'],
         }
 
-        for helper_name, suffix in required_suffixes.items():
+        for helper_name, suffixes in required_suffixes.items():
             matching = [
                 f for f in helpers_dir.iterdir()
-                if f.is_file() and f.name.endswith(suffix)
+                if f.is_file() and any(f.name.endswith(s) for s in suffixes)
             ]
             if not matching:
                 violations.append({
                     'rule': self.rule,
                     'message': (
                         f"Sub-epic '{sub_epic_name}/helpers/' is missing "
-                        f"a {helper_name} file (expected: *{suffix})."
+                        f"a {helper_name} file (expected: *{suffixes[0]})."
                     ),
                     'location': str(helpers_dir),
                     'line': 0,

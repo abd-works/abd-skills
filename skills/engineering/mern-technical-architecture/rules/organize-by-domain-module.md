@@ -11,6 +11,10 @@ Organize code by **business capability** (domain module) first, then by technica
 - Structure each domain as `packages/{domain}/{shared|client|server}`.
 - Include `index.ts` and `package.json` in each tier folder for clean imports.
 - Keep the app shell (`app-server/`, `app-client/`) at the packages level as composition roots.
+- **Ensure `packages/app-server/` and `packages/app-client/` exist** as part of generating a domain module. If either root is missing, scaffold it. If either already exists, update it to mount or render the new domain module instead of generating a duplicate shell.
+- **Ensure the client tier provides UI for every user action defined in the specs.** If the requirements say a user can create a board, add tasks, or move items — the client must have corresponding forms, buttons, or controls. Derive required UI from the spec, not from a mechanical endpoint mirror.
+- **Wire navigation in `app-client/App.tsx`** to support all spec-driven user flows (e.g., create → view → interact). The composition root must manage view state when multiple views are needed.
+- - **Ensure every user action has a user-facing form and server endpoint/route.** Some POST routes exist for system-to-system workflows, background processing, or integration callbacks and should remain server-only unless the specs explicitly define a user action behind them.
 - Place test files under `tests/{epic}/{sub-epic}/` mirroring the domain structure.
 
 ```
@@ -24,6 +28,8 @@ project-root/
 │   │   │   └── package.json
 │   │   ├── client/              # React frontend for this domain
 │   │   │   ├── RecipientSelector.tsx
+│   │   │   ├── CreateRecipientForm.tsx
+│   │   │   ├── RecipientDetailView.tsx
 │   │   │   ├── useRecipients.ts
 │   │   │   ├── recipients.api.ts
 │   │   │   ├── index.ts
@@ -35,8 +41,17 @@ project-root/
 │   │       ├── recipients.repository.ts
 │   │       ├── index.ts
 │   │       └── package.json
-│   ├── app-server/
-│   └── app-client/
+│   ├── app-server/              # Composition root: create if missing, otherwise reuse
+│   │   ├── app.ts              # Creates Express app, mounts domain routers
+│   │   ├── index.ts
+│   │   └── package.json
+│   └── app-client/              # Composition root: create if missing, otherwise reuse
+│       ├── App.tsx             # Renders domain components
+│       ├── main.tsx            # Entry point (createRoot)
+│       ├── index.html
+│       ├── vite.config.ts
+│       ├── index.ts
+│       └── package.json
 ├── tests/
 └── package.json
 ```
@@ -46,6 +61,12 @@ project-root/
 - Organize by technical layer at the top level (`controllers/`, `models/`, `views/`, `routes/`).
 - Scatter a single domain's code across multiple unrelated folders.
 - Mix multiple domain concerns in a single folder.
+- **Generate domain module packages in a new project without also scaffolding missing composition roots.** Without these, the application cannot start and E2E tests fail with `ERR_CONNECTION_REFUSED`.
+- **Create duplicate `app-server/` or `app-client/` shells, or overwrite an existing composition root, when adding a module to an existing project.** Extend the existing shells instead.
+- **Ship a client tier that omits user actions defined in the specs.** If the requirements say users can create, edit, or move things, the UI must expose those capabilities — not just read-only search/list.
+- **Mirror POST endpoints into UI controls by default.** A server route may support integrations or internal workflows without implying a corresponding form or button in the client tier.
+- **Render a single static component in App.tsx when the specs define multiple user flows.** If users need to create entities and interact with detail views, the composition root must manage view state to support those flows.
+- **Do not assume every POST endpoint needs a user-facing form.** Some POST routes exist for system-to-system workflows, background processing, or integration callbacks and should remain server-only unless the specs explicitly define a user action behind them.
 
 ```
 # WRONG — technical-first organization
