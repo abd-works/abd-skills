@@ -1745,7 +1745,8 @@ def garden_prelude_tagline_html() -> str:
     return (
         f'Every <a href="{GARDENER_ROLE_PAGE_HREF}">Context Gardener</a> needs a Garden. '
         "The ABD AI Garden is our early efforts at providing an area to share prompts, agent skills, "
-        "and plugins that ABDers have been using to augment outcomes."
+        "and plugins that ABDers have been using to augment outcomes. "
+        'See the source repository at <a href="https://github.com/abd-works/agilebydesign-skills" target="_blank" rel="noopener noreferrer">https://github.com/abd-works/agilebydesign-skills</a>.'
     )
 
 
