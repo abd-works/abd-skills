@@ -64,6 +64,20 @@ Later slices then **add quality, automation, or robustness** — refining the sa
 
 ---
 
+## Output file
+
+**Where to write the deliverables (`<deliverables-folder>` resolution):**
+
+1. **The path the user told you to use.** If the user names a file or folder, use exactly that.
+2. **Where the engagement already keeps deliverables.** Look at the workspace; if previous phase output (story map, domain sketch, `process.md`, `corrections-log.md`) already lives in a folder, write next to them in the **same** folder.
+3. **The workspace root.** If neither applies, write to the workspace root.
+
+Do **not** assume a predetermined folder name like `stories/`, `docs/`, or `slices/`. The only DDD/story skill that creates a sub-folder is **`abd-module-partition`**.
+
+**File names:** Default to the template filenames — `thin-slicing.md` and `thin-slicing.txt`. Add a `<name>-` engagement prefix only when you need disambiguation — multiple products in the same workspace, or the user asks for it explicitly. Both `thin-slicing.md` and `<name>-thin-slicing.md` are valid; same for the `.txt` partner.
+
+---
+
 ## Agent Instructions
 
 1. **Templates**

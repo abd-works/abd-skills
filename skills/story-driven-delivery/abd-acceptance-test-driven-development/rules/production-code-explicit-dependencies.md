@@ -1,4 +1,4 @@
-﻿---
+---
 scanner: explicit_dependencies_scanner.py
 ---
 

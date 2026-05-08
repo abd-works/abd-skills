@@ -1,4 +1,4 @@
-﻿---
+---
 name: abd-acceptance-test-driven-development
 catalog_garden_tier: practice
 catalog_garden_order: 50
@@ -36,6 +36,20 @@ Load this skill when **any** of the following apply:
 - An agent is asked to "write tests", "generate test code", "implement test cases", "write acceptance tests", or "turn scenarios into tests."
 - You have only a rough description of behavior and need to derive tests from it (start from whatever context exists).
 - You need to fix a bug and want the correct **test-first** workflow.
+
+---
+
+## Output file
+
+**Where to write the test files (`<tests-folder>` resolution):**
+
+1. **The path the user told you to use.** If the user names a file or folder, use exactly that.
+2. **Where the project already keeps tests.** Look at the workspace; if a `tests/`, `test/`, `spec/`, or language-conventional test folder exists, put new test files in the appropriate subdirectory there.
+3. **The workspace root.** If neither applies (e.g. brand-new project), write to the workspace root or a sensible language-default location (`tests/` for Python, `src/test/java/...` for Java, `__tests__/` or `*.test.ts` co-located for JS/TS).
+
+Do **not** invent a predetermined folder name. Tests follow the host project's conventions, not this skill's. The only DDD/story skill that creates a sub-folder is **`abd-module-partition`**.
+
+**File names:** Use the target language's test-discovery convention (`test_<scenario>.py`, `<Scenario>Test.java`, `*.test.ts`, etc.). The file body is generated from the bundled templates in `templates/` (`acceptance-tests.py`, `acceptance-tests.java`, `acceptance-tests.js`). Add a `<name>-` or feature prefix only when project conventions ask for it — bare scenario or story names are the default.
 
 ---
 

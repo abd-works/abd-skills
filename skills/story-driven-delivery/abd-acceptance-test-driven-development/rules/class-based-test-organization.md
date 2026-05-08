@@ -1,4 +1,4 @@
-﻿---
+---
 scanner: class_based_organization_scanner.py
 ---
 

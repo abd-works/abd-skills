@@ -1,4 +1,4 @@
-﻿---
+---
 scanner: mock_boundaries_scanner.py
 ---
 

@@ -1,4 +1,4 @@
-﻿---
+---
 scanner: cover_all_paths_scanner.py
 ---
 

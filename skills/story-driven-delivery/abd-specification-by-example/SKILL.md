@@ -26,6 +26,20 @@ Load this skill when **any** of the following apply:
 - An agent is asked to “write BDD,” “add scenarios,” specify examples,” or “make scenarios concrete.”
 ---
 
+## Output file
+
+**Where to write the deliverables (`<deliverables-folder>` resolution):**
+
+1. **The path the user told you to use.** If the user names a file or folder, use exactly that.
+2. **Where the engagement already keeps deliverables.** Look at the workspace; if previous phase output (story map, acceptance criteria, domain sketch, `process.md`, `corrections-log.md`) already lives in a folder, write next to them in the **same** folder.
+3. **The workspace root.** If neither applies, write to the workspace root.
+
+Do **not** assume a predetermined folder name like `specs/`, `stories/`, or `docs/`. The only DDD/story skill that creates a sub-folder is **`abd-module-partition`**.
+
+**File names:** Default to the template filenames — `specification-by-example.md` / `.txt` (plain) or `specification-by-example-outline.md` / `.txt` (outline). Add a `<name>-` engagement prefix only when you need disambiguation — multiple products in the same workspace, multiple stories needing per-story spec files, or the user asks for it explicitly. Both `specification-by-example.md` and `<name>-specification-by-example.md` are valid; same for the outline and `.txt` partners.
+
+---
+
 ## Agent Instructions
 
 ### 0. Ground in the domain model

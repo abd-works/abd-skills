@@ -1,4 +1,4 @@
-﻿---
+---
 scanner: failing_test_api_scanner.py
 ---
 

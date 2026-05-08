@@ -1,4 +1,4 @@
-﻿---
+---
 scanner: ascii_only_scanner.py
 ---
 

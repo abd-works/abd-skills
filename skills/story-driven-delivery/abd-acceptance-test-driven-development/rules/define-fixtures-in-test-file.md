@@ -1,4 +1,4 @@
-﻿---
+---
 scanner: fixture_placement_scanner.py
 ---
 

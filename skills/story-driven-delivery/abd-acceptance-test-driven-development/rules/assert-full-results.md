@@ -1,4 +1,4 @@
-﻿---
+---
 scanner: full_result_assertions_scanner.py
 ---
 

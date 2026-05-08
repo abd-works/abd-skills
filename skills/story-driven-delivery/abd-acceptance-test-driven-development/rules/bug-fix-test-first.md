@@ -1,4 +1,4 @@
-﻿---
+---
 scanner: bug_fix_test_first_scanner.py
 ---
 

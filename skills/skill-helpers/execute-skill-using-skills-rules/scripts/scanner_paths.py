@@ -29,7 +29,8 @@ def skill_build_cfg(cfg: dict[str, Any]) -> dict[str, Any]:
 
 
 def _parse_frontmatter_scanner(content: str) -> str | None:
-    match = re.search(r"^---\s*\n(.*?)\n---", content, re.DOTALL)
+    text = content.lstrip("\ufeff")
+    match = re.search(r"^---\s*\n(.*?)\n---", text, re.DOTALL)
     if not match:
         return None
     for line in match.group(1).split("\n"):

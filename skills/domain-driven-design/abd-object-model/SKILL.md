@@ -190,19 +190,87 @@ DifficultyClass  << ValueObject >>
 
 > *Source: Evans, Domain-Driven Design Reference (2015) — Entities and Value Objects patterns.*
 
+## Output file
+
+This skill produces a **standalone, self-contained file** at:
+
+```
+<deliverables-folder>/[<name>-]object-model.md
+```
+
+**File name:** Default to `object-model.md`. Add a `<name>-` engagement prefix only when you need disambiguation — multiple products living in the same workspace, or the user asks for it explicitly. Both `object-model.md` and `<name>-object-model.md` are valid. For multi-module engagements (with `abd-module-partition` output), the module name is the disambiguator: `<deliverables-folder>/modules/<module-name>-object-model.md`.
+
+**Resolving `<deliverables-folder>`** — pick in this order:
+
+1. **The path the user told you to use.** If the user names a file or folder, use exactly that.
+2. **Where the engagement already keeps deliverables.** Look at the workspace; if previous phase output already lives in a folder, write next to it.
+3. **The workspace root.** If neither applies, write to the workspace root.
+
+Do **not** assume a predetermined folder name like `domain/`. The only DDD/story skill that creates a sub-folder is **`abd-module-partition`**.
+
+The file is **not** an in-place enrichment of the CRC file. It is a fresh artifact in the same flat heading shape every other DDD phase skill uses.
+
+---
+
+## Consistent shape (used by every DDD phase skill)
+
+```
+## **{{KAName}}**
+
+[Optional 1–2 sentence intro]
+
+### **{{ka_name as a Class}}** << Stereotype >>      ← MUST appear first; matches the KA
++ Constructor(param: Type)
+------
++ property: Type
+	Invariant: rule
++ << composition >> ownedProperty: Type
+----
++ operation(param: Type): ReturnType
+	Invariant: rule
+	Interaction:
+		variable: Type = expression
+		return variable
+
+### **{{another Class}} : {{BaseClass}}** << Stereotype >>
++ deltaProperty: Type
++ overriddenOperation(param: Type): ReturnType
+
+### references                                       ← one per KA, peer to classes
+**Ref — title**
+Source: ...
+Locator: ...
+Extract: whole
+
+```source
+verbatim
+```
+
+### decisions made                                   ← one per KA, peer to classes
+- decision rationale
+```
+
+The Boundary Domain is one flat group with shared `### references` and `### decisions made`.
+
+---
+
 ## Build
 
-1. **Assess the starting point.** If a CRC model exists in the file, use it as the primary input — it is the richest source. If not, work from domain knowledge, a domain sketch, or any available source describing the classes and their behavior.
-2. **Identify classes.** From the CRC (if present) or from domain knowledge, list every class that needs a typed block, including subtypes and collection classes.
-3. **Decompose responsibilities.** For each class, look at its responsibilities (from CRC "Responsible for" lines, behavior bullets, or domain knowledge). Ask: *does this require the class to hold something (→ property), do something (→ operation), or both?* Route each responsibility before writing anything.
-4. **Write properties and operations.** For responsibilities routed to state, write `+ propertyName: Type`. For responsibilities routed to action, write `+ methodName(param: Type): ReturnType`. Group related members into clusters separated by `----`; place operations after the properties they act on within the same cluster.
-5. **Determine object initialisation.** For each class, scan its properties and ask: *how does each value or reference arrive?* Choose constructor injection, internal initialisation, factory method, or factory object — see `### Object initialisation` above. Record the chosen approach as constructor signatures or factory operation signatures.
-6. **Derive relationships.** For each class, identify its collaborators (from CRC collaborator columns if present, or from domain knowledge). Ask: *is the parent defined by its children (aggregation), does the child depend on the parent to exist (composition), or are both sides independent (association)?* Mark composition and aggregation with a stereotype on the property (`<< composition >>`, `<< aggregation >>`). Leave plain associations unannotated.
-7. **Add invariant lines.** Identify lifecycle guards and always-true rules (from CRC `invariants:` fields if present, or from domain knowledge). Write each as a tab-indented `Invariant: ...` line directly under the member it constrains.
-8. **Add interaction blocks.** For each operation, ask: does this have inherent complexity — multiple internal steps, coordinated collaborators, or branching behavior not captured by the signature and invariants? If yes, write a tab-indented `Interaction:` block tracing the step-chain. CRC collaborators not mapped to parameters are a useful signal. See `### Interactions` above.
-9. **Handle inheritance.** For each subtype, use `ChildClass : ParentClass` on the heading line and write only delta members — see `### Inheritance` above. Mark each class with its stereotype (`<< Entity >>`, `<< ValueObject >>`, or other as appropriate) — see `### Entities and Value Objects` below.
-10. **Format.** Use `----` to separate clusters within a class and `-----` to separate whole classes. Follow `templates/domain-model-scaffold.md` for placeholder shapes and heading conventions.
-11. **Bump state.** Change the YAML front-matter from `state: crc` to `state: domain-model`.
+1. **Read the prerequisite file.** If a `<deliverables-folder>/<name>-crc.md` exists, use it as the primary input — it is the richest source. If not, work from `<name>-domain-sketch.md` or any available source describing the classes and their behavior.
+2. **Identify classes.** From the CRC (if present) or domain knowledge, list every class that needs a typed block, including subtypes and collection classes. Group them under their `## **KA**` from the prior phase.
+3. **Decompose responsibilities.** For each class, look at its responsibilities. Ask: *does this require the class to hold something (→ property), do something (→ operation), or both?* Route each responsibility before writing anything.
+4. **Write the typed class blocks.** Under `# Core Domain`, for each KA from the prior phase:
+   - `## **KAName**` heading.
+   - `### **ka_name_as_a_Class** << Stereotype >>` — the KA's own class, listed FIRST, with constructor, properties, operations, invariants, and `Interaction:` blocks.
+   - `### **another Class** << Stereotype >>` for each grouped concept. Subtypes use `### **ChildClass : BaseClass** << Stereotype >>` and carry only deltas.
+   - `### references` listing all Refs for classes in this KA, with fenced ```source``` blocks.
+   - `### decisions made` listing object-model judgments (constructor injection vs internal init vs factory; relationship flavor; Entity vs Value Object; collaborator-omission decisions; lifecycle observations).
+5. **Determine object initialisation.** For each class, scan its properties and choose constructor injection, internal initialisation, factory method, or factory object — see `### Object initialisation`.
+6. **Derive relationships.** Mark composition and aggregation with a stereotype on the property (`<< composition >>`, `<< aggregation >>`). Leave plain associations unannotated.
+7. **Add invariant lines.** Each as a tab-indented `Invariant: ...` line directly under the member it constrains.
+8. **Add interaction blocks.** For each operation with inherent complexity, write a tab-indented `Interaction:` block tracing the step-chain. CRC collaborators not mapped to parameters are a useful signal.
+9. **Set the state marker** to `domain-model`.
+10. **Write the file** to `<deliverables-folder>/<name>-object-model.md`. Use `----` for clusters within a class and follow `templates/domain-model-scaffold.md` for placeholder shapes.
 
 ## Templates
 
@@ -210,6 +278,11 @@ DifficultyClass  << ValueObject >>
 
 ## Validate
 
+- **Per-phase output file.** The file is named `<name>-object-model.md`. No prior or later phase content lives in it.
+- **Every KA has a class that names it.** Every `## **KA**` heading is followed by a `### **Class** << Stereotype >>` whose name matches the KA itself, listed first.
+- **No sub-headings under classes.** Class member blocks live directly under each `### **Class**` heading. No `#### Object Model`, `#### References`, or `#### Decisions made` sub-sections.
+- **References per KA with verbatim source blocks.** One `### references` per KA, every `**Ref —**` followed by a fenced ```source``` block of verbatim text.
+- **Decisions per KA.** One `### decisions made` per KA listing object-model judgment calls.
 - Every class has a typed block. A class with only stateless behavior may have zero properties — that is valid.
 - Every property is typed and justified by a domain responsibility that requires stored state.
 - Every operation is a fully typed signature — `+ methodName(param: Type): ReturnType` — with no untyped parameters or missing return types.
@@ -227,6 +300,69 @@ DifficultyClass  << ValueObject >>
 ---
 
 <!-- execute_rules:bundle_rules:begin -->
+### Rule: Per-phase file with consistent flat shape
+
+**Scanner:** Manual review
+
+The object-model skill writes a self-contained file at `<deliverables-folder>/<name>-object-model.md`. It does **not** enrich the prior phase's file in place. The output uses the consistent flat heading shape every DDD phase skill shares: `## **KA** → ### **Class** (with class members directly under) → ### references → ### decisions made`.
+
+#### DO
+
+- Write the file to `<deliverables-folder>/<name>-object-model.md`.
+
+  **Example (pass):** `domain/paw-place-object-model.md`.
+
+- Place class members (constructor, properties, operations, invariants, interactions) directly under each `### **Class**` heading.
+
+#### DO NOT
+
+- Add typed class blocks as a sub-section inside the prior phase's file.
+
+  **Example (fail):** Edit `paw-place-crc.md` to insert typed class blocks — that is in-place enrichment which produces unrecoverable heading drift.
+
+**Source:** Engagement convention (DDD phase-skill simplification).
+
+### Rule: Every Key Abstraction has a class that names the KA itself
+
+**Scanner:** AI review
+
+Every `## **KA**` heading must be followed by a `### **Class** << Stereotype >>` whose name matches the KA itself, listed **first** under the KA, with its full typed block (constructor, properties, operations, invariants, interactions). The KA's own class carries the abstraction's behavior, identity, and invariants.
+
+#### DO
+
+- List the KA's own class first under the `## **KA**` heading.
+
+  **Example (pass):**
+  ```
+  ## **Check**
+
+  ### **Check** << Entity >>           ← first; matches the KA
+  + Check(trait: Trait, dc: DifficultyClass)
+  ------
+  + trait: Trait
+  + dc: DifficultyClass
+  ----
+  + resolve(): CheckResult
+      Interaction:
+          ...
+
+  ### **DifficultyClass** << ValueObject >>
+  + value: Integer
+  ```
+
+#### DO NOT
+
+- Skip the KA's own class.
+
+  **Example (fail):**
+  ```
+  ## **Check**
+
+  ### **DifficultyClass** << ValueObject >>     ← subordinate first; missing ### **Check**
+  ```
+
+**Source:** Correction — engagement repo (paw-place); KA's own term must be the most important class modeled.
+
 ### Rule: All CRC collaborators are accounted for in the typed member
 
 **Scanner:** Manual review

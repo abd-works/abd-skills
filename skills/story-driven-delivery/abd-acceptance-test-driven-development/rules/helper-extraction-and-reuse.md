@@ -1,4 +1,4 @@
-﻿---
+---
 scanner: helper_extraction_scanner.py
 ---
 

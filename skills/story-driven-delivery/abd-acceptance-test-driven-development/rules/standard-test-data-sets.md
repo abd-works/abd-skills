@@ -1,4 +1,4 @@
-﻿---
+---
 scanner: standard_data_reuse_scanner.py
 ---
 

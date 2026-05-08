@@ -1,4 +1,4 @@
-﻿---
+---
 scanner: import_placement_scanner.py
 ---
 

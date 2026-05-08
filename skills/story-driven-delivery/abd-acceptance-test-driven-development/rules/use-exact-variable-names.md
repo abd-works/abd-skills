@@ -1,4 +1,4 @@
-﻿---
+---
 scanner: exact_variable_names_scanner.py
 ---
 

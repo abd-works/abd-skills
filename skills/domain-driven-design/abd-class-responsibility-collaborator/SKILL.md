@@ -86,84 +86,191 @@ An **invariant** is a short declarative constraint — phrased as a statement of
 
 ---
 
-## The shape of a module file
+## Output file
 
-Each knowledge area in the module file follows this structure:
+This skill produces a **standalone, self-contained file** at:
 
-```markdown
-## **Knowledge Area Name**
-
-<intro paragraph>
-
-### Ubiquitous Language
-
-#### **ConceptName**
-- term definition
-
----
-
-### Domain Sketch
-
-#### **ConceptName**
-- behavior bullet
-
----
-
-### Class Responsibility Collaborator
-
-#### **ConceptName**
-responsibility              | Collaborator
-
-#### **ConceptName : BaseConcept**
-delta responsibility        | Collaborator
-
----
-
-### Decisions made
-
-- decision rationale
-
-### References
-
-**Ref: ...**
+```
+<deliverables-folder>/[<name>-]crc.md
 ```
 
-The Boundary Domain is one flat section — all boundary concepts share a single `### Ubiquitous Language`, `### Domain Sketch`, and `### Class Responsibility Collaborator` rather than being split into per-concept `##` sections.
+**File name:** Default to `crc.md`. Add a `<name>-` engagement prefix only when you need disambiguation — multiple products living in the same workspace, or the user asks for it explicitly. Both `crc.md` and `<name>-crc.md` are valid. For multi-module engagements (with `abd-module-partition` output), the module name is the disambiguator: `<deliverables-folder>/modules/<module-name>-crc.md`.
+
+**Resolving `<deliverables-folder>`** — pick in this order:
+
+1. **The path the user told you to use.** If the user names a file or folder, use exactly that.
+2. **Where the engagement already keeps deliverables.** Look at the workspace; if previous phase output already lives in a folder, write next to it.
+3. **The workspace root.** If neither applies, write to the workspace root.
+
+Do **not** assume a predetermined folder name like `domain/`. The only DDD/story skill that creates a sub-folder is **`abd-module-partition`**.
+
+The file is **not** an in-place enrichment of the domain-sketch file. It is a fresh artifact in the same flat heading shape every other DDD phase skill uses.
+
+---
+
+## Consistent shape (used by every DDD phase skill)
+
+```
+## **{{KAName}}**
+
+[Optional 1–2 sentence intro]
+
+### **{{ka_name as a Class}}**             ← MUST appear first; matches the KA
+property name              | Collaborator
+operation name             | Collaborator
+                           |   invariant: rule that must always hold
+
+### **{{another Class}}**
+property name              | Collaborator
+operation name             | Collaborator, Collaborator
+
+### **{{SubtypeName}} : {{BaseClass}}**
+delta responsibility       | Collaborator
+
+### references                              ← one per KA, peer to classes
+**Ref — title**
+Source: ...
+Locator: ...
+Extract: whole
+
+```source
+verbatim
+```
+
+### decisions made                          ← one per KA, peer to classes
+- decision rationale
+```
+
+The Boundary Domain is one flat section — all boundary classes share a single `# Boundary Domain` group with one `### references` and one `### decisions made` at the bottom.
 
 ---
 
 ## Build
 
-1. **Read the domain sketch.** Every behavior bullet is a candidate responsibility. Each `#### **ConceptName**` block seeds one CRC block.
-2. **Resolve slash terms.** Any concept named `A / B` in the domain sketch must be resolved to one canonical name before writing CRC blocks.
+1. **Read the prerequisite file.** Read `<deliverables-folder>/<name>-domain-sketch.md`. Every behavior bullet on a concept is a candidate responsibility. Each `### **concept**` seeds one CRC class block.
+2. **Resolve slash terms.** Any concept named `A / B` in the domain sketch must be resolved to one canonical name before writing CRC class blocks.
 3. **Identify state-carrier needs.** For each concept, ask: does applying this concept to an entity require state unique from the concept? If yes, introduce a state-carrier class.
 4. **Identify collection class needs.** For each entity that holds multiple related objects, ask: does managing that collection require unique behavior? If yes, introduce a collection class.
-5. **Write CRC blocks.** For each concept — including state-carriers and collection classes — produce a `#### **ConceptName**` block using the table format. Subtypes use `#### **ConceptName : BaseConcept**` and carry only deltas.
-6. **Trace every behavior to a responsibility.** Each behavior bullet in the domain sketch must be traceable to at least one responsibility (property or operation) in the CRC. If a bullet is missing coverage, add the responsibility or note the gap in Decisions.
-7. **Verify explicit chains.** For every responsibility that implies multiple actors or steps, confirm that every implied actor appears as a collaborator on some responsibility in the CRC. Nothing nebulous.
-8. **Append the CRC section.** Add `### Class Responsibility Collaborator` after `### Domain Sketch` within each knowledge-area section. Do not replace or modify prior content.
-9. **Bump state.** Update front matter `state:` to `crc`.
+5. **Write the CRC class blocks.** Under `# Core Domain`, for each KA from the domain-sketch file:
+   - `## **KAName**` heading.
+   - `### **ka_name_as_a_class**` — the KA's own class, listed FIRST, with its responsibility table.
+   - `### **another Class**` for each grouped concept, with its responsibility table. Subtypes use `### **ConceptName : BaseConcept**` and carry only deltas.
+   - `### references` listing all Refs for classes in this KA, with fenced ```source``` blocks.
+   - `### decisions made` listing CRC-level judgments (slash-term resolutions, state-carrier introductions, collection-class introductions, Liskov decisions, dependency-magnet splits).
+6. **Trace every behavior to a responsibility.** Each behavior bullet in the domain sketch must map to at least one responsibility (property or operation) in the CRC. If a bullet is missing coverage, add the responsibility or note the gap in `### decisions made`.
+7. **Verify explicit chains.** For every responsibility that implies multiple actors or steps, confirm every implied actor appears as a collaborator on some responsibility. Nothing nebulous.
+8. **Set the state marker** to `crc`.
+9. **Write the file** to `<deliverables-folder>/<name>-crc.md`. Follow the template in `templates/crc-outline-template.md`.
 
 ---
 
 ## Validate
 
-1. **Coverage.** Every concept from the domain sketch has a CRC block.
-2. **No slash terms.** No `A / B` names appear in any CRC heading or block.
-3. **Property names.** Every property name is a noun phrase using domain vocabulary — no technical terms (`flag`, `boolean`, `list`, `type` as a bare noun).
-4. **Operation names.** Every operation name is a verb phrase.
-5. **Vocabulary tight.** Each responsibility name uses vocabulary from the behavior bullet that inspired it.
-6. **Subtype deltas only.** Subtype blocks contain only responsibilities that add or override the parent.
-7. **Collaborators explicit.** No responsibility with implied actors has an empty or vague collaborator column.
-8. **Receiver not responsible.** No concept has a responsibility that amounts to "receive X" or "be acted upon by X."
-9. **Invariants indented.** Invariant lines use `|   invariant:` with three spaces after the pipe.
-10. **`|` separators aligned.** Column separators are aligned within each block.
-11. **State marker.** Front matter reads `state: crc`.
-12. **Additive.** All prior content is unchanged — CRC is appended, not substituted.
+1. **Per-phase output file.** The file is named `<name>-crc.md`. No prior or later phase content lives in it.
+2. **Every KA has a class that names it.** Every `## **KA**` heading is followed by a `### **Class**` whose name matches the KA itself, listed first, with its responsibility table.
+3. **Coverage.** Every concept from the domain-sketch file has a corresponding `### **Class**` block.
+4. **No sub-headings under classes.** Responsibility tables live directly under each `### **Class**` heading. No `#### Class Responsibility Collaborator`, `#### References`, or `#### Decisions made` sub-sections.
+5. **References per KA with verbatim source blocks.** One `### references` per KA, every `**Ref —**` followed by a fenced ```source``` block of verbatim text.
+6. **Decisions per KA.** One `### decisions made` per KA listing CRC judgment calls.
+7. **No slash terms.** No `A / B` names appear in any CRC heading or block.
+8. **Property names.** Every property name is a noun phrase using domain vocabulary — no technical terms (`flag`, `boolean`, `list`, `type` as a bare noun).
+9. **Operation names.** Every operation name is a verb phrase.
+10. **Vocabulary tight.** Each responsibility name uses vocabulary from the behavior bullet that inspired it.
+11. **Subtype deltas only.** Subtype blocks contain only responsibilities that add or override the parent.
+12. **Collaborators explicit.** No responsibility with implied actors has an empty or vague collaborator column.
+13. **Receiver not responsible.** No concept has a responsibility that amounts to "receive X" or "be acted upon by X."
+14. **Invariants indented.** Invariant lines use `|   invariant:` with three spaces after the pipe.
+15. **`|` separators aligned.** Column separators are aligned within each block.
+16. **State marker.** Front matter reads `state: crc`.
 
 ---
 
 <!-- execute_rules:bundle_rules:begin -->
+### Rule: Per-phase file with consistent flat shape
+
+**Scanner:** Manual review
+
+The CRC skill writes a self-contained file at `<deliverables-folder>/<name>-crc.md`. It does **not** enrich the prior phase's file in place. The output uses the consistent flat heading shape every DDD phase skill shares: `## **KA** → ### **Class** (with responsibility table directly under) → ### references → ### decisions made`.
+
+#### DO
+
+- Write the file to `<deliverables-folder>/<name>-crc.md`.
+
+  **Example (pass):** `domain/paw-place-crc.md`.
+
+- Place the responsibility table directly under each `### **Class**` heading.
+
+  **Example (pass):**
+  ```
+  ## **Check**
+
+  ### **Check**
+  use trait                  | Trait
+  resolve                    | D20, Trait, Difficulty Class, Check Result
+                             |   invariant: d20 + trait rank + circumstance modifier >= difficulty class
+
+  ### references
+  **Ref —** …
+
+  ### decisions made
+  - …
+  ```
+
+#### DO NOT
+
+- Add `### Class Responsibility Collaborator` as a sub-section inside the prior phase's file.
+
+  **Example (fail):** Edit `paw-place-domain-sketch.md` to insert `### Class Responsibility Collaborator` peers — that is in-place enrichment which produces unrecoverable heading drift.
+
+- Insert intermediate sub-headings between the KA and its classes.
+
+  **Example (fail):**
+  ```
+  ## **Check**
+  ### Class Responsibility Collaborator
+  #### **Check**
+  ```
+
+**Source:** Engagement convention (DDD phase-skill simplification).
+
+### Rule: Every Key Abstraction has a class that names the KA itself
+
+**Scanner:** AI review
+
+Every `## **KA**` heading must be followed by a `### **Class**` whose name matches the KA itself, listed **first** under the KA, with its full responsibility table. The KA's own class carries the abstraction's behavior, identity, and invariants.
+
+#### DO
+
+- List the KA's own class first under the `## **KA**` heading.
+
+  **Example (pass):**
+  ```
+  ## **Check**
+
+  ### **Check**                              ← first; matches the KA
+  use trait                  | Trait
+  resolve                    | D20, Trait, Difficulty Class, Check Result
+
+  ### **Difficulty Class**
+  numeric threshold          | (integer 0–40)
+
+  ### **Trait**
+  effective rank             | (integer)
+  ```
+
+#### DO NOT
+
+- Skip the KA's own class.
+
+  **Example (fail):**
+  ```
+  ## **Check**
+
+  ### **Difficulty Class**          ← subordinate first; missing ### **Check**
+  ```
+
+**Source:** Correction — engagement repo (paw-place); KA's own term must be the most important class modeled.
+
 ### Rule: Collaborators trace to sketch collaborations and subtype edges
 
 **Scanner:** Manual review

@@ -1,4 +1,4 @@
-﻿---
+---
 scanner: object_oriented_helpers_scanner.py
 ---
 

@@ -32,6 +32,20 @@ Load this skill when **any** of the following apply:
 - An agent is asked to "map out the system", "identify the epics", "structure the work", or "figure out what we're building using stories"
 - You want to organize existing code, solutions, or tests into a hierarchical story-map format.
 
+## Output file
+
+**Where to write the deliverables (`<deliverables-folder>` resolution):**
+
+1. **The path the user told you to use.** If the user names a file or folder, use exactly that.
+2. **Where the engagement already keeps deliverables.** Look at the workspace; if previous phase output (key-abstractions, domain sketch, `process.md`, `corrections-log.md`) already lives in a folder, write next to them in the **same** folder.
+3. **The workspace root.** If neither applies, write to the workspace root.
+
+Do **not** assume a predetermined folder name like `stories/` or `docs/`. The only DDD/story skill that creates a sub-folder is **`abd-module-partition`**.
+
+**File names:** Default to the template filenames — `story-map.md` (and `story-map.txt` when present). Add a `<name>-` engagement prefix only when you need disambiguation — multiple products in the same workspace, or the user asks for it explicitly. Both `story-map.md` and `<name>-story-map.md` are valid. The companion `story-graph.json` (managed by **`story-graph-ops`**) follows the same convention.
+
+---
+
 ## Agent Instructions
 
 1. **Templates**

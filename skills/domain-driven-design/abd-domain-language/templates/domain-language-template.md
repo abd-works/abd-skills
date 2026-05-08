@@ -1,30 +1,46 @@
 <!--
-  Normative shape for the growing module file after domain-language enrichment.
+  Normative shape for the domain-language phase output.
 
-  Default output: <workspace>/abd-domain-driven-design/modules/<module-name>-domain-language.md
+  Output: <deliverables-folder>/[<name>-]domain-language.md
+          (or <deliverables-folder>/modules/<module-name>-domain-language.md
+           for multi-module engagements with a partition file)
 
-  If the module file already exists, enrich it in place.
-  If it does not exist, create it with this structure.
+  This skill produces a STANDALONE file. It is not enriched in place by later
+  phase skills. Each later DDD phase skill (key-abstractions, domain-sketch,
+  CRC, object-model) writes its own file using the same flat shape.
 
-  The file grows additively across phases:
-    DL  → creates # Core Domain / #### **Term** / behavior bullets / #### References
-    KA  → wraps terms in ## **Key Abstraction** groups + prose; moves #### **Term** under
-          ### Ubiquitous Language; adds ### Decisions made; adds source blocks
-    DS  → adds ### Domain Sketch under each ## **KA**; deduplicates references
-    CRC → adds ### Class Responsibility Collaborator under each ## **KA**
+  Consistent shape across every DDD phase skill:
 
-  Domain Language stage structure:
-    # Core Domain
-      #### **term**              ← bold concept heading, no ### wrapper
-        - behavioral line
-      #### References
-        **Ref —** ...
+    ## **{{KAName}}**            (h2 — only present from key-abstractions onwards)
 
-    # Boundary Domain
-      #### **boundary_term** *(owned by: Module)*
-        - behavioral line
-      #### References
-        **Ref —** ...
+    [optional intro paragraph]
+
+    ### **{{term/concept/class/object}}**    (h3 — name evolves stage-to-stage)
+    - bullet
+    - bullet
+
+    ### **{{another term}}**
+    - bullet
+
+    ### references                            (h3 — peer to terms; one per group)
+    **Ref — title**
+    Source: ...
+    Locator: ...
+    Extract: whole
+
+    ```source
+    verbatim
+    ```
+
+  In the domain-language phase no KAs have been identified yet, so terms are
+  flat under # Core Domain (no ## **KA** wrapper). The key-abstractions phase
+  introduces the wrappers in its own file.
+
+  Contract:
+    - One file per phase. Do not enrich this file in place.
+    - Bullets live directly under each ### **term** heading.
+    - No #### Domain Language, #### References, or other sub-headings.
+    - One ### references section per group (Core Domain, Boundary Domain).
 -->
 
 ---
@@ -44,43 +60,50 @@ Scope: {{bounded slice or engagement scope}}
 
 # Core Domain
 
-#### **{{term_name}}**
-- {{short line: behavior, interaction, rule, or flow}}
-- {{…}}
+### **{{term_name}}**
+- {{behavioral line: what it does, interactions, rules, flows}}
+- {{behavioral line}}
 
-#### References
+### **{{another_term}}**
+- {{behavioral line}}
+
+### references
 
 **Ref — {{ref_title}}**
 Source: {{source_path}}
 Locator: {{line_range or section pointer}}
 Extract: {{whole or partial}}
 
----
+```source
+{{verbatim text copied byte-for-byte from the source}}
+```
 
-#### **{{next_term_name}}**
-- {{…}}
-
-#### References
-
-**Ref — {{ref_title}}**
+**Ref — {{another_ref_title}}**
 Source: {{source_path}}
 Locator: {{line_range}}
 Extract: {{whole or partial}}
+
+```source
+{{verbatim text}}
+```
 
 ---
 
 # Boundary Domain
 
-#### **{{boundary_term_name}}** *(owned by: {{owning_module_name}})*
-- {{short line: how this module depends on the concept}}
-- {{…}}
+### **{{boundary_term_name}}** *(owned by: {{owning_module}})*
+- {{behavioral line: how this module sees or depends on the concept}}
 
-#### References
+### references
 
 **Ref — {{ref_title}}**
 Source: {{source_path}}
 Locator: {{line_range}}
 Extract: {{whole or partial}}
+
+```source
+{{verbatim text}}
+```
 
 ---
 
@@ -107,43 +130,54 @@ Scope: The d20 resolution mechanic, checks, degrees, conditions.
 
 # Core Domain
 
-#### **check**
+### **check**
 - A check is d20 + trait rank (plus modifiers) vs DC; equal or above is success.
 - Whenever a character attempts something where outcome is in doubt, it requires a check.
 - The GM decides what kind of check applies and sets the DC.
 
-#### References
+### **Difficulty Class (DC)**
+- The DC is a number set by the GM that a check result must equal or exceed.
+- A standard difficulty scale runs from Very Easy (DC 0) through Nigh-Impossible (DC 40).
+
+### references
 
 **Ref — Game Play**
 Source: context/rules/HeroesHandbook-rules__chunk_009.md
 Locator: lines 809–874
 Extract: whole
 
----
-
-#### **Difficulty Class (DC)**
-- The DC is a number set by the GM that a check result must equal or exceed.
-- A standard difficulty scale runs from Very Easy (DC 0) through Nigh-Impossible (DC 40).
-
-#### References
+```source
+GAME PLAY
+…verbatim text from chunk…
+```
 
 **Ref — Ch1 The Basics**
 Source: context/rules/HeroesHandbook-rules__chunk_005.md
 Locator: lines 244–284
 Extract: whole
 
+```source
+CH1 THE BASICS
+…verbatim text from chunk…
+```
+
 ---
 
 # Boundary Domain
 
-#### **Power Effect** *(owned by: Power)*
+### **Power Effect** *(owned by: Power)*
 - An effect is the basic building block of a power; it describes what a power does in game terms.
 - Resistance check DC is typically 10 + effect rank.
 
-#### References
+### references
 
 **Ref — Attack Checks**
 Source: context/rules/HeroesHandbook-rules__chunk_016.md
 Locator: lines 1195–1237
 Extract: whole
+
+```source
+ATTACK CHECKS
+…verbatim text from chunk…
+```
 ```

@@ -1,4 +1,4 @@
-﻿---
+---
 name: domain-language
 catalog_garden_order: 2
 description: >-
@@ -9,13 +9,14 @@ description: >-
 
 ## Purpose
 
-Build a shared, rigorous vocabulary for each module â€” the terms, behaviors, and rules that domain experts and modelers agree on â€” so that every conversation, document, and downstream artifact uses the same language without translation.
+Build a shared, rigorous vocabulary for each module — the terms, behaviors, and rules that domain experts and modelers agree on — so that every conversation, document, and downstream artifact uses the same language without translation.
 
 ## When to use
 
 - The user asks to "extract domain language," "define terms," "build the domain language," or "what does each term mean."
-- The next modeling step needs defined term behavior â€” not just a flat name list.
+- The next modeling step needs defined term behavior — not just a flat name list.
 
+---
 
 ## Core concepts
 
@@ -25,207 +26,285 @@ A shared, rigorous vocabulary agreed between domain experts and modelers — eve
 
 ### What each term carries
 
-A **term** is a named concept from the module's domain. For each term, the skill captures *what it does* â€” its behavior, interactions, rules, and flows â€” as short prose statements grounded in source material. Every claim traces back to the context it came from. The emphasis is on observable behavior and interactions, not just definitions or constraints.
+A **term** is a named concept from the module's domain. For each term, the skill captures *what it does* — its behavior, interactions, rules, and flows — as short prose statements grounded in source material. Every claim traces back to the context it came from.
 
 ### Boundary terms
 
-A concept this module depends on but does not own. Another module is the single source of truth for it. If a term appears to be owned by multiple modules simultaneously, it is probably not a boundary term â€” it is a base abstraction that belongs in this module's Core terms.
+A concept this module depends on but does not own. Another module is the single source of truth for it. If a term appears to be owned by multiple modules simultaneously, it is probably not a boundary term — it is a base abstraction that belongs in this module's Core terms.
 
 ### Found terms
 
-Terms discovered in the source during extraction that were not in the original Core terms list but clearly belong to this module.
+Terms discovered in the source during extraction that were not in the original Core terms list but clearly belong to this module. They appear inline among Core terms in the order they were discovered (or alphabetically), not in a separate section.
 
 ---
 
 ## Output file
 
-The growing module file lives at `<workspace>/abd-domain-driven-design/modules/<module-name>.md`. Each skill phase enriches this same file in place â€” no separate output file per phase.
+This skill produces a **standalone, self-contained file** at:
 
-**Copy-output mode:** when the user says "copy output," write your additions to the growing file AND produce a snapshot at `<workspace>/abd-domain-driven-design/modules/<module-name>-domain-language.md`. The snapshot is read-only after creation.
+```
+<deliverables-folder>/[<name>-]domain-language.md
+```
+
+**File name:** Default to `domain-language.md`. Add a `<name>-` engagement prefix only when you need disambiguation — multiple products living in the same workspace, or the user asks for it explicitly. Both `domain-language.md` and `<name>-domain-language.md` are valid. For multi-module engagements (with `abd-module-partition` output), the module name is the disambiguator: `<deliverables-folder>/modules/<module-name>-domain-language.md`.
+
+The file is **not enriched in place** by later phase skills. Each later phase skill (`abd-key-abstractions`, `abd-domain-sketch`, `abd-class-responsibility-collaborator`, `abd-object-model`) writes its own file using the **same flat heading shape** so the deliverables stay in sync without copy-merge contortion.
+
+**Resolving `<deliverables-folder>`** — pick in this order:
+
+1. **The path the user told you to use.** If the user names a file or folder, use exactly that.
+2. **Where the engagement already keeps deliverables.** Look at the workspace; if previous phase output (or other engagement docs like `story-map.md`, `process.md`, `corrections-log.md`) already lives in a folder, write next to them in the **same** folder.
+3. **The workspace root.** If neither applies, write to the workspace root.
+
+Do **not** assume a predetermined folder name like `domain/` or `stories/`. The only DDD/story skill that creates a sub-folder is **`abd-module-partition`**, which deliberately uses `modules/<module-name>-…` to carve a partition.
+
+For a multi-module engagement (with `abd-module-partition` output), use `<deliverables-folder>/modules/<module-name>-domain-language.md` — i.e. the `modules/` sub-folder lives **inside** the resolved `<deliverables-folder>`.
+
+---
+
+## Consistent shape (used by every DDD phase skill)
+
+```
+## **{{KAName}}**            (h2 — only present from key-abstractions onwards)
+
+[Optional intro paragraph]
+
+### **{{term / concept / class / object}}**    (h3 — name evolves stage-to-stage)
+- bullet (content depends on the phase)
+- bullet
+
+### **{{another term}}**
+- bullet
+
+### references                                  (h3 — peer to terms; one per KA)
+**Ref — title**
+Source: ...
+Locator: ...
+Extract: whole
+
+```source
+verbatim
+```
+```
+
+In the **domain-language** phase no KAs have been identified yet, so the file uses the same shape **without** the `## **KA**` wrapper:
+
+```
+# Core Domain
+
+### **term**
+- behavioral line
+- behavioral line
+
+### **another term**
+- behavioral line
+
+### references
+**Ref — title**
+Source: ...
+Locator: ...
+Extract: whole
+
+```source
+verbatim
+```
+```
+
+The key-abstractions phase later wraps these terms in `## **KA**` groups.
+
+---
 
 ## Build
 
-1. **Start from the module file.** If `<module-name>.md` exists, enrich it in place. If not, create it with the module name, scope, and a Core terms list.
-2. **Read all referenced context.** Follow the Ref entries in the module file and read the source material they point to. If the module has no Refs yet, read the source material the user provides or that the engagement makes available. Understand what each term means in context.
-3. **Describe each Core term.** Expand each term into a `###` heading under `# Core Domain` containing two sub-sections: `#### Domain language` (short prose bullets describing behavior, interactions, rules, flows) and `#### References` (full Ref entries). Preserve the Core terms order.
-4. **Trace each claim back to source.** Every statement about a term's behavior gets a Ref entry in `#### References` pointing to the context that evidences it.
-5. **Add found terms.** Terms discovered during extraction that belong to this module go as `###` headings after all Core terms, before `# Boundary Domain`.
-6. **Write boundary terms.** Concepts this module depends on but does not own go under `# Boundary Domain` as `##` headings, each with an `Owned by:` field, `#### Domain language` bullets, and `#### References`.
-7. **Bump state** to `domain-language`.
-8. **Write the file** back to the same path. Follow the template in `templates/domain-language-template.md`.
+1. **Read the source context.** Read the source material the user provides or that the engagement makes available. If a `<deliverables-folder>/<name>-module-partition.md` exists, follow its `**Core terms**` list and Refs.
+2. **List Core terms in the header.** The file header carries a `**Core terms**:` flat bullet list — the inventory.
+3. **Describe each Core term.** For each term, write a `### **term**` heading directly under `# Core Domain` with verb-light behavioral bullets (no sub-headings). Cover behavior, interactions, rules, and flows. Add found terms inline if discovered during extraction.
+4. **Add a single `### references` section** after the last Core term, listing all `**Ref —**` entries with full `Source:`, `Locator:`, `Extract:` fields and a fenced `source` block of verbatim text beneath each.
+5. **Write boundary terms.** Concepts this module depends on but does not own go under `# Boundary Domain` as `### **boundary_term** *(owned by: Module)*` headings, each followed by behavioral bullets. A single `### references` section closes the section.
+6. **Set the state marker** to `domain-language`.
+7. **Write the file** to `<deliverables-folder>/<name>-domain-language.md`. Follow the template in `templates/domain-language-template.md`.
 
 ---
 
 ## Validate
 
-After completion, check:
-
-1. **Every Core term present.** Every term from the partition's Core terms list appears as a `###` heading under `# Core Domain`.
-2. **Partition order preserved.** Core term headings follow the same sequence as the partition's bullet list.
-3. **Behavior described per term.** Every `###` term has an `#### Domain language` section with at least one prose statement describing its behavior.
-4. **Refs per term.** Every `###` term has an `#### References` section with at least one full-format Ref entry.
-5. **Boundary terms have owners.** Every `##` heading under `# Boundary Domain` has an `Owned by:` field naming exactly one module.
-6. **No multi-owner boundaries.** If a boundary term appears owned by multiple modules, it is a base abstraction â€” move to Core terms.
+1. **Per-phase output file.** The file is named `<name>-domain-language.md`, not `<name>.md`. No prior or later phase content lives in this file.
+2. **Every Core term present.** Every term from the `**Core terms**` list appears as a `### **term**` heading.
+3. **Behavior described per term.** Every `### **term**` has at least one behavioral bullet.
+4. **References present.** A single `### references` section exists in `# Core Domain` with at least one full-format Ref entry, each backed by a fenced `source` block of verbatim text.
+5. **Boundary terms have owners.** Every `### **boundary_term**` heading carries `*(owned by: Module)*` naming exactly one owning module.
+6. **No multi-owner boundaries.** If a boundary term is "owned by" multiple modules, it is a base abstraction — move to Core.
 7. **State marker.** Front matter reads `state: domain-language`.
-8. **No source gaps.** Every in-scope source slice is evidenced by at least one Ref entry somewhere in the file.
+8. **No sub-headings under terms.** Bullets live directly under each `### **term**` heading — no `#### Domain Language`, `#### References`, or other sub-sections.
 
 ---
 
 <!-- execute_rules:bundle_rules:begin -->
-﻿---
-scanner: all-core-terms-present
----
+### Rule: Per-phase file with consistent flat shape
 
-### Rule: All core terms present â€” every Core term from module-partition must appear
+**Scanner:** Manual review
 
-**Scanner:** `scanners/all-core-terms-present-scanner.py` â€” **`AllCoreTermsPresentScanner`**
-
-Every term listed under `**Core terms**:` in the module-partition file (`abd-domain-driven-design/modules/<module>.md`) must appear as a `###` heading in the DL file (`abd-domain-driven-design/domain-language.md`) under the matching `# Module:` section. No term may be silently dropped.
+The domain-language skill writes a self-contained file at `<deliverables-folder>/<name>-domain-language.md` (or `<deliverables-folder>/modules/<module-name>-domain-language.md` for multi-module engagements). The file uses the consistent flat heading shape every DDD phase skill shares: `### **term**` directly under `# Core Domain`, with bullets directly beneath the heading and a single `### references` section per group. No sub-headings (`#### Domain Language`, `#### References`) appear under terms.
 
 #### DO
 
-- For each module, read its Core terms list from the partition file and confirm every term appears as a `###` heading in the DL.
+- Write the file to `<deliverables-folder>/<name>-domain-language.md`.
 
-  **Example (pass):** Partition lists 27 Core terms; DL has 27 `###` headings in the Core terms section, each matching a partition bullet.
+  **Example (pass):** `domain/paw-place-domain-language.md`.
 
-- Match terms case-insensitively (e.g., "Difficulty Class (DC)" matches `### Difficulty Class (DC)`).
-
-  **Example (pass):** Partition bullet `- Difficulty Class (DC)` matches DL heading `### Difficulty Class (DC)`.
-
-- Flag any Core term that has no matching `###` heading.
-
-  **Example (pass):** Scanner reports "Core term 'routine check' missing as ### heading" â€” the agent adds the missing heading.
-
-#### DO NOT
-
-- Silently skip a Core term because it seems redundant or covered by another term's behavioral lines.
-
-  **Example (fail):** The partition lists `routine check` but the DL has no `### routine check` heading â€” the agent decided it was "just a variant of check."
-
-- Fold two Core terms into one heading without documenting the merge â€” each partition term gets its own heading.
-
-  **Example (fail):** `### degree of success / degree of failure` as a single heading when the partition lists them separately.
-
-- Assume found terms (terms discovered during extraction) substitute for missing Core terms â€” both must be present.
-
-  **Example (fail):** `### critical hit` appears as a found term but `### critical hit` was already in the partition's Core terms list and is not present as a Core term heading.
-
-### Rule: Boundary terms have owner — every boundary term must have an Owned by: field
-
-**Scanner:** `scanners/boundary-terms-have-owner-scanner.py` — **`BoundaryTermsHaveOwnerScanner`**
-
-Every `###` heading under the `## Boundary terms` section must have an `Owned by:` field line naming the single module that owns the concept. If a term is "owned by" multiple modules, it is not a boundary term — it is a base abstraction that belongs in Core terms.
-
-#### DO
-
-- Place `Owned by: {{module_name}}` as the first line after the `###` heading, before behavioral lines.
+- Place behavioral bullets directly under the `### **term**` heading.
 
   **Example (pass):**
   ```
-  ### Effect / power effect
+  ### **product**
+  - A product is a pet supply item available for purchase.
+  - Every product has images, a description, and weight or dimensions where relevant.
+  ```
 
-  Owned by: Power
+- Use one `### references` section per group (Core Domain block, Boundary Domain block).
 
-  - An effect is the basic building block of a power…
+  **Example (pass):**
+  ```
+  ### **product**
+  - bullet
+
+  ### **category**
+  - bullet
+
+  ### references
+  **Ref — Product catalog and browsing**
+  …
+  ```
+
+#### DO NOT
+
+- Enrich a single growing file (`<name>.md`) that subsequent phase skills modify in place.
+
+  **Example (fail):** `paw-place.md` written at `state: domain-language`, then `state: key-abstractions`, then `state: domain-sketch` — phase-to-phase heading drift becomes irrecoverable.
+
+- Insert sub-headings under terms.
+
+  **Example (fail):**
+  ```
+  ### **product**
+
+  #### Domain Language
+  - bullet
+
+  #### References
+  **Ref —** …
+  ```
+  Bullets and refs belong directly under their parent — no `#### Domain Language` or `#### References` sub-headings.
+
+**Source:** Engagement convention (DDD phase-skill simplification).
+
+### Rule: All Core terms present — every term in the list appears as a `### **term**`
+
+**Scanner:** Manual review
+
+Every term listed in the file header `**Core terms**:` bullet list must appear as a `### **term**` heading under `# Core Domain`. No term may be silently dropped.
+
+#### DO
+
+- For each `**Core terms**:` bullet, write a matching `### **term**` heading under `# Core Domain`.
+
+  **Example (pass):** Header lists 24 Core terms; the file has 24 `### **term**` headings under Core Domain.
+
+- Match terms case-insensitively (e.g. `### **Difficulty Class (DC)**` matches the bullet `- Difficulty Class (DC)`).
+
+#### DO NOT
+
+- Silently skip a Core term because it seems redundant or covered by another term's bullets.
+
+  **Example (fail):** Header lists `routine check` but no `### **routine check**` heading appears.
+
+- Fold two Core terms into one heading without documenting the merge — each term gets its own heading.
+
+  **Example (fail):** `### **degree of success / degree of failure**` as one heading when the partition lists them separately.
+
+**Source:** Inherited from the original `all-core-terms-present` rule.
+
+### Rule: Boundary terms have owner — every boundary term names exactly one owning module
+
+**Scanner:** Manual review
+
+Every `### **boundary_term**` heading under `# Boundary Domain` must carry `*(owned by: Module)*` naming exactly one owning module. If a term appears owned by multiple modules, it is a base abstraction — move to Core.
+
+#### DO
+
+- Place `*(owned by: Module)*` in italics directly inside the `### **boundary_term**` heading.
+
+  **Example (pass):**
+  ```
+  ### **content** *(owned by: Content Management)*
+  - bullet
   ```
 
 - Name exactly one owning module per boundary term.
 
-  **Example (pass):** `Owned by: Power` — one module named.
-
-- If you discover a boundary term is owned by multiple modules, move it to Core terms as a base abstraction.
-
-  **Example (pass):** `Trait` initially listed as boundary with `Owned by: Ability, Skill, Power` — recognized as a base abstraction and moved to Core terms.
+  **Example (pass):** `*(owned by: Power)*`
 
 #### DO NOT
 
-- Put the ownership in parentheses in the heading (e.g., `### Trait (owned by: Ability)`) — use a field line instead.
+- List multiple owning modules.
 
-  **Example (fail):** `### Trait (owned by: Ability)` — ownership should be a field line, not in the heading.
+  **Example (fail):** `### **trait** *(owned by: Ability, Skill, Power)*` — if three modules own it, no single module is the source of truth; it is a base abstraction.
 
-- List multiple owning modules (e.g., `Owned by: Ability, Skill, Power`) — that means it's not a boundary term.
+- Omit the owning module suffix.
 
-  **Example (fail):** `Owned by: Ability, Skill, Power` — if three modules own it, no single module is the source of truth; it is a base abstraction.
+  **Example (fail):** `### **action round structure**` under `# Boundary Domain` with no `*(owned by: …)*`.
 
-- Omit the `Owned by:` field from any boundary term.
+**Source:** Inherited from the original `boundary-terms-have-owner` rule.
 
-  **Example (fail):** `### Action round structure` appears under `## Boundary terms` with behavioral lines and Refs but no `Owned by:` line.
+### Rule: Refs grouped at the section level, with verbatim source blocks
 
-### Rule: Refs per term — every term must carry at least one Ref entry
+**Scanner:** Manual review
 
-**Scanner:** `scanners/refs-per-term-scanner.py` — **`RefsPerTermScanner`**
-
-Every `###` term heading in the DL file must be followed by at least one full-format Ref entry (`**Ref — …**` with `Source:`, `Locator:`, `Extract:` lines) before the next `###` heading. Refs are allocated per term, not collected in a separate inventory.
+References live in a single `### references` section per group (Core Domain block, Boundary Domain block, or per-KA block in later phases). Every `**Ref —**` entry carries `Source:`, `Locator:`, `Extract:` fields and is followed by a fenced ```source``` block containing verbatim text from disk.
 
 #### DO
 
-- Place Ref entries directly after the behavioral lines of each term, before the next `###` heading.
+- Place all Refs in one `### references` section per group, after the term headings.
 
   **Example (pass):**
   ```
-  ### check
+  ### **check**
+  - bullet
 
-  - A check is d20 + trait rank vs DC; equal or above is success.
+  ### **DC**
+  - bullet
+
+  ### references
 
   **Ref — Game Play**
   Source: context/rules/HeroesHandbook-rules__chunk_009.md
   Locator: lines 809–874
   Extract: whole
+
+  ```source
+  GAME PLAY
+  …verbatim text…
+  ```
   ```
 
-- Use the full format for every Ref: `**Ref — title**`, `Source:`, `Locator:`, `Extract:`.
-
-  **Example (pass):** All four fields present on every Ref entry.
-
-- Ensure every term — Core terms, found terms, and boundary terms — has at least one Ref.
-
-  **Example (pass):** Scanner reports zero terms without Refs.
+- Include a fenced ```source``` block with verbatim text under every Ref.
 
 #### DO NOT
 
-- Collect Refs in a separate inventory section at the top of the file — they belong with the term they evidence.
+- Put `#### References` sub-headings under each term.
 
-  **Example (fail):** A `## References` section at the end lists all Refs by chunk number, with no connection to individual terms.
+  **Example (fail):**
+  ```
+  ### **check**
+  - bullet
 
-- Leave a term with behavioral lines but no Ref entry — every behavioral claim must be traceable.
+  #### References
+  **Ref — …**
+  ```
 
-  **Example (fail):** `### routine check` has three behavioral lines but no `**Ref —**` entry beneath them.
+- Leave a Ref entry without a fenced source block.
 
-- Use an abbreviated inline format instead of the full format.
+  **Example (fail):** Ref entry followed immediately by the next `### **term**` heading with no source block.
 
-  **Example (fail):** `Refs: chunk_004 (lines 202–243)` — missing `Source:`, `Locator:`, `Extract:` structure.
-
-﻿---
-scanner: terms-in-partition-order
----
-
-### Rule: Terms in partition order â€” Core terms must follow module-partition sequence
-
-**Scanner:** `scanners/terms-in-partition-order-scanner.py` â€” **`TermsInPartitionOrderScanner`**
-
-The `###` headings for Core terms in the DL file must appear in the same sequence as the `**Core terms**:` list in the module-partition file. Found terms (added during extraction) appear after all Core terms and before `## Boundary terms`. Boundary terms follow their own section.
-
-#### DO
-
-- Preserve the exact order of the partition's Core terms list when creating `###` headings.
-
-  **Example (pass):** Partition lists `d20`, `check`, `Difficulty Class (DC)` in that order; DL headings appear in the same sequence.
-
-- Place found terms (terms not in the partition list but discovered in the source) after the last Core term heading and before `## Boundary terms`.
-
-  **Example (pass):** Core terms end with `### surprised`; found terms `### staggered` and `### incapacitated` appear next, then `## Boundary terms`.
-
-#### DO NOT
-
-- Reorder Core terms for thematic grouping â€” the partition order is the contract.
-
-  **Example (fail):** Agent groups all condition terms together, moving `### dazed` before `### modifier` even though the partition lists modifier first.
-
-- Interleave found terms among Core terms â€” found terms go after all Core terms.
-
-  **Example (fail):** `### team check` (a found term) inserted between `### check` and `### Difficulty Class (DC)`.
-
-- Place boundary terms before the `## Boundary terms` section marker.
-
-  **Example (fail):** `### Effect / power effect` with `Owned by: Power` appears among the Core terms instead of under `## Boundary terms`.
+**Source:** Inherited and adapted from the original `refs-per-term` rule.
 <!-- execute_rules:bundle_rules:end -->

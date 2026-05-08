@@ -32,6 +32,20 @@ Load this skill when **any** of the following apply:
 - An agent is asked to “explore” a story, “write AC”, “harden acceptance criteria”, or “align with exploration rules.”
 ---
 
+## Output file
+
+**Where to write the deliverables (`<deliverables-folder>` resolution):**
+
+1. **The path the user told you to use.** If the user names a file or folder, use exactly that.
+2. **Where the engagement already keeps deliverables.** Look at the workspace; if previous phase output (story map, domain sketch, `process.md`, `corrections-log.md`) already lives in a folder, write next to them in the **same** folder.
+3. **The workspace root.** If neither applies, write to the workspace root.
+
+Do **not** assume a predetermined folder name like `stories/`, `ac/`, or `docs/`. The only DDD/story skill that creates a sub-folder is **`abd-module-partition`**.
+
+**File names:** Default to the template filenames — `acceptance-criteria.md` and `acceptance-criteria.txt`. Add a `<name>-` engagement prefix only when you need disambiguation — multiple products in the same workspace, multiple stories needing per-story AC files, or the user asks for it explicitly. Both `acceptance-criteria.md` and `<name>-acceptance-criteria.md` are valid; same for the `.txt` partner. AC living **inside** `story-graph.json` (per-story `acceptance_criteria` arrays) follows the **`story-graph-ops`** path conventions and is unaffected.
+
+---
+
 ## Agent Instructions
 
 1. **Templates**
@@ -104,6 +118,7 @@ AC describe **observable** user/system behavior in steps. Avoid implementation d
 - **Prefer** language a product owner can rehearse: who did what, on which surface, and what anyone can see or verify next. Example: WHEN the user submits the settlement file on the import screen, THEN the preview lists the filtered rows and the job status reads *Running*.
 - **Prefer** channel-specific detail when the product has more than one surface—real CLI paths (e.g. `cli.shape.validate`), quoted control labels, or API-visible outcomes—so testers know *where* to look. That is not the same as naming internal classes or private methods.
 - **Avoid** vague reassurance (“the system handles it”) with no observable signal, and avoid code-shaped triggers (`CliSession.submit()` unless the story is explicitly technical and scoped that way).
+- **Never describe capability** (“the customer can override”, “staff can contact”). AC describe **state**: something is displayed, shown, provided, or available. If the actor acts on it, that is a separate **WHEN**. Write “AND an override field is displayed” or “WHEN the customer overrides the field, THEN…” — never “AND the customer can override the field.”
 
 ### Domain terms (vocabulary in AC)
 

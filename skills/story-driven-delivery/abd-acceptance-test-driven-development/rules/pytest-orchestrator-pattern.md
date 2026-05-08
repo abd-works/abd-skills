@@ -1,4 +1,4 @@
-﻿---
+---
 scanner: orchestrator_pattern_scanner.py
 scanner_note: Python / pytest — use the equivalent scanner for the target language
 ---

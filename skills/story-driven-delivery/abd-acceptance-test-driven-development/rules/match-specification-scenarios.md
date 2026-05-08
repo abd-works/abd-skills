@@ -1,4 +1,4 @@
-﻿---
+---
 scanner: specification_match_scanner.py
 ---
 

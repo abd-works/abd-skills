@@ -1,4 +1,4 @@
-﻿---
+---
 scanner: consistent_vocabulary_scanner.py
 ---
 

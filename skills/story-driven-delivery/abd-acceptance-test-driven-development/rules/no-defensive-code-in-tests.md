@@ -1,4 +1,4 @@
-﻿---
+---
 scanner: no_guard_clauses_scanner.py
 ---
 

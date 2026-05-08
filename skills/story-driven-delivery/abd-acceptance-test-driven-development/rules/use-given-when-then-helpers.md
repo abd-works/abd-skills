@@ -1,4 +1,4 @@
-﻿---
+---
 scanner: given_when_then_helpers_scanner.py
 ---
 

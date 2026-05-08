@@ -1,4 +1,4 @@
-﻿---
+---
 scanner: observable_behavior_scanner.py
 ---
 
