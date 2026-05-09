@@ -8,31 +8,34 @@
 
   Repo root is always derived from the script location (parent of scripts/), not cwd.
 
+  Deploy root logic:
+    If a *.code-workspace file is found in an ancestor directory, deploy
+    .cursor/ or .github/ at that workspace directory (multi-root workspace).
+    Otherwise, deploy at the repo root itself (single-repo).
+
   Cursor mode:
-    Flat junction per skill  → <repo>/.cursor/skills/<skill-name>
-    Flat junction per agent  → <repo>/.cursor/agents/<agent-name>
-    guidance/*.mdc          → <repo>/.cursor/rules/           (hard link)
-    guidance/*.prompt.md    → <repo>/.cursor/commands/        (hard link)
+    Flat junction per skill  → <deploy-root>/.cursor/skills/<skill-name>
+    Flat junction per agent  → <deploy-root>/.cursor/agents/<agent-name>
+    guidance/*.mdc           → <deploy-root>/.cursor/rules/           (hard link)
+    guidance/*.prompt.md     → <deploy-root>/.cursor/commands/        (hard link)
 
   VSCode mode:
-    Flat junction per skill  → %APPDATA%\Code\User\skills\<skill-name>
-    Flat junction per agent  → %APPDATA%\Code\User\agents\<agent-name>
-    guidance/*.instructions.md → %APPDATA%\Code\User\instructions\ (hard link)
-                               → <repo>/.github/               (hard link)
-    guidance/*.prompt.md    → %APPDATA%\Code\User\prompts\    (hard link)
-                             → <repo>/.github/prompts/         (hard link)
+    Flat junction per skill  → <deploy-root>/.github/skills/<skill-name>
+    Flat junction per agent  → <deploy-root>/.github/agents/<agent-name>
+    guidance/*.instructions.md → <deploy-root>/.github/          (hard link)
+    guidance/*.prompt.md       → <deploy-root>/.github/prompts/  (hard link)
 
   guidance/ is preferred; falls back to the skill/agent root for legacy layouts.
 
 .PARAMETER IDE
-  Target IDE: cursor or vscode. Default: vscode.
+  Target IDE: cursor or vscode. Default: cursor.
 
 .PARAMETER Force
   Remove existing junctions and hard links before creating new ones.
 #>
 param(
     [ValidateSet("cursor", "vscode")]
-    [string] $ide = "vscode",
+    [string] $ide = "cursor",
 
     [switch] $Force
 )
@@ -42,37 +45,56 @@ $ErrorActionPreference = 'Stop'
 # Repo root = parent of scripts/
 $RepoRoot = Resolve-Path (Join-Path $PSScriptRoot '..') | Select-Object -ExpandProperty Path
 
-# Walk up from StartPath to find the highest ancestor that has a .cursor\ folder.
-# If none is found above the repo, creates .cursor\ one level above the repo (unless
-# that level is a drive root), then returns that parent. Falls back to USERPROFILE.
-function Find-HighestCursorRoot {
+# Find the deploy root:
+#   1. Walk up from StartPath looking for a *.code-workspace file.
+#      If found → that directory is the root (workspace-level deploy).
+#   2. Otherwise → StartPath itself is the root (single-repo deploy).
+function Find-DeployRoot {
     param([string]$StartPath)
-    $highest = $null
     $dir = [System.IO.DirectoryInfo]::new($StartPath)
     while ($dir -ne $null) {
-        if (Test-Path -LiteralPath (Join-Path $dir.FullName '.cursor') -PathType Container) {
-            $highest = $dir.FullName
+        $wsFiles = Get-ChildItem -Path $dir.FullName -Filter '*.code-workspace' -File -ErrorAction SilentlyContinue
+        if ($wsFiles) {
+            return $dir.FullName
         }
         $dir = $dir.Parent
     }
-    if ($highest) { return $highest }
-
-    # Bootstrap: create .cursor one level above the repo if that level isn't a drive root
-    $parent = Split-Path $StartPath -Parent
-    if ($parent -and ($parent -notmatch '^[A-Za-z]:\\?$')) {
-        New-Item -ItemType Directory -Path (Join-Path $parent '.cursor\rules')    -Force | Out-Null
-        New-Item -ItemType Directory -Path (Join-Path $parent '.cursor\commands') -Force | Out-Null
-        Write-Host "  Bootstrapped: $parent\.cursor" -ForegroundColor DarkCyan
-        return $parent
-    }
-    return $env:USERPROFILE
+    return $StartPath
 }
 
-$CursorRoot = Find-HighestCursorRoot -StartPath $RepoRoot
+$CursorRoot = Find-DeployRoot -StartPath $RepoRoot
 
 Write-Host "`nRepo root   : $RepoRoot"   -ForegroundColor Cyan
-Write-Host "Cursor root : $CursorRoot"  -ForegroundColor Cyan
+Write-Host "Deploy root : $CursorRoot"  -ForegroundColor Cyan
 Write-Host "IDE         : $ide`n"       -ForegroundColor Cyan
+
+# --- Ensure workspace directories exist ---
+$deployFolder = if ($ide -eq "cursor") { '.cursor' } else { '.github' }
+$subDirs = if ($ide -eq "cursor") {
+    @('.cursor\skills', '.cursor\agents', '.cursor\rules', '.cursor\commands')
+} else {
+    @('.github\skills', '.github\agents', '.github\prompts')
+}
+foreach ($sub in $subDirs) {
+    $dir = Join-Path $CursorRoot $sub
+    if (-not (Test-Path -LiteralPath $dir -PathType Container)) {
+        New-Item -ItemType Directory -Path $dir -Force | Out-Null
+        Write-Host "  Created: $dir" -ForegroundColor DarkCyan
+    }
+}
+
+# --- Add deploy folder to .code-workspace if present and not already listed ---
+$workspaceFile = Get-ChildItem -Path $CursorRoot -Filter '*.code-workspace' -File -ErrorAction SilentlyContinue | Select-Object -First 1
+if ($workspaceFile) {
+    $ws = Get-Content $workspaceFile.FullName -Raw | ConvertFrom-Json
+    $alreadyPresent = $ws.folders | Where-Object { $_.path -eq $deployFolder }
+    if (-not $alreadyPresent) {
+        $newEntry = [pscustomobject]@{ path = $deployFolder }
+        $ws.folders = @($newEntry) + $ws.folders
+        $ws | ConvertTo-Json -Depth 10 | Set-Content $workspaceFile.FullName -Encoding UTF8
+        Write-Host "  Added '$deployFolder' to $($workspaceFile.Name)" -ForegroundColor DarkCyan
+    }
+}
 
 # --- Discover folders ---
 # A deployable folder has SKILL.md/AGENT.md/AGENTS.md OR an guidance/ subdirectory.
@@ -176,21 +198,16 @@ function Deploy-Folder {
     }
 
     if ($ide -eq "vscode") {
-        $userInstr   = Join-Path $env:APPDATA 'Code\User\instructions'
-        $userPrompts = Join-Path $env:APPDATA 'Code\User\prompts'
-
-        # .instructions.md → user scope + <cursor-root>/.github/
+        # .instructions.md → <cursor-root>/.github/
         Get-ChildItem -Path $idePayload -Filter '*.instructions.md' -File -ErrorAction SilentlyContinue |
             ForEach-Object {
-                New-LinkSafe -Path (Join-Path $userInstr   $_.Name)                        -Target $_.FullName -IsFile
-                New-LinkSafe -Path (Join-Path $CursorRoot  ".github\$($_.Name)")           -Target $_.FullName -IsFile
+                New-LinkSafe -Path (Join-Path $CursorRoot ".github\$($_.Name)") -Target $_.FullName -IsFile
             }
 
-        # .prompt.md → user scope + <cursor-root>/.github/prompts/
+        # .prompt.md → <cursor-root>/.github/prompts/
         Get-ChildItem -Path $idePayload -Filter '*.prompt.md' -File -ErrorAction SilentlyContinue |
             ForEach-Object {
-                New-LinkSafe -Path (Join-Path $userPrompts  $_.Name)                       -Target $_.FullName -IsFile
-                New-LinkSafe -Path (Join-Path $CursorRoot   ".github\prompts\$($_.Name)")  -Target $_.FullName -IsFile
+                New-LinkSafe -Path (Join-Path $CursorRoot ".github\prompts\$($_.Name)") -Target $_.FullName -IsFile
             }
     }
 
@@ -225,7 +242,7 @@ if ($skillFolders.Count -gt 0) {
     $junctionRoot = if ($ide -eq "cursor") {
         Join-Path $CursorRoot '.cursor\skills'
     } else {
-        Join-Path $env:APPDATA 'Code\User\skills'
+        Join-Path $CursorRoot '.github\skills'
     }
 
     foreach ($folder in $skillFolders) {
@@ -240,7 +257,7 @@ if ($agentFolders.Count -gt 0) {
     $junctionRoot = if ($ide -eq "cursor") {
         Join-Path $CursorRoot '.cursor\agents'
     } else {
-        Join-Path $env:APPDATA 'Code\User\agents'
+        Join-Path $CursorRoot '.github\agents'
     }
 
     foreach ($folder in $agentFolders) {
