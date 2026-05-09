@@ -21,8 +21,12 @@ from __future__ import annotations
 
 import json
 import os
+import threading
+import time
 from abc import ABC, abstractmethod
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass, field
+from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional
 from urllib import error as urllib_error
 from urllib import request as urllib_request
@@ -94,13 +98,18 @@ class MiroTransport(ABC):
         """
         for existing in list(self.list_items()):
             self.delete_item(existing.id)
+        specs = list(items_to_create)
+        total = len(specs)
         created: List[MiroItem] = []
-        for spec in items_to_create:
-            created.append(self.create_item(
+        for i, spec in enumerate(specs, 1):
+            item = self.create_item(
                 spec['item_type'],
                 spec['payload'],
                 cell_id=spec.get('cell_id', ''),
-            ))
+            )
+            created.append(item)
+            if i % 10 == 0 or i == total:
+                print(f'[miro-story-sync] {i}/{total} items created', flush=True)
         return created
 
 
@@ -154,7 +163,7 @@ class RestMiroTransport(MiroTransport):
 
     def __init__(self, board_id: str, *, access_token: Optional[str] = None,
                  base_url: Optional[str] = None,
-                 timeout: float = 15.0) -> None:
+                 timeout: float = 30.0) -> None:
         if not board_id:
             raise ValueError('board_id is required')
         self._board_id = board_id
@@ -167,21 +176,154 @@ class RestMiroTransport(MiroTransport):
             'MIRO_API_BASE_URL', self.DEFAULT_BASE_URL
         )
         self._timeout = timeout
+        self._checkpoint_path: Optional[Path] = None
+        self._graph_hash: Optional[str] = None
+        self._checkpoint_mode: Optional[str] = None
+        self._resume_flag: bool = False
 
     @property
     def board_id(self) -> str:
         return self._board_id
 
+    # ------------------------------------------------------------------
+    # Checkpoint / resume
+    # ------------------------------------------------------------------
+
+    def setup_checkpoint(self, checkpoint_path: Path, graph_hash: str,
+                         mode: str, resume: bool = False) -> None:
+        """Configure checkpoint/resume for ``replace_all``.
+
+        Call once from the CLI after building the transport, before rendering.
+        Without calling this method ``replace_all`` behaves exactly as before.
+        """
+        self._checkpoint_path = checkpoint_path
+        self._graph_hash = graph_hash
+        self._checkpoint_mode = mode
+        self._resume_flag = resume
+
+    def _load_checkpoint(self) -> Optional[Dict[str, Any]]:
+        if not self._checkpoint_path or not self._checkpoint_path.exists():
+            return None
+        try:
+            return json.loads(self._checkpoint_path.read_text(encoding='utf-8'))
+        except Exception:
+            return None
+
+    def _write_checkpoint(self, data: Dict[str, Any]) -> None:
+        if not self._checkpoint_path:
+            return
+        try:
+            self._checkpoint_path.parent.mkdir(parents=True, exist_ok=True)
+            self._checkpoint_path.write_text(
+                json.dumps(data, indent=2) + '\n', encoding='utf-8'
+            )
+        except Exception as exc:
+            print(f'[miro-story-sync] WARNING: could not write checkpoint: {exc}', flush=True)
+
+    def _checkpoint_matches(self, checkpoint: Dict[str, Any]) -> bool:
+        return (
+            checkpoint.get('board_id') == self._board_id
+            and checkpoint.get('mode') == self._checkpoint_mode
+            and checkpoint.get('graph_hash') == self._graph_hash
+        )
+
+    def replace_all(self, items_to_create: Iterable[Dict[str, Any]]) -> List[MiroItem]:
+        """Clear board + create every item, with checkpoint/resume support.
+
+        When ``setup_checkpoint`` has been called before this run:
+        - A fresh run writes ``miro-sync-checkpoint.json`` and updates it after
+          each successful create; if the process dies, the next run continues
+          from where it left off without clearing already-created items.
+        - When a matching ``in_progress`` checkpoint is found (same board, mode,
+          and graph hash) the board-clear is skipped and creation resumes from
+          the first un-created item.
+        - A ``complete`` checkpoint is treated as a fresh run unless
+          ``--resume`` was passed.
+        """
+        specs = list(items_to_create)
+        total = len(specs)
+
+        checkpoint = self._load_checkpoint() if self._checkpoint_path else None
+        resume_ids: List[str] = []
+
+        should_resume = (
+            checkpoint is not None
+            and self._checkpoint_matches(checkpoint)
+            and (checkpoint.get('status') == 'in_progress' or self._resume_flag)
+        )
+
+        if should_resume:
+            resume_ids = list(checkpoint.get('created_items') or [])
+            resume_from = len(resume_ids)
+            print(
+                f'[miro-story-sync] Resuming from item {resume_from}/{total}',
+                flush=True,
+            )
+            specs_to_create = specs[resume_from:]
+        else:
+            for existing in list(self.list_items()):
+                self.delete_item(existing.id)
+            resume_from = 0
+            specs_to_create = specs
+            self._write_checkpoint({
+                'board_id': self._board_id,
+                'mode': self._checkpoint_mode,
+                'graph_hash': self._graph_hash,
+                'total_items': total,
+                'created_items': [],
+                'status': 'in_progress',
+            })
+
+        created_ids = list(resume_ids)
+        new_items: List[MiroItem] = []
+
+        for i, spec in enumerate(specs_to_create, resume_from + 1):
+            item = self.create_item(
+                spec['item_type'],
+                spec['payload'],
+                cell_id=spec.get('cell_id', ''),
+            )
+            new_items.append(item)
+            created_ids.append(item.id)
+            self._write_checkpoint({
+                'board_id': self._board_id,
+                'mode': self._checkpoint_mode,
+                'graph_hash': self._graph_hash,
+                'total_items': total,
+                'created_items': created_ids,
+                'status': 'in_progress',
+            })
+            if i % 10 == 0 or i == total:
+                print(f'[miro-story-sync] {i}/{total} items created', flush=True)
+
+        self._write_checkpoint({
+            'board_id': self._board_id,
+            'mode': self._checkpoint_mode,
+            'graph_hash': self._graph_hash,
+            'total_items': total,
+            'created_items': created_ids,
+            'status': 'complete',
+        })
+        print(f'[miro-story-sync] Complete. {total} items on board.', flush=True)
+
+        stubs = [MiroItem(id=mid, item_type='', payload={}, cell_id='') for mid in resume_ids]
+        return stubs + new_items
+
+    # Item types that support the Miro v2 'metadata' field.
+    _METADATA_SUPPORTED = frozenset({'app_card'})
+
     def create_item(self, item_type: str, payload: Dict[str, Any], *,
                     cell_id: str = '') -> MiroItem:
         body = dict(payload)
-        # Embed the cross-render stable key as a metadata tag so re-renders
-        # and `report` can match items even when Miro reissues IDs.
-        meta = dict(body.get('metadata') or {})
-        if cell_id:
-            meta['story_sync_cell_id'] = cell_id
-        if meta:
-            body['metadata'] = meta
+        # Miro v2 only supports 'metadata' on app_card items.
+        if item_type in self._METADATA_SUPPORTED:
+            meta = dict(body.get('metadata') or {})
+            if cell_id:
+                meta['story_sync_cell_id'] = cell_id
+            if meta:
+                body['metadata'] = meta
+        else:
+            body.pop('metadata', None)
         url = f'{self._base_url}/v2/boards/{self._board_id}/{_endpoint_for(item_type)}'
         data = self._post(url, body)
         return MiroItem.from_dict(data)
@@ -235,27 +377,40 @@ class RestMiroTransport(MiroTransport):
         req = urllib_request.Request(url, headers=self._headers(), method='DELETE')
         return self._send(req)
 
-    def _send(self, req: urllib_request.Request) -> Dict[str, Any]:
-        try:
-            with urllib_request.urlopen(req, timeout=self._timeout) as resp:
-                raw = resp.read().decode('utf-8') or '{}'
-        except urllib_error.HTTPError as exc:
-            detail = ''
+    def _send(self, req: urllib_request.Request, _retries: int = 3) -> Dict[str, Any]:
+        for attempt in range(1, _retries + 1):
             try:
-                detail = exc.read().decode('utf-8')
-            except Exception:
-                pass
-            raise MiroTransportError(
-                f'Miro {req.get_method()} {req.full_url} failed '
-                f'with HTTP {exc.code}: {detail}'
-            ) from exc
-        except urllib_error.URLError as exc:
-            raise MiroTransportError(
-                f'Miro {req.get_method()} {req.full_url} failed: {exc.reason}'
-            ) from exc
-        if not raw.strip():
-            return {}
-        return json.loads(raw)
+                with urllib_request.urlopen(req, timeout=self._timeout) as resp:
+                    raw = resp.read().decode('utf-8') or '{}'
+                if not raw.strip():
+                    return {}
+                return json.loads(raw)
+            except urllib_error.HTTPError as exc:
+                detail = ''
+                try:
+                    detail = exc.read().decode('utf-8')
+                except Exception:
+                    pass
+                # 429 Too Many Requests — back off and retry with longer waits
+                if exc.code == 429 and attempt < _retries:
+                    wait = 15 * attempt  # 15s, 30s
+                    print(f'[miro-story-sync] rate-limited, waiting {wait}s (attempt {attempt}/{_retries})', flush=True)
+                    time.sleep(wait)
+                    continue
+                raise MiroTransportError(
+                    f'Miro {req.get_method()} {req.full_url} failed '
+                    f'with HTTP {exc.code}: {detail}'
+                ) from exc
+            except (urllib_error.URLError, TimeoutError, OSError) as exc:
+                if attempt < _retries:
+                    wait = 2 ** attempt
+                    print(f'[miro-story-sync] network error ({exc}), retrying in {wait}s (attempt {attempt}/{_retries})', flush=True)
+                    time.sleep(wait)
+                    continue
+                raise MiroTransportError(
+                    f'Miro {req.get_method()} {req.full_url} failed: {exc}'
+                ) from exc
+        return {}
 
 
 def _endpoint_for(item_type: str) -> str:

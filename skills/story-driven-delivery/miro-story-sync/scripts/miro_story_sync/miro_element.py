@@ -149,8 +149,8 @@ class MiroElement:
 
         payload: Dict[str, Any] = {
             'data': {'content': self._value or ''},
-            'position': self._miro_position(),
-            'geometry': self._miro_geometry(),
+            'position': self._miro_position(item_type),
+            'geometry': self._miro_geometry(item_type),
         }
         if item_type == 'shape':
             payload['data']['shape'] = kind.get('shape', 'rectangle')
@@ -160,33 +160,45 @@ class MiroElement:
 
         return {'item_type': item_type, 'payload': payload}
 
-    def _miro_position(self) -> Dict[str, float]:
+    def _miro_position(self, item_type: str = 'shape') -> Dict[str, Any]:
         # Miro positions an item at its centre.
         cx = self._position.x + self._boundary.width / 2.0
         cy = self._position.y + self._boundary.height / 2.0
-        return {'x': cx, 'y': cy, 'origin': 'center', 'relativeTo': 'canvas_center'}
+        # sticky_notes use PositionChange (x, y only); shapes/frames/text use
+        # Position (x, y, origin).
+        if item_type == 'sticky_note':
+            return {'x': cx, 'y': cy}
+        return {'x': cx, 'y': cy, 'origin': 'center'}
 
-    def _miro_geometry(self) -> Dict[str, float]:
+    def _miro_geometry(self, item_type: str = 'shape') -> Dict[str, float]:
+        # sticky_notes have a fixed aspect ratio — send width only.
+        if item_type == 'sticky_note':
+            return {'width': self._boundary.width}
         return {'width': self._boundary.width, 'height': self._boundary.height}
 
     def _miro_style(self, item_type: str) -> Dict[str, Any]:
         style: Dict[str, Any] = {}
-        if self._fill:
-            if item_type == 'sticky_note':
+        if item_type == 'sticky_note':
+            # Sticky notes only accept fillColor, textAlign, textAlignVertical.
+            if self._fill:
                 style['fillColor'] = _approximate_sticky_color(self._fill)
-            else:
+            if self._align:
+                style['textAlign'] = self._align
+        else:
+            # Shapes, frames, text items.
+            if self._fill:
                 style['fillColor'] = self._fill
-        if self._stroke:
-            style['borderColor'] = self._stroke
-        if self._font_color:
-            style['textColor'] = self._font_color
-        if self._font_size:
-            style['fontSize'] = self._font_size
-        if self._align:
-            style['textAlign'] = self._align
-        if self._font_style == 'bold':
-            style['fontFamily'] = 'open_sans'
-            style['textAlign'] = style.get('textAlign', 'center')
+            if self._stroke:
+                style['borderColor'] = self._stroke
+            if self._font_color:
+                style['color'] = self._font_color
+            if self._font_size:
+                style['fontSize'] = self._font_size
+            if self._align:
+                style['textAlign'] = self._align
+            if self._font_style == 'bold':
+                style['fontFamily'] = 'open_sans'
+                style['textAlign'] = style.get('textAlign', 'center')
         return style
 
     @classmethod

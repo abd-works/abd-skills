@@ -19,12 +19,19 @@ python miro_story_sync_cli.py render --mode outline `
 ``--dry-run`` swaps in ``InMemoryMiroTransport`` so you can verify rendering
 without contacting Miro. Without a token (and without ``--dry-run``) the CLI
 exits non-zero and prints the auth requirement.
+
+Board ID resolution order (``--board`` omitted):
+  1. ``conf/miro.json`` beside the project root (parent of graph's parent dir).
+  2. Interactive prompt — user pastes a Miro board URL; the ID is extracted and
+     saved back to ``conf/miro.json`` for future runs.
 """
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import os
+import re
 import sys
 from pathlib import Path
 from typing import Optional
@@ -34,10 +41,63 @@ if str(_SCRIPT_DIR) not in sys.path:
     sys.path.insert(0, str(_SCRIPT_DIR))
 
 
+_BOARD_URL_RE = re.compile(r'miro\.com/app/board/([^/?#]+)')
 _MODES = {
     'outline': 'render-outline',
     'story-map': 'render-outline',
 }
+
+
+def _conf_path(graph: Path) -> Path:
+    """Return ``<project-root>/conf/miro.json`` inferred from the graph path."""
+    return graph.resolve().parent.parent / 'conf' / 'miro.json'
+
+
+def _load_conf(graph: Path) -> dict:
+    cp = _conf_path(graph)
+    if cp.exists():
+        try:
+            return json.loads(cp.read_text(encoding='utf-8'))
+        except Exception:
+            return {}
+    return {}
+
+
+def _save_conf(graph: Path, data: dict) -> None:
+    cp = _conf_path(graph)
+    cp.parent.mkdir(parents=True, exist_ok=True)
+    cp.write_text(json.dumps(data, indent=2) + '\n', encoding='utf-8')
+
+
+def _board_id_from_url(url: str) -> Optional[str]:
+    m = _BOARD_URL_RE.search(url)
+    return m.group(1) if m else None
+
+
+def _resolve_board_id(cli_board: Optional[str], graph: Path, dry_run: bool) -> Optional[str]:
+    """Return board ID from: CLI arg → conf/miro.json → interactive prompt."""
+    if cli_board:
+        return cli_board
+    if dry_run:
+        return None
+
+    conf = _load_conf(graph)
+    if conf.get('board_id'):
+        print(f"[miro-story-sync] board_id from conf: {conf['board_id']}", file=sys.stderr)
+        return conf['board_id']
+
+    print('[miro-story-sync] No board ID found in conf/miro.json.', file=sys.stderr)
+    url = input('  Paste the Miro board URL: ').strip()
+    board_id = _board_id_from_url(url)
+    if not board_id:
+        # Maybe they pasted just the ID directly
+        board_id = url or None
+    if board_id:
+        conf['board_id'] = board_id
+        conf['board_url'] = url if url.startswith('http') else f'https://miro.com/app/board/{board_id}/'
+        _save_conf(graph, conf)
+        print(f"  Saved to {_conf_path(graph)}", file=sys.stderr)
+    return board_id
 
 
 def _ensure_repo_paths() -> None:
@@ -87,9 +147,10 @@ def cmd_render(args: argparse.Namespace) -> int:
         )
         return 2
 
-    transport, transport_name, dry_run_actual = _build_transport(
-        getattr(args, 'board', None), bool(getattr(args, 'dry_run', False)),
-    )
+    dry_run = bool(getattr(args, 'dry_run', False))
+    board_id = _resolve_board_id(getattr(args, 'board', None), args.graph, dry_run)
+
+    transport, transport_name, dry_run_actual = _build_transport(board_id, dry_run)
     sync = MiroSynchronizer(transport=transport)
     kw = {}
     if args.scope:

@@ -102,6 +102,39 @@ python scripts/story_graph_cli.py write  --file <out.json> [--input <in.json>|st
 
 **Create / delete via CLI:** `write` accepts JSON on stdin or `--input`—you can emit a **full replacement** graph (effectively delete everything not in the new JSON) or a **filtered** subgraph. Finer-grained create/update/delete often uses **`story_map`** types in Python, then **`read`** to validate after saving.
 
+## Parsing a story-map.md into story-graph.json
+
+When a story map already exists as a Markdown file in the `abd-story-mapping` tree format (epics, sub-epics, and stories with `(E)` / `(S)` markers), use **`scripts/md_to_story_graph.py`** to convert it rather than hand-building JSON.
+
+**Format the parser expects:**
+
+```text
+(E) Epic Name
+    (E) Sub-Epic Name
+        (S) Actor --> Story Name
+        opt (S) Actor --> Optional Story Name
+    (S) Actor --> Story Directly Under Epic
+```
+
+- Indentation is **4 spaces per level**; depth determines parent.
+- `(E)` lines become epics (depth 0) or sub-epics (any deeper depth).
+- `(S)` lines become stories; the word before `-->` becomes `story_type`.
+- `opt (S)` lines are treated identically to `(S)` lines.
+- Any `## ` section header (consolidation notes, context gaps, etc.) ends parsing.
+
+**Usage:**
+
+```text
+# Set PYTHONPATH to this skill's scripts folder, then:
+python scripts/md_to_story_graph.py <input-story-map.md> <output-story-graph.json>
+
+# Validate immediately after:
+python scripts/story_graph_cli.py read  --file <output-story-graph.json>
+python scripts/story_graph_cli.py names --file <output-story-graph.json>
+```
+
+**After converting, always run `read` and `names`** — this confirms the JSON is well-formed and all stories parsed correctly before any downstream work.
+
 ## Parallel runs and concurrent writes
 
 `story-graph.json` is **shared mutable state** across the delivery flow — every stage mutates the same file. The planning skill allows **parallel runs** when outputs are independent (e.g. story definition for one slice while discovery continues for another). The policy and the mechanical safeguards are:

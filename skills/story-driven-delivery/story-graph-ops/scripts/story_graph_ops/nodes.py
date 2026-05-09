@@ -1363,7 +1363,9 @@ class Epic(StoryNode):
             behavior=data.get('behavior'),
             _bot=bot
         )
-        for sub_epic_data in data.get('sub_epics', []):
+        for i, sub_epic_data in enumerate(data.get('sub_epics', [])):
+            if 'sequential_order' not in sub_epic_data:
+                sub_epic_data = {**sub_epic_data, 'sequential_order': i + 1}
             sub_epic = SubEpic.from_dict(sub_epic_data, parent=epic, bot=bot)
             epic._children.append(sub_epic)
         for story_group_data in data.get('story_groups', []):
@@ -1425,9 +1427,7 @@ class SubEpic(StoryNode):
 
     @classmethod
     def from_dict(cls, data: Dict[str, Any], parent: Optional[StoryNode]=None, bot: Optional[Any]=None) -> 'SubEpic':
-        sequential_order = data.get('sequential_order')
-        if sequential_order is None:
-            raise ValueError('SubEpic requires sequential_order')
+        sequential_order = data.get('sequential_order', 0)
         domain_concepts = [DomainConcept.from_dict(dc) for dc in data.get('domain_concepts', [])]
         sub_epic = cls(
             name=data.get('name', ''),
@@ -1937,9 +1937,7 @@ class Story(StoryNode):
 
     @classmethod
     def from_dict(cls, data: Dict[str, Any], parent: Optional[StoryNode]=None, bot: Optional[Any]=None) -> 'Story':
-        sequential_order = data.get('sequential_order')
-        if sequential_order is None:
-            raise ValueError('Story requires sequential_order')
+        sequential_order = data.get('sequential_order', 0)
         users = [StoryUser.from_str(u) for u in data.get('users', [])]
         story = cls(
             name=data.get('name', ''),
