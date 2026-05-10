@@ -1,5 +1,5 @@
 ---
-description: Fix output first, log the correction on disk, iterate until right — always-on
+description: Use the correction process whenever generated output needs correction
 alwaysApply: true
 ---
 
@@ -7,46 +7,34 @@ alwaysApply: true
 
 **Triggers:** output is wrong **or** user corrects how you work (process, norms, behavior).
 
----
-
 ## Where the corrections log lives — on disk, not chat
 
-- Use the log **inside the skill or target being corrected** (`<target-skill>/skill-errors-log.md`). If one exists already, append to it. If not, create it there from `guidance/log-and-fix-skill-errors/templates/skill-errors-log.md`.
-- Write the entry **in the same turn** as you fix or acknowledge the problem.
-- **Process corrections count** — if the user corrects how you work, log those too.
-
----
+- Use the log **inside the skill or target being corrected** (`<target-skill>/skill-errors-log.md`). Append to an existing one, or create it there from `guidance/log-and-fix-skill-errors/templates/skill-errors-log.md`.
+- Write the entry **in the same turn** as you fix or acknowledge the problem. Chat is not the record.
+- Process corrections count — if the user corrects how you work, log those too.
 
 ## Fix the output first
 
 Do **not** touch sources, rules, or prompts until the deliverable is confirmed right.
 
 1. **Identify** — note the problem; open the on-disk log.
-2. **Log (initial)** — append an entry with **DO / DO NOT** + **Example (wrong)**. Leave **Example (correct)** blank. Write **DO / DO NOT** as altered future behavior, not a restatement of the mistake.
+2. **Log (initial)** — append an entry: **DO / DO NOT** (altered future behavior) + **Example (wrong)**. Leave **Example (correct)** blank.
 3. **Re-generate** — apply the correction; expect multiple turns.
-4. **Review** — refine and re-log notes; repeat until actually satisfied.
+4. **Review** — refine and re-log; repeat until actually satisfied.
 5. **Confirm** — fill **Example (correct)**, set Status to `confirmed`.
-
----
 
 ## Log entry fields
 
 | Field | Content |
 | --- | --- |
 | **Context** | What produced the output — omit if obvious |
-| **DO / DO NOT** | Forward-looking altered behavior. Mistake belongs in Example (wrong) only. |
+| **DO / DO NOT** | Forward-looking. Mistake belongs in Example (wrong) only. |
 | **Example (wrong)** | What the output actually did |
 | **Example (correct)** | Fill only after confirmed |
 | **Likely source** | `prompt gap` · `instruction not read` · `edge case` · `automation gap` · `unclear expectation` |
 
-Duplicate violation → add another **Example (wrong)** to the same entry, don't open a new one.
-
----
+Duplicate violation → add another **Example (wrong)** to the same entry.
 
 ## Improve the source — only when the user asks
 
-1. Read the full corrections log as a set.
-2. Find root causes; **propose** fixes — do not implement.
-3. Implement only on explicit go-ahead.
-
-Source types: `rules/*.md` in a skill · a prompt or template · code · nothing formal (log is the record).
+Read the full log, find root causes, **propose** fixes — do not implement without explicit go-ahead.

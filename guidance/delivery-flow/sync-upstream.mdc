@@ -1,0 +1,39 @@
+---
+description: When a downstream artifact changes, offer to sync upstream artifacts
+alwaysApply: true
+---
+
+# Artifact sync (always-on)
+
+When you change any artifact, **ask the user** if they want to sync in both directions. Only offer levels whose artifacts exist. Stop at each level if the user says no.
+
+## Changed downstream → offer upstream
+
+| Changed | Offer upstream | Skills |
+| --- | --- | --- |
+| **Production code** | Acceptance tests, Object model | `abd-acceptance-test-driven-development`, `abd-object-model` |
+| **Acceptance tests** or **Object model** | Spec by Example, CRC | `abd-specification-by-example`, `abd-class-responsibility-collaborator` |
+| **Spec by Example** or **CRC** | Acceptance Criteria, Domain Sketch | `abd-acceptance-criteria`, `abd-domain-sketch` |
+| **Acceptance Criteria** or **Domain Sketch** | Story Map, Domain Language, Key Abstractions | `abd-story-mapping`, `abd-domain-language`, `abd-key-abstractions` |
+
+## Changed on one side of a level → offer the other side
+
+| Changed | Offer peer | Skills |
+| --- | --- | --- |
+| **Acceptance tests** | Object model | `abd-object-model` |
+| **Object model** | Acceptance tests | `abd-acceptance-test-driven-development` |
+| **Spec by Example** | CRC | `abd-class-responsibility-collaborator` |
+| **CRC** | Spec by Example | `abd-specification-by-example` |
+| **Acceptance Criteria** | Domain Sketch | `abd-domain-sketch` |
+| **Domain Sketch** | Acceptance Criteria | `abd-acceptance-criteria` |
+| **Story Map** | Domain Language, Key Abstractions | `abd-domain-language`, `abd-key-abstractions` |
+| **Domain Language** or **Key Abstractions** | Story Map | `abd-story-mapping` |
+
+## Changed upstream → offer downstream
+
+| Changed | Offer downstream | Skills |
+| --- | --- | --- |
+| **Story Map**, **Domain Language**, or **Key Abstractions** | Acceptance Criteria, Domain Sketch | `abd-acceptance-criteria`, `abd-domain-sketch` |
+| **Acceptance Criteria** or **Domain Sketch** | Spec by Example, CRC | `abd-specification-by-example`, `abd-class-responsibility-collaborator` |
+| **Spec by Example** or **CRC** | Acceptance tests, Object model | `abd-acceptance-test-driven-development`, `abd-object-model` |
+| **Acceptance tests** or **Object model** | Production code | `abd-clean-code` |
