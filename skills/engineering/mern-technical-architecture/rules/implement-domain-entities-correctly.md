@@ -1,5 +1,5 @@
 ---
-scanner: domain_structure_scanner.py
+scanner: entity_behavior_scanner.py
 ---
 
 # Rule: Implement Domain Entities Correctly

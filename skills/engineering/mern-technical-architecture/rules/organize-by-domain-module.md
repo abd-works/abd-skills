@@ -14,6 +14,8 @@ Organize code by **business capability** (domain module) first, then by technica
 - **Ensure `packages/app-server/` and `packages/app-client/` exist** as part of generating a domain module. If either root is missing, scaffold it. If either already exists, update it to mount or render the new domain module instead of generating a duplicate shell.
 - **Ensure the client tier provides UI for every user action defined in the specs.** If the requirements say a user can create a board, add tasks, or move items — the client must have corresponding forms, buttons, or controls. Derive required UI from the spec, not from a mechanical endpoint mirror.
 - **Wire navigation in `app-client/App.tsx`** to support all spec-driven user flows (e.g., create → view → interact). The composition root must manage view state when multiple views are needed.
+- **Always create `scripts/dev.ps1`** (and `scripts/dev.sh`) if no startup script exists. The script must start both `packages/app-server/` and `packages/app-client/` so the developer can open `http://localhost:3000` immediately after running it. Also add `dev:api` and `dev:client` entries to the root `package.json` scripts.
+- **Always include a home page at `/`** in `app-client/App.tsx`. The home page must render navigable links to every major page route in the app. This is the entry point a user hits at `localhost:3000` — without it, the app appears blank and every page route is unreachable from the browser.
 - - **Ensure every user action has a user-facing form and server endpoint/route.** Some POST routes exist for system-to-system workflows, background processing, or integration callbacks and should remain server-only unless the specs explicitly define a user action behind them.
 - Place test files under `tests/{epic}/{sub-epic}/` mirroring the domain structure.
 
@@ -46,7 +48,9 @@ project-root/
 │   │   ├── index.ts
 │   │   └── package.json
 │   └── app-client/              # Composition root: create if missing, otherwise reuse
-│       ├── App.tsx             # Renders domain components
+│       ├── App.tsx             # Renders domain components; MUST include <Route path="/" element={<HomePage />} />
+│       ├── pages/
+│       │   └── HomePage.tsx    # Home page: links to every major page route in the app
 │       ├── main.tsx            # Entry point (createRoot)
 │       ├── index.html
 │       ├── vite.config.ts
@@ -66,6 +70,8 @@ project-root/
 - **Ship a client tier that omits user actions defined in the specs.** If the requirements say users can create, edit, or move things, the UI must expose those capabilities — not just read-only search/list.
 - **Mirror POST endpoints into UI controls by default.** A server route may support integrations or internal workflows without implying a corresponding form or button in the client tier.
 - **Render a single static component in App.tsx when the specs define multiple user flows.** If users need to create entities and interact with detail views, the composition root must manage view state to support those flows.
+- **Omit a home page at `/`.** Every app must have a `HomePage.tsx` with links to all page routes. Without it, hitting `localhost:3000` shows a blank page.
+- **Omit a startup script.** Always create `scripts/dev.ps1` and `scripts/dev.sh` that start both the API server and the React frontend. Without them, the developer has no single command to bring the app up.
 - **Do not assume every POST endpoint needs a user-facing form.** Some POST routes exist for system-to-system workflows, background processing, or integration callbacks and should remain server-only unless the specs explicitly define a user action behind them.
 
 ```

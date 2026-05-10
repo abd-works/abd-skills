@@ -734,9 +734,12 @@ class DrawIOStoryMap(StoryMap):
         # Loaded from file: scan all parsed nodes to discover lanes.
         all_nodes = self._loaded_nodes if self._loaded_nodes else self._collect_all_nodes()
 
-        # 1. Find lane backgrounds: large rectangles with empty value
+        # 1. Find lane backgrounds: large rectangles with empty value.
+        # _LANE_MIN_WIDTH uses 2×CELL_SIZE so it is safely larger than a single
+        # story sticky note (CELL_SIZE) but small enough to match tool-generated
+        # lane backgrounds even for maps with only one story column.
         lanes = []
-        _LANE_MIN_WIDTH = 200
+        _LANE_MIN_WIDTH = CELL_SIZE * 2
         _LANE_MIN_HEIGHT = 50
         for n in all_nodes:
             cid = getattr(n, 'cell_id', '')

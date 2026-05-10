@@ -20,18 +20,19 @@ if str(_SCRIPT_DIR) not in sys.path:
     sys.path.insert(0, str(_SCRIPT_DIR))
 
 
-def load_workspace_graph_json(workspace: Path) -> Dict[str, Any]:
-    """Load graph-shaped JSON from conventional workspace paths (file I/O only).
+def load_workspace_graph_json(workspace: Path, story_graph: Path | None = None) -> Dict[str, Any]:
+    """Load story-graph.json.
 
+    Uses *story_graph* path directly when provided (passed in by the runner).
+    Falls back to recursive search under *workspace* so the function still
+    works when called standalone.
     Returns ``{"epics": [], "increments": []}`` when no file is found.
     """
-    for rel in (
-        ("docs", "story", "story-graph.json"),
-        ("story-graph.json",),
-    ):
-        p = workspace.joinpath(*rel)
-        if p.is_file():
-            return json.loads(p.read_text(encoding="utf-8"))
+    if story_graph and story_graph.is_file():
+        return json.loads(story_graph.read_text(encoding="utf-8"))
+    matches = sorted(workspace.rglob("story-graph.json"))
+    if matches:
+        return json.loads(matches[0].read_text(encoding="utf-8"))
     return {"epics": [], "increments": []}
 
 
@@ -59,7 +60,7 @@ def _violations_exit_code(violations: list) -> int:
 def execute_scan_with_workspace(
     scanner_class: Type[Any],
     rule_md_name: str,
-    build_context: Callable[[Path], Any],
+    build_context: Callable[[Path, Path | None], Any],
     argv: list[str] | None = None,
     *,
     skill_root: Path | None = None,
@@ -76,8 +77,15 @@ def execute_scan_with_workspace(
         default=Path.cwd(),
         help="Project tree (default: cwd).",
     )
+    parser.add_argument(
+        "--story-graph",
+        type=Path,
+        default=None,
+        help="Explicit path to story-graph.json (passed by the runner).",
+    )
     args = parser.parse_args(argv)
     workspace = args.workspace.resolve()
+    story_graph: Path | None = args.story_graph.resolve() if args.story_graph else None
     root = (skill_root or Path.cwd()).resolve()
 
     from scanner_bases.simple_rule import SimpleRule
@@ -86,7 +94,7 @@ def execute_scan_with_workspace(
     rule_file = str(rule_path) if rule_path.is_file() else f"{rule_md_name}.md"
     rule = SimpleRule(name=rule_md_name, rule_file=rule_file)
 
-    context = build_context(workspace)
+    context = build_context(workspace, story_graph)
     violations = execute_scan(scanner_class, rule, context)
     return _violations_exit_code(violations)
 
@@ -107,8 +115,8 @@ def main_with_scanner(
     return execute_scan_with_workspace(
         scanner_class,
         rule_md_name,
-        lambda ws: ScanFilesContext(
-            story_graph=load_workspace_graph_json(ws),
+        lambda ws, sg: ScanFilesContext(
+            story_graph=load_workspace_graph_json(ws, sg),
             files=FileCollection(),
         ),
         argv=argv,

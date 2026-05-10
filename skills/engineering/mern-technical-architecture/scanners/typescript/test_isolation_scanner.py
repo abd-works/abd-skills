@@ -181,3 +181,11 @@ class TestIsolationScanner(MERNScanner):
                     })
 
         return violations
+
+
+if __name__ == '__main__':
+    try:
+        from ts_scanner_base import run_scanner_main
+    except ImportError:
+        from scanners.typescript.ts_scanner_base import run_scanner_main
+    run_scanner_main(TestIsolationScanner, 'use-thorough-e2e-tests')

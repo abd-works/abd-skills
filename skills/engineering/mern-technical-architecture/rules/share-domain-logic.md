@@ -1,5 +1,5 @@
 ---
-scanner: domain_structure_scanner.py
+scanner: share_domain_logic_scanner.py
 ---
 
 # Rule: Share Domain Logic

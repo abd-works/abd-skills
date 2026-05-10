@@ -80,7 +80,10 @@ class ScaleStoryMapByDomainScanner(StoryScanner):
 
         all_concepts: Set[str] = set()
         for ac in ac_list:
-            text = ac.get("name", "") or ac.get("text", "")
+            if isinstance(ac, str):
+                text = ac
+            else:
+                text = ac.get("name", "") or ac.get("text", "")
             concepts = self._extract_domain_keywords(text)
             all_concepts.update(concepts)
 
@@ -103,7 +106,10 @@ class ScaleStoryMapByDomainScanner(StoryScanner):
         for story in stories:
             ac_list = story.data.get("acceptance_criteria", [])
             for ac in ac_list:
-                text = ac.get("name", "") or ac.get("text", "")
+                if isinstance(ac, str):
+                    text = ac
+                else:
+                    text = ac.get("name", "") or ac.get("text", "")
                 concepts.update(self._extract_domain_keywords(text))
         return concepts
 
