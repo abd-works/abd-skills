@@ -134,9 +134,15 @@ def _build_transport(board_id: Optional[str], dry_run: bool):
         return InMemoryMiroTransport(), 'InMemoryMiroTransport', True
 
 
+def _graph_hash(graph: Path) -> str:
+    """Return the SHA-256 hex digest of the story-graph.json file contents."""
+    return hashlib.sha256(graph.read_bytes()).hexdigest()
+
+
 def cmd_render(args: argparse.Namespace) -> int:
     _ensure_repo_paths()
     from miro_story_sync.miro_story_synchronizer import MiroSynchronizer
+    from miro_story_sync.miro_transport import RestMiroTransport
 
     mode = (args.mode or 'outline').lower().replace('_', '-')
     renderer = _MODES.get(mode)
@@ -148,9 +154,20 @@ def cmd_render(args: argparse.Namespace) -> int:
         return 2
 
     dry_run = bool(getattr(args, 'dry_run', False))
+    resume = bool(getattr(args, 'resume', False))
     board_id = _resolve_board_id(getattr(args, 'board', None), args.graph, dry_run)
 
     transport, transport_name, dry_run_actual = _build_transport(board_id, dry_run)
+
+    if isinstance(transport, RestMiroTransport):
+        checkpoint_path = _conf_path(args.graph).parent / 'miro-sync-checkpoint.json'
+        transport.setup_checkpoint(
+            checkpoint_path,
+            _graph_hash(args.graph),
+            mode,
+            resume,
+        )
+
     sync = MiroSynchronizer(transport=transport)
     kw = {}
     if args.scope:
@@ -183,6 +200,14 @@ def main() -> int:
         '--dry-run',
         action='store_true',
         help='Use InMemoryMiroTransport; nothing is sent to Miro.',
+    )
+    r.add_argument(
+        '--resume',
+        action='store_true',
+        help=(
+            'Resume from an existing checkpoint if one is found, even if status==complete. '
+            'Skips board-clear and re-creates only missing items.'
+        ),
     )
     r.add_argument('--scope', help='Optional story/epic/sub-epic name to filter graph')
     r.set_defaults(func=cmd_render)

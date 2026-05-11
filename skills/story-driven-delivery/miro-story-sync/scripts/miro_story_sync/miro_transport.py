@@ -21,10 +21,8 @@ from __future__ import annotations
 
 import json
 import os
-import threading
 import time
 from abc import ABC, abstractmethod
-from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional
@@ -227,13 +225,18 @@ class RestMiroTransport(MiroTransport):
             and checkpoint.get('graph_hash') == self._graph_hash
         )
 
+    _BULK_BATCH_SIZE = 20
+
     def replace_all(self, items_to_create: Iterable[Dict[str, Any]]) -> List[MiroItem]:
-        """Clear board + create every item, with checkpoint/resume support.
+        """Clear board + bulk-create every item, with checkpoint/resume support.
+
+        Items are sent to the Miro bulk endpoint in batches of up to 20. The
+        checkpoint is updated after each batch so a crashed run can resume from
+        the last completed batch rather than restarting from scratch.
 
         When ``setup_checkpoint`` has been called before this run:
-        - A fresh run writes ``miro-sync-checkpoint.json`` and updates it after
-          each successful create; if the process dies, the next run continues
-          from where it left off without clearing already-created items.
+        - A fresh run writes ``miro-sync-checkpoint.json`` after each batch; if
+          the process dies, the next run resumes from the first un-created item.
         - When a matching ``in_progress`` checkpoint is found (same board, mode,
           and graph hash) the board-clear is skipped and creation resumes from
           the first un-created item.
@@ -277,14 +280,13 @@ class RestMiroTransport(MiroTransport):
         created_ids = list(resume_ids)
         new_items: List[MiroItem] = []
 
-        for i, spec in enumerate(specs_to_create, resume_from + 1):
-            item = self.create_item(
-                spec['item_type'],
-                spec['payload'],
-                cell_id=spec.get('cell_id', ''),
-            )
-            new_items.append(item)
-            created_ids.append(item.id)
+        for batch_start in range(0, len(specs_to_create), self._BULK_BATCH_SIZE):
+            batch = specs_to_create[batch_start:batch_start + self._BULK_BATCH_SIZE]
+            batch_items = self._create_bulk_batch(batch)
+            new_items.extend(batch_items)
+            created_ids.extend(item.id for item in batch_items)
+
+            count_so_far = resume_from + batch_start + len(batch)
             self._write_checkpoint({
                 'board_id': self._board_id,
                 'mode': self._checkpoint_mode,
@@ -293,8 +295,9 @@ class RestMiroTransport(MiroTransport):
                 'created_items': created_ids,
                 'status': 'in_progress',
             })
-            if i % 10 == 0 or i == total:
-                print(f'[miro-story-sync] {i}/{total} items created', flush=True)
+            print(f'[miro-story-sync] {count_so_far}/{total} items created', flush=True)
+            if count_so_far < total:
+                time.sleep(0.5)
 
         self._write_checkpoint({
             'board_id': self._board_id,
@@ -308,6 +311,59 @@ class RestMiroTransport(MiroTransport):
 
         stubs = [MiroItem(id=mid, item_type='', payload={}, cell_id='') for mid in resume_ids]
         return stubs + new_items
+
+    def bulk_create_items(self, specs: List[Dict[str, Any]]) -> List[MiroItem]:
+        """Create items via the Miro bulk endpoint (``/items/bulk``).
+
+        Splits ``specs`` into batches of up to 20, POSTs each batch, waits
+        0.5 s between batches, and returns the full list of created items.
+        Retries the whole batch on HTTP 429. Each spec must have ``item_type``,
+        ``payload``, and optionally ``cell_id``.
+
+        Prefer ``replace_all`` for a full board re-render (it handles board
+        clear and checkpoint/resume). Use this method directly when you need
+        bulk creation without the board-clear step.
+        """
+        created: List[MiroItem] = []
+        total = len(specs)
+        for batch_start in range(0, total, self._BULK_BATCH_SIZE):
+            batch = specs[batch_start:batch_start + self._BULK_BATCH_SIZE]
+            batch_items = self._create_bulk_batch(batch)
+            created.extend(batch_items)
+            count_so_far = batch_start + len(batch)
+            print(f'[miro-story-sync] {count_so_far}/{total} items created', flush=True)
+            if count_so_far < total:
+                time.sleep(0.5)
+        return created
+
+    def _create_bulk_batch(self, specs: List[Dict[str, Any]]) -> List[MiroItem]:
+        """POST a single batch (≤20 specs) to the Miro bulk endpoint.
+
+        Builds the array payload, maps ``item_type`` → ``"type"``, strips
+        unsupported metadata fields, and returns the list of created items.
+        """
+        payload: List[Dict[str, Any]] = []
+        for spec in specs:
+            item_type = spec['item_type']
+            item_body = dict(spec['payload'])
+            item_body['type'] = item_type  # bulk endpoint uses "type", not "item_type"
+            cell_id = spec.get('cell_id', '')
+            if item_type in self._METADATA_SUPPORTED:
+                meta = dict(item_body.get('metadata') or {})
+                if cell_id:
+                    meta['story_sync_cell_id'] = cell_id
+                if meta:
+                    item_body['metadata'] = meta
+            else:
+                item_body.pop('metadata', None)
+            payload.append(item_body)
+
+        url = f'{self._base_url}/v2/boards/{self._board_id}/items/bulk'
+        raw_items = self._post_list(url, payload)
+        # Bulk endpoint returns {"type":"list","data":[...],"total":N} — unwrap if needed.
+        if isinstance(raw_items, dict):
+            raw_items = raw_items.get('data') or []
+        return [MiroItem.from_dict(raw) for raw in raw_items]
 
     # Item types that support the Miro v2 'metadata' field.
     _METADATA_SUPPORTED = frozenset({'app_card'})
@@ -368,6 +424,51 @@ class RestMiroTransport(MiroTransport):
             headers=self._headers(), method='POST',
         )
         return self._send(req)
+
+    def _post_list(self, url: str, body: List[Any]) -> List[Dict[str, Any]]:
+        """POST a JSON array body; return parsed JSON array, retrying on 429."""
+        req = urllib_request.Request(
+            url, data=json.dumps(body).encode('utf-8'),
+            headers=self._headers(), method='POST',
+        )
+        _retries = 3
+        for attempt in range(1, _retries + 1):
+            try:
+                with urllib_request.urlopen(req, timeout=self._timeout) as resp:
+                    raw = resp.read().decode('utf-8') or '[]'
+                return json.loads(raw) if raw.strip() else []
+            except urllib_error.HTTPError as exc:
+                detail = ''
+                try:
+                    detail = exc.read().decode('utf-8')
+                except Exception:
+                    pass
+                if exc.code == 429 and attempt < _retries:
+                    wait = 15 * attempt  # 15s, 30s
+                    print(
+                        f'[miro-story-sync] rate-limited, waiting {wait}s'
+                        f' (attempt {attempt}/{_retries})',
+                        flush=True,
+                    )
+                    time.sleep(wait)
+                    continue
+                raise MiroTransportError(
+                    f'Miro POST {req.full_url} failed with HTTP {exc.code}: {detail}'
+                ) from exc
+            except (urllib_error.URLError, TimeoutError, OSError) as exc:
+                if attempt < _retries:
+                    wait = 2 ** attempt
+                    print(
+                        f'[miro-story-sync] network error ({exc}), retrying in {wait}s'
+                        f' (attempt {attempt}/{_retries})',
+                        flush=True,
+                    )
+                    time.sleep(wait)
+                    continue
+                raise MiroTransportError(
+                    f'Miro POST {req.full_url} failed: {exc}'
+                ) from exc
+        return []
 
     def _get(self, url: str) -> Dict[str, Any]:
         req = urllib_request.Request(url, headers=self._headers(), method='GET')
