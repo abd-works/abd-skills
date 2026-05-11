@@ -427,3 +427,50 @@ def then_story_graph_cli_read_succeeds(graph: Path) -> None:
         cwd=str(_OPS_SCRIPTS),
     )
     assert proc.returncode == 0, proc.stderr + proc.stdout
+
+
+# =============================================================================
+# Increment lane layout helpers
+# =============================================================================
+
+
+def when_increments_diagram_is_rendered(story_graph_data: Dict[str, Any]):
+    """When: DrawIOIncrementsMap.render() is called from story graph data."""
+    from drawio_story_sync.drawio_story_map import DrawIOIncrementsMap
+    from story_graph_ops.nodes import StoryMap
+
+    sm = StoryMap(story_graph_data)
+    dm = DrawIOIncrementsMap()
+    dm.render(sm, sm.story_graph.get("increments", []))
+    return dm
+
+
+def then_increment_lane_height_is_compact(dm, max_height_px: int) -> None:
+    """Then: every rendered lane background element height <= max_height_px."""
+    assert dm._increment_lanes, "No increment lanes were rendered"
+    for lane in dm._increment_lanes:
+        assert lane._lane_element is not None
+        h = lane._lane_element.boundary.height
+        assert h <= max_height_px, (
+            f"Lane '{lane.name}' height {h}px exceeds compact max {max_height_px}px"
+        )
+
+
+def then_story_copies_are_within_lane_bounds(dm) -> None:
+    """Then: every story copy fits vertically inside its lane's bounds."""
+    from diagram_story_sync.layout_constants import CELL_SIZE
+
+    assert dm._increment_lanes, "No increment lanes were rendered"
+    for lane in dm._increment_lanes:
+        lane_y = lane._lane_element.position.y
+        lane_bottom = lane_y + lane._lane_element.boundary.height
+        for copy in lane._story_copies:
+            story_top = copy.position.y
+            story_bottom = story_top + CELL_SIZE
+            assert story_top >= lane_y, (
+                f"Story copy y={story_top} is above lane top y={lane_y}"
+            )
+            assert story_bottom <= lane_bottom, (
+                f"Story copy bottom {story_bottom} exceeds lane bottom {lane_bottom} "
+                f"in lane '{lane.name}'"
+            )

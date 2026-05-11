@@ -1,5 +1,5 @@
 ---
-scanner: layer_purity_scanner.py
+scanner: interface_implementation_scanner.py
 ---
 
 # Rule: Implement Full Interfaces

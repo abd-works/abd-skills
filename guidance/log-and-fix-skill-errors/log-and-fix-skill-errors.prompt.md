@@ -1,12 +1,11 @@
 ---
-description: Fix wrong output and log the correction on disk
+description: Fix wrong output — log the correction on disk and iterate until right
+mode: agent
 ---
 
-Something I produced is wrong. Run the correction process now.
+Something I produced is wrong. Follow the correction process:
 
-1. **Log first** — open or create `skill-errors-log.md` **inside the skill being corrected** (`<target-skill>/skill-errors-log.md`). Append an entry: DO/DO NOT (altered future behavior) + Example (wrong). Leave Example (correct) blank. Entry goes on disk this turn — not in chat.
-2. **Fix** — re-generate the deliverable with the correction applied.
-3. **Iterate** — repeat until the output is actually right, then fill Example (correct) and mark confirmed.
-4. **Source** — only propose source fixes (rules, prompts, skills) if the user explicitly asks.
-
-Log template: `guidance/log-and-fix-skill-errors/templates/skill-errors-log.md`
+1. **Fix the deliverable first** — do not touch sources, rules, or prompts yet.
+2. **Log on disk in the same turn** — find or create `skill-errors-log.md` inside the skill being corrected. Append: DO / DO NOT (forward-looking) + Example (wrong). Leave Example (correct) blank.
+3. **Re-generate and iterate** until actually satisfied.
+4. Only improve the source if the user explicitly asks.

@@ -97,3 +97,11 @@ class TestStructureScanner(MERNScanner):
                     'location': str(helpers_dir),
                     'line': 0,
                 })
+
+
+if __name__ == '__main__':
+    try:
+        from ts_scanner_base import run_scanner_main
+    except ImportError:
+        from scanners.typescript.ts_scanner_base import run_scanner_main
+    run_scanner_main(TestStructureScanner, 'test-story-driven')

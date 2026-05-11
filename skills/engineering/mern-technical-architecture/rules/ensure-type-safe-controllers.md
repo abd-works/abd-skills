@@ -1,5 +1,5 @@
 ---
-scanner: layer_purity_scanner.py
+scanner: type_safety_scanner.py
 ---
 
 # Rule: Ensure Type-Safe Controllers

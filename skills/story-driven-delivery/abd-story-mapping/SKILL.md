@@ -7,7 +7,7 @@ catalogue_one_liner: >-
 description: >-
   Teaches Patton-style story mapping: epics, sub-epics, stories, verb–noun naming, and
   actors via story_type. When building a map from sources, outputs **all** template
-  artifacts in `templates/` (currently `story-map.md` and `story-map.txt`) with the
+  artifacts in `templates/` (currently `story-map.md`) with the
   same tree — not one or the other. Use when structuring product discovery, decomposing
   user journeys, identifying epics and flows, story mapping, organizing requirements
   into a hierarchical map, or when the user mentions story maps, epics, sub-epics, or
@@ -42,7 +42,7 @@ Load this skill when **any** of the following apply:
 
 Do **not** assume a predetermined folder name like `stories/` or `docs/`. The only DDD/story skill that creates a sub-folder is **`abd-module-partition`**.
 
-**File names:** Default to the template filenames — `story-map.md` (and `story-map.txt` when present). Add a `<name>-` engagement prefix only when you need disambiguation — multiple products in the same workspace, or the user asks for it explicitly. Both `story-map.md` and `<name>-story-map.md` are valid. The companion `story-graph.json` (managed by **`story-graph-ops`**) follows the same convention.
+**File names:** Default to the template filename — `story-map.md`. Add a `<name>-` engagement prefix only when you need disambiguation — multiple products in the same workspace, or the user asks for it explicitly. Both `story-map.md` and `<name>-story-map.md` are valid. The companion `story-graph.json` (managed by **`story-graph-ops`**) follows the same convention.
 
 ---
 
@@ -60,7 +60,7 @@ When you **create or rewrite** a story map from requirements, you **must** deliv
 | --- | --- |
 | `templates/story-map.md` | The epic/sub-epic/story tree using that layout. Optional title or short context above the tree is fine. **Do not** paste the template’s notation / `## Instructions` section (or equivalent) into generated project files — that material documents the template for skill maintainers, not stakeholders reading the map. |
 
-**Consistency:** Connectors (`or`, `opt`), nested `(AC)` lines, and actor/story lines must match between `.md` and `.txt` for the same map. Generated artifacts contain **only** the map (plus optional brief context in `.md`); notation rules stay in this skill and in `templates/story-map.md` for reference.
+**Consistency:** Connectors (`or`, `opt`), nested `(AC)` lines, and actor/story lines must be complete and consistent throughout the `.md` artifact. Generated artifacts contain **only** the map (plus optional brief context); notation rules stay in this skill and in `templates/story-map.md` for reference.
 
 **If new files are added** under `templates/` later, produce a corresponding artifact for **each** new template the same way.
 
@@ -70,7 +70,7 @@ When you **create or rewrite** a story map from requirements, you **must** deliv
 
 **Quality bar:** Match the naming and layout expectations in **Core concepts** and **The shape of a good story map** below.
 
-**Where it lives:** In a project, the map is often mirrored in **`docs/story/story-graph.json`** (or the workspace’s graph path) via **story-graph-ops** or the bot; this skill still treats **`story-map.md`** and **`story-map.txt`** as the template-aligned outputs you author first.
+**Where it lives:** In a project, the map is often mirrored in **`docs/story/story-graph.json`** (or the workspace’s graph path) via **story-graph-ops** or the bot; this skill still treats **`story-map.md`** as the template-aligned output you author first.
 
 2. **Rules**
 
@@ -78,8 +78,6 @@ When you **create or rewrite** a story map from requirements, you **must** deliv
 - After content exists, act as a *peer reviewer*: walk each rule’s constraints, DO/DON’T sections, and examples; be helpful but critical when comparing the deliverable to each rule.
 
 - **Who is checking:** A **product owner** (scope and outcomes), a **developer** (clarity and testability of behaviors), and a **domain expert** (language and flows) should all agree on what the map says.
-- **Cross-artifact parity:** The `.md` and `.txt` trees must match (connectors, nesting, actors on story lines).
-
 3. **Assembling this skill**
 
 This **`SKILL.md`** is assembled from **`rules/`** into the bundled block below. Use **`bundle_rules_into_skill_md.py`** from **`skills/execute-skill-using-skills-rules/scripts/`** whenever **`rules/*.md`** changes:
@@ -206,7 +204,7 @@ When building or reviewing a story map, chase down all available context sources
 
 ### Recording context gaps in the story map
 
-Context gaps must be captured **inside the story map output files** (`story-map.md` and `story-map.txt`) so they travel with the map. Use one or both placements depending on scope:
+Context gaps must be captured **inside the story map output file** (`story-map.md`) so they travel with the map. Use one or both placements depending on scope:
 
 **Inline gaps** — when a gap applies to a specific epic, sub-epic, or story, place a `* Gap:` line indented under that node:
 
@@ -227,7 +225,7 @@ Context gaps must be captured **inside the story map output files** (`story-map.
 - Single perspective (GM only); no QA or dev viewpoint yet.
 ```
 
-Use **inline** when the gap is local to a node; use **map-level** when it is broad. Both can appear in the same file. The `.md` and `.txt` outputs must include the same gaps in the same positions.
+Use **inline** when the gap is local to a node; use **map-level** when it is broad. Both can appear in the same file.
 
 ---
 
@@ -475,7 +473,7 @@ AC must specify per variant:
 
 **Scanner:** Manual review
 
-Every entry in the **Context Gaps** section of `story-map.md` / `story-map.txt` states information that is **genuinely unavailable** — a business decision not yet made, a stakeholder perspective not yet gathered, or a technical constraint not yet known. The gap names what is unknown, what options exist, and what depends on the answer. Failure is a gap that the source material already answers, a gap that parks unfinished analysis, a gap outside the product scope, or a gap that questions a decision the user already stated.
+Every entry in the **Context Gaps** section of `story-map.md` states information that is **genuinely unavailable** — a business decision not yet made, a stakeholder perspective not yet gathered, or a technical constraint not yet known. The gap names what is unknown, what options exist, and what depends on the answer. Failure is a gap that the source material already answers, a gap that parks unfinished analysis, a gap outside the product scope, or a gap that questions a decision the user already stated.
 
 #### DO
 
@@ -911,7 +909,7 @@ Examples of wrong stories:
 
 **Scanner:** Manual review
 
-The story map in **`story-map.md`** / **`story-map.txt`** reflects what the **available source material** already explains about workflows, entity types, and system behaviors: those mechanics appear as stories, sub-epics, or brief inline notes—not only as a **Context Gaps** bullet that says "not yet mapped" or equivalent. Failure is a gap or deferred phrase where the source already describes the mechanic in enough detail to break it into behaviors today.
+The story map in **`story-map.md`** reflects what the **available source material** already explains about workflows, entity types, and system behaviors: those mechanics appear as stories, sub-epics, or brief inline notes—not only as a **Context Gaps** bullet that says "not yet mapped" or equivalent. Failure is a gap or deferred phrase where the source already describes the mechanic in enough detail to break it into behaviors today.
 
 #### DO
 
@@ -991,7 +989,7 @@ When deriving a story map from **code**, start from **entry points**, derive ope
 
 **Scanner:** Manual review
 
-The epic and story tree in **`story-map.md`** / **`story-map.txt`** reflects **only** the product scope the user (or product owner) has asked for: alternate journeys, build methods, or channels do not appear as parallel first-class flows unless the user asked for them or confirmed they are in scope. Failure is an extra path, persona flow, or "optional" track presented as part of the map when the user explicitly narrowed scope or chose a single path.
+The epic and story tree in **`story-map.md`** reflects **only** the product scope the user (or product owner) has asked for: alternate journeys, build methods, or channels do not appear as parallel first-class flows unless the user asked for them or confirmed they are in scope. Failure is an extra path, persona flow, or "optional" track presented as part of the map when the user explicitly narrowed scope or chose a single path.
 
 #### DO
 

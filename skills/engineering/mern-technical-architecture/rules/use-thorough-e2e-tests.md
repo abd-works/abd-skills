@@ -1,24 +1,34 @@
 ---
-scanner: test_structure_scanner.py, test_isolation_scanner.py
+scanner: test_isolation_scanner.py
 ---
 
 # Rule: Use Thorough E2E Tests
 
 End-to-end tests are **mandatory** for every sub-epic. E2E tests must reuse the base helper class (not be manually written from scratch), verify **logic** (filtering, eligibility, domain rules) not just element presence, and be executed as a final verification step after implementation. E2E tests exercise the same Gherkin scenarios as server and client tests, but through the complete user workflow: browser → React → HTTP → Express → MongoDB → response → rendered UI.
 
-## E2E Tests Require a Running Application
+## E2E Spec Files Existing ≠ E2E Tests Passing
 
-**E2E tests cannot run without a live server.** Generating `*_e2e.spec.ts` files is not sufficient — the project also needs runnable composition roots:
+**Generating `*_e2e.spec.ts` files is not the same as having passing E2E tests.** This is a critical distinction.
 
-- `packages/app-server/` — Express entry point that mounts domain routes
-- `packages/app-client/` — React/Vite shell that renders domain components
+- `npx playwright test --list` succeeds as long as the spec files compile. It does **not** run the tests.
+- `npx vitest run` never runs `*_e2e.spec.ts` files — the Vitest `include` pattern explicitly excludes them. Reporting "all tests pass" after `vitest run` says nothing about E2E.
+- E2E tests only pass when a real browser navigates to real page routes served by a live frontend.
 
-Do **not** tell the user they can run `npx playwright test` until both composition roots exist, are wired to the new module, and a dev server is running. Running Playwright against a missing or unreachable server produces `ERR_CONNECTION_REFUSED` errors on every test — this is a broken state, not a partial one.
+**E2E tests require both composition roots to exist and be reachable:**
 
-**The complete generation order is:**
-1. Domain packages (`shared/`, `server/`, `client/`) ← what the domain module template produces
-2. Ensure composition roots (`app-server/`, `app-client/`) exist ← scaffold missing roots, otherwise update the existing roots to mount or render the new module
-3. `playwright.config.ts` with a `webServer` block so Playwright starts the app automatically
+- `packages/app-server/` — Express entry point that mounts domain API routes
+- `packages/app-client/` — React/Vite shell that serves page routes (`/products/:sku`, `/store-locator`, `/admin/...`)
+
+Without `app-client`, navigating to any page route returns `Cannot GET /<route>` — because Express API routes (`/api/...`) are not the same as frontend page routes. The browser has nothing to render. **Every E2E test fails.**
+
+Do **not** tell the user they can run `npx playwright test` until both composition roots exist, are wired to the new module, and are declared in `playwright.config.ts` `webServer`. Running Playwright against a missing frontend produces `Cannot GET` on every test — this is a broken state, not a partial one.
+
+**The complete generation order before E2E tests can pass:**
+1. Domain packages (`shared/`, `server/`, `client/`) ← domain module template
+2. `packages/app-server/` — scaffold if missing, otherwise mount new domain routes
+3. `packages/app-client/` — scaffold if missing, otherwise add page routes for the new domain's views
+4. `playwright.config.ts` with `webServer` entries for **both** the API server and the React frontend
+5. Run `npx playwright test` — only now can tests actually pass
 
 ## DO
 
@@ -76,6 +86,7 @@ test.describe('View Active Recipients', () => {
 - Forget to run E2E tests after implementation.
 - Test only the happy path — include edge cases and domain variants.
 - Tell the user they can run `npx playwright test` before the required composition roots exist and expose the new module — E2E tests require a live server.
+- Claim E2E tests are passing or complete because `*_e2e.spec.ts` files compile, or because `npx playwright test --list` succeeds, or because `npx vitest run` passes. **None of these run E2E tests against a real browser.** E2E tests pass only when Playwright navigates a real browser to real page routes served by a live `app-client` frontend.
 - Generate duplicate composition roots for an existing project when compatible `app-server/` and `app-client/` shells already exist.
 - Navigate to non-existent routes — if the app has no router, navigate to `/`, not `/todo-lists`.
 - Use unscoped locators when multiple elements may match — always scope assertions to a specific card/section using `page.locator('.card', { hasText: 'Specific Name' })`.

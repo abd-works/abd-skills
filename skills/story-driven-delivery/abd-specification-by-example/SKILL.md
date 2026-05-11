@@ -36,7 +36,7 @@ Load this skill when **any** of the following apply:
 
 Do **not** assume a predetermined folder name like `specs/`, `stories/`, or `docs/`. The only DDD/story skill that creates a sub-folder is **`abd-module-partition`**.
 
-**File names:** Default to the template filenames — `specification-by-example.md` / `.txt` (plain) or `specification-by-example-outline.md` / `.txt` (outline). Add a `<name>-` engagement prefix only when you need disambiguation — multiple products in the same workspace, multiple stories needing per-story spec files, or the user asks for it explicitly. Both `specification-by-example.md` and `<name>-specification-by-example.md` are valid; same for the outline and `.txt` partners.
+**File names:** Default to the template filenames — `specification-by-example.md` (plain) or `specification-by-example-outline.md` (outline). Add a `<name>-` engagement prefix only when you need disambiguation — multiple products in the same workspace, multiple stories needing per-story spec files, or the user asks for it explicitly. Both `specification-by-example.md` and `<name>-specification-by-example.md` are valid; same for the outline variant.
 
 ---
 
@@ -69,13 +69,13 @@ If the user/agent has not specified which approach they want, then
 
 **Scenarios**
 Each scenario has its own distinct context. All values are written inline — real names, amounts, and statuses directly in the step text. **Domain Concept** *value*. No tables, no `{placeholder}` tokens.
-Use for: main flow, failure path, edge cases — any scenario where the context or setup differs. Use the `specification-by-example.md` + `.txt` templates.
+Use for: main flow, failure path, edge cases — any scenario where the context or setup differs. Use the `specification-by-example.md` template.
 
 **Scenario Outlines**
 The same Given/When/Then steps run against multiple rows of data (boundary amounts, multiple instruments, different roles). Steps use `{column_name}` tokens bound to an **Examples** block. **Domain Concept** *{column_name}*.
-Use only when the steps are genuinely identical across every row. If rows need different **Given** setup, write separate plain scenarios instead. Use the `specification-by-example-outline.md` + `.txt` templates.
+Use only when the steps are genuinely identical across every row. If rows need different **Given** setup, write separate plain scenarios instead. Use the `specification-by-example-outline.md` template.
 
-When you **create or rewrite** scenarios from whatever inputs exist (AC, notes, conversation, or story text), choose the right template first  — then regenerate. Scenario names, Background presence, and step semantics must match between .md and .txt. 
+When you **create or rewrite** scenarios from whatever inputs exist (AC, notes, conversation, or story text), choose the right template first — then regenerate.
 
 Generated artifacts contain only scenario content; instructions stay in the templates for maintainers.
 If you find yourself writing the same steps three or more times with only values changing, then switch to  **Scenario Outlines**.
@@ -126,7 +126,7 @@ This **`SKILL.md`** is assembled from **`rules/*.md`** into the bundled block be
 
 ### Formatting convention
 
-In .md artifacts, use **bold** for domain concept names and *italics* for their actual values — for example **User** *Jane Doe*, **Enterprise** *Acme Corp*, **Payment Amount** *,000.00 USD*. In .txt artifacts, use ALL-CAPS for concept names and plain text for values.
+In `.md` artifacts, use **bold** for domain concept names and *italics* for their actual values — for example **User** *Jane Doe*, **Enterprise** *Acme Corp*, **Payment Amount** *$1,000.00 USD*.
 
 ### Working from acceptance criteria
 
@@ -185,7 +185,7 @@ Quick checklist:
 - **{Concept}** ↔ tables **both ways**; no random `<column>` prose; domain words sit beside each `{Concept}` where this skill’s convention applies.
 - Happy, edge, and error paths implied by the story, notes, or AC (if any) are **visible** in scenarios or outlines.
 - Outlines used only when **variation** is real, not ceremonial.
-- **Domain emphasis:** in **Markdown** scenario artifacts, domain-significant terms use *italics* consistently (plain `.txt` stays markdown-free; the graph may still use `*italic*` in step strings if your pipeline stores markdown there — the **ScenarioDomainTermEmphasisScanner** checks scenario name + steps).
+- **Domain emphasis:** in **Markdown** scenario artifacts, domain-significant terms use *italics* consistently (the graph may still use `*italic*` in step strings if your pipeline stores markdown there — the **ScenarioDomainTermEmphasisScanner** checks scenario name + steps).
 
 
 ---
@@ -608,7 +608,7 @@ Scenario: Amount over limit is rejected
 
 ### Rule: Scenarios belong in the story graph (canonical persistence)
 
-When the team uses **`story-graph.json`** as the system of record, add scenarios to **`stories[].scenarios`** and scenario outlines to **`stories[].scenario_outlines`**. Do not spin up parallel “feature specification” documents or ad-hoc `docs/.../scenarios.md` collections that compete with the graph—**this skill’s** `specification-by-example.md` / `.txt` artifacts are **authoring** outputs that should align with or feed the same structure, not a second source of truth.
+When the team uses **`story-graph.json`** as the system of record, add scenarios to **`stories[].scenarios`** and scenario outlines to **`stories[].scenario_outlines`**. Do not spin up parallel “feature specification” documents or ad-hoc `docs/.../scenarios.md` collections that compete with the graph—**this skill’s** `specification-by-example.md` artifacts are **authoring** outputs that should align with or feed the same structure, not a second source of truth.
 
 #### DO
 

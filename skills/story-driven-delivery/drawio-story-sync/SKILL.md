@@ -20,11 +20,11 @@ description: >-
 
 ## Story diagram kinds
 
-| Workflow | `renderer_command` | CLI `--mode` aliases | Output role |
+| Workflow | `renderer_command` | CLI `--mode` aliases | Default output file |
 | --- | --- | --- | --- |
-| Outline | `render-outline` (default) | `outline`, `story-map` | Epic / sub-epic / story map |
-| Exploration | `render-exploration` | `exploration`, `acceptance-criteria` | Outline plus AC boxes |
-| Prioritization | `render-increments` | `increments`, `prioritization`, `thin-slices` | Outline base plus increment lanes |
+| Outline | `render-outline` (default) | `outline`, `story-map` | `story-map.drawio` |
+| Acceptance Criteria | `render-exploration` | `acceptance-criteria`, `exploration` | `acceptance-criteria.drawio` |
+| Thin-slicing | `render-increments` | `thin-slicing`, `increments`, `prioritization`, `thin-slices` | `thin-slicing.drawio` |
 
 ## Dependencies (PYTHONPATH)
 
@@ -40,10 +40,10 @@ DrawIO code imports **`story_graph_ops`** (same domain types as **story-graph-op
 ## Commands
 
 ```text
-python drawio_story_sync_cli.py sync --drawio <path/outline-story-map.drawio> --graph <path/story-graph.json>
-python drawio_story_sync_cli.py render --mode outline --graph <path/to/story-graph.json> --out <path/out.drawio>
-python drawio_story_sync_cli.py render --mode exploration --graph ... --out ...
-python drawio_story_sync_cli.py render --mode increments --graph ... --out ...
+python drawio_story_sync_cli.py sync --drawio <path/story-map.drawio> --graph <path/story-graph.json>
+python drawio_story_sync_cli.py render --mode outline            --graph <path/to/story-graph.json> --out <path/story-map.drawio>
+python drawio_story_sync_cli.py render --mode acceptance-criteria --graph ... --out <path/acceptance-criteria.drawio>
+python drawio_story_sync_cli.py render --mode thin-slicing        --graph ... --out <path/thin-slicing.drawio>
 python drawio_story_sync_cli.py save-layout --drawio <path/file.drawio>
 python drawio_story_sync_cli.py report --drawio <path/file.drawio> --graph <path/story-graph.json> [--scope "Node Name"]
 python drawio_story_sync_cli.py apply-report --graph <path/story-graph.json> --report <path/*-update-report.json> [--dry-run]
@@ -55,9 +55,9 @@ Use **`sync`** when the **outline** diagram (`story-map.drawio` or any `<stem>.d
 
 1. Runs the same **report** diff as `report` (writes `<stem>-extracted.json`, `<stem>-update-report.json`, updates `*-layout.json`). After a successful apply (not `--dry-run`), those three stem sidecars beside the synced diagram are **removed** so they do not go stale; use `report` alone if you need to keep them on disk.
 2. **Applies** the report to **`story-graph.json`** (same as `apply-report`). **Personas:** chips use the same **actor** fill as the renderer (`STYLE_DEFAULTS` / serializer). Per leaf sub-epic row (left-to-right), a chip **above** a story column sets an explicit persona; following stories **inherit** until the next explicit. The report compares that row model to the graph using the **same forward-fill** on stored `users`, then applies changes. Rows with **no** persona chips leave JSON `users` untouched for those stories.
-3. Re-renders **`<stem>-exploration.drawio`** and **`<stem>-increments.drawio`** next to the outline so exploration/increment views match the graph and **do not undo** outline renames on a later apply.
+3. Re-renders **`acceptance-criteria.drawio`** and **`thin-slicing.drawio`** next to the outline so exploration/increment views match the graph and **do not undo** outline renames on a later apply.
 
-Optional: `--no-refresh-diagrams` (graph only), `--out-exploration` / `--out-increments` (custom paths), `--dry-run` (no file writes), `--scope` (filtered diff/apply).
+Optional: `--no-refresh-diagrams` (graph only), `--out-exploration` / `--out-increments` (custom paths to override the default `acceptance-criteria.drawio` / `thin-slicing.drawio`), `--dry-run` (no file writes), `--scope` (filtered diff/apply).
 
 **Do not** chain `apply-report` from multiple diagrams (outline then stale exploration) unless exploration/increments already match the graph—use **`sync`** instead.
 
@@ -68,7 +68,7 @@ Optional: `--no-refresh-diagrams` (graph only), `--out-exploration` / `--out-inc
 ## Agent checklist
 
 1. Put **this** `scripts/` and **story-graph-ops** `scripts/` on `PYTHONPATH` (or rely on sibling auto-insert).
-2. When the user edits the **outline** DrawIO and wants JSON + other diagrams aligned, run **`sync --drawio <outline> --graph <story-graph.json>`** (not separate `report` / `apply-report` / manual re-renders unless `--no-refresh-diagrams` is intended). For **increments** (or exploration) as the edited diagram, use the same command with **`--diagram-type increments`** (or **`exploration`**) and the matching `*-increments.drawio` / `*-exploration.drawio` path; companion re-renders still use the **outline stem** (e.g. `story-map-exploration.drawio`).
+2. When the user edits the **outline** DrawIO and wants JSON + other diagrams aligned, run **`sync --drawio <outline> --graph <story-graph.json>`** (not separate `report` / `apply-report` / manual re-renders unless `--no-refresh-diagrams` is intended). For **thin-slicing** (or acceptance-criteria) as the edited diagram, use the same command with **`--diagram-type thin-slicing`** (or **`acceptance-criteria`**) and the matching `thin-slicing.drawio` / `acceptance-criteria.drawio` path; companion re-renders always write `acceptance-criteria.drawio` and `thin-slicing.drawio` beside the source diagram.
 3. Run **`story_graph_cli.py read --file story-graph.json`** from **story-graph-ops** after graph writes (per **story-graph-ops** obligations).
 4. For merges from a **single** report file only (no companion refresh), use **`apply-report`**. Report generation stays in this skill; apply uses **story-graph-ops** only.
 

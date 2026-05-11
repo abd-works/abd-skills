@@ -1,10 +1,13 @@
+---
+applyTo: "**"
+---
 # Correction process (always-on)
 
 **Triggers:** output is wrong **or** user corrects how you work (process, norms, behavior).
 
 ## Where the corrections log lives — on disk, not chat
 
-- Use the log **inside the skill or target being corrected** (`<target-skill>/skill-errors-log.md`). Append to an existing one, or create it there from `guidance/log-and-fix-skill-errors/templates/skill-errors-log.md`.
+- Use the log **inside the skill or target being corrected** (`<target-skill>/skill-errors-log.md`). Append to an existing one, or create it there from `instructions/templates/skill-errors-log.md`.
 - Write the entry **in the same turn** as you fix or acknowledge the problem. Chat is not the record.
 - Process corrections count — if the user corrects how you work, log those too.
 

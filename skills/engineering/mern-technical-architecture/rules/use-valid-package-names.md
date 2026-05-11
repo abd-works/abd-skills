@@ -1,5 +1,5 @@
 ---
-scanner: domain_structure_scanner.py
+scanner: package_names_scanner.py
 ---
 
 # Rule: Use Valid Package Names

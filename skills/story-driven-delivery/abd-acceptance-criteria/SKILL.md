@@ -10,7 +10,7 @@ description: >-
   verb–noun naming for story elements. Ships Markdown rules and Python scanners under this
   skill root for **execute-skill-using-skills-rules** (mechanical checks alongside human review).
   When building AC from sources, output **all** template artifacts in `templates/`
-  (currently `acceptance-criteria.md` and `acceptance-criteria.txt`) with the same coverage.
+  (currently `acceptance-criteria.md`) with the same coverage.
   Use when writing or reviewing acceptance criteria, exploration behavior, WHEN/THEN
   quality, or story-graph.json AC arrays.
 ---
@@ -42,7 +42,7 @@ Load this skill when **any** of the following apply:
 
 Do **not** assume a predetermined folder name like `stories/`, `ac/`, or `docs/`. The only DDD/story skill that creates a sub-folder is **`abd-module-partition`**.
 
-**File names:** Default to the template filenames — `acceptance-criteria.md` and `acceptance-criteria.txt`. Add a `<name>-` engagement prefix only when you need disambiguation — multiple products in the same workspace, multiple stories needing per-story AC files, or the user asks for it explicitly. Both `acceptance-criteria.md` and `<name>-acceptance-criteria.md` are valid; same for the `.txt` partner. AC living **inside** `story-graph.json` (per-story `acceptance_criteria` arrays) follows the **`story-graph-ops`** path conventions and is unaffected.
+**File names:** Default to the template filename — `acceptance-criteria.md`. Add a `<name>-` engagement prefix only when you need disambiguation — multiple products in the same workspace, multiple stories needing per-story AC files, or the user asks for it explicitly. Both `acceptance-criteria.md` and `<name>-acceptance-criteria.md` are valid. AC living **inside** `story-graph.json` (per-story `acceptance_criteria` arrays) follows the **`story-graph-ops`** path conventions and is unaffected.
 
 ---
 
@@ -50,14 +50,10 @@ Do **not** assume a predetermined folder name like `stories/`, `ac/`, or `docs/`
 
 1. **Templates**
    Generate content using **every** template file in this skill’s `templates/` folder.
-**Do not** emit only Markdown or only plain text unless the user **explicitly** asks for a single format.
-
 | Template | What to produce |
 | --- | --- |
 | `templates/acceptance-criteria.md` | Story-level AC using WHEN/THEN/AND/BUT per **Core concepts** and **The shape of good acceptance criteria** below. Per story, include a **Domain terms** section (see template): key words and phrases for concepts, state, actions, and rules used in that story’s AC. **Source traceability:** each numbered AC must cite **Evidence** (chapter, section, page, paragraph, chunk id, etc.) or a per-story **Source evidence** table—see template. Optional title or short context at the top is fine. **Do not** paste the template’s `## Instructions` section (or an equivalent rules summary) into generated project files — that material documents the template for skill maintainers, not stakeholders reading the criteria. |
-| `templates/acceptance-criteria.txt` | The **same** behavioral coverage, story semantics, **domain terms list**, and **source evidence** as **plain text** only — structure matching `acceptance-criteria.txt` style. |
-
-**Consistency:** WHEN/THEN semantics, story coverage, **domain terms** (same vocabulary; italics only in `.md` AC lines and domain list if you italicize there), **source evidence per AC**, and ordering must match between `.md` and `.txt` for the same work. Generated artifacts contain **only** stakeholder-facing sections from the templates (plus optional brief context); notation and heuristics stay in this skill and in `templates/` for reference.
+**Consistency:** WHEN/THEN semantics, story coverage, **domain terms** (same vocabulary; italics on domain terms and domain list), **source evidence per AC**, and ordering must be complete throughout the `.md` artifact. Generated artifacts contain **only** stakeholder-facing sections from the templates (plus optional brief context); notation and heuristics stay in this skill and in `templates/` for reference.
 
 **If new files are added** under `templates/` later, produce a corresponding artifact for **each** new template the same way.
 
@@ -126,7 +122,6 @@ AC describe **observable** user/system behavior in steps. Avoid implementation d
 
 - Each story includes a **Domain terms** subsection **before** its acceptance criteria (see template and **Example**). Keep the list tight: only terms that anchor that story’s AC.
 - In **`acceptance-criteria.md`**, use *italics* and *Title Case* inside multi-word phrases in the Domain terms list and in AC lines. Reuse the same italicized phrase for the same concept. See **Emphasize domain-significant terms** in the bundled rules.
-- In the paired **`.txt`** artifact, use the **same words** with no markdown.
 - Do not italicize filler, whole sentences, or low-signal words; spotlight **domain meaning**, not decoration.
 
 ### WHEN / THEN / AND / BUT

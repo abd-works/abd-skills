@@ -1,5 +1,5 @@
 ---
-scanner: domain_structure_scanner.py
+scanner: dependency_declarations_scanner.py
 ---
 
 # Rule: Include All External Dependencies

@@ -7,8 +7,8 @@ catalogue_one_liner: >-
 description: >-
   **Produce** thin-sliced delivery increments: vertical MVIs, spine vs optional paths,
   quality trade-offs, marketable increment names, and early risk validation. From a story
-  map, **write** all template artifacts in `templates/` (`thin-slicing.md` and
-  `thin-slicing.txt`) with identical increment and story coverage. Use when planning
+  map, **write** all template artifacts in `templates/` (`thin-slicing.md`)
+  with identical increment and story coverage. Use when planning
   releases, MVIs, backlog order, or thin/vertical slices after mapping.
 ---
 # abd-thin-slicing
@@ -58,7 +58,7 @@ Later slices then **add quality, automation, or robustness** — refining the sa
 3. **Cut vertical slices** — each increment is an **end-to-end** demonstrable path (even if manual/stubbed); avoid horizontal “finish epic A, then epic B.”
 4. **Name for value** — increment titles = stakeholder-visible **capability**, not phase or stack labels.
 5. **Pull stories** — under each increment, list **verb–noun** stories in **flow order**; don’t paste the whole map unless asked.
-6. **Write both files** — fill **`templates/thin-slicing.md`** and **`templates/thin-slicing.txt`** with the **same** increments and stories (`.md` may use *italics* on domain terms).
+6. **Write the template file** — fill **`templates/thin-slicing.md`** with the increments and stories (*italics* on domain terms where helpful).
 7. **Omit maintainer noise** — do **not** copy the template’s **`## Instructions`** block into project deliverables.
 8. **Review** — walk every bundled rule; fix violations before you call it done.
 
@@ -74,7 +74,7 @@ Later slices then **add quality, automation, or robustness** — refining the sa
 
 Do **not** assume a predetermined folder name like `stories/`, `docs/`, or `slices/`. The only DDD/story skill that creates a sub-folder is **`abd-module-partition`**.
 
-**File names:** Default to the template filenames — `thin-slicing.md` and `thin-slicing.txt`. Add a `<name>-` engagement prefix only when you need disambiguation — multiple products in the same workspace, or the user asks for it explicitly. Both `thin-slicing.md` and `<name>-thin-slicing.md` are valid; same for the `.txt` partner.
+**File names:** Default to the template filename — `thin-slicing.md`. Add a `<name>-` engagement prefix only when you need disambiguation — multiple products in the same workspace, or the user asks for it explicitly. Both `thin-slicing.md` and `<name>-thin-slicing.md` are valid.
 
 ---
 
@@ -82,14 +82,13 @@ Do **not** assume a predetermined folder name like `stories/`, `docs/`, or `slic
 
 1. **Templates**
 
-Use **every** file under `templates/`. Unless the user **explicitly** wants one format only, emit **both** `.md` and `.txt`.
+Use **every** file under `templates/`.
 
 | Template | Produce |
 | --- | --- |
 | `templates/thin-slicing.md` | Increments: **name**, **outcome**, optional **slicing notes**, ordered **story** bullets (*italic* domain terms where helpful). Optional product/context at top. No template `## Instructions` in the deliverable. |
-| `templates/thin-slicing.txt` | **Same** increments and stories, plain text layout per the `.txt` template. |
 
-**Parity:** Names, order, story membership, and outcomes must match across `.md` and `.txt`. New files under `templates/` later → one deliverable per file.
+**New files under `templates/` later** → one deliverable per file.
 
 **Pointers:** Depth stays at **increment + story list**; point to **`story-map.md`** / graph for full hierarchy.
 
@@ -130,7 +129,7 @@ python skills/execute-skill-using-skills-rules/scripts/bundle_rules_into_skill_m
 | **Quality ramp** | Early slice may be manual/stub/low NFR; later slices **add** quality with **clear** names. |
 | **Risk** | Scary integration/deploy/perf tackled in **early** increments with **real enough** exercise. |
 | **Spine** | Lean mandatory path; optional work **labeled**, not sequenced as if mandatory. |
-| **Artifacts** | `thin-slicing.md` + `thin-slicing.txt` stay in sync; mirror|
+| **Artifacts** | `thin-slicing.md` reflects the current slice plan. |
 
 ---
 

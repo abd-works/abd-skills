@@ -18,7 +18,7 @@ description: Read rules before work, validate output (AI pass + scanner pass), a
 
 2. **Validate output against the rules** — Do **both**: an **AI / rules pass** (read **`rules/*.md`** and bundled rules; judge whether the deliverable fits — not only "scanners green") **and** a **scanner pass** (**`run_scanners.py`** on **`--workspace`**). Treat that pair as the normal "does this match the rules?" workflow. Save scanner output somewhere durable (for example **`scanner-report/`**); fix failures and re-run; the rules pass still matters even when scanners pass.
 
-3. **After something is wrong, follow the correction process** — Use the **correct_output** skill. It provides the full loop: identify, log, re-generate, iterate on the **output** until correct, then optionally improve the source. See **[skills/correct_output/SKILL.md](../correct_output/SKILL.md)** for the process and **[skills/correct_output/templates/corrections-log.md](../correct_output/templates/corrections-log.md)** for the log template. Put the log under the engagement or project tree — not inside the installed skill package.
+3. **After something is wrong, follow the correction process** — See **`guidance/log-and-fix-skill-errors`** for the full loop: identify, log, re-generate, iterate on the **output** until correct, then optionally improve the source. Put the log under the engagement or project tree — not inside the installed skill package.
 
 
 ## The Target Skill Layout

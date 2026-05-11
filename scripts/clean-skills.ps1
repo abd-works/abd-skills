@@ -3,38 +3,28 @@
   Remove skill and agent junctions/links deployed by deploy-skills.ps1.
 
 .DESCRIPTION
-  By default removes only repo-local IDE links (rules, commands, prompts, instructions).
-  Add -global to also remove user-level junctions for skills and agents.
+  Removes all IDE links and junctions deployed by deploy-skills.ps1.
+  Never touches the user profile area.
 
-  Cursor local:
-    <repo>/.cursor/rules/       — removes hard links sourced from this repo
-    <repo>/.cursor/commands/    — removes hard links sourced from this repo
+  Cursor:
+    <cursor-root>/.cursor/rules/         — hard links sourced from this repo
+    <cursor-root>/.cursor/commands/      — hard links sourced from this repo
+    <cursor-root>/.cursor/skills/<name>  — junctions pointing into this repo
+    <cursor-root>/.cursor/agents/<name>  — junctions pointing into this repo
 
-  VSCode local:
-    <repo>/.github/             — removes hard links sourced from this repo
-    <repo>/.github/prompts/     — removes hard links sourced from this repo
-
-  Cursor global (-global):
-    ~/.cursor/skills/<name>     — removes junctions pointing into this repo
-    ~/.cursor/agents/<name>     — removes junctions pointing into this repo
-
-  VSCode global (-global):
-    %APPDATA%\Code\User\skills\<name>        — removes junctions
-    %APPDATA%\Code\User\agents\<name>        — removes junctions
-    %APPDATA%\Code\User\instructions\<file>  — removes hard links sourced from this repo
-    %APPDATA%\Code\User\prompts\<file>       — removes hard links sourced from this repo
+  VSCode:
+    <cursor-root>/.github/               — hard links sourced from this repo
+    <cursor-root>/.github/prompts/       — hard links sourced from this repo
+    <cursor-root>/.github/skills/<name>  — junctions pointing into this repo
+    <cursor-root>/.github/agents/<name>  — junctions pointing into this repo
 
 .PARAMETER ide
-  Target IDE: cursor or vscode. Default: vscode.
+  Target IDE: cursor or vscode. Default: cursor.
 
-.PARAMETER global
-  Also clean user-level junctions (~/.cursor/skills/ or Code\User\skills\).
 #>
 param(
     [ValidateSet("cursor", "vscode")]
-    [string] $ide = "vscode",
-
-    [switch] $global
+    [string] $ide = "cursor"
 )
 
 $ErrorActionPreference = 'Stop'
@@ -159,48 +149,35 @@ function Clean-GlobalEntry {
 
     # Junction
     Remove-Entry (Join-Path $JunctionRoot $name)
-
-    # VSCode user-scope file links
-    if ($ide -eq "vscode") {
-        $userInstr   = Join-Path $env:APPDATA 'Code\User\instructions'
-        $userPrompts = Join-Path $env:APPDATA 'Code\User\prompts'
-
-        Get-ChildItem -Path $idePayload -Filter '*.instructions.md' -File -EA SilentlyContinue |
-            ForEach-Object { Remove-Entry (Join-Path $userInstr $_.Name) }
-        Get-ChildItem -Path $idePayload -Filter '*.prompt.md' -File -EA SilentlyContinue |
-            ForEach-Object { Remove-Entry (Join-Path $userPrompts $_.Name) }
-    }
 }
 
 # === Local links ===
 Write-Host "=== Local links ===" -ForegroundColor Magenta
 foreach ($folder in $allFolders) { Clean-LocalLinks -Folder $folder }
 
-# === Global junctions ===
-if ($global) {
-    Write-Host "`n=== Global junctions ===" -ForegroundColor Magenta
+# === Junctions ===
+Write-Host "`n=== Junctions ===" -ForegroundColor Magenta
 
-    $skillJunctionRoot = if ($ide -eq "cursor") {
-        Join-Path $CursorRoot '.cursor\skills'
-    } else {
-        Join-Path $env:APPDATA 'Code\User\skills'
-    }
+$skillJunctionRoot = if ($ide -eq "cursor") {
+    Join-Path $CursorRoot '.cursor\skills'
+} else {
+    Join-Path $CursorRoot '.github\skills'
+}
 
-    $agentJunctionRoot = if ($ide -eq "cursor") {
-        Join-Path $CursorRoot '.cursor\agents'
-    } else {
-        Join-Path $env:APPDATA 'Code\User\agents'
-    }
+$agentJunctionRoot = if ($ide -eq "cursor") {
+    Join-Path $CursorRoot '.cursor\agents'
+} else {
+    Join-Path $CursorRoot '.github\agents'
+}
 
-    Write-Host "`n-- Skills --" -ForegroundColor DarkMagenta
-    foreach ($folder in $skillFolders) {
-        Clean-GlobalEntry -Folder $folder -JunctionRoot $skillJunctionRoot
-    }
+Write-Host "`n-- Skills --" -ForegroundColor DarkMagenta
+foreach ($folder in $skillFolders) {
+    Clean-GlobalEntry -Folder $folder -JunctionRoot $skillJunctionRoot
+}
 
-    Write-Host "`n-- Agents --" -ForegroundColor DarkMagenta
-    foreach ($folder in $agentFolders) {
-        Clean-GlobalEntry -Folder $folder -JunctionRoot $agentJunctionRoot
-    }
+Write-Host "`n-- Agents --" -ForegroundColor DarkMagenta
+foreach ($folder in $agentFolders) {
+    Clean-GlobalEntry -Folder $folder -JunctionRoot $agentJunctionRoot
 }
 
 Write-Host "`nDone." -ForegroundColor Cyan

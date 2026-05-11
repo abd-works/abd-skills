@@ -91,3 +91,11 @@ class DomainStructureScanner(MERNScanner):
                     })
 
         return violations
+
+
+if __name__ == '__main__':
+    try:
+        from ts_scanner_base import run_scanner_main
+    except ImportError:
+        from scanners.typescript.ts_scanner_base import run_scanner_main
+    run_scanner_main(DomainStructureScanner, 'organize-by-domain-module')

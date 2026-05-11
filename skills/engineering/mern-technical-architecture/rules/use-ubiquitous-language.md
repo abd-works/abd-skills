@@ -1,5 +1,5 @@
 ---
-scanner: naming_convention_scanner.py
+scanner: ubiquitous_language_scanner.py
 ---
 
 # Rule: Use Ubiquitous Language

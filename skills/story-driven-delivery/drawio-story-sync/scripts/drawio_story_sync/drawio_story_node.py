@@ -660,15 +660,28 @@ class DrawIOStory(DiagramStory, DrawIOStoryNode):
 
 
 class DrawIOIncrementLane:
-    """A horizontal increment lane in the DrawIO story map diagram."""
+    """A horizontal increment lane in the DrawIO story map diagram.
 
-    LABEL_Y_OFFSET = 5
-    LABEL_HEIGHT = 30
+    Lanes are intentionally compact — just enough vertical space for one row
+    of story sticky notes.  The label sits at the same vertical offset as the
+    stories so the two elements align side-by-side rather than stacking.
+
+    Actors are NOT rendered inside lanes.  The outline above already carries
+    persona information via actor chips; duplicating them in every lane makes
+    compact lanes taller than necessary.
+    """
+
+    # Compact single-row layout: top-padding + CELL_SIZE + bottom-padding
+    _LANE_PADDING = 10
+    LANE_HEIGHT = CELL_SIZE + 2 * _LANE_PADDING   # 70 (was 155)
+
+    # Label sits flush with the story row (left side of the lane)
+    LABEL_Y_OFFSET = _LANE_PADDING                 # 10 (was 5)
+    LABEL_HEIGHT = CELL_SIZE                       # 50 (was 30) — same as story square
     LABEL_WIDTH = 150
-    ACTOR_Y_OFFSET = 40
-    ACTOR_SIZE = CELL_SIZE
-    STORY_Y_OFFSET = 95
-    LANE_HEIGHT = 155
+
+    # Stories start at the same Y offset as the label
+    STORY_Y_OFFSET = _LANE_PADDING                 # 10 (was 95)
 
     def __init__(self, name: str, priority: int, story_names: list):
         self.name = name
@@ -682,11 +695,12 @@ class DrawIOIncrementLane:
     def render(self, index: int, y_start: float, total_width: float,
                stories: List['DrawIOStory'],
                domain_stories: Optional[list] = None) -> float:
-        """Render an increment lane with stories and actor labels.
+        """Render a compact increment lane containing one row of story sticky notes.
 
         ``stories`` are ``DrawIOStory`` objects from the outline render (used
-        for position and style); ``domain_stories`` are the original domain
-        ``Story`` objects (used for user info to render actor labels).
+        for position and style).  ``domain_stories`` is accepted for API
+        compatibility but is no longer used — actors live in the outline above
+        the lanes rather than inside each lane.
         """
         lane_y = y_start + index * self.LANE_HEIGHT
 
@@ -701,15 +715,8 @@ class DrawIOIncrementLane:
         self._label_element.set_position(5, lane_y + self.LABEL_Y_OFFSET)
         self._label_element.set_size(self.LABEL_WIDTH, self.LABEL_HEIGHT)
 
-        domain_by_name = {}
-        if domain_stories:
-            for ds in domain_stories:
-                ds_name = ds.name if hasattr(ds, 'name') else str(ds)
-                domain_by_name[ds_name] = ds
-
         self._story_copies = []
-        self._actor_elements = []
-        seen_actors: set = set()
+        self._actor_elements = []  # always empty — actors live in the outline above
         for story in stories:
             if story.name in self.story_names:
                 copy = DrawIOElement(
@@ -720,22 +727,6 @@ class DrawIOIncrementLane:
                 copy.set_position(story.position.x, lane_y + self.STORY_Y_OFFSET)
                 copy.set_size(CELL_SIZE, CELL_SIZE)
                 self._story_copies.append(copy)
-
-                domain_story = domain_by_name.get(story.name)
-                if domain_story:
-                    users = getattr(domain_story, 'users', []) or []
-                    for user in users:
-                        user_name = user.name if hasattr(user, 'name') else str(user)
-                        if user_name in seen_actors:
-                            continue
-                        seen_actors.add(user_name)
-                        actor = DrawIOElement(
-                            cell_id=f'inc-lane/{lane_slug}/actor-{_slug(user_name)}',
-                            value=user_name)
-                        actor.apply_style_for_type('actor')
-                        actor.set_position(story.position.x, lane_y + self.ACTOR_Y_OFFSET)
-                        actor.set_size(self.ACTOR_SIZE, self.ACTOR_SIZE)
-                        self._actor_elements.append(actor)
 
         return self.LANE_HEIGHT
 

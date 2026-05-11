@@ -1,5 +1,15 @@
 #!/usr/bin/env python3
-"""Convert story-map.md tree syntax to story-graph.json format."""
+"""Convert story-map.md tree syntax to story-graph.json format.
+
+Usage:
+    python md_story_map_to_story_graph.py <input-story-map.md> <output-story-graph.json>
+
+Format expected:
+    (E) Epic Name
+        (E) Sub-Epic Name
+            (S) actor --> Story Name
+            opt (S) actor --> Optional Story Name
+"""
 import re
 import json
 import sys
@@ -97,7 +107,7 @@ def parse(md_path: Path) -> dict:
 
 if __name__ == '__main__':
     if len(sys.argv) != 3:
-        print("Usage: md_to_story_graph.py <input.md> <output.json>", file=sys.stderr)
+        print("Usage: md_story_map_to_story_graph.py <input.md> <output.json>", file=sys.stderr)
         sys.exit(1)
 
     md_file = Path(sys.argv[1])

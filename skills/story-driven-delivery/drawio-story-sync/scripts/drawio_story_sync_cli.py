@@ -34,9 +34,20 @@ _MODES = {
     'exploration': 'render-exploration',
     'acceptance-criteria': 'render-exploration',
     'increments': 'render-increments',
+    'thin-slicing': 'render-increments',
     'thin-slices': 'render-increments',
     'prioritization': 'render-increments',
 }
+
+# Skill-aligned fixed companion file names (no stem prefix).
+# These match the skill names one-to-one:
+#   abd-acceptance-criteria  →  acceptance-criteria.drawio
+#   abd-thin-slicing         →  thin-slicing.drawio
+_COMPANION_AC = 'acceptance-criteria.drawio'
+_COMPANION_THIN = 'thin-slicing.drawio'
+
+# Standalone diagram stems that are fixed-name companions (not suffixed from an outline stem).
+_FIXED_COMPANION_STEMS = {'thin-slicing', 'acceptance-criteria'}
 
 
 def _ensure_story_graph_ops_path() -> None:
@@ -48,15 +59,24 @@ def _ensure_story_graph_ops_path() -> None:
 
 def _diagram_type_for_load(cli_value: str) -> str:
     """Map CLI ``--diagram-type`` to ``DrawIOStoryMap.load(..., diagram_type=...)``."""
-    if cli_value == 'exploration':
+    if cli_value in ('exploration', 'acceptance-criteria'):
         return 'acceptance_criteria'
+    if cli_value in ('thin-slicing', 'thin-slices'):
+        return 'increments'
     return cli_value
 
 
 def _companion_stem(drawio_path: Path) -> str:
-    """Strip ``-increments`` / ``-exploration`` / … suffix so companions use the outline stem."""
+    """Strip legacy ``-increments`` / ``-exploration`` suffixes so companions use the outline stem.
+
+    Fixed-name companions (``thin-slicing``, ``acceptance-criteria``) have no outline
+    stem prefix, so return ``""`` — callers use ``_COMPANION_AC`` / ``_COMPANION_THIN``
+    directly instead.
+    """
     s = drawio_path.stem
-    for suf in ('-increments', '-exploration', '-acceptance-criteria', '-outline'):
+    if s in _FIXED_COMPANION_STEMS:
+        return ''
+    for suf in ('-increments', '-exploration', '-acceptance-criteria', '-thin-slicing', '-outline'):
         if s.endswith(suf):
             return s[: -len(suf)] or s
     return s
@@ -231,16 +251,15 @@ def cmd_sync(args: argparse.Namespace) -> int:
         sync = DrawIOSynchronizer()
         diagram = Path(args.drawio)
         parent = diagram.parent
-        base_stem = _companion_stem(diagram)
         exp_out = (
             Path(args.out_exploration)
             if getattr(args, 'out_exploration', None)
-            else parent / f'{base_stem}-exploration.drawio'
+            else parent / _COMPANION_AC
         )
         inc_out = (
             Path(args.out_increments)
             if getattr(args, 'out_increments', None)
-            else parent / f'{base_stem}-increments.drawio'
+            else parent / _COMPANION_THIN
         )
         kw = {}
         if args.scope:
@@ -278,9 +297,15 @@ def main() -> int:
     s.set_defaults(func=cmd_save_layout)
 
     _diagram_type_kw = dict(
-        choices=('outline', 'increments', 'exploration'),
+        choices=('outline', 'story-map',
+                 'increments', 'thin-slicing',
+                 'exploration', 'acceptance-criteria'),
         default='outline',
-        help='Kind of --drawio file (default: outline). Use increments for *-increments.drawio, exploration for *-exploration.drawio',
+        help=(
+            'Kind of --drawio file (default: outline). '
+            'Use thin-slicing / increments for thin-slicing.drawio, '
+            'acceptance-criteria / exploration for acceptance-criteria.drawio'
+        ),
     )
 
     g = sub.add_parser('report', help='Extract diagram, diff vs story graph, write update report JSON')
