@@ -1,29 +1,29 @@
-<!--
-  Canonical RAG input for the target practice skill.
-  Path: skills/<skill-name>/inputs/abd-answers-retrieval.md
-  Written by: abd-query-practice-sources (after npm run rag:query in abd-answers).
-  Shape and required fields: read skills/abd-practice-skill-builder/abd-query-practice-sources/SKILL.md (Output log).
--->
+<!--  
+  Canonical RAG input for the target practice skill.  
+  Path: skills/<skill-name>/inputs/abd-answers-retrieval.md  
+  Written by: abd-query-practice-sources (after npm run rag:query in abd-answers).  
+  Shape and required fields: read skills/abd-practice-skill-builder/abd-query-practice-sources/SKILL.md (Output log).  
+-->  
 
-# abd-answers retrieval input — {{skill_name}}
+# abd-answers retrieval input — {{skill_name}}  
 
-## Kept chunks (verbatim)
+## Kept chunks (verbatim)  
 
-### Kept chunk 1
+### Kept chunk 1  
 
-- **Chunk title:** {{title from hit}}
-- **Similarity:** {{from vector search if present}}
-- **Relevance:** {{rule, core_concept, example, procedure, glossary, diagram_ref, or other}}
-- **Relevance note:** {{short}}
-- **Query:** {{query string}}
-- **Rank in result set:** {{1-based}}
+- **Chunk title:** {{title from hit}}  
+- **Similarity:** {{from vector search if present}}  
+- **Relevance:** {{rule, core_concept, example, procedure, glossary, diagram_ref, or other}}  
+- **Relevance note:** {{short}}  
+- **Query:** {{query string}}  
+- **Rank in result set:** {{1-based}}  
 
-```
-{{verbatim body; full pipeline markdown for the slide when available}}
-```
+```  
+{{verbatim body; full pipeline markdown for the slide when available}}  
+```  
 
-## Optional: machine trail
+## Optional: machine trail  
 
-```json
-{{paste raw npm run rag:query JSON if desired}}
-```
+```json  
+{{paste raw npm run rag:query JSON if desired}}  
+```  

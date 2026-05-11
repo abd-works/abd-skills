@@ -1,28 +1,28 @@
----
-# One line for catalogue cards and grids (YAML string).
-catalogue_summary: "{{CATALOGUE_SUMMARY}}"
----
+---  
+# One line for catalogue cards and grids (YAML string).  
+catalogue_summary: "{{CATALOGUE_SUMMARY}}"  
+---  
 
-# {{NAME}}
+# {{NAME}}  
 
-## Overview
+## Overview  
 
-{{OVERVIEW_STUB}}
+{{OVERVIEW_STUB}}  
 
-_Maintainer / AI: expand this section; it becomes the HTML **Description**. If the whole README is still a stub or wrong, replace the file after reading `SKILL.md` — the generator never overwrites an existing README. `SKILL.md` stays authoritative for behaviour._
+_Maintainer / AI: expand this section; it becomes the HTML **Description**. If the whole README is still a stub or wrong, replace the file after reading `SKILL.md` — the generator never overwrites an existing README. `SKILL.md` stays authoritative for behaviour._  
 
-## How it fits together
+## How it fits together  
 
-_Put one ASCII diagram in the fenced block below (flow, triggers, artifacts). The AI Garden renders this block literally in a `<pre>`._
+_Put one ASCII diagram in the fenced block below (flow, triggers, artifacts). The AI Garden renders this block literally in a `<pre>`._  
 
-```ascii
-  inputs / context
-        |
-        v
-  this skill (SKILL.md) -----> artifacts + feedback
-```
+```ascii  
+  inputs / context  
+        |  
+        v  
+  this skill (SKILL.md) -----> artifacts + feedback  
+```  
 
-## Source
+## Source  
 
-- [SKILL.md](SKILL.md)
-- Regenerated site: `python skills/skill-builder/abd-skill-catalog/scripts/generate_abd_catalog.py` from repo root.
+- [SKILL.md](SKILL.md)  
+- Regenerated site: `python skills/skill-builder/abd-skill-catalog/scripts/generate_abd_catalog.py` from repo root.  
