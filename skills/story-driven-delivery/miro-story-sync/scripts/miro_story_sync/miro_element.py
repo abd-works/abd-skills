@@ -32,6 +32,7 @@ MIRO_SHAPE_BY_TYPE: Dict[str, Dict[str, str]] = {
     'story_technical':      {'item_type': 'sticky_note'},
     'actor':                {'item_type': 'sticky_note'},
     'acceptance_criteria':  {'item_type': 'shape', 'shape': 'rectangle'},
+    'ac':                   {'item_type': 'shape', 'shape': 'rectangle'},
     'increment_lane':       {'item_type': 'shape', 'shape': 'rectangle'},
 }
 

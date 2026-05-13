@@ -75,13 +75,8 @@ class MiroSynchronizer:
         """
         from story_graph_ops.nodes import StoryMap
 
-        if renderer_command not in (None, 'render-outline', 'outline'):
-            raise NotImplementedError(
-                f'Renderer command {renderer_command!r} is not yet implemented '
-                'for Miro. Outline (`render-outline`) is supported today; '
-                'exploration and increments follow the same pattern as '
-                'drawio-story-sync.'
-            )
+        OUTLINE_COMMANDS = {None, 'render-outline', 'outline'}
+        EXPLORATION_COMMANDS = {'render-exploration', 'exploration', 'acceptance-criteria'}
 
         input_path = Path(input_path)
         graph_data = load_story_graph_json(input_path)
@@ -93,8 +88,24 @@ class MiroSynchronizer:
             if filtered is not None:
                 story_map = filtered
 
-        miro_map = MiroStoryMap(self._transport, diagram_type='outline')
-        summary = miro_map.render_from_story_map(story_map, layout_data=None)
+        if renderer_command in OUTLINE_COMMANDS:
+            miro_map = MiroStoryMap(self._transport, diagram_type='outline')
+            summary = miro_map.render_from_story_map(story_map, layout_data=None)
+        elif renderer_command in EXPLORATION_COMMANDS:
+            from .miro_story_map import MiroExplorationMap
+            pruned_data = MiroExplorationMap.prune_graph_for_exploration(graph_data)
+            story_map = StoryMap(pruned_data)
+            if scope:
+                filtered = story_map.filter_by_name(scope)
+                if filtered is not None:
+                    story_map = filtered
+            miro_map = MiroExplorationMap(self._transport)
+            summary = miro_map.render(story_map, layout_data=None)
+        else:
+            raise NotImplementedError(
+                f'Renderer command {renderer_command!r} is not yet implemented. '
+                'Use: render-outline, render-exploration.'
+            )
         items = miro_map.flush()
 
         return {

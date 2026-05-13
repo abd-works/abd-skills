@@ -23,6 +23,7 @@ import json
 import os
 import time
 from abc import ABC, abstractmethod
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional
@@ -264,8 +265,13 @@ class RestMiroTransport(MiroTransport):
             )
             specs_to_create = specs[resume_from:]
         else:
-            for existing in list(self.list_items()):
-                self.delete_item(existing.id)
+            existing_items = list(self.list_items())
+            if existing_items:
+                print(f'[miro-story-sync] Deleting {len(existing_items)} existing items...', flush=True)
+                with ThreadPoolExecutor(max_workers=8) as executor:
+                    futures = {executor.submit(self.delete_item, item.id): item.id for item in existing_items}
+                    for future in as_completed(futures):
+                        future.result()  # re-raise any exception
             resume_from = 0
             specs_to_create = specs
             self._write_checkpoint({
@@ -403,8 +409,10 @@ class RestMiroTransport(MiroTransport):
         url = f'{self._base_url}/v2/boards/{self._board_id}/items/{item_id}'
         try:
             self._delete(url)
-        except MiroTransportError as exc:  # 404 is acceptable for delete-if-exists
-            if '404' not in str(exc):
+        except MiroTransportError as exc:
+            msg = str(exc)
+            # 404 = already gone; locked items can't be deleted — skip both silently
+            if '404' not in msg and 'locked' not in msg.lower():
                 raise
 
     # ------------------------------------------------------------------

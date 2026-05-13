@@ -64,6 +64,13 @@ STYLE_DEFAULTS = {
         'font_size': 11,
         'font_style': 'bold',
     },
+    'ac': {
+        'fill': '#fff9c4',
+        'stroke': '#f0c040',
+        'font_color': '#333333',
+        'font_size': 10,
+        'align': 'left',
+    },
 }
 
 

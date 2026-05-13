@@ -40,6 +40,11 @@ class MiroStoryNodeSerializer:
         return MiroStory(name=name, sequential_order=sequential_order,
                          story_type=story_type or 'user')
 
+    @staticmethod
+    def create_ac(text: str, sequential_order: float = 0.0) -> 'MiroAC':
+        from .miro_story_node import MiroAC
+        return MiroAC(name=text, sequential_order=sequential_order)
+
     # ------------------------------------------------------------------
     # Serialise
     # ------------------------------------------------------------------
