@@ -42,9 +42,9 @@ Each KA definition is 1–2 paragraphs of flowing prose that weaves together fiv
 
 ### Every KA must have a term that names the KA itself
 
-The first `### **term**` listed under each `## **KA**` heading **must be the KA's own term** — the one whose name matches the KA. This is the most important term to describe: it carries the abstraction's behavior, identity, and invariants. Other terms grouped under the KA are subordinate concepts.
+The first `### term` listed under each `## KA` heading **must be the KA's own term** — the one whose name matches the KA. This is the most important term to describe: it carries the abstraction's behavior, identity, and invariants. Other terms grouped under the KA are subordinate concepts.
 
-For example, under `## **Product Catalog**`, the first `### **term**` is `### **product catalog**`, followed by `### **product**`, `### **category**`, etc.
+For example, under `## Product Catalog`, the first `### term` is `### product catalog`, followed by `### product`, `### category`, etc.
 
 ### Two tests for every candidate
 
@@ -62,13 +62,9 @@ Not every term deserves promotion to a Key Abstraction. Apply both tests before 
 
 Be ruthlessly critical on both tests. A typical module has 3–8 Key Abstractions.
 
-### Decisions made
+### Decisions made and References — per term
 
-Every Key Abstraction carries a `### decisions made` list — the specific judgment calls the modeler had to make. Each decision is a short statement that names the choice and enough reasoning that a domain expert can challenge it.
-
-### Source extracts
-
-Every KA carries a `### references` section grouping all `**Ref —**` entries for the terms in that KA. Each entry has `Source:`, `Locator:`, `Extract:` and is followed by a fenced ```source``` block of verbatim text from disk.
+Every term carries its own `### Decisions made` list (when modeling calls were made) and `### References` section immediately after its behavioral lines. This keeps reasoning and evidence co-located with the term they support. Do not bundle decisions or references at the KA level. The KA's own term typically carries the heaviest `### Decisions made` section (independence-test results, module-fit results, grouping rationale).
 
 ---
 
@@ -99,17 +95,18 @@ For a multi-module engagement (with `abd-module-partition` output), use `<delive
 ## Consistent shape (used by every DDD phase skill)
 
 ```
-## **{{KAName}}**
+## KAName
 
-[1–2 paragraphs of flowing prose defining the KA — role, boundary, responsibilities, relationships, invariants, woven naturally]
+[Analytical intro paragraph(s) with *italicized domain terms* — role, boundary,
+responsibilities, relationships, invariants, woven naturally]
 
-### **{{ka_name as a term}}**       ← MUST appear first; name matches the KA
-- behavioral line about the KA itself
+### ka_name_as_a_term              ← MUST appear first; matches the KA
+- behavioral line with *italicized domain terms*
 
-### **{{another term in this KA}}**
-- behavioral line
+### Decisions made
+- independence-test result, module-fit result, grouping call
 
-### references
+### References
 **Ref — title**
 Source: ...
 Locator: ...
@@ -119,43 +116,54 @@ Extract: whole
 verbatim
 ```
 
-### decisions made
-- judgment call with reasoning
-- open question
+---
+
+### another_term
+- behavioral line with *italicized domain terms*
+
+### References
+**Ref — title**
+Source: ...
+
+---
 ```
 
 ---
 
 ## Build
 
-1. **Read the prerequisite file.** Read `<deliverables-folder>/<name>-domain-language.md`. Confirm it has a `**Core terms**` list and `### **term**` headings with behavioral bullets and references. Read source material referenced by the Refs.
+1. **Read the prerequisite file.** Read `<deliverables-folder>/<name>-domain-language.md`. Confirm it has a `**Core terms**` list and `### term` headings with behavioral bullets and references. Read source material referenced by the Refs.
 2. **Group terms into Key Abstractions.** Apply both the independence test and the module-fit test to every candidate. Name each KA using the source's own vocabulary. Three outcomes per term: keep under a KA, move to boundary, or move to another module.
 3. **Write the file header.** Keep the flat **Core terms** list from the domain-language file (it is the inventory). Add a **Key Abstractions (term grouping)** list — each bullet names the KA in bold followed by its terms (e.g. `- **Product Catalog**: product catalog, product, category, customer review, stock availability`). Add a `**Moved to other modules**` list if any term was moved out.
 4. **Write each KA block under `# Core Domain`.**
-   - `## **KAName**` heading.
-   - 1–2 paragraphs of prose definition.
-   - `### **ka_name_as_a_term**` — the KA's own term, listed FIRST, with behavioral bullets describing what the KA owns and enforces.
-   - `### **another term**` for each subordinate term, with behavioral bullets carried over from the domain-language file (unchanged in meaning; phrasing may be adapted to read naturally under the KA).
-   - `### references` grouping all `**Ref —**` entries for terms in this KA, each followed by a fenced `source` block of verbatim text.
-   - `### decisions made` listing independence-test results, module-fit results, grouping calls, and open questions.
-5. **Write boundary terms** under `# Boundary Domain`, each as `### **boundary_term** *(owned by: Module)*` with behavioral bullets, then a single `### references` and `### decisions made`.
-6. **Set the state marker** to `key-abstractions`.
-7. **Write the file** to `<deliverables-folder>/<name>-key-abstractions.md`. Follow the template in `templates/key-abstractions-template.md`.
+   - `## KAName` heading (no bold).
+   - Analytical intro paragraph(s) with *italicized domain terms* — rich enough for a domain expert to challenge. Covers role, boundary, responsibilities, relationships, and invariants woven naturally.
+   - `### ka_name_as_a_term` (no bold) — the KA's own term, listed FIRST, with behavioral bullets using *italicized domain terms*.
+   - `### Decisions made` and `### References` for the KA's own term, immediately after its bullets.
+   - `---` separator.
+   - `### another_term` (no bold) for each subordinate term, with behavioral bullets using *italicized domain terms* (carried over from domain-language; meaning unchanged, phrasing may adapt). Each term gets its own `### References`, followed by `---`.
+5. **Write boundary terms** under `# Boundary Domain` as `## boundary_module` with `Owned by: Module`, then `### boundary_term` with behavioral bullets using *italicized domain terms*, per-term `### Decisions made` and `### References`.
+6. **Italicize every domain term** in behavioral bullets and KA intro paragraphs. Non-domain words stay plain.
+7. **Set the state marker** to `key-abstractions`.
+8. **Write the file** to `<deliverables-folder>/<name>-key-abstractions.md`. Follow the template in `templates/key-abstractions-template.md`.
 
 ---
 
 ## Validate
 
 1. **Per-phase output file.** The file is named `<name>-key-abstractions.md`. No prior or later phase content lives in it.
-2. **Every Core term placed.** Every term from the `**Core terms**` list is either: under exactly one `## **KA**` as a `### **term**`, under `# Boundary Domain`, or in `**Moved to other modules**`.
-3. **Every KA has a term that names it.** Every `## **KA**` heading is followed by a `### **term**` whose name matches the KA itself, listed first.
-4. **Every KA has a prose definition.** 1–2 paragraphs immediately after the `## **KA**` heading.
-5. **Every KA has decisions recorded.** A `### decisions made` bullet list closes each KA block.
-6. **Every Ref has a source block.** Every `**Ref —**` is followed by a fenced ```source``` block with verbatim text from disk.
-7. **Boundary terms have owners.** `*(owned by: Module)*` on every boundary term.
-8. **State marker.** Front matter reads `state: key-abstractions`.
-9. **No sub-headings under terms.** Bullets live directly under each `### **term**` heading. No `#### Domain Language`, `#### References`, or `#### Decisions made` sub-sections.
-10. **No old-model jargon.** No `Intent:`, `Shape hint:`, `Tension:`, or labeled definition sections.
+2. **Every Core term placed.** Every term from the `**Core terms**` list is either: under exactly one `## KA` as a `### term`, under `# Boundary Domain`, or in `**Moved to other modules**`.
+3. **Every KA has a term that names it.** Every `## KA` heading is followed by a `### term` whose name matches the KA itself, listed first.
+4. **Every KA has an analytical intro.** Paragraph(s) with *italicized domain terms* immediately after the `## KA` heading — rich enough for a domain expert to challenge.
+5. **Domain terms italicized.** Every domain term in behavioral bullets and KA intro paragraphs is *italicized*. Consistent throughout the file.
+6. **No bold on headings.** KA headings (`## KAName`) and term headings (`### term`) use no bold.
+7. **Decisions and References per term.** Each term has its own `### Decisions made` (where modeling calls were made) and `### References` immediately after its bullets. Not bundled per KA.
+8. **Separators between terms.** A `---` horizontal rule follows every term block (after its References), before the next term heading.
+9. **Every Ref has a source block.** Every `**Ref —**` is followed by a fenced ```source``` block with verbatim text from disk.
+10. **Boundary terms have owners.** `Owned by: Module` on every boundary section.
+11. **State marker.** Front matter reads `state: key-abstractions`.
+12. **No sub-headings under terms.** Bullets live directly under each `### term` heading. No `####` sub-sections.
+13. **No old-model jargon.** No `Intent:`, `Shape hint:`, `Tension:`, or labeled definition sections.
 
 ---
 
@@ -164,7 +172,7 @@ verbatim
 
 **Scanner:** Manual review
 
-The key-abstractions skill writes a self-contained file at `<deliverables-folder>/<name>-key-abstractions.md`. It does **not** enrich the prior phase's file in place. The output uses the consistent flat heading shape every DDD phase skill shares.
+The key-abstractions skill writes a self-contained file at `<deliverables-folder>/<name>-key-abstractions.md`. It does **not** enrich the prior phase's file in place.
 
 #### DO
 
@@ -172,41 +180,43 @@ The key-abstractions skill writes a self-contained file at `<deliverables-folder
 
   **Example (pass):** `domain/paw-place-key-abstractions.md`.
 
-- Use `## **KA**` (h2) for KA groupings, `### **term**` (h3) for terms inside, `### references` (h3) for the per-KA reference list, `### decisions made` (h3) for the per-KA decisions list — all peers under each `## **KA**`.
+- Use `## KAName` (h2, no bold), `### term` (h3, no bold), `### Decisions made` (h3), `### References` (h3) — per term, not per KA.
 
   **Example (pass):**
   ```
-  ## **Product Catalog**
+  ## Product Catalog
 
-  [prose definition]
+  [analytical intro with *italicized domain terms*]
 
-  ### **product catalog**
-  - bullet
+  ### product catalog
+  - owns the browsable searchable collection of *pet supplies*
 
-  ### **product**
-  - bullet
+  ### Decisions made
+  - ...
 
-  ### references
+  ### References
   **Ref —** …
 
-  ### decisions made
-  - …
+  ---
+
+  ### product
+  - belongs to at least one *category*
+
+  ### References
+  **Ref —** …
+
+  ---
   ```
 
 #### DO NOT
 
-- Enrich the previous phase's file (`<name>-domain-language.md` or a single growing `<name>.md`) in place.
+- Enrich the previous phase's file in place.
 
-  **Example (fail):** Add `## **KA**` wrappers and decisions to `paw-place-domain-language.md` instead of writing a new `paw-place-key-abstractions.md`.
+- Use bold on KA or term headings.
 
-- Insert intermediate sub-headings like `### Ubiquitous Language` or `#### Domain Language` between the KA and its terms.
+  **Example (fail):** `## **Product Catalog**` or `### **product**`.
 
-  **Example (fail):**
-  ```
-  ## **Product Catalog**
-  ### Ubiquitous Language
-  #### **product**
-  ```
+- Insert intermediate sub-headings between the KA and its terms.
 
 **Source:** Engagement convention (DDD phase-skill simplification).
 
@@ -214,90 +224,120 @@ The key-abstractions skill writes a self-contained file at `<deliverables-folder
 
 **Scanner:** AI review
 
-Every `## **KA**` heading must be followed by a `### **term**` whose name matches the KA itself (lowercased or as written in the source), listed **first** under the KA. The KA's own term is the most important term to describe — it carries the abstraction's behavior, identity, and invariants.
+Every `## KA` heading must be followed by a `### term` whose name matches the KA itself, listed **first** under the KA.
 
 #### DO
 
-- List the KA's own term first under the `## **KA**` heading.
+- List the KA's own term first under the `## KA` heading.
 
   **Example (pass):**
   ```
-  ## **Product Catalog**
+  ## Product Catalog
 
-  [prose definition]
+  [analytical intro]
 
-  ### **product catalog**          ← first; matches the KA
-  - owns the browsable searchable collection of pet supplies
-  - is the single source of truth for product identity, stock truth, and review ownership
+  ### product catalog                   ← first; matches the KA
+  - owns the browsable searchable collection of *pet supplies*
 
-  ### **product**
-  - bullet
+  ### Decisions made
+  - ...
 
-  ### **category**
-  - bullet
+  ### References
+  **Ref —** …
+
+  ---
+
+  ### product
+  - ...
   ```
-
-- When the KA name has no natural lowercase term equivalent, use the same name in lowercase or as the source uses it.
-
-  **Example (pass):** `## **Check**` → `### **check**` first.
 
 #### DO NOT
 
 - Skip the KA's own term and start with a subordinate term.
 
+**Source:** Correction — engagement repo (paw-place).
+
+### Rule: Domain terms italicized in behavioral lines
+
+**Scanner:** AI review
+
+Every domain term referenced in a behavioral line or KA intro paragraph must be italicized using `*term*`. This makes the ubiquitous language visually precise and self-documenting.
+
+#### DO
+
+- Italicize every domain term when it appears in a behavioral line or KA intro paragraph.
+
+  **Example (pass):**
+  ```
+  - A *check* is *d20* + *trait rank* (plus *modifiers*) vs *DC*; equal or above is *success*.
+  ```
+
+- Italicize terms consistently throughout the file.
+
+#### DO NOT
+
+- Leave domain terms as plain text.
+
   **Example (fail):**
   ```
-  ## **Product Catalog**
-
-  [prose definition]
-
-  ### **product**          ← subordinate term first; missing ### **product catalog**
-  - bullet
+  - A check is d20 + trait rank (plus modifiers) vs DC; equal or above is success.
   ```
 
-- Place the KA's own term anywhere other than first.
+**Source:** Correction — check-resolution engagement demonstrated superior precision; adopted as standard.
 
-  **Example (fail):** `### **product catalog**` appears third under `## **Product Catalog**` after `### **product**` and `### **category**`.
+### Rule: Per-term Decisions made and References
 
-**Source:** Correction — engagement repo (paw-place); KA's own term must be the most important term modeled.
+**Scanner:** Manual review
+
+Every term block has its own `### Decisions made` (when modeling calls were made) and `### References` immediately after its behavioral lines, followed by a `---` separator.
+
+#### DO
+
+- Place `### Decisions made` and `### References` per term, immediately after its bullets.
+
+  **Example (pass):**
+  ```
+  ### check
+  - A *check* is *d20* + *trait rank* vs *DC*...
+
+  ### Decisions made
+  - *Degree of success* stays under *Check* — no meaning outside a check (independence test).
+
+  ### References
+  **Ref — Game Play**
+  Source: ...
+
+  ---
+
+  ### Difficulty Class (DC)
+  - The *DC* is a number set by the *GM*...
+
+  ### References
+  **Ref — Ch1 The Basics**
+  Source: ...
+
+  ---
+  ```
+
+#### DO NOT
+
+- Bundle all decisions and references at the end of the KA.
+
+**Source:** Correction — check-resolution engagement established per-concept structure.
 
 ### Rule: Core terms list flat; KA grouping list separate
 
 **Scanner:** Manual review
 
-The file header carries two lists side by side:
-- `**Core terms**:` — flat inventory copied from the domain-language file (auditable).
-- `**Key Abstractions (term grouping)**:` — each bullet names a KA in bold followed by its terms.
+The file header carries two lists: `**Core terms**:` (flat inventory from domain-language) and `**Key Abstractions (term grouping)**:` (each bullet names a KA in bold followed by its terms).
 
 #### DO
 
-- Keep both lists in the header. The flat one is the inventory; the grouped one is the structure.
-
-  **Example (pass):**
-  ```
-  **Core terms**:
-  - product
-  - category
-  - customer review
-  - stock availability
-  - pet
-
-  **Key Abstractions (term grouping)**:
-  - **Product Catalog**: product catalog, product, category, customer review, stock availability
-  - **Pet**: pet
-  ```
+- Keep both lists in the header.
 
 #### DO NOT
 
 - Replace the flat list with the grouped list.
-
-  **Example (fail):**
-  ```
-  **Core terms**:
-  - **Product Catalog**: product, category, customer review, stock availability
-  - **Pet**: pet
-  ```
-  (Flat inventory destroyed.)
 
 **Source:** Correction — engagement repo (paw-place).
 
@@ -305,17 +345,17 @@ The file header carries two lists side by side:
 
 **Scanner:** Manual review
 
-Every KA must pass both the independence test and the module-fit test. Every term grouped under a KA must have failed the independence test (or has no meaning outside the KA). Decisions for each test outcome must be recorded under `### decisions made`.
+Every KA must pass both the independence test and the module-fit test. Decisions for each test outcome must be recorded under `### Decisions made`.
 
 #### DO
 
-- Record each independence-test result, module-fit result, and grouping choice as a bullet under `### decisions made`.
+- Record each independence-test result, module-fit result, and grouping choice as a bullet under `### Decisions made`.
 
   **Example (pass):**
   ```
-  ### decisions made
-  - Customer review stays under Product Catalog, not its own KA — a review has no meaning outside a product (independence test).
-  - Hero point belongs in Combat, not here — only one of six spend types touches checks (module-fit test).
+  ### Decisions made
+  - *Customer review* stays under *Product Catalog*, not its own KA — a review has no meaning outside a *product* (independence test).
+  - *Hero point* belongs in *Combat*, not here — only one of six spend types touches *checks* (module-fit test).
   ```
 
 #### DO NOT
@@ -326,47 +366,6 @@ Every KA must pass both the independence test and the module-fit test. Every ter
 
 **Source:** Inherited from prior key-abstractions guidance.
 
-### Rule: References grouped per KA with verbatim source blocks
-
-**Scanner:** Manual review
-
-Each `## **KA**` block has exactly one `### references` section listing all `**Ref —**` entries for terms in that KA. Every `**Ref —**` carries `Source:`, `Locator:`, `Extract:` and is followed by a fenced ```source``` block containing verbatim text copied from disk.
-
-#### DO
-
-- Place all Refs for a KA in one `### references` section after the term headings.
-
-  **Example (pass):**
-  ```
-  ### references
-
-  **Ref — Product catalog and browsing**
-  Source: external-context/requirements-chat-with-product-owner.md
-  Locator: lines 3–5
-  Extract: whole
-
-  ```source
-  …verbatim text…
-  ```
-  ```
-
-#### DO NOT
-
-- Put `#### References` sub-headings under each term.
-
-  **Example (fail):**
-  ```
-  ### **product**
-  - bullet
-
-  #### References
-  **Ref —** …
-  ```
-
-- Leave a `**Ref —**` without a fenced source block.
-
-**Source:** Adapted from the original key-abstractions ref-and-source-block rules.
-
 ### Rule: No class-level commitments
 
 **Scanner:** Manual review
@@ -375,15 +374,11 @@ The key-abstractions file contains no UML stereotypes, typed properties, method 
 
 #### DO
 
-- Keep behavioral lines as plain prose bullets.
-
-  **Example (pass):** `- A check is d20 + trait rank (plus modifiers) vs DC; equal or above is success.`
+- Keep behavioral lines as plain prose bullets with *italicized domain terms*.
 
 #### DO NOT
 
 - Use `<<Entity>>`, `<<ValueObject>>`, `<<Aggregate>>`, typed properties, method signatures, or cardinality.
-
-  **Example (fail):** `<<Entity>> with lifecycle states` or `resolve(modifier, dc) -> Result` or `1..*`.
 
 **Source:** Inherited from prior key-abstractions guidance.
 

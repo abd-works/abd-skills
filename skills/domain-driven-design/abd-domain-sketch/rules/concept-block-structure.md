@@ -1,64 +1,101 @@
-# Rule: Concept block follows the required structure
+# Rule: Concept block follows the per-concept structure
 
 **Scanner:** Manual review
 
-Each `### Concept` block (and each subtype block) must follow the prescribed sequence: intent paragraph, `----` behaviors, `-----` collaborations, `#### Decisions made`, `#### Core terms`, `**Ref —**` entries. Passing means every concept follows this order with all required parts. Failing means a concept is missing a required part or has them in the wrong order.
+Each concept block must follow the prescribed structure: concept heading (no bold), verb-led behavior bullets with *italicized domain terms*, then `### Decisions made` and `### References` for that concept, followed by a `---` separator before the next concept. Property/instance stubs get a minimal heading with a classification note. KA headings use `## KAName` (no bold). Passing means every concept follows this structure. Failing means a concept uses bold headings, bundles decisions/references at the KA level, or omits separators.
 
 ## DO
 
-- Write an intent paragraph immediately after the concept heading — what it is for, who it cooperates with, two to three sentences, no subheading.
+- Use plain headings — no bold on KA headings or concept headings.
 
   **Example (pass):**
   ```
-  ### Shipment Lifecycle
+  ## Trait
 
-  Coordinates whether a shipment is allowed to leave the warehouse and when
-  it is considered delivered. Works with Payment Clearance to gate exit.
+  ### Trait
+  - is a *quantifiable characteristic* of a *character*
+
+  ### Decisions made
+  - ...
+
+  ### References
+  **Ref — ...**
   ```
 
-- Separate behaviors with `----`, collaborations with `-----` (one dash longer).
+- Place `### Decisions made` and `### References` per concept, immediately after its behavior bullets.
 
   **Example (pass):**
   ```
-  ----
-  gates warehouse exit until payment clearance is on record
-  -----
-  depends on Payment Clearance for the all-clear to ship
+  ### check
+  - is resolved by *rolling* a *d20*, adding the *trait rank*...
+  - **Invariant:** ...
+
+  ### Decisions made
+  - *Check* alone owns *success/failure*...
+
+  ### References
+  **Ref — Game Play**
+  Source: ...
+
+  ---
+
+  ### Check Result
+  - is produced by a *check*...
+
+  ### References
+  **Ref — Degrees Of Success And Failure**
+  Source: ...
+
+  ---
   ```
 
-- Include a `#### Decisions made` section with bullet points listing the judgment calls behind the concept.
+- Separate concept blocks with `---` horizontal rules.
+
+  **Example (pass):** Every concept block ends with `---` before the next concept heading.
+
+- Give property/instance terms a stub heading with a classification note.
 
   **Example (pass):**
   ```
-  #### Decisions made
-  - Shipment Lifecycle owns the exit gate, not Payment Clearance — payment is a prerequisite, not an orchestrator.
-  - Customer sign-off vs carrier scan disagreement is an open question for the domain expert.
+  ### d20
+  - is the instrument a *check* rolls — a property of *check*, not a separate concept
+
+  ### References
+  **Ref — The Die**
+  Source: ...
+
+  ---
   ```
-
-- End every concept with `#### Core terms` (bullet list) and at least one `**Ref —**` entry.
-
-  **Example (pass):** `#### Core terms` with bullets, then `**Ref — Gate before ship**` with Source/Locator/Extract fields.
 
 ## DO NOT
 
-- Omit the intent paragraph and jump straight to behaviors.
+- Use bold on concept or KA headings.
 
-  **Example (fail):** Concept heading followed immediately by `----` with no prose paragraph.
+  **Example (fail):**
+  ```
+  ## **Product Catalog**
 
-- Use the same separator length for both behaviors and collaborations.
+  ### **product catalog**
+  ```
 
-  **Example (fail):** Both behaviors and collaborations separated by `----` — collaborations must use `-----`.
+- Bundle all decisions and references at the end of the KA.
 
-- Skip the `#### Decisions made` section on a concept.
+  **Example (fail):**
+  ```
+  ### concept_a
+  - ...
+  ### concept_b
+  - ...
+  ### references              ← bundled for entire KA
+  ### decisions made          ← bundled for entire KA
+  ```
 
-  **Example (fail):** A concept with intent, behaviors, and collaborations but no decisions — the modeling choices are hidden.
+- Omit `---` separators between concept blocks.
 
-- Skip the `**Ref —**` entries on a concept.
+  **Example (fail):** Two concept headings with no `---` between them.
 
-  **Example (fail):** A concept with intent, behaviors, and collaborations but no `**Ref —**` entry — uncited concept.
+- Silently drop terms classified as properties or instances without a stub heading.
 
-- Use `Shape hint:` or `Tension:` labels instead of `#### Decisions made`.
+  **Example (fail):** A term from the KA grouping has no heading in the sketch and is only mentioned in a decisions-made bullet with no reference.
 
-  **Example (fail):** `Shape hint: orchestration object` or `Tension: customer vs carrier` — these are replaced by Decisions made.
-
-**Source:** Engagement convention (domain-sketch skill).
+**Source:** Correction — check-resolution engagement established per-concept structure as standard (replaces per-KA bundling).

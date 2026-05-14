@@ -37,6 +37,11 @@ from diagram_story_sync.layout_constants import (
     SUB_EPIC_HEIGHT,
     BAR_PADDING,
 )
+
+AC_HEIGHT = 60
+AC_GAP = 10
+AC_MIN_WIDTH = 250
+AC_WIDTH = AC_MIN_WIDTH
 from diagram_story_sync.node_comparison import (
     RowPositions,
     max_sub_epic_depth,
@@ -52,6 +57,8 @@ __all__ = [
     'MiroEpic',
     'MiroSubEpic',
     'MiroStory',
+    'MiroAC',
+    'render_ac_for_story',
 ]
 
 
@@ -215,7 +222,8 @@ class MiroEpic(DiagramEpic, MiroStoryNode):
 
     def render_from_domain(self, epic: Epic, x_pos: float,
                             rows: Optional[RowPositions] = None,
-                            layout_data=None) -> 'MiroEpic':
+                            layout_data=None,
+                            story_widths: Optional[dict] = None) -> 'MiroEpic':
         """Render epic as a flat horizontal bar spanning its sub-epics."""
         from .miro_story_node_serializer import MiroStoryNodeSerializer
 
@@ -232,7 +240,8 @@ class MiroEpic(DiagramEpic, MiroStoryNode):
                 sub_epic.name, getattr(sub_epic, 'sequential_order', 0) or 0)
             cursor_x = miro_se.render_from_domain(
                 sub_epic, cursor_x, depth=0, rows=rows,
-                layout_data=layout_data, path_prefix=epic_slug)
+                layout_data=layout_data, path_prefix=epic_slug,
+                story_widths=story_widths)
             self.add_child(miro_se)
             cursor_x += CELL_SPACING
 
@@ -290,16 +299,19 @@ class MiroSubEpic(DiagramSubEpic, MiroStoryNode):
     def render_from_domain(self, sub_epic, x_cursor: float, depth: int,
                             rows: RowPositions,
                             layout_data=None,
-                            path_prefix: str = '') -> float:
+                            path_prefix: str = '',
+                            story_widths: Optional[dict] = None) -> float:
         """Render sub-epic as a flat horizontal bar; return right-edge X."""
         se_path = self._build_path(path_prefix)
         self._element._cell_id = se_path
 
         if _has_nested_sub_epics(sub_epic):
             end_x = self._render_nested_sub_epics(sub_epic, x_cursor, depth, rows,
-                                                    layout_data, se_path)
+                                                    layout_data, se_path,
+                                                    story_widths=story_widths)
         else:
-            end_x = self._render_leaf_stories(sub_epic, x_cursor, rows, se_path)
+            end_x = self._render_leaf_stories(sub_epic, x_cursor, rows, se_path,
+                                               story_widths=story_widths)
 
         self.set_position(x_cursor, rows.sub_epic_y(depth))
         self.set_size(max(end_x - x_cursor, CELL_SIZE + 2 * BAR_PADDING),
@@ -312,7 +324,8 @@ class MiroSubEpic(DiagramSubEpic, MiroStoryNode):
 
     def _render_nested_sub_epics(self, sub_epic, x_cursor: float, depth: int,
                                    rows: RowPositions, layout_data,
-                                   se_path: str) -> float:
+                                   se_path: str,
+                                   story_widths: Optional[dict] = None) -> float:
         from .miro_story_node_serializer import MiroStoryNodeSerializer
 
         inner_x = x_cursor + BAR_PADDING
@@ -321,7 +334,7 @@ class MiroSubEpic(DiagramSubEpic, MiroStoryNode):
                 nested.name, getattr(nested, 'sequential_order', 0) or 0)
             inner_x = miro_nested.render_from_domain(
                 nested, inner_x, depth + 1, rows, layout_data,
-                path_prefix=se_path,
+                path_prefix=se_path, story_widths=story_widths,
             )
             self.add_child(miro_nested)
             inner_x += CELL_SPACING
@@ -329,7 +342,8 @@ class MiroSubEpic(DiagramSubEpic, MiroStoryNode):
         return inner_x + BAR_PADDING
 
     def _render_leaf_stories(self, sub_epic, x_cursor: float,
-                              rows: RowPositions, se_path: str) -> float:
+                              rows: RowPositions, se_path: str,
+                              story_widths: Optional[dict] = None) -> float:
         stories = _ordered_stories(sub_epic)
         if not stories:
             return x_cursor + BAR_PADDING + BAR_PADDING
@@ -340,7 +354,8 @@ class MiroSubEpic(DiagramSubEpic, MiroStoryNode):
         for story in stories:
             base_slug = _disambiguated_slug(story, slug_counts, seen_slug_counts)
             self._add_story_at(story, story_x, rows.story_y, se_path, base_slug)
-            story_x += CELL_SIZE + CELL_SPACING
+            ac_w = story_widths.get(story.name, CELL_SIZE) if story_widths else CELL_SIZE
+            story_x += max(CELL_SIZE, ac_w) + CELL_SPACING
         story_x -= CELL_SPACING
         return story_x + BAR_PADDING
 
@@ -413,4 +428,61 @@ class MiroStory(DiagramStory, MiroStoryNode):
         return self
 
     def collect_all_nodes(self) -> list:
+        nodes = [self]
+        for child in self._children:
+            if hasattr(child, 'collect_all_nodes'):
+                nodes.extend(child.collect_all_nodes())
+        return nodes
+
+
+@dataclass
+class MiroAC(MiroStoryNode):
+    """One acceptance-criteria text box rendered below a story."""
+
+    _parent: Optional[StoryNode] = field(default=None, repr=False)
+    _element: MiroElement = field(default=None, repr=False)
+
+    WIDTH = AC_WIDTH
+    HEIGHT = AC_HEIGHT
+
+    def __post_init__(self):
+        DiagramStoryNode.__post_init__(self)
+        if self._element is None:
+            self._element = MiroElement(cell_id=_slug(self.name), value=self.name)
+        self._element.apply_style_for_type('ac')
+
+    def render_from_domain(self, text: str, x: float, y: float,
+                            cell_id: str) -> 'MiroAC':
+        self._element._cell_id = cell_id
+        self._element._value = text
+        self.set_position(x, y)
+        self.set_size(AC_WIDTH, AC_HEIGHT)
+        return self
+
+    def collect_all_nodes(self) -> list:
         return [self]
+
+    @classmethod
+    def create(cls, domain_node: StoryNode,
+               parent: Optional['DiagramStoryNode'] = None):
+        raise NotImplementedError('MiroAC is created via render_ac_for_story')
+
+    @classmethod
+    def recognizes(cls, element: any) -> bool:
+        raise NotImplementedError('MiroAC read-back is not supported')
+
+
+def render_ac_for_story(story_node: MiroStory, ac_texts: List[str]) -> None:
+    """Add MiroAC children below story_node for each AC text."""
+    from .miro_story_node_serializer import MiroStoryNodeSerializer
+
+    x = story_node.position.x
+    y = story_node.position.y + CELL_SIZE + AC_GAP
+    for i, text in enumerate(ac_texts):
+        if not text or not str(text).strip():
+            continue
+        cell_id = f'{story_node.cell_id}/ac-{i}'
+        ac_node = MiroStoryNodeSerializer.create_ac(str(text).strip(), float(i))
+        ac_node.render_from_domain(str(text).strip(), x, y, cell_id)
+        story_node.add_child(ac_node)
+        y += AC_HEIGHT + AC_GAP

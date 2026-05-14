@@ -45,6 +45,8 @@ _BOARD_URL_RE = re.compile(r'miro\.com/app/board/([^/?#]+)')
 _MODES = {
     'outline': 'render-outline',
     'story-map': 'render-outline',
+    'exploration': 'render-exploration',
+    'acceptance-criteria': 'render-exploration',
 }
 
 
@@ -193,7 +195,7 @@ def main() -> int:
     sub = p.add_subparsers(dest='cmd', required=True)
 
     r = sub.add_parser('render', help='Render story-graph.json onto a Miro board')
-    r.add_argument('--mode', default='outline', help='outline | story-map')
+    r.add_argument('--mode', default='outline', help='outline | story-map | exploration | acceptance-criteria')
     r.add_argument('--graph', type=Path, required=True, help='Path to story-graph.json')
     r.add_argument('--board', help='Miro board id (omit with --dry-run)')
     r.add_argument(

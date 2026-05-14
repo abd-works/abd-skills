@@ -1364,8 +1364,8 @@ class Epic(StoryNode):
             _bot=bot
         )
         for i, sub_epic_data in enumerate(data.get('sub_epics', [])):
-            if 'sequential_order' not in sub_epic_data:
-                sub_epic_data = {**sub_epic_data, 'sequential_order': i + 1}
+            if sub_epic_data.get('sequential_order') is None:
+                sub_epic_data = {**sub_epic_data, 'sequential_order': float(i)}
             sub_epic = SubEpic.from_dict(sub_epic_data, parent=epic, bot=bot)
             epic._children.append(sub_epic)
         for story_group_data in data.get('story_groups', []):
@@ -1427,7 +1427,9 @@ class SubEpic(StoryNode):
 
     @classmethod
     def from_dict(cls, data: Dict[str, Any], parent: Optional[StoryNode]=None, bot: Optional[Any]=None) -> 'SubEpic':
-        sequential_order = data.get('sequential_order', 0)
+        sequential_order = data.get('sequential_order')
+        if sequential_order is None:
+            sequential_order = 0.0
         domain_concepts = [DomainConcept.from_dict(dc) for dc in data.get('domain_concepts', [])]
         sub_epic = cls(
             name=data.get('name', ''),
@@ -1706,7 +1708,9 @@ class StoryGroup(StoryNode):
     @classmethod
     def from_dict(cls, data: Dict[str, Any], parent: Optional[StoryNode]=None, bot: Optional[Any]=None) -> 'StoryGroup':
         """Create StoryGroup from dictionary data."""
-        sequential_order = data.get('sequential_order', 0.0)
+        sequential_order = data.get('sequential_order')
+        if sequential_order is None:
+            sequential_order = 0.0
         group_type = data.get('type', 'and')
         connector = data.get('connector')
         story_group = cls(
@@ -1937,7 +1941,9 @@ class Story(StoryNode):
 
     @classmethod
     def from_dict(cls, data: Dict[str, Any], parent: Optional[StoryNode]=None, bot: Optional[Any]=None) -> 'Story':
-        sequential_order = data.get('sequential_order', 0)
+        sequential_order = data.get('sequential_order')
+        if sequential_order is None:
+            sequential_order = 0.0
         users = [StoryUser.from_str(u) for u in data.get('users', [])]
         story = cls(
             name=data.get('name', ''),
