@@ -6,8 +6,8 @@ catalogue_one_liner: >-
   Given/When/Then scenarios with real domain values; plain or outline (data tables) templates.
 description: >-
   Produce specification-by-example scenarios: concrete Given/When/Then steps with real
-  domain values, bold concept names, italic values. Two templates: plain scenarios
-  (inline values, default) and outline (same steps, multiple data rows). Use when
+  domain values, bold concept names, italic values. Single template: each story uses
+  plain scenarios (inline values) or outlines (data tables) — both in one file. Use when
   writing BDD scenarios, refining AC into specs, or making story behavior concrete.
 ---
 # abd-specification-by-example
@@ -36,7 +36,7 @@ Load this skill when **any** of the following apply:
 
 Do **not** assume a predetermined folder name like `specs/`, `stories/`, or `docs/`. The only DDD/story skill that creates a sub-folder is **`abd-module-partition`**.
 
-**File names:** Default to the template filenames — `specification-by-example.md` (plain) or `specification-by-example-outline.md` (outline). Add a `<name>-` engagement prefix only when you need disambiguation — multiple products in the same workspace, multiple stories needing per-story spec files, or the user asks for it explicitly. Both `specification-by-example.md` and `<name>-specification-by-example.md` are valid; same for the outline variant.
+**File names:** Default to `specification-by-example.md` — a single file containing all stories for the module, each using whichever notation (plain or outline) fits its behavior. Add a `<name>-` engagement prefix only when you need disambiguation — multiple products in the same workspace, or the user asks for it explicitly.
 
 ---
 
@@ -73,7 +73,7 @@ Use for: main flow, failure path, edge cases — any scenario where the context 
 
 **Scenario Outlines**
 The same Given/When/Then steps run against multiple rows of data (boundary amounts, multiple instruments, different roles). Steps use `{column_name}` tokens bound to an **Examples** block. **Domain Concept** *{column_name}*.
-Use only when the steps are genuinely identical across every row. If rows need different **Given** setup, write separate plain scenarios instead. Use the `specification-by-example-outline.md` template.
+Use only when the steps are genuinely identical across every row. If rows need different **Given** setup, write separate plain scenarios instead.
 
 When you **create or rewrite** scenarios from whatever inputs exist (AC, notes, conversation, or story text), choose the right template first — then regenerate.
 
@@ -195,9 +195,9 @@ Quick checklist:
 
 **Background** contains only **Given** / **And** lines (state), never **When** or **Then**. Use it only when three or more scenarios share the same starting state. Do not repeat Background lines inside individual scenarios.
 
-In a **plain scenario** (`specification-by-example.md`), Background steps use real values inline with **bold** concept names and *italic* values.
+In a **plain scenario**, Background steps use real values inline with **bold** concept names and *italic* values.
 
-In an **outline scenario** (`specification-by-example-outline.md`), Background steps use `{column_name}` tokens with the domain concept name beside each brace.
+In an **outline scenario**, Background steps use `{column_name}` tokens with the domain concept name beside each brace.
 
 #### DO
 
@@ -250,35 +250,70 @@ Call out **domain language** — the nouns, verbs, and short phrases that belong
 
 ### Rule: Example tables use domain language (outline template)
 
-This rule applies to **`specification-by-example-outline.md`** — scenarios that use example tables. It does not apply to plain scenarios, which use inline values instead.
+**Scanner:** `scanners/example-tables-domain-scanner.py` — **`ExampleTablesDomainScanner`**
 
-Example tables ground an outline in domain data: column names follow the domain model, values are concrete and meaningful, and tables connect to steps through the matching `{column_name}` tokens.
+This rule applies to scenario outlines that use example tables. It does not apply to plain scenarios, which use inline values instead.
+
+Example tables ground an outline in domain data. When a domain model exists (object model, CRC, or domain language), table names and column names MUST match that model exactly. This is not guidance — it is a hard constraint.
+
+**Grounded mode (domain model exists):**
+- **Table names** MUST correspond to a concept in the domain model (object model class, CRC card, or domain-language term). The match is case-insensitive.
+- **Column names** MUST correspond to attributes or fields of that concept as defined in the domain model. The match normalizes casing and underscores (`purchased_rank` matches `purchasedRank`).
+- **Inheritance applies** — if concept B inherits from concept A, a table named B may use any attribute from both B and A (resolved transitively up the chain).
+- **Cross-references** — a column that references another concept by name (e.g. a foreign key) is valid if that concept exists in the domain model.
+- The `scenario` column is a universal row-label alias and always passes validation.
+
+**Derived mode (no domain model):** When no domain model exists, the agent derives concept names freely, but the denormalization constraint below still applies.
 
 #### DO
 
 - Name each table after a domain concept; columns are attributes of that concept, not UI labels.
-- Use domain terminology consistent with the model (Recipient, PaymentAmount — not "dropdown value").
+- Use domain terminology consistent with the model — exact names, not synonyms.
+- **Keep tables relationship-based — one table per concept.** When the domain has relationships (one-to-many, many-to-many, inheritance), model them as separate tables with foreign-key columns that reference rows in the related table. Never flatten two concepts into a single wide table. If an Account has many Owners, you need an Account table, an Owner table, and a column in one that references the other — not one table with `account_name, owner_1_name, owner_2_name`.
 - Omit surrogate ID columns when they add no specification value.
 - When the scenario computes a report or aggregate, show the inputs that justify the output — not just counts.
+- Before writing tables, read the domain model and confirm every table name and column name exists in it.
 
 ```text
-Recipient:
-| recipient_name | recipient_status |
-| Global Supply  | Active           |
-``
-## DON'T
+# RIGHT — relationship-based: one table per concept, foreign key links them
 
+Account:
+| scenario           | account_id | account_name  | account_status |
+| Active with owners | ACC-1      | Global Supply | Active         |
+
+Owner:
+| scenario           | owner_name  | owner_role | account_id |
+| Active with owners | Alice Smith | Primary    | ACC-1      |
+| Active with owners | Bob Jones   | Secondary  | ACC-1      |
+```
+
+#### DON'T
+
+- Use any table name that does not correspond to a concept in the domain model.
+- Use any column name that is not an attribute of that concept (or inherited from a parent concept) in the domain model.
+- **Denormalize relationships into a flat table.** This is the single most common mistake. When a scenario involves two or more concepts that have a relationship, you MUST use separate tables — one per concept — linked by a foreign-key column. Never widen a single table to hold columns from multiple unrelated concepts. Never use numbered suffixes (`owner_1_name`, `owner_2_name`) to represent a one-to-many relationship — that is a row in a related table, not extra columns. If the domain model shows a relationship, the example tables must show that relationship structurally.
 - Build tables around UI controls (`button_enabled`, `modal_visible`) when the story is about domain outcomes.
 - Encode only aggregated outputs (`renames_count: 1`) for the scenario responsible for producing that aggregate — show the underlying entities.
+- **Invent a field that is not in the domain model.** If a table needs a column not in the model, the agent MUST NOT silently add it. Instead:
+  1. Tell the user which field is missing and which concept it would belong to.
+  2. Ask whether to update the domain model to add it.
+  3. Only proceed after the user confirms the domain change.
 
 ```text
-### WRONG — UI columns
+# WRONG — denormalized flat table: two concepts mashed into one row
+| scenario           | account_name  | account_status | owner_1_name | owner_1_role | owner_2_name | owner_2_role |
+| Active with owners | Global Supply | Active         | Alice Smith  | Primary      | Bob Jones    | Secondary    |
+
+# WRONG — UI columns
 | dropdown_selection | checkbox_state |
 
-### WRONG — only counts when this scenario builds the report
+# WRONG — only counts when this scenario builds the report
 | renames_count | new_count |
 | 1             | 2         |
-``
+
+# WRONG — column not in domain model
+| custom_invented_field |
+```
 
 ### Rule: Given describes state, not actions
 
@@ -513,7 +548,7 @@ Given a User {user_name} is logged in
 
 ### Rule: Mention the domain concept beside the placeholder (outline template)
 
-This rule applies to **`specification-by-example-outline.md`** — scenarios that use `{column_name}` tokens. In plain scenarios, the concept name is written in **bold** and the value in *italics* directly in the step; no token is needed.
+This rule applies to scenario outlines that use `{column_name}` tokens. In plain scenarios, the concept name is written in **bold** and the value in *italics* directly in the step; no token is needed.
 
 In outline steps, put the readable domain concept name next to each `{token}` so readers can follow the step without decoding braces alone.
 
@@ -684,7 +719,7 @@ When the **User** *Jane Doe* enters a **Payment Amount** of *$10,000.00 USD*
 Then the **Wire Payment** is marked as *successful*
 
 
-**Outline Scenarios (`specification-by-example-outline.md`):** Use `{column_name}` tokens that match example table headers, with readable domain words beside each placeholder. Every `{token}` must appear in an example table column; every table column must appear in a step. Tables for **Given** go above the scenario; tables for **When** / **Then** go below.
+**Outline Scenarios:** Use `{column_name}` tokens that match example table headers, with readable domain words beside each placeholder. Every `{token}` must appear in an example table column; every table column must appear in a step. Tables for **Given** go above the scenario; tables for **When** / **Then** go below.
 
 
 Given an **Account** with account name {account_name} and **Activation Status** {activation_status} is selected

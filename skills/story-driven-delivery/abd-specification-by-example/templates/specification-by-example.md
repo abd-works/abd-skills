@@ -1,96 +1,175 @@
-# Specification by example (BDD scenarios)  
+# Specification by Example — `<Module Name>`
 
-<!-- Conventions aligned with agile_bots story_bot `behaviors/scenarios`. -->  
+**Sources / context:** `<source files used>`
 
-Use this template when you want scenarios with inline values—no placeholders, no abstract tokens. Group scenarios under a common Background when three or more share the same starting state.  
+---
 
-**Formatting convention:** use **bold** for domain concept names and *italics* for the actual values of those concepts (e.g. **User** *Jane Doe*, **Enterprise** *Acme Corp*, **Payment Amount** *$10,000.00 USD*).  
+<!-- 
+  Each story uses whichever notation fits its behavior:
+  - Plain Scenario: distinct logical flow with inline values (bold concepts, italic values)
+  - Scenario Outline: data-driven variations with {column_name} tokens and example tables
+  
+  Stories are the organizing unit. Both notations live in this single file.
+-->
 
----  
+## Story: `<Verb–Noun Title>`
 
-## Template  
+**Story type:** user | system | technical
 
-## Story: `<Verb–Noun Title>`  
+**Sources / context:** _(pointer to source or conversation / workshop date)_
 
-**Story type:** user | system | technical  
+---
 
-**Sources / context:** _(pointer to source or conversation / workshop date)_  
+## Scenarios
 
----  
+### Scenario 1: `<outcome-oriented name>`
 
-## Background  
+Given a **`<Concept>`** *`<value>`* with a **`<Concept>`** *`<value>`*
+When **`<Concept>`** *`<value>`* does **`<action>`** with **`<Concept>`** *`<value>`*
+Then **`<Concept>`** is marked as *`<outcome>`*
 
-Given a **<Concept>** *<value>*  
-  And that **<Concept>** *<value>* has **<Concept>** *<value>*  
-  And that **<Concept>** *<value>* is related to **<Concept>** *<value>* with **<Concept>** *<value>*  
+---
 
----  
+## Story: `<Verb–Noun Title>`
 
-## Scenarios  
+**Story type:** user | system | technical
 
-### Scenario 1: `<outcome-oriented name>`  
+**Sources / context:** _(pointer to source or conversation / workshop date)_
 
-Given **<Concept>** *<value>* with **<Concept>** *<value>*  
-  And **<Concept>** *<value>* for that **<Concept>** is *<value>*  
-When **<Concept>** *<value>* does **<action>** with **<Concept>** *<value>*  
-Then **<Concept>** is marked as *<outcome>*  
-  And a **<Concept>** is sent to *<value>* showing *<value>*  
+---
 
-### Scenario 2: `<outcome-oriented name>`  
+## Examples
 
-Given **<Concept>** *<value>* with **<Concept>** *<value>*  
-When **<Concept>** *<value>* does **<action>** with **<Concept>** *<value>*  
-Then **<Concept>** is *<outcome>*  
+### `<Domain ConceptA>`:
 
----  
+| scenario      | `<field_1>` | `<field_2>` |
+|---------------|-------------|-------------|
+| `<Scenario A>` | `<value>`  | `<value>`   |
+| `<Scenario B>` | `<value>`  | `<value>`   |
 
-## Example  
+### `<Domain ConceptB>`:
 
-## Story: Apply For a Payment Product Agreement  
+| scenario      | `<concept_a_fk>` | `<field_1>` | `<field_2>` |
+|---------------|-------------------|-------------|-------------|
+| `<Scenario A>` | `<fk_value>`     | `<value>`   | `<value>`   |
+| `<Scenario B>` | `<fk_value>`     | `<value>`   | `<value>`   |
 
-**Story type:** user  
+---
 
-**Sources / context:** _(Payments Domain — object model: Payment Product, Customer, Account, Owner, Payment Product Agreement)_  
+## Background
 
----  
+Given a **`<ConceptA>`** {field_1} with **`<ConceptA>`** {field_2}
+  And a **`<ConceptB>`** {field_1} linked to **`<ConceptA>`** {concept_a_fk}
 
-## Background  
+---
 
-Given the following **Payment Products** exist:  
-  And **Payment Product** *Savings Plus* specifies **Payment Channel** *Direct Deposit*  
-    And **Payment Product** *Savings Plus* supports **Payment Transactions**  
+## Scenarios
 
----  
+### Scenario Outline 1: `<outcome-oriented name>`
 
-## Scenarios  
+### Steps
 
-### Scenario 1: Agreement submitted with valid DDA Account and Owner  
+When **`<action>`** using **`<ConceptA>`** {field_1}
+Then **`<outcome>`** is {field_2}
 
-Given a **Customer** *Jane Doe* exists  
-  And that **Customer** *Jane Doe* has a valid **DDA Account** *DDA-001*  
-When the **Customer** *Jane Doe* applies for a **Payment Product Agreement**  
-    using **DDA Account** *DDA-001*  
-    with **Owner** *John Doe*  
-      that has **Contact Details** *john@acme.com*  
-Then the **Payment Product Agreement** is submitted for review  
-  And the **Owner** *John Doe* is notified at *john@acme.com*  
+---
 
-### Scenario 2: Agreement rejected when DDA Account is invalid  
+## Example (plain scenario)
 
-Given a **Customer** *Jane Doe* exists  
-  And that **Customer** *Jane Doe* has **DDA Account** *DDA-999* with status *Invalid*  
-When the **Customer** *Jane Doe* applies for a **Payment Product Agreement**  
-    using **DDA Account** *DDA-999*  
-Then the **Payment Product Agreement** is *rejected*  
-  And **Customer** *Jane Doe* is notified that the **DDA Account** is *not eligible*  
+## Story: Apply For a Payment Product Agreement
 
----  
+**Story type:** user
 
-<!-- Template reference only - do not copy this section into generated project files. -->  
+**Sources / context:** _(Payments Domain — object model: Payment Product, Customer, Account, Owner, Payment Product Agreement)_
 
-## Instructions  
+---
 
-- Given = state / preconditions only; When = first action; Then = observable domain outcomes.  
-- Use exact real values inline in the steps - no tables, no placeholder tokens.  
-- **Domain concept names** in bold; *actual values* in italics.  
-- Cover at least one happy path, one failure or rejection, and edge cases where the story implies them.  
+## Scenarios
+
+### Scenario 1: Agreement submitted with valid DDA Account and Owner
+
+Given a **Customer** *Jane Doe* exists
+  And that **Customer** *Jane Doe* has a valid **DDA Account** *DDA-001*
+When the **Customer** *Jane Doe* applies for a **Payment Product Agreement**
+    using **DDA Account** *DDA-001*
+    with **Owner** *John Doe*
+      that has **Contact Details** *john@acme.com*
+Then the **Payment Product Agreement** is submitted for review
+  And the **Owner** *John Doe* is notified at *john@acme.com*
+
+### Scenario 2: Agreement rejected when DDA Account is invalid
+
+Given a **Customer** *Jane Doe* exists
+  And that **Customer** *Jane Doe* has **DDA Account** *DDA-999* with status *Invalid*
+When the **Customer** *Jane Doe* applies for a **Payment Product Agreement**
+    using **DDA Account** *DDA-999*
+Then the **Payment Product Agreement** is *rejected*
+  And **Customer** *Jane Doe* is notified that the **DDA Account** is *not eligible*
+
+---
+
+## Example (scenario outline with normalized tables)
+
+## Story: Submit Payment and Validate Against Account Limit
+
+**Story type:** user
+
+**Sources / context:** _(Payments Domain — object model: Account, Transactional Limit, Wire Payment)_
+
+---
+
+## Examples
+
+### Account:
+
+| scenario      | enterprise_name | account_name       | activation_status |
+|---------------|-----------------|--------------------|-------------------|
+| Scenario 1    | Acme Corp       | Acme Operating     | Active            |
+| Scenario 2    | Acme Corp       | Acme Payroll       | Active            |
+
+### Transactional Limit:
+
+| scenario      | account_name       | limit_name  | max_amount   | currency |
+|---------------|--------------------|-------------|--------------|----------|
+| Scenario 1    | Acme Operating     | daily_wire  | 500000.00    | USD      |
+| Scenario 2    | Acme Payroll       | weekly_wire | 2000000.00   | USD      |
+
+### Wire Payment:
+
+| scenario      | amount      | currency | formatted_display | validation_status |
+|---------------|-------------|----------|-------------------|-------------------|
+| Scenario 1    | 10000.00    | USD      | $10,000.00        | successful        |
+| Scenario 2    | 500000.01   | USD      | $500,000.01       | rejected          |
+
+---
+
+## Background
+
+Given a **User** {user_name} is logged into ChannelOne 2.0
+  And that **User** {user_name} is representing **Enterprise** {enterprise_name}
+
+---
+
+## Scenarios
+
+### Scenario Outline 1: Submit Payment and Validate Against Account Limit
+
+### Steps
+
+Given an **Account** {account_name} with **Activation Status** {activation_status}
+  And the **Transactional Limit** for that **Account** is {max_amount} {currency}
+When the **User** enters a **Payment Amount** of {amount} {currency}
+Then the **Wire Payment** is marked as {validation_status}
+  And a **Report** is sent with formatted display {formatted_display}
+
+---
+
+<!-- Template reference only — do not copy this section into generated project files. -->
+
+## Instructions
+
+- Each story uses whichever notation fits: plain scenario for distinct flows, scenario outline for data-driven variations. Both live in this single file, grouped by story.
+- **Plain scenarios:** Given = state; When = action; Then = observable outcome. Use **bold** for domain concepts, *italics* for values.
+- **Scenario outlines:** Use `{column_name}` tokens in steps matching example table headers exactly. Provide multiple rows.
+- **Example tables:** One table per domain concept. Link related tables with foreign-key columns. Never denormalize multiple concepts into a single flat table.
+- Cover at least one happy path, one failure or rejection, and edge cases where the story implies them.
