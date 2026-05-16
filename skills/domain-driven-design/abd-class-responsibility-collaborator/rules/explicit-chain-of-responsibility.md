@@ -1,4 +1,4 @@
-# Rule: Explicit chain of responsibility — no nebulous behaviors
+﻿# Rule: Explicit chain of responsibility — no nebulous behaviors
 
 **Scanner:** Manual review
 
@@ -8,7 +8,7 @@ When a behavior implies a chain of actors or steps, every actor in that chain mu
 
 - Trace each step in the implied chain to a named responsibility with collaborators.
 
-  **Example (pass):** Domain sketch behavior: "may be ongoing for a target character: requires a resistance check at the end of each of the target's turns until ended."
+  **Example (pass):** Ubiquitous Language behavior: "may be ongoing for a target character: requires a resistance check at the end of each of the target's turns until ended."
 
   This implies: someone tracks which characters are ongoing targets, and someone triggers end-of-turn resistance checks. The CRC must reflect both:
   ```
@@ -17,7 +17,7 @@ When a behavior implies a chain of actors or steps, every actor in that chain mu
                               |   invariant: check made at end of each ongoing target's turn
   ```
 
-  **Example (pass):** Domain sketch behavior: "supersedes a less severe condition from the same source — removing the lesser."
+  **Example (pass):** Ubiquitous Language behavior: "supersedes a less severe condition from the same source — removing the lesser."
 
   This implies: someone knows the supersession hierarchy, and someone performs the removal. The CRC must reflect both — `supersedes | Condition` on `Condition` and `apply new condition` with the supersession invariant on `Imposed Conditions`.
 

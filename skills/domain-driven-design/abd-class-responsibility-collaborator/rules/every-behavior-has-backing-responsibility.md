@@ -1,8 +1,8 @@
-# Rule: Every domain sketch behavior has a backing responsibility
+﻿# Rule: Every Ubiquitous Language behavior has a backing responsibility
 
 **Scanner:** Manual review
 
-Each behavior bullet in the domain sketch must be traceable to at least one responsibility (property or operation) in the CRC block for the same concept. Behaviors that produce no CRC entry must be explained in the Decisions section.
+Each behavior bullet in the Ubiquitous Language must be traceable to at least one responsibility (property or operation) in the CRC block for the same concept. Behaviors that produce no CRC entry must be explained in the Decisions section.
 
 ## DO
 

@@ -1,4 +1,4 @@
----
+﻿---
 name: abd-specification-by-example
 catalog_garden_tier: practice
 catalog_garden_order: 40
@@ -31,7 +31,7 @@ Load this skill when **any** of the following apply:
 **Where to write the deliverables (`<deliverables-folder>` resolution):**
 
 1. **The path the user told you to use.** If the user names a file or folder, use exactly that.
-2. **Where the engagement already keeps deliverables.** Look at the workspace; if previous phase output (story map, acceptance criteria, domain sketch, `process.md`, `corrections-log.md`) already lives in a folder, write next to them in the **same** folder.
+2. **Where the engagement already keeps deliverables.** Look at the workspace; if previous phase output (story map, acceptance criteria, Ubiquitous Language, `process.md`, `corrections-log.md`) already lives in a folder, write next to them in the **same** folder.
 3. **The workspace root.** If neither applies, write to the workspace root.
 
 Do **not** assume a predetermined folder name like `specs/`, `stories/`, or `docs/`. The only DDD/story skill that creates a sub-folder is **`abd-module-partition`**.

@@ -1,4 +1,4 @@
----
+﻿---
 name: abd-acceptance-criteria
 catalog_garden_tier: practice
 catalog_garden_order: 30
@@ -37,7 +37,7 @@ Load this skill when **any** of the following apply:
 **Where to write the deliverables (`<deliverables-folder>` resolution):**
 
 1. **The path the user told you to use.** If the user names a file or folder, use exactly that.
-2. **Where the engagement already keeps deliverables.** Look at the workspace; if previous phase output (story map, domain sketch, `process.md`, `corrections-log.md`) already lives in a folder, write next to them in the **same** folder.
+2. **Where the engagement already keeps deliverables.** Look at the workspace; if previous phase output (story map, Ubiquitous Language, `process.md`, `corrections-log.md`) already lives in a folder, write next to them in the **same** folder.
 3. **The workspace root.** If neither applies, write to the workspace root.
 
 Do **not** assume a predetermined folder name like `stories/`, `ac/`, or `docs/`. The only DDD/story skill that creates a sub-folder is **`abd-module-partition`**.
@@ -62,7 +62,8 @@ When you **create or rewrite** acceptance criteria from requirements, you **must
 
 2. **Rules**
 - Generate content following rules attached to this skill, listed below, assembled from rule files in `rules/`.
-- Validate - once content is generated, take on the role of a *Peer Reviewer*  and validate that the content is correct by going through each of the skills rules one at a time and looking deeply for violations. Be helpful but critccal - compare contenct againstg each rules constraints, DO/DON’T sections and examples.
+- **Non-negotiable before writing any Domain terms section:** every term must already exist in a domain source artifact (ubiquitous language, domain sketch, CRC, object model, or any team-designated vocabulary file). If a term is missing, **stop — list every missing term and ask the user how to proceed** before writing it into AC. **NEVER create `domain-terms.md` if any domain source file already exists.** Only use `domain-terms.md` as a bootstrap when the engagement has no domain sources at all. See rule **Domain terms must come from the domain model**.
+- Validate — once content is generated, take on the role of a *Peer Reviewer* and validate the content against each rule's DO/DON'T constraints and examples.
 
 
 3. **Assembling this Skill**
@@ -365,4 +366,22 @@ Use verb–noun format for **epic, sub-epic, and story names** (and align scenar
 
 - Noun-only or capability labels where an action phrase is expected.
 - Gerund-led titles (`Submitting order`) or third-person singular as the wrong pattern (`Selects item`).
+
+### Rule: Domain terms must come from the domain model
+
+**Scanner:** `scanners/domain-terms-source-scanner.py` — `DomainTermsSourceScanner`
+
+Every term listed in a story's **Domain terms** section must already exist in one of the project's domain model artifacts: Ubiquitous Language (`ubiquitous-language.md` or `domain-language.md`), CRC model, or object model.
+
+#### DO
+
+- Before writing any Domain terms section, look up each term in the project's domain source files (ubiquitous language, domain sketch, CRC, object model, or any team-designated vocabulary file).
+- Use the exact name and definition from the source. Do not paraphrase.
+- If a term is missing from all domain sources, **stop — list every missing term and ask the user how to proceed** (add to ubiquitous language, use an existing term, skip it, etc.).
+
+#### DON'T
+
+- **NEVER create `domain-terms.md`** if any domain source file already exists in the project. Domain sources are the only source of truth — there is no bypass file.
+- Silently define or invent terms without backing in a domain source.
+- Create any supplement file without the user's explicit direction.
 <!-- execute_rules:bundle_rules:end -->

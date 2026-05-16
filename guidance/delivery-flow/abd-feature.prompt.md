@@ -1,4 +1,4 @@
----
+﻿---
 description: >-
   Ship a feature end-to-end through the story-driven-delivery pipeline.
   Use when the user describes a new or changed feature.
@@ -10,7 +10,7 @@ Run these skills in order for the feature the user described. Read each skill an
 1. **Story Map** — `skills/story-driven-delivery/abd-story-mapping/SKILL.md`
 2. **Domain Language** _(if exists)_ — `skills/domain-driven-design/abd-domain-language/SKILL.md`
 3. **Key Abstractions** _(if exists)_ — `skills/domain-driven-design/abd-key-abstractions/SKILL.md`
-4. **Domain Sketch** _(if exists)_ — `skills/domain-driven-design/abd-domain-sketch/SKILL.md`
+4. **Ubiquitous Language** _(if exists)_ — `skills/domain-driven-design/abd-ubiquitous-language/SKILL.md`
 5. **Object Model** _(if exists)_ — `skills/domain-driven-design/abd-object-model/SKILL.md`
 6. **Scenario Walkthrough** _(if exists)_ — `skills/domain-driven-design/abd-scenario-walkthrough/SKILL.md`
 7. **Acceptance Criteria** — `skills/story-driven-delivery/abd-acceptance-criteria/SKILL.md`

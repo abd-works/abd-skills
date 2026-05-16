@@ -1,0 +1,46 @@
+---
+description: How to deploy skills, agents, guidance, and prompts from agilebydesign-skills
+alwaysApply: true
+---
+
+# Deploying from agilebydesign-skills
+
+**One script, one command — always:**
+
+```powershell
+# Deploy root resolution (see agilebydesign-skills guidance/workspace/README.md):
+#   1) skill-config.json at skills-repo root -> workspace.active_skill_workspace (when path exists)
+#   2) else walk up from $PWD for *.code-workspace
+#   3) else skills repo root
+& "<skills-repo-root>\scripts\deploy-skills.ps1" -Force
+
+# Override — always valid when you want this project regardless of skill-config / $PWD:
+& "<skills-repo-root>\scripts\deploy-skills.ps1" -Force -DeployRoot "C:\hero-desktop\city-of-heroes-virtual-tabletop"
+```
+
+That is the only correct way to deploy anything from this repo. It handles skills, agents, guidance, rules, and prompts in one pass and knows the correct destination for each artifact type. **`DeployRoot`** prefers **`skill-config.json` → `workspace.active_skill_workspace`** (**`guidance/workspace/`**); then **`$PWD`** / **`*.code-workspace`**; verify the printed **`Deploy root:`**, or pass **`-DeployRoot`** explicitly.
+
+## What it deploys and where
+
+| Source | Destination |
+| --- | --- |
+| `skills/**` (SKILL.md) | `<deploy-root>/.cursor/skills/<name>` (junction) |
+| `agents/**` (AGENT.md) | `<deploy-root>/.cursor/agents/<name>` (junction) |
+| `guidance/**/*.mdc` | `<deploy-root>/.cursor/rules/` (hard link) |
+| `guidance/**/*.prompt.md` | `<deploy-root>/.cursor/commands/` (hard link) |
+| `guidance/**/*.instructions.md` | `<deploy-root>/.github/` (hard link) |
+
+**Deploy root** (when `-DeployRoot` is omitted): read **`workspace.active_skill_workspace`** from **`skill-config.json`** at the agilebydesign-skills repo root when that path exists on disk; otherwise walk upward from **`$PWD`** for **`*.code-workspace`**; otherwise deploy into **the skills repo root**. Align engagement targets with **`guidance/workspace/scripts`** (`get_workspace.py` / `set_workspace.py`). Prefer **`-DeployRoot "C:\hero-desktop\city-of-heroes-virtual-tabletop"`** when you do not use `skill-config.json` yet.
+
+## Where to put new artifacts
+
+| What you are adding | Put it here |
+| --- | --- |
+| A new skill | `skills/<family>/<skill-name>/` with `SKILL.md` |
+| A new agent | `agents/<agent-name>/` with `AGENT.md` |
+| A Cursor rule (`.mdc`) | `guidance/<group>/` |
+| A slash command / prompt (`.prompt.md`) | `guidance/<group>/` |
+| A VS Code instruction (`.instructions.md`) | `guidance/<group>/` |
+
+- **Do NOT** hard-link files manually with `mklink` or `New-Item -ItemType HardLink` — run `deploy-skills.ps1` instead.
+- Prefer maintaining **`skill-config.json`** → **`workspace.active_skill_workspace`** for repeatable deploy targets; otherwise use **`-DeployRoot`** for this project (`C:\hero-desktop\city-of-heroes-virtual-tabletop`).

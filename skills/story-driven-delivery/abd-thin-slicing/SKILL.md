@@ -1,4 +1,4 @@
----
+﻿---
 name: abd-thin-slicing
 catalog_garden_tier: practice
 catalog_garden_order: 20
@@ -57,10 +57,26 @@ Later slices then **add quality, automation, or robustness** — refining the sa
 2. **Mark spine vs optional** — mandatory core sequence vs alternates, enhancements, deep error paths (see bundled rules).
 3. **Cut vertical slices** — each increment is an **end-to-end** demonstrable path (even if manual/stubbed); avoid horizontal “finish epic A, then epic B.”
 4. **Name for value** — increment titles = stakeholder-visible **capability**, not phase or stack labels.
-5. **Pull stories** — under each increment, list **verb–noun** stories in **flow order**; don’t paste the whole map unless asked.
-6. **Write the template file** — fill **`templates/thin-slicing.md`** with the increments and stories (*italics* on domain terms where helpful).
-7. **Omit maintainer noise** — do **not** copy the template’s **`## Instructions`** block into project deliverables.
-8. **Review** — walk every bundled rule; fix violations before you call it done.
+5. **Pull stories** -- under each increment, list **verb-noun** stories in **flow order**; don't paste the whole map unless asked.
+
+   > **Story names MUST be copied verbatim from `story-map.md` / `story-graph.json` -- character-for-character, including every parenthetical qualifier.**
+   > - `- Load FX Resource Catalog (FxRepo.data)` (correct -- exact)
+   > - `- Load FX Resource Catalog` (WRONG -- trimmed; creates an orphan; scanner will catch this)
+   > - `- System --> Load Crowd from Repository` (WRONG -- actor prefix; parser stores "System" as the name)
+   >
+   > After writing `thin-slicing.md`, run the scanner (step 8) to verify every name before committing.
+
+6. **Write the template file** -- fill **`templates/thin-slicing.md`** with the increments and stories (*italics* on domain terms where helpful).
+7. **Omit maintainer noise** -- do **not** copy the template's **`## Instructions`** block into project deliverables.
+8. **Run the scanner** -- after writing `thin-slicing.md`, validate story names:
+
+   ```text
+   python skills/abd-thin-slicing/scanners/story-name-exact-match-scanner.py --workspace <path-to-project>
+   ```
+
+   Fix every reported mismatch before calling the slice done. The scanner exits non-zero on any name that does not exactly match a story in `story-graph.json`.
+
+9. **Review** -- walk every bundled rule; fix violations before you call it done.— walk every bundled rule; fix violations before you call it done.
 
 ---
 
@@ -69,7 +85,7 @@ Later slices then **add quality, automation, or robustness** — refining the sa
 **Where to write the deliverables (`<deliverables-folder>` resolution):**
 
 1. **The path the user told you to use.** If the user names a file or folder, use exactly that.
-2. **Where the engagement already keeps deliverables.** Look at the workspace; if previous phase output (story map, domain sketch, `process.md`, `corrections-log.md`) already lives in a folder, write next to them in the **same** folder.
+2. **Where the engagement already keeps deliverables.** Look at the workspace; if previous phase output (story map, Ubiquitous Language, `process.md`, `corrections-log.md`) already lives in a folder, write next to them in the **same** folder.
 3. **The workspace root.** If neither applies, write to the workspace root.
 
 Do **not** assume a predetermined folder name like `stories/`, `docs/`, or `slices/`. The only DDD/story skill that creates a sub-folder is **`abd-module-partition`**.
@@ -103,9 +119,25 @@ Use **every** file under `templates/`.
 
 3. **Mechanical checks (execute-skill-using-skills-rules)**
 
-Rules only today (no `scanners/*-scanner.py` here). Refresh the bundle with **`bundle_rules_into_skill_md.py`** after editing **`rules/`**. If scanners are added later:
+   Always run the story-name exact-match scanner after producing `thin-slicing.md`:
 
-```text
+   ```text
+   python skills/abd-thin-slicing/scanners/story-name-exact-match-scanner.py --workspace <path-to-project>
+   ```
+
+   This verifies every story name in `thin-slicing.md` is character-for-character identical to a story in `story-graph.json`. Exit code 1 means mismatches exist -- **do not proceed until the scanner passes**.
+
+   To run all scanners via the runner:
+
+   ```text
+   python skills/execute-skill-using-skills-rules/scripts/run_scanners.py --skill-root skills/abd-thin-slicing --workspace <path-to-project>
+   ```
+
+   Refresh bundled rules after editing **`rules/`**:
+
+   ```text
+   python skills/execute-skill-using-skills-rules/scripts/bundle_rules_into_skill_md.py --skill-root skills/abd-thin-slicing
+   ```text
 python skills/execute-skill-using-skills-rules/scripts/run_scanners.py --skill-root skills/abd-thin-slicing --workspace <path-to-project>
 ```
 

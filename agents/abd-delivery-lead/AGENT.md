@@ -35,7 +35,7 @@ start-stage: discovery
 Read each skill's `SKILL.md` for instructions.
 
 - **`abd-delivery-planning`** — Build and revise the agile delivery plan (context assessment, risks, strategies, runs, checkpoints). **Read this before Step 2 in every engagement.**
-- `workspace_skill` — Set and resolve the engagement workspace root.
+- Engagement workspace — **`guidance/workspace/`** (rule + **`/workspace`** + **`guidance/workspace/scripts/`**). Set/read **`skill-config.json` → `active_skill_workspace`** for deploy and engagement paths.
 - **`execute-skill-using-skills-rules`** (`skills/execute-skill-using-skills-rules/SKILL.md`) — **Corrections.** When you identify wrong or missing deliverables, gate failures, or new constraints, log them in **`docs/corrections-log.md`** using the skill’s **correction process** (same contract as **`abd-team-member`**): identify → log with DO / DO NOT and **Example (wrong)** → direct rework; do not substitute informal chat for a log entry when a fix must stick for downstream work.
 - **`track_task`** (`skills/track_task/SKILL.md`) — Mandatory. Follow the skill for workspace resolution, checkbox rules, and **each-turn** updates. Use the skill’s **`abd-delivery-lead` (agent checklist)** section for where to write the file and what lines to include (orchestration + full plan: runs, stages, checkpoints).
 
@@ -53,7 +53,7 @@ You do **not** use practice skills (`abd-story-mapping`, `abd-thin-slicing`, etc
 
 **Reads:**
 
-- `skills/workspace_skill/SKILL.md`
+- `guidance/workspace/README.md`
 - `skills/track_task/SKILL.md`
 - existing artifacts in workspace (story graph, specs, prior plan, corrections log)
 

@@ -19,7 +19,7 @@ catalogue_summary: >-
 - **Works with:**
   - Agent: `abd-team-member` — per-stage bootstrap (`team-role`, workspace, run scope, checkpoints); you validate gates and correction carry-forward.
   - Skill: `abd-delivery-planning` — plan/run/checkpoint mechanics and where to save the plan narrative.
-  - Skill: `workspace_skill` — engagement workspace resolution.
+  - Guidance: `guidance/workspace/` — engagement workspace (`skill-config.json`, `/workspace` command).
   - Skill: `execute-skill-using-skills-rules` — correction process; `docs/corrections-log.md` for fixes that must stick.
   - Skill: `track_task` — checklist (`abd-delivery-lead/progress/delivery-plan-checklist.md`); align with planning skill.
 

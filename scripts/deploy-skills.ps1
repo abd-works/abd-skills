@@ -8,10 +8,13 @@
 
   Repo root is always derived from the script location (parent of scripts/), not cwd.
 
-  Deploy root logic:
-    If a *.code-workspace file is found in an ancestor directory, deploy
-    .cursor/ or .github/ at that workspace directory (multi-root workspace).
-    Otherwise, deploy at the repo root itself (single-repo).
+  Deploy root logic (when -DeployRoot is omitted), aligned with guidance/workspace
+  (guidance/workspace/README.md):
+    1. Read $RepoRoot/skill-config.json -> workspace.active_skill_workspace when set and path exists.
+    2. Else walk upward from $PWD for the nearest *.code-workspace folder (workspace-level deploy).
+    3. Else deploy at $RepoRoot (skills repo).
+
+  To pin engagement/deploy targets without overrides: maintain skill-config.json via guidance/workspace/scripts.
 
   Cursor mode:
     Flat junction per skill  → <deploy-root>/.cursor/skills/<skill-name>
@@ -37,6 +40,10 @@ param(
     [ValidateSet("cursor", "vscode")]
     [string] $ide = "cursor",
 
+    # Override the deploy root (where .cursor/ or .github/ is written).
+    # When omitted: skill-config.json workspace.active_skill_workspace -> *.code-workspace walk -> repo root.
+    [string] $DeployRoot = "",
+
     [switch] $Force
 )
 
@@ -50,19 +57,60 @@ $RepoRoot = Resolve-Path (Join-Path $PSScriptRoot '..') | Select-Object -ExpandP
 #      If found → that directory is the root (workspace-level deploy).
 #   2. Otherwise → StartPath itself is the root (single-repo deploy).
 function Find-DeployRoot {
-    param([string]$StartPath)
+    param(
+        # Directory to start walking upward from (normally the shell's current directory).
+        [string]$StartPath,
+        # When no *.code-workspace exists in any ancestor, deploy into the skills repo itself.
+        [string]$FallbackRepoRoot
+    )
     $dir = [System.IO.DirectoryInfo]::new($StartPath)
-    while ($dir -ne $null) {
+    while ($null -ne $dir) {
         $wsFiles = Get-ChildItem -Path $dir.FullName -Filter '*.code-workspace' -File -ErrorAction SilentlyContinue
         if ($wsFiles) {
             return $dir.FullName
         }
         $dir = $dir.Parent
     }
-    return $StartPath
+    return $FallbackRepoRoot
 }
 
-$CursorRoot = Find-DeployRoot -StartPath $RepoRoot
+function Get-DeployRootFromSkillConfig {
+    param([string]$RepoRoot)
+    $cfgPath = Join-Path $RepoRoot 'skill-config.json'
+    if (-not (Test-Path -LiteralPath $cfgPath -PathType Leaf)) {
+        return $null
+    }
+    try {
+        $j = Get-Content -LiteralPath $cfgPath -Raw | ConvertFrom-Json
+        $ws = $null
+        if ($null -ne $j.workspace) {
+            $ws = $j.workspace.active_skill_workspace
+        }
+        if ([string]::IsNullOrWhiteSpace([string]$ws)) {
+            return $null
+        }
+        if (-not (Test-Path -LiteralPath $ws -PathType Container)) {
+            Write-Warning "skill-config.json workspace.active_skill_workspace not found on disk: $ws"
+            return $null
+        }
+        return (Resolve-Path -LiteralPath $ws).Path
+    }
+    catch {
+        Write-Warning "Could not read workspace from skill-config.json: $($_.Exception.Message)"
+        return $null
+    }
+}
+
+# Repo root = agilebydesign-skills (parent of scripts/). Deploy destination follows guidance/workspace (skill-config) first.
+$CursorRoot = if ($DeployRoot) {
+    $DeployRoot
+}
+elseif (($cfgRoot = Get-DeployRootFromSkillConfig $RepoRoot)) {
+    $cfgRoot
+}
+else {
+    Find-DeployRoot -StartPath ((Get-Location).Path) -FallbackRepoRoot $RepoRoot
+}
 
 Write-Host "`nRepo root   : $RepoRoot"   -ForegroundColor Cyan
 Write-Host "Deploy root : $CursorRoot"  -ForegroundColor Cyan
@@ -114,6 +162,11 @@ function Find-MarkedFolders {
     # By direct .mdc presence (guidance folders with ide-files at root, no subfolder)
     # Exclude paths ending in 'guidance' — those are already captured by the guidance/ scan above
     Get-ChildItem -Path $Root -Recurse -Filter '*.mdc' -File -ErrorAction SilentlyContinue |
+        Where-Object { (Split-Path $_.DirectoryName -Leaf) -ne 'guidance' } |
+        ForEach-Object { $results += $_.DirectoryName }
+
+    # By direct .prompt.md presence (command-only guidance folders with no .mdc)
+    Get-ChildItem -Path $Root -Recurse -Filter '*.prompt.md' -File -ErrorAction SilentlyContinue |
         Where-Object { (Split-Path $_.DirectoryName -Leaf) -ne 'guidance' } |
         ForEach-Object { $results += $_.DirectoryName }
 

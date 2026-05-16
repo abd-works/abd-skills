@@ -1,4 +1,4 @@
----
+﻿---
 name: class-responsibility-collaborator
 catalog_garden_order: 5
 description: >-
@@ -9,7 +9,7 @@ description: >-
 
 ## Purpose
 
-This skill takes domain concepts from a completed domain sketch and produces a structured CRC model: for each concept, what it is responsible for, who it collaborates with, and what must always remain true. The result is a module file with `### Class Responsibility Collaborator` sections appended after the existing domain sketch content.
+This skill takes domain concepts from a completed Ubiquitous Language and produces a structured CRC model: for each concept, what it is responsible for, who it collaborates with, and what must always remain true. The result is a module file with `### Class Responsibility Collaborator` sections appended after the existing Ubiquitous Language content.
 
 **CRC (Class-Responsibility-Collaborator)** modeling, introduced by Ward Cunningham and Kent Beck, is a lightweight way to explore object-oriented designs. This skill extends the classic technique by requiring explicit property and operation names, inline invariants, and subtype deltas — so the team can reason about ownership and boundaries before writing code.
 
@@ -17,7 +17,7 @@ This skill takes domain concepts from a completed domain sketch and produces a s
 
 ## When to use this skill
 
-- You have a completed domain sketch with behavior bullets but ownership, boundaries, and invariants are not yet explicit.
+- You have a completed Ubiquitous Language with behavior bullets but ownership, boundaries, and invariants are not yet explicit.
 - The user asks to "run CRC," "assign responsibilities," or "build the CRC."
 - The domain has sufficient complexity that explicit responsibility boundaries and always-true constraints are worth modeling.
 
@@ -86,6 +86,116 @@ An **invariant** is a short declarative constraint — phrased as a statement of
 
 ---
 
+
+---
+
+
+Shared reference for all abd-domain-driven-design skills. This file owns the OO theory. Each skill owns its own notation and format.
+
+---
+
+### What is a class
+
+> **Applies from: ubiquitous language stage and beyond (ubiquitous language → CRC → object-model).**
+
+A class is a named domain idea that earns its own identity because it has at least one of: **distinct identity**, **state**, **behavior**, **structure**, or **interactions** that cannot be collapsed into a property, instance, or type property of something else.
+
+A class knows things (**state**) and does things (**behavior**). Those two dimensions — together with the relationships it maintains and the invariants that constrain it — are what a class IS at every level of fidelity. The notation changes across the pipeline; this definition does not.
+
+A term that is only a data value on another class is a **property**. A term that varies only by label across identical behavior is a **type property**. A term that is one concrete member of a known set is an **instance**. A term that adds distinct behavior to a base is a **subtype**. Only when none of those fit does something deserve its own class.
+
+Each skill records a class in its own form:
+- **ubiquitous-language** — a named concept block with intent, behaviors, and collaborations in plain English.
+- **CRC** — a `#### **ClassName**` block with responsibility and collaborator columns.
+- **Object-model** — a typed class block with properties, operation signatures, relationships, and invariants.
+
+---
+
+### Decomposing responsibilities
+
+> **Applies from: CRC stage and beyond (CRC → object-model → ...).** Do not use this section at ubiquitous language level — there are no typed properties or operations at that stage.
+
+A responsibility is either something a class **holds** (state) or something it **does** (behaviour) — or both. Classify each responsibility before deciding how to represent it:
+
+- **Property** — the class must remember something across calls. Named as a **noun phrase**: *remaining budget*, *active status*, *target character*.
+- **Operation** — the class must perform an action or compute a result; it may be entirely stateless. Named as a **verb phrase**: *calculate shipping cost*, *apply condition*, *resolve check*.
+- **Both** — the class holds state **and** exposes an action that works with it.
+
+Never assume every responsibility implies a property, and never assume every responsibility implies an operation. Ask for each one: *hold something, do something, or both?*
+
+---
+
+### Relationships
+
+> **Applies from: CRC stage and beyond (CRC → object-model).** At ubiquitous language level, dependencies are captured as plain-English collaboration sentences only — no formal relationship modeling.
+
+A relationship describes how two domain classes depend on each other. Before recording a relationship, answer three questions:
+
+1. **Does one class own the other's lifecycle?** — The other cannot exist without the first. If the owning class is gone, so is the owned one.
+2. **Does one class exist to collect or group the other?** — The collecting class has no meaningful identity without its members. Remove all members and the collector is empty of purpose.
+3. **Are both sides independent?** — Each can exist and be meaningful without the other.
+
+These questions determine the nature of the dependency. Each skill records the answer in its own notation — plain-English collaborations at ubiquitous language level, named collaborators at CRC level, typed flavors with cardinality at object-model level.
+
+A relationship also has **direction**: the class that depends on, uses, or navigates to the other is the navigating end. Be explicit about which side initiates the dependency.
+
+---
+
+### Inheritance and subtypes
+
+> **Applies from: ubiquitous language stage and beyond (ubiquitous language → CRC → object-model).**
+
+#### Base class and subtype
+
+A **base class** (also called a parent or superclass) defines the common identity, state, and behavior shared by a family of related things. It owns everything that is true of every member of that family — the responsibilities, rules, and collaborations that do not change regardless of which specific variant you are dealing with.
+
+A **subtype** (also called a child class or subclass) is a specialisation of the base. It *is a kind of* the base — everything the base defines applies to it — but it adds or overrides behavior that is specific to it alone. The subtype does not restate what it inherits; it only describes the delta.
+
+**Inheritance** is the mechanism that connects them. The subtype inherits all of the base's identity and behavior automatically. The base never knows about its subtypes; the subtypes always know about their base.
+
+A family can have many subtypes, each specialising the base in a different direction. Subtypes can themselves be bases for further subtypes — but depth should reflect real behavioral distinctions in the domain, not structural tidiness.
+
+#### Liskov Substitution rule
+
+**Anywhere the base is used, a subtype must work correctly in its place.** If swapping in a subtype breaks or weakens a rule the base guarantees, the subtype is not a true specialisation — it is a different thing that happens to share some behavior.
+
+In practice: a subtype may *add* behavior and *strengthen* constraints, but it must never *remove* behavior or *weaken* a guarantee the base makes. If you find yourself writing a subtype that overrides a base operation to do nothing, throw an error, or return a narrower result than the base promises, stop — that is a modeling error, not a subtype.
+
+#### When to use a subtype, type property, or instance
+
+When a term looks like "a thing is a kind of another thing," three modeling options exist:
+
+**Subtype** — the specialised thing adds **behavior the base does not have**. Each subtype does something differently enough that you need to describe it separately. Use this when the distinction changes **what the thing does**, not just what data it carries. Example: an *international shipment* is a type of *shipment* — it introduces customs filing and duty handling that a domestic shipment does not have.
+
+**Type property (constrained list)** — the thing varies by **category**, but every category follows the **same behavior**. The difference is purely which label from a known list applies. Use this when you could swap one label for another and the behavior description would not change. Example: a *notification* has a *notification priority type* drawn from (*low*, *normal*, *urgent*) — every notification still has a recipient, still carries a message, still follows the same delivery and read-receipt rules. The *notification priority type* tells you how soon it surfaces, not how it behaves differently.
+
+**Instance** — the thing is one **concrete member** of a parent concept, distinguished only by its **specific data values**. Many instances exist side by side and they all work the same way — each just carries different numbers or names. Use this when listing them out would produce rows that repeat the same structure with different fill. Example: *bronze*, *silver*, *gold* are all instances of *membership tier* — each names a specific discount rate and benefit set, but they all follow the same upgrade, renewal, and expiry rules that Membership Tier defines.
+
+A common modeling journey begins with treating domain elements as *instances* or *type properties*, and as understanding of behavior differences grows, promotes them into subtypes.
+
+**Example — Evolving a Payment System Domain Model:**
+
+- **Early model (Instances or Type properties):**
+  - Model *Payment* as a concept.
+  - Each *payment* instance carries data like channel (e.g., "credit card", "bank transfer"), transaction amount, reference id, etc.
+  - All payments go through the same core behaviors: *initiate payment*, *set channel*, *approve transaction limit*.
+
+- **Transition point:**
+  - As behaviors diverge (e.g., approval workflow or fraud checks differ by channel), notice that some payment types must satisfy additional steps or rules.
+  - Subtle differences in fulfillment or submission arise: submitting a bank transfer may require different fields or succeed asynchronously, while a credit card might authorize instantly.
+
+- **Evolved model (Subtypes):**
+  - Define subtypes such as `CreditCardPayment`, `BankTransferPayment`, each *is a type of* `Payment`.
+  - Each subtype describes behaviors *only* where they differ — `CreditCardPayment` enforces an online authorization step; `BankTransferPayment` requires reference code validation and may be fulfilled later.
+  - Shared behaviors (initiate, submit) stay on the base `Payment`.
+  - Now *type* drives both *attached data* and *behavior*.
+
+> When a domain element's *type* alters not only the data needed but also the sequence of steps or the rules followed, it's time to promote from type-property instances to true subtypes with their own behaviors.
+
+#### The delta rule
+
+A subtype carries **only what it adds or overrides**. Inherited responsibilities are not repeated at any level of fidelity — ubiquitous-language, CRC, or object model. If the parent owns a responsibility, the subtype block is silent on it.
+
 ## Output file
 
 This skill produces a **standalone, self-contained file** at:
@@ -104,7 +214,7 @@ This skill produces a **standalone, self-contained file** at:
 
 Do **not** assume a predetermined folder name like `domain/`. The only DDD/story skill that creates a sub-folder is **`abd-module-partition`**.
 
-The file is **not** an in-place enrichment of the domain-sketch file. It is a fresh artifact in the same flat heading shape every other DDD phase skill uses.
+The file is **not** an in-place enrichment of the ubiquitous-language file. It is a fresh artifact in the same flat heading shape every other DDD phase skill uses.
 
 ---
 
@@ -147,17 +257,17 @@ The Boundary Domain is one flat section — all boundary classes share a single 
 
 ## Build
 
-1. **Read the prerequisite file.** Read `<deliverables-folder>/<name>-domain-sketch.md`. Every behavior bullet on a concept is a candidate responsibility. Each `### **concept**` seeds one CRC class block.
-2. **Resolve slash terms.** Any concept named `A / B` in the domain sketch must be resolved to one canonical name before writing CRC class blocks.
+1. **Read the prerequisite file.** Read `<deliverables-folder>/<name>-ubiquitous-language.md`. Every behavior bullet on a concept is a candidate responsibility. Each `### **concept**` seeds one CRC class block.
+2. **Resolve slash terms.** Any concept named `A / B` in the Ubiquitous Language must be resolved to one canonical name before writing CRC class blocks.
 3. **Identify state-carrier needs.** For each concept, ask: does applying this concept to an entity require state unique from the concept? If yes, introduce a state-carrier class.
 4. **Identify collection class needs.** For each entity that holds multiple related objects, ask: does managing that collection require unique behavior? If yes, introduce a collection class.
-5. **Write the CRC class blocks.** Under `# Core Domain`, for each KA from the domain-sketch file:
+5. **Write the CRC class blocks.** Under `# Core Domain`, for each KA from the ubiquitous-language file:
    - `## **KAName**` heading.
    - `### **ka_name_as_a_class**` — the KA's own class, listed FIRST, with its responsibility table.
    - `### **another Class**` for each grouped concept, with its responsibility table. Subtypes use `### **ConceptName : BaseConcept**` and carry only deltas.
    - `### references` listing all Refs for classes in this KA, with fenced ```source``` blocks.
    - `### decisions made` listing CRC-level judgments (slash-term resolutions, state-carrier introductions, collection-class introductions, Liskov decisions, dependency-magnet splits).
-6. **Trace every behavior to a responsibility.** Each behavior bullet in the domain sketch must map to at least one responsibility (property or operation) in the CRC. If a bullet is missing coverage, add the responsibility or note the gap in `### decisions made`.
+6. **Trace every behavior to a responsibility.** Each behavior bullet in the Ubiquitous Language must map to at least one responsibility (property or operation) in the CRC. If a bullet is missing coverage, add the responsibility or note the gap in `### decisions made`.
 7. **Verify explicit chains.** For every responsibility that implies multiple actors or steps, confirm every implied actor appears as a collaborator on some responsibility. Nothing nebulous.
 8. **Set the state marker** to `crc`.
 9. **Write the file** to `<deliverables-folder>/<name>-crc.md`. Follow the template in `templates/crc-outline-template.md`.
@@ -168,7 +278,7 @@ The Boundary Domain is one flat section — all boundary classes share a single 
 
 1. **Per-phase output file.** The file is named `<name>-crc.md`. No prior or later phase content lives in it.
 2. **Every KA has a class that names it.** Every `## **KA**` heading is followed by a `### **Class**` whose name matches the KA itself, listed first, with its responsibility table.
-3. **Coverage.** Every concept from the domain-sketch file has a corresponding `### **Class**` block.
+3. **Coverage.** Every concept from the ubiquitous-language file has a corresponding `### **Class**` block.
 4. **No sub-headings under classes.** Responsibility tables live directly under each `### **Class**` heading. No `#### Class Responsibility Collaborator`, `#### References`, or `#### Decisions made` sub-sections.
 5. **References per KA with verbatim source blocks.** One `### references` per KA, every `**Ref —**` followed by a fenced ```source``` block of verbatim text.
 6. **Decisions per KA.** One `### decisions made` per KA listing CRC judgment calls.
@@ -220,7 +330,7 @@ The CRC skill writes a self-contained file at `<deliverables-folder>/<name>-crc.
 
 - Add `### Class Responsibility Collaborator` as a sub-section inside the prior phase's file.
 
-  **Example (fail):** Edit `paw-place-domain-sketch.md` to insert `### Class Responsibility Collaborator` peers — that is in-place enrichment which produces unrecoverable heading drift.
+  **Example (fail):** Edit `paw-place-ubiquitous-language.md` to insert `### Class Responsibility Collaborator` peers — that is in-place enrichment which produces unrecoverable heading drift.
 
 - Insert intermediate sub-headings between the KA and its classes.
 
@@ -275,7 +385,7 @@ Every `## **KA**` heading must be followed by a `### **Class**` whose name match
 
 **Scanner:** Manual review
 
-The collaborator column in each CRC block must list domain concepts that appear in the domain sketch's behavior bullets or subtype edges for that concept. No collaborator may be invented. An empty collaborator column must contain a value description in parentheses (for primitives/enums) or be explicitly empty only when the responsibility truly has no collaborating concept.
+The collaborator column in each CRC block must list domain concepts that appear in the Ubiquitous Language's behavior bullets or subtype edges for that concept. No collaborator may be invented. An empty collaborator column must contain a value description in parentheses (for primitives/enums) or be explicitly empty only when the responsibility truly has no collaborating concept.
 
 #### DO
 
@@ -289,7 +399,7 @@ The collaborator column in each CRC block must list domain concepts that appear 
 
 #### DO NOT
 
-- Invent collaborators that have no basis in the domain sketch.
+- Invent collaborators that have no basis in the Ubiquitous Language.
 
   **Example (fail):** CRC block lists `Logger, EventBus` but neither concept appears anywhere in the sketch.
 
@@ -321,7 +431,7 @@ When an entity owns multiple related objects and managing that collection requir
 
 - Leave collection management implied without a named owner.
 
-  **Example (fail):** Domain sketch says "character tracks ongoing effects" with no named class to own the tracking and end-of-turn check.
+  **Example (fail):** Ubiquitous Language says "character tracks ongoing effects" with no named class to own the tracking and end-of-turn check.
 
 - Create a collection class when the collection has no behavior beyond holding.
 
@@ -391,11 +501,11 @@ Responsibility names, collaborator names, and invariants must be written in plai
 
 **Source:** Engagement convention (class-responsibility-collaborator skill).
 
-### Rule: Every domain sketch behavior has a backing responsibility
+### Rule: Every Ubiquitous Language behavior has a backing responsibility
 
 **Scanner:** Manual review
 
-Each behavior bullet in the domain sketch must be traceable to at least one responsibility (property or operation) in the CRC block for the same concept. Behaviors that produce no CRC entry must be explained in the Decisions section.
+Each behavior bullet in the Ubiquitous Language must be traceable to at least one responsibility (property or operation) in the CRC block for the same concept. Behaviors that produce no CRC entry must be explained in the Decisions section.
 
 #### DO
 
@@ -423,31 +533,31 @@ A responsibility can be either a property (noun phrase) or an operation (verb ph
 
 **Source:** Engagement convention (class-responsibility-collaborator skill).
 
-### Rule: Every concept from domain sketch has a CRC block
+### Rule: Every concept from Ubiquitous Language has a CRC block
 
 **Scanner:** Manual review
 
-After CRC enrichment, every concept and subtype represented in **`### Domain Sketch`** must have a corresponding CRC block in **`### Class Responsibility Collaborator`**. No concept may be silently dropped. Passing means every concept is accounted for. Failing means a concept exists in the domain sketch but has no CRC block.
+After CRC enrichment, every concept and subtype represented in **`### Ubiquitous Language`** must have a corresponding CRC block in **`### Class Responsibility Collaborator`**. No concept may be silently dropped. Passing means every concept is accounted for. Failing means a concept exists in the Ubiquitous Language but has no CRC block.
 
 #### DO
 
-- Create a CRC block for each `#### **ConceptName**` heading under `### Domain Sketch`.
+- Create a CRC block for each `#### **ConceptName**` heading under `### Ubiquitous Language`.
 
-  **Example (pass):** Domain sketch lists `#### **Check**`, `#### **Difficulty Class**`, `#### **Trait`** — CRC section has blocks for `Check`, `Difficulty Class`, and `Trait`.
+  **Example (pass):** Ubiquitous Language lists `#### **Check**`, `#### **Difficulty Class**`, `#### **Trait`** — CRC section has blocks for `Check`, `Difficulty Class`, and `Trait`.
 
 - Create a CRC block for each subtype the sketch records (however phrased — e.g. bullets or wording that establishes *is a type of* / specialization), using `#### **ChildConcept : ParentConcept**` in the CRC section.
 
-  **Example (pass):** Domain sketch establishes that Saving Throw is a kind of Check — CRC has `#### **Saving Throw : Check**` with delta responsibilities only.
+  **Example (pass):** Ubiquitous Language establishes that Saving Throw is a kind of Check — CRC has `#### **Saving Throw : Check**` with delta responsibilities only.
 
 #### DO NOT
 
 - Drop a concept without creating a CRC block for it.
 
-  **Example (fail):** `#### **Trait**` appears under `### Domain Sketch` but no CRC block addresses `Trait`.
+  **Example (fail):** `#### **Trait**` appears under `### Ubiquitous Language` but no CRC block addresses `Trait`.
 
-- Introduce a CRC block that has no corresponding concept in the domain sketch.
+- Introduce a CRC block that has no corresponding concept in the Ubiquitous Language.
 
-  **Example (fail):** A CRC block for `Resolution Engine` appears but no concept in the domain sketch supports it.
+  **Example (fail):** A CRC block for `Resolution Engine` appears but no concept in the Ubiquitous Language supports it.
 
 **Source:** Engagement convention (class-responsibility-collaborator skill).
 
@@ -461,7 +571,7 @@ When a behavior implies a chain of actors or steps, every actor in that chain mu
 
 - Trace each step in the implied chain to a named responsibility with collaborators.
 
-  **Example (pass):** Domain sketch behavior: "may be ongoing for a target character: requires a resistance check at the end of each of the target's turns until ended."
+  **Example (pass):** Ubiquitous Language behavior: "may be ongoing for a target character: requires a resistance check at the end of each of the target's turns until ended."
 
   This implies: someone tracks which characters are ongoing targets, and someone triggers end-of-turn resistance checks. The CRC must reflect both:
   ```
@@ -470,7 +580,7 @@ When a behavior implies a chain of actors or steps, every actor in that chain mu
                               |   invariant: check made at end of each ongoing target's turn
   ```
 
-  **Example (pass):** Domain sketch behavior: "supersedes a less severe condition from the same source — removing the lesser."
+  **Example (pass):** Ubiquitous Language behavior: "supersedes a less severe condition from the same source — removing the lesser."
 
   This implies: someone knows the supersession hierarchy, and someone performs the removal. The CRC must reflect both — `supersedes | Condition` on `Condition` and `apply new condition` with the supersession invariant on `Imposed Conditions`.
 
@@ -582,7 +692,7 @@ Every concept that has a populated `lifecycle:` block must also have an `invaria
 
 **Scanner:** Manual review
 
-When the domain sketch implies that two concepts each relate to *many* of the other (mutual many-to-many), the association itself usually needs a first-class concept with its own responsibilities — not only reciprocal collaborator lists on the two end cards. The classic signal is two entities pointing at each other with "has many" behavior on both sides (for example student–course enrollment).
+When the Ubiquitous Language implies that two concepts each relate to *many* of the other (mutual many-to-many), the association itself usually needs a first-class concept with its own responsibilities — not only reciprocal collaborator lists on the two end cards. The classic signal is two entities pointing at each other with "has many" behavior on both sides (for example student–course enrollment).
 
 #### DO
 
@@ -673,7 +783,7 @@ A concept *may* have a property that describes what is used to act upon it. This
 
 **Scanner:** Manual review (grammar/vocabulary spot-check)
 
-Each responsibility name must use vocabulary that is tight to the domain sketch behavior bullet that inspired it. The match need not be word-for-word, but the key domain terms must be recognizable. A reader who sees the responsibility name and the behavior bullet should be able to connect them without explanation.
+Each responsibility name must use vocabulary that is tight to the Ubiquitous Language behavior bullet that inspired it. The match need not be word-for-word, but the key domain terms must be recognizable. A reader who sees the responsibility name and the behavior bullet should be able to connect them without explanation.
 
 #### DO
 
@@ -733,13 +843,13 @@ This rule supplements **Subtype uses child : parent** — it is the gate for *wh
 
 **Scanner:** Manual review
 
-Any concept named `A / B` in the domain sketch must be resolved to one canonical name before writing CRC blocks. Slash terms are acceptable in domain sketch headers as working hedges, but must not appear in CRC headings or responsibility names.
+Any concept named `A / B` in the Ubiquitous Language must be resolved to one canonical name before writing CRC blocks. Slash terms are acceptable in Ubiquitous Language headers as working hedges, but must not appear in CRC headings or responsibility names.
 
 #### DO
 
 - Choose one canonical name and use it consistently throughout the CRC section.
 
-  **Example (pass):** Domain sketch has `#### **Check Result / Graded Check Result**` → CRC uses `#### **Check Result**` throughout; "graded" behavior is expressed via invariants.
+  **Example (pass):** Ubiquitous Language has `#### **Check Result / Graded Check Result**` → CRC uses `#### **Check Result**` throughout; "graded" behavior is expressed via invariants.
 
 - Note the resolution in the Decisions section if the choice is non-obvious.
 
@@ -776,12 +886,12 @@ After this skill runs, the module file's YAML front matter must contain `state: 
 
 #### DO NOT
 
-- Leave the state at `domain-sketch` (the previous step).
+- Leave the state at `ubiquitous-language` (the previous step).
 
   **Example (fail):**
   ```
   ---
-  state: domain-sketch
+  state: ubiquitous-language
   ---
   ```
 
@@ -857,7 +967,7 @@ When a concept is a specialization of another, its CRC heading must use `#### **
 
 #### DO NOT
 
-- Use the domain sketch English heading form in CRC headings.
+- Use the Ubiquitous Language English heading form in CRC headings.
 
   **Example (fail):** `#### **Opposed Check** *(is a type of Check)*` — CRC uses `: BaseConcept` in the heading, not the sketch's English form.
 

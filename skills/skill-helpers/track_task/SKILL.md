@@ -18,7 +18,7 @@ Use this skill when the user (or another skill) needs to **track execution** of 
 ## What you do (agent behavior)
 
 1. **Resolve the engagement root**  
-   Read **`skill-config.json` → `workspace.active_skill_workspace`** on the **agent** (or skill) root. If missing, **set workspace first** (see **`skills/workspace_skill/`**).
+   Read **`skill-config.json` → `workspace.active_skill_workspace`** on the **agent** (or skill) root. If missing, **set workspace first** (see **`guidance/workspace/`** — **`workspace.prompt.md`** / **`python guidance/workspace/scripts/set_workspace.py`**).
 
 2. **Pick what to track**  
    - **Whole pipeline (abd-skill-builder style skill):** phases from **`skill-config.json` → `phase_files`** and/or rows in **`content/parts/process.md`**.  
@@ -120,5 +120,5 @@ The generator reads `<workspace>/agile-delivery-plan.md` (runs table or `## Run 
 
 ## See also
 
-- **`skills/workspace_skill/`** — set **`active_skill_workspace`** before tracking.
+- **`guidance/workspace/`** — set **`active_skill_workspace`** before tracking (`python guidance/workspace/scripts/set_workspace.py`).
 - **`agents/abd-delivery-lead/AGENT.md`** — orchestration steps and when to populate the checklist.

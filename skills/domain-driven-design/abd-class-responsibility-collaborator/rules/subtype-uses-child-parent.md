@@ -1,4 +1,4 @@
-# Rule: Subtypes use ConceptName : BaseConcept on the heading line
+﻿# Rule: Subtypes use ConceptName : BaseConcept on the heading line
 
 **Scanner:** Manual review
 
@@ -21,7 +21,7 @@ When a concept is a specialization of another, its CRC heading must use `#### **
 
 ## DO NOT
 
-- Use the domain sketch English heading form in CRC headings.
+- Use the Ubiquitous Language English heading form in CRC headings.
 
   **Example (fail):** `#### **Opposed Check** *(is a type of Check)*` — CRC uses `: BaseConcept` in the heading, not the sketch's English form.
 

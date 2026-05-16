@@ -60,17 +60,15 @@ The user has flagged these areas of concern. New topics can be added at any time
 
 ## Workspace
 
-Use the **workspace skill** (`workspace_skill`) when present to resolve
+Use **`guidance/workspace/`** (rule + **`/workspace`** command + **`guidance/workspace/scripts/`**) when present to resolve
 where research artifacts are read from and written to. All saved context —
 reports, drill-down notes, hypothesis logs, comparison snapshots — goes
 under `active_skill_workspace`, not inside this agent package.
 
-- **Before writing anything**, call `get_workspace.py` to resolve the
-  engagement root. If no workspace is set, ask the user to set one or
-  default to the current working directory.
+- **Before writing anything**, run **`python guidance/workspace/scripts/get_workspace.py`** from the agilebydesign-skills repo root (see **`guidance/workspace/README.md`**). If no workspace is set, ask the user to run **`set_workspace.py`** or use **`/workspace`**, or default to an explicit path the user gives for the session.
 - **Before reading saved context** (prior reports, earlier research),
   look under the same workspace path.
-- If the workspace skill is not available, ask the user where to save
+- If scripts aren't available in-repo, ask the user where to save
   artifacts and remember the path for the session.
 
 ---

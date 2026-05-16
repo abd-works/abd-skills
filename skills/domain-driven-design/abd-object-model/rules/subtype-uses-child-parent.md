@@ -1,4 +1,4 @@
-# Rule: Subtypes use ClassName : ParentClass on the heading line
+﻿# Rule: Subtypes use ClassName : ParentClass on the heading line
 
 **Scanner:** Manual review
 
@@ -22,7 +22,7 @@ When a class is a specialization of another, its object-model heading must use `
 
 ## DO NOT
 
-- Use the domain sketch English heading form in object-model headings.
+- Use the Ubiquitous Language English heading form in object-model headings.
 
   **Example (fail):** `#### **Opposed Check** *(is a type of Check)*` — use `: ParentClass` in the heading, not the sketch's English form.
 

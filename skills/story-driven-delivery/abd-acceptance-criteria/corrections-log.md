@@ -1,20 +1,20 @@
-# Corrections log
+﻿# Corrections log
 
 Project: abd-acceptance-criteria skill
 Source: abd-acceptance-criteria skill (pipeline runs)
 
 ---
 
-## Entry: AC invented domain term not present in domain sketch
+## Entry: AC invented domain term not present in Ubiquitous Language
 
 - **Status:** confirmed
 - **Context:** abd-acceptance-criteria — check-resolution module, story "Make Resistance Check Against Effect"
-- **DO:** Only use terms in `#### Domain terms` sections that have a corresponding concept block in the module's domain sketch. If a concept is needed but missing from the sketch, add the concept block to the sketch first — do not invent a term in the AC to fill the gap.
+- **DO:** Only use terms in `#### Domain terms` sections that have a corresponding concept block in the module's Ubiquitous Language. If a concept is needed but missing from the sketch, add the concept block to the sketch first — do not invent a term in the AC to fill the gap.
 - **Example (wrong):**
-  `*Condition Track* — the sequence of conditions the effect imposes at each degree of failure` — this term had no concept block in the domain sketch; it was fabricated to bridge a modeling gap.
+  `*Condition Track* — the sequence of conditions the effect imposes at each degree of failure` — this term had no concept block in the Ubiquitous Language; it was fabricated to bridge a modeling gap.
 - **Example (correct):**
-  The fabricated term was removed. The related concept `*Supersession Chain*` was extracted into its own `### supersession chain` concept block in the domain sketch before being referenced in the AC.
-- **Likely source:** prompt gap — the skill does not require cross-checking every `#### Domain terms` entry against an existing concept block in the domain sketch before writing it.
+  The fabricated term was removed. The related concept `*Supersession Chain*` was extracted into its own `### supersession chain` concept block in the Ubiquitous Language before being referenced in the AC.
+- **Likely source:** prompt gap — the skill does not require cross-checking every `#### Domain terms` entry against an existing concept block in the Ubiquitous Language before writing it.
 
 ---
 

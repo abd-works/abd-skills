@@ -1,8 +1,8 @@
-# Rule: Interaction variable names use domain language
+﻿# Rule: Interaction variable names use domain language
 
 **Scanner:** Manual review
 
-Variable names inside an `Interaction:` block must use domain language drawn from the ubiquitous language, domain sketch, or CRC — not generic technical placeholders. If a name is ambiguous, trace up the chain: CRC responsibility → domain sketch → ubiquitous language → source references.
+Variable names inside an `Interaction:` block must use domain language drawn from the ubiquitous language, Ubiquitous Language, or CRC — not generic technical placeholders. If a name is ambiguous, trace up the chain: CRC responsibility → Ubiquitous Language → ubiquitous language → source references.
 
 ## DO
 
@@ -50,7 +50,7 @@ Variable names inside an `Interaction:` block must use domain language drawn fro
 
 Trace up the chain:
 1. Check the CRC responsibility name and its collaborator names
-2. Check the domain sketch description of the behavior
+2. Check the Ubiquitous Language description of the behavior
 3. Check the ubiquitous language definition
 4. Check the source references
 

@@ -1,4 +1,4 @@
-﻿
+
 I want to convert agile\_bots to skill.md ; agent.md approach 
 
 
@@ -16,7 +16,7 @@ We need to build these agents and skills by porting existing C:\dev\agile_bots c
 | Layer | Owns | Lives in |
 |--------|------|----------|
 | **Orchestration** | Stage order, handoffs, which team-member covers which stage, when to involve the human | `abd-delivery-lead` agent MD |
-| **Common delivery mechanics** | Workspace, context roots, task tracking, generic CLI invocation pattern (`execute-skill-using-skills-rules`, future `render-output`, etc.) | Shared helper skills (`workspace_skill`, `track_task`, `context_tracker`, `execute-skill-using-skills-rules`, …) |
+| **Common delivery mechanics** | Workspace, context roots, task tracking, generic CLI invocation pattern (`execute-skill-using-skills-rules`, future `render-output`, etc.) | Shared helpers (`guidance/workspace`, `track_task`, `context_tracker`, `execute-skill-using-skills-rules`, …) |
 | **Practice + shape** | What good output *is* for that stage, templates, shape-specific validate/render notes | One practice skill per stage (e.g. `abd-story-mapping`) |
 
 **Common vs shape-specific:** pull *common* flow from agile_bots **build → validate → render** at the level of *workflow*, not by copying action-specific JSON prose into skills. Put **behavior/action-shaped** specifics (story-mapping vocabulary, outline rules, etc.) in the **practice skill**.
@@ -53,8 +53,8 @@ We need to build these agents and skills by porting existing C:\dev\agile_bots c
 - orchesration of delivery flow of work in its agent.md, use skills to help
 - kick start delivery flowtake a shot att fiishing this plan
 
-    - workspace-skill > agent determines workspace asks if not set
-        - use agents/abd-context-engine/skills/workspace_skill to check, set, get
+    - workspace > agent determines workspace asks if not set
+        - use guidance/workspace/scripts (get_workspace.py / set_workspace.py) and guidance/workspace/workspace.prompt.md
 
     - context_tracker NEW > determines context sources
         - default is <workspace>/context/* then  *context*.*
@@ -99,7 +99,7 @@ Source common flow instructions from C:\dev\agile_bots\base_actions\build, rende
 team-member agents flow 
 1 - Set Up
 -------
-- workspace-skill > get workspage as needed
+- workspace (`guidance/workspace/scripts/` + `/workspace`) > get workspace as needed
 - abd-context-tracker > find where the context sources are
 - track tasks 
     - track that steps > agents/abd-context-engine/skills/track_task 

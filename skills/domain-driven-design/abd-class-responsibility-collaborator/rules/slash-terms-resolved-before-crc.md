@@ -1,14 +1,14 @@
-# Rule: Slash terms resolved before CRC
+﻿# Rule: Slash terms resolved before CRC
 
 **Scanner:** Manual review
 
-Any concept named `A / B` in the domain sketch must be resolved to one canonical name before writing CRC blocks. Slash terms are acceptable in domain sketch headers as working hedges, but must not appear in CRC headings or responsibility names.
+Any concept named `A / B` in the Ubiquitous Language must be resolved to one canonical name before writing CRC blocks. Slash terms are acceptable in Ubiquitous Language headers as working hedges, but must not appear in CRC headings or responsibility names.
 
 ## DO
 
 - Choose one canonical name and use it consistently throughout the CRC section.
 
-  **Example (pass):** Domain sketch has `#### **Check Result / Graded Check Result**` → CRC uses `#### **Check Result**` throughout; "graded" behavior is expressed via invariants.
+  **Example (pass):** Ubiquitous Language has `#### **Check Result / Graded Check Result**` → CRC uses `#### **Check Result**` throughout; "graded" behavior is expressed via invariants.
 
 - Note the resolution in the Decisions section if the choice is non-obvious.
 

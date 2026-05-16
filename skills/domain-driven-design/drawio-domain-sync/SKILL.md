@@ -1,14 +1,14 @@
----
+﻿---
 name: drawio-domain-sync
 catalog_garden_order: 7
 description: >-
-  Render domain sketch, CRC, or object model artifacts to Draw.io class diagrams — one page per Key Abstraction — and sync diagram edits back to the source model.
+  Render Ubiquitous Language, CRC, or object model artifacts to Draw.io class diagrams — one page per Key Abstraction — and sync diagram edits back to the source model.
 ---
 # drawio-domain-sync
 
 ## Purpose
 
-This skill turns any domain model artifact — a domain sketch, CRC model, or object model — into a Draw.io class diagram the whole team can read, annotate, and edit. Each Key Abstraction in the source file becomes its own page in the diagram, keeping visual scope manageable and per-abstraction structure clear. When the team edits the diagram in Draw.io, the skill syncs those changes back to the source model file, so diagram and text never drift apart.
+This skill turns any domain model artifact — a Ubiquitous Language, CRC model, or object model — into a Draw.io class diagram the whole team can read, annotate, and edit. Each Key Abstraction in the source file becomes its own page in the diagram, keeping visual scope manageable and per-abstraction structure clear. When the team edits the diagram in Draw.io, the skill syncs those changes back to the source model file, so diagram and text never drift apart.
 
 Positioning and layout are AI-driven: the agent reads the source, reasons about class relationships and inheritance chains, and places elements where the diagram reads best. There are no fixed grid scripts to run.
 
@@ -16,7 +16,7 @@ Positioning and layout are AI-driven: the agent reads the source, reasons about 
 
 ## When to use
 
-- A `<deliverables-folder>/<name>-domain-sketch.md`, `<name>-crc.md`, or `<name>-object-model.md` file exists and you want a visual class diagram.
+- A `<deliverables-folder>/<name>-ubiquitous-language.md`, `<name>-crc.md`, or `<name>-object-model.md` file exists and you want a visual class diagram.
 - The team asks to "render the diagram", "draw the class diagram", "visualise the domain model", or "update the diagram".
 - A `.drawio` file has been edited in the Draw.io app and needs to be reconciled with the source model.
 
@@ -28,11 +28,11 @@ Positioning and layout are AI-driven: the agent reads the source, reasons about 
 
 Three domain model artifacts can feed this skill. Each expresses domain concepts at a different fidelity level:
 
-- **Domain sketch** — plain-English concept blocks with behavior bullets and invariants; no types. The diagram represents each concept as a class, with behaviors as operations and invariants noted in a third compartment.
+- **Ubiquitous Language** — plain-English concept blocks with behavior bullets and invariants; no types. The diagram represents each concept as a class, with behaviors as operations and invariants noted in a third compartment.
 - **CRC model** — responsibility and collaborator tables; behaviors are named with collaborators. The diagram shows class boxes with responsibilities as rows, each annotated with its collaborator types using `name : Collaborator` notation (e.g., `modifier : Character, Imposed Conditions`). Collaborator names also drive association edges between classes. Invariants appear in the class compartment.
 - **Object model** — typed properties (`+ name: Type`), typed method signatures, ownership semantics. The diagram is a full UML class diagram with typed property and operation compartments.
 
-The agent reads whichever source type is present and maps its content to class diagram elements. Object models produce the richest diagrams; domain sketches produce leaner concept maps that still convey structure and relationships clearly.
+The agent reads whichever source type is present and maps its content to class diagram elements. Object models produce the richest diagrams; Ubiquitous Languagees produce leaner concept maps that still convey structure and relationships clearly.
 
 ### Page per Key Abstraction
 
@@ -52,7 +52,7 @@ When a user edits a diagram in Draw.io, the `sync-to-model` command reads the di
 
 ### Before rendering
 
-1. **Identify the source file.** Locate `<deliverables-folder>/<name>-domain-sketch.md`, `<name>-crc.md`, or `<name>-object-model.md`. Read the full file to understand all Key Abstractions and their concepts.
+1. **Identify the source file.** Locate `<deliverables-folder>/<name>-ubiquitous-language.md`, `<name>-crc.md`, or `<name>-object-model.md`. Read the full file to understand all Key Abstractions and their concepts.
 
 2. **Read the rules.** Read all `rules/*.md` files in this skill before placing any class. The layout decisions below follow those rules.
 
@@ -77,7 +77,7 @@ For each Key Abstraction in the source file, work through these steps (full rend
 6. **Add imported ancestor classes** — any base that belongs to a different KA — using `--imported-from "<Source KA Name>"`. Imported classes render with a dashed border and a `«from: KA Name»` stereotype. Position these at the very top of the page.
 
 7. **Add local classes** — each concept in this KA — with properties, operations, and invariants at the planned positions. Include collaborator/type annotations according to source fidelity:
-   - **Domain sketch** — omit type annotations (behaviors only, no types in source).
+   - **Ubiquitous Language** — omit type annotations (behaviors only, no types in source).
    - **CRC model** — show every collaborator from the pipe-separated collaborator column as a type annotation on the property or operation, using `name : Collaborator` notation. When a responsibility has multiple collaborators, list them all: `modifier : Character, Imposed Conditions, Condition, Game Modifier`. Collaborators that are not on this page but appear in the type annotation must either have an edge to an imported class or use parenthetical primitive notation `(integer)` / `(true or false)`.
    - **Object model** — add full typed signatures (`+ name: Type`).
 
@@ -136,7 +136,7 @@ The full CLI command reference — `add-class`, `update-class`, `delete-class`, 
 
 ## Validate
 
-- **Source identified** — a domain sketch, CRC, or object model file was located before any diagram work began; the agent read the full file.
+- **Source identified** — a Ubiquitous Language, CRC, or object model file was located before any diagram work began; the agent read the full file.
 - **Rules read** — all `rules/*.md` in this skill were consulted before placing any class on any page.
 - **One page per KA** — the `.drawio` file has one page per `## **KA**` heading in the source; page names match KA headings exactly.
 - **All KA concepts represented** — every concept listed under a KA in the source appears as a class on that KA's page; no concepts are silently skipped.

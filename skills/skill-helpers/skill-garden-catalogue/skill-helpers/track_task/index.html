@@ -64,7 +64,7 @@ strong { font-weight: 600; }
 <h2>What you do (agent behavior)</h2>
 <ol>
 <li><strong>Resolve the engagement root</strong>  </li>
-<p>Read <strong><code>skill-config.json</code> → <code>workspace.active_skill_workspace</code></strong> on the <strong>agent</strong> (or skill) root. If missing, <strong>set workspace first</strong> (see <strong><code>skills/workspace_skill/</code></strong>).</p>
+<p>Read <strong><code>skill-config.json</code> → <code>workspace.active_skill_workspace</code></strong> on the <strong>agent</strong> (or skill) root. If missing, <strong>set workspace first</strong> (see <strong><code>guidance/workspace/</code></strong>).</p>
 </ol>
 <ol>
 <li><strong>Pick what to track</strong>  </li>
@@ -129,7 +129,7 @@ python skills/track_task/scripts/generate_delivery_checklist.py --dry-run</code>
 <hr>
 <h2>See also</h2>
 <ul>
-<li><strong><code>skills/workspace_skill/</code></strong> — set <strong><code>active_skill_workspace</code></strong> before tracking.</li>
+<li><strong><code>guidance/workspace/</code></strong> — set <strong><code>active_skill_workspace</code></strong> before tracking (<code>guidance/workspace/scripts/set_workspace.py</code>).</li>
 <li><strong><code>agents/abd-delivery-lead/AGENT.md</code></strong> — orchestration steps and when to populate the checklist.</li>
 </ul>
 </div>

@@ -289,7 +289,7 @@ Story: Select Recipient for Wire Payment
 | IntermediateBank | Optional (entitlement flag) | Same |
 
 
-### Archiecture
+### Architecture
 #### Classes
 
 📊 **[View Implementation Class Diagram](recipient-implementation.mmd)**
@@ -317,7 +317,7 @@ Story: Select Recipient for Wire Payment
 #### Flow : 
 example: User initiates wire payment creation and views list of active recipients to select for payment
 
-📊 **[View Sequence Diagram](flow-load-recipients.mmd)**
+📊 **[View Sequence Diagram](flow-load-ipients.mmd)**
 
 ##### Walkthrough Notation
 ```

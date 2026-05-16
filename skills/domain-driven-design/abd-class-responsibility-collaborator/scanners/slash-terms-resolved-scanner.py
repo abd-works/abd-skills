@@ -1,7 +1,7 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """Scanner: slash terms (A / B) must be resolved before CRC — none may appear in headings.
 
-Any concept named A / B in the domain sketch must be resolved to one canonical name before
+Any concept named A / B in the Ubiquitous Language must be resolved to one canonical name before
 writing CRC blocks. This scanner finds #### **A / B** heading lines anywhere in the
 module file and flags them as unresolved slash terms.
 

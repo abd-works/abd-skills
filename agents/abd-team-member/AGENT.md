@@ -36,7 +36,7 @@ You take on one `team-role`. That role determines the substance of your work. Ea
 
 You also use the following skills. Read each skill's `SKILL.md` for instructions.
 
-- `workspace_skill` — Resolve and use the engagement workspace root.
+- Engagement workspace — **`guidance/workspace/`** (rule **`workspace.mdc`**, command **`/workspace`**, scripts **`guidance/workspace/scripts/`**). Resolve **`skill-config.json` → `active_skill_workspace`** before paths matter.
 - `track_task` — Track stage and step progress for the current task.
 - `story-graph-ops` — Build or update `story-graph.json`, generate graph outputs the practice skill calls for (diagrams, maps, exports), and keep graph artifacts structurally valid.
 - `execute-skill-using-skills-rules` — Apply practice rules and run scanners on artifacts under the workspace.

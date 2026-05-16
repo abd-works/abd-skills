@@ -1,4 +1,4 @@
----
+﻿---
 name: story-graph-ops
 catalog_garden_tier: foundational
 catalogue_one_liner: >-
@@ -102,7 +102,63 @@ python scripts/story_graph_cli.py write  --file <out.json> [--input <in.json>|st
 
 **Create / delete via CLI:** `write` accepts JSON on stdin or `--input`—you can emit a **full replacement** graph (effectively delete everything not in the new JSON) or a **filtered** subgraph. Finer-grained create/update/delete often uses **`story_map`** types in Python, then **`read`** to validate after saving.
 
-## Converting Markdown to story-graph.json
+
+---
+
+## Reordering epics, sub-epics, or increments
+
+> **Pattern: load JSON in Python, mutate, write back through the CLI.**
+> The CLI has no native `reorder` subcommand — you produce modified JSON and commit it with `write`.
+
+### Steps
+
+1. Write a small Python script to a temp file that loads the graph, mutates the target array, and writes modified JSON to a second temp file.
+2. Commit it through the CLI:
+   ```
+   python story_graph_cli.py write --file story-graph.json --input modified.json --no-lock
+   ```
+3. Validate:
+   ```
+   python story_graph_cli.py read --file story-graph.json
+   ```
+
+### Example — move an increment to a new position
+
+```python
+# reorder_increment.py
+import json, sys
+
+GRAPH = r"path/to/story-graph.json"
+TARGET = "Roster and Desktop Interaction"   # increment name to move
+NEW_INDEX = 1                               # 0-based: 1 = second position
+
+with open(GRAPH, encoding="utf-8") as f:
+    g = json.load(f)
+
+incs = g["increments"]
+idx = next((i for i, x in enumerate(incs) if x["name"] == TARGET), None)
+if idx is None:
+    sys.exit(f"ERROR: '{TARGET}' not found")
+
+inc = incs.pop(idx)
+incs.insert(NEW_INDEX, inc)
+for i, x in enumerate(incs, 1):
+    x["priority"] = i   # keep priority in sync with list position
+
+OUT = r"path/to/modified.json"
+with open(OUT, "w", encoding="utf-8") as f:
+    json.dump(g, f, indent=2, ensure_ascii=False)
+```
+
+Then commit and validate:
+```
+python story_graph_cli.py write --file story-graph.json --input modified.json --no-lock
+python story_graph_cli.py read  --file story-graph.json
+```
+
+The same pattern applies to reordering **epics**, **sub-epics**, or **stories** within their parent arrays — mutate the list, renumber any sequential fields, write, validate.
+
+---## Converting Markdown to story-graph.json
 
 Three dedicated parser scripts convert skill-generated Markdown into graph JSON. **Always try the matching script first.** If the file does not match the expected format (the script exits with code 2), fall back to AI-assisted JSON construction; name the fallback script with a `_<variant>` suffix inserted just before the stem (e.g. `md_story_map_to_story_graph_custom.py`) so it can be reused.
 

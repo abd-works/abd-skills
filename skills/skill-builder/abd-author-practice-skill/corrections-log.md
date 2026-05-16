@@ -1,11 +1,11 @@
-# Corrections log — abd-author-practice-skill
+﻿# Corrections log — abd-author-practice-skill
 
 ## Entry — Purpose referenced previous skill output instead of stating the conceptual gap
 
 - **Context:** `abd-author-practice-skill` rule "Opening sections give outcomes not package mechanics"
 - **DO:** State the conceptual problem the practice solves — the gap in understanding, not what pipeline step came before. Purpose should be self-contained: a reader who has never seen the skill pipeline should still understand why the practice matters.
-- **DO NOT:** Open Purpose by naming a prior skill's output ("After the domain sketch…", "Once you have a story map…") as the entry condition. That couples Purpose to pipeline sequencing rather than explaining the practice's value.
-- **Example (wrong):** "After the domain sketch you know *what concepts exist* and roughly *what they do*, but three questions are still open…"
+- **DO NOT:** Open Purpose by naming a prior skill's output ("After the Ubiquitous Language…", "Once you have a story map…") as the entry condition. That couples Purpose to pipeline sequencing rather than explaining the practice's value.
+- **Example (wrong):** "After the Ubiquitous Language you know *what concepts exist* and roughly *what they do*, but three questions are still open…"
 - **Example (correct):** "This skill refines a collection of domain concepts from context and defines each concept's ownership, rejected concerns, collaborators, lifecycle states, and invariants — all in one structured pass."
 - **Likely source:** `instruction not read` — the rule caught paths and tooling but did not explicitly call out referencing prior skill outputs as a form of pipeline coupling.
 
@@ -40,7 +40,7 @@
 
 - **Context:** `abd-author-practice-skill` rule "Opening sections give outcomes not package mechanics"
 - **DO:** Write "When to use" triggers as situations the reader recognizes — conceptual conditions about the domain or the user's intent, not file-level preconditions tied to another skill's output marker.
-- **DO NOT:** Use another skill's front-matter state value (e.g. `state: domain-sketch`) as a "When to use" trigger. That couples this skill's entry condition to another skill's implementation detail.
-- **Example (wrong):** "The module file's front matter shows `state: domain-sketch`."
+- **DO NOT:** Use another skill's front-matter state value (e.g. `state: ubiquitous-language`) as a "When to use" trigger. That couples this skill's entry condition to another skill's implementation detail.
+- **Example (wrong):** "The module file's front matter shows `state: ubiquitous-language`."
 - **Example (correct):** "You have a set of domain concepts with behaviors identified but ownership, boundaries, and lifecycle rules are not yet explicit."
 - **Likely source:** `unclear expectation` — the rule prohibited paths and pipeline mechanics but did not explicitly call out front-matter state checks as a form of tight coupling.

@@ -1,0 +1,23 @@
+# Lo-fi wireframe skill
+
+When the user asks for a **lo-fi wireframe**, **wireframe**, **mockup of a screen**, or **layout** for a specific screen, use **`skills/user-experience-design/abd-lo-fi/SKILL.md`**. Read that skill and its bundled rules before drawing.
+
+## Required flow
+
+1. **Resolve five inputs:** path to `story-map.md`, path to the UL file, path to the AC file, the screen name from the initial IA, and a mode (`interactive` or `headless`). If any is missing, ask — do not guess.
+2. **Apply the bundled rules while drawing**, not after. The rules cover: domain terms verbatim, domain terms screen-scoped only, AC verbatim, affordances and feedback explicit and traced, user-flow reduces friction, structural accessibility.
+3. **Launch abd-canvas** at `$env:ABD_CANVAS_PATH` (default `C:\dev\abd-canvas`), drive the chat panel with `templates/lo-fi-prompt.md`, then save `<engagement>/docs/ux/lo-fi.tldr` and `<engagement>/docs/ux/lo-fi.svg`.
+4. **Log mistakes inside this skill — immediately, same turn.** When output is wrong, follow the workspace `correct-output` rule and write the entry to `skills/user-experience-design/abd-lo-fi/corrections-log.md` in the same turn you fix the output.
+
+## Key constraints
+
+- Domain terms and acceptance criteria are **verbatim** — no paraphrase, no merge, no rewording, no renumbering.
+- Only domain terms whose stories appear on **this** screen may be on the canvas; terms from other screens are out of scope.
+- Every affordance traces back to an AC clause or a UL term — no invented work.
+- Lo-fi means structural labels and layout only — no colour decisions, no typography, no pixel-level accessibility (those belong in `abd-hi-fi` and `abd-interface-design`).
+
+## When this rule does NOT apply
+
+- Drawing the initial IA (use `abd-initial-information-architecture`).
+- Visual design / colour / typography / brand polish (use `abd-hi-fi`).
+- Production interface implementation (use `abd-interface-design`).

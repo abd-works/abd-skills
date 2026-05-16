@@ -1,4 +1,4 @@
-# Rule: Introduce a collection class when the collection has unique behavior
+﻿# Rule: Introduce a collection class when the collection has unique behavior
 
 **Scanner:** Manual review
 
@@ -20,7 +20,7 @@ When an entity owns multiple related objects and managing that collection requir
 
 - Leave collection management implied without a named owner.
 
-  **Example (fail):** Domain sketch says "character tracks ongoing effects" with no named class to own the tracking and end-of-turn check.
+  **Example (fail):** Ubiquitous Language says "character tracks ongoing effects" with no named class to own the tracking and end-of-turn check.
 
 - Create a collection class when the collection has no behavior beyond holding.
 

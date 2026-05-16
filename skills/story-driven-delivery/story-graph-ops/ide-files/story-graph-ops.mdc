@@ -32,6 +32,17 @@ There are NO exceptions. Finishing the markdown edit is not done. The turn is no
 2. Use **story-graph-ops** tooling to persist the changes (CLI `write` / `read`, or Python `story_map` modules).
 3. **Validate** with `story_graph_cli.py read --file <path>` — do not declare done without validation.
 
+## Reordering epics, sub-epics, or increments
+
+**Never hand-edit array order in `story-graph.json` directly and never try to use a `reorder` CLI command — it does not exist.**
+
+The correct pattern:
+1. Write a Python script that loads the graph JSON, moves the item in the array, renumbers `priority` fields, and writes modified JSON to a temp file.
+2. Commit via CLI: `python story_graph_cli.py write --file story-graph.json --input <temp> --no-lock`
+3. Validate: `python story_graph_cli.py read --file story-graph.json`
+
+See **`SKILL.md` → "Reordering epics, sub-epics, or increments"** for a copy-paste example.
+
 ## When `story-graph.json` is updated
 
 After any successful update to `story-graph.json`, check whether companion **Draw.io diagrams** already exist alongside it (e.g. `story-graph.drawio`, `story-graph-exploration.drawio`, `story-graph-increments.drawio`).

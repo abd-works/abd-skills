@@ -1,8 +1,8 @@
-# Rule: Many-to-many association signals a new first-class concept
+﻿# Rule: Many-to-many association signals a new first-class concept
 
 **Scanner:** Manual review
 
-When the domain sketch implies that two concepts each relate to *many* of the other (mutual many-to-many), the association itself usually needs a first-class concept with its own responsibilities — not only reciprocal collaborator lists on the two end cards. The classic signal is two entities pointing at each other with "has many" behavior on both sides (for example student–course enrollment).
+When the Ubiquitous Language implies that two concepts each relate to *many* of the other (mutual many-to-many), the association itself usually needs a first-class concept with its own responsibilities — not only reciprocal collaborator lists on the two end cards. The classic signal is two entities pointing at each other with "has many" behavior on both sides (for example student–course enrollment).
 
 ## DO
 

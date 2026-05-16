@@ -1,7 +1,56 @@
-# Agile by Design Agent Skills
+# Agile by Design Practice Skills
 
 Reusable agent skills from [Agile by Design](https://agilebydesign.com), covering everything from story mapping to clean code.
 
+
+ PHASE ────────────  IDEATION                          DISCOVERY
+                     ──────────────────────────────    ──────────────────────────────────────────────
+ Story-Driven        abd-story-mapping                 abd-story-mapping (complete)
+ Delivery            (outline / skeleton mode)
+                     Rough story skeleton;             Full actor → epic → feature → story map;
+                     actors, epic headings only        ~80% of scope; shared cross-team narrative
+
+
+
+ Domain-Driven       abd-module-partition              abd-domain-terms
+ Design
+                     Bounded context /                 Canonical domain vocabulary:
+                     module boundaries                 things, state, actions, rules
+
+ UX                  —                                 —
+
+ Engineering         —                                 —
+
+ ←─── SDD / DDD: choose order or run in parallel — each must always reflect the other ──────────────►
+ ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ ▶ THIN SLICING  (abd-thin-slicing)  — cross-cutting; not owned by any single track or phase
+   Groups stories from the map into vertical delivery slices that cross all layers;
+   spine (min. viable) first; subsequent slices ordered by value / risk / learning.
+ ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+
+ PHASE ────────────  EXPLORATION                       SCENARIOS                 ATDD                  ENGINEERING
+                     ──────────────────────────────    ──────────────────────    ──────────────────    ──────────────────
+ Story-Driven        abd-acceptance-criteria           abd-specification-        abd-atdd              —
+ Delivery                                              by-example
+                     WHEN / THEN / AND / BUT;          Given / When / Then       Write tests RED
+                     behavioral lang, per story        with concrete domain      first; impl makes
+                     Bridges story intent to           examples; living          them GREEN
+                     testable expectations             documentation
+
+ Domain-Driven       abd-ubiquitous-language           abd-crc                   abd-object-model      
+ Design                                                                                                 
+                     Ubiquitous language               Class / Responsibility    Object model          
+                     aligned to story map;             / Collaborator cards;     defines structure     
+                     domain terms consistent           responsibilities,         and collaborations    
+                     across AC                         collaborators per story
+
+ UX                  —                                 —                         —                     —
+
+ Engineering         —                                 —                         —                     —
+ 
+
+ ←─── SDD / DDD: choose order or run in parallel — each must always reflect the other ──────────────►
 ## Skills
 
 ### [abd-story-mapping](skills/abd-story-mapping/SKILL.md)
@@ -43,10 +92,9 @@ Install  any / each of these to make youre skills more robust
 Run codescanners when validating output from skills, and enforce quality steps.
 Enable correction-improvement log when fixing ai mistakes.
 
-### [workspace_skill](skills/workspace_skill/SKILL.md)
+### [Workspace](guidance/workspace/README.md)
 
-Set and get folder that all skills use.
-Skills use same folder without constantly reminding them.
+Engagement root **`skill-config.json` → `active_skill_workspace`** — guided by **`guidance/workspace/`** (rule + **`/workspace`** command + scripts), not a packaged skill.
 
 ### [track_task](skills/track_task/SKILL.md)
 

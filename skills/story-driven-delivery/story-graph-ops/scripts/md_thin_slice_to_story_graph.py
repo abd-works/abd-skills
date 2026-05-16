@@ -56,7 +56,11 @@ _STORIES_SECTION = re.compile(
     r"\*\*Stories in this increment\**.*?\n((?:\s*-[^\n]+\n?)+)",
     re.DOTALL,
 )
-_BULLET_STORY = re.compile(r"^\s*-\s+\*?([^*()\n]+?)\*?\s*(?:\(.*?\))?\s*(?:--.*)?$")
+_BULLET_STORY = re.compile(r"^\s*-\s+\*?([^*()\n]+?)\*?\s*(?:\(.*?\))?\s*(?:--(?!>).*)?$")
+# Pattern to strip "Actor --> " prefix if the story was incorrectly written with story-map notation.
+# e.g. "- System --> Load Crowd from Repository" -> "Load Crowd from Repository"
+# Correct format is bare names; this prevents "System" or "GM" being stored as the name.
+_ACTOR_PREFIX = re.compile(r"^\w+\s*-->\s*")
 
 
 class UnrecognisedFormatError(ValueError):
@@ -78,6 +82,9 @@ def _extract_story_names(block: str) -> list[str]:
         m = _BULLET_STORY.match(line)
         if m:
             name = m.group(1).strip().strip("*").strip()
+            # Defensively strip "Actor --> " prefix if story-map notation was used by mistake.
+            # Correct format is bare names; this prevents "System" or "GM" being stored as the name.
+            name = _ACTOR_PREFIX.sub("", name).strip()
             if name:
                 names.append(name)
     return names

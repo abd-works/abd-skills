@@ -1,4 +1,4 @@
-# Rule: State marker is crc
+﻿# Rule: State marker is crc
 
 **Scanner:** Manual review
 
@@ -17,12 +17,12 @@ After this skill runs, the module file's YAML front matter must contain `state: 
 
 ## DO NOT
 
-- Leave the state at `domain-sketch` (the previous step).
+- Leave the state at `ubiquitous-language` (the previous step).
 
   **Example (fail):**
   ```
   ---
-  state: domain-sketch
+  state: ubiquitous-language
   ---
   ```
 

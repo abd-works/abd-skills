@@ -1,8 +1,8 @@
-# Rule: Responsibility vocabulary matches inspiring behavior
+﻿# Rule: Responsibility vocabulary matches inspiring behavior
 
 **Scanner:** Manual review (grammar/vocabulary spot-check)
 
-Each responsibility name must use vocabulary that is tight to the domain sketch behavior bullet that inspired it. The match need not be word-for-word, but the key domain terms must be recognizable. A reader who sees the responsibility name and the behavior bullet should be able to connect them without explanation.
+Each responsibility name must use vocabulary that is tight to the Ubiquitous Language behavior bullet that inspired it. The match need not be word-for-word, but the key domain terms must be recognizable. A reader who sees the responsibility name and the behavior bullet should be able to connect them without explanation.
 
 ## DO
 

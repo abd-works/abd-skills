@@ -1,8 +1,8 @@
-# Rule: Collaborators trace to sketch collaborations and subtype edges
+﻿# Rule: Collaborators trace to sketch collaborations and subtype edges
 
 **Scanner:** Manual review
 
-The collaborator column in each CRC block must list domain concepts that appear in the domain sketch's behavior bullets or subtype edges for that concept. No collaborator may be invented. An empty collaborator column must contain a value description in parentheses (for true primitives only) or name a domain class. Domain-named types with distinct values must be modeled as a named class, not reduced to a parenthetical.
+The collaborator column in each CRC block must list domain concepts that appear in the Ubiquitous Language's behavior bullets or subtype edges for that concept. No collaborator may be invented. An empty collaborator column must contain a value description in parentheses (for true primitives only) or name a domain class. Domain-named types with distinct values must be modeled as a named class, not reduced to a parenthetical.
 
 ## DO
 
@@ -26,7 +26,7 @@ The collaborator column in each CRC block must list domain concepts that appear 
 
   **Example (fail):** `dimension type | (mass, time, distance, or volume)` — these are domain concepts, not a primitive; they need a named class.
 
-- Invent collaborators that have no basis in the domain sketch.
+- Invent collaborators that have no basis in the Ubiquitous Language.
 
   **Example (fail):** CRC block lists `Logger, EventBus` but neither concept appears anywhere in the sketch.
 
