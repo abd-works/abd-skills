@@ -137,7 +137,27 @@ After producing domain model output for a slice:
 6. **Iterate** — fix violations by repositioning classes (`move`), switching edge styles (e.g., `inheritance` → `inheritance-orthogonal`), or adding explicit `exit_x/exit_y/entry_x/entry_y` anchors. Rerun audit after each fix.
 7. **Verify** sync: `sync-to-model` should report "no changes" (diagram matches model). For ULL sources, sync covers added/deleted concepts and inheritance headings only — bullet-level edits do not round-trip; edit the markdown directly.
 
-When user edits the diagram in DrawIO:
+## Persisting Module Build Scripts
+
+When a full render produces a bespoke Python script that builds the diagram (all classes, edges, anchors, waypoints in one atomic pass), **keep the script** in the destination repo at `<repo-root>/scripts/build_<name>_diagram.py`. Do not delete it after the render succeeds.
+
+| Property | Why it matters |
+|----------|---------------|
+| **Re-runnable** | Model evolves; re-run the script to regenerate without replaying layout reasoning |
+| **Extendable** | New KA page, class, or edge is a small edit, not a from-scratch session |
+| **Auditable** | Readable record of every layout decision (positions, widths, anchors, waypoints) |
+
+Each script should:
+
+1. Import `drawio_tools` from the skill's `scripts/` directory.
+2. Build atomically — create mxfile, add all pages/classes/edges, save once.
+3. Run `audit_diagram_report()` at the end and print the result.
+4. Be runnable standalone: `python scripts/build_<name>_diagram.py`.
+5. Exit non-zero when audit fails.
+
+When the model changes incrementally, **edit the existing build script** rather than writing a new one.
+
+## When User Edits the Diagram in DrawIO
 
 1. User saves the diagram
 2. Run `sync-to-model` to see diffs and apply changes back to `domain-model.md`
