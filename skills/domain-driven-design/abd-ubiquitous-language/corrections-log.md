@@ -174,3 +174,24 @@ Source: ubiquitous-language skill (pipeline runs)
   Plus on Customer Account: aggregates `�and authored customer reviews`.
   Plus in Product Catalog `### decisions made`: `Customer review **authorship** belongs to **Customer Account**. Product Catalog *owns* the review system; Customer Account *authors* each review. Two-sided relationship.`
 - **Likely source:** the bundled rules in `abd-ubiquitous-language/SKILL.md` enforce concept verbs and invariants but don't explicitly demand an **authorship / created-by** relationship on any concept that an actor produces. A new bundled rule should require: for every concept that is the artifact of an actor's behavior, name the authoring KA explicitly in the concept's bullets, in the authoring KA's aggregations, and in the owning KA's `### decisions made` as a two-sided relationship statement.
+
+---
+
+## Entry: Ubiquitous Language italicized terms must resolve so the file is diagram-ready
+
+- **Status:** confirmed
+- **Context:** abd-ubiquitous-language — making the file a second-pass input to `drawio-domain-sync`, analogous to how CRC's collaborator column makes CRC diagram-ready.
+- **DO / DO NOT:** DO make every `*italicized*` term in behavior bullets, invariants, KA intros, and boundary stubs resolve to a `### concept` block, a `### Subtype *is a type of* Base` heading, a property/instance/type-property stub, a `### boundary_term *(boundary)*` scoped stub, or a parenthetical primitive description in plain text. DO NOT italicize a term whose target does not exist anywhere in the file — that leaves the renderer guessing where to draw the edge.
+- **Example (wrong):**
+  ```
+  ### condition
+  - is imposed by a *condition source* — a *failed resistance check*, *fatigue* from *extra effort*, an *environmental hazard*, or a *power effect* directly
+  ```
+  …with no `### condition source`, no `### failed resistance check`, no `### environmental hazard` block anywhere in the file. Five italicized references, no targets. A diagram renderer cannot draw five association edges from `condition` without inventing the cards.
+- **Example (correct):**
+  - `### condition source` exists as its own block (a tracked relationship on `condition`).
+  - `### power effect *(boundary)*` exists as a scoped boundary stub under the KA.
+  - *fatigue* and *extra effort* are de-italicized (prose) OR added as `### fatigue` / `### extra effort` stubs.
+  - *failed resistance check* is rewritten as `a failed *resistance check*` because `### resistance check` is the actual concept.
+  - *environmental hazard* is added as a `### environmental hazard` stub OR rewritten with a parenthetical primitive description like `*environmental hazard* (storm, fall, fire)` if it's a value, not a concept.
+- **Likely source:** prompt gap — the existing rule `domain-terms-italicized-in-prose-and-bullets.md` enforced THAT terms are italicized but not THAT each italicized term resolves to a heading. Without that, the Ubiquitous Language was rigorous as prose but not parseable as a class diagram. Fixed by `rules/italic-terms-resolve-to-named-concepts.md` and a new SKILL.md subsection "Italicized terms are the file's connectors".

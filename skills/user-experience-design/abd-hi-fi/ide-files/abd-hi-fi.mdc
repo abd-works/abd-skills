@@ -25,5 +25,5 @@ When the user asks for a **hi-fi mockup**, **visual design**, **high-fidelity mo
 
 ## When this rule does NOT apply
 
-- Drawing the initial IA or lo-fi (use `abd-initial-information-architecture` / `abd-lo-fi`).
+- Drawing the initial IA or lo-fi (use `abd-information-architecture` / `abd-lo-fi`).
 - Production interface implementation, focus styles, ARIA roles, performance budgets (use `abd-interface-design`).

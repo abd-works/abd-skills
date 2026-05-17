@@ -1,0 +1,14 @@
+# Run abd-architecture-blueprint
+
+Read `skills/architecture-centric-delivery/abd-architecture-blueprint/SKILL.md` and follow the Build steps.
+
+When producing or updating an architecture blueprint:
+
+1. Use `templates/architecture-blueprint.md` as the starting point; the architecture outline must already exist.
+2. Describe each component in 1–2 paragraphs (purpose, dependencies, interactions) — no class lists, no method tables, no file trees, no code.
+3. Catalogue every cross-cutting concern as a named typed architecture mechanism (Security, Error Handling & Resilience, Logging & Observability, Validation, Configuration, Caching, Communication, Persistence — add project-specific mechanisms as needed). Each gets 1–2 paragraphs; deep walkthroughs defer to `architecture-reference.md`.
+4. Show the data model at the entity level (relationship diagram, ownership boundaries) — no schemas, no DDL.
+5. Capture only the testing strategy common across the whole system (tiers, common doubles); per-mechanism testing belongs in the reference.
+6. Include Extension & Evolution only when a real extension seam exists with a named contract and registration mechanism.
+7. Capture blueprint-level ADRs using `templates/decision-record.md`; ADR numbering continues from the outline.
+8. Validate against the bundled rules block at the end of `SKILL.md` before completing.

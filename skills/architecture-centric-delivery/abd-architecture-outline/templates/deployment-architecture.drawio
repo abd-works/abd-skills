@@ -1,0 +1,125 @@
+<mxfile host="app.diagrams.net" type="device">
+  <diagram id="deployment-architecture" name="Deployment Topology">
+    <mxGraphModel dx="1422" dy="757" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <mxCell id="title" value="{SystemName} — Deployment Topology" style="text;html=1;align=center;verticalAlign=middle;fontSize=18;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="20" width="1120" height="32" as="geometry"/>
+        </mxCell>
+        <mxCell id="subtitle" value="Where each part of the system runs and how nodes communicate. Environment → Host → Process." style="text;html=1;align=center;verticalAlign=middle;fontSize=11;fontStyle=2;" vertex="1" parent="1">
+          <mxGeometry x="40" y="55" width="1120" height="20" as="geometry"/>
+        </mxCell>
+
+        <!-- ========== USER DEVICE ========== -->
+        <mxCell id="userDevice" value="User Device" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=12;fontStyle=1;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="80" y="120" width="200" height="180" as="geometry"/>
+        </mxCell>
+        <mxCell id="userBrowser" value="«browser»&#10;{ClientApp}" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="100" y="160" width="160" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="userBrowserNote" value="React 18 SPA, served from CDN" style="text;html=1;align=center;verticalAlign=middle;fontSize=9;fontStyle=2;" vertex="1" parent="1">
+          <mxGeometry x="100" y="225" width="160" height="50" as="geometry"/>
+        </mxCell>
+
+        <!-- ========== CLOUD ENVIRONMENT ========== -->
+        <mxCell id="cloud" value="{Cloud Provider} — {Region}" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;fontStyle=1;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="320" y="100" width="840" height="700" as="geometry"/>
+        </mxCell>
+
+        <!-- Edge tier -->
+        <mxCell id="edgeTier" value="Edge tier" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=12;fontStyle=1;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="360" y="150" width="320" height="120" as="geometry"/>
+        </mxCell>
+        <mxCell id="cdn" value="«service»&#10;{CDN — e.g. CloudFront}" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="390" y="180" width="120" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="lb" value="«service»&#10;{Load Balancer — e.g. ALB}" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="530" y="180" width="130" height="50" as="geometry"/>
+        </mxCell>
+
+        <!-- App tier -->
+        <mxCell id="appTier" value="App tier — {Runtime — e.g. ECS Fargate}" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=12;fontStyle=1;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="360" y="310" width="500" height="200" as="geometry"/>
+        </mxCell>
+        <mxCell id="appNode1" value="«host» Container 1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=11;fontStyle=1;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="380" y="350" width="220" height="140" as="geometry"/>
+        </mxCell>
+        <mxCell id="appProc1" value="«process»&#10;API service" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="400" y="380" width="180" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="appProc2" value="«process»&#10;Worker / background jobs" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="400" y="435" width="180" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="appNode2" value="«host» Container 2" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=11;fontStyle=1;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="620" y="350" width="220" height="140" as="geometry"/>
+        </mxCell>
+        <mxCell id="appProc3" value="«process»&#10;API service (replica)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="640" y="380" width="180" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="appProc4" value="«process»&#10;Worker (replica)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="640" y="435" width="180" height="40" as="geometry"/>
+        </mxCell>
+
+        <!-- Data tier -->
+        <mxCell id="dataTier" value="Data tier — managed services" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=12;fontStyle=1;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="360" y="540" width="500" height="220" as="geometry"/>
+        </mxCell>
+        <mxCell id="dbPrimary" value="«database»&#10;{Primary DB — e.g. RDS Postgres Multi-AZ}" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="390" y="580" width="200" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="dbReplica" value="«database»&#10;{Read replica}" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="620" y="580" width="200" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="cache" value="«cache»&#10;{Redis — e.g. ElastiCache}" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="390" y="675" width="200" height="65" as="geometry"/>
+        </mxCell>
+        <mxCell id="bus" value="«message bus»&#10;{Queue — e.g. SQS / Kafka}" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="620" y="675" width="200" height="65" as="geometry"/>
+        </mxCell>
+
+        <!-- External managed -->
+        <mxCell id="extMgd" value="External SaaS" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=12;fontStyle=1;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="900" y="310" width="220" height="450" as="geometry"/>
+        </mxCell>
+        <mxCell id="extMgd1" value="«SaaS»&#10;{Auth0}" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="920" y="350" width="180" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="extMgd2" value="«SaaS»&#10;{SendGrid}" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="920" y="430" width="180" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="extMgd3" value="«SaaS»&#10;{Stripe}" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="920" y="510" width="180" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="extMgd4" value="«SaaS»&#10;{Datadog}" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="920" y="590" width="180" height="60" as="geometry"/>
+        </mxCell>
+
+        <!-- Connections -->
+        <mxCell id="connUserCdn" value="HTTPS" style="endArrow=classic;html=1;strokeWidth=2;fontSize=10;" edge="1" parent="1" source="userBrowser" target="cdn">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="connCdnLb" style="endArrow=classic;html=1;strokeWidth=2;" edge="1" parent="1" source="cdn" target="lb">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="connLbApp" style="endArrow=classic;html=1;strokeWidth=2;" edge="1" parent="1" source="lb" target="appNode1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="connAppDb" style="endArrow=classic;html=1;strokeWidth=2;" edge="1" parent="1" source="appProc1" target="dbPrimary">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="connAppCache" style="endArrow=classic;html=1;strokeWidth=2;" edge="1" parent="1" source="appProc1" target="cache">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="connWorkerBus" style="endArrow=classic;html=1;startArrow=classic;strokeWidth=2;" edge="1" parent="1" source="appProc2" target="bus">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="connAppAuth" style="endArrow=classic;html=1;strokeWidth=2;dashed=1;" edge="1" parent="1" source="appProc1" target="extMgd1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -1,0 +1,71 @@
+<mxfile host="app.diagrams.net" type="device">
+  <diagram id="system-context" name="System Context">
+    <mxGraphModel dx="1422" dy="757" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="800" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <mxCell id="title" value="{SystemName} — System Context" style="text;html=1;align=center;verticalAlign=middle;fontSize=18;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="20" width="1020" height="32" as="geometry"/>
+        </mxCell>
+        <mxCell id="subtitle" value="People and external systems that interact with {SystemName}. Arrows are labelled with the data or capability that flows along them." style="text;html=1;align=center;verticalAlign=middle;fontSize=11;fontStyle=2;" vertex="1" parent="1">
+          <mxGeometry x="40" y="55" width="1020" height="20" as="geometry"/>
+        </mxCell>
+
+        <!-- ========== CENTRAL SYSTEM ========== -->
+        <mxCell id="centralSystem" value="{SystemName}&#10;&#10;{one-line purpose}" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1a3a6e;strokeColor=#0e2547;fontColor=#ffffff;fontSize=14;fontStyle=1;strokeWidth=3;" vertex="1" parent="1">
+          <mxGeometry x="420" y="320" width="260" height="160" as="geometry"/>
+        </mxCell>
+
+        <!-- ========== ACTOR: END USER ========== -->
+        <mxCell id="actorUser" value="End User" style="shape=umlActor;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;verticalAlign=top;html=1;outlineConnect=0;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="100" y="170" width="40" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="userEdge1" value="signs in, browses, purchases" style="endArrow=classic;html=1;startArrow=classic;strokeWidth=2;fontSize=10;" edge="1" parent="1" source="actorUser" target="centralSystem">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- ========== ACTOR: ADMIN ========== -->
+        <mxCell id="actorAdmin" value="Admin / Operator" style="shape=umlActor;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;verticalAlign=top;html=1;outlineConnect=0;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="100" y="540" width="40" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="adminEdge1" value="manages, configures" style="endArrow=classic;html=1;startArrow=classic;strokeWidth=2;fontSize=10;" edge="1" parent="1" source="actorAdmin" target="centralSystem">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- ========== EXTERNAL: AUTH PROVIDER ========== -->
+        <mxCell id="extAuth" value="{Auth Provider — e.g. Auth0}" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="880" y="180" width="180" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="authEdge" value="OIDC / JWT validation" style="endArrow=classic;html=1;startArrow=classic;strokeWidth=2;fontSize=10;" edge="1" parent="1" source="centralSystem" target="extAuth">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- ========== EXTERNAL: EMAIL ========== -->
+        <mxCell id="extEmail" value="{Email Provider — e.g. SendGrid}" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="880" y="320" width="180" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="emailEdge" value="transactional email" style="endArrow=classic;html=1;strokeWidth=2;fontSize=10;" edge="1" parent="1" source="centralSystem" target="extEmail">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- ========== EXTERNAL: PAYMENT ========== -->
+        <mxCell id="extPayment" value="{Payment Gateway — e.g. Stripe}" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="880" y="450" width="180" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="payEdge" value="charge / refund / webhook" style="endArrow=classic;html=1;startArrow=classic;strokeWidth=2;fontSize=10;" edge="1" parent="1" source="centralSystem" target="extPayment">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- ========== EXTERNAL: ANALYTICS ========== -->
+        <mxCell id="extAnalytics" value="{Analytics — e.g. Mixpanel}" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="880" y="580" width="180" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="analyticsEdge" value="product events" style="endArrow=classic;html=1;strokeWidth=2;fontSize=10;" edge="1" parent="1" source="centralSystem" target="extAnalytics">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

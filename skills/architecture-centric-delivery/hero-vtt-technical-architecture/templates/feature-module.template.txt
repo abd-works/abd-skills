@@ -1,0 +1,29 @@
+// ──────────────────────────────────────────────────────────────────────────────
+// Feature module scaffold for Hero Virtual Tabletop
+// Architecture reference: inputs/architecture-reference.md
+//
+// Replace {Feature}  with the feature name (e.g. IdentityEditor, MovementEditor)
+// Replace {Domain}   with the domain class name (e.g. Identity, Movement)
+// Replace {IFace}    with the domain interface (e.g. IIdentity, IMovement)
+// Delete any sections that are not needed for the current feature.
+// ──────────────────────────────────────────────────────────────────────────────
+
+Module.HeroVirtualTabletop/
+└── {Feature}/
+    ├── {Feature}View.xaml              ← Presentation: XAML + bindings, no code-behind logic
+    ├── {Feature}ViewModel.cs           ← Presentation: Skinny ViewModel (generated from viewmodel.template.cs)
+    └── {Domain}.cs                     ← Domain: business rules, constructor-injected seam interfaces
+
+Module.UnitTest/
+├── Domain/
+│   └── Test{Feature}Domain.cs          ← Tier 1: pure domain test (FakeMemoryInstance + NoOpGameCommandExecutor)
+└── Presentation/
+    └── Test{Feature}ViewModel.cs       ← Tier 2: ViewModel + real domain, COH stubbed
+
+// ──────────────────────────────────────────────────────────────────────────────
+// File placement rules (from reference §Architecture Layers):
+//   - {Feature}View.xaml and {Feature}ViewModel.cs → same feature folder as domain
+//   - Extracted domain concepts (e.g. OptionGroup) → co-located with the entity that owns them
+//   - Game Bridge classes → Library/GameCommunicator/ or Library/ProcessCommunicator/ ONLY
+//   - Integration tests → Module.IntegrationTest/ ONLY, [TestCategory("GameBridge")]
+// ──────────────────────────────────────────────────────────────────────────────

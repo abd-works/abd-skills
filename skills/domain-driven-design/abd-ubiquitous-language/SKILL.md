@@ -91,6 +91,34 @@ A role (gamemaster, administrator, operator, reviewer) **is** a domain concept i
 
 Terms classified as properties, instances, or type properties of another concept get a stub heading (`### term_name`) with a brief classification bullet (e.g., "is a property of *parent_concept*") and a `### References` section. This makes visible that the term was considered and classified, rather than silently dropped.
 
+### Italicized terms are the file's connectors
+
+Every `*italicized*` term in a behavior bullet, invariant, KA intro paragraph, or boundary stub must resolve to one of:
+
+- a `### concept_name` block (in any KA, Core or Boundary, including the KA's own concept),
+- a `### Subtype *is a type of* Base` heading,
+- a property / instance / type-property stub heading (e.g. `### rank` with first bullet `is a property of *trait*`),
+- a `### boundary_term *(boundary)*` scoped stub under the KA, OR
+- a parenthetical primitive description in plain text (e.g. `(integer)`, `(true or false)`, `(0–40)`) — the parenthetical itself is **not** italicized.
+
+This is what makes a Ubiquitous Language **diagram-ready as a second pass** for [drawio-domain-sync](../drawio-domain-sync/SKILL.md) — analogous to how the CRC pass produces a diagram-ready collaborator column. Once every italicized term in this file resolves to a heading, the renderer can:
+
+- treat each `### concept` as a card,
+- treat each behavior bullet as a row (label = bullet text; collaborators = the italicized terms on that bullet),
+- treat each `### Subtype *is a type of* Base` as an inheritance edge,
+- treat each unique cross-concept italicized reference (folded across bullets) as one association edge,
+- treat `### boundary_term *(boundary)*` as an imported card with a `«boundary: OwningModule»` stereotype.
+
+No edge labels are required. To keep the relationship type readable without labels, use stable verb families in bullets:
+
+- `has`, `owns`, `is composed of`, `consists of` → composition / aggregation,
+- `uses`, `references`, `supplies … to`, `depends on`, `is made against` → association,
+- `produces`, `creates`, `yields` → dependency / creates,
+- `is a type of` → inheritance (heading-level only),
+- `is a property of`, `is an instance of` → property/instance stub heading.
+
+For the full rule, see `rules/italic-terms-resolve-to-named-concepts.md`.
+
 ### Decisions made and References — per KA
 
 Every KA carries one `### Decisions made` list and one `### References` section, placed **after all of its concept blocks**. This keeps the reasoning and evidence co-located with the KA they support. `### Decisions made` records independence test results, scope-fit test results, typing calls, and any open questions for any concept in the KA. `### References` lists every source passage that supports any concept in the KA. Do not bundle decisions or references per concept.
@@ -346,6 +374,7 @@ Source: ...
 - **Every KA's own concept appears first.** The first `### concept` under each `## KA` heading matches the KA name, with verb-led behavior bullets.
 - **Every concept has at least one verb-led behavior bullet.** Active voice; the concept itself is the subject.
 - **Domain terms italicized.** Every domain term in behavior bullets, invariants, and KA intro paragraphs is *italicized*; non-domain words stay plain.
+- **Italicized terms resolve.** Every `*italicized*` term resolves to a `### concept`, subtype heading, property/instance stub, `*(boundary)*` stub, or a parenthetical primitive description — nothing italicized is unresolved. See `rules/italic-terms-resolve-to-named-concepts.md`. This is what makes the file diagram-ready for `drawio-domain-sync` as a second pass.
 - **No bold on headings.** `## KAName`, `### concept`, and subtype headings carry no bold.
 - **One `### Decisions made` per KA, after all concept blocks.** Not per concept. Covers all independence tests, scope-fit tests, and typing calls for that KA.
 - **One `### References` per KA, after `### Decisions made`.** Covers all source passages for that KA.

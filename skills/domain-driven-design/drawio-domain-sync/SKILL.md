@@ -26,13 +26,15 @@ Positioning and layout are AI-driven: the agent reads the source, reasons about 
 
 ### Source types
 
-Three domain model artifacts can feed this skill. Each expresses domain concepts at a different fidelity level:
+Three domain model artifacts can feed this skill. Each expresses domain concepts at a different fidelity level. All three render with the same card-rows-collaborators shape; the only difference is where rows and collaborators come from.
 
-- **Ubiquitous Language** — plain-English concept blocks with behavior bullets and invariants; no types. The diagram represents each concept as a class, with behaviors as operations and invariants noted in a third compartment.
+- **Ubiquitous Language** — plain-English concept blocks with verb-led behavior bullets, `*italicized*` cross-concept references, and invariants. The diagram represents each `### concept` as a class card; each behavior bullet becomes one row with the bullet's italicized terms as the collaborator column (`<bullet text> : Collaborator, Collaborator`); each unique cross-concept italicized reference becomes one folded association edge. `### Subtype *is a type of* Base` drives an inheritance edge. `### term *(boundary)*` scoped stubs render as imported cards with a `«boundary: OwningModule»` stereotype. Property/instance stubs become property rows on the parent or lightweight stub cards. Invariants appear in the third compartment. This is the second pass after a completed `*-ubiquitous-language.md` file — analogous to how CRC's collaborator column feeds the diagram. See `rules/class-diagram-ubiquitous-language-bullets-become-rows.md`.
 - **CRC model** — responsibility and collaborator tables; behaviors are named with collaborators. The diagram shows class boxes with responsibilities as rows, each annotated with its collaborator types using `name : Collaborator` notation (e.g., `modifier : Character, Imposed Conditions`). Collaborator names also drive association edges between classes. Invariants appear in the class compartment.
 - **Object model** — typed properties (`+ name: Type`), typed method signatures, ownership semantics. The diagram is a full UML class diagram with typed property and operation compartments.
 
-The agent reads whichever source type is present and maps its content to class diagram elements. Object models produce the richest diagrams; Ubiquitous Languagees produce leaner concept maps that still convey structure and relationships clearly.
+The agent reads whichever source type is present and maps its content to class diagram elements. Object models produce the richest diagrams; CRC models produce slightly leaner cards with the same row+collaborator shape; Ubiquitous Languages produce the leanest cards by reading rows from prose bullets and collaborators from italicized term references.
+
+**Picking the source.** When multiple source artifacts exist for the same scope, prefer the highest-fidelity one available (object model > CRC > Ubiquitous Language). The Ubiquitous Language render is the right choice when only the ULL has been written — typically the first time the team wants a visual of the domain, before CRC has been run.
 
 ### Page per Key Abstraction
 
@@ -76,8 +78,8 @@ For each Key Abstraction in the source file, work through these steps (full rend
 
 6. **Add imported ancestor classes** — any base that belongs to a different KA — using `--imported-from "<Source KA Name>"`. Imported classes render with a dashed border and a `«from: KA Name»` stereotype. Position these at the very top of the page.
 
-7. **Add local classes** — each concept in this KA — with properties, operations, and invariants at the planned positions. Include collaborator/type annotations according to source fidelity:
-   - **Ubiquitous Language** — omit type annotations (behaviors only, no types in source).
+7. **Add local classes** — each concept in this KA — with rows and invariants at the planned positions. Read rows and collaborators from the source per its fidelity:
+   - **Ubiquitous Language** — for each `### concept`, emit one row per verb-led behavior bullet. Row label = the bullet text with italic markers stripped; collaborator column = the bullet's `*italicized*` terms joined by commas, using `<bullet text> : Collaborator, Collaborator` notation. Fold duplicate cross-concept references into one association edge per pair (concept → italicized target), not one per bullet reference. `**Invariant:**` bullets render in the third compartment. `### Subtype *is a type of* Base` headings drive inheritance edges; do not also draw association edges between subtype and base for inherited behaviors. `### term *(boundary)*` scoped stubs render as imported cards with `«boundary: OwningModule»` stereotype. Property/instance stubs (e.g., `### roll total` with `is a property of *check*`) render as either a property row on the parent or a lightweight stub card with `«property of: Parent»` — agent's choice per parent. See `rules/class-diagram-ubiquitous-language-bullets-become-rows.md`.
    - **CRC model** — show every collaborator from the pipe-separated collaborator column as a type annotation on the property or operation, using `name : Collaborator` notation. When a responsibility has multiple collaborators, list them all: `modifier : Character, Imposed Conditions, Condition, Game Modifier`. Collaborators that are not on this page but appear in the type annotation must either have an edge to an imported class or use parenthetical primitive notation `(integer)` / `(true or false)`.
    - **Object model** — add full typed signatures (`+ name: Type`).
 
@@ -128,6 +130,8 @@ When the user edits the diagram in Draw.io and asks to reconcile it with the sou
 
 12. **Review the diff** with the user. Apply confirmed additions, changes, and deletions to the source model file. The source model is the record of intent; the diagram is the visual surface.
 
+**Ubiquitous Language sync caveat.** When the source is a `*-ubiquitous-language.md` file, sync-back is **one-way for new/deleted concepts only**. Card additions, card deletions, and inheritance-edge additions round-trip back to the ULL as new/deleted `### concept` headings and `### Subtype *is a type of* Base` headings. Row edits, collaborator-list edits, and free-text bullet rewrites do **not** round-trip — the ULL's prose form is the authoritative record, and bullet-level changes must be made in the markdown directly. CRC and object-model sources do not have this asymmetry.
+
 ### CLI reference
 
 The full CLI command reference — `add-class`, `update-class`, `delete-class`, `move`, all relationship commands, `inspect`, and `sync-to-model` — is documented in [`diagrams.md`](./diagrams.md) alongside detailed layout guidelines, UML relationship selection, and cross-model import conventions. Read that file during rendering; this SKILL.md does not duplicate those mechanics.
@@ -140,6 +144,7 @@ The full CLI command reference — `add-class`, `update-class`, `delete-class`, 
 - **Rules read** — all `rules/*.md` in this skill were consulted before placing any class on any page.
 - **One page per KA** — the `.drawio` file has one page per `## **KA**` heading in the source; page names match KA headings exactly.
 - **All KA concepts represented** — every concept listed under a KA in the source appears as a class on that KA's page; no concepts are silently skipped.
+- **ULL bullets become rows** — when the source is a `*-ubiquitous-language.md` file, every behavior bullet on every concept renders as a row, every italicized term resolves to a collaborator, every cross-concept reference is folded into one association edge, every `### Subtype *is a type of* Base` heading produces an inheritance edge, and every `### term *(boundary)*` stub renders as an imported card with `«boundary: OwningModule»` stereotype. No bullets, italicized terms, or invariants are silently dropped.
 - **Cross-KA ancestors imported** — any ancestor class belonging to a different KA appears as an imported class (dashed border, `«from: KA Name»` stereotype) on the page that extends it.
 - **Base classes above derived** — on every page, base and imported classes are at lower y-coordinates than their children; inheritance arrows point upward.
 - **Distinct anchor points** — no two edges from the same side of a class use the same default anchor when more than one edge leaves that side.
@@ -233,6 +238,44 @@ When more than one edge leaves from — or arrives at — the same side of a cla
 - Add explicit anchors only to some edges while leaving others on the default when they share the same exit or entry side.
 
   **Example (fail):** Two of three inheritance arrows from sibling classes have `entryX` set; the third uses default center entry — it overlaps the second arrow and both appear to merge at the parent class.
+
+# Rule: Ubiquitous Language Bullets Become Card Rows; Italicized Terms Become Collaborators
+
+**Scanner:** Manual review
+
+When the source is a Ubiquitous Language file (`*-ubiquitous-language.md`), the renderer produces a class diagram with the same shape it produces for CRC — cards with rows and collaborators — but reads its structure from the ULL's prose form. Each `### concept` is a card. Each verb-led behavior bullet is one row formatted `<bullet text> : Collaborator, Collaborator`, where the collaborator column is the bullet's `*italicized*` terms. Each unique cross-concept italicized reference is folded into one association edge per pair. `### Subtype *is a type of* Base` headings drive inheritance edges. `### term *(boundary)*` scoped stubs render as imported cards with `«boundary: OwningModule»` stereotype. Invariants render in the third compartment. A passing diagram drops no bullets, no italicized terms, and no invariants, and emits no duplicate association edges between the same pair of cards.
+
+## DO
+
+- Emit one row per verb-led behavior bullet; collaborator column = the bullet's italicized terms.
+
+  **Example (pass):** ULL bullet `- supplies its *rank* as the primary *modifier* for any *check*` on the `trait` concept renders to row `supplies its rank as the primary modifier for any check : Rank, Modifier, Check` and produces folded association edges `trait → Rank`, `trait → Modifier`, `trait → Check`.
+
+- Fold duplicate cross-concept references into a single edge.
+
+  **Example (pass):** Three bullets on `check` each italicize `*trait*`. The diagram has exactly one `check → Trait` association edge.
+
+- Render `### term *(boundary)*` scoped stubs as imported cards.
+
+  **Example (pass):** `### power effect *(boundary)*` under the Check KA, with canonical `## Effect / power effect` under `# Boundary Domain` carrying `Owned by: Power`, renders as a dashed-border card on the Check page with stereotype `«boundary: Power»`.
+
+## DO NOT
+
+- Drop italicized terms or invariants during rendering.
+
+  **Example (fail):** A bullet with three italicized terms renders as a row with only one collaborator listed. The reader cannot reconstruct the relationship.
+
+- Emit one association edge per bullet reference instead of folding duplicates.
+
+  **Example (fail):** `check` references `*trait*` in three bullets and the diagram shows three parallel `check → Trait` edges stacked on the same anchor.
+
+- Draw association edges from a subtype to its base for behaviors that are already inherited.
+
+  **Example (fail):** `opposed check *is a type of* check` renders an inheritance edge `opposed check → check` AND an association edge `opposed check → check` because a bullet says `is made against another *check's* result`. The inheritance edge already carries the relationship.
+
+- Invent type annotations the source does not contain.
+
+  **Example (fail):** Adding `+ name: String` or `+ rank: Integer` to a ULL-sourced card whose source uses no types. Object-model fidelity is only appropriate when the source is an object model.
 
 # Rule: Run Audit After Every Render
 

@@ -1,0 +1,65 @@
+{{!
+  Template: the templates/<file>.template.txt shipped by a generated
+  architecture-implementation skill. The generated skill emits ONE module
+  from this template per invocation.
+
+  Replace every {{PLACEHOLDER}} from the architecture-reference.md the
+  generated skill consumes. Keep the structure: every file the reference's
+  File Structure block names must appear here, with a brief comment
+  pointing at the principle that file embodies.
+
+  Below is the SHAPE the file should take. Delete this header comment
+  block before shipping.
+!}}
+
+# Module template — {{ARCH_NAME}}
+
+This template emits a complete `{{module-path-pattern, e.g. packages/<domain>/}}` tree for one domain capability. Every file listed below is required; each cites the reference principle it embodies.
+
+## Folder tree
+
+```
+{{module-path-pattern}}/
+{{FOLDER_TREE_LIFTED_VERBATIM_FROM_REFERENCE_FILE_STRUCTURE}}
+```
+
+## File-by-file template
+
+### `{{relative/path/to/File1}}`
+
+- **Embodies principle:** {{principle from reference}}.
+- **Pattern:** {{named pattern}}.
+- **Filled mini-example:**
+
+```{{language}}
+{{Filled, runnable mini-example following the project's coding standard (e.g. abd-clean-code when in scope).}}
+```
+
+### `{{relative/path/to/File2}}`
+
+- **Embodies principle:** {{principle from reference}}.
+- **Pattern:** {{named pattern}}.
+- **Filled mini-example:**
+
+```{{language}}
+{{Filled mini-example.}}
+```
+
+{{# Add one block per file the reference's File Structure section names. Each block must have a filled mini-example, not just placeholders. #}}
+
+## Cross-file consistency rules
+
+- {{Rule 1, e.g. "shared/ has zero framework imports".}}
+- {{Rule 2, e.g. "every server route has a matching client API function".}}
+- {{Rule 3, e.g. "every entity has a Zod schema in the same folder".}}
+
+## Tests
+
+The reference's `Testing the mechanism` subsections fix where each mechanism is verified. Reproduce the test structure here:
+
+```
+tests/{{epic}}/{{sub-epic}}/
+{{TEST_FOLDER_TREE_FROM_REFERENCE_TESTING_ARCHITECTURE}}
+```
+
+Each test follows the project's testing standard — class per story, method per scenario, `given_` / `when_` / `then_` helpers, no defensive checks. When the project has **abd-acceptance-test-driven-development** in scope, that *is* the standard; cite it here.

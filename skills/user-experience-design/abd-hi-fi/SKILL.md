@@ -63,11 +63,11 @@ The mockup commits to a density (compact, comfortable, spacious) and a baseline 
 
 ### Carry-over from lo-fi
 
-The initial IA, the region layout, the affordance set, the acceptance criteria, and the domain terms are **inputs**, not subjects of redesign. If a hi-fi pass surfaces a real gap in the lo-fi or the AC, stop and fix it in the right skill (`abd-lo-fi`, `abd-initial-information-architecture`, or the AC source) — do not paper over it in visual design.
+The initial IA, the region layout, the affordance set, the acceptance criteria, and the domain terms are **inputs**, not subjects of redesign. If a hi-fi pass surfaces a real gap in the lo-fi or the AC, stop and fix it in the right skill (`abd-lo-fi`, `abd-information-architecture`, or the AC source) — do not paper over it in visual design.
 
 ### Dumping ground for deferred UX concepts
 
-Concepts from the broader UX practice that did not belong in `abd-initial-information-architecture` or `abd-lo-fi` land here when they touch visual fidelity — for example, brand consistency, visual storytelling, expressive empty states, marketing-grade polish. Concepts that belong at implementation time (focus rings, ARIA roles, performance budgets) defer to `abd-interface-design`.
+Concepts from the broader UX practice that did not belong in `abd-information-architecture` or `abd-lo-fi` land here when they touch visual fidelity — for example, brand consistency, visual storytelling, expressive empty states, marketing-grade polish. Concepts that belong at implementation time (focus rings, ARIA roles, performance budgets) defer to `abd-interface-design`.
 
 ### Rules
 

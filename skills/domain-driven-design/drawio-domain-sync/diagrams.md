@@ -127,11 +127,15 @@ After producing domain model output for a slice:
 
 1. **Review `class_diagram` rules** — apply positioning and edge conventions from `rules/domain-ooa-diagram-*.md`
 2. **Init** page if needed: `init <file> --page "<Model Name>"`
-3. **Add classes** with properties, operations, invariants at planned grid positions (base classes top, children below). **Always include collaborator types** — every property and operation must show its collaborators using `name : Collaborator` notation (e.g., `character : Character`, `resist : Character, Trait, Graded Check Result`). For CRC sources, the collaborator column after the pipe (`|`) becomes the type annotation. Primitives use parenthetical notation: `status : (success or failure)`.
-4. **Add edges** — inheritance first (defines vertical structure), then composition/aggregation, then associations/dependencies. Use explicit exitX/exitY/entryX/entryY when multiple edges leave the same class.
+3. **Add classes** with rows and invariants at planned grid positions (base classes top, children below). **Always include collaborator types** — every row must show its collaborators using `name : Collaborator` notation (e.g., `character : Character`, `resist : Character, Trait, Graded Check Result`). The source determines where the collaborators come from:
+   - **CRC source** — the collaborator column after the pipe (`|`) becomes the type annotation on the row.
+   - **Ubiquitous Language source** — each verb-led behavior bullet becomes one row. Row label = the bullet text with italic markers stripped; collaborators = the `*italicized*` terms in that bullet. `**Invariant:**` bullets render in the third compartment. `### Subtype *is a type of* Base` headings drive inheritance edges. `### term *(boundary)*` scoped stubs render as imported cards with `«boundary: OwningModule»` stereotype. See `rules/class-diagram-ubiquitous-language-bullets-become-rows.md`.
+   - **Object model source** — typed signatures (`+ name: Type`) become the row format.
+   - Primitives in any source use parenthetical notation: `status : (success or failure)`.
+4. **Add edges** — inheritance first (defines vertical structure), then composition/aggregation, then associations/dependencies. Use explicit exitX/exitY/entryX/entryY when multiple edges leave the same class. For ULL sources, **fold duplicate cross-concept references**: if three bullets on the same concept reference the same italicized target, emit one association edge, not three.
 5. **Audit** — run `audit_diagram_report(path)` (from `drawio_tools.py`) and read all violations. Priority: (1) `class_overlap` = zero, (2) `edge_crosses_class` = zero, (3) minimize `edge_on_edge_overlap`, (4) minimize `shared_anchor`.
 6. **Iterate** — fix violations by repositioning classes (`move`), switching edge styles (e.g., `inheritance` → `inheritance-orthogonal`), or adding explicit `exit_x/exit_y/entry_x/entry_y` anchors. Rerun audit after each fix.
-7. **Verify** sync: `sync-to-model` should report "no changes" (diagram matches model)
+7. **Verify** sync: `sync-to-model` should report "no changes" (diagram matches model). For ULL sources, sync covers added/deleted concepts and inheritance headings only — bullet-level edits do not round-trip; edit the markdown directly.
 
 When user edits the diagram in DrawIO:
 

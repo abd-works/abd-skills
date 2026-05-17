@@ -21,5 +21,5 @@ When the user asks to **implement a screen**, **build the interface**, **code th
 
 ## When this rule does NOT apply
 
-- Drawing the initial IA, lo-fi, or hi-fi (use `abd-initial-information-architecture`, `abd-lo-fi`, `abd-hi-fi`).
+- Drawing the initial IA, lo-fi, or hi-fi (use `abd-information-architecture`, `abd-lo-fi`, `abd-hi-fi`).
 - Cross-cutting infrastructure changes that are not part of this screen's AC.
