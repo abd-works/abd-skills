@@ -30,4 +30,4 @@ The **Walkthrough Example** subsection must be an **ordered list** of steps, wit
 
   **Example (fail):** `- Controller receives the request` / `- Service is called` — no ordering, no alignment with the sequence diagram.
 
-**Source:** Practice-skill authoring convention (abd-architecture-reference); numbered walkthroughs let a reviewer pair each step against the sequence-diagram message.
+**Source:** Practice-skill authoring convention (abd-architecture-template); numbered walkthroughs let a reviewer pair each step against the sequence-diagram message.

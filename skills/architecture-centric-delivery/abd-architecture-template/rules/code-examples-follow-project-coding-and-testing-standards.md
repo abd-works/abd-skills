@@ -57,4 +57,4 @@ Every code block inside a `Walkthrough Example` must obey the **coding standard 
 
   **Example (fail):** The project has no coding-standards document and no clean-code skill. The reference's samples use a `Service` + anemic `Recipient` interface and rationalize it as "industry standard". The team has no way to peer-review against an agreed source — pause and agree a coding standard before authoring code samples.
 
-**Source:** Practice-skill authoring convention (abd-architecture-reference). The reference document inherits the team's existing code-style and test-style decisions rather than imposing new ones.
+**Source:** Practice-skill authoring convention (abd-architecture-template). The reference document inherits the team's existing code-style and test-style decisions rather than imposing new ones.

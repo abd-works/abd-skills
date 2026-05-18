@@ -75,7 +75,7 @@ Every control traces to an AC clause. Reviewers verify coverage here without ope
 ## CLI
 
 ```powershell
-node "C:\dev\agilebydesign-skills\skills\user-experience-design\abd-lo-mockup\scripts\drawio-mockup.mjs" `
+node "C:\dev\agilebydesign-skills\skills\user-experience-design\abd-ux-mockup\scripts\drawio-mockup.mjs" `
   save `
   --state "docs/ux/lo-fi/{{SLUG}}-state.json" `
   --out   "docs/ux/lo-fi/{{SLUG}}.drawio"

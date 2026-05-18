@@ -609,7 +609,7 @@ class DrawIOStory(DiagramStory, DrawIOStoryNode):
         return DrawIOStory.AC_MIN_WIDTH
 
     @staticmethod
-    def _format_ac_text_static(ac) -> str:
+    def _raw_ac_plain(ac) -> str:
         if hasattr(ac, 'name') and ac.name:
             return ac.name
         if isinstance(ac, str):
@@ -620,15 +620,22 @@ class DrawIOStory(DiagramStory, DrawIOStoryNode):
 
     def render_ac_boxes(self, domain_story) -> List[DrawIOElement]:
         """Create acceptance-criteria ``DrawIOElement`` boxes below this story."""
+        from .ac_text_format import ac_cell_height_px, format_ac_diagram_html
+
         ac_list = getattr(domain_story, 'acceptance_criteria', []) or []
         if not ac_list:
             return []
 
         elements = []
         ac_y = self.position.y + self.HEIGHT + self.AC_SPACING_Y
+        font_size = 8
+        line_px = max(13.0, float(font_size) * 1.4)
 
         for idx, ac in enumerate(ac_list):
-            text = self._format_ac_text(ac)
+            raw = self._raw_ac_plain(ac)
+            if not raw or not str(raw).strip():
+                continue
+            text = format_ac_diagram_html(raw)
             if not text:
                 continue
             ac_elem = DrawIOElement(
@@ -636,21 +643,18 @@ class DrawIOStory(DiagramStory, DrawIOStoryNode):
                 value=text)
             ac_elem.apply_style_for_type('acceptance_criteria')
             ac_elem.set_position(self.position.x, ac_y)
-            ac_elem.set_size(self.AC_MIN_WIDTH, self.AC_HEIGHT)
+            h = ac_cell_height_px(
+                text,
+                min_px=float(self.AC_HEIGHT),
+                line_px=line_px,
+                pad_px=float(self.AC_PADDING) * 2.0 + 18.0,
+            )
+            ac_elem.set_size(self.AC_MIN_WIDTH, h)
             elements.append(ac_elem)
-            ac_y += self.AC_HEIGHT + self.AC_SPACING_Y
+            ac_y += h + self.AC_SPACING_Y
 
         self._ac_elements = elements
         return elements
-
-    def _format_ac_text(self, ac) -> str:
-        if hasattr(ac, 'name') and ac.name:
-            return ac.name
-        if isinstance(ac, str):
-            return ac
-        if isinstance(ac, dict):
-            return ac.get('name', ac.get('description', ''))
-        return str(ac) if ac else ''
 
     def collect_all_nodes(self) -> list:
         nodes = [self]

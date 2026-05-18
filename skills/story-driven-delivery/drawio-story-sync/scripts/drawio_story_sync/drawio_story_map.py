@@ -904,9 +904,11 @@ class DrawIOStoryMap(StoryMap):
                           and bnd.height >= 30)
 
             if is_tool_ac or is_user_ac:
+                from drawio_story_sync.ac_text_format import plain_ac_from_cell_value
+
                 ac_boxes.append({
                     'cell_id': cid,
-                    'text': val.strip(),
+                    'text': plain_ac_from_cell_value(val.strip()),
                     'x': pos.x,
                     'y': pos.y,
                     'width': bnd.width,

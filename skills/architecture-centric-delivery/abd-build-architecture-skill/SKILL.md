@@ -129,7 +129,7 @@ For a reference document with layers **Presentation / Application / Domain / Inf
 skills/engineering/<arch-name>-technical-architecture/
 ├── SKILL.md                          # one section per layer + Build/Validate
 ├── inputs/
-│   └── architecture-reference.md     # copied from abd-architecture-reference
+│   └── architecture-reference.md     # copied from abd-architecture-template
 ├── templates/
 │   ├── domain-module.template.txt    # the full folder tree the generated skill emits
 │   └── domain-module/                # (optional) sub-templates per layer
@@ -318,7 +318,7 @@ The generated implementation skill must contain its own copy of the architecture
 
 - Document the source so a maintainer can resync if the reference is updated upstream.
 
-  **Example (pass):** A note at the top of `inputs/architecture-reference.md` reads: `Source: skills/engineering/abd-architecture-reference output for {{ArchName}} produced on YYYY-MM-DD.`
+  **Example (pass):** A note at the top of `inputs/architecture-reference.md` reads: `Source: skills/engineering/abd-architecture-template output for {{ArchName}} produced on YYYY-MM-DD.`
 
 ###### DO NOT
 

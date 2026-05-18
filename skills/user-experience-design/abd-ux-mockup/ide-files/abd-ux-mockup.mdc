@@ -5,7 +5,7 @@ alwaysApply: true
 
 # Lo-fi mockup skill
 
-When the user asks for a **lo-fi wireframe**, **wireframe**, **mockup of a screen**, or **layout** for a specific screen, use **`skills/user-experience-design/abd-lo-mockup/SKILL.md`**. Read that skill before drawing.
+When the user asks for a **lo-fi wireframe**, **wireframe**, **mockup of a screen**, or **layout** for a specific screen, use **`skills/user-experience-design/abd-ux-mockup/SKILL.md`**. Read that skill before drawing.
 
 The lo-fi mockup comes **after** the initial IA. The IA established regions and story coverage. The lo-fi pass nails down: which exact control renders each field, what interactions exist in each state, where conditional states (errors, empty lists, disabled controls) appear. This is a precision decisions pass, not a vocabulary-mapping pass.
 
@@ -16,12 +16,12 @@ The lo-fi mockup comes **after** the initial IA. The IA established regions and 
 3. **Map in-scope IA screens** to a `drawio-mockup.mjs` state JSON: layout → layout, regions → regions (slot, type, fields/columns, actions/buttons), transitions → connections.
 4. **Run the CLI** to generate the `.drawio` wireframe in `docs/ux/lo-fi/`.
 5. **Write `lo-fi.md`** alongside the wireframe with verbatim AC and domain terms.
-6. **Log mistakes immediately, same turn.** Write entries to `skills/user-experience-design/abd-lo-mockup/corrections-log.md`.
+6. **Log mistakes immediately, same turn.** Write entries to `skills/user-experience-design/abd-ux-mockup/corrections-log.md`.
 
 ## CLI
 
 ```powershell
-node "C:\dev\agilebydesign-skills\skills\user-experience-design\abd-lo-mockup\scripts\drawio-mockup.mjs" `
+node "C:\dev\agilebydesign-skills\skills\user-experience-design\abd-ux-mockup\scripts\drawio-mockup.mjs" `
   save --state "docs/ux/lo-fi/<screen-slug>-state.json" --out "docs/ux/lo-fi/<screen-slug>.drawio"
 ```
 

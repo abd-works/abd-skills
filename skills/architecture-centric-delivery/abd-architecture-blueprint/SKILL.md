@@ -7,7 +7,7 @@ description: >-
   cross-cutting concern as a typed "architecture mechanism" (security, error
   handling, logging, validation, configuration, etc.), shows the data
   architecture at the model level, captures a common testing strategy, and
-  records decisions. Deep internals defer to abd-architecture-reference.
+  records decisions. Deep internals defer to abd-architecture-template.
 ---
 # abd-architecture-blueprint
 
@@ -47,7 +47,7 @@ The outline catalogues **major systems** (one line each). The blueprint zooms in
 
 ### Architecture mechanisms
 
-A **cross-cutting concern** is any architectural concern that shows up in many components — authentication, error handling, logging, validation, configuration, caching, resilience, observability. In this skill family they are first-class artefacts called **architecture mechanisms**. The blueprint **names** every mechanism the architecture commits to and describes each one in 1–2 paragraphs: what concern it addresses, which components depend on it, how they interact with it. The **architecture reference** then takes one mechanism at a time and goes deep using `abd-architecture-reference`.
+A **cross-cutting concern** is any architectural concern that shows up in many components — authentication, error handling, logging, validation, configuration, caching, resilience, observability. In this skill family they are first-class artefacts called **architecture mechanisms**. The blueprint **names** every mechanism the architecture commits to and describes each one in 1–2 paragraphs: what concern it addresses, which components depend on it, how they interact with it. The **architecture reference** then takes one mechanism at a time and goes deep using `abd-architecture-template`.
 
 The canonical mechanism categories (adapt to the project):
 
@@ -164,7 +164,7 @@ architecture-blueprint.md sections:
    (each ADR is a separate file under docs/architecture/decisions/)
 ```
 
-**What the blueprint does NOT contain** (lives in `abd-architecture-reference`):
+**What the blueprint does NOT contain** (lives in `abd-architecture-template`):
 - Code-level walkthroughs of a mechanism
 - Sequence diagrams that involve more than three participants
 - Full data schemas / DDL / ORM mappings
@@ -216,7 +216,7 @@ architecture-blueprint.md sections:
 
 10. **Write blueprint-level decision records.** One ADR per decision visible at this level using the `decision-record.md` template (shared with `abd-architecture-outline`). Continue ADR numbering from the outline.
 
-11. **Stub the reference documents.** For each mechanism in section 3, create or update a placeholder section in `architecture-reference.md` (or a per-mechanism file) so that `abd-architecture-reference` has a target to fill in.
+11. **Stub the reference documents.** For each mechanism in section 3, create or update a placeholder section in `architecture-reference.md` (or a per-mechanism file) so that `abd-architecture-template` has a target to fill in.
 
 12. **Verify the paired outputs.** Run:
 

@@ -32,4 +32,4 @@ Every mechanism in the produced reference document must contain the **same five-
 
 - Reorder the parts so that, for example, `Walkthrough Example` comes before `Participants`.
 
-**Source:** Practice-skill authoring convention (abd-architecture-reference). The five-part shape is the contract between this skill and `abd-build-architecture-skill`.
+**Source:** Practice-skill authoring convention (abd-architecture-template). The five-part shape is the contract between this skill and `abd-build-architecture-skill`.

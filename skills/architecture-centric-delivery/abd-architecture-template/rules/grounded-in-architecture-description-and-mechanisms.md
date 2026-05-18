@@ -30,4 +30,4 @@ The **layer names** in the reference document must match the output of **abd-arc
 
   **Example (fail):** `abd-architecture-description` lists `Domain Core` between `Application` and `Infrastructure`; the reference puts `Domain Core` at the top and merges `Application` into `Interface Adapters`.
 
-**Source:** Practice-skill authoring convention (abd-architecture-reference); preserves the contract with **abd-architecture-description** and **abd-architecture-mechanisms** that downstream tooling depends on.
+**Source:** Practice-skill authoring convention (abd-architecture-template); preserves the contract with **abd-architecture-description** and **abd-architecture-mechanisms** that downstream tooling depends on.

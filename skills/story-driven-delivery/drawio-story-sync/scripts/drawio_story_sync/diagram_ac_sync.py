@@ -21,32 +21,45 @@ def _ac_node_text(node: Any) -> str:
 
 
 def _sync_one_story_ac(story: "Story", desired_texts: List[str]) -> None:
+    from drawio_story_sync.ac_text_format import canonical_ac_key, diagram_desired_buckets
     from story_graph_ops.nodes import AcceptanceCriteria
 
-    want = Counter(t.strip() for t in desired_texts if t and str(t).strip())
-    by_text: defaultdict[str, List] = defaultdict(list)
+    want_by_canon, exemplars_by_canon = diagram_desired_buckets([t for t in desired_texts if t])
+
+    by_canon: defaultdict[str, List] = defaultdict(list)
     for ch in list(story._children):
         if isinstance(ch, AcceptanceCriteria):
             t = _ac_node_text(ch)
             if not t:
                 continue
-            by_text[t].append(ch)
-    for t, nodes in list(by_text.items()):
-        limit = want.get(t, 0)
+            ck = canonical_ac_key(t)
+            by_canon[ck].append(ch)
+
+    for ck, nodes in list(by_canon.items()):
+        limit = int(want_by_canon.get(ck, 0))
         while len(nodes) > limit:
             node = nodes.pop()
             if node in story._children:
                 story._children.remove(node)
             node._parent = None
+
     have = Counter()
     for ch in story._children:
         if isinstance(ch, AcceptanceCriteria):
             tt = _ac_node_text(ch)
             if tt:
-                have[tt] += 1
-    for t, cnt in want.items():
-        for _ in range(max(0, cnt - have[t])):
-            story.create_acceptance_criteria(name=t)
+                have[canonical_ac_key(tt)] += 1
+
+    exemplars_remaining = {k: list(v) for k, v in exemplars_by_canon.items()}
+    for ck, cnt in want_by_canon.items():
+        need = int(cnt) - int(have.get(ck, 0))
+        for _ in range(max(0, need)):
+            bench = exemplars_remaining.get(ck) or []
+            if not bench:
+                break
+            name = bench.pop(0)
+            exemplars_remaining[ck] = bench
+            story.create_acceptance_criteria(name=name)
     story._resequence_children()
 
 

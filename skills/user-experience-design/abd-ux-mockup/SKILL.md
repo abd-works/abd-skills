@@ -1,11 +1,11 @@
 ---
-name: abd-lo-mockup
+name: abd-ux-mockup
 description: >-
   Precision pass after the initial IA — specify exact controls, interactions,
   and states for any scope (full site, flow, epic, story), drawn in Draw.io
   as a lo-fi wireframe and saved as a versioned .drawio artifact.
 ---
-# abd-lo-mockup
+# abd-ux-mockup
 
 ## Purpose
 
@@ -297,7 +297,7 @@ Use the CLI when the screen contains **only** these element types:
 The CLI generates correct drawio XML programmatically from the state JSON.
 
 ```powershell
-node "C:\dev\agilebydesign-skills\skills\user-experience-design\abd-lo-mockup\scripts\drawio-mockup.mjs" `
+node "C:\dev\agilebydesign-skills\skills\user-experience-design\abd-ux-mockup\scripts\drawio-mockup.mjs" `
   save `
   --state "docs/ux/lo-fi/<screen-slug>-state.json" `
   --out   "docs/ux/lo-fi/<screen-slug>.drawio"
@@ -432,7 +432,7 @@ Annotation boxes use light yellow (stories) and light green (domain terms) to di
 7. **Generate the wireframe.**
 
 ```powershell
-node "C:\dev\agilebydesign-skills\skills\user-experience-design\abd-lo-mockup\scripts\drawio-mockup.mjs" `
+node "C:\dev\agilebydesign-skills\skills\user-experience-design\abd-ux-mockup\scripts\drawio-mockup.mjs" `
   save `
   --state "docs/ux/lo-fi/<screen-slug>-state.json" `
   --out   "docs/ux/lo-fi/<screen-slug>.drawio"
@@ -511,13 +511,13 @@ cd C:\dev\agilebydesign-skills
 
 | File | Deploy target |
 | --- | --- |
-| `ide-files/abd-lo-mockup.mdc` | `.cursor/rules/` |
-| `ide-files/abd-lo-mockup.prompt.md` | `.cursor/commands/` |
+| `ide-files/abd-ux-mockup.mdc` | `.cursor/rules/` |
+| `ide-files/abd-ux-mockup.prompt.md` | `.cursor/commands/` |
 
 ---
 
 <!-- execute_rules:bundle_rules:begin -->
 <!-- Rule prose is generated from rules/*.md — edit rules, then run:
-     python skills/execute-skill-using-skills-rules/scripts/bundle_rules_into_skill_md.py --skill-root skills/user-experience-design/abd-lo-mockup
+     python skills/execute-skill-using-skills-rules/scripts/bundle_rules_into_skill_md.py --skill-root skills/user-experience-design/abd-ux-mockup
 -->
 <!-- execute_rules:bundle_rules:end -->

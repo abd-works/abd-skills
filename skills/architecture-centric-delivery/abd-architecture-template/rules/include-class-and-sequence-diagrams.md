@@ -30,4 +30,4 @@ Every mechanism must show its **participants** as either a Mermaid `classDiagram
 
   **Example (fail):** A fence opens with `\`\`\`mermaid` but the body uses `@startuml`/`@enduml` syntax — neither renderer will accept it.
 
-**Source:** Practice-skill authoring convention (abd-architecture-reference); the Mermaid diagrams are how the downstream implementation skill renders timing and structure from this document.
+**Source:** Practice-skill authoring convention (abd-architecture-template); the Mermaid diagrams are how the downstream implementation skill renders timing and structure from this document.

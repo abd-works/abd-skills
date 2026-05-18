@@ -60,4 +60,4 @@ A reference is no use if a reviewer cannot jump to the mechanism they need. `arc
 
   **Example (fail):** `Mechanism: Messaging` was removed from the document; the TOC still has a link to `#mechanism-messaging` that 404s the reader.
 
-**Source:** Practice-skill authoring convention (abd-architecture-reference).
+**Source:** Practice-skill authoring convention (abd-architecture-template).

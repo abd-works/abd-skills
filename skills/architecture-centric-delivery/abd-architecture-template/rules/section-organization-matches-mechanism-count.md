@@ -30,4 +30,4 @@ The reference is **always one file** (`architecture-reference.md`). What varies 
 
   **Example (fail):** The combined section has Principles & Patterns and Walkthrough but skips Participants and Flow because "the diagrams take too much space". The downstream implementation skill now has nothing to render the participants from.
 
-**Source:** Practice-skill authoring convention (abd-architecture-reference). One-file rule keeps the contract simple for downstream consumers; section-organization rule keeps the file scannable as the mechanism set grows.
+**Source:** Practice-skill authoring convention (abd-architecture-template). One-file rule keeps the contract simple for downstream consumers; section-organization rule keeps the file scannable as the mechanism set grows.

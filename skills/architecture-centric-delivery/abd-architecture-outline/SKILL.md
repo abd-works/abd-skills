@@ -136,7 +136,7 @@ architecture-outline.md sections:
    (each ADR is a separate file under docs/architecture/decisions/)
 ```
 
-**What the outline does NOT contain** (lives in `abd-architecture-blueprint` and `abd-architecture-reference`):
+**What the outline does NOT contain** (lives in `abd-architecture-blueprint` and `abd-architecture-template`):
 - Component-by-component descriptions
 - Cross-cutting concern implementations (auth, error handling, logging — those are *architecture mechanisms*)
 - Data models or entity relationships

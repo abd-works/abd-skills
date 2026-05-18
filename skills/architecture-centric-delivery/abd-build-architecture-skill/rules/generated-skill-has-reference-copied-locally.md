@@ -14,7 +14,7 @@ The generated implementation skill must contain its own copy of the architecture
 
 - Document the source so a maintainer can resync if the reference is updated upstream.
 
-  **Example (pass):** A note at the top of `inputs/architecture-reference.md` reads: `Source: skills/engineering/abd-architecture-reference output for {{ArchName}} produced on YYYY-MM-DD.`
+  **Example (pass):** A note at the top of `inputs/architecture-reference.md` reads: `Source: skills/engineering/abd-architecture-template output for {{ArchName}} produced on YYYY-MM-DD.`
 
 #### DO NOT
 
