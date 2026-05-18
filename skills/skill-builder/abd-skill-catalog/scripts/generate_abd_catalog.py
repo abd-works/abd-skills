@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """Scan repo-root skills/ and agents/; emit outline.md + HTML under repo catalog/.
 
 Lives under skills/skill-builder/abd-skill-catalog/; repo root is detected by walking
@@ -121,6 +121,8 @@ class SkillEntry(NamedTuple):
     # catalogue “Agile Garden” lists: practice | foundational | "" (omit)
     garden_tier: str
     garden_order: int
+    # Optional override for catalog family (from catalog_garden_family frontmatter field).
+    family_override: str = ""
 
 
 class AgentEntry(NamedTuple):
@@ -344,6 +346,7 @@ def _skill_entry_from_package_dir(child: Path, repo_root: Path) -> SkillEntry | 
         pkg_rel_posix=pkg_rel,
         garden_tier=tier,
         garden_order=_catalog_garden_order(fm),
+        family_override=fm.get("catalog_garden_family", ""),
     )
 
 
@@ -1765,7 +1768,8 @@ _CATALOG_SKILL_FAMILY_PRACTICE_ORDER: tuple[str, ...] = (
     "idea shaping",
     "domain-driven-design",
     "story-driven-delivery",
-    "engineering",
+    "user-experience-design",
+    "architecture-centric-delivery",
     "delivery",
 )
 _CATALOG_SKILL_FAMILY_FOUNDATIONAL_ORDER: tuple[str, ...] = (
@@ -1803,6 +1807,8 @@ _CATALOG_FAMILY_LABELS: dict[str, str] = {
     "skill-builder": "Skill Builder",
     "skill-helpers": "Skill Helpers",
     "story-driven-delivery": "Story-Driven Delivery",
+    "user-experience-design": "User Experience Design",
+    "architecture-centric-delivery": "Architecture-Centric Delivery",
     "utilities": "Utilities",
     "__agent_skills__": "Bundled with agents",
 }
@@ -1824,6 +1830,18 @@ _CATALOG_FAMILY_ICONS: dict[str, str] = {
         ' stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
         '<rect x="2" y="2" width="12" height="12" rx="1.5"/>'
         '<path d="M5 6h6M5 9h4M5 12h2"/><path d="M11 9l2 2-2 2"/></svg>'
+    ),
+    "user-experience-design": (
+        '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor"'
+        ' stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
+        '<rect x="2" y="2" width="12" height="12" rx="1.5"/>'
+        '<path d="M5 5h6M5 8h4M5 11h2"/></svg>'
+    ),
+    "architecture-centric-delivery": (
+        '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor"'
+        ' stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
+        '<path d="M2 5l6-3 6 3-6 3-6-3z"/>'
+        '<path d="M2 9l6 3 6-3"/><path d="M2 12l6 3 6-3"/></svg>'
     ),
     "engineering": (
         '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor"'
@@ -2026,7 +2044,7 @@ def build_agile_garden_prelude_html(
     """Practice families = top-level folder under ``skills/`` (multi-column grid + icons); foundational below."""
     by_cat: dict[str, list[SkillEntry]] = defaultdict(list)
     for s in skills:
-        fam = _skill_catalog_family(s.pkg_rel_posix)
+        fam = s.family_override if s.family_override else _skill_catalog_family(s.pkg_rel_posix)
         if fam in omit_garden_families:
             continue
         by_cat[fam].append(s)
@@ -2470,7 +2488,7 @@ def main() -> None:
     _family_idx: dict[str, int] = {f: i for i, f in enumerate(_all_family_order)}
     skills.sort(
         key=lambda s: (
-            _family_idx.get(_skill_catalog_family(s.pkg_rel_posix), 999),
+            _family_idx.get(s.family_override if s.family_override else _skill_catalog_family(s.pkg_rel_posix), 999),
             s.garden_order,
             s.name.lower(),
         )

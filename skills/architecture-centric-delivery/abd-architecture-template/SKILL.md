@@ -1,4 +1,6 @@
 ---
+catalog_garden_tier: practice
+catalog_garden_order: 40
 name: abd-architecture-template
 description: >-
   Produce an architecture reference document for a specified architecture —
@@ -7,13 +9,13 @@ description: >-
   mechanism section names its principles and patterns, draws participants as
   a class diagram, flows through a sequence diagram plus a step-by-step
   walkthrough, shows file structure, gives example code that follows the
-  project's coding standards (defaulting to abd-clean-code when it is in
-  scope) and test snippets that follow the project's testing standards
+  project's coding standard (defaulting to abd-clean-code when it is in
+  scope) and test snippets that follow the project's testing standard
   (defaulting to abd-acceptance-test-driven-development when it is in
-  scope), and explains how the mechanism is tested. Use this skill when you have a layered architecture from
-  abd-architecture-description and a list of mechanisms from
-  abd-architecture-mechanisms, and you need the reference document the
-  implementation skill (built by abd-build-architecture-skill) will consume.
+  scope), and explains how the mechanism is tested. Use this skill when you
+  have a layered architecture description and a list of mechanisms with
+  intent, and need the reference document that locks both the design and
+  implementation guidance before any production code is written.
 ---
 # abd-architecture-template
 
@@ -77,7 +79,7 @@ A finished reference lets a reviewer answer three questions in one read:
 
 ### Mechanism
 
-A **mechanism** is one cross-cutting concern the architecture has a fixed answer for: error handling, caching, persistence, authentication, authorization, validation, messaging, logging, observability, configuration, feature flags, idempotency, transactions, rate limiting. Mechanisms come from the **abd-architecture-mechanisms** output. The reference document devotes one section (or file) to each mechanism the project has actually decided.
+A **mechanism** is one cross-cutting concern the architecture has a fixed answer for: error handling, caching, persistence, authentication, authorization, validation, messaging, logging, observability, configuration, feature flags, idempotency, transactions, rate limiting. Mechanisms come from whatever the team uses as its architecture source of truth — an ADR, a wiki page, a decision document, or a sibling skill's output. The reference document devotes one section (or file) to each mechanism the project has actually decided.
 
 ### Principle vs. pattern
 
@@ -87,7 +89,7 @@ A **pattern** is the full description of how the team has chosen to satisfy that
 
 ### Layered description vs. mechanism reference
 
-**abd-architecture-description** answers *what are the layers and what tech sits in each*. **This skill** answers *for each mechanism, which of those layers participate and in what order*. The layered description is the map; the mechanism reference is the route through that map for one concern.
+The **layered description** answers *what are the layers and what tech sits in each*. **This skill** answers *for each mechanism, which of those layers participate and in what order*. The layered description is the map; the mechanism reference is the route through that map for one concern.
 
 ### Sections inside one mechanism
 
@@ -125,7 +127,7 @@ For an architecture with layers **Presentation / Application / Domain / Infrastr
 
 ## Table of Contents
 - Overview
-- Architecture Layers (from abd-architecture-description)
+- Architecture Layers (from the architecture's source of truth)
 - Mechanism: Error Handling
 - Mechanism: Caching
 - Mechanism: Persistence
@@ -137,7 +139,7 @@ One paragraph: name the architecture, name the four guiding principles,
 name the three mechanisms covered.
 
 ## Architecture Layers
-Reuse the layer block from abd-architecture-description verbatim.
+Reuse the layer block from the architecture's source of truth verbatim.
 
 ## Mechanism: Error Handling
 ### Principles & Patterns
@@ -319,39 +321,39 @@ Every code block inside a `Walkthrough Example` must obey the **coding standard 
 
 **Source:** Practice-skill authoring convention (abd-architecture-template). The reference document inherits the team's existing code-style and test-style decisions rather than imposing new ones.
 
-##### Rule: Reference is grounded in abd-architecture-description and abd-architecture-mechanisms
+##### Rule: Reference is grounded in the architecture's source of truth
 
-The **layer names** in the reference document must match the output of **abd-architecture-description** for the same architecture, and the **mechanism names** must match the output of **abd-architecture-mechanisms**. The reference document is the join of those two skills; it does not invent layers, rename them, or add mechanisms the mechanisms skill never listed. When the reference needs a layer or mechanism that the upstream skills do not contain, the upstream skill is updated first and the reference is regenerated. Passing means a reviewer can hold the abd-architecture-description output, the abd-architecture-mechanisms output, and the reference side-by-side and see the same vocabulary in all three. Failing means the reference uses a synonym (`Persistence layer` vs `Infrastructure`), drops a layer, or introduces a mechanism that nobody else has heard of.
+The **layer names** in the reference document must match the **agreed source of truth** for the same architecture — whatever form that takes (an ADR, a wiki page, a decision document, a sibling skill's output, or any other agreed record). The **mechanism names** must also match that source. The reference does not invent layers, rename them, or add mechanisms nobody else has heard of. When the reference needs a layer or mechanism that the source of truth does not yet contain, update the source of truth first, then regenerate the reference. Passing means a reviewer can hold the reference and the architecture's source of truth side-by-side and see the same vocabulary in both — same layer names, same mechanism names, same spelling. Failing means the reference uses a synonym (`Persistence layer` vs `Infrastructure`), drops a layer, or introduces a mechanism that the agreed source of truth never listed.
 
 ###### DO
 
-- Copy or summarize the layer block from **abd-architecture-description** into the **Architecture Layers** section of the reference, keeping layer names byte-for-byte identical.
+- Copy or summarize the layer block from the architecture's agreed source of truth into the **Architecture Layers** section of the reference, keeping layer names byte-for-byte identical.
 
-  **Example (pass):** `abd-architecture-description` names four layers `Presentation`, `Interface Adapters`, `Application`, `Domain Core`, `Infrastructure`. The reference's `Architecture Layers` section lists the same five names in the same order.
+  **Example (pass):** The team's ADR lists four layers `Presentation`, `Application`, `Domain Core`, `Infrastructure`. The reference's `Architecture Layers` section lists the same four names in the same order, sourced from the ADR.
 
-- For each mechanism, cite the **abd-architecture-mechanisms** entry that it implements, near the mechanism heading.
+- Cite the source of truth for layers and mechanisms near the relevant sections so a reviewer can trace the names back.
 
-  **Example (pass):** `## Mechanism: Caching` is followed by the line `> Source intent: abd-architecture-mechanisms entry for Caching.`
+  **Example (pass):** The Overview contains the line `> Sources: layers from ADR-0012; mechanisms from the team's architecture playbook.` — a reviewer knows exactly where the layer and mechanism vocabulary came from.
 
-- When a mechanism is missing from **abd-architecture-mechanisms**, **stop and add it there first** before adding it to the reference.
+- When a mechanism is missing from the source of truth, **stop and add it there first** before adding it to the reference.
 
-  **Example (pass):** The team realizes `Idempotency` is needed; the reference author updates `abd-architecture-mechanisms` first, regenerates its output, then adds the `Idempotency` section to the reference.
+  **Example (pass):** The team realizes `Idempotency` is needed; the reference author updates the mechanism inventory doc (or the sibling skill's output) first, then adds the `Idempotency` section to the reference.
 
 ###### DO NOT
 
 - Rename a layer to suit the mechanism (e.g. call it `Storage` in the caching section and `Infrastructure` in the persistence section).
 
-  **Example (fail):** Mechanism `Caching` describes a `Storage layer` while `Persistence` describes an `Infrastructure layer` — same code lives in the same folder; the reference invented two names.
+  **Example (fail):** Mechanism `Caching` describes a `Storage layer` while `Persistence` describes an `Infrastructure layer` — same code lives in the same folder; the reference invented two names for the same layer.
 
-- Add a mechanism that does not appear in **abd-architecture-mechanisms**.
+- Add a mechanism that does not appear in the architecture's agreed source of truth.
 
-  **Example (fail):** The reference includes `Mechanism: Multi-tenancy` but the `abd-architecture-mechanisms` output for this architecture has no Multi-tenancy entry — the reference has gone off-piste.
+  **Example (fail):** The reference includes `Mechanism: Multi-tenancy` but the mechanism inventory for this architecture has no Multi-tenancy entry — the reference has gone off-piste.
 
-- Reorder or merge layers in a way that contradicts **abd-architecture-description**.
+- Reorder or merge layers in a way that contradicts the agreed source of truth.
 
-  **Example (fail):** `abd-architecture-description` lists `Domain Core` between `Application` and `Infrastructure`; the reference puts `Domain Core` at the top and merges `Application` into `Interface Adapters`.
+  **Example (fail):** The source lists `Domain Core` between `Application` and `Infrastructure`; the reference puts `Domain Core` at the top and merges `Application` into `Interface Adapters`.
 
-**Source:** Practice-skill authoring convention (abd-architecture-template); preserves the contract with **abd-architecture-description** and **abd-architecture-mechanisms** that downstream tooling depends on.
+**Source:** Practice-skill authoring convention (abd-architecture-template); preserves the vocabulary contract between the reference and the team's agreed architecture context, wherever that context lives.
 
 ##### Rule: Include class and sequence diagrams for every mechanism
 

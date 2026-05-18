@@ -1,6 +1,7 @@
 ---
 name: mern-technical-architecture
 catalog_garden_tier: practice
+catalog_garden_family: architecture-centric-delivery
 catalog_garden_order: 70
 catalogue_one_liner: >-
   Domain-first MERN web applications: domain modules, shared logic, Clean Architecture layers, story-driven tests, scanner-verified compliance.

@@ -38,13 +38,13 @@
 
 This reference covers the following mechanisms: **{{Mechanism1Name}}**, **{{Mechanism2Name}}**, **{{Mechanism3Name}}**.
 
-> Sources: layers from **abd-architecture-description**; mechanisms list from **abd-architecture-mechanisms**.
+> Sources: [cite the architecture's source of truth — ADR, wiki, decision doc, or sibling-skill output]; mechanisms from [cite source].
 
 ---
 
 ## Architecture Layers
 
-<!-- Paste / summarize the layer block from abd-architecture-description verbatim. -->
+<!-- Paste / summarize the layer block from the architecture's agreed source of truth (ADR, wiki, decision doc, or sibling skill). -->
 
 ```
 {{LAYER_DIAGRAM_OR_TABLE}}
@@ -213,8 +213,8 @@ Tests follow the project's testing standard — story-driven, Given/When/Then he
 
 ## References
 
-- **Layered description:** output of **abd-architecture-description** for {{ArchitectureName}}.
-- **Mechanism list:** output of **abd-architecture-mechanisms** for {{ArchitectureName}}.
+- **Layered description:** [cite the source — ADR, wiki, decision doc, or sibling-skill output such as **abd-architecture-description** when present] for {{ArchitectureName}}.
+- **Mechanism list:** [cite the source — ADR, wiki, decision doc, or sibling-skill output such as **abd-architecture-mechanisms** when present] for {{ArchitectureName}}.
 - **Code conventions:** the project's chosen coding standard for production code and testing standard for test code. State the names of both standards here — e.g. **abd-clean-code** and **abd-acceptance-test-driven-development** when those are in scope, or the project-specific guides otherwise.
 - **Worked example of this template:** the illustrative filled block at the bottom of this template file.
 

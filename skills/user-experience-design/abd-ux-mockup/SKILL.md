@@ -1,4 +1,6 @@
 ---
+catalog_garden_tier: practice
+catalog_garden_order: 20
 name: abd-ux-mockup
 description: >-
   Precision pass after the initial IA — specify exact controls, interactions,

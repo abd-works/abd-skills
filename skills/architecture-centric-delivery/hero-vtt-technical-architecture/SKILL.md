@@ -1,5 +1,6 @@
 ---
 name: hero-vtt-technical-architecture
+catalog_garden_family: architecture-centric-delivery
 description: >-
   Generate production Hero Virtual Tabletop (WPF C#) modules following the
   three-layer architecture — Presentation (ViewModel) · Domain · COH Integration.

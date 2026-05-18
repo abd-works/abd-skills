@@ -21,10 +21,16 @@
 .PARAMETER ide
   Target IDE: cursor or vscode. Default: cursor.
 
+.PARAMETER DeployRoot
+  Explicit root to clean from (e.g. C:\hero-desktop\city-of-heroes-virtual-tabletop).
+  When omitted, falls back to skill-config.json -> workspace.active_skill_workspace,
+  then Find-HighestCursorRoot walking up from the repo.
+
 #>
 param(
     [ValidateSet("cursor", "vscode")]
-    [string] $ide = "cursor"
+    [string] $ide = "cursor",
+    [string] $DeployRoot = ""
 )
 
 $ErrorActionPreference = 'Stop'
@@ -50,7 +56,27 @@ function Find-HighestCursorRoot {
     return $env:USERPROFILE
 }
 
-$CursorRoot = Find-HighestCursorRoot -StartPath $RepoRoot
+# Resolve CursorRoot: explicit -DeployRoot > skill-config.json; no fallback — crash if missing
+if ($DeployRoot -and (Test-Path -LiteralPath $DeployRoot -PathType Container)) {
+    $CursorRoot = $DeployRoot
+} else {
+    $skillConfig = Join-Path $RepoRoot 'skill-config.json'
+    if (-not (Test-Path -LiteralPath $skillConfig -PathType Leaf)) {
+        Write-Error "No skill-config.json found at '$skillConfig'. Run set_workspace.py or pass -DeployRoot explicitly."
+        exit 1
+    }
+    $cfg = Get-Content $skillConfig -Raw | ConvertFrom-Json
+    $configured = $cfg.workspace.active_skill_workspace
+    if (-not $configured) {
+        Write-Error "skill-config.json has no workspace.active_skill_workspace. Run set_workspace.py or pass -DeployRoot explicitly."
+        exit 1
+    }
+    if (-not (Test-Path -LiteralPath $configured -PathType Container)) {
+        Write-Error "workspace.active_skill_workspace '$configured' does not exist on disk. Run set_workspace.py or pass -DeployRoot explicitly."
+        exit 1
+    }
+    $CursorRoot = $configured
+}
 
 Write-Host "`nRepo root   : $RepoRoot"  -ForegroundColor Cyan
 Write-Host "Cursor root : $CursorRoot" -ForegroundColor Cyan

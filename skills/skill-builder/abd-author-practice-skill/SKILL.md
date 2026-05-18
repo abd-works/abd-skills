@@ -1,4 +1,4 @@
----
+﻿---
 name: abd-author-practice-skill
 description: >-
   Turn collected hub evidence into a finished practice skill: clear instructions and
@@ -70,12 +70,14 @@ When you **maintain `abd-author-practice-skill`**, keep its bundled **`rules/`**
 
 7. **Inspect the package instead of rewriting it from scratch.** Walk the **Validate** checklist in this file against the **target** folder, fix drift and weak spots, and stop when a careful reviewer would accept the package—unless new evidence forces a larger rewrite.
 
-8. **Scaffold deployable IDE files** under **`ide-files/`** in the target skill root. Every skill should include:
+8. **Create IDE files only when the skill enforces a real always-on behavioral constraint.** IDE files are **not** required for every skill — skills are discovered contextually through the agent skills system. Do **not** create a `.mdc` that just says "read skill X when the user asks for Y"; that is noise, not a constraint.
 
-   - **`ide-files/<skill-name>.mdc`** — Cursor rule (always-on). YAML frontmatter with `description:` and `alwaysApply: true`, then a short instruction that tells the agent when and how to use this skill.
-   - **`ide-files/<skill-name>.instructions.md`** — VS Code instruction: the **exact same markdown body** as the `.mdc` file (everything after the closing `---` of the frontmatter) with **no** YAML header. Copy-paste the body; do not paraphrase. The **`mdc-instructions-parity`** scanner fails if they drift.
-   - **`ide-files/<skill-name>.prompt.md`** — Slash command for both IDEs (short “run this skill” invocation). YAML frontmatter with `description:` only; body is **not** required to match the `.mdc` body.
+   Only create **`ide-files/`** when the skill enforces a **non-negotiable behavioral guard** that must hold in every conversation regardless of context (a quality gate, a process invariant, a "never do X" rule). When that bar is met:
 
+   - **`ide-files/<skill-name>.mdc`** — Cursor rule. YAML frontmatter with `description:` and `alwaysApply: true`; body states the constraint in DO / DO NOT terms.
+   - **`ide-files/<skill-name>.instructions.md`** — VS Code parity: the **exact same markdown body** as the `.mdc` (everything after the closing `---`) with **no** YAML header. The **`mdc-instructions-parity`** scanner fails if they drift.
+
+   **Do not create a `.prompt.md`** by default. Slash commands are for workflows a practitioner explicitly invokes — only add one when there is a clear user-facing invocation reason.
 9. **Deploy the skill outputs to the target project.** Run **`Deploy-SkillOutputs.ps1`** from this skill's `scripts/` to link the authored skill's IDE files into the target project:
 
    ```powershell

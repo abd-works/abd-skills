@@ -1,4 +1,6 @@
 ---
+catalog_garden_tier: practice
+catalog_garden_order: 30
 name: abd-interface-design
 description: >-
   Translate the approved hi-fi mockup for a screen into production-grade,

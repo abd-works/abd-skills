@@ -1,4 +1,6 @@
 ---
+catalog_garden_tier: practice
+catalog_garden_order: 20
 name: abd-architecture-blueprint
 description: >-
   Produce the second-level architecture document after the outline — a

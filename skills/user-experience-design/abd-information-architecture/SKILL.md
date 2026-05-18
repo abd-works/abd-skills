@@ -1,4 +1,6 @@
 ---
+catalog_garden_tier: practice
+catalog_garden_order: 10
 name: abd-information-architecture
 description: >-
   Produce a first-pass information architecture for a solution scope — a site

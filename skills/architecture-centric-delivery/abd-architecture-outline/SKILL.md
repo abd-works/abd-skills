@@ -1,4 +1,6 @@
 ---
+catalog_garden_tier: practice
+catalog_garden_order: 10
 name: abd-architecture-outline
 description: >-
   Produce the first architecture artifact for a new or unfamiliar system —
