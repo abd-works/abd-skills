@@ -14,6 +14,15 @@ from typing import DefaultDict
 
 _ORDINAL_PREFIX_RE = re.compile(r"^\s*\d+\.\s+")
 
+# Markdown artefacts / section-break markers at end-of-criterion lines
+_TAIL_MARKER_RE = re.compile(r"\s*-{3,}\s*$")
+
+
+def strip_tail_markers(t: str) -> str:
+    """Remove trailing triple-dash markers aligned with markup sources."""
+    s = (t or "").strip()
+    return _TAIL_MARKER_RE.sub("", s).strip()
+
 _HTML_TAG_RE = re.compile(r"<[^>]+>")
 _HTML_ENTITY_MAP = {
     "&amp;": "&",
@@ -49,14 +58,14 @@ def plain_ac_from_cell_value(val: str) -> str:
     if "<" not in v:
         v = strip_ordinal_prefix(v)
         v = _KEYWORD_BOLD_MD_RE.sub(lambda m: m.group(1).upper(), v)
-        return _squish_spaces(v.replace("**", ""))
+        return strip_tail_markers(_squish_spaces(v.replace("**", "")))
 
     t = v.replace("<div>", "").replace("</div>", " ")
     t = re.sub(r"(?is)<br\s*/?>", " ", t)
     t = _HTML_TAG_RE.sub("", t)
     for entity, ch in _HTML_ENTITY_MAP.items():
         t = t.replace(entity, ch)
-    t = _squish_spaces(t)
+    t = strip_tail_markers(_squish_spaces(t))
     return strip_ordinal_prefix(t)
 
 

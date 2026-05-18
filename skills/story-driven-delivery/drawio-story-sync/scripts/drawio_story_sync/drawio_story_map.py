@@ -21,6 +21,7 @@ from .drawio_story_node_serializer import DrawIOStoryNodeSerializer
 from .layout_data import LayoutData
 from .update_report import UpdateReport
 from .render_summary import RenderSummary
+from .ac_text_format import plain_ac_from_cell_value
 
 
 _OUTLINE_PERSONA_FILL = STYLE_DEFAULTS['actor']['fill']
@@ -904,8 +905,6 @@ class DrawIOStoryMap(StoryMap):
                           and bnd.height >= 30)
 
             if is_tool_ac or is_user_ac:
-                from drawio_story_sync.ac_text_format import plain_ac_from_cell_value
-
                 ac_boxes.append({
                     'cell_id': cid,
                     'text': plain_ac_from_cell_value(val.strip()),
