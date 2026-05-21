@@ -197,7 +197,7 @@ A canvas passes when every section — **Customer Problems**, **Solution Feature
 
   **Example (fail):** Customer Problems mentions dealer coordinators; Solution Features describes a consumer mobile app; Increments references an internal analytics dashboard — a reviewer cannot trace a single narrative from start to finish.
 
-**Source:** Agile by Design Opportunity Canvas — all-sections coverage and coherent model requirement.
+**Source:** abd.works Opportunity Canvas — all-sections coverage and coherent model requirement.
 
 ### Rule: Alternatives are documented as substantially different columns
 
@@ -217,7 +217,7 @@ When alternatives are present on the canvas, each one passes when it is structur
 
   **Example (fail):** Alternative column that swaps React for Angular in Solution Features while all other sections mirror the main case — this is an implementation variant, not a strategic alternative worth modelling.
 
-**Source:** Agile by Design Opportunity Canvas — Alternatives as canvas columns.
+**Source:** abd.works Opportunity Canvas — Alternatives as canvas columns.
 
 ### Rule: Assumptions connect canvas elements and are stated as beliefs that could be wrong
 
@@ -249,7 +249,7 @@ A well-formed assumption passes when it names at least multiple connected canvas
 
   **Example (fail):** `ASSUMPTION: We will run a pilot in Q2.` — this is a task, not a belief about the opportunity that could fail.
 
-**Source:** Agile by Design opportunity canvas and validated learning practices.
+**Source:** abd.works opportunity canvas and validated learning practices.
 
 ### Rule: Increments of Value names a minimum valuable increment
 
@@ -273,7 +273,7 @@ The **Increments of Value** section passes when it identifies a first increment 
 
   **Example (fail):** `INCREMENTS_OF_VALUE: Digital solution for dealers` — no minimum, no segment, no ordering.
 
-**Source:** Agile by Design Opportunity Canvas — Increments of Value section.
+**Source:** abd.works Opportunity Canvas — Increments of Value section.
 
 ### Rule: Key Metrics of Success are measurable signals
 
@@ -297,7 +297,7 @@ The **Key Metrics of Success** section passes when each metric is expressed as s
 
   **Example (fail):** `KEY_METRICS_OF_SUCCESS: Success` or `KEY_METRICS_OF_SUCCESS: Customer satisfaction` — these are categories, not metrics.
 
-**Source:** Agile by Design Opportunity Canvas — Key Metrics of Success section.
+**Source:** abd.works Opportunity Canvas — Key Metrics of Success section.
 
 ### Rule: Opportunity states the UVP connecting customer, problem, and solution
 
@@ -321,7 +321,7 @@ The `OPPORTUNITY:` field passes when it contains a **Unique Value Proposition** 
 
   **Example (fail):** `OPPORTUNITY: A real-time scheduling platform with calendar integration and notifications` — solution-only, no segment named, no problem connected.
 
-**Source:** Agile by Design Opportunity Canvas — Opportunity field and UVP framing.
+**Source:** abd.works Opportunity Canvas — Opportunity field and UVP framing.
 
 ### Rule: Solution Features spine traces to Customer Problems with a UVP
 
@@ -345,5 +345,5 @@ The canvas passes the spine check when **Solution Features** states a Unique Val
 
   **Example (fail):** `CUSTOMER_PROBLEMS: Fleet managers — need bulk booking confirmation` with no feature for fleet managers in Solution Features — the segment is named but the solution ignores them.
 
-**Source:** Agile by Design Opportunity Canvas — Customer Problems and Solution Features spine.
+**Source:** abd.works Opportunity Canvas — Customer Problems and Solution Features spine.
 <!-- execute_rules:bundle_rules:end -->

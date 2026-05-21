@@ -1,6 +1,6 @@
 # scripts (shared story-diagram Python)
 
-Shared Python packages used across multiple Agile by Design **story-driven-delivery** skills. Each
+Shared Python packages used across multiple abd.works **story-driven-delivery** skills. Each
 package is platform-agnostic — it never imports from a specific backend skill.
 
 ## Contents

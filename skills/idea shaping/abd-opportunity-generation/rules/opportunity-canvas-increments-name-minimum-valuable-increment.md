@@ -20,4 +20,4 @@ The **Increments of Value** section passes when it identifies a first increment 
 
   **Example (fail):** `INCREMENTS_OF_VALUE: Digital solution for dealers` — no minimum, no segment, no ordering.
 
-**Source:** Agile by Design Opportunity Canvas — Increments of Value section.
+**Source:** abd.works Opportunity Canvas — Increments of Value section.

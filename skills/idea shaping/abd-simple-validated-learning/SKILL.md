@@ -111,7 +111,7 @@ A validated learning backlog item passes when it names who owns the test and wha
 
   **Example (fail):** `Plan: validate that coordinators adopt the flow.` — this repeats the hypothesis; it is not a method the team could execute.
 
-**Source:** Agile by Design validated learning practices — Plan / Validate / Learn accountability.
+**Source:** abd.works validated learning practices — Plan / Validate / Learn accountability.
 
 ### Rule: Each hypothesis is falsifiable with a stated failure condition
 
@@ -135,5 +135,5 @@ A hypothesis in the validated learning backlog passes when it is stated as a bel
 
   **Example (fail):** `We believe users will prefer the new flow.` — no failure condition, no observable signal, not testable.
 
-**Source:** Agile by Design validated learning practices — hypothesis format.
+**Source:** abd.works validated learning practices — hypothesis format.
 <!-- execute_rules:bundle_rules:end -->

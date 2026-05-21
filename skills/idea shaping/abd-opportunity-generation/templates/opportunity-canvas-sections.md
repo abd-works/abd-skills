@@ -3,7 +3,7 @@
 ## Instructions  
 
 - Fill the **Template** block: replace `{{placeholders}}` and write under each **line-prefix** so rules and parity still apply. **Do not** paste this Instructions block into deliverables.  
-- Each **section** below names one row of the Agile by Design table (**`SKILL.md`**, page-46 style) and **embeds the guiding questions** for that row. The **`PREFIX:`** line is the machine-checkable field—keep it.  
+- Each **section** below names one row of the abd.works table (**`SKILL.md`**, page-46 style) and **embeds the guiding questions** for that row. The **`PREFIX:`** line is the machine-checkable field—keep it.  
 - **Paired** **`opportunity-canvas.txt`**: same sections, same prefix lines, same content for the same engagement.  
 - **Validated learning** (Kanban, `validate by:`): see **`SKILL.md`** and **`reference/canvas-pptx-extract.md`** slides 12–14.  
 

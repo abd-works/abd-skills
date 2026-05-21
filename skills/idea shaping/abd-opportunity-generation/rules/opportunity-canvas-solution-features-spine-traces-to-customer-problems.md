@@ -20,4 +20,4 @@ The canvas passes the spine check when **Solution Features** states a Unique Val
 
   **Example (fail):** `CUSTOMER_PROBLEMS: Fleet managers — need bulk booking confirmation` with no feature for fleet managers in Solution Features — the segment is named but the solution ignores them.
 
-**Source:** Agile by Design Opportunity Canvas — Customer Problems and Solution Features spine.
+**Source:** abd.works Opportunity Canvas — Customer Problems and Solution Features spine.

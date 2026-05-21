@@ -20,4 +20,4 @@ A validated learning backlog item passes when it names who owns the test and wha
 
   **Example (fail):** `Plan: validate that coordinators adopt the flow.` — this repeats the hypothesis; it is not a method the team could execute.
 
-**Source:** Agile by Design validated learning practices — Plan / Validate / Learn accountability.
+**Source:** abd.works validated learning practices — Plan / Validate / Learn accountability.

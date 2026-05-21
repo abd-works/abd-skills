@@ -20,4 +20,4 @@ The `OPPORTUNITY:` field passes when it contains a **Unique Value Proposition** 
 
   **Example (fail):** `OPPORTUNITY: A real-time scheduling platform with calendar integration and notifications` — solution-only, no segment named, no problem connected.
 
-**Source:** Agile by Design Opportunity Canvas — Opportunity field and UVP framing.
+**Source:** abd.works Opportunity Canvas — Opportunity field and UVP framing.

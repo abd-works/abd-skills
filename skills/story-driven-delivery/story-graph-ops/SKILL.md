@@ -81,7 +81,7 @@ Typical situations:
 
 | Piece | Role |
 | --- | --- |
-| **ABD practice skills** | **Guidance and best practices** for Agile by Design work: how to frame problems, name and structure artifacts, use templates, run quality passes, and apply bundled rules or scanners. They answer *what good looks like* and *which conventions apply*—not the mechanical layer of reading or writing `story-graph.json` on disk. |
+| **ABD practice skills** | **Guidance and best practices** for abd.works work: how to frame problems, name and structure artifacts, use templates, run quality passes, and apply bundled rules or scanners. They answer *what good looks like* and *which conventions apply*—not the mechanical layer of reading or writing `story-graph.json` on disk. |
 | **story-graph-ops** | **Lifecycle on disk**: create, read, update, and delete the **serialized graph** (`story-graph.json`, in whole or in part)—encoding, mutating, and tooling against the file. |
 
 **Same complementary relationship** in every case: use **practice skills** for *how the work should read* and *which quality bars to hit*; use **story-graph-ops** to *create and edit the graph file* **and validate it with this skill’s tools**. Whenever the deliverable includes **creating or changing** `story-graph.json`, load **story-graph-ops** and **complete the checklist above**.

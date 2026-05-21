@@ -86,7 +86,7 @@ This **`SKILL.md`** is assembled from **`rules/`** into the bundled block below.
 
 ## What is a story map?
 
-A **story map** is a visual, hierarchical model of how users and systems interact with a product or service. It was popularized by Jeff Patton and is central to Agile by Design's approach to discovery.
+A **story map** is a visual, hierarchical model of how users and systems interact with a product or service. It was popularized by Jeff Patton and is central to the abd.works approach to discovery.
 
 A story map answers three questions:
 1. **Who** uses the system? (Actors)

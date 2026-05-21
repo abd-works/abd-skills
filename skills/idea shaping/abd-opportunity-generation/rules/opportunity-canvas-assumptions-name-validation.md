@@ -28,4 +28,4 @@ A well-formed assumption passes when it names at least multiple connected canvas
 
   **Example (fail):** `ASSUMPTION: We will run a pilot in Q2.` — this is a task, not a belief about the opportunity that could fail.
 
-**Source:** Agile by Design opportunity canvas and validated learning practices.
+**Source:** abd.works opportunity canvas and validated learning practices.

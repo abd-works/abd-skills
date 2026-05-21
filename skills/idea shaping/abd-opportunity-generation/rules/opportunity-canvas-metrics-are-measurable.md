@@ -20,4 +20,4 @@ The **Key Metrics of Success** section passes when each metric is expressed as s
 
   **Example (fail):** `KEY_METRICS_OF_SUCCESS: Success` or `KEY_METRICS_OF_SUCCESS: Customer satisfaction` — these are categories, not metrics.
 
-**Source:** Agile by Design Opportunity Canvas — Key Metrics of Success section.
+**Source:** abd.works Opportunity Canvas — Key Metrics of Success section.
