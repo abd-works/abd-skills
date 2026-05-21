@@ -16,4 +16,4 @@ When alternatives are present on the canvas, each one passes when it is structur
 
   **Example (fail):** Alternative column that swaps React for Angular in Solution Features while all other sections mirror the main case — this is an implementation variant, not a strategic alternative worth modelling.
 
-**Source:** Agile by Design Opportunity Canvas — Alternatives as canvas columns.
+**Source:** abd.works Opportunity Canvas — Alternatives as canvas columns.

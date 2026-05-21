@@ -1,6 +1,6 @@
-# Agile by Design Practice Skills
+# abd.works Practice Skills
 
-Reusable agent skills from [Agile by Design](https://agilebydesign.com), covering everything from story mapping to clean code.
+Reusable agent skills from [abd.works](https://agilebydesign.com), covering everything from story mapping to clean code.
 
 
  PHASE ────────────  IDEATION                          DISCOVERY

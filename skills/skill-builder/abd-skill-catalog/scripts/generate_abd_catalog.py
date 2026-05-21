@@ -77,7 +77,7 @@ def _catalog_cli_invocation(repo_root: Path) -> str:
     return f"python {rel}"
 
 # Subtitle in generated pages (repo output folder is <root>/catalog/).
-CATALOG_BRAND_HTML = "<strong>Agile by Design</strong> &middot; AI Garden"
+CATALOG_BRAND_HTML = "<strong>abd.works</strong> &middot; AI Garden"
 
 # GitHub slug for `npx skills add owner/repo@skill` (skills.sh / Open Agent Skills CLI).
 NPX_SKILLS_REPO_SLUG = "agilebydesign/agilebydesign-skills"

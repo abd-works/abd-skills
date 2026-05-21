@@ -20,4 +20,4 @@ A hypothesis in the validated learning backlog passes when it is stated as a bel
 
   **Example (fail):** `We believe users will prefer the new flow.` — no failure condition, no observable signal, not testable.
 
-**Source:** Agile by Design validated learning practices — hypothesis format.
+**Source:** abd.works validated learning practices — hypothesis format.

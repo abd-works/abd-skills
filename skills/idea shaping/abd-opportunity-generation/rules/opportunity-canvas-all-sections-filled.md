@@ -20,4 +20,4 @@ A canvas passes when every section — **Customer Problems**, **Solution Feature
 
   **Example (fail):** Customer Problems mentions dealer coordinators; Solution Features describes a consumer mobile app; Increments references an internal analytics dashboard — a reviewer cannot trace a single narrative from start to finish.
 
-**Source:** Agile by Design Opportunity Canvas — all-sections coverage and coherent model requirement.
+**Source:** abd.works Opportunity Canvas — all-sections coverage and coherent model requirement.
