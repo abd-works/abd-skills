@@ -25,6 +25,20 @@ from scanner_bases.resources.scan_context import (  # noqa: E402
 )
 
 _BOUNDARY_SECTION_RE = re.compile(r"^## Boundary terms\s*$", re.MULTILINE)
+
+_DT_CANDIDATES = [
+    "docs/domain/domain-terms.md",
+    "domain/domain-terms.md",
+    "abd-domain-driven-design/domain-terms.md",
+]
+
+
+def _find_domain_terms(workspace: Path) -> Path | None:
+    for rel in _DT_CANDIDATES:
+        p = workspace / rel
+        if p.exists():
+            return p
+    return None
 _H2_RE = re.compile(r"^## .+$", re.MULTILINE)
 _H3_RE = re.compile(r"^### (.+)$", re.MULTILINE)
 _OWNED_BY_RE = re.compile(r"^Owned by:\s*(.+)$", re.MULTILINE)
@@ -39,10 +53,10 @@ class BoundaryTermsHaveOwnerScanner(Scanner):
             return violations
 
         first_file = all_files[0]
-        workspace = first_file.parent.parent
+        workspace = context.workspace if hasattr(context, "workspace") else first_file.parent.parent
 
-        DL_path = workspace / "abd-domain-driven-design" / "domain-terms.md"
-        if not DL_path.exists():
+        DL_path = _find_domain_terms(workspace)
+        if DL_path is None:
             return violations
 
         text = DL_path.read_text(encoding="utf-8")
@@ -102,10 +116,10 @@ class BoundaryTermsHaveOwnerScanner(Scanner):
         return violations
 
 
-def _build_context(workspace: Path) -> ScanFilesContext:
+def _build_context(workspace: Path, story_graph=None) -> ScanFilesContext:
     files: List[Path] = []
-    DL = workspace / "abd-domain-driven-design" / "domain-terms.md"
-    if DL.is_file():
+    DL = _find_domain_terms(workspace)
+    if DL is not None:
         files.append(DL)
     return ScanFilesContext(files=FileCollection(code_files=files))
 

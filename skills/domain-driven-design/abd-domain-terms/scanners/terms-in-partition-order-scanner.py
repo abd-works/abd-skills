@@ -25,6 +25,20 @@ from scanner_bases.resources.scan_context import (  # noqa: E402
 )
 
 _CORE_TERMS_RE = re.compile(r"^\*\*Core terms\*\*:", re.MULTILINE)
+
+_DT_CANDIDATES = [
+    "docs/domain/domain-terms.md",
+    "domain/domain-terms.md",
+    "abd-domain-driven-design/domain-terms.md",
+]
+
+
+def _find_domain_terms(workspace: Path) -> Path | None:
+    for rel in _DT_CANDIDATES:
+        p = workspace / rel
+        if p.exists():
+            return p
+    return None
 _H3_RE = re.compile(r"^### (.+)$", re.MULTILINE)
 _BOUNDARY_RE = re.compile(r"^## Boundary terms", re.MULTILINE)
 
@@ -60,12 +74,14 @@ class TermsInPartitionOrderScanner(Scanner):
             return violations
 
         first_file = all_files[0]
-        workspace = first_file.parent.parent
+        workspace = context.workspace if hasattr(context, "workspace") else first_file.parent.parent
 
-        DL_path = workspace / "abd-domain-driven-design" / "domain-terms.md"
-        modules_dir = workspace / "abd-domain-driven-design" / "modules"
+        DL_path = _find_domain_terms(workspace)
+        modules_dir = workspace / "domain" / "modules"
+        if not modules_dir.is_dir():
+            modules_dir = workspace / "abd-domain-driven-design" / "modules"
 
-        if not DL_path.exists() or not modules_dir.is_dir():
+        if DL_path is None or not modules_dir.is_dir():
             return violations
 
         DL_text = DL_path.read_text(encoding="utf-8")
@@ -114,17 +130,19 @@ class TermsInPartitionOrderScanner(Scanner):
         return violations
 
 
-def _build_context(workspace: Path) -> ScanFilesContext:
+def _build_context(workspace: Path, story_graph=None) -> ScanFilesContext:
     files: List[Path] = []
-    DL = workspace / "abd-domain-driven-design" / "domain-terms.md"
-    if DL.is_file():
+    DL = _find_domain_terms(workspace)
+    if DL is not None:
         files.append(DL)
-    modules_dir = workspace / "abd-domain-driven-design" / "modules"
-    if modules_dir.is_dir():
-        for f in sorted(modules_dir.glob("*.md")):
-            if f.is_file():
-                files.append(f)
-    return ScanFilesContext(files=FileCollection(code_files=files))
+    for modules_dir in [workspace / "domain" / "modules", workspace / "abd-domain-driven-design" / "modules"]:
+        if modules_dir.is_dir():
+            for f in sorted(modules_dir.glob("*.md")):
+                if f.is_file():
+                    files.append(f)
+            break
+    ctx = ScanFilesContext(files=FileCollection(code_files=files))
+    return ctx
 
 
 if __name__ == "__main__":

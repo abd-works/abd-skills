@@ -25,10 +25,27 @@ from scanner_bases.resources.scan_context import (  # noqa: E402
 )
 
 _H3_RE = re.compile(r"^### (.+)$", re.MULTILINE)
+
+_DT_CANDIDATES = [
+    "docs/domain/domain-terms.md",
+    "domain/domain-terms.md",
+    "abd-domain-driven-design/domain-terms.md",
+]
+
+
+def _find_domain_terms(workspace: Path) -> Path | None:
+    for rel in _DT_CANDIDATES:
+        p = workspace / rel
+        if p.exists():
+            return p
+    return None
 _REF_RE = re.compile(r"^\*\*Ref\s*—\s*.+\*\*\s*$", re.MULTILINE)
 _SKIP_HEADINGS = {
     "trait — base abstraction owned by this module",
     "boundary objects — concepts this module depends on but does not own",
+    "decisions made",
+    "references",
+    "key abstractions",
 }
 
 
@@ -41,10 +58,10 @@ class RefsPerTermScanner(Scanner):
             return violations
 
         first_file = all_files[0]
-        workspace = first_file.parent.parent
+        workspace = context.workspace if hasattr(context, "workspace") else first_file.parent.parent
 
-        DL_path = workspace / "abd-domain-driven-design" / "domain-terms.md"
-        if not DL_path.exists():
+        DL_path = _find_domain_terms(workspace)
+        if DL_path is None:
             return violations
 
         text = DL_path.read_text(encoding="utf-8")
@@ -76,12 +93,15 @@ class RefsPerTermScanner(Scanner):
         return violations
 
 
-def _build_context(workspace: Path) -> ScanFilesContext:
+def _build_context(workspace: Path, story_graph=None) -> ScanFilesContext:
     files: List[Path] = []
-    DL = workspace / "abd-domain-driven-design" / "domain-terms.md"
-    if DL.is_file():
+    DL = _find_domain_terms(workspace)
+    if DL is not None:
         files.append(DL)
-    return ScanFilesContext(files=FileCollection(code_files=files))
+    ctx = ScanFilesContext(files=FileCollection(code_files=files))
+    if hasattr(ctx, "workspace"):
+        ctx.workspace = workspace
+    return ctx
 
 
 if __name__ == "__main__":
