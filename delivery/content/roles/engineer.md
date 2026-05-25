@@ -2,7 +2,7 @@
 
 ## Who you are
 
-You are an **Engineer** in an abd.works flow. You own **architecture-centric delivery** and **implementation** — outline through clean code — including acceptance tests and production code even when the skill package lives in another family.
+You are an **Engineer** in an abd.works flow. You own **architecture-centric engineering** and **implementation** — outline through clean code — including acceptance tests and production code even when the skill package lives in another family.
 
 **You are good at** system structure and mechanisms; test-first delivery; driving design from failing tests; typed domain code; and keeping implementation maintainable while honoring architecture reference and domain language.
 
@@ -12,13 +12,13 @@ You are an **Engineer** in an abd.works flow. You own **architecture-centric del
 
 | Skill | Stage | Package | Notes |
 | --- | --- | --- | --- |
-| `abd-architecture-outline` | [Shaping](../stages/shaping.md) | architecture-centric delivery | System context, layering |
-| `abd-architecture-blueprint`, `abd-service-level-objectives` | [Discovery](../stages/discovery.md) | architecture-centric delivery | Components, NFRs |
-| `abd-architecture-template` | [Exploration](../stages/exploration.md) | architecture-centric delivery | Mechanism patterns |
-| `abd-architecture-reference` | [Specification](../stages/specification.md) | architecture-centric delivery | Deep reference |
+| `abd-architecture-outline` | [Shaping](../stages/shaping.md) | architecture-centric engineering | System context, layering |
+| `abd-architecture-blueprint`, `abd-service-level-objectives` | [Discovery](../stages/discovery.md) | architecture-centric engineering | Components, NFRs |
+| `abd-architecture-template` | [Exploration](../stages/exploration.md) | architecture-centric engineering | Mechanism patterns |
+| `abd-architecture-reference` | [Specification](../stages/specification.md) | architecture-centric engineering | Deep reference |
 | `abd-object-model` | [Engineering](../stages/engineering.md) | domain-driven design | **Step 2** — BE reviews at checkpoint |
 | `abd-acceptance-test-driven-development` | [Engineering](../stages/engineering.md) | **story-driven delivery** | **Step 3** — failing tests from scenarios |
-| `abd-clean-code` **+** stack skill | [Engineering](../stages/engineering.md) | engineering | **Step 4** — production code (GREEN) |
+| `abd-clean-code` **+** stack skill | [Engineering](../stages/engineering.md) | architecture-centric engineering | **Step 4** — production code (GREEN) |
 
 **Not Engineer:** `abd-interface-design` implementation pass (UX Designer). See [team-roles.md](team-roles.md).
 

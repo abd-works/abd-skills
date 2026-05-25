@@ -142,7 +142,7 @@ This flow has **five bootcamp stages**. Per-stage **entry conditions**, **exit g
 | 4   | Specification    | Product Owner | CRC (concepts for tables), spec-by-example, walkthrough, interface, arch reference | `specification.md` |
 | 5   | Engineering | Multi-role | interface design impl (UX) → object model → ATDD → clean code (Engineer) | `engineering.md` |
 
-**Families → default roles:** story → Product Owner · domain → Business Expert · UX → UX Designer · architecture-centric + engineering → Engineer. **Executor role per skill** is in the stage file — package family can differ (e.g. ATDD → Engineer). [team-roles.md](../../content/roles/team-roles.md)
+**Families → default roles:** story → Product Owner · domain → Business Expert · UX → UX Designer · architecture-centric-engineering → Engineer. **Executor role per skill** is in the stage file — package family can differ (e.g. ATDD → Engineer). [team-roles.md](../../content/roles/team-roles.md)
 
 
 Stages are sequential by default. Parallel runs are allowed when outputs are independent (e.g. specification for one slice while discovery continues for another).

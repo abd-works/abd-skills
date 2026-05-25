@@ -30,7 +30,7 @@ Run skills **top to bottom**. Skip only when the engagement plan explicitly waiv
 | 1 | **User experience design** | `abd-interface-design` | UX Designer | **Implementation pass** — runnable UI from `interface-design.md` (spec pass ran in [Specification](specification.md)) |
 | 2 | **Domain-driven design** | `abd-object-model` | Engineer | Typed domain surface aligned with CRC / UL; Business Expert validates at checkpoint |
 | 3 | **Story-driven delivery** | `abd-acceptance-test-driven-development` | Engineer | Acceptance tests from scenarios; example data from object model; test layout per architecture reference |
-| 4 | **Engineering** | `abd-clean-code` **+** stack / arch skill **if provided** (e.g. `mern-technical-architecture`, `hero-vtt-technical-architecture`) | Engineer | Production code to pass tests; implementation patterns from architecture reference |
+| 4 | **Architecture-centric engineering** | `abd-clean-code` **+** stack / arch skill **if provided** (e.g. `mern-technical-architecture`, `hero-vtt-technical-architecture`) | Engineer | Production code to pass tests; implementation patterns from architecture reference |
 
 **Architecture reference** (`abd-architecture-reference`) is produced in [Specification](specification.md). In this stage, **use** it — do not re-run the reference skill unless specification was incomplete. Step 3: testing patterns and folder layout. Step 4: implementation patterns.
 

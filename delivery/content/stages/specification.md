@@ -20,7 +20,7 @@ When running the full specification pass, default skill order: **domain (CRC) �
 | 2 | **Story-driven delivery** | `abd-specification-by-example` | Product Owner | Given/When/Then with real values; tables name CRC concepts |
 | 3 | **Domain-driven design** | `abd-scenario-walkthrough` | Business Expert | Walk spec scenarios through CRC — every step maps to a concept |
 | 4 | **User experience design** | `abd-interface-design` | UX Designer | **Spec pass** — author `interface-design.md` from lo-fi mockups |
-| 5 | **Architecture & engineering** | `abd-architecture-reference` | Engineer | Deep mechanism reference for Engineering |
+| 5 | **Architecture-centric engineering** | `abd-architecture-reference` | Engineer | Deep mechanism reference for Engineering |
 
 ## Entry conditions
 

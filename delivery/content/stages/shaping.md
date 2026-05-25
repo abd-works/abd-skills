@@ -21,9 +21,9 @@ Skill order when running the full shaping pass: **domain → story (outline) →
 | 1 | **Domain-driven design** | `abd-module-partition` | Business Expert | Corpus / module boundaries before detailed mapping |
 | 2 | **Domain-driven design** | `abd-bounded-context-map` | Business Expert | Context relationships when multiple modules |
 | 3 | **Story-driven delivery** | `abd-story-mapping` (**outline mode**) | Product Owner | Epic-level map; actors and journeys, not full decomposition |
-| 4 | **Story-driven delivery** | `abd-opportunity-generation` | Product Owner | Optional — frame opportunity and assumptions before Discovery |
+| 4 | **Idea shaping** | `abd-opportunity-generation` | Product Owner | Optional — frame opportunity and assumptions before Discovery |
 | 5 | **User experience design** | `abd-impact-mapping` | UX Designer | Goals → actors → impacts → deliverable options before full IA |
-| 6 | **Architecture & engineering** | `abd-architecture-outline` | Engineer | System context, layering, deployment — no blueprint depth yet |
+| 6 | **Architecture-centric engineering** | `abd-architecture-outline` | Engineer | System context, layering, deployment — no blueprint depth yet |
 
 ## Entry conditions
 

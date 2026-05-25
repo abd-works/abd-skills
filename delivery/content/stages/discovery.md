@@ -23,8 +23,8 @@ When running the full discovery pass, default skill order: **domain â†’ story â†
 | 3 | **Domain-driven design** | `drawio-domain-sync` | Business Expert | Optional domain diagram from vocabulary |
 | 4 | **Story-driven delivery** | `abd-story-mapping` (**full mode**) | Product Owner | Full map decomposed to testable stories |
 | 5 | **User experience design** | `abd-information-architecture` | UX Designer | Screen inventory, navigation, content model |
-| 6 | **Architecture & engineering** | `abd-architecture-blueprint` | Engineer | System components and mechanisms |
-| 7 | **Architecture & engineering** | `abd-service-level-objectives` | Engineer | NFR/SLO targets when assigned |
+| 6 | **Architecture-centric engineering** | `abd-architecture-blueprint` | Engineer | System components and mechanisms |
+| 7 | **Architecture-centric engineering** | `abd-service-level-objectives` | Engineer | NFR/SLO targets when assigned |
 | 8 | **Story-driven delivery** | `abd-thin-slicing` | Product Owner | Vertical slice ordering **after** map, IA, and blueprint align |
 | 9 | **Story-driven delivery** | `drawio-story-sync` | Product Owner | Increment diagram after thin-slicing |
 
@@ -38,7 +38,7 @@ When running the full discovery pass, default skill order: **domain â†’ story â†
 - Domain: `domain-terms` / `ubiquitous-language` artifacts; optional domain `.drawio`.
 - Story: `story-graph.json`, `story-map.md`, `thin-slicing.md`; optional story `.drawio`.
 - UX: `information-architecture.md` + `.drawio` under `docs/ux/`.
-- Architecture & engineering: `architecture-blueprint.md`, SLO doc when assigned; paired diagrams per skill.
+- Architecture-centric engineering: `architecture-blueprint.md`, SLO doc when assigned; paired diagrams per skill.
 
 ## Exit gate
 

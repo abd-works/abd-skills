@@ -31,6 +31,7 @@ Single on-disk home for **progress** and **handoffs**. The delivery lead, team m
 
 | Stages | `shaping` → `discovery` → `exploration` → `specification` → `engineering` |
 | Roles | `product-owner`, `business-expert`, `ux-designer`, `engineer`, `reviewer` |
+| Family packages | `story-driven-delivery/`, `domain-driven-design/`, `user-experience-design/`, `architecture-centric-engineering/` |
 
 Stage gates and skill order: [`../../content/stages/README.md`](../../content/stages/README.md).
 

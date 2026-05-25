@@ -1,6 +1,6 @@
 # Run abd-architecture-outline
 
-Read `skills/architecture-centric-delivery/abd-architecture-outline/SKILL.md` and follow the Build steps.
+Read `skills/architecture-centric-engineering/abd-architecture-outline/SKILL.md` and follow the Build steps.
 
 When producing or updating an architecture outline:
 

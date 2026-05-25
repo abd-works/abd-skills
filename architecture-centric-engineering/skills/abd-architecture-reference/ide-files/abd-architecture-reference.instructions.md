@@ -1,6 +1,6 @@
 # abd-architecture-reference
 
-Read `skills/architecture-centric-delivery/abd-architecture-reference/SKILL.md` and follow the Agent Instructions to generate runnable code files that implement one architecture mechanism.
+Read `skills/architecture-centric-engineering/abd-architecture-reference/SKILL.md` and follow the Agent Instructions to generate runnable code files that implement one architecture mechanism.
 
 Choose the mode:
 - **Project mode** — a real `architecture-reference.md` is in scope; generate every file listed in its File Structure block, implementing the walkthrough example.

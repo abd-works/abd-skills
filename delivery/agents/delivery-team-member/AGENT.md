@@ -61,7 +61,7 @@ workspace: C:\dev\my-engagement
 | Product Owner | Story-driven delivery | [../../content/roles/product-owner.md](../../content/roles/product-owner.md) |
 | Business Expert | Domain-driven design | [../../content/roles/business-expert.md](../../content/roles/business-expert.md) |
 | UX Designer | User experience design | [../../content/roles/ux-designer.md](../../content/roles/ux-designer.md) |
-| Engineer | Architecture & engineering | [../../content/roles/engineer.md](../../content/roles/engineer.md) |
+| Engineer | Architecture-centric engineering | [../../content/roles/engineer.md](../../content/roles/engineer.md) |
 
 Reviewers have **no** family playbook — they use **delivery-team-reviewer** and `../../content/stages/<stage>.md` exit gates.
 

@@ -24,7 +24,7 @@ The generated implementation skill must **inherit** the **project's chosen codin
 
 - Copy `use-domain-language.md` from `abd-clean-code` (or the equivalent rule from whichever guide is in scope) into the generated skill's `rules/`.
 
-  **Example (fail):** Generated `rules/use-domain-language.md` is a byte-for-byte copy of `agilebydesign-skills/skills/engineering/abd-clean-code/rules/use-domain-language.md`. Updates upstream will not propagate.
+  **Example (fail):** Generated `rules/use-domain-language.md` is a byte-for-byte copy of `agilebydesign-skills/architecture-centric-engineering/skills/abd-clean-code/rules/use-domain-language.md`. Updates upstream will not propagate.
 
 - Generate a `SKILL.md` that never names the coding standard or testing standard the project is operating under.
 

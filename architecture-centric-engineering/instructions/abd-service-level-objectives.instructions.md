@@ -1,6 +1,6 @@
 # Run abd-service-level-objectives
 
-Read `skills/architecture-centric-delivery/abd-service-level-objectives/SKILL.md` and follow the Build steps.
+Read `skills/architecture-centric-engineering/abd-service-level-objectives/SKILL.md` and follow the Build steps.
 
 When producing or updating the SLO matrix:
 

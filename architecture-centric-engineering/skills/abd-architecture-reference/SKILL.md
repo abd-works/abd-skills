@@ -32,7 +32,7 @@ Two paths are available: use the real project's architecture reference and one i
    | **Project mode** | A real `architecture-reference.md` is in scope. Generate the files listed in its File Structure block, implementing the walkthrough example. |
    | **Hello-world mode** | No project context is available, or the team wants a standalone runnable example. Use the built-in Simple Calculator scenario described below. |
 
-2. **Read `abd-architecture-template` first.** Open `skills/architecture-centric-delivery/abd-architecture-template/SKILL.md`. The reference document it describes is the contract this skill implements — use its File Structure, Participants, Flow, and Walkthrough sections as the specification for every file you generate.
+2. **Read `abd-architecture-template` first.** Open `skills/architecture-centric-engineering/abd-architecture-template/SKILL.md`. The reference document it describes is the contract this skill implements — use its File Structure, Participants, Flow, and Walkthrough sections as the specification for every file you generate.
 
 3. **Hello-world scenario (mode 2).** When no project context exists, generate the files in `templates/hello-world/` using this pre-configured scope:
 

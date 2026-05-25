@@ -8,8 +8,7 @@
     delivery/
     story-driven-delivery/
     domain-driven-design/
-    architecture-centric-delivery/
-    engineering/
+    architecture-centric-engineering/
     user-experience-design/
     context-to-memory/
     idea-shaping/
@@ -41,8 +40,7 @@ $FamilyPackages = @(
     'delivery',
     'story-driven-delivery',
     'domain-driven-design',
-    'architecture-centric-delivery',
-    'engineering',
+    'architecture-centric-engineering',
     'user-experience-design',
     'context-to-memory',
     'idea-shaping',

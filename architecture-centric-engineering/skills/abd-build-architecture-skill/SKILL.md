@@ -58,7 +58,7 @@ Load this skill when **any** of the following apply:
    python skill-builder/skills/abd-author-practice-skill/scripts/bundle_rules_into_skill_md.py --skill-root engineering/skills/<generated-skill-name>
    python skill-helpers/skills/execute-skill-using-skills-rules/scripts/run_scanners.py \
      --skill-root skill-builder/skills/abd-author-practice-skill \
-     --workspace C:/dev/agilebydesign-skills/skills/engineering/<generated-skill-name>
+     --workspace C:/dev/agilebydesign-skills/architecture-centric-engineering/skills/<generated-skill-name>
    ```
 
    The first command bundles `rules/*.md` into the generated skill's `SKILL.md`; the second runs the `mdc-instructions-parity` scanner against the generated skill's `ide-files/`.
@@ -126,7 +126,7 @@ If the architecture has machine-checkable invariants (no `mongoose` import in `s
 For a reference document with layers **Presentation / Application / Domain / Infrastructure** and three mechanisms (Error Handling, Caching, Persistence), this skill produces a folder like:
 
 ```
-skills/engineering/<arch-name>-technical-architecture/
+architecture-centric-engineering/skills/<arch-name>-technical-architecture/
 ├── SKILL.md                          # one section per layer + Build/Validate
 ├── inputs/
 │   └── architecture-reference.md     # copied from abd-architecture-template
@@ -183,7 +183,7 @@ Each generated rule file must be **traceable** back to a specific reference docu
 
 **Goal:** From one architecture reference document, produce one complete implementation skill that any agent can load to generate code in that architecture.
 
-- **Outputs:** A new folder `skills/engineering/<arch-name>-technical-architecture/` (or under another namespace if the user specifies) containing `SKILL.md`, `inputs/architecture-reference.md`, `templates/`, `rules/`, `ide-files/`, and an empty `scanners/` placeholder.
+- **Outputs:** A new folder `architecture-centric-engineering/skills/<arch-name>-technical-architecture/` (or under another namespace if the user specifies) containing `SKILL.md`, `inputs/architecture-reference.md`, `templates/`, `rules/`, `ide-files/`, and an empty `scanners/` placeholder.
 - **Per format:** `SKILL.md` follows the abd-author-practice-skill bundled rules (clear English everywhere, opening sections are outcomes not mechanics, anti-patterns live in rules). Templates ship at least one filled mini-example. Rules each have `DO` / `DO NOT` / Example (pass) / Example (fail).
 - **While writing:** Every generated rule traces back to a reference principle; every generated template traces back to a reference file-structure block; every generated `Example` traces back to a reference walkthrough.
 
@@ -191,7 +191,7 @@ Each generated rule file must be **traceable** back to a specific reference docu
 
 1. **Confirm and copy the reference.** Read the reference document. Copy it into the generated skill at `inputs/architecture-reference.md` — always a single file, mechanisms organized inside it in one combined section or one section per mechanism. The generated skill **owns its own copy** so it does not silently drift if the source reference changes.
 
-2. **Scaffold the generated folder.** Create `skills/engineering/<arch-name>-technical-architecture/` with empty `templates/`, `rules/`, `ide-files/`, `scanners/`. Pick `<arch-name>` from the reference document's title (lowercase, hyphens, no spaces).
+2. **Scaffold the generated folder.** Create `architecture-centric-engineering/skills/<arch-name>-technical-architecture/` with empty `templates/`, `rules/`, `ide-files/`, `scanners/`. Pick `<arch-name>` from the reference document's title (lowercase, hyphens, no spaces).
 
 3. **Generate `SKILL.md` from `templates/generated-SKILL.md`.** Fill in the Purpose / When to use / Agent Instructions / What is `<Arch>` / Core concepts / Example / The shape of a good module / Build / Validate sections from the reference document content. Keep `SKILL.md` under 500 lines; push deep examples into the inputs reference instead.
 
@@ -212,7 +212,7 @@ Each generated rule file must be **traceable** back to a specific reference docu
    ```bash
    python skill-helpers/skills/execute-skill-using-skills-rules/scripts/run_scanners.py \
      --skill-root skill-builder/skills/abd-author-practice-skill \
-     --workspace C:/dev/agilebydesign-skills/skills/engineering/<arch-name>-technical-architecture
+     --workspace C:/dev/agilebydesign-skills/architecture-centric-engineering/skills/<arch-name>-technical-architecture
    ```
 
 9. **Peer-review.** Walk this skill's bundled rules against the generated skill. Then walk the **generated skill's** bundled rules against a synthetic generated module to confirm the generated skill itself is internally consistent. Fix violations before considering the work done.
@@ -258,7 +258,7 @@ Every generated implementation skill must ship an `ide-files/` folder containing
 
   # Run <arch>-technical-architecture
 
-  Read `skills/engineering/<arch>-technical-architecture/SKILL.md`...
+  Read `architecture-centric-engineering/skills/<arch>-technical-architecture/SKILL.md`...
   ```
 
 - Create `ide-files/<skill-name>.instructions.md` whose entire content is the body of the `.mdc` after the frontmatter, byte-identical after newline normalization.
@@ -273,7 +273,7 @@ Every generated implementation skill must ship an `ide-files/` folder containing
   description: Run <arch>-technical-architecture to generate a module
   ---
 
-  Read **`skills/engineering/<arch>-technical-architecture/SKILL.md`** and follow the Build steps.
+  Read **`architecture-centric-engineering/skills/<arch>-technical-architecture/SKILL.md`** and follow the Build steps.
   ```
 
 - After generating the three files, run the parity scanner:
@@ -281,7 +281,7 @@ Every generated implementation skill must ship an `ide-files/` folder containing
   ```bash
   python skill-helpers/skills/execute-skill-using-skills-rules/scripts/run_scanners.py \
     --skill-root skill-builder/skills/abd-author-practice-skill \
-    --workspace C:/absolute/path/to/skills/engineering/<arch>-technical-architecture
+    --workspace C:/absolute/path/to/architecture-centric-engineering/skills/<arch>-technical-architecture
   ```
 
   Confirm it reports PASS for `mdc-instructions-parity`.
@@ -318,7 +318,7 @@ The generated implementation skill must contain its own copy of the architecture
 
 - Document the source so a maintainer can resync if the reference is updated upstream.
 
-  **Example (pass):** A note at the top of `inputs/architecture-reference.md` reads: `Source: skills/engineering/abd-architecture-template output for {{ArchName}} produced on YYYY-MM-DD.`
+  **Example (pass):** A note at the top of `inputs/architecture-reference.md` reads: `Source: architecture-centric-engineering/skills/abd-architecture-template output for {{ArchName}} produced on YYYY-MM-DD.`
 
 ###### DO NOT
 
@@ -362,7 +362,7 @@ The generated implementation skill must **inherit** the **project's chosen codin
 
 - Copy `use-domain-language.md` from `abd-clean-code` (or the equivalent rule from whichever guide is in scope) into the generated skill's `rules/`.
 
-  **Example (fail):** Generated `rules/use-domain-language.md` is a byte-for-byte copy of `agilebydesign-skills/skills/engineering/abd-clean-code/rules/use-domain-language.md`. Updates upstream will not propagate.
+  **Example (fail):** Generated `rules/use-domain-language.md` is a byte-for-byte copy of `agilebydesign-skills/architecture-centric-engineering/skills/abd-clean-code/rules/use-domain-language.md`. Updates upstream will not propagate.
 
 - Generate a `SKILL.md` that never names the coding standard or testing standard the project is operating under.
 

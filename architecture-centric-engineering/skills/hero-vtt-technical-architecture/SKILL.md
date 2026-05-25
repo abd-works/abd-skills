@@ -1,6 +1,6 @@
 ---
 name: hero-vtt-technical-architecture
-catalog_garden_family: architecture-centric-delivery
+catalog_garden_family: architecture-centric-engineering
 description: >-
   Generate production Hero Virtual Tabletop (WPF C#) modules following the
   three-layer architecture — Presentation (ViewModel) · Domain · COH Integration.
@@ -175,6 +175,6 @@ cd C:\dev\agilebydesign-skills
 
 <!-- execute_rules:bundle_rules:begin -->
 <!-- Rule prose is generated from rules/*.md — edit rules, then run:
-     python skills/execute-skill-using-skills-rules/scripts/bundle_rules_into_skill_md.py --skill-root architecture-centric-delivery/skills/hero-vtt-technical-architecture
+     python skills/execute-skill-using-skills-rules/scripts/bundle_rules_into_skill_md.py --skill-root architecture-centric-engineering/skills/hero-vtt-technical-architecture
 -->
 <!-- execute_rules:bundle_rules:end -->

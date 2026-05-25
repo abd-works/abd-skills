@@ -9,7 +9,7 @@ Four **executor roles** run delivery slots. Four bootcamp **families** organize 
 | **Story-driven delivery** | **Product Owner** | [product-owner.md](product-owner.md) |
 | **Domain-driven design** | **Business Expert** | [business-expert.md](business-expert.md) |
 | **User experience design** | **UX Designer** | [ux-designer.md](ux-designer.md) |
-| **Architecture & engineering** | **Engineer** | [engineer.md](engineer.md) |
+| **Architecture-centric engineering** (`architecture-centric-engineering/`) | **Engineer** | [engineer.md](engineer.md) |
 | **Review (validate only)** | **Reviewer** | [delivery-team-reviewer/AGENT.md](../../agents/delivery-team-reviewer/AGENT.md) |
 
 **Cross-family execution (common):**
@@ -31,7 +31,7 @@ What each role **runs** in delivery slots. Package path shown when it differs fr
 
 | Skill | Stage | Package | Notes |
 | --- | --- | --- | --- |
-| `abd-opportunity-generation` | Shaping | story-driven delivery | Optional |
+| `abd-opportunity-generation` | Shaping | idea shaping | Optional |
 | `abd-story-mapping` (**outline mode**) | Shaping | story-driven delivery | Epics and major flows |
 | `abd-story-mapping` (**full mode**) | Discovery | story-driven delivery | Stories decomposed to testable units |
 | `abd-thin-slicing` | Discovery | story-driven delivery | **Last** in discovery pass |
@@ -79,16 +79,16 @@ Stage detail: [shaping](../stages/shaping.md) · [discovery](../stages/discovery
 
 | Skill | Stage | Package | Notes |
 | --- | --- | --- | --- |
-| `abd-architecture-outline` | Shaping | architecture-centric delivery | System context, layering |
-| `abd-architecture-blueprint` | Discovery | architecture-centric delivery | Components, mechanisms |
-| `abd-service-level-objectives` | Discovery | architecture-centric delivery | NFR/SLO targets |
-| `abd-architecture-template` | Exploration | architecture-centric delivery | Mechanism patterns |
-| `abd-architecture-reference` | Specification | architecture-centric delivery | Deep reference for code and tests |
+| `abd-architecture-outline` | Shaping | architecture-centric engineering | System context, layering |
+| `abd-architecture-blueprint` | Discovery | architecture-centric engineering | Components, mechanisms |
+| `abd-service-level-objectives` | Discovery | architecture-centric engineering | NFR/SLO targets |
+| `abd-architecture-template` | Exploration | architecture-centric engineering | Mechanism patterns |
+| `abd-architecture-reference` | Specification | architecture-centric engineering | Deep reference for code and tests |
 | `abd-interface-design` | — | user experience design | **Not Engineer** — UX Designer (implementation pass) |
 | `abd-object-model` | Engineering | domain-driven design | Typed domain surface; BE reviews |
 | `abd-acceptance-test-driven-development` | Engineering | **story-driven delivery** | Failing tests from scenarios — RED before clean code |
-| `abd-clean-code` | Engineering | engineering | Production code to pass tests |
-| `mern-technical-architecture`, `hero-vtt-technical-architecture`, … | Engineering | engineering | Stack skill paired with ATDD and clean code |
+| `abd-clean-code` | Engineering | architecture-centric engineering | Production code to pass tests |
+| `mern-technical-architecture`, `hero-vtt-technical-architecture`, … | Engineering | architecture-centric engineering | Stack skill paired with ATDD and clean code |
 
 **Engineering pass order:** `abd-interface-design` impl (UX) → object model → ATDD → clean code (+ stack). Engineer runs steps 2–4.
 

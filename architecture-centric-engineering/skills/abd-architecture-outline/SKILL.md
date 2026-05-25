@@ -176,7 +176,7 @@ A typical outline for a web-plus-API SaaS:
 11. **Bundle this skill's rules into `SKILL.md`** when you have edited any `rules/*.md`:
 
     ```bash
-    python skill-builder/skills/abd-author-practice-skill/scripts/bundle_rules_into_skill_md.py --skill-root architecture-centric-delivery/skills/abd-architecture-outline
+    python skill-builder/skills/abd-author-practice-skill/scripts/bundle_rules_into_skill_md.py --skill-root architecture-centric-engineering/skills/abd-architecture-outline
     ```
 
 ---
@@ -208,7 +208,7 @@ Checklist for the **produced outline**:
 This skill ships IDE-deployable files under `ide-files/`. Deploy them to any project:
 
 ```powershell
-.\skills\skill-builder\abd-author-practice-skill\scripts\Deploy-SkillOutputs.ps1 -SkillPath skills/architecture-centric-delivery/abd-architecture-outline -ProjectRoot <target-project> -Force
+.\skills\skill-builder\abd-author-practice-skill\scripts\Deploy-SkillOutputs.ps1 -SkillPath skills/architecture-centric-engineering/abd-architecture-outline -ProjectRoot <target-project> -Force
 ```
 
 ---

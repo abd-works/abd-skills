@@ -36,4 +36,4 @@ An artifact has changed. Ask the user whether to sync in both directions. Only o
 | **Story Map**, **Domain Language**, or **Key Abstractions** | Acceptance Criteria, Ubiquitous Language | `skills/story-driven-delivery/abd-acceptance-criteria/SKILL.md`, `skills/domain-driven-design/abd-ubiquitous-language/SKILL.md` |
 | **Acceptance Criteria** or **Ubiquitous Language** | Spec by Example, CRC | `skills/story-driven-delivery/abd-specification-by-example/SKILL.md`, `skills/domain-driven-design/abd-class-responsibility-collaborator/SKILL.md` |
 | **Spec by Example** or **CRC** | Acceptance tests, Object model | `skills/story-driven-delivery/abd-acceptance-test-driven-development/SKILL.md`, `skills/domain-driven-design/abd-object-model/SKILL.md` |
-| **Acceptance tests** or **Object model** | Production code | `skills/engineering/abd-clean-code/SKILL.md` |
+| **Acceptance tests** or **Object model** | Production code | `architecture-centric-engineering/skills/abd-clean-code/SKILL.md` |

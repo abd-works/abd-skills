@@ -1,7 +1,7 @@
 ---
 name: abd-clean-code
 catalog_garden_tier: practice
-catalog_garden_family: architecture-centric-delivery
+catalog_garden_family: architecture-centric-engineering
 catalog_garden_order: 60
 catalogue_one_liner: >-
   Production code that matches story behavior: clean structure, domain language, scanner-backed quality bars (Python/JS).

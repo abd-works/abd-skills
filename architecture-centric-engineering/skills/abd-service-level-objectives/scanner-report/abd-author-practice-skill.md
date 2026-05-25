@@ -1,6 +1,6 @@
 # Scanner Report — abd-author-practice-skill
 
-**Workspace:** C:/dev/agilebydesign-skills/skills/architecture-centric-delivery/abd-service-level-objectives
+**Workspace:** C:/dev/agilebydesign-skills/skills/architecture-centric-engineering/abd-service-level-objectives
 **Date:** 2026-05-17 14:36:38
 
 ---

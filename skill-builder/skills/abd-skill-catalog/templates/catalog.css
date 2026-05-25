@@ -128,6 +128,12 @@ h2:first-child { margin-top: 0; }
 .nav a.nav__link--current {
   pointer-events: none;
 }
+/* Kanban is a different experience (full-screen deck) — keep it last and visually apart */
+.nav a.nav__link--kanban {
+  margin-left: auto;
+  padding-left: 18px;
+  border-left: 1px solid var(--border-muted);
+}
 .cap-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -611,3 +617,10 @@ a.cap-card:hover .cap-card__icon {
 .rule-prose table.md-table td { background: var(--panel); }
 .rule-prose a { color: var(--accent, #ff7a00); text-decoration: underline; }
 .rule-prose a:hover { text-decoration: none; }
+
+.plugin-slots h3 {
+  margin: 28px 0 8px;
+  font-size: 1.05rem;
+}
+.plugin-slots h3:first-child { margin-top: 0; }
+.cap-grid--plugin-slot { margin-bottom: 8px; }

@@ -54,6 +54,8 @@ You do **not** use practice skills (`abd-story-mapping`, `abd-thin-slicing`, etc
 
 **Team roles:** [../../content/roles/team-roles.md](../../content/roles/team-roles.md). **Family ≠ executor role** — stage files name who runs each skill (e.g. ATDD package is story-driven delivery; **Engineer executes**).
 
+**Family packages (repo root):** `story-driven-delivery/`, `domain-driven-design/`, `user-experience-design/`, `architecture-centric-engineering/` (architecture outline through blueprint, template, reference, SLOs, **abd-clean-code**, and stack skills such as **mern-technical-architecture**).
+
 Bootcamp reference: [Five Families × Five Stages](https://forge.abdworks.net/abd-ai-augmented-bootcamp/#/22/1)
 
 ---

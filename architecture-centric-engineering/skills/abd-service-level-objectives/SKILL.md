@@ -146,7 +146,7 @@ Example:
 9. **Bundle this skill's rules into `SKILL.md`** when you have edited any `rules/*.md`:
 
    ```bash
-   python skill-builder/skills/abd-author-practice-skill/scripts/bundle_rules_into_skill_md.py --skill-root architecture-centric-delivery/skills/abd-service-level-objectives
+   python skill-builder/skills/abd-author-practice-skill/scripts/bundle_rules_into_skill_md.py --skill-root architecture-centric-engineering/skills/abd-service-level-objectives
    ```
 
 ---
@@ -175,7 +175,7 @@ Checklist for the **produced matrix**:
 This skill ships IDE-deployable files under `ide-files/`. Deploy them to any project:
 
 ```powershell
-.\skills\skill-builder\abd-author-practice-skill\scripts\Deploy-SkillOutputs.ps1 -SkillPath skills/architecture-centric-delivery/abd-service-level-objectives -ProjectRoot <target-project> -Force
+.\skills\skill-builder\abd-author-practice-skill\scripts\Deploy-SkillOutputs.ps1 -SkillPath skills/architecture-centric-engineering/abd-service-level-objectives -ProjectRoot <target-project> -Force
 ```
 
 ---

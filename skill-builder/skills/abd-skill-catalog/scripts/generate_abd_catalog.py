@@ -67,16 +67,30 @@ if str(_EXECUTE_RULES_SCRIPTS) not in sys.path:
     sys.path.insert(0, str(_EXECUTE_RULES_SCRIPTS))
 import frontmatter_tags  # noqa: E402
 
+from kanban_layout import (  # noqa: E402
+    build_kanban_board_html,
+    load_kanban_model,
+    patch_bootcamp_slide_files,
+    rewrite_bootcamp_catalog_links,
+    skill_dir_map_from_entries,
+    sync_bootcamp_part3_kanban,
+    write_kanban_layout_pages,
+)
 from family_catalog import (  # noqa: E402
     FAMILY_CATALOG_ALIASES,
     FAMILY_PACKAGES,
     FAMILY_SLOT_LABELS,
     FAMILY_SLOT_ORDER,
     FamilyPackageEntry,
+    artifact_slug,
+    artifact_stem,
     card_block_families,
+    card_block_plugins,
     discover_family_packages,
     html_family_slot_sections,
+    html_plugin_slot_sections,
     outline_families_section,
+    outline_plugins_section,
 )
 
 
@@ -147,6 +161,17 @@ class AgentEntry(NamedTuple):
     pkg_rel_posix: str
     garden_include: bool
     garden_order: int
+
+
+class PluginArtifactEntry(NamedTuple):
+    plugin_id: str
+    plugin_label: str
+    slot: str  # instructions | prompts
+    slug: str
+    display_name: str
+    filename: str
+    rel_path: str
+    summary: str
 
 
 def _parse_frontmatter(text: str) -> dict[str, str]:
@@ -449,6 +474,33 @@ def discover_agents(repo_root: Path) -> list[AgentEntry]:
                 push_agent(child)
 
     return out
+
+
+def discover_plugin_artifacts(
+    repo_root: Path, plugins: list[FamilyPackageEntry]
+) -> tuple[list[PluginArtifactEntry], list[PluginArtifactEntry]]:
+    """Instructions and prompts across all plugin packages."""
+    instructions: list[PluginArtifactEntry] = []
+    prompts: list[PluginArtifactEntry] = []
+    for plugin in plugins:
+        for slot, bucket in (("instructions", instructions), ("prompts", prompts)):
+            for it in plugin.slots.get(slot, []):
+                path = repo_root / it.rel_path
+                summary = it.summary or _file_blurb(path, max_len=240)
+                entry = PluginArtifactEntry(
+                    plugin_id=plugin.id,
+                    plugin_label=plugin.label,
+                    slot=slot,
+                    slug=artifact_slug(plugin.id, slot, it.name),
+                    display_name=artifact_stem(it.name, slot),
+                    filename=it.name,
+                    rel_path=it.rel_path,
+                    summary=summary,
+                )
+                bucket.append(entry)
+    instructions.sort(key=lambda e: (e.plugin_id, e.display_name.lower()))
+    prompts.sort(key=lambda e: (e.plugin_id, e.display_name.lower()))
+    return instructions, prompts
 
 
 def _file_blurb(path: Path, max_len: int = 180) -> str:
@@ -945,15 +997,8 @@ def write_package_markdown_pages(
             title = f"AI Garden — {display_name} · {relpos}"
             h1 = relpos
             tagline = _file_blurb(md, max_len=400)
-            if kind == "skill":
-                nav_hub = _nav_cls("hub", "skills")
-                nav_skills = _nav_cls("skills", "skills")
-                nav_agents = _nav_cls("agents", "skills")
-            else:
-                nav_hub = _nav_cls("hub", "agents")
-                nav_skills = _nav_cls("skills", "agents")
-                nav_agents = _nav_cls("agents", "agents")
-            html = (
+            nav_current = "skills" if kind == "skill" else "agents"
+            html = _apply_catalog_nav(
                 tpl.replace("{{CSS}}", css)
                 .replace("{{TITLE}}", _h(title))
                 .replace("{{BRAND}}", brand)
@@ -962,11 +1007,9 @@ def write_package_markdown_pages(
                 .replace("{{BADGE}}", badge_for(rel_under_pkg))
                 .replace("{{H1}}", _h(h1))
                 .replace("{{TAGLINE}}", _h(tagline))
-                .replace("{{NAV_PREFIX}}", nav_prefix)
-                .replace("{{NAV_HUB}}", nav_hub)
-                .replace("{{NAV_SKILLS}}", nav_skills)
-                .replace("{{NAV_AGENTS}}", nav_agents)
-                .replace("{{DOC_BODY}}", body_html)
+                .replace("{{DOC_BODY}}", body_html),
+                nav_prefix=nav_prefix,
+                current=nav_current,
             )
             dest.write_text(html, encoding="utf-8")
             count += 1
@@ -1463,10 +1506,6 @@ def _html_contents_list(repo_root: Path, package_dir: Path, href_to_repo: str) -
     return '<ul class="file-list file-list--root">\n' + "\n".join(parts) + "\n</ul>"
 
 
-def _nav_cls(which: str, current: str) -> str:
-    return "nav__link nav__link--current" if which == current else "nav__link"
-
-
 def write_entry_detail_pages(
     output_catalog_dir: Path,
     repo_root: Path,
@@ -1516,24 +1555,22 @@ def write_entry_detail_pages(
             if body.strip()
             else f'<p class="entry-caption">(no body in {_h(src_fname)})</p>'
         )
-        html = (
+        html = _apply_catalog_nav(
             detail_tpl.replace("{{CSS}}", detail_css)
             .replace("{{TITLE}}", _h(f"AI Garden — skill · {s.name}"))
             .replace("{{BRAND}}", brand)
-            .replace("{{BACK_HREF}}", f"{nav_prefix}skills.html")
+            .replace("{{BACK_HREF}}", f"{nav_prefix}{SKILLS_PAGE}")
             .replace("{{BACK_LABEL}}", "← All skills")
             .replace("{{BADGE}}", "Skill")
             .replace("{{H1}}", _h(s.name))
             .replace("{{TAGLINE}}", _h(s.summary))
-            .replace("{{NAV_PREFIX}}", nav_prefix)
-            .replace("{{NAV_HUB}}", _nav_cls("hub", "skills"))
-            .replace("{{NAV_SKILLS}}", _nav_cls("skills", "skills"))
-            .replace("{{NAV_AGENTS}}", _nav_cls("agents", "skills"))
             .replace("{{DESCRIPTION}}", desc_html)
             .replace("{{INSTALL_BLOCK}}", install_block)
             .replace("{{HOW_IT_FITS_BLOCK}}", how_block)
             .replace("{{ENTRY_MD_COLLAPSIBLE}}", entry_md)
-            .replace("{{FILE_LIST}}", file_list)
+            .replace("{{FILE_LIST}}", file_list),
+            nav_prefix=nav_prefix,
+            current="skills",
         )
         (skill_out / f"{s.dir_name}.html").write_text(html, encoding="utf-8")
 
@@ -1561,28 +1598,93 @@ def write_entry_detail_pages(
             if body.strip()
             else f'<p class="entry-caption">(no body in {_h(src_fname)})</p>'
         )
-        html = (
+        html = _apply_catalog_nav(
             detail_tpl.replace("{{CSS}}", detail_css)
             .replace("{{TITLE}}", _h(f"AI Garden — agent · {a.name}"))
             .replace("{{BRAND}}", brand)
-            .replace("{{BACK_HREF}}", f"{nav_prefix}agents.html")
+            .replace("{{BACK_HREF}}", f"{nav_prefix}{AGENTS_PAGE}")
             .replace("{{BACK_LABEL}}", "← All agents")
             .replace("{{BADGE}}", "Agent")
             .replace("{{H1}}", _h(a.name))
             .replace("{{TAGLINE}}", _h(a.summary))
-            .replace("{{NAV_PREFIX}}", nav_prefix)
-            .replace("{{NAV_HUB}}", _nav_cls("hub", "agents"))
-            .replace("{{NAV_SKILLS}}", _nav_cls("skills", "agents"))
-            .replace("{{NAV_AGENTS}}", _nav_cls("agents", "agents"))
             .replace("{{DESCRIPTION}}", desc_html)
             .replace("{{INSTALL_BLOCK}}", "")
             .replace("{{HOW_IT_FITS_BLOCK}}", how_block)
             .replace("{{ENTRY_MD_COLLAPSIBLE}}", entry_md)
-            .replace("{{FILE_LIST}}", file_list)
+            .replace("{{FILE_LIST}}", file_list),
+            nav_prefix=nav_prefix,
+            current="agents",
         )
         (agent_out / f"{a.dir_name}.html").write_text(html, encoding="utf-8")
 
     return len(skills), len(agents)
+
+
+def write_plugin_artifact_detail_pages(
+    output_catalog_dir: Path,
+    repo_root: Path,
+    instructions: list[PluginArtifactEntry],
+    prompts: list[PluginArtifactEntry],
+    detail_css: str,
+    detail_tpl: str,
+) -> tuple[int, int]:
+    """Write catalog/instruction/<slug>.html and catalog/prompt/<slug>.html."""
+    brand = CATALOG_BRAND_HTML
+    nav_prefix = "../"
+    href_to_repo = _path_up_to_ancestor(output_catalog_dir / "instruction", repo_root) or "./"
+
+    def write_bucket(entries: list[PluginArtifactEntry], folder: str, badge: str, back_page: str) -> int:
+        out_dir = output_catalog_dir / folder
+        if out_dir.exists():
+            _rmtree_output_dir(out_dir)
+        out_dir.mkdir(parents=True)
+        count = 0
+        for e in entries:
+            src = repo_root / e.rel_path
+            if not src.is_file():
+                continue
+            raw = src.read_text(encoding="utf-8", errors="replace")
+            fm = _parse_frontmatter(raw)
+            body = FRONTMATTER_RE.sub("", raw).strip()
+            desc_plain = fm.get("description") or e.summary
+            desc_html = _plain_overview_to_html(desc_plain) if desc_plain else _h(e.summary)
+            if not desc_html.strip():
+                desc_html = f"<p>{_h(e.summary)}</p>"
+            entry_md = (
+                _html_package_md_collapsible_sections(body)
+                if body.strip()
+                else f'<p class="entry-caption">(empty file)</p>'
+            )
+            plugin_href = f"{nav_prefix}plugin/{quote(e.plugin_id, safe='')}.html"
+            nav_current = "instructions" if folder == "instruction" else "hub"
+            html = _apply_catalog_nav(
+                detail_tpl.replace("{{CSS}}", detail_css)
+                .replace("{{TITLE}}", _h(f"AI Garden — {badge.lower()} · {e.display_name}"))
+                .replace("{{BRAND}}", brand)
+                .replace("{{BACK_HREF}}", plugin_href)
+                .replace("{{BACK_LABEL}}", f"← {e.plugin_label}")
+                .replace("{{BADGE}}", badge)
+                .replace("{{H1}}", _h(e.display_name))
+                .replace("{{TAGLINE}}", _h(f"{e.plugin_id}/{e.slot}/{e.filename}"))
+                .replace("{{DESCRIPTION}}", desc_html)
+                .replace("{{INSTALL_BLOCK}}", "")
+                .replace("{{HOW_IT_FITS_BLOCK}}", "")
+                .replace("{{ENTRY_MD_COLLAPSIBLE}}", entry_md)
+                .replace(
+                    "{{FILE_LIST}}",
+                    f'<p><a href="{_h(href_to_repo + e.rel_path)}" target="_blank" rel="noopener noreferrer">'
+                    f"Open source file</a></p>",
+                ),
+                nav_prefix=nav_prefix,
+                current=nav_current,
+            )
+            (out_dir / f"{e.slug}.html").write_text(html, encoding="utf-8")
+            count += 1
+        return count
+
+    n_inst = write_bucket(instructions, "instruction", "Instruction", "instructions.html")
+    n_prompt = write_bucket(prompts, "prompt", "Prompt", "prompts.html")
+    return n_inst, n_prompt
 
 
 def write_family_detail_pages(
@@ -1591,15 +1693,43 @@ def write_family_detail_pages(
     families: list[FamilyPackageEntry],
     detail_css: str,
     detail_tpl: str,
+    skills: list[SkillEntry] | None = None,
+    agents: list[AgentEntry] | None = None,
 ) -> int:
-    """Write catalog/family/<id>.html and families.html grid. Returns family page count."""
-    fam_out = output_catalog_dir / "family"
-    if fam_out.exists():
-        _rmtree_output_dir(fam_out)
-    fam_out.mkdir(parents=True)
-    href_to_repo = _path_up_to_ancestor(fam_out, repo_root) or "./"
+    """Write catalog/plugin/<id>.html. Returns plugin page count."""
+    return write_plugin_detail_pages(
+        output_catalog_dir,
+        repo_root,
+        families,
+        detail_css,
+        detail_tpl,
+        skills=skills,
+        agents=agents,
+    )
+
+
+def write_plugin_detail_pages(
+    output_catalog_dir: Path,
+    repo_root: Path,
+    plugins: list[FamilyPackageEntry],
+    detail_css: str,
+    detail_tpl: str,
+    skills: list[SkillEntry] | None = None,
+    agents: list[AgentEntry] | None = None,
+) -> int:
+    """Write catalog/plugin/<id>.html. Removes legacy catalog/family/."""
+    plugin_out = output_catalog_dir / "plugin"
+    legacy = output_catalog_dir / "family"
+    if legacy.exists():
+        _rmtree_output_dir(legacy)
+    if plugin_out.exists():
+        _rmtree_output_dir(plugin_out)
+    plugin_out.mkdir(parents=True)
+    href_to_repo = _path_up_to_ancestor(plugin_out, repo_root) or "./"
     nav_prefix = "../"
     brand = CATALOG_BRAND_HTML
+    skill_by_dir = {s.dir_name: s for s in (skills or [])}
+    agent_by_dir = {a.dir_name: a for a in (agents or [])}
 
     def skill_href(dir_name: str) -> str:
         return f"{nav_prefix}skill/{quote(dir_name, safe='')}.html"
@@ -1607,47 +1737,59 @@ def write_family_detail_pages(
     def agent_href(dir_name: str) -> str:
         return f"{nav_prefix}agent/{quote(dir_name, safe='')}.html"
 
-    for fam in families:
-        pkg_dir = repo_root / fam.id
-        slot_html = html_family_slot_sections(
-            fam,
+    def instruction_href(_filename: str, slug: str) -> str:
+        return f"{nav_prefix}instruction/{quote(slug, safe='')}.html"
+
+    def prompt_href(_filename: str, slug: str) -> str:
+        return f"{nav_prefix}prompt/{quote(slug, safe='')}.html"
+
+    for plugin in plugins:
+        pkg_dir = repo_root / plugin.id
+        slot_html = html_plugin_slot_sections(
+            plugin,
             href_to_repo=href_to_repo,
-            skill_href=lambda n: skill_href(n),
-            agent_href=lambda n: agent_href(n),
+            skill_href=skill_href,
+            agent_href=agent_href,
+            instruction_href=instruction_href,
+            prompt_href=prompt_href,
+            skill_summary=lambda n: skill_by_dir[n].summary if n in skill_by_dir else "",
+            agent_summary=lambda n: agent_by_dir[n].summary if n in agent_by_dir else "",
         )
         file_list = _html_contents_list(repo_root, pkg_dir, href_to_repo)
         readme = pkg_dir / "README.md"
-        desc = _h(fam.summary).replace("\n", "<br>\n")
+        desc = _h(plugin.summary).replace("\n", "<br>\n")
         if readme.is_file():
             desc += (
-                f'<p><a href="{_h(href_to_repo + fam.rel_path + "/README.md")}"'
+                f'<p><a href="{_h(href_to_repo + plugin.rel_path + "/README.md")}"'
                 f' target="_blank" rel="noopener noreferrer">README.md</a></p>'
             )
-        html = (
+        deploy_cmd = (
+            f"python scripts/deploy_family_package.py --package {plugin.id} --to &lt;workspace&gt;"
+        )
+        desc += f"<p class=\"entry-caption\">Deploy: <code>{deploy_cmd}</code></p>"
+        html = _apply_catalog_nav(
             detail_tpl.replace("{{CSS}}", detail_css)
-            .replace("{{TITLE}}", _h(f"AI Garden — family · {fam.label}"))
+            .replace("{{TITLE}}", _h(f"AI Garden — plugin · {plugin.label}"))
             .replace("{{BRAND}}", brand)
-            .replace("{{BACK_HREF}}", f"{nav_prefix}families.html")
-            .replace("{{BACK_LABEL}}", "← All families")
-            .replace("{{BADGE}}", "Family package")
-            .replace("{{H1}}", _h(fam.label))
-            .replace("{{TAGLINE}}", _h(f"{fam.id}/ — {fam.summary}"))
-            .replace("{{NAV_PREFIX}}", nav_prefix)
-            .replace("{{NAV_HUB}}", _nav_cls("hub", "families"))
-            .replace("{{NAV_SKILLS}}", _nav_cls("skills", "families"))
-            .replace("{{NAV_AGENTS}}", _nav_cls("agents", "families"))
+            .replace("{{BACK_HREF}}", f"{nav_prefix}plugins.html")
+            .replace("{{BACK_LABEL}}", "← All plugins")
+            .replace("{{BADGE}}", "Plugin")
+            .replace("{{H1}}", _h(plugin.label))
+            .replace("{{TAGLINE}}", _h(f"{plugin.id}/ — {plugin.summary}"))
             .replace("{{DESCRIPTION}}", desc)
             .replace("{{INSTALL_BLOCK}}", "")
             .replace("{{HOW_IT_FITS_BLOCK}}", "")
             .replace(
                 "{{ENTRY_MD_COLLAPSIBLE}}",
-                f'<div class="family-slots">{slot_html}</div>',
+                f'<div class="plugin-slots">{slot_html}</div>',
             )
-            .replace("{{FILE_LIST}}", file_list)
+            .replace("{{FILE_LIST}}", file_list),
+            nav_prefix=nav_prefix,
+            current="hub",
         )
-        (fam_out / f"{fam.id}.html").write_text(html, encoding="utf-8")
+        (plugin_out / f"{plugin.id}.html").write_text(html, encoding="utf-8")
 
-    return len(families)
+    return len(plugins)
 
 
 def generate_outline_md(
@@ -1659,19 +1801,19 @@ def generate_outline_md(
     catalog_cli_hint: str,
 ) -> str:
     lines: list[str] = [
-        "# AI Garden — family packages, skills & agents",
+        "# AI Garden — plugins, skills & agents",
         "",
-        "> Auto-generated from repository **family packages** (`<family>/agents|skills|content|instructions|prompts|lib|scripts/`).",
+        "> Auto-generated from repository **plugins** (`<plugin>/agents|skills|content|instructions|prompts|lib|scripts/`).",
         f"> Run `{catalog_cli_hint}` to refresh.",
         "",
         "Each row gives a **short description** and where to open the source.",
         "",
     ]
-    lines.extend(outline_families_section(families, md_link_prefix))
+    lines.extend(outline_plugins_section(families, md_link_prefix))
     lines += [
         "## Summary — Skills",
         "",
-        "| Skill | Family | Description | Open |",
+        "| Skill | Plugin | Description | Open |",
         "| --- | --- | --- | --- |",
     ]
     for s in skills:
@@ -1683,7 +1825,7 @@ def generate_outline_md(
         "",
         "## Summary — Agents",
         "",
-        "| Agent | Family | Description | Open |",
+        "| Agent | Plugin | Description | Open |",
         "| --- | --- | --- | --- |",
     ]
     for a in agents:
@@ -1775,6 +1917,25 @@ def _card_block_agents(entries: list[AgentEntry], up_to_repo: str) -> str:
     return "\n".join(parts)
 
 
+def _card_block_plugin_artifacts(entries: list[PluginArtifactEntry], kind: str) -> str:
+    """kind: instruction | prompt (URL folder name)."""
+    parts: list[str] = []
+    for e in entries:
+        href = f"{kind}/{quote(e.slug, safe='')}.html"
+        parts.append(
+            textwrap.dedent(
+                f"""\
+        <a class="cap-card" href="{_h(href)}">
+          <p class="cap-card__title">{_h(e.display_name)}</p>
+          <p class="cap-card__label">{_h(e.plugin_label)} · {_h(e.filename)}</p>
+          <p class="cap-card__summary">{_h(e.summary)}</p>
+          <p class="cap-card__more">Open {kind} page →</p>
+        </a>"""
+            )
+        )
+    return "\n".join(parts)
+
+
 def _load_template(name: str) -> str:
     p = TEMPLATE_DIR / name
     if not p.exists():
@@ -1828,6 +1989,34 @@ def garden_prelude_tagline_html() -> str:
     )
 
 
+CATALOG_GARDEN_H1 = "The ABD AI Garden"
+SKILLS_PAGE = "skills.html"
+AGENTS_PAGE = "agents.html"
+INSTRUCTIONS_PAGE = "instructions.html"
+
+
+def _apply_catalog_nav(html: str, *, nav_prefix: str = "", current: str) -> str:
+    def nav_cls(which: str) -> str:
+        base = "nav__link nav__link--current" if which == current else "nav__link"
+        if which == "kanban":
+            base += " nav__link--kanban"
+        return base
+
+    return (
+        html.replace("{{NAV_PREFIX}}", nav_prefix)
+        .replace("{{NAV_HUB}}", nav_cls("hub"))
+        .replace("{{NAV_SKILLS}}", nav_cls("skills"))
+        .replace("{{NAV_AGENTS}}", nav_cls("agents"))
+        .replace("{{NAV_INSTRUCTIONS}}", nav_cls("instructions"))
+        .replace("{{NAV_KANBAN}}", nav_cls("kanban"))
+    )
+
+
+def catalog_garden_page_header() -> tuple[str, str]:
+    """Shared panel header for all catalog listing pages and kanban."""
+    return CATALOG_GARDEN_H1, garden_prelude_tagline_html()
+
+
 # Practice-tier placeholders (no skill package yet); listed after real practice entries.
 GARDEN_PRACTICE_STUB_ROWS: tuple[tuple[str, str], ...] = (
     ("· cost-of-delay", "Coming soon"),
@@ -1840,8 +2029,7 @@ _CATALOG_SKILL_FAMILY_PRACTICE_ORDER: tuple[str, ...] = (
     "domain-driven-design",
     "story-driven-delivery",
     "user-experience-design",
-    "architecture-centric-delivery",
-    "engineering",
+    "architecture-centric-engineering",
     "delivery",
 )
 _CATALOG_SKILL_FAMILY_FOUNDATIONAL_ORDER: tuple[str, ...] = (
@@ -1874,13 +2062,12 @@ _CATALOG_FAMILY_LABELS: dict[str, str] = {
     "context-to-memory": "Context to Memory",
     "delivery": "Delivery",
     "domain-driven-design": "Domain-Driven Design",
-    "engineering": "Engineering",
     "idea-shaping": "Idea Shaping",
     "skill-builder": "Skill Builder",
     "skill-helpers": "Skill Helpers",
     "story-driven-delivery": "Story-Driven Delivery",
     "user-experience-design": "User Experience Design",
-    "architecture-centric-delivery": "Architecture-Centric Delivery",
+    "architecture-centric-engineering": "Architecture-Centric Engineering",
     "utilities": "Utilities",
     "__agent_skills__": "Bundled with agents",
 }
@@ -1909,16 +2096,11 @@ _CATALOG_FAMILY_ICONS: dict[str, str] = {
         '<rect x="2" y="2" width="12" height="12" rx="1.5"/>'
         '<path d="M5 5h6M5 8h4M5 11h2"/></svg>'
     ),
-    "architecture-centric-delivery": (
+    "architecture-centric-engineering": (
         '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor"'
         ' stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
         '<path d="M2 5l6-3 6 3-6 3-6-3z"/>'
         '<path d="M2 9l6 3 6-3"/><path d="M2 12l6 3 6-3"/></svg>'
-    ),
-    "engineering": (
-        '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor"'
-        ' stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
-        '<path d="M5 4L1 8l4 4M11 4l4 4-4 4M9.5 2.5l-3 11"/></svg>'
     ),
     "delivery": (
         '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor"'
@@ -2107,6 +2289,8 @@ def build_agile_garden_prelude_html(
     agents: list[AgentEntry],
     *,
     include_title_block: bool = True,
+    include_garden_lists: bool = True,
+    include_mission: bool = False,
     omit_garden_families: frozenset[str] = frozenset(),
 ) -> str:
     """Practice families = top-level folder under ``skills/`` (multi-column grid + icons); foundational below."""
@@ -2221,7 +2405,7 @@ def build_agile_garden_prelude_html(
 
     lists_inner = ""
 
-    mission = _html_agile_garden_mission_block()
+    mission = _html_agile_garden_mission_block() if include_mission else ""
     if include_title_block:
         aria = ' aria-labelledby="catalog-agile-garden-h2"'
         title_block = (
@@ -2233,27 +2417,28 @@ def build_agile_garden_prelude_html(
         aria = ' aria-label="The ABD AI Garden"'
         title_block = ""
 
-    lists_inner += '  <div class="catalog-garden-lists">\n'
-    if practice_cols.strip():
-        lists_inner += '    <div class="catalog-section-label">\n'
-        lists_inner += f"      {practice_label_svg}\n"
-        lists_inner += "      Practice Skills — What We Do\n"
-        lists_inner += "    </div>\n"
-        lists_inner += f'    <div class="catalog-practice-grid"{practice_grid_style}>\n'
-        lists_inner += practice_cols
-        lists_inner += "    </div>\n"
-    if foundational_cols.strip():
-        lists_inner += (
-            '    <div class="catalog-section-label catalog-section-label--foundational">\n'
-        )
-        lists_inner += f"      {foundational_label_svg}\n"
-        lists_inner += "      Foundational Skills — Enhance the Way Skills Run\n"
-        lists_inner += "    </div>\n"
-        lists_inner += f'    <div class="catalog-foundational-grid"{foundational_grid_style}>\n'
-        lists_inner += foundational_cols
-        lists_inner += "    </div>\n"
-    lists_inner += agents_section
-    lists_inner += "  </div>\n"
+    if include_garden_lists:
+        lists_inner += '  <div class="catalog-garden-lists">\n'
+        if practice_cols.strip():
+            lists_inner += '    <div class="catalog-section-label">\n'
+            lists_inner += f"      {practice_label_svg}\n"
+            lists_inner += "      Practice Skills — What We Do\n"
+            lists_inner += "    </div>\n"
+            lists_inner += f'    <div class="catalog-practice-grid"{practice_grid_style}>\n'
+            lists_inner += practice_cols
+            lists_inner += "    </div>\n"
+        if foundational_cols.strip():
+            lists_inner += (
+                '    <div class="catalog-section-label catalog-section-label--foundational">\n'
+            )
+            lists_inner += f"      {foundational_label_svg}\n"
+            lists_inner += "      Foundational Skills — Enhance the Way Skills Run\n"
+            lists_inner += "    </div>\n"
+            lists_inner += f'    <div class="catalog-foundational-grid"{foundational_grid_style}>\n'
+            lists_inner += foundational_cols
+            lists_inner += "    </div>\n"
+        lists_inner += agents_section
+        lists_inner += "  </div>\n"
 
     return (
         f'<section class="catalog-prelude" id="agile-garden"{aria}>\n'
@@ -2295,12 +2480,14 @@ def write_agile_garden_prelude_fragment(repo_root: Path, section_html: str) -> N
 
 
 def _hub_intro_for_single_page_index(hub_intro: str) -> str:
-    """Same copy as multi-page hub, but jump to in-page sections instead of skills.html / agents.html."""
+    """Same copy as multi-page hub, but jump to in-page sections on Complete."""
     return (
-        hub_intro.replace('href="skills.html"', 'href="#catalog-skills"')
-        .replace("href='skills.html'", "href='#catalog-skills'")
-        .replace('href="agents.html"', 'href="#catalog-agents"')
-        .replace("href='agents.html'", "href='#catalog-agents'")
+        hub_intro.replace(f'href="{SKILLS_PAGE}"', 'href="#catalog-skills"')
+        .replace(f"href='{SKILLS_PAGE}'", "href='#catalog-skills'")
+        .replace(f'href="{AGENTS_PAGE}"', 'href="#catalog-agents"')
+        .replace(f"href='{AGENTS_PAGE}'", "href='#catalog-agents'")
+        .replace(f'href="{INSTRUCTIONS_PAGE}"', 'href="#catalog-instructions"')
+        .replace(f"href='{INSTRUCTIONS_PAGE}'", "href='#catalog-instructions'")
     )
 
 
@@ -2330,10 +2517,11 @@ def write_html_pages(
     agents: list[AgentEntry],
     *,
     omit_garden_families: frozenset[str] = frozenset(),
-) -> tuple[int, int, int, int]:
-    """Write index, families, skills, agents pages and detail pages.
+) -> tuple[int, int, int, int, int, int]:
+    """Write index, plugins, skills, agents pages and detail pages.
 
-    Returns (family_detail_count, skill_detail_count, agent_detail_count, markdown_doc_page_count).
+    Returns (plugin_detail_count, skill_detail_count, agent_detail_count,
+    markdown_doc_page_count, instruction_detail_count, prompt_detail_count).
     """
     up_to_repo = _path_up_to_ancestor(output_catalog_dir, repo_root)
     if not up_to_repo:
@@ -2354,46 +2542,52 @@ def write_html_pages(
         nav_current: str,
         body_inner: str,
     ) -> str:
-        def nav_cls(which: str) -> str:
-            return "nav__link nav__link--current" if nav_current == which else "nav__link"
-
-        return (
+        return _apply_catalog_nav(
             tpl.replace("{{CSS}}", css)
             .replace("{{TITLE}}", title)
             .replace("{{BRAND}}", brand)
             .replace("{{H1}}", h1)
             .replace("{{TAGLINE}}", tagline)
             .replace("{{INTRO}}", intro)
-            .replace("{{NAV_HUB}}", nav_cls("hub"))
-            .replace("{{NAV_SKILLS}}", nav_cls("skills"))
-            .replace("{{NAV_AGENTS}}", nav_cls("agents"))
-            .replace("{{BODY_INNER}}", body_inner)
+            .replace("{{BODY_INNER}}", body_inner),
+            current=nav_current,
         )
 
     brand = CATALOG_BRAND_HTML
+    instructions, prompts = discover_plugin_artifacts(repo_root, families)
 
     outline_href = "outline.md"
     hub_intro = _load_intro_fragment(
         "catalog-hub-intro.html",
         (
-            "<p>Browse <a href=\"skills.html\">skills</a> and "
-            "<a href=\"agents.html\">agents</a>. "
+            "<p>Browse <a href=\"plugins.html\">plugins</a>, "
+            f"<a href=\"{SKILLS_PAGE}\">skills</a>, "
+            f"<a href=\"{AGENTS_PAGE}\">agents</a>, and "
+            f"<a href=\"{INSTRUCTIONS_PAGE}\">instructions</a>. "
             f"<a href=\"{outline_href}\">outline.md</a> lists the same entries in one file.</p>"
         ),
     ).replace("{{OUTLINE_HREF}}", outline_href)
-    # Single-page index: hub + skills + agents as collapsible sections (same UX as abd-works AI Garden hub).
-    hub_for_index = _hub_intro_for_single_page_index(hub_intro)
+    hub_for_index = _hub_intro_for_single_page_index(hub_intro).replace(
+        "#catalog-families", "#catalog-plugins"
+    )
     hub_index_extra = (
-        "<p>Start with <a href=\"families.html\">family packages</a> for the full layout "
-        "(agents, skills, instructions, prompts, content, lib, scripts). "
-        "Cards open detail pages under <code>family/</code>, <code>skill/</code>, and <code>agent/</code>.</p>\n"
-        f"<p>{len(families)} families · {len(skills)} skills · {len(agents)} agents.</p>"
+        "<p>Each <strong>plugin</strong> is a deployable package — a collection of "
+        "<a href=\"#catalog-skills\">skills</a>, "
+        "<a href=\"#catalog-agents\">agents</a>, "
+        "<a href=\"#catalog-instructions\">instructions</a>, and "
+        "<a href=\"#catalog-prompts\">prompts</a> "
+        "(plus shared content, lib, and scripts). "
+        f'<a href="plugins.html">Open the plugins grid</a> for DDD, story-driven delivery, architecture-centric delivery, and more. '
+        f'<a href="kanban-layout/index.html">Delivery kanban</a> maps plugins × stages.</p>\n'
+        f"<p>{len(families)} plugins · {len(skills)} skills · {len(agents)} agents · "
+        f"{len(instructions)} instructions · {len(prompts)} prompts.</p>"
     )
-    families_intro = (
-        "<p>Each repo-root family follows the same package layout. "
-        "Open a card for agents, skills, instructions, prompts, and more.</p>"
+    plugins_intro = (
+        "<p>Repo-root capability plugins deploy with "
+        "<code>scripts/deploy_family_package.py</code>. "
+        "Each plugin bundles agents, skills, instructions, prompts, and shared assets.</p>"
     )
-    families_grid = card_block_families(families)
+    plugins_grid = card_block_plugins(families)
     skills_intro = _load_intro_fragment(
         "catalog-skills-intro.html",
         "<p>Open a card for a full page on that skill.</p>",
@@ -2402,10 +2596,26 @@ def write_html_pages(
         "catalog-agents-intro.html",
         "<p>Open a card for a full page on that agent.</p>",
     )
+    instructions_intro = (
+        "<p>Cursor rules and instruction files shipped inside plugins "
+        "(<code>.mdc</code>, <code>.instructions.md</code>).</p>"
+    )
+    prompts_intro = (
+        "<p>Slash commands shipped inside plugins (<code>.prompt.md</code>).</p>"
+    )
     skills_grid = _card_block_skills(skills, up_to_repo)
     agents_grid = _card_block_agents(agents, up_to_repo)
+    instructions_grid = _card_block_plugin_artifacts(instructions, "instruction")
+    prompts_grid = _card_block_plugin_artifacts(prompts, "prompt")
     index_sections = "\n\n".join(
         [
+            _html_catalog_section(
+                "catalog-plugins",
+                "Plugins",
+                f"({len(families)})",
+                f"{plugins_intro}\n<p><a href=\"plugins.html\">Open plugins grid →</a></p>\n<div class=\"cap-grid\">\n{plugins_grid}\n</div>",
+                open_default=True,
+            ),
             _html_catalog_section(
                 "catalog-hub",
                 "About the AI Garden",
@@ -2414,117 +2624,169 @@ def write_html_pages(
                 open_default=True,
             ),
             _html_catalog_section(
-                "catalog-families",
-                "Family packages",
-                f"({len(families)})",
-                f"{families_intro}\n<p><a href=\"families.html\">Open families grid →</a></p>\n<div class=\"cap-grid\">\n{families_grid}\n</div>",
-                open_default=True,
-            ),
-            _html_catalog_section(
                 "catalog-skills",
                 "Skills",
                 f"({len(skills)})",
-                f"{skills_intro}\n<div class=\"cap-grid\">\n{skills_grid}\n</div>",
+                (
+                    f"{skills_intro}\n"
+                    f'<p><a href="{SKILLS_PAGE}">Open skills grid →</a></p>'
+                ),
             ),
             _html_catalog_section(
                 "catalog-agents",
                 "Agents",
                 f"({len(agents)})",
-                f"{agents_intro}\n<div class=\"cap-grid\">\n{agents_grid}\n</div>",
+                (
+                    f"{agents_intro}\n"
+                    f'<p><a href="{AGENTS_PAGE}">Open agents grid →</a></p>'
+                ),
+            ),
+            _html_catalog_section(
+                "catalog-instructions",
+                "Instructions",
+                f"({len(instructions)})",
+                f"{instructions_intro}\n<p><a href=\"instructions.html\">Open instructions grid →</a></p>",
+            ),
+            _html_catalog_section(
+                "catalog-prompts",
+                "Prompts",
+                f"({len(prompts)})",
+                f"{prompts_intro}\n<p><a href=\"prompts.html\">Open prompts grid →</a></p>",
             ),
         ]
     )
     write_agile_garden_prelude_fragment(
         repo_root,
         build_agile_garden_prelude_html(
-            skills, agents, include_title_block=True, omit_garden_families=omit_garden_families
+            skills,
+            agents,
+            include_title_block=True,
+            include_mission=True,
+            omit_garden_families=omit_garden_families,
         ),
     )
-    garden_for_index = build_agile_garden_prelude_html(
-        skills, agents, include_title_block=False, omit_garden_families=omit_garden_families
-    )
-    index_sections = f"{garden_for_index}\n\n{index_sections}"
-    index_html = (
-        idx_single_tpl.replace("{{CSS}}", css)
-        .replace("{{TITLE}}", "AI Garden — hub")
-        .replace("{{BRAND}}", brand)
-        .replace("{{H1}}", "The ABD AI Garden")
-        .replace("{{TAGLINE}}", garden_prelude_tagline_html())
-        .replace("{{BODY_INNER}}", index_sections)
+    index_body = index_sections
+    garden_h1, garden_tagline = catalog_garden_page_header()
+    index_html = fill(
+        idx_single_tpl,
+        title="AI Garden — hub",
+        brand=brand,
+        h1=garden_h1,
+        tagline=garden_tagline,
+        intro="",
+        nav_current="hub",
+        body_inner=index_body,
     )
     (output_catalog_dir / "index.html").write_text(index_html, encoding="utf-8")
 
-    families_body = (
-        f"<h2>Family packages ({len(families)})</h2>"
-        f"<p>Standard layout: <code>agents/</code> · <code>skills/</code> · "
+    plugins_body = (
+        f"<h2>Plugins ({len(families)})</h2>"
+        f"<p>Each plugin is a deployable package: <code>agents/</code> · <code>skills/</code> · "
         f"<code>content/</code> · <code>instructions/</code> · <code>prompts/</code> · "
         f"<code>lib/</code> · <code>scripts/</code></p>"
-        f'<div class="cap-grid">{families_grid}</div>'
+        f'<div class="cap-grid">{plugins_grid}</div>'
     )
-    (output_catalog_dir / "families.html").write_text(
+    (output_catalog_dir / "plugins.html").write_text(
         fill(
             idx_tpl,
-            title="AI Garden — families",
+            title="AI Garden — hub",
             brand=brand,
-            h1="Family packages",
-            tagline=f"{len(families)} capability families at repo root.",
-            intro=families_intro,
+            h1=garden_h1,
+            tagline=garden_tagline,
+            intro=plugins_intro,
             nav_current="hub",
-            body_inner=families_body,
+            body_inner=plugins_body,
         ),
         encoding="utf-8",
     )
+    legacy_families = output_catalog_dir / "families.html"
+    if legacy_families.is_file():
+        legacy_families.unlink()
 
-    # skills.html / agents.html: same Agile Garden prelude as index (families above), then flat card grid.
-    garden_subpage = build_agile_garden_prelude_html(
-        skills, agents, include_title_block=False, omit_garden_families=omit_garden_families
-    )
     skills_body = (
-        f"{garden_subpage}"
-        f'<h2>All indexed skills ({len(skills)})</h2>'
+        f"<h2>Skills ({len(skills)})</h2>"
+        f"{skills_intro}"
         f'<div class="cap-grid">{skills_grid}</div>'
     )
-    (output_catalog_dir / "skills.html").write_text(
+    (output_catalog_dir / SKILLS_PAGE).write_text(
         fill(
             idx_tpl,
             title="AI Garden — skills",
             brand=brand,
-            h1="Skills",
-            tagline=f"{len(skills)} entries.",
-            intro=skills_intro,
+            h1=garden_h1,
+            tagline=garden_tagline,
+            intro="",
             nav_current="skills",
             body_inner=skills_body,
         ),
         encoding="utf-8",
     )
-
     agents_body = (
-        f"{garden_subpage}"
-        f'<h2>All indexed agents ({len(agents)})</h2>'
+        f"<h2>Agents ({len(agents)})</h2>"
+        f"{agents_intro}"
         f'<div class="cap-grid">{agents_grid}</div>'
     )
-    (output_catalog_dir / "agents.html").write_text(
+    (output_catalog_dir / AGENTS_PAGE).write_text(
         fill(
             idx_tpl,
             title="AI Garden — agents",
             brand=brand,
-            h1="Agents",
-            tagline=f"{len(agents)} entries.",
-            intro=agents_intro,
+            h1=garden_h1,
+            tagline=garden_tagline,
+            intro="",
             nav_current="agents",
             body_inner=agents_body,
         ),
         encoding="utf-8",
     )
 
+    instructions_body = (
+        f"<h2>All indexed instructions ({len(instructions)})</h2>"
+        f'<div class="cap-grid">{instructions_grid}</div>'
+    )
+    (output_catalog_dir / "instructions.html").write_text(
+        fill(
+            idx_tpl,
+            title="AI Garden — instructions",
+            brand=brand,
+            h1=garden_h1,
+            tagline=garden_tagline,
+            intro=instructions_intro,
+            nav_current="instructions",
+            body_inner=instructions_body,
+        ),
+        encoding="utf-8",
+    )
+
+    prompts_body = (
+        f"<h2>All indexed prompts ({len(prompts)})</h2>"
+        f'<div class="cap-grid">{prompts_grid}</div>'
+    )
+    (output_catalog_dir / "prompts.html").write_text(
+        fill(
+            idx_tpl,
+            title="AI Garden — prompts",
+            brand=brand,
+            h1=garden_h1,
+            tagline=garden_tagline,
+            intro=prompts_intro,
+            nav_current="hub",
+            body_inner=prompts_body,
+        ),
+        encoding="utf-8",
+    )
+
     n_md_pages = write_package_markdown_pages(output_catalog_dir, repo_root, skills, agents, css)
-    n_fam_pages = write_family_detail_pages(
-        output_catalog_dir, repo_root, families, css, detail_tpl
+    n_plugin_pages = write_plugin_detail_pages(
+        output_catalog_dir, repo_root, families, css, detail_tpl, skills=skills, agents=agents
+    )
+    n_inst_pages, n_prompt_pages = write_plugin_artifact_detail_pages(
+        output_catalog_dir, repo_root, instructions, prompts, css, detail_tpl
     )
     n_skill_pages, n_agent_pages = write_entry_detail_pages(
         output_catalog_dir, repo_root, skills, agents, css, detail_tpl
     )
-    return n_fam_pages, n_skill_pages, n_agent_pages, n_md_pages
+    return n_plugin_pages, n_skill_pages, n_agent_pages, n_md_pages, n_inst_pages, n_prompt_pages
 
 
 def main() -> None:
@@ -2611,7 +2873,7 @@ def main() -> None:
     )
     print(f"  wrote {outline_path}")
 
-    n_fam_detail, n_sk_detail, n_ag_detail, n_md_pages = write_html_pages(
+    n_plugin_detail, n_sk_detail, n_ag_detail, n_md_pages, n_inst_detail, n_prompt_detail = write_html_pages(
         output_dir,
         repo_root,
         families,
@@ -2619,15 +2881,38 @@ def main() -> None:
         agents,
         omit_garden_families=omit_garden_families,
     )
+    catalog_css = _catalog_page_stylesheet(repo_root, _load_template("catalog.css"))
+    kanban_h1, kanban_tagline = catalog_garden_page_header()
+    kanban_path = write_kanban_layout_pages(
+        output_dir,
+        repo_root,
+        skill_dir_map_from_entries(skills),
+        catalog_css,
+        brand=CATALOG_BRAND_HTML,
+        h1=kanban_h1,
+        tagline=kanban_tagline,
+        template_dir=TEMPLATE_DIR,
+    )
+    print(f"  wrote {kanban_path}")
+    skill_map = skill_dir_map_from_entries(skills)
+    if sync_bootcamp_part3_kanban(repo_root, skill_map):
+        print("  synced abd-ai-augmented-bootcamp slides/part3/part3.html (kanban kb-slides)")
+    other = patch_bootcamp_slide_files(repo_root, skill_map)
+    for rel in other:
+        print(f"  patched bootcamp slides/{rel}")
     print(f"  wrote {output_dir / 'index.html'}")
-    print(f"  wrote {output_dir / 'families.html'}")
-    print(f"  wrote {output_dir / 'skills.html'}")
-    print(f"  wrote {output_dir / 'agents.html'}")
+    print(f"  wrote {output_dir / 'plugins.html'}")
+    print(f"  wrote {output_dir / SKILLS_PAGE}")
+    print(f"  wrote {output_dir / AGENTS_PAGE}")
+    print(f"  wrote {output_dir / 'instructions.html'}")
+    print(f"  wrote {output_dir / 'prompts.html'}")
     print(f"  wrote {n_md_pages} markdown pages under catalog/doc/")
-    print(f"  wrote {n_fam_detail} family detail pages under catalog/family/")
+    print(f"  wrote {n_plugin_detail} plugin detail pages under catalog/plugin/")
     print(f"  wrote {n_sk_detail} skill detail pages under catalog/skill/")
     print(f"  wrote {n_ag_detail} agent detail pages under catalog/agent/")
-    print(f"  ({len(families)} families, {len(skills)} skills, {len(agents)} agents)")
+    print(f"  wrote {n_inst_detail} instruction detail pages under catalog/instruction/")
+    print(f"  wrote {n_prompt_detail} prompt detail pages under catalog/prompt/")
+    print(f"  ({len(families)} plugins, {len(skills)} skills, {len(agents)} agents)")
 
 
 if __name__ == "__main__":

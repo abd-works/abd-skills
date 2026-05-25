@@ -23,7 +23,7 @@ Four **families** organize packages under `skills/`. Each has a **default** exec
 | **Story-driven delivery** | Product Owner | [product-owner.md](../roles/product-owner.md) |
 | **Domain-driven design** | Business Expert | [business-expert.md](../roles/business-expert.md) |
 | **User experience design** | UX Designer | [ux-designer.md](../roles/ux-designer.md) |
-| **Architecture & engineering** | Engineer | [engineer.md](../roles/engineer.md) |
+| **Architecture-centric engineering** (`architecture-centric-engineering/`) | Engineer | [engineer.md](../roles/engineer.md) |
 
 Role index: [team-roles.md](../roles/team-roles.md)
 

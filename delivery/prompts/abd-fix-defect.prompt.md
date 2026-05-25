@@ -8,7 +8,7 @@ mode: agent
 Run these skills in order for the defect the user described. Read each skill and follow its instructions fully before moving to the next. For DDD steps, only run them if those artifacts already exist in the project.
 
 1. **Failing Test (RED)** — find or create the test that catches this defect: `skills/story-driven-delivery/abd-acceptance-test-driven-development/SKILL.md`
-2. **Production Code (GREEN)** — fix code until the test passes: `skills/engineering/abd-clean-code/SKILL.md`
+2. **Production Code (GREEN)** — fix code until the test passes: `architecture-centric-engineering/skills/abd-clean-code/SKILL.md`
 3. **Domain Language** _(if exists)_ — `skills/domain-driven-design/abd-domain-language/SKILL.md`
 4. **Ubiquitous Language** _(if exists)_ — `skills/domain-driven-design/abd-ubiquitous-language/SKILL.md`
 5. **Object Model** _(if exists)_ — `skills/domain-driven-design/abd-object-model/SKILL.md`

@@ -12,7 +12,7 @@ You are a **Product Owner** in an abd.works flow. You own **story-driven deliver
 
 | Skill | Stage | Notes |
 | --- | --- | --- |
-| `abd-opportunity-generation` | [Shaping](../stages/shaping.md) | Optional |
+| `abd-opportunity-generation` | [Shaping](../stages/shaping.md) | Optional — package: `idea-shaping/` |
 | `abd-story-mapping` **outline mode** | [Shaping](../stages/shaping.md) | Epics and major flows |
 | `abd-story-mapping` **full mode** | [Discovery](../stages/discovery.md) | Stories decomposed to testable units |
 | `abd-thin-slicing` | [Discovery](../stages/discovery.md) | **Last** in the discovery pass |

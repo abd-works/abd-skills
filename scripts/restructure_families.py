@@ -285,8 +285,7 @@ def main() -> None:
     restructure_story_driven()
     for family in (
         "domain-driven-design",
-        "architecture-centric-delivery",
-        "engineering",
+        "architecture-centric-engineering",
         "user-experience-design",
     ):
         restructure_simple(family)
@@ -312,8 +311,7 @@ FAMILY_PACKAGES_ALL = (
     "delivery",
     "story-driven-delivery",
     "domain-driven-design",
-    "architecture-centric-delivery",
-    "engineering",
+    "architecture-centric-engineering",
     "user-experience-design",
     "context-to-memory",
     "idea-shaping",

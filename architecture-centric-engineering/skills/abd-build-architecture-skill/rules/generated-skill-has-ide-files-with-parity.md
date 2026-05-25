@@ -15,7 +15,7 @@ Every generated implementation skill must ship an `ide-files/` folder containing
 
   # Run <arch>-technical-architecture
 
-  Read `skills/engineering/<arch>-technical-architecture/SKILL.md`...
+  Read `architecture-centric-engineering/skills/<arch>-technical-architecture/SKILL.md`...
   ```
 
 - Create `ide-files/<skill-name>.instructions.md` whose entire content is the body of the `.mdc` after the frontmatter, byte-identical after newline normalization.
@@ -30,7 +30,7 @@ Every generated implementation skill must ship an `ide-files/` folder containing
   description: Run <arch>-technical-architecture to generate a module
   ---
 
-  Read **`skills/engineering/<arch>-technical-architecture/SKILL.md`** and follow the Build steps.
+  Read **`architecture-centric-engineering/skills/<arch>-technical-architecture/SKILL.md`** and follow the Build steps.
   ```
 
 - After generating the three files, run the parity scanner:
@@ -38,7 +38,7 @@ Every generated implementation skill must ship an `ide-files/` folder containing
   ```bash
   python skill-helpers/skills/execute-skill-using-skills-rules/scripts/run_scanners.py \
     --skill-root skill-builder/skills/abd-author-practice-skill \
-    --workspace C:/absolute/path/to/skills/engineering/<arch>-technical-architecture
+    --workspace C:/absolute/path/to/architecture-centric-engineering/skills/<arch>-technical-architecture
   ```
 
   Confirm it reports PASS for `mdc-instructions-parity`.

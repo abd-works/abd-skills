@@ -21,7 +21,7 @@ When running the full exploration pass, default skill order: **domain (UL) → s
 | 3 | **Story-driven delivery** | `abd-acceptance-criteria` | Product Owner | WHEN/THEN AC using UL terms |
 | 4 | **Story-driven delivery** | `drawio-story-sync` | Product Owner | Exploration / AC diagrams when assigned |
 | 5 | **User experience design** | `abd-ux-mockup` | UX Designer | Lo-fi wireframes after IA and AC |
-| 6 | **Architecture & engineering** | `abd-architecture-template` | Engineer | Mechanism patterns for the slice — not full reference yet |
+| 6 | **Architecture-centric engineering** | `abd-architecture-template` | Engineer | Mechanism patterns for the slice — not full reference yet |
 
 ## Entry conditions
 

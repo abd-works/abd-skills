@@ -1,6 +1,6 @@
 # Scanner Report — abd-author-practice-skill
 
-**Workspace:** C:/dev/agilebydesign-skills/skills/engineering/abd-build-architecture-skill
+**Workspace:** C:/dev/agilebydesign-skills/architecture-centric-engineering/skills/abd-build-architecture-skill
 **Date:** 2026-05-16 18:52:34
 
 ---

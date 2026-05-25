@@ -14,10 +14,11 @@ metadata:
 
 # The ABD AI Garden (`abd-skill-catalog`)
 
-Maintain the browsable **AI Garden** from **repo-root family packages**
-(`delivery/`, `story-driven-delivery/`, `domain-driven-design/`, …). Each family
-exposes `agents/`, `skills/`, `content/`, `instructions/`, `prompts/`, `lib/`,
-and `scripts/` — the catalog indexes the **full package**, not only SKILL.md files.
+Maintain the browsable **AI Garden** from **repo-root plugins**
+(`delivery/`, `story-driven-delivery/`, `domain-driven-design/`, …). Each plugin
+is a deployable package of `agents/`, `skills/`, `instructions/`, `prompts/`,
+`content/`, `lib/`, and `scripts/` — the catalog indexes the **full package**,
+not only SKILL.md files.
 
 ## When to use this skill
 
@@ -30,12 +31,16 @@ and `scripts/` — the catalog indexes the **full package**, not only SKILL.md f
 | Artifact | Format | Location (default) |
 | --- | --- | --- |
 | **Outline** | Markdown | `catalog/outline.md` (repository root) |
-| **Family grid** | HTML | `catalog/families.html` — all 11 family packages |
-| **Family detail** | HTML | `catalog/family/<id>.html` — agents, skills, instructions, prompts, content, lib, scripts |
-| **Site hub** | HTML | `catalog/index.html` — prelude + collapsible **Families**, **Skills**, **Agents** |
+| **Plugin grid** | HTML | `catalog/plugins.html` — all repo-root plugins |
+| **Plugin detail** | HTML | `catalog/plugin/<id>.html` — agents, skills, instructions, prompts, content, lib, scripts |
+| **Site hub** | HTML | `catalog/index.html` — prelude + collapsible **Plugins**, **Skills**, **Agents**, **Instructions**, **Prompts** |
 | **Skills grid** | HTML | `catalog/skills.html` (standalone grid; nav from detail pages) |
 | **Agents grid** | HTML | `catalog/agents.html` (standalone grid; nav from detail pages) |
+| **Instructions grid** | HTML | `catalog/instructions.html` |
+| **Prompts grid** | HTML | `catalog/prompts.html` |
 | **Hub / grid intros** | HTML fragments | `skill-builder/skills/abd-skill-catalog/templates/intros/*.html` (short lines above grids; optional polish) |
+| **Instruction detail pages** | HTML | `catalog/instruction/<plugin>--instructions--<name>.html` |
+| **Prompt detail pages** | HTML | `catalog/prompt/<plugin>--prompts--<name>.html` |
 | **Skill detail pages** | HTML | `catalog/skill/<dir>.html` (one per skill; cards link here) |
 | **Agent detail pages** | HTML | `catalog/agent/<dir>.html` (one per agent; cards link here) |
 

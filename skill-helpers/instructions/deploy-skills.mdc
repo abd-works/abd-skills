@@ -36,7 +36,7 @@ That is the only correct way to deploy anything from this repo. It deploys **fam
 
 **Infra rules and commands** (workspace, deploy-skills, log-and-fix, execute-skill-using-skills-rules) live in **`skill-helpers/instructions/`** and **`skill-helpers/prompts/`** — deployed with the skill-helpers family package.
 
-**Family packages** at repo root: `delivery/`, `story-driven-delivery/`, `domain-driven-design/`, `architecture-centric-delivery/`, `engineering/`, `user-experience-design/`, `context-to-memory/`, `idea-shaping/`, `skill-builder/`, `skill-helpers/`, `utilities/`.
+**Family packages** at repo root: `delivery/`, `story-driven-delivery/`, `domain-driven-design/`, `architecture-centric-engineering/`, `user-experience-design/`, `context-to-memory/`, `idea-shaping/`, `skill-builder/`, `skill-helpers/`, `utilities/`.
 
 **Deploy root** (when `-DeployRoot` is omitted): read **`workspace.active_skill_workspace`** from **`skill-config.json`**; else walk **`$PWD`** for **`*.code-workspace`**; else skills repo root.
 

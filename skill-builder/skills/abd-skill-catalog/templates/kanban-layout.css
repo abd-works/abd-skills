@@ -1,0 +1,268 @@
+/* Full-screen kanban deck — bootcamp abd-works.css + slides.css do the visual work. */
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  background: #0b0b0b;
+  color: #f4f4f5;
+}
+
+.kanban-exit-link {
+  position: fixed;
+  top: 14px;
+  left: 18px;
+  z-index: 40;
+  font-family: var(--abd-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--abd-muted);
+  text-decoration: none;
+  background: rgba(17, 17, 19, 0.85);
+  border: 1px solid var(--abd-border);
+  border-radius: 4px;
+  padding: 6px 10px;
+}
+
+.kanban-exit-link:hover {
+  color: var(--abd-accent-glow);
+  border-color: var(--abd-accent);
+}
+
+/* Agents + skills on one row (catalog layout preference) */
+.kb-slide .aad-delivery-crosscut-row--inline {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 6px 8px;
+  min-width: 0;
+}
+
+.kb-slide .aad-delivery-crosscut-row--inline .aad-delivery-crosscut-sublabel {
+  flex: 0 0 auto;
+  min-width: auto;
+}
+
+.kb-slide .aad-delivery-crosscut-row--inline .aad-delivery-crosscut-agents,
+.kb-slide .aad-delivery-crosscut-row--inline .aad-delivery-crosscut-skills {
+  display: inline-flex;
+  flex: 0 0 auto;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 0;
+}
+
+.kb-slide .aad-delivery-crosscut-row--inline .aad-delivery-crosscut-sublabel--skills {
+  margin-left: 6px;
+  padding-left: 8px;
+  border-left: 1px solid var(--abd-border);
+}
+
+/* Catalog kanban: tickets visible immediately — no stagger animation */
+.kb-slide .kb-ticket {
+  transform: none;
+}
+
+.kb-slide .kb-ticket.aad-skill {
+  opacity: 1;
+  filter: none;
+  color: var(--abd-text);
+  transition: opacity 0.4s ease, filter 0.4s ease, color 0.4s ease;
+}
+
+/* Stage slides: mute non-focus columns (bootcamp aad-board-5 behaviour on grid board) */
+.kb-slide .aad-board-grid .kb-col:not(.active) .kb-ticket.aad-skill {
+  opacity: 0.55;
+  filter: saturate(0.7);
+  color: var(--abd-muted);
+}
+
+.kb-slide .aad-board-grid .kb-col.active .kb-ticket.aad-skill {
+  opacity: 1;
+  filter: none;
+  color: var(--abd-text);
+}
+
+/* Overview: no active column — all tickets stay full colour */
+.kb-slide .aad-board-grid:not(:has(.kb-col.active)) .kb-ticket.aad-skill {
+  opacity: 1;
+  filter: none;
+  color: var(--abd-text);
+}
+
+/* ── Tight vertical layout — one padding layer, fill the slide ───────────── */
+
+.reveal .slides > section#m-agentic-delivery {
+  padding: 0 !important;
+  background: transparent !important;
+  border: none !important;
+}
+
+.reveal .slides > section#m-agentic-delivery::before,
+.reveal .slides > section#m-agentic-delivery::after {
+  display: none !important;
+}
+
+.reveal .slides section.kb-slide {
+  gap: 5px !important;
+  padding: 8px 44px 10px 50px !important;
+  height: 100%;
+  max-height: 100%;
+  box-sizing: border-box;
+}
+
+.kb-slide .kb-header {
+  flex: 0 0 auto;
+  gap: 8px;
+}
+
+.kb-slide .kb-header h2 {
+  font-size: 0.98em;
+  line-height: 1.2;
+}
+
+.kb-slide .kb-header-right {
+  gap: 4px;
+}
+
+.kb-slide .kb-board.aad-board-grid {
+  flex: 0 0 auto;
+  margin-bottom: 4px;
+  padding: 6px;
+  gap: 0 6px;
+}
+
+.kb-slide .aad-board-grid .kb-col {
+  padding: 6px;
+}
+
+.kb-slide .aad-board-grid .kb-col-head {
+  padding: 5px 6px 6px;
+  margin-bottom: 6px;
+}
+
+.kb-slide .aad-board-grid .kb-col-tickets,
+.kb-slide .aad-board-grid .aad-tickets-grid {
+  gap: 4px;
+}
+
+.kb-slide .aad-board-grid .aad-skill-row {
+  gap: 4px;
+}
+
+.kb-slide .aad-delivery-crosscut-grid {
+  flex: 0 0 auto;
+  margin: 0 0 6px;
+  padding: 6px 8px;
+}
+
+.kb-slide .kanban-legend-row {
+  flex: 0 0 auto;
+  margin-top: 4px;
+  gap: 8px 14px;
+}
+
+.kb-slide .kanban-legend-cards {
+  gap: 6px;
+}
+
+.kb-slide .kb-spotlight {
+  flex: 1 1 auto;
+  min-height: 0;
+  padding: 6px 10px 8px;
+  gap: 3px;
+}
+
+.kb-slide .kb-spotlight-body {
+  gap: 3px !important;
+}
+
+.kb-slide .aad-principles {
+  margin: 0 0 4px;
+  gap: 6px;
+}
+
+.kb-slide .aad-principle {
+  padding: 4px 6px 5px;
+}
+
+.kb-slide .aad-scale-row {
+  gap: 6px;
+  flex: 1;
+  min-height: 0;
+  align-items: flex-start;
+}
+
+/* ── Readable type — bootcamp aad-skill rhythm, slightly larger ─────────── */
+
+.kb-slide .kb-col-head {
+  font-size: 12px;
+}
+
+.kb-slide .aad-board-grid .kb-ticket.aad-skill,
+.kb-slide .aad-delivery-crosscut-skills .kb-ticket.aad-skill {
+  font-size: 11px;
+  padding: 5px 8px;
+  line-height: 1.3;
+}
+
+.kb-slide .aad-delivery-crosscut-row--inline .kb-ticket.aad-skill,
+.kb-slide .aad-delivery-crosscut-row--inline .aad-delivery-leaf {
+  font-size: 9.5px;
+  padding: 3px 6px;
+}
+
+.kb-slide .kanban-legend-heading {
+  font-size: 10px;
+}
+
+.kb-slide .kanban-legend-cards .kb-ticket.aad-skill {
+  font-size: 11px;
+  padding: 5px 8px;
+  line-height: 1.3;
+}
+
+.kb-slide .aad-delivery-crosscut-label {
+  font-size: 10px;
+}
+
+.kb-slide .aad-delivery-crosscut-sublabel {
+  font-size: 9px;
+}
+
+.kb-slide .aad-delivery-crosscut-row {
+  gap: 8px 10px;
+}
+
+.kb-slide .aad-delivery-crosscut-row:not(.aad-delivery-crosscut-row--inline) .aad-delivery-crosscut-skills {
+  gap: 6px;
+}
+
+.kb-slide .aad-delivery-leaf,
+.kb-slide .aad-row-agent {
+  font-size: 9.5px;
+  padding: 3px 7px;
+}
+
+.kb-slide .aad-principle-tag {
+  font-size: 10px;
+}
+
+.kb-slide .aad-principle-body {
+  font-size: 11.5px;
+}
+
+.kb-slide .aad-scale-name {
+  font-size: 14px;
+}
+
+.kb-slide .aad-scale-shape-label {
+  font-size: 12px;
+}
+
+.kb-slide .aad-scale-detail {
+  font-size: 10px;
+}
