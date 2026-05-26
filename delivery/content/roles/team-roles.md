@@ -10,7 +10,7 @@ Four **executor roles** run delivery slots. Four bootcamp **families** organize 
 | **Domain-driven design** | **Business Expert** | [business-expert.md](business-expert.md) |
 | **User experience design** | **UX Designer** | [ux-designer.md](ux-designer.md) |
 | **Architecture-centric engineering** (`architecture-centric-engineering/`) | **Engineer** | [engineer.md](engineer.md) |
-| **Review (validate only)** | **Reviewer** | [delivery-team-reviewer/AGENT.md](../../agents/delivery-team-reviewer/AGENT.md) |
+| **Review (validate only)** | **`<role>-reviewer`** agent (same bootcamp role as executor) | [product-owner-reviewer/AGENT.md](../../agents/product-owner-reviewer/AGENT.md) (and BE, UX, Engineer reviewers) |
 
 **Cross-family execution (common):**
 
@@ -19,7 +19,18 @@ Four **executor roles** run delivery slots. Four bootcamp **families** organize 
 | `abd-acceptance-test-driven-development` | Story-driven delivery | **Engineer** |
 | `abd-object-model` | Domain-driven design | **Engineer** (Business Expert reviews) |
 
-Assign **`team-role`** per slot from [stages/](../stages/) — not from package folder alone.
+Assign **`team-role`** and **`slot_type`** per slot from [stages/](../stages/) — not from package folder alone. Reviewer slots use the **executor role** under review plus `slot_type: reviewer`.
+
+## Persistent role agents
+
+The delivery lead bootstraps **eight agents once** per engagement. Each agent pulls slots from the **Kanban board** (`board.json`) — see [../../content/kanban.md](../kanban.md) and [../../agents/_shared/work-queue.md](../../agents/_shared/work-queue.md).
+
+| Executor agent | Reviewer agent |
+| --- | --- |
+| [product-owner](../../agents/product-owner/AGENT.md) | [product-owner-reviewer](../../agents/product-owner-reviewer/AGENT.md) |
+| [business-expert](../../agents/business-expert/AGENT.md) | [business-expert-reviewer](../../agents/business-expert-reviewer/AGENT.md) |
+| [ux-designer](../../agents/ux-designer/AGENT.md) | [ux-designer-reviewer](../../agents/ux-designer-reviewer/AGENT.md) |
+| [engineer](../../agents/engineer/AGENT.md) | [engineer-reviewer](../../agents/engineer-reviewer/AGENT.md) |
 
 ---
 
@@ -96,11 +107,13 @@ Stage detail: [engineering](../stages/engineering.md)
 
 ---
 
-### Reviewer — validate only
+### Reviewer — validate only (role-matched)
 
 | When | Scope |
 | --- | --- |
-| After every executor slot | Prior executor artifacts only — run scanners, check stage exit-gate items scoped to that skill; **no new artifacts** |
+| After every executor slot | Prior **same-role** executor artifacts — run scanners, check stage exit-gate items scoped to that skill; **no new artifacts** |
+
+Open the matching `*-reviewer` agent (e.g. `product-owner-reviewer` after a PO executor slot). Reviewer slots use `slot_type: reviewer` and the same **`skills:`** entry as the paired executor slot — not a generic `team-role: reviewer`.
 
 ---
 

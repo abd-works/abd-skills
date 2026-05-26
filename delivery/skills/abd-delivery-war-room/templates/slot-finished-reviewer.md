@@ -2,7 +2,7 @@
 
 **Timestamp:** <ISO 8601>
 **Stage reviewed:** shaping | discovery | exploration | specification | engineering
-**Role:** reviewer
+**Role:** reviewer (`slot_type: reviewer`; same `team-role` as executor under review)
 **Prior executor slot:** slot-NN-finished.md
 
 ## Artifacts reviewed

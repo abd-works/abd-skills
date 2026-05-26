@@ -57,10 +57,54 @@ def test_render_checklist_includes_reviewer_and_rework_steps(tmp_path):
     plan_path.write_text(_SAMPLE_PLAN, encoding="utf-8")
     rendered = render_checklist(runs, plan_path, "2026-04-22T00:00:00+00:00")
 
-    assert "**Reviewer** — scanners run" in rendered
-    assert "**Reviewer** — exit-gate review complete" in rendered
-    assert "**Rework** — team member incorporated suggested fixes" in rendered
+    assert "##### Reviewer" in rendered
+    assert "scanners run" in rendered
+    assert "exit-gate review complete" in rendered
+    assert "##### Rework" in rendered
+    assert "executor incorporated suggested fixes" in rendered
     assert "Per-stage tracking" in rendered
+    assert "#### discovery" in rendered
+
+
+def test_render_checklist_hierarchy_stage_role_skill(tmp_path):
+    runs = parse_plan(_SAMPLE_PLAN)
+    plan_path = tmp_path / "agile-delivery-plan.md"
+    plan_path.write_text(_SAMPLE_PLAN, encoding="utf-8")
+    war_room = tmp_path / "docs" / "planning" / "delivery-war-room"
+    war_room.mkdir(parents=True)
+    (war_room / "run-catalog.json").write_text(
+        """{
+  "runs": [{
+    "run": 1,
+    "stages": ["discovery"],
+    "system_of_work": "test-sow"
+  }]
+}""",
+        encoding="utf-8",
+    )
+    (war_room / "system-of-work.json").write_text(
+        """{
+  "definitions": {
+    "test-sow": {
+      "stages": {
+        "discovery": [{"skill": "abd-story-mapping", "role": "product-owner", "label": "Map stories"}]
+      }
+    }
+  }
+}""",
+        encoding="utf-8",
+    )
+    rendered = render_checklist(
+        [runs[0]],
+        plan_path,
+        "2026-04-22T00:00:00+00:00",
+        workspace=tmp_path,
+    )
+    assert "#### discovery" in rendered
+    assert "##### Executor" in rendered
+    assert "###### abd-story-mapping" in rendered
+    assert "Map stories · product-owner" in rendered
+    assert "##### Delivery lead" in rendered
 
 
 def test_render_checklist_has_orchestration_section_and_run_rows(tmp_path):
@@ -75,8 +119,8 @@ def test_render_checklist_has_orchestration_section_and_run_rows(tmp_path):
     for r in runs:
         assert f"### Run {r.label}" in rendered
     # Stages appear for run 3b
-    assert "**specification**" in rendered
-    assert "**engineering**" in rendered
+    assert "#### specification" in rendered
+    assert "#### engineering" in rendered
 
 
 def test_reapply_checks_preserves_existing_state(tmp_path):

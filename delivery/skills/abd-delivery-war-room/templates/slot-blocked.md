@@ -3,7 +3,7 @@
 **Timestamp:** <ISO 8601>
 **Stage:** <stage name>
 **Role:** <team-role>
-
+**Ticket:** Run <N> — Kanban column → **`blocked`**
 ## Question
 
 <The specific question the team member needs answered. Be precise.>

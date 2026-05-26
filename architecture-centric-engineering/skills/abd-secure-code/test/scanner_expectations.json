@@ -1,0 +1,98 @@
+{
+  "languages": ["python", "javascript", "java"],
+  "rule_count": 24,
+  "fixtures": {
+    "secure-sample": {
+      "description": "Clean baseline — every rule scanner must exit 0 (no violations).",
+      "expect_zero_violations": true
+    },
+    "insecure-sample": {
+      "description": "Intentionally vulnerable patterns — listed scanners must exit 1.",
+      "minimum_violations": {
+        "python": 20,
+        "javascript": 18,
+        "java": 20
+      },
+      "must_violate": {
+        "python": [
+          "no_hardcoded_secrets_scanner",
+          "no_sql_string_concatenation_scanner",
+          "no_os_command_injection_scanner",
+          "no_eval_dynamic_code_execution_scanner",
+          "no_dangerous_xss_sinks_scanner",
+          "no_plaintext_password_storage_scanner",
+          "no_plaintext_sensitive_data_at_rest_scanner",
+          "no_weak_crypto_algorithms_scanner",
+          "no_sensitive_error_disclosure_scanner",
+          "no_unsafe_deserialization_scanner",
+          "no_mass_assignment_from_request_scanner",
+          "no_predictable_session_token_scanner",
+          "no_unsafe_file_upload_handling_scanner",
+          "no_path_traversal_in_paths_scanner",
+          "no_secrets_in_log_output_scanner",
+          "no_ldap_filter_injection_scanner",
+          "no_xxe_unsafe_xml_parser_scanner",
+          "no_untrusted_component_sources_scanner",
+          "no_insufficient_login_rate_limiting_scanner",
+          "no_missing_security_event_logging_scanner",
+          "no_excessive_response_data_scanner",
+          "no_client_side_auth_trust_scanner",
+          "no_jwt_none_algorithm_scanner",
+          "no_toctou_outside_lock_scanner"
+        ],
+        "javascript": [
+          "no_hardcoded_secrets_scanner",
+          "no_sql_string_concatenation_scanner",
+          "no_os_command_injection_scanner",
+          "no_eval_dynamic_code_execution_scanner",
+          "no_dangerous_xss_sinks_scanner",
+          "no_plaintext_password_storage_scanner",
+          "no_plaintext_sensitive_data_at_rest_scanner",
+          "no_weak_crypto_algorithms_scanner",
+          "no_sensitive_error_disclosure_scanner",
+          "no_unsafe_deserialization_scanner",
+          "no_mass_assignment_from_request_scanner",
+          "no_predictable_session_token_scanner",
+          "no_unsafe_file_upload_handling_scanner",
+          "no_path_traversal_in_paths_scanner",
+          "no_secrets_in_log_output_scanner",
+          "no_insufficient_login_rate_limiting_scanner",
+          "no_missing_security_event_logging_scanner",
+          "no_excessive_response_data_scanner",
+          "no_client_side_auth_trust_scanner",
+          "no_jwt_none_algorithm_scanner",
+          "no_toctou_outside_lock_scanner"
+        ],
+        "java": [
+          "no_hardcoded_secrets_scanner",
+          "no_sql_string_concatenation_scanner",
+          "no_os_command_injection_scanner",
+          "no_dangerous_xss_sinks_scanner",
+          "no_plaintext_password_storage_scanner",
+          "no_plaintext_sensitive_data_at_rest_scanner",
+          "no_weak_crypto_algorithms_scanner",
+          "no_sensitive_error_disclosure_scanner",
+          "no_unsafe_deserialization_scanner",
+          "no_mass_assignment_from_request_scanner",
+          "no_predictable_session_token_scanner",
+          "no_unsafe_file_upload_handling_scanner",
+          "no_path_traversal_in_paths_scanner",
+          "no_secrets_in_log_output_scanner",
+          "no_ldap_filter_injection_scanner",
+          "no_xxe_unsafe_xml_parser_scanner",
+          "no_untrusted_component_sources_scanner",
+          "no_insufficient_login_rate_limiting_scanner",
+          "no_missing_security_event_logging_scanner",
+          "no_excessive_response_data_scanner",
+          "no_client_side_auth_trust_scanner",
+          "no_jwt_none_algorithm_scanner",
+          "no_toctou_outside_lock_scanner"
+        ]
+      },
+      "optional_not_in_fixture": {
+        "javascript": ["no_ldap_filter_injection_scanner", "no_xxe_unsafe_xml_parser_scanner"],
+        "java": ["no_eval_dynamic_code_execution_scanner"]
+      }
+    }
+  }
+}

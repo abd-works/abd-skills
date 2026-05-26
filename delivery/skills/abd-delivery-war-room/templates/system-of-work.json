@@ -1,0 +1,63 @@
+{
+  "schema": "abd-delivery-system-of-work/v1",
+  "definitions": {
+    "example-increment-vertical": {
+      "label": "Example increment — exploration → specification → engineering",
+      "source_strategy": "new-thin-slice",
+      "stages": {
+        "exploration": [
+          { "skill": "abd-ubiquitous-language", "role": "business-expert", "label": "UL" },
+          { "skill": "abd-acceptance-criteria", "role": "product-owner", "label": "AC" },
+          { "skill": "abd-ux-mockup", "role": "ux-designer", "label": "UX mockup" },
+          { "skill": "abd-architecture-template", "role": "engineer", "label": "Arch template" }
+        ],
+        "specification": [
+          { "skill": "abd-class-responsibility-collaborator", "role": "business-expert", "label": "CRC" },
+          { "skill": "abd-specification-by-example", "role": "product-owner", "label": "SBE" },
+          { "skill": "abd-scenario-walkthrough", "role": "business-expert", "label": "Walkthrough" },
+          { "skill": "abd-interface-design", "role": "ux-designer", "label": "Interface design" },
+          { "skill": "abd-architecture-reference", "role": "engineer", "label": "Arch reference" }
+        ],
+        "engineering": [
+          { "skill": "abd-interface-design", "role": "ux-designer", "label": "UI impl" },
+          { "skill": "abd-object-model", "role": "engineer", "label": "Object model" },
+          { "skill": "abd-acceptance-test-driven-development", "role": "engineer", "label": "ATDD" },
+          { "skill": "abd-clean-code", "role": "engineer", "label": "Clean code" }
+        ]
+      },
+      "parallel_profiles": {
+        "increment-vertical": {
+          "exploration:abd-acceptance-criteria:executor": [
+            "exploration:abd-ubiquitous-language:reviewer"
+          ],
+          "exploration:abd-ux-mockup:executor": [
+            "exploration:abd-ubiquitous-language:reviewer"
+          ],
+          "exploration:abd-architecture-template:executor": [
+            "exploration:abd-acceptance-criteria:reviewer",
+            "exploration:abd-ux-mockup:reviewer"
+          ],
+          "specification:abd-specification-by-example:executor": [
+            "specification:abd-class-responsibility-collaborator:reviewer"
+          ],
+          "specification:abd-scenario-walkthrough:executor": [
+            "specification:abd-class-responsibility-collaborator:reviewer"
+          ],
+          "specification:abd-interface-design:executor": [
+            "exploration:abd-architecture-template:reviewer"
+          ],
+          "specification:abd-architecture-reference:executor": [
+            "exploration:abd-architecture-template:reviewer"
+          ],
+          "engineering:abd-object-model:executor": [
+            "specification:abd-architecture-reference:reviewer"
+          ],
+          "engineering:abd-acceptance-test-driven-development:executor": [
+            "engineering:abd-interface-design:reviewer",
+            "engineering:abd-object-model:reviewer"
+          ]
+        }
+      }
+    }
+  }
+}

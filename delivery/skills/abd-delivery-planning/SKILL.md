@@ -206,20 +206,20 @@ For **each run**, state:
 5. **Expected outputs.**
 6. **Rationale** — risk type(s) mitigated **and** the **concrete outcome** of the run (see **Run rationale** above). If missing context **blocks** the run, say so **in rationale or entry conditions**.
 
-**Multi-increment delivery (Runs 2–10, nine slices, etc.) — mandatory slot schedule**
+**Multi-increment delivery (Runs 2–10, nine slices, etc.) — system of work + run catalog**
 
-When the engagement delivers **more than one product increment**, the saved plan is the delivery lead's **slot schedule**, not a reusable pattern:
+When the engagement delivers **more than one product increment**, the saved plan names **runs** and a reusable **system of work** — not a pre-authored slot table for every run:
 
-1. Give **each run** its own `## Run N — …` section (never `## Runs 3–10 — routine template`).
-2. Inside each run, list **Exploration**, **Specification**, and **Engineering** with a **`| Slot |`** column and **one row per planned handoff** (executor and reviewer are separate rows unless Run 1–2 already established a paired-row convention).
-3. Assign **monotonic slot numbers** across the engagement; add a slot index when the plan spans many runs.
-4. Waive skills **per run** in that run's header and **omit** those slot rows — do not substitute offset tables or estimated ranges (`opens at slot (est.)`, `~68`, `≈ 10 slots`).
+1. Define **named systems of work** (`## System of work` in the plan + `delivery-war-room/system-of-work.json`) — from a **strategy** or a custom name. First run that introduces a system may show full skill order per stage; later runs **reference the same name**.
+2. List **each run** in the plan and **`run-catalog.json`** (scope, stages, `system_of_work`, waivers, `opens_after`, `discovery_precompleted` when applicable).
+3. **Slots materialize at run open** — delivery-lead runs **`generate_run_slots.py --run N`**; do not list every slot in `agile-delivery-plan.md`.
+4. When inventing a new custom system of work, **CHECKPOINT:** ask whether to save it under **`strategies/`**.
 
-Bootcamp stage files define skill **order**; **`agile-delivery-plan.md`** defines **which slot runs which skill** for this engagement. The scanner enforces this via **`rules/plan-lists-every-run-and-every-slot.md`**.
+Bootcamp stage files define default skill **order**; **`system-of-work.json`** defines this engagement’s order and parallel profiles. Scanner: **`rules/plan-uses-system-of-work.md`**.
 
 ### 2d — Example plans (patterns)
 
-Use these as **summary-level patterns** for how different context shapes different plans. **`6+` / `5+` rows are shorthand in examples only** — when you persist a multi-increment plan to disk, **expand every run** with explicit slot tables (see **§2c**).
+Use these as **summary-level patterns** for how different context shapes different plans. **`6+` / `5+` rows are shorthand in examples only** — when you persist a multi-increment plan, use **run catalog + system of work** (see **§2c**), not expanded slot tables for every run.
 
 **Example A — Proprietary API integration platform**
 

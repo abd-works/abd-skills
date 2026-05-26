@@ -1,119 +1,302 @@
 ---
+
 name: abd-delivery-war-room
+
 description: >-
-  File-based war room for `delivery-lead` and `delivery-team-member`:
+
+  File-based Kanban war room for `delivery-lead` and eight persistent role agents:
+
   `delivery-war-room/` under the engagement workspace is the **authoritative source of
-  all delivery progress** — orchestration checklist, manifest, slots, and run log.
+
+  all delivery progress** — board.json, checklist, manifest, slots, claims, and run log.
+
   Read this skill before Step 2.
+
 ---
+
+
 
 # abd-delivery-war-room
 
+
+
 ## Purpose
 
-Single on-disk home for **progress** and **handoffs**. The delivery lead, team members, and operator all read and write here.
+
+
+Single on-disk home for **progress** and **handoffs**. Models delivery as a **Kanban board** ([`../../content/kanban.md`](../../content/kanban.md)). The delivery lead, **eight persistent role agents**, and operator all read and write here.
+
+**Planning is not Kanban.** The narrative plan (`agile-delivery-plan.md`), run catalog, system of work, and slot starts are authored by **delivery-lead** using **`abd-delivery-planning`** and this skill. **`sync_kanban_board.py`** only writes **`board.json`** — it reads slot/run state and must not create planning artifacts.
+
+
+
+## Kanban model
+
+
+
+| Concept | Implementation |
+
+| --- | --- |
+
+| **Work ticket** | One **run** from `run-catalog.json` |
+
+| **Backlog** | Not-started run tickets — **only** backlog column in the engagement |
+
+| **Stage flow** | Per ticket, per stage: **`in_progress` → `review` → `done`** |
+
+| **Between stages** | Ticket stays in **`done`** until next stage pulls to **`in_progress`** |
+
+| **Blocked / stalled** | `slot-NN-blocked.md`; claim timeout → **`stalled`** |
+
+| **No Ready** | No ready column; no per-stage backlog after pull |
+
+
+
+Rule: [`rules/kanban-ticket-columns.md`](rules/kanban-ticket-columns.md)
+
+
+
+## Role agents (eight)
+
+
+
+| Executor | Reviewer |
+
+| --- | --- |
+
+| `product-owner` | `product-owner-reviewer` |
+
+| `business-expert` | `business-expert-reviewer` |
+
+| `ux-designer` | `ux-designer-reviewer` |
+
+| `engineer` | `engineer-reviewer` |
+
+
+
+Agents are **instantiated once** per engagement as **isolated subagents**. Bootstrap payload only — slot scope lives in `slot-NN-start.md`; ticket column in **`board.json`**.
+
+
 
 ## Progress authority
 
+
+
 | What | Where | Who updates |
+
 | --- | --- | --- |
-| Orchestration + run/stage checkboxes | `delivery-plan-checklist.md` | Delivery lead (`generate_delivery_checklist.py --sync-only` after each gate) |
-| Slot completion | `slot-NN-finished.md` | Team member |
-| Active slot / run policy | `manifest.md`, `slot-NN-start.md` | Delivery lead |
-| Audit trail (checklist sync source) | `run-log.jsonl` | Delivery lead |
-| Blockers | `slot-NN-blocked.md`, `slot-NN-answer.md` | Team member / operator |
 
-**Resume rule:** read the war room first. **`<!-- resume: slot NN next -->`** in the checklist (set by sync) + `slot-NN-finished.md` on disk. First unchecked **run/stage** block ≈ orchestration position.
+| **Kanban board snapshot** | **`board.json`** | **`sync_kanban_board.py` only** (read-only for planning) |
 
-**Per-stage checklist:** sync ticks the whole stage block when the lead appends `stage_exit_gate` to `run-log.jsonl` — not per-slot manual edits.
+| Narrative plan | `abd-delivery-lead/agile-delivery-plan.md` | **delivery-lead** + **`abd-delivery-planning`** |
+
+| System of work + run catalog | `system-of-work.json`, `run-catalog.json`, `run-state.json` | **delivery-lead** (Step 2b) |
+
+| Slot starts (per run) | `runs/run-NN/<stage>/slot-NN-start.md` | **delivery-lead** via **`generate_run_slots.py`** when a run opens |
+
+| Orchestration + run/stage checkboxes | `delivery-plan-checklist.md` | **delivery-lead** (`generate_delivery_checklist.py --sync-only`) |
+
+| Slot completion | `slot-NN-finished.md` | Role agent |
+
+| Active claim | `slot-NN-claim.md` | Role agent (removed on finish) |
+
+| Slot schedule / policy | `manifest.md`, `system-of-work.json`, `slot-NN-start.md` | Delivery lead |
+
+| Audit trail | `run-log.jsonl` | Delivery lead |
+
+| Blockers | `slot-NN-blocked.md`, `slot-NN-answer.md` | Role agent / operator |
+
+| Stalls | `board.json` column + optional `slot-stalled.md` | Sync script / delivery lead |
+
+
+
+**Resume rule:** read **`board.json`** first, then checklist `<!-- resume: slot NN -->`. Role agents pull from ticket column matching their role.
+
+
 
 ## Bootcamp alignment
 
-| Stages | `shaping` → `discovery` → `exploration` → `specification` → `engineering` |
-| Roles | `product-owner`, `business-expert`, `ux-designer`, `engineer`, `reviewer` |
-| Family packages | `story-driven-delivery/`, `domain-driven-design/`, `user-experience-design/`, `architecture-centric-engineering/` |
 
-Stage gates and skill order: [`../../content/stages/README.md`](../../content/stages/README.md).
+
+| Stages | `shaping` → `discovery` → `exploration` → `specification` → `engineering` |
+
+| Roles | `product-owner`, `business-expert`, `ux-designer`, `engineer` (+ matching `*-reviewer` agents) |
+
+| Slot types | `executor` · `reviewer` (same `team-role` for both in a pair) |
+
+
+
+Stage gates: [`../../content/stages/README.md`](../../content/stages/README.md).
+
+
 
 ## Workspace layout
 
+
+
 ```text
+
 <workspace>/docs/planning/
+
   abd-delivery-lead/
-    agile-delivery-plan.md          # narrative plan (strategy, runs, slots in tables)
-    agile-delivery-plan.changelog.md
-  delivery-war-room/                # ← authoritative progress
-    delivery-plan-checklist.md      # generated; orchestration + run/stage checkboxes
-    INSTRUCTIONS.md                 # team member autostart
+
+    agile-delivery-plan.md
+
+  delivery-war-room/
+
+    board.json                 # Kanban snapshot — sync_kanban_board.py ONLY
+
+    system-of-work.json        # stage order + skill order (delivery-lead, Step 2b)
+
+    run-catalog.json           # planned runs — no slot rows (delivery-lead, Step 2b)
+
+    run-state.json             # slots_generated, next_slot_id (updated at run open)
+
+    delivery-plan-checklist.md
+
+    INSTRUCTIONS.md
+
     manifest.md
+
     profile.md
+
     run-log.jsonl
-    slot-01-start.md
-    slot-01-finished.md
-    …
+
+    runs/
+
+      run-01/
+
+        discovery/
+
+          slot-05-start.md
+
+          slot-05-finished.md
+
+      run-02/
+
+        exploration/
+
+          slot-19-start.md
+
+        specification/
+
+        engineering/
+
 ```
 
-Regenerate + sync after plan confirm or revision; **sync-only** after every stage gate:
+
+
+### Sync commands
+
+
 
 ```bash
-python skill-helpers/skills/track_task/scripts/generate_delivery_checklist.py --workspace <workspace>
+
 python skill-helpers/skills/track_task/scripts/generate_delivery_checklist.py --sync-only --workspace <workspace>
+
+python delivery/skills/abd-delivery-war-room/scripts/sync_kanban_board.py --workspace <workspace>
+
 ```
 
-## Delivery lead — start of a cycle
 
-1. Create `<workspace>/docs/planning/delivery-war-room/`.
+
+Run **both** after every stage exit gate and run complete.
+
+
+
+## Delivery lead — start of a cycle (Step 2b)
+
+
+
+After plan CHECKPOINT approval — **delivery-lead** writes planning artifacts; then syncs the board:
+
+1. Create `<workspace>/docs/planning/delivery-war-room/` if missing.
 2. Copy **`templates/INSTRUCTIONS.md`** → `INSTRUCTIONS.md`.
-3. Write `manifest.md`, `profile.md`.
-4. Regenerate **`delivery-plan-checklist.md`** into the war room (from `agile-delivery-plan.md`).
-5. Initialize `run-log.jsonl`.
-6. Write **only** `slot-01-start.md` first.
+3. Write **`system-of-work.json`** and **`run-catalog.json`** from the approved plan (named systems of work; each run with scope, stages, `system_of_work` ref). Initialize **`run-state.json`**.
+4. Write `manifest.md`, `profile.md` (policy, wip, cross-run rules — **not** a full pre-authored slot list for every future run).
+5. Regenerate **`delivery-plan-checklist.md`**.
+6. Initialize `run-log.jsonl`.
+7. **Open the first run(s):** `python delivery/skills/abd-delivery-war-room/scripts/generate_run_slots.py --workspace <ws> --run N` — materialize slots **only for runs that start now**. Do **not** pre-generate all Runs 2–10 at plan approval.
+8. Copy `wip_policy` from `manifest.md` into `board.json`.
+9. Run **`sync_kanban_board.py`** → initial **`board.json`** (reflect only — does not create plan or slots).
+10. Start the **agent scan loop** (Step 4 in delivery-lead AGENT.md).
 
-## Team member — autostart
+When inventing a **new** custom system of work, **CHECKPOINT:** ask whether to save it under **`abd-delivery-planning/strategies/`**.
 
-If `INSTRUCTIONS.md` exists:
 
-1. Read `INSTRUCTIONS.md` → read `workspace` from the active `slot-NN-start.md`.
-2. Read `manifest.md`, pick active `NN` (smallest slot with start present, finished absent).
-3. Read `slot-NN-start.md`, then continue per `delivery-team-member/AGENT.md` Step 1.
 
-## Team member — when finished
+## Role agent — autostart
 
-Write `slot-NN-finished.md` with: timestamp, artifact paths, scanner results, stage-complete status.
 
-- **Executor slots** — use `templates/slot-finished.md`.
-- **Reviewer slots** — use `templates/slot-finished-reviewer.md` (findings only; no new artifacts).
 
-## Reviewer slot
+1. Read `INSTRUCTIONS.md`, **`board.json`**, your role `AGENT.md`.
 
-When `team-role: reviewer` in the slot start file:
+2. **Claim** next slot per [`../../agents/_shared/work-queue.md`](../../agents/_shared/work-queue.md) — pull from ticket column.
 
-1. Read the **prior executor** `slot-NN-finished.md` and every artifact path listed.
-2. Run scanners via `execute-skill-using-skills-rules` — record pass/fail per skill (**reviewer scanned**). Use `--language` when the skill requires it.
-3. Validate exit-gate items from `stages/<stage>.md` — record pass/fail and findings (**reviewer reviewed**).
-4. Write reviewer `slot-MM-finished.md`. Do not produce new stage artifacts.
+3. Read `slot-NN-start.md` → executor or reviewer workflow.
+
+4. On finish → `slot-NN-finished.md` → claim again until no eligible work.
+
+
+
+## Role agent — when finished
+
+
+
+- **Executor slots** — `templates/slot-finished.md`; moves ticket toward **review** on sync.
+
+- **Reviewer slots** — `templates/slot-finished-reviewer.md`; moves ticket toward **done** or next **in_progress** on sync.
+
+
+
+## Reviewer slots
+
+
+
+When `slot_type: reviewer`: read prior executor output → scanners → exit-gate review → reviewer finished file. No new stage artifacts.
+
+
 
 ### Scanner infrastructure failure — chain stop
 
-If scanners **crash**, **fail to import**, or report **false clean** (see `delivery-lead/AGENT.md` **Scanner infrastructure gate**):
 
-- Reviewer finished file: **Overall gate FAIL**, blockers = scanner infrastructure.
-- Delivery lead **must not** open the next slot until infra is fixed and scanners re-run successfully.
-- Fixes target skill packages (`scanners/`, imports, `__main__`), workspace tooling (root configs, `package.json`, test scripts), or env deps (`tree-sitter` for MERN) — **not** deferral to a later increment.
 
-**Scanner obviously not relevant (narrow exception):** After scanners execute, a rule may be skipped only when obviously inapplicable to this slot — document **Scanner exception** in the reviewer finished file (see `delivery-lead/AGENT.md`). Infra failures are never eligible.
+Same as `delivery-lead/AGENT.md` **Scanner infrastructure gate**. Ticket column **`blocked`** until fixed.
 
-If findings require **artifact** fixes (scanners executed, rules failed, no valid exception), stop. The delivery lead logs corrections, authors a **rework** executor slot; after rework PASS, append to `run-log.jsonl` and run **checklist sync**.
 
-## Delivery lead — chaining slots
 
-After validating slot NN: append `slot_complete` (and `stage_exit_gate` when the stage closes) to **`run-log.jsonl`**, run **`generate_delivery_checklist.py --sync-only`**, then create `slot-(NN+1)-start.md`.
+## Delivery lead — monitoring
+
+
+
+After slots complete: append **`run-log.jsonl`**, run **checklist sync** + **`sync_kanban_board.py`**. Add rework slot starts when reviewers fail.
+
+
 
 ## Templates
 
-Copy from `templates/` into the engagement war room: `INSTRUCTIONS.md`, `manifest.md`, `profile.md`, `slot-start.md`, `slot-finished.md`, `slot-finished-reviewer.md`, `slot-blocked.md`, `slot-answer.md`.
+
+
+Copy from `templates/`: `INSTRUCTIONS.md`, `manifest.md`, `profile.md`, `board.json`, `system-of-work.json`, `run-catalog.json`, `run-state.json`, `slot-start.md`, …
+
+Scripts (delivery-lead invokes; Kanban sync does **not**):
+
+```bash
+python delivery/skills/abd-delivery-war-room/scripts/migrate_slot_layout.py --workspace <ws>
+python delivery/skills/abd-delivery-war-room/scripts/generate_run_slots.py --workspace <ws> --run N
+python delivery/skills/abd-delivery-war-room/scripts/sync_kanban_board.py --workspace <ws>
+```
+
+
 
 ## Limits
 
-- Cursor cannot spawn chats for you; someone still opens **New chat** for each agent.
-- Exit gates remain in `stages/*.md`; war room records state, it does not replace stage definitions.
+
+
+- Exit gates remain in `stages/*.md`; war room records Kanban state, it does not replace stage definitions.
+
+- **`board.json`** is generated by **`sync_kanban_board.py`** (delivery-lead) — Kanban **reads** it only.
+- **`sync_kanban_board.py`** must not create `agile-delivery-plan.md`, `run-catalog.json`, `system-of-work.json`, or `slot-NN-start.md`.
+- **Kanban UI** (`abd-delivery-agent-kanban`): read-only except **`wip-policy.json`** (agent pool +/−).
+
+

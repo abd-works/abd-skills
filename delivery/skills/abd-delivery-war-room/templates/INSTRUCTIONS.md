@@ -1,50 +1,61 @@
-# Delivery war room — team member autostart
+# Delivery war room — role agent autostart
+
+Eight **persistent role agents** pull work from the **Kanban board** (`board.json`). Open the agent matching your role — not one chat per slot.
+
+Kanban model: `delivery/content/kanban.md`
+
+| You are | Agent |
+| --- | --- |
+| Product Owner executor | `delivery/agents/product-owner/AGENT.md` |
+| Product Owner reviewer | `delivery/agents/product-owner-reviewer/AGENT.md` |
+| Business Expert executor | `delivery/agents/business-expert/AGENT.md` |
+| Business Expert reviewer | `delivery/agents/business-expert-reviewer/AGENT.md` |
+| UX Designer executor | `delivery/agents/ux-designer/AGENT.md` |
+| UX Designer reviewer | `delivery/agents/ux-designer-reviewer/AGENT.md` |
+| Engineer executor | `delivery/agents/engineer/AGENT.md` |
+| Engineer reviewer | `delivery/agents/engineer-reviewer/AGENT.md` |
+
+Shared queue rules: `delivery/agents/_shared/work-queue.md`
 
 ## 1) Workspace
 
-Read the `workspace` field from your `slot-NN-start.md`. That is the absolute path set by the operator. Use it for every `--workspace` flag, scanner path, and `story-graph-ops` call.
+Bootstrap must include **`workspace`** — the engagement root.
 
-## 2) Cycle context
+## 2) Kanban board
 
-Read `docs/planning/delivery-war-room/manifest.md`.
+Read `docs/planning/delivery-war-room/board.json` and `manifest.md`.
 
-## 3) Active slot (`NN`)
+Each **run** = one **ticket** in **one column**: `backlog` · `in_progress` · `review` · `done` · `blocked` · `stalled`.
 
-Find the smallest two-digit `NN` such that `slot-NN-start.md` exists and is non-empty, and `slot-NN-finished.md` does not exist. That is the active slot. If none, report no pending work.
+Stage flow on a ticket: **in_progress → review → done** (no Ready).
+
+## 3) Claim next slot
+
+1. Read **`board.json`** — find tickets in your column (`in_progress` for executors, `review` for reviewers).
+2. Resolve `active_slot` or smallest eligible `slot-NN-start.md` for your `team-role` and `slot_type`.
+3. Verify `depends_on` satisfied and no conflicting claim.
+4. Write `slot-NN-claim.md` before starting.
+
+Cross-run: separate tickets can be active (e.g. Run 5 engineering + Run 6 exploration). See `_shared/work-queue.md`.
 
 ## 4) Handoff
 
-Read `docs/planning/delivery-war-room/slot-NN-start.md` for `team-role` (product-owner, business-expert, ux-designer, engineer, or **reviewer**), scope, stage, skills, corrections, entry conditions, and early question triggers.
-
-**If `team-role: reviewer`** — read the prior executor `slot-NN-finished.md` and listed artifacts only. Run scanners and exit-gate review; use `slot-finished-reviewer.md` template. Do not produce new stage artifacts. See war-room skill **Reviewer slot** section.
-
-**Otherwise (executor)** — run `agents/delivery-team-member/AGENT.md` from Step 1 with the resolved `workspace` and `team-role`.
+Read `slot-NN-start.md`. Executors → `_shared/executor-workflow.md`. Reviewers → prior executor artifacts only.
 
 ## 5) Mid-slot checkpoint
 
-After producing draft artifacts (Step 4 of team member workflow), present at a CHECKPOINT with summary and unknowns. Wait for operator confirmation before finalizing.
+Waived when `manifest.md` `checkpoint_policy: on_block_only`.
 
 ## 6) Story graph update
 
-After confirmation, update `story-graph.json` via `story-graph-ops` for stages that produce graph content (shaping, discovery, exploration, specification, engineering).
+After confirmation, update via `story-graph-ops` when the skill produces graph content.
 
 ## 7) When done
 
-Write `docs/planning/delivery-war-room/slot-NN-finished.md` with:
-- Timestamp
-- All artifact paths produced (executors) **or** findings only (reviewers)
-- Scanner results (pass/fail per skill)
-- Stage-complete / gate-review status
-- Any sync-upstream offers
+Write `slot-NN-finished.md`. Remove claim. Claim next eligible slot. Delivery lead re-syncs **`board.json`**.
 
-Executors: `templates/slot-finished.md`. Reviewers: `templates/slot-finished-reviewer.md`.
+## 8) When blocked or stalled
 
-## 8) When blocked
+**Blocked:** write `slot-NN-blocked.md` — ticket column `blocked`. Clear via `slot-NN-answer.md`.
 
-Write `docs/planning/delivery-war-room/slot-NN-blocked.md` with:
-- The specific question
-- What you tried before stopping
-- Which artifact paths are relevant
-- Which early question trigger fired (if any)
-
-Do NOT guess past a block. Stop and wait.
+**Stalled:** claim open past `stall_timeout_minutes` — delivery lead nudges; ticket column `stalled` on sync.

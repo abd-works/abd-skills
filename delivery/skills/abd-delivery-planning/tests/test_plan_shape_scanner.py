@@ -61,9 +61,9 @@ def test_loose_checkpoints_fires_checkpoint_density_rule(scanner):
     assert "plan-checkpoint-density-matches-risk" in fired
 
 
-def test_routine_template_fires_lists_every_run_and_slot_rule(scanner):
+def test_routine_template_fires_system_of_work_rule(scanner):
     fired = _rules_fired(scanner, "bad-plan-routine-template.md")
-    assert "plan-lists-every-run-and-every-slot" in fired
+    assert "plan-uses-system-of-work" in fired
 
 
 def _canonical_plan(tmp_path: Path) -> Path:

@@ -66,8 +66,14 @@ DELIVERY_CROSSCUT_SKILLS: tuple[str, ...] = (
 
 DELIVERY_AGENTS: tuple[str, ...] = (
     "delivery-lead",
-    "delivery-team-member",
-    "delivery-team-reviewer",
+    "product-owner",
+    "product-owner-reviewer",
+    "business-expert",
+    "business-expert-reviewer",
+    "ux-designer",
+    "ux-designer-reviewer",
+    "engineer",
+    "engineer-reviewer",
 )
 
 # Infrastructure / diagram sync skills — omitted from kanban tiles (stage docs unchanged).

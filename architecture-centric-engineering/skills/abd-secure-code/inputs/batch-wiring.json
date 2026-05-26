@@ -1,0 +1,152 @@
+{
+  "version": 1,
+  "skill": "abd-secure-code",
+  "challenge_template": {
+    "practice_run": "Same topic map as e0523; markdown templates pending content.",
+    "new_run": "Same topic map as e0523; markdown templates pending content."
+  },
+  "green_belt_batches": {
+    "e0523": {
+      "status": "content_complete",
+      "challenges": [
+        {
+          "id": 1,
+          "slug": "error-details",
+          "title": "Information Exposure - Error Details",
+          "context": "context/green_belt_assessment/e0523/challenge-1.md",
+          "rules": ["no-sensitive-error-disclosure"],
+          "fixture": "fixtures/green-belt/e0523/challenge-01/src/Vulnerable.java"
+        },
+        {
+          "id": 2,
+          "slug": "unrestricted-file-upload",
+          "title": "File Upload Vulnerability - Unrestricted File Upload",
+          "context": "context/green_belt_assessment/e0523/challenge-2.md",
+          "rules": ["no-unsafe-file-upload-handling", "no-path-traversal-in-paths"],
+          "fixture": "fixtures/green-belt/e0523/challenge-02/src/Vulnerable.java"
+        },
+        {
+          "id": 3,
+          "slug": "insufficient-anti-automation",
+          "title": "Authentication - Insufficient Anti-Automation",
+          "context": "context/green_belt_assessment/e0523/challenge-3.md",
+          "rules": ["no-insufficient-login-rate-limiting"],
+          "fixture": "fixtures/green-belt/e0523/challenge-03/src/Vulnerable.java"
+        },
+        {
+          "id": 4,
+          "slug": "mass-assignment",
+          "title": "Mass Assignment",
+          "context": "context/green_belt_assessment/e0523/challenge-4.md",
+          "rules": ["no-mass-assignment-from-request"],
+          "fixture": "fixtures/green-belt/e0523/challenge-04/src/Vulnerable.java"
+        },
+        {
+          "id": 5,
+          "slug": "stored-xss",
+          "title": "Cross-Site Scripting (XSS) - Stored XSS",
+          "context": "context/green_belt_assessment/e0523/challenge-5.md",
+          "rules": ["no-dangerous-xss-sinks"],
+          "fixture": "fixtures/green-belt/e0523/challenge-05/src/Vulnerable.js"
+        },
+        {
+          "id": 6,
+          "slug": "weak-crypto",
+          "title": "Insecure Cryptography - Weak Algorithm Use",
+          "context": "context/green_belt_assessment/e0523/challenge-6.md",
+          "rules": ["no-weak-crypto-algorithms"],
+          "fixture": "fixtures/green-belt/e0523/challenge-06/src/Vulnerable.java"
+        },
+        {
+          "id": 7,
+          "slug": "untrusted-components",
+          "title": "Vulnerable Components - Using Components From Untrusted Source",
+          "context": "context/green_belt_assessment/e0523/challenge-7.md",
+          "rules": ["no-untrusted-component-sources", "no-xxe-unsafe-xml-parser"],
+          "fixture": "fixtures/green-belt/e0523/challenge-07/src/Vulnerable.py"
+        },
+        {
+          "id": 8,
+          "slug": "plaintext-passwords",
+          "title": "Sensitive Data Storage - Plain Text Storage of Passwords",
+          "context": "context/green_belt_assessment/e0523/challenge-8.md",
+          "rules": ["no-plaintext-password-storage", "no-hardcoded-secrets"],
+          "fixture": "fixtures/green-belt/e0523/challenge-08/src/Vulnerable.java"
+        },
+        {
+          "id": 9,
+          "slug": "sql-ldap-injection",
+          "title": "Injection Flaws - SQL Injection",
+          "context": "context/green_belt_assessment/e0523/challenge-9.md",
+          "rules": ["no-sql-string-concatenation", "no-ldap-filter-injection"],
+          "fixture": "fixtures/green-belt/e0523/challenge-09/src/Vulnerable.java"
+        },
+        {
+          "id": 10,
+          "slug": "race-conditions",
+          "title": "Memory Corruption - Race Conditions",
+          "context": "context/green_belt_assessment/e0523/challenge-10.md",
+          "rules": ["no-toctou-outside-lock"],
+          "fixture": "fixtures/green-belt/e0523/challenge-10/src/Vulnerable.java"
+        }
+      ]
+    },
+    "practice_run": {
+      "status": "template_only",
+      "inherits_topic_map_from": "e0523",
+      "context_glob": "context/green_belt_assessment/practice_run/challenge-*.md"
+    },
+    "new_run": {
+      "status": "template_only",
+      "inherits_topic_map_from": "e0523",
+      "context_glob": "context/green_belt_assessment/new_run/challenge-*.md"
+    }
+  },
+  "exercise_batches": [
+    {
+      "slug": "sql-injection",
+      "context": "context/05-injection-flaws/exercises-challenges/sql-injection.md",
+      "rules": ["no-sql-string-concatenation"]
+    },
+    {
+      "slug": "os-command-injection",
+      "context": "context/05-injection-flaws/exercises-challenges/os-command-injection.md",
+      "rules": ["no-os-command-injection"]
+    },
+    {
+      "slug": "cross-site-scripting",
+      "context": "context/05-injection-flaws/exercises-challenges/cross-site-scripting-xss.md",
+      "rules": ["no-dangerous-xss-sinks", "no-eval-dynamic-code-execution"]
+    },
+    {
+      "slug": "file-upload",
+      "context": "context/06-Insecure-Design/exercises-challenges/File-Upload-Vulnerability-Unrestricted-File-Upload.md",
+      "rules": ["no-unsafe-file-upload-handling", "no-path-traversal-in-paths"]
+    },
+    {
+      "slug": "weak-session-token",
+      "context": "context/07_Authentication_Failures/exercises-challenges/weak-session-token-generation.md",
+      "rules": ["no-predictable-session-token"]
+    },
+    {
+      "slug": "mass-assignment",
+      "context": "context/08_Software_or_Data_Integrity_Failures/exercises-challenges/mass-assigment-challenge.md",
+      "rules": ["no-mass-assignment-from-request"]
+    },
+    {
+      "slug": "untrusted-components",
+      "context": "context/08_Software_or_Data_Integrity_Failures/exercises-challenges/Using-Components-From-Untrusted-Source.md",
+      "rules": ["no-untrusted-component-sources"]
+    },
+    {
+      "slug": "insufficient-logging",
+      "context": "context/09_Logging_Alerting_Failures/exercises-challenges/insufficient-logging-and-monitoring-challenge.md",
+      "rules": ["no-secrets-in-log-output", "no-missing-security-event-logging"]
+    },
+    {
+      "slug": "error-details",
+      "context": "context/10_Mishandling_of_Exceptional_Conditions/exercises-challenges/error-details-exercise.md",
+      "rules": ["no-sensitive-error-disclosure"]
+    }
+  ]
+}

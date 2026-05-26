@@ -1,0 +1,10 @@
+{
+  "schema": "abd-delivery-run-state/v1",
+  "next_slot_id": 1,
+  "runs": {
+    "1": {
+      "slots_generated": false,
+      "status": "registered"
+    }
+  }
+}

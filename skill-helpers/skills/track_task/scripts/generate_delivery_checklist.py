@@ -289,7 +289,7 @@ ORCHESTRATION_STEPS = [
     ("Step 1 — Establish workspace", "workspace path confirmed and existing artifacts noted"),
     ("Step 2 — Build the plan", "plan presented at CHECKPOINT and `agile-delivery-plan.md` written"),
     ("Step 3 — Open first stage of first run", "entry conditions verified for the current stage"),
-    ("Step 4 — Bootstrap team member", "team-role, workspace, scope, corrections handed off"),
+    ("Step 4 — Monitor role agents", "eight role agents bootstrapped; pipeline monitored on disk"),
     ("Step 5 — Validate stage exit", "reviewer scanned + reviewed; fixes incorporated; exit gate at CHECKPOINT"),
     ("Step 6 — Handoff to next stage", "artifacts, decisions, corrections passed forward"),
     ("Step 7 — Run complete, revise plan", "run summary + revised plan presented at CHECKPOINT"),
@@ -297,31 +297,174 @@ ORCHESTRATION_STEPS = [
 ]
 
 
-def _stage_checklist_lines(stage: str) -> list[str]:
-    """Granular per-stage lines: executor slot → reviewer slot → rework → lead gate."""
+def _run_num_from_label(label: str) -> int | None:
+    m = re.match(r"^(\d+)", label.strip())
+    return int(m.group(1)) if m else None
+
+
+def runs_from_catalog(workspace: Path) -> list[Run] | None:
+    """Build run list from war-room run-catalog.json when present."""
+    catalog = _load_run_catalog(workspace)
+    if not catalog:
+        return None
+    runs: list[Run] = []
+    for run_num in sorted(catalog.keys()):
+        entry = catalog[run_num]
+        stages = list(entry.get("stages") or [])
+        if not stages:
+            continue
+        runs.append(
+            Run(
+                label=str(run_num),
+                stages=stages,
+                scope=str(entry.get("scope", "")),
+                rationale=str(entry.get("title", "")),
+            )
+        )
+    return runs if runs else None
+
+
+def _load_run_catalog(workspace: Path) -> dict[int, dict]:
+    path = _resolve_war_room_path(workspace) / "run-catalog.json"
+    if not path.is_file():
+        return {}
+    data = json.loads(path.read_text(encoding="utf-8"))
+    out: dict[int, dict] = {}
+    for entry in data.get("runs") or []:
+        if isinstance(entry, dict) and entry.get("run") is not None:
+            out[int(entry["run"])] = entry
+    return out
+
+
+def _load_system_of_work(workspace: Path) -> dict[str, dict]:
+    path = _resolve_war_room_path(workspace) / "system-of-work.json"
+    if not path.is_file():
+        return {}
+    data = json.loads(path.read_text(encoding="utf-8"))
+    return data.get("definitions") or {}
+
+
+def _skills_for_run_stage(
+    catalog_entry: dict | None,
+    sow_defs: dict[str, dict],
+    stage: str,
+) -> list[tuple[str, str, str]]:
+    """Return [(skill_id, team_role, label), ...] for a run stage."""
+    if not catalog_entry:
+        return []
+    def_name = catalog_entry.get("system_of_work") or ""
+    block = sow_defs.get(def_name) or {}
+    waived = (catalog_entry.get("waived_skills") or {}).get(stage) or []
+    steps: list[tuple[str, str, str]] = []
+    for item in (block.get("stages") or {}).get(stage) or []:
+        skill = item.get("skill") if isinstance(item, dict) else None
+        if not skill or skill in waived:
+            continue
+        steps.append((skill, str(item.get("role", "")), str(item.get("label", ""))))
+    return steps
+
+
+def _executor_skill_activities(skill: str) -> list[str]:
     return [
-        f"- [ ] **{stage}** — entry verified",
-        "  - [ ] **Executor** — slot authored and `delivery-team-member` bootstrapped (role + workspace + scope + corrections)",
-        "  - [ ] **Executor** — draft stage artifacts produced",
-        "  - [ ] **Executor** — self-review against skill rules complete",
-        "  - [ ] **Executor CHECKPOINT** — operator confirms drafts",
-        "  - [ ] **Executor** — story-graph updated via story-graph-ops (if stage produces graph content)",
-        "  - [ ] **Executor** — scanners green (all practice skills)",
-        "  - [ ] **Executor** — slot finished (`slot-NN-finished.md` on disk)",
-        "  - [ ] **Reviewer** — slot authored (`team-role: reviewer`; scope = executor artifacts only)",
-        "  - [ ] **Reviewer** — bootstrapped; read executor `slot-NN-finished.md` + artifact paths",
-        "  - [ ] **Reviewer** — scanners run (`execute-skill-using-skills-rules`); pass/fail in reviewer finished file",
-        "  - [ ] **Reviewer** — exit-gate review complete; findings in reviewer `slot-MM-finished.md`",
-        "  - [ ] **Reviewer CHECKPOINT** — delivery lead reads findings",
-        "  - [ ] **Rework** — corrections logged for reviewer findings (or N/A if clean pass)",
-        "  - [ ] **Rework** — team member incorporated suggested fixes (rework slot complete)",
-        "  - [ ] **Rework** — scanners green after fix incorporation",
-        f"  - [ ] **Delivery lead** — exit gate verified against `stages/{stage}.md`",
-        "  - [ ] **CHECKPOINT** — user confirms stage complete",
+        "- [ ] slot queued / claimed (`slot-NN-claim.md`)",
+        "- [ ] draft artifacts produced",
+        f"- [ ] self-review against `{skill}` rules complete",
+        "- [ ] **EXECUTOR CHECKPOINT** — operator confirms drafts",
+        "- [ ] story-graph updated via story-graph-ops (when stage produces graph content)",
+        "- [ ] scanners green (`execute-skill-using-skills-rules`)",
+        "- [ ] slot finished (`slot-NN-finished.md` on disk)",
     ]
 
 
-def render_checklist(runs: list[Run], plan_path: Path, now_iso: str) -> str:
+def _reviewer_skill_activities(skill: str) -> list[str]:
+    return [
+        "- [ ] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)",
+        "- [ ] read executor `slot-NN-finished.md` + artifact paths",
+        "- [ ] scanners run; pass/fail recorded in reviewer finished file",
+        "- [ ] exit-gate review complete; findings in reviewer `slot-MM-finished.md`",
+        "- [ ] **REVIEWER CHECKPOINT** — delivery lead reads findings",
+    ]
+
+
+def _stage_checklist_lines(stage: str, skills: list[tuple[str, str, str]] | None = None) -> list[str]:
+    """Hierarchical stage log: #### stage → ##### role → ###### skill → activities."""
+    lines: list[str] = [
+        f"#### {stage}",
+        "",
+        "- [ ] **Stage opened** — entry conditions verified for this run",
+        "",
+    ]
+
+    if skills:
+        lines.append("##### Executor")
+        lines.append("")
+        for skill, role, label in skills:
+            lines.append(f"###### {skill}")
+            if label or role:
+                meta = " · ".join(x for x in (label, role) if x)
+                lines.append(f"- *{meta}*")
+            lines.extend(_executor_skill_activities(skill))
+            lines.append("")
+
+        lines.append("##### Reviewer")
+        lines.append("")
+        for skill, _role, label in skills:
+            lines.append(f"###### {skill}")
+            if label:
+                lines.append(f"- *{label}*")
+            lines.extend(_reviewer_skill_activities(skill))
+            lines.append("")
+    else:
+        lines.extend(
+            [
+                "##### Executor",
+                "",
+                "- [ ] slot in queue; role agent claimed (`slot-NN-claim.md`)",
+                "- [ ] draft stage artifacts produced",
+                "- [ ] self-review against skill rules complete",
+                "- [ ] **EXECUTOR CHECKPOINT** — operator confirms drafts",
+                "- [ ] story-graph updated via story-graph-ops (if stage produces graph content)",
+                "- [ ] scanners green (all practice skills)",
+                "- [ ] slot finished (`slot-NN-finished.md` on disk)",
+                "",
+                "##### Reviewer",
+                "",
+                "- [ ] `<role>-reviewer` claimed slot (`slot_type: reviewer`)",
+                "- [ ] read executor `slot-NN-finished.md` + artifact paths",
+                "- [ ] scanners run (`execute-skill-using-skills-rules`); pass/fail in reviewer finished file",
+                "- [ ] exit-gate review complete; findings in reviewer `slot-MM-finished.md`",
+                "- [ ] **REVIEWER CHECKPOINT** — delivery lead reads findings",
+                "",
+            ]
+        )
+
+    lines.extend(
+        [
+            "##### Rework",
+            "",
+            "- [ ] corrections logged for reviewer findings (or N/A if clean pass)",
+            "- [ ] executor incorporated suggested fixes (rework slot complete)",
+            "- [ ] scanners green after fix incorporation",
+            "",
+            "##### Delivery lead",
+            "",
+            f"- [ ] exit gate verified against `stages/{stage}.md`",
+            f"- [ ] **STAGE CHECKPOINT** — user confirms `{stage}` complete for this run",
+            "",
+        ]
+    )
+    return lines
+
+
+def render_checklist(
+    runs: list[Run],
+    plan_path: Path,
+    now_iso: str,
+    *,
+    workspace: Path | None = None,
+) -> str:
+    catalog = _load_run_catalog(workspace) if workspace else {}
+    sow_defs = _load_system_of_work(workspace) if workspace else {}
     out: list[str] = []
     out.append("# ABD Delivery Plan — Checklist")
     out.append("")
@@ -330,9 +473,10 @@ def render_checklist(runs: list[Run], plan_path: Path, now_iso: str) -> str:
     out.append(f"<!-- source-plan: {plan_path} -->")
     out.append("")
     out.append("**Sub-bullets** under a stage are ticked when that **run's** stage exit gate is in `run-log.jsonl`.")
-    out.append("**Synced:** stage header + sub-bullets (per run), **Run N CHECKPOINT**, orchestration Steps, **Progress at a glance**.")
+    out.append("**Structure:** `#### stage` -> `##### role` (Executor / Reviewer / Rework / Delivery lead) -> `###### skill` -> activity checkboxes.")
+    out.append("**Synced:** all activity lines under a completed stage, **Run N CHECKPOINT**, orchestration Steps, **Progress at a glance**.")
     out.append("")
-    out.append("**Per-stage tracking:** each stage is executor slot -> **reviewer slot** (scan + gate review as separate checkboxes) -> **rework** (fixes incorporated) -> delivery-lead exit gate. Tick each line; do not skip reviewer or rework steps.")
+    out.append("**Per-stage tracking:** each skill is executor slot -> role-matched reviewer slot -> stage-level rework -> delivery-lead exit gate. Tick each line.")
     out.append("")
     out.append("## Orchestration (delivery-lead AGENT.md)")
     out.append("")
@@ -347,9 +491,18 @@ def render_checklist(runs: list[Run], plan_path: Path, now_iso: str) -> str:
         return "\n".join(out)
 
     for r in runs:
+        run_num = _run_num_from_label(r.label)
+        catalog_entry = catalog.get(run_num) if run_num is not None else None
+        title_suffix = ""
+        if catalog_entry and catalog_entry.get("title"):
+            title = str(catalog_entry["title"])
+            prefix = f"Run {r.label} — "
+            title_suffix = title[len(prefix) :] if title.startswith(prefix) else title
+        elif r.rationale:
+            title_suffix = r.rationale
         header = f"### Run {r.label}"
-        if r.rationale:
-            header += f" — {r.rationale}"
+        if title_suffix:
+            header += f" — {title_suffix}"
         out.append(header)
         if r.scope:
             out.append(f"- **Scope:** {r.scope}")
@@ -357,7 +510,8 @@ def render_checklist(runs: list[Run], plan_path: Path, now_iso: str) -> str:
             out.append(f"- **Checkpoint policy:** {r.checkpoint_policy}")
         out.append("")
         for stage in r.stages:
-            out.extend(_stage_checklist_lines(stage))
+            skills = _skills_for_run_stage(catalog_entry, sow_defs, stage)
+            out.extend(_stage_checklist_lines(stage, skills or None))
         out.append(f"- [ ] **Run {r.label} CHECKPOINT** — run summary + plan revision presented")
         out.append("")
     return "\n".join(out)
@@ -399,9 +553,10 @@ def _reapply_checks(rendered: str, checked_labels: set[str]) -> str:
 # --------------------------- war-room sync (run-log) ---------------------------- #
 
 _RUN_HEADING_RE = re.compile(r"^### Run (\d+)\b")
-_STAGE_HEADING_RE = re.compile(r"^(- \[ \]|- \[x\]) \*\*(\w+)\*\* — entry verified")
+_STAGE_HEADING_RE = re.compile(r"^#### (\w+)\s*$")
 _RUN_CKPT_RE = re.compile(r"^(- \[ \]|- \[x\]) \*\*Run (\d+) CHECKPOINT\*\*")
 _ORCH_STEP_RE = re.compile(r"^(- \[ \]|- \[x\]) \*\*(Step \d+ — [^*]+)\*\*")
+_CHECKBOX_LINE_RE = re.compile(r"^(\s*)- \[")
 _SLOT_NUM_RE = re.compile(r"slot-(\d+)")
 _RESUME_RE = re.compile(r"^<!-- resume:.*-->$")
 _GLANCE_HEADING = "## Progress at a glance (from run-log — authoritative)"
@@ -520,7 +675,7 @@ def _stage_done(progress: WarRoomProgress, run_num: int | None, stage: str | Non
 
 def _max_finished_slot(war_room: Path) -> int | None:
     highest: int | None = None
-    for path in war_room.glob(SLOT_FINISHED_GLOB):
+    for path in war_room.rglob("slot-*-finished.md"):
         m = _SLOT_NUM_RE.search(path.name)
         if not m:
             continue
@@ -561,13 +716,10 @@ def sync_checklist_from_war_room(
             out.append(line)
             continue
 
-        m_stage = _STAGE_HEADING_RE.match(line)
+        m_stage = _STAGE_HEADING_RE.match(line.strip())
         if m_stage:
-            current_stage = m_stage.group(2)
-            if _stage_done(progress, current_run, current_stage):
-                out.append(_tick_unchecked(line))
-            else:
-                out.append(re.sub(r"^(- \[)x(\])", r"\1 \2", line) if "- [x]" in line[:5] else line)
+            current_stage = m_stage.group(1)
+            out.append(line)
             continue
 
         m_ckpt = _RUN_CKPT_RE.match(line)
@@ -599,8 +751,8 @@ def sync_checklist_from_war_room(
                 out.append(re.sub(r"^(- \[)x(\])", r"\1 \2", line) if "- [x]" in line[:5] else line)
             continue
 
-        # Sub-bullets: tick only when this run's stage exit gate passed (run-scoped — no cross-run bleed)
-        if current_stage is not None and line.startswith("  - ["):
+        # Activity lines under #### stage — tick when this run's stage exit gate passed
+        if current_stage is not None and _CHECKBOX_LINE_RE.match(line):
             if _stage_done(progress, current_run, current_stage):
                 out.append(_tick_unchecked(line))
             else:
@@ -730,7 +882,7 @@ def main(argv: list[str] | None = None) -> int:
         return 1
 
     plan_text = plan_path.read_text(encoding="utf-8")
-    runs = parse_plan(plan_text)
+    runs = runs_from_catalog(workspace) or parse_plan(plan_text)
 
     if ns.out:
         out_path = Path(ns.out).expanduser().resolve()
@@ -738,7 +890,7 @@ def main(argv: list[str] | None = None) -> int:
         out_path = _resolve_checklist_path(workspace)
 
     now_iso = datetime.now(timezone.utc).isoformat(timespec="seconds")
-    rendered = render_checklist(runs, plan_path, now_iso)
+    rendered = render_checklist(runs, plan_path, now_iso, workspace=workspace)
 
     if not ns.no_merge and out_path.is_file():
         previously_checked = _existing_checked_labels(out_path)

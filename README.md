@@ -75,8 +75,10 @@ Plugin migration notes (Cursor Marketplace / Open Plugin Spec): [`migrated-to-pl
 | Agent | Plugin | Open |
 | --- | --- | --- |
 | **delivery-lead** | `delivery` | [`delivery/agents/delivery-lead/AGENT.md`](delivery/agents/delivery-lead/AGENT.md) |
-| **delivery-team-member** | `delivery` | [`delivery/agents/delivery-team-member/AGENT.md`](delivery/agents/delivery-team-member/AGENT.md) |
-| **delivery-team-reviewer** | `delivery` | [`delivery/agents/delivery-team-reviewer/AGENT.md`](delivery/agents/delivery-team-reviewer/AGENT.md) |
+| **product-owner** · **product-owner-reviewer** | `delivery` | [`product-owner/AGENT.md`](delivery/agents/product-owner/AGENT.md) · [`product-owner-reviewer/AGENT.md`](delivery/agents/product-owner-reviewer/AGENT.md) |
+| **business-expert** · **business-expert-reviewer** | `delivery` | [`business-expert/AGENT.md`](delivery/agents/business-expert/AGENT.md) · [`business-expert-reviewer/AGENT.md`](delivery/agents/business-expert-reviewer/AGENT.md) |
+| **ux-designer** · **ux-designer-reviewer** | `delivery` | [`ux-designer/AGENT.md`](delivery/agents/ux-designer/AGENT.md) · [`ux-designer-reviewer/AGENT.md`](delivery/agents/ux-designer-reviewer/AGENT.md) |
+| **engineer** · **engineer-reviewer** | `delivery` | [`engineer/AGENT.md`](delivery/agents/engineer/AGENT.md) · [`engineer-reviewer/AGENT.md`](delivery/agents/engineer-reviewer/AGENT.md) |
 | **abd-context-to-memory** | `context-to-memory` | [`context-to-memory/agents/abd-context-to-memory/AGENTS.md`](context-to-memory/agents/abd-context-to-memory/AGENTS.md) |
 | **abd-practice-skill-builder** | `skill-builder` | [`skill-builder/agents/abd-practice-skill-builder/AGENTS.md`](skill-builder/agents/abd-practice-skill-builder/AGENTS.md) |
 | **ai-research-assistant** | `utilities` | [`utilities/agents/ai-research-assistant/AGENTS.md`](utilities/agents/ai-research-assistant/AGENTS.md) |

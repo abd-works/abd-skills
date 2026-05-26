@@ -1,0 +1,38 @@
+{
+  "categories": {
+    "cf": { "label": "Cryptographic failures", "context": "context/04-cryotiographic-failures" },
+    "if": { "label": "Injection flaws", "context": "context/05-injection-flaws" },
+    "id": { "label": "Insecure design", "context": "context/06-Insecure-Design" },
+    "af": { "label": "Authentication failures", "context": "context/07_Authentication_Failures" },
+    "df": { "label": "Software / data integrity failures", "context": "context/08_Software_or_Data_Integrity_Failures" },
+    "lf": { "label": "Logging & alerting failures", "context": "context/09_Logging_Alerting_Failures" },
+    "ec": { "label": "Mishandling of exceptional conditions", "context": "context/10_Mishandling_of_Exceptional_Conditions" },
+    "gb": { "label": "Green belt assessment", "context": "context/green_belt_assessment" }
+  },
+  "rules": [
+    { "prefix": "cf", "slug": "no-plaintext-password-storage", "scanner": "no_plaintext_password_storage_scanner.py" },
+    { "prefix": "cf", "slug": "no-plaintext-sensitive-data-at-rest", "scanner": "no_plaintext_sensitive_data_at_rest_scanner.py" },
+    { "prefix": "cf", "slug": "no-weak-crypto-algorithms", "scanner": "no_weak_crypto_algorithms_scanner.py" },
+    { "prefix": "cf", "slug": "no-hardcoded-secrets", "scanner": "no_hardcoded_secrets_scanner.py" },
+    { "prefix": "if", "slug": "no-sql-string-concatenation", "scanner": "no_sql_string_concatenation_scanner.py" },
+    { "prefix": "if", "slug": "no-os-command-injection", "scanner": "no_os_command_injection_scanner.py" },
+    { "prefix": "if", "slug": "no-eval-dynamic-code-execution", "scanner": "no_eval_dynamic_code_execution_scanner.py" },
+    { "prefix": "if", "slug": "no-dangerous-xss-sinks", "scanner": "no_dangerous_xss_sinks_scanner.py" },
+    { "prefix": "if", "slug": "no-ldap-filter-injection", "scanner": "no_ldap_filter_injection_scanner.py" },
+    { "prefix": "af", "slug": "no-predictable-session-token", "scanner": "no_predictable_session_token_scanner.py" },
+    { "prefix": "af", "slug": "no-insufficient-login-rate-limiting", "scanner": "no_insufficient_login_rate_limiting_scanner.py" },
+    { "prefix": "af", "slug": "no-client-side-auth-trust", "scanner": "no_client_side_auth_trust_scanner.py" },
+    { "prefix": "af", "slug": "no-jwt-none-algorithm", "scanner": "no_jwt_none_algorithm_scanner.py" },
+    { "prefix": "df", "slug": "no-unsafe-deserialization", "scanner": "no_unsafe_deserialization_scanner.py" },
+    { "prefix": "df", "slug": "no-mass-assignment-from-request", "scanner": "no_mass_assignment_from_request_scanner.py" },
+    { "prefix": "df", "slug": "no-untrusted-component-sources", "scanner": "no_untrusted_component_sources_scanner.py" },
+    { "prefix": "df", "slug": "no-xxe-unsafe-xml-parser", "scanner": "no_xxe_unsafe_xml_parser_scanner.py" },
+    { "prefix": "id", "slug": "no-unsafe-file-upload-handling", "scanner": "no_unsafe_file_upload_handling_scanner.py" },
+    { "prefix": "id", "slug": "no-path-traversal-in-paths", "scanner": "no_path_traversal_in_paths_scanner.py" },
+    { "prefix": "id", "slug": "no-excessive-response-data", "scanner": "no_excessive_response_data_scanner.py" },
+    { "prefix": "ec", "slug": "no-sensitive-error-disclosure", "scanner": "no_sensitive_error_disclosure_scanner.py" },
+    { "prefix": "ec", "slug": "no-toctou-outside-lock", "scanner": "no_toctou_outside_lock_scanner.py" },
+    { "prefix": "lf", "slug": "no-secrets-in-log-output", "scanner": "no_secrets_in_log_output_scanner.py" },
+    { "prefix": "lf", "slug": "no-missing-security-event-logging", "scanner": "no_missing_security_event_logging_scanner.py" }
+  ]
+}

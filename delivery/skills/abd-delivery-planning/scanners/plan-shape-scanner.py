@@ -9,7 +9,7 @@ Evaluates seven rules against the saved narrative plan:
   - plan-runs-have-concrete-outcome
   - plan-is-not-default-six-stage
   - plan-checkpoint-density-matches-risk
-  - plan-lists-every-run-and-every-slot
+  - plan-uses-system-of-work
 
 Each rule has its own `rules/*.md` file with `scanner: plan-shape` in the frontmatter,
 so the execute-skill-using-skills-rules runner picks this scanner up via rule frontmatter and also via
@@ -130,8 +130,8 @@ TEMPLATE_ANTI_PATTERNS: tuple[tuple[re.Pattern[str], str], ...] = (
 
 RUN_SECTION_HEADING = re.compile(r"^## Run (\d+)\b[^\n]*$", re.MULTILINE | re.IGNORECASE)
 COMBINED_RUNS_HEADING = re.compile(r"^##\s+Runs?\s+(\d+)\s*[\u2013\u2014\-]\s*(\d+)", re.MULTILINE | re.IGNORECASE)
-SLOT_TABLE_HEADER = re.compile(r"\|\s*Slots?\s*(?:\([^)]*\))?\s*\|", re.IGNORECASE)
-SLOT_NUMBER_ROW = re.compile(r"^\|\s*\d+", re.MULTILINE)
+SYSTEM_OF_WORK_HEADING = re.compile(r"^##\s+System of work\b", re.MULTILINE | re.IGNORECASE)
+SYSTEM_OF_WORK_REF = re.compile(r"system[_-]of[_-]work", re.IGNORECASE)
 
 
 # ---------- rule registry ----------------------------------------------------
@@ -151,7 +151,7 @@ RULES = {
         "plan-runs-have-concrete-outcome",
         "plan-is-not-default-six-stage",
         "plan-checkpoint-density-matches-risk",
-        "plan-lists-every-run-and-every-slot",
+        "plan-uses-system-of-work",
     )
 }
 
@@ -275,12 +275,6 @@ def _expected_product_runs(body: str, runs: list[Run]) -> set[int]:
     return expected
 
 
-def _section_has_slot_table(section: str) -> bool:
-    if not SLOT_TABLE_HEADER.search(section):
-        return False
-    return bool(SLOT_NUMBER_ROW.search(section))
-
-
 # ---------- individual checks -------------------------------------------------
 
 def check_context_inventory(text: str) -> list[Violation]:
@@ -387,19 +381,41 @@ def check_not_default_six_stage(runs: list[Run], text: str) -> list[Violation]:
     )]
 
 
-def check_lists_every_run_and_slot(body: str, runs: list[Run]) -> list[Violation]:
+def _uses_system_of_work_model(body: str, workspace: Path | None) -> bool:
+    if SYSTEM_OF_WORK_HEADING.search(body) or SYSTEM_OF_WORK_REF.search(body):
+        return True
+    if workspace is not None:
+        catalog = workspace / "docs" / "planning" / "delivery-war-room" / "run-catalog.json"
+        if catalog.is_file():
+            return True
+    return False
+
+
+def check_uses_system_of_work(
+    body: str, runs: list[Run], workspace: Path | None = None
+) -> list[Violation]:
     if not _multi_increment_delivery(body, runs):
         return []
+    if not _uses_system_of_work_model(body, workspace):
+        return [Violation(
+            rule=RULES["plan-uses-system-of-work"],
+            violation_message=(
+                "Multi-increment plan must reference system-of-work.json and run-catalog.json "
+                "(## System of work section or run-catalog.json on disk). "
+                "See `rules/plan-uses-system-of-work.md`."
+            ),
+            severity="error",
+        )]
 
     for pattern, detail in TEMPLATE_ANTI_PATTERNS:
         if pattern.search(body):
             return [Violation(
-                rule=RULES["plan-lists-every-run-and-every-slot"],
+                rule=RULES["plan-uses-system-of-work"],
                 violation_message=(
                     "Multi-increment plan "
-                    f"{detail}. List each run (3+) with Exploration / Specification / "
-                    "Engineering tables and a Slot column — one row per planned handoff. "
-                    "See `rules/plan-lists-every-run-and-every-slot.md`."
+                    f"{detail}. Use a named system of work in "
+                    "`system-of-work.json` and `run-catalog.json`; generate slots at run open. "
+                    "See `rules/plan-uses-system-of-work.md`."
                 ),
                 severity="error",
             )]
@@ -413,34 +429,22 @@ def check_lists_every_run_and_slot(body: str, runs: list[Run]) -> list[Violation
 
     if COMBINED_RUNS_HEADING.search(body) and not any(n >= 3 for n in sections):
         violations.append(Violation(
-            rule=RULES["plan-lists-every-run-and-every-slot"],
+            rule=RULES["plan-uses-system-of-work"],
             violation_message=(
                 "Plan uses a combined `## Runs 3–N` heading without separate `## Run N` "
-                "sections. Split each product run and list every slot."
+                "sections. Split each product run; reference the shared system of work."
             ),
             severity="error",
         ))
         return violations
 
     for run_num in sorted(expected):
-        section = sections.get(run_num)
-        if section is None:
+        if sections.get(run_num) is None:
             violations.append(Violation(
-                rule=RULES["plan-lists-every-run-and-every-slot"],
+                rule=RULES["plan-uses-system-of-work"],
                 violation_message=(
                     f"Run {run_num} appears in the runs summary but has no `## Run {run_num}` "
-                    "section with slot tables."
-                ),
-                location=f"run {run_num}",
-                severity="error",
-            ))
-            continue
-        if not _section_has_slot_table(section):
-            violations.append(Violation(
-                rule=RULES["plan-lists-every-run-and-every-slot"],
-                violation_message=(
-                    f"Run {run_num} section has no Exploration / Specification / Engineering "
-                    "table with a Slot column and numbered slot rows."
+                    "section (scope, stages, system_of_work reference)."
                 ),
                 location=f"run {run_num}",
                 severity="error",
@@ -472,7 +476,7 @@ def check_checkpoint_density_matches_risk(runs: list[Run], text: str) -> list[Vi
 
 # ---------- main -------------------------------------------------------------
 
-def run_checks(plan_text: str) -> list[Violation]:
+def run_checks(plan_text: str, workspace: Path | None = None) -> list[Violation]:
     body = _body_without_frontmatter(plan_text)
     runs = parse_plan(plan_text)
     violations: list[Violation] = []
@@ -482,7 +486,7 @@ def run_checks(plan_text: str) -> list[Violation]:
     violations += check_runs_have_concrete_outcome(runs)
     violations += check_not_default_six_stage(runs, plan_text)
     violations += check_checkpoint_density_matches_risk(runs, body)
-    violations += check_lists_every_run_and_slot(body, runs)
+    violations += check_uses_system_of_work(body, runs, workspace)
     return violations
 
 
@@ -508,7 +512,8 @@ def main(argv: list[str] | None = None) -> int:
         return 0
 
     plan_text = plan_path.read_text(encoding="utf-8")
-    violations = run_checks(plan_text)
+    workspace = ns.workspace.resolve()
+    violations = run_checks(plan_text, workspace=workspace)
 
     if not violations:
         return 0
