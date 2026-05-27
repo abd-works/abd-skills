@@ -1,7 +1,15 @@
 #!/usr/bin/env python3
-"""Deploy a family capability package into an engagement workspace.
+"""Deploy family capability packages into an engagement workspace.
 
-Each family package at the agilebydesign-skills repo root follows the same layout::
+Family packages are grouped under ``foundational/``, ``practices/``, and
+``utilities/`` in the agilebydesign-skills repo::
+
+    foundational/<family>/      context-to-memory, skill-builder, skill-helpers
+    practices/<family>/         delivery, story-driven-delivery, domain-driven-design, …
+    practices/delivery/user-experience-design/   (nested sub-package)
+    utilities/                  standalone utilities package
+
+Each package follows the same layout::
 
     <family>/
         agents/           optional orchestrators
@@ -11,14 +19,22 @@ Each family package at the agilebydesign-skills repo root follows the same layou
         instructions/     .mdc and .instructions.md → rules / instructions
         prompts/          .prompt.md → commands / prompts
 
+Deploy root resolution (when ``--to`` is omitted)::
+
+    1. skill-config.json  →  workspace.active_skill_workspace  (if path exists)
+    2. Walk up from $PWD looking for *.code-workspace
+    3. Fall back to the repo root itself
+
 Usage::
 
-    python scripts/deploy_family_package.py --package delivery --to C:\\dev\\abd-pet-store-demo
-    python scripts/deploy_family_package.py --package story-driven-delivery --to C:\\dev\\abd-pet-store-demo
+    python scripts/deploy_family_package.py                          # all, auto-resolve root
+    python scripts/deploy_family_package.py --to C:\\dev\\my-project  # all, explicit root
+    python scripts/deploy_family_package.py --package delivery       # single package
 """
 from __future__ import annotations
 
 import argparse
+import json
 import os
 import shutil
 import stat
@@ -27,18 +43,19 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 
-FAMILY_PACKAGES = (
-    "delivery",
-    "story-driven-delivery",
-    "domain-driven-design",
-    "architecture-centric-engineering",
-    "user-experience-design",
-    "context-to-memory",
-    "idea-shaping",
-    "skill-builder",
-    "skill-helpers",
-    "utilities",
-)
+# name → relative path from repo root (supports grouped and nested packages)
+FAMILY_PACKAGES: dict[str, str] = {
+    "context-to-memory": "foundational/context-to-memory",
+    "skill-builder": "foundational/skill-builder",
+    "skill-helpers": "foundational/skill-helpers",
+    "architecture-centric-engineering": "practices/architecture-centric-engineering",
+    "delivery": "practices/delivery",
+    "domain-driven-design": "practices/domain-driven-design",
+    "idea-shaping": "practices/idea-shaping",
+    "story-driven-delivery": "practices/story-driven-delivery",
+    "user-experience-design": "practices/delivery/user-experience-design",
+    "utilities": "utilities",
+}
 
 _AGENT_SKILL_REF_REWRITES = (
     ("../../skills/", "../skills/"),
@@ -196,9 +213,12 @@ def _deploy_agents(agents_root: Path, source: Path) -> None:
     for agent_dir in sorted(agents_src.iterdir()):
         if not agent_dir.is_dir():
             continue
-        if (agent_dir / "AGENT.md").is_file() or (agent_dir / "AGENTS.md").is_file():
+        has_marker = (agent_dir / "AGENT.md").is_file() or (agent_dir / "AGENTS.md").is_file()
+        is_shared = agent_dir.name.startswith("_")
+        if has_marker or is_shared:
             _replace_tree(agent_dir, agents_root / agent_dir.name)
-            _rewrite_agent_skill_refs(agents_root / agent_dir.name)
+            if has_marker:
+                _rewrite_agent_skill_refs(agents_root / agent_dir.name)
 
 
 def _deploy_skills(skills_root: Path, source: Path) -> None:
@@ -259,6 +279,81 @@ def _normalize_ide(ide: str) -> str:
     return ide
 
 
+# ---------------------------------------------------------------------------
+# Deploy-root auto-resolution (replaces PS1 logic)
+# ---------------------------------------------------------------------------
+
+def _resolve_deploy_root_from_config(repo_root: Path) -> Path | None:
+    cfg = repo_root / "skill-config.json"
+    if not cfg.is_file():
+        return None
+    try:
+        data = json.loads(cfg.read_text(encoding="utf-8"))
+        ws = (data.get("workspace") or {}).get("active_skill_workspace")
+        if not ws:
+            return None
+        p = Path(ws)
+        if not p.is_dir():
+            print(f"  warning: skill-config workspace not on disk: {ws}", file=sys.stderr)
+            return None
+        return p.resolve()
+    except (json.JSONDecodeError, OSError) as exc:
+        print(f"  warning: could not read skill-config.json: {exc}", file=sys.stderr)
+        return None
+
+
+def _resolve_deploy_root_from_workspace_file(start: Path, fallback: Path) -> Path:
+    d: Path | None = start.resolve()
+    while d is not None:
+        if any(d.glob("*.code-workspace")):
+            return d
+        parent = d.parent
+        if parent == d:
+            break
+        d = parent
+    return fallback
+
+
+def resolve_deploy_root(explicit: Path | None = None, repo_root: Path | None = None) -> Path:
+    repo_root = (repo_root or REPO_ROOT).resolve()
+    if explicit:
+        return explicit.resolve()
+    from_cfg = _resolve_deploy_root_from_config(repo_root)
+    if from_cfg:
+        return from_cfg
+    return _resolve_deploy_root_from_workspace_file(Path.cwd(), repo_root)
+
+
+def _ensure_ide_dirs(workspace: Path, ide: str) -> None:
+    if ide in ("cursor", "both"):
+        for sub in ("skills", "agents", "rules", "commands", "content", "lib"):
+            d = workspace / ".cursor" / sub
+            if not d.is_dir():
+                d.mkdir(parents=True, exist_ok=True)
+                print(f"  created {d}")
+    if ide in ("vscode", "both"):
+        for sub in ("skills", "agents", "instructions", "prompts", "content", "lib"):
+            d = workspace / ".github" / sub
+            if not d.is_dir():
+                d.mkdir(parents=True, exist_ok=True)
+                print(f"  created {d}")
+
+
+def _patch_code_workspace(workspace: Path, ide: str) -> None:
+    folder = ".cursor" if ide in ("cursor", "both") else ".github"
+    for ws_file in workspace.glob("*.code-workspace"):
+        try:
+            data = json.loads(ws_file.read_text(encoding="utf-8"))
+        except (json.JSONDecodeError, OSError):
+            continue
+        folders = data.get("folders", [])
+        if any(f.get("path") == folder for f in folders):
+            continue
+        data["folders"] = [{"path": folder}] + folders
+        ws_file.write_text(json.dumps(data, indent=2, ensure_ascii=False), encoding="utf-8")
+        print(f"  added '{folder}' to {ws_file.name}")
+
+
 def _remove_legacy_root_deploy(workspace: Path) -> None:
     for name in _LEGACY_ROOT_DIRS:
         path = workspace / name
@@ -309,14 +404,19 @@ def deploy_all_family_packages(
     repo_root: Path | None = None,
     *,
     ide: str = "cursor",
-    packages: tuple[str, ...] | None = None,
+    packages: dict[str, str] | None = None,
 ) -> int:
     repo_root = (repo_root or REPO_ROOT).resolve()
     workspace = workspace.resolve()
     packages = packages or FAMILY_PACKAGES
     ide = _normalize_ide(ide)
 
-    print(f"deploy family packages -> {workspace} (ide={ide})")
+    print(f"\nrepo root   : {repo_root}")
+    print(f"deploy root : {workspace}")
+    print(f"ide         : {ide}\n")
+
+    _ensure_ide_dirs(workspace, ide)
+    _patch_code_workspace(workspace, ide)
     _remove_legacy_root_deploy(workspace)
 
     if ide in ("cursor", "both"):
@@ -325,10 +425,10 @@ def deploy_all_family_packages(
         _clear_skill_junctions(workspace / ".github" / "skills")
 
     rc = 0
-    for name in packages:
-        source = repo_root / name
+    for name, rel_path in packages.items():
+        source = repo_root / rel_path
         if not source.is_dir():
-            print(f"  skip missing package {source}", file=sys.stderr)
+            print(f"  skip missing package {name} ({source})", file=sys.stderr)
             continue
         if deploy_family_package(workspace, source, ide=ide, remove_legacy=False) != 0:
             rc = 1
@@ -338,11 +438,12 @@ def deploy_all_family_packages(
 
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("--to", required=True, type=Path, dest="workspace",
-                    help="Engagement workspace repo root")
+    ap.add_argument("--to", type=Path, dest="workspace", default=None,
+                    help="Engagement workspace root (auto-resolved from "
+                         "skill-config.json or *.code-workspace if omitted)")
     ap.add_argument(
         "--package",
-        choices=("all",) + FAMILY_PACKAGES,
+        choices=("all",) + tuple(FAMILY_PACKAGES.keys()),
         default="all",
         help="Family package to deploy (default: all)",
     )
@@ -355,16 +456,21 @@ def main() -> int:
         choices=("cursor", "vscode", "github", "both"),
         default="cursor",
     )
+    ap.add_argument("--force", action="store_true",
+                    help="Replace existing deployments (default behaviour)")
     ns = ap.parse_args()
 
-    if ns.package == "all":
-        return deploy_all_family_packages(ns.workspace, ide=_normalize_ide(ns.ide))
+    ide = _normalize_ide(ns.ide)
+    workspace = resolve_deploy_root(ns.workspace)
 
-    source = ns.source or (REPO_ROOT / ns.package)
+    if ns.package == "all":
+        return deploy_all_family_packages(workspace, ide=ide)
+
+    source = ns.source or (REPO_ROOT / FAMILY_PACKAGES[ns.package])
     return deploy_family_package(
-        ns.workspace,
+        workspace,
         source,
-        ide=_normalize_ide(ns.ide),
+        ide=ide,
         skip_ide=ns.skip_ide,
         remove_legacy=True,
     )
