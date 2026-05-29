@@ -1164,15 +1164,15 @@ a.cap-card:hover .cap-card__icon {
 <ul>
 <li>Group entities into one story because they share a heading or category name in the source.</li>
 </ul>
-<p><strong>Example (fail):</strong> Seven control effects appear under &quot;Control&quot; in the source. The agent writes one story:</p>
-<pre><code>  (S) Player --&gt; Configure Control Effect (choose: create/move object/summon/environment/transform/element control/illusion)</code></pre>
-<p>But Create makes objects with Toughness, Move Object uses telekinetic Strength for opposed checks, Summon creates controllable entities with their own sheets, Transform has narrow/broad/any scope affecting cost, and Illusion requires selecting which sense types are fooled. The heading groups them; the mechanics don&#x27;t.</p>
+<p><strong>Example (fail):</strong> Seven integration types appear under &quot;Integrations&quot; in the source. The agent writes one story:</p>
+<pre><code>  (S) Admin --&gt; Configure Integration (choose: CRM/ERP/email/SMS/webhook/SFTP/EDI)</code></pre>
+<p>But CRM requires OAuth token exchange with field mapping, ERP needs batch-sync scheduling with conflict resolution, email requires SMTP relay configuration with SPF/DKIM setup, SMS requires carrier gateway registration with opt-in compliance, webhook needs endpoint URL with retry policy, SFTP needs key-pair provisioning with directory mapping, and EDI requires trading-partner agreement with document-type registration. The heading groups them; the mechanics don&#x27;t.</p>
 <ul>
 <li>Skip the analysis step and group by intuition or label similarity.</li>
 </ul>
-<p><strong>Example (fail):</strong> Five defense effects appear under &quot;Defense.&quot; The agent writes:</p>
-<pre><code>  (S) Player --&gt; Configure Defense Effect (choose: protection/immunity/force field/deflect/regeneration)</code></pre>
-<p>But Immunity has a cost catalogue (1–80 ranks), Deflect is a combat reaction, Protection is permanent, Force Field is sustained (can be knocked offline), and Regeneration has a rate-based recovery schedule — five different configuration workflows behind one label.</p>
+<p><strong>Example (fail):</strong> Five tax-withholding types appear under &quot;Payroll Withholdings.&quot; The agent writes:</p>
+<pre><code>  (S) Payroll Admin --&gt; Configure Withholding (choose: federal/state/local/FICA/garnishment)</code></pre>
+<p>But federal uses progressive bracket tables updated annually, state varies by jurisdiction (some flat, some progressive, some zero), local requires city/county registration with reciprocity checks, FICA has wage-base caps with employer-match calculations, and garnishment requires court-order parsing with priority stacking rules — five different calculation and compliance workflows behind one label.</p>
 <ul>
 <li>Assume a generic &quot;configure + set level&quot; story covers an entity type whose configuration changes other derived attributes.</li>
 </ul>
@@ -1185,15 +1185,34 @@ a.cap-card:hover .cap-card__icon {
       (S) HR --&gt; Set Seasonal End Date and Auto-Termination
       (S) HR --&gt; Verify Intern University Agreement and Provision Time-Limited Access</code></pre>
 <p><strong>Source:</strong> Engagement corrections log — entries 2, 3, 4, 5.</p>
+<h3>Rule: Brownfield map without redesign</h3>
+<p><strong>Scanner:</strong> Manual review</p>
+<p>During <strong>brownfield current-state</strong> story mapping, the job is to <strong>describe what runs today</strong>, not to improve it. Refactors, renames, and target-state design belong in <strong>change slices</strong> after characterization tests exist.</p>
+<h4>DO</h4>
+<ul>
+<li>Map <strong>observed</strong> behavior only — including defects and quirks as stories or notes for AC (`observed` intent).</li>
+<li>Split <strong>characterize</strong> slices from <strong>change</strong> slices in narrative or thin-slicing — e.g. &quot;Enter Game (as-built)&quot; before &quot;Enter Game (fix SQL cursor)&quot;.</li>
+<li>Stop and hand off quirks to <strong>`abd-acceptance-criteria`</strong> with explicit observed wording.</li>
+<li>Follow delivery strategy <strong>`brownfield-current-state`</strong> checkpoint: reviewer <strong>`brownfield-boundary-gate`</strong> before AC work.</li>
+</ul>
+<p><strong>Example (pass):</strong> Map includes `(S) System --&gt; Spawn Hero on Map` with note &quot;MapServer cold start 1–2 min on tutorial zone (observed)&quot; — fix deferred to change slice.</p>
+<p><strong>Example (fail):</strong> Map says `(S) System --&gt; Spawn Hero on Map Instantly` when current behavior takes 1–2 minutes — describes target, not reality.</p>
+<h4>DO NOT</h4>
+<ul>
+<li>Rename concepts in the map to &quot;clean&quot; domain language that does not match current UI/logs/code — use <strong>`abd-domain-terms`</strong> after mapping if vocabulary needs curation.</li>
+<li>Omit known bugs because they are embarrassing — they are <strong>documented behavior</strong> until a change slice approves a delta.</li>
+<li>Combine <strong>mapping</strong> and <strong>implementation fix</strong> in one executor slot.</li>
+<li>Add stories that describe <strong>target architecture</strong> (&quot;should use event bus&quot;) when the codebase does not do that today.</li>
+</ul>
 <h3>Rule: Consolidate Superficial Stories</h3>
 <p><strong>Scanner:</strong> Manual review (policy; pairs with <em>Review and Expand Stories</em> — see below)</p>
 <p>Consolidate stories that differ <strong>only superficially</strong> (same logic, different data values or enumeration). Combine into <strong>one parameterized story</strong> where it applies.</p>
 <p><strong>Relationship to other rules:</strong> This rule removes <strong>data-value duplication</strong> (same behavior, different inputs). <em>Review and Expand Stories</em> splits by <strong>component behavior</strong>. Apply <strong>consolidation first</strong>, then expansion if you still need component-level depth.</p>
 <h4>DO</h4>
 <ul>
-<li>Merge stories that share the same validation logic but differ only by the value validated (e.g. six ability scores → one <strong>`Assign Ability (STR, DEX, …)`</strong> story).</li>
-<li>Merge stories that share the same calculation but differ only by attribute (e.g. multiple “calculate X modifier” → <strong>`Calculate Ability Modifiers`</strong>).</li>
-<li>Merge the same operation across entity types when only the type differs (e.g. create character / weapon / armor → <strong>`Create Game Entity (types…)`</strong>).</li>
+<li>Merge stories that share the same validation logic but differ only by the value validated (e.g. six address fields → one <strong>`Validate Address Field (street, city, …)`</strong> story).</li>
+<li>Merge stories that share the same calculation but differ only by attribute (e.g. multiple “calculate X tax” → <strong>`Calculate Tax Withholdings`</strong>).</li>
+<li>Merge the same operation across entity types when only the type differs (e.g. create customer / vendor / partner → <strong>`Create Business Entity (types…)`</strong>).</li>
 </ul>
 <h4>DON&#x27;T</h4>
 <ul>
@@ -1217,16 +1236,16 @@ AC must specify per variant:
 - Contractor: W-9 filing, SOW linkage, rate-card approval
 - Intern: university-agreement check, duration-limited access provisioning
 
-### Choose Attack Trade-Off (accurate, all-out, defensive, power)
-Groups four attack modifiers that share the same &quot;apply modifier to hit/effect&quot; pattern.
+### Apply Discount (loyalty, volume, seasonal, promo-code)
+Groups four discount types that share the same &quot;apply percentage reduction to line total&quot; pattern.
 AC must specify per variant:
-- Accurate: bonus to hit, no effect change
-- All-out: bonus to hit, penalty to active defenses
-- Defensive: penalty to hit, bonus to active defenses
-- Power: penalty to hit, bonus to effect</code></pre>
+- Loyalty: tier-based percentage, requires active membership
+- Volume: threshold quantity triggers, stacking rules with other discounts
+- Seasonal: date-range validity, auto-expire at period end
+- Promo-code: single-use vs multi-use, redemption-limit enforcement</code></pre>
 <h3>Rule: Context gaps are genuinely missing information</h3>
 <p><strong>Scanner:</strong> Manual review</p>
-<p>Every entry in the <strong>Context Gaps</strong> section of `story-map.md` states information that is <strong>genuinely unavailable</strong> — a business decision not yet made, a stakeholder perspective not yet gathered, or a technical constraint not yet known. The gap names what is unknown, what options exist, and what depends on the answer. Failure is a gap that the source material already answers, a gap that parks unfinished analysis, a gap outside the product scope, or a gap that questions a decision the user already stated.</p>
+<p>Every entry in the <strong>Context Gaps</strong> section of `story-map.md` / `story-map.txt` states information that is <strong>genuinely unavailable</strong> — a business decision not yet made, a stakeholder perspective not yet gathered, or a technical constraint not yet known. The gap names what is unknown, what options exist, and what depends on the answer. Failure is a gap that the source material already answers, a gap that parks unfinished analysis, a gap outside the product scope, or a gap that questions a decision the user already stated.</p>
 <h4>DO</h4>
 <ul>
 <li>Before writing a gap, check: &quot;Does the source material answer this?&quot; If yes, finish the analysis — it is unfinished work, not a gap.</li>
@@ -1241,13 +1260,13 @@ AC must specify per variant:
 </ul>
 <p><strong>Example (pass):</strong> Draft Context Gaps section included:</p>
 <pre><code>  ## Context Gaps
-  - Character advancement: The source describes gaining power points and increasing
-    power level between sessions. Is post-session advancement in scope?</code></pre>
+  - Employee promotion: The source describes performance-review scoring, band-level
+    progression, and compensation adjustment. Is promotion workflow in scope?</code></pre>
 <p>Verification pass finds the source describes the mechanic in detail. Gap removed; stories mapped instead:</p>
-<pre><code>  (E) Advance Hero
-      (S) GM --&gt; Award Power Points after Adventure
-      (S) Player --&gt; Spend Earned Power Points on Traits
-      (S) System --&gt; Enforce Power Level Limits on Advancement</code></pre>
+<pre><code>  (E) Process Employee Promotion
+      (S) Manager --&gt; Submit Promotion Nomination with Review Scores
+      (S) HR --&gt; Validate Band-Level Eligibility
+      (S) System --&gt; Adjust Compensation per New Band</code></pre>
 <h4>DO NOT</h4>
 <ul>
 <li>Use gaps as a parking lot for analysis you haven&#x27;t done yet.</li>
@@ -1352,13 +1371,13 @@ AC must specify per variant:
     (S) System --&gt; Process Payment
     (S) System --&gt; Reserve Inventory</code></pre>
 <p>But the source also describes `Issue Refund` (different gateway call), `Cancel Reservation` (releases held inventory, fires restock webhook), and `Apply Store Credit` (different tender type with balance-check logic). Three reverse/compensating actions missed.</p>
-<p><strong>Example (fail):</strong> A combat system maps only offensive attack effects:</p>
-<pre><code>(SE) Apply Attack Effect
-    (S) System --&gt; Apply Damage
-    (S) System --&gt; Apply Affliction
-    (S) System --&gt; Apply Weaken
-    (S) System --&gt; Apply Nullify</code></pre>
-<p>But the source in the same chapter describes: Healing (standard action, close range, removes conditions from others), Mind Reading (perception range, sustained, Will resistance), Summon (creates controllable entity), Deflect (reaction, substitutes check vs incoming ranged attack). Four non-attack combat effects with distinct resolution paths were missed because the agent only analyzed the offensive side.</p>
+<p><strong>Example (fail):</strong> A claims system maps only the forward claim-processing actions:</p>
+<pre><code>(SE) Process Insurance Claim
+    (S) Adjuster --&gt; Assess Property Damage
+    (S) Adjuster --&gt; Evaluate Medical Expenses
+    (S) Adjuster --&gt; Calculate Liability Payout
+    (S) System --&gt; Issue Settlement Payment</code></pre>
+<p>But the source in the same section describes: Subrogation Recovery (system initiates recovery from at-fault party&#x27;s insurer, different negotiation workflow), Salvage Disposition (adjuster arranges sale of damaged property, auction mechanics), Fraud Referral (system flags anomalies, routes to special investigations unit with hold on payment), Reopened Claim (claimant submits new evidence, triggers re-adjudication with different authority thresholds). Four non-forward claim actions with distinct resolution paths were missed because the agent only analyzed the settlement side.</p>
 <h4>DO NOT</h4>
 <ul>
 <li>Write one generic story for a domain with 10+ entity types without comparing their mechanics.</li>
@@ -1440,13 +1459,13 @@ AC must specify per variant:
 <ul>
 <li>Treat persistence, logging, sync, or session management as &quot;implementation details&quot; that belong only in engineering. If any actor — human or system — will observe versioned data, event history, live updates, or process state, these are product behaviors.</li>
 </ul>
-<p><strong>Example (fail):</strong> A combat encounter app maps game rules only:</p>
-<pre><code>  (E) Run Combat Encounter
-      (SE) Execute Turns
-          (S) Player --&gt; Choose Hero Action
-          (S) System --&gt; Resolve Attack
+<p><strong>Example (fail):</strong> A loan-origination platform maps business workflows only:</p>
+<pre><code>  (E) Originate Loan
+      (SE) Evaluate Application
+          (S) Underwriter --&gt; Review Applicant Credit Report
+          (S) System --&gt; Calculate Debt-to-Income Ratio
           ...</code></pre>
-<p>No stories for sheet versioning, combat event logging, encounter ending with condition carry-forward, live state sync, or GM condition override. The map covers domain rules but not the system behaviors that host them.</p>
+<p>No stories for application-state versioning, underwriting-decision audit logging, application closing with document carry-forward to servicing, real-time status sync to borrower portal, or supervisor override of automated decline. The map covers business rules but not the system behaviors that host them.</p>
 <ul>
 <li>Omit system-to-system behaviors because &quot;no human sees them.&quot; If a downstream system depends on the behavior, it belongs on the map.</li>
 </ul>
@@ -1463,7 +1482,7 @@ AC must specify per variant:
 <p><strong>Alignment with other rules:</strong> Outcomes still use <strong>base verb forms</strong> (verb–noun, imperative style after `Actor --&gt;`), matching <strong>Verb–Noun Format</strong> and <strong>Active Business and Behavioral Language</strong>. Do not fix a mechanism title by switching to third person (`provides…`, `displays…`) or gerunds (`Showing…`) in the action phrase.</p>
 <h4>DO</h4>
 <p>Name concepts by what they <strong>ARE</strong> or <strong>CREATE</strong>. Ask: _What is being created? What does the user get?_ Phrase the story as <strong>`Actor --&gt; verb` + object</strong> (same pattern as <strong>Active Business and Behavioral Language</strong>), not gerund-led or third-person labels.</p>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Wrong (mechanism / gerund title)</th><th>Correct (outcome, base verb)</th></tr></thead><tbody><tr><td>`Visualizing Power Activation`</td><td>`System --&gt; display power activation animation`</td></tr><tr><td>`Showing Combat Results`</td><td>`System --&gt; provide combat outcome feedback`</td></tr><tr><td>`Displaying Hit Information`</td><td>`System --&gt; display hit indicators`</td></tr><tr><td>`Presenting Configuration Options`</td><td>`System --&gt; load configuration panel`</td></tr><tr><td>`Providing Settings`</td><td>`System --&gt; load configuration`</td></tr></tbody></table></div>
+<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Wrong (mechanism / gerund title)</th><th>Correct (outcome, base verb)</th></tr></thead><tbody><tr><td>`Visualizing Payment Flow`</td><td>`System --&gt; display payment confirmation summary`</td></tr><tr><td>`Showing Approval Results`</td><td>`System --&gt; provide approval outcome notification`</td></tr><tr><td>`Displaying Error Information`</td><td>`System --&gt; display validation error indicators`</td></tr><tr><td>`Presenting Configuration Options`</td><td>`System --&gt; load configuration panel`</td></tr><tr><td>`Providing Settings`</td><td>`System --&gt; load configuration`</td></tr></tbody></table></div>
 <h4>DON&#x27;T</h4>
 <p>Avoid generic communication/mechanism verbs that describe <em>how</em> something is shown rather than <em>what</em> is created:</p>
 <ul>
@@ -1481,7 +1500,7 @@ AC must specify per variant:
 <p><strong>Relationship to other rules:</strong> This rule expands by <strong>component behavior</strong> (different behaviors inside one flow). <em>Consolidate Superficial Stories</em> merges <strong>same logic, different data</strong>. Apply <strong>consolidation first</strong>, then <strong>this expansion</strong> where needed.</p>
 <h4>DO</h4>
 <ul>
-<li>With System / Technology / Infrastructure emphasis, split user stories into <strong>user action + system/component</strong> stories (e.g. `User --&gt; group tokens`, `System --&gt; create mob`, `System --&gt; assign mob leader`).</li>
+<li>With System / Technology / Infrastructure emphasis, split user stories into <strong>user action + system/component</strong> stories (e.g. `User --&gt; submit order`, `System --&gt; reserve inventory`, `System --&gt; assign fulfilment warehouse`).</li>
 <li><strong>Review</strong> existing stories and add component steps for payment, validation, inventory, etc., when the approach requires it.</li>
 <li>Break flows into <strong>discrete system steps</strong> when the plan demands (e.g. `validate payment` → `call payment gateway` → `persist transaction` → `confirm payment`).</li>
 </ul>
@@ -1543,7 +1562,7 @@ AC must specify per variant:
 </ul>
 <h3>Rule: Source-supported mechanics mapped not listed as deferred gaps</h3>
 <p><strong>Scanner:</strong> Manual review</p>
-<p>The story map in <strong>`story-map.md`</strong> reflects what the <strong>available source material</strong> already explains about workflows, entity types, and system behaviors: those mechanics appear as stories, sub-epics, or brief inline notes—not only as a <strong>Context Gaps</strong> bullet that says &quot;not yet mapped&quot; or equivalent. Failure is a gap or deferred phrase where the source already describes the mechanic in enough detail to break it into behaviors today.</p>
+<p>The story map in <strong>`story-map.md`</strong> / <strong>`story-map.txt`</strong> reflects what the <strong>available source material</strong> already explains about workflows, entity types, and system behaviors: those mechanics appear as stories, sub-epics, or brief inline notes—not only as a <strong>Context Gaps</strong> bullet that says &quot;not yet mapped&quot; or equivalent. Failure is a gap or deferred phrase where the source already describes the mechanic in enough detail to break it into behaviors today.</p>
 <h4>DO</h4>
 <ul>
 <li>After reading the source, map <strong>mechanics the source already describes</strong> into the tree (split or consolidate per other rules) instead of parking them in <strong>Context Gaps</strong> as unfinished analysis.</li>
@@ -1566,7 +1585,7 @@ AC must specify per variant:
 <ul>
 <li><strong>Verification pass after drafting:</strong> Re-read each source section&#x27;s action/command list and confirm every named action appears as a story or is explicitly documented as consolidated into another story.</li>
 </ul>
-<p><strong>Example (pass):</strong> The source&#x27;s &quot;Combat Actions&quot; section lists: Attack, Grab, Trip, Disarm, Feint, Demoralize, Command, Escape. After drafting, the agent confirms each named action has a story or a consolidation note. `Command` was missing — added `(S) GM --&gt; Command Minion or Summoned Creature` under Execute Turns.</p>
+<p><strong>Example (pass):</strong> The source&#x27;s &quot;Order Fulfilment Actions&quot; section lists: Pick, Pack, Ship, Hold, Split, Cancel, Return, Redirect. After drafting, the agent confirms each named action has a story or a consolidation note. `Redirect` was missing — added `(S) Customer --&gt; Redirect In-Transit Shipment to Alternate Address` under Manage Shipments.</p>
 <h4>DO NOT</h4>
 <ul>
 <li>Record a map-level or inline gap that says an area is &quot;not yet mapped&quot; or &quot;TBD&quot; when the source material already spells out that workflow in enough detail to write stories.</li>
@@ -1599,7 +1618,7 @@ AC must specify per variant:
 </ul>
 <h3>Rule: Story map stays within user-requested scope</h3>
 <p><strong>Scanner:</strong> Manual review</p>
-<p>The epic and story tree in <strong>`story-map.md`</strong> reflects <strong>only</strong> the product scope the user (or product owner) has asked for: alternate journeys, build methods, or channels do not appear as parallel first-class flows unless the user asked for them or confirmed they are in scope. Failure is an extra path, persona flow, or &quot;optional&quot; track presented as part of the map when the user explicitly narrowed scope or chose a single path.</p>
+<p>The epic and story tree in <strong>`story-map.md`</strong> / <strong>`story-map.txt`</strong> reflects <strong>only</strong> the product scope the user (or product owner) has asked for: alternate journeys, build methods, or channels do not appear as parallel first-class flows unless the user asked for them or confirmed they are in scope. Failure is an extra path, persona flow, or &quot;optional&quot; track presented as part of the map when the user explicitly narrowed scope or chose a single path.</p>
 <h4>DO</h4>
 <ul>
 <li>When the user states <strong>one</strong> path (e.g. &quot;manual onboarding only&quot;, &quot;custom build only&quot;), map <strong>that</strong> path and treat other approaches as out of scope until the user expands scope.</li>
@@ -1619,20 +1638,48 @@ AC must specify per variant:
 </ul>
 <p><strong>Example (fail):</strong> User asked for a B2B wholesale portal map; the map adds a full B2C retail epic &quot;because many platforms have both&quot; without product confirmation.</p>
 <p><strong>Source:</strong> Engagement corrections log — scope fabrication and parallel paths without user ask.</p>
+<h3>Rule: Story traces to evidence (brownfield)</h3>
+<p><strong>Scanner:</strong> Manual review</p>
+<p>When mapping <strong>current-state / brownfield</strong> behavior (see delivery strategy <strong>`brownfield-current-state`</strong>), every <strong>story</strong> in scope must trace to verifiable evidence. The story map is the behavioral spec — evidence makes that spec auditable.</p>
+<h4>DO</h4>
+<ul>
+<li>Record evidence on each in-scope story using <strong>`evidence`</strong> in story-graph metadata and/or an <strong>`Evidence:`</strong> line in `story-map.md` companion notes for that story.</li>
+<li>Accept evidence types: <strong>source file + locator</strong> (`Source/Client/charselect.c:412`), <strong>existing test</strong> (`tests/test_enter_game.py::test_spawn`), <strong>log excerpt</strong> (path + pattern), <strong>config key</strong> (`server/bin/...`), <strong>chunk id</strong> from context index (`ourowiki/85-AccountServer__chunk_02`).</li>
+<li>Trace <strong>failure and alternate paths</strong> when code or logs show them — map as `or` stories or note for AC phase.</li>
+<li>Use <strong>`abd-semantic-context-chunker`</strong> report to prioritize which files to read; confirm against <strong>code</strong>, not wiki alone.</li>
+</ul>
+<p><strong>Example (pass):</strong></p>
+<pre><code>  (S) Player --&gt; Enter Game
+      Evidence: Client/charselect.c:EnterGame:412; handoffs/enter-world.md
+  (S) System --&gt; Load Character from Database
+      Evidence: Source/DBServer/loadchar.c:LoadCharacter:88; ourowiki/11-Data server db servers__passthrough.md
+  or (S) System --&gt; Show Connection Error
+      Evidence: Client/charselect.c:445 (error dialog on send failure)</code></pre>
+<p><strong>Example (fail):</strong></p>
+<pre><code>  (S) Player --&gt; Enter Game
+  (S) System --&gt; Load Character from Database</code></pre>
+<p>No evidence lines. Reviewer cannot confirm stories match code.</p>
+<h4>DO NOT</h4>
+<ul>
+<li>Add stories inferred from <strong>class or function names alone</strong> without tracing the flow (<strong>Story Map from Existing Code</strong> rule).</li>
+<li>Leave in-scope stories with <strong>no evidence</strong> when source code is available in the workspace.</li>
+<li>Treat wiki or memory chunks as sufficient without <strong>confirming</strong> against code or runtime logs when code exists.</li>
+<li>Put <strong>`file:line` citations in epic or sub-epic titles</strong> — evidence belongs in metadata or companion notes, not verb–noun names.</li>
+</ul>
 <h3>Rule: Verb–Noun Format</h3>
 <p><strong>Scanner:</strong> `scanners/verb-noun-format-scanner.py` — <strong>`VerbNounFormatScanner`</strong></p>
-<p>Use verb–noun format at every level. Document the actor separately (e.g. `story_type`, metadata)—<strong>not</strong> in the name. Prefer <strong>base verb forms</strong> (imperative / infinitive style: `Place Order`, `Select Tokens`), not gerunds (`Placing Order`) or third-person singular (`Places` / `Selects` as the <em>wrong</em> pattern when the rule asks for base form—see examples below).</p>
+<p>Use verb–noun format at every level. Document the actor separately (e.g. `story_type`, metadata)—<strong>not</strong> in the name. Prefer <strong>base verb forms</strong> (imperative / infinitive style: `Place Order`, `Select Items`), not gerunds (`Placing Order`) or third-person singular (`Places` / `Selects` as the <em>wrong</em> pattern when the rule asks for base form—see examples below).</p>
 <h4>DO</h4>
 <ul>
 <li><strong>Format:</strong> `verb` + `noun` [optional qualifiers]. Actor is separate. Use specific objects and context. Focus on what can be <em>done</em>, not what things <em>are</em>.</li>
 </ul>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Level</th><th>Examples (from rule)</th></tr></thead><tbody><tr><td>Epic</td><td>`Manage Customer Orders`, `Process Online Payments`</td></tr><tr><td>Sub-Epic</td><td>`Place New Order`, `Validate Credit Card Payment`</td></tr><tr><td>Story (action phrasing)</td><td>`Process Order Payment`, `Validate Submitted Payments` — tie to lifecycle: Load → Read → Edit → Render → Synchronize → Search → Save</td></tr><tr><td>Story (system examples)</td><td>`Load Order Data`, `Validate Payment`, `Generate XML`</td></tr><tr><td>With actor (actor not in name)</td><td>`Place Order` (actor: Customer), `Validate Payment` (actor: System), `Update Stock` (actor: Inventory Manager)</td></tr><tr><td>Base verb form</td><td>`Select Tokens`, `Group Minions`, `Process Payment` — not `Selects Tokens`, not `Selecting Tokens`</td></tr></tbody></table></div>
+<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Level</th><th>Examples (from rule)</th></tr></thead><tbody><tr><td>Epic</td><td>`Manage Customer Orders`, `Process Online Payments`</td></tr><tr><td>Sub-Epic</td><td>`Place New Order`, `Validate Credit Card Payment`</td></tr><tr><td>Story (action phrasing)</td><td>`Process Order Payment`, `Validate Submitted Payments` — tie to lifecycle: Load → Read → Edit → Render → Synchronize → Search → Save</td></tr><tr><td>Story (system examples)</td><td>`Load Order Data`, `Validate Payment`, `Generate XML`</td></tr><tr><td>With actor (actor not in name)</td><td>`Place Order` (actor: Customer), `Validate Payment` (actor: System), `Update Stock` (actor: Inventory Manager)</td></tr><tr><td>Base verb form</td><td>`Select Items`, `Group Shipments`, `Process Payment` — not `Selects Items`, not `Selecting Items`</td></tr></tbody></table></div>
 <h4>DON&#x27;T</h4>
 <ul>
 <li><strong>Actor in the name:</strong> e.g. not `Customer Places Order` → use `Place Order` and set actor in metadata. Same for `OrderProcessor Validates Payment` → `Validate Payment`; `Cart Adds Product` → `Add Product`.</li>
 </ul>
 <ul>
-<li><strong>Too generic or noun-only:</strong> e.g. `Process Payment` without context when specificity is needed; `Payment Processing` (noun-only); `Order Management` (capability, not a concrete action); `Selects Tokens` (wrong verb form for this rule → `Select Tokens`).</li>
+<li><strong>Too generic or noun-only:</strong> e.g. `Process Payment` without context when specificity is needed; `Payment Processing` (noun-only); `Order Management` (capability, not a concrete action); `Selects Items` (wrong verb form for this rule → `Select Items`).</li>
 </ul>
 <ul>
 <li><strong>Capability / structure phrasing instead of actions:</strong> e.g. `PaymentValidator Contains Validation Logic`, `Cart Hierarchy Foundation`, `Product Represents Item`.</li>

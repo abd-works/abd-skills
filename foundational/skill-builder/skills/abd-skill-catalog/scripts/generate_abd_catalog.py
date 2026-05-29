@@ -405,8 +405,8 @@ def discover_skills(repo_root: Path) -> list[SkillEntry]:
         seen.add(ent.dir_name)
         out.append(ent)
 
-    for family in FAMILY_PACKAGES:
-        family_skills = repo_root / family / "skills"
+    for _fam_id, fam_path in FAMILY_PACKAGES.items():
+        family_skills = repo_root / fam_path / "skills"
         if not family_skills.is_dir():
             continue
         for skill_md in sorted(family_skills.rglob("SKILL.md")):
@@ -465,8 +465,8 @@ def discover_agents(repo_root: Path) -> list[AgentEntry]:
             )
         )
 
-    for family in FAMILY_PACKAGES:
-        family_agents = repo_root / family / "agents"
+    for _fam_id, fam_path in FAMILY_PACKAGES.items():
+        family_agents = repo_root / fam_path / "agents"
         if not family_agents.is_dir():
             continue
         for child in sorted(family_agents.iterdir()):
@@ -2030,7 +2030,7 @@ _CATALOG_SKILL_FAMILY_PRACTICE_ORDER: tuple[str, ...] = (
     "story-driven-delivery",
     "user-experience-design",
     "architecture-centric-engineering",
-    "delivery",
+    "kanban",
 )
 _CATALOG_SKILL_FAMILY_FOUNDATIONAL_ORDER: tuple[str, ...] = (
     "context-to-memory",
@@ -2060,7 +2060,7 @@ _CATALOG_GARDEN_PRELUDE_OMIT_FAMILIES: frozenset[str] = frozenset()
 _CATALOG_FAMILY_LABELS: dict[str, str] = {
     "": "General",
     "context-to-memory": "Context to Memory",
-    "delivery": "Delivery",
+    "kanban": "Kanban",
     "domain-driven-design": "Domain-Driven Design",
     "idea-shaping": "Idea Shaping",
     "skill-builder": "Skill Builder",
@@ -2102,11 +2102,14 @@ _CATALOG_FAMILY_ICONS: dict[str, str] = {
         '<path d="M2 5l6-3 6 3-6 3-6-3z"/>'
         '<path d="M2 9l6 3 6-3"/><path d="M2 12l6 3 6-3"/></svg>'
     ),
-    "delivery": (
+    "kanban": (
         '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor"'
         ' stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
-        '<path d="M2 5h12v7a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5z"/>'
-        '<path d="M2 5l2-3h8l2 3M6 9h4"/></svg>'
+        '<rect x="1" y="2" width="14" height="12" rx="1.5"/>'
+        '<path d="M5.5 2v12M10.5 2v12"/>'
+        '<rect x="2.5" y="4" width="2" height="3" rx=".5"/>'
+        '<rect x="7" y="4" width="2" height="5" rx=".5"/>'
+        '<rect x="12" y="4" width="2" height="2" rx=".5"/></svg>'
     ),
     "context-to-memory": (
         '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor"'
@@ -2160,15 +2163,16 @@ _CATALOG_AGENTS_COLUMN_ICON_SVG = (
 
 
 def _skill_catalog_family(pkg_rel_posix: str) -> str:
-    """Primary training area: repo-root family package, legacy skills/<category>, or agent bundle."""
+    """Primary training area: family package (possibly nested), or agent bundle."""
     norm = pkg_rel_posix.replace("\\", "/").strip("/")
-    parts = norm.split("/") if norm else []
-    if not parts:
+    if not norm:
         return ""
-    if parts[0] == "agents":
+    if norm.split("/")[0] == "agents":
         return "__agent_skills__"
-    if parts[0] in FAMILY_PACKAGES and len(parts) >= 2 and parts[1] == "skills":
-        return parts[0]
+    for fam_id, fam_path in FAMILY_PACKAGES.items():
+        prefix = fam_path.rstrip("/") + "/skills/"
+        if norm.startswith(prefix):
+            return fam_id
     return ""
 
 
@@ -2830,7 +2834,7 @@ def main() -> None:
     repo_root = (args.repo_root or _repo_root_from_skill_package(SKILL_DIR)).resolve()
     output_dir = (args.output_dir or (repo_root / "catalog")).resolve()
 
-    if not any((repo_root / f).is_dir() for f in FAMILY_PACKAGES):
+    if not any((repo_root / p).is_dir() for p in FAMILY_PACKAGES.values()):
         raise SystemExit(f"No family packages found under {repo_root}")
 
     families = discover_family_packages(repo_root)

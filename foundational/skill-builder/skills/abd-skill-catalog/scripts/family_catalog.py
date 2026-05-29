@@ -8,21 +8,23 @@ from pathlib import Path
 from typing import NamedTuple
 from urllib.parse import quote
 
-# Repo-root plugin packages (deploy via deploy_family_package.py).
-FAMILY_PACKAGES = (
-    "delivery",
-    "story-driven-delivery",
-    "domain-driven-design",
-    "architecture-centric-engineering",
-    "user-experience-design",
-    "context-to-memory",
-    "idea-shaping",
-    "skill-builder",
-    "skill-helpers",
-    "utilities",
-)
+# Plugin packages: id -> relative path from repo root.
+# Flat packages live at root (e.g. "utilities"); nested packages live under
+# a parent tier folder (e.g. "practices/kanban").
+FAMILY_PACKAGES: dict[str, str] = {
+    "kanban": "practices/kanban",
+    "story-driven-delivery": "practices/story-driven-delivery",
+    "domain-driven-design": "practices/domain-driven-design",
+    "architecture-centric-engineering": "practices/architecture-centric-engineering",
+    "idea-shaping": "practices/idea-shaping",
+    "user-experience-design": "practices/kanban/user-experience-design",
+    "context-to-memory": "foundational/context-to-memory",
+    "skill-builder": "foundational/skill-builder",
+    "skill-helpers": "foundational/skill-helpers",
+    "utilities": "utilities",
+}
 
-FAMILY_CATALOG_ALIASES = {"idea-shaping": "Idea Shaping"}
+FAMILY_CATALOG_ALIASES = {"idea-shaping": "Idea Shaping", "kanban": "Kanban"}
 
 FAMILY_SLOT_ORDER = (
     "agents",
@@ -149,8 +151,9 @@ def _file_summary(path: Path, max_len: int = 240) -> str:
     return text[: max_len - 1].rsplit(" ", 1)[0] + " …"
 
 
-def _scan_slot(repo_root: Path, family_id: str, slot: str) -> list[FamilySlotEntry]:
-    slot_dir = repo_root / family_id / slot
+def _scan_slot(repo_root: Path, family_id: str, slot: str, *, family_path: str | None = None) -> list[FamilySlotEntry]:
+    rel = family_path or FAMILY_PACKAGES.get(family_id, family_id)
+    slot_dir = repo_root / rel / slot
     if not slot_dir.is_dir():
         return []
     out: list[FamilySlotEntry] = []
@@ -213,15 +216,15 @@ def _scan_slot(repo_root: Path, family_id: str, slot: str) -> list[FamilySlotEnt
 
 
 def discover_family_packages(repo_root: Path) -> list[FamilyPackageEntry]:
-    """One entry per repo-root plugin package with full slot inventory."""
+    """One entry per plugin package with full slot inventory."""
     out: list[FamilyPackageEntry] = []
-    for family_id in FAMILY_PACKAGES:
-        pkg = repo_root / family_id
+    for family_id, family_path in FAMILY_PACKAGES.items():
+        pkg = repo_root / family_path
         if not pkg.is_dir():
             continue
         slots: dict[str, list[FamilySlotEntry]] = {}
         for slot in FAMILY_SLOT_ORDER:
-            slots[slot] = _scan_slot(repo_root, family_id, slot)
+            slots[slot] = _scan_slot(repo_root, family_id, slot, family_path=family_path)
         readme = pkg / "README.md"
         summary = _read_readme_blurb(readme) if readme.is_file() else ""
         if not summary:
@@ -233,7 +236,7 @@ def discover_family_packages(repo_root: Path) -> list[FamilyPackageEntry]:
             FamilyPackageEntry(
                 id=family_id,
                 label=family_label(family_id),
-                rel_path=family_id,
+                rel_path=family_path,
                 summary=summary,
                 slots=slots,
                 skill_dir_names=tuple(x.name for x in slots.get("skills", [])),

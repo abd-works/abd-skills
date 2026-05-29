@@ -1093,8 +1093,63 @@ a.cap-card:hover .cap-card__icon {
 <li>Use technical implementation terms (config, json, api, sql, class, method) as the primary description.</li>
 <li>Use programming, database, or raw API terminology in place of behavior.</li>
 </ul>
+<h3>Rule: Document observed quirks until fix slice</h3>
+<p><strong>Scanner:</strong> Manual review</p>
+<p>On <strong>brownfield / current-state</strong> engagements, acceptance criteria describe <strong>what the system does today</strong>, including known defects. A quirk is <strong>observed behavior</strong> until a <strong>change slice</strong> explicitly approves a different outcome.</p>
+<h4>DO</h4>
+<ul>
+<li>Tag brownfield AC that encode legacy quirks with <strong>`intent: observed`</strong> in graph metadata or a leading comment in markdown export.</li>
+<li>Use <strong>WHEN/THEN/BUT</strong> for error and quirk paths traced from code — e.g. `BUT the client does not disconnect when SQLSTATE 24000 is ignored`.</li>
+<li>Separate <strong>characterization AC</strong> (must pass on current system) from <strong>change AC</strong> (must pass only after approved fix) — different stories or explicit slice labels.</li>
+<li>When a quirk is fixed in a change slice, <strong>update or supersede</strong> the observed AC — do not leave contradictory AC on the same story.</li>
+</ul>
+<p><strong>Example (pass):</strong></p>
+<pre><code>  WHEN the player enters game with a valid character slot
+  THEN the system loads the character from the database
+  AND forwards spawn to MapServer
+  BUT SQLCloseCursor may return SQLSTATE 24000 without failing the flow (observed)
+
+  --- change slice (separate story) ---
+  WHEN DBServer closes the cursor after character load
+  THEN no SQL error is logged for SQLSTATE 24000</code></pre>
+<p><strong>Example (fail):</strong></p>
+<pre><code>  WHEN the player enters game with a valid character slot
+  THEN the system loads the character from the database
+  AND no SQL errors are raised</code></pre>
+<p>Describes target behavior but claims to document current state. The 24000 quirk is silently &quot;fixed&quot; in the AC.</p>
+<h4>DO NOT</h4>
+<ul>
+<li>Write AC that describe <strong>desired</strong> behavior while claiming to document current state without labeling the slice as <strong>change</strong>.</li>
+<li>Silently &quot;fix&quot; legacy behavior in AC text during exploration on a characterize-only slice.</li>
+<li>Drop failure paths that code implements because they are inconvenient to test — note test gap in AC or war-room blocker instead.</li>
+<li>Use brownfield as excuse to skip <strong>`use-but-for-negative-conditions`</strong> — quirks still need explicit BUT/negative outcomes where relevant.</li>
+</ul>
+<h3>Rule: Domain terms must come from the domain model</h3>
+<p><strong>Scanner:</strong> `scanners/domain-terms-source-scanner.py` — `DomainTermsSourceScanner`</p>
+<p>Every term in a story&#x27;s <strong>Domain terms</strong> section must exist in a domain source artifact already present in the project. Domain sources include (but are not limited to):</p>
+<ul>
+<li>Ubiquitous Language (`ubiquitous-language.md`, `domain-language.md`)</li>
+<li>CRC model (`crc.md`)</li>
+<li>Object model (`object-model.md`)</li>
+<li>Domain sketch (`domain-sketch.md`)</li>
+<li>Any file the team designates as a domain vocabulary source</li>
+</ul>
+<h4>DO</h4>
+<ul>
+<li>Before writing any Domain terms section, look up each term in the project&#x27;s domain source files.</li>
+<li>Use the exact name and definition from the source. Do not paraphrase.</li>
+<li>If a term is missing from all domain sources, <strong>stop — list every missing term and ask the user how to proceed</strong> (add to ubiquitous language, use an existing term, skip it, etc.). Do not continue until the user decides.</li>
+</ul>
+<h4>DON&#x27;T</h4>
+<ul>
+<li><strong>NEVER create `domain-terms.md`</strong> (or any equivalent supplement file) if any domain source file already exists in the project. If domain sources exist, they are the only source of truth. There is no bypass file.</li>
+<li>Invent or define terms inline without backing in a domain source.</li>
+<li>Silently absorb unknown terms into a new file instead of flagging them.</li>
+</ul>
+<h4>`domain-terms.md` — bootstrap only, no domain sources present</h4>
+<p>`domain-terms.md` may only be created when the engagement has <strong>no domain source files at all</strong>. The moment any domain source exists, `domain-terms.md` must not be created. Any existing `domain-terms.md` should be merged into the real domain source and deleted.</p>
 <h3>Rule: Emphasize domain-significant terms</h3>
-<p><strong>Scanner:</strong> Manual review (no automated scanner)</p>
+<p><strong>Scanner:</strong> `scanners/emphasize-domain-terms-scanner.py` — <strong>`DomainTermEmphasisScanner`</strong></p>
 <p>Call out <strong>domain language</strong> — the nouns, verbs, and short phrases that belong to the problem space and show up in stories, tests, and talk with stakeholders — so readers see what is <em>specific</em> to this product versus generic wording.</p>
 <h4>DO</h4>
 <ul>
@@ -1211,67 +1266,49 @@ a.cap-card:hover .cap-card__icon {
 <li>Noun-only or capability labels where an action phrase is expected.</li>
 <li>Gerund-led titles (`Submitting order`) or third-person singular as the wrong pattern (`Selects item`).</li>
 </ul>
-<h3>Rule: Domain terms must come from the domain model</h3>
-<p><strong>Scanner:</strong> `scanners/domain-terms-source-scanner.py` — `DomainTermsSourceScanner`</p>
-<p>Every term listed in a story&#x27;s <strong>Domain terms</strong> section must already exist in one of the project&#x27;s domain model artifacts: Ubiquitous Language (`ubiquitous-language.md` or `domain-language.md`), CRC model, or object model.</p>
-<h4>DO</h4>
-<ul>
-<li>Before writing any Domain terms section, look up each term in the project&#x27;s domain source files (ubiquitous language, domain sketch, CRC, object model, or any team-designated vocabulary file).</li>
-<li>Use the exact name and definition from the source. Do not paraphrase.</li>
-<li>If a term is missing from all domain sources, <strong>stop — list every missing term and ask the user how to proceed</strong> (add to ubiquitous language, use an existing term, skip it, etc.).</li>
-</ul>
-<h4>DON&#x27;T</h4>
-<ul>
-<li><strong>NEVER create `domain-terms.md`</strong> if any domain source file already exists in the project. Domain sources are the only source of truth — there is no bypass file.</li>
-<li>Silently define or invent terms without backing in a domain source.</li>
-<li>Create any supplement file without the user&#x27;s explicit direction.</li>
-</ul>
 <p>&lt;!-- execute_rules:bundle_rules:end --&gt;</p></div></details>
 </div>
 <hr class="entry-divider">
 <div class="entry-contents-files">
 <ul class="file-list file-list--root">
 <li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>rules/</strong><span class="file-meta"> → Practice rules (DO/DON&#x27;T) and constraints used with scanners.</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../story-driven-delivery/skills/abd-acceptance-criteria/rules/alternate-actors-in-steps.md" target="_blank" rel="noopener noreferrer"><strong>alternate-actors-in-steps.md</strong></a><span class="file-meta"> → scanner: actor-alternation</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../story-driven-delivery/skills/abd-acceptance-criteria/rules/behavioral-ac-at-story-level.md" target="_blank" rel="noopener noreferrer"><strong>behavioral-ac-at-story-level.md</strong></a><span class="file-meta"> → scanner: behavioral-ac</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../story-driven-delivery/skills/abd-acceptance-criteria/rules/domain-terms-must-come-from-domain-model.md" target="_blank" rel="noopener noreferrer"><strong>domain-terms-must-come-from-domain-model.md</strong></a><span class="file-meta"> → scanner: domain-terms-source</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../story-driven-delivery/skills/abd-acceptance-criteria/rules/emphasize-domain-significant-terms.md" target="_blank" rel="noopener noreferrer"><strong>emphasize-domain-significant-terms.md</strong></a><span class="file-meta"> → scanner: emphasize-domain-terms</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../story-driven-delivery/skills/abd-acceptance-criteria/rules/enumerate-all-ac-permutations.md" target="_blank" rel="noopener noreferrer"><strong>enumerate-all-ac-permutations.md</strong></a><span class="file-meta"> → scanner: enumerate-ac-permutations</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../story-driven-delivery/skills/abd-acceptance-criteria/rules/keep-acceptance-criteria-consistent-across-connected-domains.md" target="_blank" rel="noopener noreferrer"><strong>keep-acceptance-criteria-consistent-across-connected-domains.md</strong></a><span class="file-meta"> → scanner: ac-domain-crossing</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../story-driven-delivery/skills/abd-acceptance-criteria/rules/stories-have-4-to-9-acceptance-criteria.md" target="_blank" rel="noopener noreferrer"><strong>stories-have-4-to-9-acceptance-criteria.md</strong></a><span class="file-meta"> → scanner: story-sizing</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../story-driven-delivery/skills/abd-acceptance-criteria/rules/use-and-for-multiple-reactions.md" target="_blank" rel="noopener noreferrer"><strong>use-and-for-multiple-reactions.md</strong></a><span class="file-meta"> → scanner: reaction-chaining</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../story-driven-delivery/skills/abd-acceptance-criteria/rules/use-atomic-acceptance-criteria.md" target="_blank" rel="noopener noreferrer"><strong>use-atomic-acceptance-criteria.md</strong></a><span class="file-meta"> → scanner: atomic-ac</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../story-driven-delivery/skills/abd-acceptance-criteria/rules/use-but-for-negative-conditions.md" target="_blank" rel="noopener noreferrer"><strong>use-but-for-negative-conditions.md</strong></a><span class="file-meta"> → scanner: negative-conditions</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../story-driven-delivery/skills/abd-acceptance-criteria/rules/use-channel-specific-language.md" target="_blank" rel="noopener noreferrer"><strong>use-channel-specific-language.md</strong></a><span class="file-meta"> → scanner: channel-specific-language</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../story-driven-delivery/skills/abd-acceptance-criteria/rules/use-verb-noun-format-for-story-elements.md" target="_blank" rel="noopener noreferrer"><strong>use-verb-noun-format-for-story-elements.md</strong></a><span class="file-meta"> → scanner: verb-noun</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-acceptance-criteria/rules/alternate-actors-in-steps.md" target="_blank" rel="noopener noreferrer"><strong>alternate-actors-in-steps.md</strong></a><span class="file-meta"> → scanner: actor-alternation</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-acceptance-criteria/rules/behavioral-ac-at-story-level.md" target="_blank" rel="noopener noreferrer"><strong>behavioral-ac-at-story-level.md</strong></a><span class="file-meta"> → scanner: behavioral-ac</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-acceptance-criteria/rules/document-observed-quirks-until-fix-slice.md" target="_blank" rel="noopener noreferrer"><strong>document-observed-quirks-until-fix-slice.md</strong></a><span class="file-meta"> → Rule: Document observed quirks until fix slice</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-acceptance-criteria/rules/domain-terms-must-come-from-domain-model.md" target="_blank" rel="noopener noreferrer"><strong>domain-terms-must-come-from-domain-model.md</strong></a><span class="file-meta"> → scanner: domain-terms-source</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-acceptance-criteria/rules/emphasize-domain-significant-terms.md" target="_blank" rel="noopener noreferrer"><strong>emphasize-domain-significant-terms.md</strong></a><span class="file-meta"> → scanner: emphasize-domain-terms</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-acceptance-criteria/rules/enumerate-all-ac-permutations.md" target="_blank" rel="noopener noreferrer"><strong>enumerate-all-ac-permutations.md</strong></a><span class="file-meta"> → scanner: enumerate-ac-permutations</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-acceptance-criteria/rules/keep-acceptance-criteria-consistent-across-connected-domains.md" target="_blank" rel="noopener noreferrer"><strong>keep-acceptance-criteria-consistent-across-connected-domains.md</strong></a><span class="file-meta"> → scanner: ac-domain-crossing</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-acceptance-criteria/rules/stories-have-4-to-9-acceptance-criteria.md" target="_blank" rel="noopener noreferrer"><strong>stories-have-4-to-9-acceptance-criteria.md</strong></a><span class="file-meta"> → scanner: story-sizing</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-acceptance-criteria/rules/use-and-for-multiple-reactions.md" target="_blank" rel="noopener noreferrer"><strong>use-and-for-multiple-reactions.md</strong></a><span class="file-meta"> → scanner: reaction-chaining</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-acceptance-criteria/rules/use-atomic-acceptance-criteria.md" target="_blank" rel="noopener noreferrer"><strong>use-atomic-acceptance-criteria.md</strong></a><span class="file-meta"> → scanner: atomic-ac</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-acceptance-criteria/rules/use-but-for-negative-conditions.md" target="_blank" rel="noopener noreferrer"><strong>use-but-for-negative-conditions.md</strong></a><span class="file-meta"> → scanner: negative-conditions</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-acceptance-criteria/rules/use-channel-specific-language.md" target="_blank" rel="noopener noreferrer"><strong>use-channel-specific-language.md</strong></a><span class="file-meta"> → scanner: channel-specific-language</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-acceptance-criteria/rules/use-verb-noun-format-for-story-elements.md" target="_blank" rel="noopener noreferrer"><strong>use-verb-noun-format-for-story-elements.md</strong></a><span class="file-meta"> → scanner: verb-noun</span></li>
 </ul></div></details></li>
-<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>scanners/</strong><span class="file-meta"> → Folder (15 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
-<li class="file-tree__dir"><details class="file-tree__details"><summary class="file-tree__summary"><strong>__pycache__/</strong><span class="file-meta"> → Folder (2 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../story-driven-delivery/skills/abd-acceptance-criteria/scanners/__pycache__/vocabulary_helper.cpython-312.pyc" target="_blank" rel="noopener noreferrer"><strong>vocabulary_helper.cpython-312.pyc</strong></a><span class="file-meta"> →     `f�ib  �                   �@  � d dl mZmZmZ d dlZd dlmZ d dlmZm	Z	 d dl</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../story-driven-delivery/skills/abd-acceptance-criteria/scanners/__pycache__/vocabulary_helper.cpython-313.pyc" target="_blank" rel="noopener noreferrer"><strong>vocabulary_helper.cpython-313.pyc</strong></a><span class="file-meta"> →     `f�ib  �                   �&amp;  � S SK JrJrJr  S SKrS SKJr  S SKJrJ	r	  S SK</span></li>
-</ul></div></details></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../story-driven-delivery/skills/abd-acceptance-criteria/scanners/__init__.py" target="_blank" rel="noopener noreferrer"><strong>__init__.py</strong></a><span class="file-meta"> → Acceptance-criteria exploration scanner implementations migrated from agile_bots</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../story-driven-delivery/skills/abd-acceptance-criteria/scanners/ac-domain-crossing-scanner.py" target="_blank" rel="noopener noreferrer"><strong>ac-domain-crossing-scanner.py</strong></a><span class="file-meta"> → !/usr/bin/env python3</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../story-driven-delivery/skills/abd-acceptance-criteria/scanners/actor-alternation-scanner.py" target="_blank" rel="noopener noreferrer"><strong>actor-alternation-scanner.py</strong></a><span class="file-meta"> → !/usr/bin/env python3</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../story-driven-delivery/skills/abd-acceptance-criteria/scanners/atomic-ac-scanner.py" target="_blank" rel="noopener noreferrer"><strong>atomic-ac-scanner.py</strong></a><span class="file-meta"> → !/usr/bin/env python3</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../story-driven-delivery/skills/abd-acceptance-criteria/scanners/behavioral-ac-scanner.py" target="_blank" rel="noopener noreferrer"><strong>behavioral-ac-scanner.py</strong></a><span class="file-meta"> → !/usr/bin/env python3</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../story-driven-delivery/skills/abd-acceptance-criteria/scanners/channel-specific-language-scanner.py" target="_blank" rel="noopener noreferrer"><strong>channel-specific-language-scanner.py</strong></a><span class="file-meta"> → !/usr/bin/env python3</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../story-driven-delivery/skills/abd-acceptance-criteria/scanners/domain-terms-source-scanner.py" target="_blank" rel="noopener noreferrer"><strong>domain-terms-source-scanner.py</strong></a><span class="file-meta"> → !/usr/bin/env python3</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../story-driven-delivery/skills/abd-acceptance-criteria/scanners/emphasize-domain-terms-scanner.py" target="_blank" rel="noopener noreferrer"><strong>emphasize-domain-terms-scanner.py</strong></a><span class="file-meta"> → !/usr/bin/env python3</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../story-driven-delivery/skills/abd-acceptance-criteria/scanners/enumerate-ac-permutations-scanner.py" target="_blank" rel="noopener noreferrer"><strong>enumerate-ac-permutations-scanner.py</strong></a><span class="file-meta"> → !/usr/bin/env python3</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../story-driven-delivery/skills/abd-acceptance-criteria/scanners/negative-conditions-scanner.py" target="_blank" rel="noopener noreferrer"><strong>negative-conditions-scanner.py</strong></a><span class="file-meta"> → !/usr/bin/env python3</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../story-driven-delivery/skills/abd-acceptance-criteria/scanners/reaction-chaining-scanner.py" target="_blank" rel="noopener noreferrer"><strong>reaction-chaining-scanner.py</strong></a><span class="file-meta"> → !/usr/bin/env python3</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../story-driven-delivery/skills/abd-acceptance-criteria/scanners/story-sizing-scanner.py" target="_blank" rel="noopener noreferrer"><strong>story-sizing-scanner.py</strong></a><span class="file-meta"> → !/usr/bin/env python3</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../story-driven-delivery/skills/abd-acceptance-criteria/scanners/verb-noun-scanner.py" target="_blank" rel="noopener noreferrer"><strong>verb-noun-scanner.py</strong></a><span class="file-meta"> → !/usr/bin/env python3</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../story-driven-delivery/skills/abd-acceptance-criteria/scanners/vocabulary_helper.py" target="_blank" rel="noopener noreferrer"><strong>vocabulary_helper.py</strong></a><span class="file-meta"> → from typing import List, Set, Optional</span></li>
+<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>scanners/</strong><span class="file-meta"> → Folder (14 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-acceptance-criteria/scanners/__init__.py" target="_blank" rel="noopener noreferrer"><strong>__init__.py</strong></a><span class="file-meta"> → Acceptance-criteria exploration scanner implementations migrated from agile_bots</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-acceptance-criteria/scanners/ac-domain-crossing-scanner.py" target="_blank" rel="noopener noreferrer"><strong>ac-domain-crossing-scanner.py</strong></a><span class="file-meta"> → !/usr/bin/env python3</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-acceptance-criteria/scanners/actor-alternation-scanner.py" target="_blank" rel="noopener noreferrer"><strong>actor-alternation-scanner.py</strong></a><span class="file-meta"> → !/usr/bin/env python3</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-acceptance-criteria/scanners/atomic-ac-scanner.py" target="_blank" rel="noopener noreferrer"><strong>atomic-ac-scanner.py</strong></a><span class="file-meta"> → !/usr/bin/env python3</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-acceptance-criteria/scanners/behavioral-ac-scanner.py" target="_blank" rel="noopener noreferrer"><strong>behavioral-ac-scanner.py</strong></a><span class="file-meta"> → !/usr/bin/env python3</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-acceptance-criteria/scanners/channel-specific-language-scanner.py" target="_blank" rel="noopener noreferrer"><strong>channel-specific-language-scanner.py</strong></a><span class="file-meta"> → !/usr/bin/env python3</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-acceptance-criteria/scanners/domain-terms-source-scanner.py" target="_blank" rel="noopener noreferrer"><strong>domain-terms-source-scanner.py</strong></a><span class="file-meta"> → !/usr/bin/env python3</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-acceptance-criteria/scanners/emphasize-domain-terms-scanner.py" target="_blank" rel="noopener noreferrer"><strong>emphasize-domain-terms-scanner.py</strong></a><span class="file-meta"> → !/usr/bin/env python3</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-acceptance-criteria/scanners/enumerate-ac-permutations-scanner.py" target="_blank" rel="noopener noreferrer"><strong>enumerate-ac-permutations-scanner.py</strong></a><span class="file-meta"> → !/usr/bin/env python3</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-acceptance-criteria/scanners/negative-conditions-scanner.py" target="_blank" rel="noopener noreferrer"><strong>negative-conditions-scanner.py</strong></a><span class="file-meta"> → !/usr/bin/env python3</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-acceptance-criteria/scanners/reaction-chaining-scanner.py" target="_blank" rel="noopener noreferrer"><strong>reaction-chaining-scanner.py</strong></a><span class="file-meta"> → !/usr/bin/env python3</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-acceptance-criteria/scanners/story-sizing-scanner.py" target="_blank" rel="noopener noreferrer"><strong>story-sizing-scanner.py</strong></a><span class="file-meta"> → !/usr/bin/env python3</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-acceptance-criteria/scanners/verb-noun-scanner.py" target="_blank" rel="noopener noreferrer"><strong>verb-noun-scanner.py</strong></a><span class="file-meta"> → !/usr/bin/env python3</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-acceptance-criteria/scanners/vocabulary_helper.py" target="_blank" rel="noopener noreferrer"><strong>vocabulary_helper.py</strong></a><span class="file-meta"> → from typing import List, Set, Optional</span></li>
 </ul></div></details></li>
 <li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>templates/</strong><span class="file-meta"> → Authoring templates and structural skeletons.</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../story-driven-delivery/skills/abd-acceptance-criteria/templates/acceptance-criteria.md" target="_blank" rel="noopener noreferrer"><strong>acceptance-criteria.md</strong></a><span class="file-meta"> → Acceptance criteria (exploration)</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-acceptance-criteria/templates/acceptance-criteria.md" target="_blank" rel="noopener noreferrer"><strong>acceptance-criteria.md</strong></a><span class="file-meta"> → Acceptance criteria (exploration)</span></li>
 </ul></div></details></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../story-driven-delivery/skills/abd-acceptance-criteria/corrections-log.md" target="_blank" rel="noopener noreferrer"><strong>corrections-log.md</strong></a><span class="file-meta"> → ﻿# Corrections log</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../story-driven-delivery/skills/abd-acceptance-criteria/README.md" target="_blank" rel="noopener noreferrer"><strong>README.md</strong></a><span class="file-meta"> → One line for catalogue cards and grids (YAML string).</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../story-driven-delivery/skills/abd-acceptance-criteria/skill-errors-log.md" target="_blank" rel="noopener noreferrer"><strong>skill-errors-log.md</strong></a><span class="file-meta"> → Skill Errors Log — abd-acceptance-criteria</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../story-driven-delivery/skills/abd-acceptance-criteria/SKILL.md" target="_blank" rel="noopener noreferrer"><strong>SKILL.md</strong></a><span class="file-meta"> → name: abd-acceptance-criteria</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-acceptance-criteria/corrections-log.md" target="_blank" rel="noopener noreferrer"><strong>corrections-log.md</strong></a><span class="file-meta"> → ��#   C o r r e c t i o n s   l o g </span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-acceptance-criteria/README.md" target="_blank" rel="noopener noreferrer"><strong>README.md</strong></a><span class="file-meta"> → One line for catalogue cards and grids (YAML string).</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-acceptance-criteria/skill-errors-log.md" target="_blank" rel="noopener noreferrer"><strong>skill-errors-log.md</strong></a><span class="file-meta"> → Skill Errors Log — abd-acceptance-criteria</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-acceptance-criteria/SKILL.md" target="_blank" rel="noopener noreferrer"><strong>SKILL.md</strong></a><span class="file-meta"> → name: abd-acceptance-criteria</span></li>
 </ul>
 </div>
 

@@ -1199,15 +1199,15 @@ Do not over-elaborate areas the team will not build soon. Go deep where uncertai
 <ul>
 <li>Group entities into one story because they share a heading or category name in the source.</li>
 </ul>
-<p><strong>Example (fail):</strong> Seven control effects appear under &quot;Control&quot; in the source. The agent writes one story:</p>
-<pre><code>  (S) Player --&gt; Configure Control Effect (choose: create/move object/summon/environment/transform/element control/illusion)</code></pre>
-<p>But Create makes objects with Toughness, Move Object uses telekinetic Strength for opposed checks, Summon creates controllable entities with their own sheets, Transform has narrow/broad/any scope affecting cost, and Illusion requires selecting which sense types are fooled. The heading groups them; the mechanics don&#x27;t.</p>
+<p><strong>Example (fail):</strong> Seven integration types appear under &quot;Integrations&quot; in the source. The agent writes one story:</p>
+<pre><code>  (S) Admin --&gt; Configure Integration (choose: CRM/ERP/email/SMS/webhook/SFTP/EDI)</code></pre>
+<p>But CRM requires OAuth token exchange with field mapping, ERP needs batch-sync scheduling with conflict resolution, email requires SMTP relay configuration with SPF/DKIM setup, SMS requires carrier gateway registration with opt-in compliance, webhook needs endpoint URL with retry policy, SFTP needs key-pair provisioning with directory mapping, and EDI requires trading-partner agreement with document-type registration. The heading groups them; the mechanics don&#x27;t.</p>
 <ul>
 <li>Skip the analysis step and group by intuition or label similarity.</li>
 </ul>
-<p><strong>Example (fail):</strong> Five defense effects appear under &quot;Defense.&quot; The agent writes:</p>
-<pre><code>  (S) Player --&gt; Configure Defense Effect (choose: protection/immunity/force field/deflect/regeneration)</code></pre>
-<p>But Immunity has a cost catalogue (1–80 ranks), Deflect is a combat reaction, Protection is permanent, Force Field is sustained (can be knocked offline), and Regeneration has a rate-based recovery schedule — five different configuration workflows behind one label.</p>
+<p><strong>Example (fail):</strong> Five tax-withholding types appear under &quot;Payroll Withholdings.&quot; The agent writes:</p>
+<pre><code>  (S) Payroll Admin --&gt; Configure Withholding (choose: federal/state/local/FICA/garnishment)</code></pre>
+<p>But federal uses progressive bracket tables updated annually, state varies by jurisdiction (some flat, some progressive, some zero), local requires city/county registration with reciprocity checks, FICA has wage-base caps with employer-match calculations, and garnishment requires court-order parsing with priority stacking rules — five different calculation and compliance workflows behind one label.</p>
 <ul>
 <li>Assume a generic &quot;configure + set level&quot; story covers an entity type whose configuration changes other derived attributes.</li>
 </ul>
@@ -1220,15 +1220,34 @@ Do not over-elaborate areas the team will not build soon. Go deep where uncertai
       (S) HR --&gt; Set Seasonal End Date and Auto-Termination
       (S) HR --&gt; Verify Intern University Agreement and Provision Time-Limited Access</code></pre>
 <p><strong>Source:</strong> Engagement corrections log — entries 2, 3, 4, 5.</p>
+<h3>Rule: Brownfield map without redesign</h3>
+<p><strong>Scanner:</strong> Manual review</p>
+<p>During <strong>brownfield current-state</strong> story mapping, the job is to <strong>describe what runs today</strong>, not to improve it. Refactors, renames, and target-state design belong in <strong>change slices</strong> after characterization tests exist.</p>
+<h4>DO</h4>
+<ul>
+<li>Map <strong>observed</strong> behavior only — including defects and quirks as stories or notes for AC (`observed` intent).</li>
+<li>Split <strong>characterize</strong> slices from <strong>change</strong> slices in narrative or thin-slicing — e.g. &quot;Enter Game (as-built)&quot; before &quot;Enter Game (fix SQL cursor)&quot;.</li>
+<li>Stop and hand off quirks to <strong>`abd-acceptance-criteria`</strong> with explicit observed wording.</li>
+<li>Follow delivery strategy <strong>`brownfield-current-state`</strong> checkpoint: reviewer <strong>`brownfield-boundary-gate`</strong> before AC work.</li>
+</ul>
+<p><strong>Example (pass):</strong> Map includes `(S) System --&gt; Spawn Hero on Map` with note &quot;MapServer cold start 1–2 min on tutorial zone (observed)&quot; — fix deferred to change slice.</p>
+<p><strong>Example (fail):</strong> Map says `(S) System --&gt; Spawn Hero on Map Instantly` when current behavior takes 1–2 minutes — describes target, not reality.</p>
+<h4>DO NOT</h4>
+<ul>
+<li>Rename concepts in the map to &quot;clean&quot; domain language that does not match current UI/logs/code — use <strong>`abd-domain-terms`</strong> after mapping if vocabulary needs curation.</li>
+<li>Omit known bugs because they are embarrassing — they are <strong>documented behavior</strong> until a change slice approves a delta.</li>
+<li>Combine <strong>mapping</strong> and <strong>implementation fix</strong> in one executor slot.</li>
+<li>Add stories that describe <strong>target architecture</strong> (&quot;should use event bus&quot;) when the codebase does not do that today.</li>
+</ul>
 <h3>Rule: Consolidate Superficial Stories</h3>
 <p><strong>Scanner:</strong> Manual review (policy; pairs with <em>Review and Expand Stories</em> — see below)</p>
 <p>Consolidate stories that differ <strong>only superficially</strong> (same logic, different data values or enumeration). Combine into <strong>one parameterized story</strong> where it applies.</p>
 <p><strong>Relationship to other rules:</strong> This rule removes <strong>data-value duplication</strong> (same behavior, different inputs). <em>Review and Expand Stories</em> splits by <strong>component behavior</strong>. Apply <strong>consolidation first</strong>, then expansion if you still need component-level depth.</p>
 <h4>DO</h4>
 <ul>
-<li>Merge stories that share the same validation logic but differ only by the value validated (e.g. six ability scores → one <strong>`Assign Ability (STR, DEX, …)`</strong> story).</li>
-<li>Merge stories that share the same calculation but differ only by attribute (e.g. multiple “calculate X modifier” → <strong>`Calculate Ability Modifiers`</strong>).</li>
-<li>Merge the same operation across entity types when only the type differs (e.g. create character / weapon / armor → <strong>`Create Game Entity (types…)`</strong>).</li>
+<li>Merge stories that share the same validation logic but differ only by the value validated (e.g. six address fields → one <strong>`Validate Address Field (street, city, …)`</strong> story).</li>
+<li>Merge stories that share the same calculation but differ only by attribute (e.g. multiple “calculate X tax” → <strong>`Calculate Tax Withholdings`</strong>).</li>
+<li>Merge the same operation across entity types when only the type differs (e.g. create customer / vendor / partner → <strong>`Create Business Entity (types…)`</strong>).</li>
 </ul>
 <h4>DON&#x27;T</h4>
 <ul>
@@ -1250,20 +1269,20 @@ Do not over-elaborate areas the team will not build soon. Go deep where uncertai
 <li>Contractor: W-9 filing, SOW linkage, rate-card approval</li>
 <li>Intern: university-agreement check, duration-limited access provisioning</li>
 </ul>
-<h3>Choose Attack Trade-Off (accurate, all-out, defensive, power)</h3>
-<p>Groups four attack modifiers that share the same &quot;apply modifier to hit/effect&quot; pattern. AC must specify per variant:</p>
+<h3>Apply Discount (loyalty, volume, seasonal, promo-code)</h3>
+<p>Groups four discount types that share the same &quot;apply percentage reduction to line total&quot; pattern. AC must specify per variant:</p>
 <ul>
-<li>Accurate: bonus to hit, no effect change</li>
-<li>All-out: bonus to hit, penalty to active defenses</li>
-<li>Defensive: penalty to hit, bonus to active defenses</li>
-<li>Power: penalty to hit, bonus to effect</li>
+<li>Loyalty: tier-based percentage, requires active membership</li>
+<li>Volume: threshold quantity triggers, stacking rules with other discounts</li>
+<li>Seasonal: date-range validity, auto-expire at period end</li>
+<li>Promo-code: single-use vs multi-use, redemption-limit enforcement</li>
 </ul>
 <pre><code>
 ### Rule: Context gaps are genuinely missing information
 
 **Scanner:** Manual review
 
-Every entry in the **Context Gaps** section of `story-map.md` states information that is **genuinely unavailable** — a business decision not yet made, a stakeholder perspective not yet gathered, or a technical constraint not yet known. The gap names what is unknown, what options exist, and what depends on the answer. Failure is a gap that the source material already answers, a gap that parks unfinished analysis, a gap outside the product scope, or a gap that questions a decision the user already stated.
+Every entry in the **Context Gaps** section of `story-map.md` / `story-map.txt` states information that is **genuinely unavailable** — a business decision not yet made, a stakeholder perspective not yet gathered, or a technical constraint not yet known. The gap names what is unknown, what options exist, and what depends on the answer. Failure is a gap that the source material already answers, a gap that parks unfinished analysis, a gap outside the product scope, or a gap that questions a decision the user already stated.
 
 #### DO
 
@@ -1281,13 +1300,13 @@ Every entry in the **Context Gaps** section of `story-map.md` states information
 </code></pre>
 <h2>Context Gaps</h2>
 <ul>
-<li>Character advancement: The source describes gaining power points and increasing</li>
+<li>Employee promotion: The source describes performance-review scoring, band-level</li>
 </ul>
-<p>power level between sessions. Is post-session advancement in scope?</p>
+<p>progression, and compensation adjustment. Is promotion workflow in scope?</p>
 <pre><code>
   Verification pass finds the source describes the mechanic in detail. Gap removed; stories mapped instead:
 </code></pre>
-<p>(E) Advance Hero (S) GM --&gt; Award Power Points after Adventure (S) Player --&gt; Spend Earned Power Points on Traits (S) System --&gt; Enforce Power Level Limits on Advancement</p>
+<p>(E) Process Employee Promotion (S) Manager --&gt; Submit Promotion Nomination with Review Scores (S) HR --&gt; Validate Band-Level Eligibility (S) System --&gt; Adjust Compensation per New Band</p>
 <pre><code>
 #### DO NOT
 
@@ -1394,11 +1413,11 @@ Don&#x27;t map only the **initiating side** of an interaction. After mapping all
 <pre><code>
 But the source also describes `Issue Refund` (different gateway call), `Cancel Reservation` (releases held inventory, fires restock webhook), and `Apply Store Credit` (different tender type with balance-check logic). Three reverse/compensating actions missed.
 
-**Example (fail):** A combat system maps only offensive attack effects:
+**Example (fail):** A claims system maps only the forward claim-processing actions:
 </code></pre>
-<p>(SE) Apply Attack Effect (S) System --&gt; Apply Damage (S) System --&gt; Apply Affliction (S) System --&gt; Apply Weaken (S) System --&gt; Apply Nullify</p>
+<p>(SE) Process Insurance Claim (S) Adjuster --&gt; Assess Property Damage (S) Adjuster --&gt; Evaluate Medical Expenses (S) Adjuster --&gt; Calculate Liability Payout (S) System --&gt; Issue Settlement Payment</p>
 <pre><code>
-But the source in the same chapter describes: Healing (standard action, close range, removes conditions from others), Mind Reading (perception range, sustained, Will resistance), Summon (creates controllable entity), Deflect (reaction, substitutes check vs incoming ranged attack). Four non-attack combat effects with distinct resolution paths were missed because the agent only analyzed the offensive side.
+But the source in the same section describes: Subrogation Recovery (system initiates recovery from at-fault party&#x27;s insurer, different negotiation workflow), Salvage Disposition (adjuster arranges sale of damaged property, auction mechanics), Fraud Referral (system flags anomalies, routes to special investigations unit with hold on payment), Reopened Claim (claimant submits new evidence, triggers re-adjudication with different authority thresholds). Four non-forward claim actions with distinct resolution paths were missed because the agent only analyzed the settlement side.
 
 #### DO NOT
 
@@ -1476,11 +1495,11 @@ This rule applies to **every** product — not only interactive or user-facing a
 
 - Treat persistence, logging, sync, or session management as &quot;implementation details&quot; that belong only in engineering. If any actor — human or system — will observe versioned data, event history, live updates, or process state, these are product behaviors.
 
-  **Example (fail):** A combat encounter app maps game rules only:
+  **Example (fail):** A loan-origination platform maps business workflows only:
 </code></pre>
-<p>(E) Run Combat Encounter (SE) Execute Turns (S) Player --&gt; Choose Hero Action (S) System --&gt; Resolve Attack ...</p>
+<p>(E) Originate Loan (SE) Evaluate Application (S) Underwriter --&gt; Review Applicant Credit Report (S) System --&gt; Calculate Debt-to-Income Ratio ...</p>
 <pre><code>
-  No stories for sheet versioning, combat event logging, encounter ending with condition carry-forward, live state sync, or GM condition override. The map covers domain rules but not the system behaviors that host them.
+  No stories for application-state versioning, underwriting-decision audit logging, application closing with document carry-forward to servicing, real-time status sync to borrower portal, or supervisor override of automated decline. The map covers business rules but not the system behaviors that host them.
 
 - Omit system-to-system behaviors because &quot;no human sees them.&quot; If a downstream system depends on the behavior, it belongs on the map.
 
@@ -1506,9 +1525,9 @@ Name concepts by what they **ARE** or **CREATE**. Ask: _What is being created? W
 
 | Wrong (mechanism / gerund title) | Correct (outcome, base verb) |
 |-------------------|-------------------|
-| `Visualizing Power Activation` | `System --&gt; display power activation animation` |
-| `Showing Combat Results` | `System --&gt; provide combat outcome feedback` |
-| `Displaying Hit Information` | `System --&gt; display hit indicators` |
+| `Visualizing Payment Flow` | `System --&gt; display payment confirmation summary` |
+| `Showing Approval Results` | `System --&gt; provide approval outcome notification` |
+| `Displaying Error Information` | `System --&gt; display validation error indicators` |
 | `Presenting Configuration Options` | `System --&gt; load configuration panel` |
 | `Providing Settings` | `System --&gt; load configuration` |
 
@@ -1535,7 +1554,7 @@ When planning calls for **system stories** or explicit **component interactions*
 
 #### DO
 
-- With System / Technology / Infrastructure emphasis, split user stories into **user action + system/component** stories (e.g. `User --&gt; group tokens`, `System --&gt; create mob`, `System --&gt; assign mob leader`).
+- With System / Technology / Infrastructure emphasis, split user stories into **user action + system/component** stories (e.g. `User --&gt; submit order`, `System --&gt; reserve inventory`, `System --&gt; assign fulfilment warehouse`).
 - **Review** existing stories and add component steps for payment, validation, inventory, etc., when the approach requires it.
 - Break flows into **discrete system steps** when the plan demands (e.g. `validate payment` → `call payment gateway` → `persist transaction` → `confirm payment`).
 
@@ -1608,7 +1627,7 @@ Examples of wrong stories:
 
 **Scanner:** Manual review
 
-The story map in **`story-map.md`** reflects what the **available source material** already explains about workflows, entity types, and system behaviors: those mechanics appear as stories, sub-epics, or brief inline notes—not only as a **Context Gaps** bullet that says &quot;not yet mapped&quot; or equivalent. Failure is a gap or deferred phrase where the source already describes the mechanic in enough detail to break it into behaviors today.
+The story map in **`story-map.md`** / **`story-map.txt`** reflects what the **available source material** already explains about workflows, entity types, and system behaviors: those mechanics appear as stories, sub-epics, or brief inline notes—not only as a **Context Gaps** bullet that says &quot;not yet mapped&quot; or equivalent. Failure is a gap or deferred phrase where the source already describes the mechanic in enough detail to break it into behaviors today.
 
 #### DO
 
@@ -1630,7 +1649,7 @@ The story map in **`story-map.md`** reflects what the **available source materia
 
 - **Verification pass after drafting:** Re-read each source section&#x27;s action/command list and confirm every named action appears as a story or is explicitly documented as consolidated into another story.
 
-  **Example (pass):** The source&#x27;s &quot;Combat Actions&quot; section lists: Attack, Grab, Trip, Disarm, Feint, Demoralize, Command, Escape. After drafting, the agent confirms each named action has a story or a consolidation note. `Command` was missing — added `(S) GM --&gt; Command Minion or Summoned Creature` under Execute Turns.
+  **Example (pass):** The source&#x27;s &quot;Order Fulfilment Actions&quot; section lists: Pick, Pack, Ship, Hold, Split, Cancel, Return, Redirect. After drafting, the agent confirms each named action has a story or a consolidation note. `Redirect` was missing — added `(S) Customer --&gt; Redirect In-Transit Shipment to Alternate Address` under Manage Shipments.
 
 #### DO NOT
 
@@ -1677,7 +1696,7 @@ When deriving a story map from **code**, start from **entry points**, derive ope
 
 **Scanner:** Manual review
 
-The epic and story tree in **`story-map.md`** reflects **only** the product scope the user (or product owner) has asked for: alternate journeys, build methods, or channels do not appear as parallel first-class flows unless the user asked for them or confirmed they are in scope. Failure is an extra path, persona flow, or &quot;optional&quot; track presented as part of the map when the user explicitly narrowed scope or chose a single path.
+The epic and story tree in **`story-map.md`** / **`story-map.txt`** reflects **only** the product scope the user (or product owner) has asked for: alternate journeys, build methods, or channels do not appear as parallel first-class flows unless the user asked for them or confirmed they are in scope. Failure is an extra path, persona flow, or &quot;optional&quot; track presented as part of the map when the user explicitly narrowed scope or chose a single path.
 
 #### DO
 
@@ -1701,12 +1720,42 @@ The epic and story tree in **`story-map.md`** reflects **only** the product scop
 
 **Source:** Engagement corrections log — scope fabrication and parallel paths without user ask.
 
+### Rule: Story traces to evidence (brownfield)
+
+**Scanner:** Manual review
+
+When mapping **current-state / brownfield** behavior (see delivery strategy **`brownfield-current-state`**), every **story** in scope must trace to verifiable evidence. The story map is the behavioral spec — evidence makes that spec auditable.
+
+#### DO
+
+- Record evidence on each in-scope story using **`evidence`** in story-graph metadata and/or an **`Evidence:`** line in `story-map.md` companion notes for that story.
+- Accept evidence types: **source file + locator** (`Source/Client/charselect.c:412`), **existing test** (`tests/test_enter_game.py::test_spawn`), **log excerpt** (path + pattern), **config key** (`server/bin/...`), **chunk id** from context index (`ourowiki/85-AccountServer__chunk_02`).
+- Trace **failure and alternate paths** when code or logs show them — map as `or` stories or note for AC phase.
+- Use **`abd-semantic-context-chunker`** report to prioritize which files to read; confirm against **code**, not wiki alone.
+
+  **Example (pass):**
+</code></pre>
+<p>(S) Player --&gt; Enter Game Evidence: Client/charselect.c:EnterGame:412; handoffs/enter-world.md (S) System --&gt; Load Character from Database Evidence: Source/DBServer/loadchar.c:LoadCharacter:88; ourowiki/11-Data server db servers__passthrough.md or (S) System --&gt; Show Connection Error Evidence: Client/charselect.c:445 (error dialog on send failure)</p>
+<pre><code>
+  **Example (fail):**
+</code></pre>
+<p>(S) Player --&gt; Enter Game (S) System --&gt; Load Character from Database</p>
+<pre><code>
+  No evidence lines. Reviewer cannot confirm stories match code.
+
+#### DO NOT
+
+- Add stories inferred from **class or function names alone** without tracing the flow (**Story Map from Existing Code** rule).
+- Leave in-scope stories with **no evidence** when source code is available in the workspace.
+- Treat wiki or memory chunks as sufficient without **confirming** against code or runtime logs when code exists.
+- Put **`file:line` citations in epic or sub-epic titles** — evidence belongs in metadata or companion notes, not verb–noun names.
+
 ### Rule: Verb–Noun Format
 
 **Scanner:** `scanners/verb-noun-format-scanner.py` — **`VerbNounFormatScanner`**
 
 
-Use verb–noun format at every level. Document the actor separately (e.g. `story_type`, metadata)—**not** in the name. Prefer **base verb forms** (imperative / infinitive style: `Place Order`, `Select Tokens`), not gerunds (`Placing Order`) or third-person singular (`Places` / `Selects` as the *wrong* pattern when the rule asks for base form—see examples below).
+Use verb–noun format at every level. Document the actor separately (e.g. `story_type`, metadata)—**not** in the name. Prefer **base verb forms** (imperative / infinitive style: `Place Order`, `Select Items`), not gerunds (`Placing Order`) or third-person singular (`Places` / `Selects` as the *wrong* pattern when the rule asks for base form—see examples below).
 
 #### DO
 
@@ -1719,13 +1768,13 @@ Use verb–noun format at every level. Document the actor separately (e.g. `stor
 | Story (action phrasing) | `Process Order Payment`, `Validate Submitted Payments` — tie to lifecycle: Load → Read → Edit → Render → Synchronize → Search → Save |
 | Story (system examples) | `Load Order Data`, `Validate Payment`, `Generate XML` |
 | With actor (actor not in name) | `Place Order` (actor: Customer), `Validate Payment` (actor: System), `Update Stock` (actor: Inventory Manager) |
-| Base verb form | `Select Tokens`, `Group Minions`, `Process Payment` — not `Selects Tokens`, not `Selecting Tokens` |
+| Base verb form | `Select Items`, `Group Shipments`, `Process Payment` — not `Selects Items`, not `Selecting Items` |
 
 #### DON&#x27;T
 
 - **Actor in the name:** e.g. not `Customer Places Order` → use `Place Order` and set actor in metadata. Same for `OrderProcessor Validates Payment` → `Validate Payment`; `Cart Adds Product` → `Add Product`.
 
-- **Too generic or noun-only:** e.g. `Process Payment` without context when specificity is needed; `Payment Processing` (noun-only); `Order Management` (capability, not a concrete action); `Selects Tokens` (wrong verb form for this rule → `Select Tokens`).
+- **Too generic or noun-only:** e.g. `Process Payment` without context when specificity is needed; `Payment Processing` (noun-only); `Order Management` (capability, not a concrete action); `Selects Items` (wrong verb form for this rule → `Select Items`).
 
 - **Capability / structure phrasing instead of actions:** e.g. `PaymentValidator Contains Validation Logic`, `Cart Hierarchy Foundation`, `Product Represents Item`.
 
@@ -1736,36 +1785,38 @@ Use verb–noun format at every level. Document the actor separately (e.g. `stor
 <div class="entry-contents-files">
 <ul class="file-list file-list--root">
 <li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>rules/</strong><span class="file-meta"> → Practice rules (DO/DON&#x27;T) and constraints used with scanners.</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../story-driven-delivery/skills/abd-story-mapping/rules/active-business-and-behavioral-language.md" target="_blank" rel="noopener noreferrer"><strong>active-business-and-behavioral-language.md</strong></a><span class="file-meta"> → scanner: active-business-and-behavioral-language</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../story-driven-delivery/skills/abd-story-mapping/rules/analyze-before-grouping.md" target="_blank" rel="noopener noreferrer"><strong>analyze-before-grouping.md</strong></a><span class="file-meta"> → Rule: Analyze before grouping</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../story-driven-delivery/skills/abd-story-mapping/rules/consolidate-superficial-stories.md" target="_blank" rel="noopener noreferrer"><strong>consolidate-superficial-stories.md</strong></a><span class="file-meta"> → Rule: Consolidate Superficial Stories</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../story-driven-delivery/skills/abd-story-mapping/rules/context-gaps-are-genuinely-missing-information.md" target="_blank" rel="noopener noreferrer"><strong>context-gaps-are-genuinely-missing-information.md</strong></a><span class="file-meta"> → Rule: Context gaps are genuinely missing information</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../story-driven-delivery/skills/abd-story-mapping/rules/distinct-mechanics-have-distinct-stories.md" target="_blank" rel="noopener noreferrer"><strong>distinct-mechanics-have-distinct-stories.md</strong></a><span class="file-meta"> → Rule: Distinct mechanics have distinct stories</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../story-driven-delivery/skills/abd-story-mapping/rules/lightweight-and-precise.md" target="_blank" rel="noopener noreferrer"><strong>lightweight-and-precise.md</strong></a><span class="file-meta"> → Rule: Lightweight and Precise</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../story-driven-delivery/skills/abd-story-mapping/rules/map-system-application-behaviors.md" target="_blank" rel="noopener noreferrer"><strong>map-system-application-behaviors.md</strong></a><span class="file-meta"> → Rule: Map system and application behaviors</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../story-driven-delivery/skills/abd-story-mapping/rules/outcome-oriented-language.md" target="_blank" rel="noopener noreferrer"><strong>outcome-oriented-language.md</strong></a><span class="file-meta"> → scanner: outcome-oriented-language</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../story-driven-delivery/skills/abd-story-mapping/rules/review-and-expand-stories.md" target="_blank" rel="noopener noreferrer"><strong>review-and-expand-stories.md</strong></a><span class="file-meta"> → Rule: Review and Expand Stories</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../story-driven-delivery/skills/abd-story-mapping/rules/scale-story-map-by-domain.md" target="_blank" rel="noopener noreferrer"><strong>scale-story-map-by-domain.md</strong></a><span class="file-meta"> → scanner: scale-story-map-by-domain</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../story-driven-delivery/skills/abd-story-mapping/rules/small-and-testable.md" target="_blank" rel="noopener noreferrer"><strong>small-and-testable.md</strong></a><span class="file-meta"> → scanner: small-and-testable</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../story-driven-delivery/skills/abd-story-mapping/rules/source-supported-mechanics-mapped-not-listed-as-deferred-gaps.md" target="_blank" rel="noopener noreferrer"><strong>source-supported-mechanics-mapped-not-listed-as-deferred-gaps.md</strong></a><span class="file-meta"> → Rule: Source-supported mechanics mapped not listed as deferred gaps</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../story-driven-delivery/skills/abd-story-mapping/rules/story-map-existing-code.md" target="_blank" rel="noopener noreferrer"><strong>story-map-existing-code.md</strong></a><span class="file-meta"> → Rule: Story Map from Existing Code</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../story-driven-delivery/skills/abd-story-mapping/rules/story-map-stays-within-user-requested-scope.md" target="_blank" rel="noopener noreferrer"><strong>story-map-stays-within-user-requested-scope.md</strong></a><span class="file-meta"> → Rule: Story map stays within user-requested scope</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../story-driven-delivery/skills/abd-story-mapping/rules/verb-noun-format.md" target="_blank" rel="noopener noreferrer"><strong>verb-noun-format.md</strong></a><span class="file-meta"> → scanner: verb-noun-format</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-mapping/rules/active-business-and-behavioral-language.md" target="_blank" rel="noopener noreferrer"><strong>active-business-and-behavioral-language.md</strong></a><span class="file-meta"> → scanner: active-business-and-behavioral-language</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-mapping/rules/analyze-before-grouping.md" target="_blank" rel="noopener noreferrer"><strong>analyze-before-grouping.md</strong></a><span class="file-meta"> → Rule: Analyze before grouping</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-mapping/rules/brownfield-map-without-redesign.md" target="_blank" rel="noopener noreferrer"><strong>brownfield-map-without-redesign.md</strong></a><span class="file-meta"> → Rule: Brownfield map without redesign</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-mapping/rules/consolidate-superficial-stories.md" target="_blank" rel="noopener noreferrer"><strong>consolidate-superficial-stories.md</strong></a><span class="file-meta"> → Rule: Consolidate Superficial Stories</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-mapping/rules/context-gaps-are-genuinely-missing-information.md" target="_blank" rel="noopener noreferrer"><strong>context-gaps-are-genuinely-missing-information.md</strong></a><span class="file-meta"> → Rule: Context gaps are genuinely missing information</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-mapping/rules/distinct-mechanics-have-distinct-stories.md" target="_blank" rel="noopener noreferrer"><strong>distinct-mechanics-have-distinct-stories.md</strong></a><span class="file-meta"> → Rule: Distinct mechanics have distinct stories</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-mapping/rules/lightweight-and-precise.md" target="_blank" rel="noopener noreferrer"><strong>lightweight-and-precise.md</strong></a><span class="file-meta"> → Rule: Lightweight and Precise</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-mapping/rules/map-system-application-behaviors.md" target="_blank" rel="noopener noreferrer"><strong>map-system-application-behaviors.md</strong></a><span class="file-meta"> → Rule: Map system and application behaviors</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-mapping/rules/outcome-oriented-language.md" target="_blank" rel="noopener noreferrer"><strong>outcome-oriented-language.md</strong></a><span class="file-meta"> → scanner: outcome-oriented-language</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-mapping/rules/review-and-expand-stories.md" target="_blank" rel="noopener noreferrer"><strong>review-and-expand-stories.md</strong></a><span class="file-meta"> → Rule: Review and Expand Stories</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-mapping/rules/scale-story-map-by-domain.md" target="_blank" rel="noopener noreferrer"><strong>scale-story-map-by-domain.md</strong></a><span class="file-meta"> → scanner: scale-story-map-by-domain</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-mapping/rules/small-and-testable.md" target="_blank" rel="noopener noreferrer"><strong>small-and-testable.md</strong></a><span class="file-meta"> → scanner: small-and-testable</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-mapping/rules/source-supported-mechanics-mapped-not-listed-as-deferred-gaps.md" target="_blank" rel="noopener noreferrer"><strong>source-supported-mechanics-mapped-not-listed-as-deferred-gaps.md</strong></a><span class="file-meta"> → Rule: Source-supported mechanics mapped not listed as deferred gaps</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-mapping/rules/story-map-existing-code.md" target="_blank" rel="noopener noreferrer"><strong>story-map-existing-code.md</strong></a><span class="file-meta"> → Rule: Story Map from Existing Code</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-mapping/rules/story-map-stays-within-user-requested-scope.md" target="_blank" rel="noopener noreferrer"><strong>story-map-stays-within-user-requested-scope.md</strong></a><span class="file-meta"> → Rule: Story map stays within user-requested scope</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-mapping/rules/story-traces-to-evidence.md" target="_blank" rel="noopener noreferrer"><strong>story-traces-to-evidence.md</strong></a><span class="file-meta"> → Rule: Story traces to evidence (brownfield)</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-mapping/rules/verb-noun-format.md" target="_blank" rel="noopener noreferrer"><strong>verb-noun-format.md</strong></a><span class="file-meta"> → scanner: verb-noun-format</span></li>
 </ul></div></details></li>
 <li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>scanners/</strong><span class="file-meta"> → Folder (6 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../story-driven-delivery/skills/abd-story-mapping/scanners/__init__.py" target="_blank" rel="noopener noreferrer"><strong>__init__.py</strong></a><span class="file-meta"> → Story-map shape scanner implementations (verb–noun, outcome language, etc.).</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../story-driven-delivery/skills/abd-story-mapping/scanners/active-business-and-behavioral-language-scanner.py" target="_blank" rel="noopener noreferrer"><strong>active-business-and-behavioral-language-scanner.py</strong></a><span class="file-meta"> → !/usr/bin/env python3</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../story-driven-delivery/skills/abd-story-mapping/scanners/outcome-oriented-language-scanner.py" target="_blank" rel="noopener noreferrer"><strong>outcome-oriented-language-scanner.py</strong></a><span class="file-meta"> → !/usr/bin/env python3</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../story-driven-delivery/skills/abd-story-mapping/scanners/scale-story-map-by-domain-scanner.py" target="_blank" rel="noopener noreferrer"><strong>scale-story-map-by-domain-scanner.py</strong></a><span class="file-meta"> → !/usr/bin/env python3</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../story-driven-delivery/skills/abd-story-mapping/scanners/small-and-testable-scanner.py" target="_blank" rel="noopener noreferrer"><strong>small-and-testable-scanner.py</strong></a><span class="file-meta"> → !/usr/bin/env python3</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../story-driven-delivery/skills/abd-story-mapping/scanners/verb-noun-format-scanner.py" target="_blank" rel="noopener noreferrer"><strong>verb-noun-format-scanner.py</strong></a><span class="file-meta"> → !/usr/bin/env python3</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-mapping/scanners/__init__.py" target="_blank" rel="noopener noreferrer"><strong>__init__.py</strong></a><span class="file-meta"> → Story-map shape scanner implementations (verb–noun, outcome language, etc.).</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-mapping/scanners/active-business-and-behavioral-language-scanner.py" target="_blank" rel="noopener noreferrer"><strong>active-business-and-behavioral-language-scanner.py</strong></a><span class="file-meta"> → !/usr/bin/env python3</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-mapping/scanners/outcome-oriented-language-scanner.py" target="_blank" rel="noopener noreferrer"><strong>outcome-oriented-language-scanner.py</strong></a><span class="file-meta"> → !/usr/bin/env python3</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-mapping/scanners/scale-story-map-by-domain-scanner.py" target="_blank" rel="noopener noreferrer"><strong>scale-story-map-by-domain-scanner.py</strong></a><span class="file-meta"> → !/usr/bin/env python3</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-mapping/scanners/small-and-testable-scanner.py" target="_blank" rel="noopener noreferrer"><strong>small-and-testable-scanner.py</strong></a><span class="file-meta"> → !/usr/bin/env python3</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-mapping/scanners/verb-noun-format-scanner.py" target="_blank" rel="noopener noreferrer"><strong>verb-noun-format-scanner.py</strong></a><span class="file-meta"> → !/usr/bin/env python3</span></li>
 </ul></div></details></li>
 <li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>templates/</strong><span class="file-meta"> → Authoring templates and structural skeletons.</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../story-driven-delivery/skills/abd-story-mapping/templates/story-map.md" target="_blank" rel="noopener noreferrer"><strong>story-map.md</strong></a><span class="file-meta"> → &lt;!-- Pair required: also produce story-map.txt with the same tree. See SKILL.md → &quot;Use every template file (required)&quot;. --&gt;</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-mapping/templates/story-map.md" target="_blank" rel="noopener noreferrer"><strong>story-map.md</strong></a><span class="file-meta"> → &lt;!-- Pair required: also produce story-map.txt with the same tree. See SKILL.md → &quot;Use every template file (required)&quot;. --&gt;</span></li>
 </ul></div></details></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../story-driven-delivery/skills/abd-story-mapping/corrections-log.md" target="_blank" rel="noopener noreferrer"><strong>corrections-log.md</strong></a><span class="file-meta"> → Corrections log</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../story-driven-delivery/skills/abd-story-mapping/README.md" target="_blank" rel="noopener noreferrer"><strong>README.md</strong></a><span class="file-meta"> → One line for catalogue cards and grids (YAML string).</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../story-driven-delivery/skills/abd-story-mapping/SKILL.md" target="_blank" rel="noopener noreferrer"><strong>SKILL.md</strong></a><span class="file-meta"> → name: abd-story-mapping</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-mapping/corrections-log.md" target="_blank" rel="noopener noreferrer"><strong>corrections-log.md</strong></a><span class="file-meta"> → ��#   C o r r e c t i o n s   l o g </span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-mapping/README.md" target="_blank" rel="noopener noreferrer"><strong>README.md</strong></a><span class="file-meta"> → One line for catalogue cards and grids (YAML string).</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-mapping/SKILL.md" target="_blank" rel="noopener noreferrer"><strong>SKILL.md</strong></a><span class="file-meta"> → name: abd-story-mapping</span></li>
 </ul>
 </div>
 

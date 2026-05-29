@@ -45,7 +45,7 @@ PLUGIN_CSS_CLASS: dict[str, str] = {
     "story-driven-delivery": "aad-fam-sdd",
     "architecture-centric-engineering": "aad-fam-arc",
     "idea-shaping": "aad-fam-idea",
-    "delivery": "aad-fam-delivery",
+    "kanban": "aad-fam-delivery",
 }
 
 PLUGIN_LABEL: dict[str, str] = {
@@ -54,7 +54,7 @@ PLUGIN_LABEL: dict[str, str] = {
     "story-driven-delivery": "Story-driven delivery",
     "architecture-centric-engineering": "Architecture-centric engineering",
     "idea-shaping": "Idea shaping",
-    "delivery": "Delivery",
+    "kanban": "Kanban",
 }
 
 DELIVERY_CROSSCUT_SKILLS: tuple[str, ...] = (
@@ -65,7 +65,7 @@ DELIVERY_CROSSCUT_SKILLS: tuple[str, ...] = (
 )
 
 DELIVERY_AGENTS: tuple[str, ...] = (
-    "delivery-lead",
+    "kanban-lead",
     "product-owner",
     "product-owner-reviewer",
     "business-expert",
@@ -260,7 +260,7 @@ def _parse_stage_markdown(path: Path) -> tuple[str, list[StageSkill]]:
 
 
 def load_kanban_model(repo_root: Path) -> KanbanModel:
-    stages_dir = repo_root / "delivery" / "content" / "stages"
+    stages_dir = repo_root / "practices" / "kanban" / "content" / "stages"
     model = KanbanModel()
     for stage_id, title, num in STAGE_FILES:
         path = stages_dir / f"{stage_id}.md"
@@ -802,9 +802,9 @@ def build_kanban_board_html(
             '<div class="aad-delivery-crosscut aad-delivery-crosscut-grid" data-id="delivery-crosscut">\n'
             '  <div class="aad-delivery-crosscut-lane">\n'
             f'    <a class="aad-delivery-crosscut-label aad-fam-delivery" '
-            f'data-id="row-label-delivery" '
-            f'href="{_h(_plugin_href("delivery", relative=rel))}">'
-            f"{_h(PLUGIN_LABEL['delivery'])}</a>\n"
+            f'data-id="row-label-kanban" '
+            f'href="{_h(_plugin_href("kanban", relative=rel))}">'
+            f"{_h(PLUGIN_LABEL['kanban'])}</a>\n"
             "  </div>\n"
             '  <div class="aad-delivery-crosscut-skills-band">\n'
             '    <div class="aad-delivery-crosscut-row aad-delivery-crosscut-row--inline">\n'
@@ -847,7 +847,7 @@ def build_stage_sections_html(model: KanbanModel) -> str:
     for stage_id, title, num, purpose in model.stages:
         stage_src = (
             f"https://github.com/abd-works/agilebydesign-skills/blob/main/"
-            f"delivery/content/stages/{stage_id}.md"
+            f"practices/kanban/content/stages/{stage_id}.md"
         )
         parts.append(f'<article class="kanban-stage" id="stage-{stage_id}-definition">')
         parts.append(

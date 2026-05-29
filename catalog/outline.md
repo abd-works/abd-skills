@@ -1,7 +1,7 @@
 # AI Garden — plugins, skills & agents
 
 > Auto-generated from repository **plugins** (`<plugin>/agents|skills|content|instructions|prompts|lib|scripts/`).
-> Run `python skill-builder/skills/abd-skill-catalog/scripts/generate_abd_catalog.py` to refresh.
+> Run `python foundational/skill-builder/skills/abd-skill-catalog/scripts/generate_abd_catalog.py` to refresh.
 
 Each row gives a **short description** and where to open the source.
 
@@ -11,69 +11,78 @@ Repo-root capability plugins (`<plugin>/agents|skills|content|instructions|promp
 
 | Plugin | Summary | Open |
 | --- | --- | --- |
-| **Delivery** (`delivery/`) | 3 agents, 4 skills, 11 content, 3 instructions, 3 prompts, 1 scripts | [README.md](../delivery/README.md) |
-| **Story Driven Delivery** (`story-driven-delivery/`) | Deploy: `python scripts/deploy_family_package.py --package story-driven-delivery --to <workspace>` | [README.md](../story-driven-delivery/README.md) |
-| **Domain Driven Design** (`domain-driven-design/`) | Practice skills for module partition, domain terms, ubiquitous language, CRC, object model, DDD building blocks, bounded contexts, and domain diagram sync. | [README.md](../domain-driven-design/README.md) |
-| **Architecture Centric Engineering** (`architecture-centric-engineering/`) | 9 skills, 2 content, 4 instructions | [README.md](../architecture-centric-engineering/README.md) |
-| **User Experience Design** (`user-experience-design/`) | Deploy: `python scripts/deploy_family_package.py --package user-experience-design --to <workspace>` | [README.md](../user-experience-design/README.md) |
-| **Context To Memory** (`context-to-memory/`) | Convert office documents to markdown, chunk for retrieval, embed vectors, and search memory. | [README.md](../context-to-memory/README.md) |
-| **Idea Shaping** (`idea-shaping/`) | Opportunity framing, impact mapping, cost of delay, and validated learning — before delivery work begins. | [README.md](../idea-shaping/README.md) |
-| **Skill Builder** (`skill-builder/`) | Practice skills for authoring ABD practice packages: query hub sources, author SKILL.md + rules, build scanners, maintain the AI Garden catalog, and publish HTML manuals. | [README.md](../skill-builder/README.md) |
-| **Skill Helpers** (`skill-helpers/`) | Infrastructure skills and cross-cutting helpers used across practice families. | [README.md](../skill-helpers/README.md) |
+| **Kanban** (`kanban/`) | 9 agents, 4 skills, 12 content, 4 instructions, 4 prompts, 1 scripts | [README.md](../practices/kanban/README.md) |
+| **Story Driven Delivery** (`story-driven-delivery/`) | Deploy: `python scripts/deploy_family_package.py --package story-driven-delivery --to <workspace>` | [README.md](../practices/story-driven-delivery/README.md) |
+| **Domain Driven Design** (`domain-driven-design/`) | Practice skills for module partition, domain terms, ubiquitous language, CRC, object model, DDD building blocks, bounded contexts, and domain diagram sync. | [README.md](../practices/domain-driven-design/README.md) |
+| **Architecture Centric Engineering** (`architecture-centric-engineering/`) | 10 skills, 2 content | [README.md](../practices/architecture-centric-engineering/README.md) |
+| **Idea Shaping** (`idea-shaping/`) | Opportunity framing, impact mapping, cost of delay, and validated learning — before delivery work begins. | [README.md](../practices/idea-shaping/README.md) |
+| **User Experience Design** (`user-experience-design/`) | Deploy: `python scripts/deploy_family_package.py --package user-experience-design --to <workspace>` | [README.md](../practices/kanban/user-experience-design/README.md) |
+| **Context To Memory** (`context-to-memory/`) | Convert office documents to markdown, chunk for retrieval, embed vectors, and search memory. | [README.md](../foundational/context-to-memory/README.md) |
+| **Skill Builder** (`skill-builder/`) | Practice skills for authoring ABD practice packages: query hub sources, author SKILL.md + rules, build scanners, maintain the AI Garden catalog, and publish HTML manuals. | [README.md](../foundational/skill-builder/README.md) |
+| **Skill Helpers** (`skill-helpers/`) | Infrastructure skills and cross-cutting helpers used across practice families. | [README.md](../foundational/skill-helpers/README.md) |
 | **Utilities** (`utilities/`) | Proposal response, AI research assistant skills, and related utilities. | [README.md](../utilities/README.md) |
 
 ### Plugin layout (detail)
 
-#### Delivery — `delivery/`
+#### Kanban — `kanban/`
 
-3 agents, 4 skills, 11 content, 3 instructions, 3 prompts, 1 scripts
+9 agents, 4 skills, 12 content, 4 instructions, 4 prompts, 1 scripts
 
 **Agents — orchestrators (AGENT.md / AGENTS.md)**
 
-- **delivery-lead** — [AGENT.md](../delivery/agents/delivery-lead/AGENT.md)
-- **delivery-team-member** — [AGENT.md](../delivery/agents/delivery-team-member/AGENT.md)
-- **delivery-team-reviewer** — [AGENT.md](../delivery/agents/delivery-team-reviewer/AGENT.md)
+- **business-expert** — [AGENT.md](../practices/kanban/agents/business-expert/AGENT.md)
+- **business-expert-reviewer** — [AGENT.md](../practices/kanban/agents/business-expert-reviewer/AGENT.md)
+- **engineer** — [AGENT.md](../practices/kanban/agents/engineer/AGENT.md)
+- **engineer-reviewer** — [AGENT.md](../practices/kanban/agents/engineer-reviewer/AGENT.md)
+- **kanban-lead** — [AGENT.md](../practices/kanban/agents/kanban-lead/AGENT.md)
+- **product-owner** — [AGENT.md](../practices/kanban/agents/product-owner/AGENT.md)
+- **product-owner-reviewer** — [AGENT.md](../practices/kanban/agents/product-owner-reviewer/AGENT.md)
+- **ux-designer** — [AGENT.md](../practices/kanban/agents/ux-designer/AGENT.md)
+- **ux-designer-reviewer** — [AGENT.md](../practices/kanban/agents/ux-designer-reviewer/AGENT.md)
 
 **Skills — practice packages (SKILL.md)**
 
-- **abd-delivery-planning** — [SKILL.md](../delivery/skills/abd-delivery-planning/SKILL.md)
-- **abd-delivery-repo** — [SKILL.md](../delivery/skills/abd-delivery-repo/SKILL.md)
-- **abd-delivery-war-room** — [SKILL.md](../delivery/skills/abd-delivery-war-room/SKILL.md)
-- **delivery-estimation** — [SKILL.md](../delivery/skills/delivery-estimation/SKILL.md)
+- **abd-kanban** — [SKILL.md](../practices/kanban/skills/abd-kanban/SKILL.md)
+- **abd-kanban-planning** — [SKILL.md](../practices/kanban/skills/abd-kanban-planning/SKILL.md)
+- **abd-kanban-repo** — [SKILL.md](../practices/kanban/skills/abd-kanban-repo/SKILL.md)
+- **kanban-estimation** — [SKILL.md](../practices/kanban/skills/kanban-estimation/SKILL.md)
 
 **Content — shared prose merged on deploy**
 
-- [delivery/content/roles/business-expert.md](../delivery/content/roles/business-expert.md)
-- [delivery/content/roles/engineer.md](../delivery/content/roles/engineer.md)
-- [delivery/content/roles/product-owner.md](../delivery/content/roles/product-owner.md)
-- [delivery/content/roles/team-roles.md](../delivery/content/roles/team-roles.md)
-- [delivery/content/roles/ux-designer.md](../delivery/content/roles/ux-designer.md)
-- [delivery/content/stages/discovery.md](../delivery/content/stages/discovery.md)
-- [delivery/content/stages/engineering.md](../delivery/content/stages/engineering.md)
-- [delivery/content/stages/exploration.md](../delivery/content/stages/exploration.md)
-- [delivery/content/stages/README.md](../delivery/content/stages/README.md)
-- [delivery/content/stages/shaping.md](../delivery/content/stages/shaping.md)
-- [delivery/content/stages/specification.md](../delivery/content/stages/specification.md)
+- [practices/kanban/content/kanban.md](../practices/kanban/content/kanban.md)
+- [practices/kanban/content/roles/business-expert.md](../practices/kanban/content/roles/business-expert.md)
+- [practices/kanban/content/roles/engineer.md](../practices/kanban/content/roles/engineer.md)
+- [practices/kanban/content/roles/product-owner.md](../practices/kanban/content/roles/product-owner.md)
+- [practices/kanban/content/roles/team-roles.md](../practices/kanban/content/roles/team-roles.md)
+- [practices/kanban/content/roles/ux-designer.md](../practices/kanban/content/roles/ux-designer.md)
+- [practices/kanban/content/stages/discovery.md](../practices/kanban/content/stages/discovery.md)
+- [practices/kanban/content/stages/engineering.md](../practices/kanban/content/stages/engineering.md)
+- [practices/kanban/content/stages/exploration.md](../practices/kanban/content/stages/exploration.md)
+- [practices/kanban/content/stages/README.md](../practices/kanban/content/stages/README.md)
+- [practices/kanban/content/stages/shaping.md](../practices/kanban/content/stages/shaping.md)
+- [practices/kanban/content/stages/specification.md](../practices/kanban/content/stages/specification.md)
 
 **Instructions — .mdc / .instructions.md → Cursor rules**
 
-- **delivery-estimation** — [delivery-estimation.instructions.md](../delivery/instructions/delivery-estimation.instructions.md) (catalog: `instructions/delivery--instructions--delivery-estimation-instructions-md.html`)
-- **delivery-estimation.prompt** — [delivery-estimation.prompt.md](../delivery/instructions/delivery-estimation.prompt.md) (catalog: `instructions/delivery--instructions--delivery-estimation-prompt-md.html`)
-- **sync-upstream** — [sync-upstream.mdc](../delivery/instructions/sync-upstream.mdc) (catalog: `instructions/delivery--instructions--sync-upstream-mdc.html`)
+- **delivery-estimation** — [delivery-estimation.instructions.md](../practices/kanban/instructions/delivery-estimation.instructions.md) (catalog: `instructions/kanban--instructions--delivery-estimation-instructions-md.html`)
+- **delivery-estimation.prompt** — [delivery-estimation.prompt.md](../practices/kanban/instructions/delivery-estimation.prompt.md) (catalog: `instructions/kanban--instructions--delivery-estimation-prompt-md.html`)
+- **kanban-git** — [kanban-git.mdc](../practices/kanban/instructions/kanban-git.mdc) (catalog: `instructions/kanban--instructions--kanban-git-mdc.html`)
+- **sync-upstream** — [sync-upstream.mdc](../practices/kanban/instructions/sync-upstream.mdc) (catalog: `instructions/kanban--instructions--sync-upstream-mdc.html`)
 
 **Prompts — .prompt.md → slash commands**
 
-- **abd-feature** — [abd-feature.prompt.md](../delivery/prompts/abd-feature.prompt.md) (catalog: `prompts/delivery--prompts--abd-feature-prompt-md.html`)
-- **abd-fix-defect** — [abd-fix-defect.prompt.md](../delivery/prompts/abd-fix-defect.prompt.md) (catalog: `prompts/delivery--prompts--abd-fix-defect-prompt-md.html`)
-- **sync-upstream** — [sync-upstream.prompt.md](../delivery/prompts/sync-upstream.prompt.md) (catalog: `prompts/delivery--prompts--sync-upstream-prompt-md.html`)
+- **abd-feature** — [abd-feature.prompt.md](../practices/kanban/prompts/abd-feature.prompt.md) (catalog: `prompts/kanban--prompts--abd-feature-prompt-md.html`)
+- **abd-fix-defect** — [abd-fix-defect.prompt.md](../practices/kanban/prompts/abd-fix-defect.prompt.md) (catalog: `prompts/kanban--prompts--abd-fix-defect-prompt-md.html`)
+- **brownfield-current-state** — [brownfield-current-state.prompt.md](../practices/kanban/prompts/brownfield-current-state.prompt.md) (catalog: `prompts/kanban--prompts--brownfield-current-state-prompt-md.html`)
+- **sync-upstream** — [sync-upstream.prompt.md](../practices/kanban/prompts/sync-upstream.prompt.md) (catalog: `prompts/kanban--prompts--sync-upstream-prompt-md.html`)
 
 **Lib — shared Python packages**
 
-- _(empty `delivery/lib/`)_
+- _(empty `kanban/lib/`)_
 
 **Scripts — package-level automation**
 
-- [delivery/scripts/copy_delivery.py](../delivery/scripts/copy_delivery.py)
+- [practices/kanban/scripts/copy_delivery.py](../practices/kanban/scripts/copy_delivery.py)
 
 ---
 
@@ -87,14 +96,14 @@ Deploy: `python scripts/deploy_family_package.py --package story-driven-delivery
 
 **Skills — practice packages (SKILL.md)**
 
-- **abd-acceptance-criteria** — [SKILL.md](../story-driven-delivery/skills/abd-acceptance-criteria/SKILL.md)
-- **abd-acceptance-test-driven-development** — [SKILL.md](../story-driven-delivery/skills/abd-acceptance-test-driven-development/SKILL.md)
-- **abd-specification-by-example** — [SKILL.md](../story-driven-delivery/skills/abd-specification-by-example/SKILL.md)
-- **abd-story-mapping** — [SKILL.md](../story-driven-delivery/skills/abd-story-mapping/SKILL.md)
-- **abd-thin-slicing** — [SKILL.md](../story-driven-delivery/skills/abd-thin-slicing/SKILL.md)
-- **drawio-story-sync** — [SKILL.md](../story-driven-delivery/skills/drawio-story-sync/SKILL.md)
-- **miro-story-sync** — [SKILL.md](../story-driven-delivery/skills/miro-story-sync/SKILL.md)
-- **story-graph-ops** — [SKILL.md](../story-driven-delivery/skills/story-graph-ops/SKILL.md)
+- **abd-acceptance-criteria** — [SKILL.md](../practices/story-driven-delivery/skills/abd-acceptance-criteria/SKILL.md)
+- **abd-acceptance-test-driven-development** — [SKILL.md](../practices/story-driven-delivery/skills/abd-acceptance-test-driven-development/SKILL.md)
+- **abd-specification-by-example** — [SKILL.md](../practices/story-driven-delivery/skills/abd-specification-by-example/SKILL.md)
+- **abd-story-mapping** — [SKILL.md](../practices/story-driven-delivery/skills/abd-story-mapping/SKILL.md)
+- **abd-thin-slicing** — [SKILL.md](../practices/story-driven-delivery/skills/abd-thin-slicing/SKILL.md)
+- **drawio-story-sync** — [SKILL.md](../practices/story-driven-delivery/skills/drawio-story-sync/SKILL.md)
+- **miro-story-sync** — [SKILL.md](../practices/story-driven-delivery/skills/miro-story-sync/SKILL.md)
+- **story-graph-ops** — [SKILL.md](../practices/story-driven-delivery/skills/story-graph-ops/SKILL.md)
 
 **Content — shared prose merged on deploy**
 
@@ -102,8 +111,8 @@ Deploy: `python scripts/deploy_family_package.py --package story-driven-delivery
 
 **Instructions — .mdc / .instructions.md → Cursor rules**
 
-- **drawio-story-sync** — [drawio-story-sync.mdc](../story-driven-delivery/instructions/drawio-story-sync.mdc) (catalog: `instructions/story-driven-delivery--instructions--drawio-story-sync-mdc.html`)
-- **story-graph-ops** — [story-graph-ops.mdc](../story-driven-delivery/instructions/story-graph-ops.mdc) (catalog: `instructions/story-driven-delivery--instructions--story-graph-ops-mdc.html`)
+- **drawio-story-sync** — [drawio-story-sync.mdc](../practices/story-driven-delivery/instructions/drawio-story-sync.mdc) (catalog: `instructions/story-driven-delivery--instructions--drawio-story-sync-mdc.html`)
+- **story-graph-ops** — [story-graph-ops.mdc](../practices/story-driven-delivery/instructions/story-graph-ops.mdc) (catalog: `instructions/story-driven-delivery--instructions--story-graph-ops-mdc.html`)
 
 **Prompts — .prompt.md → slash commands**
 
@@ -111,17 +120,17 @@ Deploy: `python scripts/deploy_family_package.py --package story-driven-delivery
 
 **Lib — shared Python packages**
 
-- [story-driven-delivery/lib/diagram_story_sync/__init__.py](../story-driven-delivery/lib/diagram_story_sync/__init__.py)
-- [story-driven-delivery/lib/diagram_story_sync/bootstrap.py](../story-driven-delivery/lib/diagram_story_sync/bootstrap.py)
-- [story-driven-delivery/lib/diagram_story_sync/diagram_story_node.py](../story-driven-delivery/lib/diagram_story_sync/diagram_story_node.py)
-- [story-driven-delivery/lib/diagram_story_sync/layout_constants.py](../story-driven-delivery/lib/diagram_story_sync/layout_constants.py)
-- [story-driven-delivery/lib/diagram_story_sync/layout_data.py](../story-driven-delivery/lib/diagram_story_sync/layout_data.py)
-- [story-driven-delivery/lib/diagram_story_sync/node_comparison.py](../story-driven-delivery/lib/diagram_story_sync/node_comparison.py)
-- [story-driven-delivery/lib/diagram_story_sync/position.py](../story-driven-delivery/lib/diagram_story_sync/position.py)
-- [story-driven-delivery/lib/diagram_story_sync/render_summary.py](../story-driven-delivery/lib/diagram_story_sync/render_summary.py)
-- [story-driven-delivery/lib/diagram_story_sync/style_defaults.py](../story-driven-delivery/lib/diagram_story_sync/style_defaults.py)
-- [story-driven-delivery/lib/diagram_story_sync/update_report.py](../story-driven-delivery/lib/diagram_story_sync/update_report.py)
-- [story-driven-delivery/lib/README.md](../story-driven-delivery/lib/README.md)
+- [practices/story-driven-delivery/lib/diagram_story_sync/__init__.py](../practices/story-driven-delivery/lib/diagram_story_sync/__init__.py)
+- [practices/story-driven-delivery/lib/diagram_story_sync/bootstrap.py](../practices/story-driven-delivery/lib/diagram_story_sync/bootstrap.py)
+- [practices/story-driven-delivery/lib/diagram_story_sync/diagram_story_node.py](../practices/story-driven-delivery/lib/diagram_story_sync/diagram_story_node.py)
+- [practices/story-driven-delivery/lib/diagram_story_sync/layout_constants.py](../practices/story-driven-delivery/lib/diagram_story_sync/layout_constants.py)
+- [practices/story-driven-delivery/lib/diagram_story_sync/layout_data.py](../practices/story-driven-delivery/lib/diagram_story_sync/layout_data.py)
+- [practices/story-driven-delivery/lib/diagram_story_sync/node_comparison.py](../practices/story-driven-delivery/lib/diagram_story_sync/node_comparison.py)
+- [practices/story-driven-delivery/lib/diagram_story_sync/position.py](../practices/story-driven-delivery/lib/diagram_story_sync/position.py)
+- [practices/story-driven-delivery/lib/diagram_story_sync/render_summary.py](../practices/story-driven-delivery/lib/diagram_story_sync/render_summary.py)
+- [practices/story-driven-delivery/lib/diagram_story_sync/style_defaults.py](../practices/story-driven-delivery/lib/diagram_story_sync/style_defaults.py)
+- [practices/story-driven-delivery/lib/diagram_story_sync/update_report.py](../practices/story-driven-delivery/lib/diagram_story_sync/update_report.py)
+- [practices/story-driven-delivery/lib/README.md](../practices/story-driven-delivery/lib/README.md)
 
 **Scripts — package-level automation**
 
@@ -139,25 +148,25 @@ Practice skills for module partition, domain terms, ubiquitous language, CRC, ob
 
 **Skills — practice packages (SKILL.md)**
 
-- **abd-bounded-context-map** — [SKILL.md](../domain-driven-design/skills/abd-bounded-context-map/SKILL.md)
-- **abd-class-responsibility-collaborator** — [SKILL.md](../domain-driven-design/skills/abd-class-responsibility-collaborator/SKILL.md)
-- **abd-ddd-design-building-blocks** — [SKILL.md](../domain-driven-design/skills/abd-ddd-design-building-blocks/SKILL.md)
-- **abd-domain-terms** — [SKILL.md](../domain-driven-design/skills/abd-domain-terms/SKILL.md)
-- **abd-module-partition** — [SKILL.md](../domain-driven-design/skills/abd-module-partition/SKILL.md)
-- **abd-object-model** — [SKILL.md](../domain-driven-design/skills/abd-object-model/SKILL.md)
-- **abd-scenario-walkthrough** — [SKILL.md](../domain-driven-design/skills/abd-scenario-walkthrough/SKILL.md)
-- **abd-ubiquitous-language** — [SKILL.md](../domain-driven-design/skills/abd-ubiquitous-language/SKILL.md)
-- **drawio-domain-sync** — [SKILL.md](../domain-driven-design/skills/drawio-domain-sync/SKILL.md)
+- **abd-bounded-context-map** — [SKILL.md](../practices/domain-driven-design/skills/abd-bounded-context-map/SKILL.md)
+- **abd-class-responsibility-collaborator** — [SKILL.md](../practices/domain-driven-design/skills/abd-class-responsibility-collaborator/SKILL.md)
+- **abd-ddd-design-building-blocks** — [SKILL.md](../practices/domain-driven-design/skills/abd-ddd-design-building-blocks/SKILL.md)
+- **abd-domain-terms** — [SKILL.md](../practices/domain-driven-design/skills/abd-domain-terms/SKILL.md)
+- **abd-module-partition** — [SKILL.md](../practices/domain-driven-design/skills/abd-module-partition/SKILL.md)
+- **abd-object-model** — [SKILL.md](../practices/domain-driven-design/skills/abd-object-model/SKILL.md)
+- **abd-scenario-walkthrough** — [SKILL.md](../practices/domain-driven-design/skills/abd-scenario-walkthrough/SKILL.md)
+- **abd-ubiquitous-language** — [SKILL.md](../practices/domain-driven-design/skills/abd-ubiquitous-language/SKILL.md)
+- **drawio-domain-sync** — [SKILL.md](../practices/domain-driven-design/skills/drawio-domain-sync/SKILL.md)
 
 **Content — shared prose merged on deploy**
 
-- [domain-driven-design/content/oo-concepts.md](../domain-driven-design/content/oo-concepts.md)
+- [practices/domain-driven-design/content/oo-concepts.md](../practices/domain-driven-design/content/oo-concepts.md)
 
 **Instructions — .mdc / .instructions.md → Cursor rules**
 
-- **ddd-building-blocks-fidelity-upgrade** — [ddd-building-blocks-fidelity-upgrade.instructions.md](../domain-driven-design/instructions/ddd-building-blocks-fidelity-upgrade.instructions.md) (catalog: `instructions/domain-driven-design--instructions--ddd-building-blocks-fidelity-upgrade-instructions-md.html`)
-- **ddd-building-blocks-fidelity-upgrade** — [ddd-building-blocks-fidelity-upgrade.mdc](../domain-driven-design/instructions/ddd-building-blocks-fidelity-upgrade.mdc) (catalog: `instructions/domain-driven-design--instructions--ddd-building-blocks-fidelity-upgrade-mdc.html`)
-- **drawio-domain-sync** — [drawio-domain-sync.instructions.md](../domain-driven-design/instructions/drawio-domain-sync.instructions.md) (catalog: `instructions/domain-driven-design--instructions--drawio-domain-sync-instructions-md.html`)
+- **ddd-building-blocks-fidelity-upgrade** — [ddd-building-blocks-fidelity-upgrade.instructions.md](../practices/domain-driven-design/instructions/ddd-building-blocks-fidelity-upgrade.instructions.md) (catalog: `instructions/domain-driven-design--instructions--ddd-building-blocks-fidelity-upgrade-instructions-md.html`)
+- **ddd-building-blocks-fidelity-upgrade** — [ddd-building-blocks-fidelity-upgrade.mdc](../practices/domain-driven-design/instructions/ddd-building-blocks-fidelity-upgrade.mdc) (catalog: `instructions/domain-driven-design--instructions--ddd-building-blocks-fidelity-upgrade-mdc.html`)
+- **drawio-domain-sync** — [drawio-domain-sync.instructions.md](../practices/domain-driven-design/instructions/drawio-domain-sync.instructions.md) (catalog: `instructions/domain-driven-design--instructions--drawio-domain-sync-instructions-md.html`)
 
 **Prompts — .prompt.md → slash commands**
 
@@ -175,7 +184,7 @@ Practice skills for module partition, domain terms, ubiquitous language, CRC, ob
 
 #### Architecture Centric Engineering — `architecture-centric-engineering/`
 
-9 skills, 2 content, 4 instructions
+10 skills, 2 content
 
 **Agents — orchestrators (AGENT.md / AGENTS.md)**
 
@@ -183,27 +192,25 @@ Practice skills for module partition, domain terms, ubiquitous language, CRC, ob
 
 **Skills — practice packages (SKILL.md)**
 
-- **abd-architecture-blueprint** — [SKILL.md](../architecture-centric-engineering/skills/abd-architecture-blueprint/SKILL.md)
-- **abd-architecture-outline** — [SKILL.md](../architecture-centric-engineering/skills/abd-architecture-outline/SKILL.md)
-- **abd-architecture-reference** — [SKILL.md](../architecture-centric-engineering/skills/abd-architecture-reference/SKILL.md)
-- **abd-architecture-template** — [SKILL.md](../architecture-centric-engineering/skills/abd-architecture-template/SKILL.md)
-- **abd-build-architecture-skill** — [SKILL.md](../architecture-centric-engineering/skills/abd-build-architecture-skill/SKILL.md)
-- **abd-clean-code** — [SKILL.md](../architecture-centric-engineering/skills/abd-clean-code/SKILL.md)
-- **abd-service-level-objectives** — [SKILL.md](../architecture-centric-engineering/skills/abd-service-level-objectives/SKILL.md)
-- **hero-vtt-technical-architecture** — [SKILL.md](../architecture-centric-engineering/skills/hero-vtt-technical-architecture/SKILL.md)
-- **mern-technical-architecture** — [SKILL.md](../architecture-centric-engineering/skills/mern-technical-architecture/SKILL.md)
+- **abd-architecture-blueprint** — [SKILL.md](../practices/architecture-centric-engineering/skills/abd-architecture-blueprint/SKILL.md)
+- **abd-architecture-outline** — [SKILL.md](../practices/architecture-centric-engineering/skills/abd-architecture-outline/SKILL.md)
+- **abd-architecture-reference** — [SKILL.md](../practices/architecture-centric-engineering/skills/abd-architecture-reference/SKILL.md)
+- **abd-architecture-template** — [SKILL.md](../practices/architecture-centric-engineering/skills/abd-architecture-template/SKILL.md)
+- **abd-build-architecture-skill** — [SKILL.md](../practices/architecture-centric-engineering/skills/abd-build-architecture-skill/SKILL.md)
+- **abd-clean-code** — [SKILL.md](../practices/architecture-centric-engineering/skills/abd-clean-code/SKILL.md)
+- **abd-secure-code** — [SKILL.md](../practices/architecture-centric-engineering/skills/abd-secure-code/SKILL.md)
+- **abd-service-level-objectives** — [SKILL.md](../practices/architecture-centric-engineering/skills/abd-service-level-objectives/SKILL.md)
+- **hero-vtt-technical-architecture** — [SKILL.md](../practices/architecture-centric-engineering/skills/hero-vtt-technical-architecture/SKILL.md)
+- **mern-technical-architecture** — [SKILL.md](../practices/architecture-centric-engineering/skills/mern-technical-architecture/SKILL.md)
 
 **Content — shared prose merged on deploy**
 
-- [architecture-centric-engineering/content/architecture_and_design.json](../architecture-centric-engineering/content/architecture_and_design.json)
-- [architecture-centric-engineering/content/data.md](../architecture-centric-engineering/content/data.md)
+- [practices/architecture-centric-engineering/content/architecture_and_design.json](../practices/architecture-centric-engineering/content/architecture_and_design.json)
+- [practices/architecture-centric-engineering/content/data.md](../practices/architecture-centric-engineering/content/data.md)
 
 **Instructions — .mdc / .instructions.md → Cursor rules**
 
-- **abd-architecture-blueprint** — [abd-architecture-blueprint.instructions.md](../architecture-centric-engineering/instructions/abd-architecture-blueprint.instructions.md) (catalog: `instructions/architecture-centric-engineering--instructions--abd-architecture-blueprint-instructions-md.html`)
-- **abd-architecture-outline** — [abd-architecture-outline.instructions.md](../architecture-centric-engineering/instructions/abd-architecture-outline.instructions.md) (catalog: `instructions/architecture-centric-engineering--instructions--abd-architecture-outline-instructions-md.html`)
-- **abd-architecture-reference** — [abd-architecture-reference.instructions.md](../architecture-centric-engineering/instructions/abd-architecture-reference.instructions.md) (catalog: `instructions/architecture-centric-engineering--instructions--abd-architecture-reference-instructions-md.html`)
-- **abd-service-level-objectives** — [abd-service-level-objectives.instructions.md](../architecture-centric-engineering/instructions/abd-service-level-objectives.instructions.md) (catalog: `instructions/architecture-centric-engineering--instructions--abd-service-level-objectives-instructions-md.html`)
+- _(empty `architecture-centric-engineering/instructions/`)_
 
 **Prompts — .prompt.md → slash commands**
 
@@ -219,6 +226,43 @@ Practice skills for module partition, domain terms, ubiquitous language, CRC, ob
 
 ---
 
+#### Idea Shaping — `idea-shaping/`
+
+Opportunity framing, impact mapping, cost of delay, and validated learning — before delivery work begins.
+
+**Agents — orchestrators (AGENT.md / AGENTS.md)**
+
+- _(empty `idea-shaping/agents/`)_
+
+**Skills — practice packages (SKILL.md)**
+
+- **abd-cost-of-delay** — [SKILL.md](../practices/idea-shaping/skills/abd-cost-of-delay/SKILL.md)
+- **abd-impact-mapping** — [SKILL.md](../practices/idea-shaping/skills/abd-impact-mapping/SKILL.md)
+- **abd-opportunity-generation** — [SKILL.md](../practices/idea-shaping/skills/abd-opportunity-generation/SKILL.md)
+- **abd-simple-validated-learning** — [SKILL.md](../practices/idea-shaping/skills/abd-simple-validated-learning/SKILL.md)
+
+**Content — shared prose merged on deploy**
+
+- _(empty `idea-shaping/content/`)_
+
+**Instructions — .mdc / .instructions.md → Cursor rules**
+
+- _(empty `idea-shaping/instructions/`)_
+
+**Prompts — .prompt.md → slash commands**
+
+- _(empty `idea-shaping/prompts/`)_
+
+**Lib — shared Python packages**
+
+- _(empty `idea-shaping/lib/`)_
+
+**Scripts — package-level automation**
+
+- _(empty `idea-shaping/scripts/`)_
+
+---
+
 #### User Experience Design — `user-experience-design/`
 
 Deploy: `python scripts/deploy_family_package.py --package user-experience-design --to <workspace>`
@@ -229,9 +273,9 @@ Deploy: `python scripts/deploy_family_package.py --package user-experience-desig
 
 **Skills — practice packages (SKILL.md)**
 
-- **abd-information-architecture** — [SKILL.md](../user-experience-design/skills/abd-information-architecture/SKILL.md)
-- **abd-interface-design** — [SKILL.md](../user-experience-design/skills/abd-interface-design/SKILL.md)
-- **abd-ux-mockup** — [SKILL.md](../user-experience-design/skills/abd-ux-mockup/SKILL.md)
+- **abd-information-architecture** — [SKILL.md](../practices/kanban/user-experience-design/skills/abd-information-architecture/SKILL.md)
+- **abd-interface-design** — [SKILL.md](../practices/kanban/user-experience-design/skills/abd-interface-design/SKILL.md)
+- **abd-ux-mockup** — [SKILL.md](../practices/kanban/user-experience-design/skills/abd-ux-mockup/SKILL.md)
 
 **Content — shared prose merged on deploy**
 
@@ -261,14 +305,15 @@ Convert office documents to markdown, chunk for retrieval, embed vectors, and se
 
 **Agents — orchestrators (AGENT.md / AGENTS.md)**
 
-- **abd-context-to-memory** — [AGENTS.md](../context-to-memory/agents/abd-context-to-memory/AGENTS.md)
+- **abd-context-to-memory** — [AGENTS.md](../foundational/context-to-memory/agents/abd-context-to-memory/AGENTS.md)
 
 **Skills — practice packages (SKILL.md)**
 
-- **abd-chunk-markdown** — [SKILL.md](../context-to-memory/skills/abd-chunk-markdown/SKILL.md)
-- **abd-convert-to-markdown** — [SKILL.md](../context-to-memory/skills/abd-convert-to-markdown/SKILL.md)
-- **abd-embed-vectors** — [SKILL.md](../context-to-memory/skills/abd-embed-vectors/SKILL.md)
-- **abd-search-memory** — [SKILL.md](../context-to-memory/skills/abd-search-memory/SKILL.md)
+- **abd-chunk-markdown** — [SKILL.md](../foundational/context-to-memory/skills/abd-chunk-markdown/SKILL.md)
+- **abd-convert-to-markdown** — [SKILL.md](../foundational/context-to-memory/skills/abd-convert-to-markdown/SKILL.md)
+- **abd-embed-vectors** — [SKILL.md](../foundational/context-to-memory/skills/abd-embed-vectors/SKILL.md)
+- **abd-search-memory** — [SKILL.md](../foundational/context-to-memory/skills/abd-search-memory/SKILL.md)
+- **abd-semantic-context-chunker** — [SKILL.md](../foundational/context-to-memory/skills/abd-semantic-context-chunker/SKILL.md)
 
 **Content — shared prose merged on deploy**
 
@@ -292,58 +337,21 @@ Convert office documents to markdown, chunk for retrieval, embed vectors, and se
 
 ---
 
-#### Idea Shaping — `idea-shaping/`
-
-Opportunity framing, impact mapping, cost of delay, and validated learning — before delivery work begins.
-
-**Agents — orchestrators (AGENT.md / AGENTS.md)**
-
-- _(empty `idea-shaping/agents/`)_
-
-**Skills — practice packages (SKILL.md)**
-
-- **abd-cost-of-delay** — [SKILL.md](../idea-shaping/skills/abd-cost-of-delay/SKILL.md)
-- **abd-impact-mapping** — [SKILL.md](../idea-shaping/skills/abd-impact-mapping/SKILL.md)
-- **abd-opportunity-generation** — [SKILL.md](../idea-shaping/skills/abd-opportunity-generation/SKILL.md)
-- **abd-simple-validated-learning** — [SKILL.md](../idea-shaping/skills/abd-simple-validated-learning/SKILL.md)
-
-**Content — shared prose merged on deploy**
-
-- _(empty `idea-shaping/content/`)_
-
-**Instructions — .mdc / .instructions.md → Cursor rules**
-
-- _(empty `idea-shaping/instructions/`)_
-
-**Prompts — .prompt.md → slash commands**
-
-- _(empty `idea-shaping/prompts/`)_
-
-**Lib — shared Python packages**
-
-- _(empty `idea-shaping/lib/`)_
-
-**Scripts — package-level automation**
-
-- _(empty `idea-shaping/scripts/`)_
-
----
-
 #### Skill Builder — `skill-builder/`
 
 Practice skills for authoring ABD practice packages: query hub sources, author SKILL.md + rules, build scanners, maintain the AI Garden catalog, and publish HTML manuals.
 
 **Agents — orchestrators (AGENT.md / AGENTS.md)**
 
-- **abd-practice-skill-builder** — [AGENTS.md](../skill-builder/agents/abd-practice-skill-builder/AGENTS.md)
+- **abd-practice-skill-builder** — [AGENTS.md](../foundational/skill-builder/agents/abd-practice-skill-builder/AGENTS.md)
 
 **Skills — practice packages (SKILL.md)**
 
-- **abd-author-practice-skill** — [SKILL.md](../skill-builder/skills/abd-author-practice-skill/SKILL.md)
-- **abd-build-practice-scanners** — [SKILL.md](../skill-builder/skills/abd-build-practice-scanners/SKILL.md)
-- **abd-practice-skill-manual** — [SKILL.md](../skill-builder/skills/abd-practice-skill-manual/SKILL.md)
-- **abd-query-practice-sources** — [SKILL.md](../skill-builder/skills/abd-query-practice-sources/SKILL.md)
-- **abd-skill-catalog** — [SKILL.md](../skill-builder/skills/abd-skill-catalog/SKILL.md)
+- **abd-author-practice-skill** — [SKILL.md](../foundational/skill-builder/skills/abd-author-practice-skill/SKILL.md)
+- **abd-build-practice-scanners** — [SKILL.md](../foundational/skill-builder/skills/abd-build-practice-scanners/SKILL.md)
+- **abd-practice-skill-manual** — [SKILL.md](../foundational/skill-builder/skills/abd-practice-skill-manual/SKILL.md)
+- **abd-query-practice-sources** — [SKILL.md](../foundational/skill-builder/skills/abd-query-practice-sources/SKILL.md)
+- **abd-skill-catalog** — [SKILL.md](../foundational/skill-builder/skills/abd-skill-catalog/SKILL.md)
 
 **Content — shared prose merged on deploy**
 
@@ -351,8 +359,8 @@ Practice skills for authoring ABD practice packages: query hub sources, author S
 
 **Instructions — .mdc / .instructions.md → Cursor rules**
 
-- **abd-author-practice-skill** — [abd-author-practice-skill.instructions.md](../skill-builder/instructions/abd-author-practice-skill.instructions.md) (catalog: `instructions/skill-builder--instructions--abd-author-practice-skill-instructions-md.html`)
-- **abd-author-practice-skill** — [abd-author-practice-skill.mdc](../skill-builder/instructions/abd-author-practice-skill.mdc) (catalog: `instructions/skill-builder--instructions--abd-author-practice-skill-mdc.html`)
+- **abd-author-practice-skill** — [abd-author-practice-skill.instructions.md](../foundational/skill-builder/instructions/abd-author-practice-skill.instructions.md) (catalog: `instructions/skill-builder--instructions--abd-author-practice-skill-instructions-md.html`)
+- **abd-author-practice-skill** — [abd-author-practice-skill.mdc](../foundational/skill-builder/instructions/abd-author-practice-skill.mdc) (catalog: `instructions/skill-builder--instructions--abd-author-practice-skill-mdc.html`)
 
 **Prompts — .prompt.md → slash commands**
 
@@ -378,32 +386,32 @@ Infrastructure skills and cross-cutting helpers used across practice families.
 
 **Skills — practice packages (SKILL.md)**
 
-- **commit-msg** — [SKILL.md](../skill-helpers/skills/commit-msg/SKILL.md)
-- **execute-skill-using-skills-rules** — [SKILL.md](../skill-helpers/skills/execute-skill-using-skills-rules/SKILL.md)
-- **skill-garden-catalogue** — [SKILL.md](../skill-helpers/skills/skill-garden-catalogue/SKILL.md)
-- **track_task** — [SKILL.md](../skill-helpers/skills/track_task/SKILL.md)
+- **commit-msg** — [SKILL.md](../foundational/skill-helpers/skills/commit-msg/SKILL.md)
+- **execute-skill-using-skills-rules** — [SKILL.md](../foundational/skill-helpers/skills/execute-skill-using-skills-rules/SKILL.md)
+- **skill-garden-catalogue** — [SKILL.md](../foundational/skill-helpers/skills/skill-garden-catalogue/SKILL.md)
+- **track_task** — [SKILL.md](../foundational/skill-helpers/skills/track_task/SKILL.md)
 
 **Content — shared prose merged on deploy**
 
-- [skill-helpers/content/templates/skill-errors-log.md](../skill-helpers/content/templates/skill-errors-log.md)
-- [skill-helpers/content/workspace.md](../skill-helpers/content/workspace.md)
+- [foundational/skill-helpers/content/templates/skill-errors-log.md](../foundational/skill-helpers/content/templates/skill-errors-log.md)
+- [foundational/skill-helpers/content/workspace.md](../foundational/skill-helpers/content/workspace.md)
 
 **Instructions — .mdc / .instructions.md → Cursor rules**
 
-- **deploy-skills** — [deploy-skills.mdc](../skill-helpers/instructions/deploy-skills.mdc) (catalog: `instructions/skill-helpers--instructions--deploy-skills-mdc.html`)
-- **execute-skill-using-skills-rules** — [execute-skill-using-skills-rules.instructions.md](../skill-helpers/instructions/execute-skill-using-skills-rules.instructions.md) (catalog: `instructions/skill-helpers--instructions--execute-skill-using-skills-rules-instructions-md.html`)
-- **execute-skill-using-skills-rules** — [execute-skill-using-skills-rules.mdc](../skill-helpers/instructions/execute-skill-using-skills-rules.mdc) (catalog: `instructions/skill-helpers--instructions--execute-skill-using-skills-rules-mdc.html`)
-- **log-and-fix-skill-errors** — [log-and-fix-skill-errors.instructions.md](../skill-helpers/instructions/log-and-fix-skill-errors.instructions.md) (catalog: `instructions/skill-helpers--instructions--log-and-fix-skill-errors-instructions-md.html`)
-- **log-and-fix-skill-errors** — [log-and-fix-skill-errors.mdc](../skill-helpers/instructions/log-and-fix-skill-errors.mdc) (catalog: `instructions/skill-helpers--instructions--log-and-fix-skill-errors-mdc.html`)
-- **workspace** — [workspace.mdc](../skill-helpers/instructions/workspace.mdc) (catalog: `instructions/skill-helpers--instructions--workspace-mdc.html`)
+- **deploy-skills** — [deploy-skills.mdc](../foundational/skill-helpers/instructions/deploy-skills.mdc) (catalog: `instructions/skill-helpers--instructions--deploy-skills-mdc.html`)
+- **execute-skill-using-skills-rules** — [execute-skill-using-skills-rules.instructions.md](../foundational/skill-helpers/instructions/execute-skill-using-skills-rules.instructions.md) (catalog: `instructions/skill-helpers--instructions--execute-skill-using-skills-rules-instructions-md.html`)
+- **execute-skill-using-skills-rules** — [execute-skill-using-skills-rules.mdc](../foundational/skill-helpers/instructions/execute-skill-using-skills-rules.mdc) (catalog: `instructions/skill-helpers--instructions--execute-skill-using-skills-rules-mdc.html`)
+- **log-and-fix-skill-errors** — [log-and-fix-skill-errors.instructions.md](../foundational/skill-helpers/instructions/log-and-fix-skill-errors.instructions.md) (catalog: `instructions/skill-helpers--instructions--log-and-fix-skill-errors-instructions-md.html`)
+- **log-and-fix-skill-errors** — [log-and-fix-skill-errors.mdc](../foundational/skill-helpers/instructions/log-and-fix-skill-errors.mdc) (catalog: `instructions/skill-helpers--instructions--log-and-fix-skill-errors-mdc.html`)
+- **workspace** — [workspace.mdc](../foundational/skill-helpers/instructions/workspace.mdc) (catalog: `instructions/skill-helpers--instructions--workspace-mdc.html`)
 
 **Prompts — .prompt.md → slash commands**
 
-- **execute-skill-using-skills-rules** — [execute-skill-using-skills-rules.prompt.md](../skill-helpers/prompts/execute-skill-using-skills-rules.prompt.md) (catalog: `prompts/skill-helpers--prompts--execute-skill-using-skills-rules-prompt-md.html`)
-- **fix-skill** — [fix-skill.prompt.md](../skill-helpers/prompts/fix-skill.prompt.md) (catalog: `prompts/skill-helpers--prompts--fix-skill-prompt-md.html`)
-- **log-and-fix-skill-errors** — [log-and-fix-skill-errors.prompt.md](../skill-helpers/prompts/log-and-fix-skill-errors.prompt.md) (catalog: `prompts/skill-helpers--prompts--log-and-fix-skill-errors-prompt-md.html`)
-- **refresh_all_instructions** — [refresh_all_instructions.prompt.md](../skill-helpers/prompts/refresh_all_instructions.prompt.md) (catalog: `prompts/skill-helpers--prompts--refresh_all_instructions-prompt-md.html`)
-- **workspace** — [workspace.prompt.md](../skill-helpers/prompts/workspace.prompt.md) (catalog: `prompts/skill-helpers--prompts--workspace-prompt-md.html`)
+- **execute-skill-using-skills-rules** — [execute-skill-using-skills-rules.prompt.md](../foundational/skill-helpers/prompts/execute-skill-using-skills-rules.prompt.md) (catalog: `prompts/skill-helpers--prompts--execute-skill-using-skills-rules-prompt-md.html`)
+- **fix-skill** — [fix-skill.prompt.md](../foundational/skill-helpers/prompts/fix-skill.prompt.md) (catalog: `prompts/skill-helpers--prompts--fix-skill-prompt-md.html`)
+- **log-and-fix-skill-errors** — [log-and-fix-skill-errors.prompt.md](../foundational/skill-helpers/prompts/log-and-fix-skill-errors.prompt.md) (catalog: `prompts/skill-helpers--prompts--log-and-fix-skill-errors-prompt-md.html`)
+- **refresh_all_instructions** — [refresh_all_instructions.prompt.md](../foundational/skill-helpers/prompts/refresh_all_instructions.prompt.md) (catalog: `prompts/skill-helpers--prompts--refresh_all_instructions-prompt-md.html`)
+- **workspace** — [workspace.prompt.md](../foundational/skill-helpers/prompts/workspace.prompt.md) (catalog: `prompts/skill-helpers--prompts--workspace-prompt-md.html`)
 
 **Lib — shared Python packages**
 
@@ -411,9 +419,9 @@ Infrastructure skills and cross-cutting helpers used across practice families.
 
 **Scripts — package-level automation**
 
-- [skill-helpers/scripts/_agent_root.py](../skill-helpers/scripts/_agent_root.py)
-- [skill-helpers/scripts/get_workspace.py](../skill-helpers/scripts/get_workspace.py)
-- [skill-helpers/scripts/set_workspace.py](../skill-helpers/scripts/set_workspace.py)
+- [foundational/skill-helpers/scripts/_agent_root.py](../foundational/skill-helpers/scripts/_agent_root.py)
+- [foundational/skill-helpers/scripts/get_workspace.py](../foundational/skill-helpers/scripts/get_workspace.py)
+- [foundational/skill-helpers/scripts/set_workspace.py](../foundational/skill-helpers/scripts/set_workspace.py)
 
 ---
 
@@ -458,70 +466,78 @@ Proposal response, AI research assistant skills, and related utilities.
 
 | Skill | Plugin | Description | Open |
 | --- | --- | --- | --- |
-| **abd-impact-mapping** | `idea-shaping` | Strategic impact maps: hierarchy view, ASCII wall map, and hypothesis sentences from discovery sources. | [SKILL.md](../idea-shaping/skills/abd-impact-mapping/SKILL.md) |
-| **abd-opportunity-canvas** | `idea-shaping` | Frame an opportunity, align on vision, and make assumptions and validation explicit before committing build. | [SKILL.md](../idea-shaping/skills/abd-opportunity-generation/SKILL.md) |
-| **abd-simple-validated-learning** | `idea-shaping` | Turn surfaced assumptions into hypotheses, prioritise small tests, and run Plan / Validate / Learn before full build. | [SKILL.md](../idea-shaping/skills/abd-simple-validated-learning/SKILL.md) |
-| **abd-cost-of-delay** | `idea-shaping` | Quantify urgency × value for backlog items; score CD3 and rank to prioritize by economic impact of delay. | [SKILL.md](../idea-shaping/skills/abd-cost-of-delay/SKILL.md) |
-| **module-partition** | `domain-driven-design` | After domain scan, partition the source corpus into modules by allocating source file references to per-module index files. No classes, no anchors â€” only module boundaries and file references to the source that belongs to each. Supports an Unallocated bucket for pending decisions and a Rejected … | [SKILL.md](../domain-driven-design/skills/abd-module-partition/SKILL.md) |
-| **domain-terms** | `domain-driven-design` | Extract domain terms, group them into Key Abstractions, and produce a single domain-terms file — the shared vocabulary and building blocks for the module. | [SKILL.md](../domain-driven-design/skills/abd-domain-terms/SKILL.md) |
-| **abd-ubiquitous-language** | `domain-driven-design` | Build a shared, rigorous vocabulary for the scope you are modeling — extract terms, group them into Key Abstractions, and sketch each concept's behavior — all in one file every downstream artifact can rely on. | [SKILL.md](../domain-driven-design/skills/abd-ubiquitous-language/SKILL.md) |
-| **class-responsibility-collaborator** | `domain-driven-design` | For every domain concept: assign responsibilities, name collaborators, and declare invariants — all in one structured pass before object-model. | [SKILL.md](../domain-driven-design/skills/abd-class-responsibility-collaborator/SKILL.md) |
-| **object-model** | `domain-driven-design` | Build a typed object model for a module. A CRC model makes it faster but is not required. Use when a module needs a typed domain surface before writing production code, or when a module has reached state: crc. | [SKILL.md](../domain-driven-design/skills/abd-object-model/SKILL.md) |
-| **ddd-design-building-blocks** | `domain-driven-design` | Surface the business questions that DDD building block stereotypes encode — identity, consistency boundaries, ownership, and integration — and classify each domain concept (Entity, Value Object, Aggregate, Service, Domain Event) from a CRC, object model, or ubiquitous language. | [SKILL.md](../domain-driven-design/skills/abd-ddd-design-building-blocks/SKILL.md) |
-| **drawio-domain-sync** | `domain-driven-design` | Render Ubiquitous Language, CRC, or object model artifacts to Draw.io class diagrams — one page per Key Abstraction — and sync diagram edits back to the source model. | [SKILL.md](../domain-driven-design/skills/drawio-domain-sync/SKILL.md) |
-| **scenario-walkthrough** | `domain-driven-design` | Walk concrete scenarios through the object model. Every step maps to a class and operation; lifecycle guards and invariants come from the prior phase. Output is a standalone per-phase file. | [SKILL.md](../domain-driven-design/skills/abd-scenario-walkthrough/SKILL.md) |
-| **bounded-context-map** | `domain-driven-design` | Map bounded contexts and their relationships so integration strategy, team collaboration, and domain translation are explicit before they are discovered in production. | [SKILL.md](../domain-driven-design/skills/abd-bounded-context-map/SKILL.md) |
-| **abd-story-mapping** | `story-driven-delivery` | Patton-style story maps (epics, stories, verb-noun naming); writes story-map templates from sources. | [SKILL.md](../story-driven-delivery/skills/abd-story-mapping/SKILL.md) |
-| **abd-thin-slicing** | `story-driven-delivery` | Thin-sliced MVIs and backlog order from a story map; writes thin-slicing templates. | [SKILL.md](../story-driven-delivery/skills/abd-thin-slicing/SKILL.md) |
-| **abd-acceptance-criteria** | `story-driven-delivery` | WHEN/THEN acceptance criteria for story-graph.json; ships rules and scanners for execute-skill-using-skills-rules. | [SKILL.md](../story-driven-delivery/skills/abd-acceptance-criteria/SKILL.md) |
-| **abd-specification-by-example** | `story-driven-delivery` | Given/When/Then scenarios with real domain values; plain or outline (data tables) templates. | [SKILL.md](../story-driven-delivery/skills/abd-specification-by-example/SKILL.md) |
-| **abd-acceptance-test-driven-development** | `story-driven-delivery` | Tests first, then code: executable acceptance tests from scenarios, AC, or notes (RED-GREEN-REFACTOR). | [SKILL.md](../story-driven-delivery/skills/abd-acceptance-test-driven-development/SKILL.md) |
-| **drawio-story-sync** | `story-driven-delivery` | story-graph.json to Draw.io story maps; validated load/save and diagram sync. | [SKILL.md](../story-driven-delivery/skills/drawio-story-sync/SKILL.md) |
-| **miro-story-sync** | `story-driven-delivery` | story-graph.json to Miro story maps; validated load and REST-driven board sync. | [SKILL.md](../story-driven-delivery/skills/miro-story-sync/SKILL.md) |
-| **story-graph-ops** | `story-driven-delivery` | CRUD story-graph.json via CLI/scripts, validate, persist; no hand-written JSON drift. | [SKILL.md](../story-driven-delivery/skills/story-graph-ops/SKILL.md) |
-| **abd-information-architecture** | `user-experience-design` | Produce a first-pass information architecture for a solution scope — a site map of screens and transitions, the navigational components that connect them, and a content model (types, hierarchy, labels, tags, key actions) for what lives on each screen — saved as a structured markdown spec and a … | [SKILL.md](../user-experience-design/skills/abd-information-architecture/SKILL.md) |
-| **abd-ux-mockup** | `user-experience-design` | Precision pass after the initial IA — specify exact controls, interactions, and states for any scope (full site, flow, epic, story), drawn in Draw.io as a lo-fi wireframe and saved as a versioned .drawio artifact. | [SKILL.md](../user-experience-design/skills/abd-ux-mockup/SKILL.md) |
-| **abd-interface-design** | `user-experience-design` | Translate the approved hi-fi mockup for a screen into production-grade, functional, accessible interface code in the chosen framework — without changing the domain labels, acceptance criteria, or visual decisions. | [SKILL.md](../user-experience-design/skills/abd-interface-design/SKILL.md) |
-| **abd-architecture-outline** | `architecture-centric-engineering` | Produce the first architecture artifact for a new or unfamiliar system — a mostly-diagrams document that fixes platform, layering, system context, deployment topology, guiding principles, technology stack, and a brief catalogue of major systems with decision records. The outline answers "what is … | [SKILL.md](../architecture-centric-engineering/skills/abd-architecture-outline/SKILL.md) |
-| **abd-architecture-blueprint** | `architecture-centric-engineering` | Produce the second-level architecture document after the outline — a blueprint that names each architectural component in a paragraph or two (purpose, dependencies, interactions, no internal details), names every cross-cutting concern as a typed "architecture mechanism" (security, error handling … | [SKILL.md](../architecture-centric-engineering/skills/abd-architecture-blueprint/SKILL.md) |
-| **abd-architecture-reference** | `architecture-centric-engineering` | Read abd-architecture-template output and produce runnable code files — the actual implementation of one architecture mechanism — either from the current project's stories or from a built-in hello-world scenario. | [SKILL.md](../architecture-centric-engineering/skills/abd-architecture-reference/SKILL.md) |
-| **abd-architecture-template** | `architecture-centric-engineering` | Produce an architecture reference document for a specified architecture — one mechanism (e.g. error handling, caching, persistence, auth) at a time — so a downstream implementation skill can build code that matches. Each mechanism section names its principles and patterns, draws participants as a … | [SKILL.md](../architecture-centric-engineering/skills/abd-architecture-template/SKILL.md) |
-| **abd-clean-code** | `architecture-centric-engineering` | Production code that matches story behavior: clean structure, domain language, scanner-backed quality bars (Python/JS). | [SKILL.md](../architecture-centric-engineering/skills/abd-clean-code/SKILL.md) |
-| **mern-technical-architecture** | `architecture-centric-engineering` | Domain-first MERN web applications: domain modules, shared logic, Clean Architecture layers, story-driven tests, scanner-verified compliance. | [SKILL.md](../architecture-centric-engineering/skills/mern-technical-architecture/SKILL.md) |
-| **abd-build-architecture-skill** | `architecture-centric-engineering` | Build a new implementation skill — a full practice-skill package that generates code in a chosen architecture — from an architecture-mechanism reference document. Input is a finished reference (one file with layered description and one section per mechanism, covering principles, patterns, file … | [SKILL.md](../architecture-centric-engineering/skills/abd-build-architecture-skill/SKILL.md) |
-| **abd-service-level-objectives** | `architecture-centric-engineering` | Capture the non-functional requirements (NFRs) of a system as concrete Service Level Indicators, Objectives, and Agreements (SLI/SLO/SLA) tied to a specific scope — a story, an epic, a parent epic, or the whole system. NFRs are organised into six categories (Performance & Scalability, Availability … | [SKILL.md](../architecture-centric-engineering/skills/abd-service-level-objectives/SKILL.md) |
-| **hero-vtt-technical-architecture** | `architecture-centric-engineering` | Generate production Hero Virtual Tabletop (WPF C#) modules following the three-layer architecture — Presentation (ViewModel) · Domain · COH Integration. Enforces the Skinny ViewModel, COH Game Bridge Seam, and Direct Memory Manipulation mechanisms from inputs/architecture-reference.md. | [SKILL.md](../architecture-centric-engineering/skills/hero-vtt-technical-architecture/SKILL.md) |
-| **abd-delivery-planning** | `delivery` | Delivery plans only: context, risks, strategies, staged runs and checkpoints (not stories, tests, or code). | [SKILL.md](../delivery/skills/abd-delivery-planning/SKILL.md) |
-| **delivery-estimation** | `delivery` | Collaborative estimation at any scope level — contributing factors, categories, team vote, and recorded rationale. | [SKILL.md](../delivery/skills/delivery-estimation/SKILL.md) |
-| **abd-delivery-repo** | `delivery` | Manage git history for a delivery engagement. Commits, branches, and pushes are driven by the delivery lead as part of slot chaining. --- | [SKILL.md](../delivery/skills/abd-delivery-repo/SKILL.md) |
-| **abd-delivery-war-room** | `delivery` | File-based war room for delivery-lead and delivery-team-member: delivery-war-room/ under the engagement workspace is the authoritative source of all delivery progress — orchestration checklist, manifest, slots, and run log. Read this skill before Step 2. | [SKILL.md](../delivery/skills/abd-delivery-war-room/SKILL.md) |
-| **abd-chunk-markdown** | `context-to-memory` | Split converted Markdown into retrieval-sized chunks with evidence labels, guided by a structure-based chunking spec. Use when the user wants to "chunk documents", "split for RAG", "draft a chunking strategy", or prepare markdown for embedding and semantic search. | [SKILL.md](../context-to-memory/skills/abd-chunk-markdown/SKILL.md) |
-| **abd-convert-to-markdown** | `context-to-memory` | Convert office documents (PDF, PPTX, DOCX, XLSX, etc.) to navigable Markdown with real headings, sections, and tables. Use when the user wants to convert a document or folder of documents to markdown, mentions "convert to markdown", "extract text", or needs source files prepared for chunking or … | [SKILL.md](../context-to-memory/skills/abd-convert-to-markdown/SKILL.md) |
-| **abd-embed-vectors** | `context-to-memory` | Embed text chunks into a local FAISS vector index for semantic search. Use when the user wants to "embed chunks", "build a vector index", "create embeddings", or prepare chunked content for RAG retrieval. | [SKILL.md](../context-to-memory/skills/abd-embed-vectors/SKILL.md) |
-| **abd-search-memory** | `context-to-memory` | Semantic search over a local FAISS vector index built from document chunks. Use when the user says "use memory", "search memory", "what does memory say", "from our content", "what do we have on [topic]", or asks about content that has been ingested into agent memory. | [SKILL.md](../context-to-memory/skills/abd-search-memory/SKILL.md) |
-| **abd-author-practice-skill** | `skill-builder` | Turn collected hub evidence into a finished practice skill: clear instructions and checkable do-and-don't norms that stay true to what you retrieved. | [SKILL.md](../skill-builder/skills/abd-author-practice-skill/SKILL.md) |
-| **abd-build-practice-scanners** | `skill-builder` | Turn written rules into checks a machine can run, so drift is caught early instead of debated in chat. | [SKILL.md](../skill-builder/skills/abd-build-practice-scanners/SKILL.md) |
-| **abd-practice-skill-manual** | `skill-builder` | Ship a readable HTML companion for a practice: longer walkthroughs, figures, and sources so people can study the method without parsing SKILL.md alone. | [SKILL.md](../skill-builder/skills/abd-practice-skill-manual/SKILL.md) |
-| **abd-query-practice-sources** | `skill-builder` | Pull defensible excerpts from the content hub so a new practice can cite real sources, not guesswork: one auditable log of what you kept and why it matters. | [SKILL.md](../skill-builder/skills/abd-query-practice-sources/SKILL.md) |
-| **abd-skill-catalog** | `skill-builder` | Regenerate the browsable AI Garden (skills + agents HTML + outline.md) from repo packages. | [SKILL.md](../skill-builder/skills/abd-skill-catalog/SKILL.md) |
+| **abd-impact-mapping** | `practices` | Strategic impact maps: hierarchy view, ASCII wall map, and hypothesis sentences from discovery sources. | [SKILL.md](../practices/idea-shaping/skills/abd-impact-mapping/SKILL.md) |
+| **abd-opportunity-canvas** | `practices` | Frame an opportunity, align on vision, and make assumptions and validation explicit before committing build. | [SKILL.md](../practices/idea-shaping/skills/abd-opportunity-generation/SKILL.md) |
+| **abd-simple-validated-learning** | `practices` | Turn surfaced assumptions into hypotheses, prioritise small tests, and run Plan / Validate / Learn before full build. | [SKILL.md](../practices/idea-shaping/skills/abd-simple-validated-learning/SKILL.md) |
+| **abd-cost-of-delay** | `practices` | Quantify urgency × value for backlog items; score CD3 and rank to prioritize by economic impact of delay. | [SKILL.md](../practices/idea-shaping/skills/abd-cost-of-delay/SKILL.md) |
+| **module-partition** | `practices` | After domain scan, partition the source corpus into modules by allocating source file references to per-module index files. No classes, no anchors â€” only module boundaries and file references to the source that belongs to each. Supports an Unallocated bucket for pending decisions and a Rejected … | [SKILL.md](../practices/domain-driven-design/skills/abd-module-partition/SKILL.md) |
+| **domain-terms** | `practices` | Extract domain terms, group them into Key Abstractions, and produce a single domain-terms file — the shared vocabulary and building blocks for the module. | [SKILL.md](../practices/domain-driven-design/skills/abd-domain-terms/SKILL.md) |
+| **abd-ubiquitous-language** | `practices` | Build a shared, rigorous vocabulary for the scope you are modeling — extract terms, group them into Key Abstractions, and sketch each concept's behavior — all in one file every downstream artifact can rely on. | [SKILL.md](../practices/domain-driven-design/skills/abd-ubiquitous-language/SKILL.md) |
+| **class-responsibility-collaborator** | `practices` | For every domain concept: assign responsibilities, name collaborators, and declare invariants — all in one structured pass before object-model. | [SKILL.md](../practices/domain-driven-design/skills/abd-class-responsibility-collaborator/SKILL.md) |
+| **object-model** | `practices` | Build a typed object model for a module. A CRC model makes it faster but is not required. Use when a module needs a typed domain surface before writing production code, or when a module has reached state: crc. | [SKILL.md](../practices/domain-driven-design/skills/abd-object-model/SKILL.md) |
+| **ddd-design-building-blocks** | `practices` | Surface the business questions that DDD building block stereotypes encode — identity, consistency boundaries, ownership, and integration — and classify each domain concept (Entity, Value Object, Aggregate, Service, Domain Event) from a CRC, object model, or ubiquitous language. | [SKILL.md](../practices/domain-driven-design/skills/abd-ddd-design-building-blocks/SKILL.md) |
+| **drawio-domain-sync** | `practices` | Render Ubiquitous Language, CRC, or object model artifacts to Draw.io class diagrams — one page per Key Abstraction — and sync diagram edits back to the source model. | [SKILL.md](../practices/domain-driven-design/skills/drawio-domain-sync/SKILL.md) |
+| **scenario-walkthrough** | `practices` | Walk concrete scenarios through the object model. Every step maps to a class and operation; lifecycle guards and invariants come from the prior phase. Output is a standalone per-phase file. | [SKILL.md](../practices/domain-driven-design/skills/abd-scenario-walkthrough/SKILL.md) |
+| **bounded-context-map** | `practices` | Map bounded contexts and their relationships so integration strategy, team collaboration, and domain translation are explicit before they are discovered in production. | [SKILL.md](../practices/domain-driven-design/skills/abd-bounded-context-map/SKILL.md) |
+| **abd-story-mapping** | `practices` | Patton-style story maps (epics, stories, verb-noun naming); writes story-map templates from sources. | [SKILL.md](../practices/story-driven-delivery/skills/abd-story-mapping/SKILL.md) |
+| **abd-thin-slicing** | `practices` | Thin-sliced MVIs and backlog order from a story map; writes thin-slicing templates. | [SKILL.md](../practices/story-driven-delivery/skills/abd-thin-slicing/SKILL.md) |
+| **abd-acceptance-criteria** | `practices` | WHEN/THEN acceptance criteria for story-graph.json; ships rules and scanners for execute-skill-using-skills-rules. | [SKILL.md](../practices/story-driven-delivery/skills/abd-acceptance-criteria/SKILL.md) |
+| **abd-specification-by-example** | `practices` | Given/When/Then scenarios with real domain values; plain or outline (data tables) templates. | [SKILL.md](../practices/story-driven-delivery/skills/abd-specification-by-example/SKILL.md) |
+| **abd-acceptance-test-driven-development** | `practices` | Tests first, then code: executable acceptance tests from scenarios, AC, or notes (RED-GREEN-REFACTOR). | [SKILL.md](../practices/story-driven-delivery/skills/abd-acceptance-test-driven-development/SKILL.md) |
+| **drawio-story-sync** | `practices` | story-graph.json to Draw.io story maps; validated load/save and diagram sync. | [SKILL.md](../practices/story-driven-delivery/skills/drawio-story-sync/SKILL.md) |
+| **miro-story-sync** | `practices` | story-graph.json to Miro story maps; validated load and REST-driven board sync. | [SKILL.md](../practices/story-driven-delivery/skills/miro-story-sync/SKILL.md) |
+| **story-graph-ops** | `practices` | CRUD story-graph.json via CLI/scripts, validate, persist; no hand-written JSON drift. | [SKILL.md](../practices/story-driven-delivery/skills/story-graph-ops/SKILL.md) |
+| **abd-information-architecture** | `practices` | Produce a first-pass information architecture for a solution scope — a site map of screens and transitions, the navigational components that connect them, and a content model (types, hierarchy, labels, tags, key actions) for what lives on each screen — saved as a structured markdown spec and a … | [SKILL.md](../practices/kanban/user-experience-design/skills/abd-information-architecture/SKILL.md) |
+| **abd-ux-mockup** | `practices` | Precision pass after the initial IA — specify exact controls, interactions, and states for any scope (full site, flow, epic, story), drawn in Draw.io as a lo-fi wireframe and saved as a versioned .drawio artifact. | [SKILL.md](../practices/kanban/user-experience-design/skills/abd-ux-mockup/SKILL.md) |
+| **abd-interface-design** | `practices` | Translate the approved hi-fi mockup for a screen into production-grade, functional, accessible interface code in the chosen framework — without changing the domain labels, acceptance criteria, or visual decisions. | [SKILL.md](../practices/kanban/user-experience-design/skills/abd-interface-design/SKILL.md) |
+| **abd-architecture-outline** | `practices` | Produce the first architecture artifact for a new or unfamiliar system — a mostly-diagrams document that fixes platform, layering, system context, deployment topology, guiding principles, technology stack, and a brief catalogue of major systems with decision records. The outline answers "what is … | [SKILL.md](../practices/architecture-centric-engineering/skills/abd-architecture-outline/SKILL.md) |
+| **abd-architecture-blueprint** | `practices` | Produce the second-level architecture document after the outline — a blueprint that names each architectural component in a paragraph or two (purpose, dependencies, interactions, no internal details), names every cross-cutting concern as a typed "architecture mechanism" (security, error handling … | [SKILL.md](../practices/architecture-centric-engineering/skills/abd-architecture-blueprint/SKILL.md) |
+| **abd-architecture-reference** | `practices` | Read abd-architecture-template output and produce runnable code files — the actual implementation of one architecture mechanism — either from the current project's stories or from a built-in hello-world scenario. | [SKILL.md](../practices/architecture-centric-engineering/skills/abd-architecture-reference/SKILL.md) |
+| **abd-architecture-template** | `practices` | Produce an architecture reference document for a specified architecture — one mechanism (e.g. error handling, caching, persistence, auth) at a time — so a downstream implementation skill can build code that matches. Each mechanism section names its principles and patterns, draws participants as a … | [SKILL.md](../practices/architecture-centric-engineering/skills/abd-architecture-template/SKILL.md) |
+| **abd-clean-code** | `practices` | Production code that matches story behavior: clean structure, domain language, scanner-backed quality bars (Python/JS). | [SKILL.md](../practices/architecture-centric-engineering/skills/abd-clean-code/SKILL.md) |
+| **abd-secure-code** | `practices` | OWASP-aligned secure coding rules and Python/Java/JavaScript scanners — write and prove security-sensitive production code before merge. | [SKILL.md](../practices/architecture-centric-engineering/skills/abd-secure-code/SKILL.md) |
+| **mern-technical-architecture** | `practices` | Domain-first MERN web applications: domain modules, shared logic, Clean Architecture layers, story-driven tests, scanner-verified compliance. | [SKILL.md](../practices/architecture-centric-engineering/skills/mern-technical-architecture/SKILL.md) |
+| **abd-build-architecture-skill** | `practices` | Build a new implementation skill — a full practice-skill package that generates code in a chosen architecture — from an architecture-mechanism reference document. Input is a finished reference (one file with layered description and one section per mechanism, covering principles, patterns, file … | [SKILL.md](../practices/architecture-centric-engineering/skills/abd-build-architecture-skill/SKILL.md) |
+| **abd-service-level-objectives** | `practices` | Capture the non-functional requirements (NFRs) of a system as concrete Service Level Indicators, Objectives, and Agreements (SLI/SLO/SLA) tied to a specific scope — a story, an epic, a parent epic, or the whole system. NFRs are organised into six categories (Performance & Scalability, Availability … | [SKILL.md](../practices/architecture-centric-engineering/skills/abd-service-level-objectives/SKILL.md) |
+| **hero-vtt-technical-architecture** | `practices` | Generate production Hero Virtual Tabletop (WPF C#) modules following the three-layer architecture — Presentation (ViewModel) · Domain · COH Integration. Enforces the Skinny ViewModel, COH Game Bridge Seam, and Direct Memory Manipulation mechanisms from inputs/architecture-reference.md. | [SKILL.md](../practices/architecture-centric-engineering/skills/hero-vtt-technical-architecture/SKILL.md) |
+| **abd-kanban-planning** | `practices` | Strategy selection and system of work configuration — no pre-planned runs or slot tables. | [SKILL.md](../practices/kanban/skills/abd-kanban-planning/SKILL.md) |
+| **kanban-estimation** | `practices` | Collaborative estimation at any scope level — contributing factors, categories, team vote, and recorded rationale. | [SKILL.md](../practices/kanban/skills/kanban-estimation/SKILL.md) |
+| **abd-kanban** | `practices` | JIT Kanban board for kanban-lead and role agents. delivery-war-room/ under the engagement workspace is the authoritative source of all delivery progress — board.json, system-of-work.json, metrics, and ticket history. Tickets flow through stages, scatter at scope boundaries, and agents pull … | [SKILL.md](../practices/kanban/skills/abd-kanban/SKILL.md) |
+| **abd-kanban-repo** | `practices` | Manage git history for a delivery engagement. Commits, branches, pushes, and PRs are driven by ticket state changes on the Kanban board — not by slots or runs. --- | [SKILL.md](../practices/kanban/skills/abd-kanban-repo/SKILL.md) |
+| **abd-chunk-markdown** | `foundational` | Split converted Markdown into retrieval-sized chunks with evidence labels, guided by a structure-based chunking spec. Use when the user wants to "chunk documents", "split for RAG", "draft a chunking strategy", or prepare markdown for embedding and semantic search. | [SKILL.md](../foundational/context-to-memory/skills/abd-chunk-markdown/SKILL.md) |
+| **abd-convert-to-markdown** | `foundational` | Convert office documents (PDF, PPTX, DOCX, XLSX, etc.) to navigable Markdown with real headings, sections, and tables. Use when the user wants to convert a document or folder of documents to markdown, mentions "convert to markdown", "extract text", or needs source files prepared for chunking or … | [SKILL.md](../foundational/context-to-memory/skills/abd-convert-to-markdown/SKILL.md) |
+| **abd-embed-vectors** | `foundational` | Embed text chunks into a local FAISS vector index for semantic search. Use when the user wants to "embed chunks", "build a vector index", "create embeddings", or prepare chunked content for RAG retrieval. | [SKILL.md](../foundational/context-to-memory/skills/abd-embed-vectors/SKILL.md) |
+| **abd-search-memory** | `foundational` | Semantic search over a local FAISS vector index built from document chunks. Use when the user says "use memory", "search memory", "what does memory say", "from our content", "what do we have on [topic]", or asks about content that has been ingested into agent memory. | [SKILL.md](../foundational/context-to-memory/skills/abd-search-memory/SKILL.md) |
+| **abd-semantic-context-chunker** | `foundational` | Index scattered source content by the kind of context it provides — Story, Domain, Architecture, UX — so you know what you have before deeper analysis begins. | [SKILL.md](../foundational/context-to-memory/skills/abd-semantic-context-chunker/SKILL.md) |
+| **abd-author-practice-skill** | `foundational` | Turn collected hub evidence into a finished practice skill: clear instructions and checkable do-and-don't norms that stay true to what you retrieved. | [SKILL.md](../foundational/skill-builder/skills/abd-author-practice-skill/SKILL.md) |
+| **abd-build-practice-scanners** | `foundational` | Turn written rules into checks a machine can run, so drift is caught early instead of debated in chat. | [SKILL.md](../foundational/skill-builder/skills/abd-build-practice-scanners/SKILL.md) |
+| **abd-practice-skill-manual** | `foundational` | Ship a readable HTML companion for a practice: longer walkthroughs, figures, and sources so people can study the method without parsing SKILL.md alone. | [SKILL.md](../foundational/skill-builder/skills/abd-practice-skill-manual/SKILL.md) |
+| **abd-query-practice-sources** | `foundational` | Pull defensible excerpts from the content hub so a new practice can cite real sources, not guesswork: one auditable log of what you kept and why it matters. | [SKILL.md](../foundational/skill-builder/skills/abd-query-practice-sources/SKILL.md) |
+| **abd-skill-catalog** | `foundational` | Regenerate the browsable AI Garden (skills + agents HTML + outline.md) from repo packages. | [SKILL.md](../foundational/skill-builder/skills/abd-skill-catalog/SKILL.md) |
 | **abd-proposal-respond** | `utilities` | RFP and proposal response: ingest to memory (abd-context-to-memory), strategy, batched Q&A with RAG. | [SKILL.md](../utilities/skills/abd-proposal-respond/SKILL.md) |
 | **research-compare-approach** | `utilities` | Critically compare the user's approach against researched alternatives. Identifies strengths, weaknesses, trade-offs, and legitimate white space. Reads the user's codebase ONLY to understand what they built — never as a source of best practice. Use when the user wants to know how their solution … | [SKILL.md](../utilities/skills/research-compare-approach/SKILL.md) |
 | **research-problem-validation** | `utilities` | Research whether a stated problem is real and worth solving. Searches online and model knowledge for who is talking about the problem, who says it is NOT a problem, competing problems in the same space, and the maturity of discourse. Use when validating a hypothesis, checking if a problem is … | [SKILL.md](../utilities/skills/research-problem-validation/SKILL.md) |
 | **research-solution-landscape** | `utilities` | Map the landscape of competing solutions for a validated problem. Searches online and model knowledge for categories of approaches, key tools and frameworks, trade-offs, and which segments each solution targets. Use when the user wants to know how others are solving a problem, what the major … | [SKILL.md](../utilities/skills/research-solution-landscape/SKILL.md) |
-| **abd-commit-msg** | `skill-helpers` | Commit messages from scope and changed files; no story_graph (/commit and similar). | [SKILL.md](../skill-helpers/skills/commit-msg/SKILL.md) |
-| **execute-skill-using-skills-rules** | `skill-helpers` | Run scanners, validate output against rules, fix failures; quality gate before and after work. | [SKILL.md](../skill-helpers/skills/execute-skill-using-skills-rules/SKILL.md) |
-| **skill-garden-catalogue** | `skill-helpers` | Scan a folder of deployed skills and regenerate a one-pager Markdown inventory and an HTML index page. Each entry shows the challenge the skill addresses and the solution it provides, hyperlinked to the skill directory. Re-run on command to keep the inventory current. | [SKILL.md](../skill-helpers/skills/skill-garden-catalogue/SKILL.md) |
-| **track-task** | `skill-helpers` | Checkbox markdown task lists for pipelines or ad-hoc steps under the engagement workspace. | [SKILL.md](../skill-helpers/skills/track_task/SKILL.md) |
+| **abd-commit-msg** | `foundational` | Commit messages from scope and changed files; no story_graph (/commit and similar). | [SKILL.md](../foundational/skill-helpers/skills/commit-msg/SKILL.md) |
+| **execute-skill-using-skills-rules** | `foundational` | Run scanners, validate output against rules, fix failures; quality gate before and after work. | [SKILL.md](../foundational/skill-helpers/skills/execute-skill-using-skills-rules/SKILL.md) |
+| **skill-garden-catalogue** | `foundational` | Scan a folder of deployed skills and regenerate a one-pager Markdown inventory and an HTML index page. Each entry shows the challenge the skill addresses and the solution it provides, hyperlinked to the skill directory. Re-run on command to keep the inventory current. | [SKILL.md](../foundational/skill-helpers/skills/skill-garden-catalogue/SKILL.md) |
+| **track-task** | `foundational` | Checkbox markdown task lists for pipelines or ad-hoc steps under the engagement workspace. | [SKILL.md](../foundational/skill-helpers/skills/track_task/SKILL.md) |
 
 ## Summary — Agents
 
 | Agent | Plugin | Description | Open |
 | --- | --- | --- | --- |
-| **delivery-lead** | `delivery` | You are a delivery lead agent orchestrating an abd.works (ABD) delivery flow. | [AGENT.md](../delivery/agents/delivery-lead/AGENT.md) |
-| **delivery-team-member** | `delivery` | You are an ABD team member agent — one session, one slot, one job. | [AGENT.md](../delivery/agents/delivery-team-member/AGENT.md) |
-| **delivery-team-reviewer** | `delivery` | You are a delivery team reviewer agent — one session, one review slot. | [AGENT.md](../delivery/agents/delivery-team-reviewer/AGENT.md) |
-| **abd-context-to-memory** | `context-to-memory` | Source docs to Markdown, then labeled chunks in memory/, then FAISS vectors and semantic search. Optional: review context_chunking_spec.yaml before chunk+embed. | [AGENTS.md](../context-to-memory/agents/abd-context-to-memory/AGENTS.md) |
-| **abd-practice-skill-builder** | `skill-builder` | Goal: Produce practice skills under the agilebydesign-skills repository, in skills/<skill-name>/, grounded in abd-answers (Pinecone RAG): retrieve evidence, author the package (SKILL.md starter from abd-author-practice-skill template + *rules/.md), optional scanners, abd-skill-catalog, then an HTML … | [AGENTS.md](../skill-builder/agents/abd-practice-skill-builder/AGENTS.md) |
+| **business-expert** | `practices` | You are a persistent Business Expert executor — one session, many skills. | [AGENT.md](../practices/kanban/agents/business-expert/AGENT.md) |
+| **business-expert-reviewer** | `practices` | You are a persistent Business Expert reviewer — one session, many review tasks. | [AGENT.md](../practices/kanban/agents/business-expert-reviewer/AGENT.md) |
+| **engineer** | `practices` | You are a persistent Engineer executor — one session, many skills. | [AGENT.md](../practices/kanban/agents/engineer/AGENT.md) |
+| **engineer-reviewer** | `practices` | You are a persistent Engineer reviewer — one session, many review tasks. | [AGENT.md](../practices/kanban/agents/engineer-reviewer/AGENT.md) |
+| **kanban-lead** | `practices` | > PERSISTENT LOOP — MUST STAY RUNNING UNTIL ALL WORK COMPLETE. > > The kanban lead uses the loop skill to stay alive across the full engagement. A background shell emits a sentinel every N seconds; notify_on_output wakes the agent for a new turn each tick. Each turn is one scan cycle — read board … | [AGENT.md](../practices/kanban/agents/kanban-lead/AGENT.md) |
+| **product-owner** | `practices` | You are a persistent Product Owner executor — one session, many skills. | [AGENT.md](../practices/kanban/agents/product-owner/AGENT.md) |
+| **product-owner-reviewer** | `practices` | You are a persistent Product Owner reviewer — one session, many review tasks. | [AGENT.md](../practices/kanban/agents/product-owner-reviewer/AGENT.md) |
+| **ux-designer** | `practices` | You are a persistent UX Designer executor — one session, many skills. | [AGENT.md](../practices/kanban/agents/ux-designer/AGENT.md) |
+| **ux-designer-reviewer** | `practices` | You are a persistent UX Designer reviewer — one session, many review tasks. | [AGENT.md](../practices/kanban/agents/ux-designer-reviewer/AGENT.md) |
+| **abd-context-to-memory** | `foundational` | Source docs to Markdown, then labeled chunks in memory/, then FAISS vectors and semantic search. Optional: review context_chunking_spec.yaml before chunk+embed. | [AGENTS.md](../foundational/context-to-memory/agents/abd-context-to-memory/AGENTS.md) |
+| **abd-practice-skill-builder** | `foundational` | Goal: Produce practice skills under the agilebydesign-skills repository, in skills/<skill-name>/, grounded in abd-answers (Pinecone RAG): retrieve evidence, author the package (SKILL.md starter from abd-author-practice-skill template + *rules/.md), optional scanners, abd-skill-catalog, then an HTML … | [AGENTS.md](../foundational/skill-builder/agents/abd-practice-skill-builder/AGENTS.md) |
 | **ai-research-assistant** | `utilities` | Orchestrate hypothesis-driven research on AI-augmented delivery and context engineering practices. You coordinate three skills in sequence to produce a research report that helps the user decide whether their approach is well-founded, exposed, or genuinely novel. You are an impartial advisor — not … | [AGENTS.md](../utilities/agents/ai-research-assistant/AGENTS.md) |
 
 ---
@@ -530,7 +546,7 @@ Proposal response, AI research assistant skills, and related utilities.
 
 ### abd-impact-mapping
 
-- **Directory:** [`idea-shaping/skills/abd-impact-mapping/`](../idea-shaping/skills/abd-impact-mapping/)
+- **Directory:** [`practices/idea-shaping/skills/abd-impact-mapping/`](../practices/idea-shaping/skills/abd-impact-mapping/)
 
 **Summary:**
 
@@ -546,15 +562,15 @@ This skill defines the ideas behind a sound map, how to structure one, and what 
 
 **Repository layout:**
 
-- **[inputs/](../idea-shaping/skills/abd-impact-mapping/inputs)** — Folder (2 items).
-- **[rules/](../idea-shaping/skills/abd-impact-mapping/rules)** — Practice rules (DO/DON'T) and constraints used with scanners.
-- **[templates/](../idea-shaping/skills/abd-impact-mapping/templates)** — Authoring templates and structural skeletons.
-- [README.md](../idea-shaping/skills/abd-impact-mapping/README.md) — catalogue_summary: "Impact maps: goal, actors, behaviour impacts, and deliverable options grounded in discovery."
-- [SKILL.md](../idea-shaping/skills/abd-impact-mapping/SKILL.md) — name: abd-impact-mapping
+- **[inputs/](../practices/idea-shaping/skills/abd-impact-mapping/inputs)** — Folder (2 items).
+- **[rules/](../practices/idea-shaping/skills/abd-impact-mapping/rules)** — Practice rules (DO/DON'T) and constraints used with scanners.
+- **[templates/](../practices/idea-shaping/skills/abd-impact-mapping/templates)** — Authoring templates and structural skeletons.
+- [README.md](../practices/idea-shaping/skills/abd-impact-mapping/README.md) — catalogue_summary: "Impact maps: goal, actors, behaviour impacts, and deliverable options grounded in discovery."
+- [SKILL.md](../practices/idea-shaping/skills/abd-impact-mapping/SKILL.md) — name: abd-impact-mapping
 
 ### abd-opportunity-canvas
 
-- **Directory:** [`idea-shaping/skills/abd-opportunity-generation/`](../idea-shaping/skills/abd-opportunity-generation/)
+- **Directory:** [`practices/idea-shaping/skills/abd-opportunity-generation/`](../practices/idea-shaping/skills/abd-opportunity-generation/)
 
 **Summary:**
 
@@ -570,13 +586,13 @@ Every part of the canvas is also a candidate assumption — beliefs about custom
 
 **Repository layout:**
 
-- **[rules/](../idea-shaping/skills/abd-opportunity-generation/rules)** — Practice rules (DO/DON'T) and constraints used with scanners.
-- **[templates/](../idea-shaping/skills/abd-opportunity-generation/templates)** — Authoring templates and structural skeletons.
-- [SKILL.md](../idea-shaping/skills/abd-opportunity-generation/SKILL.md) — name: abd-opportunity-canvas
+- **[rules/](../practices/idea-shaping/skills/abd-opportunity-generation/rules)** — Practice rules (DO/DON'T) and constraints used with scanners.
+- **[templates/](../practices/idea-shaping/skills/abd-opportunity-generation/templates)** — Authoring templates and structural skeletons.
+- [SKILL.md](../practices/idea-shaping/skills/abd-opportunity-generation/SKILL.md) — name: abd-opportunity-canvas
 
 ### abd-simple-validated-learning
 
-- **Directory:** [`idea-shaping/skills/abd-simple-validated-learning/`](../idea-shaping/skills/abd-simple-validated-learning/)
+- **Directory:** [`practices/idea-shaping/skills/abd-simple-validated-learning/`](../practices/idea-shaping/skills/abd-simple-validated-learning/)
 
 **Summary:**
 
@@ -590,15 +606,15 @@ The skill emphasises up-front discovery and validation:research, analysis, asses
 
 **Repository layout:**
 
-- **[inputs/](../idea-shaping/skills/abd-simple-validated-learning/inputs)** — Folder (1 items).
-- **[rules/](../idea-shaping/skills/abd-simple-validated-learning/rules)** — Practice rules (DO/DON'T) and constraints used with scanners.
-- **[templates/](../idea-shaping/skills/abd-simple-validated-learning/templates)** — Authoring templates and structural skeletons.
-- [README.md](../idea-shaping/skills/abd-simple-validated-learning/README.md) — catalogue_summary: >-
-- [SKILL.md](../idea-shaping/skills/abd-simple-validated-learning/SKILL.md) — name: abd-simple-validated-learning
+- **[inputs/](../practices/idea-shaping/skills/abd-simple-validated-learning/inputs)** — Folder (1 items).
+- **[rules/](../practices/idea-shaping/skills/abd-simple-validated-learning/rules)** — Practice rules (DO/DON'T) and constraints used with scanners.
+- **[templates/](../practices/idea-shaping/skills/abd-simple-validated-learning/templates)** — Authoring templates and structural skeletons.
+- [README.md](../practices/idea-shaping/skills/abd-simple-validated-learning/README.md) — catalogue_summary: >-
+- [SKILL.md](../practices/idea-shaping/skills/abd-simple-validated-learning/SKILL.md) — name: abd-simple-validated-learning
 
 ### abd-cost-of-delay
 
-- **Directory:** [`idea-shaping/skills/abd-cost-of-delay/`](../idea-shaping/skills/abd-cost-of-delay/)
+- **Directory:** [`practices/idea-shaping/skills/abd-cost-of-delay/`](../practices/idea-shaping/skills/abd-cost-of-delay/)
 
 **Summary:**
 
@@ -612,15 +628,15 @@ This skill packages that method, it classifies the value type and urgency of eac
 
 **Repository layout:**
 
-- **[rules/](../idea-shaping/skills/abd-cost-of-delay/rules)** — Practice rules (DO/DON'T) and constraints used with scanners.
-- **[scanners/](../idea-shaping/skills/abd-cost-of-delay/scanners)** — Folder (4 items).
-- **[scripts/](../idea-shaping/skills/abd-cost-of-delay/scripts)** — Build, catalogue, validation, or packaging automation.
-- **[templates/](../idea-shaping/skills/abd-cost-of-delay/templates)** — Authoring templates and structural skeletons.
-- [SKILL.md](../idea-shaping/skills/abd-cost-of-delay/SKILL.md) — name: abd-cost-of-delay
+- **[rules/](../practices/idea-shaping/skills/abd-cost-of-delay/rules)** — Practice rules (DO/DON'T) and constraints used with scanners.
+- **[scanners/](../practices/idea-shaping/skills/abd-cost-of-delay/scanners)** — Folder (4 items).
+- **[scripts/](../practices/idea-shaping/skills/abd-cost-of-delay/scripts)** — Build, catalogue, validation, or packaging automation.
+- **[templates/](../practices/idea-shaping/skills/abd-cost-of-delay/templates)** — Authoring templates and structural skeletons.
+- [SKILL.md](../practices/idea-shaping/skills/abd-cost-of-delay/SKILL.md) — name: abd-cost-of-delay
 
 ### module-partition
 
-- **Directory:** [`domain-driven-design/skills/abd-module-partition/`](../domain-driven-design/skills/abd-module-partition/)
+- **Directory:** [`practices/domain-driven-design/skills/abd-module-partition/`](../practices/domain-driven-design/skills/abd-module-partition/)
 
 **Summary:**
 
@@ -638,15 +654,15 @@ When the source is already structured as individually addressable files (corpus 
 
 **Repository layout:**
 
-- **[rules/](../domain-driven-design/skills/abd-module-partition/rules)** — Practice rules (DO/DON'T) and constraints used with scanners.
-- **[scanners/](../domain-driven-design/skills/abd-module-partition/scanners)** — Folder (2 items).
-- **[templates/](../domain-driven-design/skills/abd-module-partition/templates)** — Authoring templates and structural skeletons.
-- [Deploy-ToCursor.ps1](../domain-driven-design/skills/abd-module-partition/Deploy-ToCursor.ps1) — .SYNOPSIS
-- [SKILL.md](../domain-driven-design/skills/abd-module-partition/SKILL.md) — name: module-partition
+- **[rules/](../practices/domain-driven-design/skills/abd-module-partition/rules)** — Practice rules (DO/DON'T) and constraints used with scanners.
+- **[scanners/](../practices/domain-driven-design/skills/abd-module-partition/scanners)** — Folder (2 items).
+- **[templates/](../practices/domain-driven-design/skills/abd-module-partition/templates)** — Authoring templates and structural skeletons.
+- [Deploy-ToCursor.ps1](../practices/domain-driven-design/skills/abd-module-partition/Deploy-ToCursor.ps1) — .SYNOPSIS
+- [SKILL.md](../practices/domain-driven-design/skills/abd-module-partition/SKILL.md) — name: module-partition
 
 ### domain-terms
 
-- **Directory:** [`domain-driven-design/skills/abd-domain-terms/`](../domain-driven-design/skills/abd-domain-terms/)
+- **Directory:** [`practices/domain-driven-design/skills/abd-domain-terms/`](../practices/domain-driven-design/skills/abd-domain-terms/)
 
 **Summary:**
 
@@ -662,15 +678,15 @@ This is a single-pass skill. It does not produce a flat term list first and a KA
 
 **Repository layout:**
 
-- **[rules/](../domain-driven-design/skills/abd-domain-terms/rules)** — Practice rules (DO/DON'T) and constraints used with scanners.
-- **[scanners/](../domain-driven-design/skills/abd-domain-terms/scanners)** — Folder (3 items).
-- **[templates/](../domain-driven-design/skills/abd-domain-terms/templates)** — Authoring templates and structural skeletons.
-- [corrections-log.md](../domain-driven-design/skills/abd-domain-terms/corrections-log.md) — ﻿# Corrections log
-- [SKILL.md](../domain-driven-design/skills/abd-domain-terms/SKILL.md) — name: domain-terms
+- **[rules/](../practices/domain-driven-design/skills/abd-domain-terms/rules)** — Practice rules (DO/DON'T) and constraints used with scanners.
+- **[scanners/](../practices/domain-driven-design/skills/abd-domain-terms/scanners)** — Folder (3 items).
+- **[templates/](../practices/domain-driven-design/skills/abd-domain-terms/templates)** — Authoring templates and structural skeletons.
+- [corrections-log.md](../practices/domain-driven-design/skills/abd-domain-terms/corrections-log.md) — ��#   C o r r e c t i o n s   l o g 
+- [SKILL.md](../practices/domain-driven-design/skills/abd-domain-terms/SKILL.md) — name: domain-terms
 
 ### abd-ubiquitous-language
 
-- **Directory:** [`domain-driven-design/skills/abd-ubiquitous-language/`](../domain-driven-design/skills/abd-ubiquitous-language/)
+- **Directory:** [`practices/domain-driven-design/skills/abd-ubiquitous-language/`](../practices/domain-driven-design/skills/abd-ubiquitous-language/)
 
 **Summary:**
 
@@ -686,15 +702,15 @@ The final output is a robust domain model that describes domain concepts in a st
 
 **Repository layout:**
 
-- **[rules/](../domain-driven-design/skills/abd-ubiquitous-language/rules)** — Practice rules (DO/DON'T) and constraints used with scanners.
-- **[scanners/](../domain-driven-design/skills/abd-ubiquitous-language/scanners)** — Folder (3 items).
-- **[templates/](../domain-driven-design/skills/abd-ubiquitous-language/templates)** — Authoring templates and structural skeletons.
-- [corrections-log.md](../domain-driven-design/skills/abd-ubiquitous-language/corrections-log.md) — ﻿# Corrections log
-- [SKILL.md](../domain-driven-design/skills/abd-ubiquitous-language/SKILL.md) — name: abd-ubiquitous-language
+- **[rules/](../practices/domain-driven-design/skills/abd-ubiquitous-language/rules)** — Practice rules (DO/DON'T) and constraints used with scanners.
+- **[scanners/](../practices/domain-driven-design/skills/abd-ubiquitous-language/scanners)** — Folder (2 items).
+- **[templates/](../practices/domain-driven-design/skills/abd-ubiquitous-language/templates)** — Authoring templates and structural skeletons.
+- [corrections-log.md](../practices/domain-driven-design/skills/abd-ubiquitous-language/corrections-log.md) — ﻿# Corrections log
+- [SKILL.md](../practices/domain-driven-design/skills/abd-ubiquitous-language/SKILL.md) — name: abd-ubiquitous-language
 
 ### class-responsibility-collaborator
 
-- **Directory:** [`domain-driven-design/skills/abd-class-responsibility-collaborator/`](../domain-driven-design/skills/abd-class-responsibility-collaborator/)
+- **Directory:** [`practices/domain-driven-design/skills/abd-class-responsibility-collaborator/`](../practices/domain-driven-design/skills/abd-class-responsibility-collaborator/)
 
 **Summary:**
 
@@ -710,16 +726,16 @@ CRC (Class-Responsibility-Collaborator) modeling, introduced by Ward Cunningham 
 
 **Repository layout:**
 
-- **[rules/](../domain-driven-design/skills/abd-class-responsibility-collaborator/rules)** — Practice rules (DO/DON'T) and constraints used with scanners.
-- **[scanners/](../domain-driven-design/skills/abd-class-responsibility-collaborator/scanners)** — Folder (5 items).
-- **[templates/](../domain-driven-design/skills/abd-class-responsibility-collaborator/templates)** — Authoring templates and structural skeletons.
-- [corrections-log.md](../domain-driven-design/skills/abd-class-responsibility-collaborator/corrections-log.md) — ﻿# Corrections log
-- [skill-errors-log.md](../domain-driven-design/skills/abd-class-responsibility-collaborator/skill-errors-log.md) — Skill Errors Log — abd-class-responsibility-collaborator
-- [SKILL.md](../domain-driven-design/skills/abd-class-responsibility-collaborator/SKILL.md) — name: class-responsibility-collaborator
+- **[rules/](../practices/domain-driven-design/skills/abd-class-responsibility-collaborator/rules)** — Practice rules (DO/DON'T) and constraints used with scanners.
+- **[scanners/](../practices/domain-driven-design/skills/abd-class-responsibility-collaborator/scanners)** — Folder (4 items).
+- **[templates/](../practices/domain-driven-design/skills/abd-class-responsibility-collaborator/templates)** — Authoring templates and structural skeletons.
+- [corrections-log.md](../practices/domain-driven-design/skills/abd-class-responsibility-collaborator/corrections-log.md) — ��#   C o r r e c t i o n s   l o g 
+- [skill-errors-log.md](../practices/domain-driven-design/skills/abd-class-responsibility-collaborator/skill-errors-log.md) — Skill Errors Log — abd-class-responsibility-collaborator
+- [SKILL.md](../practices/domain-driven-design/skills/abd-class-responsibility-collaborator/SKILL.md) — name: class-responsibility-collaborator
 
 ### object-model
 
-- **Directory:** [`domain-driven-design/skills/abd-object-model/`](../domain-driven-design/skills/abd-object-model/)
+- **Directory:** [`practices/domain-driven-design/skills/abd-object-model/`](../practices/domain-driven-design/skills/abd-object-model/)
 
 **Summary:**
 
@@ -731,15 +747,15 @@ Build a typed object model for a module. When a CRC model exists it is the prima
 
 **Repository layout:**
 
-- **[rules/](../domain-driven-design/skills/abd-object-model/rules)** — Practice rules (DO/DON'T) and constraints used with scanners.
-- **[scanners/](../domain-driven-design/skills/abd-object-model/scanners)** — Folder (8 items).
-- **[templates/](../domain-driven-design/skills/abd-object-model/templates)** — Authoring templates and structural skeletons.
-- [corrections-log.md](../domain-driven-design/skills/abd-object-model/corrections-log.md) — ﻿# Corrections log
-- [SKILL.md](../domain-driven-design/skills/abd-object-model/SKILL.md) — name: object-model
+- **[rules/](../practices/domain-driven-design/skills/abd-object-model/rules)** — Practice rules (DO/DON'T) and constraints used with scanners.
+- **[scanners/](../practices/domain-driven-design/skills/abd-object-model/scanners)** — Folder (7 items).
+- **[templates/](../practices/domain-driven-design/skills/abd-object-model/templates)** — Authoring templates and structural skeletons.
+- [corrections-log.md](../practices/domain-driven-design/skills/abd-object-model/corrections-log.md) — ﻿# Corrections log
+- [SKILL.md](../practices/domain-driven-design/skills/abd-object-model/SKILL.md) — name: object-model
 
 ### ddd-design-building-blocks
 
-- **Directory:** [`domain-driven-design/skills/abd-ddd-design-building-blocks/`](../domain-driven-design/skills/abd-ddd-design-building-blocks/)
+- **Directory:** [`practices/domain-driven-design/skills/abd-ddd-design-building-blocks/`](../practices/domain-driven-design/skills/abd-ddd-design-building-blocks/)
 
 **Summary:**
 
@@ -759,14 +775,14 @@ THis skill models these elements by understanding business requirements for iden
 
 **Repository layout:**
 
-- **[ide-files/](../domain-driven-design/skills/abd-ddd-design-building-blocks/ide-files)** — Folder (2 items).
-- **[rules/](../domain-driven-design/skills/abd-ddd-design-building-blocks/rules)** — Practice rules (DO/DON'T) and constraints used with scanners.
-- **[templates/](../domain-driven-design/skills/abd-ddd-design-building-blocks/templates)** — Authoring templates and structural skeletons.
-- [SKILL.md](../domain-driven-design/skills/abd-ddd-design-building-blocks/SKILL.md) — name: ddd-design-building-blocks
+- **[ide-files/](../practices/domain-driven-design/skills/abd-ddd-design-building-blocks/ide-files)** — Folder (2 items).
+- **[rules/](../practices/domain-driven-design/skills/abd-ddd-design-building-blocks/rules)** — Practice rules (DO/DON'T) and constraints used with scanners.
+- **[templates/](../practices/domain-driven-design/skills/abd-ddd-design-building-blocks/templates)** — Authoring templates and structural skeletons.
+- [SKILL.md](../practices/domain-driven-design/skills/abd-ddd-design-building-blocks/SKILL.md) — name: ddd-design-building-blocks
 
 ### drawio-domain-sync
 
-- **Directory:** [`domain-driven-design/skills/drawio-domain-sync/`](../domain-driven-design/skills/drawio-domain-sync/)
+- **Directory:** [`practices/domain-driven-design/skills/drawio-domain-sync/`](../practices/domain-driven-design/skills/drawio-domain-sync/)
 
 **Summary:**
 
@@ -782,17 +798,17 @@ Positioning and layout are AI-driven: the agent reads the source, reasons about 
 
 **Repository layout:**
 
-- **[ide-files/](../domain-driven-design/skills/drawio-domain-sync/ide-files)** — Folder (1 items).
-- **[rules/](../domain-driven-design/skills/drawio-domain-sync/rules)** — Practice rules (DO/DON'T) and constraints used with scanners.
-- **[scripts/](../domain-driven-design/skills/drawio-domain-sync/scripts)** — Build, catalogue, validation, or packaging automation.
-- **[templates/](../domain-driven-design/skills/drawio-domain-sync/templates)** — Authoring templates and structural skeletons.
-- [diagrams.md](../domain-driven-design/skills/drawio-domain-sync/diagrams.md) — <!-- section: story_synthesizer.diagrams -->
-- [skill-errors-log.md](../domain-driven-design/skills/drawio-domain-sync/skill-errors-log.md) — ﻿# drawio-domain-sync — skill errors log
-- [SKILL.md](../domain-driven-design/skills/drawio-domain-sync/SKILL.md) — name: drawio-domain-sync
+- **[ide-files/](../practices/domain-driven-design/skills/drawio-domain-sync/ide-files)** — Folder (1 items).
+- **[rules/](../practices/domain-driven-design/skills/drawio-domain-sync/rules)** — Practice rules (DO/DON'T) and constraints used with scanners.
+- **[scripts/](../practices/domain-driven-design/skills/drawio-domain-sync/scripts)** — Build, catalogue, validation, or packaging automation.
+- **[templates/](../practices/domain-driven-design/skills/drawio-domain-sync/templates)** — Authoring templates and structural skeletons.
+- [diagrams.md](../practices/domain-driven-design/skills/drawio-domain-sync/diagrams.md) — <!-- section: story_synthesizer.diagrams -->
+- [skill-errors-log.md](../practices/domain-driven-design/skills/drawio-domain-sync/skill-errors-log.md) — ﻿# drawio-domain-sync — skill errors log
+- [SKILL.md](../practices/domain-driven-design/skills/drawio-domain-sync/SKILL.md) — name: drawio-domain-sync
 
 ### scenario-walkthrough
 
-- **Directory:** [`domain-driven-design/skills/abd-scenario-walkthrough/`](../domain-driven-design/skills/abd-scenario-walkthrough/)
+- **Directory:** [`practices/domain-driven-design/skills/abd-scenario-walkthrough/`](../practices/domain-driven-design/skills/abd-scenario-walkthrough/)
 
 **Summary:**
 
@@ -804,14 +820,14 @@ Walk concrete scenarios through the typed object model (or CRC where the object 
 
 **Repository layout:**
 
-- **[rules/](../domain-driven-design/skills/abd-scenario-walkthrough/rules)** — Practice rules (DO/DON'T) and constraints used with scanners.
-- **[templates/](../domain-driven-design/skills/abd-scenario-walkthrough/templates)** — Authoring templates and structural skeletons.
-- [corrections-log.md](../domain-driven-design/skills/abd-scenario-walkthrough/corrections-log.md) — ﻿# Corrections log
-- [SKILL.md](../domain-driven-design/skills/abd-scenario-walkthrough/SKILL.md) — name: scenario-walkthrough
+- **[rules/](../practices/domain-driven-design/skills/abd-scenario-walkthrough/rules)** — Practice rules (DO/DON'T) and constraints used with scanners.
+- **[templates/](../practices/domain-driven-design/skills/abd-scenario-walkthrough/templates)** — Authoring templates and structural skeletons.
+- [corrections-log.md](../practices/domain-driven-design/skills/abd-scenario-walkthrough/corrections-log.md) — ﻿# Corrections log
+- [SKILL.md](../practices/domain-driven-design/skills/abd-scenario-walkthrough/SKILL.md) — name: scenario-walkthrough
 
 ### bounded-context-map
 
-- **Directory:** [`domain-driven-design/skills/abd-bounded-context-map/`](../domain-driven-design/skills/abd-bounded-context-map/)
+- **Directory:** [`practices/domain-driven-design/skills/abd-bounded-context-map/`](../practices/domain-driven-design/skills/abd-bounded-context-map/)
 
 **Summary:**
 
@@ -825,16 +841,16 @@ Teams working across multiple models, services, or subsystems need a single shar
 
 **Repository layout:**
 
-- **[inputs/](../domain-driven-design/skills/abd-bounded-context-map/inputs)** — Folder (1 items).
-- **[markdown/](../domain-driven-design/skills/abd-bounded-context-map/markdown)** — Folder (1 items).
-- **[rules/](../domain-driven-design/skills/abd-bounded-context-map/rules)** — Practice rules (DO/DON'T) and constraints used with scanners.
-- **[templates/](../domain-driven-design/skills/abd-bounded-context-map/templates)** — Authoring templates and structural skeletons.
-- [SKILL.md](../domain-driven-design/skills/abd-bounded-context-map/SKILL.md) — name: bounded-context-map
-- [stuff.docx](../domain-driven-design/skills/abd-bounded-context-map/stuff.docx) — PK     ! ��4��  ?   [Content_Types].xml …
+- **[inputs/](../practices/domain-driven-design/skills/abd-bounded-context-map/inputs)** — Folder (1 items).
+- **[markdown/](../practices/domain-driven-design/skills/abd-bounded-context-map/markdown)** — Folder (1 items).
+- **[rules/](../practices/domain-driven-design/skills/abd-bounded-context-map/rules)** — Practice rules (DO/DON'T) and constraints used with scanners.
+- **[templates/](../practices/domain-driven-design/skills/abd-bounded-context-map/templates)** — Authoring templates and structural skeletons.
+- [SKILL.md](../practices/domain-driven-design/skills/abd-bounded-context-map/SKILL.md) — name: bounded-context-map
+- [stuff.docx](../practices/domain-driven-design/skills/abd-bounded-context-map/stuff.docx) — PK     ! ��4��  ?   [Content_Types].xml …
 
 ### abd-story-mapping
 
-- **Directory:** [`story-driven-delivery/skills/abd-story-mapping/`](../story-driven-delivery/skills/abd-story-mapping/)
+- **Directory:** [`practices/story-driven-delivery/skills/abd-story-mapping/`](../practices/story-driven-delivery/skills/abd-story-mapping/)
 
 **Summary:**
 
@@ -850,16 +866,16 @@ This document defines …
 
 **Repository layout:**
 
-- **[rules/](../story-driven-delivery/skills/abd-story-mapping/rules)** — Practice rules (DO/DON'T) and constraints used with scanners.
-- **[scanners/](../story-driven-delivery/skills/abd-story-mapping/scanners)** — Folder (6 items).
-- **[templates/](../story-driven-delivery/skills/abd-story-mapping/templates)** — Authoring templates and structural skeletons.
-- [corrections-log.md](../story-driven-delivery/skills/abd-story-mapping/corrections-log.md) — Corrections log
-- [README.md](../story-driven-delivery/skills/abd-story-mapping/README.md) — One line for catalogue cards and grids (YAML string).
-- [SKILL.md](../story-driven-delivery/skills/abd-story-mapping/SKILL.md) — name: abd-story-mapping
+- **[rules/](../practices/story-driven-delivery/skills/abd-story-mapping/rules)** — Practice rules (DO/DON'T) and constraints used with scanners.
+- **[scanners/](../practices/story-driven-delivery/skills/abd-story-mapping/scanners)** — Folder (6 items).
+- **[templates/](../practices/story-driven-delivery/skills/abd-story-mapping/templates)** — Authoring templates and structural skeletons.
+- [corrections-log.md](../practices/story-driven-delivery/skills/abd-story-mapping/corrections-log.md) — ��#   C o r r e c t i o n s   l o g 
+- [README.md](../practices/story-driven-delivery/skills/abd-story-mapping/README.md) — One line for catalogue cards and grids (YAML string).
+- [SKILL.md](../practices/story-driven-delivery/skills/abd-story-mapping/SKILL.md) — name: abd-story-mapping
 
 ### abd-thin-slicing
 
-- **Directory:** [`story-driven-delivery/skills/abd-thin-slicing/`](../story-driven-delivery/skills/abd-thin-slicing/)
+- **Directory:** [`practices/story-driven-delivery/skills/abd-thin-slicing/`](../practices/story-driven-delivery/skills/abd-thin-slicing/)
 
 **Summary:**
 
@@ -871,16 +887,16 @@ Define prioritized increments. Group stories in a story map (and any notes on ri
 
 **Repository layout:**
 
-- **[rules/](../story-driven-delivery/skills/abd-thin-slicing/rules)** — Practice rules (DO/DON'T) and constraints used with scanners.
-- **[scanners/](../story-driven-delivery/skills/abd-thin-slicing/scanners)** — Folder (2 items).
-- **[templates/](../story-driven-delivery/skills/abd-thin-slicing/templates)** — Authoring templates and structural skeletons.
-- [corrections-log.md](../story-driven-delivery/skills/abd-thin-slicing/corrections-log.md) — Corrections log
-- [README.md](../story-driven-delivery/skills/abd-thin-slicing/README.md) — One line for catalogue cards and grids (YAML string).
-- [SKILL.md](../story-driven-delivery/skills/abd-thin-slicing/SKILL.md) — name: abd-thin-slicing
+- **[rules/](../practices/story-driven-delivery/skills/abd-thin-slicing/rules)** — Practice rules (DO/DON'T) and constraints used with scanners.
+- **[scanners/](../practices/story-driven-delivery/skills/abd-thin-slicing/scanners)** — Folder (2 items).
+- **[templates/](../practices/story-driven-delivery/skills/abd-thin-slicing/templates)** — Authoring templates and structural skeletons.
+- [corrections-log.md](../practices/story-driven-delivery/skills/abd-thin-slicing/corrections-log.md) — Corrections log
+- [README.md](../practices/story-driven-delivery/skills/abd-thin-slicing/README.md) — One line for catalogue cards and grids (YAML string).
+- [SKILL.md](../practices/story-driven-delivery/skills/abd-thin-slicing/SKILL.md) — name: abd-thin-slicing
 
 ### abd-acceptance-criteria
 
-- **Directory:** [`story-driven-delivery/skills/abd-acceptance-criteria/`](../story-driven-delivery/skills/abd-acceptance-criteria/)
+- **Directory:** [`practices/story-driven-delivery/skills/abd-acceptance-criteria/`](../practices/story-driven-delivery/skills/abd-acceptance-criteria/)
 
 **Summary:**
 
@@ -894,17 +910,17 @@ This skill is the practice standard for that work: templates for deliverables, r
 
 **Repository layout:**
 
-- **[rules/](../story-driven-delivery/skills/abd-acceptance-criteria/rules)** — Practice rules (DO/DON'T) and constraints used with scanners.
-- **[scanners/](../story-driven-delivery/skills/abd-acceptance-criteria/scanners)** — Folder (15 items).
-- **[templates/](../story-driven-delivery/skills/abd-acceptance-criteria/templates)** — Authoring templates and structural skeletons.
-- [corrections-log.md](../story-driven-delivery/skills/abd-acceptance-criteria/corrections-log.md) — ﻿# Corrections log
-- [README.md](../story-driven-delivery/skills/abd-acceptance-criteria/README.md) — One line for catalogue cards and grids (YAML string).
-- [skill-errors-log.md](../story-driven-delivery/skills/abd-acceptance-criteria/skill-errors-log.md) — Skill Errors Log — abd-acceptance-criteria
-- [SKILL.md](../story-driven-delivery/skills/abd-acceptance-criteria/SKILL.md) — name: abd-acceptance-criteria
+- **[rules/](../practices/story-driven-delivery/skills/abd-acceptance-criteria/rules)** — Practice rules (DO/DON'T) and constraints used with scanners.
+- **[scanners/](../practices/story-driven-delivery/skills/abd-acceptance-criteria/scanners)** — Folder (14 items).
+- **[templates/](../practices/story-driven-delivery/skills/abd-acceptance-criteria/templates)** — Authoring templates and structural skeletons.
+- [corrections-log.md](../practices/story-driven-delivery/skills/abd-acceptance-criteria/corrections-log.md) — ��#   C o r r e c t i o n s   l o g 
+- [README.md](../practices/story-driven-delivery/skills/abd-acceptance-criteria/README.md) — One line for catalogue cards and grids (YAML string).
+- [skill-errors-log.md](../practices/story-driven-delivery/skills/abd-acceptance-criteria/skill-errors-log.md) — Skill Errors Log — abd-acceptance-criteria
+- [SKILL.md](../practices/story-driven-delivery/skills/abd-acceptance-criteria/SKILL.md) — name: abd-acceptance-criteria
 
 ### abd-specification-by-example
 
-- **Directory:** [`story-driven-delivery/skills/abd-specification-by-example/`](../story-driven-delivery/skills/abd-specification-by-example/)
+- **Directory:** [`practices/story-driven-delivery/skills/abd-specification-by-example/`](../practices/story-driven-delivery/skills/abd-specification-by-example/)
 
 **Summary:**
 
@@ -916,16 +932,16 @@ Write Given/When/Then scenarios that make a story's expected behavior concrete a
 
 **Repository layout:**
 
-- **[rules/](../story-driven-delivery/skills/abd-specification-by-example/rules)** — Practice rules (DO/DON'T) and constraints used with scanners.
-- **[scanners/](../story-driven-delivery/skills/abd-specification-by-example/scanners)** — Folder (3 items).
-- **[templates/](../story-driven-delivery/skills/abd-specification-by-example/templates)** — Authoring templates and structural skeletons.
-- [corrections-log.md](../story-driven-delivery/skills/abd-specification-by-example/corrections-log.md) — Corrections log
-- [README.md](../story-driven-delivery/skills/abd-specification-by-example/README.md) — One line for catalogue cards and grids (YAML string).
-- [SKILL.md](../story-driven-delivery/skills/abd-specification-by-example/SKILL.md) — name: abd-specification-by-example
+- **[rules/](../practices/story-driven-delivery/skills/abd-specification-by-example/rules)** — Practice rules (DO/DON'T) and constraints used with scanners.
+- **[scanners/](../practices/story-driven-delivery/skills/abd-specification-by-example/scanners)** — Folder (3 items).
+- **[templates/](../practices/story-driven-delivery/skills/abd-specification-by-example/templates)** — Authoring templates and structural skeletons.
+- [corrections-log.md](../practices/story-driven-delivery/skills/abd-specification-by-example/corrections-log.md) — ��#   C o r r e c t i o n s   l o g 
+- [README.md](../practices/story-driven-delivery/skills/abd-specification-by-example/README.md) — One line for catalogue cards and grids (YAML string).
+- [SKILL.md](../practices/story-driven-delivery/skills/abd-specification-by-example/SKILL.md) — name: abd-specification-by-example
 
 ### abd-acceptance-test-driven-development
 
-- **Directory:** [`story-driven-delivery/skills/abd-acceptance-test-driven-development/`](../story-driven-delivery/skills/abd-acceptance-test-driven-development/)
+- **Directory:** [`practices/story-driven-delivery/skills/abd-acceptance-test-driven-development/`](../practices/story-driven-delivery/skills/abd-acceptance-test-driven-development/)
 
 **Summary:**
 
@@ -943,16 +959,16 @@ The skill covers the full test quality bar: domain language in names, observable
 
 **Repository layout:**
 
-- **[rules/](../story-driven-delivery/skills/abd-acceptance-test-driven-development/rules)** — Practice rules (DO/DON'T) and constraints used with scanners.
-- **[scanners/](../story-driven-delivery/skills/abd-acceptance-test-driven-development/scanners)** — Folder (2 items).
-- **[templates/](../story-driven-delivery/skills/abd-acceptance-test-driven-development/templates)** — Authoring templates and structural skeletons.
-- [corrections-log.md](../story-driven-delivery/skills/abd-acceptance-test-driven-development/corrections-log.md) — Corrections log
-- [README.md](../story-driven-delivery/skills/abd-acceptance-test-driven-development/README.md) — One line for catalogue cards and grids (YAML string).
-- [SKILL.md](../story-driven-delivery/skills/abd-acceptance-test-driven-development/SKILL.md) — name: abd-acceptance-test-driven-development
+- **[rules/](../practices/story-driven-delivery/skills/abd-acceptance-test-driven-development/rules)** — Practice rules (DO/DON'T) and constraints used with scanners.
+- **[scanners/](../practices/story-driven-delivery/skills/abd-acceptance-test-driven-development/scanners)** — Folder (2 items).
+- **[templates/](../practices/story-driven-delivery/skills/abd-acceptance-test-driven-development/templates)** — Authoring templates and structural skeletons.
+- [corrections-log.md](../practices/story-driven-delivery/skills/abd-acceptance-test-driven-development/corrections-log.md) — ��#   C o r r e c t i o n s   l o g 
+- [README.md](../practices/story-driven-delivery/skills/abd-acceptance-test-driven-development/README.md) — One line for catalogue cards and grids (YAML string).
+- [SKILL.md](../practices/story-driven-delivery/skills/abd-acceptance-test-driven-development/SKILL.md) — name: abd-acceptance-test-driven-development
 
 ### drawio-story-sync
 
-- **Directory:** [`story-driven-delivery/skills/drawio-story-sync/`](../story-driven-delivery/skills/drawio-story-sync/)
+- **Directory:** [`practices/story-driven-delivery/skills/drawio-story-sync/`](../practices/story-driven-delivery/skills/drawio-story-sync/)
 
 **Summary:**
 
@@ -964,16 +980,16 @@ Render and synchronize story-map DrawIO diagrams (outline, exploration with acce
 
 **Repository layout:**
 
-- **[guidance/](../story-driven-delivery/skills/drawio-story-sync/guidance)** — Folder (2 items).
-- **[ide-files/](../story-driven-delivery/skills/drawio-story-sync/ide-files)** — Folder (1 items).
-- **[scripts/](../story-driven-delivery/skills/drawio-story-sync/scripts)** — Build, catalogue, validation, or packaging automation.
-- **[tests/](../story-driven-delivery/skills/drawio-story-sync/tests)** — Folder (4 items).
-- [README.md](../story-driven-delivery/skills/drawio-story-sync/README.md) — One line for catalogue cards and grids (YAML string).
-- [SKILL.md](../story-driven-delivery/skills/drawio-story-sync/SKILL.md) — name: drawio-story-sync
+- **[guidance/](../practices/story-driven-delivery/skills/drawio-story-sync/guidance)** — Folder (2 items).
+- **[ide-files/](../practices/story-driven-delivery/skills/drawio-story-sync/ide-files)** — Folder (1 items).
+- **[scripts/](../practices/story-driven-delivery/skills/drawio-story-sync/scripts)** — Build, catalogue, validation, or packaging automation.
+- **[tests/](../practices/story-driven-delivery/skills/drawio-story-sync/tests)** — Folder (3 items).
+- [README.md](../practices/story-driven-delivery/skills/drawio-story-sync/README.md) — One line for catalogue cards and grids (YAML string).
+- [SKILL.md](../practices/story-driven-delivery/skills/drawio-story-sync/SKILL.md) — name: drawio-story-sync
 
 ### miro-story-sync
 
-- **Directory:** [`story-driven-delivery/skills/miro-story-sync/`](../story-driven-delivery/skills/miro-story-sync/)
+- **Directory:** [`practices/story-driven-delivery/skills/miro-story-sync/`](../practices/story-driven-delivery/skills/miro-story-sync/)
 
 **Summary:**
 
@@ -985,14 +1001,14 @@ Render and synchronize story-map Miro boards (outline today; exploration with ac
 
 **Repository layout:**
 
-- **[scripts/](../story-driven-delivery/skills/miro-story-sync/scripts)** — Build, catalogue, validation, or packaging automation.
-- **[tests/](../story-driven-delivery/skills/miro-story-sync/tests)** — Folder (2 items).
-- [README.md](../story-driven-delivery/skills/miro-story-sync/README.md) — catalogue_summary: "Render and synchronize story-map Miro boards (outline today; exploration with acceptance criteria and prioritization increments planned) from story-graph.json …
-- [SKILL.md](../story-driven-delivery/skills/miro-story-sync/SKILL.md) — name: miro-story-sync
+- **[scripts/](../practices/story-driven-delivery/skills/miro-story-sync/scripts)** — Build, catalogue, validation, or packaging automation.
+- **[tests/](../practices/story-driven-delivery/skills/miro-story-sync/tests)** — Folder (2 items).
+- [README.md](../practices/story-driven-delivery/skills/miro-story-sync/README.md) — catalogue_summary: "Render and synchronize story-map Miro boards (outline today; exploration with acceptance criteria and prioritization increments planned) from story-graph.json …
+- [SKILL.md](../practices/story-driven-delivery/skills/miro-story-sync/SKILL.md) — name: miro-story-sync
 
 ### story-graph-ops
 
-- **Directory:** [`story-driven-delivery/skills/story-graph-ops/`](../story-driven-delivery/skills/story-graph-ops/)
+- **Directory:** [`practices/story-driven-delivery/skills/story-graph-ops/`](../practices/story-driven-delivery/skills/story-graph-ops/)
 
 **Summary:**
 
@@ -1004,20 +1020,19 @@ Create, read, update, and delete story-graph.json (whole file or parts—epics, 
 
 **Repository layout:**
 
-- **[guidance/](../story-driven-delivery/skills/story-graph-ops/guidance)** — Folder (2 items).
-- **[ide-files/](../story-driven-delivery/skills/story-graph-ops/ide-files)** — Folder (1 items).
-- **[logs/](../story-driven-delivery/skills/story-graph-ops/logs)** — Folder (1 items).
-- **[scanner-report/](../story-driven-delivery/skills/story-graph-ops/scanner-report)** — Folder (0 items).
-- **[scripts/](../story-driven-delivery/skills/story-graph-ops/scripts)** — Build, catalogue, validation, or packaging automation.
-- **[tests/](../story-driven-delivery/skills/story-graph-ops/tests)** — Folder (11 items).
-- [MIGRATION_PARITY.md](../story-driven-delivery/skills/story-graph-ops/MIGRATION_PARITY.md) — Story graph parity: agile_bots → story-graph-ops
-- [README.md](../story-driven-delivery/skills/story-graph-ops/README.md) — One line for catalogue cards and grids (YAML string).
-- [skill-errors-log.md](../story-driven-delivery/skills/story-graph-ops/skill-errors-log.md) — Corrections log
-- [SKILL.md](../story-driven-delivery/skills/story-graph-ops/SKILL.md) — name: story-graph-ops
+- **[guidance/](../practices/story-driven-delivery/skills/story-graph-ops/guidance)** — Folder (2 items).
+- **[ide-files/](../practices/story-driven-delivery/skills/story-graph-ops/ide-files)** — Folder (1 items).
+- **[logs/](../practices/story-driven-delivery/skills/story-graph-ops/logs)** — Folder (1 items).
+- **[scripts/](../practices/story-driven-delivery/skills/story-graph-ops/scripts)** — Build, catalogue, validation, or packaging automation.
+- **[tests/](../practices/story-driven-delivery/skills/story-graph-ops/tests)** — Folder (10 items).
+- [MIGRATION_PARITY.md](../practices/story-driven-delivery/skills/story-graph-ops/MIGRATION_PARITY.md) — Story graph parity: agile_bots → story-graph-ops
+- [README.md](../practices/story-driven-delivery/skills/story-graph-ops/README.md) — One line for catalogue cards and grids (YAML string).
+- [skill-errors-log.md](../practices/story-driven-delivery/skills/story-graph-ops/skill-errors-log.md) — Corrections log
+- [SKILL.md](../practices/story-driven-delivery/skills/story-graph-ops/SKILL.md) — name: story-graph-ops
 
 ### abd-information-architecture
 
-- **Directory:** [`user-experience-design/skills/abd-information-architecture/`](../user-experience-design/skills/abd-information-architecture/)
+- **Directory:** [`practices/kanban/user-experience-design/skills/abd-information-architecture/`](../practices/kanban/user-experience-design/skills/abd-information-architecture/)
 
 **Summary:**
 
@@ -1035,16 +1050,16 @@ Doing this work early, before detailed design or development, flushes out gaps i
 
 **Repository layout:**
 
-- **[rules/](../user-experience-design/skills/abd-information-architecture/rules)** — Practice rules (DO/DON'T) and constraints used with scanners.
-- **[screen-templates/](../user-experience-design/skills/abd-information-architecture/screen-templates)** — Folder (86 items).
-- **[scripts/](../user-experience-design/skills/abd-information-architecture/scripts)** — Build, catalogue, validation, or packaging automation.
-- **[templates/](../user-experience-design/skills/abd-information-architecture/templates)** — Authoring templates and structural skeletons.
-- [corrections-log.md](../user-experience-design/skills/abd-information-architecture/corrections-log.md) — abd-information-architecture — corrections log
-- [SKILL.md](../user-experience-design/skills/abd-information-architecture/SKILL.md) — catalog_garden_tier: practice
+- **[rules/](../practices/kanban/user-experience-design/skills/abd-information-architecture/rules)** — Practice rules (DO/DON'T) and constraints used with scanners.
+- **[screen-templates/](../practices/kanban/user-experience-design/skills/abd-information-architecture/screen-templates)** — Folder (86 items).
+- **[scripts/](../practices/kanban/user-experience-design/skills/abd-information-architecture/scripts)** — Build, catalogue, validation, or packaging automation.
+- **[templates/](../practices/kanban/user-experience-design/skills/abd-information-architecture/templates)** — Authoring templates and structural skeletons.
+- [corrections-log.md](../practices/kanban/user-experience-design/skills/abd-information-architecture/corrections-log.md) — abd-information-architecture — corrections log
+- [SKILL.md](../practices/kanban/user-experience-design/skills/abd-information-architecture/SKILL.md) — catalog_garden_tier: practice
 
 ### abd-ux-mockup
 
-- **Directory:** [`user-experience-design/skills/abd-ux-mockup/`](../user-experience-design/skills/abd-ux-mockup/)
+- **Directory:** [`practices/kanban/user-experience-design/skills/abd-ux-mockup/`](../practices/kanban/user-experience-design/skills/abd-ux-mockup/)
 
 **Summary:**
 
@@ -1058,15 +1073,15 @@ Critical principle: The lo-fi mockup must faithfully reproduce the …
 
 **Repository layout:**
 
-- **[rules/](../user-experience-design/skills/abd-ux-mockup/rules)** — Practice rules (DO/DON'T) and constraints used with scanners.
-- **[scripts/](../user-experience-design/skills/abd-ux-mockup/scripts)** — Build, catalogue, validation, or packaging automation.
-- **[templates/](../user-experience-design/skills/abd-ux-mockup/templates)** — Authoring templates and structural skeletons.
-- [corrections-log.md](../user-experience-design/skills/abd-ux-mockup/corrections-log.md) — abd-lo-fi — corrections log
-- [SKILL.md](../user-experience-design/skills/abd-ux-mockup/SKILL.md) — catalog_garden_tier: practice
+- **[rules/](../practices/kanban/user-experience-design/skills/abd-ux-mockup/rules)** — Practice rules (DO/DON'T) and constraints used with scanners.
+- **[scripts/](../practices/kanban/user-experience-design/skills/abd-ux-mockup/scripts)** — Build, catalogue, validation, or packaging automation.
+- **[templates/](../practices/kanban/user-experience-design/skills/abd-ux-mockup/templates)** — Authoring templates and structural skeletons.
+- [corrections-log.md](../practices/kanban/user-experience-design/skills/abd-ux-mockup/corrections-log.md) — abd-lo-fi — corrections log
+- [SKILL.md](../practices/kanban/user-experience-design/skills/abd-ux-mockup/SKILL.md) — catalog_garden_tier: practice
 
 ### abd-interface-design
 
-- **Directory:** [`user-experience-design/skills/abd-interface-design/`](../user-experience-design/skills/abd-interface-design/)
+- **Directory:** [`practices/kanban/user-experience-design/skills/abd-interface-design/`](../practices/kanban/user-experience-design/skills/abd-interface-design/)
 
 **Summary:**
 
@@ -1080,15 +1095,14 @@ Hi-fi mockups settle look and feel. The interface stage is where they become rea
 
 **Repository layout:**
 
-- **[ide-files/](../user-experience-design/skills/abd-interface-design/ide-files)** — Folder (0 items).
-- **[rules/](../user-experience-design/skills/abd-interface-design/rules)** — Practice rules (DO/DON'T) and constraints used with scanners.
-- **[templates/](../user-experience-design/skills/abd-interface-design/templates)** — Authoring templates and structural skeletons.
-- [corrections-log.md](../user-experience-design/skills/abd-interface-design/corrections-log.md) — abd-interface-design — corrections log
-- [SKILL.md](../user-experience-design/skills/abd-interface-design/SKILL.md) — catalog_garden_tier: practice
+- **[rules/](../practices/kanban/user-experience-design/skills/abd-interface-design/rules)** — Practice rules (DO/DON'T) and constraints used with scanners.
+- **[templates/](../practices/kanban/user-experience-design/skills/abd-interface-design/templates)** — Authoring templates and structural skeletons.
+- [corrections-log.md](../practices/kanban/user-experience-design/skills/abd-interface-design/corrections-log.md) — abd-interface-design — corrections log
+- [SKILL.md](../practices/kanban/user-experience-design/skills/abd-interface-design/SKILL.md) — catalog_garden_tier: practice
 
 ### abd-architecture-outline
 
-- **Directory:** [`architecture-centric-engineering/skills/abd-architecture-outline/`](../architecture-centric-engineering/skills/abd-architecture-outline/)
+- **Directory:** [`practices/architecture-centric-engineering/skills/abd-architecture-outline/`](../practices/architecture-centric-engineering/skills/abd-architecture-outline/)
 
 **Summary:**
 
@@ -1100,22 +1114,23 @@ A team that cannot draw its system on one page also cannot agree on what to buil
 
 **Repository layout:**
 
-- **[ide-files/](../architecture-centric-engineering/skills/abd-architecture-outline/ide-files)** — Folder (1 items).
-- **[rules/](../architecture-centric-engineering/skills/abd-architecture-outline/rules)** — Practice rules (DO/DON'T) and constraints used with scanners.
-- **[scanner-report/](../architecture-centric-engineering/skills/abd-architecture-outline/scanner-report)** — Folder (1 items).
-- **[scanners/](../architecture-centric-engineering/skills/abd-architecture-outline/scanners)** — Folder (1 items).
-- **[scripts/](../architecture-centric-engineering/skills/abd-architecture-outline/scripts)** — Build, catalogue, validation, or packaging automation.
-- **[templates/](../architecture-centric-engineering/skills/abd-architecture-outline/templates)** — Authoring templates and structural skeletons.
-- [deployment-architecture.png](../architecture-centric-engineering/skills/abd-architecture-outline/deployment-architecture.png) — IHDR  *  ~   ��1�   sRGB ��
-- [layered-architecture.png](../architecture-centric-engineering/skills/abd-architecture-outline/layered-architecture.png) — IHDR  �  X   L��P   sRGB ��
-- [platform-architecture.png](../architecture-centric-engineering/skills/abd-architecture-outline/platform-architecture.png) — IHDR  (  4   P�   sRGB ��
-- [process.docx](../architecture-centric-engineering/skills/abd-architecture-outline/process.docx) — PK     ! ��
-- [SKILL.md](../architecture-centric-engineering/skills/abd-architecture-outline/SKILL.md) — catalog_garden_tier: practice
-- [system-context.png](../architecture-centric-engineering/skills/abd-architecture-outline/system-context.png) — IHDR    Y   ݸ��   sRGB ��
+- **[ide-files/](../practices/architecture-centric-engineering/skills/abd-architecture-outline/ide-files)** — Folder (1 items).
+- **[rules/](../practices/architecture-centric-engineering/skills/abd-architecture-outline/rules)** — Practice rules (DO/DON'T) and constraints used with scanners.
+- **[scanner-report/](../practices/architecture-centric-engineering/skills/abd-architecture-outline/scanner-report)** — Folder (1 items).
+- **[scanners/](../practices/architecture-centric-engineering/skills/abd-architecture-outline/scanners)** — Folder (1 items).
+- **[scripts/](../practices/architecture-centric-engineering/skills/abd-architecture-outline/scripts)** — Build, catalogue, validation, or packaging automation.
+- **[templates/](../practices/architecture-centric-engineering/skills/abd-architecture-outline/templates)** — Authoring templates and structural skeletons.
+- [corrections-log.md](../practices/architecture-centric-engineering/skills/abd-architecture-outline/corrections-log.md) — ��#   C o r r e c t i o n s   l o g   �� �   a b d - a r c h i t e c t u r e - o u t l i n e 
+- [deployment-architecture.png](../practices/architecture-centric-engineering/skills/abd-architecture-outline/deployment-architecture.png) — IHDR  *  ~   ��1�   sRGB ��
+- [layered-architecture.png](../practices/architecture-centric-engineering/skills/abd-architecture-outline/layered-architecture.png) — IHDR  �  X   L��P   sRGB ��
+- [platform-architecture.png](../practices/architecture-centric-engineering/skills/abd-architecture-outline/platform-architecture.png) — IHDR  (  4   P�   sRGB ��
+- [process.docx](../practices/architecture-centric-engineering/skills/abd-architecture-outline/process.docx) — PK     ! ��
+- [SKILL.md](../practices/architecture-centric-engineering/skills/abd-architecture-outline/SKILL.md) — catalog_garden_tier: practice
+- [system-context.png](../practices/architecture-centric-engineering/skills/abd-architecture-outline/system-context.png) — IHDR    Y   ݸ��   sRGB ��
 
 ### abd-architecture-blueprint
 
-- **Directory:** [`architecture-centric-engineering/skills/abd-architecture-blueprint/`](../architecture-centric-engineering/skills/abd-architecture-blueprint/)
+- **Directory:** [`practices/architecture-centric-engineering/skills/abd-architecture-blueprint/`](../practices/architecture-centric-engineering/skills/abd-architecture-blueprint/)
 
 **Summary:**
 
@@ -1127,17 +1142,17 @@ The outline shows what a system is; the blueprint shows what it is made of. A bl
 
 **Repository layout:**
 
-- **[ide-files/](../architecture-centric-engineering/skills/abd-architecture-blueprint/ide-files)** — Folder (1 items).
-- **[rules/](../architecture-centric-engineering/skills/abd-architecture-blueprint/rules)** — Practice rules (DO/DON'T) and constraints used with scanners.
-- **[scanner-report/](../architecture-centric-engineering/skills/abd-architecture-blueprint/scanner-report)** — Folder (1 items).
-- **[scanners/](../architecture-centric-engineering/skills/abd-architecture-blueprint/scanners)** — Folder (1 items).
-- **[scripts/](../architecture-centric-engineering/skills/abd-architecture-blueprint/scripts)** — Build, catalogue, validation, or packaging automation.
-- **[templates/](../architecture-centric-engineering/skills/abd-architecture-blueprint/templates)** — Authoring templates and structural skeletons.
-- [SKILL.md](../architecture-centric-engineering/skills/abd-architecture-blueprint/SKILL.md) — catalog_garden_tier: practice
+- **[ide-files/](../practices/architecture-centric-engineering/skills/abd-architecture-blueprint/ide-files)** — Folder (1 items).
+- **[rules/](../practices/architecture-centric-engineering/skills/abd-architecture-blueprint/rules)** — Practice rules (DO/DON'T) and constraints used with scanners.
+- **[scanner-report/](../practices/architecture-centric-engineering/skills/abd-architecture-blueprint/scanner-report)** — Folder (1 items).
+- **[scanners/](../practices/architecture-centric-engineering/skills/abd-architecture-blueprint/scanners)** — Folder (1 items).
+- **[scripts/](../practices/architecture-centric-engineering/skills/abd-architecture-blueprint/scripts)** — Build, catalogue, validation, or packaging automation.
+- **[templates/](../practices/architecture-centric-engineering/skills/abd-architecture-blueprint/templates)** — Authoring templates and structural skeletons.
+- [SKILL.md](../practices/architecture-centric-engineering/skills/abd-architecture-blueprint/SKILL.md) — catalog_garden_tier: practice
 
 ### abd-architecture-reference
 
-- **Directory:** [`architecture-centric-engineering/skills/abd-architecture-reference/`](../architecture-centric-engineering/skills/abd-architecture-reference/)
+- **Directory:** [`practices/architecture-centric-engineering/skills/abd-architecture-reference/`](../practices/architecture-centric-engineering/skills/abd-architecture-reference/)
 
 **Summary:**
 
@@ -1151,13 +1166,13 @@ Two paths are available: use the real project's architecture reference and one i
 
 **Repository layout:**
 
-- **[ide-files/](../architecture-centric-engineering/skills/abd-architecture-reference/ide-files)** — Folder (1 items).
-- **[templates/](../architecture-centric-engineering/skills/abd-architecture-reference/templates)** — Authoring templates and structural skeletons.
-- [SKILL.md](../architecture-centric-engineering/skills/abd-architecture-reference/SKILL.md) — catalog_garden_tier: practice
+- **[ide-files/](../practices/architecture-centric-engineering/skills/abd-architecture-reference/ide-files)** — Folder (1 items).
+- **[templates/](../practices/architecture-centric-engineering/skills/abd-architecture-reference/templates)** — Authoring templates and structural skeletons.
+- [SKILL.md](../practices/architecture-centric-engineering/skills/abd-architecture-reference/SKILL.md) — catalog_garden_tier: practice
 
 ### abd-architecture-template
 
-- **Directory:** [`architecture-centric-engineering/skills/abd-architecture-template/`](../architecture-centric-engineering/skills/abd-architecture-template/)
+- **Directory:** [`practices/architecture-centric-engineering/skills/abd-architecture-template/`](../practices/architecture-centric-engineering/skills/abd-architecture-template/)
 
 **Summary:**
 
@@ -1169,17 +1184,17 @@ Architecture decisions usually live in someone's head, a deck, or a wiki page th
 
 **Repository layout:**
 
-- **[inputs/](../architecture-centric-engineering/skills/abd-architecture-template/inputs)** — Folder (1 items).
-- **[rules/](../architecture-centric-engineering/skills/abd-architecture-template/rules)** — Practice rules (DO/DON'T) and constraints used with scanners.
-- **[scanner-report/](../architecture-centric-engineering/skills/abd-architecture-template/scanner-report)** — Folder (1 items).
-- **[templates/](../architecture-centric-engineering/skills/abd-architecture-template/templates)** — Authoring templates and structural skeletons.
-- [Key Mechanism Design.docx](../architecture-centric-engineering/skills/abd-architecture-template/Key Mechanism Design.docx) — PK     ! �A�y  
-- [skill-errors-log.md](../architecture-centric-engineering/skills/abd-architecture-template/skill-errors-log.md) — Skill errors log — abd-architecture-template
-- [SKILL.md](../architecture-centric-engineering/skills/abd-architecture-template/SKILL.md) — catalog_garden_tier: practice
+- **[inputs/](../practices/architecture-centric-engineering/skills/abd-architecture-template/inputs)** — Folder (1 items).
+- **[rules/](../practices/architecture-centric-engineering/skills/abd-architecture-template/rules)** — Practice rules (DO/DON'T) and constraints used with scanners.
+- **[scanner-report/](../practices/architecture-centric-engineering/skills/abd-architecture-template/scanner-report)** — Folder (1 items).
+- **[templates/](../practices/architecture-centric-engineering/skills/abd-architecture-template/templates)** — Authoring templates and structural skeletons.
+- [Key Mechanism Design.docx](../practices/architecture-centric-engineering/skills/abd-architecture-template/Key Mechanism Design.docx) — PK     ! �A�y  
+- [skill-errors-log.md](../practices/architecture-centric-engineering/skills/abd-architecture-template/skill-errors-log.md) — Skill errors log — abd-architecture-template
+- [SKILL.md](../practices/architecture-centric-engineering/skills/abd-architecture-template/SKILL.md) — catalog_garden_tier: practice
 
 ### abd-clean-code
 
-- **Directory:** [`architecture-centric-engineering/skills/abd-clean-code/`](../architecture-centric-engineering/skills/abd-clean-code/)
+- **Directory:** [`practices/architecture-centric-engineering/skills/abd-clean-code/`](../practices/architecture-centric-engineering/skills/abd-clean-code/)
 
 **Summary:**
 
@@ -1195,17 +1210,40 @@ The skill covers the full implementation quality bar: names that reveal intent, 
 
 **Repository layout:**
 
-- **[rules/](../architecture-centric-engineering/skills/abd-clean-code/rules)** — Practice rules (DO/DON'T) and constraints used with scanners.
-- **[scanners/](../architecture-centric-engineering/skills/abd-clean-code/scanners)** — Folder (2 items).
-- **[scripts/](../architecture-centric-engineering/skills/abd-clean-code/scripts)** — Build, catalogue, validation, or packaging automation.
-- **[templates/](../architecture-centric-engineering/skills/abd-clean-code/templates)** — Authoring templates and structural skeletons.
-- [corrections-log.md](../architecture-centric-engineering/skills/abd-clean-code/corrections-log.md) — abd-clean-code — corrections log
-- [README.md](../architecture-centric-engineering/skills/abd-clean-code/README.md) — One line for catalogue cards and grids (YAML string).
-- [SKILL.md](../architecture-centric-engineering/skills/abd-clean-code/SKILL.md) — name: abd-clean-code
+- **[rules/](../practices/architecture-centric-engineering/skills/abd-clean-code/rules)** — Practice rules (DO/DON'T) and constraints used with scanners.
+- **[scanners/](../practices/architecture-centric-engineering/skills/abd-clean-code/scanners)** — Folder (2 items).
+- **[scripts/](../practices/architecture-centric-engineering/skills/abd-clean-code/scripts)** — Build, catalogue, validation, or packaging automation.
+- **[templates/](../practices/architecture-centric-engineering/skills/abd-clean-code/templates)** — Authoring templates and structural skeletons.
+- [corrections-log.md](../practices/architecture-centric-engineering/skills/abd-clean-code/corrections-log.md) — abd-clean-code — corrections log
+- [README.md](../practices/architecture-centric-engineering/skills/abd-clean-code/README.md) — One line for catalogue cards and grids (YAML string).
+- [SKILL.md](../practices/architecture-centric-engineering/skills/abd-clean-code/SKILL.md) — name: abd-clean-code
+
+### abd-secure-code
+
+- **Directory:** [`practices/architecture-centric-engineering/skills/abd-secure-code/`](../practices/architecture-centric-engineering/skills/abd-secure-code/)
+
+**Summary:**
+
+OWASP-aligned secure coding rules and Python/Java/JavaScript scanners — write and prove security-sensitive production code before merge.
+
+**Description (from Purpose / body):**
+
+Engineers ship features faster than attackers find gaps — but only when secure defaults are explicit, reviewable, and mechanically checkable. This skill packages Secure Code Warrior guidance into concrete coding rules and automated scanners so teams and agents can write security-sensitive code and prove it meets the same bar before merge.
+
+**Repository layout:**
+
+- **[inputs/](../practices/architecture-centric-engineering/skills/abd-secure-code/inputs)** — Folder (5 items).
+- **[rules/](../practices/architecture-centric-engineering/skills/abd-secure-code/rules)** — Practice rules (DO/DON'T) and constraints used with scanners.
+- **[scanners/](../practices/architecture-centric-engineering/skills/abd-secure-code/scanners)** — Folder (5 items).
+- **[scripts/](../practices/architecture-centric-engineering/skills/abd-secure-code/scripts)** — Build, catalogue, validation, or packaging automation.
+- **[templates/](../practices/architecture-centric-engineering/skills/abd-secure-code/templates)** — Authoring templates and structural skeletons.
+- **[test/](../practices/architecture-centric-engineering/skills/abd-secure-code/test)** — Automated tests for the agent or skill package.
+- [README.md](../practices/architecture-centric-engineering/skills/abd-secure-code/README.md) — catalogue_summary: "OWASP-aligned secure coding rules and Python, Java, and JavaScript scanners — write security-sensitive production code and prove it with mechanical checks …
+- [SKILL.md](../practices/architecture-centric-engineering/skills/abd-secure-code/SKILL.md) — name: abd-secure-code
 
 ### mern-technical-architecture
 
-- **Directory:** [`architecture-centric-engineering/skills/mern-technical-architecture/`](../architecture-centric-engineering/skills/mern-technical-architecture/)
+- **Directory:** [`practices/architecture-centric-engineering/skills/mern-technical-architecture/`](../practices/architecture-centric-engineering/skills/mern-technical-architecture/)
 
 **Summary:**
 
@@ -1219,15 +1257,15 @@ This skill produces real, runnable TypeScript domain modules — each with a sha
 
 **Repository layout:**
 
-- **[inputs/](../architecture-centric-engineering/skills/mern-technical-architecture/inputs)** — Folder (1 items).
-- **[rules/](../architecture-centric-engineering/skills/mern-technical-architecture/rules)** — Practice rules (DO/DON'T) and constraints used with scanners.
-- **[scanners/](../architecture-centric-engineering/skills/mern-technical-architecture/scanners)** — Folder (1 items).
-- **[templates/](../architecture-centric-engineering/skills/mern-technical-architecture/templates)** — Authoring templates and structural skeletons.
-- [SKILL.md](../architecture-centric-engineering/skills/mern-technical-architecture/SKILL.md) — name: mern-technical-architecture
+- **[inputs/](../practices/architecture-centric-engineering/skills/mern-technical-architecture/inputs)** — Folder (1 items).
+- **[rules/](../practices/architecture-centric-engineering/skills/mern-technical-architecture/rules)** — Practice rules (DO/DON'T) and constraints used with scanners.
+- **[scanners/](../practices/architecture-centric-engineering/skills/mern-technical-architecture/scanners)** — Folder (1 items).
+- **[templates/](../practices/architecture-centric-engineering/skills/mern-technical-architecture/templates)** — Authoring templates and structural skeletons.
+- [SKILL.md](../practices/architecture-centric-engineering/skills/mern-technical-architecture/SKILL.md) — name: mern-technical-architecture
 
 ### abd-build-architecture-skill
 
-- **Directory:** [`architecture-centric-engineering/skills/abd-build-architecture-skill/`](../architecture-centric-engineering/skills/abd-build-architecture-skill/)
+- **Directory:** [`practices/architecture-centric-engineering/skills/abd-build-architecture-skill/`](../practices/architecture-centric-engineering/skills/abd-build-architecture-skill/)
 
 **Summary:**
 
@@ -1239,15 +1277,15 @@ A team can write down its architecture and still ship code that drifts from it w
 
 **Repository layout:**
 
-- **[rules/](../architecture-centric-engineering/skills/abd-build-architecture-skill/rules)** — Practice rules (DO/DON'T) and constraints used with scanners.
-- **[scanner-report/](../architecture-centric-engineering/skills/abd-build-architecture-skill/scanner-report)** — Folder (1 items).
-- **[templates/](../architecture-centric-engineering/skills/abd-build-architecture-skill/templates)** — Authoring templates and structural skeletons.
-- [skill-errors-log.md](../architecture-centric-engineering/skills/abd-build-architecture-skill/skill-errors-log.md) — Skill errors log — abd-build-architecture-skill
-- [SKILL.md](../architecture-centric-engineering/skills/abd-build-architecture-skill/SKILL.md) — name: abd-build-architecture-skill
+- **[rules/](../practices/architecture-centric-engineering/skills/abd-build-architecture-skill/rules)** — Practice rules (DO/DON'T) and constraints used with scanners.
+- **[scanner-report/](../practices/architecture-centric-engineering/skills/abd-build-architecture-skill/scanner-report)** — Folder (1 items).
+- **[templates/](../practices/architecture-centric-engineering/skills/abd-build-architecture-skill/templates)** — Authoring templates and structural skeletons.
+- [skill-errors-log.md](../practices/architecture-centric-engineering/skills/abd-build-architecture-skill/skill-errors-log.md) — Skill errors log — abd-build-architecture-skill
+- [SKILL.md](../practices/architecture-centric-engineering/skills/abd-build-architecture-skill/SKILL.md) — name: abd-build-architecture-skill
 
 ### abd-service-level-objectives
 
-- **Directory:** [`architecture-centric-engineering/skills/abd-service-level-objectives/`](../architecture-centric-engineering/skills/abd-service-level-objectives/)
+- **Directory:** [`practices/architecture-centric-engineering/skills/abd-service-level-objectives/`](../practices/architecture-centric-engineering/skills/abd-service-level-objectives/)
 
 **Summary:**
 
@@ -1259,16 +1297,16 @@ A non-functional requirement that cannot be measured is a wish. Teams that ship 
 
 **Repository layout:**
 
-- **[ide-files/](../architecture-centric-engineering/skills/abd-service-level-objectives/ide-files)** — Folder (1 items).
-- **[rules/](../architecture-centric-engineering/skills/abd-service-level-objectives/rules)** — Practice rules (DO/DON'T) and constraints used with scanners.
-- **[scanner-report/](../architecture-centric-engineering/skills/abd-service-level-objectives/scanner-report)** — Folder (1 items).
-- **[scanners/](../architecture-centric-engineering/skills/abd-service-level-objectives/scanners)** — Folder (1 items).
-- **[templates/](../architecture-centric-engineering/skills/abd-service-level-objectives/templates)** — Authoring templates and structural skeletons.
-- [SKILL.md](../architecture-centric-engineering/skills/abd-service-level-objectives/SKILL.md) — name: abd-service-level-objectives
+- **[ide-files/](../practices/architecture-centric-engineering/skills/abd-service-level-objectives/ide-files)** — Folder (1 items).
+- **[rules/](../practices/architecture-centric-engineering/skills/abd-service-level-objectives/rules)** — Practice rules (DO/DON'T) and constraints used with scanners.
+- **[scanner-report/](../practices/architecture-centric-engineering/skills/abd-service-level-objectives/scanner-report)** — Folder (1 items).
+- **[scanners/](../practices/architecture-centric-engineering/skills/abd-service-level-objectives/scanners)** — Folder (1 items).
+- **[templates/](../practices/architecture-centric-engineering/skills/abd-service-level-objectives/templates)** — Authoring templates and structural skeletons.
+- [SKILL.md](../practices/architecture-centric-engineering/skills/abd-service-level-objectives/SKILL.md) — name: abd-service-level-objectives
 
 ### hero-vtt-technical-architecture
 
-- **Directory:** [`architecture-centric-engineering/skills/hero-vtt-technical-architecture/`](../architecture-centric-engineering/skills/hero-vtt-technical-architecture/)
+- **Directory:** [`practices/architecture-centric-engineering/skills/hero-vtt-technical-architecture/`](../practices/architecture-centric-engineering/skills/hero-vtt-technical-architecture/)
 
 **Summary:**
 
@@ -1282,37 +1320,37 @@ This skill produces real, runnable C# files. Code is co-located by feature (Modu
 
 **Repository layout:**
 
-- **[inputs/](../architecture-centric-engineering/skills/hero-vtt-technical-architecture/inputs)** — Folder (1 items).
-- **[rules/](../architecture-centric-engineering/skills/hero-vtt-technical-architecture/rules)** — Practice rules (DO/DON'T) and constraints used with scanners.
-- **[templates/](../architecture-centric-engineering/skills/hero-vtt-technical-architecture/templates)** — Authoring templates and structural skeletons.
-- [SKILL.md](../architecture-centric-engineering/skills/hero-vtt-technical-architecture/SKILL.md) — name: hero-vtt-technical-architecture
+- **[inputs/](../practices/architecture-centric-engineering/skills/hero-vtt-technical-architecture/inputs)** — Folder (1 items).
+- **[rules/](../practices/architecture-centric-engineering/skills/hero-vtt-technical-architecture/rules)** — Practice rules (DO/DON'T) and constraints used with scanners.
+- **[templates/](../practices/architecture-centric-engineering/skills/hero-vtt-technical-architecture/templates)** — Authoring templates and structural skeletons.
+- [SKILL.md](../practices/architecture-centric-engineering/skills/hero-vtt-technical-architecture/SKILL.md) — name: hero-vtt-technical-architecture
 
-### abd-delivery-planning
+### abd-kanban-planning
 
-- **Directory:** [`delivery/skills/abd-delivery-planning/`](../delivery/skills/abd-delivery-planning/)
+- **Directory:** [`practices/kanban/skills/abd-kanban-planning/`](../practices/kanban/skills/abd-kanban-planning/)
 
 **Summary:**
 
-Delivery plans only: context, risks, strategies, staged runs and checkpoints (not stories, tests, or code).
+Strategy selection and system of work configuration — no pre-planned runs or slot tables.
 
 **Description (from Purpose / body):**
 
-Build and revise agile delivery plans: context assessment, risk types, strategies (scan strategies/ for matching When to use), runs (stages, scope, checkpoints, rationale), and example plans. Planning only — not for producing story artifacts, tests, or code (those come from downstream practice work).
+Select delivery strategy, configure system of work (stages, scope progression, skill order), and define scatter/decomposition rules. Planning drives the Kanban board via strategy — not by pre-authoring runs, slots, or assignments.
 
 **Repository layout:**
 
-- **[rules/](../delivery/skills/abd-delivery-planning/rules)** — Practice rules (DO/DON'T) and constraints used with scanners.
-- **[scanners/](../delivery/skills/abd-delivery-planning/scanners)** — Folder (3 items).
-- **[scripts/](../delivery/skills/abd-delivery-planning/scripts)** — Build, catalogue, validation, or packaging automation.
-- **[strategies/](../delivery/skills/abd-delivery-planning/strategies)** — Folder (10 items).
-- **[tests/](../delivery/skills/abd-delivery-planning/tests)** — Folder (4 items).
-- [corrections-log.md](../delivery/skills/abd-delivery-planning/corrections-log.md) — abd-delivery-planning — corrections log
-- [README.md](../delivery/skills/abd-delivery-planning/README.md) — One line for catalogue cards and grids (YAML string).
-- [SKILL.md](../delivery/skills/abd-delivery-planning/SKILL.md) — name: abd-delivery-planning
+- **[rules/](../practices/kanban/skills/abd-kanban-planning/rules)** — Practice rules (DO/DON'T) and constraints used with scanners.
+- **[scanners/](../practices/kanban/skills/abd-kanban-planning/scanners)** — Folder (2 items).
+- **[scripts/](../practices/kanban/skills/abd-kanban-planning/scripts)** — Build, catalogue, validation, or packaging automation.
+- **[strategies/](../practices/kanban/skills/abd-kanban-planning/strategies)** — Folder (10 items).
+- **[tests/](../practices/kanban/skills/abd-kanban-planning/tests)** — Folder (3 items).
+- [corrections-log.md](../practices/kanban/skills/abd-kanban-planning/corrections-log.md) — abd-kanban-planning — corrections log
+- [README.md](../practices/kanban/skills/abd-kanban-planning/README.md) — One line for catalogue cards and grids (YAML string).
+- [SKILL.md](../practices/kanban/skills/abd-kanban-planning/SKILL.md) — name: abd-kanban-planning
 
-### delivery-estimation
+### kanban-estimation
 
-- **Directory:** [`delivery/skills/delivery-estimation/`](../delivery/skills/delivery-estimation/)
+- **Directory:** [`practices/kanban/skills/kanban-estimation/`](../practices/kanban/skills/kanban-estimation/)
 
 **Summary:**
 
@@ -1324,51 +1362,53 @@ Teams estimate badly not because they lack a formula but because they skip the c
 
 **Repository layout:**
 
-- **[ide-files/](../delivery/skills/delivery-estimation/ide-files)** — Folder (2 items).
-- **[rules/](../delivery/skills/delivery-estimation/rules)** — Practice rules (DO/DON'T) and constraints used with scanners.
-- **[scanner-report/](../delivery/skills/delivery-estimation/scanner-report)** — Folder (1 items).
-- **[templates/](../delivery/skills/delivery-estimation/templates)** — Authoring templates and structural skeletons.
-- [SKILL.md](../delivery/skills/delivery-estimation/SKILL.md) — name: delivery-estimation
+- **[ide-files/](../practices/kanban/skills/kanban-estimation/ide-files)** — Folder (2 items).
+- **[rules/](../practices/kanban/skills/kanban-estimation/rules)** — Practice rules (DO/DON'T) and constraints used with scanners.
+- **[scanner-report/](../practices/kanban/skills/kanban-estimation/scanner-report)** — Folder (1 items).
+- **[templates/](../practices/kanban/skills/kanban-estimation/templates)** — Authoring templates and structural skeletons.
+- [SKILL.md](../practices/kanban/skills/kanban-estimation/SKILL.md) — name: kanban-estimation
 
-### abd-delivery-repo
+### abd-kanban
 
-- **Directory:** [`delivery/skills/abd-delivery-repo/`](../delivery/skills/abd-delivery-repo/)
+- **Directory:** [`practices/kanban/skills/abd-kanban/`](../practices/kanban/skills/abd-kanban/)
 
 **Summary:**
 
-Manage git history for a delivery engagement. Commits, branches, and pushes are driven by the delivery lead as part of slot chaining. ---
+JIT Kanban board for kanban-lead and role agents. delivery-war-room/ under the engagement workspace is the authoritative source of all delivery progress — board.json, system-of-work.json, metrics, and ticket history. Tickets flow through stages, scatter at scope boundaries, and agents pull …
 
 **Description (from Purpose / body):**
 
-Manage git history for a delivery engagement. Commits, branches, and pushes are driven by the delivery lead as part of slot chaining.
+Single on-disk home for progress and handoffs. Models delivery as a JIT Kanban board where work tickets flow through stages defined by a system of work, scatter into finer-grained tickets at scope boundaries, and role agents pull skill-level tasks from active tickets.
+
+**Repository layout:**
+
+- **[rules/](../practices/kanban/skills/abd-kanban/rules)** — Practice rules (DO/DON'T) and constraints used with scanners.
+- **[scripts/](../practices/kanban/skills/abd-kanban/scripts)** — Build, catalogue, validation, or packaging automation.
+- **[templates/](../practices/kanban/skills/abd-kanban/templates)** — Authoring templates and structural skeletons.
+- [SKILL.md](../practices/kanban/skills/abd-kanban/SKILL.md) — name: abd-kanban
+
+### abd-kanban-repo
+
+- **Directory:** [`practices/kanban/skills/abd-kanban-repo/`](../practices/kanban/skills/abd-kanban-repo/)
+
+**Summary:**
+
+Manage git history for a delivery engagement. Commits, branches, pushes, and PRs are driven by ticket state changes on the Kanban board — not by slots or runs. ---
+
+**Description (from Purpose / body):**
+
+Manage git history for a delivery engagement. Commits, branches, pushes, and PRs are driven by ticket state changes on the Kanban board — not by slots or runs.
 
 ---
 
 **Repository layout:**
 
-- **[scripts/](../delivery/skills/abd-delivery-repo/scripts)** — Build, catalogue, validation, or packaging automation.
-- [SKILL.md](../delivery/skills/abd-delivery-repo/SKILL.md) — delivery-repo
-
-### abd-delivery-war-room
-
-- **Directory:** [`delivery/skills/abd-delivery-war-room/`](../delivery/skills/abd-delivery-war-room/)
-
-**Summary:**
-
-File-based war room for delivery-lead and delivery-team-member: delivery-war-room/ under the engagement workspace is the authoritative source of all delivery progress — orchestration checklist, manifest, slots, and run log. Read this skill before Step 2.
-
-**Description (from Purpose / body):**
-
-Single on-disk home for progress and handoffs. The delivery lead, team members, and operator all read and write here.
-
-**Repository layout:**
-
-- **[templates/](../delivery/skills/abd-delivery-war-room/templates)** — Authoring templates and structural skeletons.
-- [SKILL.md](../delivery/skills/abd-delivery-war-room/SKILL.md) — name: abd-delivery-war-room
+- **[scripts/](../practices/kanban/skills/abd-kanban-repo/scripts)** — Build, catalogue, validation, or packaging automation.
+- [SKILL.md](../practices/kanban/skills/abd-kanban-repo/SKILL.md) — abd-kanban-repo
 
 ### abd-chunk-markdown
 
-- **Directory:** [`context-to-memory/skills/abd-chunk-markdown/`](../context-to-memory/skills/abd-chunk-markdown/)
+- **Directory:** [`foundational/context-to-memory/skills/abd-chunk-markdown/`](../foundational/context-to-memory/skills/abd-chunk-markdown/)
 
 **Summary:**
 
@@ -1380,13 +1420,13 @@ Split converted Markdown into retrieval-sized chunks with evidence labels, guide
 
 **Repository layout:**
 
-- **[references/](../context-to-memory/skills/abd-chunk-markdown/references)** — Folder (2 items).
-- **[scripts/](../context-to-memory/skills/abd-chunk-markdown/scripts)** — Build, catalogue, validation, or packaging automation.
-- [SKILL.md](../context-to-memory/skills/abd-chunk-markdown/SKILL.md) — name: abd-chunk-markdown
+- **[references/](../foundational/context-to-memory/skills/abd-chunk-markdown/references)** — Folder (2 items).
+- **[scripts/](../foundational/context-to-memory/skills/abd-chunk-markdown/scripts)** — Build, catalogue, validation, or packaging automation.
+- [SKILL.md](../foundational/context-to-memory/skills/abd-chunk-markdown/SKILL.md) — name: abd-chunk-markdown
 
 ### abd-convert-to-markdown
 
-- **Directory:** [`context-to-memory/skills/abd-convert-to-markdown/`](../context-to-memory/skills/abd-convert-to-markdown/)
+- **Directory:** [`foundational/context-to-memory/skills/abd-convert-to-markdown/`](../foundational/context-to-memory/skills/abd-convert-to-markdown/)
 
 **Summary:**
 
@@ -1398,13 +1438,13 @@ Convert office documents (PDF, PPTX, DOCX, XLSX, etc.) to navigable Markdown wit
 
 **Repository layout:**
 
-- **[references/](../context-to-memory/skills/abd-convert-to-markdown/references)** — Folder (2 items).
-- **[scripts/](../context-to-memory/skills/abd-convert-to-markdown/scripts)** — Build, catalogue, validation, or packaging automation.
-- [SKILL.md](../context-to-memory/skills/abd-convert-to-markdown/SKILL.md) — name: abd-convert-to-markdown
+- **[references/](../foundational/context-to-memory/skills/abd-convert-to-markdown/references)** — Folder (2 items).
+- **[scripts/](../foundational/context-to-memory/skills/abd-convert-to-markdown/scripts)** — Build, catalogue, validation, or packaging automation.
+- [SKILL.md](../foundational/context-to-memory/skills/abd-convert-to-markdown/SKILL.md) — name: abd-convert-to-markdown
 
 ### abd-embed-vectors
 
-- **Directory:** [`context-to-memory/skills/abd-embed-vectors/`](../context-to-memory/skills/abd-embed-vectors/)
+- **Directory:** [`foundational/context-to-memory/skills/abd-embed-vectors/`](../foundational/context-to-memory/skills/abd-embed-vectors/)
 
 **Summary:**
 
@@ -1416,13 +1456,13 @@ Embed text chunks into a local FAISS vector index for semantic search. Use when 
 
 **Repository layout:**
 
-- **[references/](../context-to-memory/skills/abd-embed-vectors/references)** — Folder (1 items).
-- **[scripts/](../context-to-memory/skills/abd-embed-vectors/scripts)** — Build, catalogue, validation, or packaging automation.
-- [SKILL.md](../context-to-memory/skills/abd-embed-vectors/SKILL.md) — name: abd-embed-vectors
+- **[references/](../foundational/context-to-memory/skills/abd-embed-vectors/references)** — Folder (1 items).
+- **[scripts/](../foundational/context-to-memory/skills/abd-embed-vectors/scripts)** — Build, catalogue, validation, or packaging automation.
+- [SKILL.md](../foundational/context-to-memory/skills/abd-embed-vectors/SKILL.md) — name: abd-embed-vectors
 
 ### abd-search-memory
 
-- **Directory:** [`context-to-memory/skills/abd-search-memory/`](../context-to-memory/skills/abd-search-memory/)
+- **Directory:** [`foundational/context-to-memory/skills/abd-search-memory/`](../foundational/context-to-memory/skills/abd-search-memory/)
 
 **Summary:**
 
@@ -1434,13 +1474,32 @@ Semantic search over a local FAISS vector index built from document chunks. Use 
 
 **Repository layout:**
 
-- **[references/](../context-to-memory/skills/abd-search-memory/references)** — Folder (1 items).
-- **[scripts/](../context-to-memory/skills/abd-search-memory/scripts)** — Build, catalogue, validation, or packaging automation.
-- [SKILL.md](../context-to-memory/skills/abd-search-memory/SKILL.md) — name: abd-search-memory
+- **[references/](../foundational/context-to-memory/skills/abd-search-memory/references)** — Folder (1 items).
+- **[scripts/](../foundational/context-to-memory/skills/abd-search-memory/scripts)** — Build, catalogue, validation, or packaging automation.
+- [SKILL.md](../foundational/context-to-memory/skills/abd-search-memory/SKILL.md) — name: abd-search-memory
+
+### abd-semantic-context-chunker
+
+- **Directory:** [`foundational/context-to-memory/skills/abd-semantic-context-chunker/`](../foundational/context-to-memory/skills/abd-semantic-context-chunker/)
+
+**Summary:**
+
+Index scattered source content by the kind of context it provides — Story, Domain, Architecture, UX — so you know what you have before deeper analysis begins.
+
+**Description (from Purpose / body):**
+
+Engagements accumulate context from many places — requirements documents, code repositories, design files, meeting notes, technical specs — and nobody knows what they actually have until someone reads it all. This skill scans the full corpus, tags every piece by the kind of context it provides — Story, Domain, Architecture, UX — and produces a coverage index so teams and agents know what evidence exists and where the gaps are, before any deeper analysis begins.
+
+**Repository layout:**
+
+- **[references/](../foundational/context-to-memory/skills/abd-semantic-context-chunker/references)** — Folder (1 items).
+- **[rules/](../foundational/context-to-memory/skills/abd-semantic-context-chunker/rules)** — Practice rules (DO/DON'T) and constraints used with scanners.
+- **[templates/](../foundational/context-to-memory/skills/abd-semantic-context-chunker/templates)** — Authoring templates and structural skeletons.
+- [SKILL.md](../foundational/context-to-memory/skills/abd-semantic-context-chunker/SKILL.md) — name: abd-semantic-context-chunker
 
 ### abd-author-practice-skill
 
-- **Directory:** [`skill-builder/skills/abd-author-practice-skill/`](../skill-builder/skills/abd-author-practice-skill/)
+- **Directory:** [`foundational/skill-builder/skills/abd-author-practice-skill/`](../foundational/skill-builder/skills/abd-author-practice-skill/)
 
 **Summary:**
 
@@ -1452,17 +1511,17 @@ Teams need practice skills that people and agents can follow without improvising
 
 **Repository layout:**
 
-- **[ide-files/](../skill-builder/skills/abd-author-practice-skill/ide-files)** — Folder (2 items).
-- **[rules/](../skill-builder/skills/abd-author-practice-skill/rules)** — Practice rules (DO/DON'T) and constraints used with scanners.
-- **[scanners/](../skill-builder/skills/abd-author-practice-skill/scanners)** — Folder (1 items).
-- **[scripts/](../skill-builder/skills/abd-author-practice-skill/scripts)** — Build, catalogue, validation, or packaging automation.
-- **[templates/](../skill-builder/skills/abd-author-practice-skill/templates)** — Authoring templates and structural skeletons.
-- [corrections-log.md](../skill-builder/skills/abd-author-practice-skill/corrections-log.md) — ﻿# Corrections log — abd-author-practice-skill
-- [SKILL.md](../skill-builder/skills/abd-author-practice-skill/SKILL.md) — name: abd-author-practice-skill
+- **[ide-files/](../foundational/skill-builder/skills/abd-author-practice-skill/ide-files)** — Folder (2 items).
+- **[rules/](../foundational/skill-builder/skills/abd-author-practice-skill/rules)** — Practice rules (DO/DON'T) and constraints used with scanners.
+- **[scanners/](../foundational/skill-builder/skills/abd-author-practice-skill/scanners)** — Folder (1 items).
+- **[scripts/](../foundational/skill-builder/skills/abd-author-practice-skill/scripts)** — Build, catalogue, validation, or packaging automation.
+- **[templates/](../foundational/skill-builder/skills/abd-author-practice-skill/templates)** — Authoring templates and structural skeletons.
+- [corrections-log.md](../foundational/skill-builder/skills/abd-author-practice-skill/corrections-log.md) — ﻿# Corrections log — abd-author-practice-skill
+- [SKILL.md](../foundational/skill-builder/skills/abd-author-practice-skill/SKILL.md) — name: abd-author-practice-skill
 
 ### abd-build-practice-scanners
 
-- **Directory:** [`skill-builder/skills/abd-build-practice-scanners/`](../skill-builder/skills/abd-build-practice-scanners/)
+- **Directory:** [`foundational/skill-builder/skills/abd-build-practice-scanners/`](../foundational/skill-builder/skills/abd-build-practice-scanners/)
 
 **Summary:**
 
@@ -1474,13 +1533,13 @@ Written DO / DO NOT rules are easy to ignore or misread. Small automated checks 
 
 **Repository layout:**
 
-- **[rules/](../skill-builder/skills/abd-build-practice-scanners/rules)** — Practice rules (DO/DON'T) and constraints used with scanners.
-- **[templates/](../skill-builder/skills/abd-build-practice-scanners/templates)** — Authoring templates and structural skeletons.
-- [SKILL.md](../skill-builder/skills/abd-build-practice-scanners/SKILL.md) — name: abd-build-practice-scanners
+- **[rules/](../foundational/skill-builder/skills/abd-build-practice-scanners/rules)** — Practice rules (DO/DON'T) and constraints used with scanners.
+- **[templates/](../foundational/skill-builder/skills/abd-build-practice-scanners/templates)** — Authoring templates and structural skeletons.
+- [SKILL.md](../foundational/skill-builder/skills/abd-build-practice-scanners/SKILL.md) — name: abd-build-practice-scanners
 
 ### abd-practice-skill-manual
 
-- **Directory:** [`skill-builder/skills/abd-practice-skill-manual/`](../skill-builder/skills/abd-practice-skill-manual/)
+- **Directory:** [`foundational/skill-builder/skills/abd-practice-skill-manual/`](../foundational/skill-builder/skills/abd-practice-skill-manual/)
 
 **Summary:**
 
@@ -1492,14 +1551,14 @@ SKILL.md is the compact source of truth; many readers still want a browser-frien
 
 **Repository layout:**
 
-- **[assets/](../skill-builder/skills/abd-practice-skill-manual/assets)** — Folder (3 items).
-- **[rules/](../skill-builder/skills/abd-practice-skill-manual/rules)** — Practice rules (DO/DON'T) and constraints used with scanners.
-- **[templates/](../skill-builder/skills/abd-practice-skill-manual/templates)** — Authoring templates and structural skeletons.
-- [SKILL.md](../skill-builder/skills/abd-practice-skill-manual/SKILL.md) — name: abd-practice-skill-manual
+- **[assets/](../foundational/skill-builder/skills/abd-practice-skill-manual/assets)** — Folder (3 items).
+- **[rules/](../foundational/skill-builder/skills/abd-practice-skill-manual/rules)** — Practice rules (DO/DON'T) and constraints used with scanners.
+- **[templates/](../foundational/skill-builder/skills/abd-practice-skill-manual/templates)** — Authoring templates and structural skeletons.
+- [SKILL.md](../foundational/skill-builder/skills/abd-practice-skill-manual/SKILL.md) — name: abd-practice-skill-manual
 
 ### abd-query-practice-sources
 
-- **Directory:** [`skill-builder/skills/abd-query-practice-sources/`](../skill-builder/skills/abd-query-practice-sources/)
+- **Directory:** [`foundational/skill-builder/skills/abd-query-practice-sources/`](../foundational/skill-builder/skills/abd-query-practice-sources/)
 
 **Summary:**
 
@@ -1511,13 +1570,13 @@ Before anyone writes instructions or rules for a practice, you need a single, ho
 
 **Repository layout:**
 
-- **[rules/](../skill-builder/skills/abd-query-practice-sources/rules)** — Practice rules (DO/DON'T) and constraints used with scanners.
-- **[templates/](../skill-builder/skills/abd-query-practice-sources/templates)** — Authoring templates and structural skeletons.
-- [SKILL.md](../skill-builder/skills/abd-query-practice-sources/SKILL.md) — name: abd-query-practice-sources
+- **[rules/](../foundational/skill-builder/skills/abd-query-practice-sources/rules)** — Practice rules (DO/DON'T) and constraints used with scanners.
+- **[templates/](../foundational/skill-builder/skills/abd-query-practice-sources/templates)** — Authoring templates and structural skeletons.
+- [SKILL.md](../foundational/skill-builder/skills/abd-query-practice-sources/SKILL.md) — name: abd-query-practice-sources
 
 ### abd-skill-catalog
 
-- **Directory:** [`skill-builder/skills/abd-skill-catalog/`](../skill-builder/skills/abd-skill-catalog/)
+- **Directory:** [`foundational/skill-builder/skills/abd-skill-catalog/`](../foundational/skill-builder/skills/abd-skill-catalog/)
 
 **Summary:**
 
@@ -1529,11 +1588,11 @@ Scan agilebydesign-skills family packages; maintain README card copy; regenerate
 
 **Repository layout:**
 
-- **[scripts/](../skill-builder/skills/abd-skill-catalog/scripts)** — Build, catalogue, validation, or packaging automation.
-- **[templates/](../skill-builder/skills/abd-skill-catalog/templates)** — Authoring templates and structural skeletons.
-- [corrections-log.md](../skill-builder/skills/abd-skill-catalog/corrections-log.md) — Corrections — abd-skill-catalog (generated AI Garden HTML)
-- [README.md](../skill-builder/skills/abd-skill-catalog/README.md) — One line for catalogue cards and grids (YAML string).
-- [SKILL.md](../skill-builder/skills/abd-skill-catalog/SKILL.md) — name: abd-skill-catalog
+- **[scripts/](../foundational/skill-builder/skills/abd-skill-catalog/scripts)** — Build, catalogue, validation, or packaging automation.
+- **[templates/](../foundational/skill-builder/skills/abd-skill-catalog/templates)** — Authoring templates and structural skeletons.
+- [corrections-log.md](../foundational/skill-builder/skills/abd-skill-catalog/corrections-log.md) — Corrections — abd-skill-catalog (generated AI Garden HTML)
+- [README.md](../foundational/skill-builder/skills/abd-skill-catalog/README.md) — One line for catalogue cards and grids (YAML string).
+- [SKILL.md](../foundational/skill-builder/skills/abd-skill-catalog/SKILL.md) — name: abd-skill-catalog
 
 ### abd-proposal-respond
 
@@ -1613,7 +1672,7 @@ categories of solutions, concrete tools and practices, and how they differ.
 
 ### abd-commit-msg
 
-- **Directory:** [`skill-helpers/skills/commit-msg/`](../skill-helpers/skills/commit-msg/)
+- **Directory:** [`foundational/skill-helpers/skills/commit-msg/`](../foundational/skill-helpers/skills/commit-msg/)
 
 **Summary:**
 
@@ -1625,18 +1684,18 @@ Generate meaningful commit messages from scope and changed files. No story_graph
 
 **Repository layout:**
 
-- **[content/](../skill-helpers/skills/commit-msg/content)** — Source parts merged into agent instructions or outputs.
-- **[docs/](../skill-helpers/skills/commit-msg/docs)** — Human-oriented documentation for the package.
-- **[rules/](../skill-helpers/skills/commit-msg/rules)** — Practice rules (DO/DON'T) and constraints used with scanners.
-- **[scripts/](../skill-helpers/skills/commit-msg/scripts)** — Build, catalogue, validation, or packaging automation.
-- [AGENTS.md](../skill-helpers/skills/commit-msg/AGENTS.md) — Core Definitions
-- [README.md](../skill-helpers/skills/commit-msg/README.md) — ace-commit-msg
-- [skill-config.json](../skill-helpers/skills/commit-msg/skill-config.json) — "name": "abd-commit-msg",
-- [SKILL.md](../skill-helpers/skills/commit-msg/SKILL.md) — name: abd-commit-msg
+- **[content/](../foundational/skill-helpers/skills/commit-msg/content)** — Source parts merged into agent instructions or outputs.
+- **[docs/](../foundational/skill-helpers/skills/commit-msg/docs)** — Human-oriented documentation for the package.
+- **[rules/](../foundational/skill-helpers/skills/commit-msg/rules)** — Practice rules (DO/DON'T) and constraints used with scanners.
+- **[scripts/](../foundational/skill-helpers/skills/commit-msg/scripts)** — Build, catalogue, validation, or packaging automation.
+- [AGENTS.md](../foundational/skill-helpers/skills/commit-msg/AGENTS.md) — Core Definitions
+- [README.md](../foundational/skill-helpers/skills/commit-msg/README.md) — ace-commit-msg
+- [skill-config.json](../foundational/skill-helpers/skills/commit-msg/skill-config.json) — "name": "abd-commit-msg",
+- [SKILL.md](../foundational/skill-helpers/skills/commit-msg/SKILL.md) — name: abd-commit-msg
 
 ### execute-skill-using-skills-rules
 
-- **Directory:** [`skill-helpers/skills/execute-skill-using-skills-rules/`](../skill-helpers/skills/execute-skill-using-skills-rules/)
+- **Directory:** [`foundational/skill-helpers/skills/execute-skill-using-skills-rules/`](../foundational/skill-helpers/skills/execute-skill-using-skills-rules/)
 
 **Summary:**
 
@@ -1648,16 +1707,16 @@ Read rules before work, validate output (AI pass + scanner pass), and follow the
 
 **Repository layout:**
 
-- **[guidance/](../skill-helpers/skills/execute-skill-using-skills-rules/guidance)** — Folder (3 items).
-- **[ide-files/](../skill-helpers/skills/execute-skill-using-skills-rules/ide-files)** — Folder (3 items).
-- **[scripts/](../skill-helpers/skills/execute-skill-using-skills-rules/scripts)** — Build, catalogue, validation, or packaging automation.
-- **[templates/](../skill-helpers/skills/execute-skill-using-skills-rules/templates)** — Authoring templates and structural skeletons.
-- **[tests/](../skill-helpers/skills/execute-skill-using-skills-rules/tests)** — Folder (4 items).
-- [SKILL.md](../skill-helpers/skills/execute-skill-using-skills-rules/SKILL.md) — name: execute-skill-using-skills-rules
+- **[guidance/](../foundational/skill-helpers/skills/execute-skill-using-skills-rules/guidance)** — Folder (3 items).
+- **[ide-files/](../foundational/skill-helpers/skills/execute-skill-using-skills-rules/ide-files)** — Folder (3 items).
+- **[scripts/](../foundational/skill-helpers/skills/execute-skill-using-skills-rules/scripts)** — Build, catalogue, validation, or packaging automation.
+- **[templates/](../foundational/skill-helpers/skills/execute-skill-using-skills-rules/templates)** — Authoring templates and structural skeletons.
+- **[tests/](../foundational/skill-helpers/skills/execute-skill-using-skills-rules/tests)** — Folder (4 items).
+- [SKILL.md](../foundational/skill-helpers/skills/execute-skill-using-skills-rules/SKILL.md) — name: execute-skill-using-skills-rules
 
 ### skill-garden-catalogue
 
-- **Directory:** [`skill-helpers/skills/skill-garden-catalogue/`](../skill-helpers/skills/skill-garden-catalogue/)
+- **Directory:** [`foundational/skill-helpers/skills/skill-garden-catalogue/`](../foundational/skill-helpers/skills/skill-garden-catalogue/)
 
 **Summary:**
 
@@ -1669,26 +1728,26 @@ Scan a folder of deployed skills and regenerate a one-pager Markdown inventory a
 
 **Repository layout:**
 
-- **[agents/](../skill-helpers/skills/skill-garden-catalogue/agents)** — Folder (2 items).
-- **[architecture-centric-engineering/](../skill-helpers/skills/skill-garden-catalogue/architecture-centric-engineering)** — Folder (2 items).
-- **[context-to-memory/](../skill-helpers/skills/skill-garden-catalogue/context-to-memory)** — Folder (4 items).
-- **[delivery/](../skill-helpers/skills/skill-garden-catalogue/delivery)** — Folder (2 items).
-- **[domain-driven-design/](../skill-helpers/skills/skill-garden-catalogue/domain-driven-design)** — Folder (7 items).
-- **[idea shaping/](../skill-helpers/skills/skill-garden-catalogue/idea shaping)** — Folder (4 items).
-- **[scripts/](../skill-helpers/skills/skill-garden-catalogue/scripts)** — Build, catalogue, validation, or packaging automation.
-- **[skill-builder/](../skill-helpers/skills/skill-garden-catalogue/skill-builder)** — Folder (5 items).
-- **[skill-helpers/](../skill-helpers/skills/skill-garden-catalogue/skill-helpers)** — Folder (7 items).
-- **[story-driven-delivery/](../skill-helpers/skills/skill-garden-catalogue/story-driven-delivery)** — Folder (8 items).
-- **[templates/](../skill-helpers/skills/skill-garden-catalogue/templates)** — Authoring templates and structural skeletons.
-- **[utilities/](../skill-helpers/skills/skill-garden-catalogue/utilities)** — Folder (2 items).
-- [index.html](../skill-helpers/skills/skill-garden-catalogue/index.html) — <!DOCTYPE html>
-- [README.md](../skill-helpers/skills/skill-garden-catalogue/README.md) — One line for catalogue cards and grids (YAML string).
-- [skill-inventory.md](../skill-helpers/skills/skill-garden-catalogue/skill-inventory.md) — Skill Garden — Inventory
-- [SKILL.md](../skill-helpers/skills/skill-garden-catalogue/SKILL.md) — name: skill-garden-catalogue
+- **[agents/](../foundational/skill-helpers/skills/skill-garden-catalogue/agents)** — Folder (2 items).
+- **[architecture-centric-engineering/](../foundational/skill-helpers/skills/skill-garden-catalogue/architecture-centric-engineering)** — Folder (2 items).
+- **[context-to-memory/](../foundational/skill-helpers/skills/skill-garden-catalogue/context-to-memory)** — Folder (4 items).
+- **[delivery/](../foundational/skill-helpers/skills/skill-garden-catalogue/delivery)** — Folder (2 items).
+- **[domain-driven-design/](../foundational/skill-helpers/skills/skill-garden-catalogue/domain-driven-design)** — Folder (7 items).
+- **[idea shaping/](../foundational/skill-helpers/skills/skill-garden-catalogue/idea shaping)** — Folder (4 items).
+- **[scripts/](../foundational/skill-helpers/skills/skill-garden-catalogue/scripts)** — Build, catalogue, validation, or packaging automation.
+- **[skill-builder/](../foundational/skill-helpers/skills/skill-garden-catalogue/skill-builder)** — Folder (5 items).
+- **[skill-helpers/](../foundational/skill-helpers/skills/skill-garden-catalogue/skill-helpers)** — Folder (7 items).
+- **[story-driven-delivery/](../foundational/skill-helpers/skills/skill-garden-catalogue/story-driven-delivery)** — Folder (8 items).
+- **[templates/](../foundational/skill-helpers/skills/skill-garden-catalogue/templates)** — Authoring templates and structural skeletons.
+- **[utilities/](../foundational/skill-helpers/skills/skill-garden-catalogue/utilities)** — Folder (2 items).
+- [index.html](../foundational/skill-helpers/skills/skill-garden-catalogue/index.html) — <!DOCTYPE html>
+- [README.md](../foundational/skill-helpers/skills/skill-garden-catalogue/README.md) — One line for catalogue cards and grids (YAML string).
+- [skill-inventory.md](../foundational/skill-helpers/skills/skill-garden-catalogue/skill-inventory.md) — Skill Garden — Inventory
+- [SKILL.md](../foundational/skill-helpers/skills/skill-garden-catalogue/SKILL.md) — name: skill-garden-catalogue
 
 ### track-task
 
-- **Directory:** [`skill-helpers/skills/track_task/`](../skill-helpers/skills/track_task/)
+- **Directory:** [`foundational/skill-helpers/skills/track_task/`](../foundational/skill-helpers/skills/track_task/)
 
 **Summary:**
 
@@ -1700,113 +1759,374 @@ Track multi-step work with markdown checkboxes (- [ ] / - [x]) for any skill or 
 
 **Repository layout:**
 
-- **[scripts/](../skill-helpers/skills/track_task/scripts)** — Build, catalogue, validation, or packaging automation.
-- **[tests/](../skill-helpers/skills/track_task/tests)** — Folder (3 items).
-- [README.md](../skill-helpers/skills/track_task/README.md) — One line for catalogue cards and grids (YAML string).
-- [SKILL.md](../skill-helpers/skills/track_task/SKILL.md) — name: track-task
+- **[scripts/](../foundational/skill-helpers/skills/track_task/scripts)** — Build, catalogue, validation, or packaging automation.
+- **[tests/](../foundational/skill-helpers/skills/track_task/tests)** — Folder (2 items).
+- [README.md](../foundational/skill-helpers/skills/track_task/README.md) — One line for catalogue cards and grids (YAML string).
+- [SKILL.md](../foundational/skill-helpers/skills/track_task/SKILL.md) — name: track-task
 
 ---
 
 ## Agents (detail)
 
-### delivery-lead
+### business-expert
 
-- **Directory:** [`delivery/agents/delivery-lead/`](../delivery/agents/delivery-lead/)
-- **Entry:** [`delivery/agents/delivery-lead/AGENT.md`](../delivery/agents/delivery-lead/AGENT.md)
-
-**Summary:**
-
-You are a delivery lead agent orchestrating an abd.works (ABD) delivery flow.
-
-**Description:**
-
-# ABD Delivery Lead
-
-You are a delivery lead agent orchestrating an abd.works (ABD) delivery flow.
-
-You orchestrate the orchestration lifecycle: workspace, planning checkpoints, sequencing runs and stages, bootstrapping multiple delivery-team-member agents per stage (executors and reviewers in separate slots), handoff gates, and cross-stage quality. You do not produce deliverables yourself — you delegate to executor team members and validate through reviewer slots and stage exit gates.
-
-Planning detail lives in the skill, not in this file. For every planning decision — what a plan and run are, how to assess context, risk types, strategies, example plans, and how to design runs — read abd-delivery-planning (../../skills/abd-delivery-planning/SKILL.md and the strategies/ folder — start with …
-
-**Repository layout:**
-
-- [AGENT.md](../delivery/agents/delivery-lead/AGENT.md) — ABD Delivery Lead
-
-### delivery-team-member
-
-- **Directory:** [`delivery/agents/delivery-team-member/`](../delivery/agents/delivery-team-member/)
-- **Entry:** [`delivery/agents/delivery-team-member/AGENT.md`](../delivery/agents/delivery-team-member/AGENT.md)
+- **Directory:** [`practices/kanban/agents/business-expert/`](../practices/kanban/agents/business-expert/)
+- **Entry:** [`practices/kanban/agents/business-expert/AGENT.md`](../practices/kanban/agents/business-expert/AGENT.md)
 
 **Summary:**
 
-You are an ABD team member agent — one session, one slot, one job.
+You are a persistent Business Expert executor — one session, many skills.
 
 **Description:**
 
-# ABD Team Member
+# Business Expert — Delivery Executor
 
-You are an ABD team member agent — one session, one slot, one job.
+You are a persistent Business Expert executor — one session, many skills.
 
-## Slot type (assigned at instantiation — fixed for the session)
+kanban-lead spawns you once as an isolated subagent with bootstrap payload only. You pull skill-level work from active tickets on board.json — skills where role: business-expert and status: to_do.
 
-delivery-lead instantiates you with a team-role and workspace before you do any work. That assignment defines your slot type. You do not choose and do not switch mid-session.
+## Fixed identity
 
-| Slot type | team-role | Your job in one line |
-| --- | --- | --- |
-| Executor (member) | Product Owner · Business Expert · UX Designer · Engineer | Produce stage artifacts using a practice skill |
-| Reviewer | Reviewer | Validate a prior executor's artifacts with skill rules + scanners |
+| Field | Value |
+| --- | --- |
+| team-role | Business Expert (business-expert) |
+| slot_type | executor |
+| Playbook | ../../content/roles/business-expert.md |
 
-Read bootstrap first. From slot-NN-start.md, the opening message, or war-room autostart — determine slot type before any other step:
+## Work queue
 
-- team-role: Reviewer → follow Reviewer …
+Claiming, skill order, and priority: _shared/work-queue.md
+
+## Workflow
+
+Follow _shared/executor-workflow.md for every claimed skill.
+
+## Relationship to kanban-lead
+
+The lead manages the board, triggers scatters, and scales the agent pool. You pull eligible skills from active tickets …
 
 **Repository layout:**
 
-- [AGENT.md](../delivery/agents/delivery-team-member/AGENT.md) — ABD Team Member
+- [AGENT.md](../practices/kanban/agents/business-expert/AGENT.md) — Business Expert — Delivery Executor
 
-### delivery-team-reviewer
+### business-expert-reviewer
 
-- **Directory:** [`delivery/agents/delivery-team-reviewer/`](../delivery/agents/delivery-team-reviewer/)
-- **Entry:** [`delivery/agents/delivery-team-reviewer/AGENT.md`](../delivery/agents/delivery-team-reviewer/AGENT.md)
+- **Directory:** [`practices/kanban/agents/business-expert-reviewer/`](../practices/kanban/agents/business-expert-reviewer/)
+- **Entry:** [`practices/kanban/agents/business-expert-reviewer/AGENT.md`](../practices/kanban/agents/business-expert-reviewer/AGENT.md)
 
 **Summary:**
 
-You are a delivery team reviewer agent — one session, one review slot.
+You are a persistent Business Expert reviewer — one session, many review tasks.
 
 **Description:**
 
-# Delivery Team Reviewer
+# Business Expert — Delivery Reviewer
 
-You are a delivery team reviewer agent — one session, one review slot.
+You are a persistent Business Expert reviewer — one session, many review tasks.
 
-delivery-lead instantiates you at bootstrap with team-role: Reviewer and workspace. You validate a prior executor slot's artifacts. You do not produce new stage artifacts.
+kanban-lead spawns you once as an isolated subagent with bootstrap payload only. You pull review work from active tickets on board.json — skills where role: business-expert, status: done, and review_status: null.
 
-Shared definitions: ../../content/stages/README.md · war room: ../../skills/abd-delivery-war-room/SKILL.md
+## Fixed identity
 
----
+| Field | Value |
+| --- | --- |
+| team-role | Business Expert (business-expert) |
+| slot_type | reviewer |
+| Validates | Business Expert executor artifacts only |
 
-## Bootstrap (required)
+## Work queue
 
-- team-role — must be Reviewer
-- workspace — engagement root
-- From slot-NN-start.md: prior_executor_slot, artifact_paths, stage, practice skill under review
+Claiming and priority: _shared/work-queue.md
 
-If team-role is not Reviewer, stop — you are the wrong agent; use delivery-team-member.
+## Workflow
 
-### War room autostart
+Follow _shared/reviewer-workflow.md for every claimed review.
 
-If <workspace>/docs/planning/delivery-war-room/INSTRUCTIONS.md exists:
-
-1. Read active slot-NN-start.md in the war …
+The kanban lead logs corrections and marks skills for rework when you report failures.
 
 **Repository layout:**
 
-- [AGENT.md](../delivery/agents/delivery-team-reviewer/AGENT.md) — Delivery Team Reviewer
+- [AGENT.md](../practices/kanban/agents/business-expert-reviewer/AGENT.md) — Business Expert — Delivery Reviewer
+
+### engineer
+
+- **Directory:** [`practices/kanban/agents/engineer/`](../practices/kanban/agents/engineer/)
+- **Entry:** [`practices/kanban/agents/engineer/AGENT.md`](../practices/kanban/agents/engineer/AGENT.md)
+
+**Summary:**
+
+You are a persistent Engineer executor — one session, many skills.
+
+**Description:**
+
+# Engineer — Delivery Executor
+
+You are a persistent Engineer executor — one session, many skills.
+
+kanban-lead spawns you once as an isolated subagent with bootstrap payload only. You pull skill-level work from active tickets on board.json — skills where role: engineer and status: to_do.
+
+## Fixed identity
+
+| Field | Value |
+| --- | --- |
+| team-role | Engineer (engineer) |
+| slot_type | executor |
+| Playbook | ../../content/roles/engineer.md |
+
+## Work queue
+
+Claiming, skill order, and priority: _shared/work-queue.md
+
+## Workflow
+
+Follow _shared/executor-workflow.md for every claimed skill.
+
+## Relationship to kanban-lead
+
+The lead manages the board, triggers scatters, and scales the agent pool. You pull eligible skills from active tickets matching your role. The matching …
+
+**Repository layout:**
+
+- [AGENT.md](../practices/kanban/agents/engineer/AGENT.md) — Engineer — Delivery Executor
+
+### engineer-reviewer
+
+- **Directory:** [`practices/kanban/agents/engineer-reviewer/`](../practices/kanban/agents/engineer-reviewer/)
+- **Entry:** [`practices/kanban/agents/engineer-reviewer/AGENT.md`](../practices/kanban/agents/engineer-reviewer/AGENT.md)
+
+**Summary:**
+
+You are a persistent Engineer reviewer — one session, many review tasks.
+
+**Description:**
+
+# Engineer — Delivery Reviewer
+
+You are a persistent Engineer reviewer — one session, many review tasks.
+
+kanban-lead spawns you once as an isolated subagent with bootstrap payload only. You pull review work from active tickets on board.json — skills where role: engineer, status: done, and review_status: null.
+
+## Fixed identity
+
+| Field | Value |
+| --- | --- |
+| team-role | Engineer (engineer) |
+| slot_type | reviewer |
+| Validates | Engineer executor artifacts only |
+
+## Common practice skills
+
+- abd-architecture-blueprint, abd-architecture-template, abd-architecture-reference
+- abd-object-model, abd-acceptance-test-driven-development, abd-clean-code
+- Stack skills: mern-technical-architecture, hero-vtt-technical-architecture
+
+When running scanners for stack skills, include --language …
+
+**Repository layout:**
+
+- [AGENT.md](../practices/kanban/agents/engineer-reviewer/AGENT.md) — Engineer — Delivery Reviewer
+
+### kanban-lead
+
+- **Directory:** [`practices/kanban/agents/kanban-lead/`](../practices/kanban/agents/kanban-lead/)
+- **Entry:** [`practices/kanban/agents/kanban-lead/AGENT.md`](../practices/kanban/agents/kanban-lead/AGENT.md)
+
+**Summary:**
+
+> PERSISTENT LOOP — MUST STAY RUNNING UNTIL ALL WORK COMPLETE. > > The kanban lead uses the loop skill to stay alive across the full engagement. A background shell emits a sentinel every N seconds; notify_on_output wakes the agent for a new turn each tick. Each turn is one scan cycle — read board …
+
+**Description:**
+
+# ABD Kanban Lead
+
+> PERSISTENT LOOP — MUST STAY RUNNING UNTIL ALL WORK COMPLETE.
+>
+> The kanban lead uses the loop skill to stay alive across the full engagement. A background shell emits a sentinel every N seconds; notify_on_output wakes the agent for a new turn each tick. Each turn is one scan cycle — read board, advance tickets, scatter, spawn/nudge role agents, return.
+>
+> How to start:
+>
+> 1. Start a background shell loop:
+>    powershell
+>    while ($true) { Start-Sleep -Seconds 30; Write-Output 'AGENT_LOOP_TICK_kanban_lead {"prompt":"Scan cycle: read board, advance tickets, manage agents."}' }
+>    
+>    Use block_until_ms: 0 and notify_on_output with pattern ^AGENT_LOOP_TICK_kanban_lead.
+>
+> 2. Run the first scan cycle immediately.
+>
+> 3. On each subsequent tick, perform one scan …
+
+**Repository layout:**
+
+- [AGENT.md](../practices/kanban/agents/kanban-lead/AGENT.md) — ABD Kanban Lead
+
+### product-owner
+
+- **Directory:** [`practices/kanban/agents/product-owner/`](../practices/kanban/agents/product-owner/)
+- **Entry:** [`practices/kanban/agents/product-owner/AGENT.md`](../practices/kanban/agents/product-owner/AGENT.md)
+
+**Summary:**
+
+You are a persistent Product Owner executor — one session, many skills.
+
+**Description:**
+
+# Product Owner — Delivery Executor
+
+You are a persistent Product Owner executor — one session, many skills.
+
+kanban-lead spawns you once as an isolated subagent with bootstrap payload only. You pull skill-level work from active tickets on board.json — skills where role: product-owner and status: to_do.
+
+## Fixed identity
+
+| Field | Value |
+| --- | --- |
+| team-role | Product Owner (product-owner) |
+| slot_type | executor |
+| Playbook | ../../content/roles/product-owner.md |
+
+## Work queue
+
+Claiming, skill order, and priority: _shared/work-queue.md
+
+## Workflow
+
+Follow _shared/executor-workflow.md for every claimed skill.
+
+## Relationship to kanban-lead
+
+The lead manages the board, triggers scatters, and scales the agent pool. You pull eligible skills from active tickets matching your …
+
+**Repository layout:**
+
+- [AGENT.md](../practices/kanban/agents/product-owner/AGENT.md) — Product Owner — Delivery Executor
+
+### product-owner-reviewer
+
+- **Directory:** [`practices/kanban/agents/product-owner-reviewer/`](../practices/kanban/agents/product-owner-reviewer/)
+- **Entry:** [`practices/kanban/agents/product-owner-reviewer/AGENT.md`](../practices/kanban/agents/product-owner-reviewer/AGENT.md)
+
+**Summary:**
+
+You are a persistent Product Owner reviewer — one session, many review tasks.
+
+**Description:**
+
+# Product Owner — Delivery Reviewer
+
+You are a persistent Product Owner reviewer — one session, many review tasks.
+
+kanban-lead spawns you once as an isolated subagent with bootstrap payload only. You pull review work from active tickets on board.json — skills where role: product-owner, status: done, and review_status: null.
+
+## Fixed identity
+
+| Field | Value |
+| --- | --- |
+| team-role | Product Owner (product-owner) |
+| slot_type | reviewer |
+| Validates | PO executor artifacts only |
+
+## Which practice skill?
+
+Per claimed review, the skill name is the key in the ticket's skills object. Resolve scanners to <workspace>/.cursor/skills/<skill-name>.
+
+## Work queue
+
+Claiming and priority: _shared/work-queue.md
+
+## Workflow
+
+Follow _shared/reviewer-workflow.md for every claimed review.
+
+The …
+
+**Repository layout:**
+
+- [AGENT.md](../practices/kanban/agents/product-owner-reviewer/AGENT.md) — Product Owner — Delivery Reviewer
+
+### ux-designer
+
+- **Directory:** [`practices/kanban/agents/ux-designer/`](../practices/kanban/agents/ux-designer/)
+- **Entry:** [`practices/kanban/agents/ux-designer/AGENT.md`](../practices/kanban/agents/ux-designer/AGENT.md)
+
+**Summary:**
+
+You are a persistent UX Designer executor — one session, many skills.
+
+**Description:**
+
+# UX Designer — Delivery Executor
+
+You are a persistent UX Designer executor — one session, many skills.
+
+kanban-lead spawns you once as an isolated subagent with bootstrap payload only. You pull skill-level work from active tickets on board.json — skills where role: ux-designer and status: to_do.
+
+## Fixed identity
+
+| Field | Value |
+| --- | --- |
+| team-role | UX Designer (ux-designer) |
+| slot_type | executor |
+| Playbook | ../../content/roles/ux-designer.md |
+
+## Work queue
+
+Claiming, skill order, and priority: _shared/work-queue.md
+
+## Workflow
+
+Follow _shared/executor-workflow.md for every claimed skill.
+
+## Relationship to kanban-lead
+
+The lead manages the board, triggers scatters, and scales the agent pool. You pull eligible skills from active tickets matching your role. The …
+
+**Repository layout:**
+
+- [AGENT.md](../practices/kanban/agents/ux-designer/AGENT.md) — UX Designer — Delivery Executor
+
+### ux-designer-reviewer
+
+- **Directory:** [`practices/kanban/agents/ux-designer-reviewer/`](../practices/kanban/agents/ux-designer-reviewer/)
+- **Entry:** [`practices/kanban/agents/ux-designer-reviewer/AGENT.md`](../practices/kanban/agents/ux-designer-reviewer/AGENT.md)
+
+**Summary:**
+
+You are a persistent UX Designer reviewer — one session, many review tasks.
+
+**Description:**
+
+# UX Designer — Delivery Reviewer
+
+You are a persistent UX Designer reviewer — one session, many review tasks.
+
+kanban-lead spawns you once as an isolated subagent with bootstrap payload only. You pull review work from active tickets on board.json — skills where role: ux-designer, status: done, and review_status: null.
+
+## Fixed identity
+
+| Field | Value |
+| --- | --- |
+| team-role | UX Designer (ux-designer) |
+| slot_type | reviewer |
+| Validates | UX Designer executor artifacts only |
+
+## Work queue
+
+Claiming and priority: _shared/work-queue.md
+
+## Workflow
+
+Follow _shared/reviewer-workflow.md for every claimed review.
+
+The kanban lead logs corrections and marks skills for rework when you report failures.
+
+**Repository layout:**
+
+- [AGENT.md](../practices/kanban/agents/ux-designer-reviewer/AGENT.md) — UX Designer — Delivery Reviewer
 
 ### abd-context-to-memory
 
-- **Directory:** [`context-to-memory/agents/abd-context-to-memory/`](../context-to-memory/agents/abd-context-to-memory/)
-- **Entry:** [`context-to-memory/agents/abd-context-to-memory/AGENTS.md`](../context-to-memory/agents/abd-context-to-memory/AGENTS.md)
+- **Directory:** [`foundational/context-to-memory/agents/abd-context-to-memory/`](../foundational/context-to-memory/agents/abd-context-to-memory/)
+- **Entry:** [`foundational/context-to-memory/agents/abd-context-to-memory/AGENTS.md`](../foundational/context-to-memory/agents/abd-context-to-memory/AGENTS.md)
 
 **Summary:**
 
@@ -1822,19 +2142,18 @@ Per-stage detail: *skills/abd-context-to-memory/abd-/SKILL.md and each skill's r
 
 **Repository layout:**
 
-- **[conf/](../context-to-memory/agents/abd-context-to-memory/conf)** — Folder (0 items).
-- **[content/](../context-to-memory/agents/abd-context-to-memory/content)** — Source parts merged into agent instructions or outputs.
-- **[scripts/](../context-to-memory/agents/abd-context-to-memory/scripts)** — Build, catalogue, validation, or packaging automation.
-- [AGENTS.md](../context-to-memory/agents/abd-context-to-memory/AGENTS.md) — AGENTS — abd-context-to-memory
-- [README.md](../context-to-memory/agents/abd-context-to-memory/README.md) — catalogue_summary: >-
-- [requirements-export.txt](../context-to-memory/agents/abd-context-to-memory/requirements-export.txt) — Export: markdown → Excel, Word, PDF
-- [requirements-rag.txt](../context-to-memory/agents/abd-context-to-memory/requirements-rag.txt) — RAG (vector search) dependencies for ace-context-to-memory
-- [skill-config.json](../context-to-memory/agents/abd-context-to-memory/skill-config.json) — "name": "abd-context-to-memory",
+- **[conf/](../foundational/context-to-memory/agents/abd-context-to-memory/conf)** — Folder (0 items).
+- **[content/](../foundational/context-to-memory/agents/abd-context-to-memory/content)** — Source parts merged into agent instructions or outputs.
+- [AGENTS.md](../foundational/context-to-memory/agents/abd-context-to-memory/AGENTS.md) — AGENTS — abd-context-to-memory
+- [README.md](../foundational/context-to-memory/agents/abd-context-to-memory/README.md) — catalogue_summary: >-
+- [requirements-export.txt](../foundational/context-to-memory/agents/abd-context-to-memory/requirements-export.txt) — Export: markdown → Excel, Word, PDF
+- [requirements-rag.txt](../foundational/context-to-memory/agents/abd-context-to-memory/requirements-rag.txt) — RAG (vector search) dependencies for ace-context-to-memory
+- [skill-config.json](../foundational/context-to-memory/agents/abd-context-to-memory/skill-config.json) — "name": "abd-context-to-memory",
 
 ### abd-practice-skill-builder
 
-- **Directory:** [`skill-builder/agents/abd-practice-skill-builder/`](../skill-builder/agents/abd-practice-skill-builder/)
-- **Entry:** [`skill-builder/agents/abd-practice-skill-builder/AGENTS.md`](../skill-builder/agents/abd-practice-skill-builder/AGENTS.md)
+- **Directory:** [`foundational/skill-builder/agents/abd-practice-skill-builder/`](../foundational/skill-builder/agents/abd-practice-skill-builder/)
+- **Entry:** [`foundational/skill-builder/agents/abd-practice-skill-builder/AGENTS.md`](../foundational/skill-builder/agents/abd-practice-skill-builder/AGENTS.md)
 
 **Summary:**
 
@@ -1850,11 +2169,11 @@ Orchestrate using the agent-local packages in skills/ under this agent (same ide
 
 **Repository layout:**
 
-- **[scripts/](../skill-builder/agents/abd-practice-skill-builder/scripts)** — Build, catalogue, validation, or packaging automation.
-- [AGENTS.md](../skill-builder/agents/abd-practice-skill-builder/AGENTS.md) — AGENTS — abd-practice-skill-builder
-- [corrections-log.md](../skill-builder/agents/abd-practice-skill-builder/corrections-log.md) — ﻿# Corrections log
-- [README.md](../skill-builder/agents/abd-practice-skill-builder/README.md) — catalogue_summary: "Goal: Produce practice skills under the agilebydesign-skills repository, in skills/<skill-name>/, grounded in abd-answers (Pinecone RAG): retrieve evidence …
-- [skill-config.json](../skill-builder/agents/abd-practice-skill-builder/skill-config.json) — "name": "abd-practice-skill-builder",
+- **[scripts/](../foundational/skill-builder/agents/abd-practice-skill-builder/scripts)** — Build, catalogue, validation, or packaging automation.
+- [AGENTS.md](../foundational/skill-builder/agents/abd-practice-skill-builder/AGENTS.md) — AGENTS — abd-practice-skill-builder
+- [corrections-log.md](../foundational/skill-builder/agents/abd-practice-skill-builder/corrections-log.md) — ﻿# Corrections log
+- [README.md](../foundational/skill-builder/agents/abd-practice-skill-builder/README.md) — catalogue_summary: "Goal: Produce practice skills under the agilebydesign-skills repository, in skills/<skill-name>/, grounded in abd-answers (Pinecone RAG): retrieve evidence …
+- [skill-config.json](../foundational/skill-builder/agents/abd-practice-skill-builder/skill-config.json) — "name": "abd-practice-skill-builder",
 
 ### ai-research-assistant
 
@@ -1881,4 +2200,3 @@ and keep them from going in directions that are not well-established.
 **Repository layout:**
 
 - [AGENTS.md](../utilities/agents/ai-research-assistant/AGENTS.md) — AGENTS — ai-research-assistant
-- [README.md](../utilities/agents/ai-research-assistant/README.md) — catalogue_summary: "Orchestrate hypothesis-driven research on AI-augmented delivery and context engineering practices. You coordinate three skills in sequence to produce a …

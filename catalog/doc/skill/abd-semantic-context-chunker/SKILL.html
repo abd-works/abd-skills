@@ -1,0 +1,1128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Garden — abd-semantic-context-chunker · SKILL.md</title>
+<script src="/commons/brand-nav.js?v=aigarden-4"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+/*
+  Agile Garden — AI Garden prelude + gardener lesson fragment.
+  Inlined via generate_abd_catalog.py. Max border-radius 6px; flat surfaces.
+  Brand split: orange-500 (#E5531A) for column chrome / rails; ai-blue (#4FC3F7 / #81D4FA)
+  on dense mono skill links — see abd-works-brand BRAND-GUIDELINES §3.1 (ai-blue-500).
+*/
+.catalog-prelude {
+  margin: 0 0 24px;
+  padding: 0 0 20px;
+  border-bottom: 1px solid #2A2A2A;
+}
+.catalog-prelude-heading {
+  margin: 0 0 12px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.25;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #2A2A2A;
+  scroll-margin-top: 48px;
+}
+.catalog-prelude-tagline {
+  margin: 0 0 14px;
+  max-width: 60rem;
+  font-size: 1rem;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+/* Mission row */
+.catalog-mission {
+  margin: 0 0 18px;
+}
+.catalog-mission-card {
+  background: #1B1B20;
+  border: 1px solid #2A2A2A;
+  border-left: 3px solid #E5531A;
+  border-radius: 4px;
+  padding: 14px 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  gap: 16px;
+}
+.catalog-mission-card h3 {
+  flex-shrink: 0;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #F4F4F5;
+  margin: 0;
+  white-space: nowrap;
+}
+.catalog-mission-card p {
+  flex: 1 1 auto;
+  margin: 0;
+  font-size: 0.88rem;
+  color: var(--muted);
+  line-height: 1.55;
+}
+.catalog-mission-card--teal,
+.catalog-mission-card--amber,
+.catalog-mission-card--purple {
+  background: #1B1B20;
+  border: 1px solid #2A2A2A;
+  border-left: 3px solid #E5531A;
+}
+.catalog-mission-card--teal h3,
+.catalog-mission-card--amber h3,
+.catalog-mission-card--purple h3 {
+  color: #F4F4F5;
+}
+@media (max-width: 720px) {
+  .catalog-mission { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 480px) {
+  .catalog-mission { grid-template-columns: 1fr; }
+}
+
+/* Two-column skill lists */
+/* ── Section labels (full-width row above each grid) ── */
+.catalog-section-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0 10px;
+  margin: 24px 0 12px;
+  border-bottom: 1px solid #2A2A2A;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #E5531A;
+}
+.catalog-section-label--foundational {
+  margin-top: 28px;
+  color: #8A8A97;
+  border-bottom-color: #1A1A1E;
+}
+
+/* ── Practice grid — all 5 disciplines forced onto one row ── */
+.catalog-practice-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1px;
+  background: #2A2A2A;
+  border: 1px solid #2A2A2A;
+  border-radius: 6px;
+  overflow: hidden;
+  margin: 0;
+}
+@media (max-width: 900px) {
+  .catalog-practice-grid { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 600px) {
+  .catalog-practice-grid { grid-template-columns: 1fr; }
+}
+
+/* ── Foundational grid — 2 wider columns ── */
+.catalog-foundational-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 1px;
+  background: #2A2A2A;
+  border: 1px solid #2A2A2A;
+  border-radius: 6px;
+  overflow: hidden;
+}
+@media (max-width: 600px) {
+  .catalog-foundational-grid { grid-template-columns: 1fr; }
+}
+
+/* ── In the practice grid, stack name above desc ── */
+.catalog-practice-grid .catalog-garden-row,
+.catalog-foundational-grid .catalog-garden-row {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
+  padding: 10px 16px;
+}
+.catalog-practice-grid .catalog-garden-name,
+.catalog-foundational-grid .catalog-garden-name {
+  flex: none;
+  font-size: 0.85rem;
+}
+.catalog-practice-grid .catalog-garden-desc,
+.catalog-foundational-grid .catalog-garden-desc {
+  display: block !important;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: #9B9BA8;
+}
+
+/* ── Agents grid — single wide column ── */
+.catalog-agents-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 1px;
+  background: #2A2A2A;
+  border: 1px solid #2A2A2A;
+  border-radius: 6px;
+  overflow: hidden;
+}
+.catalog-section-label--agents {
+  margin-top: 28px;
+  color: #E5531A;
+  border-bottom-color: #2A2A2A;
+}
+
+/* ── Shared column card ── */
+.catalog-garden-lists {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.catalog-garden-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 20px;
+  margin: 0 0 8px;
+}
+@media (max-width: 760px) {
+  .catalog-garden-grid { grid-template-columns: 1fr; }
+}
+.catalog-garden-agents-wrap {
+  margin-top: 8px;
+}
+.catalog-garden-col--agents {
+  margin-top: 0;
+}
+.catalog-garden-col {
+  background: #111113;
+  border: none;
+  border-radius: 0;
+  overflow: hidden;
+}
+.catalog-garden-col-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-bottom: 1px solid #2A2A2A;
+  background: #1B1B20;
+  color: #E5531A;
+  border-left: 3px solid #E5531A;
+}
+.catalog-garden-col-header--practice,
+.catalog-garden-col-header--foundational,
+.catalog-garden-col-header--agents {
+  background: #1B1B20;
+  color: #E5531A;
+  border-left: 3px solid #E5531A;
+}
+.catalog-garden-ico { flex-shrink: 0; display: block; }
+.catalog-garden-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 16px;
+  border-bottom: 1px solid #1A1A1E;
+  font-size: 0.85rem;
+}
+.catalog-garden-row:last-child { border-bottom: none; }
+/* Skill/agent links — mono names stay near-white; ai-blue hairline/hover (brand AI accent, not orange wall) */
+.catalog-garden-name {
+  font-weight: 700;
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+  flex: 0 0 11.5rem;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  color: #4FC3F7;
+}
+/* !important beats global `a { … }`, :visited, and concatenation order */
+.catalog-prelude .catalog-garden-name a,
+.catalog-garden-lists .catalog-garden-name a {
+  color: #4FC3F7 !important;
+  font-weight: 700 !important;
+  text-decoration: none !important;
+  border-bottom: 1px solid rgba(79, 195, 247, 0.3);
+}
+.catalog-prelude .catalog-garden-name a:hover,
+.catalog-prelude .catalog-garden-name a:focus-visible,
+.catalog-garden-lists .catalog-garden-name a:hover,
+.catalog-garden-lists .catalog-garden-name a:focus-visible {
+  color: #81D4FA !important;
+  border-bottom-color: rgba(79, 195, 247, 0.95);
+}
+.catalog-garden-name--agent a,
+.catalog-garden-name--foundational a {
+  color: #4FC3F7 !important;
+  border-bottom: 1px solid rgba(79, 195, 247, 0.3);
+}
+.catalog-garden-name--agent a:hover,
+.catalog-garden-name--agent a:focus-visible,
+.catalog-garden-name--foundational a:hover,
+.catalog-garden-name--foundational a:focus-visible {
+  color: #81D4FA !important;
+  border-bottom-color: rgba(79, 195, 247, 0.92);
+}
+.catalog-garden-name--dim {
+  color: var(--muted);
+  opacity: 0.6;
+  font-weight: 600;
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+}
+.catalog-garden-desc {
+  color: var(--muted);
+  font-size: 0.82rem;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.catalog-garden-desc--muted { opacity: 0.5; }
+
+:root {
+  /* Primary accent — borders, nav “you are here”; keep saturated */
+  --orange:       #E5531A;
+  --orange-hover: #C64514;
+  /* Brand ai-blue (BRAND-GUIDELINES §3.1) — dense skill listings + card hover cue */
+  --ai-blue-500:  #4FC3F7;
+  --ai-blue-300:  #81D4FA;
+  /* Body links — soft orange (prose); garden grid uses ai-blue in agile-garden-fragment.css */
+  --link-soft:        #FFB380;
+  --link-soft-hover:  #FFCCA3;
+  --link-muted:       #F2A07A;
+  --bg:           #0B0B0B;
+  --surface:      #111113;
+  --raised:       #1B1B20;
+  --border:       #2A2A2A;
+  --border-muted: #1e1e22;
+  --text:         #F4F4F5;
+  --muted:        #9B9BA8;
+  --radius:       6px;
+  --font-sans:    'Inter', system-ui, sans-serif;
+  --font-mono:    'JetBrains Mono', ui-monospace, monospace;
+}
+*, *::before, *::after { box-sizing: border-box; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--link-muted); text-decoration: none; transition: color 120ms ease; }
+a:hover { color: var(--link-soft-hover); text-decoration: none; }
+
+/* Wayfinding stays strong accent */
+.nav a.nav__link--current {
+  color: var(--orange) !important;
+}
+strong { font-weight: 600; }
+code {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+  background: rgba(255,255,255,0.06);
+  padding: 2px 5px;
+  border-radius: 3px;
+  color: #F2A07A;
+}
+
+/* ── Page layout ── */
+.page-wrap {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 48px clamp(16px, 4vw, 48px) 96px;
+}
+
+/* ── Panel / legacy wrapper — flatten to plain surface ── */
+.panel {
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  overflow: visible;
+}
+
+/* ── Page header (replaces old panel-header) ── */
+.panel-header {
+  margin-bottom: 40px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid var(--border);
+  border-left: none;
+  background: transparent;
+  display: block;
+}
+
+.header-icon { display: none; }
+
+.header-text { display: block; }
+.brand { display: none; }
+.brand-row { display: none; }
+.brand-row .brand { display: none; }
+.brand-row .cap-badge { display: none; }
+
+h1 {
+  margin: 0 0 10px;
+  font-size: clamp(28px, 4vw, 42px);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  color: var(--text);
+  font-family: var(--font-sans);
+}
+
+.tagline {
+  margin: 0;
+  font-size: 15px;
+  color: var(--muted);
+  max-width: 540px;
+  line-height: 1.65;
+  font-family: var(--font-sans);
+}
+
+.panel-body { padding: 0; }
+p { margin: 0 0 14px; }
+h2 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin: 32px 0 14px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+}
+h2:first-child { margin-top: 0; }
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 18px;
+  margin: 0 0 18px;
+  padding: 0 0 14px;
+  border-bottom: 1px solid var(--border-muted);
+}
+.nav a {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+.nav a.nav__link--current {
+  pointer-events: none;
+}
+/* Kanban is a different experience (full-screen deck) — keep it last and visually apart */
+.nav a.nav__link--kanban {
+  margin-left: auto;
+  padding-left: 18px;
+  border-left: 1px solid var(--border-muted);
+}
+.cap-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 14px;
+  margin: 18px 0 0;
+}
+.cap-card {
+  display: block;
+  text-decoration: none;
+  background: var(--raised);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--orange);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  transition: background 0.15s, border-color 0.15s;
+  cursor: pointer;
+}
+a.cap-card {
+  color: var(--muted);
+}
+.cap-card:hover {
+  background: rgba(79, 195, 247, 0.06);
+  border-color: rgba(79, 195, 247, 0.32);
+  text-decoration: none;
+}
+.cap-card__title {
+  font-size: 0.97rem;
+  font-weight: 700;
+  color: #F4F4F5;
+  margin: 0 0 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+a.cap-card:hover .cap-card__title {
+  color: var(--ai-blue-300);
+}
+.cap-card__icon {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  color: rgba(79, 195, 247, 0.72);
+}
+a.cap-card:hover .cap-card__icon {
+  color: var(--ai-blue-500);
+}
+.cap-card__label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  opacity: 0.55;
+  margin-bottom: 1px;
+}
+.cap-card__summary { font-size: 0.85rem; color: var(--muted); line-height: 1.45; margin: 0 0 8px; }
+.cap-card__meta { font-size: 0.75rem; color: var(--muted); font-family: var(--font-mono, 'JetBrains Mono', monospace); margin: 0 0 8px; opacity: 0.85; }
+.cap-card__more {
+  font-size: 0.78rem;
+  color: rgba(79, 195, 247, 0.82);
+  opacity: 1;
+  margin: 10px 0 0;
+}
+
+/* Entry detail pages (skill/*.html, agent/*.html) — overview-style */
+.entry-detail-header .back-link {
+  font-size: 0.82rem;
+  color: var(--muted);
+  display: inline-block;
+  margin: 0 0 10px;
+}
+.entry-detail-header .back-link:hover {
+  color: var(--orange);
+}
+.cap-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--orange);
+  background: rgba(255, 122, 0, 0.08);
+  border: 1px solid rgba(255, 122, 0, 0.25);
+  border-radius: 3px;
+  padding: 2px 8px;
+  margin: 0 0 8px;
+}
+.entry-caption {
+  font-size: 0.9rem;
+  color: var(--muted);
+  margin: 0 0 12px;
+}
+.entry-prose {
+  white-space: pre-wrap;
+  color: var(--text);
+  line-height: 1.65;
+  margin: 0 0 8px;
+  font-size: 0.95rem;
+}
+.entry-divider {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 26px 0;
+}
+.entry-contents-doc {
+  margin: 0 0 8px;
+}
+.entry-contents-files {
+  margin: 0;
+}
+.entry-md-section {
+  border: 1px solid var(--border-muted);
+  border-radius: var(--radius);
+  margin: 0 0 10px;
+  background: rgba(0, 0, 0, 0.14);
+}
+.entry-md-section > summary.entry-md-section__summary {
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.98rem;
+  padding: 12px 14px;
+  list-style: none;
+  color: var(--text);
+  user-select: none;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+.entry-md-section > summary.entry-md-section__summary::before {
+  content: "+";
+  flex-shrink: 0;
+  width: 1.35em;
+  text-align: center;
+  font-weight: 800;
+  font-size: 1.05em;
+  line-height: 1.35;
+  color: var(--orange);
+}
+.entry-md-section[open] > summary.entry-md-section__summary::before {
+  content: "-";
+}
+.entry-md-section > summary.entry-md-section__summary::-webkit-details-marker {
+  display: none;
+}
+.entry-md-section .entry-md-section__body {
+  padding: 0 14px 14px 16px;
+  border-top: 1px solid var(--border-muted);
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: var(--text);
+}
+.entry-md-section .entry-md-section__body p {
+  margin: 0 0 12px;
+}
+.entry-md-section .entry-md-section__body p:last-child {
+  margin-bottom: 0;
+}
+.entry-md-section .entry-md-section__body ul {
+  margin: 0 0 12px;
+  padding-left: 1.35rem;
+}
+.entry-md-section .entry-md-section__body h2 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin: 18px 0 8px;
+  padding-bottom: 0;
+  border-bottom: none;
+  color: var(--text);
+}
+.entry-md-section .entry-md-section__body h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 14px 0 8px;
+  color: var(--text);
+}
+.entry-md-section .entry-md-section__body pre {
+  margin: 0 0 12px;
+  overflow-x: auto;
+}
+.entry-md-section .entry-md-section__body hr {
+  margin: 14px 0;
+  border: none;
+  border-top: 1px solid var(--border-muted);
+}
+.ascii-diagram {
+  background: #111114;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  overflow-x: auto;
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+  font-size: 0.83em;
+  line-height: 1.55;
+  color: #b8b8c2;
+  margin: 0 0 18px;
+}
+.install-block {
+  margin: 22px 0 0;
+  padding: 16px 18px;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--border-muted);
+  border-radius: var(--radius);
+  border-left: 3px solid var(--orange);
+}
+.install-block h2 {
+  margin-top: 0;
+  border-bottom: none;
+  padding-bottom: 0;
+}
+.install-block .install-hint {
+  font-size: 0.92rem;
+  color: var(--muted);
+  margin: 0 0 12px;
+}
+.install-snippet {
+  background: #111114;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  overflow-x: auto;
+  margin: 0;
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+  font-size: 0.85em;
+  line-height: 1.5;
+  color: #d4d4d4;
+}
+.install-snippet code {
+  background: transparent;
+  padding: 0;
+  font-size: inherit;
+  color: inherit;
+}
+.file-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.file-list li {
+  margin: 0 0 14px;
+  padding: 10px 12px 10px 14px;
+  border-left: 3px solid var(--border-muted);
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 0 4px 4px 0;
+}
+.file-list .file-meta {
+  color: var(--muted);
+  font-size: 0.9rem;
+  display: block;
+  margin-top: 4px;
+}
+.file-list a {
+  font-weight: 600;
+}
+.file-list--root {
+  margin-top: 4px;
+}
+.file-list--nested {
+  margin: 8px 0 0 0;
+  padding-left: 0;
+  border-left: 2px solid var(--border-muted);
+  margin-left: 2px;
+  padding-left: 10px;
+}
+.file-list--nested li {
+  margin-bottom: 10px;
+  padding: 8px 10px 8px 12px;
+  font-size: 0.95rem;
+}
+.file-list__nested-note {
+  margin: 8px 0 0 0;
+  padding: 6px 0 4px 4px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+/* Expandable folder tree (<details> / <summary>) */
+.file-list > li.file-list__folder {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 10px;
+  border: none;
+  background: transparent;
+  border-radius: 0;
+}
+.file-list__folder > .file-tree__details {
+  margin: 0 0 10px 0;
+}
+/* Match .entry-md-section: folder trees (rules, scanners, templates, …) */
+.file-tree__details {
+  border: 1px solid var(--border-muted);
+  border-radius: var(--radius);
+  background: rgba(0, 0, 0, 0.14);
+  overflow: hidden;
+}
+.file-tree__summary {
+  cursor: pointer;
+  padding: 12px 14px;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  list-style: none;
+  margin: 0;
+  font-weight: 600;
+  font-size: 0.98rem;
+  color: var(--text);
+  user-select: none;
+  background: transparent;
+}
+.file-tree__summary::-webkit-details-marker {
+  display: none;
+}
+.file-tree__summary::marker {
+  content: "";
+  display: none;
+}
+.file-tree__summary::before {
+  content: "+";
+  flex-shrink: 0;
+  width: 1.35em;
+  text-align: center;
+  font-weight: 800;
+  font-size: 1.05em;
+  line-height: 1.35;
+  color: var(--orange);
+}
+.file-tree__details[open] > .file-tree__summary::before {
+  content: "-";
+}
+.file-tree__summary:hover {
+  background: rgba(255, 122, 0, 0.06);
+}
+.file-tree__summary .file-meta {
+  display: inline;
+  margin-left: 6px;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+.file-tree__inner {
+  padding: 0 14px 14px 16px;
+  border-top: 1px solid var(--border-muted);
+}
+.file-tree__ul {
+  margin-top: 4px;
+}
+.file-tree__dir > .file-tree__details {
+  margin: 0;
+  border-radius: 4px;
+}
+.file-tree__dir--truncated {
+  font-size: 0.95rem;
+}
+.file-tree__file .file-meta {
+  display: block;
+  margin-top: 4px;
+}
+
+/* Agile Garden prelude + mission + lists: abd-works/commons/agile-garden-fragment.css (prepended by generate_abd_catalog.py) */
+
+/* Single-page hub (index.html): collapsible hub / skills / agents */
+.catalog-section {
+  border: 1px solid var(--border-muted);
+  border-radius: 8px;
+  margin: 0 0 16px;
+  background: rgba(0, 0, 0, 0.18);
+  overflow: hidden;
+}
+.catalog-section > summary {
+  cursor: pointer;
+  list-style: none;
+  padding: 14px 16px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.04);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  user-select: none;
+}
+.catalog-section > summary::-webkit-details-marker { display: none; }
+.catalog-section > summary::marker { content: ""; }
+.catalog-section > summary::before {
+  content: "+";
+  flex-shrink: 0;
+  width: 1.5rem;
+  height: 1.5rem;
+  line-height: 1.45rem;
+  text-align: center;
+  font-weight: 700;
+  font-size: 0.95rem;
+  border: 1px solid var(--border-muted);
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.1);
+}
+.catalog-section[open] > summary::before { content: "\2212"; }
+.catalog-section[open] > summary {
+  border-bottom: 1px solid var(--border-muted);
+}
+.catalog-section .section-body {
+  padding: 18px 16px 22px;
+}
+.catalog-section .section-body > p:first-of-type { margin-top: 0; }
+.catalog-section .cap-grid { margin-top: 8px; }
+.catalog-section .count {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+/* Static markdown mirror pages (catalog/doc/...) */
+.rule-prose {
+  font-size: 1rem;
+  line-height: 1.65;
+  max-width: 52rem;
+}
+.rule-prose h1,
+.rule-prose h2,
+.rule-prose h3,
+.rule-prose h4 {
+  margin: 1.25em 0 0.5em;
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--text);
+}
+.rule-prose h1:first-child,
+.rule-prose h2:first-child,
+.rule-prose h3:first-child {
+  margin-top: 0;
+}
+.rule-prose h1 { font-size: 1.5rem; border-bottom: 1px solid var(--border); padding-bottom: 0.35em; }
+.rule-prose h2 { font-size: 1.25rem; border-bottom: 1px solid var(--border-muted); padding-bottom: 0.25em; }
+.rule-prose h3 { font-size: 1.1rem; }
+.rule-prose p { margin: 0 0 12px; }
+.rule-prose pre {
+  margin: 12px 0;
+  padding: 12px 14px;
+  overflow: auto;
+  background: #1f1f24;
+  border: 1px solid var(--border-muted);
+  border-radius: 6px;
+  font-size: 0.88em;
+  line-height: 1.45;
+}
+.rule-prose code { font-size: inherit; }
+.rule-prose ul,
+.rule-prose ol {
+  margin: 8px 0 12px 1.25rem;
+  padding: 0;
+}
+.rule-prose li { margin-bottom: 6px; }
+.rule-prose strong { color: var(--text); }
+.rule-prose hr {
+  border: 0;
+  border-top: 1px solid var(--border-muted);
+  margin: 1.25em 0;
+}
+.rule-prose .md-table-wrap {
+  overflow-x: auto;
+  margin: 12px 0 16px;
+  -webkit-overflow-scrolling: touch;
+}
+.rule-prose table.md-table {
+  width: max-content;
+  max-width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+.rule-prose table.md-table th,
+.rule-prose table.md-table td {
+  border: 1px solid var(--border-muted);
+  padding: 8px 10px;
+  text-align: left;
+  vertical-align: top;
+}
+.rule-prose table.md-table th {
+  background: rgba(255, 122, 0, 0.08);
+  font-weight: 600;
+  white-space: nowrap;
+}
+.rule-prose table.md-table td { background: var(--panel); }
+.rule-prose a { color: var(--accent, #ff7a00); text-decoration: underline; }
+.rule-prose a:hover { text-decoration: none; }
+
+.plugin-slots h3 {
+  margin: 28px 0 8px;
+  font-size: 1.05rem;
+}
+.plugin-slots h3:first-child { margin-top: 0; }
+.cap-grid--plugin-slot { margin-bottom: 8px; }
+
+</style>
+</head>
+<body>
+<div class="page-wrap">
+<div class="panel" role="main">
+
+<header class="panel-header entry-detail-header">
+  <div class="header-text">
+    <p class="brand"><strong>abd.works</strong> &middot; AI Garden</p>
+    <a class="back-link" href="../../../skill/abd-semantic-context-chunker.html">← abd-semantic-context-chunker</a>
+    <p class="cap-badge">Markdown</p>
+    <h1>SKILL.md</h1>
+    <p class="tagline">name: abd-semantic-context-chunker</p>
+  </div>
+</header>
+
+<div class="panel-body">
+
+<nav class="nav" aria-label="AI Garden sections">
+  <a href="../../../index.html" class="nav__link">Complete</a>
+  <a href="../../../skills.html" class="nav__link nav__link--current">Skills</a>
+  <a href="../../../agents.html" class="nav__link">Agents</a>
+  <a href="../../../instructions.html" class="nav__link">Instructions</a>
+  <a href="../../../kanban-layout/index.html" class="nav__link nav__link--kanban">Delivery kanban</a>
+</nav>
+
+<h2>Content</h2>
+<div class="rule-prose"><h1>abd-semantic-context-chunker</h1>
+<h2>Purpose</h2>
+<p>Engagements accumulate context from many places — requirements documents, code repositories, design files, meeting notes, technical specs — and nobody knows what they actually have until someone reads it all. This skill scans the full corpus, tags every piece by the kind of context it provides — Story, Domain, Architecture, UX — and produces a coverage index so teams and agents know what evidence exists and where the gaps are, before any deeper analysis begins.</p>
+<h2>When to use</h2>
+<p>Load this skill when <strong>any</strong> of the following apply:</p>
+<ul>
+<li>You have <strong>lots of files or content from many sources</strong> — documents, code, specs, notes — and need to know <strong>what kind of context you actually have</strong> before starting delivery work.</li>
+<li>You want a <strong>coverage index</strong> that shows which views (Story, Domain, Architecture, UX) are well-covered and where the gaps are, so you can prioritize what to read or request.</li>
+<li>You are about to start <strong>story mapping, domain modeling, architecture analysis, or UX design</strong> and want to <strong>point that work at the right source material</strong> instead of dumping everything in.</li>
+<li>Content has been converted to markdown and you need <strong>context-aware retrieval</strong> rather than generic keyword search.</li>
+</ul>
+<h2>Core concepts</h2>
+<h3>Context index</h3>
+<p>The primary output is <strong>tagged, chunked content</strong> — every piece of source material broken into retrieval-sized segments and labelled by the kind of context it provides. The <strong>context index</strong> is the companion report that shows what you ended up with: &quot;31 pieces of domain context, 23 story, 12 architecture, 8 UX — and here is exactly where each one lives.&quot; The chunks feed downstream retrieval; the index tells you what you have and where the gaps are.</p>
+<h3>Four views</h3>
+<p>Every piece of source content provides context for at least one of four views:</p>
+<ul>
+<li><strong>Story</strong> — what users and systems do: interactions, behaviors, processes, journeys, acceptance criteria, scenarios, flows.</li>
+<li><strong>Domain</strong> — what the system knows and enforces: business vocabulary, data structures, rules, invariants, entity relationships, state transitions.</li>
+<li><strong>Architecture</strong> — what the system is made of: components, platforms, technology choices, deployment, integration points, cross-cutting concerns, patterns, non-functional targets.</li>
+<li><strong>UX</strong> — what the user sees and touches: screens, layouts, navigation, controls, wireframes, mockups, accessibility.</li>
+</ul>
+<p>A single chunk can inform <strong>multiple views</strong> — for example, a paragraph describing an order submission form touches both Story (the user journey) and UX (the form layout).</p>
+<h3>Hierarchical tags</h3>
+<p>Each view has a small set of tags that locate content at a <strong>broad orientation level</strong> — enough to know what area it belongs to, not enough to constitute full modeling. Story tags identify capability areas (epics) and actors, not individual stories. Domain tags identify modules and key abstractions, not every term and relationship. Architecture tags identify platforms, components, and mechanism types. UX tags identify screens and regions. The full vocabulary lives in <strong>`references/four-view-taxonomy.md`</strong>. Deeper structuring — decomposing epics into stories, extracting domain terms, mapping component interactions, specifying UI controls — is what downstream analysis is for, not this tagging pass.</p>
+<h3>Chunking (when needed)</h3>
+<p>Most files are tagged as-is. When a file is large enough that it covers multiple topics (roughly over 1,500 characters), it gets split into 1–2 page segments so each piece can be tagged independently. Smaller files pass through intact — they still receive view tags but are not subdivided. The chunking is a means to accurate tagging, not the point of the skill.</p>
+<h3>Coverage report</h3>
+<p>After chunking and tagging, the skill produces a report that groups every chunk by view, then by hierarchy level. This makes gaps visible: if the Story view shows no chunks under a known epic, the source corpus is missing behavioral content for that area. The report also lists pass-through files and any chunks that could not be tagged.</p>
+<h2>Build</h2>
+<p><strong>Goal:</strong> Scan all source content, tag every piece by the kind of context it provides, and produce a coverage index showing what you have across all four views.</p>
+<p>1. <strong>Scan the source folder.</strong> List all source content — markdown files from <strong>abd-convert-to-markdown</strong>, code files, specs, notes, anything that has been collected. Measure each file&#x27;s size and note it for the report.</p>
+<p>2. <strong>Split large files when needed.</strong> Files over roughly 1,500 characters often cover multiple topics. Split those at heading boundaries (`##` preferred, then `###`) so each piece can be tagged independently. Aim for segments between 800 and 3,000 characters. Smaller files pass through as-is. Assign each segment a `chunk_id` in the form `source-file__chunk_NN` and record its `section_path` (the heading trail from the source).</p>
+<p>3. <strong>Tag every piece by context type.</strong> Read each segment&#x27;s content and assign one or more entries to `primary_views` (story, domain, architecture, ux). Then fill the orientation-level tags for each assigned view using the vocabulary in <strong>`references/four-view-taxonomy.md`</strong>. Stay at a <strong>broad tagging altitude</strong> — identify the capability area, the module, the platform, the screen — not individual stories, structured terms, component interactions, or UI controls. That detail is what downstream analysis produces. When the engagement already has project artifacts, use their names as anchors to keep tags consistent.</p>
+<p>4. <strong>Write chunk files with front matter.</strong> Save each chunk to the output folder with YAML front matter following the shape in <strong>`templates/tagged-chunk.md`</strong>. Front matter includes `chunk_id`, `source_file`, `section_path`, `chunk_size_chars`, `primary_views`, `tags` (nested by view), and `evidence_type`.</p>
+<p>5. <strong>Generate the coverage index.</strong> Produce a report following <strong>`templates/context-chunking-report.md`</strong>. Group all tagged content by view, then by the top hierarchy level within each view (epic for Story, module for Domain, depth for Architecture, screen for UX). List untagged items at the end. This index is the deliverable — it tells you what context you have and where the gaps are.</p>
+<p>6. <strong>Review against the rules.</strong> Walk each bundled rule (chunk size threshold, view tagging required, tag depth accuracy) and verify the output passes. Fix any violations before declaring done.</p>
+<ul>
+<li><strong>Outputs:</strong> One chunk file per segment (with YAML front matter) plus one coverage report. Pass-through files get a single front-matter-only companion or are listed in the report with their tags.</li>
+<li><strong>While writing:</strong> Use only tag values from `references/four-view-taxonomy.md`. When a chunk&#x27;s content does not clearly fit any view, tag it as the closest match and note the uncertainty in the report&#x27;s untagged section.</li>
+</ul>
+<h2>Validate</h2>
+<p><strong>Goal:</strong> Inspect the tagged output and coverage index as a reviewer — check completeness, tag quality, and report accuracy.</p>
+<ul>
+<li><strong>Every piece of content</strong> (file or segment) has YAML front matter with `chunk_id`, `source_file`, `primary_views` (non-empty list), and at least one view&#x27;s hierarchical tags.</li>
+<li><strong>Nothing is untagged</strong> — every item has at least one `primary_views` entry.</li>
+<li><strong>Tags use only values</strong> from `references/four-view-taxonomy.md` — no invented tag names.</li>
+<li><strong>Tags stay at orientation level</strong> — epics and actors for Story, modules and key abstractions for Domain, platforms and components for Architecture, screens and regions for UX. Do not decompose into individual stories, structured terms, component interactions, or UI controls — that is downstream analysis.</li>
+<li><strong>Pass-through files</strong> (&lt; ~1,500 chars) were not split; they have view tags but no chunk subdivision.</li>
+<li><strong>The coverage index</strong> accounts for every source file and every tagged piece — totals match, no orphans.</li>
+<li><strong>Architecture chunks</strong> that describe custom-built components carry `provenance: custom`; out-of-box platform features carry `provenance: ootb`.</li>
+<li><strong>Multi-view chunks</strong> are tagged with all applicable views, not forced into a single one.</li>
+</ul>
+<hr>
+<p>&lt;!-- execute_rules:bundle_rules:begin --&gt;</p>
+<h3>Rule: Chunk size threshold</h3>
+<p>Chunks should only be created from source files large enough to benefit from splitting. A file that is already 1–2 pages or shorter produces fragments too small for useful retrieval when subdivided. Passing means every chunk comes from a file that exceeded the size threshold, and no chunk is smaller than the minimum useful size. Failing means a short file was needlessly split, or a chunk is so small it carries no retrievable context.</p>
+<h4>DO</h4>
+<ul>
+<li>Only create chunks from source files that exceed roughly 1,500 characters (about 2 printed pages).</li>
+</ul>
+<p><strong>Example (pass):</strong> `requirements.md` is 4,200 characters — split into two chunks of ~2,100 characters each. Both chunks carry enough context for retrieval.</p>
+<ul>
+<li>Pass through files at or below the threshold intact — assign view tags but do not subdivide.</li>
+</ul>
+<p><strong>Example (pass):</strong> `glossary.md` is 900 characters — listed in the report as a pass-through with `primary_views: [domain]` and hierarchical tags, but no `chunk_NN` files are created from it.</p>
+<ul>
+<li>Keep individual chunks between roughly 800 and 3,000 characters so each piece is large enough to carry context but small enough for focused retrieval.</li>
+</ul>
+<p><strong>Example (pass):</strong> A 6,000-character file is split into three chunks of approximately 2,000 characters each, each one covering a coherent section under its own heading.</p>
+<h4>DO NOT</h4>
+<ul>
+<li>Split a source file that is already at or below the size threshold (~1,500 characters).</li>
+</ul>
+<p><strong>Example (fail):</strong> `api-notes.md` is 1,100 characters — the chunker produces `api-notes__chunk_01` (600 chars) and `api-notes__chunk_02` (500 chars). Both fragments are too small and the file should have passed through intact.</p>
+<ul>
+<li>Produce a chunk smaller than roughly 400 characters unless it is the final tail of a file and merging it with the prior chunk would exceed 3,000 characters.</li>
+</ul>
+<p><strong>Example (fail):</strong> `requirements__chunk_07` is 180 characters containing only a heading and one sentence. It should have been merged with the preceding chunk.</p>
+<ul>
+<li>Ignore the threshold and chunk every file regardless of size.</li>
+</ul>
+<p><strong>Example (fail):</strong> A batch of 20 source files includes 8 files under 1,000 characters. All 20 are split into chunks. The 8 small files should have been pass-throughs.</p>
+<h3>Rule: Tag depth accuracy</h3>
+<p>This is a <strong>tagging exercise, not full modeling</strong>. Tags should stay at an orientation level — broad enough to classify and locate content, not so deep that the tagger is doing the work of downstream analysis. Passing means tags identify the right area (epic, module, platform, screen) without decomposing into individual stories, structured terms, component interactions, or UI controls. Failing means the tagger either over-structures content that should be left for later analysis, or speculates on details the content does not contain.</p>
+<h4>DO</h4>
+<ul>
+<li>Tag at the <strong>orientation level</strong> for each view — the level that answers &quot;what area is this about?&quot; not &quot;what is the detailed structure?&quot;</li>
+</ul>
+<p><strong>Example (pass):</strong> The chunk discusses order processing workflows and validation. Tags include:</p>
+<pre><code>  story:
+    epic: Manage Orders
+    actor: user
+  domain:
+    module: Order Management
+    key_abstraction: Order</code></pre>
+<p>The tagger identifies the capability area and the key abstraction — enough to locate this content. Decomposing into individual stories, specific terms like `Order Line`, or stereotypes like `aggregate` is downstream work.</p>
+<ul>
+<li>Tag `arch.provenance` for architecture content so it is clear what is custom-built versus platform-provided.</li>
+</ul>
+<p><strong>Example (pass):</strong> The chunk says &quot;Authentication uses AWS Cognito with custom token enrichment middleware.&quot; Tags include:</p>
+<pre><code>  architecture:
+    mechanism: security
+    platform: AWS Cognito
+    provenance: extended</code></pre>
+<p>Cognito is out-of-box but the custom middleware makes this `extended`.</p>
+<ul>
+<li>Leave deeper tag levels empty — partial depth is expected and correct for a tagging pass.</li>
+</ul>
+<p><strong>Example (pass):</strong> The chunk says &quot;The system handles order management.&quot; Tags include:</p>
+<pre><code>  domain:
+    module: Order Management</code></pre>
+<p>The content names the module but no specific abstractions — stopping at `module` is accurate.</p>
+<h4>DO NOT</h4>
+<ul>
+<li>Over-structure content by tagging at levels that belong to downstream analysis — individual stories, domain terms, DDD stereotypes, UI controls, or component interactions.</li>
+</ul>
+<p><strong>Example (fail):</strong> The chunk discusses order processing. Tags include:</p>
+<pre><code>  domain:
+    module: Order Management
+    key_abstraction: Order
+    term: Order Line
+    stereotype: aggregate
+  story:
+    epic: Manage Orders
+    sub_epic: Process Order
+    story: Submit Order</code></pre>
+<p>The tagger decomposed into stories and domain terms — that is story mapping and domain modeling work, not tagging.</p>
+<ul>
+<li>Speculate on tag values the content does not actually contain — do not infer details from assumptions or external knowledge.</li>
+</ul>
+<p><strong>Example (fail):</strong> The chunk says &quot;The system processes customer orders.&quot; Tags include:</p>
+<pre><code>  domain:
+    module: Order Management
+    key_abstraction: Order
+    term: Order Line
+    stereotype: aggregate</code></pre>
+<p>The content never mentions `Order Line` or aggregate boundaries. The tagger guessed from general e-commerce knowledge instead of reading the text.</p>
+<ul>
+<li>Assign `arch.provenance` without evidence from the content about whether the component is custom or platform-provided.</li>
+</ul>
+<p><strong>Example (fail):</strong> The chunk describes &quot;a caching layer for product queries&quot; with no mention of Redis, Memcached, or any platform. Tags include `arch.provenance: ootb`. There is no basis for the `ootb` claim — omit `provenance` or note it as unknown in the report.</p>
+<h3>Rule: View tagging required</h3>
+<p>Every chunk and every pass-through file must be tagged with at least one primary view and the corresponding hierarchical tags from the taxonomy reference. Passing means no chunk exists without a `primary_views` list and at least one view&#x27;s tag hierarchy filled in. Failing means chunks are left untagged, or tags are invented outside the vocabulary in `references/four-view-taxonomy.md`.</p>
+<h4>DO</h4>
+<ul>
+<li>Assign at least one entry in `primary_views` (story, domain, architecture, ux) to every chunk and every pass-through file.</li>
+</ul>
+<p><strong>Example (pass):</strong></p>
+<pre><code>  primary_views: [domain, architecture]
+  tags:
+    domain:
+      module: Order Management
+      key_abstraction: Order
+    architecture:
+      component: Order Service
+      provenance: custom</code></pre>
+<p>The chunk describes order data and the service that manages it — both views are tagged with hierarchical detail.</p>
+<ul>
+<li>Tag content that legitimately informs multiple views with all applicable views — do not force a single assignment.</li>
+</ul>
+<p><strong>Example (pass):</strong> A paragraph about &quot;users cancel orders from the order detail screen if status is Pending&quot; is tagged `primary_views: [story, ux, domain]` because it describes a user action (story), names a screen (ux), and references a status constraint (domain).</p>
+<ul>
+<li>Use only tag names and enum values defined in `references/four-view-taxonomy.md`.</li>
+</ul>
+<p><strong>Example (pass):</strong> `story.actor: user` — the value `user` is in the taxonomy&#x27;s enum for `story.actor`.</p>
+<h4>DO NOT</h4>
+<ul>
+<li>Leave any chunk or pass-through file with an empty or missing `primary_views` list.</li>
+</ul>
+<p><strong>Example (fail):</strong></p>
+<pre><code>  chunk_id: requirements__chunk_04
+  primary_views: []
+  tags: {}</code></pre>
+<p>The chunk has no view assignment and no tags — a reviewer cannot tell which practice this content informs.</p>
+<ul>
+<li>Invent tag names or values that do not appear in the taxonomy reference.</li>
+</ul>
+<p><strong>Example (fail):</strong> `domain.category: business_logic` — the taxonomy defines `domain.module_kind` with specific enum values, not `domain.category`. The tagger invented a field.</p>
+<ul>
+<li>Tag a chunk with all four views when its content clearly serves only one or two.</li>
+</ul>
+<p><strong>Example (fail):</strong> A paragraph that only lists database column definitions is tagged `primary_views: [story, domain, architecture, ux]`. It should be `[domain]` or at most `[domain, architecture]` — there is no story behavior, no screen layout. &lt;!-- execute_rules:bundle_rules:end --&gt;</p></div>
+
+</div>
+</div>
+</div>
+</body>
+</html>
