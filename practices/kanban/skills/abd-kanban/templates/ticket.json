@@ -1,0 +1,36 @@
+{
+  "ticket_id": "project-all",
+  "lineage": ["Project Name"],
+  "scope_level": "all",
+  "stage": "shaping",
+  "priority": 1,
+  "skills": {
+    "abd-story-mapping": {
+      "status": "to_do",
+      "role": "product-owner",
+      "agent": null,
+      "start": null,
+      "end": null,
+      "review_status": null,
+      "reviewer": null,
+      "review_start": null,
+      "review_end": null
+    },
+    "abd-thin-slicing": {
+      "status": "to_do",
+      "role": "product-owner",
+      "agent": null,
+      "start": null,
+      "end": null,
+      "review_status": null,
+      "reviewer": null,
+      "review_start": null,
+      "review_end": null
+    }
+  },
+  "entered_stage": null,
+  "completed_stage": null,
+  "scatter_from": null,
+  "scatter_to": [],
+  "notes": "Template — replace with actual ticket data"
+}

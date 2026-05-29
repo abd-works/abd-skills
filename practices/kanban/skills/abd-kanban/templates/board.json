@@ -1,0 +1,20 @@
+{
+  "schema": "abd-delivery-kanban/v2",
+  "synced_at": null,
+  "system_of_work": "default-new-build",
+  "backlog": [],
+  "active": [],
+  "done": [],
+  "archived": [],
+  "wip_policy": {
+    "product-owner": { "executor": 1, "reviewer": 1 },
+    "business-expert": { "executor": 1, "reviewer": 1 },
+    "ux-designer": { "executor": 1, "reviewer": 1 },
+    "engineer": { "executor": 1, "reviewer": 1 }
+  },
+  "metrics": {
+    "total_cycle_time": null,
+    "stage_cycle_times": {},
+    "bottlenecks": []
+  }
+}

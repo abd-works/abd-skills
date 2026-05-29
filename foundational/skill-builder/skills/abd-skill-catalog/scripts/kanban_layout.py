@@ -58,10 +58,10 @@ PLUGIN_LABEL: dict[str, str] = {
 }
 
 DELIVERY_CROSSCUT_SKILLS: tuple[str, ...] = (
-    "abd-delivery-planning",
-    "abd-delivery-war-room",
-    "abd-delivery-repo",
-    "delivery-estimation",
+    "abd-kanban-planning",
+    "abd-kanban",
+    "abd-kanban-repo",
+    "kanban-estimation",
 )
 
 DELIVERY_AGENTS: tuple[str, ...] = (

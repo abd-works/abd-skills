@@ -23,7 +23,7 @@ Repo-root capability **plugins** deploy with `deploy_family_package.py` or the f
 | **Domain-driven design** | [`domain-driven-design/`](domain-driven-design/README.md) | Module partition, domain terms, ubiquitous language, CRC, object model, DDD building blocks, bounded contexts, and domain diagram sync |
 | **User experience design** | [`user-experience-design/`](user-experience-design/README.md) | Information architecture, lo-fi wireframe mockups, and production interface design — from screen inventory to accessible running code |
 | **Architecture-centric engineering** | [`architecture-centric-engineering/`](architecture-centric-engineering/README.md) | Architecture outline → blueprint → template → reference → generated code; clean code, secure code, SLOs, and stack-specific skills |
-| **Delivery** | [`delivery/`](delivery/README.md) | Delivery planning, war room orchestration, git repo management, and collaborative estimation — the operational backbone for runs and slots |
+| **Kanban** | [`kanban/`](kanban/README.md) | Kanban planning, JIT ticket orchestration, git repo management, and collaborative estimation — the operational backbone for ticket flow and scattering |
 ### Foundational plugins
 
 | Plugin | Folder | Summary |
@@ -33,7 +33,7 @@ Repo-root capability **plugins** deploy with `deploy_family_package.py` or the f
 | **Skill helpers** | [`skill-helpers/`](skill-helpers/README.md) | Workspace, deploy, execute-rules, commit-msg, track-task, garden catalogue |
 | **Utilities** | [`utilities/`](utilities/README.md) | Proposal respond, research assistant skills |
 
-Stage × plugin mapping (source of truth for delivery): [`delivery/content/stages/`](delivery/content/stages/README.md).
+Stage × plugin mapping (source of truth for kanban): [`kanban/content/stages/`](kanban/content/stages/README.md).
 
 Plugin migration notes (Cursor Marketplace / Open Plugin Spec): [`migrated-to-plugin.md`](migrated-to-plugin.md).
 
@@ -55,11 +55,11 @@ After deploying, run **`/refresh_all_instructions`** to load every active rule i
 
 | Agent | Plugin | Open |
 | --- | --- | --- |
-| **delivery-lead** | `delivery` | [`delivery/agents/delivery-lead/AGENT.md`](delivery/agents/delivery-lead/AGENT.md) |
-| **product-owner** · **product-owner-reviewer** | `delivery` | [`product-owner/AGENT.md`](delivery/agents/product-owner/AGENT.md) · [`product-owner-reviewer/AGENT.md`](delivery/agents/product-owner-reviewer/AGENT.md) |
-| **business-expert** · **business-expert-reviewer** | `delivery` | [`business-expert/AGENT.md`](delivery/agents/business-expert/AGENT.md) · [`business-expert-reviewer/AGENT.md`](delivery/agents/business-expert-reviewer/AGENT.md) |
-| **ux-designer** · **ux-designer-reviewer** | `delivery` | [`ux-designer/AGENT.md`](delivery/agents/ux-designer/AGENT.md) · [`ux-designer-reviewer/AGENT.md`](delivery/agents/ux-designer-reviewer/AGENT.md) |
-| **engineer** · **engineer-reviewer** | `delivery` | [`engineer/AGENT.md`](delivery/agents/engineer/AGENT.md) · [`engineer-reviewer/AGENT.md`](delivery/agents/engineer-reviewer/AGENT.md) |
+| **kanban-lead** | `kanban` | [`kanban/agents/kanban-lead/AGENT.md`](kanban/agents/kanban-lead/AGENT.md) |
+| **product-owner** · **product-owner-reviewer** | `kanban` | [`product-owner/AGENT.md`](kanban/agents/product-owner/AGENT.md) · [`product-owner-reviewer/AGENT.md`](kanban/agents/product-owner-reviewer/AGENT.md) |
+| **business-expert** · **business-expert-reviewer** | `kanban` | [`business-expert/AGENT.md`](kanban/agents/business-expert/AGENT.md) · [`business-expert-reviewer/AGENT.md`](kanban/agents/business-expert-reviewer/AGENT.md) |
+| **ux-designer** · **ux-designer-reviewer** | `kanban` | [`ux-designer/AGENT.md`](kanban/agents/ux-designer/AGENT.md) · [`ux-designer-reviewer/AGENT.md`](kanban/agents/ux-designer-reviewer/AGENT.md) |
+| **engineer** · **engineer-reviewer** | `kanban` | [`engineer/AGENT.md`](kanban/agents/engineer/AGENT.md) · [`engineer-reviewer/AGENT.md`](kanban/agents/engineer-reviewer/AGENT.md) |
 | **abd-context-to-memory** | `context-to-memory` | [`context-to-memory/agents/abd-context-to-memory/AGENTS.md`](context-to-memory/agents/abd-context-to-memory/AGENTS.md) |
 | **abd-practice-skill-builder** | `skill-builder` | [`skill-builder/agents/abd-practice-skill-builder/AGENTS.md`](skill-builder/agents/abd-practice-skill-builder/AGENTS.md) |
 | **ai-research-assistant** | `utilities` | [`utilities/agents/ai-research-assistant/AGENTS.md`](utilities/agents/ai-research-assistant/AGENTS.md) |
@@ -145,10 +145,10 @@ Delivery planning, war room orchestration, git repo management, and collaborativ
 
 | Skill | One-liner |
 | --- | --- |
-| `abd-delivery-planning` | Context assessment, risk types, strategies, runs, stages, and checkpoints |
-| `abd-delivery-war-room` | File-based Kanban war room: board.json, checklist, manifest, slots, claims, run log |
-| `abd-delivery-repo` | Manage git history for a delivery engagement driven by the delivery lead |
-| `delivery-estimation` | Collaborative estimation sessions: contributing factors, categories, and recorded rationale |
+| `abd-kanban-planning` | Strategy selection, system of work, scope progression, scatter rules |
+| `abd-kanban` | JIT Kanban board: tickets, scattering, per-skill tracking, board.json, metrics |
+| `abd-kanban-repo` | Git history driven by ticket state changes: commit, push, branch per granularity |
+| `kanban-estimation` | Collaborative estimation sessions: contributing factors, categories, and recorded rationale |
 
 ---
 
@@ -203,7 +203,7 @@ Publish skill index to agentskillhub (after pushing to GitHub):
 
 ```text
 agilebydesign-skills/
-├── delivery/                    # plugin: orchestration + stages
+├── kanban/                      # plugin: orchestration + stages
 ├── story-driven-delivery/       # plugin: SDD practice skills
 ├── domain-driven-design/        # plugin: DDD practice skills
 ├── user-experience-design/      # plugin: UX practice skills

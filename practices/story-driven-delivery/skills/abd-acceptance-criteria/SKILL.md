@@ -222,9 +222,80 @@ Behavioral AC belongs at story level in `story-graph.json`. Use When/Then format
 - Use technical implementation terms (config, json, api, sql, class, method) as the primary description.
 - Use programming, database, or raw API terminology in place of behavior.
 
+### Rule: Document observed quirks until fix slice
+
+**Scanner:** Manual review
+
+On **brownfield / current-state** engagements, acceptance criteria describe **what the system does today**, including known defects. A quirk is **observed behavior** until a **change slice** explicitly approves a different outcome.
+
+#### DO
+
+- Tag brownfield AC that encode legacy quirks with **`intent: observed`** in graph metadata or a leading comment in markdown export.
+- Use **WHEN/THEN/BUT** for error and quirk paths traced from code — e.g. `BUT the client does not disconnect when SQLSTATE 24000 is ignored`.
+- Separate **characterization AC** (must pass on current system) from **change AC** (must pass only after approved fix) — different stories or explicit slice labels.
+- When a quirk is fixed in a change slice, **update or supersede** the observed AC — do not leave contradictory AC on the same story.
+
+  **Example (pass):**
+
+  ```
+  WHEN the player enters game with a valid character slot
+  THEN the system loads the character from the database
+  AND forwards spawn to MapServer
+  BUT SQLCloseCursor may return SQLSTATE 24000 without failing the flow (observed)
+
+  --- change slice (separate story) ---
+  WHEN DBServer closes the cursor after character load
+  THEN no SQL error is logged for SQLSTATE 24000
+  ```
+
+  **Example (fail):**
+
+  ```
+  WHEN the player enters game with a valid character slot
+  THEN the system loads the character from the database
+  AND no SQL errors are raised
+  ```
+
+  Describes target behavior but claims to document current state. The 24000 quirk is silently "fixed" in the AC.
+
+#### DO NOT
+
+- Write AC that describe **desired** behavior while claiming to document current state without labeling the slice as **change**.
+- Silently "fix" legacy behavior in AC text during exploration on a characterize-only slice.
+- Drop failure paths that code implements because they are inconvenient to test — note test gap in AC or war-room blocker instead.
+- Use brownfield as excuse to skip **`use-but-for-negative-conditions`** — quirks still need explicit BUT/negative outcomes where relevant.
+
+### Rule: Domain terms must come from the domain model
+
+**Scanner:** `scanners/domain-terms-source-scanner.py` — `DomainTermsSourceScanner`
+
+Every term in a story's **Domain terms** section must exist in a domain source artifact already present in the project. Domain sources include (but are not limited to):
+
+- Ubiquitous Language (`ubiquitous-language.md`, `domain-language.md`)
+- CRC model (`crc.md`)
+- Object model (`object-model.md`)
+- Domain sketch (`domain-sketch.md`)
+- Any file the team designates as a domain vocabulary source
+
+#### DO
+
+- Before writing any Domain terms section, look up each term in the project's domain source files.
+- Use the exact name and definition from the source. Do not paraphrase.
+- If a term is missing from all domain sources, **stop — list every missing term and ask the user how to proceed** (add to ubiquitous language, use an existing term, skip it, etc.). Do not continue until the user decides.
+
+#### DON'T
+
+- **NEVER create `domain-terms.md`** (or any equivalent supplement file) if any domain source file already exists in the project. If domain sources exist, they are the only source of truth. There is no bypass file.
+- Invent or define terms inline without backing in a domain source.
+- Silently absorb unknown terms into a new file instead of flagging them.
+
+#### `domain-terms.md` — bootstrap only, no domain sources present
+
+`domain-terms.md` may only be created when the engagement has **no domain source files at all**. The moment any domain source exists, `domain-terms.md` must not be created. Any existing `domain-terms.md` should be merged into the real domain source and deleted.
+
 ### Rule: Emphasize domain-significant terms
 
-**Scanner:** Manual review (no automated scanner)
+**Scanner:** `scanners/emphasize-domain-terms-scanner.py` — **`DomainTermEmphasisScanner`**
 
 Call out **domain language** — the nouns, verbs, and short phrases that belong to the problem space and show up in stories, tests, and talk with stakeholders — so readers see what is *specific* to this product versus generic wording.
 
@@ -366,22 +437,4 @@ Use verb–noun format for **epic, sub-epic, and story names** (and align scenar
 
 - Noun-only or capability labels where an action phrase is expected.
 - Gerund-led titles (`Submitting order`) or third-person singular as the wrong pattern (`Selects item`).
-
-### Rule: Domain terms must come from the domain model
-
-**Scanner:** `scanners/domain-terms-source-scanner.py` — `DomainTermsSourceScanner`
-
-Every term listed in a story's **Domain terms** section must already exist in one of the project's domain model artifacts: Ubiquitous Language (`ubiquitous-language.md` or `domain-language.md`), CRC model, or object model.
-
-#### DO
-
-- Before writing any Domain terms section, look up each term in the project's domain source files (ubiquitous language, domain sketch, CRC, object model, or any team-designated vocabulary file).
-- Use the exact name and definition from the source. Do not paraphrase.
-- If a term is missing from all domain sources, **stop — list every missing term and ask the user how to proceed** (add to ubiquitous language, use an existing term, skip it, etc.).
-
-#### DON'T
-
-- **NEVER create `domain-terms.md`** if any domain source file already exists in the project. Domain sources are the only source of truth — there is no bypass file.
-- Silently define or invent terms without backing in a domain source.
-- Create any supplement file without the user's explicit direction.
 <!-- execute_rules:bundle_rules:end -->

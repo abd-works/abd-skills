@@ -5,8 +5,8 @@ Family packages are grouped under ``foundational/``, ``practices/``, and
 ``utilities/`` in the agilebydesign-skills repo::
 
     foundational/<family>/      context-to-memory, skill-builder, skill-helpers
-    practices/<family>/         delivery, story-driven-delivery, domain-driven-design, …
-    practices/delivery/user-experience-design/   (nested sub-package)
+    practices/<family>/         kanban, story-driven-delivery, domain-driven-design, …
+    practices/kanban/user-experience-design/   (nested sub-package)
     utilities/                  standalone utilities package
 
 Each package follows the same layout::
@@ -29,7 +29,7 @@ Usage::
 
     python scripts/deploy_family_package.py                          # all, auto-resolve root
     python scripts/deploy_family_package.py --to C:\\dev\\my-project  # all, explicit root
-    python scripts/deploy_family_package.py --package delivery       # single package
+    python scripts/deploy_family_package.py --package kanban          # single package
 """
 from __future__ import annotations
 
@@ -49,11 +49,11 @@ FAMILY_PACKAGES: dict[str, str] = {
     "skill-builder": "foundational/skill-builder",
     "skill-helpers": "foundational/skill-helpers",
     "architecture-centric-engineering": "practices/architecture-centric-engineering",
-    "delivery": "practices/delivery",
+    "kanban": "practices/kanban",
     "domain-driven-design": "practices/domain-driven-design",
     "idea-shaping": "practices/idea-shaping",
     "story-driven-delivery": "practices/story-driven-delivery",
-    "user-experience-design": "practices/delivery/user-experience-design",
+    "user-experience-design": "practices/kanban/user-experience-design",
     "utilities": "utilities",
 }
 
