@@ -13,7 +13,7 @@
 
 ### Coverage boundary
 
-Bootcamp stages — [`../../../content/stages/README.md`](../../../content/stages/README.md). Check each stage included in this session's estimates. Defaults are pre-checked; opt in or out as the team agrees.
+Bootcamp stages — [`../../../reference/stages/README.md`](../../../reference/stages/README.md). Check each stage included in this session's estimates. Defaults are pre-checked; opt in or out as the team agrees.
 
 - [ ] **Shaping** — outline map, partition, architecture outline *(not default)*
 - [ ] **Discovery** — full map, domain/UX IA, blueprint, thin-slice placement *(not default)*

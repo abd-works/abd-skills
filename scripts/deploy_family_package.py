@@ -9,12 +9,14 @@ Family packages are grouped under ``foundational/``, ``practices/``, and
     practices/kanban/user-experience-design/   (nested sub-package)
     utilities/                  standalone utilities package
 
-Each package follows the same layout::
+    Each package follows the same layout::
 
     <family>/
         agents/           optional orchestrators
         skills/           one folder per practice skill (SKILL.md)
+        apps/             optional runnable apps (not deployed to engagements)
         content/          shared prose (merged into .cursor/content/)
+        reference/        shared reference docs (merged into .cursor/reference/)
         lib/              shared Python packages (e.g. diagram_story_sync)
         instructions/     .mdc and .instructions.md → rules / instructions
         prompts/          .prompt.md → commands / prompts
@@ -192,10 +194,10 @@ def _copy_glob_files(src_dir: Path, dst_dir: Path, pattern: str, label: str) -> 
             print(f"  {f.name} -> {label}/")
 
 
-def _sync_local_content(content_src: Path, ide_root: Path) -> None:
+def _sync_local_content(content_src: Path, ide_root: Path, dest_name: str = "content") -> None:
     if not content_src.is_dir():
         return
-    _sync_tree(content_src, ide_root / "content")
+    _sync_tree(content_src, ide_root / dest_name)
 
 
 def _deploy_agents(agents_root: Path, source: Path) -> None:
@@ -214,7 +216,7 @@ def _deploy_agents(agents_root: Path, source: Path) -> None:
         if not agent_dir.is_dir():
             continue
         has_marker = (agent_dir / "AGENT.md").is_file() or (agent_dir / "AGENTS.md").is_file()
-        is_shared = agent_dir.name.startswith("_")
+        is_shared = agent_dir.name.startswith("_") or agent_dir.name == "reference"
         if has_marker or is_shared:
             _replace_tree(agent_dir, agents_root / agent_dir.name)
             if has_marker:
@@ -234,7 +236,7 @@ def _deploy_skills(skills_root: Path, source: Path) -> None:
         except OSError as exc:
             print(f"  warning: could not remove {stale_content}: {exc}", file=sys.stderr)
     for skill_dir in sorted(skills_src.iterdir()):
-        if skill_dir.is_dir() and skill_dir.name != "content" and (skill_dir / "SKILL.md").is_file():
+        if skill_dir.is_dir() and skill_dir.name not in ("content", "reference") and (skill_dir / "SKILL.md").is_file():
             _replace_tree(skill_dir, skills_root / skill_dir.name)
 
 
@@ -271,6 +273,7 @@ def _deploy_ide_tree(ide_root: Path, source: Path, *, vscode: bool) -> None:
         _copy_glob_files(prompts, ide_root / "commands", "*.prompt.md", f"{label}/commands")
 
     _sync_local_content(source / "content", ide_root)
+    _sync_local_content(source / "reference", ide_root, "reference")
 
 
 def _normalize_ide(ide: str) -> str:
@@ -326,13 +329,13 @@ def resolve_deploy_root(explicit: Path | None = None, repo_root: Path | None = N
 
 def _ensure_ide_dirs(workspace: Path, ide: str) -> None:
     if ide in ("cursor", "both"):
-        for sub in ("skills", "agents", "rules", "commands", "content", "lib"):
+        for sub in ("skills", "agents", "rules", "commands", "content", "reference", "lib"):
             d = workspace / ".cursor" / sub
             if not d.is_dir():
                 d.mkdir(parents=True, exist_ok=True)
                 print(f"  created {d}")
     if ide in ("vscode", "both"):
-        for sub in ("skills", "agents", "instructions", "prompts", "content", "lib"):
+        for sub in ("skills", "agents", "instructions", "prompts", "content", "reference", "lib"):
             d = workspace / ".github" / sub
             if not d.is_dir():
                 d.mkdir(parents=True, exist_ok=True)
@@ -393,10 +396,25 @@ def deploy_family_package(
     if not skip_ide:
         if ide in ("cursor", "both"):
             _deploy_ide_tree(workspace / ".cursor", source, vscode=False)
+            _deploy_shared_skills_files(workspace / ".cursor" / "skills", REPO_ROOT)
         if ide in ("vscode", "both"):
             _deploy_ide_tree(workspace / ".github", source, vscode=True)
+            _deploy_shared_skills_files(workspace / ".github" / "skills", REPO_ROOT)
 
     return 0
+
+
+_SHARED_SKILLS_FILES = ("practices/agent-protocol.md",)
+
+
+def _deploy_shared_skills_files(skills_root: Path, repo_root: Path) -> None:
+    """Copy shared loose files (e.g. agent-protocol.md) into the skills root."""
+    for rel in _SHARED_SKILLS_FILES:
+        src = repo_root / rel
+        if src.is_file():
+            skills_root.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(src, skills_root / src.name)
+            print(f"  {src.name} -> skills/")
 
 
 def deploy_all_family_packages(
@@ -432,6 +450,12 @@ def deploy_all_family_packages(
             continue
         if deploy_family_package(workspace, source, ide=ide, remove_legacy=False) != 0:
             rc = 1
+
+    if ide in ("cursor", "both"):
+        _deploy_shared_skills_files(workspace / ".cursor" / "skills", repo_root)
+    if ide in ("vscode", "both"):
+        _deploy_shared_skills_files(workspace / ".github" / "skills", repo_root)
+
     print("done")
     return rc
 

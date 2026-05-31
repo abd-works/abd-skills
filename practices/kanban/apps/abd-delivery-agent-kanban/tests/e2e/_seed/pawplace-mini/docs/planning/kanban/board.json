@@ -1,0 +1,26 @@
+{
+  "schema": "abd-delivery-kanban/v2",
+  "synced_at": "2026-05-31T12:00:00Z",
+  "stage_configuration": "pawplace-mini",
+  "backlog": [],
+  "active": [
+    {
+      "ticket_id": "project-all",
+      "lineage": ["PawPlace"],
+      "scope_level": "all",
+      "stage": "shaping",
+      "priority": 1,
+      "created": "2026-05-31T12:00:00Z",
+      "entered_stage": "2026-05-31T12:00:00Z",
+      "completed_stage": null,
+      "stage_history": [],
+      "archived": null,
+      "scatter_from": null,
+      "scatter_to": [],
+      "skill_progress": {},
+      "notes": "PawPlace mini E2E — 2 increments; thin-slicing.md + sprint-groupings.md"
+    }
+  ],
+  "done": [],
+  "archived": []
+}

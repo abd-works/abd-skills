@@ -1,0 +1,37 @@
+{
+  "target": "docs/increments/1-walk-in-driver/exploration/ux/product-details.drawio",
+  "screens": [
+    {
+      "name": "Product Details",
+      "layout": "stack",
+      "col": 0,
+      "row": 0,
+      "regions": [
+        {
+          "name": "site header · Find Store · catalog",
+          "slot": "header",
+          "type": "chrome"
+        },
+        {
+          "name": "selected store",
+          "slot": "body",
+          "type": "chrome"
+        },
+        {
+          "name": "product summary",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "product", "input": "text" },
+            { "label": "price", "input": "text" },
+            { "label": "description", "input": "textarea" },
+            { "label": "real-time stock", "input": "text" },
+            { "label": "stock availability", "input": "text" }
+          ],
+          "buttons": [{ "label": "back to catalog", "primary": true }]
+        }
+      ]
+    }
+  ],
+  "connections": []
+}

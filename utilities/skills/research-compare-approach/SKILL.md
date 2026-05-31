@@ -16,12 +16,6 @@ Given a solution landscape (from **research-solution-landscape**) and the
 user's own approach, produce a **critical, honest comparison** — not a
 validation exercise.
 
-## When to use
-
-- The solution landscape is mapped and the user wants to compare their work.
-- The user says "how does mine compare?" or "am I going in the right direction?"
-- The user picks 1-2 external approaches to compare against specifically.
-
 ## Knowledge sources — strict priority
 
 1. **External research** — the solution landscape already gathered, plus any deeper dives needed.

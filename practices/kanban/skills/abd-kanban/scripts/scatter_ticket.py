@@ -15,9 +15,9 @@ child_spec_json is a JSON array of objects:
     ]
 
 The script:
-1. Archives the parent ticket (moves from done to archived with timestamps)
+1. Archives the ticket (moves from done to archived with timestamps)
 2. Creates child tickets at the next stage's scope level
-3. Children enter backlog with empty progress (skills come from system-of-work.json)
+3. Children enter backlog with empty skill_progress (stage work required comes from kanban.json)
 4. Logs scatter event to metrics-log.jsonl
 """
 from __future__ import annotations
@@ -36,7 +36,7 @@ from delivery_model import (
     Ticket,
     append_metrics_log,
     load_board,
-    load_system_of_work,
+    load_kanban_board,
     next_stage,
     save_board,
 )
@@ -48,13 +48,13 @@ def scatter(
     children_spec: list[dict],
     dry_run: bool = False,
 ) -> list[Ticket]:
-    """Scatter a parent ticket into children."""
+    """Scatter a ticket into children."""
     board = load_board(workspace)
-    sow_name = board.get("system_of_work", "")
-    sow_map = load_system_of_work(workspace)
-    sow = sow_map.get(sow_name)
-    if not sow:
-        raise ValueError(f"System of work '{sow_name}' not found")
+    config_name = board.get("stage_configuration") or board.get("system_of_work", "")
+    kb_map = load_kanban_board(workspace)
+    kb = kb_map.get(config_name)
+    if not kb:
+        raise ValueError(f"Kanban board configuration '{config_name}' not found")
 
     done_list = [Ticket.from_dict(t) for t in board.get("done", [])]
     parent = None
@@ -83,17 +83,24 @@ def scatter(
         done_list.pop(parent_idx)
         board["done"] = [t.to_dict() for t in done_list]
 
-    nxt = next_stage(sow, parent.stage)
+    nxt = next_stage(kb, parent.stage)
     if nxt is None:
         raise ValueError(f"No next stage after '{parent.stage}' — cannot scatter")
 
     now = datetime.now(timezone.utc).isoformat()
     parent.completed_stage = now
+    parent.archived = now
     parent.scatter_to = [c["id"] for c in children_spec]
+    if parent.stage and parent.entered_stage:
+        parent.stage_history.append({
+            "stage": parent.stage,
+            "entered": parent.entered_stage,
+            "completed": now,
+        })
 
-    archived = board.get("archived", [])
-    archived.append(parent.to_dict())
-    board["archived"] = archived
+    archived_list = board.get("archived", [])
+    archived_list.append(parent.to_dict())
+    board["archived"] = archived_list
 
     children: list[Ticket] = []
     for spec in children_spec:
@@ -103,6 +110,7 @@ def scatter(
             scope_level=nxt.scope,
             stage=nxt.name,
             priority=spec.get("priority", 1),
+            created=now,
             scatter_from=parent.ticket_id,
             entered_stage=now,
         )
@@ -132,7 +140,7 @@ def scatter(
 def main() -> int:
     parser = argparse.ArgumentParser(description="Scatter a ticket into children")
     parser.add_argument("--workspace", required=True, type=Path)
-    parser.add_argument("--ticket", required=True, help="Parent ticket ID to scatter")
+    parser.add_argument("--ticket", required=True, help="Ticket ID to scatter")
     parser.add_argument("--children", required=True, help="JSON array of child specs")
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args()

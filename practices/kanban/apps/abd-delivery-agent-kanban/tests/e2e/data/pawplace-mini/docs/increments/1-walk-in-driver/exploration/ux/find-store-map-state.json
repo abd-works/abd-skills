@@ -1,0 +1,47 @@
+{
+  "target": "docs/increments/1-walk-in-driver/exploration/ux/find-store-map.drawio",
+  "screens": [
+    {
+      "name": "Find Store — Map",
+      "layout": "stack",
+      "col": 0,
+      "row": 0,
+      "regions": [
+        {
+          "name": "site header · Find Store · catalog",
+          "slot": "header",
+          "type": "chrome"
+        },
+        {
+          "name": "Find Store tab bar",
+          "slot": "body",
+          "type": "nav-tabs",
+          "tabs": [
+            { "label": "Map", "active": true },
+            { "label": "List" }
+          ]
+        },
+        {
+          "name": "store map",
+          "slot": "body",
+          "type": "listbox",
+          "items": [
+            { "label": "📍 Downtown PawPlace · 123 Main St · 2.1 km" },
+            { "label": "📍 Westside PawPlace · 456 Oak Ave · 4.8 km", "selected": true },
+            { "label": "📍 Uptown PawPlace · 789 Pine Rd" }
+          ]
+        },
+        {
+          "name": "store map actions",
+          "slot": "body",
+          "type": "toolbar",
+          "buttons": [
+            { "label": "use my location" },
+            { "label": "select store" }
+          ]
+        }
+      ]
+    }
+  ],
+  "connections": []
+}

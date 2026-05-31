@@ -178,7 +178,7 @@ python scripts/deploy_family_package.py --package story-driven-delivery --to <wo
 | `vscode` | `.github/` (instructions, prompts, content) |
 | `both` | both trees |
 
-Workspace helper: [`skill-helpers/content/workspace.md`](skill-helpers/content/workspace.md) · scripts `skill-helpers/scripts/get_workspace.py` / `set_workspace.py`.
+Workspace helper: [`skill-helpers/reference/workspace.md`](skill-helpers/reference/workspace.md) · scripts `skill-helpers/scripts/get_workspace.py` / `set_workspace.py`.
 
 ---
 

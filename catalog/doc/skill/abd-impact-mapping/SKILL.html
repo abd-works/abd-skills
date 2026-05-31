@@ -937,336 +937,50 @@ a.cap-card:hover .cap-card__icon {
 </nav>
 
 <h2>Content</h2>
-<div class="rule-prose"><p>Manual: <a href="./manual/index.html">Practice manual</a></p>
-<h1>abd-impact-mapping</h1>
+<div class="rule-prose"><h1>abd-impact-mapping</h1>
 <h2>Purpose</h2>
 <p>Impact mapping is a strategic discovery technique that links broader goals to finer-grained goals, then to actors, their observable behaviour changes, and deliverable options (often epics or features) that could create those behaviours. It keeps discussion outcome-first: you see <em>why</em> an option might matter before debating build order.</p>
-<p>The map answers four questions in order (see Core concepts): <em>Why are we doing this?</em> <em>Who can help or hinder?</em> <em>How should behaviour change?</em> <em>What could we do to support that change?</em> Good maps surface assumptions, limit scope creep by tying ideas to impacts, and support shared ownership when business and delivery build them together.</p>
-<p>This skill defines the ideas behind a sound map, how to structure one, and what good looks like. Workspace layout, CLIs, and agent wiring belong in other skills.</p>
-<h2>When to use this skill</h2>
-<p>Load this skill when any of the following apply:</p>
-<ul>
-<li>You have a defined business outcome and need scoped options that tie to behaviour change, not a raw feature dump.</li>
-<li>You are facilitating discovery and want a visible spine from goal to actors to impacts to deliverables.</li>
-<li>Stakeholders ask to align delivery with outcomes, reduce scope creep, or see who is involved beyond a single user persona.</li>
-<li>You are rewriting interview notes, strategy briefs, or roadmaps into a single impact map for prioritisation or story mapping downstream.</li>
-</ul>
+<p>The map answers four questions in order: <em>Why are we doing this?</em> <em>Who can help or hinder?</em> <em>How should behaviour change?</em> <em>What could we do to support that change?</em> Good maps surface assumptions, limit scope creep by tying ideas to impacts, and support shared ownership when business and delivery build them together.</p>
+<hr>
+<h2>Output file</h2>
+<p><strong>Deliverables folder:</strong> see `../reference/agent-protocol.md` — Output file resolution.</p>
+<p><strong>File name:</strong> `impact-map.md` (and paired outputs). Add a `&lt;name&gt;-` prefix only when disambiguation is needed.</p>
+<hr>
 <h2>Agent Instructions</h2>
-<p>1. Templates</p>
-<p>Generate content using <strong>every</strong> template file in this skill&#x27;s `templates/` folder (six files). Each file has a <strong>Template</strong> section with `{{placeholder}}` tokens and an <strong>Example (reference)</strong> below it: copy the shape from Template, replace every placeholder with engagement text, and do <strong>not</strong> paste Instructions or Example into stakeholder deliverables. For <strong>hypotheses</strong> templates, phrase lines in <strong>natural English</strong> while keeping all actors, impacts, impact metrics, goals, and goal metrics explicit (see the note at the top of the Template section). Do not emit only Markdown or only plain text unless the user explicitly asks for a single format.</p>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Template</th><th>What to produce</th><th></th><th></th><th></th></tr></thead><tbody><tr><td>`templates/impact-map.md`</td><td>Hierarchy view: broader to finer `GOAL:` levels, then ACTOR / IMPACT / DELIVERABLE per Template placeholders; optional `METRIC:` under each `GOAL:` (lagging proof) and under each `IMPACT:` (behaviour proxy); optional phased table.</td><td></td><td></td><td></td></tr><tr><td>`templates/impact-map.txt`</td><td>Same hierarchy tree and phased TSV (if any) as plain text; same `{{placeholder}}` pattern as the `.md` Template.</td><td></td><td></td><td></td></tr><tr><td>`templates/impact-map-ascii.md`</td><td><strong>ASCII wall sketch</strong> (training-style <strong>four columns</strong>): **OBJECTIVE (Why?) \</td><td>PERSONA (Who?) \</td><td>IMPACT (How?) \</td><td>INITIATIVE (What?)<strong>, goal stack and </strong>`#`<strong> metrics in the objective column, one initiative row per </strong>`DELIVERABLE:`<strong> — same four questions as hub material (</strong>`inputs/abd-answers-retrieval.md`<strong> Kept chunks 1-3) and the same facts as </strong>`impact-map.md`**. ASCII only (no Unicode box drawing).</td></tr><tr><td>`templates/impact-map-ascii.txt`</td><td>Same four-column table as plain text.</td><td></td><td></td><td></td></tr><tr><td>`templates/impact-map-hypotheses.md`</td><td>`### Outcome` + build bullets: same facts as the tree. `Then` clause: <strong>we will</strong> + goal as a <strong>verb phrase</strong> (e.g. <em>grow monthly active players</em>) + `with` + goal metric; avoid <em>achieve </em><em>Grow …</em><strong>. </strong>Phrase naturally<strong>; optional </strong>PHASE:**.</td><td></td><td></td><td></td></tr><tr><td>`templates/impact-map-hypotheses.txt`</td><td>Same placeholders and sentence shape as the `.md` template in plain text.</td><td></td><td></td><td></td></tr></tbody></table></div>
-<p>Parity:</p>
+<p>&gt; <strong>MANDATORY — read `../reference/agent-protocol.md` before starting. It defines read-gates, output file resolution, and the per-rule verdict format.</strong></p>
+<h3>1. Read context</h3>
+<p>Read these files:</p>
 <ul>
-<li>Within each <strong>pair</strong> (hierarchy, ASCII, hypotheses), the `.md` and `.txt` versions match.</li>
-<li>Across <strong>all six</strong> files: same engagement — same goal stack, actors, impacts, deliverables, and phased items. Impacts stay behavioural; each deliverable supports one impact; hypothesis lines use the same names as the hierarchy view.</li>
+<li><strong>`reference/concepts.md`</strong> — what an impact map is, goal/actor/impact/deliverable definitions, goal and impact metrics, assumptions (build and outcome types), phased backlogs, and the shape of a good map.</li>
+<li><strong>`reference/examples.md`</strong> — a worked hierarchy example (live-ops product) showing nested goals, actors, impacts with metrics, and phased deliverables.</li>
 </ul>
-<p>Quality bar: Match Core concepts and The shape of a good impact map for structure; use `rules/<em>.md` for generative wording (goal, impact, actor, deliverable, assumptions, phased backlog </em><em>Actor / impact</em>* column) without duplicating this section.</p>
-<p>1. Rules</p>
-<p>After generating content, review against each bundled rule (DO, DO NOT, Examples).</p>
-<p>1. Bundling</p>
-<p>When `rules/*.md` changes, run `bundle_rules_into_skill_md.py` on this skill root (see Build).</p>
-<hr>
-<h2>What is an impact map?</h2>
-<p>An impact map is a layered picture of cause and intent, read in a fixed order:</p>
-<p>1. Goal — Broader organisational outcomes connect to finer-grained outcomes (why). You pick the level you are mapping in detail; actors and behaviour hang off that focus. 2. Actors — People, teams, or roles that can help or obstruct (who). 3. Impacts — Observable changes in behaviour for each actor (how behaviour should move). 4. Deliverables — Hypotheses about what we could build or do to enable those behaviours (what).</p>
-<p>It is not a story map, a WBS, or a prioritised backlog by itself. It feeds those artifacts by clarifying how candidate scope links back to outcomes and behaviour. For delivery planning, you can add a phased backlog over named timeboxes (months, quarters, or another convention): each scheduled option still points at one behaviour path on the map so ordering stays tied to outcomes, not to a separate feature list.</p>
-<h3>Why use it?</h3>
-<ul>
-<li>Assumptions visible — Gaps and guesses show on the map instead of hiding in documents.</li>
-<li>Scope discipline — Orphan features are obvious when they are not tied to a behaviour you care about.</li>
-<li>Cross-functional alignment — Shared picture for product, delivery, and domain voices (when run collaboratively).</li>
-</ul>
-<hr>
-<h2>Core concepts</h2>
-<h3>Goal</h3>
-<p>The goal is why you are doing the work: the business outcome the organisation wants — the stakes in play (market, revenue, risk, adoption, compliance, cost, reliability, and similar). Broader outcomes decompose into finer outcomes that roll up to them. The finest-grained outcome on the map is often workshop-sized (about a quarter or less when you timebox).</p>
-<p>Phrase each level as an outcome in the world: direction and stakes in language about results (growth, reliability, risk posture, adoption, retention, margin), not shipping labels. Examples: <em>Grow monthly actives</em>; <em>Achieve reliable same-day completion for domestic orders</em>; <em>Grow net revenue retention in the enterprise segment</em>. Put numeric proof on `METRIC:` lines indented under that `GOAL:` (e.g. verified MAU lift), not in the `GOAL:` headline when using this skill&#x27;s templates. Deliverables hold candidate things to build or ship once behaviour is clear under impacts.</p>
-<p>Clear organisational outcomes are specific enough that the team can identify the actors that are necessary to achieving it. Who will help us achieve our outcome?; How should behaviour change?; What could we do to support that impact? Good goals are often nested, starting major (wide intent) narrowing to tactical. They stay customer- and stakeholder-driven toward outcomes in the world. Actors and impacts tie the mapped outcome to who and observable behaviour; deliverables carry what you might ship.</p>
-<h3>Goal metrics (`METRIC:` under each `GOAL:`)</h3>
-<p>Lagging proof tied to outcomes: economic (revenue, margin, unit cost) or strategic (adoption, share, compliance, risk). Attach each at the goal level it measures — numeric bars, percent targets, thresholds, and counts that show the organisation moved.</p>
-<p>Example: <em>Grow monthly actives</em> with proof on `METRIC:` <em>verified MAU +20% this quarter vs baseline</em>; <em>Achieve reliable same-day completion for domestic orders</em> with proof <em>ninety percent same-day</em>; <em>Grow net revenue retention in the enterprise segment</em> with proof <em>NRR above 110% this fiscal year</em>.</p>
-<h3>Actors</h3>
-<p>An actor is someone who can help or block the outcome in the goal hierarchy: a person, team, or organisation. For each actor, be clear which people or teams you mean and what about their situation matters here (for example new versus returning, channel or market, a lifecycle stage, contract timing, or a stressful moment such as renewal or outage). Words like customer, operator, or partner are fine to start, but you need to make them more specific.</p>
-<p>Never cast a product, service, system, or platform as an actor, even when a brief talks that way. Name who actually helps or blocks and put the system under deliverables.</p>
-<p>If you only name a vague who (“all customers,” “partners,” one bucket of “users”) but the impacts you list are really about different groups or moments with different behaviour, you are mixing actors. Narrow the situation, name the moment, or split into separate actors so each who matches one coherent narrative.</p>
-<p>Every actor on the map should have at least one impact — something you want that actor to do or stop doing. If there is nothing to say about behaviour for that who, merge them with another actor or stop treating them as separate.</p>
-<h3>Impacts</h3>
-<p>An impact is the behaviour change you want from a given actor toward those outcomes: what they should start doing, do more of, do less of, or stop doing. It answers <em>how should this person or team behave differently?</em> — not <em>what are we building?</em> and not <em>what is the business outcome?</em> (that lives in the goal hierarchy above).</p>
-<p>Good impacts are specific enough to recognise in the world. Someone could watch, read a transcript, pull a metric, or walk a journey and say whether it is happening. They usually lead with a verb the actor performs: completes, submits, shares, invites, triages, opts in, returns, finishes, escalates. In this skill&#x27;s <strong>shipped hierarchy templates</strong>, keep each `IMPACT:` line to observable behaviour <strong>without</strong> embedded cadence targets, deadlines, SLA timing, or numeric bars — put those on `METRIC:` lines indented under that `IMPACT:` (and in hypotheses after `by` with the impact metric). In live facilitation you may still talk in tighter cadence; when writing the tree, move quotas to metric lines.</p>
-<p>One impact is one movement of behaviour. If you mix two behaviours, split them. Do not treat a component, project name, epic title, or system as the impact — that belongs under deliverables (or under engineering planning), not as the behaviour itself. Do not stop at slogans like &quot;better onboarding&quot; with no observable picture.</p>
-<p>Contrast: &quot;Submits the order without calling support&quot; describes behaviour; &quot;New checkout microservice&quot; describes a build. &quot;Shares run highlights to social&quot; is an impact headline; weekly share rate belongs on a `METRIC:` line under that impact; &quot;Share sheet v2&quot; is not an impact.</p>
-<h3>Impact metrics (`METRIC:` under each `IMPACT:`)</h3>
-<p>Behaviour and usage proxies (e.g. weekly share rate, D7 retention, hours watched) that should move before goal-level `METRIC:` lines respond. They make each behaviour change testable on its own.</p>
-<p>Example: <em>Shares run highlight to a social channel</em> with metric <em>share events per weekly active user</em>; <em>Finishes tutorial and first ranked match in the first session</em> with metrics <em>D1 ranked-match completion rate</em>; <em>Opens abuse report quickly</em> with metric <em>median hours to first moderator action</em>.</p>
-<h3>Deliverables</h3>
-<p>Deliverables are candidate things to build, ship, or run that might help produce an impact. They are options and bets — useful for roadmap and prioritisation — not promises and not a substitute for naming behaviour. Phrase them at roadmap granularity: a capability, epic, experiment, or policy change someone could schedule, not a ten-year vision sentence.</p>
-<p>Several deliverables under the same impact means different ways you might achieve that one behaviour change. Keep each option one clear idea; split merged features. A deliverable should not restate the goal, duplicate goal metric lines, or copy the impact sentence (&quot;User posts weekly&quot;) — those stay where they belong.</p>
-<p>Do not hide a grab-bag in one deliverable (&quot;Everything for sharing&quot;); do not use empty words like &quot;Success&quot; as if they were shippable work. If you cannot name a plausible thing to try, you probably need a sharper impact first.</p>
-<p>Contrast: under an impact about sharing to social, &quot;One-tap share sheet with clip&quot; and &quot;Seasonal badge asset pack&quot; are deliverables — different bets on the same behaviour. &quot;Grow monthly active players&quot; is goal territory; share rate and cadence sit in metrics, not in the `IMPACT:` headline when using this skill&#x27;s templates.</p>
-<h3>Assumptions</h3>
-<p>An impact map carries two kinds of assumption, and both are already visible in the hypotheses templates:</p>
-<ul>
-<li><strong>Build assumption</strong> — If we build this deliverable, the target actor will be impacted in a specific way (eg their behavior), measurable by the impact metric. This is a bet on delivery causing behaviour change.</li>
-<li><strong>Outcome assumption</strong> — If the impact metric moves, the goal metric will follow. This is a bet on the behaviour change mattering to the outcome.</li>
-</ul>
-<p>Teams use a validated learning approach to confirm or refute each belief and update the map as they learn — keeping evidence and learning visible:</p>
-<ul>
-<li><strong>Plan</strong> — what to test, the smallest useful check, who owns it, and by when.</li>
-<li><strong>Validate</strong> — run the check and collect evidence to confirm or refute the belief.</li>
-<li><strong>Learn</strong> — what the team took away and how the bet, the map, or the next experiment updates.</li>
-</ul>
-<p>The `templates/impact-map-hypotheses.md` (and `.txt`) already phrase both assumption types as testable sentences — they are the natural starting point. Use <strong>abd-simple-validated-learning</strong> to turn those sentences into a prioritised backlog of experiments with owners and explicit failure conditions when the team needs to validate before committing to build.</p>
-<h3>Phased feature backlog</h3>
-<p>When delivery needs a time horizon, you extend the same map with a phased backlog: a sequence of timeboxes (months, quarters, or another convention you name once). Each phase holds scheduled options — concrete things you might ship or run. Every option stays tied to exactly one impact path on the map: the same actor and the same behaviour change that option is meant to support. That keeps sequencing honest: order is about <em>when</em> you might try something, not a separate story from <em>why</em> that something mattered. Orphan work shows up when an option does not link to a behaviour you care about.</p>
-<hr>
-<h2>Example</h2>
-<p>Illustrative map (live-ops product): read as a <strong>hierarchy</strong>. Each `Goal` line carries its <strong>goal metric</strong> in angle brackets. Nested goals roll up. Under the finest goal, each `|- Actor` branch lists <strong>impacts</strong>; after `--`, <strong>Q1 / Q2 / …</strong> (or M1 / M2, quarters, months — name the convention once) are scheduled options for <em>that</em> impact only. Every feature still ties to one actor-and-behaviour path.</p>
-<pre><code>Strengthen recurring revenue and engagement in the flagship title &lt;net revenue retention; live-ops engagement targets for the title&gt;
-|- Grow monthly active players &lt;verified MAU +20% vs baseline; week-over-week return among onboarded&gt;
-     |- Existing players (returning, past onboarding)
-          Share run highlights to social &lt;share attempts per weekly active player; target cadence at least weekly&gt; -- Q1: One-tap share sheet with clip, Q2: Seasonal tournament badge, Q3: Friend-invite deep link from post-match
-          Complete ranked matches regularly &lt;ranked matches per active player per week; target at least three per week&gt; -- Q1: Queue-time fairness pass, Q2: Streak bonus for consistent ranked play
-     |- New players (first fourteen days after install)
-          Finish onboarding and first ranked match in the first session &lt;session-one ranked completion rate&gt; -- Q1: Guided tutorial path with fewer dead ends, Q2: Optional skip for experienced players on a new device (abuse guardrails TBD)</code></pre>
-<p>Q1 / Q2 / Q3 here mean calendar quarters for the illustration; use whatever timeboxes the room agrees. Options on a line are different bets on the <strong>same</strong> impact, sequenced by timebox — not a second map.</p>
-<h2>The shape of a good impact map</h2>
-<p>In substance: an outcome hierarchy (broad to the level you are mapping), then for that focus the actors who matter, the observable behaviour you want from each, and the deliverable options that might produce those behaviours. Optional goal metrics sit with the goal level they measure; optional behaviour proxies sit with the impacts (`METRIC:` under each <strong>`IMPACT:`</strong> on the prefix map). A phased backlog, when you need one, orders those deliverable options across timeboxes while preserving the same one-to-one link from each scheduled option to one impact path on the map.</p>
-<hr>
-<h2>Build</h2>
-<p>Produce all six template outputs from the engagement sources; keep behaviour impacts honest; follow Core concepts (including the bullets under Goal).</p>
-<p>1. Produce outputs from every template. Fill all files under `templates/` that define an output shape (`impact-map<em>.{md,txt}`). Strip maintainer Instructions blocks from stakeholder deliverables. 2. Apply the rules, then review like a peer. Use the bundled rules at the end of this file (they primarily reference the hierarchy `GOAL:` / `ACTOR:` / `IMPACT:` / `DELIVERABLE:` tree; ASCII and hypotheses must stay consistent with that tree). 3. Keep the bundled rules block honest. After editing `rules/</em>.md`:</p>
-<ul>
-<li>Outputs: One full map set per engagement (or version): hierarchy `.md` and `.txt`, ASCII `.md` and `.txt`, hypotheses `.md` and `.txt`, unless the user asked for a subset of formats.</li>
-<li>Hierarchy `.md` may include optional context before the tree; hierarchy `.txt` contains only tree lines and allowed optional labels (`NOTE:`, `ASSUMPTION:`, `METRIC:` under goals or impacts) plus an optional phased backlog table block.</li>
-<li>While writing: Use vocabulary from sources; keep verb-led impacts where natural.</li>
-<li>Persistence: <em>N/A</em> for this skill (file outputs only).</li>
-</ul>
+<h3>2. Generate</h3>
+<p>Read every file in <strong>`rules/`</strong>; author to those rules.</p>
+<p><strong>Produce output from every template:</strong></p>
+<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Template</th><th>What to produce</th><th></th><th></th><th></th></tr></thead><tbody><tr><td>`templates/impact-map.md`</td><td>Hierarchy view: broader to finer `GOAL:` levels, then ACTOR / IMPACT / DELIVERABLE; optional `METRIC:` under goals and impacts; optional phased table.</td><td></td><td></td><td></td></tr><tr><td>`templates/impact-map.txt`</td><td>Same hierarchy tree and phased TSV (if any) as plain text.</td><td></td><td></td><td></td></tr><tr><td>`templates/impact-map-ascii.md`</td><td>ASCII wall sketch (four columns): OBJECTIVE (Why?) \</td><td>PERSONA (Who?) \</td><td>IMPACT (How?) \</td><td>INITIATIVE (What?).</td></tr><tr><td>`templates/impact-map-ascii.txt`</td><td>Same four-column table as plain text.</td><td></td><td></td><td></td></tr><tr><td>`templates/impact-map-hypotheses.md`</td><td>Build and outcome hypothesis sentences: same facts as the tree. `Then` clause uses goal as verb phrase with metric.</td><td></td><td></td><td></td></tr><tr><td>`templates/impact-map-hypotheses.txt`</td><td>Same hypothesis shape as plain text.</td><td></td><td></td><td></td></tr></tbody></table></div>
+<p><strong>Parity:</strong> Within each pair (hierarchy, ASCII, hypotheses), the `.md` and `.txt` versions match. Across all six files — same goal stack, actors, impacts, deliverables, and phased items. Impacts stay behavioural; each deliverable supports one impact; hypothesis lines use the same names as the hierarchy view.</p>
+<p><strong>Quality bar:</strong> Match the concepts in `reference/concepts.md` for structure. Use `rules/*.md` for generative wording (goal, impact, actor, deliverable, assumptions, phased backlog Actor / impact column).</p>
+<p><strong>Depth:</strong> Do not emit only Markdown or only plain text unless the user explicitly asks for a single format.</p>
+<h3>3. Validate</h3>
+<p>Run the scanners:</p>
+<pre><code>python skills/execute-skill-using-skills-rules/scripts/run_scanners.py \
+  --skill-root skills/abd-impact-mapping \
+  --workspace &lt;path-to-output&gt;</code></pre>
+<p>Then emit per-rule verdicts per `../reference/agent-protocol.md`.</p>
 <hr>
 <h2>Validate</h2>
-<p>Inspect the map as a product owner, developer, and facilitator would.</p>
+<p><strong>Goal:</strong> Inspect the map as a product owner, developer, and facilitator would.</p>
 <ul>
-<li>Who is checking: Product owner (outcome and actor completeness); developer (clarity of behaviours and options); facilitator (collaboration and assumption coverage).</li>
-<li>Cross-artifact parity: hierarchy `.md` and `.txt` match; ASCII pair matches the same story; hypotheses pair matches the same story; all six align on goals, actors, impacts, and deliverables.</li>
+<li><strong>Goal</strong> — Broader to finer `GOAL:` hierarchy; actors attach under the mapped `GOAL:`.</li>
+<li><strong>Actors</strong> — Situational who (segment, moment, context); everyone who can help or block the goal.</li>
+<li><strong>Impacts</strong> — Observable behaviour for each actor; verb-led, one movement per line.</li>
+<li><strong>Deliverables</strong> — Each deliverable sits under an impact it serves; phased backlog rows each name an impact on this map.</li>
+<li><strong>Metrics</strong> — `METRIC:` under a `GOAL:` holds lagging proof; `METRIC:` under an `IMPACT:` holds behaviour proxies.</li>
+<li><strong>Cross-artifact parity</strong> — Hierarchy `.md` and `.txt` match; ASCII pair matches; hypotheses pair matches; all six align on goals, actors, impacts, and deliverables.</li>
+<li><strong>Rules pass</strong> — Generated maps meet each `rules/*.md`.</li>
+<li><strong>No bundle markers</strong> — `SKILL.md` has no `&lt;!-- execute_rules:bundle_rules --&gt;` markers.</li>
 </ul>
-<p>Checklist:</p>
-<ul>
-<li>Goal — Broader to finer `GOAL:` hierarchy; actors attach under the mapped `GOAL:`.</li>
-<li>Deliverables — Each deliverable sits under an impact it serves; phased backlog rows each name an impact on this map.</li>
-<li>Impacts — Observable behaviour for each actor.</li>
-<li>Actors — Situational who (segment, moment, context); everyone who can help or block the goal, scoped so labels match the behaviours underneath.</li>
-<li>Metrics — If used, `METRIC:` lines indented under a `GOAL:` record lagging proof for that level; keep each `GOAL:` a directional outcome headline. `METRIC:` lines indented under an `IMPACT:` hold usage or behaviour proxies.</li>
-<li>Rules pass — Generated maps meet each `rules/<em>.md` (goal outcome phrasing, observable impacts, goal-related situational actors, deliverable hypotheses, multi-actor assumptions or explicit none and same-file ancestry, phased backlog </em><em>Actor / impact</em>* column).</li>
-</ul>
-<hr>
-<p>&lt;!-- execute_rules:bundle_rules:begin --&gt;</p>
-<h3>Rule: Multi-actor maps record assumptions or explicit none</h3>
-<p><strong>Scanner:</strong> Manual review</p>
-<p>For one engagement, <strong>`impact-map.md`</strong> and <strong>`impact-map.txt`</strong> (same tree) either make hidden dependencies visible or they fail a quick review. <strong>Passing</strong> means: when two or more distinct <strong>`ACTOR:`</strong> lines appear, the reader sees at least one <strong>`ASSUMPTION:`</strong> that could be tested, or an explicit <strong>none</strong> plus a one-line reason. Every <strong>`DELIVERABLE:`</strong> hangs under a full branch from <strong>`GOAL:`</strong> through <strong>`ACTOR:`</strong> and <strong>`IMPACT:`</strong> in that file. <strong>Failing</strong> means several actors and no <strong>`ASSUMPTION:`</strong> line at all, or <strong>`DELIVERABLE:`</strong> lines that are not anchored in the same tree.</p>
-<h4>DO</h4>
-<ul>
-<li>When the tree has two or more distinct <strong>`ACTOR:`</strong> lines, include at least one <strong>`ASSUMPTION:`</strong> line that states a testable belief, dependency, or conflict across those branches.</li>
-</ul>
-<p><strong>Example (pass):</strong> After four <strong>`ACTOR:`</strong> blocks, the file includes `ASSUMPTION: Moderator SLA holds if creator volume stays under X streams per week.`</p>
-<ul>
-<li>When no cross-branch assumption is needed, record that explicitly on one line.</li>
-</ul>
-<p><strong>Example (pass):</strong> `ASSUMPTION: None identified - wholesale and retail tracks already use separate fulfillment with ops sign-off.`</p>
-<h4>DO NOT</h4>
-<ul>
-<li>Omit <strong>`ASSUMPTION:`</strong> entirely when two or more <strong>`ACTOR:`</strong> lines appear in the same file.</li>
-</ul>
-<p><strong>Example (fail):</strong> Five <strong>`ACTOR:`</strong> labels and zero <strong>`ASSUMPTION:`</strong> lines anywhere in the tree.</p>
-<ul>
-<li>Emit <strong>`DELIVERABLE:`</strong> lines that are not under a <strong>`GOAL:`</strong> with <strong>`ACTOR:`</strong> and <strong>`IMPACT:`</strong> ancestors in the same file.</li>
-</ul>
-<p><strong>Example (fail):</strong> First substantive line is `DELIVERABLE: Mobile relaunch` with no <strong>`GOAL:`</strong> above it.</p>
-<p><strong>Source:</strong> Practice convention. Pair with <strong>`rules/impact-map-phased-backlog-actor-impact.md`</strong> for phased backlog <strong>Actor / impact</strong> cells.</p>
-<h3>Rule: Deliverables are shippable options under impacts</h3>
-<p><strong>Scanner:</strong> Manual review</p>
-<p>This check applies to <strong>`DELIVERABLE:`</strong> lines under <strong>`IMPACT:`</strong> in <strong>`impact-map.md`</strong> / <strong>`impact-map.txt`</strong>. <strong>Passing</strong> means each line names a roadmap-sized bet (capability, epic, experiment, policy move) that could plausibly support the parent behaviour, one clear idea per line, with outcome and behaviour language kept in <strong>`GOAL:`</strong>, <strong>`IMPACT:`</strong>, and metrics where they belong. <strong>Failing</strong> means goal proof, vague bundles, non-shippable labels, or behaviour sentences parked under <strong>`DELIVERABLE:`</strong>.</p>
-<h4>DO</h4>
-<ul>
-<li>Phrase each <strong>`DELIVERABLE:`</strong> as a roadmap-sized option that might create the parent impact.</li>
-</ul>
-<p><strong>Example (pass):</strong> Under `IMPACT: Share run highlights to social` — `DELIVERABLE: One-tap share sheet with clip`.</p>
-<ul>
-<li>Use several <strong>`DELIVERABLE:`</strong> lines under one impact when they are different bets on the same behaviour.</li>
-</ul>
-<p><strong>Example (pass):</strong> Same impact lists `DELIVERABLE: Native share extension` and `DELIVERABLE: Post-to-feed template`.</p>
-<ul>
-<li>Keep one shippable idea per line; split merged features.</li>
-</ul>
-<p><strong>Example (pass):</strong> `DELIVERABLE: Seasonal badge asset pack` (single bet; not combined with unrelated UI work on the same line).</p>
-<ul>
-<li>Mirror the same deliverable names in hypotheses and ASCII outputs when those formats ship for the same engagement.</li>
-</ul>
-<p><strong>Example (pass):</strong> Hierarchy shows `DELIVERABLE: Queue-time fairness pass`; hypotheses build bullet references the same wording for that feature.</p>
-<h4>DO NOT</h4>
-<ul>
-<li>Put outcome language, behaviour sentences, or goal numeric proof in <strong>`DELIVERABLE:`</strong> that belong under <strong>`GOAL:`</strong>, <strong>`IMPACT:`</strong>, or on a <strong>`METRIC:`</strong> line under a <strong>`GOAL:`</strong>.</li>
-</ul>
-<p><strong>Example (fail):</strong> `DELIVERABLE: Verified MAU +20% vs baseline` (that belongs on a <strong>`METRIC:`</strong> under the <strong>`GOAL:`</strong>, not as a shippable option).</p>
-<ul>
-<li>Use a vague grab-bag label instead of concrete options.</li>
-</ul>
-<p><strong>Example (fail):</strong> `DELIVERABLE: Everything for sharing`.</p>
-<ul>
-<li>Use empty success labels as if they were work.</li>
-</ul>
-<p><strong>Example (fail):</strong> `DELIVERABLE: Success`.</p>
-<ul>
-<li>Park observable behaviour under <strong>`DELIVERABLE:`</strong> instead of under <strong>`IMPACT:`</strong>.</li>
-</ul>
-<p><strong>Example (fail):</strong> `DELIVERABLE: User posts weekly` (behaviour belongs under <strong>`IMPACT:`</strong>, not under <strong>`DELIVERABLE:`</strong>).</p>
-<p><strong>Source:</strong> `SKILL.md`, Core concepts / Deliverables.</p>
-<h3>Rule: Goals read as business outcomes with METRIC lines for lagging proof</h3>
-<p><strong>Scanner:</strong> Manual review</p>
-<p>This check applies to <strong>`GOAL:`</strong> and <strong>`METRIC:`</strong> lines indented under those goals in <strong>`impact-map.md`</strong> / <strong>`impact-map.txt`</strong>. <strong>Passing</strong> means a credible hierarchy (broad to the level you are mapping), each <strong>`GOAL:`</strong> phrased as an outcome in the world, numeric proof on <strong>`METRIC:`</strong> under the level it measures, and headlines that stay directional rather than solution-led. <strong>Failing</strong> means launch-or-build language as the goal, or percent targets baked into the <strong>`GOAL:`</strong> headline when this skill expects them on <strong>`METRIC:`</strong> under that <strong>`GOAL:`</strong>.</p>
-<h4>DO</h4>
-<ul>
-<li>Model goals as a hierarchy: broader organisational outcomes decompose into finer outcomes that roll up; use one <strong>`GOAL:`</strong> per level you need.</li>
-</ul>
-<p><strong>Example (pass):</strong> `GOAL: Improve durable growth in the enterprise book` then nested `GOAL: Grow net revenue retention in the enterprise segment`.</p>
-<ul>
-<li>Keep the finest mapped <strong>`GOAL:`</strong> at a workshop-friendly horizon (often about a quarter or less when you timebox).</li>
-</ul>
-<p><strong>Example (pass):</strong> Under a multi-year headline, the mapped focus is `GOAL: Grow monthly active players` for the next planning slice.</p>
-<ul>
-<li>Phrase each <strong>`GOAL:`</strong> as a business outcome (grow, reduce, achieve, strengthen) with clear object; put lagging proof on <strong>`METRIC:`</strong> under that level.</li>
-</ul>
-<p><strong>Example (pass):</strong> `GOAL: Accomplish same-day checkout completion for domestic orders` with `METRIC: Same-day rate ninety percent plus (strategic)`.</p>
-<ul>
-<li>Keep each <strong>`GOAL:`</strong> line a directional headline at its altitude; express proof you moved on <strong>`METRIC:`</strong> where you measure.</li>
-</ul>
-<p><strong>Example (pass):</strong> `GOAL: Grow monthly active players` with `METRIC: Verified MAU +20% vs baseline this quarter` on the lines below that goal.</p>
-<ul>
-<li>Anchor stakes readers recognise: revenue, adoption, risk, compliance, cost, market position, operational reliability.</li>
-</ul>
-<p><strong>Example (pass):</strong> `GOAL: Reduce fraud loss in card-not-present checkout` under a revenue-and-risk story.</p>
-<h4>DO NOT</h4>
-<ul>
-<li>Headline the <strong>`GOAL:`</strong> as build, ship, implement, or launch when the real measure is behaviour, revenue, or risk (put the build under <strong>`DELIVERABLE:`</strong>).</li>
-</ul>
-<p><strong>Example (fail):</strong> `GOAL: Ship checkout v2`.</p>
-<ul>
-<li>Name an output or project as the goal when the goal is the outcome that output is meant to serve.</li>
-</ul>
-<p><strong>Example (fail):</strong> `GOAL: Build moderation dashboard`.</p>
-<ul>
-<li>Use launch metaphors as the goal instead of the stakeholder outcome.</li>
-</ul>
-<p><strong>Example (fail):</strong> `GOAL: Mobile app relaunch`.</p>
-<ul>
-<li>Put numeric bars in the <strong>`GOAL:`</strong> headline when this skill expects them on <strong>`METRIC:`</strong> under that outcome.</li>
-</ul>
-<p><strong>Example (fail):</strong> `GOAL: Grow verified MAU by twenty percent this quarter` (split: short directional <strong>`GOAL:`</strong> plus <strong>`METRIC:`</strong> for the +20% bar).</p>
-<p><strong>Source:</strong> `SKILL.md`, Core concepts / Goal.</p>
-<h3>Rule: Actors are situational people or organisations tied to the goal</h3>
-<p><strong>Scanner:</strong> Manual review</p>
-<p>This check applies to <strong>`ACTOR:`</strong> lines under the mapped <strong>`GOAL:`</strong> in <strong>`impact-map.md`</strong> / <strong>`impact-map.txt`</strong>. <strong>Passing</strong> means each label shows <em>who</em> in <em>what situation</em> can help or block that goal, split when behaviours differ, and never substitutes systems or products for people. <strong>Failing</strong> means bare categories, personified platforms, or one <strong>`ACTOR:`</strong> bucket hiding incompatible situations.</p>
-<h4>DO</h4>
-<ul>
-<li>Name actors by situation: segment, lifecycle moment, channel, or context that matters for this goal, not the abstract category alone.</li>
-</ul>
-<p><strong>Example (pass):</strong> `ACTOR: New mobile shoppers (first order within fourteen days)`.</p>
-<ul>
-<li>Make the situation visible in the label (cohort, geography, tenure, stress moment, contract window).</li>
-</ul>
-<p><strong>Example (pass):</strong> `ACTOR: Tier-one support agents (queue A, business hours)`.</p>
-<ul>
-<li>Split when situations imply different behaviours under the same broad label.</li>
-</ul>
-<p><strong>Example (pass):</strong> Separate `ACTOR: Day-one buyer` from `ACTOR: Renewal owner` when impacts differ.</p>
-<ul>
-<li>Keep labels short while still showing who and why the situation matters for the goal.</li>
-</ul>
-<p><strong>Example (pass):</strong> `ACTOR: Payment acquirer partner (contract renewal window)`.</p>
-<ul>
-<li>Give every <strong>`ACTOR:`</strong> at least one <strong>`IMPACT:`</strong>; merge or drop actors with nothing behavioural to say.</li>
-</ul>
-<p><strong>Example (pass):</strong> `ACTOR: Streamers in the spring campaign cohort` with at least one `IMPACT:` branch beneath it.</p>
-<h4>DO NOT</h4>
-<ul>
-<li>Use bare categories with no situation when the map needs distinct behaviours.</li>
-</ul>
-<p><strong>Example (fail):</strong> `ACTOR: Customers` with impacts that only apply to wholesale buyers, mobile guests, and admins (split or narrow).</p>
-<ul>
-<li>Cast a product, service, system, or platform as the actor.</li>
-</ul>
-<p><strong>Example (fail):</strong> `ACTOR: The loyalty API` (put the system under <strong>`DELIVERABLE:`</strong>; name the person or team).</p>
-<ul>
-<li>Collapse incompatible situations into <strong>`ACTOR: Users`</strong> when impacts assume different groups or moments.</li>
-</ul>
-<p><strong>Example (fail):</strong> One `ACTOR: Users` line with impacts that only make sense for parents, teens, and admins respectively.</p>
-<ul>
-<li>Use component names where a person or organisation is what helps or blocks.</li>
-</ul>
-<p><strong>Example (fail):</strong> `ACTOR: The platform` instead of `ACTOR: Internal platform SRE rotation`.</p>
-<p><strong>Source:</strong> `SKILL.md`, Core concepts / Actors.</p>
-<h3>Rule: Impact lines name observable behaviour for the actor</h3>
-<p><strong>Scanner:</strong> Manual review</p>
-<p>This check applies to <strong>`IMPACT:`</strong> lines under each <strong>`ACTOR:`</strong> in <strong>`impact-map.md`</strong> / <strong>`impact-map.txt`</strong>. <strong>Passing</strong> means each line answers how behaviour should change in a way someone could observe or measure, verb-led, one movement per line, with quotas and numeric bars on <strong>`METRIC:`</strong> lines indented under that <strong>`IMPACT:`</strong> instead of crammed into the headline. <strong>Failing</strong> means feature titles, components, or slogans with no observable picture.</p>
-<h4>DO</h4>
-<ul>
-<li>Answer how this actor&#x27;s behaviour should change in terms a reviewer could witness without opening a backlog tool.</li>
-</ul>
-<p><strong>Example (pass):</strong> `IMPACT: Completes payment on mobile without switching to desktop when the bank supports in-app 3-D Secure.`</p>
-<ul>
-<li>Lead with a verb the actor performs (completes, submits, shares, invites, triages, opts in, returns, finishes).</li>
-</ul>
-<p><strong>Example (pass):</strong> `IMPACT: Shares run highlights to social`.</p>
-<ul>
-<li>Keep the <strong>`IMPACT:`</strong> headline free of cadence quotas, day-N deadlines, SLA timing, and numeric bars; put those on <strong>`METRIC:`</strong> under that <strong>`IMPACT:`</strong>.</li>
-</ul>
-<p><strong>Example (pass):</strong> `IMPACT: Opens every abuse report within one business day` with cadence detail moved to `METRIC: Median hours to first action; target under twelve`.</p>
-<ul>
-<li>State one behaviour movement per <strong>`IMPACT:`</strong>; split when two behaviours are mixed.</li>
-</ul>
-<p><strong>Example (pass):</strong> Split `IMPACT: Finishes tutorial` and `IMPACT: Completes first ranked match` when they are two movements.</p>
-<ul>
-<li>Keep channel or qualitative guardrails in the impact phrase when they are not numeric bars (for example <em>without calling support</em>).</li>
-</ul>
-<p><strong>Example (pass):</strong> `IMPACT: Submits the order without calling support`.</p>
-<h4>DO NOT</h4>
-<ul>
-<li>Put system names, epic codes, or feature titles alone in <strong>`IMPACT:`</strong> with no behaviour clause.</li>
-</ul>
-<p><strong>Example (fail):</strong> `IMPACT: New share sheet`.</p>
-<ul>
-<li>Use a component or tool name as if it were behaviour.</li>
-</ul>
-<p><strong>Example (fail):</strong> `IMPACT: Moderation tool`.</p>
-<ul>
-<li>Ship slogans with no observable picture.</li>
-</ul>
-<p><strong>Example (fail):</strong> `IMPACT: Better onboarding`.</p>
-<ul>
-<li>Mix two incompatible behaviours in one <strong>`IMPACT:`</strong> line.</li>
-</ul>
-<p><strong>Example (fail):</strong> `IMPACT: Onboards faster and invites three friends in week one` (split if those are separate movements).</p>
-<p><strong>Source:</strong> `SKILL.md`, Core concepts / Impacts and Purpose (four questions).</p>
-<h3>Rule: Phased backlog rows name the same actor and impact as the tree</h3>
-<p><strong>Scanner:</strong> Manual review</p>
-<p>This check applies to optional phased backlog tables in the same file as the <strong>`GOAL:`</strong> / <strong>`ACTOR:`</strong> / <strong>`IMPACT:`</strong> tree (<strong>`impact-map.md`</strong> / <strong>`impact-map.txt`</strong>). <strong>Passing</strong> means each row&#x27;s <strong>Actor / impact</strong> cell repeats the <strong>`ACTOR:`</strong> label and <strong>`IMPACT:`</strong> line that branch already contains (same wording or obvious paraphrase), and the timebox convention is named once (for example in <strong>`NOTE:`</strong>). <strong>Failing</strong> means a scheduled feature paired with an actor/impact pair that does not appear in the tree, or silent mixing of timebox schemes.</p>
-<h4>DO</h4>
-<ul>
-<li>For each phased row, fill the <strong>Actor / impact</strong> column so it matches one <strong>`ACTOR:`</strong> + <strong>`IMPACT:`</strong> path in that file.</li>
-</ul>
-<p><strong>Example (pass):</strong> Tree contains `ACTOR: Existing players` and `IMPACT: Share run highlights to social`; backlog row `M1 | Share sheet with clip | Existing players / Share run highlights to social`.</p>
-<ul>
-<li>Use one timebox convention per file (for example M1..M4 or Q1..Q4) and record it in <strong>`NOTE:`</strong> once.</li>
-</ul>
-<p><strong>Example (pass):</strong> `NOTE: M1-M4 below = calendar months in this example; use quarters if the brief says Q1-Q4.`</p>
-<h4>DO NOT</h4>
-<ul>
-<li>List a feature whose <strong>Actor / impact</strong> cell does not match any actor-and-impact branch in the tree.</li>
-</ul>
-<p><strong>Example (fail):</strong> Backlog cell `Streamers / Daily clip` when the tree only has `IMPACT: Broadcast this title during the campaign window`.</p>
-<ul>
-<li>Switch timebox schemes row by row without stating the convention.</li>
-</ul>
-<p><strong>Example (fail):</strong> Mixing `M1`, `Q2`, `Sprint 4` in the same phased table with no <strong>`NOTE:`</strong> explaining the scheme.</p>
-<p><strong>Source:</strong> Practice convention. &lt;!-- execute_rules:bundle_rules:end --&gt;</p></div>
+<hr></div>
 
 </div>
 </div>

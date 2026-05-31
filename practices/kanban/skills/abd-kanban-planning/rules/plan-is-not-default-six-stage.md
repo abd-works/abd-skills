@@ -19,7 +19,7 @@ This rule flags plans that have **exactly one run** whose stages are the five ca
 ## DON'T
 
 - Default to a one-run, five-stage sweep because it feels complete.
-- Hide the sweep behind renamed stages — use canonical stage names from `../../../content/stages/README.md`.
+- Hide the sweep behind renamed stages — use canonical stage names from `../../../reference/stages/README.md`.
 
 ## Example (wrong)
 

@@ -924,7 +924,7 @@ a.cap-card:hover .cap-card__icon {
     </div>
     <a class="back-link" href="../skills.html">← All skills</a>
     <h1>abd-service-level-objectives</h1>
-    <p class="tagline">Capture the non-functional requirements (NFRs) of a system as concrete Service Level Indicators, Objectives, and Agreements (SLI/SLO/SLA) tied to a specific scope — a story, an epic, a parent epic, or the whole system. NFRs are organised into six categories (Performance &amp; Scalability, Availability …</p>
+    <p class="tagline">Measurable NFRs as SLI/SLO/SLA — target × volume × percentage, scoped to story map, with error-budget policy.</p>
   </div>
 </header>
 
@@ -939,7 +939,9 @@ a.cap-card:hover .cap-card__icon {
 </nav>
 
 <h2>Description</h2>
-<div class="entry-prose">A non-functional requirement that cannot be measured is a wish. Teams that ship without measurable NFRs discover the truth in production — too late, too expensive, sometimes too public. This skill turns each NFR into a concrete Service Level Indicator (what is measured), Service Level Objective (the target on that indicator), and where a customer-facing commitment exists, a Service Level Agreement. Critically, each objective is scoped to the functional area it applies to: a single user story, an epic, a parent epic, or the system as a whole. Read-mostly catalogue browsing does not need the durability guarantee of order-placement, and treating them the same wastes money on the former and risks failure on the latter.</div>
+<div class="entry-prose">A non-functional requirement that cannot be measured is a wish. Teams that ship without measurable NFRs discover the truth in production — too late, too expensive, sometimes too public. This skill turns each NFR into a concrete Service Level Indicator (what is measured), Service Level Objective (the target on that indicator), and where a customer-facing commitment exists, a Service Level Agreement. Critically, each objective is scoped to the functional area it applies to: a single user story, an epic, a parent epic, or the system as a whole.<br>
+<br>
+---</div>
 
 <section class="install-block" aria-labelledby="install-npx-heading">
   <h2 id="install-npx-heading">Install with npx</h2>
@@ -956,228 +958,52 @@ a.cap-card:hover .cap-card__icon {
 
 <h2 id="entry-contents">Contents</h2>
 <div class="entry-contents-doc">
-<details class="entry-md-section" id="purpose"><summary class="entry-md-section__summary">Purpose</summary><div class="entry-md-section__body"><p>A non-functional requirement that cannot be measured is a wish. Teams that ship without measurable NFRs discover the truth in production — too late, too expensive, sometimes too public. This skill turns each NFR into a concrete <strong>Service Level Indicator</strong> (what is measured), <strong>Service Level Objective</strong> (the target on that indicator), and where a customer-facing commitment exists, a <strong>Service Level Agreement</strong>. Critically, each objective is scoped to the <strong>functional area</strong> it applies to: a single user story, an epic, a parent epic, or the system as a whole. Read-mostly catalogue browsing does not need the durability guarantee of order-placement, and treating them the same wastes money on the former and risks failure on the latter.</p></div></details>
-<details class="entry-md-section" id="when-to-use-this-skill"><summary class="entry-md-section__summary">When to use this skill</summary><div class="entry-md-section__body"><p>Load this skill when <strong>any</strong> of the following apply:</p>
-<ul>
-<li>An architecture <strong>outline and blueprint</strong> exist and the team needs to commit to <strong>measurable non-functional targets</strong> before further build-out.</li>
-<li>A <strong>story or epic</strong> has been described and someone in the room is asking &quot;how fast?&quot;, &quot;how many users?&quot;, &quot;what happens when it fails?&quot; — those questions deserve numbers, not gut feels.</li>
-<li>An <strong>incident review</strong> revealed that the team never had a target for the failing dimension; setting one prevents the next repeat.</li>
-<li>A <strong>customer or compliance commitment</strong> is being drafted (SLA) and the engineering team needs to translate it into internal SLOs and SLIs.</li>
-<li>The product is being <strong>classified by criticality</strong> — mission-critical writes vs. high-volume reads vs. background reporting — and each class needs its own target set.</li>
-</ul></div></details>
-<details class="entry-md-section" id="what-is-a-service-level-indicator-objective-agreement"><summary class="entry-md-section__summary">What is a Service Level Indicator / Objective / Agreement?</summary><div class="entry-md-section__body"><div class="md-table-wrap"><table class="md-table"><thead><tr><th>Term</th><th>Definition</th><th>Example</th></tr></thead><tbody><tr><td><strong>SLI</strong> (Indicator)</td><td>The <em>thing being measured</em>. Always a ratio or a quantity over a time window.</td><td>&quot;p99 response time for `POST /orders`&quot;</td></tr><tr><td><strong>SLO</strong> (Objective)</td><td>The <em>internal target</em> on the SLI, expressed as <strong>a target value at a volume at a percentage</strong>.</td><td>&quot;&lt; 300 ms p99 on `POST /orders`, sustained over 10 000 requests / day, met 99.9% of the time over a 28-day window&quot;</td></tr><tr><td><strong>SLA</strong> (Agreement)</td><td>The <em>external commitment</em> (usually contractual), looser than the SLO so internal teams have headroom.</td><td>&quot;99.5% monthly availability on the Orders API, with credits below threshold&quot;</td></tr></tbody></table></div>
-<p>The discipline of this skill is: every NFR you commit to becomes one row of the SLO matrix with <strong>target × volume × percentage</strong>, scoped to a clearly named <strong>functional area</strong> so the right level of investment goes to the right operations.</p>
+<details class="entry-md-section" id="purpose"><summary class="entry-md-section__summary">Purpose</summary><div class="entry-md-section__body"><p>A non-functional requirement that cannot be measured is a wish. Teams that ship without measurable NFRs discover the truth in production — too late, too expensive, sometimes too public. This skill turns each NFR into a concrete <strong>Service Level Indicator</strong> (what is measured), <strong>Service Level Objective</strong> (the target on that indicator), and where a customer-facing commitment exists, a <strong>Service Level Agreement</strong>. Critically, each objective is scoped to the <strong>functional area</strong> it applies to: a single user story, an epic, a parent epic, or the system as a whole.</p>
 <hr></div></details>
-<details class="entry-md-section" id="core-concepts"><summary class="entry-md-section__summary">Core concepts</summary><div class="entry-md-section__body"><h3>Six NFR categories</h3>
-<p>NFRs span six categories. Every SLI/SLO row in this skill&#x27;s templates picks one category so the matrix is browsable by concern. The categories are:</p>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Category</th><th>What it covers</th></tr></thead><tbody><tr><td><strong>Performance &amp; Scalability</strong></td><td>Speed, throughput, capacity, growth headroom. Examples: page load, API latency, requests per second, concurrent users.</td></tr><tr><td><strong>Availability &amp; Reliability</strong></td><td>Uptime, fault tolerance, mean time between failures, recovery objectives. Examples: monthly uptime %, RPO (data loss target), RTO (recovery time target).</td></tr><tr><td><strong>Security &amp; Compliance</strong></td><td>Data protection, authorization correctness, encryption at rest/in transit, regulatory adherence. Examples: time-to-revoke a stolen token, % of records encrypted, compliance audit pass.</td></tr><tr><td><strong>Usability &amp; Accessibility</strong></td><td>UX quality, accessibility standards, learnability. Examples: WCAG 2.1 AA conformance, task-completion rate on key flows.</td></tr><tr><td><strong>Maintainability &amp; Supportability</strong></td><td>Ease of change, debuggability, deployment without downtime, MTTR for production issues. Examples: deployment frequency, mean time to recover, change-failure rate.</td></tr><tr><td><strong>Interoperability &amp; Compatibility</strong></td><td>Integration with external systems, browser/device compatibility, API contract stability. Examples: % of supported browsers passing E2E, breaking changes per quarter.</td></tr></tbody></table></div>
-<h3>Scope: where the SLO lives in the story map</h3>
-<p>An NFR is rarely a property of &quot;the whole system&quot;. The same system can be <strong>mission-critical</strong> for one path (order placement: durable, no errors, audited) and <strong>best-effort</strong> for another (recommendations: high volume, eventual consistency, occasional misses acceptable). This skill places each SLO at the right <strong>scope</strong> in the story map (or feature tree):</p>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Scope</th><th>When to set NFRs here</th></tr></thead><tbody><tr><td><strong>System</strong></td><td>An NFR that genuinely applies to the whole product (auth correctness, encryption, top-level uptime).</td></tr><tr><td><strong>Parent epic</strong></td><td>An NFR that applies to a coherent group of features (all order-related flows, all reporting flows).</td></tr><tr><td><strong>Epic</strong></td><td>An NFR that applies to one epic but not its siblings (live editing within an epic where most of the epic is offline).</td></tr><tr><td><strong>Story</strong></td><td>An NFR specific to a single user-visible scenario (a &quot;place order&quot; story that is the highest-criticality write in the system).</td></tr></tbody></table></div>
-<p>If you do not have a story map, the <strong>system</strong> and <strong>parent epic</strong> scopes are usually enough. The richer the map, the more precisely you can target investment.</p>
-<h3>The target-volume-percentage shape</h3>
-<p>Every well-formed SLO has three numbers:</p>
-<pre><code>{target value}  at  {volume}  at  {percentage}</code></pre>
+<details class="entry-md-section" id="output-file"><summary class="entry-md-section__summary">Output file</summary><div class="entry-md-section__body"><p><strong>Deliverables folder:</strong> see `../reference/agent-protocol.md` — Output file resolution.</p>
+<p><strong>File name:</strong> `service-level-objectives.md`. Add a `&lt;name&gt;-` prefix only when disambiguation is needed.</p>
+<hr></div></details>
+<details class="entry-md-section" id="agent-instructions"><summary class="entry-md-section__summary">Agent Instructions</summary><div class="entry-md-section__body"><p>&gt; <strong>MANDATORY — read `../reference/agent-protocol.md` before starting. It defines read-gates, output file resolution, and the per-rule verdict format.</strong></p>
+<h3>1. Read context</h3>
+<p>Read these files:</p>
 <ul>
-<li><strong>Target value</strong> — the threshold being met (e.g. 300 ms, 99.9% uptime, zero data loss).</li>
-<li><strong>Volume</strong> — <em>the conditions under which the target is claimed</em>. Without volume, a number is meaningless. (e.g. &quot;at 10 000 requests/day&quot;, &quot;during business hours&quot;, &quot;across both regions concurrently&quot;).</li>
-<li><strong>Percentage</strong> — <em>how often the target must be met over the measurement window</em> (e.g. &quot;99.9% of the time over a 28-day window&quot;). A 100% claim is almost always wrong — leave headroom for incidents.</li>
+<li><strong>`reference/concepts.md`</strong> — SLI/SLO/SLA definitions, six NFR categories, scope levels, target-volume-percentage shape, and error budgets.</li>
+<li><strong>`reference/examples.md`</strong> — typical SLO matrix structure and the shape of a good SLO row.</li>
 </ul>
-<p>Examples:</p>
-<ul>
-<li>&quot;<strong>p99 &lt; 300 ms</strong> on `POST /orders` at <strong>10 000 req/day</strong> <strong>99.9% of the time over 28 days</strong>.&quot; (Performance &amp; Scalability)</li>
-<li>&quot;<strong>Zero data loss</strong> on order writes at <strong>all volumes</strong> <strong>100% of the time within the durability window</strong>.&quot; (Availability &amp; Reliability — durability)</li>
-<li>&quot;<strong>&lt; 5 minutes time-to-revoke</strong> a leaked token at <strong>any volume</strong> <strong>99% of the time</strong>.&quot; (Security &amp; Compliance)</li>
-</ul>
-<h3>Error budgets and burn rates</h3>
-<p>Every SLO with a percentage less than 100% has an <strong>error budget</strong> equal to `1 − target`. Burning the budget tells the team when to slow down feature work and shore up reliability — and conversely, an under-spent budget gives permission to take risk. The skill&#x27;s template ships a small section for error-budget policy: what the team does when the budget is at 50% remaining, 25%, 0%.</p>
+<h3>2. Generate</h3>
+<p>Read every file in <strong>`rules/`</strong>; author to those rules.</p>
+<p><strong>Produce output from every template:</strong></p>
+<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Template</th><th>What to produce</th></tr></thead><tbody><tr><td>`templates/service-level-objectives.md`</td><td>The SLO matrix — scope statement, criticality classification, system-level SLOs, parent-epic SLOs, story-level SLOs (high-criticality only), error-budget policy, and SLA section (if applicable).</td></tr></tbody></table></div>
+<p><strong>Build steps:</strong> 1. Establish scope vocabulary from story map (or system + parent epic fallback). 2. Classify features by criticality (mission-critical / business-important / best-effort). 3. Set system-level SLOs (availability, security, maintainability). 4. Set parent-epic SLOs where targets differ from system default. 5. Set story-level SLOs only for highest-criticality stories. 6. Define error-budget policy with concrete actions at 50%/25%/0%. 7. List SLAs separately — each looser than its supporting SLO.</p>
+<h3>3. Validate</h3>
+<p>Run the scanners:</p>
+<pre><code>python skills/execute-skill-using-skills-rules/scripts/run_scanners.py \
+  --skill-root skills/abd-service-level-objectives \
+  --workspace &lt;path-to-output&gt;</code></pre>
+<p>Then emit per-rule verdicts per `../reference/agent-protocol.md`.</p>
 <hr></div></details>
-<details class="entry-md-section" id="example"><summary class="entry-md-section__summary">Example</summary><div class="entry-md-section__body"><p>A mid-size SaaS application&#x27;s SLO matrix typically has 10–20 rows across the six categories, distributed across one system-level set, three parent-epic sets, and a handful of story-specific rows for the highest-criticality scenarios.</p>
-<pre><code>docs/architecture/service-level-objectives.md
-├── 1. Scope and how to read this document
-├── 2. Criticality classification          ← which features are mission-critical vs. best-effort
-├── 3. System-level SLOs                   ← applies everywhere
-├── 4. Parent-epic SLOs                    ← per-area (Orders, Catalogue, etc.)
-├── 5. Story-level SLOs                    ← specific high-criticality scenarios
-├── 6. Error-budget policy                 ← when to slow feature work
-└── 7. SLA section                         ← contractual commitments (if any)</code></pre></div></details>
-<details class="entry-md-section" id="the-shape-of-a-good-slo-matrix"><summary class="entry-md-section__summary">The shape of a good SLO matrix</summary><div class="entry-md-section__body"><pre><code>Each SLO row uses this skeleton:
-
-| Scope | Category | SLI (what we measure) | SLO (target × volume × percentage) | Measurement | Owner |
-|---|---|---|---|---|---|
-
-Example:
-| System | Availability &amp; Reliability | API uptime | 99.9% uptime over 28-day rolling window, at all production traffic | CloudWatch synthetic + 5xx ratio | Platform team |
-| Parent epic: Orders | Performance &amp; Scalability | p99 latency `POST /orders` | &lt; 300 ms at 10 000 req/day at 99.9% | Datadog APM | Orders team |
-| Story: Place high-value order | Availability &amp; Reliability | Order durability | Zero loss at any volume at 100% within commit window | Outbox replay audit | Orders team |
-| System | Security &amp; Compliance | Time to revoke leaked token | &lt; 5 min at any volume at 99% | Auth0 audit log + sec tooling | Security team |
-| System | Maintainability &amp; Supportability | MTTR for sev-1 incidents | &lt; 1 hour at all incidents at 95% | Incident-management tool | On-call rotation |
-| Parent epic: Storefront | Usability &amp; Accessibility | WCAG 2.1 AA conformance | 100% of public-facing pages at 100% | axe-core CI checks | Frontend team |</code></pre>
-<hr></div></details>
-<details class="entry-md-section" id="build"><summary class="entry-md-section__summary">Build</summary><div class="entry-md-section__body"><p><strong>Goal:</strong> Produce `docs/architecture/service-level-objectives.md` mapping each functional area to its SLI/SLO/SLA across the six NFR categories.</p>
-<p>1. <strong>Establish scope vocabulary.</strong> If a story map exists (`docs/stories/story-map.md` or similar), use its hierarchy (system → parent epic → epic → story) as the scoping vocabulary. If not, fall back to system + parent epic only.</p>
-<p>2. <strong>Classify features by criticality.</strong> Walk the story map and tag each parent epic / epic / story as <strong>mission-critical</strong>, <strong>business-important</strong>, or <strong>best-effort</strong>. Criticality drives how aggressive the SLOs need to be and where the team should invest. Capture the classification as section 2 of the output.</p>
-<p>3. <strong>Set system-level SLOs.</strong> Start with NFRs that apply to the whole product: top-level availability, security (auth, encryption, audit), maintainability (MTTR, deployment frequency, change-failure rate). One row per concern, every row in target-volume-percentage shape.</p>
-<p>4. <strong>Set parent-epic SLOs.</strong> For each parent epic, walk the six categories and ask &quot;does this parent epic have a target distinct from the system default?&quot; If yes, add a row. Common cases: Orders need tighter latency than Reporting; Catalogue needs higher cache-hit-rate than Identity.</p>
-<p>5. <strong>Set story-level SLOs only for high-criticality stories.</strong> Most stories inherit their parent epic&#x27;s SLOs. Add a story-level row only for the highest-criticality writes or the highest-volume reads where the parent-epic target is materially wrong.</p>
-<p>6. <strong>Define the error-budget policy.</strong> State explicitly what the team does at each burn threshold (50%, 25%, 0% of budget remaining). Without a policy, an error budget is a thermometer with nobody acting on the reading.</p>
-<p>7. <strong>List SLAs separately.</strong> If the product has contractual commitments to customers, list them in a final section. Each SLA should be <strong>looser than the internal SLO</strong> that supports it (typical pattern: SLO 99.9%, SLA 99.5%).</p>
-<p>8. <strong>Validate against the rules</strong> bundled at the end of this `SKILL.md`.</p>
-<p>9. <strong>Bundle this skill&#x27;s rules into `SKILL.md`</strong> when you have edited any `rules/*.md`:</p>
-<pre><code>   python skill-builder/skills/abd-author-practice-skill/scripts/bundle_rules_into_skill_md.py --skill-root architecture-centric-engineering/skills/abd-service-level-objectives</code></pre>
-<hr></div></details>
-<details class="entry-md-section" id="validate"><summary class="entry-md-section__summary">Validate</summary><div class="entry-md-section__body"><p><strong>Goal:</strong> Inspect the produced SLO matrix the way an SRE / architect / product owner would inspect any non-functional document.</p>
+<details class="entry-md-section" id="validate"><summary class="entry-md-section__summary">Validate</summary><div class="entry-md-section__body"><p><strong>Goal:</strong> Inspect what was built — read the artifacts as reviewers.</p>
 <ul>
-<li><strong>Who is checking:</strong> SRE / Platform (are the SLIs actually measurable today?), Product Owner (does the criticality classification match how the business sees the features?), Security/Compliance (are the security objectives consistent with the regulatory framework?).</li>
-<li><strong>Cross-artifact parity:</strong> Every parent epic in the story map either appears in the SLO matrix or is explicitly noted as inheriting system defaults. Every scope referenced in a row exists in the story map (no orphan epic names).</li>
-</ul>
-<p>Checklist for the <strong>produced matrix</strong>:</p>
-<ul>
-<li><strong>Every SLO has target × volume × percentage</strong> — no bare &quot;fast&quot;, &quot;highly available&quot;, &quot;secure&quot;; no target without a volume condition; no percentage of 100% on availability claims.</li>
-<li><strong>Every row picks one of the six NFR categories</strong> — Performance &amp; Scalability, Availability &amp; Reliability, Security &amp; Compliance, Usability &amp; Accessibility, Maintainability &amp; Supportability, Interoperability &amp; Compatibility.</li>
-<li><strong>Every row has a named scope</strong> — system, parent epic, epic, or story — and that scope exists in the story map (or there is an explicit &quot;no story map; system+parent-epic only&quot; statement).</li>
-<li><strong>Every SLI is measurable today</strong> — names a real tool (Datadog APM, CloudWatch, axe-core CI, an audit log) or a planned tool with an owner who will land it.</li>
-<li><strong>Error-budget policy is concrete</strong> — actions tied to thresholds (50% / 25% / 0% remaining), not &quot;review periodically&quot;.</li>
-<li><strong>SLAs (if any) are looser than the SLOs that support them</strong> — never the same number; the internal target has headroom over the external commitment.</li>
-<li><strong>Criticality classification is explicit</strong> — section 2 marks each parent epic / story as mission-critical / business-important / best-effort.</li>
+<li><strong>Every SLO has target × volume × percentage</strong> — no bare adjectives; no target without volume; no 100% on availability claims.</li>
+<li><strong>Every row picks one of the six NFR categories</strong> — no &quot;Other&quot; or merged categories.</li>
+<li><strong>Every row has a named scope</strong> — system, parent epic, epic, or story — that exists in the story map.</li>
+<li><strong>Every SLI is measurable today</strong> — names a real tool or a planned tool with an owner.</li>
+<li><strong>Error-budget policy is concrete</strong> — actions tied to thresholds (50%/25%/0%), not &quot;review periodically&quot;.</li>
+<li><strong>SLAs are looser than supporting SLOs</strong> — never the same number; internal target has headroom.</li>
+<li><strong>Criticality classification is explicit</strong> — section marks each area as mission-critical / business-important / best-effort.</li>
+<li><strong>No bundle markers</strong> — `SKILL.md` has no `&lt;!-- execute_rules:bundle_rules --&gt;` markers.</li>
 </ul>
 <hr></div></details>
-<details class="entry-md-section" id="deploy"><summary class="entry-md-section__summary">Deploy</summary><div class="entry-md-section__body"><p>This skill ships IDE-deployable files under `ide-files/`. Deploy them to any project:</p>
-<pre><code>.\skills\skill-builder\abd-author-practice-skill\scripts\Deploy-SkillOutputs.ps1 -SkillPath skills/architecture-centric-engineering/abd-service-level-objectives -ProjectRoot &lt;target-project&gt; -Force</code></pre>
-<hr>
-<p>&lt;!-- execute_rules:bundle_rules:begin --&gt;</p>
-<h3>Rule: Error-budget policy states concrete actions at named thresholds</h3>
-<p>Every SLO matrix with rows whose percentage is less than 100% has an <strong>error-budget policy section</strong> stating concrete actions the team takes at named burn thresholds. A thermometer is useless if nobody acts on the reading; the policy turns the burn rate into operational decisions. Standard thresholds are <strong>50%</strong>, <strong>25%</strong>, and <strong>0%</strong> remaining over the measurement window. Failing means a policy with no thresholds, thresholds with no actions (&quot;review periodically&quot;), or a matrix that has error budgets but no policy section at all.</p>
-<h4>DO</h4>
-<ul>
-<li>Include a policy table with one row per named threshold and a concrete action in plain language.</li>
-</ul>
-<p><strong>Example (pass):</strong></p>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Budget remaining</th><th>Action</th></tr></thead><tbody><tr><td>&gt; 50%</td><td>Normal feature work; experiment with riskier changes if budget supports it.</td></tr><tr><td>25–50%</td><td>Caution. Pause large migrations and new infrastructure introductions for affected service.</td></tr><tr><td>&lt; 25%</td><td>Reliability work prioritised next sprint; feature work only on low-risk paths.</td></tr><tr><td>0%</td><td>Feature freeze on the affected scope until budget recovers above 25%.</td></tr></tbody></table></div>
-<ul>
-<li>State who owns each action and how the burn rate is calculated and reviewed.</li>
-</ul>
-<p><strong>Example (pass):</strong> &quot;Burn rate is calculated weekly on a 28-day rolling window. The on-call SRE reports it in the engineering operations review. Feature-freeze decisions at 0% are made by the engineering manager + product owner together.&quot;</p>
-<ul>
-<li>For SLOs without an error budget (100% targets like zero data loss, encryption coverage), state explicitly that the absolute-target nature means there is no budget — any miss is an incident.</li>
-</ul>
-<p><strong>Example (pass):</strong> &quot;Targets at 100% (durability, encryption coverage) have no error budget. Any miss is a sev-1 incident with full post-mortem.&quot;</p>
-<h4>DO NOT</h4>
-<ul>
-<li>Ship the matrix with error budgets implicit in the percentages but no policy section.</li>
-</ul>
-<p><strong>Example (fail):</strong> Section 5 of the matrix has 12 rows with percentages from 95% to 99.95%. There is no section 6 describing what happens when those budgets burn down. The numbers are reporting, not engineering policy.</p>
-<ul>
-<li>Use vague verbs in the actions column.</li>
-</ul>
-<p><strong>Example (fail):</strong> Threshold &quot;&lt; 25% remaining&quot; → action &quot;Review and consider reliability work.&quot; (What is reviewed? By whom? What triggers actual work?)</p>
-<ul>
-<li>State a policy that no team actually applies.</li>
-</ul>
-<p><strong>Example (fail):</strong> &quot;Feature freeze at 0% budget&quot; written down, but in practice the team has continued shipping new features through three consecutive budget exhaustions with no freeze. Either bring the team into compliance with the policy or rewrite the policy to match reality and call out the gap.</p>
-<p><strong>Source:</strong> Practice-skill authoring convention (abd-service-level-objectives); SLOs without policy are surveillance, not engineering.</p>
-<h3>Rule: SLA is looser than the supporting SLO</h3>
-<p>When the product has external commitments (SLAs), each SLA must be <strong>looser</strong> than the internal SLO that supports it — never the same number, never tighter. The internal team needs operational headroom to act on the SLO before the SLA is breached. Standard pattern: SLO 99.9%, SLA 99.5% — the 0.4% margin is what gives the team room to detect and respond to incidents before customers can claim a breach. Failing means publishing an SLA equal to or tighter than the SLO, citing the SLO directly in customer contracts, or having an SLA with no internal SLO behind it at all.</p>
-<h4>DO</h4>
-<ul>
-<li>For each SLA row, name the supporting internal SLO row and confirm the SLA threshold is strictly looser.</li>
-</ul>
-<p><strong>Example (pass):</strong> SLA &quot;99.5% monthly availability on Orders API&quot; supported by internal SLO &quot;API uptime 99.9% over a 28-day window&quot;. The 0.4% gap is the team&#x27;s operational headroom.</p>
-<ul>
-<li>When negotiating a new SLA, set the SLO first and the SLA at least one tier looser (e.g. 99.99% SLO → 99.9% SLA, or 99.9% SLO → 99.5% SLA).</li>
-</ul>
-<p><strong>Example (pass):</strong> New enterprise contract proposes 99.95% availability. The team confirms an internal SLO of 99.99% is achievable; the SLA is set at 99.95%.</p>
-<ul>
-<li>State the supporting SLO explicitly in the SLA section so the relationship is visible to both engineering and legal/sales.</li>
-</ul>
-<p><strong>Example (pass):</strong> SLA table includes a column &quot;Supporting internal SLO&quot; linking back to the row in section 3 or 4.</p>
-<h4>DO NOT</h4>
-<ul>
-<li>Publish an SLA equal to the supporting SLO.</li>
-</ul>
-<p><strong>Example (fail):</strong> Internal SLO 99.9% availability; SLA in customer contract: 99.9% availability. The first incident that burns half the error budget puts the team at imminent SLA breach with no headroom.</p>
-<ul>
-<li>Publish an SLA tighter than the internal SLO.</li>
-</ul>
-<p><strong>Example (fail):</strong> Internal SLO 99.5%, SLA promises 99.9%. Engineering has no way to detect breach before customers experience it.</p>
-<ul>
-<li>Ship the matrix with SLAs but no named supporting SLO rows.</li>
-</ul>
-<p><strong>Example (fail):</strong> Section 7 lists customer SLAs (99.5% Orders, 99.9% Enterprise) but the matrix has no internal SLO rows for those endpoints. Engineering has no way to know whether the team is on or off the SLA at any given moment.</p>
-<p><strong>Source:</strong> Practice-skill authoring convention (abd-service-level-objectives); the SLO–SLA gap is the engineering team&#x27;s operational headroom.</p>
-<h3>Rule: Every SLO row has a named scope and one NFR category</h3>
-<p>Every row in the SLO matrix must name its <strong>scope</strong> (system, parent epic, epic, or story) and pick exactly one of the six <strong>NFR categories</strong> (Performance &amp; Scalability, Availability &amp; Reliability, Security &amp; Compliance, Usability &amp; Accessibility, Maintainability &amp; Supportability, Interoperability &amp; Compatibility). Scope is what makes the right level of investment go to the right operations: read-mostly catalogue browsing does not need order-placement durability, and the matrix should make that distinction visible. Failing means a row with no scope, a row scoped to &quot;the system&quot; when it really applies to one epic, a row that picks two categories, or a row that picks a category outside the six.</p>
-<h4>DO</h4>
-<ul>
-<li>Name the scope in the row&#x27;s Scope column using one of: `system`, `parent epic: {name}`, `epic: {name}`, `story: {name}`.</li>
-</ul>
-<p><strong>Example (pass):</strong> Scope cell reads `parent epic: Orders` — the row applies to every story under the Orders parent epic but does not impose itself on Catalogue or Reporting.</p>
-<ul>
-<li>When a parent-epic-level target genuinely overrides the system default, write the row at parent-epic scope and let the matrix make the override visible.</li>
-</ul>
-<p><strong>Example (pass):</strong> System availability SLO = 99.9%. Orders parent-epic availability SLO = 99.95% (tighter). Both rows present; readers see Orders is intentionally tighter.</p>
-<ul>
-<li>Pick exactly one NFR category from the canonical six. If a target genuinely spans two categories, split it into two rows.</li>
-</ul>
-<p><strong>Example (pass):</strong> &quot;Time-to-revoke a leaked token&quot; is <strong>Security &amp; Compliance</strong>. The fact that fast revocation is also a <em>performance</em> concern does not change the category — the SLI is a security indicator.</p>
-<h4>DO NOT</h4>
-<ul>
-<li>Omit the scope column or leave it blank.</li>
-</ul>
-<p><strong>Example (fail):</strong> A row with SLI &quot;Catalogue cache hit rate&quot; but no Scope cell — readers cannot tell whether this applies to the whole system or just one epic.</p>
-<ul>
-<li>Scope every row to &quot;system&quot; because &quot;everything matters to everyone&quot;.</li>
-</ul>
-<p><strong>Example (fail):</strong> Order durability, catalogue cache hit rate, and reporting job throughput all scoped to `system`. The matrix becomes a list of generic numbers and loses the criticality signal.</p>
-<ul>
-<li>Pick a category outside the canonical six (&quot;Performance and Security&quot;, &quot;Other&quot;, &quot;Cross-cutting&quot;).</li>
-</ul>
-<p><strong>Example (fail):</strong> Category column reads &quot;Performance &amp; Security&quot; — pick one. The architecture mechanism that <em>implements</em> the target may span both, but the SLI itself measures one.</p>
-<ul>
-<li>Scope a row to a story when its parent epic&#x27;s SLO already covers it.</li>
-</ul>
-<p><strong>Example (fail):</strong> Twenty stories each get their own story-scoped latency row that is identical to the parent epic&#x27;s row. The matrix bloats; readers cannot find the genuinely story-specific targets. Story-scoped rows exist only when the target differs materially from the parent epic.</p>
-<p><strong>Source:</strong> Practice-skill authoring convention (abd-service-level-objectives); scope and category are how the matrix stays browsable and actionable.</p>
-<h3>Rule: Every SLO row has target × volume × percentage</h3>
-<p>Every Service Level Objective in the matrix must specify three numbers: a <strong>target value</strong> (the threshold being met), a <strong>volume</strong> (the conditions under which the target is claimed), and a <strong>percentage</strong> (how often the target must be met over a measurement window). Without all three, the row is a wish, not an objective — a &quot;fast API&quot; can be made true or false by the next reader, but &quot;p99 &lt; 300 ms at 10 000 req/day at 99.9% over 28 days&quot; cannot. Failing means a row missing the volume condition, a percentage of 100% on an availability claim where incidents are inevitable, or a target stated only in adjectives (&quot;highly available&quot;, &quot;fast&quot;, &quot;secure&quot;).</p>
-<h4>DO</h4>
-<ul>
-<li>Write every SLO as `{target value} at {volume} at {percentage}` (or as three filled cells in a table that compose to the same shape).</li>
-</ul>
-<p><strong>Example (pass):</strong> &quot;p99 &lt; 300 ms on `POST /orders` at 10 000 req/day at 99.9% over a 28-day rolling window.&quot;</p>
-<ul>
-<li>Choose a percentage less than 100% for anything subject to real-world failure (availability, latency, success rate). 100% is appropriate only for absolute requirements (zero data loss, zero unauthorized writes, encryption coverage).</li>
-</ul>
-<p><strong>Example (pass):</strong> &quot;Order durability: zero data loss at any volume at 100% within the commit window&quot; — correct because data loss is a hard requirement.</p>
-<p><strong>Example (pass):</strong> &quot;API uptime: &lt; 0.1% error rate at production traffic at 99.9% over 28 days&quot; — correct because perfect availability is impossible and 99.9% has a real error budget.</p>
-<ul>
-<li>Make the volume realistic and named. &quot;Peak hour&quot;, &quot;10 000 req/day&quot;, &quot;during business hours&quot;, &quot;across both regions concurrently&quot; all qualify.</li>
-</ul>
-<p><strong>Example (pass):</strong> &quot;Cache hit rate ≥ 95% at all reads at 99% over a 24-hour window.&quot; (Volume = &quot;all reads&quot;, time window stated.)</p>
-<h4>DO NOT</h4>
-<ul>
-<li>Ship a row with no volume condition.</li>
-</ul>
-<p><strong>Example (fail):</strong> &quot;API latency &lt; 300 ms at 99.9%.&quot; — at what request rate? Cold start? Peak load? The row is unmeasurable in practice.</p>
-<ul>
-<li>Claim 100% on a probabilistic dimension.</li>
-</ul>
-<p><strong>Example (fail):</strong> &quot;API uptime 100% over a 28-day window.&quot; — incidents are inevitable; the team will burn out chasing a target it cannot hit, or pretend the target was met when it was not.</p>
-<ul>
-<li>State an objective in adjectives.</li>
-</ul>
-<p><strong>Example (fail):</strong> &quot;The system must be highly available, performant, and secure.&quot; — none of the three is decidable.</p>
-<ul>
-<li>Use a SLI that is not actually being measured today, without naming the planned tool and owner.</li>
-</ul>
-<p><strong>Example (fail):</strong> SLI column reads &quot;user-perceived latency&quot; with no measurement column entry. If the tool does not exist yet, the row should name the tool that will measure it and the owner who will land it; otherwise the objective is unsupported.</p>
-<p><strong>Source:</strong> Practice-skill authoring convention (abd-service-level-objectives); the target-volume-percentage shape is the central discipline of this skill. &lt;!-- execute_rules:bundle_rules:end --&gt;</p></div></details>
 </div>
 <hr class="entry-divider">
 <div class="entry-contents-files">
 <ul class="file-list file-list--root">
 <li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>ide-files/</strong><span class="file-meta"> → Folder (1 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-service-level-objectives/ide-files/abd-service-level-objectives.instructions.md" target="_blank" rel="noopener noreferrer"><strong>abd-service-level-objectives.instructions.md</strong></a><span class="file-meta"> → Run abd-service-level-objectives</span></li>
+</ul></div></details></li>
+<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>reference/</strong><span class="file-meta"> → Folder (2 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-service-level-objectives/reference/concepts.md" target="_blank" rel="noopener noreferrer"><strong>concepts.md</strong></a><span class="file-meta"> → Service Level Objectives — Concepts</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-service-level-objectives/reference/examples.md" target="_blank" rel="noopener noreferrer"><strong>examples.md</strong></a><span class="file-meta"> → Service Level Objectives — Examples</span></li>
 </ul></div></details></li>
 <li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>rules/</strong><span class="file-meta"> → Practice rules (DO/DON&#x27;T) and constraints used with scanners.</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-service-level-objectives/rules/error-budget-policy-has-concrete-actions.md" target="_blank" rel="noopener noreferrer"><strong>error-budget-policy-has-concrete-actions.md</strong></a><span class="file-meta"> → Rule: Error-budget policy states concrete actions at named thresholds</span></li>

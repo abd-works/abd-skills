@@ -3,7 +3,7 @@ scanner: ~
 ---
 # Rule: Coverage boundary stated before estimates begin
 
-The estimation session file must declare which **bootcamp delivery stages** the estimate covers before any items are estimated. Without a coverage boundary, estimates from different sessions or teams are not comparable. Stage definitions: [`../../../content/stages/README.md`](../../../content/stages/README.md).
+The estimation session file must declare which **bootcamp delivery stages** the estimate covers before any items are estimated. Without a coverage boundary, estimates from different sessions or teams are not comparable. Stage definitions: [`../../../reference/stages/README.md`](../../../reference/stages/README.md).
 
 **Default (included unless opted out):** exploration (AC), specification, engineering (ATDD + implementation), regression testing.
 
@@ -46,4 +46,4 @@ Passing means the session file has an explicit coverage boundary checklist in th
 
   **Example (fail):** Session file references "same as last sprint's estimation" with no checklist — the session file must stand alone.
 
-**Source:** Engagement convention; bootcamp stages in `../../../content/stages/`.
+**Source:** Engagement convention; bootcamp stages in `../../../reference/stages/`.

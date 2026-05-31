@@ -937,241 +937,50 @@ a.cap-card:hover .cap-card__icon {
 </nav>
 
 <h2>Content</h2>
-<div class="rule-prose"><p>﻿--- name: abd-thin-slicing catalog_garden_tier: practice catalog_garden_order: 20 catalogue_one_liner: &gt;- Thin-sliced MVIs and backlog order from a story map; writes thin-slicing templates. description: &gt;- <strong>Produce</strong> thin-sliced delivery increments: vertical MVIs, spine vs optional paths, quality trade-offs, marketable increment names, and early risk validation. From a story map, <strong>write</strong> all template artifacts in `templates/` (`thin-slicing.md`) with identical increment and story coverage. Use when planning releases, MVIs, backlog order, or thin/vertical slices after mapping.</p>
+<div class="rule-prose"><p>﻿--- name: abd-thin-slicing catalog_garden_tier: practice catalog_garden_order: 20 catalogue_one_liner: &gt;- Thin-sliced MVIs and backlog order from a story map; writes thin-slicing templates. description: &gt;- Produces thin-sliced delivery increments — vertical MVIs, spine vs optional paths, quality trade-offs, marketable increment names, and early risk validation. Use when planning releases, MVIs, backlog order, or thin/vertical slices after story mapping.</p>
 <hr>
 <h1>abd-thin-slicing</h1>
 <h2>Purpose</h2>
-<p><strong>Define prioritized increments.</strong> Group stories in a <strong>story map</strong> (and any notes on risk, constraints, or learning goals) into prioritized increments that can be delivered together. Each incremement includes its priority order, outcomes, slicing notes, and an ordered list od stories.</p>
-<h2>When to use this skill</h2>
-<p>Use it when <strong>any</strong> of these are true:</p>
-<ul>
-<li>You want to break up a stroy map into prioritized  <strong>increments</strong> / MVPs / MVIs “what ships first.”</li>
-<li>You want to start sequencing by splitting stories between <strong>spine vs optional</strong>.</li>
-<li>You are ordering for <strong>learning</strong> (architecture, adoption, rollout, impact, economics ), not just to deliver.</li>
-<li>You want to analyze unstructured context and determine increments of value, regardless of wether a stroy map or stories exist</li>
-</ul>
-<hr>
-<h2>Core concepts</h2>
-<p>Short definitions (aligned with prioritization / vertical-slice guidance in <strong>`backup/abd-shaping/docs/ace-shaping-strategy.md`</strong> and <strong>`backup/abd-maps-models-specs/abd-story-synthesizer/rules/interaction-ensure-vertical-slices.md`</strong>):</p>
-<h3>What is a <strong>Story Map Increment</strong>?</h3>
-<p>An increment is a <strong>named, ordered slice</strong> of the story map you plan to <strong>ship or learn from before</strong> the next slice. It groups <strong>existing stories</strong> (verb–noun, flow order) under one increment: a <strong>sequenced backlog grouping</strong>, not a new epic. This skill  turns a story map into a map <strong>with increments</strong>.</p>
-<h3>What is <strong>thin slicing</strong>?</h3>
-<p><strong>Thin slicing</strong> means choosing the <strong>smallest</strong> increment that still <strong>completes a meaningful journey</strong> (value, demo, or learning)—often by taking <strong>just enough</strong> from multiple areas to achieve end-to-end flow, rather than finishing one part in depth. Early increments often <strong>trade polish for speed</strong> (e.g., manual steps, stubs, just one data path) to ensure we get <strong>quick, concrete feedback</strong>.</p>
-<p>This approach is especially useful in AI-heavy work, where it&#x27;s easy to go down the wrong path. Thin slices act as &quot;early checkpoints&quot;— before AI creates a large amount have generated output based on 1 or two erroneous assumptions. Running an initial thin-slice can quickly expose mismatches, missing context, or learning gaps.</p>
-<p>Later slices then <strong>add quality, automation, or robustness</strong> — refining the same journey with better tech or user experience (for example, moving from “Manual…” to “Automated…”). The goal: visible, valuable progress <strong>with every slice</strong>.</p>
-<h3><strong>Vertical</strong> vs <strong>horizontal</strong> slices</h3>
-<ul>
-<li><strong>Vertical (preferred):</strong> The increment cuts <strong>across</strong> epics/features: a little of order entry, payment, storage, confirmation—enough to go <strong>end-to-end</strong> (input → processing → persistence/feedback → visible outcome) in one slice.</li>
-<li><strong>Horizontal (avoid):</strong> Finish <strong>all</strong> of Epic A, then <strong>all</strong> of Epic B—layers that <strong>cannot</strong> be exercised end-to-end until late increments.</li>
-</ul>
-<hr>
-<h2>Do the work (required)</h2>
-<p>1. <strong>Read inputs</strong> — story map / graph, PO or tech notes, known risks and dependencies. 2. <strong>Mark spine vs optional</strong> — mandatory core sequence vs alternates, enhancements, deep error paths (see bundled rules). 3. <strong>Cut vertical slices</strong> — each increment is an <strong>end-to-end</strong> demonstrable path (even if manual/stubbed); avoid horizontal “finish epic A, then epic B.” 4. <strong>Name for value</strong> — increment titles = stakeholder-visible <strong>capability</strong>, not phase or stack labels. 5. <strong>Pull stories</strong> -- under each increment, list <strong>verb-noun</strong> stories in <strong>flow order</strong>; don&#x27;t paste the whole map unless asked.</p>
-<p>&gt; <strong>Story names MUST be copied verbatim from `story-map.md` / `story-graph.json` -- character-for-character, including every parenthetical qualifier.</strong> &gt; - `- Load FX Resource Catalog (FxRepo.data)` (correct -- exact) &gt; - `- Load FX Resource Catalog` (WRONG -- trimmed; creates an orphan; scanner will catch this) &gt; - `- System --&gt; Load Crowd from Repository` (WRONG -- actor prefix; parser stores &quot;System&quot; as the name) &gt; &gt; After writing `thin-slicing.md`, run the scanner (step 8) to verify every name before committing.</p>
-<p>6. <strong>Write the template file</strong> -- fill <strong>`templates/thin-slicing.md`</strong> with the increments and stories (<em>italics</em> on domain terms where helpful). 7. <strong>Omit maintainer noise</strong> -- do <strong>not</strong> copy the template&#x27;s <strong>`## Instructions`</strong> block into project deliverables. 8. <strong>Run the scanner</strong> -- after writing `thin-slicing.md`, validate story names:</p>
-<pre><code>   python skills/abd-thin-slicing/scanners/story-name-exact-match-scanner.py --workspace &lt;path-to-project&gt;</code></pre>
-<p>Fix every reported mismatch before calling the slice done. The scanner exits non-zero on any name that does not exactly match a story in `story-graph.json`.</p>
-<p>9. <strong>Review</strong> -- walk every bundled rule; fix violations before you call it done.— walk every bundled rule; fix violations before you call it done.</p>
+<p><strong>Define prioritized increments.</strong> Group stories in a <strong>story map</strong> (and any notes on risk, constraints, or learning goals) into prioritized increments that can be delivered together. Each increment includes its priority order, outcomes, slicing notes, and an ordered list of stories.</p>
 <hr>
 <h2>Output file</h2>
-<p><strong>Where to write the deliverables (`&lt;deliverables-folder&gt;` resolution):</strong></p>
-<p>1. <strong>The path the user told you to use.</strong> If the user names a file or folder, use exactly that. 2. <strong>Where the engagement already keeps deliverables.</strong> Look at the workspace; if previous phase output (story map, Ubiquitous Language, `process.md`, `corrections-log.md`) already lives in a folder, write next to them in the <strong>same</strong> folder. 3. <strong>The workspace root.</strong> If neither applies, write to the workspace root.</p>
-<p>Do <strong>not</strong> assume a predetermined folder name like `stories/`, `docs/`, or `slices/`. The only DDD/story skill that creates a sub-folder is <strong>`abd-module-partition`</strong>.</p>
-<p><strong>File names:</strong> Default to the template filename — `thin-slicing.md`. Add a `&lt;name&gt;-` engagement prefix only when you need disambiguation — multiple products in the same workspace, or the user asks for it explicitly. Both `thin-slicing.md` and `&lt;name&gt;-thin-slicing.md` are valid.</p>
+<p><strong>Deliverables folder:</strong> see `../reference/agent-protocol.md` — Output file resolution.</p>
+<p><strong>File name:</strong> `thin-slicing.md`. Add a `&lt;name&gt;-` prefix only when disambiguation is needed.</p>
 <hr>
 <h2>Agent Instructions</h2>
-<p>1. <strong>Templates</strong></p>
-<p>Use <strong>every</strong> file under `templates/`.</p>
+<p>&gt; <strong>MANDATORY — read `../reference/agent-protocol.md` before starting. It defines read-gates, output file resolution, and the per-rule verdict format.</strong></p>
+<h3>1. Read context</h3>
+<p>Read these files:</p>
+<ul>
+<li><strong>`reference/concepts.md`</strong> — definitions of increments, thin slicing, and vertical vs horizontal slices.</li>
+<li><strong>`reference/examples.md`</strong> — output shape examples and weak patterns to avoid.</li>
+</ul>
+<h3>2. Generate</h3>
+<p>Read every file in <strong>`rules/`</strong>; author to those rules.</p>
+<p><strong>Produce the template:</strong></p>
 <div class="md-table-wrap"><table class="md-table"><thead><tr><th>Template</th><th>Produce</th></tr></thead><tbody><tr><td>`templates/thin-slicing.md`</td><td>Increments: <strong>name</strong>, <strong>outcome</strong>, optional <strong>slicing notes</strong>, ordered <strong>story</strong> bullets (<em>italic</em> domain terms where helpful). Optional product/context at top. No template `## Instructions` in the deliverable.</td></tr></tbody></table></div>
 <p><strong>New files under `templates/` later</strong> → one deliverable per file.</p>
-<p><strong>Pointers:</strong> Depth stays at <strong>increment + story list</strong>; point to <strong>`story-map.md`</strong> / graph for full hierarchy.</p>
-<p><strong>Neighbors:</strong> <strong>`abd-story-mapping`</strong> = map structure; <strong>`abd-thin-slicing`</strong> = <strong>order into slices</strong>; <strong>`abd-acceptance-criteria`</strong> / <strong>`abd-specification-by-example`</strong> = story detail <strong>after</strong> priorities.</p>
-<p>2. <strong>Rules</strong></p>
+<p><strong>Workflow steps:</strong></p>
+<p>1. <strong>Read inputs</strong> — story map / graph, PO or tech notes, known risks and dependencies. 2. <strong>Mark spine vs optional</strong> — mandatory core sequence vs alternates, enhancements, deep error paths (see `rules/map-sequential-spine-vs-optional-paths.md`). 3. <strong>Cut vertical slices</strong> — each increment is an <strong>end-to-end</strong> demonstrable path (even if manual/stubbed); avoid horizontal &quot;finish epic A, then epic B.&quot; 4. <strong>Name for value</strong> — increment titles = stakeholder-visible <strong>capability</strong>, not phase or stack labels. 5. <strong>Pull stories</strong> — under each increment, list <strong>verb-noun</strong> stories in <strong>flow order</strong>; don&#x27;t paste the whole map unless asked.</p>
+<p>&gt; <strong>Story names MUST be copied verbatim from `story-map.md` / `story-graph.json` — character-for-character, including every parenthetical qualifier.</strong> &gt; - `- Load FX Resource Catalog (FxRepo.data)` (correct — exact) &gt; - `- Load FX Resource Catalog` (WRONG — trimmed; creates an orphan; scanner will catch this) &gt; - `- System --&gt; Load Crowd from Repository` (WRONG — actor prefix; parser stores &quot;System&quot; as the name)</p>
+<p>6. <strong>Write the template file</strong> — fill <strong>`templates/thin-slicing.md`</strong> with the increments and stories (<em>italics</em> on domain terms where helpful). 7. <strong>Omit maintainer noise</strong> — do <strong>not</strong> copy the template&#x27;s `## Instructions` block into project deliverables.</p>
+<p><strong>Before:</strong> `abd-story-mapping` — produces the story map this skill slices. <strong>After:</strong> `abd-acceptance-criteria`, `abd-specification-by-example` — add story detail once priorities are set.</p>
+<h3>3. Validate</h3>
+<p>Run the story-name exact-match scanner first:</p>
+<pre><code>python skills/abd-thin-slicing/scanners/story-name-exact-match-scanner.py --workspace &lt;path-to-project&gt;</code></pre>
+<p>Exit code 1 means story name mismatches — <strong>do not proceed until it passes</strong>.</p>
+<p>Then run all scanners:</p>
+<pre><code>python skills/execute-skill-using-skills-rules/scripts/run_scanners.py --skill-root skills/abd-thin-slicing --workspace &lt;path-to-project&gt;</code></pre>
+<p>Then emit per-rule verdicts per `../reference/agent-protocol.md`.</p>
+<hr>
+<h2>Validate</h2>
 <ul>
-<li>Apply all prose in the bundled block below (from <strong>`rules/*.md`</strong>).</li>
-<li>Then <strong>review as peer</strong>: each rule’s DO/DON’T and examples—be critical.</li>
+<li>Each increment shows a vertical path (input → processing → outcome), not a layer.</li>
+<li>Increment names are stakeholder-visible capabilities, not internal milestones.</li>
+<li>Quality trade-offs are named (&quot;Manual…&quot; → &quot;Automated…&quot;), not hidden.</li>
+<li>Story names in `thin-slicing.md` are character-for-character identical to the source story map.</li>
 </ul>
-<p><strong>Reviewers:</strong> product owner (value/order), tech lead (risk/feasibility), domain expert (spine matches reality).</p>
-<p>3. <strong>Mechanical checks (execute-skill-using-skills-rules)</strong></p>
-<p>Always run the story-name exact-match scanner after producing `thin-slicing.md`:</p>
-<pre><code>   python skills/abd-thin-slicing/scanners/story-name-exact-match-scanner.py --workspace &lt;path-to-project&gt;</code></pre>
-<p>This verifies every story name in `thin-slicing.md` is character-for-character identical to a story in `story-graph.json`. Exit code 1 means mismatches exist -- <strong>do not proceed until the scanner passes</strong>.</p>
-<p>To run all scanners via the runner:</p>
-<pre><code>   python skills/execute-skill-using-skills-rules/scripts/run_scanners.py --skill-root skills/abd-thin-slicing --workspace &lt;path-to-project&gt;</code></pre>
-<p>Refresh bundled rules after editing <strong>`rules/`</strong>:</p>
-<pre><code>   python skills/execute-skill-using-skills-rules/scripts/bundle_rules_into_skill_md.py --skill-root skills/abd-thin-slicing</code></pre>
-<p>python skills/execute-skill-using-skills-rules/scripts/run_scanners.py --skill-root skills/abd-thin-slicing --workspace &lt;path-to-project&gt;</p>
-<pre><code>
-4. **Assembling this skill**
-
-After changing **`rules/*.md`**:
-</code></pre>
-<p>python skills/execute-skill-using-skills-rules/scripts/bundle_rules_into_skill_md.py --skill-root skills/abd-thin-slicing</p>
-<pre><code>
----
-
-## Constraints (apply while you work)
-
-| Check | Pass means |
-| --- | --- |
-| **Vertical** | Each increment shows input → processing → persistence/feedback → visible outcome (minimal is OK). |
-| **Horizontal** | **Reject** plans that complete one layer/epic with no journey until the end. |
-| **Marketable title** | Stakeholder recognizes the **capability**—not “Sprint 3” or “API layer.” |
-| **Quality ramp** | Early slice may be manual/stub/low NFR; later slices **add** quality with **clear** names. |
-| **Risk** | Scary integration/deploy/perf tackled in **early** increments with **real enough** exercise. |
-| **Spine** | Lean mandatory path; optional work **labeled**, not sequenced as if mandatory. |
-| **Artifacts** | `thin-slicing.md` reflects the current slice plan. |
-
----
-
-## Example output shape
-</code></pre>
-<p>Increment 1: Manual checkout proof — clerk confirms payment; order saved to file; customer sees confirmation id. Stories: Place order, Record payment (manual), Save order file, Send confirmation email</p>
-<p>Increment 2: Automated payment — same journey with payment gateway and database. Example stories:</p>
-<pre><code>Increment 1: Manual inventory update — staff marks stock changes on paper; customer sees in-store signage.
-  Stories: Update inventory by hand, Display paper signage, Record sale manually
-
-Increment 2: Partial automation — barcode scanner updates inventory file; signage updates printed daily.
-  Stories: Scan item to update inventory file, Generate print signage from file, Semi-automated sale logging
-
-Increment 3: Full automation — purchase updates inventory and digital display in real time.
-  Stories: Process sale in POS system, Decrement inventory automatically, Update digital signage live</code></pre>
-<p>These sample stories demonstrate end-to-end slices that cover minimal input, processing, persistence, and outcome, while showing the journey become more automated and robust with each increment.</p>
-<pre><code>
-**Weak patterns to fix:** phase numbers with no outcome; “all UI then all API”; three auth methods as spine steps 2–4 when one suffices.
-
----
-
-&lt;!-- execute_rules:bundle_rules:begin --&gt;
-### Rule: Apply quality trade-offs for a minimal spine
-
-The **first** thin slices deliberately trade away polish so the **spine** stays small and **end-to-end**. Document what is manual, stubbed, hard-coded, or unvalidated in early increments; add automation, dynamic data, validation, and richer UX in **later** increments with **clear names** (e.g. “Manual …” → “Automated …”).
-
-#### DO
-
-- Start with **manual** ops, **stubbed** integrations, or **hard-coded** data when that keeps a **full journey** testable sooner.
-- Use **bare-bones** forms or flows in increment 1; add validation and UX depth later.
-- Name increments so **quality level** is obvious—not “Phase 1 / Phase 2” or “Basic / Advanced” without saying *what* got better.
-</code></pre>
-<p>Increment 1: Manual order confirmation — clerk records payment in spreadsheet; customer sees email from template. Increment 2: Automated payment — same journey; gateway charges card; clerk step removed.</p>
-<pre><code>
-#### DON&#x27;T
-
-- Put **full** automation, dynamic pricing, validation, error handling, and polished UX all in the **first** increment “because we’re agile.”
-- Organize increments as **horizontal layers** (all of “order entry,” then all of “payment”)—that delays end-to-end learning.
-- Leave trade-offs **unspoken**—reviewers should see why the slice is thin.
-
-### Rule: Decision prompts for increments
-
-Before locking increments, answer **why this order** and **what you are optimizing**. Use the prompts below (from prioritization guardrails) as a checklist; capture conclusions in **slicing notes** or team docs.
-
-#### Questions to settle
-
-- Which map areas carry the most **business or delivery risk**?
-- Which areas deliver the most **value if shipped early**?
-- Which are **complex relative to value**?
-- Should thin slices be as **end-to-end** as possible? (Default for this skill: **yes**, unless constraints say otherwise.)
-- What must be **reused** across many stories—validate that **early**?
-- What **program constraints** (compliance, date, dependency) force order?
-- Which **users or segments** must go first so others can follow?
-
-#### Thin-slicing dimensions (how you make a slice thinner)
-
-Pick explicitly when useful: **users** (role/context first); **workflow** (simple path before variants); **interfaces** (one channel first); **data variations** (one type first); **environment** (one deployment context); **business rules** (subset of rules first); **subjective quality** (lower NFR bar for early adopters); **spike** (throwaway learning).
-
-#### How increments are grouped (strategy options)
-
-Examples: **end-to-end journey**; **validate impact / feasibility**; **maximize earned value**; **increase reuse / reduce dependency risk**; **quick win**; **validate impact** with users (Wizard of Oz, landing page, stubs, etc.).
-
-#### What value this increment optimizes
-
-Examples: **end-to-end journey**; **earned value for a bounded capability**; **quick win**; **stakeholder validation**.
-
-#### Earliest uncertainty to validate
-
-Examples: **architecture / reuse**; **impact** (do users care?); **operations** (deploy, monitor, support); **system integration** (external APIs, partners).
-
-#### DO
-
-- Tie **Increment 1** to the **riskiest** or **most informative** uncertainty you can address in a **short vertical** slice.
-- State **which dimension** you sliced on when it helps stakeholders reason about scope.
-
-#### DON&#x27;T
-
-- Sequence increments only by **component build order** with no **outcome** or **learning** rationale.
-- Skip **stakeholder-visible** naming—prompts should surface in **increment titles** and **outcomes**, not stay in a private worksheet only.
-
-### Rule: Design vertical-slice increments
-
-Each increment is a **vertical slice**: a **working** path from **input → processing → persistence → visible outcome**, pulling **partial** depth from **multiple** epics or features as needed. Avoid **horizontal** plans that finish one epic before the next—those delay end-to-end validation.
-
-#### DO
-
-- Include the **smallest** set of behaviors that still **demonstrates** the journey, across whatever parts of the map touch that journey.
-- Show **integration points** early—even if crudely (manual handoff, file store, simple UI).
-- Make **partial completion** visible per epic when helpful (e.g. “Invoice epic2/5 in this increment”) so progress is honest.
-</code></pre>
-<p>Increment 1: Place order → manual payment recording → save to file → confirmation email (stub). Increment 2: Same flow → real gateway → database → richer confirmation.</p>
-<pre><code>
-#### DON&#x27;T
-
-- Plan “Increment 1 = all of character creation, Increment 2 = all of storage” with **no** playable journey until late.
-- Ship an increment that stops mid-air (**no** persistence, **no** visible result) and call it “done.”
-- Optimize for **component completeness** over **journey demonstrability**.
-
-### Rule: Identify marketable increments
-
-**Increments** are named and ordered for **stakeholders**: business outcomes and user capabilities they can **recognize**. Names should **sell** the next slice of value, not describe your tech stack.
-
-#### DO
-
-- Use titles like *Basic phone activation*, *Self-service order portal*, *Automated invoicing*—outcomes people can demo or buy.
-- Align story lists under each increment to that **one** headline outcome.
-
-#### DON&#x27;T
-
-- Name increments *API endpoints*, *Database schema*, *React components*, or *Sprint 3* without a **capability** story.
-- Hide value behind **internal** milestones when an **external** outcome is understandable.
-</code></pre>
-<p>Wrong: MVI 1 — Postgres migration Right: MVI 1 — Customers can complete checkout and see order status</p>
-<pre><code>
-### Rule: Map sequential spine vs optional paths
-
-The **spine** is the **minimum mandatory sequence** that delivers core value. **Optional** items are alternates (only one auth method needed), **enhancements** (customization after baseline works), and **non–happy-path** depth that can follow once the spine is marketable. Thin slicing **pulls from the spine first**; optional work lands in **later** increments or parallel tracks with clear markers.
-
-#### DO
-
-- Sequence **mandatory** steps in order; mark **alternates** (e.g. OAuth vs password) as optional so you do not serialize independent choices.
-- Treat **dashboard customization**, **sharing**, **extra reports** as enhancements **after** “user sees default dashboard” works.
-- Treat **deep error/retry** paths as optional **relative to** the first marketable happy path—still implement them, but not always in increment 1.
-
-#### DON&#x27;T
-
-- List **three login methods** as three sequential spine steps when **one** suffices for the slice.
-- Elevate **nice-to-haves** to the same **mandatory** rank as “user can complete core task.”
-- Forget **markers** (optional, alternate, enhancement) on the map or in metadata—reviewers cannot slice what they cannot distinguish.
-</code></pre>
-<p>Spine: Enter credentials → Authenticate (one method) → View dashboard. Optional: Social login, layout customization, export to PDF.</p>
-<pre><code>
-### Rule: Prioritize architectural risk validation
-
-**Early** increments should **prove** the scary parts: real **integrations**, **performance** with realistic load, **deployment** and ops, **unfamiliar** frameworks—inside a **short end-to-end** flow. Deferring risk behind mocks or “local only” builds invites late rework.
-
-#### DO
-
-- Pull the **riskiest integration** into **Increment 1** with the **simplest** journey that still hits the real system (auth, response shape, limits).
-- Deploy **something** real to the target environment early; validate connectivity, config, and observability.
-- Size performance or data-volume tests to **match** early concerns (e.g. report with 10k rows if that is the fear).
-
-#### DON&#x27;T
-
-- Spend increments 1–2 on **perfect UI** while **payment**, **identity**, or **hosting** stays mocked or unspecified.
-- Assume **infrastructure** “will be fine”—prove it with a **thin** feature on **real** infra.
-- Treat **“we’ll swap the mock later”** as risk reduction without a dated, vertical slice that uses the real dependency.
-</code></pre>
-<p>Good: Increment 1 — place order → <strong>real</strong> gateway (happy path only) → DB row → confirmation page. Weak: Increment 1 — full cart UX; payment stub; “real payment in increment 4.”</p>
-<pre><code>&lt;!-- execute_rules:bundle_rules:end --&gt;
-</code></pre></div>
+<hr></div>
 
 </div>
 </div>

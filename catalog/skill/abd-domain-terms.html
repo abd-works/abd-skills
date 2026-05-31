@@ -924,7 +924,7 @@ a.cap-card:hover .cap-card__icon {
     </div>
     <a class="back-link" href="../skills.html">← All skills</a>
     <h1>domain-terms</h1>
-    <p class="tagline">Extract domain terms, group them into Key Abstractions, and produce a single domain-terms file — the shared vocabulary and building blocks for the module.</p>
+    <p class="tagline">Extract domain terms, group into Key Abstractions; single domain-terms file per module.</p>
   </div>
 </header>
 
@@ -963,188 +963,49 @@ This is a single-pass skill. It does not produce a flat term list first and a KA
 <details class="entry-md-section" id="purpose"><summary class="entry-md-section__summary">Purpose</summary><div class="entry-md-section__body"><p>Build a shared, rigorous vocabulary for each module — the terms, behaviors, and rules that domain experts and modelers agree on — and immediately structure them into <strong>Key Abstractions</strong> (named building blocks) so that every conversation, document, and downstream artifact uses the same language without translation.</p>
 <p>This is a single-pass skill. It does not produce a flat term list first and a KA file second. It reads source, identifies terms, groups them into KAs, and writes one file.</p>
 <hr></div></details>
-<details class="entry-md-section" id="when-to-use"><summary class="entry-md-section__summary">When to use</summary><div class="entry-md-section__body"><ul>
-<li>The user asks to &quot;extract Domain Terms,&quot; &quot;define terms,&quot; &quot;identify key abstractions,&quot; &quot;build the Domain Terms,&quot; or &quot;what are the building blocks.&quot;</li>
-<li>The next modeling step needs defined term behavior and stable domain units — not just a flat name list.</li>
+<details class="entry-md-section" id="output-file"><summary class="entry-md-section__summary">Output file</summary><div class="entry-md-section__body"><p><strong>Deliverables folder:</strong> see `../reference/agent-protocol.md` — Output file resolution.</p>
+<p><strong>File name:</strong> `domain-terms.md`. Add a `&lt;name&gt;-` prefix only when disambiguation is needed. For multi-module engagements: `&lt;deliverables-folder&gt;/modules/&lt;module-name&gt;-domain-terms.md`.</p>
+<hr></div></details>
+<details class="entry-md-section" id="agent-instructions"><summary class="entry-md-section__summary">Agent Instructions</summary><div class="entry-md-section__body"><p>&gt; <strong>MANDATORY — read `../reference/agent-protocol.md` before starting. It defines read-gates, output file resolution, and the per-rule verdict format.</strong></p>
+<h3>1. Read context</h3>
+<p>Read these files:</p>
+<ul>
+<li><strong>`reference/concepts.md`</strong> — Key Abstractions, domain terms, the two tests, three outcomes, boundary terms, and the consistent file shape.</li>
+</ul>
+<h3>2. Generate</h3>
+<p>Read every file in <strong>`rules/`</strong>; author to those rules.</p>
+<p><strong>Produce output from every template:</strong></p>
+<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Template</th><th>What to produce</th></tr></thead><tbody><tr><td>`templates/domain-terms-template.md`</td><td>The domain terms file with KA groupings, behavioral bullets, per-term decisions and references.</td></tr></tbody></table></div>
+<p><strong>Quality bar:</strong> A typical module has 3–8 Key Abstractions. Every KA intro paragraph opens with &quot;<em>KAName</em> is …&quot; and weaves role, boundary, responsibilities, relationships, and invariants. Every domain term in behavioral bullets and KA intro paragraphs is <em>italicized</em>. Per-term `### Decisions made` and `### References` with fenced `source` blocks. State marker set to `domain-terms` in front matter.</p>
+<h3>3. Validate</h3>
+<p>Run the scanners:</p>
+<pre><code>python skills/execute-skill-using-skills-rules/scripts/run_scanners.py \
+  --skill-root skills/abd-domain-terms \
+  --workspace &lt;path-to-output&gt;</code></pre>
+<p>Then emit per-rule verdicts per `../reference/agent-protocol.md`.</p>
+<hr></div></details>
+<details class="entry-md-section" id="validate"><summary class="entry-md-section__summary">Validate</summary><div class="entry-md-section__body"><p><strong>Goal:</strong> Inspect what was built — read the artifacts as reviewers.</p>
+<ul>
+<li><strong>One file</strong> — named `[&lt;name&gt;-]domain-terms.md`. No separate key-abstractions file.</li>
+<li><strong>KA inventory in header</strong> — a `<strong>Key Abstractions (term grouping)</strong>` list names every KA and its subordinate terms.</li>
+<li><strong>Every KA has an intro paragraph</strong> — opens with &quot;<em>KAName</em> is …&quot;.</li>
+<li><strong>No separate KA-as-term entry</strong> — the KA intro paragraph is the definition.</li>
+<li><strong>Behavioral bullets per term</strong> — at least one per `### term`.</li>
+<li><strong>Decisions and References per term</strong> — immediately after each term&#x27;s bullets, not bundled per KA.</li>
+<li><strong>Separators</strong> — `---` after every term block.</li>
+<li><strong>Domain terms italicized</strong> — every domain term in bullets and KA intro paragraphs.</li>
+<li><strong>Boundary terms have owners</strong> — every `### boundary_term` carries `<em>(owned by: Module)</em>`.</li>
+<li><strong>State marker</strong> — front matter reads `state: domain-terms`.</li>
+<li><strong>No bundle markers</strong> — `SKILL.md` has no `&lt;!-- execute_rules:bundle_rules --&gt;` markers.</li>
 </ul>
 <hr></div></details>
-<details class="entry-md-section" id="core-concepts"><summary class="entry-md-section__summary">Core concepts</summary><div class="entry-md-section__body"><h3>Key Abstraction (KA)</h3>
-<p>A <strong>Key Abstraction</strong> is a named domain building block that groups related terms. The KA name is itself the primary term — the concept that anchors the group, owns the core responsibility, and enforces the rules that keep the abstraction coherent.</p>
-<p>The KA&#x27;s intro paragraph opens with a definition of the KA as a term: &quot;<em>KAName</em> is …&quot; and weaves together five aspects:</p>
-<ul>
-<li><strong>Role</strong> — the unique purpose this KA serves that no other does.</li>
-<li><strong>Boundary</strong> — what it owns (single source of truth), what&#x27;s external, how it collaborates.</li>
-<li><strong>Relationships</strong> — explicit connections between terms and other KAs.</li>
-<li><strong>Responsibilities</strong> — the specific behaviors it performs and services it provides.</li>
-<li><strong>Rules / invariants</strong> — non-negotiable truths that must always hold.</li>
-</ul>
-<p>There is no separate `### ka_name_as_a_term` entry. The KA intro paragraph is the term definition. Subordinate terms follow as `### term` blocks beneath it.</p>
-<h3>Domain term</h3>
-<p>A named concept from the module&#x27;s domain. For each term, the skill captures <em>what it does</em> — behavior, interactions, rules, and flows — as short prose statements grounded in source material. Every claim traces back to the source it came from.</p>
-<h3>Two tests for every KA candidate</h3>
-<p><strong>1. Independence test.</strong> Does this concept exist and make sense on its own, without the parent it came from? If it has no meaning outside another concept, it stays as a subordinate term, not its own KA.</p>
-<p><strong>2. Module-fit test.</strong> Does this concept fundamentally connect to the core purpose of this module, or does it only touch it tangentially? If only one of its many uses relates to this module, it doesn&#x27;t belong here.</p>
-<p>A typical module has 3–8 Key Abstractions.</p>
-<h3>Three outcomes for each candidate term</h3>
-<ul>
-<li><strong>Keep under a KA</strong> — passes both tests. Group under the right KA.</li>
-<li><strong>Move to boundary</strong> — independent, but this module depends on it without owning it. Add to `# Boundary Domain` with `<em>(owned by: Module)</em>`.</li>
-<li><strong>Move to another module</strong> — independent, but this module does not depend on it at all. Record in `<strong>Moved to other modules</strong>`.</li>
-</ul>
-<h3>Boundary terms</h3>
-<p>A concept this module depends on but does not own. Another module is the single source of truth for it. Appears under `# Boundary Domain` as `### term <em>(owned by: Module)</em>`.</p>
-<hr></div></details>
-<details class="entry-md-section" id="output-file"><summary class="entry-md-section__summary">Output file</summary><div class="entry-md-section__body"><p>One file:</p>
-<pre><code>&lt;deliverables-folder&gt;/[&lt;name&gt;-]domain-terms.md</code></pre>
-<p>Default filename: `domain-terms.md`. Add `&lt;name&gt;-` prefix only for disambiguation (multiple products in same workspace, or user asks). For multi-module engagements: `&lt;deliverables-folder&gt;/modules/&lt;module-name&gt;-domain-terms.md`.</p>
-<p><strong>Resolving `&lt;deliverables-folder&gt;`:</strong></p>
-<p>1. The path the user told you to use. 2. Where the engagement already keeps deliverables. 3. The workspace root.</p>
-<hr></div></details>
-<details class="entry-md-section" id="consistent-shape"><summary class="entry-md-section__summary">Consistent shape</summary><div class="entry-md-section__body"><p>(empty)</p></div></details>
-<details class="entry-md-section" id="kaname"><summary class="entry-md-section__summary">KAName</summary><div class="entry-md-section__body"><p>KAName is [definition as term — role, boundary, responsibilities, relationships, invariants woven naturally. This paragraph IS the term definition for the KA.]</p>
-<h3>subordinate_term</h3>
-<ul>
-<li>behavioral line with <em>italicized domain terms</em></li>
-</ul>
-<h3>Decisions made</h3>
-<ul>
-<li>independence-test result, module-fit result, grouping call</li>
-</ul>
-<h3>References</h3>
-<p><strong>Ref — title</strong> Source: ... Locator: ... Extract: whole</p>
-<pre><code>verbatim</code></pre>
-<hr>
-<h3>another_term</h3>
-<ul>
-<li>behavioral line with <em>italicized domain terms</em></li>
-</ul>
-<h3>References</h3>
-<p><strong>Ref — title</strong> Source: ...</p>
-<hr>
-<pre><code>
----</code></pre></div></details>
-<details class="entry-md-section" id="build"><summary class="entry-md-section__summary">Build</summary><div class="entry-md-section__body"><p>1. <strong>Read the source.</strong> Read all source material the user provides or the engagement makes available. If a `&lt;name&gt;-module-partition.md` exists, follow its term list and Refs. 2. <strong>Extract terms.</strong> Identify all candidate terms in the source — named concepts with behavior, rules, or interactions. 3. <strong>Apply independence and module-fit tests</strong> to every candidate. Record outcomes: keep under KA, move to boundary, or move out entirely. 4. <strong>Group into Key Abstractions.</strong> Name each KA from the source&#x27;s own vocabulary. A typical module has 3–8 KAs. List the grouping in the file header under `<strong>Key Abstractions (term grouping)</strong>`. 5. <strong>Write each KA block</strong> under `# Core Domain`:</p>
-<ul>
-<li>`## KAName` heading (no bold).</li>
-<li>Intro paragraph that opens with &quot;<em>KAName</em> is …&quot; — this is the term definition for the KA itself. Include role, boundary, responsibilities, relationships, and invariants woven naturally. Make it rich enough for a domain expert to challenge.</li>
-<li>`### subordinate_term` (no bold) for each subordinate term, with behavioral bullets using <em>italicized domain terms</em>.</li>
-<li>`### Decisions made` and `### References` per term, immediately after its bullets.</li>
-<li>`---` separator after every term block.</li>
-</ul>
-<p>6. <strong>Write boundary terms</strong> under `# Boundary Domain` as `### boundary_term <em>(owned by: Module)</em>`, behavioral bullets, per-term `### Decisions made` and `### References`. 7. <strong>Italicize every domain term</strong> in behavioral bullets and KA intro paragraphs. 8. <strong>Set state marker</strong> to `domain-terms`. 9. <strong>Write the file</strong> to `&lt;deliverables-folder&gt;/&lt;name&gt;-domain-terms.md`. Follow `templates/domain-terms-template.md`.</p>
-<hr></div></details>
-<details class="entry-md-section" id="validate"><summary class="entry-md-section__summary">Validate</summary><div class="entry-md-section__body"><p>1. <strong>One file.</strong> Named `&lt;name&gt;-domain-terms.md`. No separate key-abstractions file. 2. <strong>KA inventory in header.</strong> A `<strong>Key Abstractions (term grouping)</strong>` list names every KA and its subordinate terms. 3. <strong>No Core terms flat list.</strong> Do not add a `<strong>Core terms</strong>` bullet list in the header — terms are listed in the KA grouping and as headings below. 4. <strong>Every KA has an intro paragraph.</strong> Opens with &quot;<em>KAName</em> is …&quot; — this serves as the term definition for the KA itself. 5. <strong>No separate KA-as-term entry.</strong> The KA intro paragraph is the definition. Do not add a `### ka_name` block that duplicates it. 6. <strong>Every subordinate term has behavioral bullets.</strong> At least one bullet per `### term`. 7. <strong>Decisions and References per term.</strong> `### Decisions made` (when modeling calls were made) and `### References` immediately after each term&#x27;s bullets, not bundled per KA. 8. <strong>Separators.</strong> A `---` horizontal rule follows every term block (after its References), before the next heading. 9. <strong>Every Ref has a source block.</strong> Every `<strong>Ref —</strong>` is followed by a fenced ```source``` block with verbatim text. 10. <strong>Domain terms italicized.</strong> Every domain term in behavioral bullets and KA intro paragraphs. 11. <strong>No bold on headings.</strong> `## KAName` and `### term` carry no bold. 12. <strong>Boundary terms have owners.</strong> Every `### boundary_term` heading carries `<em>(owned by: Module)</em>`. 13. <strong>State marker.</strong> Front matter reads `state: domain-terms`.</p>
-<hr>
-<p>&lt;!-- execute_rules:bundle_rules:begin --&gt;</p>
-<h3>Rule: Single output file — domain-terms.md</h3>
-<p><strong>Scanner:</strong> Manual review</p>
-<p>This skill produces exactly one file: `&lt;name&gt;-domain-terms.md`. It does not produce a separate key-abstractions file, and it does not enrich a prior file in place.</p>
-<h4>DO</h4>
-<ul>
-<li>Write all output to `&lt;name&gt;-domain-terms.md`.</li>
-</ul>
-<h4>DO NOT</h4>
-<ul>
-<li>Produce a flat `domain-terms.md` then a separate `key-abstractions.md`.</li>
-<li>Enrich a prior file in place.</li>
-</ul>
-<h3>Rule: KA intro paragraph is the term definition — no separate KA-as-term entry</h3>
-<p><strong>Scanner:</strong> AI review</p>
-<p>The KA&#x27;s intro paragraph opens with &quot;<em>KAName</em> is …&quot; and serves as the full term definition for the KA itself. There is no separate `### ka_name_as_a_term` block beneath the intro.</p>
-<h4>DO</h4>
-<ul>
-<li>Open the KA intro with &quot;<em>KAName</em> is [definition]…&quot; and weave in role, boundary, responsibilities, relationships, and invariants naturally.</li>
-</ul>
-<p><strong>Example (pass):</strong></p>
-<pre><code>  ## Crowd
-
-  A *crowd* is a named collection of characters sharing a scene position and a
-  common display configuration. It owns the roster of *crowd members*...</code></pre>
-<h4>DO NOT</h4>
-<ul>
-<li>Add a `### crowd` heading that repeats the intro as bullets.</li>
-</ul>
-<p><strong>Example (fail):</strong></p>
-<pre><code>  ## Crowd
-
-  [intro paragraph]
-
-  ### crowd                   ← redundant; the intro already IS the definition
-  - a crowd is a named collection of characters</code></pre>
-<h3>Rule: No Core terms flat list in header</h3>
-<p><strong>Scanner:</strong> Manual review</p>
-<p>Do not add a `<strong>Core terms</strong>: - term1 - term2` bullet list in the file header. Terms appear in the `<strong>Key Abstractions (term grouping)</strong>` list and as `### term` headings in the body.</p>
-<h4>DO</h4>
-<ul>
-<li>Use only `<strong>Key Abstractions (term grouping)</strong>` in the header.</li>
-</ul>
-<h4>DO NOT</h4>
-<ul>
-<li>Add `<strong>Core terms</strong>:` flat bullet list.</li>
-</ul>
-<h3>Rule: Independence and module-fit tests applied; decisions recorded</h3>
-<p><strong>Scanner:</strong> Manual review</p>
-<p>Every KA must pass both tests. Every subordinate-term decision (stay, boundary, move) must be recorded under `### Decisions made`.</p>
-<h4>DO</h4>
-<ul>
-<li>Record each independence-test result, module-fit result, and grouping choice under `### Decisions made`.</li>
-</ul>
-<h4>DO NOT</h4>
-<ul>
-<li>Promote every term to its own KA without analysis.</li>
-</ul>
-<h3>Rule: Domain terms italicized in behavioral lines and KA intro</h3>
-<p><strong>Scanner:</strong> AI review</p>
-<p>Every domain term in behavioral bullets and KA intro paragraphs must be italicized using `<em>term</em>`.</p>
-<h4>DO</h4>
-<ul>
-<li>`A <em>check</em> is <em>d20</em> + <em>trait rank</em> vs <em>DC</em>; equal or above is <em>success</em>.`</li>
-</ul>
-<h4>DO NOT</h4>
-<ul>
-<li>`A check is d20 + trait rank vs DC; equal or above is success.`</li>
-</ul>
-<h3>Rule: Per-term Decisions made and References; separators between terms</h3>
-<p><strong>Scanner:</strong> Manual review</p>
-<p>Every term block has its own `### Decisions made` (when modeling calls were made) and `### References` immediately after its behavioral lines, followed by `---`.</p>
-<h4>DO</h4>
-<ul>
-<li>Place `### Decisions made` and `### References` per term, not bundled per KA.</li>
-<li>Follow each term block with `---`.</li>
-</ul>
-<h4>DO NOT</h4>
-<ul>
-<li>Bundle all references at the end of the KA.</li>
-<li>Omit `---` separators between term blocks.</li>
-</ul>
-<h3>Rule: Boundary terms have owners</h3>
-<p><strong>Scanner:</strong> Manual review</p>
-<p>Every `### boundary_term` heading under `# Boundary Domain` must carry `<em>(owned by: Module)</em>` naming exactly one owning module.</p>
-<h4>DO</h4>
-<ul>
-<li>`### <strong>content</strong> <em>(owned by: Content Management)</em>`</li>
-</ul>
-<h4>DO NOT</h4>
-<ul>
-<li>List multiple owning modules.</li>
-<li>Omit the `<em>(owned by: …)</em>` suffix.</li>
-</ul>
-<h3>Rule: No class-level commitments</h3>
-<p><strong>Scanner:</strong> Manual review</p>
-<p>No UML stereotypes, typed properties, method signatures, or cardinality notation. Behavioral lines stay as plain prose.</p>
-<h4>DO</h4>
-<ul>
-<li>Keep behavioral lines as plain prose bullets with <em>italicized domain terms</em>.</li>
-</ul>
-<h4>DO NOT</h4>
-<ul>
-<li>Use `&lt;&lt;Entity&gt;&gt;`, typed properties, method signatures, or cardinality.</li>
-</ul>
-<p>&lt;!-- execute_rules:bundle_rules:end --&gt;</p></div></details>
 </div>
 <hr class="entry-divider">
 <div class="entry-contents-files">
 <ul class="file-list file-list--root">
+<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>reference/</strong><span class="file-meta"> → Folder (1 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/domain-driven-design/skills/abd-domain-terms/reference/concepts.md" target="_blank" rel="noopener noreferrer"><strong>concepts.md</strong></a><span class="file-meta"> → Domain Terms — Concepts</span></li>
+</ul></div></details></li>
 <li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>rules/</strong><span class="file-meta"> → Practice rules (DO/DON&#x27;T) and constraints used with scanners.</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/domain-driven-design/skills/abd-domain-terms/rules/boundary-terms-have-owner.md" target="_blank" rel="noopener noreferrer"><strong>boundary-terms-have-owner.md</strong></a><span class="file-meta"> → scanner: boundary-terms-have-owner</span></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/domain-driven-design/skills/abd-domain-terms/rules/refs-per-term.md" target="_blank" rel="noopener noreferrer"><strong>refs-per-term.md</strong></a><span class="file-meta"> → scanner: refs-per-term</span></li>

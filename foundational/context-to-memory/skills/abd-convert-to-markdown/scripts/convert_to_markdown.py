@@ -3,8 +3,8 @@ Convert source files to markdown for agent memory.
 
 **Pipeline:** This is **step 1** of the memory pipeline. Full order (convert → assess
 headings → draft spec → chunk → embed), quality loops, and bespoke post-processors
-live in ``content/parts/process.md`` and ``content/parts/library/convert-to-markdown.md``.
-PDF post-processing details: ``content/parts/library/pdf-extraction-advanced.md``.
+live in ``references/convert-to-markdown.md``.
+PDF post-processing details: ``references/pdf-extraction-advanced.md``.
 
 Usage:
   python convert_to_markdown.py --memory <source_path>   # folder: all supported files

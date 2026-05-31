@@ -14,9 +14,9 @@ description: Read rules before work, validate output (AI pass + scanner pass), a
 
 **What to point at:** Treat the skill being directly executed by the user or the agent as the center of attention — the **`--skill-root`** package. Read **its** **`rules/`**, run scanners against **that** skill, and validate **its** output.
 
-1. **When an agent uses a skill to produce output, have it read that skill's rules first** — Before substantive work, go through **`rules/*.md`** and the **Bundled rules** block in **`SKILL.md`**. The point is not "I saw the headings"; it is **using the skill according to those rules** (constraints, DO/DON'T, examples), not generic habits or a skim of **`SKILL.md`** alone. You can make that a **hard gate**: no main task until the pass is done. Walk it with [**quality-steps-checklist.md**](./templates/quality-steps-checklist.md) § Step 1.
+1. **When an agent uses a skill to produce output, have it read that skill's rules first** — Before substantive work, read every file in **`rules/`** and every file in **`reference/`** (if that folder exists) with the intent to **run the skill according to those rules**, not to skim or ignore them. The point is not "I saw the headings"; it is using the skill according to those rules (constraints, DO/DON'T, examples), not generic habits or a skim of **`SKILL.md`** alone. You can make that a **hard gate**: no main task until the pass is done. Walk it with [**quality-steps-checklist.md**](./templates/quality-steps-checklist.md) § Step 1.
 
-2. **Validate output against the rules** — Do **both**: an **AI / rules pass** (read **`rules/*.md`** and bundled rules; judge whether the deliverable fits — not only "scanners green") **and** a **scanner pass** (**`run_scanners.py`** on **`--workspace`**). Treat that pair as the normal "does this match the rules?" workflow. Save scanner output somewhere durable (for example **`scanner-report/`**); fix failures and re-run; the rules pass still matters even when scanners pass.
+2. **Validate output against the rules** — Do **both**: an **AI / rules pass** (read every file in **`rules/`** for **`--skill-root`**; judge whether the deliverable fits — not only "scanners green") **and** a **scanner pass** (**`run_scanners.py`** on **`--workspace`**). The AI pass must emit a **per-rule verdict** for every rule file — enumerate each rule and state PASS or FAIL with the offending line or reason. No rule may be silently skipped. Treat that pair as the normal "does this match the rules?" workflow. Save scanner output somewhere durable (for example **`scanner-report/`**); fix failures and re-run; the rules pass still matters even when scanners pass.
 
 3. **After something is wrong, follow the correction process** — See **`skill-helpers/instructions/log-and-fix-skill-errors`** for the full loop: identify, log, re-generate, iterate on the **output** until correct, then optionally improve the source. Put the log under the engagement or project tree — not inside the installed skill package.
 
@@ -27,14 +27,13 @@ For this skill to work the **target skill** must have **`rules/*.md`** — the r
 
 | Piece | Role |
 | --- | --- |
-| **`SKILL.md`** | Instructions for the agent; may include rule prose **between** `execute_rules:bundle_rules` markers (filled by the skill builder) |
-| **`rules/<name>.md`** | **Source of truth** for rule prose — edit here, not inside the bundled block |
+| **`SKILL.md`** | Thin router: purpose, when-to-use, output file resolution, read-gates, validate gate. No inlined rule prose. |
+| **`rules/<name>.md`** | **Source of truth** for rule prose — the only place rule text lives. |
+| **`reference/*.md`** | Concept teaching, examples, heuristics — read on demand before authoring. |
 | **`scanners/*-scanner.py`** | Optional: CLI entrypoint per concern (beside scanner modules); linked from rule frontmatter via **`scanner:`** |
 | **`scripts/scanner_bases/`** | Shared **Python** package: abstract **`Scanner`**, **`Violation`**, **`EvalPaths`**, scan-context dataclasses, **`SimpleRule`**, **`vocabulary_helper`**. Story-domain types (**`StoryScanner`**, **`StoryMap`**, …) live in sibling **[story-graph-ops](../story-graph-ops/)** (**`story_map`**, **`story_scanner`**, … on **`PYTHONPATH`**). See **`scripts/scanner_bases/README.md`**. **`scripts/scanner_runner.py`** runs any scanner with a caller-built **`ScanFilesContext`**. **`run_scanners.py`** prepends **`…/story-graph-ops/scripts`** then **`…/execute-skill-using-skills-rules/scripts`** to **`PYTHONPATH`**. |
 
 Rule file → scanner: put **`scanner: <stem>`** in the YAML frontmatter of **`rules/<stem>.md`** (or equivalent); the CLI script is expected at **`scanners/<stem>-scanner.py`** (next to scanner modules under **`scanners/`**).
-
-Text **between** the **`execute_rules:bundle_rules`** markers in **`SKILL.md`** is **generated** — editing it by hand is wasted work. Always change **`rules/*.md`**, then use the skill builder to re-bundle.
 
 ## Commands
 
@@ -42,7 +41,9 @@ Text **between** the **`execute_rules:bundle_rules`** markers in **`SKILL.md`** 
 
 **1. Validate output (AI pass + scanner pass)** — Treat this as **one** intent: check a deliverable against the **target** skill's rules **and** run mechanical scanners. Do **not** skip straight to the script; the AI pass catches what scanners miss.
 
-- **A — Rules / AI pass:** With **`rules/*.md`** and the **Bundled rules** in **`SKILL.md`** for **`--skill-root`** in context, decide whether the output (the **`--workspace`** tree, or whatever the user points at) **matches** those rules — constraints, DO/DON'T, examples. Say what passes, what fails, and what is unclear.
+- **A — Rules / AI pass:** Read every file in **`rules/`** for **`--skill-root`**, then for each rule emit a verdict:
+  `Rule: <name>  -> PASS` or `Rule: <name>  -> FAIL  <offending line or reason>`
+  Every rule must appear in the output — no silent skips. Then judge whether the output as a whole matches the rule set.
 
 - **B — Scanner pass:** Then run **`run_scanners.py`** with the same **`--skill-root`** and **`--workspace`** so automated checkers run on disk.
 

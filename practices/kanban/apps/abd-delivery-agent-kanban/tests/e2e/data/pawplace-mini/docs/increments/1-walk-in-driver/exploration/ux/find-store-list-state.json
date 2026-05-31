@@ -1,0 +1,39 @@
+{
+  "target": "docs/increments/1-walk-in-driver/exploration/ux/find-store-list.drawio",
+  "screens": [
+    {
+      "name": "Find Store — List",
+      "layout": "stack",
+      "col": 0,
+      "row": 0,
+      "regions": [
+        {
+          "name": "site header · Find Store · catalog",
+          "slot": "header",
+          "type": "chrome"
+        },
+        {
+          "name": "Find Store tab bar",
+          "slot": "body",
+          "type": "nav-tabs",
+          "tabs": [
+            { "label": "Map" },
+            { "label": "List", "active": true }
+          ]
+        },
+        {
+          "name": "store list",
+          "slot": "body",
+          "type": "list",
+          "columns": ["store", "address", "distance to store"],
+          "rows": 3,
+          "actions": [
+            { "label": "use my location" },
+            { "label": "select store", "primary": true }
+          ]
+        }
+      ]
+    }
+  ],
+  "connections": []
+}

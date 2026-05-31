@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Sync kanban board.json — ticket-based JIT Kanban model.
 
-Reads board.json, checks for stage completions (using system-of-work.json as the
+Reads board.json, checks for stage completions (using kanban.json as the
 skill authority), advances tickets or flags for scatter, updates metrics.
 
 Usage:
@@ -26,7 +26,7 @@ from delivery_model import (
     append_metrics_log,
     get_stage_def,
     load_board,
-    load_system_of_work,
+    load_kanban_board,
     next_stage,
     save_board,
     war_room_dir,
@@ -35,23 +35,23 @@ from delivery_model import (
 
 def _advance_or_flag(
     ticket: Ticket,
-    sow_name: str,
-    sow_map: dict,
+    config_name: str,
+    kb_map: dict,
     workspace: Path,
 ) -> str:
     """Check if ticket stage is complete; advance or flag for scatter. Returns action taken."""
-    sow = sow_map.get(sow_name)
-    if not sow:
+    kb = kb_map.get(config_name)
+    if not kb:
         return "no_change"
 
-    current_def = get_stage_def(sow, ticket.stage)
+    current_def = get_stage_def(kb, ticket.stage)
     if not current_def:
         return "no_change"
 
     if not ticket.is_stage_complete(current_def):
         return "no_change"
 
-    nxt = next_stage(sow, ticket.stage)
+    nxt = next_stage(kb, ticket.stage)
     if nxt is None:
         ticket.completed_stage = datetime.now(timezone.utc).isoformat()
         append_metrics_log(workspace, {
@@ -91,8 +91,8 @@ def sync_board(workspace: Path, dry_run: bool = False) -> dict:
         raise FileNotFoundError(f"War room missing: {wr}")
 
     board = load_board(workspace)
-    sow_name = board.get("system_of_work", "")
-    sow_map = load_system_of_work(workspace)
+    config_name = board.get("stage_configuration") or board.get("system_of_work", "")
+    kb_map = load_kanban_board(workspace)
 
     active_tickets = [Ticket.from_dict(t) for t in board.get("active", [])]
     done_tickets = [Ticket.from_dict(t) for t in board.get("done", [])]
@@ -103,7 +103,7 @@ def sync_board(workspace: Path, dry_run: bool = False) -> dict:
     new_done = []
 
     for ticket in active_tickets:
-        action = _advance_or_flag(ticket, sow_name, sow_map, workspace)
+        action = _advance_or_flag(ticket, config_name, kb_map, workspace)
         if action == "complete":
             archived.append(ticket.to_dict())
         elif action == "scatter_needed":
@@ -116,8 +116,8 @@ def sync_board(workspace: Path, dry_run: bool = False) -> dict:
     for ticket in done_tickets:
         new_done.append(ticket)
 
-    wip_limit = board.get("wip_policy", {}).get("max_active", 10)
-    while backlog_tickets and len(new_active) < wip_limit:
+    team = board.get("team") or board.get("wip_policy", {})
+    while backlog_tickets and len(new_active) < 10:
         ticket = backlog_tickets.pop(0)
         new_active.append(ticket)
 

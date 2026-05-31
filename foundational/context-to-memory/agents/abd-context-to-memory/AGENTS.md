@@ -1,6 +1,6 @@
 # AGENTS — abd-context-to-memory
 
-> **Maintain in `content/` only.** Edit the `.md` files there, then run `python scripts/build.py` from this agent’s root. Do not hand-edit this file.
+> **Maintain in `reference/` only.** Edit the `.md` files there, then run `python scripts/build.py` from this agent’s root. Do not hand-edit this file.
 
 ---
 
@@ -67,7 +67,7 @@ Ground running work in **this file** and each skill's **`SKILL.md`** (scripts an
 
 ## Checklist
 
-**Agent orchestration only.** This checklist lives in **`agents/abd-context-to-memory/content/`** with the other **agent** slices. It is **not** the **abd-skill-builder** pattern (`generate.py`, `phase_files`, `…/progress/` under `active_skill_workspace`).
+**Agent orchestration only.** This checklist lives in **`agents/abd-context-to-memory/reference/`** with the other **agent** slices. It is **not** the **abd-skill-builder** pattern (`generate.py`, `phase_files`, `…/progress/` under `active_skill_workspace`).
 
 Use it to track one **ingest run** over a **topic root** (`CONTENT_MEMORY_ROOT` or `--path`). Copy into chat or a run log under `<topic_root>/docs/` if you need persistence.
 
@@ -85,7 +85,7 @@ Use it to track one **ingest run** over a **topic root** (`CONTENT_MEMORY_ROOT` 
 
 | Layer | Location |
 | --- | --- |
-| **Orchestration** (order, gates, this checklist) | **`content/*.md`** here → merged **`AGENTS.md`** |
+| **Orchestration** (order, gates, this checklist) | **`reference/*.md`** here → merged **`AGENTS.md`** |
 | **Stage how-to** (scripts, flags, YAML semantics) | **`skills/abd-context-to-memory/abd-*/SKILL.md`** and **`skills/abd-context-to-memory/abd-*/references/`** |
 
 ### Optional engagement artifacts

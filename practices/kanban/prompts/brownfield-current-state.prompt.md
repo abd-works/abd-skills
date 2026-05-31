@@ -24,25 +24,23 @@ The user will provide **workspace** and **boundary** (module, service, flow). If
 **Discovery:**
 7. **Story Map (brownfield)** — `abd-story-mapping` — trace code then map; every story needs evidence; no fix-while-mapping
 8. **Domain Terms** — `abd-domain-terms`
-9. **Ubiquitous Language** — `abd-ubiquitous-language`
-10. **Architecture blueprint** — `abd-architecture-blueprint`
-11. **Information Architecture** _(optional)_ — `abd-information-architecture`
-12. **Thin Slicing** — `abd-thin-slicing` — separate characterize vs change slices
-13. **Brownfield boundary gate** — reviewer checklist before exploration
+9. **Architecture blueprint** — `abd-architecture-blueprint`
+10. **Information Architecture** _(optional)_ — `abd-information-architecture`
+11. **Thin Slicing** — `abd-thin-slicing` — separate characterize vs change slices
+12. **Brownfield boundary gate** — reviewer checklist before exploration
 
 **Exploration (per slice):**
-14. **UL refresh** — `abd-ubiquitous-language` — for the increment
-15. **Acceptance Criteria** — `abd-acceptance-criteria` — observed quirks as `intent: observed`
-16. **UX Mockup** _(optional)_ — `abd-ux-mockup` — lo-fi wireframes
-17. **Architecture template** _(optional)_ — `abd-architecture-template` — mechanism patterns
+13. **Ubiquitous Language** — `abd-ubiquitous-language` — for the increment
+14. **Acceptance Criteria** — `abd-acceptance-criteria` — observed quirks as `intent: observed`
+15. **UX Mockup** _(optional)_ — `abd-ux-mockup` — lo-fi wireframes
+16. **Architecture template** _(conditional)_ — `abd-architecture-template` — mechanism templates **only when increment scope needs undocumented mechanisms**; otherwise skip with assign notes
 
 **Specification (optional OOAD pass):**
-18. **CRC** — `abd-class-responsibility-collaborator`
-19. **Spec by Example** — `abd-specification-by-example` — concrete scenarios; drives story-spec-driven tests
-20. **Scenario Walkthrough** — `abd-scenario-walkthrough` — walk specs through CRC model
+17. **CRC** — `abd-class-responsibility-collaborator`
+18. **Spec by Example** — `abd-specification-by-example` — concrete scenarios; drives story-spec-driven tests
 
 **Engineering:**
-21. **Interface design** _(optional)_ — `abd-interface-design` — runnable UI from mockup
-22. **Object model** _(optional)_ — `abd-object-model` — typed domain surface from CRC/UL
-23. **Acceptance Tests (RED)** — `abd-acceptance-test-driven-development` — green on **current** system; from spec scenarios when available, from AC directly when skipped
-24. **Change slice (optional)** — `abd-clean-code` / stack skill — only with approved delta
+19. **Interface design** _(optional)_ — `abd-interface-design` — runnable UI from mockup
+20. **Object model** _(optional)_ — `abd-object-model` — typed domain surface from CRC/UL
+21. **Acceptance Tests (RED)** — `abd-acceptance-test-driven-development` — green on **current** system; from spec scenarios when available, from AC directly when skipped
+22. **Change slice (optional)** — `abd-clean-code` / stack skill — only with approved delta

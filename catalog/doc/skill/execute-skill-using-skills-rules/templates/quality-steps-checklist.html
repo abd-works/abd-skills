@@ -938,26 +938,32 @@ a.cap-card:hover .cap-card__icon {
 
 <h2>Content</h2>
 <div class="rule-prose"><h1>Quality steps — checklist</h1>
-<p>Use <strong>before</strong> you do the skill’s main work: Step 1 is the <strong>rules-first</strong> gate; use the rest before you call the work <strong>done</strong>. Narrative: <a href="../SKILL.html"><strong>SKILL.md</strong></a> (section <strong>Quality workflow</strong>).</p>
+<p>Use <strong>before</strong> you do the skill&#x27;s main work: Step 1 is the <strong>rules-first</strong> gate; use the rest before you call the work <strong>done</strong>. Narrative: <a href="../SKILL.html"><strong>SKILL.md</strong></a> (section <strong>Quality workflow</strong>).</p>
 <hr>
 <h2>Step 1 — Rules before real work (read first, then generate / edit)</h2>
 <ul>
-<li>[ ] The agent <strong>read through</strong> that skill’s rules (<strong>`rules/*.md`</strong> + <strong>Bundled rules</strong> in <strong>`SKILL.md`</strong>) with the intent to <strong>run the skill according to those rules</strong>, not to skim or ignore them.</li>
-<li>[ ] Applicable <strong>`rules/*.md`</strong> were <strong>read</strong> (or inlined) <strong>before</strong> substantive work on the deliverable — not only after.</li>
-<li>[ ] The <strong>Bundled rules</strong> section of that skill’s <strong>`SKILL.md`</strong> was included if you rely on it (run <strong>`bundle_rules_into_skill_md.py`</strong> so it is current).</li>
+<li>[ ] Every file in <strong>`rules/`</strong> for the target skill was read before substantive work — not only skimmed.</li>
+<li>[ ] Every file in <strong>`reference/`</strong> (if present) was read before authoring.</li>
 <li>[ ] <strong>DO / DON&#x27;T</strong> and examples in those rules were treated as the <strong>shape contract</strong>, not only CI.</li>
-<li>[ ] No claim that a rule “passed” if it was never applied to the artifact.</li>
+<li>[ ] No claim that a rule &quot;passed&quot; if it was never applied to the artifact.</li>
 </ul>
 <hr>
 <h2>Step 2 — Mechanical checks (scanners)</h2>
 <ul>
 <li>[ ] Scanners run against the <strong>generated output</strong> (workspace / <strong>`--workspace`</strong> as documented for the skill).</li>
-<li>[ ] <strong>Scanner report</strong> saved under <strong>`scanner-report/`</strong> in <strong>`active_skill_workspace`</strong> (or the repo’s agreed path there).</li>
+<li>[ ] <strong>Scanner report</strong> saved under <strong>`scanner-report/`</strong> in <strong>`active_skill_workspace`</strong> (or the repo&#x27;s agreed path there).</li>
 <li>[ ] <strong>Clear</strong> violations fixed from the report; scanners re-run until clean or only <strong>uncertain</strong> items remain.</li>
-<li>[ ] <strong>Uncertain</strong> or <strong>high-stakes</strong> violations <strong>shown to the user</strong> with the report — not silently “fixed.”</li>
+<li>[ ] <strong>Uncertain</strong> or <strong>high-stakes</strong> violations <strong>shown to the user</strong> with the report — not silently &quot;fixed.&quot;</li>
 </ul>
 <hr>
-<h2>Step 3 — Adversarial pass (intent)</h2>
+<h2>Step 3 — Per-rule verdict (AI pass)</h2>
+<ul>
+<li>[ ] For every file in <strong>`rules/`</strong>, a verdict was emitted: `Rule: &lt;name&gt;  -&gt; PASS` or `Rule: &lt;name&gt;  -&gt; FAIL  &lt;offending line or reason&gt;`.</li>
+<li>[ ] No rule was silently skipped — every rule appears in the output.</li>
+<li>[ ] FAIL verdicts were fixed and the rule re-checked before calling the work done.</li>
+</ul>
+<hr>
+<h2>Step 4 — Adversarial pass (intent)</h2>
 <ul>
 <li>[ ] Each applicable rule passes <strong>by intent</strong>, not only because tools are green.</li>
 <li>[ ] No <strong>drift</strong> a reviewer would catch between <strong>`SKILL.md`</strong> and what the skill actually does.</li>

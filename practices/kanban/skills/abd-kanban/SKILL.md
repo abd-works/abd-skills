@@ -1,231 +1,59 @@
----
+﻿---
 name: abd-kanban
+catalog_garden_tier: practice
+catalog_garden_order: 60
+catalogue_one_liner: >-
+  JIT kanban board — tickets flow through stages, scatter at scope boundaries, agents pull work.
 description: >-
-  JIT Kanban board for kanban-lead and role agents.
-  delivery-war-room/ under the engagement workspace is the authoritative source of
-  all delivery progress — board.json, system-of-work.json, metrics, and ticket history.
-  Tickets flow through stages, scatter at scope boundaries, and agents pull skill-level
-  work without pre-authored slot files.
+  JIT kanban board for kanban lead and agents. Tickets flow through stages
+  defined by the kanban board, scatter into finer-grained tickets at scope
+  boundaries, and agents pull skill-level work from tickets.
+  Use when setting up a delivery war room, initialising a kanban board, configuring
+  ticket flow, or tracking delivery progress across stages.
 ---
-
 # abd-kanban
 
 ## Purpose
 
-Single on-disk home for **progress** and **handoffs**. Models delivery as a **JIT Kanban board** where work tickets flow through stages defined by a **system of work**, scatter into finer-grained tickets at scope boundaries, and role agents pull skill-level tasks from active tickets.
+Single on-disk home for **skill progress** and **handoffs**. Models delivery as a **JIT kanban board** where tickets flow through stages, scatter into finer-grained tickets at scope boundaries, and agents pull skill-level work from tickets.
 
-## Core concepts
+The *kanban board* defines ordered stages, each with a scope level and stage work required. Tickets carry only a lazily-populated `skill_progress` map; the kanban board is the single source of truth for which skills a stage requires. When a ticket completes a stage and the next stage's scope is finer, the ticket **scatters** into child tickets at the finer scope. **Four executor agents** (one per delivery role, scalable via `team`) **pull** skill-level work from active tickets across **all stages** — see [../../agents/reference/pull-model.md](../../agents/reference/pull-model.md).
 
-| Concept | Definition |
-| --- | --- |
-| **System of work** | Static definition: ordered stages, each with a scope level and ordered skills |
-| **Work ticket** | A unit of work at the scope defined by its current stage (all, increment, sprint, story) |
-| **Backlog** | Ordered list of tickets awaiting their next stage — hierarchy from story map |
-| **Scatter** | When a ticket completes a stage whose next stage has finer scope, it decomposes into child tickets |
-| **Lineage** | Every ticket carries its ancestry: project > increment > sprint > story |
-| **Progress** | Lazily-populated map on a ticket tracking execution state per skill (only written when an agent claims) |
+---
 
-## Kanban model
+## Output file
 
-| Concept | Implementation |
-| --- | --- |
-| **Work ticket** | Scope unit at the level its stage requires (all, increment, sprint, story) |
-| **Backlog** | Ordered; only decomposed JIT; hierarchy from story map + thin-slicing |
-| **Active** | Tickets with at least one skill in_progress |
-| **Done** | All skills in stage complete; awaiting scatter or next stage pull |
-| **Blocked** | Ticket with a blocker that prevents progress |
+**Deliverables folder:** see `../agent-protocol.md` — Output file resolution.
 
-Rule: [`rules/kanban-ticket-columns.md`](rules/kanban-ticket-columns.md)
+**File names:** War room files — `board.json`, `kanban.json`, `INSTRUCTIONS.md`, `metrics-log.jsonl`. Output to `<workspace>/docs/planning/delivery-war-room/`.
 
-## System of work
+---
 
-The system of work is a **static, reusable definition** that drives all ticket flow. It defines:
+## Agent Instructions
 
-1. **Stages** — ordered sequence (context → shaping → discovery → exploration → specification → engineering)
-2. **Scope per stage** — what granularity tickets live at (all, increment, sprint, story)
-3. **Skills per stage** — ordered list of practice skills to execute, with default role assignment
+> **MANDATORY — read `../agent-protocol.md` before starting. It defines read-gates, output file resolution, and the per-rule verdict format.**
+>
+> **Kanban lead and delivery agents:** read [../../agents/reference/session-bootstrap.md](../../agents/reference/session-bootstrap.md), [../../agents/reference/pull-model.md](../../agents/reference/pull-model.md), and [../../reference/artifact-layout.md](../../reference/artifact-layout.md) on turn 1 and complete loop wiring / continuous pull **before** board work or skill execution.
 
-When scope changes between stages (e.g. shaping at "all" → discovery at "increment"), completing one stage **scatters** the ticket into children at the finer scope.
+### 1. Read context
 
-Template: [`templates/system-of-work.json`](templates/system-of-work.json)
+Read these files:
+- **`../../reference/kanban-board.md`** — kanban board, tickets (shape, lifecycle, status flow), scattering, backlog, metrics, and limits.
+- **`../../reference/agents-and-skills.md`** — skill progress, agents (delivery roles, work cycle), progress authority, workspace layout, kanban lead setup and scan cycle.
 
-### Default new build
+### 2. Generate
 
-| Stage | Scope | Skills (ordered) |
-| --- | --- | --- |
-| Context (optional) | all | convert-to-markdown, semantic-context-chunker, chunk-markdown, embed-vectors |
-| Shaping | all | story-mapping, thin-slicing |
-| Discovery | increment | domain-terms, UL, architecture-blueprint, IA |
-| Exploration | increment | UL-refresh, acceptance-criteria, ux-mockup, arch-template |
-| Specification | sprint | CRC, spec-by-example, scenario-walkthrough, interface-design, arch-reference |
-| Engineering | sprint | interface-design, object-model, ATDD, clean-code |
+Read every file in **`rules/`**; author to those rules.
 
-## Tickets
+**Produce output from every template:**
 
-A ticket is the **unit of Kanban flow**. Its scope matches the system of work's scope for the current stage.
+- **`templates/board.json`** — kanban board state (tickets, backlog, active, done, archived)
+- **`templates/kanban.json`** — kanban board (stages, stage work required, strategy, team)
+- **`templates/INSTRUCTIONS.md`** — agent bootstrap instructions
+- **`templates/ticket.json`** — ticket shape reference
+- **`templates/brownfield-boundary-gate.md`** — brownfield boundary gate (when applicable)
 
-### Ticket shape
-
-```json
-{
-  "ticket_id": "inc-1",
-  "lineage": ["Project Name", "Increment 1"],
-  "scope_level": "increment",
-  "stage": "exploration",
-  "priority": 1,
-  "progress": {
-    "abd-ubiquitous-language": { "status": "done", "agent": "business-expert", "start": "...", "end": "...", "review_status": "done", "reviewer": "business-expert-reviewer", "review_start": "...", "review_end": "..." },
-    "abd-acceptance-criteria": { "status": "in_progress", "agent": "product-owner", "start": "...", "end": null, "review_status": null }
-  },
-  "entered_stage": "2026-05-28T10:00:00Z",
-  "completed_stage": null,
-  "scatter_from": "project-all",
-  "scatter_to": []
-}
-```
-
-**Skills are NOT declared on the ticket.** The `system-of-work.json` defines which skills apply for a given stage. The ticket only carries a `progress` map — lazily populated when an agent claims a skill.
-
-### Skill status flow
-
-Each skill within a ticket follows: **to_do → in_progress → done**
-
-Each skill also has a review cycle: **review_status: null → in_progress → done** (or **failed** → rework)
-
-A ticket's stage is **done** when ALL skills defined in `system-of-work.json` for that stage have a `progress` entry with `status: done` AND `review_status: done`.
-
-### Ticket lifecycle
-
-1. **Created** — enters backlog at priority from story map
-2. **Active** — at least one skill claimed by an agent (in_progress)
-3. **Stage done** — all skills executed and reviewed
-4. **Scatter** (if next stage has finer scope) — parent archived, children enter backlog
-5. **Continue** (if next stage has same scope) — ticket enters next stage, progress cleared (agents claim from system of work)
-6. **Complete** — final stage done; ticket archived with full timing data
-
-## Scattering
-
-When a ticket completes a stage and the **next stage's scope** is finer than the current stage's scope, the ticket **scatters**:
-
-| Transition | Scatter source | Children created from |
-| --- | --- | --- |
-| Shaping (all) → Discovery (increment) | Project ticket | Thin-slicing increments from story map |
-| Exploration (increment) → Spec (sprint) | Increment ticket | Stories grouped into sprints by kanban lead / strategy |
-
-### Scatter mechanics
-
-1. Parent ticket is **archived** (moved to `archived` with start/end timestamps)
-2. Child tickets are **created** at the finer scope level, entering the backlog for the next stage
-3. Children carry **lineage** from the parent (e.g. `["Project", "Increment 1", "Sprint 1"]`)
-4. Children are ordered by priority from the story map
-5. **JIT rule**: only scatter the next N items unless user or strategy says otherwise
-
-### When scope stays the same
-
-Discovery (increment) → Exploration (increment): no scatter. The same ticket moves to the next stage; its progress is cleared and agents claim skills from `system-of-work.json`.
-
-## Backlog
-
-The backlog is **ordered** and **hierarchical**:
-
-- Order comes from story map priority + thin-slicing
-- Hierarchy comes from the story map structure (epics → sub-epics → stories)
-- Only decomposed as far as needed (JIT)
-- Delivery lead or user can pre-decompose ("divide increment 1 into 3 sprints")
-- Items not yet scattered stay at their parent scope level until their turn
-
-## Role agents (eight)
-
-| Executor | Reviewer |
-| --- | --- |
-| `product-owner` | `product-owner-reviewer` |
-| `business-expert` | `business-expert-reviewer` |
-| `ux-designer` | `ux-designer-reviewer` |
-| `engineer` | `engineer-reviewer` |
-
-Agents are **instantiated once** per engagement as **isolated subagents**. They pull skill-level work from active tickets. An agent claims a skill on a ticket when:
-
-1. The skill's `role` in `system-of-work.json` matches the agent's `team-role`
-2. The skill has no `progress` entry yet or `status` is `to_do` (executor), or `status` is `done` and `review_status` is null (reviewer)
-3. Prior skills in the stage's ordered list (from system of work) are done (skills execute in order)
-
-## Progress authority
-
-| What | Where | Who updates |
-| --- | --- | --- |
-| **Kanban board** | **`board.json`** | **`sync_kanban_board.py`** (from ticket state) |
-| **System of work** | `system-of-work.json` | **kanban-lead** at setup |
-| **Strategy** | `strategy.md` | **kanban-lead** at setup |
-| **Ticket state** | `board.json` tickets array | Role agents (skill progress) + kanban-lead (scatter, stage transitions) |
-| **Metrics** | `board.json` metrics + `metrics-log.jsonl` | **`track_metrics.py`** |
-| **Audit trail** | `metrics-log.jsonl` | Delivery lead |
-| **Blockers** | ticket `blocked` status | Role agent / operator |
-
-## Workspace layout
-
-```text
-<workspace>/docs/planning/
-  delivery-war-room/
-    board.json                 # Kanban state — tickets, backlog, active, done, archived
-    system-of-work.json        # Stage + scope + skill definitions
-    strategy.md                # Active strategy (scope progression, scatter rules)
-    manifest.md                # Engagement policy, wip_policy, autonomy
-    metrics-log.jsonl          # Timestamped events (skill start/end, stage transitions, scatters)
-    INSTRUCTIONS.md            # Agent bootstrap instructions
-```
-
-## Delivery lead — setup
-
-After strategy selection:
-
-1. Create `<workspace>/docs/planning/delivery-war-room/` if missing.
-2. Copy **`templates/INSTRUCTIONS.md`** → `INSTRUCTIONS.md`.
-3. Write **`system-of-work.json`** from strategy (or custom).
-4. Write `strategy.md` with scope progression rules, scatter heuristics, sprint grouping.
-5. Write `manifest.md` with wip_policy, autonomy, checkpoint policy.
-6. Initialize **`board.json`** with first ticket (scope: all, stage: shaping).
-7. Initialize `metrics-log.jsonl`.
-8. Start the **agent scan loop**.
-
-## Delivery lead — scan cycle
-
-Each tick:
-
-1. Read `board.json` and `system-of-work.json` — active tickets, backlog, wip_policy, stage skill definitions.
-2. **Detect completed skills** — compare each active ticket's `progress` against the stage's skill list in `system-of-work.json`.
-3. **Stage transitions** — if all required skills are done on a ticket, either scatter or advance to next stage (clear progress).
-4. **Scatter** — run `scatter_ticket.py` when scope changes; archive parent, create children in backlog.
-5. **Pull from backlog** — move next-priority tickets from backlog to active (respecting WIP).
-6. **Bottleneck analysis** — which stage/skill has the most waiting work? Report to operator.
-7. **Agent pool** — spawn/scale agents per `wip_policy`.
-8. **Sync** — write `board.json`, append `metrics-log.jsonl`.
-
-## Role agent — work cycle
-
-1. Read `board.json`, `system-of-work.json`, and `manifest.md`.
-2. Find active tickets where `system-of-work.json` lists a skill for this stage matching your `team-role` — and the skill has no `progress` entry or is `to_do`.
-3. **Priority**: rightmost stage first (engineering > spec > explore > discovery > shaping).
-4. Claim the skill: write a `progress` entry on the ticket (`status: in_progress`, `agent: <role>`, `start: <now>`).
-5. Execute the practice skill per executor or reviewer workflow.
-6. Mark done (`status: done`, `end: <now>`).
-7. Pull next eligible skill.
-
-## Metrics and tracking
-
-Every ticket carries timing data:
-
-- **Per skill**: start, end, review_start, review_end
-- **Per stage**: entered_stage, completed_stage
-- **Per ticket**: created, archived (when scattered or complete)
-- **Lineage** enables rollup: total increment time, total project time, stage cycle times
-
-The kanban lead uses `track_metrics.py` to compute:
-
-- Cycle time per stage, per scope level
-- Bottleneck detection (which stage/skill accumulates WIP)
-- Throughput (tickets completed per unit time)
-
-## Sync commands
+**Scripts:** Use the following scripts for board operations:
 
 ```bash
 python kanban/skills/abd-kanban/scripts/sync_kanban_board.py --workspace <workspace>
@@ -233,13 +61,29 @@ python kanban/skills/abd-kanban/scripts/scatter_ticket.py --workspace <workspace
 python kanban/skills/abd-kanban/scripts/track_metrics.py --workspace <workspace>
 ```
 
-## Templates
+### 3. Validate
 
-Copy from `templates/`: `INSTRUCTIONS.md`, `manifest.md`, `board.json`, `system-of-work.json`, `ticket.json`.
+Run the scanners:
 
-## Limits
+```bash
+python skills/execute-skill-using-skills-rules/scripts/run_scanners.py \
+  --skill-root skills/abd-kanban \
+  --workspace <path-to-output>
+```
 
-- Exit gates remain in `stages/*.md`; war room records Kanban state, it does not replace stage definitions.
-- `system-of-work.json` is the **single source of truth** for which skills a stage requires — tickets never duplicate that list.
-- Tickets carry only a `progress` map (lazily populated when agents claim); no `skills` key.
-- Scatter logic is deterministic from the system of work scope transitions and story map structure.
+Then emit per-rule verdicts per `../agent-protocol.md`.
+
+---
+
+## Validate
+
+**Goal:** Inspect what was built — read the artifacts as reviewers.
+
+- **Ticket shape** — tickets carry `skill_progress` map only, no `skills` key; kanban board is the source of truth for stage skills.
+- **Scattering** — scope transitions produce children at finer scope, ticket archived.
+- **Backlog order** — hierarchical, ordered by story map priority + thin-slicing.
+- **Agents** — agents pull from tickets matching their delivery role in the kanban board stage configuration.
+- **Workspace layout** — war room under `docs/planning/delivery-war-room/`; `docs/end-to-end/<stage>/` and `docs/increments/` per [artifact-layout.md](../../reference/artifact-layout.md).
+- **No bundle markers** — `SKILL.md` has no `<!-- execute_rules:bundle_rules -->` markers.
+
+---

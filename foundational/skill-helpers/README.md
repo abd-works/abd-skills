@@ -16,7 +16,7 @@ Infrastructure skills and cross-cutting helpers used across practice families.
 | `instructions/` | Always-on rules: workspace, deploy-skills, log-and-fix-skill-errors, execute-skill-using-skills-rules |
 | `prompts/` | Slash commands: `/workspace`, fix-skill, refresh-all-instructions |
 | `scripts/` | `get_workspace.py`, `set_workspace.py` — read/write `skill-config.json` |
-| `content/` | Workspace docs, correction log template |
+| `reference/` | Workspace docs, correction log template |
 
 ## Workspace CLI
 
@@ -27,7 +27,7 @@ python skill-helpers/scripts/get_workspace.py
 python skill-helpers/scripts/set_workspace.py "C:\path\to\engagement\root"
 ```
 
-Details: `content/workspace.md`
+Details: `reference/workspace.md`
 
 ## Deploy
 

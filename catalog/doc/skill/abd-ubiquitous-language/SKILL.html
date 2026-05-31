@@ -937,271 +937,57 @@ a.cap-card:hover .cap-card__icon {
 </nav>
 
 <h2>Content</h2>
-<div class="rule-prose"><p>﻿--- name: abd-ubiquitous-language catalog_garden_order: 3 description: &gt;- Build a shared, rigorous vocabulary for the scope you are modeling — extract terms, group them into Key Abstractions, and sketch each concept&#x27;s behavior — all in one file every downstream artifact can rely on.</p>
+<div class="rule-prose"><p>﻿--- name: abd-ubiquitous-language catalog_garden_tier: practice catalog_garden_order: 3 catalogue_one_liner: &gt;- Shared vocabulary with concept behavior in one file; terms, KAs, and concept blocks. description: &gt;- Build a shared, rigorous vocabulary for the scope you are modeling — extract terms, group them into Key Abstractions, and sketch each concept&#x27;s behavior — all in one file every downstream artifact can rely on. Use when the user asks to &quot;build the ubiquitous language&quot;, &quot;extract domain terms&quot;, &quot;identify Key Abstractions&quot;, &quot;sketch the domain&quot;, or when a scope has source material but no agreed vocabulary or concept sketch yet.</p>
 <hr>
 <h1>abd-ubiquitous-language</h1>
 <h2>Purpose</h2>
 <p>Build a shared, rigorous vocabulary for the scope you are modeling so that domain experts and modelers agree on what each term means, what each concept does, and which rules must always hold — and capture that agreement in <strong>one</strong> living document the whole team uses without translation. The scope of one run can be a single module, several modules, or a whole-system sweep; the skill and its output shape stay the same.</p>
-<p>This is a three-pass skill. It does not produce a flat term list first, a key-abstractions file second, and a concept-sketch file third. It reads source, extracts terms with definitions, groups them into Key Abstractions, sketches each concept&#x27;s behavior and properties, and writes <strong>one</strong> file.</p>
-<p>The final output is a robust domain model that describes domain concepts in a structured, plain-English form — before anyone commits to classes, methods, or properties. The skill applies object-oriented analysis to the source material, producing a <strong>concept</strong> for every domain idea that has distinct identity, state, behavior, structure, or interactions. Each concept spells out what it <strong>is for</strong>, what it <strong>does</strong>, and who it <strong>works with</strong>, grounded in evidence from the real source so a business reader can challenge it and a modeler can build from it.</p>
+<p>This is a three-pass skill. It reads source, extracts terms with definitions, groups them into Key Abstractions, sketches each concept&#x27;s behavior and properties, and writes <strong>one</strong> file. The final output is a robust domain model that describes domain concepts in a structured, plain-English form — before anyone commits to classes, methods, or properties.</p>
 <hr>
-<h2>When to use</h2>
-<ul>
-<li>The user asks to &quot;build the ubiquitous language&quot;, &quot;extract domain terms&quot;, &quot;identify Key Abstractions&quot;, &quot;sketch the domain&quot;, or &quot;what are the building blocks.&quot;</li>
-<li>A scope has source material — rules, transcripts, training materials, design notes — but no agreed vocabulary or concept sketch yet.</li>
-<li>Downstream modeling (CRC, object model, scenarios, code) needs defined concepts with named behavior — more than a flat glossary.</li>
-<li>You want to confirm business logic with subject-matter experts in their own language before committing to classes or schemas or other modelling syntax.</li>
-</ul>
-<hr>
-<h2>Core concepts</h2>
-<h3>Ubiquitous language</h3>
-<p>The <strong>ubiquitous language</strong> is the single set of names, definitions, and rules a team uses everywhere — conversations, requirements, tests, code, and diagrams. It is not a glossary collected from many places; it is one curated vocabulary the team commits to and updates together. Each named concept carries its own purpose, its own behavior, and its own invariants, so anyone reading the file can challenge what is true and anyone writing downstream artifacts can re-use the same words without paraphrase.</p>
-<h3>Terms</h3>
-<p>A <strong>term</strong> is any named concept in the source that has behavior, rules, interactions, or distinct identity. The first pass of the skill extracts every term and assigns it a short plain-English definition and a placement decision: keep under a KA, move to boundary, or move out entirely. Terms appear as a flat list in the output file header — one bullet per term, definition only, no source references. A term&#x27;s placement decision is recorded there with a parenthetical note and fleshed out later in `### Decisions made`.</p>
-<h3>Key Abstraction (KA)</h3>
-<p>A <strong>Key Abstraction</strong> is a named domain building block that anchors a group of related terms. KAs are concepts that act as <strong>centers of gravity</strong> — the named ideas domain experts reach for first when explaining the domain. Because of that, their intro paragraphs carry the richest treatment of all five aspects: role, boundary, relationships, responsibilities, and rules/invariants. Relationships to other KAs get particular weight, because that is how domain experts discuss them — &quot;<em>Check</em> depends on <em>Trait</em> for its modifier; <em>Trait</em> knows nothing about <em>Check</em>.&quot;</p>
-<p>The KA name is itself the primary term. The KA&#x27;s intro paragraph opens with &quot;<em>KAName</em> is …&quot; and IS the term definition — there is no separate subordinate entry that re-states it. A typical module has three to eight Key Abstractions; more usually means subordinate terms have been promoted prematurely.</p>
-<h3>Concept</h3>
-<p>A <strong>concept</strong> is a named domain idea the team treats as a candidate object: something the business talks about that has its own purpose, its own behavior, and relationships with other concepts. A concept is not a class — it is the plain-English precursor to one. Every concept — KA or subordinate — can be described across five aspects:</p>
-<ul>
-<li><strong>Role</strong> — the unique purpose this concept serves that no other does.</li>
-<li><strong>Boundary</strong> — what it owns (single source of truth), what is external, how it collaborates.</li>
-<li><strong>Relationships</strong> — explicit connections to other concepts and KAs.</li>
-<li><strong>Responsibilities</strong> — the specific behaviors it performs and services it provides.</li>
-<li><strong>Rules / invariants</strong> — non-negotiable truths that must always hold.</li>
-</ul>
-<p>These are not independent sections in the output — they are woven into the concept&#x27;s story as verb-led behavior bullets. Same format for every concept. The KA&#x27;s own concept block doubles as the term definition for the KA itself. How much any concept has to say is driven by the complexity of what the source actually says about it. Domain terms in bullets are <em>italicized</em> so the language stays visually precise.</p>
-<p>The first `### concept` listed under each `## KA` heading <strong>must be the KA&#x27;s own concept</strong> — the one whose name matches the KA. Other concepts grouped under the KA are subordinate.</p>
-<h3>Two tests for every term</h3>
-<p><strong>1. Independence test.</strong> Can this concept be defined and reasoned about on its own, without the parent it came from? If it has no meaning outside another concept, it stays as a subordinate term, not a KA of its own.</p>
-<p><strong>2. Scope-fit test.</strong> Does this concept fundamentally connect to the core purpose of the scope being modeled, or does it only touch it tangentially? If it belongs more squarely in an adjacent area, place it in the Boundary Domain or move it out entirely.</p>
-<h3>Three outcomes for each candidate term</h3>
-<ul>
-<li><strong>Keep under a KA</strong> — passes both tests; group under the right KA in the Core Domain.</li>
-<li><strong>Move to boundary</strong> — independent, but this scope depends on it without owning it; record under `# Boundary Domain` with a single named owning module. If a boundary term is relevant to more than one KA, each KA records its own view — only the behaviors that KA actually depends on — as a concept stub inside that KA&#x27;s block. The `# Boundary Domain` entry is the canonical record; the per-KA stubs are scoped views, not duplicates.</li>
-<li><strong>Move out</strong> — independent and unrelated to this scope&#x27;s purpose; note in the header.</li>
-</ul>
-<h3>Modeling each term: concept, subtype, property, instance, or invariant</h3>
-<p>Not every domain term deserves its own concept block. Before classifying, <strong>read the source material for that term</strong> and do proper object-oriented analysis on what the source actually says.</p>
-<p>A term becomes a <strong>concept</strong> when it has <strong>distinct identity</strong>, <strong>state</strong>, <strong>behavior</strong>, <strong>structure</strong>, or <strong>interactions</strong>. A term that is a <strong>specialized version</strong> of another concept and adds <strong>different behavior</strong> is a <strong>subtype</strong>. A term that differs from its siblings only by <strong>data values</strong> is an <strong>instance</strong> or <strong>type property</strong> on the parent. A term that is a <strong>value, slot, or attribute</strong> another concept carries is a <strong>property</strong>. A term that describes a <strong>rule that must always hold</strong> is an <strong>invariant</strong> on the concept it constrains.</p>
-<p>For typing decisions, see <strong>`### Inheritance and subtypes`</strong> in the OO Concepts section below. Read it before classifying any term as a concept, subtype, property, or instance. <strong>Do not read or apply `### Decomposing responsibilities`</strong> — that section applies at CRC stage and beyond.</p>
-<p>Property and instance terms still get a stub heading with a one-line classification note — no term is silently dropped.</p>
-<h3>Subtypes</h3>
-<p>A subtype is one concept <strong>being a type of</strong> another. Write the heading in plain English (`### International Shipment <em>is a type of</em> Shipment`), not in code notation. Keep <strong>shared</strong> behavior on the <strong>base</strong>; the subtype block adds only <strong>delta</strong> behavior — what the subtype does differently or additionally.</p>
-<h3>Roles and actors</h3>
-<p>A role (gamemaster, administrator, operator, reviewer) <strong>is</strong> a domain concept if it has distinct identity, state, or behavior from the system&#x27;s perspective. A role that only performs tasks outside the system or the UI is a contextual label — note it in `### Decisions made`, do not model it as a concept.</p>
-<h3>Property and instance stubs</h3>
-<p>Terms classified as properties, instances, or type properties of another concept get a stub heading (`### term_name`) with a brief classification bullet (e.g., &quot;is a property of <em>parent_concept</em>&quot;) and a `### References` section. This makes visible that the term was considered and classified, rather than silently dropped.</p>
-<h3>Italicized terms are the file&#x27;s connectors</h3>
-<p>Every `<em>italicized</em>` term in a behavior bullet, invariant, KA intro paragraph, or boundary stub must resolve to one of:</p>
-<ul>
-<li>a `### concept_name` block (in any KA, Core or Boundary, including the KA&#x27;s own concept),</li>
-<li>a `### Subtype <em>is a type of</em> Base` heading,</li>
-<li>a property / instance / type-property stub heading (e.g. `### rank` with first bullet `is a property of <em>trait</em>`),</li>
-<li>a `### boundary_term <em>(boundary)</em>` scoped stub under the KA, OR</li>
-<li>a parenthetical primitive description in plain text (e.g. `(integer)`, `(true or false)`, `(0–40)`) — the parenthetical itself is <strong>not</strong> italicized.</li>
-</ul>
-<p>This is what makes a Ubiquitous Language <strong>diagram-ready as a second pass</strong> for <a href="../drawio-domain-sync/SKILL.html">drawio-domain-sync</a> — analogous to how the CRC pass produces a diagram-ready collaborator column. Once every italicized term in this file resolves to a heading, the renderer can:</p>
-<ul>
-<li>treat each `### concept` as a card,</li>
-<li>treat each behavior bullet as a row (label = bullet text; collaborators = the italicized terms on that bullet),</li>
-<li>treat each `### Subtype <em>is a type of</em> Base` as an inheritance edge,</li>
-<li>treat each unique cross-concept italicized reference (folded across bullets) as one association edge,</li>
-<li>treat `### boundary_term <em>(boundary)</em>` as an imported card with a `«boundary: OwningModule»` stereotype.</li>
-</ul>
-<p>No edge labels are required. To keep the relationship type readable without labels, use stable verb families in bullets:</p>
-<ul>
-<li>`has`, `owns`, `is composed of`, `consists of` → composition / aggregation,</li>
-<li>`uses`, `references`, `supplies … to`, `depends on`, `is made against` → association,</li>
-<li>`produces`, `creates`, `yields` → dependency / creates,</li>
-<li>`is a type of` → inheritance (heading-level only),</li>
-<li>`is a property of`, `is an instance of` → property/instance stub heading.</li>
-</ul>
-<p>For the full rule, see `rules/italic-terms-resolve-to-named-concepts.md`.</p>
-<h3>Decisions made and References — per KA</h3>
-<p>Every KA carries one `### Decisions made` list and one `### References` section, placed <strong>after all of its concept blocks</strong>. This keeps the reasoning and evidence co-located with the KA they support. `### Decisions made` records independence test results, scope-fit test results, typing calls, and any open questions for any concept in the KA. `### References` lists every source passage that supports any concept in the KA. Do not bundle decisions or references per concept.</p>
-<h3>Three passes, one file</h3>
-<p>1. <strong>Terms</strong> — flat list of every named concept with a short plain-English definition and a placement decision (keep / boundary / moved out). No source references in the Terms list. 2. <strong>Key Abstractions</strong> — terms grouped under named KAs; each KA gets an intro paragraph that is its term definition. 3. <strong>Concept blocks</strong> — each KA&#x27;s concept blocks (KA&#x27;s own first, then subordinates, subtypes, property stubs), with verb-led behavior; <strong>one</strong> `### Decisions made` and <strong>one</strong> `### References` per KA, after all its concept blocks.</p>
-<hr>
-<hr>
-<p>Shared reference for all abd-domain-driven-design skills. This file owns the OO theory. Each skill owns its own notation and format.</p>
-<hr>
-<h3>What is a class</h3>
-<p>&gt; <strong>Applies from: ubiquitous language stage and beyond (ubiquitous language → CRC → object-model).</strong></p>
-<p>A class is a named domain idea that earns its own identity because it has at least one of: <strong>distinct identity</strong>, <strong>state</strong>, <strong>behavior</strong>, <strong>structure</strong>, or <strong>interactions</strong> that cannot be collapsed into a property, instance, or type property of something else.</p>
-<p>A class knows things (<strong>state</strong>) and does things (<strong>behavior</strong>). Those two dimensions — together with the relationships it maintains and the invariants that constrain it — are what a class IS at every level of fidelity. The notation changes across the pipeline; this definition does not.</p>
-<p>A term that is only a data value on another class is a <strong>property</strong>. A term that varies only by label across identical behavior is a <strong>type property</strong>. A term that is one concrete member of a known set is an <strong>instance</strong>. A term that adds distinct behavior to a base is a <strong>subtype</strong>. Only when none of those fit does something deserve its own class.</p>
-<p>Each skill records a class in its own form:</p>
-<ul>
-<li><strong>ubiquitous-language</strong> — a named concept block with intent, behaviors, and collaborations in plain English.</li>
-<li><strong>CRC</strong> — a `#### <strong>ClassName</strong>` block with responsibility and collaborator columns.</li>
-<li><strong>Object-model</strong> — a typed class block with properties, operation signatures, relationships, and invariants.</li>
-</ul>
-<hr>
-<h3>Decomposing responsibilities</h3>
-<p>&gt; <strong>Applies from: CRC stage and beyond (CRC → object-model → ...).</strong> Do not use this section at ubiquitous language level — there are no typed properties or operations at that stage.</p>
-<p>A responsibility is either something a class <strong>holds</strong> (state) or something it <strong>does</strong> (behaviour) — or both. Classify each responsibility before deciding how to represent it:</p>
-<ul>
-<li><strong>Property</strong> — the class must remember something across calls. Named as a <strong>noun phrase</strong>: <em>remaining budget</em>, <em>active status</em>, <em>target character</em>.</li>
-<li><strong>Operation</strong> — the class must perform an action or compute a result; it may be entirely stateless. Named as a <strong>verb phrase</strong>: <em>calculate shipping cost</em>, <em>apply condition</em>, <em>resolve check</em>.</li>
-<li><strong>Both</strong> — the class holds state <strong>and</strong> exposes an action that works with it.</li>
-</ul>
-<p>Never assume every responsibility implies a property, and never assume every responsibility implies an operation. Ask for each one: <em>hold something, do something, or both?</em></p>
-<hr>
-<h3>Relationships</h3>
-<p>&gt; <strong>Applies from: CRC stage and beyond (CRC → object-model).</strong> At ubiquitous language level, dependencies are captured as plain-English collaboration sentences only — no formal relationship modeling.</p>
-<p>A relationship describes how two domain classes depend on each other. Before recording a relationship, answer three questions:</p>
-<p>1. <strong>Does one class own the other&#x27;s lifecycle?</strong> — The other cannot exist without the first. If the owning class is gone, so is the owned one. 2. <strong>Does one class exist to collect or group the other?</strong> — The collecting class has no meaningful identity without its members. Remove all members and the collector is empty of purpose. 3. <strong>Are both sides independent?</strong> — Each can exist and be meaningful without the other.</p>
-<p>These questions determine the nature of the dependency. Each skill records the answer in its own notation — plain-English collaborations at ubiquitous language level, named collaborators at CRC level, typed flavors with cardinality at object-model level.</p>
-<p>A relationship also has <strong>direction</strong>: the class that depends on, uses, or navigates to the other is the navigating end. Be explicit about which side initiates the dependency.</p>
-<hr>
-<h3>Inheritance and subtypes</h3>
-<p>&gt; <strong>Applies from: ubiquitous language stage and beyond (ubiquitous language → CRC → object-model).</strong></p>
-<h4>Base class and subtype</h4>
-<p>A <strong>base class</strong> (also called a parent or superclass) defines the common identity, state, and behavior shared by a family of related things. It owns everything that is true of every member of that family — the responsibilities, rules, and collaborations that do not change regardless of which specific variant you are dealing with.</p>
-<p>A <strong>subtype</strong> (also called a child class or subclass) is a specialisation of the base. It <em>is a kind of</em> the base — everything the base defines applies to it — but it adds or overrides behavior that is specific to it alone. The subtype does not restate what it inherits; it only describes the delta.</p>
-<p><strong>Inheritance</strong> is the mechanism that connects them. The subtype inherits all of the base&#x27;s identity and behavior automatically. The base never knows about its subtypes; the subtypes always know about their base.</p>
-<p>A family can have many subtypes, each specialising the base in a different direction. Subtypes can themselves be bases for further subtypes — but depth should reflect real behavioral distinctions in the domain, not structural tidiness.</p>
-<h4>Liskov Substitution rule</h4>
-<p><strong>Anywhere the base is used, a subtype must work correctly in its place.</strong> If swapping in a subtype breaks or weakens a rule the base guarantees, the subtype is not a true specialisation — it is a different thing that happens to share some behavior.</p>
-<p>In practice: a subtype may <em>add</em> behavior and <em>strengthen</em> constraints, but it must never <em>remove</em> behavior or <em>weaken</em> a guarantee the base makes. If you find yourself writing a subtype that overrides a base operation to do nothing, throw an error, or return a narrower result than the base promises, stop — that is a modeling error, not a subtype.</p>
-<h4>When to use a subtype, type property, or instance</h4>
-<p>When a term looks like &quot;a thing is a kind of another thing,&quot; three modeling options exist:</p>
-<p><strong>Subtype</strong> — the specialised thing adds <strong>behavior the base does not have</strong>. Each subtype does something differently enough that you need to describe it separately. Use this when the distinction changes <strong>what the thing does</strong>, not just what data it carries. Example: an <em>international shipment</em> is a type of <em>shipment</em> — it introduces customs filing and duty handling that a domestic shipment does not have.</p>
-<p><strong>Type property (constrained list)</strong> — the thing varies by <strong>category</strong>, but every category follows the <strong>same behavior</strong>. The difference is purely which label from a known list applies. Use this when you could swap one label for another and the behavior description would not change. Example: a <em>notification</em> has a <em>notification priority type</em> drawn from (<em>low</em>, <em>normal</em>, <em>urgent</em>) — every notification still has a recipient, still carries a message, still follows the same delivery and read-receipt rules. The <em>notification priority type</em> tells you how soon it surfaces, not how it behaves differently.</p>
-<p><strong>Instance</strong> — the thing is one <strong>concrete member</strong> of a parent concept, distinguished only by its <strong>specific data values</strong>. Many instances exist side by side and they all work the same way — each just carries different numbers or names. Use this when listing them out would produce rows that repeat the same structure with different fill. Example: <em>bronze</em>, <em>silver</em>, <em>gold</em> are all instances of <em>membership tier</em> — each names a specific discount rate and benefit set, but they all follow the same upgrade, renewal, and expiry rules that Membership Tier defines.</p>
-<p>A common modeling journey begins with treating domain elements as <em>instances</em> or <em>type properties</em>, and as understanding of behavior differences grows, promotes them into subtypes.</p>
-<p><strong>Example — Evolving a Payment System Domain Model:</strong></p>
-<ul>
-<li><strong>Early model (Instances or Type properties):</strong></li>
-<li>Model <em>Payment</em> as a concept.</li>
-<li>Each <em>payment</em> instance carries data like channel (e.g., &quot;credit card&quot;, &quot;bank transfer&quot;), transaction amount, reference id, etc.</li>
-<li>All payments go through the same core behaviors: <em>initiate payment</em>, <em>set channel</em>, <em>approve transaction limit</em>.</li>
-</ul>
-<ul>
-<li><strong>Transition point:</strong></li>
-<li>As behaviors diverge (e.g., approval workflow or fraud checks differ by channel), notice that some payment types must satisfy additional steps or rules.</li>
-<li>Subtle differences in fulfillment or submission arise: submitting a bank transfer may require different fields or succeed asynchronously, while a credit card might authorize instantly.</li>
-</ul>
-<ul>
-<li><strong>Evolved model (Subtypes):</strong></li>
-<li>Define subtypes such as `CreditCardPayment`, `BankTransferPayment`, each <em>is a type of</em> `Payment`.</li>
-<li>Each subtype describes behaviors <em>only</em> where they differ — `CreditCardPayment` enforces an online authorization step; `BankTransferPayment` requires reference code validation and may be fulfilled later.</li>
-<li>Shared behaviors (initiate, submit) stay on the base `Payment`.</li>
-<li>Now <em>type</em> drives both <em>attached data</em> and <em>behavior</em>.</li>
-</ul>
-<p>&gt; When a domain element&#x27;s <em>type</em> alters not only the data needed but also the sequence of steps or the rules followed, it&#x27;s time to promote from type-property instances to true subtypes with their own behaviors.</p>
-<h4>The delta rule</h4>
-<p>A subtype carries <strong>only what it adds or overrides</strong>. Inherited responsibilities are not repeated at any level of fidelity — ubiquitous language, CRC, or object model. If the parent owns a responsibility, the subtype block is silent on it.</p>
 <h2>Output file</h2>
-<p>This skill produces <strong>one</strong> standalone file:</p>
-<pre><code>&lt;deliverables-folder&gt;/[&lt;name&gt;-]ubiquitous-language.md</code></pre>
-<p><strong>File name:</strong> Default to `ubiquitous-language.md`. Add a `&lt;name&gt;-` prefix for disambiguation — multiple products in the same workspace, or when the user asks. For multi-module engagements with `abd-module-partition` output, use the module name as the prefix: `&lt;deliverables-folder&gt;/modules/&lt;module-name&gt;-ubiquitous-language.md`.</p>
-<p><strong>Multi-module scope in one file:</strong> When the scope spans more than one module and the user wants a single combined file, organize the output with `# Module: [ModuleName]` sections. Each module section carries its own `<strong>Terms</strong>`, `<strong>Key Abstractions (term grouping)</strong>`, `# Core Domain`, and `# Boundary Domain` content. The file header summarizes the overall scope.</p>
-<p><strong>Resolving `&lt;deliverables-folder&gt;`</strong> — pick in this order:</p>
-<p>1. The path the user told you to use. 2. Where the engagement already keeps deliverables. 3. The workspace root.</p>
-<p>Do not assume a predetermined folder name. Existing engagement convention wins.</p>
+<p><strong>Deliverables folder:</strong> see `../reference/agent-protocol.md` — Output file resolution.</p>
+<p><strong>File name:</strong> `ubiquitous-language.md`. Add a `&lt;name&gt;-` prefix only when disambiguation is needed. For multi-module engagements: `&lt;deliverables-folder&gt;/modules/&lt;module-name&gt;-ubiquitous-language.md`. When the scope spans more than one module in a single file, organize with `# Module: [ModuleName]` sections.</p>
 <hr>
-<h2>Consistent shape</h2>
-<pre><code># Module: [ScopeName]           ← omit if single-scope; include per-module for multi-module
-
-**Terms**:
-- **KAName**
-  - **ka_term** — short plain-English definition
-  - **subordinate_term** — short plain-English definition
-- **AnotherKAName**
-  - **another_term** — short plain-English definition
-
----
-
-{{Analytical overview paragraph(s) — end-to-end domain mechanic with *italicized domain terms*.}}
-
----
-
-# Core Domain
-
-## KAName                                       ← h2, no bold
-
-KAName is [definition as term — role, boundary, responsibilities,
-relationships, invariants woven naturally. This paragraph IS the
-term definition for the KA.]
-
-### ka_name_as_a_concept                        ← MUST appear first; matches the KA
-- verb-led behavior with *italicized domain terms*
-- **Invariant:** rule that must always hold
-
-### another_concept
-- verb-led behavior with *italicized domain terms*
-
-### SubtypeName *is a type of* BaseName
-- delta behavior — only what the subtype adds
-
-### property_term
-- is a property of *parent_concept* — brief classification note
-
-### Decisions made                              ← ONE per KA, after ALL concept blocks
-- independence test result, scope-fit test result, typing call, or open question
-
-### References                                  ← ONE per KA, after Decisions made
-**Ref — title**
-Source: ...
-Locator: ...
-Extract: whole
-
----                                             ← separator between KAs
-
-# Boundary Domain
-
-## boundary_concept
-
-Owned by: ModuleName
-
-- verb-led behavior with *italicized domain terms*
-
-### Decisions made
-- boundary placement reasoning
-
-### References
-**Ref — title**
-Source: ...
-
----</code></pre>
-<hr>
-<h2>Build</h2>
-<p>1. <strong>Read all source.</strong> Read every source file the user names or the engagement makes available — rules documents, transcripts, design notes, prior deliverables. If a `&lt;name&gt;-module-partition.md` exists, use its term list and Refs as the starting set.</p>
-<p>2. <strong>Step 1 — Extract and list terms.</strong> Walk the source and identify every named concept that has behavior, rules, interactions, or distinct identity. Write the <strong>Terms</strong> list in the file header as a single hierarchical list: KA names as top-level bullets, their terms indented beneath with short plain-English definitions. No source paths in the Terms list.</p>
-<p>3. <strong>Step 1 — Apply the independence and scope-fit tests</strong> to every candidate. Record the outcome for each: keep under a KA, move to boundary (name the owning module), or move out (name the destination). The outcomes land in the Terms list and later in `### Decisions made`.</p>
-<p>4. <strong>Step 2 — Group kept terms into Key Abstractions.</strong> Name each KA from the source&#x27;s own vocabulary. A typical module has three to eight KAs. The grouping is already visible in the <strong>Terms</strong> list — KA names are the top-level bullets, terms are indented beneath them.</p>
-<p>5. <strong>Step 2 — Write the KA intro paragraph for each KA.</strong> Open with &quot;<em>KAName</em> is …&quot; and weave together role, boundary, responsibilities, relationships, and invariants. This paragraph is the KA&#x27;s own term definition — do not add a separate `### ka_name` definition block on top of the concept.</p>
-<p>6. <strong>Step 3 — Write the KA&#x27;s own concept block first</strong> under `## KAName`. Use `### ka_name` (no bold) with verb-led behavior bullets and `<strong>Invariant:</strong>` lines. Italicize every domain term in bullets and invariants.</p>
-<p>7. <strong>Step 3 — Write each subordinate concept block</strong> in the same flat shape: `### concept_name` (no bold), verb-led behavior bullets with <em>italicized domain terms</em>, optional `<strong>Invariant:</strong>` lines. Use `### SubtypeName <em>is a type of</em> BaseName` for specializations (delta behavior only). Use a stub heading with a one-line classification note for property, instance, or type-property terms.</p>
-<p>8. <strong>Apply the active-verb test</strong> to every behavior bullet: the hidden subject (&quot;a <em>concept</em>&quot;) should naturally start the sentence with an active verb. If a bullet hides something with its own distinct structure, interactions, or result-flow, extract it as its own `### concept` heading.</p>
-<p>9. <strong>Write ONE `### Decisions made` per KA</strong>, after all its concept blocks. Gather all typing calls, independence test results, scope-fit test results, and open questions for the KA here.</p>
-<p>10. <strong>Write ONE `### References` per KA</strong>, immediately after `### Decisions made`. List every source passage that supports any concept in the KA.</p>
-<p>11. <strong>Write boundary entries</strong> under `# Boundary Domain` as `## boundary_concept` with `Owned by: ModuleName`, verb-led bullets, then `### Decisions made` and `### References`.</p>
-<p>12. <strong>For multi-module scope in one file</strong>, wrap each module&#x27;s content in a `# Module: [ModuleName]` section with its own Terms list, KA grouping header, Core Domain, and Boundary Domain.</p>
-<p>13. <strong>Set the state marker</strong> to `state: ubiquitous-language` in the file&#x27;s YAML front matter.</p>
-<p>14. <strong>Write the file</strong> to `&lt;deliverables-folder&gt;/[&lt;name&gt;-]ubiquitous-language.md` following `templates/ubiquitous-language-template.md`. 15. <strong>Write `domain.json`</strong> to `&lt;deliverables-folder&gt;/domain.json`. For every term/concept in the file, add one entry whose key is the concept name and whose `attributes` array lists the property-like qualities named in its behavior bullets (things it <em>has</em> or <em>holds</em>, not actions it performs). For subtypes, set `inherits` to the parent concept name; for root concepts set it to `null`. Use the template in `templates/domain.json`. This file is read by the specification-by-example scanner to validate example-table column names.</p>
+<h2>Agent Instructions</h2>
+<p>&gt; <strong>MANDATORY — read `../reference/agent-protocol.md` before starting. It defines read-gates, output file resolution, and the per-rule verdict format.</strong></p>
+<h3>1. Read context</h3>
+<p>Read these files:</p>
+<ul>
+<li><strong>`reference/concepts.md`</strong> — ubiquitous language, terms, KAs, concepts, two tests, three outcomes, modeling decisions (concept vs subtype vs property vs instance), italicized-term resolution, decisions/references per KA, three passes, and the consistent file shape.</li>
+<li><strong>`../../content/oo-concepts.md`</strong> — OO fundamentals (what is a class, inheritance and subtypes). Read the <strong>`### Inheritance and subtypes`</strong> section before classifying terms. <strong>Do not</strong> read or apply `### Decomposing responsibilities` — that applies at CRC stage and beyond.</li>
+</ul>
+<h3>2. Generate</h3>
+<p>Read every file in <strong>`rules/`</strong>; author to those rules.</p>
+<p><strong>Produce output from every template:</strong></p>
+<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Template</th><th>What to produce</th></tr></thead><tbody><tr><td>`templates/ubiquitous-language-template.md`</td><td>The ubiquitous language file with Terms list, KA intros, concept blocks, decisions, and references.</td></tr><tr><td>`templates/domain.json`</td><td>Domain JSON with concept names, attributes, and inheritance.</td></tr></tbody></table></div>
+<p><strong>Quality bar:</strong> Every KA intro opens with &quot;<em>KAName</em> is …&quot;. Every concept has verb-led behavior bullets. Every `<em>italicized</em>` term resolves to a heading, stub, or parenthetical primitive. One `### Decisions made` and one `### References` per KA, after all concept blocks. State marker set to `ubiquitous-language`.</p>
+<h3>3. Validate</h3>
+<p>Run the scanners:</p>
+<pre><code>python skills/execute-skill-using-skills-rules/scripts/run_scanners.py \
+  --skill-root skills/abd-ubiquitous-language \
+  --workspace &lt;path-to-output&gt;</code></pre>
+<p>Then emit per-rule verdicts per `../reference/agent-protocol.md`.</p>
 <hr>
 <h2>Validate</h2>
+<p><strong>Goal:</strong> Inspect what was built — read the artifacts as reviewers.</p>
 <ul>
-<li><strong>One file.</strong> Named `[&lt;name&gt;-]ubiquitous-language.md`. No separate domain-language, key-abstractions, or ubiquitous-language files alongside it.</li>
-<li><strong>State marker.</strong> Front matter reads `state: ubiquitous-language`.</li>
-<li><strong>Terms list in header.</strong> A single hierarchical `<strong>Terms</strong>` list — KA names as top-level bullets, their terms indented with short plain-English definitions. No source references in this list.</li>
-<li><strong>Every KA has an intro paragraph.</strong> Opens with &quot;<em>KAName</em> is …&quot; — this is the term definition for the KA.</li>
-<li><strong>Every KA&#x27;s own concept appears first.</strong> The first `### concept` under each `## KA` heading matches the KA name, with verb-led behavior bullets.</li>
-<li><strong>Every concept has at least one verb-led behavior bullet.</strong> Active voice; the concept itself is the subject.</li>
-<li><strong>Domain terms italicized.</strong> Every domain term in behavior bullets, invariants, and KA intro paragraphs is <em>italicized</em>; non-domain words stay plain.</li>
-<li><strong>Italicized terms resolve.</strong> Every `<em>italicized</em>` term resolves to a `### concept`, subtype heading, property/instance stub, `<em>(boundary)</em>` stub, or a parenthetical primitive description — nothing italicized is unresolved. See `rules/italic-terms-resolve-to-named-concepts.md`. This is what makes the file diagram-ready for `drawio-domain-sync` as a second pass.</li>
-<li><strong>No bold on headings.</strong> `## KAName`, `### concept`, and subtype headings carry no bold.</li>
-<li><strong>One `### Decisions made` per KA, after all concept blocks.</strong> Not per concept. Covers all independence tests, scope-fit tests, and typing calls for that KA.</li>
-<li><strong>One `### References` per KA, after `### Decisions made`.</strong> Covers all source passages for that KA.</li>
-<li><strong>`---` separators between KAs.</strong> A horizontal rule after each KA&#x27;s `### References` block.</li>
-<li><strong>Boundary entries have a single named owner.</strong> Every entry under `# Boundary Domain` carries `Owned by: ModuleName` naming exactly one module.</li>
-<li><strong>Property and instance stubs visible.</strong> Terms classified as properties, instances, or type properties have a stub heading with a classification bullet — nothing is silently dropped.</li>
-<li><strong>No premature design commitments.</strong> No UML stereotypes, typed properties, method signatures, cardinality notation, `Shape hint:` or `Tension:` labels.</li>
-<li><strong>Multi-module files have `# Module:` sections.</strong> When the scope spans multiple modules in one file, each module has its own `# Module: [Name]` section with its own header and body content.</li>
-</ul></div>
+<li><strong>One file</strong> — named `[&lt;name&gt;-]ubiquitous-language.md`. No separate domain-language or key-abstractions files alongside.</li>
+<li><strong>State marker</strong> — front matter reads `state: ubiquitous-language`.</li>
+<li><strong>Terms list in header</strong> — a single hierarchical `<strong>Terms</strong>` list.</li>
+<li><strong>Every KA has an intro paragraph</strong> — opens with &quot;<em>KAName</em> is …&quot;.</li>
+<li><strong>Every KA&#x27;s own concept appears first</strong> — the first `### concept` under each `## KA` matches the KA name.</li>
+<li><strong>Every concept has verb-led behavior bullets</strong> — active voice; the concept is the subject.</li>
+<li><strong>Domain terms italicized</strong> — every domain term in bullets, invariants, and KA intro paragraphs.</li>
+<li><strong>Italicized terms resolve</strong> — every `<em>italicized</em>` term resolves to a heading, stub, or parenthetical primitive.</li>
+<li><strong>No bold on headings</strong> — `## KAName`, `### concept`, and subtype headings carry no bold.</li>
+<li><strong>One `### Decisions made` per KA</strong> — after all concept blocks.</li>
+<li><strong>One `### References` per KA</strong> — after `### Decisions made`.</li>
+<li><strong>Boundary entries have a single named owner</strong> — `Owned by: ModuleName`.</li>
+<li><strong>Property and instance stubs visible</strong> — nothing silently dropped.</li>
+<li><strong>No premature design commitments</strong> — no UML stereotypes, typed properties, method signatures, or cardinality notation.</li>
+<li><strong>No bundle markers</strong> — `SKILL.md` has no `&lt;!-- execute_rules:bundle_rules --&gt;` markers.</li>
+</ul>
+<hr></div>
 
 </div>
 </div>

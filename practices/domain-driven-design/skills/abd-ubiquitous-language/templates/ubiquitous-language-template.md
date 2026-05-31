@@ -36,10 +36,10 @@
     ### boundary_term *(boundary)*              ← scoped view; only what THIS KA depends on
     - bullet describing only the aspects this KA actually depends on, with *italicized domain terms*
 
-    ### Decisions made                          ← ONE per KA, after ALL concept blocks
+    #### Decisions made                         ← ONE per KA, after ALL concept blocks
     - independence test, scope-fit test, typing call, or open question
 
-    ### References                              ← ONE per KA, after Decisions made
+    #### References                             ← ONE per KA, after Decisions made
     **Ref — title**
     Source: ...
     Locator: ...
@@ -50,16 +50,19 @@
   Contract:
     - Terms header: flat list with term + short plain-English definition only (no source references).
     - Boundary/moved-out terms carry a parenthetical note in the Terms list.
+    - Each KA anchors at least 3–5 terms (subordinate concepts, subtypes, properties). A KA with
+      fewer than three terms is not a KA — merge it under an existing KA or downgrade it.
     - KA intro paragraph (*KAName* is …) IS the term definition. No separate ### ka_name definition block.
     - The KA's own concept is listed FIRST under the ## KA heading, with bullets telling its story.
     - Bullets live directly under each ### concept heading — no #### sub-headings.
     - Every domain term in a bullet, invariant, or KA intro paragraph is *italicized*.
-    - ONE ### Decisions made and ONE ### References per KA, after all its concept blocks.
+    - ONE #### Decisions made and ONE #### References per KA, after all its concept blocks.
     - --- separators between KAs.
     - No bold on ## KA or ### concept headings.
     - Subtypes use the English heading form: ### SubtypeName *is a type of* BaseName.
     - Behavior + produced result on the same bullet (", producing a *result*").
-    - Property/instance terms get a stub heading with a classification bullet.
+    - Pure properties (no independent behavior/invariants) are mentioned only in the parent concept's bullets — no stub heading.
+    - A property earns its own ### heading only when it has its own invariant, behavior, or cross-concept interaction.
     - Boundary entries carry Owned by: ModuleName (exactly one module).
     - If a boundary term is relevant to more than one KA, each KA includes its own scoped stub
       (### boundary_term *(boundary)*) showing only the behaviors that KA depends on.
@@ -116,21 +119,22 @@ Weave naturally. This paragraph is the term definition for the KA itself.}}
 
 - {{delta behavior — only what the subtype adds, with *italicized domain terms*}}
 
-### {{property_or_instance_term}}
+    ### {{property_with_own_behavior_or_invariant}}    ← only when the property has its own invariant, behavior, or cross-concept interaction
 
-- is a {{property / instance / type property}} of *{{parent_concept}}* — {{brief classification note}}
+    - {{behavior or invariant that justifies the heading}}
+    - **Invariant:** {{rule — only if source states one}}
 
-### {{boundary_term}} *(boundary)*
+    ### {{boundary_term}} *(boundary)*
 
 - {{only the aspects of this boundary concept that this KA actually depends on, with *italicized domain terms*}}
 
-### Decisions made
+#### Decisions made
 
 - {{independence test result}}
 - {{scope-fit test result}}
 - {{typing call (concept vs property vs subtype vs instance) or open question}}
 
-### References
+#### References
 
 **Ref — {{ref_title}}**
 Source: {{source_path}}
@@ -148,11 +152,11 @@ Extract: {{whole or partial}}
 - {{bullet telling the concept's story with *italicized domain terms*}}
 - **Invariant:** {{rule}}
 
-### Decisions made
+#### Decisions made
 
 - {{…}}
 
-### References
+#### References
 
 **Ref — {{ref_title}}**
 Source: {{source_path}}
@@ -169,11 +173,11 @@ Owned by: {{OwningModule}}
 
 - {{bullet describing what this scope depends on, with *italicized domain terms*}}
 
-### Decisions made
+#### Decisions made
 
 - {{boundary placement reasoning}}
 
-### References
+#### References
 
 **Ref — {{ref_title}}**
 Source: {{source_path}}
@@ -232,12 +236,12 @@ All uncertain outcomes are resolved with one mechanic: roll *d20*, add all appro
 - supplies the base *modifier* for a *check* — the *trait's* *rank* flows directly into the *roll total*
 - **Invariant:** *ranks* must never be added directly; convert to *measures*, perform arithmetic on the *measures*, then convert back to a *rank*
 
-### Decisions made
+#### Decisions made
 
 - *Trait* is owned by this module as the base abstraction — other modules (*Ability*, *Skill*, *Power*, *Advantage*) define specific traits (independence test).
 - *Rank* is a concept, not a property of *Trait* — it has its own scale (doubling), its own invariant (no direct addition), and its own interactions with *Check*.
 
-### References
+#### References
 
 **Ref — Ranks & Measures**
 Source: context/rules/HeroesHandbook-rules__chunk_008.md
@@ -275,13 +279,13 @@ Extract: whole
 
 - sets the *DC* for *resistance checks* as DC = *rank* + 10
 
-### Decisions made
+#### Decisions made
 
 - *Check* alone owns *success/failure* for uncertain outcomes (independence test).
 - *DC* belongs here, not as its own KA — it exists only in relation to a *check* (independence test).
-- *d20* is the instrument a *check* rolls — a property, not a concept.
+- *d20* is the instrument a *check* rolls — a property, not a concept; mentioned in the *check* bullet only.
 
-### References
+#### References
 
 **Ref — Game Play**
 Source: context/rules/HeroesHandbook-rules__chunk_009.md
@@ -309,11 +313,11 @@ Owned by: Power
 - has a *rank* that determines the *resistance check* DC (DC = *rank* + 10)
 - may impose one or more *conditions* on a *character* based on *degree of failure*
 
-### Decisions made
+#### Decisions made
 
 - *Power effect* is owned by the *Power* module — it has broad meaning outside this scope (scope-fit test).
 
-### References
+#### References
 
 **Ref — Resistance and Ongoing Effects**
 Source: context/rules/HeroesHandbook-rules__chunk_209.md

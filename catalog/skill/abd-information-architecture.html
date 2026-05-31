@@ -939,13 +939,7 @@ a.cap-card:hover .cap-card__icon {
 </nav>
 
 <h2>Description</h2>
-<div class="entry-prose">The purpose of this skill is to produce the initial information architecture for a solution scope.<br>
-<br>
-Information architecture (IA) is the practice of structuring, organizing, and labeling the surfaces and content of a solution so users can find what they need and understand where they are. It covers two dimensions — navigation (how a user moves through the solution and the components that carry that movement) and content (what lives on each surface, how it is grouped, what it is called, and what users can do with it).<br>
-<br>
-A site map — the inventory of screens and the directed transitions between them — is one component of the IA: the navigation backbone. This skill produces it alongside the rest of the IA in a single low-fidelity pass.<br>
-<br>
-Doing this work early, before detailed design or development, flushes out gaps in functional and domain understanding, surfaces disagreements about scope, naming, and navigation when they are cheap to resolve, and gives the team a concrete picture to challenge and confirm before committing to wireframes or implementation. Functional requirements and stories written against a named screen inventory and content model become more precise: they reference agreed surfaces by name, missing coverage shows up as absent nodes, and edge-case states are identified before anyone has built against the wrong assumption.<br>
+<div class="entry-prose">Doing IA work early — before detailed design or development — flushes out gaps in functional and domain understanding, surfaces disagreements about scope, naming, and navigation when they are cheap to resolve, and gives the team a concrete picture to challenge and confirm before committing to wireframes or implementation. Functional requirements and stories written against a named screen inventory and content model become more precise: they reference agreed surfaces by name, missing coverage shows up as absent nodes, and edge-case states are identified before anyone has built against the wrong assumption.<br>
 <br>
 ---</div>
 
@@ -964,359 +958,65 @@ Doing this work early, before detailed design or development, flushes out gaps i
 
 <h2 id="entry-contents">Contents</h2>
 <div class="entry-contents-doc">
-<details class="entry-md-section" id="purpose"><summary class="entry-md-section__summary">Purpose</summary><div class="entry-md-section__body"><p>The purpose of this skill is to produce the <strong>initial information architecture</strong> for a solution scope.</p>
-<p><strong>Information architecture (IA)</strong> is the practice of structuring, organizing, and labeling the surfaces and content of a solution so users can find what they need and understand where they are. It covers two dimensions — <strong>navigation</strong> (how a user moves through the solution and the components that carry that movement) and <strong>content</strong> (what lives on each surface, how it is grouped, what it is called, and what users can do with it).</p>
-<p>A <strong>site map</strong> — the inventory of screens and the directed transitions between them — is one component of the IA: the navigation backbone. This skill produces it alongside the rest of the IA in a single low-fidelity pass.</p>
-<p>Doing this work early, before detailed design or development, flushes out gaps in functional and domain understanding, surfaces disagreements about scope, naming, and navigation when they are cheap to resolve, and gives the team a concrete picture to challenge and confirm before committing to wireframes or implementation. Functional requirements and stories written against a named screen inventory and content model become more precise: they reference agreed surfaces by name, missing coverage shows up as absent nodes, and edge-case states are identified before anyone has built against the wrong assumption.</p>
+<details class="entry-md-section" id="purpose"><summary class="entry-md-section__summary">Purpose</summary><div class="entry-md-section__body"><p>Doing IA work early — before detailed design or development — flushes out gaps in functional and domain understanding, surfaces disagreements about scope, naming, and navigation when they are cheap to resolve, and gives the team a concrete picture to challenge and confirm before committing to wireframes or implementation. Functional requirements and stories written against a named screen inventory and content model become more precise: they reference agreed surfaces by name, missing coverage shows up as absent nodes, and edge-case states are identified before anyone has built against the wrong assumption.</p>
 <hr></div></details>
-<details class="entry-md-section" id="when-to-use-this-skill"><summary class="entry-md-section__summary">When to use this skill</summary><div class="entry-md-section__body"><p>Use this skill when <strong>any</strong> of the following apply:</p>
-<ul>
-<li>You are starting work that involves a change in user behavior or user interaction with the solution.</li>
-<li>The team is not aligned on how users engage and interact with the solution — different people describe it differently, and there is no single agreed picture to point at.</li>
-<li>You want an initial view of interaction flow, navigation, and screen layout to complement your early understanding of the solution — without committing to any detail.</li>
-<li>You want to identify gaps, redundancies, or missing states in the solution before anyone invests time designing or building them.</li>
-<li>You need to scope and estimate the work — a named screen inventory and content model make it possible to reason about effort, coverage, and complexity before wireframes or stories exist.</li>
-<li>A previous IA no longer reflects how the team understands the solution, and you need to re-establish a clean structural baseline.</li>
-</ul>
+<details class="entry-md-section" id="output-file"><summary class="entry-md-section__summary">Output file</summary><div class="entry-md-section__body"><p><strong>Deliverables folder:</strong> see `../reference/agent-protocol.md` — Output file resolution.</p>
+<p><strong>File names:</strong> `initial-ia.md` (structured spec) and `initial-ia.drawio` (diagram), typically in `docs/ux/`.</p>
 <hr></div></details>
-<details class="entry-md-section" id="core-outputs"><summary class="entry-md-section__summary">Core outputs</summary><div class="entry-md-section__body"><p>The IA is captured on a single canvas covering two dimensions.</p>
-<h3>Navigation</h3>
+<details class="entry-md-section" id="agent-instructions"><summary class="entry-md-section__summary">Agent Instructions</summary><div class="entry-md-section__body"><p>&gt; <strong>MANDATORY — read `../reference/agent-protocol.md` before starting. It defines read-gates, output file resolution, and the per-rule verdict format.</strong></p>
+<h3>1. Read context</h3>
+<p>Read these files:</p>
 <ul>
-<li><strong>Site map</strong> — screens as named boxes, with directed transitions between them showing how users flow from one screen to the next. There should be a simple, obvious mapping from stories to this layer: in-scope stories live on screens, and the events in those stories drive the transitions.</li>
-<li><strong>Per-screen layout</strong> — for each screen, the standard layout template it follows in conventional terms (e.g. `header + body + footer`, `header + left panel + body (2-column)`, `header + 3-column body`, `header + body grid (2 columns × 2 rows)`, `modal dialog`). The layout names the slots; the regions (next bullet) name what fills each slot.</li>
-<li><strong>Navigational components</strong> — each screen has an initial description and approximate layout of the persistent surfaces that carry navigation: menus, primary navigation, sidebars, headers, footers, breadcrumbs, link groups. Named regions only, no controls, no styling.</li>
+<li><strong>`reference/concepts.md`</strong> — core IA dimensions (navigation + content), screen/transition/layout/tab-state definitions, content types, story and domain term traceability rules, mental model alignment, canvas layout convention, and CLI layout templates.</li>
+<li><strong>`reference/examples.md`</strong> — worked example of a good initial IA showing tab-state decomposition, representative rows, verb rows, chrome conventions, and story budget.</li>
 </ul>
-<h3>Content</h3>
-<ul>
-<li><strong>Content types</strong> — the kinds of things users read, create, or act on; where the context provides domain terms, concepts, or classes, a content type is typically one of those. Capture the hierarchy of each content type and any collections it belongs to.</li>
-<li><strong>Per-screen content layout</strong> — for each screen, a categorized layout of what content lives there, visually depicting high-level relationships (hierarchy, collection) and the key navigation between content.</li>
-<li><strong>Labels and tags</strong> — preliminary labels and tags needed to identify content elements on the canvas.</li>
-<li><strong>Key actions per content type</strong> — the headline things a user can do with each content type (browse, create, edit, archive, share, …). There should be a simple, obvious mapping from stories to actions: each in-scope story that acts on a content type contributes an action to that type. No controls, no copy.</li>
-</ul>
-<hr></div></details>
-<details class="entry-md-section" id="stories-and-domain-as-sources"><summary class="entry-md-section__summary">Stories and domain as sources</summary><div class="entry-md-section__body"><p>The story map and the ubiquitous language are <strong>sources</strong> for this skill, not its subjects. They feed the IA but are not what it speaks in.</p>
-<ul>
-<li>Use <strong>UX terms</strong> on UX output — <em>screen</em>, <em>region</em>, <em>navigation</em>, <em>sidebar</em>, <em>header</em>, <em>footer</em>, <em>content type</em>, <em>action</em>, <em>label</em>, <em>tag</em>.</li>
-<li>When a story or a domain concept appears on the canvas, include only its <strong>name</strong> — the story title or the domain term — and a link to the full source. No acceptance criteria, no full definitions, no behavioral detail on the IA artifact.</li>
-<li>Stories and domain concepts in scope must be <strong>referenceable</strong> from the IA: every in-scope <em>user</em> story is reachable from a screen (as a story name listed on it, or as a transition trigger); every in-scope domain concept that the user perceives appears as a screen, content type, label, or action.</li>
-</ul>
-<hr></div></details>
-<details class="entry-md-section" id="core-concepts"><summary class="entry-md-section__summary">Core concepts</summary><div class="entry-md-section__body"><h3>Scope</h3>
-<p>The slice of the solution this IA covers — typically one <strong>increment</strong>, one <strong>epic</strong>, or one <strong>sprint</strong>. Only stories and domain concepts inside the scope contribute screens, navigation, content types, and labels.</p>
-<h3>Screen</h3>
-<p>A <strong>screen</strong> is a distinct user-visible state — what the user sees and acts on when one set of stories is active. Two states that differ only in transient data are the same screen; states that differ in which regions exist, which navigational components are present, or which actions are available are different screens.</p>
-<p><strong>Story budget signal:</strong> a screen should carry ~4 user stories. Consistently more than ~4 almost always means a tab state, a detail/edit screen, or a mode has not been separated out. Each story on a screen must be directly and visibly satisfied by a region or action on that screen — not by a region on a sibling or ancestor screen.</p>
-<h3>Transition</h3>
-<p>A <strong>transition</strong> is a directed move from one screen to another. Its label names the <strong>trigger</strong> — the user action or system event that causes the move — using a UX term when the trigger is structural (e.g. <em>opens primary nav</em>) or a domain concept name when the trigger is domain-specific (e.g. <em>submits valid path</em>), with a link to the source story or term.</p>
-<h3>Layout</h3>
-<p>The <strong>layout</strong> of a screen is the standard template it follows. Use one of the named templates below — the CLI enforces the slot geometry. Layout is captured per screen as a template name; precise dimensions, spacing, and visual styling belong in `abd-lo-fi` and `abd-hi-fi`.</p>
-<h4>Layout templates</h4>
-<p>Use `node $DUXCLI templates` to print the full list with ASCII diagrams. Available templates and their slots:</p>
-<pre><code>stack        — single column                          slot: body
-               +----------+
-               |   body   |
-               +----------+
-
-modal        — centered overlay dialog (rounded)      slot: body
-               +--[MODAL]---------+
-               |      body        |
-               +------------------+
-
-form         — single-column form (stacked inputs)    slot: body
-               +------------------+
-               | [field]          |
-               | [field]  [submit]|
-               +------------------+
-
-sidebar      — left panel + right workspace           slots: panel | body
-               +--------+----------+
-               | panel  |  body    |
-               +--------+----------+
-
-split-screen — two equal columns                      slots: left | right
-               +----------+----------+
-               |  left    |  right   |
-               +----------+----------+
-
-flyout       — main content + contextual side panel   slots: body | panel
-               +---------------+------+
-               |  body         |panel |
-               +---------------+------+
-
-holy-grail   — header + nav + body + aside + footer   slots: header, nav, body, aside, footer
-               +---------------------+
-               |      header         |
-               +-----+--------+------+
-               | nav |  body  |aside |
-               +-----+--------+------+
-               |      footer         |
-               +---------------------+</code></pre>
-<p>`header` and `footer` slots always render as full-width bands above and below the column section, regardless of template. Any region assigned an unknown slot falls through to `body` (or the first defined column).</p>
-<h3>Navigational component</h3>
-<p>A <strong>navigational component</strong> is a persistent surface that carries navigation across screens — menus, primary navigation, sidebars, headers, footers, breadcrumbs, link groups. Components are listed and named in UX terms, with the screens or content types they link to. They are not styled and they do not name controls.</p>
-<h3>Canvas layout convention</h3>
-<p>The diagram uses a <strong>column × row grid</strong>. Every screen gets a `--col` (horizontal) and `--row` (vertical) when added. <strong>Both are required — never rely on insertion order.</strong></p>
-<pre><code>screen ──► screen ──► screen          ← linear path: col increases, row = 0
-                │
-                ▼
-           option 1 ──► detail        ← option: same col, row increments; detail goes right (col+) at same row
-                ▼
-           option 2 ──► detail
-                ▼
-           option 3</code></pre>
-<h4>Decision rule — linear vs option (be aggressive)</h4>
-<p>Ask one question per screen: <strong>&quot;Can the user skip this and still complete the primary flow?&quot;</strong></p>
-<ul>
-<li><strong>No — always visited:</strong> linear. Put it in row 0, increment col.</li>
-<li><strong>Yes — sometimes visited:</strong> option. Keep col the same as its trigger, increment row.</li>
-</ul>
-<p>If in doubt, call it an option. Placing an optional screen in the linear row causes its column to push everything right, creating overlapping connections. The cost of calling it an option is zero — it just goes below.</p>
-<p><strong>Common examples:</strong></p>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Screen</th><th>Linear or option?</th><th>Why</th></tr></thead><tbody><tr><td>Game dir prompt → crowd manager</td><td>Linear</td><td>Always happens on first run</td></tr><tr><td>Crowd manager → desktop</td><td>Linear</td><td>Always happens to start a session</td></tr><tr><td>Desktop → attack config</td><td>Linear</td><td>Always happens when attacking</td></tr><tr><td>Crowd manager → model browser</td><td><strong>Option</strong></td><td>Only if building a crowd from a model list</td></tr><tr><td>Crowd manager abilities → ability editor</td><td><strong>Option</strong></td><td>Only when editing an ability</td></tr><tr><td>Tab siblings (identities / abilities / movements)</td><td><strong>Options</strong></td><td>User picks one; stack in same col</td></tr></tbody></table></div>
-<h4>Placing screens</h4>
-<pre><code># Linear flow — row 0, cols 0 → N
-node $DUXCLI add-screen &quot;game directory prompt&quot;      --layout modal        --col 0 --row 0
-node $DUXCLI add-screen &quot;crowd manager — identities&quot; --layout sidebar      --col 1 --row 0
-node $DUXCLI add-screen &quot;desktop&quot;                    --layout split-screen --col 2 --row 0
-node $DUXCLI add-screen &quot;attack configuration&quot;       --layout flyout       --col 3 --row 0
-
-# Options off crowd manager col 1 — same col, rows 1+
-node $DUXCLI add-screen &quot;crowd manager — abilities&quot;  --layout sidebar --col 1 --row 1
-node $DUXCLI add-screen &quot;crowd manager — movements&quot;  --layout sidebar --col 1 --row 2
-node $DUXCLI add-screen &quot;model browser&quot;              --layout modal   --col 1 --row 3
-
-# Detail screens for options — right of their parent option, same row
-node $DUXCLI add-screen &quot;ability editor&quot;             --layout form    --col 2 --row 1</code></pre>
-<h4>Connection routing</h4>
-<ul>
-<li><strong>Cross-column connections</strong> (different col): mxGraph routes automatically — clean horizontal arrows.</li>
-<li><strong>Same-column connections</strong> (same col, different row): the CLI auto-routes these along the <strong>left edge</strong> of the column so they never cut through screen boxes. No manual intervention needed.</li>
-</ul>
-<h3>Tab state</h3>
-<p>A <strong>panel with N tabs generates N separate screens on the site map.</strong> Each tab state is a full screen node — named `{{parent screen}} — {{tab label}}` (e.g. `crowd manager — identities`, `crowd manager — abilities`). The inactive tabs are shown as greyed labels in the tab bar of each sibling screen. The transition between tab states is an arrow labeled &quot;selects {{tab}} tab&quot;.</p>
-<p>The outer chrome of a multi-tab screen (toolbar, side panel, status bar, etc.) is shared across all tab-state screens. On the canvas this chrome is drawn once on each sibling screen box but described only in the primary screen block in the spec — sibling blocks note `chrome: same as {{parent screen}}`.</p>
-<p>On the diagram, sibling-screen chrome is drawn with `add-chrome --dimmed`, which fills it with light grey (`#f5f5f5`). <strong>Grey is used only for this purpose</strong> — to de-emphasise chrome that repeats unchanged across sibling tab screens. Data rows and form fields are never grey.</p>
-<p><strong>Red flag:</strong> treating a tabbed panel as one screen with sub-regions is wrong. If you find yourself writing &quot;character detail panel — tab: Identities … tab: Abilities … tab: Movements&quot; inside one screen block, stop — each tab is a separate screen.</p>
-<h3>Content type</h3>
-<p>A <strong>content type</strong> is a kind of thing a user interacts with — typically a domain concept the user reads, edits, or acts on. Each content type carries a hierarchy, collections, labels and tags, and a small set of key actions.</p>
-<h3>User story</h3>
-<p>A <strong>user story</strong> is a story with a user-visible interaction. Each in-scope user story lives on at least one screen and contributes affordances and actions to that screen; the events in a user story drive transitions to or from the screen. On the IA a user story appears by <strong>name</strong> with a <strong>link</strong> to its full source — never by full text or acceptance criteria. The mapping from user stories to screens, transitions, and content actions is what makes the IA traceable back to scope.</p>
-<h3>System story</h3>
-<p>A <strong>system story</strong> has no user-visible interaction of its own. It does not get its own screen — it is grouped (by name, with a link) with the closest user-visible screen whose interaction surfaces it.</p>
-<h3>Domain term / concept / class</h3>
-<p>A <strong>domain term</strong>, <strong>concept</strong>, or <strong>class</strong> comes from the ubiquitous language, conceptual model, or class model of the solution and names something the team and its users care about. On the IA it appears by <strong>name</strong> with a <strong>link</strong> to its definition.</p>
-<p><strong>Visible-only rule:</strong> a domain term belongs on a screen only if it names something the user can see or directly interact with on that screen — a data field label, a list row type name, a region name, or a screen name. Internal model concepts that do not appear as visible text or a distinct UI element are excluded. The full sub-concept hierarchy of a KA is never listed wholesale; list only the sub-concepts that appear as named items in the UI.</p>
-<h3>Mental model alignment</h3>
-<p>Screen names, content type names, navigational component names, and the IA as a whole reflect the user&#x27;s mental model of the solution rather than the technical decomposition. In practice this means:</p>
-<ul>
-<li>When naming a screen, content type, or component, prefer the term the product owner, domain expert, or user uses unprompted in conversation. If you are reaching for a system or framework name (`MainShellViewModel`, `SettingsRoute`), stop and pick a domain or UX term instead.</li>
-<li>When deciding whether two states are one screen or two, ask &quot;does the user think of these as the same place?&quot; Same place → same screen.</li>
-<li>When grouping content into a region or assigning content to a navigational component, ask &quot;does the user perceive these as belonging together?&quot; If they do, the grouping is right.</li>
-<li>When the IA is drafted, read it back to a domain expert or product owner without translating. If they recognise what each screen, region, content type, and action refers to without explanation, alignment is good. If they need translation, the names are wrong — fix them before moving on.</li>
-</ul>
-<h3>Card sorting (informally)</h3>
-<p>Before drawing per-screen content layouts and per-component link groupings, candidate labels are grouped by affinity — what reads as one surface or one cluster to a user. The resulting groups become the named regions, content groupings, and component link sets.</p>
-<h3>Rules</h3>
-<p>`rules/<em>.md` validate the output (the named artifacts on the canvas and the saved `.md` spec, `.tldr`, and `.svg`). Build steps live in </em><em>Build</em>*.</p>
-<hr></div></details>
-<details class="entry-md-section" id="the-shape-of-a-good-initial-ia"><summary class="entry-md-section__summary">The shape of a good initial IA</summary><div class="entry-md-section__body"><p>The reference pattern — each tab state is its own screen, list regions show representative rows, actions are a verb row, chrome is named but not described, and each screen carries ~4 stories.</p>
-<pre><code>[ game directory prompt ]                          modal dialog
-  ┌─────────────────────────────┐
-  │ COH game directory          │  — label only
-  │ directory path · browse     │  — field labels only
-  │ validation feedback         │  — conditional region label
-  │ continue                    │  — action gate
-  └─────────────────────────────┘
-  Stories (~2): Validate Game Directory · Prompt if Invalid
-  Domain terms: COH game directory
-
-       │ submits valid path
-       ▼
-
-[ crowd manager — identities ]                     left panel + body
-  ┌────────────────┬────────────────────────────┐
-  │ crowd tree     │ [ Identities ] Abilities   │  ← inactive tabs greyed; crowd tree
-  │ (chrome,       │   Movements                │    uses --slot panel in sidebar layout
-  │ --slot panel)  ├────────────────────────────┤    so it renders beside body, not above
-  │                │ identity row: name · type  │  ← representative row 1
-  │                │   active / default         │
-  │                │ identity row: name · type  │  ← representative row 2
-  │                │   active / default         │
-  │                │ add · remove · set default │  ← verb row (light fill, black border)
-  │                │   set active · reorder     │
-  └────────────────┴────────────────────────────┘
-  Stories (~4): Add Identity · Set Default Identity · Set Active Identity · Remove Identity
-  Domain terms: identity · model identity · costume identity · active identity · default identity
-
-  ↓ selects Abilities tab                ↓ selects Movements tab
-
-[ crowd manager — abilities ]           [ crowd manager — movements ]
-  ┌────────────────┬──────────────────┐   ┌────────────────┬──────────────────┐
-  │ crowd tree     │ Identities       │   │ crowd tree     │ Identities       │
-  │ (--panel left, │ [Abilities]      │   │ (--panel left, │ Abilities        │
-  │  --dimmed)     │ Movements        │   │  --dimmed)     │ [Movements]      │
-  │                ├──────────────────┤   │                ├──────────────────┤
-  │                │ ability row      │   │                │ movement row     │
-  │                │ ability row      │   │                │ movement row     │
-  │                │ create · delete  │   │                │ add · remove     │
-  │                │ play · stop      │   │                │ set default      │
-  │                │ set key · edit   │   │                │ set key · edit   │
-  └────────────────┴──────────────────┘   └────────────────┴──────────────────┘
-  crowd tree dimmed (--dimmed) = grey fill    crowd tree dimmed (--dimmed) = grey fill
-  signals &quot;same chrome as primary screen&quot;     signals &quot;same chrome as primary screen&quot;
-
-  edit──► [ ability editor screen ]
-  Stories (~4): Create Animated Ability       Stories (~3): Add Movement
-    Delete · Set Key · Toggle Persistence       Edit Movement Parameters
-  Domain terms: animated ability              Domain terms: character movement</code></pre>
-<p>No screen carries toolbar actions, navigation content, acceptance criteria, controls, copy, or wireframe-level detail. If a screen has more than ~4 user stories, a tab state or edit screen is missing.</p>
-<hr></div></details>
-<details class="entry-md-section" id="build"><summary class="entry-md-section__summary">Build</summary><div class="entry-md-section__body"><p><strong>Goal:</strong> Read the story map and ubiquitous language for a scope, identify the screens, transitions, navigational components, content types, per-screen content layouts, labels, and key actions, and save the result as `initial-ia.md` (structured spec) and `initial-ia.drawio` (diagram) in the engagement&#x27;s `docs/ux/` folder.</p>
-<p>1. <strong>Resolve inputs.</strong> Confirm three inputs are available: a path to `story-map.md`, a scope filter (increment number, epic name, sprint, or other), and a path to the ubiquitous-language file for that scope. If any is missing, ask the user.</p>
-<p>2. <strong>Filter the story map by scope.</strong> Read `story-map.md` and keep only stories inside the scope filter.</p>
-<p>3. <strong>Read the ubiquitous language.</strong> Read every term and definition in the supplied UL file. Domain concepts that appear on the canvas appear as <strong>names with a link</strong>; full definitions stay in the UL file.</p>
-<p>4. <strong>Identify screens by tab state, not by feature.</strong> For each in-scope story, decide which user-visible state it belongs to. A panel with N tabs produces N screens — name them `{{parent}} — {{tab label}}`. Group system stories with the closest user-visible screen. Check the story budget: if any screen accumulates more than ~4 user stories, look for a missed tab, a missing detail/edit screen, or a mode that should be separated. Fix before continuing.</p>
-<p>4a. <strong>Walk every story — produce a story trace table.</strong> Before assigning screens, create a table with one row per in-scope story: `| story title | screen | region | key action or transition trigger |`. Fill every cell. Any row where the region or action column cannot be filled means either (a) a region is missing from a screen, (b) an action is missing from a region, or (c) a screen is missing entirely. Do not proceed past this step until every GM story has a non-empty region and action/trigger. System stories need only a screen and a &quot;grouped&quot; note.</p>
-<p>This is the primary completeness gate. The most common failures are:</p>
-<ul>
-<li>A tabbed panel where only one tab&#x27;s stories appear (the other tabs&#x27; stories have no home)</li>
-<li>A contextual panel (attack configuration, modal, overlay) that was never added as a region</li>
-<li>A roster or list panel that is implied by add/remove/activate stories but never drawn</li>
-<li>Individual element-add stories (Add FX Element, Add MOV Element, …) that get collapsed into one &quot;add element&quot; action and effectively disappear</li>
-</ul>
-<p>4b. <strong>Walk every in-scope domain term — produce a domain term trace table.</strong> Create a table: `| domain term | appears as | on screen | in region |`. &quot;Appears as&quot; is one of: screen name, region name, sub-region name, content type name, label, key action, or annotation only. A term marked &quot;annotation only&quot; is incomplete — trace it to a visible element or explain why it is purely metadata. Terms with typed sub-concepts (option groups, collection members, element types) require one row per sub-type if users interact with each type individually.</p>
-<p>5. <strong>Identify transitions.</strong> For each pair of adjacent screens, find the user action or system event in the stories that moves the user between them. Label the arrow with that trigger.</p>
-<p>6. <strong>Identify navigational components.</strong> From the screens and the stories, extract the persistent navigation surfaces (menus, primary navigation, sidebars, headers, footers, breadcrumbs). Name each in UX terms and list the screens or content types it links to.</p>
-<p>7. <strong>Identify content types and their structure.</strong> For each in-scope domain concept the user perceives, decide whether it is a content type. For each content type, capture its hierarchy, the collections it belongs to, and a small set of key actions a user can perform on it.</p>
-<p>8. <strong>Lay out content per screen — rows, not prose.</strong> For each screen, list its regions. Follow these rules without exception:</p>
-<ul>
-<li><strong>Chrome regions</strong> (toolbar, sidebar, header, footer, crowd tree) — named boxes only. Do not list actions or data inside them.</li>
-<li><strong>Left-panel chrome</strong> (`--slot panel` in a `sidebar` or `flyout` layout) — when a screen&#x27;s layout places a tree or sidebar panel <em>beside</em> the content area (not above it), assign the chrome to `--slot panel`. This renders the panel as a left column alongside the body (list/form) regions. Never stack a panel region above list regions when the actual UI places them side by side.</li>
-<li><strong>Empty chrome</strong> — only add a chrome region if it has visible content at IA level (named items, labelled structure). Omit any toolbar, footer, or sidebar box that has nothing to show. A named empty box adds noise and signals an incomplete layout.</li>
-<li><strong>Grey = de-emphasis for repeated sibling chrome only</strong> — use `add-chrome --dimmed` for chrome that appears unchanged on every sibling tab screen. This fills it with light grey (`#f5f5f5`) to signal repetition. Never apply grey to data rows or form fields.</li>
-<li><strong>List/collection regions</strong> — show 2–3 representative item rows. Each row contains only the visible field names (e.g. `name · activation key · flags`). Below the rows, add a single verb row of actions (e.g. `create · remove · play · stop · edit · reorder`). Never write &quot;per item: …&quot; prose.</li>
-<li><strong>Edit/configure actions</strong> — if the verb row includes &quot;edit&quot; or &quot;configure&quot;, create a new named detail screen for the editor and add a transition arrow labeled &quot;opens {{name}} editor&quot;. The detail screen is a full site-map node.</li>
-<li><strong>Domain terms per screen</strong> — list only terms that name a visible field, row type, or region on this screen. Do not list internal model terms or the full KA hierarchy.</li>
-</ul>
-<p>9. <strong>Draft preliminary labels and tags.</strong> Where elements need identification on the canvas, choose labels in UX terms for structural pieces and domain term names (linked) for subject matter.</p>
-<p>10. <strong>Author or update `docs/ux/initial-ia.md` first.</strong> Copy `templates/initial-ia.md` into the engagement&#x27;s `docs/ux/` folder (or open the existing one) and fill in: scope, source paths (story map, UL), description, screens (regions, content types, actions, in-scope story names with links, grouped system story names with links), transitions, navigational components, and content-type details. This markdown is the structured spec the canvas is drawn from; the canvas is never authored without it.</p>
-<p>10a. <strong>Run the completeness test before touching the canvas.</strong> Walk the checklist in `rules/tab-states-and-domain-traceability.md`:</p>
-<ul>
-<li>Every tab/mode state fully decomposed in the spec.</li>
-<li>Every in-scope domain term visible as a region, sub-region, content type, or action label — not only in the annotation.</li>
-<li>Every in-scope domain concept&#x27;s typed sub-concepts listed as separate items where users interact with them.</li>
-<li>Every in-scope user story maps to a key action or transition trigger — no orphaned stories.</li>
-</ul>
-<p>Only proceed to the canvas when all items pass. Fix gaps in `initial-ia.md` first.</p>
-<p>11. <strong>Choose output mode.</strong> After `initial-ia.md` passes the completeness check, produce `initial-ia.drawio` using one of two modes — ask the user if not already specified:</p>
-<p><strong>Mode A — Internal (agent uses the `drawio-ux` CLI):</strong> Use `scripts/drawio-ux.mjs` — a Node.js CLI included in this skill — to build the diagram from a sequence of commands. No dependencies required; it generates mxGraph XML directly. The CLI enforces the style contract (white fill, black stroke, italic chrome, orthogonal edges) so the agent never touches raw XML.</p>
-<p>Resolve the CLI path:</p>
-<ul>
-<li>From the agilebydesign-skills repo: `node skills/user-experience-design/abd-information-architecture/scripts/drawio-ux.mjs`</li>
-<li>From a deployed project junction: `node .cursor/skills/abd-information-architecture/scripts/drawio-ux.mjs`</li>
-</ul>
-<p>Use this alias in the steps below: `DUXCLI=&lt;resolved path&gt;`</p>
-<p>Run these commands in sequence from the engagement root:</p>
-<pre><code>    # 1 — point at the output file
-    node $DUXCLI open docs/ux/initial-ia.drawio
-
-    # 2 — start fresh
-    node $DUXCLI clear
-
-    # 3 — add screens with named layout templates
-    node $DUXCLI add-screen &quot;game directory prompt&quot;      --layout modal
-    node $DUXCLI add-screen &quot;crowd manager — identities&quot; --layout sidebar
-    node $DUXCLI add-screen &quot;crowd manager — abilities&quot;  --layout sidebar --tab-of &quot;crowd manager — identities&quot;
-    node $DUXCLI add-screen &quot;crowd manager — movements&quot;  --layout sidebar --tab-of &quot;crowd manager — identities&quot;
-    # ... one add-screen per screen in initial-ia.md
-
-    # 4 — add regions using --slot to place them in the correct template slot
-    #
-    # modal: single &#x27;body&#x27; slot
-    node $DUXCLI add-form &quot;game directory prompt&quot; &quot;directory entry form&quot; \
-      --slot body --fields &quot;COH game directory · directory path · browse · validation feedback · continue&quot;
-
-    # sidebar: crowd tree in &#x27;panel&#x27;, content list in &#x27;body&#x27;
-    node $DUXCLI add-chrome &quot;crowd manager — identities&quot; &quot;crowd tree&quot; --slot panel
-    node $DUXCLI add-list   &quot;crowd manager — identities&quot; &quot;identity list&quot; \
-      --slot body --fields  &quot;name · type · active · default&quot; \
-                 --actions &quot;add · remove · set-default · set-active&quot;
-
-    # Sibling screens: repeated chrome uses --dimmed (grey fill).
-    # Grey signals &quot;same chrome as primary screen&quot; — ONLY valid use of grey.
-    node $DUXCLI add-chrome &quot;crowd manager — abilities&quot; &quot;crowd tree&quot; --slot panel --dimmed
-    node $DUXCLI add-list   &quot;crowd manager — abilities&quot; &quot;ability list&quot; \
-      --slot body --fields  &quot;name · activation key · persistent · attack flag&quot; \
-                 --actions &quot;create · delete · set-key · toggle-persistence · play · stop · edit&quot;
-
-    node $DUXCLI add-chrome &quot;crowd manager — movements&quot; &quot;crowd tree&quot; --slot panel --dimmed
-    node $DUXCLI add-list   &quot;crowd manager — movements&quot; &quot;movement list&quot; \
-      --slot body --fields  &quot;name · activation key · default · type&quot; \
-                 --actions &quot;add · remove · set-default · set-key · edit&quot;
-
-    # 5 — add transitions
-    node $DUXCLI connect &quot;game directory prompt&quot; &quot;crowd manager — identities&quot; \
-      --label &quot;submits valid path&quot;
-    node $DUXCLI connect &quot;crowd manager — identities&quot; &quot;crowd manager — abilities&quot; \
-      --label &quot;selects Abilities tab&quot; --dashed
-    node $DUXCLI connect &quot;crowd manager — identities&quot; &quot;crowd manager — movements&quot; \
-      --label &quot;selects Movements tab&quot; --dashed
-
-    # 6 — add callouts (stories + domain terms)
-    node $DUXCLI add-callout &quot;crowd manager — identities&quot; \
-      --stories &quot;Add Identity · Set Default Identity · Set Active Identity · Remove Identity&quot; \
-      --terms   &quot;identity · active identity · default identity · model identity&quot;
-
-    # 7 — generate the file
-    node $DUXCLI save</code></pre>
-<p>Check the current build state at any point with `node $DUXCLI status`. Overwrite `docs/ux/initial-ia.drawio` on every run — git carries the history.</p>
-<p><strong>Mode B — External (output a filled prompt for use anywhere):</strong> Fill the slots in `templates/initial-ia-prompt.md` from `docs/ux/initial-ia.md` and <strong>output the filled prompt to the user in chat</strong>. The user pastes it into any AI chat (ChatGPT, Claude.ai, Copilot, Cursor, etc.) and asks the AI to return draw.io XML. The prompt instructs the AI to follow the same style contract as Mode A (white boxes, black outlines) and return only raw mxGraph XML. Save the returned XML to `docs/ux/initial-ia.drawio`.</p>
-<p>12. <strong>Sync diagram changes back into `initial-ia.md`.</strong> If the diagram was edited directly in draw.io or via the drawio-ai plugin and structural changes were made (screens renamed, regions added/removed, transitions changed), update `docs/ux/initial-ia.md` to match. Append a row to the change log with date, direction (`drawio → md`), and a one-line summary.</p>
-<p>13. <strong>Apply the rules, then review like a peer.</strong> Walk every file under `rules/` against the drawn canvas, the saved files, and the markdown spec. Fix every violation.</p>
-<p>14. <strong>Keep the bundled rules block honest.</strong> Whenever you change a file under `rules/`, re-run the bundler so the rule prose inlined at the end of this `SKILL.md` matches what is on disk:</p>
-<pre><code>python skills/execute-skill-using-skills-rules/scripts/bundle_rules_into_skill_md.py --skill-root skills/user-experience-design/abd-information-architecture</code></pre>
-<ul>
-<li><strong>Outputs:</strong> `docs/ux/initial-ia.md` (structured spec) and `docs/ux/initial-ia.drawio` (diagram) — two artifacts in the engagement&#x27;s deliverables folder, kept in sync.</li>
-<li><strong>Per format:</strong> `.md` is the structured spec — created first, updated after diagram changes. `.drawio` is the visual diagram opened and edited in draw.io (VS Code draw.io extension or desktop app).</li>
-<li><strong>While writing:</strong> UX terms for structural pieces, domain term names (linked) for subject matter. No invented vocabulary. No acceptance criteria. No controls. No wireframe detail.</li>
-</ul>
+<h3>2. Generate</h3>
+<p>Read every file in <strong>`rules/`</strong>; author to those rules.</p>
+<p><strong>Produce output from every template:</strong></p>
+<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Template</th><th>What to produce</th></tr></thead><tbody><tr><td>`templates/initial-ia.md`</td><td>Structured spec: scope, source paths, screens (regions, content types, actions, stories, domain terms), transitions, navigational components, content-type details.</td></tr></tbody></table></div>
+<p><strong>Method (13-step build):</strong></p>
+<p>1. Resolve inputs: story map, scope filter, ubiquitous language file. 2. Filter story map by scope; read the ubiquitous language. 3. Identify screens by tab state (N tabs = N screens). Check ~4 story budget per screen. 4. Walk every story — produce a <strong>story trace table</strong> (story → screen → region → action/trigger). Every cell must be filled before proceeding. 5. Walk every in-scope domain term — produce a <strong>domain term trace table</strong> (term → appears as → on screen → in region). 6. Identify transitions with labeled triggers. 7. Identify navigational components in UX terms. 8. Identify content types with hierarchy, collections, key actions. 9. Lay out content per screen as rows (representative data rows + verb row), not prose. 10. Draft labels and tags. 11. Author `docs/ux/initial-ia.md` from the template. 12. Run the completeness test from `rules/tab-states-and-domain-traceability.md` — fix gaps before touching the canvas. 13. Choose output mode (Mode A: `drawio-ux` CLI; Mode B: filled prompt for external AI) and produce `initial-ia.drawio`.</p>
+<p><strong>CLI (Mode A — from skill&#x27;s scripts/):</strong></p>
+<pre><code>node scripts/drawio-ux.mjs open docs/ux/initial-ia.drawio
+node scripts/drawio-ux.mjs add-screen &quot;screen name&quot; --layout sidebar --col 0 --row 0
+node scripts/drawio-ux.mjs add-list &quot;screen name&quot; &quot;region&quot; --slot body --fields &quot;...&quot; --actions &quot;...&quot;
+node scripts/drawio-ux.mjs connect &quot;source&quot; &quot;target&quot; --label &quot;trigger&quot;
+node scripts/drawio-ux.mjs save</code></pre>
+<h3>3. Validate</h3>
+<p>Run the scanners:</p>
+<pre><code>python skills/execute-skill-using-skills-rules/scripts/run_scanners.py \
+  --skill-root skills/abd-information-architecture \
+  --workspace &lt;path-to-output&gt;</code></pre>
+<p>Then emit per-rule verdicts per `../reference/agent-protocol.md`.</p>
 <hr></div></details>
 <details class="entry-md-section" id="validate"><summary class="entry-md-section__summary">Validate</summary><div class="entry-md-section__body"><p><strong>Goal:</strong> Read the saved IA as reviewers, not a second authoring pass.</p>
 <ul>
-<li><strong>Who is checking:</strong> the product owner verifies that every in-scope story is referenceable from the IA (as part of a screen or as a transition trigger); a domain expert verifies that every domain concept appearing on the canvas is named and linked correctly; a UX practitioner verifies that the structural language is in UX terms and that the IA reads as navigation + content with no controls smuggled in.</li>
-<li><strong>Cross-artifact parity:</strong> `initial-ia.md` and `initial-ia.drawio` describe the same IA — the same screens, transitions, navigational components, content types, and actions.</li>
-</ul>
-<p>Walk the canvas and confirm:</p>
-<ul>
-<li>Every screen carries a name and a link to its source (domain concept or story).</li>
-<li>Every transition has a labeled trigger and a clear direction.</li>
-<li>Every navigational component is named in UX terms and lists what it links to.</li>
-<li>Every content type carries a name (linked), a hierarchy or collection, and a key-actions list.</li>
-<li>Every region label uses UX terms; every subject-matter label uses a domain term name with a link.</li>
-<li>No system story has its own screen; each is grouped with a user-visible screen.</li>
-<li>No screen carries acceptance criteria, controls, copy, or wireframe-level detail.</li>
-<li>`docs/ux/initial-ia.md` and `docs/ux/initial-ia.drawio` both exist and are in sync.</li>
-<li><strong>Each tab state is a separate screen node</strong> — no tab state is described as a sub-region of another screen.</li>
-<li><strong>Chrome regions (toolbar, nav, sidebar, header, footer) are named only</strong> — they carry no action lists in the layout. Chrome with no visible content at IA level is omitted entirely (no empty named boxes).</li>
-<li><strong>Left-panel chrome renders beside the body</strong> — crowd tree, sidebar, and nav panels that the real UI places side-by-side with the content region use `--slot panel` in a `sidebar` or `flyout` layout, not stacked above list regions.</li>
-<li><strong>Grey = repeated sibling chrome only</strong> — `--dimmed` (grey fill `#f5f5f5`) is used exclusively on chrome that repeats unchanged across sibling tab screens. Data rows and form fields carry no grey style.</li>
-<li><strong>List regions show representative rows</strong> — no &quot;per item: …&quot; prose; actions appear as a verb row below the list.</li>
-<li><strong>Every &quot;edit&quot; action connects to a named detail screen</strong> via a transition arrow.</li>
-<li><strong>Domain terms per screen are visible-only</strong> — no internal model terms, no wholesale KA hierarchy dumps.</li>
-<li><strong>Every screen has ~4 user stories</strong> — more than ~4 is a decomposition signal that was not resolved.</li>
+<li><strong>Cross-artifact parity</strong> — `initial-ia.md` and `initial-ia.drawio` describe the same IA — same screens, transitions, components, content types, and actions.</li>
+<li><strong>Every screen</strong> has a name and linked source (domain concept or story).</li>
+<li><strong>Every transition</strong> has a labeled trigger and clear direction.</li>
+<li><strong>Every navigational component</strong> is named in UX terms with what it links to.</li>
+<li><strong>Every content type</strong> carries a name (linked), hierarchy/collection, and key-actions list.</li>
+<li><strong>Tab states decomposed</strong> — each tab is a separate screen node, not a sub-region.</li>
+<li><strong>Chrome regions</strong> are named only — no action lists; empty chrome omitted.</li>
+<li><strong>Left-panel chrome</strong> renders beside the body (`--slot panel`), not stacked above.</li>
+<li><strong>Grey = repeated sibling chrome only</strong> — `--dimmed` used exclusively for tab-sibling chrome.</li>
+<li><strong>List regions</strong> show representative rows; actions appear as a verb row below.</li>
+<li><strong>Every &quot;edit&quot; action</strong> connects to a named detail screen via a transition arrow.</li>
+<li><strong>Domain terms per screen</strong> are visible-only — no internal model terms, no wholesale KA hierarchy.</li>
+<li><strong>Story budget</strong> — every screen has ~4 user stories; more signals missing decomposition.</li>
+<li><strong>No system story has its own screen</strong> — each is grouped with a user-visible screen.</li>
+<li><strong>No acceptance criteria, controls, copy, or wireframe detail</strong> on any screen.</li>
+<li><strong>No bundle markers</strong> — `SKILL.md` has no `&lt;!-- execute_rules:bundle_rules --&gt;` markers.</li>
 </ul>
 <hr></div></details>
-<details class="entry-md-section" id="deploy"><summary class="entry-md-section__summary">Deploy</summary><div class="entry-md-section__body"><p>This skill ships IDE-deployable files under `ide-files/`. Deploy them from the repo root using the standard repo-level script:</p>
-<pre><code>cd C:\dev\agilebydesign-skills
-.\scripts\deploy-skills.ps1 -ide cursor -Force</code></pre>
-<p>`deploy-skills.ps1` auto-discovers every skill under `skills/` with a `SKILL.md` and links its `ide-files/<em>.mdc` into `&lt;deploy-root&gt;/.cursor/rules/` and `ide-files/</em>.prompt.md` into `&lt;deploy-root&gt;/.cursor/commands/`. The deploy root is resolved from `skill-config.json`.</p>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>File</th><th>Deploy target</th></tr></thead><tbody><tr><td>`ide-files/abd-information-architecture.mdc`</td><td>`.cursor/rules/` (Cursor always-on rule)</td></tr><tr><td>`ide-files/abd-information-architecture.instructions.md`</td><td>`.github/` when `-ide vscode` is used (VS Code — same body as `.mdc` after frontmatter)</td></tr><tr><td>`ide-files/abd-information-architecture.prompt.md`</td><td>`.cursor/commands/` (Cursor slash command); also `.github/prompts/` under VS Code</td></tr></tbody></table></div>
-<hr>
-<p>&lt;!-- execute_rules:bundle_rules:begin --&gt; &lt;!-- Rule prose is generated from rules/*.md — edit rules, then run: python skills/execute-skill-using-skills-rules/scripts/bundle_rules_into_skill_md.py --skill-root skills/user-experience-design/abd-information-architecture --&gt; &lt;!-- execute_rules:bundle_rules:end --&gt;</p></div></details>
 </div>
 <hr class="entry-divider">
 <div class="entry-contents-files">
 <ul class="file-list file-list--root">
+<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>reference/</strong><span class="file-meta"> → Folder (2 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/kanban/user-experience-design/skills/abd-information-architecture/reference/concepts.md" target="_blank" rel="noopener noreferrer"><strong>concepts.md</strong></a><span class="file-meta"> → abd-information-architecture — Concepts</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/kanban/user-experience-design/skills/abd-information-architecture/reference/examples.md" target="_blank" rel="noopener noreferrer"><strong>examples.md</strong></a><span class="file-meta"> → abd-information-architecture — Examples</span></li>
+</ul></div></details></li>
 <li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>rules/</strong><span class="file-meta"> → Practice rules (DO/DON&#x27;T) and constraints used with scanners.</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/kanban/user-experience-design/skills/abd-information-architecture/rules/ia-named-regions-only.md" target="_blank" rel="noopener noreferrer"><strong>ia-named-regions-only.md</strong></a><span class="file-meta"> → Rule: IA per screen lists named regions only — no controls</span></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/kanban/user-experience-design/skills/abd-information-architecture/rules/markdown-spec-stays-in-sync.md" target="_blank" rel="noopener noreferrer"><strong>markdown-spec-stays-in-sync.md</strong></a><span class="file-meta"> → docs/ux/initial-ia.md stays in sync with the canvas</span></li>

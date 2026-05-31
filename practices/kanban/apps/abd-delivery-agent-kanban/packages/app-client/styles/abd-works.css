@@ -1,0 +1,221 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+:root {
+  --abd-bg: #F6F5F3;
+  --abd-surface: #FFFFFF;
+  --abd-raised: #F0ECE4;
+  --abd-border: #DDD8CF;
+  --abd-text: #111113;
+  --abd-muted: #595A61;
+  --abd-accent: #E5531A;
+  --abd-accent-deep: #C64514;
+  --abd-accent-soft: #F2A07A;
+  --abd-accent-glow: #FF6A2E;
+  --abd-blue: #4FC3F7;
+  --abd-sans: 'Inter', system-ui, sans-serif;
+  --abd-mono: 'JetBrains Mono', monospace;
+}
+
+html[data-theme='engineering'] {
+  --abd-bg: #0B0B0B;
+  --abd-surface: #111113;
+  --abd-raised: #1B1B20;
+  --abd-border: #2A2A2A;
+  --abd-text: #F4F4F5;
+  --abd-muted: #9B9BA8;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: var(--abd-sans);
+  background: var(--abd-bg);
+  color: var(--abd-text);
+  min-height: 100vh;
+}
+
+.app-shell {
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 24px 20px 48px;
+}
+
+.kicker {
+  font-family: var(--abd-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--abd-muted);
+  margin-bottom: 6px;
+}
+
+h1 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin: 0;
+  line-height: 1.25;
+}
+
+.accent { color: var(--abd-accent); }
+
+.lede {
+  color: var(--abd-muted);
+  max-width: 52ch;
+  margin-top: 12px;
+  line-height: 1.5;
+}
+
+.kb-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--abd-border);
+}
+
+.kb-header-right { text-align: right; }
+
+.kb-step {
+  font-family: var(--abd-mono);
+  font-size: 12px;
+  color: var(--abd-accent-glow);
+  margin-bottom: 8px;
+}
+
+.kb-skill-pill {
+  display: inline-block;
+  font-family: var(--abd-mono);
+  font-size: 11px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--abd-border);
+  color: var(--abd-text);
+  text-decoration: none;
+}
+
+.config-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: flex-end;
+  margin-bottom: 16px;
+  padding: 12px;
+  background: var(--abd-surface);
+  border: 1px solid var(--abd-border);
+  border-radius: 8px;
+}
+
+.config-bar label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 11px;
+  font-family: var(--abd-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--abd-muted);
+}
+
+.config-bar input {
+  min-width: 280px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--abd-border);
+  background: var(--abd-raised);
+  color: var(--abd-text);
+  font-family: var(--abd-mono);
+  font-size: 12px;
+}
+
+.config-bar button {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  background: var(--abd-accent);
+  color: #0B0B0B;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.config-bar button.secondary {
+  background: var(--abd-raised);
+  color: var(--abd-text);
+  border: 1px solid var(--abd-border);
+}
+
+.poll-indicator {
+  font-family: var(--abd-mono);
+  font-size: 11px;
+  color: var(--abd-muted);
+  margin-left: auto;
+}
+
+.abd-slide-mode-toggle {
+  display: inline-flex;
+  gap: 4px;
+  padding: 3px;
+  border: 1px solid var(--abd-border);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--abd-surface) 84%, transparent);
+  margin-bottom: 8px;
+}
+
+.abd-slide-mode-btn {
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--abd-muted);
+  font-family: var(--abd-mono);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 7px 10px;
+  cursor: pointer;
+}
+
+.abd-slide-mode-btn.is-active {
+  background: var(--abd-accent);
+  color: #0B0B0B;
+}
+
+.status-banner {
+  padding: 10px 12px;
+  margin-bottom: 12px;
+  border-radius: 6px;
+  background: rgba(34, 197, 94, 0.12);
+  border: 1px solid rgba(34, 197, 94, 0.35);
+  font-size: 13px;
+}
+
+.status-banner.error {
+  background: rgba(239, 68, 68, 0.12);
+  border-color: rgba(239, 68, 68, 0.35);
+}
+
+.home-links { margin-top: 32px; }
+
+.home-cta {
+  display: inline-block;
+  padding: 12px 20px;
+  background: var(--abd-accent);
+  color: #0B0B0B;
+  font-weight: 700;
+  text-decoration: none;
+  border-radius: 8px;
+}
+
+.hint {
+  margin-top: 16px;
+  color: var(--abd-muted);
+  font-size: 13px;
+}
+
+code {
+  font-family: var(--abd-mono);
+  font-size: 12px;
+  background: var(--abd-raised);
+  padding: 2px 6px;
+  border-radius: 4px;
+}

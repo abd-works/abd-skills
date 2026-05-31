@@ -924,7 +924,7 @@ a.cap-card:hover .cap-card__icon {
     </div>
     <a class="back-link" href="../skills.html">← All skills</a>
     <h1>bounded-context-map</h1>
-    <p class="tagline">Map bounded contexts and their relationships so integration strategy, team collaboration, and domain translation are explicit before they are discovered in production.</p>
+    <p class="tagline">Bounded context inventory with dependency arcs across three dimensions.</p>
   </div>
 </header>
 
@@ -960,279 +960,39 @@ a.cap-card:hover .cap-card__icon {
 <div class="entry-contents-doc">
 <details class="entry-md-section" id="purpose"><summary class="entry-md-section__summary">Purpose</summary><div class="entry-md-section__body"><p>Teams working across multiple models, services, or subsystems need a single shared picture of how those pieces relate — which concepts cross boundaries, how the systems talk to each other, and how the teams will collaborate. Without that picture, integration strategy is discovered in production, translation is ad hoc, and team dependencies are invisible until they block someone. This skill produces a <strong>Bounded Context Map</strong>: a named inventory of every bounded context with every dependency declared across three explicit dimensions — domain mapping, integration mechanism, and team engagement model — so the architecture is honest and the team structure matches.</p>
 <hr></div></details>
-<details class="entry-md-section" id="when-to-use-this-skill"><summary class="entry-md-section__summary">When to use this skill</summary><div class="entry-md-section__body"><p>Load this skill when <strong>any</strong> of the following apply:</p>
-<ul>
-<li>Module or service boundaries exist and the team needs to declare <strong>how they relate and integrate</strong> rather than leaving relationships implicit.</li>
-<li><strong>Multiple teams</strong> own different parts of the domain and need a shared record of dependencies, integration mechanisms, and collaboration patterns.</li>
-<li>The system has or will have <strong>inter-service boundaries</strong> (microservices, bounded subsystems, legacy integrations) and the integration patterns must be explicit before development begins.</li>
-<li>An <strong>architecture review</strong> requires a global view of model contexts, their points of contact, and the translation strategy at each boundary.</li>
-</ul>
+<details class="entry-md-section" id="output-file"><summary class="entry-md-section__summary">Output file</summary><div class="entry-md-section__body"><p><strong>Deliverables folder:</strong> see `../reference/agent-protocol.md` — Output file resolution.</p>
+<p><strong>File name:</strong> `bounded-context-map.md`. Add a `&lt;name&gt;-` prefix only when disambiguation is needed.</p>
 <hr></div></details>
-<details class="entry-md-section" id="core-concepts"><summary class="entry-md-section__summary">Core concepts</summary><div class="entry-md-section__body"><h3>Bounded context</h3>
-<p>A <strong>bounded context</strong> is an explicitly set boundary in which a model applies and is managed to be uniform. It has two facets:</p>
+<details class="entry-md-section" id="agent-instructions"><summary class="entry-md-section__summary">Agent Instructions</summary><div class="entry-md-section__body"><p>&gt; <strong>MANDATORY — read `../reference/agent-protocol.md` before starting. It defines read-gates, output file resolution, and the per-rule verdict format.</strong></p>
+<h3>1. Read context</h3>
+<p>Read these files:</p>
 <ul>
-<li><strong>Organizational</strong> — the team, department, or community responsible for the model.</li>
-<li><strong>Implementation</strong> — the code base, database schema, or deployable unit that embodies the model.</li>
+<li><strong>`reference/concepts.md`</strong> — bounded contexts, context maps, the three dimensions per dependency, relationship patterns (Shared Kernel, Customer/Supplier, Conformist, ACL, Open Host/Published Language, Separate Ways), and boundary heuristics.</li>
 </ul>
-<p>Within a bounded context, every term in the model has one meaning. Across boundaries, the same word may mean something different — and that difference is either managed or it becomes a defect. Two failure modes signal missing or misdrawn boundaries:</p>
-<ul>
-<li><strong>Duplicate concepts</strong> — two model elements represent the same real-world thing, forcing double updates and conversion logic.</li>
-<li><strong>False cognates</strong> — two teams use the same term but mean different things, leading to contradictory code, confused databases, and miscommunication.</li>
-</ul>
-<h3>Bounded context map</h3>
-<p>A <strong>bounded context map</strong> is a global view of all the model contexts in a project and the relationships between them. It marks the boundaries, determines integration strategies, identifies where contexts may be shared across teams, and may span an entire system, a portion of a system, or across several systems within the enterprise.</p>
-<p>Creating a context map follows three steps:</p>
-<p>1. <strong>Identify</strong> each model in play on the project and define its bounded context. 2. <strong>Name</strong> each bounded context and include the names in the ubiquitous language of the business domain model. 3. <strong>Describe</strong> the points of contact between the models, outlining explicit translation for any communication.</p>
-<h3>Three dimensions per dependency</h3>
-<p>Every dependency between two bounded contexts must be declared across three dimensions. Leaving any dimension implicit is a gap the team will pay for later.</p>
-<p>1. <strong>Domain mapping</strong> — which domain constructs or objects are relevant across more than one bounded context; how the specific elements in each context relate to each other and what translation is required at the boundary.</p>
-<p>2. <strong>Integration mechanism</strong> — how the systems actually communicate: Events, Messaging, REST/API, Batch, Shared DB, File Transfer, or a Shared Kernel codebase. The mechanism constrains consistency, latency, and coupling.</p>
-<p>3. <strong>Team engagement model</strong> — how the teams that own the two contexts will collaborate when changes are needed:</p>
-<ul>
-<li><strong>Travelling Team Members</strong> — members from multiple teams work as a single team (for significant changes).</li>
-<li><strong>Service Provider</strong> — one team makes changes according to the needs of the other team (for small changes).</li>
-<li><strong>Enabler</strong> — one team provides tools or APIs the other team uses self-service (for no-change integration).</li>
-</ul>
-<h3>Relationship patterns</h3>
-<p>The relationship between two bounded contexts takes one of several named patterns. Each pattern encodes a different trade-off between autonomy and coupling. Choosing the right one depends on team structure, power dynamics, and how much model divergence the business can tolerate.</p>
-<ul>
-<li><strong>Shared Kernel</strong> — a subset of the domain model that two teams agree to share, including associated code and data. No changes to the shared subset without consultation. Use when tight integration is needed and the teams can sustain the communication overhead.</li>
-</ul>
-<ul>
-<li><strong>Customer/Supplier</strong> — one subsystem feeds another; all dependencies go one way. The downstream team plays the customer role, negotiating requirements. Both teams jointly develop automated acceptance tests to validate the interface.</li>
-</ul>
-<ul>
-<li><strong>Conformist</strong> — the downstream team gives up on an independent model and slavishly adheres to the upstream team&#x27;s model. Simplifies integration enormously but cramps downstream design. Often appropriate when consuming enterprise packages (ERP, CRM) that require only moderate customization.</li>
-</ul>
-<ul>
-<li><strong>Anticorruption Layer</strong> — an isolation layer that provides clients with functionality in terms of their own domain model, translating in both directions between the two models. Use when a new system must interface with a large or messy legacy system without letting the legacy model pollute the new design.</li>
-</ul>
-<ul>
-<li><strong>Open Host Service / Published Language</strong> — a common protocol published as a set of services, open to all who need to integrate. Often paired: the open host defines the access; the published language defines the shared vocabulary. Aligns with service-oriented architecture principles.</li>
-</ul>
-<ul>
-<li><strong>Separate Ways</strong> — no integration. The bounded context has no connection to the others, allowing developers to find simple, specialized solutions within a small scope.</li>
-</ul>
-<h3>Choosing and transforming boundaries</h3>
-<p>Drawing a context map is not a one-time event. Boundaries shift as teams grow, systems evolve, and business needs change. Several heuristics help:</p>
-<ul>
-<li><strong>Larger vs smaller</strong> — larger bounded contexts make the model more coherent and the flow between user tasks smoother, but increase communication overhead. Smaller contexts reduce communication, keep models less abstract, and can be tailored to special needs. A practical upper bound is roughly ten people per bounded context.</li>
-<li><strong>External systems</strong> — three patterns typically apply: Separate Ways (no integration needed), Conformist (adopt their model), or Anticorruption Layer (insulate from their model).</li>
-<li><strong>Internal boundaries</strong> — watch for informal sharing that signals two teams are not in the same context but think they are. Formalize the relationship with a Shared Kernel or Customer/Supplier pattern.</li>
-<li><strong>Transformation</strong> — when initial boundary decisions change, ensure the current situation is fully understood, the end result is clearly defined, and processes are in place to execute the transformation without disrupting neighbouring contexts.</li>
-</ul>
+<h3>2. Generate</h3>
+<p>Read every file in <strong>`rules/`</strong>; author to those rules.</p>
+<p><strong>Produce output from every template:</strong></p>
+<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Template</th><th>What to produce</th></tr></thead><tbody><tr><td>`templates/bounded-context-map-template.md`</td><td>A single `bounded-context-map.md` — inventory of bounded contexts, dependency arcs with three dimensions each, decisions and tensions.</td></tr></tbody></table></div>
+<p><strong>Quality bar:</strong> Every bounded context has an owning team and scope description. Every dependency arc fills all three dimensions — domain mapping, integration mechanism, and team engagement model. Every relationship uses a named pattern from the DDD/ABD catalogue. Direction is explicit on every arc. No orphan contexts.</p>
+<h3>3. Validate</h3>
+<p>Run the scanners:</p>
+<pre><code>python skills/execute-skill-using-skills-rules/scripts/run_scanners.py \
+  --skill-root skills/abd-bounded-context-map \
+  --workspace &lt;path-to-output&gt;</code></pre>
+<p>Then emit per-rule verdicts per `../reference/agent-protocol.md`.</p>
 <hr></div></details>
-<details class="entry-md-section" id="agent-instructions"><summary class="entry-md-section__summary">Agent Instructions</summary><div class="entry-md-section__body"><p>1. <strong>Templates</strong></p>
-<p>Generate content using <strong>every</strong> template file in this skill&#x27;s `templates/` folder.</p>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Template</th><th>What to produce</th></tr></thead><tbody><tr><td>`templates/bounded-context-map-template.md`</td><td>A single `bounded-context-map.md` file under `&lt;active_skill_workspace&gt;/` — inventory of bounded contexts, dependency arcs with three dimensions each, decisions and tensions.</td></tr></tbody></table></div>
-<p>2. <strong>Rules</strong></p>
-<p>Follow the normative `rules/` prose bundled at the end of this `SKILL.md`. After generating content, act as a peer reviewer: walk each rule, read its DO and DO NOT, and check for concrete violations.</p>
-<p>3. <strong>Who is checking</strong></p>
-<p>A <strong>solution architect or delivery lead</strong> — someone who needs the map to be honest about dependencies, integration costs, and team collaboration before committing to a delivery plan. They read the map and ask: <em>can I trust that every cross-boundary dependency has an explicit integration strategy and team engagement model, or are there hidden couplings?</em></p>
-<hr></div></details>
-<details class="entry-md-section" id="build"><summary class="entry-md-section__summary">Build</summary><div class="entry-md-section__body"><p>1. <strong>Identify every bounded context in scope.</strong> Walk the domain models, module boundaries, team structures, and system landscape. For each bounded context, record its name, the owning team, a one-sentence scope description, and an implementation note (monolith module, microservice, shared library, legacy system, external vendor).</p>
-<p>2. <strong>Map every dependency between contexts.</strong> For each pair of contexts that interact, declare all three dimensions: what domain concepts cross the boundary (domain mapping), how the systems communicate (integration mechanism), and how the teams will collaborate (team engagement model with named pattern and direction).</p>
-<p>3. <strong>Choose relationship patterns deliberately.</strong> For each dependency, select the named pattern that fits — Shared Kernel, Customer/Supplier, Conformist, Anticorruption Layer, Open Host/Published Language, or Separate Ways — and record the rationale. If no pattern fits cleanly, record the tension.</p>
-<p>4. <strong>Record decisions and tensions.</strong> Open questions, contested boundaries, deferred integrations, and transformation plans go in a dedicated section so they are visible, not buried in footnotes.</p>
-<p>5. <strong>Apply the rules, then review like a peer.</strong> Walk the bundled `rules/` at the end of this file against the completed map. Fix violations before declaring done.</p>
-<p>6. <strong>Keep the bundled rules block honest.</strong> After changing any `rules/*.md`, run the bundle script:</p>
-<pre><code>python skills/execute-skill-using-skills-rules/scripts/bundle_rules_into_skill_md.py \
-  --skill-root skills/domain-driven-design/abd-bounded-context-map</code></pre>
-<hr></div></details>
-<details class="entry-md-section" id="validate"><summary class="entry-md-section__summary">Validate</summary><div class="entry-md-section__body"><p><strong>Goal:</strong> Inspect the completed bounded context map as a reviewer, not a second authoring pass.</p>
+<details class="entry-md-section" id="validate"><summary class="entry-md-section__summary">Validate</summary><div class="entry-md-section__body"><p><strong>Goal:</strong> Inspect the completed bounded context map as a reviewer.</p>
 <ul>
-<li><strong>Who is checking:</strong> A solution architect who will use the map to plan integration work and allocate team capacity. A delivery lead who needs to know which teams must coordinate and when.</li>
 <li><strong>Completeness</strong> — every bounded context in the system appears in the inventory with owning team and scope.</li>
-<li><strong>Three dimensions</strong> — every dependency arc has all three dimensions filled: domain mapping, integration mechanism, and team engagement model. No blanks, no &quot;TBD&quot; without a follow-up action.</li>
-<li><strong>Named patterns</strong> — every team engagement model uses a recognized pattern from the DDD/ABD catalogue (Shared Kernel, Customer/Supplier, Conformist, ACL, Open Host/Published Language, Separate Ways) or a named team collaboration model (Travelling Team Members, Service Provider, Enabler).</li>
-<li><strong>Direction</strong> — every dependency states the direction explicitly: upstream/downstream, mutual, or standalone.</li>
+<li><strong>Three dimensions</strong> — every dependency arc has all three dimensions filled. No blanks, no &quot;TBD&quot; without a follow-up action.</li>
+<li><strong>Named patterns</strong> — every team engagement model uses a recognized pattern (Shared Kernel, Customer/Supplier, Conformist, ACL, Open Host/Published Language, Separate Ways) or named collaboration model (Travelling Team Members, Service Provider, Enabler).</li>
+<li><strong>Direction</strong> — every dependency states direction explicitly: upstream/downstream, mutual, or standalone.</li>
 <li><strong>No orphans</strong> — every bounded context participates in at least one dependency or is explicitly declared standalone with a rationale.</li>
 <li><strong>Decisions and tensions</strong> — open questions, contested boundaries, and deferred integrations are recorded, not hidden.</li>
-<li><strong>Consistency with domain language</strong> — bounded context names appear in the project&#x27;s ubiquitous language; the map does not introduce unnamed or ad hoc context labels.</li>
+<li><strong>Consistency with domain language</strong> — bounded context names appear in the project&#x27;s ubiquitous language.</li>
+<li><strong>No bundle markers</strong> — `SKILL.md` has no `&lt;!-- execute_rules:bundle_rules --&gt;` markers.</li>
 </ul>
-<hr>
-<p>&lt;!-- execute_rules:bundle_rules:begin --&gt;</p>
-<h3>Rule: Direction stated per dependency — upstream, downstream, or mutual</h3>
-<p>Every dependency arc must explicitly state the direction of the relationship: which context is upstream (the supplier of data or capability), which is downstream (the consumer), or whether the relationship is mutual. Without direction, the reader cannot tell who depends on whom, who has the power to change the interface, and who bears the translation burden. Failure is a dependency arc with no direction field, or a direction that uses vague language instead of explicitly naming upstream and downstream.</p>
-<h4>DO</h4>
-<ul>
-<li>State direction using explicit upstream/downstream language that names which context is which.</li>
-</ul>
-<p><strong>Example (pass):</strong></p>
-<pre><code>  - Direction: Trading is upstream; Front Page is downstream</code></pre>
-<ul>
-<li>For mutual relationships where both contexts supply and consume from each other, state &quot;mutual&quot; and explain what flows in each direction.</li>
-</ul>
-<p><strong>Example (pass):</strong></p>
-<pre><code>  - Direction: mutual — Inventory pushes stock levels to Order Management; Order Management pushes reservation requests to Inventory</code></pre>
-<ul>
-<li>For standalone contexts (Separate Ways pattern), the direction is &quot;none&quot; — but this belongs in the Standalone Contexts section, not in a dependency arc.</li>
-</ul>
-<p><strong>Example (pass):</strong></p>
-<pre><code>  ## Standalone Contexts
-
-  ### Analytics Warehouse
-  Standalone — Separate Ways. No runtime dependency; consumes read-only replicas outside the operational model.</code></pre>
-<h4>DO NOT</h4>
-<ul>
-<li>Omit the direction field from a dependency arc.</li>
-</ul>
-<p><strong>Example (fail):</strong></p>
-<pre><code>  ### Trading → Invoice
-  - Domain mapping: deal identifiers
-  - Integration mechanism: Batch
-  - Team engagement model: Conformist</code></pre>
-<p>No direction field — the reader must guess who depends on whom.</p>
-<ul>
-<li>Use vague direction language that does not name the upstream and downstream contexts.</li>
-</ul>
-<p><strong>Example (fail):</strong></p>
-<pre><code>  - Direction: one-way</code></pre>
-<p>&quot;One-way&quot; does not say which context is upstream and which is downstream.</p>
-<ul>
-<li>Use arrow notation in the heading as a substitute for the direction field — the heading is a label, not the specification.</li>
-</ul>
-<p><strong>Example (fail):</strong></p>
-<pre><code>  ### Trading → Invoice</code></pre>
-<p>The arrow in the heading suggests direction, but without an explicit Direction field, a reviewer cannot confirm it was a deliberate choice.</p>
-<h3>Rule: Every dependency has three dimensions — domain mapping, integration mechanism, team engagement</h3>
-<p>Every dependency arc in `bounded-context-map.md` must record all three dimensions: what domain concepts cross the boundary, how the systems communicate, and how the teams collaborate. A complete dependency means no reviewer has to guess at any of the three. Failure is a dependency row with one or more dimensions missing, blank, or filled with only a placeholder.</p>
-<h4>DO</h4>
-<ul>
-<li>Fill all three dimension fields for every dependency arc: <strong>Domain mapping</strong>, <strong>Integration mechanism</strong>, and <strong>Team engagement model</strong>.</li>
-</ul>
-<p><strong>Example (pass):</strong></p>
-<pre><code>  ### Trading → DCF — Front Page
-  - Direction: Trading is upstream; Front Page is downstream
-  - Domain mapping: Deal information and counterparty details flow into Front Page for case aggregation
-  - Integration mechanism: REST/API (via Filing and Communications Service)
-  - Team engagement model: Anticorruption Layer — Service Provider</code></pre>
-<ul>
-<li>When a dimension is genuinely undecided, write a specific follow-up action with an owner and target date rather than leaving the field blank.</li>
-</ul>
-<p><strong>Example (pass):</strong></p>
-<pre><code>  - Integration mechanism: TBD — decision pending POC results from API team. Owner: Sarah. Target: Sprint 12.</code></pre>
-<h4>DO NOT</h4>
-<ul>
-<li>Leave any of the three dimension fields blank or missing from a dependency arc.</li>
-</ul>
-<p><strong>Example (fail):</strong></p>
-<pre><code>  ### Trading → Front Page
-  - Direction: upstream/downstream
-  - Domain mapping: deal data</code></pre>
-<p>Integration mechanism and team engagement model are absent — the arc is incomplete.</p>
-<ul>
-<li>Use generic placeholders like &quot;TBD&quot; or &quot;various&quot; without a named owner and resolution date.</li>
-</ul>
-<p><strong>Example (fail):</strong></p>
-<pre><code>  - Integration mechanism: TBD
-  - Team engagement model: TBD</code></pre>
-<p>No owner, no target date — the placeholder will never be resolved.</p>
-<p><strong>Source:</strong> Kept chunk #7 in `inputs/abd-answers-retrieval.md` — ABD three-dimension dependency model (DDD Training slide 66, EWMA slide 6).</p>
-<h3>Rule: Integration mechanism names a concrete approach</h3>
-<p>The integration mechanism on every dependency arc must name a concrete, implementable communication approach — not a vague category or a deferred placeholder. The mechanism constrains consistency, latency, coupling, and operational complexity; leaving it vague means the architecture is not actually decided. Failure is a dependency whose integration mechanism is missing, says only &quot;TBD&quot; without a follow-up action, or uses a label too broad to implement (&quot;various&quot;, &quot;as needed&quot;).</p>
-<h4>DO</h4>
-<ul>
-<li>Name a specific mechanism from the recognized catalogue: Events, Messaging, REST/API, Batch, Shared DB, File Transfer, or Shared Kernel codebase.</li>
-</ul>
-<p><strong>Example (pass):</strong></p>
-<pre><code>  - Integration mechanism: Messaging (message queue for inbound/outbound business messages)</code></pre>
-<ul>
-<li>Add a brief qualifier when it clarifies the implementation (protocol, transport, frequency).</li>
-</ul>
-<p><strong>Example (pass):</strong></p>
-<pre><code>  - Integration mechanism: Batch (nightly extract from Trading into Invoice ledger)</code></pre>
-<ul>
-<li>When the mechanism is genuinely undecided, state what is blocking the decision, who owns it, and when it will be resolved.</li>
-</ul>
-<p><strong>Example (pass):</strong></p>
-<pre><code>  - Integration mechanism: TBD — choosing between Events and REST/API pending latency requirements from Product. Owner: Tech Lead. Target: Sprint 14.</code></pre>
-<h4>DO NOT</h4>
-<ul>
-<li>Leave the integration mechanism field blank or missing.</li>
-</ul>
-<p><strong>Example (fail):</strong></p>
-<pre><code>  ### Trading → Invoice
-  - Direction: upstream/downstream
-  - Domain mapping: deal identifiers and pricing terms
-  - Team engagement model: Conformist — Service Provider</code></pre>
-<p>Integration mechanism is absent — the arc does not say how the systems actually talk.</p>
-<ul>
-<li>Use a label that is too broad to implement without further decisions.</li>
-</ul>
-<p><strong>Example (fail):</strong></p>
-<pre><code>  - Integration mechanism: various</code></pre>
-<p>&quot;Various&quot; is not a mechanism — it defers every question about consistency, latency, and coupling.</p>
-<ul>
-<li>Write &quot;TBD&quot; without a named owner and resolution target.</li>
-</ul>
-<p><strong>Example (fail):</strong></p>
-<pre><code>  - Integration mechanism: TBD</code></pre>
-<p>No owner, no timeline — the placeholder will persist indefinitely.</p>
-<p><strong>Source:</strong> Kept chunk #7 in `inputs/abd-answers-retrieval.md` — ABD three-dimension dependency model lists Events, Batch, Messaging, REST/API as the integration mechanism catalogue.</p>
-<h3>Rule: No orphan contexts — every bounded context participates or is declared standalone</h3>
-<p>Every bounded context listed in the inventory must either appear in at least one dependency arc (as source or target) or be explicitly declared as <strong>standalone</strong> with a rationale in the Standalone Contexts section. A floating context with no arcs and no standalone declaration is a gap — the reviewer cannot tell whether it was forgotten or intentionally isolated. Failure is a bounded context that appears in the inventory but nowhere in the Dependencies or Standalone Contexts sections.</p>
-<h4>DO</h4>
-<ul>
-<li>Ensure every bounded context name from the inventory appears as either a source or target in at least one dependency arc.</li>
-</ul>
-<p><strong>Example (pass):</strong></p>
-<p>Inventory lists: Supply Operation, Trading, Invoice, Communication Gateway, DCF Folder, DCF Front Page. Each appears in at least one arc under Dependencies.</p>
-<ul>
-<li>When a bounded context genuinely has no integration with others, declare it in the Standalone Contexts section with a rationale.</li>
-</ul>
-<p><strong>Example (pass):</strong></p>
-<pre><code>  ## Standalone Contexts
-
-  ### Reporting Data Warehouse
-  Standalone. Consumes nightly batch extracts but has no runtime integration with other contexts.
-  Rationale: read-only analytics; no domain model coupling. Separate Ways pattern applies.</code></pre>
-<h4>DO NOT</h4>
-<ul>
-<li>List a bounded context in the inventory without it appearing in any dependency arc or the Standalone Contexts section.</li>
-</ul>
-<p><strong>Example (fail):</strong></p>
-<p>Inventory lists five contexts. Dependencies section has arcs for only four of them. The fifth context does not appear anywhere else in the document — the reader cannot tell if it was forgotten or intentionally left out.</p>
-<ul>
-<li>Assume that &quot;no arc means standalone&quot; without explicitly stating it in the Standalone Contexts section.</li>
-</ul>
-<p><strong>Example (fail):</strong></p>
-<pre><code>  ## Standalone Contexts
-
-  No standalone contexts.</code></pre>
-<p>But the Notification Service context from the inventory has no dependency arcs — the statement contradicts the evidence.</p>
-<h3>Rule: Relationship pattern from the DDD/ABD catalogue</h3>
-<p>The team engagement model on every dependency arc must name a recognized pattern from the DDD strategic patterns catalogue or the ABD team collaboration models. Ad hoc labels (&quot;we&#x27;ll figure it out&quot;, &quot;hybrid approach&quot;, &quot;loose coupling&quot;) do not encode the specific trade-offs each named pattern carries. Failure is a dependency whose team engagement model uses an invented label instead of a named pattern.</p>
-<h4>DO</h4>
-<ul>
-<li>Name one of the recognized <strong>DDD relationship patterns</strong> for each dependency: Shared Kernel, Customer/Supplier, Conformist, Anticorruption Layer, Open Host Service/Published Language, or Separate Ways.</li>
-</ul>
-<p><strong>Example (pass):</strong></p>
-<pre><code>  - Team engagement model: Anticorruption Layer — Front Page isolates itself from the legacy Supply Operation model</code></pre>
-<ul>
-<li>When the arc also has a <strong>team collaboration model</strong>, name it from the ABD catalogue: Travelling Team Members, Service Provider, or Enabler.</li>
-</ul>
-<p><strong>Example (pass):</strong></p>
-<pre><code>  - Team engagement model: Customer/Supplier — Travelling Team Members (significant change requires cross-team pairing)</code></pre>
-<ul>
-<li>When two patterns apply (a DDD relationship pattern plus an ABD team collaboration model), name both explicitly.</li>
-</ul>
-<p><strong>Example (pass):</strong></p>
-<pre><code>  - Team engagement model: Open Host Service / Published Language — Enabler (Gateway team provides transport; DCF team consumes self-service)</code></pre>
-<h4>DO NOT</h4>
-<ul>
-<li>Use ad hoc labels that do not appear in the DDD or ABD catalogues.</li>
-</ul>
-<p><strong>Example (fail):</strong></p>
-<pre><code>  - Team engagement model: loose coupling with occasional syncs</code></pre>
-<p>&quot;Loose coupling with occasional syncs&quot; is not a named pattern — it hides the actual power dynamic and collaboration commitment.</p>
-<ul>
-<li>Name only a team collaboration model without the DDD relationship pattern (or vice versa) when both are relevant.</li>
-</ul>
-<p><strong>Example (fail):</strong></p>
-<pre><code>  - Team engagement model: Service Provider</code></pre>
-<p>Service Provider describes team collaboration but does not say whether the relationship is Customer/Supplier, Conformist, or something else. Both dimensions are needed.</p>
-<p><strong>Source:</strong> Kept chunk #2 in `inputs/abd-answers-retrieval.md` — seven relationship patterns (Evans); Kept chunk #9 — ABD Model Sharing Patterns catalogue; Kept chunk #7 — ABD team engagement models. &lt;!-- execute_rules:bundle_rules:end --&gt;</p></div></details>
+<hr></div></details>
 </div>
 <hr class="entry-divider">
 <div class="entry-contents-files">
@@ -1242,6 +1002,9 @@ a.cap-card:hover .cap-card__icon {
 </ul></div></details></li>
 <li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>markdown/</strong><span class="file-meta"> → Folder (1 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/domain-driven-design/skills/abd-bounded-context-map/markdown/stuff.md" target="_blank" rel="noopener noreferrer"><strong>stuff.md</strong></a><span class="file-meta"> → &lt;!-- Source: source/abd-bounded-context-map/stuff.docx | file:///C:/dev/abd-answers/source/abd-bounded-context-map/stuff.docx --&gt;</span></li>
+</ul></div></details></li>
+<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>reference/</strong><span class="file-meta"> → Folder (1 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/domain-driven-design/skills/abd-bounded-context-map/reference/concepts.md" target="_blank" rel="noopener noreferrer"><strong>concepts.md</strong></a><span class="file-meta"> → Bounded Context Map — Concepts</span></li>
 </ul></div></details></li>
 <li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>rules/</strong><span class="file-meta"> → Practice rules (DO/DON&#x27;T) and constraints used with scanners.</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/domain-driven-design/skills/abd-bounded-context-map/rules/direction-stated-per-dependency.md" target="_blank" rel="noopener noreferrer"><strong>direction-stated-per-dependency.md</strong></a><span class="file-meta"> → Rule: Direction stated per dependency — upstream, downstream, or mutual</span></li>

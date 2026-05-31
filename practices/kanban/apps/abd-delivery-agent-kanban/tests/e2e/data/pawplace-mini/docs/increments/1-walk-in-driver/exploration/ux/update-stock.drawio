@@ -1,0 +1,67 @@
+<mxfile host="drawio-mockup">
+    <diagram id="lo-fi" name="Lo-fi Wireframe">
+        <mxGraphModel dx="1422" dy="762" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1020" pageHeight="550" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="2" value="Update Stock" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;strokeWidth=2;fontStyle=1;fontSize=13;verticalAlign=top;align=center;" vertex="1" parent="1">
+                    <mxGeometry x="60" y="60" width="760" height="290" as="geometry"/>
+                </mxCell>
+                <mxCell id="3" value="employee header · store · Sign out" style="whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#cccccc;strokeWidth=1;fontSize=11;fontStyle=2;verticalAlign=middle;align=left;" vertex="1" parent="2">
+                    <mxGeometry x="12" y="44" width="736" height="28" as="geometry"/>
+                </mxCell>
+                <mxCell id="4" value="&lt;b&gt;store&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontStyle=1;fontSize=11;" vertex="1" parent="2">
+                    <mxGeometry x="12" y="72" width="240" height="22" as="geometry"/>
+                </mxCell>
+                <mxCell id="5" value="store" style="text;html=1;strokeColor=none;fillColor=none;align=right;verticalAlign=middle;fontSize=10;" vertex="1" parent="2">
+                    <mxGeometry x="12" y="94" width="86" height="28" as="geometry"/>
+                </mxCell>
+                <mxCell id="6" value="" style="whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;verticalAlign=middle;align=left;" vertex="1" parent="2">
+                    <mxGeometry x="102" y="94" width="150" height="28" as="geometry"/>
+                </mxCell>
+                <mxCell id="7" value="&lt;b&gt;stock list&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontStyle=1;fontSize=11;" vertex="1" parent="2">
+                    <mxGeometry x="262" y="72" width="486" height="22" as="geometry"/>
+                </mxCell>
+                <mxCell id="8" value="product" style="whiteSpace=wrap;html=1;fillColor=#e8e8e8;strokeColor=#cccccc;fontStyle=1;fontSize=10;verticalAlign=middle;align=left;" vertex="1" parent="2">
+                    <mxGeometry x="262" y="94" width="243" height="22" as="geometry"/>
+                </mxCell>
+                <mxCell id="9" value="product stock levels" style="whiteSpace=wrap;html=1;fillColor=#e8e8e8;strokeColor=#cccccc;fontStyle=1;fontSize=10;verticalAlign=middle;align=left;" vertex="1" parent="2">
+                    <mxGeometry x="505" y="94" width="243" height="22" as="geometry"/>
+                </mxCell>
+                <mxCell id="10" value="···" style="whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#cccccc;fontSize=10;verticalAlign=middle;align=left;" vertex="1" parent="2">
+                    <mxGeometry x="262" y="116" width="243" height="22" as="geometry"/>
+                </mxCell>
+                <mxCell id="11" value="···" style="whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#cccccc;fontSize=10;verticalAlign=middle;align=left;" vertex="1" parent="2">
+                    <mxGeometry x="505" y="116" width="243" height="22" as="geometry"/>
+                </mxCell>
+                <mxCell id="12" value="" style="whiteSpace=wrap;html=1;fillColor=#fafafa;strokeColor=#cccccc;fontSize=10;verticalAlign=middle;align=left;" vertex="1" parent="2">
+                    <mxGeometry x="262" y="138" width="243" height="22" as="geometry"/>
+                </mxCell>
+                <mxCell id="13" value="" style="whiteSpace=wrap;html=1;fillColor=#fafafa;strokeColor=#cccccc;fontSize=10;verticalAlign=middle;align=left;" vertex="1" parent="2">
+                    <mxGeometry x="505" y="138" width="243" height="22" as="geometry"/>
+                </mxCell>
+                <mxCell id="14" value="" style="whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#cccccc;fontSize=10;verticalAlign=middle;align=left;" vertex="1" parent="2">
+                    <mxGeometry x="262" y="160" width="243" height="22" as="geometry"/>
+                </mxCell>
+                <mxCell id="15" value="" style="whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#cccccc;fontSize=10;verticalAlign=middle;align=left;" vertex="1" parent="2">
+                    <mxGeometry x="505" y="160" width="243" height="22" as="geometry"/>
+                </mxCell>
+                <mxCell id="16" value="" style="whiteSpace=wrap;html=1;fillColor=#fafafa;strokeColor=#cccccc;fontSize=10;verticalAlign=middle;align=left;" vertex="1" parent="2">
+                    <mxGeometry x="262" y="182" width="243" height="22" as="geometry"/>
+                </mxCell>
+                <mxCell id="17" value="" style="whiteSpace=wrap;html=1;fillColor=#fafafa;strokeColor=#cccccc;fontSize=10;verticalAlign=middle;align=left;" vertex="1" parent="2">
+                    <mxGeometry x="505" y="182" width="243" height="22" as="geometry"/>
+                </mxCell>
+                <mxCell id="18" value="edit level" style="rounded=1;arcSize=30;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#999999;fontSize=10;" vertex="1" parent="2">
+                    <mxGeometry x="262" y="208" width="80" height="26" as="geometry"/>
+                </mxCell>
+                <mxCell id="19" value="save levels" style="rounded=1;arcSize=30;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;fontStyle=1;" vertex="1" parent="2">
+                    <mxGeometry x="348" y="208" width="82" height="26" as="geometry"/>
+                </mxCell>
+                <mxCell id="20" value="validation error area" style="whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#cccccc;strokeWidth=1;fontSize=11;fontStyle=2;verticalAlign=middle;align=left;" vertex="1" parent="2">
+                    <mxGeometry x="262" y="250" width="486" height="28" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

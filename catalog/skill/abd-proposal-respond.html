@@ -939,7 +939,9 @@ a.cap-card:hover .cap-card__icon {
 </nav>
 
 <h2>Description</h2>
-<div class="entry-prose">Respond to client proposals (RFP, Q&amp;A, requirements) by converting materials to memory, creating a response strategy, and answering questions iteratively. Depends on abd-context-to-memory for RAG. Use when responding to proposals, creating response plans, answering RFP questions, or iterating on proposal strategy.</div>
+<div class="entry-prose">Respond to client proposals by converting materials to memory, creating a response strategy, and answering questions in small batches. Uses abd-context-to-memory for RAG. Same iterate-on-strategy pattern as abd-shaping.<br>
+<br>
+---</div>
 
 <section class="install-block" aria-labelledby="install-npx-heading">
   <h2 id="install-npx-heading">Install with npx</h2>
@@ -956,23 +958,37 @@ a.cap-card:hover .cap-card__icon {
 
 <h2 id="entry-contents">Contents</h2>
 <div class="entry-contents-doc">
-<details class="entry-md-section" id="md-overview"><summary class="entry-md-section__summary">Overview</summary><div class="entry-md-section__body"><h1>Ace-Proposal-Respond</h1>
-<p>Respond to client proposals by converting materials to memory, creating a response strategy, and answering questions in small batches. Uses abd-context-to-memory for RAG. Same iterate-on-strategy pattern as abd-shaping. _</p></div></details>
-<details class="entry-md-section" id="when-to-apply"><summary class="entry-md-section__summary">When to Apply</summary><div class="entry-md-section__body"><ul>
-<li>User wants to respond to an RFP, Q&amp;A, or proposal requirements</li>
-<li>Creating a response plan from proposal documents</li>
-<li>Answering client questions using memory (RAG)</li>
-<li>Iterating on strategy with corrections (DO/DO NOT)</li>
-</ul></div></details>
-<details class="entry-md-section" id="dependency-abd-context-to-memory"><summary class="entry-md-section__summary">Dependency: abd-context-to-memory</summary><div class="entry-md-section__body"><p>Run `index_memory.py --path &lt;proposal_source&gt;` before answering questions. Use `search_memory.py &quot;&lt;query&gt;&quot;` when drafting answers.</p></div></details>
-<details class="entry-md-section" id="process"><summary class="entry-md-section__summary">Process</summary><div class="entry-md-section__body"><p>1. <strong>Setup</strong> — Convert proposal to memory; create response folder; symlink 2. <strong>Strategy first</strong> — Analyze documents; propose response plan; save to `response/strategy.md` 3. <strong>Answer a few questions ONLY</strong> — 3–5 per batch; use RAG; get approval 4. <strong>Accelerators</strong> — When answers reference `<em>See Appendix X (Name)</em>`, define and accumulate in the <strong>Accelerator Table</strong> (add/update row: slide file, numbers, URL). When done, run `build_appendix_deck.py` to assemble the appendix deck. 5. <strong>Iterate</strong> — Corrections → add DO/DO NOT to strategy; re-run or proceed</p></div></details>
-<details class="entry-md-section" id="operations"><summary class="entry-md-section__summary">Operations</summary><div class="entry-md-section__body"><div class="md-table-wrap"><table class="md-table"><thead><tr><th>Operation</th><th>When</th></tr></thead><tbody><tr><td>`create_strategy`</td><td>&quot;Create strategy,&quot; &quot;propose response plan,&quot; &quot;analyze and plan&quot;</td></tr><tr><td>`answer_questions`</td><td>&quot;Answer questions,&quot; &quot;answer a few,&quot; &quot;next batch&quot;</td></tr><tr><td>`improve_strategy`</td><td>&quot;Correct,&quot; &quot;fix that,&quot; &quot;wrong&quot;</td></tr><tr><td>`proceed_slice`</td><td>&quot;Proceed,&quot; &quot;expand,&quot; &quot;next slice&quot;</td></tr></tbody></table></div></div></details>
-<details class="entry-md-section" id="scripts"><summary class="entry-md-section__summary">Scripts</summary><div class="entry-md-section__body"><ul>
+<details class="entry-md-section" id="purpose"><summary class="entry-md-section__summary">Purpose</summary><div class="entry-md-section__body"><p>Respond to client proposals by converting materials to memory, creating a response strategy, and answering questions in small batches. Uses abd-context-to-memory for RAG. Same iterate-on-strategy pattern as abd-shaping.</p>
+<hr></div></details>
+<details class="entry-md-section" id="output-file"><summary class="entry-md-section__summary">Output file</summary><div class="entry-md-section__body"><p><strong>Deliverables folder:</strong> see `../reference/agent-protocol.md` — Output file resolution.</p>
+<p><strong>File name:</strong> `response/strategy.md` for the strategy; answer files per batch in `response/`. Add an `Accelerator Table.md` when answers reference appendix items.</p>
+<hr></div></details>
+<details class="entry-md-section" id="agent-instructions"><summary class="entry-md-section__summary">Agent Instructions</summary><div class="entry-md-section__body"><p>&gt; <strong>MANDATORY — read `../reference/agent-protocol.md` before starting. It defines read-gates, output file resolution, and the per-rule verdict format.</strong></p>
+<h3>1. Read context</h3>
+<p>Read every file in <strong>`rules/`</strong> — `response-format.md` (structure, lead paragraph, bullet prose, labels, tailoring) and `answer-from-memory.md` (RAG-first answering).</p>
+<h3>2. Generate</h3>
+<p>Read every file in <strong>`rules/`</strong>; author to those rules.</p>
+<p><strong>Operations:</strong></p>
+<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Operation</th><th>Trigger</th></tr></thead><tbody><tr><td>`create_strategy`</td><td>&quot;Create strategy,&quot; &quot;propose response plan,&quot; &quot;analyze and plan&quot;</td></tr><tr><td>`answer_questions`</td><td>&quot;Answer questions,&quot; &quot;answer a few,&quot; &quot;next batch&quot;</td></tr><tr><td>`improve_strategy`</td><td>&quot;Correct,&quot; &quot;fix that,&quot; &quot;wrong&quot;</td></tr><tr><td>`proceed_slice`</td><td>&quot;Proceed,&quot; &quot;expand,&quot; &quot;next slice&quot;</td></tr></tbody></table></div>
+<p><strong>Process:</strong></p>
+<p>1. <strong>Setup</strong> — Convert proposal to memory (`index_memory.py --path &lt;proposal_source&gt;`); create response folder (`setup_response.py --proposal &lt;folder&gt;`); symlink. 2. <strong>Strategy first</strong> — Analyze documents; propose response plan; save to `response/strategy.md`. Get approval. 3. <strong>Answer a few questions ONLY</strong> — 3–5 per batch; use `search_memory.py` for RAG; get approval. 4. <strong>Accelerators</strong> — When answers reference `<em>See Appendix X (Name)</em>`, define and accumulate in the <strong>Accelerator Table</strong> (add/update row: slide file, numbers, URL). When done, run `build_appendix_deck.py` to assemble the appendix deck. 5. <strong>Iterate</strong> — Corrections → add DO/DO NOT to strategy; re-run or proceed.</p>
+<p><strong>Scripts:</strong></p>
+<ul>
 <li>`setup_response.py --proposal &lt;folder&gt;` — Create response folder and symlink</li>
-<li>`build_appendix_deck.py --table &lt;Accelerator_Table.md&gt; [--output &lt;path&gt;]` — Assemble appendix deck from Accelerator Table (requires appendix_config.json or env)</li>
-</ul></div></details>
-<details class="entry-md-section" id="build"><summary class="entry-md-section__summary">Build</summary><div class="entry-md-section__body"><pre><code>cd skills/abd-proposal-respond
-python scripts/build.py</code></pre></div></details>
+<li>`build_appendix_deck.py --table &lt;Accelerator_Table.md&gt; [--output &lt;path&gt;]` — Assemble appendix deck from Accelerator Table</li>
+</ul>
+<h3>3. Validate</h3>
+<p>Emit per-rule verdicts per `../reference/agent-protocol.md`.</p>
+<hr></div></details>
+<details class="entry-md-section" id="validate"><summary class="entry-md-section__summary">Validate</summary><div class="entry-md-section__body"><p><strong>Goal:</strong> Inspect what was built — read artifacts as reviewers.</p>
+<ul>
+<li><strong>Response format</strong> — lead paragraph + bulleted list with bold labels + source references; consistent structure per question.</li>
+<li><strong>Memory-backed</strong> — answers cite retrieved chunks; no general-knowledge answers when proposal content is indexed.</li>
+<li><strong>Strategy corrections</strong> — every &quot;correct&quot; adds DO/DO NOT to strategy with wrong/correct examples; not just inline fix.</li>
+<li><strong>Accelerator table</strong> — every `<em>See Appendix X</em>` reference has a corresponding row in the table.</li>
+<li><strong>No bundle markers</strong> — `SKILL.md` has no `&lt;!-- execute_rules:bundle_rules --&gt;` markers.</li>
+</ul>
+<hr></div></details>
 </div>
 <hr class="entry-divider">
 <div class="entry-contents-files">
@@ -997,7 +1013,6 @@ python scripts/build.py</code></pre></div></details>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../utilities/skills/abd-proposal-respond/scripts/split_pptx_by_section.py" target="_blank" rel="noopener noreferrer"><strong>split_pptx_by_section.py</strong></a><span class="file-meta"> → !/usr/bin/env python3</span></li>
 </ul></div></details></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../utilities/skills/abd-proposal-respond/AGENTS.md" target="_blank" rel="noopener noreferrer"><strong>AGENTS.md</strong></a><span class="file-meta"> → Core Definitions</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../utilities/skills/abd-proposal-respond/README.md" target="_blank" rel="noopener noreferrer"><strong>README.md</strong></a><span class="file-meta"> → abd-proposal-respond</span></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../utilities/skills/abd-proposal-respond/skill-config.json" target="_blank" rel="noopener noreferrer"><strong>skill-config.json</strong></a><span class="file-meta"> → &quot;name&quot;: &quot;abd-proposal-respond&quot;,</span></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../utilities/skills/abd-proposal-respond/SKILL.md" target="_blank" rel="noopener noreferrer"><strong>SKILL.md</strong></a><span class="file-meta"> → name: abd-proposal-respond</span></li>
 </ul>

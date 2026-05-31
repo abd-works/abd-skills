@@ -31,7 +31,7 @@ Commit messages should reflect the active abd-skill, operation, and scope — no
 
 ## Output
 
-See `content/output.md` and `docs/ace-commit-msg-output.md` for Interaction Tree and State Model.
+See `reference/output.md` and `docs/ace-commit-msg-output.md` for Interaction Tree and State Model.
 
 ## Build
 

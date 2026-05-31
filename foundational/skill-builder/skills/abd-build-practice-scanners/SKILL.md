@@ -19,18 +19,17 @@ Written **DO / DO NOT** rules are easy to **ignore** or **misread**. Small **aut
 
 ## Not in this pass
 
-**Authoring** or **rewriting** normative prose in **SKILL.md** or **`rules/*.md`** for meaning — only **scanners**, **`scanner:`** hooks, **`run_scanners.py`**, and **re-bundle**.
+**Authoring** or **rewriting** normative prose in **SKILL.md** or **`rules/*.md`** for meaning — only **scanners**, **`scanner:`** hooks, and **`run_scanners.py`**.
 
 ## Prerequisites
 
 - **`skills/<skill-name>/`** with finalized (or stable draft) **`SKILL.md`** and **`rules/*.md`**.
-- **`bundle_rules_into_skill_md.py`** has been run at least once after the latest rule edits.
 
 Read **`skills/execute-skill-using-skills-rules/SKILL.md`** sections **Target Skill Layout** and **Commands**.
 
-## Agent instructions
+## Agent Instructions
 
-Apply the **bundled rules** at the end of this file so **`scanner:`** and scripts stay honest.
+> **MANDATORY — read every file in `rules/` for this skill before starting. Rules/*.md are the source of truth; nothing is inlined here.**
 
 1. **Choose checkable rules** — Pick **`rules/*.md`** concerns that can be enforced mechanically (regex, file presence, forbidden phrases).
 
@@ -39,13 +38,7 @@ Apply the **bundled rules** at the end of this file so **`scanner:`** and script
 
 3. **Wire frontmatter** — Set **`scanner: <stem>`** on **`rules/<stem>.md`** (stem matches script name without `-scanner.py`).
 
-4. **Re-bundle** — After editing rules:
-
-   ```bash
-   python skills/execute-skill-using-skills-rules/scripts/bundle_rules_into_skill_md.py --skill-root skills/<skill-name>
-   ```
-
-5. **Run checks** — Run **`run_scanners.py`** with **`--workspace`** when the skill produces files to scan; compare rule **intent** to scanner **coverage** as a critic.
+4. **Run checks** — Run **`run_scanners.py`** with **`--workspace`** when the skill produces files to scan; compare rule **intent** to scanner **coverage** as a critic.
 
 ## Template starter
 
@@ -53,29 +46,11 @@ Practice **`SKILL.md`** skeleton (new packages) lives with **abd-author-practice
 
 ## Validate
 
-**Goal:** No false confidence from **scanner:** labels.
+**Goal:** No false confidence from **scanner:** labels. For each rule below, emit `Rule: <name> -> PASS` or `Rule: <name> -> FAIL <reason>`.
 
 - **Parity** — Every **`scanner:`** has **`scanners/<stem>-scanner.py`**; no **`scanner:`** without a script.
 - **Messages** — Failures are **actionable**; output points to what to change.
-- **Bundle** — **`SKILL.md`** bundled block matches **`rules/*.md`** after edits.
 - **Coverage** — Spot-check: each scanner still matches the **rule** it claims to enforce.
+- **No inlined rules** — **`SKILL.md`** contains no `<!-- execute_rules:bundle_rules -->` markers.
 
 ---
-
-<!-- execute_rules:bundle_rules:begin -->
-### Rule: Scanner wiring
-
-**Scanner:** Manual review
-
-#### DO
-
-- **Implement first, then tag** — **`scanners/<stem>-scanner.py`** exists and runs before **`scanner: <stem>`** appears in **`rules/<stem>.md`**.
-- **Re-bundle** after any **`rules/*.md`** or scanner change so **SKILL.md** stays truthful.
-
-#### DO NOT
-
-- Add **`scanner:`** to **sell** rigor when the script is missing or stub-only.
-- Use this pass to **rewrite** rule meaning — fix scanners or rule text in **small**, reviewable steps.
-
-**Source:** Practice-skill builder convention (abd-build-practice-scanners).
-<!-- execute_rules:bundle_rules:end -->

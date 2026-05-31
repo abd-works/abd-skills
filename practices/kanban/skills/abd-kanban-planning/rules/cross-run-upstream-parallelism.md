@@ -11,7 +11,7 @@ When an engagement spans **multiple runs** (Increments 1–N), restarting or res
 - Wire **`depends_on`** on **Run N+1** first slots so they open after **Run N specification stage exit** (last specification reviewer slot for that run), **not** after Run N engineering completes.
 - In the plan, state **`Chain: → Run N+1 slot XX`** as the first slot of the next run that opens **in parallel** with prior-run engineering when spec is done.
 - On **resume** (checklist shows active work in engineering): ensure **Run N+1 exploration and specification** `slot-NN-start.md` files exist; run **`sync_kanban_board.py`** so Run N+1 ticket appears in **`backlog`** or **`in_progress`** when pullable.
-- Align with **Kanban**: one run = one ticket = one column; stage flow **in_progress → review → done** ([`../../../content/kanban.md`](../../../content/kanban.md)). Pull from **`backlog`** → first claim sets **`in_progress`** (no Ready column).
+- Align with **Kanban**: one run = one ticket = one column; stage flow **in_progress → review → done** ([`../../../reference/kanban-board.md`](../../../reference/kanban-board.md)). Pull from **`backlog`** → first claim sets **`in_progress`** (no Ready column).
 - Keep **within-run** ordering strict: exploration → specification → engineering inside each run; `depends_on` chains pairs inside the run as today.
 - Let **engineer / ux-designer** on the prior run continue slots 115–118 (or equivalent) while PO/BE work Run N+1 exploration — no cross-run block on downstream roles finishing first.
 

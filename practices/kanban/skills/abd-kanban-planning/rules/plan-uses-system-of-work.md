@@ -2,55 +2,52 @@
 scanner: plan-shape
 ---
 
-# Rule: Multi-run plans use a system of work — slots materialize at run open
+# Rule: Plans configure the kanban board stage configuration
 
 **Scanner:** `scanners/plan-shape-scanner.py` — rule id `plan-uses-system-of-work`
 
-When an engagement delivers **more than one product increment**, the saved plan names **runs** and a reusable **system of work** (stages, stage order, skill order per stage). **Do not** pre-list every slot for every run in `agile-delivery-plan.md`. Slots are generated when each run **opens** via `generate_run_slots.py` into `delivery-war-room/`.
+Every engagement plan must name a **strategy** and produce a **kanban board stage configuration** (stored in `system-of-work.json`) — ordered stages, each with a scope level and stage work required. **Do not** pre-list every skill assignment for every ticket. Agents pull skill work from the kanban board at runtime.
 
 ## DO
 
-- Define **one or more named systems of work** in the plan (`## System of work`) and in `delivery-war-room/system-of-work.json` — from a planning **strategy** or a custom name.
-- List **each run** in the plan and in `delivery-war-room/run-catalog.json` with: title, scope, stages, `system_of_work` reference, optional waivers, `opens_after` / `discovery_precompleted` when applicable.
-- Show **full skill order per stage** for the **first run** that introduces a system of work (or inline the discovery system for Run 1). Later runs **reference the same name** — do not duplicate the full skill tables.
-- At war-room setup (Step 2b): write `system-of-work.json`, `run-catalog.json`, and `run-state.json` — **not** all `slot-NN-start.md` files.
-- When a run opens: run `generate_run_slots.py --workspace <root> --run N` to materialize slots; update `run-state.json`.
-- When inventing a **new** custom system of work, **CHECKPOINT:** ask the operator whether to add it to `abd-kanban-planning/strategies/` for reuse.
+- Select **one named strategy** from `strategies/` (or define a custom one) and cite it in the plan.
+- Write **`kanban.json`** with the kanban board configuration: stages, scope per stage, ordered stage work required with delivery role assignments, strategy (scatter rules, checkpoint policy, autonomy), and team.
+- Show the **full kanban board stage configuration table** (stages, scope, skills) for the engagement in the plan.
+- When inventing a **new** custom configuration, **CHECKPOINT:** ask the operator whether to add it to `abd-kanban-planning/strategies/` for reuse.
 
 ## DO NOT
 
-- Pre-author slot tables for Runs 3–10 in the plan when they share the same system of work as Run 2.
-- Use **routine template**, **offset +N**, or **estimated slot ranges** as a substitute for `system-of-work.json` + run open generation.
-- Rely on fragile slot-table parsing in `agile-delivery-plan.md` for Kanban sync — `run-catalog.json` + `run-state.json` are authoritative for run membership.
+- Pre-author skill assignments per ticket — agents pull from the kanban board at runtime.
+- Use slot files (`slot-NN-start.md`, `slot-NN-finished.md`) — those are removed.
+- Treat `system-of-work.json` as a separate domain concept; it is the on-disk representation of the kanban board's stage configuration.
+- Duplicate stage skill lists across multiple places — `system-of-work.json` is the single source of truth.
 
 ## Example (wrong)
 
 ```markdown
-## Runs 3–10 — routine template
-| Offset | Phase | Role | Skills |
-| +0 | exploration | business-expert | abd-ubiquitous-language |
+## Skills per ticket
+
+| Ticket | Stage | Skill | Agent |
+| --- | --- | --- | --- |
+| inc-1 | exploration | abd-ubiquitous-language | business-expert |
+| inc-1 | exploration | abd-acceptance-criteria | product-owner |
 ```
 
-(No named system of work; no run-catalog; slots not generated at run open.)
+Pre-assigns skills to specific tickets — duplicates the kanban board; brittle.
 
 ## Example (correct)
 
 ```markdown
-## System of work — pawplace-increment-vertical
+## Strategy: new-thin-slice
 
-**From strategy:** `new-thin-slice`  
-**Stages:** exploration → specification → engineering  
-**Skill order:** per `delivery-war-room/system-of-work.json` (same for Runs 2–10)
+**Kanban board stage configuration** (from strategy `new-thin-slice`):
 
-## Run 2 — Increment 1 (defines reference run)
+| Stage | Scope | Stage work required (ordered) |
+| --- | --- | --- |
+| shaping | all | abd-story-mapping (product-owner), abd-thin-slicing (product-owner) |
+| discovery | increment | abd-domain-terms (business-expert), abd-story-mapping (product-owner) |
+| exploration | increment | abd-ubiquitous-language (business-expert), abd-acceptance-criteria (product-owner) |
+| engineering | sprint | abd-object-model (engineer), abd-clean-code (engineer) |
 
-**system_of_work:** `pawplace-increment-vertical`  
-**Stages:** exploration, specification, engineering  
-**Scope:** Increment 1 stories …
-
-## Run 8 — Increment 7
-
-**system_of_work:** `pawplace-increment-vertical` (same as Run 2)  
-**discovery_precompleted:** true  
-**Slots:** materialize at run open (`generate_run_slots.py --run 8`)
+Stored in `delivery-war-room/system-of-work.json`. Agents pull skill work from any ticket at the matching stage.
 ```

@@ -1,3 +1,15 @@
+---
+name: abd-kanban-repo
+catalog_garden_tier: foundational
+catalogue_one_liner: >-
+  Git operations driven by Kanban board state changes — commits, branches, PRs per ticket lifecycle.
+description: >-
+  Manage git history for a delivery engagement. Commits, branches, pushes, and PRs
+  are driven by ticket state changes on the Kanban board — not by slots or runs.
+  Configurable granularity (per-skill, per-stage, per-ticket) and branching strategy.
+  Use when configuring git policy for a Kanban delivery or when role agents need
+  commit, branch, or PR operations tied to board events.
+---
 # abd-kanban-repo
 
 ## Purpose
@@ -47,8 +59,6 @@ The kanban lead chooses branching scope based on autonomy:
 - **per-skill**: push after each skill done on a ticket
 - **per-stage**: push after ticket completes a stage
 - **per-ticket**: push after ticket archived/scattered
-
-This gives the team git-level tracking of ticket movement through the Kanban board.
 
 ---
 
@@ -134,7 +144,7 @@ PRs are **off by default**. When enabled:
 | Scope level completes | Per scope branch → main | `main` |
 | User requests | Any current branch | `main` or specified |
 
-Enable in `manifest.md`:
+Enable in `kanban.json`:
 
 ```yaml
 git_policy:
@@ -152,7 +162,7 @@ git_policy:
 main
  └─ delivery/inc-1              ← created when inc-1 enters active
       ├─ commit: inc-1.discovery.abd-domain-terms
-      ├─ commit: inc-1.discovery.abd-ubiquitous-language
+      ├─ commit: inc-1.exploration.abd-ubiquitous-language
       ├─ commit: inc-1.exploration.abd-acceptance-criteria
       ├─ commit: inc-1.exploration.abd-ux-mockup
       └─ merge → main           ← when inc-1 scatters (or PR if enabled)

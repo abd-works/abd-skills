@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Build AGENTS.md from agents/abd-context-to-memory/content/.
+"""Build AGENTS.md from agents/abd-context-to-memory/reference/.
 
 Section order and headings come from skill-config.json → agents_md.sections.
-Edit the markdown files under content/ only; do not hand-edit AGENTS.md.
+Edit the markdown files under reference/ only; do not hand-edit AGENTS.md.
 """
 from __future__ import annotations
 
@@ -10,7 +10,7 @@ import json
 from pathlib import Path
 
 AGENT_ROOT = Path(__file__).resolve().parents[1]
-CONTENT = AGENT_ROOT / "content"
+CONTENT = AGENT_ROOT / "reference"
 OUTPUT = AGENT_ROOT / "AGENTS.md"
 CONFIG_PATH = AGENT_ROOT / "skill-config.json"
 
@@ -47,7 +47,7 @@ def build() -> None:
     title, sections = _load_sections()
     parts: list[str] = [
         f"# AGENTS — {title}\n\n"
-        "> **Maintain in `content/` only.** Edit the `.md` files there, then run `python scripts/build.py` from this agent’s root. Do not hand-edit this file.\n"
+        "> **Maintain in `reference/` only.** Edit the `.md` files there, then run `python scripts/build.py` from this agent’s root. Do not hand-edit this file.\n"
     ]
     for spec in sections:
         heading = spec["heading"]

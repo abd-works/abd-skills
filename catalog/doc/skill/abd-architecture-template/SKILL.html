@@ -939,431 +939,49 @@ a.cap-card:hover .cap-card__icon {
 <h2>Content</h2>
 <div class="rule-prose"><h1>abd-architecture-template</h1>
 <h2>Purpose</h2>
-<p>Architecture decisions usually live in someone&#x27;s head, a deck, or a wiki page that nobody opens twice. This skill packages those decisions into a <strong>single reference document</strong> for the chosen architecture so that any team member can implement the same mechanism the same way the next person did, and the one after that. The reference is the contract: it names the principles the architecture refuses to break, fixes the patterns that satisfy them, draws the participants, shows the flow, and gives code samples a reviewer can compare against. When the reference is done, &quot;how do we do caching here?&quot; has one answer, &quot;where does error handling live?&quot; has one answer, and the team stops re-litigating those questions every sprint.</p>
-<h2>When to use this skill</h2>
-<p>Load this skill when <strong>any</strong> of the following apply:</p>
-<ul>
-<li>A team needs <strong>one canonical answer</strong> for a mechanism such as error handling, caching, persistence, authentication, validation, messaging, or observability — instead of three competing patterns scattered across the codebase.</li>
-<li>A new architecture is being adopted (MERN, hexagonal, event-driven, layered Python, Clean Architecture, microservices) and you want to <strong>lock both the design and implementation constraints / guidance</strong> before any production code is written.</li>
-<li>An existing system has drifted; two recent features solved the same cross-cutting concern in two different ways, and the team wants to <strong>agree on one</strong>.</li>
-<li>A new engineer joining the project keeps asking &quot;where does X live and what shape does it take?&quot; and you want a <strong>single document</strong> to point at instead of pairing on the same answer every time.</li>
-<li>A code review keeps surfacing the same &quot;this isn&#x27;t how we do it here&quot; comments, and the team wants those expectations <strong>written down</strong> so they apply before review, not during.</li>
-<li>You are documenting the architecture <strong>as it actually is</strong> in a working system so future changes can stay consistent with what already shipped.</li>
-</ul>
+<p>Architecture decisions usually live in someone&#x27;s head, a deck, or a wiki page that nobody opens twice. This skill packages those decisions into a <strong>single reference document</strong> for the chosen architecture so that any team member can implement the same mechanism the same way the next person did, and the one after that. The reference is the contract: it names the principles the architecture refuses to break, fixes the patterns that satisfy them, draws the participants, shows the flow, and gives code samples a reviewer can compare against.</p>
+<hr>
+<h2>Output file</h2>
+<p><strong>Deliverables folder:</strong> see `../reference/agent-protocol.md` — Output file resolution.</p>
+<p><strong>File name:</strong> `architecture-reference.md`. Add a `&lt;name&gt;-` prefix only when disambiguation is needed.</p>
 <hr>
 <h2>Agent Instructions</h2>
-<p>1. <strong>Gather the architecture context first.</strong> Before drafting anything, make sure you have two pieces of context in front of you:</p>
+<p>&gt; <strong>MANDATORY — read `../reference/agent-protocol.md` before starting. It defines read-gates, output file resolution, and the per-rule verdict format.</strong></p>
+<h3>1. Read context</h3>
+<p>Read these files:</p>
 <ul>
-<li>A <strong>layered description</strong> of the target architecture — the set of layers it uses (presentation, application, domain, infrastructure, or whatever names this architecture chooses), the tech that sits in each, and what each layer is responsible for.</li>
-<li>A <strong>list of mechanisms</strong> to cover, each with a one-line statement of intent (what error handling is <em>for</em> in this architecture, what caching is for, what authorization is for, and so on).</li>
+<li><strong>`reference/concepts.md`</strong> — what a reference document is, mechanisms, principles vs patterns, the five-part shape, section organization, and code/test standard inheritance.</li>
+<li><strong>`reference/examples.md`</strong> — per-mechanism mode example and the shape of a good mechanism section.</li>
 </ul>
-<p>That context might come from a prior decision document, an ADR, a wiki page, a slide deck, an existing reference in another repo, a working system you are documenting after the fact, or — when present — sibling skills that produce these outputs. The format of the source does not matter; the two pieces of information do. If either piece is missing, stop and gather it before generating the reference. Invented layers and ad-hoc mechanism lists are the failure modes this step prevents.</p>
-<p>For shape and tone, the filled illustrative example block at the bottom of <a href="templates/architecture-reference.html">`templates/architecture-reference.md`</a> is a worked example of what one mechanism section should look like when complete. Read it once before generating new sections.</p>
-<p>2. <strong>Choose how mechanisms are sectioned inside the file.</strong> The reference is <strong>always a single file</strong> (`architecture-reference.md`). The only choice is how the mechanisms inside it are organized.</p>
-<ul>
-<li><strong>Combined section</strong> — when the reference covers only <strong>2–3 mechanisms</strong> and they are tightly related (e.g. error handling + retries, caching + memoization, auth + authorization), use <strong>one `## Mechanisms` section</strong> that covers them together, weaving the five-part shape (Principles &amp; Patterns, File Structure, Participants, Flow, Walkthrough Example) across all of them.</li>
-<li><strong>One section per mechanism</strong> (the default for 4+ mechanisms, and always allowed) — each mechanism gets its own `## Mechanism: &lt;Name&gt;` section with the five-part shape as `###` subsections.</li>
-</ul>
-<p>The user may override either way; honour an explicit choice.</p>
-<p>3. <strong>Template.</strong> Always produce one file from the single template:</p>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Template</th><th>What to produce</th></tr></thead><tbody><tr><td>`templates/architecture-reference.md`</td><td>The whole reference file — title, TOC, Architecture Layers, the mechanisms (combined or per-mechanism, depending on count), Testing Architecture, References. The template carries both section modes inline; choose the one that matches your mechanism count and delete the other. The template also includes a filled illustrative example block at the bottom — mirror it for tone and depth, then delete it before shipping.</td></tr></tbody></table></div>
-<p>4. <strong>Code and test examples follow whatever standards the project has agreed.</strong> Any production-code sample in a mechanism section must follow the <strong>coding standard in scope for the project</strong> — a style guide, a clean-code skill, an ESLint config, a `CLAUDE.md` block, whatever the team has agreed. Any test snippet must follow the <strong>testing standard in scope for the project</strong> — a testing skill, a test-style guide, the team&#x27;s existing test patterns. When the project is using <strong>abd-clean-code</strong> and <strong>abd-acceptance-test-driven-development</strong>, those <em>are</em> the standards; default to them. When the project uses something else (project-specific guide, language-idiomatic style, a corporate standard), use that instead. Cite whichever standards apply at the bottom of each mechanism section so a reviewer can find them.</p>
-<p>5. <strong>Rules.</strong> Generate content following the rules attached to this skill (bundled below). After writing, take on the role of a <em>Peer Reviewer</em> and walk each rule&#x27;s <strong>DO</strong> / <strong>DO NOT</strong> / <strong>Examples</strong> against the produced document. Be strict.</p>
-<hr>
-<h2>Core concepts</h2>
-<h3>Architecture Reference?</h3>
-<p>An <strong>architecture reference</strong> details one or more cross-cutting mechanisms the system needs and defines how that mechanism is realized across the architecture&#x27;s layers. &quot;Mechanism&quot; is the verbed concern — <em>how the architecture handles errors</em>, <em>how it caches</em>, <em>how it persists</em>, <em>how it authorizes</em>, <em>how it observes</em>. A reference is the design and working implementaton of one or more mechanisms, saying which layers participate and what each one does.</p>
-<p>A finished reference lets a reviewer answer three questions in one read:</p>
-<ul>
-<li><strong>What is the principle?</strong> — the one-line rule that, if you violated it, your code would no longer be &quot;in this architecture&quot; (e.g., &quot;domain layer never imports from infrastructure&quot;, &quot;errors raised at the boundary, never swallowed mid-pipeline&quot;).</li>
-<li><strong>What is the pattern?</strong> — the named, repeatable shape that implements the principle (Repository, Result-or-throw, Side-car Cache, Saga, Outbox, Specification, Resource owner, etc.).</li>
-<li><strong>How does it actually run?</strong> — the participants, the file layout, the call sequence, and the test approach, so an implementer can recognize the pattern in code on sight.</li>
-</ul>
-<h3>Mechanism</h3>
-<p>A <strong>mechanism</strong> is one cross-cutting concern the architecture has a fixed answer for: error handling, caching, persistence, authentication, authorization, validation, messaging, logging, observability, configuration, feature flags, idempotency, transactions, rate limiting. Mechanisms come from whatever the team uses as its architecture source of truth — an ADR, a wiki page, a decision document, or a sibling skill&#x27;s output. The reference document devotes one section (or file) to each mechanism the project has actually decided.</p>
-<h3>Principle vs. pattern</h3>
-<p>A <strong>principle</strong> is a one-liner stance the architecture takes — a constraint the team is not allowed to break. It is technology-agnostic, fits in a sentence, and survives in a corridor conversation. Examples: &quot;Domain First&quot;, &quot;Micro Front-End / Micro-Service Alignment&quot;, &quot;Event-Based Orchestration for Cross-Domain Service Calls&quot;, &quot;MVVM in the presentation layer&quot;, &quot;REST for synchronous API boundaries&quot;. One principle can be satisfied by many different patterns.</p>
-<p>A <strong>pattern</strong> is the full description of how the team has chosen to satisfy that principle in this project: the named shape, its structural options, its benefits, and its trade-offs. Patterns are concrete and have a name the team can use in a pull-request comment (&quot;use the Result pattern here&quot;, &quot;this violates the side-car cache pattern&quot;). A mechanism section names the pattern the team has committed to and explains <em>why that pattern over the alternatives</em> — that trade-off reasoning is what makes the reference trustworthy rather than just a style guide.</p>
-<h3>Layered description vs. mechanism reference</h3>
-<p>The <strong>layered description</strong> answers <em>what are the layers and what tech sits in each</em>. <strong>This skill</strong> answers <em>for each mechanism, which of those layers participate and in what order</em>. The layered description is the map; the mechanism reference is the route through that map for one concern.</p>
-<h3>Sections inside one mechanism</h3>
-<p>Every mechanism section, whether it lives in a single document or its own file, has the same five-part shape so the document reads predictably:</p>
-<p>1. <strong>Principles &amp; Patterns</strong> — one-liner principle(s) stating the architectural stance, followed by a named pattern description per principle that covers the chosen shape, its options, its benefits, and its trade-offs. 2. <strong>File Structure</strong> — where the mechanism&#x27;s code lives in the project&#x27;s folder layout (a fenced tree). 3. <strong>Participants</strong> — the classes / modules involved, presented as a class diagram (Mermaid or Markdown table). This is the <em>who</em>. 4. <strong>Flow</strong> — a sequence diagram (Mermaid) of one representative scenario. This is the <em>when</em>. 5. <strong>Walkthrough Example</strong> — a step-by-step narration of the same scenario through the participants, plus example production code that follows the project&#x27;s coding standard and a test snippet that follows the project&#x27;s testing standard. This is the <em>how</em>.</p>
-<p>A short <strong>Testing the mechanism</strong> subsection at the end of each mechanism (or one consolidated <strong>Testing Architecture</strong> section after the combined mechanisms block) explains which of the project&#x27;s test tiers owns the verification and which test doubles or helpers are used. The tier names come from whatever the project has agreed (e.g. Domain / ViewModel+Domain / E2E / Game Bridge for WPF; Server / Client / E2E for MERN; Unit / Integration / E2E for most web stacks). The Testing Architecture section is the canonical definition of those tiers for this project.</p>
-<h3>Section organization</h3>
-<p>The reference is <strong>always one file</strong>: `architecture-reference.md`. What changes with mechanism count is how the mechanisms are sectioned <strong>inside</strong> that file.</p>
-<ul>
-<li><strong>Combined section</strong> — when there are only <strong>2–3 mechanisms</strong> and they are tightly related, the reference can use <strong>one `## Mechanisms` section</strong> that weaves the five-part shape across all of them. Smaller systems and tightly-coupled concerns benefit from this — fewer headings to maintain.</li>
-<li><strong>One section per mechanism</strong> — the default for <strong>4+ mechanisms</strong>, and always allowed. Each mechanism gets its own `## Mechanism: &lt;Name&gt;` section with the five-part shape as `###` subsections.</li>
-</ul>
-<p>Either way, the five-part shape is preserved so a downstream implementation skill (or a human reviewer) can find every part of every mechanism consistently.</p>
-<h3>Sections and rules</h3>
-<p><strong>`SKILL.md`</strong> carries teaching and workflow order. <strong>`rules/*.md`</strong> validate the <strong>produced reference document</strong> — required sections, diagram presence, code style sources, TOC, layout choice — independently of the skill&#x27;s narrative.</p>
-<hr>
-<h2>Example</h2>
-<p>For an architecture with layers <strong>Presentation / Application / Domain / Infrastructure</strong> and mechanisms <strong>Error Handling, Caching, Persistence</strong>, the single-document reference reads:</p>
-<pre><code># &lt;ArchitectureName&gt; Architecture Reference
-
-## Table of Contents
-- Overview
-- Architecture Layers (from the architecture&#x27;s source of truth)
-- Mechanism: Error Handling
-- Mechanism: Caching
-- Mechanism: Persistence
-- Testing Architecture
-- References
-
-## Overview
-One paragraph: name the architecture, name the four guiding principles,
-name the three mechanisms covered.
-
-## Architecture Layers
-Reuse the layer block from the architecture&#x27;s source of truth verbatim.
-
-## Mechanism: Error Handling
-### Principles &amp; Patterns
-- Principle: errors raised at the boundary, never swallowed.
-- Pattern: Result&lt;T, DomainException&gt; from application services;
-  controller maps to HTTP status.
-### File Structure
-packages/&lt;domain&gt;/shared/Errors.ts
-packages/&lt;domain&gt;/server/error-mapper.ts
-### Participants  (class diagram)
-[Mermaid classDiagram]
-### Flow  (sequence diagram)
-[Mermaid sequenceDiagram]
-### Walkthrough Example
-1. Repository fails to parse a Mongo doc...
-2. Service catches with .mapErr(...)
-3. Controller maps DomainException -&gt; 422
-   (code sample follows the project&#x27;s coding standard)
-   (test sample follows the project&#x27;s testing standard)
-### Testing the mechanism
-- Domain tier: every application-service method has one failure scenario.
-- ViewModel tier: form displays the mapped error message.
-
-## Mechanism: Caching
-... same shape ...</code></pre>
-<p>For more than five mechanisms, the same content splits into `mechanisms/error-handling.md`, `mechanisms/caching.md`, etc., and `architecture-reference.md` becomes a table of contents with one-line summaries and links.</p>
-<hr>
-<h2>The shape of a good mechanism section</h2>
-<pre><code>## Mechanism: &lt;Name&gt;
-
-### Principles &amp; Patterns
-- Principle: &lt;one sentence the architecture refuses to break&gt;
-- Pattern: &lt;named, repeatable shape that satisfies the principle&gt;
-
-### File Structure
-&lt;fenced folder tree showing where this mechanism&#x27;s code lives&gt;
-
-### Participants
-&lt;Mermaid classDiagram OR a Markdown table&gt;
-| Class / Module | Layer | Responsibility | Collaborators |
-
-### Flow
-&lt;Mermaid sequenceDiagram for ONE representative scenario&gt;
-
-### Walkthrough Example
-1. &lt;step naming participant&gt;
-2. &lt;step naming participant&gt;
-...</code></pre>
-<pre><code>
-### Testing the mechanism
-- Tier: &lt;project&#x27;s tier name — e.g. Domain / ViewModel+Domain for WPF, Server / Client for MERN, Unit / Integration for web stacks&gt;
-- Doubles / helpers: &lt;which test doubles or Given/When/Then helpers verify it&gt;</code></pre>
-<p>Each mechanism section must be self-contained: a reader who jumps directly to it (via the TOC or a deep link) has enough to implement that mechanism without flipping back to other sections.</p>
-<hr>
-<h2>Build</h2>
-<p><strong>Goal:</strong> Produce a reference document for one architecture that any implementer can read once and reproduce.</p>
-<ul>
-<li><strong>Outputs:</strong> A single file at `inputs/architecture-reference.md` in the target project&#x27;s skill or repository (not under this skill).</li>
-<li><strong>Per format:</strong> The file always includes a Table of Contents. Mechanisms are organized inside the file in one of the two modes (combined section, or one section per mechanism) per the section-organization rule.</li>
-<li><strong>While writing:</strong> Every mechanism (whether in a combined section or its own section) follows the five-part shape — Principles &amp; Patterns, File Structure, Participants, Flow, Walkthrough Example — plus a Testing subsection. Code in walkthroughs follows the project&#x27;s coding standard; test snippets follow the project&#x27;s testing standard.</li>
-</ul>
-<p><strong>Build steps:</strong></p>
-<p>1. <strong>Load the layered description.</strong> Take the layer set you gathered in <em>Agent Instructions step 1</em> and copy or summarize the layer block faithfully into the reference&#x27;s <em>Architecture Layers</em> section. Cite whatever source it came from (ADR number, wiki page, sibling-skill output) so a reviewer can trace the names back.</p>
-<p>2. <strong>Load the mechanism list.</strong> Take the mechanisms and their intents you gathered in <em>Agent Instructions step 1</em>. Each entry becomes one section (or one file) in the reference. If a mechanism the project actually needs is missing from the list, do not invent it here — pause, agree the mechanism upstream wherever the source of truth lives, then come back.</p>
-<p>3. <strong>Decide section organization.</strong> Count mechanisms. <strong>2–3</strong> tightly-related mechanisms → one combined `## Mechanisms` section that weaves the five-part shape across them. <strong>4+ mechanisms (or any non-tightly-related set)</strong> → one `## Mechanism: &lt;Name&gt;` section per mechanism, each with the five-part shape as `###` subsections. Use `templates/architecture-reference.md` either way — it carries both modes inline; delete the one you do not pick. Honour an explicit user override.</p>
-<p>4. <strong>Author each mechanism</strong> using the five-part shape. State the <strong>principle in one sentence</strong> (the stance the architecture takes; technology-agnostic). Describe the <strong>pattern</strong> in full — name it, lay out any options, state the benefits and the trade-offs so a reviewer knows <em>why this pattern over the alternatives</em>. Draw the participants as a Mermaid `classDiagram` (or a participants table when a diagram is overkill), draw the flow as a Mermaid `sequenceDiagram`, walk one scenario step-by-step, and include a code sample and a test snippet that obey the project&#x27;s coding standard and testing standard (defaulting to <strong>abd-clean-code</strong> and <strong>abd-acceptance-test-driven-development</strong> when those are in scope).</p>
-<p>5. <strong>Add a Testing Architecture section.</strong> Either a short Testing subsection per mechanism (per-mechanism mode) or one consolidated Testing Architecture section after the combined block (combined mode) explaining which tier verifies each mechanism and which helper pattern is used.</p>
-<p>6. <strong>Insert the Table of Contents.</strong> Always required at the top of `architecture-reference.md`, with anchor links to every H2 (Overview, Architecture Layers, Mechanism: \&lt;Name\&gt; or Mechanisms, Testing Architecture, References).</p>
-<p>7. <strong>Peer-review against bundled rules.</strong> Walk the rules block at the bottom of this file against the produced document and fix violations.</p>
-<p>8. <strong>Bundle.</strong> After any change to `rules/*.md`, run:</p>
-<pre><code>   python skill-builder/skills/abd-author-practice-skill/scripts/bundle_rules_into_skill_md.py --skill-root engineering/skills/abd-architecture-template</code></pre>
+<h3>2. Generate</h3>
+<p>Read every file in <strong>`rules/`</strong>; author to those rules.</p>
+<p><strong>Produce output from every template:</strong></p>
+<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Template</th><th>What to produce</th></tr></thead><tbody><tr><td>`templates/architecture-reference.md`</td><td>The whole reference file — title, TOC, Architecture Layers, the mechanisms (combined or per-mechanism depending on count), Testing Architecture, References. The template carries both section modes inline; choose the one that matches your mechanism count and delete the other.</td></tr></tbody></table></div>
+<p><strong>Prerequisites:</strong> Before drafting, gather two pieces of context: 1. A <strong>layered description</strong> of the target architecture (layers, tech in each, responsibilities). 2. A <strong>list of mechanisms</strong> to cover, each with a one-line statement of intent.</p>
+<p><strong>Section organization:</strong> Count mechanisms. 2–3 tightly related → combined section. 4+ → one section per mechanism.</p>
+<p><strong>Code standards:</strong> Production code samples follow the project&#x27;s coding standard (default: `abd-clean-code`). Test snippets follow the project&#x27;s testing standard (default: `abd-acceptance-test-driven-development`).</p>
+<h3>3. Validate</h3>
+<p>Run the scanners:</p>
+<pre><code>python skills/execute-skill-using-skills-rules/scripts/run_scanners.py \
+  --skill-root skills/abd-architecture-template \
+  --workspace &lt;path-to-output&gt;</code></pre>
+<p>Then emit per-rule verdicts per `../reference/agent-protocol.md`.</p>
 <hr>
 <h2>Validate</h2>
-<p><strong>Goal:</strong> Inspect the produced reference document as a reviewer — not as a second author.</p>
+<p><strong>Goal:</strong> Inspect what was built — read the artifacts as reviewers.</p>
 <ul>
-<li><strong>Who is checking:</strong> Software Architect (layer assignments, principle phrasing), Tech Lead (pattern names are real and match team vocabulary), Domain Expert (mechanism intent matches actual product needs), Engineer-About-To-Implement (every section is implementable from the file alone).</li>
-<li><strong>Cross-artifact parity:</strong> Layers and mechanism names in the reference match exactly the architecture&#x27;s agreed source of truth (ADR, wiki, decision doc, or sibling-skill output, whichever the team uses).</li>
+<li><strong>Required sections</strong> — every mechanism has Principles &amp; Patterns, File Structure, Participants, Flow, Walkthrough Example, and Testing subsection.</li>
+<li><strong>TOC</strong> — the file opens with a Table of Contents with anchor links to every H2.</li>
+<li><strong>Diagrams present</strong> — every mechanism has a class diagram AND a sequence diagram.</li>
+<li><strong>Walkthroughs are step-numbered</strong> — not prose paragraphs. Each step names the participant.</li>
+<li><strong>Code follows the project&#x27;s coding standard</strong> — no `Manager`, `Handler`; domain entities carry behaviour.</li>
+<li><strong>Tests follow the project&#x27;s testing standard</strong> — Given/When/Then helpers; story-driven names.</li>
+<li><strong>Grounded in source of truth</strong> — layer and mechanism names match the architecture&#x27;s agreed source.</li>
+<li><strong>Section organization matches mechanism count</strong> — 2–3 → combined; 4+ → per-mechanism.</li>
+<li><strong>Self-contained mechanisms</strong> — a reader who jumps to one mechanism has enough to implement it.</li>
+<li><strong>No bundle markers</strong> — `SKILL.md` has no `&lt;!-- execute_rules:bundle_rules --&gt;` markers.</li>
 </ul>
-<p>Walk the checklist against the produced document:</p>
-<ul>
-<li><strong>Required sections</strong> — every mechanism (whether in a combined section or its own section) has Principles &amp; Patterns, File Structure, Participants (class diagram or table), Flow (sequence diagram), Walkthrough Example, and a Testing subsection.</li>
-<li><strong>TOC</strong> — the file opens with a Table of Contents whose anchor links reach every H2 in the document.</li>
-<li><strong>Diagrams present</strong> — every mechanism has a class diagram (Mermaid `classDiagram` or a Markdown participants table) AND a sequence diagram (Mermaid `sequenceDiagram`).</li>
-<li><strong>Walkthroughs are step-numbered</strong> — not prose paragraphs. Each step names the participant doing the work.</li>
-<li><strong>Code follows the project&#x27;s coding standard</strong> — whichever guide is in scope (defaulting to `abd-clean-code` when present): no `Manager`, `Handler`, `Service` (in the anemic sense), no swallowed exceptions, no anemic data bags. Domain entities carry behaviour.</li>
-<li><strong>Tests follow the project&#x27;s testing standard</strong> — whichever guide is in scope (defaulting to `abd-acceptance-test-driven-development` when present): Given / When / Then helpers; no defensive checks; story-driven names.</li>
-<li><strong>Grounded in source of truth</strong> — layer names and mechanism names match the architecture&#x27;s source of truth (ADR, wiki, sibling-skill output, etc.); the source is cited.</li>
-<li><strong>Section organization matches mechanism count</strong> — 2–3 tightly-related mechanisms may share one combined `## Mechanisms` section; 4+ → one `## Mechanism: &lt;Name&gt;` section each. Any override is noted at the top of the file.</li>
-<li><strong>Self-contained mechanisms</strong> — a reader who jumps directly to one mechanism (via the TOC) has enough to implement it without scrolling away.</li>
-</ul>
-<hr>
-<p>&lt;!-- execute_rules:bundle_rules:begin --&gt;</p>
-<h5>Rule: Code examples follow the project&#x27;s coding and testing standards</h5>
-<p>Every code block inside a `Walkthrough Example` must obey the <strong>coding standard the project has agreed</strong> for production code and the <strong>testing standard the project has agreed</strong> for test code. The reference document does not invent style — it inherits the team&#x27;s existing guide. When the project uses <strong>abd-clean-code</strong> and <strong>abd-acceptance-test-driven-development</strong>, those are the standards and the samples must follow them. When the project uses a different style guide, project-specific patterns, or a corporate standard, the samples must follow <em>that</em>. The reference cites whichever standards apply at the bottom of each mechanism section so a reviewer can find them. Passing means a snippet would survive review under the standard the project actually uses. Failing means a snippet violates the chosen standard, contradicts an in-scope guide, or invents conventions that do not match any agreed source.</p>
-<h6>DO</h6>
-<ul>
-<li>Identify the <strong>coding standard in scope</strong> before writing the production-code sample. In an agilebydesign-skills-anchored project this is usually `abd-clean-code` (domain language, small functions, constructor injection, no anemic data bags); in another project it may be a different guide.</li>
-</ul>
-<p><strong>Example (pass):</strong> The project&#x27;s `agents/coding-standards.md` says &quot;no service-with-anemic-bag patterns&quot; and the project loads `abd-clean-code`. The Walkthrough Example ships an `InvoiceService` that delegates to entity methods on `Invoice` — no `Manager`, no `process()`, dependencies in the constructor.</p>
-<ul>
-<li>Identify the <strong>testing standard in scope</strong> before writing the test snippet. Default is `abd-acceptance-test-driven-development` (class per story, method per scenario, Given/When/Then helpers, no defensive checks) when the project has it in scope.</li>
-</ul>
-<p><strong>Example (pass):</strong></p>
-<pre><code>  class TestInvoiceCreationFailures {
-    helper = new InvoiceServerHelper();
-    async test_invalid_invoice_returns_422_with_validation_message() {
-      await this.helper.givenUserLoggedIn();
-      await this.helper.whenUserSubmitsInvoiceWithMissingAmount();
-      await this.helper.thenResponseIs422WithMessage(&#x27;amount is required&#x27;);
-    }
-  }</code></pre>
-<ul>
-<li>Cite the standards used at the bottom of the mechanism section so the reader can find them.</li>
-</ul>
-<p><strong>Example (pass):</strong> End-of-mechanism line: `Code follows the project&#x27;s coding standard (abd-clean-code in scope here); tests follow the project&#x27;s testing standard (abd-acceptance-test-driven-development in scope here).`</p>
-<ul>
-<li>If the project&#x27;s standard differs from the agilebydesign defaults, <strong>say so explicitly</strong> at the top of the reference so readers know which guide the samples obey.</li>
-</ul>
-<p><strong>Example (pass):</strong> Below the title: `&gt; Coding standard: company-python-style.md. Testing standard: in-house pytest patterns.`</p>
-<h6>DO NOT</h6>
-<ul>
-<li>Ship a code sample that violates the in-scope standard because &quot;this is just an illustration&quot;.</li>
-</ul>
-<p><strong>Example (fail):</strong> Project uses `abd-clean-code`; the sample is</p>
-<pre><code>  export class RecipientManager {
-    process(data: any) { /* ... */ }
-  }</code></pre>
-<p>— `Manager` class, `process` method, `any` parameter, no constructor dependencies. Whatever the project&#x27;s standard is, this violates a clean-code guide.</p>
-<ul>
-<li>Ship a test snippet with defensive `try/catch` or branching assertions when the project&#x27;s testing standard forbids them.</li>
-</ul>
-<p><strong>Example (fail):</strong></p>
-<pre><code>  try {
-    const r = await svc.createInvoice(input);
-    if (r.ok) expect(r.value).toBeDefined();
-  } catch (e) { /* ignore */ }</code></pre>
-<p>— defensive try, conditional assertion, swallowed exception. Violates `abd-acceptance-test-driven-development` (and any sensible testing guide).</p>
-<ul>
-<li>Pick conventions out of thin air when the project has no documented standard yet.</li>
-</ul>
-<p><strong>Example (fail):</strong> The project has no coding-standards document and no clean-code skill. The reference&#x27;s samples use a `Service` + anemic `Recipient` interface and rationalize it as &quot;industry standard&quot;. The team has no way to peer-review against an agreed source — pause and agree a coding standard before authoring code samples.</p>
-<p><strong>Source:</strong> Practice-skill authoring convention (abd-architecture-template). The reference document inherits the team&#x27;s existing code-style and test-style decisions rather than imposing new ones.</p>
-<h5>Rule: Reference is grounded in the architecture&#x27;s source of truth</h5>
-<p>The <strong>layer names</strong> in the reference document must match the <strong>agreed source of truth</strong> for the same architecture — whatever form that takes (an ADR, a wiki page, a decision document, a sibling skill&#x27;s output, or any other agreed record). The <strong>mechanism names</strong> must also match that source. The reference does not invent layers, rename them, or add mechanisms nobody else has heard of. When the reference needs a layer or mechanism that the source of truth does not yet contain, update the source of truth first, then regenerate the reference. Passing means a reviewer can hold the reference and the architecture&#x27;s source of truth side-by-side and see the same vocabulary in both — same layer names, same mechanism names, same spelling. Failing means the reference uses a synonym (`Persistence layer` vs `Infrastructure`), drops a layer, or introduces a mechanism that the agreed source of truth never listed.</p>
-<h6>DO</h6>
-<ul>
-<li>Copy or summarize the layer block from the architecture&#x27;s agreed source of truth into the <strong>Architecture Layers</strong> section of the reference, keeping layer names byte-for-byte identical.</li>
-</ul>
-<p><strong>Example (pass):</strong> The team&#x27;s ADR lists four layers `Presentation`, `Application`, `Domain Core`, `Infrastructure`. The reference&#x27;s `Architecture Layers` section lists the same four names in the same order, sourced from the ADR.</p>
-<ul>
-<li>Cite the source of truth for layers and mechanisms near the relevant sections so a reviewer can trace the names back.</li>
-</ul>
-<p><strong>Example (pass):</strong> The Overview contains the line `&gt; Sources: layers from ADR-0012; mechanisms from the team&#x27;s architecture playbook.` — a reviewer knows exactly where the layer and mechanism vocabulary came from.</p>
-<ul>
-<li>When a mechanism is missing from the source of truth, <strong>stop and add it there first</strong> before adding it to the reference.</li>
-</ul>
-<p><strong>Example (pass):</strong> The team realizes `Idempotency` is needed; the reference author updates the mechanism inventory doc (or the sibling skill&#x27;s output) first, then adds the `Idempotency` section to the reference.</p>
-<h6>DO NOT</h6>
-<ul>
-<li>Rename a layer to suit the mechanism (e.g. call it `Storage` in the caching section and `Infrastructure` in the persistence section).</li>
-</ul>
-<p><strong>Example (fail):</strong> Mechanism `Caching` describes a `Storage layer` while `Persistence` describes an `Infrastructure layer` — same code lives in the same folder; the reference invented two names for the same layer.</p>
-<ul>
-<li>Add a mechanism that does not appear in the architecture&#x27;s agreed source of truth.</li>
-</ul>
-<p><strong>Example (fail):</strong> The reference includes `Mechanism: Multi-tenancy` but the mechanism inventory for this architecture has no Multi-tenancy entry — the reference has gone off-piste.</p>
-<ul>
-<li>Reorder or merge layers in a way that contradicts the agreed source of truth.</li>
-</ul>
-<p><strong>Example (fail):</strong> The source lists `Domain Core` between `Application` and `Infrastructure`; the reference puts `Domain Core` at the top and merges `Application` into `Interface Adapters`.</p>
-<p><strong>Source:</strong> Practice-skill authoring convention (abd-architecture-template); preserves the vocabulary contract between the reference and the team&#x27;s agreed architecture context, wherever that context lives.</p>
-<h5>Rule: Include class and sequence diagrams for every mechanism</h5>
-<p>Every mechanism must show its <strong>participants</strong> as either a Mermaid `classDiagram` block <strong>or</strong> a Markdown participants table (Class / Layer / Responsibility / Collaborators), and must show its <strong>flow</strong> as a Mermaid `sequenceDiagram` block. The flow diagram is mandatory because the implementation skill renders timing from it. The class view may be a table when the relationships are simple enough that a diagram adds no signal, but the <strong>classes-and-layers information must be present</strong> in some structured form — never just a paragraph of prose. Passing means a reader who only opens the Participants block and the Flow block already knows who the actors are and the order of calls. Failing means either block is missing, both are prose, or the sequence diagram is an ASCII sketch rather than Mermaid.</p>
-<h6>DO</h6>
-<ul>
-<li>Use ` ```mermaid\nsequenceDiagram\n... ``` ` for the <strong>Flow</strong> section. Mermaid is required so downstream tools can render it.</li>
-</ul>
-<p><strong>Example (pass):</strong> `### Flow` is followed by a fenced block starting with `\`\`\`mermaid\nsequenceDiagram\n    participant Controller\n    Controller-&gt;&gt;Service: createInvoice(input)`.</p>
-<ul>
-<li>For <strong>Participants</strong>, use either ` ```mermaid\nclassDiagram\n...``` ` <strong>or</strong> a four-column Markdown table with headers `Class / Module | Layer | Responsibility | Collaborators` (or both).</li>
-</ul>
-<p><strong>Example (pass):</strong> `### Participants` contains a Markdown table listing `CachingRecipientsRepository | Infrastructure | LRU + TTL side-car | MongoRecipientsRepository`.</p>
-<ul>
-<li>When a mechanism has more than five participants, <strong>prefer the table</strong> for readability and add a small Mermaid class diagram only for the central trio.</li>
-</ul>
-<p><strong>Example (pass):</strong> A `Persistence` mechanism with eight classes ships a full participants table plus a three-class Mermaid diagram showing only `Repository`, `Entity`, `Schema`.</p>
-<h6>DO NOT</h6>
-<ul>
-<li>Use ASCII art (e.g. `Controller -&gt; Service -&gt; Repository`) in place of a Mermaid sequence diagram.</li>
-</ul>
-<p><strong>Example (fail):</strong> `### Flow` body is the line `Controller -&gt; Service -&gt; Repository -&gt; Mongo` with no fenced Mermaid block — the implementation skill cannot parse the call order.</p>
-<ul>
-<li>Replace <strong>Participants</strong> with a paragraph of prose like &quot;The mechanism involves the controller, the service, and the repository.&quot;</li>
-</ul>
-<p><strong>Example (fail):</strong> `### Participants` body is one sentence; no table, no diagram. The reader has no idea which layer each participant lives in.</p>
-<ul>
-<li>Mix Mermaid syntax with non-Mermaid (e.g. PlantUML) inside the same fenced block.</li>
-</ul>
-<p><strong>Example (fail):</strong> A fence opens with `\`\`\`mermaid` but the body uses `@startuml`/`@enduml` syntax — neither renderer will accept it.</p>
-<p><strong>Source:</strong> Practice-skill authoring convention (abd-architecture-template); the Mermaid diagrams are how the downstream implementation skill renders timing and structure from this document.</p>
-<h5>Rule: Reference document includes a Table of Contents</h5>
-<p>A reference is no use if a reviewer cannot jump to the mechanism they need. `architecture-reference.md` must begin with a `## Table of Contents` immediately after the title, listing <strong>Overview</strong>, <strong>Architecture Layers</strong>, the mechanisms section(s) (a single <strong>Mechanisms</strong> entry in combined mode, or every <strong>Mechanism: \&lt;Name\&gt;</strong> as a sub-bullet in per-mechanism mode), <strong>Testing Architecture</strong>, and <strong>References</strong>, with anchor links to the corresponding headings. Passing means a reviewer who opens the file can reach any mechanism in one click. Failing means the file opens with the `Overview` and no navigation block, or the TOC is a wall of unlinked plain text.</p>
-<h6>DO</h6>
-<ul>
-<li>Place `## Table of Contents` immediately under the H1 title, with anchor links for every H2 in the document.</li>
-</ul>
-<p><strong>Example (pass):</strong></p>
-<pre><code>  # Sample Architecture Reference
-
-  ## Table of Contents
-  - [Overview](#overview)
-  - [Architecture Layers](#architecture-layers)
-  - [Mechanism: Error Handling](#mechanism-error-handling)
-  - [Mechanism: Caching](#mechanism-caching)
-  - [Mechanism: Persistence](#mechanism-persistence)
-  - [Testing Architecture](#testing-architecture)
-  - [References](#references)</code></pre>
-<ul>
-<li>In combined-section mode, link to the single `## Mechanisms` H2 and (optionally) to each mechanism&#x27;s `###` heading within it.</li>
-</ul>
-<p><strong>Example (pass):</strong></p>
-<pre><code>  ## Table of Contents
-  - [Overview](#overview)
-  - [Architecture Layers](#architecture-layers)
-  - [Mechanisms](#mechanisms)
-    - [Error Handling](#error-handling)
-    - [Retries](#retries)
-    - [Idempotency](#idempotency)
-  - [Testing Architecture](#testing-architecture)
-  - [References](#references)</code></pre>
-<ul>
-<li>Keep anchor IDs in sync with heading text after edits (rename a mechanism → update the TOC link).</li>
-</ul>
-<p><strong>Example (pass):</strong> Renaming `Mechanism: Persistence` to `Mechanism: Data Persistence` also updates the TOC entry and anchor `#mechanism-data-persistence`.</p>
-<h6>DO NOT</h6>
-<ul>
-<li>Open the document with `## Overview` and jump straight into prose with no navigation block.</li>
-</ul>
-<p><strong>Example (fail):</strong> Reference has H1 then `## Overview` then mechanism sections; no TOC anywhere. Reviewers must scroll to find anything.</p>
-<ul>
-<li>Use a TOC of plain text (no anchor links) so clicking does nothing.</li>
-</ul>
-<p><strong>Example (fail):</strong></p>
-<pre><code>  ## Table of Contents
-  - Overview
-  - Architecture Layers
-  - Mechanism: Caching</code></pre>
-<p>No `<a href="#anchor">label</a>` syntax — useless on rendered Markdown.</p>
-<ul>
-<li>Leave stale TOC entries pointing at deleted mechanisms.</li>
-</ul>
-<p><strong>Example (fail):</strong> `Mechanism: Messaging` was removed from the document; the TOC still has a link to `#mechanism-messaging` that 404s the reader.</p>
-<p><strong>Source:</strong> Practice-skill authoring convention (abd-architecture-template).</p>
-<h5>Rule: Mechanism section has all five parts</h5>
-<p>Every mechanism in the produced reference document must contain the <strong>same five-part shape</strong> so the implementation skill can generalize across mechanisms. The five parts are <strong>Principles &amp; Patterns</strong>, <strong>File Structure</strong>, <strong>Participants</strong> (class diagram or table), <strong>Flow</strong> (sequence diagram), and <strong>Walkthrough Example</strong>, followed by a <strong>Testing the Mechanism</strong> subsection. A reviewer should be able to land on any one mechanism and find every part without scrolling away. Passing means each mechanism reads as a self-contained recipe. Failing means a mechanism is missing a part, or parts are merged into prose that hides whether the structure is there.</p>
-<h6>DO</h6>
-<ul>
-<li>Give <strong>every</strong> mechanism the heading sequence `Principles &amp; Patterns`, `File Structure`, `Participants`, `Flow`, `Walkthrough Example`, `Testing the Mechanism` (in that order).</li>
-</ul>
-<p><strong>Example (pass):</strong> `## Mechanism: Caching` is followed by `### Principles &amp; Patterns`, `### File Structure`, `### Participants`, `### Flow`, `### Walkthrough Example`, `### Testing the Mechanism` in that exact order.</p>
-<ul>
-<li>Use <strong>fenced code blocks</strong> for the <strong>File Structure</strong> tree so it renders as a tree, not as prose with slashes.</li>
-</ul>
-<ul>
-<li>Make each mechanism section <strong>self-contained</strong>: someone arriving via deep link can implement it without reading other mechanisms.</li>
-</ul>
-<ul>
-<li>In `### Testing the Mechanism`, state which tier tests this mechanism and which test doubles / mocks are used. Cross-reference `## Testing Architecture` for full examples but do not duplicate them inline.</li>
-</ul>
-<p><strong>Example (pass):</strong> `### Testing the Mechanism` says &quot;Domain tier — inject `Mock&lt;IPaymentGateway&gt;` via constructor; assert `gateway.Charge()` called once. See Testing Architecture for the `[AssemblyInitialize]` wiring.&quot;</p>
-<h6>DO NOT</h6>
-<ul>
-<li>Create a standalone <strong>`## Mechanism: Test Tiers`</strong> or <strong>`## Mechanism: Test Strategy`</strong> or any mechanism whose entire purpose is describing how tests are organised. That content belongs in `## Testing Architecture`, not in a mechanism section. Mechanisms are cross-cutting concerns of the production architecture (error handling, caching, auth, game bridge seam, etc.).</li>
-</ul>
-<p><strong>Example (fail):</strong> `## Mechanism: Test Tiers` with Principles &amp; Patterns describing Tier 1 vs Tier 2 isolation. This is a testing strategy, not an architecture mechanism.</p>
-<ul>
-<li>Merge `Participants` and `Flow` into a single prose paragraph that mentions classes and sequence in the same sentence.</li>
-</ul>
-<p><strong>Example (fail):</strong> `### How it works: the controller calls the service, which calls the repository...` with no class table, no class diagram, and no sequence diagram.</p>
-<ul>
-<li>Skip `### Testing the Mechanism` because &quot;testing is covered in the Testing Architecture section.&quot;</li>
-</ul>
-<p><strong>Example (fail):</strong> Mechanism `Authorization` ends after `Walkthrough Example` with no testing sub-section. The reader has no idea which tier owns the verification or which helper to extend.</p>
-<ul>
-<li>Reorder the parts so that, for example, `Walkthrough Example` comes before `Participants`.</li>
-</ul>
-<p><strong>Source:</strong> Practice-skill authoring convention (abd-architecture-template). The five-part shape is the contract between this skill and `abd-build-architecture-skill`.</p>
-<h5>Rule: Section organization matches mechanism count</h5>
-<p>The reference is <strong>always one file</strong> (`architecture-reference.md`). What varies is how the mechanisms inside that file are organized — and the choice is <strong>decidable from the mechanism count</strong>, not author taste. With <strong>2–3 mechanisms that are tightly related</strong>, the reference can use <strong>one combined `## Mechanisms` section</strong> that weaves the five-part shape (Principles &amp; Patterns, File Structure, Participants, Flow, Walkthrough Example) across all of them. With <strong>4+ mechanisms</strong> (or any set whose mechanisms are not tightly related), each mechanism gets its own `## Mechanism: &lt;Name&gt;` section with the five-part shape as `###` subsections. The rule has one explicit override: if the user (or an enclosing skill) <strong>states a section organization</strong>, that choice wins and the reference includes a one-line note at the top saying so. Passing means the organization matches the count, or the override is documented. Failing means the file splits into multiple files, or a 10-mechanism architecture is crammed into one combined section, or the five-part shape is dropped to &quot;save space&quot;.</p>
-<h6>DO</h6>
-<ul>
-<li>Count the mechanisms first; pick the section organization from the count using the rule above. Always produce one file at `inputs/architecture-reference.md`.</li>
-</ul>
-<p><strong>Example (pass):</strong> Three tightly-related mechanisms (`Error Handling`, `Retries`, `Idempotency`) → one `## Mechanisms` section in `architecture-reference.md` that weaves Principles &amp; Patterns, File Structure, Participants, Flow, and a Walkthrough across all three.</p>
-<ul>
-<li>For 4+ mechanisms (or non-tightly-related sets), give each mechanism its own `## Mechanism: &lt;Name&gt;` H2 with the five-part shape as `###` subsections.</li>
-</ul>
-<p><strong>Example (pass):</strong> Six mechanisms (`Error Handling`, `Caching`, `Persistence`, `Authorization`, `Validation`, `Observability`) → six H2 sections in the same `architecture-reference.md`, each with the same `### Principles &amp; Patterns` / `### File Structure` / `### Participants` / `### Flow` / `### Walkthrough Example` / `### Testing the mechanism` shape.</p>
-<ul>
-<li>Honour an explicit user override and document it at the top of the file.</li>
-</ul>
-<p><strong>Example (pass):</strong> Five mechanisms but the user asks for the combined section. Below the title: `&gt; Organization: combined (user override; default for 5 mechanisms would be per-mechanism sections).`</p>
-<h6>DO NOT</h6>
-<ul>
-<li>Split the reference across multiple files (e.g. a `mechanisms/` folder with `mechanisms/caching.md`, `mechanisms/error-handling.md`).</li>
-</ul>
-<p><strong>Example (fail):</strong> The skill ships `architecture-reference.md` plus three files under `mechanisms/`. Multi-file is not a layout this skill produces — the contract with downstream consumers (a build skill, a reviewer) is one file.</p>
-<ul>
-<li>Cram 10 mechanisms into one combined `## Mechanisms` section to &quot;keep it tight&quot;.</li>
-</ul>
-<p><strong>Example (fail):</strong> A combined section runs 2000 lines because the author refused to give each mechanism its own H2. Readers cannot scan; the TOC cannot help.</p>
-<ul>
-<li>Drop the five-part shape to make the combined section shorter.</li>
-</ul>
-<p><strong>Example (fail):</strong> The combined section has Principles &amp; Patterns and Walkthrough but skips Participants and Flow because &quot;the diagrams take too much space&quot;. The downstream implementation skill now has nothing to render the participants from.</p>
-<p><strong>Source:</strong> Practice-skill authoring convention (abd-architecture-template). One-file rule keeps the contract simple for downstream consumers; section-organization rule keeps the file scannable as the mechanism set grows.</p>
-<h5>Rule: Walkthrough Example is numbered steps that name participants</h5>
-<p>The <strong>Walkthrough Example</strong> subsection must be an <strong>ordered list</strong> of steps, with each step naming the participant doing the work and the action taken — not a prose paragraph and not a bullet list. The walkthrough renders the same scenario as the sequence diagram, but in language a reviewer can read aloud while pointing at the diagram. Passing means a reader can pair each numbered step with a `participant` in the sequence diagram. Failing means the walkthrough is one block of paragraphs, uses unordered bullets, or describes &quot;the system&quot; / &quot;the code&quot; instead of naming a participant.</p>
-<h6>DO</h6>
-<ul>
-<li>Start each step with the <strong>participant name</strong> in bold or as the subject of the sentence, then the action.</li>
-</ul>
-<p><strong>Example (pass):</strong> `1. <strong>Controller</strong> validates the request body and calls service.createInvoice(input).`</p>
-<ul>
-<li>Match the number of steps to the messages in the sequence diagram (give or take one for the precondition / outcome).</li>
-</ul>
-<p><strong>Example (pass):</strong> Sequence diagram has 5 messages; walkthrough has 5 numbered steps plus a 6th line for the user-visible outcome.</p>
-<ul>
-<li>Use an <strong>ordered list</strong> (`1.`, `2.`, `3.`), not an unordered list (`-`, `*`).</li>
-</ul>
-<p><strong>Example (pass):</strong> Steps are numbered `1.` ... `4.` in markdown source.</p>
-<h6>DO NOT</h6>
-<ul>
-<li>Write the walkthrough as a paragraph: &quot;The controller calls the service which then calls the repository, and finally the response is mapped...&quot;.</li>
-</ul>
-<p><strong>Example (fail):</strong> `### Walkthrough Example` body is two paragraphs with no list markers — the reviewer cannot map prose to diagram messages.</p>
-<ul>
-<li>Use the passive voice that hides the actor: &quot;A request is received, validation is performed, and a response is sent&quot;.</li>
-</ul>
-<p><strong>Example (fail):</strong> Step 1 reads &quot;A request is received and validated.&quot; — which participant did the receiving? Which did the validating?</p>
-<ul>
-<li>Use bullets (`-`) instead of numbers; bullets imply a set, the walkthrough is a sequence.</li>
-</ul>
-<p><strong>Example (fail):</strong> `- Controller receives the request` / `- Service is called` — no ordering, no alignment with the sequence diagram.</p>
-<p><strong>Source:</strong> Practice-skill authoring convention (abd-architecture-template); numbered walkthroughs let a reviewer pair each step against the sequence-diagram message. &lt;!-- execute_rules:bundle_rules:end --&gt;</p></div>
+<hr></div>
 
 </div>
 </div>

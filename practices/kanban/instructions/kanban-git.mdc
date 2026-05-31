@@ -4,7 +4,7 @@ Git operations during kanban delivery are driven by **Kanban board ticket state 
 
 ## When to commit
 
-Commit granularity is set in `manifest.md` under `git_policy.granularity`:
+Commit granularity is set in `kanban.json` under `git_policy.granularity`:
 
 | Granularity | Commit when |
 | --- | --- |
@@ -14,7 +14,7 @@ Commit granularity is set in `manifest.md` under `git_policy.granularity`:
 
 ## When to push
 
-Push timing is set in `manifest.md` under `git_policy.push_on`:
+Push timing is set in `kanban.json` under `git_policy.push_on`:
 
 | Setting | Push when |
 | --- | --- |

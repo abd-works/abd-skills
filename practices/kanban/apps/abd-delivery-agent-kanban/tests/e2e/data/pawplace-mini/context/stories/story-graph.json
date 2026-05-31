@@ -1,0 +1,436 @@
+{
+  "epics": [
+    {
+      "name": "Find a Store",
+      "sequential_order": 1,
+      "behavior": null,
+      "domain_concepts": [
+        {
+          "name": "Store",
+          "module": "Store",
+          "responsibilities": []
+        }
+      ],
+      "sub_epics": [],
+      "story_groups": [
+        {
+          "name": "Increment 1 — walk-in driver",
+          "sequential_order": 1,
+          "type": "and",
+          "connector": null,
+          "behavior": null,
+          "stories": [
+            {
+              "name": "View Store Map",
+              "sequential_order": 1,
+              "connector": null,
+              "story_type": "Customer",
+              "users": [
+                "Customer"
+              ],
+              "increment": 1,
+              "scenarios": [],
+              "acceptance_criteria": [
+                "1. **WHEN** the *customer* opens the *store map*\n   **THEN** the system displays every *store* as a selectable location on the map\n   **AND** each *store* shows identity and location information from the *store* record\n   **Evidence:** `ubiquitous-language.md` — Store > *store map*, \"shows *store* locations\"; `story-map.md` — line 8, View Store Map",
+                "2. **WHEN** the *customer* selects a *store* on the *store map*\n   **THEN** the system sets that *store* as the *selected store*\n   **AND** the *customer* sees enough detail to confirm the choice before browsing *catalog*\n   **Evidence:** `ubiquitous-language.md` — Store > *selected store*, \"the *store* the *customer* picks\"; `information-architecture.md` — Find Store — Map / view map",
+                "3. **WHEN** the *customer* views the *store map* before choosing a *selected store*\n   **THEN** all *stores* remain browsable on the map\n   **BUT** the system does not show per-store *stock availability* until a *selected store* is chosen\n   **Evidence:** `ubiquitous-language.md` — Store > *selected store* invariant, \"without a *selected store*, the system must not show per-store *stock availability*\"",
+                "4. **WHEN** multiple *stores* exist\n   **THEN** the *store map* presents all locations together without requiring the *customer* to search or filter first\n   **Evidence:** `story-map.md` — Find a Store epic, lines 7–10; `thin-slicing.md` — Increment 1 outcome, store discovery before catalog"
+              ]
+            },
+            {
+              "name": "View Store List",
+              "sequential_order": 2,
+              "connector": "and",
+              "story_type": "Customer",
+              "users": [
+                "Customer"
+              ],
+              "increment": 1,
+              "scenarios": [],
+              "acceptance_criteria": [
+                "1. **WHEN** the *customer* opens store discovery\n   **THEN** the system offers a *store list* as an alternative to the *store map*\n   **AND** each row shows a *store* name with identifying details\n   **Evidence:** `ubiquitous-language.md` — Store > *store list*, \"presents *store* names and details\"; `story-map.md` — line 9, View Store List",
+                "2. **WHEN** the *customer* selects a *store* from the *store list*\n   **THEN** the system sets that *store* as the *selected store*\n   **AND** the *customer* can proceed to browse *catalog* scoped to that location\n   **Evidence:** `ubiquitous-language.md` — Store > *store list*, \"supports selecting a *store*, producing a *selected store*\"; `information-architecture.md` — Find Store — List / view list",
+                "3. **WHEN** the *customer* compares *stores* in the *store list*\n   **THEN** entries are readable without a map-centric layout\n   **AND** the *customer* can switch to the *store map* without losing the current discovery context\n   **Evidence:** `ubiquitous-language.md` — Store > *store list*, \"lets the *customer* compare *stores* without a map-centric layout\"",
+                "4. **WHEN** the *customer* has not yet chosen a *selected store*\n   **THEN** the *store list* still lists every *store*\n   **BUT** per-store *stock availability* remains hidden until a *selected store* is set\n   **Evidence:** `ubiquitous-language.md` — Store > *selected store* invariant; Catalog intro, \"*catalog* browse … scoped to exactly one *selected store*\""
+              ]
+            },
+            {
+              "name": "Calculate Distance to Store",
+              "sequential_order": 3,
+              "connector": "and",
+              "story_type": "Customer",
+              "users": [
+                "Customer"
+              ],
+              "increment": 1,
+              "scenarios": [],
+              "acceptance_criteria": [
+                "1. **WHEN** the *customer* shares location for store discovery\n   **THEN** the system calculates *distance to store* for each *store*\n   **AND** *stores* sort with nearest locations first\n   **Evidence:** `ubiquitous-language.md` — Store > *distance to store*, \"ranks *stores* by proximity\"; `story-map.md` — line 10, Calculate Distance to Store",
+                "2. **WHEN** the *customer* has not shared location\n   **THEN** the system still shows *stores* on the *store map* and *store list*\n   **BUT** no *distance to store* values appear until location is provided\n   **Evidence:** `ubiquitous-language.md` — Store > *distance to store*, \"helps the *customer* prioritize nearby *stores*\"; optional location implied by ranking concept",
+                "3. **WHEN** *distance to store* has been calculated\n   **THEN** proximity appears alongside each *store* in both the *store map* and *store list* presentations\n   **AND** the nearest *store* is easy to spot at the top of ranked results\n   **Evidence:** `information-architecture.md` — story trace, Calculate Distance on Map and List; `thin-slicing.md` — Increment 1, find the store before seeing stock",
+                "4. **WHEN** the *customer* changes shared location\n   **THEN** the system recalculates *distance to store* for all *stores*\n   **AND** sort order updates to reflect the new nearest-first ranking\n   **Evidence:** `ubiquitous-language.md` — Store > *distance to store*, \"may combine with *store map* or *store list* presentation\""
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Browse Catalog & Stock",
+      "sequential_order": 2,
+      "behavior": null,
+      "domain_concepts": [
+        {
+          "name": "Catalog",
+          "module": "Catalog",
+          "responsibilities": []
+        }
+      ],
+      "sub_epics": [],
+      "story_groups": [
+        {
+          "name": "Increment 1 — stock visibility",
+          "sequential_order": 1,
+          "type": "and",
+          "connector": null,
+          "behavior": null,
+          "stories": [
+            {
+              "name": "View Product Details",
+              "sequential_order": 1,
+              "connector": null,
+              "story_type": "Customer",
+              "users": [
+                "Customer"
+              ],
+              "increment": 1,
+              "scenarios": [],
+              "acceptance_criteria": [
+                "1. **WHEN** the *customer* has a *selected store* and opens the *catalog*\n   **THEN** the system lists *products* available to explore at that store context\n   **AND** each row identifies the *product* clearly enough to open detail\n   **Evidence:** `ubiquitous-language.md` — Catalog > *catalog*, \"presents *products* … after a *selected store* is chosen\"; `story-map.md` — line 13, View Product Details",
+                "2. **WHEN** the *customer* selects a *product* from the *catalog*\n   **THEN** the system shows *product* detail the *customer* reads before visiting in person\n   **AND** the detail view names the *product* and describes what the *customer* is considering buying\n   **Evidence:** `ubiquitous-language.md` — Catalog > *product*, \"exposes detail the *customer* reads before visiting in person\"; `information-architecture.md` — Browse Catalog → Product Details",
+                "3. **WHEN** the *customer* views *product* detail\n   **THEN** the view remains scoped to the current *selected store*\n   **BUT** no *shopping cart*, checkout, or payment actions appear in this increment\n   **Evidence:** `ubiquitous-language.md` — scope note, \"Excludes shopping cart, guest checkout, payment\"; `thin-slicing.md` — Increment 1, no checkout in system",
+                "4. **WHEN** the *customer* attempts to browse *catalog* without a *selected store*\n   **THEN** the system prompts the *customer* to choose a *store* first\n   **BUT** does not show per-store *stock availability* until a *selected store* exists\n   **Evidence:** `ubiquitous-language.md` — Store > *selected store* invariant; Catalog > *real-time stock* invariant, \"always refers to the *selected store*\"",
+                "5. **WHEN** the *customer* finishes reading *product* detail\n   **THEN** the *customer* can return to the *catalog* list without losing the *selected store*\n   **Evidence:** `information-architecture.md` — Browse Catalog / product list navigation; `thin-slicing.md` — Increment 1 walk-in journey, browse then visit store"
+              ]
+            },
+            {
+              "name": "Display Real-Time Stock Availability",
+              "sequential_order": 2,
+              "connector": "and",
+              "story_type": "System",
+              "users": [
+                "Customer"
+              ],
+              "increment": 1,
+              "scenarios": [],
+              "acceptance_criteria": [
+                "1. **WHEN** the *customer* views *product* detail with a *selected store*\n   **THEN** the system displays *real-time stock* for that *product* at the *selected store*\n   **AND** the quantity reflects the latest *product stock levels* recorded for that location\n   **Evidence:** `ubiquitous-language.md` — Catalog > *real-time stock*; `story-map.md` — line 14, Display Real-Time Stock Availability",
+                "2. **WHEN** *real-time stock* indicates sellable quantity\n   **THEN** the system shows *stock availability* as available now at the *selected store*\n   **AND** the *customer* can decide to walk in and buy in person\n   **Evidence:** `ubiquitous-language.md` — Catalog > *stock availability*, \"tells the *customer* whether a *product* can be bought at the *selected store* now\"",
+                "3. **WHEN** *real-time stock* is zero at the *selected store*\n   **THEN** the system shows *stock availability* as unavailable at that location\n   **BUT** does not offer online purchase, backorder, or cart actions in this increment\n   **Evidence:** `thin-slicing.md` — Increment 1, no checkout; `ubiquitous-language.md` — scope excludes cart and checkout",
+                "4. **WHEN** a *store employee* updates *product stock levels* for the *selected store*\n   **THEN** the next *customer* view of *product* detail shows updated *real-time stock* and *stock availability*\n   **Evidence:** `ubiquitous-language.md` — Catalog > *product stock levels*, \"feed *real-time stock* … when updated\"; `story-map.md` — Update Product Stock Levels feeds this story",
+                "5. **WHEN** the system renders stock for a *product*\n   **THEN** counts apply only to the *selected store*\n   **BUT** never aggregates on-hand quantity across all *stores* in one number\n   **Evidence:** `ubiquitous-language.md` — Catalog > *real-time stock* invariant, \"never aggregate across all *stores*\""
+              ]
+            },
+            {
+              "name": "Update Product Stock Levels",
+              "sequential_order": 3,
+              "connector": "and",
+              "story_type": "Store Employee",
+              "users": [
+                "Store Employee"
+              ],
+              "increment": 1,
+              "scenarios": [],
+              "acceptance_criteria": [
+                "1. **WHEN** the *store employee* opens the stock maintenance view for a *store*\n   **THEN** the system lists *products* with current *product stock levels* at that *store*\n   **AND** each row offers an editable on-hand quantity\n   **Evidence:** `ubiquitous-language.md` — Catalog > *product stock levels*; `information-architecture.md` — Update Stock / stock list; `story-map.md` — line 15",
+                "2. **WHEN** the *store employee* submits a valid updated quantity for a *product* at a *store*\n   **THEN** the system saves the new *product stock levels*\n   **AND** *real-time stock* and *stock availability* for *customers* reflect the change at that *store*\n   **Evidence:** `ubiquitous-language.md` — Catalog > *product stock levels*, \"feed *real-time stock* and *stock availability* when updated\"",
+                "3. **WHEN** the *store employee* enters an invalid quantity (negative or non-numeric)\n   **THEN** the system rejects the update with a clear message\n   **BUT** the previous *product stock levels* remain unchanged\n   **Evidence:** `ubiquitous-language.md` — Catalog > *real-time stock* invariant, accurate counts must not be corrupted; standard validation — flagged as assumption in exploration",
+                "4. **WHEN** the *store employee* updates *product stock levels* for one *store*\n   **THEN** only that *store*'s counts change for the *product*\n   **BUT** other *stores*' *product stock levels* for the same *product* stay as they were\n   **Evidence:** `ubiquitous-language.md` — Catalog > *real-time stock*, scoped to *selected store*; multi-store discovery in Store module",
+                "5. **WHEN** a *customer* is not a *store employee*\n   **THEN** the stock maintenance view is not available\n   **BUT** the *customer* can still read *stock availability* on *product* detail\n   **Evidence:** `ubiquitous-language.md` — Catalog > *product stock levels* invariant, \"only *store employees* may change *product stock levels* in this increment\""
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Shop & Pay Online",
+      "sequential_order": 3,
+      "behavior": null,
+      "domain_concepts": [],
+      "sub_epics": [
+        {
+          "name": "Manage Cart",
+          "sequential_order": 1,
+          "behavior": null,
+          "domain_concepts": [
+            {
+              "name": "Cart",
+              "module": "Cart",
+              "responsibilities": []
+            }
+          ],
+          "sub_epics": [],
+          "story_groups": [
+            {
+              "name": "Increment 2 — cart",
+              "sequential_order": 1,
+              "type": "and",
+              "connector": null,
+              "behavior": null,
+              "stories": [
+                {
+                  "name": "Add Product to Cart",
+                  "sequential_order": 1,
+                  "connector": null,
+                  "story_type": "Customer",
+                  "users": [
+                    "Customer"
+                  ],
+                  "increment": 2,
+                  "scenarios": [],
+                  "acceptance_criteria": [
+                    "1. **WHEN** the *customer* views *product* detail with a *selected store* from Increment 1 and chooses *add product to cart*\n   **THEN** the system places the *product* into the *shopping cart*\n   **AND** the line shows *cart quantity* of at least one\n   **Evidence:** `ubiquitous-language.md` — Cart > *add product to cart*; `story-map.md` — line 19; `information-architecture.md` — Add Product to Cart → Shopping Cart",
+                    "2. **WHEN** the *customer* *adds product to cart* for a *product* already in the *shopping cart*\n   **THEN** the system increases that line's *cart quantity*\n   **AND** does not create a duplicate line for the same *product*\n   **Evidence:** `ubiquitous-language.md` — Cart > *add product to cart*, \"may create a new line or merge into an existing line\"",
+                    "3. **WHEN** *stock availability* shows the *product* as unavailable at the browsing context\n   **THEN** the system prevents *add product to cart* or warns the *customer* before adding\n   **BUT** does not place unavailable *products* into the *shopping cart* without acknowledgment\n   **Evidence:** `ubiquitous-language.md` — Cart > *add product to cart*, \"respects *stock availability*\"; Increment 1 *stock availability* boundary",
+                    "4. **WHEN** the *customer* successfully *adds product to cart*\n   **THEN** the *customer* can open the *shopping cart* and see the new line with *product* identity and *cart quantity*\n   **Evidence:** `information-architecture.md` — Shopping Cart / cart lines; `thin-slicing.md` — Increment 2 cart stories",
+                    "5. **WHEN** the *shopping cart* is empty\n   **THEN** the *customer* can still browse *catalog*\n   **BUT** *guest checkout* is not offered until at least one line exists\n   **Evidence:** `ubiquitous-language.md` — Cart > *shopping cart* invariant, \"must contain at least one line before *guest checkout* can begin\""
+                  ]
+                },
+                {
+                  "name": "Update Cart Quantity",
+                  "sequential_order": 2,
+                  "connector": "and",
+                  "story_type": "Customer",
+                  "users": [
+                    "Customer"
+                  ],
+                  "increment": 2,
+                  "scenarios": [],
+                  "acceptance_criteria": [
+                    "1. **WHEN** the *customer* opens the *shopping cart* with at least one line\n   **THEN** the system shows each line's *cart quantity* as editable\n   **AND** the *customer* can run *update cart quantity* on any line\n   **Evidence:** `ubiquitous-language.md` — Cart > *update cart quantity*; `story-map.md` — line 20; `information-architecture.md` — Update Cart Quantity / cart lines",
+                    "2. **WHEN** the *customer* increases *cart quantity* on a line\n   **THEN** the system saves the higher count\n   **AND** the line total reflects the new *cart quantity*\n   **Evidence:** `ubiquitous-language.md` — Cart > *update cart quantity*, \"increase or decrease how many of a *product*\"",
+                    "3. **WHEN** the *customer* decreases *cart quantity* to a positive whole number greater than zero\n   **THEN** the system saves the lower count\n   **AND** the line remains in the *shopping cart*\n   **Evidence:** `ubiquitous-language.md` — Cart > *cart quantity* invariant, \"positive whole number while the line remains\"",
+                    "4. **WHEN** the *customer* attempts *update cart quantity* that would leave a line at zero\n   **THEN** the system rejects the update with a clear message\n   **BUT** directs the *customer* to *remove product from cart* instead\n   **Evidence:** `ubiquitous-language.md` — Cart > *update cart quantity* invariant, \"must not leave a line with zero *cart quantity*\"",
+                    "5. **WHEN** the *customer* adjusts *cart quantity* and continues browsing\n   **THEN** the *shopping cart* retains the updated counts until *guest checkout* or *remove product from cart*\n   **Evidence:** `ubiquitous-language.md` — Cart > *shopping cart*, \"persists line items while the *customer* continues browsing\""
+                  ]
+                },
+                {
+                  "name": "Remove Product from Cart",
+                  "sequential_order": 3,
+                  "connector": "and",
+                  "story_type": "Customer",
+                  "users": [
+                    "Customer"
+                  ],
+                  "increment": 2,
+                  "scenarios": [],
+                  "acceptance_criteria": [
+                    "1. **WHEN** the *customer* views a line in the *shopping cart*\n   **THEN** the system offers *remove product from cart* for that line\n   **AND** the action is distinct from setting *cart quantity* to zero\n   **Evidence:** `ubiquitous-language.md` — Cart > *remove product from cart*; `story-map.md` — line 21; `information-architecture.md` — Remove Product from Cart / remove",
+                    "2. **WHEN** the *customer* confirms *remove product from cart* on a line\n   **THEN** the system deletes that *product* line from the *shopping cart*\n   **AND** the line's *cart quantity* no longer counts toward checkout\n   **Evidence:** `ubiquitous-language.md` — Cart > *remove product from cart*, \"clears the line's *cart quantity*\"",
+                    "3. **WHEN** the *customer* removes the last line from the *shopping cart*\n   **THEN** the *shopping cart* is empty\n   **BUT** *guest checkout* is not available until the *customer* *adds product to cart* again\n   **Evidence:** `ubiquitous-language.md` — Cart > *shopping cart* invariant; `information-architecture.md` — Shopping Cart / checkout trigger requires lines",
+                    "4. **WHEN** the *customer* removes one line while other lines remain\n   **THEN** the remaining lines stay in the *shopping cart* with their *cart quantities* unchanged\n   **Evidence:** `ubiquitous-language.md` — Cart > *remove product from cart*, scoped to one line",
+                    "5. **WHEN** the *customer* removes a line and returns to *catalog*\n   **THEN** the *customer* can *add product to cart* again without restoring the removed line\n   **Evidence:** `information-architecture.md` — Shopping Cart → Browse Catalog / continue shopping"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Complete Guest Checkout",
+          "sequential_order": 2,
+          "behavior": null,
+          "domain_concepts": [
+            {
+              "name": "Order",
+              "module": "Order",
+              "responsibilities": []
+            }
+          ],
+          "sub_epics": [],
+          "story_groups": [
+            {
+              "name": "Increment 2 — checkout",
+              "sequential_order": 1,
+              "type": "and",
+              "connector": null,
+              "behavior": null,
+              "stories": [
+                {
+                  "name": "Select Click-and-Collect Store",
+                  "sequential_order": 1,
+                  "connector": null,
+                  "story_type": "Customer",
+                  "users": [
+                    "Customer"
+                  ],
+                  "increment": 2,
+                  "scenarios": [],
+                  "acceptance_criteria": [
+                    "1. **WHEN** the *customer* starts *guest checkout* from a non-empty *shopping cart*\n   **THEN** the system presents every eligible *store* as a selectable *click-and-collect store*\n   **AND** the *customer* can pick one location for pickup\n   **Evidence:** `ubiquitous-language.md` — Order > *click-and-collect store*; `story-map.md` — line 23; `information-architecture.md` — Checkout — Guest & pickup / pickup store",
+                    "2. **WHEN** the *customer* selects a *click-and-collect store*\n   **THEN** the system binds that *store* to the checkout session\n   **AND** shows *store* identity and address so the *customer* can confirm pickup location\n   **Evidence:** `ubiquitous-language.md` — Order > *click-and-collect store*, \"store the *customer* picks at checkout\"; `information-architecture.md` — pickup store fields",
+                    "3. **WHEN** the *customer* has not chosen a *click-and-collect store*\n   **THEN** the system blocks payment and *order confirmation*\n   **BUT** still allows the *customer* to enter *billing address* or *payment method* only after a *click-and-collect store* is chosen — exploration assumes store-first ordering per checkout form layout\n   **Evidence:** `ubiquitous-language.md` — Order > *guest checkout*, \"requires a chosen *click-and-collect store* before payment\"; `information-architecture.md` — checkout section order",
+                    "4. **WHEN** the *customer* changes the selected *click-and-collect store* before placing the order\n   **THEN** the system updates the checkout binding to the new *store*\n   **AND** only one *click-and-collect store* remains selected at a time\n   **Evidence:** `ubiquitous-language.md` — Order > *click-and-collect order* invariant, \"exactly one *click-and-collect store*\"",
+                    "5. **WHEN** the *customer* completes store selection\n   **THEN** the chosen *click-and-collect store* will attach to the placed *click-and-collect order* on successful payment\n   **Evidence:** `ubiquitous-language.md` — Order > *order*, \"binds … *click-and-collect store* to the placed order\"; `thin-slicing.md` — Increment 2 outcome"
+                  ]
+                },
+                {
+                  "name": "Check Out as Guest",
+                  "sequential_order": 2,
+                  "connector": "and",
+                  "story_type": "Customer",
+                  "users": [
+                    "Customer"
+                  ],
+                  "increment": 2,
+                  "scenarios": [],
+                  "acceptance_criteria": [
+                    "1. **WHEN** the *customer* opens checkout from a *shopping cart* with at least one line\n   **THEN** the system starts *guest checkout* without requiring sign-in or account creation\n   **AND** the flow is labeled as guest-only\n   **Evidence:** `ubiquitous-language.md` — Order > *guest checkout*; `story-map.md` — line 24; scope note, \"Guest checkout only\"",
+                    "2. **WHEN** the *customer* is in *guest checkout*\n   **THEN** the system collects contact fields needed for *order confirmation* (email in this fixture)\n   **AND** does not offer account registration or login\n   **Evidence:** `information-architecture.md` — guest checkout / email · phone; `ubiquitous-language.md` — Order > *click-and-collect order* invariant, guest-only",
+                    "3. **WHEN** the *customer* attempts checkout with an empty *shopping cart*\n   **THEN** the system blocks *guest checkout*\n   **BUT** directs the *customer* back to *catalog* or cart to *add product to cart*\n   **Evidence:** `ubiquitous-language.md` — Cart > *shopping cart* invariant; `ubiquitous-language.md` — Order > *guest checkout* requires cart contents",
+                    "4. **WHEN** the *customer* proceeds through *guest checkout* steps in order\n   **THEN** the system advances from *click-and-collect store* selection through *billing address* and *payment method* toward payment\n   **Evidence:** `information-architecture.md` — Checkout — Guest & pickup transitions; `story-map.md` — Complete Guest Checkout epic sequence",
+                    "5. **WHEN** *guest checkout* completes successfully\n   **THEN** the system creates a *click-and-collect order* without a customer account record\n   **AND** no persistent customer profile is stored in this increment\n   **Evidence:** `ubiquitous-language.md` — Order > *order* invariant, \"guest-only — no customer account is created or required\""
+                  ]
+                },
+                {
+                  "name": "Enter Billing Address",
+                  "sequential_order": 3,
+                  "connector": "and",
+                  "story_type": "Customer",
+                  "users": [
+                    "Customer"
+                  ],
+                  "increment": 2,
+                  "scenarios": [],
+                  "acceptance_criteria": [
+                    "1. **WHEN** the *customer* reaches the billing step in *guest checkout*\n   **THEN** the system presents fields for *billing address* (name, street, city, postal code, country)\n   **AND** the *customer* can enter values before continuing\n   **Evidence:** `ubiquitous-language.md` — Order > *billing address*; `story-map.md` — line 25; `information-architecture.md` — billing address fields",
+                    "2. **WHEN** the *customer* submits a complete valid *billing address*\n   **THEN** the system saves the *billing address* on the checkout session\n   **AND** allows the *customer* to continue to *payment method* selection\n   **Evidence:** `ubiquitous-language.md` — Order > *billing address*, \"attaches to the *click-and-collect order*\"",
+                    "3. **WHEN** the *customer* submits an incomplete or invalid *billing address*\n   **THEN** the system rejects the submission with field-level messages\n   **BUT** does not invoke *StripeWave* or place an order\n   **Evidence:** `ubiquitous-language.md` — Order > *billing address* invariant, \"cannot complete without a valid *billing address*\"",
+                    "4. **WHEN** the *customer* revises *billing address* before payment\n   **THEN** the system replaces the prior values on the checkout session\n   **AND** the latest *billing address* is what will attach to the placed order\n   **Evidence:** `ubiquitous-language.md` — Order > *billing address*, payment contact for receipt and verification",
+                    "5. **WHEN** payment succeeds\n   **THEN** the placed *click-and-collect order* includes the captured *billing address*\n   **Evidence:** `ubiquitous-language.md` — Order > *order*, \"binds *billing address* … to the placed order\""
+                  ]
+                },
+                {
+                  "name": "Select Payment Method",
+                  "sequential_order": 4,
+                  "connector": "and",
+                  "story_type": "Customer",
+                  "users": [
+                    "Customer"
+                  ],
+                  "increment": 2,
+                  "scenarios": [],
+                  "acceptance_criteria": [
+                    "1. **WHEN** the *customer* reaches the payment step in *guest checkout* with *billing address* captured\n   **THEN** the system presents card payment as the only *payment method* option\n   **AND** labels the processor as *StripeWave*\n   **Evidence:** `ubiquitous-language.md` — Order > *payment method*, \"card via *StripeWave*\"; `story-map.md` — line 26",
+                    "2. **WHEN** the *customer* selects the card *payment method*\n   **THEN** the system enables *place order* (or equivalent) to invoke payment\n   **AND** records card as the chosen *payment method* on the checkout session\n   **Evidence:** `information-architecture.md` — payment method / card · StripeWave; `ubiquitous-language.md` — Order > *payment method*",
+                    "3. **WHEN** the *customer* has not selected a *payment method*\n   **THEN** the system blocks *StripeWave* processing\n   **BUT** allows the *customer* to return and complete *billing address* or *click-and-collect store* steps first\n   **Evidence:** `ubiquitous-language.md` — Order > *payment method*, \"selected during *guest checkout* before card processing runs\"",
+                    "4. **WHEN** the *customer* attempts to choose a non-card *payment method*\n   **THEN** the system does not offer alternative methods in this fixture\n   **BUT** only card via *StripeWave* is supported\n   **Evidence:** `ubiquitous-language.md` — Order > *payment method* invariant, \"only card payment via *StripeWave*\"",
+                    "5. **WHEN** the *customer* confirms payment with the selected *payment method*\n   **THEN** the system passes *payment method* details to *StripeWave* for processing\n   **Evidence:** `ubiquitous-language.md` — Order > *StripeWave*, \"receives *payment method* details from *guest checkout*\""
+                  ]
+                },
+                {
+                  "name": "Process Card Payment via StripeWave",
+                  "sequential_order": 5,
+                  "connector": "and",
+                  "story_type": "System",
+                  "users": [
+                    "Customer"
+                  ],
+                  "increment": 2,
+                  "scenarios": [],
+                  "acceptance_criteria": [
+                    "1. **WHEN** the *customer* submits payment with valid *payment method* and checkout prerequisites complete\n   **THEN** the system invokes *StripeWave* to process the card charge\n   **AND** waits for a success or failure response\n   **Evidence:** `ubiquitous-language.md` — Order > *StripeWave*; `story-map.md` — line 27; `information-architecture.md` — Process Card Payment via StripeWave",
+                    "2. **WHEN** *StripeWave* reports payment success\n   **THEN** the system creates a paid *click-and-collect order* from the *shopping cart* contents\n   **AND** clears or closes the checkout *shopping cart* for that session\n   **Evidence:** `ubiquitous-language.md` — Order > *guest checkout*, \"produces a *click-and-collect order* when payment succeeds\"; Cart handoff",
+                    "3. **WHEN** *StripeWave* reports payment failure or decline\n   **THEN** the system shows a clear failure message to the *customer*\n   **BUT** does not create a *click-and-collect order* or send *order confirmation*\n   **Evidence:** `ubiquitous-language.md` — Order > *StripeWave*, \"returns success or failure\"; invariant on confirmation",
+                    "4. **WHEN** payment is still processing\n   **THEN** the system prevents duplicate submission of the same checkout payment\n   **AND** the *customer* sees a processing state until *StripeWave* responds\n   **Evidence:** `ubiquitous-language.md` — Order > *StripeWave* processing rules; ADR-007 idempotent placement (discovery architecture) — idempotency assumed for duplicate submit",
+                    "5. **WHEN** *StripeWave* has not reported success\n   **THEN** no *order confirmation* is issued\n   **BUT** the *shopping cart* remains recoverable for retry where payment failed\n   **Evidence:** `ubiquitous-language.md` — Order > *StripeWave* invariant, \"not confirmed until *StripeWave* reports payment success\""
+                  ]
+                },
+                {
+                  "name": "Confirm Order and Send Confirmation Email",
+                  "sequential_order": 6,
+                  "connector": "and",
+                  "story_type": "System",
+                  "users": [
+                    "Customer"
+                  ],
+                  "increment": 2,
+                  "scenarios": [],
+                  "acceptance_criteria": [
+                    "1. **WHEN** *StripeWave* reports payment success for a placed *click-and-collect order*\n   **THEN** the system sends *order confirmation* to the email captured in *guest checkout*\n   **AND** the message identifies the order and *click-and-collect store* for pickup\n   **Evidence:** `ubiquitous-language.md` — Order > *order confirmation*; `story-map.md` — line 28; `information-architecture.md` — Order Confirmation / confirmation email",
+                    "2. **WHEN** the *customer* lands on the order confirmation screen\n   **THEN** the system displays order summary with order id, *click-and-collect store*, and total\n   **AND** indicates that confirmation was sent by email\n   **Evidence:** `information-architecture.md` — Order Confirmation / order summary fields",
+                    "3. **WHEN** payment has not succeeded\n   **THEN** the system does not send *order confirmation*\n   **BUT** keeps the *customer* on checkout or payment error surfaces\n   **Evidence:** `ubiquitous-language.md` — Order > *order confirmation*, \"follows successful *StripeWave* payment\"",
+                    "4. **WHEN** *order confirmation* is sent\n   **THEN** the *click-and-collect order* is visible to *store employees* in the fulfillment queue for that *click-and-collect store*\n   **Evidence:** `ubiquitous-language.md` — Order > *prepare click-and-collect orders for pickup*, \"after *order confirmation*\"; `information-architecture.md` — Fulfillment — Orders",
+                    "5. **WHEN** the *customer* finishes reading confirmation\n   **THEN** the *customer* can return to *catalog* via continue shopping\n   **BUT** cannot edit the placed *click-and-collect order* through the *shopping cart*\n   **Evidence:** `information-architecture.md` — Order Confirmation → Browse Catalog; guest order is committed after payment"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Fulfill Click-and-Collect Orders",
+          "sequential_order": 3,
+          "behavior": null,
+          "domain_concepts": [
+            {
+              "name": "Order",
+              "module": "Order",
+              "responsibilities": []
+            }
+          ],
+          "sub_epics": [],
+          "story_groups": [
+            {
+              "name": "Increment 2 — pickup",
+              "sequential_order": 1,
+              "type": "and",
+              "connector": null,
+              "behavior": null,
+              "stories": [
+                {
+                  "name": "Prepare Click-and-Collect Orders for Pickup",
+                  "sequential_order": 1,
+                  "connector": null,
+                  "story_type": "Store Employee",
+                  "users": [
+                    "Store Employee"
+                  ],
+                  "increment": 2,
+                  "scenarios": [],
+                  "acceptance_criteria": [
+                    "1. **WHEN** the *store employee* opens the fulfillment queue for a *click-and-collect store*\n   **THEN** the system lists paid *click-and-collect orders* awaiting preparation\n   **AND** each row shows order id, customer contact, status, and pickup context\n   **Evidence:** `ubiquitous-language.md` — Order > *prepare click-and-collect orders for pickup*; `story-map.md` — line 30; `information-architecture.md` — Fulfillment — Orders / order queue",
+                    "2. **WHEN** the *store employee* marks an order as preparing (or equivalent staging action)\n   **THEN** the system updates that *click-and-collect order* status to ready for customer collection\n   **AND** the order remains scoped to its *click-and-collect store*\n   **Evidence:** `information-architecture.md` — order queue / mark preparing; `ubiquitous-language.md` — Order > *prepare click-and-collect orders for pickup*",
+                    "3. **WHEN** a *click-and-collect order* has not received payment success and *order confirmation*\n   **THEN** the order does not appear in the preparation queue\n   **BUT** unpaid or failed-checkout sessions are excluded\n   **Evidence:** `ubiquitous-language.md` — Order > *prepare click-and-collect orders for pickup*, \"after *order confirmation*\"",
+                    "4. **WHEN** the *store employee* views the queue\n   **THEN** only orders for that employee's *click-and-collect store* (or selected store context) appear\n   **BUT** orders for other *stores* are not mixed in one queue\n   **Evidence:** `ubiquitous-language.md` — Order > *click-and-collect store*, scopes preparation and handoff",
+                    "5. **WHEN** the *customer* is not a *store employee*\n   **THEN** the fulfillment queue and preparation actions are unavailable\n   **Evidence:** `ubiquitous-language.md` — boundary *store employee*; Increment 1 pattern for employee-only surfaces"
+                  ]
+                },
+                {
+                  "name": "Fulfill Click-and-Collect Order",
+                  "sequential_order": 2,
+                  "connector": "and",
+                  "story_type": "Store Employee",
+                  "users": [
+                    "Store Employee"
+                  ],
+                  "increment": 2,
+                  "scenarios": [],
+                  "acceptance_criteria": [
+                    "1. **WHEN** the *store employee* opens a prepared *click-and-collect order* from the queue\n   **THEN** the system shows order lines, *click-and-collect store*, and current fulfillment status\n   **AND** offers *fulfill click-and-collect order* when staging is complete\n   **Evidence:** `ubiquitous-language.md` — Order > *fulfill click-and-collect order*; `story-map.md` — line 31; `information-architecture.md` — Fulfillment — Order / order detail",
+                    "2. **WHEN** the *store employee* confirms *fulfill click-and-collect order* at pickup\n   **THEN** the system marks *order fulfillment* complete for that order\n   **AND** removes the order from the active preparation queue\n   **Evidence:** `ubiquitous-language.md` — Order > *fulfill click-and-collect order*, \"completes *order fulfillment*\"; `ubiquitous-language.md` — Order > *order fulfillment*",
+                    "3. **WHEN** the *customer* arrives at the *click-and-collect store* with proof of order\n   **THEN** the *store employee* can match the order and complete handoff\n   **AND** the *customer* receives the *products* from the placed order\n   **Evidence:** `ubiquitous-language.md` — Order > *order fulfillment*, \"completes when the *customer* collects\"; `thin-slicing.md` — Increment 2 outcome",
+                    "4. **WHEN** the *store employee* attempts to fulfill an order not yet prepared\n   **THEN** the system blocks handoff or warns that preparation is incomplete\n   **BUT** does not mark *order fulfillment* complete prematurely\n   **Evidence:** `ubiquitous-language.md` — Order > *order fulfillment* spans prepare then fulfill; sequential epic in `story-map.md`",
+                    "5. **WHEN** *fulfill click-and-collect order* completes\n   **THEN** the *click-and-collect order* shows as collected or closed\n   **BUT** the *customer* cannot re-open the same order for another pickup through fulfillment actions\n   **Evidence:** `ubiquitous-language.md` — Order > *fulfill click-and-collect order*, handoff completes lifecycle; exploration closure of pickup journey"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "story_groups": []
+    }
+  ]
+}

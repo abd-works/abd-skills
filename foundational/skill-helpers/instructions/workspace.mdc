@@ -22,7 +22,7 @@ python skill-helpers/scripts/set_workspace.py "C:\path\to\engagement\root"
 - **`get_workspace.py`** — prints **`active_skill_workspace`** (requires existing **`skill-config.json`**).
 - **`set_workspace.py`** — writes **`active_skill_workspace`**; creates **`skill-config.json`** on first run when the repo root is detected (**`scripts/deploy_family_package.py`**).
 
-Full behavior and layout detection: **`skill-helpers/content/workspace.md`**.
+Full behavior and layout detection: **`skill-helpers/reference/workspace.md`**.
 
 ## Agent behavior
 

@@ -1,11 +1,15 @@
----
+﻿---
 name: hero-vtt-technical-architecture
 catalog_garden_family: architecture-centric-engineering
+catalogue_one_liner: >-
+  WPF C# modules for Hero Virtual Tabletop — three-layer architecture with Skinny ViewModel and COH Game Bridge Seam.
 description: >-
   Generate production Hero Virtual Tabletop (WPF C#) modules following the
   three-layer architecture — Presentation (ViewModel) · Domain · COH Integration.
   Enforces the Skinny ViewModel, COH Game Bridge Seam, and Direct Memory
-  Manipulation mechanisms from inputs/architecture-reference.md.
+  Manipulation mechanisms from inputs/architecture-reference.md. Use when
+  adding a new feature, writing a ViewModel, adding domain classes, reviewing
+  PRs for architecture compliance, or refactoring fat ViewModels.
 ---
 # hero-vtt-technical-architecture
 
@@ -13,168 +17,71 @@ description: >-
 
 Generate production Hero Virtual Tabletop modules using the **architecture fixed in `inputs/architecture-reference.md`** — organizing by feature folder, enforcing strict layer purity (Presentation → Domain → COH Integration interfaces), and following the three mechanism patterns the reference defines.
 
-This skill produces real, runnable C# files. Code is co-located by feature (`Module.HeroVirtualTabletop/{Feature}/`). ViewModels are thin binding adapters. Domain classes hold all business rules and call game operations only through injected interfaces. Every concrete COH type lives exclusively in `Library/GameCommunicator/` or `Library/ProcessCommunicator/`.
+This skill produces real, runnable C# files. ViewModels are thin binding adapters. Domain classes hold all business rules and call game operations only through injected interfaces. Every concrete COH type lives exclusively in `Library/GameCommunicator/` or `Library/ProcessCommunicator/`.
 
-## When to use this skill
+---
 
-Load this skill when **any** of the following apply:
+## Output file
 
-- You are **adding a new feature** and need the architecture-prescribed folder structure and file set.
-- You are **adding a domain class** and need the constructor injection pattern wired up correctly.
-- You are **writing a ViewModel** and need to confirm it stays thin — commands delegate, properties bind direct.
-- You are **reviewing a PR** for architecture compliance against the reference's principles.
-- You are **refactoring a fat ViewModel** (like `RosterExplorerViewModel`) toward the Skinny ViewModel pattern.
-- You are **adding a test** and need to know which tier it belongs to and which doubles to use.
+**Deliverables folder:** see `../agent-protocol.md` — Output file resolution.
+
+**File name:** Feature module files under `Module.HeroVirtualTabletop/{Feature}/` with corresponding test files.
 
 ---
 
 ## Agent Instructions
 
-1. **Read the reference first.** Load [`inputs/architecture-reference.md`](inputs/architecture-reference.md) before generating any code. The reference is authoritative. When the code and the reference disagree, the reference wins.
+> **MANDATORY — read `../agent-protocol.md` before starting. It defines read-gates, output file resolution, and the per-rule verdict format.**
 
-2. **Pick a generation mode.** This skill supports two modes:
+### 1. Read context
 
-   | Mode | What you get |
-   | --- | --- |
-   | **Feature module** | Full feature folder: `{Feature}View.xaml`, `{Feature}ViewModel.cs`, `{Feature}.cs` (domain), test files at all three tiers |
-   | **Mechanism slice** | One mechanism only — e.g. add the COH Game Bridge seam to an existing domain class, or extract an `OptionGroup` concept from a fat ViewModel |
+Read these files:
+- **`reference/concepts.md`** — architecture layers, three mechanisms (Skinny ViewModel, COH Game Bridge Seam, Direct Memory Manipulation), and test tiers.
+- **`inputs/architecture-reference.md`** — the authoritative reference with full mechanism details.
 
-3. **Generate from templates.** Use every template in `templates/` appropriate to the mode.
+### 2. Generate
 
-   | Template | Generates |
-   | --- | --- |
-   | `feature-module.template.txt` | Full feature folder scaffold |
-   | `viewmodel.template.cs` | A `{Feature}ViewModel.cs` in the Skinny ViewModel pattern |
-   | `domain-class.template.cs` | A domain class with constructor-injected `IGameCommandExecutor` + `IMemoryInstance` |
-   | `test-domain.template.cs` | Tier 1 domain test class (`FakeMemoryInstance`, `NoOpGameCommandExecutor`) |
-   | `test-viewmodel.template.cs` | Tier 2 ViewModel + Domain test class |
+Read every file in **`rules/`**; author to those rules.
 
-4. **Apply rules while generating, not after.** Check each generated file against the bundled rules before presenting output.
+**Produce output from every template:**
 
-5. **Test placement.** Every domain class gets a Tier 1 test. Every ViewModel gets a Tier 2 test. E2E tests (Tier 3) cover only new architectural paths, not scenarios. Game Bridge tests go in `Module.IntegrationTest` only.
-
----
-
-## Core concepts
-
-### Architecture layers
-
-| Layer | Tech | Location | Responsibility |
-| --- | --- | --- | --- |
-| **Presentation** | WPF XAML + `*ViewModel.cs`, Prism `DelegateCommand`, `INotifyPropertyChanged` | `Module.HeroVirtualTabletop/{Feature}/` | Layout, binding, event routing. **Nothing else.** |
-| **Domain** | Plain C# classes and interfaces | `Module.HeroVirtualTabletop/{Feature}/` | All business rules. No game internals. No concrete COH types. |
-| **COH Integration** | `IGameCommandExecutor`, `IMemoryInstance`, `IIconInteractionUtility` | `Library/GameCommunicator/`, `Library/ProcessCommunicator/` | Exclusive seam between application and COH game engine. |
-
-**Dependency direction:** Presentation → Domain → COH Integration interfaces. No arrow reverses.
-
-### Mechanism: Skinny ViewModel
-
-Every command handler is a one-liner calling one domain method. Observable properties are direct domain references — no copy, no sync, no local state. When a ViewModel accumulates structural plumbing (parallel collections, ordering logic, sync code), that is a domain extraction trigger: name the concept, create the domain class (`OptionGroup` is the canonical example), delete the ViewModel plumbing.
-
-### Mechanism: COH Game Bridge Seam
-
-Three structurally different COH paths, each behind its own interface:
-
-| Interface | Underlying path |
+| Template | What to produce |
 | --- | --- |
-| `IGameCommandExecutor` | HookCostume.dll → WriteProcessMemory to COH command buffer |
-| `IMemoryInstance` | MemorySharp → direct OS ReadProcessMemory/WriteProcessMemory at offsets |
-| `IIconInteractionUtility` | P/Invoke → PowerHook data exports (hover NPC, 3D mouse, raycast) |
+| `templates/feature-module.template.txt` | Full feature folder scaffold |
+| `templates/viewmodel.template.cs` | `{Feature}ViewModel.cs` in Skinny ViewModel pattern |
+| `templates/domain-class.template.cs` | Domain class with constructor-injected interfaces |
+| `templates/test-domain.template.cs` | Tier 1 domain test class |
+| `templates/test-viewmodel.template.cs` | Tier 2 ViewModel + Domain test class |
 
-No domain class and no ViewModel ever references `HookCostumeGameCommandExecutor`, `MemoryInstance`, or `IconInteractionUtility` directly.
+**Two generation modes:**
+- **Feature module** — full feature folder with View, ViewModel, Domain class, and tests at all tiers.
+- **Mechanism slice** — add one mechanism to an existing class (e.g. inject COH bridge seam, extract OptionGroup).
 
-### Mechanism: Direct Memory Manipulation
+### 3. Validate
 
-`IMemoryInstance` exposes semantic operations (`SetPosition`, `SetFacing`, `ReadXYZ`). All COH offset constants live only in `MemoryInstance.cs`. No domain class holds a memory offset or imports `MemorySharp`.
+Run the scanners:
 
-### Test tiers
-
-| Tier | Focus | COH | Project |
-| --- | --- | --- | --- |
-| **1 — Domain** | Domain invariants, rules, state transitions. No ViewModel, no COH. | `NoOpGameCommandExecutor` + `FakeMemoryInstance` | `Module.UnitTest` |
-| **2 — ViewModel + Domain** | Binding and command delegation. Real domain, COH still stubbed. | Stubbed | `Module.UnitTest` |
-| **3 — E2E key paths** | Architectural wiring — one test per critical path, not per scenario. | Stubbed | `Module.UnitTest` |
-| **Game Bridge** | Live DLL injection + `RunPatch()`. One test per bridge path. | Real COH required | `Module.IntegrationTest` |
-
----
-
-## The shape of a good feature module
-
-```
-Module.HeroVirtualTabletop/{Feature}/
-├── {Feature}View.xaml              ← Presentation: XAML only, no code-behind logic
-├── {Feature}ViewModel.cs           ← Presentation: one-liner commands, direct domain bindings
-└── {Feature}.cs                    ← Domain: all rules, no game internals
-
-Module.UnitTest/Domain/
-└── {Feature}DomainTest.cs          ← Tier 1: FakeMemoryInstance + NoOpGameCommandExecutor
-
-Module.UnitTest/Presentation/
-└── {Feature}ViewModelTest.cs       ← Tier 2: real domain + fakes; assert binding and domain state
-
-Module.IntegrationTest/             ← Game Bridge tier only (never for domain or VM logic)
+```bash
+python skills/execute-skill-using-skills-rules/scripts/run_scanners.py \
+  --skill-root skills/hero-vtt-technical-architecture \
+  --workspace <path-to-output>
 ```
 
----
-
-## Build (feature module mode)
-
-1. **Name the feature and identify its domain class.** The domain class name comes from the ubiquitous language. The feature folder name matches the domain concept.
-
-2. **Generate `{Feature}ViewModel.cs`** from `templates/viewmodel.template.cs`. Replace `{Feature}` and `{DomainClass}`. Add one `DelegateCommand` per user story action. Each command handler: one line, one domain method call.
-
-3. **Generate `{Feature}.cs`** from `templates/domain-class.template.cs`. Replace `{Feature}` and inject `IGameCommandExecutor` and/or `IMemoryInstance` as needed. Business logic lives here. No MemorySharp imports. No concrete COH class references.
-
-4. **Create `{Feature}View.xaml`.** Bind `ItemsSource`, `SelectedItem`, and command bindings from ViewModel properties. No code-behind logic beyond standard WPF wiring.
-
-5. **Generate Tier 1 test** from `templates/test-domain.template.cs`. Construct the domain class with `FakeMemoryInstance` + `NoOpGameCommandExecutor`. Write one test method per acceptance criterion.
-
-6. **Generate Tier 2 test** from `templates/test-viewmodel.template.cs`. Wire the real domain class to the ViewModel. Assert both binding state and domain post-state.
-
-7. **Apply rules.** Walk every bundled rule against all generated files before declaring done.
-
----
-
-## Build (mechanism slice mode)
-
-Specify which mechanism is being added to an existing class, then use only the relevant template(s):
-
-- **Add COH bridge seam to existing domain class:** inject `IGameCommandExecutor` or `IMemoryInstance` via constructor; replace any direct `MemorySharp` or DLL calls with interface calls; update Tier 1 test to use fakes.
-- **Extract OptionGroup from fat ViewModel:** identify the parallel collections + ordering logic; create the domain class; expose it via the ViewModel as a direct reference; delete the ViewModel plumbing; update Tier 1 and Tier 2 tests.
-- **Add FakeMemoryInstance test double:** implement `IMemoryInstance` with dictionary-backed state; add `SetXYZ`, `SetFacing`, `SetLabel` pre-seed helpers; register in `GameCommandTestAssemblyHooks`.
+Then emit per-rule verdicts per `../agent-protocol.md`.
 
 ---
 
 ## Validate
 
-Walk generated code and confirm:
+**Goal:** Inspect what was built — read the artifacts as reviewers.
 
-- Every `{Feature}ViewModel` command handler is a one-liner. No ViewModel method is longer than three lines including the null guard.
-- No ViewModel imports from `Library/GameCommunicator/` or `Library/ProcessCommunicator/` concrete types.
-- No domain class imports `MemorySharp`, `HookCostumeGameCommandExecutor`, `MemoryInstance`, or `IconInteractionUtility`.
-- Every domain class that touches game state receives `IGameCommandExecutor` and/or `IMemoryInstance` via constructor injection.
-- Every domain class has a Tier 1 test. Every ViewModel has a Tier 2 test.
-- No Tier 1 or Tier 2 test imports `Module.IntegrationTest` or any live COH type.
-- All `[TestCategory("GameBridge")]` tests are in `Module.IntegrationTest` only.
-
----
-
-## Deploy
-
-```powershell
-cd C:\dev\agilebydesign-skills
-.\scripts\deploy-skills.ps1 -ide cursor -Force
-```
-
-| File | Deploy target |
-| --- | --- |
-| `ide-files/hero-vtt-technical-architecture.mdc` | `.cursor/rules/` |
-| `ide-files/hero-vtt-technical-architecture.prompt.md` | `.cursor/commands/` |
+- **Skinny ViewModels** — every command handler is a one-liner; no ViewModel method longer than three lines.
+- **No concrete COH in ViewModel** — no imports from `Library/GameCommunicator/` or `Library/ProcessCommunicator/`.
+- **No game internals in Domain** — no `MemorySharp`, `HookCostumeGameCommandExecutor`, `MemoryInstance`, or `IconInteractionUtility`.
+- **Constructor injection** — every domain class that touches game state receives interfaces via constructor.
+- **Test coverage** — every domain class has Tier 1 test; every ViewModel has Tier 2 test.
+- **Test isolation** — no Tier 1/2 test imports `Module.IntegrationTest` or live COH types.
+- **Game Bridge tests isolated** — all `[TestCategory("GameBridge")]` in `Module.IntegrationTest` only.
+- **No bundle markers** — `SKILL.md` has no `<!-- execute_rules:bundle_rules -->` markers.
 
 ---
-
-<!-- execute_rules:bundle_rules:begin -->
-<!-- Rule prose is generated from rules/*.md — edit rules, then run:
-     python skills/execute-skill-using-skills-rules/scripts/bundle_rules_into_skill_md.py --skill-root architecture-centric-engineering/skills/hero-vtt-technical-architecture
--->
-<!-- execute_rules:bundle_rules:end -->

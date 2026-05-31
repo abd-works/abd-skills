@@ -25,15 +25,6 @@ python scripts/search_memory.py "<query>" --rag <source>/memory/rag --k 5
 - `--k`: Number of results (default 5)
 - `--format`: `text` (default) or `json`
 
-## When to activate
-
-Run `search_memory.py` when the user says:
-
-- "use memory", "search memory", "what does memory say"
-- "from our content", "from our decks", "from ABD materials"
-- "what do we have on [topic]"
-- Asks about any topic that has been ingested into memory
-
 ## Agent flow
 
 1. **Derive query** — Extract a semantic query from the user's question

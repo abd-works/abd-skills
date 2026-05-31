@@ -213,7 +213,7 @@ def _log_taxonomy_from_spec(spec: dict) -> None:
         print(
             "  WARNING: taxonomy.evidence_type and taxonomy.chunk_type are still empty. "
             "Secondary pass: classify this corpus, fill both lists and defaults "
-            "(see skill content/parts/library/chunking-spec.md), then re-run chunk_markdown."
+            "(see skill references/chunking-spec.md), then re-run chunk_markdown."
         )
         return
     if et:

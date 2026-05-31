@@ -1,0 +1,121 @@
+{
+  "_comment": "Machine-readable vocabulary extracted from the object model. Sprint 1 cart + Sprint 3 store pickup scope.",
+  "concepts": {
+    "Cart": {
+      "attributes": ["shoppingCart"],
+      "inherits": null
+    },
+    "Shopping Cart": {
+      "attributes": ["cartLines", "customer"],
+      "inherits": null
+    },
+    "Cart Line": {
+      "attributes": ["product", "cartQuantity"],
+      "inherits": null
+    },
+    "Cart Lines": {
+      "attributes": ["lines"],
+      "inherits": null
+    },
+    "Cart Quantity": {
+      "attributes": ["value"],
+      "inherits": null
+    },
+    "Money": {
+      "attributes": ["amount", "currency"],
+      "inherits": null
+    },
+    "Add Product To Cart": {
+      "attributes": [],
+      "inherits": null
+    },
+    "Update Cart Quantity": {
+      "attributes": [],
+      "inherits": null
+    },
+    "Remove Product From Cart": {
+      "attributes": [],
+      "inherits": null
+    },
+    "Order": {
+      "attributes": ["orderFulfillment"],
+      "inherits": null
+    },
+    "Click-and-collect Order": {
+      "attributes": [
+        "orderId",
+        "customerContact",
+        "clickAndCollectStore",
+        "orderFulfillment",
+        "cartLines",
+        "orderConfirmation",
+        "paymentConfirmed"
+      ],
+      "inherits": null
+    },
+    "Order Fulfillment": {
+      "attributes": ["status"],
+      "inherits": null
+    },
+    "OrderFulfillmentStatus": {
+      "attributes": [
+        "AWAITING_PREPARATION",
+        "READY_FOR_COLLECTION",
+        "COMPLETE",
+        "COLLECTED",
+        "CLOSED"
+      ],
+      "inherits": null
+    },
+    "Click-and-collect Store": {
+      "attributes": ["storeIdentity", "displayName"],
+      "inherits": null
+    },
+    "Fulfillment Queue": {
+      "attributes": ["clickAndCollectStore", "awaitingPreparationOrders"],
+      "inherits": null
+    },
+    "FulfillmentQueueRow": {
+      "attributes": [
+        "orderId",
+        "customerContact",
+        "orderFulfillmentStatus",
+        "clickAndCollectStoreName"
+      ],
+      "inherits": null
+    },
+    "Order Confirmation": {
+      "attributes": ["confirmationComplete"],
+      "inherits": null
+    },
+    "Prepare Click-and-collect Orders for Pickup": {
+      "attributes": [],
+      "inherits": null
+    },
+    "Fulfill Click-and-collect Order": {
+      "attributes": [],
+      "inherits": null
+    },
+    "Customer": {
+      "attributes": ["displayName", "shoppingCart", "selectedStore"],
+      "inherits": null
+    },
+    "Product": {
+      "attributes": ["catalogItemIdentity", "unitPrice"],
+      "inherits": null
+    },
+    "Stock Availability": {
+      "attributes": [],
+      "inherits": null
+    },
+    "Selected Store": {
+      "attributes": ["storeIdentity"],
+      "inherits": null
+    },
+    "Store Employee": {
+      "attributes": ["displayName", "boundClickAndCollectStore"],
+      "inherits": null
+    }
+  },
+  "aliases": {}
+}

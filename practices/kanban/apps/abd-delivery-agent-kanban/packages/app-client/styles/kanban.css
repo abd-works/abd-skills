@@ -1,0 +1,748 @@
+/* =====================================================
+   Delivery Agent Kanban — stage-grouped layout (v2 ticket model)
+   Columns: Backlog | Context[IP|Done] | … | Engineering[IP|Done] | Archived
+   ===================================================== */
+
+/* Ticket palette — brand-aligned card system */
+:root {
+  --kb-ticket-bg: #111113;
+  --kb-ticket-text: #F4F4F5;
+  --kb-ticket-border: #2A2A2A;
+  --kb-ticket-accent: #E5531A;
+  --kb-scope-project: #E5531A;
+  --kb-scope-project-chip: #fb923c;
+  --kb-scope-increment: #8b7cf7;
+  --kb-scope-increment-chip: #a89bf5;
+  --kb-scope-sprint: #38bdf8;
+  --kb-scope-sprint-chip: #7dd3fc;
+  --kb-ticket-blocked-bg: #1A0E0E;
+  --kb-ticket-blocked-border: #EF4444;
+  --kb-ticket-stalled-bg: #1A1208;
+  --kb-ticket-stalled-border: #F59E0B;
+  --kb-ticket-expand-bg: #0B0B0B;
+  --kb-stage-group-w: 200px;
+  --kb-end-col-w: 90px;
+  --kb-sub-col-w: 98px;
+}
+
+/* ---- Outer wrapper — pool bar stacks above, scroll handles horizontal overflow ---- */
+.kb-board-outer {
+  width: 100%;
+}
+
+.kb-board-scroll {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  gap: 6px;
+  min-width: max-content;
+  padding: 4px 2px 12px;
+  overflow-x: auto;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* ── Agent Pool Bar ─────────────────────────────────────────────────────────── */
+.kb-pool-bar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+  padding: 10px 16px;
+  background: var(--abd-raised);
+  border-bottom: 1px solid var(--abd-border);
+  flex-shrink: 0;
+  flex-wrap: wrap;
+}
+
+.kb-pool-bar-label {
+  font-family: var(--abd-mono);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--abd-muted);
+  flex-shrink: 0;
+  margin-right: 4px;
+}
+
+.kb-pool-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* Delivery lead slot — subtle visual separation from role pool */
+.kb-pool-group--lead .kb-pool-group-label {
+  color: #E5531A;
+}
+
+/* Vertical divider between lead and role pool */
+.kb-pool-divider {
+  width: 1px;
+  align-self: stretch;
+  background: var(--abd-border);
+  margin: 0 4px;
+  flex-shrink: 0;
+}
+
+.kb-pool-group-label {
+  font-family: var(--abd-mono);
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--abd-muted);
+}
+
+.kb-pool-group-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* ── Agent Avatar ────────────────────────────────────────────────────────────── */
+.kb-agent-avatar {
+  position: relative;       /* anchor the ::after color overlay */
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--abd-mono);
+  font-weight: 800;
+  border: none;
+  transition: opacity 0.25s, filter 0.25s;
+  flex-shrink: 0;
+  cursor: default;
+  overflow: hidden;         /* clip overlay to circle */
+  background-size: cover;
+  background-position: center;
+  background-color: transparent;
+}
+
+.kb-agent-avatar--md { width: 22px; height: 22px; font-size: 9px; }
+.kb-agent-avatar--sm { width: 22px; height: 22px; font-size: 9px; }
+
+/* Hide fallback text — images do the work */
+.kb-agent-initial { display: none; }
+
+/* Avatar images by role */
+.kb-agent-avatar[data-role="product-owner"]    { background-image: url('/avatars/product-owner.png'); }
+.kb-agent-avatar[data-role="business-expert"]  { background-image: url('/avatars/business-expert.png'); }
+.kb-agent-avatar[data-role="ux-designer"]      { background-image: url('/avatars/ux-designer.png'); }
+.kb-agent-avatar[data-role="engineer"]         { background-image: url('/avatars/engineer.png'); }
+.kb-agent-avatar[data-role="delivery-lead"]    { background-image: url('/avatars/delivery-lead.png'); }
+.kb-agent-avatar[data-role="kanban-lead"]     { background-image: url('/avatars/delivery-lead.png'); }
+
+/*
+  Role color overlay using mix-blend-mode: multiply.
+  White pixels in the image multiplied by role color → role color.
+  Dark pixels stay dark.
+*/
+.kb-agent-avatar[data-role="product-owner"]    { --kb-avatar-color: #6BCB77; }
+.kb-agent-avatar[data-role="business-expert"]  { --kb-avatar-color: #6C5CE7; }
+.kb-agent-avatar[data-role="ux-designer"]      { --kb-avatar-color: #E84393; }
+.kb-agent-avatar[data-role="engineer"]         { --kb-avatar-color: #4FC3F7; }
+.kb-agent-avatar[data-role="delivery-lead"]    { --kb-avatar-color: #E5531A; }
+.kb-agent-avatar[data-role="kanban-lead"]     { --kb-avatar-color: #E5531A; }
+
+.kb-agent-avatar::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--kb-avatar-color, transparent);
+  mix-blend-mode: multiply;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+/* Idle in pool: full color */
+.kb-agent-avatar--idle { opacity: 1; }
+
+/* Working in pool: full color + ring so engaged agents stand out */
+.kb-agent-avatar--working {
+  opacity: 1;
+  box-shadow: 0 0 0 2px var(--kb-avatar-color, #fff);
+}
+
+/* Working shown ON a ticket: full color */
+.kb-ticket .kb-agent-avatar--working { filter: none; opacity: 1; }
+
+/*
+  Inactive: thread not started. Dark base + diagonal squiggly mask via ::before.
+  The ::before sits above the image and ::after color overlay.
+*/
+.kb-agent-avatar--inactive {
+  filter: brightness(0.18);
+}
+.kb-agent-avatar--inactive::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  border-radius: 50%;
+  pointer-events: none;
+  background-image: repeating-linear-gradient(
+    -45deg,
+    rgba(0, 0, 0, 0.55) 0px,
+    rgba(0, 0, 0, 0.55) 1.5px,
+    transparent 1.5px,
+    transparent 5px
+  );
+}
+
+/* ── Pool +/- controls ──────────────────────────────────────────────────────── */
+.kb-pool-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-left: 2px;
+}
+
+.kb-pool-btn {
+  background: none;
+  border: 1px solid var(--abd-border);
+  border-radius: 2px;
+  color: var(--abd-text);
+  font-size: 11px;
+  font-weight: 700;
+  width: 16px;
+  height: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+  transition: border-color 0.12s, color 0.12s;
+}
+.kb-pool-btn:hover:not(:disabled) { border-color: var(--abd-accent); color: var(--abd-accent); }
+.kb-pool-btn:disabled { opacity: 0.25; cursor: not-allowed; }
+
+/* ---- End columns: Backlog & Complete ---- */
+.kb-end-col {
+  width: var(--kb-end-col-w);
+  flex-shrink: 0;
+  background: var(--abd-surface);
+  border: 1px solid var(--abd-border);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-height: 520px;
+}
+
+.kb-end-col-header {
+  font-family: var(--abd-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--abd-muted);
+  padding: 6px 8px;
+  border-bottom: 2px solid var(--abd-border);
+  background: var(--abd-raised);
+}
+
+.kb-end-col[data-col='complete'] .kb-end-col-header,
+.kb-end-col[data-col='archived'] .kb-end-col-header {
+  color: #22C55E;
+  border-bottom-color: #22C55E;
+}
+
+.kb-end-col-tickets {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 4px;
+  min-height: 40px;
+}
+
+/* ---- Stage groups ---- */
+.kb-stage-group {
+  width: var(--kb-stage-group-w);
+  flex-shrink: 0;
+  background: var(--abd-surface);
+  border: 1px solid var(--abd-border);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-height: 520px;
+}
+
+.kb-stage-group--active {
+  border-color: rgba(229, 83, 26, 0.45);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.2), 0 4px 16px rgba(229, 83, 26, 0.12);
+}
+
+.kb-stage-group-header {
+  font-family: var(--abd-mono);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--abd-text);
+  padding: 7px 10px;
+  border-bottom: 2px solid var(--abd-border);
+  background: var(--abd-raised);
+}
+
+.kb-stage-group--active .kb-stage-group-header {
+  color: var(--abd-accent-glow);
+  border-bottom-color: var(--abd-accent);
+}
+
+/* Stage group uniform left accent — no per-family color */
+.kb-stage-group .kb-stage-group-header { border-left: 3px solid var(--abd-border); }
+.kb-stage-group--active .kb-stage-group-header { border-left-color: var(--abd-accent); }
+.kb-stage-group--complete { opacity: 0.7; }
+.kb-stage-group--complete .kb-stage-group-header {
+  border-left-color: #22C55E;
+  color: #22C55E;
+}
+.kb-stage-done-badge {
+  color: #22C55E;
+  font-size: 10px;
+  margin-right: 4px;
+}
+
+/* ---- Sub-column row inside a stage group ---- */
+.kb-stage-sub-cols {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  border-bottom: 1px dashed var(--abd-border);
+}
+
+.kb-sub-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid var(--abd-border);
+  min-width: 0;
+}
+
+.kb-sub-col:last-child {
+  border-right: none;
+}
+
+.kb-sub-col-head {
+  font-family: var(--abd-mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--abd-muted);
+  padding: 4px 6px;
+  border-bottom: 1px solid var(--abd-border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.kb-sub-col--ip .kb-sub-col-head { color: var(--abd-accent-glow); }
+.kb-sub-col--review .kb-sub-col-head { color: #6C5CE7; }
+.kb-sub-col--done .kb-sub-col-head { color: #22C55E; }
+
+.kb-ticket--feeds-next {
+  border-style: dashed;
+  opacity: 0.92;
+}
+
+.kb-done-section {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.kb-done-section + .kb-done-section {
+  margin-top: 8px;
+  padding-top: 6px;
+  border-top: 1px dashed var(--abd-border);
+}
+
+.kb-done-section-label {
+  font-family: var(--abd-mono);
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--abd-muted);
+  padding: 2px 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.kb-done-section--queued .kb-done-section-label {
+  color: #94a3b8;
+}
+
+/* Scatter parent — follows last child in same column, shown above children */
+.kb-ticket--scatter-parent {
+  background: #151320;
+  border-color: #4a3f6b;
+  border-left: 2px solid #8b7cf7;
+  opacity: 0.95;
+}
+.kb-ticket--scatter-parent .kb-ticket-chip {
+  color: #a89bf5;
+}
+.kb-ticket--scatter-parent .kb-ticket-label {
+  color: #d4cff9;
+}
+
+.kb-sub-col-tickets {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 4px;
+  min-height: 40px;
+}
+
+/* ---- Stage skills bar — stacked vertically, fixed height so all stages align ---- */
+.kb-stage-skills {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 5px 6px 6px;
+  background: var(--abd-raised);
+  border-top: 1px solid var(--abd-border);
+  height: 180px;
+  overflow-y: auto;
+  flex-shrink: 0;
+  box-sizing: border-box;
+}
+
+.kb-skill-chip {
+  font-family: var(--abd-mono);
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  padding: 0 5px;
+  height: 20px;
+  box-sizing: border-box;
+  border-radius: 3px;
+  border-left: 2px solid var(--abd-muted);
+  background: var(--abd-surface);
+  color: var(--abd-muted);
+  white-space: nowrap;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+}
+
+/* Family accent colors on skill chips — class names from familyCssClass() */
+.kb-skill-chip.aad-fam-ddd { border-left-color: #6C5CE7; color: #6C5CE7; }
+.kb-skill-chip.aad-fam-uxd { border-left-color: #E84393; color: #E84393; }
+.kb-skill-chip.aad-fam-sdd { border-left-color: #6BCB77; color: #6BCB77; }
+.kb-skill-chip.aad-fam-arc { border-left-color: #4FC3F7; color: #4FC3F7; }
+.kb-skill-chip.aad-fam-delivery { border-left-color: var(--abd-accent); color: var(--abd-accent); }
+.kb-skill-chip.aad-fam-idea { border-left-color: #fdcb6e; color: #fdcb6e; }
+.kb-skill-chip.aad-fam-ctm { border-left-color: #00B894; color: #00B894; }
+
+/* Done state — muted with checkmark */
+.kb-skill-chip.is-done {
+  opacity: 0.55;
+  text-decoration: line-through;
+  text-decoration-color: currentColor;
+}
+
+/* Active state — glowing border, opaque */
+.kb-skill-chip.is-active {
+  opacity: 1;
+  background: var(--abd-bg);
+  border-width: 2px;
+  box-shadow: 0 0 0 1px currentColor;
+  font-weight: 700;
+}
+
+/* Skill icons */
+.kb-skill-icon {
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 2px;
+  flex-shrink: 0;
+}
+
+.kb-skill-icon--done {
+  color: #22C55E;
+}
+
+/* Bot and magnify icons inherit family color from parent row or ticket meta */
+.kb-skill-icon--bot,
+.kb-skill-icon--review {
+  color: currentColor;
+}
+
+.kb-ticket-agent-icon .kb-skill-icon--bot,
+.kb-ticket-agent-icon .kb-skill-icon--review {
+  color: inherit;
+}
+
+/* Review dot on ticket */
+.kb-status-dot--review {
+  background: #6C5CE7;
+}
+
+/* ---- Tickets — brand card style ---- */
+.kb-ticket {
+  background: var(--kb-ticket-bg);
+  color: var(--kb-ticket-text);
+  border: 1px solid var(--kb-ticket-border);
+  border-left: 2px solid var(--kb-ticket-accent);
+  border-radius: 4px;
+  padding: 5px 6px 5px;
+  font-size: 9px;
+  font-weight: 600;
+  line-height: 1.25;
+  transition: transform 0.55s cubic-bezier(0.34, 1.56, 0.64, 1),
+              opacity 0.45s ease,
+              border-color 0.2s ease;
+}
+
+/* Scope level — project (all), increment, sprint */
+.kb-ticket--scope-all {
+  border-left-color: var(--kb-scope-project);
+}
+.kb-ticket--scope-all .kb-ticket-chip {
+  color: var(--kb-scope-project-chip);
+}
+
+.kb-ticket--scope-increment {
+  border-left-color: var(--kb-scope-increment);
+}
+.kb-ticket--scope-increment .kb-ticket-chip {
+  color: var(--kb-scope-increment-chip);
+}
+
+.kb-ticket--scope-sprint {
+  border-left-color: var(--kb-scope-sprint);
+}
+.kb-ticket--scope-sprint .kb-ticket-chip {
+  color: var(--kb-scope-sprint-chip);
+}
+
+.kb-ticket--blocked {
+  background: var(--kb-ticket-blocked-bg);
+  border-color: var(--kb-ticket-blocked-border);
+  border-left-color: var(--kb-ticket-blocked-border);
+}
+
+.kb-ticket--stalled {
+  background: var(--kb-ticket-stalled-bg);
+  border-color: var(--kb-ticket-stalled-border);
+  border-left-color: var(--kb-ticket-stalled-border);
+}
+
+/* Stale slot warnings — claim file older than threshold, no finished file */
+.kb-ticket--stale-amber {
+  border-left-color: #f59e0b;
+}
+.kb-ticket--stale-red {
+  border-left-color: #ef4444;
+  background: rgba(239, 68, 68, 0.06);
+}
+
+.kb-ticket--moving {
+  animation: ticket-slide 0.65s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes ticket-slide {
+  0%   { transform: translateY(-14px) scale(0.95); opacity: 0.4; }
+  60%  { transform: translateY(2px) scale(1.03); }
+  100% { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+.kb-ticket-chip {
+  font-family: var(--abd-mono);
+  font-size: 7px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--abd-accent);
+  margin-bottom: 3px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.kb-ticket--blocked .kb-ticket-chip { color: var(--kb-ticket-blocked-border); }
+.kb-ticket--stalled .kb-ticket-chip { color: var(--kb-ticket-stalled-border); }
+.kb-ticket--stale-amber .kb-ticket-chip { color: #f59e0b; }
+.kb-ticket--stale-red   .kb-ticket-chip { color: #ef4444; }
+
+.kb-ticket-label {
+  font-size: 9px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--kb-ticket-text);
+}
+
+.kb-ticket-meta {
+  font-family: var(--abd-mono);
+  font-size: 7px;
+  color: var(--abd-muted);
+  margin-top: 3px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.kb-ticket-slot-num {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Status dots */
+.kb-status-dot {
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.kb-status-dot--blocked { background: var(--kb-ticket-blocked-border); }
+.kb-status-dot--stalled { background: var(--kb-ticket-stalled-border); }
+.kb-status-dot--stale-amber { background: #f59e0b; }
+.kb-status-dot--stale-red   { background: #ef4444; }
+
+/* Agent icon — inline in meta row, not absolute */
+.kb-ticket-agent-icon {
+  display: inline-flex;
+  align-items: center;
+  margin-left: auto;
+  opacity: 0.85;
+}
+
+/* Family color classes on the SVG icons */
+.kb-ticket-agent-icon .aad-fam-ddd { color: #6C5CE7; }
+.kb-ticket-agent-icon .aad-fam-uxd { color: #E84393; }
+.kb-ticket-agent-icon .aad-fam-sdd { color: #6BCB77; }
+.kb-ticket-agent-icon .aad-fam-arc { color: #4FC3F7; }
+.kb-ticket-agent-icon .aad-fam-delivery { color: var(--abd-accent); }
+.kb-ticket-agent-icon .aad-fam-idea { color: #fdcb6e; }
+.kb-ticket-agent-icon .aad-fam-ctm { color: #00B894; }
+
+/* ---- Ticket expand button ---- */
+.kb-ticket-expand-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--abd-muted);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1;
+  padding: 0;
+  margin-left: auto;
+  opacity: 0.45;
+  transition: opacity 0.15s, color 0.15s;
+  font-family: var(--abd-mono);
+  letter-spacing: 0;
+}
+.kb-ticket-expand-btn:hover { opacity: 1; color: var(--abd-accent); }
+
+/* ---- Expanded skill list ---- */
+.kb-ticket-skills-expand {
+  margin: 4px -4px -2px;
+  padding: 4px 6px 5px;
+  background: var(--kb-ticket-expand-bg);
+  border-top: 1px solid var(--abd-border);
+  border-radius: 0 0 3px 3px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.kb-ticket-skill-row {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  font-family: var(--abd-mono);
+  font-size: 7px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  padding: 1px 3px 1px 4px;
+  border-radius: 2px;
+  border-left: 2px solid transparent;
+  color: var(--abd-muted);
+  opacity: 0.4;
+  transition: opacity 0.1s;
+}
+.kb-ticket-skill-row.is-done {
+  opacity: 0.45;
+  text-decoration: line-through;
+  text-decoration-color: var(--abd-muted);
+}
+.kb-ticket-skill-row.is-active {
+  opacity: 1;
+  background: color-mix(in srgb, var(--abd-surface) 70%, transparent);
+  box-shadow: 0 0 0 1px color-mix(in srgb, currentColor 30%, transparent);
+  justify-content: space-between;
+}
+.kb-ticket-skill-row.is-active .kb-skill-icon {
+  margin-right: 0;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+.kb-ticket-skill-row.is-pending { opacity: 1; }
+
+/* family accent on active/done rows */
+.kb-ticket-skill-row.aad-fam-ddd { border-left-color: #6C5CE7; color: #6C5CE7; }
+.kb-ticket-skill-row.aad-fam-uxd { border-left-color: #E84393; color: #E84393; }
+.kb-ticket-skill-row.aad-fam-sdd { border-left-color: #6BCB77; color: #6BCB77; }
+.kb-ticket-skill-row.aad-fam-arc { border-left-color: #4FC3F7; color: #4FC3F7; }
+.kb-ticket-skill-row.aad-fam-delivery { border-left-color: var(--abd-accent); color: var(--abd-accent); }
+.kb-ticket-skill-row.aad-fam-idea { border-left-color: #fdcb6e; color: #fdcb6e; }
+.kb-ticket-skill-row.aad-fam-ctm { border-left-color: #00B894; color: #00B894; }
+
+.kb-ticket-skill-label { line-height: 1; }
+
+/* ---- Count badge ---- */
+.kb-col-count {
+  font-size: 9px;
+  background: var(--abd-raised);
+  border-radius: 3px;
+  padding: 1px 5px;
+  color: var(--abd-muted);
+}
+
+/* ---- Sync meta ---- */
+.kb-sync-meta {
+  font-family: var(--abd-mono);
+  font-size: 10px;
+  color: var(--abd-muted);
+  margin-top: 6px;
+}
+
+/* ---- Legend row ---- */
+.kanban-legend-row {
+  margin-top: 12px;
+  padding: 10px;
+  background: var(--abd-surface);
+  border: 1px solid var(--abd-border);
+  border-radius: 8px;
+}
+
+.kanban-legend-heading {
+  font-family: var(--abd-mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--abd-muted);
+  margin-bottom: 8px;
+}
+
+.kanban-legend-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+

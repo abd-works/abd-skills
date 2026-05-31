@@ -15,13 +15,6 @@ Given a problem statement (usually extracted from a hypothesis), determine
 whether the problem is **real, recognized, and worth solving** — using
 external evidence only.
 
-## When to use
-
-- A hypothesis has been framed and the problem needs validation.
-- The user asks whether anyone else is experiencing or discussing a problem.
-- Before investing in solution design, the user wants to know if the problem
-  space is well-established or contested.
-
 ## Knowledge sources — strict priority
 
 1. **Web search** — current articles, blog posts, conference talks, research papers, tool docs, community discussions.

@@ -937,21 +937,21 @@ a.cap-card:hover .cap-card__icon {
 </nav>
 
 <h2>Content</h2>
-<div class="rule-prose"><p>﻿--- name: story-graph-ops catalog_garden_tier: foundational catalogue_one_liner: &gt;- CRUD story-graph.json via CLI/scripts, validate, persist; no hand-written JSON drift. description: &gt;- Create, read, update, and delete story-graph.json (whole file or parts—epics, sub-epics, stories, AC, scenarios) as a <strong>standalone artifact</strong>—no host app required. <strong>Agents must complete the ops loop</strong>: use this skill’s CLI or Python modules under scripts/, then validate the file—do not stop after hand-writing JSON from memory or from reading other repositories for “schema hints.” Prefer the story-graph CLI; use story_map and related modules for richer edits. Complements ABD practice skills—ops skill owns the serialized graph lifecycle on disk.</p>
+<div class="rule-prose"><p>﻿--- name: story-graph-ops catalog_garden_tier: foundational catalogue_one_liner: &gt;- CRUD story-graph.json via CLI/scripts, validate, persist; no hand-written JSON drift. description: &gt;- Creates, reads, updates, and deletes story-graph.json (epics, sub-epics, stories, AC, scenarios) as a standalone artifact using the CLI or Python modules. Always validate after edits; do not hand-write JSON without running this skill&#x27;s tooling. Use when editing story-graph.json or managing its lifecycle on disk.</p>
 <hr>
 <h1>story-graph-ops</h1>
 <h2>Agent obligations (do not skip)</h2>
-<p>This skill is <strong>not</strong> satisfied by “I read some other project’s graph code and emitted JSON.” That is a <strong>supplement</strong> at most—and <strong>out of scope</strong> for claiming this skill is done.</p>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Must</th><th>Detail</th></tr></thead><tbody><tr><td><strong>Use this skill’s tooling</strong></td><td>Run <strong>`scripts/story_graph_cli.py`</strong> and/or import from <strong>`story_map`</strong> with <strong>`PYTHONPATH`</strong> including <strong>`…/story-graph-ops/scripts`</strong> (path below).</td></tr><tr><td><strong>Finish with validation</strong></td><td>After creating or changing a graph file, run at least: <strong>`story_graph_cli.py read --file &lt;path&gt;`</strong> so a bad structure fails early. Prefer <strong>`names`</strong> or <strong>`search`</strong> when checking coverage.</td></tr><tr><td><strong>Declare completion</strong></td><td>Say what you ran (e.g. “validated with `read`”)—not only “wrote JSON.”</td></tr></tbody></table></div>
+<p>This skill is <strong>not</strong> satisfied by &quot;I read some other project&#x27;s graph code and emitted JSON.&quot; That is a <strong>supplement</strong> at most—and <strong>out of scope</strong> for claiming this skill is done.</p>
+<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Must</th><th>Detail</th></tr></thead><tbody><tr><td><strong>Use this skill&#x27;s tooling</strong></td><td>Run <strong>`scripts/story_graph_cli.py`</strong> and/or import from <strong>`story_map`</strong> with <strong>`PYTHONPATH`</strong> including <strong>`…/story-graph-ops/scripts`</strong> (path below).</td></tr><tr><td><strong>Finish with validation</strong></td><td>After creating or changing a graph file, run at least: <strong>`story_graph_cli.py read --file &lt;path&gt;`</strong> so a bad structure fails early. Prefer <strong>`names`</strong> or <strong>`search`</strong> when checking coverage.</td></tr><tr><td><strong>Declare completion</strong></td><td>Say what you ran (e.g. &quot;validated with `read`&quot;)—not only &quot;wrote JSON.&quot;</td></tr></tbody></table></div>
 <p><strong>Anti-patterns (reject):</strong></p>
 <ul>
 <li>Hand-rolling JSON and stopping without <strong>`read`</strong> (or equivalent load via `story_map`).</li>
-<li>Using <strong>another codebase’s</strong> loaders or domain classes as the <em>only</em> authority while ignoring this skill’s CLI—those are not proof the serialized file is valid for <strong>story-graph-ops</strong> tooling.</li>
+<li>Using <strong>another codebase&#x27;s</strong> loaders or domain classes as the <em>only</em> authority while ignoring this skill&#x27;s CLI—those are not proof the serialized file is valid for <strong>story-graph-ops</strong> tooling.</li>
 <li>Skipping <strong>`PYTHONPATH`</strong> then claiming the skill was followed.</li>
 </ul>
 <p><strong>When converting from Markdown, `.txt`, or chat:</strong> build or edit JSON using <strong>`story_map`</strong> in Python <strong>or</strong> write JSON and pipe through <strong>`write`</strong>, then <strong>`read`</strong>—same validation rule.</p>
 <h2>Skill root and PYTHONPATH</h2>
-<p>From the <strong>agilebydesign-skills</strong> repo, this skill’s scripts live next to this file:</p>
+<p>From the <strong>agilebydesign-skills</strong> repo, this skill&#x27;s scripts live next to this file:</p>
 <ul>
 <li><strong>Skill directory:</strong> `skills/story-graph-ops/`</li>
 <li><strong>Scripts:</strong> `skills/story-graph-ops/scripts/`</li>
@@ -977,7 +977,7 @@ python scripts/story_graph_cli.py read --file C:\path\to\story-graph.json</code>
 </ul>
 <h2>Relationship to ABD practice skills</h2>
 <div class="md-table-wrap"><table class="md-table"><thead><tr><th>Piece</th><th>Role</th></tr></thead><tbody><tr><td><strong>ABD practice skills</strong></td><td><strong>Guidance and best practices</strong> for abd.works work: how to frame problems, name and structure artifacts, use templates, run quality passes, and apply bundled rules or scanners. They answer <em>what good looks like</em> and <em>which conventions apply</em>—not the mechanical layer of reading or writing `story-graph.json` on disk.</td></tr><tr><td><strong>story-graph-ops</strong></td><td><strong>Lifecycle on disk</strong>: create, read, update, and delete the <strong>serialized graph</strong> (`story-graph.json`, in whole or in part)—encoding, mutating, and tooling against the file.</td></tr></tbody></table></div>
-<p><strong>Same complementary relationship</strong> in every case: use <strong>practice skills</strong> for <em>how the work should read</em> and <em>which quality bars to hit</em>; use <strong>story-graph-ops</strong> to <em>create and edit the graph file</em> <strong>and validate it with this skill’s tools</strong>. Whenever the deliverable includes <strong>creating or changing</strong> `story-graph.json`, load <strong>story-graph-ops</strong> and <strong>complete the checklist above</strong>.</p>
+<p><strong>Same complementary relationship</strong> in every case: use <strong>practice skills</strong> for <em>how the work should read</em> and <em>which quality bars to hit</em>; use <strong>story-graph-ops</strong> to <em>create and edit the graph file</em> <strong>and validate it with this skill&#x27;s tools</strong>. Whenever the deliverable includes <strong>creating or changing</strong> `story-graph.json`, load <strong>story-graph-ops</strong> and <strong>complete the checklist above</strong>.</p>
 <h2>CLI</h2>
 <p>Implementation: <strong>`scripts/story_graph_cli.py`</strong>.</p>
 <pre><code>python scripts/story_graph_cli.py read   --file &lt;path/to/story-graph.json&gt; [--pretty]
@@ -1024,7 +1024,8 @@ with open(OUT, &quot;w&quot;, encoding=&quot;utf-8&quot;) as f:
 <pre><code>python story_graph_cli.py write --file story-graph.json --input modified.json --no-lock
 python story_graph_cli.py read  --file story-graph.json</code></pre>
 <p>The same pattern applies to reordering <strong>epics</strong>, <strong>sub-epics</strong>, or <strong>stories</strong> within their parent arrays — mutate the list, renumber any sequential fields, write, validate.</p>
-<p>---## Converting Markdown to story-graph.json</p>
+<hr>
+<h2>Converting Markdown to story-graph.json</h2>
 <p>Three dedicated parser scripts convert skill-generated Markdown into graph JSON. <strong>Always try the matching script first.</strong> If the file does not match the expected format (the script exits with code 2), fall back to AI-assisted JSON construction; name the fallback script with a `_&lt;variant&gt;` suffix inserted just before the stem (e.g. `md_story_map_to_story_graph_custom.py`) so it can be reused.</p>
 <h3>Naming convention for parser scripts</h3>
 <pre><code>md_&lt;artifact&gt;_to_story_graph.py          -- canonical parser for one skill&#x27;s output

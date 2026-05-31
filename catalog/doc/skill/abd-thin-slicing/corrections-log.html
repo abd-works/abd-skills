@@ -922,7 +922,7 @@ a.cap-card:hover .cap-card__icon {
     <a class="back-link" href="../../../skill/abd-thin-slicing.html">← abd-thin-slicing</a>
     <p class="cap-badge">Markdown</p>
     <h1>corrections-log.md</h1>
-    <p class="tagline">Corrections log</p>
+    <p class="tagline">﻿# Corrections log</p>
   </div>
 </header>
 
@@ -937,14 +937,14 @@ a.cap-card:hover .cap-card__icon {
 </nav>
 
 <h2>Content</h2>
-<div class="rule-prose"><h1>Corrections log</h1>
+<div class="rule-prose"><p>﻿# Corrections log</p>
 <p>Project: abd-thin-slicing skill Source: abd-thin-slicing skill (pipeline runs)</p>
 <hr>
 <h2>Entry: Engagement prefix on output filename is optional</h2>
 <ul>
 <li><strong>Status:</strong> confirmed</li>
 <li><strong>Context:</strong> story-driven phase output filename</li>
-<li><strong>DO / DO NOT:</strong> DO default to the template filename � `story-map.md`, `thin-slicing.md`, `acceptance-criteria.md`, `specification-by-example.md` (and their `.txt` partners where applicable). DO add a `&lt;name&gt;-` engagement prefix only when you need disambiguation: multiple products in the same workspace, multiple stories sharing one folder, or the user asks for it. DO NOT mandate the prefix as the only valid form, and DO NOT invent a sub-folder like `stories/`, `specs/`, `slices/`, `docs/` � write next to other engagement deliverables.</li>
+<li><strong>DO / DO NOT:</strong> DO default to the template filename — `story-map.md`, `thin-slicing.md`, `acceptance-criteria.md`, `specification-by-example.md` (and their `.txt` partners where applicable). DO add a `&lt;name&gt;-` engagement prefix only when you need disambiguation: multiple products in the same workspace, multiple stories sharing one folder, or the user asks for it. DO NOT mandate the prefix as the only valid form, and DO NOT invent a sub-folder like `stories/`, `specs/`, `slices/`, `docs/` — write next to other engagement deliverables.</li>
 <li><strong>Example (wrong, forced prefix and folder):</strong> Writing `docs/paw-place-thin-slicing.md` when the engagement workspace already keeps deliverables in `docs/` and only hosts one product. The `paw-place-` prefix is noise.</li>
 <li><strong>Example (correct):</strong> Default to `thin-slicing.md` written next to existing engagement deliverables. Add a prefix only when disambiguation is needed.</li>
 <li><strong>Likely source:</strong> earlier in this session the skill emitted `&lt;name&gt;-&lt;phase&gt;.md` unconditionally, then writing into a hardcoded folder; the user moved the files manually and asked that the prefix be optional and the folder driven by where other deliverables already live.</li>

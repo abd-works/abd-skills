@@ -939,7 +939,11 @@ a.cap-card:hover .cap-card__icon {
 </nav>
 
 <h2>Description</h2>
-<div class="entry-prose"><p>Build and revise agile delivery plans: context assessment, risk types, strategies (scan strategies/ for matching When to use), runs (stages, scope, checkpoints, rationale), and example plans. Planning only — not for producing story artifacts, tests, or code (those come from downstream practice work).</p></div>
+<div class="entry-prose">Delivery planning configures how delivery flows — not what to build. It selects a strategy based on context and risk, configures the system of work (stages, scope levels, ordered skills), and defines scatter rules (how and when tickets decompose at scope boundaries). The result drives the JIT Kanban board without pre-authoring every assignment.<br>
+<br>
+Do not use this skill to produce artifacts (maps, slices, AC, tests, code). This skill is strictly about the delivery lifecycle spine — the system of work, strategy, and decomposition rules.<br>
+<br>
+---</div>
 
 <section class="install-block" aria-labelledby="install-npx-heading">
   <h2 id="install-npx-heading">Install with npx</h2>
@@ -950,162 +954,59 @@ a.cap-card:hover .cap-card__icon {
 
 <hr class="entry-divider">
 
-<h2>How it fits together</h2>
-<pre class="ascii-diagram" role="img" aria-label="How it fits together">engagement context + risks
-           |
-           v
-  strategies/*.md -----&gt; chosen strategy -----&gt; runs + checkpoints
-           |                                        |
-           +----------------------------------------+
-                              v
-                 docs/planning/abd-kanban-lead/agile-delivery-plan.md</pre>
 
 
 <hr class="entry-divider">
 
 <h2 id="entry-contents">Contents</h2>
 <div class="entry-contents-doc">
-<details class="entry-md-section" id="when-to-use-this-skill"><summary class="entry-md-section__summary">When to use this skill</summary><div class="entry-md-section__body"><ul>
-<li>You want to <strong>select a delivery strategy</strong> based on context and risk.</li>
-<li>You need to <strong>configure a system of work</strong> (stages, scope levels, ordered skills).</li>
-<li>You need to <strong>define scatter rules</strong> (how and when tickets decompose at scope boundaries).</li>
-<li>You want to <strong>save a new reusable strategy</strong> under `strategies/`.</li>
-</ul>
-<p>Do <strong>not</strong> use this skill to produce artifacts (maps, slices, AC, tests, code). This skill configures <em>how</em> delivery flows — the system of work, strategy, and decomposition rules that drive the JIT Kanban board.</p>
-<h3>Why delivery planning</h3>
-<p>Agents benefit from an explicit delivery lifecycle: not just <em>what</em> to do next, but <strong>when scope changes</strong>, <strong>when to scatter</strong>, <strong>how to group work</strong>, and <strong>when to stop for feedback</strong>. The strategy + system of work provide the spine without pre-planning every assignment.</p>
-<ul>
-<li><strong>Uncertainty is real</strong> — keep the strategy living; update when corrections accumulate.</li>
-<li><strong>Risk before volume</strong> — order increments so the hardest unknowns fail early.</li>
-<li><strong>JIT over pre-plan</strong> — decompose only when needed, not everything upfront.</li>
-<li><strong>Humans in the loop</strong> — checkpoint policy makes confirmation predictable.</li>
-</ul>
+<details class="entry-md-section" id="purpose"><summary class="entry-md-section__summary">Purpose</summary><div class="entry-md-section__body"><p>Delivery planning configures <em>how</em> delivery flows — not <em>what</em> to build. It selects a <strong>strategy</strong> based on context and risk, configures the <strong>system of work</strong> (stages, scope levels, ordered skills), and defines <strong>scatter rules</strong> (how and when tickets decompose at scope boundaries). The result drives the JIT Kanban board without pre-authoring every assignment.</p>
+<p>Do <strong>not</strong> use this skill to produce artifacts (maps, slices, AC, tests, code). This skill is strictly about the delivery lifecycle spine — the system of work, strategy, and decomposition rules.</p>
 <hr></div></details>
-<details class="entry-md-section" id="core-concepts"><summary class="entry-md-section__summary">Core concepts</summary><div class="entry-md-section__body"><h3>System of work</h3>
-<p>A <strong>system of work</strong> defines the delivery pattern:</p>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Dimension</th><th>What it defines</th></tr></thead><tbody><tr><td><strong>Stages</strong></td><td>Ordered sequence: shaping → discovery → exploration → specification → engineering</td></tr><tr><td><strong>Scope per stage</strong></td><td>Granularity of tickets at this stage: all, increment, sprint, story</td></tr><tr><td><strong>Skills per stage</strong></td><td>Ordered list of practice skills, with default role assignment</td></tr></tbody></table></div>
-<p>The system of work is <strong>static once configured</strong>. It answers: &quot;for any ticket at stage X, what skills run in what order?&quot;</p>
-<h3>Strategy</h3>
-<p>A <strong>strategy</strong> defines how work flows through the system:</p>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Dimension</th><th>What it defines</th></tr></thead><tbody><tr><td><strong>Scope progression</strong></td><td>Which scope levels apply at each stage (may differ from default)</td></tr><tr><td><strong>Scatter rules</strong></td><td>When and how to decompose tickets at scope boundaries</td></tr><tr><td><strong>Sprint grouping</strong></td><td>How to group stories into sprints (default 3-4, adjustable)</td></tr><tr><td><strong>JIT policy</strong></td><td>How far ahead to scatter (next 1-2 items by default)</td></tr><tr><td><strong>Checkpoint policy</strong></td><td>Where to stop for feedback (per skill, per stage, per increment)</td></tr><tr><td><strong>Risk classification</strong></td><td>Which risks are present and how they affect ordering</td></tr></tbody></table></div>
-<h3>Backlog</h3>
-<p>The backlog is <strong>hierarchical</strong> and <strong>ordered</strong>:</p>
-<ul>
-<li>Hierarchy comes from the story map (epics → sub-epics → stories)</li>
-<li>Order comes from thin-slicing priority</li>
-<li>Only decomposed as far as needed (JIT)</li>
-<li>Delivery lead or user can pre-decompose specific items</li>
-</ul>
-<hr></div></details>
-<details class="entry-md-section" id="risk-classification"><summary class="entry-md-section__summary">Risk classification</summary><div class="entry-md-section__body"><p>Classify risks to inform strategy selection:</p>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Risk type</th><th>Meaning</th><th>Signals</th></tr></thead><tbody><tr><td><strong>Value risk</strong></td><td>Building the wrong thing</td><td>Vague briefs, no research, conflicting goals</td></tr><tr><td><strong>Technical risk</strong></td><td>Wrong tech, infra, or architecture</td><td>Proprietary APIs, unfamiliar stacks, scale unknowns</td></tr><tr><td><strong>Delivery risk</strong></td><td>Miss schedule or quality bar</td><td>Large scope, dependencies, deadlines</td></tr><tr><td><strong>Domain risk</strong></td><td>Misunderstand business rules</td><td>Regulatory regimes, complex rules, jargon</td></tr><tr><td><strong>Integration risk</strong></td><td>External systems constrain design</td><td>Legacy, quirky APIs, backward compat</td></tr><tr><td><strong>AI-model risk</strong></td><td>Agent likely to hallucinate</td><td>No training data, undocumented APIs</td></tr></tbody></table></div>
-<p>Risk types drive strategy selection and checkpoint tightness.</p>
-<hr></div></details>
-<details class="entry-md-section" id="strategy-selection-procedure"><summary class="entry-md-section__summary">Strategy selection procedure</summary><div class="entry-md-section__body"><h3>Step 1 — Context analysis</h3>
-<p>Read all context. Identify:</p>
-<p>1. <strong>Known domains</strong> — strong training data, documented APIs. 2. <strong>Risky domains</strong> — proprietary, internal, novel logic. 3. <strong>Integration points</strong> — external systems, dependencies. 4. <strong>Complexity drivers</strong> — regulatory, multi-actor, concurrency. 5. <strong>Existing assets</strong> — prior story graphs, specs, tests, code.</p>
-<h3>Step 2 — Select strategy</h3>
-<p>1. Open `strategies/` in this skill folder. 2. Read each strategy&#x27;s <strong>When to use</strong> section. 3. Match context and risks to a strategy (or blend multiple). 4. If no strategy fits, design custom — offer to save later.</p>
-<h3>Step 3 — Configure system of work</h3>
-<p>From the selected strategy, write `system-of-work.json`:</p>
-<ul>
-<li>Which stages are active</li>
-<li>Scope level per stage</li>
-<li>Ordered skills per stage with role assignments</li>
-<li>Any optional skills (marked in strategy)</li>
-</ul>
-<h3>Step 4 — Define scatter and decomposition rules</h3>
-<p>Write `strategy.md` in the war room with:</p>
-<ul>
-<li><strong>Scope progression</strong>: which stages scatter vs advance</li>
-<li><strong>Sprint grouping</strong>: how many stories per sprint (default 3-4)</li>
-<li><strong>JIT policy</strong>: scatter next N only, or scatter all</li>
-<li><strong>Ordering</strong>: priority source (story map, user override, risk-first)</li>
-<li><strong>Checkpoint policy</strong>: per-skill, per-stage, or per-increment</li>
-</ul>
-<h3>Step 5 — Present and confirm</h3>
-<p>Present to user:</p>
-<p>1. Context assessment and classified risks. 2. Selected strategy (name, from which file, adaptations). 3. System of work table (stages, scope, skills). 4. Scatter rules and checkpoint policy.</p>
-<p><strong>CHECKPOINT.</strong> Wait for user confirm before setup.</p>
-<hr></div></details>
-<details class="entry-md-section" id="delivery-flow-stage-sequence"><summary class="entry-md-section__summary">Delivery flow — stage sequence</summary><div class="entry-md-section__body"><div class="md-table-wrap"><table class="md-table"><thead><tr><th>#</th><th>Stage</th><th>Default scope</th><th>Primary focus</th></tr></thead><tbody><tr><td>0</td><td>Context</td><td>all</td><td>Convert, chunk, and embed source material for agent memory (optional)</td></tr><tr><td>1</td><td>Shaping</td><td>all</td><td>Story map, thin slices, module partition</td></tr><tr><td>2</td><td>Discovery</td><td>increment</td><td>Domain terms, UL, architecture, IA</td></tr><tr><td>3</td><td>Exploration</td><td>increment</td><td>UL refresh, AC, UX mockup, arch template</td></tr><tr><td>4</td><td>Specification</td><td>sprint</td><td>CRC, spec-by-example, scenario walkthrough</td></tr><tr><td>5</td><td>Engineering</td><td>sprint</td><td>Interface, object model, ATDD, clean code</td></tr></tbody></table></div>
-<p><strong>Scope transitions</strong> (scatter points):</p>
-<ul>
-<li>Context (all) → Shaping (all): same scope — advance, no scatter</li>
-<li>Shaping (all) → Discovery (increment): scatter by thin-slicing increments</li>
-<li>Exploration (increment) → Specification (sprint): scatter by sprint grouping</li>
-</ul>
-<h3>Stage 0: Context (optional)</h3>
-<p>The context stage prepares source material for agent consumption. It is <strong>optional</strong> — skip when:</p>
-<ul>
-<li>Context is already small and readable (a few markdown files, a short brief)</li>
-<li>The team already has domain knowledge loaded</li>
-<li>The project is a bug fix or small story with no external documents</li>
-</ul>
-<p><strong>Include when:</strong></p>
-<ul>
-<li>Source material is in office formats (PDF, PPTX, DOCX, XLSX) that agents cannot read directly</li>
-<li>There are many files that need indexing for semantic search</li>
-<li>The domain is complex and agents need RAG-backed retrieval during later stages</li>
-<li>Prior engagement material exists that should be searchable</li>
-</ul>
-<p><strong>Skills (ordered, conditional):</strong></p>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Skill</th><th>When to include</th></tr></thead><tbody><tr><td>`abd-convert-to-markdown`</td><td>Source files are PDF, PPTX, DOCX, XLSX, or other non-markdown formats</td></tr><tr><td>`abd-semantic-context-chunker`</td><td>Multiple source types; need to classify what context exists before chunking</td></tr><tr><td>`abd-chunk-markdown`</td><td>Large converted files need splitting for retrieval</td></tr><tr><td>`abd-embed-vectors`</td><td>Need semantic search (RAG) during later stages</td></tr></tbody></table></div>
-<p>The kanban lead assesses source material at strategy selection and decides which context skills are needed (or skips the stage entirely).</p>
-<p>Stage definitions: <a href="../../content/stages/README.html">`../../content/stages/README.md`</a></p>
-<hr></div></details>
-<details class="entry-md-section" id="checkpoint-granularity"><summary class="entry-md-section__summary">Checkpoint granularity</summary><div class="entry-md-section__body"><div class="md-table-wrap"><table class="md-table"><thead><tr><th>Level</th><th>When</th><th>Use for</th></tr></thead><tbody><tr><td><strong>Per skill</strong></td><td>After each skill completes on a ticket</td><td>High uncertainty, early work</td></tr><tr><td><strong>Per stage</strong></td><td>After all skills complete (stage exit gate)</td><td>Normal flow</td></tr><tr><td><strong>Per increment</strong></td><td>After increment tickets complete</td><td>Multi-increment review</td></tr></tbody></table></div>
-<p>Default: start granular (per-skill), relax as confidence builds.</p>
-<hr></div></details>
-<details class="entry-md-section" id="scatter-rules-configurable-per-strategy"><summary class="entry-md-section__summary">Scatter rules (configurable per strategy)</summary><div class="entry-md-section__body"><h3>Default scatter heuristics</h3>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Transition</th><th>Default rule</th></tr></thead><tbody><tr><td>all → increment</td><td>One ticket per increment from thin-slicing. Scatter all.</td></tr><tr><td>increment → sprint</td><td>Group 3-4 stories per sprint. Scatter next 1-2 increments JIT.</td></tr><tr><td>sprint → story</td><td>Rare. Only if strategy requires per-story tickets.</td></tr></tbody></table></div>
-<h3>User overrides</h3>
-<p>Users can specify:</p>
-<ul>
-<li>&quot;Divide increment 1 into 3 sprints, increment 2 into 5 sprints&quot;</li>
-<li>&quot;Scatter all increments now&quot;</li>
-<li>&quot;Only scatter next 2&quot;</li>
-<li>&quot;Leave later increments until we know more&quot;</li>
-<li>&quot;Increment 1 sprint 1: story 1 then 2 then 3&quot; (specific ordering)</li>
-</ul>
-<h3>AI error rate adjustment</h3>
-<p>When AI output error rate is high (&gt;10%):</p>
-<ul>
-<li><strong>Shrink scope</strong>: move from increment-level to sprint-level or story-level</li>
-<li>Tighten checkpoints to per-skill</li>
-<li>After error rate drops, expand back</li>
-</ul>
-<p>When error rate is low (&lt;5%):</p>
-<ul>
-<li><strong>Expand scope</strong>: move from sprint to increment across flows</li>
-<li>Relax checkpoints to per-stage</li>
-</ul>
-<hr></div></details>
-<details class="entry-md-section" id="where-to-save"><summary class="entry-md-section__summary">Where to save</summary><div class="entry-md-section__body"><p>Strategy output is written to:</p>
+<details class="entry-md-section" id="output-file"><summary class="entry-md-section__summary">Output file</summary><div class="entry-md-section__body"><p><strong>Deliverables folder:</strong> see `../reference/agent-protocol.md` — Output file resolution.</p>
+<p><strong>File names:</strong> Strategy output is written to:</p>
 <pre><code>&lt;workspace&gt;/docs/planning/delivery-war-room/
   system-of-work.json        # Stage + scope + skill definitions
   strategy.md                # Scope progression, scatter rules, checkpoint policy
   manifest.md                # WIP policy, autonomy, agent pool sizing</code></pre>
 <hr></div></details>
-<details class="entry-md-section" id="files-in-this-skill"><summary class="entry-md-section__summary">Files in this skill</summary><div class="entry-md-section__body"><div class="md-table-wrap"><table class="md-table"><thead><tr><th>File / path</th><th>Purpose</th></tr></thead><tbody><tr><td>`SKILL.md` (this file)</td><td>Strategy selection, system of work, scatter rules, strategy catalog</td></tr><tr><td>`strategies/*.md`</td><td>One prepackaged strategy per file</td></tr><tr><td>`rules/*.md`</td><td>Plan quality rules</td></tr><tr><td>`scanners/plan-shape-scanner.py`</td><td>Validates strategy output</td></tr></tbody></table></div>
+<details class="entry-md-section" id="agent-instructions"><summary class="entry-md-section__summary">Agent Instructions</summary><div class="entry-md-section__body"><p>&gt; <strong>MANDATORY — read `../reference/agent-protocol.md` before starting. It defines read-gates, output file resolution, and the per-rule verdict format.</strong></p>
+<h3>1. Read context</h3>
+<p>Read these files:</p>
+<ul>
+<li><strong>`reference/concepts.md`</strong> — system of work, strategy, backlog, risk classification, strategy selection procedure, delivery flow stages, checkpoint granularity, scatter rules, bootcamp stages, team roles, strategy catalog, and strategy file structure.</li>
+<li><strong>`strategies/*.md`</strong> — one prepackaged strategy per file; read each strategy&#x27;s &quot;When to use&quot; section to match context.</li>
+</ul>
+<h3>2. Generate</h3>
+<p>Read every file in <strong>`rules/`</strong>; author to those rules.</p>
+<p>Follow the <strong>strategy selection procedure</strong> from `reference/concepts.md`:</p>
+<p>1. <strong>Context analysis</strong> — identify known domains, risky domains, integration points, complexity drivers, existing assets. 2. <strong>Select strategy</strong> — match context and risks to a strategy from `strategies/` (or blend/custom). 3. <strong>Configure system of work</strong> — write `system-of-work.json`. 4. <strong>Define scatter and decomposition rules</strong> — write `strategy.md`. 5. <strong>Present and confirm</strong> — present context assessment, strategy, system of work table, scatter rules. <strong>CHECKPOINT</strong> — wait for user confirm.</p>
+<p><strong>Scripts:</strong> Use `scripts/append_plan_revision.py` to append revisions to the strategy.</p>
+<h3>3. Validate</h3>
+<p>Run the scanners:</p>
+<pre><code>python skills/execute-skill-using-skills-rules/scripts/run_scanners.py \
+  --skill-root skills/abd-kanban-planning \
+  --workspace &lt;path-to-output&gt;</code></pre>
+<p>Then emit per-rule verdicts per `../reference/agent-protocol.md`.</p>
 <hr></div></details>
-<details class="entry-md-section" id="bootcamp-stages-canonical-names"><summary class="entry-md-section__summary">Bootcamp stages (canonical names)</summary><div class="entry-md-section__body"><div class="md-table-wrap"><table class="md-table"><thead><tr><th>#</th><th>Stage</th><th>Default scope</th><th>Default role</th><th>Notes</th></tr></thead><tbody><tr><td>0</td><td><strong>context</strong></td><td>all</td><td>Engineer</td><td>Convert, chunk, embed source material (optional)</td></tr><tr><td>1</td><td><strong>shaping</strong></td><td>all</td><td>Product Owner</td><td>Story map, thin slices, module partition</td></tr><tr><td>2</td><td><strong>discovery</strong></td><td>increment</td><td>Product Owner</td><td>Domain → UL → architecture → IA</td></tr><tr><td>3</td><td><strong>exploration</strong></td><td>increment</td><td>Product Owner</td><td>UL → AC → UX mockup → arch template</td></tr><tr><td>4</td><td><strong>specification</strong></td><td>sprint</td><td>Product Owner</td><td>CRC → spec → walkthrough → interface → arch ref</td></tr><tr><td>5</td><td><strong>engineering</strong></td><td>sprint</td><td>Multi-role</td><td>interface impl → object model → ATDD → clean code</td></tr></tbody></table></div></div></details>
-<details class="entry-md-section" id="team-roles"><summary class="entry-md-section__summary">Team roles</summary><div class="entry-md-section__body"><p>Four roles: <strong>Product Owner</strong>, <strong>Business Expert</strong>, <strong>UX Designer</strong>, <strong>Engineer</strong>. <a href="../../content/roles/team-roles.html">team-roles.md</a></p>
+<details class="entry-md-section" id="validate"><summary class="entry-md-section__summary">Validate</summary><div class="entry-md-section__body"><p><strong>Goal:</strong> Inspect what was built — read the artifacts as reviewers.</p>
+<ul>
+<li><strong>Strategy named</strong> — a specific strategy from `strategies/` is cited (or a custom one is defined).</li>
+<li><strong>System of work complete</strong> — stages, scope per stage, and ordered skills per stage are all populated.</li>
+<li><strong>Risks classified</strong> — context assessment names risk types with signals.</li>
+<li><strong>Scatter rules explicit</strong> — scope transitions, sprint grouping, and JIT policy are stated.</li>
+<li><strong>Checkpoints match risk</strong> — high-risk areas have tighter checkpoints.</li>
+<li><strong>Not a default six-stage copy</strong> — the plan reflects context, not a rote template.</li>
+<li><strong>No bundle markers</strong> — `SKILL.md` has no `&lt;!-- execute_rules:bundle_rules --&gt;` markers.</li>
+</ul>
 <hr></div></details>
-<details class="entry-md-section" id="strategy-file-structure"><summary class="entry-md-section__summary">Strategy file structure</summary><div class="entry-md-section__body"><p>Each strategy file in `strategies/` defines:</p>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Section</th><th>Content</th></tr></thead><tbody><tr><td><strong>When to use</strong></td><td>Context signals and risk types that match this strategy</td></tr><tr><td><strong>Typical scope</strong></td><td>What boundary or area this applies to</td></tr><tr><td><strong>System of work</strong></td><td>Stages, scope per stage, skills per stage (table or reference to default)</td></tr><tr><td><strong>Scatter rules</strong></td><td>How tickets decompose at scope boundaries</td></tr><tr><td><strong>Sprint grouping</strong></td><td>Stories per sprint, grouping heuristics</td></tr><tr><td><strong>JIT policy</strong></td><td>How far ahead to decompose</td></tr><tr><td><strong>Checkpoint policy</strong></td><td>Where to stop for feedback</td></tr><tr><td><strong>Key constraints</strong></td><td>Non-negotiable rules for this strategy</td></tr></tbody></table></div></div></details>
-<details class="entry-md-section" id="scope-progression-scatter-points"><summary class="entry-md-section__summary">Scope progression (scatter points)</summary><div class="entry-md-section__body"><div class="md-table-wrap"><table class="md-table"><thead><tr><th>From</th><th>To</th><th>Scatter trigger</th></tr></thead><tbody><tr><td>Context (all)</td><td>Shaping (all)</td><td>Same scope — advance, no scatter</td></tr><tr><td>Shaping (all)</td><td>Discovery (increment)</td><td>Thin-slicing produces increments</td></tr><tr><td>Exploration (increment)</td><td>Specification (sprint)</td><td>DL groups stories into sprints</td></tr><tr><td>Specification (sprint)</td><td>Engineering (sprint)</td><td>Same scope — advance, no scatter</td></tr></tbody></table></div>
-<hr></div></details>
-<details class="entry-md-section" id="strategy-catalog"><summary class="entry-md-section__summary">Strategy catalog</summary><div class="entry-md-section__body"><div class="md-table-wrap"><table class="md-table"><thead><tr><th>File</th><th>When to use (summary)</th></tr></thead><tbody><tr><td><a href="strategies/new-user-story.html">new-user-story.md</a></td><td>1–3 stories on existing solution</td></tr><tr><td><a href="strategies/new-thin-slice.html">new-thin-slice.md</a></td><td>Vertical slice (~5–15 stories)</td></tr><tr><td><a href="strategies/new-initiative-no-documented-architecture.html">new-initiative-no-documented-architecture.md</a></td><td>Greenfield; no architecture</td></tr><tr><td><a href="strategies/new-initiative-proprietary-technology-risk.html">new-initiative-proprietary-technology-risk.md</a></td><td>Proprietary/undocumented systems</td></tr><tr><td><a href="strategies/new-initiative-business-user-experience-risk.html">new-initiative-business-user-experience-risk.md</a></td><td>UX/domain risk dominant</td></tr><tr><td><a href="strategies/brownfield-current-state.html">brownfield-current-state.md</a></td><td>Map and test existing system</td></tr><tr><td><a href="strategies/legacy-migration.html">legacy-migration.md</a></td><td>Replace system; legacy is truth</td></tr><tr><td><a href="strategies/regulatory-compliance-heavy.html">regulatory-compliance-heavy.md</a></td><td>Regulation/compliance dominates</td></tr><tr><td><a href="strategies/bug-fix.html">bug-fix.md</a></td><td>Defect or regression</td></tr><tr><td><a href="strategies/spike-proof-of-concept.html">spike-proof-of-concept.md</a></td><td>Answer one question before delivery</td></tr></tbody></table></div>
-<hr></div></details>
-<details class="entry-md-section" id="adding-a-strategy"><summary class="entry-md-section__summary">Adding a strategy</summary><div class="entry-md-section__body"><p>After a custom engagement, save a new `&lt;slug&gt;.md` in `strategies/` with the same sections. Reference bootcamp stages and scope levels. Include scatter rules and sprint grouping heuristics.</p>
-<hr></div></details>
-<details class="entry-md-section" id="adapting-a-strategy"><summary class="entry-md-section__summary">Adapting a strategy</summary><div class="entry-md-section__body"><p>When selecting a strategy, adapt it:</p>
-<p>1. <strong>Add/remove stages</strong> — bug fix skips shaping; spike skips engineering. 2. <strong>Add/remove skills</strong> — brownfield adds module partition; UX-heavy adds IA. 3. <strong>Change scope levels</strong> — if stories are huge, add sub-story scope. 4. <strong>Override sprint grouping</strong> — &quot;2 stories per sprint for this complex area.&quot; 5. <strong>Change JIT policy</strong> — &quot;scatter all increments now, we know the domain.&quot; 6. <strong>Adjust checkpoints</strong> — &quot;per-skill for increment 1, per-stage after.&quot;</p></div></details>
 </div>
 <hr class="entry-divider">
 <div class="entry-contents-files">
 <ul class="file-list file-list--root">
+<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>reference/</strong><span class="file-meta"> → Folder (1 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/kanban/skills/abd-kanban-planning/reference/concepts.md" target="_blank" rel="noopener noreferrer"><strong>concepts.md</strong></a><span class="file-meta"> → abd-kanban-planning — Concepts</span></li>
+</ul></div></details></li>
 <li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>rules/</strong><span class="file-meta"> → Practice rules (DO/DON&#x27;T) and constraints used with scanners.</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/kanban/skills/abd-kanban-planning/rules/cross-run-upstream-parallelism.md" target="_blank" rel="noopener noreferrer"><strong>cross-run-upstream-parallelism.md</strong></a><span class="file-meta"> → scanner: plan-shape</span></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/kanban/skills/abd-kanban-planning/rules/plan-checkpoint-density-matches-risk.md" target="_blank" rel="noopener noreferrer"><strong>plan-checkpoint-density-matches-risk.md</strong></a><span class="file-meta"> → scanner: plan-shape</span></li>
@@ -1148,7 +1049,6 @@ a.cap-card:hover .cap-card__icon {
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/kanban/skills/abd-kanban-planning/tests/test_plan_shape_scanner.py" target="_blank" rel="noopener noreferrer"><strong>test_plan_shape_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Tests for plan-shape-scanner: asserts each rule fires on its matching fixture.</span></li>
 </ul></div></details></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/kanban/skills/abd-kanban-planning/corrections-log.md" target="_blank" rel="noopener noreferrer"><strong>corrections-log.md</strong></a><span class="file-meta"> → abd-kanban-planning — corrections log</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/kanban/skills/abd-kanban-planning/README.md" target="_blank" rel="noopener noreferrer"><strong>README.md</strong></a><span class="file-meta"> → One line for catalogue cards and grids (YAML string).</span></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/kanban/skills/abd-kanban-planning/SKILL.md" target="_blank" rel="noopener noreferrer"><strong>SKILL.md</strong></a><span class="file-meta"> → name: abd-kanban-planning</span></li>
 </ul>
 </div>

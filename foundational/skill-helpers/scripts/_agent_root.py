@@ -1,4 +1,4 @@
-"""Resolve agent repo root for workspace CLI. See skill-helpers/content/workspace.md."""
+"""Resolve agent repo root for workspace CLI. See skill-helpers/reference/workspace.md."""
 from __future__ import annotations
 
 from pathlib import Path

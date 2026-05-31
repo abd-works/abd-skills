@@ -13,8 +13,8 @@
 | Stage | Scope | Skills (ordered) |
 | --- | --- | --- |
 | Shaping | all | module-partition, story-mapping (from existing system), thin-slicing |
-| Discovery | increment | domain-terms, UL, architecture-blueprint |
-| Exploration | increment | UL-refresh, acceptance-criteria, architecture-template |
+| Discovery | increment | domain-terms, architecture-blueprint |
+| Exploration | increment | ubiquitous-language, acceptance-criteria, architecture-template |
 | Specification | sprint | spec-by-example (concrete legacy values) |
 | Engineering | sprint | ATDD (tests pass on OLD system first), clean-code (new implementation) |
 

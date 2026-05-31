@@ -924,7 +924,7 @@ a.cap-card:hover .cap-card__icon {
     </div>
     <a class="back-link" href="../skills.html">← All skills</a>
     <h1>abd-architecture-outline</h1>
-    <p class="tagline">Produce the first architecture artifact for a new or unfamiliar system — a mostly-diagrams document that fixes platform, layering, system context, deployment topology, guiding principles, technology stack, and a brief catalogue of major systems with decision records. The outline answers &quot;what is …</p>
+    <p class="tagline">First architecture artifact — four diagrams, principles, tech stack, major systems, and ADRs on one page.</p>
   </div>
 </header>
 
@@ -939,7 +939,9 @@ a.cap-card:hover .cap-card__icon {
 </nav>
 
 <h2>Description</h2>
-<div class="entry-prose">A team that cannot draw its system on one page also cannot agree on what to build next. Outlines fix that. This skill produces the first architecture artifact for a system — short on prose, heavy on diagrams — so engineers, product, and stakeholders share a single picture of the platform, the layers, the neighbours, the deployment topology, and the principles in force. When the outline is in place, deeper architecture work (blueprint, reference, mechanisms) can start without re-litigating what the system is.</div>
+<div class="entry-prose">A team that cannot draw its system on one page also cannot agree on what to build next. Outlines fix that. This skill produces the first architecture artifact for a system — short on prose, heavy on diagrams — so engineers, product, and stakeholders share a single picture of the platform, the layers, the neighbours, the deployment topology, and the principles in force. When the outline is in place, deeper architecture work (blueprint, reference, mechanisms) can start without re-litigating what the system is.<br>
+<br>
+---</div>
 
 <section class="install-block" aria-labelledby="install-npx-heading">
   <h2 id="install-npx-heading">Install with npx</h2>
@@ -956,284 +958,59 @@ a.cap-card:hover .cap-card__icon {
 
 <h2 id="entry-contents">Contents</h2>
 <div class="entry-contents-doc">
-<details class="entry-md-section" id="purpose"><summary class="entry-md-section__summary">Purpose</summary><div class="entry-md-section__body"><p>A team that cannot draw its system on one page also cannot agree on what to build next. Outlines fix that. This skill produces the first architecture artifact for a system — short on prose, heavy on diagrams — so engineers, product, and stakeholders share a single picture of the platform, the layers, the neighbours, the deployment topology, and the principles in force. When the outline is in place, deeper architecture work (blueprint, reference, mechanisms) can start without re-litigating what the system <em>is</em>.</p></div></details>
-<details class="entry-md-section" id="when-to-use-this-skill"><summary class="entry-md-section__summary">When to use this skill</summary><div class="entry-md-section__body"><p>Load this skill when <strong>any</strong> of the following apply:</p>
-<ul>
-<li>A new project is <strong>kicking off</strong> and there is no architecture document at all — start with the outline before deeper work.</li>
-<li>An existing project has <strong>no canonical picture</strong> of itself and onboarding new people takes weeks because everyone redraws the system from memory.</li>
-<li>A team is choosing a <strong>platform or major technology</strong> and needs a single page that names the candidate stack and the principles that drove the choice.</li>
-<li>Stakeholders keep asking &quot;<strong>which system owns that?</strong>&quot; and the answer changes depending on who is in the room — the major-systems catalogue settles it.</li>
-<li>An architecture review is <strong>about to happen</strong> and there is no outline-level artifact to anchor the conversation.</li>
-</ul></div></details>
-<details class="entry-md-section" id="what-is-an-architecture-outline"><summary class="entry-md-section__summary">What is an architecture outline?</summary><div class="entry-md-section__body"><p>An <strong>architecture outline</strong> is the <em>one-page</em> answer to &quot;what is this system?&quot;. It is built around a small set of diagrams — platform, layered architecture, system context, deployment topology — supplemented by a consolidated list of guiding principles, the technology stack, and a one-line description of every major system or subsystem. It is <strong>deliberately shallow</strong>: it shows the system&#x27;s silhouette and neighbours but explicitly defers internal mechanisms, component contracts, data models, and patterns to the <strong>blueprint</strong> and <strong>reference</strong> skills that come after it.</p>
-<p>This skill ships <strong>paired outputs</strong>: a markdown file that humans read, and four `.drawio` sources that the team edits. The markdown embeds rendered PNGs (or links the `.drawio` files directly); the `.drawio` files are the source of truth that anyone can open in <a href="https://www.drawio.com/">draw.io Desktop</a> or <a href="https://app.diagrams.net/">app.diagrams.net</a> without checking out the repository. The CLI helper at `scripts/arch-drawio.ps1` initialises the four templates, exports PNGs, and verifies that every diagram in the markdown has a matching `.drawio` source.</p>
-<p>The outline carries <strong>decision records</strong> for the choices visible at this level (chosen platform, chosen architectural style, chosen deployment model). Decisions below this level — how error handling works, which caching pattern, which test tier owns what — live with the blueprint or reference document that introduces them.</p>
+<details class="entry-md-section" id="purpose"><summary class="entry-md-section__summary">Purpose</summary><div class="entry-md-section__body"><p>A team that cannot draw its system on one page also cannot agree on what to build next. Outlines fix that. This skill produces the first architecture artifact for a system — short on prose, heavy on diagrams — so engineers, product, and stakeholders share a single picture of the platform, the layers, the neighbours, the deployment topology, and the principles in force. When the outline is in place, deeper architecture work (blueprint, reference, mechanisms) can start without re-litigating what the system <em>is</em>.</p>
 <hr></div></details>
-<details class="entry-md-section" id="core-concepts"><summary class="entry-md-section__summary">Core concepts</summary><div class="entry-md-section__body"><h3>The four diagrams</h3>
-<p>Every architecture outline contains four diagrams. Each one answers a different question and a reviewer should be able to point at the answer without reading prose.</p>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Diagram</th><th>Question it answers</th><th>Notation</th></tr></thead><tbody><tr><td><strong>Platform diagram</strong></td><td>What kind of system is this? (web app, mobile + API, desktop client, embedded device, distributed pipeline, etc.)</td><td>Block diagram or simple grouping; logo-level technology badges acceptable</td></tr><tr><td><strong>Layered architecture diagram</strong></td><td>What are the logical layers and what is the dependency direction between them?</td><td>Stacked-boxes diagram; arrows always point one way</td></tr><tr><td><strong>System context diagram</strong></td><td>Who and what does the system talk to?</td><td>C4 System Context, or a simple actor + neighbouring-system box diagram</td></tr><tr><td><strong>Deployment topology diagram</strong></td><td>Where does each part run, and what runtime container hosts it?</td><td>C4 Deployment, or boxes-inside-boxes (environment → host → process)</td></tr></tbody></table></div>
-<h3>Guiding principles</h3>
-<p>A <strong>guiding principle</strong> is a one-sentence stance the system takes that constrains future decisions. Good principles are <strong>decidable</strong>, <strong>directional</strong>, and <strong>traceable to a real trade-off</strong> the team has accepted. They are pulled together in the outline so that everyone working on the system can see them in one place — even if the principles originate in deeper documents (the reference, the blueprint, or an ADR).</p>
-<h3>Major systems catalogue</h3>
-<p>The outline names every <strong>major system or subsystem</strong> the architecture distinguishes and gives each one a single line of description. Internal organisation, components, interfaces, and patterns are <em>not</em> in scope here — they belong in the blueprint and reference. The catalogue exists so a reader can map any feature request, bug, or operations alert to a named owner-system within minutes.</p>
-<h3>Decision records</h3>
-<p>A <strong>decision record (ADR)</strong> captures <em>why</em> a choice was made — context, options considered, consequences. The outline carries ADRs for choices visible at the outline level: platform, architectural style, deployment model, major external integrations. Decisions about internals (which caching pattern, which test tier) live with the document that introduces them.</p>
+<details class="entry-md-section" id="output-file"><summary class="entry-md-section__summary">Output file</summary><div class="entry-md-section__body"><p><strong>Deliverables folder:</strong> see `../reference/agent-protocol.md` — Output file resolution.</p>
+<p><strong>File name:</strong> `architecture-outline.md`. Add a `&lt;name&gt;-` prefix only when disambiguation is needed.</p>
 <hr></div></details>
-<details class="entry-md-section" id="example"><summary class="entry-md-section__summary">Example</summary><div class="entry-md-section__body"><p>A typical outline for a web-plus-API SaaS:</p>
-<pre><code>{SystemName} — Architecture Outline
-├── 1. Platform diagram          ← React SPA + Node API + Postgres + Redis
-├── 2. Layered architecture      ← Presentation / Application / Domain / Infra
-├── 3. System context            ← actors + 3 external systems
-├── 4. Deployment topology       ← AWS: CloudFront → ALB → ECS → RDS
-├── 5. Guiding principles        ← &quot;Domain never imports infrastructure&quot;, etc.
-├── 6. Technology stack          ← runtime + framework + library + tool per layer
-├── 7. Major systems catalogue   ← 5 named subsystems, 1 line each
-└── 8. Decision records          ← 3 ADRs (platform, style, deployment)</code></pre></div></details>
-<details class="entry-md-section" id="the-shape-of-a-good-outline"><summary class="entry-md-section__summary">The shape of a good outline</summary><div class="entry-md-section__body"><pre><code>{Title} — Architecture Outline
-
-1. Platform Diagram
-   {diagram}
-   {≤2 sentence caption}
-
-2. Layered Architecture
-   {diagram}
-   {≤3 sentence caption naming dependency direction}
-
-3. System Context
-   {diagram}
-   {≤2 sentence caption naming actors and external systems}
-
-4. Deployment Topology
-   {diagram}
-   {≤3 sentence caption naming environments and hosts}
-
-5. Guiding Principles
-   - {Principle 1, one sentence, decidable}
-   - {Principle 2, one sentence, decidable}
-   - ... (5–10 total)
-
-6. Technology Stack
-   | Layer | Technology | Version | Purpose |
-   |---|---|---|---|
-   | ... |
-
-7. Major Systems
-   | System | One-line description | Primary owner / module |
-   |---|---|---|
-   | ... |
-
-8. Decision Records
-   - ADR-001: {chosen platform} — {one-line consequence}
-   - ADR-002: {chosen architectural style}
-   - ADR-003: {chosen deployment model}
-   (each ADR is a separate file under docs/architecture/decisions/)</code></pre>
-<p><strong>What the outline does NOT contain</strong> (lives in `abd-architecture-blueprint` and `abd-architecture-template`):</p>
+<details class="entry-md-section" id="agent-instructions"><summary class="entry-md-section__summary">Agent Instructions</summary><div class="entry-md-section__body"><p>&gt; <strong>MANDATORY — read `../reference/agent-protocol.md` before starting. It defines read-gates, output file resolution, and the per-rule verdict format.</strong></p>
+<h3>1. Read context</h3>
+<p>Read these files:</p>
 <ul>
-<li>Component-by-component descriptions</li>
-<li>Cross-cutting concern implementations (auth, error handling, logging — those are <em>architecture mechanisms</em>)</li>
-<li>Data models or entity relationships</li>
-<li>Code-level patterns</li>
-<li>Detailed testing strategy beyond a one-liner stating where tests live</li>
+<li><strong>`reference/concepts.md`</strong> — what an outline is, the four diagrams, guiding principles, major systems catalogue, decision records, and what the outline does NOT contain.</li>
+<li><strong>`reference/examples.md`</strong> — a typical outline tree and the shape of a good outline.</li>
 </ul>
+<h3>2. Generate</h3>
+<p>Read every file in <strong>`rules/`</strong>; author to those rules.</p>
+<p><strong>Produce output from every template:</strong></p>
+<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Template</th><th>What to produce</th></tr></thead><tbody><tr><td>`templates/architecture-outline.md`</td><td>The outline document — four diagrams with captions, guiding principles, tech stack table, major systems table, and ADR list.</td></tr><tr><td>`templates/decision-record.md`</td><td>One ADR file per outline-level decision under `docs/architecture/decisions/`.</td></tr></tbody></table></div>
+<p><strong>Diagram workflow:</strong></p>
+<p>1. Seed diagrams: `.\scripts\arch-drawio.ps1 init -ProjectRoot &lt;target-project-root&gt;` 2. Fill placeholders in each `.drawio` file with real system components. 3. Export PNGs: `.\scripts\arch-drawio.ps1 export -ProjectRoot &lt;target-project-root&gt;` 4. Reference the PNGs from the outline markdown.</p>
+<p><strong>Quality bar:</strong> Four diagrams present (platform, layered, context, deployment), each with a caption of three sentences or fewer. Principles are decidable one-sentence stances (5–10 total). Major systems are one line each. ADRs exist on disk.</p>
+<h3>3. Validate</h3>
+<p>Run the scanners:</p>
+<pre><code>python skills/execute-skill-using-skills-rules/scripts/run_scanners.py \
+  --skill-root skills/abd-architecture-outline \
+  --workspace &lt;path-to-output&gt;</code></pre>
+<p>Then verify diagrams:</p>
+<pre><code>.\scripts\arch-drawio.ps1 verify -ProjectRoot &lt;target-project-root&gt;</code></pre>
+<p>Then emit per-rule verdicts per `../reference/agent-protocol.md`.</p>
 <hr></div></details>
-<details class="entry-md-section" id="build"><summary class="entry-md-section__summary">Build</summary><div class="entry-md-section__body"><p><strong>Goal:</strong> Produce the outline markdown file, four paired `.drawio` sources (+ rendered PNGs), and one ADR file per outline-level decision. Place outputs wherever the project keeps its architecture docs — default convention is `docs/architecture/` but the location is the team&#x27;s call.</p>
-<p>1. <strong>Pick the output location and seed the diagrams folder.</strong> From this skill&#x27;s folder, run:</p>
-<pre><code>   .\scripts\arch-drawio.ps1 init -ProjectRoot &lt;target-project-root&gt;</code></pre>
-<p>This copies the four `.drawio` templates (`platform-architecture.drawio`, `layered-architecture.drawio`, `system-context.drawio`, `deployment-architecture.drawio`) into the project&#x27;s diagrams folder, skipping any that already exist (use `-Force` to overwrite).</p>
-<p>2. <strong>Open each `.drawio` in draw.io Desktop or app.diagrams.net and fill in the `{Placeholders}`.</strong> The templates already match the canonical style (stacked layered platform, vertical layered dependency stack, central system + external actors context diagram, UML deployment with environment/host/process nesting). Replace placeholder text with real component names; add or remove boxes as the system demands. Do not break the canonical filenames — the verify command depends on them.</p>
-<p>3. <strong>Export the diagrams to PNG.</strong> Run:</p>
-<pre><code>   .\scripts\arch-drawio.ps1 export -ProjectRoot &lt;target-project-root&gt;</code></pre>
-<p>This renders every `&lt;name&gt;.drawio` to a sibling `&lt;name&gt;.png` using the local draw.io Desktop binary. The skill assumes draw.io Desktop is installed at the default location; pass `-DrawIoExe &lt;path&gt;` if it lives elsewhere. (If draw.io is not installed, the markdown can link to the `.drawio` files directly — many editors render them inline.)</p>
-<p>4. <strong>Write the four diagram sections of `architecture-outline.md` in order: platform, layered, context, deployment.</strong> Each section embeds the rendered PNG (or links the `.drawio` source) and adds a caption of three sentences or fewer naming what the reader should see. Use `templates/architecture-outline.md` as the starting point.</p>
-<p>5. <strong>Consolidate guiding principles.</strong> Walk the existing documents (reference docs, ADRs, READMEs, code-review comments) and pull every one-sentence stance the team actually applies. Keep 5–10. Each principle must be one sentence, must be decidable against a piece of code or a design, and must name what it constrains.</p>
-<p>6. <strong>List the technology stack as a table.</strong> Columns: Layer, Technology, Version, Purpose. One row per material technology; do not list every transitive dependency.</p>
-<p>7. <strong>List the major systems as a table.</strong> Columns: System, One-line description, Primary owner/module. One row per subsystem the architecture distinguishes; no internals.</p>
-<p>8. <strong>Write the outline-level decision records.</strong> One ADR per decision visible at the outline level (platform, style, deployment, major external integration). Each ADR is its own file under `docs/architecture/decisions/ADR-NNN-{slug}.md` using `templates/decision-record.md`. The outline lists them with a one-line consequence; the file carries the full record.</p>
-<p>9. <strong>Verify the paired outputs.</strong> Run:</p>
-<pre><code>   .\scripts\arch-drawio.ps1 verify -ProjectRoot &lt;target-project-root&gt;</code></pre>
-<p>The verify step walks every diagram reference in `architecture-outline.md` and confirms a matching `.drawio` source exists, then confirms the four canonical diagrams are all referenced. Treat any FAIL line as blocking — either ship the missing source or fix the reference.</p>
-<p>10. <strong>Validate against the rules</strong> bundled at the end of this `SKILL.md`. Walk each rule against the produced outline; fix violations before declaring done.</p>
-<p>11. <strong>Bundle this skill&#x27;s rules into `SKILL.md`</strong> when you have edited any `rules/*.md`:</p>
-<pre><code>    python skill-builder/skills/abd-author-practice-skill/scripts/bundle_rules_into_skill_md.py --skill-root architecture-centric-engineering/skills/abd-architecture-outline</code></pre>
-<hr></div></details>
-<details class="entry-md-section" id="validate"><summary class="entry-md-section__summary">Validate</summary><div class="entry-md-section__body"><p><strong>Goal:</strong> Inspect the produced outline the way a reviewer would inspect any architecture document — gaps and drift first, prose polish second.</p>
-<ul>
-<li><strong>Who is checking:</strong> Software Architect (do the diagrams match the running system?), Tech Lead (can a new engineer onboard from this page alone?), Product Owner (are the major systems and principles ones product can defend?).</li>
-<li><strong>Cross-artifact parity:</strong> Every ADR referenced from the outline exists as its own file under `docs/architecture/decisions/`. Every diagram caption names content visible in the diagram.</li>
-</ul>
-<p>Checklist for the <strong>produced outline</strong>:</p>
+<details class="entry-md-section" id="validate"><summary class="entry-md-section__summary">Validate</summary><div class="entry-md-section__body"><p><strong>Goal:</strong> Inspect what was built — read the artifacts as reviewers.</p>
 <ul>
 <li><strong>Four diagrams present</strong> — platform, layered, system context, deployment topology — each with a caption of three sentences or fewer.</li>
-<li><strong>Each diagram has a paired `.drawio` source</strong> — `.\scripts\arch-drawio.ps1 verify -ProjectRoot &lt;project&gt;` prints PASS. No diagram is a PNG-only orphan.</li>
-<li><strong>Canonical filenames used</strong> — `platform-architecture.drawio`, `layered-architecture.drawio`, `system-context.drawio`, `deployment-architecture.drawio` all exist under `docs/architecture/diagrams/`.</li>
+<li><strong>Each diagram has a paired `.drawio` source</strong> — `.\scripts\arch-drawio.ps1 verify` prints PASS.</li>
+<li><strong>Canonical filenames used</strong> — `platform-architecture.drawio`, `layered-architecture.drawio`, `system-context.drawio`, `deployment-architecture.drawio`.</li>
 <li><strong>Layered diagram shows dependency direction</strong> — arrows are one-way, no cycles drawn.</li>
-<li><strong>Principles are decidable</strong> — every principle is one sentence and could be applied to a real code change or design choice.</li>
+<li><strong>Principles are decidable</strong> — every principle is one sentence and could be applied to a real code change.</li>
 <li><strong>Technology stack is a table</strong> — Layer / Technology / Version / Purpose; no narrative paragraphs.</li>
-<li><strong>Major systems are one line each</strong> — no internal component descriptions, no patterns, no mechanisms.</li>
+<li><strong>Major systems are one line each</strong> — no internal component descriptions.</li>
 <li><strong>ADRs exist on disk</strong> — every ADR named in the outline has a matching file under `docs/architecture/decisions/`.</li>
-<li><strong>No mechanism detail</strong> — auth, error handling, logging, caching are <em>named</em> if at all, never explained — those live in the blueprint and reference.</li>
-<li><strong>No data model</strong> — entity relationships and persistence schemas are absent; they live in the blueprint and reference.</li>
+<li><strong>No mechanism detail</strong> — auth, error handling, logging, caching are <em>named</em> if at all, never explained.</li>
+<li><strong>No data model</strong> — entity relationships and persistence schemas are absent.</li>
+<li><strong>No bundle markers</strong> — `SKILL.md` has no `&lt;!-- execute_rules:bundle_rules --&gt;` markers.</li>
 </ul>
 <hr></div></details>
-<details class="entry-md-section" id="deploy"><summary class="entry-md-section__summary">Deploy</summary><div class="entry-md-section__body"><p>This skill ships IDE-deployable files under `ide-files/`. Deploy them to any project:</p>
-<pre><code>.\skills\skill-builder\abd-author-practice-skill\scripts\Deploy-SkillOutputs.ps1 -SkillPath skills/architecture-centric-engineering/abd-architecture-outline -ProjectRoot &lt;target-project&gt; -Force</code></pre>
-<hr>
-<p>&lt;!-- execute_rules:bundle_rules:begin --&gt;</p>
-<h3>Rule: Decision records are named and live on disk</h3>
-<p>Every architectural decision visible at the outline level (platform, architectural style, deployment model, major external integration) is captured as its own ADR file under `docs/architecture/decisions/ADR-NNN-{slug}.md`. The outline itself lists each ADR with a one-line consequence and a link to the file. Failing means an outline references decisions without files behind them, embeds a multi-paragraph rationale in the outline itself, or names decisions in prose without an ADR number.</p>
-<h4>DO</h4>
-<ul>
-<li>List ADRs in the outline as a table or numbered list with ID, decision, and a one-line consequence; each ID links to the actual ADR file.</li>
-</ul>
-<p><strong>Example (pass):</strong></p>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>ID</th><th>Decision</th><th>One-line consequence</th></tr></thead><tbody><tr><td><a href="../decisions/ADR-001-spa-plus-rest-api-platform.html">ADR-001</a></td><td>SPA + REST API platform</td><td>No server rendering, no GraphQL surface.</td></tr><tr><td><a href="../decisions/ADR-003-aws-fargate-deployment.html">ADR-003</a></td><td>AWS ECS Fargate, single region, multi-AZ</td><td>No Kubernetes operations cost; region failure is a DR scenario.</td></tr></tbody></table></div>
-<ul>
-<li>Use the `decision-record.md` template in this skill&#x27;s `templates/` folder for every ADR file.</li>
-</ul>
-<p><strong>Example (pass):</strong> `ADR-001-spa-plus-rest-api-platform.md` has Status / Date / Deciders / Context / Decision / Options considered / Consequences / Compliance — same shape as the template.</p>
-<ul>
-<li>Keep the ADR list in the outline to outline-level decisions only (platform, style, deployment, major external integrations).</li>
-</ul>
-<p><strong>Example (pass):</strong> &quot;How error handling is structured&quot; is an architectural decision but a <em>blueprint-level</em> one — its ADR is listed in the blueprint, not the outline.</p>
-<h4>DO NOT</h4>
-<ul>
-<li>Embed a multi-paragraph rationale for a decision directly in the outline.</li>
-</ul>
-<p><strong>Example (fail):</strong> A section 8 heading reads `## Decision Records — Why we chose AWS over Azure` followed by three paragraphs comparing services. The detail belongs in `ADR-003`, not the outline.</p>
-<ul>
-<li>Reference an ADR by name without an actual file existing under `docs/architecture/decisions/`.</li>
-</ul>
-<p><strong>Example (fail):</strong> Outline lists &quot;ADR-004: Auth0 identity&quot; but `docs/architecture/decisions/` has no file with that ID.</p>
-<ul>
-<li>Number ADRs inconsistently or restart numbering per document.</li>
-</ul>
-<p><strong>Example (fail):</strong> Outline cites `ADR-001` for the platform decision and `ADR-001` again for an unrelated networking decision in the blueprint. ADR numbers are project-wide and monotonic.</p>
-<p><strong>Source:</strong> Practice-skill authoring convention (abd-architecture-outline); ADRs are decisions-on-disk, the outline only summarises.</p>
-<h3>Rule: Every diagram ships paired markdown reference and drawio source</h3>
-<p>Every diagram referenced from `architecture-outline.md` must have a matching `.drawio` source file on disk under `docs/architecture/diagrams/`. The markdown is what readers see; the `.drawio` is what the team edits. Without the source file, the next person who needs to update the diagram has to redraw it from scratch, and the architecture document drifts from the running system within a release. The canonical filenames for the four outline diagrams are `platform-architecture.drawio`, `layered-architecture.drawio`, `system-context.drawio`, and `deployment-architecture.drawio`. The CLI helper at `scripts/arch-drawio.ps1` initialises the templates, exports the PNGs, and verifies the pairs. Failing means a diagram appears in the markdown as a PNG with no `.drawio` source, a `.drawio` source exists for a diagram that the markdown never references, or the four canonical diagrams are not all present.</p>
-<h4>DO</h4>
-<ul>
-<li>Place every diagram source as `docs/architecture/diagrams/&lt;name&gt;.drawio` and reference either the rendered `&lt;name&gt;.png` or the `&lt;name&gt;.drawio` file directly from the markdown.</li>
-</ul>
-<p><strong>Example (pass):</strong> `architecture-outline.md` contains `!<a href="./diagrams/platform-architecture.png">Platform diagram</a>`. The file `docs/architecture/diagrams/platform-architecture.drawio` exists. Running `.\scripts\arch-drawio.ps1 verify` prints `[verify] OK   diagrams/platform-architecture.png -&gt; platform-architecture.drawio exists`.</p>
-<ul>
-<li>Use the canonical filenames for the four outline diagrams so the verify command can confirm all four are present.</li>
-</ul>
-<p><strong>Example (pass):</strong> `platform-architecture.drawio`, `layered-architecture.drawio`, `system-context.drawio`, `deployment-architecture.drawio` all exist; verify prints PASS.</p>
-<ul>
-<li>Initialise a fresh project&#x27;s diagrams folder by running `.\scripts\arch-drawio.ps1 init -ProjectRoot &lt;path&gt;` from this skill, which copies the four templates without overwriting existing diagrams (unless `-Force`).</li>
-</ul>
-<p><strong>Example (pass):</strong> A new project runs `init`, opens each `.drawio` in draw.io Desktop, fills in the `{Placeholder}` text, runs `export`, then `verify` returns PASS.</p>
-<h4>DO NOT</h4>
-<ul>
-<li>Embed a screenshot or PNG in the markdown with no matching `.drawio` source on disk.</li>
-</ul>
-<p><strong>Example (fail):</strong> `architecture-outline.md` references `./diagrams/platform-architecture.png` but `docs/architecture/diagrams/` contains only the PNG — no `.drawio`. The diagram becomes write-only; the next update redraws from scratch.</p>
-<ul>
-<li>Inline a mermaid diagram for the four canonical diagrams in place of a `.drawio` source.</li>
-</ul>
-<p><strong>Example (fail):</strong> Section 1 of the outline has a fenced ` ```mermaid ` block for the platform diagram. Mermaid is fine for small ad-hoc figures inside mechanism walkthroughs, but the four outline-level diagrams need editable drawio sources so non-developer reviewers (architects, ops) can open and edit them in draw.io Desktop.</p>
-<ul>
-<li>Rename the canonical diagrams so the verify step cannot find them.</li>
-</ul>
-<p><strong>Example (fail):</strong> A team renames `system-context.drawio` to `context-c4.drawio`. The verify step reports `MISS expected &#x27;system-context&#x27; diagram not referenced in outline`. Either keep the canonical name, or update the skill convention and the CLI.</p>
-<ul>
-<li>Ship a `.drawio` source that the markdown never references.</li>
-</ul>
-<p><strong>Example (fail):</strong> `diagrams/` contains five `.drawio` files; the outline only links to three. The two orphans are documentation rot — either reference them from the outline or delete them.</p>
-<p><strong>Source:</strong> Practice-skill authoring convention (abd-architecture-outline); paired markdown + drawio is what makes the outline maintainable past its first release.</p>
-<h3>Rule: Major systems stay at one line</h3>
-<p>The Major Systems section of the outline lists each subsystem the architecture distinguishes and gives each one <strong>one line of description</strong>. Internal components, mechanisms, data models, and patterns are out of scope — they belong in the blueprint and reference documents. The catalogue exists so a reader can map any feature request or operations alert to a named owner-system in seconds. Failing means a system has a multi-paragraph description, a component list, code references, or an interface contract embedded in the outline.</p>
-<h4>DO</h4>
-<ul>
-<li>Render the major systems as a table with three columns: System, One-line description, Primary owner/module.</li>
-</ul>
-<p><strong>Example (pass):</strong></p>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>System</th><th>One-line description</th><th>Primary owner / module</th></tr></thead><tbody><tr><td><strong>Identity</strong></td><td>Authenticates users and issues tokens; thin wrapper over Auth0.</td><td>`packages/identity`</td></tr><tr><td><strong>Orders</strong></td><td>Order lifecycle from cart to fulfilment; canonical source of revenue events.</td><td>`packages/orders`</td></tr></tbody></table></div>
-<ul>
-<li>Make the one-line description a <em>role-in-the-system</em> statement, not a feature list.</li>
-</ul>
-<p><strong>Example (pass):</strong> &quot;Read-mostly product catalogue with strong cache reliance.&quot; — names the role and a defining trait.</p>
-<ul>
-<li>Defer all &quot;how&quot; questions about a system to the blueprint or reference document linked from the outline.</li>
-</ul>
-<p><strong>Example (pass):</strong> The Orders row above says nothing about <em>how</em> orders flow through the system; that lives in `architecture-blueprint.md`.</p>
-<h4>DO NOT</h4>
-<ul>
-<li>Expand a major system&#x27;s description into a paragraph about its internal components.</li>
-</ul>
-<p><strong>Example (fail):</strong></p>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>System</th><th>Description</th></tr></thead><tbody><tr><td>Orders</td><td>The Orders system contains an `OrderService`, an `OrderRepository`, an `OrderEventPublisher`, and integrates with the Catalogue system to validate line items. It uses the Saga pattern for distributed transactions and stores events in an outbox table for at-least-once delivery.</td></tr></tbody></table></div>
-<p>This is blueprint-level content invading the outline.</p>
-<ul>
-<li>List endpoints, classes, database tables, or message topics in the outline.</li>
-</ul>
-<p><strong>Example (fail):</strong> A &quot;Notifications&quot; row that lists six event-bus topics and four database tables. The outline should name the system; the blueprint owns the contract.</p>
-<p><strong>Source:</strong> Practice-skill authoring convention (abd-architecture-outline); the outline is deliberately shallow, the blueprint owns components.</p>
-<h3>Rule: Outline leads with the four diagrams</h3>
-<p>The outline answers &quot;what is this system?&quot; through diagrams first and prose second. The first four numbered sections of the outline document must be the <strong>platform diagram</strong>, the <strong>layered architecture diagram</strong>, the <strong>system context diagram</strong>, and the <strong>deployment topology diagram</strong>, in that order, each followed by a caption of three sentences or fewer. Failing means the document opens with paragraphs of prose, has fewer than four diagrams, reorders the four into something else, or ships a diagram with a caption that runs to half a page.</p>
-<h4>DO</h4>
-<ul>
-<li>Put the platform diagram, layered diagram, system context diagram, and deployment topology diagram as the first four numbered sections of the outline, each with its own heading.</li>
-</ul>
-<p><strong>Example (pass):</strong> `architecture-outline.md` headings 1–4 are `## 1. Platform Diagram`, `## 2. Layered Architecture`, `## 3. System Context`, `## 4. Deployment Topology`. Sections 5+ are principles, tech stack, systems, ADRs.</p>
-<ul>
-<li>Limit every caption under a diagram to three sentences or fewer, naming what the reader should see.</li>
-</ul>
-<p><strong>Example (pass):</strong> Layered diagram caption: &quot;Dependencies point one way only: Presentation depends on Application, Application on Domain, Domain on Infrastructure interfaces (never their implementations). The Domain layer never imports from Infrastructure assemblies.&quot;</p>
-<ul>
-<li>Pick one diagram notation and stay consistent inside one outline (all mermaid, or all drawio links, or all PNGs).</li>
-</ul>
-<p><strong>Example (pass):</strong> All four diagrams are mermaid fenced blocks. Switching is fine across outlines, not within one.</p>
-<h4>DO NOT</h4>
-<ul>
-<li>Open the outline with a prose-only &quot;Introduction&quot; or &quot;Background&quot; section before the diagrams appear.</li>
-</ul>
-<p><strong>Example (fail):</strong> Section 1 of the outline is `## Introduction` with five paragraphs of history. The platform diagram does not appear until section 6.</p>
-<ul>
-<li>Ship the outline with three diagrams (e.g. missing the deployment topology) on the grounds that &quot;we will add it later&quot;.</li>
-</ul>
-<p><strong>Example (fail):</strong> Outline has Platform, Layered, and Context diagrams but no Deployment Topology — readers cannot answer &quot;where does this run?&quot; from the page.</p>
-<ul>
-<li>Caption a diagram with a multi-paragraph essay about the history of the choice.</li>
-</ul>
-<p><strong>Example (fail):</strong> Layered diagram caption is six paragraphs explaining how we tried hexagonal first; the rationale belongs in an ADR, not the caption.</p>
-<p><strong>Source:</strong> Practice-skill authoring convention (abd-architecture-outline); the outline is &quot;the one-page picture of the system&quot; and four diagrams are its load-bearing content.</p>
-<h3>Rule: Principles are decidable one-sentence stances</h3>
-<p>A guiding principle in the outline is <strong>one sentence</strong> and <strong>decidable against a real code change or design proposal</strong>. It names what the system constrains itself to do, not what every engineer should aspire to. A reviewer should be able to look at a pull request and say &quot;this violates principle 3&quot; or &quot;this is fine under principle 3&quot;. Failing means a principle is a paragraph, a slogan, a value statement, or so abstract that no piece of code could ever be measured against it.</p>
-<h4>DO</h4>
-<ul>
-<li>State each principle as one declarative sentence naming the constraint and the thing constrained.</li>
-</ul>
-<p><strong>Example (pass):</strong> &quot;Domain never imports infrastructure — domain classes depend on interfaces; concrete database, HTTP, and message-bus types are referenced only from the Infrastructure layer.&quot;</p>
-<ul>
-<li>Give every principle a verifiable surface: a layer, a folder, a code path, or a build-time check.</li>
-</ul>
-<p><strong>Example (pass):</strong> &quot;Tests run without infrastructure — the full domain and application test suite runs in under 60 seconds with no databases, brokers, or third-party services started.&quot; (verifiable by running the suite.)</p>
-<ul>
-<li>Keep the principles list to 5–10 entries. If a candidate cannot fit alongside the others as a peer, it is probably not outline-level.</li>
-</ul>
-<p><strong>Example (pass):</strong> Eight principles, each fitting on one bullet line plus an optional short clarification clause.</p>
-<h4>DO NOT</h4>
-<ul>
-<li>Write a principle as a value statement or slogan that cannot be applied to a code change.</li>
-</ul>
-<p><strong>Example (fail):</strong> &quot;We value craftsmanship and clean code.&quot; — true but undecidable; a reviewer cannot pass/fail a PR with this.</p>
-<ul>
-<li>Use multi-paragraph principles that read like a mini essay.</li>
-</ul>
-<p><strong>Example (fail):</strong> A principle that is three paragraphs explaining context, options, and consequences — that is an ADR, not a principle.</p>
-<ul>
-<li>Mix principles with implementation rules.</li>
-</ul>
-<p><strong>Example (fail):</strong> &quot;Use `Result&lt;T, E&gt;` from the `neverthrow` library and avoid `try/catch` except at the HTTP boundary, configuring the library at `src/shared/result.ts`.&quot; — this is implementation detail for a rule, not a principle.</p>
-<p><strong>Source:</strong> Practice-skill authoring convention (abd-architecture-outline); principles list is the outline&#x27;s third load-bearing element. &lt;!-- execute_rules:bundle_rules:end --&gt;</p></div></details>
 </div>
 <hr class="entry-divider">
 <div class="entry-contents-files">
 <ul class="file-list file-list--root">
 <li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>ide-files/</strong><span class="file-meta"> → Folder (1 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-architecture-outline/ide-files/abd-architecture-outline.instructions.md" target="_blank" rel="noopener noreferrer"><strong>abd-architecture-outline.instructions.md</strong></a><span class="file-meta"> → Run abd-architecture-outline</span></li>
+</ul></div></details></li>
+<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>reference/</strong><span class="file-meta"> → Folder (2 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-architecture-outline/reference/concepts.md" target="_blank" rel="noopener noreferrer"><strong>concepts.md</strong></a><span class="file-meta"> → Architecture Outline — Concepts</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-architecture-outline/reference/examples.md" target="_blank" rel="noopener noreferrer"><strong>examples.md</strong></a><span class="file-meta"> → Architecture Outline — Examples</span></li>
 </ul></div></details></li>
 <li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>rules/</strong><span class="file-meta"> → Practice rules (DO/DON&#x27;T) and constraints used with scanners.</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-architecture-outline/rules/decision-records-named-and-on-disk.md" target="_blank" rel="noopener noreferrer"><strong>decision-records-named-and-on-disk.md</strong></a><span class="file-meta"> → Rule: Decision records are named and live on disk</span></li>

@@ -15,7 +15,7 @@ If either trigger is missing — ad-hoc work, slide content, scratch edits, conv
 ## Where the log lives — on disk, inside the skill
 
 - `<target-skill>/skill-errors-log.md` (or `<target-skill>/corrections-log.md` if one already exists). Append entries; do not start a new file when one is present.
-- Create from `skill-helpers/content/templates/skill-errors-log.md` only if no log exists in that skill folder yet.
+- Create from `skill-helpers/reference/templates/skill-errors-log.md` only if no log exists in that skill folder yet.
 - Write the entry **in the same turn** as the fix or acknowledgement. Chat is not the record.
 
 ## Fix the output first

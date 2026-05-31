@@ -962,45 +962,28 @@ a.cap-card:hover .cap-card__icon {
 <li>Some rules are <strong>checkable</strong> mechanically (patterns, files, forbidden phrases).</li>
 <li>You are ready to wire <strong>`scanner:`</strong> in rule frontmatter <strong>only</strong> where a matching <strong>`scanners/&lt;stem&gt;-scanner.py`</strong> exists.</li>
 </ul></div></details>
-<details class="entry-md-section" id="not-in-this-pass"><summary class="entry-md-section__summary">Not in this pass</summary><div class="entry-md-section__body"><p><strong>Authoring</strong> or <strong>rewriting</strong> normative prose in <strong>SKILL.md</strong> or <strong>`rules/*.md`</strong> for meaning — only <strong>scanners</strong>, <strong>`scanner:`</strong> hooks, <strong>`run_scanners.py`</strong>, and <strong>re-bundle</strong>.</p></div></details>
+<details class="entry-md-section" id="not-in-this-pass"><summary class="entry-md-section__summary">Not in this pass</summary><div class="entry-md-section__body"><p><strong>Authoring</strong> or <strong>rewriting</strong> normative prose in <strong>SKILL.md</strong> or <strong>`rules/*.md`</strong> for meaning — only <strong>scanners</strong>, <strong>`scanner:`</strong> hooks, and <strong>`run_scanners.py`</strong>.</p></div></details>
 <details class="entry-md-section" id="prerequisites"><summary class="entry-md-section__summary">Prerequisites</summary><div class="entry-md-section__body"><ul>
 <li><strong>`skills/&lt;skill-name&gt;/`</strong> with finalized (or stable draft) <strong>`SKILL.md`</strong> and <strong>`rules/*.md`</strong>.</li>
-<li><strong>`bundle_rules_into_skill_md.py`</strong> has been run at least once after the latest rule edits.</li>
 </ul>
 <p>Read <strong>`skills/execute-skill-using-skills-rules/SKILL.md`</strong> sections <strong>Target Skill Layout</strong> and <strong>Commands</strong>.</p></div></details>
-<details class="entry-md-section" id="agent-instructions"><summary class="entry-md-section__summary">Agent instructions</summary><div class="entry-md-section__body"><p>Apply the <strong>bundled rules</strong> at the end of this file so <strong>`scanner:`</strong> and scripts stay honest.</p>
+<details class="entry-md-section" id="agent-instructions"><summary class="entry-md-section__summary">Agent Instructions</summary><div class="entry-md-section__body"><p>&gt; <strong>MANDATORY — read every file in `rules/` for this skill before starting. Rules/*.md are the source of truth; nothing is inlined here.</strong></p>
 <p>1. <strong>Choose checkable rules</strong> — Pick <strong>`rules/*.md`</strong> concerns that can be enforced mechanically (regex, file presence, forbidden phrases).</p>
 <p>2. <strong>Implement scanners</strong> — Under <strong>`scanners/`</strong>:</p>
 <ul>
 <li><strong>`scanners/&lt;stem&gt;-scanner.py`</strong> — executable CLI; follow <strong>`skills/abd-story-mapping/scanners/`</strong> import pattern (`execute-skill-using-skills-rules/scripts`, `scanner_runner`, `scanner_bases`).</li>
 </ul>
 <p>3. <strong>Wire frontmatter</strong> — Set <strong>`scanner: &lt;stem&gt;`</strong> on <strong>`rules/&lt;stem&gt;.md`</strong> (stem matches script name without `-scanner.py`).</p>
-<p>4. <strong>Re-bundle</strong> — After editing rules:</p>
-<pre><code>   python skills/execute-skill-using-skills-rules/scripts/bundle_rules_into_skill_md.py --skill-root skills/&lt;skill-name&gt;</code></pre>
-<p>5. <strong>Run checks</strong> — Run <strong>`run_scanners.py`</strong> with <strong>`--workspace`</strong> when the skill produces files to scan; compare rule <strong>intent</strong> to scanner <strong>coverage</strong> as a critic.</p></div></details>
+<p>4. <strong>Run checks</strong> — Run <strong>`run_scanners.py`</strong> with <strong>`--workspace`</strong> when the skill produces files to scan; compare rule <strong>intent</strong> to scanner <strong>coverage</strong> as a critic.</p></div></details>
 <details class="entry-md-section" id="template-starter"><summary class="entry-md-section__summary">Template starter</summary><div class="entry-md-section__body"><p>Practice <strong>`SKILL.md`</strong> skeleton (new packages) lives with <strong>abd-author-practice-skill</strong>: <strong>`skills/abd-practice-skill-builder/abd-author-practice-skill/templates/SKILL_template.md`</strong>. For scanners only: copy <strong>`templates/scanner-readme-snippet.md`</strong> from <strong>this</strong> skill into <strong>`references/`</strong> or <strong>`scanners/README.md`</strong>. Use <strong>`templates/rule-stub.md`</strong> only when <strong>adding</strong> a new <strong>scanner-backed</strong> rule; finish normative prose in <strong>`rules/*.md`</strong> before <strong>`scanner:`</strong> if needed.</p></div></details>
-<details class="entry-md-section" id="validate"><summary class="entry-md-section__summary">Validate</summary><div class="entry-md-section__body"><p><strong>Goal:</strong> No false confidence from <strong>scanner:</strong> labels.</p>
+<details class="entry-md-section" id="validate"><summary class="entry-md-section__summary">Validate</summary><div class="entry-md-section__body"><p><strong>Goal:</strong> No false confidence from <strong>scanner:</strong> labels. For each rule below, emit `Rule: &lt;name&gt; -&gt; PASS` or `Rule: &lt;name&gt; -&gt; FAIL &lt;reason&gt;`.</p>
 <ul>
 <li><strong>Parity</strong> — Every <strong>`scanner:`</strong> has <strong>`scanners/&lt;stem&gt;-scanner.py`</strong>; no <strong>`scanner:`</strong> without a script.</li>
 <li><strong>Messages</strong> — Failures are <strong>actionable</strong>; output points to what to change.</li>
-<li><strong>Bundle</strong> — <strong>`SKILL.md`</strong> bundled block matches <strong>`rules/*.md`</strong> after edits.</li>
 <li><strong>Coverage</strong> — Spot-check: each scanner still matches the <strong>rule</strong> it claims to enforce.</li>
+<li><strong>No inlined rules</strong> — <strong>`SKILL.md`</strong> contains no `&lt;!-- execute_rules:bundle_rules --&gt;` markers.</li>
 </ul>
-<hr>
-<p>&lt;!-- execute_rules:bundle_rules:begin --&gt;</p>
-<h3>Rule: Scanner wiring</h3>
-<p><strong>Scanner:</strong> Manual review</p>
-<h4>DO</h4>
-<ul>
-<li><strong>Implement first, then tag</strong> — <strong>`scanners/&lt;stem&gt;-scanner.py`</strong> exists and runs before <strong>`scanner: &lt;stem&gt;`</strong> appears in <strong>`rules/&lt;stem&gt;.md`</strong>.</li>
-<li><strong>Re-bundle</strong> after any <strong>`rules/*.md`</strong> or scanner change so <strong>SKILL.md</strong> stays truthful.</li>
-</ul>
-<h4>DO NOT</h4>
-<ul>
-<li>Add <strong>`scanner:`</strong> to <strong>sell</strong> rigor when the script is missing or stub-only.</li>
-<li>Use this pass to <strong>rewrite</strong> rule meaning — fix scanners or rule text in <strong>small</strong>, reviewable steps.</li>
-</ul>
-<p><strong>Source:</strong> Practice-skill builder convention (abd-build-practice-scanners). &lt;!-- execute_rules:bundle_rules:end --&gt;</p></div></details>
+<hr></div></details>
 </div>
 <hr class="entry-divider">
 <div class="entry-contents-files">
