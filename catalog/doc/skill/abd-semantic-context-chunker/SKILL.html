@@ -939,187 +939,47 @@ a.cap-card:hover .cap-card__icon {
 <h2>Content</h2>
 <div class="rule-prose"><h1>abd-semantic-context-chunker</h1>
 <h2>Purpose</h2>
-<p>Engagements accumulate context from many places — requirements documents, code repositories, design files, meeting notes, technical specs — and nobody knows what they actually have until someone reads it all. This skill scans the full corpus, tags every piece by the kind of context it provides — Story, Domain, Architecture, UX — and produces a coverage index so teams and agents know what evidence exists and where the gaps are, before any deeper analysis begins.</p>
-<h2>When to use</h2>
-<p>Load this skill when <strong>any</strong> of the following apply:</p>
+<p>Scan all source content, tag every piece by the kind of context it provides (Story, Domain, Architecture, UX), and produce a coverage index showing what you have across all four views — before any deeper analysis begins.</p>
+<hr>
+<h2>Output file</h2>
+<p><strong>Deliverables folder:</strong> see `../reference/agent-protocol.md` — Output file resolution.</p>
+<p><strong>File name:</strong> One chunk file per segment (with YAML front matter) plus one `context-chunking-report.md` coverage report.</p>
+<hr>
+<h2>Agent Instructions</h2>
+<p>&gt; <strong>MANDATORY — read `../reference/agent-protocol.md` before starting. It defines read-gates, output file resolution, and the per-rule verdict format.</strong></p>
+<h3>1. Read context</h3>
+<p>Read these files:</p>
 <ul>
-<li>You have <strong>lots of files or content from many sources</strong> — documents, code, specs, notes — and need to know <strong>what kind of context you actually have</strong> before starting delivery work.</li>
-<li>You want a <strong>coverage index</strong> that shows which views (Story, Domain, Architecture, UX) are well-covered and where the gaps are, so you can prioritize what to read or request.</li>
-<li>You are about to start <strong>story mapping, domain modeling, architecture analysis, or UX design</strong> and want to <strong>point that work at the right source material</strong> instead of dumping everything in.</li>
-<li>Content has been converted to markdown and you need <strong>context-aware retrieval</strong> rather than generic keyword search.</li>
+<li><strong>`reference/concepts.md`</strong> — what the context index is, the four views, hierarchical tags, chunking threshold, coverage report.</li>
+<li><strong>`references/four-view-taxonomy.md`</strong> — the full tag vocabulary for all four views.</li>
 </ul>
-<h2>Core concepts</h2>
-<h3>Context index</h3>
-<p>The primary output is <strong>tagged, chunked content</strong> — every piece of source material broken into retrieval-sized segments and labelled by the kind of context it provides. The <strong>context index</strong> is the companion report that shows what you ended up with: &quot;31 pieces of domain context, 23 story, 12 architecture, 8 UX — and here is exactly where each one lives.&quot; The chunks feed downstream retrieval; the index tells you what you have and where the gaps are.</p>
-<h3>Four views</h3>
-<p>Every piece of source content provides context for at least one of four views:</p>
-<ul>
-<li><strong>Story</strong> — what users and systems do: interactions, behaviors, processes, journeys, acceptance criteria, scenarios, flows.</li>
-<li><strong>Domain</strong> — what the system knows and enforces: business vocabulary, data structures, rules, invariants, entity relationships, state transitions.</li>
-<li><strong>Architecture</strong> — what the system is made of: components, platforms, technology choices, deployment, integration points, cross-cutting concerns, patterns, non-functional targets.</li>
-<li><strong>UX</strong> — what the user sees and touches: screens, layouts, navigation, controls, wireframes, mockups, accessibility.</li>
-</ul>
-<p>A single chunk can inform <strong>multiple views</strong> — for example, a paragraph describing an order submission form touches both Story (the user journey) and UX (the form layout).</p>
-<h3>Hierarchical tags</h3>
-<p>Each view has a small set of tags that locate content at a <strong>broad orientation level</strong> — enough to know what area it belongs to, not enough to constitute full modeling. Story tags identify capability areas (epics) and actors, not individual stories. Domain tags identify modules and key abstractions, not every term and relationship. Architecture tags identify platforms, components, and mechanism types. UX tags identify screens and regions. The full vocabulary lives in <strong>`references/four-view-taxonomy.md`</strong>. Deeper structuring — decomposing epics into stories, extracting domain terms, mapping component interactions, specifying UI controls — is what downstream analysis is for, not this tagging pass.</p>
-<h3>Chunking (when needed)</h3>
-<p>Most files are tagged as-is. When a file is large enough that it covers multiple topics (roughly over 1,500 characters), it gets split into 1–2 page segments so each piece can be tagged independently. Smaller files pass through intact — they still receive view tags but are not subdivided. The chunking is a means to accurate tagging, not the point of the skill.</p>
-<h3>Coverage report</h3>
-<p>After chunking and tagging, the skill produces a report that groups every chunk by view, then by hierarchy level. This makes gaps visible: if the Story view shows no chunks under a known epic, the source corpus is missing behavioral content for that area. The report also lists pass-through files and any chunks that could not be tagged.</p>
-<h2>Build</h2>
-<p><strong>Goal:</strong> Scan all source content, tag every piece by the kind of context it provides, and produce a coverage index showing what you have across all four views.</p>
-<p>1. <strong>Scan the source folder.</strong> List all source content — markdown files from <strong>abd-convert-to-markdown</strong>, code files, specs, notes, anything that has been collected. Measure each file&#x27;s size and note it for the report.</p>
-<p>2. <strong>Split large files when needed.</strong> Files over roughly 1,500 characters often cover multiple topics. Split those at heading boundaries (`##` preferred, then `###`) so each piece can be tagged independently. Aim for segments between 800 and 3,000 characters. Smaller files pass through as-is. Assign each segment a `chunk_id` in the form `source-file__chunk_NN` and record its `section_path` (the heading trail from the source).</p>
-<p>3. <strong>Tag every piece by context type.</strong> Read each segment&#x27;s content and assign one or more entries to `primary_views` (story, domain, architecture, ux). Then fill the orientation-level tags for each assigned view using the vocabulary in <strong>`references/four-view-taxonomy.md`</strong>. Stay at a <strong>broad tagging altitude</strong> — identify the capability area, the module, the platform, the screen — not individual stories, structured terms, component interactions, or UI controls. That detail is what downstream analysis produces. When the engagement already has project artifacts, use their names as anchors to keep tags consistent.</p>
-<p>4. <strong>Write chunk files with front matter.</strong> Save each chunk to the output folder with YAML front matter following the shape in <strong>`templates/tagged-chunk.md`</strong>. Front matter includes `chunk_id`, `source_file`, `section_path`, `chunk_size_chars`, `primary_views`, `tags` (nested by view), and `evidence_type`.</p>
-<p>5. <strong>Generate the coverage index.</strong> Produce a report following <strong>`templates/context-chunking-report.md`</strong>. Group all tagged content by view, then by the top hierarchy level within each view (epic for Story, module for Domain, depth for Architecture, screen for UX). List untagged items at the end. This index is the deliverable — it tells you what context you have and where the gaps are.</p>
-<p>6. <strong>Review against the rules.</strong> Walk each bundled rule (chunk size threshold, view tagging required, tag depth accuracy) and verify the output passes. Fix any violations before declaring done.</p>
-<ul>
-<li><strong>Outputs:</strong> One chunk file per segment (with YAML front matter) plus one coverage report. Pass-through files get a single front-matter-only companion or are listed in the report with their tags.</li>
-<li><strong>While writing:</strong> Use only tag values from `references/four-view-taxonomy.md`. When a chunk&#x27;s content does not clearly fit any view, tag it as the closest match and note the uncertainty in the report&#x27;s untagged section.</li>
-</ul>
+<h3>2. Generate</h3>
+<p>Read every file in <strong>`rules/`</strong>; author to those rules.</p>
+<p><strong>Build steps:</strong></p>
+<p>1. <strong>Scan the source folder.</strong> List all source content — markdown files from abd-convert-to-markdown, code files, specs, notes. Measure each file&#x27;s size.</p>
+<p>2. <strong>Split large files when needed.</strong> Files over roughly 1,500 characters often cover multiple topics. Split at heading boundaries (`##` preferred, then `###`). Aim for 800–3,000 characters per segment. Smaller files pass through as-is. Assign `chunk_id` as `source-file__chunk_NN` and record `section_path`.</p>
+<p>3. <strong>Tag every piece by context type.</strong> Read each segment and assign `primary_views` (story, domain, architecture, ux). Fill orientation-level tags using the vocabulary in `references/four-view-taxonomy.md`. Stay at <strong>broad tagging altitude</strong> — identify the capability area, the module, the platform, the screen — not individual stories, structured terms, component interactions, or UI controls.</p>
+<p>4. <strong>Write chunk files with front matter.</strong> Save each chunk with YAML front matter following <strong>`templates/tagged-chunk.md`</strong>: `chunk_id`, `source_file`, `section_path`, `chunk_size_chars`, `primary_views`, `tags`, `evidence_type`.</p>
+<p>5. <strong>Generate the coverage index.</strong> Produce a report following <strong>`templates/context-chunking-report.md`</strong>: group by view, then by top hierarchy level. List untagged items at the end.</p>
+<p><strong>Before:</strong> `abd-convert-to-markdown` <strong>After:</strong> `abd-chunk-markdown` or view-specific downstream analysis (story mapping, domain modeling, architecture analysis, UX design)</p>
+<h3>3. Validate</h3>
+<p>Run the scanners:</p>
+<pre><code>python skills/execute-skill-using-skills-rules/scripts/run_scanners.py \
+  --skill-root skills/abd-semantic-context-chunker \
+  --workspace &lt;path-to-output&gt;</code></pre>
+<p>Then emit per-rule verdicts per `../reference/agent-protocol.md`.</p>
+<hr>
 <h2>Validate</h2>
-<p><strong>Goal:</strong> Inspect the tagged output and coverage index as a reviewer — check completeness, tag quality, and report accuracy.</p>
+<p><strong>Goal:</strong> Inspect the tagged output and coverage index as a reviewer.</p>
 <ul>
-<li><strong>Every piece of content</strong> (file or segment) has YAML front matter with `chunk_id`, `source_file`, `primary_views` (non-empty list), and at least one view&#x27;s hierarchical tags.</li>
-<li><strong>Nothing is untagged</strong> — every item has at least one `primary_views` entry.</li>
+<li><strong>Every piece of content</strong> has YAML front matter with `chunk_id`, `source_file`, non-empty `primary_views`, and at least one view&#x27;s hierarchical tags.</li>
 <li><strong>Tags use only values</strong> from `references/four-view-taxonomy.md` — no invented tag names.</li>
-<li><strong>Tags stay at orientation level</strong> — epics and actors for Story, modules and key abstractions for Domain, platforms and components for Architecture, screens and regions for UX. Do not decompose into individual stories, structured terms, component interactions, or UI controls — that is downstream analysis.</li>
+<li><strong>Tags stay at orientation level</strong> — epics/actors for Story, modules/abstractions for Domain, platforms/components for Architecture, screens/regions for UX. Downstream analysis does the decomposition.</li>
 <li><strong>Pass-through files</strong> (&lt; ~1,500 chars) were not split; they have view tags but no chunk subdivision.</li>
 <li><strong>The coverage index</strong> accounts for every source file and every tagged piece — totals match, no orphans.</li>
-<li><strong>Architecture chunks</strong> that describe custom-built components carry `provenance: custom`; out-of-box platform features carry `provenance: ootb`.</li>
-<li><strong>Multi-view chunks</strong> are tagged with all applicable views, not forced into a single one.</li>
+<li><strong>No bundle markers</strong> — `SKILL.md` has no `&lt;!-- execute_rules:bundle_rules --&gt;` markers.</li>
 </ul>
-<hr>
-<p>&lt;!-- execute_rules:bundle_rules:begin --&gt;</p>
-<h3>Rule: Chunk size threshold</h3>
-<p>Chunks should only be created from source files large enough to benefit from splitting. A file that is already 1–2 pages or shorter produces fragments too small for useful retrieval when subdivided. Passing means every chunk comes from a file that exceeded the size threshold, and no chunk is smaller than the minimum useful size. Failing means a short file was needlessly split, or a chunk is so small it carries no retrievable context.</p>
-<h4>DO</h4>
-<ul>
-<li>Only create chunks from source files that exceed roughly 1,500 characters (about 2 printed pages).</li>
-</ul>
-<p><strong>Example (pass):</strong> `requirements.md` is 4,200 characters — split into two chunks of ~2,100 characters each. Both chunks carry enough context for retrieval.</p>
-<ul>
-<li>Pass through files at or below the threshold intact — assign view tags but do not subdivide.</li>
-</ul>
-<p><strong>Example (pass):</strong> `glossary.md` is 900 characters — listed in the report as a pass-through with `primary_views: [domain]` and hierarchical tags, but no `chunk_NN` files are created from it.</p>
-<ul>
-<li>Keep individual chunks between roughly 800 and 3,000 characters so each piece is large enough to carry context but small enough for focused retrieval.</li>
-</ul>
-<p><strong>Example (pass):</strong> A 6,000-character file is split into three chunks of approximately 2,000 characters each, each one covering a coherent section under its own heading.</p>
-<h4>DO NOT</h4>
-<ul>
-<li>Split a source file that is already at or below the size threshold (~1,500 characters).</li>
-</ul>
-<p><strong>Example (fail):</strong> `api-notes.md` is 1,100 characters — the chunker produces `api-notes__chunk_01` (600 chars) and `api-notes__chunk_02` (500 chars). Both fragments are too small and the file should have passed through intact.</p>
-<ul>
-<li>Produce a chunk smaller than roughly 400 characters unless it is the final tail of a file and merging it with the prior chunk would exceed 3,000 characters.</li>
-</ul>
-<p><strong>Example (fail):</strong> `requirements__chunk_07` is 180 characters containing only a heading and one sentence. It should have been merged with the preceding chunk.</p>
-<ul>
-<li>Ignore the threshold and chunk every file regardless of size.</li>
-</ul>
-<p><strong>Example (fail):</strong> A batch of 20 source files includes 8 files under 1,000 characters. All 20 are split into chunks. The 8 small files should have been pass-throughs.</p>
-<h3>Rule: Tag depth accuracy</h3>
-<p>This is a <strong>tagging exercise, not full modeling</strong>. Tags should stay at an orientation level — broad enough to classify and locate content, not so deep that the tagger is doing the work of downstream analysis. Passing means tags identify the right area (epic, module, platform, screen) without decomposing into individual stories, structured terms, component interactions, or UI controls. Failing means the tagger either over-structures content that should be left for later analysis, or speculates on details the content does not contain.</p>
-<h4>DO</h4>
-<ul>
-<li>Tag at the <strong>orientation level</strong> for each view — the level that answers &quot;what area is this about?&quot; not &quot;what is the detailed structure?&quot;</li>
-</ul>
-<p><strong>Example (pass):</strong> The chunk discusses order processing workflows and validation. Tags include:</p>
-<pre><code>  story:
-    epic: Manage Orders
-    actor: user
-  domain:
-    module: Order Management
-    key_abstraction: Order</code></pre>
-<p>The tagger identifies the capability area and the key abstraction — enough to locate this content. Decomposing into individual stories, specific terms like `Order Line`, or stereotypes like `aggregate` is downstream work.</p>
-<ul>
-<li>Tag `arch.provenance` for architecture content so it is clear what is custom-built versus platform-provided.</li>
-</ul>
-<p><strong>Example (pass):</strong> The chunk says &quot;Authentication uses AWS Cognito with custom token enrichment middleware.&quot; Tags include:</p>
-<pre><code>  architecture:
-    mechanism: security
-    platform: AWS Cognito
-    provenance: extended</code></pre>
-<p>Cognito is out-of-box but the custom middleware makes this `extended`.</p>
-<ul>
-<li>Leave deeper tag levels empty — partial depth is expected and correct for a tagging pass.</li>
-</ul>
-<p><strong>Example (pass):</strong> The chunk says &quot;The system handles order management.&quot; Tags include:</p>
-<pre><code>  domain:
-    module: Order Management</code></pre>
-<p>The content names the module but no specific abstractions — stopping at `module` is accurate.</p>
-<h4>DO NOT</h4>
-<ul>
-<li>Over-structure content by tagging at levels that belong to downstream analysis — individual stories, domain terms, DDD stereotypes, UI controls, or component interactions.</li>
-</ul>
-<p><strong>Example (fail):</strong> The chunk discusses order processing. Tags include:</p>
-<pre><code>  domain:
-    module: Order Management
-    key_abstraction: Order
-    term: Order Line
-    stereotype: aggregate
-  story:
-    epic: Manage Orders
-    sub_epic: Process Order
-    story: Submit Order</code></pre>
-<p>The tagger decomposed into stories and domain terms — that is story mapping and domain modeling work, not tagging.</p>
-<ul>
-<li>Speculate on tag values the content does not actually contain — do not infer details from assumptions or external knowledge.</li>
-</ul>
-<p><strong>Example (fail):</strong> The chunk says &quot;The system processes customer orders.&quot; Tags include:</p>
-<pre><code>  domain:
-    module: Order Management
-    key_abstraction: Order
-    term: Order Line
-    stereotype: aggregate</code></pre>
-<p>The content never mentions `Order Line` or aggregate boundaries. The tagger guessed from general e-commerce knowledge instead of reading the text.</p>
-<ul>
-<li>Assign `arch.provenance` without evidence from the content about whether the component is custom or platform-provided.</li>
-</ul>
-<p><strong>Example (fail):</strong> The chunk describes &quot;a caching layer for product queries&quot; with no mention of Redis, Memcached, or any platform. Tags include `arch.provenance: ootb`. There is no basis for the `ootb` claim — omit `provenance` or note it as unknown in the report.</p>
-<h3>Rule: View tagging required</h3>
-<p>Every chunk and every pass-through file must be tagged with at least one primary view and the corresponding hierarchical tags from the taxonomy reference. Passing means no chunk exists without a `primary_views` list and at least one view&#x27;s tag hierarchy filled in. Failing means chunks are left untagged, or tags are invented outside the vocabulary in `references/four-view-taxonomy.md`.</p>
-<h4>DO</h4>
-<ul>
-<li>Assign at least one entry in `primary_views` (story, domain, architecture, ux) to every chunk and every pass-through file.</li>
-</ul>
-<p><strong>Example (pass):</strong></p>
-<pre><code>  primary_views: [domain, architecture]
-  tags:
-    domain:
-      module: Order Management
-      key_abstraction: Order
-    architecture:
-      component: Order Service
-      provenance: custom</code></pre>
-<p>The chunk describes order data and the service that manages it — both views are tagged with hierarchical detail.</p>
-<ul>
-<li>Tag content that legitimately informs multiple views with all applicable views — do not force a single assignment.</li>
-</ul>
-<p><strong>Example (pass):</strong> A paragraph about &quot;users cancel orders from the order detail screen if status is Pending&quot; is tagged `primary_views: [story, ux, domain]` because it describes a user action (story), names a screen (ux), and references a status constraint (domain).</p>
-<ul>
-<li>Use only tag names and enum values defined in `references/four-view-taxonomy.md`.</li>
-</ul>
-<p><strong>Example (pass):</strong> `story.actor: user` — the value `user` is in the taxonomy&#x27;s enum for `story.actor`.</p>
-<h4>DO NOT</h4>
-<ul>
-<li>Leave any chunk or pass-through file with an empty or missing `primary_views` list.</li>
-</ul>
-<p><strong>Example (fail):</strong></p>
-<pre><code>  chunk_id: requirements__chunk_04
-  primary_views: []
-  tags: {}</code></pre>
-<p>The chunk has no view assignment and no tags — a reviewer cannot tell which practice this content informs.</p>
-<ul>
-<li>Invent tag names or values that do not appear in the taxonomy reference.</li>
-</ul>
-<p><strong>Example (fail):</strong> `domain.category: business_logic` — the taxonomy defines `domain.module_kind` with specific enum values, not `domain.category`. The tagger invented a field.</p>
-<ul>
-<li>Tag a chunk with all four views when its content clearly serves only one or two.</li>
-</ul>
-<p><strong>Example (fail):</strong> A paragraph that only lists database column definitions is tagged `primary_views: [story, domain, architecture, ux]`. It should be `[domain]` or at most `[domain, architecture]` — there is no story behavior, no screen layout. &lt;!-- execute_rules:bundle_rules:end --&gt;</p></div>
+<hr></div>
 
 </div>
 </div>

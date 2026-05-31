@@ -924,7 +924,7 @@ a.cap-card:hover .cap-card__icon {
     </div>
     <a class="back-link" href="../skills.html">← All skills</a>
     <h1>drawio-domain-sync</h1>
-    <p class="tagline">Render Ubiquitous Language, CRC, or object model artifacts to Draw.io class diagrams — one page per Key Abstraction — and sync diagram edits back to the source model.</p>
+    <p class="tagline">Domain model to Draw.io class diagrams — one page per Key Abstraction — with sync back to source.</p>
   </div>
 </header>
 
@@ -960,214 +960,63 @@ Positioning and layout are AI-driven: the agent reads the source, reasons about 
 
 <h2 id="entry-contents">Contents</h2>
 <div class="entry-contents-doc">
-<details class="entry-md-section" id="md-overview"><summary class="entry-md-section__summary">Overview</summary><div class="entry-md-section__body"><p>﻿--- name: drawio-domain-sync catalog_garden_order: 7 description: &gt;- Render Ubiquitous Language, CRC, or object model artifacts to Draw.io class diagrams — one page per Key Abstraction — and sync diagram edits back to the source model.</p>
+<details class="entry-md-section" id="md-overview"><summary class="entry-md-section__summary">Overview</summary><div class="entry-md-section__body"><p>﻿--- name: drawio-domain-sync catalog_garden_order: 7 catalogue_one_liner: &gt;- Domain model to Draw.io class diagrams — one page per Key Abstraction — with sync back to source. description: &gt;- Render Ubiquitous Language, CRC, or object model artifacts to Draw.io class diagrams — one page per Key Abstraction — and sync diagram edits back to the source model. Use when you want a visual class diagram from a domain model, when the team asks to &quot;render the diagram&quot; or &quot;visualise the domain model&quot;, or when a .drawio file has been edited and needs reconciliation with the source.</p>
 <hr>
 <h1>drawio-domain-sync</h1></div></details>
 <details class="entry-md-section" id="purpose"><summary class="entry-md-section__summary">Purpose</summary><div class="entry-md-section__body"><p>This skill turns any domain model artifact — a Ubiquitous Language, CRC model, or object model — into a Draw.io class diagram the whole team can read, annotate, and edit. Each Key Abstraction in the source file becomes its own page in the diagram, keeping visual scope manageable and per-abstraction structure clear. When the team edits the diagram in Draw.io, the skill syncs those changes back to the source model file, so diagram and text never drift apart.</p>
 <p>Positioning and layout are AI-driven: the agent reads the source, reasons about class relationships and inheritance chains, and places elements where the diagram reads best. There are no fixed grid scripts to run.</p>
 <hr></div></details>
-<details class="entry-md-section" id="when-to-use"><summary class="entry-md-section__summary">When to use</summary><div class="entry-md-section__body"><ul>
-<li>A `&lt;deliverables-folder&gt;/&lt;name&gt;-ubiquitous-language.md`, `&lt;name&gt;-crc.md`, or `&lt;name&gt;-object-model.md` file exists and you want a visual class diagram.</li>
-<li>The team asks to &quot;render the diagram&quot;, &quot;draw the class diagram&quot;, &quot;visualise the domain model&quot;, or &quot;update the diagram&quot;.</li>
-<li>A `.drawio` file has been edited in the Draw.io app and needs to be reconciled with the source model.</li>
-</ul>
+<details class="entry-md-section" id="output-file"><summary class="entry-md-section__summary">Output file</summary><div class="entry-md-section__body"><p><strong>Deliverables folder:</strong> see `../reference/agent-protocol.md` — Output file resolution.</p>
+<p><strong>File name:</strong> `&lt;name&gt;-class-diagram.drawio` alongside the source model file.</p>
 <hr></div></details>
-<details class="entry-md-section" id="core-concepts"><summary class="entry-md-section__summary">Core concepts</summary><div class="entry-md-section__body"><h3>Source types</h3>
-<p>Three domain model artifacts can feed this skill. Each expresses domain concepts at a different fidelity level. All three render with the same card-rows-collaborators shape; the only difference is where rows and collaborators come from.</p>
+<details class="entry-md-section" id="agent-instructions"><summary class="entry-md-section__summary">Agent Instructions</summary><div class="entry-md-section__body"><p>&gt; <strong>MANDATORY — read `../reference/agent-protocol.md` before starting. It defines read-gates, output file resolution, and the per-rule verdict format.</strong></p>
+<h3>1. Read context</h3>
+<p>Read these files:</p>
 <ul>
-<li><strong>Ubiquitous Language</strong> — plain-English concept blocks with verb-led behavior bullets, `<em>italicized</em>` cross-concept references, and invariants. The diagram represents each `### concept` as a class card; each behavior bullet becomes one row with the bullet&#x27;s italicized terms as the collaborator column (`&lt;bullet text&gt; : Collaborator, Collaborator`); each unique cross-concept italicized reference becomes one folded association edge. `### Subtype <em>is a type of</em> Base` drives an inheritance edge. `### term <em>(boundary)</em>` scoped stubs render as imported cards with a `«boundary: OwningModule»` stereotype. Property/instance stubs become property rows on the parent or lightweight stub cards. Invariants appear in the third compartment. This is the second pass after a completed `*-ubiquitous-language.md` file — analogous to how CRC&#x27;s collaborator column feeds the diagram. See `rules/class-diagram-ubiquitous-language-bullets-become-rows.md`.</li>
-<li><strong>CRC model</strong> — responsibility and collaborator tables; behaviors are named with collaborators. The diagram shows class boxes with responsibilities as rows, each annotated with its collaborator types using `name : Collaborator` notation (e.g., `modifier : Character, Imposed Conditions`). Collaborator names also drive association edges between classes. Invariants appear in the class compartment.</li>
-<li><strong>Object model</strong> — typed properties (`+ name: Type`), typed method signatures, ownership semantics. The diagram is a full UML class diagram with typed property and operation compartments.</li>
+<li><strong>`reference/concepts.md`</strong> — source types (ULL, CRC, object model), page-per-KA convention, AI-driven layout, sync-back rules, incremental vs full rendering, build script persistence, and CLI reference pointer.</li>
+<li><strong>`diagrams.md`</strong> — full CLI command reference, layout guidelines, UML relationship selection, and cross-model import conventions.</li>
 </ul>
-<p>The agent reads whichever source type is present and maps its content to class diagram elements. Object models produce the richest diagrams; CRC models produce slightly leaner cards with the same row+collaborator shape; Ubiquitous Languages produce the leanest cards by reading rows from prose bullets and collaborators from italicized term references.</p>
-<p><strong>Picking the source.</strong> When multiple source artifacts exist for the same scope, prefer the highest-fidelity one available (object model &gt; CRC &gt; Ubiquitous Language). The Ubiquitous Language render is the right choice when only the ULL has been written — typically the first time the team wants a visual of the domain, before CRC has been run.</p>
-<h3>Page per Key Abstraction</h3>
-<p>A Key Abstraction is a named grouping in the source file, introduced with a `## <strong>KA Name</strong>` heading. Each KA gets <strong>one Draw.io page</strong>. The page name matches the KA name exactly. All concepts that belong to that KA appear as classes on its page. When a concept from one KA extends or uses a concept from another KA, that external concept appears on the page as an imported ghost class — see <strong>cross-model ancestors</strong> below.</p>
-<h3>AI-driven layout</h3>
-<p>Positioning is a judgment call, not a script output. The agent reads the source, identifies which class is the base, which are children, which are collaborators, and then places them so the diagram reads naturally. The rules in `rules/` — base classes above derived classes, cross-model ancestors visible at the page top, distinct anchor points when multiple edges leave the same class side — are applied as reasoning constraints, not as CLI flags.</p>
-<h3>Sync back</h3>
-<p>When a user edits a diagram in Draw.io, the `sync-to-model` command reads the diagram and produces a diff against the source model file. The agent reviews the diff with the user and applies confirmed changes to the source model. The source model remains the authoritative text; the diagram is a derived view.</p>
+<h3>2. Generate</h3>
+<p>Read every file in <strong>`rules/`</strong>; author to those rules.</p>
+<p><strong>Rendering (source → diagram):</strong></p>
+<p>1. <strong>Identify the source file</strong> — locate `&lt;name&gt;-ubiquitous-language.md`, `&lt;name&gt;-crc.md`, or `&lt;name&gt;-object-model.md`. Prefer highest fidelity available. 2. <strong>For each Key Abstraction</strong>, init a page, plan layout (bases above derived), add imported ancestors, add local classes with rows/collaborators per source fidelity, add edges (inheritance → composition → association → dependency), inspect for overlaps, verify sync. 3. <strong>Persist build scripts</strong> when full renders produce bespoke Python scripts.</p>
+<p><strong>CLI (from skill&#x27;s scripts/):</strong></p>
+<pre><code>python scripts/drawio_class_cli.py init &lt;drawio-file&gt; --page &quot;&lt;KA Name&gt;&quot;
+python scripts/drawio_class_cli.py inspect &lt;drawio-file&gt; --page &quot;&lt;KA Name&gt;&quot;
+python scripts/drawio_class_cli.py sync-to-model &lt;drawio-file&gt; --page &quot;&lt;KA Name&gt;&quot; --model &lt;source-file&gt;</code></pre>
+<p><strong>Sync back (diagram → source):</strong> Run `sync-to-model` to surface the diff; review with the user; apply confirmed changes to the source model.</p>
+<h3>3. Validate</h3>
+<p>Run the scanners:</p>
+<pre><code>python skills/execute-skill-using-skills-rules/scripts/run_scanners.py \
+  --skill-root skills/drawio-domain-sync \
+  --workspace &lt;path-to-output&gt;</code></pre>
+<p>Then emit per-rule verdicts per `../reference/agent-protocol.md`.</p>
 <hr></div></details>
-<details class="entry-md-section" id="build"><summary class="entry-md-section__summary">Build</summary><div class="entry-md-section__body"><h3>Before rendering</h3>
-<p>1. <strong>Identify the source file.</strong> Locate `&lt;deliverables-folder&gt;/&lt;name&gt;-ubiquitous-language.md`, `&lt;name&gt;-crc.md`, or `&lt;name&gt;-object-model.md`. Read the full file to understand all Key Abstractions and their concepts.</p>
-<p>2. <strong>Read the rules.</strong> Read all `rules/*.md` files in this skill before placing any class. The layout decisions below follow those rules.</p>
-<p>3. <strong>Identify the diagram file path.</strong> Use `&lt;deliverables-folder&gt;/&lt;name&gt;-class-diagram.drawio` alongside the source. The first `init` call creates the file if it does not exist.</p>
-<h3>Incremental vs full rendering</h3>
-<p><strong>Prefer incremental edits when the diagram already exists.</strong> If a `.drawio` file is present and the source model has changed, use `update-class`, `add-class`, `delete-class`, and edge commands to apply only the changes — do not regenerate the entire file from scratch. Full regeneration destroys any manual repositioning the user has done in Draw.io. Only use full rendering (steps 4–10 below) when creating a diagram for the first time.</p>
-<h3>Rendering (source → diagram)</h3>
-<p>For each Key Abstraction in the source file, work through these steps (full rendering — use only when no diagram exists yet):</p>
-<p>4. <strong>Init the page</strong> if it does not exist yet:</p>
-<pre><code>   python skills/domain-driven-design/drawio-domain-sync/scripts/drawio_class_cli.py init &lt;drawio-file&gt; --page &quot;&lt;KA Name&gt;&quot;</code></pre>
-<p>5. <strong>Plan layout for this page.</strong> Identify which concepts are base classes and which are derived. Apply `rules/class-diagram-base-classes-positioned-above-derived-classes.md`: bases go at low y-values, children below. Identify any cross-KA ancestor classes that need to be imported at the top of the page.</p>
-<p>6. <strong>Add imported ancestor classes</strong> — any base that belongs to a different KA — using `--imported-from &quot;&lt;Source KA Name&gt;&quot;`. Imported classes render with a dashed border and a `«from: KA Name»` stereotype. Position these at the very top of the page.</p>
-<p>7. <strong>Add local classes</strong> — each concept in this KA — with rows and invariants at the planned positions. Read rows and collaborators from the source per its fidelity:</p>
+<details class="entry-md-section" id="validate"><summary class="entry-md-section__summary">Validate</summary><div class="entry-md-section__body"><p><strong>Goal:</strong> Inspect the rendered diagram as reviewers.</p>
 <ul>
-<li><strong>Ubiquitous Language</strong> — for each `### concept`, emit one row per verb-led behavior bullet. Row label = the bullet text with italic markers stripped; collaborator column = the bullet&#x27;s `<em>italicized</em>` terms joined by commas, using `&lt;bullet text&gt; : Collaborator, Collaborator` notation. Fold duplicate cross-concept references into one association edge per pair (concept → italicized target), not one per bullet reference. `<strong>Invariant:</strong>` bullets render in the third compartment. `### Subtype <em>is a type of</em> Base` headings drive inheritance edges; do not also draw association edges between subtype and base for inherited behaviors. `### term <em>(boundary)</em>` scoped stubs render as imported cards with `«boundary: OwningModule»` stereotype. Property/instance stubs (e.g., `### roll total` with `is a property of <em>check</em>`) render as either a property row on the parent or a lightweight stub card with `«property of: Parent»` — agent&#x27;s choice per parent. See `rules/class-diagram-ubiquitous-language-bullets-become-rows.md`.</li>
-<li><strong>CRC model</strong> — show every collaborator from the pipe-separated collaborator column as a type annotation on the property or operation, using `name : Collaborator` notation. When a responsibility has multiple collaborators, list them all: `modifier : Character, Imposed Conditions, Condition, Game Modifier`. Collaborators that are not on this page but appear in the type annotation must either have an edge to an imported class or use parenthetical primitive notation `(integer)` / `(true or false)`.</li>
-<li><strong>Object model</strong> — add full typed signatures (`+ name: Type`).</li>
-</ul>
-<p>8. <strong>Add edges</strong> in this order: inheritance first (this establishes the vertical structure), then composition and aggregation (ownership), then associations (uses), then dependencies (creates). Use orthogonal routing for dependencies (`dependency-orthogonal`) when any class sits between source and target — straight dashed lines cut through intervening classes. Apply `rules/class-diagram-multiple-edges-use-distinct-anchor-points.md`: whenever more than one edge leaves the same side of a class, assign explicit `exitX/exitY` and `entryX/entryY` values so each path is visually separate. After adding all edges, verify no edge visually crosses through another class&#x27;s bounding box.</p>
-<p>9. <strong>Inspect</strong> to check for overlapping classes and edge stacking:</p>
-<pre><code>   python skills/domain-driven-design/drawio-domain-sync/scripts/drawio_class_cli.py inspect &lt;drawio-file&gt; --page &quot;&lt;KA Name&gt;&quot;</code></pre>
-<p>Use `move` to reposition any overlapping classes.</p>
-<p>10. <strong>Verify sync.</strong> Run `sync-to-model` — it should report &quot;no changes&quot; when the diagram accurately reflects the source:</p>
-<pre><code>    python skills/domain-driven-design/drawio-domain-sync/scripts/drawio_class_cli.py sync-to-model &lt;drawio-file&gt; --page &quot;&lt;KA Name&gt;&quot; --model &lt;source-file&gt;</code></pre>
-<h3>Persisting module build scripts</h3>
-<p>When a full render produces a bespoke Python script that builds the diagram programmatically (creating all classes, edges, anchors, and waypoints in a single atomic pass), <strong>keep the script in the destination repo</strong> at `&lt;repo-root&gt;/scripts/build_&lt;name&gt;_diagram.py`. Do not delete it after the render succeeds.</p>
-<p>These scripts are valuable because:</p>
-<ul>
-<li><strong>Re-runnable</strong> — the model evolves; re-running the script regenerates the diagram from the current source without replaying the entire layout reasoning from scratch.</li>
-<li><strong>Extendable</strong> — adding a new KA page, class, or relationship is a small edit to an existing script rather than a from-scratch generation session.</li>
-<li><strong>Auditable</strong> — the script is a readable record of every layout decision (positions, widths, anchor points, waypoints) that produced the current diagram.</li>
-</ul>
-<p>Each script should:</p>
-<p>1. Import `drawio_tools` from the skill&#x27;s `scripts/` directory. 2. Build the entire diagram atomically — load/create the mxfile, add all pages, classes, and edges, save once. 3. Run `audit_diagram_report()` at the end and print the result. 4. Be runnable standalone: `python scripts/build_&lt;name&gt;_diagram.py`.</p>
-<p>When the model changes incrementally, prefer editing the existing build script over writing a new one. The script is the module&#x27;s diagram source of truth alongside the model markdown.</p>
-<h3>Sync back (diagram → source)</h3>
-<p>When the user edits the diagram in Draw.io and asks to reconcile it with the source model:</p>
-<p>11. <strong>Run sync-to-model</strong> to surface the diff:</p>
-<pre><code>    python skills/domain-driven-design/drawio-domain-sync/scripts/drawio_class_cli.py sync-to-model &lt;drawio-file&gt; [--page &quot;&lt;KA Name&gt;&quot;] --model &lt;source-file&gt;</code></pre>
-<p>12. <strong>Review the diff</strong> with the user. Apply confirmed additions, changes, and deletions to the source model file. The source model is the record of intent; the diagram is the visual surface.</p>
-<p><strong>Ubiquitous Language sync caveat.</strong> When the source is a `<em>-ubiquitous-language.md` file, sync-back is </em><em>one-way for new/deleted concepts only</em><em>. Card additions, card deletions, and inheritance-edge additions round-trip back to the ULL as new/deleted `### concept` headings and `### Subtype </em>is a type of<em> Base` headings. Row edits, collaborator-list edits, and free-text bullet rewrites do </em><em>not</em>* round-trip — the ULL&#x27;s prose form is the authoritative record, and bullet-level changes must be made in the markdown directly. CRC and object-model sources do not have this asymmetry.</p>
-<h3>CLI reference</h3>
-<p>The full CLI command reference — `add-class`, `update-class`, `delete-class`, `move`, all relationship commands, `inspect`, and `sync-to-model` — is documented in <a href="./diagrams.html">`diagrams.md`</a> alongside detailed layout guidelines, UML relationship selection, and cross-model import conventions. Read that file during rendering; this SKILL.md does not duplicate those mechanics.</p>
-<hr></div></details>
-<details class="entry-md-section" id="validate"><summary class="entry-md-section__summary">Validate</summary><div class="entry-md-section__body"><ul>
-<li><strong>Source identified</strong> — a Ubiquitous Language, CRC, or object model file was located before any diagram work began; the agent read the full file.</li>
+<li><strong>Source identified</strong> — a ULL, CRC, or object model file was located before any diagram work began; the agent read the full file.</li>
 <li><strong>Rules read</strong> — all `rules/*.md` in this skill were consulted before placing any class on any page.</li>
-<li><strong>One page per KA</strong> — the `.drawio` file has one page per `## <strong>KA</strong>` heading in the source; page names match KA headings exactly.</li>
-<li><strong>All KA concepts represented</strong> — every concept listed under a KA in the source appears as a class on that KA&#x27;s page; no concepts are silently skipped.</li>
-<li><strong>ULL bullets become rows</strong> — when the source is a `<em>-ubiquitous-language.md` file, every behavior bullet on every concept renders as a row, every italicized term resolves to a collaborator, every cross-concept reference is folded into one association edge, every `### Subtype </em>is a type of<em> Base` heading produces an inheritance edge, and every `### term </em>(boundary)*` stub renders as an imported card with `«boundary: OwningModule»` stereotype. No bullets, italicized terms, or invariants are silently dropped.</li>
-<li><strong>Cross-KA ancestors imported</strong> — any ancestor class belonging to a different KA appears as an imported class (dashed border, `«from: KA Name»` stereotype) on the page that extends it.</li>
-<li><strong>Base classes above derived</strong> — on every page, base and imported classes are at lower y-coordinates than their children; inheritance arrows point upward.</li>
-<li><strong>Distinct anchor points</strong> — no two edges from the same side of a class use the same default anchor when more than one edge leaves that side.</li>
-<li><strong>Build script persisted</strong> — when a full render used a bespoke build script, it was saved to `&lt;repo-root&gt;/scripts/build_&lt;name&gt;_diagram.py`, not deleted.</li>
+<li><strong>One page per KA</strong> — the `.drawio` file has one page per `## <strong>KA</strong>` heading; page names match KA headings exactly.</li>
+<li><strong>All KA concepts represented</strong> — every concept listed under a KA appears as a class on that KA&#x27;s page.</li>
+<li><strong>ULL bullets become rows</strong> — when source is ULL, every behavior bullet renders as a row, every italicized term resolves to a collaborator, cross-concept references are folded into one association edge, subtype headings produce inheritance edges, boundary stubs render as imported cards.</li>
+<li><strong>Cross-KA ancestors imported</strong> — ancestor classes from other KAs appear as imported classes (dashed border, `«from: KA Name»` stereotype).</li>
+<li><strong>Base classes above derived</strong> — base and imported classes are at lower y-coordinates than their children.</li>
+<li><strong>Distinct anchor points</strong> — no two edges from the same side use the same default anchor.</li>
+<li><strong>Build script persisted</strong> — when a full render used a bespoke build script, it was saved to `scripts/build_&lt;name&gt;_diagram.py`.</li>
 <li><strong>Sync verified</strong> — after rendering each page, `sync-to-model` reported &quot;no changes&quot;.</li>
-<li><strong>No placeholder</strong> — no `{{PLACEHOLDER}}` remains in this file.</li>
-<li><strong>Bundle markers present</strong> — `execute_rules:bundle_rules` begin/end markers exist and the bundled block matches current `rules/*.md` files.</li>
+<li><strong>Audit clean</strong> — `audit_diagram_report()` shows zero `edge_crosses_class` violations.</li>
+<li><strong>No bundle markers</strong> — `SKILL.md` has no `&lt;!-- execute_rules:bundle_rules --&gt;` markers.</li>
 </ul>
-<hr>
-<p>&lt;!-- execute_rules:bundle_rules:begin --&gt;</p>
-<h1>Rule: Base Classes Positioned Above Derived Classes</h1>
-<p><strong>Scanner:</strong> Manual review</p>
-<p>A passing diagram positions base (parent) and imported ancestor classes at higher vertical positions (lower y-coordinates) than their derived classes. Inheritance arrows point upward — from child to parent — so the visual hierarchy matches the conceptual hierarchy: readers see the most general abstraction first, then specialisations below. A failing diagram places a derived class at a lower y than its parent, or puts a base class at the bottom of the page with children stacked above it, forcing the reader to scan backwards to find the root of an inheritance chain.</p></div></details>
-<details class="entry-md-section" id="do"><summary class="entry-md-section__summary">DO</summary><div class="entry-md-section__body"><ul>
-<li>Position base and imported classes at the top of the page (low y-value) with derived classes extending downward.</li>
-</ul>
-<p><strong>Example (pass):</strong> `Rollable` import at y=40, `Check` import at y=180, `AttackCheck` and `DamageResistance` side-by-side at y=400. Inheritance arrows point upward from children to parents.</p>
-<ul>
-<li>Place multiple sibling derived classes at the same y-level, side by side below their shared parent.</li>
-</ul>
-<p><strong>Example (pass):</strong> `AttackCheck` at (x=40, y=400) and `DamageResistance` at (x=340, y=400) — same row, each pointing up to `Check` at (x=190, y=180).</p></div></details>
-<details class="entry-md-section" id="do-not"><summary class="entry-md-section__summary">DO NOT</summary><div class="entry-md-section__body"><ul>
-<li>Place a base class below its derived classes.</li>
-</ul>
-<p><strong>Example (fail):</strong> `AttackCheck` at y=40, `Check` at y=550. Inheritance arrow points downward — readers see the specialisation before the abstraction.</p>
-<ul>
-<li>Mix inheritance depth levels on the same y-row, so a grandchild appears at the same height as its grandparent.</li>
-</ul>
-<p><strong>Example (fail):</strong> `Rollable` at y=40 and `AttackCheck` (which inherits `Check`, which inherits `Rollable`) also at y=40 on the same page — three levels flattened to one row.</p>
-<h1>Rule: Cross-Model Ancestors Shown on Page</h1>
-<p><strong>Scanner:</strong> Manual review</p>
-<p>When a page&#x27;s local concepts extend or use concepts that belong to a different Key Abstraction, the full ancestor chain from that other KA must appear at the top of the page as imported classes (dashed border, `«from: KA Name»` stereotype). A passing diagram lets the reader trace the complete ancestry without leaving the page. A failing diagram shows only the immediate imported parent while omitting the grandparent that explains where the parent comes from, leaving an incomplete ancestry chain.</p></div></details>
-<details class="entry-md-section" id="do-2"><summary class="entry-md-section__summary">DO</summary><div class="entry-md-section__body"><ul>
-<li>Import every ancestor class needed to understand the full ancestry chain, including grandparents, at the top of the page.</li>
-</ul>
-<p><strong>Example (pass):</strong> An Attack-and-Damage page imports both `Rollable [from: Resolution System]` and `Check [from: Resolution System]`, with a `creates` dependency edge from `Rollable` to `Check`. The reader sees the full chain: `Rollable → Check → AttackCheck / DamageResistance`.</p>
-<ul>
-<li>Render imported classes with a dashed border and a `«from: KA Name»` stereotype label placed above the class name.</li>
-</ul>
-<p><strong>Example (pass):</strong> `add-class … --imported-from &quot;Resolution System&quot;` produces a dashed-border box with stereotype `«from: Resolution System»` shown above `Rollable`.</p>
-<ul>
-<li>Show only the key properties on an imported class — enough to recognise it; full detail stays on the home-KA page.</li>
-</ul>
-<p><strong>Example (pass):</strong> Imported `Check` shows `+ modifier: Integer` and `+ degree: Degree` only. Full operations and invariants are not duplicated.</p></div></details>
-<details class="entry-md-section" id="do-not-2"><summary class="entry-md-section__summary">DO NOT</summary><div class="entry-md-section__body"><ul>
-<li>Show only the immediate imported parent while omitting the grandparent that establishes context.</li>
-</ul>
-<p><strong>Example (fail):</strong> Attack-and-Damage page imports `Check` but not `Rollable` — the reader cannot see that `Check` originates from `Rollable.perform_check()` and cannot understand where the `Check` concept comes from.</p>
-<ul>
-<li>Render an imported class as a normal solid-border class indistinguishable from local classes.</li>
-</ul>
-<p><strong>Example (fail):</strong> `Rollable` appears with a solid border and no stereotype on the Attack-and-Damage page — readers cannot tell it belongs to a different KA.</p>
-<h1>Rule: Multiple Edges Use Distinct Anchor Points</h1>
-<p><strong>Scanner:</strong> Manual review</p>
-<p>When more than one edge leaves from — or arrives at — the same side of a class, each edge must be given explicit `exitX/exitY` or `entryX/entryY` anchor values so the paths are visually distinct. A passing diagram shows clearly separated lines; a failing diagram stacks all outgoing edges on the default anchor, making them appear as a single thick line where the individual relationships are indistinguishable.</p></div></details>
-<details class="entry-md-section" id="do-3"><summary class="entry-md-section__summary">DO</summary><div class="entry-md-section__body"><ul>
-<li>Assign explicit exit and entry anchor coordinates when two or more edges share the same source or target side of a class.</li>
-</ul>
-<p><strong>Example (pass):</strong> `CombatManeuver` has three outgoing edges — inheritance exits top-center (exitX=0.5, exitY=0), a `creates` dependency exits left-low (exitX=0, exitY=0.7), and an opposed `creates` exits left-high (exitX=0, exitY=0.15). Each edge is visually distinct.</p>
-<ul>
-<li>Spread multiple children that inherit from the same parent across the parent&#x27;s bottom edge using distributed entry points.</li>
-</ul>
-<p><strong>Example (pass):</strong> Three child classes inherit from `Action`: first child enters at entryX=0.25, second at entryX=0.5, third at entryX=0.75 — three clearly separated arrows arriving at distinct points.</p></div></details>
-<details class="entry-md-section" id="do-not-3"><summary class="entry-md-section__summary">DO NOT</summary><div class="entry-md-section__body"><ul>
-<li>Leave multiple edges from the same class side with default anchor routing.</li>
-</ul>
-<p><strong>Example (fail):</strong> `CombatManeuver` has three edges all using Draw.io&#x27;s default center anchor — they stack and render as one thick line. A reader cannot distinguish the inheritance edge from the two dependency edges.</p>
-<ul>
-<li>Add explicit anchors only to some edges while leaving others on the default when they share the same exit or entry side.</li>
-</ul>
-<p><strong>Example (fail):</strong> Two of three inheritance arrows from sibling classes have `entryX` set; the third uses default center entry — it overlaps the second arrow and both appear to merge at the parent class.</p>
-<h1>Rule: Ubiquitous Language Bullets Become Card Rows; Italicized Terms Become Collaborators</h1>
-<p><strong>Scanner:</strong> Manual review</p>
-<p>When the source is a Ubiquitous Language file (`<em>-ubiquitous-language.md`), the renderer produces a class diagram with the same shape it produces for CRC — cards with rows and collaborators — but reads its structure from the ULL&#x27;s prose form. Each `### concept` is a card. Each verb-led behavior bullet is one row formatted `&lt;bullet text&gt; : Collaborator, Collaborator`, where the collaborator column is the bullet&#x27;s `</em>italicized<em>` terms. Each unique cross-concept italicized reference is folded into one association edge per pair. `### Subtype </em>is a type of<em> Base` headings drive inheritance edges. `### term </em>(boundary)*` scoped stubs render as imported cards with `«boundary: OwningModule»` stereotype. Invariants render in the third compartment. A passing diagram drops no bullets, no italicized terms, and no invariants, and emits no duplicate association edges between the same pair of cards.</p></div></details>
-<details class="entry-md-section" id="do-4"><summary class="entry-md-section__summary">DO</summary><div class="entry-md-section__body"><ul>
-<li>Emit one row per verb-led behavior bullet; collaborator column = the bullet&#x27;s italicized terms.</li>
-</ul>
-<p><strong>Example (pass):</strong> ULL bullet `- supplies its <em>rank</em> as the primary <em>modifier</em> for any <em>check</em>` on the `trait` concept renders to row `supplies its rank as the primary modifier for any check : Rank, Modifier, Check` and produces folded association edges `trait → Rank`, `trait → Modifier`, `trait → Check`.</p>
-<ul>
-<li>Fold duplicate cross-concept references into a single edge.</li>
-</ul>
-<p><strong>Example (pass):</strong> Three bullets on `check` each italicize `<em>trait</em>`. The diagram has exactly one `check → Trait` association edge.</p>
-<ul>
-<li>Render `### term <em>(boundary)</em>` scoped stubs as imported cards.</li>
-</ul>
-<p><strong>Example (pass):</strong> `### power effect <em>(boundary)</em>` under the Check KA, with canonical `## Effect / power effect` under `# Boundary Domain` carrying `Owned by: Power`, renders as a dashed-border card on the Check page with stereotype `«boundary: Power»`.</p></div></details>
-<details class="entry-md-section" id="do-not-4"><summary class="entry-md-section__summary">DO NOT</summary><div class="entry-md-section__body"><ul>
-<li>Drop italicized terms or invariants during rendering.</li>
-</ul>
-<p><strong>Example (fail):</strong> A bullet with three italicized terms renders as a row with only one collaborator listed. The reader cannot reconstruct the relationship.</p>
-<ul>
-<li>Emit one association edge per bullet reference instead of folding duplicates.</li>
-</ul>
-<p><strong>Example (fail):</strong> `check` references `<em>trait</em>` in three bullets and the diagram shows three parallel `check → Trait` edges stacked on the same anchor.</p>
-<ul>
-<li>Draw association edges from a subtype to its base for behaviors that are already inherited.</li>
-</ul>
-<p><strong>Example (fail):</strong> `opposed check <em>is a type of</em> check` renders an inheritance edge `opposed check → check` AND an association edge `opposed check → check` because a bullet says `is made against another <em>check&#x27;s</em> result`. The inheritance edge already carries the relationship.</p>
-<ul>
-<li>Invent type annotations the source does not contain.</li>
-</ul>
-<p><strong>Example (fail):</strong> Adding `+ name: String` or `+ rank: Integer` to a ULL-sourced card whose source uses no types. Object-model fidelity is only appropriate when the source is an object model.</p>
-<h1>Rule: Run Audit After Every Render</h1>
-<p><strong>Scanner:</strong> `audit_diagram_report(path)` from `drawio_tools.py`</p>
-<p>After generating or modifying a diagram, run `audit_diagram_report()` and iterate until <strong>all `edge_crosses_class` violations are eliminated</strong>. Secondary violations (`edge_on_edge_overlap`, `shared_anchor`) should be minimized but may be unavoidable in complex diagrams with many edges. Never declare a diagram done while `edge_crosses_class` violations exist.</p>
-<p>The audit checks four categories in priority order:</p>
-<p>1. <strong>`class_overlap`</strong> — two class boxes intersect. Must be zero. 2. <strong>`edge_crosses_class`</strong> — an edge route passes through a class it is not connected to. Must be zero. 3. <strong>`edge_on_edge_overlap`</strong> — two edges share the same visual path segment. Minimize. 4. <strong>`shared_anchor`</strong> — multiple edges enter/exit the same default anchor point. Minimize (use explicit `exit_x/exit_y/entry_x/entry_y`).</p></div></details>
-<details class="entry-md-section" id="do-5"><summary class="entry-md-section__summary">DO</summary><div class="entry-md-section__body"><ul>
-<li>Run `audit_diagram_report(path)` after every render pass and read the output.</li>
-</ul>
-<p><strong>Example (pass):</strong> Agent renders diagram, runs audit, sees `edge_crosses_class: Check→Check Result crosses Difficulty Class`. Repositions Check Result to a row below DC, reruns audit, sees zero crossings.</p>
-<ul>
-<li>Use `inheritance-orthogonal` when a subtype is not directly below the parent in the same column.</li>
-</ul>
-<p><strong>Example (pass):</strong> Three subtypes inherit from Check. Only Routine Check is directly below. Opposed Check (offset left) and Team Check (offset right) use `inheritance-orthogonal` with explicit anchors.</p></div></details>
-<details class="entry-md-section" id="do-not-5"><summary class="entry-md-section__summary">DO NOT</summary><div class="entry-md-section__body"><ul>
-<li>Declare a diagram done when `edge_crosses_class` violations exist.</li>
-</ul>
-<p><strong>Example (fail):</strong> Audit reports &quot;Edge Routine Check→Check crosses through Check Result&quot;. Agent says &quot;the Draw.io router will handle it&quot; and moves on. The rendered diagram shows an inheritance arrow cutting through the Check Result box.</p>
-<ul>
-<li>Skip the audit because the layout &quot;looks right&quot; during generation.</li>
-</ul>
-<p><strong>Example (fail):</strong> Agent positions 10 classes, writes edges, saves file, and declares done — never running `audit_diagram_report`. Three edges cut through class boxes that the agent didn&#x27;t notice because it can&#x27;t see the rendered diagram.</p>
-<p>&lt;!-- execute_rules:bundle_rules:end --&gt;</p></div></details>
+<hr></div></details>
 </div>
 <hr class="entry-divider">
 <div class="entry-contents-files">
 <ul class="file-list file-list--root">
 <li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>ide-files/</strong><span class="file-meta"> → Folder (1 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/domain-driven-design/skills/drawio-domain-sync/ide-files/drawio-domain-sync.instructions.md" target="_blank" rel="noopener noreferrer"><strong>drawio-domain-sync.instructions.md</strong></a><span class="file-meta"> → ﻿# drawio-domain-sync</span></li>
+</ul></div></details></li>
+<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>reference/</strong><span class="file-meta"> → Folder (1 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/domain-driven-design/skills/drawio-domain-sync/reference/concepts.md" target="_blank" rel="noopener noreferrer"><strong>concepts.md</strong></a><span class="file-meta"> → drawio-domain-sync — Concepts</span></li>
 </ul></div></details></li>
 <li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>rules/</strong><span class="file-meta"> → Practice rules (DO/DON&#x27;T) and constraints used with scanners.</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/domain-driven-design/skills/drawio-domain-sync/rules/class-diagram-base-classes-positioned-above-derived-classes.md" target="_blank" rel="noopener noreferrer"><strong>class-diagram-base-classes-positioned-above-derived-classes.md</strong></a><span class="file-meta"> → Rule: Base Classes Positioned Above Derived Classes</span></li>
@@ -1177,6 +1026,10 @@ Positioning and layout are AI-driven: the agent reads the source, reasons about 
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/domain-driven-design/skills/drawio-domain-sync/rules/class-diagram-ubiquitous-language-bullets-become-rows.md" target="_blank" rel="noopener noreferrer"><strong>class-diagram-ubiquitous-language-bullets-become-rows.md</strong></a><span class="file-meta"> → Rule: Ubiquitous Language bullets become card rows; italicized terms become collaborators</span></li>
 </ul></div></details></li>
 <li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>scripts/</strong><span class="file-meta"> → Build, catalogue, validation, or packaging automation.</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
+<li class="file-tree__dir"><details class="file-tree__details"><summary class="file-tree__summary"><strong>__pycache__/</strong><span class="file-meta"> → Folder (2 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/domain-driven-design/skills/drawio-domain-sync/scripts/__pycache__/drawio_tools.cpython-312.pyc" target="_blank" rel="noopener noreferrer"><strong>drawio_tools.cpython-312.pyc</strong></a><span class="file-meta"> →     ͬj��  �            </span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/domain-driven-design/skills/drawio-domain-sync/scripts/__pycache__/drawio_tools.cpython-313.pyc" target="_blank" rel="noopener noreferrer"><strong>drawio_tools.cpython-313.pyc</strong></a><span class="file-meta"> →     �]j��  �            </span></li>
+</ul></div></details></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/domain-driven-design/skills/drawio-domain-sync/scripts/drawio_tools.py" target="_blank" rel="noopener noreferrer"><strong>drawio_tools.py</strong></a><span class="file-meta"> → DrawIO class diagram toolkit — core XML read/write functions.</span></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/domain-driven-design/skills/drawio-domain-sync/scripts/model_to_drawio.py" target="_blank" rel="noopener noreferrer"><strong>model_to_drawio.py</strong></a><span class="file-meta"> → !/usr/bin/env python3</span></li>
 </ul></div></details></li>

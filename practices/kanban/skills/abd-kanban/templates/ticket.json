@@ -4,8 +4,11 @@
   "scope_level": "all",
   "stage": "shaping",
   "priority": 1,
+  "created": null,
   "entered_stage": null,
   "completed_stage": null,
+  "stage_history": [],
+  "archived": null,
   "scatter_from": null,
   "scatter_to": [],
   "notes": "Template — replace with actual ticket data"

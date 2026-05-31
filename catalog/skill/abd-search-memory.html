@@ -964,13 +964,6 @@ a.cap-card:hover .cap-card__icon {
 <li>`--k`: Number of results (default 5)</li>
 <li>`--format`: `text` (default) or `json`</li>
 </ul></div></details>
-<details class="entry-md-section" id="when-to-activate"><summary class="entry-md-section__summary">When to activate</summary><div class="entry-md-section__body"><p>Run `search_memory.py` when the user says:</p>
-<ul>
-<li>&quot;use memory&quot;, &quot;search memory&quot;, &quot;what does memory say&quot;</li>
-<li>&quot;from our content&quot;, &quot;from our decks&quot;, &quot;from ABD materials&quot;</li>
-<li>&quot;what do we have on [topic]&quot;</li>
-<li>Asks about any topic that has been ingested into memory</li>
-</ul></div></details>
 <details class="entry-md-section" id="agent-flow"><summary class="entry-md-section__summary">Agent flow</summary><div class="entry-md-section__body"><p>1. <strong>Derive query</strong> — Extract a semantic query from the user&#x27;s question 2. <strong>Run search</strong> — Execute `search_memory.py` with the query against the corpus index 3. <strong>Inject results</strong> — Use the returned chunks in your response 4. <strong>Cite sources</strong> — Include path and slide/section when using retrieved content. If chunks have front matter, note `evidence_type` / `chunk_type` to signal weight</p></div></details>
 <details class="entry-md-section" id="active-memory-for-this-conversation"><summary class="entry-md-section__summary">Active memory for this conversation</summary><div class="entry-md-section__body"><p>When the user points at a corpus — by naming a topic folder, having <strong>`CONTENT_MEMORY_ROOT`</strong> in <strong>`conf/.secrets`</strong>, passing `--rag`, or saying &quot;use this memory&quot; — <strong>treat that `memory/rag/` as the active retrieval source for the rest of this conversation.</strong> For later questions, run semantic search against that same index by default until the user explicitly changes or clears it (e.g. &quot;use a different memory folder&quot;, &quot;stop using that corpus&quot;). Do not make them repeat the path on every turn. <strong>Workspace policy:</strong> <strong><a href="../../../AGENTS.html">AGENTS.md</a></strong>.</p></div></details>
 <details class="entry-md-section" id="chunk-front-matter-when-spec-was-active-during-chunking"><summary class="entry-md-section__summary">Chunk front matter (when spec was active during chunking)</summary><div class="entry-md-section__body"><p>Results may include chunks with YAML front matter. Use the labels to calibrate your response:</p>

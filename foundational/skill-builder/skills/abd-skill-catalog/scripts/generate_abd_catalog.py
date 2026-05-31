@@ -54,7 +54,11 @@ def _rmtree_output_dir(path: Path) -> None:
         except OSError:
             pass
 
-    shutil.rmtree(path, onexc=onexc)
+    import sys as _sys
+    if _sys.version_info >= (3, 12):
+        shutil.rmtree(path, onexc=onexc)
+    else:
+        shutil.rmtree(path, onerror=lambda f, p, e: onexc(f, p, e[1]))
     if path.exists():
         shutil.rmtree(path, ignore_errors=True)
 

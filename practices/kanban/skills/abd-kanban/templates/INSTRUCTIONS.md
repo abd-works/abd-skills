@@ -1,50 +1,41 @@
-# Kanban war room — role agent autostart
-
-Eight **persistent role agents** pull skill-level work from tickets on the **Kanban board** (`board.json`). Open the agent matching your role.
-
-| You are | Agent |
-| --- | --- |
-| Product Owner executor | `kanban/agents/product-owner/AGENT.md` |
-| Product Owner reviewer | `kanban/agents/product-owner-reviewer/AGENT.md` |
-| Business Expert executor | `kanban/agents/business-expert/AGENT.md` |
-| Business Expert reviewer | `kanban/agents/business-expert-reviewer/AGENT.md` |
-| UX Designer executor | `kanban/agents/ux-designer/AGENT.md` |
-| UX Designer reviewer | `kanban/agents/ux-designer-reviewer/AGENT.md` |
-| Engineer executor | `kanban/agents/engineer/AGENT.md` |
-| Engineer reviewer | `kanban/agents/engineer-reviewer/AGENT.md` |
-
-Shared queue rules: `kanban/agents/_shared/work-queue.md`
-
-## 1) Workspace
-
-Bootstrap must include **`workspace`** — the engagement root.
-
-## 2) Board state
-
-Read `docs/planning/kanban/board.json` and `system-of-work.json`.
-
-Each **ticket** is in one list: `backlog` · `active` · `done` · `archived`.
-
-**Skills are defined in `system-of-work.json`** — not on the ticket. The ticket only carries a `progress` map (lazily populated when agents claim).
-
-## 3) Claim next skill
-
-1. Read **`system-of-work.json`** — find the skill list for the ticket's current stage.
-2. Read **`board.json`** — find active tickets where a skill matching your role has no progress entry or is `to_do`.
-3. Check **skill order**: prior skills in the stage (from system of work) must be done before you can claim the next.
-4. Priority: **downstream stage first** (engineering > spec > explore > discovery > shaping).
-5. Claim: write a `progress` entry on the ticket — `status: in_progress`, `agent: <your-role>`, `start: <now>`.
-
-See `_shared/work-queue.md` for full algorithm.
-
-## 4) Execute
-
-Executors → `_shared/executor-workflow.md`. Reviewers → `_shared/reviewer-workflow.md`.
-
-## 5) When done
-
-Mark progress entry `status: done`, `end: <now>`. Pull next eligible skill.
-
-## 6) When blocked
-
-Set progress entry `status: blocked` — kanban lead handles in scan cycle.
+# War room — agent bootstrap
+
+**Read first (mandatory):**
+
+1. [session-bootstrap.md](../../agents/reference/session-bootstrap.md)
+2. [pull-model.md](../../agents/reference/pull-model.md)
+3. [artifact-layout.md](../../reference/artifact-layout.md)
+
+## Artifact paths (summary)
+
+```text
+docs/end-to-end/
+  shaping/                    ← flat
+  discovery/                  ← domain/, stories/, ux/, architecture/
+  exploration/                ← same four subfolders (rolled up from increments)
+  specification/              ← flat
+  engineering/                ← flat
+docs/increments/<n>-<slug>/   ← e.g. 8-marketing-engine
+  exploration/                ← domain/, stories/, ux/, architecture/
+  specification/              ← flat
+  engineering/                ← flat
+```
+
+- Shaping → `end-to-end/shaping/`. Discovery → `end-to-end/discovery/{domain,stories,ux,architecture}/`.
+- Active increment → `increments/<n>-<slug>/`; exploration uses the same four subfolders.
+- Increment archived → kanban lead merges into matching `end-to-end/<stage>/` (per subfolder for exploration).
+- Story graph: `end-to-end/discovery/stories/story-graph.json`. Increment names: `discovery/stories/thin-slicing.md`.
+
+## Pull rules (summary)
+
+- **Delivery roles:** Arm `AGENT_LOOP_TICK_<role>` on turn 1; pull all stages downstream-first; never exit after one skill.
+- **Kanban lead:** Arm tick loop; scan; scatter; roll up completed increments; spawn executors. No reviewer agents.
+
+## War room paths
+
+| File | Purpose |
+| --- | --- |
+| `board.json` | Tickets, skill_progress |
+| `kanban.json` | Stages, stage work required, team |
+| `metrics-log.jsonl` | `agent_ready`, `increment_rollup`, … |
+| `heartbeat-*.json` | Liveness |

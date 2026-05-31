@@ -12,7 +12,6 @@ Run these skills in order for the defect the user described. Read each skill and
 3. **Domain Language** _(if exists)_ — `skills/domain-driven-design/abd-domain-language/SKILL.md`
 4. **Ubiquitous Language** _(if exists)_ — `skills/domain-driven-design/abd-ubiquitous-language/SKILL.md`
 5. **Object Model** _(if exists)_ — `skills/domain-driven-design/abd-object-model/SKILL.md`
-6. **Scenario Walkthrough** _(if exists)_ — `skills/domain-driven-design/abd-scenario-walkthrough/SKILL.md`
-7. **Acceptance Criteria** — `skills/story-driven-delivery/abd-acceptance-criteria/SKILL.md`
-8. **Spec by Example** — `skills/story-driven-delivery/abd-specification-by-example/SKILL.md`
-9. **Story Map** — update the story if scope or behavior changed: `skills/story-driven-delivery/abd-story-mapping/SKILL.md`
+6. **Acceptance Criteria** — `skills/story-driven-delivery/abd-acceptance-criteria/SKILL.md`
+7. **Spec by Example** — `skills/story-driven-delivery/abd-specification-by-example/SKILL.md`
+8. **Story Map** — update the story if scope or behavior changed: `skills/story-driven-delivery/abd-story-mapping/SKILL.md`

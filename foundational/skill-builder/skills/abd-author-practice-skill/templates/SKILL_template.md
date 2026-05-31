@@ -1,170 +1,134 @@
-<!--  
-  Parameterized SKILL.md skeleton for agilebydesign-skills.  
-  Canonical copy: skills/abd-practice-skill-builder/abd-author-practice-skill/templates/SKILL_template.md  
-  Copy to skills/<your-skill>/SKILL.md and replace every {{PLACEHOLDER}}.  
-  Suggested order: Purpose, When to use, teaching front-matter, Core concepts, Example, Build, Validate, bundled-rules trailer (`execute_rules` markers).  
--->  
+<!--
+  Parameterized SKILL.md skeleton for agilebydesign-skills.
+  Canonical copy: skills/abd-practice-skill-builder/abd-author-practice-skill/templates/SKILL_template.md
+  Copy to skills/<your-skill>/SKILL.md and replace every {{PLACEHOLDER}}.
+  Shape: thin router — purpose, when-to-use, output file, Agent Instructions (read-gates), Validate.
+  Rules live in rules/*.md only. Concept teaching lives in reference/*.md only. Nothing inlined here.
+-->
 
----  
-name: {{SKILL_NAME}}  
-description: >-  
-  {{SKILL_DESCRIPTION}}  
----  
-# {{SKILL_DISPLAY_NAME}}  
+---
+name: {{SKILL_NAME}}
+description: >-
+  {{SKILL_DESCRIPTION}}
+---
+# {{SKILL_DISPLAY_NAME}}
 
-## Purpose  
+## Purpose
 
-{{SKILL_PURPOSE_ONE_PARAGRAPH}}  
+{{SKILL_PURPOSE_ONE_PARAGRAPH}}
 
-**Authoring note:** Write **one** paragraph only — **why** this packaged practice exists, **who** it helps, **what** becomes possible when the method is used well, and **how** this page supports that — in plain language. Do **not** put repository paths, **`Manual:`**, **`execute_rules`** HTML markers (`execute_rules:bundle_rules`), which template to copy, hub retrieval filenames, bundle commands, scanner wiring, or other **package / agent mechanics** here; those belong in **Prerequisites** and **Build**. When you use **abd-author-practice-skill** to finish the page, the bundled rule **Opening sections give outcomes not package mechanics** states the same bar.  
+**Authoring note:** Write **one** paragraph only — **why** this packaged practice exists, **who** it helps, **what** becomes possible when the method is used well, and **how** this page supports that — in plain language. Do **not** put repository paths, `Manual:`, which template to copy, hub retrieval filenames, scanner wiring, or other **package / agent mechanics** here; those belong in **Prerequisites** and **Build**.
 
----  
+---
 
-## Example: how the opening can read (fictional practice)  
+## Example: how the opening can read (fictional practice)
 
-**For authors only:** Mirror this for **tone and depth**, then **delete this whole section** from the **`SKILL.md`** you ship so practitioners see one real practice, not a sample.  
+**For authors only:** Mirror this for **tone and depth**, then **delete this whole section** from the **`SKILL.md`** you ship so practitioners see one real practice, not a sample.
 
-### Purpose (illustrative — replace `{{SKILL_PURPOSE_ONE_PARAGRAPH}}`)  
+### Purpose (illustrative — replace `{{SKILL_PURPOSE_ONE_PARAGRAPH}}`)
 
-Release train planning helps teams sequence work across fixed dates so dependencies and scope stay honest before anyone commits. This skill packages that facilitation pattern so product owners and delivery leads can run the same conversations (with or without an agent) and leave with a comparable, board-ready plan.  
+Release train planning helps teams sequence work across fixed dates so dependencies and scope stay honest before anyone commits. This skill packages that facilitation pattern so product owners and delivery leads can run the same conversations (with or without an agent) and leave with a comparable, board-ready plan.
 
-### When to use this skill (illustrative — replace the bullets under `{{WHEN_TO_USE_BULLET_*}}`)  
+### When to use this skill (illustrative — replace the bullets under `{{WHEN_TO_USE_BULLET_*}}`)
 
-Load this skill when **any** of the following apply:  
+Load this skill when **any** of the following apply:
 
-- You have a backlog slice and need to **map it to calendar milestones** without hiding risk.  
-- Stakeholders are **trading scope for date** and need a **single shared picture** of what can ship when.  
-- You are **standing up a release train** and want **one** method page instead of ad hoc slide decks.  
+- You have a backlog slice and need to **map it to calendar milestones** without hiding risk.
+- Stakeholders are **trading scope for date** and need a **single shared picture** of what can ship when.
+- You are **standing up a release train** and want **one** method page instead of ad hoc slide decks.
 
----  
+---
 
-## When to use this skill  
+## When to use this skill
 
-Load this skill when **any** of the following apply:  
+Load this skill when **any** of the following apply:
 
-- {{WHEN_TO_USE_BULLET_1}}  
-- {{WHEN_TO_USE_BULLET_2}}  
-- {{WHEN_TO_USE_BULLET_3}}  
-- {{WHEN_TO_USE_BULLET_4}}  
+- {{WHEN_TO_USE_BULLET_1}}
+- {{WHEN_TO_USE_BULLET_2}}
+- {{WHEN_TO_USE_BULLET_3}}
+- {{WHEN_TO_USE_BULLET_4}}
 
-## What is a {{SKILL_FOCUS}}  
+## Output file
 
-{{SKILL_FOCUS_INTRO_PARAGRAPHS}}  
+**Where to write the deliverables (`<deliverables-folder>` resolution):**
 
-{{SKILL_FOCUS_BULLETS}}  
+1. The path the user told you to use.
+2. Where the engagement already keeps deliverables (write next to existing phase output).
+3. The workspace root if neither applies.
 
----  
+**File names:** Default to the template filename. Add a `<name>-` prefix only for disambiguation.
 
-## Core concepts  
+---
 
-### Practice skill  
+## Agent Instructions
 
-A **practice skill** is the packaged method—the artifact readers open when they want to perform this practice. It should let a person or agent follow the method **without inventing steps** and recognize **when** this practice is the right tool. Open with purpose and fit, then carry the method through procedures, examples, promised outputs when the practice has them, and a clear validation mindset. Keep mechanics, file paths, and agent-or-package runbooks out of **Purpose** and the first teaching screens; they belong in **Prerequisites**, **Build**, and **Validate**.  
+> **MANDATORY — read every file in `rules/` and `reference/` before authoring any artifact. Do not rely on memory or the SKILL body alone.**
 
-### Rules  
+### 1. Read context (MANDATORY before starting)
 
-**`rules/*.md`** **validate outputs** (generated or filled artifacts): pass/fail, not **order of operations**. Each normative rule file should include **`## DO`**, **`## DO NOT`**, **`## Examples`**, enough text to decide true vs false, and **hub** **`Source:`** when enforcing corpus content. Workflow order lives in **Build** in **`SKILL.md`**.  
+Read every file in **`reference/`** (if the folder exists). These contain concept definitions, examples, and heuristics that govern what good output looks like.
 
-### Template  
+### 2. Generate
 
-A **template** is a fixed output shape the practice promises—usually a file under **`templates/`**—that practitioners complete when they apply the method. It should make deliverables **comparable**, **complete**, and **easy to find**, and the skill should name every template shape it expects without ambiguity. When the skill names a template, either ship that file (filled or sensibly minimal), defer it in the skill text with a stated reason, or remove it from what the skill promises so scope stays honest.  
+Read every file in **`rules/`**. Author to those rules — treat each DO / DO NOT as a shape contract, not a suggestion.
 
-### Sections and rules  
+Produce output using every template in **`templates/`**:
 
-**`SKILL.md`** carries **teaching and workflow order**. **`rules/*.md`** carry **validators** for outputs (grouped by concern, not one file per heading).  
+| Template | What to produce |
+| --- | --- |
+| {{TEMPLATE_ROW_1}} | {{TEMPLATE_ROW_1_DESC}} |
+| {{TEMPLATE_ROW_2}} | {{TEMPLATE_ROW_2_DESC}} |
 
----  
+{{BUILD_EXTRA_NOTES_OR_DELETE}}
 
-## Example  
-{{GENERATED_EXAMPLE}}  
+### 3. Validate (MANDATORY — per-rule verdict required)
 
-## The shape of {{GOOD_ARTIFACT_PHRASE}}  
+Re-read every file in **`rules/`**. For **each rule**, emit a verdict:
 
-```  
-{{EXAMPLE_BLOCK}}  
-```  
+```
+Rule: <rule-filename>  ->  PASS
+Rule: <rule-filename>  ->  FAIL  <offending line or reason>
+```
 
-{{SHAPE_NOTES_BELOW_EXAMPLE}}  
+**No rule may be silently skipped.** Then run the scanner pass:
 
----  
+```bash
+python skills/execute-skill-using-skills-rules/scripts/run_scanners.py \
+  --skill-root skills/{{SKILL_FOLDER_NAME}} \
+  --workspace <path-to-output>
+```
 
-## Build  
+Fix every FAIL and every scanner violation. No "done" until all rules have a PASS verdict and scanners are green.
 
-**Goal:** Carry out the practice in order — author every artifact this skill's templates define, apply bundled rules, and keep the **`rules/`** bundle in sync with disk. Write numbered items in **full sentences** (readable on their own) while naming real folders, files, and commands where they matter.  
+---
 
-1. **Produce outputs from every template.** Generate content using **every** file in this skill's **`templates/`** folder. Do **not** emit only Markdown or only plain text unless the user **explicitly** asks for a single format. Use the table below to know what each template is for; keep paired formats consistent.  
+## Validate
 
-| Template | What to produce |  
-| --- | --- |  
-| {{TEMPLATE_ROW_1}} | {{TEMPLATE_ROW_1_DESC}} |  
-| {{TEMPLATE_ROW_2}} | {{TEMPLATE_ROW_2_DESC}} |  
+**Goal:** Inspect what was built — read the artifacts as reviewers, not a second authoring pass.
 
-When you **create or rewrite** {{SKILL_OUTPUT_ARTIFACTS}}, deliver **one output artifact per file** in **`templates/`**. If new files appear under **`templates/`** later, produce a matching artifact for **each** one the same way. **Consistency:** {{CONSISTENCY_BETWEEN_TEMPLATES}}  
+- **Who is checking:** {{VALIDATE_WHO_LINE}}
+- {{VALIDATE_BULLET_1}}
+- {{VALIDATE_BULLET_2}}
+- {{VALIDATE_BULLET_3}}
 
-2. **Apply the rules, then review like a peer.** Follow the normative **`rules/`** prose that is bundled at the end of this **`SKILL.md`**. After you generate content, act as a **peer reviewer**: walk each rule file in turn, read its **DO** and **DO NOT** and **Examples**, and look for concrete violations. Be strict but fair—compare real output against what the rule says, not against what you wish it said.  
+{{VALIDATE_CLOSING_PARAGRAPH}}
 
-3. **Keep the bundled rules block honest.** This **`SKILL.md`** includes rules inlined from **`rules/*.md`**. Whenever you change a file under **`rules/`**, run **`bundle_rules_into_skill_md.py`** from the **agilebydesign-skills** repo so the HTML-comment bundle at the bottom of this file matches what is on disk:  
+---
 
-```bash  
-python skills/execute-skill-using-skills-rules/scripts/bundle_rules_into_skill_md.py --skill-root skills/<this-skill-folder>  
-```  
+## Deploy
 
-{{BUILD_EXTRA_NUMBERED_ITEMS_OR_DELETE_THIS_LINE}}  
+This skill ships IDE-deployable files under **`ide-files/`**. Deploy them to any project:
 
-- **Outputs:** {{BUILD_OUTPUTS_LINE}} Deliver one file per template unless the user explicitly asked for a single format.  
-- **Per format:** {{BUILD_PER_FORMAT_LINE}} What each output file must contain (e.g. Markdown sections vs plain text) — skill-specific.  
-- **While writing:** {{BUILD_WHILE_WRITING_LINE}} Naming, parity across paired files if you emit more than one, and depth — tie to **Core concepts** and **The shape of** above.  
-- **Persistence (optional):** {{BUILD_PERSISTENCE_OR_OMIT}} e.g. `story-graph.json` / workspace conventions. Use *N/A* or delete this bullet if this skill is files-only.  
+```powershell
+.\agents\abd-practice-skill-builder\skills\abd-author-practice-skill\scripts\Deploy-SkillOutputs.ps1 -SkillPath skills/{{SKILL_FOLDER_NAME}} -ProjectRoot <target-project> -Force
+```
 
-{{BUILD_SECTION_BODY}}  
+Default **`-IDE Cursor`**. Use **`-IDE Both`** when the target project should also receive **`.vscode/*.instructions.md`** and **`.github/prompts/*.prompt.md`**.
 
----  
+After editing `.mdc` or `.instructions.md`, validate parity (use an **absolute** `--workspace` path):
 
-## Validate  
-
-**Goal:** Inspect what was built — read the artifacts as reviewers, not a second authoring pass.  
-
-- **Who is checking:** {{VALIDATE_WHO_LINE}} Name the perspectives (e.g. product owner, developer, domain expert) and what each one verifies for *this* skill.  
-- **Cross-artifact parity (if multiple outputs):** {{VALIDATE_PARITY_LINE}} Same tree or semantics across paired formats. Use *N/A* or delete if this skill emits a single file.  
-
-{{VALIDATE_CHECKLIST_INTRO}}  
-
-- {{VALIDATE_BULLET_1}}  
-- {{VALIDATE_BULLET_2}}  
-- {{VALIDATE_BULLET_3}}  
-
-{{VALIDATE_CLOSING_PARAGRAPH}}  
-
----  
-
-## Deploy  
-
-This skill ships IDE-deployable files under **`ide-files/`**. Deploy them to any project:  
-
-```powershell  
-.\agents\abd-practice-skill-builder\skills\abd-author-practice-skill\scripts\Deploy-SkillOutputs.ps1 -SkillPath skills/{{SKILL_FOLDER_NAME}} -ProjectRoot <target-project> -Force  
-```  
-
-Default **`-IDE Cursor`**. Use **`-IDE Both`** when the target project should also receive **`.vscode/*.instructions.md`** and **`.github/prompts/*.prompt.md`**.  
-
-| File | Deploy target |  
-| --- | --- |  
-| `ide-files/{{SKILL_NAME}}.mdc` | `.cursor/rules/` (Cursor always-on rule) |  
-| `ide-files/{{SKILL_NAME}}.instructions.md` | `.vscode/` when deploy uses **`-IDE Both`** (VS Code — **same body** as `.mdc` after frontmatter; see **mdc-instructions-parity** rule in **abd-author-practice-skill**) |  
-| `ide-files/{{SKILL_NAME}}.prompt.md` | `.cursor/commands/` (always); also `.github/prompts/` when deploy uses **`-IDE Both`** |  
-
-After editing `.mdc` or `.instructions.md`, validate parity (use an **absolute** `--workspace` path):  
-
-```bash  
-python skills/execute-skill-using-skills-rules/scripts/run_scanners.py \  
-  --skill-root skills/abd-practice-skill-builder/abd-author-practice-skill \  
-  --workspace /absolute/path/to/repo/skills/{{SKILL_FOLDER_NAME}}  
-```  
-
----  
-
-<!-- execute_rules:bundle_rules:begin -->  
-<!-- Rule prose is generated from rules/*.md — edit rules, then run:  
-     python skills/execute-skill-using-skills-rules/scripts/bundle_rules_into_skill_md.py --skill-root <this-skill-dir>  
--->  
-<!-- execute_rules:bundle_rules:end -->  
+```bash
+python skills/execute-skill-using-skills-rules/scripts/run_scanners.py \
+  --skill-root skills/abd-practice-skill-builder/abd-author-practice-skill \
+  --workspace /absolute/path/to/repo/skills/{{SKILL_FOLDER_NAME}}
+```

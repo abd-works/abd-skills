@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build AGENTS.md from content. Thin entry point — delegates to engine."""
+"""Build AGENTS.md from reference sections. Thin entry point — delegates to engine."""
 import sys
 from pathlib import Path
 

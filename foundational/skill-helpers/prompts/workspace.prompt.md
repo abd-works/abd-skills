@@ -32,4 +32,4 @@ Run **`scripts/deploy-skills.ps1`** if Cursor rules/commands/skills should redep
 ### Reference
 
 - Rule: **`skill-helpers/instructions/workspace.mdc`**
-- Details: **`skill-helpers/content/workspace.md`**
+- Details: **`skill-helpers/reference/workspace.md`**

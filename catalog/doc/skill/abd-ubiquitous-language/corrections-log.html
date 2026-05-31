@@ -922,7 +922,7 @@ a.cap-card:hover .cap-card__icon {
     <a class="back-link" href="../../../skill/abd-ubiquitous-language.html">← abd-ubiquitous-language</a>
     <p class="cap-badge">Markdown</p>
     <h1>corrections-log.md</h1>
-    <p class="tagline">﻿# Corrections log</p>
+    <p class="tagline">﻿﻿# Corrections log</p>
   </div>
 </header>
 
@@ -937,7 +937,7 @@ a.cap-card:hover .cap-card__icon {
 </nav>
 
 <h2>Content</h2>
-<div class="rule-prose"><p>﻿# Corrections log</p>
+<div class="rule-prose"><p>﻿﻿# Corrections log</p>
 <p>Project: ubiquitous-language skill Source: ubiquitous-language skill (pipeline runs)</p>
 <hr>
 <h2>Entry: Bundled `rules/` and `scanners/` are stale relative to the new flat shape</h2>
@@ -1081,7 +1081,7 @@ a.cap-card:hover .cap-card__icon {
 <ul>
 <li><strong>Status:</strong> confirmed</li>
 <li><strong>Context:</strong> DDD phase output filename</li>
-<li><strong>DO / DO NOT:</strong> DO default to the bare phase name � `domain-language.md`, `key-abstractions.md`, `ubiquitous-language.md`, `crc.md`, `object-model.md`, `walkthrough.md`. DO add a `&lt;name&gt;-` engagement prefix only when you need disambiguation: multiple products in the same workspace, or the user asks for it. DO NOT mandate the prefix as the only valid form. The skill template comments now show `[&lt;name&gt;-]&lt;phase&gt;.md` to signal optionality.</li>
+<li><strong>DO / DO NOT:</strong> DO default to the bare phase name — `domain-language.md`, `key-abstractions.md`, `ubiquitous-language.md`, `crc.md`, `object-model.md`, `walkthrough.md`. DO add a `&lt;name&gt;-` engagement prefix only when you need disambiguation: multiple products in the same workspace, or the user asks for it. DO NOT mandate the prefix as the only valid form. The skill template comments now show `[&lt;name&gt;-]&lt;phase&gt;.md` to signal optionality.</li>
 <li><strong>Example (wrong, mandatory prefix):</strong> Always writing `paw-place-ubiquitous-language.md` even though the engagement workspace only ever holds one product.</li>
 <li><strong>Example (correct):</strong> Default to `ubiquitous-language.md`. If the same workspace also hosts a `barkery-` product line and a `paw-place-` product line, prefix both to disambiguate: `paw-place-ubiquitous-language.md`, `barkery-ubiquitous-language.md`.</li>
 <li><strong>Likely source:</strong> the original skill text required `&lt;name&gt;-&lt;phase&gt;.md` unconditionally; in single-product engagements the prefix was redundant noise.</li>
@@ -1090,8 +1090,8 @@ a.cap-card:hover .cap-card__icon {
 <h2>Entry: Customer review missed authorship by customer account</h2>
 <ul>
 <li><strong>Status:</strong> confirmed</li>
-<li><strong>Context:</strong> abd-ubiquitous-language � PawPlace engagement, Product Catalog KA, `customer review` concept block.</li>
-<li><strong>DO / DO NOT:</strong> DO surface authorship as a first-class relationship on any concept that is <strong>created by an actor</strong>: a review is <strong>authored by exactly one customer account</strong>, an order is <strong>placed by a customer account or guest checkout</strong>, an appointment is <strong>booked by a customer account</strong>, etc. Authorship belongs in <strong>both</strong> the authored concept&#x27;s bullets and the authoring KA&#x27;s invariants/aggregations, plus in the owning KA&#x27;s `### decisions made` block as a two-sided relationship statement. DO NOT treat authored artifacts as floating facts attached only to their target (the product, in this case) � that hides the trust anchor and leaves invariants like `no anonymous reviews` undocumented.</li>
+<li><strong>Context:</strong> abd-ubiquitous-language — PawPlace engagement, Product Catalog KA, `customer review` concept block.</li>
+<li><strong>DO / DO NOT:</strong> DO surface authorship as a first-class relationship on any concept that is <strong>created by an actor</strong>: a review is <strong>authored by exactly one customer account</strong>, an order is <strong>placed by a customer account or guest checkout</strong>, an appointment is <strong>booked by a customer account</strong>, etc. Authorship belongs in <strong>both</strong> the authored concept&#x27;s bullets and the authoring KA&#x27;s invariants/aggregations, plus in the owning KA&#x27;s `### decisions made` block as a two-sided relationship statement. DO NOT treat authored artifacts as floating facts attached only to their target (the product, in this case) — that hides the trust anchor and leaves invariants like `no anonymous reviews` undocumented.</li>
 <li><strong>Example (wrong):</strong></li>
 </ul>
 <pre><code>  ### **customer review**
@@ -1103,11 +1103,11 @@ a.cap-card:hover .cap-card__icon {
 <li><strong>Example (correct):</strong></li>
 </ul>
 <pre><code>  ### **customer review**
-  - is **authored by exactly one customer account** � anonymous reviews are not allowed
+  - is **authored by exactly one customer account** — anonymous reviews are not allowed
   - attaches a one-to-five star rating, optional written text, and optional photo to a product
   - contributes to the product&#x27;s aggregate rating
   - **Invariant:** must always be attached to exactly one product **and** authored by exactly one customer account; guest checkout sessions cannot leave reviews</code></pre>
-<p>Plus on Customer Account: aggregates `�and authored customer reviews`. Plus in Product Catalog `### decisions made`: `Customer review <strong>authorship</strong> belongs to <strong>Customer Account</strong>. Product Catalog <em>owns</em> the review system; Customer Account <em>authors</em> each review. Two-sided relationship.`</p>
+<p>Plus on Customer Account: aggregates `—and authored customer reviews`. Plus in Product Catalog `### decisions made`: `Customer review <strong>authorship</strong> belongs to <strong>Customer Account</strong>. Product Catalog <em>owns</em> the review system; Customer Account <em>authors</em> each review. Two-sided relationship.`</p>
 <ul>
 <li><strong>Likely source:</strong> the bundled rules in `abd-ubiquitous-language/SKILL.md` enforce concept verbs and invariants but don&#x27;t explicitly demand an <strong>authorship / created-by</strong> relationship on any concept that an actor produces. A new bundled rule should require: for every concept that is the artifact of an actor&#x27;s behavior, name the authoring KA explicitly in the concept&#x27;s bullets, in the authoring KA&#x27;s aggregations, and in the owning KA&#x27;s `### decisions made` as a two-sided relationship statement.</li>
 </ul>

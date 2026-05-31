@@ -1,31 +1,39 @@
-﻿# Rule: Property and instance stubs visible — no silently dropped terms
+﻿# Rule: Properties belong on the parent concept — no stub heading for pure properties
 
 **Scanner:** AI review
 
-Terms classified as properties, instances, or type properties get a stub heading (`### term_name`) with a brief classification bullet. This makes visible that the term was considered, rather than silently dropped. Passing means every term from the Terms list either gets its own concept block or a stub heading. Failing means a term appears in the Terms list or KA grouping but has no heading anywhere in the body.
+A property with **no independent behavior, invariants, or interactions** is mentioned only in the parent concept's bullets. It does **not** get its own `### heading`. A property earns its own `### heading` only when it has at least one of: its own invariant, its own behavior, or its own cross-concept interaction.
 
 ## DO
 
-- Give property and instance terms a stub heading with a one-line classification note.
+- Mention pure properties (values, timestamps, flags, identifiers) as bullets on the parent concept.
 
   **Example (pass):**
   ```
-  ### d20
-  - is the instrument a *check* rolls — a property of *check*, not a separate concept
+  ### ticket
+  - carries *lineage*, *priority*, *entered_stage*, and *completed_stage* for timing and ordering
+  ```
+
+- Give a property its own `###` only when it has independent behavior or invariants.
+
+  **Example (pass):**
+  ```
+  ### rank
+  - supplies the base *modifier* for a *check*
+  - **Invariant:** *ranks* must never be added directly; convert to *measures* first
   ```
 
 ## DO NOT
 
-- Silently drop terms without a stub heading.
-
-  **Example (fail):** `*d20*` is in the Terms list and KA grouping but has no `### d20` heading anywhere in the body.
-
-- Use a stub heading without a classification note.
+- Create a `### property_name` stub that only says "is a property of X".
 
   **Example (fail):**
   ```
-  ### d20
-  - rolls 1–20                          ← reads like behavior; classification missing
+  ### lineage
+  - is a property of *ticket* — an ordered array of ancestor names
   ```
+  ← No behavior, no invariant. Mention it in the *ticket* bullet instead.
 
-**Source:** Inherited from abd-ubiquitous-language — property and instance stubs visible.
+- Silently omit a term from the Terms list if you decided it is a property — record the typing call in `#### Decisions made`.
+
+**Source:** Inherited from abd-ubiquitous-language — property stubs.

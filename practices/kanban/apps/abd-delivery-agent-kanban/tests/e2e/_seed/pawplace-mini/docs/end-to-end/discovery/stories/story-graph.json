@@ -1,0 +1,273 @@
+{
+  "epics": [
+    {
+      "name": "Find a Store",
+      "sequential_order": 1,
+      "behavior": null,
+      "domain_concepts": [],
+      "sub_epics": [],
+      "story_groups": [
+        {
+          "name": "Increment 1 — walk-in driver",
+          "sequential_order": 1,
+          "type": "and",
+          "connector": null,
+          "behavior": null,
+          "stories": [
+            {
+              "name": "View Store Map",
+              "sequential_order": 1,
+              "connector": null,
+              "story_type": "Customer",
+              "users": ["Customer"],
+              "increment": 1,
+              "scenarios": [],
+              "acceptance_criteria": []
+            },
+            {
+              "name": "View Store List",
+              "sequential_order": 2,
+              "connector": "and",
+              "story_type": "Customer",
+              "users": ["Customer"],
+              "increment": 1,
+              "scenarios": [],
+              "acceptance_criteria": []
+            },
+            {
+              "name": "Calculate Distance to Store",
+              "sequential_order": 3,
+              "connector": "and",
+              "story_type": "Customer",
+              "users": ["Customer"],
+              "increment": 1,
+              "scenarios": [],
+              "acceptance_criteria": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Browse Catalog & Stock",
+      "sequential_order": 2,
+      "behavior": null,
+      "domain_concepts": [],
+      "sub_epics": [],
+      "story_groups": [
+        {
+          "name": "Increment 1 — stock visibility",
+          "sequential_order": 1,
+          "type": "and",
+          "connector": null,
+          "behavior": null,
+          "stories": [
+            {
+              "name": "View Product Details",
+              "sequential_order": 1,
+              "connector": null,
+              "story_type": "Customer",
+              "users": ["Customer"],
+              "increment": 1,
+              "scenarios": [],
+              "acceptance_criteria": []
+            },
+            {
+              "name": "Display Real-Time Stock Availability",
+              "sequential_order": 2,
+              "connector": "and",
+              "story_type": "System",
+              "users": ["Customer"],
+              "increment": 1,
+              "scenarios": [],
+              "acceptance_criteria": []
+            },
+            {
+              "name": "Update Product Stock Levels",
+              "sequential_order": 3,
+              "connector": "and",
+              "story_type": "Store Employee",
+              "users": ["Store Employee"],
+              "increment": 1,
+              "scenarios": [],
+              "acceptance_criteria": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Shop & Pay Online",
+      "sequential_order": 3,
+      "behavior": null,
+      "domain_concepts": [],
+      "sub_epics": [
+        {
+          "name": "Shopping Cart",
+          "sequential_order": 1,
+          "behavior": null,
+          "domain_concepts": [],
+          "sub_epics": [],
+          "story_groups": [
+            {
+              "name": "Increment 2 — cart",
+              "sequential_order": 1,
+              "type": "and",
+              "connector": null,
+              "behavior": null,
+              "stories": [
+                {
+                  "name": "Add Product to Cart",
+                  "sequential_order": 1,
+                  "connector": null,
+                  "story_type": "Customer",
+                  "users": ["Customer"],
+                  "increment": 2,
+                  "scenarios": [],
+                  "acceptance_criteria": []
+                },
+                {
+                  "name": "Update Cart Quantity",
+                  "sequential_order": 2,
+                  "connector": "and",
+                  "story_type": "Customer",
+                  "users": ["Customer"],
+                  "increment": 2,
+                  "scenarios": [],
+                  "acceptance_criteria": []
+                },
+                {
+                  "name": "Remove Product from Cart",
+                  "sequential_order": 3,
+                  "connector": "and",
+                  "story_type": "Customer",
+                  "users": ["Customer"],
+                  "increment": 2,
+                  "scenarios": [],
+                  "acceptance_criteria": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Checkout & Payment",
+          "sequential_order": 2,
+          "behavior": null,
+          "domain_concepts": [],
+          "sub_epics": [],
+          "story_groups": [
+            {
+              "name": "Increment 2 — checkout",
+              "sequential_order": 1,
+              "type": "and",
+              "connector": null,
+              "behavior": null,
+              "stories": [
+                {
+                  "name": "Select Click-and-Collect Store",
+                  "sequential_order": 1,
+                  "connector": null,
+                  "story_type": "Customer",
+                  "users": ["Customer"],
+                  "increment": 2,
+                  "scenarios": [],
+                  "acceptance_criteria": []
+                },
+                {
+                  "name": "Check Out as Guest",
+                  "sequential_order": 2,
+                  "connector": "and",
+                  "story_type": "Customer",
+                  "users": ["Customer"],
+                  "increment": 2,
+                  "scenarios": [],
+                  "acceptance_criteria": []
+                },
+                {
+                  "name": "Enter Billing Address",
+                  "sequential_order": 3,
+                  "connector": "and",
+                  "story_type": "Customer",
+                  "users": ["Customer"],
+                  "increment": 2,
+                  "scenarios": [],
+                  "acceptance_criteria": []
+                },
+                {
+                  "name": "Select Payment Method",
+                  "sequential_order": 4,
+                  "connector": "and",
+                  "story_type": "Customer",
+                  "users": ["Customer"],
+                  "increment": 2,
+                  "scenarios": [],
+                  "acceptance_criteria": []
+                },
+                {
+                  "name": "Process Card Payment via StripeWave",
+                  "sequential_order": 5,
+                  "connector": "and",
+                  "story_type": "System",
+                  "users": ["Customer"],
+                  "increment": 2,
+                  "scenarios": [],
+                  "acceptance_criteria": []
+                },
+                {
+                  "name": "Confirm Order and Send Confirmation Email",
+                  "sequential_order": 6,
+                  "connector": "and",
+                  "story_type": "System",
+                  "users": ["Customer"],
+                  "increment": 2,
+                  "scenarios": [],
+                  "acceptance_criteria": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Store Fulfillment",
+          "sequential_order": 3,
+          "behavior": null,
+          "domain_concepts": [],
+          "sub_epics": [],
+          "story_groups": [
+            {
+              "name": "Increment 2 — pickup",
+              "sequential_order": 1,
+              "type": "and",
+              "connector": null,
+              "behavior": null,
+              "stories": [
+                {
+                  "name": "Prepare Click-and-Collect Orders for Pickup",
+                  "sequential_order": 1,
+                  "connector": null,
+                  "story_type": "Store Employee",
+                  "users": ["Store Employee"],
+                  "increment": 2,
+                  "scenarios": [],
+                  "acceptance_criteria": []
+                },
+                {
+                  "name": "Fulfill Click-and-Collect Order",
+                  "sequential_order": 2,
+                  "connector": "and",
+                  "story_type": "Store Employee",
+                  "users": ["Store Employee"],
+                  "increment": 2,
+                  "scenarios": [],
+                  "acceptance_criteria": []
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "story_groups": []
+    }
+  ]
+}

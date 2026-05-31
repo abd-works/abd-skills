@@ -939,9 +939,11 @@ a.cap-card:hover .cap-card__icon {
 </nav>
 
 <h2>Description</h2>
-<div class="entry-prose">Teams routinely prioritize work by gut feel, stakeholder loudness, or first-in-first-out — all of which ignore how much value decays while items wait to be delivered. Cost of Delay puts a price tag on time so teams can make scheduling decisions based on economics rather than politics. <br>
+<div class="entry-prose">Teams routinely prioritize work by gut feel, stakeholder loudness, or first-in-first-out — all of which ignore how much value decays while items wait to be delivered. Cost of Delay puts a price tag on time so teams can make scheduling decisions based on economics rather than politics.<br>
 <br>
-This skill packages that method, it classifies the value type and urgency of each feature or initiative in context, then builds a simple value model that makes assumptions explicit, calculatse Cost of Delay per time period (month / week), and divides value by time by duration to get Cost of Delay Divided By Duration (CD3), and rank so the highest-value shortest-duration work goes first.</div>
+This skill classifies the value type and urgency of each feature or initiative in context, then builds a simple value model that makes assumptions explicit, calculates Cost of Delay per time period (month / week), divides by duration to get CD3, and ranks so the highest-value shortest-duration work goes first.<br>
+<br>
+---</div>
 
 <section class="install-block" aria-labelledby="install-npx-heading">
   <h2 id="install-npx-heading">Install with npx</h2>
@@ -958,70 +960,42 @@ This skill packages that method, it classifies the value type and urgency of eac
 
 <h2 id="entry-contents">Contents</h2>
 <div class="entry-contents-doc">
-<details class="entry-md-section" id="md-overview"><summary class="entry-md-section__summary">Overview</summary><div class="entry-md-section__body"><h1>abd-cost-of-delay</h1>
-<p><strong>Manual:</strong> `./manual/index.html`</p></div></details>
 <details class="entry-md-section" id="purpose"><summary class="entry-md-section__summary">Purpose</summary><div class="entry-md-section__body"><p>Teams routinely prioritize work by gut feel, stakeholder loudness, or first-in-first-out — all of which ignore how much value decays while items wait to be delivered. Cost of Delay puts a price tag on time so teams can make scheduling decisions based on economics rather than politics.</p>
-<p>This skill packages that method, it classifies the value type and urgency of each feature or initiative in context, then builds a simple value model that makes assumptions explicit, calculatse Cost of Delay per time period (month / week), and divides value by time by duration to get Cost of Delay Divided By Duration (CD3), and rank so the highest-value shortest-duration work goes first.</p></div></details>
-<details class="entry-md-section" id="when-to-use-this-skill"><summary class="entry-md-section__summary">When to use this skill</summary><div class="entry-md-section__body"><p>Load this skill when <strong>any</strong> of the following apply:</p>
+<p>This skill classifies the value type and urgency of each feature or initiative in context, then builds a simple value model that makes assumptions explicit, calculates Cost of Delay per time period (month / week), divides by duration to get CD3, and ranks so the highest-value shortest-duration work goes first.</p>
+<hr></div></details>
+<details class="entry-md-section" id="output-file"><summary class="entry-md-section__summary">Output file</summary><div class="entry-md-section__body"><p><strong>Deliverables folder:</strong> see `../reference/agent-protocol.md` — Output file resolution.</p>
+<p><strong>File name:</strong> `cost-of-delay-canvas.md` and `cd3-ranking.md`. Add a `&lt;name&gt;-` prefix only when disambiguation is needed.</p>
+<hr></div></details>
+<details class="entry-md-section" id="agent-instructions"><summary class="entry-md-section__summary">Agent Instructions</summary><div class="entry-md-section__body"><p>&gt; <strong>MANDATORY — read `../reference/agent-protocol.md` before starting. It defines read-gates, output file resolution, and the per-rule verdict format.</strong></p>
+<h3>1. Read context</h3>
+<p>Read these files:</p>
 <ul>
-<li>You have a backlog of features, epics, or initiatives and need to <strong>order them by economic value</strong> rather than opinion or arrival order.</li>
-<li>You want to make a <strong>trade-off decision</strong> between competing items — what is the cost of doing A before B?</li>
-<li>You need a <strong>collaborative, assumption-explicit</strong> value estimate that a cross-functional group can produce in a time-boxed session.</li>
-<li>You already have lead time and delay time estimates and want to <strong>score and rank</strong> items using CD3.</li>
-<li>You want to compare items already scored with CD3 against a new candidate.</li>
+<li><strong>`reference/concepts.md`</strong> — value types, urgency profiles, CD3 formula, the 7-step method, assumptions guidance, and neighbour skills.</li>
+<li><strong>`reference/examples.md`</strong> — worked FIFO vs CD3 comparison showing the revenue and opportunity-cost impact of ordering.</li>
 </ul>
-<hr></div></details>
-<details class="entry-md-section" id="core-concepts"><summary class="entry-md-section__summary">Core concepts</summary><div class="entry-md-section__body"><h3>Cost of Delay</h3>
-<p>The value an organisation does <strong>not</strong> receive for every time period an item is not yet in market. Expressed as dollars (or equivalent) per month or per week. It reframes prioritization from &quot;how much does this cost to build?&quot; to &quot;how much does it cost us to <strong>wait to build it</strong>?&quot;</p>
-<h3>Value Type</h3>
-<p>Every item generates value through one of four mechanisms. The type shapes the formula you use to estimate Cost of Delay:</p>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Value Type</th><th>What it means</th><th>Formula pattern</th></tr></thead><tbody><tr><td><strong>Increase Revenue</strong></td><td>New or expanded sales</td><td>Market size × transaction value × likelihood × volume</td></tr><tr><td><strong>Protect Revenue</strong></td><td>Sustain current revenue against threats</td><td>Likelihood of threat × events/month × cost per event</td></tr><tr><td><strong>Reduce Cost</strong></td><td>Lower costs we are currently incurring</td><td>Cost reduction/event × events × likelihood of benefit</td></tr><tr><td><strong>Avoid Cost</strong></td><td>Prevent costs we do not yet incur but may</td><td>Cost avoidance/event × events</td></tr></tbody></table></div>
-<h3>Urgency Profile</h3>
-<p>How fast value decays over time — the shape of the curve:</p>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Profile</th><th>Characteristic</th><th>Example</th></tr></thead><tbody><tr><td><strong>Expedite</strong></td><td>High and immediate impact; major loss if not addressed now</td><td>&quot;Customer data is exposed until we fix this&quot;</td></tr><tr><td><strong>Fixed Date</strong></td><td>Value drops to zero past a specific date</td><td>&quot;Campaign must launch before Black Friday&quot;</td></tr><tr><td><strong>Standard</strong></td><td>Shallow but immediate; incremental value over time</td><td>&quot;More paying customers if they can subscribe online&quot;</td></tr><tr><td><strong>Intangible</strong></td><td>No immediate impact; builds future capability</td><td>&quot;Local delivery capability gives us autonomy to move at market speed&quot;</td></tr></tbody></table></div>
-<h3>CD3 — Cost of Delay Divided by Duration</h3>
-<p>The scheduling decision formula:</p>
-<pre><code>CD3 = Cost of Delay (per period) / Duration (lead time to deliver)</code></pre>
-<p>Rank by <strong>highest CD3 first</strong>. This maximises total value delivered for a given time window with fixed resources, and naturally encourages breaking work into smaller batches (smaller duration → higher CD3).</p>
-<h3>Why CD3 beats FIFO</h3>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Feature</th><th>CoD ($/week)</th><th>Duration (weeks)</th><th>CD3</th></tr></thead><tbody><tr><td>A</td><td>$1</td><td>5</td><td>0.2</td></tr><tr><td>B</td><td>$4</td><td>1</td><td>4.0</td></tr><tr><td>C</td><td>$5</td><td>2</td><td>2.5</td></tr></tbody></table></div>
-<p><strong>FIFO order (A → B → C):</strong></p>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Week</th><th>Working on</th><th>A earning</th><th>B earning</th><th>C earning</th><th>Revenue gained</th><th>Opportunity cost</th></tr></thead><tbody><tr><td>1</td><td>A</td><td>$0</td><td>$0</td><td>$0</td><td>$0</td><td>$10</td></tr><tr><td>2</td><td>A</td><td>$0</td><td>$0</td><td>$0</td><td>$0</td><td>$10</td></tr><tr><td>3</td><td>A</td><td>$0</td><td>$0</td><td>$0</td><td>$0</td><td>$10</td></tr><tr><td>4</td><td>A</td><td>$0</td><td>$0</td><td>$0</td><td>$0</td><td>$10</td></tr><tr><td>5</td><td>A</td><td>$0</td><td>$0</td><td>$0</td><td>$0</td><td>$10</td></tr><tr><td>6</td><td>B</td><td>$1</td><td>$0</td><td>$0</td><td>$1</td><td>$9</td></tr><tr><td>7</td><td>C</td><td>$1</td><td>$4</td><td>$0</td><td>$5</td><td>$5</td></tr><tr><td>8</td><td>C</td><td>$1</td><td>$4</td><td>$0</td><td>$5</td><td>$5</td></tr><tr><td><strong>Total</strong></td><td></td><td></td><td></td><td></td><td><strong>$11</strong></td><td><strong>$69</strong></td></tr></tbody></table></div>
-<p><strong>CD3 order (B → C → A):</strong></p>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Week</th><th>Working on</th><th>A earning</th><th>B earning</th><th>C earning</th><th>Revenue gained</th><th>Opportunity cost</th></tr></thead><tbody><tr><td>1</td><td>B</td><td>$0</td><td>$0</td><td>$0</td><td>$0</td><td>$10</td></tr><tr><td>2</td><td>C</td><td>$0</td><td>$4</td><td>$0</td><td>$4</td><td>$6</td></tr><tr><td>3</td><td>C</td><td>$0</td><td>$4</td><td>$0</td><td>$4</td><td>$6</td></tr><tr><td>4</td><td>A</td><td>$0</td><td>$4</td><td>$5</td><td>$9</td><td>$1</td></tr><tr><td>5</td><td>A</td><td>$0</td><td>$4</td><td>$5</td><td>$9</td><td>$1</td></tr><tr><td>6</td><td>A</td><td>$0</td><td>$4</td><td>$5</td><td>$9</td><td>$1</td></tr><tr><td>7</td><td>A</td><td>$0</td><td>$4</td><td>$5</td><td>$9</td><td>$1</td></tr><tr><td>8</td><td>A</td><td>$0</td><td>$4</td><td>$5</td><td>$9</td><td>$1</td></tr><tr><td><strong>Total</strong></td><td></td><td></td><td></td><td></td><td><strong>$53</strong></td><td><strong>$27</strong></td></tr></tbody></table></div>
-<p><strong>Result:</strong> Same 8 weeks, same three features. CD3 ordering delivers <strong>$53 revenue</strong> vs FIFO&#x27;s <strong>$11</strong> (nearly 5× more), and incurs only <strong>$27 opportunity cost</strong> vs <strong>$69</strong> — a <strong>61% reduction</strong> in total delay cost.</p>
-<hr></div></details>
-<details class="entry-md-section" id="do-the-work"><summary class="entry-md-section__summary">Do the work</summary><div class="entry-md-section__body"><p><strong>Inputs required:</strong> Each candidate item needs a <strong>lead time estimate</strong> (how long to deliver to market) and optionally a <strong>delay time estimate</strong> (how much of that lead time is waiting, not working). These come from outside this skill — from team knowledge, flow metrics, or a delivery planning practice.</p>
-<p>1. <strong>Scan context for items and isolate each one.</strong> Read the supplied context (backlog, story map, canvas, brief, conversation) and identify every distinct feature, epic, or initiative. When there is more than one item, treat each independently — do not blend assumptions across items. List what you found and cite where in context each item came from.</p>
-<p>2. <strong>Check for lead time.</strong> Each item needs a lead time (duration) estimate. If the context supplies it, cite where. If not, <strong>ask the user</strong> — do not invent a duration. You cannot calculate CD3 without it.</p>
-<p>3. <strong>Classify value type and urgency profile per item.</strong> For each item independently, select one value type (Increase Revenue / Protect Revenue / Reduce Cost / Avoid Cost) and one urgency profile (Expedite / Fixed Date / Standard / Intangible). Cite which part of the context led to the classification — quote the phrase, metric, or constraint that justifies it.</p>
-<p>4. <strong>Build a value model and estimate Cost of Delay per item.</strong> For each item independently, mine the context for numbers, constraints, and claims that feed the formula. Every assumption must cite its source: quote from context if available, mark as &quot;team estimate&quot; or &quot;SWAG&quot; if not. Use Reach × Frequency × Likelihood × Unit Value or the formula matching the value type. Express CoD as <strong>$ per period</strong> (month or week — be consistent across items). Document each assumption with factor, unit, confidence, and source citation.</p>
-<p>5. <strong>Calculate CD3 per item.</strong> CD3 = Cost of Delay / Duration. Show the arithmetic.</p>
-<p>6. <strong>Rank by CD3 and produce the revenue vs opportunity-cost table.</strong> Order all items highest CD3 first. Run the calculation script to generate the table:</p>
-<pre><code>   python skills/abd-cost-of-delay/scripts/cd3_table.py \
-     --items &quot;Name1:CoD1:Dur1, Name2:CoD2:Dur2, ...&quot; \
-     --period-label &quot;Week&quot;</code></pre>
-<p>The script outputs a markdown table showing per-period revenue earned and opportunity cost. Do <strong>not</strong> hand-compute this table — always use the script for predictability.</p>
-<p>7. <strong>Answer &quot;what if we reorder?&quot;</strong> When the user asks (or when items are close in CD3), use the script&#x27;s `--compare` flag to show both orderings side by side:</p>
-<pre><code>   python skills/abd-cost-of-delay/scripts/cd3_table.py \
-     --items &quot;Name1:CoD1:Dur1, Name2:CoD2:Dur2, ...&quot; \
-     --compare &quot;A,B,C&quot; &quot;B,C,A&quot; \
-     --period-label &quot;Week&quot;</code></pre>
-<p>The output includes a comparison summary showing total revenue, total opportunity cost, and the saving vs the worst order.</p>
-<hr></div></details>
-<details class="entry-md-section" id="agent-instructions"><summary class="entry-md-section__summary">Agent Instructions</summary><div class="entry-md-section__body"><div class="md-table-wrap"><table class="md-table"><thead><tr><th>Step</th><th>What to do</th></tr></thead><tbody><tr><td>Isolate items</td><td>Scan context; list each distinct feature/epic/initiative separately; cite where each came from</td></tr><tr><td>Check lead time</td><td>If duration is in context, cite it. If missing, <strong>ask the user</strong> — never invent it</td></tr><tr><td>Classify</td><td>Per item independently: assign value type + urgency profile; <strong>cite the context phrase</strong> that justifies each</td></tr><tr><td>Value model</td><td>Per item independently: mine context for numbers; build assumption table (factor, unit, confidence, <strong>source citation</strong>); compute CoD</td></tr><tr><td>CD3</td><td>Per item: CD3 = CoD / Duration; show arithmetic</td></tr><tr><td>Rank + table</td><td>Order by highest CD3; run `scripts/cd3_table.py --items &quot;...&quot; --period-label &quot;Week&quot;` — never hand-compute the table</td></tr><tr><td>What-if</td><td>Run `scripts/cd3_table.py --compare &quot;order1&quot; &quot;order2&quot;` to show both orderings side by side with comparison summary</td></tr><tr><td>Templates</td><td>Fill <strong>both</strong> `templates/cost-of-delay-canvas.md` and `templates/cd3-ranking.md`</td></tr></tbody></table></div>
-<p><strong>Templates:</strong></p>
+<h3>2. Generate</h3>
+<p>Read every file in <strong>`rules/`</strong>; author to those rules.</p>
+<p><strong>Produce output from every template:</strong></p>
 <div class="md-table-wrap"><table class="md-table"><thead><tr><th>Template</th><th>What to produce</th></tr></thead><tbody><tr><td>`templates/cost-of-delay-canvas.md`</td><td>One canvas per item: value type, urgency profile, assumptions table, CoD calculation, CD3 score</td></tr><tr><td>`templates/cd3-ranking.md`</td><td>Ranked list of all scored items with CoD, duration, CD3, and ordering rationale</td></tr></tbody></table></div>
+<p><strong>Method:</strong> Follow the 7-step method in `reference/concepts.md`. Each step must be visible in the output — isolate items, check lead time, classify, build value model, calculate CD3, rank, and compare orderings.</p>
+<p><strong>Script invocation:</strong> Use the calculation script for ranking tables and what-if comparisons — do not hand-compute:</p>
+<pre><code>python skills/abd-cost-of-delay/scripts/cd3_table.py \
+  --items &quot;Name1:CoD1:Dur1, Name2:CoD2:Dur2, ...&quot; \
+  --period-label &quot;Week&quot;</code></pre>
+<p>For side-by-side ordering comparison:</p>
+<pre><code>python skills/abd-cost-of-delay/scripts/cd3_table.py \
+  --items &quot;Name1:CoD1:Dur1, Name2:CoD2:Dur2, ...&quot; \
+  --compare &quot;A,B,C&quot; &quot;B,C,A&quot; \
+  --period-label &quot;Week&quot;</code></pre>
 <p><strong>Parity:</strong> Items that appear in the ranking must have a canvas (or reference one from prior work). CoD and CD3 values must match across both files.</p>
-<p><strong>Neighbours:</strong> `abd-thin-slicing` handles increment ordering after items are scored; `abd-delivery-planning` provides the pipeline context where this skill fits as stage 5 (Value Estimation); `abd-simple-validated-learning` turns assumptions flagged here into a prioritised validation backlog with hypothesis format, owners, and Plan / Validate / Learn.</p>
-<p><strong>Assumptions and validation:</strong> Every CoD canvas labels assumptions with confidence (Strong / Reasonable / Uncertain). Assumptions marked <strong>Uncertain</strong> are candidates for validation — beliefs that could be wrong and would change the CoD materially if they are. This skill does <strong>not</strong> mine for assumptions (they emerge naturally from the value model) and does <strong>not</strong> run the validation workflow. It surfaces them with confidence labels so the team can decide what to test. Use <strong>abd-simple-validated-learning</strong> to take Uncertain assumptions through Plan / Validate / Learn — same language as `abd-opportunity-canvas` and `abd-impact-mapping`.</p>
+<h3>3. Validate</h3>
+<p>Run the scanners:</p>
+<pre><code>python skills/execute-skill-using-skills-rules/scripts/run_scanners.py \
+  --skill-root skills/abd-cost-of-delay \
+  --workspace &lt;path-to-output&gt;</code></pre>
+<p>Then emit per-rule verdicts per `../reference/agent-protocol.md`.</p>
 <hr></div></details>
-<details class="entry-md-section" id="build"><summary class="entry-md-section__summary">Build</summary><div class="entry-md-section__body"><p>1. <strong>Produce outputs from every template.</strong> Generate content using <strong>both</strong> files in `templates/`. Unless the user explicitly asks for one format only, emit both the canvas and the ranking.</p>
-<p>2. <strong>Apply the rules, then review like a peer.</strong> Follow the normative `rules/` prose bundled at the end of this file. After generating, act as a peer reviewer: walk each rule&#x27;s DO and DO NOT and look for violations.</p>
-<p>3. <strong>Keep the bundled rules block honest.</strong> Whenever you change a file under `rules/`, run:</p>
-<pre><code>python skills/execute_using_rules/scripts/bundle_rules_into_skill_md.py --skill-root skills/abd-cost-of-delay</code></pre>
-<hr></div></details>
-<details class="entry-md-section" id="validate"><summary class="entry-md-section__summary">Validate</summary><div class="entry-md-section__body"><p><strong>Goal:</strong> Inspect what was built as a reviewer.</p>
+<details class="entry-md-section" id="validate"><summary class="entry-md-section__summary">Validate</summary><div class="entry-md-section__body"><p><strong>Goal:</strong> Inspect what was built — read the artifacts as reviewers.</p>
 <ul>
 <li><strong>Assumptions explicit</strong> — Every CoD estimate traces to named assumptions with factors, units, and confidence. No &quot;we think it&#x27;s worth $X&quot; without showing the model.</li>
 <li><strong>Value type and urgency assigned</strong> — Each item has exactly one value type and one urgency profile, with rationale.</li>
@@ -1029,117 +1003,17 @@ This skill packages that method, it classifies the value type and urgency of eac
 <li><strong>Ranking is by CD3</strong> — Items ordered highest-first; any deviation from pure CD3 order has stated rationale.</li>
 <li><strong>Cross-template parity</strong> — Canvas CoD and CD3 match the ranking table values.</li>
 <li><strong>No invented precision</strong> — Estimates reflect stated confidence; uncertain assumptions are flagged, not hidden behind false precision.</li>
+<li><strong>No bundle markers</strong> — `SKILL.md` has no `&lt;!-- execute_rules:bundle_rules --&gt;` markers.</li>
 </ul>
-<hr>
-<p>&lt;!-- execute_rules:bundle_rules:begin --&gt;</p>
-<h3>Rule: Assumptions explicit with confidence</h3>
-<p>Every Cost of Delay estimate must trace to a set of named assumptions — each with a factor, unit, and confidence level — so the team can see what drives the number and where uncertainty lives. A canvas passes when a reviewer can reconstruct the CoD calculation from the assumptions table without needing to ask &quot;where did that number come from?&quot; It fails when a CoD figure appears with no supporting model, or when assumptions are listed without confidence ratings that would let a team know what to validate.</p>
-<h4>DO</h4>
-<ul>
-<li>List every assumption that feeds the CoD formula as a row with <strong>factor</strong> (what you are estimating), <strong>unit</strong> (people/month, $/hour, %, events/month), and <strong>confidence</strong> (Strong / Reasonable / Uncertain).</li>
-</ul>
-<p><strong>Example (pass):</strong></p>
-<pre><code>  | Assumption | Factor | Unit | Confidence |
-  | Customers travelling abroad/month | 500,000 | people/month | Strong |
-  | Likelihood card is flagged | 30% | — | Strong |
-  | Avg call duration | 0.25 | hours | Reasonable |
-  | Hourly call center rate | $50 | $/hour | Strong |
-  | % who would use self-service | 40% | — | Uncertain |</code></pre>
-<ul>
-<li>Show the CoD formula as a product of the factors so arithmetic is transparent.</li>
-</ul>
-<p><strong>Example (pass):</strong> `CoD = 500,000 × 0.30 × 0.25 × $50 × 0.40 = $750,000/month`</p>
-<ul>
-<li>Flag <strong>Uncertain</strong> assumptions as candidates for validated learning before committing to build.</li>
-</ul>
-<p><strong>Example (pass):</strong> &quot;% adoption (40%) is Uncertain — recommend quick survey or A/B before locking scope.&quot;</p>
-<h4>DO NOT</h4>
-<ul>
-<li>Present a CoD number with no underlying factors or formula.</li>
-</ul>
-<p><strong>Example (fail):</strong> &quot;Cost of Delay: $750,000/month&quot; with no assumptions table and no formula — the reviewer cannot verify or challenge the estimate.</p>
-<ul>
-<li>List assumptions without confidence levels, treating all factors as equally certain.</li>
-</ul>
-<p><strong>Example (fail):</strong> Five assumption rows, all blank in the Confidence column — hides which parts of the estimate are guesses.</p>
-<ul>
-<li>Use false precision (e.g. $748,213.47/month) when inputs are uncertain — round to appropriate significant figures.</li>
-</ul>
-<p><strong>Example (fail):</strong> &quot;CoD = $748,213.47/month&quot; when the adoption rate is a SWAG at 40% — implies precision the model does not support.</p>
-<p><strong>Source:</strong> Kept chunks #6, #8, #11 in `inputs/abd-answers-retrieval.md` — &quot;The process of surfacing our assumptions about value are more useful than the numbers we come up with!&quot;</p>
-<h3>Rule: CD3 ranking by highest first</h3>
-<p>When multiple items have been scored, the ranking orders them by highest CD3 first — this is the scheduling decision that minimises total delay cost across the set. A ranking passes when items are ordered by CD3 descending, arithmetic is correct (CoD / Duration = CD3), and any deviation from pure CD3 order has explicit stated rationale. It fails when items are ordered by CoD alone (ignoring duration), by arrival order, or by unstated preference with no economic justification.</p>
-<h4>DO</h4>
-<ul>
-<li>Order items by <strong>highest CD3 first</strong> (descending).</li>
-</ul>
-<p><strong>Example (pass):</strong></p>
-<pre><code>  | Rank | Item | CoD ($/month) | Duration (months) | CD3 |
-  | 1 | Feature B | $4,000 | 1 | 4,000 |
-  | 2 | Feature C | $5,000 | 2 | 2,500 |
-  | 3 | Feature A | $1,000 | 5 | 200 |</code></pre>
-<ul>
-<li>Verify arithmetic: CD3 = CoD / Duration for every row.</li>
-</ul>
-<p><strong>Example (pass):</strong> Feature C: $5,000 / 2 = 2,500. Checks out.</p>
-<ul>
-<li>When deviating from pure CD3 order (e.g. for dependencies, fixed dates, or expedite items), state the rationale explicitly.</li>
-</ul>
-<p><strong>Example (pass):</strong></p>
-<pre><code>  | Rank | Item | CD3 | Override rationale |
-  | 1 | Compliance fix | 800 | Expedite: regulatory deadline Nov 1 — must go first regardless of CD3 |
-  | 2 | Feature B | 4,000 | — |</code></pre>
-<h4>DO NOT</h4>
-<ul>
-<li>Order by Cost of Delay alone without dividing by duration.</li>
-</ul>
-<p><strong>Example (fail):</strong> Feature C ($5,000 CoD) ranked above Feature B ($4,000 CoD) even though B has CD3 of 4,000 vs C&#x27;s 2,500 — duration was ignored.</p>
-<ul>
-<li>Use arrival order (FIFO) or stakeholder preference as the default without stating why CD3 was overridden.</li>
-</ul>
-<p><strong>Example (fail):</strong> &quot;Feature A first because the VP asked for it&quot; with no CD3 comparison or economic justification.</p>
-<ul>
-<li>Present CD3 scores with incorrect arithmetic.</li>
-</ul>
-<p><strong>Example (fail):</strong> CoD = $5,000, Duration = 2, CD3 shown as 5,000 — division was not performed.</p>
-<p><strong>Source:</strong> Kept chunks #7, #8, #12 in `inputs/abd-answers-retrieval.md` — FIFO ($69 delay cost) vs CD3 ordering ($27 delay cost), 61% reduction.</p>
-<h3>Rule: Value type and urgency assigned</h3>
-<p>Every item scored in this skill must have exactly one value type and one urgency profile selected, with enough rationale that a reviewer can see why that classification was chosen. A canvas passes when value type picks the right formula pattern and urgency profile matches the decay shape. It fails when classifications are missing, when both are left as &quot;Standard&quot; by default without reasoning, or when the selected value type contradicts the formula used.</p>
-<h4>DO</h4>
-<ul>
-<li>Assign exactly <strong>one</strong> value type per item: Increase Revenue, Protect Revenue, Reduce Cost, or Avoid Cost.</li>
-</ul>
-<p><strong>Example (pass):</strong></p>
-<pre><code>  Value Type: Reduce Cost
-  Rationale: Customers currently call in to reactivate blocked cards; this reduces call volume.</code></pre>
-<ul>
-<li>Assign exactly <strong>one</strong> urgency profile per item: Expedite, Fixed Date, Standard, or Intangible.</li>
-</ul>
-<p><strong>Example (pass):</strong></p>
-<pre><code>  Urgency Profile: Standard
-  Rationale: Shallow but immediate cost saving; value accrues incrementally from day one with no hard deadline.</code></pre>
-<ul>
-<li>Use a formula pattern that matches the selected value type (see Core concepts table in SKILL.md).</li>
-</ul>
-<p><strong>Example (pass):</strong> Value type is &quot;Reduce Cost&quot; → formula uses `cost reduction/event × events × likelihood`.</p>
-<h4>DO NOT</h4>
-<ul>
-<li>Leave value type or urgency profile blank or unselected on a scored item.</li>
-</ul>
-<p><strong>Example (fail):</strong> Canvas has CoD = $200,000/month but the Value Type row says &quot;TBD&quot; — classification was skipped.</p>
-<ul>
-<li>Default both to &quot;Standard / Standard&quot; without stated reasoning.</li>
-</ul>
-<p><strong>Example (fail):</strong> Three items all marked Standard/Standard with no rationale — suggests the team skipped the conversation.</p>
-<ul>
-<li>Select a value type that contradicts the formula used.</li>
-</ul>
-<p><strong>Example (fail):</strong> Value Type says &quot;Increase Revenue&quot; but the formula calculates `cost avoidance/event × events` — mismatch between classification and model.</p>
-<p><strong>Source:</strong> Kept chunks #4, #9 in `inputs/abd-answers-retrieval.md` — value type / urgency profile matrix with four types and four profiles. &lt;!-- execute_rules:bundle_rules:end --&gt;</p></div></details>
+<hr></div></details>
 </div>
 <hr class="entry-divider">
 <div class="entry-contents-files">
 <ul class="file-list file-list--root">
+<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>reference/</strong><span class="file-meta"> → Folder (2 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/idea-shaping/skills/abd-cost-of-delay/reference/concepts.md" target="_blank" rel="noopener noreferrer"><strong>concepts.md</strong></a><span class="file-meta"> → Cost of Delay — Concepts</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/idea-shaping/skills/abd-cost-of-delay/reference/examples.md" target="_blank" rel="noopener noreferrer"><strong>examples.md</strong></a><span class="file-meta"> → Cost of Delay — Examples</span></li>
+</ul></div></details></li>
 <li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>rules/</strong><span class="file-meta"> → Practice rules (DO/DON&#x27;T) and constraints used with scanners.</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/idea-shaping/skills/abd-cost-of-delay/rules/assumptions-explicit-with-confidence.md" target="_blank" rel="noopener noreferrer"><strong>assumptions-explicit-with-confidence.md</strong></a><span class="file-meta"> → scanner: assumptions-explicit-with-confidence</span></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/idea-shaping/skills/abd-cost-of-delay/rules/cd3-ranking-by-highest-first.md" target="_blank" rel="noopener noreferrer"><strong>cd3-ranking-by-highest-first.md</strong></a><span class="file-meta"> → scanner: cd3-ranking-by-highest-first</span></li>

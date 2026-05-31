@@ -65,7 +65,7 @@ where research artifacts are read from and written to. All saved context —
 reports, drill-down notes, hypothesis logs, comparison snapshots — goes
 under `active_skill_workspace`, not inside this agent package.
 
-- **Before writing anything**, run **`python skill-helpers/scripts/get_workspace.py`** from the agilebydesign-skills repo root (see **`skill-helpers/content/workspace.md`**). If no workspace is set, ask the user to run **`set_workspace.py`** or use **`/workspace`**, or default to an explicit path the user gives for the session.
+- **Before writing anything**, run **`python skill-helpers/scripts/get_workspace.py`** from the agilebydesign-skills repo root (see **`skill-helpers/reference/workspace.md`**). If no workspace is set, ask the user to run **`set_workspace.py`** or use **`/workspace`**, or default to an explicit path the user gives for the session.
 - **Before reading saved context** (prior reports, earlier research),
   look under the same workspace path.
 - If scripts aren't available in-repo, ask the user where to save

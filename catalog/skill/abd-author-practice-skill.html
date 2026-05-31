@@ -939,7 +939,7 @@ a.cap-card:hover .cap-card__icon {
 </nav>
 
 <h2>Description</h2>
-<div class="entry-prose">Teams need practice skills that people and agents can follow without improvising or drifting away from what the sources actually say. This authoring skill helps you finish such a package after you have already chosen what to keep from the hub: the teaching on the skill page reads clearly, and the norms on the outputs are explicit enough to pass or fail. It guides you from that evidence to aligned prose and checks. Prerequisites, Build, and Not in this pass on this page carry retrieval, bundling, and scanner wiring when you need those steps.</div>
+<div class="entry-prose">Teams need practice skills that people and agents can follow without improvising or drifting away from what the sources actually say. This authoring skill helps you finish such a package after you have already chosen what to keep from the hub: the teaching on the skill page reads clearly, and the norms on the outputs are explicit enough to pass or fail. It guides you from that evidence to aligned prose and checks. Prerequisites, Build, and Not in this pass on this page carry retrieval and scanner wiring when you need those steps.</div>
 
 <section class="install-block" aria-labelledby="install-npx-heading">
   <h2 id="install-npx-heading">Install with npx</h2>
@@ -956,10 +956,7 @@ a.cap-card:hover .cap-card__icon {
 
 <h2 id="entry-contents">Contents</h2>
 <div class="entry-contents-doc">
-<details class="entry-md-section" id="md-overview"><summary class="entry-md-section__summary">Overview</summary><div class="entry-md-section__body"><p>﻿--- name: abd-author-practice-skill description: &gt;- Turn collected hub evidence into a finished practice skill: clear instructions and checkable do-and-don&#x27;t norms that stay true to what you retrieved.</p>
-<hr>
-<h1>abd-author-practice-skill</h1></div></details>
-<details class="entry-md-section" id="purpose"><summary class="entry-md-section__summary">Purpose</summary><div class="entry-md-section__body"><p>Teams need <strong>practice skills</strong> that people and agents can follow without improvising or drifting away from what the sources actually say. This authoring skill helps you <strong>finish</strong> such a package after you have already chosen what to keep from the hub: the teaching on the skill page reads clearly, and the norms on the outputs are explicit enough to pass or fail. It guides you from that evidence to aligned prose and checks. <strong>Prerequisites</strong>, <strong>Build</strong>, and <strong>Not in this pass</strong> on this page carry retrieval, bundling, and scanner wiring when you need those steps.</p></div></details>
+<details class="entry-md-section" id="purpose"><summary class="entry-md-section__summary">Purpose</summary><div class="entry-md-section__body"><p>Teams need <strong>practice skills</strong> that people and agents can follow without improvising or drifting away from what the sources actually say. This authoring skill helps you <strong>finish</strong> such a package after you have already chosen what to keep from the hub: the teaching on the skill page reads clearly, and the norms on the outputs are explicit enough to pass or fail. It guides you from that evidence to aligned prose and checks. <strong>Prerequisites</strong>, <strong>Build</strong>, and <strong>Not in this pass</strong> on this page carry retrieval and scanner wiring when you need those steps.</p></div></details>
 <details class="entry-md-section" id="when-to-use"><summary class="entry-md-section__summary">When to use</summary><div class="entry-md-section__body"><ul>
 <li>You <strong>already gathered</strong> the hub material for a practice and want to <strong>produce the skill</strong> itself—not run more searches.</li>
 <li>The practice is still a <strong>rough draft</strong> and you want it <strong>finished</strong>: readable instructions and <strong>explicit</strong> what-to-do / what-not-to-do norms.</li>
@@ -972,24 +969,24 @@ a.cap-card:hover .cap-card__icon {
 <li><strong>`SKILL.md`</strong> — may be missing or still full of <strong>`{{PLACEHOLDER}}`</strong> until you finish authoring; if it is missing, start from <strong>`templates/SKILL_template.md`</strong> in this skill (see <strong>Build</strong>, item 1).</li>
 </ul></div></details>
 <details class="entry-md-section" id="core-concepts-for-the-target-package"><summary class="entry-md-section__summary">Core concepts (for the target package)</summary><div class="entry-md-section__body"><h3>Practice skill</h3>
-<p>A <strong>practice skill</strong> is the packaged method—the artifact readers open when they want to perform this practice. It should let a person or agent follow the method <strong>without inventing steps</strong> and recognize <strong>when</strong> this practice is the right tool. Open with purpose and fit, then carry the method through procedures, examples, promised outputs when the practice has them, and a clear validation mindset. Keep mechanics and file paths out of that opening voice; they belong in later parts of the same document. <strong>Purpose</strong> on the target page should be <strong>one</strong> short paragraph about <strong>why</strong> the practice exists and what it helps people do, not a runbook for paths and tooling (bundled <strong>Opening sections give outcomes not package mechanics</strong>).</p>
+<p>A <strong>practice skill</strong> is the packaged method—the artifact readers open when they want to perform this practice. It should let a person or agent follow the method <strong>without inventing steps</strong> and recognize <strong>when</strong> this practice is the right tool. Open with purpose and fit, then carry the method through procedures, examples, promised outputs when the practice has them, and a clear validation mindset. Keep mechanics and file paths out of that opening voice; they belong in later parts of the same document. <strong>Purpose</strong> on the target page should be <strong>one</strong> short paragraph about <strong>why</strong> the practice exists and what it helps people do, not a runbook for paths and tooling (see rule <strong>Opening sections give outcomes not package mechanics</strong> in `rules/`).</p>
 <h3>Rules</h3>
-<p><strong>Normative rules</strong> exist so the practice does not dissolve into taste and improvisation. They answer: <em>would we accept this concrete output as “good enough” for this method?</em> Without that shared bar, every run of an agent (or every reviewer) reinvents quality, outputs stop being comparable, and the package quietly drifts away from what the sources actually support. Rules are how you make <strong>quality legible</strong> and <strong>repeatable</strong>.</p>
+<p><strong>Normative rules</strong> exist so the practice does not dissolve into taste and improvisation. They answer: <em>would we accept this concrete output as &quot;good enough&quot; for this method?</em> Without that shared bar, every run of an agent (or every reviewer) reinvents quality, outputs stop being comparable, and the package quietly drifts away from what the sources actually support. Rules are how you make <strong>quality legible</strong> and <strong>repeatable</strong>.</p>
 <p><strong>Build</strong> in <strong>`SKILL.md`</strong> carries <strong>step order</strong> and the main teaching voice. <strong>Rules</strong> under <strong>`rules/*.md`</strong> judge <strong>real artifacts</strong> — a filled template, a section of a file, a pattern in text — with explicit <strong>pass</strong> and <strong>fail</strong>. Same package, two jobs: <strong>Build</strong> walks the method; <strong>rules</strong> say whether the outputs meet the bar.</p>
-<p>Each rule should read like a <strong>small spec</strong>: what must hold for <strong>pass</strong>, what counts as <strong>fail</strong>, with enough concrete examples that nobody has to guess. Hub-backed lines trace to <strong>`inputs/abd-answers-retrieval.md`</strong> when provenance matters. The full shape is in the bundled <strong>Target rule files are checkable specs for named artifacts</strong>; per-bullet examples are required by <strong>Rule DOs and DON&#x27;Ts must each have examples</strong>.</p>
-<p><strong>Where it shows up on disk:</strong> the <strong>target</strong> practice keeps those checks in <strong>`rules/*.md`</strong>. When you author with <strong>abd-author-practice-skill</strong>, the bundled habits at the end of this file also cover <strong>how</strong> to name rule files and open them (<strong>Rules named after valid or invalid state</strong>, <strong>Rules open with plain pass-and-fail prose</strong>) on top of that target shape. The <strong>`rules/*.md`</strong> that ship <strong>inside this authoring skill</strong> must stay <strong>practice-agnostic</strong>; anything that only fits one method (one map’s prefixes, one board layout, one hypothesis shape) belongs under <strong>`skills/&lt;that-practice&gt;/rules/`</strong> and that practice’s <strong>`templates/`</strong>, not here.</p>
+<p>Each rule should read like a <strong>small spec</strong>: what must hold for <strong>pass</strong>, what counts as <strong>fail</strong>, with enough concrete examples that nobody has to guess. Hub-backed lines trace to <strong>`inputs/abd-answers-retrieval.md`</strong> when provenance matters. The full shape is in `rules/target-rule-files-are-checkable-specs-for-named-artifacts.md`; per-bullet examples are required by `rules/rule-dos-and-donts-must-each-have-examples.md`.</p>
+<p><strong>Where it shows up on disk:</strong> the <strong>target</strong> practice keeps those checks in <strong>`rules/*.md`</strong> and concept/example teaching in <strong>`reference/*.md`</strong>. The <strong>`rules/*.md`</strong> that ship <strong>inside this authoring skill</strong> must stay <strong>practice-agnostic</strong>; anything that only fits one method belongs under <strong>`skills/&lt;that-practice&gt;/rules/`</strong> and that practice&#x27;s <strong>`templates/`</strong>, not here.</p>
 <h3>Template</h3>
 <p>A <strong>template</strong> is a fixed output shape the practice promises—usually a file under <strong>`templates/`</strong>—that practitioners complete when they apply the method. It should make deliverables <strong>comparable</strong>, <strong>complete</strong>, and <strong>easy to find</strong>, and the skill should name every template shape it expects without ambiguity. When the skill names a template, either ship that file (filled or sensibly minimal), defer it in the skill text with a stated reason, or remove it from what the skill promises so scope stays honest. The starter <strong>`SKILL_template.md`</strong> in <strong>abd-author-practice-skill</strong> is a <strong>parameterized seed</strong>: it keeps <strong>`{{PLACEHOLDER}}`</strong> slots until you replace them and includes a short <strong>filled example</strong> (fictional practice) for tone; delete that example section from the copied <strong>`SKILL.md`</strong> once the real opening is written.</p>
 <h3>Sections and rules</h3>
-<p><strong>`SKILL.md`</strong> carries <strong>teaching and workflow order</strong>. The <strong>Core concepts</strong> block (or the skill’s main idea section) is the <strong>meaning layer</strong>: how the parts of the practice relate — goals, actors, behaviours, options, metrics, phasing, and similar — in plain language. <strong>`rules/*.md`</strong> are the <strong>check layer</strong> on real artifacts: pass/fail on outputs (phrasing, shape, trace, assumptions, and the like) — see bundled <strong>Target rule files are checkable specs for named artifacts</strong>. <strong>Build</strong> sequences the work; <strong>rules</strong> define acceptable output. The same split appears in skills such as <strong>abd-story-mapping</strong> and <strong>abd-specification-by-example</strong>.</p></div></details>
-<details class="entry-md-section" id="build"><summary class="entry-md-section__summary">Build</summary><div class="entry-md-section__body"><p>Work on <strong>one</strong> practice under <strong>`skills/&lt;skill-name&gt;/`</strong>. The <strong>quality bar</strong> for that package is the bundled rules at the end of this file. Follow these items <strong>in order</strong>; they spell out the same work as the quick reference below, but in full sentences.</p>
-<p>When you <strong>maintain `abd-author-practice-skill`</strong>, keep its bundled <strong>`rules/`</strong> generic for <strong>any</strong> practice; move or add method-specific checks only on the <strong>target</strong> skill under <strong>`skills/&lt;skill-name&gt;/`</strong> (see <strong>Core concepts</strong>, <strong>Rules</strong>, <strong>Author-kit scope</strong>).</p>
-<p>1. <strong>Create a starter skill page when the target has none yet.</strong> If <strong>`SKILL.md`</strong> is not there, copy <strong>`templates/SKILL_template.md`</strong> from <strong>abd-author-practice-skill</strong> into the target folder, create empty <strong>`rules/`</strong>, <strong>`templates/`</strong>, and <strong>`ide-files/`</strong>, and set the YAML <strong>`name`</strong> and <strong>`description`</strong>. The file you copy is a <strong>skeleton plus one filled example block</strong> (fictional practice) for tone; remove that example section after your real <strong>Purpose</strong> and <strong>When to use</strong> are in place. Immediately after the frontmatter, add the <strong>Manual:</strong> line that points at <strong>`./manual/index.html`</strong>, and keep the <strong>`&lt;!-- execute_rules:bundle_rules:begin/end --&gt;`</strong> markers at the end of the file with nothing between them until real <strong>`rules/*.md`</strong> exist and you have run the bundle script. Also scaffold <strong>`ide-files/`</strong> and the deployable IDE files there (see step 8). If <strong>`SKILL.md`</strong> already exists, skip this step.</p>
-<p>2. <strong>Read the bundled rules as the contract for the target.</strong> Scroll to the rule block at the bottom of <strong>this</strong> file. Those <strong>DO</strong> / <strong>DO NOT</strong> / <strong>Examples</strong> are what “done” means for how the <strong>target</strong> practice should read and how its <strong>`rules/*.md`</strong> should behave.</p>
-<p>3. <strong>Map hub evidence to the right parts of the target skill page.</strong> Use the <strong>Relevance</strong> tag on each <strong>Kept chunk</strong> in <strong>`inputs/abd-answers-retrieval.md`</strong>: treat <strong>`core_concept`</strong> and <strong>`glossary`</strong> chunks as fuel for opening sections; <strong>`procedure`</strong> and <strong>`rule`</strong> for how-to and <strong>Validate</strong>-style checks; <strong>`example`</strong> for examples and template hints; <strong>`diagram_ref`</strong> for manual or figure notes. Do not add <strong>`scanners/*.py`</strong> in this pass.</p>
-<p>4. <strong>Rewrite the target `SKILL.md` for human readers.</strong> Replace placeholder voice with plain <strong>Purpose</strong> and <strong>When to use</strong>, then procedures and examples. Where you claim something is hub-backed, cite retrieval row and source when that helps a reviewer. Either fill every <strong>`{{PLACEHOLDER}}`</strong>, defer it in writing with a reason, or narrow what the skill promises.</p>
-<p>5. <strong>Author `rules/*.md` on the target as output validators.</strong> Each file targets a <strong>named artifact</strong>; every <strong>DO</strong> must be <strong>decidable</strong> from that artifact without extra context. Keep <strong>step order</strong> in <strong>Build</strong> in <strong>`SKILL.md`</strong>, not in rules. Every normative file needs <strong>`## DO`</strong>, <strong>`## DO NOT`</strong>, per-bullet <strong>Example (pass)</strong> / <strong>Example (fail)</strong> as in the bundled <strong>Rule DOs and DON&#x27;Ts must each have examples</strong>, plus enough condition text to mark pass vs fail. Point <strong>`Source:`</strong> at <strong>`inputs/abd-answers-retrieval.md`</strong> only for <strong>hub-backed</strong> lines; do not fake hub sources for chat-only norms. Add <strong>`scanner:`</strong> in front matter only if <strong>`scanners/&lt;stem&gt;-scanner.py`</strong> already exists on that package (see bundled <strong>Target rule files are checkable specs for named artifacts</strong>).</p>
-<p>6. <strong>Bundle the target skill so the inlined rules match disk.</strong> From the <strong>agilebydesign-skills</strong> repository root, run <strong>`bundle_rules_into_skill_md.py`</strong> with <strong>`--skill-root skills/&lt;skill-name&gt;`</strong> so <strong>`SKILL.md`</strong> on the target reflects every change under <strong>`rules/`</strong>.</p>
+<p><strong>`SKILL.md`</strong> carries <strong>teaching and workflow order</strong> — it is a <strong>thin router</strong>: purpose, when-to-use, output resolution, and the read-gates that drive generate and validate. <strong>`rules/*.md`</strong> are the <strong>check layer</strong> on real artifacts: pass/fail on outputs (phrasing, shape, trace, assumptions, and the like). <strong>`reference/*.md`</strong> hold concept teaching, examples, and heuristics — they are loaded on demand, not inlined. <strong>Build</strong> sequences the work; <strong>rules</strong> define acceptable output. The same split appears in skills such as <strong>abd-story-mapping</strong> and <strong>abd-specification-by-example</strong>.</p></div></details>
+<details class="entry-md-section" id="build"><summary class="entry-md-section__summary">Build</summary><div class="entry-md-section__body"><p>Work on <strong>one</strong> practice under <strong>`skills/&lt;skill-name&gt;/`</strong>. The <strong>quality bar</strong> for that package is in this skill&#x27;s <strong>`rules/`</strong> — read every file there before starting and before validating. Follow these items <strong>in order</strong>.</p>
+<p>When you <strong>maintain `abd-author-practice-skill`</strong>, keep its <strong>`rules/`</strong> generic for <strong>any</strong> practice; move or add method-specific checks only on the <strong>target</strong> skill under <strong>`skills/&lt;skill-name&gt;/`</strong> (see <strong>Core concepts</strong>, <strong>Rules</strong>).</p>
+<p>1. <strong>Create a starter skill page when the target has none yet.</strong> If <strong>`SKILL.md`</strong> is not there, copy <strong>`templates/SKILL_template.md`</strong> from <strong>abd-author-practice-skill</strong> into the target folder, create empty <strong>`rules/`</strong>, <strong>`reference/`</strong>, <strong>`templates/`</strong>, and <strong>`ide-files/`</strong>, and set the YAML <strong>`name`</strong> and <strong>`description`</strong>. The file you copy is a <strong>skeleton plus one filled example block</strong> (fictional practice) for tone; remove that example section after your real <strong>Purpose</strong> and <strong>When to use</strong> are in place. Immediately after the frontmatter, add the <strong>Manual:</strong> line that points at <strong>`./manual/index.html`</strong>. Also scaffold <strong>`ide-files/`</strong> and the deployable IDE files there (see step 8). If <strong>`SKILL.md`</strong> already exists, skip this step.</p>
+<p>2. <strong>Read this skill&#x27;s `rules/*.md` as the contract for the target.</strong> Every file in `rules/` defines what &quot;done&quot; means for how the <strong>target</strong> practice should read and how its <strong>`rules/*.md`</strong> should behave. Read them all now. Also read <strong>`reference/`</strong> for concept guidance.</p>
+<p>3. <strong>Map hub evidence to the right parts of the target skill page.</strong> Use the <strong>Relevance</strong> tag on each <strong>Kept chunk</strong> in <strong>`inputs/abd-answers-retrieval.md`</strong>: treat <strong>`core_concept`</strong> and <strong>`glossary`</strong> chunks as fuel for opening sections and <strong>`reference/`</strong> files; <strong>`procedure`</strong> and <strong>`rule`</strong> for how-to and <strong>Validate</strong>-style checks; <strong>`example`</strong> for examples and template hints; <strong>`diagram_ref`</strong> for manual or figure notes. Do not add <strong>`scanners/*.py`</strong> in this pass.</p>
+<p>4. <strong>Rewrite the target `SKILL.md` as a thin router.</strong> Replace placeholder voice with plain <strong>Purpose</strong> and <strong>When to use</strong>, then the Agent Instructions block with explicit read-gates, then the Validate section. Move concept teaching and examples to <strong>`reference/*.md`</strong> — they do not belong in the SKILL body. Where you claim something is hub-backed, cite retrieval row and source when that helps a reviewer. Either fill every <strong>`{{PLACEHOLDER}}`</strong>, defer it in writing with a reason, or narrow what the skill promises.</p>
+<p>5. <strong>Author `rules/*.md` on the target as output validators.</strong> Each file targets a <strong>named artifact</strong>; every <strong>DO</strong> must be <strong>decidable</strong> from that artifact without extra context. Keep <strong>step order</strong> in <strong>Build</strong> in <strong>`SKILL.md`</strong>, not in rules. Every normative file needs <strong>`## DO`</strong>, <strong>`## DO NOT`</strong>, per-bullet <strong>Example (pass)</strong> / <strong>Example (fail)</strong>, plus enough condition text to mark pass vs fail. Point <strong>`Source:`</strong> at <strong>`inputs/abd-answers-retrieval.md`</strong> only for <strong>hub-backed</strong> lines; do not fake hub sources for chat-only norms. Add <strong>`scanner:`</strong> in front matter only if <strong>`scanners/&lt;stem&gt;-scanner.py`</strong> already exists on that package.</p>
+<p>6. <strong>Confirm `SKILL.md` is a thin router — no rule or concept prose inlined.</strong> Rules live only in <strong>`rules/*.md`</strong>; concept and example prose lives only in <strong>`reference/*.md`</strong>. <strong>`SKILL.md`</strong> must contain no `&lt;!-- execute_rules:bundle_rules --&gt;` markers and no inlined rule or concept text. Verify the Agent Instructions block contains explicit read-gates for <strong>`rules/`</strong> and <strong>`reference/`</strong> (MANDATORY before generating and before validating), and that the Validate section requires a per-rule verdict.</p>
 <p>7. <strong>Inspect the package instead of rewriting it from scratch.</strong> Walk the <strong>Validate</strong> checklist in this file against the <strong>target</strong> folder, fix drift and weak spots, and stop when a careful reviewer would accept the package—unless new evidence forces a larger rewrite.</p>
 <p>8. <strong>Create IDE files only when the skill enforces a real always-on behavioral constraint.</strong> IDE files are <strong>not</strong> required for every skill — skills are discovered contextually through the agent skills system. Do <strong>not</strong> create a `.mdc` that just says &quot;read skill X when the user asks for Y&quot;; that is noise, not a constraint.</p>
 <p>Only create <strong>`ide-files/`</strong> when the skill enforces a <strong>non-negotiable behavioral guard</strong> that must hold in every conversation regardless of context (a quality gate, a process invariant, a &quot;never do X&quot; rule). When that bar is met:</p>
@@ -997,7 +994,8 @@ a.cap-card:hover .cap-card__icon {
 <li><strong>`ide-files/&lt;skill-name&gt;.mdc`</strong> — Cursor rule. YAML frontmatter with `description:` and `alwaysApply: true`; body states the constraint in DO / DO NOT terms.</li>
 <li><strong>`ide-files/&lt;skill-name&gt;.instructions.md`</strong> — VS Code parity: the <strong>exact same markdown body</strong> as the `.mdc` (everything after the closing `---`) with <strong>no</strong> YAML header. The <strong>`mdc-instructions-parity`</strong> scanner fails if they drift.</li>
 </ul>
-<p><strong>Do not create a `.prompt.md`</strong> by default. Slash commands are for workflows a practitioner explicitly invokes — only add one when there is a clear user-facing invocation reason. 9. <strong>Deploy the skill outputs to the target project.</strong> Run <strong>`Deploy-SkillOutputs.ps1`</strong> from this skill&#x27;s `scripts/` to link the authored skill&#x27;s IDE files into the target project:</p>
+<p><strong>Do not create a `.prompt.md`</strong> by default. Slash commands are for workflows a practitioner explicitly invokes — only add one when there is a clear user-facing invocation reason.</p>
+<p>9. <strong>Deploy the skill outputs to the target project.</strong> Run <strong>`Deploy-SkillOutputs.ps1`</strong> from this skill&#x27;s `scripts/` to link the authored skill&#x27;s IDE files into the target project:</p>
 <pre><code>   .\agents\abd-practice-skill-builder\skills\abd-author-practice-skill\scripts\Deploy-SkillOutputs.ps1 -SkillPath skills/&lt;skill-name&gt; -ProjectRoot &lt;target-project&gt; -Force</code></pre>
 <p>`-IDE` defaults to <strong>`Cursor`</strong> (`.mdc` → <strong>`.cursor/rules/`</strong>, `.prompt.md` → <strong>`.cursor/commands/`</strong>, plus the <strong>`~/.cursor/skills/`</strong> junction). Add <strong>`-IDE Both`</strong> when <strong>`&lt;target-project&gt;`</strong> should also get <strong>`.vscode/`</strong> and <strong>`.github/prompts/`</strong>.</p>
 <p>10. <strong>Check `.mdc` / `.instructions.md` parity on the target.</strong> From the <strong>agilebydesign-skills</strong> repo root, run <strong>`run_scanners.py`</strong> with <strong>`--skill-root`</strong> pointing at <strong>this authoring skill</strong> and <strong>`--workspace`</strong> as an <strong>absolute</strong> path to the target skill root (relative paths resolve against the authoring skill folder and will not work):</p>
@@ -1008,380 +1006,26 @@ a.cap-card:hover .cap-card__icon {
 <ul>
 <li><strong>Target root:</strong> <strong>`agilebydesign-skills/skills/&lt;skill-name&gt;/`</strong></li>
 <li><strong>Starter template:</strong> <strong>`skills/abd-practice-skill-builder/abd-author-practice-skill/templates/SKILL_template.md`</strong></li>
-<li><strong>Terse order:</strong> seed <strong>`SKILL.md`</strong> if needed; read bundled rules; map retrieval by relevance; fill <strong>`SKILL.md`</strong>; write <strong>`rules/*.md`</strong>; run <strong>`python skills/execute-skill-using-skills-rules/scripts/bundle_rules_into_skill_md.py --skill-root skills/&lt;skill-name&gt;`</strong>; run <strong>Validate</strong> checklist.</li>
+<li><strong>Terse order:</strong> seed <strong>`SKILL.md`</strong> if needed; read all `rules/<em>.md` and `reference/` files; map retrieval by relevance; fill </em><em>`SKILL.md`</em><em> as a thin router; write </em><em>`rules/</em>.md`<strong>; move concept/example prose to </strong>`reference/<em>.md`</em><em>; run </em><em>Validate</em>* checklist.</li>
 </ul></div></details>
-<details class="entry-md-section" id="validate"><summary class="entry-md-section__summary">Validate</summary><div class="entry-md-section__body"><p><strong>Goal:</strong> Inspect the <strong>target</strong> package as a reviewer (see bundled <strong>Validate section is inspection not rewrite</strong>).</p>
+<details class="entry-md-section" id="validate"><summary class="entry-md-section__summary">Validate</summary><div class="entry-md-section__body"><p><strong>Goal:</strong> Inspect the <strong>target</strong> package as a reviewer. Read every file in `rules/` for this skill before running this checklist.</p>
 <p>Checklist for the <strong>target</strong> <strong>`skills/&lt;skill-name&gt;/`</strong>:</p>
 <ul>
-<li><strong>Readable English</strong> — <strong>Purpose</strong>, <strong>When to use</strong>, <strong>Core concepts</strong>, <strong>Build</strong>, <strong>Validate</strong>, and the rest of the target <strong>`SKILL.md`</strong> use <strong>clear, grammatical prose</strong> for humans, not only a polished opening followed by rough notes; paths and commands appear where expected, with enough sentence context that the page teaches the method (bundled <strong>Clear English in every skill section</strong>).</li>
-<li><strong>Purpose is outcome not mechanics</strong> — <strong>Purpose</strong> is <strong>one</strong> short paragraph about <strong>why</strong> the practice exists and what it helps people do; <strong>Purpose</strong> and other <strong>opening</strong> teaching blocks do <strong>not</strong> front-load paths, <strong>`Manual:`</strong>, <strong>`execute-skill-using-skills-rules`</strong> markers, template-copy steps, or agent pipeline detail before that outcome is clear (bundled <strong>Opening sections give outcomes not package mechanics</strong>).</li>
-<li><strong>Concepts before notation</strong> — <strong>Core concepts</strong> (and similar teaching blocks) explain <strong>ideas and relationships</strong> first; <strong>diagram symbols, file line-prefix serialisation, and template positioning</strong> (where something sits in an output file) live in <strong>templates</strong>, <strong>Agent Instructions</strong>, <strong>Build</strong>, <strong>Validate</strong>, and <strong>`rules/*.md`</strong>, not as the main way the method is introduced. The target <strong>Core concepts</strong> do <strong>not</strong> explain package structure (meaning layer vs check layer, “where teaching lives”) — that stays in <strong>abd-author-practice-skill</strong> (bundled <strong>Core sections teach ideas before file prefixes and diagram notation</strong>, <strong>Sections and rules</strong>).</li>
+<li><strong>Readable English</strong> — <strong>Purpose</strong>, <strong>When to use</strong>, <strong>Core concepts</strong>, <strong>Build</strong>, <strong>Validate</strong>, and the rest of the target <strong>`SKILL.md`</strong> use <strong>clear, grammatical prose</strong> for humans, not only a polished opening followed by rough notes; paths and commands appear where expected, with enough sentence context that the page teaches the method (see `rules/clear-english-throughout-skill-page.md`).</li>
+<li><strong>Purpose is outcome not mechanics</strong> — <strong>Purpose</strong> is <strong>one</strong> short paragraph about <strong>why</strong> the practice exists and what it helps people do; opening blocks do <strong>not</strong> front-load paths, markers, template-copy steps, or pipeline detail before that outcome is clear (see `rules/opening-sections-give-outcomes-not-package-mechanics.md`).</li>
+<li><strong>Concepts before notation</strong> — <strong>Core concepts</strong> explain <strong>ideas and relationships</strong> first; diagram symbols, file prefix serialisation, and template positioning live in <strong>templates</strong>, <strong>Agent Instructions</strong>, <strong>Build</strong>, <strong>Validate</strong>, and <strong>`rules/*.md`</strong> (see `rules/core-sections-teach-ideas-before-file-prefixes-and-diagram-notation.md`).</li>
 <li><strong>YAML</strong> — <strong>`description`</strong> is a <strong>one-line outcome</strong>, not a repeat of the file pipeline.</li>
 <li><strong>Placeholders</strong> — no <strong>`{{PLACEHOLDER}}`</strong> unless the engagement <strong>explicitly</strong> defers that slice.</li>
 <li><strong>Evidence</strong> — what you call <strong>hub-backed</strong> ties to <strong>`inputs/abd-answers-retrieval.md`</strong>; chat/engagement norms are not forced to; gaps are <strong>documented</strong>, not invented.</li>
-<li><strong>Templates</strong> — every file the <strong>target</strong> <strong>SKILL.md</strong> promises under <strong>`templates/`</strong> is <strong>filled</strong>, <strong>stubbed with a stated reason</strong>, or <strong>removed from the promise</strong>; each promised template includes <strong>at least one audience-appropriate filled example</strong>, not only headings and placeholders (bundled <strong>Templates include ideal filled examples for the audience</strong>), unless <strong>`SKILL.md`</strong> explicitly defers that template as drill-only or stubbed.</li>
-<li><strong>Rule file shape</strong> — target <strong>`rules/*.md`</strong> that are normative follow the bundled <strong>Target rule files are checkable specs for named artifacts</strong> (decidable <strong>DO</strong> / <strong>DO NOT</strong>, per-bullet examples, <strong>Source</strong> when hub-backed); <strong>Build</strong> in <strong>`SKILL.md`</strong> remains the step-order doc.</li>
-<li><strong>Rules and bundle</strong> — <strong>`rules/*.md`</strong> match <strong>execute-skill-using-skills-rules</strong> shape; <strong>`bundle_rules_into_skill_md.py`</strong> was run on the <strong>target</strong> root so the bundle block matches disk; <strong>`scanner:`</strong> only where the script exists (bundled <strong>SKILL.md bundle matches rules/*.md files; scanner stem matches Python filename</strong>).</li>
-<li><strong>Teaching is positive, anti-patterns live in rules</strong> — the target <strong>`SKILL.md`</strong> does <strong>not</strong> have &quot;What this skill is not,&quot; &quot;Anti-patterns,&quot; or &quot;Common mistakes&quot; sections; things to avoid are enforced as <strong>`## DO NOT`</strong> bullets in <strong>`rules/*.md`</strong> where they can be checked against artifacts (bundled <strong>Anti-patterns belong in rules, not skill teaching</strong>).</li>
-<li><strong>Validate section</strong> — the <strong>target</strong> <strong>SKILL.md</strong> <strong>Validate</strong> list matches what that skill <strong>actually</strong> ships (templates, markers, citations).</li>
-</ul>
-<hr>
-<p>&lt;!-- execute_rules:bundle_rules:begin --&gt;</p>
-<h3>Rule: Anti-patterns belong in rules, not skill teaching</h3>
-<p>The <strong>target</strong> <strong>`SKILL.md`</strong> teaching voice (<strong>Purpose</strong>, <strong>When to use</strong>, <strong>Core concepts</strong>, <strong>Build</strong>) should tell practitioners <strong>what to do</strong> and <strong>how to think</strong>. Sections that list what the skill does <strong>not</strong> do — &quot;What this skill is not,&quot; &quot;Anti-patterns,&quot; &quot;Common mistakes,&quot; &quot;Don&#x27;ts&quot; — belong in <strong>`rules/*.md`</strong> as <strong>`## DO NOT`</strong> bullets where they can be checked against real artifacts. Passing means the teaching voice is positive and forward; anti-patterns are enforced through rules. Failing means the skill page spends teaching space listing negatives that duplicate or should be rules.</p>
-<h4>DO</h4>
-<ul>
-<li>Teach the method positively in <strong>`SKILL.md`</strong>: what to do, how to think, what to produce.</li>
-</ul>
-<p><strong>Example (pass):</strong> &quot;Write 1–2 paragraphs of flowing prose that define the abstraction.&quot; — teaches the positive action.</p>
-<ul>
-<li>Put anti-patterns, forbidden formats, and &quot;don&#x27;t do X&quot; guidance in <strong>`rules/*.md`</strong> as <strong>`## DO NOT`</strong> bullets with concrete examples.</li>
-</ul>
-<p><strong>Example (pass):</strong> `rules/no-jargon-added.md` has a `## DO NOT` bullet: &quot;Add `Intent:` lines to any term or KA.&quot; — checkable against an artifact.</p>
-<h4>DO NOT</h4>
-<ul>
-<li>Add a &quot;What this skill is not&quot; or &quot;Anti-patterns&quot; or &quot;Common mistakes&quot; section to the skill&#x27;s main teaching voice.</li>
-</ul>
-<p><strong>Example (fail):</strong> <strong>`SKILL.md`</strong> has a `### What this skill is not` section with three bullets listing things to avoid — these are rules, not teaching.</p>
-<ul>
-<li>Duplicate rule content as negative prose in teaching sections when a <strong>`rules/*.md`</strong> file already covers that check.</li>
-</ul>
-<p><strong>Example (fail):</strong> <strong>`SKILL.md`</strong> says &quot;It does <strong>not</strong> make class-level commitments&quot; in the teaching voice while `rules/no-class-level-commitments.md` already enforces this — the skill page repeats the rule as prose instead of teaching the method.</p>
-<p><strong>Source:</strong> Practice-skill authoring convention (abd-practice-skill-builder).</p>
-<h3>Rule: Clear English in every skill section</h3>
-<p><strong>Scanner:</strong> Manual review</p>
-<p>The <strong>target</strong> <strong>`SKILL.md`</strong> should read in <strong>clear, grammatical English</strong> from start to finish: <strong>Purpose</strong>, <strong>When to use</strong>, <strong>Core concepts</strong>, <strong>Build</strong>, <strong>Validate</strong>, and other teaching blocks use full sentences and a colleague-level voice. Paths and commands belong where readers expect them, with a line or two of prose so the page teaches instead of dumping scripts. YAML <strong>`description`</strong> stays one short outcome line. Failure is a polished opening followed by brittle note fragments, a <strong>Purpose</strong> that is only file operations when readers wanted the practice, or a <strong>description</strong> that repeats the whole <strong>Build</strong> pipeline.</p>
-<h4>DO</h4>
-<ul>
-<li>Write <strong>every</strong> narrative section in <strong>direct, grammatical prose</strong> — <strong>Core concepts</strong> and procedures included, not only <strong>Purpose</strong> / <strong>When to use</strong>.</li>
-</ul>
-<p><strong>Example (pass):</strong> <strong>Build</strong> step 1: “If <strong>`SKILL.md`</strong> is missing, copy the starter template, add <strong>`Manual:`</strong>, and create empty <strong>`rules/`</strong> and <strong>`templates/`</strong>.” — full sentence.</p>
-<ul>
-<li>Keep <strong>Purpose</strong> and <strong>When to use</strong> as the short <em>why</em> and <em>when</em>; <strong>When to use</strong> uses real triggers (for example evidence already gathered, need a finished package).</li>
-</ul>
-<p><strong>Example (pass):</strong> <strong>When to use:</strong> “You already have <strong>`abd-answers-retrieval.md`</strong> and need <strong>`SKILL.md`</strong> plus <strong>`rules/`</strong> finished for reviewers.”</p>
-<ul>
-<li>For <strong>abd-author-practice-skill</strong> itself, <strong>Purpose</strong> may state plainly that this step finishes the target page and <strong>`rules/`</strong> — that <strong>is</strong> the user-facing outcome here.</li>
-</ul>
-<p><strong>Example (pass):</strong> “This skill authors the target <strong>`rules/*.md`</strong> and finishes <strong>`SKILL.md`</strong> from retrieval.”</p>
-<ul>
-<li>Keep YAML <strong>`description`</strong> to <strong>one line</strong> about the outcome, not every path touched.</li>
-</ul>
-<p><strong>Example (pass):</strong> `description: Finish a practice skill package from hub retrieval evidence.`</p>
-<ul>
-<li>Put commands in <strong>Prerequisites</strong> / <strong>Build</strong> / <strong>Validate</strong> with a short intro sentence so lists are not orphaned.</li>
-</ul>
-<p><strong>Example (pass):</strong> “From repo root, bundle rules after edits:” then the <strong>`python ... bundle_rules...`</strong> line.</p>
-<ul>
-<li>Use <strong>clear phrases</strong> in <strong>Agent Instructions</strong> table cells; terse is fine, broken grammar is not.</li>
-</ul>
-<p><strong>Example (pass):</strong> “Read <strong>`inputs/abd-answers-retrieval.md`</strong> before editing <strong>`SKILL.md`</strong>.”</p>
-<ul>
-<li>Put provenance in <strong>`Source:`</strong> on <strong>rules</strong> or a <strong>Sources:</strong> note — not long “from the training / tightened for…” meta in body prose.</li>
-</ul>
-<p><strong>Example (pass):</strong> Body says what the practice <strong>is</strong>; <strong>`rules/foo.md`</strong> ends a bullet with <strong>Source:</strong> Kept chunk #3.</p>
-<h4>DO NOT</h4>
-<ul>
-<li>Polish <strong>Purpose</strong> only while <strong>Core concepts</strong> or <strong>Build</strong> read like a rough internal checklist with no real sentences.</li>
-</ul>
-<p><strong>Example (fail):</strong> <strong>Purpose</strong> is two paragraphs; <strong>Build</strong> is “1. copy 2. bundle 3. done” with no connecting text.</p>
-<ul>
-<li>Open the <strong>target practice</strong> with <strong>Purpose</strong> that is only an IT runbook when readers expect the <strong>practice</strong> itself.</li>
-</ul>
-<p><strong>Example (fail):</strong> Story-mapping skill: “<strong>Purpose:</strong> Copy <strong>`SKILL.md`</strong> and run <strong>`bundle_rules...`</strong>” as the first line.</p>
-<ul>
-<li>Paste the full <strong>Build</strong> pipeline into <strong>`description`</strong>.</li>
-</ul>
-<p><strong>Example (fail):</strong> <strong>`description`</strong> lists six file paths and two shell commands — belongs in <strong>Build</strong> only.</p>
-<ul>
-<li>Pad teaching with provenance throat-clearing (“training-aligned”, “tightened for this notation”) instead of substance; put audit trail on <strong>rules</strong>.</li>
-</ul>
-<p><strong>Example (fail):</strong> <strong>Core concepts</strong> paragraph 1 explains where wording came from; still no explanation of the method.</p>
-<p><strong>Source:</strong> Practice-skill authoring convention (abd-practice-skill-builder).</p>
-<h3>Rule: Core sections teach ideas before file prefixes and diagram notation</h3>
-<p><strong>Scanner:</strong> Manual review</p>
-<p><strong>Purpose</strong> and <strong>Core concepts</strong> on the <strong>target</strong> <strong>`SKILL.md`</strong> should explain <strong>what things mean and how they relate</strong> — outcomes, who is involved, behaviour, options — in plain language first. <strong>Prefix tags</strong>, <strong>ASCII tree layout</strong>, <strong>diagram geometry</strong>, and <strong>which file line holds what</strong> belong in <strong>templates</strong>, <strong>Agent Instructions</strong>, <strong>Build</strong>, <strong>Validate</strong>, and <strong>`rules/*.md`</strong>, not as the main front-door to the method. You fail when <strong>Core concepts</strong> opens as a symbol legend or tells people which <strong>`FOO:`</strong> line to use before the ideas exist.</p>
-<h4>DO</h4>
-<ul>
-<li>Teach <strong>relationships</strong> in plain language (for example broader outcomes decompose into finer ones; actors attach to the outcome in focus; behaviours and options hang under those).</li>
-</ul>
-<p><strong>Example (pass):</strong> “Goals form a hierarchy from organisation-level outcomes down to impacts you can observe in behaviour.” — no `GOAL:` prefix in <strong>Core concepts</strong>.</p>
-<ul>
-<li>Put <strong>exact markers</strong>, <strong>column names</strong>, <strong>diagram shape</strong>, and <strong>canvas placement</strong> only in <strong>templates</strong>, <strong>Agent Instructions</strong>, <strong>Build</strong> / <strong>Validate</strong>, and <strong>rules</strong> that judge outputs.</li>
-</ul>
-<p><strong>Example (pass):</strong> <strong>`templates/impact-map.md`</strong> shows `GOAL:` lines; <strong>Core concepts</strong> says “goals sit at the top of the map” without copying the prefix block.</p>
-<ul>
-<li>Keep <strong>Core concepts</strong> examples <strong>conceptual</strong> (outcome + proof, behaviour + proxy); <strong>templates</strong> show row/field layout.</li>
-</ul>
-<p><strong>Example (pass):</strong> “An impact is observable behaviour change; a trailing metric is how you know it moved.” — template shows <strong>`IMPACT:`</strong> / <strong>`TRAILING_METRIC:`</strong> lines.</p>
-<ul>
-<li>When the hub uses a picture, translate to <strong>concepts</strong> in <strong>`SKILL.md`</strong>; cite figures in <strong>manual</strong> / <strong>references</strong> without turning the skill into a symbol glossary.</li>
-</ul>
-<p><strong>Example (pass):</strong> “The training figure shows three levels of outcome; see <strong>manual</strong> figure 2.” — not a fenced block of every glyph.</p>
-<h4>DO NOT</h4>
-<ul>
-<li>Use <strong>Core concepts</strong> mainly to rehearse <strong>prefix tags</strong>, <strong>tree ASCII</strong>, <strong>indent rules</strong>, or <strong>spatial layout</strong> when plain language could state relationships first.</li>
-</ul>
-<p><strong>Example (fail):</strong> First screen of <strong>Core concepts</strong> is a fenced block of `EPIC:` / `STORY:` lines and “indent means subordinate” before “what an epic is”.</p>
-<ul>
-<li>Put <strong>template positioning</strong> in <strong>Core concepts</strong> (“use the `FOO:` line”, “in column 3 of the table”).</li>
-</ul>
-<p><strong>Example (fail):</strong> “Core concepts” says “put the metric on <strong>`TRAILING_METRIC:`</strong> next to <strong>`GOAL:`</strong>” — belongs in <strong>template</strong> / <strong>Agent Instructions</strong>.</p>
-<ul>
-<li>Add <strong>package-structure meta</strong> to the <strong>target</strong> <strong>Core concepts</strong> (“meaning layer vs check layer”, “where teaching lives”) — that is <strong>abd-author-practice-skill</strong> guidance only.</li>
-</ul>
-<p><strong>Example (fail):</strong> Target <strong>Core concepts</strong> explains how <strong>`rules/`</strong> differ from <strong>Build</strong> for package authors — practitioners need the method, not package anatomy.</p>
-<ul>
-<li>Train readers on <strong>notation</strong> before they know <strong>what each node type means</strong> in the real world.</li>
-</ul>
-<p><strong>Example (fail):</strong> “Learn these seven prefixes” before “what is an actor vs an outcome”.</p>
-<p><strong>Source:</strong> Practice-skill authoring convention (abd-practice-skill-builder).</p>
-<h3>Rule: `.mdc` body matches `.instructions.md` (VS Code parity)</h3>
-<p>On the <strong>target</strong> skill package, every <strong>Cursor rule</strong> ( <strong>`*.mdc`</strong> ) lives under <strong>`ide-files/`</strong> next to <strong>`SKILL.md`</strong> (legacy: skill root only if <strong>`ide-files/`</strong> is absent). Each <strong>`.mdc`</strong> must have a <strong>paired</strong> <strong>`&lt;same-stem&gt;.instructions.md`</strong> in the <strong>same folder</strong> so VS Code gets the <strong>same</strong> always-on text. The <strong>markdown body</strong> of the <strong>`.mdc`</strong> (everything <strong>after</strong> the YAML frontmatter block) must be <strong>byte-for-byte the same</strong> as the <strong>entire</strong> <strong>`.instructions.md`</strong> file after <strong>normalization</strong> (line endings → LF, trim trailing spaces per line, trim leading/trailing blank lines). The <strong>`.prompt.md`</strong> slash-command file is <strong>deliberately different</strong> — it is a short invocation, not the rule body — and is <strong>not</strong> compared to the <strong>`.mdc`</strong>. Failure is a missing pair, or mismatched bodies between <strong>`.mdc`</strong> and <strong>`.instructions.md`</strong>.</p>
-<h4>DO</h4>
-<ul>
-<li>Keep <strong>`&lt;stem&gt;.instructions.md`</strong> as the <strong>exact same prose</strong> as <strong>`&lt;stem&gt;.mdc`</strong> without the `---` … `---` header (same headings, bullets, and paths). Edit one, then mirror the other, or edit <strong>`.mdc`</strong> and copy the body to <strong>`.instructions.md`</strong>.</li>
-</ul>
-<p><strong>Example (pass):</strong> <strong>`foo.mdc`</strong> has frontmatter plus “# Run foo …” and three bullets; <strong>`foo.instructions.md`</strong> is only “# Run foo …” and those three bullets — identical after normalization.</p>
-<ul>
-<li>Run <strong>`mdc-instructions-parity-scanner`</strong> on the <strong>target</strong> skill root when validating ( <strong>`--skill-root`</strong> = <strong>abd-author-practice-skill</strong>, <strong>`--workspace`</strong> = <strong>`skills/&lt;target&gt;/`</strong> ).</li>
-</ul>
-<p><strong>Example (pass):</strong> `python skills/execute-skill-using-skills-rules/scripts/run_scanners.py --skill-root skills/abd-practice-skill-builder/abd-author-practice-skill --workspace C:/dev/agilebydesign-skills/skills/correct_output` reports <strong>PASS</strong> for <strong>mdc-instructions-parity</strong>.</p>
-<p><strong>Example (fail):</strong> `...\run_scanners.py ... --workspace skills/correct_output` from a shell whose cwd is not the repo root — the path resolves under the authoring skill and is wrong; use an <strong>absolute</strong> `--workspace`.</p>
-<h4>DO NOT</h4>
-<ul>
-<li>Change <strong>`.mdc`</strong> body text without updating <strong>`.instructions.md`</strong> to match (or the reverse).</li>
-</ul>
-<p><strong>Example (fail):</strong> <strong>`correct-output.mdc`</strong> adds a fourth bullet; <strong>`correct-output.instructions.md`</strong> still has three bullets — scanner reports mismatch.</p>
-<ul>
-<li>Treat <strong>`.prompt.md`</strong> as the rule twin of <strong>`.mdc`</strong> — it is the <strong>command</strong> payload, not the always-on instruction file.</li>
-</ul>
-<p><strong>Example (fail):</strong> Deleting <strong>`.instructions.md`</strong> because “<strong>`.prompt.md`</strong> is enough” — VS Code always-on parity is missing.</p>
-<p><strong>Source:</strong> deployable IDE file convention (abd-author-practice-skill <strong>Build</strong> step 8–9).</p>
-<h3>Rule: Opening sections give outcomes not package mechanics</h3>
-<p><strong>Scanner:</strong> Manual review</p>
-<p><strong>Purpose</strong>, <strong>When to use</strong>, and the first teaching blocks on a <strong>`SKILL.md`</strong> should read like <strong>why the packaged method matters</strong>, <strong>who it helps</strong>, and <strong>what becomes possible</strong> when the practice is done well. They stay in <strong>human outcome language</strong>. <strong>Package mechanics</strong> — repo paths, <strong>`Manual:`</strong>, <strong>`execute-skill-using-skills-rules`</strong> markers, which template to copy, bundling commands, retrieval filenames, scanner wiring, or “how an agent runs this skill” — belong in <strong>Prerequisites</strong>, <strong>Build</strong>, <strong>Validate</strong>, <strong>Agent Instructions</strong>, or <strong>`rules/*.md`</strong>, not in the opening voice. Failure is a <strong>Purpose</strong> that reads like a runbook or file checklist before the reader knows <strong>why</strong> the practice exists.</p>
-<h4>DO</h4>
-<ul>
-<li>Write <strong>Purpose</strong> as <strong>one</strong> short paragraph (or at most two if the practice truly needs a problem/solution split) that answers <strong>why</strong> this skill exists, <strong>what</strong> finishing it helps people do, and <strong>how</strong> the skill supports that — without naming concrete paths or tooling steps.</li>
-</ul>
-<p><strong>Example (pass):</strong> “This skill helps teams agree on thin vertical slices so delivery order matches risk and learning. It packages that thinking so facilitators and agents can run the same method and produce comparable maps.” — outcome only.</p>
-<ul>
-<li>Keep <strong>When to use</strong> as <strong>triggers in plain language</strong> (situations readers recognize), not a recap of <strong>Build</strong> or folder layout.</li>
-</ul>
-<p><strong>Example (pass):</strong> “You have a story map and need to name the first shippable slice.” — no paths.</p>
-<ul>
-<li>Put <strong>file names</strong>, <strong>copy steps</strong>, <strong>bundle commands</strong>, and <strong>what this skill does not include</strong> (retrieval, scanners) in <strong>Prerequisites</strong>, <strong>Build</strong>, or <strong>Not in this pass</strong>.</li>
-</ul>
-<p><strong>Example (pass):</strong> <strong>Purpose</strong> stays outcome-only; <strong>Build</strong> item 1 says “If <strong>`SKILL.md`</strong> is missing, copy from <strong>`templates/SKILL_template.md`</strong>…”</p>
-<h4>DO NOT</h4>
-<ul>
-<li>Open <strong>Purpose</strong> with retrieval paths, <strong>`inputs/...`</strong>, <strong>`rules/*.md`</strong>, <strong>`Manual:`</strong>, <strong>`execute-skill-using-skills-rules`</strong>, or “start from <strong>`templates/...`</strong>” before stating <strong>why</strong> the practice matters.</li>
-</ul>
-<p><strong>Example (fail):</strong> “You use this skill after hub evidence is in <strong>`inputs/abd-answers-retrieval.md`</strong>. It authors <strong>`rules/*.md`</strong> and finishes <strong>`SKILL.md`</strong>…” as the <strong>whole</strong> purpose — mechanics first, no <strong>why</strong>.</p>
-<ul>
-<li>Use <strong>Purpose</strong> to explain <strong>agent choreography</strong> or <strong>another skill’s</strong> pipeline (“load X then run Y”) when that is not the <strong>substance</strong> of the practice itself.</li>
-</ul>
-<p><strong>Example (fail):</strong> “<strong>Purpose:</strong> Invoke <strong>abd-query-practice-sources</strong> then run <strong>`bundle_rules_into_skill_md.py`</strong> with <strong>`--skill-root`</strong>…” — operator steps, not the method’s value.</p>
-<p><strong>Source:</strong> Practice-skill authoring convention (abd-practice-skill-builder).</p>
-<h3>Rule: Rule DOs and DON&#x27;Ts must each have examples</h3>
-<p><strong>Scanner:</strong> Manual review</p>
-<p>Under <strong>`## DO`</strong>, every bullet must be followed by at least one <strong>Example (pass):</strong> with enough quoted or paraphrased content to show the shape, not a one-word stub. Under <strong>`## DO NOT`</strong>, every bullet must be followed by at least one <strong>Example (fail):</strong> the same way, in normal markdown (bullet then example lines). When several bullets share one vague example at the bottom, or examples do not map to a specific bullet, the rule fails.</p>
-<h4>DO</h4>
-<ul>
-<li>After <strong>each</strong> <strong>`## DO`</strong> bullet, add <strong>Example (pass):</strong> with a concrete fragment, path, or multi-line quote so someone can imitate it.</li>
-</ul>
-<p><strong>Example (pass):</strong> Bullet: “<strong>DO</strong> include a filled example in each promised template.” <strong>Example (pass):</strong> In <strong>`templates/story-map.md`</strong>, an <strong>Example</strong> section shows a full mini map with real epic titles and user tasks, not only `{{EPIC}}` tokens — enough depth that a complex generation has a clear target.</p>
-<ul>
-<li>After <strong>each</strong> <strong>`## DO NOT`</strong> bullet, add <strong>Example (fail):</strong> showing the violation with the same level of detail.</li>
-</ul>
-<p><strong>Example (pass):</strong> Correct pairing of a <strong>DO NOT</strong> bullet with a concrete <strong>Example (fail):</strong></p>
-<ul>
-<li><strong>DO NOT</strong> ship a template that is only headings and placeholders.</li>
-</ul>
-<p><strong>Example (fail):</strong> <strong>`templates/foo.md`</strong> has <strong>## Instructions</strong>, <strong>## Fields</strong>, and fifteen lines of <strong>`{{PLACEHOLDER}}`</strong> but <strong>no</strong> subsection where one row is filled with plausible prose — nothing to copy for tone or depth.</p>
-<h4>DO NOT</h4>
-<ul>
-<li>Attach <strong>one</strong> <strong>Pass</strong> / <strong>Fail</strong> pair at the end that does not clearly illustrate <strong>each</strong> bullet above.</li>
-</ul>
-<p><strong>Example (fail):</strong> Three <strong>DO</strong> bullets about templates, retrieval, and <strong>Validate</strong>; only <strong>Pass:</strong> “Opening reads well” — leaves the other bullets without an example.</p>
-<ul>
-<li>Use <strong>Example (fail):</strong> that repeats the bullet with no sample text.</li>
-</ul>
-<p><strong>Example (fail):</strong> Bullet: “<strong>DO NOT</strong> omit examples.” <strong>Example (fail):</strong> “When examples are missing.” — not a showable artifact.</p>
-<p><strong>Source:</strong> Practice-skill authoring convention (abd-practice-skill-builder).</p>
-<h3>Rule: Rules named after valid or invalid state</h3>
-<p><strong>Scanner:</strong> Manual review</p>
-<p>Each normative check lives in its <strong>own file</strong> under <strong>`rules/`</strong>, and that file’s <strong>name</strong> is the <strong>`*.md` basename</strong> in <strong>kebab-case</strong> (everything before <strong>`.md`</strong>). That <strong>filename</strong> must read like the <strong>outcome or state</strong> you guard — what “good” means or what bad state you forbid — so someone can guess the check before opening the file. This rule is <strong>about those rule markdown filenames</strong>, not about prose inside <strong>`SKILL.md`</strong>. Naming fails when the basename is a vague quality label with <strong>no</strong> object (<strong>`skill-valid-grammar`</strong>), or when it names <strong>only</strong> a tool or folder (<strong>`rules-files-and-bundle`</strong>, <strong>`execute-rules-steps`</strong>) instead of the <strong>verified outcome</strong>.</p>
-<h4>DO</h4>
-<ul>
-<li>Name <strong>`rules/&lt;basename&gt;.md`</strong> after the <strong>valid state</strong> you want (or the <strong>invalid</strong> one you forbid), so <strong>`basename`</strong> reads like <strong>`clear-english-on-every-skill-section`</strong> — <strong>what</strong> must hold.</li>
-</ul>
-<p><strong>Example (pass):</strong> <strong>`rules/clear-english-throughout-skill-page.md`</strong> — the pass condition is in the <strong>filename</strong>.</p>
-<ul>
-<li>Make <strong>`# Rule:`</strong> in that <strong>`.md`</strong> file match the same idea in normal English (title aligns with <strong>`basename`</strong>).</li>
-</ul>
-<p><strong>Example (pass):</strong> File <strong>`rules/templates-include-ideal-filled-examples-for-audience.md`</strong>, title <strong>`# Rule: Templates include ideal filled examples for the audience`</strong>.</p>
-<h4>DO NOT</h4>
-<ul>
-<li>Use <strong>`rules/&lt;basename&gt;.md`</strong> names like <strong>`skill-valid-grammar`</strong> or <strong>`valid-structure`</strong> where <strong>grammar</strong> / <strong>structure</strong> has <strong>no scope</strong> (which artifact).</li>
-</ul>
-<p><strong>Example (fail):</strong> <strong>`rules/skill-valid-grammar.md`</strong> — valid grammar <strong>on what file or section</strong>?</p>
-<ul>
-<li>Use a <strong>basename</strong> that only names plumbing (<strong>`rules-and-bundle`</strong>, <strong>`files-and-bundle`</strong>, <strong>`misc-wiring`</strong>) when the rule is really about a <strong>checkable outcome</strong> (then the <strong>`.md`</strong> name should say that outcome).</li>
-</ul>
-<p><strong>Example (fail):</strong> <strong>`rules/rules-files-and-bundle.md`</strong> for “inlined <strong>SKILL.md</strong> matches <strong>`rules/*.md`</strong> and <strong>`scanner:`</strong> matches <strong>`scanners/&lt;stem&gt;-scanner.py`</strong>” — the <strong>filename</strong> should say <strong>that</strong>, e.g. <strong>`skill-md-bundle-matches-rules-md-files-scanner-stem-matches-py-filename.md`</strong>.</p>
-<ul>
-<li>Name the file after <strong>only</strong> a script or CLI when the rule is about an <strong>artifact condition</strong>; the <strong>`rules/*.md`</strong> name should describe the <strong>pass/fail on disk</strong>, not the command you ran.</li>
-</ul>
-<p><strong>Example (fail):</strong> <strong>`rules/run-bundle-script.md`</strong> when the real check is <strong>bundle content matches </strong>`rules/naming.md`<strong>, etc.</strong></p>
-<p><strong>Source:</strong> Practice-skill authoring convention (abd-practice-skill-builder).</p>
-<h3>Rule: Rules open with plain pass-and-fail prose</h3>
-<p><strong>Scanner:</strong> Manual review</p>
-<p>A normative rule should stand on its own: right after the scanner line, use <strong>ordinary prose</strong> (one or two short paragraphs) to say <strong>what passing looks like</strong> and <strong>what failing looks like</strong> for a <strong>named artifact</strong>, without separate <strong>Valid:</strong> / <strong>Invalid:</strong> headings. Then <strong>`## DO`</strong> holds at least one checkable <strong>pass</strong> condition and <strong>`## DO NOT`</strong> at least one <strong>fail</strong> condition; more bullets are fine. The file must not be only a pointer to another rule for those conditions. If the opening is all “see elsewhere” or the bullets need workshop memory instead of file text, the rule fails.</p>
-<h4>DO</h4>
-<ul>
-<li>Open with prose paragraphs that state pass and fail in plain language so a reviewer knows the bar before <strong>`## DO`</strong>.</li>
-</ul>
-<p><strong>Example (pass):</strong> First paragraph: “After a rule edit, <strong>`SKILL.md`</strong>’s bundle block matches <strong>`rules/*.md` on disk.” Second paragraph: “Failure is an inlined rule that still shows old wording, or a </strong>`scanner:`** with no script.”</p>
-<ul>
-<li>Give <strong>at least one</strong> <strong>`## DO`</strong> bullet with a checkable condition (file, section, marker, pattern).</li>
-</ul>
-<p><strong>Example (pass):</strong> “<strong>DO</strong> run <strong>`bundle_rules_into_skill_md.py`</strong> on the skill root after any change under <strong>`rules/`</strong>.”</p>
-<ul>
-<li>Give <strong>at least one</strong> <strong>`## DO NOT`</strong> bullet with a concrete failure mode.</li>
-</ul>
-<p><strong>Example (pass):</strong> “<strong>DO NOT</strong> set <strong>`scanner: foo`</strong> when <strong>`scanners/foo-scanner.py`</strong> does not exist.”</p>
-<h4>DO NOT</h4>
-<ul>
-<li>Replace the whole rule with cross-references so nobody can pass/fail from <strong>this</strong> file alone.</li>
-</ul>
-<p><strong>Example (fail):</strong> “Mechanics for <strong>`execute-skill-using-skills-rules`</strong>: filenames, bundling, <strong>`scanner:`</strong>. For <strong>DO</strong>, <strong>DO NOT</strong>, <strong>Examples</strong>, see <strong>Target rule files are checkable specs for named artifacts</strong>.” — no local conditions in <strong>this</strong> file.</p>
-<ul>
-<li>Write <strong>DO</strong> bullets that need workshop context or memory — not decidable from the artifact.</li>
-</ul>
-<p><strong>Example (fail):</strong> “<strong>DO</strong> ensure the team agreed in the room” — not checkable on a saved file.</p>
-<p><strong>Source:</strong> Practice-skill authoring convention (abd-practice-skill-builder).</p>
-<h3>Rule: SKILL.md bundle matches rules/*.md files; scanner stem matches Python filename</h3>
-<p><strong>Scanner:</strong> Manual review</p>
-<p>On the <strong>target</strong> package, each <strong>normative rule</strong> is a <strong>file</strong> under <strong>`rules/`</strong> named <strong>`something.md`</strong>. After you edit any of those <strong>`.md`</strong> files, <strong>`SKILL.md`</strong> must be bundled so the inlined HTML block between <strong>`execute_rules:bundle_rules`</strong> markers contains the <strong>same</strong> text as the <strong>`rules/&lt;same-stem&gt;.md`</strong> file on disk — that is a <strong>filename-to-content sync</strong> check, not a vague “bundle” nod. In rule YAML, <strong>`scanner: &lt;stem&gt;`</strong> is allowed <strong>only</strong> if the <strong>file</strong> <strong>`scanners/&lt;stem&gt;-scanner.py`</strong> exists (same <strong>stem</strong> in both the field and the <strong>Python filename</strong>). Failure is stale inlined text, a <strong>`scanner:`</strong> stem with no matching <strong>`.py`</strong> file, or one <strong>`scanner:`</strong> stem pretending to cover unrelated <strong>`rules/*.md`</strong> topics.</p>
-<h4>DO</h4>
-<ul>
-<li>After you change any <strong>`rules/&lt;name&gt;.md`</strong> on the <strong>target</strong> package, run <strong>`bundle_rules_into_skill_md.py`</strong> with <strong>`--skill-root`</strong> set to that skill’s root so the <strong>inlined</strong> copy in <strong>`SKILL.md`</strong> matches that <strong>`.md`</strong> file’s current contents.</li>
-</ul>
-<p><strong>Example (pass):</strong> You edit <strong>`skills/foo/rules/naming.md`</strong>, run `python skills/execute-skill-using-skills-rules/scripts/bundle_rules_into_skill_md.py --skill-root skills/foo`, open <strong>`skills/foo/SKILL.md`</strong>, search for the <strong>### Rule</strong> heading that corresponds to <strong>`naming.md`</strong>, the inlined <strong>DO</strong> text matches <strong>`rules/naming.md`</strong>.</p>
-<ul>
-<li>Set <strong>`scanner: &lt;stem&gt;`</strong> in the <strong>rule file’s YAML</strong> only when <strong>`scanners/&lt;stem&gt;-scanner.py`</strong> exists on that package (<strong>stem</strong> repeated exactly in the <strong>scanner Python filename</strong>).</li>
-</ul>
-<p><strong>Example (pass):</strong> <strong>`rules/titles.md`</strong> has frontmatter <strong>`scanner: titles`</strong> and the file <strong>`scanners/titles-scanner.py`</strong> is present beside <strong>`rules/`</strong>.</p>
-<ul>
-<li>Keep <strong>one</strong> <strong>`rules/&lt;topic&gt;.md`</strong> per validation concern; when a scanner exists, align <strong>`scanner:`</strong> <strong>stem</strong> with the <strong>topic</strong> and the <strong>`scanners/&lt;stem&gt;-scanner.py`</strong> <strong>filename</strong>.</li>
-</ul>
-<p><strong>Example (pass):</strong> <strong>`rules/story-title-shape.md`</strong> owns title-shape checks; <strong>`scanner: story-title-shape`</strong> and <strong>`scanners/story-title-shape-scanner.py`</strong> use the same stem.</p>
-<h4>DO NOT</h4>
-<ul>
-<li>Declare <strong>`scanner: layout`</strong> in <strong>`rules/layout.md`</strong> (or any rule) when <strong>`scanners/layout-scanner.py`</strong> is missing — the <strong>YAML stem</strong> must name a real <strong>`.py`</strong> file.</li>
-</ul>
-<p><strong>Example (fail):</strong> <strong>`rules/layout.md`</strong> has <strong>`scanner: layout`</strong> but there is no <strong>`layout-scanner.py`</strong> under <strong>`scanners/`</strong>.</p>
-<ul>
-<li>Leave <strong>`SKILL.md`</strong> with an inlined rule that does not match the current <strong>`rules/&lt;stem&gt;.md`</strong> file after an edit (no re-bundle).</li>
-</ul>
-<p><strong>Example (fail):</strong> <strong>`rules/evidence.md`</strong> on disk adds a <strong>DO NOT</strong> bullet, but <strong>`SKILL.md`</strong> still inlines the old text without that bullet.</p>
-<p><strong>Source:</strong> `skills/execute-skill-using-skills-rules` target layout convention.</p>
-<h3>Rule: Target rule files are checkable specs for named artifacts</h3>
-<p><strong>Scanner:</strong> Manual review</p>
-<p>A <strong>`rules/*.md`</strong> on the <strong>target</strong> skill names a <strong>named output</strong> (file, section, marker pattern) and states <strong>pass</strong> conditions a reviewer can apply from text alone. It has <strong>`## DO`</strong> and <strong>`## DO NOT`</strong> with decidable bullets, each with <strong>Example (pass)</strong> / <strong>Example (fail)</strong> as required by <strong>Rule DOs and DON&#x27;Ts must each have examples</strong>. Hub-backed bullets need <strong>`Source:`</strong> to <strong>`inputs/abd-answers-retrieval.md`</strong>. <strong>Build</strong> in <strong>`SKILL.md`</strong> owns step order. You fail when the file is workshop facilitation, a pointer-only stub, <strong>DO</strong> lines that need “you had to be there”, fake hub <strong>Source:</strong>, or when <strong>`rules/`</strong> replace <strong>Build</strong> as the numbered how-to list.</p>
-<h4>DO</h4>
-<ul>
-<li>Treat each <strong>`rules/*.md`</strong> as a <strong>spec for judging one kind of artifact</strong>, not a second copy of the whole <strong>`SKILL.md`</strong> story.</li>
-</ul>
-<p><strong>Example (pass):</strong> <strong>`rules/story-title-shape.md`</strong> applies only to story titles in <strong>`story-map.md`</strong> / <strong>`story-map.txt`</strong>; it does not repeat the full story-mapping method.</p>
-<ul>
-<li>Make <strong>every</strong> <strong>`## DO`</strong> bullet <strong>decidable</strong> from the named file or string (no “team felt aligned”).</li>
-</ul>
-<p><strong>Example (pass):</strong> “<strong>DO</strong> Every story title is verb–noun” — open <strong>`story-map.md`</strong>, scan titles, mark pass/fail.</p>
-<ul>
-<li>Put <strong>`Source:`</strong> on hub-backed bullets pointing to <strong>Kept chunk #</strong> (or row) in <strong>`inputs/abd-answers-retrieval.md`</strong>. Use <strong>`Source:</strong> Engagement** or omit for chat-only norms — do not invent hub rows.</li>
-</ul>
-<p><strong>Example (pass):</strong> “<strong>DO</strong> Assumptions list includes owner and review date <strong>Source:</strong> Kept chunk #4 …”</p>
-<ul>
-<li>Prefer <strong>one validation concern per file</strong>; name the file after the check (<strong>`naming.md`</strong>, <strong>`story-title-shape.md`</strong>), not after a random <strong>`SKILL.md`</strong> heading.</li>
-</ul>
-<p><strong>Example (pass):</strong> <strong>`rules/acceptance-criteria-format.md`</strong> only checks AC line format; ordering of work stays in <strong>Build</strong>.</p>
-<h4>DO NOT</h4>
-<ul>
-<li>Use <strong>`rules/*.md`</strong> as the <strong>primary step sequence</strong> for the practice; <strong>Build</strong> in <strong>`SKILL.md`</strong> owns order.</li>
-</ul>
-<p><strong>Example (fail):</strong> <strong>`rules/how-to.md`</strong> with <strong>DO</strong> “Step 1 run retrieval, Step 2 author SKILL” — belongs in <strong>Build</strong>, not <strong>`rules/`</strong>.</p>
-<ul>
-<li>Ship a normative rule with <strong>no</strong> <strong>`## DO NOT`</strong>, or with <strong>DO</strong> items that do not attach to any <strong>named</strong> file or pattern.</li>
-</ul>
-<p><strong>Example (fail):</strong> “Stories should be good” — no <strong>DO NOT</strong>, no artifact, no way to score an output.</p>
-<ul>
-<li>Label a bullet as from the hub <strong>without</strong> a retrieval row that supports it.</li>
-</ul>
-<p><strong>Example (fail):</strong> “<strong>DO</strong> Use Patton’s exact workshop timings <strong>Source:</strong> hub” — no chunk in <strong>`inputs/`</strong> says that.</p>
-<p><strong>Source:</strong> Practice-skill authoring convention (abd-practice-skill-builder).</p>
-<h3>Rule: Templates include ideal filled examples for the audience</h3>
-<p><strong>Scanner:</strong> Manual review</p>
-<p>Each <strong>target</strong> <strong>`templates/`</strong> file that <strong>`SKILL.md`</strong> promises should ship <strong>at least one</strong> worked example — a filled block, rows, or mini-sample — with enough <strong>tone and depth</strong> for <strong>who reads that output</strong> (sponsor, team session, ticket tool, as the practice says). Drill-only or stub templates must be <strong>called out</strong> in <strong>`SKILL.md`</strong>. You fail when a promised template is only headings and <strong>`{{PLACEHOLDER}}`</strong>, or when <strong>`SKILL.md`</strong> talks about quality but the template never shows a finished-looking fragment of that format.</p>
-<h4>DO</h4>
-<ul>
-<li>For each promised <strong>`templates/`</strong> file, include <strong>at least one</strong> filled example that matches the <strong>audience</strong> for that deliverable.</li>
-</ul>
-<p><strong>Example (pass):</strong> <strong>`templates/impact-map-hypotheses.md`</strong> ends with an <strong>Example</strong> section: full hypothesis lines with realistic metrics, not only `{{impact_1_metric}}`.</p>
-<ul>
-<li>Say in <strong>Instructions</strong> or <strong>`SKILL.md`</strong> <strong>who the example is for</strong> when that is not obvious.</li>
-</ul>
-<p><strong>Example (pass):</strong> “<strong>Example</strong> (sponsor readout): …” at the top of the example block.</p>
-<ul>
-<li>If a template is <strong>drill-only</strong> or <strong>stubbed</strong>, state that in <strong>`SKILL.md`</strong> like any other deferral.</li>
-</ul>
-<p><strong>Example (pass):</strong> “<strong>templates/drill-blank.md</strong> is intentionally empty for classroom use; not used for delivery packages.”</p>
-<h4>DO NOT</h4>
-<ul>
-<li>Ship a promised template whose body is <strong>only</strong> scaffolding: headings, blank tables, placeholders, <strong>no</strong> completed sample.</li>
-</ul>
-<p><strong>Example (fail):</strong> <strong>`templates/bar.md`</strong> is <strong>## Fields</strong> plus twenty `{{FIELD_N}}` lines and zero filled rows.</p>
-<ul>
-<li>Rely on <strong>`SKILL.md`</strong> alone for quality bar when the template never shows a <strong>finished</strong> fragment of that format.</li>
-</ul>
-<p><strong>Example (fail):</strong> <strong>`SKILL.md`</strong> says “write clear hypotheses” but <strong>`templates/hypotheses.md`</strong> has no example paragraph a reader could mirror.</p>
-<p><strong>Source:</strong> Practice-skill authoring convention (abd-practice-skill-builder); theme <strong>G</strong> in <strong>`progress/corrections-log.md`</strong>.</p>
-<h3>Rule: Validate section is inspection not rewrite</h3>
-<p><strong>Scanner:</strong> Manual review</p>
-<p>The <strong>target</strong> <strong>`SKILL.md`</strong> <strong>Validate</strong> section should read like a <strong>critic checklist</strong>: each line can be checked against <strong>`SKILL.md`</strong>, <strong>`rules/`</strong>, <strong>`templates/`</strong>, and <strong>`inputs/`</strong> as the skill actually promises. You close gaps and fix drift; you do not treat <strong>Validate</strong> as the place to rip up <strong>Build</strong> and re-sequence the whole method unless new evidence demands it. Failure is generic <strong>Validate</strong> bullets that ignore promised templates and scanners, or using the pass mainly to redesign workflow, or leaving hub claims in <strong>`SKILL.md`</strong> that contradict <strong>`inputs/abd-answers-retrieval.md`</strong> with no fix and no <strong>Deferred</strong> note.</p>
-<h4>DO</h4>
-<ul>
-<li>Read <strong>`SKILL.md`</strong> and <strong>`rules/*.md`</strong> <strong>as a critic</strong>: each rule’s <strong>DO</strong> / <strong>DO NOT</strong> / examples should let you mark a concrete artifact pass or fail.</li>
-</ul>
-<p><strong>Example (pass):</strong> Open <strong>`rules/naming.md`</strong>, pick <strong>`story-map.md`</strong> from <strong>`templates/`</strong>, verify titles match <strong>DO</strong> / <strong>DO NOT</strong>.</p>
-<ul>
-<li>Walk the <strong>target</strong> <strong>Validate</strong> section line by line; add missing checks when <strong>`SKILL.md`</strong> promises templates, markers, or citations <strong>Validate</strong> never mentions.</li>
-</ul>
-<p><strong>Example (pass):</strong> Skill promises four <strong>`templates/`</strong> files; <strong>Validate</strong> lists all four plus “each has filled example” if that is required.</p>
-<ul>
-<li>Confirm <strong>no</strong> leftover <strong>`{{PLACEHOLDER}}`</strong> unless <strong>`SKILL.md`</strong> explicitly defers that slice.</li>
-</ul>
-<p><strong>Example (pass):</strong> Grep <strong>`{{PLACEHOLDER}}`</strong> on target <strong>`SKILL.md`</strong>; only absent or explained in a <strong>Deferred</strong> note.</p>
-<ul>
-<li>Confirm <strong>at least one</strong> <strong>`rules/*.md`</strong> when <strong>`SKILL.md`</strong> has <strong>`execute_rules:bundle_rules`</strong> markers.</li>
-</ul>
-<p><strong>Example (pass):</strong> Bundle markers present; <strong>`rules/`</strong> has <strong>`naming.md`</strong> (or another normative file).</p>
-<h4>DO NOT</h4>
-<ul>
-<li>Treat <strong>Validate</strong> as optional boilerplate that does not match shipped templates, <strong>scanner:</strong> hooks, or retrieval claims.</li>
-</ul>
-<p><strong>Example (fail):</strong> <strong>Validate</strong> says “check quality” while the skill promises <strong>`scanners/`</strong> and four templates — list does not mention them.</p>
-<ul>
-<li>Use the inspection pass mainly to <strong>re-sequence</strong> work; <strong>Build</strong> owns order.</li>
-</ul>
-<p><strong>Example (fail):</strong> Rewriting <strong>Build</strong> steps 1–7 during <strong>Validate</strong> without a retrieval or scope change driving it.</p>
-<ul>
-<li>Leave <strong>hub-backed</strong> <strong>`SKILL.md`</strong> claims that contradict <strong>`inputs/abd-answers-retrieval.md`</strong> with no fix and no <strong>Deferred</strong> note.</li>
-</ul>
-<p><strong>Example (fail):</strong> <strong>Purpose</strong> cites a method the hub chunks do not describe; no gap logged.</p>
-<p><strong>Source:</strong> Practice-skill authoring convention (abd-practice-skill-builder). &lt;!-- execute_rules:bundle_rules:end --&gt;</p></div></details>
+<li><strong>Templates</strong> — every file the <strong>target</strong> <strong>SKILL.md</strong> promises under <strong>`templates/`</strong> is <strong>filled</strong>, <strong>stubbed with a stated reason</strong>, or <strong>removed from the promise</strong>; each promised template includes <strong>at least one audience-appropriate filled example</strong> (see `rules/templates-include-ideal-filled-examples-for-the-audience.md`).</li>
+<li><strong>Rule file shape</strong> — target <strong>`rules/*.md`</strong> are checkable specs for named artifacts (decidable <strong>DO</strong> / <strong>DO NOT</strong>, per-bullet examples, <strong>Source</strong> when hub-backed); <strong>Build</strong> in <strong>`SKILL.md`</strong> remains the step-order doc (see `rules/target-rule-files-are-checkable-specs-for-named-artifacts.md`).</li>
+<li><strong>Rules are external, not inlined</strong> — <strong>`rules/*.md`</strong> match <strong>execute-skill-using-skills-rules</strong> shape; <strong>`SKILL.md`</strong> contains <strong>no</strong> `&lt;!-- execute_rules:bundle_rules --&gt;` markers and no inlined rule prose; <strong>`scanner:`</strong> only where the script exists (see `rules/skill-md-contains-no-inlined-rules-read-gates-reference-rules-and-reference.md`).</li>
+<li><strong>Thin router shape</strong> — <strong>`SKILL.md`</strong> Agent Instructions block contains explicit read-gates: MANDATORY read of every <strong>`rules/`</strong> file before generating, MANDATORY read of every <strong>`reference/`</strong> file before authoring, MANDATORY per-rule verdict at validation; concept teaching and examples live in <strong>`reference/*.md`</strong>, not in <strong>`SKILL.md`</strong> body.</li>
+<li><strong>Teaching is positive, anti-patterns live in rules</strong> — the target <strong>`SKILL.md`</strong> does <strong>not</strong> have &quot;Anti-patterns,&quot; &quot;Common mistakes,&quot; or &quot;What this is not&quot; sections; negatives are <strong>`## DO NOT`</strong> bullets in <strong>`rules/*.md`</strong> (see `rules/anti-patterns-belong-in-rules-not-skill-teaching.md`).</li>
+<li><strong>Validate section</strong> — the <strong>target</strong> <strong>SKILL.md</strong> <strong>Validate</strong> list matches what that skill <strong>actually</strong> ships (templates, scanners, citations, read-gates).</li>
+<li><strong>Per-rule verdict</strong> — when validating the target, enumerate every rule in <strong>`rules/`</strong> and emit `Rule: &lt;name&gt; -&gt; PASS` or `Rule: &lt;name&gt; -&gt; FAIL &lt;reason&gt;`. No silent skips.</li>
+</ul>
+<hr></div></details>
 </div>
 <hr class="entry-divider">
 <div class="entry-contents-files">
@@ -1399,7 +1043,7 @@ a.cap-card:hover .cap-card__icon {
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../foundational/skill-builder/skills/abd-author-practice-skill/rules/rule-dos-donts-must-each-have-examples.md" target="_blank" rel="noopener noreferrer"><strong>rule-dos-donts-must-each-have-examples.md</strong></a><span class="file-meta"> → Rule: Rule DOs and DON&#x27;Ts must each have examples</span></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../foundational/skill-builder/skills/abd-author-practice-skill/rules/rules-named-after-valid-or-invalid-state.md" target="_blank" rel="noopener noreferrer"><strong>rules-named-after-valid-or-invalid-state.md</strong></a><span class="file-meta"> → Rule: Rules named after valid or invalid state</span></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../foundational/skill-builder/skills/abd-author-practice-skill/rules/rules-open-with-plain-pass-and-fail-prose.md" target="_blank" rel="noopener noreferrer"><strong>rules-open-with-plain-pass-and-fail-prose.md</strong></a><span class="file-meta"> → Rule: Rules open with plain pass-and-fail prose</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../foundational/skill-builder/skills/abd-author-practice-skill/rules/skill-md-bundle-matches-rules-md-files-scanner-stem-matches-py-filename.md" target="_blank" rel="noopener noreferrer"><strong>skill-md-bundle-matches-rules-md-files-scanner-stem-matches-py-filename.md</strong></a><span class="file-meta"> → Rule: SKILL.md bundle matches rules/*.md files; scanner stem matches Python filename</span></li>
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../foundational/skill-builder/skills/abd-author-practice-skill/rules/skill-md-contains-no-inlined-rules-read-gates-reference-rules-and-reference.md" target="_blank" rel="noopener noreferrer"><strong>skill-md-contains-no-inlined-rules-read-gates-reference-rules-and-reference.md</strong></a><span class="file-meta"> → Rule: SKILL.md contains no inlined rules; read-gates reference rules/ and reference/</span></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../foundational/skill-builder/skills/abd-author-practice-skill/rules/target-rule-files-are-checkable-specs-for-named-artifacts.md" target="_blank" rel="noopener noreferrer"><strong>target-rule-files-are-checkable-specs-for-named-artifacts.md</strong></a><span class="file-meta"> → Rule: Target rule files are checkable specs for named artifacts</span></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../foundational/skill-builder/skills/abd-author-practice-skill/rules/templates-include-ideal-filled-examples-for-audience.md" target="_blank" rel="noopener noreferrer"><strong>templates-include-ideal-filled-examples-for-audience.md</strong></a><span class="file-meta"> → Rule: Templates include ideal filled examples for the audience</span></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../foundational/skill-builder/skills/abd-author-practice-skill/rules/validate-section-is-inspection-not-rewrite.md" target="_blank" rel="noopener noreferrer"><strong>validate-section-is-inspection-not-rewrite.md</strong></a><span class="file-meta"> → Rule: Validate section is inspection not rewrite</span></li>
@@ -1408,7 +1052,6 @@ a.cap-card:hover .cap-card__icon {
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../foundational/skill-builder/skills/abd-author-practice-skill/scanners/mdc-instructions-parity-scanner.py" target="_blank" rel="noopener noreferrer"><strong>mdc-instructions-parity-scanner.py</strong></a><span class="file-meta"> → !/usr/bin/env python3</span></li>
 </ul></div></details></li>
 <li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>scripts/</strong><span class="file-meta"> → Build, catalogue, validation, or packaging automation.</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../foundational/skill-builder/skills/abd-author-practice-skill/scripts/bundle_rules_into_skill_md.py" target="_blank" rel="noopener noreferrer"><strong>bundle_rules_into_skill_md.py</strong></a><span class="file-meta"> → !/usr/bin/env python3</span></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../foundational/skill-builder/skills/abd-author-practice-skill/scripts/frontmatter_tags.py" target="_blank" rel="noopener noreferrer"><strong>frontmatter_tags.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Parse tags: in YAML front matter without reordering (comma, flow, or block list).&quot;&quot;&quot;</span></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../foundational/skill-builder/skills/abd-author-practice-skill/scripts/rule_inventory.py" target="_blank" rel="noopener noreferrer"><strong>rule_inventory.py</strong></a><span class="file-meta"> → !/usr/bin/env python3</span></li>
 </ul></div></details></li>

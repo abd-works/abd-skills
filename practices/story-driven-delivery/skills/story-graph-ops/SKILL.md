@@ -4,37 +4,35 @@ catalog_garden_tier: foundational
 catalogue_one_liner: >-
   CRUD story-graph.json via CLI/scripts, validate, persist; no hand-written JSON drift.
 description: >-
-  Create, read, update, and delete story-graph.json (whole file or parts—epics, sub-epics,
-  stories, AC, scenarios) as a **standalone artifact**—no host app required. **Agents must complete
-  the ops loop**: use this skill’s CLI or Python modules under scripts/, then validate the
-  file—do not stop after hand-writing JSON from memory or from reading other repositories for “schema hints.”
-  Prefer the story-graph CLI; use story_map and related modules for richer edits. Complements
-  ABD practice skills—ops skill owns the serialized graph lifecycle on disk.
+  Creates, reads, updates, and deletes story-graph.json (epics, sub-epics, stories, AC, scenarios)
+  as a standalone artifact using the CLI or Python modules. Always validate after edits; do not
+  hand-write JSON without running this skill's tooling. Use when editing story-graph.json or
+  managing its lifecycle on disk.
 ---
 
 # story-graph-ops
 
 ## Agent obligations (do not skip)
 
-This skill is **not** satisfied by “I read some other project’s graph code and emitted JSON.” That is a **supplement** at most—and **out of scope** for claiming this skill is done.
+This skill is **not** satisfied by "I read some other project's graph code and emitted JSON." That is a **supplement** at most—and **out of scope** for claiming this skill is done.
 
 | Must | Detail |
 | --- | --- |
-| **Use this skill’s tooling** | Run **`scripts/story_graph_cli.py`** and/or import from **`story_map`** with **`PYTHONPATH`** including **`…/story-graph-ops/scripts`** (path below). |
+| **Use this skill's tooling** | Run **`scripts/story_graph_cli.py`** and/or import from **`story_map`** with **`PYTHONPATH`** including **`…/story-graph-ops/scripts`** (path below). |
 | **Finish with validation** | After creating or changing a graph file, run at least: **`story_graph_cli.py read --file <path>`** so a bad structure fails early. Prefer **`names`** or **`search`** when checking coverage. |
-| **Declare completion** | Say what you ran (e.g. “validated with `read`”)—not only “wrote JSON.” |
+| **Declare completion** | Say what you ran (e.g. "validated with `read`")—not only "wrote JSON." |
 
 **Anti-patterns (reject):**
 
 - Hand-rolling JSON and stopping without **`read`** (or equivalent load via `story_map`).
-- Using **another codebase’s** loaders or domain classes as the *only* authority while ignoring this skill’s CLI—those are not proof the serialized file is valid for **story-graph-ops** tooling.
+- Using **another codebase's** loaders or domain classes as the *only* authority while ignoring this skill's CLI—those are not proof the serialized file is valid for **story-graph-ops** tooling.
 - Skipping **`PYTHONPATH`** then claiming the skill was followed.
 
 **When converting from Markdown, `.txt`, or chat:** build or edit JSON using **`story_map`** in Python **or** write JSON and pipe through **`write`**, then **`read`**—same validation rule.
 
 ## Skill root and PYTHONPATH
 
-From the **agilebydesign-skills** repo, this skill’s scripts live next to this file:
+From the **agilebydesign-skills** repo, this skill's scripts live next to this file:
 
 - **Skill directory:** `skills/story-graph-ops/`
 - **Scripts:** `skills/story-graph-ops/scripts/`
@@ -84,7 +82,7 @@ Typical situations:
 | **ABD practice skills** | **Guidance and best practices** for abd.works work: how to frame problems, name and structure artifacts, use templates, run quality passes, and apply bundled rules or scanners. They answer *what good looks like* and *which conventions apply*—not the mechanical layer of reading or writing `story-graph.json` on disk. |
 | **story-graph-ops** | **Lifecycle on disk**: create, read, update, and delete the **serialized graph** (`story-graph.json`, in whole or in part)—encoding, mutating, and tooling against the file. |
 
-**Same complementary relationship** in every case: use **practice skills** for *how the work should read* and *which quality bars to hit*; use **story-graph-ops** to *create and edit the graph file* **and validate it with this skill’s tools**. Whenever the deliverable includes **creating or changing** `story-graph.json`, load **story-graph-ops** and **complete the checklist above**.
+**Same complementary relationship** in every case: use **practice skills** for *how the work should read* and *which quality bars to hit*; use **story-graph-ops** to *create and edit the graph file* **and validate it with this skill's tools**. Whenever the deliverable includes **creating or changing** `story-graph.json`, load **story-graph-ops** and **complete the checklist above**.
 
 ## CLI
 
@@ -101,7 +99,6 @@ python scripts/story_graph_cli.py write  --file <out.json> [--input <in.json>|st
 ```
 
 **Create / delete via CLI:** `write` accepts JSON on stdin or `--input`—you can emit a **full replacement** graph (effectively delete everything not in the new JSON) or a **filtered** subgraph. Finer-grained create/update/delete often uses **`story_map`** types in Python, then **`read`** to validate after saving.
-
 
 ---
 
@@ -158,7 +155,9 @@ python story_graph_cli.py read  --file story-graph.json
 
 The same pattern applies to reordering **epics**, **sub-epics**, or **stories** within their parent arrays — mutate the list, renumber any sequential fields, write, validate.
 
----## Converting Markdown to story-graph.json
+---
+
+## Converting Markdown to story-graph.json
 
 Three dedicated parser scripts convert skill-generated Markdown into graph JSON. **Always try the matching script first.** If the file does not match the expected format (the script exits with code 2), fall back to AI-assisted JSON construction; name the fallback script with a `_<variant>` suffix inserted just before the stem (e.g. `md_story_map_to_story_graph_custom.py`) so it can be reused.
 

@@ -413,12 +413,6 @@ h2:first-child { margin-top: 0; }
 .nav a.nav__link--current {
   pointer-events: none;
 }
-/* Kanban is a different experience (full-screen deck) — keep it last and visually apart */
-.nav a.nav__link--kanban {
-  margin-left: auto;
-  padding-left: 18px;
-  border-left: 1px solid var(--border-muted);
-}
 .cap-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -929,11 +923,9 @@ a.cap-card:hover .cap-card__icon {
 <div class="panel-body">
 
 <nav class="nav" aria-label="AI Garden sections">
-  <a href="../../../index.html" class="nav__link">Complete</a>
-  <a href="../../../skills.html" class="nav__link nav__link--current">Skills</a>
-  <a href="../../../agents.html" class="nav__link">Agents</a>
-  <a href="../../../instructions.html" class="nav__link">Instructions</a>
-  <a href="../../../kanban-layout/index.html" class="nav__link nav__link--kanban">Delivery kanban</a>
+  <a href="../../../kanban-layout/index.html" class="nav__link">Delivery kanban</a>
+  <a href="../../../index.html" class="nav__link">Garden</a>
+  <a href="../../../skills.html" class="nav__link nav__link--current">Skills & agents</a>
 </nav>
 
 <h2>Content</h2>

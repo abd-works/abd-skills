@@ -1,0 +1,97 @@
+{
+  "concepts": {
+    "Cart": {
+      "attributes": [],
+      "inherits": null
+    },
+    "cart": {
+      "attributes": [],
+      "inherits": "Cart"
+    },
+    "shopping cart": {
+      "attributes": ["lineItems"],
+      "inherits": null
+    },
+    "cart quantity": {
+      "attributes": ["count"],
+      "inherits": null
+    },
+    "update cart quantity": {
+      "attributes": [],
+      "inherits": null
+    },
+    "add product to cart": {
+      "attributes": [],
+      "inherits": null
+    },
+    "remove product from cart": {
+      "attributes": [],
+      "inherits": null
+    },
+    "Order": {
+      "attributes": [],
+      "inherits": null
+    },
+    "order": {
+      "attributes": [],
+      "inherits": "Order"
+    },
+    "click-and-collect order": {
+      "attributes": ["pickupStore"],
+      "inherits": null
+    },
+    "guest checkout": {
+      "attributes": [],
+      "inherits": null
+    },
+    "click-and-collect store": {
+      "attributes": [],
+      "inherits": "Store"
+    },
+    "billing address": {
+      "attributes": ["contactInformation"],
+      "inherits": null
+    },
+    "payment method": {
+      "attributes": [],
+      "inherits": null
+    },
+    "StripeWave": {
+      "attributes": [],
+      "inherits": null
+    },
+    "order confirmation": {
+      "attributes": [],
+      "inherits": null
+    },
+    "order fulfillment": {
+      "attributes": [],
+      "inherits": null
+    },
+    "prepare click-and-collect orders for pickup": {
+      "attributes": [],
+      "inherits": null
+    },
+    "fulfill click-and-collect order": {
+      "attributes": [],
+      "inherits": null
+    },
+    "Product": {
+      "attributes": [],
+      "inherits": null
+    },
+    "Store": {
+      "attributes": ["identity", "location"],
+      "inherits": null
+    },
+    "Customer": {
+      "attributes": [],
+      "inherits": null
+    },
+    "Store employee": {
+      "attributes": [],
+      "inherits": null
+    }
+  },
+  "aliases": {}
+}

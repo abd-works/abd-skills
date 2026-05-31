@@ -1,0 +1,109 @@
+{
+  "target": "docs/increments/1-walk-in-driver/exploration/ux/walk-in-flow.drawio",
+  "screens": [
+    {
+      "name": "Find Store — Map",
+      "layout": "stack",
+      "col": 0,
+      "row": 0,
+      "regions": [
+        { "name": "site header · Find Store · catalog", "slot": "header", "type": "chrome" },
+        {
+          "name": "Find Store tab bar",
+          "slot": "body",
+          "type": "nav-tabs",
+          "tabs": [{ "label": "Map", "active": true }, { "label": "List" }]
+        },
+        {
+          "name": "store map",
+          "slot": "body",
+          "type": "listbox",
+          "items": [
+            { "label": "📍 Downtown PawPlace · 123 Main St · 2.1 km", "selected": true },
+            { "label": "📍 Westside PawPlace · 456 Oak Ave · 4.8 km" }
+          ]
+        },
+        {
+          "name": "store map actions",
+          "slot": "body",
+          "type": "toolbar",
+          "buttons": [{ "label": "use my location" }, { "label": "select store" }]
+        }
+      ]
+    },
+    {
+      "name": "Find Store — List",
+      "layout": "stack",
+      "col": 0,
+      "row": 1,
+      "regions": [
+        { "name": "site header · Find Store · catalog", "slot": "header", "type": "chrome" },
+        {
+          "name": "Find Store tab bar",
+          "slot": "body",
+          "type": "nav-tabs",
+          "tabs": [{ "label": "Map" }, { "label": "List", "active": true }]
+        },
+        {
+          "name": "store list",
+          "slot": "body",
+          "type": "list",
+          "columns": ["store", "address", "distance to store"],
+          "rows": 2,
+          "actions": [{ "label": "use my location" }, { "label": "select store", "primary": true }]
+        }
+      ]
+    },
+    {
+      "name": "Product Details",
+      "layout": "stack",
+      "col": 1,
+      "row": 0,
+      "regions": [
+        { "name": "site header · Find Store · catalog", "slot": "header", "type": "chrome" },
+        { "name": "selected store", "slot": "body", "type": "chrome" },
+        {
+          "name": "product summary",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "product", "input": "text" },
+            { "label": "real-time stock", "input": "text" },
+            { "label": "stock availability", "input": "text" }
+          ],
+          "buttons": [{ "label": "back to catalog", "primary": true }]
+        }
+      ]
+    },
+    {
+      "name": "Update Stock",
+      "layout": "sidebar",
+      "col": 2,
+      "row": 0,
+      "regions": [
+        { "name": "employee header · store · Sign out", "slot": "header", "type": "chrome" },
+        {
+          "name": "store",
+          "slot": "panel",
+          "type": "form",
+          "fields": [{ "label": "store", "input": "text" }],
+          "buttons": []
+        },
+        {
+          "name": "stock list",
+          "slot": "body",
+          "type": "list",
+          "columns": ["product", "product stock levels"],
+          "rows": 3,
+          "actions": [{ "label": "edit level" }, { "label": "save levels", "primary": true }]
+        }
+      ]
+    }
+  ],
+  "connections": [
+    { "from": "Find Store — Map", "to": "Find Store — List", "label": "List tab" },
+    { "from": "Find Store — Map", "to": "Product Details", "label": "select store → catalog → product" },
+    { "from": "Find Store — List", "to": "Product Details", "label": "select store" },
+    { "from": "Product Details", "to": "Update Stock", "label": "store employee updates product stock levels" }
+  ]
+}

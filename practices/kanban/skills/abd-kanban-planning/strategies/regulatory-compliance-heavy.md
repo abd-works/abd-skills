@@ -13,9 +13,9 @@
 | Stage | Scope | Skills (ordered) |
 | --- | --- | --- |
 | Shaping | all | story-mapping (tag compliance surface), thin-slicing |
-| Discovery | increment | domain-terms, UL, architecture-blueprint |
-| Exploration | increment | UL-refresh, acceptance-criteria (regulatory values, not placeholders), architecture-template |
-| Specification | sprint | CRC, spec-by-example (real regulatory values), scenario-walkthrough |
+| Discovery | increment | domain-terms, architecture-blueprint |
+| Exploration | increment | ubiquitous-language, acceptance-criteria (regulatory values, not placeholders), architecture-template |
+| Specification | sprint | CRC, spec-by-example (real regulatory values) |
 | Engineering | sprint | object-model, ATDD (tests = proof bundle), clean-code |
 
 ---

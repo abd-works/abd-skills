@@ -1,16 +1,9 @@
 {
   "schema": "abd-delivery-kanban/v2",
   "synced_at": null,
-  "system_of_work": "default-new-build",
+  "stage_configuration": "default-new-build",
   "backlog": [],
   "active": [],
   "done": [],
-  "archived": [],
-  "wip_policy": {
-    "max_active": 3,
-    "product-owner": { "executor": 1, "reviewer": 1 },
-    "business-expert": { "executor": 1, "reviewer": 1 },
-    "ux-designer": { "executor": 1, "reviewer": 1 },
-    "engineer": { "executor": 1, "reviewer": 1 }
-  }
+  "archived": []
 }

@@ -939,16 +939,25 @@ a.cap-card:hover .cap-card__icon {
 <h2>Content</h2>
 <div class="rule-prose"><h1>Rule: Scanner wiring</h1>
 <p><strong>Scanner:</strong> Manual review</p>
+<p>Each <strong>`scanner:`</strong> in rule frontmatter must have a matching <strong>`scanners/&lt;stem&gt;-scanner.py`</strong> on disk. The stem in the YAML field and the Python filename must be identical. Rules live only in <strong>`rules/*.md`</strong> — there is no bundled block to sync after scanner changes.</p>
 <h2>DO</h2>
 <ul>
 <li><strong>Implement first, then tag</strong> — <strong>`scanners/&lt;stem&gt;-scanner.py`</strong> exists and runs before <strong>`scanner: &lt;stem&gt;`</strong> appears in <strong>`rules/&lt;stem&gt;.md`</strong>.</li>
-<li><strong>Re-bundle</strong> after any <strong>`rules/*.md`</strong> or scanner change so <strong>SKILL.md</strong> stays truthful.</li>
 </ul>
+<p><strong>Example (pass):</strong> `rules/titles.md` has `scanner: titles` and `scanners/titles-scanner.py` is present and executable.</p>
+<ul>
+<li>Keep scanner stem and rule filename aligned — one rule file, one scanner script.</li>
+</ul>
+<p><strong>Example (pass):</strong> `rules/story-title-shape.md` with `scanner: story-title-shape` and `scanners/story-title-shape-scanner.py`.</p>
 <h2>DO NOT</h2>
 <ul>
-<li>Add <strong>`scanner:`</strong> to <strong>sell</strong> rigor when the script is missing or stub-only.</li>
+<li>Add <strong>`scanner:`</strong> to sell rigor when the script is missing or stub-only.</li>
+</ul>
+<p><strong>Example (fail):</strong> `rules/layout.md` has `scanner: layout` but `scanners/layout-scanner.py` does not exist.</p>
+<ul>
 <li>Use this pass to <strong>rewrite</strong> rule meaning — fix scanners or rule text in <strong>small</strong>, reviewable steps.</li>
 </ul>
+<p><strong>Example (fail):</strong> Changing the DO/DO NOT prose of a rule during the scanner-wiring pass — that belongs in the abd-author-practice-skill pass.</p>
 <p><strong>Source:</strong> Practice-skill builder convention (abd-build-practice-scanners).</p></div>
 
 </div>

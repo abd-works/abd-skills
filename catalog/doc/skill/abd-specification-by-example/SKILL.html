@@ -937,559 +937,71 @@ a.cap-card:hover .cap-card__icon {
 </nav>
 
 <h2>Content</h2>
-<div class="rule-prose"><p>﻿--- name: abd-specification-by-example catalog_garden_tier: practice catalog_garden_order: 40 catalogue_one_liner: &gt;- Given/When/Then scenarios with real domain values; plain or outline (data tables) templates. description: &gt;- Produce specification-by-example scenarios: concrete Given/When/Then steps with real domain values, bold concept names, italic values. Single template: each story uses plain scenarios (inline values) or outlines (data tables) — both in one file. Use when writing BDD scenarios, refining AC into specs, or making story behavior concrete.</p>
-<hr>
-<h1>abd-specification-by-example</h1>
+<div class="rule-prose"><h1>abd-specification-by-example</h1>
 <h2>Purpose</h2>
 <p>Write <strong>Given/When/Then</strong> scenarios that make a story&#x27;s expected behavior concrete and testable, using real domain values and named outcomes so the team can verify what the system must do.</p>
-<h2>When to use this skill</h2>
-<p>Load this skill when <strong>any</strong> of the following apply:</p>
-<ul>
-<li>You want to specify system behavior in response to user / system initiated actions for specific stories.</li>
-<li>You want multiple concrete scenarios including preconditions - <em>Given</em>, triggers - <em>When</em>, and results - <em>Then</em>, made real through one or more <em>Examples</em></li>
-<li>You want want to refine exploration AC (`abd-acceptance-criteria`) into specifications.</li>
-<li>An agent is asked to “write BDD,” “add scenarios,” specify examples,” or “make scenarios concrete.”</li>
-</ul>
 <hr>
 <h2>Output file</h2>
-<p><strong>Where to write the deliverables (`&lt;deliverables-folder&gt;` resolution):</strong></p>
-<p>1. <strong>The path the user told you to use.</strong> If the user names a file or folder, use exactly that. 2. <strong>Where the engagement already keeps deliverables.</strong> Look at the workspace; if previous phase output (story map, acceptance criteria, Ubiquitous Language, `process.md`, `corrections-log.md`) already lives in a folder, write next to them in the <strong>same</strong> folder. 3. <strong>The workspace root.</strong> If neither applies, write to the workspace root.</p>
-<p>Do <strong>not</strong> assume a predetermined folder name like `specs/`, `stories/`, or `docs/`. The only DDD/story skill that creates a sub-folder is <strong>`abd-module-partition`</strong>.</p>
-<p><strong>File names:</strong> Default to `specification-by-example.md` — a single file containing all stories for the module, each using whichever notation (plain or outline) fits its behavior. Add a `&lt;name&gt;-` engagement prefix only when you need disambiguation — multiple products in the same workspace, or the user asks for it explicitly.</p>
+<p><strong>Deliverables folder:</strong> see `../reference/agent-protocol.md` — Output file resolution.</p>
+<p><strong>File name:</strong> `specification-by-example.md` — a single file for all stories in the module. Add a `&lt;name&gt;-` prefix only when disambiguation is needed.</p>
 <hr>
 <h2>Agent Instructions</h2>
-<h3>0. Ground in the domain model</h3>
-<p>Before writing any scenario steps, check whether any of the following types of domain model content exist in the workspace or have been provided as context:</p>
+<p>&gt; <strong>MANDATORY — read `../reference/agent-protocol.md` before starting. It defines read-gates, output file resolution, and the per-rule verdict format.</strong></p>
+<h3>1. Read context</h3>
+<p>Read these files:</p>
 <ul>
-<li><strong>Object model</strong> — typed classes with attributes and typed relationships between classes. The most precise source: use it first.</li>
-<li><strong>CRC model</strong> — each concept listed with its responsibilities and the other concepts it works with. Use when no object model is available.</li>
-<li><strong>Domain language or key abstractions</strong> — a glossary, list of defined terms, or grouped concept names with definitions. Use as the fallback when no structural model exists.</li>
+<li><strong>`reference/concepts.md`</strong> — what specification by example is, Given/When/Then, scenarios vs outlines, domain concept grounding, quick checklist.</li>
+<li><strong>`reference/examples.md`</strong> — worked examples showing plain Scenarios, Scenario Outlines with relationship-based tables, and Background.</li>
 </ul>
-<p>These types of content are the outputs of domain-driven design practices. Look for object model content first, then CRC, then domain language.</p>
-<p>Also check for `domain.json` in the workspace. This file is written by the CRC, Ubiquitous Language, and Object Model skills as a machine-readable summary of the domain model (concept names + attribute names + inheritance). If it exists, the scanner will use it automatically to validate example-table column names — no extra step needed from you. If it does not exist and a domain model markdown file is present, produce `domain.json` before running the scanner by extracting every concept/class name and its attribute/property names into the template shape.</p>
-<p><strong>If domain content exists (grounded mode):</strong></p>
+<p>Also check whether any of the following domain model content exists in the workspace:</p>
 <ul>
-<li>Use exact concept names from that source — do not paraphrase, abbreviate, or rename.</li>
-<li>Reflect relationships in Given/And step structure: if the model shows <strong>Customer</strong> uses <strong>Account</strong>, that relationship should appear explicitly in a Given or And step, not just as two disconnected nouns.</li>
-<li>The example tables in Scenario Outlines should expose the relational chain across concept columns — they do the exact same job as connected step language, but in data form. A table column set of `customer_name | dda_account_number | payment_product_name` reads the domain structure; `customer_name | account_status` in isolation does not.</li>
+<li><strong>Object model</strong> — typed classes with attributes and typed relationships. Use it first.</li>
+<li><strong>CRC model</strong> — each concept listed with responsibilities and collaborators. Use when no object model exists.</li>
+<li><strong>Domain language or key abstractions</strong> — a glossary, list of defined terms. Use as fallback.</li>
 </ul>
-<p><strong>If no domain content exists (derived mode):</strong></p>
+<p>Check for `domain.json` in the workspace. If it does not exist and a domain model markdown file is present, produce `domain.json` before running the scanner.</p>
+<h3>2. Generate</h3>
+<p>Read every file in <strong>`rules/`</strong>; author to those rules.</p>
+<p><strong>Choose notation first:</strong></p>
 <ul>
-<li>Derive concept names and relationships from the story narrative and any acceptance criteria.</li>
-<li>Make relationships deliberate in step language — how bold concept names appear relative to each other in a step is the implied domain model. Do not flatten this to a list of unrelated nouns.</li>
+<li><strong>Scenarios</strong> (plain): each scenario has distinct context; all values inline. Use for main flow, failure, edge cases.</li>
+<li><strong>Scenario Outlines</strong>: same Given/When/Then steps across multiple data rows; `{column_name}` tokens bound to an <strong>Examples</strong> block. Use only when steps are genuinely identical across every row.</li>
 </ul>
-<h3>1. Scenarios vs Scenario Outlines</h3>
-<p>If the user/agent has not specified which approach they want, then 1. try to determine the based on the nature of the requirements,Would requirements be more specific if there are multiple data scenariosor is only one sufficient? 2. check with the user at slash agent based on the approach chosen and get confirmation, explain your reasoning</p>
-<p><strong>Scenarios</strong> Each scenario has its own distinct context. All values are written inline — real names, amounts, and statuses directly in the step text. <strong>Domain Concept</strong> <em>value</em>. No tables, no `{placeholder}` tokens. Use for: main flow, failure path, edge cases — any scenario where the context or setup differs. Use the `specification-by-example.md` template.</p>
-<p><strong>Scenario Outlines</strong> The same Given/When/Then steps run against multiple rows of data (boundary amounts, multiple instruments, different roles). Steps use `{column_name}` tokens bound to an <strong>Examples</strong> block. <strong>Domain Concept</strong> <em>{column_name}</em>. Use only when the steps are genuinely identical across every row. If rows need different <strong>Given</strong> setup, write separate plain scenarios instead.</p>
-<p>When you <strong>create or rewrite</strong> scenarios from whatever inputs exist (AC, notes, conversation, or story text), choose the right template first — then regenerate.</p>
-<p>Generated artifacts contain only scenario content; instructions stay in the templates for maintainers. If you find yourself writing the same steps three or more times with only values changing, then switch to  <strong>Scenario Outlines</strong>.</p>
-<h3>2. Writing scenarios</h3>
+<p>If not specified, determine based on the nature of the requirements and confirm with the user.</p>
+<p><strong>Produce the template:</strong></p>
+<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Template</th><th>What to produce</th></tr></thead><tbody><tr><td>`templates/specification-by-example.md`</td><td>Given/When/Then scenarios for each story, using the chosen notation. No template `## Instructions` in deliverables.</td></tr></tbody></table></div>
+<p><strong>While writing:</strong></p>
 <ul>
-<li>Use <strong>Background</strong> when three or more scenarios share identical starting state. Given and And only; no When or Then.</li>
+<li>Use <strong>Background</strong> when three or more scenarios share identical starting state (Given/And only).</li>
 <li>Name each scenario by its <strong>outcome</strong>, not its action.</li>
-<li>Cover at least one happy path, one failure or rejection, and any edge cases the story implies.</li>
-<li>If <em>Acceptance Criteria</em> exist, use the main-flow set of <em>Acceptance Criteria</em> as your spine: convert WHEN → When, THEN → Then, add Given preconditions and examples. Remaining <em>Acceptance Criteria</em> become additional <em>scenarios</em>.</li>
-<li>Stay at scenario level; do not paste long AC prose unless a one-line pointer helps.</li>
+<li>Cover at least one happy path, one failure or rejection, and any edge cases implied by the story.</li>
+<li>If <em>Acceptance Criteria</em> exist, use the main-flow AC as your spine: convert WHEN → When, THEN → Then, add Given preconditions.</li>
+<li>If you find yourself writing the same steps three or more times with only values changing, switch to <strong>Scenario Outlines</strong>.</li>
 </ul>
-<h3>3. Rules</h3>
+<p><strong>Domain grounding:</strong></p>
 <ul>
-<li>Generate content following the rules attached to this skill (listed below, assembled from <strong>`rules/*.md`</strong>).</li>
-<li>After content exists, act as a <em>peer reviewer</em>: walk each rule’s constraints, DO/DON’T sections, and examples; be helpful but critical when comparing the deliverable to each rule.</li>
+<li>Use exact concept names from the domain model source; do not paraphrase, abbreviate, or rename.</li>
+<li>Make relationships deliberate in step language and table column sets.</li>
 </ul>
-<ul>
-<li><strong>Who is checking:</strong> A <strong>product owner</strong> (coverage vs intent—AC, notes, or story), a <strong>developer/tester</strong> (given/when/then discipline and testability), and a <strong>domain expert</strong> (language and tables) should all agree the scenarios are specific enough to implement and automate.</li>
-</ul>
-<h3>4. Assembling this skill</h3>
-<p>This `SKILL.md` bundles `rules/*.md` into the block below. Run `bundle_rules_into_skill_md.py` from `skills/execute-skill-using-skills-rules/scripts/` whenever any rule file changes.</p>
-<p>This <strong>`SKILL.md`</strong> is assembled from <strong>`rules/*.md`</strong> into the bundled block below. Use <strong>`bundle_rules_into_skill_md.py`</strong> from <strong>`skills/execute-skill-using-skills-rules/scripts/`</strong> whenever <strong>`rules/*.md`</strong> changes:</p>
+<p>Generated artifacts contain only scenario content; template instructions stay in `templates/` for maintainers.</p>
+<h3>3. Validate</h3>
+<p>Run the scanners:</p>
+<pre><code>python skills/execute-skill-using-skills-rules/scripts/run_scanners.py \
+  --skill-root skills/abd-specification-by-example \
+  --workspace &lt;path-to-output&gt;</code></pre>
+<p>Then emit per-rule verdicts per `../reference/agent-protocol.md`.</p>
 <hr>
-<h2>What is specification by example?</h2>
-<p><strong>Specification by example</strong> is a practice where we create specifications for stories through <strong>concrete scenarios</strong> demonstrated through <strong>examples</strong>. Spec scenarios include preconditions (<strong>Given</strong>), the triggering action (<strong>When</strong>), and an observable outcome (<strong>Then</strong>).</p>
-<p><strong>Inputs:</strong> Scenarios are often created from <strong>acceptance criteria</strong> (WHEN/THEN statements in a story). This is useful, not mandatory. When AC exist, start from the main-flow AC, add Given steps until the flow is concrete, then add scenarios for failures, edges, and alternate flows. The same quality rules apply when the only inputs are a story name, bullet notes, or shared understanding.</p>
-<p><strong>Living documentation:</strong> Specifications by example are not throwaway analysis artifacts. They become <strong>executable requirements</strong> — testable without translation — captured in <strong>live documentation</strong> that stays current as the system evolves. The scenarios you write here are direct inputs to automated tests.</p>
-<p><strong>Multiple perspectives, not solo work.</strong> When writing specifications, ensure the available context covers multiple perspectives: business logic, technical constraints, and testing concerns. If context from a key perspective is missing (e.g. no technical input on system-to-system behaviour, or no business rules for edge cases), flag it as an unknown rather than inventing plausible-sounding scenarios. Specifications written from a single viewpoint produce gaps that surface late.</p>
-<hr>
-<h2>Core concepts</h2>
-<h3>Given, When, Then (and And)</h3>
+<h2>Validate</h2>
+<p><strong>Goal:</strong> Inspect what was built — read the artifacts as reviewers.</p>
 <ul>
-<li><strong>Given</strong> — preconditions: data and state that exist before the behavior. Use Background for setup shared by three or more scenarios.</li>
-<li><strong>When</strong> — an action or event under test. A scenario may have <strong>multiple</strong> When/Then beats when the behaviour is a sequence of interactions (e.g. user acts, system responds, user checks result). Each new When starts the next beat.</li>
-<li><strong>Then</strong> — observable outcomes to assert after the preceding When.</li>
-<li><strong>And</strong> — continues a Given, When, or Then block with another line of the same kind. Use And for additional outcomes within the <strong>same</strong> beat. Start a new <strong>When</strong> when the actor or trigger changes — do not chain unrelated actions with And.</li>
+<li><strong>Given/When/Then structure</strong> — correct keywords; Background is state-only; multiple When/Then beats where the flow requires.</li>
+<li><strong>Domain emphasis</strong> — domain-significant terms use <em>italics</em> consistently; concept names match the domain model exactly.</li>
+<li><strong>Scenario vs Outline choice</strong> — Outlines used only when steps are genuinely identical across all rows.</li>
+<li><strong>Coverage</strong> — happy path, failure path, and edge cases implied by story or AC are visible.</li>
+<li><strong>Domain model grounding</strong> — `domain.json` matches or has been produced if a domain model file exists.</li>
+<li><strong>No bundle markers</strong> — `SKILL.md` has no `&lt;!-- execute_rules:bundle_rules --&gt;` markers.</li>
 </ul>
-<h3>Formatting convention</h3>
-<p>In `.md` artifacts, use <strong>bold</strong> for domain concept names and <em>italics</em> for their actual values — for example <strong>User</strong> <em>Jane Doe</em>, <strong>Enterprise</strong> <em>Acme Corp</em>, <strong>Payment Amount</strong> <em>$1,000.00 USD</em>.</p>
-<h3>Working from acceptance criteria</h3>
-<p>If the story has AC (WHEN/THEN from bd-acceptance-criteria), use the main-flow AC as the spine: convert WHEN to When, THEN/AND to Then/And, then add Given preconditions to make it runnable. Remaining AC become additional scenarios (failures, edges, alternate flows). The mapping is rarely one-to-one, but readers should see the relationship.</p>
-<h3>Scenarios vs Scenario Outlines</h3>
-<ul>
-<li><strong>Scenario</strong> (plain) — one path, all values inline. Use for distinct flows: happy path, rejection, edge case.</li>
-<li><strong>Scenario Outline</strong> (parameterized) — same steps, varying data rows. Values use <em>{column_name}</em> tokens bound to an <strong>Examples</strong> block. Use only when variation is real and the steps are genuinely identical.</li>
-</ul>
-<h3>Background</h3>
-<p>Use Background only when three or more scenarios share identical starting state. Given and And only — no When or Then.</p>
-<h3>Domain concept grounding</h3>
-<p>Specification by example works at two levels simultaneously: it specifies <em>behavior</em> and it confirms <em>the domain model</em>. The Given/When/Then steps are where both happen at once.</p>
-<p>When domain model content — an object model, CRC model, or domain language glossary — is available, the scenarios are its behavioral proof. Concept names must match exactly. The relationships the model defines should be visible in step structure through connected language: <em>a Customer with a valid DDA Account applying for a Payment Product Agreement using an Owner with Contact Details</em> expresses three concepts and four relationships in one scenario — not a list of unrelated nouns.</p>
-<p>When no domain model exists, the scenarios themselves reveal the model. The deliberate way a step names a concept and connects it to another — <strong>Customer</strong> <em>Jane Doe</em> applies using <strong>DDA Account</strong> <em>DDA-001</em> naming <strong>Owner</strong> <em>John Doe</em> — documents the model for the team.</p>
-<p><strong>This is exactly the same job the example tables do in Scenario Outlines.</strong> A table column set of `customer_name | dda_account_number | payment_product_name` grounds the data in the domain relational structure. Tables that show only one concept&#x27;s fields in isolation lose the relationships that make the domain model legible — a car, a driver, and three passengers tells you nothing about who is driving whom.</p>
-<h3>Specification level</h3>
-<p>The default level for specification by example is the <strong>story</strong> — each story gets its own scenarios. But specifications can be written at <strong>any level</strong> of the story map when it adds clarity:</p>
-<ul>
-<li><strong>Epic or sub-epic level</strong> — a specification that describes the end-to-end flow across its child stories. This is useful for verifying that the children compose into a coherent journey, and for giving stakeholders a feature-level view of “done.”</li>
-<li><strong>Story level</strong> (default) — the standard: scenarios for one discrete behaviour.</li>
-<li><strong>Cross-story</strong> — when a scenario naturally spans multiple stories in sequence (e.g. an integration flow), write it at the parent sub-epic and reference the child stories it exercises.</li>
-</ul>
-<p>Higher-level specifications help answer the question: “when these stories are all done, is the feature actually complete?” They do not replace story-level scenarios but complement them.</p>
-<pre><code># Epic-level: Manage Customer Orders
-Scenario: Customer places and tracks a new order
-  Given a Customer with an active account
-  When the Customer adds items to the cart and submits the order
-  Then the order is confirmed with a tracking number
-  When the Customer views the active orders for their account
-  Then that order is displayed along with any other active orders
-  And the status for that order is displayed as Processing
-  When the order is dispatched
-  Then the Customer receives a shipment notification
-  And the order status changes to Shipped</code></pre>
-<hr>
-<p>Quick checklist:</p>
-<ul>
-<li><strong>Given</strong> is state-only; <strong>When</strong> is an action or trigger; <strong>Then</strong> asserts outcomes. Multiple <strong>When/Then</strong> beats are fine for multi-step journeys.</li>
-<li><strong>{Concept}</strong> ↔ tables <strong>both ways</strong>; no random `&lt;column&gt;` prose; domain words sit beside each `{Concept}` where this skill’s convention applies.</li>
-<li>Happy, edge, and error paths implied by the story, notes, or AC (if any) are <strong>visible</strong> in scenarios or outlines.</li>
-<li>Outlines used only when <strong>variation</strong> is real, not ceremonial.</li>
-<li><strong>Domain emphasis:</strong> in <strong>Markdown</strong> scenario artifacts, domain-significant terms use <em>italics</em> consistently (the graph may still use `<em>italic</em>` in step strings if your pipeline stores markdown there — the <strong>ScenarioDomainTermEmphasisScanner</strong> checks scenario name + steps).</li>
-</ul>
-<hr>
-<p>&lt;!-- execute_rules:bundle_rules:begin --&gt;</p>
-<h3>Rule: Background vs scenario setup</h3>
-<p><strong>Background</strong> contains only <strong>Given</strong> / <strong>And</strong> lines (state), never <strong>When</strong> or <strong>Then</strong>. Use it only when three or more scenarios share the same starting state. Do not repeat Background lines inside individual scenarios.</p>
-<p>In a <strong>plain scenario</strong>, Background steps use real values inline with <strong>bold</strong> concept names and <em>italic</em> values.</p>
-<p>In an <strong>outline scenario</strong>, Background steps use `{column_name}` tokens with the domain concept name beside each brace.</p>
-<h4>DO</h4>
-<ul>
-<li>Model shared state once in Background when many scenarios need the same starting world.</li>
-<li>Keep Background free of actions; the first behavior under test belongs in <strong>When</strong> inside each scenario.</li>
-</ul>
-<p>Plain example: ``Background: Given a <strong>User</strong> <em>Jane Doe</em> is logged into ChannelOne 2.0 And that <strong>User</strong> <em>Jane Doe</em> is representing <strong>Enterprise</strong> <em>Acme Corp</em> with <strong>Role</strong> <em>Wire Operator</em> `` Outline example: ``Background: Given a User {user_name} is logged into ChannelOne 2.0 And that User {user_name} is representing an Enterprise {enterprise_name} with the Role {user_role} ``</p>
-<h4>DON&#x27;T</h4>
-<ul>
-<li>Put <strong>When</strong> / <strong>Then</strong> in Background, or encode actions inside <strong>Given</strong> lines.</li>
-<li>Duplicate a Background <strong>Given</strong> inside a scenario&#x27;s own steps.</li>
-</ul>
-<p>``# WRONG — action in Background Background: When user logs in</p>
-<h3>WRONG — repeats Background</h3>
-<p>Scenario: Pay wire Given user is logged into ChannelOne 2.0 When ... ``</p>
-<h3>Rule: Emphasize domain-significant terms (scenarios)</h3>
-<p><strong>Scanner:</strong> `scanners/emphasize-domain-terms-scenario-scanner.py` — <strong>`ScenarioDomainTermEmphasisScanner`</strong></p>
-<p>Call out <strong>domain language</strong> — the nouns, verbs, and short phrases that belong to the problem space and show up in stories, tests, and talk with stakeholders — so readers see what is <em>specific</em> to this product versus generic wording. Apply this to <strong>scenario</strong> prose: <strong>Background</strong> lines, <strong>Given / When / Then</strong> steps, and the <strong>scenario name</strong> when it carries domain meaning (same bar as <strong>abd-acceptance-criteria</strong> emphasis on AC).</p>
-<h4>DO</h4>
-<ul>
-<li>Wrap domain-significant terms in <em>italics</em> in <strong>markdown</strong> scenario artifacts and in <strong>story-graph</strong> step strings when you use markdown there.</li>
-<li>Use <em>title-style capitalization</em> inside those phrases for multi-word concepts (e.g. <em>Wire Payment</em>, <em>Export Job Progress</em>, <em>Beneficiary Bank</em>). Keep acronyms and product names in their normal form (e.g. <em>PDF</em>).</li>
-<li>Apply emphasis consistently for the same concept across scenarios on a story.</li>
-<li>Prefer this pattern over <strong>exact</strong> quoted UI copy unless the literal string is required for a contract or compliance check.</li>
-</ul>
-<h4>DON&#x27;T</h4>
-<ul>
-<li>Italicize filler or purely grammatical words, or entire sentences.</li>
-<li>Use emphasis as decoration on every line — only mark terms that carry domain meaning.</li>
-<li>Replace behavioral clarity with a wall of highlighted words; if everything is emphasized, nothing is.</li>
-</ul>
-<h3>Rule: Example tables use domain language (outline template)</h3>
-<p><strong>Scanner:</strong> `scanners/example-tables-domain-scanner.py` — <strong>`ExampleTablesDomainScanner`</strong></p>
-<p>This rule applies to scenario outlines that use example tables. It does not apply to plain scenarios, which use inline values instead.</p>
-<p>Example tables ground an outline in domain data. When a domain model exists (object model, CRC, or domain language), table names and column names MUST match that model exactly. This is not guidance — it is a hard constraint.</p>
-<p><strong>Grounded mode (domain model exists):</strong></p>
-<ul>
-<li><strong>Table names</strong> MUST correspond to a concept in the domain model (object model class, CRC card, or domain-language term). The match is case-insensitive.</li>
-<li><strong>Column names</strong> MUST correspond to attributes or fields of that concept as defined in the domain model. The match normalizes casing and underscores (`purchased_rank` matches `purchasedRank`).</li>
-<li><strong>Inheritance applies</strong> — if concept B inherits from concept A, a table named B may use any attribute from both B and A (resolved transitively up the chain).</li>
-<li><strong>Cross-references</strong> — a column that references another concept by name (e.g. a foreign key) is valid if that concept exists in the domain model.</li>
-<li>The `scenario` column is a universal row-label alias and always passes validation.</li>
-</ul>
-<p><strong>Derived mode (no domain model):</strong> When no domain model exists, the agent derives concept names freely, but the denormalization constraint below still applies.</p>
-<h4>DO</h4>
-<ul>
-<li>Name each table after a domain concept; columns are attributes of that concept, not UI labels.</li>
-<li>Use domain terminology consistent with the model — exact names, not synonyms.</li>
-<li><strong>Keep tables relationship-based — one table per concept.</strong> When the domain has relationships (one-to-many, many-to-many, inheritance), model them as separate tables with foreign-key columns that reference rows in the related table. Never flatten two concepts into a single wide table. If an Account has many Owners, you need an Account table, an Owner table, and a column in one that references the other — not one table with `account_name, owner_1_name, owner_2_name`.</li>
-<li>Omit surrogate ID columns when they add no specification value.</li>
-<li>When the scenario computes a report or aggregate, show the inputs that justify the output — not just counts.</li>
-<li>Before writing tables, read the domain model and confirm every table name and column name exists in it.</li>
-</ul>
-<pre><code># RIGHT — relationship-based: one table per concept, foreign key links them
-
-Account:
-| scenario           | account_id | account_name  | account_status |
-| Active with owners | ACC-1      | Global Supply | Active         |
-
-Owner:
-| scenario           | owner_name  | owner_role | account_id |
-| Active with owners | Alice Smith | Primary    | ACC-1      |
-| Active with owners | Bob Jones   | Secondary  | ACC-1      |</code></pre>
-<h4>DON&#x27;T</h4>
-<ul>
-<li>Use any table name that does not correspond to a concept in the domain model.</li>
-<li>Use any column name that is not an attribute of that concept (or inherited from a parent concept) in the domain model.</li>
-<li><strong>Denormalize relationships into a flat table.</strong> This is the single most common mistake. When a scenario involves two or more concepts that have a relationship, you MUST use separate tables — one per concept — linked by a foreign-key column. Never widen a single table to hold columns from multiple unrelated concepts. Never use numbered suffixes (`owner_1_name`, `owner_2_name`) to represent a one-to-many relationship — that is a row in a related table, not extra columns. If the domain model shows a relationship, the example tables must show that relationship structurally.</li>
-<li>Build tables around UI controls (`button_enabled`, `modal_visible`) when the story is about domain outcomes.</li>
-<li>Encode only aggregated outputs (`renames_count: 1`) for the scenario responsible for producing that aggregate — show the underlying entities.</li>
-<li><strong>Invent a field that is not in the domain model.</strong> If a table needs a column not in the model, the agent MUST NOT silently add it. Instead:</li>
-</ul>
-<p>1. Tell the user which field is missing and which concept it would belong to. 2. Ask whether to update the domain model to add it. 3. Only proceed after the user confirms the domain change.</p>
-<pre><code># WRONG — denormalized flat table: two concepts mashed into one row
-| scenario           | account_name  | account_status | owner_1_name | owner_1_role | owner_2_name | owner_2_role |
-| Active with owners | Global Supply | Active         | Alice Smith  | Primary      | Bob Jones    | Secondary    |
-
-# WRONG — UI columns
-| dropdown_selection | checkbox_state |
-
-# WRONG — only counts when this scenario builds the report
-| renames_count | new_count |
-| 1             | 2         |
-
-# WRONG — column not in domain model
-| custom_invented_field |</code></pre>
-<h3>Rule: Given describes state, not actions</h3>
-<p><strong>Given</strong> steps state what is true <strong>before</strong> the behavior under test: preconditions and persisted state. Things that <strong>happen</strong> — user gestures, system events, commands — belong in <strong>When</strong>. <strong>Then</strong> captures observable outcomes (including errors). A scenario may contain multiple <strong>When/Then</strong> beats for multi-step journeys; each When starts a new action. Do not hide behavior under test inside <strong>Given</strong>.</p>
-<h4>DO</h4>
-<ul>
-<li>Phrase <strong>Given</strong> as state: the <strong>User</strong> is logged in, the <strong>Account</strong> is active, the <strong>Entitlement</strong> is granted.</li>
-<li>Move verbs like <em>clicks</em>, <em>invokes</em>, <em>submits</em> to <strong>When</strong>.</li>
-<li>When you need prior actions, express the <strong>resulting state</strong>, not the past action.</li>
-</ul>
-<p>Plain example: ``Given the <strong>User</strong> <em>Jane Doe</em> is logged into ChannelOne 2.0 And <strong>Account</strong> <em>Acme Operating</em> is <em>Active</em> When the <strong>User</strong> <em>Jane Doe</em> submits a <strong>Wire Payment</strong> Then the <strong>Wire Payment</strong> is marked as <em>successful</em> ``</p>
-<h4>DON&#x27;T</h4>
-<ul>
-<li>Use <strong>Given</strong> for UI navigation (&quot;user is on Payment Details step&quot;) when you can state domain state.</li>
-<li>Put past-tense actions in <strong>Given</strong> (&quot;user has clicked Continue&quot;).</li>
-<li>Describe the functionality you are trying to prove inside <strong>Given</strong> instead of <strong>Then</strong>.</li>
-</ul>
-<p>``# WRONG Given user clicks Pay When payment succeeds</p>
-<h3>BETTER</h3>
-<p>Given the <strong>Wire Payment</strong> is ready to authorize When the <strong>User</strong> authorizes the <strong>Wire Payment</strong> Then the <strong>Wire Payment</strong> status is <em>Authorized</em> ``</p>
-<h3>Rule: Ground scenarios in domain model content when available</h3>
-<p>When object model, CRC, or domain language content exists in the workspace or has been provided as context, scenario language must use the exact concept names and relationships that content defines.</p>
-<p>Look in this order — use the first type you find: 1. <strong>Object model</strong> — typed classes with attributes and typed relationships between classes (most precise source) 2. <strong>CRC model</strong> — each concept with its responsibilities and the other concepts it works with 3. <strong>Domain language or key abstractions</strong> — glossaries, defined terms, or grouped concept names with definitions</p>
-<p>These types of content are the outputs of domain-driven design practices. If such content is present in the workspace or supplied as context, it is the authoritative source for concept names and relationships.</p>
-<h4>DO</h4>
-<ul>
-<li>Read any available domain model content before naming any concept in a step — object model first, then CRC, then domain language.</li>
-<li>Use the exact term the model defines.</li>
-</ul>
-<pre><code>Given a **Payment Product Agreement** {agreement_id} agreed to by **Customer** {customer_id}
-    using **Account** {account_id}
-    naming **Owner** {owner_id}
-      with **Contact Details** {owner_email}</code></pre>
-<h4>DON&#x27;T</h4>
-<ul>
-<li>Use a synonym or informal shorthand for a concept the domain model has formally named.</li>
-<li>Rename or paraphrase concept names even when the formal name feels long or unfamiliar.</li>
-</ul>
-<pre><code>Given a **Contract** {agreement_id} for **Customer** {customer_id}
-    using **Bank Account** {account_id}
-    naming **Holder** {owner_id}
-      with **Info** {owner_email}</code></pre>
-<hr>
-<h4>DO</h4>
-<ul>
-<li>In Scenario Outlines, structure example tables using the same language and cardinality as the domain model — a one-to-many relationship in the model means a separate table with a linking key, not repeated columns; a joining concept in the model means its own table with references to what it joins.</li>
-</ul>
-<p>CRC model the scenario is grounded in:</p>
-<pre><code>#### **User**
-user id                             | (identifier)
-user name                           | (string)
-payment role                        | Payment Role
-contact details                     | Contact Details
-direct deposit account              | DDA Account
-
-#### **Payment Role**
-role type                           | (Customer, Owner)
-
-#### **DDA Account**
-account id                          | (identifier)
-user                                | User
-
-#### **Payment Product**
-product id                          | (identifier)
-product name                        | (string)
-payment channel                     | Payment Channel
-
-#### **Contact Details**
-user                                | User
-email                               | (string)
-
-#### **Payment Product Agreement**
-agreement id                        | (identifier)
-customer                            | User
-account                             | DDA Account
-payment product                     | Payment Product
-owner                               | User
-application status                  | (Submitted, Approved, Rejected)
-apply                               | User, DDA Account, Payment Product</code></pre>
-<p>Scenario Outline steps that trace the relational chain, with a normalized table per concept:</p>
-<pre><code>Given a **User** {customer_id} {customer_name} with **Payment Role** *Customer*
-  And a **DDA Account** {account_id} for **User** {customer_id}
-  And **Payment Product** {product_id} {product_name} is available
-When the **User** {customer_id} applies for a **Payment Product Agreement** {agreement_id}
-    with **DDA Account** {account_id} and **Payment Product** {product_id}
-    naming **User** {owner_id} as **Owner**
-Then **Payment Product Agreement** {agreement_id} has application status *Submitted*
-  And **User** {owner_id} is notified at {owner_email}</code></pre>
-<pre><code>### User:
-| user_id | user_name | payment_role |
-| USR-001 | Jane Doe  | Customer     |
-| USR-002 | John Doe  | Owner        |
-| USR-003 | Bob Smith | Customer     |
-| USR-004 | Alice Lee | Owner        |
-
-### DDA Account: with User
-| account_id | user_id |
-| DDA-001    | USR-001 |
-| DDA-002    | USR-003 |
-
-### Payment Product:
-| product_id | product_name     |
-| PROD-001   | Savings Plus     |
-| PROD-002   | Premium Checking |
-
-### Contact Details: with User
-| user_id | owner_email    |
-| USR-002 | john@acme.com  |
-| USR-004 | alice@corp.com |
-
-### Payment Product Agreement: with User (Customer), DDA Account, Payment Product, and User (Owner)
-| agreement_id | customer_id | account_id | product_id | owner_id | application_status |
-| AGR-001      | USR-001     | DDA-001    | PROD-001   | USR-002  | Submitted          |
-| AGR-002      | USR-003     | DDA-002    | PROD-002   | USR-004  | Submitted          |</code></pre>
-<h4>DON&#x27;T</h4>
-<ul>
-<li>Denormalize by repeating names across tables instead of linking through IDs — this hides ownership and breaks when a Customer has more than one Account or an Agreement covers more than one Product.</li>
-</ul>
-<pre><code>Given a **Customer** {customer_name} applies for a **Payment Product Agreement**
-    with **Payment Product** {product_name}
-Then the agreement is submitted</code></pre>
-<pre><code>| customer_name | account_number | product_name     | owner_name | owner_email   |
-| Jane Doe      | DDA-001        | Savings Plus     | John Doe   | john@acme.com |</code></pre>
-<h3>Rule: Keep scenarios consistent across connected domains</h3>
-<p>At small scale, one scenario can cover closely related behaviors. As domains grow, prefer <strong>parallel</strong> scenario shapes for parallel concepts (same step count and pattern, different <strong>{Concept}</strong>), diverging only where behavior genuinely differs. That keeps comparisons fair and reviews fast.</p>
-<h4>DO</h4>
-<ul>
-<li>Reuse the same <strong>Given / When / Then</strong> skeleton for sibling concepts (e.g. <strong>{WirePayment}</strong> vs <strong>{ACHPayment}</strong>) when the business flow matches.</li>
-<li>Add <strong>extra</strong> scenarios only for real differences (e.g. intermediary bank required for wire only).</li>
-<li>Parameterize with <strong>{Concept}</strong> and tables instead of copy-pasting eight steps with only the product name changed.</li>
-</ul>
-<p>``# Wire Given {WirePayment} has {Recipient} When {WirePayment} is submitted Then {WirePayment} is routed to the wire rail</p>
-<h3>ACH — parallel structure</h3>
-<p>Given {ACHPayment} has {Recipient} When {ACHPayment} is submitted Then {ACHPayment} is routed to the ACH rail ``</p>
-<h4>DON&#x27;T</h4>
-<ul>
-<li>Give one rail a six-step specification and a sibling rail a three-step soup for the “same” operation without justification.</li>
-<li>Fork scenarios by duplicating hard-coded values instead of shared structure + <strong>{Concept}</strong> tables.</li>
-</ul>
-<h3>Rule: Map table columns to scenario parameters (outline template)</h3>
-<p>This rule applies to stories that use <em>Scenario Outlines</em> eg: that use `{column_name}` tokens and example tables. It does not apply to plain <em>Scenarios</em>, which use inline values instead.</p>
-<p>Every `{column_name}` in steps must resolve to a column header on the matching concept table. Every column on a table must appear in at least one step. Work both directions — no orphan columns, no unused tables.</p>
-<p><strong>Document order:</strong> Tables whose columns appear in <strong>Given</strong> go immediately above that Background or scenario block. Tables whose columns first appear in <strong>When</strong> or <strong>Then</strong> go immediately below that scenario.</p>
-<h4>DO</h4>
-<ul>
-<li>Match `{token}` spelling exactly to the table column header.</li>
-<li>Keep tables minimal — only the columns the scenario actually references.</li>
-</ul>
-<pre><code>Given a User {user_name} has Entitlement {entitlement_name} with status {entitlement_status}</code></pre>
-<pre><code>User:
-| user_name | user_role |
-| Jane Doe | Wire Operator |
-
-Entitlement:
-| entitlement_name | entitlement_status |
-| WirePayment.Create | Granted |</code></pre>
-<h4>DON&#x27;T</h4>
-<ul>
-<li>Leave orphan tables (columns never referenced in steps) or `{tokens}` with no matching table.</li>
-<li>Use `&lt;angle_bracket&gt;` placeholders in step prose — use `{column_name}` for outline steps.</li>
-</ul>
-<pre><code># WRONG
-Given User &lt;user_name&gt; is logged in
-
-# CORRECT (outline)
-Given a User {user_name} is logged in</code></pre>
-<h3>Rule: Mention the domain concept beside the placeholder (outline template)</h3>
-<p>This rule applies to scenario outlines that use `{column_name}` tokens. In plain scenarios, the concept name is written in <strong>bold</strong> and the value in <em>italics</em> directly in the step; no token is needed.</p>
-<p>In outline steps, put the readable domain concept name next to each `{token}` so readers can follow the step without decoding braces alone.</p>
-<h4>DO</h4>
-<ul>
-<li>Use a short English cue before or after the brace: e.g. `a User {user_name}`, `activation status {activation_status}`, `Payment Amount of {amount} {currency}`.</li>
-<li>Apply the same pattern in Background (Given/And) and in scenario steps.</li>
-</ul>
-<p>``Background: Given a User {user_name} is logged into ChannelOne 2.0 And that User {user_name} is representing an Enterprise {enterprise_name} with the Role {user_role} And that Enterprise {enterprise_name} has {payment_service} Payment Service enabled And that User has an Entitlement {entitlement_name} with an Entitlement Status of {entitlement_status}</p>
-<p>Scenario: Wire capture Given an Account with account name {account_name} and activation status {activation_status} is selected When the User {user_name} enters a Payment Amount with amount {amount} and currency {currency} Then Wire Payment outcome has status {status} ``</p>
-<h4>DON&#x27;T</h4>
-<ul>
-<li>Use a bare `{token}` with no surrounding domain words — prefer `the User {user_name}`.</li>
-<li>Repeat the brace twice (`{user_name} User …`) — one natural phrase is enough.</li>
-</ul>
-<h3>Rule: Prefer key examples over exhaustive enumeration</h3>
-<p>A specification that illustrates well with <strong>a few key examples</strong> is more useful than one that specifies a hundred examples poorly. List only the <strong>key representative examples</strong> — enough to show the pattern and catch the important boundaries. Too many examples overwhelm readers (developers cannot see the forest for the trees) and slow down test execution.</p>
-<h4>DO</h4>
-<ul>
-<li>Pick examples that <strong>illustrate the rule</strong>, not every permutation of it.</li>
-<li>Cover happy path, one or two boundaries, and the key failure — enough that the pattern is unambiguous.</li>
-<li>Use a <strong>Scenario Outline</strong> with a focused Examples table when you need breadth, rather than writing dozens of near-identical plain scenarios.</li>
-</ul>
-<h4>DON&#x27;T</h4>
-<ul>
-<li>Enumerate every data permutation when the underlying rule is the same — three rows that prove the formula beat thirty that restate it.</li>
-<li>Write exhaustive scenarios &quot;just in case&quot; — if you cannot articulate what a new row proves that existing rows do not, it is noise.</li>
-</ul>
-<h3>Rule: Scenario language matches the domain</h3>
-<p><strong>Given / When / Then</strong> lines should read like the team’s domain model: entities, value objects, and collaborations. Avoid UI implementation detail unless the story is explicitly about a literal label or widget. Pick the concept that <strong>owns</strong> the data in context (e.g. <strong>Epic</strong> in <strong>StoryMap</strong>, not a diagram cell type, unless the step is about rendering that cell).</p>
-<h4>DO</h4>
-<ul>
-<li>Name entities the way the domain does (“<strong>WirePayment</strong> is created with status pending”).</li>
-<li>Use <strong>When</strong> for domain operations (“<strong>User</strong> selects <strong>Recipient</strong>”), not low-level driver events.</li>
-<li>Use <strong>Then</strong> for domain-visible effects and messages users or integrators care about.</li>
-</ul>
-<p>``Given an Enterprise with active Recipients And a User with wire payment permissions When the User selects a Recipient Then the WirePayment is created with status pending ``</p>
-<h4>DON&#x27;T</h4>
-<ul>
-<li>Anchor <strong>Given</strong> in pages, modals, or control names (“recipient list page is loaded”) when state can be said in domain terms.</li>
-<li>Use generic placeholders (“items”, “thing”) when real types exist.</li>
-<li>Misplace concepts: if something lives in <strong>StoryMap</strong>, say <strong>{Epic}</strong> / <strong>{SubEpic}</strong> there; reserve diagram-specific types for steps about the diagram.</li>
-</ul>
-<p>``# WRONG — UI-first When the user clicks the dropdown</p>
-<h3>STRONGER — domain</h3>
-<p>When the User selects a Recipient ``</p>
-<h3>Rule: Scenarios cover all cases implied by the story</h3>
-<p>A solid story has at least one <strong>happy path</strong> scenario plus <strong>edge</strong> and <strong>error</strong> cases that trace to formal acceptance criteria, story text, notes, or agreed rules. If validation, persistence, or error handling matters, scenarios should show those outcomes explicitly — not assume &quot;we&#x27;ll handle errors somewhere.&quot;</p>
-<h4>DO</h4>
-<ul>
-<li>Include at least one success path with realistic data.</li>
-<li>Add boundary or rule-adjacent cases when limits, optional fields, or transitions are stated.</li>
-<li>Add failure paths with the observable error or prevention behavior (message, status, no persistence).</li>
-</ul>
-<p>Plain scenario examples: ``Scenario: Valid payment amount is accepted When the <strong>User</strong> <em>Jane Doe</em> enters a <strong>Payment Amount</strong> of <em>$10,000.00 USD</em> Then the <strong>Wire Payment</strong> is marked as <em>successful</em></p>
-<p>Scenario: Amount over limit is rejected When the <strong>User</strong> <em>Jane Doe</em> enters a <strong>Payment Amount</strong> of <em>$500,000.01 USD</em> Then the <strong>Wire Payment</strong> is <em>rejected</em> And no <strong>Wire Payment</strong> record is created ``</p>
-<h4>DON&#x27;T</h4>
-<ul>
-<li>Ship only &quot;everything works&quot; scenarios when failures or edge cases are known.</li>
-<li>Describe errors abstractly (&quot;invalid data&quot;) without the concrete violating example.</li>
-</ul>
-<h3>Rule: Scenarios belong in the story graph (canonical persistence)</h3>
-<p>When the team uses <strong>`story-graph.json`</strong> as the system of record, add scenarios to <strong>`stories[].scenarios`</strong> and scenario outlines to <strong>`stories[].scenario_outlines`</strong>. Do not spin up parallel “feature specification” documents or ad-hoc `docs/.../scenarios.md` collections that compete with the graph—<strong>this skill’s</strong> `specification-by-example.md` artifacts are <strong>authoring</strong> outputs that should align with or feed the same structure, not a second source of truth.</p>
-<h4>DO</h4>
-<ul>
-<li>Treat epics → features → stories → <strong>scenarios</strong> as the stable hierarchy in JSON when the bot or pipeline expects it.</li>
-<li>Keep scenario names stable enough to link to tests or automation IDs where your process requires it.</li>
-</ul>
-<h4>DON&#x27;T</h4>
-<ul>
-<li>Create standalone markdown specs whose scenarios are not reflected in <strong>`story-graph.json`</strong> when that file is authoritative for the workspace.</li>
-<li>Fork the same scenario under multiple unofficial paths (harder diffing, drift).</li>
-</ul>
-<pre><code>OK: story-graph.json → epics[].…stories[].scenarios[]
-Avoid: docs/story/Epic/Feature/Feature Specification.md as the only home for scenarios
-``
-
-### Rule: Use real data over invented examples
-
-Concrete examples should use **real or realistic domain data**, not abstract placeholders or made-up values. Invented examples hide inconsistencies that surface when real data arrives — teams that invent examples &quot;assumed they could do certain things and left it out of examples; when the data from real systems came in, there were always too many surprises.&quot;
-
-#### DO
-
-- Use real customer names, product codes, amounts, and dates from the domain wherever possible.
-- When real data is sensitive, create realistic synthetic data that preserves the structure and edge characteristics of production data (lengths, formats, special characters).
-- On data-driven projects, pull sample rows from actual source systems rather than inventing them.
-
-#### DON&#x27;T
-
-- Use abstract entities like &quot;customer A&quot; or &quot;order 123&quot; when a concrete example would expose ambiguity (does the format include leading zeros? is the name unicode-safe?).
-- Assume consistency in legacy data — invented examples based on expected rules will miss the inconsistencies that real data contains.
-- Use yes/no answers in examples without separately illustrating the underlying concept.
-
-### Rule: Use scenario outline when the story needs data variation
-
-Use a **Scenario Outline** with **Examples** when the **same** steps apply across multiple rows: calculations, fee tables, boundary sweeps, or named entity variations. Prefer separate **Scenario**s when setups differ materially, business meaning diverges, or you only have **one** row.
-
-#### DO
-
-- Outline **formula-like** or **table-driven** behavior (inputs → outputs) with a concise Examples block.
-- Keep placeholders in steps consistent with Examples column headers.
-
-``Scenario Outline: Modifier depends on rank
-  Given ability rank &lt;rank&gt;
-  When modifier is calculated
-  Then modifier is &lt;modifier&gt;
-
-  Examples:
-    | rank | modifier |
-    | 10   | 0        |
-    | 12   | +1       |
-``
-#### DON&#x27;T
-
-- Wrap a single concrete path in an outline with one Examples row—use a normal **Scenario**.
-- Use outlines when scenarios need different **Given** contexts that are clearer as separate scenarios.
-
-``# WRONG — outline adds noise for one row
-Scenario Outline: User saves profile
-  Examples:
-    | name |
-    | Jane |
-``
-
-### Rule: Write concrete scenarios with real values
-
-Steps should read as **specific examples**, not abstractions. The approach depends on which template you are using.
-
-**Scenarios (`specification-by-example.md`):** Write all values inline in the step text — real names, amounts, statuses. Use **bold** for domain concept names and *italic* for their values. No tables, no `{placeholder}` tokens.
-
-Given **Account** *Acme Operating* owned by **Enterprise** *Acme Corp* with **Activation Status** *Active* is selected
-  And the **Transactional Limit** *daily_wire* is *$500,000.00 USD*
-When the **User** *Jane Doe* enters a **Payment Amount** of *$10,000.00 USD*
-Then the **Wire Payment** is marked as *successful*
-
-
-**Outline Scenarios:** Use `{column_name}` tokens that match example table headers, with readable domain words beside each placeholder. Every `{token}` must appear in an example table column; every table column must appear in a step. Tables for **Given** go above the scenario; tables for **When** / **Then** go below.
-
-
-Given an **Account** with account name {account_name} and **Activation Status** {activation_status} is selected
-  And the **Transactional Limit** for that Account is {max_amount} {currency}
-When the **User** {user_name} enters a **Payment Amount** of {amount} {currency}
-Then the **Wire Payment** is marked as {validation_status}
-And a **Report** is sent showing {formatted_display}
-
-
-Account (Given — above scenario):
-| enterprise_name | account_name   | activation_status |
-| Acme Corp       | Acme Operating | Active            |
-
-TransactionalLimit (Given — above scenario):
-| limit_name | max_amount | currency |
-| daily_wire | 500000.00  | USD      |
-
-WirePayment (Then — below scenario):
-| amount    | currency | formatted_display | validation_status |
-| 10000.00  | USD      | $10,000.00        | successful        |
-| 500000.01 | USD      | $500,000.01       | rejected          |
-
-#### DO
-
-- For plain scenarios: use real values directly in steps — domain concept **bold**, values *italic*.
-- For outlines: name `{tokens}` after the domain field and keep the readable concept name beside the brace.
-- Trace dependencies: payment needs account, account needs enterprise, user needs entitlements.
-- Use collaboration language (&quot;validates against&quot;, &quot;owned by&quot;, &quot;marked as&quot;), not jammed placeholders.
-
-#### DON&#x27;T
-
-- Mix approaches: don&#x27;t use `{column_name}` tokens in a plain scenario or hard-code values in every row of an outline.
-- Use generic placeholders (`&lt;the_user&gt;`, `{some_value}`) instead of real names (plain) or domain field names (outline).
-- Describe **UI state** as **Given** when domain state suffices (&quot;on Payment Details step&quot; vs **Payment Details** awaits *Account* selection).
-&lt;!-- execute_rules:bundle_rules:end --&gt;
-</code></pre></div>
+<hr></div>
 
 </div>
 </div>

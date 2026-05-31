@@ -1,0 +1,42 @@
+{
+  "name": "@pawplace-mini/root",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "vitest run",
+    "test:domain": "vitest run packages/cart/shared/tests",
+    "test:server": "vitest run tests/shop-and-pay-online/manage-cart/manage-cart_server.test.ts",
+    "test:client": "vitest run tests/**/*_client.test.tsx",
+    "test:find-a-store": "vitest run tests/walk-in-driver/find-a-store/find-a-store_client.test.tsx",
+    "test:stock-visibility": "vitest run tests/walk-in-driver/stock-visibility/ packages/catalog/shared/tests/stock-visibility_domain.test.ts",
+    "test:checkout-and-pay": "vitest run tests/shop-and-pay-online/checkout-and-pay/checkout-and-pay_client.test.tsx",
+    "test:checkout-and-pay-server": "vitest run tests/shop-and-pay-online/checkout-and-pay/checkout-and-pay_server.test.ts",
+    "test:checkout-and-pay-domain": "vitest run packages/checkout/shared/tests/checkout-and-pay_domain.test.ts",
+    "test:store-pickup": "vitest run tests/shop-and-pay-online/store-pickup/store-pickup_client.test.tsx",
+    "test:store-pickup-server": "vitest run tests/shop-and-pay-online/store-pickup/store-pickup_server.test.ts",
+    "test:store-pickup-domain": "vitest run packages/fulfillment/shared/tests/store-pickup_domain.test.ts",
+    "test:store-pickup-all": "vitest run tests/shop-and-pay-online/store-pickup/store-pickup_client.test.tsx tests/shop-and-pay-online/store-pickup/store-pickup_server.test.ts packages/fulfillment/shared/tests/store-pickup_domain.test.ts",
+    "test:manage-cart": "vitest run tests/shop-and-pay-online/manage-cart/manage-cart_client.test.tsx",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "express": "^4.21.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.0.1",
+    "@testing-library/user-event": "^14.5.2",
+    "@types/express": "^4.17.21",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@types/supertest": "^6.0.2",
+    "@vitejs/plugin-react": "^4.3.4",
+    "jsdom": "^25.0.1",
+    "supertest": "^7.0.0",
+    "typescript": "^5.6.3",
+    "vitest": "^2.1.5"
+  }
+}

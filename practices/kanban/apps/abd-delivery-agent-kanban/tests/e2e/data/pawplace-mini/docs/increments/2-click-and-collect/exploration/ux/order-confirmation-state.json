@@ -1,0 +1,31 @@
+{
+  "target": "docs/increments/2-click-and-collect/exploration/ux/order-confirmation.drawio",
+  "screens": [
+    {
+      "name": "Order Confirmation",
+      "layout": "stack",
+      "col": 0,
+      "row": 0,
+      "regions": [
+        {
+          "name": "site header · Find Store · catalog · Cart",
+          "slot": "header",
+          "type": "chrome"
+        },
+        {
+          "name": "order summary",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "order id", "input": "text" },
+            { "label": "click-and-collect store", "input": "text" },
+            { "label": "total", "input": "text" },
+            { "label": "order confirmation", "input": "text", "value": "confirmation sent by email" }
+          ],
+          "buttons": [{ "label": "continue shopping", "primary": true }]
+        }
+      ]
+    }
+  ],
+  "connections": []
+}

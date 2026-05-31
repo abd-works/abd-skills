@@ -1,0 +1,39 @@
+OBJECTIVE (Why?) | PERSONA (Who?) | IMPACT (How?) | INITIATIVE (What?)
+-----------------+----------------+---------------+--------------------
+Grow omnichannel revenue at PawPlace pet stores | | |
+Increase converted store visits and click-and-collect orders | | |
+  # Combined in-store plus click-and-collect revenue +15% vs baseline this planning slice (economic) | | |
+  # Guest checkout completion rate 70%+ among carts that reach payment (conversion) | | |
+NOTE: Inc1-Inc2 below = delivery increments in thin-slicing.md | | |
+ASSUMPTION: Real-time stock at the selected store stays accurate within five minutes when walk-in and pickup demand overlap at peak hours. | | |
+
+| Local pet shoppers (planning an in-store visit) | Find a nearby store and confirm stock before visiting |
+| | | # % of store-detail views followed by visit within 48 hours; target 25%+
+| Local pet shoppers (planning an in-store visit) | Find a nearby store and confirm stock before visiting | View Store Map
+| Local pet shoppers (planning an in-store visit) | Find a nearby store and confirm stock before visiting | View Store List
+| Local pet shoppers (planning an in-store visit) | Find a nearby store and confirm stock before visiting | Calculate Distance to Store
+| Local pet shoppers (planning an in-store visit) | Find a nearby store and confirm stock before visiting | View Product Details
+| Local pet shoppers (planning an in-store visit) | Find a nearby store and confirm stock before visiting | Display Real-Time Stock Availability
+| Local pet shoppers (planning an in-store visit) | Buy in person when stock is visible at the chosen store |
+| | | # Walk-in purchases where customer checked stock online first; target 60%+ of qualifying visits
+| Local pet shoppers (planning an in-store visit) | Buy in person when stock is visible at the chosen store | Display Real-Time Stock Availability (store-scoped)
+| Online guest shoppers (click-and-collect intent) | Build a cart and check out without creating an account |
+| | | # Guest checkout completion among carts reaching billing; target 70%+
+| Online guest shoppers (click-and-collect intent) | Build a cart and check out without creating an account | Add Product to Cart
+| Online guest shoppers (click-and-collect intent) | Build a cart and check out without creating an account | Update Cart Quantity
+| Online guest shoppers (click-and-collect intent) | Build a cart and check out without creating an account | Remove Product from Cart
+| Online guest shoppers (click-and-collect intent) | Build a cart and check out without creating an account | Check Out as Guest
+| Online guest shoppers (click-and-collect intent) | Build a cart and check out without creating an account | Enter Billing Address
+| Online guest shoppers (click-and-collect intent) | Build a cart and check out without creating an account | Select Payment Method
+| Online guest shoppers (click-and-collect intent) | Build a cart and check out without creating an account | Process Card Payment via StripeWave
+| Online guest shoppers (click-and-collect intent) | Build a cart and check out without creating an account | Confirm Order and Send Confirmation Email
+| Online guest shoppers (click-and-collect intent) | Pick up paid orders at the chosen store |
+| | | # Click-and-collect orders marked ready within promised window; target 90%+
+| Online guest shoppers (click-and-collect intent) | Pick up paid orders at the chosen store | Select Click-and-Collect Store
+| Store employees (stock and pickup desk) | Keep shelf stock levels current for customer-facing availability |
+| | | # Stock level updates within 15 minutes of physical change; target 95%+
+| Store employees (stock and pickup desk) | Keep shelf stock levels current for customer-facing availability | Update Product Stock Levels
+| Store employees (stock and pickup desk) | Prepare click-and-collect orders for customer pickup |
+| | | # Orders moved to ready-for-pickup status within SLA; target 90%+
+| Store employees (stock and pickup desk) | Prepare click-and-collect orders for customer pickup | Prepare Click-and-Collect Orders for Pickup
+| Store employees (stock and pickup desk) | Prepare click-and-collect orders for customer pickup | Fulfill Click-and-Collect Order

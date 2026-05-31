@@ -924,7 +924,7 @@ a.cap-card:hover .cap-card__icon {
     </div>
     <a class="back-link" href="../skills.html">← All skills</a>
     <h1>abd-kanban</h1>
-    <p class="tagline">JIT Kanban board for kanban-lead and role agents. delivery-war-room/ under the engagement workspace is the authoritative source of all delivery progress — board.json, system-of-work.json, metrics, and ticket history. Tickets flow through stages, scatter at scope boundaries, and agents pull …</p>
+    <p class="tagline">JIT Kanban board — tickets flow through stages, scatter at scope boundaries, agents pull work.</p>
   </div>
 </header>
 
@@ -939,7 +939,11 @@ a.cap-card:hover .cap-card__icon {
 </nav>
 
 <h2>Description</h2>
-<div class="entry-prose">Single on-disk home for progress and handoffs. Models delivery as a JIT Kanban board where work tickets flow through stages defined by a system of work, scatter into finer-grained tickets at scope boundaries, and role agents pull skill-level tasks from active tickets.</div>
+<div class="entry-prose">Single on-disk home for progress and handoffs. Models delivery as a JIT Kanban board where work tickets flow through stages defined by a system of work, scatter into finer-grained tickets at scope boundaries, and role agents pull skill-level tasks from active tickets.<br>
+<br>
+The system of work is a static definition — ordered stages, each with a scope level and ordered skills. Tickets carry only a lazily-populated progress map; the system of work is the single source of truth for which skills a stage requires. When a ticket completes a stage and the next stage&#x27;s scope is finer, the ticket scatters into child tickets at the finer scope. Eight role agents (four executor/reviewer pairs) pull skill-level work from active tickets based on team-role matching.<br>
+<br>
+---</div>
 
 <section class="install-block" aria-labelledby="install-npx-heading">
   <h2 id="install-npx-heading">Install with npx</h2>
@@ -956,98 +960,50 @@ a.cap-card:hover .cap-card__icon {
 
 <h2 id="entry-contents">Contents</h2>
 <div class="entry-contents-doc">
-<details class="entry-md-section" id="purpose"><summary class="entry-md-section__summary">Purpose</summary><div class="entry-md-section__body"><p>Single on-disk home for <strong>progress</strong> and <strong>handoffs</strong>. Models delivery as a <strong>JIT Kanban board</strong> where work tickets flow through stages defined by a <strong>system of work</strong>, scatter into finer-grained tickets at scope boundaries, and role agents pull skill-level tasks from active tickets.</p></div></details>
-<details class="entry-md-section" id="core-concepts"><summary class="entry-md-section__summary">Core concepts</summary><div class="entry-md-section__body"><div class="md-table-wrap"><table class="md-table"><thead><tr><th>Concept</th><th>Definition</th></tr></thead><tbody><tr><td><strong>System of work</strong></td><td>Static definition: ordered stages, each with a scope level and ordered skills</td></tr><tr><td><strong>Work ticket</strong></td><td>A unit of work at the scope defined by its current stage (all, increment, sprint, story)</td></tr><tr><td><strong>Backlog</strong></td><td>Ordered list of tickets awaiting their next stage — hierarchy from story map</td></tr><tr><td><strong>Scatter</strong></td><td>When a ticket completes a stage whose next stage has finer scope, it decomposes into child tickets</td></tr><tr><td><strong>Lineage</strong></td><td>Every ticket carries its ancestry: project &gt; increment &gt; sprint &gt; story</td></tr><tr><td><strong>Progress</strong></td><td>Lazily-populated map on a ticket tracking execution state per skill (only written when an agent claims)</td></tr></tbody></table></div></div></details>
-<details class="entry-md-section" id="kanban-model"><summary class="entry-md-section__summary">Kanban model</summary><div class="entry-md-section__body"><div class="md-table-wrap"><table class="md-table"><thead><tr><th>Concept</th><th>Implementation</th></tr></thead><tbody><tr><td><strong>Work ticket</strong></td><td>Scope unit at the level its stage requires (all, increment, sprint, story)</td></tr><tr><td><strong>Backlog</strong></td><td>Ordered; only decomposed JIT; hierarchy from story map + thin-slicing</td></tr><tr><td><strong>Active</strong></td><td>Tickets with at least one skill in_progress</td></tr><tr><td><strong>Done</strong></td><td>All skills in stage complete; awaiting scatter or next stage pull</td></tr><tr><td><strong>Blocked</strong></td><td>Ticket with a blocker that prevents progress</td></tr></tbody></table></div>
-<p>Rule: <a href="rules/kanban-ticket-columns.html">`rules/kanban-ticket-columns.md`</a></p></div></details>
-<details class="entry-md-section" id="system-of-work"><summary class="entry-md-section__summary">System of work</summary><div class="entry-md-section__body"><p>The system of work is a <strong>static, reusable definition</strong> that drives all ticket flow. It defines:</p>
-<p>1. <strong>Stages</strong> — ordered sequence (context → shaping → discovery → exploration → specification → engineering) 2. <strong>Scope per stage</strong> — what granularity tickets live at (all, increment, sprint, story) 3. <strong>Skills per stage</strong> — ordered list of practice skills to execute, with default role assignment</p>
-<p>When scope changes between stages (e.g. shaping at &quot;all&quot; → discovery at &quot;increment&quot;), completing one stage <strong>scatters</strong> the ticket into children at the finer scope.</p>
-<p>Template: <a href="templates/system-of-work.json">`templates/system-of-work.json`</a></p>
-<h3>Default new build</h3>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Stage</th><th>Scope</th><th>Skills (ordered)</th></tr></thead><tbody><tr><td>Context (optional)</td><td>all</td><td>convert-to-markdown, semantic-context-chunker, chunk-markdown, embed-vectors</td></tr><tr><td>Shaping</td><td>all</td><td>story-mapping, thin-slicing</td></tr><tr><td>Discovery</td><td>increment</td><td>domain-terms, UL, architecture-blueprint, IA</td></tr><tr><td>Exploration</td><td>increment</td><td>UL-refresh, acceptance-criteria, ux-mockup, arch-template</td></tr><tr><td>Specification</td><td>sprint</td><td>CRC, spec-by-example, scenario-walkthrough, interface-design, arch-reference</td></tr><tr><td>Engineering</td><td>sprint</td><td>interface-design, object-model, ATDD, clean-code</td></tr></tbody></table></div></div></details>
-<details class="entry-md-section" id="tickets"><summary class="entry-md-section__summary">Tickets</summary><div class="entry-md-section__body"><p>A ticket is the <strong>unit of Kanban flow</strong>. Its scope matches the system of work&#x27;s scope for the current stage.</p>
-<h3>Ticket shape</h3>
-<pre><code>{
-  &quot;ticket_id&quot;: &quot;inc-1&quot;,
-  &quot;lineage&quot;: [&quot;Project Name&quot;, &quot;Increment 1&quot;],
-  &quot;scope_level&quot;: &quot;increment&quot;,
-  &quot;stage&quot;: &quot;exploration&quot;,
-  &quot;priority&quot;: 1,
-  &quot;progress&quot;: {
-    &quot;abd-ubiquitous-language&quot;: { &quot;status&quot;: &quot;done&quot;, &quot;agent&quot;: &quot;business-expert&quot;, &quot;start&quot;: &quot;...&quot;, &quot;end&quot;: &quot;...&quot;, &quot;review_status&quot;: &quot;done&quot;, &quot;reviewer&quot;: &quot;business-expert-reviewer&quot;, &quot;review_start&quot;: &quot;...&quot;, &quot;review_end&quot;: &quot;...&quot; },
-    &quot;abd-acceptance-criteria&quot;: { &quot;status&quot;: &quot;in_progress&quot;, &quot;agent&quot;: &quot;product-owner&quot;, &quot;start&quot;: &quot;...&quot;, &quot;end&quot;: null, &quot;review_status&quot;: null }
-  },
-  &quot;entered_stage&quot;: &quot;2026-05-28T10:00:00Z&quot;,
-  &quot;completed_stage&quot;: null,
-  &quot;scatter_from&quot;: &quot;project-all&quot;,
-  &quot;scatter_to&quot;: []
-}</code></pre>
-<p><strong>Skills are NOT declared on the ticket.</strong> The `system-of-work.json` defines which skills apply for a given stage. The ticket only carries a `progress` map — lazily populated when an agent claims a skill.</p>
-<h3>Skill status flow</h3>
-<p>Each skill within a ticket follows: <strong>to_do → in_progress → done</strong></p>
-<p>Each skill also has a review cycle: <strong>review_status: null → in_progress → done</strong> (or <strong>failed</strong> → rework)</p>
-<p>A ticket&#x27;s stage is <strong>done</strong> when ALL skills defined in `system-of-work.json` for that stage have a `progress` entry with `status: done` AND `review_status: done`.</p>
-<h3>Ticket lifecycle</h3>
-<p>1. <strong>Created</strong> — enters backlog at priority from story map 2. <strong>Active</strong> — at least one skill claimed by an agent (in_progress) 3. <strong>Stage done</strong> — all skills executed and reviewed 4. <strong>Scatter</strong> (if next stage has finer scope) — parent archived, children enter backlog 5. <strong>Continue</strong> (if next stage has same scope) — ticket enters next stage, progress cleared (agents claim from system of work) 6. <strong>Complete</strong> — final stage done; ticket archived with full timing data</p></div></details>
-<details class="entry-md-section" id="scattering"><summary class="entry-md-section__summary">Scattering</summary><div class="entry-md-section__body"><p>When a ticket completes a stage and the <strong>next stage&#x27;s scope</strong> is finer than the current stage&#x27;s scope, the ticket <strong>scatters</strong>:</p>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Transition</th><th>Scatter source</th><th>Children created from</th></tr></thead><tbody><tr><td>Shaping (all) → Discovery (increment)</td><td>Project ticket</td><td>Thin-slicing increments from story map</td></tr><tr><td>Exploration (increment) → Spec (sprint)</td><td>Increment ticket</td><td>Stories grouped into sprints by kanban lead / strategy</td></tr></tbody></table></div>
-<h3>Scatter mechanics</h3>
-<p>1. Parent ticket is <strong>archived</strong> (moved to `archived` with start/end timestamps) 2. Child tickets are <strong>created</strong> at the finer scope level, entering the backlog for the next stage 3. Children carry <strong>lineage</strong> from the parent (e.g. `[&quot;Project&quot;, &quot;Increment 1&quot;, &quot;Sprint 1&quot;]`) 4. Children are ordered by priority from the story map 5. <strong>JIT rule</strong>: only scatter the next N items unless user or strategy says otherwise</p>
-<h3>When scope stays the same</h3>
-<p>Discovery (increment) → Exploration (increment): no scatter. The same ticket moves to the next stage; its progress is cleared and agents claim skills from `system-of-work.json`.</p></div></details>
-<details class="entry-md-section" id="backlog"><summary class="entry-md-section__summary">Backlog</summary><div class="entry-md-section__body"><p>The backlog is <strong>ordered</strong> and <strong>hierarchical</strong>:</p>
+<details class="entry-md-section" id="purpose"><summary class="entry-md-section__summary">Purpose</summary><div class="entry-md-section__body"><p>Single on-disk home for <strong>progress</strong> and <strong>handoffs</strong>. Models delivery as a <strong>JIT Kanban board</strong> where work tickets flow through stages defined by a <strong>system of work</strong>, scatter into finer-grained tickets at scope boundaries, and role agents pull skill-level tasks from active tickets.</p>
+<p>The system of work is a static definition — ordered stages, each with a scope level and ordered skills. Tickets carry only a lazily-populated `progress` map; the system of work is the single source of truth for which skills a stage requires. When a ticket completes a stage and the next stage&#x27;s scope is finer, the ticket <strong>scatters</strong> into child tickets at the finer scope. Eight role agents (four executor/reviewer pairs) pull skill-level work from active tickets based on team-role matching.</p>
+<hr></div></details>
+<details class="entry-md-section" id="output-file"><summary class="entry-md-section__summary">Output file</summary><div class="entry-md-section__body"><p><strong>Deliverables folder:</strong> see `../reference/agent-protocol.md` — Output file resolution.</p>
+<p><strong>File names:</strong> War room files — `board.json`, `system-of-work.json`, `strategy.md`, `manifest.md`, `INSTRUCTIONS.md`, `metrics-log.jsonl`. Output to `&lt;workspace&gt;/docs/planning/delivery-war-room/`.</p>
+<hr></div></details>
+<details class="entry-md-section" id="agent-instructions"><summary class="entry-md-section__summary">Agent Instructions</summary><div class="entry-md-section__body"><p>&gt; <strong>MANDATORY — read `../reference/agent-protocol.md` before starting. It defines read-gates, output file resolution, and the per-rule verdict format.</strong></p>
+<h3>1. Read context</h3>
+<p>Read these files:</p>
 <ul>
-<li>Order comes from story map priority + thin-slicing</li>
-<li>Hierarchy comes from the story map structure (epics → sub-epics → stories)</li>
-<li>Only decomposed as far as needed (JIT)</li>
-<li>Delivery lead or user can pre-decompose (&quot;divide increment 1 into 3 sprints&quot;)</li>
-<li>Items not yet scattered stay at their parent scope level until their turn</li>
-</ul></div></details>
-<details class="entry-md-section" id="role-agents-eight"><summary class="entry-md-section__summary">Role agents (eight)</summary><div class="entry-md-section__body"><div class="md-table-wrap"><table class="md-table"><thead><tr><th>Executor</th><th>Reviewer</th></tr></thead><tbody><tr><td>`product-owner`</td><td>`product-owner-reviewer`</td></tr><tr><td>`business-expert`</td><td>`business-expert-reviewer`</td></tr><tr><td>`ux-designer`</td><td>`ux-designer-reviewer`</td></tr><tr><td>`engineer`</td><td>`engineer-reviewer`</td></tr></tbody></table></div>
-<p>Agents are <strong>instantiated once</strong> per engagement as <strong>isolated subagents</strong>. They pull skill-level work from active tickets. An agent claims a skill on a ticket when:</p>
-<p>1. The skill&#x27;s `role` in `system-of-work.json` matches the agent&#x27;s `team-role` 2. The skill has no `progress` entry yet or `status` is `to_do` (executor), or `status` is `done` and `review_status` is null (reviewer) 3. Prior skills in the stage&#x27;s ordered list (from system of work) are done (skills execute in order)</p></div></details>
-<details class="entry-md-section" id="progress-authority"><summary class="entry-md-section__summary">Progress authority</summary><div class="entry-md-section__body"><div class="md-table-wrap"><table class="md-table"><thead><tr><th>What</th><th>Where</th><th>Who updates</th></tr></thead><tbody><tr><td><strong>Kanban board</strong></td><td><strong>`board.json`</strong></td><td><strong>`sync_kanban_board.py`</strong> (from ticket state)</td></tr><tr><td><strong>System of work</strong></td><td>`system-of-work.json`</td><td><strong>kanban-lead</strong> at setup</td></tr><tr><td><strong>Strategy</strong></td><td>`strategy.md`</td><td><strong>kanban-lead</strong> at setup</td></tr><tr><td><strong>Ticket state</strong></td><td>`board.json` tickets array</td><td>Role agents (skill progress) + kanban-lead (scatter, stage transitions)</td></tr><tr><td><strong>Metrics</strong></td><td>`board.json` metrics + `metrics-log.jsonl`</td><td><strong>`track_metrics.py`</strong></td></tr><tr><td><strong>Audit trail</strong></td><td>`metrics-log.jsonl`</td><td>Delivery lead</td></tr><tr><td><strong>Blockers</strong></td><td>ticket `blocked` status</td><td>Role agent / operator</td></tr></tbody></table></div></div></details>
-<details class="entry-md-section" id="workspace-layout"><summary class="entry-md-section__summary">Workspace layout</summary><div class="entry-md-section__body"><pre><code>&lt;workspace&gt;/docs/planning/
-  delivery-war-room/
-    board.json                 # Kanban state — tickets, backlog, active, done, archived
-    system-of-work.json        # Stage + scope + skill definitions
-    strategy.md                # Active strategy (scope progression, scatter rules)
-    manifest.md                # Engagement policy, wip_policy, autonomy
-    metrics-log.jsonl          # Timestamped events (skill start/end, stage transitions, scatters)
-    INSTRUCTIONS.md            # Agent bootstrap instructions</code></pre></div></details>
-<details class="entry-md-section" id="delivery-lead-setup"><summary class="entry-md-section__summary">Delivery lead — setup</summary><div class="entry-md-section__body"><p>After strategy selection:</p>
-<p>1. Create `&lt;workspace&gt;/docs/planning/delivery-war-room/` if missing. 2. Copy <strong>`templates/INSTRUCTIONS.md`</strong> → `INSTRUCTIONS.md`. 3. Write <strong>`system-of-work.json`</strong> from strategy (or custom). 4. Write `strategy.md` with scope progression rules, scatter heuristics, sprint grouping. 5. Write `manifest.md` with wip_policy, autonomy, checkpoint policy. 6. Initialize <strong>`board.json`</strong> with first ticket (scope: all, stage: shaping). 7. Initialize `metrics-log.jsonl`. 8. Start the <strong>agent scan loop</strong>.</p></div></details>
-<details class="entry-md-section" id="delivery-lead-scan-cycle"><summary class="entry-md-section__summary">Delivery lead — scan cycle</summary><div class="entry-md-section__body"><p>Each tick:</p>
-<p>1. Read `board.json` and `system-of-work.json` — active tickets, backlog, wip_policy, stage skill definitions. 2. <strong>Detect completed skills</strong> — compare each active ticket&#x27;s `progress` against the stage&#x27;s skill list in `system-of-work.json`. 3. <strong>Stage transitions</strong> — if all required skills are done on a ticket, either scatter or advance to next stage (clear progress). 4. <strong>Scatter</strong> — run `scatter_ticket.py` when scope changes; archive parent, create children in backlog. 5. <strong>Pull from backlog</strong> — move next-priority tickets from backlog to active (respecting WIP). 6. <strong>Bottleneck analysis</strong> — which stage/skill has the most waiting work? Report to operator. 7. <strong>Agent pool</strong> — spawn/scale agents per `wip_policy`. 8. <strong>Sync</strong> — write `board.json`, append `metrics-log.jsonl`.</p></div></details>
-<details class="entry-md-section" id="role-agent-work-cycle"><summary class="entry-md-section__summary">Role agent — work cycle</summary><div class="entry-md-section__body"><p>1. Read `board.json`, `system-of-work.json`, and `manifest.md`. 2. Find active tickets where `system-of-work.json` lists a skill for this stage matching your `team-role` — and the skill has no `progress` entry or is `to_do`. 3. <strong>Priority</strong>: rightmost stage first (engineering &gt; spec &gt; explore &gt; discovery &gt; shaping). 4. Claim the skill: write a `progress` entry on the ticket (`status: in_progress`, `agent: &lt;role&gt;`, `start: &lt;now&gt;`). 5. Execute the practice skill per executor or reviewer workflow. 6. Mark done (`status: done`, `end: &lt;now&gt;`). 7. Pull next eligible skill.</p></div></details>
-<details class="entry-md-section" id="metrics-and-tracking"><summary class="entry-md-section__summary">Metrics and tracking</summary><div class="entry-md-section__body"><p>Every ticket carries timing data:</p>
-<ul>
-<li><strong>Per skill</strong>: start, end, review_start, review_end</li>
-<li><strong>Per stage</strong>: entered_stage, completed_stage</li>
-<li><strong>Per ticket</strong>: created, archived (when scattered or complete)</li>
-<li><strong>Lineage</strong> enables rollup: total increment time, total project time, stage cycle times</li>
+<li><strong>`reference/concepts.md`</strong> — Kanban model, system of work, tickets (shape, lifecycle, status flow), scattering, backlog, role agents, progress authority, workspace layout, delivery lead and agent work cycles, and metrics.</li>
 </ul>
-<p>The kanban lead uses `track_metrics.py` to compute:</p>
-<ul>
-<li>Cycle time per stage, per scope level</li>
-<li>Bottleneck detection (which stage/skill accumulates WIP)</li>
-<li>Throughput (tickets completed per unit time)</li>
-</ul></div></details>
-<details class="entry-md-section" id="sync-commands"><summary class="entry-md-section__summary">Sync commands</summary><div class="entry-md-section__body"><pre><code>python kanban/skills/abd-kanban/scripts/sync_kanban_board.py --workspace &lt;workspace&gt;
+<h3>2. Generate</h3>
+<p>Read every file in <strong>`rules/`</strong>; author to those rules.</p>
+<p><strong>Produce output from every template:</strong></p>
+<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Template</th><th>What to produce</th></tr></thead><tbody><tr><td>`templates/board.json`</td><td>Kanban board state — tickets, backlog, active, done, archived</td></tr><tr><td>`templates/system-of-work.json`</td><td>Stage + scope + skill definitions</td></tr><tr><td>`templates/manifest.md`</td><td>Engagement policy, WIP policy, autonomy</td></tr><tr><td>`templates/INSTRUCTIONS.md`</td><td>Agent bootstrap instructions</td></tr><tr><td>`templates/ticket.json`</td><td>Ticket shape reference</td></tr><tr><td>`templates/brownfield-boundary-gate.md`</td><td>Brownfield boundary gate (when applicable)</td></tr></tbody></table></div>
+<p><strong>Scripts:</strong> Use the following scripts for board operations:</p>
+<pre><code>python kanban/skills/abd-kanban/scripts/sync_kanban_board.py --workspace &lt;workspace&gt;
 python kanban/skills/abd-kanban/scripts/scatter_ticket.py --workspace &lt;workspace&gt; --ticket &lt;id&gt;
-python kanban/skills/abd-kanban/scripts/track_metrics.py --workspace &lt;workspace&gt;</code></pre></div></details>
-<details class="entry-md-section" id="templates"><summary class="entry-md-section__summary">Templates</summary><div class="entry-md-section__body"><p>Copy from `templates/`: `INSTRUCTIONS.md`, `manifest.md`, `board.json`, `system-of-work.json`, `ticket.json`.</p></div></details>
-<details class="entry-md-section" id="limits"><summary class="entry-md-section__summary">Limits</summary><div class="entry-md-section__body"><ul>
-<li>Exit gates remain in `stages/*.md`; war room records Kanban state, it does not replace stage definitions.</li>
-<li>`system-of-work.json` is the <strong>single source of truth</strong> for which skills a stage requires — tickets never duplicate that list.</li>
-<li>Tickets carry only a `progress` map (lazily populated when agents claim); no `skills` key.</li>
-<li>Scatter logic is deterministic from the system of work scope transitions and story map structure.</li>
-</ul></div></details>
+python kanban/skills/abd-kanban/scripts/track_metrics.py --workspace &lt;workspace&gt;</code></pre>
+<h3>3. Validate</h3>
+<p>Run the scanners:</p>
+<pre><code>python skills/execute-skill-using-skills-rules/scripts/run_scanners.py \
+  --skill-root skills/abd-kanban \
+  --workspace &lt;path-to-output&gt;</code></pre>
+<p>Then emit per-rule verdicts per `../reference/agent-protocol.md`.</p>
+<hr></div></details>
+<details class="entry-md-section" id="validate"><summary class="entry-md-section__summary">Validate</summary><div class="entry-md-section__body"><p><strong>Goal:</strong> Inspect what was built — read the artifacts as reviewers.</p>
+<ul>
+<li><strong>Ticket shape</strong> — tickets carry `progress` map only, no `skills` key; system of work is the source of truth for stage skills.</li>
+<li><strong>Scattering</strong> — scope transitions produce children at finer scope, parent archived.</li>
+<li><strong>Backlog order</strong> — hierarchical, ordered by story map priority + thin-slicing.</li>
+<li><strong>Role agents</strong> — agents pull from active tickets matching their team-role in system of work.</li>
+<li><strong>Workspace layout</strong> — all war room files live under `docs/planning/delivery-war-room/`.</li>
+<li><strong>No bundle markers</strong> — `SKILL.md` has no `&lt;!-- execute_rules:bundle_rules --&gt;` markers.</li>
+</ul>
+<hr></div></details>
 </div>
 <hr class="entry-divider">
 <div class="entry-contents-files">
 <ul class="file-list file-list--root">
+<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>reference/</strong><span class="file-meta"> → Folder (1 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/kanban/skills/abd-kanban/reference/concepts.md" target="_blank" rel="noopener noreferrer"><strong>concepts.md</strong></a><span class="file-meta"> → abd-kanban — Concepts</span></li>
+</ul></div></details></li>
 <li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>rules/</strong><span class="file-meta"> → Practice rules (DO/DON&#x27;T) and constraints used with scanners.</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/kanban/skills/abd-kanban/rules/kanban-ticket-columns.md" target="_blank" rel="noopener noreferrer"><strong>kanban-ticket-columns.md</strong></a><span class="file-meta"> → scanner: war-room-shape</span></li>
 </ul></div></details></li>

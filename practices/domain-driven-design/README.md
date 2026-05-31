@@ -2,7 +2,7 @@
 
 Practice skills for module partition, domain terms, ubiquitous language, CRC, object model, DDD building blocks, bounded contexts, and domain diagram sync.
 
-**Shared prose:** `content/` (e.g. `oo-concepts.md`) — not `common/`.
+**Shared prose:** `reference/` (e.g. `oo-concepts.md`) — not `common/`.
 
 ## Deploy
 

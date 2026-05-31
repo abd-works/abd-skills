@@ -1,0 +1,176 @@
+{
+  "_comment": "Machine-readable vocabulary extracted from the object model. Sprint 1 store-locator and Sprint 2 catalog/stock scope.",
+  "concepts": {
+    "Store": {
+      "attributes": [
+        "retailLocationIdentity",
+        "geographicPlacement"
+      ],
+      "inherits": null
+    },
+    "Stores": {
+      "attributes": [
+        "everyRetailLocation"
+      ],
+      "inherits": null
+    },
+    "StoreMap": {
+      "attributes": [
+        "geographicStoreLayout",
+        "stores"
+      ],
+      "inherits": null
+    },
+    "StoreList": {
+      "attributes": [
+        "storeNameAndDetailRows",
+        "stores"
+      ],
+      "inherits": null
+    },
+    "DistanceToStore": {
+      "attributes": [
+        "proximityRankingPerStore"
+      ],
+      "inherits": null
+    },
+    "SelectedStore": {
+      "attributes": [
+        "activeShoppingContextStore"
+      ],
+      "inherits": "Store"
+    },
+    "GeographicPlacement": {
+      "attributes": [
+        "address",
+        "latitude",
+        "longitude"
+      ],
+      "inherits": null
+    },
+    "DistanceMeasure": {
+      "attributes": [
+        "kilometers"
+      ],
+      "inherits": null
+    },
+    "StoreMapPin": {
+      "attributes": [
+        "retailLocationIdentity",
+        "geographicPlacement",
+        "distanceMeasure",
+        "selectable"
+      ],
+      "inherits": null
+    },
+    "StoreListRow": {
+      "attributes": [
+        "retailLocationIdentity",
+        "geographicPlacement",
+        "distanceMeasure"
+      ],
+      "inherits": null
+    },
+    "Customer": {
+      "attributes": [
+        "selectedStore",
+        "sharedCustomerLocation"
+      ],
+      "inherits": null
+    },
+    "CustomerLocation": {
+      "attributes": [
+        "latitude",
+        "longitude"
+      ],
+      "inherits": null
+    },
+    "Catalog": {
+      "attributes": [
+        "products",
+        "selectedStore"
+      ],
+      "inherits": null
+    },
+    "Products": {
+      "attributes": [
+        "everyCatalogProduct"
+      ],
+      "inherits": null
+    },
+    "Product": {
+      "attributes": [
+        "catalogItemIdentity",
+        "description",
+        "unitPrice"
+      ],
+      "inherits": null
+    },
+    "RealTimeStock": {
+      "attributes": [],
+      "inherits": null
+    },
+    "StockAvailability": {
+      "attributes": [],
+      "inherits": null
+    },
+    "ProductStockLevels": {
+      "attributes": [
+        "levelsByProductAndStore"
+      ],
+      "inherits": null
+    },
+    "ProductCatalogRow": {
+      "attributes": [
+        "product",
+        "catalogItemIdentity"
+      ],
+      "inherits": null
+    },
+    "ProductDetailView": {
+      "attributes": [
+        "product",
+        "realTimeStock",
+        "stockAvailability",
+        "selectedStore"
+      ],
+      "inherits": null
+    },
+    "ProductStockRow": {
+      "attributes": [
+        "product",
+        "onHandCount",
+        "editable"
+      ],
+      "inherits": null
+    },
+    "StockAvailabilityStatus": {
+      "attributes": [
+        "label"
+      ],
+      "inherits": null
+    },
+    "Money": {
+      "attributes": [
+        "amount",
+        "currency"
+      ],
+      "inherits": null
+    },
+    "ProductStoreKey": {
+      "attributes": [
+        "product",
+        "store"
+      ],
+      "inherits": null
+    },
+    "StoreEmployee": {
+      "attributes": [
+        "displayName",
+        "activeStore"
+      ],
+      "inherits": null
+    }
+  },
+  "aliases": {}
+}

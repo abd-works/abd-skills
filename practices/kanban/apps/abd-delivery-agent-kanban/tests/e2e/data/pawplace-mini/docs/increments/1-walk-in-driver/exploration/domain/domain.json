@@ -1,0 +1,57 @@
+{
+  "concepts": {
+    "Store": {
+      "attributes": ["identity", "location"],
+      "inherits": null
+    },
+    "store map": {
+      "attributes": [],
+      "inherits": "Store"
+    },
+    "store list": {
+      "attributes": [],
+      "inherits": "Store"
+    },
+    "distance to store": {
+      "attributes": ["proximityRanking"],
+      "inherits": null
+    },
+    "selected store": {
+      "attributes": [],
+      "inherits": "Store"
+    },
+    "Catalog": {
+      "attributes": [],
+      "inherits": null
+    },
+    "catalog": {
+      "attributes": [],
+      "inherits": "Catalog"
+    },
+    "product": {
+      "attributes": ["detail"],
+      "inherits": null
+    },
+    "real-time stock": {
+      "attributes": ["onHandQuantity"],
+      "inherits": null
+    },
+    "stock availability": {
+      "attributes": ["buyNowSignal"],
+      "inherits": null
+    },
+    "product stock levels": {
+      "attributes": ["onHandCount"],
+      "inherits": null
+    },
+    "Customer": {
+      "attributes": [],
+      "inherits": null
+    },
+    "Store employee": {
+      "attributes": [],
+      "inherits": null
+    }
+  },
+  "aliases": {}
+}

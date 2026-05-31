@@ -14,12 +14,6 @@ description: >-
 Given a validated problem, map **how people are actually solving it** — the
 categories of solutions, concrete tools and practices, and how they differ.
 
-## When to use
-
-- Problem validation is done and the user wants to see the solution space.
-- The user asks "how are others solving this?" or "what are the options?"
-- Before comparing the user's approach, you need to know what's out there.
-
 ## Knowledge sources — strict priority
 
 1. **Web search** — current tools, frameworks, open-source projects, SaaS products, published architectures, case studies.

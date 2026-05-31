@@ -941,51 +941,40 @@ a.cap-card:hover .cap-card__icon {
 <h2>Purpose</h2>
 <p>`abd-architecture-template` produces a reference document that specifies <em>how</em> a mechanism is structured, what files exist, how types collaborate, and how the flow runs. This skill takes that reference document as its blueprint and produces the <strong>actual runnable code files</strong> that realise the mechanism — domain classes, entry points, and tests — ready to execute.</p>
 <p>Two paths are available: use the real project&#x27;s architecture reference and one in-scope story to generate real implementation files, or use the built-in &quot;Simple Calculator&quot; scenario so any team can see a complete, working three-layer example with zero prior setup.</p>
-<h2>When to use</h2>
-<ul>
-<li>You have an `architecture-reference.md` (from `abd-architecture-template`) and want the code that implements it.</li>
-<li>A team needs a concrete runnable example to understand what one mechanism looks like end-to-end before building the real thing.</li>
-<li>You want a quick smoke-test: generate the hello-world code, run it with `pytest`, confirm the mechanism works as specified.</li>
-</ul>
 <hr>
 <h2>Agent Instructions</h2>
-<p>1. <strong>Choose the implementation mode.</strong> Ask — or infer from context — which of the two modes to use:</p>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Mode</th><th>When to use</th></tr></thead><tbody><tr><td><strong>Project mode</strong></td><td>A real `architecture-reference.md` is in scope. Generate the files listed in its File Structure block, implementing the walkthrough example.</td></tr><tr><td><strong>Hello-world mode</strong></td><td>No project context is available, or the team wants a standalone runnable example. Use the built-in Simple Calculator scenario described below.</td></tr></tbody></table></div>
-<p>2. <strong>Read `abd-architecture-template` first.</strong> Open `skills/architecture-centric-engineering/abd-architecture-template/SKILL.md`. The reference document it describes is the contract this skill implements — use its File Structure, Participants, Flow, and Walkthrough sections as the specification for every file you generate.</p>
-<p>3. <strong>Hello-world scenario (mode 2).</strong> When no project context exists, generate the files in `templates/hello-world/` using this pre-configured scope:</p>
+<p>1. <strong>Choose the implementation mode.</strong> Ask — or infer from context — which mode to use:</p>
+<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Mode</th><th>When to use</th></tr></thead><tbody><tr><td><strong>Project mode</strong></td><td>A real `architecture-reference.md` is in scope. Generate the files listed in its File Structure block, implementing the walkthrough example.</td></tr><tr><td><strong>Hello-world mode</strong></td><td>No project context is available, or the team wants a standalone runnable example. Use the built-in Simple Calculator scenario.</td></tr></tbody></table></div>
+<p>2. <strong>Read `abd-architecture-template` first.</strong> The reference document it describes is the contract this skill implements — use its File Structure, Participants, Flow, and Walkthrough sections as the specification for every file you generate.</p>
+<p>3. <strong>Hello-world scenario (mode 2).</strong> When no project context exists, generate files using this pre-configured scope:</p>
 <ul>
-<li><strong>System:</strong> Simple Calculator — a three-layer CLI app (Presentation → Domain → Infrastructure) written in Python.</li>
+<li><strong>System:</strong> Simple Calculator — a three-layer CLI app (Presentation → Domain → Infrastructure) in Python.</li>
 <li><strong>Story:</strong> `As a user, when I enter two numbers and an operator, the calculator returns the correct result or a clear error message.`</li>
-<li><strong>Mechanism implemented:</strong> Error handling — invalid operator and divide-by-zero are raised at the domain layer, caught once at the presentation boundary, and shown to the user without a traceback.</li>
-<li><strong>Files to generate:</strong></li>
-<li>`calculator.py` — Domain layer: `Calculator` class + `CalculationError`</li>
-<li>`cli.py` — Presentation layer: `main()` with the single `try/except`</li>
-<li>`tests/test_calculator.py` — domain unit tests</li>
-<li>`tests/test_cli.py` — presentation integration tests</li>
-<li>Use `templates/hello-world/` as the reference implementation for expected content, naming, and style.</li>
+<li><strong>Mechanism:</strong> Error handling — invalid operator and divide-by-zero raised at domain, caught once at presentation boundary.</li>
+<li><strong>Files:</strong> `calculator.py` (Domain), `cli.py` (Presentation), `tests/test_calculator.py`, `tests/test_cli.py`.</li>
+<li>Use `templates/hello-world/` as the reference implementation.</li>
 </ul>
-<p>4. <strong>Generate complete, runnable files.</strong> Every file must be syntactically correct and immediately executable. Do not generate stubs, placeholders, or `pass` bodies.</p>
-<p>5. <strong>One mechanism per run.</strong> Implement the mechanism covered by the reference document. Do not add extra mechanisms unless the user explicitly asks.</p>
+<p>4. <strong>Generate complete, runnable files.</strong> Every file must be syntactically correct and immediately executable. No stubs or placeholder bodies.</p>
+<p>5. <strong>One mechanism per run.</strong> Do not add extra mechanisms unless explicitly asked.</p>
 <hr>
 <h2>Core concepts</h2>
 <h3>Reference document as specification</h3>
-<p>The output of `abd-architecture-template` is the specification for this skill&#x27;s code. The File Structure block is the list of files to create. The Participants diagram is the type graph to implement. The Flow diagram is the call sequence. The Walkthrough is the acceptance scenario the code must pass.</p>
+<p>The output of `abd-architecture-template` is the specification for this skill&#x27;s code. The File Structure block is the list of files to create. The Participants diagram is the type graph. The Flow diagram is the call sequence. The Walkthrough is the acceptance scenario.</p>
 <h3>Hello-world as calibration</h3>
-<p>The Simple Calculator scenario is intentionally trivial so the <em>mechanism</em> is what the reader learns from, not the domain. A team that understands how error handling works across three Python layers can apply the same pattern to any mechanism in any architecture.</p>
+<p>The Simple Calculator scenario is intentionally trivial so the <em>mechanism</em> is what the reader learns from, not the domain.</p>
 <h3>Project mode as fast-start</h3>
-<p>In project mode the reference document is already written. This skill reads it, extracts the File Structure and Walkthrough, and generates the matching implementation. The reference document is not modified.</p>
+<p>In project mode the reference document is already written. This skill reads it, extracts the File Structure and Walkthrough, and generates the matching implementation.</p>
 <hr>
 <h2>Validate</h2>
 <ul>
-<li>Every generated file is syntactically correct Python (or the target language).</li>
-<li>Running `pytest` on the generated test files produces a passing test suite with no errors.</li>
-<li>The domain layer raises typed exceptions; the presentation layer has exactly one `try/except` for each domain exception type.</li>
+<li>Every generated file is syntactically correct (target language).</li>
+<li>Running the test suite produces passing results with no errors.</li>
+<li>The domain layer raises typed exceptions; the presentation layer has exactly one catch boundary.</li>
 <li>No layer swallows an error silently or uses a bare `except Exception`.</li>
-<li>In hello-world mode the generated files match the scenario spec above (three layers, divide-by-zero, unknown operator, stdout output).</li>
-<li>In project mode every file listed in the reference&#x27;s File Structure block is generated.</li>
+<li>In hello-world mode the generated files match the scenario spec.</li>
+<li>In project mode every file listed in the reference&#x27;s File Structure is generated.</li>
 </ul>
-<hr>
-<p>&lt;!-- execute_rules:bundle_rules:begin --&gt; &lt;!-- execute_rules:bundle_rules:end --&gt;</p></div>
+<hr></div>
 
 </div>
 </div>

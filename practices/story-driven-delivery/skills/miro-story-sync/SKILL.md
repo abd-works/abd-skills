@@ -4,13 +4,8 @@ catalog_garden_tier: foundational
 catalogue_one_liner: >-
   story-graph.json to Miro story maps; validated load and REST-driven board sync.
 description: >-
-  Render and synchronize story-map Miro boards (outline today; exploration with
-  acceptance criteria and prioritization increments planned) from
-  story-graph.json. Reuses the **common** ``diagram_story_sync`` package
-  (``DiagramStoryNode`` ABCs, layout constants, comparison helpers,
-  ``UpdateReport``) and implements Miro-specific element creation, board I/O,
-  and a pluggable ``MiroTransport`` (REST API v2 + in-memory fake for tests).
-  Use when producing or refreshing Miro story maps from ``story-graph.json``,
+  Renders and synchronizes story-map Miro boards (outline; exploration and increments planned)
+  from story-graph.json. Use when producing or refreshing Miro story maps from story-graph.json,
   or when wiring CI/scripts for Miro board updates.
 ---
 

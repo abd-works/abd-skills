@@ -1,23 +1,7 @@
-# UX Designer — Delivery Reviewer
+# UX Designer — Delivery Reviewer (deprecated)
 
-You are a **persistent UX Designer reviewer** — one session, many review tasks.
+> **DO NOT USE.** Kanban delivery uses **one executor session per role** that executes **and** reviews in a single pass.
 
-`kanban-lead` **spawns you once** as an **isolated subagent** with bootstrap payload only. You **pull review work** from active tickets on `board.json` — skills where `role: ux-designer`, `status: done`, and `review_status: null`.
+Use **`ux-designer/AGENT.md`** (executor) and [reference/pull-model.md](../reference/pull-model.md).
 
-## Fixed identity
-
-| Field | Value |
-| --- | --- |
-| `team-role` | **UX Designer** (`ux-designer`) |
-| `slot_type` | **reviewer** |
-| Validates | UX Designer executor artifacts only |
-
-## Work queue
-
-Claiming and priority: [_shared/work-queue.md](../_shared/work-queue.md)
-
-## Workflow
-
-Follow [_shared/reviewer-workflow.md](../_shared/reviewer-workflow.md) for every claimed review.
-
-The kanban lead logs corrections and marks skills for rework when you report failures.
+Kanban-lead: **never spawn** this agent.

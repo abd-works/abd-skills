@@ -924,7 +924,7 @@ a.cap-card:hover .cap-card__icon {
     </div>
     <a class="back-link" href="../skills.html">← All skills</a>
     <h1>abd-ux-mockup</h1>
-    <p class="tagline">Precision pass after the initial IA — specify exact controls, interactions, and states for any scope (full site, flow, epic, story), drawn in Draw.io as a lo-fi wireframe and saved as a versioned .drawio artifact.</p>
+    <p class="tagline">Lo-fi wireframes — exact controls, interactions, and states drawn in Draw.io from IA screens.</p>
   </div>
 </header>
 
@@ -940,8 +940,6 @@ a.cap-card:hover .cap-card__icon {
 
 <h2>Description</h2>
 <div class="entry-prose">The initial IA established the screen inventory, regions, and story coverage. The lo-fi mockup is the next precision pass: it locks down exactly which control renders each field, exactly what interactions are available in each state, and exactly what the user sees and does — without yet committing to visual design. Every input becomes a specific control type (text field, dropdown, checkbox). Every action becomes a positioned button with a primary/secondary weight. Every conditional state (validation error, empty list, disabled control) is explicitly placed. This skill packages that pass: take one IA screen, resolve its AC and domain terms, build a drawio-mockup.mjs state file, generate the .drawio wireframe, and save it — so interaction decisions are made deliberately and traceable, not invented during implementation.<br>
-<br>
-Critical principle: The lo-fi mockup must faithfully reproduce the production UI structure as shown in design images. Do NOT substitute tables for trees, do NOT use fields when a listbox is called for, do NOT flatten hierarchical views into flat lists. Match the design.<br>
 <br>
 ---</div>
 
@@ -961,344 +959,57 @@ Critical principle: The lo-fi mockup must faithfully reproduce the production UI
 <h2 id="entry-contents">Contents</h2>
 <div class="entry-contents-doc">
 <details class="entry-md-section" id="purpose"><summary class="entry-md-section__summary">Purpose</summary><div class="entry-md-section__body"><p>The initial IA established the screen inventory, regions, and story coverage. The lo-fi mockup is the next precision pass: it locks down <strong>exactly which control renders each field</strong>, <strong>exactly what interactions are available in each state</strong>, and <strong>exactly what the user sees and does</strong> — without yet committing to visual design. Every input becomes a specific control type (text field, dropdown, checkbox). Every action becomes a positioned button with a primary/secondary weight. Every conditional state (validation error, empty list, disabled control) is explicitly placed. This skill packages that pass: take one IA screen, resolve its AC and domain terms, build a `drawio-mockup.mjs` state file, generate the `.drawio` wireframe, and save it — so interaction decisions are made deliberately and traceable, not invented during implementation.</p>
-<p><strong>Critical principle:</strong> The lo-fi mockup must faithfully reproduce the production UI structure as shown in design images. Do NOT substitute tables for trees, do NOT use fields when a listbox is called for, do NOT flatten hierarchical views into flat lists. Match the design.</p>
 <hr></div></details>
-<details class="entry-md-section" id="when-to-use-this-skill"><summary class="entry-md-section__summary">When to use this skill</summary><div class="entry-md-section__body"><p>Load this skill when <strong>any</strong> of the following apply:</p>
-<ul>
-<li>You have a screen specification (regions, stories, domain terms) and you need to decide <strong>exactly which control renders each field, which button is primary, and what conditional states exist</strong>.</li>
-<li>You are about to hand a screen to a developer and the interaction model is still implicit — control types, validation behaviour, empty states, and button weights have not been made explicit.</li>
-<li>A built screen has interaction decisions that were never consciously made — you want to surface them, validate them against acceptance criteria, and lock them down.</li>
-<li>You want to review a screen layout against its acceptance criteria at the <strong>interaction level</strong> — missing error states, wrong control types, actions with no AC backing.</li>
-</ul>
+<details class="entry-md-section" id="output-file"><summary class="entry-md-section__summary">Output file</summary><div class="entry-md-section__body"><p><strong>Deliverables folder:</strong> see `../reference/agent-protocol.md` — Output file resolution.</p>
+<p><strong>File names:</strong> `&lt;screen-slug&gt;-state.json` (state source of truth), `&lt;screen-slug&gt;.drawio` (generated wireframe), `&lt;screen-slug&gt;.md` (structured spec). Output to `docs/ux/lo-fi/`.</p>
 <hr></div></details>
-<details class="entry-md-section" id="what-is-a-lo-fi-mockup"><summary class="entry-md-section__summary">What is a lo-fi mockup</summary><div class="entry-md-section__body"><p>A <strong>lo-fi mockup</strong> is a structural wireframe that makes interaction decisions explicit. Its scope is whatever the team needs to validate — the entire application, a section, a flow, an epic, or a single story. We tend to work in small increments (a story, a screen, a feature) not because the tool demands it but because we want to see and validate what we&#x27;re building before committing further.</p>
-<p>It shows:</p>
+<details class="entry-md-section" id="agent-instructions"><summary class="entry-md-section__summary">Agent Instructions</summary><div class="entry-md-section__body"><p>&gt; <strong>MANDATORY — read `../reference/agent-protocol.md` before starting. It defines read-gates, output file resolution, and the per-rule verdict format.</strong></p>
+<h3>1. Read context</h3>
+<p>Read these files:</p>
 <ul>
-<li><strong>IA regions</strong> as containers — unchanged from the structural IA, not invented here.</li>
-<li><strong>Exact control types</strong> for each field: tree view, listbox, text input, dropdown, checkbox, radio, textarea — not generic &quot;field&quot; boxes.</li>
-<li><strong>Exact button placement and weight</strong>: primary vs secondary, icon buttons vs text buttons, which actions are available at rest vs after selection.</li>
-<li><strong>Conditional states</strong>: validation error placeholders, empty list states, disabled controls, selection highlighting, clipboard states (ghost/dimmed for cut, chain icons for linked) — placed where they appear, labelled in domain terms.</li>
-<li><strong>Exact interactions implied by each action</strong>: what triggers, what changes, what the user does next.</li>
-<li><strong>Hierarchical structure</strong>: tree views rendered with proper indentation, expand/collapse chevrons, icons per node type — not flattened into tables.</li>
+<li><strong>`reference/concepts.md`</strong> — what a lo-fi mockup is, source IA, design image reference, UI element types and state formats, field input types, domain terms and AC verbatim rules, the shape of a good state file, rendering approach (CLI vs AI-crafted XML), mxGraph XML patterns, and CLI reference.</li>
 </ul>
-<p>It also shows, per screen:</p>
-<ul>
-<li><strong>In-scope user stories</strong> — listed alongside or below the wireframe, matching the initial IA&#x27;s per-screen story list.</li>
-<li><strong>Domain terms</strong> — the UL terms visible on this screen, listed alongside or below the wireframe, matching the initial IA&#x27;s per-screen domain term list.</li>
-</ul>
-<p>These lists appear in the drawio diagram as annotation boxes beside each screen, so the wireframe is self-contained and reviewable without flipping to the companion `.md` file.</p>
-<p>It does not show colour, typography, spacing, or brand polish. It does not implement code. It does not invent controls that no AC or story justifies.</p>
-<hr></div></details>
-<details class="entry-md-section" id="core-concepts"><summary class="entry-md-section__summary">Core concepts</summary><div class="entry-md-section__body"><h3>Source: initial IA</h3>
-<p>The screen spec lives in `docs/ux/initial-ia.md`. Each screen section defines:</p>
-<ul>
-<li><strong>Layout</strong> (`sidebar`, `form`, `split-screen`, `modal`, `flyout`) — maps directly to `drawio-mockup.mjs` `layout` field.</li>
-<li><strong>Regions</strong> with `slot`, `type`, `fields`, and `actions` — map directly to state JSON regions.</li>
-<li><strong>Stories</strong> and <strong>domain terms</strong> — determine which AC clauses and UL terms are in scope.</li>
-</ul>
-<h3>Design image reference</h3>
-<p>Before building the state JSON, the agent MUST: 1. Read ALL design images for the relevant screens from `Design/` folders. 2. Catalog what UX elements are actually shown: tree views, listboxes, toolbars with icon buttons, context menus, filter bars, etc. 3. Note indentation levels, expand/collapse state, icon types, selection behaviour, and groupings. 4. The state JSON and wireframe MUST match these design images — no reinterpretation, no substituting simpler controls.</p>
-<h3>UI element types</h3>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>State type</th><th>Renders as</th><th>State keys</th></tr></thead><tbody><tr><td>`tree`</td><td>hierarchical node list with indent, expand/collapse, icons</td><td>`nodes[].{label, indent, expanded, icon, selected}`</td></tr><tr><td>`listbox`</td><td>selectable item list (not a data grid)</td><td>`items[].{label, icon, selected, dimmed, badge}`</td></tr><tr><td>`context-menu`</td><td>right-click popup menu with grouped actions</td><td>`groups[].items[].{label, shortcut}`</td></tr><tr><td>`toolbar-icons`</td><td>horizontal row of icon-style square buttons</td><td>`buttons[].{icon, tooltip, active}`</td></tr><tr><td>`filter-bar`</td><td>text input with search/clear affordance</td><td>`placeholder`, `value`</td></tr><tr><td>`browse-panel`</td><td>grid of category icon buttons</td><td>`categories[].{label, icon}`</td></tr><tr><td>`form`</td><td>label-input pairs + button row</td><td>`fields[].input`, `buttons[]`</td></tr><tr><td>`list`</td><td>column headers + data rows + action buttons</td><td>`columns[]`, `rows`, `actions[]`</td></tr><tr><td>`nav-tabs`</td><td>horizontal tab strip</td><td>`tabs[].label`, `tabs[].active`</td></tr><tr><td>`toolbar`</td><td>horizontal text button row (header/footer)</td><td>`buttons[]`</td></tr><tr><td>`button-bar`</td><td>horizontal button row (inline)</td><td>`buttons[]`</td></tr><tr><td>`chrome`</td><td>plain labelled band (dimmed panels)</td><td>`name`</td></tr></tbody></table></div>
-<h3>Tree state format</h3>
-<pre><code>{
-  &quot;type&quot;: &quot;tree&quot;,
-  &quot;name&quot;: &quot;character tree&quot;,
-  &quot;nodes&quot;: [
-    { &quot;label&quot;: &quot;All Characters&quot;, &quot;indent&quot;: 0, &quot;expanded&quot;: true, &quot;icon&quot;: &quot;group&quot; },
-    { &quot;label&quot;: &quot;Crowd 1&quot;, &quot;indent&quot;: 1, &quot;expanded&quot;: true, &quot;icon&quot;: &quot;crowd&quot; },
-    { &quot;label&quot;: &quot;Character 1&quot;, &quot;indent&quot;: 2, &quot;icon&quot;: &quot;character&quot; },
-    { &quot;label&quot;: &quot;Character 2&quot;, &quot;indent&quot;: 2, &quot;icon&quot;: &quot;character&quot;, &quot;selected&quot;: true },
-    { &quot;label&quot;: &quot;Crowd 2&quot;, &quot;indent&quot;: 1, &quot;expanded&quot;: false, &quot;icon&quot;: &quot;crowd&quot; }
-  ]
-}</code></pre>
-<p><strong>Icons:</strong> `group` (all), `crowd` (multi-person), `character` (single person), `folder`, `file`, `ability`, `movement`, `power`, `fx`, `sound`, `sequence` <strong>Indent:</strong> integer 0–N indicating nesting depth <strong>Expanded/collapsed:</strong> `expanded: true` renders ▼, `expanded: false` renders ▶, omit for leaf nodes</p>
-<h3>Listbox state format</h3>
-<pre><code>{
-  &quot;type&quot;: &quot;listbox&quot;,
-  &quot;name&quot;: &quot;active roster&quot;,
-  &quot;items&quot;: [
-    { &quot;label&quot;: &quot;Character 1&quot;, &quot;icon&quot;: &quot;character&quot; },
-    { &quot;label&quot;: &quot;Character 2&quot;, &quot;icon&quot;: &quot;character&quot;, &quot;selected&quot;: true },
-    { &quot;label&quot;: &quot;Character 3&quot;, &quot;icon&quot;: &quot;character&quot;, &quot;dimmed&quot;: true }
-  ]
-}</code></pre>
-<p><strong>Dimmed:</strong> indicates cut-to-clipboard state (ghost). <strong>Selected:</strong> highlighted item.</p>
-<h3>Context menu state format</h3>
-<pre><code>{
-  &quot;type&quot;: &quot;context-menu&quot;,
-  &quot;name&quot;: &quot;character actions&quot;,
-  &quot;groups&quot;: [
-    { &quot;items&quot;: [
-      { &quot;label&quot;: &quot;New&quot;, &quot;shortcut&quot;: &quot;Ctrl+N&quot; },
-      { &quot;label&quot;: &quot;Edit&quot;, &quot;shortcut&quot;: &quot;Ctrl+E&quot; },
-      { &quot;label&quot;: &quot;Delete&quot;, &quot;shortcut&quot;: &quot;Del&quot; },
-      { &quot;label&quot;: &quot;Save&quot;, &quot;shortcut&quot;: &quot;Ctrl+S&quot; }
-    ]},
-    { &quot;items&quot;: [
-      { &quot;label&quot;: &quot;Cut&quot;, &quot;shortcut&quot;: &quot;Ctrl+X&quot; },
-      { &quot;label&quot;: &quot;Clone&quot;, &quot;shortcut&quot;: &quot;Ctrl+C&quot; },
-      { &quot;label&quot;: &quot;Link&quot;, &quot;shortcut&quot;: &quot;Ctrl+L&quot; },
-      { &quot;label&quot;: &quot;Paste&quot;, &quot;shortcut&quot;: &quot;Ctrl+V&quot; }
-    ]},
-    { &quot;items&quot;: [
-      { &quot;label&quot;: &quot;Spawn&quot;, &quot;shortcut&quot;: &quot;Alt+S&quot; },
-      { &quot;label&quot;: &quot;Place&quot;, &quot;shortcut&quot;: &quot;Alt+P&quot; }
-    ]}
-  ]
-}</code></pre>
-<p>Groups are separated by horizontal dividers.</p>
-<h3>Toolbar-icons state format</h3>
-<pre><code>{
-  &quot;type&quot;: &quot;toolbar-icons&quot;,
-  &quot;name&quot;: &quot;explorer toolbar&quot;,
-  &quot;buttons&quot;: [
-    { &quot;icon&quot;: &quot;new-file&quot;, &quot;tooltip&quot;: &quot;New&quot; },
-    { &quot;icon&quot;: &quot;cut&quot;, &quot;tooltip&quot;: &quot;Cut&quot; },
-    { &quot;icon&quot;: &quot;copy&quot;, &quot;tooltip&quot;: &quot;Copy&quot; },
-    { &quot;icon&quot;: &quot;paste&quot;, &quot;tooltip&quot;: &quot;Paste&quot; },
-    { &quot;icon&quot;: &quot;add-crowd&quot;, &quot;tooltip&quot;: &quot;Add Crowd&quot;, &quot;active&quot;: true },
-    { &quot;icon&quot;: &quot;edit&quot;, &quot;tooltip&quot;: &quot;Edit&quot; }
-  ]
-}</code></pre>
-<p>Rendered as square icon buttons in a row — not pill-shaped text buttons.</p>
-<h3>Filter-bar state format</h3>
-<pre><code>{
-  &quot;type&quot;: &quot;filter-bar&quot;,
-  &quot;name&quot;: &quot;character filter&quot;,
-  &quot;placeholder&quot;: &quot;Search characters…&quot;,
-  &quot;value&quot;: &quot;Spyder&quot;
-}</code></pre>
-<h3>Browse-panel state format</h3>
-<pre><code>{
-  &quot;type&quot;: &quot;browse-panel&quot;,
-  &quot;name&quot;: &quot;browse characters&quot;,
-  &quot;categories&quot;: [
-    { &quot;label&quot;: &quot;All Characters&quot;, &quot;icon&quot;: &quot;group&quot; },
-    { &quot;label&quot;: &quot;Heroes&quot;, &quot;icon&quot;: &quot;hero&quot; },
-    { &quot;label&quot;: &quot;Villains&quot;, &quot;icon&quot;: &quot;villain&quot; }
-  ]
-}</code></pre>
-<h3>Field input types</h3>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Value</th><th>Renders as</th></tr></thead><tbody><tr><td>`text`</td><td>empty bordered rectangle</td></tr><tr><td>`textarea`</td><td>taller bordered rectangle</td></tr><tr><td>`dropdown`</td><td>rectangle with ▾ suffix and first option</td></tr><tr><td>`checkbox`</td><td>`☐ Label` inline</td></tr><tr><td>`radio`</td><td>`○ Label` inline</td></tr></tbody></table></div>
-<h3>Domain terms — verbatim, screen-scoped</h3>
-<p>Only terms whose stories appear on this screen may appear. Copy verbatim from the ubiquitous-language file.</p>
-<h3>Acceptance criteria — verbatim</h3>
-<p>Placed beside the wireframe, character-for-character. No rewording, shortening, or paraphrasing.</p>
-<hr></div></details>
-<details class="entry-md-section" id="the-shape-of-a-good-lo-fi-state-file"><summary class="entry-md-section__summary">The shape of a good lo-fi state file</summary><div class="entry-md-section__body"><pre><code>{
-  &quot;target&quot;: &quot;docs/ux/lo-fi/character-explorer.drawio&quot;,
-  &quot;screens&quot;: [{
-    &quot;name&quot;: &quot;character explorer&quot;,
-    &quot;layout&quot;: &quot;sidebar&quot;,
-    &quot;col&quot;: 0, &quot;row&quot;: 0,
-    &quot;regions&quot;: [
-      {
-        &quot;name&quot;: &quot;explorer toolbar&quot;,
-        &quot;slot&quot;: &quot;header&quot;,
-        &quot;type&quot;: &quot;toolbar-icons&quot;,
-        &quot;buttons&quot;: [
-          { &quot;icon&quot;: &quot;new-file&quot;, &quot;tooltip&quot;: &quot;New&quot; },
-          { &quot;icon&quot;: &quot;cut&quot;, &quot;tooltip&quot;: &quot;Cut&quot; },
-          { &quot;icon&quot;: &quot;copy&quot;, &quot;tooltip&quot;: &quot;Copy&quot; },
-          { &quot;icon&quot;: &quot;paste&quot;, &quot;tooltip&quot;: &quot;Paste&quot; },
-          { &quot;icon&quot;: &quot;add-crowd&quot;, &quot;tooltip&quot;: &quot;Add Crowd&quot; },
-          { &quot;icon&quot;: &quot;add-character&quot;, &quot;tooltip&quot;: &quot;Add Character&quot; },
-          { &quot;icon&quot;: &quot;edit&quot;, &quot;tooltip&quot;: &quot;Edit&quot; }
-        ]
-      },
-      {
-        &quot;name&quot;: &quot;character filter&quot;,
-        &quot;slot&quot;: &quot;panel&quot;,
-        &quot;type&quot;: &quot;filter-bar&quot;,
-        &quot;placeholder&quot;: &quot;Search characters…&quot;,
-        &quot;value&quot;: &quot;Spyder&quot;
-      },
-      {
-        &quot;name&quot;: &quot;character tree&quot;,
-        &quot;slot&quot;: &quot;panel&quot;,
-        &quot;type&quot;: &quot;tree&quot;,
-        &quot;nodes&quot;: [
-          { &quot;label&quot;: &quot;All Characters&quot;, &quot;indent&quot;: 0, &quot;expanded&quot;: true, &quot;icon&quot;: &quot;group&quot; },
-          { &quot;label&quot;: &quot;Crowd 1&quot;, &quot;indent&quot;: 1, &quot;expanded&quot;: true, &quot;icon&quot;: &quot;crowd&quot; },
-          { &quot;label&quot;: &quot;Character 1&quot;, &quot;indent&quot;: 2, &quot;icon&quot;: &quot;character&quot; },
-          { &quot;label&quot;: &quot;Character 2&quot;, &quot;indent&quot;: 2, &quot;icon&quot;: &quot;character&quot; },
-          { &quot;label&quot;: &quot;Crowd 2&quot;, &quot;indent&quot;: 1, &quot;expanded&quot;: false, &quot;icon&quot;: &quot;crowd&quot; }
-        ]
-      },
-      {
-        &quot;name&quot;: &quot;tab bar&quot;,
-        &quot;slot&quot;: &quot;body&quot;,
-        &quot;type&quot;: &quot;nav-tabs&quot;,
-        &quot;tabs&quot;: [
-          { &quot;label&quot;: &quot;Identities&quot;, &quot;active&quot;: true },
-          { &quot;label&quot;: &quot;Abilities&quot; },
-          { &quot;label&quot;: &quot;Movements&quot; }
-        ]
-      },
-      {
-        &quot;name&quot;: &quot;identity list&quot;,
-        &quot;slot&quot;: &quot;body&quot;,
-        &quot;type&quot;: &quot;listbox&quot;,
-        &quot;items&quot;: [
-          { &quot;label&quot;: &quot;Identity 1&quot;, &quot;icon&quot;: &quot;identity&quot; },
-          { &quot;label&quot;: &quot;Identity 2&quot;, &quot;icon&quot;: &quot;identity&quot;, &quot;selected&quot;: true },
-          { &quot;label&quot;: &quot;Identity 3&quot;, &quot;icon&quot;: &quot;identity&quot; }
-        ]
-      }
-    ]
-  }],
-  &quot;connections&quot;: []
-}</code></pre>
-<hr></div></details>
-<details class="entry-md-section" id="rendering-approach-cli-vs-ai-crafted-xml"><summary class="entry-md-section__summary">Rendering approach: CLI vs AI-crafted XML</summary><div class="entry-md-section__body"><p>The skill supports two rendering paths. Choose based on screen complexity.</p>
-<h3>CLI path (drawio-mockup.mjs)</h3>
-<p>Use the CLI when the screen contains <strong>only</strong> these element types:</p>
-<ul>
-<li>Forms, lists (tabular), nav-tabs, toolbars, button-bars, chrome</li>
-<li>AND the new types: tree, listbox, context-menu, toolbar-icons, filter-bar, browse-panel</li>
-</ul>
-<p>The CLI generates correct drawio XML programmatically from the state JSON.</p>
-<pre><code>node &quot;C:\dev\agilebydesign-skills\skills\user-experience-design\abd-ux-mockup\scripts\drawio-mockup.mjs&quot; `
+<h3>2. Generate</h3>
+<p>Read every file in <strong>`rules/`</strong>; author to those rules.</p>
+<p><strong>Produce output from every template:</strong></p>
+<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Template</th><th>What to produce</th></tr></thead><tbody><tr><td>`templates/lo-fi.md`</td><td>Structured spec: screen name, source paths, layout, design reference catalog, regions with affordance traces, in-scope stories, domain terms (verbatim), and AC (verbatim)</td></tr></tbody></table></div>
+<p><strong>Generation flow:</strong></p>
+<p>1. <strong>Agree scope</strong> — which screens, stories, or epics are in scope. 2. <strong>Resolve inputs</strong> — path to `docs/ux/initial-ia.md`, UL file, AC file, agreed screens/stories. 3. <strong>Reference design images</strong> — read ALL design images in `Design/` folders; catalog UX elements per screen. 4. <strong>Read in-scope screens from the initial IA</strong> — layout, regions, stories, domain terms. 5. <strong>Collect in-scope stories and AC.</strong> 6. <strong>Build the state JSON</strong> — map each IA region to the correct element type matching the design image. 7. <strong>Generate the wireframe</strong> via `scripts/drawio-mockup.mjs`. 8. <strong>Write `lo-fi.md` alongside the wireframe.</strong> 9. <strong>Add story and domain term annotations</strong> to the drawio.</p>
+<p><strong>CLI invocation:</strong></p>
+<pre><code>node &quot;&lt;skill-root&gt;/scripts/drawio-mockup.mjs&quot; `
   save `
   --state &quot;docs/ux/lo-fi/&lt;screen-slug&gt;-state.json&quot; `
   --out   &quot;docs/ux/lo-fi/&lt;screen-slug&gt;.drawio&quot;</code></pre>
-<h3>AI-crafted XML path</h3>
-<p>Use AI-crafted drawio XML when:</p>
-<ul>
-<li>The screen has complex compositions not expressible in state JSON (overlapping panels, drag handles, unusual nesting)</li>
-<li>The design image shows layouts that the CLI grid system cannot reproduce</li>
-<li>You need pixel-level fidelity to a specific design image</li>
-</ul>
-<p>Process: 1. Start from a screen-template `.drawio` fragment (from `screen-templates/`) 2. Read the production design images to understand exact layout 3. Hand-craft mxGraph XML cells for each element 4. Use the mxGraph XML patterns documented below</p>
-<h3>mxGraph XML patterns for UX elements</h3>
-<p><strong>Tree node (leaf):</strong></p>
-<pre><code>&lt;mxCell value=&quot;    Character 1&quot; style=&quot;text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=10;spacingLeft=20;&quot; vertex=&quot;1&quot; parent=&quot;PARENT&quot;&gt;
-  &lt;mxGeometry x=&quot;X&quot; y=&quot;Y&quot; width=&quot;W&quot; height=&quot;22&quot; as=&quot;geometry&quot;/&gt;
-&lt;/mxCell&gt;</code></pre>
-<p><strong>Tree node (expanded parent — ▼):</strong></p>
-<pre><code>&lt;mxCell value=&quot;▼ Crowd 1&quot; style=&quot;text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=10;fontStyle=1;spacingLeft=INDENT;&quot; vertex=&quot;1&quot; parent=&quot;PARENT&quot;&gt;
-  &lt;mxGeometry x=&quot;X&quot; y=&quot;Y&quot; width=&quot;W&quot; height=&quot;22&quot; as=&quot;geometry&quot;/&gt;
-&lt;/mxCell&gt;</code></pre>
-<p><strong>Tree node (collapsed — ▶):</strong></p>
-<pre><code>&lt;mxCell value=&quot;▶ Crowd 2&quot; style=&quot;text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=10;fontStyle=1;spacingLeft=INDENT;&quot; vertex=&quot;1&quot; parent=&quot;PARENT&quot;&gt;
-  &lt;mxGeometry x=&quot;X&quot; y=&quot;Y&quot; width=&quot;W&quot; height=&quot;22&quot; as=&quot;geometry&quot;/&gt;
-&lt;/mxCell&gt;</code></pre>
-<p><strong>Listbox item (normal):</strong></p>
-<pre><code>&lt;mxCell value=&quot;Character 1&quot; style=&quot;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#e0e0e0;fontSize=10;verticalAlign=middle;align=left;spacingLeft=8;&quot; vertex=&quot;1&quot; parent=&quot;PARENT&quot;&gt;
-  &lt;mxGeometry x=&quot;X&quot; y=&quot;Y&quot; width=&quot;W&quot; height=&quot;26&quot; as=&quot;geometry&quot;/&gt;
-&lt;/mxCell&gt;</code></pre>
-<p><strong>Listbox item (selected):</strong></p>
-<pre><code>&lt;mxCell value=&quot;Character 2&quot; style=&quot;whiteSpace=wrap;html=1;fillColor=#c8e6c9;strokeColor=#4caf50;fontSize=10;fontStyle=1;verticalAlign=middle;align=left;spacingLeft=8;&quot; vertex=&quot;1&quot; parent=&quot;PARENT&quot;&gt;
-  &lt;mxGeometry x=&quot;X&quot; y=&quot;Y&quot; width=&quot;W&quot; height=&quot;26&quot; as=&quot;geometry&quot;/&gt;
-&lt;/mxCell&gt;</code></pre>
-<p><strong>Context menu container:</strong></p>
-<pre><code>&lt;mxCell value=&quot;&quot; style=&quot;rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;strokeWidth=1;shadow=1;&quot; vertex=&quot;1&quot; parent=&quot;1&quot;&gt;
-  &lt;mxGeometry x=&quot;X&quot; y=&quot;Y&quot; width=&quot;180&quot; height=&quot;H&quot; as=&quot;geometry&quot;/&gt;
-&lt;/mxCell&gt;</code></pre>
-<p><strong>Context menu item:</strong></p>
-<pre><code>&lt;mxCell value=&quot;Edit          Ctrl+E&quot; style=&quot;text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=10;fontFamily=monospace;&quot; vertex=&quot;1&quot; parent=&quot;PARENT&quot;&gt;
-  &lt;mxGeometry x=&quot;X&quot; y=&quot;Y&quot; width=&quot;170&quot; height=&quot;22&quot; as=&quot;geometry&quot;/&gt;
-&lt;/mxCell&gt;</code></pre>
-<p><strong>Context menu separator:</strong></p>
-<pre><code>&lt;mxCell value=&quot;&quot; style=&quot;line;strokeWidth=1;strokeColor=#cccccc;fillColor=none;&quot; vertex=&quot;1&quot; parent=&quot;PARENT&quot;&gt;
-  &lt;mxGeometry x=&quot;X&quot; y=&quot;Y&quot; width=&quot;170&quot; height=&quot;1&quot; as=&quot;geometry&quot;/&gt;
-&lt;/mxCell&gt;</code></pre>
-<p><strong>Story list annotation (placed below or beside the screen):</strong></p>
-<pre><code>&lt;mxCell value=&quot;Stories&amp;#xa;─────────────────&amp;#xa;• Story Title 1&amp;#xa;• Story Title 2&amp;#xa;• Story Title 3&quot; style=&quot;text;html=0;align=left;verticalAlign=top;fontSize=10;fontFamily=monospace;fillColor=#fffde7;strokeColor=#f9a825;rounded=1;arcSize=8;spacingLeft=6;spacingTop=4;spacingRight=6;spacingBottom=4;whiteSpace=wrap;&quot; vertex=&quot;1&quot; parent=&quot;1&quot;&gt;
-  &lt;mxGeometry x=&quot;X&quot; y=&quot;Y&quot; width=&quot;260&quot; height=&quot;H&quot; as=&quot;geometry&quot;/&gt;
-&lt;/mxCell&gt;</code></pre>
-<p><strong>Domain terms annotation (placed below the story list):</strong></p>
-<pre><code>&lt;mxCell value=&quot;Domain terms&amp;#xa;─────────────────&amp;#xa;• term 1&amp;#xa;• term 2&amp;#xa;• term 3&quot; style=&quot;text;html=0;align=left;verticalAlign=top;fontSize=10;fontFamily=monospace;fillColor=#e8f5e9;strokeColor=#4caf50;rounded=1;arcSize=8;spacingLeft=6;spacingTop=4;spacingRight=6;spacingBottom=4;whiteSpace=wrap;&quot; vertex=&quot;1&quot; parent=&quot;1&quot;&gt;
-  &lt;mxGeometry x=&quot;X&quot; y=&quot;Y&quot; width=&quot;260&quot; height=&quot;H&quot; as=&quot;geometry&quot;/&gt;
-&lt;/mxCell&gt;</code></pre>
-<p>Annotation boxes use light yellow (stories) and light green (domain terms) to distinguish them from the wireframe elements. Place them below or to the right of the screen they annotate.</p>
-<p><strong>Icon toolbar button (square):</strong></p>
-<pre><code>&lt;mxCell value=&quot;✂&quot; style=&quot;rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=14;verticalAlign=middle;align=center;&quot; vertex=&quot;1&quot; parent=&quot;PARENT&quot;&gt;
-  &lt;mxGeometry x=&quot;X&quot; y=&quot;Y&quot; width=&quot;28&quot; height=&quot;28&quot; as=&quot;geometry&quot;/&gt;
-&lt;/mxCell&gt;</code></pre>
+<h3>3. Validate</h3>
+<p>Run the scanners:</p>
+<pre><code>python skills/execute-skill-using-skills-rules/scripts/run_scanners.py \
+  --skill-root skills/abd-ux-mockup \
+  --workspace &lt;path-to-output&gt;</code></pre>
+<p>Then emit per-rule verdicts per `../reference/agent-protocol.md`.</p>
 <hr></div></details>
-<details class="entry-md-section" id="build"><summary class="entry-md-section__summary">Build</summary><div class="entry-md-section__body"><p><strong>Goal:</strong> Agree scope, reference design images, map in-scope IA screens to a state JSON, run `drawio-mockup.mjs`, save the wireframe, and write a `lo-fi.md` spec alongside it.</p>
-<p>1. <strong>Agree scope.</strong> Decide which screens, stories, or epics are in scope for this mockup pass — a single story, a flow across several screens, an epic, or the full application. Scope is a team decision, not a tool constraint. Small increments (a story, a feature) are preferred because they let the team see and react before committing further.</p>
-<p>2. <strong>Resolve inputs.</strong> Confirm: path to `docs/ux/initial-ia.md`, path to the UL file, path to the AC file, and the agreed set of screens or stories in scope. Ask for any that are missing.</p>
-<p>3. <strong>Reference design images.</strong> Before building any state, read ALL design images in `Design/` folders that relate to the screens in scope. For each screen, catalog:</p>
+<details class="entry-md-section" id="validate"><summary class="entry-md-section__summary">Validate</summary><div class="entry-md-section__body"><p><strong>Goal:</strong> Inspect what was built — read the artifacts as reviewers.</p>
 <ul>
-<li>What panels/regions are visible</li>
-<li>What UX element type each region uses (tree, listbox, toolbar-icons, etc.)</li>
-<li>Indentation levels in tree views</li>
-<li>Icon types per node</li>
-<li>Groupings in context menus</li>
-<li>Selection/active/clipboard states shown</li>
-</ul>
-<p>Record this catalog in the &quot;Design reference&quot; section of `lo-fi.md`.</p>
-<p>4. <strong>Read the in-scope screens from the initial IA.</strong> For each screen, read its layout, regions (slot, type, fields, actions), stories, and domain terms.</p>
-<p>5. <strong>Collect in-scope stories and AC.</strong> From the story map and AC file, gather stories and criteria for the agreed scope only.</p>
-<p>6. <strong>Build the state JSON.</strong> Map each IA region to a state JSON region using the correct element type — trees for hierarchical data, listboxes for selectable lists, toolbar-icons for icon button bars:</p>
-<ul>
-<li>IA `layout` → state `layout`</li>
-<li>IA `slot` → state `slot`</li>
-<li>IA region `type` → state `type` — <strong>choose the type that matches the design image</strong>, NOT the simplest available</li>
-<li>IA region `fields` → state `columns` (for list), `fields[].label` (for form), `nodes[]` (for tree), `items[]` (for listbox)</li>
-<li>IA region `actions` → state `actions[].label` (for list), `buttons[].label` (for form), `groups[].items[]` (for context-menu)</li>
-<li>IA `transitions out` → state `connections[]`</li>
-</ul>
-<p>7. <strong>Generate the wireframe.</strong></p>
-<pre><code>node &quot;C:\dev\agilebydesign-skills\skills\user-experience-design\abd-ux-mockup\scripts\drawio-mockup.mjs&quot; `
-  save `
-  --state &quot;docs/ux/lo-fi/&lt;screen-slug&gt;-state.json&quot; `
-  --out   &quot;docs/ux/lo-fi/&lt;screen-slug&gt;.drawio&quot;</code></pre>
-<p>8. <strong>Write `lo-fi.md` alongside the wireframe.</strong> The markdown spec contains: screen name, source paths, layout, design reference catalog, regions with affordance traces (each affordance → AC clause or domain term), in-scope stories, domain term excerpt (verbatim), and AC (verbatim). The `.drawio` is never authored without the `.md` spec.</p>
-<p>9. <strong>Add story and domain term annotations to the drawio.</strong> For each screen in the drawio, add two annotation boxes positioned below or beside the screen:</p>
-<ul>
-<li><strong>Stories box</strong> (light yellow `#fffde7`): lists all in-scope user stories for that screen, one bullet per story, matching the initial IA&#x27;s per-screen story list.</li>
-<li><strong>Domain terms box</strong> (light green `#e8f5e9`): lists all UL terms visible on that screen, one bullet per term, matching the initial IA&#x27;s per-screen domain term list.</li>
-</ul>
-<p>These make the wireframe self-contained for review without cross-referencing the `.md` file.</p>
-<p>10. <strong>Validate.</strong> Walk the wireframe and confirm every check below passes — with special attention to ensuring trees are trees (not tables), listboxes are listboxes (not forms), and icon toolbars are icon toolbars (not text button rows).</p>
-<p>11. <strong>Sync.</strong> If the diagram was edited manually in Draw.io, update the state JSON and `lo-fi.md` to match. Append to the change log.</p>
-<p><strong>Outputs:</strong></p>
-<ul>
-<li>`docs/ux/lo-fi/&lt;screen-slug&gt;-state.json` — source of truth for the wireframe</li>
-<li>`docs/ux/lo-fi/&lt;screen-slug&gt;.drawio` — the generated wireframe (open in VS Code Draw.io extension)</li>
-<li>`docs/ux/lo-fi/&lt;screen-slug&gt;.md` — structured spec with verbatim AC and domain terms</li>
-</ul>
-<hr></div></details>
-<details class="entry-md-section" id="cli-reference"><summary class="entry-md-section__summary">CLI reference</summary><div class="entry-md-section__body"><pre><code>drawio-mockup.mjs save --state &lt;state.json&gt; --out &lt;file.drawio&gt;
-drawio-mockup.mjs init --out &lt;state.json&gt;</code></pre>
-<h3>Layouts</h3>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Layout</th><th>Columns (slot → width)</th></tr></thead><tbody><tr><td>`sidebar`</td><td>panel 33% · body 67%</td></tr><tr><td>`split-screen`</td><td>left 50% · right 50%</td></tr><tr><td>`form`</td><td>body 100%</td></tr><tr><td>`modal`</td><td>body 100% (rounded border)</td></tr><tr><td>`flyout`</td><td>body 65% · panel 35%</td></tr><tr><td>`stack`</td><td>body 100%</td></tr></tbody></table></div>
-<h3>Grid positioning</h3>
-<p>Use `col` and `row` integers on each screen to arrange screens in a grid:</p>
-<ul>
-<li><strong>Linear flow</strong> (user must pass through): increment `col` left to right.</li>
-<li><strong>Optional branch</strong> (user may choose): increment `row` top to bottom within the same `col`.</li>
-</ul>
-<p>This matches the convention established in `drawio-ux.mjs` (the IA diagram CLI).</p>
-<hr></div></details>
-<details class="entry-md-section" id="validate"><summary class="entry-md-section__summary">Validate</summary><div class="entry-md-section__body"><p>Walk the wireframe and confirm:</p>
-<ul>
-<li>Every region in the wireframe matches a region from the initial IA for this screen.</li>
-<li>Every label is a UL term verbatim or copy from an AC clause.</li>
-<li>Every acceptance criterion for an in-scope story is present in `lo-fi.md`, verbatim.</li>
-<li>No story or domain term from another screen appears.</li>
-<li>Every affordance traces to an AC clause or a UL term (documented in the `Trace` column of `lo-fi.md`).</li>
-<li>`&lt;screen-slug&gt;-state.json` and `&lt;screen-slug&gt;.drawio` are in sync (regenerating from state produces the same file).</li>
-<li><strong>Trees are trees</strong> — hierarchical data uses `type: &quot;tree&quot;` with indent levels, NOT `type: &quot;list&quot;` with columns.</li>
-<li><strong>Listboxes are listboxes</strong> — selectable item lists use `type: &quot;listbox&quot;`, NOT `type: &quot;form&quot;` with fields.</li>
-<li><strong>Icon toolbars are icon toolbars</strong> — icon button rows use `type: &quot;toolbar-icons&quot;`, NOT `type: &quot;toolbar&quot;` with text labels.</li>
+<li><strong>Region fidelity</strong> — every wireframe region matches a region from the initial IA for this screen.</li>
+<li><strong>Labels verbatim</strong> — every label is a UL term verbatim or copy from an AC clause.</li>
+<li><strong>AC verbatim</strong> — every acceptance criterion for in-scope stories is present in `lo-fi.md`, character-for-character.</li>
+<li><strong>Screen-scoped</strong> — no story or domain term from another screen appears.</li>
+<li><strong>Affordance traceability</strong> — every affordance traces to an AC clause or a UL term.</li>
+<li><strong>State sync</strong> — `&lt;screen-slug&gt;-state.json` and `&lt;screen-slug&gt;.drawio` are in sync.</li>
+<li><strong>Trees are trees</strong> — hierarchical data uses `type: &quot;tree&quot;`, not `type: &quot;list&quot;`.</li>
+<li><strong>Listboxes are listboxes</strong> — selectable item lists use `type: &quot;listbox&quot;`, not `type: &quot;form&quot;`.</li>
+<li><strong>Icon toolbars are icon toolbars</strong> — icon button rows use `type: &quot;toolbar-icons&quot;`, not `type: &quot;toolbar&quot;`.</li>
 <li><strong>Context menus match the design</strong> — grouped actions with shortcuts, not flattened button bars.</li>
-<li><strong>Story and domain term annotations present</strong> — every screen in the drawio has a yellow stories box and green domain terms box beside or below it, matching the initial IA&#x27;s per-screen lists.</li>
+<li><strong>Story and domain term annotations present</strong> — yellow stories box and green domain terms box beside each screen.</li>
+<li><strong>No bundle markers</strong> — `SKILL.md` has no `&lt;!-- execute_rules:bundle_rules --&gt;` markers.</li>
 </ul>
 <hr></div></details>
-<details class="entry-md-section" id="deploy"><summary class="entry-md-section__summary">Deploy</summary><div class="entry-md-section__body"><pre><code>cd C:\dev\agilebydesign-skills
-.\scripts\deploy-skills.ps1 -ide cursor -Force</code></pre>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>File</th><th>Deploy target</th></tr></thead><tbody><tr><td>`ide-files/abd-ux-mockup.mdc`</td><td>`.cursor/rules/`</td></tr><tr><td>`ide-files/abd-ux-mockup.prompt.md`</td><td>`.cursor/commands/`</td></tr></tbody></table></div>
-<hr>
-<p>&lt;!-- execute_rules:bundle_rules:begin --&gt; &lt;!-- Rule prose is generated from rules/*.md — edit rules, then run: python skills/execute-skill-using-skills-rules/scripts/bundle_rules_into_skill_md.py --skill-root skills/user-experience-design/abd-ux-mockup --&gt; &lt;!-- execute_rules:bundle_rules:end --&gt;</p></div></details>
 </div>
 <hr class="entry-divider">
 <div class="entry-contents-files">
 <ul class="file-list file-list--root">
+<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>reference/</strong><span class="file-meta"> → Folder (1 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/kanban/user-experience-design/skills/abd-ux-mockup/reference/concepts.md" target="_blank" rel="noopener noreferrer"><strong>concepts.md</strong></a><span class="file-meta"> → abd-ux-mockup — Concepts</span></li>
+</ul></div></details></li>
 <li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>rules/</strong><span class="file-meta"> → Practice rules (DO/DON&#x27;T) and constraints used with scanners.</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/kanban/user-experience-design/skills/abd-ux-mockup/rules/ac-verbatim.md" target="_blank" rel="noopener noreferrer"><strong>ac-verbatim.md</strong></a><span class="file-meta"> → Rule: Acceptance criteria are referenced, not copied</span></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/kanban/user-experience-design/skills/abd-ux-mockup/rules/domain-terms-screen-scope-only.md" target="_blank" rel="noopener noreferrer"><strong>domain-terms-screen-scope-only.md</strong></a><span class="file-meta"> → Rule: Only in-scope domain terms may appear as control labels</span></li>

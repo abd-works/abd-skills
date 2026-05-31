@@ -1,0 +1,90 @@
+{
+  "_comment": "Machine-readable vocabulary extracted from the CRC model. Sprint 1 store-locator and Sprint 2 catalog stock scope.",
+  "concepts": {
+    "Store": {
+      "attributes": [
+        "retailLocationIdentity",
+        "geographicPlacement"
+      ],
+      "inherits": null
+    },
+    "Stores": {
+      "attributes": [
+        "everyRetailLocation",
+        "discoveryInventory"
+      ],
+      "inherits": null
+    },
+    "Store Map": {
+      "attributes": [
+        "geographicStoreLayout"
+      ],
+      "inherits": null
+    },
+    "Store List": {
+      "attributes": [
+        "storeNameAndDetailRows"
+      ],
+      "inherits": null
+    },
+    "Distance To Store": {
+      "attributes": [
+        "proximityRankingPerStore"
+      ],
+      "inherits": null
+    },
+    "Selected Store": {
+      "attributes": [
+        "activeShoppingContextStore"
+      ],
+      "inherits": "Store"
+    },
+    "Catalog": {
+      "attributes": [
+        "browsableProductAssortment"
+      ],
+      "inherits": null
+    },
+    "Products": {
+      "attributes": [
+        "everyCatalogProduct",
+        "browseInventory"
+      ],
+      "inherits": null
+    },
+    "Product": {
+      "attributes": [
+        "catalogItemIdentity",
+        "detailForWalkInDecision"
+      ],
+      "inherits": null
+    },
+    "Real-Time Stock": {
+      "attributes": [
+        "currentOnHandQuantityAtStore"
+      ],
+      "inherits": null
+    },
+    "Stock Availability": {
+      "attributes": [
+        "buyNowSignalAtSelectedStore"
+      ],
+      "inherits": null
+    },
+    "Product Stock Levels": {
+      "attributes": [
+        "onHandCountPerProductAtStore"
+      ],
+      "inherits": null
+    },
+    "Customer": {
+      "attributes": [],
+      "inherits": null
+    },
+    "Store Employee": {
+      "attributes": [],
+      "inherits": null
+    }
+  },
+  "aliases": {}
+}

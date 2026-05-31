@@ -8,7 +8,7 @@ alwaysApply: true
 **One script, one command — always:**
 
 ```powershell
-# Deploy root resolution (see skill-helpers/content/workspace.md):
+# Deploy root resolution (see skill-helpers/reference/workspace.md):
 #   1) skill-config.json at skills-repo root -> workspace.active_skill_workspace (when path exists)
 #   2) else walk up from $PWD for *.code-workspace
 #   3) else skills repo root
@@ -27,6 +27,7 @@ That is the only correct way to deploy anything from this repo. It deploys **fam
 | `<family>/skills/**` (SKILL.md) | `<deploy-root>/.cursor/skills/<name>` (copy) |
 | `<family>/agents/**` (AGENT.md / AGENTS.md) | `<deploy-root>/.cursor/agents/<name>` (copy) |
 | `<family>/content/**` | `<deploy-root>/.cursor/content/` (merged) |
+| `<family>/reference/**` | `<deploy-root>/.cursor/reference/` (merged) |
 | `<family>/lib/**` | `<deploy-root>/.cursor/lib/` (copy) |
 | `<family>/instructions/*.mdc` | `<deploy-root>/.cursor/rules/` (copy) |
 | `<family>/instructions/*.instructions.md` | `<deploy-root>/.github/` (copy, VS Code) |
@@ -48,6 +49,7 @@ That is the only correct way to deploy anything from this repo. It deploys **fam
 | A standalone / infra skill | `skills/<group>/<skill-name>/` with `SKILL.md` |
 | A delivery agent | `delivery/agents/<agent-name>/` with `AGENT.md` |
 | Shared family prose | `<family>/content/` |
+| Shared family reference docs | `<family>/reference/` |
 | Shared family Python | `<family>/lib/` |
 | A Cursor rule (`.mdc`) | `<family>/instructions/` (infra → `skill-helpers/instructions/`) |
 | A slash command (`.prompt.md`) | `<family>/prompts/` (infra → `skill-helpers/prompts/`) |

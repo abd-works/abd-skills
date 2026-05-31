@@ -924,7 +924,7 @@ a.cap-card:hover .cap-card__icon {
     </div>
     <a class="back-link" href="../skills.html">← All skills</a>
     <h1>abd-interface-design</h1>
-    <p class="tagline">Translate the approved hi-fi mockup for a screen into production-grade, functional, accessible interface code in the chosen framework — without changing the domain labels, acceptance criteria, or visual decisions.</p>
+    <p class="tagline">Translate approved hi-fi mockups into production-grade, accessible interface code.</p>
   </div>
 </header>
 
@@ -939,7 +939,7 @@ a.cap-card:hover .cap-card__icon {
 </nav>
 
 <h2>Description</h2>
-<div class="entry-prose">Hi-fi mockups settle look and feel. The interface stage is where they become real code — and where most teams quietly stop honouring the upstream artifacts because &quot;we&#x27;re shipping now&quot;. This skill keeps that integrity: the implementation renders the same regions, the same affordances, the same labels, the same acceptance criteria, and the same visual decisions as the approved hi-fi, in production-grade code that an end user can actually use. It treats acceptance criteria as the testable surface (every clause is a working behaviour with a check), treats the ubiquitous language as the public vocabulary (labels and copy stay verbatim from the UL and AC), and treats accessibility and performance as constraints that are met, not aspirations that are mentioned. The result is one screen implemented in the chosen framework, traceable end-to-end from story to running interface.<br>
+<div class="entry-prose">Hi-fi mockups settle look and feel. The interface stage is where they become real code — and where most teams quietly stop honouring the upstream artifacts because &quot;we&#x27;re shipping now&quot;. This skill keeps that integrity: the implementation renders the same regions, the same affordances, the same labels, the same acceptance criteria, and the same visual decisions as the approved hi-fi, in production-grade code that an end user can actually use. It treats acceptance criteria as the testable surface (every clause is a working behaviour with a check), treats the ubiquitous language as the public vocabulary (labels and copy stay verbatim from the UL and AC), and treats accessibility and performance as constraints that are met, not aspirations that are mentioned.<br>
 <br>
 ---</div>
 
@@ -958,95 +958,48 @@ a.cap-card:hover .cap-card__icon {
 
 <h2 id="entry-contents">Contents</h2>
 <div class="entry-contents-doc">
-<details class="entry-md-section" id="purpose"><summary class="entry-md-section__summary">Purpose</summary><div class="entry-md-section__body"><p>Hi-fi mockups settle look and feel. The interface stage is where they become real code — and where most teams quietly stop honouring the upstream artifacts because &quot;we&#x27;re shipping now&quot;. This skill keeps that integrity: the implementation renders the same regions, the same affordances, the same labels, the same acceptance criteria, and the same visual decisions as the approved hi-fi, in production-grade code that an end user can actually use. It treats acceptance criteria as the testable surface (every clause is a working behaviour with a check), treats the ubiquitous language as the public vocabulary (labels and copy stay verbatim from the UL and AC), and treats accessibility and performance as constraints that are met, not aspirations that are mentioned. The result is one screen implemented in the chosen framework, traceable end-to-end from story to running interface.</p>
+<details class="entry-md-section" id="purpose"><summary class="entry-md-section__summary">Purpose</summary><div class="entry-md-section__body"><p>Hi-fi mockups settle look and feel. The interface stage is where they become real code — and where most teams quietly stop honouring the upstream artifacts because &quot;we&#x27;re shipping now&quot;. This skill keeps that integrity: the implementation renders the same regions, the same affordances, the same labels, the same acceptance criteria, and the same visual decisions as the approved hi-fi, in production-grade code that an end user can actually use. It treats acceptance criteria as the testable surface (every clause is a working behaviour with a check), treats the ubiquitous language as the public vocabulary (labels and copy stay verbatim from the UL and AC), and treats accessibility and performance as constraints that are met, not aspirations that are mentioned.</p>
 <hr></div></details>
-<details class="entry-md-section" id="when-to-use-this-skill"><summary class="entry-md-section__summary">When to use this skill</summary><div class="entry-md-section__body"><p>Load this skill when <strong>any</strong> of the following apply:</p>
+<details class="entry-md-section" id="output-file"><summary class="entry-md-section__summary">Output file</summary><div class="entry-md-section__body"><p><strong>Deliverables folder:</strong> see `../reference/agent-protocol.md` — Output file resolution.</p>
+<p><strong>File name:</strong> `interface-design.md` (structured spec). Add a `&lt;name&gt;-` prefix only when disambiguation is needed. Plus working code on disk in the host project (screen component, supporting modules, tests).</p>
+<hr></div></details>
+<details class="entry-md-section" id="agent-instructions"><summary class="entry-md-section__summary">Agent Instructions</summary><div class="entry-md-section__body"><p>&gt; <strong>MANDATORY — read `../reference/agent-protocol.md` before starting. It defines read-gates, output file resolution, and the per-rule verdict format.</strong></p>
+<h3>1. Read context</h3>
+<p>Read these files:</p>
 <ul>
-<li>The hi-fi mockup for a screen is <strong>approved</strong> and you want to <strong>implement</strong> it in code.</li>
-<li>A current implementation has <strong>drifted</strong> from the hi-fi or the AC (mismatched labels, missing affordances, generic visual treatment, broken accessibility) and you want to bring it back.</li>
-<li>You are starting a screen from an approved hi-fi and need a <strong>traceable</strong> path from acceptance criteria → behaviours → tests → production code.</li>
-<li>A reviewer needs to verify that every AC is implemented and every UL label is used verbatim in the running UI.</li>
+<li><strong>`reference/concepts.md`</strong> — what an interface implementation is, carry-over from upstream, production-grade and functional, memorable differentiation, accessibility, performance constraints, traceability (AC → test → running screen), and the shape of a good implementation.</li>
 </ul>
-<hr></div></details>
-<details class="entry-md-section" id="what-is-an-interface-implementation"><summary class="entry-md-section__summary">What is an interface implementation</summary><div class="entry-md-section__body"><p>A screen implementation under this skill is:</p>
-<ul>
-<li><strong>Functional</strong>: every affordance does what its AC say it should do. Errors render, validations run, transitions to other screens fire when their triggers fire.</li>
-<li><strong>Production-grade</strong>: real code in the chosen framework (React, Vue, WPF, etc.), structured the way the host project structures other features, with the project&#x27;s lint, format, and test conventions.</li>
-<li><strong>Faithful to upstream</strong>: the regions, affordances, labels, AC, and visual decisions match the approved lo-fi and hi-fi. No new vocabulary, no new affordances, no new visual styles.</li>
-<li><strong>Accessible</strong>: meets the host project&#x27;s accessibility floor (typically WCAG 2.2 AA for web). Keyboard reachable, focus visible, labels associated with inputs, errors announced, colour-independent state cues.</li>
-<li><strong>Measurable</strong>: the behaviours described by AC are covered by tests, and any performance constraints declared by the host project (frame budget, response time, payload size) are met.</li>
-</ul>
-<p>It is not a redesign and it is not a refactor of unrelated code.</p>
-<hr></div></details>
-<details class="entry-md-section" id="core-concepts"><summary class="entry-md-section__summary">Core concepts</summary><div class="entry-md-section__body"><h3>Carry-over from upstream</h3>
-<p>The initial IA, lo-fi, and hi-fi are inputs. Their regions, affordances, labels, acceptance criteria, typography roles, colour roles, density, and spacing scale are settled. The implementation maps each of those into the chosen framework&#x27;s primitives — it does not redecide them.</p>
-<h3>Production-grade and functional</h3>
-<p>The code is not a &quot;demo&quot; or &quot;shell&quot;. Every affordance on the screen does what its AC say it does. State management uses the project&#x27;s existing patterns. Side effects are real or properly mocked at boundaries the project already has. The code passes the project&#x27;s lint, format, and type-check gates without being silenced.</p>
-<h3>Memorable differentiation</h3>
-<p>The committed aesthetic direction from the hi-fi survives into the running code: the typographic roles are real CSS variables, design tokens, or theme values; the colour roles are real values, not generic defaults; the density and spacing scale are real spacing tokens. The running screen looks like the mockup, not like an untouched component library.</p>
-<h3>Accessibility in implementation</h3>
-<p>Implementation-level accessibility is concrete: each input has a programmatic label (`&lt;label for&gt;` or framework equivalent), focus order matches reading order, focus styles are visible (not removed by `outline: none` with no replacement), errors are programmatically associated with their inputs (`aria-describedby`), state is announced when it changes (`aria-live` where appropriate), and the entire screen is keyboard reachable.</p>
-<h3>Performance constraints</h3>
-<p>If the host project declares performance constraints (initial paint, time-to-interactive, frame budget for animations, bundle size budget), the implementation meets them. If it does not declare them, the implementation does not regress whatever the project&#x27;s current baseline is.</p>
-<h3>Traceability — AC to test to running screen</h3>
-<p>Each acceptance criterion is implemented as a working behaviour and is covered by a test that asserts that behaviour, using the project&#x27;s existing test framework. The test names reference the criterion (story title and clause number) so a reviewer can map each test back to the source AC.</p>
-<h3>Rules</h3>
-<p>`rules/<em>.md` validate the output (running screen + committed code). Build steps live in </em><em>Build</em>*.</p>
-<hr></div></details>
-<details class="entry-md-section" id="the-shape-of-a-good-interface-implementation"><summary class="entry-md-section__summary">The shape of a good interface implementation</summary><div class="entry-md-section__body"><pre><code>src/screens/game-directory-prompt/
-  GameDirectoryPrompt.tsx           # the screen component
-  GameDirectoryPrompt.styles.ts     # styles using project tokens
-  validatePath.ts                   # logic for AC clauses
-  __tests__/GameDirectoryPrompt.test.tsx
-                                    # one test per AC clause, named:
-                                    #   &quot;Validate COH Game Directory — AC 1&quot;
-                                    #   &quot;Prompt for Game Directory if Invalid — AC 3&quot;</code></pre>
-<p>The running screen renders the regions and affordances from the hi-fi, uses the declared typography and colour roles via project tokens, satisfies every AC clause, and passes the project&#x27;s lint / format / type-check / accessibility / performance gates.</p>
-<hr></div></details>
-<details class="entry-md-section" id="build"><summary class="entry-md-section__summary">Build</summary><div class="entry-md-section__body"><p><strong>Goal:</strong> Implement one screen in the chosen framework, mapping every region, affordance, label, AC clause, and visual decision from upstream into running code and tests.</p>
-<p>1. <strong>Resolve inputs.</strong> Confirm: path to the approved hi-fi (`docs/ux/hi-fi.tldr` and/or `.svg`), path to the lo-fi (for region reference), path to the AC file, the screen name, the target framework (React, Vue, WPF, etc.), and the host project root (where `package.json` / `*.csproj` / equivalent lives). Confirm the host project&#x27;s lint, format, test, accessibility, and performance gates by reading its config files.</p>
-<p>2. <strong>Discover host conventions.</strong> Inspect how the host project organises features (folder layout, component shape, state management pattern, styling approach, token system, test conventions). The new screen follows those conventions — it is not an outlier.</p>
-<p>3. <strong>Carry over upstream decisions.</strong> Pull labels, copy, AC, regions, affordance set, typography roles, colour roles, density, and spacing scale from the lo-fi and hi-fi exactly. Resolve them to the host&#x27;s tokens or theme values; do not introduce new vocabulary or new style decisions.</p>
-<p>4. <strong>Author or update `docs/ux/interface-design.md` first.</strong> Copy `templates/interface-design.md` into the engagement&#x27;s `docs/ux/` folder (or open the existing one) and fill in: screen name, source paths, framework, host project root, discovered host conventions (folder layout, state management, styling, tokens, test framework, gates), carried-over decisions, the AC → behaviour → test mapping (one row per AC clause), the accessibility checklist with planned statuses, and the performance budget table. This markdown is the structured spec the implementation is written against; code is never written without it.</p>
-<p>5. <strong>Implement the screen.</strong> Build the component(s) using the host framework&#x27;s primitives. Each region is a container; each affordance is an interactive primitive with the verbatim label. Inputs are labelled programmatically. Focus order matches reading order. Errors are programmatically associated. State cues use text or icon in addition to colour.</p>
-<p>6. <strong>Implement AC behaviours.</strong> Every AC clause becomes a working behaviour. Validation runs as the AC describe; error messages are the verbatim AC copy; transitions to other screens fire when their triggers fire. No clause is silently deferred.</p>
-<p>7. <strong>Write tests.</strong> One test per AC clause, named to reference the story and clause number (matching the `Test name` column in `docs/ux/interface-design.md`). Tests use the host project&#x27;s existing test framework. Tests assert observable behaviour, not implementation detail.</p>
-<p>8. <strong>Pass the host project&#x27;s gates.</strong> Lint, format, type-check, accessibility checks (axe or equivalent), and performance budget checks all pass. If a gate is silenced or skipped, write a note in `corrections-log.md` explaining why and bring it back as soon as the cause is fixed.</p>
-<p>9. <strong>Verify against the hi-fi visually.</strong> Open the running screen beside the hi-fi `.svg`. Typography, colour, spacing, and hierarchy match. Differences are intentional (browser/native rendering of the same role) or are fixed.</p>
-<p>10. <strong>Sync implementation changes back into `interface-design.md`.</strong> Update the AC → behaviour → test mapping with current statuses (pending / passing / failing), the accessibility checklist with current results, and the performance table with current measurements. Append a row to the change log with date, direction (`code → md`), and a one-line summary.</p>
-<p>11. <strong>Apply the rules, then review like a peer.</strong> Walk every file under `rules/` against the running screen, the committed code, and the markdown spec. Fix every violation before declaring success.</p>
-<p>12. <strong>Keep the bundled rules block honest.</strong> Whenever you change a file under `rules/`, re-run the bundler so the rule prose inlined at the end of this `SKILL.md` matches what is on disk:</p>
-<pre><code>python skills/execute-skill-using-skills-rules/scripts/bundle_rules_into_skill_md.py --skill-root skills/user-experience-design/abd-interface-design</code></pre>
-<ul>
-<li><strong>Outputs:</strong> `docs/ux/interface-design.md` (structured spec), plus working code on disk in the host project (screen component, supporting modules, tests), plus updates to the project&#x27;s screen index/router if relevant. The spec and the code are kept in sync.</li>
-<li><strong>Per format:</strong> `.md` is the structured spec — created first, updated after code changes. Code passes the project&#x27;s gates without silenced warnings or skipped tests.</li>
-<li><strong>While writing:</strong> labels and AC are verbatim, visual decisions match the hi-fi roles, every AC clause has a test, accessibility constraints hold, performance constraints hold.</li>
-</ul>
+<h3>2. Generate</h3>
+<p>Read every file in <strong>`rules/`</strong>; author to those rules.</p>
+<p><strong>Produce output from every template:</strong></p>
+<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Template</th><th>What to produce</th></tr></thead><tbody><tr><td>`templates/interface-design.md`</td><td>Structured spec: screen name, source paths, framework, host conventions, carried-over decisions, AC → behaviour → test mapping, accessibility checklist, and performance budget</td></tr></tbody></table></div>
+<p><strong>Generation flow:</strong></p>
+<p>1. <strong>Resolve inputs</strong> — hi-fi path, lo-fi path, AC file, screen name, target framework, host project root. Confirm host project&#x27;s gates (lint, format, test, accessibility, performance). 2. <strong>Discover host conventions</strong> — folder layout, component shape, state management, styling, token system, test conventions. 3. <strong>Carry over upstream decisions</strong> — labels, copy, AC, regions, affordances, typography/colour/density/spacing from lo-fi and hi-fi. Resolve to host tokens. 4. <strong>Author `interface-design.md` first</strong> — fill the template before writing code. 5. <strong>Implement the screen</strong> — each region a container, each affordance an interactive primitive with verbatim label. Inputs labelled programmatically. Focus order matches reading order. 6. <strong>Implement AC behaviours</strong> — every AC clause becomes a working behaviour. 7. <strong>Write tests</strong> — one test per AC clause, named to reference story and clause number. 8. <strong>Pass the host project&#x27;s gates</strong> — lint, format, type-check, accessibility, performance. 9. <strong>Verify against the hi-fi visually.</strong> 10. <strong>Sync changes back into `interface-design.md`.</strong></p>
+<h3>3. Validate</h3>
+<p>Run the scanners:</p>
+<pre><code>python skills/execute-skill-using-skills-rules/scripts/run_scanners.py \
+  --skill-root skills/abd-interface-design \
+  --workspace &lt;path-to-output&gt;</code></pre>
+<p>Then emit per-rule verdicts per `../reference/agent-protocol.md`.</p>
 <hr></div></details>
 <details class="entry-md-section" id="validate"><summary class="entry-md-section__summary">Validate</summary><div class="entry-md-section__body"><p><strong>Goal:</strong> Read the committed code and the running screen as reviewers.</p>
 <ul>
-<li><strong>Who is checking:</strong> the product owner runs the screen and walks every AC clause; a developer reviews the diff against the host project&#x27;s conventions; an accessibility reviewer keyboard-navigates the screen and runs axe; a designer compares the running screen to the hi-fi side by side.</li>
-<li><strong>Cross-artifact parity:</strong> the implementation matches the hi-fi visually and matches the lo-fi structurally. The test names trace to AC clauses by name and number.</li>
-</ul>
-<p>Walk the implementation and confirm:</p>
-<ul>
-<li>Every region, affordance, and label from the hi-fi appears in the running screen with the same wording.</li>
-<li>Every acceptance criterion is implemented and has at least one test named for its story and clause number.</li>
-<li>The host project&#x27;s lint, format, type-check, accessibility, and performance gates pass without silencing.</li>
-<li>Every input has a programmatic label; focus order matches reading order; focus is visible; state cues are not colour-only.</li>
-<li>Typography roles, colour roles, and the spacing scale map to host project tokens or theme values, used consistently.</li>
+<li><strong>Upstream fidelity</strong> — every region, affordance, and label from the hi-fi appears in the running screen with the same wording.</li>
+<li><strong>AC coverage</strong> — every acceptance criterion is implemented and has at least one test named for its story and clause number.</li>
+<li><strong>Host gates pass</strong> — lint, format, type-check, accessibility, and performance gates pass without silencing.</li>
+<li><strong>Accessibility</strong> — every input has a programmatic label; focus order matches reading order; focus is visible; state cues are not colour-only.</li>
+<li><strong>Visual fidelity</strong> — typography roles, colour roles, and spacing scale map to host project tokens, used consistently.</li>
+<li><strong>Cross-artifact parity</strong> — `interface-design.md` and the running code describe the same implementation.</li>
+<li><strong>No bundle markers</strong> — `SKILL.md` has no `&lt;!-- execute_rules:bundle_rules --&gt;` markers.</li>
 </ul>
 <hr></div></details>
-<details class="entry-md-section" id="deploy"><summary class="entry-md-section__summary">Deploy</summary><div class="entry-md-section__body"><p>This skill ships IDE-deployable files under `ide-files/`. Deploy them from the repo root using the standard repo-level script:</p>
-<pre><code>cd C:\dev\agilebydesign-skills
-.\scripts\deploy-skills.ps1 -ide cursor -Force</code></pre>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>File</th><th>Deploy target</th></tr></thead><tbody><tr><td>`ide-files/abd-interface-design.mdc`</td><td>`.cursor/rules/` (Cursor always-on rule)</td></tr><tr><td>`ide-files/abd-interface-design.instructions.md`</td><td>`.github/` when `-ide vscode` is used (same body as `.mdc` after frontmatter)</td></tr><tr><td>`ide-files/abd-interface-design.prompt.md`</td><td>`.cursor/commands/`; also `.github/prompts/` under VS Code</td></tr></tbody></table></div>
-<hr>
-<p>&lt;!-- execute_rules:bundle_rules:begin --&gt; &lt;!-- Rule prose is generated from rules/*.md — edit rules, then run: python skills/execute-skill-using-skills-rules/scripts/bundle_rules_into_skill_md.py --skill-root skills/user-experience-design/abd-interface-design --&gt; &lt;!-- execute_rules:bundle_rules:end --&gt;</p></div></details>
 </div>
 <hr class="entry-divider">
 <div class="entry-contents-files">
 <ul class="file-list file-list--root">
+<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>reference/</strong><span class="file-meta"> → Folder (1 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
+<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/kanban/user-experience-design/skills/abd-interface-design/reference/concepts.md" target="_blank" rel="noopener noreferrer"><strong>concepts.md</strong></a><span class="file-meta"> → abd-interface-design — Concepts</span></li>
+</ul></div></details></li>
 <li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>rules/</strong><span class="file-meta"> → Practice rules (DO/DON&#x27;T) and constraints used with scanners.</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/kanban/user-experience-design/skills/abd-interface-design/rules/markdown-spec-stays-in-sync.md" target="_blank" rel="noopener noreferrer"><strong>markdown-spec-stays-in-sync.md</strong></a><span class="file-meta"> → docs/ux/interface-design.md stays in sync with the code</span></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/kanban/user-experience-design/skills/abd-interface-design/rules/ucd-accessibility-implementation.md" target="_blank" rel="noopener noreferrer"><strong>ucd-accessibility-implementation.md</strong></a><span class="file-meta"> → Rule: Implementation-level accessibility meets the host project&#x27;s floor</span></li>

@@ -4,11 +4,9 @@ catalog_garden_tier: foundational
 catalogue_one_liner: >-
   story-graph.json to Draw.io story maps; validated load/save and diagram sync.
 description: >-
-  Render and synchronize story-map DrawIO diagrams (outline, exploration with acceptance
-  criteria, prioritization increments) from story-graph.json. Uses **story-graph-ops**
-  for validated JSON load/save and **story_graph_ops** (StoryMap, nodes, domain) for the
-  story tree that DrawIO rendering expects. Use when producing or diffing story-map.drawio
-  files, or when wiring CI/scripts for diagram refresh and update reports.
+  Renders and synchronizes story-map Draw.io diagrams (outline, exploration with acceptance
+  criteria, prioritization increments) from story-graph.json. Use when producing or diffing
+  story-map.drawio files, or when wiring CI/scripts for diagram refresh and update reports.
 ---
 
 # drawio-story-sync

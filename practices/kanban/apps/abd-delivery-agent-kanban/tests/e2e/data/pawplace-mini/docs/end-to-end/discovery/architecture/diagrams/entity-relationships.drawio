@@ -1,0 +1,106 @@
+<mxfile host="app.diagrams.net" type="device">
+  <diagram id="entity-relationships" name="Entity Relationships">
+    <mxGraphModel dx="1422" dy="757" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="title" value="PawPlace mini — Entity Relationships" style="text;html=1;align=center;verticalAlign=middle;fontSize=18;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="20" width="1320" height="32" as="geometry"/>
+        </mxCell>
+        <mxCell id="subtitle" value="Colour = owning module. Cross-module links are reference-by-id (store code, SKU). No cross-aggregate writes." style="text;html=1;align=center;verticalAlign=middle;fontSize=11;fontStyle=2;" vertex="1" parent="1">
+          <mxGeometry x="40" y="55" width="1320" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="storeBox" value="Store &lt;&lt;aggregate root&gt;&gt;" style="shape=table;startSize=30;container=1;collapsible=0;childLayout=tableLayout;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="80" y="100" width="220" height="150" as="geometry"/>
+        </mxCell>
+        <mxCell id="storeR1" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;strokeColor=inherit;top=0;left=0;bottom=0;right=0;collapsible=0;dropTarget=0;fillColor=none;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="storeBox">
+          <mxGeometry y="30" width="220" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="storeC1" value="storeCode : string (PK)" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;strokeColor=inherit;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;fontSize=10;align=left;spacingLeft=8;" vertex="1" parent="storeR1">
+          <mxGeometry width="220" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="storeR2" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;strokeColor=inherit;top=0;left=0;bottom=0;right=0;collapsible=0;dropTarget=0;fillColor=none;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="storeBox">
+          <mxGeometry y="60" width="220" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="storeC2" value="name, geo, address, active" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;strokeColor=inherit;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;fontSize=10;align=left;spacingLeft=8;" vertex="1" parent="storeR2">
+          <mxGeometry width="220" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="storeOwn" value="Owned by: StoreRepository" style="text;html=1;fontSize=9;fontStyle=3;align=center;" vertex="1" parent="1">
+          <mxGeometry x="80" y="255" width="220" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="productBox" value="Product &lt;&lt;aggregate root&gt;&gt;" style="shape=table;startSize=30;container=1;collapsible=0;childLayout=tableLayout;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="380" y="100" width="220" height="150" as="geometry"/>
+        </mxCell>
+        <mxCell id="prodR1" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;strokeColor=inherit;top=0;left=0;bottom=0;right=0;collapsible=0;dropTarget=0;fillColor=none;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="productBox">
+          <mxGeometry y="30" width="220" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="prodC1" value="sku : SKU (PK)" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;strokeColor=inherit;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;fontSize=10;align=left;spacingLeft=8;" vertex="1" parent="prodR1">
+          <mxGeometry width="220" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="prodR2" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;strokeColor=inherit;top=0;left=0;bottom=0;right=0;collapsible=0;dropTarget=0;fillColor=none;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="productBox">
+          <mxGeometry y="60" width="220" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="prodC2" value="name, price, description" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;strokeColor=inherit;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;fontSize=10;align=left;spacingLeft=8;" vertex="1" parent="prodR2">
+          <mxGeometry width="220" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="stockBox" value="StockLevel &lt;&lt;entity&gt;&gt;" style="shape=table;startSize=30;container=1;collapsible=0;childLayout=tableLayout;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="380" y="300" width="220" height="150" as="geometry"/>
+        </mxCell>
+        <mxCell id="stkR1" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;strokeColor=inherit;top=0;left=0;bottom=0;right=0;collapsible=0;dropTarget=0;fillColor=none;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="stockBox">
+          <mxGeometry y="30" width="220" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="stkC1" value="sku + storeCode (PK)" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;strokeColor=inherit;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;fontSize=10;align=left;spacingLeft=8;" vertex="1" parent="stkR1">
+          <mxGeometry width="220" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="stkR2" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;strokeColor=inherit;top=0;left=0;bottom=0;right=0;collapsible=0;dropTarget=0;fillColor=none;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="stockBox">
+          <mxGeometry y="60" width="220" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="stkC2" value="quantityOnHand : int" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;strokeColor=inherit;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;fontSize=10;align=left;spacingLeft=8;" vertex="1" parent="stkR2">
+          <mxGeometry width="220" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="cartBox" value="Cart &lt;&lt;aggregate root&gt;&gt;" style="shape=table;startSize=30;container=1;collapsible=0;childLayout=tableLayout;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="680" y="100" width="240" height="180" as="geometry"/>
+        </mxCell>
+        <mxCell id="cartR1" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;strokeColor=inherit;top=0;left=0;bottom=0;right=0;collapsible=0;dropTarget=0;fillColor=none;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="cartBox">
+          <mxGeometry y="30" width="240" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="cartC1" value="cartId / sessionToken (PK)" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;strokeColor=inherit;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;fontSize=10;align=left;spacingLeft=8;" vertex="1" parent="cartR1">
+          <mxGeometry width="240" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="cartR2" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;strokeColor=inherit;top=0;left=0;bottom=0;right=0;collapsible=0;dropTarget=0;fillColor=none;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="cartBox">
+          <mxGeometry y="60" width="240" height="90" as="geometry"/>
+        </mxCell>
+        <mxCell id="cartC2" value="lineItems : CartLineItem [*]" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;strokeColor=inherit;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;fontSize=10;align=left;spacingLeft=8;" vertex="1" parent="cartR2">
+          <mxGeometry width="240" height="90" as="geometry"/>
+        </mxCell>
+        <mxCell id="orderBox" value="Order &lt;&lt;aggregate root&gt;&gt;" style="shape=table;startSize=30;container=1;collapsible=0;childLayout=tableLayout;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1000" y="100" width="260" height="210" as="geometry"/>
+        </mxCell>
+        <mxCell id="ordR1" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;strokeColor=inherit;top=0;left=0;bottom=0;right=0;collapsible=0;dropTarget=0;fillColor=none;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="orderBox">
+          <mxGeometry y="30" width="260" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="ordC1" value="orderId (PK)" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;strokeColor=inherit;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;fontSize=10;align=left;spacingLeft=8;" vertex="1" parent="ordR1">
+          <mxGeometry width="260" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="ordR2" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;strokeColor=inherit;top=0;left=0;bottom=0;right=0;collapsible=0;dropTarget=0;fillColor=none;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="orderBox">
+          <mxGeometry y="60" width="260" height="120" as="geometry"/>
+        </mxCell>
+        <mxCell id="ordC2" value="storeCode, billingAddress&#10;lineItems : LineItem [*]&#10;idempotencyKey, status" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;strokeColor=inherit;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;fontSize=10;align=left;spacingLeft=8;" vertex="1" parent="ordR2">
+          <mxGeometry width="260" height="120" as="geometry"/>
+        </mxCell>
+        <mxCell id="rel1" value="storeCode ref" style="endArrow=open;dashed=1;html=1;strokeColor=#666666;fontSize=9;" edge="1" parent="1" source="stockBox" target="storeBox">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="rel2" value="sku ref" style="endArrow=open;dashed=1;html=1;strokeColor=#666666;fontSize=9;" edge="1" parent="1" source="stockBox" target="productBox">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="rel3" value="sku ref at checkout" style="endArrow=open;dashed=1;html=1;strokeColor=#666666;fontSize=9;" edge="1" parent="1" source="orderBox" target="productBox">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="rel4" value="storeCode ref" style="endArrow=open;dashed=1;html=1;strokeColor=#666666;fontSize=9;" edge="1" parent="1" source="orderBox" target="storeBox">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

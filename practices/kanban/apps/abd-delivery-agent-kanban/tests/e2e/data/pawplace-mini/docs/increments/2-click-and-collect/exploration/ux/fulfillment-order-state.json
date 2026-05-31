@@ -1,0 +1,34 @@
+{
+  "target": "docs/increments/2-click-and-collect/exploration/ux/fulfillment-order.drawio",
+  "screens": [
+    {
+      "name": "Fulfillment — Order",
+      "layout": "stack",
+      "col": 0,
+      "row": 0,
+      "regions": [
+        {
+          "name": "employee header · store · Fulfillment · Sign out",
+          "slot": "header",
+          "type": "chrome"
+        },
+        {
+          "name": "order detail",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "order id", "input": "text" },
+            { "label": "product", "input": "text" },
+            { "label": "click-and-collect store", "input": "text" },
+            { "label": "order fulfillment", "input": "text", "value": "status" }
+          ],
+          "buttons": [
+            { "label": "back to queue" },
+            { "label": "fulfill click-and-collect order", "primary": true }
+          ]
+        }
+      ]
+    }
+  ],
+  "connections": []
+}

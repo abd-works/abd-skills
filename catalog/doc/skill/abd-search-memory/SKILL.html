@@ -946,14 +946,6 @@ a.cap-card:hover .cap-card__icon {
 <li>`--k`: Number of results (default 5)</li>
 <li>`--format`: `text` (default) or `json`</li>
 </ul>
-<h2>When to activate</h2>
-<p>Run `search_memory.py` when the user says:</p>
-<ul>
-<li>&quot;use memory&quot;, &quot;search memory&quot;, &quot;what does memory say&quot;</li>
-<li>&quot;from our content&quot;, &quot;from our decks&quot;, &quot;from ABD materials&quot;</li>
-<li>&quot;what do we have on [topic]&quot;</li>
-<li>Asks about any topic that has been ingested into memory</li>
-</ul>
 <h2>Agent flow</h2>
 <p>1. <strong>Derive query</strong> — Extract a semantic query from the user&#x27;s question 2. <strong>Run search</strong> — Execute `search_memory.py` with the query against the corpus index 3. <strong>Inject results</strong> — Use the returned chunks in your response 4. <strong>Cite sources</strong> — Include path and slide/section when using retrieved content. If chunks have front matter, note `evidence_type` / `chunk_type` to signal weight</p>
 <h2>Active memory for this conversation</h2>

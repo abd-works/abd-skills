@@ -28,7 +28,6 @@
           "scope": "increment",
           "skills": [
             { "skill": "abd-domain-terms", "role": "business-expert" },
-            { "skill": "abd-ubiquitous-language", "role": "business-expert" },
             { "skill": "abd-architecture-blueprint", "role": "engineer" },
             { "skill": "abd-information-architecture", "role": "ux-designer" }
           ]
@@ -40,7 +39,7 @@
             { "skill": "abd-ubiquitous-language", "role": "business-expert" },
             { "skill": "abd-acceptance-criteria", "role": "product-owner" },
             { "skill": "abd-ux-mockup", "role": "ux-designer" },
-            { "skill": "abd-architecture-template", "role": "engineer" }
+            { "skill": "abd-architecture-template", "role": "engineer", "run_when": "increment_needs_undocumented_mechanisms" }
           ]
         },
         {
@@ -49,7 +48,6 @@
           "skills": [
             { "skill": "abd-class-responsibility-collaborator", "role": "business-expert" },
             { "skill": "abd-specification-by-example", "role": "product-owner" },
-            { "skill": "abd-scenario-walkthrough", "role": "business-expert" },
             { "skill": "abd-interface-design", "role": "ux-designer" },
             { "skill": "abd-architecture-reference", "role": "engineer" }
           ]
@@ -59,7 +57,7 @@
           "scope": "sprint",
           "skills": [
             { "skill": "abd-interface-design", "role": "ux-designer" },
-            { "skill": "abd-object-model", "role": "engineer" },
+            { "skill": "abd-object-model", "role": "business-expert" },
             { "skill": "abd-acceptance-test-driven-development", "role": "engineer" },
             { "skill": "abd-clean-code", "role": "engineer" }
           ]
@@ -95,7 +93,6 @@
           "scope": "increment",
           "skills": [
             { "skill": "abd-domain-terms", "role": "business-expert" },
-            { "skill": "abd-ubiquitous-language", "role": "business-expert" },
             { "skill": "abd-architecture-blueprint", "role": "engineer" },
             { "skill": "abd-information-architecture", "role": "ux-designer" }
           ]
@@ -107,7 +104,7 @@
             { "skill": "abd-ubiquitous-language", "role": "business-expert" },
             { "skill": "abd-acceptance-criteria", "role": "product-owner" },
             { "skill": "abd-ux-mockup", "role": "ux-designer" },
-            { "skill": "abd-architecture-template", "role": "engineer" }
+            { "skill": "abd-architecture-template", "role": "engineer", "run_when": "increment_needs_undocumented_mechanisms" }
           ]
         },
         {
@@ -115,8 +112,7 @@
           "scope": "sprint",
           "skills": [
             { "skill": "abd-class-responsibility-collaborator", "role": "business-expert" },
-            { "skill": "abd-specification-by-example", "role": "product-owner" },
-            { "skill": "abd-scenario-walkthrough", "role": "business-expert" }
+            { "skill": "abd-specification-by-example", "role": "product-owner" }
           ]
         },
         {

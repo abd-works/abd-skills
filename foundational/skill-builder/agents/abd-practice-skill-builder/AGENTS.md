@@ -1,6 +1,6 @@
 # AGENTS — abd-practice-skill-builder
 
-Edit **`AGENTS.md`** for normative agent prose. Optional: add **`rules/*.md`** and run **`python scripts/build.py`** from this agent root to inline them at the bottom (do not hand-edit the bundle block after that).
+Edit **`AGENTS.md`** for normative agent prose. Rules live only in **`rules/*.md`** — there is no bundle step and no inlined block here.
 
 ---
 
@@ -14,7 +14,7 @@ Orchestrate using the agent-local packages in **`skills/`** under this agent (sa
 
 ## Agent Instructions
 
-You run the **practice skill builder** pipeline. Before each stage, read that stage's **`SKILL.md`** and its **`rules/*.md`**. After you change **target** **`rules/*.md`**, run **`bundle_rules_into_skill_md.py`** on that target skill. For bundling, validating output, and scanner commands, use **`skill-helpers/skills/execute-skill-using-skills-rules/SKILL.md`** (**Commands** section).
+You run the **practice skill builder** pipeline. Before each stage, read that stage's **`SKILL.md`** and every file in its **`rules/`** and **`reference/`** folders. Rules live only in **`rules/*.md`** — there is no bundle step; do not run or reference `bundle_rules_into_skill_md.py`. For validating output and scanner commands, use **`skill-helpers/skills/execute-skill-using-skills-rules/SKILL.md`** (**Commands** section).
 
 **Stage boundary (retrieve vs author):** During **abd-query-practice-sources**, you only work under **`skills/<skill-name>/inputs/`** — mainly **`abd-answers-retrieval.md`**. **Do not** create or edit the target's **`rules/*.md`**, **`SKILL.md`**, **`templates/`**, or run **`bundle_rules_into_skill_md.py`** on the target in that step. Normative rules and **SKILL.md** prose come from **abd-author-practice-skill** using the retrieval log as evidence. If you mixed stages, run the corrections workflow below: fix **`inputs/`** first and log it; do **not** jump to editing maintainer **SKILL.md** to justify bad output.
 
@@ -34,7 +34,7 @@ When any deliverable is wrong, a rule was missed, or stages were mixed, you **fo
 4. **Review** — Repeat until the deliverable is **actually** acceptable, not after one quick edit.
 5. **Confirm** — Fill **Example (correct)**; set **Status: confirmed** for that entry.
 
-**Fix the skill** — only **after** the output steps above for that issue, or when the user **explicitly** asks to change maintainer sources. Then follow item 4 **Fix the skill** substeps **a** through **f** in **`skill-helpers/skills/execute-skill-using-skills-rules/SKILL.md`** (read log as a set, root causes, propose and agree, edit **`rules/*.md`** not the bundled block, bundle + validate, archive).
+**Fix the skill** — only **after** the output steps above for that issue, or when the user **explicitly** asks to change maintainer sources. Then follow item 4 **Fix the skill** substeps **a** through **f** in **`skill-helpers/skills/execute-skill-using-skills-rules/SKILL.md`** (read log as a set, root causes, propose and agree, edit **`rules/*.md`** directly, validate with per-rule verdicts + scanner pass, archive).
 
 - Use the **track_task** skill; track steps in **`progress/`** per **track_task**.
 - Example layout references: `abd-clean-code`, `abd-story-mapping`, `abd-acceptance-criteria`, `abd-specification-by-example`, `abd-thin-slicing`, `abd-acceptance-test-driven-development`.
@@ -44,7 +44,6 @@ Keep **one canonical narrative** in the new skill and manual; RAG hits are **evi
 ### Commands (repo root)
 
 ```bash
-python skill-helpers/skills/execute-skill-using-skills-rules/scripts/bundle_rules_into_skill_md.py --skill-root skills/<skill-name>
 python skill-helpers/skills/execute-skill-using-skills-rules/scripts/run_scanners.py --skill-root skills/<skill-name> --workspace <path-to-output-or-folder>
 ```
 
@@ -98,7 +97,7 @@ Pipeline **skills** use the same mechanism under **`<repo>\.cursor\skills\`** vi
 
 1. Confirm **topic** and **skill name** (kebab-case under **`agilebydesign-skills/skills/`**).
 2. Run **abd-query-practice-sources** — read that skill first; **`inputs/`** only (no target **`rules/`** or **SKILL.md**); structured query plan; ensure **`skills/<skill-name>/`** and **`inputs/`**; write **`inputs/abd-answers-retrieval.md`** using **`skill-builder/skills/abd-query-practice-sources/templates/abd-answers-retrieval-input.md`** (**Kept chunks** with verbatim bodies). If the log is wrong, run **Corrections workflow** (log + fix **`inputs/`** through **Confirm**) before authoring rules from it.
-3. Run **abd-author-practice-skill** — read that skill first; if needed, copy **`abd-author-practice-skill/templates/SKILL_template.md`** to **`SKILL.md`**, add **Manual:** line and bundle markers, ensure **`rules/`** / **`templates/`**; fill **SKILL.md**, write **`rules/*.md`**, bundle into **SKILL.md** (no scanners yet).
+3. Run **abd-author-practice-skill** — read that skill first; if needed, copy **`abd-author-practice-skill/templates/SKILL_template.md`** to **`SKILL.md`**, ensure **`rules/`**, **`reference/`**, **`templates/`**; fill **SKILL.md** as a thin router, write **`rules/*.md`**, move concept/example prose to **`reference/`** (no scanners, no bundling).
 4. Run **abd-build-practice-scanners** (optional) — **`scanners/*.py`**, **`scanner:`** on rules; **`run_scanners.py`** when applicable.
 5. Run **abd-skill-catalog** — **`skills/<skill-name>/README.md`** for the AI Garden; from repo root **`python skill-builder/skills/abd-skill-catalog/scripts/generate_abd_catalog.py`**.
 6. Run **abd-practice-skill-manual** — copy **`assets/`** from **abd-practice-skill-manual** into **`manual/<skill-name>/`**; HTML sections; **SKILL.md** **Manual:** links.
@@ -108,7 +107,3 @@ Pipeline **skills** use the same mechanism under **`<repo>\.cursor\skills\`** vi
 Re-run retrieval; update **`inputs/abd-answers-retrieval.md`**, rules, **README.md**, **catalog/** if needed, then manual; bump **Revision** in the manual footer.
 
 ---
-
-<!-- execute_rules:bundle_rules:begin -->
-*No `rules/*.md` files in this skill (or only empty / README-only).*
-<!-- execute_rules:bundle_rules:end -->

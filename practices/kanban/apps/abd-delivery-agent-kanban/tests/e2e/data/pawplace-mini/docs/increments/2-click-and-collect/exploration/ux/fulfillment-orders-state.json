@@ -1,0 +1,30 @@
+{
+  "target": "docs/increments/2-click-and-collect/exploration/ux/fulfillment-orders.drawio",
+  "screens": [
+    {
+      "name": "Fulfillment — Orders",
+      "layout": "stack",
+      "col": 0,
+      "row": 0,
+      "regions": [
+        {
+          "name": "employee header · store · Fulfillment · Sign out",
+          "slot": "header",
+          "type": "chrome"
+        },
+        {
+          "name": "order queue",
+          "slot": "body",
+          "type": "list",
+          "columns": ["order id", "customer", "status", "pickup time"],
+          "rows": 3,
+          "actions": [
+            { "label": "open order" },
+            { "label": "mark preparing", "primary": true }
+          ]
+        }
+      ]
+    }
+  ],
+  "connections": []
+}

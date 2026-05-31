@@ -1,6 +1,6 @@
 # Interaction Tree and State Model — Ace Commit Message
 
-**Source:** `abd-commit-msg` skill — AGENTS.md, content/*.md  
+**Source:** `abd-commit-msg` skill — AGENTS.md, reference/*.md  
 **Methodology:** abd-commit-msg skill (`skills/abd-commit-msg/`)  
 **Assumption:** No story_graph. Scope derived from conversation, changed files, and persisted state.
 

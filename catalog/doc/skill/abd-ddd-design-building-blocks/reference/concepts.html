@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Garden — ddd-design-building-blocks · reference/concepts.md</title>
+<script src="/commons/brand-nav.js?v=aigarden-4"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+/*
+  Agile Garden — AI Garden prelude + gardener lesson fragment.
+  Inlined via generate_abd_catalog.py. Max border-radius 6px; flat surfaces.
+  Brand split: orange-500 (#E5531A) for column chrome / rails; ai-blue (#4FC3F7 / #81D4FA)
+  on dense mono skill links — see abd-works-brand BRAND-GUIDELINES §3.1 (ai-blue-500).
+*/
+.catalog-prelude {
+  margin: 0 0 24px;
+  padding: 0 0 20px;
+  border-bottom: 1px solid #2A2A2A;
+}
+.catalog-prelude-heading {
+  margin: 0 0 12px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.25;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #2A2A2A;
+  scroll-margin-top: 48px;
+}
+.catalog-prelude-tagline {
+  margin: 0 0 14px;
+  max-width: 60rem;
+  font-size: 1rem;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+/* Mission row */
+.catalog-mission {
+  margin: 0 0 18px;
+}
+.catalog-mission-card {
+  background: #1B1B20;
+  border: 1px solid #2A2A2A;
+  border-left: 3px solid #E5531A;
+  border-radius: 4px;
+  padding: 14px 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  gap: 16px;
+}
+.catalog-mission-card h3 {
+  flex-shrink: 0;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #F4F4F5;
+  margin: 0;
+  white-space: nowrap;
+}
+.catalog-mission-card p {
+  flex: 1 1 auto;
+  margin: 0;
+  font-size: 0.88rem;
+  color: var(--muted);
+  line-height: 1.55;
+}
+.catalog-mission-card--teal,
+.catalog-mission-card--amber,
+.catalog-mission-card--purple {
+  background: #1B1B20;
+  border: 1px solid #2A2A2A;
+  border-left: 3px solid #E5531A;
+}
+.catalog-mission-card--teal h3,
+.catalog-mission-card--amber h3,
+.catalog-mission-card--purple h3 {
+  color: #F4F4F5;
+}
+@media (max-width: 720px) {
+  .catalog-mission { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 480px) {
+  .catalog-mission { grid-template-columns: 1fr; }
+}
+
+/* Two-column skill lists */
+/* ── Section labels (full-width row above each grid) ── */
+.catalog-section-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0 10px;
+  margin: 24px 0 12px;
+  border-bottom: 1px solid #2A2A2A;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #E5531A;
+}
+.catalog-section-label--foundational {
+  margin-top: 28px;
+  color: #8A8A97;
+  border-bottom-color: #1A1A1E;
+}
+
+/* ── Practice grid — all 5 disciplines forced onto one row ── */
+.catalog-practice-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1px;
+  background: #2A2A2A;
+  border: 1px solid #2A2A2A;
+  border-radius: 6px;
+  overflow: hidden;
+  margin: 0;
+}
+@media (max-width: 900px) {
+  .catalog-practice-grid { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 600px) {
+  .catalog-practice-grid { grid-template-columns: 1fr; }
+}
+
+/* ── Foundational grid — 2 wider columns ── */
+.catalog-foundational-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 1px;
+  background: #2A2A2A;
+  border: 1px solid #2A2A2A;
+  border-radius: 6px;
+  overflow: hidden;
+}
+@media (max-width: 600px) {
+  .catalog-foundational-grid { grid-template-columns: 1fr; }
+}
+
+/* ── In the practice grid, stack name above desc ── */
+.catalog-practice-grid .catalog-garden-row,
+.catalog-foundational-grid .catalog-garden-row {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
+  padding: 10px 16px;
+}
+.catalog-practice-grid .catalog-garden-name,
+.catalog-foundational-grid .catalog-garden-name {
+  flex: none;
+  font-size: 0.85rem;
+}
+.catalog-practice-grid .catalog-garden-desc,
+.catalog-foundational-grid .catalog-garden-desc {
+  display: block !important;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: #9B9BA8;
+}
+
+/* ── Agents grid — single wide column ── */
+.catalog-agents-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 1px;
+  background: #2A2A2A;
+  border: 1px solid #2A2A2A;
+  border-radius: 6px;
+  overflow: hidden;
+}
+.catalog-section-label--agents {
+  margin-top: 28px;
+  color: #E5531A;
+  border-bottom-color: #2A2A2A;
+}
+
+/* ── Shared column card ── */
+.catalog-garden-lists {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.catalog-garden-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 20px;
+  margin: 0 0 8px;
+}
+@media (max-width: 760px) {
+  .catalog-garden-grid { grid-template-columns: 1fr; }
+}
+.catalog-garden-agents-wrap {
+  margin-top: 8px;
+}
+.catalog-garden-col--agents {
+  margin-top: 0;
+}
+.catalog-garden-col {
+  background: #111113;
+  border: none;
+  border-radius: 0;
+  overflow: hidden;
+}
+.catalog-garden-col-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-bottom: 1px solid #2A2A2A;
+  background: #1B1B20;
+  color: #E5531A;
+  border-left: 3px solid #E5531A;
+}
+.catalog-garden-col-header--practice,
+.catalog-garden-col-header--foundational,
+.catalog-garden-col-header--agents {
+  background: #1B1B20;
+  color: #E5531A;
+  border-left: 3px solid #E5531A;
+}
+.catalog-garden-ico { flex-shrink: 0; display: block; }
+.catalog-garden-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 16px;
+  border-bottom: 1px solid #1A1A1E;
+  font-size: 0.85rem;
+}
+.catalog-garden-row:last-child { border-bottom: none; }
+/* Skill/agent links — mono names stay near-white; ai-blue hairline/hover (brand AI accent, not orange wall) */
+.catalog-garden-name {
+  font-weight: 700;
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+  flex: 0 0 11.5rem;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  color: #4FC3F7;
+}
+/* !important beats global `a { … }`, :visited, and concatenation order */
+.catalog-prelude .catalog-garden-name a,
+.catalog-garden-lists .catalog-garden-name a {
+  color: #4FC3F7 !important;
+  font-weight: 700 !important;
+  text-decoration: none !important;
+  border-bottom: 1px solid rgba(79, 195, 247, 0.3);
+}
+.catalog-prelude .catalog-garden-name a:hover,
+.catalog-prelude .catalog-garden-name a:focus-visible,
+.catalog-garden-lists .catalog-garden-name a:hover,
+.catalog-garden-lists .catalog-garden-name a:focus-visible {
+  color: #81D4FA !important;
+  border-bottom-color: rgba(79, 195, 247, 0.95);
+}
+.catalog-garden-name--agent a,
+.catalog-garden-name--foundational a {
+  color: #4FC3F7 !important;
+  border-bottom: 1px solid rgba(79, 195, 247, 0.3);
+}
+.catalog-garden-name--agent a:hover,
+.catalog-garden-name--agent a:focus-visible,
+.catalog-garden-name--foundational a:hover,
+.catalog-garden-name--foundational a:focus-visible {
+  color: #81D4FA !important;
+  border-bottom-color: rgba(79, 195, 247, 0.92);
+}
+.catalog-garden-name--dim {
+  color: var(--muted);
+  opacity: 0.6;
+  font-weight: 600;
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+}
+.catalog-garden-desc {
+  color: var(--muted);
+  font-size: 0.82rem;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.catalog-garden-desc--muted { opacity: 0.5; }
+
+:root {
+  /* Primary accent — borders, nav “you are here”; keep saturated */
+  --orange:       #E5531A;
+  --orange-hover: #C64514;
+  /* Brand ai-blue (BRAND-GUIDELINES §3.1) — dense skill listings + card hover cue */
+  --ai-blue-500:  #4FC3F7;
+  --ai-blue-300:  #81D4FA;
+  /* Body links — soft orange (prose); garden grid uses ai-blue in agile-garden-fragment.css */
+  --link-soft:        #FFB380;
+  --link-soft-hover:  #FFCCA3;
+  --link-muted:       #F2A07A;
+  --bg:           #0B0B0B;
+  --surface:      #111113;
+  --raised:       #1B1B20;
+  --border:       #2A2A2A;
+  --border-muted: #1e1e22;
+  --text:         #F4F4F5;
+  --muted:        #9B9BA8;
+  --radius:       6px;
+  --font-sans:    'Inter', system-ui, sans-serif;
+  --font-mono:    'JetBrains Mono', ui-monospace, monospace;
+}
+*, *::before, *::after { box-sizing: border-box; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--link-muted); text-decoration: none; transition: color 120ms ease; }
+a:hover { color: var(--link-soft-hover); text-decoration: none; }
+
+/* Wayfinding stays strong accent */
+.nav a.nav__link--current {
+  color: var(--orange) !important;
+}
+strong { font-weight: 600; }
+code {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+  background: rgba(255,255,255,0.06);
+  padding: 2px 5px;
+  border-radius: 3px;
+  color: #F2A07A;
+}
+
+/* ── Page layout ── */
+.page-wrap {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 48px clamp(16px, 4vw, 48px) 96px;
+}
+
+/* ── Panel / legacy wrapper — flatten to plain surface ── */
+.panel {
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  overflow: visible;
+}
+
+/* ── Page header (replaces old panel-header) ── */
+.panel-header {
+  margin-bottom: 40px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid var(--border);
+  border-left: none;
+  background: transparent;
+  display: block;
+}
+
+.header-icon { display: none; }
+
+.header-text { display: block; }
+.brand { display: none; }
+.brand-row { display: none; }
+.brand-row .brand { display: none; }
+.brand-row .cap-badge { display: none; }
+
+h1 {
+  margin: 0 0 10px;
+  font-size: clamp(28px, 4vw, 42px);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  color: var(--text);
+  font-family: var(--font-sans);
+}
+
+.tagline {
+  margin: 0;
+  font-size: 15px;
+  color: var(--muted);
+  max-width: 540px;
+  line-height: 1.65;
+  font-family: var(--font-sans);
+}
+
+.panel-body { padding: 0; }
+p { margin: 0 0 14px; }
+h2 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin: 32px 0 14px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+}
+h2:first-child { margin-top: 0; }
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 18px;
+  margin: 0 0 18px;
+  padding: 0 0 14px;
+  border-bottom: 1px solid var(--border-muted);
+}
+.nav a {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+.nav a.nav__link--current {
+  pointer-events: none;
+}
+/* Kanban is a different experience (full-screen deck) — keep it last and visually apart */
+.nav a.nav__link--kanban {
+  margin-left: auto;
+  padding-left: 18px;
+  border-left: 1px solid var(--border-muted);
+}
+.cap-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 14px;
+  margin: 18px 0 0;
+}
+.cap-card {
+  display: block;
+  text-decoration: none;
+  background: var(--raised);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--orange);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  transition: background 0.15s, border-color 0.15s;
+  cursor: pointer;
+}
+a.cap-card {
+  color: var(--muted);
+}
+.cap-card:hover {
+  background: rgba(79, 195, 247, 0.06);
+  border-color: rgba(79, 195, 247, 0.32);
+  text-decoration: none;
+}
+.cap-card__title {
+  font-size: 0.97rem;
+  font-weight: 700;
+  color: #F4F4F5;
+  margin: 0 0 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+a.cap-card:hover .cap-card__title {
+  color: var(--ai-blue-300);
+}
+.cap-card__icon {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  color: rgba(79, 195, 247, 0.72);
+}
+a.cap-card:hover .cap-card__icon {
+  color: var(--ai-blue-500);
+}
+.cap-card__label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  opacity: 0.55;
+  margin-bottom: 1px;
+}
+.cap-card__summary { font-size: 0.85rem; color: var(--muted); line-height: 1.45; margin: 0 0 8px; }
+.cap-card__meta { font-size: 0.75rem; color: var(--muted); font-family: var(--font-mono, 'JetBrains Mono', monospace); margin: 0 0 8px; opacity: 0.85; }
+.cap-card__more {
+  font-size: 0.78rem;
+  color: rgba(79, 195, 247, 0.82);
+  opacity: 1;
+  margin: 10px 0 0;
+}
+
+/* Entry detail pages (skill/*.html, agent/*.html) — overview-style */
+.entry-detail-header .back-link {
+  font-size: 0.82rem;
+  color: var(--muted);
+  display: inline-block;
+  margin: 0 0 10px;
+}
+.entry-detail-header .back-link:hover {
+  color: var(--orange);
+}
+.cap-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--orange);
+  background: rgba(255, 122, 0, 0.08);
+  border: 1px solid rgba(255, 122, 0, 0.25);
+  border-radius: 3px;
+  padding: 2px 8px;
+  margin: 0 0 8px;
+}
+.entry-caption {
+  font-size: 0.9rem;
+  color: var(--muted);
+  margin: 0 0 12px;
+}
+.entry-prose {
+  white-space: pre-wrap;
+  color: var(--text);
+  line-height: 1.65;
+  margin: 0 0 8px;
+  font-size: 0.95rem;
+}
+.entry-divider {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 26px 0;
+}
+.entry-contents-doc {
+  margin: 0 0 8px;
+}
+.entry-contents-files {
+  margin: 0;
+}
+.entry-md-section {
+  border: 1px solid var(--border-muted);
+  border-radius: var(--radius);
+  margin: 0 0 10px;
+  background: rgba(0, 0, 0, 0.14);
+}
+.entry-md-section > summary.entry-md-section__summary {
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.98rem;
+  padding: 12px 14px;
+  list-style: none;
+  color: var(--text);
+  user-select: none;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+.entry-md-section > summary.entry-md-section__summary::before {
+  content: "+";
+  flex-shrink: 0;
+  width: 1.35em;
+  text-align: center;
+  font-weight: 800;
+  font-size: 1.05em;
+  line-height: 1.35;
+  color: var(--orange);
+}
+.entry-md-section[open] > summary.entry-md-section__summary::before {
+  content: "-";
+}
+.entry-md-section > summary.entry-md-section__summary::-webkit-details-marker {
+  display: none;
+}
+.entry-md-section .entry-md-section__body {
+  padding: 0 14px 14px 16px;
+  border-top: 1px solid var(--border-muted);
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: var(--text);
+}
+.entry-md-section .entry-md-section__body p {
+  margin: 0 0 12px;
+}
+.entry-md-section .entry-md-section__body p:last-child {
+  margin-bottom: 0;
+}
+.entry-md-section .entry-md-section__body ul {
+  margin: 0 0 12px;
+  padding-left: 1.35rem;
+}
+.entry-md-section .entry-md-section__body h2 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin: 18px 0 8px;
+  padding-bottom: 0;
+  border-bottom: none;
+  color: var(--text);
+}
+.entry-md-section .entry-md-section__body h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 14px 0 8px;
+  color: var(--text);
+}
+.entry-md-section .entry-md-section__body pre {
+  margin: 0 0 12px;
+  overflow-x: auto;
+}
+.entry-md-section .entry-md-section__body hr {
+  margin: 14px 0;
+  border: none;
+  border-top: 1px solid var(--border-muted);
+}
+.ascii-diagram {
+  background: #111114;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  overflow-x: auto;
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+  font-size: 0.83em;
+  line-height: 1.55;
+  color: #b8b8c2;
+  margin: 0 0 18px;
+}
+.install-block {
+  margin: 22px 0 0;
+  padding: 16px 18px;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--border-muted);
+  border-radius: var(--radius);
+  border-left: 3px solid var(--orange);
+}
+.install-block h2 {
+  margin-top: 0;
+  border-bottom: none;
+  padding-bottom: 0;
+}
+.install-block .install-hint {
+  font-size: 0.92rem;
+  color: var(--muted);
+  margin: 0 0 12px;
+}
+.install-snippet {
+  background: #111114;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  overflow-x: auto;
+  margin: 0;
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+  font-size: 0.85em;
+  line-height: 1.5;
+  color: #d4d4d4;
+}
+.install-snippet code {
+  background: transparent;
+  padding: 0;
+  font-size: inherit;
+  color: inherit;
+}
+.file-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.file-list li {
+  margin: 0 0 14px;
+  padding: 10px 12px 10px 14px;
+  border-left: 3px solid var(--border-muted);
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 0 4px 4px 0;
+}
+.file-list .file-meta {
+  color: var(--muted);
+  font-size: 0.9rem;
+  display: block;
+  margin-top: 4px;
+}
+.file-list a {
+  font-weight: 600;
+}
+.file-list--root {
+  margin-top: 4px;
+}
+.file-list--nested {
+  margin: 8px 0 0 0;
+  padding-left: 0;
+  border-left: 2px solid var(--border-muted);
+  margin-left: 2px;
+  padding-left: 10px;
+}
+.file-list--nested li {
+  margin-bottom: 10px;
+  padding: 8px 10px 8px 12px;
+  font-size: 0.95rem;
+}
+.file-list__nested-note {
+  margin: 8px 0 0 0;
+  padding: 6px 0 4px 4px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+/* Expandable folder tree (<details> / <summary>) */
+.file-list > li.file-list__folder {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 10px;
+  border: none;
+  background: transparent;
+  border-radius: 0;
+}
+.file-list__folder > .file-tree__details {
+  margin: 0 0 10px 0;
+}
+/* Match .entry-md-section: folder trees (rules, scanners, templates, …) */
+.file-tree__details {
+  border: 1px solid var(--border-muted);
+  border-radius: var(--radius);
+  background: rgba(0, 0, 0, 0.14);
+  overflow: hidden;
+}
+.file-tree__summary {
+  cursor: pointer;
+  padding: 12px 14px;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  list-style: none;
+  margin: 0;
+  font-weight: 600;
+  font-size: 0.98rem;
+  color: var(--text);
+  user-select: none;
+  background: transparent;
+}
+.file-tree__summary::-webkit-details-marker {
+  display: none;
+}
+.file-tree__summary::marker {
+  content: "";
+  display: none;
+}
+.file-tree__summary::before {
+  content: "+";
+  flex-shrink: 0;
+  width: 1.35em;
+  text-align: center;
+  font-weight: 800;
+  font-size: 1.05em;
+  line-height: 1.35;
+  color: var(--orange);
+}
+.file-tree__details[open] > .file-tree__summary::before {
+  content: "-";
+}
+.file-tree__summary:hover {
+  background: rgba(255, 122, 0, 0.06);
+}
+.file-tree__summary .file-meta {
+  display: inline;
+  margin-left: 6px;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+.file-tree__inner {
+  padding: 0 14px 14px 16px;
+  border-top: 1px solid var(--border-muted);
+}
+.file-tree__ul {
+  margin-top: 4px;
+}
+.file-tree__dir > .file-tree__details {
+  margin: 0;
+  border-radius: 4px;
+}
+.file-tree__dir--truncated {
+  font-size: 0.95rem;
+}
+.file-tree__file .file-meta {
+  display: block;
+  margin-top: 4px;
+}
+
+/* Agile Garden prelude + mission + lists: abd-works/commons/agile-garden-fragment.css (prepended by generate_abd_catalog.py) */
+
+/* Single-page hub (index.html): collapsible hub / skills / agents */
+.catalog-section {
+  border: 1px solid var(--border-muted);
+  border-radius: 8px;
+  margin: 0 0 16px;
+  background: rgba(0, 0, 0, 0.18);
+  overflow: hidden;
+}
+.catalog-section > summary {
+  cursor: pointer;
+  list-style: none;
+  padding: 14px 16px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.04);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  user-select: none;
+}
+.catalog-section > summary::-webkit-details-marker { display: none; }
+.catalog-section > summary::marker { content: ""; }
+.catalog-section > summary::before {
+  content: "+";
+  flex-shrink: 0;
+  width: 1.5rem;
+  height: 1.5rem;
+  line-height: 1.45rem;
+  text-align: center;
+  font-weight: 700;
+  font-size: 0.95rem;
+  border: 1px solid var(--border-muted);
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.1);
+}
+.catalog-section[open] > summary::before { content: "\2212"; }
+.catalog-section[open] > summary {
+  border-bottom: 1px solid var(--border-muted);
+}
+.catalog-section .section-body {
+  padding: 18px 16px 22px;
+}
+.catalog-section .section-body > p:first-of-type { margin-top: 0; }
+.catalog-section .cap-grid { margin-top: 8px; }
+.catalog-section .count {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+/* Static markdown mirror pages (catalog/doc/...) */
+.rule-prose {
+  font-size: 1rem;
+  line-height: 1.65;
+  max-width: 52rem;
+}
+.rule-prose h1,
+.rule-prose h2,
+.rule-prose h3,
+.rule-prose h4 {
+  margin: 1.25em 0 0.5em;
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--text);
+}
+.rule-prose h1:first-child,
+.rule-prose h2:first-child,
+.rule-prose h3:first-child {
+  margin-top: 0;
+}
+.rule-prose h1 { font-size: 1.5rem; border-bottom: 1px solid var(--border); padding-bottom: 0.35em; }
+.rule-prose h2 { font-size: 1.25rem; border-bottom: 1px solid var(--border-muted); padding-bottom: 0.25em; }
+.rule-prose h3 { font-size: 1.1rem; }
+.rule-prose p { margin: 0 0 12px; }
+.rule-prose pre {
+  margin: 12px 0;
+  padding: 12px 14px;
+  overflow: auto;
+  background: #1f1f24;
+  border: 1px solid var(--border-muted);
+  border-radius: 6px;
+  font-size: 0.88em;
+  line-height: 1.45;
+}
+.rule-prose code { font-size: inherit; }
+.rule-prose ul,
+.rule-prose ol {
+  margin: 8px 0 12px 1.25rem;
+  padding: 0;
+}
+.rule-prose li { margin-bottom: 6px; }
+.rule-prose strong { color: var(--text); }
+.rule-prose hr {
+  border: 0;
+  border-top: 1px solid var(--border-muted);
+  margin: 1.25em 0;
+}
+.rule-prose .md-table-wrap {
+  overflow-x: auto;
+  margin: 12px 0 16px;
+  -webkit-overflow-scrolling: touch;
+}
+.rule-prose table.md-table {
+  width: max-content;
+  max-width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+.rule-prose table.md-table th,
+.rule-prose table.md-table td {
+  border: 1px solid var(--border-muted);
+  padding: 8px 10px;
+  text-align: left;
+  vertical-align: top;
+}
+.rule-prose table.md-table th {
+  background: rgba(255, 122, 0, 0.08);
+  font-weight: 600;
+  white-space: nowrap;
+}
+.rule-prose table.md-table td { background: var(--panel); }
+.rule-prose a { color: var(--accent, #ff7a00); text-decoration: underline; }
+.rule-prose a:hover { text-decoration: none; }
+
+.plugin-slots h3 {
+  margin: 28px 0 8px;
+  font-size: 1.05rem;
+}
+.plugin-slots h3:first-child { margin-top: 0; }
+.cap-grid--plugin-slot { margin-bottom: 8px; }
+
+</style>
+</head>
+<body>
+<div class="page-wrap">
+<div class="panel" role="main">
+
+<header class="panel-header entry-detail-header">
+  <div class="header-text">
+    <p class="brand"><strong>abd.works</strong> &middot; AI Garden</p>
+    <a class="back-link" href="../../../../skill/abd-ddd-design-building-blocks.html">← ddd-design-building-blocks</a>
+    <p class="cap-badge">Markdown</p>
+    <h1>reference/concepts.md</h1>
+    <p class="tagline">DDD Design Building Blocks — Concepts</p>
+  </div>
+</header>
+
+<div class="panel-body">
+
+<nav class="nav" aria-label="AI Garden sections">
+  <a href="../../../../index.html" class="nav__link">Complete</a>
+  <a href="../../../../skills.html" class="nav__link nav__link--current">Skills</a>
+  <a href="../../../../agents.html" class="nav__link">Agents</a>
+  <a href="../../../../instructions.html" class="nav__link">Instructions</a>
+  <a href="../../../../kanban-layout/index.html" class="nav__link nav__link--kanban">Delivery kanban</a>
+</nav>
+
+<h2>Content</h2>
+<div class="rule-prose"><h1>DDD Design Building Blocks — Concepts</h1>
+<p>&gt; <strong>Note:</strong> The purpose of this skill is <em>not</em> to perform a detailed object-oriented analysis and design (OOAD) for every domain concept. Instead, use the <strong>Ubiquitous Language</strong> (`abd-ubiquitous-language`), <strong>CRC cards</strong> (`abd-class-responsibility-collaborator`), or an <strong>Object Model</strong> (`abd-object-model`) skill as appropriate to your current level of domain discovery. This skill extends the domain model by layering in the DDD building blocks, highlighting the architectural roles and stereotypes required to implement the concept — not replacing existing analysis methods, but enriching them.</p>
+<h2>Building block stereotypes</h2>
+<p>Domain concepts are <strong>implemented through</strong> DDD building block stereotypes. When you apply DDD to a domain model, the concepts you already have get <strong>refined and extended</strong>:</p>
+<ul>
+<li>Domain objects become <strong>Entities</strong> or <strong>Value Objects</strong> (identity decision)</li>
+<li>Entities and Value Objects get allocated to <strong>Aggregates</strong> and a <strong>Root</strong> is chosen (consistency boundary)</li>
+<li><strong>Repositories</strong> are added to abstract persistence behind a collection-style interface — add, remove, update, find (persistence)</li>
+<li>Some operations get moved to <strong>Services</strong> (homeless cross-cutting behavior)</li>
+<li>Some operations surface <strong>Domain Events</strong> (significant moments others react to)</li>
+<li>Complex creation logic gets extracted into <strong>Factories</strong> (assembly concern)</li>
+</ul>
+<p>This is a <strong>transformation</strong> of the domain model, not a labeling exercise. New classes appear (Repositories, Factories, Events). Existing classes gain new constraints (aggregate boundaries, identity rules). Some operations move to new homes.</p>
+<h2>Entity — &quot;Can we tell them apart?&quot;</h2>
+<p>An Entity is primarily defined by its <strong>identity</strong> — a thread of continuity that persists regardless of changes to its attributes. Two instances with identical attribute values are still different objects if they have different identities.</p>
+<p><strong>Business questions only the domain expert can answer:</strong></p>
+<ul>
+<li>If two instances of this thing have the same name, are they automatically the same thing?</li>
+<li>What attributes or rules do we use to <strong>establish or verify</strong> the identity of this thing?</li>
+<li>If two instances have different attribute values but the same identity — are they still the same thing? How will we manage this?</li>
+<li>Does this concept need to be <strong>tracked over time</strong> as it changes state?</li>
+</ul>
+<p>If the answer is &quot;yes, we need to track this as &#x27;that one&#x27; regardless of data changes,&quot; it is an Entity.</p>
+<h2>Value Object — &quot;Is it just fancy data?&quot;</h2>
+<p>A Value Object describes an aspect of the domain and has <strong>no identity</strong>. It is distinguishable only by the state of its properties — two Value Objects with the same attribute values are interchangeable. Value Objects should be <strong>immutable</strong>: created once, never modified.</p>
+<p><strong>Business questions only the domain expert can answer:</strong></p>
+<ul>
+<li>Is this concept <strong>fully described by its attribute values</strong> with nothing else to say about &quot;which one&quot;?</li>
+<li>If two instances have identical properties, does the business treat them as <strong>the same thing</strong>?</li>
+<li>When this thing changes, do we <strong>update it in place</strong> (Entity signal) or <strong>replace it</strong> with a new version?</li>
+</ul>
+<p>If the answer is &quot;it&#x27;s just data — two with the same values are the same thing,&quot; it is a Value Object.</p>
+<h2>Aggregate — &quot;What must be consistent together?&quot;</h2>
+<p>An Aggregate is a cluster of associated objects treated as a <strong>single unit for data changes</strong>. Every Aggregate has a <strong>root</strong> (a single Entity) and a <strong>boundary</strong>. The root is the only member that outside objects may hold persistent references to.</p>
+<p><strong>Business questions only the domain expert can answer:</strong></p>
+<ul>
+<li>What <strong>must</strong> be consistent in a single transaction?</li>
+<li>What <strong>can tolerate a moment of inconsistency</strong>?</li>
+<li>What is the <strong>cost to the business</strong> if this information is briefly out of date?</li>
+<li>Who is the <strong>single access point</strong> that protects the rules? <em>(the root)</em></li>
+</ul>
+<h2>Cross-aggregate consistency — &quot;What happens over there when this changes here?&quot;</h2>
+<p>When two aggregates reference each other (by ID), every relationship crossing that boundary needs an explicit consistency decision. These are the questions developers will silently answer wrong if nobody asks them:</p>
+<ul>
+<li><strong>When a Customer&#x27;s address changes, what happens to their open Orders?</strong></li>
+<li><strong>When a Product&#x27;s price changes, what happens to Orders that reference that Product?</strong></li>
+<li><strong>When a Customer is deactivated, what happens to their pending Orders?</strong></li>
+</ul>
+<p>For each cross-aggregate relationship, ask:</p>
+<p>1. <strong>&quot;If A changes, does B need to know — and how soon?&quot;</strong> — immediately (should be same aggregate), within seconds (eventual consistency via event), or never (B keeps a snapshot). 2. <strong>&quot;Does B keep a copy of A&#x27;s data, or just a reference?&quot;</strong> — if B copied A&#x27;s price at order time, a later price change doesn&#x27;t affect B. If B holds a live reference, it does. 3. <strong>&quot;What does the business do today when this happens?&quot;</strong> — often there is already a manual process. That process IS the consistency rule.</p>
+<p>These decisions become Domain Events, eventual-consistency policies, or snapshot-vs-reference design choices in the model.</p>
+<p>Design constraints flow from those answers:</p>
+<ul>
+<li>Code outside the boundary can only load, save, delete, or create the aggregate through its root Entity.</li>
+<li>Entities within the boundary have local identity only — meaningful inside the aggregate, not globally.</li>
+<li>Keep aggregates small: one root, the minimum set of objects needed to enforce the business&#x27;s stated invariants.</li>
+</ul>
+<h2>Repository — &quot;How does the business store, find, and retire this?&quot;</h2>
+<p>A Repository abstracts persistence behind a <strong>collection-style interface</strong> — add, remove, update, find. From the domain&#x27;s perspective, it looks like a collection of aggregates you can put things into and take things out of. The implementation (database, file system, API) is hidden; the domain only sees the collection operations.</p>
+<p><strong>Business questions only the domain expert can answer:</strong></p>
+<ul>
+<li>How does the business <strong>find</strong> this thing?</li>
+<li>When is this thing <strong>done</strong> — and what does &quot;retire&quot; or &quot;archive&quot; mean for it?</li>
+<li>Does the business need to <strong>search</strong> across these things, and by what criteria?</li>
+</ul>
+<p>At object-model fidelity, a Repository should implement a collection type. At CRC or UL fidelity, it is expressed as responsibilities (add, remove, find by...).</p>
+<h2>Factory — &quot;How are new instances born?&quot;</h2>
+<p>A Factory handles the <strong>creation</strong> of complex objects or aggregates — when construction requires assembling multiple parts, enforcing invariants at birth, or choosing between subtypes. If a simple constructor suffices, no Factory is needed.</p>
+<p><strong>Business questions only the domain expert can answer:</strong></p>
+<ul>
+<li>Is there a <strong>business process</strong> for creating this thing?</li>
+<li>What must be <strong>true the moment it&#x27;s born</strong>?</li>
+<li>Is there a <strong>choice</strong> at creation time about what kind of thing gets made?</li>
+</ul>
+<h2>Service — &quot;Who owns this action?&quot;</h2>
+<p>A Service represents a domain operation that does <strong>not naturally belong</strong> to any Entity or Value Object. If forcing the operation onto a concept would distort that concept&#x27;s definition, it belongs in a Service.</p>
+<p><strong>Business questions only the domain expert can answer:</strong></p>
+<ul>
+<li>When the business describes this action, do they name <strong>one</strong> thing that does it — or does it span several?</li>
+<li>Would adding this responsibility to an existing concept <strong>change what that concept is</strong>?</li>
+<li>Is this action a <strong>named domain activity</strong> that business people would recognise?</li>
+</ul>
+<p>Services are typically <strong>stateless</strong> — they coordinate work across domain objects without holding their own state between calls.</p>
+<h2>Domain Event — &quot;What are the significant moments?&quot;</h2>
+<p>A Domain Event captures <strong>something that happened</strong> — a significant state change in the domain, named in <strong>past tense</strong> using domain language. Events carry enough data for interested parties to react without calling back.</p>
+<p>Domain Events are the <strong>preferred</strong> mechanism for synchronising across aggregate boundaries — but they are not the only one. The cross-aggregate consistency questions determine <strong>how</strong> synchronisation happens: some systems use events, others use batch processes, scheduled jobs, or direct remote calls. The Domain Event building block identifies <strong>what</strong> the significant moments are and who reacts; the consistency approach decides the transport.</p>
+<p><strong>Business questions only the domain expert can answer:</strong></p>
+<ul>
+<li>What are the <strong>significant moments</strong> in this thing&#x27;s life that others care about?</li>
+<li>When this thing happens, <strong>who else in the business reacts</strong>?</li>
+<li>If we missed notifying someone about this, <strong>what would break</strong>?</li>
+<li>What past-tense phrase would a domain expert use to describe this moment?</li>
+</ul>
+<p>If other parts of the system, outside this aggregate, must react to a state change — that change is a Domain Event regardless of whether it&#x27;s delivered via an event bus, a batch file, or a method call.</p>
+<h2>Specification — &quot;Can we express this rule as a reusable question?&quot;</h2>
+<p>A Specification is a business rule or condition expressed as a <strong>first-class object</strong> — a predicate you can pass around, compose, and reuse. Instead of burying a complex eligibility check or search filter inside an operation, you extract it into its own named concept that can be used for:</p>
+<ul>
+<li><strong>Querying</strong> — &quot;find all overdue invoices&quot;</li>
+<li><strong>Validating</strong> — &quot;is this order eligible for express shipping?&quot;</li>
+<li><strong>Constructing / Specifying</strong> — &quot;take this Person and produce an Adult that satisfies the adult spec&quot;</li>
+</ul>
+<p><strong>Business questions only the domain expert can answer:</strong></p>
+<ul>
+<li>Is there a <strong>named business rule</strong> that gets applied in multiple places or contexts?</li>
+<li>Can the business <strong>describe this condition</strong> without referring to how it&#x27;s implemented?</li>
+<li>Does this rule <strong>compose</strong> with others?</li>
+</ul>
+<p>If a rule is named, reusable, and expressible as a true/false question the business can articulate, it is a Specification.</p>
+<h2>Source fidelity</h2>
+<p>Write the DDD building blocks at the <strong>same level of fidelity</strong> as the input source:</p>
+<ul>
+<li>From a <strong>CRC</strong> → use CRC notation: class blocks with responsibilities, collaborators, invariants, and stereotype annotations.</li>
+<li>From an <strong>Object Model</strong> → use typed notation: properties, operation signatures, relationships, and stereotype annotations.</li>
+<li>From a <strong>Ubiquitous Language</strong> → use structured concept blocks: intent, behaviors, collaborations, and stereotype annotations.</li>
+<li>From <strong>Domain Terms</strong> → use plain-language concept descriptions with stereotype annotations.</li>
+<li>From <strong>no formal source</strong> → use plain language and produce domain terms as part of the output.</li>
+</ul>
+<p>The building-blocks document <strong>extends</strong> the source model — include the original classes/concepts and show the DDD annotations layered on top.</p></div>
+
+</div>
+</div>
+</div>
+</body>
+</html>

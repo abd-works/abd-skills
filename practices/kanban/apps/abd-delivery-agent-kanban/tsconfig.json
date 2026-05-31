@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "strict": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "jsx": "react-jsx",
+    "types": ["vitest/globals"],
+    "paths": {
+      "@deliveryforge/delivery-board-shared": ["./packages/delivery-board/shared/index.ts"],
+      "@deliveryforge/delivery-board-server": ["./packages/delivery-board/server/index.ts"],
+      "@deliveryforge/delivery-board-client": ["./packages/delivery-board/client/index.ts"],
+      "@deliveryforge/delivery-board-client/*": ["./packages/delivery-board/client/*"]
+    }
+  },
+  "include": [
+    "packages/**/*.ts",
+    "packages/**/*.tsx",
+    "packages/**/*.d.ts",
+    "tests/**/*.ts",
+    "tests/**/*.tsx"
+  ]
+}
