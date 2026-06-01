@@ -21,6 +21,19 @@ Implementation work **starts from what already exists**. Assign existing referen
 
 ---
 
+## Kanban ticket run (quick pass vs long pass)
+
+When pulled from a kanban board, **always run this skill** — kanban does not auto-skip.
+
+1. **List mechanisms in scope** from the ticket's architecture blueprint (`architecture-blueprint.md` or increment companion).
+2. **Check** existing reference sections on disk and `docs/planning/delivery-war-room/mechanism-registry.json`.
+3. **Quick pass** — every mechanism has a complete reference section and assignable code paths → write **`architecture-reference-assignment.md`** only (all rows **assign**); mark skill done.
+4. **Long pass** — missing reference and/or code → create only gaps; update the registry for new mechanisms; write the assignment table.
+
+The assignment document is the mapping artifact for downstream work and for later tickets that reuse the same mechanisms.
+
+---
+
 ## Reference document as specification
 
 Assigned or newly created reference sections are the contract: File Structure is the file list, Participants is the type graph, Flow is the call sequence, Walkthrough is the acceptance scenario.
