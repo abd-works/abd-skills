@@ -2,6 +2,7 @@ import path from 'node:path';
 import { readdir } from 'node:fs/promises';
 import type {
   AgentRole,
+  ActionIntent,
   HeartbeatAges,
   HeartbeatSlots,
   KanbanBoardSnapshot,
@@ -11,11 +12,20 @@ import {
   AGENT_ROLES,
   DEFAULT_TEAM,
   KanbanBoardLoader,
+  applyPendingIntents,
+  applyResumeTicketInProgress,
+  applyMoveTicketToStage,
+  boardEtag,
+  parseKanbanBoard,
+  type StageId,
   buildHeartbeatSlots,
   resolveTeamFromConfig,
   type KanbanConfiguration,
+  scatterBoundaryOnPath,
+  engagementWorkspaceFromPlanningRoot,
 } from '@deliveryforge/delivery-board-shared';
 import type { PlanningFolderRepository } from './planningFolder.repository';
+import { tryResolveScatterChildren } from './resolveScatterChildren';
 
 export class KanbanBoardService {
   private cachedRoot: string | null = null;
@@ -66,6 +76,11 @@ export class KanbanBoardService {
     snapshot.heartbeats = heartbeats;
     snapshot.heartbeatSlots = heartbeatSlots;
 
+    const pendingIntents = await this.repo.readActionIntents(paths.actionStateFile);
+    snapshot.pendingIntents = pendingIntents;
+    applyPendingIntents(snapshot);
+    snapshot.etag = boardEtag(snapshot.board, pendingIntents.length);
+
     this.cachedRoot = root;
     this.lastSnapshot = snapshot;
     return snapshot;
@@ -91,6 +106,7 @@ export class KanbanBoardService {
           const raw = (await this.repo.readJson(filePath)) as {
             ts?: string;
             status?: string;
+            note?: string;
           };
           return { fileName, raw };
         } catch {
@@ -145,6 +161,88 @@ export class KanbanBoardService {
       await this.repo.writeJson(paths.kanbanFile, kanbanConfig);
     }
 
+    this.lastSnapshot = null;
+    return this.loadSnapshot(root);
+  }
+
+  async toggleBoardMode(planningRoot?: string): Promise<KanbanBoardSnapshot> {
+    const root = planningRoot ?? this.cachedRoot;
+    if (!root) throw new Error('Planning root not configured');
+
+    const paths = this.repo.resolvePaths(root);
+    const rawBoard = (await this.repo.readJson(paths.boardFile)) as Record<string, unknown>;
+    const currentMode = rawBoard.board_mode === 'manual' ? 'manual' : 'automatic';
+    const nextMode = currentMode === 'automatic' ? 'manual' : 'automatic';
+
+    await this.repo.writeBoardMode(paths.boardFile, nextMode);
+    this.lastSnapshot = null;
+    return this.loadSnapshot(root);
+  }
+
+  async writeActionIntent(planningRoot: string, intent: ActionIntent): Promise<void> {
+    const paths = this.repo.resolvePaths(planningRoot);
+    await this.repo.writeActionIntent(paths.actionStateFile, intent);
+    this.lastSnapshot = null;
+  }
+
+  async resumeTicketInProgress(
+    planningRoot: string,
+    ticketId: string,
+  ): Promise<KanbanBoardSnapshot> {
+    return this.moveTicketToStage(planningRoot, ticketId, null);
+  }
+
+  async moveTicketToStage(
+    planningRoot: string,
+    ticketId: string,
+    targetStage: StageId | null,
+    placement: 'in_progress' | 'stage_done' = 'in_progress',
+  ): Promise<KanbanBoardSnapshot> {
+    const root = planningRoot ?? this.cachedRoot;
+    if (!root) throw new Error('Planning root not configured');
+
+    const paths = this.repo.resolvePaths(root);
+    const [rawBoard, rawKanban] = await Promise.all([
+      this.repo.readJson(paths.boardFile),
+      this.repo.readJson(paths.kanbanFile),
+    ]);
+    const board = parseKanbanBoard(rawBoard);
+    const kanbanConfig = rawKanban as KanbanConfiguration;
+    const defName = (board.stage_configuration as string | undefined) ?? undefined;
+
+    let updated: typeof board;
+    if (targetStage === null) {
+      updated = applyResumeTicketInProgress(board, ticketId);
+    } else {
+      const ticket = [...board.active, ...board.backlog, ...board.done, ...board.archived].find(
+        (t) => t.ticket_id === ticketId,
+      );
+      let childrenSpec: ReturnType<typeof tryResolveScatterChildren> | undefined;
+      if (ticket) {
+        const boundary = scatterBoundaryOnPath(
+          kanbanConfig,
+          defName,
+          ticket.scope_level,
+          ticket.stage as StageId,
+          targetStage,
+        );
+        if (boundary) {
+          const engagementRoot = engagementWorkspaceFromPlanningRoot(root);
+          childrenSpec =
+            tryResolveScatterChildren(engagementRoot, ticketId, {
+              childScope: boundary.childScope,
+              ticketScopeLevel: ticket.scope_level,
+            }) ?? undefined;
+        }
+      }
+      updated = applyMoveTicketToStage(board, ticketId, targetStage, kanbanConfig, defName, {
+        childrenSpec,
+        advanceWithoutScatter: true,
+        placement: placement === 'stage_done' ? 'stage_done' : 'in_progress',
+      });
+    }
+
+    await this.repo.writeJson(paths.boardFile, updated);
     this.lastSnapshot = null;
     return this.loadSnapshot(root);
   }

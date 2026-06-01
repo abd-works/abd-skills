@@ -4,7 +4,7 @@ import { resolvePlanningPaths } from '@deliveryforge/delivery-board-shared';
 import type { KanbanBoardService } from './kanbanBoard.service';
 
 const WATCHED_PATTERN =
-  /(?:board\.json|kanban\.json|metrics-log\.jsonl|heartbeat-[\w-]+\.json)$/i;
+  /(?:board\.json|kanban\.json|action-state\.json|metrics-log\.jsonl|heartbeat-[\w-]+\.json)$/i;
 const DEBOUNCE_MS = 600;
 
 export class WarRoomWatcher {

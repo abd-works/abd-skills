@@ -70,12 +70,16 @@ function ticket(partial: Partial<TicketView> & Pick<TicketView, 'ticketId'>): Ti
     priority: partial.priority ?? 1,
     activeSkillId: partial.activeSkillId ?? null,
     activeAgent: partial.activeAgent ?? null,
+    executingSkillIds: partial.executingSkillIds ?? [],
     reviewSkillId: partial.reviewSkillId ?? null,
     reviewAgent: partial.reviewAgent ?? null,
+    reviewingSkillIds: partial.reviewingSkillIds ?? [],
     awaitingReviewSkillId: partial.awaitingReviewSkillId ?? null,
     awaitingReviewAgent: partial.awaitingReviewAgent ?? null,
+    awaitingReviewSkillIds: partial.awaitingReviewSkillIds ?? [],
     isReviewing: partial.isReviewing ?? false,
     doneSkillIds: partial.doneSkillIds ?? [],
+    failedReviewSkillIds: partial.failedReviewSkillIds ?? [],
     enteredStage: partial.enteredStage ?? null,
     completedStage: partial.completedStage ?? null,
     scatterFrom: partial.scatterFrom ?? null,
@@ -83,6 +87,8 @@ function ticket(partial: Partial<TicketView> & Pick<TicketView, 'ticketId'>): Ti
     notes: partial.notes ?? '',
     displayLabel: partial.displayLabel ?? partial.ticketId,
     chipLabel: partial.chipLabel ?? partial.ticketId,
+    pendingIntentSkillIds: partial.pendingIntentSkillIds ?? [],
+    holdInProgress: partial.holdInProgress ?? false,
   };
 }
 
@@ -288,10 +294,23 @@ describe('skillRowDisplayState', () => {
     expect(next.isFocus).toBe(true);
   });
 
+  it('shows magnify when skill is in reviewingSkillIds', () => {
+    const t = ticket({
+      ticketId: 't7b',
+      reviewingSkillIds: ['abd-specification-by-example'],
+      isReviewing: true,
+      reviewAgent: 'product-owner',
+    });
+    const row = skillRowDisplayState('abd-specification-by-example', t, null);
+    expect(row.showMagnify).toBe(true);
+    expect(row.showBot).toBe(false);
+  });
+
   it('shows magnify on review skill only', () => {
     const t = ticket({
       ticketId: 't7',
       reviewSkillId: 'abd-specification-by-example',
+      reviewingSkillIds: ['abd-specification-by-example'],
       isReviewing: true,
       reviewAgent: 'product-owner',
     });
@@ -557,7 +576,9 @@ describe('relocateScatterParents', () => {
 
 describe('scopeLevelCssClass', () => {
   it('maps scope_level to ticket CSS classes', () => {
-    expect(scopeLevelCssClass('all')).toBe('kb-ticket--scope-all');
+    expect(scopeLevelCssClass('project')).toBe('kb-ticket--scope-project');
+    expect(scopeLevelCssClass('all')).toBe('kb-ticket--scope-project');
+    expect(scopeLevelCssClass('partition')).toBe('kb-ticket--scope-partition');
     expect(scopeLevelCssClass('increment')).toBe('kb-ticket--scope-increment');
     expect(scopeLevelCssClass('sprint')).toBe('kb-ticket--scope-sprint');
     expect(scopeLevelCssClass('unknown')).toBe('kb-ticket--scope-sprint');

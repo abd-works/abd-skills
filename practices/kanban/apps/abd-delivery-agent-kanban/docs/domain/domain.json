@@ -6,7 +6,7 @@
       "inherits": null
     },
     "Ticket": {
-      "attributes": ["unique_identifier", "lineage", "board_position", "scope_level", "priority", "skill_progress_entries", "notes", "stage_timestamps"],
+      "attributes": ["unique_identifier", "lineage", "board_position", "scope_level", "priority", "skill_progress_entries", "notes", "stage_timestamps", "scatter_from", "scatter_to", "stage_history"],
       "inherits": null
     },
     "BoardPosition": {

@@ -9,8 +9,12 @@
   --kb-ticket-text: #F4F4F5;
   --kb-ticket-border: #2A2A2A;
   --kb-ticket-accent: #E5531A;
-  --kb-scope-project: #E5531A;
-  --kb-scope-project-chip: #fb923c;
+  /* Super-parent project (shaping) */
+  --kb-scope-super: #ca8a04;
+  --kb-scope-super-chip: #facc15;
+  /* Module partition (discovery) — former project orange */
+  --kb-scope-partition: #E5531A;
+  --kb-scope-partition-chip: #fb923c;
   --kb-scope-increment: #8b7cf7;
   --kb-scope-increment-chip: #a89bf5;
   --kb-scope-sprint: #38bdf8;
@@ -77,6 +81,40 @@
   color: #E5531A;
 }
 
+.kb-lead-wake {
+  display: inline-flex;
+  border-radius: 50%;
+  transition: box-shadow 0.2s;
+}
+.kb-lead-wake:hover {
+  box-shadow: 0 0 0 2px rgba(229, 83, 26, 0.4);
+}
+.kb-lead-wake--scanning .kb-agent-avatar {
+  animation: agent-wiggle-cycle 1.8s ease-in-out infinite;
+}
+
+.kb-spawn-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 16px;
+  height: 16px;
+  margin-left: 6px;
+  padding: 0 4px;
+  border-radius: 8px;
+  background: #E5531A;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1;
+  vertical-align: middle;
+  animation: spawn-pulse 2s ease-in-out infinite;
+}
+@keyframes spawn-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
 /* Vertical divider between lead and role pool */
 .kb-pool-divider {
   width: 1px;
@@ -100,7 +138,7 @@
   gap: 4px;
 }
 
-/* ── Agent Avatar ────────────────────────────────────────────────────────────── */
+/* ── Agent Avatar (pool bar) ─────────────────────────────────────────────────── */
 .kb-agent-avatar {
   position: relative;       /* anchor the ::after color overlay */
   border-radius: 50%;
@@ -469,7 +507,7 @@
 }
 
 .kb-skill-icon--done {
-  color: #22C55E;
+  color: currentColor;
 }
 
 /* Bot and magnify icons inherit family color from parent row or ticket meta */
@@ -499,17 +537,41 @@
   font-size: 9px;
   font-weight: 600;
   line-height: 1.25;
-  transition: transform 0.55s cubic-bezier(0.34, 1.56, 0.64, 1),
-              opacity 0.45s ease,
-              border-color 0.2s ease;
+  position: relative;
+  transition: border-color 0.2s ease, box-shadow 0.35s ease;
 }
 
-/* Scope level — project (all), increment, sprint */
-.kb-ticket--scope-all {
-  border-left-color: var(--kb-scope-project);
+/* FLIP reposition — ticket glides from old slot; siblings shift to make room */
+.kb-ticket--flip {
+  pointer-events: none;
 }
-.kb-ticket--scope-all .kb-ticket-chip {
-  color: var(--kb-scope-project-chip);
+
+.kb-ticket--flip-far {
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kb-ticket--flip,
+  .kb-ticket--flip-far {
+    transition: none !important;
+    transform: none !important;
+    box-shadow: none !important;
+  }
+}
+
+/* Scope level — project, partition, increment, sprint */
+.kb-ticket--scope-project {
+  border-left-color: var(--kb-scope-super);
+}
+.kb-ticket--scope-project .kb-ticket-chip {
+  color: var(--kb-scope-super-chip);
+}
+
+.kb-ticket--scope-partition {
+  border-left-color: var(--kb-scope-partition);
+}
+.kb-ticket--scope-partition .kb-ticket-chip {
+  color: var(--kb-scope-partition-chip);
 }
 
 .kb-ticket--scope-increment {
@@ -547,15 +609,7 @@
   background: rgba(239, 68, 68, 0.06);
 }
 
-.kb-ticket--moving {
-  animation: ticket-slide 0.65s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-@keyframes ticket-slide {
-  0%   { transform: translateY(-14px) scale(0.95); opacity: 0.4; }
-  60%  { transform: translateY(2px) scale(1.03); }
-  100% { transform: translateY(0) scale(1); opacity: 1; }
-}
+/* Legacy entrance animation — superseded by FLIP in useFlipTicketAnimations */
 
 .kb-ticket-chip {
   font-family: var(--abd-mono);
@@ -622,6 +676,74 @@
   opacity: 0.85;
 }
 
+/* Ticket robot animations (not used on pool avatars) */
+@keyframes agent-grow-in {
+  0%   { transform: scale(0.15); opacity: 0.35; }
+  55%  { transform: scale(1.12); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes agent-shrink-out {
+  0%   { transform: scale(1); opacity: 1; }
+  45%  { transform: scale(0.2); opacity: 0.45; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes agent-wiggle-cycle {
+  0%, 38%, 62%, 100% {
+    transform: rotate(0deg) scale(1);
+  }
+  6%  { transform: rotate(-5deg) scale(1.06); }
+  12% { transform: rotate(5deg) scale(1.06); }
+  18% { transform: rotate(-3.5deg) scale(1.04); }
+  24% { transform: rotate(3.5deg) scale(1.04); }
+  30% { transform: rotate(-1.5deg) scale(1.02); }
+  34% { transform: rotate(0deg) scale(1); }
+  68% { transform: rotate(-4deg) scale(1.05); }
+  74% { transform: rotate(4deg) scale(1.05); }
+  80% { transform: rotate(-2deg) scale(1.02); }
+  86% { transform: rotate(2deg) scale(1.02); }
+  92% { transform: rotate(0deg) scale(1); }
+}
+
+/* Ticket-row live skill icon */
+.kb-live-skill-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transform-origin: center center;
+}
+
+.kb-live-skill-icon--inline {
+  margin-left: 0;
+}
+
+.kb-live-skill-icon--spawn {
+  animation: agent-grow-in 0.56s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.kb-live-skill-icon--despawn {
+  animation: agent-shrink-out 0.48s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.kb-live-skill-icon--working .kb-skill-icon--bot {
+  animation: agent-wiggle-cycle 3.6s ease-in-out infinite;
+  transform-origin: center center;
+}
+
+.kb-live-skill-icon--spawn .kb-skill-icon--bot,
+.kb-live-skill-icon--despawn .kb-skill-icon--bot {
+  animation: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kb-live-skill-icon--spawn,
+  .kb-live-skill-icon--despawn,
+  .kb-live-skill-icon--working .kb-skill-icon--bot {
+    animation: none !important;
+  }
+}
+
 /* Family color classes on the SVG icons */
 .kb-ticket-agent-icon .aad-fam-ddd { color: #6C5CE7; }
 .kb-ticket-agent-icon .aad-fam-uxd { color: #E84393; }
@@ -664,7 +786,8 @@
 .kb-ticket-skill-row {
   display: flex;
   align-items: center;
-  gap: 3px;
+  justify-content: space-between;
+  gap: 6px;
   font-family: var(--abd-mono);
   font-size: 7px;
   font-weight: 600;
@@ -685,14 +808,27 @@
   opacity: 1;
   background: color-mix(in srgb, var(--abd-surface) 70%, transparent);
   box-shadow: 0 0 0 1px color-mix(in srgb, currentColor 30%, transparent);
-  justify-content: space-between;
-}
-.kb-ticket-skill-row.is-active .kb-skill-icon {
-  margin-right: 0;
-  margin-left: auto;
-  flex-shrink: 0;
 }
 .kb-ticket-skill-row.is-pending { opacity: 1; }
+
+.kb-ticket-skill-label {
+  line-height: 1;
+  flex: 1;
+  min-width: 0;
+}
+
+.kb-ticket-skill-icons {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+.kb-ticket-skill-icons .kb-skill-icon,
+.kb-ticket-skill-icons .kb-live-skill-icon {
+  margin: 0;
+}
 
 /* family accent on active/done rows */
 .kb-ticket-skill-row.aad-fam-ddd { border-left-color: #6C5CE7; color: #6C5CE7; }
@@ -702,8 +838,6 @@
 .kb-ticket-skill-row.aad-fam-delivery { border-left-color: var(--abd-accent); color: var(--abd-accent); }
 .kb-ticket-skill-row.aad-fam-idea { border-left-color: #fdcb6e; color: #fdcb6e; }
 .kb-ticket-skill-row.aad-fam-ctm { border-left-color: #00B894; color: #00B894; }
-
-.kb-ticket-skill-label { line-height: 1; }
 
 /* ---- Count badge ---- */
 .kb-col-count {
@@ -744,5 +878,132 @@
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
+}
+
+.kanban-legend-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--abd-muted);
+  padding: 4px 8px;
+  border-radius: 4px;
+  background: var(--abd-raised);
+  border: 1px solid var(--abd-border);
+}
+
+.kanban-legend-swatch {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.kanban-legend-swatch--project { background: var(--kb-scope-super); }
+.kanban-legend-swatch--partition { background: var(--kb-scope-partition); }
+.kanban-legend-swatch--increment { background: var(--kb-scope-increment); }
+.kanban-legend-swatch--sprint { background: var(--kb-scope-sprint); }
+
+/* ── Board mode toggle ─────────────────────────────────────────────────────── */
+.kbd-board-mode-toggle {
+  margin-left: 1rem;
+}
+
+/* ── Draggable agent avatar ────────────────────────────────────────────────── */
+.kb-agent-avatar--draggable {
+  cursor: grab;
+}
+.kb-agent-avatar--draggable:active {
+  cursor: grabbing;
+  opacity: 0.6;
+}
+
+/* ── Ticket drop target highlight ──────────────────────────────────────────── */
+.kb-ticket--drop-target {
+  outline: 2px dashed var(--abd-accent, #4a9eff);
+  outline-offset: 2px;
+}
+
+.kb-ticket--draggable-ticket {
+  cursor: grab;
+}
+.kb-ticket--draggable-ticket:active {
+  cursor: grabbing;
+}
+
+.kb-sub-col-tickets--drop-target {
+  outline: 2px dashed var(--abd-accent, #4a9eff);
+  outline-offset: 4px;
+  border-radius: 4px;
+  min-height: 2.5rem;
+}
+
+.kb-sub-col--drop-target {
+  outline: 2px dashed var(--abd-accent, #4a9eff);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Pass drops through other tickets; keep source draggable until drag ends */
+.kb-board-outer--ticket-drag .kb-ticket:not(.kb-ticket--stage-drag-source) {
+  pointer-events: none;
+}
+
+.kb-sub-col-drop-hint {
+  font-size: 0.7rem;
+  color: var(--abd-muted, #888);
+  padding: 0.15rem 0.35rem;
+  text-align: center;
+}
+
+/* ── Pending assignment indicator ──────────────────────────────────────────── */
+.kb-ticket--pending-assignment {
+  animation: kb-pending-pulse 1.5s ease-in-out;
+}
+@keyframes kb-pending-pulse {
+  0%, 100% { box-shadow: none; }
+  50% { box-shadow: 0 0 0 3px var(--abd-accent, #4a9eff); }
+}
+
+/* ── Drop rejection message ────────────────────────────────────────────────── */
+.kb-drop-rejection {
+  position: absolute;
+  top: -24px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--abd-error, #e74c3c);
+  color: white;
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+  animation: kb-rejection-fade 2s forwards;
+  pointer-events: none;
+  z-index: 100;
+}
+@keyframes kb-rejection-fade {
+  0% { opacity: 1; }
+  70% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* ── Rework icon ───────────────────────────────────────────────────────────── */
+.kb-skill-icon--rework {
+  color: currentColor;
+}
+
+.kb-skill-icon--pending-intent {
+  color: currentColor;
+  animation: kb-pending-intent-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes kb-pending-intent-pulse {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+/* ── Movement indicator for in-progress tickets ────────────────────────────── */
+.kb-ticket--in-progress-active {
+  border-left: 3px solid var(--abd-accent, #4a9eff);
 }
 

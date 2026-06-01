@@ -7,7 +7,9 @@ import {
 } from '@deliveryforge/delivery-board-client';
 import { HomePage } from './pages/HomePage';
 
-const DEFAULT_ROOT = import.meta.env.VITE_PLANNING_ROOT ?? 'C:/dev/abd-pet-store-demo/docs/planning';
+const DEFAULT_ROOT =
+  import.meta.env.VITE_PLANNING_ROOT ??
+  'C:/dev/agilebydesign-skills/practices/kanban/apps/abd-delivery-agent-kanban/tests/e2e/data/pawplace-mini/docs/planning';
 
 function BoardPage() {
   const [planningRoot, setPlanningRoot] = useState(() => localStorage.getItem('planningRoot') ?? DEFAULT_ROOT);
@@ -16,7 +18,7 @@ function BoardPage() {
   const [theme, setTheme] = useState<'engineering' | 'executive'>(() =>
     (localStorage.getItem('theme') as 'engineering' | 'executive') ?? 'engineering',
   );
-  const { snapshot, error, loading, movedTickets, refresh, injectSnapshot } = useDeliveryBoardPoll(planningRoot);
+  const { snapshot, error, loading, refresh, injectSnapshot } = useDeliveryBoardPoll(planningRoot);
 
   function toggleTheme(mode: 'engineering' | 'executive') {
     document.documentElement.setAttribute('data-theme', mode);
@@ -80,8 +82,8 @@ function BoardPage() {
       {snapshot ? (
         <DeliveryKanbanBoard
           snapshot={snapshot}
-          movedTickets={movedTickets}
           onTeamUpdate={injectSnapshot}
+          onModeToggle={injectSnapshot}
         />
       ) : null}
     </div>

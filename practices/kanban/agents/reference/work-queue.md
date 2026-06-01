@@ -36,11 +36,9 @@ After finishing work — or on first turn — or on every pull-loop tick:
 2. Load stage order from `kanban.json` → `definitions.<stage_configuration>.stages[]` (or `definitions` entry matching `board.json` / war room config). Scan stages **in reverse array order** (last stage = downstream = scan first).
 
 3. For each stage, for each **active** ticket where `ticket.stage` matches that stage name, walk that stage's `stage_work_required` in order. Find the **next** skill where:
-   - All prior skills have `execution_status: done` **AND** `review_status: done` (or conditional skip).
+   - All prior skills have `execution_status: done` **AND** `review_status: done`.
    - That skill's `role` matches your `delivery-role`.
    - No claim yet, or `execution_status` is `not_started`.
-
-   **Conditional skills** — assess skip vs run before claiming ([Conditional skills](#conditional-skills)).
 
 4. **Pick one claim:** downstream stage wins; within a stage, lowest `priority` ticket wins.
 
@@ -62,10 +60,11 @@ After marking a skill done (or on bootstrap when no work is found):
    {"event":"agent_ready","timestamp":"<ISO 8601>","agent_role":"<your-role>","reason":"no_eligible_skill_on_active_tickets"}
    ```
 
-2. Update `docs/planning/delivery-war-room/heartbeat-<your-role>.json`:
+2. Update heartbeat via `board_skill.py ready` (preferred) or write `heartbeat-<role>[-N].json` with `status: ready`.
 
-   ```json
-   {"agent_role":"<your-role>","ts":"<ISO 8601>","status":"ready"}
+   ```bash
+   python practices/kanban/skills/abd-kanban/scripts/board_skill.py ready \
+     --workspace <workspace> --role <your-role> [--instance N]
    ```
 
 3. Announce in chat: **`<role> ready — no eligible skill on active tickets; polling board (downstream first).`**
@@ -112,29 +111,23 @@ Both execution and review are marked done in one update. The next skill's agent 
 
 Then pull next eligible skill.
 
-## Conditional skills
+## Architecture skills
 
-Some stage skills are **listed on every ticket** but run **only when scope needs them**. Do not leave them `not_started` indefinitely — assess at claim time, then either execute or skip.
+`abd-architecture-template` and `abd-architecture-reference` are **always eligible** when prior skills are done — same as any stage skill. Kanban never auto-skips them; the **skill run** decides quick vs long pass.
 
-| Skill | Stage | Run when | Skip when |
-| --- | --- | --- | --- |
-| `abd-architecture-template` | exploration | Increment needs **new** mechanism sections not in `docs/increments/<n>-<slug>/exploration/architecture/architecture-template.md` | All mechanisms documented — assign existing; skip |
-| `abd-architecture-reference` | specification | Sprint needs **new** reference or **missing** code per inventory | Reference + code exist — update `docs/increments/<n>-<slug>/specification/architecture-reference-assignment.md` only; skip |
+**On every claim:**
 
-**Skip protocol:**
+1. Read mechanisms in scope from the ticket's **architecture blueprint** (and AC / UL as needed).
+2. Check existing reference sections and `docs/planning/delivery-war-room/mechanism-registry.json`.
+3. **Quick pass** — every mechanism already documented → emit the **mapping document only** (template assignment table or `architecture-reference-assignment.md`), mark skill done.
+4. **Long pass** — one or more mechanisms missing → create only gaps; update the registry for new **create** rows; emit the mapping document.
 
-1. List mechanisms from AC, UL, `docs/end-to-end/discovery/architecture/architecture-blueprint.md`.
-2. Discover existing sections in `docs/increments/<n>-<slug>/exploration/{domain,stories,ux,architecture}/` or `docs/end-to-end/exploration/` subfolders as appropriate.
-3. If **all** mechanisms are satisfied by assign → skip execution.
-4. Update `skill_progress` for that skill:
-   - `execution_status: done`, `review_status: done`
-   - `agent` / `reviewer`: your role
-   - `notes`: `"skipped — mechanisms already documented for scope"` (or list assign paths)
-5. Proceed to the next skill in stage order.
+| Skill | Mapping artifact | Registry update |
+| --- | --- | --- |
+| `abd-architecture-template` | Mechanism assignments table (assign \| create per mechanism) | After each **create** row |
+| `abd-architecture-reference` | `docs/increments/<ticket>/…/architecture-reference-assignment.md` | After each new reference section |
 
-If **any** mechanism needs create → run `abd-architecture-template` normally (create only missing sections).
-
-For **`abd-architecture-reference`**, before starting: list mechanisms from CRC/spec; check reference sections and File Structure paths on disk. If reference **assign** and code **assign** for all → skip with assignment table path in notes. If reference exists but code missing → run and create **code only**. If reference missing → run template first or create reference section, then code.
+Full workflow: each skill's `reference/concepts.md`.
 
 ## Rework
 

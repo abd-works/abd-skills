@@ -16,7 +16,7 @@
 | Discovery | increment | domain-terms, architecture-blueprint |
 | Exploration | increment | ubiquitous-language, acceptance-criteria (regulatory values, not placeholders), architecture-template |
 | Specification | sprint | CRC, spec-by-example (real regulatory values) |
-| Engineering | sprint | object-model, ATDD (tests = proof bundle), clean-code |
+| Engineering | sprint | object-model (BE), ATDD (PO, tests = proof bundle), clean-code (EN) |
 
 ---
 

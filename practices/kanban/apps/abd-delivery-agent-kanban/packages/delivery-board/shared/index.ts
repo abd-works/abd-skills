@@ -5,6 +5,8 @@ export type {
   Ticket,
   SkillProgress,
   KanbanBoard,
+  BoardMode,
+  ActionIntent,
   StageSkill,
   TicketView,
   KanbanColumnView,
@@ -29,17 +31,21 @@ export {
   DEFAULT_TEAM,
   parseKanbanBoard,
   resolvePlanningPaths,
+  engagementWorkspaceFromPlanningRoot,
   buildColumnViews,
   buildArchivedViews,
   boardEtag,
+  applyPendingIntents,
   KanbanBoardSchema,
   TicketSchema,
   SkillProgressSchema,
   normalizeStage,
   isSkillComplete,
   isStageSkillsComplete,
+  ticketAwaitingScatter,
   resolveArchivedStageDone,
   buildStageBuckets,
+  applyResumeTicketInProgress,
   buildGlobalBacklogTickets,
   buildArchivedColumnTickets,
   isScatterParent,
@@ -59,11 +65,25 @@ export {
   parseHeartbeatFileName,
   buildHeartbeatSlots,
   HEARTBEAT_STALE_SECS,
+  HEARTBEAT_STALE_LEAD_SECS,
   skillRowDisplayState,
   ticketShowsLiveSkillIcon,
   scopeLevelCssClass,
+  SCOPE_LEVEL_LABELS,
   type SkillRowDisplayState,
 } from './kanbanBoard';
+
+export {
+  applyMoveTicketToStage,
+  scatterRequiredForJump,
+  type MoveTicketOptions,
+} from './moveTicketToStage';
+export {
+  applyScatterAndAdvance,
+  scatterBoundaryOnPath,
+  type MoveTicketPlacement,
+  type ScatterChildSpec,
+} from './scatterOnMove';
 
 export { KanbanBoardLoader } from './KanbanBoardLoader';
 export { buildStageSkillRails, activeStagesFromConfig, resolveTeamFromConfig } from './parseSystemOfWork';

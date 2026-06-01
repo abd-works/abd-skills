@@ -251,6 +251,14 @@ After roll-up, **`docs/end-to-end/<stage>/`** is authoritative for the whole sol
   board.json · kanban.json · metrics-log.jsonl · INSTRUCTIONS.md · heartbeat-*.json
 ```
 
+**Handoffs** (`abd-kanban-handoff` / `/abd-kanban-handoff`):
+
+```text
+<workspace>/docs/planning/handoffs/
+  handoff-latest.md
+  handoff-abd-kanban-<slug>-<YYYY-MM-DD>.md
+```
+
 ---
 
 ## Agent checklist (before write)

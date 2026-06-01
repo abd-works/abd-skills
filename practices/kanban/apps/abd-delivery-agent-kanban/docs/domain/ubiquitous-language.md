@@ -17,14 +17,18 @@ Scope: How delivery work is modeled and tracked: the kanban board with its order
   - **skill progress** — the per-skill execution and review state created on a ticket when an agent starts work
   - **stage** — a named phase of delivery work: context, shaping, discovery, exploration, specification, or engineering; a column on the board holding a queue, in-progress, and done tickets
   - **stage work required** — the ordered list of skills required by a stage
-- **Agent**
+  - **board mode** — a setting on the kanban board that determines whether the kanban lead acts automatically or waits for user-directed action intents (manual mode)
+  - **action intent** — a record written to the action state file by the app when the Delivery Lead assigns a team member agent to a ticket in manual mode
+  - **action state file** — the file the app writes action intents to and the kanban lead watches for changes; lives alongside board.json in the kanban directory
+- **Agent and Skills**
   - **skill** — a named practice method (e.g. abd-ubiquitous-language, abd-clean-code) that an agent executes on a ticket at a stage
   - **agent** — an autonomous worker with a delivery role and a work role (executor or reviewer) that starts work on skills for active tickets
   - **heartbeat** — a timestamp written by each agent recording last activity; age determines liveness
+  - **team member agent** — an agent operating in one of the four delivery roles that the kanban lead delegates skill execution to; distinguished from the kanban lead which orchestrates but does not execute skills
 
 ---
 
-_The *kanban board* defines ordered *stages* — each with a *scope level* and *skills* — and runs them live with *tickets* flowing through *stages*. A *ticket* has a *board position* — the *stage* it occupies. When all skill work at a stage is done a ticket waits in stage done; a team member with the first skill of the next stage picks it up to advance it — or it scatters into child tickets if the next stage has finer scope. *Agent roles* pull skill work from tickets. The board is acted upon by a *team*. *Heartbeats* track whether each *agent role* is alive._
+_The *kanban board* defines ordered *stages* — each with a *scope level* and *skills* — and runs them live with *tickets* flowing through *stages*. A *ticket* has a *board position* — the *stage* it occupies. When all skill work at a stage is done a ticket waits in stage done; a team member with the first skill of the next stage picks it up to advance it — or it scatters into child tickets if the next stage has finer scope. *Agent roles* pull skill work from tickets. The board is acted upon by a *team*. *Heartbeats* track whether each *agent role* is alive. The board has a *board mode* — automatic or manual — that determines whether the *kanban lead* acts autonomously or waits for *action intents* written to the *action state file* by the *app* when the Delivery Lead assigns a *team member agent* to a *ticket*._
 
 ---
 
@@ -32,7 +36,7 @@ _The *kanban board* defines ordered *stages* — each with a *scope level* and *
 
 ## Kanban Board
 
-The *kanban board* defines an ordered set of *stages* — each with a *scope level* and *skills* — and runs them live with *tickets* flowing through *stages*, each holding its tickets in-progress and done. A *ticket's* *board position* — which *stage* and whether in progress or done — is derived from its *skill progress*. When a *ticket* completes a *stage* it waits in the stage-done state. A *team* member who possesses the first *skill* of the next *stage* then picks it up, advancing the *ticket* to that *stage*; if the next *stage* has a finer *scope level* the *ticket* *scatters* into child *tickets*, each entering the backlog and waiting to be picked up. The board is acted upon by a *team* — the number of executor/reviewer pairs per *agent role*.
+The *kanban board* defines an ordered set of *stages* — each with a *scope level* and *skills* — and runs them live with *tickets* flowing through *stages*, each holding its tickets in-progress and done. A *ticket's* *board position* — which *stage* and whether in progress or done — is derived from its *skill progress*. When a *ticket* completes a *stage* it waits in the stage-done state. A *team* member who possesses the first *skill* of the next *stage* then picks it up, advancing the *ticket* to that *stage*; if the next *stage* has a finer *scope level* the *ticket* *scatters* into child *tickets*, each entering the backlog and waiting to be picked up. The board is acted upon by a *team* — the number of executor/reviewer pairs per *agent role*. The board carries a *board mode* — automatic or manual. In *manual mode* the *kanban lead* suppresses automatic pull, scatter, and advance actions and instead watches the *action state file* for *action intents* that direct it to delegate *skill* execution to a specific *team member agent*.
 
 ### kanban board
 
@@ -127,11 +131,38 @@ The *kanban board* defines an ordered set of *stages* — each with a *scope lev
 - **Invariant:** pair counts must be non-negative integers
 - **Invariant:** defaults to one executor and one reviewer per *agent role* when not explicitly configured
 
+### board mode
+
+- is a setting on the *kanban board* that determines whether the *kanban lead* acts automatically or waits for user-directed *action intents*
+- defaults to automatic — the *kanban lead* pulls, scatters, and advances *tickets* without intervention
+- when set to manual, suppresses all automatic *kanban lead* actions — pull, scatter, and advance wait for explicit *action intents*
+- persists as part of the *kanban board* configuration alongside *stages* and *team*
+- **Invariant:** the *kanban board* is always in exactly one *board mode* — automatic or manual — never both or neither
+
+### action intent
+
+- is a record written to the *action state file* by the *app* when the Delivery Lead assigns a *team member agent* to a *ticket* in *manual mode*
+- specifies which *skill* to execute on which *ticket* and which *team member agent* should perform the work
+- is consumed by the *kanban lead* when it detects a change in the *action state file*
+- triggers the *kanban lead* to delegate *skill* execution to the named *team member agent*
+- **Invariant:** an *action intent* is only written when the *kanban board* is in *manual mode*
+- **Invariant:** the specified *skill* must be one required by the *ticket's* current *stage*
+
+### action state file
+
+- is the file the *app* writes *action intents* to and the *kanban lead* watches for changes
+- lives alongside board.json in the kanban directory
+- is the communication channel between the *app* (writing) and the *kanban lead* (reading)
+- is watched by the *kanban lead* for changes that signal new *action intents* to process
+- **Invariant:** only the *app* writes to the *action state file*; only the *kanban lead* reads from it
+
 #### Decisions made
 
 - *Stage*, *ticket*, *board position*, *skill progress*, *stage work required*, and *team* all belong here — none has meaning outside the *kanban board* (independence test).
 - *Scatter* is an operation on *ticket*, not a standalone concept — its mechanics and invariant live on the *ticket* block (typing call).
 - Individual stage names are instances of *stage*, not subtypes (typing call).
+- *Board mode*, *action intent*, and *action state file* belong here — they govern how the *kanban board* operates and have no meaning outside it (independence test).
+- *Board mode* is a setting on the *kanban board*, not a separate concept or subtype — automatic and manual are values, not types (typing call).
 
 #### References
 
@@ -159,7 +190,7 @@ Extract: whole
 
 ## Agent and Skills
 
-*A skill* is a named practice method (e.g. `abd-ubiquitous-language`, `abd-clean-code`) that an *agent* executes on a *ticket* at a *stage*. An *agent* is an autonomous executor that can perform skills and drives them to done. Every *agent* operates under an *agent role* — one of four delivery roles — which determines which *skills* it can start work on. *Agents* report liveness via *heartbeats*; *heartbeat* age determines whether an *agent* is alive or stale.
+*A skill* is a named practice method (e.g. `abd-ubiquitous-language`, `abd-clean-code`) that an *agent* executes on a *ticket* at a *stage*. An *agent* is an autonomous executor that can perform skills and drives them to done. Every *agent* operates under an *agent role* — one of four delivery roles — which determines which *skills* it can start work on. *Agents* report liveness via *heartbeats*; *heartbeat* age determines whether an *agent* is alive or stale. A *team member agent* is an *agent* operating in one of the four delivery roles that the *kanban lead* delegates *skill* execution to in *manual mode*; distinguished from the *kanban lead* which orchestrates but does not execute *skills*.
 
 ### skill
 
@@ -192,6 +223,19 @@ Extract: whole
 - detects when a *stage* is complete and triggers *scatter* when needed
 - monitors *heartbeats* to determine which *agents* are alive
 - pulls *tickets* from the backlog into the first *stage*
+- reads *board mode* setting before acting — in *manual mode*, suppresses automatic pull, scatter, and advance actions
+- watches the *action state file* for changes written by the *app*
+- delegates *skill* execution to the appropriate *team member agent* based on *action intents*
+
+### team member agent
+
+- is an *agent* operating in one of the four delivery roles (product-owner, business-expert, ux-designer, engineer) that the *kanban lead* delegates *skill* execution to
+- executes a single assigned *skill* on a *ticket* when directed by the *kanban lead* via an *action intent*
+- advances the *ticket* to in progress when it starts executing its first *skill*
+- persists *skill* completion to the board state upon finishing execution
+- completes the *ticket* when all *skills* at its current *stage* are finished
+- is distinguished from the *kanban lead* which orchestrates but does not execute *skills*
+- **Invariant:** a *team member agent* only executes *skills* that match its delivery role
 
 #### Decisions made
 
@@ -199,6 +243,7 @@ Extract: whole
 - *Heartbeat* belongs here — it exists to report *agent* liveness and has no meaning outside *agent* monitoring (independence test). Age and liveness determination are properties of the *heartbeat*, not a separate concept.
 - Individual role names are instances of the role property on *agent*, not subtypes (typing call).
 - *Kanban lead* orchestrates the board but its full behavior belongs to the Kanban Lead module (scope-fit test).
+- *Team member agent* belongs here — it is an *agent* distinguished by its relationship to the *kanban lead* and *action intents*, not a separate type; the four delivery roles remain instances of the role property (typing call).
 
 #### References
 

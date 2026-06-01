@@ -39,6 +39,7 @@ export class KanbanBoardLoader {
       boardTitle,
       syncedAt: board.synced_at ?? null,
       stageFlow,
+      board_mode: board.board_mode,
       board,
       columnViews: buildColumnViews(board),
       archivedTickets: buildArchivedViews(board),
@@ -48,6 +49,7 @@ export class KanbanBoardLoader {
       team: resolveTeamFromConfig(kanbanConfig, defName, board.team),
       heartbeats: {},
       heartbeatSlots: {},
+      pendingIntents: [],
     };
   }
 }

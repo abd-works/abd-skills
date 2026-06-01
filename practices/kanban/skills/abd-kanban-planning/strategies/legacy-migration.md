@@ -12,11 +12,16 @@
 
 | Stage | Scope | Skills (ordered) |
 | --- | --- | --- |
-| Shaping | all | module-partition, story-mapping (from existing system), thin-slicing |
-| Discovery | increment | domain-terms, architecture-blueprint |
-| Exploration | increment | ubiquitous-language, acceptance-criteria, architecture-template |
-| Specification | sprint | spec-by-example (concrete legacy values) |
-| Engineering | sprint | ATDD (tests pass on OLD system first), clean-code (new implementation) |
+| Context (optional) | all | convert-to-markdown, semantic-context-chunker, chunk-markdown, embed-vectors |
+| Shaping | all | module-partition, architecture-outline, story-mapping (from existing system), thin-slicing |
+| Discovery | increment | domain-terms, architecture-blueprint, information-architecture (optional) |
+| Exploration | increment | ubiquitous-language, acceptance-criteria (legacy behavior is spec), ux-mockup (optional), architecture-template (conditional — skip when mechanisms exist) |
+| Specification | sprint | CRC, spec-by-example (concrete legacy values), interface-design (optional), architecture-reference (conditional) |
+| Engineering | sprint | object-model (BE), ATDD (PO, tests pass on OLD system first), clean-code (EN, new implementation) |
+
+### Context stage (when to include)
+
+Include context stage when legacy material is in non-markdown formats (PDF, PPTX, DOCX, runbooks), there are many files to index, or agents need RAG during later stages. Skip when the codebase and existing tests are the only sources and are already readable.
 
 ---
 

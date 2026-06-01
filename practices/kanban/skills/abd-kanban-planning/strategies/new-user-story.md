@@ -14,7 +14,7 @@
 | --- | --- | --- |
 | Exploration | story | ubiquitous-language, acceptance-criteria |
 | Specification | story | CRC, spec-by-example |
-| Engineering | story | object-model, ATDD, clean-code |
+| Engineering | story | object-model (BE), ATDD (PO), clean-code (EN) |
 
 **No shaping or discovery.** Map, slices, and domain model already exist. Jump directly to exploration at story scope.
 

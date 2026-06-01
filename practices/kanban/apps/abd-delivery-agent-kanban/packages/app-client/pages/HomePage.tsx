@@ -18,7 +18,7 @@ export function HomePage() {
       <nav className="home-links">
         <Link to="/board" className="home-cta">Open live board</Link>
         <p className="hint">
-          Default planning folder: <code>C:/dev/abd-pet-store-demo/docs/planning</code>
+          Default planning folder: <code>tests/e2e/data/pawplace-mini/docs/planning</code>
         </p>
       </nav>
     </div>

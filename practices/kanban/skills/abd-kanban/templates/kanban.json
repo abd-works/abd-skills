@@ -74,8 +74,8 @@
           "scope": "sprint",
           "stage_work_required": [
             { "skill": "abd-interface-design", "role": "ux-designer" },
-            { "skill": "abd-object-model", "role": "engineer" },
-            { "skill": "abd-acceptance-test-driven-development", "role": "engineer" },
+            { "skill": "abd-object-model", "role": "business-expert" },
+            { "skill": "abd-acceptance-test-driven-development", "role": "product-owner" },
             { "skill": "abd-clean-code", "role": "engineer" }
           ]
         }
@@ -151,8 +151,8 @@
           "name": "engineering",
           "scope": "sprint",
           "stage_work_required": [
-            { "skill": "abd-object-model", "role": "engineer" },
-            { "skill": "abd-acceptance-test-driven-development", "role": "engineer" },
+            { "skill": "abd-object-model", "role": "business-expert" },
+            { "skill": "abd-acceptance-test-driven-development", "role": "product-owner" },
             { "skill": "abd-clean-code", "role": "engineer" }
           ]
         }

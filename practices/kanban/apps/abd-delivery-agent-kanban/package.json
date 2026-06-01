@@ -13,6 +13,7 @@
     "dev:client": "vite packages/app-client",
     "dev": "concurrently \"npm run dev:api\" \"npm run dev:client\"",
     "test": "vitest run",
+    "test:e2e": "playwright test",
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {

@@ -16,7 +16,7 @@
 | Discovery | increment | domain-terms, architecture-blueprint, information-architecture |
 | Exploration | increment | ubiquitous-language, acceptance-criteria, ux-mockup, architecture-template |
 | Specification | sprint | CRC, spec-by-example, interface-design, architecture-reference |
-| Engineering | sprint | interface-design, object-model, ATDD, clean-code |
+| Engineering | sprint | interface-design (UX), object-model (BE), ATDD (PO), clean-code (EN) |
 
 ---
 

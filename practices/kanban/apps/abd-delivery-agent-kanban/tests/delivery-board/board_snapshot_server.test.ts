@@ -122,7 +122,7 @@ describe('Stage bucket mapping', () => {
   }
 
   it.skipIf(!boardExists || !kanbanExists)(
-    'idle-active tickets appear in feeds-next, live work only in IP',
+    'idle-active tickets with incomplete skills appear in IP, not Done feeds-next',
     () => {
       const snapshot = loadSnapshot();
       const buckets = buildStageBuckets(
@@ -135,16 +135,23 @@ describe('Stage bucket mapping', () => {
         const bucket = buckets.get(stage);
         if (!bucket) continue;
         for (const t of bucket.feedsNext) {
-          expect(ticketHasLiveAgentWork(t)).toBe(false);
+          expect(t.column).toBe('backlog');
         }
         for (const t of bucket.ip) {
-          expect(ticketHasLiveAgentWork(t)).toBe(true);
+          if (t.column === 'active' && !ticketHasLiveAgentWork(t)) {
+            const skillIds =
+              snapshot.stageSkillRails.find((r) => r.stage === stage)?.skills.map((s) => s.skillId) ??
+              [];
+            expect(t.doneSkillIds.length).toBeLessThan(skillIds.length);
+          }
         }
       }
 
       const eng = buckets.get('engineering')!;
-      const idleEngIds = [...eng.feedsNext, ...eng.done].map((t) => t.ticketId);
-      expect(idleEngIds.length).toBeGreaterThan(0);
+      const idleActiveEng = eng.ip.filter(
+        (t) => t.column === 'active' && !ticketHasLiveAgentWork(t),
+      );
+      expect(idleActiveEng.length).toBeGreaterThan(0);
     },
   );
 
@@ -236,22 +243,22 @@ describe('Stage bucket mapping', () => {
   );
 
   it.skipIf(!boardExists || !kanbanExists)(
-    'focus skill advances to next incomplete skill on queued engineering ticket',
+    'focus skill advances to next incomplete skill on idle active engineering ticket',
     () => {
       const snapshot = loadSnapshot();
-      const engFeedsNext = buildStageBuckets(
+      const engIp = buildStageBuckets(
         snapshot.columnViews,
         snapshot.archivedTickets,
         snapshot.stageSkillRails,
       )
         .get('engineering')!
-        .feedsNext.filter((t) => t.doneSkillIds.length > 0);
-      expect(engFeedsNext.length).toBeGreaterThan(0);
-      const queued = engFeedsNext[0]!;
+        .ip.filter((t) => t.column === 'active' && t.doneSkillIds.length > 0);
+      expect(engIp.length).toBeGreaterThan(0);
+      const queued = engIp[0]!;
       const engSkills =
         snapshot.stageSkillRails.find((r) => r.stage === 'engineering')!.skills.map((s) => s.skillId);
 
-      const focus = resolveFocusSkillId(queued, engSkills, 'feeds-next');
+      const focus = resolveFocusSkillId(queued, engSkills, 'ip');
       expect(focus).not.toBeNull();
       expect(engSkills).toContain(focus!);
 
@@ -262,32 +269,17 @@ describe('Stage bucket mapping', () => {
   );
 
   it.skipIf(!boardExists || !kanbanExists)(
-    'queued active tickets do not show collapsed-card display focus',
+    'idle active engineering tickets sit in IP sub-column',
     () => {
       const snapshot = loadSnapshot();
-      const engRail = snapshot.stageSkillRails.find((r) => r.stage === 'engineering')!;
-      const engPeers =
-        snapshot.columnViews.find((c) => c.id === 'active')?.tickets.filter(
-          (t) => t.stage === 'engineering',
-        ) ?? [];
-
-      const engFeedsNext = buildStageBuckets(
+      const engIp = buildStageBuckets(
         snapshot.columnViews,
         snapshot.archivedTickets,
         snapshot.stageSkillRails,
       )
         .get('engineering')!
-        .feedsNext.filter((t) => !t.activeSkillId && !t.reviewSkillId);
-      expect(engFeedsNext.length).toBeGreaterThan(0);
-      const queued = engFeedsNext[0]!;
-      const focus = resolveDisplayFocusSkillId(
-        queued,
-        engRail.skills,
-        'feeds-next',
-        engPeers,
-        snapshot.team!,
-      );
-      expect(focus).toBeNull();
+        .ip.filter((t) => t.column === 'active' && !t.activeSkillId && !t.reviewSkillId);
+      expect(engIp.length).toBeGreaterThan(0);
     },
   );
 

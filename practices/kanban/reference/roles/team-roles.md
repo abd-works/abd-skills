@@ -16,8 +16,8 @@ Four **executor roles** run delivery slots. Four bootcamp **families** organize 
 
 | Skill | Package family | Executor role |
 | --- | --- | --- |
-| `abd-acceptance-test-driven-development` | Story-driven delivery | **Engineer** |
-| `abd-object-model` | Domain-driven design | **Engineer** (Business Expert reviews) |
+| `abd-acceptance-test-driven-development` | Story-driven delivery | **Product Owner** |
+| `abd-object-model` | Domain-driven design | **Business Expert** |
 
 Assign **`team-role`** and **`slot_type`** per slot from [stages/](../stages/) — not from package folder alone. Reviewer slots use the **executor role** under review plus `slot_type: reviewer`.
 
@@ -49,8 +49,9 @@ What each role **runs** in delivery slots. Package path shown when it differs fr
 | `drawio-story-sync` | Discovery, Exploration | story-driven delivery | After thin-slicing; exploration diagrams |
 | `abd-acceptance-criteria` | Exploration | story-driven delivery | After ubiquitous language |
 | `abd-specification-by-example` | Specification | story-driven delivery | After CRC; outline tables use CRC concepts |
+| `abd-acceptance-test-driven-development` | Engineering | story-driven delivery | Failing tests from scenarios — RED before clean code |
 
-Stage detail: [shaping](../stages/shaping.md) · [discovery](../stages/discovery.md) · [exploration](../stages/exploration.md) · [specification](../stages/specification.md)
+Stage detail: [shaping](../stages/shaping.md) · [discovery](../stages/discovery.md) · [exploration](../stages/exploration.md) · [specification](../stages/specification.md) · [engineering](../stages/engineering.md)
 
 ---
 
@@ -64,7 +65,7 @@ Stage detail: [shaping](../stages/shaping.md) · [discovery](../stages/discovery
 | `drawio-domain-sync` | Discovery, Exploration | domain-driven design | Optional diagrams |
 | `abd-ubiquitous-language` | Exploration | domain-driven design | **Before** AC |
 | `abd-class-responsibility-collaborator` | Specification | domain-driven design | **Before** spec-by-example |
-| **`abd-object-model` review** | Engineering | domain-driven design | Checkpoint only — Engineer produces |
+| `abd-object-model` | Engineering | domain-driven design | Typed domain surface; aligns with CRC / UL |
 
 Stage detail: [shaping](../stages/shaping.md) · [discovery](../stages/discovery.md) · [exploration](../stages/exploration.md) · [specification](../stages/specification.md) · [engineering](../stages/engineering.md)
 
@@ -94,12 +95,10 @@ Stage detail: [shaping](../stages/shaping.md) · [discovery](../stages/discovery
 | `abd-architecture-template` | Exploration | architecture-centric engineering | Mechanism templates when scope needs new mechanisms |
 | `abd-architecture-reference` | Specification | architecture-centric engineering | Deep reference for code and tests |
 | `abd-interface-design` | — | user experience design | **Not Engineer** — UX Designer (implementation pass) |
-| `abd-object-model` | Engineering | domain-driven design | Typed domain surface; BE reviews |
-| `abd-acceptance-test-driven-development` | Engineering | **story-driven delivery** | Failing tests from scenarios — RED before clean code |
 | `abd-clean-code` | Engineering | architecture-centric engineering | Production code to pass tests |
 | `mern-technical-architecture`, `hero-vtt-technical-architecture`, … | Engineering | architecture-centric engineering | Stack skill paired with ATDD and clean code |
 
-**Engineering pass order:** `abd-interface-design` impl (UX) → object model → ATDD → clean code (+ stack). Engineer runs steps 2–4.
+**Engineering pass order:** `abd-interface-design` impl (UX) → object model (BE) → ATDD (PO) → clean code + stack (Engineer).
 
 Stage detail: [engineering](../stages/engineering.md)
 
@@ -123,7 +122,7 @@ Open the matching `*-reviewer` agent (e.g. `product-owner-reviewer` after a PO e
 | **Discovery** | domain terms → UL → domain diagram (opt) → story map (full) → IA → blueprint → SLOs (opt) → thin slicing → story diagram |
 | **Exploration** | ubiquitous language → domain diagram (opt) → AC → story diagram (opt) → UX mockup → architecture template |
 | **Specification** | CRC → spec-by-example → walkthrough → interface design (spec pass) → architecture reference |
-| **Engineering** | interface design (impl, UX) → object model (Engineer) → ATDD (Engineer) → clean code + stack (Engineer) |
+| **Engineering** | interface design (impl, UX) → object model (BE) → ATDD (PO) → clean code + stack (Engineer) |
 
 Stage index: [stages/README.md](../stages/README.md)
 

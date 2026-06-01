@@ -17,7 +17,7 @@
 | Discovery | increment | domain-terms, architecture-blueprint, information-architecture (optional) |
 | Exploration | increment | ubiquitous-language, acceptance-criteria, ux-mockup (optional), architecture-template (conditional — skip when mechanisms exist) |
 | Specification | sprint | CRC (optional), spec-by-example |
-| Engineering | sprint | object-model (optional), ATDD, clean-code / stack skill |
+| Engineering | sprint | object-model (BE, optional), ATDD (PO), clean-code / stack skill (EN) |
 
 ### Context stage (when to include)
 
@@ -83,21 +83,21 @@ Include context stage when source material is in non-markdown formats (PDF, PPTX
 
 ## Terminal artifacts
 
-| Artifact | Skill | Stage |
-| --- | --- | --- |
-| Module partition | abd-module-partition | shaping |
-| Architecture outline | abd-architecture-outline | shaping |
-| Story map + graph | abd-story-mapping | shaping |
-| Thin slices | abd-thin-slicing | shaping |
-| Domain terms | abd-domain-terms | discovery |
-| Ubiquitous language | abd-ubiquitous-language | exploration |
-| Architecture blueprint | abd-architecture-blueprint | discovery |
-| Information architecture (opt) | abd-information-architecture | discovery |
-| AC | abd-acceptance-criteria | exploration |
-| UX mockup (opt) | abd-ux-mockup | exploration |
-| Architecture template (conditional) | abd-architecture-template | exploration — skip when all increment mechanisms already documented |
-| CRC cards (opt) | abd-class-responsibility-collaborator | specification |
-| Spec-by-example | abd-specification-by-example | specification |
-| Object model (opt) | abd-object-model | engineering |
-| Characterization / change tests | abd-acceptance-test-driven-development | engineering |
-| Production code (change slices) | abd-clean-code / stack skill | engineering |
+| Artifact | Skill | Stage | Role |
+| --- | --- | --- | --- |
+| Module partition | abd-module-partition | shaping | — |
+| Architecture outline | abd-architecture-outline | shaping | — |
+| Story map + graph | abd-story-mapping | shaping | — |
+| Thin slices | abd-thin-slicing | shaping | — |
+| Domain terms | abd-domain-terms | discovery | — |
+| Ubiquitous language | abd-ubiquitous-language | exploration | — |
+| Architecture blueprint | abd-architecture-blueprint | discovery | — |
+| Information architecture (opt) | abd-information-architecture | discovery | — |
+| AC | abd-acceptance-criteria | exploration | — |
+| UX mockup (opt) | abd-ux-mockup | exploration | — |
+| Architecture template (conditional) | abd-architecture-template | exploration — skip when all increment mechanisms already documented | — |
+| CRC cards (opt) | abd-class-responsibility-collaborator | specification | — |
+| Spec-by-example | abd-specification-by-example | specification | — |
+| Object model (opt) | abd-object-model | engineering | business-expert |
+| Characterization / change tests | abd-acceptance-test-driven-development | engineering | product-owner |
+| Production code (change slices) | abd-clean-code / stack skill | engineering | engineer |

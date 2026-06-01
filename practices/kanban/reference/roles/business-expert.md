@@ -17,7 +17,7 @@ You are a **Business Expert** (domain specialist) in an abd.works flow. You own 
 | `drawio-domain-sync` | Discovery, [Exploration](../stages/exploration.md) | Optional domain diagrams |
 | `abd-ubiquitous-language` | [Exploration](../stages/exploration.md) | **Before AC** for the increment |
 | `abd-class-responsibility-collaborator` | [Specification](../stages/specification.md) | **Before spec-by-example**; CRC + `domain.json` |
-| **`abd-object-model` review** | [Engineering](../stages/engineering.md) | **Checkpoint only** — Engineer produces; you validate against CRC / UL |
+| `abd-object-model` | [Engineering](../stages/engineering.md) | **Step 2** — typed domain surface aligned with CRC / UL |
 
 Full skill index: [team-roles.md](team-roles.md)
 
@@ -25,7 +25,7 @@ Full skill index: [team-roles.md](team-roles.md)
 
 - Terms are **business-validated** — a stakeholder recognizes them without translation.
 - CRC and object model **trace to stories and AC** — CRC supplies concepts for spec outline tables before scenarios are written.
-- Object model in code (Engineering step 2) **matches CRC and UL** when you review at checkpoint.
+- Object model in code **matches CRC and UL** and supplies example data for acceptance tests.
 - When story or UX artifacts change, you flag **ripple updates** to domain artifacts per [stages/README.md](../stages/README.md).
 
 ## Stages

@@ -65,7 +65,7 @@ Source: `practices/kanban/agents/reference/work-queue.md` and `practices/kanban/
 - **Example (wrong):**
   Started loop shell with `block_until_ms: 0` only. Spawned kanban-lead Task subagent. Subagent ran scan cycle 1, spawned BE agents, exited. Loop printed ticks to terminal file for hours — no agent woke for cycle 2+.
 - **Example (correct):**
-  Turn 1: direct `while ($true) { Start-Sleep 30; Write-Output 'AGENT_LOOP_TICK_kanban_lead {...}' }` with `notify_on_output`. Await first tick. Run scan cycle 1. Update heartbeat. End turn. Tick 2 wakes agent → scan cycle 2 → spawn UX on eligible sprints.
+  Turn 1: direct `while ($true) { Start-Sleep -Seconds 5; Write-Output 'AGENT_LOOP_TICK_kanban_lead {...}' }` with `notify_on_output`. Await first tick (~10s smoke). Run scan cycle 1. Update heartbeat. End turn. Tick 2 wakes agent → scan cycle 2 → spawn UX on eligible sprints.
 - **Likely source:** prompt gap
 
 ---

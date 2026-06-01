@@ -40,15 +40,12 @@ Read these files:
 - **`reference/concepts.md`** — mechanisms, assign vs create workflow, five-part shape, section organization.
 - **`reference/examples.md`** — per-mechanism mode example and the shape of a good mechanism section.
 
-### 2. Resolve — assign or create
+### 2. Resolve — assign or create (quick or long pass)
 
-1. **Discover** existing reference files under `docs/architecture/`.
-2. **List mechanisms in scope** for the current ticket (story, sprint, increment, or project).
-3. For each mechanism:
-   - **Assign** — section already complete → record path + `## Mechanism: <Name>` heading; skip writing.
-   - **Create** — section missing or incomplete → add or finish that section only (append to canonical file or scoped companion).
-
-Do **not** rewrite mechanisms already documented unless the user explicitly requests a correction.
+1. **Discover** existing reference files under `docs/architecture/` and read `docs/planning/delivery-war-room/mechanism-registry.json` when present.
+2. **List mechanisms in scope** from the ticket blueprint (and upstream artifacts).
+3. For each mechanism: **assign** if complete, **create** if missing.
+4. On kanban: if **all assign** → quick pass (assignment table only); if **any create** → long pass (author sections + update registry).
 
 ### 3. Generate (create path only)
 

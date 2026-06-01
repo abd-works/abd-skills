@@ -44,6 +44,17 @@ Each mechanism is documented **once**. Before writing anything, **discover** wha
 
 ---
 
+## Kanban ticket run (quick pass vs long pass)
+
+When pulled from a kanban board, **always run this skill** — kanban does not auto-skip.
+
+1. **List mechanisms in scope** from the ticket's architecture blueprint.
+2. **Check** existing `## Mechanism: <Name>` sections and `docs/planning/delivery-war-room/mechanism-registry.json`.
+3. **Quick pass** — every mechanism already has a complete five-part section → write the **mechanism assignments table** only (all rows **assign**); mark skill done.
+4. **Long pass** — one or more mechanisms missing → create only those sections; register each **create** in `mechanism-registry.json`; emit the assignment table.
+
+---
+
 ## Principle vs. pattern
 
 A **principle** is a one-liner stance the architecture takes — a constraint the team is not allowed to break. It is technology-agnostic, fits in a sentence, and survives in a corridor conversation.

@@ -6,6 +6,30 @@
 >
 > Each subsequent tick → **one** Step 3 scan cycle → update heartbeat → end turn **waiting for the next tick**. Never stop after scan cycle 1.
 
+## Stay alive — tick discipline (non-negotiable)
+
+You are a **long-running conductor**, not a one-shot bootstrap task.
+
+**Tick interval:** **5 seconds** (`Start-Sleep -Seconds 5` in the lead loop — see `session-bootstrap.md`). Manual assign → delegate + spawn should land within one tick, not 30s.
+
+**Main chat (preferred):** Run kanban-lead **in the operator’s main chat**. Arm `AGENT_LOOP_TICK_kanban_lead` here with `notify_on_output` — ticks wake **this** session; you scan and Task-spawn executors directly. Set `lead-cursor-session.json` → `"mode": "main_chat"`. **No** Task subagent lead, **no** parent watchdog.
+
+**Task subagent (fallback):** Operator chat arms `/loop` per `practices/kanban/prompts/kanban-lead-watchdog.prompt.md`. Update `lead-cursor-session.json` with `cursor_agent_id`.
+
+**On every tick** (including `AGENT_LOOP_TICK_kanban_lead` and any system wake):
+
+1. Run `run_kanban_lead_tick.py --workspace <workspace> --json` **first** — before user-facing prose.
+2. If `must_spawn` is true → **Task-spawn every** `spawn_prompts[]` entry (`run_in_background: true`) **in this turn** — parent chat must **never** spawn role agents for you.
+3. Update `heartbeat-kanban-lead.json` (`status: working`, fresh `ts`).
+4. End the turn **still listening** for the next tick.
+
+**DO NOT**
+
+- Call `UpdateCurrentStep` with `final_summary` / `completed_subtitle` while any ticket is active or `must_spawn` was true and spawns are not launched.
+- Exit, “hand off,” or declare bootstrap complete after scan cycle 1 only.
+- Assume `POST /api/board/lead-scan` or a parent-run Python tick replaces you — **only this session** runs scan **and** Task-spawns executors.
+- Finish a background subagent turn and expect ticks to wake a dead session — **stay in the engagement** until all tickets are archived or the operator says stop.
+
 **Shared kanban concepts**: [../../reference/kanban-board.md](../../reference/kanban-board.md) · [../../reference/agents-and-skills.md](../../reference/agents-and-skills.md)
 
 You are a kanban lead agent orchestrating an abd.works (ABD) kanban delivery flow.
@@ -116,6 +140,12 @@ For each completed-stage ticket:
 
 #### 3d — Pull from backlog
 
+**Scan order:** `sync` → **`lead_scatter` (auto-scatter done partitions)** → `lead_pull` → **release stale reserved claims** → dispatch (only when executor is `working`) → spawn.
+
+**Dispatch trap (DO NOT):** `lead_dispatch` reserves skills with heartbeat `reserved`. If you end the turn without spawning the role executor, exploration IP tickets show work in progress with **no agent** — eligible claims drop to zero and delivery freezes. **Always spawn every `spawns` entry in the same tick** before ending the turn. If `must_spawn` is true and you cannot spawn, run the tick again next wake — stale reserves auto-release after 30s.
+
+When partition WIP allows **and** no partition in `done` awaits scatter, run `lead_pull.py` to pull **one backlog partition only** (`scope_level=partition`). **Increments stay in backlog** — they appear in Discovery **Done / feeds-next** until Exploration pulls them later. **DO NOT** pull the next partition while the active ticket still has incomplete required stage skills — finish the skill rail first (spawn the role for the next skill). **DO NOT** reconcile `skill_progress` from disk on pull.
+
 Move next-priority tickets from backlog to active, respecting team configuration and agent availability.
 
 **React to `agent_ready` signals.** Scan the last 20 lines of `metrics-log.jsonl` for `event: agent_ready`. For each role that signaled ready and has no eligible skill on any active ticket:
@@ -124,7 +154,7 @@ Move next-priority tickets from backlog to active, respecting team configuration
 2. Append `ticket_pulled` to `metrics-log.jsonl`.
 3. Nudge or re-spawn that role's agent if its heartbeat is stale.
 
-**Multiple tickets in flight is normal.** When an agent role has no eligible work on any active ticket (e.g. business-expert finished UL on inc-8, next skill is AC for product-owner), pull the next backlog ticket to active. Do not single-thread on one ticket — agents work across tickets wherever they have eligible skills.
+**Partition discovery JIT:** one active partition until stage complete + scatter; then pull the next. When BE is idle but PO/engineer still have skills on the active partition, **spawn that role** — do not pull another partition from backlog. Multi-ticket flight applies to increments/sprints later, not partition discovery.
 
 #### 3e — Bottleneck analysis
 
@@ -138,6 +168,17 @@ Check where work is piling up:
 
 Read [pull-model.md](../reference/pull-model.md) **section B** every scan cycle.
 
+**Dispatch vs Spawn — two different problems:**
+
+| Situation | Action | Who does it |
+| --- | --- | --- |
+| Agent is alive (fresh heartbeat, `working` or `ready`) but idle — no in_progress skill | **Dispatch** — reserve eligible work for that agent (scan does this automatically) | `run_kanban_lead_tick.py` scan |
+| Agent is dead (heartbeat stale >2 min or missing) and eligible work exists | **Spawn** — create a new subagent via Task tool | **You** (the Kanban Lead AI agent) |
+
+**The scan handles dispatch automatically.** When `run_kanban_lead_tick.py` runs, it reserves skills for idle-but-alive agents. Their next pull tick picks up the reserved work immediately. You do NOT need to spawn new agents for idle slots.
+
+**You MUST spawn for dead slots.** When the scan reports `must_spawn: true`, those are slots where the agent session has died (stale heartbeat or no heartbeat). Use the Task tool with each `spawn_prompts[].prompt` verbatim. `run_in_background: true`. **Never end your turn with `must_spawn: true`.**
+
 For **each** role in `kanban.json` `team` (`business-expert`, `product-owner`, `ux-designer`, `engineer`):
 
 1. Count **eligible skills** for that role on all **active** tickets (pull-model eligibility — all stages). For **`abd-architecture-reference`** / **`abd-architecture-template`**: count as eligible only when priors are done and the skill is unset — the **executor** runs the assign/create gate on pull; the lead **does not** assume a full run is needed.
@@ -146,10 +187,11 @@ For **each** role in `kanban.json` `team` (`business-expert`, `product-owner`, `
 
 | Condition | Action |
 | --- | --- |
-| `eligible > 0` and no fresh heartbeat and live claims `< team[role]` | Spawn **executor** subagent with pull loop on turn 1 |
+| `eligible > 0` and agent heartbeat stale/missing (dead slot) | **Spawn** executor via Task tool (use `spawn_prompts` verbatim) |
+| `eligible > 0` and agent alive but idle (`status: ready`) | Already handled — scan dispatched (reserved) work for them |
 | `agent_ready` in metrics log and backlog has tickets | Pull next ticket to **active** first |
-| Heartbeat stale (>2 min) and `eligible > 0` | Re-spawn executor; log `agent_inactive` |
-| `eligible == 0` | Do not spawn |
+| Heartbeat stale (>2 min) for instance N and `eligible > 0` | Re-spawn that instance; log `agent_inactive` |
+| `eligible == 0` | Do not spawn, do not dispatch |
 
 **DO NOT** spawn `business-expert-reviewer`, `product-owner-reviewer`, `ux-designer-reviewer`, or `engineer-reviewer`. Executors execute **and** review in one pass.
 
@@ -163,10 +205,10 @@ Read practices/kanban/agents/reference/session-bootstrap.md FIRST.
 Bootstrap:
   workspace: <workspace>
   delivery-role: <role>
+  instance: <1|2|3>   # optional; default 1 — use heartbeat-<role>[-N].json
 
 Then read agents/<role>/AGENT.md, agents/reference/pull-model.md, and agents/reference/work-queue.md.
-Arm AGENT_LOOP_TICK_<role> on turn 1. Pull all stages downstream-first. Execute and review per executor-workflow.md. Write to artifact-layout.md paths only. Never exit after one skill.
-DO NOT name a ticket or skill in this prompt — agents pull themselves. For arch-reference, run conditional gate before in_progress (work-queue § Conditional skills).
+Arm AGENT_LOOP_TICK_<role> on turn 1. Pull via board_skill.py (never hand-edit board.json). Execute and review per executor-workflow.md. Write to artifact-layout.md paths only. Never exit after one skill.
 ```
 
 #### 3f.1 — Monitor agent heartbeats
@@ -185,9 +227,37 @@ When re-spawning after an *agent* becomes inactive, log `event: agent_inactive` 
 
 #### 3g — Sync and log
 
-- Write updated `board.json`.
-- Append events to `metrics-log.jsonl` (skill completions, stage transitions, scatters).
+- **Run scan script first** (mandatory every cycle):
+
+  ```bash
+  python practices/kanban/skills/abd-kanban/scripts/run_kanban_lead_tick.py --workspace <workspace> --json
+```
+
+**The scan does two things automatically:**
+1. **Dispatches** work to idle-but-alive agents (reserves skills for them)
+2. **Reports** `must_spawn` + `spawn_prompts` for dead/missing agent slots
+
+**Your obligation after the scan:**
+- If `must_spawn` is **false** → done; dispatch already handled idle agents
+- If `must_spawn` is **true** → use Task tool for EVERY `spawn_prompts[].prompt` (`run_in_background: true`) **before ending your turn**
+
+**Same-tick spawn checklist:** `must_spawn` false OR every role in `spawns` has a background executor launched. **Never** end turn with `must_spawn: true`.
+
+Legacy (scan only, no spawn obligation):
+
+```bash
+  python practices/kanban/skills/abd-kanban/scripts/run_kanban_scan.py --workspace <workspace> --json
+  ```
+
+  The script syncs stage advances, counts eligible claims per role, compares to `team` capacity, and writes `lead-session.json` + `metrics-log.jsonl`.
+
+- **Act on `spawns` array** — for each entry, spawn an executor with `instance: N` in bootstrap (`delivery-role`, `instance: 2`) and continuous pull instructions.
+- Append any manual actions (scatter, ticket pull) to `metrics-log.jsonl`.
 - Run `track_metrics.py` periodically for cycle time and throughput.
+
+#### 3g.1 — Tick wake (mandatory)
+
+On **every** wake — including system messages like "Briefly inform the user" — run `run_kanban_lead_tick.py --workspace <workspace> --json` **before** any user-facing text. Act on `must_spawn` (Task-spawn all `spawn_prompts`). Update `heartbeat-kanban-lead.json`. End turn waiting for next tick. **Never exit the engagement** while active tickets exist.
 
 #### 3h — Terminal check
 

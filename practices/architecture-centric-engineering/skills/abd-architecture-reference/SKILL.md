@@ -23,9 +23,9 @@ Two paths remain: **project mode** (real reference + stories) and **hello-world 
 
 > **MANDATORY — read `../agent-protocol.md` and `reference/concepts.md` before starting.**
 
-### 1. Resolve — assign or create
+### 1. Resolve — assign or create (quick or long pass)
 
-Follow the **assign before create** workflow in `reference/concepts.md`:
+Follow the **assign before create** workflow in `reference/concepts.md`. On kanban tickets, run a **quick pass** (mapping document only) when all mechanisms assign; otherwise **long pass** (create missing reference/code and update `mechanism-registry.json`).
 
 ### 2. Choose implementation mode
 

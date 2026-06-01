@@ -10,7 +10,7 @@
 | **engineer** | Next eligible engineer skill — same rules | Same |
 | **kanban-lead** | Backlog → active; stage advance; scatter; spawn/re-spawn pull agents | Execute practice skills |
 
-**One executor session per role** executes **and** reviews each skill. **Do not spawn `*-reviewer` agents.**
+**Up to `team[role]` parallel executor sessions per role** — each with its own heartbeat (`heartbeat-<role>.json`, `heartbeat-<role>-2.json`, …). Each session executes **and** reviews one skill at a time, then pulls the next eligible claim. **Do not spawn `*-reviewer` agents.**
 
 ---
 
@@ -22,9 +22,9 @@ Typical PawPlace / new-build order (downstream = last in list):
 
 | Scan priority | Stage | Scope | Example skills (role) |
 | --- | --- | --- | --- |
-| 5 (first) | `engineering` | sprint | interface-design (UX), object-model (EN), ATDD (EN), clean-code (EN) |
+| 5 (first) | `engineering` | sprint | interface-design (UX), object-model (BE), ATDD (PO), clean-code (EN) |
 | 4 | `specification` | sprint | CRC (BE), spec-by-example (PO), interface-design (UX), arch-reference (EN) |
-| 3 | `exploration` | increment | UL (BE), AC (PO), ux-mockup (UX), arch-template (EN, conditional) |
+| 3 | `exploration` | increment | UL (BE), AC (PO), ux-mockup (UX), arch-template (EN) |
 | 2 | `discovery` | all/increment | domain-terms (BE), story-mapping (PO), IA (UX), blueprint (EN) |
 | 1 (last) | `shaping` | all | module-partition (BE), story-mapping (PO), impact-mapping (UX), arch-outline (EN) |
 
@@ -42,24 +42,24 @@ For your `delivery-role`, on each pull scan:
 2. Build stage list from config; iterate **from last stage to first**.
 3. For each stage name, consider every active ticket where `ticket.stage === stage name`.
 4. For that ticket, walk `stage_work_required` **in order**. Find the **first** skill where:
-   - All **prior** skills have `execution_status: done` **and** `review_status: done` (or skipped per conditional rules).
+   - All **prior** skills have `execution_status: done` **and** `review_status: done`.
    - This skill's `role` matches your delivery role.
    - This skill is not started, or is `not_started` / no `skill_progress` entry.
-   - **Conditional skills** (`abd-architecture-template`, `abd-architecture-reference`): eligible only after **conditional gate** (below) — not merely because priors are done.
 5. Pick the winning skill: **lowest stage scan order that found a match** (downstream wins), then **lowest ticket `priority`**.
-6. **Conditional gate first** (template / arch-reference only): run assign/create inventory per [work-queue.md](work-queue.md#conditional-skills) **before** `in_progress`. If skip applies → mark `done` + notes; pull again. If run applies → set `in_progress`, then author.
-7. **Other skills:** claim with `in_progress` on `board.json` before any authoring.
+6. Claim with `in_progress` on `board.json`, then run the skill. Architecture skills (`abd-architecture-template`, `abd-architecture-reference`) **always run when claimed** — they choose a **quick pass** (mapping document only) or **long pass** (create missing mechanisms/code) inside the skill; kanban does not auto-skip them.
 
-### Conditional gate — not automatic
+### Architecture skills — quick pass vs long pass
 
-| Skill | Run only when | Skip (mark done, no authoring) when |
+Kanban treats these like any other skill: eligible when priors are done; always claim and execute.
+
+| Skill | Quick pass (all mechanisms exist) | Long pass (gaps remain) |
 | --- | --- | --- |
-| `abd-architecture-template` | Increment scope needs **new** mechanism sections not in `docs/increments/<n>-<slug>/exploration/` | Every in-scope mechanism already documented — assign existing sections only |
-| `abd-architecture-reference` | Sprint needs **new** reference sections or **missing** code files per inventory | Every mechanism has reference **assign** and code **assign** — update `docs/increments/<n>-<slug>/specification/architecture-reference-assignment.md` only |
+| `abd-architecture-template` | List mechanisms from blueprint; all sections exist in reference + registry → write **assignment table only** | Create missing mechanism section(s); update `mechanism-registry.json` |
+| `abd-architecture-reference` | All reference + code paths assign → write **`architecture-reference-assignment.md` only** | Create missing reference sections and/or code; update registry |
 
-**DO NOT** treat arch-reference as the default next specification skill. Discovery/exploration companions often **assign** reference; spec stage then assigns code paths or skips entirely.
+See [work-queue.md](work-queue.md#architecture-skills) and each skill's `reference/concepts.md`.
 
-**Kanban-lead:** Count engineer eligibility when priors are done and the conditional skill is unset — executors run the gate on pull. **DO NOT** put `abd-architecture-reference` or a ticket id in spawn prompts.
+**Kanban-lead:** Count engineer eligibility when priors are done and the arch skill is unset — same as any skill. **DO NOT** put `abd-architecture-reference` or a ticket id in spawn prompts.
 
 **Same algorithm** for shaping through engineering. No stage-specific exceptions.
 
@@ -98,10 +98,10 @@ For **each** role in `kanban.json` `team` (business-expert, product-owner, ux-de
 
 1. Run eligibility algorithm **for that role** across all active tickets (same as pull-model).
 2. Count `eligible_skills` and `in_progress` claims for that role.
-3. If `eligible_skills > 0` and live agents `< team[role]`:
-   - Spawn executor subagent (`run_in_background: true`) with bootstrap + **continuous pull** instructions.
-4. If heartbeat stale (>2 min) and `eligible_skills > 0` → re-spawn.
-5. If `agent_ready` and backlog has tickets that would give that role work → pull to active **before** expecting poll to succeed.
+3. If `eligible_skills > 0` and `live_agents + in_progress < team[role]`:
+   - Spawn executor subagent(s) until `live_agents >= team[role]` or no unclaimed eligible work remains (`run_in_background: true`).
+4. If heartbeat stale (>2 min) for an instance and `eligible_skills > 0` → re-spawn that instance; log `agent_inactive`.
+5. If `agent_ready` and backlog has tickets that would give that role work → pull to active **before** expecting pull to succeed.
 
 **DO NOT** spawn `*-reviewer` agents. **DO NOT** assign a skill to an agent in spawn prompt — agents **pull** themselves.
 
@@ -131,4 +131,4 @@ Done ≠ “pick me up” for every role. **Pull scan** decides.
 | PO spawned while UL in review | Missing review gate on prior skill | Prior skill needs execution + review done |
 | Lead ran once | No notify_on_output on lead loop | session-bootstrap |
 | Reviewer agents spawned | Legacy pattern | One executor; execute + review in one pass |
-| Arch-ref runs on every sprint | Priors done treated as eligible; spawn named skill | Conditional gate on pull; skip when assign-only; lead spawn without skill name |
+| Arch-ref runs on every sprint | Priors done treated as eligible; spawn named skill | Skill quick pass writes assignment only; lead spawn without skill name |

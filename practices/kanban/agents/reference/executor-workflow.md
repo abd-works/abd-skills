@@ -28,15 +28,18 @@ When a step says **CHECKPOINT**:
 
 ### Step 1 — Start skill from board (pull claim)
 
-Read `board.json` and `kanban.json`. Find next eligible skill per [pull-model.md](pull-model.md) and [work-queue.md](work-queue.md) — **all stages**, downstream first, one claim per pull scan.
+**Use `board_skill.py`** — do not hand-edit `board.json`:
 
-Start work: set `execution_status: in_progress`, `agent: <your-role>`, `start: <now>`.
+```bash
+python practices/kanban/skills/abd-kanban/scripts/board_skill.py pull \
+  --workspace <workspace> --role <your-role> [--instance N]
+```
 
-Announce: ticket ID, lineage, stage, skill name, scope level.
+Dry-run eligibility: add `--dry-run` to `pull`. If no claim, run `ready` (Step 7).
 
-**Conditional gate (`abd-architecture-template` only):** Before setting `in_progress`, run the mechanism inventory from [work-queue.md — Conditional skills](work-queue.md#conditional-skills). Skip with done + notes if all mechanisms already exist; otherwise proceed.
+Announce: ticket ID, stage, skill name from CLI JSON output.
 
-**Conditional gate (`abd-architecture-reference` only):** Before setting `in_progress`, run assign/create inventory per work-queue. Skip with done + notes when reference and code already exist for all in-scope mechanisms (assignment table only).
+**Architecture skills:** Always run the full skill after claim. Inside the skill, choose **quick pass** (mapping document only) or **long pass** (create gaps) per [work-queue.md — Architecture skills](work-queue.md#architecture-skills). Kanban does not auto-skip before `in_progress`.
 
 ### Step 2 — Sync with workspace
 
@@ -85,6 +88,15 @@ Log `drawio_sync_queued` to `metrics-log.jsonl`. See [drawio-sync-background.md]
 
 ### Step 6 — Review pass (same agent)
 
+**Mark the work pass complete** so the board shows review (magnifying glass) while you validate:
+
+```bash
+python practices/kanban/skills/abd-kanban/scripts/board_skill.py complete \
+  --workspace <workspace> --ticket <id> --skill <name> --role <your-role> [--instance N]
+```
+
+Expect JSON `"action": "work_done"` and `review_status: in_progress` on the ticket.
+
 Switch hats — now **validate** the output you just produced:
 
 1. Re-read the practice skill's `rules/` directory as the quality bar.
@@ -101,21 +113,32 @@ Switch hats — now **validate** the output you just produced:
 4. **Simple issues** — fix them directly and re-run scanners. Do not mark FAIL for mechanical problems you can fix yourself.
 5. **Substantive issues** — if the review reveals a real problem you cannot fix mechanically (wrong model, missing abstraction), log it in `docs/corrections-log.md` and flag to kanban lead.
 
-### Step 7 — Mark done and pull next
+### Step 7 — Mark review done and pull next
 
-Update `board.json`:
+**Run `board_skill.py complete` again** (same ticket/skill/role) after review passes — do not hand-edit `board.json`:
 
-- Set `execution_status: done`, `end: <now>`
-- Set `review_status: done`, `reviewer: <your-role>`, `review_start: <now>`, `review_end: <now>`
+```bash
+python practices/kanban/skills/abd-kanban/scripts/board_skill.py complete \
+  --workspace <workspace> --ticket <id> --skill <name> --role <your-role> \
+  [--instance N] [--notes "..."]
+```
 
-Both execution and review are complete in one pass. The next skill's agent can start immediately.
+Expect JSON `"action": "completed"` and both `execution_status` and `review_status` set to `done`.
 
-Announce: skill complete and reviewed on ticket.
+Conditional skip:
 
-**Pull next eligible skill** per [pull-model.md](pull-model.md) and [work-queue.md](work-queue.md) (all stages, downstream first).
+```bash
+python practices/kanban/skills/abd-kanban/scripts/board_skill.py skip \
+  --workspace <workspace> --ticket <id> --skill <name> --role <your-role> [--notes "..."]
+```
 
-If work is found → continue at Step 1 **in the same session** (do not exit).
+Then **pull again** via `board_skill.py pull`. If no work:
 
-If **no** eligible skill on active tickets → [signal kanban lead and keep pulling](work-queue.md#when-idle--signal-and-keep-pulling). **Do not exit.** Pull loop stays armed.
+```bash
+python practices/kanban/skills/abd-kanban/scripts/board_skill.py ready \
+  --workspace <workspace> --role <your-role> [--instance N]
+```
+
+If work is found → continue at Step 1 **in the same session** (do not exit). Pull loop stays armed.
 
 **When blocked:** add a note to the ticket — kanban lead handles in scan cycle.

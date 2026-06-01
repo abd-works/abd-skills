@@ -1,4 +1,4 @@
-﻿---
+---
 name: abd-kanban
 catalog_garden_tier: practice
 catalog_garden_order: 60
@@ -57,6 +57,9 @@ Read every file in **`rules/`**; author to those rules.
 
 ```bash
 python kanban/skills/abd-kanban/scripts/sync_kanban_board.py --workspace <workspace>
+python kanban/skills/abd-kanban/scripts/run_kanban_scan.py --workspace <workspace> --json
+python kanban/skills/abd-kanban/scripts/board_skill.py pull --workspace <workspace> --role <role>
+python kanban/skills/abd-kanban/scripts/board_skill.py complete --workspace <workspace> --ticket <id> --skill <name> --role <role>
 python kanban/skills/abd-kanban/scripts/scatter_ticket.py --workspace <workspace> --ticket <id>
 python kanban/skills/abd-kanban/scripts/track_metrics.py --workspace <workspace>
 ```

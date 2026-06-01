@@ -1,5 +1,10 @@
 import { promises as fs } from 'node:fs';
-import { resolvePlanningPaths, type PlanningPaths } from '@deliveryforge/delivery-board-shared';
+import {
+  resolvePlanningPaths,
+  type PlanningPaths,
+  type BoardMode,
+  type ActionIntent,
+} from '@deliveryforge/delivery-board-shared';
 
 export interface PlanningFolderRepositoryInterface {
   readText(filePath: string): Promise<string>;
@@ -8,6 +13,9 @@ export interface PlanningFolderRepositoryInterface {
   planningRootExists(planningRoot: string): Promise<boolean>;
   boardExists(boardFile: string): Promise<boolean>;
   resolvePaths(planningRoot: string): PlanningPaths;
+  writeBoardMode(boardFile: string, mode: BoardMode): Promise<void>;
+  readActionIntents(actionStateFile: string): Promise<ActionIntent[]>;
+  writeActionIntent(actionStateFile: string, intent: ActionIntent): Promise<void>;
 }
 
 export class PlanningFolderRepository implements PlanningFolderRepositoryInterface {
@@ -44,5 +52,32 @@ export class PlanningFolderRepository implements PlanningFolderRepositoryInterfa
     } catch {
       return false;
     }
+  }
+
+  async writeBoardMode(boardFile: string, mode: BoardMode): Promise<void> {
+    const raw = await this.readJson(boardFile) as Record<string, unknown>;
+    raw.board_mode = mode;
+    await this.writeJson(boardFile, raw);
+  }
+
+  async readActionIntents(actionStateFile: string): Promise<ActionIntent[]> {
+    try {
+      const state = (await this.readJson(actionStateFile)) as { intents?: ActionIntent[] };
+      return Array.isArray(state.intents) ? state.intents : [];
+    } catch {
+      return [];
+    }
+  }
+
+  async writeActionIntent(actionStateFile: string, intent: ActionIntent): Promise<void> {
+    let state: { intents: ActionIntent[] };
+    try {
+      state = (await this.readJson(actionStateFile)) as { intents: ActionIntent[] };
+      if (!Array.isArray(state.intents)) state = { intents: [] };
+    } catch {
+      state = { intents: [] };
+    }
+    state.intents.push(intent);
+    await this.writeJson(actionStateFile, state);
   }
 }

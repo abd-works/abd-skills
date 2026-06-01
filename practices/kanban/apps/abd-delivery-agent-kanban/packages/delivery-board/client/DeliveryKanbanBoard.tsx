@@ -1,6 +1,16 @@
-import { useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState, type MutableRefObject } from 'react';
+import { useFlipTicketAnimations } from './useFlipTicketAnimations';
+import { LiveSkillIcon } from './LiveSkillIcon';
+import {
+  toggleBoardMode,
+  postActionIntent,
+  postMoveTicketToStage,
+  type MoveTicketPlacement,
+} from './deliveryBoard.api';
+import type { TicketDragPayload, TicketStageDropHandler } from './ticketStageDrag';
 import type {
   AgentRole,
+  BoardMode,
   KanbanBoardSnapshot,
   KanbanColumnView,
   TicketView,
@@ -23,6 +33,7 @@ import {
   countRoleEngagement,
   resolvePoolAvatarState,
   HEARTBEAT_STALE_SECS,
+  HEARTBEAT_STALE_LEAD_SECS,
   skillRowDisplayState,
   ticketShowsLiveSkillIcon,
   isScatterParent,
@@ -71,10 +82,10 @@ function MagnifyIcon({ colorClass }: { colorClass: string }) {
   );
 }
 
-function DoneIcon() {
+function DoneIcon({ colorClass }: { colorClass: string }) {
   return (
     <svg
-      className="kb-skill-icon kb-skill-icon--done"
+      className={'kb-skill-icon kb-skill-icon--done ' + colorClass}
       viewBox="0 0 14 14"
       width="11"
       height="11"
@@ -83,6 +94,66 @@ function DoneIcon() {
       <polyline points="2,7 5.5,11 12,3" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
+}
+
+function ReworkIcon({ colorClass }: { colorClass: string }) {
+  return (
+    <svg
+      className={'kb-skill-icon kb-skill-icon--rework ' + colorClass}
+      viewBox="0 0 16 16"
+      width="14"
+      height="14"
+      aria-label="Rework needed"
+    >
+      <path d="M2 8a6 6 0 0 1 10.3-4.2l-1.8 1.8H15V1.1l-1.7 1.7A8 8 0 0 0 0 8h2zm12 0a6 6 0 0 1-10.3 4.2l1.8-1.8H1v4.5l1.7-1.7A8 8 0 0 0 16 8h-2z" fill="currentColor" />
+    </svg>
+  );
+}
+
+function PendingIntentIcon({ colorClass }: { colorClass: string }) {
+  return (
+    <svg
+      className={'kb-skill-icon kb-skill-icon--pending-intent ' + colorClass}
+      viewBox="0 0 16 16"
+      width="13"
+      height="13"
+      aria-label="Intent queued"
+    >
+      <path d="M8 14V4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+      <path d="M4 7l4-4 4 4" stroke="currentColor" strokeWidth="1.8" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+      <line x1="3" y1="2" x2="13" y2="2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+// ---- Ticket stage drag (manual cross-column moves) ----
+
+const TICKET_DRAG_ID = 'application/ticket-id';
+const TICKET_DRAG_STAGE = 'application/ticket-stage';
+
+function isActiveTicketDrag(
+  draggingTicketRef: MutableRefObject<TicketDragPayload | null>,
+): boolean {
+  return draggingTicketRef.current !== null;
+}
+
+function isTicketStageDrag(
+  dt: DataTransfer,
+  draggingTicketRef: MutableRefObject<TicketDragPayload | null>,
+): boolean {
+  if (isActiveTicketDrag(draggingTicketRef)) return true;
+  return Array.from(dt.types).some((t) => t === TICKET_DRAG_ID || t === 'text/plain');
+}
+
+function readTicketIdFromDataTransfer(
+  dt: DataTransfer,
+  draggingTicketRef: MutableRefObject<TicketDragPayload | null>,
+): string {
+  const id = dt.getData(TICKET_DRAG_ID);
+  if (id) return id;
+  const plain = dt.getData('text/plain');
+  if (plain.startsWith('ticket:')) return plain.slice('ticket:'.length);
+  return draggingTicketRef.current?.id ?? '';
 }
 
 // ---- Ticket card ----
@@ -95,20 +166,38 @@ function ticketStatusClass(ticket: TicketView): string {
 
 function TicketCard({
   ticket,
-  moved,
   stageSkills = [],
   stageSubColumn,
   activeStagePeers = [],
   team,
+  boardMode = 'automatic',
+  planningRoot,
+  onTicketDragStart,
+  onTicketDragEnd,
+  draggingTicketRef,
+  isDraggingSource = false,
+  stageMoveDragActive = false,
 }: {
   ticket: TicketView;
-  moved?: boolean;
   stageSkills?: StageSkill[];
   stageSubColumn?: StageSubColumn;
   activeStagePeers?: TicketView[];
   team?: KanbanBoardSnapshot['team'];
+  boardMode?: BoardMode;
+  planningRoot?: string;
+  onResumeTicket?: (ticketId: string, targetStage: StageId, placement?: MoveTicketPlacement) => void;
+  onTicketDragStart?: (ticketId: string, stage: StageId) => void;
+  onTicketDragEnd?: () => void;
+  draggingTicketRef: MutableRefObject<TicketDragPayload | null>;
+  isDraggingSource?: boolean;
+  /** Another ticket is being dragged for cross-stage move — disable agent drop on this card. */
+  stageMoveDragActive?: boolean;
 }) {
   const [expanded, setExpanded] = useState(false);
+  const [dropHighlight, setDropHighlight] = useState(false);
+  const [pendingAssignment, setPendingAssignment] = useState(false);
+  const [rejectionMsg, setRejectionMsg] = useState<string | null>(null);
+  const dragCounterRef = useRef(0);
 
   const isReviewing = ticket.isReviewing;
 
@@ -125,9 +214,121 @@ function TicketCard({
       : resolveFocusSkillId(ticket, stageSkillIds, stageSubColumn);
   const primaryFamClass = focusSkillId ? familyCssClass(skillFamilyFor(focusSkillId)) : null;
   const showLiveSkillIcon = ticketShowsLiveSkillIcon(ticket, focusSkillId, stageSubColumn);
-  const showSkillMeta = stageSubColumn === 'ip' && showLiveSkillIcon;
 
   const canExpand = ticketCanExpand(ticket, stageSkillIds, stageSubColumn);
+
+  const isManual = boardMode === 'manual';
+  const isDraggableForStageMove =
+    isManual &&
+    (stageSubColumn === 'ip' ||
+      stageSubColumn === 'done' ||
+      stageSubColumn === 'feeds-next');
+
+  function findNextEligibleSkill(agentRole?: string): string | null {
+    const doneSet = new Set(ticket.doneSkillIds);
+    const pendingSet = new Set(ticket.pendingIntentSkillIds ?? []);
+    const executingSet = new Set(ticket.executingSkillIds ?? []);
+    for (const s of stageSkills) {
+      if (agentRole && s.role !== agentRole) continue;
+      if (doneSet.has(s.skillId)) continue;
+      if (executingSet.has(s.skillId)) continue;
+      if ((ticket.reviewingSkillIds ?? []).includes(s.skillId)) continue;
+      if (ticket.reviewSkillId === s.skillId) continue;
+      if (pendingSet.has(s.skillId)) continue;
+      return s.skillId;
+    }
+    return null;
+  }
+
+  function handleDragOver(e: React.DragEvent) {
+    if (!isManual) return;
+    if (isTicketStageDrag(e.dataTransfer, draggingTicketRef)) return;
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'copy';
+  }
+
+  function handleDragEnter(e: React.DragEvent) {
+    if (!isManual) return;
+    if (isTicketStageDrag(e.dataTransfer, draggingTicketRef)) return;
+    e.preventDefault();
+    dragCounterRef.current++;
+    setDropHighlight(true);
+  }
+
+  function handleDragLeave() {
+    if (!isManual) return;
+    dragCounterRef.current--;
+    if (dragCounterRef.current <= 0) {
+      dragCounterRef.current = 0;
+      setDropHighlight(false);
+    }
+  }
+
+  function handleDrop(e: React.DragEvent) {
+    if (!isManual) return;
+    if (
+      isTicketStageDrag(e.dataTransfer, draggingTicketRef) ||
+      readTicketIdFromDataTransfer(e.dataTransfer, draggingTicketRef)
+    ) {
+      return;
+    }
+    e.preventDefault();
+    e.stopPropagation();
+    dragCounterRef.current = 0;
+    setDropHighlight(false);
+
+    const agentRole = e.dataTransfer.getData('application/agent-role');
+    if (!agentRole) {
+      setRejectionMsg('Drop failed — no agent role');
+      setTimeout(() => setRejectionMsg(null), 3000);
+      return;
+    }
+
+    const skillId = findNextEligibleSkill(agentRole);
+    if (skillId && planningRoot) {
+      setPendingAssignment(true);
+      void postActionIntent(planningRoot, ticket.ticketId, skillId, agentRole)
+        .then((payload) => {
+          if (payload.lead_scan?.must_spawn) {
+            setRejectionMsg(
+              'Delegated on board — start or resume Kanban Lead agent to spawn executors (ticks alone do not spawn).',
+            );
+            setTimeout(() => setRejectionMsg(null), 8000);
+          }
+        })
+        .catch(() => {
+          setRejectionMsg('API error — intent not saved');
+          setTimeout(() => setRejectionMsg(null), 3000);
+        });
+      setTimeout(() => setPendingAssignment(false), 2500);
+    } else {
+      setRejectionMsg(skillId ? 'Missing planning root' : 'No eligible skills remain');
+      setTimeout(() => setRejectionMsg(null), 3000);
+    }
+  }
+
+  const isInProgressActive =
+    stageSubColumn === 'ip' &&
+    ((ticket.executingSkillIds?.length ?? 0) > 0 ||
+      ticket.activeSkillId !== null ||
+      (ticket.reviewingSkillIds?.length ?? 0) > 0 ||
+      ticket.reviewSkillId !== null);
+
+  function handleTicketDragStart(e: React.DragEvent) {
+    if (!isDraggableForStageMove) return;
+    const stage = ticket.stage;
+    if (!stage) return;
+    e.stopPropagation();
+    e.dataTransfer.setData(TICKET_DRAG_ID, ticket.ticketId);
+    e.dataTransfer.setData(TICKET_DRAG_STAGE, stage);
+    e.dataTransfer.setData('text/plain', `ticket:${ticket.ticketId}`);
+    e.dataTransfer.effectAllowed = 'move';
+    onTicketDragStart?.(ticket.ticketId, stage);
+  }
+
+  function handleTicketDragEnd() {
+    onTicketDragEnd?.();
+  }
 
   return (
     <div
@@ -135,14 +336,31 @@ function TicketCard({
         'kb-ticket ' +
         scopeLevelCssClass(ticket.scopeLevel) +
         ' ' +
-        (moved ? 'kb-ticket--moving ' : '') +
         ticketStatusClass(ticket) +
-        (stageSubColumn === 'feeds-next' ? ' kb-ticket--feeds-next' : '')
+        (stageSubColumn === 'feeds-next' ? ' kb-ticket--feeds-next' : '') +
+        (dropHighlight ? ' kb-ticket--drop-target' : '') +
+        (pendingAssignment ? ' kb-ticket--pending-assignment' : '') +
+        (isInProgressActive ? ' kb-ticket--in-progress-active' : '') +
+        (isDraggableForStageMove ? ' kb-ticket--draggable-ticket' : '') +
+        (isDraggingSource ? ' kb-ticket--stage-drag-source' : '')
       }
       data-ticket={ticket.ticketId}
       data-scope={ticket.scopeLevel}
-      title={ticket.lineage.join(' > ')}
+      title={
+        isDraggableForStageMove
+          ? ticket.lineage.join(' > ') +
+            ' — drag to another stage (In Progress or Done) to move or skip ahead'
+          : ticket.lineage.join(' > ')
+      }
+      draggable={isDraggableForStageMove}
+      onDragStart={isDraggableForStageMove ? handleTicketDragStart : undefined}
+      onDragEnd={isDraggableForStageMove ? handleTicketDragEnd : undefined}
+      onDragOver={isManual && !stageMoveDragActive ? handleDragOver : undefined}
+      onDragEnter={isManual && !stageMoveDragActive ? handleDragEnter : undefined}
+      onDragLeave={isManual && !stageMoveDragActive ? handleDragLeave : undefined}
+      onDrop={isManual && !stageMoveDragActive ? handleDrop : undefined}
     >
+      {rejectionMsg && <div className="kb-drop-rejection">{rejectionMsg}</div>}
       <div className="kb-ticket-chip">
         {ticket.chipLabel}
         {isReviewing && (
@@ -150,7 +368,10 @@ function TicketCard({
         )}
         {canExpand && (
           <button
+            type="button"
             className="kb-ticket-expand-btn"
+            draggable={false}
+            onMouseDown={(ev) => ev.stopPropagation()}
             onClick={() => setExpanded((e) => !e)}
             aria-label={expanded ? 'Collapse skills' : 'Expand skills'}
             title={expanded ? 'Collapse skills' : 'Show skill progress'}
@@ -160,13 +381,19 @@ function TicketCard({
         )}
       </div>
       <div className="kb-ticket-label">{ticket.displayLabel}</div>
-      {showSkillMeta ? (
+      {stageSubColumn === 'ip' ? (
         <div className="kb-ticket-meta">
-          <span className="kb-ticket-agent-icon">
-            {isReviewing || ticket.awaitingReviewSkillId !== null
-              ? <MagnifyIcon colorClass={primaryFamClass!} />
-              : <ChatbotIcon colorClass={primaryFamClass!} />}
-          </span>
+          <LiveSkillIcon
+            visible={showLiveSkillIcon}
+            mode={
+              isReviewing || (ticket.awaitingReviewSkillId !== null && !ticket.activeSkillId)
+                ? 'magnify'
+                : 'bot'
+            }
+            BotIcon={ChatbotIcon}
+            MagnifyIcon={MagnifyIcon}
+            colorClass={primaryFamClass ?? ''}
+          />
         </div>
       ) : null}
       {expanded && canExpand && (
@@ -187,10 +414,18 @@ function TicketCard({
                     : '',
                 ].filter(Boolean).join(' ')}
               >
-                {row.isDone && <DoneIcon />}
                 <span className="kb-ticket-skill-label">{s.label}</span>
-                {row.showBot && <ChatbotIcon colorClass={fc} />}
-                {row.showMagnify && <MagnifyIcon colorClass={fc} />}
+                <span className="kb-ticket-skill-icons">
+                  {row.showRework && <ReworkIcon colorClass={fc} />}
+                  {row.isDone && !row.showRework && <DoneIcon colorClass={fc} />}
+                  {row.showPendingIntent && <PendingIntentIcon colorClass={fc} />}
+                  {row.showBot && (
+                    <span className="kb-live-skill-icon kb-live-skill-icon--working kb-live-skill-icon--inline">
+                      <ChatbotIcon colorClass={fc} />
+                    </span>
+                  )}
+                  {row.showMagnify && <MagnifyIcon colorClass={fc} />}
+                </span>
               </div>
             );
           })}
@@ -206,35 +441,141 @@ function SubColumn({
   label,
   subColId,
   tickets,
-  movedTickets,
   stageSkills = [],
   activeStagePeers = [],
   team,
+  boardMode,
+  planningRoot,
+  onResumeTicket,
+  columnStage,
+  draggingTicketRef,
+  draggingTicketId,
+  draggingTicket,
+  onTicketDrop,
+  onTicketDragStart,
+  onTicketDragEnd,
 }: {
   label: string;
   subColId: StageSubColumn;
   tickets: TicketView[];
-  movedTickets: Set<string>;
   stageSkills?: StageSkill[];
   activeStagePeers?: TicketView[];
   team?: KanbanBoardSnapshot['team'];
+  boardMode?: BoardMode;
+  planningRoot?: string;
+  onResumeTicket?: (ticketId: string, targetStage: StageId, placement?: MoveTicketPlacement) => void;
+  columnStage: StageId;
+  draggingTicketRef: MutableRefObject<TicketDragPayload | null>;
+  draggingTicketId?: string | null;
+  draggingTicket?: TicketDragPayload | null;
+  onTicketDrop?: TicketStageDropHandler;
+  onTicketDragStart?: (ticketId: string, stage: StageId) => void;
+  onTicketDragEnd?: () => void;
 }) {
+  const [ticketDropHighlight, setTicketDropHighlight] = useState(false);
+  const [dropRejectMsg, setDropRejectMsg] = useState<string | null>(null);
+  const ticketDragCounterRef = useRef(0);
+  const isManual = boardMode === 'manual';
+  const acceptsTicketDrop = isManual && subColId === 'ip' && !!onTicketDrop;
+
+  useEffect(() => {
+    if (!draggingTicket) {
+      setTicketDropHighlight(false);
+      ticketDragCounterRef.current = 0;
+    }
+  }, [draggingTicket]);
+
+  function isLeavingColumn(e: React.DragEvent): boolean {
+    const related = e.relatedTarget;
+    return !(related instanceof Node && e.currentTarget.contains(related));
+  }
+
+  function handleTicketDragOver(e: React.DragEvent) {
+    if (!acceptsTicketDrop) return;
+    if (!isTicketStageDrag(e.dataTransfer, draggingTicketRef)) return;
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+  }
+
+  function handleTicketDragEnter(e: React.DragEvent) {
+    if (!acceptsTicketDrop || !isLeavingColumn(e)) return;
+    if (!isTicketStageDrag(e.dataTransfer, draggingTicketRef)) return;
+    e.preventDefault();
+    setDropRejectMsg(null);
+    ticketDragCounterRef.current++;
+    setTicketDropHighlight(true);
+  }
+
+  function handleTicketDragLeave(e: React.DragEvent) {
+    if (!acceptsTicketDrop || !isLeavingColumn(e)) return;
+    ticketDragCounterRef.current--;
+    if (ticketDragCounterRef.current <= 0) {
+      ticketDragCounterRef.current = 0;
+      setTicketDropHighlight(false);
+      setDropRejectMsg(null);
+    }
+  }
+
+  function handleTicketDrop(e: React.DragEvent) {
+    if (!acceptsTicketDrop || !onTicketDrop) return;
+    e.preventDefault();
+    e.stopPropagation();
+    ticketDragCounterRef.current = 0;
+    setTicketDropHighlight(false);
+    setDropRejectMsg(null);
+    const ticketId =
+      readTicketIdFromDataTransfer(e.dataTransfer, draggingTicketRef) ||
+      draggingTicketRef.current?.id;
+    if (!ticketId) return;
+    onTicketDrop(ticketId, columnStage, 'in_progress');
+  }
+
+  const dropZoneHandlers = acceptsTicketDrop
+    ? {
+        onDragOver: handleTicketDragOver,
+        onDragEnter: handleTicketDragEnter,
+        onDragLeave: handleTicketDragLeave,
+        onDrop: handleTicketDrop,
+      }
+    : {};
+
   return (
-    <div className={'kb-sub-col kb-sub-col--' + subColId}>
+    <div
+      className={
+        'kb-sub-col kb-sub-col--' +
+        subColId +
+        (ticketDropHighlight && subColId === 'ip' ? ' kb-sub-col--drop-target' : '')
+      }
+      {...dropZoneHandlers}
+    >
       <div className="kb-sub-col-head">
         <span>{label}</span>
         {tickets.length > 0 ? <span className="kb-col-count">{tickets.length}</span> : null}
       </div>
-      <div className="kb-sub-col-tickets">
+      {dropRejectMsg && subColId === 'ip' ? (
+        <div className="kb-sub-col-drop-hint">{dropRejectMsg}</div>
+      ) : null}
+      <div
+        className={
+          'kb-sub-col-tickets' + (ticketDropHighlight ? ' kb-sub-col-tickets--drop-target' : '')
+        }
+      >
         {tickets.map((t) => (
           <TicketCard
             key={t.ticketId}
             ticket={t}
-            moved={movedTickets.has('ticket-' + t.ticketId)}
             stageSkills={stageSkills}
             stageSubColumn={subColId}
             activeStagePeers={activeStagePeers}
             team={team}
+            boardMode={boardMode}
+            planningRoot={planningRoot}
+            onResumeTicket={onResumeTicket}
+            onTicketDragStart={onTicketDragStart}
+            onTicketDragEnd={onTicketDragEnd}
+            draggingTicketRef={draggingTicketRef}
+            isDraggingSource={draggingTicketId === t.ticketId}
+            stageMoveDragActive={!!draggingTicket}
           />
         ))}
       </div>
@@ -250,29 +591,117 @@ function DoneSubColumn({
   feedsNextTickets,
   stageSkills,
   skillsByStage,
-  movedTickets,
   peersByTargetStage,
   team,
+  boardMode,
+  planningRoot,
+  onResumeTicket,
+  onTicketDragStart,
+  onTicketDragEnd,
+  draggingTicketRef,
+  draggingTicketId,
+  draggingTicket,
+  onTicketDrop,
 }: {
   columnStage: StageId;
   doneTickets: TicketView[];
   feedsNextTickets: TicketView[];
   stageSkills: StageSkill[];
   skillsByStage: Map<StageId, StageSkill[]>;
-  movedTickets: Set<string>;
   peersByTargetStage: Map<StageId, TicketView[]>;
   team: KanbanBoardSnapshot['team'];
+  boardMode?: BoardMode;
+  planningRoot?: string;
+  onResumeTicket?: (ticketId: string, targetStage: StageId, placement?: MoveTicketPlacement) => void;
+  onTicketDragStart?: (ticketId: string, stage: StageId) => void;
+  onTicketDragEnd?: () => void;
+  draggingTicketRef: MutableRefObject<TicketDragPayload | null>;
+  draggingTicketId?: string | null;
+  draggingTicket?: TicketDragPayload | null;
+  onTicketDrop?: TicketStageDropHandler;
 }) {
+  const isManual = boardMode === 'manual';
+  const acceptsTicketDrop = isManual && !!onTicketDrop;
+  const [ticketDropHighlight, setTicketDropHighlight] = useState(false);
+  const ticketDragCounterRef = useRef(0);
+
+  useEffect(() => {
+    if (!draggingTicket) {
+      setTicketDropHighlight(false);
+      ticketDragCounterRef.current = 0;
+    }
+  }, [draggingTicket]);
+
+  function isLeavingColumn(e: React.DragEvent): boolean {
+    const related = e.relatedTarget;
+    return !(related instanceof Node && e.currentTarget.contains(related));
+  }
+
+  function handleTicketDragOver(e: React.DragEvent) {
+    if (!acceptsTicketDrop) return;
+    if (!isTicketStageDrag(e.dataTransfer, draggingTicketRef)) return;
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+  }
+
+  function handleTicketDragEnter(e: React.DragEvent) {
+    if (!acceptsTicketDrop || !isLeavingColumn(e)) return;
+    if (!isTicketStageDrag(e.dataTransfer, draggingTicketRef)) return;
+    e.preventDefault();
+    ticketDragCounterRef.current++;
+    setTicketDropHighlight(true);
+  }
+
+  function handleTicketDragLeave(e: React.DragEvent) {
+    if (!acceptsTicketDrop || !isLeavingColumn(e)) return;
+    ticketDragCounterRef.current--;
+    if (ticketDragCounterRef.current <= 0) {
+      ticketDragCounterRef.current = 0;
+      setTicketDropHighlight(false);
+    }
+  }
+
+  function handleTicketDrop(e: React.DragEvent) {
+    if (!acceptsTicketDrop || !onTicketDrop) return;
+    e.preventDefault();
+    e.stopPropagation();
+    ticketDragCounterRef.current = 0;
+    setTicketDropHighlight(false);
+    const ticketId =
+      readTicketIdFromDataTransfer(e.dataTransfer, draggingTicketRef) ||
+      draggingTicketRef.current?.id;
+    if (!ticketId) return;
+    onTicketDrop(ticketId, columnStage, 'stage_done');
+  }
+
+  const dropZoneHandlers = acceptsTicketDrop
+    ? {
+        onDragOver: handleTicketDragOver,
+        onDragEnter: handleTicketDragEnter,
+        onDragLeave: handleTicketDragLeave,
+        onDrop: handleTicketDrop,
+      }
+    : {};
+
   const hasTickets = doneTickets.length + feedsNextTickets.length > 0;
   return (
-    <div className="kb-sub-col kb-sub-col--done">
+    <div
+      className={
+        'kb-sub-col kb-sub-col--done' + (ticketDropHighlight ? ' kb-sub-col--drop-target' : '')
+      }
+      {...dropZoneHandlers}
+    >
       <div className="kb-sub-col-head">
         <span>Done</span>
         {hasTickets ? (
           <span className="kb-col-count">{doneTickets.length + feedsNextTickets.length}</span>
         ) : null}
       </div>
-      <div className="kb-sub-col-tickets">
+      <div
+        className={
+          'kb-sub-col-tickets' + (ticketDropHighlight ? ' kb-sub-col-tickets--drop-target' : '')
+        }
+      >
         {doneTickets.length > 0 && (
           <div className="kb-done-section">
             <div className="kb-done-section-label">
@@ -283,11 +712,18 @@ function DoneSubColumn({
               <TicketCard
                 key={t.ticketId}
                 ticket={t}
-                moved={movedTickets.has('ticket-' + t.ticketId)}
                 stageSkills={stageSkillsForTicket(t, columnStage, skillsByStage)}
                 stageSubColumn="done"
                 activeStagePeers={[]}
                 team={team}
+                boardMode={boardMode}
+                planningRoot={planningRoot}
+                onResumeTicket={onResumeTicket}
+                onTicketDragStart={onTicketDragStart}
+                onTicketDragEnd={onTicketDragEnd}
+                draggingTicketRef={draggingTicketRef}
+                isDraggingSource={draggingTicketId === t.ticketId}
+                stageMoveDragActive={!!draggingTicket}
               />
             ))}
           </div>
@@ -304,11 +740,17 @@ function DoneSubColumn({
                 <TicketCard
                   key={t.ticketId}
                   ticket={t}
-                  moved={movedTickets.has('ticket-' + t.ticketId)}
                   stageSkills={targetSkills}
                   stageSubColumn="feeds-next"
                   activeStagePeers={t.stage ? peersByTargetStage.get(t.stage) ?? [] : []}
                   team={team}
+                  boardMode={boardMode}
+                  planningRoot={planningRoot}
+                  onTicketDragStart={onTicketDragStart}
+                  onTicketDragEnd={onTicketDragEnd}
+                  draggingTicketRef={draggingTicketRef}
+                  isDraggingSource={draggingTicketId === t.ticketId}
+                  stageMoveDragActive={!!draggingTicket}
                 />
               );
             })}
@@ -326,17 +768,33 @@ function StageGroup({
   bucket,
   skills,
   skillsByStage,
-  movedTickets,
   peersByTargetStage,
   team,
+  boardMode,
+  planningRoot,
+  onResumeTicket,
+  draggingTicketRef,
+  draggingTicketId,
+  draggingTicket,
+  onTicketDrop,
+  onTicketDragStart,
+  onTicketDragEnd,
 }: {
   stage: StageId;
   bucket: StageBucket;
   skills: StageSkill[];
   skillsByStage: Map<StageId, StageSkill[]>;
-  movedTickets: Set<string>;
   peersByTargetStage: Map<StageId, TicketView[]>;
   team: KanbanBoardSnapshot['team'];
+  boardMode?: BoardMode;
+  planningRoot?: string;
+  onResumeTicket?: (ticketId: string, targetStage: StageId, placement?: MoveTicketPlacement) => void;
+  draggingTicketRef: MutableRefObject<TicketDragPayload | null>;
+  draggingTicketId?: string | null;
+  draggingTicket?: TicketDragPayload | null;
+  onTicketDrop?: TicketStageDropHandler;
+  onTicketDragStart?: (ticketId: string, stage: StageId) => void;
+  onTicketDragEnd?: () => void;
 }) {
   const hasWork = bucket.ip.length + bucket.done.length + bucket.feedsNext.length > 0;
   return (
@@ -352,10 +810,19 @@ function StageGroup({
           label="In Progress"
           subColId="ip"
           tickets={bucket.ip}
-          movedTickets={movedTickets}
           stageSkills={skills}
           activeStagePeers={peersByTargetStage.get(stage) ?? []}
           team={team}
+          boardMode={boardMode}
+          planningRoot={planningRoot}
+          onResumeTicket={onResumeTicket}
+          columnStage={stage}
+          draggingTicketRef={draggingTicketRef}
+          draggingTicketId={draggingTicketId}
+          draggingTicket={draggingTicket}
+          onTicketDrop={onTicketDrop}
+          onTicketDragStart={onTicketDragStart}
+          onTicketDragEnd={onTicketDragEnd}
         />
         <DoneSubColumn
           columnStage={stage}
@@ -363,9 +830,17 @@ function StageGroup({
           feedsNextTickets={bucket.feedsNext}
           stageSkills={skills}
           skillsByStage={skillsByStage}
-          movedTickets={movedTickets}
           peersByTargetStage={peersByTargetStage}
           team={team}
+          boardMode={boardMode}
+          planningRoot={planningRoot}
+          onResumeTicket={onResumeTicket}
+          onTicketDragStart={onTicketDragStart}
+          onTicketDragEnd={onTicketDragEnd}
+          draggingTicketRef={draggingTicketRef}
+          draggingTicketId={draggingTicketId}
+          draggingTicket={draggingTicket}
+          onTicketDrop={onTicketDrop}
         />
       </div>
       {skills.length > 0 && (
@@ -387,18 +862,36 @@ function EndColumn({
   heading,
   colId,
   tickets,
+  skillsByStage,
+  boardMode,
+  planningRoot,
+  draggingTicketRef,
 }: {
   heading: string;
   colId: string;
   tickets: TicketView[];
+  skillsByStage?: Map<StageId, StageSkill[]>;
+  boardMode?: BoardMode;
+  planningRoot?: string;
+  draggingTicketRef: MutableRefObject<TicketDragPayload | null>;
 }) {
   return (
     <div className="kb-end-col" data-col={colId}>
       <div className="kb-end-col-header">{heading}</div>
       <div className="kb-end-col-tickets">
-        {tickets.map((t) => (
-          <TicketCard key={t.ticketId} ticket={t} />
-        ))}
+        {tickets.map((t) => {
+          const skills = t.stage && skillsByStage ? skillsByStage.get(t.stage) ?? [] : [];
+          return (
+            <TicketCard
+              key={t.ticketId}
+              ticket={t}
+              stageSkills={skills}
+              boardMode={boardMode}
+              planningRoot={planningRoot}
+              draggingTicketRef={draggingTicketRef}
+            />
+          );
+        })}
       </div>
     </div>
   );
@@ -420,25 +913,53 @@ const ROLE_FULL: Record<AgentRole, string> = {
   engineer: 'Engineer',
 };
 
+function formatAge(seconds: number | null): string {
+  if (seconds === null) return '';
+  if (seconds < 60) return `${seconds}s ago`;
+  if (seconds < 3600) return `${Math.floor(seconds / 60)}m ago`;
+  return `${Math.floor(seconds / 3600)}h ${Math.floor((seconds % 3600) / 60)}m ago`;
+}
+
 function AgentAvatar({
   role,
   state,
   index,
+  note,
+  ageSeconds,
   size = 'md',
+  boardMode,
 }: {
   role: AgentRole | 'kanban-lead';
   state: 'idle' | 'working' | 'inactive';
   index: number;
+  note?: string | null;
+  ageSeconds?: number | null;
   size?: 'sm' | 'md';
+  boardMode?: BoardMode;
 }) {
   const label = role === 'kanban-lead' ? 'KL' : ROLE_LABELS[role as AgentRole];
   const fullName = role === 'kanban-lead' ? 'Kanban Lead' : ROLE_FULL[role as AgentRole];
   const stateLabel = state === 'inactive' ? 'no thread' : state;
+  const agePart = ageSeconds != null ? ` (${formatAge(ageSeconds)})` : '';
+  const notePart = note ? `\n${note}` : '';
+  const tip = fullName + (role !== 'kanban-lead' ? ' #' + (index + 1) : '') + ' \u2014 ' + stateLabel + agePart + notePart;
+  const isDraggable = boardMode === 'manual' && role !== 'kanban-lead';
+
+  function handleDragStart(e: React.DragEvent) {
+    e.dataTransfer.setData('application/agent-role', role);
+    e.dataTransfer.effectAllowed = 'copy';
+  }
+
   return (
     <div
-      className={'kb-agent-avatar kb-agent-avatar--' + size + ' kb-agent-avatar--' + state}
+      className={
+        'kb-agent-avatar kb-agent-avatar--' + size + ' kb-agent-avatar--' + state +
+        (isDraggable ? ' kb-agent-avatar--draggable' : '')
+      }
       data-role={role}
-      title={fullName + (role !== 'kanban-lead' ? ' #' + (index + 1) : '') + ' \u2014 ' + stateLabel}
+      title={tip}
+      draggable={isDraggable}
+      onDragStart={isDraggable ? handleDragStart : undefined}
     >
       <span className="kb-agent-initial">{label}</span>
     </div>
@@ -464,15 +985,19 @@ function AgentPoolGroup({
   total,
   engagedCount,
   slotHeartbeats,
+  spawnNeeded,
   planningRoot,
   onUpdate,
+  boardMode,
 }: {
   role: AgentRole;
   total: number;
   engagedCount: number;
-  slotHeartbeats: Array<{ ageSeconds: number | null; status: string | null }>;
+  slotHeartbeats: Array<{ ageSeconds: number | null; status: string | null; note?: string | null }>;
+  spawnNeeded?: number;
   planningRoot: string;
   onUpdate?: (snapshot: KanbanBoardSnapshot) => void;
+  boardMode?: BoardMode;
 }) {
   async function adjust(delta: number) {
     const next = await postTeamAdjust(planningRoot, role, delta);
@@ -483,7 +1008,10 @@ function AgentPoolGroup({
 
   return (
     <div className="kb-pool-group" data-role={role}>
-      <div className="kb-pool-group-label">{ROLE_FULL[role]}</div>
+      <div className="kb-pool-group-label">
+        {ROLE_FULL[role]}
+        {spawnNeeded ? <span className="kb-spawn-badge" title={`${spawnNeeded} agent(s) need spawning`}>{spawnNeeded}</span> : null}
+      </div>
       <div className="kb-pool-group-row">
         {Array.from({ length: slots }, (_, i) => {
           const slot = slotHeartbeats[i];
@@ -498,7 +1026,16 @@ function AgentPoolGroup({
                   slot?.status ?? null,
                 );
           return (
-            <AgentAvatar key={i} role={role} state={st} index={i} size="sm" />
+            <AgentAvatar
+              key={i}
+              role={role}
+              state={st}
+              index={i}
+              note={slot?.note}
+              ageSeconds={slot?.ageSeconds}
+              size="sm"
+              boardMode={boardMode}
+            />
           );
         })}
         <div className="kb-pool-controls">
@@ -518,6 +1055,7 @@ function AgentPoolBar({
   heartbeatSlots,
   planningRoot,
   onUpdate,
+  boardMode,
 }: {
   team: KanbanBoardSnapshot['team'];
   columnViews: KanbanBoardSnapshot['columnViews'];
@@ -526,27 +1064,67 @@ function AgentPoolBar({
   heartbeatSlots: KanbanBoardSnapshot['heartbeatSlots'];
   planningRoot: string;
   onUpdate?: (snapshot: KanbanBoardSnapshot) => void;
+  boardMode?: BoardMode;
 }) {
   const engagedCounts = useMemo(
     () => countRoleEngagement(columnViews, stageSkillRails, team!),
     [columnViews, stageSkillRails, team],
   );
 
-  const klAge = heartbeats?.['kanban-lead'] ?? null;
-  const klAlive =
-    klAge !== null && klAge < HEARTBEAT_STALE_SECS;
+  const klSlot = heartbeatSlots?.['kanban-lead']?.[0];
+  const klAge = klSlot?.ageSeconds ?? heartbeats?.['kanban-lead'] ?? null;
+  const klStatus = klSlot?.status ?? null;
+  const klNote = klSlot?.note ?? null;
+  const klState = resolvePoolAvatarState(0, 0, klAge, HEARTBEAT_STALE_LEAD_SECS, klStatus);
+  const [klScanning, setKlScanning] = useState(false);
+  const [lastScanResult, setLastScanResult] = useState<{ spawns?: Array<{ role: string; instance: number }>; actions?: string[] } | null>(null);
+
+  async function wakeLeadScan() {
+    if (klScanning) return;
+    setKlScanning(true);
+    try {
+      const res = await fetch('/api/board/lead-scan', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ planningRoot }),
+      });
+      if (res.ok) {
+        const result = await res.json();
+        setLastScanResult(result);
+      }
+    } finally {
+      setKlScanning(false);
+    }
+  }
+
+  const spawnsByRole: Partial<Record<AgentRole, number>> = {};
+  if (lastScanResult?.spawns) {
+    for (const s of lastScanResult.spawns) {
+      const r = s.role as AgentRole;
+      spawnsByRole[r] = (spawnsByRole[r] ?? 0) + 1;
+    }
+  }
 
   return (
     <div className="kb-pool-bar">
       <div className="kb-pool-group kb-pool-group--lead" data-role="kanban-lead">
         <div className="kb-pool-group-label">Kanban Lead</div>
         <div className="kb-pool-group-row">
-          <AgentAvatar
-            role="kanban-lead"
-            state={klAlive || klAge === null ? 'idle' : 'inactive'}
-            index={0}
-            size="sm"
-          />
+          <div
+            className={'kb-lead-wake' + (klScanning ? ' kb-lead-wake--scanning' : '')}
+            onClick={() => void wakeLeadScan()}
+            title={klState === 'inactive' ? 'Click to wake lead scan' : undefined}
+            style={{ cursor: klState === 'inactive' || klState === 'idle' ? 'pointer' : 'default' }}
+          >
+            <AgentAvatar
+              role="kanban-lead"
+              state={klScanning ? 'working' : klState}
+              index={0}
+              note={klScanning ? 'Running scan...' : klNote}
+              ageSeconds={klScanning ? null : klAge}
+              size="sm"
+            />
+          </div>
         </div>
       </div>
 
@@ -562,8 +1140,10 @@ function AgentPoolBar({
             total={pairCount}
             engagedCount={engagedCounts[role]}
             slotHeartbeats={heartbeatSlots?.[role] ?? []}
+            spawnNeeded={spawnsByRole[role]}
             planningRoot={planningRoot}
             onUpdate={onUpdate}
+            boardMode={boardMode}
           />
         );
       })}
@@ -575,15 +1155,177 @@ function AgentPoolBar({
 
 export interface DeliveryKanbanBoardProps {
   snapshot: KanbanBoardSnapshot;
-  movedTickets?: Set<string>;
   onTeamUpdate?: (snapshot: KanbanBoardSnapshot) => void;
+  onModeToggle?: (snapshot: KanbanBoardSnapshot) => void;
 }
 
 export function DeliveryKanbanBoard({
   snapshot,
-  movedTickets = new Set(),
   onTeamUpdate,
+  onModeToggle,
 }: DeliveryKanbanBoardProps) {
+  const boardScrollRef = useRef<HTMLDivElement>(null);
+  const draggingTicketRef = useRef<TicketDragPayload | null>(null);
+  const ticketDropCommittedRef = useRef(false);
+  const [draggingTicket, setDraggingTicket] = useState<TicketDragPayload | null>(null);
+  /** Applied one frame after dragstart so pointer-events:none does not cancel the drag. */
+  const [ticketDragPassThrough, setTicketDragPassThrough] = useState(false);
+  const snapshotKey = snapshot.etag + ':' + snapshot.polledAt;
+  useFlipTicketAnimations(boardScrollRef, snapshotKey);
+
+  const boardMode: BoardMode = snapshot.board_mode ?? 'automatic';
+
+  const handleMoveTicket = useCallback(
+    async (
+      ticketId: string,
+      targetStage: StageId,
+      placement: MoveTicketPlacement = 'in_progress',
+    ) => {
+      try {
+        const next = await postMoveTicketToStage(
+          snapshot.planningRoot,
+          ticketId,
+          targetStage,
+          placement,
+        );
+        onTeamUpdate?.(next);
+      } catch (err) {
+        const msg = err instanceof Error ? err.message : 'Move failed';
+        window.alert(msg);
+      }
+    },
+    [snapshot.planningRoot, onTeamUpdate],
+  );
+
+  const handleTicketDragStart = useCallback((ticketId: string, stage: StageId) => {
+    const payload = { id: ticketId, stage };
+    draggingTicketRef.current = payload;
+    ticketDropCommittedRef.current = false;
+    setDraggingTicket(payload);
+    requestAnimationFrame(() => setTicketDragPassThrough(true));
+  }, []);
+
+  const endTicketDrag = useCallback(() => {
+    draggingTicketRef.current = null;
+    setDraggingTicket(null);
+    setTicketDragPassThrough(false);
+  }, []);
+
+  const handleTicketDragEnd = useCallback(() => {
+    // Drop fires before dragend on the source; defer cleanup so drop can read draggingTicketRef.
+    requestAnimationFrame(() => {
+      if (!ticketDropCommittedRef.current) {
+        endTicketDrag();
+      }
+    });
+  }, [endTicketDrag]);
+
+  // Recover if dragend on the card does not run (e.g. pointer-events glitch).
+  useEffect(() => {
+    const onWindowDragEnd = () => {
+      if (!draggingTicketRef.current) return;
+      requestAnimationFrame(() => {
+        if (!ticketDropCommittedRef.current) {
+          endTicketDrag();
+        }
+      });
+    };
+    window.addEventListener('dragend', onWindowDragEnd);
+    return () => window.removeEventListener('dragend', onWindowDragEnd);
+  }, [endTicketDrag]);
+
+  const handleTicketDrop = useCallback<TicketStageDropHandler>(
+    (ticketId, targetStage, placement) => {
+      if (ticketDropCommittedRef.current) return;
+      const payload = draggingTicketRef.current;
+      if (!payload) return;
+
+      ticketDropCommittedRef.current = true;
+      void handleMoveTicket(ticketId, targetStage, placement).finally(() => {
+        ticketDropCommittedRef.current = false;
+        endTicketDrag();
+      });
+    },
+    [handleMoveTicket, endTicketDrag],
+  );
+
+  const handleTicketDropRef = useRef(handleTicketDrop);
+  handleTicketDropRef.current = handleTicketDrop;
+
+  // Native capture drop: React synthetic onDrop is unreliable in Chromium for HTML5 DnD.
+  useEffect(() => {
+    const root = boardScrollRef.current;
+    if (!root || boardMode !== 'manual') return;
+
+    const allowTicketDragOver = (e: DragEvent) => {
+      if (!draggingTicketRef.current) return;
+      const hit = e.target instanceof HTMLElement ? e.target : null;
+      if (!hit?.closest('.kb-sub-col--ip, .kb-sub-col--done')) return;
+      e.preventDefault();
+      if (e.dataTransfer) e.dataTransfer.dropEffect = 'move';
+    };
+
+    const commitTicketDrop = (e: DragEvent) => {
+      if (!draggingTicketRef.current || ticketDropCommittedRef.current) return;
+      const hit = e.target instanceof HTMLElement ? e.target : null;
+      if (!hit) return;
+
+      const stageEl = hit.closest('[data-stage]');
+      const stageAttr = stageEl?.getAttribute('data-stage');
+      if (!stageAttr || !STAGE_ORDER.includes(stageAttr as StageId)) return;
+
+      const ipCol = hit.closest('.kb-sub-col--ip');
+      const doneCol = hit.closest('.kb-sub-col--done');
+      if (!ipCol && !doneCol) return;
+
+      e.preventDefault();
+      e.stopPropagation();
+
+      const placement: MoveTicketPlacement = doneCol && !ipCol ? 'stage_done' : 'in_progress';
+      const ticketId =
+        readTicketIdFromDataTransfer(e.dataTransfer, draggingTicketRef) ||
+        draggingTicketRef.current.id;
+      handleTicketDropRef.current(ticketId, stageAttr as StageId, placement);
+    };
+
+    const commitFromPointer = (hit: HTMLElement | null) => {
+      if (!draggingTicketRef.current || ticketDropCommittedRef.current || !hit) return false;
+      const stageEl = hit.closest('[data-stage]');
+      const stageAttr = stageEl?.getAttribute('data-stage');
+      if (!stageAttr || !STAGE_ORDER.includes(stageAttr as StageId)) return false;
+      const ipCol = hit.closest('.kb-sub-col--ip');
+      const doneCol = hit.closest('.kb-sub-col--done');
+      if (!ipCol && !doneCol) return false;
+      const placement: MoveTicketPlacement = doneCol && !ipCol ? 'stage_done' : 'in_progress';
+      const ticketId = draggingTicketRef.current.id;
+      handleTicketDropRef.current(ticketId, stageAttr as StageId, placement);
+      return true;
+    };
+
+    const onMouseUp = (e: MouseEvent) => {
+      const hit = e.target instanceof HTMLElement ? e.target : null;
+      commitFromPointer(hit);
+    };
+
+    root.addEventListener('dragover', allowTicketDragOver);
+    root.addEventListener('drop', commitTicketDrop, true);
+    root.addEventListener('mouseup', onMouseUp, true);
+    return () => {
+      root.removeEventListener('dragover', allowTicketDragOver);
+      root.removeEventListener('drop', commitTicketDrop, true);
+      root.removeEventListener('mouseup', onMouseUp, true);
+    };
+  }, [boardMode]);
+
+  const handleModeToggle = useCallback(async () => {
+    try {
+      const next = await toggleBoardMode(snapshot.planningRoot);
+      onModeToggle?.(next);
+    } catch {
+      // Server toggle failed; next poll will reconcile
+    }
+  }, [snapshot.planningRoot, onModeToggle]);
+
   const stageBuckets = useMemo(
     () => buildStageBuckets(snapshot.columnViews, snapshot.archivedTickets, snapshot.stageSkillRails),
     [snapshot.columnViews, snapshot.archivedTickets, snapshot.stageSkillRails],
@@ -619,7 +1361,11 @@ export function DeliveryKanbanBoard({
   }, [snapshot.columnViews, visibleStages]);
 
   return (
-    <div className="kb-board-outer">
+    <div
+      className={
+        'kb-board-outer' + (ticketDragPassThrough ? ' kb-board-outer--ticket-drag' : '')
+      }
+    >
       <AgentPoolBar
         team={snapshot.team}
         columnViews={snapshot.columnViews}
@@ -628,9 +1374,36 @@ export function DeliveryKanbanBoard({
         heartbeatSlots={snapshot.heartbeatSlots ?? {}}
         planningRoot={snapshot.planningRoot}
         onUpdate={onTeamUpdate}
+        boardMode={boardMode}
       />
-      <div className="kb-board-scroll">
-        <EndColumn heading="Backlog" colId="backlog" tickets={backlogTickets} />
+      <div className="kbd-board-mode-bar">
+        <div className="abd-slide-mode-toggle kbd-board-mode-toggle" role="group" aria-label="Board mode">
+          <button
+            type="button"
+            className={'abd-slide-mode-btn ' + (boardMode === 'automatic' ? 'is-active' : '')}
+            onClick={() => void handleModeToggle()}
+          >
+            Auto
+          </button>
+          <button
+            type="button"
+            className={'abd-slide-mode-btn ' + (boardMode === 'manual' ? 'is-active' : '')}
+            onClick={() => void handleModeToggle()}
+          >
+            Manual
+          </button>
+        </div>
+      </div>
+      <div className="kb-board-scroll" ref={boardScrollRef}>
+        <EndColumn
+          heading="Backlog"
+          colId="backlog"
+          tickets={backlogTickets}
+          skillsByStage={skillsByStage}
+          boardMode={boardMode}
+          planningRoot={snapshot.planningRoot}
+          draggingTicketRef={draggingTicketRef}
+        />
 
         {visibleStages.map((stage) => (
           <StageGroup
@@ -639,15 +1412,49 @@ export function DeliveryKanbanBoard({
             bucket={stageBuckets.get(stage) ?? { ip: [], done: [], feedsNext: [] }}
             skills={skillsByStage.get(stage) ?? []}
             skillsByStage={skillsByStage}
-            movedTickets={movedTickets}
             peersByTargetStage={peersByTargetStage}
             team={snapshot.team}
+            boardMode={boardMode}
+            planningRoot={snapshot.planningRoot}
+            onResumeTicket={boardMode === 'manual' ? handleMoveTicket : undefined}
+            draggingTicketRef={draggingTicketRef}
+            draggingTicketId={draggingTicket?.id ?? null}
+            draggingTicket={draggingTicket}
+            onTicketDrop={boardMode === 'manual' ? handleTicketDrop : undefined}
+            onTicketDragStart={handleTicketDragStart}
+            onTicketDragEnd={handleTicketDragEnd}
           />
         ))}
 
         {archivedColumnTickets.length > 0 ? (
-          <EndColumn heading="Archived" colId="archived" tickets={archivedColumnTickets} />
+          <EndColumn
+            heading="Archived"
+            colId="archived"
+            tickets={archivedColumnTickets}
+            skillsByStage={skillsByStage}
+            boardMode={boardMode}
+            planningRoot={snapshot.planningRoot}
+            draggingTicketRef={draggingTicketRef}
+          />
         ) : null}
+      </div>
+      <div className="kanban-legend-row">
+        <div className="kanban-legend-heading">Ticket scope</div>
+        <div className="kanban-legend-cards">
+          {(
+            [
+              ['project', 'Project'],
+              ['partition', 'Partition'],
+              ['increment', 'Increment'],
+              ['sprint', 'Sprint'],
+            ] as const
+          ).map(([key, label]) => (
+            <span key={key} className="kanban-legend-chip">
+              <span className={'kanban-legend-swatch kanban-legend-swatch--' + key} />
+              {label}
+            </span>
+          ))}
+        </div>
       </div>
     </div>
   );

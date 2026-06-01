@@ -5,6 +5,8 @@ import { skillFamilyFor, skillLabel } from './skillCatalog';
 export interface StageWorkRequiredEntry {
   skill: string;
   role: string;
+  optional?: boolean;
+  run_when?: string;
 }
 
 export interface StageDefinition {
@@ -30,8 +32,13 @@ function resolveSteps(stageDef: StageDefinition): StageWorkRequiredEntry[] {
   return stageDef.stage_work_required ?? stageDef.skills ?? [];
 }
 
+/** Skills that block stage completion and appear on the ticket card (includes conditional run_when — gate at execution). */
+export function isRequiredStageStep(step: StageWorkRequiredEntry): boolean {
+  return !step.optional;
+}
+
 function stepsToSkills(steps: StageWorkRequiredEntry[]): StageSkillRail['skills'] {
-  return steps.map((step) => ({
+  return steps.filter(isRequiredStageStep).map((step) => ({
     skillId: step.skill,
     label: skillLabel(step.skill),
     family: skillFamilyFor(step.skill),

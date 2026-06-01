@@ -83,6 +83,16 @@ export const SkillProgressSchema = z.object({
 
 export type SkillProgress = z.infer<typeof SkillProgressSchema>;
 
+/** board.json may have notes as "" or legacy [] from scatter; model uses string. */
+function normalizeTicketNotes(value: unknown): string {
+  if (value == null) return '';
+  if (Array.isArray(value)) {
+    return value.filter((n): n is string => typeof n === 'string').join('\n');
+  }
+  if (typeof value === 'string') return value;
+  return String(value);
+}
+
 // ─── Ticket ───────────────────────────────────────────────────────────────────
 
 export const TicketSchema = z.object({
@@ -96,7 +106,19 @@ export const TicketSchema = z.object({
   completed_stage: z.string().nullable().optional(),
   scatter_from: z.string().nullable().optional(),
   scatter_to: z.array(z.string()).default([]),
-  notes: z.string().default(''),
+  notes: z.preprocess(normalizeTicketNotes, z.string()).default(''),
+  stage_history: z
+    .array(
+      z.object({
+        stage: z.string(),
+        entered: z.string().nullable().optional(),
+        completed: z.string().nullable().optional(),
+        skipped: z.boolean().optional(),
+      }),
+    )
+    .default([]),
+  /** Manual mode: keep ticket in the in-progress sub-column for more agent drops. */
+  hold_in_progress: z.boolean().optional(),
 });
 
 export type Ticket = z.infer<typeof TicketSchema>;
@@ -133,12 +155,26 @@ export function normalizeDeliveryRole(agent: string | null | undefined): AgentRo
   return null;
 }
 
+// ─── Board mode ──────────────────────────────────────────────────────────────
+
+export type BoardMode = 'automatic' | 'manual';
+
+// ─── Action intent ───────────────────────────────────────────────────────────
+
+export interface ActionIntent {
+  ticket_id: string;
+  skill: string;
+  agent_role: string;
+  created_at: string;
+}
+
 // ─── Board ────────────────────────────────────────────────────────────────────
 
 export const KanbanBoardSchema = z.object({
   schema: z.literal('abd-delivery-kanban/v2'),
   synced_at: z.string().nullable().optional(),
   stage_configuration: z.string().nullable().optional(),
+  board_mode: z.enum(['automatic', 'manual']).default('automatic'),
   backlog: z.array(TicketSchema).default([]),
   active: z.array(TicketSchema).default([]),
   done: z.array(TicketSchema).default([]),
@@ -175,18 +211,28 @@ export interface TicketView {
   stage: StageId | null;
   column: KanbanColumn;
   priority: number;
-  /** The skill currently being executed (status: in_progress) */
+  /** The skill currently being executed (status: in_progress) — first match for focus/avatar */
   activeSkillId: string | null;
   activeAgent: string | null;
-  /** The skill currently under review (review_status: in_progress) */
+  /** All skills with execution_status in_progress (parallel manual mode) */
+  executingSkillIds: string[];
+  /** The skill currently under review (review_status: in_progress) — first match for focus */
   reviewSkillId: string | null;
   reviewAgent: string | null;
-  /** Execution done, review not complete, review not yet in progress */
+  /** All skills with review_status in_progress (parallel manual mode) */
+  reviewingSkillIds: string[];
+  /** Execution done, review not complete, review not yet in progress — first match for focus */
   awaitingReviewSkillId: string | null;
   awaitingReviewAgent: AgentRole | null;
+  /** All skills awaiting review (execution done, review not started) */
+  awaitingReviewSkillIds: string[];
   isReviewing: boolean;
   /** All skill IDs with status: done (for the expanded skill list) */
   doneSkillIds: string[];
+  /** Skill IDs where review_status === 'failed' (rework needed) */
+  failedReviewSkillIds: string[];
+  /** Skill IDs with a pending action intent not yet processed by the Kanban Lead */
+  pendingIntentSkillIds: string[];
   enteredStage: string | null;
   completedStage: string | null;
   scatterFrom: string | null;
@@ -196,6 +242,8 @@ export interface TicketView {
   displayLabel: string;
   /** Short chip label (e.g. ticket_id abbreviation) */
   chipLabel: string;
+  /** Manual mode: user pulled ticket back to in-progress for more agent work */
+  holdInProgress: boolean;
 }
 
 /** Per-stage sub-columns: in progress, done (includes next-stage backlog in prev stage done). */
@@ -231,7 +279,6 @@ export function ticketHasLiveAgentWork(ticket: TicketView): boolean {
 
 function peerFocusSubColumn(ticket: TicketView): StageSubColumn {
   if (ticket.column === 'backlog') return 'feeds-next';
-  if (ticket.column === 'active' && !ticketHasLiveAgentWork(ticket)) return 'feeds-next';
   return 'ip';
 }
 
@@ -246,6 +293,7 @@ function nextIncompleteSkill(
 export function hasSkillProgress(ticket: TicketView): boolean {
   return (
     ticket.doneSkillIds.length > 0 ||
+    (ticket.executingSkillIds?.length ?? 0) > 0 ||
     ticket.activeSkillId !== null ||
     ticket.reviewSkillId !== null
   );
@@ -278,7 +326,11 @@ export function resolveFocusSkillId(
   if (ticket.reviewSkillId) return ticket.reviewSkillId;
   if (ticket.activeSkillId) return ticket.activeSkillId;
   if (ticket.awaitingReviewSkillId) return ticket.awaitingReviewSkillId;
-  if (stageSubColumn === 'ip' || stageSubColumn === 'feeds-next') {
+  if (
+    stageSubColumn === 'ip' ||
+    stageSubColumn === 'feeds-next' ||
+    (stageSubColumn === 'done' && ticket.holdInProgress)
+  ) {
     return nextIncompleteSkill(ticket, stageSkillIds);
   }
   return null;
@@ -357,9 +409,12 @@ export interface SkillRowDisplayState {
   isDone: boolean;
   isExecuting: boolean;
   isUnderReview: boolean;
+  isPendingIntent: boolean;
   isFocus: boolean;
   showBot: boolean;
   showMagnify: boolean;
+  showRework: boolean;
+  showPendingIntent: boolean;
 }
 
 /** Per-row icon and styling flags for the expanded skill list on a ticket card. */
@@ -370,14 +425,25 @@ export function skillRowDisplayState(
 ): SkillRowDisplayState {
   const doneSet = new Set(ticket.doneSkillIds);
   const isDone = doneSet.has(skillId);
-  const isExecuting = ticket.activeSkillId === skillId;
-  const isUnderReview = ticket.reviewSkillId === skillId;
-  const isAwaitingReview = ticket.awaitingReviewSkillId === skillId;
+  const executingSet = new Set(ticket.executingSkillIds ?? []);
+  const isExecuting = executingSet.has(skillId) || ticket.activeSkillId === skillId;
+  const reviewingSet = new Set(ticket.reviewingSkillIds ?? []);
+  const awaitingReviewSet = new Set(ticket.awaitingReviewSkillIds ?? []);
+  const isUnderReview =
+    reviewingSet.has(skillId) ||
+    ticket.reviewSkillId === skillId;
+  const isAwaitingReview =
+    awaitingReviewSet.has(skillId) ||
+    ticket.awaitingReviewSkillId === skillId;
   const isFocus = focusSkillId === skillId && !isDone;
   // Bot icon = live execution only (pool uses the same rule via resolveWorkingAgent).
-  const showBot = !isDone && isExecuting && !isUnderReview;
-  const showMagnify = isUnderReview || isAwaitingReview;
-  return { isDone, isExecuting, isUnderReview, isFocus, showBot, showMagnify };
+  const isFailedReview = (ticket.failedReviewSkillIds ?? []).includes(skillId);
+  const isPendingIntent = (ticket.pendingIntentSkillIds ?? []).includes(skillId);
+  const showBot = !isDone && isExecuting && !isUnderReview && !isPendingIntent;
+  const showMagnify = (isUnderReview || isAwaitingReview) && !isFailedReview;
+  const showRework = isFailedReview && !isDone;
+  const showPendingIntent = isPendingIntent && !isDone && !isExecuting && !isUnderReview;
+  return { isDone, isExecuting, isUnderReview, isPendingIntent, isFocus, showBot, showMagnify, showRework, showPendingIntent };
 }
 
 /** Whether the collapsed ticket card should show the skill icon (bot / magnify). No avatars on tickets — pool only. */
@@ -386,11 +452,15 @@ export function ticketShowsLiveSkillIcon(
   focusSkillId: string | null,
   stageSubColumn?: StageSubColumn,
 ): boolean {
-  if (focusSkillId === null || stageSubColumn !== 'ip') return false;
+  if (focusSkillId === null) return false;
+  if (stageSubColumn !== 'ip' && !(stageSubColumn === 'done' && ticket.holdInProgress)) {
+    return false;
+  }
   return Boolean(ticket.activeSkillId || ticket.reviewSkillId);
 }
 
 export const HEARTBEAT_STALE_SECS = 120;
+export const HEARTBEAT_STALE_LEAD_SECS = 600;
 
 /**
  * Count live agent engagements per role — only skills actively executing or under review.
@@ -432,7 +502,10 @@ export function resolvePoolAvatarState(
     heartbeatAge !== null && heartbeatAge >= 0 ? heartbeatAge : null;
   const heartbeatFresh =
     effectiveAge !== null && effectiveAge < stalenessSecs;
-  if (heartbeatFresh && heartbeatStatus === 'working') {
+  if (
+    heartbeatFresh &&
+    (heartbeatStatus === 'working' || heartbeatStatus === 'reserved')
+  ) {
     return 'working';
   }
   if (heartbeatFresh || effectiveAge === null) return 'idle';
@@ -442,6 +515,7 @@ export function resolvePoolAvatarState(
 export interface HeartbeatSlot {
   ageSeconds: number | null;
   status: string | null;
+  note: string | null;
 }
 
 /** Per-instance heartbeats for multi-slot roles (e.g. heartbeat-business-expert-be2.json). */
@@ -468,12 +542,12 @@ export function parseHeartbeatFileName(
 }
 
 export function buildHeartbeatSlots(
-  files: Array<{ fileName: string; raw: { ts?: string; status?: string } }>,
+  files: Array<{ fileName: string; raw: { ts?: string; status?: string; note?: string } }>,
   nowMs = Date.now(),
 ): HeartbeatSlots {
   const byRole = new Map<
     string,
-    Array<{ slotKey: string; ageSeconds: number | null; status: string | null }>
+    Array<{ slotKey: string; ageSeconds: number | null; status: string | null; note: string | null }>
   >();
 
   for (const { fileName, raw } of files) {
@@ -481,15 +555,15 @@ export function buildHeartbeatSlots(
     if (!parsed) continue;
     let ageSeconds: number | null = null;
     if (raw?.ts) {
-      const parsed = Math.floor((nowMs - new Date(raw.ts).getTime()) / 1000);
-      // Future/skewed timestamps must not read as "fresh" (negative age).
-      ageSeconds = parsed >= 0 ? parsed : null;
+      const tsMs = Math.floor((nowMs - new Date(raw.ts).getTime()) / 1000);
+      ageSeconds = tsMs >= 0 ? tsMs : null;
     }
     const list = byRole.get(parsed.role) ?? [];
     list.push({
       slotKey: parsed.slotKey,
       ageSeconds,
       status: raw.status ?? null,
+      note: raw.note ?? null,
     });
     byRole.set(parsed.role, list);
   }
@@ -504,6 +578,7 @@ export function buildHeartbeatSlots(
     result[role as AgentRole | 'kanban-lead'] = slots.map((s) => ({
       ageSeconds: s.ageSeconds,
       status: s.status,
+      note: s.note,
     }));
   }
   return result;
@@ -526,6 +601,7 @@ export interface KanbanBoardSnapshot {
   boardTitle: string;
   syncedAt: string | null;
   stageFlow: StageId[];
+  board_mode: BoardMode;
   board: KanbanBoard;
   columnViews: KanbanColumnView[];
   archivedTickets: TicketView[];
@@ -535,6 +611,32 @@ export interface KanbanBoardSnapshot {
   team: NonNullable<Team>;
   heartbeats: HeartbeatAges;
   heartbeatSlots: HeartbeatSlots;
+  pendingIntents: ActionIntent[];
+}
+
+/** Overlay pending action intents onto ticket views so the UI can show a "queued" icon. */
+export function applyPendingIntents(snapshot: KanbanBoardSnapshot): void {
+  const intentsByTicket = new Map<string, Set<string>>();
+  for (const intent of snapshot.pendingIntents) {
+    let skills = intentsByTicket.get(intent.ticket_id);
+    if (!skills) {
+      skills = new Set();
+      intentsByTicket.set(intent.ticket_id, skills);
+    }
+    skills.add(intent.skill);
+  }
+  if (intentsByTicket.size === 0) return;
+
+  const allTickets = [
+    ...snapshot.columnViews.flatMap((c) => c.tickets),
+    ...snapshot.archivedTickets,
+  ];
+  for (const ticket of allTickets) {
+    const skills = intentsByTicket.get(ticket.ticketId);
+    if (skills) {
+      ticket.pendingIntentSkillIds = [...skills];
+    }
+  }
 }
 
 // ─── Planning paths ───────────────────────────────────────────────────────────
@@ -547,6 +649,7 @@ export interface PlanningPaths {
   metricsLogFile: string;
   strategyFile: string;
   manifestFile: string;
+  actionStateFile: string;
 }
 
 export function resolvePlanningPaths(planningRoot: string): PlanningPaths {
@@ -560,7 +663,20 @@ export function resolvePlanningPaths(planningRoot: string): PlanningPaths {
     metricsLogFile: `${kanbanDir}/metrics-log.jsonl`,
     strategyFile: `${kanbanDir}/strategy.md`,
     manifestFile: `${kanbanDir}/manifest.md`,
+    actionStateFile: `${kanbanDir}/action-state.json`,
   };
+}
+
+/** Engagement workspace root (artifacts under docs/end-to-end), not docs/planning. */
+export function engagementWorkspaceFromPlanningRoot(planningRoot: string): string {
+  const root = planningRoot.replace(/\\/g, '/').replace(/\/$/, '');
+  if (root.endsWith('/docs/planning/delivery-war-room')) {
+    return root.slice(0, -'/docs/planning/delivery-war-room'.length);
+  }
+  if (root.endsWith('/docs/planning')) {
+    return root.slice(0, -'/docs/planning'.length);
+  }
+  return root;
 }
 
 // ─── View builders ────────────────────────────────────────────────────────────
@@ -578,11 +694,14 @@ function ticketChipLabel(ticket: Ticket): string {
   return id.slice(0, 8);
 }
 
-/** CSS class for ticket card tint by scope_level (all = project, increment, sprint). */
+/** CSS class for ticket card tint by scope_level (project → partition → increment → sprint). */
 export function scopeLevelCssClass(scopeLevel: string): string {
   switch (scopeLevel) {
+    case 'project':
     case 'all':
-      return 'kb-ticket--scope-all';
+      return 'kb-ticket--scope-project';
+    case 'partition':
+      return 'kb-ticket--scope-partition';
     case 'increment':
       return 'kb-ticket--scope-increment';
     case 'sprint':
@@ -592,6 +711,14 @@ export function scopeLevelCssClass(scopeLevel: string): string {
   }
 }
 
+export const SCOPE_LEVEL_LABELS: Record<string, string> = {
+  project: 'Project',
+  all: 'Project',
+  partition: 'Partition',
+  increment: 'Increment',
+  sprint: 'Sprint',
+};
+
 /** A skill is complete only when both execution and review are done (work-queue gate). */
 export function isSkillComplete(sp: SkillProgress): boolean {
   return sp.execution_status === 'done' && sp.review_status === 'done';
@@ -600,51 +727,74 @@ export function isSkillComplete(sp: SkillProgress): boolean {
 function deriveActiveSkill(skillProgress: Record<string, SkillProgress>): {
   activeSkillId: string | null;
   activeAgent: string | null;
+  executingSkillIds: string[];
   reviewSkillId: string | null;
   reviewAgent: string | null;
+  reviewingSkillIds: string[];
   awaitingReviewSkillId: string | null;
   awaitingReviewAgent: AgentRole | null;
+  awaitingReviewSkillIds: string[];
   doneSkillIds: string[];
+  failedReviewSkillIds: string[];
 } {
   let activeSkillId: string | null = null;
   let activeAgent: string | null = null;
+  const executingSkillIds: string[] = [];
   let reviewSkillId: string | null = null;
   let reviewAgent: string | null = null;
+  const reviewingSkillIds: string[] = [];
   let awaitingReviewSkillId: string | null = null;
   let awaitingReviewAgent: AgentRole | null = null;
+  const awaitingReviewSkillIds: string[] = [];
   const doneSkillIds: string[] = [];
+  const failedReviewSkillIds: string[] = [];
 
   for (const [skillId, sp] of Object.entries(skillProgress)) {
-    if (sp.execution_status === 'in_progress' && !activeSkillId) {
-      activeSkillId = skillId;
-      activeAgent = sp.agent ?? null;
+    if (sp.execution_status === 'in_progress') {
+      executingSkillIds.push(skillId);
+      if (!activeSkillId) {
+        activeSkillId = skillId;
+        activeAgent = sp.agent ?? null;
+      }
     }
-    if (sp.review_status === 'in_progress' && !reviewSkillId) {
-      reviewSkillId = skillId;
-      reviewAgent = sp.reviewer ?? sp.agent ?? null;
+    if (sp.review_status === 'in_progress') {
+      reviewingSkillIds.push(skillId);
+      if (!reviewSkillId) {
+        reviewSkillId = skillId;
+        reviewAgent = sp.reviewer ?? sp.agent ?? null;
+      }
     }
     if (
       sp.execution_status === 'done' &&
       sp.review_status !== 'done' &&
-      sp.review_status !== 'in_progress' &&
-      !awaitingReviewSkillId
+      sp.review_status !== 'in_progress'
     ) {
-      awaitingReviewSkillId = skillId;
-      awaitingReviewAgent = normalizeDeliveryRole(sp.reviewer ?? sp.agent ?? null);
+      awaitingReviewSkillIds.push(skillId);
+      if (!awaitingReviewSkillId) {
+        awaitingReviewSkillId = skillId;
+        awaitingReviewAgent = normalizeDeliveryRole(sp.reviewer ?? sp.agent ?? null);
+      }
     }
     if (isSkillComplete(sp)) {
       doneSkillIds.push(skillId);
+    }
+    if (sp.review_status === 'failed') {
+      failedReviewSkillIds.push(skillId);
     }
   }
 
   return {
     activeSkillId,
     activeAgent,
+    executingSkillIds,
     reviewSkillId,
     reviewAgent,
+    reviewingSkillIds,
     awaitingReviewSkillId,
     awaitingReviewAgent,
+    awaitingReviewSkillIds,
     doneSkillIds,
+    failedReviewSkillIds,
   };
 }
 
@@ -652,11 +802,15 @@ function toTicketView(ticket: Ticket, column: KanbanColumn): TicketView {
   const {
     activeSkillId,
     activeAgent,
+    executingSkillIds,
     reviewSkillId,
     reviewAgent,
+    reviewingSkillIds,
     awaitingReviewSkillId,
     awaitingReviewAgent,
+    awaitingReviewSkillIds,
     doneSkillIds,
+    failedReviewSkillIds,
   } = deriveActiveSkill(ticket.skill_progress);
 
   return {
@@ -668,12 +822,17 @@ function toTicketView(ticket: Ticket, column: KanbanColumn): TicketView {
     priority: ticket.priority,
     activeSkillId,
     activeAgent,
+    executingSkillIds,
     reviewSkillId,
     reviewAgent,
+    reviewingSkillIds,
     awaitingReviewSkillId,
     awaitingReviewAgent,
-    isReviewing: reviewSkillId !== null,
+    awaitingReviewSkillIds,
+    isReviewing: reviewingSkillIds.length > 0,
     doneSkillIds,
+    failedReviewSkillIds,
+    pendingIntentSkillIds: [],
     enteredStage: ticket.entered_stage ?? null,
     completedStage: ticket.completed_stage ?? null,
     scatterFrom: ticket.scatter_from ?? null,
@@ -681,7 +840,33 @@ function toTicketView(ticket: Ticket, column: KanbanColumn): TicketView {
     notes: ticket.notes,
     displayLabel: ticketDisplayLabel(ticket),
     chipLabel: ticketChipLabel(ticket),
+    holdInProgress: ticket.hold_in_progress === true,
   };
+}
+
+/** Move ticket to active and set hold so the UI shows it in the in-progress sub-column. */
+export function applyResumeTicketInProgress(board: KanbanBoard, ticketId: string): KanbanBoard {
+  const done = [...board.done];
+  const archived = [...board.archived];
+  let active = [...board.active];
+  let backlog = [...board.backlog];
+
+  const pull = (list: Ticket[]): Ticket | undefined => {
+    const idx = list.findIndex((t) => t.ticket_id === ticketId);
+    if (idx < 0) return undefined;
+    return list.splice(idx, 1)[0];
+  };
+
+  let ticket = pull(done) ?? pull(archived) ?? pull(backlog);
+  if (!ticket) {
+    const existing = active.find((t) => t.ticket_id === ticketId);
+    if (!existing) throw new Error(`Ticket not found: ${ticketId}`);
+    ticket = existing;
+  }
+  active = active.filter((t) => t.ticket_id !== ticketId);
+  active.push({ ...ticket, hold_in_progress: true });
+
+  return { ...board, active, done, archived, backlog };
 }
 
 export function buildColumnViews(board: KanbanBoard): KanbanColumnView[] {
@@ -718,6 +903,21 @@ export function isStageSkillsComplete(
   if (stageSkillIds.length === 0) return false;
   const doneSet = new Set(ticket.doneSkillIds);
   return stageSkillIds.every((id) => doneSet.has(id));
+}
+
+/** Partition/project with stage skills done but not yet scattered — show queued, not Complete. */
+export function ticketAwaitingScatter(
+  ticket: TicketView,
+  stageSkillIds: string[],
+): boolean {
+  if (ticket.scatterTo.length > 0) return false;
+  if (ticket.column === 'archived') return false;
+  if (!isStageSkillsComplete(ticket, stageSkillIds)) return false;
+  return (
+    ticket.scopeLevel === 'partition' ||
+    ticket.scopeLevel === 'project' ||
+    ticket.scopeLevel === 'all'
+  );
 }
 
 /** Which stage's Done column should show an archived ticket, if any. */
@@ -784,8 +984,11 @@ function scatterParentRelocateOrder(ticket: TicketView): number {
       return 0;
     case 'increment':
       return 1;
-    case 'all':
+    case 'partition':
       return 2;
+    case 'project':
+    case 'all':
+      return 3;
     default:
       return 1;
   }
@@ -877,7 +1080,8 @@ function emptyStageBuckets(): Map<StageId, StageBucket> {
 /**
  * Map board arrays into per-stage in-progress / done sub-columns.
  * - board.backlog tickets with a stage → previous stage Done (feeds next stage).
- * - board.active tickets without a live agent → **same stage** Done feeds-next (queued in stage, not IP).
+ * - board.active tickets with incomplete stage skills → In Progress (IP), even when no agent is live yet.
+ * - board.active tickets with all stage skills complete → Done (ready to advance or scatter).
  */
 export function buildStageBuckets(
   columnViews: KanbanColumnView[],
@@ -905,14 +1109,20 @@ export function buildStageBuckets(
       const skillIds = skillsByStage.get(ticket.stage) ?? [];
 
       if (col.id === 'done') {
-        bucket.done.push(ticket);
-      } else if (col.id === 'active') {
-        if (isStageSkillsComplete(ticket, skillIds)) {
+        if (ticketAwaitingScatter(ticket, skillIds)) {
+          bucket.feedsNext.push(ticket);
+        } else {
           bucket.done.push(ticket);
-        } else if (ticketHasLiveAgentWork(ticket)) {
+        }
+      } else if (col.id === 'active') {
+        if (ticket.holdInProgress) {
+          bucket.ip.push(ticket);
+        } else if (ticketAwaitingScatter(ticket, skillIds)) {
+          bucket.feedsNext.push(ticket);
+        } else if (!isStageSkillsComplete(ticket, skillIds)) {
           bucket.ip.push(ticket);
         } else {
-          bucket.feedsNext.push(ticket);
+          bucket.done.push(ticket);
         }
       }
     }
@@ -922,12 +1132,20 @@ export function buildStageBuckets(
     bucket.feedsNext.sort((a, b) => a.priority - b.priority);
   }
 
+  // Only show archived tickets in stage done if they completed (not scattered).
+  // Scatter parents belong in the Archived end column, not cluttering stage views.
   for (const ticket of archivedTickets) {
+    if (ticket.scatterTo.length > 0) continue;
     const stage = resolveArchivedStageDone(ticket);
-    if (stage) buckets.get(stage)?.done.push(ticket);
+    if (!stage) continue;
+    const bucket = buckets.get(stage);
+    if (!bucket) continue;
+    if (ticket.holdInProgress) {
+      bucket.ip.push(ticket);
+    } else {
+      bucket.done.push(ticket);
+    }
   }
-
-  relocateScatterParents(buckets, archivedTickets);
 
   return buckets;
 }
@@ -953,9 +1171,9 @@ export function buildArchivedColumnTickets(
   return archivedTickets.filter((t) => !shownOnBoard.has(t.ticketId));
 }
 
-export function boardEtag(board: KanbanBoard): string {
+export function boardEtag(board: KanbanBoard, pendingIntentCount = 0): string {
   const activeSig = board.active
     .map((t) => `${t.ticket_id}:${t.stage}:${Object.keys(t.skill_progress).length}`)
     .join('|');
-  return `${board.synced_at ?? 'none'}:${board.backlog.length}:${activeSig}:${board.done.length}:${board.archived.length}`;
+  return `${board.synced_at ?? 'none'}:${board.board_mode ?? 'automatic'}:${board.backlog.length}:${activeSig}:${board.done.length}:${board.archived.length}:pi${pendingIntentCount}`;
 }

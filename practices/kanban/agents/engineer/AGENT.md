@@ -35,8 +35,6 @@ Before `in_progress` on **`abd-architecture-reference`** or **`abd-architecture-
 
 Priors done ≠ arch-reference runs. Mechanism needed on disk = run.
 
-**Draw.io:** After **`abd-object-model`**, queue **`drawio-domain-sync`** in background per [drawio-sync-background.md](../reference/drawio-sync-background.md).
-
 ## Relationship to kanban-lead
 
 The lead manages the board, triggers scatters, and scales the agent pool. You pull eligible skills from active tickets matching your role. Execute and review in one pass per executor-workflow.md.
