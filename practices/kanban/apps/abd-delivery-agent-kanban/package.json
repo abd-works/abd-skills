@@ -13,7 +13,8 @@
     "dev:client": "vite packages/app-client",
     "dev": "concurrently \"npm run dev:api\" \"npm run dev:client\"",
     "test": "vitest run",
-    "test:e2e": "playwright test",
+    "test:e2e": "powershell -NoProfile -File scripts/reset-e2e-fixture.ps1 -Fixture pawplace-stubs && playwright test",
+    "test:e2e:mini": "powershell -NoProfile -File scripts/reset-e2e-fixture.ps1 -Fixture pawplace-mini && playwright test --config=playwright.mini.config.mjs",
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {

@@ -1,0 +1,9 @@
+{
+  "agent_role": "product-owner",
+  "role": "product-owner",
+  "instance": 1,
+  "ts": "2026-06-02T23:00:13.460528+00:00",
+  "status": "ready",
+  "spawn_epoch": 2,
+  "note": "no_eligible_skill_on_active_tickets"
+}

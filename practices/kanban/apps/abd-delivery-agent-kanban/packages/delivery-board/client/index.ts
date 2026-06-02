@@ -2,6 +2,7 @@ export { DeliveryKanbanBoard } from './DeliveryKanbanBoard';
 export { useDeliveryBoardPoll } from './useDeliveryBoardPoll';
 export {
   fetchBoardSnapshot,
+  fetchDefaultPlanningRoot,
   updatePlanningRoot,
   toggleBoardMode,
   postActionIntent,

@@ -17,6 +17,7 @@ if str(_SCRIPT_DIR) not in sys.path:
     sys.path.insert(0, str(_SCRIPT_DIR))
 
 from kanban_lead import KanbanLead  # noqa: E402
+from skill_fixture import is_fixture_mode  # noqa: E402
 
 
 def run_tick(workspace: Path) -> dict:
@@ -35,7 +36,7 @@ def run_tick(workspace: Path) -> dict:
     report["must_spawn"] = len(spawns) > 0
     report["dispatch_summary"] = dispatch_summary
     report["spawn_prompts"] = [
-        _spawn_prompt(workspace, s["role"], s["instance"]) for s in spawns
+        _spawn_prompt(workspace, s["role"], s["instance"], s.get("spawn_epoch")) for s in spawns
     ]
     report["orchestrator_rule"] = (
         "Dispatch already handled by scan (reserved skills for idle agents). "
@@ -46,18 +47,49 @@ def run_tick(workspace: Path) -> dict:
     return report
 
 
-def _spawn_prompt(workspace: Path, role: str, instance: int) -> dict:
+def _spawn_prompt(
+    workspace: Path, role: str, instance: int, spawn_epoch: int | None = None,
+) -> dict:
     inst_line = f"  instance: {instance}\n" if instance > 1 else ""
+    fixture = is_fixture_mode(workspace)
+    seed_path = workspace / "AGENT-SEED.md"
+    first_read = (
+        f"Read {seed_path} FIRST (fixture mode — team member executor).\n\n"
+        if fixture and seed_path.is_file()
+        else "Read practices/kanban/agents/reference/session-bootstrap.md FIRST.\n\n"
+    )
+    fixture_block = ""
+    if fixture:
+        fixture_block = (
+            "\nFIXTURE MODE (mandatory): You are a team member executor — NOT kanban-lead. "
+            "Do NOT read practice skill SKILL.md or run scanners.\n"
+            "After board_skill.py pull (or resume manual assignment), run:\n"
+            "  python practices/kanban/skills/abd-kanban/scripts/apply_skill_fixture.py apply "
+            f"--workspace {workspace} --ticket <id> --skill <name> --role {role}\n"
+            "Or if skill is already in_progress from manual drop:\n"
+            "  python practices/kanban/skills/abd-kanban/scripts/apply_skill_fixture.py apply-claim "
+            f"--workspace {workspace} --role {role}\n"
+            "Then pull again. See agents/reference/skill-fixture-mode.md.\n"
+        )
+    epoch_line = ""
+    if spawn_epoch is not None:
+        epoch_line = (
+            f"\nExecutor spawn_epoch: {spawn_epoch} "
+            "(registered by kanban-lead — your heartbeats must carry this epoch).\n"
+        )
     prompt = (
-        "Read practices/kanban/agents/reference/session-bootstrap.md FIRST.\n\n"
+        f"{first_read}"
         f"Bootstrap:\n  workspace: {workspace}\n  delivery-role: {role}\n"
-        f"{inst_line}\n"
+        f"{inst_line}{epoch_line}\n"
         f"Then read agents/{role}/AGENT.md, agents/reference/pull-model.md, "
         "agents/reference/work-queue.md, and reference/artifact-layout.md.\n"
         f"Arm AGENT_LOOP_TICK_{role} on turn 1. Pull via board_skill.py "
-        "(never hand-edit board.json). Execute and review per executor-workflow.md. "
-        "Never exit after one skill."
+        "(never hand-edit board.json)."
+        f"{fixture_block}"
+        "\nNever exit after one skill."
     )
+    if not fixture:
+        prompt += " Execute and review per executor-workflow.md."
     return {"role": role, "instance": instance, "prompt": prompt}
 
 

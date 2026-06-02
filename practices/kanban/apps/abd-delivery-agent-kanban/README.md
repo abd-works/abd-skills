@@ -12,19 +12,16 @@ npm install
 npm run dev
 ```
 
-Open http://localhost:3000/board — default planning folder is `C:/dev/abd-pet-store-demo/docs/planning` (see `config.default.json`).
+Open http://localhost:3000/board — default planning folder is `tests/e2e/data/pawplace-stubs/docs/planning` (fixture mode; see `config.default.json`).
 
-**Prerequisite:** war room must have a synced board:
-
-```powershell
-python C:\dev\agilebydesign-skills\practices\kanban\skills\abd-kanban\scripts\sync_kanban_board.py --workspace C:\dev\abd-pet-store-demo
-```
-
-Or from a deployed engagement:
+Reset the live fixture workspace before testing:
 
 ```powershell
-python .cursor/skills/abd-kanban/scripts/sync_kanban_board.py --workspace C:\dev\abd-pet-store-demo
+.\scripts\reset-e2e-fixture.ps1 -Fixture pawplace-stubs   # fast UI / handoff (default)
+.\scripts\reset-e2e-fixture.ps1 -Fixture pawplace-mini    # real agent skill runs
 ```
+
+E2E: `npm run test:e2e` (stubs) · `npm run test:e2e:mini` (mini profile).
 
 ## What it reads
 

@@ -627,11 +627,81 @@ def read_heartbeat_age_seconds(path: Path) -> float | None:
         return None
 
 
+def executor_spawns_path(wr: Path) -> Path:
+    return wr / "executor-spawns.json"
+
+
+def load_executor_spawns(wr: Path) -> dict[str, Any]:
+    path = executor_spawns_path(wr)
+    if not path.is_file():
+        return {}
+    try:
+        return _read_json(path)
+    except (json.JSONDecodeError, OSError):
+        return {}
+
+
+def register_executor_spawn(wr: Path, role: str, instance: int = 1) -> int:
+    """Bump spawn epoch when lead assigns a new executor session for role/instance."""
+    spawns = load_executor_spawns(wr)
+    role_block = spawns.setdefault(role, {})
+    inst_key = str(instance)
+    current = int(role_block.get(inst_key, {}).get("epoch", 0))
+    epoch = current + 1
+    role_block[inst_key] = {"epoch": epoch, "registered_at": now_iso()}
+    _write_json(executor_spawns_path(wr), spawns)
+    return epoch
+
+
+def read_registered_spawn_epoch(wr: Path, role: str, instance: int = 1) -> int | None:
+    block = load_executor_spawns(wr).get(role, {}).get(str(instance))
+    if not block:
+        return None
+    epoch = int(block.get("epoch", 0))
+    return epoch if epoch > 0 else None
+
+
+def heartbeat_matches_registered_spawn(wr: Path, role: str, raw: dict[str, Any]) -> bool:
+    """True only when heartbeat proves the current registered executor session."""
+    instance = int(raw.get("instance") or 1)
+    registered = read_registered_spawn_epoch(wr, role, instance)
+    if registered is None:
+        return False
+    hb_epoch = raw.get("spawn_epoch")
+    if hb_epoch is None:
+        return False
+    return int(hb_epoch) == registered
+
+
+def purge_unregistered_heartbeats(wr: Path, role: str) -> int:
+    """Remove heartbeats that cannot prove an active registered executor session."""
+    removed = 0
+    for path in list_heartbeat_files(wr, role):
+        if path.name == "heartbeat-kanban-lead.json":
+            continue
+        try:
+            raw = _read_json(path)
+        except (json.JSONDecodeError, OSError):
+            path.unlink(missing_ok=True)
+            removed += 1
+            continue
+        if not heartbeat_matches_registered_spawn(wr, role, raw):
+            path.unlink(missing_ok=True)
+            removed += 1
+    return removed
+
+
 def count_live_agents(wr: Path, role: str, stale_seconds: float = 120.0) -> int:
     live = 0
     for path in list_heartbeat_files(wr, role):
         age = read_heartbeat_age_seconds(path)
-        if age is not None and age <= stale_seconds:
+        if age is None or age > stale_seconds:
+            continue
+        try:
+            raw = _read_json(path)
+        except (json.JSONDecodeError, OSError):
+            continue
+        if heartbeat_matches_registered_spawn(wr, role, raw):
             live += 1
     return live
 
@@ -646,7 +716,7 @@ def count_working_agents(wr: Path, role: str, stale_seconds: float = 120.0) -> i
             raw = _read_json(path)
         except (json.JSONDecodeError, OSError):
             continue
-        if raw.get("status") == "working":
+        if raw.get("status") == "working" and heartbeat_matches_registered_spawn(wr, role, raw):
             working += 1
     return working
 
@@ -659,7 +729,14 @@ def read_heartbeat_instance(path: Path) -> int:
         return 1
 
 
-def write_heartbeat(wr: Path, role: str, status: str, note: str = "", instance: int = 1) -> None:
+def write_heartbeat(
+    wr: Path,
+    role: str,
+    status: str,
+    note: str = "",
+    instance: int = 1,
+    spawn_epoch: int | None = None,
+) -> None:
     path = heartbeat_path(wr, role, instance)
     payload = {
         "agent_role": role,
@@ -668,6 +745,8 @@ def write_heartbeat(wr: Path, role: str, status: str, note: str = "", instance: 
         "ts": now_iso(),
         "status": status,
     }
+    if spawn_epoch is not None:
+        payload["spawn_epoch"] = spawn_epoch
     if note:
         payload["note"] = note
     _write_json(path, payload)

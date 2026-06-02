@@ -25,6 +25,8 @@ from delivery_model import (
     count_in_progress_for_role,
     count_live_agents,
     count_working_agents,
+    purge_unregistered_heartbeats,
+    register_executor_spawn,
     find_ticket_in_board,
     list_heartbeat_files,
     load_board,
@@ -344,19 +346,32 @@ class KanbanLead:
             )
 
         from delivery_model import module_number_from_ticket_id
-        mod = module_number_from_ticket_id(ticket.ticket_id)
         thin = self._workspace / "docs/end-to-end/discovery/stories/thin-slicing.md"
+        mod: int | None
         try:
-            return self._increments_from_thin_slicing(thin, mod, parent_id=ticket.ticket_id)
-        except (FileNotFoundError, ValueError):
-            pass
+            mod = module_number_from_ticket_id(ticket.ticket_id)
+        except ValueError:
+            mod = None
+
+        if mod is not None:
+            try:
+                return self._increments_from_thin_slicing(thin, mod, parent_id=ticket.ticket_id)
+            except (FileNotFoundError, ValueError):
+                pass
 
         slug = ticket.ticket_id.split("-", 1)[1] if "-" in ticket.ticket_id else ticket.ticket_id
         per_module = self._workspace / f"docs/end-to-end/discovery/stories/{slug}-thin-slicing.md"
         if per_module.is_file():
             return self._increments_from_per_module_thin_slicing(per_module, parent_id=ticket.ticket_id)
+
+        if ticket.scope_level == "all":
+            partition = self._workspace / "docs/end-to-end/shaping/module-partition.md"
+            if partition.is_file():
+                return self._modules_from_module_partition(partition)
+
+        mod_label = mod if mod is not None else "?"
         raise FileNotFoundError(
-            f"No thin-slicing for module {mod}: tried {thin} and {per_module}"
+            f"No scatter spec for {ticket.ticket_id}: tried {thin}, {per_module}, module {mod_label}"
         )
 
     @staticmethod
@@ -467,6 +482,22 @@ class KanbanLead:
         s = title.lower().strip()
         s = re.sub(r"[^a-z0-9]+", "-", s)
         return s.strip("-")
+
+    def _modules_from_module_partition(self, path: Path) -> list[dict]:
+        """Parse ## Module: [Name] blocks from module-partition.md → partition tickets."""
+        text = path.read_text(encoding="utf-8")
+        children: list[dict] = []
+        for i, m in enumerate(re.finditer(r"## Module:\s*\[([^\]]+)\]", text), start=1):
+            name = m.group(1).strip()
+            slug = self._slugify(name)
+            children.append({
+                "id": f"{i}-{slug}",
+                "name": name,
+                "priority": i,
+            })
+        if not children:
+            raise ValueError(f"No modules in {path}")
+        return children
 
     # ==================================================================
     # DISPATCH ELIGIBLE CLAIMS
@@ -887,7 +918,13 @@ class KanbanLead:
             working = data["working_agents"]
             for _ in range(need):
                 instance = working + len([s for s in spawns if s["role"] == role]) + 1
-                spawns.append({"role": role, "instance": instance, "reason": "pool_fill"})
+                epoch = register_executor_spawn(self._wr, role, instance)
+                spawns.append({
+                    "role": role,
+                    "instance": instance,
+                    "reason": "pool_fill",
+                    "spawn_epoch": epoch,
+                })
         return spawns
 
     # ------------------------------------------------------------------
@@ -936,6 +973,11 @@ class KanbanLead:
         actions: list[str] = []
 
         write_heartbeat(self._wr, "kanban-lead", "working", f"Manual scan cycle {cycle}")
+
+        for role in ROLES:
+            purged = purge_unregistered_heartbeats(self._wr, role)
+            if purged:
+                actions.append(f"purged_ghost_heartbeats:{role}:{purged}")
 
         self.sync_board(dry_run=False)
         actions.append("board_sync")

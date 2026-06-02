@@ -14,6 +14,9 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const repoRoot = path.resolve(__dirname, '../../..');
 
 function loadDefaultPlanningRoot(): string {
+  if (process.env.PLANNING_ROOT?.trim()) {
+    return process.env.PLANNING_ROOT.trim();
+  }
   try {
     const configPath = path.join(repoRoot, 'config.default.json');
     const raw = JSON.parse(readFileSync(configPath, 'utf8')) as { planningRoot?: string };

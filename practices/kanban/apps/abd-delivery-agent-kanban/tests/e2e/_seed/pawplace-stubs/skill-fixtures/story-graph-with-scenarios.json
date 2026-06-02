@@ -1,0 +1,68 @@
+{
+  "schema": "abd-story-graph/v1",
+  "product": "PawPlace",
+  "epics": [
+    {
+      "name": "Shop in store",
+      "sub_epics": [
+        {
+          "name": "Find products and check stock",
+          "stories": [
+            {
+              "name": "Search Products by Keyword",
+              "actor": "Shopper",
+              "acceptance_criteria": [
+                "1. **WHEN** the shopper enters a keyword\n**THEN** matching *products* appear in *search results*"
+              ],
+              "scenarios": [
+                {
+                  "name": "Keyword returns matching products",
+                  "steps": [
+                    "Given the ProductCatalog contains Product Kitten Food with sku PET-FOD-001",
+                    "When the shopper searches for kitten",
+                    "Then the Search Results include Product Kitten Food"
+                  ]
+                }
+              ],
+              "scenario_outlines": []
+            },
+            {
+              "name": "View Product Detail Page",
+              "actor": "Shopper",
+              "acceptance_criteria": [],
+              "scenarios": [],
+              "scenario_outlines": []
+            },
+            {
+              "name": "Confirm Product Stock at Store",
+              "actor": "Shopper",
+              "acceptance_criteria": [],
+              "scenarios": [],
+              "scenario_outlines": [
+                {
+                  "name": "Stock shown per store",
+                  "steps": [
+                    "Given StockAvailability for Product {product_sku} at Store {store_code} has availableToSellQuantity {qty}",
+                    "When the shopper views the product detail page",
+                    "Then the page shows Store {store_code} with quantity {qty}"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "increments": [
+    {
+      "name": "Find products and check store stock",
+      "priority": 1,
+      "stories": [
+        { "name": "Search Products by Keyword", "sequential_order": 1.0 },
+        { "name": "View Product Detail Page", "sequential_order": 2.0 },
+        { "name": "Confirm Product Stock at Store", "sequential_order": 3.0 }
+      ]
+    }
+  ]
+}

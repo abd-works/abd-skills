@@ -17,10 +17,10 @@
     ### subordinate_term                        ← h3, no bold
     - behavioral line with *italicized domain terms*
 
-    ### Decisions made
+    #### Decisions made                         ← h4 — nested under term, NOT h3
     - independence-test result, module-fit result, grouping call
 
-    ### References
+    #### References                             ← h4 — nested under term, NOT h3
     **Ref — title**
     Source: ...
     Locator: ...
@@ -35,7 +35,7 @@
     ### another_term
     - behavioral line
 
-    ### References
+    #### References
     ...
 
     ---
@@ -43,11 +43,11 @@
   Contract:
     - KA intro paragraph = term definition for the KA. Do NOT add ### ka_name block.
     - No **Core terms** flat list in the header.
-    - ### Decisions made and ### References per term, not bundled per KA.
+    - #### Decisions made and #### References per term — immediately after each term's bullets.
+    - NEVER use ### for Decisions or References (they appear as peer domain terms in the outline).
     - --- separator after every term block.
     - *italicized* domain terms throughout.
     - No bold on ## KA or ### term headings.
-    - One ### References section per boundary term block.
 -->
 
 ---
@@ -80,13 +80,13 @@ Weave naturally. This paragraph is the term definition for the KA itself.}}
 - {{behavioral line with *italicized domain terms*}}
 - {{behavioral line}}
 
-### Decisions made
+#### Decisions made
 
 - {{independence-test result}}
 - {{module-fit result}}
 - {{grouping call or open question}}
 
-### References
+#### References
 
 **Ref — {{ref_title}}**
 Source: {{source_path}}
@@ -103,7 +103,7 @@ Extract: {{whole or partial}}
 
 - {{behavioral line with *italicized domain terms*}}
 
-### References
+#### References
 
 **Ref — {{ref_title}}**
 Source: {{source_path}}
@@ -124,11 +124,11 @@ Extract: {{whole or partial}}
 
 - {{behavioral line}}
 
-### Decisions made
+#### Decisions made
 
 - {{…}}
 
-### References
+#### References
 
 **Ref — {{ref_title}}**
 Source: {{source_path}}
@@ -147,11 +147,11 @@ Extract: {{whole or partial}}
 
 - {{behavioral line: how this module sees or depends on this concept}}
 
-### Decisions made
+#### Decisions made
 
 - {{boundary placement reasoning}}
 
-### References
+#### References
 
 **Ref — {{ref_title}}**
 Source: {{source_path}}
@@ -189,22 +189,19 @@ Scope: The d20 resolution mechanic, checks, degrees of success, conditions.
 
 A *check* is the core resolution mechanic of the system — a *d20* roll plus a
 *trait rank* and any *modifiers* compared against a *Difficulty Class*. It is the
-single authority on whether a character action succeeds and by how much. The *check*
-owns the roll, the comparison, and the *degree of success* or *failure* that
-follows. Other KAs — *Condition*, *Power* — consume the *check* result but do not
-define it.
+single authority on whether a character action succeeds and by how much.
 
 ### Difficulty Class (DC)
 
 - The *DC* is a number set by the GM that a *check* result must equal or exceed.
 - A standard difficulty scale runs from Very Easy (DC 0) through Nigh-Impossible (DC 40).
 
-### Decisions made
+#### Decisions made
 
 - *Degree of success* stays under *Check* — it has no meaning outside a *check* (independence test).
 - *DC* belongs here, not as its own KA — it exists only in relation to a *check* (independence test).
 
-### References
+#### References
 
 **Ref — Game Play**
 Source: context/rules/HeroesHandbook-rules__chunk_009.md
@@ -223,7 +220,7 @@ GAME PLAY
 - A *degree of success* is determined by how much the *check* result exceeds the *DC*.
 - Every 5 points above the *DC* adds one degree.
 
-### References
+#### References
 
 **Ref — Degrees of Success**
 Source: context/rules/HeroesHandbook-rules__chunk_009.md
@@ -244,12 +241,12 @@ DEGREES OF SUCCESS
 - A *power effect* sets the *DC* for resistance *checks*; this module depends on
   that value without defining the *effect* itself.
 
-### Decisions made
+#### Decisions made
 
 - *Power effect* is owned by the *Power* module — it has broad meaning outside
   *check* resolution (module-fit test).
 
-### References
+#### References
 
 **Ref — Attack Checks**
 Source: context/rules/HeroesHandbook-rules__chunk_016.md

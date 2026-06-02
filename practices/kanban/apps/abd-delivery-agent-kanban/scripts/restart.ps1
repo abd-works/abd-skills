@@ -11,6 +11,8 @@ param(
 
 Set-Location "$PSScriptRoot\.."
 
+. "$PSScriptRoot\load-planning-root.ps1"
+
 function Stop-Port {
     param([int]$Port)
     $pids = netstat -ano | Select-String ":$Port\s" | ForEach-Object {

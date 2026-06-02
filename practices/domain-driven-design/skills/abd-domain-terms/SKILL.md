@@ -47,7 +47,7 @@ Read every file in **`rules/`**; author to those rules.
 | --- | --- |
 | `templates/domain-terms-template.md` | The domain terms file with KA groupings, behavioral bullets, per-term decisions and references. |
 
-**Quality bar:** A typical module has 3–8 Key Abstractions. Every KA intro paragraph opens with "*KAName* is …" and weaves role, boundary, responsibilities, relationships, and invariants. Every domain term in behavioral bullets and KA intro paragraphs is *italicized*. Per-term `### Decisions made` and `### References` with fenced `source` blocks. State marker set to `domain-terms` in front matter.
+**Quality bar:** A typical module has 3–8 Key Abstractions. Every KA intro paragraph opens with "*KAName* is …" and weaves role, boundary, responsibilities, relationships, and invariants. Every domain term in behavioral bullets and KA intro paragraphs is *italicized*. Per-term `#### Decisions made` and `#### References` with fenced `source` blocks. State marker set to `domain-terms` in front matter.
 
 ### 3. Validate
 
@@ -72,7 +72,7 @@ Then emit per-rule verdicts per `../agent-protocol.md`.
 - **Every KA has an intro paragraph** — opens with "*KAName* is …".
 - **No separate KA-as-term entry** — the KA intro paragraph is the definition.
 - **Behavioral bullets per term** — at least one per `### term`.
-- **Decisions and References per term** — immediately after each term's bullets, not bundled per KA.
+- **Decisions and References per term** — `#### Decisions made` and `#### References` immediately after each term's bullets (h4 — never `###`, which makes them peer domain terms in the outline).
 - **Separators** — `---` after every term block.
 - **Domain terms italicized** — every domain term in bullets and KA intro paragraphs.
 - **Boundary terms have owners** — every `### boundary_term` carries `*(owned by: Module)*`.

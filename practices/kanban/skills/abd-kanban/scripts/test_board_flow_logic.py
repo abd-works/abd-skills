@@ -33,8 +33,12 @@ from delivery_model import (
     SkillProgress,
     StageDef,
     Ticket,
+    count_live_agents,
     load_board,
+    register_executor_spawn,
     save_board,
+    war_room_dir,
+    write_heartbeat,
 )
 from kanban_lead import KanbanLead
 
@@ -434,10 +438,38 @@ class TestScatterTicketAtScopeBoundary:
         # Then
         assert len(needing) == 0
 
+    def test_project_all_scatters_to_modules_from_partition(self, workspace):
+        seed = (
+            Path(__file__).resolve().parents[3]
+            / "apps"
+            / "abd-delivery-agent-kanban"
+            / "tests"
+            / "e2e"
+            / "_seed"
+            / "pawplace-stubs"
+        )
+        partition = seed / "skill-fixtures" / "abd-module-partition.md"
+        thin = seed / "skill-fixtures" / "abd-thin-slicing.md"
+        (workspace / "docs/end-to-end/shaping").mkdir(parents=True, exist_ok=True)
+        (workspace / "docs/end-to-end/discovery/stories").mkdir(parents=True, exist_ok=True)
+        import shutil
+        shutil.copy2(partition, workspace / "docs/end-to-end/shaping/module-partition.md")
+        shutil.copy2(thin, workspace / "docs/end-to-end/discovery/stories/thin-slicing.md")
 
-# ============================================================================
-# STORY: Advance Ticket to Next Stage (Same Scope)
-# ============================================================================
+        lead = KanbanLead(workspace)
+        parent = given_ticket("project-all", "shaping", "all")
+        modules = lead._modules_from_module_partition(workspace / "docs/end-to-end/shaping/module-partition.md")
+        assert [m["id"] for m in modules] == [
+            "1-product-catalog",
+            "2-store-operations",
+            "3-checkout-and-fulfillment",
+        ]
+
+        partition_ticket = given_ticket("1-product-catalog", "discovery", "partition")
+        increments = lead._children_spec_for_ticket(partition_ticket)
+        assert len(increments) == 2
+        assert increments[0]["id"].startswith("1-product-catalog-inc-1-")
+        assert increments[1]["id"].startswith("1-product-catalog-inc-2-")
 
 class TestAdvanceTicketToNextStage:
     """Advance Ticket to Next Stage (Same Scope)."""
@@ -634,3 +666,48 @@ class TestAgentOrphanClaimPrevention:
 
         assert result["action"] == "resume"
         assert result["skill"] == "abd-ux-mockup"
+
+
+class TestExecutorSpawnEpoch:
+    """Ghost ready heartbeats must not block executor spawns."""
+
+    def test_ghost_ready_heartbeat_does_not_count_as_live(self, workspace):
+        wr = war_room_dir(workspace)
+        wr.mkdir(parents=True, exist_ok=True)
+        write_heartbeat(wr, "product-owner", "ready", "no_eligible_skill_on_active_tickets")
+
+        assert count_live_agents(wr, "product-owner") == 0
+
+    def test_registered_spawn_epoch_counts_as_live(self, workspace):
+        wr = war_room_dir(workspace)
+        wr.mkdir(parents=True, exist_ok=True)
+        epoch = register_executor_spawn(wr, "product-owner", 1)
+        write_heartbeat(wr, "product-owner", "working", "in_progress skill", spawn_epoch=epoch)
+
+        assert count_live_agents(wr, "product-owner") == 1
+
+    def test_manual_scan_spawns_despite_ghost_ready_heartbeat(self, workspace):
+        given_kanban_board(workspace, {
+            "stages": [{
+                "name": "shaping",
+                "scope": "all",
+                "stage_work_required": [
+                    {"skill": "abd-story-mapping", "role": "product-owner"},
+                ],
+            }],
+        })
+        ticket = given_ticket("project-all", "shaping", "all", skill_progress={
+            "abd-story-mapping": given_skill_in_progress("abd-story-mapping", "product-owner"),
+        })
+        given_board_state(workspace, {
+            "board_mode": "manual",
+            "team": {"product-owner": 1},
+            "active": [ticket.to_dict()],
+        })
+        wr = war_room_dir(workspace)
+        write_heartbeat(wr, "product-owner", "ready", "no_eligible_skill_on_active_tickets")
+
+        report = KanbanLead(workspace).run_scan_with_mode()
+
+        assert report["roles"]["product-owner"]["spawn_needed"] == 1
+        assert any(s["role"] == "product-owner" for s in report["spawns"])

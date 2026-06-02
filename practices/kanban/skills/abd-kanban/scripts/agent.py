@@ -24,6 +24,7 @@ from delivery_model import (
     save_board,
     save_ticket_in_board,
     war_room_dir,
+    read_registered_spawn_epoch,
     write_heartbeat,
 )
 
@@ -54,6 +55,17 @@ class Agent:
         self._role = role
         self._instance = instance
         self._wr = war_room_dir(workspace)
+        self._spawn_epoch = read_registered_spawn_epoch(self._wr, role, instance)
+
+    def _heartbeat(self, status: str, note: str = "") -> None:
+        write_heartbeat(
+            self._wr,
+            self._role,
+            status,
+            note,
+            self._instance,
+            spawn_epoch=self._spawn_epoch,
+        )
 
     @property
     def role(self) -> str:
@@ -107,13 +119,7 @@ class Agent:
 
         if sp is not None and sp.execution_status == "in_progress":
             if sp.agent == self._role:
-                write_heartbeat(
-                    self._wr,
-                    self._role,
-                    "working",
-                    f"resume {skill} on {ticket_id}",
-                    self._instance,
-                )
+                self._heartbeat("working", f"resume {skill} on {ticket_id}")
                 return {"action": "already_claimed", "ticket_id": ticket_id, "skill": skill}
             raise SkillAlreadyInProgressError(
                 f"Skill {skill} already in_progress by {sp.agent}"
@@ -132,7 +138,7 @@ class Agent:
         save_board(self._workspace, board)
 
         hb_status = "reserved" if reserve else "working"
-        write_heartbeat(self._wr, self._role, hb_status, f"in_progress {skill} on {ticket_id}", self._instance)
+        self._heartbeat(hb_status, f"in_progress {skill} on {ticket_id}")
         append_metrics_log(self._workspace, {
             "event": "skill_claim",
             "agent_role": self._role,
@@ -187,9 +193,7 @@ class Agent:
             sp.review_start = now
             save_ticket_in_board(board, bucket, index, ticket)
             save_board(self._workspace, board)
-            write_heartbeat(
-                self._wr, self._role, "working", f"review {skill} on {ticket_id}", self._instance,
-            )
+            self._heartbeat("working", f"review {skill} on {ticket_id}")
             return {
                 "action": "review_started",
                 "ticket_id": ticket_id,
@@ -225,9 +229,7 @@ class Agent:
         save_ticket_in_board(board, bucket, index, ticket)
         save_board(self._workspace, board)
 
-        write_heartbeat(
-            self._wr, self._role, "working", f"work done {skill} on {ticket.ticket_id}", self._instance,
-        )
+        self._heartbeat("working", f"work done {skill} on {ticket.ticket_id}")
         append_metrics_log(self._workspace, {
             "event": "skill_work_done",
             "agent_role": self._role,
@@ -263,9 +265,7 @@ class Agent:
         save_ticket_in_board(board, bucket, index, ticket)
         save_board(self._workspace, board)
 
-        write_heartbeat(
-            self._wr, self._role, "working", f"done {skill} on {ticket.ticket_id}", self._instance,
-        )
+        self._heartbeat("working", f"done {skill} on {ticket.ticket_id}")
         append_metrics_log(self._workspace, {
             "event": "skill_done",
             "agent_role": self._role,
@@ -288,7 +288,7 @@ class Agent:
     def signal_ready(self, reason: str = "no_eligible_skill_on_active_tickets") -> dict:
         """Write ready heartbeat only after releasing any own in_progress claims."""
         released = self.release_own_in_progress_claims(reason)
-        write_heartbeat(self._wr, self._role, "ready", reason, self._instance)
+        self._heartbeat("ready", reason)
         append_metrics_log(self._workspace, {
             "event": "agent_ready",
             "agent_role": self._role,
@@ -351,13 +351,7 @@ class Agent:
         if not claims:
             return None
         ticket, skill = claims[0]
-        write_heartbeat(
-            self._wr,
-            self._role,
-            "working",
-            f"resume {skill} on {ticket.ticket_id}",
-            self._instance,
-        )
+        self._heartbeat("working", f"resume {skill} on {ticket.ticket_id}")
         append_metrics_log(self._workspace, {
             "event": "skill_resume",
             "agent_role": self._role,

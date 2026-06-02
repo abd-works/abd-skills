@@ -1,0 +1,162 @@
+{
+  "schema": "abd-delivery-kanban/v2",
+  "synced_at": "2026-06-02T22:58:19.429115+00:00",
+  "stage_configuration": "pawplace-stubs",
+  "board_mode": "manual",
+  "backlog": [
+    {
+      "ticket_id": "2-store-operations",
+      "lineage": [
+        "PawPlace",
+        "Store Operations"
+      ],
+      "scope_level": "increment",
+      "stage": "discovery",
+      "priority": 2,
+      "skill_progress": {},
+      "entered_stage": "2026-06-02T22:56:40.059244+00:00",
+      "completed_stage": null,
+      "scatter_from": "project-all",
+      "scatter_to": [],
+      "notes": "",
+      "stage_history": []
+    },
+    {
+      "ticket_id": "3-checkout-and-fulfillment",
+      "lineage": [
+        "PawPlace",
+        "Checkout and Fulfillment"
+      ],
+      "scope_level": "increment",
+      "stage": "discovery",
+      "priority": 3,
+      "skill_progress": {},
+      "entered_stage": "2026-06-02T22:56:40.059244+00:00",
+      "completed_stage": null,
+      "scatter_from": "project-all",
+      "scatter_to": [],
+      "notes": "",
+      "stage_history": []
+    }
+  ],
+  "active": [
+    {
+      "ticket_id": "1-product-catalog",
+      "lineage": [
+        "PawPlace",
+        "Product Catalog"
+      ],
+      "scope_level": "increment",
+      "stage": "discovery",
+      "priority": 1,
+      "created": null,
+      "entered_stage": "2026-06-02T22:56:40.059244+00:00",
+      "completed_stage": null,
+      "stage_history": [],
+      "archived": null,
+      "scatter_from": "project-all",
+      "scatter_to": [],
+      "notes": "",
+      "skill_progress": {
+        "abd-domain-terms": {
+          "execution_status": "done",
+          "agent": "business-expert",
+          "start": "2026-06-02T22:57:05.956574+00:00",
+          "end": "2026-06-02T22:57:21.098861+00:00",
+          "review_status": "done",
+          "reviewer": "business-expert",
+          "review_start": "2026-06-02T22:57:21.098861+00:00",
+          "review_end": "2026-06-02T22:57:21.110021+00:00",
+          "notes": "fixture_mode: copied from skill-fixtures"
+        },
+        "abd-story-mapping": {
+          "execution_status": "done",
+          "agent": "product-owner",
+          "start": "2026-06-02T22:57:42.789016+00:00",
+          "end": "2026-06-02T22:58:12.170840+00:00",
+          "review_status": "done",
+          "reviewer": "product-owner",
+          "review_start": "2026-06-02T22:58:12.170840+00:00",
+          "review_end": "2026-06-02T22:58:19.429115+00:00",
+          "notes": "fixture_mode: copied from skill-fixtures"
+        }
+      }
+    }
+  ],
+  "done": [],
+  "archived": [
+    {
+      "ticket_id": "project-all",
+      "lineage": [
+        "PawPlace"
+      ],
+      "scope_level": "all",
+      "stage": "shaping",
+      "priority": 1,
+      "skill_progress": {
+        "abd-module-partition": {
+          "execution_status": "done",
+          "agent": "business-expert",
+          "start": "2026-06-02T22:54:50.853478+00:00",
+          "end": "2026-06-02T22:55:04.440303+00:00",
+          "review_status": "done",
+          "reviewer": "business-expert",
+          "review_start": "2026-06-02T22:55:04.440303+00:00",
+          "review_end": "2026-06-02T22:55:04.451976+00:00"
+        },
+        "abd-story-mapping": {
+          "execution_status": "done",
+          "agent": "product-owner",
+          "start": "2026-06-02T22:55:26.226117+00:00",
+          "end": "2026-06-02T22:56:17.074239+00:00",
+          "review_status": "done",
+          "reviewer": "product-owner",
+          "review_start": "2026-06-02T22:56:17.074239+00:00",
+          "review_end": "2026-06-02T22:56:17.084255+00:00"
+        },
+        "abd-architecture-outline": {
+          "execution_status": "done",
+          "agent": "engineer",
+          "start": "2026-06-02T22:55:26.233127+00:00",
+          "end": "2026-06-02T22:56:21.889495+00:00",
+          "review_status": "done",
+          "reviewer": "engineer",
+          "review_start": "2026-06-02T22:56:21.889495+00:00",
+          "review_end": "2026-06-02T22:56:21.899902+00:00"
+        },
+        "abd-impact-mapping": {
+          "execution_status": "done",
+          "agent": "ux-designer",
+          "start": "2026-06-02T22:55:56.375319+00:00",
+          "end": "2026-06-02T22:56:28.921923+00:00",
+          "review_status": "done",
+          "reviewer": "ux-designer",
+          "review_start": "2026-06-02T22:56:28.921923+00:00",
+          "review_end": "2026-06-02T22:56:28.930918+00:00"
+        }
+      },
+      "entered_stage": "2026-06-02T12:00:00Z",
+      "completed_stage": "2026-06-02T22:56:40.059244+00:00",
+      "scatter_from": null,
+      "scatter_to": [
+        "1-product-catalog",
+        "2-store-operations",
+        "3-checkout-and-fulfillment"
+      ],
+      "notes": "PawPlace stubs E2E \u2014 fixture_mode; start shaping to test full handoff",
+      "stage_history": [
+        {
+          "stage": "shaping",
+          "entered": "2026-06-02T12:00:00Z",
+          "completed": "2026-06-02T22:56:40.059244+00:00"
+        }
+      ]
+    }
+  ],
+  "team": {
+    "product-owner": 1,
+    "business-expert": 1,
+    "ux-designer": 1,
+    "engineer": 1
+  }
+}

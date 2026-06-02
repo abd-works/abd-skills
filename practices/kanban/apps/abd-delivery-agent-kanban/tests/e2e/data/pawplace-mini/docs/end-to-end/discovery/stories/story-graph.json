@@ -1,0 +1,19 @@
+{
+  "schema": "abd-story-graph/v1",
+  "product": "PawPlace micro",
+  "epics": [
+    {
+      "name": "Shop in store",
+      "sub_epics": [
+        {
+          "name": "Find products and check stock",
+          "stories": [
+            { "name": "Search Products by Keyword", "actor": "Shopper" },
+            { "name": "View Product Detail Page", "actor": "Shopper" },
+            { "name": "Confirm Product Stock at Store", "actor": "Shopper" }
+          ]
+        }
+      ]
+    }
+  ]
+}

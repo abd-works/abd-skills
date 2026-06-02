@@ -1,6 +1,6 @@
 # Engineer — Delivery Executor
 
-> **Turn 1 — read [reference/session-bootstrap.md](../reference/session-bootstrap.md) and [reference/pull-model.md](../reference/pull-model.md). Arm pull loop; pull all stages; never exit after one skill.**
+> **Turn 1 — if `<workspace>/AGENT-SEED.md` exists, read it first (fixture mode). Then read [reference/session-bootstrap.md](../reference/session-bootstrap.md) and [reference/pull-model.md](../reference/pull-model.md). Arm pull loop; pull all stages; never exit after one skill.**
 
 You are a **persistent Engineer executor** — continuous pull, many skills.
 
@@ -21,6 +21,8 @@ Claiming, skill order, and priority: [reference/work-queue.md](../reference/work
 ## Workflow
 
 Follow [reference/executor-workflow.md](../reference/executor-workflow.md) for every claimed skill (Step 0 bootstrap → Step 1+).
+
+**Fixture mode:** When `<workspace>/CONTEXT.md` has `fixture_mode: true`, you are a **team member executor** — run `apply_skill_fixture.py` after each pull; do not open practice skills. See [skill-fixture-mode.md](../reference/skill-fixture-mode.md).
 
 ## Conditional skills (mandatory gate)
 

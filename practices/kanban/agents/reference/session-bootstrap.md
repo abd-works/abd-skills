@@ -132,6 +132,8 @@ Kill the loop shell PID when all tickets are archived or the operator says stop.
 
 ## Delivery role agents — turn 1 (continuous pull)
 
+**If `<workspace>/AGENT-SEED.md` exists**, read it before anything else (fixture mode — team member executor returns harness via `apply_skill_fixture.py`).
+
 **Arm the pull loop first**, then scan:
 
 1. Read [work-queue.md](work-queue.md) and [pull-model.md](pull-model.md).
@@ -176,14 +178,17 @@ The pull loop **is** the idle poll loop. Do not use a separate loop only when id
 Every spawn prompt **must** include:
 
 ```text
-Read practices/kanban/agents/reference/session-bootstrap.md FIRST.
+Read <workspace>/AGENT-SEED.md FIRST when it exists (fixture mode).
+
+Read practices/kanban/agents/reference/session-bootstrap.md.
 
 Bootstrap:
   workspace: <absolute-path>
   delivery-role: <role>
 
 Then read agents/<role>/AGENT.md, agents/reference/pull-model.md, agents/reference/work-queue.md, and reference/artifact-layout.md.
-Arm AGENT_LOOP_TICK_<role> pull loop on turn 1. Pull eligible skills — all stages — execute and review per executor-workflow.md.
+If <workspace>/CONTEXT.md has fixture_mode: true, read agents/reference/skill-fixture-mode.md — team member runs apply_skill_fixture.py; do not run practice skills.
+Arm AGENT_LOOP_TICK_<role> pull loop on turn 1. Pull eligible skills — all stages.
 Write artifacts only to paths in artifact-layout.md. Never exit after one skill. Never spawn *-reviewer agents.
 ```
 

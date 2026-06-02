@@ -20,6 +20,15 @@ export async function fetchBoardSnapshot(
   return response.json() as Promise<KanbanBoardSnapshot>;
 }
 
+export async function fetchDefaultPlanningRoot(): Promise<string> {
+  const response = await fetch(API_BASE + '/api/board/config');
+  if (!response.ok) {
+    throw new Error('Failed to read server planning root');
+  }
+  const body = (await response.json()) as { planningRoot?: string };
+  return body.planningRoot ?? '';
+}
+
 export async function updatePlanningRoot(planningRoot: string): Promise<KanbanBoardSnapshot> {
   const response = await fetch(API_BASE + '/api/board/config', {
     method: 'POST',

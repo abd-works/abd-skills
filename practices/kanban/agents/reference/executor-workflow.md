@@ -8,6 +8,7 @@ Each agent executes **and** reviews in a single session — produce the delivera
 
 **Before Step 1**, read [session-bootstrap.md](session-bootstrap.md) and [pull-model.md](pull-model.md):
 
+0. If `<workspace>/AGENT-SEED.md` exists → read it **first** (fixture mode team member executor).
 1. Resolve `workspace` and war room paths.
 2. **Arm `AGENT_LOOP_TICK_<delivery-role>`** pull loop with `notify_on_output`.
 3. Write `heartbeat-<delivery-role>.json` with `status: working` and current ISO `ts`.
@@ -46,6 +47,8 @@ Announce: ticket ID, stage, skill name from CLI JSON output.
 Scan for existing artifacts per [artifact-layout.md](../../reference/artifact-layout.md) — `docs/end-to-end/<stage>/` (including concern subfolders under discovery and exploration), `docs/increments/<n>-<slug>/`, `docs/end-to-end/discovery/stories/story-graph.json`. Flag conflicts with ticket scope. **Before creating a file**, search for the canonical file in the correct stage folder and update in place.
 
 ### Step 3 — Read practice skill (authoring)
+
+**Fixture mode:** If `<workspace>/CONTEXT.md` has `fixture_mode: true`, read [skill-fixture-mode.md](skill-fixture-mode.md) instead of this step through Step 6 — run `apply_skill_fixture.py apply` (or `apply-claim` after manual drop), then pull next. Skip checkpoint and scanners.
 
 Read the assigned practice skill's `SKILL.md` and bundled **rules** — templates, vocabulary, formatting, quality bar for **building**.
 
