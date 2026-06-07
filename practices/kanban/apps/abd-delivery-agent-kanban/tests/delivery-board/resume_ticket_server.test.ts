@@ -1,11 +1,12 @@
 import { describe, it, expect } from 'vitest';
 import {
-  applyResumeTicketInProgress,
+  KanbanBoard,
   buildColumnViews,
-  buildStageBuckets,
-  isStageSkillsComplete,
+  isSkillComplete,
   parseKanbanBoard,
-  type KanbanBoard,
+  StageBucketLayout,
+  Ticket,
+  type KanbanBoardData,
   type StageSkillRail,
 } from '@deliveryforge/delivery-board-shared';
 
@@ -17,7 +18,7 @@ const shapingSkills: StageSkillRail = {
   ],
 };
 
-function boardWithProjectAllInDone(): KanbanBoard {
+function boardWithProjectAllInDone(): KanbanBoardData {
   return parseKanbanBoard({
     schema: 'abd-delivery-kanban/v2',
     backlog: [],
@@ -49,9 +50,10 @@ function boardWithProjectAllInDone(): KanbanBoard {
   });
 }
 
-describe('applyResumeTicketInProgress', () => {
+describe('resumeInProgress (KanbanBoard instance)', () => {
   it('moves ticket from done bucket to active with hold_in_progress', () => {
-    const updated = applyResumeTicketInProgress(boardWithProjectAllInDone(), 'project-all');
+    const board = new KanbanBoard(boardWithProjectAllInDone());
+    const updated = board.resumeInProgress('project-all').toJSON();
     expect(updated.done).toHaveLength(0);
     expect(updated.active).toHaveLength(1);
     expect(updated.active[0]!.ticket_id).toBe('project-all');
@@ -59,7 +61,7 @@ describe('applyResumeTicketInProgress', () => {
   });
 
   it('pulls archived ticket back to active with hold_in_progress', () => {
-    const board = parseKanbanBoard({
+    const data = parseKanbanBoard({
       schema: 'abd-delivery-kanban/v2',
       backlog: [],
       active: [],
@@ -75,15 +77,23 @@ describe('applyResumeTicketInProgress', () => {
         },
       ],
     });
-    const updated = applyResumeTicketInProgress(board, 'project-all');
+    const board = new KanbanBoard(data);
+    const updated = board.resumeInProgress('project-all').toJSON();
     expect(updated.archived).toHaveLength(0);
     expect(updated.active[0]!.hold_in_progress).toBe(true);
   });
 });
 
+function isStageSkillsComplete(ticket: Ticket, skillIds: string[]): boolean {
+  return skillIds.every((id) => {
+    const sp = ticket.raw.skill_progress[id];
+    return sp ? isSkillComplete(sp) : false;
+  });
+}
+
 describe('buildStageBuckets hold_in_progress', () => {
   it('shows active ticket with all skills done in IP when hold_in_progress', () => {
-    const board = parseKanbanBoard({
+    const data = parseKanbanBoard({
       schema: 'abd-delivery-kanban/v2',
       backlog: [],
       active: [
@@ -113,14 +123,14 @@ describe('buildStageBuckets hold_in_progress', () => {
       done: [],
       archived: [],
     });
-    const columns = buildColumnViews(board);
+    const columns = buildColumnViews(data);
     const views = columns.flatMap((c) => c.tickets);
     const t = views.find((v) => v.ticketId === 'project-all')!;
     const skillIds = shapingSkills.skills.map((s) => s.skillId);
     expect(isStageSkillsComplete(t, skillIds)).toBe(true);
     expect(t.holdInProgress).toBe(true);
 
-    const buckets = buildStageBuckets(columns, [], [shapingSkills]);
+    const buckets = StageBucketLayout.buildStageBuckets(columns, [], [shapingSkills]);
     const shaping = buckets.get('shaping')!;
     expect(shaping.ip.map((x) => x.ticketId)).toContain('project-all');
     expect(shaping.done.map((x) => x.ticketId)).not.toContain('project-all');
@@ -128,7 +138,7 @@ describe('buildStageBuckets hold_in_progress', () => {
   });
 
   it('hold_in_progress wins over awaiting-scatter queued placement for scope all', () => {
-    const board = parseKanbanBoard({
+    const data = parseKanbanBoard({
       schema: 'abd-delivery-kanban/v2',
       backlog: [],
       active: [
@@ -158,8 +168,8 @@ describe('buildStageBuckets hold_in_progress', () => {
       done: [],
       archived: [],
     });
-    const columns = buildColumnViews(board);
-    const buckets = buildStageBuckets(columns, [], [shapingSkills]);
+    const columns = buildColumnViews(data);
+    const buckets = StageBucketLayout.buildStageBuckets(columns, [], [shapingSkills]);
     const shaping = buckets.get('shaping')!;
     expect(shaping.ip.map((x) => x.ticketId)).toContain('project-all');
     expect(shaping.feedsNext.map((x) => x.ticketId)).not.toContain('project-all');
