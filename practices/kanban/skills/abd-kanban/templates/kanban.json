@@ -33,7 +33,7 @@
           "name": "shaping",
           "scope": "all",
           "stage_work_required": [
-            { "skill": "abd-module-partition", "role": "product-owner" },
+            { "skill": "abd-domain-partition", "role": "product-owner" },
             { "skill": "abd-story-mapping", "role": "product-owner" },
             { "skill": "abd-impact-mapping", "role": "product-owner" },
             { "skill": "abd-architecture-outline", "role": "engineer" }
@@ -53,20 +53,20 @@
           "name": "exploration",
           "scope": "increment",
           "stage_work_required": [
-            { "skill": "abd-ubiquitous-language", "role": "business-expert" },
+            { "skill": "abd-domain-language", "role": "business-expert" },
             { "skill": "abd-acceptance-criteria", "role": "product-owner" },
             { "skill": "abd-ux-mockup", "role": "ux-designer" },
-            { "skill": "abd-architecture-template", "role": "engineer", "run_when": "increment_needs_undocumented_mechanisms" }
+            { "skill": "abd-architecture-specification", "role": "engineer", "run_when": "increment_needs_undocumented_mechanisms" }
           ]
         },
         {
           "name": "specification",
           "scope": "sprint",
           "stage_work_required": [
-            { "skill": "abd-class-responsibility-collaborator", "role": "business-expert" },
+            { "skill": "abd-domain-model", "role": "business-expert" },
             { "skill": "abd-specification-by-example", "role": "product-owner" },
             { "skill": "abd-interface-design", "role": "ux-designer" },
-            { "skill": "abd-architecture-reference", "role": "engineer" }
+            { "skill": "abd-architecture-specification", "role": "engineer" }
           ]
         },
         {
@@ -74,7 +74,7 @@
           "scope": "sprint",
           "stage_work_required": [
             { "skill": "abd-interface-design", "role": "ux-designer" },
-            { "skill": "abd-object-model", "role": "business-expert" },
+            { "skill": "abd-domain-implementation", "role": "business-expert" },
             { "skill": "abd-acceptance-test-driven-development", "role": "product-owner" },
             { "skill": "abd-clean-code", "role": "engineer" }
           ]
@@ -113,7 +113,7 @@
           "name": "shaping",
           "scope": "all",
           "stage_work_required": [
-            { "skill": "abd-module-partition", "role": "product-owner" },
+            { "skill": "abd-domain-partition", "role": "product-owner" },
             { "skill": "abd-story-mapping", "role": "product-owner" },
             { "skill": "abd-impact-mapping", "role": "product-owner" },
             { "skill": "abd-architecture-outline", "role": "engineer" }
@@ -133,17 +133,17 @@
           "name": "exploration",
           "scope": "increment",
           "stage_work_required": [
-            { "skill": "abd-ubiquitous-language", "role": "business-expert" },
+            { "skill": "abd-domain-language", "role": "business-expert" },
             { "skill": "abd-acceptance-criteria", "role": "product-owner" },
             { "skill": "abd-ux-mockup", "role": "ux-designer" },
-            { "skill": "abd-architecture-template", "role": "engineer", "run_when": "increment_needs_undocumented_mechanisms" }
+            { "skill": "abd-architecture-specification", "role": "engineer", "run_when": "increment_needs_undocumented_mechanisms" }
           ]
         },
         {
           "name": "specification",
           "scope": "sprint",
           "stage_work_required": [
-            { "skill": "abd-class-responsibility-collaborator", "role": "business-expert" },
+            { "skill": "abd-domain-model", "role": "business-expert" },
             { "skill": "abd-specification-by-example", "role": "product-owner" }
           ]
         },
@@ -151,7 +151,7 @@
           "name": "engineering",
           "scope": "sprint",
           "stage_work_required": [
-            { "skill": "abd-object-model", "role": "business-expert" },
+            { "skill": "abd-domain-implementation", "role": "business-expert" },
             { "skill": "abd-acceptance-test-driven-development", "role": "product-owner" },
             { "skill": "abd-clean-code", "role": "engineer" }
           ]

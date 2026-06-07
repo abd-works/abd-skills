@@ -1,4 +1,4 @@
----
+﻿---
 scanner: war-room-shape
 ---
 
@@ -40,7 +40,7 @@ War room tickets flow through stages defined by the kanban board. The **kanban b
   "ticket_id": "inc-1",
   "stage": "exploration",
   "skills": {
-    "abd-ubiquitous-language": { "status": "not_started", "role": "business-expert" },
+    "abd-domain-language": { "status": "not_started", "role": "business-expert" },
     "abd-acceptance-criteria": { "status": "not_started", "role": "product-owner" }
   }
 }
@@ -60,7 +60,7 @@ Ticket declares `skills` — duplicates kanban board stage configuration; brittl
       "stage": "exploration",
       "priority": 1,
       "skill_progress": {
-        "abd-ubiquitous-language": { "execution_status": "done", "agent": "business-expert", "review_status": "done" },
+        "abd-domain-language": { "execution_status": "done", "agent": "business-expert", "review_status": "done" },
         "abd-acceptance-criteria": { "execution_status": "in_progress", "agent": "product-owner", "review_status": null }
       }
     }

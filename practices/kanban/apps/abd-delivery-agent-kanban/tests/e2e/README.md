@@ -1,4 +1,4 @@
-# Kanban E2E fixtures
+﻿# Kanban E2E fixtures
 
 | Fixture | Purpose | Planning root |
 | --- | --- | --- |
@@ -26,7 +26,7 @@ Board UI and API default to **pawplace-stubs** via `config.default.json`.
 
 - `CONTEXT.md` — `fixture_mode: true`
 - `skill-fixtures.json` — maps every kanban skill → source files → artifact paths
-- `skill-fixtures/` — minimal valid examples (story map, increments, AC, domain, UX, architecture, CRC, spec, engineering)
+- `skill-fixtures/` — minimal valid examples (story map, increments, AC, domain, UX, architecture, domain model, spec, engineering)
 - Content trimmed from `abd-pet-store-demo/docs` Increment 1
 
 Agents read `practices/kanban/agents/reference/skill-fixture-mode.md` and **do not** execute practice skills.

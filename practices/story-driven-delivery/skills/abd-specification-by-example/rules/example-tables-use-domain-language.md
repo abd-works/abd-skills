@@ -1,4 +1,4 @@
----
+﻿---
 scanner: example-tables-domain
 ---
 
@@ -8,13 +8,13 @@ scanner: example-tables-domain
 
 This rule applies to scenario outlines that use example tables. It does not apply to plain scenarios, which use inline values instead.
 
-Example tables ground an outline in domain data. When a domain model exists (object model, CRC, or domain language), table names and column names MUST match that model exactly. This is not guidance — it is a hard constraint.
+Example tables ground an outline in domain data. When a domain model exists (Class Model, domain model, or domain language), table names and column names MUST match that model exactly. This is not guidance — it is a hard constraint.
 
 ## Grounded mode (domain model exists)
 
-When an object model, CRC model, or domain language glossary is available in the workspace or has been provided as context:
+When an Class Model, domain model, or domain language glossary is available in the workspace or has been provided as context:
 
-- **Table names** MUST correspond to a concept in the domain model (object model class, CRC card, or domain-language term). The match is case-insensitive.
+- **Table names** MUST correspond to a concept in the domain model (Class Model class, domain model card, or domain-language term). The match is case-insensitive.
 - **Column names** MUST correspond to attributes or fields of that concept as defined in the domain model. The match normalizes casing and underscores (`purchased_rank` matches `purchasedRank`).
 - **Inheritance applies** — if concept B inherits from concept A, a table named B may use any attribute from both B and A (resolved transitively up the chain).
 - **Cross-references** — a column that references another concept by name (e.g. a foreign key) is valid if that concept exists in the domain model.
@@ -76,7 +76,7 @@ Owner:
 
 ## Scanner: domain.json
 
-The scanner validates tables mechanically against a `domain.json` file in the workspace. This file is written by the CRC, Ubiquitous Language, or Object Model skills as a side-effect of producing their markdown output — it is the machine-readable version of whatever domain model exists.
+The scanner validates tables mechanically against a `domain.json` file in the workspace. This file is written by the domain model, Domain Language, or Class Model skills as a side-effect of producing their markdown output — it is the machine-readable version of whatever domain model exists.
 
 The scanner also accepts the legacy filename `domain-vocabulary.json`; `domain.json` takes precedence when both are present.
 

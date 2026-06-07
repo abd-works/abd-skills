@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """Tests for pull eligibility and mechanism registry."""
 from __future__ import annotations
 
@@ -26,7 +26,7 @@ class MechanismRegistryTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             ws = Path(tmp)
             (ws / "docs" / "planning" / "delivery-war-room").mkdir(parents=True)
-            register_mechanisms(ws, "1-inc-a", "abd-architecture-template", ["Security"])
+            register_mechanisms(ws, "1-inc-a", "abd-architecture-specification", ["Security"])
             reg = load_registry(ws)
             self.assertIn("Security", reg)
             self.assertEqual(reg["Security"]["ticket_id"], "1-inc-a")
@@ -41,7 +41,7 @@ class PullEligibilityTests(unittest.TestCase):
                     name="exploration",
                     scope="increment",
                     stage_work_required=[
-                        SkillDef(skill="abd-ubiquitous-language", role="business-expert"),
+                        SkillDef(skill="abd-domain-language", role="business-expert"),
                         SkillDef(skill="abd-acceptance-criteria", role="product-owner"),
                         SkillDef(skill="abd-ux-mockup", role="ux-designer", optional=True),
                     ],
@@ -54,7 +54,7 @@ class PullEligibilityTests(unittest.TestCase):
             scope_level="increment",
             stage="exploration",
             skill_progress={
-                "abd-ubiquitous-language": SkillProgress(
+                "abd-domain-language": SkillProgress(
                     execution_status="done", agent="business-expert", review_status="done"
                 ),
                 "abd-acceptance-criteria": SkillProgress(

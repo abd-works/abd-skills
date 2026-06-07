@@ -1,4 +1,4 @@
----
+﻿---
 name: abd-kanban-handoff
 catalog_garden_tier: practice
 catalog_garden_order: 55
@@ -131,7 +131,7 @@ Tailor from inferred **next stage** and gaps:
 | Board / war room setup | `abd-kanban`, `abd-kanban-planning` |
 | Resume agent pull | `abd-kanban` + kanban-lead / role `AGENT.md` under `practices/kanban/agents/` |
 | Missing shaping/discovery artifacts | Stage practice skills (`abd-story-mapping`, `abd-thin-slicing`, …) |
-| Increment exploration+ | `abd-ubiquitous-language`, `abd-acceptance-criteria`, … per stage |
+| Increment exploration+ | `abd-domain-language`, `abd-acceptance-criteria`, … per stage |
 | UI / board app | `abd-interface-design`, `abd-acceptance-criteria` (app AC in engagement repo) |
 | Commits | `commit-msg` |
 | Checkbox session tracking | `track_task` |

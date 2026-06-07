@@ -1,17 +1,17 @@
-# Rule: Ground scenarios in domain model content when available
+﻿# Rule: Ground scenarios in domain model content when available
 
-When object model, CRC, or domain language content exists in the workspace or has been provided as context, scenario language must use the exact concept names and relationships that content defines.
+When Class Model, domain model, or domain language content exists in the workspace or has been provided as context, scenario language must use the exact concept names and relationships that content defines.
 
 Look in this order — use the first type you find:
-1. **Object model** — typed classes with attributes and typed relationships between classes (most precise source)
-2. **CRC model** — each concept with its responsibilities and the other concepts it works with
+1. **Class Model** — typed classes with attributes and typed relationships between classes (most precise source)
+2. **domain model** — each concept with its responsibilities and the other concepts it works with
 3. **Domain language or key abstractions** — glossaries, defined terms, or grouped concept names with definitions
 
 These types of content are the outputs of domain-driven design practices. If such content is present in the workspace or supplied as context, it is the authoritative source for concept names and relationships.
 
 ## DO
 
-- Read any available domain model content before naming any concept in a step — object model first, then CRC, then domain language.
+- Read any available domain model content before naming any concept in a step — Class Model first, then domain model, then domain language.
 - Use the exact term the model defines.
 
 ```gherkin
@@ -39,7 +39,7 @@ Given a **Contract** {agreement_id} for **Customer** {customer_id}
 
 - In Scenario Outlines, structure example tables using the same language and cardinality as the domain model — a one-to-many relationship in the model means a separate table with a linking key, not repeated columns; a joining concept in the model means its own table with references to what it joins.
 
-CRC model the scenario is grounded in:
+domain model the scenario is grounded in:
 
 ```markdown
 #### **User**

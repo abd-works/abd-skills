@@ -1,4 +1,4 @@
-# Strategy: New User Story
+﻿# Strategy: New User Story
 
 **When to use:** A small change on an existing solution — new feature, enhancement, or capability within the current architecture. Map, slices, and domain model already exist.
 
@@ -12,9 +12,9 @@
 
 | Stage | Scope | Skills (ordered) |
 | --- | --- | --- |
-| Exploration | story | ubiquitous-language, acceptance-criteria |
-| Specification | story | CRC, spec-by-example |
-| Engineering | story | object-model (BE), ATDD (PO), clean-code (EN) |
+| Exploration | story | domain-language, acceptance-criteria |
+| Specification | story | domain model, spec-by-example |
+| Engineering | story | class-model (BE), ATDD (PO), clean-code (EN) |
 
 **No shaping or discovery.** Map, slices, and domain model already exist. Jump directly to exploration at story scope.
 

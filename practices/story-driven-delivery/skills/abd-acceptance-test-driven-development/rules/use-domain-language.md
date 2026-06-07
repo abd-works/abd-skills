@@ -1,10 +1,10 @@
----
+﻿---
 scanner: business_readable_test_names_scanner.py
 ---
 
 # Rule: Use Domain Language
 
-Apply **Ubiquitous Language** (DDD): use the same vocabulary in the domain model, stories, acceptance criteria, scenarios, **and** code. Class names map to domain entities or nouns; method names map to domain responsibilities or verbs; test names read like plain-English stories. This is priority 1 — it overrides generic technical naming at every level.
+Apply **Domain Language** (DDD): use the same vocabulary in the domain model, stories, acceptance criteria, scenarios, **and** code. Class names map to domain entities or nouns; method names map to domain responsibilities or verbs; test names read like plain-English stories. This is priority 1 — it overrides generic technical naming at every level.
 
 ## DO
 

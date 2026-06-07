@@ -1,4 +1,4 @@
-"""Tests for skill_fixture harness application."""
+﻿"""Tests for skill_fixture harness application."""
 from __future__ import annotations
 
 import json
@@ -41,7 +41,7 @@ def test_apply_module_partition(stub_workspace: Path):
 
     board = load_board(stub_workspace)
     board["active"][0]["skill_progress"] = {
-        "abd-module-partition": {
+        "abd-domain-partition": {
             "execution_status": "in_progress",
             "agent": "business-expert",
             "review_status": "not_started",
@@ -54,13 +54,13 @@ def test_apply_module_partition(stub_workspace: Path):
     result = apply_skill_fixture(
         stub_workspace,
         "project-all",
-        "abd-module-partition",
+        "abd-domain-partition",
         "business-expert",
     )
     assert result["event"] == "skill_fixture_applied"
     assert (stub_workspace / "docs/end-to-end/shaping/module-partition.md").is_file()
 
     board = load_board(stub_workspace)
-    sp = board["active"][0]["skill_progress"]["abd-module-partition"]
+    sp = board["active"][0]["skill_progress"]["abd-domain-partition"]
     assert sp["execution_status"] == "done"
     assert sp["review_status"] == "done"

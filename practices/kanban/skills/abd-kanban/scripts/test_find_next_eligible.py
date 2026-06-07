@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """Tests for KanbanBoard.find_next_eligible() — advancing past done skills on same role."""
 from __future__ import annotations
 
@@ -67,9 +67,9 @@ class TestFindNextEligible(unittest.TestCase):
                     name="exploration",
                     scope="increment",
                     stage_work_required=[
-                        SkillDef(skill="abd-ubiquitous-language", role="business-expert"),
+                        SkillDef(skill="abd-domain-language", role="business-expert"),
                         SkillDef(skill="abd-acceptance-criteria", role="product-owner"),
-                        SkillDef(skill="abd-architecture-reference", role="engineer"),
+                        SkillDef(skill="abd-architecture-specification", role="engineer"),
                     ],
                 ),
             ],
@@ -81,7 +81,7 @@ class TestFindNextEligible(unittest.TestCase):
             stage="exploration",
             priority=1,
             skill_progress={
-                "abd-ubiquitous-language": SkillProgress(
+                "abd-domain-language": SkillProgress(
                     execution_status="done", agent="business-expert", review_status="done"
                 ),
                 "abd-acceptance-criteria": SkillProgress(
@@ -92,7 +92,7 @@ class TestFindNextEligible(unittest.TestCase):
         match = kb.find_next_eligible([ticket], "engineer")
         self.assertIsNotNone(match)
         assert match is not None
-        self.assertEqual(match[1], "abd-architecture-reference")
+        self.assertEqual(match[1], "abd-architecture-specification")
 
     def test_engineer_arch_template_after_specification_priors(self) -> None:
         kb = KanbanBoard(
@@ -102,9 +102,9 @@ class TestFindNextEligible(unittest.TestCase):
                     name="specification",
                     scope="sprint",
                     stage_work_required=[
-                        SkillDef(skill="abd-class-responsibility-collaborator", role="business-expert"),
+                        SkillDef(skill="abd-domain-model", role="business-expert"),
                         SkillDef(skill="abd-specification-by-example", role="product-owner"),
-                        SkillDef(skill="abd-architecture-template", role="engineer"),
+                        SkillDef(skill="abd-architecture-specification", role="engineer"),
                     ],
                 ),
             ],
@@ -116,7 +116,7 @@ class TestFindNextEligible(unittest.TestCase):
             stage="specification",
             priority=1,
             skill_progress={
-                "abd-class-responsibility-collaborator": SkillProgress(
+                "abd-domain-model": SkillProgress(
                     execution_status="done", agent="business-expert", review_status="done"
                 ),
                 "abd-specification-by-example": SkillProgress(
@@ -127,7 +127,7 @@ class TestFindNextEligible(unittest.TestCase):
         match = kb.find_next_eligible([ticket], "engineer")
         self.assertIsNotNone(match)
         assert match is not None
-        self.assertEqual(match[1], "abd-architecture-template")
+        self.assertEqual(match[1], "abd-architecture-specification")
 
 
 if __name__ == "__main__":

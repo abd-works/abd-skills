@@ -1,8 +1,8 @@
-# Rule: Screens and IA reflect the user's mental model, not the technical decomposition
+﻿# Rule: Screens and IA reflect the user's mental model, not the technical decomposition
 
 **Scanner:** AI review
 
-The screen graph and the IA per screen are organized around how the product owner and domain experts already talk and reason about the work, expressed in the ubiquitous language. Technical artifacts (services, modules, repositories, durable objects, modes, layers) are not screens, are not transitions, and are not region names. If a label only makes sense to an engineer reading code, it does not belong on this canvas.
+The screen graph and the IA per screen are organized around how the product owner and domain experts already talk and reason about the work, expressed in the Domain Language. Technical artifacts (services, modules, repositories, durable objects, modes, layers) are not screens, are not transitions, and are not region names. If a label only makes sense to an engineer reading code, it does not belong on this canvas.
 
 ## DO
 

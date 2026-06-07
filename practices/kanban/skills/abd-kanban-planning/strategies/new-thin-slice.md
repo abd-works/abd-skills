@@ -1,4 +1,4 @@
-# Strategy: New Thin Slice
+﻿# Strategy: New Thin Slice
 
 **When to use:** Medium-to-large change on an existing solution: new stories, maybe a new sub-epic; cuts across features or layers (e.g. new payment method, new role, new integration).
 
@@ -14,9 +14,9 @@
 | --- | --- | --- |
 | Shaping | all | story-mapping (extend existing), thin-slicing |
 | Discovery | increment | domain-terms, architecture-blueprint, information-architecture |
-| Exploration | increment | ubiquitous-language, acceptance-criteria, ux-mockup, architecture-template |
-| Specification | sprint | CRC, spec-by-example, interface-design, architecture-reference |
-| Engineering | sprint | interface-design (UX), object-model (BE), ATDD (PO), clean-code (EN) |
+| Exploration | increment | domain-language, acceptance-criteria, ux-mockup, architecture-template |
+| Specification | sprint | domain model, spec-by-example, interface-design, architecture-reference |
+| Engineering | sprint | interface-design (UX), class-model (BE), ATDD (PO), clean-code (EN) |
 
 ---
 

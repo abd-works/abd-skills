@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """Tests for KanbanLead.pull_backlog() — partition and increment pull."""
 from __future__ import annotations
 
@@ -87,7 +87,7 @@ class TestRollingPull(unittest.TestCase):
                                 "name": "exploration",
                                 "scope": "increment",
                                 "stage_work_required": [
-                                    {"skill": "abd-ubiquitous-language", "role": "business-expert"},
+                                    {"skill": "abd-domain-language", "role": "business-expert"},
                                 ],
                             }],
                         },
@@ -121,7 +121,7 @@ class TestRollingPull(unittest.TestCase):
                         scope_level="increment",
                         stage="exploration",
                         priority=1,
-                        skill_progress={"abd-ubiquitous-language": ul_done},
+                        skill_progress={"abd-domain-language": ul_done},
                     ).to_dict(),
                 ],
                 "done": [],

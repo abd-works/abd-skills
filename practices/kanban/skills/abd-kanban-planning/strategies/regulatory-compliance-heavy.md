@@ -1,4 +1,4 @@
-# Strategy: Regulatory / Compliance-Heavy
+﻿# Strategy: Regulatory / Compliance-Heavy
 
 **When to use:** Regulation, legal, or compliance dominates risk (finance, health, privacy, government programs).
 
@@ -14,9 +14,9 @@
 | --- | --- | --- |
 | Shaping | all | story-mapping (tag compliance surface), thin-slicing |
 | Discovery | increment | domain-terms, architecture-blueprint |
-| Exploration | increment | ubiquitous-language, acceptance-criteria (regulatory values, not placeholders), architecture-template |
-| Specification | sprint | CRC, spec-by-example (real regulatory values) |
-| Engineering | sprint | object-model (BE), ATDD (PO, tests = proof bundle), clean-code (EN) |
+| Exploration | increment | domain-language, acceptance-criteria (regulatory values, not placeholders), architecture-template |
+| Specification | sprint | domain model, spec-by-example (real regulatory values) |
+| Engineering | sprint | class-model (BE), ATDD (PO, tests = proof bundle), clean-code (EN) |
 
 ---
 

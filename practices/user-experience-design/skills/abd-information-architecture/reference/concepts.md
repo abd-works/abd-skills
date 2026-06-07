@@ -1,4 +1,4 @@
-# abd-information-architecture — Concepts
+﻿# abd-information-architecture — Concepts
 
 ## What is information architecture?
 
@@ -25,7 +25,7 @@ The IA is captured on a single canvas covering two dimensions.
 
 ## Stories and domain as sources
 
-The story map and the ubiquitous language are **sources** for this skill, not its subjects. They feed the IA but are not what it speaks in.
+The story map and the Domain Language are **sources** for this skill, not its subjects. They feed the IA but are not what it speaks in.
 
 - Use **UX terms** on UX output — *screen*, *region*, *navigation*, *sidebar*, *header*, *footer*, *content type*, *action*, *label*, *tag*.
 - When a story or a domain concept appears on the canvas, include only its **name** — the story title or the domain term — and a link to the full source. No acceptance criteria, no full definitions, no behavioral detail on the IA artifact.

@@ -1,8 +1,8 @@
-# Rule: Labels are clear, single-purpose, and consistently named
+﻿# Rule: Labels are clear, single-purpose, and consistently named
 
 **Scanner:** AI review
 
-Every screen name, region name, and transition label on the site map is unambiguous, names one thing, and is reused exactly the same way wherever it appears. Different labels never refer to the same screen or region; the same label never refers to two different things. Names are short noun phrases (or, for transitions, short trigger phrases) drawn from the ubiquitous language.
+Every screen name, region name, and transition label on the site map is unambiguous, names one thing, and is reused exactly the same way wherever it appears. Different labels never refer to the same screen or region; the same label never refers to two different things. Names are short noun phrases (or, for transitions, short trigger phrases) drawn from the Domain Language.
 
 ## DO
 

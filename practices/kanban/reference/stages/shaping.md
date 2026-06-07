@@ -1,4 +1,4 @@
-# Shaping
+﻿# Shaping
 
 **Pull:** When a ticket is `stage: shaping` and active, agents pull skills from `kanban.json` for this stage — same [pull-model](../../agents/reference/pull-model.md) as all stages.
 **Follow-on:** [discovery.md](discovery.md) · **Index:** [README.md](README.md)
@@ -19,7 +19,7 @@ Skill order when running the full shaping pass: **domain → story (outline) →
 
 | Order | Family | Skill | Role | Notes |
 | --- | --- | --- | --- | --- |
-| 1 | **Domain-driven design** | `abd-module-partition` | Business Expert | Corpus / module boundaries before detailed mapping |
+| 1 | **Domain-driven design** | `abd-domain-partition` | Business Expert | Corpus / module boundaries before detailed mapping |
 | 2 | **Domain-driven design** | `abd-bounded-context-map` | Business Expert | Context relationships when multiple modules |
 | 3 | **Story-driven delivery** | `abd-story-mapping` (**outline mode**) | Product Owner | Epic-level map; actors and journeys, not full decomposition |
 | 3b | **Story-driven delivery** | `drawio-story-sync` | Product Owner | **Background** after story-mapping — `story-map.drawio` ([drawio-sync-background.md](../../agents/reference/drawio-sync-background.md)) |

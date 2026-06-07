@@ -1,8 +1,8 @@
-# Rule: Screen names use domain terms verbatim
+﻿# Rule: Screen names use domain terms verbatim
 
 **Scanner:** AI review
 
-Every screen box label on the site map is a term that appears in the supplied ubiquitous-language (UL) file, copied character-for-character. Paraphrased, abbreviated, or invented names are a fail. The UL file is the single source of truth for screen names; the site map mirrors it.
+Every screen box label on the site map is a term that appears in the supplied domain-language (UL) file, copied character-for-character. Paraphrased, abbreviated, or invented names are a fail. The UL file is the single source of truth for screen names; the site map mirrors it.
 
 ## DO
 

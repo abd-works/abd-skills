@@ -1,10 +1,10 @@
-"""Action intents and the action state file for manual board mode.
+﻿"""Action intents and the action state file for manual board mode.
 
 Domain area   : Kanban Board — Action State
 Responsibilities: read, append, and clear action intents from the action state
                   file; raise domain exceptions for missing files or invalid intents
 
-CRC:
+domain model:
   ActionIntent  — record specifying which skill to execute on which ticket
                    by which team member agent
   action state file — file the app writes action intents to; kanban lead
@@ -37,7 +37,7 @@ class InvalidActionIntentError(Exception):
 class ActionIntent:
     """A single action intent: execute a skill on a ticket by a role.
 
-    CRC responsibilities:
+    domain model responsibilities:
       - identify target ticket, skill, and agent role
       - carry creation timestamp
       - serialise / deserialise for the action state file

@@ -1,4 +1,4 @@
-# Pull model — all stages, all roles
+﻿# Pull model — all stages, all roles
 
 **Every delivery agent pulls. Nothing is assigned by ticket or stage. The kanban board is the queue.**
 
@@ -22,8 +22,8 @@ Typical PawPlace / new-build order (downstream = last in list):
 
 | Scan priority | Stage | Scope | Example skills (role) |
 | --- | --- | --- | --- |
-| 5 (first) | `engineering` | sprint | interface-design (UX), object-model (BE), ATDD (PO), clean-code (EN) |
-| 4 | `specification` | sprint | CRC (BE), spec-by-example (PO), interface-design (UX), arch-reference (EN) |
+| 5 (first) | `engineering` | sprint | interface-design (UX), class-model (BE), ATDD (PO), clean-code (EN) |
+| 4 | `specification` | sprint | domain model (BE), spec-by-example (PO), interface-design (UX), arch-reference (EN) |
 | 3 | `exploration` | increment | UL (BE), AC (PO), ux-mockup (UX), arch-template (EN) |
 | 2 | `discovery` | all/increment | domain-terms (BE), story-mapping (PO), IA (UX), blueprint (EN) |
 | 1 (last) | `shaping` | all | module-partition (BE), story-mapping (PO), impact-mapping (UX), arch-outline (EN) |
@@ -46,7 +46,7 @@ For your `delivery-role`, on each pull scan:
    - This skill's `role` matches your delivery role.
    - This skill is not started, or is `not_started` / no `skill_progress` entry.
 5. Pick the winning skill: **lowest stage scan order that found a match** (downstream wins), then **lowest ticket `priority`**.
-6. Claim with `in_progress` on `board.json`, then run the skill. Architecture skills (`abd-architecture-template`, `abd-architecture-reference`) **always run when claimed** — they choose a **quick pass** (mapping document only) or **long pass** (create missing mechanisms/code) inside the skill; kanban does not auto-skip them.
+6. Claim with `in_progress` on `board.json`, then run the skill. Architecture skills (`abd-architecture-specification`, `abd-architecture-specification`) **always run when claimed** — they choose a **quick pass** (mapping document only) or **long pass** (create missing mechanisms/code) inside the skill; kanban does not auto-skip them.
 
 ### Architecture skills — quick pass vs long pass
 
@@ -54,12 +54,12 @@ Kanban treats these like any other skill: eligible when priors are done; always 
 
 | Skill | Quick pass (all mechanisms exist) | Long pass (gaps remain) |
 | --- | --- | --- |
-| `abd-architecture-template` | List mechanisms from blueprint; all sections exist in reference + registry → write **assignment table only** | Create missing mechanism section(s); update `mechanism-registry.json` |
-| `abd-architecture-reference` | All reference + code paths assign → write **`architecture-reference-assignment.md` only** | Create missing reference sections and/or code; update registry |
+| `abd-architecture-specification` | List mechanisms from blueprint; all sections exist in reference + registry → write **assignment table only** | Create missing mechanism section(s); update `mechanism-registry.json` |
+| `abd-architecture-specification` | All reference + code paths assign → write **`architecture-reference-assignment.md` only** | Create missing reference sections and/or code; update registry |
 
 See [work-queue.md](work-queue.md#architecture-skills) and each skill's `reference/concepts.md`.
 
-**Kanban-lead:** Count engineer eligibility when priors are done and the arch skill is unset — same as any skill. **DO NOT** put `abd-architecture-reference` or a ticket id in spawn prompts.
+**Kanban-lead:** Count engineer eligibility when priors are done and the arch skill is unset — same as any skill. **DO NOT** put `abd-architecture-specification` or a ticket id in spawn prompts.
 
 **Same algorithm** for shaping through engineering. No stage-specific exceptions.
 

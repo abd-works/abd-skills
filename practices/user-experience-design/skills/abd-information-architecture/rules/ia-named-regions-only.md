@@ -1,8 +1,8 @@
-# Rule: IA per screen lists named regions only — no controls
+﻿# Rule: IA per screen lists named regions only — no controls
 
 **Scanner:** AI review
 
-The information-architecture layer on a screen lists the named regions of that screen and nothing else. Each region label is a term from the ubiquitous-language file. Controls (buttons, inputs, dropdowns, checkboxes), copy strings, field placeholders, and any wireframe-level detail are out of scope for this skill and belong in `abd-lo-fi`.
+The information-architecture layer on a screen lists the named regions of that screen and nothing else. Each region label is a term from the domain-language file. Controls (buttons, inputs, dropdowns, checkboxes), copy strings, field placeholders, and any wireframe-level detail are out of scope for this skill and belong in `abd-lo-fi`.
 
 ## DO
 

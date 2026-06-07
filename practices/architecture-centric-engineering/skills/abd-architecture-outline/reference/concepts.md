@@ -1,4 +1,4 @@
-# Architecture Outline — Concepts
+﻿# Architecture Outline — Concepts
 
 ## What is an architecture outline?
 
@@ -43,7 +43,7 @@ A **decision record (ADR)** captures *why* a choice was made — context, option
 
 ## What the outline does NOT contain
 
-These live in `abd-architecture-blueprint` and `abd-architecture-template`:
+These live in `abd-architecture-blueprint` and `abd-architecture-specification`:
 
 - Component-by-component descriptions
 - Cross-cutting concern implementations (auth, error handling, logging — those are [*architecture mechanisms*](../../../reference/architecture-mechanism.md))

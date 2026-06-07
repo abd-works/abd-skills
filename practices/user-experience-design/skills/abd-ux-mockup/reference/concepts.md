@@ -1,4 +1,4 @@
-# abd-ux-mockup — Concepts
+﻿# abd-ux-mockup — Concepts
 
 ## What is a lo-fi mockup
 
@@ -183,7 +183,7 @@ Rendered as square icon buttons in a row — not pill-shaped text buttons.
 
 ## Domain terms — verbatim, screen-scoped
 
-Only terms whose stories appear on this screen may appear. Copy verbatim from the ubiquitous-language file.
+Only terms whose stories appear on this screen may appear. Copy verbatim from the domain-language file.
 
 ## Acceptance criteria — verbatim
 

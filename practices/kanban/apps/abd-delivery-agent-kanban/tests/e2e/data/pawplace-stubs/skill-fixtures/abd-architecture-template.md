@@ -1,4 +1,4 @@
-# Architecture template — Increment 1 (stub)
+﻿# Architecture template — Increment 1 (stub)
 
 Mechanisms needed for the walk-in driver slice (from abd-pet-store-demo blueprint, trimmed).
 
@@ -15,4 +15,4 @@ MongoDB collections for products, categories, stores, stock availability.
 
 API layer maps domain errors to HTTP 4xx/5xx with stable error codes.
 
-Assign full reference sections in specification stage (`abd-architecture-reference`).
+Assign full reference sections in specification stage (`abd-architecture-specification`).

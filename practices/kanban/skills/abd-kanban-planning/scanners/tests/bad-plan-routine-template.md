@@ -1,4 +1,4 @@
-# Agile Delivery Plan — PawPlace (bad template)
+﻿# Agile Delivery Plan — PawPlace (bad template)
 
 ## Context inventory
 
@@ -32,7 +32,7 @@ Selected: `strategies/new-thin-slice.md`
 
 | Offset | Phase | Role | Skills | Waive when |
 | --- | --- | --- | --- | --- |
-| +0 | exploration | business-expert | abd-ubiquitous-language | no new domain terms |
+| +0 | exploration | business-expert | abd-domain-language | no new domain terms |
 | +1 | exploration | product-owner | abd-acceptance-criteria | never |
 
 ### Run slot map (sequential — continues from Run 2)

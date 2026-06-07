@@ -1,4 +1,4 @@
-"""
+﻿"""
 kanban_lead.py
 
 Domain area   : Agent and Skills — Kanban Lead
@@ -60,7 +60,7 @@ ROLES = ("business-expert", "product-owner", "ux-designer", "engineer")
 class KanbanLead:
     """Orchestrates the kanban board: pull, scatter, advance, dispatch, release.
 
-    CRC responsibilities:
+    domain model responsibilities:
       - manage kanban board        -> KanbanBoard
       - detect stage completion    -> Stage, Ticket
       - trigger scatter            -> Ticket

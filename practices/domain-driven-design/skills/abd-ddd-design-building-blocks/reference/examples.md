@@ -1,8 +1,8 @@
-# DDD Design Building Blocks — Examples
+﻿# DDD Design Building Blocks — Examples
 
-## CRC before and after DDD building blocks
+## domain model before and after DDD building blocks
 
-**Before** — vanilla CRC from `abd-class-responsibility-collaborator`:
+**Before** — vanilla domain model from `abd-domain-model`:
 
 ```
 #### **Order**

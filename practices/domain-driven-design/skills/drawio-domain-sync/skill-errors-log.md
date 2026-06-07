@@ -1,14 +1,14 @@
-﻿# drawio-domain-sync — skill errors log
+# drawio-domain-sync — skill errors log
 
 ---
 
 ### Collaborator types omitted from class diagram properties and operations
 
-- **Context:** Rendering a CRC model to a Draw.io class diagram
+- **Context:** Rendering a Domain Model to a Draw.io class diagram
 - **DO / DO NOT:** **DO** always include collaborator types as type annotations on every property and operation, using `name : Collaborator` notation. When a responsibility has multiple collaborators, list them all (e.g., `modifier : Character, Imposed Conditions, Condition, Game Modifier`). **DO NOT** render properties or operations as bare names without their collaborator types.
-- **Example (wrong):** Properties rendered as `+ character`, `+ modifier`, `+ perform check` — no collaborator type shown. The reader cannot see what type each property holds or what collaborators each operation uses without consulting the CRC source.
-- **Example (correct):** Properties rendered as `+ character : Character`, `+ modifier : Character, Imposed Conditions, Condition, Game Modifier`, operations as `+ perform check : Check, Rank, Check Result`. Every collaborator from the CRC pipe column appears inline.
-- **Likely source:** `prompt gap` — SKILL.md step 7 said "omit type annotations when the source is a Ubiquitous Language; add full typed signatures when the source is an object model" but did not mention CRC models at all. Fixed: step 7 now has explicit sub-bullets for all three source types.
+- **Example (wrong):** Properties rendered as `+ character`, `+ modifier`, `+ perform check` — no collaborator type shown. The reader cannot see what type each property holds or what collaborators each operation uses without consulting the domain model source.
+- **Example (correct):** Properties rendered as `+ character : Character`, `+ modifier : Character, Imposed Conditions, Condition, Game Modifier`, operations as `+ perform check : Check, Rank, Check Result`. Every collaborator from the domain model pipe column appears inline.
+- **Likely source:** `prompt gap` — SKILL.md step 7 said "omit type annotations when the source is a Domain Language; add full typed signatures when the source is an Class Model" but did not mention domain models at all. Fixed: step 7 now has explicit sub-bullets for all three source types.
 - **Status:** confirmed
 
 ---
@@ -26,7 +26,7 @@
 
 ### Cell width too narrow for collaborator type annotations
 
-- **Context:** Rendering CRC with collaborator types — default cell width 260px caused excessive text wrapping on long collaborator strings
+- **Context:** Rendering a Domain Model with collaborator types — default cell width 260px caused excessive text wrapping on long collaborator strings
 - **DO / DO NOT:** **DO** widen class cells (320px or more) when collaborator type annotations produce long property/operation text. **DO NOT** use a fixed narrow width that causes collaborator lists to wrap excessively, making the diagram harder to read.
 - **Example (wrong):** `modifier : Character, Imposed Conditions, Condition, Game Modifier` in a 260px-wide cell wraps across 3+ lines, making the properties compartment disproportionately tall.
 - **Example (correct):** Same text in a 320px-wide cell wraps once or not at all, keeping the cell compact and readable.
@@ -37,11 +37,12 @@
 
 ### Regenerating entire diagram from scratch instead of incremental edits
 
-- **Context:** When updating an existing class diagram after CRC changes, a full-regeneration script was written that replaced the entire `.drawio` file — discarding any manual repositioning the user had done in Draw.io.
+- **Context:** When updating an existing class diagram after Domain Model changes, a full-regeneration script was written that replaced the entire `.drawio` file — discarding any manual repositioning the user had done in Draw.io.
 - **DO / DO NOT:** **DO** use incremental operations (`update-class`, `move`, `add-class`, `delete-class`, `add-*` / `delete-edge`) to modify an existing diagram in place, preserving user layout. **DO NOT** write a script that regenerates the entire diagram from scratch when the diagram already exists — only generate from scratch when no diagram file exists yet.
-- **Example (wrong):** CRC changed three properties on two classes. Agent wrote a 250-line Python script that recreated every class and edge on all three pages, resetting all positions to computed defaults and losing the user's manual layout adjustments.
-- **Example (correct):** CRC changed three properties on two classes. Agent used `update-class` to add/remove the changed properties on those two classes, leaving all other classes, edges, and positions untouched.
+- **Example (wrong):** domain model changed three properties on two classes. Agent wrote a 250-line Python script that recreated every class and edge on all three pages, resetting all positions to computed defaults and losing the user's manual layout adjustments.
+- **Example (correct):** domain model changed three properties on two classes. Agent used `update-class` to add/remove the changed properties on those two classes, leaving all other classes, edges, and positions untouched.
 - **Likely source:** `prompt gap` — SKILL.md describes both full rendering and incremental sync workflows but does not state a preference for incremental when the diagram already exists. The agent defaulted to full regeneration because it was simpler to implement.
+
 - **Status:** confirmed
 
 ---
@@ -90,11 +91,11 @@
 
 ---
 
-### Ubiquitous Language source rendered as a leaner concept map without rows or collaborators
+### Domain Language source rendered as a leaner concept map without rows or collaborators
 
-- **Context:** Rendering a `*-ubiquitous-language.md` file to a Draw.io class diagram. The SKILL said "Ubiquitous Language — omit type annotations (behaviors only, no types in source)" — which produced cards with bullet-style behavior lines but no rows, no collaborator column, and no association edges. The user expected the ULL to render with the same card-rows-collaborators shape as CRC (a "second pass after Ubiquitous Language"), with one row per behavior bullet and one folded association edge per cross-concept italicized reference.
-- **DO / DO NOT:** **DO** treat the Ubiquitous Language as a structured diagram source with the same shape as CRC — each `### concept` is a card, each verb-led behavior bullet is a row `<bullet text> : Collaborator, Collaborator` (collaborators are the bullet's italicized terms), `### Subtype *is a type of* Base` produces inheritance edges, `### term *(boundary)*` stubs become imported cards with `«boundary: OwningModule»` stereotype, and each unique cross-concept italicized reference produces one folded association edge. **DO NOT** render a ULL as a flat concept map without rows or collaborators just because the source doesn't use CRC tables — the italicized terms in bullets *are* the collaborators.
+- **Context:** Rendering a Domain Language file (`*-domain-language.md`) to a Draw.io class diagram. The SKILL said "Domain Language — omit type annotations (behaviors only, no types in source)" — which produced cards with bullet-style behavior lines but no rows, no collaborator column, and no association edges. The user expected the Domain Language to render with the same card-rows-collaborators shape as a Domain Model (a "second pass after Domain Language"), with one row per behavior bullet and one folded association edge per cross-concept italicized reference.
+- **DO / DO NOT:** **DO** treat the Domain Language as a structured diagram source with the same shape as a Domain Model — each `### concept` is a card, each verb-led behavior bullet is a row `<bullet text> : Collaborator, Collaborator` (collaborators are the bullet's italicized terms), `### Subtype *is a type of* Base` produces inheritance edges, `### term *(boundary)*` stubs become imported cards with `«boundary: OwningModule»` stereotype, and each unique cross-concept italicized reference produces one folded association edge. **DO NOT** render a Domain Language file as a flat concept map without rows or collaborators just because the source doesn't use typed class blocks — the italicized terms in bullets *are* the collaborators.
 - **Example (wrong):** ULL `### check` block with three behavior bullets and two italicized terms each. Diagram rendered with `check` card showing the three bullets as plain text, no collaborator column, no edges to `trait`, `d20`, `difficulty class`, `check result`. The page looked like a vocabulary list, not a class diagram.
 - **Example (correct):** Same source rendered with `check` card containing three rows (one per bullet), each row labeled with the bullet text and followed by `: Trait, D20, Difficulty Class, Check Result` etc. Folded association edges drawn from `check` to each unique italicized target. Inheritance edge from `### opposed check *is a type of* check` heading.
-- **Likely source:** `prompt gap` — SKILL.md only listed three source types and described ULL rendering as "behaviors as operations", with no mention of folding italicized terms into a collaborator column or generating association edges. Fixed by: (1) new rule `rules/class-diagram-ubiquitous-language-bullets-become-rows.md`, (2) rewrite of SKILL.md Source types and step 7 ULL branches, (3) update of `diagrams.md` AI rendering workflow, (4) new bundled rule in the SKILL.md execute_rules block, (5) upstream rule `italic-terms-resolve-to-named-concepts.md` in `abd-ubiquitous-language` that guarantees italicized terms have targets.
+- **Likely source:** `prompt gap` — SKILL.md only listed three source types and described Domain Language rendering as "behaviors as operations", with no mention of folding italicized terms into a collaborator column or generating association edges. Fixed by: (1) new rule `rules/class-diagram-domain-language-bullets-become-rows.md`, (2) rewrite of SKILL.md Source types and step 7 Domain Language branches, (3) update of `diagrams.md` AI rendering workflow, (4) new bundled rule in the SKILL.md execute_rules block, (5) upstream rule `italic-terms-resolve-to-named-concepts.md` in `abd-domain-language` that guarantees italicized terms have targets.
 - **Status:** confirmed

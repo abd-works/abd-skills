@@ -1,7 +1,7 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """Shared delivery model for JIT Kanban with ticket scattering.
 
-Classes match the CRC model (docs/domain/crc.md):
+Classes match the domain model (docs/domain/domain model.md):
   Kanban Board KA:  KanbanBoard, Ticket, SkillProgress, Stage (StageDef),
                     StageWorkRequired (SkillDef)
   Agent & Skills KA: heartbeat functions, write_heartbeat
@@ -37,7 +37,7 @@ class DuplicateTicketIdError(Exception):
 
 
 # ---------------------------------------------------------------------------
-# Stage Work Required (CRC: ordered skills, agent role per skill)
+# Stage Work Required (domain model: ordered skills, agent role per skill)
 # ---------------------------------------------------------------------------
 
 @dataclass
@@ -57,7 +57,7 @@ class SkillDef:
 
 
 # ---------------------------------------------------------------------------
-# Skill Progress (CRC: execution status, review status, agents, timestamps)
+# Skill Progress (domain model: execution status, review status, agents, timestamps)
 # ---------------------------------------------------------------------------
 
 @dataclass
@@ -73,7 +73,7 @@ class SkillProgress:
     review_end: str | None = None
     notes: str | None = None
 
-    # --- CRC responsibilities ---
+    # --- domain model responsibilities ---
 
     def is_done(self) -> bool:
         """Invariant: execution done AND review done."""
@@ -115,7 +115,7 @@ class SkillProgress:
 
 
 # ---------------------------------------------------------------------------
-# Stage (CRC: stage name, scope level, queue/ip/done of tickets)
+# Stage (domain model: stage name, scope level, queue/ip/done of tickets)
 # ---------------------------------------------------------------------------
 
 @dataclass
@@ -145,7 +145,7 @@ class StageDef:
 
 
 # ---------------------------------------------------------------------------
-# Ticket (CRC: identifier, lineage, board position, scope level, priority,
+# Ticket (domain model: identifier, lineage, board position, scope level, priority,
 #         skill progress, stage timestamps, wait/advance/scatter)
 # ---------------------------------------------------------------------------
 
@@ -166,7 +166,7 @@ class Ticket:
     scatter_to: list[str] = field(default_factory=list)
     notes: str = ""
 
-    # --- CRC responsibilities ---
+    # --- domain model responsibilities ---
 
     def is_stage_complete(self, stage_def: StageDef) -> bool:
         """Invariant: a stage is complete only when every required skill has
@@ -337,7 +337,7 @@ class Ticket:
 
 
 # ---------------------------------------------------------------------------
-# Kanban Board (CRC: ordered stages, active stage flow, team configuration,
+# Kanban Board (domain model: ordered stages, active stage flow, team configuration,
 #               tickets in flow, define stage order)
 # ---------------------------------------------------------------------------
 
@@ -347,7 +347,7 @@ class KanbanBoard:
     label: str = ""
     stages: list[StageDef] = field(default_factory=list)
 
-    # --- CRC responsibilities ---
+    # --- domain model responsibilities ---
 
     def get_stage(self, stage_name: str) -> StageDef | None:
         for s in self.stages:
@@ -591,7 +591,7 @@ def save_ticket_in_board(board: dict[str, Any], bucket: str, index: int, ticket:
 
 
 # ---------------------------------------------------------------------------
-# Heartbeat (CRC: timestamp, age, determine liveness)
+# Heartbeat (domain model: timestamp, age, determine liveness)
 # ---------------------------------------------------------------------------
 
 def heartbeat_path(wr: Path, role: str, instance: int = 1) -> Path:

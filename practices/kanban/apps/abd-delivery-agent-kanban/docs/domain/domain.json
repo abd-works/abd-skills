@@ -1,48 +1,88 @@
-{
-  "_comment": "Machine-readable vocabulary extracted from the CRC model. Written alongside crc.md. Read by the specification-by-example scanner to validate example-table column names against domain concepts and attributes.",
+﻿{
+  "_comment": "Machine-readable vocabulary extracted from the Class Model. Written alongside class-model.md. Read by the specification-by-example scanner to validate example-table column names against domain class properties. Attributes are the typed property names declared with '+ propertyName: Type'.",
   "concepts": {
     "KanbanBoard": {
-      "attributes": ["ordered_stages", "active_stage_flow", "team_configuration", "tickets_in_flow", "saved_at_timestamp"],
+      "attributes": ["savedAt", "workspacePath", "stages", "team"],
       "inherits": null
     },
     "Ticket": {
-      "attributes": ["unique_identifier", "lineage", "board_position", "scope_level", "priority", "skill_progress_entries", "notes", "stage_timestamps", "scatter_from", "scatter_to", "stage_history"],
+      "attributes": ["id", "lineage", "boardPosition", "scopeLevel", "priority", "skillProgress", "notes", "stageTimestamps"],
       "inherits": null
     },
     "BoardPosition": {
-      "attributes": ["current_stage", "sub_state"],
+      "attributes": ["currentStage", "subState"],
       "inherits": null
     },
     "SkillProgress": {
-      "attributes": ["execution_status", "review_status", "executing_agent_role", "reviewing_agent_role", "execution_start", "execution_end", "review_start", "review_end"],
+      "attributes": ["skillName", "executionStatus", "reviewStatus", "executingAgentRole", "reviewingAgentRole", "executionStartedAt", "executionCompletedAt", "reviewStartedAt", "reviewCompletedAt"],
       "inherits": null
     },
     "Stage": {
-      "attributes": ["stage_name", "scope_level", "queue", "in_progress", "done"],
+      "attributes": ["name", "scopeLevel", "workRequired", "queue", "inProgress", "done"],
       "inherits": null
     },
     "StageWorkRequired": {
-      "attributes": ["ordered_skills", "agent_role_per_skill"],
+      "attributes": ["orderedSkills", "agentRoles"],
+      "inherits": null
+    },
+    "StageTimestamp": {
+      "attributes": ["enteredAt", "completedAt"],
       "inherits": null
     },
     "Team": {
-      "attributes": ["executor_reviewer_pair_counts"],
+      "attributes": ["memberships"],
+      "inherits": null
+    },
+    "TeamMembership": {
+      "attributes": ["role", "pairCount", "pairs"],
+      "inherits": null
+    },
+    "TeamMemberPair": {
+      "attributes": ["role", "executor", "reviewer"],
       "inherits": null
     },
     "Agent": {
-      "attributes": ["delivery_role", "work_role"],
+      "attributes": ["deliveryRole", "workRole", "agentDefinition"],
       "inherits": null
     },
-    "Skill": {
-      "attributes": ["skill_name", "required_by_stage", "performed_by_agent_role"],
-      "inherits": null
-    },
-    "Heartbeat": {
-      "attributes": ["timestamp", "age_in_seconds"],
-      "inherits": null
+    "TeamMember": {
+      "attributes": [],
+      "inherits": "Agent"
     },
     "KanbanLead": {
       "attributes": [],
+      "inherits": "Agent"
+    },
+    "Skill": {
+      "attributes": ["name", "performedByRole"],
+      "inherits": null
+    },
+    "Heartbeat": {
+      "attributes": ["session", "poolAvatarState"],
+      "inherits": null
+    },
+    "RoleEngagement": {
+      "attributes": ["role", "engagedTicketCount"],
+      "inherits": null
+    },
+    "AgentSession": {
+      "attributes": ["sessionId", "agentRole", "lifecycleState", "outputStream"],
+      "inherits": null
+    },
+    "AgentDefinition": {
+      "attributes": ["role", "rootFilePath", "sharedWorkflowFiles", "rolePlaybookPath"],
+      "inherits": null
+    },
+    "BootstrapPrompt": {
+      "attributes": ["workspacePath", "roleIdentity", "promptContent"],
+      "inherits": null
+    },
+    "AgentOutputStream": {
+      "attributes": ["sessionId", "messages"],
+      "inherits": null
+    },
+    "AgentStreamPanel": {
+      "attributes": ["outputStream", "anchoredStage", "teamMember", "isExpanded"],
       "inherits": null
     }
   },

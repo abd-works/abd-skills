@@ -1,4 +1,4 @@
-# Engineer — Delivery Executor
+﻿# Engineer — Delivery Executor
 
 > **Turn 1 — if `<workspace>/AGENT-SEED.md` exists, read it first (fixture mode). Then read [reference/session-bootstrap.md](../reference/session-bootstrap.md) and [reference/pull-model.md](../reference/pull-model.md). Arm pull loop; pull all stages; never exit after one skill.**
 
@@ -26,9 +26,9 @@ Follow [reference/executor-workflow.md](../reference/executor-workflow.md) for e
 
 ## Conditional skills (mandatory gate)
 
-Before `in_progress` on **`abd-architecture-reference`** or **`abd-architecture-template`**:
+Before `in_progress` on **`abd-architecture-specification`** or **`abd-architecture-specification`**:
 
-1. List in-scope mechanisms from CRC / AC / `docs/increments/<n>-<slug>/specification/` or `exploration/`.
+1. List in-scope mechanisms from domain model / AC / `docs/increments/<n>-<slug>/specification/` or `exploration/`.
 2. Run assign/create inventory ([work-queue.md](../reference/work-queue.md) § Conditional skills).
 3. **Skip** when every mechanism is reference **assign** and code **assign** — mark skill `done` with assignment path in notes; do not regenerate existing reference sections.
 4. **Run** only for mechanisms that need **create** (reference section and/or code files).

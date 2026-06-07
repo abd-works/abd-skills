@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """Tests for KanbanLead.dispatch_claims() and release_stale_reserved()."""
 from __future__ import annotations
 
@@ -28,7 +28,7 @@ def _write_fixture(ws: Path) -> None:
                         "name": "exploration",
                         "scope": "increment",
                         "stage_work_required": [
-                            {"skill": "abd-ubiquitous-language", "role": "business-expert"},
+                            {"skill": "abd-domain-language", "role": "business-expert"},
                             {"skill": "abd-acceptance-criteria", "role": "product-owner"},
                         ],
                     }],
@@ -49,7 +49,7 @@ def _write_fixture(ws: Path) -> None:
             "stage": "exploration",
             "priority": 1,
             "skill_progress": {
-                "abd-ubiquitous-language": {
+                "abd-domain-language": {
                     "execution_status": "done",
                     "agent": "business-expert",
                     "review_status": "done",

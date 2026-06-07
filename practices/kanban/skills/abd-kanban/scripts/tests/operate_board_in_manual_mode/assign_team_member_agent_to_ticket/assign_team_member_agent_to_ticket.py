@@ -1,4 +1,4 @@
-"""Assign Team Member Agent to Ticket — manual-mode intent, delegation, execution
+﻿"""Assign Team Member Agent to Ticket — manual-mode intent, delegation, execution
 
 Epic:      Operate Board in Manual Mode
 Sub-epic:  Assign Team Member Agent to Ticket
@@ -91,12 +91,12 @@ class TestRecordActionIntentInStateFile:
         action-state.json."""
         # Given:
         given_kanban_board(workspace, given_stage_config_with_skills([
-            {"skill": "abd-crc", "role": "business-expert"},
+            {"skill": "abd-domain-model", "role": "business-expert"},
         ]))
         given_board_state(workspace, {
             "active": [given_ticket("t-1", "specification", "sprint").to_dict()],
         })
-        intent = given_action_intent("t-1", "abd-crc", "business-expert")
+        intent = given_action_intent("t-1", "abd-domain-model", "business-expert")
 
         # When:
         when_action_intent_appended(workspace, intent)
@@ -105,20 +105,20 @@ class TestRecordActionIntentInStateFile:
         then_action_state_file_exists(workspace)
         intents = when_action_intents_loaded(workspace)
         assert len(intents) == 1
-        then_intent_matches(intents[0], "t-1", "abd-crc", "business-expert")
+        then_intent_matches(intents[0], "t-1", "abd-domain-model", "business-expert")
 
     def test_multiple_intents_appended_none_overwritten(self, workspace):
         """WHEN multiple assignments before lead processes -> each appended,
         none overwritten."""
         # Given:
         given_kanban_board(workspace, given_stage_config_with_skills([
-            {"skill": "abd-crc", "role": "business-expert"},
+            {"skill": "abd-domain-model", "role": "business-expert"},
             {"skill": "abd-spec-by-example", "role": "product-owner"},
         ]))
         given_board_state(workspace, {
             "active": [given_ticket("t-1", "specification", "sprint").to_dict()],
         })
-        intent_a = given_action_intent("t-1", "abd-crc", "business-expert")
+        intent_a = given_action_intent("t-1", "abd-domain-model", "business-expert")
         intent_b = given_action_intent("t-1", "abd-spec-by-example", "product-owner")
 
         # When:
@@ -128,18 +128,18 @@ class TestRecordActionIntentInStateFile:
         # Then:
         then_intent_count_is(workspace, 2)
         intents = when_action_intents_loaded(workspace)
-        then_intent_matches(intents[0], "t-1", "abd-crc", "business-expert")
+        then_intent_matches(intents[0], "t-1", "abd-domain-model", "business-expert")
         then_intent_matches(intents[1], "t-1", "abd-spec-by-example", "product-owner")
 
     def test_action_state_file_created_on_first_write(self, workspace):
         """WHEN action-state.json doesn't exist -> app creates on first write."""
         # Given:
         given_kanban_board(workspace, given_stage_config_with_skills([
-            {"skill": "abd-crc", "role": "business-expert"},
+            {"skill": "abd-domain-model", "role": "business-expert"},
         ]))
         given_board_state(workspace, {})
         given_no_action_state_file(workspace)
-        intent = given_action_intent("t-1", "abd-crc", "business-expert")
+        intent = given_action_intent("t-1", "abd-domain-model", "business-expert")
 
         # When:
         when_action_intent_appended(workspace, intent)
@@ -161,31 +161,31 @@ class TestDetectStateFileChange:
         read all unprocessed intents."""
         # Given:
         given_kanban_board(workspace, given_stage_config_with_skills([
-            {"skill": "abd-crc", "role": "business-expert"},
+            {"skill": "abd-domain-model", "role": "business-expert"},
         ]))
         given_board_state(workspace, {})
         given_board_mode_is(workspace, BOARD_MODE_MANUAL)
-        given_action_intent_appended(workspace, "t-1", "abd-crc", "business-expert")
-        given_action_intent_appended(workspace, "t-2", "abd-crc", "business-expert")
+        given_action_intent_appended(workspace, "t-1", "abd-domain-model", "business-expert")
+        given_action_intent_appended(workspace, "t-2", "abd-domain-model", "business-expert")
 
         # When:
         intents = when_action_intents_loaded(workspace)
 
         # Then:
         assert len(intents) == 2
-        then_intent_matches(intents[0], "t-1", "abd-crc", "business-expert")
-        then_intent_matches(intents[1], "t-2", "abd-crc", "business-expert")
+        then_intent_matches(intents[0], "t-1", "abd-domain-model", "business-expert")
+        then_intent_matches(intents[1], "t-2", "abd-domain-model", "business-expert")
 
     def test_multiple_intents_processed_in_order(self, workspace):
         """WHEN multiple intents present -> process in order written."""
         # Given:
         given_kanban_board(workspace, given_stage_config_with_skills([
-            {"skill": "abd-crc", "role": "business-expert"},
+            {"skill": "abd-domain-model", "role": "business-expert"},
             {"skill": "abd-spec-by-example", "role": "product-owner"},
         ]))
         given_board_state(workspace, {})
         given_board_mode_is(workspace, BOARD_MODE_MANUAL)
-        given_action_intent_appended(workspace, "t-1", "abd-crc", "business-expert")
+        given_action_intent_appended(workspace, "t-1", "abd-domain-model", "business-expert")
         given_action_intent_appended(workspace, "t-2", "abd-spec-by-example", "product-owner")
         given_action_intent_appended(workspace, "t-1", "abd-spec-by-example", "product-owner")
 
@@ -194,7 +194,7 @@ class TestDetectStateFileChange:
 
         # Then:
         assert len(intents) == 3
-        then_intent_matches(intents[0], "t-1", "abd-crc", "business-expert")
+        then_intent_matches(intents[0], "t-1", "abd-domain-model", "business-expert")
         then_intent_matches(intents[1], "t-2", "abd-spec-by-example", "product-owner")
         then_intent_matches(intents[2], "t-1", "abd-spec-by-example", "product-owner")
 
@@ -202,7 +202,7 @@ class TestDetectStateFileChange:
         """WHEN mode is automatic -> don't watch or read action-state.json."""
         # Given:
         given_kanban_board(workspace, given_stage_config_with_skills([
-            {"skill": "abd-crc", "role": "business-expert"},
+            {"skill": "abd-domain-model", "role": "business-expert"},
         ]))
         given_board_state(workspace, {})
         given_no_action_state_file(workspace)
@@ -228,11 +228,11 @@ class TestDelegateSkillToTeamMemberAgent:
         ticket to named role."""
         # Given:
         given_kanban_board(workspace, given_stage_config_with_skills([
-            {"skill": "abd-crc", "role": "business-expert"},
+            {"skill": "abd-domain-model", "role": "business-expert"},
         ]))
         ticket = given_ticket("t-1", "specification", "sprint")
         given_board_state(workspace, {"active": [ticket.to_dict()]})
-        intent = given_action_intent("t-1", "abd-crc", "business-expert")
+        intent = given_action_intent("t-1", "abd-domain-model", "business-expert")
 
         # When:
         board = load_board(workspace)
@@ -242,17 +242,17 @@ class TestDelegateSkillToTeamMemberAgent:
         save_board(workspace, board)
 
         # Then:
-        then_skill_execution_status_is(workspace, "t-1", "abd-crc", "in_progress")
+        then_skill_execution_status_is(workspace, "t-1", "abd-domain-model", "in_progress")
 
     def test_role_without_capacity_queues_intent(self, workspace):
         """WHEN role has no capacity -> queue until capacity; don't reject."""
         # Given:
         given_kanban_board(workspace, given_stage_config_with_skills([
-            {"skill": "abd-crc", "role": "business-expert"},
+            {"skill": "abd-domain-model", "role": "business-expert"},
             {"skill": "abd-spec-by-example", "role": "product-owner"},
         ]))
         ticket = given_ticket("t-1", "specification", "sprint", skill_progress={
-            "abd-crc": given_skill_execution_in_progress("abd-crc", "business-expert"),
+            "abd-domain-model": given_skill_execution_in_progress("abd-domain-model", "business-expert"),
         })
         given_board_state(workspace, {"active": [ticket.to_dict()]})
         intent = given_action_intent("t-1", "abd-spec-by-example", "product-owner")
@@ -269,10 +269,10 @@ class TestDelegateSkillToTeamMemberAgent:
         """WHEN intent references nonexistent ticket/skill -> skip; log reason."""
         # Given:
         given_kanban_board(workspace, given_stage_config_with_skills([
-            {"skill": "abd-crc", "role": "business-expert"},
+            {"skill": "abd-domain-model", "role": "business-expert"},
         ]))
         given_board_state(workspace, {"active": []})
-        intent = given_action_intent("nonexistent-ticket", "abd-crc", "business-expert")
+        intent = given_action_intent("nonexistent-ticket", "abd-domain-model", "business-expert")
 
         # When:
         board = load_board(workspace)
@@ -294,14 +294,14 @@ class TestExecuteAssignedSkillOnTicket:
         execution_status -> in_progress."""
         # Given:
         given_kanban_board(workspace, given_stage_config_with_skills([
-            {"skill": "abd-crc", "role": "business-expert"},
+            {"skill": "abd-domain-model", "role": "business-expert"},
         ]))
         ticket = given_ticket("t-1", "specification", "sprint")
         given_board_state(workspace, {"active": [ticket.to_dict()]})
 
         # When:
         _set_skill_progress_on_board(
-            workspace, "t-1", "abd-crc",
+            workspace, "t-1", "abd-domain-model",
             SkillProgress(
                 execution_status="in_progress",
                 agent="business-expert",
@@ -310,84 +310,84 @@ class TestExecuteAssignedSkillOnTicket:
         )
 
         # Then:
-        then_skill_execution_status_is(workspace, "t-1", "abd-crc", "in_progress")
-        then_skill_review_status_is(workspace, "t-1", "abd-crc", "not_started")
+        then_skill_execution_status_is(workspace, "t-1", "abd-domain-model", "in_progress")
+        then_skill_review_status_is(workspace, "t-1", "abd-domain-model", "not_started")
 
     def test_work_pass_completes_advances_to_review(self, workspace):
         """WHEN work pass completes -> execution_status -> done;
         review_status -> in_progress."""
         # Given:
         given_kanban_board(workspace, given_stage_config_with_skills([
-            {"skill": "abd-crc", "role": "business-expert"},
+            {"skill": "abd-domain-model", "role": "business-expert"},
         ]))
         ticket = given_ticket("t-1", "specification", "sprint", skill_progress={
-            "abd-crc": given_skill_execution_in_progress("abd-crc", "business-expert"),
+            "abd-domain-model": given_skill_execution_in_progress("abd-domain-model", "business-expert"),
         })
         given_board_state(workspace, {"active": [ticket.to_dict()]})
 
         # When:
         _set_skill_progress_on_board(
-            workspace, "t-1", "abd-crc",
-            given_skill_review_in_progress("abd-crc", "business-expert"),
+            workspace, "t-1", "abd-domain-model",
+            given_skill_review_in_progress("abd-domain-model", "business-expert"),
         )
 
         # Then:
-        then_skill_execution_status_is(workspace, "t-1", "abd-crc", "done")
-        then_skill_review_status_is(workspace, "t-1", "abd-crc", "in_progress")
+        then_skill_execution_status_is(workspace, "t-1", "abd-domain-model", "done")
+        then_skill_review_status_is(workspace, "t-1", "abd-domain-model", "in_progress")
 
     def test_review_pass_completes_skill_fully_done(self, workspace):
         """WHEN review pass completes -> review_status -> done;
         skill fully complete."""
         # Given:
         given_kanban_board(workspace, given_stage_config_with_skills([
-            {"skill": "abd-crc", "role": "business-expert"},
+            {"skill": "abd-domain-model", "role": "business-expert"},
         ]))
         ticket = given_ticket("t-1", "specification", "sprint", skill_progress={
-            "abd-crc": given_skill_review_in_progress("abd-crc", "business-expert"),
+            "abd-domain-model": given_skill_review_in_progress("abd-domain-model", "business-expert"),
         })
         given_board_state(workspace, {"active": [ticket.to_dict()]})
 
         # When:
         _set_skill_progress_on_board(
-            workspace, "t-1", "abd-crc",
-            given_skill_fully_done("abd-crc", "business-expert"),
+            workspace, "t-1", "abd-domain-model",
+            given_skill_fully_done("abd-domain-model", "business-expert"),
         )
 
         # Then:
-        then_skill_execution_status_is(workspace, "t-1", "abd-crc", "done")
-        then_skill_review_status_is(workspace, "t-1", "abd-crc", "done")
+        then_skill_execution_status_is(workspace, "t-1", "abd-domain-model", "done")
+        then_skill_review_status_is(workspace, "t-1", "abd-domain-model", "done")
 
     def test_review_fails_resets_execution(self, workspace):
         """WHEN review fails -> review_status -> failed;
         execution_status resets to not_started."""
         # Given:
         given_kanban_board(workspace, given_stage_config_with_skills([
-            {"skill": "abd-crc", "role": "business-expert"},
+            {"skill": "abd-domain-model", "role": "business-expert"},
         ]))
         ticket = given_ticket("t-1", "specification", "sprint", skill_progress={
-            "abd-crc": given_skill_review_in_progress("abd-crc", "business-expert"),
+            "abd-domain-model": given_skill_review_in_progress("abd-domain-model", "business-expert"),
         })
         given_board_state(workspace, {"active": [ticket.to_dict()]})
 
         # When:
         _set_skill_progress_on_board(
-            workspace, "t-1", "abd-crc",
-            given_skill_review_failed("abd-crc", "business-expert"),
+            workspace, "t-1", "abd-domain-model",
+            given_skill_review_failed("abd-domain-model", "business-expert"),
         )
 
         # Then:
-        then_skill_execution_status_is(workspace, "t-1", "abd-crc", "not_started")
-        then_skill_review_status_is(workspace, "t-1", "abd-crc", "failed")
+        then_skill_execution_status_is(workspace, "t-1", "abd-domain-model", "not_started")
+        then_skill_review_status_is(workspace, "t-1", "abd-domain-model", "failed")
 
     def test_agent_already_executing_waits(self, workspace):
         """WHEN agent already executing on another ticket ->
         new assignment waits."""
         # Given:
         given_kanban_board(workspace, given_stage_config_with_skills([
-            {"skill": "abd-crc", "role": "business-expert"},
+            {"skill": "abd-domain-model", "role": "business-expert"},
         ]))
         ticket_a = given_ticket("t-1", "specification", "sprint", skill_progress={
-            "abd-crc": given_skill_execution_in_progress("abd-crc", "business-expert"),
+            "abd-domain-model": given_skill_execution_in_progress("abd-domain-model", "business-expert"),
         })
         ticket_b = given_ticket("t-2", "specification", "sprint")
         given_board_state(workspace, {
@@ -406,22 +406,22 @@ class TestExecuteAssignedSkillOnTicket:
         # Then:
         assert agent_busy is True
         board_t2 = _find_ticket_raw(board, "t-2")
-        assert board_t2.get("skill_progress", {}).get("abd-crc") is None
+        assert board_t2.get("skill_progress", {}).get("abd-domain-model") is None
 
     def test_work_pass_error_does_not_advance_to_review(self, workspace):
         """WHEN work pass errors -> record failure; don't advance to review."""
         # Given:
         given_kanban_board(workspace, given_stage_config_with_skills([
-            {"skill": "abd-crc", "role": "business-expert"},
+            {"skill": "abd-domain-model", "role": "business-expert"},
         ]))
         ticket = given_ticket("t-1", "specification", "sprint", skill_progress={
-            "abd-crc": given_skill_execution_in_progress("abd-crc", "business-expert"),
+            "abd-domain-model": given_skill_execution_in_progress("abd-domain-model", "business-expert"),
         })
         given_board_state(workspace, {"active": [ticket.to_dict()]})
 
         # When:
         _set_skill_progress_on_board(
-            workspace, "t-1", "abd-crc",
+            workspace, "t-1", "abd-domain-model",
             SkillProgress(
                 execution_status="failed",
                 agent="business-expert",
@@ -430,8 +430,8 @@ class TestExecuteAssignedSkillOnTicket:
         )
 
         # Then:
-        then_skill_execution_status_is(workspace, "t-1", "abd-crc", "failed")
-        then_skill_review_status_is(workspace, "t-1", "abd-crc", "not_started")
+        then_skill_execution_status_is(workspace, "t-1", "abd-domain-model", "failed")
+        then_skill_review_status_is(workspace, "t-1", "abd-domain-model", "not_started")
 
 
 # ============================================================================
@@ -446,7 +446,7 @@ class TestAdvanceTicketToInProgressOnFirstSkillStart:
         advance to in_progress; write board."""
         # Given:
         given_kanban_board(workspace, given_stage_config_with_skills([
-            {"skill": "abd-crc", "role": "business-expert"},
+            {"skill": "abd-domain-model", "role": "business-expert"},
         ]))
         ticket = given_ticket("t-1", "specification", "sprint")
         given_board_state(workspace, {"backlog": [ticket.to_dict()]})
@@ -456,7 +456,7 @@ class TestAdvanceTicketToInProgressOnFirstSkillStart:
         backlog = board.get("backlog", [])
         raw_ticket = backlog.pop(0)
         raw_ticket["skill_progress"] = {
-            "abd-crc": SkillProgress(
+            "abd-domain-model": SkillProgress(
                 execution_status="in_progress", agent="business-expert"
             ).to_dict(),
         }
@@ -466,18 +466,18 @@ class TestAdvanceTicketToInProgressOnFirstSkillStart:
 
         # Then:
         then_ticket_is_active(workspace, "t-1")
-        then_skill_execution_status_is(workspace, "t-1", "abd-crc", "in_progress")
+        then_skill_execution_status_is(workspace, "t-1", "abd-domain-model", "in_progress")
 
     def test_skill_start_on_already_active_ticket_unchanged(self, workspace):
         """WHEN skill starts on ticket already in_progress ->
         board position unchanged."""
         # Given:
         given_kanban_board(workspace, given_stage_config_with_skills([
-            {"skill": "abd-crc", "role": "business-expert"},
+            {"skill": "abd-domain-model", "role": "business-expert"},
             {"skill": "abd-spec-by-example", "role": "product-owner"},
         ]))
         ticket = given_ticket("t-1", "specification", "sprint", skill_progress={
-            "abd-crc": given_skill_fully_done("abd-crc", "business-expert"),
+            "abd-domain-model": given_skill_fully_done("abd-domain-model", "business-expert"),
         })
         given_board_state(workspace, {"active": [ticket.to_dict()]})
 
@@ -498,7 +498,7 @@ class TestAdvanceTicketToInProgressOnFirstSkillStart:
         no revert/duplicate."""
         # Given:
         given_kanban_board(workspace, given_stage_config_with_skills([
-            {"skill": "abd-crc", "role": "business-expert"},
+            {"skill": "abd-domain-model", "role": "business-expert"},
             {"skill": "abd-spec-by-example", "role": "product-owner"},
         ]))
         ticket = given_ticket("t-1", "specification", "sprint")
@@ -506,7 +506,7 @@ class TestAdvanceTicketToInProgressOnFirstSkillStart:
 
         # When:
         _set_skill_progress_on_board(
-            workspace, "t-1", "abd-crc",
+            workspace, "t-1", "abd-domain-model",
             SkillProgress(execution_status="in_progress", agent="business-expert"),
         )
         _set_skill_progress_on_board(
@@ -533,89 +533,89 @@ class TestPersistSkillCompletionToBoardState:
         review_status in_progress."""
         # Given:
         given_kanban_board(workspace, given_stage_config_with_skills([
-            {"skill": "abd-crc", "role": "business-expert"},
+            {"skill": "abd-domain-model", "role": "business-expert"},
         ]))
         ticket = given_ticket("t-1", "specification", "sprint", skill_progress={
-            "abd-crc": given_skill_execution_in_progress("abd-crc", "business-expert"),
+            "abd-domain-model": given_skill_execution_in_progress("abd-domain-model", "business-expert"),
         })
         given_board_state(workspace, {"active": [ticket.to_dict()]})
 
         # When:
         _set_skill_progress_on_board(
-            workspace, "t-1", "abd-crc",
-            given_skill_review_in_progress("abd-crc", "business-expert"),
+            workspace, "t-1", "abd-domain-model",
+            given_skill_review_in_progress("abd-domain-model", "business-expert"),
         )
 
         # Then:
-        then_skill_execution_status_is(workspace, "t-1", "abd-crc", "done")
-        then_skill_review_status_is(workspace, "t-1", "abd-crc", "in_progress")
+        then_skill_execution_status_is(workspace, "t-1", "abd-domain-model", "done")
+        then_skill_review_status_is(workspace, "t-1", "abd-domain-model", "in_progress")
 
     def test_review_pass_complete_persists_review_done_releases_agent(self, workspace):
         """WHEN agent completes review pass -> write review_status done;
         agent released."""
         # Given:
         given_kanban_board(workspace, given_stage_config_with_skills([
-            {"skill": "abd-crc", "role": "business-expert"},
+            {"skill": "abd-domain-model", "role": "business-expert"},
         ]))
         ticket = given_ticket("t-1", "specification", "sprint", skill_progress={
-            "abd-crc": given_skill_review_in_progress("abd-crc", "business-expert"),
+            "abd-domain-model": given_skill_review_in_progress("abd-domain-model", "business-expert"),
         })
         given_board_state(workspace, {"active": [ticket.to_dict()]})
 
         # When:
         _set_skill_progress_on_board(
-            workspace, "t-1", "abd-crc",
-            given_skill_fully_done("abd-crc", "business-expert"),
+            workspace, "t-1", "abd-domain-model",
+            given_skill_fully_done("abd-domain-model", "business-expert"),
         )
 
         # Then:
-        then_skill_execution_status_is(workspace, "t-1", "abd-crc", "done")
-        then_skill_review_status_is(workspace, "t-1", "abd-crc", "done")
+        then_skill_execution_status_is(workspace, "t-1", "abd-domain-model", "done")
+        then_skill_review_status_is(workspace, "t-1", "abd-domain-model", "done")
 
     def test_review_fails_persists_reset(self, workspace):
         """WHEN review fails -> write review_status failed +
         execution_status reset to not_started."""
         # Given:
         given_kanban_board(workspace, given_stage_config_with_skills([
-            {"skill": "abd-crc", "role": "business-expert"},
+            {"skill": "abd-domain-model", "role": "business-expert"},
         ]))
         ticket = given_ticket("t-1", "specification", "sprint", skill_progress={
-            "abd-crc": given_skill_review_in_progress("abd-crc", "business-expert"),
+            "abd-domain-model": given_skill_review_in_progress("abd-domain-model", "business-expert"),
         })
         given_board_state(workspace, {"active": [ticket.to_dict()]})
 
         # When:
         _set_skill_progress_on_board(
-            workspace, "t-1", "abd-crc",
-            given_skill_review_failed("abd-crc", "business-expert"),
+            workspace, "t-1", "abd-domain-model",
+            given_skill_review_failed("abd-domain-model", "business-expert"),
         )
 
         # Then:
-        then_skill_execution_status_is(workspace, "t-1", "abd-crc", "not_started")
-        then_skill_review_status_is(workspace, "t-1", "abd-crc", "failed")
+        then_skill_execution_status_is(workspace, "t-1", "abd-domain-model", "not_started")
+        then_skill_review_status_is(workspace, "t-1", "abd-domain-model", "failed")
 
     def test_write_failure_retries_before_next(self, workspace):
         """WHEN write fails -> retry; don't start next until persisted."""
         # Given:
         given_kanban_board(workspace, given_stage_config_with_skills([
-            {"skill": "abd-crc", "role": "business-expert"},
+            {"skill": "abd-domain-model", "role": "business-expert"},
             {"skill": "abd-spec-by-example", "role": "product-owner"},
         ]))
         ticket = given_ticket("t-1", "specification", "sprint", skill_progress={
-            "abd-crc": given_skill_review_in_progress("abd-crc", "business-expert"),
+            "abd-domain-model": given_skill_review_in_progress("abd-domain-model", "business-expert"),
         })
         given_board_state(workspace, {"active": [ticket.to_dict()]})
 
         # When:
         _set_skill_progress_on_board(
-            workspace, "t-1", "abd-crc",
-            given_skill_fully_done("abd-crc", "business-expert"),
+            workspace, "t-1", "abd-domain-model",
+            given_skill_fully_done("abd-domain-model", "business-expert"),
         )
         board = load_board(workspace)
 
         # Then:
-        then_skill_execution_status_is(workspace, "t-1", "abd-crc", "done")
-        then_skill_review_status_is(workspace, "t-1", "abd-crc", "done")
+        then_skill_execution_status_is(workspace, "t-1", "abd-domain-model", "done")
+        then_skill_review_status_is(workspace, "t-1", "abd-domain-model", "done")
         t1_raw = _find_ticket_raw(board, "t-1")
         assert "abd-spec-by-example" not in t1_raw.get("skill_progress", {})
 
@@ -632,11 +632,11 @@ class TestCompleteTicketWhenAllSkillsFinish:
         mark stage-complete; write board position."""
         # Given:
         given_kanban_board(workspace, given_stage_config_with_skills([
-            {"skill": "abd-crc", "role": "business-expert"},
+            {"skill": "abd-domain-model", "role": "business-expert"},
             {"skill": "abd-spec-by-example", "role": "product-owner"},
         ]))
         ticket = given_ticket("t-1", "specification", "sprint", skill_progress={
-            "abd-crc": given_skill_fully_done("abd-crc", "business-expert"),
+            "abd-domain-model": given_skill_fully_done("abd-domain-model", "business-expert"),
             "abd-spec-by-example": given_skill_fully_done("abd-spec-by-example", "product-owner"),
         })
         given_board_state(workspace, {"active": [ticket.to_dict()]})
@@ -646,7 +646,7 @@ class TestCompleteTicketWhenAllSkillsFinish:
             name="specification",
             scope="sprint",
             stage_work_required=[
-                SkillDef(skill="abd-crc", role="business-expert"),
+                SkillDef(skill="abd-domain-model", role="business-expert"),
                 SkillDef(skill="abd-spec-by-example", role="product-owner"),
             ],
         )
@@ -657,17 +657,17 @@ class TestCompleteTicketWhenAllSkillsFinish:
 
         # Then:
         assert result is True
-        then_all_skills_fully_done(workspace, "t-1", ["abd-crc", "abd-spec-by-example"])
+        then_all_skills_fully_done(workspace, "t-1", ["abd-domain-model", "abd-spec-by-example"])
 
     def test_incomplete_skill_keeps_ticket_in_progress(self, workspace):
         """WHEN any skill not at done/done -> ticket remains in_progress."""
         # Given:
         given_kanban_board(workspace, given_stage_config_with_skills([
-            {"skill": "abd-crc", "role": "business-expert"},
+            {"skill": "abd-domain-model", "role": "business-expert"},
             {"skill": "abd-spec-by-example", "role": "product-owner"},
         ]))
         ticket = given_ticket("t-1", "specification", "sprint", skill_progress={
-            "abd-crc": given_skill_fully_done("abd-crc", "business-expert"),
+            "abd-domain-model": given_skill_fully_done("abd-domain-model", "business-expert"),
             "abd-spec-by-example": given_skill_review_in_progress(
                 "abd-spec-by-example", "product-owner"
             ),
@@ -679,7 +679,7 @@ class TestCompleteTicketWhenAllSkillsFinish:
             name="specification",
             scope="sprint",
             stage_work_required=[
-                SkillDef(skill="abd-crc", role="business-expert"),
+                SkillDef(skill="abd-domain-model", role="business-expert"),
                 SkillDef(skill="abd-spec-by-example", role="product-owner"),
             ],
         )
@@ -697,11 +697,11 @@ class TestCompleteTicketWhenAllSkillsFinish:
         must complete both passes again."""
         # Given:
         given_kanban_board(workspace, given_stage_config_with_skills([
-            {"skill": "abd-crc", "role": "business-expert"},
+            {"skill": "abd-domain-model", "role": "business-expert"},
             {"skill": "abd-spec-by-example", "role": "product-owner"},
         ]))
         ticket = given_ticket("t-1", "specification", "sprint", skill_progress={
-            "abd-crc": given_skill_fully_done("abd-crc", "business-expert"),
+            "abd-domain-model": given_skill_fully_done("abd-domain-model", "business-expert"),
             "abd-spec-by-example": given_skill_review_failed(
                 "abd-spec-by-example", "product-owner"
             ),
@@ -713,7 +713,7 @@ class TestCompleteTicketWhenAllSkillsFinish:
             name="specification",
             scope="sprint",
             stage_work_required=[
-                SkillDef(skill="abd-crc", role="business-expert"),
+                SkillDef(skill="abd-domain-model", role="business-expert"),
                 SkillDef(skill="abd-spec-by-example", role="product-owner"),
             ],
         )

@@ -1,4 +1,4 @@
-# Strategy: Legacy Migration
+﻿# Strategy: Legacy Migration
 
 **When to use:** Replacing or rewriting an existing system; **legacy behavior is truth**. Backward compatibility, data migration, phased cutover.
 
@@ -15,9 +15,9 @@
 | Context (optional) | all | convert-to-markdown, semantic-context-chunker, chunk-markdown, embed-vectors |
 | Shaping | all | module-partition, architecture-outline, story-mapping (from existing system), thin-slicing |
 | Discovery | increment | domain-terms, architecture-blueprint, information-architecture (optional) |
-| Exploration | increment | ubiquitous-language, acceptance-criteria (legacy behavior is spec), ux-mockup (optional), architecture-template (conditional — skip when mechanisms exist) |
-| Specification | sprint | CRC, spec-by-example (concrete legacy values), interface-design (optional), architecture-reference (conditional) |
-| Engineering | sprint | object-model (BE), ATDD (PO, tests pass on OLD system first), clean-code (EN, new implementation) |
+| Exploration | increment | domain-language, acceptance-criteria (legacy behavior is spec), ux-mockup (optional), architecture-template (conditional — skip when mechanisms exist) |
+| Specification | sprint | domain model, spec-by-example (concrete legacy values), interface-design (optional), architecture-reference (conditional) |
+| Engineering | sprint | class-model (BE), ATDD (PO, tests pass on OLD system first), clean-code (EN, new implementation) |
 
 ### Context stage (when to include)
 

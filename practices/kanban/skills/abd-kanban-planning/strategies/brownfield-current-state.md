@@ -1,8 +1,8 @@
 # Strategy: Brownfield Current State
 
-**When to use:** Map and test an **existing** system where **running behavior is the spec** â€” legacy code, DB, monolith module, or repo with little product documentation. You are **not** replacing the whole system (see `legacy-migration.md`). You **are** mapping what exists today, locking it with AC and tests, then making **explicit change slices**.
+**When to use:** Map and test an **existing** system where **running behavior is the spec** — legacy code, DB, monolith module, or repo with little product documentation. You are **not** replacing the whole system (see `legacy-migration.md`). You **are** mapping what exists today, locking it with AC and tests, then making **explicit change slices**.
 
-**Typical scope:** One **boundary** at a time â€” module partition, service group, user journey, or API surface.
+**Typical scope:** One **boundary** at a time — module partition, service group, user journey, or API surface.
 
 **Related:** `legacy-migration.md` (full rewrite/cutover). `bug-fix.md` (single defect after map exists). `new-thin-slice.md` (new capability on already-mapped brownfield base).
 
@@ -15,9 +15,9 @@
 | Context (optional) | all | convert-to-markdown, semantic-context-chunker, chunk-markdown, embed-vectors |
 | Shaping | all | module-partition, architecture-outline, story-mapping, thin-slicing |
 | Discovery | increment | domain-terms, architecture-blueprint, information-architecture (optional) |
-| Exploration | increment | ubiquitous-language, acceptance-criteria, ux-mockup (optional), architecture-template (conditional â€” skip when mechanisms exist) |
-| Specification | sprint | CRC (optional), spec-by-example |
-| Engineering | sprint | object-model (BE, optional), ATDD (PO), clean-code / stack skill (EN) |
+| Exploration | increment | domain-language, acceptance-criteria, ux-mockup (optional), architecture-template (conditional — skip when mechanisms exist) |
+| Specification | sprint | domain model (optional), spec-by-example |
+| Engineering | sprint | class-model (BE, optional), ATDD (PO), abd-clean-code / abd-architecture-code (EN) |
 
 ### Context stage (when to include)
 
@@ -29,8 +29,8 @@ Include context stage when source material is in non-markdown formats (PDF, PPTX
 
 | Transition | Rule |
 | --- | --- |
-| Shaping (all) â†’ Discovery (increment) | Scatter by boundary: thin-slicing produces increments per module boundary. Scatter all â€” boundaries are known from partition. |
-| Exploration (increment) â†’ Specification (sprint) | Group 3-4 stories per sprint. Characterization stories first, change slices last. |
+| Shaping (all) ? Discovery (increment) | Scatter by boundary: thin-slicing produces increments per module boundary. Scatter all — boundaries are known from partition. |
+| Exploration (increment) ? Specification (sprint) | Group 3-4 stories per sprint. Characterization stories first, change slices last. |
 
 ### Sprint grouping heuristic (brownfield)
 
@@ -44,7 +44,7 @@ Include context stage when source material is in non-markdown formats (PDF, PPTX
 ## JIT policy
 
 - **Scatter all increments** after shaping (boundaries are known from partition)
-- **Scatter sprints JIT** â€” only the next 1-2 increments get sprint decomposition
+- **Scatter sprints JIT** — only the next 1-2 increments get sprint decomposition
 - Later increments stay as increment-level backlog items until their turn
 
 ---
@@ -63,10 +63,10 @@ Include context stage when source material is in non-markdown formats (PDF, PPTX
 
 ## Key constraints
 
-- **Story map is the behavioral spec** for current state â€” not a separate forensic ledger.
-- **Trace before you map** â€” entry points and flows from code; follow evidence.
+- **Story map is the behavioral spec** for current state — not a separate forensic ledger.
+- **Trace before you map** — entry points and flows from code; follow evidence.
 - **Bugs and quirks are observed behavior** until a change slice approves a delta.
-- **No fix-while-mapping** â€” no refactor, rename, or redesign during story mapping.
+- **No fix-while-mapping** — no refactor, rename, or redesign during story mapping.
 - **Tests against current system** are mandatory before trusting a change.
 - **Behavioral deltas** require explicit user/stakeholder approval.
 - If **no tests** exist on legacy, characterization tests come before new feature or refactor work.
@@ -85,19 +85,19 @@ Include context stage when source material is in non-markdown formats (PDF, PPTX
 
 | Artifact | Skill | Stage | Role |
 | --- | --- | --- | --- |
-| Module partition | abd-module-partition | shaping | â€” |
-| Architecture outline | abd-architecture-outline | shaping | â€” |
-| Story map + graph | abd-story-mapping | shaping | â€” |
-| Thin slices | abd-thin-slicing | shaping | â€” |
-| Domain terms | abd-domain-terms | discovery | â€” |
-| Ubiquitous language | abd-ubiquitous-language | exploration | â€” |
-| Architecture blueprint | abd-architecture-blueprint | discovery | â€” |
-| Information architecture (opt) | abd-information-architecture | discovery | â€” |
-| AC | abd-acceptance-criteria | exploration | â€” |
-| UX mockup (opt) | abd-ux-mockup | exploration | â€” |
-| Architecture template (conditional) | abd-architecture-template | exploration â€” skip when all increment mechanisms already documented | â€” |
-| CRC cards (opt) | abd-class-responsibility-collaborator | specification | â€” |
-| Spec-by-example | abd-specification-by-example | specification | â€” |
-| Object model (opt) | abd-object-model | engineering | business-expert |
+| Module partition | abd-domain-partition | shaping | — |
+| Architecture outline | abd-architecture-outline | shaping | — |
+| Story map + graph | abd-story-mapping | shaping | — |
+| Thin slices | abd-thin-slicing | shaping | — |
+| Domain terms | abd-domain-terms | discovery | — |
+| Domain Language | abd-domain-language | exploration | — |
+| Architecture blueprint | abd-architecture-blueprint | discovery | — |
+| Information architecture (opt) | abd-information-architecture | discovery | — |
+| AC | abd-acceptance-criteria | exploration | — |
+| UX mockup (opt) | abd-ux-mockup | exploration | — |
+| Architecture template (conditional) | abd-architecture-specification | exploration — skip when all increment mechanisms already documented | — |
+| domain model cards (opt) | abd-domain-model | specification | — |
+| Spec-by-example | abd-specification-by-example | specification | — |
+| Class Model (opt) | abd-domain-implementation | engineering | business-expert |
 | Characterization / change tests | abd-acceptance-test-driven-development | engineering | product-owner |
-| Production code (change slices) | abd-clean-code / stack skill | engineering | engineer |
+| Production code (change slices) | abd-clean-code / abd-architecture-code | engineering | engineer |

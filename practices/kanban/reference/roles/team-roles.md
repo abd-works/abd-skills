@@ -17,7 +17,7 @@ Four **executor roles** run delivery slots. Four bootcamp **families** organize 
 | Skill | Package family | Executor role |
 | --- | --- | --- |
 | `abd-acceptance-test-driven-development` | Story-driven delivery | **Product Owner** |
-| `abd-object-model` | Domain-driven design | **Business Expert** |
+| `abd-domain-implementation` | Domain-driven design | **Business Expert** |
 
 Assign **`team-role`** and **`slot_type`** per slot from [stages/](../stages/) — not from package folder alone. Reviewer slots use the **executor role** under review plus `slot_type: reviewer`.
 
@@ -47,8 +47,8 @@ What each role **runs** in delivery slots. Package path shown when it differs fr
 | `abd-story-mapping` (**full mode**) | Discovery | story-driven delivery | Stories decomposed to testable units |
 | `abd-thin-slicing` | Discovery | story-driven delivery | **Last** in discovery pass |
 | `drawio-story-sync` | Discovery, Exploration | story-driven delivery | After thin-slicing; exploration diagrams |
-| `abd-acceptance-criteria` | Exploration | story-driven delivery | After ubiquitous language |
-| `abd-specification-by-example` | Specification | story-driven delivery | After CRC; outline tables use CRC concepts |
+| `abd-acceptance-criteria` | Exploration | story-driven delivery | After Domain Language |
+| `abd-specification-by-example` | Specification | story-driven delivery | After domain model; outline tables use domain model concepts |
 | `abd-acceptance-test-driven-development` | Engineering | story-driven delivery | Failing tests from scenarios — RED before clean code |
 
 Stage detail: [shaping](../stages/shaping.md) · [discovery](../stages/discovery.md) · [exploration](../stages/exploration.md) · [specification](../stages/specification.md) · [engineering](../stages/engineering.md)
@@ -59,13 +59,13 @@ Stage detail: [shaping](../stages/shaping.md) · [discovery](../stages/discovery
 
 | Skill | Stage | Package | Notes |
 | --- | --- | --- | --- |
-| `abd-module-partition` | Shaping | domain-driven design | Module boundaries |
+| `abd-domain-partition` | Shaping | domain-driven design | Module boundaries |
 | `abd-bounded-context-map` | Shaping | domain-driven design | When multiple modules |
 | `abd-domain-terms` | Discovery | domain-driven design | Before full story map |
 | `drawio-domain-sync` | Discovery, Exploration | domain-driven design | Optional diagrams |
-| `abd-ubiquitous-language` | Exploration | domain-driven design | **Before** AC |
-| `abd-class-responsibility-collaborator` | Specification | domain-driven design | **Before** spec-by-example |
-| `abd-object-model` | Engineering | domain-driven design | Typed domain surface; aligns with CRC / UL |
+| `abd-domain-language` | Exploration | domain-driven design | **Before** AC |
+| `abd-domain-model` | Specification | domain-driven design | **Before** spec-by-example |
+| `abd-domain-implementation` | Engineering | domain-driven design | Typed domain surface; aligns with domain model / UL |
 
 Stage detail: [shaping](../stages/shaping.md) · [discovery](../stages/discovery.md) · [exploration](../stages/exploration.md) · [specification](../stages/specification.md) · [engineering](../stages/engineering.md)
 
@@ -92,13 +92,13 @@ Stage detail: [shaping](../stages/shaping.md) · [discovery](../stages/discovery
 | `abd-architecture-outline` | Shaping | architecture-centric engineering | System context, layering |
 | `abd-architecture-blueprint` | Discovery | architecture-centric engineering | Components, mechanisms |
 | `abd-service-level-objectives` | Discovery | architecture-centric engineering | NFR/SLO targets |
-| `abd-architecture-template` | Exploration | architecture-centric engineering | Mechanism templates when scope needs new mechanisms |
-| `abd-architecture-reference` | Specification | architecture-centric engineering | Deep reference for code and tests |
+| `abd-architecture-specification` | Exploration | architecture-centric engineering | Mechanism templates when scope needs new mechanisms |
+| `abd-architecture-specification` | Specification | architecture-centric engineering | Deep reference for code and tests |
 | `abd-interface-design` | — | user experience design | **Not Engineer** — UX Designer (implementation pass) |
 | `abd-clean-code` | Engineering | architecture-centric engineering | Production code to pass tests |
-| `mern-technical-architecture`, `hero-vtt-technical-architecture`, … | Engineering | architecture-centric engineering | Stack skill paired with ATDD and clean code |
+| `abd-architecture-specification` + named spec (e.g. `specs/mern`, `specs/hero-vtt`) | Engineering | architecture-centric engineering | Stack skill paired with ATDD and clean code |
 
-**Engineering pass order:** `abd-interface-design` impl (UX) → object model (BE) → ATDD (PO) → clean code + stack (Engineer).
+**Engineering pass order:** `abd-interface-design` impl (UX) → Class Model (BE) → ATDD (PO) → clean code + stack (Engineer).
 
 Stage detail: [engineering](../stages/engineering.md)
 
@@ -120,9 +120,9 @@ Open the matching `*-reviewer` agent (e.g. `product-owner-reviewer` after a PO e
 | --- | --- |
 | **Shaping** | module partition → context map → story map (outline) → opportunity (opt) → impact map (opt) → architecture outline |
 | **Discovery** | domain terms → UL → domain diagram (opt) → story map (full) → IA → blueprint → SLOs (opt) → thin slicing → story diagram |
-| **Exploration** | ubiquitous language → domain diagram (opt) → AC → story diagram (opt) → UX mockup → architecture template |
-| **Specification** | CRC → spec-by-example → walkthrough → interface design (spec pass) → architecture reference |
-| **Engineering** | interface design (impl, UX) → object model (BE) → ATDD (PO) → clean code + stack (Engineer) |
+| **Exploration** | Domain Language → domain diagram (opt) → AC → story diagram (opt) → UX mockup → architecture template |
+| **Specification** | domain model → spec-by-example → walkthrough → interface design (spec pass) → architecture reference |
+| **Engineering** | interface design (impl, UX) → Class Model (BE) → ATDD (PO) → clean code + stack (Engineer) |
 
 Stage index: [stages/README.md](../stages/README.md)
 

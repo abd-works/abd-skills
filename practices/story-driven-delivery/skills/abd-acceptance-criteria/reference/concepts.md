@@ -1,4 +1,4 @@
-# Acceptance Criteria — Core Concepts
+﻿# Acceptance Criteria — Core Concepts
 
 ## What are acceptance criteria?
 
@@ -41,7 +41,7 @@ AC describe **observable** user/system behavior in steps. Avoid implementation d
 
 ## Domain terms (vocabulary in AC)
 
-**Domain terms** are words or short phrases that name the important ideas in the problem space: things (*Settlement File*, *Import Job*), their **state** (*Queued*, *Committed*), **actions** (*Confirm import*), and **rules or constraints** (*Schema Validation*, *Transactional Limit*). They align story AC with how stakeholders talk and with how tests will read — part of a shared **ubiquitous language**.
+**Domain terms** are words or short phrases that name the important ideas in the problem space: things (*Settlement File*, *Import Job*), their **state** (*Queued*, *Committed*), **actions** (*Confirm import*), and **rules or constraints** (*Schema Validation*, *Transactional Limit*). They align story AC with how stakeholders talk and with how tests will read — part of a shared **Domain Language**.
 
 - Each story includes a **Domain terms** subsection **before** its acceptance criteria (see template).
 - In `acceptance-criteria.md`, use *italics* and *Title Case* inside multi-word phrases in the Domain terms list and in AC lines.

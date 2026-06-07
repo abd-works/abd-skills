@@ -1,4 +1,4 @@
-# Architecture Blueprint — Concepts
+﻿# Architecture Blueprint — Concepts
 
 ## What is an architecture blueprint?
 
@@ -46,7 +46,7 @@ Blueprint-level decisions are choices visible at this level: how error handling 
 
 ## What the blueprint does NOT contain
 
-**Lives in `abd-architecture-template`:**
+**Lives in `abd-architecture-specification`:**
 - Code-level walkthroughs of a mechanism
 - Sequence diagrams that involve more than three participants
 - Full data schemas / DDL / ORM mappings

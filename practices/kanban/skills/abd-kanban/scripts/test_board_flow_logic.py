@@ -1,4 +1,4 @@
-"""
+﻿"""
 test_board_flow_logic.py
 
 Board Flow Logic — Kanban Lead, Agent, and Skill Orchestration
@@ -233,7 +233,7 @@ class TestPullBacklogTicketsToActive:
                 "name": "exploration",
                 "scope": "increment",
                 "stage_work_required": [
-                    {"skill": "abd-ubiquitous-language", "role": "business-expert"},
+                    {"skill": "abd-domain-language", "role": "business-expert"},
                 ],
             }],
         })
@@ -260,16 +260,16 @@ class TestPullBacklogTicketsToActive:
                 "name": "exploration",
                 "scope": "increment",
                 "stage_work_required": [
-                    {"skill": "abd-ubiquitous-language", "role": "business-expert"},
+                    {"skill": "abd-domain-language", "role": "business-expert"},
                 ],
             }],
         })
-        ul_done = given_skill_done("abd-ubiquitous-language", "business-expert")
+        ul_done = given_skill_done("abd-domain-language", "business-expert")
         given_board_state(workspace, {
             "team": {"business-expert": 3},
             "active": [
-                given_ticket("inc-1", "exploration", "increment", skill_progress={"abd-ubiquitous-language": ul_done}).to_dict(),
-                given_ticket("inc-2", "exploration", "increment", skill_progress={"abd-ubiquitous-language": ul_done}).to_dict(),
+                given_ticket("inc-1", "exploration", "increment", skill_progress={"abd-domain-language": ul_done}).to_dict(),
+                given_ticket("inc-2", "exploration", "increment", skill_progress={"abd-domain-language": ul_done}).to_dict(),
             ],
             "backlog": [
                 given_ticket("inc-3", "exploration", "increment", priority=3).to_dict(),
@@ -340,16 +340,16 @@ class TestDetectStageCompletion:
             name="exploration",
             scope="increment",
             stage_work_required=[
-                SkillDef(skill="abd-ubiquitous-language", role="business-expert"),
+                SkillDef(skill="abd-domain-language", role="business-expert"),
                 SkillDef(skill="abd-acceptance-criteria", role="product-owner"),
                 SkillDef(skill="abd-ux-mockup", role="ux-designer", optional=True),
-                SkillDef(skill="abd-architecture-reference", role="engineer"),
+                SkillDef(skill="abd-architecture-specification", role="engineer"),
             ],
         )
         ticket = given_ticket("1-inc-1", "exploration", "increment", skill_progress={
-            "abd-ubiquitous-language": given_skill_done("abd-ubiquitous-language", "business-expert"),
+            "abd-domain-language": given_skill_done("abd-domain-language", "business-expert"),
             "abd-acceptance-criteria": given_skill_done("abd-acceptance-criteria", "product-owner"),
-            "abd-architecture-reference": given_skill_done("abd-architecture-reference", "engineer"),
+            "abd-architecture-specification": given_skill_done("abd-architecture-specification", "engineer"),
         })
 
         # When / Then
@@ -448,7 +448,7 @@ class TestScatterTicketAtScopeBoundary:
             / "_seed"
             / "pawplace-stubs"
         )
-        partition = seed / "skill-fixtures" / "abd-module-partition.md"
+        partition = seed / "skill-fixtures" / "abd-domain-partition.md"
         thin = seed / "skill-fixtures" / "abd-thin-slicing.md"
         (workspace / "docs/end-to-end/shaping").mkdir(parents=True, exist_ok=True)
         (workspace / "docs/end-to-end/discovery/stories").mkdir(parents=True, exist_ok=True)
@@ -479,13 +479,13 @@ class TestAdvanceTicketToNextStage:
         lead = given_kanban_board(workspace, {
             "stages": [
                 {"name": "specification", "scope": "sprint", "stage_work_required": [
-                    {"skill": "abd-crc", "role": "business-expert"},
+                    {"skill": "abd-domain-model", "role": "business-expert"},
                 ]},
                 {"name": "engineering", "scope": "sprint", "stage_work_required": []},
             ],
         })
         ticket = given_ticket("1-sprint-a", "specification", "sprint", skill_progress={
-            "abd-crc": given_skill_done("abd-crc", "business-expert"),
+            "abd-domain-model": given_skill_done("abd-domain-model", "business-expert"),
         })
         given_board_state(workspace, {
             "active": [ticket.to_dict()],
@@ -530,7 +530,7 @@ class TestAgentClaimsNextEligibleSkill:
                 "name": "specification",
                 "scope": "sprint",
                 "stage_work_required": [
-                    {"skill": "abd-crc", "role": "business-expert"},
+                    {"skill": "abd-domain-model", "role": "business-expert"},
                     {"skill": "abd-spec-by-example", "role": "product-owner"},
                     {"skill": "abd-arch-template", "role": "engineer"},
                 ],
@@ -544,7 +544,7 @@ class TestAgentClaimsNextEligibleSkill:
 
         # Then
         assert result["action"] == "claimed"
-        assert result["skill"] == "abd-crc"
+        assert result["skill"] == "abd-domain-model"
         assert result["ticket_id"] == "1-sprint-a"
 
     def test_agent_skips_skills_with_incomplete_priors(self, workspace):
@@ -554,7 +554,7 @@ class TestAgentClaimsNextEligibleSkill:
                 "name": "specification",
                 "scope": "sprint",
                 "stage_work_required": [
-                    {"skill": "abd-crc", "role": "business-expert"},
+                    {"skill": "abd-domain-model", "role": "business-expert"},
                     {"skill": "abd-spec-by-example", "role": "product-owner"},
                 ],
             }],
@@ -562,7 +562,7 @@ class TestAgentClaimsNextEligibleSkill:
         ticket = given_ticket("1-sprint-a", "specification", "sprint")
         given_board_state(workspace, {"active": [ticket.to_dict()]})
 
-        # When — product-owner tries to pull but abd-crc (prior) is not done
+        # When — product-owner tries to pull but abd-domain model (prior) is not done
         result = when_agent_pulls(workspace, "product-owner")
 
         # Then
@@ -576,7 +576,7 @@ class TestAgentClaimsNextEligibleSkill:
                     {"skill": "abd-ul", "role": "business-expert"},
                 ]},
                 {"name": "specification", "scope": "sprint", "stage_work_required": [
-                    {"skill": "abd-crc", "role": "business-expert"},
+                    {"skill": "abd-domain-model", "role": "business-expert"},
                 ]},
             ],
         })
@@ -592,7 +592,7 @@ class TestAgentClaimsNextEligibleSkill:
         # Then — specification is downstream, claimed first
         assert result["action"] == "claimed"
         assert result["ticket_id"] == "1-sprint-a"
-        assert result["skill"] == "abd-crc"
+        assert result["skill"] == "abd-domain-model"
 
     def test_agent_does_not_claim_skill_already_in_progress(self, workspace):
         # Given
@@ -601,12 +601,12 @@ class TestAgentClaimsNextEligibleSkill:
                 "name": "specification",
                 "scope": "sprint",
                 "stage_work_required": [
-                    {"skill": "abd-crc", "role": "business-expert"},
+                    {"skill": "abd-domain-model", "role": "business-expert"},
                 ],
             }],
         })
         ticket = given_ticket("1-sprint-a", "specification", "sprint", skill_progress={
-            "abd-crc": given_skill_in_progress("abd-crc", "business-expert"),
+            "abd-domain-model": given_skill_in_progress("abd-domain-model", "business-expert"),
         })
         given_board_state(workspace, {"active": [ticket.to_dict()]})
 
@@ -616,7 +616,7 @@ class TestAgentClaimsNextEligibleSkill:
         # Then — must resume existing claim, not report idle
         assert result["action"] == "resume"
         assert result["ticket_id"] == "1-sprint-a"
-        assert result["skill"] == "abd-crc"
+        assert result["skill"] == "abd-domain-model"
 
 
 class TestAgentOrphanClaimPrevention:

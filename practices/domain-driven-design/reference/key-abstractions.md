@@ -1,6 +1,6 @@
-# Key Abstractions
+﻿# Key Abstractions
 
-Shared reference for the domain-discovery skills (`abd-domain-terms`, `abd-ubiquitous-language`). This file owns the definition of a Key Abstraction and the candidate-term decision tests. Each skill owns its own notation, format, and any fidelity-specific elaboration.
+Shared reference for the domain-discovery skills (`abd-domain-terms`, `abd-domain-language`). This file owns the definition of a Key Abstraction and the candidate-term decision tests. Each skill owns its own notation, format, and any fidelity-specific elaboration.
 
 ## Key Abstraction (KA)
 

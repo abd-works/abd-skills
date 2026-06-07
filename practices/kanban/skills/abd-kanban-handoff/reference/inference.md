@@ -1,4 +1,4 @@
-# Delivery progress inference
+﻿# Delivery progress inference
 
 Evidence priority when building an **abd-kanban-handoff** (highest wins on conflict unless user overrode in chat):
 
@@ -58,8 +58,8 @@ For each ticket in `active`, `backlog`, `done`, `archived`:
 | `discovery/ux/` | `information-architecture.md` | — |
 | `discovery/architecture/` | `architecture-blueprint.md` | `service-level-objectives.md` |
 | `exploration/` | any subfolder content | roll-up from increments (often sparse until increments finish) |
-| `specification/` | `crc.md` | `specification-by-example.md`, `architecture-reference.md` |
-| `engineering/` | `object-model.md` | `src/` activity in workspace |
+| `specification/` | `domain model.md` | `specification-by-example.md`, `architecture-reference.md` |
+| `engineering/` | `class-model.md` | `src/` activity in workspace |
 
 ### Per-increment — `docs/increments/<n>-<slug>/`
 
@@ -68,8 +68,8 @@ Folder existence ⇒ **increment identified in thin-slicing** (discovery scatter
 | Subfolder | Stage work |
 | --- | --- |
 | `exploration/domain/`, `stories/`, `ux/`, `architecture/` | exploration skills for that increment |
-| `specification/` | CRC, spec-by-example, interface-design, arch-reference |
-| `engineering/` | object-model, ATDD, clean-code / `src/` |
+| `specification/` | domain model, spec-by-example, interface-design, arch-reference |
+| `engineering/` | class-model, ATDD, clean-code / `src/` |
 
 Handoff table: one row per increment folder with **highest stage folder that has non-empty canonical files**.
 

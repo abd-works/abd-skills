@@ -1,4 +1,4 @@
-# Initial information architecture — {{SCOPE}}
+﻿# Initial information architecture — {{SCOPE}}
 
 > **Companion to** `docs/ux/initial-ia.tldr` / `initial-ia.svg`. This markdown is the structured spec for the canvas. Author or update **this file first**, then drive the canvas from it. After the canvas is updated, sync any change back into this file so the two never diverge.
 
@@ -8,7 +8,7 @@
 | --- | --- |
 | Scope | {{SCOPE}} (e.g. `Increment 1`, `Crowd Manager Epic`, `Sprint 4`) |
 | Story map | {{STORY_MAP_PATH}} |
-| Ubiquitous language | {{UBIQUITOUS_LANGUAGE_PATH}} |
+| Domain Language | {{UBIQUITOUS_LANGUAGE_PATH}} |
 | Canvas (`.tldr`) | `docs/ux/initial-ia.tldr` |
 | Canvas (`.svg`) | `docs/ux/initial-ia.svg` |
 | Last canvas update | {{ISO_DATE}} |

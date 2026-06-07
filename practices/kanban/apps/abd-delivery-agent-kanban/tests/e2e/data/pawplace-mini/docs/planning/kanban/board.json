@@ -1,4 +1,4 @@
-{
+﻿{
   "schema": "abd-delivery-kanban/v2",
   "synced_at": "2026-05-31T12:00:00Z",
   "stage_configuration": "pawplace-mini",
@@ -37,7 +37,7 @@
       "stage": "shaping",
       "priority": 1,
       "skill_progress": {
-        "abd-module-partition": {
+        "abd-domain-partition": {
           "execution_status": "done",
           "review_status": "done",
           "agent": "business-expert",

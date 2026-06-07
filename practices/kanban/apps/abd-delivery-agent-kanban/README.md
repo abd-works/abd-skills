@@ -1,4 +1,4 @@
-# Delivery Agent Kanban
+﻿# Delivery Agent Kanban
 
 Live Kanban board for **delivery-war-room** progress. **Read-only** — polls `board.json`, `kanban.json`, checklist, and ticket files from disk. Does **not** create planning artifacts; **kanban-lead** + skills own the plan, system of work, and board sync.
 
@@ -49,4 +49,4 @@ Everything else (plan, system of work, tickets, `board.json`) is **read only**. 
 
 ## Architecture
 
-Domain-first MERN layout under `packages/delivery-board/` (`shared` · `server` · `client`). See `docs/domain/` for ubiquitous language and CRC.
+Domain-first MERN layout under `packages/delivery-board/` (`shared` · `server` · `client`). See `docs/domain/` for Domain Language and domain model.

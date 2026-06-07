@@ -6,7 +6,7 @@ Shared reference for all abd-domain-driven-design skills. This file owns the OO 
 
 ## What is a class
 
-> **Applies from: ubiquitous-language stage and beyond (ubiquitous-language → CRC → object-model).**
+> **Applies from: domain-language stage and beyond (domain-language → CRC → class-model).**
 
 A class is a named domain idea that earns its own identity because it has at least one of: **distinct identity**, **state**, **behavior**, **structure**, or **interactions** that cannot be collapsed into a property, instance, or type property of something else.
 
@@ -15,15 +15,15 @@ A class knows things (**state**) and does things (**behavior**). Those two dimen
 A term that is only a data value on another class is a **property**. A term that varies only by label across identical behavior is a **type property**. A term that is one concrete member of a known set is an **instance**. A term that adds distinct behavior to a base is a **subtype**. Only when none of those fit does something deserve its own class.
 
 Each skill records a class in its own form:
-- **ubiquitous-language** — a named concept block with intent, behaviors, and collaborations in plain English.
+- **domain-language** — a named concept block with intent, behaviors, and collaborations in plain English.
 - **CRC** — a `#### **ClassName**` block with responsibility and collaborator columns.
-- **Object-model** — a typed class block with properties, operation signatures, relationships, and invariants.
+- **class-model** — a typed class block with properties, operation signatures, relationships, and invariants.
 
 ---
 
 ## Decomposing responsibilities
 
-> **Applies from: CRC stage and beyond (CRC → object-model → ...).** Do not use this section at ubiquitous-language level — there are no typed properties or operations at that stage.
+> **Applies from: CRC stage and beyond (CRC → class-model → ...).** Do not use this section at domain-language level — there are no typed properties or operations at that stage.
 
 A responsibility is either something a class **holds** (state) or something it **does** (behaviour) — or both. Classify each responsibility before deciding how to represent it:
 
@@ -37,7 +37,7 @@ Never assume every responsibility implies a property, and never assume every res
 
 ## Relationships
 
-> **Applies from: CRC stage and beyond (CRC → object-model).** At ubiquitous-language level, dependencies are captured as plain-English collaboration sentences only — no formal relationship modeling.
+> **Applies from: CRC stage and beyond (CRC → class-model).** At domain-language level, dependencies are captured as plain-English collaboration sentences only — no formal relationship modeling.
 
 A relationship describes how two domain classes depend on each other. Before recording a relationship, answer three questions:
 
@@ -45,7 +45,7 @@ A relationship describes how two domain classes depend on each other. Before rec
 2. **Does one class exist to collect or group the other?** — The collecting class has no meaningful identity without its members. Remove all members and the collector is empty of purpose.
 3. **Are both sides independent?** — Each can exist and be meaningful without the other.
 
-These questions determine the nature of the dependency. Each skill records the answer in its own notation — plain-English collaborations at ubiquitous-language level, named collaborators at CRC level, typed flavors with cardinality at object-model level.
+These questions determine the nature of the dependency. Each skill records the answer in its own notation — plain-English collaborations at domain-language level, named collaborators at CRC level, typed flavors with cardinality at class-model level.
 
 A relationship also has **direction**: the class that depends on, uses, or navigates to the other is the navigating end. Be explicit about which side initiates the dependency.
 
@@ -53,7 +53,7 @@ A relationship also has **direction**: the class that depends on, uses, or navig
 
 ## Inheritance and subtypes
 
-> **Applies from: ubiquitous-language stage and beyond (ubiquitous-language → CRC → object-model).**
+> **Applies from: domain-language stage and beyond (domain-language → CRC → class-model).**
 
 ### Base class and subtype
 
@@ -104,4 +104,4 @@ A common modeling journey begins with treating domain elements as *instances* or
 
 ### The delta rule
 
-A subtype carries **only what it adds or overrides**. Inherited responsibilities are not repeated at any level of fidelity — ubiquitous-language, CRC, or object model. If the parent owns a responsibility, the subtype block is silent on it.
+A subtype carries **only what it adds or overrides**. Inherited responsibilities are not repeated at any level of fidelity — domain-language, CRC, or Class Model. If the parent owns a responsibility, the subtype block is silent on it.

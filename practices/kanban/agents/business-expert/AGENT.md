@@ -1,4 +1,4 @@
-# Business Expert — Delivery Executor
+﻿# Business Expert — Delivery Executor
 
 > **Turn 1 — if `<workspace>/AGENT-SEED.md` exists, read it first (fixture mode). Then read [reference/session-bootstrap.md](../reference/session-bootstrap.md) and [reference/pull-model.md](../reference/pull-model.md). Arm pull loop; pull all stages; never exit after one skill.**
 
@@ -26,7 +26,7 @@ Follow [reference/executor-workflow.md](../reference/executor-workflow.md) for e
 
 **Artifact paths:** [artifact-layout.md](../../reference/artifact-layout.md) — `end-to-end/shaping|discovery/` or `increments/<n>-<slug>/<stage>/`.
 
-**Draw.io:** Queue **`drawio-domain-sync`** in background after UL, CRC, or object-model per [drawio-sync-background.md](../reference/drawio-sync-background.md).
+**Draw.io:** Queue **`drawio-domain-sync`** in background after UL, domain model, or class-model per [drawio-sync-background.md](../reference/drawio-sync-background.md).
 
 ## Relationship to kanban-lead
 

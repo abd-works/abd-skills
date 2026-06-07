@@ -1,6 +1,6 @@
-# Specification by Example — Delivery Agent Kanban
+﻿# Specification by Example — Delivery Agent Kanban
 
-**Sources / context:** `docs/domain/ubiquitous-language.md`, `docs/domain/crc.md`, `docs/acceptance-criteria.md`
+**Sources / context:** `docs/domain/domain-language.md`, `docs/domain/domain model.md`, `docs/acceptance-criteria.md`
 
 ---
 
@@ -67,11 +67,11 @@ Then the "shaping" *Stage* column is visible
 
 Given a *Kanban Board* where "discovery" *Stage Work Required* includes *Skills*:
   | skill_name                | delivery_role    |
-  | abd-ubiquitous-language   | business-expert  |
+  | abd-domain-language   | business-expert  |
   | abd-domain-sketch         | business-expert  |
 When the board renders
 Then the "discovery" *Stage* shows a skill rail beneath it
-  And the rail contains chips labelled "abd-ubiquitous-language" and "abd-domain-sketch"
+  And the rail contains chips labelled "abd-domain-language" and "abd-domain-sketch"
 
 ### Scenario 2: Stage with no skills shows no rail
 
@@ -155,7 +155,7 @@ Then *Ticket* **#301** renders without animation
 
 ### Scenario 1: Executing agent shown on ticket
 
-Given *Ticket* **#101** has *Skill Progress* for "abd-ubiquitous-language" with *Execution Status* "in progress"
+Given *Ticket* **#101** has *Skill Progress* for "abd-domain-language" with *Execution Status* "in progress"
   And the executing *Agent* role is "business-expert"
 When the board renders
 Then *Ticket* **#101** shows a bot icon color-coded by the skill's discipline
@@ -164,12 +164,12 @@ Then *Ticket* **#101** shows a bot icon color-coded by the skill's discipline
 ### Scenario 2: Focus skill shown between executions
 
 Given *Ticket* **inc-sprint-2** is in the board active array at *Stage* "specification" → "In Progress"
-  And *Skill Progress* for "abd-class-responsibility-collaborator" is complete
+  And *Skill Progress* for "abd-domain-model" is complete
   And no *Skill* has *Execution Status* or *Review Status* in progress
 When the board renders
 Then the *Focus Skill* is "abd-specification-by-example"
   And **inc-sprint-2** shows a bot icon on the card face
-  And expanding shows a bot beside "Spec by Example" and a checkmark beside "CRC"
+  And expanding shows a bot beside "Spec by Example" and a checkmark beside "domain model"
 
 ### Scenario 3: Bot icon visible without agent avatar
 
@@ -180,7 +180,7 @@ Then **inc-sprint-2** shows the bot icon
 
 ### Scenario 4: Reviewing agent replaces executor
 
-Given *Ticket* **#101** has *Skill Progress* for "abd-ubiquitous-language" with *Review Status* "in progress"
+Given *Ticket* **#101** has *Skill Progress* for "abd-domain-language" with *Review Status* "in progress"
   And the reviewing *Agent* role is "engineer"
 When the board renders
 Then *Ticket* **#101** shows a magnifying-glass icon
@@ -218,6 +218,15 @@ When the board renders **inc-8-marketing-engine** in "exploration" → "Done"
 Then the expand button appears
   And expanding shows checkmarks beside completed exploration *Skills*
 
+### Scenario 4: Agent-avatar drop records intent without moving ticket stage
+
+Given the *Kanban Board* is in manual mode
+  And *Ticket* **#501** is in "discovery" → "In Progress"
+When the user drags a "business-expert" *Team Member Agent* avatar onto **#501**
+Then the app records an action intent for the next eligible *Skill*
+  And **#501** remains in "discovery" → "In Progress"
+  But the drop is not interpreted as a ticket stage-move
+
 ---
 
 ## Story: Show Skill Execution and Completion Indicators
@@ -232,9 +241,9 @@ Then the expand button appears
 
 ### Scenario 1: Completed skill shows checkmark in expanded list
 
-Given *Ticket* **#101** has *Skill Progress* for "abd-class-responsibility-collaborator" with execution and review done
+Given *Ticket* **#101** has *Skill Progress* for "abd-domain-model" with execution and review done
 When the Delivery Lead expands **#101**
-Then the "CRC" row shows a checkmark icon beside the skill label
+Then the "domain model" row shows a checkmark icon beside the skill label
 
 ### Scenario 2: Executing skill shows bot icon on that row only
 
@@ -251,19 +260,19 @@ Then only the "Spec by Example" row shows a magnifying-glass icon
 
 ### Scenario 4: Pending skill shows no icon
 
-Given *Ticket* **#101** has not started "abd-scenario-walkthrough"
-  And "abd-scenario-walkthrough" is not the *Focus Skill*
+Given *Ticket* **#101** has not started "abd-domain-walk"
+  And "abd-domain-walk" is not the *Focus Skill*
 When the Delivery Lead expands **#101**
 Then the "Scenario Walkthrough" row has no icon and is styled as pending
 
 ### Scenario 5: Focus skill shows bot between executions
 
 Given *Ticket* **inc-sprint-2** is active in "specification" → "In Progress"
-  And "abd-class-responsibility-collaborator" is complete
+  And "abd-domain-model" is complete
   And "abd-specification-by-example" has not started
 When the Delivery Lead expands **inc-sprint-2**
 Then the "Spec by Example" row shows a bot icon
-  And the "CRC" row shows a checkmark
+  And the "domain model" row shows a checkmark
 
 ### Scenario 6: Skill icons use theme-visible colors
 
@@ -429,6 +438,14 @@ Given the Delivery Lead is viewing the *Kanban Board*
 When an *Agent* writes a strategy.md file in the kanban directory
 Then the board display does not refresh
 
+### Scenario 4: Skill state transitions refresh UI with unchanged ticket/stage counts
+
+Given *Ticket* **project-all** has one *Skill Progress* entry with *Execution Status* "in_progress" and *Review Status* null
+When backend stub processing updates that same *Skill Progress* entry to *Execution Status* "done" and *Review Status* "in_progress"
+  And ticket IDs and stage counts remain unchanged
+Then the polling ETag changes
+  And the UI refreshes to show review-in-progress state rather than the prior executing state
+
 ---
 
 # Board Flow Logic (Kanban Lead, Agent, and Skill Orchestration)
@@ -481,7 +498,7 @@ Then *Ticket* **3-batch-eod** moves to active at *Stage* "discovery"
 ### Scenario 4: WIP limit derived from Team capacity when not explicit
 
 Given a *Kanban Board* "bess28-mern-spec" with *Stage* "exploration" at *Scope Level* "increment"
-  And the *Stage Work Required* first required *Skill* is "abd-ubiquitous-language" with *Agent* role "business-expert"
+  And the *Stage Work Required* first required *Skill* is "abd-domain-language" with *Agent* role "business-expert"
   And the *Team* has 3 executors for "business-expert"
   And no explicit *increment_wip_limit* is set on the board
 When the *Kanban Lead* calculates the WIP limit for "exploration"
@@ -490,7 +507,7 @@ Then the WIP limit is 3 — derived from the *Team* capacity for "business-exper
 ### Scenario 5: Rolling pull when first skill is done on active tickets
 
 Given a *Kanban Board* with *Stage* "exploration" at *Scope Level* "increment" and WIP limit 3
-  And 2 active *Tickets* at *Stage* "exploration" have *Skill Progress* for "abd-ubiquitous-language" with *Execution Status* "done" and *Review Status* "done"
+  And 2 active *Tickets* at *Stage* "exploration" have *Skill Progress* for "abd-domain-language" with *Execution Status* "done" and *Review Status* "done"
   And the backlog contains *Ticket* **1-inc-3-payment-processing** at *Stage* "exploration"
 When the *Kanban Lead* runs a pull cycle
 Then *Ticket* **1-inc-3-payment-processing** moves from backlog to active at *Stage* "exploration"
@@ -536,11 +553,11 @@ Then the *Stage* "discovery" is not complete
 Given *Ticket* **1-inc-1-operator-signon** is active at *Stage* "exploration"
   And "exploration" *Stage Work Required* includes:
   | skill_name                   | role            | optional |
-  | abd-ubiquitous-language      | business-expert | false    |
+  | abd-domain-language      | business-expert | false    |
   | abd-acceptance-criteria      | product-owner   | false    |
   | abd-ux-mockup                | ux-designer     | true     |
-  | abd-architecture-reference   | engineer        | false    |
-  And *Skill Progress* for "abd-ubiquitous-language", "abd-acceptance-criteria", and "abd-architecture-reference" all have *Execution Status* "done" and *Review Status* "done"
+  | abd-architecture-specification   | engineer        | false    |
+  And *Skill Progress* for "abd-domain-language", "abd-acceptance-criteria", and "abd-architecture-specification" all have *Execution Status* "done" and *Review Status* "done"
   And no *Skill Progress* exists for "abd-ux-mockup"
 When the *Kanban Board* checks stage completion for **1-inc-1-operator-signon**
 Then the *Stage* "exploration" is complete
@@ -652,23 +669,23 @@ Then the advance is rejected
 Given *Ticket* **1-inc-1-sprint-a** is active at *Stage* "specification"
   And "specification" *Stage Work Required* lists *Skills* in rail order:
   | skill_name                               | role             |
-  | abd-class-responsibility-collaborator     | business-expert  |
+  | abd-domain-model     | business-expert  |
   | abd-specification-by-example              | product-owner    |
-  | abd-architecture-template                 | engineer         |
+  | abd-architecture-specification                 | engineer         |
   | abd-acceptance-test-driven-development    | engineer         |
   And no *Skill Progress* entries exist yet
 When an *Agent* with role "business-expert" looks for eligible work
-Then the *Agent* claims "abd-class-responsibility-collaborator" on **1-inc-1-sprint-a**
+Then the *Agent* claims "abd-domain-model" on **1-inc-1-sprint-a**
   Because it is the first required *Skill* matching the *Agent's* role
 
 ### Scenario 2: Agent skips skills that require prior skills incomplete
 
 Given *Ticket* **1-inc-1-sprint-a** is active at *Stage* "specification"
-  And "abd-class-responsibility-collaborator" *Skill Progress* has *Execution Status* "not started"
-  And "abd-specification-by-example" is second in the rail and requires "abd-class-responsibility-collaborator" done first
+  And "abd-domain-model" *Skill Progress* has *Execution Status* "not started"
+  And "abd-specification-by-example" is second in the rail and requires "abd-domain-model" done first
 When an *Agent* with role "product-owner" looks for eligible work
 Then no *Skill* is available for the "product-owner" *Agent*
-  Because the prior *Skill* "abd-class-responsibility-collaborator" is not done
+  Because the prior *Skill* "abd-domain-model" is not done
 
 ### Scenario 3: Agent pulls from rightmost stage first (downstream-first)
 
@@ -684,17 +701,17 @@ Then the *Agent* claims work on **1-inc-1-sprint-a** at *Stage* "specification"
 ### Scenario 4: Agent does not claim skill already in progress
 
 Given *Ticket* **1-inc-1-sprint-a** is active at *Stage* "specification"
-  And *Skill Progress* for "abd-class-responsibility-collaborator" has *Execution Status* "in_progress" with *Agent* "business-expert"
+  And *Skill Progress* for "abd-domain-model" has *Execution Status* "in_progress" with *Agent* "business-expert"
 When a second *Agent* with role "business-expert" looks for eligible work
-Then "abd-class-responsibility-collaborator" on **1-inc-1-sprint-a** is not claimable
+Then "abd-domain-model" on **1-inc-1-sprint-a** is not claimable
   Because a *Skill* with *Execution Status* "in_progress" cannot be claimed by another *Agent*
 
 ### Scenario 5: Agent claims review after execution done
 
 Given *Ticket* **1-inc-1-sprint-a** is active at *Stage* "specification"
-  And *Skill Progress* for "abd-class-responsibility-collaborator" has *Execution Status* "done" and *Review Status* "not started"
+  And *Skill Progress* for "abd-domain-model" has *Execution Status* "done" and *Review Status* "not started"
 When an *Agent* with role "business-expert" looks for eligible review work
-Then the *Agent* can claim review of "abd-class-responsibility-collaborator" on **1-inc-1-sprint-a**
+Then the *Agent* can claim review of "abd-domain-model" on **1-inc-1-sprint-a**
   Because execution must reach done before review can leave not started
 
 ---
@@ -713,19 +730,19 @@ Then the *Agent* can claim review of "abd-class-responsibility-collaborator" on 
 
 Given *Ticket* **1-inc-1-operator-signon** is the first active increment at *Stage* "exploration"
   And no architecture mechanism registry exists
-  And "abd-architecture-reference" is in the *Stage Work Required*
-When an *Agent* with role "engineer" claims "abd-architecture-reference"
+  And "abd-architecture-specification" is in the *Stage Work Required*
+When an *Agent* with role "engineer" claims "abd-architecture-specification"
 Then the *Agent* creates the mechanism registry and runs architecture reference
-  And *Skill Progress* for "abd-architecture-reference" records *Execution Status* "done"
+  And *Skill Progress* for "abd-architecture-specification" records *Execution Status* "done"
 
 ### Scenario 2: Architecture reference quick pass on subsequent increments
 
 Given *Ticket* **1-inc-2-message-routing** is active at *Stage* "exploration"
   And an architecture mechanism registry already exists from **1-inc-1-operator-signon**
   And all mechanisms in **1-inc-2-message-routing** are already covered by the registry
-When an *Agent* with role "engineer" claims "abd-architecture-reference"
+When an *Agent* with role "engineer" claims "abd-architecture-specification"
 Then the *Agent* runs a quick pass and writes `architecture-reference-assignment.md` with assign-only rows
-  And *Skill Progress* for "abd-architecture-reference" records *Execution Status* "done" and *Review Status* "done"
+  And *Skill Progress* for "abd-architecture-specification" records *Execution Status* "done" and *Review Status* "done"
   And the *Agent* proceeds to the next eligible *Skill*
 
 ### Scenario 3: Architecture template creates for new mechanism only
@@ -733,8 +750,535 @@ Then the *Agent* runs a quick pass and writes `architecture-reference-assignment
 Given *Ticket* **1-inc-2-sprint-b** is active at *Stage* "specification"
   And the mechanism registry shows "error-handling" already has a template
   And **1-inc-2-sprint-b** introduces a new mechanism "caching"
-When an *Agent* with role "engineer" claims "abd-architecture-template"
+When an *Agent* with role "engineer" claims "abd-architecture-specification"
 Then the *Agent* creates a template only for "caching"
   And "error-handling" is not re-created
+
+---
+
+# Manage Agent Lifecycle via Cursor SDK
+
+## Story: Resolve Agent Definition from Role
+
+**Story type:** system
+
+**Sources / context:** Agent and Skills KA — agent role, agent definition; story-map.md consolidation notes — "Resolve Agent Definition from Role"
+
+---
+
+## Scenarios
+
+### Scenario 1: Role "engineer" resolves to its agent definition
+
+Given the *Kanban Board* workspace root is "C:\dev\project"
+  And the agent definitions directory is `practices/kanban/agents/`
+  And a file exists at `practices/kanban/agents/engineer/AGENT.md`
+When the system resolves the *Agent Definition* for role "engineer"
+Then the resolved path is `practices/kanban/agents/engineer/AGENT.md`
+  And the definition content is loaded for parsing
+
+### Scenario 2: Role "kanban-lead" resolves to its agent definition
+
+Given the *Kanban Board* workspace root is "C:\dev\project"
+  And a file exists at `practices/kanban/agents/kanban-lead/AGENT.md`
+When the system resolves the *Agent Definition* for role "kanban-lead"
+Then the resolved path is `practices/kanban/agents/kanban-lead/AGENT.md`
+  And the definition content is loaded for parsing
+
+### Scenario 3: Unknown role returns error
+
+Given the *Kanban Board* workspace root is "C:\dev\project"
+  And no file exists at `practices/kanban/agents/ux-designer/AGENT.md`
+When the system resolves the *Agent Definition* for role "ux-designer"
+Then the resolution fails with error "Agent definition not found for role: ux-designer"
+  And no *Agent Session* is created
+
+---
+
+## Story: Parse Skills from Agent Definition
+
+**Story type:** system
+
+**Sources / context:** Agent and Skills KA — agent definition, skill; story-map.md consolidation notes — "Parse Skills from Agent Definition"
+
+---
+
+## Scenarios
+
+### Scenario 1: Engineer role's eligible skills come from kanban.json stage work required
+
+Given the *Agent Definition* for role "engineer" has been loaded
+  And `kanban.json` *Stage Work Required* assigns the following *Skills* to role "engineer":
+  | skill_name                            | stage          |
+  | abd-architecture-specification            | specification  |
+  | abd-architecture-specification             | specification  |
+  | abd-acceptance-test-driven-development| specification  |
+  And the *Agent Definition* declares one conditional *Skill*: "abd-clean-code"
+When the system resolves eligible *Skills* for role "engineer"
+Then the resolved skill list contains 3 entries from *Stage Work Required* and 1 conditional
+  And the conditional *Skill* is declared in the `AGENT.md`, not in `kanban.json`
+
+### Scenario 2: Business Expert AGENT.md references executor-workflow.md and shared reference files
+
+Given the *Agent Definition* for role "business-expert" has been loaded
+  And the `AGENT.md` references `executor-workflow.md` for execution orchestration
+  And the `AGENT.md` references `session-bootstrap.md`, `pull-model.md`, and `work-queue.md`
+When the system parses the "business-expert" *Agent Definition*
+Then the parsed result includes the workflow reference "executor-workflow.md"
+  And eligible *Skills* for the role come from `kanban.json` *Stage Work Required*, not from the `AGENT.md`
+
+### Scenario 3: Kanban Lead AGENT.md lists orchestration skills
+
+Given the *Agent Definition* for role "kanban-lead" has been loaded
+  And the definition contains orchestration *Skills*:
+  | skill_name           |
+  | abd-kanban-planning  |
+  | abd-kanban           |
+When the system parses *Skills* from the "kanban-lead" *Agent Definition*
+Then the parsed skill list contains "abd-kanban-planning" and "abd-kanban"
+  And the skills are marked as orchestration (not stage work required)
+
+---
+
+## Story: Create Agent Session via Cursor SDK
+
+**Story type:** system
+
+**Sources / context:** Agent and Skills KA — agent, agent session; story-map.md consolidation notes — "Create Agent Session via Cursor SDK"
+
+---
+
+## Scenarios
+
+### Scenario 1: KanbanLead creates TeamMember session with bootstrap prompt
+
+Given the *Kanban Lead* needs to start a *Team Member* with role "engineer"
+  And the *Agent Definition* for "engineer" has been resolved and parsed
+  And the *Kanban Board* workspace root is "C:\dev\project"
+When the *Kanban Lead* creates an *Agent Session* via the Cursor SDK
+Then a new *Agent Session* is created with a *Bootstrap Prompt* containing:
+  | field          | value                        |
+  | workspace      | C:\dev\project               |
+  | role           | engineer                     |
+  | agent_definition| practices/kanban/agents/engineer/AGENT.md |
+  And the workspace path was injected by the *Kanban Lead* from the *Kanban Board* config
+  And the session enters "running" state
+
+### Scenario 2: Session creation fails — KanbanLead logs error and retries
+
+Given the *Kanban Lead* attempts to create an *Agent Session* for role "engineer"
+  And the Cursor SDK returns a connection error
+When the *Agent Session* creation fails
+Then the *Kanban Lead* logs error "Agent session creation failed for role: engineer"
+  And the *Kanban Lead* retries session creation on the next scan cycle
+  But no *Agent Session* is recorded for the role
+
+### Scenario 3: Agent session created with MCP server configuration
+
+Given the *Kanban Lead* creates an *Agent Session* for role "business-expert"
+  And the board configuration specifies MCP servers for "business-expert":
+  | mcp_server          |
+  | user-story_bot      |
+  | plugin-granola      |
+When the *Agent Session* is created via the Cursor SDK
+Then the session includes MCP server configuration for "user-story_bot" and "plugin-granola"
+  And the *Agent* can invoke tools from those MCP servers during execution
+
+---
+
+## Story: Start Team Member Agent
+
+**Story type:** system
+
+**Sources / context:** Agent and Skills KA — kanban lead (start team member), team member; story-map.md — "Start Team Member Agent"
+
+---
+
+## Scenarios
+
+### Scenario 1: Kanban Lead starts engineer for eligible skill — session moves to running
+
+Given the *Kanban Lead* is running a scan cycle
+  And *Ticket* **1-inc-1-sprint-a** is active at *Stage* "specification" with eligible *Skill* "abd-architecture-specification" for role "engineer"
+  And no *Agent Session* for "engineer" is currently running
+When the *Kanban Lead* starts a *Team Member* *Agent* for role "engineer"
+Then a new *Agent Session* is created and enters "running" state
+  And the *Agent* begins executing "abd-architecture-specification" on **1-inc-1-sprint-a**
+  And the *Agent Pool* shows the "engineer" avatar as "working"
+
+### Scenario 2: Kanban Lead starts business-expert for first skill in rail order — agent pulls downstream first
+
+Given the *Kanban Lead* is running a scan cycle
+  And 2 active *Tickets* have eligible work for role "business-expert":
+  | ticket_id          | stage          | skill_name                            |
+  | 1-inc-1-sprint-a   | specification  | abd-domain-model |
+  | 1-inc-2-sprint-b   | exploration    | abd-domain-language               |
+When the *Kanban Lead* starts a *Team Member* *Agent* for role "business-expert"
+Then the *Agent* claims "abd-domain-model" on **1-inc-1-sprint-a**
+  Because "specification" is downstream of "exploration" — later stages are prioritized
+
+---
+
+## Story: Stop Team Member Agent
+
+**Story type:** system
+
+**Sources / context:** Agent and Skills KA — kanban lead (stop team member), agent session
+
+---
+
+## Scenarios
+
+### Scenario 1: Kanban Lead stops idle team member — session terminates cleanly
+
+Given a *Team Member* *Agent* with role "engineer" has an active *Agent Session*
+  And the *Agent* is idle (no *Skill* currently executing)
+When the *Kanban Lead* stops the "engineer" *Team Member*
+Then the *Agent Session* terminates with status "completed"
+  And the *Agent Pool* shows the "engineer" avatar as "idle"
+  And no *Skill Progress* entries are modified
+
+### Scenario 2: Stop agent that has in-progress skill — skill progress preserved before termination
+
+Given a *Team Member* *Agent* with role "business-expert" has an active *Agent Session*
+  And the *Agent* is executing *Skill* "abd-domain-language" on *Ticket* **1-inc-1-sprint-a**
+  And *Skill Progress* has *Execution Status* "in_progress"
+When the *Kanban Lead* stops the "business-expert" *Team Member*
+Then the *Skill Progress* for "abd-domain-language" retains *Execution Status* "in_progress"
+  And the *Agent Session* terminates
+  But the skill is not marked as "done" or rolled back
+  And the *Kanban Lead* can assign a new *Agent* to resume the skill on the next cycle
+
+---
+
+## Story: Report Agent Session Status via SDK
+
+**Story type:** system
+
+**Sources / context:** Agent and Skills KA — agent session, agent liveness; story-map.md — "Report Agent Session Status via SDK"
+
+---
+
+## Scenarios
+
+### Scenario 1: Running session reports "running" with message count and last activity
+
+Given a *Team Member* *Agent* with role "engineer" has an active *Agent Session*
+  And the session has emitted 42 messages
+  And the last message was emitted 15 seconds ago
+When the system queries *Agent Session* status for "engineer"
+Then the status reports:
+  | field               | value     |
+  | state               | running   |
+  | message_count       | 42        |
+  | last_activity_sec   | 15        |
+
+### Scenario 2: Completed session reports "completed" with final message
+
+Given a *Team Member* *Agent* with role "business-expert" had an *Agent Session*
+  And the session completed after executing "abd-domain-language"
+When the system queries *Agent Session* status for "business-expert"
+Then the status reports:
+  | field          | value                                      |
+  | state          | completed                                  |
+  | final_message  | Completed abd-domain-language execution |
+
+### Scenario 3: Failed session reports "failed" with error detail
+
+Given a *Team Member* *Agent* with role "engineer" had an *Agent Session*
+  And the session failed with a runtime error
+When the system queries *Agent Session* status for "engineer"
+Then the status reports:
+  | field        | value                                    |
+  | state        | failed                                   |
+  | error_detail | Agent session terminated unexpectedly    |
+
+---
+
+## Story: Restart Stale Agent
+
+**Story type:** system
+
+**Sources / context:** Agent and Skills KA — agent session, agent liveness, kanban lead (restart)
+
+---
+
+## Scenarios
+
+### Scenario 1: Agent session stale — KanbanLead stops and creates new session
+
+Given a *Team Member* *Agent* with role "engineer" has an active *Agent Session*
+  And the session has not emitted any output for 120 seconds
+  And the *Agent* has *Skill Progress* "in_progress" for "abd-architecture-specification" on *Ticket* **1-inc-1-sprint-a**
+When the *Kanban Lead* detects the "engineer" session is stale
+Then the *Kanban Lead* stops the stale *Agent Session*
+  And the *Kanban Lead* creates a new *Agent Session* for role "engineer"
+  And the new *Agent* resumes eligible work on **1-inc-1-sprint-a**
+
+### Scenario 2: Agent session completed but eligible work remains — KanbanLead creates new session
+
+Given a *Team Member* *Agent* with role "business-expert" had an *Agent Session* that completed
+  And *Ticket* **1-inc-2-sprint-b** is active at *Stage* "exploration" with eligible *Skill* "abd-domain-terms" for role "business-expert"
+When the *Kanban Lead* detects that the "business-expert" session has ended with remaining eligible work
+Then the *Kanban Lead* creates a new *Agent Session* for role "business-expert"
+  And the new *Agent* claims "abd-domain-terms" on **1-inc-2-sprint-b**
+
+---
+
+## Story: Detect Agent Completion via SDK
+
+**Story type:** system
+
+**Sources / context:** Agent and Skills KA — agent session, skill progress, stage completion
+
+---
+
+## Scenarios
+
+### Scenario 1: Agent completes skill — session emits completion, KanbanLead updates skill progress
+
+Given a *Team Member* *Agent* with role "engineer" is executing *Skill* "abd-architecture-specification" on *Ticket* **1-inc-1-sprint-a**
+  And the *Agent Session* is in "running" state
+When the *Agent* finishes executing "abd-architecture-specification"
+  And the *Agent Session* emits a completion signal
+Then the *Kanban Lead* updates *Skill Progress* for "abd-architecture-specification" to *Execution Status* "done"
+  And the *Kanban Lead* checks whether the *Agent* has additional eligible *Skills* on the ticket
+
+### Scenario 2: Agent completes all skills on ticket — KanbanLead marks ticket stage complete
+
+Given a *Team Member* *Agent* with role "business-expert" is executing the final required *Skill* "abd-specification-by-example" on *Ticket* **1-inc-1-sprint-a** at *Stage* "specification"
+  And all other *Skills* in the *Stage Work Required* have *Execution Status* "done" and *Review Status* "done"
+When the *Agent* finishes executing "abd-specification-by-example"
+Then the *Kanban Lead* updates *Skill Progress* for "abd-specification-by-example" to *Execution Status* "done"
+  And the *Kanban Lead* detects that all required *Skills* for *Stage* "specification" are complete
+  And *Ticket* **1-inc-1-sprint-a** moves to the "Done" sub-column of "specification"
+
+---
+
+## Story: Stream Agent Messages via SDK
+
+**Story type:** system
+
+**Sources / context:** Agent and Skills KA — agent session, message stream; story-map.md consolidation notes — "Stream Agent Messages via SDK"
+
+---
+
+## Scenarios
+
+### Scenario 1: Running agent emits message — server receives it in real time
+
+Given a *Team Member* *Agent* with role "engineer" has an active *Agent Session*
+  And the session is connected via Cursor SDK streaming
+When the *Agent* emits a text message "Creating architecture template for caching mechanism"
+Then the server receives the message within the SDK stream
+  And the message is available to connected clients via the board API
+  And the *Agent Session* last activity timestamp is updated
+
+### Scenario 2: Agent emits thinking indicator — server relays to connected clients
+
+Given a *Team Member* *Agent* with role "business-expert" has an active *Agent Session*
+  And the session is connected via Cursor SDK streaming
+When the *Agent* emits a thinking indicator (model is processing)
+Then the server receives the thinking event
+  And connected clients are notified of the "thinking" state for "business-expert"
+  And the *Agent Pool* avatar for "business-expert" reflects the "working" state
+
+---
+
+## Story: Derive Agent Liveness from SDK Session State
+
+**Story type:** system
+
+**Sources / context:** Agent and Skills KA — agent liveness, agent session; replaces heartbeat-file liveness
+
+---
+
+## Scenarios
+
+### Scenario 1: Session "running" with recent activity — agent is alive
+
+Given a *Team Member* *Agent* with role "engineer" has an active *Agent Session* in "running" state
+  And the last message was emitted 30 seconds ago
+When the system derives *Agent Liveness* for "engineer"
+Then the "engineer" *Agent* is considered alive
+  And the *Agent Pool* avatar displays as "working" if a *Ticket* engages the role, or "idle" otherwise
+
+### Scenario 2: Session "running" but no activity for 120+ seconds — agent is stale
+
+Given a *Team Member* *Agent* with role "engineer" has an active *Agent Session* in "running" state
+  And no messages have been emitted for 125 seconds
+When the system derives *Agent Liveness* for "engineer"
+Then the "engineer" *Agent* is considered stale
+  And the *Agent Pool* avatar displays as "inactive"
+  And the *Kanban Lead* is eligible to restart the session
+
+### Scenario 3: No session exists for role — pool avatar "idle"
+
+Given no *Agent Session* exists for role "ux-designer"
+  And no active *Ticket* engages "ux-designer"
+When the system derives *Agent Liveness* for "ux-designer"
+Then the "ux-designer" *Agent* is considered idle
+  And the *Agent Pool* avatar displays as "idle" (lit)
+  But the avatar does not display as "inactive"
+
+---
+
+## Story: Preserve Board Mode on Ticket Move
+
+**Story type:** system
+
+**Sources / context:** Operate Board in Manual Mode — "Persist Board Mode Setting", "Move Ticket to In Progress on Agent Advance"
+
+---
+
+## Scenarios
+
+### Scenario 1: Ticket move in manual mode does not reset board mode
+
+Given the *Kanban Board* persisted *Board Mode* is "manual"
+  And the server has a previously loaded in-memory board instance with stale *Board Mode* "automatic"
+  And *Ticket* **project-all** is active at *Stage* "shaping"
+When the app persists a ticket move for **project-all** to *Stage* "discovery"
+Then the persisted board still has *Board Mode* "manual"
+  And **project-all** persists at *Stage* "discovery"
+  But no write path changes *Board Mode* back to "automatic"
+
+### Scenario 2: Manual drag to done remains in done after refresh
+
+Given the *Kanban Board* is in manual mode
+  And *Ticket* **project-all** is active at *Stage* "shaping"
+When the user drags **project-all** to "shaping" → "Done"
+  And the board refreshes from persisted data
+Then **project-all** remains in "shaping" → "Done"
+  But it is not reclassified back to "shaping" → "In Progress" due only to incomplete stage skills
+
+---
+
+# Display Agent Output Stream
+
+## Story: Expand Agent Stream by Clicking Team Member Avatar
+
+**Story type:** user
+
+**Sources / context:** Display Agent Output Stream — open agent stream panel; story-map.md consolidation notes — "Display Agent Output Stream"
+
+---
+
+## Scenarios
+
+### Scenario 1: User clicks engineer avatar with active ticket — stream panel opens beside stage column
+
+Given the *Agent Pool* shows an "engineer" avatar in "working" state
+  And the "engineer" *Agent* is executing a *Skill* on *Ticket* **1-inc-1-sprint-a** at *Stage* "specification"
+When the Delivery Lead clicks the "engineer" avatar
+Then a *Stream Panel* opens beside the "specification" *Stage* column
+  And the panel displays the live message stream from the "engineer" *Agent Session*
+  And the panel height matches the "specification" column height
+
+### Scenario 2: User clicks avatar with no active session — panel shows "No active session"
+
+Given the *Agent Pool* shows a "business-expert" avatar in "idle" state
+  And no *Agent Session* exists for "business-expert"
+When the Delivery Lead clicks the "business-expert" avatar
+Then a *Stream Panel* opens
+  And the panel displays "No active session" message
+  But no message stream is rendered
+
+---
+
+## Story: Anchor Stream Panel beside Active Ticket Stage Column
+
+**Story type:** system
+
+**Sources / context:** Display Agent Output Stream — panel anchoring by ticket stage
+
+---
+
+## Scenarios
+
+### Scenario 1: Engineer working on ticket at "exploration" — panel anchored to right of exploration column
+
+Given the "engineer" *Agent* is executing a *Skill* on *Ticket* **1-inc-2-sprint-b** at *Stage* "exploration"
+  And a *Stream Panel* is open for "engineer"
+When the board renders
+Then the *Stream Panel* is anchored to the right edge of the "exploration" *Stage* column
+  And the panel scrolls horizontally with the board
+
+### Scenario 2: Agent moves ticket from "exploration" to "specification" — panel follows
+
+Given the "engineer" *Agent* completed all *Skills* at *Stage* "exploration" on *Ticket* **1-inc-2-sprint-b**
+  And *Ticket* **1-inc-2-sprint-b** advances to *Stage* "specification"
+  And a *Stream Panel* is open for "engineer"
+When the *Agent* begins executing a *Skill* at *Stage* "specification"
+Then the *Stream Panel* repositions beside the "specification" *Stage* column
+  And the panel content continues to stream without interruption
+
+---
+
+## Story: Open Second Agent Stream While First Is Open
+
+**Story type:** user
+
+**Sources / context:** Display Agent Output Stream — view multiple agent streams
+
+---
+
+## Scenarios
+
+### Scenario 1: Business-expert panel open, user clicks engineer — both panels visible
+
+Given a *Stream Panel* is open for "business-expert" anchored beside the "discovery" *Stage* column
+  And the "engineer" *Agent* is executing a *Skill* at *Stage* "specification"
+When the Delivery Lead clicks the "engineer" avatar
+Then a second *Stream Panel* opens beside the "specification" *Stage* column
+  And both the "business-expert" and "engineer" panels are visible side by side
+  And each panel streams its respective *Agent Session* independently
+
+### Scenario 2: Three panels open — all three stack horizontally
+
+Given *Stream Panels* are open for "business-expert" and "engineer"
+  And the "product-owner" *Agent* is executing a *Skill* at *Stage* "exploration"
+When the Delivery Lead clicks the "product-owner" avatar
+Then a third *Stream Panel* opens beside the "exploration" *Stage* column
+  And all three panels are visible and stacked horizontally across the board
+  And each panel is independently scrollable
+
+---
+
+## Story: Stream Agent Messages to Panel Like IDE Chat
+
+**Story type:** system
+
+**Sources / context:** Display Agent Output Stream — real-time agent output rendering
+
+---
+
+## Scenarios
+
+### Scenario 1: Agent sends text response — appears as message bubble in panel
+
+Given a *Stream Panel* is open for the "engineer" *Agent*
+  And the *Agent Session* is in "running" state
+When the *Agent* emits a text message "Generating acceptance tests for operator signon"
+Then the message appears as a chat bubble in the *Stream Panel*
+  And the bubble is styled as an agent response (not a user message)
+  And the panel auto-scrolls to show the latest message
+
+### Scenario 2: Agent is thinking — thinking indicator animates in panel
+
+Given a *Stream Panel* is open for the "business-expert" *Agent*
+  And the *Agent Session* is in "running" state
+When the *Agent* enters a thinking state (model is processing)
+Then a thinking indicator animates at the bottom of the *Stream Panel*
+  And the indicator disappears when the *Agent* emits the next text message
+
+### Scenario 3: Agent completes skill — completion status shown in panel
+
+Given a *Stream Panel* is open for the "engineer" *Agent*
+  And the *Agent* is executing *Skill* "abd-acceptance-test-driven-development" on *Ticket* **1-inc-1-sprint-a**
+When the *Agent* completes "abd-acceptance-test-driven-development"
+Then the *Stream Panel* displays a completion status indicator
+  And the status shows "abd-acceptance-test-driven-development — complete"
+  And the panel remains open for subsequent *Skill* output or manual close
 
 ---

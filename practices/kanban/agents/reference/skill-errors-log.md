@@ -1,4 +1,4 @@
-# Corrections log
+﻿# Corrections log
 
 Project: kanban agents — work-queue eligibility
 Source: `practices/kanban/agents/reference/work-queue.md` and `practices/kanban/reference/agents-and-skills.md`
@@ -11,7 +11,7 @@ Source: `practices/kanban/agents/reference/work-queue.md` and `practices/kanban/
 - **Context:** work-queue.md "Start next skill" algorithm; agents-and-skills.md "Agents" eligibility rule
 - **DO / DO NOT:** **DO** require all prior skills to have BOTH `execution_status: done` AND `review_status: done` before an executor can start the next skill. A skill is "prior-complete" only when both execution and review are approved.
 - **Example (wrong):**
-  Prior rule: "find the next skill where all prior skills have `execution_status: done`" — omitted review gate. Result: kanban lead spawned PO executor for `abd-acceptance-criteria` while `abd-ubiquitous-language` was still under review. The PO worked from unreviewed UL output.
+  Prior rule: "find the next skill where all prior skills have `execution_status: done`" — omitted review gate. Result: kanban lead spawned PO executor for `abd-acceptance-criteria` while `abd-domain-language` was still under review. The PO worked from unreviewed UL output.
 - **Example (correct):**
   "find the next skill where all prior skills have `execution_status: done` AND `review_status: done`" — executor only starts after the reviewer has approved the prior skill.
 - **Likely source:** prompt gap
@@ -50,9 +50,9 @@ Source: `practices/kanban/agents/reference/work-queue.md` and `practices/kanban/
 - **Context:** work-queue.md / executor-workflow.md Step 7 — agents idle while backlog tickets wait for kanban lead pull
 - **DO / DO NOT:** **DO** after finishing a skill: scan active tickets downstream-first (right to left); if no eligible skill, append `agent_ready` to `metrics-log.jsonl`, update heartbeat with `status: ready`, and poll `board.json` every 30s. **DO NOT** exit after a single "no pending work" scan; **DO NOT** pull tickets from backlog to active yourself.
 - **Example (wrong):**
-  Business-expert finished CRC on inc-8-sprint-1. No other BE skill on active tickets. Agent reported idle and stopped. inc-8-sprint-3 (CRC) sat in backlog under Exploration Done — kanban lead never got a signal to pull it.
+  Business-expert finished domain model on inc-8-sprint-1. No other BE skill on active tickets. Agent reported idle and stopped. inc-8-sprint-3 (domain model) sat in backlog under Exploration Done — kanban lead never got a signal to pull it.
 - **Example (correct):**
-  Business-expert finished sprint-1. No eligible skill on active tickets. Agent appends `agent_ready`, sets heartbeat `status: ready`, polls board every 30s downstream-first. Kanban lead scan reads `agent_ready`, pulls inc-8-sprint-3 to active. Agent's next poll finds CRC and starts work.
+  Business-expert finished sprint-1. No eligible skill on active tickets. Agent appends `agent_ready`, sets heartbeat `status: ready`, polls board every 30s downstream-first. Kanban lead scan reads `agent_ready`, pulls inc-8-sprint-3 to active. Agent's next poll finds domain model and starts work.
 - **Likely source:** prompt gap
 
 ---
@@ -76,7 +76,7 @@ Source: `practices/kanban/agents/reference/work-queue.md` and `practices/kanban/
 - **Context:** pull-model.md; work-queue.md; all stage files; PawPlace — agents idle while UX/engineer work existed on active sprints
 - **DO / DO NOT:** **DO** read stages from `kanban.json` and scan reverse order. **DO** arm `AGENT_LOOP_TICK_<role>` on turn 1 for BE, PO, UX, Engineer. **DO** pull across shaping through engineering. **DO NOT** hardcode stage lists; **DO NOT** spawn reviewer agents; **DO NOT** exit after one skill.
 - **Example (wrong):**
-  BE finished CRC on all sprints and exited. Four sprints still needed UX interface-design. No UX pull loop running. Kanban lead did not spawn UX because scan cycle stopped after cycle 1.
+  BE finished domain model on all sprints and exited. Four sprints still needed UX interface-design. No UX pull loop running. Kanban lead did not spawn UX because scan cycle stopped after cycle 1.
 - **Example (correct):**
   Kanban lead scan: eligible UX skills on 4 sprints → spawn UX executor with pull loop. UX turn 1: arm loop, scan engineering→…→shaping, claim interface-design on inc-8-sprint-4, deliver, pull next.
 - **Likely source:** prompt gap

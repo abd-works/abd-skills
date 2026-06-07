@@ -1,12 +1,12 @@
-# drawio-domain-sync — Rendered Diagram Example
+﻿# drawio-domain-sync — Rendered Diagram Example
 
-This file shows a finished rendering of the **Resolution System** Key Abstraction from a fictional object-model source. Use it as a reference for the depth and structure a rendered page should reach.
+This file shows a finished rendering of the **Resolution System** Key Abstraction from a fictional class-model source. Use it as a reference for the depth and structure a rendered page should reach.
 
 ---
 
 ## Example: Resolution System page
 
-**Source:** `check-resolution-object-model.md`, Key Abstraction `## **Resolution System**`
+**Source:** `check-resolution-class-model.md`, Key Abstraction `## **Resolution System**`
 
 **Diagram file:** `check-resolution-class-diagram.drawio`, page `Resolution System`
 
@@ -101,7 +101,7 @@ python scripts/drawio_class_cli.py inspect check-resolution-class-diagram.drawio
 # Verify sync — should report "no changes"
 python scripts/drawio_class_cli.py sync-to-model check-resolution-class-diagram.drawio \
   --page "Resolution System" \
-  --model check-resolution-object-model.md
+  --model check-resolution-class-model.md
 ```
 
 ### What this example demonstrates

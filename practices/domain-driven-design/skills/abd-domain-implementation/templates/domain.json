@@ -1,0 +1,16 @@
+{
+  "_comment": "Machine-readable vocabulary extracted from the Class Model. Written alongside class-model.md. Read by the specification-by-example scanner to validate example-table column names against domain class properties. Attributes are the typed property names declared with '+ propertyName: Type'.",
+  "concepts": {
+    "ClassName": {
+      "attributes": ["propertyOne", "propertyTwo", "propertyThree"],
+      "inherits": null
+    },
+    "SubClassName": {
+      "attributes": ["additionalProperty"],
+      "inherits": "ClassName"
+    }
+  },
+  "aliases": {
+    "scenario": "*"
+  }
+}

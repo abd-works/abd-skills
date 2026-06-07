@@ -1,4 +1,4 @@
----
+﻿---
 scanner: domain_language_code_scanner.py
 ---
 
@@ -8,7 +8,7 @@ Class names are domain entities. Method names are domain responsibilities. Avoid
 
 #### DO
 
-- Name classes after domain entities from the ubiquitous language.
+- Name classes after domain entities from the Domain Language.
 - Name methods after domain responsibilities, not technical verbs.
 
 ```python

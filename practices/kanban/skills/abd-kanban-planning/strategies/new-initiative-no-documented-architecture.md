@@ -1,4 +1,4 @@
-# Strategy: New Initiative — No Documented Architecture
+﻿# Strategy: New Initiative — No Documented Architecture
 
 **When to use:** Greenfield or near-greenfield: no map, no settled architecture. Briefs, interviews, competitors, rough requirements — discover what to build and how.
 
@@ -14,9 +14,9 @@
 | --- | --- | --- |
 | Shaping | all | story-mapping, thin-slicing |
 | Discovery | increment | domain-terms, architecture-blueprint, information-architecture |
-| Exploration | increment | ubiquitous-language, acceptance-criteria, ux-mockup, architecture-template |
-| Specification | sprint | CRC, spec-by-example, interface-design, architecture-reference |
-| Engineering | sprint | interface-design (UX), object-model (BE), ATDD (PO), clean-code (EN) |
+| Exploration | increment | domain-language, acceptance-criteria, ux-mockup, architecture-template |
+| Specification | sprint | domain model, spec-by-example, interface-design, architecture-reference |
+| Engineering | sprint | interface-design (UX), class-model (BE), ATDD (PO), clean-code (EN) |
 
 ---
 

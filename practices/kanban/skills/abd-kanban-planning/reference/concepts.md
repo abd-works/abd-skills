@@ -1,4 +1,4 @@
-# abd-kanban-planning — Concepts
+﻿# abd-kanban-planning — Concepts
 
 **Shared kanban concepts** (ticket model, board lists, stages, scattering, skill progress, agents): [../../../reference/kanban-board.md](../../../reference/kanban-board.md) · [../../../reference/agents-and-skills.md](../../../reference/agents-and-skills.md)
 
@@ -119,7 +119,7 @@ The kanban lead assesses source material at strategy selection and decides which
 
 ## Exploration: architecture template (conditional)
 
-`abd-architecture-template` is **on the exploration rail** for every increment ticket, but the engineer runs it **only when the increment needs mechanism template sections that do not yet exist**.
+`abd-architecture-specification` is **on the exploration rail** for every increment ticket, but the engineer runs it **only when the increment needs mechanism template sections that do not yet exist**.
 
 **Run when:** AC and blueprint name cross-cutting mechanisms missing a complete section under `docs/increments/<n>-<slug>/exploration/architecture/architecture-template.md`.
 

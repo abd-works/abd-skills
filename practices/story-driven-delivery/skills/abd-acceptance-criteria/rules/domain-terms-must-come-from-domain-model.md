@@ -1,4 +1,4 @@
----
+﻿---
 scanner: domain-terms-source
 ---
 
@@ -8,9 +8,9 @@ scanner: domain-terms-source
 
 Every term in a story's **Domain terms** section must exist in a domain source artifact already present in the project. Domain sources include (but are not limited to):
 
-- Ubiquitous Language (`ubiquitous-language.md`, `domain-language.md`)
-- CRC model (`crc.md`)
-- Object model (`object-model.md`)
+- Domain Language (`domain-language.md`, `domain-language.md`)
+- domain model (`domain model.md`)
+- Class Model (`class-model.md`)
 - Domain sketch (`domain-sketch.md`)
 - Any file the team designates as a domain vocabulary source
 
@@ -18,7 +18,7 @@ Every term in a story's **Domain terms** section must exist in a domain source a
 
 - Before writing any Domain terms section, look up each term in the project's domain source files.
 - Use the exact name and definition from the source. Do not paraphrase.
-- If a term is missing from all domain sources, **stop — list every missing term and ask the user how to proceed** (add to ubiquitous language, use an existing term, skip it, etc.). Do not continue until the user decides.
+- If a term is missing from all domain sources, **stop — list every missing term and ask the user how to proceed** (add to Domain Language, use an existing term, skip it, etc.). Do not continue until the user decides.
 
 ## DON'T
 

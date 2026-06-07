@@ -1,4 +1,4 @@
-# Specification by Example — Core Concepts
+﻿# Specification by Example — Core Concepts
 
 ## What is specification by example?
 
@@ -38,7 +38,7 @@ Use Background only when three or more scenarios share identical starting state.
 
 ## Domain concept grounding
 
-Specification by example works at two levels simultaneously: it specifies *behavior* and it confirms *the domain model*. When domain model content — an object model, CRC model, or domain language glossary — is available, the scenarios are its behavioral proof. Concept names must match exactly.
+Specification by example works at two levels simultaneously: it specifies *behavior* and it confirms *the domain model*. When domain model content — an Class Model, domain model, or domain language glossary — is available, the scenarios are its behavioral proof. Concept names must match exactly.
 
 When no domain model exists, the scenarios themselves reveal the model. The deliberate way a step names a concept and connects it to another documents the model for the team.
 

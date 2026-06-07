@@ -627,6 +627,11 @@
    **AND** the *Ticket's* prior position is forgotten for the next comparison
    **Evidence:** `useDeliveryBoardPoll.ts` — position comparison, lines 56–61
 
+4. **WHEN** backend stub execution updates *Skill Progress* state on a *Ticket* (execution in progress, review in progress, done)
+   **THEN** the board polling ETag changes and the UI refreshes to show the new *Skill Progress* and *Agent* state
+   **AND** the team/agent visuals do not remain stuck on the previous status
+   **Evidence:** story-map.md — "Keep Board Display Current"
+
 4. **WHEN** the Delivery Lead switches to a different planning folder
    **THEN** the previous board state is cleared and a fresh load begins immediately
    **Evidence:** `useDeliveryBoardPoll.ts` — effect cleanup, lines 40–46
@@ -943,6 +948,12 @@
    **AND** the user sees an error message
    **Evidence:** story-map.md — "Persist Board Mode Setting"
 
+4. **WHEN** the *Board Mode* has already been set to manual
+   **AND** the user moves a *Ticket* to another *Stage* in manual operation
+   **THEN** the persisted *Kanban Board* keeps *Board Mode* set to manual
+   **BUT** no ticket move write is allowed to reset *Board Mode* back to automatic
+   **Evidence:** story-map.md — "Preserve Board Mode on Ticket Move"
+
 ---
 
 ### Story: Read Board Mode Setting And Switches to Manual Mode
@@ -1001,6 +1012,12 @@
 3. **WHEN** all *Stage Work Required* skills on the target *Ticket* are already assigned or complete
    **THEN** the drop is rejected
    **AND** the user sees a message indicating no eligible skills remain
+   **Evidence:** story-map.md — "Drag Team Member Agent onto Ticket"
+
+4. **WHEN** the user drags a *Team Member Agent* avatar onto a *Ticket* card in manual mode
+   **THEN** the app records an action intent only
+   **AND** the drop is never interpreted as a ticket stage-move drag
+   **BUT** the *Ticket* card stays in its current stage/sub-column until a later board update moves it
    **Evidence:** story-map.md — "Drag Team Member Agent onto Ticket"
 
 ---
@@ -1296,6 +1313,11 @@
 3. **WHEN** the *Ticket* moves to done and no other *Tickets* remain in progress for the same *Stage*
    **THEN** the *Stage* column remains visible
    **BUT** the in-progress sub-column is empty
+   **Evidence:** story-map.md — "Move Ticket to Done on Agent Completion"
+
+4. **WHEN** the user manually drags a *Ticket* into a *Stage* done sub-column
+   **THEN** the *Ticket* remains in that *Stage* done sub-column on the next board refresh
+   **AND** the board does not reclassify the *Ticket* back to in-progress solely because stage skills are incomplete
    **Evidence:** story-map.md — "Move Ticket to Done on Agent Completion"
 
 ---

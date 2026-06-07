@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """Check that every term in a story's Domain terms section exists in a domain source artifact.
 
 Scans ``acceptance-criteria.md`` (or the workspace folder containing it), extracts every
@@ -6,8 +6,8 @@ term from ``### Domain terms`` sections, then checks each term against every dom
 file found in the same folder.
 
 Domain source files recognised (case-insensitive, any of):
-    ubiquitous-language.md, domain-language.md, domain-sketch.md,
-    crc.md, object-model.md
+    domain-language.md, domain-language.md, domain-sketch.md,
+    domain model.md, class-model.md
 
 Rules enforced:
   1. If ANY domain source exists and a term is not found in any of them → WARNING.
@@ -44,11 +44,11 @@ for _p in (
 # Known domain source filenames (lowercase)
 # ---------------------------------------------------------------------------
 _DOMAIN_SOURCES = {
-    "ubiquitous-language.md",
+    "domain-language.md",
     "domain-language.md",
     "domain-sketch.md",
-    "crc.md",
-    "object-model.md",
+    "domain model.md",
+    "class-model.md",
 }
 
 # ---------------------------------------------------------------------------
@@ -153,7 +153,7 @@ def scan(workspace: Path) -> List[Tuple[str, str]]:
         violations.append((
             "ERROR",
             f"`domain-terms.md` exists alongside domain source files ({source_names}). "
-            "Merge `domain-terms.md` into the ubiquitous language and delete it. "
+            "Merge `domain-terms.md` into the Domain Language and delete it. "
             "NEVER create `domain-terms.md` when any domain source exists."
         ))
 
@@ -163,7 +163,7 @@ def scan(workspace: Path) -> List[Tuple[str, str]]:
             "WARNING",
             "No domain source files found in workspace. "
             "Domain modeling has not been done. "
-            "Create a ubiquitous language before writing AC domain terms, "
+            "Create a Domain Language before writing AC domain terms, "
             "or use `domain-terms.md` as a temporary bootstrap — flag this to the user."
         ))
         return violations
@@ -181,7 +181,7 @@ def scan(workspace: Path) -> List[Tuple[str, str]]:
                 "WARNING",
                 f'Story "{story_name}": term *{term}* not found in any domain source '
                 f"({source_names}). "
-                "Flag to user — decide: add to ubiquitous language, use an existing term, or skip."
+                "Flag to user — decide: add to Domain Language, use an existing term, or skip."
             ))
 
     return violations

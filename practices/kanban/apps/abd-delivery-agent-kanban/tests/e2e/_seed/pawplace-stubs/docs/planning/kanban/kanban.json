@@ -3,7 +3,7 @@
   "stage_configuration": "pawplace-stubs",
   "definitions": {
     "pawplace-stubs": {
-      "label": "PawPlace stubs â€” fixture mode, return immediately",
+      "label": "PawPlace stubs — fixture mode, return immediately",
       "strategy": {
         "scatter_rules": {
           "all_to_increment": "one ticket per increment from discovery/stories/thin-slicing.md",
@@ -24,7 +24,7 @@
           "name": "shaping",
           "scope": "all",
           "stage_work_required": [
-            { "skill": "abd-module-partition", "role": "business-expert" },
+            { "skill": "abd-domain-partition", "role": "business-expert" },
             { "skill": "abd-story-mapping", "role": "product-owner" },
             { "skill": "abd-impact-mapping", "role": "ux-designer" },
             { "skill": "abd-architecture-outline", "role": "engineer" }
@@ -45,20 +45,20 @@
           "name": "exploration",
           "scope": "increment",
           "stage_work_required": [
-            { "skill": "abd-ubiquitous-language", "role": "business-expert" },
+            { "skill": "abd-domain-language", "role": "business-expert" },
             { "skill": "abd-acceptance-criteria", "role": "product-owner" },
             { "skill": "abd-ux-mockup", "role": "ux-designer" },
-            { "skill": "abd-architecture-template", "role": "engineer", "run_when": "increment_needs_undocumented_mechanisms" }
+            { "skill": "abd-architecture-specification", "role": "engineer", "run_when": "increment_needs_undocumented_mechanisms" }
           ]
         },
         {
           "name": "specification",
           "scope": "sprint",
           "stage_work_required": [
-            { "skill": "abd-class-responsibility-collaborator", "role": "business-expert" },
+            { "skill": "abd-domain-model", "role": "business-expert" },
             { "skill": "abd-specification-by-example", "role": "product-owner" },
             { "skill": "abd-interface-design", "role": "ux-designer" },
-            { "skill": "abd-architecture-reference", "role": "engineer", "run_when": "sprint_needs_missing_reference_or_code" }
+            { "skill": "abd-architecture-specification", "role": "engineer", "run_when": "sprint_needs_missing_reference_or_code" }
           ]
         },
         {
@@ -66,7 +66,7 @@
           "scope": "sprint",
           "stage_work_required": [
             { "skill": "abd-interface-design", "role": "ux-designer" },
-            { "skill": "abd-object-model", "role": "business-expert" },
+            { "skill": "abd-domain-implementation", "role": "business-expert" },
             { "skill": "abd-acceptance-test-driven-development", "role": "product-owner" },
             { "skill": "abd-clean-code", "role": "engineer" }
           ]

@@ -1,4 +1,4 @@
-# ABD Kanban Lead
+﻿# ABD Kanban Lead
 
 > **Turn 1 — resolve `workspace`, use **AskQuestion** (board UI) per [session-bootstrap.md](../reference/session-bootstrap.md), read [pull-model.md](../reference/pull-model.md), and complete kanban-lead loop wiring before anything else.**
 >
@@ -181,7 +181,7 @@ Read [pull-model.md](../reference/pull-model.md) **section B** every scan cycle.
 
 For **each** role in `kanban.json` `team` (`business-expert`, `product-owner`, `ux-designer`, `engineer`):
 
-1. Count **eligible skills** for that role on all **active** tickets (pull-model eligibility — all stages). For **`abd-architecture-reference`** / **`abd-architecture-template`**: count as eligible only when priors are done and the skill is unset — the **executor** runs the assign/create gate on pull; the lead **does not** assume a full run is needed.
+1. Count **eligible skills** for that role on all **active** tickets (pull-model eligibility — all stages). For **`abd-architecture-specification`** / **`abd-architecture-specification`**: count as eligible only when priors are done and the skill is unset — the **executor** runs the assign/create gate on pull; the lead **does not** assume a full run is needed.
 2. Count **in_progress** claims for that role.
 3. Check heartbeat age for that role (`heartbeat-<role>.json`, and `-be2` etc. if team count > 1).
 

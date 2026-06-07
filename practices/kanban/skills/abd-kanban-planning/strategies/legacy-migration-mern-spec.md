@@ -1,6 +1,6 @@
-# Strategy: Legacy Migration â†’ MERN (spec stop)
+# Strategy: Legacy Migration ? MERN (spec stop)
 
-**When to use:** Replacing BESS28 (or similar legacy NonStop) with a **domain-first MERN** target. Legacy **source + code research** is the behavioral spec. **No runnable legacy system** â€” ATDD RED tests are written against documented legacy behavior for the **new** stack only. **Stop at specification** â€” no engineering/clean-code until a later engagement.
+**When to use:** Replacing BESS28 (or similar legacy NonStop) with a **domain-first MERN** target. Legacy **source + code research** is the behavioral spec. **No runnable legacy system** — ATDD RED tests are written against documented legacy behavior for the **new** stack only. **Stop at specification** — no engineering/clean-code until a later engagement.
 
 **Typical scope:** Grouped by module-partition boundaries from `context/` + `code-research/`.
 
@@ -12,59 +12,59 @@
 
 | Stage | Scope | Skills (ordered) |
 | --- | --- | --- |
-| Context | â€” | **Skip** â€” BESS28 Source is readable; `code-research/` already indexed |
-| Shaping | **project** | **module-partition** (detailed â€” use `code-research/` + `context/BESS28 Source/`), **bounded-context-map**, **story-mapping** (outline from legacy flows), **architecture-outline** (MERN target â€” read `mern-technical-architecture`) |
+| Context | — | **Skip** — BESS28 Source is readable; `code-research/` already indexed |
+| Shaping | **project** | **module-partition** (detailed — use `code-research/` + `context/BESS28 Source/`), **bounded-context-map**, **story-mapping** (outline from legacy flows), **architecture-outline** (MERN target — read `specs/mern` + `abd-architecture-code`) |
 | Discovery | **partition** | **domain-terms**, **story-mapping** (full), **thin-slicing**, **architecture-blueprint**, **information-architecture** (optional) |
-| Exploration | **increment** | **ubiquitous-language**, **acceptance-criteria** (legacy behavior is spec), **ux-mockup** (optional), **architecture-reference** (assign/create MERN mechanism reference from blueprint â€” gate at execution) |
-| Specification | **sprint** | **CRC**, **spec-by-example**, **interface-design** (optional), **architecture-template** (MERN mechanism templates for sprint scope) |
-| Engineering | **sprint** | **ATDD RED only (PO)** (tests for new system; legacy research + spec as oracle â€” **no old-system execution**). No object-model, clean-code, or GREEN â€” engagement stops after RED tests. |
+| Exploration | **increment** | **domain-language**, **acceptance-criteria** (legacy behavior is spec), **ux-mockup** (optional), **architecture-reference** (assign/create MERN mechanism reference from blueprint — gate at execution) |
+| Specification | **sprint** | **domain model**, **spec-by-example**, **interface-design** (optional), **architecture-template** (MERN mechanism templates for sprint scope) |
+| Engineering | **sprint** | **ATDD RED only (PO)** (tests for new system; legacy research + spec as oracle — **no old-system execution**). No class-model, clean-code, or GREEN — engagement stops after RED tests. |
 
-### Shaping â€” module partition (mandatory depth)
+### Shaping — module partition (mandatory depth)
 
 1. Read merged `code-research/agent-1-explorer/research-paths.md`, `sources.md`, and all `agent-2-deep-dive/*.md`.
-2. Walk `context/BESS28 Source/` â€” every file must appear in partition (`full-source-coverage` scanner).
-3. Produce **6â€“8 modules** aligned to migration increments (payment, wire-room, messaging, access, platform-runtime, external-integration, persistence, operations â€” or better names from source).
+2. Walk `context/BESS28 Source/` — every file must appear in partition (`full-source-coverage` scanner).
+3. Produce **6–8 modules** aligned to migration increments (payment, wire-room, messaging, access, platform-runtime, external-integration, persistence, operations — or better names from source).
 4. Cross-reference code-research path names in each module's scope statement.
 
 ### Architecture target
 
-- **`mern-technical-architecture`** â€” domain-first `packages/<domain>/{shared,server,client,tests}`.
-- **Tighter domain structure:** one MERN package per partition module; shared kernel only for true cross-cutting types (ICN, office, queue envelope) â€” not a generic util dump.
-- Blueprint maps each legacy server/requestor cluster â†’ MERN domain module + layer participants.
+- **`specs/mern`** via **`abd-architecture-code`** — domain-first `packages/<domain>/{shared,server,client,tests}`.
+- **Tighter domain structure:** one MERN package per partition module; shared kernel only for true cross-cutting types (ICN, office, queue envelope) — not a generic util dump.
+- Blueprint maps each legacy server/requestor cluster ? MERN domain module + layer participants.
 
 ### ATDD policy (no legacy runtime)
 
 | Standard legacy-migration | This strategy |
 | --- | --- |
-| Tests pass on OLD system first | **Not applicable** â€” no runnable BESS28 |
+| Tests pass on OLD system first | **Not applicable** — no runnable BESS28 |
 | Characterization from production | **Code research + source excerpts + spec-by-example** are the oracle |
-| GREEN on new system in engineering | **Deferred** â€” engineering stage delivers **RED** acceptance tests only |
+| GREEN on new system in engineering | **Deferred** — engineering stage delivers **RED** acceptance tests only |
 
 ---
 
 ## Scatter rules
 
-**Partitioning enabled** (`abd-module-partition` in shaping). Four ticket tiers: **project â†’ partition â†’ increment â†’ sprint**.
+**Partitioning enabled** (`abd-domain-partition` in shaping). Four ticket tiers: **project ? partition ? increment ? sprint**.
 
 | Transition | Rule |
 | --- | --- |
-| Shaping (project) â†’ Discovery (partition) | One **partition** ticket per **module** from module-partition. Order: simplest boundary â†’ dependencies â†’ remainder |
-| Discovery (partition) â†’ Exploration (increment) | One **increment** ticket per thin-slice from partition thin-slicing; **each increment = 10â€“20 stories** (merge MVIs if needed); JIT after partition discovery complete |
-| Exploration (increment) â†’ Specification (sprint) | 3â€“4 stories per sprint by data domain |
+| Shaping (project) ? Discovery (partition) | One **partition** ticket per **module** from module-partition. Order: simplest boundary ? dependencies ? remainder |
+| Discovery (partition) ? Exploration (increment) | One **increment** ticket per thin-slice from partition thin-slicing; **each increment = 10–20 stories** (merge MVIs if needed); JIT after partition discovery complete |
+| Exploration (increment) ? Specification (sprint) | 3–4 stories per sprint by data domain |
 
-### Increment sizing (scope call â€” BESS28 2026-05-31)
+### Increment sizing (scope call — BESS28 2026-05-31)
 
-Kanban lead verified story counts: **modules = 35â€“60 stories each** â†’ modules are **partitions**, not increments. Existing 2â€“10 story MVIs are **too small**; merge into **~3â€“4 increments per module** before scatter. See `<workspace>/docs/planning/delivery-war-room/scope-call.md`.
+Kanban lead verified story counts: **modules = 35–60 stories each** ? modules are **partitions**, not increments. Existing 2–10 story MVIs are **too small**; merge into **~3–4 increments per module** before scatter. See `<workspace>/docs/planning/delivery-war-room/scope-call.md`.
 
-When **no** module-partition: project runs shaping through discovery and scatters directly to **increments** (three tiers â€” no partition tickets).
+When **no** module-partition: project runs shaping through discovery and scatters directly to **increments** (three tiers — no partition tickets).
 
 ---
 
 ## JIT policy
 
 - Scatter all **partitions** after shaping (boundaries from module-partition)
-- Scatter **increments** JIT â€” current partition only
-- Scatter sprints JIT â€” current increment only
+- Scatter **increments** JIT — current partition only
+- Scatter sprints JIT — current increment only
 - After first increment proves pattern: scatter next 2 increments
 
 ---
@@ -81,7 +81,7 @@ When **no** module-partition: project runs shaping through discovery and scatter
 
 ## Key constraints
 
-- Legacy **source behavior** is the spec â€” do not invent features.
-- **Stop after ATDD RED** â€” engineering column runs RED tests only; no `abd-clean-code`, no GREEN in this engagement.
-- **Wrong partition = wrong migration** â€” confirm module boundaries before Discovery.
+- Legacy **source behavior** is the spec — do not invent features.
+- **Stop after ATDD RED** — engineering column runs RED tests only; no `abd-clean-code`, no GREEN in this engagement.
+- **Wrong partition = wrong migration** — confirm module boundaries before Discovery.
 - MERN packages follow **domain module** boundaries from partition, not legacy folder names.

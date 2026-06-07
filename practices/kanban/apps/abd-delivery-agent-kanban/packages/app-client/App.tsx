@@ -1,31 +1,22 @@
 import { useEffect, useState } from 'react';
 import { Link, Route, Routes } from 'react-router-dom';
-import {
-  DeliveryKanbanBoard,
-  fetchDefaultPlanningRoot,
-  useDeliveryBoardPoll,
-  updatePlanningRoot,
-} from '@deliveryforge/delivery-board-client';
+import { KanbanBoardView } from './KanbanBoardView';
+import { KanbanBoard } from '@deliveryforge/kanban-client';
 import { HomePage } from './pages/HomePage';
-import {
-  DEFAULT_PLANNING_ROOT,
-  resolvePlanningRoot,
-  savePlanningRootOverride,
-} from './planningRoot';
 
 function BoardPage() {
-  const [planningRoot, setPlanningRoot] = useState(resolvePlanningRoot);
+  const [planningRoot, setPlanningRoot] = useState(KanbanBoard.resolvePlanningRoot);
   const [inputRoot, setInputRoot] = useState(planningRoot);
   const [message, setMessage] = useState<string | null>(null);
   const [theme, setTheme] = useState<'engineering' | 'executive'>(() =>
     (localStorage.getItem('theme') as 'engineering' | 'executive') ?? 'engineering',
   );
-  const { snapshot, error, loading, refresh, injectSnapshot } = useDeliveryBoardPoll(planningRoot);
+  const { snapshot, error, loading, refresh, injectSnapshot } = KanbanBoard.usePoll();
 
   useEffect(() => {
     if (import.meta.env.VITE_PLANNING_ROOT) return;
 
-    void fetchDefaultPlanningRoot()
+    void KanbanBoard.fetchConfig()
       .then((serverRoot) => {
         if (!serverRoot || serverRoot === planningRoot) return;
         setPlanningRoot(serverRoot);
@@ -44,8 +35,8 @@ function BoardPage() {
 
   async function applyPlanningRoot() {
     try {
-      await updatePlanningRoot(inputRoot);
-      savePlanningRootOverride(inputRoot);
+      await KanbanBoard.updateConfig(inputRoot);
+      KanbanBoard.savePlanningRootOverride(inputRoot);
       setPlanningRoot(inputRoot);
       setMessage('Planning folder connected.');
       await refresh();
@@ -55,12 +46,12 @@ function BoardPage() {
   }
 
   async function useDefaultFixture() {
-    setInputRoot(DEFAULT_PLANNING_ROOT);
+    setInputRoot(KanbanBoard.DEFAULT_PLANNING_ROOT);
     try {
-      await updatePlanningRoot(DEFAULT_PLANNING_ROOT);
+      await KanbanBoard.updateConfig(KanbanBoard.DEFAULT_PLANNING_ROOT);
       localStorage.removeItem('planningRootOverride');
       localStorage.removeItem('planningRoot');
-      setPlanningRoot(DEFAULT_PLANNING_ROOT);
+      setPlanningRoot(KanbanBoard.DEFAULT_PLANNING_ROOT);
       setMessage('Connected to default fixture (pawplace-stubs).');
       await refresh();
     } catch (err) {
@@ -111,7 +102,7 @@ function BoardPage() {
       {error ? <div className="status-banner error">{error}</div> : null}
 
       {snapshot ? (
-        <DeliveryKanbanBoard
+        <KanbanBoardView
           snapshot={snapshot}
           onTeamUpdate={injectSnapshot}
           onModeToggle={injectSnapshot}

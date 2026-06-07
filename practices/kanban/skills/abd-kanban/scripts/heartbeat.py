@@ -1,4 +1,4 @@
-"""
+﻿"""
 heartbeat.py
 
 Domain area   : Agent and Skills — Heartbeat
@@ -20,7 +20,7 @@ STALE_THRESHOLD_SECONDS = 120.0
 class Heartbeat:
     """A point-in-time liveness signal from an agent.
 
-    CRC responsibilities:
+    domain model responsibilities:
       - timestamp of last activity
       - age in seconds
       - determine liveness → Agent, Ticket

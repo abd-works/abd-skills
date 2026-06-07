@@ -440,7 +440,7 @@
   min-height: 40px;
 }
 
-/* ---- Stage skills bar — stacked vertically, fixed height so all stages align ---- */
+/* ---- Stage skills bar — stacked vertically ---- */
 .kb-stage-skills {
   display: flex;
   flex-direction: column;
@@ -448,8 +448,6 @@
   padding: 5px 6px 6px;
   background: var(--abd-raised);
   border-top: 1px solid var(--abd-border);
-  height: 180px;
-  overflow-y: auto;
   flex-shrink: 0;
   box-sizing: border-box;
 }
@@ -1007,3 +1005,141 @@
   border-left: 3px solid var(--abd-accent, #4a9eff);
 }
 
+
+/* -- Agent Stream Panels ------------------------------------------------------- */
+
+.kb-stream-panels-row {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  padding: 8px 2px 12px;
+  overflow-x: auto;
+}
+
+.kb-stream-panel {
+  width: 280px;
+  min-width: 240px;
+  max-width: 340px;
+  background: #0e0e10;
+  border: 1px solid #2a2a2a;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.kb-stream-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 10px;
+  background: #18181b;
+  border-bottom: 1px solid #2a2a2a;
+}
+
+.kb-stream-panel-title {
+  font-size: 11px;
+  font-weight: 600;
+  color: #a1a1aa;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.kb-stream-panel-actions {
+  display: flex;
+  gap: 4px;
+}
+
+.kb-stream-panel-btn,
+.kb-stream-panel-close {
+  background: none;
+  border: none;
+  color: #71717a;
+  cursor: pointer;
+  font-size: 12px;
+  padding: 2px 5px;
+  border-radius: 3px;
+  line-height: 1;
+}
+.kb-stream-panel-btn:hover,
+.kb-stream-panel-close:hover {
+  color: #f4f4f5;
+  background: #27272a;
+}
+
+.kb-stream-panel-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-height: 200px;
+  max-height: 420px;
+}
+
+.kb-stream-empty {
+  color: #52525b;
+  font-size: 11px;
+  text-align: center;
+  padding: 20px 0;
+}
+
+.kb-stream-bubble {
+  background: #18181b;
+  border-radius: 4px;
+  padding: 6px 8px;
+  font-size: 11px;
+  color: #d4d4d8;
+  white-space: pre-wrap;
+  word-break: break-word;
+  line-height: 1.5;
+}
+
+.kb-stream-thinking {
+  display: flex;
+  gap: 4px;
+  padding: 4px 8px;
+  align-items: center;
+}
+
+.kb-stream-dot {
+  width: 6px;
+  height: 6px;
+  background: #52525b;
+  border-radius: 50%;
+  animation: kb-stream-pulse 1.2s ease-in-out infinite;
+}
+.kb-stream-dot:nth-child(2) { animation-delay: 0.2s; }
+.kb-stream-dot:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes kb-stream-pulse {
+  0%, 80%, 100% { opacity: 0.3; transform: scale(0.8); }
+  40% { opacity: 1; transform: scale(1); }
+}
+
+.kb-stream-status {
+  font-size: 10px;
+  padding: 4px 8px;
+  border-radius: 3px;
+  text-align: center;
+}
+.kb-stream-status--done {
+  background: #14532d22;
+  color: #4ade80;
+  border: 1px solid #16a34a44;
+}
+.kb-stream-status--error {
+  background: #7f1d1d22;
+  color: #f87171;
+  border: 1px solid #dc262644;
+}
+
+/* Clickable avatar */
+.kb-agent-avatar--clickable {
+  cursor: pointer;
+}
+.kb-agent-avatar--clickable:hover {
+  filter: brightness(1.25);
+}

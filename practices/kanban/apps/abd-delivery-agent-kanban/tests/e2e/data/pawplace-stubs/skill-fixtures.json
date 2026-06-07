@@ -3,11 +3,11 @@
   "mode": "return_immediately",
   "instructions": "DO NOT execute practice skills. Copy listed sources to targets, run post_copy CLI if any, then board_skill.py complete twice. See agents/reference/skill-fixture-mode.md.",
   "fixtures": {
-    "abd-module-partition": {
+    "abd-domain-partition": {
       "default": {
         "copies": [
           {
-            "source": "skill-fixtures/abd-module-partition.md",
+            "source": "skill-fixtures/abd-domain-partition.md",
             "target": "docs/end-to-end/shaping/module-partition.md"
           }
         ]
@@ -113,12 +113,12 @@
         ]
       }
     },
-    "abd-ubiquitous-language": {
+    "abd-domain-language": {
       "default": {
         "copies": [
           {
-            "source": "skill-fixtures/abd-ubiquitous-language.md",
-            "target": "docs/increments/1-product-catalog-inc-1-find-products-and-check-store-stock/exploration/domain/ubiquitous-language.md"
+            "source": "skill-fixtures/abd-domain-language.md",
+            "target": "docs/increments/1-product-catalog-inc-1-find-products-and-check-store-stock/exploration/domain/domain-language.md"
           }
         ]
       }
@@ -150,22 +150,22 @@
         ]
       }
     },
-    "abd-architecture-template": {
+    "abd-architecture-specification": {
       "default": {
         "copies": [
           {
-            "source": "skill-fixtures/abd-architecture-template.md",
+            "source": "skill-fixtures/abd-architecture-specification.md",
             "target": "docs/increments/1-product-catalog-inc-1-find-products-and-check-store-stock/exploration/architecture/architecture-template.md"
           }
         ]
       }
     },
-    "abd-class-responsibility-collaborator": {
+    "abd-domain-model": {
       "default": {
         "copies": [
           {
-            "source": "skill-fixtures/abd-class-responsibility-collaborator.md",
-            "target": "docs/increments/1-product-catalog-inc-1-find-products-and-check-store-stock/specification/crc.md"
+            "source": "skill-fixtures/abd-domain-model.md",
+            "target": "docs/increments/1-product-catalog-inc-1-find-products-and-check-store-stock/specification/domain model.md"
           }
         ]
       }
@@ -194,22 +194,22 @@
         ]
       }
     },
-    "abd-architecture-reference": {
+    "abd-architecture-specification": {
       "default": {
         "copies": [
           {
-            "source": "skill-fixtures/abd-architecture-reference.md",
+            "source": "skill-fixtures/abd-architecture-specification.md",
             "target": "docs/increments/1-product-catalog-inc-1-find-products-and-check-store-stock/specification/architecture-reference.md"
           }
         ]
       }
     },
-    "abd-object-model": {
+    "abd-domain-implementation": {
       "default": {
         "copies": [
           {
-            "source": "skill-fixtures/abd-object-model.md",
-            "target": "docs/increments/1-product-catalog-inc-1-find-products-and-check-store-stock/engineering/object-model.md"
+            "source": "skill-fixtures/abd-domain-implementation.md",
+            "target": "docs/increments/1-product-catalog-inc-1-find-products-and-check-store-stock/engineering/class-model.md"
           }
         ]
       }

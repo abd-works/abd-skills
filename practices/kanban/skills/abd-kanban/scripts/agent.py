@@ -1,4 +1,4 @@
-"""
+﻿"""
 agent.py
 
 Domain area   : Agent and Skills — Agent
@@ -44,7 +44,7 @@ class TicketNotFoundError(Exception):
 class Agent:
     """A delivery agent that claims and completes skills on tickets.
 
-    CRC responsibilities:
+    domain model responsibilities:
       - start work on skill    → Skill, Ticket, SkillProgress
       - drive skill to done    → SkillProgress
       - write heartbeat        → Heartbeat

@@ -1,4 +1,4 @@
-# Delivery Agent Kanban — Architecture Reference
+﻿# Delivery Agent Kanban — Architecture Reference
 
 ## Table of Contents
 
@@ -23,7 +23,7 @@ Delivery Agent Kanban is a **file-mediated observer architecture** where a React
 
 This reference covers three mechanisms: **Board State Synchronization**, **Action Intent Bridge**, and **Heartbeat Liveness**.
 
-> Sources: ubiquitous-language.md (domain model); kanban_lead.py, delivery_model.py, board_skill.py (agent protocol); DeliveryKanbanBoard.tsx, useDeliveryBoardPoll.ts, KanbanBoardService.ts, warRoomWatcher.ts (front-end stack).
+> Sources: domain-language.md (domain model); kanban_lead.py, delivery_model.py, board_skill.py (agent protocol); DeliveryKanbanBoard.tsx, useDeliveryBoardPoll.ts, KanbanBoardService.ts, warRoomWatcher.ts (front-end stack).
 
 ---
 
@@ -528,7 +528,7 @@ Tests follow the project's testing standard — story-driven names, Given/When/T
 
 ## References
 
-- **Domain model:** `docs/domain/ubiquitous-language.md` — board mode, action intent, action state file, skill progress, execution status, review status, heartbeat, team member agent.
+- **Domain model:** `docs/domain/domain-language.md` — board mode, action intent, action state file, skill progress, execution status, review status, heartbeat, team member agent.
 - **Acceptance criteria:** `docs/acceptance-criteria.md` — stories for manual mode, board sync, skill execution two-pass model.
 - **Agent protocol:** `practices/kanban/reference/agent-protocol.md` — read-gates, war-room paths, verdict format.
 - **Code conventions:** `abd-clean-code` (production), `abd-acceptance-test-driven-development` (tests).

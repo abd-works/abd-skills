@@ -1,4 +1,4 @@
-# Ubiquitous language — Increment 1 (stub)
+﻿# Domain Language — Increment 1 (stub)
 
 Scope: Find products and check store stock.
 

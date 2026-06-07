@@ -1,8 +1,8 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """Validate that scenario outline example-table columns match domain model attributes.
 
-Reads ``domain.json`` from the workspace (written by the CRC, Ubiquitous Language,
-or Object Model skills as a side-effect of producing their markdown output).
+Reads ``domain.json`` from the workspace (written by the domain model, Domain Language,
+or Class Model skills as a side-effect of producing their markdown output).
 Falls back to ``domain-vocabulary.json`` if ``domain.json`` is absent.
 Every column in every scenario outline's example table must resolve to an attribute
 of some concept in the vocabulary — with inheritance walked transitively.
@@ -77,7 +77,7 @@ def _resolve_all_attributes(
 
 
 def load_vocabulary(workspace: Path) -> Optional[Dict[str, Any]]:
-    # domain.json is the primary output from CRC / UL / OM skills.
+    # domain.json is the primary output from domain model / UL / OM skills.
     # domain-vocabulary.json is the legacy name; check it as fallback.
     for candidate in ("domain.json", "domain-vocabulary.json"):
         vocab_path = workspace / candidate

@@ -8,7 +8,7 @@ description: >-
   Surface the business questions that DDD building block stereotypes encode —
   identity, consistency boundaries, ownership, and integration — and classify
   each domain concept (Entity, Value Object, Aggregate, Service, Domain Event)
-  from a CRC, object model, or ubiquitous language.
+  from a domain model, Class Model, or Domain Language.
   Use when refining a domain model with DDD stereotypes, answering identity or
   consistency questions, or when the user asks to "apply DDD building blocks"
   or "classify domain concepts."
@@ -39,7 +39,7 @@ Every DDD building block — Entity, Value Object, Aggregate, Service, Domain Ev
 
 Read these files:
 - **`reference/concepts.md`** — all building block stereotypes (Entity, Value Object, Aggregate, Repository, Factory, Service, Domain Event, Specification), cross-aggregate consistency, the business questions each stereotype surfaces, and source-fidelity guidance.
-- **`reference/examples.md`** — a worked CRC before-and-after example showing building blocks applied to an Order domain.
+- **`reference/examples.md`** — a worked domain model before-and-after example showing building blocks applied to an Order domain.
 
 ### 2. Generate
 
@@ -51,7 +51,7 @@ Read every file in **`rules/`**; author to those rules.
 | --- | --- |
 | `templates/ddd-building-blocks-template.md` | The building-blocks portrait for every concept — stereotypes, identity rules, aggregate boundaries, events, services, with business questions and rationale. |
 
-**Quality bar:** Every concept from the input model appears with at least one stereotype facet or an explicit Unresolved note. Every stereotype records the business question asked and the answer given. Concepts may express multiple stereotypes (Entity + Aggregate Root + emits Events). Write at the same fidelity as the input source (CRC notation, typed notation, or plain-English concept blocks). Include the source model and show DDD annotations layered on top.
+**Quality bar:** Every concept from the input model appears with at least one stereotype facet or an explicit Unresolved note. Every stereotype records the business question asked and the answer given. Concepts may express multiple stereotypes (Entity + Aggregate Root + emits Events). Write at the same fidelity as the input source (domain model notation, typed notation, or plain-English concept blocks). Include the source model and show DDD annotations layered on top.
 
 ### 3. Validate
 

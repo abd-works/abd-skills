@@ -1,4 +1,4 @@
-# Strategy: New Initiative — Business / User Experience Risk
+﻿# Strategy: New Initiative — Business / User Experience Risk
 
 **When to use:** The main uncertainty is whether the **product is right** for people and operations — not primarily whether the tech integrates. Signals: new user experience, unclear domain language, risky operational flows, data that must be correct in meaning.
 
@@ -14,9 +14,9 @@
 | --- | --- | --- |
 | Shaping | all | story-mapping, thin-slicing |
 | Discovery | increment | domain-terms, architecture-blueprint, information-architecture |
-| Exploration | increment | ubiquitous-language, acceptance-criteria, ux-mockup, architecture-template |
-| Specification | sprint | CRC, spec-by-example, interface-design, architecture-reference |
-| Engineering | sprint | interface-design (UX), object-model (BE), ATDD (PO), clean-code (EN) |
+| Exploration | increment | domain-language, acceptance-criteria, ux-mockup, architecture-template |
+| Specification | sprint | domain model, spec-by-example, interface-design, architecture-reference |
+| Engineering | sprint | interface-design (UX), class-model (BE), ATDD (PO), clean-code (EN) |
 
 ---
 

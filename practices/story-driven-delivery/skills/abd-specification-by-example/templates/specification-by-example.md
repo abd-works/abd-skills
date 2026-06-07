@@ -1,4 +1,4 @@
-# Specification by Example — `<Module Name>`
+﻿# Specification by Example — `<Module Name>`
 
 **Sources / context:** `<source files used>`
 
@@ -80,7 +80,7 @@ Then **`<outcome>`** is {field_2}
 
 **Story type:** user
 
-**Sources / context:** _(Payments Domain — object model: Payment Product, Customer, Account, Owner, Payment Product Agreement)_
+**Sources / context:** _(Payments Domain — Class Model: Payment Product, Customer, Account, Owner, Payment Product Agreement)_
 
 ---
 
@@ -114,7 +114,7 @@ Then the **Payment Product Agreement** is *rejected*
 
 **Story type:** user
 
-**Sources / context:** _(Payments Domain — object model: Account, Transactional Limit, Wire Payment)_
+**Sources / context:** _(Payments Domain — Class Model: Account, Transactional Limit, Wire Payment)_
 
 ---
 

@@ -1,7 +1,7 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """Project-wide mechanism registry — updated by architecture skills, not kanban lead.
 
-Skills (abd-architecture-reference, abd-architecture-template) register mechanisms
+Skills (abd-architecture-specification, abd-architecture-specification) register mechanisms
 after a create pass. Later tickets read the registry during their own skill run.
 """
 from __future__ import annotations

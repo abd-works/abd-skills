@@ -1,4 +1,4 @@
-# Kanban Board
+﻿# Kanban Board
 
 ## Core concepts
 
@@ -34,8 +34,8 @@ When scope changes between stages (e.g. shaping at "all" → discovery at "incre
 - **Shaping** (scope: all) — module-partition, story-mapping (outline), impact-mapping, architecture-outline
 - **Discovery** (scope: increment) — story-mapping (full), domain-terms, IA, architecture-blueprint
 - **Exploration** (scope: increment) — UL, acceptance-criteria, ux-mockup, arch-template (when increment needs undocumented mechanisms)
-- **Specification** (scope: sprint) — CRC, spec-by-example, interface-design, arch-reference
-- **Engineering** (scope: sprint) — interface-design, object-model, ATDD, clean-code
+- **Specification** (scope: sprint) — domain model, spec-by-example, interface-design, arch-reference
+- **Engineering** (scope: sprint) — interface-design, class-model, ATDD, clean-code
 
 ## Tickets
 
@@ -52,7 +52,7 @@ A ticket is the **unit of kanban flow**. Its scope matches the kanban board's sc
   "priority": 1,
   "created": "2026-05-27T08:00:00Z",
   "skill_progress": {
-    "abd-ubiquitous-language": { "execution_status": "done", "agent": "business-expert", "start": "...", "end": "...", "review_status": "done", "reviewer": "business-expert-reviewer", "review_start": "...", "review_end": "..." },
+    "abd-domain-language": { "execution_status": "done", "agent": "business-expert", "start": "...", "end": "...", "review_status": "done", "reviewer": "business-expert-reviewer", "review_start": "...", "review_end": "..." },
     "abd-acceptance-criteria": { "execution_status": "in_progress", "agent": "product-owner", "start": "...", "end": null, "review_status": null }
   },
   "entered_stage": "2026-05-28T10:00:00Z",

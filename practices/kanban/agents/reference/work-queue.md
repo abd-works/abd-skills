@@ -1,4 +1,4 @@
-# Work queue — agents
+﻿# Work queue — agents
 
 **Shared kanban concepts**: [../../reference/kanban-board.md](../../reference/kanban-board.md) · [../../reference/agents-and-skills.md](../../reference/agents-and-skills.md)
 
@@ -113,7 +113,7 @@ Then pull next eligible skill.
 
 ## Architecture skills
 
-`abd-architecture-template` and `abd-architecture-reference` are **always eligible** when prior skills are done — same as any stage skill. Kanban never auto-skips them; the **skill run** decides quick vs long pass.
+`abd-architecture-specification` and `abd-architecture-specification` are **always eligible** when prior skills are done — same as any stage skill. Kanban never auto-skips them; the **skill run** decides quick vs long pass.
 
 **On every claim:**
 
@@ -124,8 +124,8 @@ Then pull next eligible skill.
 
 | Skill | Mapping artifact | Registry update |
 | --- | --- | --- |
-| `abd-architecture-template` | Mechanism assignments table (assign \| create per mechanism) | After each **create** row |
-| `abd-architecture-reference` | `docs/increments/<ticket>/…/architecture-reference-assignment.md` | After each new reference section |
+| `abd-architecture-specification` | Mechanism assignments table (assign \| create per mechanism) | After each **create** row |
+| `abd-architecture-specification` | `docs/increments/<ticket>/…/architecture-reference-assignment.md` | After each new reference section |
 
 Full workflow: each skill's `reference/concepts.md`.
 

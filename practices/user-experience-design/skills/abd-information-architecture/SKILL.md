@@ -49,8 +49,8 @@ Read every file in **`rules/`**; author to those rules.
 
 **Method (13-step build):**
 
-1. Resolve inputs: story map, scope filter, ubiquitous language file.
-2. Filter story map by scope; read the ubiquitous language.
+1. Resolve inputs: story map, scope filter, Domain Language file.
+2. Filter story map by scope; read the Domain Language.
 3. Identify screens by tab state (N tabs = N screens). Check ~4 story budget per screen.
 4. Walk every story — produce a **story trace table** (story → screen → region → action/trigger). Every cell must be filled before proceeding.
 5. Walk every in-scope domain term — produce a **domain term trace table** (term → appears as → on screen → in region).

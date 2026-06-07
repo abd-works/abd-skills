@@ -1,0 +1,32 @@
+﻿---
+description: Survey any codebase in two passes — Explorer then Deep Dive — to produce structured research that primes abd-architecture-outline, abd-architecture-blueprint, and abd-architecture-specification.
+globs:
+  - "code-research/**"
+  - "coh-research/**"
+  - "arch-research/**"
+alwaysApply: false
+---
+# abd-code-research (always-on for research output folders)
+
+When the user opens or edits files under `code-research/`, `coh-research/`, or `arch-research/`, apply the **abd-code-research** skill:
+
+**Skill location:** `.cursor/skills/abd-code-research/SKILL.md`
+
+**Non-negotiable rules:**
+- Every research path in `research-paths.md` must cite real file evidence (path + line range).
+- Every entry in `sources.md` must be a verbatim excerpt with file path and line range — no paraphrases.
+- Every deep-dive file must contain all five sections: Principles & Patterns, File Structure, Participants, Flow, Walkthrough Example.
+- `research-paths.md` must contain 5–10 paths — group when over 10, flag when under 5.
+- One deep-dive file per research path; filename in kebab-case matching the path name.
+
+**Output folder convention:**
+```
+<project-root>/code-research/
+├── agent-1-explorer/
+│   ├── research-paths.md
+│   └── sources.md
+└── agent-2-deep-dive/
+    └── <path-name>.md  (one per research path)
+```
+
+Read the full skill before starting: `.cursor/skills/abd-code-research/SKILL.md`

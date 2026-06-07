@@ -1,5 +1,5 @@
----
-state: ubiquitous-language
+﻿---
+state: domain-language
 ---
 
 # Module: [Delivery Agent Kanban]
@@ -10,25 +10,30 @@ Scope: How delivery work is modeled and tracked: the kanban board with its order
 
 **Terms**:
 - **Kanban Board**
-  - **kanban board** — the blueprint of ordered stages, scope levels, and skills that governs ticket flow — live with tickets flowing through stages
-  - **team** — the collection executor/reviewer pairs and their counts per agent role configured on the board
-  - **ticket** — a unit of work at the scope level its current stage requires, carrying lineage, priority, and skill progress entries created as work starts
-  - **board position** — the stage a ticket currently occupies
-  - **skill progress** — the per-skill execution and review state created on a ticket when an agent starts work
-  - **stage** — a named phase of delivery work: context, shaping, discovery, exploration, specification, or engineering; a column on the board holding a queue, in-progress, and done tickets
-  - **stage work required** — the ordered list of skills required by a stage
-  - **board mode** — a setting on the kanban board that determines whether the kanban lead acts automatically or waits for user-directed action intents (manual mode)
-  - **action intent** — a record written to the action state file by the app when the Delivery Lead assigns a team member agent to a ticket in manual mode
-  - **action state file** — the file the app writes action intents to and the kanban lead watches for changes; lives alongside board.json in the kanban directory
+  - *kanban board* — the blueprint of ordered stages, scope levels, and skills that governs ticket flow — live with tickets flowing through stages
+  - *team* — the collection executor/reviewer pairs and their counts per agent role configured on the board
+  - *ticket* — a unit of work at the scope level its current stage requires, carrying lineage, priority, and skill progress entries created as work starts
+  - *board position* — the stage a ticket currently occupies
+  - *skill progress* — the per-skill execution and review state created on a ticket when an agent starts work
+  - *stage* — a named phase of delivery work: context, shaping, discovery, exploration, specification, or engineering; a column on the board holding a queue, in-progress, and done tickets
+  - *stage work required* — the ordered list of skills required by a stage
+  - *board mode* — a setting on the kanban board that determines whether the kanban lead acts automatically or waits for user-directed action intents (manual mode)
+  - *action intent* — a record written to the action state file by the app when the Delivery Lead assigns a team member agent to a ticket in manual mode
+  - *action state file* — the file the app writes action intents to and the kanban lead watches for changes; lives alongside board.json in the kanban directory
 - **Agent and Skills**
-  - **skill** — a named practice method (e.g. abd-ubiquitous-language, abd-clean-code) that an agent executes on a ticket at a stage
-  - **agent** — an autonomous worker with a delivery role and a work role (executor or reviewer) that starts work on skills for active tickets
-  - **heartbeat** — a timestamp written by each agent recording last activity; age determines liveness
-  - **team member agent** — an agent operating in one of the four delivery roles that the kanban lead delegates skill execution to; distinguished from the kanban lead which orchestrates but does not execute skills
+  - *skill* — a named practice method (e.g. abd-domain-language, abd-clean-code) that an agent executes on a ticket at a stage
+  - *agent* — an autonomous worker with a delivery role and a work role (executor or reviewer) that starts work on skills for active tickets; base class extended by kanban lead and team member; reads its agent definition to know its role, skills, and workflow; lifecycle managed via Cursor SDK agent sessions
+  - *agent definition* — the AGENT.md file for a role that defines identity, skills, workflow, and bootstrap instructions; located at practices/kanban/agents/{role}/AGENT.md
+  - *agent session* — a running Cursor SDK session representing an active agent; replaces heartbeat files for tracking liveness
+  - *bootstrap prompt* — the prompt assembled from the agent definition, workspace path, and role that initializes an agent session via the Cursor SDK
+  - *agent output stream* — the real-time message stream from a running agent session, delivered via the Cursor SDK
+  - *agent stream panel* — a UI panel beside a stage column that displays an agent's output stream; opened by clicking a team member avatar
+  - *heartbeat* — an agent liveness indicator now derived from agent session state rather than file timestamps; age determines pool avatar state
+  - *team member agent* — an agent operating in one of the four delivery roles that the kanban lead delegates skill execution to; distinguished from the kanban lead which orchestrates but does not execute skills
 
 ---
 
-_The *kanban board* defines ordered *stages* — each with a *scope level* and *skills* — and runs them live with *tickets* flowing through *stages*. A *ticket* has a *board position* — the *stage* it occupies. When all skill work at a stage is done a ticket waits in stage done; a team member with the first skill of the next stage picks it up to advance it — or it scatters into child tickets if the next stage has finer scope. *Agent roles* pull skill work from tickets. The board is acted upon by a *team*. *Heartbeats* track whether each *agent role* is alive. The board has a *board mode* — automatic or manual — that determines whether the *kanban lead* acts autonomously or waits for *action intents* written to the *action state file* by the *app* when the Delivery Lead assigns a *team member agent* to a *ticket*._
+_The *kanban board* defines ordered *stages* — each with a *scope level* and *skills* — and runs them live with *tickets* flowing through *stages*. A *ticket* has a *board position* — the *stage* it occupies. When all skill work at a stage is done a ticket waits in stage done; a team member with the first skill of the next stage picks it up to advance it — or it scatters into child tickets if the next stage has finer scope. *Agent roles* pull skill work from tickets. The board is acted upon by a *team*. Each *agent* reads its *agent definition* and is launched as an *agent session* via the Cursor SDK; the *agent output stream* from each session is visible in real time through an *agent stream panel*. *Heartbeats* track whether each *agent role* is alive — now derived from *agent session* state. The board has a *board mode* — automatic or manual — that determines whether the *kanban lead* acts autonomously or waits for *action intents* written to the *action state file* by the *app* when the Delivery Lead assigns a *team member agent* to a *ticket*._
 
 ---
 
@@ -190,38 +195,96 @@ Extract: whole
 
 ## Agent and Skills
 
-*A skill* is a named practice method (e.g. `abd-ubiquitous-language`, `abd-clean-code`) that an *agent* executes on a *ticket* at a *stage*. An *agent* is an autonomous executor that can perform skills and drives them to done. Every *agent* operates under an *agent role* — one of four delivery roles — which determines which *skills* it can start work on. *Agents* report liveness via *heartbeats*; *heartbeat* age determines whether an *agent* is alive or stale. A *team member agent* is an *agent* operating in one of the four delivery roles that the *kanban lead* delegates *skill* execution to in *manual mode*; distinguished from the *kanban lead* which orchestrates but does not execute *skills*.
+*A skill* is a named practice method (e.g. `abd-domain-language`, `abd-clean-code`) that an *agent* executes on a *ticket* at a *stage*. An *agent* is a base class extended by *kanban lead* and *team member agent*; it reads its *agent definition* to know its role, skills, and workflow. Every *agent* operates under an *agent role* — one of four delivery roles — which determines which *skills* it can start work on. *Agents* are created, started, stopped, and monitored via the Cursor SDK as *agent sessions*; Each running *agent session* provides an *agent output stream* — real-time messages visible through an *agent stream panel* in the UI. *Heartbeats* remain as a display concept for *pool avatar state* but are now derived from *agent session* liveness rather than file timestamps. A *team member agent* is an *agent* operating in one of the four delivery roles that the *kanban lead* delegates *skill* execution to; distinguished from the *kanban lead* which orchestrates but does not execute *skills*.
 
 ### skill
 
-- is a named practice method an *agent* executes on a *ticket* — e.g. `abd-ubiquitous-language`, `abd-acceptance-criteria`, `abd-clean-code`
+- is a named practice method an *agent* executes on a *ticket* — e.g. `abd-domain-language`, `abd-acceptance-criteria`, `abd-clean-code`
 - is required by a *stage* through *stage work required*
 - is performed by an *agent role*
 
 ### agent
 
-- is an autonomous worker that starts work on *skills* for active *tickets* and drives them to done
+- is the base class extended by *kanban lead* and *team member agent*
+- reads its *agent definition* to know its identity, delivery role, available *skills*, and workflow
+- starts work on *skills* for active *tickets* and drives them to done
 - has a **work role** — either executor or reviewer
 - as executor: does the *skill* work on the *ticket*
 - as reviewer: checks the *skill* work on the *ticket*
 - operates under one of four named delivery roles — product-owner, business-expert, ux-designer, or engineer — which determines which *skills* it can start work on
 - is constrained by its role's *team* count — the number of executors and reviewers that may work concurrently
-- reports liveness by writing a *heartbeat*
+- lifecycle managed via Cursor SDK *agent sessions* — created, started, stopped, and monitored through the SDK
+- reports liveness through its *agent session* state; *heartbeat* is derived from session liveness
 - **Invariant:** an *agent* may only start work on *skills* that require its role
-- **Invariant:** the *kanban lead* is a separate orchestrating role, not an *agent*
+- **Invariant:** the *kanban lead* is a separate orchestrating role, not a delivery *agent*
+- **Invariant:** an *agent* cannot run without a valid *agent definition*
+
+### agent definition
+
+- is a set of agent markdown files that collectively configure an *agent's* identity, workflow, and behavior
+- the root file is `AGENT.md` at `practices/kanban/agents/{role}/AGENT.md` — declares fixed identity (role name, slot type, playbook reference)
+- references shared workflow files that complete the definition:
+  - `reference/executor-workflow.md` — the execute-and-review workflow every team member follows
+  - `reference/session-bootstrap.md` — bootstrap protocol (resolve workspace, arm pull loop, write heartbeat)
+  - `reference/pull-model.md` — how agents pull eligible *skills* from active *tickets*
+  - `reference/work-queue.md` — claiming rules, *skill* order, rail priority
+  - `reference/roles/{role}.md` — the role's playbook (behavioral guidance specific to the delivery role)
+- the *skills* each role can execute are defined by `kanban.json` *stage work required*, not by the `AGENT.md` itself — the agent reads the board to discover its eligible work
+- is read directly by the *agent* at startup — all files are plain markdown, no intermediate parsing layer
+- **Invariant:** every *agent* role has exactly one `AGENT.md` root file
+- **Invariant:** `AGENT.md` must reference a valid workflow file
+
+### agent session
+
+- is a running Cursor SDK session representing an active *agent*
+- has a lifecycle: created → running → completed/failed
+- is created by assembling a *bootstrap prompt* from the *agent definition* and invoking the Cursor SDK
+- provides an *agent output stream* of real-time messages while running
+- determines *heartbeat* state — a running session means alive; a completed/failed session means stale
+- **Invariant:** each *agent* slot (executor or reviewer instance within a *team membership*) has at most one active *agent session* — a role with two executor slots and one reviewer slot can have up to three concurrent sessions
+- **Invariant:** an *agent session* must be in exactly one lifecycle state at any given moment
+
+### bootstrap prompt
+
+- is the prompt assembled from the *agent definition* and role that initializes an *agent session* via the Cursor SDK
+- workspace path is injected by the *kanban lead* at creation time — the lead reads it from the *kanban board's* configured workspace, not from the *agent definition*
+- combines identity, workflow instructions, and workspace context into a single initialization payload
+- is constructed by the *kanban lead* when creating an *agent session* — never hand-written at runtime
+- **Invariant:** a *bootstrap prompt* must reference a valid *agent definition*
+- **Invariant:** workspace path must come from the *kanban board*, not be hardcoded in the prompt
+
+### agent output stream
+
+- is the real-time message stream from a running *agent session*, delivered via the Cursor SDK
+- contains the agent's reasoning, tool calls, and status updates as they occur
+- is consumed by the UI to populate *agent stream panels*
+- streams only while the *agent session* is in the running state
+- **Invariant:** an *agent output stream* exists only for an *agent session* in the running state
+
+### agent stream panel
+
+- is a UI panel beside a stage column that displays an *agent's* *agent output stream*
+- opens when a user clicks a *team member agent* avatar in the pool or on a *ticket*
+- shows messages in chat-like format as they arrive from the *agent output stream*
+- multiple panels can be open side by side for different *agents*
+- closes or goes inactive when the *agent session* completes or fails
+- **Invariant:** an *agent stream panel* is always bound to exactly one *agent session*
 
 ### heartbeat
 
-- is a timestamp written by each *agent* and the *kanban lead* recording last activity
-- age is the elapsed seconds since it was last written
+- is an *agent* liveness indicator derived from *agent session* state
+- age is determined by how long since the *agent session* last emitted activity, rather than a file timestamp
 - determines *agent* liveness together with board engagement: stale *heartbeat* dims avatars only when the role has zero board engagement
+- remains the concept that drives *pool avatar state* transitions (working, idle, inactive)
 - **Invariant:** an *agent* pool avatar is **inactive** only when *heartbeat* age exceeds the staleness threshold **and** the role has zero *role engagement* on active *tickets*
 
 ### kanban lead
 
-- manages the *kanban board* — the single orchestrating role above the four delivery roles
+- is the *agent* subclass that manages the *kanban board* — the single orchestrating role above the four delivery roles
+- reads its *agent definition* from `practices/kanban/agents/kanban-lead/AGENT.md`
+- is launched as an *agent session* via the Cursor SDK
 - detects when a *stage* is complete and triggers *scatter* when needed
-- monitors *heartbeats* to determine which *agents* are alive
+- monitors *agent sessions* to determine which *agents* are alive
 - pulls *tickets* from the backlog into the first *stage*
 - reads *board mode* setting before acting — in *manual mode*, suppresses automatic pull, scatter, and advance actions
 - watches the *action state file* for changes written by the *app*
@@ -229,21 +292,28 @@ Extract: whole
 
 ### team member agent
 
-- is an *agent* operating in one of the four delivery roles (product-owner, business-expert, ux-designer, engineer) that the *kanban lead* delegates *skill* execution to
+- is the *agent* subclass operating in one of the four delivery roles (product-owner, business-expert, ux-designer, engineer) that the *kanban lead* delegates *skill* execution to
+- reads its *agent definition* from `practices/kanban/agents/{role}/AGENT.md`
+- is launched as an *agent session* via the Cursor SDK when the *kanban lead* assigns it work
 - executes a single assigned *skill* on a *ticket* when directed by the *kanban lead* via an *action intent*
 - advances the *ticket* to in progress when it starts executing its first *skill*
 - persists *skill* completion to the board state upon finishing execution
 - completes the *ticket* when all *skills* at its current *stage* are finished
+- provides an *agent output stream* visible in an *agent stream panel*
 - is distinguished from the *kanban lead* which orchestrates but does not execute *skills*
 - **Invariant:** a *team member agent* only executes *skills* that match its delivery role
 
 #### Decisions made
 
 - *Skill* and *agent* are the core concepts — role, executor/reviewer variant, and *team* constraint are properties of the *agent*, not separate concepts (independence test).
-- *Heartbeat* belongs here — it exists to report *agent* liveness and has no meaning outside *agent* monitoring (independence test). Age and liveness determination are properties of the *heartbeat*, not a separate concept.
-- Individual role names are instances of the role property on *agent*, not subtypes (typing call).
+- *Agent* is a base class with *kanban lead* and *team member agent* as subclasses — each extends the base with role-specific orchestration or execution behavior (typing call).
+- *Heartbeat* remains as a display concept for *pool avatar state* but is now derived from *agent session* liveness rather than file timestamps (mechanism change, not a new concept).
+- *Agent session* belongs here — it is the SDK-managed lifecycle that replaces file-based heartbeat polling and has no meaning outside *agent* monitoring (independence test).
+- *Agent definition* belongs here — it is the declarative identity file that an *agent* reads at startup; without it the *agent* cannot initialize (independence test).
+- *Bootstrap prompt* belongs here — it is constructed from the *agent definition* to create an *agent session* and has no standalone meaning (independence test).
+- *Agent output stream* and *agent stream panel* belong here — the stream is a property of the running *agent session* and the panel is its UI projection (independence test).
+- Individual role names remain instances of the role property on *agent*, not subtypes (typing call).
 - *Kanban lead* orchestrates the board but its full behavior belongs to the Kanban Lead module (scope-fit test).
-- *Team member agent* belongs here — it is an *agent* distinguished by its relationship to the *kanban lead* and *action intents*, not a separate type; the four delivery roles remain instances of the role property (typing call).
 
 #### References
 
@@ -261,5 +331,15 @@ Extract: whole
 Source: practices/kanban/skills/abd-kanban/reference/concepts.md
 Locator: Role agents section
 Extract: whole
+
+**Ref — Agent class hierarchy and AGENT.md structure**
+Source: practices/kanban/agents/
+Locator: {role}/AGENT.md files
+Extract: identity, skills, workflow sections
+
+**Ref — Cursor SDK agent lifecycle**
+Source: @cursor/sdk
+Locator: Agent.create, Agent.prompt, run.stream API surface
+Extract: session lifecycle and streaming interface
 
 ---
