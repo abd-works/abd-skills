@@ -70,7 +70,6 @@ Then emit per-rule verdicts per `../agent-protocol.md`.
 - **References per KA** — one `### references` per KA with fenced `source` blocks.
 - **Decisions per KA** — one `### decisions made` per KA listing gaps and ownership calls.
 - **Every walk line traces** — every domain-logic pseudocode line maps to a class and operation from the prior-phase file.
-- **State marker** — front matter reads `state: walkthrough`.
 - **No bundle markers** — `SKILL.md` has no `<!-- execute_rules:bundle_rules -->` markers.
 
 ---

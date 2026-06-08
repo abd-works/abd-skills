@@ -5,6 +5,7 @@ import { Ticket, TICKET_DRAG_ID } from '@deliveryforge/kanban-client';
 import { SkillCatalog } from '@deliveryforge/kanban-shared';
 import type {
   AgentRole,
+  AgentSessionInfo,
   BoardMode,
   KanbanBoardSnapshot,
   StageId,
@@ -20,6 +21,7 @@ export function TicketView({
   activeStagePeers = [],
   team,
   boardMode = 'automatic',
+  agentSessions,
   onTicketDragStart,
   onTicketDragEnd,
   draggingTicketRef,
@@ -32,6 +34,7 @@ export function TicketView({
   activeStagePeers?: Ticket[];
   team?: KanbanBoardSnapshot['team'];
   boardMode?: BoardMode;
+  agentSessions?: Record<string, AgentSessionInfo>;
   onResumeTicket?: (ticketId: string, targetStage: StageId, placement?: 'in_progress' | 'stage_done') => void;
   onTicketDragStart?: (ticketId: string, stage: StageId) => void;
   onTicketDragEnd?: () => void;
@@ -62,6 +65,13 @@ export function TicketView({
     skillId ? SkillCatalog.familyCssClass(SkillCatalog.familyFor(skillId)) : '';
 
   const showLiveSkillIcon = ticket.showsLiveSkillIcon(stageSubColumn);
+  const activeRoles = new Set(
+    Object.entries(agentSessions ?? {})
+      .filter(([, s]) => s.state === 'running')
+      .map(([role]) => role),
+  );
+  const showAgentRunning =
+    stageSubColumn === 'ip' && ticket.showsAgentRunning(activeRoles, stageSkills);
   const canExpand = ticket.canExpand(stageSkillIds, stageSubColumn);
   const isManual = boardMode === 'manual';
   const isDraggable = ticket.isDraggableForStageMove(boardMode, stageSubColumn);
@@ -252,13 +262,13 @@ export function TicketView({
             <span className="kb-ticket-agent-icon">
               <DoneIcon colorClass={familyClassForSkill(reviewSkillForIcon)} />
             </span>
-          ) : showLiveSkillIcon ? (
+          ) : showLiveSkillIcon || showAgentRunning ? (
             <LiveSkillIconView
               visible
               mode="bot"
               BotIcon={ChatbotIcon}
               MagnifyIcon={DoneIcon}
-              colorClass={familyClassForSkill(activeSkillForIcon)}
+              colorClass={familyClassForSkill(activeSkillForIcon ?? pendingSkillForIcon)}
             />
           ) : hasPendingIntent ? (
             <span className="kb-ticket-agent-icon">

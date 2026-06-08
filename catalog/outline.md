@@ -273,7 +273,7 @@ Deploy: `python scripts/deploy_family_package.py --package user-experience-desig
 **Skills — practice packages (SKILL.md)**
 
 - **abd-information-architecture** — [SKILL.md](../practices/kanban/user-experience-design/skills/abd-information-architecture/SKILL.md)
-- **abd-interface-design** — [SKILL.md](../practices/kanban/user-experience-design/skills/abd-interface-design/SKILL.md)
+- **abd-ux-specification** — [SKILL.md](../practices/kanban/user-experience-design/skills/abd-ux-specification/SKILL.md)
 - **abd-ux-mockup** — [SKILL.md](../practices/kanban/user-experience-design/skills/abd-ux-mockup/SKILL.md)
 
 **Content — shared prose merged on deploy**
@@ -488,7 +488,7 @@ Proposal response, AI research assistant skills, and related utilities.
 | **story-graph-ops** | `practices` | CRUD story-graph.json via CLI/scripts, validate, persist; no hand-written JSON drift. | [SKILL.md](../practices/story-driven-delivery/skills/story-graph-ops/SKILL.md) |
 | **abd-information-architecture** | `practices` | Produce a first-pass information architecture for a solution scope — a site map of screens and transitions, the navigational components that connect them, and a content model (types, hierarchy, labels, tags, key actions) for what lives on each screen — saved as a structured markdown spec and a … | [SKILL.md](../practices/kanban/user-experience-design/skills/abd-information-architecture/SKILL.md) |
 | **abd-ux-mockup** | `practices` | Lo-fi wireframes — exact controls, interactions, and states drawn in Draw.io from IA screens. | [SKILL.md](../practices/kanban/user-experience-design/skills/abd-ux-mockup/SKILL.md) |
-| **abd-interface-design** | `practices` | Translate approved hi-fi mockups into production-grade, accessible interface code. | [SKILL.md](../practices/kanban/user-experience-design/skills/abd-interface-design/SKILL.md) |
+| **abd-ux-specification** | `practices` | Translate approved hi-fi mockups into production-grade, accessible interface code. | [SKILL.md](../practices/kanban/user-experience-design/skills/abd-ux-specification/SKILL.md) |
 | **abd-architecture-outline** | `practices` | First architecture artifact — four diagrams, principles, tech stack, major systems, and ADRs on one page. | [SKILL.md](../practices/architecture-centric-engineering/skills/abd-architecture-outline/SKILL.md) |
 | **abd-architecture-blueprint** | `practices` | Second-level architecture — components in paragraphs, typed mechanisms, data model, testing strategy, and ADRs. | [SKILL.md](../practices/architecture-centric-engineering/skills/abd-architecture-blueprint/SKILL.md) |
 | **abd-architecture-reference** | `practices` | Read abd-architecture-template output and produce runnable code files — the actual implementation of one architecture mechanism — either from the current project's stories or from a built-in hello-world scenario. Use when you have an architecture-reference.md and want the code that implements it … | [SKILL.md](../practices/architecture-centric-engineering/skills/abd-architecture-reference/SKILL.md) |
@@ -1091,9 +1091,9 @@ The initial IA established the screen inventory, regions, and story coverage. Th
 - [corrections-log.md](../practices/kanban/user-experience-design/skills/abd-ux-mockup/corrections-log.md) — abd-lo-fi — corrections log
 - [SKILL.md](../practices/kanban/user-experience-design/skills/abd-ux-mockup/SKILL.md) — catalog_garden_tier: practice
 
-### abd-interface-design
+### abd-ux-specification
 
-- **Directory:** [`practices/kanban/user-experience-design/skills/abd-interface-design/`](../practices/kanban/user-experience-design/skills/abd-interface-design/)
+- **Directory:** [`practices/kanban/user-experience-design/skills/abd-ux-specification/`](../practices/kanban/user-experience-design/skills/abd-ux-specification/)
 
 **Summary:**
 
@@ -1107,11 +1107,11 @@ Hi-fi mockups settle look and feel. The interface stage is where they become rea
 
 **Repository layout:**
 
-- **[reference/](../practices/kanban/user-experience-design/skills/abd-interface-design/reference)** — Folder (1 items).
-- **[rules/](../practices/kanban/user-experience-design/skills/abd-interface-design/rules)** — Practice rules (DO/DON'T) and constraints used with scanners.
-- **[templates/](../practices/kanban/user-experience-design/skills/abd-interface-design/templates)** — Authoring templates and structural skeletons.
-- [corrections-log.md](../practices/kanban/user-experience-design/skills/abd-interface-design/corrections-log.md) — abd-interface-design — corrections log
-- [SKILL.md](../practices/kanban/user-experience-design/skills/abd-interface-design/SKILL.md) — catalog_garden_tier: practice
+- **[reference/](../practices/kanban/user-experience-design/skills/abd-ux-specification/reference)** — Folder (1 items).
+- **[rules/](../practices/kanban/user-experience-design/skills/abd-ux-specification/rules)** — Practice rules (DO/DON'T) and constraints used with scanners.
+- **[templates/](../practices/kanban/user-experience-design/skills/abd-ux-specification/templates)** — Authoring templates and structural skeletons.
+- [corrections-log.md](../practices/kanban/user-experience-design/skills/abd-ux-specification/corrections-log.md) — abd-ux-specification — corrections log
+- [SKILL.md](../practices/kanban/user-experience-design/skills/abd-ux-specification/SKILL.md) — catalog_garden_tier: practice
 
 ### abd-architecture-outline
 

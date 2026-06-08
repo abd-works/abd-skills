@@ -64,7 +64,6 @@
 -->  
 
 ---  
-state: walkthrough  
 ---  
 
 # Module: [{{ModuleName}}]  

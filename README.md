@@ -102,7 +102,7 @@ Module partition, domain terms, ubiquitous language, CRC, object model, DDD buil
 
 | Skill | One-liner |
 | --- | --- |
-| `abd-domain-terms` | Extract domain terms, group into Key Abstractions, produce the shared vocabulary |
+| `abd-domain-glossary` | Partition source into modules and extract domain terms grouped by Key Abstraction — one pass |
 | `abd-ubiquitous-language` | Rigorous shared vocabulary: terms, behaviors, collaborators, and invariants in one file |
 | `abd-class-responsibility-collaborator` | Assign responsibilities, collaborators, and invariants for every domain concept |
 | `abd-object-model` | Build a typed object model from CRC or domain knowledge before writing production code |
@@ -120,7 +120,7 @@ Information architecture, lo-fi wireframe mockups, and production interface desi
 | --- | --- |
 | `abd-information-architecture` | Site map of screens, transitions, navigational components, and content model |
 | `abd-ux-mockup` | Lo-fi Draw.io wireframes specifying exact controls, interactions, and states per screen |
-| `abd-interface-design` | Production-grade accessible interface code from approved hi-fi mockups |
+| `abd-ux-specification` | Production-grade accessible interface code from approved hi-fi mockups |
 
 ### Architecture-Centric Engineering
 

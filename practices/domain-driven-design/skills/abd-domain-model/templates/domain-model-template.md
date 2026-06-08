@@ -66,10 +66,6 @@
     - Boundary Domain is one flat group with shared references and decisions.
 -->
 
----
-state: domain-model
----
-
 # Module: [{{ModuleName}}]
 
 Scope: {{bounded slice or engagement scope}}

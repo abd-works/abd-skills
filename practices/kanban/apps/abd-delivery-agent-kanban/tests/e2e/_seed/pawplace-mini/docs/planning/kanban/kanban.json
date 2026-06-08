@@ -103,7 +103,7 @@
               "role": "product-owner"
             },
             {
-              "skill": "abd-interface-design",
+              "skill": "abd-ux-specification",
               "role": "ux-designer"
             },
             {
@@ -118,11 +118,11 @@
           "scope": "sprint",
           "stage_work_required": [
             {
-              "skill": "abd-interface-design",
+              "skill": "abd-ux-specification",
               "role": "ux-designer"
             },
             {
-              "skill": "abd-domain-implementation",
+              "skill": "abd-domain-specification",
               "role": "business-expert"
             },
             {

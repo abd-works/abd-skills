@@ -3,7 +3,7 @@
   "stage_configuration": "pawplace-mini",
   "definitions": {
     "pawplace-mini": {
-      "label": "PawPlace micro — 1 increment, full skill rails",
+      "label": "PawPlace micro ï¿½ 1 increment, full skill rails",
       "strategy": {
         "scatter_rules": {
           "all_to_increment": "one ticket per increment from discovery/stories/thin-slicing.md",
@@ -103,7 +103,7 @@
               "role": "product-owner"
             },
             {
-              "skill": "abd-interface-design",
+              "skill": "abd-ux-specification",
               "role": "ux-designer"
             },
             {
@@ -118,11 +118,11 @@
           "scope": "sprint",
           "stage_work_required": [
             {
-              "skill": "abd-interface-design",
+              "skill": "abd-ux-specification",
               "role": "ux-designer"
             },
             {
-              "skill": "abd-domain-implementation",
+              "skill": "abd-domain-specification",
               "role": "business-expert"
             },
             {

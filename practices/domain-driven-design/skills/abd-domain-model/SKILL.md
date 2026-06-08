@@ -92,7 +92,6 @@ Then emit per-rule verdicts per `../agent-protocol.md`.
 - **Constructor present** — every class with state has a constructor line before `------`.
 - **Separator markers** — `------` between constructor and properties; `----` between properties and methods.
 - **Subtype deltas only** — subtype blocks contain only added or overridden members.
-- **State marker** — front matter reads `state: domain-model`.
 - **No bundle markers** — `SKILL.md` has no `<!-- execute_rules:bundle_rules -->` markers.
 
 ---

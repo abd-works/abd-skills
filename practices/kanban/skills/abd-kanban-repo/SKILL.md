@@ -1,4 +1,4 @@
-﻿---
+---
 name: abd-kanban-repo
 catalog_garden_tier: foundational
 catalogue_one_liner: >-
@@ -161,7 +161,7 @@ git_policy:
 ```
 main
  └─ delivery/inc-1              ← created when inc-1 enters active
-      ├─ commit: inc-1.discovery.abd-domain-terms
+      ├─ commit: inc-1.shaping.abd-domain-glossary
       ├─ commit: inc-1.exploration.abd-domain-language
       ├─ commit: inc-1.exploration.abd-acceptance-criteria
       ├─ commit: inc-1.exploration.abd-ux-mockup

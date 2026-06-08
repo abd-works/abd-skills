@@ -1,21 +1,21 @@
-# Scenario Walkthrough — Concepts
+# Scenario Walkthrough ï¿½ Concepts
 
 ## Prerequisites
 
-This skill **requires a typed model or domain model** to walk through. If neither exists, run `abd-domain-model` and (optionally) `abd-domain-implementation` first. Do not invent scenarios disconnected from the modeled classes.
+This skill **requires a typed model or domain model** to walk through. If neither exists, run `abd-domain-model` and (optionally) `abd-domain-specification` first. Do not invent scenarios disconnected from the modeled classes.
 
 ## Consistent shape
 
 ```
 ## **{{KAName}}**
 
-[Optional 1–2 sentence intro: which scenarios live under this KA]
+[Optional 1ï¿½2 sentence intro: which scenarios live under this KA]
 
 ### **{{Scenario Name}}**
 **Purpose:** what this scenario validates
 **Concepts traced:** Class, Class, Class
 
-#### Walk 1 — Covers: {walk scope}
+#### Walk 1 ï¿½ Covers: {walk scope}
 ```
 object: ReturnType = new Class(param: Type, param: Type)
 result: Type = object.someMethod()
@@ -27,22 +27,22 @@ result: Type = object.someMethod()
 return
 ```
 
-#### Walk 2 — Covers: {alternate / failure path}
+#### Walk 2 ï¿½ Covers: {alternate / failure path}
 ```
-…
+ï¿½
 ```
 
 ### **{{Another Scenario}}**
-**Purpose:** …
-**Concepts traced:** …
+**Purpose:** ï¿½
+**Concepts traced:** ï¿½
 
-#### Walk 1 — Covers: …
+#### Walk 1 ï¿½ Covers: ï¿½
 ```
-…
+ï¿½
 ```
 
 ### references                              ? one per KA, peer to scenarios
-**Ref — title**
+**Ref ï¿½ title**
 Source: ...
 Locator: ...
 Extract: whole

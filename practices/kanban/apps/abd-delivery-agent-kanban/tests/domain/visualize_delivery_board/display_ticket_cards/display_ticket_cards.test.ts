@@ -12,6 +12,7 @@ import {
   type StageSkillRail,
   type RawTicket,
   type SkillProgress,
+  type StageSkill,
 } from '@deliveryforge/kanban-shared';
 
 const discoverySkills = [
@@ -71,5 +72,61 @@ describe('Scatter Ticket at Scope Boundary', () => {
     const discovery = buckets.get('discovery')!;
     expect(discovery.done.map((t) => t.ticketId)).not.toContain(ticket.ticketId);
     expect(discovery.feedsNext.map((t) => t.ticketId)).toContain(ticket.ticketId);
+  });
+});
+
+describe('Show Agent Running on Ticket Card', () => {
+  const explorationSkills: StageSkill[] = [
+    { skillId: 'abd-domain-language', label: 'Domain Language', family: 'domain-driven-design', role: 'business-expert' },
+    { skillId: 'abd-acceptance-criteria', label: 'Acceptance Criteria', family: 'story-driven-delivery', role: 'product-owner' },
+    { skillId: 'abd-architecture-specification', label: 'Arch Spec', family: 'architecture-centric-engineering', role: 'engineer' },
+  ];
+
+  function makeIpTicket(skillProgress: Record<string, SkillProgress> = {}): Ticket {
+    const raw: RawTicket = {
+      ticket_id: 'alpha-1',
+      lineage: ['Project', 'Alpha'],
+      scope_level: 'increment',
+      stage: 'exploration',
+      priority: 1,
+      skill_progress: skillProgress,
+      scatter_from: 'parent-alpha',
+      scatter_to: [],
+      entered_stage: null,
+      completed_stage: null,
+      notes: '',
+      stage_history: [],
+    };
+    const t = new Ticket(raw, 'active');
+    return t;
+  }
+
+  it('showsLiveSkillIcon is false when no skill is executing and no agent session matches', () => {
+    const ticket = makeIpTicket();
+    expect(ticket.showsLiveSkillIcon('ip')).toBe(false);
+  });
+
+  it('showsAgentRunning is true when a running session role matches a pending intent skill role', () => {
+    const ticket = makeIpTicket();
+    ticket.pendingIntentSkillIds = ['abd-domain-language'];
+
+    const activeRoles = new Set(['business-expert']);
+    expect(ticket.showsAgentRunning(activeRoles, explorationSkills)).toBe(true);
+  });
+
+  it('showsAgentRunning is false when no running session matches the pending intent skill role', () => {
+    const ticket = makeIpTicket();
+    ticket.pendingIntentSkillIds = ['abd-domain-language'];
+
+    const activeRoles = new Set(['engineer']); // engineer is not the domain-language role
+    expect(ticket.showsAgentRunning(activeRoles, explorationSkills)).toBe(false);
+  });
+
+  it('showsAgentRunning is false when there are no pending intents even if a session is running', () => {
+    const ticket = makeIpTicket();
+    ticket.pendingIntentSkillIds = [];
+
+    const activeRoles = new Set(['business-expert']);
+    expect(ticket.showsAgentRunning(activeRoles, explorationSkills)).toBe(false);
   });
 });

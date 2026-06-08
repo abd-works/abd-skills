@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Inspect Skill Progress
  *
  * Epic:     Visualize Delivery Board
@@ -287,7 +287,7 @@ describe('resolveSlotState', () => {
 });
 
 describe('countRoleEngagement', () => {
-  it('counts only live execution or review — not idle queued active tickets', () => {
+  it('counts only live execution or review � not idle queued active tickets', () => {
     const sprint1 = ticket({
       ticketId: 'inc-8-sprint-1-reviews',
       priority: 1,
@@ -648,7 +648,7 @@ describe('relocateScatterParents (via StageBucketLayout.build)', () => {
       stage: 'engineering',
       scatterFrom: '1-walk-in-driver',
       priority: 2,
-      activeSkillId: 'abd-interface-design',
+      activeSkillId: 'abd-ux-specification',
       activeAgent: 'ux-designer',
     });
     const ccSprint2 = ticket({
@@ -720,7 +720,7 @@ describe('SkillProgressSchema', () => {
           ticket_id: 't1',
           stage: 'engineering',
           skill_progress: {
-            'abd-interface-design': { execution_status: 'pending', agent: 'ux-designer' },
+            'abd-ux-specification': { execution_status: 'pending', agent: 'ux-designer' },
           },
         },
       ],
@@ -729,7 +729,7 @@ describe('SkillProgressSchema', () => {
       team: { engineer: 1 },
     });
     expect(
-      board.active[0].skill_progress['abd-interface-design'].execution_status,
+      board.active[0].skill_progress['abd-ux-specification'].execution_status,
     ).toBe('not_started');
   });
 });

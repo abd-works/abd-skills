@@ -1,4 +1,4 @@
-# War room — PawPlace micro
+# kanban board — PawPlace micro
 
 **Workspace:** `tests/e2e/data/pawplace-mini`
 
@@ -6,7 +6,7 @@
 
 One increment; full skill rails — thin-slicing in **discovery** — see `docs/end-to-end/discovery/stories/thin-slicing.md`.
 
-## War room paths
+## kanban board paths
 
 | File | Purpose |
 | --- | --- |

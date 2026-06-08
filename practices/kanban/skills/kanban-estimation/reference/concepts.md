@@ -11,7 +11,7 @@ The **thing being estimated**. It can sit at any level of the backlog hierarchy.
 - **Story** — a single user-valuable behaviour (e.g. "Submit Adoption Application"). The most common estimation level. Splits produce thin slices; merges combine stories that are too small to stand alone.
 - **Thin slice** — a minimal vertical slice through a story (e.g. "Submit application with only required fields, happy path"). The finest estimation granularity. Merges combine slices that are trivially small.
 
-Before estimating, the team must agree on **which delivery stages the estimate covers**. Use the **five bootcamp stages** from [`../../reference/stages/README.md`](../../reference/stages/README.md), plus cross-cutting test activities. Defaults apply unless the team opts in or out at session start.
+Before estimating, the team must agree on **which delivery stages the estimate covers**. Use the **five bootcamp stages** from the stage files in `reference/stages/`, plus cross-cutting test activities. Defaults apply unless the team opts in or out at session start.
 
 | Bootcamp stage | What the estimate may include | Default |
 | --- | --- | --- |
@@ -19,7 +19,7 @@ Before estimating, the team must agree on **which delivery stages the estimate c
 | **Discovery** | Full map, domain/UX IA, blueprint, thin-slice placement | *Out* |
 | **Exploration** | UL, acceptance criteria, UX mockups, architecture template | *In* (AC at minimum; mockups/template opt in per session) |
 | **Specification** | domain model, spec-by-example, interface design, architecture reference | *In* |
-| **Engineering** | `abd-interface-design` implementation (UX), Class Model (Engineer), acceptance tests / ATDD (Engineer), production code (Engineer) | *In* (interface implementation opt in when UI-heavy) |
+| **Engineering** | `abd-ux-specification` implementation (UX), Class Model (Engineer), acceptance tests / ATDD (Engineer), production code (Engineer) | *In* (interface implementation opt in when UI-heavy) |
 | **Regression testing** | Broader regression suite maintenance | *In* |
 | **User testing / UAT** | End-user validation outside the team | *Out* |
 
@@ -43,8 +43,8 @@ A **guideline that triggers proactive decomposition** when a story estimate land
 
 Default guidelines when estimating stories (coverage = exploration through engineering, including ATDD):
 
-- **Points schemes:** > 5 points → suggest splitting into smaller stories
-- **Day schemes:** > 8 days → suggest splitting into smaller stories
+- **Points schemes:** > 5 points ? suggest splitting into smaller stories
+- **Day schemes:** > 8 days ? suggest splitting into smaller stories
 
 "Days" here means the full story lifecycle through **engineering** — exploration (AC), specification, acceptance tests, and implementation — not coding time alone. The threshold is a conversation trigger, not a hard rule: the team may keep a story whole if the estimate is confident and the contributing factors are well-understood. But crossing the threshold should always prompt the question: *Can this be broken into independently deliverable pieces?*
 
@@ -72,9 +72,9 @@ Estimation forces concrete thinking, and concrete thinking changes the backlog. 
 - **New domain or UX artifacts needed** — record and note **Business Expert** or **UX Designer** extension work in the relevant stage.
 - **New items** — work not on the map. Record and feed to **`abd-story-mapping`** (Discovery).
 - **Split** — an item is too large or uncertain to estimate as one piece. The team breaks it apart. What it becomes depends on what it was:
-  - Epic → sub-epics or stories (**`abd-story-mapping`**)
-  - Story → thin slices (**`abd-thin-slicing`**)
-  - Thin slice → rarely split further; consider whether it is really a story
+  - Epic ? sub-epics or stories (**`abd-story-mapping`**)
+  - Story ? thin slices (**`abd-thin-slicing`**)
+  - Thin slice ? rarely split further; consider whether it is really a story
 - **Merge** — two or more items are too small or too similar to justify separate estimates. Combine them into one item at the same scope level (**`abd-story-mapping`**).
 
 After any backlog change, use **`story-graph-ops`** to persist the update to `story-graph.json` so the map and the estimates stay in sync.

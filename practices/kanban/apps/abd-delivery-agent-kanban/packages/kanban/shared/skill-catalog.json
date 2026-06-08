@@ -1,0 +1,138 @@
+{
+  "abd-architecture-blueprint": {
+    "family": "architecture-centric-engineering",
+    "label": "architecture blueprint"
+  },
+  "abd-architecture-code": {
+    "family": "architecture-centric-engineering",
+    "label": "architecture code"
+  },
+  "abd-architecture-outline": {
+    "family": "architecture-centric-engineering",
+    "label": "architecture outline"
+  },
+  "abd-architecture-specification": {
+    "family": "architecture-centric-engineering",
+    "label": "architecture specification"
+  },
+  "abd-clean-code": {
+    "family": "architecture-centric-engineering",
+    "label": "clean code"
+  },
+  "abd-bounded-context-map": {
+    "family": "domain-driven-design",
+    "label": "bounded context map"
+  },
+  "abd-ddd-design-building-blocks": {
+    "family": "domain-driven-design",
+    "label": "ddd design building blocks"
+  },
+  "abd-domain-code": {
+    "family": "domain-driven-design",
+    "label": "domain code"
+  },
+  "abd-domain-glossary": {
+    "family": "domain-driven-design",
+    "label": "domain glossary"
+  },
+  "abd-domain-language": {
+    "family": "domain-driven-design",
+    "label": "domain language"
+  },
+  "abd-domain-model": {
+    "family": "domain-driven-design",
+    "label": "domain model"
+  },
+  "abd-domain-specification": {
+    "family": "domain-driven-design",
+    "label": "domain specification"
+  },
+  "abd-domain-walk": {
+    "family": "domain-driven-design",
+    "label": "domain walk"
+  },
+  "drawio-domain-sync": {
+    "family": "domain-driven-design",
+    "label": "drawio domain sync"
+  },
+  "abd-cost-of-delay": {
+    "family": "idea-shaping",
+    "label": "cost of delay"
+  },
+  "abd-impact-mapping": {
+    "family": "idea-shaping",
+    "label": "impact mapping"
+  },
+  "abd-opportunity-generation": {
+    "family": "idea-shaping",
+    "label": "opportunity generation"
+  },
+  "abd-simple-validated-learning": {
+    "family": "idea-shaping",
+    "label": "simple validated learning"
+  },
+  "abd-kanban": {
+    "family": "delivery",
+    "label": "kanban"
+  },
+  "abd-kanban-handoff": {
+    "family": "delivery",
+    "label": "kanban handoff"
+  },
+  "abd-kanban-planning": {
+    "family": "delivery",
+    "label": "kanban planning"
+  },
+  "abd-kanban-repo": {
+    "family": "delivery",
+    "label": "kanban repo"
+  },
+  "kanban-estimation": {
+    "family": "delivery",
+    "label": "kanban estimation"
+  },
+  "abd-acceptance-criteria": {
+    "family": "story-driven-delivery",
+    "label": "acceptance criteria"
+  },
+  "abd-acceptance-test-driven-development": {
+    "family": "story-driven-delivery",
+    "label": "acceptance test driven development"
+  },
+  "abd-specification-by-example": {
+    "family": "story-driven-delivery",
+    "label": "specification by example"
+  },
+  "abd-story-mapping": {
+    "family": "story-driven-delivery",
+    "label": "story mapping"
+  },
+  "abd-thin-slicing": {
+    "family": "story-driven-delivery",
+    "label": "thin slicing"
+  },
+  "drawio-story-sync": {
+    "family": "story-driven-delivery",
+    "label": "drawio story sync"
+  },
+  "miro-story-sync": {
+    "family": "story-driven-delivery",
+    "label": "miro story sync"
+  },
+  "story-graph-ops": {
+    "family": "story-driven-delivery",
+    "label": "story graph ops"
+  },
+  "abd-information-architecture": {
+    "family": "user-experience-design",
+    "label": "information architecture"
+  },
+  "abd-ux-mockup": {
+    "family": "user-experience-design",
+    "label": "ux mockup"
+  },
+  "abd-ux-specification": {
+    "family": "user-experience-design",
+    "label": "ux specification"
+  }
+}

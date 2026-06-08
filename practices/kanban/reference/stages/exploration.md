@@ -1,7 +1,7 @@
 ﻿# Exploration
 
-**Pull:** When a ticket is `stage: exploration` and active, agents pull skills from `kanban.json` for this stage — same [pull-model](../../agents/reference/pull-model.md) as all stages.
-**Prior:** [discovery.md](discovery.md) · **Follow-on:** [specification.md](specification.md) · **Index:** [README.md](README.md)
+**Pull:** When a ticket is `stage: exploration` and active, agents pull skills from `kanban.json` for this stage.
+**Prior:** [discovery.md](discovery.md) · **Follow-on:** [specification.md](specification.md)
 
 ## Purpose
 
@@ -50,7 +50,7 @@ Under **`docs/increments/<n>-<slug>/exploration/`** with four concern subfolders
 2. Every in-scope story has ≥1 WHEN/THEN AC in **`story-graph.json`** (not only in markdown) when AC skill ran.
 3. Mockups match IA and exercise AC when UX skill ran.
 4. Architecture template ran for undocumented mechanisms, or skill marked skipped with rationale when all mechanisms already exist.
-5. **Ripple check:** domain ↔ AC ↔ UX ↔ arch template aligned per [README.md](README.md).
+5. **Ripple check:** domain ↔ AC ↔ UX ↔ arch template aligned.
 6. User confirmed at checkpoint.
 
 ## Handoff to next stage

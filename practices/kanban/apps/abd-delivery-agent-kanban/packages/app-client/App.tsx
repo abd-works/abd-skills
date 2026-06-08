@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react';
 import { Link, Route, Routes } from 'react-router-dom';
 import { KanbanBoardView } from './KanbanBoardView';
 import { KanbanBoard } from '@deliveryforge/kanban-client';
-import { HomePage } from './pages/HomePage';
+import { HomeView } from './pages/HomeView';
 
-function BoardPage() {
+function BoardView() {
   const [planningRoot, setPlanningRoot] = useState(KanbanBoard.resolvePlanningRoot);
   const [inputRoot, setInputRoot] = useState(planningRoot);
   const [message, setMessage] = useState<string | null>(null);
@@ -115,8 +115,8 @@ function BoardPage() {
 export default function App() {
   return (
     <Routes>
-      <Route path="/" element={<HomePage />} />
-      <Route path="/board" element={<BoardPage />} />
+      <Route path="/" element={<HomeView />} />
+      <Route path="/board" element={<BoardView />} />
     </Routes>
   );
 }

@@ -145,7 +145,7 @@ Alongside example code, produce two domain artifacts in the **same folder**:
 | File | Produced per |
 |------|--------------|
 | `specification-by-example.md` | `abd-specification-by-example` — scenarios for the story the example implements |
-| `domain-spec.md` | `abd-domain-implementation` — typed domain specification |
+| `domain-spec.md` | `abd-domain-specification` — typed domain specification |
 
 **Example layout** (`example/` or `example/`):
 

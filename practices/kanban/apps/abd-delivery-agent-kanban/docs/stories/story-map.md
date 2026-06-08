@@ -55,7 +55,7 @@
     (S) System --> Persist Planning Root Configuration
     (S) Delivery Lead --> Refresh Board from Disk
 
-(E) Watch War Room Files
+(E) Watch kanban board Files
     (S) System --> Start File Watcher on Planning Root Connection
     (S) System --> Monitor Kanban Directory for Board and Config Changes
     (S) System --> Invalidate Cached Snapshot on Watched File Change
@@ -78,7 +78,7 @@
         (S) System --> Update Skill Progress from Agent Output
     (E) Orchestrate Delivery Cycle
         (S) Kanban Lead --> Run Scan Cycle
-        (S) Kanban Board --> Pull Tickets from Backlog per WIP
+        (S) Kanban Board --> Promote Backlog Ticket on Skill Claim
         (S) Ticket --> Detect Stage Completion
         (S) Kanban Board --> Scatter Ticket at Scope Boundary
         (S) Kanban Board --> Advance Ticket to Next Stage

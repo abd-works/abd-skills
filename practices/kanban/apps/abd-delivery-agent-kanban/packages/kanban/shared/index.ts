@@ -1,6 +1,7 @@
 // ─── Agent Domain ─────────────────────────────────────────────────────────────
 export { SDK_SESSION_STALE_SECS } from './AgentLiveness';
 export type { BootstrapPrompt } from './BootstrapPrompt';
+export type { AgentStartResult, AgentStopResult, ActionIntentResult } from './AgentLifecycleResult';
 export { SkillProgress } from './SkillProgress';
 export type { SkillExecutionStatus } from './SkillProgress';
 

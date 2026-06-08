@@ -6,7 +6,6 @@
            for multi-module engagements)
 
   STANDALONE file. Does not enrich a prior phase file in place.
-  When upstream key-abstractions or domain-language output exists, read it
   and use its KAs directly — do not re-extract terms or re-identify KAs.
 
   For multi-module scope in a single file: wrap each module in a
@@ -68,10 +67,6 @@
       (### boundary_term *(boundary)*) showing only the behaviors that KA depends on.
       The # Boundary Domain entry is the canonical record; per-KA stubs are scoped views.
 -->
-
----
-state: domain-language
----
 
 # Module: [{{ModuleName}}]
 
@@ -191,10 +186,6 @@ Extract: {{whole or partial}}
 ## Example (filled — Check Resolution module, abbreviated)
 
 ```markdown
----
-state: domain-language
----
-
 # Module: [Check Resolution]
 
 _Concept sketch for the d20 resolution mechanic._

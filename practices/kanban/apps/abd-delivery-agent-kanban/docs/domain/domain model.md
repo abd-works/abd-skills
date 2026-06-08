@@ -1,4 +1,4 @@
-﻿---
+---
 state: domain-model
 ---
 
@@ -266,7 +266,7 @@ KanbanLead(DeliveryRole, WorkRole, AgentDefinition)
 ------
 ----
 monitorHeartbeats(Agent): Heartbeat
-pullTicketsFromBacklog(Stage): Ticket
+assignNextEligibleSkill(Board, AgentRole): SkillAssignment
 startTeamMemberAgent(TeamMemberPair, WorkRole): AgentSession
 stopTeamMemberAgent(AgentSession): void
 restartStaleAgent(TeamMember): AgentSession

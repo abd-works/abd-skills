@@ -1,4 +1,4 @@
-﻿---
+---
 state: domain-language
 ---
 
@@ -62,7 +62,7 @@ The *kanban board* defines an ordered set of *stages* — each with a *scope lev
 - maintains a *priority* determining its ordering within the backlog, derived from the story map and thin-slicing
 - tracks *skill progress* for each *skill* an *agent* starts work on — entries are created when work starts
 - waits in **stage done** after all *skills* complete — does not advance automatically; a *team* member with the first *skill* of the next *stage* picks it up
-- when picked up from *stage* done, either advances to the next same-scope *stage* or **scatters** — archives itself and creates child *tickets* at the finer *scope level*, each entering backlog
+- when picked up from *stage* done, either advances to the next same-scope *stage* or **scatters** — stays visible in done with a *scatter_to* reference and creates child *tickets* at the finer *scope level*, each entering backlog
 - scattered child *tickets* carry a reference to their parent *ticket* and a priority from the story map
 - records timestamps for when it entered and completed each *stage*
 - carries free-text *notes* that may signal blocked status
@@ -224,7 +224,7 @@ Extract: whole
 - is a set of agent markdown files that collectively configure an *agent's* identity, workflow, and behavior
 - the root file is `AGENT.md` at `practices/kanban/agents/{role}/AGENT.md` — declares fixed identity (role name, slot type, playbook reference)
 - references shared workflow files that complete the definition:
-  - `reference/executor-workflow.md` — the execute-and-review workflow every team member follows
+  - `reference/agent-workflow/executor-workflow.md` — the execute-and-review workflow every team member follows
   - `reference/session-bootstrap.md` — bootstrap protocol (resolve workspace, arm pull loop, write heartbeat)
   - `reference/pull-model.md` — how agents pull eligible *skills* from active *tickets*
   - `reference/work-queue.md` — claiming rules, *skill* order, rail priority
@@ -285,7 +285,7 @@ Extract: whole
 - is launched as an *agent session* via the Cursor SDK
 - detects when a *stage* is complete and triggers *scatter* when needed
 - monitors *agent sessions* to determine which *agents* are alive
-- pulls *tickets* from the backlog into the first *stage*
+- assigns eligible *skills* to available *team members* across all columns (active, done, backlog) — downstream *stages* first; promotes backlog *tickets* to active on claim
 - reads *board mode* setting before acting — in *manual mode*, suppresses automatic pull, scatter, and advance actions
 - watches the *action state file* for changes written by the *app*
 - delegates *skill* execution to the appropriate *team member agent* based on *action intents*

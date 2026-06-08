@@ -33,7 +33,7 @@ The reference document this skill produces is **not** stored under this skill. I
 |--------|-------------|
 | Runnable code under `example/` or `specs/<arch>/example/packages/` | This skill + coding/testing standards |
 | `specification-by-example.md` | `abd-specification-by-example` |
-| `domain-spec.md` | `abd-domain-implementation` |
+| `domain-spec.md` | `abd-domain-specification` |
 
 **Validation** (when example code is created or edited):
 

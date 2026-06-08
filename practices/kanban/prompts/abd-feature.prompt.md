@@ -7,11 +7,11 @@ mode: agent
 
 Run these skills in order for the feature the user described. Read each skill and follow its instructions fully before moving to the next. For DDD steps, only run them if those artifacts already exist in the project.
 
-1. **Story Map** — `abd-story-mapping`
-2. **Domain Language** _(if exists)_ — `abd-domain-language`
-3. **Acceptance Criteria** — `abd-acceptance-criteria`
-4. **domain model** _(if exists)_ — `abd-domain-model`
-5. **Spec by Example** — `abd-specification-by-example`
-6. **Class Model** _(if exists)_ — `abd-domain-implementation`
-7. **Acceptance Tests (RED)** — `abd-acceptance-test-driven-development`
-8. **Production Code (GREEN)** — `abd-clean-code`
+1. **Story Map** ï¿½ `abd-story-mapping`
+2. **Domain Language** _(if exists)_ ï¿½ `abd-domain-language`
+3. **Acceptance Criteria** ï¿½ `abd-acceptance-criteria`
+4. **domain model** _(if exists)_ ï¿½ `abd-domain-model`
+5. **Spec by Example** ï¿½ `abd-specification-by-example`
+6. **Class Model** _(if exists)_ ï¿½ `abd-domain-specification`
+7. **Acceptance Tests (RED)** ï¿½ `abd-acceptance-test-driven-development`
+8. **Production Code (GREEN)** ï¿½ `abd-clean-code`

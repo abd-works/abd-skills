@@ -1,4 +1,4 @@
-﻿---
+---
 state: domain-model
 ---
 
@@ -295,7 +295,7 @@ Agent is the base class for all role agents. KanbanLead and TeamMember extend it
 ------
 ----
 + monitorHeartbeats(agents: List<Agent>): List<Heartbeat>
-+ pullTicketsFromBacklog(stage: Stage): List<Ticket>
++ assignNextEligibleSkill(board: Board, role: AgentRole): SkillAssignment
 + startTeamMemberAgent(pair: TeamMemberPair, workRole: WorkRole): AgentSession
 + stopTeamMemberAgent(session: AgentSession): void
 + restartStaleAgent(teamMember: TeamMember): AgentSession

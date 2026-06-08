@@ -122,7 +122,7 @@ Each spec directory has a **`templates/`** folder — a parameterized scaffold t
 
 **a. Example first.** Build the runnable example before writing the documentation:
 
-1. **Domain spec** — produce `domain-spec.md` following `abd-domain-implementation`.
+1. **Domain spec** — produce `domain-spec.md` following `abd-domain-specification`.
 2. **Spec by example** — produce `specification-by-example.md` following `abd-specification-by-example`.
 3. **Tests** — write acceptance tests from the scenarios following `abd-acceptance-test-driven-development`.
 4. **Code** — write the production code from the spec's `templates/` (replace placeholders with domain values), following `abd-clean-code` and the spec's own `rules/`.

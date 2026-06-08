@@ -92,40 +92,5 @@ When a concept owns multiple related objects **and** the collection has unique b
 
 ---
 
-## Consistent shape
 
-```
-## **{{KAName}}**
-
-### **{{ka_name_as_a_Class}}**
-
-ClassName(Type, Type)
-------
-propertyName: Type
-	Invariant: rule
-anotherProperty: Type
-----
-methodName(Type): ReturnType
-	CollaboratorType
-	Invariant: rule
-anotherMethod(): void
-
-### **{{ChildClass}} : {{ParentClass}}**
-
-ChildClass(Type)
-------
-----
-deltaMethod(Type): ReturnType
-	Invariant: rule
-
-### references                              ← one per KA, peer to classes
-**Ref — title**
-Source: ...
-Locator: ...
-Extract: whole
-
-### decisions made                          ← one per KA, peer to classes
-- decision rationale
-```
-
-The Boundary Domain is one flat section — all boundary classes share a single `# Boundary Domain` group with one `### references` and one `### decisions made` at the bottom.
+See `../templates/` for the canonical file shape.

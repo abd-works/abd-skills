@@ -33,7 +33,7 @@
           "name": "shaping",
           "scope": "all",
           "stage_work_required": [
-            { "skill": "abd-domain-partition", "role": "product-owner" },
+            { "skill": "abd-domain-glossary", "role": "business-expert" },
             { "skill": "abd-story-mapping", "role": "product-owner" },
             { "skill": "abd-impact-mapping", "role": "product-owner" },
             { "skill": "abd-architecture-outline", "role": "engineer" }
@@ -44,7 +44,6 @@
           "scope": "increment",
           "stage_work_required": [
             { "skill": "abd-story-mapping", "role": "product-owner" },
-            { "skill": "abd-domain-terms", "role": "business-expert" },
             { "skill": "abd-information-architecture", "role": "ux-designer" },
             { "skill": "abd-architecture-blueprint", "role": "engineer" }
           ]
@@ -65,7 +64,7 @@
           "stage_work_required": [
             { "skill": "abd-domain-model", "role": "business-expert" },
             { "skill": "abd-specification-by-example", "role": "product-owner" },
-            { "skill": "abd-interface-design", "role": "ux-designer" },
+            { "skill": "abd-ux-specification", "role": "ux-designer" },
             { "skill": "abd-architecture-specification", "role": "engineer" }
           ]
         },
@@ -73,8 +72,9 @@
           "name": "engineering",
           "scope": "sprint",
           "stage_work_required": [
-            { "skill": "abd-interface-design", "role": "ux-designer" },
-            { "skill": "abd-domain-implementation", "role": "business-expert" },
+            { "skill": "abd-ux-specification", "role": "ux-designer" },
+            { "skill": "abd-domain-specification", "role": "business-expert" },
+            { "skill": "abd-domain-code", "role": "business-expert", "run_when": "domain_code_only" },
             { "skill": "abd-acceptance-test-driven-development", "role": "product-owner" },
             { "skill": "abd-clean-code", "role": "engineer" }
           ]
@@ -113,7 +113,7 @@
           "name": "shaping",
           "scope": "all",
           "stage_work_required": [
-            { "skill": "abd-domain-partition", "role": "product-owner" },
+            { "skill": "abd-domain-glossary", "role": "business-expert" },
             { "skill": "abd-story-mapping", "role": "product-owner" },
             { "skill": "abd-impact-mapping", "role": "product-owner" },
             { "skill": "abd-architecture-outline", "role": "engineer" }
@@ -124,7 +124,6 @@
           "scope": "increment",
           "stage_work_required": [
             { "skill": "abd-story-mapping", "role": "product-owner" },
-            { "skill": "abd-domain-terms", "role": "business-expert" },
             { "skill": "abd-information-architecture", "role": "ux-designer" },
             { "skill": "abd-architecture-blueprint", "role": "engineer" }
           ]
@@ -151,7 +150,8 @@
           "name": "engineering",
           "scope": "sprint",
           "stage_work_required": [
-            { "skill": "abd-domain-implementation", "role": "business-expert" },
+            { "skill": "abd-domain-specification", "role": "business-expert" },
+            { "skill": "abd-domain-code", "role": "business-expert", "run_when": "domain_code_only" },
             { "skill": "abd-acceptance-test-driven-development", "role": "product-owner" },
             { "skill": "abd-clean-code", "role": "engineer" }
           ]

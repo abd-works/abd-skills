@@ -1,4 +1,4 @@
-# War room — PawPlace stubs (fixture mode)
+# kanban board — PawPlace stubs (fixture mode)
 
 
 
@@ -46,7 +46,7 @@ Three modules, four increments (two in Product Catalog). Full skill rails on inc
 
 
 
-## War room paths
+## kanban board paths
 
 
 

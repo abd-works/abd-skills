@@ -1,15 +1,20 @@
 import { Router } from 'express';
-import { execFile } from 'node:child_process';
-import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { promisify } from 'node:util';
-import { AGENT_ROLES, type AgentRole, type StageId } from '@deliveryforge/kanban-shared';
+import {
+  AGENT_ROLES,
+  type AgentRole,
+  type StageId,
+  type AgentStartResult,
+  type AgentStopResult,
+  type ActionIntentResult,
+} from '@deliveryforge/kanban-shared';
 import { KanbanBoard } from '@deliveryforge/kanban-server';
 import { PlanningFolderRepository } from '@deliveryforge/kanban-server';
 import { SdkSessionRegistry } from './SdkSessionRegistry';
+import { FixtureAutomationService } from './FixtureAutomationService';
+import { KanbanLeadService } from './KanbanLeadService';
 
-const execFileAsync = promisify(execFile);
 const _dirname = path.dirname(fileURLToPath(import.meta.url));
 const LEAD_TICK_SCRIPT = path.resolve(
   _dirname,
@@ -19,150 +24,9 @@ const KANBAN_CLI_SCRIPT = path.resolve(
   _dirname,
   '../../../../skills/abd-kanban/scripts/kanban_cli.py',
 );
-const FIXTURE_AUTOMATION_WINDOW_MS = 30_000;
-const FIXTURE_AUTOMATION_INTERVAL_MS = 5_000;
 
-type FixtureAutomationState = {
-  timer: NodeJS.Timeout;
-  expiresAtMs: number;
-  busy: boolean;
-  roles: Set<AgentRole>;
-};
-
-const fixtureAutomationByWorkspace = new Map<string, FixtureAutomationState>();
-
-async function isFixtureWorkspace(workspace: string): Promise<boolean> {
-  const contextPath = path.join(workspace, 'CONTEXT.md');
-  try {
-    const text = await readFile(contextPath, 'utf8');
-    // Accept markdown variants like:
-    //   fixture_mode: true
-    //   **fixture_mode:** `true`
-    return /fixture_mode[\s\W]*true/i.test(text);
-  } catch {
-    return false;
-  }
-}
-
-async function isManualBoard(planningRoot: string): Promise<boolean> {
-  const boardPath = path.join(planningRoot, 'kanban', 'board.json');
-  try {
-    const raw = await readFile(boardPath, 'utf8');
-    const board = JSON.parse(raw) as { board_mode?: string };
-    return board.board_mode === 'manual';
-  } catch {
-    return false;
-  }
-}
-
-async function runFixtureAutomationTick(workspace: string, roles: Set<AgentRole>): Promise<void> {
-  await execFileAsync(
-    'python',
-    [KANBAN_CLI_SCRIPT, '--json', 'lead', 'sync', '--workspace', workspace],
-    { timeout: 30_000 },
-  ).catch(() => null);
-
-  for (const role of roles) {
-    await execFileAsync(
-      'python',
-      [KANBAN_CLI_SCRIPT, '--json', 'member', 'intent', '--workspace', workspace, '--role', role],
-      { timeout: 30_000 },
-    ).catch(() => null);
-
-    await execFileAsync(
-      'python',
-      [KANBAN_CLI_SCRIPT, '--json', 'member', 'fixture', '--workspace', workspace, '--role', role],
-      { timeout: 30_000 },
-    ).catch(() => null);
-  }
-}
-
-async function hasOutstandingFixtureWork(workspace: string, roles: Set<AgentRole>): Promise<boolean> {
-  if (roles.size === 0) return false;
-  const kanbanDir = path.join(workspace, 'docs', 'planning', 'kanban');
-  const boardPath = path.join(kanbanDir, 'board.json');
-  const actionPath = path.join(kanbanDir, 'action-state.json');
-
-  try {
-    const actionRaw = await readFile(actionPath, 'utf8');
-    const action = JSON.parse(actionRaw) as {
-      intents?: Array<{ agent_role?: string }>;
-    };
-    if (Array.isArray(action.intents) && action.intents.some((i) => roles.has(i.agent_role as AgentRole))) {
-      return true;
-    }
-  } catch {
-    // Missing/invalid action-state means no queued intents.
-  }
-
-  try {
-    const boardRaw = await readFile(boardPath, 'utf8');
-    const board = JSON.parse(boardRaw) as {
-      active?: Array<{ skill_progress?: Record<string, { execution_status?: string; review_status?: string | null }> }>;
-    };
-    const active = Array.isArray(board.active) ? board.active : [];
-    for (const ticket of active) {
-      const progress = ticket.skill_progress ?? {};
-      for (const skill of Object.values(progress)) {
-        const role = (skill as { agent?: string }).agent as AgentRole | undefined;
-        if (!role || !roles.has(role)) continue;
-        if (skill.execution_status === 'in_progress' || skill.review_status === 'in_progress') {
-          return true;
-        }
-      }
-    }
-  } catch {
-    // If board cannot be read, keep automation alive and retry.
-    return true;
-  }
-
-  return false;
-}
-
-async function scheduleFixtureAutomation(planningRoot: string, role: AgentRole): Promise<void> {
-  const workspace = KanbanBoard.engagementWorkspaceFromPlanningRoot(planningRoot);
-  if (!(await isFixtureWorkspace(workspace))) return;
-
-  const existing = fixtureAutomationByWorkspace.get(workspace);
-  const nextExpiry = Date.now() + FIXTURE_AUTOMATION_WINDOW_MS;
-  if (existing) {
-    // Manual mode intent should drive only the dropped role.
-    existing.roles = new Set<AgentRole>([role]);
-    existing.expiresAtMs = nextExpiry;
-    return;
-  }
-
-  const state: FixtureAutomationState = {
-    timer: setInterval(async () => {
-      const current = fixtureAutomationByWorkspace.get(workspace);
-      if (!current) return;
-      if (Date.now() > current.expiresAtMs) {
-        clearInterval(current.timer);
-        fixtureAutomationByWorkspace.delete(workspace);
-        return;
-      }
-      if (current.busy) return;
-      current.busy = true;
-      try {
-        await runFixtureAutomationTick(workspace, current.roles);
-        if (await hasOutstandingFixtureWork(workspace, current.roles)) {
-          current.expiresAtMs = Date.now() + FIXTURE_AUTOMATION_WINDOW_MS;
-        }
-      } catch {
-        // Best-effort fixture automation; next interval will retry.
-      } finally {
-        const live = fixtureAutomationByWorkspace.get(workspace);
-        if (live) live.busy = false;
-      }
-    }, FIXTURE_AUTOMATION_INTERVAL_MS),
-    expiresAtMs: nextExpiry,
-    busy: false,
-    roles: new Set<AgentRole>([role]),
-  };
-
-  fixtureAutomationByWorkspace.set(workspace, state);
-
-}
+const fixtureAutomation = new FixtureAutomationService(KANBAN_CLI_SCRIPT);
+const leadService = new KanbanLeadService(LEAD_TICK_SCRIPT);
 
 export function createKanbanBoardRouter(repo: PlanningFolderRepository): Router {
   const router = Router();
@@ -175,9 +39,13 @@ export function createKanbanBoardRouter(repo: PlanningFolderRepository): Router 
     return board;
   }
 
+  // ── Health ───────────────────────────────────────────────────────────────
+
   router.get('/health', (_req, res) => {
     res.json({ ok: true });
   });
+
+  // ── Board config ─────────────────────────────────────────────────────────
 
   router.get('/api/board/config', (_req, res) => {
     res.json({ planningRoot: board?.getPlanningRoot() ?? null });
@@ -197,6 +65,8 @@ export function createKanbanBoardRouter(repo: PlanningFolderRepository): Router 
       res.status(400).json({ error: err instanceof Error ? err.message : 'Invalid planning root' });
     }
   });
+
+  // ── Board snapshot ───────────────────────────────────────────────────────
 
   router.get('/api/board', async (req, res) => {
     const planningRoot = String(req.query.planningRoot ?? board?.getPlanningRoot() ?? '');
@@ -218,6 +88,8 @@ export function createKanbanBoardRouter(repo: PlanningFolderRepository): Router 
       res.status(500).json({ error: err instanceof Error ? err.message : 'Board load failed' });
     }
   });
+
+  // ── Team ─────────────────────────────────────────────────────────────────
 
   router.post('/api/board/team', async (req, res) => {
     const planningRoot = String(req.body?.planningRoot ?? board?.getPlanningRoot() ?? '').trim();
@@ -246,6 +118,8 @@ export function createKanbanBoardRouter(repo: PlanningFolderRepository): Router 
     }
   });
 
+  // ── Board mode ───────────────────────────────────────────────────────────
+
   router.post('/api/board/mode', async (req, res) => {
     const planningRoot = String(req.body?.planningRoot ?? board?.getPlanningRoot() ?? '').trim();
     if (!planningRoot) {
@@ -260,6 +134,8 @@ export function createKanbanBoardRouter(repo: PlanningFolderRepository): Router 
       res.status(500).json({ error: err instanceof Error ? err.message : 'Board mode toggle failed' });
     }
   });
+
+  // ── Ticket moves ─────────────────────────────────────────────────────────
 
   router.post('/api/board/ticket/resume-in-progress', async (req, res) => {
     const planningRoot = String(req.body?.planningRoot ?? board?.getPlanningRoot() ?? '').trim();
@@ -285,11 +161,9 @@ export function createKanbanBoardRouter(repo: PlanningFolderRepository): Router 
       res.json(snapshot);
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Move ticket failed';
-      const status = message.includes('not found')
-        ? 404
-        : message.includes('Cannot move') || message.includes('scatter')
-          ? 400
-          : 500;
+      const status = message.includes('not found') ? 404
+        : message.includes('Cannot move') || message.includes('scatter') ? 400
+        : 500;
       res.status(status).json({ error: message });
     }
   });
@@ -317,17 +191,15 @@ export function createKanbanBoardRouter(repo: PlanningFolderRepository): Router 
       res.json(snapshot);
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Move ticket failed';
-      const status = message.includes('not found')
-        ? 404
-        : message.includes('Cannot move') ||
-            message.includes('scatter') ||
-            message.includes('thin-slicing') ||
-            message.includes('duplicate IDs')
-          ? 400
-          : 500;
+      const status = message.includes('not found') ? 404
+        : message.includes('Cannot move') || message.includes('scatter')
+            || message.includes('thin-slicing') || message.includes('duplicate IDs') ? 400
+        : 500;
       res.status(status).json({ error: message });
     }
   });
+
+  // ── Action intent ────────────────────────────────────────────────────────
 
   router.post('/api/board/action-intent', async (req, res) => {
     const planningRoot = String(req.body?.planningRoot ?? board?.getPlanningRoot() ?? '').trim();
@@ -346,33 +218,24 @@ export function createKanbanBoardRouter(repo: PlanningFolderRepository): Router 
 
     try {
       const b = await ensureBoard(planningRoot);
+      const engagementRoot = KanbanBoard.engagementWorkspaceFromPlanningRoot(planningRoot);
+      const isFixture = await fixtureAutomation.isFixtureWorkspace(engagementRoot);
+
       await b.writeActionIntent(
         { ticket_id: ticketId, skill, agent_role: agentRole, created_at: new Date().toISOString() },
         planningRoot,
       );
-      void scheduleFixtureAutomation(planningRoot, agentRole as AgentRole);
+      void fixtureAutomation.schedule(planningRoot, agentRole as AgentRole, engagementRoot);
 
-      let scan: Record<string, unknown> | null = null;
-      const engRoot = KanbanBoard.engagementWorkspaceFromPlanningRoot(planningRoot);
-      const fixtureMode = await isFixtureWorkspace(engRoot);
-      const manualMode = await isManualBoard(planningRoot);
-      try {
-        // In fixture+manual mode, do NOT run lead tick here. It can auto-claim other
-        // roles (e.g. BE) and violates manual drop intent ownership.
-        if (!(fixtureMode && manualMode)) {
-          const { stdout } = await execFileAsync('python', [LEAD_TICK_SCRIPT, '--workspace', engRoot, '--json'], {
-            timeout: 30_000,
-          });
-          scan = JSON.parse(stdout) as Record<string, unknown>;
-        }
-      } catch {
-        scan = null;
-      }
-      res.json({ ok: true, lead_scan: scan });
+      const leadScan = await leadService.maybeRunLeadScan(engagementRoot, isFixture, b);
+      const result: ActionIntentResult = { ok: true, leadScan };
+      res.json(result);
     } catch (err) {
       res.status(500).json({ error: err instanceof Error ? err.message : 'Action intent write failed' });
     }
   });
+
+  // ── Lead scan ────────────────────────────────────────────────────────────
 
   router.post('/api/board/lead-scan', async (req, res) => {
     const planningRoot = String(req.body?.planningRoot ?? board?.getPlanningRoot() ?? '').trim();
@@ -381,11 +244,8 @@ export function createKanbanBoardRouter(repo: PlanningFolderRepository): Router 
       return;
     }
     try {
-      const engRoot = KanbanBoard.engagementWorkspaceFromPlanningRoot(planningRoot);
-      const { stdout } = await execFileAsync('python', [LEAD_TICK_SCRIPT, '--workspace', engRoot, '--json'], {
-        timeout: 30_000,
-      });
-      const result = JSON.parse(stdout);
+      const engagementRoot = KanbanBoard.engagementWorkspaceFromPlanningRoot(planningRoot);
+      const result = await leadService.runLeadScan(engagementRoot);
       res.json(result);
     } catch (err) {
       res.status(500).json({ error: err instanceof Error ? err.message : 'Lead scan failed' });
@@ -409,7 +269,8 @@ export function createKanbanBoardRouter(repo: PlanningFolderRepository): Router 
 
     try {
       const adapter = await SdkSessionRegistry.start(role as AgentRole, planningRoot);
-      res.json({ ok: true, role, state: adapter.state });
+      const result: AgentStartResult = { ok: true, role: role as AgentRole, state: adapter.state };
+      res.json(result);
     } catch (err) {
       res.status(500).json({ error: err instanceof Error ? err.message : 'Agent start failed' });
     }
@@ -422,7 +283,8 @@ export function createKanbanBoardRouter(repo: PlanningFolderRepository): Router 
       return;
     }
     SdkSessionRegistry.stop(role);
-    res.json({ ok: true, role });
+    const result: AgentStopResult = { ok: true, role: role as AgentRole };
+    res.json(result);
   });
 
   router.get('/api/board/agent/:role/status', (req, res) => {
@@ -466,10 +328,7 @@ export function createKanbanBoardRouter(repo: PlanningFolderRepository): Router 
     };
 
     adapter.addListener(listener);
-
-    req.on('close', () => {
-      adapter.removeListener(listener);
-    });
+    req.on('close', () => adapter.removeListener(listener));
   });
 
   return router;

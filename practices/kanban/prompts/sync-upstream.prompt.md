@@ -1,39 +1,76 @@
 ---
 description: >-
-  Sync upstream artifacts after a downstream change. Use when code, tests,
-  specs, or AC have changed and higher-level docs may be out of date.
+  Sync generated delivery artifacts after a change. Use when code, tests,
+  specs, or AC have changed and peer, upstream, or downstream docs may be out of date.
 mode: agent
 ---
 
-An artifact has changed. Ask the user whether to sync in both directions. Only offer levels whose artifacts exist. Stop at each level if the user says no.
+An artifact has changed. Use `AskQuestion` to ask the user which directions to sync. Only offer levels whose artifacts exist in the workspace. Stop at each level if the user says no.
 
-## Changed downstream ? offer upstream
+## Step 1 — Ask which direction to sync
+
+Use `AskQuestion` to ask:
+
+```
+What do you want to sync?
+- Upstream  (propagate change upward to higher-level artifacts)
+- Downstream  (propagate change downward to lower-level artifacts)
+- Peer  (sync the artifact at the same level)
+- All directions
+```
+
+## Step 2 — Determine available artifacts from skills
+
+Before asking anything, scan the workspace for which skill directories exist under `.github/skills/` (or `.cursor/skills/`). Use that to build the list of available artifacts — only include an artifact if its corresponding skill folder is present:
+
+| Skill folder | Artifact |
+| --- | --- |
+| `abd-acceptance-test-driven-development` | Acceptance tests |
+| `abd-domain-specification` | Class Model |
+| `abd-specification-by-example` | Spec by Example |
+| `abd-domain-model` | Domain Model |
+| `abd-acceptance-criteria` | Acceptance Criteria |
+| `abd-domain-sketch` | Domain Sketch |
+| `abd-story-mapping` | Story Map |
+| `abd-domain-language` | Domain Language |
+| `abd-key-abstractions` | Key Abstractions |
+| `abd-clean-code` | Production code |
+
+Then use `AskQuestion` to ask the user which of the **available** artifacts they want to sync, offering only what was found.
+
+## Step 3 — Execute
+
+For each direction the user approves, invoke the relevant skill and stop if the user declines.
+
+## Sync map
+
+### Downstream changed → offer upstream
 
 | Changed | Offer upstream | Skills |
 | --- | --- | --- |
-| **Production code** | Acceptance tests, Class Model | `skills/story-driven-delivery/abd-acceptance-test-driven-development/SKILL.md`, `skills/domain-driven-design/abd-domain-implementation/SKILL.md` |
-| **Acceptance tests** or **Class Model** | Spec by Example, domain model | `skills/story-driven-delivery/abd-specification-by-example/SKILL.md`, `skills/domain-driven-design/abd-domain-model/SKILL.md` |
-| **Spec by Example** or **domain model** | Acceptance Criteria, Domain Language | `skills/story-driven-delivery/abd-acceptance-criteria/SKILL.md`, `skills/domain-driven-design/abd-domain-language/SKILL.md` |
-| **Acceptance Criteria** or **Domain Language** | Story Map, Domain Language, Key Abstractions | `skills/story-driven-delivery/abd-story-mapping/SKILL.md`, `skills/domain-driven-design/abd-domain-language/SKILL.md`, `skills/domain-driven-design/abd-key-abstractions/SKILL.md` |
+| Production code | Acceptance tests, Class Model | `abd-acceptance-test-driven-development`, `abd-domain-specification` |
+| Acceptance tests or Class Model | Spec by Example, Domain Model | `abd-specification-by-example`, `abd-domain-model` |
+| Spec by Example or Domain Model | Acceptance Criteria, Domain Sketch | `abd-acceptance-criteria`, `abd-domain-sketch` |
+| Acceptance Criteria or Domain Sketch | Story Map, Domain Language, Key Abstractions | `abd-story-mapping`, `abd-domain-language`, `abd-key-abstractions` |
 
-## Changed on one side of a level ? offer the other side
+### One side changed → offer peer
 
 | Changed | Offer peer | Skills |
 | --- | --- | --- |
-| **Acceptance tests** | Class Model | `skills/domain-driven-design/abd-domain-implementation/SKILL.md` |
-| **Class Model** | Acceptance tests | `skills/story-driven-delivery/abd-acceptance-test-driven-development/SKILL.md` |
-| **Spec by Example** | domain model | `skills/domain-driven-design/abd-domain-model/SKILL.md` |
-| **domain model** | Spec by Example | `skills/story-driven-delivery/abd-specification-by-example/SKILL.md` |
-| **Acceptance Criteria** | Domain Language | `skills/domain-driven-design/abd-domain-language/SKILL.md` |
-| **Domain Language** | Acceptance Criteria | `skills/story-driven-delivery/abd-acceptance-criteria/SKILL.md` |
-| **Story Map** | Domain Language, Key Abstractions | `skills/domain-driven-design/abd-domain-language/SKILL.md`, `skills/domain-driven-design/abd-key-abstractions/SKILL.md` |
-| **Domain Language** or **Key Abstractions** | Story Map | `skills/story-driven-delivery/abd-story-mapping/SKILL.md` |
+| Acceptance tests | Class Model | `abd-domain-specification` |
+| Class Model | Acceptance tests | `abd-acceptance-test-driven-development` |
+| Spec by Example | Domain Model | `abd-domain-model` |
+| Domain Model | Spec by Example | `abd-specification-by-example` |
+| Acceptance Criteria | Domain Sketch | `abd-domain-sketch` |
+| Domain Sketch | Acceptance Criteria | `abd-acceptance-criteria` |
+| Story Map | Domain Language, Key Abstractions | `abd-domain-language`, `abd-key-abstractions` |
+| Domain Language or Key Abstractions | Story Map | `abd-story-mapping` |
 
-## Changed upstream ? offer downstream
+### Upstream changed → offer downstream
 
 | Changed | Offer downstream | Skills |
 | --- | --- | --- |
-| **Story Map**, **Domain Language**, or **Key Abstractions** | Acceptance Criteria, Domain Language | `skills/story-driven-delivery/abd-acceptance-criteria/SKILL.md`, `skills/domain-driven-design/abd-domain-language/SKILL.md` |
-| **Acceptance Criteria** or **Domain Language** | Spec by Example, domain model | `skills/story-driven-delivery/abd-specification-by-example/SKILL.md`, `skills/domain-driven-design/abd-domain-model/SKILL.md` |
-| **Spec by Example** or **domain model** | Acceptance tests, Class Model | `skills/story-driven-delivery/abd-acceptance-test-driven-development/SKILL.md`, `skills/domain-driven-design/abd-domain-implementation/SKILL.md` |
-| **Acceptance tests** or **Class Model** | Production code | `architecture-centric-engineering/skills/abd-clean-code/SKILL.md` |
+| Story Map, Domain Language, or Key Abstractions | Acceptance Criteria, Domain Sketch | `abd-acceptance-criteria`, `abd-domain-sketch` |
+| Acceptance Criteria or Domain Sketch | Spec by Example, Domain Model | `abd-specification-by-example`, `abd-domain-model` |
+| Spec by Example or Domain Model | Acceptance tests, Class Model | `abd-acceptance-test-driven-development`, `abd-domain-specification` |
+| Acceptance tests or Class Model | Production code | `abd-clean-code` |

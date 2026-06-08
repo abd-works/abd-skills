@@ -12,7 +12,7 @@
 
 **Outcome:** The *Delivery Lead* switches to *manual mode*, drags a *Team Member Agent* onto a *ticket*, and watches the assigned *skill* execute — with each state transition (in progress, skill done, ticket done) reflected on the board in real time.
 
-**Slicing notes:** This is the full vertical slice for manual mode: UI toggle → state file mechanism → agent detection and delegation → skill execution → board reflection. Parallel execution of multiple skills on a single ticket is included because it is core to the value proposition (manual mode's advantage over automatic sequential flow). The existing polling and file-watching infrastructure (Poll Board Changes, Watch War Room Files) is reused — no new transport is introduced.
+**Slicing notes:** This is the full vertical slice for manual mode: UI toggle → state file mechanism → agent detection and delegation → skill execution → board reflection. Parallel execution of multiple skills on a single ticket is included because it is core to the value proposition (manual mode's advantage over automatic sequential flow). The existing polling and file-watching infrastructure (Poll Board Changes, Watch kanban board Files) is reused — no new transport is introduced.
 
 **Stories in this increment** *(order reflects flow within the slice):*
 

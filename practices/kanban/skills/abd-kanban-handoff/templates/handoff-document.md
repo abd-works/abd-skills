@@ -2,7 +2,7 @@
 
 **Generated:** <ISO date>  
 **Workspace:** `<absolute-path>`  
-**Saved to:** `<workspace>/docs/planning/handoffs/handoff-abd-kanban-<slug>-<YYYY-MM-DD>.md` (and `handoff-latest.md`)  
+**Saved to:** `<workspace>/docs/kanban/handoffs/handoff-abd-kanban-<slug>-<YYYY-MM-DD>.md` (and `handoff-latest.md`)  
 **Next session focus:** <from user argument or "not specified">
 
 ---
@@ -62,11 +62,11 @@
 
 ---
 
-## War room paths
+## kanban board paths
 
 | Item | Path |
 | --- | --- |
-| War room | `<path>` |
+| kanban board | `<path>` |
 | Board | `<path>/board.json` |
 | Kanban config | `<path>/kanban.json` |
 

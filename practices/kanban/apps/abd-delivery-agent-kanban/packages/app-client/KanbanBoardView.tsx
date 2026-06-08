@@ -13,7 +13,7 @@ import { StageBucketLayout } from '@deliveryforge/kanban-client';
 import { TeamView } from './TeamView';
 import { StageGroupView } from './StageGroupView';
 import { KanbanEndColumnView } from './KanbanEndColumnView';
-import { AgentStreamPanel } from './AgentStreamPanel';
+import { AgentStreamView } from './AgentStreamView';
 
 export interface KanbanBoardViewProps {
   snapshot: KanbanBoardSnapshot;
@@ -277,6 +277,7 @@ export function KanbanBoardView({
             peersByTargetStage={peersByTargetStage}
             team={snapshot.team}
             boardMode={boardMode}
+            agentSessions={snapshot.agentSessions}
             onResumeTicket={boardMode === 'manual' ? handleMoveTicket : undefined}
             draggingTicketRef={draggingTicketRef}
             draggingTicketId={draggingTicket?.id ?? null}
@@ -320,7 +321,7 @@ export function KanbanBoardView({
       {openStreamPanels.length > 0 && (
         <div className="kb-stream-panels-row">
           {openStreamPanels.map((role) => (
-            <AgentStreamPanel
+            <AgentStreamView
               key={role}
               role={role}
               onClose={() => setOpenStreamPanels((prev) => prev.filter((r) => r !== role))}

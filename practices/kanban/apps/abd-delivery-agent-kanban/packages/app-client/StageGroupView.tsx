@@ -4,6 +4,7 @@ import { StageDoneView } from './StageDoneView';
 import { Ticket } from '@deliveryforge/kanban-client';
 import { Stage, SkillCatalog } from '@deliveryforge/kanban-shared';
 import type {
+  AgentSessionInfo,
   BoardMode,
   KanbanBoardSnapshot,
   StageId,
@@ -20,6 +21,7 @@ export function StageGroupView({
   peersByTargetStage,
   team,
   boardMode,
+  agentSessions,
   onResumeTicket,
   draggingTicketRef,
   draggingTicketId,
@@ -35,6 +37,7 @@ export function StageGroupView({
   peersByTargetStage: Map<StageId, Ticket[]>;
   team: KanbanBoardSnapshot['team'];
   boardMode?: BoardMode;
+  agentSessions?: Record<string, AgentSessionInfo>;
   onResumeTicket?: (ticketId: string, targetStage: StageId, placement?: 'in_progress' | 'stage_done') => void;
   draggingTicketRef: MutableRefObject<TicketDragPayload | null>;
   draggingTicketId?: string | null;
@@ -63,6 +66,7 @@ export function StageGroupView({
           activeStagePeers={activeStagePeers}
           team={team}
           boardMode={boardMode}
+          agentSessions={agentSessions}
           onResumeTicket={onResumeTicket}
           columnStage={stage}
           draggingTicketRef={draggingTicketRef}

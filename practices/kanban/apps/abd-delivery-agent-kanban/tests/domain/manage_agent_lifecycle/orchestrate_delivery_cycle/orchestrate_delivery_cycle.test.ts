@@ -530,7 +530,7 @@ describe('Scatter Ticket at Scope Boundary — resolveScatterChildren', () => {
 // FROM: resume_ticket_server.test.ts
 // ============================================================================
 
-describe('Pull Backlog Tickets to Active per Stage WIP', () => {
+describe('Promote Backlog Ticket on Skill Claim', () => {
   it('moves ticket from done bucket to active with hold_in_progress', () => {
     const updated = new KanbanBoard(boardWithProjectAllInDone()).resumeInProgress('project-all').toJSON();
     expect(updated.done).toHaveLength(0);

@@ -1,7 +1,0 @@
-﻿# Corrections log
-
-## Entry: Decisions and References use h4 (####), not h3 (###)
-
-- **Status:** confirmed
-- **DO / DO NOT:** DO use `#### Decisions made` and `#### References` immediately after each `### term` block. DO NOT use `###` — that makes them peer domain terms in the outline. DO NOT use `##` — that makes them peer Key Abstractions.
-- **Skill source updated:** `templates/domain-terms-template.md`, `SKILL.md`, `reference/concepts.md`.

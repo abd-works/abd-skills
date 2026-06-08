@@ -13,7 +13,7 @@
 
 ### Coverage boundary
 
-Bootcamp stages — [`../../../reference/stages/README.md`](../../../reference/stages/README.md). Check each stage included in this session's estimates. Defaults are pre-checked; opt in or out as the team agrees.
+Bootcamp stages — the stage files in `reference/stages/`. Check each stage included in this session's estimates. Defaults are pre-checked; opt in or out as the team agrees.
 
 - [ ] **Shaping** — outline map, partition, architecture outline *(not default)*
 - [ ] **Discovery** — full map, domain/UX IA, blueprint, thin-slice placement *(not default)*
@@ -21,7 +21,7 @@ Bootcamp stages — [`../../../reference/stages/README.md`](../../../reference/s
 - [ ] **Exploration** — UX mockups, architecture template *(opt in)*
 - [x] **Specification** — domain model, spec-by-example, interface design as needed *(default)*
 - [x] **Engineering** — Class Model, ATDD, production code *(default)*
-- [ ] **Engineering** — `abd-interface-design` implementation pass *(opt in when UI-heavy)*
+- [ ] **Engineering** — `abd-ux-specification` implementation pass *(opt in when UI-heavy)*
 - [x] **Regression testing** *(default)*
 - [ ] **User testing / UAT** *(not default)*
 

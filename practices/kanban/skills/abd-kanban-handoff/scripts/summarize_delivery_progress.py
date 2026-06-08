@@ -40,11 +40,8 @@ INCREMENT_STAGE_DIRS = ("exploration", "specification", "engineering")
 
 
 def war_room_dir(workspace: Path) -> Path | None:
-    for rel in ("kanban", "delivery-war-room"):
-        p = workspace / "docs" / "planning" / rel
-        if p.is_dir():
-            return p
-    return None
+    p = workspace / "docs" / "kanban"
+    return p if p.is_dir() else None
 
 
 def _read_json(path: Path) -> dict[str, Any] | None:

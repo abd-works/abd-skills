@@ -1,4 +1,4 @@
-﻿import type { RawTicket } from './Ticket.schema';
+import type { RawTicket } from './Ticket.schema';
 import type { StageId, StageSkill, StageSubColumn } from './Stage';
 import { Stage } from './Stage';
 import type { AgentRole, Team } from './TeamMembership';
@@ -264,6 +264,18 @@ export class Ticket {
       default:
         return 'kb-ticket--scope-sprint';
     }
+  }
+
+  /**
+   * True when a running agent session matches the role responsible for one of this
+   * ticket's pending-intent skills. Used to promote the pending-intent icon to a
+   * live bot icon when the Cursor SDK session is active but has not yet written
+   * execution_status: 'in_progress' to skill_progress.
+   */
+  showsAgentRunning(activeRoles: Set<string>, stageSkills: StageSkill[]): boolean {
+    if (this.pendingIntentSkillIds.length === 0) return false;
+    const pendingSet = new Set(this.pendingIntentSkillIds);
+    return stageSkills.some((s) => pendingSet.has(s.skillId) && activeRoles.has(s.role));
   }
 
   showsLiveSkillIcon(stageSubColumn?: StageSubColumn): boolean {

@@ -1,15 +1,19 @@
 ﻿# Kanban Board
 
+
+
+---
+
 ## Core concepts
 
 - **kanban board** — blueprint of ordered stages, each with a scope level and stage work required, governing ticket flow live with tickets flowing through stages
 - **ticket** — a unit of work at the scope level its current stage requires, carrying lineage, priority, and skill progress entries created as work starts
 - **board position** — backlog, the stage a ticket currently occupies (queue, in progress, or done within that stage), or complete
-- **scatter** — when a ticket completes a stage whose next stage has finer scope, it archives itself and creates child tickets at the finer scope level
+- **scatter** — when scope changes between stages, child tickets are created at the finer scope and the parent follows them on the board; no scatter when scope stays the same
 - **lineage** — every ticket carries its ancestry: project > increment > sprint > story
 
 ## Kanban board
-
+The kanban board defines an ordered sequence of stages, the scope level each stage operates at, and the practice skills each stage requires. `kanban.json` is the authority — tickets carry only a `skill_progress` map, never a skill list. When scope changes between stages, the ticket **scatters**: children are created at the finer scope and the parent follows them on the board. When scope stays the same, the ticket advances. Multiple tickets can be active across stages simultaneously.
 The *kanban board* defines an ordered set of *stages* — each with a *scope level* and *stage work required* — and runs live with *tickets* flowing through *stages*.
 
 - **ticket** — scope unit at the level its current stage requires (all, increment, sprint, story)
@@ -28,9 +32,43 @@ The *kanban board* is the single source of truth for which *skills* each *stage*
 
 When scope changes between stages (e.g. shaping at "all" → discovery at "increment"), completing one stage **scatters** the ticket into children at the finer scope.
 
+### Kanban board shape
+
+```json
+{
+  "schema": "abd-kanban-board/v1",
+  "definitions": {
+    "default-new-build": {
+      "label": "Default new build",
+      "strategy": {
+        "scatter_rules": {
+          "all_to_increment": "one ticket per increment from thin-slicing; scatter all",
+          "increment_to_sprint": "group 3-4 stories per sprint; scatter next 1-2 increments JIT"
+        },
+        "checkpoint_policy": "per_skill",
+        "autonomy": "moderate"
+      },
+      "team": { "product-owner": 1, "business-expert": 1, "ux-designer": 1, "engineer": 1 },
+      "stages": [
+        {
+          "name": "exploration",
+          "scope": "increment",
+          "stage_work_required": [
+            { "skill": "abd-domain-language", "role": "business-expert" },
+            { "skill": "abd-acceptance-criteria", "role": "product-owner" },
+            { "skill": "abd-ux-mockup", "role": "ux-designer" },
+            { "skill": "abd-architecture-specification", "role": "engineer", "run_when": "increment_needs_undocumented_mechanisms" }
+          ]
+        }
+      ]
+    }
+  }
+}
+```
+
 ### Default new build
 
-- **Context** (optional, scope: all) — convert-to-markdown, semantic-context-chunker, chunk-markdown, embed-vectors
+- **Context** (scope: all) — convert-to-markdown, semantic-context-chunker, chunk-markdown, embed-vectors
 - **Shaping** (scope: all) — module-partition, story-mapping (outline), impact-mapping, architecture-outline
 - **Discovery** (scope: increment) — story-mapping (full), domain-terms, IA, architecture-blueprint
 - **Exploration** (scope: increment) — UL, acceptance-criteria, ux-mockup, arch-template (when increment needs undocumented mechanisms)
@@ -67,14 +105,12 @@ A ticket is the **unit of kanban flow**. Its scope matches the kanban board's sc
 }
 ```
 
-**Skills are NOT declared on the ticket.** The kanban board (`kanban.json`) defines which skills apply for a given stage. The ticket only carries a `skill_progress` map — lazily populated when an agent starts work on a skill.
-
 ### Ticket lifecycle
 
 1. **Backlog** — enters backlog at priority from story map
 2. **Stage in progress** — at least one skill started by an agent
 3. **Stage done** — all skills executed and reviewed; waits for pickup to next stage
-4. **Scatter** (if next stage has finer scope) — ticket archives itself, children enter backlog
+4. **Scatter** (if scope changes) — children created at finer scope; parent follows them on the board
 5. **Continue** (if next stage has same scope) — ticket advances to next stage, skill progress cleared
 6. **Complete** — final stage done; ticket archived with full timing data
 
@@ -87,10 +123,10 @@ When a ticket completes a stage and the **next stage's scope** is finer than the
 
 ### Scatter mechanics
 
-1. Ticket is **archived** (moved to `archived` with start/end timestamps)
-2. Child tickets are **created** at the finer scope level, entering the backlog for the next stage
-3. Children carry **lineage** from the parent (e.g. `["Project", "Increment 1", "Sprint 1"]`)
-4. Children are ordered by priority from the story map
+1. Child tickets are **created** at the finer scope level, entering the backlog for the next stage
+2. Children carry **lineage** from the parent (e.g. `["Project", "Increment 1", "Sprint 1"]`)
+3. Children are ordered by priority from the story map
+4. The parent **follows its children** on the board — it remains visible alongside them
 5. **JIT rule**: only scatter the next N items unless user or strategy says otherwise
 
 ### When scope stays the same
@@ -110,9 +146,9 @@ The backlog is **ordered** and **hierarchical**:
 ## Planning vs board sync
 
 - **Kanban board** (stages, strategy, team) — written by kanban lead + `abd-kanban-planning` + `abd-kanban` → `kanban.json`
-- **Board state** — written by `sync_kanban_board.py` + kanban lead scan → `board.json`
-- **Scatter** — triggered by kanban lead via `scatter_ticket.py` → `board.json` (archive ticket, create children)
-- **Metrics** — written by `track_metrics.py` → `metrics-log.jsonl`
+- **Board state** — managed by the kanban app → `board.json`
+- **Scatter** — triggered by kanban lead; app creates children and parent follows them on the board
+- **Metrics** — computed by the kanban app → `metrics-log.jsonl`
 
 ## Multiple tickets in flight
 
@@ -133,17 +169,11 @@ Every ticket carries timing data:
 - **Per ticket**: created, archived (when scattered or complete)
 - **Lineage** enables rollup: total increment time, total project time, stage cycle times
 
-The kanban lead uses `track_metrics.py` to compute:
+The kanban app computes:
 
 - Cycle time per stage, per scope level
 - Bottleneck detection (which stage/skill accumulates in-progress work)
 - Throughput (tickets completed per unit time)
-
-Manual sync:
-
-```bash
-python .cursor/skills/abd-kanban/scripts/sync_kanban_board.py --workspace <engagement-root>
-```
 
 Board UI (read-only live view): `practices/kanban/apps/abd-delivery-agent-kanban/` — `npm install && npm run dev` → http://localhost:3000/board
 

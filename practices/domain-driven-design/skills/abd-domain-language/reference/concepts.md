@@ -10,7 +10,6 @@ A **term** is any named concept in the source that has behavior, rules, interact
 
 ## Key Abstraction (KA)
 
-For the base definition of a Key Abstraction, the five aspects of a concept, and the candidate-term tests and outcomes, read [`../../../reference/key-abstractions.md`](../../../reference/key-abstractions.md). This skill adds the following domain-language–specific guidance:
 
 KAs act as **centers of gravity** — the named ideas domain experts reach for first when explaining the domain. Because of that, their intro paragraphs carry the richest treatment of all five aspects: role, boundary, relationships, responsibilities, and rules/invariants. Relationships to other KAs get particular weight, because that is how domain experts discuss them — "*Check* depends on *Trait* for its modifier; *Trait* knows nothing about *Check*."
 
@@ -18,7 +17,6 @@ KAs act as **centers of gravity** — the named ideas domain experts reach for f
 
 ## Concept
 
-A **concept** is a named domain idea the team treats as a candidate object: something the business talks about that has its own purpose, its own behavior, and relationships with other concepts. A concept is not a class — it is the plain-English precursor to one. Every concept — KA or subordinate — can be described across the **five aspects** (Role, Boundary, Relationships, Responsibilities, Rules / invariants) defined in [`../../../reference/key-abstractions.md`](../../../reference/key-abstractions.md).
 
 These five aspects are not independent sections in the output — they are woven into the concept's story as verb-led behavior bullets. Same format for every concept. The KA's own concept block doubles as the term definition for the KA itself. How much any concept has to say is driven by the complexity of what the source actually says about it. Domain terms in bullets are *italicized* so the language stays visually precise.
 
@@ -26,7 +24,6 @@ The first `### concept` listed under each `## KA` heading **must be the KA's own
 
 ## Two tests and three outcomes for every term
 
-The independence test, the fit test, and the three outcomes (keep under a KA / move to boundary / move out) are defined in [`../../../reference/key-abstractions.md`](../../../reference/key-abstractions.md). This skill applies them at **scope** level — the second test is the **scope-fit test** (does this concept connect to the core purpose of the scope being modeled, or only touch it tangentially?).
 
 One domain-language–specific refinement on the **move to boundary** outcome: if a boundary term is relevant to more than one KA, each KA records its own view — only the behaviors that KA actually depends on — as a concept stub inside that KA's block. The `# Boundary Domain` entry is the canonical record; the per-KA stubs are scoped views, not duplicates.
 
@@ -84,70 +81,5 @@ Every KA carries one `#### Decisions made` list and one `#### References` sectio
 
 ---
 
-## Consistent shape
 
-```
-# Module: [ScopeName]           ← omit if single-scope; include per-module for multi-module
-
-**Terms**:
-- **KAName**
-  - **ka_term** — short plain-English definition
-  - **subordinate_term** — short plain-English definition
-- **AnotherKAName**
-  - **another_term** — short plain-English definition
-
----
-
-{{Analytical overview paragraph(s) — end-to-end domain mechanic with *italicized domain terms*.}}
-
----
-
-# Core Domain
-
-## KAName                                       ← h2, no bold
-
-KAName is [definition as term — role, boundary, responsibilities,
-relationships, invariants woven naturally. This paragraph IS the
-term definition for the KA.]
-
-### ka_name_as_a_concept                        ← MUST appear first; matches the KA
-- verb-led behavior with *italicized domain terms*
-- **Invariant:** rule that must always hold
-
-### another_concept
-- verb-led behavior with *italicized domain terms*
-
-### SubtypeName *is a type of* BaseName
-- delta behavior — only what the subtype adds
-
-### property_term
-- is a property of *parent_concept* — brief classification note
-
-### Decisions made                              ← ONE per KA, after ALL concept blocks
-- independence test result, scope-fit test result, typing call, or open question
-
-### References                                  ← ONE per KA, after Decisions made
-**Ref — title**
-Source: ...
-Locator: ...
-Extract: whole
-
----                                             ← separator between KAs
-
-# Boundary Domain
-
-## boundary_concept
-
-Owned by: ModuleName
-
-- verb-led behavior with *italicized domain terms*
-
-### Decisions made
-- boundary placement reasoning
-
-### References
-**Ref — title**
-Source: ...
-
----
-```
+See `../templates/` for the canonical file shape.

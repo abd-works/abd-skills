@@ -12,7 +12,7 @@
 
 ## Strategy
 
-Selected: `strategies/new-thin-slice.md`
+Selected: `reference/strategies/new-thin-slice.md`
 
 ## Runs summary
 

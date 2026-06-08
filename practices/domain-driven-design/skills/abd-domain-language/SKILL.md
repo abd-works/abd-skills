@@ -24,15 +24,13 @@ This is a three-pass skill. It reads source, extracts terms with definitions, gr
 
 ## Output file
 
-**Deliverables folder:** see `../agent-protocol.md` — Output file resolution.
+**Deliverables folder:** `<active_skill_workspace>/domain/`
 
 **File name:** `domain-language.md`. Add a `<name>-` prefix only when disambiguation is needed. For multi-module engagements: `<deliverables-folder>/modules/<module-name>-domain-language.md`. When the scope spans more than one module in a single file, organize with `# Module: [ModuleName]` sections.
 
 ---
 
 ## Agent Instructions
-
-> **MANDATORY — read `../agent-protocol.md` before starting. It defines read-gates, output file resolution, and the per-rule verdict format.**
 
 ### 1. Read context
 
@@ -51,7 +49,7 @@ Read every file in **`rules/`**; author to those rules.
 | `templates/domain-language-template.md` | The Domain Language file with Terms list, KA intros, concept blocks, decisions, and references. |
 | `templates/domain.json` | Domain JSON with concept names, attributes, and inheritance. |
 
-**Quality bar:** Every KA intro opens with "*KAName* is …". Every concept has verb-led behavior bullets. Every `*italicized*` term resolves to a heading, stub, or parenthetical primitive. One `#### Decisions made` and one `#### References` per KA, after all concept blocks. State marker set to `domain-language`.
+**Quality bar:** Every KA intro opens with "*KAName* is …". Every concept has verb-led behavior bullets. Every `*italicized*` term resolves to a heading, stub, or parenthetical primitive. One `#### Decisions made` and one `#### References` per KA, after all concept blocks.
 
 ### 3. Validate
 
@@ -63,7 +61,7 @@ python skills/execute-skill-using-skills-rules/scripts/run_scanners.py \
   --workspace <path-to-output>
 ```
 
-Then emit per-rule verdicts per `../agent-protocol.md`.
+Then emit per-rule verdicts for every rule in `rules/`.
 
 ---
 
@@ -71,9 +69,7 @@ Then emit per-rule verdicts per `../agent-protocol.md`.
 
 **Goal:** Inspect what was built — read the artifacts as reviewers.
 
-- **One file** — named `[<name>-]domain-language.md`. No separate domain-language or key-abstractions files alongside.
 - **Each KA anchors at least 3–5 terms** — subordinate concepts, subtypes, and properties included. A KA with fewer than three terms is not a KA; merge it under an existing KA or downgrade it to a subordinate concept.
-- **State marker** — front matter reads `state: domain-language`.
 - **Terms list in header** — a single hierarchical `**Terms**` list.
 - **Every KA has an intro paragraph** — opens with "*KAName* is …".
 - **Every KA's own concept appears first** — the first `### concept` under each `## KA` matches the KA name.

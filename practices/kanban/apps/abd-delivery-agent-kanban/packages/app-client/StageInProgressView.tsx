@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect, type MutableRefObject } from 'react';
 import { TicketView } from './TicketView';
 import { Ticket } from '@deliveryforge/kanban-client';
-import type { BoardMode, StageId, StageSkill, StageSubColumn, KanbanBoardSnapshot } from '@deliveryforge/kanban-shared';
+import type { AgentSessionInfo, BoardMode, StageId, StageSkill, StageSubColumn, KanbanBoardSnapshot } from '@deliveryforge/kanban-shared';
 import type { TicketDragPayload, TicketStageDropHandler } from '@deliveryforge/kanban-client';
 
 export function StageInProgressView({
@@ -12,6 +12,7 @@ export function StageInProgressView({
   activeStagePeers = [],
   team,
   boardMode,
+  agentSessions,
   onResumeTicket,
   columnStage,
   draggingTicketRef,
@@ -28,6 +29,7 @@ export function StageInProgressView({
   activeStagePeers?: Ticket[];
   team?: KanbanBoardSnapshot['team'];
   boardMode?: BoardMode;
+  agentSessions?: Record<string, AgentSessionInfo>;
   onResumeTicket?: (ticketId: string, targetStage: StageId, placement?: 'in_progress' | 'stage_done') => void;
   columnStage: StageId;
   draggingTicketRef: MutableRefObject<TicketDragPayload | null>;
@@ -134,6 +136,7 @@ export function StageInProgressView({
             activeStagePeers={activeStagePeers}
             team={team}
             boardMode={boardMode}
+            agentSessions={agentSessions}
             onResumeTicket={onResumeTicket}
             onTicketDragStart={onTicketDragStart}
             onTicketDragEnd={onTicketDragEnd}

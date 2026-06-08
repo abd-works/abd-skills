@@ -1,0 +1,6 @@
+- better kanban
+- indexing pract wide
+- grill me with practices
+- completly localized repo based
+- training linked to skills
+- simplifiy storyies ac to spec, align all skills to stsges

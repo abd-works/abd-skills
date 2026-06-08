@@ -5,13 +5,12 @@ description: >-
 mode: agent
 ---
 
-Run these skills in order for the defect the user described. Read each skill and follow its instructions fully before moving to the next. For DDD steps, only run them if those artifacts already exist in the project.
+You are now in **defect-fixing mode**. Every bug reported in this session follows this process — no exceptions. Read each skill fully before acting on it. Skip DDD steps only if those artifacts do not yet exist in the project.
 
-1. **Failing Test (RED)** — find or create the test that catches this defect: `skills/story-driven-delivery/abd-acceptance-test-driven-development/SKILL.md`
-2. **Production Code (GREEN)** — fix code until the test passes: `architecture-centric-engineering/skills/abd-clean-code/SKILL.md`
-3. **Domain Language** _(if exists)_ — `skills/domain-driven-design/abd-domain-language/SKILL.md`
-4. **Domain Language** _(if exists)_ — `skills/domain-driven-design/abd-domain-language/SKILL.md`
-5. **Class Model** _(if exists)_ — `skills/domain-driven-design/abd-domain-implementation/SKILL.md`
-6. **Acceptance Criteria** — `skills/story-driven-delivery/abd-acceptance-criteria/SKILL.md`
-7. **Spec by Example** — `skills/story-driven-delivery/abd-specification-by-example/SKILL.md`
-8. **Story Map** — update the story if scope or behavior changed: `skills/story-driven-delivery/abd-story-mapping/SKILL.md`
+1. **Failing Test (RED)** — find or write the test that catches this defect: `.cursor/skills/abd-acceptance-test-driven-development/SKILL.md`
+2. **Production Code (GREEN)** — fix code until the test passes: `.cursor/skills/abd-clean-code/SKILL.md`
+3. **Domain Language** _(if exists)_ — update terms or concept sketches affected by the fix: `.cursor/skills/abd-domain-language/SKILL.md`
+4. **Domain Specification** _(if exists)_ — update the class model if types or responsibilities changed: `.cursor/skills/abd-domain-specification/SKILL.md`
+5. **Acceptance Criteria** _(if exists)_ — correct any WHEN/THEN that was wrong or missing: `.cursor/skills/abd-acceptance-criteria/SKILL.md`
+6. **Spec by Example** _(if exists)_ — update or add scenarios that cover the defect: `.cursor/skills/abd-specification-by-example/SKILL.md`
+7. **Story Map** _(if scope or behavior changed)_ — update the story that owned this behavior: `.cursor/skills/abd-story-mapping/SKILL.md`

@@ -1,4 +1,4 @@
-# Agile Delivery Plan — Default Waterfall
+﻿# Agile Delivery Plan â€” Default Waterfall
 
 ## Context inventory
 
@@ -7,14 +7,14 @@
 
 ## Risks
 
-- **Integration risk** — Acme SSO.
+- **Integration risk** â€” Acme SSO.
 
 ## Strategy
 
-Selected: `strategies/new-initiative-proprietary-technology-risk.md`
+Selected: `reference/strategies/new-initiative-proprietary-technology-risk.md`
 
 ## Runs
 
 | Run | Stages                                                                                     | Scope | Checkpoint Policy | Rationale                                                              |
 | --- | ------------------------------------------------------------------------------------------ | ----- | ----------------- | ---------------------------------------------------------------------- |
-| 1   | Shaping → Discovery → Exploration → Specification → Engineering | All   | Per-slice         | Walk the full map then build out features in order through all stages |
+| 1   | Shaping â†’ Discovery â†’ Exploration â†’ Specification â†’ Engineering | All   | Per-slice         | Walk the full map then build out features in order through all stages |

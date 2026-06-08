@@ -1,7 +1,11 @@
-{
-  "workspace": {
-    "active_skill_workspace": "C:\\dev\\bess-replacement",
-    "known_skill_workspaces": [],
-    "context_paths": []
-  }
+﻿{
+    "workspace":  {
+                      "active_skill_workspace":  "C:\\dev\\abd-pet-store-class",
+                      "known_skill_workspaces":  [
+
+                                                 ],
+                      "context_paths":  [
+
+                                        ]
+                  }
 }

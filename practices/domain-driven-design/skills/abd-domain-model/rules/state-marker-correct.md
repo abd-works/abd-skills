@@ -8,7 +8,6 @@ A passing file declares `state: domain-model` in its YAML front matter. A failin
 
 ```yaml
 ---
-state: domain-model
 ---
 ```
 
@@ -16,19 +15,16 @@ state: domain-model
 
 ```yaml
 ---
-state: domain-model
 ---
 ```
 
 ```yaml
 ---
-state: domain-language
 ---
 ```
 
 ```yaml
 ---
-state: class-model
 ---
 ```
 

@@ -1,4 +1,4 @@
-﻿# Specification by Example — Delivery Agent Kanban
+# Specification by Example — Delivery Agent Kanban
 
 **Sources / context:** `docs/domain/domain-language.md`, `docs/domain/domain model.md`, `docs/acceptance-criteria.md`
 
@@ -450,68 +450,45 @@ Then the polling ETag changes
 
 # Board Flow Logic (Kanban Lead, Agent, and Skill Orchestration)
 
-## Story: Pull Backlog Tickets to Active per Stage WIP
+## Story: Promote Backlog Ticket on Skill Claim
 
 **Story type:** system
 
-**Sources / context:** Kanban Board KA — kanban board, ticket, stage; Agent and Skills KA — kanban lead
+**Sources / context:** Kanban Board KA — kanban board, ticket, stage; Agent and Skills KA — team member agent, downstream-first pull
 
 ---
 
 ## Scenarios
 
-### Scenario 1: Kanban Lead pulls partition tickets up to WIP limit
+### Scenario 1: Backlog ticket promoted to active when a team member claims its skill
 
-Given a *Kanban Board* "bess28-mern-spec" with *Stage* "discovery" at *Scope Level* "partition"
-  And the *Kanban Board* has *partition_wip_limit* 1
+Given a *Kanban Board* with no active *Tickets*
   And the backlog contains *Ticket* **1-external-protocol-integration** at *Stage* "discovery" with *Scope Level* "partition" and *Priority* 1
   And the backlog contains *Ticket* **2-dual-persistence** at *Stage* "discovery" with *Scope Level* "partition" and *Priority* 2
-  And no *Tickets* are active at *Stage* "discovery"
-When the *Kanban Lead* runs a pull cycle
+  And a "business-expert" *Team Member Agent* is available
+When the scan cycle assigns eligible work
 Then *Ticket* **1-external-protocol-integration** moves from backlog to active at *Stage* "discovery"
-  And *Ticket* **2-dual-persistence** remains in the backlog
-  And the *Kanban Board* records a "ticket_pulled" event in the metrics log
+  And the "business-expert" *Agent* claims the first eligible *Skill* on that *Ticket*
+  Because the highest-priority backlog *Ticket* is promoted when claimed
 
-### Scenario 2: Kanban Lead does not pull when WIP is full
+### Scenario 2: Active downstream ticket is preferred over upstream backlog ticket
 
-Given a *Kanban Board* "bess28-mern-spec" with *Stage* "discovery" at *Scope Level* "partition"
-  And the *Kanban Board* has *partition_wip_limit* 1
-  And *Ticket* **1-external-protocol-integration** is active at *Stage* "discovery"
-  And the backlog contains *Ticket* **2-dual-persistence** at *Stage* "discovery" with *Scope Level* "partition" and *Priority* 2
-When the *Kanban Lead* runs a pull cycle
-Then no *Tickets* move from backlog to active for *Stage* "discovery"
-  And *Ticket* **2-dual-persistence** remains in the backlog
+Given a *Kanban Board* with *Ticket* **1-inc-1** active at *Stage* "exploration" with eligible work for "business-expert"
+  And the backlog contains *Ticket* **2-inc-2** at *Stage* "discovery" with eligible work for "business-expert"
+  And a "business-expert" *Team Member Agent* is available
+When the scan cycle assigns eligible work
+Then the "business-expert" *Agent* claims work on **1-inc-1** at *Stage* "exploration"
+  And *Ticket* **2-inc-2** remains in the backlog
+  Because downstream stages (exploration) are prioritized over upstream stages (discovery)
 
-### Scenario 3: Kanban Lead pulls for each stage independently
+### Scenario 3: Backlog ticket promoted only when no downstream work exists
 
-Given a *Kanban Board* "bess28-mern-spec" with *Stages*:
-  | stage_name    | scope_level |
-  | discovery     | partition   |
-  | exploration   | increment   |
-  And the backlog contains *Ticket* **3-batch-eod** at *Stage* "discovery" with *Scope Level* "partition"
-  And the backlog contains *Ticket* **1-inc-1-operator-signon** at *Stage* "exploration" with *Scope Level* "increment"
-  And both stages have available WIP capacity
-When the *Kanban Lead* runs a pull cycle
-Then *Ticket* **3-batch-eod** moves to active at *Stage* "discovery"
-  And *Ticket* **1-inc-1-operator-signon** moves to active at *Stage* "exploration"
-
-### Scenario 4: WIP limit derived from Team capacity when not explicit
-
-Given a *Kanban Board* "bess28-mern-spec" with *Stage* "exploration" at *Scope Level* "increment"
-  And the *Stage Work Required* first required *Skill* is "abd-domain-language" with *Agent* role "business-expert"
-  And the *Team* has 3 executors for "business-expert"
-  And no explicit *increment_wip_limit* is set on the board
-When the *Kanban Lead* calculates the WIP limit for "exploration"
-Then the WIP limit is 3 — derived from the *Team* capacity for "business-expert"
-
-### Scenario 5: Rolling pull when first skill is done on active tickets
-
-Given a *Kanban Board* with *Stage* "exploration" at *Scope Level* "increment" and WIP limit 3
-  And 2 active *Tickets* at *Stage* "exploration" have *Skill Progress* for "abd-domain-language" with *Execution Status* "done" and *Review Status* "done"
-  And the backlog contains *Ticket* **1-inc-3-payment-processing** at *Stage* "exploration"
-When the *Kanban Lead* runs a pull cycle
-Then *Ticket* **1-inc-3-payment-processing** moves from backlog to active at *Stage* "exploration"
-  Because the 2 active *Tickets* with their first *Skill* done do not count against the WIP limit for new work
+Given a *Kanban Board* with no active *Tickets* needing "product-owner"
+  And the backlog contains *Ticket* **3-inc-3** at *Stage* "discovery" with eligible work for "product-owner"
+  And a "product-owner" *Team Member Agent* is available
+When the scan cycle assigns eligible work
+Then *Ticket* **3-inc-3** moves from backlog to active
+  And the "product-owner" *Agent* claims the first eligible *Skill* on that *Ticket*
 
 ---
 

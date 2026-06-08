@@ -17,7 +17,7 @@ description: >-
 
 ## Purpose
 
-Produce a **root index** (`module-partition.md`) plus **per-module files** under `abd-domain-driven-design/modules/` — each containing scope, core terms, and **source file references** (not verbatim copies). No classes, no anchors, no UML, no stereotypes. Just boundaries and pointers to the source text that lives inside them.
+Produce a **root index** (`module-partition.md`) plus **per-module files** under `abd-domain-driven-design/modules/` — each containing scope, core terms, and **source file references** (not verbatim copies). No classes, no anchors, no UML, no stereotypes. Just boundaries and pointers to the source text that lives inside them. 
 
 This is the *scope cut* before any class identification. It answers a single question for every chunk of source: **which module does this text belong to** — or is it **unallocated** (pending) or **rejected** (out of scope)?
 

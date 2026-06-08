@@ -1,4 +1,4 @@
-# E2E skill fixtures
+﻿# E2E skill fixtures
 
 Pre-baked, **valid-but-minimal** deliverables for every skill on the `pawplace-stubs` kanban rails.
 
@@ -9,8 +9,8 @@ Content is trimmed from [abd-pet-store-demo](https://github.com/agilebydesign/ab
 ## Usage
 
 1. Reset workspace: `scripts/reset-e2e-fixture.ps1 -Fixture pawplace-stubs`
-2. Point board UI planning root at `tests/e2e/data/pawplace-stubs/docs/planning`
-3. Spawn kanban agents � they copy from here via `skill-fixtures.json` and mark done without running skills
+2. Point board UI planning root at `tests/e2e/data/pawplace-stubs/docs/kanban`
+3. Spawn kanban agents — they copy from here via `skill-fixtures.json` and mark done without running skills
 
 ## Files
 
@@ -28,7 +28,7 @@ Content is trimmed from [abd-pet-store-demo](https://github.com/agilebydesign/ab
 | `abd-architecture-*.md` | Architecture (outline, blueprint, template, reference) |
 | `abd-domain-model.md` | domain model |
 | `abd-specification-by-example.md` | Spec by example |
-| `abd-interface-design.md` | Interface design |
-| `abd-domain-implementation.md` | Class Model |
+| `abd-ux-specification.md` | Interface design |
+| `abd-domain-specification.md` | Class Model |
 | `abd-acceptance-test-driven-development.py` | ATDD stub |
 | `abd-clean-code-product_catalog.py` | Clean code stub |

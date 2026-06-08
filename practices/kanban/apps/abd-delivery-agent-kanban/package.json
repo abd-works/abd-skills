@@ -9,6 +9,7 @@
     "packages/app-client"
   ],
   "scripts": {
+    "generate:catalog": "python scripts/generate-skill-catalog.py",
     "dev:api": "tsx watch packages/app-server/index.ts",
     "dev:client": "vite packages/app-client",
     "dev": "concurrently \"npm run dev:api\" \"npm run dev:client\"",
