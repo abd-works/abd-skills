@@ -1,4 +1,4 @@
-# DDD Building Blocks — {{MODULE_NAME}}
+﻿# DDD Building Blocks — {{MODULE_NAME}}
 
 **Source model:** {{SOURCE_ARTIFACT_PATH}}
 **Module:** {{MODULE_NAME}}
@@ -44,7 +44,7 @@ new                                | AggregateRoot (delegates to Factory or Spec
 find by [business search criteria] | (search parameters)
 retire / archive                   | (retirement rules)
                                    |   note: abstracts persistence behind a collection-style interface;
-                                   |   at object-model fidelity, implement as a collection type
+                                   |   at class-model fidelity, implement as a collection type
 
 ### <<Factory>> ConceptNameFactory
 assemble [concept] from [inputs]   | Collaborators
@@ -70,7 +70,7 @@ specify                            | (Concept to upgrade)
 
 ---
 
-## Example — Pet Store Order module (from CRC input)
+## Example — Pet Store Order module (from domain model input)
 
 **Source model:** `docs/pet-store/pet-store-class-responsibility-collaborator.md`
 **Module:** Order

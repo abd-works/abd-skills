@@ -1,12 +1,11 @@
 #!/usr/bin/env python3
-"""Plan-shape scanner for `<workspace>/docs/planning/abd-kanban-lead/agile-delivery-plan.md`.
+"""Plan-shape scanner for `<workspace>/docs/kanban/agile-delivery-plan.md`.
 
-Evaluates seven rules against the saved narrative plan:
+Evaluates six rules against the saved narrative plan:
 
   - plan-has-context-inventory
   - plan-risks-are-classified
   - plan-strategy-named
-  - plan-runs-have-concrete-outcome
   - plan-is-not-default-six-stage
   - plan-checkpoint-density-matches-risk
   - plan-uses-system-of-work
@@ -69,43 +68,6 @@ RISK_TYPES = {
     "ai-model": ["ai-model risk", "ai model risk", "ai_model risk", "model risk"],
 }
 
-# Concrete outcome verbs that signal the rationale says more than "mitigate X risk".
-OUTCOME_VERBS = {
-    "prove", "proven", "proves",
-    "map", "mapping", "mapped",
-    "establish", "establishes", "established",
-    "deliver", "delivers", "delivered",
-    "wrap", "wraps", "wrapped",
-    "contract", "contracts",
-    "spike", "spikes",
-    "validate", "validates", "validated",
-    "capture", "captures", "captured",
-    "decide", "decided", "decides",
-    "ship", "ships", "shipped",
-    "surface", "surfaces", "surfaced",
-    "land", "lands", "landed",
-    "implement", "implements", "implemented",
-    "refine", "refined", "refines",
-    "define", "defines", "defined",
-    "integrate", "integrates", "integrated",
-    "test", "tests", "tested",
-    "cover", "covers", "covered",
-    "drain", "drains", "drained",
-    "close", "closes", "closed",
-    "explore", "explores", "explored",
-    "slice", "slices", "sliced",
-    "produce", "produces", "produced",
-    "fix", "fixes", "fixed",
-    "isolate", "isolates", "isolated",
-    "learn", "learned", "learns",
-}
-
-RISK_ONLY_PATTERN = re.compile(
-    r"^\s*(mitigate|reduce|manage|address|tackle)\s+"
-    r"(value|technical|delivery|domain|integration|ai[-_\s]?model|model)\s+risk[s]?\.?\s*$",
-    re.IGNORECASE,
-)
-
 TIGHT_CHECKPOINT_PATTERN = re.compile(
     r"per[-\s](story|ac|test|scenario|ac[/\s]+test)",
     re.IGNORECASE,
@@ -148,7 +110,6 @@ RULES = {
         "plan-has-context-inventory",
         "plan-risks-are-classified",
         "plan-strategy-named",
-        "plan-runs-have-concrete-outcome",
         "plan-is-not-default-six-stage",
         "plan-checkpoint-density-matches-risk",
         "plan-uses-system-of-work",
@@ -189,25 +150,6 @@ def _risks_classified(text: str) -> list[str]:
                 found.append(risk)
                 break
     return found
-
-
-def _rationale_is_risk_only(rationale: str) -> bool:
-    if not rationale.strip():
-        return True
-    # Normalize whitespace, strip markdown emphasis
-    r = re.sub(r"[*_`]", "", rationale).strip()
-    if RISK_ONLY_PATTERN.match(r):
-        return True
-    low = r.lower()
-    # If no outcome verb present, treat as risk-only / vague.
-    tokens = re.findall(r"[a-z][a-z\-]+", low)
-    if any(tok in OUTCOME_VERBS for tok in tokens):
-        return False
-    # Fallback: very short lines with only risk words
-    risk_words = {"risk", "risks", "value", "technical", "delivery", "domain",
-                  "integration", "ai", "model", "mitigate", "reduce", "address"}
-    content_tokens = [t for t in tokens if t not in risk_words]
-    return len(content_tokens) < 3
 
 
 def _is_default_six_stage(runs: list[Run]) -> bool:
@@ -331,24 +273,6 @@ def check_strategy_named(text: str) -> list[Violation]:
     )]
 
 
-def check_runs_have_concrete_outcome(runs: list[Run]) -> list[Violation]:
-    out: list[Violation] = []
-    for r in runs:
-        if _rationale_is_risk_only(r.rationale):
-            msg = (
-                f'Run {r.label} rationale is empty or risk-only '
-                f'({r.rationale!r}). Name what is proven, delivered, mapped, or decided '
-                f'when the run completes — not only the risk type being mitigated.'
-            )
-            out.append(Violation(
-                rule=RULES["plan-runs-have-concrete-outcome"],
-                violation_message=msg,
-                location=f"run {r.label}",
-                severity="error",
-            ))
-    return out
-
-
 def check_not_default_six_stage(runs: list[Run], text: str) -> list[Violation]:
     fm = _yaml_frontmatter(text)
     if str(fm.get("trivial", "")).lower() == "true":
@@ -385,7 +309,7 @@ def _uses_system_of_work_model(body: str, workspace: Path | None) -> bool:
     if SYSTEM_OF_WORK_HEADING.search(body) or SYSTEM_OF_WORK_REF.search(body):
         return True
     if workspace is not None:
-        catalog = workspace / "docs" / "planning" / "delivery-war-room" / "run-catalog.json"
+        catalog = workspace / "docs" / "kanban" / "run-catalog.json"
         if catalog.is_file():
             return True
     return False
@@ -483,19 +407,17 @@ def run_checks(plan_text: str, workspace: Path | None = None) -> list[Violation]
     violations += check_context_inventory(body)
     violations += check_risks_classified(body)
     violations += check_strategy_named(body)
-    violations += check_runs_have_concrete_outcome(runs)
     violations += check_not_default_six_stage(runs, plan_text)
     violations += check_checkpoint_density_matches_risk(runs, body)
     violations += check_uses_system_of_work(body, runs, workspace)
     return violations
 
 
-PLANNING_DIR = Path("docs") / "planning"
-DELIVERY_LEAD_DIR = PLANNING_DIR / "abd-kanban-lead"
+KANBAN_DIR = Path("docs") / "kanban"
 
 
 def _resolve_plan_path(workspace: Path) -> Path:
-    return workspace / DELIVERY_LEAD_DIR / "agile-delivery-plan.md"
+    return workspace / KANBAN_DIR / "agile-delivery-plan.md"
 
 
 def main(argv: list[str] | None = None) -> int:

@@ -10,10 +10,9 @@
     "jsx": "react-jsx",
     "types": ["vitest/globals"],
     "paths": {
-      "@deliveryforge/delivery-board-shared": ["./packages/delivery-board/shared/index.ts"],
-      "@deliveryforge/delivery-board-server": ["./packages/delivery-board/server/index.ts"],
-      "@deliveryforge/delivery-board-client": ["./packages/delivery-board/client/index.ts"],
-      "@deliveryforge/delivery-board-client/*": ["./packages/delivery-board/client/*"]
+      "@deliveryforge/kanban-shared": ["./packages/kanban/shared/index.ts"],
+      "@deliveryforge/kanban-client": ["./packages/kanban/client/index.ts"],
+      "@deliveryforge/kanban-server": ["./packages/kanban/server/index.ts"]
     }
   },
   "include": [

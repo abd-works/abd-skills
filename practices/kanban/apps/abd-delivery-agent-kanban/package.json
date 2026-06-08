@@ -2,31 +2,36 @@
   "name": "abd-delivery-agent-kanban",
   "private": true,
   "workspaces": [
-    "packages/delivery-board/shared",
-    "packages/delivery-board/server",
-    "packages/delivery-board/client",
+    "packages/kanban/shared",
+    "packages/kanban/client",
+    "packages/kanban/server",
     "packages/app-server",
     "packages/app-client"
   ],
   "scripts": {
+    "generate:catalog": "python scripts/generate-skill-catalog.py",
     "dev:api": "tsx watch packages/app-server/index.ts",
     "dev:client": "vite packages/app-client",
     "dev": "concurrently \"npm run dev:api\" \"npm run dev:client\"",
     "test": "vitest run",
+    "test:e2e": "powershell -NoProfile -File scripts/reset-e2e-fixture.ps1 -Fixture pawplace-stubs && playwright test",
+    "test:e2e:mini": "powershell -NoProfile -File scripts/reset-e2e-fixture.ps1 -Fixture pawplace-mini && playwright test --config=playwright.mini.config.mjs",
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
-    "@playwright/test": "^1.49.0",
+    "@playwright/test": "^1.60.0",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.3.0",
     "@types/express": "^4.17.21",
     "@types/node": "^22.10.0",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^4.3.4",
     "concurrently": "^9.1.0",
     "jsdom": "^25.0.1",
     "tsx": "^4.19.2",
     "typescript": "^5.7.2",
     "vite": "^6.0.3",
-    "@vitejs/plugin-react": "^4.3.4",
     "vitest": "^2.1.8"
   }
 }

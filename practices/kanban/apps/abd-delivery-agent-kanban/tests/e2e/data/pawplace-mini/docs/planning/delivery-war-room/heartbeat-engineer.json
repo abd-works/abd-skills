@@ -1,8 +1,0 @@
-{
-  "agent_role": "engineer",
-  "ts": "2026-05-31T05:25:00+00:00",
-  "status": "ready",
-  "ticket_id": "2-click-and-collect-sprint-2",
-  "skill": "abd-clean-code",
-  "note": "checkout GREEN — client 8/8, server 30/30, domain 22/22"
-}

@@ -1069,7 +1069,7 @@ def rewrite_bootcamp_catalog_links(text: str, skill_dir_by_name: dict[str, str])
         text,
     )
     text = text.replace("architecture-centric-delivery", "architecture-centric-engineering")
-    text = text.replace("abd-clickable-prototype.html", "abd-interface-design.html")
+    text = text.replace("abd-clickable-prototype.html", "abd-ux-specification.html")
     text = text.replace(">clickable-prototype</a>", ">interface-design</a>")
     text = text.replace("<!-- UXD: clickable-prototype -->", "<!-- UXD: interface-design (implementation pass) -->")
     return text

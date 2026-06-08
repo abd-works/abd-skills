@@ -2,7 +2,7 @@
 
 **Scanner:** AI review
 
-Lo-fi accessibility is structural — heading order is implied by the layout, every input has a visible label drawn from the UL or AC, every error or status message has a labelled region (not just colour), and the layout does not require colour to convey meaning. Pixel-level concerns (contrast, focus ring style, ARIA roles) belong to `abd-interface-design` and are not enforced here.
+Lo-fi accessibility is structural — heading order is implied by the layout, every input has a visible label drawn from the UL or AC, every error or status message has a labelled region (not just colour), and the layout does not require colour to convey meaning. Pixel-level concerns (contrast, focus ring style, ARIA roles) belong to `abd-ux-specification` and are not enforced here.
 
 ## DO
 

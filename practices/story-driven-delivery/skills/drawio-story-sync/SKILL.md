@@ -1,4 +1,4 @@
----
+﻿---
 name: drawio-story-sync
 catalog_garden_tier: foundational
 catalogue_one_liner: >-
@@ -13,7 +13,7 @@ description: >-
 
 ## What this skill owns
 
-- Python package **`drawio_story_sync/`** (under `scripts/`) — DrawIO story map render, layout extraction, and update-report generation (story diagrams only; CRC / map-model DrawIO helpers are not bundled here).
+- Python package **`drawio_story_sync/`** (under `scripts/`) — DrawIO story map render, layout extraction, and update-report generation (story diagrams only; domain model / map-model DrawIO helpers are not bundled here).
 - CLI **`scripts/drawio_story_sync_cli.py`**: `render`, `save-layout`, `report`, **`apply-report`**, **`sync`** (outline → graph + refresh companion diagrams).
 
 ## Story diagram kinds

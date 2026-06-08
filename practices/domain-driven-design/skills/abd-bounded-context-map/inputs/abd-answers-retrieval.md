@@ -1,4 +1,4 @@
-# abd-answers retrieval — abd-bounded-context-map
+﻿# abd-answers retrieval — abd-bounded-context-map
 
 Retrieval date: 2026-05-18
 Queries: 4 Pinecone queries + 1 converted source document (stuff.docx → markdown/stuff.md)
@@ -21,7 +21,7 @@ Once bounded contexts have been defined, a Context Map is created that gives a g
 
 To create a context map follow these steps:
 1. Identify each model in play on the project and define its bounded context
-2. Name each bounded context and include the names in the ubiquitous language of the business domain model
+2. Name each bounded context and include the names in the Domain Language of the business domain model
 3. Describe the points of contact between the models, outlining explicit translation for any communication
 ```
 
@@ -197,7 +197,7 @@ Customer Context — Product Context — Billing Context
 **Rank:** 1-5
 
 ```body
-CONFORMIST: Eliminate the complexity of translation between BOUNDED CONTEXTS by slavishly adhering to the model of the upstream team. This cramps the style of the downstream designers but enormously simplifies integration. Also, you will share a UBIQUITOUS LANGUAGE with your supplier team.
+CONFORMIST: Eliminate the complexity of translation between BOUNDED CONTEXTS by slavishly adhering to the model of the upstream team. This cramps the style of the downstream designers but enormously simplifies integration. Also, you will share a Domain Language with your supplier team.
 
 CONFORMIST resembles SHARED KERNEL in that both have an overlapping area where the model is the same, areas where your model has been extended by addition, and no area of modification or contradiction. The difference is in the decision process and the degree of control: shared kernel is by agreement, conformist is by necessity.
 

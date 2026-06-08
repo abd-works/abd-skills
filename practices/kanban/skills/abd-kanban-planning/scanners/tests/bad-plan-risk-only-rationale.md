@@ -1,4 +1,4 @@
-# Agile Delivery Plan — Risk-Only Rationales
+﻿# Agile Delivery Plan â€” Risk-Only Rationales
 
 ## Context inventory
 
@@ -12,11 +12,11 @@
 
 ## Strategy
 
-Selected: `strategies/new-initiative-proprietary-technology-risk.md`
+Selected: `reference/strategies/new-initiative-proprietary-technology-risk.md`
 
 ## Runs
 
 | Run | Stages                     | Scope          | Checkpoint Policy | Rationale                  |
 | --- | -------------------------- | -------------- | ----------------- | -------------------------- |
 | 1   | Discovery | SSO surface    | Per-story         | Mitigate technical risk    |
-| 2   | Exploration → Engineering  | Thin slice 1   | Per-AC            | Reduce integration risk    |
+| 2   | Exploration â†’ Engineering  | Thin slice 1   | Per-AC            | Reduce integration risk    |

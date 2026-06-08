@@ -1,0 +1,532 @@
+{
+  "epics": [
+    {
+      "name": "Visualize Delivery Board",
+      "sub_epics": [
+        {
+          "name": "Display Board Layout",
+          "story_groups": [
+            {
+              "stories": [
+                {
+                  "name": "Switch Display Theme",
+                  "story_type": "Delivery Lead",
+                  "acceptance_criteria": [],
+                  "scenarios": []
+                },
+                {
+                  "name": "Organize Tickets into Stage Groups by Delivery Phase",
+                  "story_type": "System",
+                  "acceptance_criteria": [],
+                  "scenarios": []
+                },
+                {
+                  "name": "Show Assigned Skills per Stage",
+                  "story_type": "System",
+                  "acceptance_criteria": [],
+                  "scenarios": []
+                },
+                {
+                  "name": "Display Backlog Tickets",
+                  "story_type": "System",
+                  "acceptance_criteria": [],
+                  "scenarios": []
+                },
+                {
+                  "name": "Display Archived Tickets",
+                  "story_type": "System",
+                  "acceptance_criteria": [],
+                  "scenarios": []
+                },
+                {
+                  "name": "Derive Board Title from Ticket Lineage",
+                  "story_type": "System",
+                  "acceptance_criteria": [],
+                  "scenarios": []
+                },
+                {
+                  "name": "Show Last Sync Timestamp",
+                  "story_type": "System",
+                  "acceptance_criteria": [],
+                  "scenarios": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Display Ticket Cards",
+          "story_groups": [
+            {
+              "stories": [
+                {
+                  "name": "Render Ticket with Chip Label and Display Name",
+                  "story_type": "System",
+                  "acceptance_criteria": [],
+                  "scenarios": []
+                },
+                {
+                  "name": "Show Active Skill and Agent on Ticket",
+                  "story_type": "System",
+                  "acceptance_criteria": [],
+                  "scenarios": []
+                },
+                {
+                  "name": "Show Focus Skill Between Executions",
+                  "story_type": "System",
+                  "acceptance_criteria": [],
+                  "scenarios": []
+                },
+                {
+                  "name": "Show Review Status on Ticket",
+                  "story_type": "System",
+                  "acceptance_criteria": [],
+                  "scenarios": []
+                },
+                {
+                  "name": "Highlight Blocked Ticket",
+                  "story_type": "System",
+                  "acceptance_criteria": [],
+                  "scenarios": []
+                },
+                {
+                  "name": "Animate Ticket on Position Change",
+                  "story_type": "System",
+                  "acceptance_criteria": [],
+                  "scenarios": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Inspect Skill Progress",
+          "story_groups": [
+            {
+              "stories": [
+                {
+                  "name": "Expand Ticket Skill List",
+                  "story_type": "Delivery Lead",
+                  "acceptance_criteria": [],
+                  "scenarios": []
+                },
+                {
+                  "name": "Show Skill Execution and Completion Indicators",
+                  "story_type": "System",
+                  "acceptance_criteria": [],
+                  "scenarios": []
+                },
+                {
+                  "name": "Color-Code Skills by Family",
+                  "story_type": "System",
+                  "acceptance_criteria": [],
+                  "scenarios": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Load Board Snapshot",
+      "sub_epics": [
+        {
+          "name": "Compose Snapshot from Planning Artifacts",
+          "story_groups": [
+            {
+              "stories": [
+                {
+                  "name": "Read Board JSON and System of Work from Disk",
+                  "story_type": "System",
+                  "acceptance_criteria": [],
+                  "scenarios": []
+                },
+                {
+                  "name": "Validate Board Data Structure",
+                  "story_type": "System",
+                  "acceptance_criteria": [],
+                  "scenarios": []
+                },
+                {
+                  "name": "Enrich Tickets with Display State",
+                  "story_type": "System",
+                  "acceptance_criteria": [],
+                  "scenarios": []
+                },
+                {
+                  "name": "Map System of Work to Stage Skill Rails",
+                  "story_type": "System",
+                  "acceptance_criteria": [],
+                  "scenarios": []
+                },
+                {
+                  "name": "Read Agent Heartbeat Ages",
+                  "story_type": "System",
+                  "acceptance_criteria": [],
+                  "scenarios": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Serve Board Snapshot",
+          "story_groups": [
+            {
+              "stories": [
+                {
+                  "name": "Return Board Snapshot via API",
+                  "story_type": "System",
+                  "acceptance_criteria": [],
+                  "scenarios": []
+                },
+                {
+                  "name": "Return Not Modified on Matching ETag",
+                  "story_type": "System",
+                  "acceptance_criteria": [],
+                  "scenarios": []
+                },
+                {
+                  "name": "Report Error When Board File Missing",
+                  "story_type": "System",
+                  "acceptance_criteria": [],
+                  "scenarios": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Poll Board Changes",
+      "story_groups": [
+        {
+          "stories": [
+            {
+              "name": "Poll Board Snapshot at Interval",
+              "story_type": "System",
+              "acceptance_criteria": [],
+              "scenarios": []
+            },
+            {
+              "name": "Skip Fetch on Matching ETag",
+              "story_type": "System",
+              "acceptance_criteria": [],
+              "scenarios": []
+            },
+            {
+              "name": "Detect Ticket Position Changes Between Polls",
+              "story_type": "System",
+              "acceptance_criteria": [],
+              "scenarios": []
+            },
+            {
+              "name": "Show Loading State During Fetch",
+              "story_type": "System",
+              "acceptance_criteria": [],
+              "scenarios": []
+            },
+            {
+              "name": "Show Error on Poll Failure",
+              "story_type": "System",
+              "acceptance_criteria": [],
+              "scenarios": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Manage Agent Pool",
+      "sub_epics": [
+        {
+          "name": "Display Agent Pool",
+          "story_groups": [
+            {
+              "stories": [
+                {
+                  "name": "Render Agent Avatars by Role",
+                  "story_type": "System",
+                  "acceptance_criteria": [],
+                  "scenarios": []
+                },
+                {
+                  "name": "Show Role Engagement in Agent Pool",
+                  "story_type": "System",
+                  "acceptance_criteria": [],
+                  "scenarios": []
+                },
+                {
+                  "name": "Indicate Agent Liveness from Heartbeat",
+                  "story_type": "System",
+                  "acceptance_criteria": [],
+                  "scenarios": []
+                },
+                {
+                  "name": "Display Kanban Lead Status",
+                  "story_type": "System",
+                  "acceptance_criteria": [],
+                  "scenarios": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Adjust WIP Policy",
+          "story_groups": [
+            {
+              "stories": [
+                {
+                  "name": "Adjust Executor Count for Role",
+                  "story_type": "Delivery Lead",
+                  "acceptance_criteria": [],
+                  "scenarios": []
+                },
+                {
+                  "name": "Persist WIP Policy Change to Board JSON",
+                  "story_type": "System",
+                  "acceptance_criteria": [],
+                  "scenarios": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Configure Planning Folder",
+      "story_groups": [
+        {
+          "stories": [
+            {
+              "name": "Refresh Board from Disk",
+              "story_type": "Delivery Lead",
+              "acceptance_criteria": [],
+              "scenarios": []
+            },
+            {
+              "name": "Connect to Planning Folder",
+              "story_type": "Delivery Lead",
+              "acceptance_criteria": [],
+              "scenarios": []
+            },
+            {
+              "name": "Validate Planning Folder on Disk",
+              "story_type": "System",
+              "acceptance_criteria": [],
+              "scenarios": []
+            },
+            {
+              "name": "Persist Planning Root Configuration",
+              "story_type": "System",
+              "acceptance_criteria": [],
+              "scenarios": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Watch War Room Files",
+      "story_groups": [
+        {
+          "stories": [
+            {
+              "name": "Start File Watcher on Planning Root Connection",
+              "story_type": "System",
+              "acceptance_criteria": [],
+              "scenarios": []
+            },
+            {
+              "name": "Monitor Kanban Directory for Board and Config Changes",
+              "story_type": "System",
+              "acceptance_criteria": [],
+              "scenarios": []
+            },
+            {
+              "name": "Invalidate Cached Snapshot on Watched File Change",
+              "story_type": "System",
+              "acceptance_criteria": [],
+              "scenarios": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Operate Board in Manual Mode",
+      "sub_epics": [
+        {
+          "name": "Switch Board Mode",
+          "story_groups": [
+            {
+              "stories": [
+                {
+                  "name": "Toggle Manual Mode",
+                  "story_type": "User",
+                  "acceptance_criteria": [],
+                  "scenarios": []
+                },
+                {
+                  "name": "Persist Board Mode Setting",
+                  "story_type": "App",
+                  "acceptance_criteria": [],
+                  "scenarios": []
+                },
+                {
+                  "name": "Read Board Mode Setting And Switches to Manual Mode",
+                  "story_type": "Kanban Lead",
+                  "acceptance_criteria": [],
+                  "scenarios": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Assign Team Member Agent to Ticket",
+          "story_groups": [
+            {
+              "stories": [
+                {
+                  "name": "Drag Team Member Agent onto Ticket",
+                  "story_type": "User",
+                  "acceptance_criteria": [],
+                  "scenarios": []
+                },
+                {
+                  "name": "Record Action Intent in State File",
+                  "story_type": "App",
+                  "acceptance_criteria": [],
+                  "scenarios": []
+                },
+                {
+                  "name": "Detect State File Change",
+                  "story_type": "Kanban Lead",
+                  "acceptance_criteria": [],
+                  "scenarios": []
+                },
+                {
+                  "name": "Delegate Skill to Team Member Agent",
+                  "story_type": "Kanban Lead",
+                  "acceptance_criteria": [],
+                  "scenarios": []
+                },
+                {
+                  "name": "Execute Assigned Skill on Ticket",
+                  "story_type": "Team Member Agent",
+                  "acceptance_criteria": [],
+                  "scenarios": []
+                },
+                {
+                  "name": "Advance Ticket to In Progress on First Skill Start",
+                  "story_type": "Team Member Agent",
+                  "acceptance_criteria": [],
+                  "scenarios": []
+                },
+                {
+                  "name": "Move Ticket to In Progress on Agent Advance",
+                  "story_type": "App",
+                  "acceptance_criteria": [],
+                  "scenarios": []
+                },
+                {
+                  "name": "Persist Skill Completion to Board State",
+                  "story_type": "Team Member Agent",
+                  "acceptance_criteria": [],
+                  "scenarios": []
+                },
+                {
+                  "name": "Update Skill Status on Completion",
+                  "story_type": "App",
+                  "acceptance_criteria": [],
+                  "scenarios": []
+                },
+                {
+                  "name": "Complete Ticket When All Skills Finish",
+                  "story_type": "Team Member Agent",
+                  "acceptance_criteria": [],
+                  "scenarios": []
+                },
+                {
+                  "name": "Move Ticket to Done on Agent Completion",
+                  "story_type": "App",
+                  "acceptance_criteria": [],
+                  "scenarios": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "increments": [
+    {
+      "name": "Manual skill assignment",
+      "priority": 1,
+      "stories": [
+        {
+          "name": "Toggle Manual Mode",
+          "sequential_order": 1.0
+        },
+        {
+          "name": "Persist Board Mode Setting",
+          "sequential_order": 2.0
+        },
+        {
+          "name": "Read Board Mode Setting And Switches to Manual Mode",
+          "sequential_order": 3.0
+        },
+        {
+          "name": "Drag Team Member Agent onto Ticket",
+          "sequential_order": 4.0
+        },
+        {
+          "name": "Record Action Intent in State File",
+          "sequential_order": 5.0
+        },
+        {
+          "name": "Detect State File Change",
+          "sequential_order": 6.0
+        },
+        {
+          "name": "Delegate Skill to Team Member Agent",
+          "sequential_order": 7.0
+        },
+        {
+          "name": "Execute Assigned Skill on Ticket",
+          "sequential_order": 8.0
+        },
+        {
+          "name": "Advance Ticket to In Progress on First Skill Start",
+          "sequential_order": 9.0
+        },
+        {
+          "name": "Move Ticket to In Progress on Agent Advance",
+          "sequential_order": 10.0
+        },
+        {
+          "name": "Persist Skill Completion to Board State",
+          "sequential_order": 11.0
+        },
+        {
+          "name": "Update Skill Status on Completion",
+          "sequential_order": 12.0
+        },
+        {
+          "name": "Complete Ticket When All Skills Finish",
+          "sequential_order": 13.0
+        },
+        {
+          "name": "Move Ticket to Done on Agent Completion",
+          "sequential_order": 14.0
+        }
+      ]
+    }
+  ]
+}

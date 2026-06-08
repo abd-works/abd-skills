@@ -14,8 +14,8 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '@deliveryforge/delivery-board-shared': path.resolve(__dirname, '../delivery-board/shared/index.ts'),
-      '@deliveryforge/delivery-board-client': path.resolve(__dirname, '../delivery-board/client/index.ts'),
+      '@deliveryforge/kanban-shared': path.resolve(__dirname, '../kanban/shared/index.ts'),
+      '@deliveryforge/kanban-client': path.resolve(__dirname, '../kanban/client/index.ts'),
     },
   },
 });

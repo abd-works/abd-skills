@@ -10,10 +10,10 @@ Every engagement plan must name a **strategy** and produce a **kanban board stag
 
 ## DO
 
-- Select **one named strategy** from `strategies/` (or define a custom one) and cite it in the plan.
+- Select **one named strategy** from `reference/strategies/` (or define a custom one) and cite it in the plan.
 - Write **`kanban.json`** with the kanban board configuration: stages, scope per stage, ordered stage work required with delivery role assignments, strategy (scatter rules, checkpoint policy, autonomy), and team.
 - Show the **full kanban board stage configuration table** (stages, scope, skills) for the engagement in the plan.
-- When inventing a **new** custom configuration, **CHECKPOINT:** ask the operator whether to add it to `abd-kanban-planning/strategies/` for reuse.
+- When inventing a **new** custom configuration, **CHECKPOINT:** ask the operator whether to add it to `abd-kanban-planning/reference/strategies/` for reuse.
 
 ## DO NOT
 
@@ -29,7 +29,7 @@ Every engagement plan must name a **strategy** and produce a **kanban board stag
 
 | Ticket | Stage | Skill | Agent |
 | --- | --- | --- | --- |
-| inc-1 | exploration | abd-ubiquitous-language | business-expert |
+| inc-1 | exploration | abd-domain-language | business-expert |
 | inc-1 | exploration | abd-acceptance-criteria | product-owner |
 ```
 
@@ -44,10 +44,10 @@ Pre-assigns skills to specific tickets — duplicates the kanban board; brittle.
 
 | Stage | Scope | Stage work required (ordered) |
 | --- | --- | --- |
-| shaping | all | abd-story-mapping (product-owner), abd-thin-slicing (product-owner) |
-| discovery | increment | abd-domain-terms (business-expert), abd-story-mapping (product-owner) |
-| exploration | increment | abd-ubiquitous-language (business-expert), abd-acceptance-criteria (product-owner) |
-| engineering | sprint | abd-object-model (engineer), abd-clean-code (engineer) |
+| shaping | all | abd-domain-glossary (business-expert), abd-story-mapping (product-owner), abd-thin-slicing (product-owner) |
+| discovery | increment | abd-story-mapping (product-owner) |
+| exploration | increment | abd-domain-language (business-expert), abd-acceptance-criteria (product-owner) |
+| engineering | sprint | abd-ux-specification (ux-designer), abd-domain-specification (business-expert), abd-acceptance-test-driven-development (product-owner), abd-clean-code (engineer) |
 
-Stored in `delivery-war-room/system-of-work.json`. Agents pull skill work from any ticket at the matching stage.
+Stored in `delivery-kanban-board/system-of-work.json`. Agents pull skill work from any ticket at the matching stage.
 ```

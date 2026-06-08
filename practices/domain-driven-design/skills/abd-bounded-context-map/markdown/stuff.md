@@ -1,4 +1,4 @@
-<!-- Source: source/abd-bounded-context-map/stuff.docx | file:///C:/dev/abd-answers/source/abd-bounded-context-map/stuff.docx -->
+﻿<!-- Source: source/abd-bounded-context-map/stuff.docx | file:///C:/dev/abd-answers/source/abd-bounded-context-map/stuff.docx -->
 
 “sufficient network bandwidth”. Technical tests are often written to verify non-functional requirements.
 
@@ -12,7 +12,7 @@ Multiple models coexist on big projects and each model applies in a context. The
 
 Example: Booking Context
 
-*A shipping company has an internal project to develop a new application for booking cargo. This application is to be driven by an object model. What is the bounded context within which this model applies? To answer this question, we have to look at what is happening on the project. This is a look at the project as it is, not as it ideally should be.*
+*A shipping company has an internal project to develop a new application for booking cargo. This application is to be driven by an Class Model. What is the bounded context within which this model applies? To answer this question, we have to look at what is happening on the project. This is a look at the project as it is, not as it ideally should be.*
 
 *One project team is working on the booking application itself. They are not expected to modify the model objects, but the application they are building has to display and manipulate those objects. This team is a consumer of the model. The model is valid within the application (its primary consumer), and therefore the booking application is in bounds.*
 
@@ -52,7 +52,7 @@ Institute a process of merging all implementation artifacts frequently, with aut
 An individual bounded context still does not provide a global view. The context of other models may still be vague and in flux. People on other teams won’t be very aware of the context bounds and will unknowingly make changes that blur the edges or complicate the interconnections. Confusion can be reduced by defining the relationship between the different contexts and creating a global view of all the model contexts on the project. Relationships can be defined using a context map. To create a context map follow these steps:
 
 1. Identify each model in play on the project and define its bounded context
-2. Name each bounded context and include the names in the ubiquitous language of the business domain model
+2. Name each bounded context and include the names in the Domain Language of the business domain model
 3. Describe the points of contact between the models, outlining explicit translation for any communication
 
 Example:

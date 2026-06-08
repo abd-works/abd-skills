@@ -1,8 +1,8 @@
-# Rule: Ubiquitous Language bullets become card rows; italicized terms become collaborators
+# Rule: Domain Language bullets become card rows; italicized terms become collaborators
 
 **Scanner:** Manual review
 
-When the source is a Ubiquitous Language file (`*-ubiquitous-language.md` with `state: ubiquitous-language` in the front matter), the renderer produces a class diagram with the same shape it produces for a CRC source — cards with rows and collaborators — but reads its structure from the ULL's prose form rather than from CRC tables.
+When the source is a Domain Language file (`*-domain-language.md` with `state: domain-language` in the front matter, produced by `abd-domain-language`), the renderer produces a class diagram with the same shape it produces for a Domain Model source — cards with rows and collaborators — but reads its structure from the Domain Language's prose form rather than from typed class blocks.
 
 Mapping:
 
@@ -70,7 +70,7 @@ A failing diagram drops bullets, drops italicized terms, invents type annotation
 
 - Invent type annotations the source does not contain.
 
-  **Example (fail):** Adding `+ name: String` or `+ rank: Integer` to a card whose ULL source uses no types. Object-model fidelity is only appropriate when the source is an object model.
+  **Example (fail):** Adding `+ name: String` or `+ rank: Integer` to a card whose ULL source uses no types. class-model fidelity is only appropriate when the source is an Class Model.
 
 - Emit one edge per bullet reference instead of folding duplicates.
 
@@ -86,6 +86,6 @@ A failing diagram drops bullets, drops italicized terms, invents type annotation
 
 ## Notes
 
-- This rule depends on the upstream rule `italic-terms-resolve-to-named-concepts.md` in `abd-ubiquitous-language`. If italicized terms in the source do not resolve, this renderer cannot draw their edges without inventing cards — fix the ULL first.
-- For first-time full renders of large ULLs, persist a `build_<name>_ull_diagram.py` in the destination repo per the existing build-script convention.
-- ULL `sync-to-model` (diagram → source) is one-way for new/deleted concepts only. Bullet text rewrites do not round-trip back to the file — the ULL prose is the authoritative form, and bullet edits should be made in the markdown, not in Draw.io.
+- This rule depends on the upstream rule `italic-terms-resolve-to-named-concepts.md` in `abd-domain-language`. If italicized terms in the source do not resolve, this renderer cannot draw their edges without inventing cards — fix the Domain Language file first.
+- For first-time full renders of large Domain Language files, persist a `build_<name>_ull_diagram.py` in the destination repo per the existing build-script convention.
+- Domain Language `sync-to-model` (diagram → source) is one-way for new/deleted concepts only. Bullet text rewrites do not round-trip back to the file — the Domain Language prose is the authoritative form, and bullet edits should be made in the markdown, not in Draw.io.

@@ -1,8 +1,8 @@
-# Architecture Mechanism — Shared Concept
+﻿# Architecture Mechanism — Shared Concept
 
 This is the family-level definition of an **architecture mechanism**. The
 architecture skills (`abd-architecture-outline`, `abd-architecture-blueprint`,
-`abd-architecture-template`, `abd-architecture-reference`) all refer to it; each
+`abd-architecture-specification`, `abd-architecture-specification`) all refer to it; each
 skill adds its own *level of fidelity* on top of this single definition rather
 than re-defining the term.
 
@@ -44,5 +44,5 @@ Less common but recurring: idempotency, transactions, rate limiting, messaging.
 
 - **`abd-architecture-outline`** — *names* the mechanisms in scope and explicitly defers their detail downward.
 - **`abd-architecture-blueprint`** — describes each mechanism in 1–2 paragraphs: the concern it addresses, which components depend on it, how they interact with it.
-- **`abd-architecture-template`** — takes one mechanism at a time and goes deep using the five-part shape (principles & patterns, file structure, participants, flow, walkthrough).
-- **`abd-architecture-reference`** — emits runnable code that implements one mechanism end-to-end.
+- **`abd-architecture-specification`** — takes one mechanism at a time and goes deep using the five-part shape (principles & patterns, file structure, participants, flow, walkthrough).
+- **`abd-architecture-specification`** — emits runnable code that implements one mechanism end-to-end.

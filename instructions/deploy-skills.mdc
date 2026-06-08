@@ -1,0 +1,42 @@
+---
+description: Canonical deploy contract for skills, instructions, and prompts
+alwaysApply: true
+---
+
+# Deploying from agilebydesign-skills
+
+Use **one script only**:
+
+```powershell
+& "<skills-repo-root>\scripts\deploy-skills.ps1" -ide cursor -Package all
+& "<skills-repo-root>\scripts\deploy-skills.ps1" -ide vscode -Package all
+& "<skills-repo-root>\scripts\deploy-skills.ps1" -ide cursor -Package kanban -DeployRoot "C:\dev\some-target"
+```
+
+No other deploy path is allowed.
+
+## Source-of-truth rule for instructions
+
+- `foundational/` and `practices/` use `*.instructions.md` as source.
+- `deploy-skills.ps1` shapes IDE output.
+
+## Contract boundary
+
+If behavior details are needed, invoke:
+
+```powershell
+& "<skills-repo-root>\scripts\deploy-skills.ps1" ...
+```
+
+and trust script behavior.
+
+## Interactive deploy prompt requirements
+
+`/deploy-skills` must:
+
+- Use `AskQuestion` for IDE choice (`cursor` or `vscode`)
+- Use `AskQuestion` to select deploy target from currently open repos/workspaces — **always ask, never silently auto-resolve**
+- Pre-populate options with: open workspace folders, `.code-workspace` files found nearby, `skill-config.json` auto-resolve value (as a selectable option, not the default), and custom path entry
+- Include package selection
+- Invoke `deploy-skills.ps1` with `-DeployRoot` derived from the answer (omit only if user explicitly chose auto-resolve)
+

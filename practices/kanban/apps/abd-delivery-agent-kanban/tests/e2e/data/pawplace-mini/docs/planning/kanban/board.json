@@ -1,9 +1,31 @@
-{
+﻿{
   "schema": "abd-delivery-kanban/v2",
-  "synced_at": "2026-05-31T00:19:46.893431+00:00",
+  "synced_at": "2026-05-31T12:00:00Z",
   "stage_configuration": "pawplace-mini",
+  "board_mode": "manual",
   "backlog": [],
-  "active": [],
+  "active": [
+    {
+      "ticket_id": "project-all-inc-1-find-products-and-check-store-stock",
+      "lineage": [
+        "PawPlace",
+        "Find products and check store stock"
+      ],
+      "scope_level": "increment",
+      "stage": "discovery",
+      "priority": 1,
+      "created": "2026-06-01T05:08:12.648Z",
+      "entered_stage": "2026-06-01T05:08:12.648Z",
+      "completed_stage": null,
+      "stage_history": [],
+      "archived": null,
+      "scatter_from": "project-all",
+      "scatter_to": [],
+      "skill_progress": {},
+      "notes": "",
+      "hold_in_progress": true
+    }
+  ],
   "done": [],
   "archived": [
     {
@@ -12,622 +34,71 @@
         "PawPlace"
       ],
       "scope_level": "all",
-      "stage": "discovery",
+      "stage": "shaping",
       "priority": 1,
-      "created": "2026-05-31T12:00:00Z",
-      "entered_stage": "2026-05-31T12:31:00Z",
-      "completed_stage": "2026-05-30T23:33:54.270413+00:00",
+      "skill_progress": {
+        "abd-domain-partition": {
+          "execution_status": "done",
+          "review_status": "done",
+          "agent": "business-expert",
+          "reviewer": "business-expert",
+          "start": "2026-06-01T05:08:12.648Z",
+          "end": "2026-06-01T05:08:12.648Z",
+          "review_start": "2026-06-01T05:08:12.648Z",
+          "review_end": "2026-06-01T05:08:12.648Z"
+        },
+        "abd-story-mapping": {
+          "execution_status": "done",
+          "review_status": "done",
+          "agent": "product-owner",
+          "reviewer": "product-owner",
+          "start": "2026-06-01T05:08:12.648Z",
+          "end": "2026-06-01T05:08:12.648Z",
+          "review_start": "2026-06-01T05:08:12.648Z",
+          "review_end": "2026-06-01T05:08:12.648Z"
+        },
+        "abd-impact-mapping": {
+          "execution_status": "done",
+          "review_status": "done",
+          "agent": "ux-designer",
+          "reviewer": "ux-designer",
+          "start": "2026-06-01T05:08:12.648Z",
+          "end": "2026-06-01T05:08:12.648Z",
+          "review_start": "2026-06-01T05:08:12.648Z",
+          "review_end": "2026-06-01T05:08:12.648Z"
+        },
+        "abd-architecture-outline": {
+          "execution_status": "done",
+          "review_status": "done",
+          "agent": "engineer",
+          "reviewer": "engineer",
+          "start": "2026-06-01T05:08:12.648Z",
+          "end": "2026-06-01T05:08:12.648Z",
+          "review_start": "2026-06-01T05:08:12.648Z",
+          "review_end": "2026-06-01T05:08:12.648Z"
+        }
+      },
+      "entered_stage": "2026-05-31T12:00:00Z",
+      "completed_stage": "2026-06-01T05:08:12.648Z",
+      "scatter_from": null,
+      "scatter_to": [
+        "project-all-inc-1-find-products-and-check-store-stock"
+      ],
+      "notes": "PawPlace micro E2E",
       "stage_history": [
         {
           "stage": "shaping",
           "entered": "2026-05-31T12:00:00Z",
-          "completed": "2026-05-31T12:31:00Z"
-        },
-        {
-          "stage": "discovery",
-          "entered": "2026-05-31T12:31:00Z",
-          "completed": "2026-05-30T23:33:54.270413+00:00"
+          "completed": "2026-06-01T05:08:12.648Z"
         }
       ],
-      "archived": "2026-05-30T23:33:54.270413+00:00",
-      "scatter_from": null,
-      "scatter_to": [
-        "1-walk-in-driver",
-        "2-click-and-collect"
-      ],
-      "notes": "PawPlace mini E2E — advanced to discovery after shaping complete",
-      "skill_progress": {
-        "abd-domain-terms": {
-          "execution_status": "done",
-          "agent": "business-expert",
-          "start": "2026-05-31T12:33:00Z",
-          "end": "2026-05-31T12:40:00Z",
-          "review_status": "done",
-          "reviewer": "business-expert",
-          "review_start": "2026-05-31T12:39:00Z",
-          "review_end": "2026-05-31T12:40:00Z"
-        },
-        "abd-architecture-blueprint": {
-          "execution_status": "done",
-          "agent": "engineer",
-          "start": "2026-05-31T12:41:00Z",
-          "end": "2026-05-31T12:48:00Z",
-          "review_status": "done",
-          "reviewer": "engineer",
-          "review_start": "2026-05-31T12:47:00Z",
-          "review_end": "2026-05-31T12:48:00Z"
-        },
-        "abd-story-mapping": {
-          "execution_status": "done",
-          "agent": "product-owner",
-          "start": "2026-05-31T12:46:00Z",
-          "end": "2026-05-31T12:49:00Z",
-          "review_status": "done",
-          "reviewer": "product-owner",
-          "review_start": "2026-05-31T12:49:00Z",
-          "review_end": "2026-05-31T12:50:00Z"
-        },
-        "abd-information-architecture": {
-          "execution_status": "done",
-          "agent": "ux-designer",
-          "start": "2026-05-31T12:41:00Z",
-          "end": "2026-05-31T12:48:00Z",
-          "review_status": "done",
-          "reviewer": "ux-designer",
-          "review_start": "2026-05-31T12:47:00Z",
-          "review_end": "2026-05-31T12:48:00Z"
-        }
-      }
-    },
-    {
-      "ticket_id": "1-walk-in-driver",
-      "lineage": [
-        "PawPlace",
-        "Walk-in driver"
-      ],
-      "scope_level": "increment",
-      "stage": "exploration",
-      "priority": 1,
-      "created": "2026-05-30T23:33:54.270413+00:00",
-      "entered_stage": "2026-05-30T23:33:54.270413+00:00",
-      "completed_stage": "2026-05-30T23:45:44.435295+00:00",
-      "stage_history": [
-        {
-          "stage": "exploration",
-          "entered": "2026-05-30T23:33:54.270413+00:00",
-          "completed": "2026-05-30T23:45:44.435295+00:00"
-        }
-      ],
-      "archived": "2026-05-30T23:45:44.435295+00:00",
-      "scatter_from": "project-all",
-      "scatter_to": [
-        "1-walk-in-driver-sprint-1",
-        "1-walk-in-driver-sprint-2"
-      ],
-      "notes": "",
-      "skill_progress": {
-        "abd-ubiquitous-language": {
-          "execution_status": "done",
-          "agent": "business-expert",
-          "start": "2026-05-30T23:35:00+00:00",
-          "end": "2026-05-30T23:41:00+00:00",
-          "review_status": "done",
-          "reviewer": "business-expert",
-          "review_start": "2026-05-30T23:40:00+00:00",
-          "review_end": "2026-05-30T23:41:00+00:00"
-        },
-        "abd-acceptance-criteria": {
-          "execution_status": "done",
-          "agent": "product-owner",
-          "start": "2026-05-30T23:44:00+00:00",
-          "end": "2026-05-30T23:52:00+00:00",
-          "review_status": "done",
-          "reviewer": "product-owner",
-          "review_start": "2026-05-30T23:51:00+00:00",
-          "review_end": "2026-05-30T23:52:00+00:00"
-        },
-        "abd-ux-mockup": {
-          "execution_status": "done",
-          "agent": "ux-designer",
-          "start": "2026-05-30T23:50:00+00:00",
-          "end": "2026-05-30T23:55:00+00:00",
-          "review_status": "done",
-          "reviewer": "ux-designer",
-          "review_start": "2026-05-30T23:54:00+00:00",
-          "review_end": "2026-05-30T23:55:00+00:00"
-        }
-      }
-    },
-    {
-      "ticket_id": "2-click-and-collect",
-      "lineage": [
-        "PawPlace",
-        "Click-and-collect"
-      ],
-      "scope_level": "increment",
-      "stage": "exploration",
-      "priority": 2,
-      "created": "2026-05-30T23:33:54.270413+00:00",
-      "entered_stage": "2026-05-30T23:33:54.270413+00:00",
-      "completed_stage": "2026-05-30T23:45:44.451842+00:00",
-      "stage_history": [
-        {
-          "stage": "exploration",
-          "entered": "2026-05-30T23:33:54.270413+00:00",
-          "completed": "2026-05-30T23:45:44.451842+00:00"
-        }
-      ],
-      "archived": "2026-05-30T23:45:44.451842+00:00",
-      "scatter_from": "project-all",
-      "scatter_to": [
-        "2-click-and-collect-sprint-1",
-        "2-click-and-collect-sprint-2",
-        "2-click-and-collect-sprint-3"
-      ],
-      "notes": "",
-      "skill_progress": {
-        "abd-ubiquitous-language": {
-          "execution_status": "done",
-          "agent": "business-expert",
-          "start": "2026-05-30T23:42:00+00:00",
-          "end": "2026-05-30T23:48:00+00:00",
-          "review_status": "done",
-          "reviewer": "business-expert",
-          "review_start": "2026-05-30T23:47:00+00:00",
-          "review_end": "2026-05-30T23:48:00+00:00"
-        },
-        "abd-acceptance-criteria": {
-          "execution_status": "done",
-          "agent": "product-owner",
-          "start": "2026-05-30T23:50:00+00:00",
-          "end": "2026-05-30T23:58:00+00:00",
-          "review_status": "done",
-          "reviewer": "product-owner",
-          "review_start": "2026-05-30T23:57:00+00:00",
-          "review_end": "2026-05-30T23:58:00+00:00"
-        },
-        "abd-ux-mockup": {
-          "execution_status": "done",
-          "agent": "ux-designer",
-          "start": "2026-05-30T23:58:00+00:00",
-          "end": "2026-05-31T00:05:00+00:00",
-          "review_status": "done",
-          "reviewer": "ux-designer",
-          "review_start": "2026-05-31T00:04:00+00:00",
-          "review_end": "2026-05-31T00:05:00+00:00"
-        }
-      }
-    },
-    {
-      "ticket_id": "2-click-and-collect-sprint-1",
-      "lineage": [
-        "PawPlace",
-        "Click-and-collect",
-        "Sprint 1: Cart"
-      ],
-      "scope_level": "sprint",
-      "stage": "engineering",
-      "priority": 1,
-      "created": "2026-05-30T23:45:44.451842+00:00",
-      "entered_stage": "2026-05-30T23:51:34.821341+00:00",
-      "completed_stage": "2026-05-31T00:04:04.818090+00:00",
-      "stage_history": [
-        {
-          "stage": "specification",
-          "entered": "2026-05-30T23:45:44.451842+00:00",
-          "completed": "2026-05-30T23:51:34.821341+00:00"
-        }
-      ],
-      "archived": null,
-      "scatter_from": "2-click-and-collect",
-      "scatter_to": [],
-      "notes": "Engineering abd-interface-design complete — ShoppingCartView + ProductDetailAddButton; 6/6 manage-cart_client GREEN",
-      "skill_progress": {
-        "abd-class-responsibility-collaborator": {
-          "execution_status": "done",
-          "agent": "business-expert",
-          "start": "2026-05-31T00:20:00+00:00",
-          "end": "2026-05-31T00:24:00+00:00",
-          "review_status": "done",
-          "reviewer": "business-expert",
-          "review_start": "2026-05-31T00:23:00+00:00",
-          "review_end": "2026-05-31T00:24:00+00:00"
-        },
-        "abd-specification-by-example": {
-          "execution_status": "done",
-          "agent": "product-owner",
-          "start": "2026-05-31T00:28:00+00:00",
-          "end": "2026-05-31T00:32:00+00:00",
-          "review_status": "done",
-          "reviewer": "product-owner",
-          "review_start": "2026-05-31T00:31:00+00:00",
-          "review_end": "2026-05-31T00:32:00+00:00"
-        },
-        "abd-interface-design": {
-          "execution_status": "done",
-          "agent": "ux-designer",
-          "start": "2026-05-31T00:01:26+00:00",
-          "end": "2026-05-31T04:05:00+00:00",
-          "review_status": "done",
-          "reviewer": "ux-designer",
-          "review_start": "2026-05-31T04:03:00+00:00",
-          "review_end": "2026-05-31T04:05:00+00:00"
-        },
-        "abd-architecture-reference": {
-          "execution_status": "done",
-          "agent": "engineer",
-          "start": "2026-05-31T00:46:00+00:00",
-          "end": "2026-05-31T00:48:00+00:00",
-          "review_status": "done",
-          "reviewer": "engineer",
-          "review_start": "2026-05-31T00:47:00+00:00",
-          "review_end": "2026-05-31T00:48:00+00:00"
-        },
-        "abd-object-model": {
-          "execution_status": "done",
-          "agent": "engineer",
-          "start": "2026-05-31T01:10:00+00:00",
-          "end": "2026-05-31T01:20:00+00:00",
-          "review_status": "done",
-          "reviewer": "engineer",
-          "review_start": "2026-05-31T01:19:00+00:00",
-          "review_end": "2026-05-31T01:20:00+00:00"
-        },
-        "abd-acceptance-test-driven-development": {
-          "execution_status": "done",
-          "agent": "engineer",
-          "start": "2026-05-31T01:35:00+00:00",
-          "end": "2026-05-31T01:45:00+00:00",
-          "review_status": "done",
-          "reviewer": "engineer",
-          "review_start": "2026-05-31T01:44:00+00:00",
-          "review_end": "2026-05-31T01:45:00+00:00"
-        },
-        "abd-clean-code": {
-          "execution_status": "done",
-          "agent": "engineer",
-          "start": "2026-05-31T02:20:00+00:00",
-          "end": "2026-05-31T02:30:00+00:00",
-          "review_status": "done",
-          "reviewer": "engineer",
-          "review_start": "2026-05-31T02:28:00+00:00",
-          "review_end": "2026-05-31T02:30:00+00:00"
-        }
-      }
-    },
-    {
-      "ticket_id": "1-walk-in-driver-sprint-2",
-      "lineage": [
-        "PawPlace",
-        "Walk-in driver",
-        "Sprint 2: Stock visibility"
-      ],
-      "scope_level": "sprint",
-      "stage": "engineering",
-      "priority": 2,
-      "created": "2026-05-30T23:45:44.435295+00:00",
-      "entered_stage": "2026-05-30T23:54:23.420964+00:00",
-      "completed_stage": "2026-05-31T20:15:00+00:00",
-      "stage_history": [
-        {
-          "stage": "specification",
-          "entered": "2026-05-30T23:45:44.435295+00:00",
-          "completed": "2026-05-30T23:54:23.420964+00:00"
-        }
-      ],
-      "archived": null,
-      "scatter_from": "1-walk-in-driver",
-      "scatter_to": [],
-      "notes": "Engineering complete — stock-visibility 15/15 client, 15/15 server, 8/8 domain GREEN",
-      "skill_progress": {
-        "abd-interface-design": {
-          "execution_status": "done",
-          "agent": "ux-designer",
-          "start": "2026-05-31T02:15:00+00:00",
-          "end": "2026-05-31T03:00:00+00:00",
-          "review_status": "done",
-          "reviewer": "ux-designer",
-          "review_start": "2026-05-31T02:55:00+00:00",
-          "review_end": "2026-05-31T03:00:00+00:00"
-        },
-        "abd-object-model": {
-          "execution_status": "done",
-          "agent": "engineer",
-          "start": "2026-05-31T03:20:00+00:00",
-          "end": "2026-05-31T04:15:00+00:00",
-          "review_status": "done",
-          "reviewer": "engineer",
-          "review_start": "2026-05-31T04:12:00+00:00",
-          "review_end": "2026-05-31T04:15:00+00:00"
-        },
-        "abd-acceptance-test-driven-development": {
-          "execution_status": "done",
-          "agent": "engineer",
-          "start": "2026-05-31T04:20:00+00:00",
-          "end": "2026-05-31T04:45:00+00:00",
-          "review_status": "done",
-          "reviewer": "engineer",
-          "review_start": "2026-05-31T04:42:00+00:00",
-          "review_end": "2026-05-31T04:45:00+00:00"
-        },
-        "abd-clean-code": {
-          "execution_status": "done",
-          "agent": "engineer",
-          "start": "2026-05-31T20:12:00+00:00",
-          "end": "2026-05-31T20:15:00+00:00",
-          "review_status": "done",
-          "reviewer": "engineer",
-          "review_start": "2026-05-31T20:14:00+00:00",
-          "review_end": "2026-05-31T20:15:00+00:00"
-        }
-      }
-    },
-    {
-      "ticket_id": "1-walk-in-driver-sprint-1",
-      "lineage": [
-        "PawPlace",
-        "Walk-in driver",
-        "Sprint 1: Find a store"
-      ],
-      "scope_level": "sprint",
-      "stage": "engineering",
-      "priority": 1,
-      "created": "2026-05-30T23:45:44.435295+00:00",
-      "entered_stage": "2026-05-30T23:50:07.750214+00:00",
-      "completed_stage": "2026-05-31T00:07:01.811200+00:00",
-      "stage_history": [
-        {
-          "stage": "specification",
-          "entered": "2026-05-30T23:45:44.435295+00:00",
-          "completed": "2026-05-30T23:50:07.750214+00:00"
-        }
-      ],
-      "archived": null,
-      "scatter_from": "1-walk-in-driver",
-      "scatter_to": [],
-      "notes": "Engineering complete — find-a-store 12/12 client, 12/12 server, 7/7 domain GREEN; e2e RED pending",
-      "skill_progress": {
-        "abd-clean-code": {
-          "execution_status": "done",
-          "agent": "engineer",
-          "start": "2026-05-31T04:06:00+00:00",
-          "end": "2026-05-31T04:07:00+00:00",
-          "review_status": "done",
-          "reviewer": "engineer",
-          "review_start": "2026-05-31T04:06:30+00:00",
-          "review_end": "2026-05-31T04:07:00+00:00"
-        },
-        "abd-interface-design": {
-          "execution_status": "done",
-          "agent": "ux-designer",
-          "start": "2026-05-31T02:45:00+00:00",
-          "end": "2026-05-31T03:00:00+00:00",
-          "review_status": "done",
-          "reviewer": "ux-designer",
-          "review_start": "2026-05-31T02:58:00+00:00",
-          "review_end": "2026-05-31T03:00:00+00:00"
-        },
-        "abd-object-model": {
-          "execution_status": "done",
-          "agent": "engineer",
-          "start": "2026-05-31T01:10:00+00:00",
-          "end": "2026-05-31T01:18:00+00:00",
-          "review_status": "done",
-          "reviewer": "engineer",
-          "review_start": "2026-05-31T01:17:00+00:00",
-          "review_end": "2026-05-31T01:18:00+00:00"
-        },
-        "abd-acceptance-test-driven-development": {
-          "execution_status": "done",
-          "agent": "engineer",
-          "start": "2026-05-31T00:01:12+00:00",
-          "end": "2026-05-31T03:25:00+00:00",
-          "review_status": "done",
-          "reviewer": "engineer",
-          "review_start": "2026-05-31T03:22:00+00:00",
-          "review_end": "2026-05-31T03:25:00+00:00"
-        }
-      }
-    },
-    {
-      "ticket_id": "2-click-and-collect-sprint-3",
-      "lineage": [
-        "PawPlace",
-        "Click-and-collect",
-        "Sprint 3: Store pickup"
-      ],
-      "scope_level": "sprint",
-      "stage": "engineering",
-      "priority": 3,
-      "created": "2026-05-30T23:45:44.451842+00:00",
-      "entered_stage": "2026-05-30T23:59:40.363620+00:00",
-      "completed_stage": "2026-05-31T00:15:04.485531+00:00",
-      "stage_history": [
-        {
-          "stage": "specification",
-          "entered": "2026-05-30T23:45:44.451842+00:00",
-          "completed": "2026-05-30T23:59:40.363620+00:00"
-        }
-      ],
-      "archived": null,
-      "scatter_from": "2-click-and-collect",
-      "scatter_to": [],
-      "notes": "Engineering complete — store-pickup 8/8 client, 10/10 server, 6/6 domain GREEN; e2e 2 RED pending Playwright",
-      "skill_progress": {
-        "abd-class-responsibility-collaborator": {
-          "execution_status": "done",
-          "agent": "business-expert",
-          "start": "2026-05-31T01:35:00+00:00",
-          "end": "2026-05-31T01:42:00+00:00",
-          "review_status": "done",
-          "reviewer": "business-expert",
-          "review_start": "2026-05-31T01:41:00+00:00",
-          "review_end": "2026-05-31T01:42:00+00:00"
-        },
-        "abd-specification-by-example": {
-          "execution_status": "done",
-          "agent": "product-owner",
-          "start": "2026-05-31T02:05:00+00:00",
-          "end": "2026-05-31T02:08:00+00:00",
-          "review_status": "done",
-          "reviewer": "product-owner",
-          "review_start": "2026-05-31T02:07:00+00:00",
-          "review_end": "2026-05-31T02:08:00+00:00"
-        },
-        "abd-interface-design": {
-          "execution_status": "done",
-          "agent": "ux-designer",
-          "start": "2026-05-31T03:05:00+00:00",
-          "end": "2026-05-31T04:04:00+00:00",
-          "review_status": "done",
-          "reviewer": "ux-designer",
-          "review_start": "2026-05-31T04:02:00+00:00",
-          "review_end": "2026-05-31T04:04:00+00:00"
-        },
-        "abd-architecture-reference": {
-          "execution_status": "done",
-          "agent": "engineer",
-          "start": "2026-05-31T02:45:00+00:00",
-          "end": "2026-05-31T02:46:00+00:00",
-          "review_status": "done",
-          "reviewer": "engineer",
-          "review_start": "2026-05-31T02:45:30+00:00",
-          "review_end": "2026-05-31T02:46:00+00:00"
-        },
-        "abd-object-model": {
-          "execution_status": "done",
-          "agent": "engineer",
-          "start": "2026-05-31T00:04:51+00:00",
-          "end": "2026-05-31T04:10:00+00:00",
-          "review_status": "done",
-          "reviewer": "engineer",
-          "review_start": "2026-05-31T04:09:00+00:00",
-          "review_end": "2026-05-31T04:10:00+00:00"
-        },
-        "abd-acceptance-test-driven-development": {
-          "execution_status": "done",
-          "agent": "engineer",
-          "start": "2026-05-31T04:15:00+00:00",
-          "end": "2026-05-31T04:20:00+00:00",
-          "review_status": "done",
-          "reviewer": "engineer",
-          "review_start": "2026-05-31T04:19:00+00:00",
-          "review_end": "2026-05-31T04:20:00+00:00"
-        },
-        "abd-clean-code": {
-          "execution_status": "done",
-          "agent": "engineer",
-          "start": "2026-05-31T04:50:00+00:00",
-          "end": "2026-05-31T05:15:00+00:00",
-          "review_status": "done",
-          "reviewer": "engineer",
-          "review_start": "2026-05-31T05:14:00+00:00",
-          "review_end": "2026-05-31T05:15:00+00:00"
-        }
-      }
-    },
-    {
-      "ticket_id": "2-click-and-collect-sprint-2",
-      "lineage": [
-        "PawPlace",
-        "Click-and-collect",
-        "Sprint 2: Checkout & pay"
-      ],
-      "scope_level": "sprint",
-      "stage": "engineering",
-      "priority": 2,
-      "created": "2026-05-30T23:45:44.451842+00:00",
-      "entered_stage": "2026-05-30T23:58:04.385353+00:00",
-      "completed_stage": "2026-05-31T00:19:26.921615+00:00",
-      "stage_history": [
-        {
-          "stage": "specification",
-          "entered": "2026-05-30T23:45:44.451842+00:00",
-          "completed": "2026-05-30T23:58:04.385353+00:00"
-        }
-      ],
-      "archived": null,
-      "scatter_from": "2-click-and-collect",
-      "scatter_to": [],
-      "notes": "abd-clean-code complete — checkout 8/8 client, 30/30 server, 22/22 domain GREEN; e2e 5 RED pending Playwright",
-      "skill_progress": {
-        "abd-class-responsibility-collaborator": {
-          "execution_status": "done",
-          "agent": "business-expert",
-          "start": "2026-05-31T01:20:00+00:00",
-          "end": "2026-05-31T01:28:00+00:00",
-          "review_status": "done",
-          "reviewer": "business-expert",
-          "review_start": "2026-05-31T01:27:00+00:00",
-          "review_end": "2026-05-31T01:28:00+00:00"
-        },
-        "abd-specification-by-example": {
-          "execution_status": "done",
-          "agent": "product-owner",
-          "start": "2026-05-31T01:35:00+00:00",
-          "end": "2026-05-31T01:38:00+00:00",
-          "review_status": "done",
-          "reviewer": "product-owner",
-          "review_start": "2026-05-31T01:37:00+00:00",
-          "review_end": "2026-05-31T01:38:00+00:00"
-        },
-        "abd-interface-design": {
-          "execution_status": "done",
-          "agent": "ux-designer",
-          "start": "2026-05-31T00:01:57+00:00",
-          "end": "2026-05-31T04:02:00+00:00",
-          "review_status": "done",
-          "reviewer": "ux-designer",
-          "review_start": "2026-05-31T04:00:00+00:00",
-          "review_end": "2026-05-31T04:02:00+00:00"
-        },
-        "abd-architecture-reference": {
-          "execution_status": "done",
-          "agent": "engineer",
-          "start": "2026-05-31T02:30:00+00:00",
-          "end": "2026-05-31T02:32:00+00:00",
-          "review_status": "done",
-          "reviewer": "engineer",
-          "review_start": "2026-05-31T02:31:00+00:00",
-          "review_end": "2026-05-31T02:32:00+00:00"
-        },
-        "abd-object-model": {
-          "execution_status": "done",
-          "agent": "engineer",
-          "start": "2026-05-31T04:04:17+00:00",
-          "end": "2026-05-31T04:12:00+00:00",
-          "review_status": "done",
-          "reviewer": "engineer",
-          "review_start": "2026-05-31T04:11:30+00:00",
-          "review_end": "2026-05-31T04:12:00+00:00"
-        },
-        "abd-acceptance-test-driven-development": {
-          "execution_status": "done",
-          "agent": "engineer",
-          "start": "2026-05-31T04:20:00+00:00",
-          "end": "2026-05-31T04:35:00+00:00",
-          "review_status": "done",
-          "reviewer": "engineer",
-          "review_start": "2026-05-31T04:33:00+00:00",
-          "review_end": "2026-05-31T04:35:00+00:00"
-        },
-        "abd-clean-code": {
-          "execution_status": "done",
-          "agent": "engineer",
-          "start": "2026-05-31T05:00:00+00:00",
-          "end": "2026-05-31T05:20:00+00:00",
-          "review_status": "done",
-          "reviewer": "engineer",
-          "review_start": "2026-05-31T05:18:00+00:00",
-          "review_end": "2026-05-31T05:20:00+00:00"
-        }
-      }
+      "archived": "2026-06-01T05:08:12.648Z"
     }
   ],
   "team": {
-    "product-owner": 3,
-    "business-expert": 2,
-    "ux-designer": 3,
-    "engineer": 3
+    "product-owner": 1,
+    "business-expert": 1,
+    "ux-designer": 1,
+    "engineer": 1
   }
 }

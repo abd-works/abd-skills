@@ -1,8 +1,8 @@
-# Artifact layout — canonical paths
+﻿# Artifact layout — canonical paths
 
 **Source of truth** for where delivery agents write artifacts. Read this on every skill claim **before** producing output.
 
-Practice skills may define their own default paths — **kanban layout wins** when running under the delivery war room unless the user names an explicit override.
+Practice skills may define their own default paths — **kanban layout wins** when running under the delivery kanban board unless the user names an explicit override.
 
 ---
 
@@ -24,7 +24,7 @@ Practice skills may define their own default paths — **kanban layout wins** wh
       architecture/
     specification/               # flat
     engineering/                 # flat
-  increments/                    # Per-increment working area (exploration → engineering only)
+  increments/                    # Per-increment working area (exploration ? engineering only)
     <n>-<slug>/                  # e.g. 8-marketing-engine
       exploration/
         domain/
@@ -33,7 +33,7 @@ Practice skills may define their own default paths — **kanban layout wins** wh
         architecture/
       specification/             # flat
       engineering/               # flat
-  planning/delivery-war-room/
+  planning/delivery-kanban-board/
 ```
 
 | Stage | Write during delivery | Whole-solution canonical |
@@ -52,10 +52,10 @@ Practice skills may define their own default paths — **kanban layout wins** wh
 | --- | --- |
 | **DO** | `8-marketing-engine`, `1-walk-in-driver`, `9-power-ups` |
 | **DO NOT** | `increment-8`, `increment-1`, bare number only |
-| **Slug source** | First phrase of the increment title in thin-slicing — lowercase, spaces → hyphens, drop punctuation |
+| **Slug source** | First phrase of the increment title in thin-slicing — lowercase, spaces ? hyphens, drop punctuation |
 | **Resolve from ticket** | Ticket lineage gives increment number; read matching title from `thin-slicing.md` for slug |
 
-Example: Increment 8 *Marketing engine — reviews, alerts, and content* → `docs/increments/8-marketing-engine/`.
+Example: Increment 8 *Marketing engine — reviews, alerts, and content* ? `docs/increments/8-marketing-engine/`.
 
 Kanban lead creates `docs/increments/<n>-<slug>/` when scattering increment tickets from thin-slicing.
 
@@ -77,7 +77,7 @@ Kanban lead creates `docs/increments/<n>-<slug>/` when scattering increment tick
 
 | Skill | File(s) |
 | --- | --- |
-| `abd-module-partition` | `module-partition.md` (`modules/<name>/` only when partition requires multiple modules) |
+| `abd-domain-glossary` | `domain/domain-glossary.md` (single file, default) or `domain/domain-glossary/<module>.md` (per-module, large systems) |
 | `abd-bounded-context-map` | `bounded-context-map.md` (+ `.drawio`) |
 | `abd-story-mapping` (outline) | `story-graph.json`, `story-map.md` |
 | `abd-opportunity-generation` | `opportunity-canvas.md` |
@@ -96,7 +96,7 @@ docs/end-to-end/discovery/
 
 | Subfolder | Skill | File(s) |
 | --- | --- | --- |
-| **`domain/`** | `abd-domain-terms` | `domain-terms.md` (+ optional `.drawio`) |
+| **`domain/`** | *(domain terms produced during Shaping by `abd-domain-glossary`)* | — |
 | **`stories/`** | `abd-story-mapping` (full) | `story-graph.json`, `story-map.md` (+ `.drawio`) |
 | **`stories/`** | `abd-thin-slicing` | `thin-slicing.md` (+ `.drawio`, `.txt`) |
 | **`stories/`** | `drawio-story-sync` | `thin-slicing.drawio` (increments diagram) |
@@ -111,7 +111,7 @@ docs/end-to-end/discovery/
 
 ```text
 docs/end-to-end/exploration/
-  domain/        # ubiquitous language
+  domain/        # Domain Language
   stories/       # acceptance criteria
   ux/            # mockups, wireframe .drawio, *-state.json
   architecture/  # architecture mechanism templates
@@ -119,10 +119,10 @@ docs/end-to-end/exploration/
 
 | Subfolder | Skill | File(s) |
 | --- | --- | --- |
-| **`domain/`** | `abd-ubiquitous-language` | `ubiquitous-language.md` (+ `.drawio`) |
+| **`domain/`** | `abd-domain-language` | `domain-language.md` (+ `.drawio`) |
 | **`stories/`** | `abd-acceptance-criteria` | `acceptance-criteria.md` (+ `.drawio`) |
 | **`ux/`** | `abd-ux-mockup` | `mockups.md`, screen `*.drawio`, `*-state.json` |
-| **`architecture/`** | `abd-architecture-template` | `architecture-template.md` |
+| **`architecture/`** | `abd-architecture-specification` | `architecture-template.md` |
 
 Merge increment exploration content into the matching subfolder when increment exploration work is done.
 
@@ -130,7 +130,7 @@ Merge increment exploration content into the matching subfolder when increment e
 
 | File | Content |
 | --- | --- |
-| `crc.md`, `domain.json` | **One** whole-solution CRC |
+| `domain model.md`, `domain.json` | **One** whole-solution domain model |
 | `specification-by-example.md` | **One** whole-solution spec file |
 | `interface-design.md` | **One** whole-solution interface spec |
 | `architecture-reference.md`, `architecture-reference-assignment.md` | Whole-solution arch reference |
@@ -139,7 +139,7 @@ Merge increment exploration content into the matching subfolder when increment e
 
 | File | Content |
 | --- | --- |
-| `object-model.md` | **One** whole-solution object model doc |
+| `class-model.md` | **One** whole-solution Class Model doc |
 
 Production code and tests live in **`src/`** per architecture reference — not under `end-to-end/engineering/`.
 
@@ -147,7 +147,7 @@ Production code and tests live in **`src/`** per architecture reference — not 
 
 ## Increments — working folder
 
-Active increment work (exploration → engineering only) writes to **`docs/increments/<n>-<slug>/`**. **`specification/`** and **`engineering/`** are flat; **`exploration/`** uses the same four concern subfolders as end-to-end exploration.
+Active increment work (exploration ? engineering only) writes to **`docs/increments/<n>-<slug>/`**. **`specification/`** and **`engineering/`** are flat; **`exploration/`** uses the same four concern subfolders as end-to-end exploration.
 
 ```text
 docs/increments/8-marketing-engine/
@@ -162,7 +162,7 @@ docs/increments/8-marketing-engine/
 
 ### Increment integration rule (mandatory)
 
-**One canonical file per artifact type per increment stage folder.** Sprint/story scope → **section inside that file**, never a new file.
+**One canonical file per artifact type per increment stage folder.** Sprint/story scope ? **section inside that file**, never a new file.
 
 | Forbidden | Use instead |
 | --- | --- |
@@ -174,25 +174,26 @@ docs/increments/8-marketing-engine/
 
 | Subfolder | Skill | File(s) |
 | --- | --- | --- |
-| **`domain/`** | `abd-ubiquitous-language` | `ubiquitous-language.md` (+ `.drawio`) |
+| **`domain/`** | `abd-domain-language` | `domain-language.md` (+ `.drawio`) |
 | **`stories/`** | `abd-acceptance-criteria` | `acceptance-criteria.md` (+ `.drawio`) |
 | **`ux/`** | `abd-ux-mockup` | `mockups.md`, screen `*.drawio`, `*-state.json` |
-| **`architecture/`** | `abd-architecture-template` | `architecture-template.md` |
+| **`architecture/`** | `abd-architecture-specification` | `architecture-template.md` |
 
 #### increments/…/specification/
 
 | Skill | File(s) |
 | --- | --- |
-| `abd-class-responsibility-collaborator` | `crc.md`, `domain.json` |
+| `abd-domain-model` | `domain model.md`, `domain.json` |
 | `abd-specification-by-example` | `specification-by-example.md` |
-| `abd-interface-design` (spec pass) | `interface-design.md` |
-| `abd-architecture-reference` | `architecture-reference.md`, `architecture-reference-assignment.md` |
+| `abd-ux-specification` (spec pass) | `interface-design.md` |
+| `abd-architecture-specification` | `architecture-reference.md`, `architecture-reference-assignment.md` |
 
 #### increments/…/engineering/
 
 | Skill | File(s) |
 | --- | --- |
-| `abd-object-model` | `object-model.md` |
+| `abd-domain-specification` | `class-model.md` |
+| `abd-domain-code` | `src/` (domain classes + tests, TDD) |
 | ATDD, clean-code, interface impl | `src/` |
 
 ### Story graph — canonical structured store (mandatory sync)
@@ -203,10 +204,10 @@ docs/increments/8-marketing-engine/
 | --- | --- | --- |
 | `abd-story-mapping` | `story-map.md` | `md_story_map_to_story_graph.py` (create or replace skeleton) |
 | `abd-thin-slicing` | `thin-slicing.md` | `md_thin_slice_to_story_graph.py` (increments array) |
-| `abd-acceptance-criteria` | `acceptance-criteria.md` | `md_acceptance_criteria_to_story_graph.py` → `acceptance_criteria[]` on matched stories |
+| `abd-acceptance-criteria` | `acceptance-criteria.md` | `md_acceptance_criteria_to_story_graph.py` ? `acceptance_criteria[]` on matched stories |
 | `abd-specification-by-example` | `specification-by-example.md` | `scenarios[]` / `scenario_outlines[]` on matched stories via **story-graph-ops** (`story_graph_cli.py` write or patch — no md parser yet) |
 
-**When:** immediately after Step 4 (draft) and before Step 6 (review) in [executor-workflow.md](../agents/reference/executor-workflow.md). Run from engagement root:
+**When:** immediately after Step 4 (draft) and before Step 6 (review) in [executor-workflow.md](../reference/agent-workflow/executor-workflow.md). Run from engagement root:
 
 ```bash
 python skills/story-graph-ops/scripts/md_acceptance_criteria_to_story_graph.py \
@@ -220,7 +221,7 @@ Then validate: `python skills/story-graph-ops/scripts/story_graph_cli.py read --
 
 Kanban lead: on increment roll-up, verify graph populated for that increment's stories before archiving the last ticket.
 
-**Draw.io:** After graph/markdown sync, queue **`drawio-story-sync`** / **`drawio-domain-sync`** as **background tasks** — see [drawio-sync-background.md](../agents/reference/drawio-sync-background.md). Do not block the executor on render completion.
+**Draw.io:** After graph/markdown sync, queue **`drawio-story-sync`** / **`drawio-domain-sync`** as **background tasks** — see [drawio-sync-background.md](../reference/agent-workflow/drawio-sync-background.md). Do not block the executor on render completion.
 
 ---
 
@@ -244,11 +245,19 @@ After roll-up, **`docs/end-to-end/<stage>/`** is authoritative for the whole sol
 
 ---
 
-## War room
+## kanban board
 
 ```text
-<workspace>/docs/planning/delivery-war-room/
+<workspace>/docs/kanban/
   board.json · kanban.json · metrics-log.jsonl · INSTRUCTIONS.md · heartbeat-*.json
+```
+
+**Handoffs** (`abd-kanban-handoff` / `/abd-kanban-handoff`):
+
+```text
+<workspace>/docs/kanban/handoffs/
+  handoff-latest.md
+  handoff-abd-kanban-<slug>-<YYYY-MM-DD>.md
 ```
 
 ---
@@ -256,7 +265,9 @@ After roll-up, **`docs/end-to-end/<stage>/`** is authoritative for the whole sol
 ## Agent checklist (before write)
 
 1. Read ticket **stage** and **increment** from `board.json`.
-2. **Shaping** → `docs/end-to-end/shaping/`. **Discovery** → `docs/end-to-end/discovery/`.
-3. **Exploration / specification / engineering** → resolve `<n>-<slug>` from ticket + `discovery/stories/thin-slicing.md`. **Exploration** → `docs/increments/<n>-<slug>/exploration/{domain,stories,ux,architecture}/`. **Specification / engineering** → flat inside stage folder.
+2. **Shaping** ? `docs/end-to-end/shaping/`. **Discovery** ? `docs/end-to-end/discovery/`.
+3. **Exploration / specification / engineering** ? resolve `<n>-<slug>` from ticket + `discovery/stories/thin-slicing.md`. **Exploration** ? `docs/increments/<n>-<slug>/exploration/{domain,stories,ux,architecture}/`. **Specification / engineering** ? flat inside stage folder.
 4. One canonical file per type per folder — add sections; never sprint/story/scenario siblings.
-5. **Increment archived** → kanban lead merges increment stage folder → matching `docs/end-to-end/<stage>/`.
+5. **Increment archived** ? kanban lead merges increment stage folder ? matching `docs/end-to-end/<stage>/`.
+
+

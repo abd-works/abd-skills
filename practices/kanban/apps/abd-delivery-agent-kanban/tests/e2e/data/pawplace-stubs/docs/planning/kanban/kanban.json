@@ -1,0 +1,77 @@
+{
+  "schema": "abd-kanban-board/v1",
+  "stage_configuration": "pawplace-stubs",
+  "definitions": {
+    "pawplace-stubs": {
+      "label": "PawPlace stubs � fixture mode, return immediately",
+      "strategy": {
+        "scatter_rules": {
+          "all_to_increment": "one ticket per increment from discovery/stories/thin-slicing.md",
+          "increment_to_sprint": "optional sprint-groupings.md when specification stage is used"
+        },
+        "checkpoint_policy": "per_skill",
+        "autonomy": "moderate",
+        "fixture_mode": true
+      },
+      "team": {
+        "product-owner": 2,
+        "business-expert": 1,
+        "ux-designer": 1,
+        "engineer": 1
+      },
+      "stages": [
+        {
+          "name": "shaping",
+          "scope": "all",
+          "stage_work_required": [
+            { "skill": "abd-domain-partition", "role": "business-expert" },
+            { "skill": "abd-story-mapping", "role": "product-owner" },
+            { "skill": "abd-impact-mapping", "role": "ux-designer" },
+            { "skill": "abd-architecture-outline", "role": "engineer" }
+          ]
+        },
+        {
+          "name": "discovery",
+          "scope": "increment",
+          "stage_work_required": [
+            { "skill": "abd-domain-terms", "role": "business-expert" },
+            { "skill": "abd-story-mapping", "role": "product-owner" },
+            { "skill": "abd-information-architecture", "role": "ux-designer" },
+            { "skill": "abd-architecture-blueprint", "role": "engineer" },
+            { "skill": "abd-thin-slicing", "role": "product-owner" }
+          ]
+        },
+        {
+          "name": "exploration",
+          "scope": "increment",
+          "stage_work_required": [
+            { "skill": "abd-domain-language", "role": "business-expert" },
+            { "skill": "abd-acceptance-criteria", "role": "product-owner" },
+            { "skill": "abd-ux-mockup", "role": "ux-designer" },
+            { "skill": "abd-architecture-specification", "role": "engineer", "run_when": "increment_needs_undocumented_mechanisms" }
+          ]
+        },
+        {
+          "name": "specification",
+          "scope": "sprint",
+          "stage_work_required": [
+            { "skill": "abd-domain-model", "role": "business-expert" },
+            { "skill": "abd-specification-by-example", "role": "product-owner" },
+            { "skill": "abd-ux-specification", "role": "ux-designer" },
+            { "skill": "abd-architecture-specification", "role": "engineer", "run_when": "sprint_needs_missing_reference_or_code" }
+          ]
+        },
+        {
+          "name": "engineering",
+          "scope": "sprint",
+          "stage_work_required": [
+            { "skill": "abd-ux-specification", "role": "ux-designer" },
+            { "skill": "abd-domain-specification", "role": "business-expert" },
+            { "skill": "abd-acceptance-test-driven-development", "role": "product-owner" },
+            { "skill": "abd-clean-code", "role": "engineer" }
+          ]
+        }
+      ]
+    }
+  }
+}

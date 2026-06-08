@@ -1,26 +1,104 @@
-{
+﻿{
   "schema": "abd-delivery-kanban/v2",
   "synced_at": "2026-05-31T12:00:00Z",
   "stage_configuration": "pawplace-mini",
+  "board_mode": "manual",
   "backlog": [],
   "active": [
     {
-      "ticket_id": "project-all",
-      "lineage": ["PawPlace"],
-      "scope_level": "all",
-      "stage": "shaping",
+      "ticket_id": "project-all-inc-1-find-products-and-check-store-stock",
+      "lineage": [
+        "PawPlace",
+        "Find products and check store stock"
+      ],
+      "scope_level": "increment",
+      "stage": "discovery",
       "priority": 1,
-      "created": "2026-05-31T12:00:00Z",
-      "entered_stage": "2026-05-31T12:00:00Z",
+      "created": "2026-06-01T05:08:12.648Z",
+      "entered_stage": "2026-06-01T05:08:12.648Z",
       "completed_stage": null,
       "stage_history": [],
       "archived": null,
-      "scatter_from": null,
+      "scatter_from": "project-all",
       "scatter_to": [],
       "skill_progress": {},
-      "notes": "PawPlace mini E2E — 2 increments; thin-slicing.md + sprint-groupings.md"
+      "notes": "",
+      "hold_in_progress": true
     }
   ],
   "done": [],
-  "archived": []
+  "archived": [
+    {
+      "ticket_id": "project-all",
+      "lineage": [
+        "PawPlace"
+      ],
+      "scope_level": "all",
+      "stage": "shaping",
+      "priority": 1,
+      "skill_progress": {
+        "abd-domain-partition": {
+          "execution_status": "done",
+          "review_status": "done",
+          "agent": "business-expert",
+          "reviewer": "business-expert",
+          "start": "2026-06-01T05:08:12.648Z",
+          "end": "2026-06-01T05:08:12.648Z",
+          "review_start": "2026-06-01T05:08:12.648Z",
+          "review_end": "2026-06-01T05:08:12.648Z"
+        },
+        "abd-story-mapping": {
+          "execution_status": "done",
+          "review_status": "done",
+          "agent": "product-owner",
+          "reviewer": "product-owner",
+          "start": "2026-06-01T05:08:12.648Z",
+          "end": "2026-06-01T05:08:12.648Z",
+          "review_start": "2026-06-01T05:08:12.648Z",
+          "review_end": "2026-06-01T05:08:12.648Z"
+        },
+        "abd-impact-mapping": {
+          "execution_status": "done",
+          "review_status": "done",
+          "agent": "ux-designer",
+          "reviewer": "ux-designer",
+          "start": "2026-06-01T05:08:12.648Z",
+          "end": "2026-06-01T05:08:12.648Z",
+          "review_start": "2026-06-01T05:08:12.648Z",
+          "review_end": "2026-06-01T05:08:12.648Z"
+        },
+        "abd-architecture-outline": {
+          "execution_status": "done",
+          "review_status": "done",
+          "agent": "engineer",
+          "reviewer": "engineer",
+          "start": "2026-06-01T05:08:12.648Z",
+          "end": "2026-06-01T05:08:12.648Z",
+          "review_start": "2026-06-01T05:08:12.648Z",
+          "review_end": "2026-06-01T05:08:12.648Z"
+        }
+      },
+      "entered_stage": "2026-05-31T12:00:00Z",
+      "completed_stage": "2026-06-01T05:08:12.648Z",
+      "scatter_from": null,
+      "scatter_to": [
+        "project-all-inc-1-find-products-and-check-store-stock"
+      ],
+      "notes": "PawPlace micro E2E",
+      "stage_history": [
+        {
+          "stage": "shaping",
+          "entered": "2026-05-31T12:00:00Z",
+          "completed": "2026-06-01T05:08:12.648Z"
+        }
+      ],
+      "archived": "2026-06-01T05:08:12.648Z"
+    }
+  ],
+  "team": {
+    "product-owner": 1,
+    "business-expert": 1,
+    "ux-designer": 1,
+    "engineer": 1
+  }
 }

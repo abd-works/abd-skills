@@ -1,0 +1,238 @@
+{
+  "schema": "abd-skill-fixtures/v1",
+  "mode": "return_immediately",
+  "instructions": "DO NOT execute practice skills. Copy listed sources to targets, run post_copy CLI if any, then board_skill.py complete twice. See agents/reference/skill-fixture-mode.md.",
+  "fixtures": {
+    "abd-domain-partition": {
+      "default": {
+        "copies": [
+          {
+            "source": "skill-fixtures/abd-domain-partition.md",
+            "target": "docs/end-to-end/shaping/module-partition.md"
+          }
+        ]
+      }
+    },
+    "abd-story-mapping": {
+      "scope_all": {
+        "copies": [
+          {
+            "source": "skill-fixtures/abd-story-mapping-shaping-story-map.md",
+            "target": "docs/end-to-end/shaping/story-map.md"
+          },
+          {
+            "source": "skill-fixtures/story-graph-outline.json",
+            "target": "docs/end-to-end/shaping/story-graph.json"
+          }
+        ]
+      },
+      "scope_increment": {
+        "copies": [
+          {
+            "source": "skill-fixtures/abd-story-mapping-discovery-story-map.md",
+            "target": "docs/end-to-end/discovery/stories/story-map.md"
+          },
+          {
+            "source": "skill-fixtures/story-graph-full.json",
+            "target": "docs/end-to-end/discovery/stories/story-graph.json"
+          }
+        ],
+        "post_copy": [
+          "python skills/story-graph-ops/scripts/story_graph_cli.py read --file docs/end-to-end/discovery/stories/story-graph.json"
+        ]
+      }
+    },
+    "abd-impact-mapping": {
+      "default": {
+        "copies": [
+          {
+            "source": "skill-fixtures/abd-impact-mapping.md",
+            "target": "docs/end-to-end/shaping/impact-map.md"
+          }
+        ]
+      }
+    },
+    "abd-architecture-outline": {
+      "default": {
+        "copies": [
+          {
+            "source": "skill-fixtures/abd-architecture-outline.md",
+            "target": "docs/end-to-end/shaping/architecture-outline.md"
+          }
+        ]
+      }
+    },
+    "abd-domain-terms": {
+      "default": {
+        "copies": [
+          {
+            "source": "skill-fixtures/abd-domain-terms.md",
+            "target": "docs/end-to-end/discovery/domain/domain-terms.md"
+          }
+        ]
+      }
+    },
+    "abd-information-architecture": {
+      "default": {
+        "copies": [
+          {
+            "source": "skill-fixtures/abd-information-architecture.md",
+            "target": "docs/end-to-end/discovery/ux/information-architecture.md"
+          }
+        ]
+      }
+    },
+    "abd-architecture-blueprint": {
+      "default": {
+        "copies": [
+          {
+            "source": "skill-fixtures/abd-architecture-blueprint.md",
+            "target": "docs/end-to-end/discovery/architecture/architecture-blueprint.md"
+          }
+        ]
+      }
+    },
+    "abd-thin-slicing": {
+      "default": {
+        "copies": [
+          {
+            "source": "skill-fixtures/abd-thin-slicing.md",
+            "target": "docs/end-to-end/discovery/stories/thin-slicing.md"
+          },
+          {
+            "source": "skill-fixtures/story-graph-with-increments.json",
+            "target": "docs/end-to-end/discovery/stories/story-graph.json"
+          },
+          {
+            "source": "skill-fixtures/sprint-groupings.md",
+            "target": "docs/end-to-end/discovery/stories/sprint-groupings.md"
+          }
+        ],
+        "post_copy": [
+          "python skills/story-graph-ops/scripts/md_thin_slice_to_story_graph.py docs/end-to-end/discovery/stories/thin-slicing.md docs/end-to-end/discovery/stories/story-graph.json"
+        ]
+      }
+    },
+    "abd-domain-language": {
+      "default": {
+        "copies": [
+          {
+            "source": "skill-fixtures/abd-domain-language.md",
+            "target": "docs/increments/1-product-catalog-inc-1-find-products-and-check-store-stock/exploration/domain/domain-language.md"
+          }
+        ]
+      }
+    },
+    "abd-acceptance-criteria": {
+      "default": {
+        "copies": [
+          {
+            "source": "skill-fixtures/abd-acceptance-criteria.md",
+            "target": "docs/increments/1-product-catalog-inc-1-find-products-and-check-store-stock/exploration/stories/acceptance-criteria.md"
+          },
+          {
+            "source": "skill-fixtures/story-graph-with-ac.json",
+            "target": "docs/end-to-end/discovery/stories/story-graph.json"
+          }
+        ],
+        "post_copy": [
+          "python skills/story-graph-ops/scripts/md_acceptance_criteria_to_story_graph.py docs/increments/1-product-catalog-inc-1-find-products-and-check-store-stock/exploration/stories/acceptance-criteria.md docs/end-to-end/discovery/stories/story-graph.json"
+        ]
+      }
+    },
+    "abd-ux-mockup": {
+      "default": {
+        "copies": [
+          {
+            "source": "skill-fixtures/abd-ux-mockup.md",
+            "target": "docs/increments/1-product-catalog-inc-1-find-products-and-check-store-stock/exploration/ux/mockups.md"
+          }
+        ]
+      }
+    },
+    "abd-architecture-specification": {
+      "default": {
+        "copies": [
+          {
+            "source": "skill-fixtures/abd-architecture-specification.md",
+            "target": "docs/increments/1-product-catalog-inc-1-find-products-and-check-store-stock/exploration/architecture/architecture-template.md"
+          }
+        ]
+      }
+    },
+    "abd-domain-model": {
+      "default": {
+        "copies": [
+          {
+            "source": "skill-fixtures/abd-domain-model.md",
+            "target": "docs/increments/1-product-catalog-inc-1-find-products-and-check-store-stock/specification/domain model.md"
+          }
+        ]
+      }
+    },
+    "abd-specification-by-example": {
+      "default": {
+        "copies": [
+          {
+            "source": "skill-fixtures/abd-specification-by-example.md",
+            "target": "docs/increments/1-product-catalog-inc-1-find-products-and-check-store-stock/specification/specification-by-example.md"
+          },
+          {
+            "source": "skill-fixtures/story-graph-with-scenarios.json",
+            "target": "docs/end-to-end/discovery/stories/story-graph.json"
+          }
+        ]
+      }
+    },
+    "abd-ux-specification": {
+      "default": {
+        "copies": [
+          {
+            "source": "skill-fixtures/abd-ux-specification.md",
+            "target": "docs/increments/1-product-catalog-inc-1-find-products-and-check-store-stock/specification/interface-design.md"
+          }
+        ]
+      }
+    },
+    "abd-architecture-specification": {
+      "default": {
+        "copies": [
+          {
+            "source": "skill-fixtures/abd-architecture-specification.md",
+            "target": "docs/increments/1-product-catalog-inc-1-find-products-and-check-store-stock/specification/architecture-reference.md"
+          }
+        ]
+      }
+    },
+    "abd-domain-specification": {
+      "default": {
+        "copies": [
+          {
+            "source": "skill-fixtures/abd-domain-specification.md",
+            "target": "docs/increments/1-product-catalog-inc-1-find-products-and-check-store-stock/engineering/class-model.md"
+          }
+        ]
+      }
+    },
+    "abd-acceptance-test-driven-development": {
+      "default": {
+        "copies": [
+          {
+            "source": "skill-fixtures/abd-acceptance-test-driven-development.py",
+            "target": "tests/acceptance/test_search_products.py"
+          }
+        ]
+      }
+    },
+    "abd-clean-code": {
+      "default": {
+        "copies": [
+          {
+            "source": "skill-fixtures/abd-clean-code-product_catalog.py",
+            "target": "src/product_catalog/search_products.py"
+          }
+        ]
+      }
+    }
+  }
+}

@@ -11,7 +11,7 @@ description: >-
   cross-cutting concern as a typed "architecture mechanism" (security, error
   handling, logging, validation, configuration, etc.), shows the data
   architecture at the model level, captures a common testing strategy, and
-  records decisions. Deep internals defer to abd-architecture-template.
+  records decisions. Deep internals defer to abd-architecture-specification.
   Use when an outline exists and the team needs component-level detail,
   mechanism cataloguing, data architecture, or preparing for architecture review.
 ---

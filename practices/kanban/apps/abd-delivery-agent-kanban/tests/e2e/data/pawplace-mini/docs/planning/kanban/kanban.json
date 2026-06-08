@@ -3,20 +3,20 @@
   "stage_configuration": "pawplace-mini",
   "definitions": {
     "pawplace-mini": {
-      "label": "PawPlace mini — 2 increments E2E",
+      "label": "PawPlace micro � 1 increment, full skill rails",
       "strategy": {
         "scatter_rules": {
-          "all_to_increment": "one ticket per increment from thin-slicing; scatter both increments after shaping",
-          "increment_to_sprint": "use sprint-groupings.md; 2 sprints inc-1, 3 sprints inc-2"
+          "all_to_increment": "one ticket per increment from discovery/stories/thin-slicing.md",
+          "increment_to_sprint": "optional sprint-groupings.md when specification stage is used"
         },
         "checkpoint_policy": "per_skill",
         "autonomy": "moderate"
       },
       "team": {
-        "product-owner": 3,
-        "business-expert": 2,
-        "ux-designer": 3,
-        "engineer": 3
+        "product-owner": 2,
+        "business-expert": 1,
+        "ux-designer": 1,
+        "engineer": 1
       },
       "stages": [
         {
@@ -24,7 +24,7 @@
           "scope": "all",
           "stage_work_required": [
             {
-              "skill": "abd-module-partition",
+              "skill": "abd-domain-partition",
               "role": "business-expert"
             },
             {
@@ -34,10 +34,6 @@
             {
               "skill": "abd-impact-mapping",
               "role": "ux-designer"
-            },
-            {
-              "skill": "abd-thin-slicing",
-              "role": "product-owner"
             },
             {
               "skill": "abd-architecture-outline",
@@ -64,6 +60,10 @@
             {
               "skill": "abd-architecture-blueprint",
               "role": "engineer"
+            },
+            {
+              "skill": "abd-thin-slicing",
+              "role": "product-owner"
             }
           ]
         },
@@ -72,7 +72,7 @@
           "scope": "increment",
           "stage_work_required": [
             {
-              "skill": "abd-ubiquitous-language",
+              "skill": "abd-domain-language",
               "role": "business-expert"
             },
             {
@@ -84,7 +84,7 @@
               "role": "ux-designer"
             },
             {
-              "skill": "abd-architecture-template",
+              "skill": "abd-architecture-specification",
               "role": "engineer",
               "run_when": "increment_needs_undocumented_mechanisms"
             }
@@ -95,7 +95,7 @@
           "scope": "sprint",
           "stage_work_required": [
             {
-              "skill": "abd-class-responsibility-collaborator",
+              "skill": "abd-domain-model",
               "role": "business-expert"
             },
             {
@@ -103,11 +103,11 @@
               "role": "product-owner"
             },
             {
-              "skill": "abd-interface-design",
+              "skill": "abd-ux-specification",
               "role": "ux-designer"
             },
             {
-              "skill": "abd-architecture-reference",
+              "skill": "abd-architecture-specification",
               "role": "engineer",
               "run_when": "sprint_needs_missing_reference_or_code"
             }
@@ -118,16 +118,16 @@
           "scope": "sprint",
           "stage_work_required": [
             {
-              "skill": "abd-interface-design",
+              "skill": "abd-ux-specification",
               "role": "ux-designer"
             },
             {
-              "skill": "abd-object-model",
-              "role": "engineer"
+              "skill": "abd-domain-specification",
+              "role": "business-expert"
             },
             {
               "skill": "abd-acceptance-test-driven-development",
-              "role": "engineer"
+              "role": "product-owner"
             },
             {
               "skill": "abd-clean-code",

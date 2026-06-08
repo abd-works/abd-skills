@@ -1,10 +1,10 @@
-# Kanban practice apps
+﻿# Kanban practice apps
 
-Runnable applications that ship with the kanban practice package. Not deployed to engagement workspaces — run from this folder against an engagement's `docs/planning/` tree.
+Runnable applications that ship with the kanban practice package. Not deployed to engagement workspaces â€” run from this folder against an engagement's `docs/kanban/` tree.
 
 | App | Purpose |
 | --- | --- |
-| [abd-delivery-agent-kanban](abd-delivery-agent-kanban/) | Live read-only board UI — polls `delivery-war-room/board.json` and related planning files |
+| [abd-delivery-agent-kanban](abd-delivery-agent-kanban/) | Live read-only board UI â€” polls `delivery-kanban-board/board.json` and related planning files |
 
 ## Quick start (board UI)
 
@@ -14,7 +14,7 @@ npm install
 npm run dev
 ```
 
-Open http://localhost:3000/board. Default planning root: `config.default.json` → engagement `docs/planning/`.
+Open http://localhost:3000/board. Default planning root: `config.default.json` â†’ engagement `docs/kanban/`.
 
 Sync board state first (from engagement root):
 

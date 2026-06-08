@@ -73,7 +73,7 @@ Then emit per-rule verdicts per `../agent-protocol.md`.
 - **Direction** — every dependency states direction explicitly: upstream/downstream, mutual, or standalone.
 - **No orphans** — every bounded context participates in at least one dependency or is explicitly declared standalone with a rationale.
 - **Decisions and tensions** — open questions, contested boundaries, and deferred integrations are recorded, not hidden.
-- **Consistency with domain language** — bounded context names appear in the project's ubiquitous language.
+- **Consistency with domain language** — bounded context names appear in the project's Domain Language.
 - **No bundle markers** — `SKILL.md` has no `<!-- execute_rules:bundle_rules -->` markers.
 
 ---

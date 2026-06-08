@@ -4,7 +4,8 @@
   "private": true,
   "type": "module",
   "dependencies": {
-    "@deliveryforge/delivery-board-server": "*",
+    "@deliveryforge/kanban-server": "*",
+    "@deliveryforge/kanban-shared": "*",
     "cors": "^2.8.5",
     "express": "^4.21.1"
   },

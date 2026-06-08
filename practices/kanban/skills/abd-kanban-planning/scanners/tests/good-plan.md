@@ -1,4 +1,4 @@
-# Agile Delivery Plan — Acme Onboarding
+﻿# Agile Delivery Plan â€” Acme Onboarding
 
 ## Context Assessment
 
@@ -19,18 +19,18 @@
 
 ## Risks
 
-- **Integration risk** — Acme SSO API, undocumented.
-- **AI-model risk** — proprietary Acme internals; no training coverage.
-- **Domain risk** — billing rules tied to regulated jurisdictions.
+- **Integration risk** â€” Acme SSO API, undocumented.
+- **AI-model risk** â€” proprietary Acme internals; no training coverage.
+- **Domain risk** â€” billing rules tied to regulated jurisdictions.
 
 ## Strategy
 
-Selected: `strategies/new-initiative-proprietary-technology-risk.md`
+Selected: `reference/strategies/new-initiative-proprietary-technology-risk.md`
 
 ## Runs
 
 | Run | Stages                     | Scope                                          | Checkpoint Policy                         | Rationale                                                                  |
 | --- | -------------------------- | ---------------------------------------------- | ----------------------------------------- | -------------------------------------------------------------------------- |
 | 1   | Discovery                  | Only stories touching SSO or billing           | Per-story                                 | Map proprietary integration surface; capture unknowns before implementation |
-| 2   | Exploration → Engineering  | Thin slice 1: one story through SSO + billing  | Per-AC / per-test                         | Prove specification → engineering against Acme SSO; land contract tests     |
-| 3   | Exploration → Engineering  | Thin slice 2: second actor path                | Per-story                                 | Cover alternate auth flow once base slice is proven                        |
+| 2   | Exploration â†’ Engineering  | Thin slice 1: one story through SSO + billing  | Per-AC / per-test                         | Prove specification â†’ engineering against Acme SSO; land contract tests     |
+| 3   | Exploration â†’ Engineering  | Thin slice 2: second actor path                | Per-story                                 | Cover alternate auth flow once base slice is proven                        |

@@ -1,4 +1,4 @@
-# Estimation Session
+﻿# Estimation Session
 
 ## Session metadata
 
@@ -13,15 +13,15 @@
 
 ### Coverage boundary
 
-Bootcamp stages — [`../../../reference/stages/README.md`](../../../reference/stages/README.md). Check each stage included in this session's estimates. Defaults are pre-checked; opt in or out as the team agrees.
+Bootcamp stages — the stage files in `reference/stages/`. Check each stage included in this session's estimates. Defaults are pre-checked; opt in or out as the team agrees.
 
 - [ ] **Shaping** — outline map, partition, architecture outline *(not default)*
 - [ ] **Discovery** — full map, domain/UX IA, blueprint, thin-slice placement *(not default)*
 - [x] **Exploration** — acceptance criteria *(default)*
 - [ ] **Exploration** — UX mockups, architecture template *(opt in)*
-- [x] **Specification** — CRC, spec-by-example, interface design as needed *(default)*
-- [x] **Engineering** — object model, ATDD, production code *(default)*
-- [ ] **Engineering** — `abd-interface-design` implementation pass *(opt in when UI-heavy)*
+- [x] **Specification** — domain model, spec-by-example, interface design as needed *(default)*
+- [x] **Engineering** — Class Model, ATDD, production code *(default)*
+- [ ] **Engineering** — `abd-ux-specification` implementation pass *(opt in when UI-heavy)*
 - [x] **Regression testing** *(default)*
 - [ ] **User testing / UAT** *(not default)*
 
@@ -90,7 +90,7 @@ Priority order is agreed before estimation begins. AI suggests an initial order;
 - [x] **Exploration** — acceptance criteria
 - [ ] **Exploration** — UX mockups, architecture template *(mockups done in prior increment)*
 - [x] **Specification**
-- [x] **Engineering** — object model, ATDD, production code
+- [x] **Engineering** — Class Model, ATDD, production code
 - [x] **Regression testing**
 - [ ] **User testing / UAT** *(deferred to Increment 2)*
 

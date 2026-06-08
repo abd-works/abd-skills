@@ -13,6 +13,8 @@ param(
 
 Set-Location "$PSScriptRoot\.."
 
+. "$PSScriptRoot\load-planning-root.ps1"
+
 if (-not (Test-Path "node_modules")) {
     Write-Host "Installing dependencies..." -ForegroundColor Cyan
     npm install

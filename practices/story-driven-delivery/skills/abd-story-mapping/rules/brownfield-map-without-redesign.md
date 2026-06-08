@@ -17,7 +17,7 @@ During **brownfield current-state** story mapping, the job is to **describe what
 
 ## DO NOT
 
-- Rename concepts in the map to "clean" domain language that does not match current UI/logs/code — use **`abd-domain-terms`** after mapping if vocabulary needs curation.
+- Rename concepts in the map to "clean" domain language that does not match current UI/logs/code — use **`abd-domain-glossary`** if vocabulary needs curation.
 - Omit known bugs because they are embarrassing — they are **documented behavior** until a change slice approves a delta.
 - Combine **mapping** and **implementation fix** in one executor slot.
 - Add stories that describe **target architecture** ("should use event bus") when the codebase does not do that today.

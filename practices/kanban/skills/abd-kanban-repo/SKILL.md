@@ -161,8 +161,8 @@ git_policy:
 ```
 main
  └─ delivery/inc-1              ← created when inc-1 enters active
-      ├─ commit: inc-1.discovery.abd-domain-terms
-      ├─ commit: inc-1.exploration.abd-ubiquitous-language
+      ├─ commit: inc-1.shaping.abd-domain-glossary
+      ├─ commit: inc-1.exploration.abd-domain-language
       ├─ commit: inc-1.exploration.abd-acceptance-criteria
       ├─ commit: inc-1.exploration.abd-ux-mockup
       └─ merge → main           ← when inc-1 scatters (or PR if enabled)

@@ -4,8 +4,8 @@
   "private": true,
   "type": "module",
   "dependencies": {
-    "@deliveryforge/delivery-board-client": "*",
-    "@deliveryforge/delivery-board-shared": "*",
+    "@deliveryforge/kanban-client": "*",
+    "@deliveryforge/kanban-shared": "*",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^7.1.1"

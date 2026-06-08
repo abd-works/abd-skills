@@ -1,4 +1,4 @@
-# Bounded Context Map — Concepts
+﻿# Bounded Context Map — Concepts
 
 ## Bounded context
 
@@ -19,7 +19,7 @@ A **bounded context map** is a global view of all the model contexts in a projec
 Creating a context map follows three steps:
 
 1. **Identify** each model in play on the project and define its bounded context.
-2. **Name** each bounded context and include the names in the ubiquitous language of the business domain model.
+2. **Name** each bounded context and include the names in the Domain Language of the business domain model.
 3. **Describe** the points of contact between the models, outlining explicit translation for any communication.
 
 ## Three dimensions per dependency

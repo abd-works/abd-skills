@@ -1,22 +1,31 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, Route, Routes } from 'react-router-dom';
-import {
-  DeliveryKanbanBoard,
-  useDeliveryBoardPoll,
-  updatePlanningRoot,
-} from '@deliveryforge/delivery-board-client';
-import { HomePage } from './pages/HomePage';
+import { KanbanBoardView } from './KanbanBoardView';
+import { KanbanBoard } from '@deliveryforge/kanban-client';
+import { HomeView } from './pages/HomeView';
 
-const DEFAULT_ROOT = import.meta.env.VITE_PLANNING_ROOT ?? 'C:/dev/abd-pet-store-demo/docs/planning';
-
-function BoardPage() {
-  const [planningRoot, setPlanningRoot] = useState(() => localStorage.getItem('planningRoot') ?? DEFAULT_ROOT);
+function BoardView() {
+  const [planningRoot, setPlanningRoot] = useState(KanbanBoard.resolvePlanningRoot);
   const [inputRoot, setInputRoot] = useState(planningRoot);
   const [message, setMessage] = useState<string | null>(null);
   const [theme, setTheme] = useState<'engineering' | 'executive'>(() =>
     (localStorage.getItem('theme') as 'engineering' | 'executive') ?? 'engineering',
   );
-  const { snapshot, error, loading, movedTickets, refresh, injectSnapshot } = useDeliveryBoardPoll(planningRoot);
+  const { snapshot, error, loading, refresh, injectSnapshot } = KanbanBoard.usePoll();
+
+  useEffect(() => {
+    if (import.meta.env.VITE_PLANNING_ROOT) return;
+
+    void KanbanBoard.fetchConfig()
+      .then((serverRoot) => {
+        if (!serverRoot || serverRoot === planningRoot) return;
+        setPlanningRoot(serverRoot);
+        setInputRoot(serverRoot);
+      })
+      .catch(() => {
+        /* keep resolvePlanningRoot() fallback */
+      });
+  }, []);
 
   function toggleTheme(mode: 'engineering' | 'executive') {
     document.documentElement.setAttribute('data-theme', mode);
@@ -26,10 +35,24 @@ function BoardPage() {
 
   async function applyPlanningRoot() {
     try {
-      await updatePlanningRoot(inputRoot);
-      localStorage.setItem('planningRoot', inputRoot);
+      await KanbanBoard.updateConfig(inputRoot);
+      KanbanBoard.savePlanningRootOverride(inputRoot);
       setPlanningRoot(inputRoot);
       setMessage('Planning folder connected.');
+      await refresh();
+    } catch (err) {
+      setMessage(err instanceof Error ? err.message : 'Failed to connect');
+    }
+  }
+
+  async function useDefaultFixture() {
+    setInputRoot(KanbanBoard.DEFAULT_PLANNING_ROOT);
+    try {
+      await KanbanBoard.updateConfig(KanbanBoard.DEFAULT_PLANNING_ROOT);
+      localStorage.removeItem('planningRootOverride');
+      localStorage.removeItem('planningRoot');
+      setPlanningRoot(KanbanBoard.DEFAULT_PLANNING_ROOT);
+      setMessage('Connected to default fixture (pawplace-stubs).');
       await refresh();
     } catch (err) {
       setMessage(err instanceof Error ? err.message : 'Failed to connect');
@@ -70,6 +93,7 @@ function BoardPage() {
           <input value={inputRoot} onChange={(e) => setInputRoot(e.target.value)} placeholder="C:/dev/.../docs/planning" />
         </label>
         <button type="button" onClick={() => void applyPlanningRoot()}>Connect</button>
+        <button type="button" className="secondary" onClick={() => void useDefaultFixture()}>Use stubs</button>
         <button type="button" className="secondary" onClick={() => void handleRefresh()}>Refresh</button>
         <span className="poll-indicator">{loading ? 'Loading\u2026' : 'Polled ' + (snapshot?.polledAt?.slice(11, 19) ?? '')}</span>
       </section>
@@ -78,10 +102,10 @@ function BoardPage() {
       {error ? <div className="status-banner error">{error}</div> : null}
 
       {snapshot ? (
-        <DeliveryKanbanBoard
+        <KanbanBoardView
           snapshot={snapshot}
-          movedTickets={movedTickets}
           onTeamUpdate={injectSnapshot}
+          onModeToggle={injectSnapshot}
         />
       ) : null}
     </div>
@@ -91,8 +115,8 @@ function BoardPage() {
 export default function App() {
   return (
     <Routes>
-      <Route path="/" element={<HomePage />} />
-      <Route path="/board" element={<BoardPage />} />
+      <Route path="/" element={<HomeView />} />
+      <Route path="/board" element={<BoardView />} />
     </Routes>
   );
 }

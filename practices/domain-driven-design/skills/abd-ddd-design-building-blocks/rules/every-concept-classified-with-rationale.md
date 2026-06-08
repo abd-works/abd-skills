@@ -1,9 +1,9 @@
----
+﻿---
 scanner:
 ---
 # Rule: Every concept classified with explicit rationale
 
-Every named concept from the input model (CRC block, object-model class, or ubiquitous-language concept) must appear in the building-blocks output with **at least one** stereotype annotation. A concept may express multiple stereotypes (Entity + Aggregate Root + emits Domain Events) — that is expected and correct. The answer to the business question is **implicit in the model itself** (the stereotype annotation, the `<<identifier>>` properties, the invariants, the boundary membership) — not written out as a separate Q&A block. Passing means no concept is left out and every stereotype annotation is justified by the model structure. Failing means a concept is missing or a stereotype is slapped on with no supporting model content (no identifier properties on an Entity, no invariants on an Aggregate, etc.).
+Every named concept from the input model (domain model block, class-model class, or domain-language concept) must appear in the building-blocks output with **at least one** stereotype annotation. A concept may express multiple stereotypes (Entity + Aggregate Root + emits Domain Events) — that is expected and correct. The answer to the business question is **implicit in the model itself** (the stereotype annotation, the `<<identifier>>` properties, the invariants, the boundary membership) — not written out as a separate Q&A block. Passing means no concept is left out and every stereotype annotation is justified by the model structure. Failing means a concept is missing or a stereotype is slapped on with no supporting model content (no identifier properties on an Entity, no invariants on an Aggregate, etc.).
 
 ## DO
 
@@ -19,7 +19,7 @@ Every named concept from the input model (CRC block, object-model class, or ubiq
 
 - Leave any source-model concept unaccounted for in the output (even if it is Unresolved, it must appear).
 
-  **Example (fail):** Source CRC has `Appointment`, `Patient`, `Clinic`, `TimeSlot`; output only addresses `Patient` and `Clinic` — two concepts silently dropped.
+  **Example (fail):** Source domain model has `Appointment`, `Patient`, `Clinic`, `TimeSlot`; output only addresses `Patient` and `Clinic` — two concepts silently dropped.
 
 - Annotate a stereotype with no supporting model content.
 
