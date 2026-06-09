@@ -1,4 +1,4 @@
-﻿# Skill Errors Log — abd-acceptance-criteria
+﻿# Skill Errors Log — abd-story-acceptance-criteria
 
 ---
 

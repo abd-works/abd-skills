@@ -1,5 +1,5 @@
 ﻿---
-name: abd-story-specification
+name: abd-specification-by-example
 catalog_garden_tier: practice
 catalog_garden_order: 40
 catalogue_one_liner: >-
@@ -8,7 +8,7 @@ description: >-
   Produces Given/When/Then specification scenarios with real domain values. Use when
   writing BDD scenarios, refining acceptance criteria into specs, or making story behavior concrete.
 ---
-# abd-story-specification
+# abd-specification-by-example
 
 ## Purpose
 
@@ -35,8 +35,8 @@ Read these files:
 - **`reference/examples.md`** — worked examples showing plain Scenarios, Scenario Outlines with relationship-based tables, and Background.
 
 Also check whether any of the following domain model content exists in the workspace:
-- **Class Model** — typed classes with attributes and typed relationships. Use it first.
-- **domain model** — each concept listed with responsibilities and collaborators. Use when no Class Model exists.
+- **Object model** — typed classes with attributes and typed relationships. Use it first.
+- **CRC model** — each concept listed with responsibilities and collaborators. Use when no object model exists.
 - **Domain language or key abstractions** — a glossary, list of defined terms. Use as fallback.
 
 Check for `domain.json` in the workspace. If it does not exist and a domain model markdown file is present, produce `domain.json` before running the scanner.
@@ -76,7 +76,7 @@ Run the scanners:
 
 ```bash
 python skills/execute-skill-using-skills-rules/scripts/run_scanners.py \
-  --skill-root skills/abd-story-specification \
+  --skill-root skills/abd-specification-by-example \
   --workspace <path-to-output>
 ```
 

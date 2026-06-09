@@ -1,4 +1,4 @@
-# Rule: Brownfield map without redesign
+﻿# Rule: Brownfield map without redesign
 
 **Scanner:** Manual review
 
@@ -8,7 +8,7 @@ During **brownfield current-state** story mapping, the job is to **describe what
 
 - Map **observed** behavior only — including defects and quirks as stories or notes for AC (`observed` intent).
 - Split **characterize** slices from **change** slices in narrative or thin-slicing — e.g. "Enter Game (as-built)" before "Enter Game (fix SQL cursor)".
-- Stop and hand off quirks to **`abd-acceptance-criteria`** with explicit observed wording.
+- Stop and hand off quirks to **`abd-story-acceptance-criteria`** with explicit observed wording.
 - Follow delivery strategy **`brownfield-current-state`** checkpoint: reviewer **`brownfield-boundary-gate`** before AC work.
 
   **Example (pass):** Map includes `(S) System --> Spawn Hero on Map` with note "MapServer cold start 1–2 min on tutorial zone (observed)" — fix deferred to change slice.

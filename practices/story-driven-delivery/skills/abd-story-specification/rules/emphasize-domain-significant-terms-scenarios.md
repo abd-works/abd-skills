@@ -1,4 +1,4 @@
----
+﻿---
 scanner: emphasize-domain-terms-scenario
 ---
 
@@ -6,7 +6,7 @@ scanner: emphasize-domain-terms-scenario
 
 **Scanner:** `scanners/emphasize-domain-terms-scenario-scanner.py` — **`ScenarioDomainTermEmphasisScanner`**
 
-Call out **domain language** — the nouns, verbs, and short phrases that belong to the problem space and show up in stories, tests, and talk with stakeholders — so readers see what is *specific* to this product versus generic wording. Apply this to **scenario** prose: **Background** lines, **Given / When / Then** steps, and the **scenario name** when it carries domain meaning (same bar as **abd-acceptance-criteria** emphasis on AC).
+Call out **domain language** — the nouns, verbs, and short phrases that belong to the problem space and show up in stories, tests, and talk with stakeholders — so readers see what is *specific* to this product versus generic wording. Apply this to **scenario** prose: **Background** lines, **Given / When / Then** steps, and the **scenario name** when it carries domain meaning (same bar as **abd-story-acceptance-criteria** emphasis on AC).
 
 ## DO
 

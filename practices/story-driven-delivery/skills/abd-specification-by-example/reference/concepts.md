@@ -1,4 +1,4 @@
-﻿# Specification by Example — Core Concepts
+# Specification by Example — Core Concepts
 
 ## What is specification by example?
 
@@ -25,7 +25,7 @@ In `.md` artifacts, use **bold** for domain concept names and *italics* for thei
 
 ## Working from acceptance criteria
 
-If the story has AC (WHEN/THEN from abd-story-acceptance-criteria), use the main-flow AC as the spine: convert WHEN to When, THEN/AND to Then/And, then add Given preconditions to make it runnable. Remaining AC become additional scenarios (failures, edges, alternate flows). The mapping is rarely one-to-one, but readers should see the relationship.
+If the story has AC (WHEN/THEN from abd-acceptance-criteria), use the main-flow AC as the spine: convert WHEN to When, THEN/AND to Then/And, then add Given preconditions to make it runnable. Remaining AC become additional scenarios (failures, edges, alternate flows). The mapping is rarely one-to-one, but readers should see the relationship.
 
 ## Scenarios vs Scenario Outlines
 
@@ -38,7 +38,7 @@ Use Background only when three or more scenarios share identical starting state.
 
 ## Domain concept grounding
 
-Specification by example works at two levels simultaneously: it specifies *behavior* and it confirms *the domain model*. When domain model content — an Class Model, domain model, or domain language glossary — is available, the scenarios are its behavioral proof. Concept names must match exactly.
+Specification by example works at two levels simultaneously: it specifies *behavior* and it confirms *the domain model*. When domain model content — an object model, CRC model, or domain language glossary — is available, the scenarios are its behavioral proof. Concept names must match exactly.
 
 When no domain model exists, the scenarios themselves reveal the model. The deliberate way a step names a concept and connects it to another documents the model for the team.
 

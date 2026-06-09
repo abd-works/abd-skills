@@ -1,5 +1,5 @@
 ﻿---
-name: abd-acceptance-criteria
+name: abd-story-acceptance-criteria
 catalog_garden_tier: practice
 catalog_garden_order: 30
 catalogue_one_liner: >-
@@ -8,7 +8,7 @@ description: >-
   Writes exploration-phase acceptance criteria (WHEN/THEN/AND/BUT) for stories as a Markdown document.
   Use when writing or reviewing acceptance criteria, exploration behavior, or WHEN/THEN quality.
 ---
-# abd-acceptance-criteria
+# abd-story-acceptance-criteria
 
 ## Purpose
 
@@ -56,7 +56,7 @@ Run the scanners:
 
 ```bash
 python skills/execute-skill-using-skills-rules/scripts/run_scanners.py \
-  --skill-root skills/abd-acceptance-criteria \
+  --skill-root skills/abd-story-acceptance-criteria \
   --workspace <path-to-output>
 ```
 
