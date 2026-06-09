@@ -1,4 +1,4 @@
----
+﻿---
 name: abd-domain-code
 catalogue_one_liner: Write domain-layer tests and production code from any domain context.
 description: >
@@ -39,9 +39,9 @@ If an architecture reference exists, read the **domain layer** section only — 
 exception conventions, and value-object patterns. If none exists, infer sensible conventions from
 the language and any existing code.
 
-### 2. Write tests first — follow abd-acceptance-test-driven-development
+### 2. Write tests first — follow abd-story-acceptance-test
 
-Read and follow **`abd-acceptance-test-driven-development/SKILL.md`** in full.
+Read and follow **`abd-story-acceptance-test/SKILL.md`** in full.
 
 Scope the tests to domain behavior only — follow the epic / sub-epic / story / scenario
 convention from that skill (one file per sub epic, one class per story, one method per scenario).
