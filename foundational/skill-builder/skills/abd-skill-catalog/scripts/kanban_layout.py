@@ -908,6 +908,16 @@ def _legacy_catalog_path_prefixes() -> tuple[str, ...]:
     return tuple(f"../../../../{slug}/catalog/" for slug in slugs)
 
 
+def _rewrite_github_repo_urls(text: str) -> str:
+    slugs = (*LEGACY_GITHUB_REPO_SLUGS, GITHUB_REPO)
+    legacy = "|".join(re.escape(slug) for slug in slugs)
+    return re.sub(
+        rf"https://github\.com/abd-works/(?:{legacy})",
+        GITHUB_REPO_URL,
+        text,
+    )
+
+
 def _rewrite_legacy_catalog_paths(text: str, catalog_prefix: str) -> str:
     for legacy in _legacy_catalog_path_prefixes():
         text = text.replace(legacy, catalog_prefix)
@@ -917,6 +927,7 @@ def _rewrite_legacy_catalog_paths(text: str, catalog_prefix: str) -> str:
 def _catalogize_spotlight_html(html: str, *, catalog_prefix: str = "../") -> str:
     text = html.replace(BOOTCAMP_CATALOG_PREFIX, catalog_prefix)
     text = _rewrite_legacy_catalog_paths(text, catalog_prefix)
+    text = _rewrite_github_repo_urls(text)
     text = text.replace('target="_blank" rel="noopener"', "")
     # Catalog kanban spotlights use ../skill/, ../plugin/, … (relative to catalog root).
     # Bootcamp deck resolves links from /abd-ai-augmented-bootcamp/ → ../abd-skills-catalog/…
@@ -1733,6 +1744,7 @@ def rewrite_bootcamp_catalog_links(text: str, skill_dir_by_name: dict[str, str])
     text = text.replace("abd-clickable-prototype.html", "abd-ux-specification.html")
     text = text.replace(">clickable-prototype</a>", ">interface-design</a>")
     text = text.replace("<!-- UXD: clickable-prototype -->", "<!-- UXD: interface-design (implementation pass) -->")
+    text = _rewrite_github_repo_urls(text)
     return text
 
 

@@ -53,7 +53,7 @@
   }
 
   var PREVIEW_CATALOG_COMMONS =
-    'https://raw.githubusercontent.com/abd-works/agilebydesign-skills/main/catalog/commons/';
+    'https://raw.githubusercontent.com/abd-works/abd-skills/main/catalog/commons/';
 
   function modeFromUrl() {
     try {
