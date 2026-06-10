@@ -8,7 +8,7 @@ Reusable **plugins**, **skills**, and **agents** from [abd.works](https://agileb
 | **Markdown outline** (same content, diffable; renders on GitHub) | [`catalog/outline.md`](catalog/outline.md) |
 | **Delivery kanban** (stages × practice plugins) | [Preview](https://htmlpreview.github.io/?https://github.com/abd-works/agilebydesign-skills/blob/main/catalog/kanban-layout/index.html) · [`catalog/kanban-layout/index.html`](catalog/kanban-layout/index.html) |
 
----
+_HTML preview opens in Engineer (dark) mode by default._
 
 ## Plugins
 
