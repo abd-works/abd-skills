@@ -1062,11 +1062,10 @@ def build_kanban_slides_deck_html(
 ) -> str:
     """Vertical kb-slide stack (catalog kanban-layout or bootcamp part3 sync)."""
     headers = extract_bootcamp_slide_headers(repo_root)
-    if relative_href_prefix != "../":
-        headers = {
-            n: _catalogize_spotlight_html(h, catalog_prefix=relative_href_prefix)
-            for n, h in headers.items()
-        }
+    headers = {
+        n: _catalogize_spotlight_html(h, catalog_prefix=relative_href_prefix)
+        for n, h in headers.items()
+    }
     spotlight_bodies = build_catalog_stage_spotlight_bodies(
         repo_root, catalog_prefix=relative_href_prefix
     )
