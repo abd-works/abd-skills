@@ -78,7 +78,7 @@ describe('Scatter Ticket at Scope Boundary', () => {
 describe('Show Agent Running on Ticket Card', () => {
   const explorationSkills: StageSkill[] = [
     { skillId: 'abd-domain-language', label: 'Domain Language', family: 'domain-driven-design', role: 'business-expert' },
-    { skillId: 'abd-acceptance-criteria', label: 'Acceptance Criteria', family: 'story-driven-delivery', role: 'product-owner' },
+    { skillId: 'abd-story-acceptance-criteria', label: 'Acceptance Criteria', family: 'story-driven-delivery', role: 'product-owner' },
     { skillId: 'abd-architecture-specification', label: 'Arch Spec', family: 'architecture-centric-engineering', role: 'engineer' },
   ];
 

@@ -365,7 +365,7 @@ describe('Advance Ticket to Next Stage (Same Scope)', () => {
           stage: 'exploration',
           priority: 1,
           hold_in_progress: true,
-          skill_progress: { 'abd-acceptance-criteria': { execution_status: 'in_progress' } },
+          skill_progress: { 'abd-story-acceptance-criteria': { execution_status: 'in_progress' } },
         },
       ],
       done: [],

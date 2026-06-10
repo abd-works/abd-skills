@@ -32,11 +32,11 @@
 
 | Discovery | increment | abd-architecture-blueprint, abd-information-architecture (optional) |
 
-| Exploration | increment | abd-domain-language, abd-acceptance-criteria, abd-ux-mockup (optional), abd-architecture-specification (conditional — skip when mechanisms exist) |
+| Exploration | increment | abd-domain-language, abd-story-acceptance-criteria, abd-ux-mockup (optional), abd-architecture-specification (conditional — skip when mechanisms exist) |
 
-| Specification | sprint | abd-domain-model (optional), abd-specification-by-example |
+| Specification | sprint | abd-domain-model (optional), abd-story-specification |
 
-| Engineering | sprint | abd-domain-specification (BE, optional), abd-acceptance-test-driven-development (PO), abd-clean-code / abd-architecture-code (EN) |
+| Engineering | sprint | abd-domain-specification (BE, optional), abd-story-acceptance-test (PO), abd-clean-code / abd-architecture-code (EN) |
 
 
 
@@ -188,7 +188,7 @@ Include context stage when source material is in non-markdown formats (PDF, PPTX
 
 | Information architecture (opt) | abd-information-architecture | discovery | — |
 
-| AC | abd-acceptance-criteria | exploration | — |
+| AC | abd-story-acceptance-criteria | exploration | — |
 
 | UX mockup (opt) | abd-ux-mockup | exploration | — |
 
@@ -196,11 +196,11 @@ Include context stage when source material is in non-markdown formats (PDF, PPTX
 
 | domain model cards (opt) | abd-domain-model | specification | — |
 
-| Spec-by-example | abd-specification-by-example | specification | — |
+| Spec-by-example | abd-story-specification | specification | — |
 
 | Class Model (opt) | abd-domain-specification | engineering | business-expert |
 
-| Characterization / change tests | abd-acceptance-test-driven-development | engineering | product-owner |
+| Characterization / change tests | abd-story-acceptance-test | engineering | product-owner |
 
 | Production code (change slices) | abd-clean-code / abd-architecture-code | engineering | engineer |
 

@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Control Agent Lifecycle
  *
  * Epic:     Manage Agent Lifecycle via Cursor SDK
@@ -378,7 +378,7 @@ describe('Detect Agent Completion via SDK', () => {
     const lead = given_kanban_lead_running_scan_cycle();
     const { session } = given_agent_executing_final_skill(
       'business-expert',
-      'abd-specification-by-example',
+      'abd-story-specification',
       '1-inc-1-sprint-a',
       'specification',
     );

@@ -1,4 +1,4 @@
-﻿# Strategy: Regulatory / Compliance-Heavy
+# Strategy: Regulatory / Compliance-Heavy
 
 
 
@@ -30,11 +30,11 @@
 
 | Discovery | increment | abd-architecture-blueprint |
 
-| Exploration | increment | abd-domain-language, abd-acceptance-criteria (regulatory values, not placeholders), abd-architecture-specification |
+| Exploration | increment | abd-domain-language, abd-story-acceptance-criteria (regulatory values, not placeholders), abd-architecture-specification |
 
-| Specification | sprint | abd-domain-model, abd-specification-by-example (real regulatory values) |
+| Specification | sprint | abd-domain-model, abd-story-specification (real regulatory values) |
 
-| Engineering | sprint | abd-domain-specification (BE), abd-acceptance-test-driven-development (PO, tests = proof bundle), abd-clean-code (EN) |
+| Engineering | sprint | abd-domain-specification (BE), abd-story-acceptance-test (PO, tests = proof bundle), abd-clean-code (EN) |
 
 
 

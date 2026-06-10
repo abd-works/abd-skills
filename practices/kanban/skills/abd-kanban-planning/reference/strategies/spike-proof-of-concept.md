@@ -13,8 +13,8 @@
 | Stage | Scope | Skills (ordered) |
 | --- | --- | --- |
 | Discovery | all | abd-story-mapping (minimal — frame the experiment) |
-| Exploration | story | abd-acceptance-criteria (minimal — learning-goal AC only) |
-| Engineering | story | abd-acceptance-test-driven-development (minimal), abd-clean-code (spike quality acceptable) |
+| Exploration | story | abd-story-acceptance-criteria (minimal — learning-goal AC only) |
+| Engineering | story | abd-story-acceptance-test (minimal), abd-clean-code (spike quality acceptable) |
 
 **Minimal stages.** No specification. No architecture skills. Learning is the output, not production code.
 

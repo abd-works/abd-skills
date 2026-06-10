@@ -37,7 +37,7 @@ When any deliverable is wrong, a rule was missed, or stages were mixed, you **fo
 **Fix the skill** — only **after** the output steps above for that issue, or when the user **explicitly** asks to change maintainer sources. Then follow item 4 **Fix the skill** substeps **a** through **f** in **`skill-helpers/skills/execute-skill-using-skills-rules/SKILL.md`** (read log as a set, root causes, propose and agree, edit **`rules/*.md`** directly, validate with per-rule verdicts + scanner pass, archive).
 
 - Use the **track_task** skill; track steps in **`progress/`** per **track_task**.
-- Example layout references: `abd-clean-code`, `abd-story-mapping`, `abd-acceptance-criteria`, `abd-specification-by-example`, `abd-thin-slicing`, `abd-acceptance-test-driven-development`.
+- Example layout references: `abd-clean-code`, `abd-story-mapping`, `abd-story-acceptance-criteria`, `abd-story-specification`, `abd-thin-slicing`, `abd-story-acceptance-test`.
 
 Keep **one canonical narrative** in the new skill and manual; RAG hits are **evidence**, not a second master.
 

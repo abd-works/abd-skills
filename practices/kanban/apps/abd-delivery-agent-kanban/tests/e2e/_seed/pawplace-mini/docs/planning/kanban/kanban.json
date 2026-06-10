@@ -76,7 +76,7 @@
               "role": "business-expert"
             },
             {
-              "skill": "abd-acceptance-criteria",
+              "skill": "abd-story-acceptance-criteria",
               "role": "product-owner"
             },
             {
@@ -99,7 +99,7 @@
               "role": "business-expert"
             },
             {
-              "skill": "abd-specification-by-example",
+              "skill": "abd-story-specification",
               "role": "product-owner"
             },
             {
@@ -126,7 +126,7 @@
               "role": "business-expert"
             },
             {
-              "skill": "abd-acceptance-test-driven-development",
+              "skill": "abd-story-acceptance-test",
               "role": "product-owner"
             },
             {

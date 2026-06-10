@@ -26,18 +26,30 @@ SKILL_DIR = SCRIPT_DIR.parent
 TEMPLATE_DIR = SKILL_DIR / "templates"
 
 
+def _is_skills_repo_root(path: Path) -> bool:
+    """Recognize agilebydesign-skills / abd-skills layout."""
+    if (path / "scripts" / "deploy_family_package.py").is_file():
+        return True
+    if (path / "practices").is_dir() and (path / "foundational").is_dir():
+        return True
+    if (path / "practices").is_dir() and (path / "skill-config.json").is_file():
+        return True
+    return False
+
+
 def _repo_root_from_skill_package(skill_pkg_dir: Path) -> Path:
-    """Walk upward until the agilebydesign-skills repo root (deploy script marker)."""
+    """Walk upward until the agilebydesign-skills repo root."""
     p = skill_pkg_dir.resolve()
     for _ in range(16):
-        if (p / "scripts" / "deploy_family_package.py").is_file():
+        if _is_skills_repo_root(p):
             return p
         parent = p.parent
         if parent == p:
             break
         p = parent
     raise RuntimeError(
-        f"Could not find repository root (scripts/deploy_family_package.py) starting from {skill_pkg_dir}"
+        f"Could not find repository root (practices/ + foundational/ or "
+        f"scripts/deploy_family_package.py) starting from {skill_pkg_dir}"
     )
 
 
@@ -72,11 +84,15 @@ if str(_EXECUTE_RULES_SCRIPTS) not in sys.path:
 import frontmatter_tags  # noqa: E402
 
 from kanban_layout import (  # noqa: E402
+    build_catalog_hub_kanban_embed_html,
     build_kanban_board_html,
+    build_kanban_legend_html,
+    load_catalog_embed_kanban_css,
     load_kanban_model,
     patch_bootcamp_slide_files,
     rewrite_bootcamp_catalog_links,
     skill_dir_map_from_entries,
+    skill_purpose_map_from_entries,
     sync_bootcamp_part3_kanban,
     write_kanban_layout_pages,
 )
@@ -95,6 +111,7 @@ from family_catalog import (  # noqa: E402
     html_plugin_slot_sections,
     outline_families_section,
     outline_plugins_section,
+    plugin_label,
 )
 
 
@@ -107,7 +124,7 @@ def _catalog_cli_invocation(repo_root: Path) -> str:
     return f"python {rel}"
 
 # Subtitle in generated pages (repo output folder is <root>/catalog/).
-CATALOG_BRAND_HTML = "<strong>abd.works</strong> &middot; AI Garden"
+CATALOG_BRAND_HTML = "<strong>abd.works</strong> &middot; Foundry"
 
 # GitHub slug for `npx skills add owner/repo@skill` (skills.sh / Open Agent Skills CLI).
 NPX_SKILLS_REPO_SLUG = "agilebydesign/agilebydesign-skills"
@@ -153,6 +170,8 @@ class SkillEntry(NamedTuple):
     garden_order: int
     # Optional override for catalog family (from catalog_garden_family frontmatter field).
     family_override: str = ""
+    # Full ## Purpose (or YAML description) — not truncated; used for kanban tooltips.
+    purpose: str = ""
 
 
 class AgentEntry(NamedTuple):
@@ -379,6 +398,14 @@ def _skill_entry_from_package_dir(child: Path, repo_root: Path) -> SkillEntry | 
     summary = _table_blurb(fm, body)
     summary = _readme_catalogue_card_summary(child / "README.md", summary, fm)
     tier = _norm_catalog_garden_tier(fm.get("catalog_garden_tier", ""))
+    purpose_full = _extract_section(body, "Purpose")
+    if purpose_full:
+        purpose_full = re.split(r"\n---+\s*(?:\n|$)", purpose_full, maxsplit=1)[0]
+        purpose_full = _strip_md(purpose_full.strip())
+    elif fm.get("description", "").strip():
+        purpose_full = _strip_md(fm.get("description", ""))
+    else:
+        purpose_full = ""
     return SkillEntry(
         name=name,
         dir_name=child.name,
@@ -389,25 +416,19 @@ def _skill_entry_from_package_dir(child: Path, repo_root: Path) -> SkillEntry | 
         garden_tier=tier,
         garden_order=_catalog_garden_order(fm),
         family_override=fm.get("catalog_garden_family", ""),
+        purpose=purpose_full,
     )
 
 
 def discover_skills(repo_root: Path) -> list[SkillEntry]:
-    """Practice skills under ``<family>/skills/`` (family packages only)."""
-    seen: set[str] = set()
-    out: list[SkillEntry] = []
+    """Practice skills under ``<family>/skills/`` plus stage-tier skills under ``stages/``."""
+    by_dir: dict[str, SkillEntry] = {}
 
     def push(child: Path) -> None:
         ent = _skill_entry_from_package_dir(child, repo_root)
         if ent is None:
             return
-        if ent.dir_name in seen:
-            raise SystemExit(
-                f"Duplicate skill package folder name {ent.dir_name!r} (second at {child}). "
-                "Rename one package so catalogue detail page ids stay unique."
-            )
-        seen.add(ent.dir_name)
-        out.append(ent)
+        by_dir[ent.dir_name] = ent
 
     for _fam_id, fam_path in FAMILY_PACKAGES.items():
         family_skills = repo_root / fam_path / "skills"
@@ -419,7 +440,18 @@ def discover_skills(repo_root: Path) -> list[SkillEntry]:
                 continue
             push(child)
 
-    return out
+    stages_root = repo_root / "stages"
+    if stages_root.is_dir():
+        for skill_md in sorted(stages_root.rglob("SKILL.md")):
+            child = skill_md.parent
+            rel = child.relative_to(stages_root)
+            if any(part.startswith(".") for part in rel.parts):
+                continue
+            if "test" in rel.parts[:-1]:
+                continue
+            push(child)
+
+    return sorted(by_dir.values(), key=lambda e: (e.garden_order, e.dir_name))
 
 
 def _agent_catalog_garden_include(fm: dict[str, str]) -> bool:
@@ -567,8 +599,61 @@ def _path_up_to_ancestor(from_dir: Path, ancestor: Path) -> str:
     return "../" * n
 
 
+def _resolve_website_assets(repo_root: Path) -> Path | None:
+    """Locate abd-works-website (site.css, nav pattern, brand wordmarks)."""
+    for candidate in (
+        repo_root.parent / "abd-works-website",
+        repo_root / "abd-works-website",
+    ):
+        if (candidate / "css" / "site.css").is_file() and (candidate / "js" / "nav.js").is_file():
+            return candidate
+    return None
+
+
+def _commons_prefix(page_dir: Path, catalog_root: Path) -> str:
+    """Relative URL prefix from page_dir to catalog_root/commons/."""
+    commons_dir = catalog_root.resolve() / "commons"
+    page_dir = page_dir.resolve()
+    rel = os.path.relpath(commons_dir, page_dir).replace("\\", "/")
+    if rel in (".", ""):
+        return "commons/"
+    return f"{rel}/"
+
+
+def _site_base_prefix(page_dir: Path, website_root: Path | None) -> str:
+    """Relative or absolute URL prefix from a catalog page to abd.works marketing site root."""
+    if website_root is None or not (website_root / "index.html").is_file():
+        return "https://abd.works/"
+    rel = os.path.relpath(website_root.resolve(), page_dir.resolve()).replace("\\", "/")
+    if rel in (".", ""):
+        return ""
+    return rel.rstrip("/") + "/"
+
+
+def _vendor_catalog_site_assets(catalog_root: Path, website_root: Path) -> None:
+    """Copy marketing-site nav/CSS/brand beside catalog HTML for file:// and static deploy."""
+    dest = catalog_root / "commons"
+    if dest.exists():
+        _rmtree_output_dir(dest)
+    dest.mkdir(parents=True)
+    (dest / "brand").mkdir()
+    shutil.copy2(website_root / "css" / "site.css", dest / "site.css")
+    shutil.copy2(TEMPLATE_DIR / "catalog-nav.js", dest / "catalog-nav.js")
+    shutil.copy2(TEMPLATE_DIR / "catalog-foundry-tour.js", dest / "catalog-foundry-tour.js")
+    brand_src = website_root / "commons" / "brand"
+    for name in ("abd.works.wordmark.white.svg", "abd.works.wordmark.black.svg"):
+        src = brand_src / name
+        if src.is_file():
+            shutil.copy2(src, dest / "brand" / name)
+
+
 def _h(text: str) -> str:
     return html_mod.escape(text)
+
+
+def _html_attr(text: str) -> str:
+    """Escape trusted HTML for double-quoted attribute values (keeps tags)."""
+    return text.replace("&", "&amp;").replace('"', "&quot;")
 
 
 def _npx_skills_install_block(skill_package_name: str) -> str:
@@ -950,6 +1035,8 @@ def write_package_markdown_pages(
     skills: list[SkillEntry],
     agents: list[AgentEntry],
     css: str,
+    *,
+    website_root: Path | None = None,
 ) -> int:
     """Emit catalog/doc/<skill|agent>/<pkg>/…/*.html for every package .md (mirrors subfolders). Returns page count."""
     tpl = _load_template("page-markdown-doc.html")
@@ -996,9 +1083,10 @@ def write_package_markdown_pages(
                 body_html = _markdown_rule_to_html(raw)
             rel_to_cat = dest.relative_to(output_catalog_dir)
             nav_prefix = "../" * len(rel_to_cat.parent.parts)
+            commons_prefix = _commons_prefix(dest.parent, output_catalog_dir)
             back = f"{nav_prefix}{'skill' if kind == 'skill' else 'agent'}/{quote(pkg, safe='')}.html"
             relpos = rel_under_pkg.as_posix()
-            title = f"AI Garden — {display_name} · {relpos}"
+            title = f"Foundry — {display_name} · {relpos}"
             h1 = relpos
             tagline = _file_blurb(md, max_len=400)
             nav_current = "skills" if kind == "skill" else "agents"
@@ -1013,7 +1101,9 @@ def write_package_markdown_pages(
                 .replace("{{TAGLINE}}", _h(tagline))
                 .replace("{{DOC_BODY}}", body_html),
                 nav_prefix=nav_prefix,
+                commons_prefix=commons_prefix,
                 current=nav_current,
+                nav_site_base=_site_base_prefix(dest.parent, website_root),
             )
             dest.write_text(html, encoding="utf-8")
             count += 1
@@ -1517,12 +1607,15 @@ def write_entry_detail_pages(
     agents: list[AgentEntry],
     detail_css: str,
     detail_tpl: str,
+    *,
+    website_root: Path | None = None,
 ) -> tuple[int, int]:
     """Write catalog/skill/<dir>.html and catalog/agent/<dir>.html. Returns counts."""
     href_to_repo = _path_up_to_ancestor(output_catalog_dir / "skill", repo_root)
     if not href_to_repo:
         href_to_repo = "./"
     nav_prefix = "../"
+    detail_commons = _commons_prefix(output_catalog_dir / "skill", output_catalog_dir)
     brand = CATALOG_BRAND_HTML
 
     skill_out = output_catalog_dir / "skill"
@@ -1559,12 +1652,19 @@ def write_entry_detail_pages(
             if body.strip()
             else f'<p class="entry-caption">(no body in {_h(src_fname)})</p>'
         )
+        skill_plugin_id = _plugin_id_for_pkg_rel(s.pkg_rel_posix)
+        if skill_plugin_id:
+            skill_back_href = _plugin_detail_href(nav_prefix, skill_plugin_id)
+            skill_back_label = f"← {plugin_label(skill_plugin_id)}"
+        else:
+            skill_back_href = _foundry_home_href(nav_prefix)
+            skill_back_label = "← Foundry home"
         html = _apply_catalog_nav(
             detail_tpl.replace("{{CSS}}", detail_css)
-            .replace("{{TITLE}}", _h(f"AI Garden — skill · {s.name}"))
+            .replace("{{TITLE}}", _h(f"Foundry — skill · {s.name}"))
             .replace("{{BRAND}}", brand)
-            .replace("{{BACK_HREF}}", f"{nav_prefix}{SKILLS_PAGE}")
-            .replace("{{BACK_LABEL}}", "← All skills")
+            .replace("{{BACK_HREF}}", skill_back_href)
+            .replace("{{BACK_LABEL}}", skill_back_label)
             .replace("{{BADGE}}", "Skill")
             .replace("{{H1}}", _h(s.name))
             .replace("{{TAGLINE}}", _h(s.summary))
@@ -1574,7 +1674,9 @@ def write_entry_detail_pages(
             .replace("{{ENTRY_MD_COLLAPSIBLE}}", entry_md)
             .replace("{{FILE_LIST}}", file_list),
             nav_prefix=nav_prefix,
+            commons_prefix=detail_commons,
             current="skills",
+            nav_site_base=_site_base_prefix(skill_out, website_root),
         )
         (skill_out / f"{s.dir_name}.html").write_text(html, encoding="utf-8")
 
@@ -1604,10 +1706,10 @@ def write_entry_detail_pages(
         )
         html = _apply_catalog_nav(
             detail_tpl.replace("{{CSS}}", detail_css)
-            .replace("{{TITLE}}", _h(f"AI Garden — agent · {a.name}"))
+            .replace("{{TITLE}}", _h(f"Foundry — agent · {a.name}"))
             .replace("{{BRAND}}", brand)
-            .replace("{{BACK_HREF}}", f"{nav_prefix}{AGENTS_PAGE}")
-            .replace("{{BACK_LABEL}}", "← All agents")
+            .replace("{{BACK_HREF}}", _foundry_home_href(nav_prefix))
+            .replace("{{BACK_LABEL}}", "← Foundry home")
             .replace("{{BADGE}}", "Agent")
             .replace("{{H1}}", _h(a.name))
             .replace("{{TAGLINE}}", _h(a.summary))
@@ -1617,7 +1719,9 @@ def write_entry_detail_pages(
             .replace("{{ENTRY_MD_COLLAPSIBLE}}", entry_md)
             .replace("{{FILE_LIST}}", file_list),
             nav_prefix=nav_prefix,
+            commons_prefix=detail_commons,
             current="agents",
+            nav_site_base=_site_base_prefix(agent_out, website_root),
         )
         (agent_out / f"{a.dir_name}.html").write_text(html, encoding="utf-8")
 
@@ -1631,10 +1735,13 @@ def write_plugin_artifact_detail_pages(
     prompts: list[PluginArtifactEntry],
     detail_css: str,
     detail_tpl: str,
+    *,
+    website_root: Path | None = None,
 ) -> tuple[int, int]:
     """Write catalog/instruction/<slug>.html and catalog/prompt/<slug>.html."""
     brand = CATALOG_BRAND_HTML
     nav_prefix = "../"
+    artifact_commons = _commons_prefix(output_catalog_dir / "instruction", output_catalog_dir)
     href_to_repo = _path_up_to_ancestor(output_catalog_dir / "instruction", repo_root) or "./"
 
     def write_bucket(entries: list[PluginArtifactEntry], folder: str, badge: str, back_page: str) -> int:
@@ -1642,6 +1749,7 @@ def write_plugin_artifact_detail_pages(
         if out_dir.exists():
             _rmtree_output_dir(out_dir)
         out_dir.mkdir(parents=True)
+        folder_commons = _commons_prefix(out_dir, output_catalog_dir)
         count = 0
         for e in entries:
             src = repo_root / e.rel_path
@@ -1663,7 +1771,7 @@ def write_plugin_artifact_detail_pages(
             nav_current = "instructions" if folder == "instruction" else "hub"
             html = _apply_catalog_nav(
                 detail_tpl.replace("{{CSS}}", detail_css)
-                .replace("{{TITLE}}", _h(f"AI Garden — {badge.lower()} · {e.display_name}"))
+                .replace("{{TITLE}}", _h(f"Foundry — {badge.lower()} · {e.display_name}"))
                 .replace("{{BRAND}}", brand)
                 .replace("{{BACK_HREF}}", plugin_href)
                 .replace("{{BACK_LABEL}}", f"← {e.plugin_label}")
@@ -1680,7 +1788,9 @@ def write_plugin_artifact_detail_pages(
                     f"Open source file</a></p>",
                 ),
                 nav_prefix=nav_prefix,
+                commons_prefix=folder_commons,
                 current=nav_current,
+                nav_site_base=_site_base_prefix(out_dir, website_root),
             )
             (out_dir / f"{e.slug}.html").write_text(html, encoding="utf-8")
             count += 1
@@ -1720,6 +1830,8 @@ def write_plugin_detail_pages(
     detail_tpl: str,
     skills: list[SkillEntry] | None = None,
     agents: list[AgentEntry] | None = None,
+    *,
+    website_root: Path | None = None,
 ) -> int:
     """Write catalog/plugin/<id>.html. Removes legacy catalog/family/."""
     plugin_out = output_catalog_dir / "plugin"
@@ -1731,6 +1843,7 @@ def write_plugin_detail_pages(
     plugin_out.mkdir(parents=True)
     href_to_repo = _path_up_to_ancestor(plugin_out, repo_root) or "./"
     nav_prefix = "../"
+    plugin_commons = _commons_prefix(plugin_out, output_catalog_dir)
     brand = CATALOG_BRAND_HTML
     skill_by_dir = {s.dir_name: s for s in (skills or [])}
     agent_by_dir = {a.dir_name: a for a in (agents or [])}
@@ -1773,10 +1886,10 @@ def write_plugin_detail_pages(
         desc += f"<p class=\"entry-caption\">Deploy: <code>{deploy_cmd}</code></p>"
         html = _apply_catalog_nav(
             detail_tpl.replace("{{CSS}}", detail_css)
-            .replace("{{TITLE}}", _h(f"AI Garden — plugin · {plugin.label}"))
+            .replace("{{TITLE}}", _h(f"Foundry — plugin · {plugin.label}"))
             .replace("{{BRAND}}", brand)
-            .replace("{{BACK_HREF}}", f"{nav_prefix}plugins.html")
-            .replace("{{BACK_LABEL}}", "← All plugins")
+            .replace("{{BACK_HREF}}", _foundry_home_href(nav_prefix))
+            .replace("{{BACK_LABEL}}", "← Foundry home")
             .replace("{{BADGE}}", "Plugin")
             .replace("{{H1}}", _h(plugin.label))
             .replace("{{TAGLINE}}", _h(f"{plugin.id}/ — {plugin.summary}"))
@@ -1789,7 +1902,9 @@ def write_plugin_detail_pages(
             )
             .replace("{{FILE_LIST}}", file_list),
             nav_prefix=nav_prefix,
+            commons_prefix=plugin_commons,
             current="hub",
+            nav_site_base=_site_base_prefix(plugin_out, website_root),
         )
         (plugin_out / f"{plugin.id}.html").write_text(html, encoding="utf-8")
 
@@ -1805,7 +1920,7 @@ def generate_outline_md(
     catalog_cli_hint: str,
 ) -> str:
     lines: list[str] = [
-        "# AI Garden — plugins, skills & agents",
+        "# Foundry — plugins, skills & agents",
         "",
         "> Auto-generated from repository **plugins** (`<plugin>/agents|skills|content|instructions|prompts|lib|scripts/`).",
         f"> Run `{catalog_cli_hint}` to refresh.",
@@ -1983,23 +2098,26 @@ GARDENER_ROLE_PAGE_HREF = "/abd-ai-usage-journey/ai-users/Gardener.html"
 
 
 def garden_prelude_tagline_html() -> str:
-    """Trusted HTML for hub tagline + prelude paragraph (single in-repo Gardener role link)."""
+    """Trusted HTML for hub tagline + prelude paragraph."""
 
     return (
-        f'Every <a href="{GARDENER_ROLE_PAGE_HREF}">Context Gardener</a> needs a Garden. '
-        "The ABD AI Garden is our early efforts at providing an area to share prompts, agent skills, "
-        "and plugins that ABDers have been using to augment outcomes. "
-        'See the source repository at <a href="https://github.com/abd-works/agilebydesign-skills" target="_blank" rel="noopener noreferrer">https://github.com/abd-works/agilebydesign-skills</a>.'
+        "The ABD Foundry — thirty years of product engineering experience "
+        "shared as agents, skills, and tools that anyone can use. "
+        'Grab the repo <a href="https://github.com/abd-works/agilebydesign-skills" target="_blank" rel="noopener noreferrer">here</a>.'
     )
 
 
-CATALOG_GARDEN_H1 = "The ABD AI Garden"
+CATALOG_GARDEN_H1 = "The ABD Foundry"
+CATALOG_PAGE_LABEL = "abd.works · Forge"
+CATALOG_PAGE_TITLE_HTML = 'The ABD <span class="accent">Foundry</span>'
 SKILLS_PAGE = "skills.html"
 AGENTS_PAGE = "agents.html"
 INSTRUCTIONS_PAGE = "instructions.html"
 
 
-def _apply_catalog_nav(html: str, *, nav_prefix: str = "", current: str) -> str:
+def _apply_catalog_nav(
+    html: str, *, nav_prefix: str = "", commons_prefix: str = "commons/", current: str, nav_site_base: str = "https://abd.works/"
+) -> str:
     def nav_cls(which: str) -> str:
         base = "nav__link nav__link--current" if which == current else "nav__link"
         if which == "kanban":
@@ -2008,6 +2126,9 @@ def _apply_catalog_nav(html: str, *, nav_prefix: str = "", current: str) -> str:
 
     return (
         html.replace("{{NAV_PREFIX}}", nav_prefix)
+        .replace("{{NAV_CURRENT}}", current)
+        .replace("{{NAV_SITE_BASE}}", nav_site_base)
+        .replace("{{COMMONS_PREFIX}}", commons_prefix)
         .replace("{{NAV_HUB}}", nav_cls("hub"))
         .replace("{{NAV_SKILLS}}", nav_cls("skills"))
         .replace("{{NAV_AGENTS}}", nav_cls("agents"))
@@ -2016,9 +2137,14 @@ def _apply_catalog_nav(html: str, *, nav_prefix: str = "", current: str) -> str:
     )
 
 
-def catalog_garden_page_header() -> tuple[str, str]:
-    """Shared panel header for all catalog listing pages and kanban."""
-    return CATALOG_GARDEN_H1, garden_prelude_tagline_html()
+def catalog_garden_page_header() -> tuple[str, str, str, str]:
+    """Shared brand page header for catalog listing pages."""
+    return (
+        CATALOG_PAGE_LABEL,
+        CATALOG_PAGE_TITLE_HTML,
+        garden_prelude_tagline_html(),
+        CATALOG_GARDEN_H1,
+    )
 
 
 # Practice-tier placeholders (no skill package yet); listed after real practice entries.
@@ -2178,6 +2304,26 @@ def _skill_catalog_family(pkg_rel_posix: str) -> str:
         if norm.startswith(prefix):
             return fam_id
     return ""
+
+
+def _plugin_id_for_pkg_rel(pkg_rel_posix: str) -> str:
+    """Plugin id owning a skill or agent package path."""
+    norm = pkg_rel_posix.replace("\\", "/").strip("/")
+    if not norm:
+        return ""
+    for fam_id, fam_path in FAMILY_PACKAGES.items():
+        fp = fam_path.rstrip("/")
+        if norm == fp or norm.startswith(fp + "/"):
+            return fam_id
+    return ""
+
+
+def _foundry_home_href(nav_prefix: str) -> str:
+    return f"{nav_prefix}index.html"
+
+
+def _plugin_detail_href(nav_prefix: str, plugin_id: str) -> str:
+    return f"{nav_prefix}plugin/{quote(plugin_id, safe='')}.html"
 
 
 def _catalog_family_icon(cat: str) -> str:
@@ -2417,12 +2563,12 @@ def build_agile_garden_prelude_html(
     if include_title_block:
         aria = ' aria-labelledby="catalog-agile-garden-h2"'
         title_block = (
-            '  <h2 class="catalog-prelude-heading" id="catalog-agile-garden-h2">'
-            "The ABD AI Garden</h2>\n"
+            f'  <h2 class="catalog-prelude-heading" id="catalog-agile-garden-h2">'
+            f"{CATALOG_GARDEN_H1}</h2>\n"
             f'  <p class="catalog-prelude-tagline">{garden_prelude_tagline_html()}</p>\n'
         )
     else:
-        aria = ' aria-label="The ABD AI Garden"'
+        aria = f' aria-label="{CATALOG_GARDEN_H1}"'
         title_block = ""
 
     if include_garden_lists:
@@ -2487,18 +2633,6 @@ def write_agile_garden_prelude_fragment(repo_root: Path, section_html: str) -> N
         pass
 
 
-def _hub_intro_for_single_page_index(hub_intro: str) -> str:
-    """Same copy as multi-page hub, but jump to in-page sections on Complete."""
-    return (
-        hub_intro.replace(f'href="{SKILLS_PAGE}"', 'href="#catalog-skills"')
-        .replace(f"href='{SKILLS_PAGE}'", "href='#catalog-skills'")
-        .replace(f'href="{AGENTS_PAGE}"', 'href="#catalog-agents"')
-        .replace(f"href='{AGENTS_PAGE}'", "href='#catalog-agents'")
-        .replace(f'href="{INSTRUCTIONS_PAGE}"', 'href="#catalog-instructions"')
-        .replace(f"href='{INSTRUCTIONS_PAGE}'", "href='#catalog-instructions'")
-    )
-
-
 def _html_catalog_section(
     section_id: str,
     title: str,
@@ -2525,6 +2659,7 @@ def write_html_pages(
     agents: list[AgentEntry],
     *,
     omit_garden_families: frozenset[str] = frozenset(),
+    website_root: Path | None = None,
 ) -> tuple[int, int, int, int, int, int]:
     """Write index, plugins, skills, agents pages and detail pages.
 
@@ -2538,6 +2673,7 @@ def write_html_pages(
     idx_single_tpl = _load_template("page-catalog-index.html")
     css = _catalog_page_stylesheet(repo_root, _load_template("catalog.css"))
     detail_tpl = _load_template("page-entry-detail.html")
+    hub_commons = _commons_prefix(output_catalog_dir, output_catalog_dir)
 
     def fill(
         tpl: str,
@@ -2549,47 +2685,42 @@ def write_html_pages(
         intro: str,
         nav_current: str,
         body_inner: str,
+        kanban_embed: str = "",
+        extra_css: str = "",
+        page_title_html: str = "",
+        page_tagline_html: str = "",
+        commons_prefix: str = "commons/",
+        nav_prefix: str = "",
+        page_dir: Path | None = None,
+        hero_practice_legend: str = "",
     ) -> str:
+        css_block = css + extra_css if extra_css else css
+        if not page_title_html:
+            page_title_html = CATALOG_PAGE_TITLE_HTML
+        if not page_tagline_html:
+            page_tagline_html = tagline or garden_prelude_tagline_html()
+        pd = page_dir or output_catalog_dir
         return _apply_catalog_nav(
-            tpl.replace("{{CSS}}", css)
+            tpl.replace("{{CSS}}", css_block)
             .replace("{{TITLE}}", title)
             .replace("{{BRAND}}", brand)
             .replace("{{H1}}", h1)
             .replace("{{TAGLINE}}", tagline)
+            .replace("{{PAGE_TITLE_HTML}}", page_title_html)
+            .replace("{{PAGE_TAGLINE_HTML}}", page_tagline_html)
+            .replace("{{HERO_PRACTICE_LEGEND}}", hero_practice_legend)
             .replace("{{INTRO}}", intro)
+            .replace("{{KANBAN_EMBED}}", kanban_embed)
             .replace("{{BODY_INNER}}", body_inner),
+            nav_prefix=nav_prefix,
+            commons_prefix=commons_prefix,
             current=nav_current,
+            nav_site_base=_site_base_prefix(pd, website_root),
         )
 
     brand = CATALOG_BRAND_HTML
     instructions, prompts = discover_plugin_artifacts(repo_root, families)
 
-    outline_href = "outline.md"
-    hub_intro = _load_intro_fragment(
-        "catalog-hub-intro.html",
-        (
-            "<p>Browse <a href=\"plugins.html\">plugins</a>, "
-            f"<a href=\"{SKILLS_PAGE}\">skills</a>, "
-            f"<a href=\"{AGENTS_PAGE}\">agents</a>, and "
-            f"<a href=\"{INSTRUCTIONS_PAGE}\">instructions</a>. "
-            f"<a href=\"{outline_href}\">outline.md</a> lists the same entries in one file.</p>"
-        ),
-    ).replace("{{OUTLINE_HREF}}", outline_href)
-    hub_for_index = _hub_intro_for_single_page_index(hub_intro).replace(
-        "#catalog-families", "#catalog-plugins"
-    )
-    hub_index_extra = (
-        "<p>Each <strong>plugin</strong> is a deployable package — a collection of "
-        "<a href=\"#catalog-skills\">skills</a>, "
-        "<a href=\"#catalog-agents\">agents</a>, "
-        "<a href=\"#catalog-instructions\">instructions</a>, and "
-        "<a href=\"#catalog-prompts\">prompts</a> "
-        "(plus shared content, lib, and scripts). "
-        f'<a href="plugins.html">Open the plugins grid</a> for DDD, story-driven delivery, architecture-centric delivery, and more. '
-        f'<a href="kanban-layout/index.html">Delivery kanban</a> maps plugins × stages.</p>\n'
-        f"<p>{len(families)} plugins · {len(skills)} skills · {len(agents)} agents · "
-        f"{len(instructions)} instructions · {len(prompts)} prompts.</p>"
-    )
     plugins_intro = (
         "<p>Repo-root capability plugins deploy with "
         "<code>scripts/deploy_family_package.py</code>. "
@@ -2622,13 +2753,6 @@ def write_html_pages(
                 "Plugins",
                 f"({len(families)})",
                 f"{plugins_intro}\n<p><a href=\"plugins.html\">Open plugins grid →</a></p>\n<div class=\"cap-grid\">\n{plugins_grid}\n</div>",
-                open_default=True,
-            ),
-            _html_catalog_section(
-                "catalog-hub",
-                "About the AI Garden",
-                "(hub)",
-                f"{hub_for_index}\n{hub_index_extra}",
                 open_default=True,
             ),
             _html_catalog_section(
@@ -2673,17 +2797,31 @@ def write_html_pages(
             omit_garden_families=omit_garden_families,
         ),
     )
-    index_body = index_sections
-    garden_h1, garden_tagline = catalog_garden_page_header()
+    index_body = ""
+    page_label, page_title_html, page_tagline_html, garden_h1 = catalog_garden_page_header()
+    skill_map = skill_dir_map_from_entries(skills)
+    purpose_map = skill_purpose_map_from_entries(skills)
+    kanban_model = load_kanban_model(repo_root)
+    kanban_embed = build_catalog_hub_kanban_embed_html(
+        kanban_model, skill_map, skill_purpose_by_name=purpose_map
+    )
+    hero_practice_legend = ""
+    index_kanban_css = load_catalog_embed_kanban_css(repo_root, TEMPLATE_DIR)
     index_html = fill(
         idx_single_tpl,
-        title="AI Garden — hub",
+        title="Foundry — hub",
         brand=brand,
         h1=garden_h1,
-        tagline=garden_tagline,
+        tagline=page_tagline_html,
         intro="",
         nav_current="hub",
         body_inner=index_body,
+        kanban_embed=kanban_embed,
+        extra_css=index_kanban_css,
+        page_title_html=page_title_html,
+        page_tagline_html=page_tagline_html,
+        commons_prefix=hub_commons,
+        hero_practice_legend=hero_practice_legend,
     )
     (output_catalog_dir / "index.html").write_text(index_html, encoding="utf-8")
 
@@ -2697,10 +2835,10 @@ def write_html_pages(
     (output_catalog_dir / "plugins.html").write_text(
         fill(
             idx_tpl,
-            title="AI Garden — hub",
+            title="Foundry — hub",
             brand=brand,
             h1=garden_h1,
-            tagline=garden_tagline,
+            tagline=page_tagline_html,
             intro=plugins_intro,
             nav_current="hub",
             body_inner=plugins_body,
@@ -2719,10 +2857,10 @@ def write_html_pages(
     (output_catalog_dir / SKILLS_PAGE).write_text(
         fill(
             idx_tpl,
-            title="AI Garden — skills",
+            title="Foundry — skills",
             brand=brand,
             h1=garden_h1,
-            tagline=garden_tagline,
+            tagline=page_tagline_html,
             intro="",
             nav_current="skills",
             body_inner=skills_body,
@@ -2737,10 +2875,10 @@ def write_html_pages(
     (output_catalog_dir / AGENTS_PAGE).write_text(
         fill(
             idx_tpl,
-            title="AI Garden — agents",
+            title="Foundry — agents",
             brand=brand,
             h1=garden_h1,
-            tagline=garden_tagline,
+            tagline=page_tagline_html,
             intro="",
             nav_current="agents",
             body_inner=agents_body,
@@ -2755,10 +2893,10 @@ def write_html_pages(
     (output_catalog_dir / "instructions.html").write_text(
         fill(
             idx_tpl,
-            title="AI Garden — instructions",
+            title="Foundry — instructions",
             brand=brand,
             h1=garden_h1,
-            tagline=garden_tagline,
+            tagline=page_tagline_html,
             intro=instructions_intro,
             nav_current="instructions",
             body_inner=instructions_body,
@@ -2773,10 +2911,10 @@ def write_html_pages(
     (output_catalog_dir / "prompts.html").write_text(
         fill(
             idx_tpl,
-            title="AI Garden — prompts",
+            title="Foundry — prompts",
             brand=brand,
             h1=garden_h1,
-            tagline=garden_tagline,
+            tagline=page_tagline_html,
             intro=prompts_intro,
             nav_current="hub",
             body_inner=prompts_body,
@@ -2784,21 +2922,21 @@ def write_html_pages(
         encoding="utf-8",
     )
 
-    n_md_pages = write_package_markdown_pages(output_catalog_dir, repo_root, skills, agents, css)
+    n_md_pages = write_package_markdown_pages(output_catalog_dir, repo_root, skills, agents, css, website_root=website_root)
     n_plugin_pages = write_plugin_detail_pages(
-        output_catalog_dir, repo_root, families, css, detail_tpl, skills=skills, agents=agents
+        output_catalog_dir, repo_root, families, css, detail_tpl, skills=skills, agents=agents, website_root=website_root
     )
     n_inst_pages, n_prompt_pages = write_plugin_artifact_detail_pages(
-        output_catalog_dir, repo_root, instructions, prompts, css, detail_tpl
+        output_catalog_dir, repo_root, instructions, prompts, css, detail_tpl, website_root=website_root
     )
     n_skill_pages, n_agent_pages = write_entry_detail_pages(
-        output_catalog_dir, repo_root, skills, agents, css, detail_tpl
+        output_catalog_dir, repo_root, skills, agents, css, detail_tpl, website_root=website_root
     )
     return n_plugin_pages, n_skill_pages, n_agent_pages, n_md_pages, n_inst_pages, n_prompt_pages
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Generate the ABD AI Garden (HTML + outline.md under catalog/).")
+    parser = argparse.ArgumentParser(description="Generate the ABD Foundry (HTML + outline.md under catalog/).")
     parser.add_argument(
         "--repo-root",
         type=Path,
@@ -2871,6 +3009,16 @@ def main() -> None:
 
     output_dir.mkdir(parents=True, exist_ok=True)
 
+    website_root = _resolve_website_assets(repo_root)
+    if website_root:
+        _vendor_catalog_site_assets(output_dir, website_root)
+        print(f"  vendored site nav/CSS to {output_dir / 'commons'}")
+    else:
+        print(
+            "  warning: abd-works-website not found (expected sibling abd-works-website/) — "
+            "site nav will not work until you regenerate with abd-works-website present"
+        )
+
     # outline.md, index/skills/agents, skill/, agent/ all live directly under catalog/
     outline_path = output_dir / "outline.md"
     md_prefix = _path_up_to_ancestor(output_dir, repo_root)
@@ -2888,22 +3036,25 @@ def main() -> None:
         skills,
         agents,
         omit_garden_families=omit_garden_families,
+        website_root=website_root,
     )
     catalog_css = _catalog_page_stylesheet(repo_root, _load_template("catalog.css"))
-    kanban_h1, kanban_tagline = catalog_garden_page_header()
+    _, _, kanban_tagline, kanban_h1 = catalog_garden_page_header()
+    skill_map = skill_dir_map_from_entries(skills)
+    purpose_map = skill_purpose_map_from_entries(skills)
     kanban_path = write_kanban_layout_pages(
         output_dir,
         repo_root,
-        skill_dir_map_from_entries(skills),
+        skill_map,
         catalog_css,
         brand=CATALOG_BRAND_HTML,
         h1=kanban_h1,
         tagline=kanban_tagline,
         template_dir=TEMPLATE_DIR,
+        skill_purpose_by_name=purpose_map,
     )
     print(f"  wrote {kanban_path}")
-    skill_map = skill_dir_map_from_entries(skills)
-    if sync_bootcamp_part3_kanban(repo_root, skill_map):
+    if sync_bootcamp_part3_kanban(repo_root, skill_map, skill_purpose_by_name=purpose_map):
         print("  synced abd-ai-augmented-bootcamp slides/part3/part3.html (kanban kb-slides)")
     other = patch_bootcamp_slide_files(repo_root, skill_map)
     for rel in other:

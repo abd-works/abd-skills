@@ -32,7 +32,7 @@ MERN Domain-First is the **architecture specification** for this stack — the a
 3. **App server** — Express composition root, route handlers, and `<<domain>>-server` classes under `app-server/` and `<<domain>>/server/`.
 4. **Persistence** — repository and MongoDB; only `<<domain>>-server` touches it.
 
-> Sources: `mern-technical-architecture/reference/concepts.md`, `mern-technical-architecture/inputs/mern-architecture.md`. Example story: **Create Wire Payment** → **Select Recipient**; domain module **Recipients** with `specification-by-example.md` and `domain-spec.md` in `example/`.
+> Sources: `mern-technical-architecture/reference/concepts.md`, `mern-technical-architecture/inputs/mern-architecture.md`. Example story: **Create Wire Payment** → **Select Recipient**; domain module **Recipients** with `specification-by-example.md` and `domain-spec.md` in `template/`.
 
 ---
 
@@ -59,7 +59,7 @@ How domain classes and operations from the domain model become code in this arch
 
 **DO NOT** prefix shared classes with `Domain`, reuse bare shared class names in client/server when the tier adds behaviour, or put tier qualifiers on shared artefacts (`RecipientShared`).
 
-Worked example: `specs/mern/example/packages/recipients/`.
+Worked example: `specs/mern/template/packages/recipients/`.
 
 ### Architecture Flow
 
@@ -297,7 +297,7 @@ classDiagram
 | `<<Entity>>RepositoryServer` | `server/`     | `implements <<Entity>>Repository`          | Implements persistence `<<operation>>` — validates with `<<Entity>>Schema`                                                                 |
 
 
-Worked example: `specs/mern/example/packages/recipients/` — top-level view `app-client/WirePaymentView.tsx` composes `RecipientListView`.
+Worked example: `specs/mern/template/packages/recipients/` — top-level view `app-client/WirePaymentView.tsx` composes `RecipientListView`.
 
 > **Note:** Other engagements (e.g. kanban) may use same-name extends with a `Domain`* import alias. This MERN specification uses **layer qualifiers on extensions** — shared stays unqualified; client and server carry `Client`, `Server`, `Api`, `Router`, etc.
 
@@ -422,7 +422,7 @@ Scenario: User initiates wire payment and views active recipients. **Views deleg
 5. **RecipientCardView** — calls `RecipientClient.cardCssClass()` (DOM on client domain JS).
 
 ```typescript
-// example/packages/app-client/WirePaymentView.tsx
+// template/packages/app-client/WirePaymentView.tsx
 export function WirePaymentView() {
   return (
     <main className="wire-payment-page">
@@ -433,7 +433,7 @@ export function WirePaymentView() {
 ```
 
 ```typescript
-// example/packages/recipients/client/RecipientListView.tsx
+// template/packages/recipients/client/RecipientListView.tsx
 export function RecipientListView() {
   const {
     recipients,
@@ -496,7 +496,7 @@ export function RecipientListView() {
 ```
 
 ```typescript
-// example/packages/recipients/client/useRecipients.ts
+// template/packages/recipients/client/useRecipients.ts
 export function useRecipients() {
   const [collection, setCollection] = useState<RecipientsClient | null>(null);
   const [loading, setLoading] = useState(false);
@@ -522,7 +522,7 @@ export function useRecipients() {
 ```
 
 ```typescript
-// example/packages/recipients/client/RecipientsClient.ts
+// template/packages/recipients/client/RecipientsClient.ts
 export class RecipientsClient extends Recipients {
   static async load(opts?: { activeOnly?: boolean }): Promise<RecipientsClient> {
     const items = await RecipientApi.loadByEnterprise(opts);
@@ -532,7 +532,7 @@ export class RecipientsClient extends Recipients {
 ```
 
 ```typescript
-// example/packages/recipients/client/Recipient.api.ts
+// template/packages/recipients/client/Recipient.api.ts
 export class RecipientApi {
   static async loadByEnterprise(opts?: { activeOnly?: boolean }): Promise<RecipientClient[]> {
     const params = new URLSearchParams();
@@ -545,7 +545,7 @@ export class RecipientApi {
 ```
 
 ```typescript
-// example/packages/recipients/client/RecipientClient.ts — DOM behaviour
+// template/packages/recipients/client/RecipientClient.ts — DOM behaviour
 export class RecipientClient extends Recipient {
   cardCssClass(isSelected: boolean): string {
     return `recipient-card${isSelected ? ' selected' : ''}`;
@@ -554,7 +554,7 @@ export class RecipientClient extends Recipient {
 ```
 
 ```typescript
-// example/packages/recipients/client/RecipientCardView.tsx
+// template/packages/recipients/client/RecipientCardView.tsx
 export function RecipientCardView({ recipient, isSelected, onToggle }: RecipientCardViewProps) {
   return (
     <div className={recipient.cardCssClass(isSelected)} onClick={onToggle}>
@@ -649,7 +649,7 @@ Scenario: HTTP request for active recipients reaches server-side domain.
 4. **RecipientsServer** extends shared `Recipients`; loads via repository, applies `filterByStatus('Active')`.
 
 ```typescript
-// example/packages/app-server/app.ts
+// template/packages/app-server/app.ts
 export function createApp(): express.Application {
   const app = express();
   app.use(cors());
@@ -661,7 +661,7 @@ export function createApp(): express.Application {
 ```
 
 ```typescript
-// example/packages/recipients/server/recipients.routes.ts
+// template/packages/recipients/server/recipients.routes.ts
 router.get('/', async (req, res) => {
   const enterpriseId = (req as any).user.enterpriseId;
   const activeOnly = req.query.activeOnly === 'true';
@@ -671,7 +671,7 @@ router.get('/', async (req, res) => {
 ```
 
 ```typescript
-// example/packages/recipients/server/RecipientsServer.ts
+// template/packages/recipients/server/RecipientsServer.ts
 export class RecipientsServer extends Recipients {
   static async loadByEnterprise(
     enterpriseId: string,
@@ -769,12 +769,12 @@ sequenceDiagram
 Scenario: Server-side domain loads recipients from MongoDB with schema validation.
 
 1. **RecipientsServer.loadByEnterprise()** calls `repo.findByEnterprise(enterpriseId)`.
-2. **RecipientRepositoryServer** (`example/packages/recipients/server/recipients.repository.ts`) queries MongoDB; each doc validated via `RecipientSchema.parse(doc)`.
+2. **RecipientRepositoryServer** (`template/packages/recipients/server/recipients.repository.ts`) queries MongoDB; each doc validated via `RecipientSchema.parse(doc)`.
 3. Invalid docs throw at parse time — corrupt data never reaches domain logic.
 4. Typed `Recipient[]` returns to server-side domain; `filterByStatus('Active')` applied from shared collection class.
 
 ```typescript
-// example/packages/recipients/server/recipients.repository.ts
+// template/packages/recipients/server/recipients.repository.ts
 export class RecipientRepositoryServer implements RecipientRepository {
   async findByEnterprise(enterpriseId: string): Promise<Recipient[]> {
     const docs = await this.collection.find({ enterpriseId }).toArray();
@@ -784,7 +784,7 @@ export class RecipientRepositoryServer implements RecipientRepository {
 ```
 
 ```typescript
-// example/packages/recipients/shared/recipient.schema.ts
+// template/packages/recipients/shared/recipient.schema.ts
 export const RecipientSchema = z.object({
   id: z.string().uuid(),
   name: z.string().min(1, 'Beneficiary name is required').max(140),
@@ -798,7 +798,7 @@ export const RecipientSchema = z.object({
 
 ## Testing Architecture
 
-When generating tests from this specification, use the **`abd-acceptance-test-driven-development`** skill. That skill owns the test file shape, helper naming, orchestrator pattern, and RED-GREEN-REFACTOR cycle. This section defines the MERN-specific layer structure; `abd-acceptance-test-driven-development` defines how to write the code within each layer.
+When generating tests from this specification, use the **`abd-story-acceptance-test`** skill. That skill owns the test file shape, helper naming, orchestrator pattern, and RED-GREEN-REFACTOR cycle. This section defines the MERN-specific layer structure; `abd-story-acceptance-test` defines how to write the code within each layer.
 
 Testing is the counterpart to **Instantiating the Domain** — where domain maps every artifact to a class or operation, testing maps every story artifact to a test artifact. The same three questions apply: *What is the principle? What is the pattern? How does it actually run?* — but the answers describe layers of test coverage rather than layers of runtime code.
 
@@ -964,7 +964,7 @@ classDiagram
 
 ### Example
 
-Worked example: `example/tests/create-wire-payment/` and `example/packages/recipients/shared/recipients.test.ts`.
+Worked example: `template/tests/create-wire-payment/` and `template/packages/recipients/shared/recipients.test.ts`.
 
 #### Domain unit tests — shared domain classes, no infrastructure
 
@@ -1149,14 +1149,14 @@ test.describe('View Active Recipients for Wire Payment', () => {
 
 ## Example Files
 
-The worked example lives in `example/`. It implements the **Create Wire Payment → Select Recipient** story using all three mechanisms (web client, app server, persistence) and the Recipients domain module.
+The worked example lives in `template/`. It implements the **Create Wire Payment → Select Recipient** story using all three mechanisms (web client, app server, persistence) and the Recipients domain module.
 
 | Artifact | Path | What it is |
 |----------|------|------------|
-| Runnable code | `example/packages/` | `app-client/`, `app-server/`, `recipients/{shared,client,server}` |
-| Specification by example | `example/specification-by-example.md` | Given/When/Then scenarios for the story |
-| Domain spec | `example/domain-spec.md` | `Recipient`, `Recipients`, `RecipientStatus`, client/server extensions |
-| Tests | `example/tests/` | Server, client, and E2E helpers + test files |
+| Runnable code | `template/packages/` | `app-client/`, `app-server/`, `recipients/{shared,client,server}` |
+| Specification by example | `template/specification-by-example.md` | Given/When/Then scenarios for the story |
+| Domain spec | `template/domain-spec.md` | `Recipient`, `Recipients`, `RecipientStatus`, client/server extensions |
+| Tests | `template/tests/` | Server, client, and E2E helpers + test files |
 
 ---
 

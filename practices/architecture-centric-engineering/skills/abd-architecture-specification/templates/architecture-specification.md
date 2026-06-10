@@ -208,7 +208,7 @@ Scenario: {{one representative scenario using <<Parameterized>> names}}.
 3. {{observable outcome}}.
 
 ```{{language}}
-// Pattern — <<Parameterized>> names show the shape; see example/ for concrete implementation
+// Pattern — <<Parameterized>> names show the shape; see template/ for concrete implementation
 {{code using <<Entity>>, <<operation>>, <<Feature>> as names}}
 ```
 
@@ -228,12 +228,12 @@ Scenario: {{one representative scenario using <<Parameterized>> names}}.
 
 ## Testing Architecture
 
-<!-- When generating tests from this specification, use the **abd-acceptance-test-driven-development** skill.
+<!-- When generating tests from this specification, use the **abd-story-acceptance-test** skill.
      That skill owns the test file shape, helper naming, orchestrator pattern, and RED-GREEN-REFACTOR cycle.
-     This section defines the architecture-specific layer structure; abd-acceptance-test-driven-development
+     This section defines the architecture-specific layer structure; abd-story-acceptance-test
      defines how to write the code within each layer. -->
 
-Tests are generated using **`abd-acceptance-test-driven-development`** — story-driven names, Given/When/Then helpers, one class per story, one method per scenario. The sections below define the layer structure for this architecture; the skill defines the code shape within each layer.
+Tests are generated using **`abd-story-acceptance-test`** — story-driven names, Given/When/Then helpers, one class per story, one method per scenario. The sections below define the layer structure for this architecture; the skill defines the code shape within each layer.
 
 ### Principles
 
@@ -309,14 +309,14 @@ tests/ (or {{project test folder}})
 
 ## Example
 
-The worked example lives in `example/`. It implements the **{{EpicName}} → {{SubEpicName}}** story using all mechanisms and the `{{domain}}` domain module.
+The worked example lives in `template/`. It implements the **{{EpicName}} → {{SubEpicName}}** story using all mechanisms and the `{{domain}}` domain module.
 
 | Artifact | Path | What it is |
 |----------|------|------------|
-| Runnable code | `example/{{code path}}` | Domain module + composition root(s) |
-| Specification by example | `example/specification-by-example.md` | Given/When/Then scenarios |
-| Domain spec | `example/domain-spec.md` | Typed domain spec |
-| Tests | `example/tests/` | Domain unit tests + acceptance test tiers |
+| Runnable code | `template/{{code path}}` | Domain module + composition root(s) |
+| Specification by example | `template/specification-by-example.md` | Given/When/Then scenarios |
+| Domain spec | `template/domain-spec.md` | Typed domain spec |
+| Tests | `template/tests/` | Domain unit tests + acceptance test tiers |
 
 ---
 
@@ -342,8 +342,8 @@ python foundational/skill-helpers/skills/execute-skill-using-skills-rules/script
 
 - **Architecture source of truth:** [cite ADR, wiki, or sibling-skill output].
 - **Coding standard:** {{e.g. abd-clean-code or project guide}}.
-- **Testing standard:** {{e.g. abd-acceptance-test-driven-development or project guide}}.
-- **Worked example:** `example/` — runnable `{{domain}}` domain module.
+- **Testing standard:** {{e.g. abd-story-acceptance-test or project guide}}.
+- **Worked example:** `template/` — runnable `{{domain}}` domain module.
 
 ---
 
@@ -412,7 +412,7 @@ Scenario: `<<Entity>>Service` loads all `<<Entity>>`s; repository adapter querie
 3. **`<<Entity>>Service`** receives `<<Entity>>[]`; applies domain logic.
 
 ```python
-# Pattern — <<Parameterized>> names; see example/ for the concrete domain implementation
+# Pattern — <<Parameterized>> names; see template/ for the concrete domain implementation
 class <<Entity>>Service:
     def __init__(self, repo: <<Entity>>Repository) -> None:
         self._repo = repo

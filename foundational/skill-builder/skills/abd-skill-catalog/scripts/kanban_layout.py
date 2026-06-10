@@ -1,4 +1,4 @@
-"""Build delivery kanban HTML from delivery/content/stages/*.md practice-skill tables."""
+"""Build delivery kanban HTML from practices/kanban/reference/stages/*.md practice-skill tables."""
 
 from __future__ import annotations
 
@@ -9,11 +9,19 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from urllib.parse import quote
 
+from catalog_supporting_groups import (
+    FOUNDATIONAL_CROSSCUT_PLUGINS,
+    SUPPORTING_CROSSCUT_GROUPS,
+)
+
 BOOTCAMP_CATALOG_PREFIX = "../abd-skills-catalog/"
 
 # GitHub tree leaf folder → catalog skill dir_name
 GITHUB_SKILL_ALIASES: dict[str, str] = {
     "abd-opportunity-canvas": "abd-opportunity-generation",
+    "abd-acceptance-criteria": "abd-story-acceptance-criteria",
+    "abd-acceptance-test-driven-development": "abd-story-acceptance-test",
+    "abd-specification-by-example": "abd-story-specification",
 }
 
 STAGE_FILES: tuple[tuple[str, str, int], ...] = (
@@ -33,9 +41,9 @@ FAMILY_DISPLAY_TO_PLUGIN: dict[str, str] = {
 }
 
 PLUGIN_ROW_ORDER: tuple[str, ...] = (
+    "story-driven-delivery",
     "domain-driven-design",
     "user-experience-design",
-    "story-driven-delivery",
     "architecture-centric-engineering",
 )
 
@@ -48,6 +56,13 @@ PLUGIN_CSS_CLASS: dict[str, str] = {
     "kanban": "aad-fam-delivery",
 }
 
+PLUGIN_PERSPECTIVE_KEY: dict[str, str] = {
+    "story-driven-delivery": "sdd",
+    "domain-driven-design": "ddd",
+    "user-experience-design": "uxd",
+    "architecture-centric-engineering": "arc",
+}
+
 PLUGIN_LABEL: dict[str, str] = {
     "domain-driven-design": "Domain-driven design",
     "user-experience-design": "User experience design",
@@ -56,13 +71,6 @@ PLUGIN_LABEL: dict[str, str] = {
     "idea-shaping": "Idea shaping",
     "kanban": "Kanban",
 }
-
-DELIVERY_CROSSCUT_SKILLS: tuple[str, ...] = (
-    "abd-kanban-planning",
-    "abd-kanban",
-    "abd-kanban-repo",
-    "kanban-estimation",
-)
 
 DELIVERY_AGENTS: tuple[str, ...] = (
     "kanban-lead",
@@ -88,6 +96,13 @@ KANBAN_EXCLUDED_SKILLS: frozenset[str] = frozenset(
     }
 )
 
+# Optional skills — omitted from kanban catalog (still in stage docs when deferred).
+KANBAN_OPTIONAL_SKILLS: frozenset[str] = frozenset(
+    {
+        "abd-thin-slicing",
+    }
+)
+
 # Hide specific skills on the kanban grid only (stage markdown unchanged).
 KANBAN_STAGE_EXCLUDED_SKILLS: dict[str, frozenset[str]] = {
     "discovery": frozenset({"abd-ubiquitous-language"}),
@@ -96,8 +111,11 @@ KANBAN_STAGE_EXCLUDED_SKILLS: dict[str, frozenset[str]] = {
 # Kanban tile label overrides (stage_id, skill_id) → display text.
 KANBAN_SKILL_LABEL_OVERRIDES: dict[tuple[str, str], str] = {
     ("shaping", "abd-story-mapping"): "story mapping outline",
+    ("exploration", "abd-architecture-specification"): "architecture specification document",
+    ("specification", "abd-architecture-specification"): "architecture specification template",
+    ("engineering", "abd-ux-specification"): "UI code",
+    ("engineering", "abd-architecture-code"): "architecture code",
 }
-
 STAGE_SPOTLIGHT_ORDER: tuple[str, ...] = (
     "shaping",
     "discovery",
@@ -123,9 +141,74 @@ STAGE_VERTICAL_SLIDE_INDEX: dict[str, int] = {
     "engineering": 5,
 }
 
+# Repo ``stages/<folder>/`` → kanban column id (see ``abd-skills/stages/``).
+STAGE_FOLDER_TO_KANBAN: dict[str, str] = {
+    "shaping": "shaping",
+    "idea-shaping": "shaping",
+    "discovery": "discovery",
+    "exploration": "exploration",
+    "specification": "specification",
+    "engineering": "engineering",
+}
 
-def _kanban_include_skill(skill_id: str, *, stage_id: str | None = None) -> bool:
-    if skill_id in KANBAN_EXCLUDED_SKILLS:
+STAGE_SCOPE_META: dict[str, tuple[str, str, str, str]] = {
+    "shaping": (
+        "solution",
+        "Whole solution",
+        "wide / shallow",
+        "outcomes · scope · boundaries",
+    ),
+    "discovery": (
+        "increment",
+        "Increment",
+        "medium",
+        "interactions · experience · structure",
+    ),
+    "exploration": (
+        "sprint",
+        "Sprint",
+        "narrow / deeper",
+        "behaviour · design · logic",
+    ),
+    "specification": (
+        "story",
+        "Story",
+        "narrow / executable",
+        "examples · design · templates",
+    ),
+    "engineering": (
+        "story",
+        "Story",
+        "narrowest / deep",
+        "tests · code · interface",
+    ),
+}
+
+PERSPECTIVE_ROW_LABELS: tuple[tuple[str, str], ...] = (
+    ("ddd", "Domain"),
+    ("sdd", "Stories"),
+    ("uxd", "UX"),
+    ("arc", "Architecture"),
+)
+
+# Bottom outcome bullets → perspective color (domain, stories, UX, architecture).
+OUTCOME_PERSPECTIVE_KEYS: tuple[str, ...] = ("ddd", "sdd", "uxd", "arc")
+
+_CATALOG_TEMPLATE_DIR = Path(__file__).resolve().parent.parent / "templates"
+
+STAGE_SKILL_FAMILY_CLASS = "aad-fam-stage"
+
+_SKILL_NAME_FM_RE = re.compile(r"^name:\s*(.+)$", re.MULTILINE)
+_CATALOG_READY_FALSE_RE = re.compile(
+    r"^catalog_ready:\s*(false|no|0|draft|not-ready|not_ready)\s*$",
+    re.MULTILINE | re.IGNORECASE,
+)
+
+
+def _kanban_include_skill(skill_id: str, *, stage_id: str | None = None, notes: str = "") -> bool:
+    if skill_id in KANBAN_EXCLUDED_SKILLS or skill_id in KANBAN_OPTIONAL_SKILLS:
+        return False
+    if "optional" in notes.lower():
         return False
     if stage_id and skill_id in KANBAN_STAGE_EXCLUDED_SKILLS.get(stage_id, frozenset()):
         return False
@@ -136,9 +219,9 @@ def _kanban_include_skill(skill_id: str, *, stage_id: str | None = None) -> bool
 # Per-stage context-window depth — detail text appears under scale shapes (not duplicated below).
 STAGE_CONTEXT: dict[str, tuple[str, str]] = {
     "shaping": ("wide / shallow", "Whole-solution view — outline map and boundaries."),
-    "discovery": ("medium", "Full map, domain, UX IA, architecture blueprint."),
+    "discovery": ("medium", "Full map, UX IA, architecture blueprint, thin slices."),
     "exploration": ("narrow / deeper", "Increment slice — AC, mockups, arch templates."),
-    "specification": ("narrow / executable", "CRC, scenarios, interface spec, arch reference."),
+    "specification": ("narrow / executable", "Domain model, scenarios, interface spec."),
     "engineering": ("narrowest / deep", "Tests first, then running production code."),
 }
 
@@ -167,7 +250,7 @@ PRINCIPLES_HTML = """\
   </div>"""
 
 TABLE_SKILL_RE = re.compile(
-    r"^\|\s*\d+\s*\|\s*\*\*(.+?)\*\*\s*\|\s*`([^`]+)`",
+    r"^\|\s*\d+[a-z]?\s*\|\s*\*\*(.+?)\*\*\s*\|\s*`([^`]+)`",
     re.MULTILINE | re.IGNORECASE,
 )
 
@@ -184,6 +267,8 @@ class KanbanModel:
     stages: list[tuple[str, str, int, str]] = field(default_factory=list)
     matrix: dict[str, dict[str, list[StageSkill]]] = field(default_factory=dict)
     stage_purpose: dict[str, str] = field(default_factory=dict)
+    stage_questions: dict[str, tuple[str, list[str]]] = field(default_factory=dict)
+    stage_folder_skills: dict[str, list[str]] = field(default_factory=dict)
 
 
 def _h(text: str) -> str:
@@ -237,12 +322,32 @@ def _normalize_family(raw: str) -> str:
     return re.sub(r"\s+", " ", raw.strip().lower())
 
 
-def _parse_stage_markdown(path: Path) -> tuple[str, list[StageSkill]]:
+def _parse_stage_outcomes(text: str) -> tuple[str, list[str]]:
+    """Return (headline, outcome bullets) from ## Outcomes section."""
+    m = re.search(r"^## Outcomes\s*\n\n(.+?)(?:\n## |\Z)", text, re.MULTILINE | re.DOTALL)
+    if not m:
+        return "", []
+    headline = ""
+    bullets: list[str] = []
+    for raw_line in m.group(1).splitlines():
+        line = raw_line.strip()
+        if not line:
+            continue
+        if line.startswith("- "):
+            bullets.append(line[2:].strip())
+            continue
+        if not bullets:
+            headline = re.sub(r"\*\*(.+?)\*\*", r"\1", line).strip()
+    return headline, bullets
+
+
+def _parse_stage_markdown(path: Path) -> tuple[str, list[StageSkill], tuple[str, list[str]]]:
     text = path.read_text(encoding="utf-8")
     purpose = ""
     m = re.search(r"^## Purpose\s*\n\n(.+?)(?:\n## |\Z)", text, re.MULTILINE | re.DOTALL)
     if m:
         purpose = re.sub(r"\s+", " ", m.group(1).strip())
+    outcomes = _parse_stage_outcomes(text)
     skills: list[StageSkill] = []
     for fam_raw, skill_raw in TABLE_SKILL_RE.findall(text):
         fam = _normalize_family(fam_raw)
@@ -256,22 +361,75 @@ def _parse_stage_markdown(path: Path) -> tuple[str, list[StageSkill]]:
         if "(" in skill_raw and ")" in skill_raw:
             notes = skill_raw[skill_raw.find("(") + 1 : skill_raw.rfind(")")].strip()
         skills.append(StageSkill(plugin_id=plugin_id, skill_id=skill_id, notes=notes))
-    return purpose, skills
+    return purpose, skills, outcomes
+
+
+def _skill_id_from_skill_md(skill_md: Path) -> str:
+    text = skill_md.read_text(encoding="utf-8-sig", errors="replace")
+    if _CATALOG_READY_FALSE_RE.search(text):
+        return ""
+    m = _SKILL_NAME_FM_RE.search(text)
+    if m:
+        return m.group(1).strip().strip('"').strip("'")
+    return skill_md.parent.name
+
+
+def _skill_ids_in_stage_folder(stage_folder: Path) -> list[str]:
+    """Skill ids from ``stages/<folder>/`` packages (flat or ``skills/<name>/``)."""
+    ids: list[str] = []
+    seen: set[str] = set()
+    for skill_md in sorted(stage_folder.rglob("SKILL.md")):
+        rel = skill_md.relative_to(stage_folder)
+        if any(part.startswith(".") for part in rel.parts):
+            continue
+        if "test" in rel.parts[:-1]:
+            continue
+        skill_id = _skill_id_from_skill_md(skill_md)
+        if not skill_id or skill_id in seen:
+            continue
+        seen.add(skill_id)
+        ids.append(skill_id)
+    return ids
+
+
+def discover_stage_folder_skills(repo_root: Path) -> dict[str, list[str]]:
+    """Map kanban stage id → skill ids under ``repo_root/stages/<folder>/``."""
+    stages_root = repo_root / "stages"
+    if not stages_root.is_dir():
+        return {}
+    by_stage: dict[str, list[str]] = {}
+    for folder in sorted(stages_root.iterdir()):
+        if not folder.is_dir() or folder.name.startswith("."):
+            continue
+        kanban_stage = STAGE_FOLDER_TO_KANBAN.get(folder.name)
+        if not kanban_stage:
+            continue
+        skill_ids = _skill_ids_in_stage_folder(folder)
+        if not skill_ids:
+            continue
+        bucket = by_stage.setdefault(kanban_stage, [])
+        for skill_id in skill_ids:
+            if skill_id not in bucket:
+                bucket.append(skill_id)
+    return by_stage
 
 
 def load_kanban_model(repo_root: Path) -> KanbanModel:
-    stages_dir = repo_root / "practices" / "kanban" / "content" / "stages"
+    stages_dir = repo_root / "practices" / "kanban" / "reference" / "stages"
     model = KanbanModel()
     for stage_id, title, num in STAGE_FILES:
         path = stages_dir / f"{stage_id}.md"
         if not path.is_file():
             continue
-        purpose, skills = _parse_stage_markdown(path)
+        purpose, skills, outcomes = _parse_stage_markdown(path)
         model.stages.append((stage_id, title, num, purpose))
         model.stage_purpose[stage_id] = purpose
+        if outcomes[0] or outcomes[1]:
+            model.stage_questions[stage_id] = outcomes
         model.matrix[stage_id] = {}
         for sk in skills:
             model.matrix[stage_id].setdefault(sk.plugin_id, []).append(sk)
+    model.stage_folder_skills = discover_stage_folder_skills(repo_root)
     apply_kanban_display_model(model)
     return model
 
@@ -279,13 +437,11 @@ def load_kanban_model(repo_root: Path) -> KanbanModel:
 def apply_kanban_display_model(model: KanbanModel) -> None:
     """Kanban-only filters — does not alter stage source files."""
     for stage_id in model.matrix:
-        stage_skip = KANBAN_STAGE_EXCLUDED_SKILLS.get(stage_id, frozenset())
         for plugin_id in list(model.matrix[stage_id].keys()):
             model.matrix[stage_id][plugin_id] = [
                 sk
                 for sk in model.matrix[stage_id][plugin_id]
-                if _kanban_include_skill(sk.skill_id)
-                and sk.skill_id not in stage_skip
+                if _kanban_include_skill(sk.skill_id, stage_id=stage_id, notes=sk.notes)
             ]
             if not model.matrix[stage_id][plugin_id]:
                 del model.matrix[stage_id][plugin_id]
@@ -316,7 +472,7 @@ def build_kanban_legend_html(*, relative_href_prefix: str = "../", indent: str =
         )
     block = (
         '<div class="kanban-legend-row">\n'
-        '  <div class="kanban-legend-heading">Practice plugins</div>\n'
+        '  <div class="kanban-legend-heading">Practice</div>\n'
         '  <div class="kanban-legend-cards">\n'
         + "\n".join(f"    {c}" for c in cards)
         + "\n  </div>\n"
@@ -332,6 +488,204 @@ def _stage_href(stage_id: str, *, same_page: bool, relative: str) -> str:
     if same_page:
         return anchor
     return f"{relative}kanban-layout/index.html{anchor}"
+
+
+def load_catalog_embed_kanban_css(repo_root: Path, template_dir: Path) -> str:
+    """CSS for the delivery kanban embedded on catalog/index.html."""
+    embed_css = (template_dir / "catalog-kanban-embed.css").read_text(encoding="utf-8")
+    return (
+        load_bootcamp_abd_works_css(repo_root)
+        + "\n"
+        + load_bootcamp_kanban_base_css(repo_root)
+        + "\n"
+        + (template_dir / "kanban-layout.css").read_text(encoding="utf-8")
+        + "\n"
+        + embed_css
+        + "\n"
+        + (template_dir / "catalog-foundry-interface.css").read_text(encoding="utf-8")
+    )
+
+
+def _load_foundry_cdd_panel_html() -> str:
+    return (_CATALOG_TEMPLATE_DIR / "catalog-foundry-cdd-panel.html").read_text(
+        encoding="utf-8"
+    )
+
+
+def _foundry_col_head_html(stage_id: str, title: str, num: str | int, href: str) -> str:
+    shape_key, scope_name, width_label, bullets = STAGE_SCOPE_META[stage_id]
+    scope_detail = f"{width_label} · {bullets}"
+    tooltip_label = f"{scope_name}. {width_label}. {bullets.replace(' · ', ', ')}"
+    return (
+        f'      <a class="kb-col-head kb-col-head--link" data-stage="{stage_id}" '
+        f'data-id="head-{stage_id}" href="{_h(href)}">\n'
+        f'        <div class="kb-col-head-row">\n'
+        f'          <span class="kb-col-scope-shape-wrap">\n'
+        f'            <span class="kb-col-scope-shape kb-col-scope-shape--{shape_key}" '
+        f'title="{_h(scope_name + " — " + width_label + " — " + bullets)}" '
+        f'aria-label="{_h(tooltip_label)}"></span>\n'
+        f'            <span class="kb-col-shape-tooltip" role="tooltip">\n'
+        f'              <span class="kb-col-shape-tooltip__name">{_h(scope_name)}</span>\n'
+        f'              <span class="kb-col-shape-tooltip__width">{_h(width_label)}</span>\n'
+        f'              <span class="kb-col-shape-tooltip__bullets">{_h(bullets)}</span>\n'
+        f"            </span>\n"
+        f"          </span>\n"
+        f'          <span class="kb-col-head-title"><span>{_h(title)}</span>'
+        f'<span class="kb-col-num">{num}</span></span>\n'
+        f"        </div>\n"
+        f"      </a>\n"
+    )
+
+
+def build_foundry_practice_col_html(*, relative_href_prefix: str = "") -> str:
+    """Practice plugin key — left rail beside the board (replaces short perspective labels)."""
+    cards: list[str] = []
+    for plugin_id in PLUGIN_ROW_ORDER:
+        css = PLUGIN_CSS_CLASS.get(plugin_id, "")
+        key = PLUGIN_PERSPECTIVE_KEY[plugin_id]
+        href = _plugin_href(plugin_id, relative=relative_href_prefix)
+        cards.append(
+            f'      <a class="kb-ticket aad-skill {css} foundry-practice-col__card '
+            f"foundry-perspective-label foundry-perspective-label--{key}\" "
+            f'data-perspective="{key}" href="{_h(href)}">{_h(plugin_id)}</a>'
+        )
+    return (
+        '    <div class="foundry-practice-col" aria-label="Practice plugins">\n'
+        '      <button type="button" class="foundry-skills-toggle" id="foundry-skills-toggle" '
+        'aria-expanded="false" aria-label="Show or hide practice skills across columns">'
+        '<span class="foundry-skills-toggle__label">Skills</span>'
+        '<span class="foundry-skills-toggle__icon" aria-hidden="true">'
+        '<span class="foundry-skills-toggle__bar foundry-skills-toggle__bar--h"></span>'
+        '<span class="foundry-skills-toggle__bar foundry-skills-toggle__bar--v"></span>'
+        '</span>'
+        "</button>\n"
+        + "\n".join(cards)
+        + '\n      <div class="foundry-practice-col__stage-spacer" aria-hidden="true"></div>\n'
+        "    </div>"
+    )
+
+
+def build_catalog_hub_kanban_embed_html(
+    model: KanbanModel,
+    skill_dir_by_name: dict[str, str],
+    *,
+    skill_purpose_by_name: dict[str, str] | None = None,
+) -> str:
+    """Foundry hub kanban — CDD tour, perspective labels, board, questions, crosscut."""
+    cols = build_kanban_board_html(
+        model,
+        skill_dir_by_name,
+        relative_href_prefix="",
+        same_page_stages=False,
+        active_stage_id=None,
+        link_column_heads=True,
+        board_class="aad-board-grid aad-board-grid--catalog",
+        foundry_hub=True,
+        skill_purpose_by_name=skill_purpose_by_name,
+    )
+    practice_col = build_foundry_practice_col_html(relative_href_prefix="")
+    cdd = textwrap.indent(_load_foundry_cdd_panel_html().strip(), "    ")
+    questions = build_stage_questions_row_html(model, foundry_grid=True)
+    crosscut = build_crosscut_html(
+        skill_dir_by_name,
+        relative_href_prefix="",
+        skill_purpose_by_name=skill_purpose_by_name,
+    )
+    after_parts: list[str] = []
+    if questions.strip():
+        after_parts.append(questions.strip())
+    if crosscut.strip():
+        after_parts.append(
+            '<div class="foundry-skills-extra">\n'
+            '  <div class="foundry-skills-extra__inner">\n'
+            + textwrap.indent(crosscut.strip(), "    ")
+            + "\n  </div>\n"
+            "</div>"
+        )
+    after_board = "\n".join(after_parts)
+    body = (
+        '  <div class="foundry-travel-ring" id="travel-ring" aria-hidden="true"></div>\n'
+        f"{cdd}\n"
+        '  <div class="foundry-board-grid" id="board">\n'
+        f"{practice_col}\n"
+        f"{textwrap.indent(cols.strip(), '    ')}\n"
+        "  </div>"
+    )
+    if after_board:
+        body += "\n" + textwrap.indent(after_board, "    ")
+    return (
+        '<div class="wrap">\n'
+        '<div class="foundry-kanban-shell" id="kanban-shell">\n'
+        '<section class="foundry-kanban-surface foundry-skills-collapsed catalog-kanban-embed" id="catalog-kanban" '
+        'aria-label="Delivery kanban">\n'
+        f"{body}\n"
+        "</section>\n"
+        "</div>\n"
+        "</div>"
+    )
+
+
+def build_overview_header_html(*, relative_href_prefix: str = "../") -> str:
+    """Overview slide header — matches bootcamp Context Perspectives kanban."""
+    rel = relative_href_prefix
+    return (
+        '<div class="kb-header">\n'
+        "  <div>\n"
+        "    <h2>Context can be refined to greater degrees of fidelity "
+        "across each perspective</h2>\n"
+        "  </div>\n"
+        '  <div class="kb-header-right">\n'
+        '    <div class="kb-skill-links">\n'
+        f'      <a href="{_h(rel)}index.html" class="kb-skill-pill">skill library</a>\n'
+        '      <a href="https://github.com/abd-works/agilebydesign-skills" '
+        'class="kb-skill-gh">GitHub</a>\n'
+        "    </div>\n"
+        "  </div>\n"
+        "</div>"
+    )
+
+
+def build_stage_questions_row_html(
+    model: KanbanModel,
+    *,
+    active_stage_id: str | None = None,
+    foundry_grid: bool = False,
+) -> str:
+    """Five-column question grid aligned under kanban stage columns (bootcamp part3)."""
+    cells: list[str] = []
+    if foundry_grid:
+        cells.append('  <div class="kanban-stage-questions__spacer" aria-hidden="true"></div>')
+    for stage_id, _title, _num, _purpose in model.stages:
+        headline, bullets = model.stage_questions.get(stage_id, ("", []))
+        active_cls = " is-active" if active_stage_id == stage_id else ""
+        bullet_html = "".join(
+            f'      <li class="kanban-stage-questions__item '
+            f'kanban-stage-questions__item--{_h(key)}">{_h(q)}</li>\n'
+            for key, q in zip(OUTCOME_PERSPECTIVE_KEYS, bullets, strict=False)
+        )
+        headline_html = (
+            f'    <div class="kanban-stage-questions__headline">'
+            f"<strong>{_h(headline)}</strong></div>\n"
+            if headline
+            else ""
+        )
+        cells.append(
+            f'  <div class="kanban-stage-questions__cell{active_cls}" '
+            f'data-stage="{stage_id}">\n'
+            f"{headline_html}"
+            f'    <ul class="kanban-stage-questions__list">\n'
+            f"{bullet_html}"
+            f"    </ul>\n"
+            f"  </div>"
+        )
+    if not any(model.stage_questions.values()):
+        return ""
+    grid_class = " kanban-stage-questions--foundry" if foundry_grid else ""
+    return (
+        f'<div class="kanban-stage-questions{grid_class}" data-id="stage-questions">\n'
+        + "\n".join(cells)
+        + "\n</div>"
+    )
 
 
 def build_stage_context_spotlight() -> str:
@@ -391,6 +745,11 @@ def load_bootcamp_abd_works_css(repo_root: Path) -> str:
     raw = css_path.read_text(encoding="utf-8")
     raw = re.sub(
         r"@import\s+url\(['\"]?/commons/abd-fonts\.css['\"]?\)\s*;",
+        _CATALOG_FONT_IMPORT,
+        raw,
+    )
+    raw = re.sub(
+        r"@import\s+url\(['\"]?\.\./\.\./commons/abd-fonts\.css['\"]?\)\s*;",
         _CATALOG_FONT_IMPORT,
         raw,
     )
@@ -615,16 +974,25 @@ def build_kanban_slide_section(
     header_html: str,
     board_html: str,
     legend_html: str,
-    spotlight_html: str,
+    spotlight_html: str = "",
+    *,
+    questions_html: str = "",
+    crosscut_html: str = "",
 ) -> str:
-    return (
-        f'<section class="kb-slide" data-auto-animate id="{slide_id}">\n'
-        f"{textwrap.indent(header_html.strip(), '  ')}\n"
-        f"{textwrap.indent(board_html.strip(), '  ')}\n"
-        f"{textwrap.indent(legend_html.strip(), '  ')}\n"
-        f"{textwrap.indent(spotlight_html.strip(), '  ')}\n"
-        "</section>"
-    )
+    parts = [
+        f'<section class="kb-slide" data-auto-animate id="{slide_id}">\n',
+        f"{textwrap.indent(header_html.strip(), '  ')}\n",
+        f"{textwrap.indent(board_html.strip(), '  ')}\n",
+    ]
+    if questions_html.strip():
+        parts.append(f"{textwrap.indent(questions_html.strip(), '  ')}\n")
+    if crosscut_html.strip():
+        parts.append(f"{textwrap.indent(crosscut_html.strip(), '  ')}\n")
+    parts.append(f"{textwrap.indent(legend_html.strip(), '  ')}\n")
+    if spotlight_html.strip():
+        parts.append(f"{textwrap.indent(spotlight_html.strip(), '  ')}\n")
+    parts.append("</section>")
+    return "".join(parts)
 
 
 def _inject_shaping_story_map_outline(body: str, *, catalog_prefix: str = "../") -> str:
@@ -662,6 +1030,7 @@ def build_kanban_slides_deck_html(
     relative_href_prefix: str = "../",
     same_page_stages: bool = True,
     link_column_heads: bool = True,
+    skill_purpose_by_name: dict[str, str] | None = None,
 ) -> str:
     """Vertical kb-slide stack (catalog kanban-layout or bootcamp part3 sync)."""
     headers = extract_bootcamp_slide_headers(repo_root)
@@ -682,16 +1051,24 @@ def build_kanban_slides_deck_html(
         relative_href_prefix=relative_href_prefix,
         same_page_stages=same_page_stages,
         active_stage_id=None,
-        include_delivery_crosscut=True,
         link_column_heads=link_column_heads,
+        board_class="aad-board-grid aad-board-grid--catalog",
+        skill_purpose_by_name=skill_purpose_by_name,
+    )
+    questions_row = build_stage_questions_row_html(model)
+    crosscut_row = build_crosscut_html(
+        skill_dir_by_name,
+        relative_href_prefix=relative_href_prefix,
+        skill_purpose_by_name=skill_purpose_by_name,
     )
     slide_sections.append(
         build_kanban_slide_section(
             "overview",
-            headers.get(1, ""),
+            build_overview_header_html(relative_href_prefix=relative_href_prefix),
             overview_board,
             legend,
-            build_overview_spotlight_html(),
+            questions_html=questions_row,
+            crosscut_html=crosscut_row,
         )
     )
 
@@ -707,8 +1084,9 @@ def build_kanban_slides_deck_html(
             relative_href_prefix=relative_href_prefix,
             same_page_stages=same_page_stages,
             active_stage_id=stage_id,
-            include_delivery_crosscut=True,
             link_column_heads=link_column_heads,
+            board_class="aad-board-grid aad-board-grid--catalog",
+            skill_purpose_by_name=skill_purpose_by_name,
         )
         slide_sections.append(
             build_kanban_slide_section(
@@ -729,9 +1107,229 @@ def build_kanban_page_body(
     stages_html: str,
     *,
     repo_root: Path,
+    skill_purpose_by_name: dict[str, str] | None = None,
 ) -> str:
     """Reveal slide stack only (fullscreen page — no catalog chrome)."""
-    return build_kanban_slides_deck_html(model, skill_dir_by_name, repo_root)
+    return build_kanban_slides_deck_html(
+        model,
+        skill_dir_by_name,
+        repo_root,
+        skill_purpose_by_name=skill_purpose_by_name,
+    )
+
+
+def _is_md_list_line(line: str) -> bool:
+    s = line.strip()
+    return bool(re.match(r"^[-*•]\s+", s) or re.match(r"^\d+[.)]\s+", s))
+
+
+def _normalize_list_line(line: str) -> str:
+    s = line.strip()
+    m = re.match(r"^[-*•]\s+(.*)$", s)
+    if m:
+        return "— " + m.group(1).strip()
+    m = re.match(r"^\d+[.)]\s+(.*)$", s)
+    if m:
+        return "— " + m.group(1).strip()
+    return s
+
+
+def _format_purpose_for_tooltip(text: str) -> str:
+    """Keep prose paragraphs; put markdown list items on separate lines."""
+    text = text.replace("\r\n", "\n").strip()
+    if not text:
+        return ""
+
+    blocks: list[str] = []
+    prose_buf: list[str] = []
+    list_buf: list[str] = []
+
+    def flush_prose() -> None:
+        nonlocal prose_buf
+        if prose_buf:
+            blocks.append(re.sub(r"[ \t]+", " ", " ".join(prose_buf)).strip())
+            prose_buf = []
+
+    def flush_list() -> None:
+        nonlocal list_buf
+        if list_buf:
+            blocks.append("\n".join(_normalize_list_line(ln) for ln in list_buf))
+            list_buf = []
+
+    for raw in text.split("\n"):
+        stripped = raw.strip()
+        if not stripped:
+            flush_list()
+            flush_prose()
+            continue
+        if _is_md_list_line(stripped):
+            flush_prose()
+            list_buf.append(stripped)
+        else:
+            flush_list()
+            prose_buf.append(stripped)
+
+    flush_list()
+    flush_prose()
+    return "\n\n".join(b for b in blocks if b)
+
+
+def _skill_purpose_text(
+    skill_id: str,
+    skill_purpose_by_name: dict[str, str] | None,
+    *,
+    notes: str = "",
+) -> str:
+    text = ""
+    if skill_purpose_by_name:
+        text = skill_purpose_by_name.get(skill_id, "").strip()
+    if not text and notes:
+        text = notes.strip()
+    if not text:
+        return ""
+    return _format_purpose_for_tooltip(text)
+
+
+def _skill_ticket_inner_html(label: str, purpose: str) -> str:
+    if not purpose:
+        return _h(label)
+    return (
+        f'<span class="kb-skill-tooltip-wrap">{_h(label)}'
+        f'<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip">'
+        f'<span class="kb-col-shape-tooltip__name">{_h(label)}</span>'
+        f'<span class="kb-col-shape-tooltip__bullets">{_h(purpose)}</span>'
+        f"</span></span>"
+    )
+
+
+def _crosscut_skill_tickets(
+    skill_ids: tuple[str, ...],
+    skill_dir_by_name: dict[str, str],
+    *,
+    relative: str,
+    css_class: str = "aad-fam-supporting",
+    skill_purpose_by_name: dict[str, str] | None = None,
+) -> list[str]:
+    tickets: list[str] = []
+    for skill_id in skill_ids:
+        href = _skill_href(skill_id, skill_dir_by_name, relative=relative)
+        label = _skill_label(skill_id)
+        purpose = _skill_purpose_text(skill_id, skill_purpose_by_name)
+        tooltip_cls = " has-skill-tooltip" if purpose else ""
+        inner = _skill_ticket_inner_html(label, purpose)
+        tickets.append(
+            f'        <a class="kb-ticket aad-skill {css_class}{tooltip_cls}" '
+            f'href="{_h(href)}">{inner}</a>'
+        )
+    return tickets
+
+
+def _crosscut_row_label(
+    label: str,
+    *,
+    href: str | None,
+    css_class: str,
+    spacer: bool = False,
+) -> str:
+    if spacer:
+        return '      <div class="aad-delivery-crosscut-row-label aad-delivery-crosscut-row-label--spacer"></div>\n'
+    if href:
+        return (
+            f'      <a class="aad-delivery-crosscut-row-label aad-row-label {css_class}" '
+            f'href="{_h(href)}">{_h(label)}</a>\n'
+        )
+    return (
+        f'      <div class="aad-delivery-crosscut-row-label aad-row-label {css_class}">'
+        f"{_h(label)}</div>\n"
+    )
+
+
+def _crosscut_group_rows(
+    label: str,
+    skill_ids: tuple[str, ...],
+    skill_dir_by_name: dict[str, str],
+    *,
+    relative: str,
+    group_href: str | None = None,
+    family_css: str = "aad-fam-supporting",
+    tier: str = "practice",
+    row_class: str = "",
+    skill_purpose_by_name: dict[str, str] | None = None,
+) -> list[str]:
+    tier_cls = f"aad-crosscut-tier--{tier}"
+    extra_cls = f" {row_class}" if row_class else ""
+    skill_tickets = _crosscut_skill_tickets(
+        skill_ids,
+        skill_dir_by_name,
+        relative=relative,
+        css_class=family_css,
+        skill_purpose_by_name=skill_purpose_by_name,
+    )
+    return [
+        f'    <div class="aad-delivery-crosscut-row {tier_cls}{extra_cls}">\n'
+        + _crosscut_row_label(label, href=group_href, css_class=family_css)
+        + '      <div class="aad-delivery-crosscut-row-body">\n'
+        + '        <div class="aad-delivery-crosscut-skills">\n'
+        + "\n".join(skill_tickets)
+        + "\n        </div>\n      </div>\n    </div>"
+    ]
+
+
+def build_crosscut_html(
+    skill_dir_by_name: dict[str, str],
+    *,
+    relative_href_prefix: str = "../",
+    skill_purpose_by_name: dict[str, str] | None = None,
+) -> str:
+    """Cross-plugin skill rows below stage question bullets."""
+    rel = relative_href_prefix
+    practice_rows_list: list[str] = []
+    foundational_rows_list: list[str] = []
+
+    for group_id, label, plugin_id, skill_ids in SUPPORTING_CROSSCUT_GROUPS:
+        family_css = PLUGIN_CSS_CLASS.get(plugin_id, "aad-fam-supporting")
+        group_href = _plugin_href(plugin_id, relative=rel)
+        practice_rows_list.extend(
+            _crosscut_group_rows(
+                label,
+                skill_ids,
+                skill_dir_by_name,
+                relative=rel,
+                group_href=group_href,
+                family_css=family_css,
+                tier="practice",
+                skill_purpose_by_name=skill_purpose_by_name,
+            )
+        )
+
+    for plugin_id, label, skill_ids in FOUNDATIONAL_CROSSCUT_PLUGINS:
+        foundational_rows_list.extend(
+            _crosscut_group_rows(
+                label,
+                skill_ids,
+                skill_dir_by_name,
+                relative=rel,
+                group_href=_plugin_href(plugin_id, relative=rel),
+                family_css="aad-fam-foundational",
+                tier="foundational",
+                skill_purpose_by_name=skill_purpose_by_name,
+            )
+        )
+
+    return (
+        '<div class="aad-delivery-crosscut-stack" data-id="crosscut">\n'
+        '  <section class="aad-delivery-crosscut-section aad-delivery-crosscut-section--supporting">\n'
+        '    <h3 class="aad-delivery-crosscut-section-title">Supporting</h3>\n'
+        '    <div class="aad-delivery-crosscut-section-body">\n'
+        + "\n".join(practice_rows_list)
+        + "\n    </div>\n  </section>\n"
+        '  <section class="aad-delivery-crosscut-section aad-delivery-crosscut-section--foundational">\n'
+        '    <h3 class="aad-delivery-crosscut-section-title">Foundations</h3>\n'
+        '    <div class="aad-delivery-crosscut-section-body">\n'
+        + "\n".join(foundational_rows_list)
+        + "\n    </div>\n  </section>\n"
+        "</div>"
+    )
 
 
 def build_kanban_board_html(
@@ -742,8 +1340,9 @@ def build_kanban_board_html(
     same_page_stages: bool = False,
     board_class: str = "aad-board-grid",
     active_stage_id: str | None = None,
-    include_delivery_crosscut: bool = True,
     link_column_heads: bool = True,
+    foundry_hub: bool = False,
+    skill_purpose_by_name: dict[str, str] | None = None,
 ) -> str:
     rel = relative_href_prefix
 
@@ -752,121 +1351,144 @@ def build_kanban_board_html(
         stage_link = _stage_href(stage_id, same_page=same_page_stages, relative=rel)
         active_cls = " active" if active_stage_id == stage_id else ""
         col_rows: list[str] = []
+        practice_skill_ids: set[str] = set()
+        practice_rows: list[str] = []
         for plugin_id in PLUGIN_ROW_ORDER:
             skills = model.matrix.get(stage_id, {}).get(plugin_id, [])
             css = PLUGIN_CSS_CLASS.get(plugin_id, "")
             tickets: list[str] = []
             for sk in skills:
-                if not _kanban_include_skill(sk.skill_id, stage_id=stage_id):
+                if not _kanban_include_skill(sk.skill_id, stage_id=stage_id, notes=sk.notes):
                     continue
+                practice_skill_ids.add(sk.skill_id)
                 href = _skill_href(sk.skill_id, skill_dir_by_name, relative=rel)
                 label = _skill_label(sk.skill_id, stage_id)
-                title_attr = f' title="{_h(sk.notes)}"' if sk.notes else ""
+                purpose = _skill_purpose_text(
+                    sk.skill_id, skill_purpose_by_name, notes=sk.notes or ""
+                )
+                tooltip_cls = " has-skill-tooltip" if purpose else ""
+                inner = _skill_ticket_inner_html(label, purpose)
+                perspective_attr = (
+                    f' data-perspective="{PLUGIN_PERSPECTIVE_KEY[plugin_id]}"'
+                    if foundry_hub and plugin_id in PLUGIN_PERSPECTIVE_KEY
+                    else ""
+                )
                 tickets.append(
-                    f'        <a class="kb-ticket aad-skill {css}" '
-                    f'data-id="tk-{plugin_id}-{stage_id}-{_h(sk.skill_id)}" '
-                    f'href="{_h(href)}"{title_attr}>{_h(label)}</a>'
+                    f'        <a class="kb-ticket aad-skill {css}{tooltip_cls}" '
+                    f'data-id="tk-{plugin_id}-{stage_id}-{_h(sk.skill_id)}"'
+                    f'{perspective_attr} '
+                    f'href="{_h(href)}">{inner}</a>'
                 )
             inner = "\n".join(tickets) if tickets else ""
             empty_cls = " aad-skill-row--empty" if not tickets else ""
-            col_rows.append(
+            practice_rows.append(
                 f'      <div class="aad-skill-row {css}{empty_cls}" data-family="{plugin_id}">\n'
                 f"{inner}\n      </div>"
             )
-        if link_column_heads:
-            col_head = (
-                f'      <a class="kb-col-head kb-col-head--link" data-id="head-{stage_id}" '
-                f'href="{_h(stage_link)}"><span>{_h(title)}</span>'
-                f'<span class="kb-col-num">{num}</span></a>\n'
+
+        col_rows.extend(practice_rows)
+
+        stage_folder_ids = model.stage_folder_skills.get(stage_id, [])
+        stage_tickets: list[str] = []
+        for skill_id in stage_folder_ids:
+            if skill_id in practice_skill_ids:
+                continue
+            if not _kanban_include_skill(skill_id, stage_id=stage_id):
+                continue
+            href = _skill_href(skill_id, skill_dir_by_name, relative=rel)
+            label = _skill_label(skill_id, stage_id)
+            purpose = _skill_purpose_text(skill_id, skill_purpose_by_name)
+            tooltip_cls = " has-skill-tooltip" if purpose else ""
+            inner = _skill_ticket_inner_html(label, purpose)
+            stage_tickets.append(
+                f'        <a class="kb-ticket aad-skill aad-stage-skill {STAGE_SKILL_FAMILY_CLASS}{tooltip_cls}" '
+                f'data-id="tk-stage-{stage_id}-{_h(skill_id)}" '
+                f'href="{_h(href)}">{inner}</a>'
             )
+        if foundry_hub:
+            if stage_tickets:
+                col_rows.append(
+                    '      <div class="foundry-stage-skills">\n'
+                    '      <div class="aad-stage-skills-gap" aria-hidden="true"></div>\n'
+                    '      <div class="aad-stage-skills-block">\n'
+                    + "\n".join(stage_tickets)
+                    + "\n      </div>\n      </div>"
+                )
+            else:
+                col_rows.append(
+                    '      <div class="foundry-stage-skills foundry-stage-skills--empty" aria-hidden="true">\n'
+                    '      <div class="aad-stage-skills-gap" aria-hidden="true"></div>\n'
+                    "      </div>"
+                )
+        elif stage_tickets:
+            col_rows.append('      <div class="aad-stage-skills-gap" aria-hidden="true"></div>')
+            col_rows.append(
+                '      <div class="aad-stage-skills-block">\n'
+                + "\n".join(stage_tickets)
+                + "\n      </div>"
+            )
+        if link_column_heads:
+            if foundry_hub:
+                col_head = _foundry_col_head_html(
+                    stage_id, title, num, _stage_href(stage_id, same_page=same_page_stages, relative=rel)
+                )
+            else:
+                col_head = (
+                    f'      <a class="kb-col-head kb-col-head--link" data-id="head-{stage_id}" '
+                    f'href="{_h(stage_link)}"><span>{_h(title)}</span>'
+                    f'<span class="kb-col-num">{num}</span></a>\n'
+                )
         else:
             col_head = (
                 f'      <div class="kb-col-head" data-id="head-{stage_id}">'
                 f"<span>{_h(title)}</span>"
                 f'<span class="kb-col-num">{num}</span></div>\n'
             )
-        cols.append(
-            f'    <div class="kb-col{active_cls}" data-id="col-{stage_id}">\n'
-            f"{col_head}"
-            f'      <div class="kb-col-tickets aad-tickets-grid">\n'
-            + "\n".join(col_rows)
-            + "\n      </div>\n    </div>"
-        )
-
-    crosscut = ""
-    if include_delivery_crosscut:
-        delivery_skills_html: list[str] = []
-        for skill_id in DELIVERY_CROSSCUT_SKILLS:
-            href = _skill_href(skill_id, skill_dir_by_name, relative=rel)
-            delivery_skills_html.append(
-                f'        <a class="kb-ticket aad-skill aad-fam-delivery" '
-                f'href="{_h(href)}">{_h(_skill_label(skill_id))}</a>'
+        stage_attr = f' data-stage="{stage_id}"' if foundry_hub else ""
+        if foundry_hub:
+            cols.append(
+                f'    <div class="kb-col{active_cls}" data-id="col-{stage_id}"{stage_attr}>\n'
+                f"{col_head}"
+                + "\n".join(col_rows)
+                + "\n    </div>"
+            )
+        else:
+            cols.append(
+                f'    <div class="kb-col{active_cls}" data-id="col-{stage_id}"{stage_attr}>\n'
+                f"{col_head}"
+                f'      <div class="kb-col-tickets aad-tickets-grid">\n'
+                + "\n".join(col_rows)
+                + "\n      </div>\n    </div>"
             )
 
-        delivery_agents_html: list[str] = []
-        for agent in DELIVERY_AGENTS:
-            delivery_agents_html.append(
-                f'        <a class="aad-delivery-leaf aad-row-agent aad-fam-delivery" '
-                f'data-id="agent-{_h(agent)}" '
-                f'href="{_h(_agent_href(agent, relative=rel))}">{_h(agent)}</a>'
-            )
-
-        crosscut = (
-            '<div class="aad-delivery-crosscut aad-delivery-crosscut-grid" data-id="delivery-crosscut">\n'
-            '  <div class="aad-delivery-crosscut-lane">\n'
-            f'    <a class="aad-delivery-crosscut-label aad-fam-delivery" '
-            f'data-id="row-label-kanban" '
-            f'href="{_h(_plugin_href("kanban", relative=rel))}">'
-            f"{_h(PLUGIN_LABEL['kanban'])}</a>\n"
-            "  </div>\n"
-            '  <div class="aad-delivery-crosscut-skills-band">\n'
-            '    <div class="aad-delivery-crosscut-row aad-delivery-crosscut-row--inline">\n'
-            '      <div class="aad-delivery-crosscut-sublabel">Agents</div>\n'
-            '      <div class="aad-delivery-crosscut-agents">\n'
-            + "\n".join(delivery_agents_html)
-            + "\n      </div>\n"
-            '      <div class="aad-delivery-crosscut-sublabel aad-delivery-crosscut-sublabel--skills">Skills</div>\n'
-            '      <div class="aad-delivery-crosscut-skills">\n'
-            + "\n".join(delivery_skills_html)
-            + "\n      </div>\n"
-            "    </div>\n"
-            '    <div class="aad-delivery-crosscut-tracks" aria-hidden="true">\n'
-            '      <span class="aad-delivery-arrow"></span>\n'
-            '      <span class="aad-delivery-arrow"></span>\n'
-            '      <span class="aad-delivery-arrow"></span>\n'
-            '      <span class="aad-delivery-arrow"></span>\n'
-            '      <span class="aad-delivery-arrow"></span>\n'
-            "    </div>\n"
-            "  </div>\n"
-            "</div>"
-        )
+    if foundry_hub:
+        return "\n".join(cols) + "\n"
 
     return (
         f'<div class="kb-board {board_class}" data-id="board">\n'
         + "\n".join(cols)
         + "\n</div>\n"
-        + crosscut
     )
 
 
 def build_stage_sections_html(model: KanbanModel) -> str:
     parts: list[str] = ['<section class="kanban-stages" id="stages">', "<h2>Delivery stages</h2>"]
-    planning_href = "../skill/abd-delivery-planning.html"
+    planning_href = "../skill/abd-kanban-planning.html"
     parts.append(
         f'<p>Stage definitions are the source of truth for '
-        f'<a href="{_h(planning_href)}">abd-delivery-planning</a> '
+        f'<a href="{_h(planning_href)}">abd-kanban-planning</a> '
         f"and the delivery war room. Each column above links here.</p>"
     )
     for stage_id, title, num, purpose in model.stages:
         stage_src = (
             f"https://github.com/abd-works/agilebydesign-skills/blob/main/"
-            f"practices/kanban/content/stages/{stage_id}.md"
+            f"practices/kanban/reference/stages/{stage_id}.md"
         )
         parts.append(f'<article class="kanban-stage" id="stage-{stage_id}-definition">')
         parts.append(
             f"<h3>{num}. {_h(title)}</h3>"
             f'<p class="kanban-stage-links">'
-            f'<a href="{_h(planning_href)}">abd-delivery-planning</a> · '
+            f'<a href="{_h(planning_href)}">abd-kanban-planning</a> · '
             f'<a href="{_h(stage_src)}">stage definition (source)</a></p>'
         )
         if purpose:
@@ -876,7 +1498,7 @@ def build_stage_sections_html(model: KanbanModel) -> str:
             parts.append("<ul>")
             for plugin_id in PLUGIN_ROW_ORDER:
                 for sk in skills.get(plugin_id, []):
-                    if not _kanban_include_skill(sk.skill_id, stage_id=stage_id):
+                    if not _kanban_include_skill(sk.skill_id, stage_id=stage_id, notes=sk.notes):
                         continue
                     parts.append(
                         f"<li><strong>{_h(PLUGIN_LABEL.get(plugin_id, plugin_id))}</strong> — "
@@ -894,7 +1516,7 @@ def build_kanban_garden_link_html(*, relative_href_prefix: str = "../") -> str:
     """Short link to the catalog hub below board + legend."""
     return (
         f'<p class="kanban-garden-link">'
-        f'<a href="{relative_href_prefix}index.html">The ABD AI Garden</a>'
+        f'<a href="{relative_href_prefix}index.html">The ABD Foundry</a>'
         f" — browse plugins, skills, and agents</p>"
     )
 
@@ -909,6 +1531,7 @@ def write_kanban_layout_pages(
     tagline: str,
     *,
     template_dir: Path,
+    skill_purpose_by_name: dict[str, str] | None = None,
 ) -> Path:
     model = load_kanban_model(repo_root)
     out_dir = output_catalog_dir / "kanban-layout"
@@ -926,11 +1549,16 @@ def write_kanban_layout_pages(
         skill_dir_by_name,
         relative_href_prefix="../",
         same_page_stages=True,
+        skill_purpose_by_name=skill_purpose_by_name,
     )
     stages_html = build_stage_sections_html(model)
 
     slides_html = build_kanban_page_body(
-        model, skill_dir_by_name, stages_html, repo_root=repo_root
+        model,
+        skill_dir_by_name,
+        stages_html,
+        repo_root=repo_root,
+        skill_purpose_by_name=skill_purpose_by_name,
     )
 
     reveal_js_src = template_dir / "kanban-slides-init.js"
@@ -940,7 +1568,7 @@ def write_kanban_layout_pages(
 
     html = (
         page_tpl.replace("{{CSS}}", full_css)
-        .replace("{{TITLE}}", "AI Garden — delivery kanban")
+        .replace("{{TITLE}}", "Foundry — delivery kanban")
         .replace("{{SLIDES_INNER}}", slides_html)
         .replace("{{REVEAL_INIT_JS}}", reveal_init_js)
     )
@@ -963,6 +1591,7 @@ def write_kanban_layout_pages(
             relative_href_prefix="../",
             same_page_stages=True,
             board_class="aad-board-grid",
+            skill_purpose_by_name=skill_purpose_by_name,
         ),
         encoding="utf-8",
     )
@@ -976,6 +1605,8 @@ BOOTCAMP_KANBAN_SLIDES_END = "<!-- /KANBAN_SLIDES -->"
 def sync_bootcamp_part3_kanban(
     repo_root: Path,
     skill_dir_by_name: dict[str, str],
+    *,
+    skill_purpose_by_name: dict[str, str] | None = None,
 ) -> bool:
     """Copy kanban kb-slides into bootcamp part3 — same pattern as part2 story board (vertical Reveal slides)."""
     bootcamp = _bootcamp_part3_path(repo_root)
@@ -990,6 +1621,7 @@ def sync_bootcamp_part3_kanban(
         relative_href_prefix=prefix,
         same_page_stages=True,
         link_column_heads=False,
+        skill_purpose_by_name=skill_purpose_by_name,
     )
     slides_html = rewrite_bootcamp_catalog_links(slides_html, skill_dir_by_name)
     slides_html = slides_html.replace('href="../index.html"', f'href="{prefix}index.html"')
@@ -1029,6 +1661,22 @@ def skill_dir_map_from_entries(skills: list) -> dict[str, str]:
     for s in skills:
         out[s.name] = s.dir_name
         out[s.dir_name] = s.dir_name
+    return out
+
+
+def skill_purpose_map_from_entries(skills: list) -> dict[str, str]:
+    """Map YAML skill name and folder name → full SKILL.md Purpose (no truncation)."""
+    out: dict[str, str] = {}
+    for s in skills:
+        purpose = (
+            getattr(s, "purpose", None)
+            or getattr(s, "description", None)
+            or getattr(s, "summary", None)
+            or ""
+        ).strip()
+        if purpose:
+            out[s.name] = purpose
+            out[s.dir_name] = purpose
     return out
 
 

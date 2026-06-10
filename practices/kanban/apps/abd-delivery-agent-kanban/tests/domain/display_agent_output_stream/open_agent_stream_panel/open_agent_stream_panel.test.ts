@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Open Agent Stream Panel
  *
  * Epic:     Display Agent Output Stream
@@ -184,7 +184,7 @@ describe('Expand Agent Stream by Clicking Team Member Avatar', () => {
     let layout = given_agent_pool_with_avatar('engineer', 'active');
     layout = given_board_with_stages(layout, ['discovery', 'specification', 'implementation']);
     layout = given_agent_executing_skill_on_ticket(
-      layout, 'engineer', 'abd-specification-by-example', 'TICKET-042', 'specification',
+      layout, 'engineer', 'abd-story-specification', 'TICKET-042', 'specification',
     );
 
     // When
@@ -236,7 +236,7 @@ describe('Anchor Stream Panel beside Active Ticket Stage Column', () => {
     let layout = given_agent_pool_with_avatar('engineer', 'active');
     layout = given_board_with_stages(layout, ['exploration', 'specification', 'implementation']);
     layout = given_agent_executing_skill_on_ticket(
-      layout, 'engineer', 'abd-acceptance-criteria', 'TICKET-020', 'exploration',
+      layout, 'engineer', 'abd-story-acceptance-criteria', 'TICKET-020', 'exploration',
     );
     layout = when_user_clicks_avatar(layout, 'engineer');
     then_stream_panel_opens_beside_stage(layout, 'engineer', 'exploration');

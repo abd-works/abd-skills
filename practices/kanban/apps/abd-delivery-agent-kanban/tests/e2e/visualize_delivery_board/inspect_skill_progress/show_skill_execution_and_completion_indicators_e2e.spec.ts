@@ -1,4 +1,4 @@
-﻿import { test, expect } from '@playwright/test';
+import { test, expect } from '@playwright/test';
 import { BOARD_JSON_PATH, KANBAN_JSON_PATH, goToBoard, resetPawPlaceStubsFixture, ticketCard, updateJsonFile } from '../../e2e_support';
 
 test.describe('Show Skill Execution and Completion Indicators', () => {
@@ -62,7 +62,7 @@ test.describe('Show Skill Execution and Completion Indicators', () => {
           scatter_to: [],
           notes: '',
           skill_progress: {
-            'abd-specification-by-example': {
+            'abd-story-specification': {
               execution_status: 'in_progress',
               review_status: 'not_started',
               agent: 'product-owner',
@@ -102,7 +102,7 @@ test.describe('Show Skill Execution and Completion Indicators', () => {
           scatter_to: [],
           notes: '',
           skill_progress: {
-            'abd-specification-by-example': {
+            'abd-story-specification': {
               execution_status: 'done',
               review_status: 'in_progress',
               agent: 'product-owner',
@@ -134,7 +134,7 @@ test.describe('Show Skill Execution and Completion Indicators', () => {
       const specification = stages.find((stage: any) => stage.name === 'specification');
       specification.stage_work_required = [
         { skill: 'abd-domain-model', role: 'business-expert' },
-        { skill: 'abd-specification-by-example', role: 'product-owner' },
+        { skill: 'abd-story-specification', role: 'product-owner' },
         { skill: 'abd-domain-walk', role: 'business-expert' },
       ];
       def.stages = stages;
@@ -237,7 +237,7 @@ test.describe('Show Skill Execution and Completion Indicators', () => {
           scatter_to: [],
           notes: '',
           skill_progress: {
-            'abd-specification-by-example': {
+            'abd-story-specification': {
               execution_status: 'in_progress',
               review_status: 'not_started',
               agent: 'product-owner',

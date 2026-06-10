@@ -1,0 +1,151 @@
+/* Hub index — inline delivery kanban below the opening blurb (not a Reveal deck). */
+
+.catalog-kanban-embed {
+  margin: 0 0 20px;
+  padding: 14px 16px 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius, 6px);
+}
+
+.catalog-kanban-embed__frame.kb-slide {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 0 !important;
+  height: auto;
+  max-height: none;
+}
+
+.catalog-kanban-embed .kb-board.aad-board-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0 6px;
+  margin: 0;
+  padding: 6px;
+}
+
+.catalog-kanban-embed .kb-col {
+  min-width: 0;
+}
+
+/* Hub embed — tighter than full-screen kanban deck */
+.catalog-kanban-embed .kb-board.aad-board-grid--catalog .kb-col-head {
+  font-size: 10px;
+  padding: 4px 5px 5px;
+}
+
+.catalog-kanban-embed .kb-board.aad-board-grid--catalog .kb-ticket.aad-skill {
+  font-size: 9.5px;
+  padding: 3px 5px;
+  line-height: 1.25;
+}
+
+.catalog-kanban-embed .kanban-stage-questions {
+  margin: 2px 0 8px;
+  gap: 0 6px;
+}
+
+.catalog-kanban-embed .aad-delivery-crosscut-stack {
+  margin: 4px 6px 10px;
+  gap: 16px;
+}
+
+.catalog-kanban-embed .aad-delivery-crosscut-section {
+  padding: 10px 8px;
+  gap: 8px;
+}
+
+.catalog-kanban-embed .aad-delivery-crosscut-section-body {
+  gap: 8px;
+}
+
+.catalog-kanban-embed .aad-delivery-crosscut-row {
+  gap: 10px;
+}
+
+.catalog-kanban-embed .aad-delivery-crosscut-section-title {
+  font-size: 8.5px;
+}
+
+.catalog-kanban-embed .kanban-stage-questions__cell {
+  padding: 8px 6px 4px;
+}
+
+.catalog-kanban-embed .kanban-stage-questions__headline {
+  font-size: 9px;
+  margin-bottom: 6px;
+}
+
+.catalog-kanban-embed .kanban-stage-questions__list {
+  gap: 5px;
+}
+
+.catalog-kanban-embed .kanban-stage-questions__item {
+  font-size: 10px;
+  padding-left: 12px;
+  line-height: 1.35;
+}
+
+.catalog-kanban-embed .kanban-legend-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px 10px;
+  margin-top: 2px;
+}
+
+.catalog-kanban-embed .kanban-legend-heading {
+  margin: 0;
+  padding: 0;
+  white-space: nowrap;
+  flex: 0 0 auto;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.catalog-kanban-embed .kanban-legend-cards {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.catalog-kanban-embed .kanban-legend-row .kb-ticket.aad-skill {
+  font-size: 9.5px;
+  padding: 3px 6px;
+}
+
+.catalog-kanban-embed .aad-stage-skills-gap {
+  height: 10px;
+  min-height: 10px;
+  margin: 2px 0 3px;
+}
+
+.catalog-kanban-embed .aad-stage-skills-block {
+  gap: 3px;
+}
+
+.catalog-kanban-embed .kb-ticket.aad-skill.aad-stage-skill {
+  font-size: 9.5px;
+  padding: 3px 5px;
+}
+
+.catalog-kanban-embed .aad-delivery-crosscut-row-label {
+  font-size: 8px;
+  min-height: 18px;
+}
+
+.catalog-kanban-embed .aad-delivery-crosscut-skills .kb-ticket.aad-skill,
+.catalog-kanban-embed .aad-delivery-leaf {
+  font-size: 8.5px;
+  padding: 2px 5px;
+}

@@ -167,7 +167,7 @@ Given *Ticket* **inc-sprint-2** is in the board active array at *Stage* "specifi
   And *Skill Progress* for "abd-domain-model" is complete
   And no *Skill* has *Execution Status* or *Review Status* in progress
 When the board renders
-Then the *Focus Skill* is "abd-specification-by-example"
+Then the *Focus Skill* is "abd-story-specification"
   And **inc-sprint-2** shows a bot icon on the card face
   And expanding shows a bot beside "Spec by Example" and a checkmark beside "domain model"
 
@@ -247,13 +247,13 @@ Then the "domain model" row shows a checkmark icon beside the skill label
 
 ### Scenario 2: Executing skill shows bot icon on that row only
 
-Given *Ticket* **#101** has *Skill Progress* for "abd-specification-by-example" with *Execution Status* "in progress"
+Given *Ticket* **#101** has *Skill Progress* for "abd-story-specification" with *Execution Status* "in progress"
 When the Delivery Lead expands **#101**
 Then only the "Spec by Example" row shows a bot icon
 
 ### Scenario 3: Skill under review shows magnifying glass on that row only
 
-Given *Ticket* **#101** has *Skill Progress* for "abd-specification-by-example" with *Review Status* "in progress"
+Given *Ticket* **#101** has *Skill Progress* for "abd-story-specification" with *Review Status* "in progress"
 When the Delivery Lead expands **#101**
 Then only the "Spec by Example" row shows a magnifying-glass icon
   And no other row shows a bot icon
@@ -269,7 +269,7 @@ Then the "Scenario Walkthrough" row has no icon and is styled as pending
 
 Given *Ticket* **inc-sprint-2** is active in "specification" → "In Progress"
   And "abd-domain-model" is complete
-  And "abd-specification-by-example" has not started
+  And "abd-story-specification" has not started
 When the Delivery Lead expands **inc-sprint-2**
 Then the "Spec by Example" row shows a bot icon
   And the "domain model" row shows a checkmark
@@ -531,10 +531,10 @@ Given *Ticket* **1-inc-1-operator-signon** is active at *Stage* "exploration"
   And "exploration" *Stage Work Required* includes:
   | skill_name                   | role            | optional |
   | abd-domain-language      | business-expert | false    |
-  | abd-acceptance-criteria      | product-owner   | false    |
+  | abd-story-acceptance-criteria      | product-owner   | false    |
   | abd-ux-mockup                | ux-designer     | true     |
   | abd-architecture-specification   | engineer        | false    |
-  And *Skill Progress* for "abd-domain-language", "abd-acceptance-criteria", and "abd-architecture-specification" all have *Execution Status* "done" and *Review Status* "done"
+  And *Skill Progress* for "abd-domain-language", "abd-story-acceptance-criteria", and "abd-architecture-specification" all have *Execution Status* "done" and *Review Status* "done"
   And no *Skill Progress* exists for "abd-ux-mockup"
 When the *Kanban Board* checks stage completion for **1-inc-1-operator-signon**
 Then the *Stage* "exploration" is complete
@@ -647,9 +647,9 @@ Given *Ticket* **1-inc-1-sprint-a** is active at *Stage* "specification"
   And "specification" *Stage Work Required* lists *Skills* in rail order:
   | skill_name                               | role             |
   | abd-domain-model     | business-expert  |
-  | abd-specification-by-example              | product-owner    |
+  | abd-story-specification              | product-owner    |
   | abd-architecture-specification                 | engineer         |
-  | abd-acceptance-test-driven-development    | engineer         |
+  | abd-story-acceptance-test    | engineer         |
   And no *Skill Progress* entries exist yet
 When an *Agent* with role "business-expert" looks for eligible work
 Then the *Agent* claims "abd-domain-model" on **1-inc-1-sprint-a**
@@ -659,7 +659,7 @@ Then the *Agent* claims "abd-domain-model" on **1-inc-1-sprint-a**
 
 Given *Ticket* **1-inc-1-sprint-a** is active at *Stage* "specification"
   And "abd-domain-model" *Skill Progress* has *Execution Status* "not started"
-  And "abd-specification-by-example" is second in the rail and requires "abd-domain-model" done first
+  And "abd-story-specification" is second in the rail and requires "abd-domain-model" done first
 When an *Agent* with role "product-owner" looks for eligible work
 Then no *Skill* is available for the "product-owner" *Agent*
   Because the prior *Skill* "abd-domain-model" is not done
@@ -789,7 +789,7 @@ Given the *Agent Definition* for role "engineer" has been loaded
   | skill_name                            | stage          |
   | abd-architecture-specification            | specification  |
   | abd-architecture-specification             | specification  |
-  | abd-acceptance-test-driven-development| specification  |
+  | abd-story-acceptance-test| specification  |
   And the *Agent Definition* declares one conditional *Skill*: "abd-clean-code"
 When the system resolves eligible *Skills* for role "engineer"
 Then the resolved skill list contains 3 entries from *Stage Work Required* and 1 conditional
@@ -1023,10 +1023,10 @@ Then the *Kanban Lead* updates *Skill Progress* for "abd-architecture-specificat
 
 ### Scenario 2: Agent completes all skills on ticket — KanbanLead marks ticket stage complete
 
-Given a *Team Member* *Agent* with role "business-expert" is executing the final required *Skill* "abd-specification-by-example" on *Ticket* **1-inc-1-sprint-a** at *Stage* "specification"
+Given a *Team Member* *Agent* with role "business-expert" is executing the final required *Skill* "abd-story-specification" on *Ticket* **1-inc-1-sprint-a** at *Stage* "specification"
   And all other *Skills* in the *Stage Work Required* have *Execution Status* "done" and *Review Status* "done"
-When the *Agent* finishes executing "abd-specification-by-example"
-Then the *Kanban Lead* updates *Skill Progress* for "abd-specification-by-example" to *Execution Status* "done"
+When the *Agent* finishes executing "abd-story-specification"
+Then the *Kanban Lead* updates *Skill Progress* for "abd-story-specification" to *Execution Status* "done"
   And the *Kanban Lead* detects that all required *Skills* for *Stage* "specification" are complete
   And *Ticket* **1-inc-1-sprint-a** moves to the "Done" sub-column of "specification"
 
@@ -1252,10 +1252,10 @@ Then a thinking indicator animates at the bottom of the *Stream Panel*
 ### Scenario 3: Agent completes skill — completion status shown in panel
 
 Given a *Stream Panel* is open for the "engineer" *Agent*
-  And the *Agent* is executing *Skill* "abd-acceptance-test-driven-development" on *Ticket* **1-inc-1-sprint-a**
-When the *Agent* completes "abd-acceptance-test-driven-development"
+  And the *Agent* is executing *Skill* "abd-story-acceptance-test" on *Ticket* **1-inc-1-sprint-a**
+When the *Agent* completes "abd-story-acceptance-test"
 Then the *Stream Panel* displays a completion status indicator
-  And the status shows "abd-acceptance-test-driven-development — complete"
+  And the status shows "abd-story-acceptance-test — complete"
   And the panel remains open for subsequent *Skill* output or manual close
 
 ---

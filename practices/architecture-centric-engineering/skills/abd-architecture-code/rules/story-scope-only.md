@@ -20,4 +20,4 @@ Generated production code and tests implement exactly the behaviour described in
 
 - Add abstraction layers, base classes, or utility helpers not shown in the spec's example.
 
-  **Example (fail):** `BaseCharacter` introduced as a parent class when `specs/hero-vtt/example/` shows a plain concrete class with constructor injection and no hierarchy.
+  **Example (fail):** `BaseCharacter` introduced as a parent class when `specs/hero-vtt/template/` shows a plain concrete class with constructor injection and no hierarchy.

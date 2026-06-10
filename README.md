@@ -4,9 +4,9 @@ Reusable **plugins**, **skills**, and **agents** from [abd.works](https://agileb
 
 | Browse the catalog | |
 | --- | --- |
-| **HTML hub** (plugins, skills, agents, kanban) | [`catalog/index.html`](catalog/index.html) |
-| **Markdown outline** (same content, diffable) | [`catalog/outline.md`](catalog/outline.md) |
-| **Delivery kanban** (stages × practice plugins) | [`catalog/kanban-layout/index.html`](catalog/kanban-layout/index.html) |
+| **HTML hub** (plugins, skills, agents, kanban) | [Preview](https://htmlpreview.github.io/?https://github.com/abd-works/agilebydesign-skills/blob/main/catalog/index.html) · [`catalog/index.html`](catalog/index.html) |
+| **Markdown outline** (same content, diffable; renders on GitHub) | [`catalog/outline.md`](catalog/outline.md) |
+| **Delivery kanban** (stages × practice plugins) | [Preview](https://htmlpreview.github.io/?https://github.com/abd-works/agilebydesign-skills/blob/main/catalog/kanban-layout/index.html) · [`catalog/kanban-layout/index.html`](catalog/kanban-layout/index.html) |
 
 ---
 
@@ -88,10 +88,10 @@ Story map → acceptance criteria → specification by example → acceptance te
 | Skill | One-liner |
 | --- | --- |
 | `abd-story-mapping` | Patton-style story map: epics, sub-epics, stories with verb-noun naming and actors |
-| `abd-acceptance-criteria` | WHEN/THEN/AND/BUT behavioral acceptance criteria per story using domain terms |
-| `abd-specification-by-example` | Concrete Given/When/Then scenarios with real domain values and named outcomes |
+| `abd-story-acceptance-criteria` | WHEN/THEN/AND/BUT behavioral acceptance criteria per story using domain terms |
+| `abd-story-specification` | Concrete Given/When/Then scenarios with real domain values and named outcomes |
 | `abd-thin-slicing` | Vertical MVIs, spine vs optional paths, and marketable increment planning |
-| `abd-acceptance-test-driven-development` | Write executable tests first from behavioral context, then drive code to pass them |
+| `abd-story-acceptance-test` | Write executable tests first from behavioral context, then drive code to pass them |
 | `story-graph-ops` | CRUD operations on story-graph.json — the serialized graph lifecycle on disk |
 | `drawio-story-sync` | Render and sync story-map DrawIO diagrams from story-graph.json |
 | `miro-story-sync` | Render and sync story-map Miro boards from story-graph.json |

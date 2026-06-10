@@ -1,4 +1,4 @@
-﻿"""Orchestrate Delivery Cycle — Kanban Lead, Agent, and Skill Orchestration
+"""Orchestrate Delivery Cycle — Kanban Lead, Agent, and Skill Orchestration
 
 Epic:     Manage Agent Lifecycle
 Sub-epic: Orchestrate Delivery Cycle
@@ -357,7 +357,7 @@ class TestDetectStageCompletionOnATicket:
             scope="increment",
             stage_work_required=[
                 SkillDef(skill="abd-domain-language", role="business-expert"),
-                SkillDef(skill="abd-acceptance-criteria", role="product-owner"),
+                SkillDef(skill="abd-story-acceptance-criteria", role="product-owner"),
                 SkillDef(skill="abd-ux-mockup", role="ux-designer", optional=True),
                 SkillDef(skill="abd-architecture-specification", role="engineer"),
             ],
@@ -365,7 +365,7 @@ class TestDetectStageCompletionOnATicket:
         ticket = given_ticket("1-inc-1-operator-signon", "exploration", "increment",
                               skill_progress={
                                   "abd-domain-language": given_skill_done("abd-domain-language", "business-expert"),
-                                  "abd-acceptance-criteria": given_skill_done("abd-acceptance-criteria", "product-owner"),
+                                  "abd-story-acceptance-criteria": given_skill_done("abd-story-acceptance-criteria", "product-owner"),
                                   "abd-architecture-specification": given_skill_done("abd-architecture-specification", "engineer"),
                                   # abd-ux-mockup has no entry — it is optional
                               })
@@ -572,9 +572,9 @@ class TestAgentClaimsNextEligibleSkillDownstreamFirstPull:
                 "scope": "sprint",
                 "stage_work_required": [
                     {"skill": "abd-domain-model", "role": "business-expert"},
-                    {"skill": "abd-specification-by-example", "role": "product-owner"},
+                    {"skill": "abd-story-specification", "role": "product-owner"},
                     {"skill": "abd-architecture-specification", "role": "engineer"},
-                    {"skill": "abd-acceptance-test-driven-development", "role": "engineer"},
+                    {"skill": "abd-story-acceptance-test", "role": "engineer"},
                 ],
             }],
         })
@@ -598,7 +598,7 @@ class TestAgentClaimsNextEligibleSkillDownstreamFirstPull:
                 "scope": "sprint",
                 "stage_work_required": [
                     {"skill": "abd-domain-model", "role": "business-expert"},
-                    {"skill": "abd-specification-by-example", "role": "product-owner"},
+                    {"skill": "abd-story-specification", "role": "product-owner"},
                 ],
             }],
         })

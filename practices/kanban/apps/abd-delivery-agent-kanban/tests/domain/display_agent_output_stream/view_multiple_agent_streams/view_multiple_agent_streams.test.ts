@@ -1,4 +1,4 @@
-﻿/**
+/**
  * View Multiple Agent Streams
  *
  * Epic:     Display Agent Output Stream
@@ -195,7 +195,7 @@ describe('Open Second Agent Stream While First Is Open', () => {
       layout, 'business-expert', 'abd-domain-language', 'TICKET-010', 'discovery',
     );
     layout = given_agent_executing_skill_on_ticket(
-      layout, 'engineer', 'abd-specification-by-example', 'TICKET-020', 'specification',
+      layout, 'engineer', 'abd-story-specification', 'TICKET-020', 'specification',
     );
     layout = given_stream_panel_open_for(layout, 'business-expert', 'discovery');
 
@@ -217,10 +217,10 @@ describe('Open Second Agent Stream While First Is Open', () => {
       layout, 'business-expert', 'abd-domain-terms', 'TICKET-010', 'discovery',
     );
     layout = given_agent_executing_skill_on_ticket(
-      layout, 'engineer', 'abd-acceptance-test-driven-development', 'TICKET-020', 'specification',
+      layout, 'engineer', 'abd-story-acceptance-test', 'TICKET-020', 'specification',
     );
     layout = given_agent_executing_skill_on_ticket(
-      layout, 'quality-advocate', 'abd-acceptance-criteria', 'TICKET-030', 'exploration',
+      layout, 'quality-advocate', 'abd-story-acceptance-criteria', 'TICKET-030', 'exploration',
     );
     layout = given_stream_panel_open_for(layout, 'business-expert', 'discovery');
     layout = given_stream_panel_open_for(layout, 'engineer', 'specification');

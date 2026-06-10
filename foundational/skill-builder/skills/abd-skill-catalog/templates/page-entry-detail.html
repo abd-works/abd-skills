@@ -4,36 +4,29 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{{TITLE}}</title>
-<script src="/commons/brand-nav.js?v=aigarden-4"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{COMMONS_PREFIX}}site.css?v=foundry-3">
 <style>
 {{CSS}}
 </style>
+<script src="{{COMMONS_PREFIX}}catalog-nav.js?v=foundry-5"></script>
 </head>
-<body>
-<div class="page-wrap">
-<div class="panel" role="main">
+<body data-nav-prefix="{{NAV_PREFIX}}" data-nav-current="{{NAV_CURRENT}}" data-nav-site-base="{{NAV_SITE_BASE}}">
+<main id="main-content">
 
-<header class="panel-header entry-detail-header">
-  <div class="header-text">
-    <div class="brand-row">
-      <p class="brand">{{BRAND}}</p>
-      <p class="cap-badge">{{BADGE}}</p>
-    </div>
+<div class="page-hero page-hero--detail">
+  <div class="wrap">
     <a class="back-link" href="{{BACK_HREF}}">{{BACK_LABEL}}</a>
-    <h1>{{H1}}</h1>
-    <p class="tagline">{{TAGLINE}}</p>
+    <p class="s-name">{{BADGE}}</p>
+    <h1 class="page-headline">{{H1}}</h1>
+    <p class="body-lead">{{TAGLINE}}</p>
   </div>
-</header>
+</div>
 
-<div class="panel-body">
-
-<nav class="nav" aria-label="AI Garden sections">
-  <a href="{{NAV_PREFIX}}index.html" class="{{NAV_HUB}}">Complete</a>
-  <a href="{{NAV_PREFIX}}skills.html" class="{{NAV_SKILLS}}">Skills</a>
-  <a href="{{NAV_PREFIX}}agents.html" class="{{NAV_AGENTS}}">Agents</a>
-  <a href="{{NAV_PREFIX}}instructions.html" class="{{NAV_INSTRUCTIONS}}">Instructions</a>
-  <a href="{{NAV_PREFIX}}kanban-layout/index.html" class="{{NAV_KANBAN}}">Delivery kanban</a>
-</nav>
+<div class="catalog-body">
+<div class="wrap">
 
 <h2>Description</h2>
 <div class="entry-prose">{{DESCRIPTION}}</div>
@@ -47,16 +40,12 @@
 <hr class="entry-divider">
 
 <h2 id="entry-contents">Contents</h2>
-<div class="entry-contents-doc">
 {{ENTRY_MD_COLLAPSIBLE}}
-</div>
-<hr class="entry-divider">
-<div class="entry-contents-files">
+
 {{FILE_LIST}}
-</div>
 
 </div>
 </div>
-</div>
+</main>
 </body>
 </html>

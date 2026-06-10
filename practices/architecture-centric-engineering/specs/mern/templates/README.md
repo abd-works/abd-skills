@@ -1,6 +1,6 @@
 # MERN Specification Templates
 
-Parameterized scaffold for the MERN architecture specification. Peer to `../example/` — the example is a filled instance of these templates.
+Parameterized scaffold for the MERN architecture specification. Peer to `../template/` — the template slice is a filled instance of these templates.
 
 ## Structure
 

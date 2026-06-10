@@ -14,11 +14,13 @@ metadata:
 
 # The ABD AI Garden (`abd-skill-catalog`)
 
-Maintain the browsable **AI Garden** from **repo-root plugins**
-(`delivery/`, `story-driven-delivery/`, `domain-driven-design/`, …). Each plugin
+Maintain the browsable **AI Garden** from **plugin packages** under
+`practices/<plugin>/`, `foundational/<family>/`, and `utilities/`. Each plugin
 is a deployable package of `agents/`, `skills/`, `instructions/`, `prompts/`,
 `content/`, `lib/`, and `scripts/` — the catalog indexes the **full package**,
-not only SKILL.md files.
+not only SKILL.md files. Practice plugins may nest **supporting** skills under
+`skills/supporting/` (sync, ops, diagram tooling); those appear on plugin pages
+and in the flat skills grid but are omitted from the delivery kanban.
 
 ## When to use this skill
 
@@ -111,11 +113,16 @@ Each listed package includes:
 
 2. **Discovery rules.**
 
-   - **Skills:** every immediate child of repo `skills/` that contains `SKILL.md`,
-     plus packages under `agents/<agent>/skills/` that contain `SKILL.md` **and**
-     YAML `catalog_garden_tier: practice` or `foundational` (so agent-local
-     pipeline skills without that field stay off the grid).
-   - **Agents:** every immediate child of `agents/` that contains one of
+   - **Skills:** every `SKILL.md` under `<plugin>/skills/` (recursive), including
+     nested `skills/supporting/<skill>/` packages. Plugin detail pages group
+     **core** (top-level under `skills/`) vs **supporting** (`skills/supporting/`).
+     The delivery kanban reads stage tables from
+     `practices/kanban/reference/stages/*.md` and omits supporting/background
+     skills from stage tiles. Below the board, **Supporting** (orange) and
+     **Foundational** (grey) crosscut rows come from
+     `scripts/catalog_supporting_groups.py` — Kanban · domain-driven design ·
+     story-driven delivery, then context-to-memory · skill-builder · helpers.
+   - **Agents:** every immediate child of `<plugin>/agents/` that contains one of
      `AGENT.md`, `AGENTS.md`, or `SKILL.md` (first match in that order).
    - **AI Garden listing** — omit a package from hub, outline, grids, and detail
      pages when **`catalog_ready`** is false (`no` / `0` / `draft` / `not-ready`
@@ -123,8 +130,8 @@ Each listed package includes:
      `hidden`, or **`skill-config.json`** sets **`"catalog_ready": false`** (agents
      and skills that ship that file). Default: listed.
 
-3. **Extraction (skills).** Same heuristics as `skill-garden-catalogue` for
-   **name** and fallbacks when `README.md` is absent or sections are empty:
+3. **Extraction (skills).** For **name** and fallbacks when `README.md` is absent
+   or sections are empty:
 
    - *Name* — YAML `name` in `SKILL.md`, else directory name.
    - *Summary (cards + garden rows)* — optional YAML **`catalogue_one_liner`** on

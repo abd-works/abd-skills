@@ -1,7 +1,7 @@
 <!--
   Parameterized SKILL.md skeleton for agilebydesign-skills.
   Copy to skills/<your-skill>/SKILL.md and replace every {{PLACEHOLDER}}.
-  Based on: skills/abd-story-mapping/SKILL.md, skills/abd-acceptance-criteria/SKILL.md
+  Based on: skills/abd-story-mapping/SKILL.md, skills/abd-story-acceptance-criteria/SKILL.md
   Same section order and H2 headings as those skills; "Steps" is **Agent Instructions** here.
 -->
 

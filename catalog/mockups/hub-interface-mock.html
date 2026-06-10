@@ -1,0 +1,1245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Foundry hub — interface mock (review)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../commons/site.css?v=foundry-3">
+<style>
+.mock-banner {
+  background: var(--accent-dim);
+  border-bottom: 1px solid var(--border);
+  padding: 10px 0;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+.mock-banner .wrap {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 16px;
+}
+.mock-banner strong { color: var(--text); }
+.mock-banner a { font-weight: 600; }
+
+.page-hero--compact { padding: 28px 0 12px; }
+.page-hero--compact .page-headline {
+  margin: 0;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  line-height: 1.15;
+}
+.page-hero--compact .body-lead {
+  margin: 8px 0 0;
+  max-width: 52rem;
+  font-size: 0.92rem;
+  color: var(--muted);
+}
+
+.foundry-kanban-shell {
+  margin-bottom: 24px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.foundry-kanban-surface {
+  --abd-bg: #0d1117;
+  --abd-surface: #161618;
+  --abd-raised: #1b1b20;
+  --abd-border: #2a2a2a;
+  --abd-text: #e8e8ed;
+  --abd-muted: #9b9ba8;
+  --abd-accent: #e5531a;
+  --abd-accent-glow: #ff6a2e;
+  --fam-sdd: #6bcb77;
+  --fam-ddd: #6c5ce7;
+  --fam-uxd: #e84393;
+  --fam-arc: #4fc3f7;
+  --fam-stage: #fdcb6e;
+  --fam-delivery: #e5531a;
+  position: relative;
+  background: var(--surface);
+  padding: 12px 14px 14px;
+}
+
+html[data-theme="engineering"] .foundry-kanban-surface {
+  background: var(--raised);
+}
+
+/* Traveling orange ring — flies from CDD button and expands onto targets */
+.foundry-travel-ring {
+  position: absolute;
+  pointer-events: none;
+  z-index: 30;
+  border: 2px solid var(--abd-accent);
+  border-radius: 4px;
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25), 0 0 18px rgba(229, 83, 26, 0.35);
+  opacity: 0;
+  box-sizing: border-box;
+  will-change: top, left, width, height, opacity;
+}
+
+.foundry-travel-ring.is-visible { opacity: 1; }
+
+/* CDD panel — button, tour tag, and expanding slide copy in one vbox */
+.foundry-cdd-panel {
+  position: relative;
+  margin-bottom: 10px;
+  padding: 10px 12px 10px 15px;
+  background: var(--raised);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  transition: padding 0.35s ease;
+}
+.foundry-cdd-panel::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--accent);
+  border-radius: 4px 0 0 4px;
+  pointer-events: none;
+}
+.foundry-cdd-panel__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 12px;
+}
+.foundry-cdd-btn {
+  flex-shrink: 0;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--text);
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 7px 11px;
+  cursor: pointer;
+  transition: border-color 120ms, color 120ms, box-shadow 120ms;
+}
+.foundry-cdd-btn:hover { border-color: var(--accent); color: var(--accent); }
+.foundry-cdd-btn.is-active {
+  border-color: var(--accent);
+  color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent-dim2);
+}
+.foundry-cdd-panel__tag {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.foundry-cdd-panel__tag.is-waiting { color: var(--muted); }
+.foundry-cdd-panel__keys {
+  margin-left: auto;
+  font-family: var(--font-mono);
+  font-size: 8px;
+  color: var(--muted);
+}
+.foundry-cdd-intro {
+  margin-top: 8px;
+  max-height: 4.5em;
+  overflow: hidden;
+  opacity: 1;
+  transition: max-height 0.35s ease, opacity 0.25s ease, margin 0.35s ease;
+}
+.foundry-cdd-panel.is-tour-active .foundry-cdd-intro {
+  max-height: 0;
+  margin-top: 0;
+  opacity: 0;
+}
+.foundry-cdd-intro__line1 {
+  margin: 0 0 5px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.35;
+}
+.foundry-cdd-intro__line2 {
+  margin: 0;
+  font-size: 0.84rem;
+  color: var(--muted);
+  line-height: 1.45;
+  max-width: 42rem;
+}
+
+.foundry-guide__body {
+  margin: 0;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: var(--text);
+  opacity: 0;
+  transform: translateY(10px);
+  max-height: 0;
+  overflow: hidden;
+  transition:
+    max-height 0.45s ease,
+    margin 0.35s ease,
+    opacity 0.5s ease,
+    transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.foundry-guide__body.is-expanding {
+  max-height: 32em;
+  margin-top: 8px;
+}
+.foundry-guide__body.is-revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.foundry-guide__bullets {
+  margin: 0 0 12px;
+  padding: 0 0 0 1.1em;
+  list-style: none;
+}
+.foundry-guide__bullets li {
+  position: relative;
+  margin: 0 0 8px;
+  font-size: 0.86rem;
+  line-height: 1.5;
+  color: var(--text);
+}
+.foundry-guide__bullets li::before {
+  content: '\2014';
+  position: absolute;
+  left: -1.1em;
+  color: var(--accent);
+  opacity: 0.7;
+}
+
+.foundry-guide__scale {
+  margin: 0;
+  padding: 10px 0 0;
+  border-top: 1px solid var(--border);
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+.foundry-guide__scale-item {
+  font-size: 0.72rem;
+  line-height: 1.35;
+}
+.foundry-guide__scale-name {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 2px;
+}
+.foundry-guide__scale-detail {
+  display: block;
+  color: var(--muted);
+  font-size: 0.7rem;
+}
+
+.foundry-guide__lead {
+  margin: 0 0 12px;
+  font-size: 0.86rem;
+  line-height: 1.55;
+  color: var(--muted);
+}
+
+.foundry-guide__perspectives {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.foundry-guide__perspective-row {
+  display: flex;
+  gap: 12px;
+  align-items: baseline;
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+.foundry-guide__perspective-name {
+  flex: 0 0 108px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.foundry-guide__perspective-row--sdd .foundry-guide__perspective-name { color: var(--fam-sdd); }
+.foundry-guide__perspective-row--ddd .foundry-guide__perspective-name { color: var(--fam-ddd); }
+.foundry-guide__perspective-row--uxd .foundry-guide__perspective-name { color: var(--fam-uxd); }
+.foundry-guide__perspective-row--arc .foundry-guide__perspective-name { color: var(--fam-arc); }
+.foundry-guide__perspective-desc { flex: 1; color: var(--text); }
+
+.foundry-guide__executable {
+  margin: 0 0 12px;
+  font-size: 0.86rem;
+  line-height: 1.55;
+  color: var(--muted);
+}
+
+.foundry-guide__exe-heading {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 4px 0 8px;
+}
+
+.foundry-guide__executable-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.foundry-guide__executable-row {
+  display: flex;
+  gap: 12px;
+  align-items: baseline;
+  padding: 8px 10px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
+.foundry-guide__executable-row--sdd { border-left: 3px solid var(--fam-sdd); }
+.foundry-guide__executable-row--ddd { border-left: 3px solid var(--fam-ddd); }
+.foundry-guide__executable-row--uxd { border-left: 3px solid var(--fam-uxd); }
+.foundry-guide__executable-row--arc { border-left: 3px solid var(--fam-arc); }
+
+.foundry-guide__executable-name {
+  flex: 0 0 108px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+.foundry-guide__executable-row--sdd .foundry-guide__executable-name { color: var(--fam-sdd); }
+.foundry-guide__executable-row--ddd .foundry-guide__executable-name { color: var(--fam-ddd); }
+.foundry-guide__executable-row--uxd .foundry-guide__executable-name { color: var(--fam-uxd); }
+.foundry-guide__executable-row--arc .foundry-guide__executable-name { color: var(--fam-arc); }
+
+.foundry-guide__executable-desc { flex: 1; color: var(--text); }
+
+@media (max-width: 720px) {
+  .foundry-guide__scale { grid-template-columns: repeat(2, 1fr); }
+  .foundry-guide__perspective-row { flex-direction: column; gap: 4px; }
+  .foundry-guide__perspective-name { flex: none; }
+}
+
+.foundry-board-grid {
+  display: grid;
+  grid-template-columns: 108px repeat(5, minmax(0, 1fr));
+  gap: 0 6px;
+  background: var(--abd-bg);
+  border: 1px solid var(--abd-border);
+  border-radius: 6px;
+  padding: 6px;
+}
+
+.foundry-perspective-col {
+  display: flex;
+  flex-direction: column;
+  padding-top: 58px;
+}
+.foundry-perspective-label {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  min-height: 34px;
+  margin: 1px 0;
+  padding: 4px 8px;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  background: var(--abd-raised);
+  border: 1px solid var(--abd-border);
+  border-left-width: 3px;
+  border-radius: 3px;
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+.foundry-perspective-label--sdd { border-left-color: var(--fam-sdd); color: var(--fam-sdd); }
+.foundry-perspective-label--ddd { border-left-color: var(--fam-ddd); color: var(--fam-ddd); }
+.foundry-perspective-label--uxd { border-left-color: var(--fam-uxd); color: var(--fam-uxd); }
+.foundry-perspective-label--arc { border-left-color: var(--fam-arc); color: var(--fam-arc); }
+
+.kb-col {
+  display: flex;
+  flex-direction: column;
+  background: var(--abd-surface);
+  border-radius: 6px;
+  padding: 6px;
+  min-width: 0;
+}
+
+.kb-col-head {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 5px;
+  width: 100%;
+  margin: 0 0 6px;
+  padding: 8px 6px 7px;
+  font-family: var(--font-mono);
+  text-align: left;
+  color: var(--abd-text);
+  background: var(--abd-raised);
+  border: 1px solid var(--abd-border);
+  border-radius: 4px;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.kb-col-head:hover { border-color: rgba(229, 83, 26, 0.45); }
+.kb-col-head:hover .kb-col-head-title { color: var(--abd-accent-glow); }
+
+.kb-col-head.is-ring-landed,
+.foundry-perspective-label.is-ring-landed,
+.kb-ticket.is-ring-landed {
+  /* ring-only tour — no inner highlight */
+}
+
+.kb-col-head-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.kb-col-scope-shape {
+  flex-shrink: 0;
+  border: 2px solid var(--abd-accent);
+  border-radius: 2px;
+}
+.kb-col-scope-shape--solution { width: 36px; height: 12px; }
+.kb-col-scope-shape--increment { width: 24px; height: 16px; }
+.kb-col-scope-shape--sprint { width: 16px; height: 22px; }
+.kb-col-scope-shape--story { width: 11px; height: 28px; }
+
+.kb-col-head-title {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--abd-text);
+}
+.kb-col-num {
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--abd-text);
+  background: var(--abd-bg);
+  border: 1px solid var(--abd-border);
+  border-radius: 3px;
+  padding: 1px 5px;
+}
+.kb-col-scope-name {
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--abd-accent-glow);
+}
+.kb-col-scope-detail {
+  display: none;
+  font-size: 7.5px;
+  color: var(--abd-muted);
+  line-height: 1.35;
+}
+.kb-col-head.is-ring-landed .kb-col-scope-detail { display: block; }
+
+.aad-tickets-grid { display: flex; flex-direction: column; gap: 0; }
+.aad-skill-row { min-height: 34px; display: flex; margin: 1px 0; }
+.kb-ticket {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  font-size: 9.5px;
+  font-weight: 600;
+  background: var(--abd-raised);
+  color: var(--abd-text);
+  padding: 3px 5px;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  border-left-width: 3px;
+  border-left-color: var(--abd-muted);
+  line-height: 1.25;
+  text-decoration: none;
+  cursor: pointer;
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+.kb-ticket.aad-fam-sdd { border-left-color: var(--fam-sdd); }
+.kb-ticket.aad-fam-ddd { border-left-color: var(--fam-ddd); }
+.kb-ticket.aad-fam-uxd { border-left-color: var(--fam-uxd); }
+.kb-ticket.aad-fam-arc { border-left-color: var(--fam-arc); }
+
+.kanban-stage-questions {
+  display: grid;
+  grid-template-columns: 108px repeat(5, minmax(0, 1fr));
+  gap: 0 6px;
+  margin: 8px 6px 0;
+}
+.kanban-stage-questions__cell {
+  padding: 8px 6px;
+  border-top: 1px solid var(--border);
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--muted);
+}
+
+.mock-below-fold {
+  padding: 20px 0 48px;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+@media (max-width: 900px) {
+  .foundry-board-grid,
+  .kanban-stage-questions { grid-template-columns: 1fr; }
+  .foundry-perspective-col {
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding-top: 0;
+    gap: 4px;
+    margin-bottom: 6px;
+  }
+}
+</style>
+</head>
+<body data-nav-prefix="../" data-nav-current="hub" data-nav-site-base="https://abd.works/">
+
+<div class="mock-banner">
+  <div class="wrap">
+    <strong>Interactive mock</strong>
+    <span><strong>Click 1:</strong> outer ring on all headers. <strong>Click 2:</strong> perspective labels. <strong>Click 3:</strong> Specification column. Ring only — nothing lit inside.</span>
+    <a href="../index.html">Live hub →</a>
+  </div>
+</div>
+
+<main>
+<div class="page-hero page-hero--compact">
+  <div class="wrap">
+    <h1 class="page-headline">The ABD <span class="accent">Foundry</span></h1>
+    <p class="body-lead">Board first. CDD tour animates context scope and perspectives on the grid.</p>
+  </div>
+</div>
+
+<div class="wrap">
+<div class="foundry-kanban-shell" id="kanban-shell">
+<section class="foundry-kanban-surface" aria-label="Delivery kanban">
+  <div class="foundry-travel-ring" id="travel-ring" aria-hidden="true"></div>
+
+  <div class="foundry-cdd-panel" id="foundry-guide">
+    <div class="foundry-cdd-panel__head">
+      <button type="button" class="foundry-cdd-btn" id="cdd-toggle">Context-driven delivery</button>
+      <span class="foundry-cdd-panel__tag" id="guide-tag">Ready</span>
+      <span class="foundry-cdd-panel__keys" id="guide-keys">Click 1 · Click 2 · Click 3</span>
+    </div>
+    <div class="foundry-cdd-intro" id="cdd-intro">
+      <p class="foundry-cdd-intro__line1">Build the right thing, the right way.</p>
+      <p class="foundry-cdd-intro__line2">AI amplifies judgement when the context is right and the feedback loop is tight.</p>
+    </div>
+    <div class="foundry-guide__body" id="guide-text" aria-live="polite"></div>
+  </div>
+
+  <div class="foundry-board-grid" id="board">
+    <div class="foundry-perspective-col" aria-label="Context perspectives">
+      <div class="foundry-perspective-label foundry-perspective-label--sdd" data-perspective="sdd">Stories</div>
+      <div class="foundry-perspective-label foundry-perspective-label--ddd" data-perspective="ddd">Domain</div>
+      <div class="foundry-perspective-label foundry-perspective-label--uxd" data-perspective="uxd">UX</div>
+      <div class="foundry-perspective-label foundry-perspective-label--arc" data-perspective="arc">Architecture</div>
+    </div>
+
+    <div class="kb-col" data-stage="shaping">
+      <button type="button" class="kb-col-head" data-stage="shaping">
+        <div class="kb-col-head-row">
+          <span class="kb-col-scope-shape kb-col-scope-shape--solution" aria-hidden="true"></span>
+          <span class="kb-col-head-title"><span>Shaping</span><span class="kb-col-num">1</span></span>
+        </div>
+        <span class="kb-col-scope-name">Whole solution</span>
+        <span class="kb-col-scope-detail">wide / shallow · outcomes · scope · boundaries</span>
+      </button>
+      <div class="aad-tickets-grid">
+        <div class="aad-skill-row"><a class="kb-ticket aad-fam-sdd" href="#" data-perspective="sdd">story mapping outline</a></div>
+        <div class="aad-skill-row"><a class="kb-ticket aad-fam-ddd" href="#" data-perspective="ddd">domain glossary</a></div>
+        <div class="aad-skill-row"><a class="kb-ticket aad-fam-uxd" href="#" data-perspective="uxd">impact mapping</a></div>
+        <div class="aad-skill-row"><a class="kb-ticket aad-fam-arc" href="#" data-perspective="arc">architecture outline</a></div>
+      </div>
+    </div>
+
+    <div class="kb-col" data-stage="discovery">
+      <button type="button" class="kb-col-head" data-stage="discovery">
+        <div class="kb-col-head-row">
+          <span class="kb-col-scope-shape kb-col-scope-shape--increment" aria-hidden="true"></span>
+          <span class="kb-col-head-title"><span>Discovery</span><span class="kb-col-num">2</span></span>
+        </div>
+        <span class="kb-col-scope-name">Increment</span>
+        <span class="kb-col-scope-detail">medium · interactions · experience · structure</span>
+      </button>
+      <div class="aad-tickets-grid">
+        <div class="aad-skill-row"><a class="kb-ticket aad-fam-sdd" href="#" data-perspective="sdd">story mapping</a></div>
+        <div class="aad-skill-row"><a class="kb-ticket aad-fam-ddd" href="#" data-perspective="ddd">domain language</a></div>
+        <div class="aad-skill-row"><a class="kb-ticket aad-fam-uxd" href="#" data-perspective="uxd">information architecture</a></div>
+        <div class="aad-skill-row"><a class="kb-ticket aad-fam-arc" href="#" data-perspective="arc">architecture blueprint</a></div>
+      </div>
+    </div>
+
+    <div class="kb-col" data-stage="exploration">
+      <button type="button" class="kb-col-head" data-stage="exploration">
+        <div class="kb-col-head-row">
+          <span class="kb-col-scope-shape kb-col-scope-shape--sprint" aria-hidden="true"></span>
+          <span class="kb-col-head-title"><span>Exploration</span><span class="kb-col-num">3</span></span>
+        </div>
+        <span class="kb-col-scope-name">Sprint</span>
+        <span class="kb-col-scope-detail">narrow / deeper · behaviour · design · logic</span>
+      </button>
+      <div class="aad-tickets-grid">
+        <div class="aad-skill-row"><a class="kb-ticket aad-fam-sdd" href="#" data-perspective="sdd">acceptance criteria</a></div>
+        <div class="aad-skill-row"><a class="kb-ticket aad-fam-ddd" href="#" data-perspective="ddd">domain model</a></div>
+        <div class="aad-skill-row"><a class="kb-ticket aad-fam-uxd" href="#" data-perspective="uxd">ux mockup</a></div>
+        <div class="aad-skill-row"><a class="kb-ticket aad-fam-arc" href="#" data-perspective="arc">architecture spec doc</a></div>
+      </div>
+    </div>
+
+    <div class="kb-col" data-stage="specification">
+      <button type="button" class="kb-col-head" data-stage="specification">
+        <div class="kb-col-head-row">
+          <span class="kb-col-scope-shape kb-col-scope-shape--story" aria-hidden="true"></span>
+          <span class="kb-col-head-title"><span>Specification</span><span class="kb-col-num">4</span></span>
+        </div>
+        <span class="kb-col-scope-name">Story</span>
+        <span class="kb-col-scope-detail">narrow / executable · examples · design · templates</span>
+      </button>
+      <div class="aad-tickets-grid">
+        <div class="aad-skill-row"><a class="kb-ticket aad-fam-sdd" href="#" data-perspective="sdd">specification by example</a></div>
+        <div class="aad-skill-row"><a class="kb-ticket aad-fam-ddd" href="#" data-perspective="ddd">domain specification</a></div>
+        <div class="aad-skill-row"><a class="kb-ticket aad-fam-uxd" href="#" data-perspective="uxd">ux specification</a></div>
+        <div class="aad-skill-row"><a class="kb-ticket aad-fam-arc" href="#" data-perspective="arc">architecture spec template</a></div>
+      </div>
+    </div>
+
+    <div class="kb-col" data-stage="engineering">
+      <button type="button" class="kb-col-head" data-stage="engineering">
+        <div class="kb-col-head-row">
+          <span class="kb-col-scope-shape kb-col-scope-shape--story" aria-hidden="true"></span>
+          <span class="kb-col-head-title"><span>Engineering</span><span class="kb-col-num">5</span></span>
+        </div>
+        <span class="kb-col-scope-name">Story</span>
+        <span class="kb-col-scope-detail">narrowest / deep · tests · code · interface</span>
+      </button>
+      <div class="aad-tickets-grid">
+        <div class="aad-skill-row"><a class="kb-ticket aad-fam-sdd" href="#" data-perspective="sdd">acceptance TDD</a></div>
+        <div class="aad-skill-row"><a class="kb-ticket aad-fam-ddd" href="#" data-perspective="ddd">domain code</a></div>
+        <div class="aad-skill-row"><a class="kb-ticket aad-fam-uxd" href="#" data-perspective="uxd">ux specification</a></div>
+        <div class="aad-skill-row"><a class="kb-ticket aad-fam-arc" href="#" data-perspective="arc">architecture code</a></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="kanban-stage-questions">
+    <div></div>
+    <div class="kanban-stage-questions__cell">Business terms · solution breadth</div>
+    <div class="kanban-stage-questions__cell">Business concepts · interactions</div>
+    <div class="kanban-stage-questions__cell">Business logic · solution tests</div>
+    <div class="kanban-stage-questions__cell">Business examples · UI design</div>
+    <div class="kanban-stage-questions__cell">Tests · code · interface</div>
+  </div>
+</section>
+</div>
+
+<section class="mock-below-fold"><p>Capabilities cards continue below on the real hub.</p></section>
+</div>
+</main>
+
+<script src="../commons/catalog-nav.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  var STAGES = ['shaping', 'discovery', 'exploration', 'specification', 'engineering'];
+  var PERSPECTIVE_ORDER = ['sdd', 'ddd', 'uxd', 'arc'];
+
+  var SCOPE_SLIDE_HTML =
+    '<ul class="foundry-guide__bullets">' +
+    '<li><strong>Cognitive load</strong> — limit both the context and what gets generated to what a person can review.</li>' +
+    '<li><strong>Smaller windows, better output</strong> — top-performing LLMs produce higher-quality output well under max context.</li>' +
+    '<li><strong>Layer context</strong> — each pass increases fidelity; every step starts richer than the last.</li>' +
+    '</ul>' +
+    '<div class="foundry-guide__scale" role="list">' +
+    '<div class="foundry-guide__scale-item" role="listitem"><span class="foundry-guide__scale-name">Whole Solution</span><span class="foundry-guide__scale-detail">wide / shallow · outcomes · scope · boundaries</span></div>' +
+    '<div class="foundry-guide__scale-item" role="listitem"><span class="foundry-guide__scale-name">Increment</span><span class="foundry-guide__scale-detail">medium · interactions · experience · structure</span></div>' +
+    '<div class="foundry-guide__scale-item" role="listitem"><span class="foundry-guide__scale-name">Sprint</span><span class="foundry-guide__scale-detail">narrow / deeper · behaviour · design · logic</span></div>' +
+    '<div class="foundry-guide__scale-item" role="listitem"><span class="foundry-guide__scale-name">Story</span><span class="foundry-guide__scale-detail">narrowest / deep · tests · code · interface</span></div>' +
+    '</div>';
+
+  var PERSPECTIVES_SLIDE_HTML =
+    '<p class="foundry-guide__lead">Different windows that answer different questions — integrated with minimal overlap and redundancy. Replace scattered docs, tickets, and tribal memory with <strong>one connected source</strong> — each fact lives in one place and links to the rest.</p>' +
+    '<div class="foundry-guide__perspectives">' +
+    '<div class="foundry-guide__perspective-row foundry-guide__perspective-row--sdd"><span class="foundry-guide__perspective-name">Stories</span><span class="foundry-guide__perspective-desc">A single shared picture of the product: what are the features, what are the actors and systems, and what are the interactions that make up the solution.</span></div>' +
+    '<div class="foundry-guide__perspective-row foundry-guide__perspective-row--ddd"><span class="foundry-guide__perspective-name">Domain</span><span class="foundry-guide__perspective-desc">The logic behind the business. What are the concepts, rules, and structure behind the business that the system must enforce.</span></div>' +
+    '<div class="foundry-guide__perspective-row foundry-guide__perspective-row--uxd"><span class="foundry-guide__perspective-name">User Experience</span><span class="foundry-guide__perspective-desc">How are interactions and business logic realised into content and experience? How do users use the system, and how is the solution expressed in terms of an interface they can see and act on?</span></div>' +
+    '<div class="foundry-guide__perspective-row foundry-guide__perspective-row--arc"><span class="foundry-guide__perspective-name">Architecture</span><span class="foundry-guide__perspective-desc">What is the technology that will implement the solution? Platform, layers, components, cross-cutting concerns, and the principles that govern how code is built.</span></div>' +
+    '</div>';
+
+  var EXECUTABLE_SLIDE_HTML =
+    '<p class="foundry-guide__executable">Refine context into machine-readable, behavioural specification that AI can build from.</p>' +
+    '<ul class="foundry-guide__bullets">' +
+    '<li>Turn knowledge and org context into an <strong>executable, machine-readable asset</strong>. <strong>Behavioural</strong> specifications, <strong>templated</strong> for consistency.</li>' +
+    '<li><strong>Compounding Engineering</strong> — update context when issues occur; system gets smarter. Outcome: valid testable stories in minutes; code per spec → <strong>lead time falls</strong>.</li>' +
+    '</ul>' +
+    '<div class="foundry-guide__exe-heading">What &ldquo;executable&rdquo; means per perspective</div>' +
+    '<div class="foundry-guide__executable-rows">' +
+    '<div class="foundry-guide__executable-row foundry-guide__executable-row--sdd"><span class="foundry-guide__executable-name">Stories / Specs</span><span class="foundry-guide__executable-desc">Given/When/Then scenarios with real example data</span></div>' +
+    '<div class="foundry-guide__executable-row foundry-guide__executable-row--ddd"><span class="foundry-guide__executable-name">Domain</span><span class="foundry-guide__executable-desc">Typed terms + relationships (a schema), not prose definitions</span></div>' +
+    '<div class="foundry-guide__executable-row foundry-guide__executable-row--uxd"><span class="foundry-guide__executable-name">UX</span><span class="foundry-guide__executable-desc">Component spec with named states &amp; rules, not a static picture</span></div>' +
+    '<div class="foundry-guide__executable-row foundry-guide__executable-row--arc"><span class="foundry-guide__executable-name">Architecture</span><span class="foundry-guide__executable-desc">Interface contracts / templates the engine can follow</span></div>' +
+    '</div>';
+
+  var PAUSE_BEFORE_STEP_MS = 320;
+  var PAUSE_BEFORE_RING_MS = 480;
+  var TEXT_EXPAND_MS = 480;
+  var TEXT_APPEAR_MS = 520;
+
+  var PERSPECTIVE_BY_KEY = {
+    sdd: 'A single shared picture of the product: what are the features, what are the actors and systems, and what are the interactions that make up the solution.',
+    ddd: 'The logic behind the business. What are the concepts, rules, and structure behind the business that the system must enforce.',
+    uxd: 'How are interactions and business logic realised into content and experience? How do users use the system, and how is the solution expressed in terms of an interface they can see and act on?',
+    arc: 'What is the technology that will implement the solution? Platform, layers, components, cross-cutting concerns, and the principles that govern how code is built.'
+  };
+
+  var PERSPECTIVE_TAG_BY_KEY = {
+    sdd: 'Stories',
+    ddd: 'Domain',
+    uxd: 'User Experience',
+    arc: 'Architecture'
+  };
+
+  var surface = document.querySelector('.foundry-kanban-surface');
+  var ring = document.getElementById('travel-ring');
+  var guidePanel = document.getElementById('foundry-guide');
+  var toggleBtn = document.getElementById('cdd-toggle');
+  var guideTag = document.getElementById('guide-tag');
+  var guideText = document.getElementById('guide-text');
+  var guideKeys = document.getElementById('guide-keys');
+  var colHeads = Array.prototype.slice.call(document.querySelectorAll('.kb-col-head'));
+  var rowLabels = Array.prototype.slice.call(document.querySelectorAll('.foundry-perspective-label'));
+  var tickets = Array.prototype.slice.call(document.querySelectorAll('.kb-ticket[data-perspective]'));
+
+  var mode = 'idle';
+  var activeColIndex = 0;
+  var selectedPerspective = 'sdd';
+  var currentRunId = 0;
+  var lastRingRect = null;
+  var lastRingTargets = null;
+  var lastRingPad = 5;
+  var tourBusy = false;
+
+  var specCol = document.querySelector('.kb-col[data-stage="specification"]');
+  var perspectiveCol = document.querySelector('.foundry-perspective-col');
+
+  function rectInSurface(el) {
+    var er = el.getBoundingClientRect();
+    var sr = surface.getBoundingClientRect();
+    return {
+      top: er.top - sr.top + surface.scrollTop,
+      left: er.left - sr.left + surface.scrollLeft,
+      width: er.width,
+      height: er.height
+    };
+  }
+
+  function clearLanded() {
+    Array.prototype.forEach.call(
+      document.querySelectorAll('.is-ring-landed'),
+      function (el) { el.classList.remove('is-ring-landed'); }
+    );
+  }
+
+  function hideRing() {
+    ring.classList.remove('is-visible');
+    ring.style.opacity = '0';
+  }
+
+  function placeRing(r) {
+    ring.style.top = r.top + 'px';
+    ring.style.left = r.left + 'px';
+    ring.style.width = r.width + 'px';
+    ring.style.height = r.height + 'px';
+  }
+
+  function unionRect(elements, pad) {
+    pad = pad != null ? pad : 4;
+    var top = Infinity;
+    var left = Infinity;
+    var right = -Infinity;
+    var bottom = -Infinity;
+    elements.forEach(function (el) {
+      var r = rectInSurface(el);
+      top = Math.min(top, r.top);
+      left = Math.min(left, r.left);
+      right = Math.max(right, r.left + r.width);
+      bottom = Math.max(bottom, r.top + r.height);
+    });
+    return {
+      top: top - pad,
+      left: left - pad,
+      width: right - left + pad * 2,
+      height: bottom - top + pad * 2
+    };
+  }
+
+  function getRingRect() {
+    if (lastRingRect) return lastRingRect;
+    return {
+      top: parseFloat(ring.style.top) || 0,
+      left: parseFloat(ring.style.left) || 0,
+      width: parseFloat(ring.style.width) || 0,
+      height: parseFloat(ring.style.height) || 0
+    };
+  }
+
+  function rememberRingTargets(elements, pad) {
+    lastRingTargets = elements && elements.length ? elements.slice() : null;
+    lastRingPad = pad != null ? pad : 5;
+  }
+
+  function ringOriginFromButton() {
+    var fromRaw = rectInSurface(toggleBtn);
+    var pad = 3;
+    return {
+      top: fromRaw.top - pad,
+      left: fromRaw.left - pad,
+      width: fromRaw.width + pad * 2,
+      height: fromRaw.height + pad * 2
+    };
+  }
+
+  function pause(ms) {
+    return new Promise(function (resolve) {
+      window.setTimeout(resolve, ms);
+    });
+  }
+
+  function waitForTransition(el, prop, fallbackMs) {
+    return new Promise(function (resolve) {
+      var settled = false;
+      function finish() {
+        if (settled) return;
+        settled = true;
+        el.removeEventListener('transitionend', onEnd);
+        resolve();
+      }
+      function onEnd(e) {
+        if (e.target === el && e.propertyName === prop) finish();
+      }
+      el.addEventListener('transitionend', onEnd);
+      window.setTimeout(finish, fallbackMs);
+    });
+  }
+
+  function waitForLayoutAfterExpand() {
+    return waitForTransition(guideText, 'max-height', TEXT_EXPAND_MS).then(function () {
+      return new Promise(function (resolve) {
+        window.requestAnimationFrame(function () {
+          window.requestAnimationFrame(resolve);
+        });
+      });
+    });
+  }
+
+  function waitForTextAppear() {
+    return waitForTransition(guideText, 'opacity', TEXT_APPEAR_MS);
+  }
+
+  function flyRingToTargets(fromRect, elements, pad, opts) {
+    opts = opts || {};
+    var targetRect = unionRect(elements, pad);
+    rememberRingTargets(elements, pad);
+    return flyRingRect(fromRect, targetRect, {
+      runId: opts.runId,
+      duration: opts.duration || 400,
+      hold: opts.hold != null ? opts.hold : 100,
+      targets: elements,
+      pad: pad
+    });
+  }
+
+  function syncRingToTargets() {
+    if (!lastRingTargets || !lastRingTargets.length) return;
+    var r = unionRect(lastRingTargets, lastRingPad);
+    placeRing(r);
+    lastRingRect = r;
+    ring.classList.add('is-visible');
+    ring.style.opacity = '1';
+  }
+
+  function flyRingRect(fromRect, toRect, opts) {
+    opts = opts || {};
+    var runId = opts.runId;
+    var duration = opts.duration || 360;
+    var hold = opts.hold || 80;
+
+    cancelRingAnimations();
+    placeRing(fromRect);
+    ring.classList.add('is-visible');
+    ring.style.opacity = '1';
+
+    var anim = ring.animate(
+      [
+        { top: fromRect.top + 'px', left: fromRect.left + 'px', width: fromRect.width + 'px', height: fromRect.height + 'px', opacity: 1 },
+        { top: toRect.top + 'px', left: toRect.left + 'px', width: toRect.width + 'px', height: toRect.height + 'px', opacity: 1 }
+      ],
+      { duration: duration, easing: 'cubic-bezier(0.4, 0, 0.2, 1)', fill: 'forwards' }
+    );
+
+    return anim.finished.then(function () {
+      if (runId != null && runId !== currentRunId) return;
+      placeRing(toRect);
+      lastRingRect = toRect;
+      if (opts.targets) rememberRingTargets(opts.targets, opts.pad);
+      return new Promise(function (resolve) {
+        window.setTimeout(resolve, hold);
+      });
+    }).catch(function () {});
+  }
+
+  function cancelRingAnimations() {
+    if (ring.getAnimations) {
+      ring.getAnimations().forEach(function (a) { a.cancel(); });
+    }
+  }
+
+  function flyRing(fromEl, toEl, opts) {
+    opts = opts || {};
+    var runId = opts.runId;
+    var duration = opts.duration || 320;
+    var hold = opts.hold || 120;
+    var pad = opts.pad != null ? opts.pad : 3;
+
+    cancelRingAnimations();
+
+    var from = rectInSurface(fromEl);
+    var toRaw = rectInSurface(toEl);
+    var to = {
+      top: toRaw.top - pad,
+      left: toRaw.left - pad,
+      width: toRaw.width + pad * 2,
+      height: toRaw.height + pad * 2
+    };
+
+    placeRing(from);
+    ring.classList.add('is-visible');
+    ring.style.opacity = '1';
+
+    var anim = ring.animate(
+      [
+        { top: from.top + 'px', left: from.left + 'px', width: from.width + 'px', height: from.height + 'px', opacity: 1 },
+        { top: to.top + 'px', left: to.left + 'px', width: to.width + 'px', height: to.height + 'px', opacity: 1 }
+      ],
+      { duration: duration, easing: 'cubic-bezier(0.4, 0, 0.2, 1)', fill: 'forwards' }
+    );
+
+    return anim.finished.then(function () {
+      if (runId != null && runId !== currentRunId) return;
+      placeRing(to);
+      lastRingRect = to;
+      if (opts.landTarget !== false && toEl.classList) {
+        toEl.classList.add('is-ring-landed');
+      }
+      return new Promise(function (resolve) {
+        window.setTimeout(resolve, hold);
+      });
+    }).catch(function () {});
+  }
+
+  function runTour(steps) {
+    currentRunId++;
+    var runId = currentRunId;
+    tourBusy = true;
+
+    var chain = Promise.resolve();
+    steps.forEach(function (step) {
+      chain = chain.then(function () {
+        if (runId !== currentRunId) return;
+        return step(runId);
+      });
+    });
+
+    return chain.then(function () {
+      if (runId === currentRunId) tourBusy = false;
+    }).catch(function () {
+      if (runId === currentRunId) tourBusy = false;
+    });
+  }
+
+  function bumpRun() {
+    currentRunId++;
+    cancelRingAnimations();
+    tourBusy = false;
+  }
+
+  function hideGuideText() {
+    guideText.classList.remove('is-expanding', 'is-revealed');
+    guideText.innerHTML = '';
+  }
+
+  function waitForLayoutAfterCollapse() {
+    return new Promise(function (resolve) {
+      window.setTimeout(function () {
+        window.requestAnimationFrame(function () {
+          window.requestAnimationFrame(resolve);
+        });
+      }, 220);
+    });
+  }
+
+  function setGuideWaiting() {
+    cancelRingAnimations();
+    hideRing();
+    lastRingRect = null;
+    guidePanel.classList.add('is-tour-active');
+    guideTag.textContent = '…';
+    guideTag.classList.add('is-waiting');
+    hideGuideText();
+  }
+
+  /** Pause → expand box → text fades in → pause → caller flies orange ring. */
+  function revealGuideText(tag, html, keys, opts) {
+    opts = opts || {};
+    if (keys) guideKeys.textContent = keys;
+    guidePanel.classList.add('is-tour-active');
+    guideText.classList.remove('is-expanding', 'is-revealed');
+    guideText.innerHTML = html;
+
+    var chain = opts.skipInitialPause ? Promise.resolve() : pause(PAUSE_BEFORE_STEP_MS);
+
+    return chain
+      .then(function () {
+        guideTag.classList.remove('is-waiting');
+        guideTag.textContent = tag;
+        return new Promise(function (resolve) {
+          window.requestAnimationFrame(function () {
+            guideText.classList.add('is-expanding');
+            resolve();
+          });
+        });
+      })
+      .then(function () { return waitForLayoutAfterExpand(); })
+      .then(function () {
+        return new Promise(function (resolve) {
+          window.requestAnimationFrame(function () {
+            guideText.classList.add('is-revealed');
+            resolve();
+          });
+        });
+      })
+      .then(function () { return waitForTextAppear(); })
+      .then(function () {
+        return opts.skipRingPause ? Promise.resolve() : pause(PAUSE_BEFORE_RING_MS);
+      });
+  }
+
+  function resetTour() {
+    bumpRun();
+    hideRing();
+    clearLanded();
+    lastRingRect = null;
+    lastRingTargets = null;
+    toggleBtn.classList.remove('is-active');
+    guidePanel.classList.remove('is-tour-active');
+    mode = 'idle';
+    guideTag.classList.remove('is-waiting');
+    guideTag.textContent = 'Ready';
+    guideKeys.textContent = 'Click 1 · Click 2 · Click 3';
+    hideGuideText();
+  }
+
+  /** Click 1: expand copy, then ring all column headers (positions after panel growth). */
+  function animateScopeTour() {
+    clearLanded();
+    hideRing();
+    lastRingRect = null;
+    lastRingTargets = null;
+    toggleBtn.classList.add('is-active');
+    mode = 'scope';
+    guidePanel.classList.add('is-tour-active');
+    guideTag.textContent = '…';
+    guideTag.classList.add('is-waiting');
+
+    return runTour([
+      function (runId) {
+        return revealGuideText('Context scope', SCOPE_SLIDE_HTML, 'Click 2 — perspective labels')
+          .then(function () {
+            if (runId !== currentRunId) return;
+            return flyRingToTargets(ringOriginFromButton(), colHeads, 5, {
+              runId: runId,
+              duration: 420,
+              hold: 100
+            });
+          });
+      }
+    ]);
+  }
+
+  /** Click 2: expand copy, then ring perspective labels. */
+  function animatePerspectiveTour() {
+    clearLanded();
+    mode = 'perspective';
+    setGuideWaiting();
+
+    var targets = rowLabels.length ? rowLabels : [perspectiveCol];
+
+    return runTour([
+      function (runId) {
+        return waitForLayoutAfterCollapse()
+          .then(function () {
+            return revealGuideText(
+              'Context perspectives',
+              PERSPECTIVES_SLIDE_HTML,
+              'Click 3 — Specification column',
+              { skipInitialPause: true }
+            );
+          })
+          .then(function () {
+            if (runId !== currentRunId) return;
+            return flyRingToTargets(ringOriginFromButton(), targets, 4, {
+              runId: runId,
+              duration: 400,
+              hold: 120
+            });
+          });
+      }
+    ]);
+  }
+
+  /** Click 3: expand copy, then ring Specification column. */
+  function animateSpecColumn() {
+    clearLanded();
+    mode = 'column';
+    activeColIndex = 3;
+    setGuideWaiting();
+
+    return runTour([
+      function (runId) {
+        return waitForLayoutAfterCollapse()
+          .then(function () {
+            return revealGuideText(
+              'Executable context',
+              EXECUTABLE_SLIDE_HTML,
+              'Click CDD again to reset',
+              { skipInitialPause: true }
+            );
+          })
+          .then(function () {
+            if (runId !== currentRunId) return;
+            return flyRingToTargets(ringOriginFromButton(), [specCol], 5, {
+              runId: runId,
+              duration: 380,
+              hold: 140
+            });
+          });
+      }
+    ]);
+  }
+
+  function advanceMode() {
+    if (tourBusy) return;
+    if (mode === 'idle') {
+      animateScopeTour();
+      return;
+    }
+    if (mode === 'scope') {
+      animatePerspectiveTour();
+      return;
+    }
+    if (mode === 'perspective') {
+      animateSpecColumn();
+      return;
+    }
+    if (mode === 'column') {
+      resetTour();
+    }
+  }
+
+  toggleBtn.addEventListener('click', function () {
+    advanceMode();
+  });
+
+  tickets.forEach(function (ticket) {
+    ticket.addEventListener('click', function (e) {
+      e.preventDefault();
+      selectedPerspective = ticket.getAttribute('data-perspective');
+      if (mode === 'perspective' || mode === 'column') {
+        cancelRingAnimations();
+        hideRing();
+        guideTag.classList.remove('is-waiting');
+        revealGuideText(
+          PERSPECTIVE_TAG_BY_KEY[selectedPerspective],
+          '<p class="foundry-guide__lead">' + PERSPECTIVE_BY_KEY[selectedPerspective] + '</p>',
+          'Click CDD to continue or reset',
+          { skipInitialPause: true, skipRingPause: true }
+        ).then(function () {
+          syncRingToTargets();
+        });
+      }
+    });
+  });
+
+  colHeads.forEach(function (head, index) {
+    head.addEventListener('click', function () {
+      if (mode === 'column' && index === 3) return;
+      if (tourBusy) return;
+      if (mode === 'idle') {
+        animateScopeTour();
+      } else if (mode === 'scope' && index === 3) {
+        animateSpecColumn();
+      }
+    });
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== ' ' && e.key !== 'Enter' && e.key !== 'ArrowRight') return;
+    if (e.target.closest('input, textarea, select')) return;
+    e.preventDefault();
+    advanceMode();
+  });
+
+  if (window.ResizeObserver && guidePanel) {
+    new ResizeObserver(function () {
+      if (mode !== 'idle') syncRingToTargets();
+    }).observe(guidePanel);
+  }
+
+  window.addEventListener('resize', function () {
+    cancelRingAnimations();
+    if (mode !== 'idle' && lastRingTargets) {
+      syncRingToTargets();
+      return;
+    }
+    lastRingRect = null;
+    hideRing();
+  });
+})();
+</script>
+</body>
+</html>

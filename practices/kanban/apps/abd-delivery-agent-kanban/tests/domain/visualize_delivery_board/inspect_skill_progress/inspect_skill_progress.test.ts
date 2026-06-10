@@ -21,7 +21,7 @@ import {
 
 const SPEC_SKILLS = [
   'abd-domain-model',
-  'abd-specification-by-example',
+  'abd-story-specification',
   'abd-domain-walk',
 ];
 
@@ -33,7 +33,7 @@ const SPEC_STAGE_SKILLS: StageSkill[] = [
     role: 'business-expert',
   },
   {
-    skillId: 'abd-specification-by-example',
+    skillId: 'abd-story-specification',
     label: 'spec by example',
     family: 'story-driven-delivery',
     role: 'product-owner',
@@ -143,19 +143,19 @@ describe('resolveFocusSkillId', () => {
   it('returns review skill when review is in progress', () => {
     const t = ticket({
       ticketId: 't1',
-      reviewSkillId: 'abd-specification-by-example',
+      reviewSkillId: 'abd-story-specification',
       reviewAgent: 'product-owner',
     });
-    expect(t.focusSkillId(SPEC_SKILLS, 'ip')).toBe('abd-specification-by-example');
+    expect(t.focusSkillId(SPEC_SKILLS, 'ip')).toBe('abd-story-specification');
   });
 
   it('returns executing skill when execution is in progress', () => {
     const t = ticket({
       ticketId: 't2',
-      activeSkillId: 'abd-specification-by-example',
+      activeSkillId: 'abd-story-specification',
       activeAgent: 'product-owner',
     });
-    expect(t.focusSkillId(SPEC_SKILLS, 'ip')).toBe('abd-specification-by-example');
+    expect(t.focusSkillId(SPEC_SKILLS, 'ip')).toBe('abd-story-specification');
   });
 
   it('returns next incomplete stage skill when active in In Progress between skills', () => {
@@ -163,7 +163,7 @@ describe('resolveFocusSkillId', () => {
       ticketId: 'inc-8-sprint-2',
       doneSkillIds: ['abd-domain-model'],
     });
-    expect(t.focusSkillId(SPEC_SKILLS, 'ip')).toBe('abd-specification-by-example');
+    expect(t.focusSkillId(SPEC_SKILLS, 'ip')).toBe('abd-story-specification');
   });
 
   it('returns null for global backlog tickets', () => {
@@ -199,7 +199,7 @@ describe('resolveDisplayFocusSkillId', () => {
       priority: 1,
       doneSkillIds: [
         'abd-domain-model',
-        'abd-specification-by-example',
+        'abd-story-specification',
       ],
     });
     const sprint2 = ticket({
@@ -219,7 +219,7 @@ describe('resolveDisplayFocusSkillId', () => {
     ).toBe('abd-domain-walk');
     expect(
       sprint2.displayFocusSkillId(SPEC_STAGE_SKILLS, 'ip', peers, PAWPLACE_TEAM),
-    ).toBe('abd-specification-by-example');
+    ).toBe('abd-story-specification');
     expect(
       sprint9.displayFocusSkillId(SPEC_STAGE_SKILLS, 'ip', peers, PAWPLACE_TEAM),
     ).toBeNull();
@@ -229,7 +229,7 @@ describe('resolveDisplayFocusSkillId', () => {
     const sprint2 = ticket({
       ticketId: 'inc-8-sprint-2-preferences',
       priority: 2,
-      activeSkillId: 'abd-specification-by-example',
+      activeSkillId: 'abd-story-specification',
       activeAgent: 'product-owner',
     });
     const sprint9 = ticket({
@@ -241,7 +241,7 @@ describe('resolveDisplayFocusSkillId', () => {
 
     expect(
       sprint2.displayFocusSkillId(SPEC_STAGE_SKILLS, 'ip', peers, PAWPLACE_TEAM),
-    ).toBe('abd-specification-by-example');
+    ).toBe('abd-story-specification');
   });
 });
 
@@ -287,13 +287,13 @@ describe('resolveSlotState', () => {
 });
 
 describe('countRoleEngagement', () => {
-  it('counts only live execution or review — not idle queued active tickets', () => {
+  it('counts only live execution or review ï¿½ not idle queued active tickets', () => {
     const sprint1 = ticket({
       ticketId: 'inc-8-sprint-1-reviews',
       priority: 1,
       doneSkillIds: [
         'abd-domain-model',
-        'abd-specification-by-example',
+        'abd-story-specification',
       ],
     });
     const sprint2 = ticket({
@@ -336,7 +336,7 @@ describe('skillRowDisplayState', () => {
       doneSkillIds: ['abd-domain-model'],
     });
     const focusId = t.focusSkillId(SPEC_SKILLS, 'ip')!;
-    const next = t.skillRowDisplayState('abd-specification-by-example', focusId);
+    const next = t.skillRowDisplayState('abd-story-specification', focusId);
     expect(next.showBot).toBe(false);
     expect(next.showMagnify).toBe(false);
     expect(next.isFocus).toBe(true);
@@ -345,10 +345,10 @@ describe('skillRowDisplayState', () => {
   it('shows magnify when skill is in reviewingSkillIds', () => {
     const t = ticket({
       ticketId: 't7b',
-      reviewingSkillIds: ['abd-specification-by-example'],
+      reviewingSkillIds: ['abd-story-specification'],
       reviewAgent: 'product-owner',
     });
-    const row = t.skillRowDisplayState('abd-specification-by-example', null);
+    const row = t.skillRowDisplayState('abd-story-specification', null);
     expect(row.showMagnify).toBe(true);
     expect(row.showBot).toBe(false);
   });
@@ -356,12 +356,12 @@ describe('skillRowDisplayState', () => {
   it('shows magnify on review skill only', () => {
     const t = ticket({
       ticketId: 't7',
-      reviewSkillId: 'abd-specification-by-example',
-      reviewingSkillIds: ['abd-specification-by-example'],
+      reviewSkillId: 'abd-story-specification',
+      reviewingSkillIds: ['abd-story-specification'],
       reviewAgent: 'product-owner',
     });
     const focusId = t.focusSkillId(SPEC_SKILLS, 'ip')!;
-    const review = t.skillRowDisplayState('abd-specification-by-example', focusId);
+    const review = t.skillRowDisplayState('abd-story-specification', focusId);
     const domainModel = t.skillRowDisplayState('abd-domain-model', focusId);
     expect(review.showMagnify).toBe(true);
     expect(review.showBot).toBe(false);
@@ -372,12 +372,12 @@ describe('skillRowDisplayState', () => {
   it('shows bot while executing even when stale intent still lists the skill', () => {
     const t = ticket({
       ticketId: 't7c',
-      activeSkillId: 'abd-specification-by-example',
-      executingSkillIds: ['abd-specification-by-example'],
+      activeSkillId: 'abd-story-specification',
+      executingSkillIds: ['abd-story-specification'],
       activeAgent: 'product-owner',
-      pendingIntentSkillIds: ['abd-specification-by-example'],
+      pendingIntentSkillIds: ['abd-story-specification'],
     });
-    const row = t.skillRowDisplayState('abd-specification-by-example', null);
+    const row = t.skillRowDisplayState('abd-story-specification', null);
     expect(row.showBot).toBe(true);
     expect(row.showPendingIntent).toBe(false);
   });
@@ -387,7 +387,7 @@ describe('resolveWorkingAgent', () => {
   it('returns agent only when execution is in progress', () => {
     const t = ticket({
       ticketId: 'w1',
-      activeSkillId: 'abd-specification-by-example',
+      activeSkillId: 'abd-story-specification',
       activeAgent: 'product-owner',
     });
     expect(t.workingAgent()).toBe('product-owner');
@@ -405,7 +405,7 @@ describe('resolveWorkingAgent', () => {
   it('returns reviewer only when review is in progress', () => {
     const t = ticket({
       ticketId: 'w2',
-      reviewSkillId: 'abd-specification-by-example',
+      reviewSkillId: 'abd-story-specification',
       reviewAgent: 'product-owner',
     });
     expect(t.workingAgent()).toBe('product-owner');
@@ -422,7 +422,7 @@ describe('resolveWorkingAgent', () => {
   it('returns null when execution done and only awaiting review', () => {
     const t = ticket({
       ticketId: 'w4',
-      awaitingReviewSkillId: 'abd-specification-by-example',
+      awaitingReviewSkillId: 'abd-story-specification',
     });
     expect(t.workingAgent()).toBeNull();
   });
@@ -529,7 +529,7 @@ describe('relocateScatterParents (via StageBucketLayout.build)', () => {
       scopeLevel: 'increment',
       scatterFrom: 'project-all',
       priority: 2,
-      doneSkillIds: ['abd-domain-language', 'abd-acceptance-criteria'],
+      doneSkillIds: ['abd-domain-language', 'abd-story-acceptance-criteria'],
     });
 
     const columnViews: KanbanColumnView[] = [
@@ -542,7 +542,7 @@ describe('relocateScatterParents (via StageBucketLayout.build)', () => {
         stage: 'exploration',
         skills: [
           { skillId: 'abd-domain-language', label: 'UL', family: 'domain-driven-design', role: 'business-expert' },
-          { skillId: 'abd-acceptance-criteria', label: 'AC', family: 'story-driven-delivery', role: 'product-owner' },
+          { skillId: 'abd-story-acceptance-criteria', label: 'AC', family: 'story-driven-delivery', role: 'product-owner' },
         ],
       },
     ];

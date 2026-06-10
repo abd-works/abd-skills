@@ -3,21 +3,22 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>AI Garden — abd-secure-code · rules/no-untrusted-component-sources.md</title>
-<script src="/commons/brand-nav.js?v=aigarden-4"></script>
+<title>Foundry — abd-secure-code · rules/no-untrusted-component-sources.md</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../../../commons/site.css?v=foundry-3">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
-
 /*
-  Agile Garden — AI Garden prelude + gardener lesson fragment.
+  ABD Foundry — catalog prelude + gardener lesson fragment.
   Inlined via generate_abd_catalog.py. Max border-radius 6px; flat surfaces.
-  Brand split: orange-500 (#E5531A) for column chrome / rails; ai-blue (#4FC3F7 / #81D4FA)
-  on dense mono skill links — see abd-works-brand BRAND-GUIDELINES §3.1 (ai-blue-500).
+  Brand split: --accent (#E5531A) for column chrome / rails; --ai-accent on dense
+  mono skill links (engineering mode only — executive overrides in catalog.css).
 */
 .catalog-prelude {
   margin: 0 0 24px;
   padding: 0 0 20px;
-  border-bottom: 1px solid #2A2A2A;
+  border-bottom: 1px solid var(--border);
 }
 .catalog-prelude-heading {
   margin: 0 0 12px;
@@ -26,7 +27,7 @@
   color: var(--text);
   line-height: 1.25;
   padding-bottom: 8px;
-  border-bottom: 1px solid #2A2A2A;
+  border-bottom: 1px solid var(--border);
   scroll-margin-top: 48px;
 }
 .catalog-prelude-tagline {
@@ -42,9 +43,9 @@
   margin: 0 0 18px;
 }
 .catalog-mission-card {
-  background: #1B1B20;
-  border: 1px solid #2A2A2A;
-  border-left: 3px solid #E5531A;
+  background: var(--raised);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
   border-radius: 4px;
   padding: 14px 20px;
   display: flex;
@@ -56,7 +57,7 @@
   flex-shrink: 0;
   font-size: 0.95rem;
   font-weight: 700;
-  color: #F4F4F5;
+  color: var(--text);
   margin: 0;
   white-space: nowrap;
 }
@@ -70,14 +71,14 @@
 .catalog-mission-card--teal,
 .catalog-mission-card--amber,
 .catalog-mission-card--purple {
-  background: #1B1B20;
-  border: 1px solid #2A2A2A;
-  border-left: 3px solid #E5531A;
+  background: var(--raised);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
 }
 .catalog-mission-card--teal h3,
 .catalog-mission-card--amber h3,
 .catalog-mission-card--purple h3 {
-  color: #F4F4F5;
+  color: var(--text);
 }
 @media (max-width: 720px) {
   .catalog-mission { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -94,17 +95,17 @@
   gap: 10px;
   padding: 8px 0 10px;
   margin: 24px 0 12px;
-  border-bottom: 1px solid #2A2A2A;
+  border-bottom: 1px solid var(--border);
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: #E5531A;
+  color: var(--accent);
 }
 .catalog-section-label--foundational {
   margin-top: 28px;
-  color: #8A8A97;
-  border-bottom-color: #1A1A1E;
+  color: var(--muted);
+  border-bottom-color: var(--border-muted);
 }
 
 /* ── Practice grid — all 5 disciplines forced onto one row ── */
@@ -112,8 +113,8 @@
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 1px;
-  background: #2A2A2A;
-  border: 1px solid #2A2A2A;
+  background: var(--border);
+  border: 1px solid var(--border);
   border-radius: 6px;
   overflow: hidden;
   margin: 0;
@@ -130,8 +131,8 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
   gap: 1px;
-  background: #2A2A2A;
-  border: 1px solid #2A2A2A;
+  background: var(--border);
+  border: 1px solid var(--border);
   border-radius: 6px;
   overflow: hidden;
 }
@@ -157,7 +158,7 @@
   display: block !important;
   font-size: 0.82rem;
   line-height: 1.5;
-  color: #9B9BA8;
+  color: var(--muted);
 }
 
 /* ── Agents grid — single wide column ── */
@@ -165,15 +166,15 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
   gap: 1px;
-  background: #2A2A2A;
-  border: 1px solid #2A2A2A;
+  background: var(--border);
+  border: 1px solid var(--border);
   border-radius: 6px;
   overflow: hidden;
 }
 .catalog-section-label--agents {
   margin-top: 28px;
-  color: #E5531A;
-  border-bottom-color: #2A2A2A;
+  color: var(--accent);
+  border-bottom-color: var(--border);
 }
 
 /* ── Shared column card ── */
@@ -198,7 +199,7 @@
   margin-top: 0;
 }
 .catalog-garden-col {
-  background: #111113;
+  background: var(--surface);
   border: none;
   border-radius: 0;
   overflow: hidden;
@@ -212,17 +213,17 @@
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  border-bottom: 1px solid #2A2A2A;
-  background: #1B1B20;
-  color: #E5531A;
-  border-left: 3px solid #E5531A;
+  border-bottom: 1px solid var(--border);
+  background: var(--raised);
+  color: var(--accent);
+  border-left: 3px solid var(--accent);
 }
 .catalog-garden-col-header--practice,
 .catalog-garden-col-header--foundational,
 .catalog-garden-col-header--agents {
-  background: #1B1B20;
-  color: #E5531A;
-  border-left: 3px solid #E5531A;
+  background: var(--raised);
+  color: var(--accent);
+  border-left: 3px solid var(--accent);
 }
 .catalog-garden-ico { flex-shrink: 0; display: block; }
 .catalog-garden-row {
@@ -230,11 +231,11 @@
   align-items: center;
   gap: 10px;
   padding: 6px 16px;
-  border-bottom: 1px solid #1A1A1E;
+  border-bottom: 1px solid var(--border-muted);
   font-size: 0.85rem;
 }
 .catalog-garden-row:last-child { border-bottom: none; }
-/* Skill/agent links — mono names stay near-white; ai-blue hairline/hover (brand AI accent, not orange wall) */
+/* Skill/agent links — mono names; ai-accent on dark (engineering mode) */
 .catalog-garden-name {
   font-weight: 700;
   font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
@@ -242,12 +243,11 @@
   min-width: 0;
   overflow-wrap: anywhere;
   word-break: break-word;
-  color: #4FC3F7;
+  color: var(--ai-accent);
 }
-/* !important beats global `a { … }`, :visited, and concatenation order */
 .catalog-prelude .catalog-garden-name a,
 .catalog-garden-lists .catalog-garden-name a {
-  color: #4FC3F7 !important;
+  color: var(--ai-accent) !important;
   font-weight: 700 !important;
   text-decoration: none !important;
   border-bottom: 1px solid rgba(79, 195, 247, 0.3);
@@ -256,19 +256,19 @@
 .catalog-prelude .catalog-garden-name a:focus-visible,
 .catalog-garden-lists .catalog-garden-name a:hover,
 .catalog-garden-lists .catalog-garden-name a:focus-visible {
-  color: #81D4FA !important;
+  color: var(--ai-accent-soft) !important;
   border-bottom-color: rgba(79, 195, 247, 0.95);
 }
 .catalog-garden-name--agent a,
 .catalog-garden-name--foundational a {
-  color: #4FC3F7 !important;
+  color: var(--ai-accent) !important;
   border-bottom: 1px solid rgba(79, 195, 247, 0.3);
 }
 .catalog-garden-name--agent a:hover,
 .catalog-garden-name--agent a:focus-visible,
 .catalog-garden-name--foundational a:hover,
 .catalog-garden-name--foundational a:focus-visible {
-  color: #81D4FA !important;
+  color: var(--ai-accent-soft) !important;
   border-bottom-color: rgba(79, 195, 247, 0.92);
 }
 .catalog-garden-name--dim {
@@ -286,109 +286,216 @@
 .catalog-garden-desc--muted { opacity: 0.5; }
 
 :root {
-  /* Primary accent — borders, nav “you are here”; keep saturated */
-  --orange:       #E5531A;
-  --orange-hover: #C64514;
-  /* Brand ai-blue (BRAND-GUIDELINES §3.1) — dense skill listings + card hover cue */
-  --ai-blue-500:  #4FC3F7;
-  --ai-blue-300:  #81D4FA;
-  /* Body links — soft orange (prose); garden grid uses ai-blue in agile-garden-fragment.css */
+  --radius:       6px;
   --link-soft:        #FFB380;
   --link-soft-hover:  #FFCCA3;
-  --link-muted:       #F2A07A;
-  --bg:           #0B0B0B;
-  --surface:      #111113;
-  --raised:       #1B1B20;
-  --border:       #2A2A2A;
-  --border-muted: #1e1e22;
-  --text:         #F4F4F5;
-  --muted:        #9B9BA8;
-  --radius:       6px;
-  --font-sans:    'Inter', system-ui, sans-serif;
-  --font-mono:    'JetBrains Mono', ui-monospace, monospace;
+  --link-muted:       var(--accent-soft);
+  --orange:       var(--accent);
+  --orange-hover: var(--accent-deep);
+  --ai-blue-500:  var(--ai-accent);
+  --ai-blue-300:  #81D4FA;
 }
-*, *::before, *::after { box-sizing: border-box; }
-body {
-  background: var(--bg);
-  color: var(--text);
-  margin: 0;
-  font-family: var(--font-sans);
-  font-size: 15px;
-  line-height: 1.65;
-  -webkit-font-smoothing: antialiased;
-}
-a { color: var(--link-muted); text-decoration: none; transition: color 120ms ease; }
-a:hover { color: var(--link-soft-hover); text-decoration: none; }
 
-/* Wayfinding stays strong accent */
-.nav a.nav__link--current {
-  color: var(--orange) !important;
+/* Foundry catalog — content styles (nav + page hero from abd-works-website/css/site.css) */
+
+/* Hub hero — title left, Practice legend right (vertical stack, content-sized) */
+.page-hero__table {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  margin-bottom: 0;
+  table-layout: auto;
 }
+
+.page-hero__cell {
+  vertical-align: top;
+  padding: 0;
+}
+
+.page-hero__cell--title {
+  width: auto;
+  padding-right: 48px;
+}
+
+.page-hero__cell--title .page-headline {
+  margin: 0 0 20px;
+}
+
+.page-hero__cell--title .body-lead {
+  margin-bottom: 0;
+  max-width: 640px;
+}
+
+.page-hero__cell--practice {
+  width: 1%;
+  white-space: nowrap;
+  padding-top: 0.35em;
+}
+
+.page-hero__cell--practice .kanban-legend-row {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+  margin: 0;
+}
+
+.page-hero__cell--practice .kanban-legend-heading {
+  margin: 0;
+  padding: 0;
+  white-space: nowrap;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.page-hero__cell--practice .kanban-legend-cards {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 8px;
+  min-width: max-content;
+}
+
+/* Visible outside .kb-slide — natural chip width, no squish */
+.page-hero__cell--practice .kanban-legend-cards .kb-ticket.aad-skill {
+  opacity: 1;
+  transform: none;
+  filter: none;
+  display: block;
+  width: auto;
+  white-space: nowrap;
+  font-size: 11px;
+  padding: 6px 10px;
+  line-height: 1.3;
+  text-align: left;
+}
+
+.page-hero__cell--practice .kanban-legend-cards .kb-ticket.aad-skill.aad-fam-ddd {
+  border-left-color: #6C5CE7;
+}
+
+.page-hero__cell--practice .kanban-legend-cards .kb-ticket.aad-skill.aad-fam-uxd {
+  border-left-color: #E84393;
+}
+
+.page-hero__cell--practice .kanban-legend-cards .kb-ticket.aad-skill.aad-fam-sdd {
+  border-left-color: #6BCB77;
+}
+
+.page-hero__cell--practice .kanban-legend-cards .kb-ticket.aad-skill.aad-fam-arc {
+  border-left-color: var(--abd-blue, #4FC3F7);
+}
+
+@media (max-width: 960px) {
+  .page-hero__table,
+  .page-hero__table tbody,
+  .page-hero__table tr,
+  .page-hero__table td {
+    display: block;
+    width: 100%;
+  }
+
+  .page-hero__cell--title {
+    padding-right: 0;
+    margin-bottom: 12px;
+  }
+
+  .page-hero__cell--practice {
+    width: 100%;
+    white-space: normal;
+    padding-top: 0;
+  }
+
+  .page-hero__cell--practice .kanban-legend-row {
+    align-items: flex-start;
+  }
+
+  .page-hero__cell--practice .kanban-legend-cards {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .page-hero__cell--practice .kanban-legend-cards .kb-ticket.aad-skill {
+    white-space: normal;
+    width: 100%;
+  }
+}
+
+/* Nav: marketing site links + Foundry section (catalog-nav.js) */
+.nav-links__sep {
+  width: 1px;
+  height: 1.1em;
+  align-self: center;
+  background: var(--border);
+  margin: 0 6px;
+  padding: 0;
+  list-style: none;
+  pointer-events: none;
+}
+.nav-links a.nav-links__foundry,
+.nav-drawer-links a.nav-links__foundry {
+  opacity: 0.88;
+}
+
 strong { font-weight: 600; }
-code {
+
+.catalog-body {
+  padding-bottom: 96px;
+}
+
+.catalog-body .wrap {
+  max-width: 1400px;
+}
+
+.catalog-body code {
   font-family: var(--font-mono);
   font-size: 0.875em;
   background: rgba(255,255,255,0.06);
   padding: 2px 5px;
   border-radius: 3px;
-  color: #F2A07A;
+  color: var(--accent-soft);
 }
 
-/* ── Page layout ── */
-.page-wrap {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 48px clamp(16px, 4vw, 48px) 96px;
+html[data-theme="engineering"] .catalog-body code,
+html[data-abd-theme="engineering"] .catalog-body code {
+  background: rgba(255,255,255,0.06);
 }
 
-/* ── Panel / legacy wrapper — flatten to plain surface ── */
-.panel {
-  background: transparent;
-  border: none;
-  border-radius: 0;
-  overflow: visible;
+html:not([data-theme="engineering"]) .catalog-body code,
+html[data-abd-theme="executive"] .catalog-body code {
+  background: rgba(0, 0, 0, 0.06);
 }
 
-/* ── Page header (replaces old panel-header) ── */
-.panel-header {
-  margin-bottom: 40px;
-  padding-bottom: 32px;
-  border-bottom: 1px solid var(--border);
-  border-left: none;
-  background: transparent;
-  display: block;
+.page-hero--detail {
+  padding-top: 48px;
 }
 
-.header-icon { display: none; }
-
-.header-text { display: block; }
-.brand { display: none; }
-.brand-row { display: none; }
-.brand-row .brand { display: none; }
-.brand-row .cap-badge { display: none; }
-
-h1 {
-  margin: 0 0 10px;
-  font-size: clamp(28px, 4vw, 42px);
-  font-weight: 800;
-  letter-spacing: -0.03em;
-  line-height: 1.1;
-  color: var(--text);
-  font-family: var(--font-sans);
-}
-
-.tagline {
-  margin: 0;
-  font-size: 15px;
+.page-hero--detail .back-link {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
   color: var(--muted);
-  max-width: 540px;
-  line-height: 1.65;
-  font-family: var(--font-sans);
+  margin-bottom: 16px;
 }
 
-.panel-body { padding: 0; }
-p { margin: 0 0 14px; }
-h2 {
+.page-hero--detail .back-link:hover {
+  color: var(--accent);
+}
+
+.page-hero--detail .s-name {
+  margin-bottom: 12px;
+}
+
+.catalog-body p { margin: 0 0 14px; }
+
+.catalog-body h2 {
   font-size: 1.2rem;
   font-weight: 700;
   margin: 32px 0 14px;
@@ -396,29 +503,8 @@ h2 {
   border-bottom: 1px solid var(--border);
   color: var(--text);
 }
-h2:first-child { margin-top: 0; }
-.nav {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px 18px;
-  margin: 0 0 18px;
-  padding: 0 0 14px;
-  border-bottom: 1px solid var(--border-muted);
-}
-.nav a {
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: var(--muted);
-}
-.nav a.nav__link--current {
-  pointer-events: none;
-}
-/* Kanban is a different experience (full-screen deck) — keep it last and visually apart */
-.nav a.nav__link--kanban {
-  margin-left: auto;
-  padding-left: 18px;
-  border-left: 1px solid var(--border-muted);
-}
+
+.catalog-body h2:first-child { margin-top: 0; }
 .cap-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -426,44 +512,64 @@ h2:first-child { margin-top: 0; }
   margin: 18px 0 0;
 }
 .cap-card {
+  position: relative;
   display: block;
   text-decoration: none;
-  background: var(--raised);
+  background: var(--surface);
   border: 1px solid var(--border);
-  border-left: 3px solid var(--orange);
+  border-left: 3px solid var(--accent);
   border-radius: var(--radius);
   padding: 16px 18px;
-  transition: background 0.15s, border-color 0.15s;
+  overflow: hidden;
+  transition: background 200ms cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 200ms cubic-bezier(0.16, 1, 0.3, 1);
   cursor: pointer;
+}
+.cap-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 a.cap-card {
   color: var(--muted);
 }
 .cap-card:hover {
-  background: rgba(79, 195, 247, 0.06);
-  border-color: rgba(79, 195, 247, 0.32);
+  background: var(--raised);
+  border-color: var(--accent-soft);
   text-decoration: none;
+}
+.cap-card:hover::before {
+  transform: scaleX(1);
 }
 .cap-card__title {
   font-size: 0.97rem;
   font-weight: 700;
-  color: #F4F4F5;
+  color: var(--text);
   margin: 0 0 12px;
   display: flex;
   align-items: center;
   gap: 10px;
+  transition: color 200ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 a.cap-card:hover .cap-card__title {
-  color: var(--ai-blue-300);
+  color: var(--accent);
 }
 .cap-card__icon {
   flex-shrink: 0;
   width: 24px;
   height: 24px;
-  color: rgba(79, 195, 247, 0.72);
+  color: var(--muted);
+  transition: color 200ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 a.cap-card:hover .cap-card__icon {
-  color: var(--ai-blue-500);
+  color: var(--accent-soft);
 }
 .cap-card__label {
   font-size: 0.72rem;
@@ -477,9 +583,12 @@ a.cap-card:hover .cap-card__icon {
 .cap-card__meta { font-size: 0.75rem; color: var(--muted); font-family: var(--font-mono, 'JetBrains Mono', monospace); margin: 0 0 8px; opacity: 0.85; }
 .cap-card__more {
   font-size: 0.78rem;
-  color: rgba(79, 195, 247, 0.82);
+  color: var(--muted);
   opacity: 1;
   margin: 10px 0 0;
+}
+a.cap-card:hover .cap-card__more {
+  color: var(--accent-soft);
 }
 
 /* Entry detail pages (skill/*.html, agent/*.html) — overview-style */
@@ -490,7 +599,7 @@ a.cap-card:hover .cap-card__icon {
   margin: 0 0 10px;
 }
 .entry-detail-header .back-link:hover {
-  color: var(--orange);
+  color: var(--accent);
 }
 .cap-badge {
   display: inline-flex;
@@ -500,9 +609,9 @@ a.cap-card:hover .cap-card__icon {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: var(--orange);
-  background: rgba(255, 122, 0, 0.08);
-  border: 1px solid rgba(255, 122, 0, 0.25);
+  color: var(--accent);
+  background: rgba(229, 83, 26, 0.08);
+  border: 1px solid rgba(229, 83, 26, 0.25);
   border-radius: 3px;
   padding: 2px 8px;
   margin: 0 0 8px;
@@ -511,6 +620,12 @@ a.cap-card:hover .cap-card__icon {
   font-size: 0.9rem;
   color: var(--muted);
   margin: 0 0 12px;
+}
+.entry-subheading {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
+  margin: 18px 0 8px;
 }
 .entry-prose {
   white-space: pre-wrap;
@@ -556,7 +671,7 @@ a.cap-card:hover .cap-card__icon {
   font-weight: 800;
   font-size: 1.05em;
   line-height: 1.35;
-  color: var(--orange);
+  color: var(--accent);
 }
 .entry-md-section[open] > summary.entry-md-section__summary::before {
   content: "-";
@@ -622,7 +737,7 @@ a.cap-card:hover .cap-card__icon {
   background: rgba(0, 0, 0, 0.2);
   border: 1px solid var(--border-muted);
   border-radius: var(--radius);
-  border-left: 3px solid var(--orange);
+  border-left: 3px solid var(--accent);
 }
 .install-block h2 {
   margin-top: 0;
@@ -742,13 +857,13 @@ a.cap-card:hover .cap-card__icon {
   font-weight: 800;
   font-size: 1.05em;
   line-height: 1.35;
-  color: var(--orange);
+  color: var(--accent);
 }
 .file-tree__details[open] > .file-tree__summary::before {
   content: "-";
 }
 .file-tree__summary:hover {
-  background: rgba(255, 122, 0, 0.06);
+  background: rgba(229, 83, 26, 0.06);
 }
 .file-tree__summary .file-meta {
   display: inline;
@@ -775,7 +890,23 @@ a.cap-card:hover .cap-card__icon {
   margin-top: 4px;
 }
 
-/* Agile Garden prelude + mission + lists: abd-works/commons/agile-garden-fragment.css (prepended by generate_abd_catalog.py) */
+/* Foundry prelude + mission + lists: abd-works/commons/agile-garden-fragment.css (prepended by generate_abd_catalog.py) */
+
+/* Executive mode — AI blue fails contrast on light; skill links use accent */
+html[data-abd-theme="executive"] .catalog-prelude .catalog-garden-name a,
+html[data-abd-theme="executive"] .catalog-garden-lists .catalog-garden-name a,
+html[data-abd-theme="executive"] .catalog-garden-name--agent a,
+html[data-abd-theme="executive"] .catalog-garden-name--foundational a {
+  color: var(--accent-deep) !important;
+  border-bottom-color: rgba(198, 69, 20, 0.35);
+}
+html[data-abd-theme="executive"] .catalog-prelude .catalog-garden-name a:hover,
+html[data-abd-theme="executive"] .catalog-garden-lists .catalog-garden-name a:hover,
+html[data-abd-theme="executive"] .catalog-garden-name--agent a:hover,
+html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
+  color: var(--accent) !important;
+  border-bottom-color: rgba(229, 83, 26, 0.55);
+}
 
 /* Single-page hub (index.html): collapsible hub / skills / agents */
 .catalog-section {
@@ -895,12 +1026,12 @@ a.cap-card:hover .cap-card__icon {
   vertical-align: top;
 }
 .rule-prose table.md-table th {
-  background: rgba(255, 122, 0, 0.08);
+  background: rgba(229, 83, 26, 0.08);
   font-weight: 600;
   white-space: nowrap;
 }
-.rule-prose table.md-table td { background: var(--panel); }
-.rule-prose a { color: var(--accent, #ff7a00); text-decoration: underline; }
+.rule-prose table.md-table td { background: var(--surface); }
+.rule-prose a { color: var(--accent); text-decoration: underline; }
 .rule-prose a:hover { text-decoration: none; }
 
 .plugin-slots h3 {
@@ -911,30 +1042,22 @@ a.cap-card:hover .cap-card__icon {
 .cap-grid--plugin-slot { margin-bottom: 8px; }
 
 </style>
+<script src="../../../../commons/catalog-nav.js?v=foundry-5"></script>
 </head>
-<body>
-<div class="page-wrap">
-<div class="panel" role="main">
+<body data-nav-prefix="../../../../" data-nav-current="skills" data-nav-site-base="../../../../../../abd-works-website/">
+<main id="main-content">
 
-<header class="panel-header entry-detail-header">
-  <div class="header-text">
-    <p class="brand"><strong>abd.works</strong> &middot; AI Garden</p>
+<div class="page-hero page-hero--detail">
+  <div class="wrap">
     <a class="back-link" href="../../../../skill/abd-secure-code.html">← abd-secure-code</a>
-    <p class="cap-badge">Rule</p>
-    <h1>rules/no-untrusted-component-sources.md</h1>
-    <p class="tagline">scanner: no_untrusted_component_sources_scanner.py</p>
+    <p class="s-name">Rule</p>
+    <h1 class="page-headline">rules/no-untrusted-component-sources.md</h1>
+    <p class="body-lead">scanner: no_untrusted_component_sources_scanner.py</p>
   </div>
-</header>
+</div>
 
-<div class="panel-body">
-
-<nav class="nav" aria-label="AI Garden sections">
-  <a href="../../../../index.html" class="nav__link">Complete</a>
-  <a href="../../../../skills.html" class="nav__link nav__link--current">Skills</a>
-  <a href="../../../../agents.html" class="nav__link">Agents</a>
-  <a href="../../../../instructions.html" class="nav__link">Instructions</a>
-  <a href="../../../../kanban-layout/index.html" class="nav__link nav__link--kanban">Delivery kanban</a>
-</nav>
+<div class="catalog-body">
+<div class="wrap">
 
 <h2>Content</h2>
 <div class="rule-prose"><h1>Rule: No untrusted component sources</h1>
@@ -967,6 +1090,6 @@ a.cap-card:hover .cap-card__icon {
 
 </div>
 </div>
-</div>
+</main>
 </body>
 </html>

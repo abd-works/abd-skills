@@ -8,6 +8,8 @@ from pathlib import Path
 from typing import NamedTuple
 from urllib.parse import quote
 
+from catalog_supporting_groups import SKILL_TO_SUPPORTING_GROUP, SUPPORTING_CROSSCUT_GROUPS
+
 # Plugin packages: id -> relative path from repo root.
 # Flat packages live at root (e.g. "utilities"); nested packages live under
 # a parent tier folder (e.g. "practices/kanban").
@@ -17,7 +19,7 @@ FAMILY_PACKAGES: dict[str, str] = {
     "domain-driven-design": "practices/domain-driven-design",
     "architecture-centric-engineering": "practices/architecture-centric-engineering",
     "idea-shaping": "practices/idea-shaping",
-    "user-experience-design": "practices/kanban/user-experience-design",
+    "user-experience-design": "practices/user-experience-design",
     "context-to-memory": "foundational/context-to-memory",
     "skill-builder": "foundational/skill-builder",
     "skill-helpers": "foundational/skill-helpers",
@@ -57,7 +59,11 @@ PLUGIN_SLOT_SHORT_LABELS: dict[str, str] = {
 
 PLUGIN_SLOT_CAPTIONS: dict[str, str] = {
     "agents": "Orchestrators shipped as agent packages.",
-    "skills": "Practice skills with rules, templates, and scanners.",
+    "skills": (
+        "Core practice skills drive stage work. Supporting skills live under "
+        "<code>skills/supporting/</code> (sync, ops, diagram tooling) — listed below "
+        "but omitted from the delivery kanban grid."
+    ),
     "instructions": "Always-on or scoped rules merged into .cursor/rules on deploy.",
     "prompts": "Slash commands merged into .cursor/commands on deploy.",
 }
@@ -72,6 +78,7 @@ class FamilySlotEntry(NamedTuple):
     entry_kind: str  # agent | skill | file | dir
     entry_file: str = ""
     summary: str = ""
+    skill_tier: str = ""  # core | supporting (skills slot only)
 
 
 class FamilyPackageEntry(NamedTuple):
@@ -182,6 +189,23 @@ def _scan_slot(repo_root: Path, family_id: str, slot: str, *, family_path: str |
         for child in sorted(slot_dir.iterdir(), key=lambda p: p.name.lower()):
             if not child.is_dir() or child.name.startswith("."):
                 continue
+            if child.name == "supporting":
+                supporting_dir = child
+                for nested in sorted(supporting_dir.iterdir(), key=lambda p: p.name.lower()):
+                    if not nested.is_dir() or nested.name.startswith("."):
+                        continue
+                    if not (nested / "SKILL.md").is_file():
+                        continue
+                    out.append(
+                        FamilySlotEntry(
+                            name=nested.name,
+                            rel_path=nested.relative_to(repo_root).as_posix(),
+                            entry_kind="skill",
+                            entry_file="SKILL.md",
+                            skill_tier="supporting",
+                        )
+                    )
+                continue
             if not (child / "SKILL.md").is_file():
                 continue
             out.append(
@@ -190,6 +214,7 @@ def _scan_slot(repo_root: Path, family_id: str, slot: str, *, family_path: str |
                     rel_path=child.relative_to(repo_root).as_posix(),
                     entry_kind="skill",
                     entry_file="SKILL.md",
+                    skill_tier="core",
                 )
             )
         return out
@@ -315,12 +340,33 @@ def outline_families_section(
             lines.append("")
             if not items:
                 lines.append(f"- _(empty `{fam.id}/{slot}/`)_")
-            elif slot in ("agents", "skills"):
+            elif slot == "agents":
                 for it in items:
                     entry = it.entry_file or "—"
                     lines.append(
                         f"- **{it.name}** — [{entry}]({md_prefix}{it.rel_path}/{entry})"
                     )
+            elif slot == "skills":
+                core = [it for it in items if it.skill_tier != "supporting"]
+                supporting = [it for it in items if it.skill_tier == "supporting"]
+                if core:
+                    lines.append("**Core skills**")
+                    lines.append("")
+                    for it in core:
+                        entry = it.entry_file or "—"
+                        lines.append(
+                            f"- **{it.name}** — [{entry}]({md_prefix}{it.rel_path}/{entry})"
+                        )
+                    lines.append("")
+                if supporting:
+                    lines.append("**Supporting skills** (`skills/supporting/`)")
+                    lines.append("")
+                    for it in supporting:
+                        entry = it.entry_file or "—"
+                        lines.append(
+                            f"- **{it.name}** — [{entry}]({md_prefix}{it.rel_path}/{entry})"
+                        )
+                    lines.append("")
             elif slot in ("instructions", "prompts"):
                 for it in items:
                     slug = artifact_slug(fam.id, slot, it.name)
@@ -360,6 +406,40 @@ def card_block_plugins(families: list[FamilyPackageEntry]) -> str:
         </a>"""
         )
     return "\n".join(parts)
+
+
+def _skill_tier_groups(
+    items: list[FamilySlotEntry],
+) -> tuple[list[FamilySlotEntry], list[FamilySlotEntry]]:
+    core = [it for it in items if it.skill_tier != "supporting"]
+    supporting = [it for it in items if it.skill_tier == "supporting"]
+    return core, supporting
+
+
+def _html_skill_card_grid(
+    items: list[FamilySlotEntry],
+    *,
+    skill_href: Callable[[str], str],
+    skill_summary: Callable[[str], str] | None,
+    meta_label: str,
+) -> str:
+    if not items:
+        return ""
+    cards: list[str] = ['<div class="cap-grid cap-grid--plugin-slot">']
+    for it in items:
+        detail = skill_href(it.name)
+        summary = (skill_summary(it.name) if skill_summary else "") or it.name
+        cards.append(
+            _artifact_card(
+                href=detail,
+                title=it.name,
+                summary=summary,
+                meta=meta_label,
+                more="Open skill page →",
+            )
+        )
+    cards.append("</div>")
+    return "\n".join(cards)
 
 
 def _artifact_card(
@@ -434,21 +514,63 @@ def html_plugin_slot_sections(
             continue
 
         if slot in PLUGIN_CARD_SLOTS:
-            cards: list[str] = ['<div class="cap-grid cap-grid--plugin-slot">']
-            for it in items:
-                if slot == "skills":
-                    detail = skill_href(it.name)
-                    summary = (skill_summary(it.name) if skill_summary else "") or it.name
-                    cards.append(
-                        _artifact_card(
-                            href=detail,
-                            title=it.name,
-                            summary=summary,
-                            meta="Skill",
-                            more="Open skill page →",
+            if slot == "skills":
+                core, supporting = _skill_tier_groups(items)
+                skill_blocks: list[str] = []
+                if core:
+                    skill_blocks.append(
+                        _html_skill_card_grid(
+                            core,
+                            skill_href=skill_href,
+                            skill_summary=skill_summary,
+                            meta_label="Core skill",
                         )
                     )
-                elif slot == "agents":
+                if supporting:
+                    skill_blocks.append(
+                        '<h4 class="entry-subheading">Supporting skills</h4>'
+                        '<p class="entry-caption">Under <code>skills/supporting/</code> — '
+                        "background sync, ops, and diagram tooling; omitted from the delivery kanban.</p>"
+                    )
+                    grouped: dict[str, list[FamilySlotEntry]] = {}
+                    ungrouped: list[FamilySlotEntry] = []
+                    for it in supporting:
+                        group_id = SKILL_TO_SUPPORTING_GROUP.get(it.name)
+                        if group_id:
+                            grouped.setdefault(group_id, []).append(it)
+                        else:
+                            ungrouped.append(it)
+                    for group_id, group_label, _plugin, _skills in SUPPORTING_CROSSCUT_GROUPS:
+                        items = grouped.get(group_id, [])
+                        if not items:
+                            continue
+                        skill_blocks.append(
+                            f'<h5 class="entry-subheading entry-subheading--supporting-group">'
+                            f"{html_mod.escape(group_label)}</h5>"
+                        )
+                        skill_blocks.append(
+                            _html_skill_card_grid(
+                                items,
+                                skill_href=skill_href,
+                                skill_summary=skill_summary,
+                                meta_label="Supporting skill",
+                            )
+                        )
+                    if ungrouped:
+                        skill_blocks.append(
+                            _html_skill_card_grid(
+                                ungrouped,
+                                skill_href=skill_href,
+                                skill_summary=skill_summary,
+                                meta_label="Supporting skill",
+                            )
+                        )
+                sections.append("\n".join(skill_blocks))
+                continue
+
+            cards: list[str] = ['<div class="cap-grid cap-grid--plugin-slot">']
+            for it in items:
+                if slot == "agents":
                     detail = agent_href(it.name)
                     summary = (agent_summary(it.name) if agent_summary else "") or it.name
                     cards.append(

@@ -91,17 +91,17 @@
     "family": "delivery",
     "label": "kanban estimation"
   },
-  "abd-acceptance-criteria": {
+  "abd-story-acceptance-criteria": {
     "family": "story-driven-delivery",
     "label": "acceptance criteria"
   },
-  "abd-acceptance-test-driven-development": {
+  "abd-story-acceptance-test": {
     "family": "story-driven-delivery",
-    "label": "acceptance test driven development"
+    "label": "story acceptance test"
   },
-  "abd-specification-by-example": {
+  "abd-story-specification": {
     "family": "story-driven-delivery",
-    "label": "specification by example"
+    "label": "story specification"
   },
   "abd-story-mapping": {
     "family": "story-driven-delivery",

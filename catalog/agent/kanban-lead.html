@@ -3,21 +3,22 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>AI Garden — agent · kanban-lead</title>
-<script src="/commons/brand-nav.js?v=aigarden-4"></script>
+<title>Foundry — agent · kanban-lead</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../commons/site.css?v=foundry-3">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
-
 /*
-  Agile Garden — AI Garden prelude + gardener lesson fragment.
+  ABD Foundry — catalog prelude + gardener lesson fragment.
   Inlined via generate_abd_catalog.py. Max border-radius 6px; flat surfaces.
-  Brand split: orange-500 (#E5531A) for column chrome / rails; ai-blue (#4FC3F7 / #81D4FA)
-  on dense mono skill links — see abd-works-brand BRAND-GUIDELINES §3.1 (ai-blue-500).
+  Brand split: --accent (#E5531A) for column chrome / rails; --ai-accent on dense
+  mono skill links (engineering mode only — executive overrides in catalog.css).
 */
 .catalog-prelude {
   margin: 0 0 24px;
   padding: 0 0 20px;
-  border-bottom: 1px solid #2A2A2A;
+  border-bottom: 1px solid var(--border);
 }
 .catalog-prelude-heading {
   margin: 0 0 12px;
@@ -26,7 +27,7 @@
   color: var(--text);
   line-height: 1.25;
   padding-bottom: 8px;
-  border-bottom: 1px solid #2A2A2A;
+  border-bottom: 1px solid var(--border);
   scroll-margin-top: 48px;
 }
 .catalog-prelude-tagline {
@@ -42,9 +43,9 @@
   margin: 0 0 18px;
 }
 .catalog-mission-card {
-  background: #1B1B20;
-  border: 1px solid #2A2A2A;
-  border-left: 3px solid #E5531A;
+  background: var(--raised);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
   border-radius: 4px;
   padding: 14px 20px;
   display: flex;
@@ -56,7 +57,7 @@
   flex-shrink: 0;
   font-size: 0.95rem;
   font-weight: 700;
-  color: #F4F4F5;
+  color: var(--text);
   margin: 0;
   white-space: nowrap;
 }
@@ -70,14 +71,14 @@
 .catalog-mission-card--teal,
 .catalog-mission-card--amber,
 .catalog-mission-card--purple {
-  background: #1B1B20;
-  border: 1px solid #2A2A2A;
-  border-left: 3px solid #E5531A;
+  background: var(--raised);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
 }
 .catalog-mission-card--teal h3,
 .catalog-mission-card--amber h3,
 .catalog-mission-card--purple h3 {
-  color: #F4F4F5;
+  color: var(--text);
 }
 @media (max-width: 720px) {
   .catalog-mission { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -94,17 +95,17 @@
   gap: 10px;
   padding: 8px 0 10px;
   margin: 24px 0 12px;
-  border-bottom: 1px solid #2A2A2A;
+  border-bottom: 1px solid var(--border);
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: #E5531A;
+  color: var(--accent);
 }
 .catalog-section-label--foundational {
   margin-top: 28px;
-  color: #8A8A97;
-  border-bottom-color: #1A1A1E;
+  color: var(--muted);
+  border-bottom-color: var(--border-muted);
 }
 
 /* ── Practice grid — all 5 disciplines forced onto one row ── */
@@ -112,8 +113,8 @@
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 1px;
-  background: #2A2A2A;
-  border: 1px solid #2A2A2A;
+  background: var(--border);
+  border: 1px solid var(--border);
   border-radius: 6px;
   overflow: hidden;
   margin: 0;
@@ -130,8 +131,8 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
   gap: 1px;
-  background: #2A2A2A;
-  border: 1px solid #2A2A2A;
+  background: var(--border);
+  border: 1px solid var(--border);
   border-radius: 6px;
   overflow: hidden;
 }
@@ -157,7 +158,7 @@
   display: block !important;
   font-size: 0.82rem;
   line-height: 1.5;
-  color: #9B9BA8;
+  color: var(--muted);
 }
 
 /* ── Agents grid — single wide column ── */
@@ -165,15 +166,15 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
   gap: 1px;
-  background: #2A2A2A;
-  border: 1px solid #2A2A2A;
+  background: var(--border);
+  border: 1px solid var(--border);
   border-radius: 6px;
   overflow: hidden;
 }
 .catalog-section-label--agents {
   margin-top: 28px;
-  color: #E5531A;
-  border-bottom-color: #2A2A2A;
+  color: var(--accent);
+  border-bottom-color: var(--border);
 }
 
 /* ── Shared column card ── */
@@ -198,7 +199,7 @@
   margin-top: 0;
 }
 .catalog-garden-col {
-  background: #111113;
+  background: var(--surface);
   border: none;
   border-radius: 0;
   overflow: hidden;
@@ -212,17 +213,17 @@
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  border-bottom: 1px solid #2A2A2A;
-  background: #1B1B20;
-  color: #E5531A;
-  border-left: 3px solid #E5531A;
+  border-bottom: 1px solid var(--border);
+  background: var(--raised);
+  color: var(--accent);
+  border-left: 3px solid var(--accent);
 }
 .catalog-garden-col-header--practice,
 .catalog-garden-col-header--foundational,
 .catalog-garden-col-header--agents {
-  background: #1B1B20;
-  color: #E5531A;
-  border-left: 3px solid #E5531A;
+  background: var(--raised);
+  color: var(--accent);
+  border-left: 3px solid var(--accent);
 }
 .catalog-garden-ico { flex-shrink: 0; display: block; }
 .catalog-garden-row {
@@ -230,11 +231,11 @@
   align-items: center;
   gap: 10px;
   padding: 6px 16px;
-  border-bottom: 1px solid #1A1A1E;
+  border-bottom: 1px solid var(--border-muted);
   font-size: 0.85rem;
 }
 .catalog-garden-row:last-child { border-bottom: none; }
-/* Skill/agent links — mono names stay near-white; ai-blue hairline/hover (brand AI accent, not orange wall) */
+/* Skill/agent links — mono names; ai-accent on dark (engineering mode) */
 .catalog-garden-name {
   font-weight: 700;
   font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
@@ -242,12 +243,11 @@
   min-width: 0;
   overflow-wrap: anywhere;
   word-break: break-word;
-  color: #4FC3F7;
+  color: var(--ai-accent);
 }
-/* !important beats global `a { … }`, :visited, and concatenation order */
 .catalog-prelude .catalog-garden-name a,
 .catalog-garden-lists .catalog-garden-name a {
-  color: #4FC3F7 !important;
+  color: var(--ai-accent) !important;
   font-weight: 700 !important;
   text-decoration: none !important;
   border-bottom: 1px solid rgba(79, 195, 247, 0.3);
@@ -256,19 +256,19 @@
 .catalog-prelude .catalog-garden-name a:focus-visible,
 .catalog-garden-lists .catalog-garden-name a:hover,
 .catalog-garden-lists .catalog-garden-name a:focus-visible {
-  color: #81D4FA !important;
+  color: var(--ai-accent-soft) !important;
   border-bottom-color: rgba(79, 195, 247, 0.95);
 }
 .catalog-garden-name--agent a,
 .catalog-garden-name--foundational a {
-  color: #4FC3F7 !important;
+  color: var(--ai-accent) !important;
   border-bottom: 1px solid rgba(79, 195, 247, 0.3);
 }
 .catalog-garden-name--agent a:hover,
 .catalog-garden-name--agent a:focus-visible,
 .catalog-garden-name--foundational a:hover,
 .catalog-garden-name--foundational a:focus-visible {
-  color: #81D4FA !important;
+  color: var(--ai-accent-soft) !important;
   border-bottom-color: rgba(79, 195, 247, 0.92);
 }
 .catalog-garden-name--dim {
@@ -286,109 +286,216 @@
 .catalog-garden-desc--muted { opacity: 0.5; }
 
 :root {
-  /* Primary accent — borders, nav “you are here”; keep saturated */
-  --orange:       #E5531A;
-  --orange-hover: #C64514;
-  /* Brand ai-blue (BRAND-GUIDELINES §3.1) — dense skill listings + card hover cue */
-  --ai-blue-500:  #4FC3F7;
-  --ai-blue-300:  #81D4FA;
-  /* Body links — soft orange (prose); garden grid uses ai-blue in agile-garden-fragment.css */
+  --radius:       6px;
   --link-soft:        #FFB380;
   --link-soft-hover:  #FFCCA3;
-  --link-muted:       #F2A07A;
-  --bg:           #0B0B0B;
-  --surface:      #111113;
-  --raised:       #1B1B20;
-  --border:       #2A2A2A;
-  --border-muted: #1e1e22;
-  --text:         #F4F4F5;
-  --muted:        #9B9BA8;
-  --radius:       6px;
-  --font-sans:    'Inter', system-ui, sans-serif;
-  --font-mono:    'JetBrains Mono', ui-monospace, monospace;
+  --link-muted:       var(--accent-soft);
+  --orange:       var(--accent);
+  --orange-hover: var(--accent-deep);
+  --ai-blue-500:  var(--ai-accent);
+  --ai-blue-300:  #81D4FA;
 }
-*, *::before, *::after { box-sizing: border-box; }
-body {
-  background: var(--bg);
-  color: var(--text);
-  margin: 0;
-  font-family: var(--font-sans);
-  font-size: 15px;
-  line-height: 1.65;
-  -webkit-font-smoothing: antialiased;
-}
-a { color: var(--link-muted); text-decoration: none; transition: color 120ms ease; }
-a:hover { color: var(--link-soft-hover); text-decoration: none; }
 
-/* Wayfinding stays strong accent */
-.nav a.nav__link--current {
-  color: var(--orange) !important;
+/* Foundry catalog — content styles (nav + page hero from abd-works-website/css/site.css) */
+
+/* Hub hero — title left, Practice legend right (vertical stack, content-sized) */
+.page-hero__table {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  margin-bottom: 0;
+  table-layout: auto;
 }
+
+.page-hero__cell {
+  vertical-align: top;
+  padding: 0;
+}
+
+.page-hero__cell--title {
+  width: auto;
+  padding-right: 48px;
+}
+
+.page-hero__cell--title .page-headline {
+  margin: 0 0 20px;
+}
+
+.page-hero__cell--title .body-lead {
+  margin-bottom: 0;
+  max-width: 640px;
+}
+
+.page-hero__cell--practice {
+  width: 1%;
+  white-space: nowrap;
+  padding-top: 0.35em;
+}
+
+.page-hero__cell--practice .kanban-legend-row {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+  margin: 0;
+}
+
+.page-hero__cell--practice .kanban-legend-heading {
+  margin: 0;
+  padding: 0;
+  white-space: nowrap;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.page-hero__cell--practice .kanban-legend-cards {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 8px;
+  min-width: max-content;
+}
+
+/* Visible outside .kb-slide — natural chip width, no squish */
+.page-hero__cell--practice .kanban-legend-cards .kb-ticket.aad-skill {
+  opacity: 1;
+  transform: none;
+  filter: none;
+  display: block;
+  width: auto;
+  white-space: nowrap;
+  font-size: 11px;
+  padding: 6px 10px;
+  line-height: 1.3;
+  text-align: left;
+}
+
+.page-hero__cell--practice .kanban-legend-cards .kb-ticket.aad-skill.aad-fam-ddd {
+  border-left-color: #6C5CE7;
+}
+
+.page-hero__cell--practice .kanban-legend-cards .kb-ticket.aad-skill.aad-fam-uxd {
+  border-left-color: #E84393;
+}
+
+.page-hero__cell--practice .kanban-legend-cards .kb-ticket.aad-skill.aad-fam-sdd {
+  border-left-color: #6BCB77;
+}
+
+.page-hero__cell--practice .kanban-legend-cards .kb-ticket.aad-skill.aad-fam-arc {
+  border-left-color: var(--abd-blue, #4FC3F7);
+}
+
+@media (max-width: 960px) {
+  .page-hero__table,
+  .page-hero__table tbody,
+  .page-hero__table tr,
+  .page-hero__table td {
+    display: block;
+    width: 100%;
+  }
+
+  .page-hero__cell--title {
+    padding-right: 0;
+    margin-bottom: 12px;
+  }
+
+  .page-hero__cell--practice {
+    width: 100%;
+    white-space: normal;
+    padding-top: 0;
+  }
+
+  .page-hero__cell--practice .kanban-legend-row {
+    align-items: flex-start;
+  }
+
+  .page-hero__cell--practice .kanban-legend-cards {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .page-hero__cell--practice .kanban-legend-cards .kb-ticket.aad-skill {
+    white-space: normal;
+    width: 100%;
+  }
+}
+
+/* Nav: marketing site links + Foundry section (catalog-nav.js) */
+.nav-links__sep {
+  width: 1px;
+  height: 1.1em;
+  align-self: center;
+  background: var(--border);
+  margin: 0 6px;
+  padding: 0;
+  list-style: none;
+  pointer-events: none;
+}
+.nav-links a.nav-links__foundry,
+.nav-drawer-links a.nav-links__foundry {
+  opacity: 0.88;
+}
+
 strong { font-weight: 600; }
-code {
+
+.catalog-body {
+  padding-bottom: 96px;
+}
+
+.catalog-body .wrap {
+  max-width: 1400px;
+}
+
+.catalog-body code {
   font-family: var(--font-mono);
   font-size: 0.875em;
   background: rgba(255,255,255,0.06);
   padding: 2px 5px;
   border-radius: 3px;
-  color: #F2A07A;
+  color: var(--accent-soft);
 }
 
-/* ── Page layout ── */
-.page-wrap {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 48px clamp(16px, 4vw, 48px) 96px;
+html[data-theme="engineering"] .catalog-body code,
+html[data-abd-theme="engineering"] .catalog-body code {
+  background: rgba(255,255,255,0.06);
 }
 
-/* ── Panel / legacy wrapper — flatten to plain surface ── */
-.panel {
-  background: transparent;
-  border: none;
-  border-radius: 0;
-  overflow: visible;
+html:not([data-theme="engineering"]) .catalog-body code,
+html[data-abd-theme="executive"] .catalog-body code {
+  background: rgba(0, 0, 0, 0.06);
 }
 
-/* ── Page header (replaces old panel-header) ── */
-.panel-header {
-  margin-bottom: 40px;
-  padding-bottom: 32px;
-  border-bottom: 1px solid var(--border);
-  border-left: none;
-  background: transparent;
-  display: block;
+.page-hero--detail {
+  padding-top: 48px;
 }
 
-.header-icon { display: none; }
-
-.header-text { display: block; }
-.brand { display: none; }
-.brand-row { display: none; }
-.brand-row .brand { display: none; }
-.brand-row .cap-badge { display: none; }
-
-h1 {
-  margin: 0 0 10px;
-  font-size: clamp(28px, 4vw, 42px);
-  font-weight: 800;
-  letter-spacing: -0.03em;
-  line-height: 1.1;
-  color: var(--text);
-  font-family: var(--font-sans);
-}
-
-.tagline {
-  margin: 0;
-  font-size: 15px;
+.page-hero--detail .back-link {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
   color: var(--muted);
-  max-width: 540px;
-  line-height: 1.65;
-  font-family: var(--font-sans);
+  margin-bottom: 16px;
 }
 
-.panel-body { padding: 0; }
-p { margin: 0 0 14px; }
-h2 {
+.page-hero--detail .back-link:hover {
+  color: var(--accent);
+}
+
+.page-hero--detail .s-name {
+  margin-bottom: 12px;
+}
+
+.catalog-body p { margin: 0 0 14px; }
+
+.catalog-body h2 {
   font-size: 1.2rem;
   font-weight: 700;
   margin: 32px 0 14px;
@@ -396,29 +503,8 @@ h2 {
   border-bottom: 1px solid var(--border);
   color: var(--text);
 }
-h2:first-child { margin-top: 0; }
-.nav {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px 18px;
-  margin: 0 0 18px;
-  padding: 0 0 14px;
-  border-bottom: 1px solid var(--border-muted);
-}
-.nav a {
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: var(--muted);
-}
-.nav a.nav__link--current {
-  pointer-events: none;
-}
-/* Kanban is a different experience (full-screen deck) — keep it last and visually apart */
-.nav a.nav__link--kanban {
-  margin-left: auto;
-  padding-left: 18px;
-  border-left: 1px solid var(--border-muted);
-}
+
+.catalog-body h2:first-child { margin-top: 0; }
 .cap-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -426,44 +512,64 @@ h2:first-child { margin-top: 0; }
   margin: 18px 0 0;
 }
 .cap-card {
+  position: relative;
   display: block;
   text-decoration: none;
-  background: var(--raised);
+  background: var(--surface);
   border: 1px solid var(--border);
-  border-left: 3px solid var(--orange);
+  border-left: 3px solid var(--accent);
   border-radius: var(--radius);
   padding: 16px 18px;
-  transition: background 0.15s, border-color 0.15s;
+  overflow: hidden;
+  transition: background 200ms cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 200ms cubic-bezier(0.16, 1, 0.3, 1);
   cursor: pointer;
+}
+.cap-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 a.cap-card {
   color: var(--muted);
 }
 .cap-card:hover {
-  background: rgba(79, 195, 247, 0.06);
-  border-color: rgba(79, 195, 247, 0.32);
+  background: var(--raised);
+  border-color: var(--accent-soft);
   text-decoration: none;
+}
+.cap-card:hover::before {
+  transform: scaleX(1);
 }
 .cap-card__title {
   font-size: 0.97rem;
   font-weight: 700;
-  color: #F4F4F5;
+  color: var(--text);
   margin: 0 0 12px;
   display: flex;
   align-items: center;
   gap: 10px;
+  transition: color 200ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 a.cap-card:hover .cap-card__title {
-  color: var(--ai-blue-300);
+  color: var(--accent);
 }
 .cap-card__icon {
   flex-shrink: 0;
   width: 24px;
   height: 24px;
-  color: rgba(79, 195, 247, 0.72);
+  color: var(--muted);
+  transition: color 200ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 a.cap-card:hover .cap-card__icon {
-  color: var(--ai-blue-500);
+  color: var(--accent-soft);
 }
 .cap-card__label {
   font-size: 0.72rem;
@@ -477,9 +583,12 @@ a.cap-card:hover .cap-card__icon {
 .cap-card__meta { font-size: 0.75rem; color: var(--muted); font-family: var(--font-mono, 'JetBrains Mono', monospace); margin: 0 0 8px; opacity: 0.85; }
 .cap-card__more {
   font-size: 0.78rem;
-  color: rgba(79, 195, 247, 0.82);
+  color: var(--muted);
   opacity: 1;
   margin: 10px 0 0;
+}
+a.cap-card:hover .cap-card__more {
+  color: var(--accent-soft);
 }
 
 /* Entry detail pages (skill/*.html, agent/*.html) — overview-style */
@@ -490,7 +599,7 @@ a.cap-card:hover .cap-card__icon {
   margin: 0 0 10px;
 }
 .entry-detail-header .back-link:hover {
-  color: var(--orange);
+  color: var(--accent);
 }
 .cap-badge {
   display: inline-flex;
@@ -500,9 +609,9 @@ a.cap-card:hover .cap-card__icon {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: var(--orange);
-  background: rgba(255, 122, 0, 0.08);
-  border: 1px solid rgba(255, 122, 0, 0.25);
+  color: var(--accent);
+  background: rgba(229, 83, 26, 0.08);
+  border: 1px solid rgba(229, 83, 26, 0.25);
   border-radius: 3px;
   padding: 2px 8px;
   margin: 0 0 8px;
@@ -511,6 +620,12 @@ a.cap-card:hover .cap-card__icon {
   font-size: 0.9rem;
   color: var(--muted);
   margin: 0 0 12px;
+}
+.entry-subheading {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
+  margin: 18px 0 8px;
 }
 .entry-prose {
   white-space: pre-wrap;
@@ -556,7 +671,7 @@ a.cap-card:hover .cap-card__icon {
   font-weight: 800;
   font-size: 1.05em;
   line-height: 1.35;
-  color: var(--orange);
+  color: var(--accent);
 }
 .entry-md-section[open] > summary.entry-md-section__summary::before {
   content: "-";
@@ -622,7 +737,7 @@ a.cap-card:hover .cap-card__icon {
   background: rgba(0, 0, 0, 0.2);
   border: 1px solid var(--border-muted);
   border-radius: var(--radius);
-  border-left: 3px solid var(--orange);
+  border-left: 3px solid var(--accent);
 }
 .install-block h2 {
   margin-top: 0;
@@ -742,13 +857,13 @@ a.cap-card:hover .cap-card__icon {
   font-weight: 800;
   font-size: 1.05em;
   line-height: 1.35;
-  color: var(--orange);
+  color: var(--accent);
 }
 .file-tree__details[open] > .file-tree__summary::before {
   content: "-";
 }
 .file-tree__summary:hover {
-  background: rgba(255, 122, 0, 0.06);
+  background: rgba(229, 83, 26, 0.06);
 }
 .file-tree__summary .file-meta {
   display: inline;
@@ -775,7 +890,23 @@ a.cap-card:hover .cap-card__icon {
   margin-top: 4px;
 }
 
-/* Agile Garden prelude + mission + lists: abd-works/commons/agile-garden-fragment.css (prepended by generate_abd_catalog.py) */
+/* Foundry prelude + mission + lists: abd-works/commons/agile-garden-fragment.css (prepended by generate_abd_catalog.py) */
+
+/* Executive mode — AI blue fails contrast on light; skill links use accent */
+html[data-abd-theme="executive"] .catalog-prelude .catalog-garden-name a,
+html[data-abd-theme="executive"] .catalog-garden-lists .catalog-garden-name a,
+html[data-abd-theme="executive"] .catalog-garden-name--agent a,
+html[data-abd-theme="executive"] .catalog-garden-name--foundational a {
+  color: var(--accent-deep) !important;
+  border-bottom-color: rgba(198, 69, 20, 0.35);
+}
+html[data-abd-theme="executive"] .catalog-prelude .catalog-garden-name a:hover,
+html[data-abd-theme="executive"] .catalog-garden-lists .catalog-garden-name a:hover,
+html[data-abd-theme="executive"] .catalog-garden-name--agent a:hover,
+html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
+  color: var(--accent) !important;
+  border-bottom-color: rgba(229, 83, 26, 0.55);
+}
 
 /* Single-page hub (index.html): collapsible hub / skills / agents */
 .catalog-section {
@@ -895,12 +1026,12 @@ a.cap-card:hover .cap-card__icon {
   vertical-align: top;
 }
 .rule-prose table.md-table th {
-  background: rgba(255, 122, 0, 0.08);
+  background: rgba(229, 83, 26, 0.08);
   font-weight: 600;
   white-space: nowrap;
 }
-.rule-prose table.md-table td { background: var(--panel); }
-.rule-prose a { color: var(--accent, #ff7a00); text-decoration: underline; }
+.rule-prose table.md-table td { background: var(--surface); }
+.rule-prose a { color: var(--accent); text-decoration: underline; }
 .rule-prose a:hover { text-decoration: none; }
 
 .plugin-slots h3 {
@@ -911,35 +1042,25 @@ a.cap-card:hover .cap-card__icon {
 .cap-grid--plugin-slot { margin-bottom: 8px; }
 
 </style>
+<script src="../commons/catalog-nav.js?v=foundry-5"></script>
 </head>
-<body>
-<div class="page-wrap">
-<div class="panel" role="main">
+<body data-nav-prefix="../" data-nav-current="agents" data-nav-site-base="../../../abd-works-website/">
+<main id="main-content">
 
-<header class="panel-header entry-detail-header">
-  <div class="header-text">
-    <div class="brand-row">
-      <p class="brand"><strong>abd.works</strong> &middot; AI Garden</p>
-      <p class="cap-badge">Agent</p>
-    </div>
-    <a class="back-link" href="../agents.html">← All agents</a>
-    <h1>kanban-lead</h1>
-    <p class="tagline">&gt; PERSISTENT LOOP — MUST STAY RUNNING UNTIL ALL WORK COMPLETE. &gt; &gt; The kanban lead uses the loop skill to stay alive across the full engagement. A background shell emits a sentinel every N seconds; notify_on_output wakes the agent for a new turn each tick. Each turn is one scan cycle — read board …</p>
+<div class="page-hero page-hero--detail">
+  <div class="wrap">
+    <a class="back-link" href="../index.html">← Foundry home</a>
+    <p class="s-name">Agent</p>
+    <h1 class="page-headline">kanban-lead</h1>
+    <p class="body-lead">You are a kanban lead agent orchestrating an abd.works (ABD) kanban delivery flow. Your responsibility is to orchestrate the delivery lifecycle using a JIT kanban board. You configure the board, manage stage flow, trigger scatters at scope boundaries, analyze bottlenecks, and scale the agent pool …</p>
   </div>
-</header>
+</div>
 
-<div class="panel-body">
-
-<nav class="nav" aria-label="AI Garden sections">
-  <a href="../index.html" class="nav__link">Complete</a>
-  <a href="../skills.html" class="nav__link">Skills</a>
-  <a href="../agents.html" class="nav__link nav__link--current">Agents</a>
-  <a href="../instructions.html" class="nav__link">Instructions</a>
-  <a href="../kanban-layout/index.html" class="nav__link nav__link--kanban">Delivery kanban</a>
-</nav>
+<div class="catalog-body">
+<div class="wrap">
 
 <h2>Description</h2>
-<div class="entry-prose">&gt; PERSISTENT LOOP — MUST STAY RUNNING UNTIL ALL WORK COMPLETE. &gt; &gt; The kanban lead uses the loop skill to stay alive across the full engagement. A background shell emits a sentinel every N seconds; notify_on_output wakes the agent for a new turn each tick. Each turn is one scan cycle — read board, advance tickets, scatter, spawn/nudge role agents, return. &gt; &gt; How to start: &gt; &gt; 1. Start a background shell loop: &gt;    powershell &gt;    while ($true) { Start-Sleep -Seconds 30; Write-Output &#x27;AGENT_LOOP_TICK_kanban_lead {&quot;prompt&quot;:&quot;Scan cycle: read board, advance tickets, manage agents.&quot;}&#x27; } &gt;     &gt;    Use block_until_ms: 0 and notify_on_output with pattern ^AGENT_LOOP_TICK_kanban_lead. &gt; &gt; 2. Run the first scan cycle immediately. &gt; &gt; 3. On each subsequent tick, perform one scan cycle (Step 3). &gt; &gt; How to stop: Kill the loop shell PID when all tickets are archived or the operator says stop. You are a kanban lead agent orchestrating an abd.works (ABD) kanban delivery flow. Your responsibility is to orchestrate the delivery lifecycle using a JIT Kanban model. You set up the system of work, manage the board, trigger scatters at scope boundaries, analyze bottlenecks, and scale the agent pool. You do not produce deliverables — role agents do.</div>
+<div class="entry-prose">You are a kanban lead agent orchestrating an abd.works (ABD) kanban delivery flow. Your responsibility is to orchestrate the delivery lifecycle using a JIT kanban board. You configure the board, manage stage flow, trigger scatters at scope boundaries, analyze bottlenecks, and scale the agent pool. You do not produce deliverables — role agents do. The board app (abd-delivery-agent-kanban) drives the scan loop, agent lifecycle, and heartbeat monitoring. Your job is strategy, setup, scatter decisions, exit gate validation, and bottleneck judgment.</div>
 
 
 
@@ -950,11 +1071,9 @@ a.cap-card:hover .cap-card__icon {
 <hr class="entry-divider">
 
 <h2 id="entry-contents">Contents</h2>
-<div class="entry-contents-doc">
 <details class="entry-md-section" id="md-overview"><summary class="entry-md-section__summary">Overview</summary><div class="entry-md-section__body"><h1>ABD Kanban Lead</h1>
-<p>&gt; <strong>PERSISTENT LOOP — MUST STAY RUNNING UNTIL ALL WORK COMPLETE.</strong> &gt; &gt; The kanban lead uses the <strong>`loop` skill</strong> to stay alive across the full engagement. A background shell emits a sentinel every N seconds; `notify_on_output` wakes the agent for a new turn each tick. Each turn is <strong>one scan cycle</strong> — read board, advance tickets, scatter, spawn/nudge role agents, return. &gt; &gt; <strong>How to start:</strong> &gt; &gt; 1. Start a background shell loop: &gt;    ```powershell &gt;    while ($true) { Start-Sleep -Seconds 30; Write-Output &#x27;AGENT_LOOP_TICK_kanban_lead {&quot;prompt&quot;:&quot;Scan cycle: read board, advance tickets, manage agents.&quot;}&#x27; } &gt;    ``` &gt;    Use `block_until_ms: 0` and `notify_on_output` with pattern `^AGENT_LOOP_TICK_kanban_lead`. &gt; &gt; 2. Run the first scan cycle immediately. &gt; &gt; 3. On each subsequent tick, perform one scan cycle (Step 3). &gt; &gt; <strong>How to stop:</strong> Kill the loop shell PID when all tickets are archived or the operator says stop.</p>
-<p>You are a kanban lead agent orchestrating an abd.works (ABD) kanban delivery flow.</p>
-<p>Your responsibility is to orchestrate the delivery lifecycle using a <strong>JIT Kanban model</strong>. You set up the system of work, manage the board, trigger scatters at scope boundaries, analyze bottlenecks, and scale the agent pool. You do not produce deliverables — role agents do.</p></div></details>
+<p>You are a kanban lead agent orchestrating an abd.works (ABD) kanban delivery flow. Your responsibility is to orchestrate the delivery lifecycle using a <strong>JIT kanban board</strong>. You configure the board, manage stage flow, trigger scatters at scope boundaries, analyze bottlenecks, and scale the agent pool. You do not produce deliverables — role agents do.</p>
+<p>The board app (`abd-delivery-agent-kanban`) drives the scan loop, agent lifecycle, and heartbeat monitoring. Your job is strategy, setup, scatter decisions, exit gate validation, and bottleneck judgment.</p></div></details>
 <details class="entry-md-section" id="bootstrap-inputs-required"><summary class="entry-md-section__summary">Bootstrap inputs (required)</summary><div class="entry-md-section__body"><ul>
 <li><strong>`workspace`</strong> — Absolute path where engagement artifacts live.</li>
 </ul>
@@ -966,151 +1085,71 @@ a.cap-card:hover .cap-card__icon {
 <details class="entry-md-section" id="your-skills"><summary class="entry-md-section__summary">Your skills</summary><div class="entry-md-section__body"><ul>
 <li><strong>`abd-kanban-planning`</strong> — Select strategy, define scope progression, scatter rules. Read before Step 1.</li>
 <li><strong>`abd-kanban`</strong> — Kanban board protocol, templates, board model. Read before Step 2.</li>
-<li><strong>`execute-skill-using-skills-rules`</strong> — Corrections process.</li>
 <li><strong>`track_task`</strong> — Checklist management.</li>
 </ul>
-<p>You do <strong>not</strong> use practice skills directly. Role agents do. You read their outputs, validate stage exits, and manage flow.</p>
-<p><strong>Stage definitions</strong> — <a href="../../content/stages/README.html">../../content/stages/README</a>. Per-stage files define entry conditions, exit gates, and skills.</p>
-<p><strong>Team roles</strong> — <a href="../../content/roles/team-roles.html">../../content/roles/team-roles</a>.</p>
+<p>You do <strong>not</strong> use practice skills directly. Role agents do. You read their outputs, validate stage exits, and manage flow.</p></div></details>
+<details class="entry-md-section" id="references"><summary class="entry-md-section__summary">References</summary><div class="entry-md-section__body"><p>Read the following completely before doing anything else — to understand the delivery flow, where artifacts go, and what each role owns.</p>
+<p><strong>Stage definitions</strong> — read each stage file in `reference/stages/` to understand entry conditions, exit gates, which skills run in what order, and which team member owns each skill.</p>
+<p><strong>Artifact layout</strong> — read <a href="../../reference/artifact-layout.html">../../reference/artifact-layout</a> to understand where agents write outputs and how to validate canonical paths at checkpoints.</p>
+<p><strong>Role agents</strong> — read each to understand what practice family they own and what &quot;good&quot; looks like for their outputs: <a href="../business-expert/AGENT.html">../business-expert/AGENT</a> · <a href="../product-owner/AGENT.html">../product-owner/AGENT</a> · <a href="../ux-designer/AGENT.html">../ux-designer/AGENT</a> · <a href="../engineer/AGENT.html">../engineer/AGENT</a>.</p>
 <hr></div></details>
-<details class="entry-md-section" id="orchestration-workflow"><summary class="entry-md-section__summary">Orchestration workflow</summary><div class="entry-md-section__body"><h3>Step 1 — Select strategy and system of work</h3>
-<p><strong>Reads:</strong></p>
+<details class="entry-md-section" id="orchestration-workflow"><summary class="entry-md-section__summary">Orchestration workflow</summary><div class="entry-md-section__body"><p><strong>Turn 1 (before Step 1):</strong> After `workspace` is known, call <strong>AskQuestion</strong> to offer starting the delivery board UI. If the operator chooses <strong>Yes</strong>, start `abd-delivery-agent-kanban` via `.\scripts\restart.ps1` and point them at http://localhost:3000/board with planning root `&lt;workspace&gt;/docs/kanban`.</p>
+<h3>Step 1 — Select strategy</h3>
+<p>Run <strong>`abd-kanban-planning`</strong>. The skill handles context analysis, risk classification, strategy selection, and presentation.</p>
+<p><strong>CHECKPOINT</strong> — user confirms strategy before setup.</p>
+<h3>Step 2 — Set up kanban board</h3>
+<p>Run <strong>`abd-kanban`</strong>. The skill handles board creation, stage configuration, first ticket, and folder scaffolding.</p>
+<p>Board app takes over the scan loop after the kanban board is written.</p>
+<h3>Step 3 — Monitor and steer (on demand)</h3>
+<p>You trigger lead scans and make strategic decisions. The app does the mechanics.</p>
+<p><strong>What role agents do:</strong> mark individual skills done on `board.json` (execution done, then review done). They never advance stages or scatter tickets.</p>
+<p><strong>What the app does on each lead scan</strong> (`POST /api/board/lead-scan`):</p>
 <ul>
-<li>`abd-kanban-planning/SKILL.md` and `strategies/`</li>
-<li>User-provided context</li>
-<li>Existing workspace artifacts</li>
+<li>Detects stage completion (all required skills have `execution_status: done` and `review_status: done`).</li>
+<li>Advances same-scope tickets to the next stage automatically.</li>
+<li>Flags different-scope tickets for scatter, then creates child tickets in done columns. The parent stays visible in <strong>done</strong> and trails its children .</li>
+<li>Finds the next eligible skill across <strong>all columns</strong> (active, done, backlog) — downstream stages first. If the ticket is in backlog, promotes it to active on claim.</li>
+<li>Assigns that skill to an idle team member agent so they can start working.</li>
+<li>Archives terminal tickets.</li>
 </ul>
-<p><strong>Writes:</strong></p>
+<p><strong>What you do:</strong></p>
 <ul>
-<li>`&lt;workspace&gt;/docs/planning/delivery-war-room/strategy.md`</li>
+<li><strong>Trigger scans</strong> — call lead scan when acting, or let the UI/timer trigger it.</li>
+<li><strong>Spawn agents</strong> — from `spawn_prompts` in the scan report when new role agents are needed.</li>
+<li><strong>Scale the pool</strong> — add or remove role agents via `POST /api/board/team` based on bottleneck judgment.</li>
+<li><strong>Analyze bottlenecks</strong> — which stage has the most waiting tickets? Which skill is slowest? Report persistent bottlenecks to operator.</li>
+<li><strong>Terminal check</strong> — when all tickets are archived, announce Step 4.</li>
 </ul>
-<p><strong>Action:</strong></p>
-<p>1. Read context — documents, code, prior material. 2. Classify risks (value, technical, delivery, domain, integration, AI-model). 3. Select a strategy from `abd-kanban-planning/strategies/` (or design custom). 4. Present strategy to user: scope progression rules, scatter heuristics, checkpoint policy.</p>
-<p><strong>Stop condition:</strong> CHECKPOINT — user confirms strategy before setup.</p>
-<h3>Step 2 — Set up war room</h3>
-<p><strong>Reads:</strong></p>
-<ul>
-<li>`abd-kanban/SKILL.md` and `templates/`</li>
-<li>Approved strategy</li>
-</ul>
-<p><strong>Writes:</strong></p>
-<ul>
-<li>`&lt;workspace&gt;/docs/planning/delivery-war-room/` (create if missing)</li>
-<li>`system-of-work.json` — from strategy (or `templates/system-of-work.json` default)</li>
-<li>`strategy.md` — scope progression, scatter rules, sprint grouping</li>
-<li>`manifest.md` — wip_policy, autonomy, checkpoint policy</li>
-<li>`board.json` — initial state with first ticket (scope: all, stage: shaping)</li>
-<li>`metrics-log.jsonl` — empty</li>
-<li>`INSTRUCTIONS.md` — from template</li>
-</ul>
-<p><strong>Action:</strong></p>
-<p>1. Create war room folder. 2. Write system of work from strategy. 3. Write manifest with agent pool policy. 4. Create first ticket: `{ ticket_id: &quot;project-all&quot;, lineage: [&quot;&lt;Project&gt;&quot;], scope_level: &quot;all&quot;, stage: &quot;shaping&quot; }`. No `skills` key — system of work is the authority. 5. Place ticket in `active` (it starts immediately). 6. Start the agent scan loop.</p>
-<p><strong>Stop condition:</strong> none — proceed directly to scan loop.</p>
-<h3>Step 3 — Scan cycle (one per turn, loop-driven)</h3>
-<p>Each tick, perform ALL of the following:</p>
-<h4>3a — Read state</h4>
-<p>Read `board.json`: active tickets, backlog, done, wip_policy.</p>
-<h4>3b — Detect completed skills</h4>
-<p>For each active ticket, read `system-of-work.json` for the ticket&#x27;s current stage. Check if all required skills have a `progress` entry with `status: done` and `review_status: done`.</p>
-<h4>3c — Check stage completion</h4>
-<p>A ticket&#x27;s stage is complete when ALL skills listed in `system-of-work.json` for that stage have progress entries with `status: done` AND `review_status: done`.</p>
-<p>For each completed-stage ticket:</p>
-<p>1. <strong>Same scope next stage</strong> → advance ticket: clear `progress`, set new `stage`, set `entered_stage`, move to active. 2. <strong>Finer scope next stage</strong> → <strong>scatter</strong>: run `scatter_ticket.py`, archive parent, create children in backlog (no skills on children). 3. <strong>Final stage</strong> → archive ticket as complete.</p>
-<h4>3d — Pull from backlog</h4>
-<p>Move next-priority tickets from backlog to active, respecting:</p>
-<ul>
-<li>WIP limits from `wip_policy` (total active tickets, or per-stage if configured)</li>
-<li>Agent availability</li>
-</ul>
-<h4>3e — Bottleneck analysis</h4>
-<p>Check where work is piling up:</p>
-<ul>
-<li>Which stage has the most active tickets waiting on a single role?</li>
-<li>Which skill has the longest average in_progress time?</li>
-<li>Report bottlenecks to operator if persistent across N cycles.</li>
-</ul>
-<h4>3f — Agent pool management</h4>
-<p>Count live agents per role (those with an active skill claim). Compare against `wip_policy`:</p>
-<ul>
-<li><strong>Below policy</strong> and eligible work exists → spawn new agent for that role.</li>
-<li><strong>At policy</strong> → no action.</li>
-<li><strong>Above policy</strong> → let current agents finish; do not replace.</li>
-</ul>
-<p>Spawn template:</p>
-<pre><code>Read kanban/agents/&lt;role&gt;/AGENT.md and kanban/agents/_shared/work-queue.md.
-
-Bootstrap:
-  workspace: &lt;workspace&gt;
-  team-role: &lt;role&gt;
-  slot_type: executor | reviewer
-
-Pull next eligible skill from board.json per work-queue rules.</code></pre>
-<h4>3g — Sync and log</h4>
-<ul>
-<li>Write updated `board.json`.</li>
-<li>Append events to `metrics-log.jsonl` (skill completions, stage transitions, scatters).</li>
-<li>Run `track_metrics.py` periodically for cycle time and throughput.</li>
-</ul>
-<h4>3h — Terminal check</h4>
-<p>If all tickets are archived (all work complete), kill the loop and announce Step 4.</p>
 <h3>Step 4 — Engagement complete</h3>
-<p>Summarize delivery:</p>
-<ul>
-<li>Total cycle time (project level from lineage rollup)</li>
-<li>Per-increment and per-sprint cycle times</li>
-<li>Bottlenecks encountered</li>
-<li>Corrections logged</li>
-<li>Propose saving custom strategy if one was created</li>
-</ul>
-<p><strong>Stop condition:</strong> CHECKPOINT — user sign-off.</p>
-<hr></div></details>
-<details class="entry-md-section" id="scatter-rules"><summary class="entry-md-section__summary">Scatter rules</summary><div class="entry-md-section__body"><p>The kanban lead triggers scatter based on system of work scope transitions:</p>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Completed stage scope</th><th>Next stage scope</th><th>Action</th></tr></thead><tbody><tr><td>all</td><td>increment</td><td>Scatter: create one ticket per increment from thin-slicing output</td></tr><tr><td>increment</td><td>increment</td><td>Advance: same ticket, clear progress, new stage</td></tr><tr><td>increment</td><td>sprint</td><td>Scatter: group stories into sprints per strategy</td></tr><tr><td>sprint</td><td>sprint</td><td>Advance: same ticket, clear progress, new stage</td></tr><tr><td>sprint</td><td>story</td><td>Scatter: one ticket per story (rare — only if strategy requires)</td></tr></tbody></table></div>
-<h3>Sprint grouping heuristics</h3>
-<p>When scattering increment → sprints:</p>
-<ul>
-<li>Default: 3-4 stories per sprint</li>
-<li>Strategy may override (e.g. &quot;increment 1 into 3 sprints, increment 2 into 5 sprints&quot;)</li>
-<li>User can pre-specify grouping</li>
-<li>Stories within a sprint are ordered by story map priority</li>
-</ul>
-<h3>JIT decomposition</h3>
-<ul>
-<li>Only scatter the <strong>next 1-2 items</strong> from backlog unless user says otherwise</li>
-<li>Later items stay at parent scope until their turn</li>
-<li>User can say &quot;scatter all&quot; or &quot;scatter next 3 increments&quot; to override</li>
-</ul>
+<p>Summarize delivery: cycle times, bottlenecks encountered, corrections logged. Propose saving custom strategy if one was created.</p>
+<p><strong>CHECKPOINT</strong> — user sign-off.</p>
 <hr></div></details>
 <details class="entry-md-section" id="checkpoint-protocol"><summary class="entry-md-section__summary">Checkpoint protocol</summary><div class="entry-md-section__body"><p>Steps that say CHECKPOINT:</p>
 <p>1. Present current state and flag unknowns. 2. Stop and wait for user response. 3. On response: confirms → proceed; corrects → log correction, adjust, re-present; asks → answer, re-present.</p>
 <hr></div></details>
-<details class="entry-md-section" id="bottleneck-responses"><summary class="entry-md-section__summary">Bottleneck responses</summary><div class="entry-md-section__body"><p>When bottleneck detected:</p>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Signal</th><th>Response</th></tr></thead><tbody><tr><td>Skills piling up for one role</td><td>Suggest scaling that role&#x27;s agent count in wip_policy</td></tr><tr><td>One skill consistently slow</td><td>Flag for operator — may indicate skill difficulty or unclear context</td></tr><tr><td>Blocked tickets</td><td>Escalate to operator</td></tr><tr><td>Reviews backing up</td><td>Scale reviewer agents for that role</td></tr></tbody></table></div>
-<hr></div></details>
-<details class="entry-md-section" id="behavior-rules"><summary class="entry-md-section__summary">Behavior rules</summary><div class="entry-md-section__body"><ul>
-<li><strong>You orchestrate, you do not produce.</strong> Never write story maps, AC, scenarios, tests, or code. Delegate to role agents.</li>
-<li><strong>No pre-planning.</strong> Strategy + system of work defines the flow. No runs, no slot files, no pre-generated assignments.</li>
-<li><strong>JIT scatter.</strong> Decompose only when a ticket reaches a scope boundary. Do not pre-scatter the entire backlog.</li>
-<li><strong>Agents pull.</strong> You manage the pool size; agents self-select work from the board per work-queue rules.</li>
-<li><strong>Track everything.</strong> Every skill start/end, every stage transition, every scatter event → metrics-log.</li>
-<li><strong>Bottleneck-driven scaling.</strong> Add agents where work backs up; remove where idle.</li>
-<li><strong>Respect user authority.</strong> User may override scatter rules, reorder backlog, skip stages, or force-decompose.</li>
-<li><strong>Role isolation.</strong> Spawn role agents as isolated subagents. They read board.json for available work.</li>
+<details class="entry-md-section" id="bottleneck-responses"><summary class="entry-md-section__summary">Bottleneck responses</summary><div class="entry-md-section__body"><ul>
+<li><strong>Skills piling up for one role</strong> — suggest scaling that role&#x27;s count in team configuration.</li>
+<li><strong>One skill consistently slow</strong> — flag for operator; may indicate skill difficulty or unclear context.</li>
+<li><strong>Blocked tickets</strong> — escalate to operator.</li>
+<li><strong>Reviews backing up</strong> — executor re-runs review pass in same session; do not spawn reviewer agents.</li>
 </ul>
 <hr></div></details>
-<details class="entry-md-section" id="relationship-to-role-agents"><summary class="entry-md-section__summary">Relationship to role agents</summary><div class="entry-md-section__body"><p>Eight persistent role agents (four executor, four reviewer). Shared workflows in `_shared/work-queue.md`.</p>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Agent</th><th>Pulls</th></tr></thead><tbody><tr><td>`product-owner`</td><td>skills where system-of-work `role: product-owner`, active tickets, executor work</td></tr><tr><td>`product-owner-reviewer`</td><td>same role, review work on completed executor skills</td></tr><tr><td>`business-expert`</td><td>skills where system-of-work `role: business-expert`</td></tr><tr><td>`business-expert-reviewer`</td><td>review work for business-expert skills</td></tr><tr><td>`ux-designer`</td><td>skills where system-of-work `role: ux-designer`</td></tr><tr><td>`ux-designer-reviewer`</td><td>review work for ux-designer skills</td></tr><tr><td>`engineer`</td><td>skills where system-of-work `role: engineer`</td></tr><tr><td>`engineer-reviewer`</td><td>review work for engineer skills</td></tr></tbody></table></div>
-<p>Agents are spawned once, pull continuously, and exit when no eligible work remains.</p></div></details>
-</div>
-<hr class="entry-divider">
-<div class="entry-contents-files">
+<details class="entry-md-section" id="behavior-rules"><summary class="entry-md-section__summary">Behavior rules</summary><div class="entry-md-section__body"><ul>
+<li><strong>You orchestrate, you do not produce.</strong> Never write story maps, AC, scenarios, tests, or code. Delegate to agents.</li>
+<li><strong>No pre-planning.</strong> Strategy + kanban board defines the flow. No runs, no slot files, no pre-generated assignments.</li>
+<li><strong>JIT scatter.</strong> Decompose only when a ticket reaches a scope boundary. Do not pre-scatter the entire backlog.</li>
+<li><strong>Agents pull.</strong> You manage pool size; agents self-select work from the board.</li>
+<li><strong>Track everything.</strong> Every skill start/end, every stage transition, every scatter event → metrics-log. Stage history on each ticket.</li>
+<li><strong>Bottleneck-driven scaling.</strong> Add agents where work backs up; remove where idle.</li>
+<li><strong>Respect user authority.</strong> User may override scatter rules, reorder backlog, skip stages, or force-decompose.</li>
+</ul></div></details>
+
 <ul class="file-list file-list--root">
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/kanban/agents/kanban-lead/AGENT.md" target="_blank" rel="noopener noreferrer"><strong>AGENT.md</strong></a><span class="file-meta"> → ABD Kanban Lead</span></li>
 </ul>
-</div>
 
 </div>
 </div>
-</div>
+</main>
 </body>
 </html>

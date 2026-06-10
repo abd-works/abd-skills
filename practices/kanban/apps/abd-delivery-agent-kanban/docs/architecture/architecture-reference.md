@@ -522,7 +522,7 @@ def release_orphan_claims(self, board, heartbeats, threshold_s=120):
 | **Client unit** | Vitest + React Testing Library | Poll hook behavior, component rendering, animation triggers | `packages/delivery-board/client/__tests__/` |
 | **End-to-end** | Manual (board + agents running locally) | Agent writes ? UI reflects within poll + debounce window | Local dev environment |
 
-Tests follow the project's testing standard  story-driven names, Given/When/Then structure where applicable. Python tests use the orchestrator pattern from `abd-acceptance-test-driven-development`.
+Tests follow the project's testing standard  story-driven names, Given/When/Then structure where applicable. Python tests use the orchestrator pattern from `abd-story-acceptance-test`.
 
 ---
 
@@ -531,7 +531,7 @@ Tests follow the project's testing standard  story-driven names, Given/When/Th
 - **Domain model:** `docs/domain/domain-language.md`  board mode, action intent, action state file, skill progress, execution status, review status, heartbeat, team member agent.
 - **Acceptance criteria:** `docs/acceptance-criteria.md`  stories for manual mode, board sync, skill execution two-pass model.
 - **Agent workflows:** `practices/kanban/reference/agent-workflow/`  read-gates, kanban-board paths, verdict format.
-- **Code conventions:** `abd-clean-code` (production), `abd-acceptance-test-driven-development` (tests).
+- **Code conventions:** `abd-clean-code` (production), `abd-story-acceptance-test` (tests).
 - **Existing implementation:** `packages/delivery-board/` (TypeScript), `skills/abd-kanban/scripts/` (Python).
 
 ---

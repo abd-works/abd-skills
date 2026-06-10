@@ -13,7 +13,7 @@ Diagram refresh is **downstream of** markdown/graph writes. It must **not** bloc
 3. **Log every queue** to `docs/kanban/metrics-log.jsonl`:
 
    ```json
-   {"event":"drawio_sync_queued","sync_skill":"drawio-story-sync","trigger_skill":"abd-acceptance-criteria","ticket_id":"<id>","paths":{"graph":"...","out":"..."},"timestamp":"<ISO 8601>"}
+   {"event":"drawio_sync_queued","sync_skill":"drawio-story-sync","trigger_skill":"abd-story-acceptance-criteria","ticket_id":"<id>","paths":{"graph":"...","out":"..."},"timestamp":"<ISO 8601>"}
    ```
 
 4. Parent skill **`execution_status: done`** does not depend on draw.io finishing. Failures are fixed on a later scan or a dedicated re-run — do not roll back the parent skill.
@@ -30,8 +30,8 @@ Run **`render`** (or **`sync`** when the user edited an outline `.drawio` and gr
 | `abd-story-mapping` (outline) | Graph + `story-map.md` written under `docs/end-to-end/shaping/` or `discovery/stories/` | `render --mode outline --graph <graph> --out <stories-folder>/story-map.drawio` |
 | `abd-story-mapping` (full) | Same under `docs/end-to-end/discovery/stories/` | same |
 | `abd-thin-slicing` | After `md_thin_slice_to_story_graph.py` | `render --mode thin-slicing --graph <graph> --out <stories-folder>/thin-slicing.drawio` |
-| `abd-acceptance-criteria` | After `md_acceptance_criteria_to_story_graph.py` — graph must have AC | `render --mode acceptance-criteria --graph <graph> --out <stories-folder>/acceptance-criteria.drawio` |
-| `abd-specification-by-example` | After scenarios merged into graph | `render --mode acceptance-criteria --graph <graph> --out <stories-folder>/acceptance-criteria.drawio` (refresh exploration diagram) |
+| `abd-story-acceptance-criteria` | After `md_acceptance_criteria_to_story_graph.py` — graph must have AC | `render --mode acceptance-criteria --graph <graph> --out <stories-folder>/acceptance-criteria.drawio` |
+| `abd-story-specification` | After scenarios merged into graph | `render --mode acceptance-criteria --graph <graph> --out <stories-folder>/acceptance-criteria.drawio` (refresh exploration diagram) |
 | User / lead: outline `.drawio` edited | Graph must follow diagram | `sync --drawio <story-map.drawio> --graph <graph>` (refreshes acceptance-criteria + thin-slicing companions) |
 
 **Increment tickets:** use the increment's `exploration/stories/` or `discovery/stories/` folder beside the canonical graph (graph path stays `docs/end-to-end/discovery/stories/story-graph.json`).
@@ -47,9 +47,9 @@ Domain diagrams are **page-per Key Abstraction**. Prefer a **background `Task` s
 | After parent skill | Source model | Output (beside source) |
 | --- | --- | --- |
 | `abd-domain-glossary` | per-module files in `modules/` | optional `<name>-class-diagram.drawio` under same folder |
-| `abd-domain-language` | `domain-language.md` | `<increment>-class-diagram.drawio` under `exploration/domain/` |
-| `abd-domain-model` | `domain model.md` | `domain model-class-diagram.drawio` under `specification/` |
-| `abd-domain-specification` | `class-model.md` | `class-model-class-diagram.drawio` under `engineering/` |
+| `abd-domain-language` | `domain-language.md` | `domain-language-class-diagram.drawio` under `discovery/domain/` |
+| `abd-domain-model` | `domain-model.md` | `domain-model-class-diagram.drawio` under `exploration/domain/` |
+| `abd-domain-specification` | `class-model.md` | `class-model-class-diagram.drawio` under `specification/` |
 
 Queue only when the source file changed in the current skill pass. Skip if the user waived diagrams.
 

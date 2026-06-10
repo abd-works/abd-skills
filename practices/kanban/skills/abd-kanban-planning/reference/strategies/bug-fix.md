@@ -12,9 +12,9 @@
 
 | Stage | Scope | Skills (ordered) |
 | --- | --- | --- |
-| Exploration | story | abd-acceptance-criteria (isolate defect surface) |
-| Engineering | story | abd-acceptance-test-driven-development, abd-clean-code |
-| Exploration (reverse) | story | abd-acceptance-criteria (capture corrected intent), abd-specification-by-example (optional) |
+| Exploration | story | abd-story-acceptance-criteria (isolate defect surface) |
+| Engineering | story | abd-story-acceptance-test, abd-clean-code |
+| Exploration (reverse) | story | abd-story-acceptance-criteria (capture corrected intent), abd-story-specification (optional) |
 
 **No shaping or discovery.** Bug fixes skip to the stage where the defect lives.
 

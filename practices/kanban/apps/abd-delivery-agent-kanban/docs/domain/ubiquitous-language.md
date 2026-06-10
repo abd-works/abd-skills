@@ -199,7 +199,7 @@ Extract: whole
 
 ### skill
 
-- is a named practice method an *agent* executes on a *ticket* — e.g. `abd-domain-language`, `abd-acceptance-criteria`, `abd-clean-code`
+- is a named practice method an *agent* executes on a *ticket* — e.g. `abd-domain-language`, `abd-story-acceptance-criteria`, `abd-clean-code`
 - is required by a *stage* through *stage work required*
 - is performed by an *agent role*
 

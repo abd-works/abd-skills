@@ -36,7 +36,7 @@ Score or note each factor from the session catalog for **this specific item**. D
 
 Record any backlog changes that surfaced during estimation of this item. Use the downstream skill shown to action each one.
 
-- **New AC** → `abd-acceptance-criteria`: {{DESCRIPTION}}
+- **New AC** → `abd-story-acceptance-criteria`: {{DESCRIPTION}}
 - **New story / epic** → `abd-story-mapping`: {{DESCRIPTION}}
 - **Split** → `abd-story-mapping` (epic → sub-epics/stories) or `abd-thin-slicing` (story → thin slices): {{DESCRIPTION}}
 - **Merge** → `abd-story-mapping`: {{DESCRIPTION}}
@@ -93,7 +93,7 @@ Priya raised that the form should validate pet availability before submission �
 ### Emergent scope
 
 - **New story** → `abd-story-mapping`: Handle shelter API timeout gracefully (error state, retry, user message)
-- **New AC** → `abd-acceptance-criteria`: Adoption application must validate pet availability before submission
+- **New AC** → `abd-story-acceptance-criteria`: Adoption application must validate pet availability before submission
 - **Split** → `abd-thin-slicing`: If spike reveals adapter work, split this story into two thin slices — (1) submit with mock shelter API, happy path only; (2) integrate real shelter API with error handling
 - **Open question:** Does the shelter API support idempotent submission? If not, we need duplicate-detection logic.
 

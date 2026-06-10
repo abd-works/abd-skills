@@ -1,4 +1,4 @@
-﻿# Strategy: New User Story
+# Strategy: New User Story
 
 **When to use:** A small change on an existing solution — new feature, enhancement, or capability within the current architecture. Map, slices, and domain model already exist.
 
@@ -12,9 +12,9 @@
 
 | Stage | Scope | Skills (ordered) |
 | --- | --- | --- |
-| Exploration | story | abd-domain-language, abd-acceptance-criteria |
-| Specification | story | abd-domain-model, abd-specification-by-example |
-| Engineering | story | abd-domain-specification (BE), abd-acceptance-test-driven-development (PO), abd-clean-code (EN) |
+| Exploration | story | abd-domain-language, abd-story-acceptance-criteria |
+| Specification | story | abd-domain-model, abd-story-specification |
+| Engineering | story | abd-domain-specification (BE), abd-story-acceptance-test (PO), abd-clean-code (EN) |
 
 **No shaping or discovery.** Map, slices, and domain model already exist. Jump directly to exploration at story scope.
 

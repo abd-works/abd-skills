@@ -1,4 +1,4 @@
-﻿# Strategy: New Thin Slice
+# Strategy: New Thin Slice
 
 **When to use:** Medium-to-large change on an existing solution: new stories, maybe a new sub-epic; cuts across features or layers (e.g. new payment method, new role, new integration).
 
@@ -15,9 +15,9 @@
 | --- | --- | --- |
 | Shaping | all | abd-story-mapping (extend existing), abd-thin-slicing |
 | Discovery | increment | abd-information-architecture |
-| Exploration | increment | abd-domain-language, abd-acceptance-criteria, abd-ux-mockup |
-| Specification | sprint | abd-domain-model, abd-specification-by-example, abd-ux-specification |
-| Engineering | sprint | abd-ux-specification (UX), abd-domain-specification (BE), abd-acceptance-test-driven-development (PO), abd-clean-code (EN), abd-architecture-code (conditional) |
+| Exploration | increment | abd-domain-language, abd-story-acceptance-criteria, abd-ux-mockup |
+| Specification | sprint | abd-domain-model, abd-story-specification, abd-ux-specification |
+| Engineering | sprint | abd-ux-specification (UX), abd-domain-specification (BE), abd-story-acceptance-test (PO), abd-clean-code (EN), abd-architecture-code (conditional) |
 
 
 ---

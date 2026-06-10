@@ -1,4 +1,4 @@
-ï»¿/**
+/**
  * Assign Team Member Agent to Ticket
  *
  * Epic:     Operate Board in Manual Mode
@@ -12,7 +12,7 @@ import { describe, it, expect } from 'vitest';
 import { Ticket } from '@deliveryforge/kanban-client';
 
 // ============================================================================
-// TYPES (domain model) â€” from operate_manual_mode_client.test.tsx
+// TYPES (domain model) — from operate_manual_mode_client.test.tsx
 // ============================================================================
 
 type BoardMode = 'automatic' | 'manual';
@@ -49,7 +49,7 @@ type DragResult = {
 };
 
 // ============================================================================
-// HELPER FUNCTIONS â€” Given
+// HELPER FUNCTIONS — Given
 // ============================================================================
 
 function given_board_mode(mode: BoardMode): BoardMode {
@@ -104,7 +104,7 @@ function given_stage_work_required(skills: Array<{ skill: string; role: string }
 }
 
 // ============================================================================
-// HELPER FUNCTIONS â€” When
+// HELPER FUNCTIONS — When
 // ============================================================================
 
 function when_drag_enabled(mode: BoardMode): boolean {
@@ -144,7 +144,7 @@ function is_skill_incomplete_and_unassigned(progress: SkillProgress): boolean {
 }
 
 // ============================================================================
-// HELPER FUNCTIONS â€” Then
+// HELPER FUNCTIONS — Then
 // ============================================================================
 
 function then_drag_is_enabled(result: boolean): void {
@@ -176,12 +176,12 @@ describe('Drag Team Member Agent onto Ticket', () => {
     const stage_work = given_stage_work_required([
       { skill: 'abd-domain-language', role: 'business-expert' },
       { skill: 'abd-domain-sketch', role: 'business-expert' },
-      { skill: 'abd-acceptance-criteria', role: 'product-owner' },
+      { skill: 'abd-story-acceptance-criteria', role: 'product-owner' },
     ]);
     const ticket = given_ticket_with_skills('#501', 'discovery', {
       'abd-domain-language': given_skill_fully_done('engineer', 'product-owner'),
       'abd-domain-sketch': given_skill_not_started(),
-      'abd-acceptance-criteria': given_skill_not_started(),
+      'abd-story-acceptance-criteria': given_skill_not_started(),
     });
 
     const result = when_agent_dropped_on_ticket(mode, ticket, 'business-expert', stage_work);
@@ -189,7 +189,7 @@ describe('Drag Team Member Agent onto Ticket', () => {
     then_drop_accepted_with_skill(result, 'abd-domain-sketch');
   });
 
-  it('drag interaction disabled when Board Mode is automatic â€” no error shown', () => {
+  it('drag interaction disabled when Board Mode is automatic — no error shown', () => {
     const mode = given_board_mode('automatic');
 
     const enabled = when_drag_enabled(mode);
@@ -224,7 +224,7 @@ function el(html: string): HTMLElement {
   return wrap.firstElementChild as HTMLElement;
 }
 
-describe('Ticket.resolveDropTarget â€” resolves Stage and placement from drop target element', () => {
+describe('Ticket.resolveDropTarget — resolves Stage and placement from drop target element', () => {
   it('resolves in-progress sub-column as Stage + in_progress placement', () => {
     const root = el(`
       <div class="kb-stage-group" data-stage="discovery">
@@ -366,7 +366,7 @@ describe('Ticket.readAgentRoleFromDataTransfer', () => {
  * Ticket card moves to in-progress sub-column and receives movement animation.
  * Drop must commit before dragend clears the drag payload.
  */
-describe('Move Ticket to In Progress on Agent Advance â€” drag commit ordering', () => {
+describe('Move Ticket to In Progress on Agent Advance — drag commit ordering', () => {
   function createDropCommit() {
     let payload: { id: string; stage: string } | null = { id: 'project-all', stage: 'shaping' };
     let committed = false;
@@ -408,7 +408,7 @@ describe('Move Ticket to In Progress on Agent Advance â€” drag commit ordering',
     expect(d.getPayload()).toBeNull();
   });
 
-  it('payload cleared on cancelled drag â€” no move recorded when drop does not occur', async () => {
+  it('payload cleared on cancelled drag — no move recorded when drop does not occur', async () => {
     const d = createDropCommit();
     d.onDragEnd();
     await new Promise((r) => requestAnimationFrame(r));

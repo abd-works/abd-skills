@@ -11,7 +11,7 @@ Estimation forces concrete thinking, and concrete thinking changes the backlog �
 
   **Example (pass):**
 
-  - **New AC** → `abd-acceptance-criteria`: Adoption application must validate pet availability before submission
+  - **New AC** → `abd-story-acceptance-criteria`: Adoption application must validate pet availability before submission
   - **New story** → `abd-story-mapping`: Handle shelter API timeout gracefully
   - **Split** → `abd-thin-slicing`: Split into (1) submit with mock shelter API, happy path; (2) real shelter API with error handling
   - **Open question:** Does the shelter API support idempotent submission?

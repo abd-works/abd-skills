@@ -30,7 +30,7 @@ Every engagement plan must name a **strategy** and produce a **kanban board stag
 | Ticket | Stage | Skill | Agent |
 | --- | --- | --- | --- |
 | inc-1 | exploration | abd-domain-language | business-expert |
-| inc-1 | exploration | abd-acceptance-criteria | product-owner |
+| inc-1 | exploration | abd-story-acceptance-criteria | product-owner |
 ```
 
 Pre-assigns skills to specific tickets — duplicates the kanban board; brittle.
@@ -46,8 +46,8 @@ Pre-assigns skills to specific tickets — duplicates the kanban board; brittle.
 | --- | --- | --- |
 | shaping | all | abd-domain-glossary (business-expert), abd-story-mapping (product-owner), abd-thin-slicing (product-owner) |
 | discovery | increment | abd-story-mapping (product-owner) |
-| exploration | increment | abd-domain-language (business-expert), abd-acceptance-criteria (product-owner) |
-| engineering | sprint | abd-ux-specification (ux-designer), abd-domain-specification (business-expert), abd-acceptance-test-driven-development (product-owner), abd-clean-code (engineer) |
+| exploration | increment | abd-domain-language (business-expert), abd-story-acceptance-criteria (product-owner) |
+| engineering | sprint | abd-ux-specification (ux-designer), abd-domain-specification (business-expert), abd-story-acceptance-test (product-owner), abd-clean-code (engineer) |
 
 Stored in `delivery-kanban-board/system-of-work.json`. Agents pull skill work from any ticket at the matching stage.
 ```

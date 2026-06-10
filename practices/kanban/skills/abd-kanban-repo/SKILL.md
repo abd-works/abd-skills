@@ -77,12 +77,12 @@ Role: <executor | reviewer>
 Examples:
 
 ```
-inc-1.exploration.abd-acceptance-criteria: Write AC for Browse Characters stories
+inc-1.exploration.abd-story-acceptance-criteria: Write AC for Browse Characters stories
 
 Ticket: inc-1
 Lineage: Hero VTT > Increment 1
 Stage: exploration
-Skill: abd-acceptance-criteria
+Skill: abd-story-acceptance-criteria
 Role: executor
 ```
 
@@ -163,7 +163,7 @@ main
  └─ delivery/inc-1              ← created when inc-1 enters active
       ├─ commit: inc-1.shaping.abd-domain-glossary
       ├─ commit: inc-1.exploration.abd-domain-language
-      ├─ commit: inc-1.exploration.abd-acceptance-criteria
+      ├─ commit: inc-1.exploration.abd-story-acceptance-criteria
       ├─ commit: inc-1.exploration.abd-ux-mockup
       └─ merge → main           ← when inc-1 scatters (or PR if enabled)
  └─ delivery/sprint-1           ← created when sprint-1 enters active

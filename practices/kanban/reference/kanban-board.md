@@ -1,4 +1,4 @@
-﻿# Kanban Board
+# Kanban Board
 
 
 
@@ -26,7 +26,7 @@ The *kanban board* defines an ordered set of *stages* — each with a *scope lev
 
 The *kanban board* is the single source of truth for which *skills* each *stage* requires. This configuration defines:
 
-1. **Stages** — ordered sequence (context → shaping → discovery → exploration → specification → engineering)
+1. **Stages** — ordered sequence (shaping → discovery → exploration → specification → engineering)
 2. **Scope per stage** — what granularity tickets live at (all, increment, sprint, story)
 3. **Stage work required per stage** — ordered list of practice skills to execute, with delivery role assignment
 
@@ -55,7 +55,7 @@ When scope changes between stages (e.g. shaping at "all" → discovery at "incre
           "scope": "increment",
           "stage_work_required": [
             { "skill": "abd-domain-language", "role": "business-expert" },
-            { "skill": "abd-acceptance-criteria", "role": "product-owner" },
+            { "skill": "abd-story-acceptance-criteria", "role": "product-owner" },
             { "skill": "abd-ux-mockup", "role": "ux-designer" },
             { "skill": "abd-architecture-specification", "role": "engineer", "run_when": "increment_needs_undocumented_mechanisms" }
           ]
@@ -68,12 +68,13 @@ When scope changes between stages (e.g. shaping at "all" → discovery at "incre
 
 ### Default new build
 
-- **Context** (scope: all) — convert-to-markdown, semantic-context-chunker, chunk-markdown, embed-vectors
-- **Shaping** (scope: all) — module-partition, story-mapping (outline), impact-mapping, architecture-outline
-- **Discovery** (scope: increment) — story-mapping (full), domain-terms, IA, architecture-blueprint
-- **Exploration** (scope: increment) — UL, acceptance-criteria, ux-mockup, arch-template (when increment needs undocumented mechanisms)
-- **Specification** (scope: sprint) — domain model, spec-by-example, interface-design, arch-reference
-- **Engineering** (scope: sprint) — interface-design, class-model, ATDD, clean-code
+Practice skills per stage — from `reference/stages/`. Background (`drawio-*`), optional (`abd-thin-slicing`), and support (context/RAG) skills are omitted from the board catalog; add them per engagement when needed.
+
+- **Shaping** (scope: all) — `abd-domain-glossary`, `abd-story-mapping` (outline), `abd-impact-mapping`, `abd-architecture-outline`
+- **Discovery** (scope: all) — `abd-story-mapping` (full), `abd-domain-language`, `abd-information-architecture`, `abd-architecture-blueprint`
+- **Exploration** (scope: increment) — `abd-domain-model`, `abd-story-acceptance-criteria`, `abd-ux-mockup`, `abd-architecture-specification` document mode (conditional — when increment needs undocumented mechanisms)
+- **Specification** (scope: sprint) — `abd-domain-specification`, `abd-story-specification`, `abd-ux-specification` (spec pass), `abd-architecture-specification` template mode
+- **Engineering** (scope: sprint) — `abd-ux-specification` (implementation pass), `abd-domain-code`, `abd-story-acceptance-test`, `abd-clean-code`, `abd-architecture-code` (conditional — when a named architecture spec is assigned)
 
 ## Tickets
 
@@ -91,7 +92,7 @@ A ticket is the **unit of kanban flow**. Its scope matches the kanban board's sc
   "created": "2026-05-27T08:00:00Z",
   "skill_progress": {
     "abd-domain-language": { "execution_status": "done", "agent": "business-expert", "start": "...", "end": "...", "review_status": "done", "reviewer": "business-expert-reviewer", "review_start": "...", "review_end": "..." },
-    "abd-acceptance-criteria": { "execution_status": "in_progress", "agent": "product-owner", "start": "...", "end": null, "review_status": null }
+    "abd-story-acceptance-criteria": { "execution_status": "in_progress", "agent": "product-owner", "start": "...", "end": null, "review_status": null }
   },
   "entered_stage": "2026-05-28T10:00:00Z",
   "completed_stage": null,
@@ -118,7 +119,7 @@ A ticket is the **unit of kanban flow**. Its scope matches the kanban board's sc
 
 When a ticket completes a stage and the **next stage's scope** is finer than the current stage's scope, the ticket **scatters**:
 
-- **Shaping (all) → Discovery (increment)** — project ticket scatters; children created from thin-slicing increments from story map
+- **Discovery (all) → Exploration (increment)** — project ticket scatters; children created from thin-slicing increments in story map
 - **Exploration (increment) → Specification (sprint)** — increment ticket scatters; children created from stories grouped into sprints by kanban lead / strategy
 
 ### Scatter mechanics

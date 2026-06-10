@@ -740,7 +740,7 @@ public class MemoryBridgeTest
 - **Story map:** `docs/stories/story-map.md`
 - **Information architecture:** `docs/ux/initial-ia.md`
 - **Coding standard:** `abd-clean-code` (domain language, constructor injection, small focused methods, no anemic data bags)
-- **Testing standard:** `abd-acceptance-test-driven-development` (class per story, method per scenario, Given/When/Then helpers, no defensive checks in tests)
+- **Testing standard:** `abd-story-acceptance-test` (class per story, method per scenario, Given/When/Then helpers, no defensive checks in tests)
 - **COH seam (existing):** `Library/GameCommunicator/GameCommandExecution.cs`, `Library/GameCommunicator/NoOpGameCommandExecutor.cs`
 - **Domain core (existing):** `Characters/Character.cs`, `Crowds/Crowd.cs`, `Identities/Identity.cs`, `AnimatedAbilities/AnimatedAbility.cs`
 - **AS-IS warning:** `Rosters/RosterExplorerViewModel.cs` is the primary example of the fat-ViewModel anti-pattern this reference targets; treat it as the before-picture for the Skinny ViewModel mechanism.

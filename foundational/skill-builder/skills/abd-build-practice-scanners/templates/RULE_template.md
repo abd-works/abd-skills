@@ -5,7 +5,7 @@
   Bundle rule prose into the skill’s SKILL.md (between execute-skill-using-skills-rules markers) with:
     python skills/execute-skill-using-skills-rules/scripts/bundle_rules_into_skill_md.py --skill-root skills/<your-skill>
 
-  Conventions (match skills/abd-story-mapping and skills/abd-acceptance-criteria):
+  Conventions (match skills/abd-story-mapping and skills/abd-story-acceptance-criteria):
   - One rule per file; slug is the filename stem (kebab-case).
   - Optional YAML frontmatter below; omit the whole block if unused.
   - Body uses ATX headings: # Rule title, ## DO, ## DON'T (bundle demotes headings when inlining).

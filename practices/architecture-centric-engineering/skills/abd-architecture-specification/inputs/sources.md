@@ -15,7 +15,7 @@ This skill produces a reference document by joining two kinds of input: **archit
 | Information needed | Common sources |
 |---|---|
 | **Coding standard** — the conventions every production-code snippet in a walkthrough must follow. | Whatever the project has in scope: a style guide, an ESLint/Prettier config, a `CLAUDE.md` block, or **`abd-clean-code`** when that skill is in scope (default in agilebydesign-skills-anchored projects). |
-| **Testing standard** — the conventions every test snippet in a walkthrough must follow. | Whatever the project has in scope: a test-style guide, the team's existing test patterns, or **`abd-acceptance-test-driven-development`** when that skill is in scope (default in agilebydesign-skills-anchored projects). |
+| **Testing standard** — the conventions every test snippet in a walkthrough must follow. | Whatever the project has in scope: a test-style guide, the team's existing test patterns, or **`abd-story-acceptance-test`** when that skill is in scope (default in agilebydesign-skills-anchored projects). |
 
 ## Worked example
 
@@ -27,19 +27,19 @@ The reference document this skill produces is **not** stored under this skill. I
 
 - `architecture-specification.md` (or legacy `architecture-specification.md`) — always one file. The mechanisms inside it are organized in one of two ways (combined section vs one section per mechanism) depending on count, per the `section-organization-matches-mechanism-count` rule.
 
-**Example outputs** (same deliverables folder or `specs/<arch>/example/`):
+**Template outputs** (same deliverables folder or `specs/<arch>/template/`):
 
 | Output | Skill shape |
 |--------|-------------|
-| Runnable code under `example/` or `specs/<arch>/example/packages/` | This skill + coding/testing standards |
-| `specification-by-example.md` | `abd-specification-by-example` |
+| Runnable code under `template/` or `specs/<arch>/template/packages/` | This skill + coding/testing standards |
+| `specification-by-example.md` | `abd-story-specification` |
 | `domain-spec.md` | `abd-domain-specification` |
 
-**Validation** (when example code is created or edited):
+**Validation** (when template code is created or edited):
 
 | Pass | Command target |
 |------|----------------|
 | Doc rules | `abd-architecture-specification/rules/` → specification document |
-| Example rules + scanners | `specs/<arch>/rules/` + `run_scanners.py --skill-root specs/<arch> --workspace <example-root>` |
+| Template rules + scanners | `specs/<arch>/rules/` + `run_scanners.py --skill-root specs/<arch> --workspace <template-root>` |
 
-New named specs must ship with `rules/` and `scanners/` (copy from an existing spec such as `specs/mern/` when the stack matches). The example is not done until scanners pass.
+New named specs must ship with `rules/` and `scanners/` (copy from an existing spec such as `specs/mern/` when the stack matches). The template slice is not done until scanners pass.

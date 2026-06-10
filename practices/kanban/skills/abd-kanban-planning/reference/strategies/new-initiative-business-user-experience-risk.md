@@ -1,4 +1,4 @@
-﻿# Strategy: New Initiative — Business / User Experience Risk
+# Strategy: New Initiative — Business / User Experience Risk
 
 
 
@@ -30,11 +30,11 @@
 
 | Discovery | increment | abd-architecture-blueprint, abd-information-architecture |
 
-| Exploration | increment | abd-domain-language, abd-acceptance-criteria, abd-ux-mockup, abd-architecture-specification |
+| Exploration | increment | abd-domain-language, abd-story-acceptance-criteria, abd-ux-mockup, abd-architecture-specification |
 
-| Specification | sprint | abd-domain-model, abd-specification-by-example, abd-ux-specification, abd-architecture-reference |
+| Specification | sprint | abd-domain-model, abd-story-specification, abd-ux-specification, abd-architecture-reference |
 
-| Engineering | sprint | abd-ux-specification (UX), abd-domain-specification (BE), abd-acceptance-test-driven-development (PO), abd-clean-code (EN) |
+| Engineering | sprint | abd-ux-specification (UX), abd-domain-specification (BE), abd-story-acceptance-test (PO), abd-clean-code (EN) |
 
 
 

@@ -113,7 +113,7 @@ Reply with the **full path** to the handoff file and a **three-line resume**: cu
 | Board / kanban board setup | `abd-kanban`, `abd-kanban-planning` |
 | Resume agent pull | kanban-lead / role `AGENT.md` under `practices/kanban/agents/` |
 | Missing shaping/discovery artifacts | Stage practice skills (`abd-story-mapping`, `abd-thin-slicing`, ù) |
-| Increment exploration+ | `abd-domain-language`, `abd-acceptance-criteria`, ù per stage |
+| Increment exploration+ | `abd-domain-language`, `abd-story-acceptance-criteria`, ù per stage |
 | Commits | `commit-msg` |
 
 ---

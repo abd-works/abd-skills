@@ -1,42 +1,69 @@
 <!DOCTYPE html>
+
 <html lang="en">
+
 <head>
+
 <meta charset="utf-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
 <title>{{TITLE}}</title>
-<script src="/commons/brand-nav.js?v=aigarden-4"></script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="{{COMMONS_PREFIX}}site.css?v=foundry-3">
+
 <style>
+
 {{CSS}}
+
 </style>
+
+<script src="{{COMMONS_PREFIX}}catalog-nav.js?v=foundry-5"></script>
+
 </head>
-<body>
-<div class="page-wrap">
-<div class="panel" role="main">
 
-<header class="panel-header">
-  <div class="header-text">
-    <p class="brand">{{BRAND}}</p>
-    <h1>{{H1}}</h1>
-    <p class="tagline">{{TAGLINE}}</p>
+<body data-nav-prefix="{{NAV_PREFIX}}" data-nav-current="{{NAV_CURRENT}}" data-nav-site-base="{{NAV_SITE_BASE}}">
+
+<main id="main-content">
+
+<div class="page-hero">
+
+  <div class="wrap">
+
+    <h1 class="page-headline">{{PAGE_TITLE_HTML}}</h1>
+
+    <p class="body-lead">{{PAGE_TAGLINE_HTML}}</p>
+
   </div>
-</header>
 
-<div class="panel-body">
+</div>
 
-<nav class="nav" aria-label="AI Garden sections">
-  <a href="index.html" class="{{NAV_HUB}}">Complete</a>
-  <a href="skills.html" class="{{NAV_SKILLS}}">Skills</a>
-  <a href="agents.html" class="{{NAV_AGENTS}}">Agents</a>
-  <a href="instructions.html" class="{{NAV_INSTRUCTIONS}}">Instructions</a>
-  <a href="kanban-layout/index.html" class="{{NAV_KANBAN}}">Delivery kanban</a>
-</nav>
+
+
+<div class="catalog-body">
+
+<div class="wrap">
+
+
 
 {{INTRO}}
 
+
+
 {{BODY_INNER}}
 
+
+
 </div>
+
 </div>
-</div>
+
+</main>
+
 </body>
+
 </html>

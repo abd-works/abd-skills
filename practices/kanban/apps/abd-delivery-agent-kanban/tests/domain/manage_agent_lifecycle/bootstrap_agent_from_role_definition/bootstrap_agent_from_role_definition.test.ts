@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Bootstrap Agent from Role Definition
  *
  * Epic:     Manage Agent Lifecycle via Cursor SDK
@@ -250,7 +250,7 @@ describe('Parse Skills from Agent Definition', () => {
     given_kanban_json_assigns_skills_to_role(workspace, 'engineer', [
       { skillName: 'abd-architecture-specification', stage: 'specification' },
       { skillName: 'abd-architecture-specification', stage: 'specification' },
-      { skillName: 'abd-acceptance-test-driven-development', stage: 'specification' },
+      { skillName: 'abd-story-acceptance-test', stage: 'specification' },
     ]);
     const skills = when_system_resolves_eligible_skills(definition, workspace);
     then_stage_work_required_count_is(skills, 3);

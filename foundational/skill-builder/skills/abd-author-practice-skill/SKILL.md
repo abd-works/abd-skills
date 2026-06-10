@@ -48,7 +48,7 @@ A **template** is a fixed output shape the practice promises—usually a file un
 
 ### Sections and rules
 
-**`SKILL.md`** carries **teaching and workflow order** — it is a **thin router**: purpose, when-to-use, output resolution, and the read-gates that drive generate and validate. **`rules/*.md`** are the **check layer** on real artifacts: pass/fail on outputs (phrasing, shape, trace, assumptions, and the like). **`reference/*.md`** hold concept teaching, examples, and heuristics — they are loaded on demand, not inlined. **Build** sequences the work; **rules** define acceptable output. The same split appears in skills such as **abd-story-mapping** and **abd-specification-by-example**.
+**`SKILL.md`** carries **teaching and workflow order** — it is a **thin router**: purpose, when-to-use, output resolution, and the read-gates that drive generate and validate. **`rules/*.md`** are the **check layer** on real artifacts: pass/fail on outputs (phrasing, shape, trace, assumptions, and the like). **`reference/*.md`** hold concept teaching, examples, and heuristics — they are loaded on demand, not inlined. **Build** sequences the work; **rules** define acceptable output. The same split appears in skills such as **abd-story-mapping** and **abd-story-specification**.
 
 ## Build
 

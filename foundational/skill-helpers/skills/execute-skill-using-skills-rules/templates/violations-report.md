@@ -66,7 +66,7 @@
 
 | Placeholder | Value |  
 |-------------|-------|  
-| `{{skill_name}}` | Stem of `--skill-root` path (e.g. `abd-acceptance-criteria`) |  
+| `{{skill_name}}` | Stem of `--skill-root` path (e.g. `abd-story-acceptance-criteria`) |  
 | `{{workspace}}` | Absolute path passed as `--workspace` |  
 | `{{timestamp}}` | ISO-8601 datetime of the run |  
 | `{{overall_status}}` | 🟩 / 🟨 / 🟥 emoji |  

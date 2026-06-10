@@ -28,7 +28,7 @@ const explorationStage: WrStageDef = {
   scope: 'increment',
   stage_work_required: [
     { skill: 'abd-domain-language', role: 'business-expert', optional: false },
-    { skill: 'abd-acceptance-criteria', role: 'product-owner', optional: false },
+    { skill: 'abd-story-acceptance-criteria', role: 'product-owner', optional: false },
   ],
 };
 

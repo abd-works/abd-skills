@@ -1,4 +1,4 @@
-﻿"""Orchestrate Delivery Cycle — Kanban Lead, Agent, and Skill Orchestration
+"""Orchestrate Delivery Cycle — Kanban Lead, Agent, and Skill Orchestration
 
 Epic:     Manage Agent Lifecycle
 Sub-epic: Orchestrate Delivery Cycle
@@ -360,7 +360,7 @@ class TestDetectStageCompletionOnATicket:
             scope="increment",
             stage_work_required=[
                 SkillDef(skill="abd-domain-language", role="business-expert"),
-                SkillDef(skill="abd-acceptance-criteria", role="product-owner"),
+                SkillDef(skill="abd-story-acceptance-criteria", role="product-owner"),
                 SkillDef(skill="abd-ux-mockup", role="ux-designer", optional=True),
                 SkillDef(skill="abd-architecture-specification", role="engineer"),
             ],
@@ -368,7 +368,7 @@ class TestDetectStageCompletionOnATicket:
         ticket = given_ticket("1-inc-1-operator-signon", "exploration", "increment",
                               skill_progress={
                                   "abd-domain-language": given_skill_done("abd-domain-language", "business-expert"),
-                                  "abd-acceptance-criteria": given_skill_done("abd-acceptance-criteria", "product-owner"),
+                                  "abd-story-acceptance-criteria": given_skill_done("abd-story-acceptance-criteria", "product-owner"),
                                   "abd-architecture-specification": given_skill_done("abd-architecture-specification", "engineer"),
                                   # abd-ux-mockup has no entry — it is optional
                               })
@@ -602,9 +602,9 @@ class TestAgentClaimsNextEligibleSkillDownstreamFirstPull:
                 "scope": "sprint",
                 "stage_work_required": [
                     {"skill": "abd-domain-model", "role": "business-expert"},
-                    {"skill": "abd-specification-by-example", "role": "product-owner"},
+                    {"skill": "abd-story-specification", "role": "product-owner"},
                     {"skill": "abd-architecture-specification", "role": "engineer"},
-                    {"skill": "abd-acceptance-test-driven-development", "role": "engineer"},
+                    {"skill": "abd-story-acceptance-test", "role": "engineer"},
                 ],
             }],
         })
@@ -628,7 +628,7 @@ class TestAgentClaimsNextEligibleSkillDownstreamFirstPull:
                 "scope": "sprint",
                 "stage_work_required": [
                     {"skill": "abd-domain-model", "role": "business-expert"},
-                    {"skill": "abd-specification-by-example", "role": "product-owner"},
+                    {"skill": "abd-story-specification", "role": "product-owner"},
                 ],
             }],
         })
@@ -761,13 +761,13 @@ class TestAgentOrphanClaimPrevention:
                 "name": "exploration",
                 "scope": "increment",
                 "stage_work_required": [
-                    {"skill": "abd-acceptance-criteria", "role": "product-owner"},
+                    {"skill": "abd-story-acceptance-criteria", "role": "product-owner"},
                     {"skill": "abd-ux-mockup", "role": "ux-designer", "optional": True},
                 ],
             }],
         })
         ticket = given_ticket("1-inc-a", "exploration", "increment", skill_progress={
-            "abd-acceptance-criteria": given_skill_done("abd-acceptance-criteria", "product-owner"),
+            "abd-story-acceptance-criteria": given_skill_done("abd-story-acceptance-criteria", "product-owner"),
             "abd-ux-mockup": given_skill_in_progress("abd-ux-mockup", "ux-designer"),
         })
         given_board_state(workspace, {"active": [ticket.to_dict()]})
@@ -1020,7 +1020,7 @@ class TestPullEligibility:
                     scope="increment",
                     stage_work_required=[
                         SkillDef(skill="abd-domain-language", role="business-expert"),
-                        SkillDef(skill="abd-acceptance-criteria", role="product-owner"),
+                        SkillDef(skill="abd-story-acceptance-criteria", role="product-owner"),
                         SkillDef(skill="abd-ux-mockup", role="ux-designer", optional=True),
                     ],
                 ),
@@ -1035,7 +1035,7 @@ class TestPullEligibility:
                 "abd-domain-language": SkillProgress(
                     execution_status="done", agent="business-expert", review_status="done"
                 ),
-                "abd-acceptance-criteria": SkillProgress(
+                "abd-story-acceptance-criteria": SkillProgress(
                     execution_status="done", agent="product-owner", review_status="done"
                 ),
             },
@@ -1059,7 +1059,7 @@ class TestPullEligibility:
                     name="exploration",
                     scope="increment",
                     stage_work_required=[
-                        SkillDef(skill="abd-acceptance-criteria", role="product-owner"),
+                        SkillDef(skill="abd-story-acceptance-criteria", role="product-owner"),
                     ],
                 ),
             ],
@@ -1151,7 +1151,7 @@ class TestLeadDispatchClaims:
                 "scope": "increment",
                 "stage_work_required": [
                     {"skill": "abd-domain-language", "role": "business-expert"},
-                    {"skill": "abd-acceptance-criteria", "role": "product-owner"},
+                    {"skill": "abd-story-acceptance-criteria", "role": "product-owner"},
                 ],
             }],
         })
@@ -1177,7 +1177,7 @@ class TestLeadDispatchClaims:
         actions = lead.dispatch_claims(("product-owner",))
         assert actions == []
         board = load_board(workspace)
-        sp = board["active"][0]["skill_progress"].get("abd-acceptance-criteria")
+        sp = board["active"][0]["skill_progress"].get("abd-story-acceptance-criteria")
         assert sp is None
 
 
@@ -1192,7 +1192,7 @@ class TestLeadReleaseStaleReserved:
                 "scope": "increment",
                 "stage_work_required": [
                     {"skill": "abd-domain-language", "role": "business-expert"},
-                    {"skill": "abd-acceptance-criteria", "role": "product-owner"},
+                    {"skill": "abd-story-acceptance-criteria", "role": "product-owner"},
                 ],
             }],
         })
@@ -1217,7 +1217,7 @@ class TestLeadReleaseStaleReserved:
         wr = war_room_dir(workspace)
         board = load_board(workspace)
         ticket = Ticket.from_dict(board["active"][0])
-        ticket.skill_progress["abd-acceptance-criteria"] = SkillProgress(
+        ticket.skill_progress["abd-story-acceptance-criteria"] = SkillProgress(
             execution_status="in_progress",
             agent="product-owner",
             start="2026-01-01T00:00:00+00:00",
@@ -1230,7 +1230,7 @@ class TestLeadReleaseStaleReserved:
         actions = lead.release_stale_reserved(("product-owner",), stale_seconds=0)
         assert actions
         board = load_board(workspace)
-        assert "abd-acceptance-criteria" not in board["active"][0].get("skill_progress", {})
+        assert "abd-story-acceptance-criteria" not in board["active"][0].get("skill_progress", {})
 
 
 class TestLeadReleaseReadyOrphan:
@@ -1244,7 +1244,7 @@ class TestLeadReleaseReadyOrphan:
                 "scope": "increment",
                 "stage_work_required": [
                     {"skill": "abd-domain-language", "role": "business-expert"},
-                    {"skill": "abd-acceptance-criteria", "role": "product-owner"},
+                    {"skill": "abd-story-acceptance-criteria", "role": "product-owner"},
                 ],
             }],
         })
@@ -1351,7 +1351,7 @@ class TestFindNextEligible:
                     scope="increment",
                     stage_work_required=[
                         SkillDef(skill="abd-domain-language", role="business-expert"),
-                        SkillDef(skill="abd-acceptance-criteria", role="product-owner"),
+                        SkillDef(skill="abd-story-acceptance-criteria", role="product-owner"),
                         SkillDef(skill="abd-architecture-specification", role="engineer"),
                     ],
                 ),
@@ -1367,7 +1367,7 @@ class TestFindNextEligible:
                 "abd-domain-language": SkillProgress(
                     execution_status="done", agent="business-expert", review_status="done"
                 ),
-                "abd-acceptance-criteria": SkillProgress(
+                "abd-story-acceptance-criteria": SkillProgress(
                     execution_status="done", agent="product-owner", review_status="done"
                 ),
             },
@@ -1385,7 +1385,7 @@ class TestFindNextEligible:
                     scope="sprint",
                     stage_work_required=[
                         SkillDef(skill="abd-domain-model", role="business-expert"),
-                        SkillDef(skill="abd-specification-by-example", role="product-owner"),
+                        SkillDef(skill="abd-story-specification", role="product-owner"),
                         SkillDef(skill="abd-architecture-specification", role="engineer"),
                     ],
                 ),
@@ -1401,7 +1401,7 @@ class TestFindNextEligible:
                 "abd-domain-model": SkillProgress(
                     execution_status="done", agent="business-expert", review_status="done"
                 ),
-                "abd-specification-by-example": SkillProgress(
+                "abd-story-specification": SkillProgress(
                     execution_status="done", agent="product-owner", review_status="done"
                 ),
             },

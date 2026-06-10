@@ -1,4 +1,4 @@
-﻿# Artifact layout — canonical paths
+# Artifact layout — canonical paths
 
 **Source of truth** for where delivery agents write artifacts. Read this on every skill claim **before** producing output.
 
@@ -96,7 +96,7 @@ docs/end-to-end/discovery/
 
 | Subfolder | Skill | File(s) |
 | --- | --- | --- |
-| **`domain/`** | *(domain terms produced during Shaping by `abd-domain-glossary`)* | — |
+| **`domain/`** | `abd-domain-language` | `domain-language.md` (+ `.drawio`) |
 | **`stories/`** | `abd-story-mapping` (full) | `story-graph.json`, `story-map.md` (+ `.drawio`) |
 | **`stories/`** | `abd-thin-slicing` | `thin-slicing.md` (+ `.drawio`, `.txt`) |
 | **`stories/`** | `drawio-story-sync` | `thin-slicing.drawio` (increments diagram) |
@@ -111,7 +111,7 @@ docs/end-to-end/discovery/
 
 ```text
 docs/end-to-end/exploration/
-  domain/        # Domain Language
+  domain/        # Domain model
   stories/       # acceptance criteria
   ux/            # mockups, wireframe .drawio, *-state.json
   architecture/  # architecture mechanism templates
@@ -119,8 +119,8 @@ docs/end-to-end/exploration/
 
 | Subfolder | Skill | File(s) |
 | --- | --- | --- |
-| **`domain/`** | `abd-domain-language` | `domain-language.md` (+ `.drawio`) |
-| **`stories/`** | `abd-acceptance-criteria` | `acceptance-criteria.md` (+ `.drawio`) |
+| **`domain/`** | `abd-domain-model` | `domain-model.md`, `domain.json` (+ `.drawio`) |
+| **`stories/`** | `abd-story-acceptance-criteria` | `acceptance-criteria.md` (+ `.drawio`) |
 | **`ux/`** | `abd-ux-mockup` | `mockups.md`, screen `*.drawio`, `*-state.json` |
 | **`architecture/`** | `abd-architecture-specification` | `architecture-template.md` |
 
@@ -130,7 +130,7 @@ Merge increment exploration content into the matching subfolder when increment e
 
 | File | Content |
 | --- | --- |
-| `domain model.md`, `domain.json` | **One** whole-solution domain model |
+| `class-model.md` | **One** whole-solution typed class model |
 | `specification-by-example.md` | **One** whole-solution spec file |
 | `interface-design.md` | **One** whole-solution interface spec |
 | `architecture-reference.md`, `architecture-reference-assignment.md` | Whole-solution arch reference |
@@ -139,7 +139,7 @@ Merge increment exploration content into the matching subfolder when increment e
 
 | File | Content |
 | --- | --- |
-| `class-model.md` | **One** whole-solution Class Model doc |
+| *(no canonical docs — domain and app code live in `src/`)* | |
 
 Production code and tests live in **`src/`** per architecture reference — not under `end-to-end/engineering/`.
 
@@ -174,8 +174,8 @@ docs/increments/8-marketing-engine/
 
 | Subfolder | Skill | File(s) |
 | --- | --- | --- |
-| **`domain/`** | `abd-domain-language` | `domain-language.md` (+ `.drawio`) |
-| **`stories/`** | `abd-acceptance-criteria` | `acceptance-criteria.md` (+ `.drawio`) |
+| **`domain/`** | `abd-domain-model` | `domain-model.md`, `domain.json` (+ `.drawio`) |
+| **`stories/`** | `abd-story-acceptance-criteria` | `acceptance-criteria.md` (+ `.drawio`) |
 | **`ux/`** | `abd-ux-mockup` | `mockups.md`, screen `*.drawio`, `*-state.json` |
 | **`architecture/`** | `abd-architecture-specification` | `architecture-template.md` |
 
@@ -183,8 +183,8 @@ docs/increments/8-marketing-engine/
 
 | Skill | File(s) |
 | --- | --- |
-| `abd-domain-model` | `domain model.md`, `domain.json` |
-| `abd-specification-by-example` | `specification-by-example.md` |
+| `abd-domain-specification` | `class-model.md` |
+| `abd-story-specification` | `specification-by-example.md` |
 | `abd-ux-specification` (spec pass) | `interface-design.md` |
 | `abd-architecture-specification` | `architecture-reference.md`, `architecture-reference-assignment.md` |
 
@@ -192,7 +192,6 @@ docs/increments/8-marketing-engine/
 
 | Skill | File(s) |
 | --- | --- |
-| `abd-domain-specification` | `class-model.md` |
 | `abd-domain-code` | `src/` (domain classes + tests, TDD) |
 | ATDD, clean-code, interface impl | `src/` |
 
@@ -204,8 +203,8 @@ docs/increments/8-marketing-engine/
 | --- | --- | --- |
 | `abd-story-mapping` | `story-map.md` | `md_story_map_to_story_graph.py` (create or replace skeleton) |
 | `abd-thin-slicing` | `thin-slicing.md` | `md_thin_slice_to_story_graph.py` (increments array) |
-| `abd-acceptance-criteria` | `acceptance-criteria.md` | `md_acceptance_criteria_to_story_graph.py` ? `acceptance_criteria[]` on matched stories |
-| `abd-specification-by-example` | `specification-by-example.md` | `scenarios[]` / `scenario_outlines[]` on matched stories via **story-graph-ops** (`story_graph_cli.py` write or patch — no md parser yet) |
+| `abd-story-acceptance-criteria` | `acceptance-criteria.md` | `md_acceptance_criteria_to_story_graph.py` ? `acceptance_criteria[]` on matched stories |
+| `abd-story-specification` | `specification-by-example.md` | `scenarios[]` / `scenario_outlines[]` on matched stories via **story-graph-ops** (`story_graph_cli.py` write or patch — no md parser yet) |
 
 **When:** immediately after Step 4 (draft) and before Step 6 (review) in [executor-workflow.md](../reference/agent-workflow/executor-workflow.md). Run from engagement root:
 
@@ -217,7 +216,7 @@ python skills/story-graph-ops/scripts/md_acceptance_criteria_to_story_graph.py \
 
 Then validate: `python skills/story-graph-ops/scripts/story_graph_cli.py read --file docs/end-to-end/discovery/stories/story-graph.json`
 
-**DO NOT** mark `abd-acceptance-criteria` or `abd-specification-by-example` done on the board while in-scope stories still have empty `acceptance_criteria` or `scenarios` in the graph.
+**DO NOT** mark `abd-story-acceptance-criteria` or `abd-story-specification` done on the board while in-scope stories still have empty `acceptance_criteria` or `scenarios` in the graph.
 
 Kanban lead: on increment roll-up, verify graph populated for that increment's stories before archiving the last ticket.
 

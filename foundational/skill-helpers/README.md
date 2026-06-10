@@ -7,7 +7,6 @@ Infrastructure skills and cross-cutting helpers used across practice families.
 - `execute-skill-using-skills-rules` — rules + scanner pass before declaring skill output done
 - `track_task` — checkbox progress files under the engagement workspace
 - `commit-msg` — meaningful commit messages from scope and changed files
-- `skill-garden-catalogue` — local HTML inventory of deployed skills
 
 ## Package helpers (not packaged skills)
 

@@ -1,109 +1,214 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
-
 :root {
-  /* Primary accent — borders, nav “you are here”; keep saturated */
-  --orange:       #E5531A;
-  --orange-hover: #C64514;
-  /* Brand ai-blue (BRAND-GUIDELINES §3.1) — dense skill listings + card hover cue */
-  --ai-blue-500:  #4FC3F7;
-  --ai-blue-300:  #81D4FA;
-  /* Body links — soft orange (prose); garden grid uses ai-blue in agile-garden-fragment.css */
+  --radius:       6px;
   --link-soft:        #FFB380;
   --link-soft-hover:  #FFCCA3;
-  --link-muted:       #F2A07A;
-  --bg:           #0B0B0B;
-  --surface:      #111113;
-  --raised:       #1B1B20;
-  --border:       #2A2A2A;
-  --border-muted: #1e1e22;
-  --text:         #F4F4F5;
-  --muted:        #9B9BA8;
-  --radius:       6px;
-  --font-sans:    'Inter', system-ui, sans-serif;
-  --font-mono:    'JetBrains Mono', ui-monospace, monospace;
+  --link-muted:       var(--accent-soft);
+  --orange:       var(--accent);
+  --orange-hover: var(--accent-deep);
+  --ai-blue-500:  var(--ai-accent);
+  --ai-blue-300:  #81D4FA;
 }
-*, *::before, *::after { box-sizing: border-box; }
-body {
-  background: var(--bg);
-  color: var(--text);
-  margin: 0;
-  font-family: var(--font-sans);
-  font-size: 15px;
-  line-height: 1.65;
-  -webkit-font-smoothing: antialiased;
-}
-a { color: var(--link-muted); text-decoration: none; transition: color 120ms ease; }
-a:hover { color: var(--link-soft-hover); text-decoration: none; }
 
-/* Wayfinding stays strong accent */
-.nav a.nav__link--current {
-  color: var(--orange) !important;
+/* Foundry catalog — content styles (nav + page hero from abd-works-website/css/site.css) */
+
+/* Hub hero — title left, Practice legend right (vertical stack, content-sized) */
+.page-hero__table {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  margin-bottom: 0;
+  table-layout: auto;
 }
+
+.page-hero__cell {
+  vertical-align: top;
+  padding: 0;
+}
+
+.page-hero__cell--title {
+  width: auto;
+  padding-right: 48px;
+}
+
+.page-hero__cell--title .page-headline {
+  margin: 0 0 20px;
+}
+
+.page-hero__cell--title .body-lead {
+  margin-bottom: 0;
+  max-width: 640px;
+}
+
+.page-hero__cell--practice {
+  width: 1%;
+  white-space: nowrap;
+  padding-top: 0.35em;
+}
+
+.page-hero__cell--practice .kanban-legend-row {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+  margin: 0;
+}
+
+.page-hero__cell--practice .kanban-legend-heading {
+  margin: 0;
+  padding: 0;
+  white-space: nowrap;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.page-hero__cell--practice .kanban-legend-cards {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 8px;
+  min-width: max-content;
+}
+
+/* Visible outside .kb-slide — natural chip width, no squish */
+.page-hero__cell--practice .kanban-legend-cards .kb-ticket.aad-skill {
+  opacity: 1;
+  transform: none;
+  filter: none;
+  display: block;
+  width: auto;
+  white-space: nowrap;
+  font-size: 11px;
+  padding: 6px 10px;
+  line-height: 1.3;
+  text-align: left;
+}
+
+.page-hero__cell--practice .kanban-legend-cards .kb-ticket.aad-skill.aad-fam-ddd {
+  border-left-color: #6C5CE7;
+}
+
+.page-hero__cell--practice .kanban-legend-cards .kb-ticket.aad-skill.aad-fam-uxd {
+  border-left-color: #E84393;
+}
+
+.page-hero__cell--practice .kanban-legend-cards .kb-ticket.aad-skill.aad-fam-sdd {
+  border-left-color: #6BCB77;
+}
+
+.page-hero__cell--practice .kanban-legend-cards .kb-ticket.aad-skill.aad-fam-arc {
+  border-left-color: var(--abd-blue, #4FC3F7);
+}
+
+@media (max-width: 960px) {
+  .page-hero__table,
+  .page-hero__table tbody,
+  .page-hero__table tr,
+  .page-hero__table td {
+    display: block;
+    width: 100%;
+  }
+
+  .page-hero__cell--title {
+    padding-right: 0;
+    margin-bottom: 12px;
+  }
+
+  .page-hero__cell--practice {
+    width: 100%;
+    white-space: normal;
+    padding-top: 0;
+  }
+
+  .page-hero__cell--practice .kanban-legend-row {
+    align-items: flex-start;
+  }
+
+  .page-hero__cell--practice .kanban-legend-cards {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .page-hero__cell--practice .kanban-legend-cards .kb-ticket.aad-skill {
+    white-space: normal;
+    width: 100%;
+  }
+}
+
+/* Nav: marketing site links + Foundry section (catalog-nav.js) */
+.nav-links__sep {
+  width: 1px;
+  height: 1.1em;
+  align-self: center;
+  background: var(--border);
+  margin: 0 6px;
+  padding: 0;
+  list-style: none;
+  pointer-events: none;
+}
+.nav-links a.nav-links__foundry,
+.nav-drawer-links a.nav-links__foundry {
+  opacity: 0.88;
+}
+
 strong { font-weight: 600; }
-code {
+
+.catalog-body {
+  padding-bottom: 96px;
+}
+
+.catalog-body .wrap {
+  max-width: 1400px;
+}
+
+.catalog-body code {
   font-family: var(--font-mono);
   font-size: 0.875em;
   background: rgba(255,255,255,0.06);
   padding: 2px 5px;
   border-radius: 3px;
-  color: #F2A07A;
+  color: var(--accent-soft);
 }
 
-/* ── Page layout ── */
-.page-wrap {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 48px clamp(16px, 4vw, 48px) 96px;
+html[data-theme="engineering"] .catalog-body code,
+html[data-abd-theme="engineering"] .catalog-body code {
+  background: rgba(255,255,255,0.06);
 }
 
-/* ── Panel / legacy wrapper — flatten to plain surface ── */
-.panel {
-  background: transparent;
-  border: none;
-  border-radius: 0;
-  overflow: visible;
+html:not([data-theme="engineering"]) .catalog-body code,
+html[data-abd-theme="executive"] .catalog-body code {
+  background: rgba(0, 0, 0, 0.06);
 }
 
-/* ── Page header (replaces old panel-header) ── */
-.panel-header {
-  margin-bottom: 40px;
-  padding-bottom: 32px;
-  border-bottom: 1px solid var(--border);
-  border-left: none;
-  background: transparent;
-  display: block;
+.page-hero--detail {
+  padding-top: 48px;
 }
 
-.header-icon { display: none; }
-
-.header-text { display: block; }
-.brand { display: none; }
-.brand-row { display: none; }
-.brand-row .brand { display: none; }
-.brand-row .cap-badge { display: none; }
-
-h1 {
-  margin: 0 0 10px;
-  font-size: clamp(28px, 4vw, 42px);
-  font-weight: 800;
-  letter-spacing: -0.03em;
-  line-height: 1.1;
-  color: var(--text);
-  font-family: var(--font-sans);
-}
-
-.tagline {
-  margin: 0;
-  font-size: 15px;
+.page-hero--detail .back-link {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
   color: var(--muted);
-  max-width: 540px;
-  line-height: 1.65;
-  font-family: var(--font-sans);
+  margin-bottom: 16px;
 }
 
-.panel-body { padding: 0; }
-p { margin: 0 0 14px; }
-h2 {
+.page-hero--detail .back-link:hover {
+  color: var(--accent);
+}
+
+.page-hero--detail .s-name {
+  margin-bottom: 12px;
+}
+
+.catalog-body p { margin: 0 0 14px; }
+
+.catalog-body h2 {
   font-size: 1.2rem;
   font-weight: 700;
   margin: 32px 0 14px;
@@ -111,29 +216,8 @@ h2 {
   border-bottom: 1px solid var(--border);
   color: var(--text);
 }
-h2:first-child { margin-top: 0; }
-.nav {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px 18px;
-  margin: 0 0 18px;
-  padding: 0 0 14px;
-  border-bottom: 1px solid var(--border-muted);
-}
-.nav a {
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: var(--muted);
-}
-.nav a.nav__link--current {
-  pointer-events: none;
-}
-/* Kanban is a different experience (full-screen deck) — keep it last and visually apart */
-.nav a.nav__link--kanban {
-  margin-left: auto;
-  padding-left: 18px;
-  border-left: 1px solid var(--border-muted);
-}
+
+.catalog-body h2:first-child { margin-top: 0; }
 .cap-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -141,44 +225,64 @@ h2:first-child { margin-top: 0; }
   margin: 18px 0 0;
 }
 .cap-card {
+  position: relative;
   display: block;
   text-decoration: none;
-  background: var(--raised);
+  background: var(--surface);
   border: 1px solid var(--border);
-  border-left: 3px solid var(--orange);
+  border-left: 3px solid var(--accent);
   border-radius: var(--radius);
   padding: 16px 18px;
-  transition: background 0.15s, border-color 0.15s;
+  overflow: hidden;
+  transition: background 200ms cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 200ms cubic-bezier(0.16, 1, 0.3, 1);
   cursor: pointer;
+}
+.cap-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 a.cap-card {
   color: var(--muted);
 }
 .cap-card:hover {
-  background: rgba(79, 195, 247, 0.06);
-  border-color: rgba(79, 195, 247, 0.32);
+  background: var(--raised);
+  border-color: var(--accent-soft);
   text-decoration: none;
+}
+.cap-card:hover::before {
+  transform: scaleX(1);
 }
 .cap-card__title {
   font-size: 0.97rem;
   font-weight: 700;
-  color: #F4F4F5;
+  color: var(--text);
   margin: 0 0 12px;
   display: flex;
   align-items: center;
   gap: 10px;
+  transition: color 200ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 a.cap-card:hover .cap-card__title {
-  color: var(--ai-blue-300);
+  color: var(--accent);
 }
 .cap-card__icon {
   flex-shrink: 0;
   width: 24px;
   height: 24px;
-  color: rgba(79, 195, 247, 0.72);
+  color: var(--muted);
+  transition: color 200ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 a.cap-card:hover .cap-card__icon {
-  color: var(--ai-blue-500);
+  color: var(--accent-soft);
 }
 .cap-card__label {
   font-size: 0.72rem;
@@ -192,9 +296,12 @@ a.cap-card:hover .cap-card__icon {
 .cap-card__meta { font-size: 0.75rem; color: var(--muted); font-family: var(--font-mono, 'JetBrains Mono', monospace); margin: 0 0 8px; opacity: 0.85; }
 .cap-card__more {
   font-size: 0.78rem;
-  color: rgba(79, 195, 247, 0.82);
+  color: var(--muted);
   opacity: 1;
   margin: 10px 0 0;
+}
+a.cap-card:hover .cap-card__more {
+  color: var(--accent-soft);
 }
 
 /* Entry detail pages (skill/*.html, agent/*.html) — overview-style */
@@ -205,7 +312,7 @@ a.cap-card:hover .cap-card__icon {
   margin: 0 0 10px;
 }
 .entry-detail-header .back-link:hover {
-  color: var(--orange);
+  color: var(--accent);
 }
 .cap-badge {
   display: inline-flex;
@@ -215,9 +322,9 @@ a.cap-card:hover .cap-card__icon {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: var(--orange);
-  background: rgba(255, 122, 0, 0.08);
-  border: 1px solid rgba(255, 122, 0, 0.25);
+  color: var(--accent);
+  background: rgba(229, 83, 26, 0.08);
+  border: 1px solid rgba(229, 83, 26, 0.25);
   border-radius: 3px;
   padding: 2px 8px;
   margin: 0 0 8px;
@@ -226,6 +333,12 @@ a.cap-card:hover .cap-card__icon {
   font-size: 0.9rem;
   color: var(--muted);
   margin: 0 0 12px;
+}
+.entry-subheading {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
+  margin: 18px 0 8px;
 }
 .entry-prose {
   white-space: pre-wrap;
@@ -271,7 +384,7 @@ a.cap-card:hover .cap-card__icon {
   font-weight: 800;
   font-size: 1.05em;
   line-height: 1.35;
-  color: var(--orange);
+  color: var(--accent);
 }
 .entry-md-section[open] > summary.entry-md-section__summary::before {
   content: "-";
@@ -337,7 +450,7 @@ a.cap-card:hover .cap-card__icon {
   background: rgba(0, 0, 0, 0.2);
   border: 1px solid var(--border-muted);
   border-radius: var(--radius);
-  border-left: 3px solid var(--orange);
+  border-left: 3px solid var(--accent);
 }
 .install-block h2 {
   margin-top: 0;
@@ -457,13 +570,13 @@ a.cap-card:hover .cap-card__icon {
   font-weight: 800;
   font-size: 1.05em;
   line-height: 1.35;
-  color: var(--orange);
+  color: var(--accent);
 }
 .file-tree__details[open] > .file-tree__summary::before {
   content: "-";
 }
 .file-tree__summary:hover {
-  background: rgba(255, 122, 0, 0.06);
+  background: rgba(229, 83, 26, 0.06);
 }
 .file-tree__summary .file-meta {
   display: inline;
@@ -490,7 +603,23 @@ a.cap-card:hover .cap-card__icon {
   margin-top: 4px;
 }
 
-/* Agile Garden prelude + mission + lists: abd-works/commons/agile-garden-fragment.css (prepended by generate_abd_catalog.py) */
+/* Foundry prelude + mission + lists: abd-works/commons/agile-garden-fragment.css (prepended by generate_abd_catalog.py) */
+
+/* Executive mode — AI blue fails contrast on light; skill links use accent */
+html[data-abd-theme="executive"] .catalog-prelude .catalog-garden-name a,
+html[data-abd-theme="executive"] .catalog-garden-lists .catalog-garden-name a,
+html[data-abd-theme="executive"] .catalog-garden-name--agent a,
+html[data-abd-theme="executive"] .catalog-garden-name--foundational a {
+  color: var(--accent-deep) !important;
+  border-bottom-color: rgba(198, 69, 20, 0.35);
+}
+html[data-abd-theme="executive"] .catalog-prelude .catalog-garden-name a:hover,
+html[data-abd-theme="executive"] .catalog-garden-lists .catalog-garden-name a:hover,
+html[data-abd-theme="executive"] .catalog-garden-name--agent a:hover,
+html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
+  color: var(--accent) !important;
+  border-bottom-color: rgba(229, 83, 26, 0.55);
+}
 
 /* Single-page hub (index.html): collapsible hub / skills / agents */
 .catalog-section {
@@ -610,12 +739,12 @@ a.cap-card:hover .cap-card__icon {
   vertical-align: top;
 }
 .rule-prose table.md-table th {
-  background: rgba(255, 122, 0, 0.08);
+  background: rgba(229, 83, 26, 0.08);
   font-weight: 600;
   white-space: nowrap;
 }
-.rule-prose table.md-table td { background: var(--panel); }
-.rule-prose a { color: var(--accent, #ff7a00); text-decoration: underline; }
+.rule-prose table.md-table td { background: var(--surface); }
+.rule-prose a { color: var(--accent); text-decoration: underline; }
 .rule-prose a:hover { text-decoration: none; }
 
 .plugin-slots h3 {

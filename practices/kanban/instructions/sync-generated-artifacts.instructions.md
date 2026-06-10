@@ -32,9 +32,9 @@ If user says no, do not auto-sync anything.
 
 | Changed artifact | Offer sync to | Skills |
 | --- | --- | --- |
-| Production code | Acceptance tests, Class Model | `abd-acceptance-test-driven-development`, `abd-domain-specification` |
-| Acceptance tests or Class Model | Spec by Example, Domain Model | `abd-specification-by-example`, `abd-domain-model` |
-| Spec by Example or Domain Model | Acceptance Criteria, Domain Sketch | `abd-acceptance-criteria`, `abd-domain-sketch` |
+| Production code | Acceptance tests, Class Model | `abd-story-acceptance-test`, `abd-domain-specification` |
+| Acceptance tests or Class Model | Spec by Example, Domain Model | `abd-story-specification`, `abd-domain-model` |
+| Spec by Example or Domain Model | Acceptance Criteria, Domain Sketch | `abd-story-acceptance-criteria`, `abd-domain-sketch` |
 | Acceptance Criteria or Domain Sketch | Story Map, Domain Language, Key Abstractions | `abd-story-mapping`, `abd-domain-language`, `abd-key-abstractions` |
 
 ### One side changed -> offer peer
@@ -42,11 +42,11 @@ If user says no, do not auto-sync anything.
 | Changed artifact | Offer sync to peer | Skills |
 | --- | --- | --- |
 | Acceptance tests | Class Model | `abd-domain-specification` |
-| Class Model | Acceptance tests | `abd-acceptance-test-driven-development` |
+| Class Model | Acceptance tests | `abd-story-acceptance-test` |
 | Spec by Example | Domain Model | `abd-domain-model` |
-| Domain Model | Spec by Example | `abd-specification-by-example` |
+| Domain Model | Spec by Example | `abd-story-specification` |
 | Acceptance Criteria | Domain Sketch | `abd-domain-sketch` |
-| Domain Sketch | Acceptance Criteria | `abd-acceptance-criteria` |
+| Domain Sketch | Acceptance Criteria | `abd-story-acceptance-criteria` |
 | Story Map | Domain Language, Key Abstractions | `abd-domain-language`, `abd-key-abstractions` |
 | Domain Language or Key Abstractions | Story Map | `abd-story-mapping` |
 
@@ -54,9 +54,9 @@ If user says no, do not auto-sync anything.
 
 | Changed artifact | Offer sync to | Skills |
 | --- | --- | --- |
-| Story Map, Domain Language, or Key Abstractions | Acceptance Criteria, Domain Sketch | `abd-acceptance-criteria`, `abd-domain-sketch` |
-| Acceptance Criteria or Domain Sketch | Spec by Example, Domain Model | `abd-specification-by-example`, `abd-domain-model` |
-| Spec by Example or Domain Model | Acceptance tests, Class Model | `abd-acceptance-test-driven-development`, `abd-domain-specification` |
+| Story Map, Domain Language, or Key Abstractions | Acceptance Criteria, Domain Sketch | `abd-story-acceptance-criteria`, `abd-domain-sketch` |
+| Acceptance Criteria or Domain Sketch | Spec by Example, Domain Model | `abd-story-specification`, `abd-domain-model` |
+| Spec by Example or Domain Model | Acceptance tests, Class Model | `abd-story-acceptance-test`, `abd-domain-specification` |
 | Acceptance tests or Class Model | Production code | `abd-clean-code` |
 
 ## Do not apply this rule when

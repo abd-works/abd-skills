@@ -3,124 +3,133 @@
     <div class="kb-col" data-id="col-shaping">
       <a class="kb-col-head kb-col-head--link" data-id="head-shaping" href="#stage-shaping"><span>Shaping</span><span class="kb-col-num">1</span></a>
       <div class="kb-col-tickets aad-tickets-grid">
+      <div class="aad-skill-row aad-fam-sdd" data-family="story-driven-delivery">
+        <a class="kb-ticket aad-skill aad-fam-sdd has-skill-tooltip" data-id="tk-story-driven-delivery-shaping-abd-story-mapping" href="../skill/abd-story-mapping.html"><span class="kb-skill-tooltip-wrap">story mapping outline<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">story mapping outline</span><span class="kb-col-shape-tooltip__bullets">A story map is a single shared picture of the product: epics (broad capability areas), sub-epics (flows or feature areas), and stories (leaves: one observable user or system interaction each). The map is not a dump of source material or a list of build tasks; it is outcomes and behaviors — what happens in the product — so product, delivery, and domain people can read the same structure.
+
+Naming is part of the model: epics, sub-epics, and stories use verb—noun titles; who is acting is carried outside the name (in story_type), not stuffed into the title.</span></span></span></a>
+      </div>
       <div class="aad-skill-row aad-fam-ddd" data-family="domain-driven-design">
-        <a class="kb-ticket aad-skill aad-fam-ddd" data-id="tk-domain-driven-design-shaping-abd-module-partition" href="../skill/abd-module-partition.html">module partition</a>
+        <a class="kb-ticket aad-skill aad-fam-ddd has-skill-tooltip" data-id="tk-domain-driven-design-shaping-abd-domain-glossary" href="../skill/abd-domain-glossary.html"><span class="kb-skill-tooltip-wrap">domain glossary<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">domain glossary</span><span class="kb-col-shape-tooltip__bullets">Produce a structured domain glossary — terms grouped by Key Abstraction, Key Abstractions grouped into modules by shared concern — so that every downstream artifact (domain language, acceptance criteria, specification, code) draws from a single agreed vocabulary.
+
+The primary output is a glossary, not a boundary diagram. Modules are the organizing container: a module groups the KAs and terms that share a core concern and can be understood together. Each module file contains:
+
+— Key Abstractions — named building blocks that own a cluster of related terms
+— Terms per KA — behavioral bullets and source references (exact file + location) per term
+— Boundary terms — concepts this module depends on but does not own
+— Scope — what region of the domain this module covers (emerges from the terms, not the other way around)</span></span></span></a>
       </div>
       <div class="aad-skill-row aad-fam-uxd" data-family="user-experience-design">
-        <a class="kb-ticket aad-skill aad-fam-uxd" data-id="tk-user-experience-design-shaping-abd-impact-mapping" href="../skill/abd-impact-mapping.html">impact mapping</a>
-      </div>
-      <div class="aad-skill-row aad-fam-sdd" data-family="story-driven-delivery">
-        <a class="kb-ticket aad-skill aad-fam-sdd" data-id="tk-story-driven-delivery-shaping-abd-story-mapping" href="../skill/abd-story-mapping.html">story mapping outline</a>
+        <a class="kb-ticket aad-skill aad-fam-uxd has-skill-tooltip" data-id="tk-user-experience-design-shaping-abd-impact-mapping" href="../skill/abd-impact-mapping.html"><span class="kb-skill-tooltip-wrap">impact mapping<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">impact mapping</span><span class="kb-col-shape-tooltip__bullets">Impact mapping is a strategic discovery technique that links broader goals to finer-grained goals, then to actors, their observable behaviour changes, and deliverable options (often epics or features) that could create those behaviours. It keeps discussion outcome-first: you see why an option might matter before debating build order.
+
+The map answers four questions in order: Why are we doing this? Who can help or hinder? How should behaviour change? What could we do to support that change? Good maps surface assumptions, limit scope creep by tying ideas to impacts, and support shared ownership when business and delivery build them together.</span></span></span></a>
       </div>
       <div class="aad-skill-row aad-fam-arc" data-family="architecture-centric-engineering">
-        <a class="kb-ticket aad-skill aad-fam-arc" data-id="tk-architecture-centric-engineering-shaping-abd-architecture-outline" href="../skill/abd-architecture-outline.html">architecture outline</a>
+        <a class="kb-ticket aad-skill aad-fam-arc has-skill-tooltip" data-id="tk-architecture-centric-engineering-shaping-abd-architecture-outline" href="../skill/abd-architecture-outline.html"><span class="kb-skill-tooltip-wrap">architecture outline<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">architecture outline</span><span class="kb-col-shape-tooltip__bullets">A team that cannot draw its system on one page also cannot agree on what to build next. Outlines fix that. This skill produces the first architecture artifact for a system — short on prose, heavy on diagrams — so engineers, product, and stakeholders share a single picture of the platform, the layers, the neighbours, the deployment topology, and the principles in force. When the outline is in place, deeper architecture work (blueprint, reference, mechanisms) can start without re-litigating what the system is.</span></span></span></a>
+      </div>
+      <div class="aad-stage-skills-gap" aria-hidden="true"></div>
+      <div class="aad-stage-skills-block">
+        <a class="kb-ticket aad-skill aad-stage-skill aad-fam-stage has-skill-tooltip" data-id="tk-stage-shaping-abd-cost-of-delay" href="../skill/abd-cost-of-delay.html"><span class="kb-skill-tooltip-wrap">cost of delay<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">cost of delay</span><span class="kb-col-shape-tooltip__bullets">Teams routinely prioritize work by gut feel, stakeholder loudness, or first-in-first-out — all of which ignore how much value decays while items wait to be delivered. Cost of Delay puts a price tag on time so teams can make scheduling decisions based on economics rather than politics.
+
+This skill classifies the value type and urgency of each feature or initiative in context, then builds a simple value model that makes assumptions explicit, calculates Cost of Delay per time period (month / week), divides by duration to get CD3, and ranks so the highest-value shortest-duration work goes first.</span></span></span></a>
+        <a class="kb-ticket aad-skill aad-stage-skill aad-fam-stage has-skill-tooltip" data-id="tk-stage-shaping-abd-opportunity-canvas" href="../skill/abd-opportunity-generation.html"><span class="kb-skill-tooltip-wrap">opportunity canvas<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">opportunity canvas</span><span class="kb-col-shape-tooltip__bullets">This skill exists so you do not start &quot;building a solution&quot; while people are thinking about a different problem, a different customer, or a different definition of success.
+
+It makes an opportunity explicit — who it is for, why the organisation should care, what you might build or buy, how you would know it worked, and what the effort looks like. You finish with enough alignment that downstream build and delivery work is based on a shared model. Every part of the canvas is also a candidate assumption — beliefs about customers, value, and capability that teams often turn into falsifiable statements and run through a lightweight validation path (see abd-simple-validated-learning).</span></span></span></a>
+        <a class="kb-ticket aad-skill aad-stage-skill aad-fam-stage has-skill-tooltip" data-id="tk-stage-shaping-abd-simple-validated-learning" href="../skill/abd-simple-validated-learning.html"><span class="kb-skill-tooltip-wrap">simple validated learning<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">simple validated learning</span><span class="kb-col-shape-tooltip__bullets">Opportunities, ideas, and initiatives often carry many unverified assumptions — about customers, value, feasibility, and economics — that the organisation has not yet checked. This skill is for surfacing those assumptions explicitly and working through them iteratively before the organisation treats them as fact or commits to a full build. The agent (or facilitator) mines the supplied context for assumptions, rewrites them as falsifiable hypotheses, prioritises them into a validation backlog, and structures each item to move through Plan → Validate → Learn.</span></span></span></a>
       </div>
       </div>
     </div>
     <div class="kb-col" data-id="col-discovery">
       <a class="kb-col-head kb-col-head--link" data-id="head-discovery" href="#stage-discovery"><span>Discovery</span><span class="kb-col-num">2</span></a>
       <div class="kb-col-tickets aad-tickets-grid">
+      <div class="aad-skill-row aad-fam-sdd" data-family="story-driven-delivery">
+        <a class="kb-ticket aad-skill aad-fam-sdd has-skill-tooltip" data-id="tk-story-driven-delivery-discovery-abd-story-mapping" href="../skill/abd-story-mapping.html"><span class="kb-skill-tooltip-wrap">story mapping<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">story mapping</span><span class="kb-col-shape-tooltip__bullets">A story map is a single shared picture of the product: epics (broad capability areas), sub-epics (flows or feature areas), and stories (leaves: one observable user or system interaction each). The map is not a dump of source material or a list of build tasks; it is outcomes and behaviors — what happens in the product — so product, delivery, and domain people can read the same structure.
+
+Naming is part of the model: epics, sub-epics, and stories use verb—noun titles; who is acting is carried outside the name (in story_type), not stuffed into the title.</span></span></span></a>
+      </div>
       <div class="aad-skill-row aad-fam-ddd" data-family="domain-driven-design">
-        <a class="kb-ticket aad-skill aad-fam-ddd" data-id="tk-domain-driven-design-discovery-abd-domain-terms" href="../skill/abd-domain-terms.html">domain terms</a>
+        <a class="kb-ticket aad-skill aad-fam-ddd has-skill-tooltip" data-id="tk-domain-driven-design-discovery-abd-domain-language" href="../skill/abd-domain-language.html"><span class="kb-skill-tooltip-wrap">domain language<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">domain language</span><span class="kb-col-shape-tooltip__bullets">Build a shared, rigorous vocabulary for the scope you are modeling so that domain experts and modelers agree on what each term means, what each concept does, and which rules must always hold — and capture that agreement in one living document the whole team uses without translation. The scope of one run can be a single module, several modules, or a whole-system sweep; the skill and its output shape stay the same.
+
+This is a three-pass skill. It reads source, extracts terms with definitions, groups them into Key Abstractions, sketches each concept&#x27;s behavior and properties, and writes one file. The final output is a robust domain model that describes domain concepts in a structured, plain-English form — before anyone commits to classes, methods, or properties.</span></span></span></a>
       </div>
       <div class="aad-skill-row aad-fam-uxd" data-family="user-experience-design">
-        <a class="kb-ticket aad-skill aad-fam-uxd" data-id="tk-user-experience-design-discovery-abd-information-architecture" href="../skill/abd-information-architecture.html">information architecture</a>
-      </div>
-      <div class="aad-skill-row aad-fam-sdd" data-family="story-driven-delivery">
-        <a class="kb-ticket aad-skill aad-fam-sdd" data-id="tk-story-driven-delivery-discovery-abd-story-mapping" href="../skill/abd-story-mapping.html">story mapping</a>
-        <a class="kb-ticket aad-skill aad-fam-sdd" data-id="tk-story-driven-delivery-discovery-abd-thin-slicing" href="../skill/abd-thin-slicing.html">thin slicing</a>
+        <a class="kb-ticket aad-skill aad-fam-uxd has-skill-tooltip" data-id="tk-user-experience-design-discovery-abd-information-architecture" href="../skill/abd-ux-information-architecture.html"><span class="kb-skill-tooltip-wrap">information architecture<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">information architecture</span><span class="kb-col-shape-tooltip__bullets">Doing IA work early — before detailed design or development — flushes out gaps in functional and domain understanding, surfaces disagreements about scope, naming, and navigation when they are cheap to resolve, and gives the team a concrete picture to challenge and confirm before committing to wireframes or implementation. Functional requirements and stories written against a named screen inventory and content model become more precise: they reference agreed surfaces by name, missing coverage shows up as absent nodes, and edge-case states are identified before anyone has built against the wrong assumption.</span></span></span></a>
       </div>
       <div class="aad-skill-row aad-fam-arc" data-family="architecture-centric-engineering">
-        <a class="kb-ticket aad-skill aad-fam-arc" data-id="tk-architecture-centric-engineering-discovery-abd-architecture-blueprint" href="../skill/abd-architecture-blueprint.html">architecture blueprint</a>
-        <a class="kb-ticket aad-skill aad-fam-arc" data-id="tk-architecture-centric-engineering-discovery-abd-service-level-objectives" href="../skill/abd-service-level-objectives.html">service level objectives</a>
+        <a class="kb-ticket aad-skill aad-fam-arc has-skill-tooltip" data-id="tk-architecture-centric-engineering-discovery-abd-architecture-blueprint" href="../skill/abd-architecture-blueprint.html"><span class="kb-skill-tooltip-wrap">architecture blueprint<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">architecture blueprint</span><span class="kb-col-shape-tooltip__bullets">The outline shows what a system is; the blueprint shows what it is made of. A blueprint is the document a tech lead opens to answer &quot;where does the order code live? what does it depend on? how does it talk to the catalogue?&quot; without yet drilling into the implementation patterns. It names every architectural component in a paragraph or two, catalogues every cross-cutting concern as an architecture mechanism, shows the data architecture at the model level, captures the common testing strategy, and lists the decisions taken at this level. When the blueprint is in place, the architecture reference can go deep on one mechanism at a time without re-explaining the system to its reader.</span></span></span></a>
+      </div>
+      <div class="aad-stage-skills-gap" aria-hidden="true"></div>
+      <div class="aad-stage-skills-block">
+        <a class="kb-ticket aad-skill aad-stage-skill aad-fam-stage has-skill-tooltip" data-id="tk-stage-discovery-abd-code-research" href="../skill/abd-code-research.html"><span class="kb-skill-tooltip-wrap">code research<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">code research</span><span class="kb-col-shape-tooltip__bullets">Walking into an unfamiliar codebase without a map turns architecture work into guesswork. This skill makes the survey systematic: a first pass spans the codebase breadth-first, naming every meaningful research path and capturing raw source evidence; a second pass follows each path to the depth that architecture documentation needs. The two passes produce structured outputs that feed directly into abd-architecture-outline, abd-architecture-blueprint, and abd-architecture-specification, so those downstream skills start with evidence rather than assumptions. The skill works for any codebase — compiled or interpreted, monolith or modular, documented or bare — and scales from a 500-line script to a 200-file enterprise system.</span></span></span></a>
+        <a class="kb-ticket aad-skill aad-stage-skill aad-fam-stage has-skill-tooltip" data-id="tk-stage-discovery-abd-service-level-objectives" href="../skill/abd-service-level-objectives.html"><span class="kb-skill-tooltip-wrap">service level objectives<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">service level objectives</span><span class="kb-col-shape-tooltip__bullets">A non-functional requirement that cannot be measured is a wish. Teams that ship without measurable NFRs discover the truth in production — too late, too expensive, sometimes too public. This skill turns each NFR into a concrete Service Level Indicator (what is measured), Service Level Objective (the target on that indicator), and where a customer-facing commitment exists, a Service Level Agreement. Critically, each objective is scoped to the functional area it applies to: a single user story, an epic, a parent epic, or the system as a whole.</span></span></span></a>
       </div>
       </div>
     </div>
     <div class="kb-col" data-id="col-exploration">
       <a class="kb-col-head kb-col-head--link" data-id="head-exploration" href="#stage-exploration"><span>Exploration</span><span class="kb-col-num">3</span></a>
       <div class="kb-col-tickets aad-tickets-grid">
+      <div class="aad-skill-row aad-fam-sdd" data-family="story-driven-delivery">
+        <a class="kb-ticket aad-skill aad-fam-sdd has-skill-tooltip" data-id="tk-story-driven-delivery-exploration-abd-story-acceptance-criteria" href="../skill/abd-story-acceptance-criteria.html"><span class="kb-skill-tooltip-wrap">story acceptance criteria<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">story acceptance criteria</span><span class="kb-col-shape-tooltip__bullets">Build acceptance criteria per story, that explain what must be true when users and systems interact: observable triggers (WHEN), expected outcomes (THEN), chained effects (AND), and explicit negatives (BUT). These act as informal first-draft BDD-style steps that guide downstream scenario work. Focus on interactions using domain terms, avoid implementation detail unless the story is technical, and even then keep it minimal.</span></span></span></a>
+      </div>
       <div class="aad-skill-row aad-fam-ddd" data-family="domain-driven-design">
-        <a class="kb-ticket aad-skill aad-fam-ddd" data-id="tk-domain-driven-design-exploration-abd-ubiquitous-language" href="../skill/abd-ubiquitous-language.html">ubiquitous language</a>
+        <a class="kb-ticket aad-skill aad-fam-ddd has-skill-tooltip" data-id="tk-domain-driven-design-exploration-abd-domain-model" href="../skill/abd-domain-model.html"><span class="kb-skill-tooltip-wrap">domain model<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">domain model</span><span class="kb-col-shape-tooltip__bullets">This skill takes domain concepts from a completed Domain Language and produces a typed domain model: for each concept, a constructor, typed properties, method signatures with collaborators and invariants. The result is a standalone file with ### Class blocks under each Key Abstraction.
+
+The format sits between domain model and a full Class Model — it uses typed notation (constructors, property types, method signatures) but avoids class-model embellishments (no &lt;&lt; stereotypes &gt;&gt;, no List&lt;T&gt; or Dictionary&lt;K,V&gt;, no Interaction: blocks, no + visibility prefixes, no param names in method signatures).</span></span></span></a>
       </div>
       <div class="aad-skill-row aad-fam-uxd" data-family="user-experience-design">
-        <a class="kb-ticket aad-skill aad-fam-uxd" data-id="tk-user-experience-design-exploration-abd-ux-mockup" href="../skill/abd-ux-mockup.html">ux mockup</a>
-      </div>
-      <div class="aad-skill-row aad-fam-sdd" data-family="story-driven-delivery">
-        <a class="kb-ticket aad-skill aad-fam-sdd" data-id="tk-story-driven-delivery-exploration-abd-acceptance-criteria" href="../skill/abd-acceptance-criteria.html">acceptance criteria</a>
+        <a class="kb-ticket aad-skill aad-fam-uxd has-skill-tooltip" data-id="tk-user-experience-design-exploration-abd-ux-mockup" href="../skill/abd-ux-mockup.html"><span class="kb-skill-tooltip-wrap">ux mockup<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">ux mockup</span><span class="kb-col-shape-tooltip__bullets">The initial IA established the screen inventory, regions, and story coverage. The lo-fi mockup is the next precision pass: it locks down exactly which control renders each field, exactly what interactions are available in each state, and exactly what the user sees and does — without yet committing to visual design. Every input becomes a specific control type (text field, dropdown, checkbox). Every action becomes a positioned button with a primary/secondary weight. Every conditional state (validation error, empty list, disabled control) is explicitly placed. This skill packages that pass: take one IA screen, resolve its AC and domain terms, build a drawio-mockup.mjs state file, generate the .drawio wireframe, and save it — so interaction decisions are made deliberately and traceable, not invented during implementation.</span></span></span></a>
       </div>
       <div class="aad-skill-row aad-fam-arc" data-family="architecture-centric-engineering">
-        <a class="kb-ticket aad-skill aad-fam-arc" data-id="tk-architecture-centric-engineering-exploration-abd-architecture-template" href="../skill/abd-architecture-template.html">architecture template</a>
+        <a class="kb-ticket aad-skill aad-fam-arc has-skill-tooltip" data-id="tk-architecture-centric-engineering-exploration-abd-architecture-specification" href="../skill/abd-architecture-specification.html"><span class="kb-skill-tooltip-wrap">architecture specification document<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">architecture specification document</span><span class="kb-col-shape-tooltip__bullets">An architecture specification tells engineers exactly how domain concepts and stories become code in a chosen stack — which files, classes, interactions, and tests implement each entity, operation, and scenario. The specification is one artifact: documentation and working template code stay aligned; each mechanism is documented once and reused; later runs extend only what is missing.</span></span></span></a>
       </div>
       </div>
     </div>
     <div class="kb-col" data-id="col-specification">
       <a class="kb-col-head kb-col-head--link" data-id="head-specification" href="#stage-specification"><span>Specification</span><span class="kb-col-num">4</span></a>
       <div class="kb-col-tickets aad-tickets-grid">
+      <div class="aad-skill-row aad-fam-sdd" data-family="story-driven-delivery">
+        <a class="kb-ticket aad-skill aad-fam-sdd has-skill-tooltip" data-id="tk-story-driven-delivery-specification-abd-story-specification" href="../skill/abd-story-specification.html"><span class="kb-skill-tooltip-wrap">story specification<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">story specification</span><span class="kb-col-shape-tooltip__bullets">Write Given/When/Then scenarios that make a story&#x27;s expected behavior concrete and testable, using real domain values and named outcomes so the team can verify what the system must do.</span></span></span></a>
+      </div>
       <div class="aad-skill-row aad-fam-ddd" data-family="domain-driven-design">
-        <a class="kb-ticket aad-skill aad-fam-ddd" data-id="tk-domain-driven-design-specification-abd-class-responsibility-collaborator" href="../skill/abd-class-responsibility-collaborator.html">class responsibility collaborator</a>
-        <a class="kb-ticket aad-skill aad-fam-ddd" data-id="tk-domain-driven-design-specification-abd-scenario-walkthrough" href="../skill/abd-scenario-walkthrough.html">scenario walkthrough</a>
+        <a class="kb-ticket aad-skill aad-fam-ddd has-skill-tooltip" data-id="tk-domain-driven-design-specification-abd-domain-specification" href="../skill/abd-domain-specification.html"><span class="kb-skill-tooltip-wrap">domain specification<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">domain specification</span><span class="kb-col-shape-tooltip__bullets">Build a typed Class Model for a module. When a domain model exists it is the primary input � the skill converts that behavioral model into a typed domain surface with far less effort. Without a domain model the skill can still produce an Class Model directly from domain knowledge.</span></span></span></a>
       </div>
       <div class="aad-skill-row aad-fam-uxd" data-family="user-experience-design">
-        <a class="kb-ticket aad-skill aad-fam-uxd" data-id="tk-user-experience-design-specification-abd-ux-specification" href="../skill/abd-ux-specification.html">interface design</a>
-      </div>
-      <div class="aad-skill-row aad-fam-sdd" data-family="story-driven-delivery">
-        <a class="kb-ticket aad-skill aad-fam-sdd" data-id="tk-story-driven-delivery-specification-abd-specification-by-example" href="../skill/abd-specification-by-example.html">specification by example</a>
+        <a class="kb-ticket aad-skill aad-fam-uxd has-skill-tooltip" data-id="tk-user-experience-design-specification-abd-ux-specification" href="../skill/abd-ux-design.html"><span class="kb-skill-tooltip-wrap">ux specification<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">ux specification</span><span class="kb-col-shape-tooltip__bullets">Hi-fi mockups settle look and feel. The interface stage is where they become real code � and where most teams quietly stop honouring the upstream artifacts because &quot;we&#x27;re shipping now&quot;. This skill keeps that integrity: the implementation renders the same regions, the same affordances, the same labels, the same acceptance criteria, and the same visual decisions as the approved hi-fi, in production-grade code that an end user can actually use. It treats acceptance criteria as the testable surface (every clause is a working behaviour with a check), treats the Domain Language as the public vocabulary (labels and copy stay verbatim from the UL and AC), and treats accessibility and performance as constraints that are met, not aspirations that are mentioned.</span></span></span></a>
       </div>
       <div class="aad-skill-row aad-fam-arc" data-family="architecture-centric-engineering">
-        <a class="kb-ticket aad-skill aad-fam-arc" data-id="tk-architecture-centric-engineering-specification-abd-architecture-reference" href="../skill/abd-architecture-reference.html">architecture reference</a>
+        <a class="kb-ticket aad-skill aad-fam-arc has-skill-tooltip" data-id="tk-architecture-centric-engineering-specification-abd-architecture-specification" href="../skill/abd-architecture-specification.html"><span class="kb-skill-tooltip-wrap">architecture specification template<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">architecture specification template</span><span class="kb-col-shape-tooltip__bullets">An architecture specification tells engineers exactly how domain concepts and stories become code in a chosen stack — which files, classes, interactions, and tests implement each entity, operation, and scenario. The specification is one artifact: documentation and working template code stay aligned; each mechanism is documented once and reused; later runs extend only what is missing.</span></span></span></a>
       </div>
       </div>
     </div>
     <div class="kb-col" data-id="col-engineering">
       <a class="kb-col-head kb-col-head--link" data-id="head-engineering" href="#stage-engineering"><span>Engineering</span><span class="kb-col-num">5</span></a>
       <div class="kb-col-tickets aad-tickets-grid">
+      <div class="aad-skill-row aad-fam-sdd" data-family="story-driven-delivery">
+        <a class="kb-ticket aad-skill aad-fam-sdd has-skill-tooltip" data-id="tk-story-driven-delivery-engineering-abd-story-acceptance-test" href="../skill/abd-story-acceptance-test.html"><span class="kb-skill-tooltip-wrap">story acceptance test<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">story acceptance test</span><span class="kb-col-shape-tooltip__bullets">Write tests first. Write code to pass them.
+
+This skill creates executable test files — in whatever language and framework the project uses — from whatever behavioral context is available: specification scenarios, acceptance criteria, stories, notes, or a rough description of what the system should do. The output is real test code that runs, fails, and drives what gets built.
+
+The workflow is test-driven: write a test that expresses the expected behavior, run it to confirm it fails (RED), then implement production code until the test passes (GREEN). Each test is a precise, runnable statement of what the system must do — test methods show the Given-When-Then flow and helper functions do the work.</span></span></span></a>
+      </div>
       <div class="aad-skill-row aad-fam-ddd" data-family="domain-driven-design">
-        <a class="kb-ticket aad-skill aad-fam-ddd" data-id="tk-domain-driven-design-engineering-abd-object-model" href="../skill/abd-object-model.html">object model</a>
+        <a class="kb-ticket aad-skill aad-fam-ddd has-skill-tooltip" data-id="tk-domain-driven-design-engineering-abd-domain-code" href="../skill/abd-domain-code.html"><span class="kb-skill-tooltip-wrap">domain code<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">domain code</span><span class="kb-col-shape-tooltip__bullets">Turn whatever domain context exists into running, tested domain code.
+
+— Tests first (RED) → production code (GREEN) → clean up (REFACTOR).
+— Only the domain layer: classes, value objects, operations, invariants, domain events.
+— No database, no HTTP, no framework coupling.</span></span></span></a>
       </div>
       <div class="aad-skill-row aad-fam-uxd" data-family="user-experience-design">
-        <a class="kb-ticket aad-skill aad-fam-uxd" data-id="tk-user-experience-design-engineering-abd-ux-specification" href="../skill/abd-ux-specification.html">interface design</a>
-      </div>
-      <div class="aad-skill-row aad-fam-sdd" data-family="story-driven-delivery">
-        <a class="kb-ticket aad-skill aad-fam-sdd" data-id="tk-story-driven-delivery-engineering-abd-acceptance-test-driven-development" href="../skill/abd-acceptance-test-driven-development.html">acceptance test driven development</a>
+        <a class="kb-ticket aad-skill aad-fam-uxd has-skill-tooltip" data-id="tk-user-experience-design-engineering-abd-ux-specification" href="../skill/abd-ux-design.html"><span class="kb-skill-tooltip-wrap">UI code<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">UI code</span><span class="kb-col-shape-tooltip__bullets">Hi-fi mockups settle look and feel. The interface stage is where they become real code � and where most teams quietly stop honouring the upstream artifacts because &quot;we&#x27;re shipping now&quot;. This skill keeps that integrity: the implementation renders the same regions, the same affordances, the same labels, the same acceptance criteria, and the same visual decisions as the approved hi-fi, in production-grade code that an end user can actually use. It treats acceptance criteria as the testable surface (every clause is a working behaviour with a check), treats the Domain Language as the public vocabulary (labels and copy stay verbatim from the UL and AC), and treats accessibility and performance as constraints that are met, not aspirations that are mentioned.</span></span></span></a>
       </div>
       <div class="aad-skill-row aad-fam-arc" data-family="architecture-centric-engineering">
-        <a class="kb-ticket aad-skill aad-fam-arc" data-id="tk-architecture-centric-engineering-engineering-abd-clean-code" href="../skill/abd-clean-code.html">clean code</a>
+        <a class="kb-ticket aad-skill aad-fam-arc has-skill-tooltip" data-id="tk-architecture-centric-engineering-engineering-abd-architecture-code" href="../skill/abd-architecture-code.html"><span class="kb-skill-tooltip-wrap">architecture code<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">architecture code</span><span class="kb-col-shape-tooltip__bullets">Given a named architecture spec and story scope with domain context, generate acceptance tests then production code that follows the spec&#x27;s instructions, templates, file layout, and rules. Use when writing code for a story that has a named spec, adding a feature module to an existing codebase, or reviewing generated code for architecture compliance.</span></span></span></a>
+      </div>
+      <div class="aad-stage-skills-gap" aria-hidden="true"></div>
+      <div class="aad-stage-skills-block">
+        <a class="kb-ticket aad-skill aad-stage-skill aad-fam-stage has-skill-tooltip" data-id="tk-stage-engineering-abd-clean-code" href="../skill/abd-clean-code.html"><span class="kb-skill-tooltip-wrap">clean code<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">clean code</span><span class="kb-col-shape-tooltip__bullets">Write production code that implements story behavior using domain language, clean functions, explicit dependencies, and observable design.
+
+This skill produces real, runnable production modules — in Python or JavaScript — from whatever context is available: a story, acceptance criteria, a failing test, or a description of the behavior to implement. The output follows a consistent layout: one module per sub-epic area, one class per domain entity, functions under 20 lines, and all dependencies injected through the constructor.</span></span></span></a>
+        <a class="kb-ticket aad-skill aad-stage-skill aad-fam-stage has-skill-tooltip" data-id="tk-stage-engineering-abd-secure-code" href="../skill/abd-secure-code.html"><span class="kb-skill-tooltip-wrap">secure code<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">secure code</span><span class="kb-col-shape-tooltip__bullets">Engineers ship features faster than attackers find gaps — but only when secure defaults are explicit, reviewable, and mechanically checkable. This skill packages Secure Code Warrior guidance into concrete coding rules and automated scanners so teams and agents can write security-sensitive code and prove it meets the same bar before merge.</span></span></span></a>
       </div>
       </div>
     </div>
-</div>
-<div class="aad-delivery-crosscut aad-delivery-crosscut-grid" data-id="delivery-crosscut">
-  <div class="aad-delivery-crosscut-lane">
-    <a class="aad-delivery-crosscut-label aad-fam-delivery" data-id="row-label-kanban" href="../plugin/kanban.html">Kanban</a>
-  </div>
-  <div class="aad-delivery-crosscut-skills-band">
-    <div class="aad-delivery-crosscut-row aad-delivery-crosscut-row--inline">
-      <div class="aad-delivery-crosscut-sublabel">Agents</div>
-      <div class="aad-delivery-crosscut-agents">
-        <a class="aad-delivery-leaf aad-row-agent aad-fam-delivery" data-id="agent-kanban-lead" href="../agent/kanban-lead.html">kanban-lead</a>
-        <a class="aad-delivery-leaf aad-row-agent aad-fam-delivery" data-id="agent-product-owner" href="../agent/product-owner.html">product-owner</a>
-        <a class="aad-delivery-leaf aad-row-agent aad-fam-delivery" data-id="agent-product-owner-reviewer" href="../agent/product-owner-reviewer.html">product-owner-reviewer</a>
-        <a class="aad-delivery-leaf aad-row-agent aad-fam-delivery" data-id="agent-business-expert" href="../agent/business-expert.html">business-expert</a>
-        <a class="aad-delivery-leaf aad-row-agent aad-fam-delivery" data-id="agent-business-expert-reviewer" href="../agent/business-expert-reviewer.html">business-expert-reviewer</a>
-        <a class="aad-delivery-leaf aad-row-agent aad-fam-delivery" data-id="agent-ux-designer" href="../agent/ux-designer.html">ux-designer</a>
-        <a class="aad-delivery-leaf aad-row-agent aad-fam-delivery" data-id="agent-ux-designer-reviewer" href="../agent/ux-designer-reviewer.html">ux-designer-reviewer</a>
-        <a class="aad-delivery-leaf aad-row-agent aad-fam-delivery" data-id="agent-engineer" href="../agent/engineer.html">engineer</a>
-        <a class="aad-delivery-leaf aad-row-agent aad-fam-delivery" data-id="agent-engineer-reviewer" href="../agent/engineer-reviewer.html">engineer-reviewer</a>
-      </div>
-      <div class="aad-delivery-crosscut-sublabel aad-delivery-crosscut-sublabel--skills">Skills</div>
-      <div class="aad-delivery-crosscut-skills">
-        <a class="kb-ticket aad-skill aad-fam-delivery" href="../skill/abd-kanban-planning.html">kanban planning</a>
-        <a class="kb-ticket aad-skill aad-fam-delivery" href="../skill/abd-kanban.html">kanban</a>
-        <a class="kb-ticket aad-skill aad-fam-delivery" href="../skill/abd-kanban-repo.html">kanban repo</a>
-        <a class="kb-ticket aad-skill aad-fam-delivery" href="../skill/kanban-estimation.html">kanban estimation</a>
-      </div>
-    </div>
-    <div class="aad-delivery-crosscut-tracks" aria-hidden="true">
-      <span class="aad-delivery-arrow"></span>
-      <span class="aad-delivery-arrow"></span>
-      <span class="aad-delivery-arrow"></span>
-      <span class="aad-delivery-arrow"></span>
-      <span class="aad-delivery-arrow"></span>
-    </div>
-  </div>
 </div>

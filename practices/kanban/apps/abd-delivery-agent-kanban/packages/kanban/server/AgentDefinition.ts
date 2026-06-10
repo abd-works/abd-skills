@@ -1,4 +1,4 @@
-﻿import { join } from 'node:path';
+import { join } from 'node:path';
 import { readFileSync, existsSync } from 'node:fs';
 
 /**
@@ -38,7 +38,7 @@ const FIXTURE_CONTENT: Record<string, string> = {
     '- work-queue.md',
     '',
     '## Conditional Skills',
-    '- abd-acceptance-test-driven-development (conditional)',
+    '- abd-story-acceptance-test (conditional)',
   ].join('\n'),
 
   'business-expert': [

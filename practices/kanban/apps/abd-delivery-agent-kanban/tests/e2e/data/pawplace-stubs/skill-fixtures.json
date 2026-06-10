@@ -123,11 +123,11 @@
         ]
       }
     },
-    "abd-acceptance-criteria": {
+    "abd-story-acceptance-criteria": {
       "default": {
         "copies": [
           {
-            "source": "skill-fixtures/abd-acceptance-criteria.md",
+            "source": "skill-fixtures/abd-story-acceptance-criteria.md",
             "target": "docs/increments/1-product-catalog-inc-1-find-products-and-check-store-stock/exploration/stories/acceptance-criteria.md"
           },
           {
@@ -170,11 +170,11 @@
         ]
       }
     },
-    "abd-specification-by-example": {
+    "abd-story-specification": {
       "default": {
         "copies": [
           {
-            "source": "skill-fixtures/abd-specification-by-example.md",
+            "source": "skill-fixtures/abd-story-specification.md",
             "target": "docs/increments/1-product-catalog-inc-1-find-products-and-check-store-stock/specification/specification-by-example.md"
           },
           {
@@ -214,11 +214,11 @@
         ]
       }
     },
-    "abd-acceptance-test-driven-development": {
+    "abd-story-acceptance-test": {
       "default": {
         "copies": [
           {
-            "source": "skill-fixtures/abd-acceptance-test-driven-development.py",
+            "source": "skill-fixtures/abd-story-acceptance-test.py",
             "target": "tests/acceptance/test_search_products.py"
           }
         ]

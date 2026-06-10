@@ -1,4 +1,4 @@
-﻿# Strategy: Legacy Migration ? MERN (spec stop)
+# Strategy: Legacy Migration ? MERN (spec stop)
 
 **When to use:** Replacing BESS28 (or similar legacy NonStop) with a **domain-first MERN** target. Legacy **source + code research** is the behavioral spec. **No runnable legacy system** — ATDD RED tests are written against documented legacy behavior for the **new** stack only. **Stop at specification** — no engineering/clean-code until a later engagement.
 
@@ -15,9 +15,9 @@
 | Context | — | **Skip** — BESS28 Source is readable; `code-research/` already indexed |
 | Shaping | **project** | **abd-domain-glossary** (detailed — use `code-research/` + `context/BESS28 Source/`), **abd-bounded-context-map**, **abd-story-mapping** (outline from legacy flows), **abd-architecture-outline** (MERN target — read `specs/mern` + `abd-architecture-code`) |
 | Discovery | **partition** | ****, **abd-story-mapping** (full), **abd-thin-slicing**, **abd-architecture-blueprint**, **abd-information-architecture** (optional) |
-| Exploration | **increment** | **abd-domain-language**, **abd-acceptance-criteria** (legacy behavior is spec), **abd-ux-mockup** (optional), **abd-architecture-specification** (assign/create MERN mechanism reference from blueprint — gate at execution) |
-| Specification | **sprint** | **abd-domain-model**, **abd-specification-by-example**, **abd-ux-specification** (optional), **abd-architecture-template** (MERN mechanism templates for sprint scope) |
-| Engineering | **sprint** | **abd-acceptance-test-driven-development RED only (PO)** (tests for new system; legacy research + spec as oracle — **no old-system execution**). No abd-domain-specification, abd-clean-code, or GREEN — engagement stops after RED tests. |
+| Exploration | **increment** | **abd-domain-language**, **abd-story-acceptance-criteria** (legacy behavior is spec), **abd-ux-mockup** (optional), **abd-architecture-specification** (assign/create MERN mechanism reference from blueprint — gate at execution) |
+| Specification | **sprint** | **abd-domain-model**, **abd-story-specification**, **abd-ux-specification** (optional), **abd-architecture-template** (MERN mechanism templates for sprint scope) |
+| Engineering | **sprint** | **abd-story-acceptance-test RED only (PO)** (tests for new system; legacy research + spec as oracle — **no old-system execution**). No abd-domain-specification, abd-clean-code, or GREEN — engagement stops after RED tests. |
 
 ### Shaping — module partition (mandatory depth)
 
@@ -37,7 +37,7 @@
 | Standard legacy-migration | This strategy |
 | --- | --- |
 | Tests pass on OLD system first | **Not applicable** — no runnable BESS28 |
-| Characterization from production | **Code research + source excerpts + abd-specification-by-example** are the oracle |
+| Characterization from production | **Code research + source excerpts + abd-story-specification** are the oracle |
 | GREEN on new system in engineering | **Deferred** — engineering stage delivers **RED** acceptance tests only |
 
 ---

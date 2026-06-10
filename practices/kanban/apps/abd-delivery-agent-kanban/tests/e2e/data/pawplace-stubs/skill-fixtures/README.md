@@ -1,4 +1,4 @@
-﻿# E2E skill fixtures
+# E2E skill fixtures
 
 Pre-baked, **valid-but-minimal** deliverables for every skill on the `pawplace-stubs` kanban rails.
 
@@ -22,13 +22,13 @@ Content is trimmed from [abd-pet-store-demo](https://github.com/agilebydesign/ab
 | `sprint-groupings.md` | Sprint scatter |
 | `abd-domain-terms.md` | Domain |
 | `abd-domain-language.md` | Domain (exploration) |
-| `abd-acceptance-criteria.md` | Stories + AC |
+| `abd-story-acceptance-criteria.md` | Stories + AC |
 | `abd-ux-mockup.md` | UX |
 | `abd-information-architecture.md` | UX (discovery) |
 | `abd-architecture-*.md` | Architecture (outline, blueprint, template, reference) |
 | `abd-domain-model.md` | domain model |
-| `abd-specification-by-example.md` | Spec by example |
+| `abd-story-specification.md` | Spec by example |
 | `abd-ux-specification.md` | Interface design |
 | `abd-domain-specification.md` | Class Model |
-| `abd-acceptance-test-driven-development.py` | ATDD stub |
+| `abd-story-acceptance-test.py` | ATDD stub |
 | `abd-clean-code-product_catalog.py` | Clean code stub |

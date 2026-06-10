@@ -202,11 +202,11 @@ describe('Stream Agent Messages to Panel Like IDE Chat', () => {
     panel = when_agent_sends_text_message(panel, 'Generating scenarios from acceptance criteria.');
 
     // When
-    panel = when_agent_completes_skill(panel, 'abd-acceptance-test-driven-development');
+    panel = when_agent_completes_skill(panel, 'abd-story-acceptance-test');
 
     // Then
     const rendered = render_panel(panel);
-    then_completion_status_shown(rendered, 'abd-acceptance-test-driven-development — complete');
+    then_completion_status_shown(rendered, 'abd-story-acceptance-test — complete');
     then_panel_remains_open(rendered);
   });
 });

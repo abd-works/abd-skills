@@ -1,4 +1,4 @@
-﻿# Strategy: Legacy Migration
+# Strategy: Legacy Migration
 
 
 
@@ -32,11 +32,11 @@
 
 | Discovery | increment | abd-architecture-blueprint, abd-information-architecture (optional) |
 
-| Exploration | increment | abd-domain-language, abd-acceptance-criteria (legacy behavior is spec), abd-ux-mockup (optional), abd-architecture-specification (conditional — skip when mechanisms exist) |
+| Exploration | increment | abd-domain-language, abd-story-acceptance-criteria (legacy behavior is spec), abd-ux-mockup (optional), abd-architecture-specification (conditional — skip when mechanisms exist) |
 
-| Specification | sprint | abd-domain-model, abd-specification-by-example (concrete legacy values), abd-ux-specification (optional), abd-architecture-reference (conditional) |
+| Specification | sprint | abd-domain-model, abd-story-specification (concrete legacy values), abd-ux-specification (optional), abd-architecture-reference (conditional) |
 
-| Engineering | sprint | abd-domain-specification (BE), abd-acceptance-test-driven-development (PO, tests pass on OLD system first), abd-clean-code (EN, new implementation) |
+| Engineering | sprint | abd-domain-specification (BE), abd-story-acceptance-test (PO, tests pass on OLD system first), abd-clean-code (EN, new implementation) |
 
 
 

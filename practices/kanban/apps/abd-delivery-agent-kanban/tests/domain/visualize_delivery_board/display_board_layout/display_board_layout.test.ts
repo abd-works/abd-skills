@@ -37,7 +37,7 @@ const kanbanConfig: KanbanConfiguration = {
           name: 'exploration',
           scope: 'increment',
           stage_work_required: [
-            { skill: 'abd-acceptance-criteria', role: 'product-owner' },
+            { skill: 'abd-story-acceptance-criteria', role: 'product-owner' },
             { skill: 'abd-architecture-specification', role: 'engineer' },
           ],
         },
@@ -45,7 +45,7 @@ const kanbanConfig: KanbanConfiguration = {
           name: 'specification',
           scope: 'sprint',
           stage_work_required: [
-            { skill: 'abd-specification-by-example', role: 'product-owner' },
+            { skill: 'abd-story-specification', role: 'product-owner' },
             { skill: 'abd-architecture-specification', role: 'engineer' },
           ],
         },
