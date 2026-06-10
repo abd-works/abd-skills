@@ -30,12 +30,6 @@ Details: `reference/workspace.md`
 
 ## Deploy
 
-```bash
-python scripts/deploy_family_package.py --package skill-helpers --to <workspace>
-```
-
-Or deploy all families:
-
 ```powershell
 & scripts/deploy-skills.ps1 -Force
 ```

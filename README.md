@@ -26,15 +26,13 @@ abd-skills/
 │   ├── skill-builder/           # catalog generator, author-practice-skill, manuals
 │   └── skill-helpers/           # deploy, workspace, execute-rules, commit-msg
 ├── utilities/                   # proposal respond, research skills
-├── stages/                      # stage-tier skills (kanban supplemental strip / extras)
+├── stages/                      # stage-tier skills
 ├── catalog/                     # generated HTML
 ├── scripts/                     # deploy-skills.ps1
 └── skill-config.json            # active_skill_workspace (engagement root)
 ```
 
 **Kanban stage definitions** (source of truth for the board): [`practices/kanban/reference/stages/`](practices/kanban/reference/stages/).
-
-**Stage-tier skills** under `stages/` (e.g. `abd-clean-code`, `abd-secure-code`, `abd-service-level-objectives`, `abd-code-research`, `abd-impact-mapping`) appear on the kanban supplemental strip or shaping/discovery extras — see stage markdown and the [delivery kanban on the catalog hub](catalog/index.html#catalog-kanban).
 
 ---
 

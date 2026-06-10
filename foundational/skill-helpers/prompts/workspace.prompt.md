@@ -23,7 +23,7 @@ python skill-helpers/scripts/get_workspace.py
 python skill-helpers/scripts/set_workspace.py "C:\absolute\path\to\project"
 ```
 
-If **`skill-config.json`** is missing, **`set_workspace.py`** creates it when the repo root can be detected (**`scripts/deploy_family_package.py`**).
+If **`skill-config.json`** is missing, **`set_workspace.py`** creates it when the repo root can be detected (**`practices/`** + **`foundational/`**).
 
 ### After changing workspace
 

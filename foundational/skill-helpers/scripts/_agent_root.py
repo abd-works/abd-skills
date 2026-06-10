@@ -16,7 +16,9 @@ def find_agent_root(start: Path) -> Path | None:
 def find_skills_repo_root(start: Path) -> Path | None:
     """When skill-config.json does not exist yet: agilebydesign-skills repo root."""
     for d in [start] + list(start.parents):
-        if (d / "scripts" / "deploy_family_package.py").is_file():
+        if (d / "practices").is_dir() and (d / "foundational").is_dir():
+            return d
+        if (d / "scripts" / "deploy-skills.ps1").is_file():
             return d
     return None
 

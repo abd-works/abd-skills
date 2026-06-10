@@ -16,7 +16,7 @@ python skill-helpers/scripts/set_workspace.py "C:\path\to\engagement\root"
 ```
 
 - **`get_workspace.py`** walks upward from the script until it finds **`skill-config.json`**, then prints **`workspace.active_skill_workspace`**.
-- **`set_workspace.py`** uses that walk if the file exists; otherwise detects the repo root via **`scripts/deploy_family_package.py`**, and **creates `skill-config.json`** there on first run.
+- **`set_workspace.py`** uses that walk if the file exists; otherwise detects the repo root via **`practices/`** + **`foundational/`**, and **creates `skill-config.json`** there on first run.
 
 ## Config shape
 

@@ -19,7 +19,7 @@ def main() -> int:
     path = str(Path(sys.argv[1]).resolve())
     if AGENT_ROOT is None or CONFIG is None:
         print(
-            "Cannot locate skills repo root (need skill-config.json ancestor or scripts/deploy_family_package.py).",
+            "Cannot locate skills repo root (need skill-config.json ancestor or abd-skills repo layout).",
             file=sys.stderr,
         )
         return 1

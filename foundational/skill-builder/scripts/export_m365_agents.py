@@ -33,7 +33,9 @@ FRONTMATTER_RE = re.compile(r"^---\s*\n(.*?)\n---", re.DOTALL)
 def _repo_root() -> Path:
     p = SCRIPT_DIR.resolve()
     for _ in range(16):
-        if (p / "scripts" / "deploy_family_package.py").is_file():
+        if (p / "practices").is_dir() and (p / "foundational").is_dir():
+            return p
+        if (p / "scripts" / "deploy-skills.ps1").is_file():
             return p
         parent = p.parent
         if parent == p:

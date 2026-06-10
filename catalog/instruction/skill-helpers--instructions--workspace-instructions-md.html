@@ -1080,7 +1080,7 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 python skill-helpers/scripts/set_workspace.py &quot;C:\path\to\engagement\root&quot;</code></pre>
 <ul>
 <li><strong>`get_workspace.py`</strong> — prints <strong>`active_skill_workspace`</strong> (requires existing <strong>`skill-config.json`</strong>).</li>
-<li><strong>`set_workspace.py`</strong> — writes <strong>`active_skill_workspace`</strong>; creates <strong>`skill-config.json`</strong> on first run when the repo root is detected (<strong>`scripts/deploy_family_package.py`</strong>).</li>
+<li><strong>`set_workspace.py`</strong> — writes <strong>`active_skill_workspace`</strong>; creates <strong>`skill-config.json`</strong> on first run when the repo root is detected (<strong>`practices/`</strong> + <strong>`foundational/`</strong>).</li>
 </ul>
 <p>Full behavior and layout detection: <strong>`skill-helpers/reference/workspace.md`</strong>.</p></div></details>
 <details class="entry-md-section" id="agent-behavior"><summary class="entry-md-section__summary">Agent behavior</summary><div class="entry-md-section__body"><p>When engagement paths matter, <strong>read</strong> <strong>`get_workspace.py`</strong> output or <strong>`skill-config.json`</strong>; <strong>do not</strong> assume <strong>`$PWD`</strong> or Cursor’s multi-root guess is the engagement root. Slash command: <strong>`workspace.prompt.md`</strong> (`/workspace`).</p></div></details>

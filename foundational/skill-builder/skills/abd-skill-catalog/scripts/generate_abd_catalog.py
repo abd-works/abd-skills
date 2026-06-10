@@ -46,8 +46,7 @@ def _repo_root_from_skill_package(skill_pkg_dir: Path) -> Path:
             break
         p = parent
     raise RuntimeError(
-        f"Could not find repository root (practices/ + foundational/ or "
-        f"scripts/deploy_family_package.py) starting from {skill_pkg_dir}"
+        f"Could not find repository root (practices/ + foundational/) starting from {skill_pkg_dir}"
     )
 
 
@@ -1885,10 +1884,6 @@ def write_plugin_detail_pages(
                 f'<p><a href="{_h(href_to_repo + plugin.rel_path + "/README.md")}"'
                 f' target="_blank" rel="noopener noreferrer">README.md</a></p>'
             )
-        deploy_cmd = (
-            f"python scripts/deploy_family_package.py --package {plugin.id} --to &lt;workspace&gt;"
-        )
-        desc += f"<p class=\"entry-caption\">Deploy: <code>{deploy_cmd}</code></p>"
         html = _apply_catalog_nav(
             detail_tpl.replace("{{CSS}}", detail_css)
             .replace("{{TITLE}}", _h(f"Foundry — plugin · {plugin.label}"))
@@ -2730,7 +2725,7 @@ def write_html_pages(
 
     plugins_intro = (
         "<p>Repo-root capability plugins deploy with "
-        "<code>scripts/deploy_family_package.py</code>. "
+        "<code>scripts/deploy-skills.ps1</code>. "
         "Each plugin bundles agents, skills, instructions, prompts, and shared assets.</p>"
     )
     plugins_grid = card_block_plugins(families)
