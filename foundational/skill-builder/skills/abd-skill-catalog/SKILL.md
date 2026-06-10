@@ -47,8 +47,8 @@ and in the flat skills grid but are omitted from the delivery kanban.
 | **Agent detail pages** | HTML | `catalog/agent/<dir>.html` (one per agent; cards link here) |
 
 Skill detail pages include an **Install with npx** block: a single fenced-style command
-`npx skills add agilebydesign/agilebydesign-skills@<frontmatter name> -y`, matching the
-skill id from `npx skills add https://github.com/agilebydesign/agilebydesign-skills -l`.
+`npx skills add abd-works/abd-skills@<frontmatter name> -y`, matching the
+skill id from `npx skills add https://github.com/abd-works/abd-skills -l`.
 Agent pages omit that block (agents are not separate `npx skills` packages in this repo).
 
 Each listed package includes:

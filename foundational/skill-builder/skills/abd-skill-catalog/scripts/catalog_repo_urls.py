@@ -13,8 +13,8 @@ GITHUB_RAW_MAIN = (
 
 HTMLPREVIEW_PREFIX = f"https://htmlpreview.github.io/?{GITHUB_BLOB_MAIN}"
 
-# Open Agent Skills / skills.sh package slug (unchanged from skills index publish).
-NPX_SKILLS_REPO_SLUG = "agilebydesign/agilebydesign-skills"
+# Open Agent Skills / skills.sh package slug (`npx skills add owner/repo@skill`).
+NPX_SKILLS_REPO_SLUG = f"{GITHUB_ORG}/{GITHUB_REPO}"
 
 # Legacy repo slugs rewritten when syncing bootcamp slide links.
 LEGACY_GITHUB_REPO_SLUGS = ("agilebydesign-skills", "abd-skill")

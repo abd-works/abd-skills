@@ -187,8 +187,8 @@ Workspace helper: [`skill-helpers/reference/workspace.md`](skill-helpers/referen
 Practice skills can be installed by name from this repo (see each skill page in the catalog for the exact command):
 
 ```bash
-npx skills add agilebydesign/agilebydesign-skills@abd-story-mapping -y
-npx skills add agilebydesign/agilebydesign-skills -l
+npx skills add abd-works/abd-skills@abd-story-mapping -y
+npx skills add abd-works/abd-skills -l
 ```
 
 Publish skill index to agentskillhub (after pushing to GitHub):

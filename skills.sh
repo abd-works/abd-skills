@@ -7,7 +7,7 @@
 set -euo pipefail
 
 HUB="${AGENTSKILLHUB_URL:-https://agentskillhub.dev}"
-REPO_URL="${REPO_URL:-https://github.com/agilebydesign/agilebydesign-skills}"
+REPO_URL="${REPO_URL:-https://github.com/abd-works/abd-skills}"
 WORKDIR="${TMPDIR:-/tmp}/abd-skills-submit-$$"
 
 cleanup() {
