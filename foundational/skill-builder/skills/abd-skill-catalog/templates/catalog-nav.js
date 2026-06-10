@@ -52,6 +52,9 @@
       || h === 'html-preview.github.io';
   }
 
+  var PREVIEW_CATALOG_COMMONS =
+    'https://raw.githubusercontent.com/abd-works/agilebydesign-skills/main/catalog/commons/';
+
   function modeFromUrl() {
     try {
       var q = new URLSearchParams(location.search);
@@ -74,7 +77,14 @@
 
   _mode = resolveInitialMode();
 
-
+  if (isExternalHtmlPreview()) {
+    document.querySelectorAll('link[rel="stylesheet"]').forEach(function (link) {
+      var href = link.getAttribute('href') || '';
+      if (href.indexOf('site.css') !== -1) {
+        link.href = PREVIEW_CATALOG_COMMONS + 'site.css?v=foundry-3';
+      }
+    });
+  }
 
   if (_mode === ENGINEERING) {
 
@@ -104,11 +114,18 @@
 
   }
 
+  function resolveCommonsBase() {
+    if (isExternalHtmlPreview()) return PREVIEW_CATALOG_COMMONS;
+    return assetBase();
+  }
 
-
-  var COMMONS = assetBase();
+  var COMMONS = resolveCommonsBase();
 
   var BRAND = COMMONS + 'brand/';
+
+  function brandWordmark(name) {
+    return BRAND + name;
+  }
 
 
 
@@ -226,7 +243,7 @@
 
         '<img id="site-wordmark"' +
 
-        ' src="' + BRAND + 'abd.works.wordmark.black.svg"' +
+        ' src="' + brandWordmark('abd.works.wordmark.black.svg') + '"' +
 
         ' alt="abd.works" width="548" height="178"' +
 
@@ -400,7 +417,7 @@
 
         '<img id="footer-wordmark"' +
 
-        ' src="' + BRAND + 'abd.works.wordmark.black.svg"' +
+        ' src="' + brandWordmark('abd.works.wordmark.black.svg') + '"' +
 
         ' alt="abd.works"' +
 
@@ -481,10 +498,8 @@
 
 
     var logoSrc = isEng
-
-      ? BRAND + 'abd.works.wordmark.white.svg'
-
-      : BRAND + 'abd.works.wordmark.black.svg';
+      ? brandWordmark('abd.works.wordmark.white.svg')
+      : brandWordmark('abd.works.wordmark.black.svg');
 
 
 
