@@ -44,13 +44,35 @@
 
   var _mode = EXECUTIVE;
 
-  try {
+  function isExternalHtmlPreview() {
+    var h = location.hostname.toLowerCase();
+    return h === 'htmlpreview.github.io'
+      || h === 'raw.githack.com'
+      || h === 'rawcdn.githack.com'
+      || h === 'html-preview.github.io';
+  }
 
-    var stored = localStorage.getItem(KEY);
+  function modeFromUrl() {
+    try {
+      var q = new URLSearchParams(location.search);
+      var m = q.get('mode') || q.get('abd-mode');
+      if (m === ENGINEERING || m === EXECUTIVE) return m;
+    } catch (e) {}
+    return null;
+  }
 
-    if (stored === ENGINEERING) _mode = ENGINEERING;
+  function resolveInitialMode() {
+    var fromUrl = modeFromUrl();
+    if (fromUrl) return fromUrl;
+    if (isExternalHtmlPreview()) return ENGINEERING;
+    try {
+      var stored = localStorage.getItem(KEY);
+      if (stored === ENGINEERING) return ENGINEERING;
+    } catch (e) {}
+    return EXECUTIVE;
+  }
 
-  } catch (e) {}
+  _mode = resolveInitialMode();
 
 
 
