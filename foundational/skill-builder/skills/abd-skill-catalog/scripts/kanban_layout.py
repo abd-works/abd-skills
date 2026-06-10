@@ -493,7 +493,7 @@ def _stage_href(stage_id: str, *, same_page: bool, relative: str) -> str:
     anchor = f"#stage-{stage_id}"
     if same_page:
         return anchor
-    return f"{relative}kanban-layout/index.html{anchor}"
+    return f"{relative}index.html{anchor}"
 
 
 def load_catalog_embed_kanban_css(repo_root: Path, template_dir: Path) -> str:
@@ -582,7 +582,7 @@ def build_catalog_hub_kanban_embed_html(
         model,
         skill_dir_by_name,
         relative_href_prefix="",
-        same_page_stages=False,
+        same_page_stages=True,
         active_stage_id=None,
         link_column_heads=True,
         board_class="aad-board-grid aad-board-grid--catalog",
@@ -810,10 +810,7 @@ def _repair_unclosed_divs(html: str) -> str:
 
 
 def _kanban_spotlight_source_path(repo_root: Path) -> Path:
-    """Spotlight/header source for catalog kanban regen (canonical generated deck)."""
-    catalog = repo_root / "catalog" / "kanban-layout" / "index.html"
-    if catalog.is_file():
-        return catalog
+    """Spotlight/header source for kanban regen (bootcamp part3 deck)."""
     return _bootcamp_part3_path(repo_root)
 
 

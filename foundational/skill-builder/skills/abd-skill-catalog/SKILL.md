@@ -2,10 +2,10 @@
 name: abd-skill-catalog
 catalog_garden_tier: foundational
 catalogue_one_liner: >-
-  Regenerate the browsable AI Garden (skills + agents HTML + outline.md) from repo packages.
+  Regenerate the browsable ABD Foundry (plugins, skills, agents HTML) from repo packages.
 description: >-
   Scan agilebydesign-skills family packages; maintain README card copy; regenerate
-  catalog/ (families, skills, agents, outline.md) from the full package layout.
+  catalog/ (families, skills, agents HTML) from the full package layout.
 license: MIT
 metadata:
   author: agilebydesign
@@ -26,16 +26,15 @@ and in the flat skills grid but are omitted from the delivery kanban.
 
 - You added, renamed, or retired a skill or agent and the AI Garden is stale.
 - You need a stakeholder-facing index of what each skill and agent is for.
-- You want both Markdown (diffable, review in Git) and HTML (quick browse).
+- You want HTML pages for quick browse (hub embeds the delivery kanban).
 
 ## What it produces
 
 | Artifact | Format | Location (default) |
 | --- | --- | --- |
-| **Outline** | Markdown | `catalog/outline.md` (repository root) |
 | **Plugin grid** | HTML | `catalog/plugins.html` — all repo-root plugins |
 | **Plugin detail** | HTML | `catalog/plugin/<id>.html` — agents, skills, instructions, prompts, content, lib, scripts |
-| **Site hub** | HTML | `catalog/index.html` — prelude + collapsible **Plugins**, **Skills**, **Agents**, **Instructions**, **Prompts** |
+| **Site hub** | HTML | `catalog/index.html` — prelude, embedded **delivery kanban**, collapsible **Plugins**, **Skills**, **Agents**, **Instructions**, **Prompts** |
 | **Skills grid** | HTML | `catalog/skills.html` (standalone grid; nav from detail pages) |
 | **Agents grid** | HTML | `catalog/agents.html` (standalone grid; nav from detail pages) |
 | **Instructions grid** | HTML | `catalog/instructions.html` |

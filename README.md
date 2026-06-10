@@ -4,17 +4,7 @@ Reusable **plugins**, **skills**, and **agents** from [abd.works](https://agileb
 
 | Browse the catalog | |
 | --- | --- |
-| **HTML hub** (plugins, skills, agents, kanban) | [catalog/index.html](https://htmlpreview.github.io/?https://github.com/abd-works/abd-skills/blob/main/catalog/index.html) |
-| **Markdown outline** (same content, diffable; renders on GitHub) | [`catalog/outline.md`](catalog/outline.md) |
-| **Delivery kanban** (stages × practice plugins) | [catalog/kanban-layout/index.html](https://htmlpreview.github.io/?https://github.com/abd-works/abd-skills/blob/main/catalog/kanban-layout/index.html) |
-
-_HTML hub links open rendered preview (Engineer / dark mode by default)._
-
-Regenerate the catalog after plugin or README changes:
-
-```bash
-python foundational/skill-builder/skills/abd-skill-catalog/scripts/generate_abd_catalog.py
-```
+| **HTML hub** (plugins, skills, agents, delivery kanban) | [catalog/index.html](https://htmlpreview.github.io/?https://github.com/abd-works/abd-skills/blob/main/catalog/index.html) |
 
 ---
 
@@ -37,20 +27,20 @@ abd-skills/
 │   └── skill-helpers/           # deploy, workspace, execute-rules, commit-msg
 ├── utilities/                   # proposal respond, research skills
 ├── stages/                      # stage-tier skills (kanban supplemental strip / extras)
-├── catalog/                     # generated HTML + outline.md
-├── scripts/                     # deploy-skills.ps1, deploy_family_package.py
+├── catalog/                     # generated HTML
+├── scripts/                     # deploy-skills.ps1
 └── skill-config.json            # active_skill_workspace (engagement root)
 ```
 
 **Kanban stage definitions** (source of truth for the board): [`practices/kanban/reference/stages/`](practices/kanban/reference/stages/).
 
-**Stage-tier skills** under `stages/` (e.g. `abd-clean-code`, `abd-secure-code`, `abd-service-level-objectives`, `abd-code-research`, `abd-impact-mapping`) appear on the kanban supplemental strip or shaping/discovery extras — see stage markdown and [`catalog/kanban-layout/`](catalog/kanban-layout/index.html).
+**Stage-tier skills** under `stages/` (e.g. `abd-clean-code`, `abd-secure-code`, `abd-service-level-objectives`, `abd-code-research`, `abd-impact-mapping`) appear on the kanban supplemental strip or shaping/discovery extras — see stage markdown and the [delivery kanban on the catalog hub](catalog/index.html#catalog-kanban).
 
 ---
 
 ## Practice plugins
 
-Deploy with [`scripts/deploy-skills.ps1`](scripts/deploy-skills.ps1) or [`scripts/deploy_family_package.py`](scripts/deploy_family_package.py).
+Deploy with [`scripts/deploy-skills.ps1`](scripts/deploy-skills.ps1).
 
 | Plugin | Folder | Summary |
 | --- | --- | --- |
@@ -103,13 +93,13 @@ Role agents live under **`practices/kanban/agents/`** (orchestrated by **kanban-
 | **abd-practice-skill-builder** | skill-builder | [`foundational/skill-builder/agents/abd-practice-skill-builder/AGENTS.md`](foundational/skill-builder/agents/abd-practice-skill-builder/AGENTS.md) |
 | **ai-research-assistant** | utilities | [`utilities/agents/ai-research-assistant/AGENTS.md`](utilities/agents/ai-research-assistant/AGENTS.md) |
 
-All skills (57+ packages in the catalog): **[Summary — Skills](catalog/outline.md#summary--skills)** in `catalog/outline.md`.
+All skills (57+ packages in the catalog): **[skills grid](catalog/skills.html)**.
 
 ---
 
 ## Skills by practice plugin
 
-Core skills per plugin (supporting skills in `skills/supporting/` — see [catalog/outline.md](catalog/outline.md)).
+Core skills per plugin (supporting skills in `skills/supporting/` — see [catalog/skills.html](catalog/skills.html)).
 
 ### Idea shaping — `practices/idea-shaping/`
 
@@ -208,12 +198,6 @@ Deploy root resolves from `skill-config.json` → `active_skill_workspace`, or p
 
 ```powershell
 & scripts/deploy-skills.ps1 -Force -DeployRoot "C:\dev\abd-pet-store-demo"
-```
-
-Single family:
-
-```bash
-python scripts/deploy_family_package.py --package story-driven-delivery --to <workspace>
 ```
 
 | `--ide` | Target |

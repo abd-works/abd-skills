@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Scan family packages; emit outline.md + HTML under catalog/.
+"""Scan family packages; emit HTML under catalog/.
 
 Lives under skill-builder/skills/abd-skill-catalog/; repo root is detected by walking
-up until scripts/deploy_family_package.py is found.
+up until practices/ + foundational/ (or skill-config.json) is found.
 """
 
 from __future__ import annotations
@@ -28,8 +28,6 @@ TEMPLATE_DIR = SKILL_DIR / "templates"
 
 def _is_skills_repo_root(path: Path) -> bool:
     """Recognize agilebydesign-skills / abd-skills layout."""
-    if (path / "scripts" / "deploy_family_package.py").is_file():
-        return True
     if (path / "practices").is_dir() and (path / "foundational").is_dir():
         return True
     if (path / "practices").is_dir() and (path / "skill-config.json").is_file():
@@ -94,7 +92,6 @@ from kanban_layout import (  # noqa: E402
     skill_dir_map_from_entries,
     skill_purpose_map_from_entries,
     sync_bootcamp_part3_kanban,
-    write_kanban_layout_pages,
 )
 from family_catalog import (  # noqa: E402
     FAMILY_CATALOG_ALIASES,
@@ -2946,7 +2943,7 @@ def write_html_pages(
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Generate the ABD Foundry (HTML + outline.md under catalog/).")
+    parser = argparse.ArgumentParser(description="Generate the ABD Foundry (HTML under catalog/).")
     parser.add_argument(
         "--repo-root",
         type=Path,
@@ -2958,7 +2955,7 @@ def main() -> None:
         "--output-dir",
         type=Path,
         default=None,
-        help="Output directory for outline.md and all HTML (default: <repo-root>/catalog).",
+        help="Output directory for HTML (default: <repo-root>/catalog).",
     )
     parser.add_argument(
         "--scaffold-readmes",
@@ -3002,7 +2999,7 @@ def main() -> None:
         raise SystemExit("No family packages, skills, or agents discovered.")
 
     # Sort skills by canonical family order, then by garden_order within each family,
-    # then alphabetically — so outline.md and the flat skills grid respect the same
+    # then alphabetically — so the flat skills grid respects the same
     # sequence as the Agile Garden prelude columns.
     _all_family_order = list(_CATALOG_SKILL_FAMILY_PRACTICE_ORDER) + [
         f for f in _CATALOG_SKILL_FAMILY_FOUNDATIONAL_ORDER
@@ -3029,15 +3026,8 @@ def main() -> None:
             "site nav will not work until you regenerate with abd-works-website present"
         )
 
-    # outline.md, index/skills/agents, skill/, agent/ all live directly under catalog/
-    outline_path = output_dir / "outline.md"
+    # index/skills/agents, skill/, agent/ all live directly under catalog/
     md_prefix = _path_up_to_ancestor(output_dir, repo_root)
-    catalog_cli_hint = _catalog_cli_invocation(repo_root)
-    outline_path.write_text(
-        generate_outline_md(repo_root, families, skills, agents, md_prefix, catalog_cli_hint),
-        encoding="utf-8",
-    )
-    print(f"  wrote {outline_path}")
 
     n_plugin_detail, n_sk_detail, n_ag_detail, n_md_pages, n_inst_detail, n_prompt_detail = write_html_pages(
         output_dir,
@@ -3048,22 +3038,12 @@ def main() -> None:
         omit_garden_families=omit_garden_families,
         website_root=website_root,
     )
-    catalog_css = _catalog_page_stylesheet(repo_root, _load_template("catalog.css"))
-    _, _, kanban_tagline, kanban_h1 = catalog_garden_page_header()
     skill_map = skill_dir_map_from_entries(skills)
     purpose_map = skill_purpose_map_from_entries(skills)
-    kanban_path = write_kanban_layout_pages(
-        output_dir,
-        repo_root,
-        skill_map,
-        catalog_css,
-        brand=CATALOG_BRAND_HTML,
-        h1=kanban_h1,
-        tagline=kanban_tagline,
-        template_dir=TEMPLATE_DIR,
-        skill_purpose_by_name=purpose_map,
-    )
-    print(f"  wrote {kanban_path}")
+    stale_kanban_layout = output_dir / "kanban-layout"
+    if stale_kanban_layout.is_dir():
+        shutil.rmtree(stale_kanban_layout)
+        print(f"  removed stale {stale_kanban_layout.relative_to(repo_root)}")
     if sync_bootcamp_part3_kanban(repo_root, skill_map, skill_purpose_by_name=purpose_map):
         print("  synced abd-ai-augmented-bootcamp slides/part3/part3.html (kanban kb-slides)")
     other = patch_bootcamp_slide_files(repo_root, skill_map)
