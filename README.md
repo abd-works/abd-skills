@@ -4,9 +4,9 @@ Reusable **plugins**, **skills**, and **agents** from [abd.works](https://agileb
 
 | Browse the catalog | |
 | --- | --- |
-| **HTML hub** (plugins, skills, agents, kanban) | [catalog/index.html](https://htmlpreview.github.io/?https://github.com/abd-works/agilebydesign-skills/blob/main/catalog/index.html) |
+| **HTML hub** (plugins, skills, agents, kanban) | [catalog/index.html](https://htmlpreview.github.io/?https://github.com/abd-works/abd-skills/blob/main/catalog/index.html) |
 | **Markdown outline** (same content, diffable; renders on GitHub) | [`catalog/outline.md`](catalog/outline.md) |
-| **Delivery kanban** (stages × practice plugins) | [catalog/kanban-layout/index.html](https://htmlpreview.github.io/?https://github.com/abd-works/agilebydesign-skills/blob/main/catalog/kanban-layout/index.html) |
+| **Delivery kanban** (stages × practice plugins) | [catalog/kanban-layout/index.html](https://htmlpreview.github.io/?https://github.com/abd-works/abd-skills/blob/main/catalog/kanban-layout/index.html) |
 
 _HTML hub links open rendered preview (Engineer / dark mode by default)._
 

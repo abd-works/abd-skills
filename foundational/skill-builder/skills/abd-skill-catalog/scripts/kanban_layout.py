@@ -9,6 +9,12 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from urllib.parse import quote
 
+from catalog_repo_urls import (
+    GITHUB_BLOB_MAIN,
+    GITHUB_REPO,
+    GITHUB_REPO_URL,
+    LEGACY_GITHUB_REPO_SLUGS,
+)
 from catalog_supporting_groups import (
     FOUNDATIONAL_CROSSCUT_PLUGINS,
     SUPPORTING_CROSSCUT_GROUPS,
@@ -637,7 +643,7 @@ def build_overview_header_html(*, relative_href_prefix: str = "../") -> str:
         '  <div class="kb-header-right">\n'
         '    <div class="kb-skill-links">\n'
         f'      <a href="{_h(rel)}index.html" class="kb-skill-pill">skill library</a>\n'
-        '      <a href="https://github.com/abd-works/agilebydesign-skills" '
+        f'      <a href="{GITHUB_REPO_URL}" '
         'class="kb-skill-gh">GitHub</a>\n'
         "    </div>\n"
         "  </div>\n"
@@ -897,9 +903,20 @@ def extract_bootcamp_stage_spotlights(repo_root: Path) -> dict[str, tuple[str, s
     return out
 
 
+def _legacy_catalog_path_prefixes() -> tuple[str, ...]:
+    slugs = (*LEGACY_GITHUB_REPO_SLUGS, GITHUB_REPO)
+    return tuple(f"../../../../{slug}/catalog/" for slug in slugs)
+
+
+def _rewrite_legacy_catalog_paths(text: str, catalog_prefix: str) -> str:
+    for legacy in _legacy_catalog_path_prefixes():
+        text = text.replace(legacy, catalog_prefix)
+    return text
+
+
 def _catalogize_spotlight_html(html: str, *, catalog_prefix: str = "../") -> str:
     text = html.replace(BOOTCAMP_CATALOG_PREFIX, catalog_prefix)
-    text = text.replace("../../../../agilebydesign-skills/catalog/", catalog_prefix)
+    text = _rewrite_legacy_catalog_paths(text, catalog_prefix)
     text = text.replace('target="_blank" rel="noopener"', "")
     # Catalog kanban spotlights use ../skill/, ../plugin/, … (relative to catalog root).
     # Bootcamp deck resolves links from /abd-ai-augmented-bootcamp/ → ../abd-skills-catalog/…
@@ -1480,10 +1497,7 @@ def build_stage_sections_html(model: KanbanModel) -> str:
         f"and the delivery war room. Each column above links here.</p>"
     )
     for stage_id, title, num, purpose in model.stages:
-        stage_src = (
-            f"https://github.com/abd-works/agilebydesign-skills/blob/main/"
-            f"practices/kanban/reference/stages/{stage_id}.md"
-        )
+        stage_src = f"{GITHUB_BLOB_MAIN}practices/kanban/reference/stages/{stage_id}.md"
         parts.append(f'<article class="kanban-stage" id="stage-{stage_id}-definition">')
         parts.append(
             f"<h3>{num}. {_h(title)}</h3>"
@@ -1625,9 +1639,7 @@ def sync_bootcamp_part3_kanban(
     )
     slides_html = rewrite_bootcamp_catalog_links(slides_html, skill_dir_by_name)
     slides_html = slides_html.replace('href="../index.html"', f'href="{prefix}index.html"')
-    slides_html = slides_html.replace(
-        "../../../../agilebydesign-skills/catalog/", prefix
-    )
+    slides_html = _rewrite_legacy_catalog_paths(slides_html, prefix)
     slides_html = slides_html.replace(
         '<section class="kb-slide" data-auto-animate',
         '<section class="kb-slide kb-slide--agentic-kanban" data-auto-animate',
@@ -1711,8 +1723,9 @@ def rewrite_bootcamp_catalog_links(text: str, skill_dir_by_name: dict[str, str])
         dir_name = skill_dir_by_name.get(leaf, leaf)
         return f"{prefix}skill/{quote(dir_name, safe='')}.html"
 
+    legacy_tree = "|".join(re.escape(slug) for slug in (*LEGACY_GITHUB_REPO_SLUGS, GITHUB_REPO))
     text = re.sub(
-        r'href="https://github\.com/abd-works/agilebydesign-skills/tree/main/skills(?:/[^/"]+)?/([^/"]+)"',
+        rf'href="https://github\.com/abd-works/(?:{legacy_tree})/tree/main/skills(?:/[^/"]+)?/([^/"]+)"',
         lambda m: f'href="{_catalog_skill_href(m.group(1))}"',
         text,
     )

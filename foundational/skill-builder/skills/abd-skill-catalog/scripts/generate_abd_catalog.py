@@ -126,8 +126,13 @@ def _catalog_cli_invocation(repo_root: Path) -> str:
 # Subtitle in generated pages (repo output folder is <root>/catalog/).
 CATALOG_BRAND_HTML = "<strong>abd.works</strong> &middot; Foundry"
 
-# GitHub slug for `npx skills add owner/repo@skill` (skills.sh / Open Agent Skills CLI).
-NPX_SKILLS_REPO_SLUG = "agilebydesign/agilebydesign-skills"
+from catalog_repo_urls import (  # noqa: E402
+    GITHUB_BLOB_MAIN,
+    GITHUB_RAW_MAIN,
+    GITHUB_REPO_URL,
+    HTMLPREVIEW_PREFIX,
+    NPX_SKILLS_REPO_SLUG,
+)
 
 FRONTMATTER_RE = re.compile(r"^---\s*\n(.*?)\n---", re.DOTALL)
 YAML_FIELD_RE = re.compile(r"^(\w[\w-]*):\s*(.+)", re.MULTILINE)
@@ -638,8 +643,10 @@ def _vendor_catalog_site_assets(catalog_root: Path, website_root: Path) -> None:
     dest.mkdir(parents=True)
     (dest / "brand").mkdir()
     shutil.copy2(website_root / "css" / "site.css", dest / "site.css")
-    shutil.copy2(TEMPLATE_DIR / "catalog-nav.js", dest / "catalog-nav.js")
     shutil.copy2(TEMPLATE_DIR / "catalog-foundry-tour.js", dest / "catalog-foundry-tour.js")
+    nav_js = (TEMPLATE_DIR / "catalog-nav.js").read_text(encoding="utf-8")
+    nav_js = nav_js.replace("{{GITHUB_RAW_CATALOG_COMMONS}}", GITHUB_RAW_MAIN + "catalog/commons/")
+    (dest / "catalog-nav.js").write_text(nav_js, encoding="utf-8")
     brand_src = website_root / "commons" / "brand"
     for name in ("abd.works.wordmark.white.svg", "abd.works.wordmark.black.svg"):
         src = brand_src / name
@@ -663,7 +670,8 @@ def _npx_skills_install_block(skill_package_name: str) -> str:
     return (
         '<section class="install-block" aria-labelledby="install-npx-heading">\n'
         '  <h2 id="install-npx-heading">Install with npx</h2>\n'
-        '  <p class="install-hint">Install this package from GitHub into your project or global agent '
+        '  <p class="install-hint">Install this package from '
+        f'<a href="{GITHUB_REPO_URL}">{GITHUB_REPO_URL}</a> into your project or global agent '
         'skills directory (see <a href="https://skills.sh/">skills.sh</a> / Open Agent Skills).</p>\n'
         '  <pre class="install-snippet"><code>'
         + _h(cmd)
@@ -2103,7 +2111,9 @@ def garden_prelude_tagline_html() -> str:
     return (
         "The ABD Foundry — thirty years of product engineering experience "
         "shared as agents, skills, and tools that anyone can use. "
-        'Grab the repo <a href="https://github.com/abd-works/agilebydesign-skills" target="_blank" rel="noopener noreferrer">here</a>.'
+        'Grab the repo <a href="'
+        + GITHUB_REPO_URL
+        + '" target="_blank" rel="noopener noreferrer">here</a>.'
     )
 
 
