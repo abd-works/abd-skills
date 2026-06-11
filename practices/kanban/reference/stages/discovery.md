@@ -11,7 +11,10 @@ Discovery focuses on **what you are working on** — end-to-end scope and the le
 
 ## Outcomes
 
-Business concepts · interactions
+- system interactions
+- business concepts
+- user navigation
+- tech topology
 
 ## Team role
 

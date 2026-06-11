@@ -75,56 +75,9 @@
   var specCol = document.querySelector('.kb-col[data-stage="specification"]');
   var perspectiveCol = document.querySelector('.foundry-practice-col');
 
-  var skillsToggle = document.getElementById('foundry-skills-toggle');
-  var SKILLS_EXPANDED_KEY = 'abd-foundry-skills-expanded';
-  var skillsExpanded = false;
-
   if (!surface || !ring || !toggleBtn || !guidePanel) return;
 
-  function readSkillsExpandedPref() {
-    try {
-      return window.localStorage.getItem(SKILLS_EXPANDED_KEY) === '1';
-    } catch (err) {
-      return false;
-    }
-  }
-
-  function persistSkillsExpandedPref(expanded) {
-    try {
-      window.localStorage.setItem(SKILLS_EXPANDED_KEY, expanded ? '1' : '0');
-    } catch (err) {
-      /* ignore storage failures */
-    }
-  }
-
-  function setSkillsExpanded(expanded, source) {
-    skillsExpanded = expanded;
-    surface.classList.toggle('foundry-skills-collapsed', !expanded);
-    surface.classList.toggle('foundry-skills-expanded', expanded);
-    if (skillsToggle) {
-      skillsToggle.setAttribute('aria-expanded', expanded ? 'true' : 'false');
-      skillsToggle.classList.toggle('is-expanded', expanded);
-      skillsToggle.setAttribute(
-        'aria-label',
-        expanded ? 'Collapse practice skills across columns' : 'Expand practice skills across columns'
-      );
-    }
-    if (expanded) {
-      persistSkillsExpandedPref(true);
-    } else if (source === 'user') {
-      persistSkillsExpandedPref(false);
-    }
-  }
-
-  setSkillsExpanded(readSkillsExpandedPref());
-
-  if (skillsToggle) {
-    skillsToggle.addEventListener('click', function (e) {
-      e.preventDefault();
-      e.stopPropagation();
-      setSkillsExpanded(!skillsExpanded, 'user');
-    });
-  }
+  var isSkillPage = surface.classList.contains('foundry-kanban-surface--skill-page');
 
   function initFoundryTooltips() {
     var activeTip = null;
@@ -570,7 +523,7 @@
     guideTag.classList.remove('is-waiting');
     guideTag.textContent = 'Click for overview';
     hideGuideText();
-    setSkillsExpanded(false);
+    if (typeof window.__foundrySetSkillsExpanded === 'function') window.__foundrySetSkillsExpanded(false);
   }
 
   /** Click 1: expand copy, then ring all column headers (positions after panel growth). */
@@ -605,7 +558,7 @@
     clearLanded();
     mode = 'perspective';
     setGuideWaiting();
-    setSkillsExpanded(true);
+    if (typeof window.__foundrySetSkillsExpanded === 'function') window.__foundrySetSkillsExpanded(true);
 
     var targets = rowLabels.length ? rowLabels : [perspectiveCol];
 

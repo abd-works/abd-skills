@@ -1,6 +1,7 @@
 /**
  * Foundry catalog — wheel zoom on embedded diagrams.net viewers.
  * Toolbar zoom/lightbox still work; this restores scroll-wheel magnification.
+ * Initial zoom comes from data-mxgraph "zoom" — do not CSS-scale on load.
  */
 (function () {
   'use strict';

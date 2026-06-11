@@ -1,4 +1,4 @@
-﻿# Shaping
+# Shaping
 
 **Pull:** When a ticket is `stage: shaping` and active, agents pull skills from `kanban.json` for this stage.
 **Follow-on:** [discovery.md](discovery.md) · **Index:** [README.md](README.md)
@@ -11,7 +11,10 @@ Shaping uses the same **`abd-story-mapping`** skill as Discovery but in **outlin
 
 ## Outcomes
 
-Business terms · solution breadth
+- solution breadth
+- business terms
+- user impact
+- tech landscape
 
 ## Team role
 

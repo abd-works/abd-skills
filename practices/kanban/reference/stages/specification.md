@@ -9,7 +9,10 @@ Translate exploration artifacts into typed **domain specification**, **concrete 
 
 ## Outcomes
 
-Business examples · UI design
+- system examples
+- business model
+- ui design
+- tech reference
 
 ## Team role
 

@@ -1,4 +1,4 @@
-﻿# Exploration
+# Exploration
 
 **Pull:** When a ticket is `stage: exploration` and active, agents pull skills from `kanban.json` for this stage.
 **Prior:** [discovery.md](discovery.md) · **Follow-on:** [specification.md](specification.md)
@@ -9,7 +9,10 @@ Deepen the **current increment** (medium scope): conceptual domain model, behavi
 
 ## Outcomes
 
-Business logic · solution tests
+- solution tests
+- business logic
+- user experience
+- tech design
 
 ## Team role
 

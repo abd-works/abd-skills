@@ -82,14 +82,15 @@ import frontmatter_tags  # noqa: E402
 
 from kanban_layout import (  # noqa: E402
     build_catalog_hub_kanban_embed_html,
+    build_catalog_skill_page_kanban_embed_html,
     build_kanban_board_html,
     build_kanban_legend_html,
-    build_skill_family_kanban_nav_html,
     load_catalog_embed_kanban_css,
     load_kanban_model,
     patch_bootcamp_slide_files,
     plugin_first_skill_href_map,
     plugin_stage_skill_href_map,
+    resolve_skill_page_kanban_family,
     rewrite_bootcamp_catalog_links,
     skill_dir_map_from_entries,
     skill_purpose_map_from_entries,
@@ -638,6 +639,18 @@ def _site_base_prefix(page_dir: Path, website_root: Path | None) -> str:
     return rel.rstrip("/") + "/"
 
 
+def _vendor_catalog_commons_scripts(catalog_root: Path) -> None:
+    """Copy catalog JS beside generated HTML (always — even without marketing site)."""
+    dest = catalog_root / "commons"
+    dest.mkdir(parents=True, exist_ok=True)
+    shutil.copy2(TEMPLATE_DIR / "catalog-foundry-tour.js", dest / "catalog-foundry-tour.js")
+    shutil.copy2(TEMPLATE_DIR / "catalog-foundry-skill-nav.js", dest / "catalog-foundry-skill-nav.js")
+    shutil.copy2(TEMPLATE_DIR / "catalog-drawio.js", dest / "catalog-drawio.js")
+    nav_js = (TEMPLATE_DIR / "catalog-nav.js").read_text(encoding="utf-8")
+    nav_js = nav_js.replace("{{GITHUB_RAW_CATALOG_COMMONS}}", GITHUB_RAW_MAIN + "catalog/commons/")
+    (dest / "catalog-nav.js").write_text(nav_js, encoding="utf-8")
+
+
 def _vendor_catalog_site_assets(catalog_root: Path, website_root: Path) -> None:
     """Copy marketing-site nav/CSS/brand beside catalog HTML for file:// and static deploy."""
     dest = catalog_root / "commons"
@@ -646,11 +659,7 @@ def _vendor_catalog_site_assets(catalog_root: Path, website_root: Path) -> None:
     dest.mkdir(parents=True)
     (dest / "brand").mkdir()
     shutil.copy2(website_root / "css" / "site.css", dest / "site.css")
-    shutil.copy2(TEMPLATE_DIR / "catalog-foundry-tour.js", dest / "catalog-foundry-tour.js")
-    nav_js = (TEMPLATE_DIR / "catalog-nav.js").read_text(encoding="utf-8")
-    nav_js = nav_js.replace("{{GITHUB_RAW_CATALOG_COMMONS}}", GITHUB_RAW_MAIN + "catalog/commons/")
-    (dest / "catalog-nav.js").write_text(nav_js, encoding="utf-8")
-    shutil.copy2(TEMPLATE_DIR / "catalog-drawio.js", dest / "catalog-drawio.js")
+    _vendor_catalog_commons_scripts(catalog_root)
     brand_src = website_root / "commons" / "brand"
     for name in ("abd.works.wordmark.white.svg", "abd.works.wordmark.black.svg"):
         src = brand_src / name
@@ -1722,20 +1731,14 @@ def _html_family_kanban_nav(
     plugin_stage_skill_hrefs: dict[str, dict[str, str]] | None = None,
     plugin_first_skill_hrefs: dict[str, str] | None = None,
 ) -> str:
-    """Kanban-style stage columns with family skill tickets (replaces flat tab bar)."""
-    practice_skills = [s for s in family_skills if _is_core_practice_skill(s)]
-    family_skill_ids = frozenset(
-        token for s in practice_skills for token in (s.name, s.dir_name)
-    )
-    return build_skill_family_kanban_nav_html(
+    """Foundry kanban embed for skill pages — full board with family/column filters."""
+    return build_catalog_skill_page_kanban_embed_html(
         kanban_model,
-        plugin_id,
-        family_skill_ids=family_skill_ids,
-        skill_dir_by_name=skill_dir_by_name,
+        skill_dir_by_name,
+        plugin_id=plugin_id,
         current_skill_id=current_name,
         current_dir_name=current_dir_name,
         skill_purpose_by_name=skill_purpose_by_name,
-        plugin_stage_skill_hrefs=plugin_stage_skill_hrefs,
         plugin_first_skill_hrefs=plugin_first_skill_hrefs,
     )
 
@@ -1872,8 +1875,8 @@ def _html_drawio_embed(drawio_path: Path) -> str:
     config = _json.dumps({
         "highlight": "#e5531a",
         "nav": not single_page,
-        "resize": True,
-        "zoom": 1.0,
+        "resize": False,
+        "zoom": 0.75,
         "toolbar": "zoom lightbox",
         "xml": xml,
     })
@@ -1886,7 +1889,7 @@ def _html_drawio_embed(drawio_path: Path) -> str:
         f'<div class="mxgraph" data-mxgraph="{attr_val}"></div>'
         f'</div>'
         f'<script type="text/javascript" src="https://viewer.diagrams.net/js/viewer-static.min.js"></script>\n'
-        f'<script src="../commons/catalog-drawio.js?v=foundry-1"></script>\n'
+        f'<script src="../commons/catalog-drawio.js?v=foundry-3"></script>\n'
     )
 
 
@@ -2190,6 +2193,8 @@ def write_entry_detail_pages(
     detail_tpl: str,
     *,
     website_root: Path | None = None,
+    skill_detail_css: str = "",
+    skill_detail_tpl: str = "",
 ) -> tuple[int, int]:
     """Write catalog/skill/<dir>.html and catalog/agent/<dir>.html. Returns counts."""
     href_to_repo = _path_up_to_ancestor(output_catalog_dir / "skill", repo_root)
@@ -2208,7 +2213,6 @@ def write_entry_detail_pages(
     skill_out.mkdir(parents=True)
     agent_out.mkdir(parents=True)
 
-    # Group skills by family for kanban stage nav.
     family_skill_map: dict[str, list[SkillEntry]] = defaultdict(list)
     for s in skills:
         fam_id = _plugin_id_for_pkg_rel(s.pkg_rel_posix)
@@ -2222,8 +2226,10 @@ def write_entry_detail_pages(
         kanban_model, skill_dir_by_name, sibling_pages=True
     )
     plugin_first_skill_hrefs = plugin_first_skill_href_map(
-        skills, skill_dir_by_name, relative=""
+        skills, skill_dir_by_name, sibling_pages=True
     )
+    skill_page_tpl = skill_detail_tpl or detail_tpl
+    skill_page_css = skill_detail_css or detail_css
 
     for s in skills:
         pkg = repo_root / s.pkg_rel_posix
@@ -2250,12 +2256,15 @@ def write_entry_detail_pages(
             if body.strip()
             else f'<p class="entry-caption">(no body in {_h(src_fname)})</p>'
         )
-        skill_plugin_id = _plugin_id_for_pkg_rel(s.pkg_rel_posix)
-        skill_back_href = _foundry_home_href(nav_prefix)
-        skill_back_label = FOUNDRY_BACK_LABEL
-        # New: family tab bar, image, concepts, rules.
+        skill_plugin_id = resolve_skill_page_kanban_family(
+            kanban_model,
+            current_skill_id=s.name,
+            current_dir_name=s.dir_name,
+            skill_dir_by_name=skill_dir_by_name,
+            plugin_id_from_path=_plugin_id_for_pkg_rel(s.pkg_rel_posix),
+        )
         family_siblings = family_skill_map.get(skill_plugin_id, [])
-        tab_bar = _html_family_kanban_nav(
+        skill_kanban_nav = _html_family_kanban_nav(
             skill_plugin_id,
             family_siblings,
             current_name=s.name,
@@ -2271,17 +2280,14 @@ def write_entry_detail_pages(
         rules_html = _html_skill_rules(pkg)
         cr_section = _html_skill_cr_section(concepts_html, rules_html)
         html = _apply_catalog_nav(
-            detail_tpl.replace("{{CSS}}", detail_css)
+            skill_page_tpl.replace("{{CSS}}", skill_page_css)
             .replace("{{TITLE}}", _h(f"Foundry — skill · {s.name}"))
             .replace("{{BRAND}}", brand)
-            .replace("{{BACK_HREF}}", skill_back_href)
-            .replace("{{BACK_LABEL}}", skill_back_label)
-            .replace("{{BADGE_HTML}}", "")
             .replace("{{H1}}", html_skill_name_display(s.name))
             .replace("{{TAGLINE}}", _h(s.summary))
+            .replace("{{SKILL_KANBAN_NAV}}", skill_kanban_nav)
             .replace("{{INSTALL_BLOCK}}", install_block)
             .replace("{{LEGACY_DETAIL_SECTION}}", "")
-            .replace("{{FAMILY_TAB_BAR}}", tab_bar)
             .replace("{{SKILL_IMAGE}}", skill_image)
             .replace("{{SKILL_CR_SECTION}}", cr_section),
             nav_prefix=nav_prefix,
@@ -3330,6 +3336,7 @@ def write_html_pages(
     idx_single_tpl = _load_template("page-catalog-index.html")
     css = _catalog_page_stylesheet(repo_root, _load_template("catalog.css"))
     detail_tpl = _load_template("page-entry-detail.html")
+    skill_detail_tpl = _load_template("page-skill-detail.html")
     hub_commons = _commons_prefix(output_catalog_dir, output_catalog_dir)
 
     def fill(
@@ -3591,7 +3598,15 @@ def write_html_pages(
         output_catalog_dir, repo_root, instructions, prompts, css, detail_tpl, website_root=website_root
     )
     n_skill_pages, n_agent_pages = write_entry_detail_pages(
-        output_catalog_dir, repo_root, skills, agents, css, detail_tpl, website_root=website_root
+        output_catalog_dir,
+        repo_root,
+        skills,
+        agents,
+        css,
+        detail_tpl,
+        website_root=website_root,
+        skill_detail_tpl=skill_detail_tpl,
+        skill_detail_css=css + index_kanban_css,
     )
     return n_plugin_pages, n_skill_pages, n_agent_pages, n_md_pages, n_inst_pages, n_prompt_pages
 
@@ -3675,10 +3690,12 @@ def main() -> None:
         _vendor_catalog_site_assets(output_dir, website_root)
         print(f"  vendored site nav/CSS to {output_dir / 'commons'}")
     else:
+        _vendor_catalog_commons_scripts(output_dir)
         print(
             "  warning: abd-works-website not found (expected sibling abd-works-website/) — "
             "site nav will not work until you regenerate with abd-works-website present"
         )
+        print(f"  updated catalog JS in {output_dir / 'commons'}")
 
     # index/skills/agents, skill/, agent/ all live directly under catalog/
     md_prefix = _path_up_to_ancestor(output_dir, repo_root)

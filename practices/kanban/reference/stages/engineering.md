@@ -1,4 +1,4 @@
-﻿# Engineering
+# Engineering
 
 **Pull:** When a ticket is `stage: engineering` and active, agents pull skills from `kanban.json` for this stage.
 **Prior:** [specification.md](specification.md)
@@ -13,7 +13,10 @@ Deliver working software for the slice: typed domain code, failing then passing 
 
 ## Outcomes
 
-Tests · code · interface
+- system code
+- business code
+- interface code
+- architecture code
 
 ## Team role
 

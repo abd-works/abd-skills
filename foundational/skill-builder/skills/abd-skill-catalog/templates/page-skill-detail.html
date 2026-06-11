@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="utf-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>{{TITLE}}</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="{{COMMONS_PREFIX}}site.css?v=foundry-33">
+
+<style>
+
+{{CSS}}
+
+</style>
+
+<script src="{{COMMONS_PREFIX}}catalog-nav.js?v=foundry-9"></script>
+
+
+</head>
+
+<body data-nav-prefix="{{NAV_PREFIX}}" data-nav-current="{{NAV_CURRENT}}" data-nav-site-base="{{NAV_SITE_BASE}}">
+
+<!-- nav + footer injected by catalog-nav.js -->
+
+<main id="main-content">
+
+<div class="page-hero page-hero--foundry">
+
+  <div class="wrap">
+
+    <table class="page-hero__table" role="presentation">
+
+      <tr>
+
+        <td class="page-hero__cell page-hero__cell--title">
+
+          <h1 class="page-headline">{{H1}}</h1>
+
+          <p class="body-lead">{{TAGLINE}}</p>
+
+        </td>
+
+      </tr>
+
+    </table>
+
+  </div>
+
+</div>
+
+
+
+{{SKILL_KANBAN_NAV}}
+
+<script>
+(function () {
+  var s = document.getElementById('catalog-kanban');
+  if (!s) return;
+  var stage = '';
+  try { stage = new URLSearchParams(location.search).get('stage') || ''; } catch (e) {}
+  if (!stage) return;
+  var page = location.pathname.split('/').pop().split('?')[0];
+  s.querySelectorAll('.kb-ticket.aad-skill[data-stage]').forEach(function (el) {
+    if (el.classList.contains('foundry-family-toggle')) return;
+    var h = (el.getAttribute('data-skill-href') || '').split('?')[0];
+    if (h !== page) return;
+    el.classList.toggle('kb-ticket--current', el.getAttribute('data-stage') === stage);
+  });
+  s.querySelectorAll('.kb-col-head[data-stage]').forEach(function (head) {
+    head.classList.toggle('kb-col-head--current', head.getAttribute('data-stage') === stage);
+  });
+})();
+</script>
+
+
+
+
+<div class="catalog-body">
+
+<div class="wrap skill-detail-page">
+
+<div class="skill-hero-img-wrap">
+
+{{SKILL_IMAGE}}
+
+</div>
+
+{{INSTALL_BLOCK}}
+
+{{SKILL_CR_SECTION}}
+
+{{LEGACY_DETAIL_SECTION}}
+
+</div>
+
+</div>
+
+</main>
+
+<script src="{{COMMONS_PREFIX}}catalog-foundry-tour.js?v=foundry-21"></script>
+<script src="{{COMMONS_PREFIX}}catalog-foundry-skill-nav.js?v=foundry-13"></script>
+
+</body>
+
+</html>
