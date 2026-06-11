@@ -11,10 +11,7 @@ Discovery focuses on **what you are working on** — end-to-end scope and the le
 
 ## Outcomes
 
-- Business Logic
-- Solution Behavior
-- UI Layout
-- Technology Design
+Business concepts · interactions
 
 ## Team role
 

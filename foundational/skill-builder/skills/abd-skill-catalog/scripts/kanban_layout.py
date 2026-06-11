@@ -211,6 +211,15 @@ PERSPECTIVE_ROW_LABELS: tuple[tuple[str, str], ...] = (
 # Bottom outcome bullets → perspective color (domain, stories, UX, architecture).
 OUTCOME_PERSPECTIVE_KEYS: tuple[str, ...] = ("ddd", "sdd", "uxd", "arc")
 
+# One summary line per delivery stage (foundry hub questions row — not the four perspectives).
+STAGE_OUTCOME_SUMMARY: dict[str, str] = {
+    "shaping": "Business terms · solution breadth",
+    "discovery": "Business concepts · interactions",
+    "exploration": "Business logic · solution tests",
+    "specification": "Business examples · UI design",
+    "engineering": "Tests · code · interface",
+}
+
 _CATALOG_TEMPLATE_DIR = Path(__file__).resolve().parent.parent / "templates"
 
 STAGE_SKILL_FAMILY_CLASS = "aad-fam-stage"
@@ -1069,6 +1078,12 @@ def build_stage_questions_row_html(
     for stage_id, _title, _num, _purpose in model.stages:
         headline, bullets = model.stage_questions.get(stage_id, ("", []))
         active_cls = " is-active" if active_stage_id == stage_id else ""
+        if foundry_grid and headline and not bullets:
+            cells.append(
+                f'  <div class="kanban-stage-questions__cell{active_cls}" '
+                f'data-stage="{stage_id}">{_h(headline)}</div>'
+            )
+            continue
         bullet_html = "".join(
             f'      <li class="kanban-stage-questions__item '
             f'kanban-stage-questions__item--{_h(key)}">{_h(q)}</li>\n'

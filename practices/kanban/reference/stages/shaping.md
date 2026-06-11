@@ -11,10 +11,7 @@ Shaping uses the same **`abd-story-mapping`** skill as Discovery but in **outlin
 
 ## Outcomes
 
-- Business Logic
-- Solution Behavior
-- UI Layout
-- Technology Design
+Business terms · solution breadth
 
 ## Team role
 

@@ -9,10 +9,7 @@ Deepen the **current increment** (medium scope): conceptual domain model, behavi
 
 ## Outcomes
 
-- Business Logic
-- Solution Behavior
-- UI Layout
-- Technology Design
+Business logic · solution tests
 
 ## Team role
 

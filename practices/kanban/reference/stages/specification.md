@@ -9,10 +9,7 @@ Translate exploration artifacts into typed **domain specification**, **concrete 
 
 ## Outcomes
 
-- Business Logic
-- Solution Behavior
-- UI Layout
-- Technology Design
+Business examples · UI design
 
 ## Team role
 

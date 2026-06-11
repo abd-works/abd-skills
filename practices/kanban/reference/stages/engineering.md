@@ -13,10 +13,7 @@ Deliver working software for the slice: typed domain code, failing then passing 
 
 ## Outcomes
 
-- Business Logic
-- Solution Behavior
-- UI Layout
-- Technology Design
+Tests · code · interface
 
 ## Team role
 

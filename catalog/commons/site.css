@@ -43,6 +43,32 @@
   --font-sans:    'Inter', system-ui, sans-serif;
   --font-mono:    'JetBrains Mono', ui-monospace, monospace;
   --max-width:    1100px;
+
+  /* Type scale — 7-step fluid, no raw px below */
+  --text-xs:   clamp(10px, 1.2vw, 11px);
+  --text-sm:   clamp(12px, 1.4vw, 13px);
+  --text-base: clamp(14px, 1.7vw, 15px);
+  --text-md:   clamp(16px, 2vw, 18px);
+  --text-lg:   clamp(20px, 2.5vw, 26px);
+  --text-xl:   clamp(28px, 3.8vw, 34px);
+  --text-2xl:  clamp(34px, 5.5vw, 60px);
+
+  /* Radius scale — 4-step */
+  --radius-none: 0;
+  --radius-sm:   4px;
+  --radius-md:   12px;
+  --radius-pill: 999px;
+
+  /* Spacing scale — 9-step */
+  --space-2xs: 4px;
+  --space-xs:  8px;
+  --space-sm:  12px;
+  --space-md:  16px;
+  --space-lg:  24px;
+  --space-xl:  32px;
+  --space-2xl: 48px;
+  --space-3xl: 64px;
+  --space-4xl: 96px;
 }
 
 /* ── Engineering / dark ── */
@@ -67,7 +93,7 @@ html {
   background: var(--bg);
   color: var(--text);
   font-family: var(--font-sans);
-  font-size: 15px;
+  font-size: var(--text-base);
   line-height: 1.65;
   -webkit-font-smoothing: antialiased;
   scroll-behavior: smooth;
@@ -189,7 +215,7 @@ html[data-theme="engineering"] .site-nav.is-scrolled {
   display: inline-block;
   color: var(--muted);
   text-decoration: none;
-  font-size: 14px;
+  font-size: var(--text-base);
   font-weight: 500;
   white-space: nowrap;
   padding: 8px 14px;
@@ -207,7 +233,7 @@ html[data-theme="engineering"] .site-nav.is-scrolled {
   transform: scaleX(0);
   transform-origin: left center;
   transition: transform 280ms cubic-bezier(0.16, 1, 0.3, 1);
-  border-radius: 2px;
+  border-radius: var(--radius-none);
 }
 
 .nav-links a:hover {
@@ -245,13 +271,13 @@ html[data-theme="engineering"] .nav-links a[aria-current="page"]::after {
 .nav-talk-trigger {
   font-family: var(--font-mono);
   font-weight: 700;
-  font-size: 11px;
+  font-size: var(--text-xs);
   letter-spacing: 0.06em;
   text-transform: uppercase;
   background: var(--accent);
   color: #fff;
   padding: 8px 14px;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   text-decoration: none;
   line-height: 1;
   white-space: nowrap;
@@ -297,7 +323,7 @@ html[data-theme="engineering"] .nav-talk-trigger:hover {
   width: 20px;
   height: 2px;
   background: var(--text);
-  border-radius: 1px;
+  border-radius: var(--radius-none);
   transition: transform 280ms cubic-bezier(0.16, 1, 0.3, 1),
               opacity 200ms ease;
 }
@@ -374,11 +400,11 @@ html[data-theme="engineering"] .nav-talk-trigger:hover {
 .nav-drawer-links a {
   display: block;
   padding: 14px 12px;
-  font-size: 15px;
+  font-size: var(--text-base);
   font-weight: 600;
   color: var(--text);
   text-decoration: none;
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
   transition: background 200ms ease, color 200ms ease;
   border-left: 2px solid transparent;
 }
@@ -403,7 +429,7 @@ html[data-theme="engineering"] .nav-talk-trigger:hover {
 .nav-drawer-footer .mode-switch {
   display: flex;
   width: 100%;
-  border-radius: 999px;
+  border-radius: var(--radius-pill);
   padding: 3px;
 }
 
@@ -411,7 +437,7 @@ html[data-theme="engineering"] .nav-talk-trigger:hover {
   flex: 1;
   justify-content: center;
   padding: 10px 12px;
-  font-size: 12px;
+  font-size: var(--text-sm);
 }
 
 .nav-drawer-footer .mode-switch .mode-text {
@@ -437,7 +463,7 @@ html[data-theme="engineering"] .nav-talk-trigger:hover {
   align-items: center;
   background: rgba(0, 0, 0, 0.04);
   border: 1px solid rgba(0, 0, 0, 0.08);
-  border-radius: 999px;
+  border-radius: var(--radius-pill);
   padding: 3px;
   gap: 3px;
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
@@ -456,11 +482,11 @@ html[data-theme="engineering"] .mode-switch {
   justify-content: center;
   gap: 5px;
   border: none;
-  border-radius: 999px;
+  border-radius: var(--radius-pill);
   background: transparent;
   color: var(--muted);
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: var(--text-xs);
   font-weight: 500;
   line-height: 1;
   padding: 7px 11px;
@@ -473,7 +499,7 @@ html[data-theme="engineering"] .mode-switch {
 }
 
 .mode-icon {
-  font-size: 15px;
+  font-size: var(--text-base);
   line-height: 1;
 }
 
@@ -640,7 +666,7 @@ html[data-theme="engineering"] .home-section--inverted .logos-stage .s-label .s-
   align-items: center;
   gap: 0;
   font-family: var(--font-mono);
-  font-size: 13px;
+  font-size: var(--text-sm);
   font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -652,7 +678,7 @@ html[data-theme="engineering"] .home-section--inverted .logos-stage .s-label .s-
 .home-kicker::after {
   content: '_';
   font-family: var(--font-mono);
-  font-size: 15px;
+  font-size: var(--text-base);
   font-weight: 700;
   line-height: 1;
   color: var(--accent);
@@ -686,7 +712,7 @@ html[data-theme="engineering"] .home-section--inverted .logos-stage .s-label .s-
 
 .s-num {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: var(--text-xs);
   font-weight: 700;
   color: var(--accent);
   letter-spacing: 0.06em;
@@ -695,7 +721,7 @@ html[data-theme="engineering"] .home-section--inverted .logos-stage .s-label .s-
 
 .s-name {
   font-family: var(--font-mono);
-  font-size: 13px;
+  font-size: var(--text-sm);
   font-weight: 600;
   color: var(--muted);
   letter-spacing: 0.10em;
@@ -782,7 +808,7 @@ html[data-theme="engineering"] .home-section--inverted .logos-stage .s-label .s-
   }
   .home-section--inverted .belief-stage {
     margin-inline: 0;
-    border-radius: 0;
+    border-radius: var(--radius-none);
     opacity: 1;
     transform: none;
     box-shadow: none;
@@ -794,7 +820,7 @@ html[data-theme="engineering"] .home-section--inverted .logos-stage .s-label .s-
   .client-logo img { filter: grayscale(0) opacity(1); transition: none; }
   .home-section--inverted .logos-stage {
     margin-inline: 0;
-    border-radius: 0;
+    border-radius: var(--radius-none);
     opacity: 1;
     transform: none;
     box-shadow: none;
@@ -827,7 +853,7 @@ html[data-theme="engineering"] .home-section--inverted .logos-stage .s-label .s-
    TYPOGRAPHY
    ═══════════════════════════════════════════════════════════════ */
 .hero-headline {
-  font-size: clamp(34px, 5.5vw, 60px);
+  font-size: var(--text-2xl);
   font-weight: 800;
   line-height: 1.08;
   letter-spacing: -0.03em;
@@ -839,7 +865,7 @@ html[data-theme="engineering"] .home-section--inverted .logos-stage .s-label .s-
 .accent { color: var(--accent); }
 
 .page-headline {
-  font-size: clamp(34px, 5.5vw, 60px);
+  font-size: var(--text-2xl);
   font-weight: 800;
   line-height: 1.1;
   letter-spacing: -0.03em;
@@ -849,7 +875,7 @@ html[data-theme="engineering"] .home-section--inverted .logos-stage .s-label .s-
 }
 
 .section-headline {
-  font-size: clamp(22px, 3vw, 34px);
+  font-size: var(--text-xl);
   font-weight: 700;
   line-height: 1.2;
   letter-spacing: -0.02em;
@@ -858,7 +884,7 @@ html[data-theme="engineering"] .home-section--inverted .logos-stage .s-label .s-
 }
 
 .body-lead {
-  font-size: clamp(15px, 1.3vw, 17px);
+  font-size: var(--text-base);
   color: var(--muted);
   line-height: 1.7;
   max-width: 640px;
@@ -869,7 +895,7 @@ html[data-theme="engineering"] .home-section--inverted .logos-stage .s-label .s-
 .body-lead strong { color: var(--text); font-weight: 600; }
 
 .proof-section-intro {
-  font-size: clamp(18px, 1.8vw, 22px);
+  font-size: var(--text-md);
   font-weight: 500;
   color: var(--text);
   line-height: 1.45;
@@ -910,24 +936,24 @@ html[data-theme="engineering"] .home-section--inverted .logos-stage .s-label .s-
   padding: 9px 14px;
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
 }
 
 .hero-proof-stat {
   font-family: var(--font-mono);
-  font-size: 13px;
+  font-size: var(--text-sm);
   font-weight: 700;
   color: var(--accent);
 }
 
 .hero-proof-label {
-  font-size: 13px;
+  font-size: var(--text-sm);
   color: var(--muted);
 }
 
 /* Mission statement */
 .hero-mission {
-  font-size: clamp(18px, 2.2vw, 26px);
+  font-size: var(--text-md);
   font-weight: 700;
   line-height: 1.35;
   letter-spacing: -0.01em;
@@ -969,7 +995,7 @@ html[data-theme="engineering"] .home-section--inverted .logos-stage .s-label .s-
 }
 
 .page-hero .body-lead {
-  font-size: clamp(18px, 1.8vw, 22px);
+  font-size: var(--text-md);
   animation: hero-enter 0.9s cubic-bezier(0.16, 1, 0.3, 1) 160ms both;
 }
 
@@ -982,7 +1008,7 @@ html[data-theme="engineering"] .home-section--inverted .logos-stage .s-label .s-
   gap: 2px;
   background: var(--border);
   border: 1px solid var(--border);
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   overflow: hidden;
   margin-bottom: 12px;
 }
@@ -994,7 +1020,7 @@ html[data-theme="engineering"] .home-section--inverted .logos-stage .s-label .s-
 
 .data-stat {
   font-family: var(--font-mono);
-  font-size: clamp(20px, 2.5vw, 28px);
+  font-size: var(--text-lg);
   font-weight: 700;
   color: var(--accent);
   letter-spacing: -0.02em;
@@ -1002,7 +1028,7 @@ html[data-theme="engineering"] .home-section--inverted .logos-stage .s-label .s-
 }
 
 .data-label {
-  font-size: 13px;
+  font-size: var(--text-sm);
   color: var(--muted);
   line-height: 1.55;
 }
@@ -1029,7 +1055,7 @@ html[data-theme="engineering"] .home-section--inverted .logos-stage .s-label .s-
 }
 
 .finding-intro {
-  font-size: clamp(20px, 2.5vw, 28px);
+  font-size: var(--text-lg);
   font-weight: 700;
   color: var(--text);
   line-height: 1.25;
@@ -1051,7 +1077,7 @@ html[data-theme="engineering"] .home-section--inverted .logos-stage .s-label .s-
 }
 
 .finding-trait {
-  font-size: clamp(15px, 1.7vw, 18px);
+  font-size: var(--text-base);
   font-weight: 600;
   color: var(--text);
   line-height: 1.3;
@@ -1073,7 +1099,7 @@ html[data-theme="engineering"] .home-section--inverted .logos-stage .s-label .s-
 }
 
 .finding-punchline {
-  font-size: clamp(20px, 2.5vw, 28px);
+  font-size: var(--text-lg);
   font-weight: 700;
   color: var(--text);
   line-height: 1.25;
@@ -1086,14 +1112,14 @@ html[data-theme="engineering"] .home-section--inverted .logos-stage .s-label .s-
 }
 
 .finding-sub {
-  font-size: 14px;
+  font-size: var(--text-base);
   color: var(--muted);
   line-height: 1.65;
   margin: 0;
 }
 
 .villain-body {
-  font-size: 14px;
+  font-size: var(--text-base);
   color: var(--muted);
   line-height: 1.65;
   margin-top: 16px;
@@ -1104,7 +1130,7 @@ html[data-theme="engineering"] .home-section--inverted .logos-stage .s-label .s-
 /* ── Data source attribution ──────────────────────────────── */
 .data-source {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: var(--text-xs);
   color: var(--muted);
   text-align: right;
   margin-top: 0;
@@ -1145,7 +1171,7 @@ html[data-theme="engineering"] .home-section--inverted .logos-stage .s-label .s-
 
 .belief-num {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: var(--text-xs);
   font-weight: 600;
   color: var(--muted);
   letter-spacing: 0.06em;
@@ -1153,7 +1179,7 @@ html[data-theme="engineering"] .home-section--inverted .logos-stage .s-label .s-
 }
 
 .belief-text {
-  font-size: clamp(20px, 2.4vw, 30px);
+  font-size: var(--text-lg);
   font-weight: 800;
   letter-spacing: -0.02em;
   color: var(--text);
@@ -1164,7 +1190,7 @@ html[data-theme="engineering"] .home-section--inverted .logos-stage .s-label .s-
   display: block;
   margin-top: 12px;
   font-style: normal;
-  font-size: clamp(13px, 1.1vw, 15px);
+  font-size: var(--text-sm);
   font-weight: 400;
   letter-spacing: 0;
   color: var(--muted);
@@ -1189,7 +1215,7 @@ html[data-theme="engineering"] .home-section--inverted .logos-stage .s-label .s-
   padding: 8px 16px;
   background: var(--raised);
   border: 1px solid var(--border);
-  border-radius: 5px;
+  border-radius: var(--radius-sm);
   margin-bottom: 2px;
   opacity: 0;
   transform: translateY(-4px);
@@ -1213,13 +1239,13 @@ html[data-theme="engineering"] .home-section--inverted .logos-stage .s-label .s-
   flex: 1;
   height: 3px;
   background: var(--border);
-  border-radius: 2px;
+  border-radius: var(--radius-none);
   overflow: hidden;
 }
 
 .diag-score-progress {
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--text-xs);
   color: var(--muted);
   letter-spacing: 0.04em;
   white-space: nowrap;
@@ -1228,7 +1254,7 @@ html[data-theme="engineering"] .home-section--inverted .logos-stage .s-label .s-
 
 .diag-score-fill {
   height: 100%;
-  border-radius: 2px;
+  border-radius: var(--radius-none);
   transition: width 0.35s ease;
   background: var(--accent);
 }
@@ -1245,7 +1271,7 @@ html[data-theme="engineering"] .home-section--inverted .logos-stage .s-label .s-
   background: var(--surface);
   border: 1px solid var(--border);
   border-left: 3px solid var(--border);
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
   transition: border-left-color 0.3s ease;
 }
 
@@ -1262,7 +1288,7 @@ html[data-theme="engineering"] .home-section--inverted .logos-stage .s-label .s-
 
 .diag-item-num {
   font-family: var(--font-mono);
-  font-size: 18px;
+  font-size: var(--text-md);
   font-weight: 700;
   color: var(--accent);
   letter-spacing: 0.02em;
@@ -1271,7 +1297,7 @@ html[data-theme="engineering"] .home-section--inverted .logos-stage .s-label .s-
 }
 
 .diag-q {
-  font-size: 16px;
+  font-size: var(--text-md);
   font-weight: 400;
   color: var(--muted);
   line-height: 1.5;
@@ -1280,7 +1306,7 @@ html[data-theme="engineering"] .home-section--inverted .logos-stage .s-label .s-
 
 .diag-q strong {
   display: inline;
-  font-size: 18px;
+  font-size: var(--text-md);
   font-weight: 700;
   color: var(--text);
   letter-spacing: -0.01em;
@@ -1303,7 +1329,7 @@ html[data-theme="engineering"] .home-section--inverted .logos-stage .s-label .s-
   gap: 6px;
   padding: 12px 14px;
   border: 1px solid var(--border);
-  border-radius: 5px;
+  border-radius: var(--radius-sm);
   background: var(--surface);
   cursor: pointer;
   text-align: left;
@@ -1376,7 +1402,7 @@ html[data-theme="engineering"] .home-section--inverted .logos-stage .s-label .s-
 .diag-choice.is-selected[data-hint="blue"] .diag-choice-desc { color: #0B0B0B; }
 
 .diag-choice-label {
-  font-size: 11px;
+  font-size: var(--text-xs);
   font-weight: 700;
   color: var(--accent);
   letter-spacing: 0.06em;
@@ -1386,7 +1412,7 @@ html[data-theme="engineering"] .home-section--inverted .logos-stage .s-label .s-
 }
 
 .diag-choice-desc {
-  font-size: 12px;
+  font-size: var(--text-sm);
   line-height: 1.5;
   color: var(--muted);
   transition: color 0.15s ease;
@@ -1433,7 +1459,7 @@ html[data-theme="engineering"] .home-section--inverted .logos-stage .s-label .s-
   }
 
   .diag-choice-desc {
-    font-size: 13px;
+    font-size: var(--text-sm);
   }
 }
 
@@ -1471,7 +1497,7 @@ html[data-theme="engineering"] .home-section--inverted .logos-stage .s-label .s-
   padding: 48px 40px;
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: var(--radius-md);
   box-shadow: 0 16px 48px rgba(0, 0, 0, 0.22);
   transform: translateY(12px) scale(0.97);
   transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
@@ -1482,7 +1508,7 @@ html[data-theme="engineering"] .home-section--inverted .logos-stage .s-label .s-
 }
 
 .diag-reveal-headline {
-  font-size: clamp(24px, 3.5vw, 32px);
+  font-size: var(--text-xl);
   font-weight: 700;
   color: var(--text);
   letter-spacing: -0.03em;
@@ -1491,7 +1517,7 @@ html[data-theme="engineering"] .home-section--inverted .logos-stage .s-label .s-
 }
 
 .diag-reveal-sub {
-  font-size: 15px;
+  font-size: var(--text-base);
   color: var(--muted);
   line-height: 1.6;
   margin-bottom: 28px;
@@ -1500,7 +1526,7 @@ html[data-theme="engineering"] .home-section--inverted .logos-stage .s-label .s-
 .diag-reveal-btn {
   display: inline-block;
   font-family: var(--font-mono);
-  font-size: 13px;
+  font-size: var(--text-sm);
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -1508,7 +1534,7 @@ html[data-theme="engineering"] .home-section--inverted .logos-stage .s-label .s-
   color: #fff;
   border: none;
   padding: 14px 32px;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   cursor: pointer;
   transition: background 0.2s ease, transform 0.1s ease;
 }
@@ -1524,7 +1550,7 @@ html[data-theme="engineering"] .home-section--inverted .logos-stage .s-label .s-
   background: transparent;
   border: none;
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--text-xs);
   color: var(--muted);
   cursor: pointer;
   letter-spacing: 0.04em;
@@ -1560,7 +1586,7 @@ html[data-theme="engineering"] .home-section--inverted .logos-stage .s-label .s-
   overflow-y: auto;
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: var(--radius-md);
   padding: 40px 44px;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.28);
   transform: translateY(16px) scale(0.97);
@@ -1577,7 +1603,7 @@ html[data-theme="engineering"] .home-section--inverted .logos-stage .s-label .s-
     width: 96vw;
     padding: 24px 16px;
     max-height: 94vh;
-    border-radius: 8px;
+    border-radius: var(--radius-sm);
   }
 }
 
@@ -1597,7 +1623,7 @@ html[data-theme="engineering"] .home-section--inverted .logos-stage .s-label .s-
 }
 
 .diag-result-title {
-  font-size: 24px;
+  font-size: var(--text-xl);
   font-weight: 800;
   color: var(--text);
   letter-spacing: -0.02em;
@@ -1616,14 +1642,14 @@ html[data-theme="engineering"] .home-section--inverted .logos-stage .s-label .s-
 
 .diag-results-cta {
   font-family: var(--font-mono);
-  font-size: 13px;
+  font-size: var(--text-sm);
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   background: var(--accent);
   color: #fff;
   border: none;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   padding: 14px 32px;
   white-space: nowrap;
   flex-shrink: 0;
@@ -1641,7 +1667,7 @@ html[data-theme="engineering"] .home-section--inverted .logos-stage .s-label .s-
     width: 100%;
     text-align: center;
     padding: 12px 20px;
-    font-size: 12px;
+    font-size: var(--text-sm);
   }
 }
 
@@ -1660,13 +1686,13 @@ html[data-theme="engineering"] .home-section--inverted .logos-stage .s-label .s-
 
 .diag-results-close {
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--text-xs);
   font-weight: 600;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   background: transparent;
   border: 1px solid var(--border);
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
   color: var(--muted);
   padding: 6px 14px;
   cursor: pointer;
@@ -1724,7 +1750,7 @@ html[data-theme="engineering"] .home-section--inverted .logos-stage .s-label .s-
     content: attr(data-label);
     display: block;
     font-family: var(--font-mono);
-    font-size: 9px;
+    font-size: var(--text-xs);
     font-weight: 600;
     letter-spacing: 0.08em;
     text-transform: uppercase;
@@ -1740,12 +1766,12 @@ html[data-theme="engineering"] .home-section--inverted .logos-stage .s-label .s-
   width: 100%;
   border-collapse: collapse;
   table-layout: fixed;
-  font-size: 13px;
+  font-size: var(--text-sm);
 }
 
 .diag-result-table thead th {
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--text-xs);
   font-weight: 600;
   letter-spacing: 0.10em;
   text-transform: uppercase;
@@ -1779,7 +1805,7 @@ html[data-theme="engineering"] .home-section--inverted .logos-stage .s-label .s-
 .col-fw  { width: 36%; }
 
 .r-dim {
-  font-size: 13px;
+  font-size: var(--text-sm);
   line-height: 1.6;
 }
 
@@ -1793,10 +1819,10 @@ html[data-theme="engineering"] .home-section--inverted .logos-stage .s-label .s-
 .r-badge {
   display: inline-block;
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--text-xs);
   font-weight: 700;
   padding: 3px 10px;
-  border-radius: 3px;
+  border-radius: var(--radius-none);
   letter-spacing: 0.06em;
   text-transform: uppercase;
   white-space: nowrap;
@@ -1829,10 +1855,10 @@ html[data-theme="engineering"] .home-section--inverted .logos-stage .s-label .s-
   padding: 5px 12px;
   background: transparent;
   border: 1px solid var(--border);
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
   color: var(--muted);
   font-family: var(--font-mono);
-  font-size: 9px;
+  font-size: var(--text-xs);
   letter-spacing: 0.06em;
   text-transform: uppercase;
   cursor: pointer;
@@ -1875,7 +1901,7 @@ html[data-theme="engineering"] .home-section--inverted .logos-stage .s-label .s-
   overflow-y: auto;
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: var(--radius-md);
   padding: 48px 44px 36px;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.28);
   transform: translateY(16px) scale(0.97);
@@ -1887,7 +1913,7 @@ html[data-theme="engineering"] .home-section--inverted .logos-stage .s-label .s-
     width: 96vw;
     padding: 36px 20px 28px;
     max-height: 94vh;
-    border-radius: 8px;
+    border-radius: var(--radius-sm);
   }
   .diag-form-row {
     grid-template-columns: 1fr;
@@ -1904,7 +1930,7 @@ html[data-theme="engineering"] .home-section--inverted .logos-stage .s-label .s-
   right: 16px;
   background: transparent;
   border: none;
-  font-size: 18px;
+  font-size: var(--text-md);
   color: var(--muted);
   cursor: pointer;
   line-height: 1;
@@ -1922,7 +1948,7 @@ html[data-theme="engineering"] .home-section--inverted .logos-stage .s-label .s-
 }
 
 .diag-form-headline {
-  font-size: clamp(28px, 4vw, 36px);
+  font-size: var(--text-xl);
   font-weight: 800;
   color: var(--text);
   line-height: 1.15;
@@ -1944,7 +1970,7 @@ html[data-theme="engineering"] .home-section--inverted .logos-stage .s-label .s-
 }
 
 .diag-form-sub {
-  font-size: 15px;
+  font-size: var(--text-base);
   font-weight: 500;
   color: var(--text);
   line-height: 1.5;
@@ -1953,7 +1979,7 @@ html[data-theme="engineering"] .home-section--inverted .logos-stage .s-label .s-
 }
 
 .diag-form-desc {
-  font-size: 13px;
+  font-size: var(--text-sm);
   color: var(--muted);
   line-height: 1.55;
   max-width: 400px;
@@ -1979,7 +2005,7 @@ html[data-theme="engineering"] .home-section--inverted .logos-stage .s-label .s-
 
 .diag-form-field label {
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--text-xs);
   font-weight: 600;
   color: var(--muted);
   letter-spacing: 0.08em;
@@ -2000,7 +2026,7 @@ html[data-theme="engineering"] .home-section--inverted .logos-stage .s-label .s-
   background: transparent;
   color: var(--text);
   font-family: var(--font-sans);
-  font-size: 14px;
+  font-size: var(--text-base);
   transition: border-color 0.15s ease;
   outline: none;
 }
@@ -2029,7 +2055,7 @@ html[data-theme="engineering"] .home-section--inverted .logos-stage .s-label .s-
   display: flex;
   align-items: flex-start;
   gap: 8px;
-  font-size: 12px;
+  font-size: var(--text-sm);
   color: var(--muted);
   line-height: 1.5;
 }
@@ -2055,14 +2081,14 @@ html[data-theme="engineering"] .home-section--inverted .logos-stage .s-label .s-
 
 .diag-form-submit {
   font-family: var(--font-mono);
-  font-size: 14px;
+  font-size: var(--text-base);
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   background: var(--accent);
   color: #fff;
   border: none;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   padding: 14px 32px;
   cursor: pointer;
   transition: background 0.2s ease, transform 0.1s ease;
@@ -2076,7 +2102,7 @@ html[data-theme="engineering"] .home-section--inverted .logos-stage .s-label .s-
 
 .diag-form-note {
   text-align: center;
-  font-size: 11px;
+  font-size: var(--text-xs);
   color: var(--muted);
   margin-top: -4px;
 }
@@ -2109,7 +2135,7 @@ html[data-theme="engineering"] .home-section--inverted .logos-stage .s-label .s-
   overflow-y: auto;
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: var(--radius-md);
   padding: 48px 44px 36px;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.28);
   transform: translateY(16px) scale(0.97);
@@ -2126,7 +2152,7 @@ html[data-theme="engineering"] .home-section--inverted .logos-stage .s-label .s-
   right: 16px;
   background: transparent;
   border: none;
-  font-size: 18px;
+  font-size: var(--text-md);
   color: var(--muted);
   cursor: pointer;
   line-height: 1;
@@ -2144,7 +2170,7 @@ html[data-theme="engineering"] .home-section--inverted .logos-stage .s-label .s-
 }
 
 .talk-headline {
-  font-size: clamp(28px, 4vw, 36px);
+  font-size: var(--text-xl);
   font-weight: 800;
   color: var(--text);
   line-height: 1.15;
@@ -2166,7 +2192,7 @@ html[data-theme="engineering"] .home-section--inverted .logos-stage .s-label .s-
 }
 
 .talk-sub {
-  font-size: 15px;
+  font-size: var(--text-base);
   font-weight: 500;
   color: var(--text);
   line-height: 1.5;
@@ -2175,7 +2201,7 @@ html[data-theme="engineering"] .home-section--inverted .logos-stage .s-label .s-
 }
 
 .talk-desc {
-  font-size: 13px;
+  font-size: var(--text-sm);
   color: var(--muted);
   line-height: 1.55;
   max-width: 400px;
@@ -2201,7 +2227,7 @@ html[data-theme="engineering"] .home-section--inverted .logos-stage .s-label .s-
 
 .talk-form-field label {
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--text-xs);
   font-weight: 600;
   color: var(--muted);
   letter-spacing: 0.08em;
@@ -2222,7 +2248,7 @@ html[data-theme="engineering"] .home-section--inverted .logos-stage .s-label .s-
   background: transparent;
   color: var(--text);
   font-family: var(--font-sans);
-  font-size: 14px;
+  font-size: var(--text-base);
   transition: border-color 0.15s ease;
   outline: none;
 }
@@ -2251,7 +2277,7 @@ html[data-theme="engineering"] .home-section--inverted .logos-stage .s-label .s-
   display: flex;
   align-items: flex-start;
   gap: 8px;
-  font-size: 12px;
+  font-size: var(--text-sm);
   color: var(--muted);
   line-height: 1.5;
 }
@@ -2277,14 +2303,14 @@ html[data-theme="engineering"] .home-section--inverted .logos-stage .s-label .s-
 
 .talk-form-submit {
   font-family: var(--font-mono);
-  font-size: 14px;
+  font-size: var(--text-base);
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   background: var(--accent);
   color: #fff;
   border: none;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   padding: 14px 32px;
   cursor: pointer;
   transition: background 0.2s ease, transform 0.1s ease;
@@ -2304,7 +2330,7 @@ a.talk-form-submit:hover {
 
 .talk-form-note {
   text-align: center;
-  font-size: 11px;
+  font-size: var(--text-xs);
   color: var(--muted);
   margin-top: -4px;
 }
@@ -2314,7 +2340,7 @@ a.talk-form-submit:hover {
     width: 96vw;
     padding: 36px 20px 28px;
     max-height: 94vh;
-    border-radius: 8px;
+    border-radius: var(--radius-sm);
   }
   .talk-form-row {
     grid-template-columns: 1fr;
@@ -2342,7 +2368,7 @@ a.talk-form-submit:hover {
   background: var(--surface);
   border: 1px solid var(--border);
   border-left: 3px solid var(--accent);
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   padding: 26px 24px 24px;
   display: flex;
   flex-direction: column;
@@ -2355,7 +2381,7 @@ a.talk-form-submit:hover {
 }
 
 .dimension-name {
-  font-size: 16px;
+  font-size: var(--text-md);
   font-weight: 600;
   color: var(--text);
   line-height: 1.3;
@@ -2364,7 +2390,7 @@ a.talk-form-submit:hover {
 }
 
 .dimension-desc {
-  font-size: 14px;
+  font-size: var(--text-base);
   color: var(--muted);
   line-height: 1.6;
   margin: 0;
@@ -2381,20 +2407,20 @@ a.talk-form-submit:hover {
   padding: 20px 24px;
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
   margin-bottom: 24px;
 }
 
 .evidence-stat {
   font-family: var(--font-mono);
-  font-size: clamp(20px, 2.8vw, 30px);
+  font-size: var(--text-lg);
   font-weight: 700;
   color: var(--accent);
   letter-spacing: -0.02em;
 }
 
 .evidence-src {
-  font-size: 14px;
+  font-size: var(--text-base);
   color: var(--muted);
 }
 
@@ -2404,7 +2430,7 @@ a.talk-form-submit:hover {
   gap: 2px;
   background: var(--border);
   border: 1px solid var(--border);
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   overflow: hidden;
 }
 
@@ -2414,7 +2440,7 @@ a.talk-form-submit:hover {
 }
 
 .result-client {
-  font-size: 13px;
+  font-size: var(--text-sm);
   font-weight: 600;
   color: var(--text);
   margin-bottom: 4px;
@@ -2422,14 +2448,14 @@ a.talk-form-submit:hover {
 
 .result-context {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: var(--text-xs);
   color: var(--muted);
   letter-spacing: 0.04em;
   margin-bottom: 14px;
 }
 
 .result-outcome {
-  font-size: 14px;
+  font-size: var(--text-base);
   color: var(--muted);
   line-height: 1.65;
 }
@@ -2445,13 +2471,13 @@ a.talk-form-submit:hover {
   padding: 20px 24px;
   background: var(--raised);
   border: 1px dashed var(--border);
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
   text-align: center;
 }
 
 .placeholder-note p {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: var(--text-xs);
   color: var(--muted);
   letter-spacing: 0.06em;
 }
@@ -2503,7 +2529,7 @@ a.talk-form-submit:hover {
   padding: 24px;
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   overflow: hidden;
   transition:
     background 200ms cubic-bezier(0.16, 1, 0.3, 1),
@@ -2531,7 +2557,7 @@ a.talk-form-submit:hover {
 
 .thinking-card-label {
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--text-xs);
   font-weight: 600;
   color: var(--muted);
   letter-spacing: 0.10em;
@@ -2540,7 +2566,7 @@ a.talk-form-submit:hover {
 }
 
 .thinking-card-title {
-  font-size: 15px;
+  font-size: var(--text-base);
   font-weight: 600;
   color: var(--text);
   line-height: 1.3;
@@ -2551,7 +2577,7 @@ a.talk-form-submit:hover {
 .thinking-card:hover .thinking-card-title { color: var(--accent); }
 
 .thinking-card-body {
-  font-size: 13px;
+  font-size: var(--text-sm);
   color: var(--muted);
   line-height: 1.65;
 }
@@ -2565,7 +2591,7 @@ a.talk-form-submit:hover {
   gap: 2px;
   background: var(--border);
   border: 1px solid var(--border);
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   overflow: hidden;
 }
 
@@ -2597,7 +2623,7 @@ a.talk-form-submit:hover {
   position: absolute;
   top: 22px;
   right: 22px;
-  font-size: 14px;
+  font-size: var(--text-base);
   line-height: 1;
   color: var(--accent);
   opacity: 0;
@@ -2613,7 +2639,7 @@ a.talk-form-submit:hover {
 
 .explore-card-label {
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--text-xs);
   font-weight: 600;
   color: var(--accent);
   letter-spacing: 0.10em;
@@ -2622,7 +2648,7 @@ a.talk-form-submit:hover {
 }
 
 .explore-card-title {
-  font-size: 15px;
+  font-size: var(--text-base);
   font-weight: 600;
   color: var(--text);
   line-height: 1.3;
@@ -2633,7 +2659,7 @@ a.talk-form-submit:hover {
 .explore-card:is(:hover, :focus-visible) .explore-card-title { color: var(--accent); }
 
 .explore-card-body {
-  font-size: 13px;
+  font-size: var(--text-sm);
   color: var(--muted);
   line-height: 1.65;
 }
@@ -2642,7 +2668,7 @@ a.talk-form-submit:hover {
    TALK / CTA
    ═══════════════════════════════════════════════════════════════ */
 .invitation-headline {
-  font-size: clamp(22px, 2.8vw, 32px);
+  font-size: var(--text-xl);
   font-weight: 700;
   line-height: 1.25;
   letter-spacing: -0.02em;
@@ -2652,7 +2678,7 @@ a.talk-form-submit:hover {
 }
 
 .invitation-body {
-  font-size: 16px;
+  font-size: var(--text-md);
   color: var(--muted);
   line-height: 1.7;
   max-width: 520px;
@@ -2664,13 +2690,13 @@ a.talk-form-submit:hover {
   align-items: center;
   gap: 8px;
   font-family: var(--font-mono);
-  font-size: 13px;
+  font-size: var(--text-sm);
   font-weight: 600;
   color: #0B0B0B;
   background: var(--accent);
   border: none;
   padding: 13px 22px;
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
   text-decoration: none;
   cursor: pointer;
   transition: background-color 150ms ease;
@@ -2709,19 +2735,19 @@ a.talk-form-submit:hover {
 }
 
 .footer-tagline {
-  font-size: 12px;
+  font-size: var(--text-sm);
   color: var(--muted);
   font-style: italic;
 }
 
 .footer-mode .mode-btn {
   padding: 4px 8px;
-  font-size: 10px;
+  font-size: var(--text-xs);
   gap: 3px;
 }
 
 .footer-mode .mode-icon {
-  font-size: 12px;
+  font-size: var(--text-sm);
 }
 
 .footer-mode .mode-switch {
@@ -2768,5 +2794,5 @@ a.talk-form-submit:hover {
   .client-logos { grid-template-columns: repeat(auto-fit, minmax(90px, 1fr)); gap: 8px 10px; }
   .client-logo { height: 48px; }
   .client-logo img { max-width: 80px; max-height: 26px; }
-  .hero-headline { font-size: clamp(28px, 8vw, 42px); }
+  .hero-headline { font-size: var(--text-2xl); }
 }
